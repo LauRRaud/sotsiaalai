@@ -120,7 +120,7 @@
       "role_label_question": "Kes oled?",
       "role_label": "Roll:",
       "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
-      "agreement": "Nõustun <terms>kasutaja&#8209;</terms> ja <privacy>privaatsustingimustega</privacy>.",
+      "agreement": "Nõustun <terms>kasutus-</terms> ja <privacy>privaatsustingimustega</privacy>.",
       "guide_ack": "Olen tutvunud <guide1>platvormi</guide1> <guide2>kasutusjuhendiga</guide2>.",
       "error": {
         "role_required": "Vali roll.",
@@ -309,8 +309,8 @@
         "reduce": "Vähenda liikumist"
       },
       "theme": {
-        "dark": "Tume režiim",
-        "light": "Hele režiim"
+        "dark": "Tume",
+        "light": "Hele"
       }
     },
     "save": "Salvesta"

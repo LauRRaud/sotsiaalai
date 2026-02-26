@@ -188,3 +188,23 @@ body.invite-modal-open .chat-page-shell {
     saturate(120%) !important;
   box-shadow: var(--glass-shell-shadow, none) !important;
 }
+
+/* Keep chat send/dictate controls borderless in normal contrast modes. */
+html:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn,
+html:not([data-contrast="hc"]) body .chat-inputbar:focus-within .chat-send-btn,
+html:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn:hover,
+html:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn:focus-visible,
+html:not([data-contrast="hc"])
+  body
+  .chat-inputbar
+  .chat-send-btn[data-recording="true"],
+html:not([data-contrast="hc"])
+  body
+  .chat-inputbar
+  .chat-send-btn[data-recording-complete="true"],
+html:not([data-contrast="hc"]) body .chat-inputbar .chat-listen-btn,
+html:not([data-contrast="hc"]) body .chat-inputbar .chat-listen-btn:hover,
+html:not([data-contrast="hc"]) body .chat-inputbar .chat-listen-btn:focus-visible {
+  border: 0 !important;
+  border-color: transparent !important;
+}

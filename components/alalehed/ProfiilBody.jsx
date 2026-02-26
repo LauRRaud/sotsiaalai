@@ -88,10 +88,10 @@ const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
-  "[--label-gap-side-left:0.46rem] [--label-gap-side-right:0.02rem] " +
-  "[--label-side-nudge-left:-0.1rem] [--label-side-nudge-right:-0.12rem] " +
-  "min-[48.0625em]:[--label-gap-side-left:0.72rem] min-[48.0625em]:[--label-gap-side-right:0.1rem] " +
-  "min-[48.0625em]:[--label-side-nudge-left:-0.14rem] min-[48.0625em]:[--label-side-nudge-right:-0.16rem] " +
+  "[--label-gap-side-left:0.32rem] [--label-gap-side-right:0.02rem] " +
+  "[--label-side-nudge-left:0.02rem] [--label-side-nudge-right:-0.12rem] " +
+  "min-[48.0625em]:[--label-gap-side-left:0.52rem] min-[48.0625em]:[--label-gap-side-right:0.1rem] " +
+  "min-[48.0625em]:[--label-side-nudge-left:-0.02rem] min-[48.0625em]:[--label-side-nudge-right:-0.16rem] " +
   "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
   "min-[48.0625em]:[--orbit-item-size:5.4rem] min-[48.0625em]:[--orbit-item-size-open:5.75rem] " +
   "min-[48.0625em]:[--label-gap:0.95rem] " +
@@ -249,7 +249,7 @@ function ProfileShell({
           aria-hidden={orbitOpen ? "true" : undefined}
           className={cn(
             "profile-footer-note pointer-events-none absolute inset-x-0 top-[82%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[48em]:top-auto max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+clamp(0.35rem,1.8vw,0.7rem))] max-[48em]:translate-y-0 max-[48em]:text-[1.62rem]",
-            orbitOpen ? "opacity-0" : "opacity-[0.3]"
+            orbitOpen ? "opacity-0" : "opacity-[0.65]"
           )}
         >
           <span
@@ -333,10 +333,16 @@ function ThemeSunDockIcon({
 }
 function ThemeMoonDockIcon({
   isHovered: _isHovered,
+  showStars = false,
   ...props
 }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
       <path d="M15.8 3.7a8.7 8.7 0 1 0 4.5 14.6A7.9 7.9 0 0 1 15.8 3.7z" />
+      {showStars ? <>
+          <circle cx="18.2" cy="7.3" r="1.0" fill="currentColor" stroke="none" opacity="0.94" />
+          <circle cx="21.4" cy="10.1" r="0.84" fill="currentColor" stroke="none" opacity="0.86" />
+          <circle cx="18.7" cy="12.8" r="0.74" fill="currentColor" stroke="none" opacity="0.8" />
+        </> : null}
     </svg>;
 }
 function ThemeMidDockIcon({
@@ -350,7 +356,7 @@ function ThemeMidDockIcon({
         </clipPath>
       </defs>
       <circle cx="12" cy="12" r="3.7" />
-      <rect x="8.3" y="12" width="7.4" height="3.8" fill="currentColor" stroke="none" clipPath="url(#mid-sun-disc-clip)" />
+      <rect x="8.3" y="12.5" width="7.4" height="3.3" fill="currentColor" stroke="none" clipPath="url(#mid-sun-disc-clip)" />
       <path d="M12 2.6v2.1M4.7 12h2.1M17.2 12h2.1M5.8 5.8l1.5 1.5M18.2 5.8l-1.5 1.5" />
     </svg>;
 }
@@ -665,7 +671,7 @@ export default function ProfiilBody({
       ? <ThemeMidDockIcon width={30} height={30} className="scale-[1.12]" />
       : nextMode === "light"
         ? <ThemeSunDockIcon width={26} height={26} />
-        : <ThemeMoonDockIcon width={26} height={26} />;
+        : <ThemeMoonDockIcon width={26} height={26} showStars={nextMode === "night"} />;
   const handleModeSwitch = () => {
     setPrefs?.({
       theme: nextMode,
@@ -764,23 +770,25 @@ export default function ProfiilBody({
         document.body.classList.remove("modal-open", "login-modal-open", "home-profile-open");
       }
       clearStaleScrollLock();
-      const redirectUrl = signOutResult?.url || localizePath("/", locale);
-      let targetHref = localizePath("/", locale);
+      const fallbackPath = localizePath("/", locale);
+      const redirectUrl = signOutResult?.url || fallbackPath;
+      let targetHref = fallbackPath;
       try {
-        const parsed = new URL(redirectUrl, typeof window !== "undefined" ? window.location.origin : "http://localhost");
+        const parsed = new URL(
+          redirectUrl,
+          typeof window !== "undefined" ? window.location.origin : "http://localhost"
+        );
         if (typeof window === "undefined" || parsed.origin === window.location.origin) {
           targetHref = `${parsed.pathname}${parsed.search}${parsed.hash}`;
-        } else {
-          targetHref = redirectUrl;
         }
       } catch {
-        targetHref = redirectUrl;
+        targetHref = fallbackPath;
       }
       pushWithTransition(router, targetHref);
       if (typeof window !== "undefined") {
         window.setTimeout(() => {
           if (!stripLocaleFromPath(window.location.pathname).startsWith("/profiil")) return;
-          window.location.assign(redirectUrl);
+          window.location.assign(targetHref);
         }, 540);
       }
     } catch (err) {
@@ -970,8 +978,21 @@ export default function ProfiilBody({
           redirect: false,
           callbackUrl: localizePath("/", locale)
         });
-        const redirectUrl = signOutResult?.url || localizePath("/", locale);
-        window.location.href = redirectUrl;
+        const fallbackPath = localizePath("/", locale);
+        const redirectUrl = signOutResult?.url || fallbackPath;
+        let targetHref = fallbackPath;
+        try {
+          const parsed = new URL(
+            redirectUrl,
+            typeof window !== "undefined" ? window.location.origin : "http://localhost"
+          );
+          if (typeof window === "undefined" || parsed.origin === window.location.origin) {
+            targetHref = `${parsed.pathname}${parsed.search}${parsed.hash}`;
+          }
+        } catch {
+          targetHref = fallbackPath;
+        }
+        window.location.href = targetHref;
       } catch (err) {
         console.error("profile DELETE", err);
         setError(t("profile.server_unreachable"));
@@ -983,7 +1004,3 @@ export default function ProfiilBody({
     }} disabled={deleting} />}
     </ProfileShell>;
 }
-
-
-
-

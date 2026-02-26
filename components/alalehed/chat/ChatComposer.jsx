@@ -251,9 +251,15 @@ export default function ChatComposer({
   const toolItemBaseClassName =
     "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
     "text-[1.12rem] leading-[1.2] tracking-[0.01em] transition-colors duration-150 " +
-    "rounded-[0.5rem] flex items-center gap-[0.44rem] " +
+    "rounded-[0.5rem] flex items-center gap-[0.54rem] " +
     "hover:bg-[rgba(255,255,255,0.08)] focus-visible:bg-[rgba(255,255,255,0.08)] " +
     "light:hover:bg-[rgba(122,58,56,0.1)] light:focus-visible:bg-[rgba(122,58,56,0.1)]";
+  const toolIconSlotClassName = "inline-flex h-[1.9rem] w-[1.9rem] shrink-0 items-center justify-center";
+  const baseToolIconSize = 23;
+  const deepResearchToolIconSize = 26;
+  const agentToolIconSize = 27;
+  const toolIconStrokeWidth = 1.8;
+  const agentToolStrokeWidth = 1.6;
   const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
   return <form className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
       <div className="relative h-[2.9rem] w-[2.9rem] min-h-[2.9rem] min-w-[2.9rem] flex-[0_0_2.9rem] translate-x-[var(--chat-attach-left-pull,0rem)] max-[48em]:translate-x-0 max-[48em]:ml-[clamp(-0.52rem,-1.6vw,-0.3rem)] max-[48em]:mr-[clamp(0.02rem,0.4vw,0.12rem)]">
@@ -267,26 +273,32 @@ export default function ChatComposer({
         </button>
         {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="chat-tools-menu absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] bg-[rgba(24,26,32,0.96)] [.theme-night_&]:bg-[rgba(11,14,20,0.96)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.34)] backdrop-blur-[10px] light:bg-[rgba(255,255,255,0.96)]">
             <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
-              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
-                <path d="M8 3h8l5 5v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke={iconStroke} strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M16 3v5h5" stroke={iconStroke} strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              <span aria-hidden="true" className={toolIconSlotClassName}>
+                <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
+                  <path d="M8 3h8l5 5v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M16 3v5h5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
               <span>{t("chat.tools.document_analysis")}</span>
             </button>
             <button type="button" role="menuitem" className={`${toolItemBaseClassName} ${!canRunDeepResearch ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`} onClick={handleDeepResearchSelect} disabled={!canRunDeepResearch} title={!canRunDeepResearch ? t("chat.tools.deep_research_room_only") : undefined}>
-              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" className={`shrink-0 ${!canRunDeepResearch ? "opacity-55" : "opacity-95"}`}>
-                <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth="1.7" />
-                <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth="1.7" strokeLinecap="round" />
-              </svg>
+              <span aria-hidden="true" className={toolIconSlotClassName}>
+                <svg aria-hidden="true" width={deepResearchToolIconSize} height={deepResearchToolIconSize} viewBox="0 0 24 24" fill="none" className={`shrink-0 ${!canRunDeepResearch ? "opacity-55" : "opacity-95"}`}>
+                  <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} />
+                  <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
+                </svg>
+              </span>
               <span>{t("chat.tools.deep_research")}</span>
             </button>
             <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleAgentModeSelect}>
-              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-95">
-                <rect x="6.1" y="7.2" width="11.8" height="9.6" rx="2.6" stroke={iconStroke} strokeWidth="1.7" />
-                <path d="M12 4.3v2.6" stroke={iconStroke} strokeWidth="1.65" strokeLinecap="round" />
-                <circle cx="10" cy="12" r="0.9" fill={iconStroke} />
-                <circle cx="14" cy="12" r="0.9" fill={iconStroke} />
-              </svg>
+              <span aria-hidden="true" className={toolIconSlotClassName}>
+                <svg aria-hidden="true" width={agentToolIconSize} height={agentToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-95">
+                  <rect x="6.1" y="7.2" width="11.8" height="9.6" rx="2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} />
+                  <path d="M12 4.3v2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} strokeLinecap="round" />
+                  <circle cx="10" cy="12" r="0.9" fill={iconStroke} />
+                  <circle cx="14" cy="12" r="0.9" fill={iconStroke} />
+                </svg>
+              </span>
               <span>{t("chat.tools.agent_mode")}</span>
             </button>
           </div> : null}

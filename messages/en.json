@@ -120,7 +120,7 @@
       "role_label_question": "Who are you?",
       "role_label": "Role:",
       "role_hint": "Choose a role with arrow keys. Options: Social Work Specialist or Person seeking help.",
-      "agreement": "I agree to the <terms>Terms&nbsp;of&nbsp;Use</terms> and the <privacy>Privacy&nbsp;Policy</privacy>.",
+      "agreement": "I agree to <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>.",
       "guide_ack": "I have read the <guide>platform guide</guide>.",
       "error": {
         "role_required": "Please choose a role.",
@@ -309,8 +309,8 @@
         "reduce": "Reduce motion"
       },
       "theme": {
-        "dark": "Dark mode",
-        "light": "Light mode"
+        "dark": "Dark",
+        "light": "Light"
       }
     },
     "save": "Save"

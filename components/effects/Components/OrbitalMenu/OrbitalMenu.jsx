@@ -577,16 +577,16 @@ export default function OrbitalMenu({
         const labelGapDynamic = !isSideLabel
           ? 0
           : sideLabelLength <= 3
-            ? 0.12
+            ? 0.34
             : sideLabelLength <= 6
-              ? 0.04
+              ? 0.2
               : sideLabelLength <= 10
-                ? -0.06
+                ? 0.04
                 : sideLabelLength <= 14
-                  ? -0.18
+                  ? -0.12
                   : sideLabelLength <= 20
-                    ? -0.28
-                    : -0.36;
+                    ? -0.24
+                    : -0.34;
         return <div key={item.key || index} className={cn("profile-orbit-menu__slot group absolute top-1/2 left-1/2 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] [transform:translate3d(var(--orbit-x,0px),var(--orbit-y,0px),0)_translate(-50%,-50%)] opacity-[var(--item-opacity)] transition-opacity [transition-duration:200ms] [transition-timing-function:ease] z-[1]", isOpen && "animate-[orbit-item-reveal_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]", !isOpen && isClosing && "animate-[orbit-item-hide_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]")} data-key={item.key || index} data-label-pos={labelPos} style={{
           "--orbit-x": `${orbitX}px`,
           "--orbit-y": `${orbitY}px`,

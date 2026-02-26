@@ -22,18 +22,18 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
   `${glassPageTitleClassName} glass-title-register max-[48em]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0`;
 const contentClassName = "register-content mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
-const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[48.0625em]:max-w-[clamp(18.2rem,36vw,23.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.6rem] min-[48.0625em]:px-[1.02rem] text-left csp-container mx-auto";
+const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[48.0625em]:max-w-[clamp(18.2rem,calc(var(--ring-diameter,52rem)/2.2),23.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.6rem] min-[48.0625em]:px-[1.02rem] text-left csp-container mx-auto";
 const registerTextClassName = "register-copy text-[1.25rem] leading-[1.45] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerPolicyLinkClassName = `${linkBrandInlineClass} register-policy-link`;
 const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:var(--pt-200)]`;
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
-const checkboxCardClassName = "register-checkbox-card w-full min-[48.0625em]:w-[calc(100%-clamp(0.55rem,0.9vw,0.9rem))] min-[48.0625em]:mx-auto text-[1rem] leading-[1.34] px-[1.05rem] py-[0.86rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
+const checkboxCardClassName = "register-checkbox-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[48.0625em]:mx-auto gap-[0.72rem] text-[1rem] leading-[1.34] px-[1.05rem] py-[0.86rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName = "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
-const registerButtonClassName = "register-submit px-[1.85rem] py-[1rem] text-[1.42rem] leading-[1.12]";
+const registerButtonClassName = "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
-const inputBaseClassName = "register-input w-full min-[48.0625em]:w-[calc(100%-clamp(0.95rem,1.5vw,1.4rem))] min-[48.0625em]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+const inputBaseClassName = "register-input w-full min-[48.0625em]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[48.0625em]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 const isRegistrationOpen = !["false", "0", "off"].includes(
   String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true").trim().toLowerCase()
 );
@@ -322,7 +322,7 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,4.2vw,3.25rem)] max-[48em]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[48em]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[48em]:[--mobile-glass-card-gap:clamp(0.26rem,1.2vw,0.4rem)] max-[48em]:[--ring-pad-x:clamp(0.44rem,2vw,0.78rem)]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
+      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] max-[48em]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[48em]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[48em]:[--mobile-glass-card-gap:clamp(0.26rem,1.2vw,0.4rem)] max-[48em]:[--ring-pad-x:clamp(0.44rem,2vw,0.78rem)]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
         <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]" aria-hidden="true">
           <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>
@@ -365,10 +365,10 @@ export default function RegistreerimineBody({
                   <div id={roleHintId} className="sr-only">
                     {t("auth.register.role_hint")}
                   </div>
-                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`register-option-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.05rem,1.7vw,1.5rem))] min-[48.0625em]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`register-option-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[48.0625em]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.worker")}
                 </OptionCard>
-                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`register-option-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.05rem,1.7vw,1.5rem))] min-[48.0625em]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`register-option-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[48.0625em]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.client")}
                 </OptionCard>
                 </div>

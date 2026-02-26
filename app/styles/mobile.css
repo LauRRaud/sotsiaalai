@@ -565,6 +565,11 @@
     transform: translateY(clamp(-0.42rem, -1.9vw, -0.24rem)) !important;
   }
 
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center {
+    transform: translateY(clamp(-0.28rem, -1.4vw, -0.16rem)) translateZ(0) scale(1) !important;
+  }
+
   html[data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body[data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     margin-top: clamp(0.45rem, 2.2vw, 0.8rem) !important;

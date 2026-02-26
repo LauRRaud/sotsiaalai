@@ -139,9 +139,9 @@
     --form-shadow-light,
     0 7px 14px rgba(15, 23, 42, 0.12)
   );
-  --seg-radio-bg: rgba(255, 255, 255, 0.22);
-  --seg-radio-border: transparent;
-  --seg-radio-inner-ring: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  --seg-radio-bg: rgba(255, 255, 255, 0.46);
+  --seg-radio-border: rgba(122, 58, 56, 0.24);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
   --seg-radio-dot-bg: #7a3a38;
   --seg-radio-dot-shadow: none;
   --panel-secondary-bg: rgba(255, 255, 255, 0.78);
@@ -229,6 +229,11 @@
 }
 :root.theme-light .drawer-panel .cs-time {
   color: color-mix(in srgb, var(--text-strong) 78%, transparent);
+}
+
+/* OTP in true light theme: keep text dark on light glass surfaces. */
+:root.theme-light:not(.theme-mid) .login-modal-box.login-modal--otp .login-modal-shell {
+  color: #1f2937 !important;
 }
 :root.theme-light .drawer-panel .cs-btn,
 :root.theme-light .drawer-panel .cs-refresh {

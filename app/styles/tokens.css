@@ -32,25 +32,28 @@
     rgba(52, 54, 60, 0.94) 0%,
     rgba(26, 28, 34, 0.94) 100%
   );
-  --btn-primary-bg: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.02) 48%,
-      rgba(255, 255, 255, 0) 100%
+  --btn-primary-bg: radial-gradient(
+      84% 72% at 50% -6%,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.05) 44%,
+      rgba(255, 255, 255, 0.013) 58%,
+      rgba(255, 255, 255, 0) 74%
     ),
     rgba(24, 27, 34, 0.56);
-  --btn-primary-bg-hover: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.11) 0%,
-      rgba(255, 255, 255, 0.03) 48%,
-      rgba(255, 255, 255, 0) 100%
+  --btn-primary-bg-hover: radial-gradient(
+      84% 72% at 50% -6%,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.06) 44%,
+      rgba(255, 255, 255, 0.016) 58%,
+      rgba(255, 255, 255, 0) 74%
     ),
     rgba(27, 30, 38, 0.62);
-  --btn-primary-bg-active: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.06) 0%,
-      rgba(255, 255, 255, 0.02) 48%,
-      rgba(255, 255, 255, 0) 100%
+  --btn-primary-bg-active: radial-gradient(
+      84% 72% at 50% -6%,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.042) 44%,
+      rgba(255, 255, 255, 0.012) 58%,
+      rgba(255, 255, 255, 0) 74%
     ),
     rgba(22, 25, 31, 0.52);
   --btn-primary-text: rgba(248, 252, 255, 0.96);

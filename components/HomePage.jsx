@@ -467,7 +467,7 @@ export default function HomePage() {
             className={cn(
               "pointer-events-none absolute left-1/2 top-[clamp(0.3rem,0.9vh,0.7rem)] z-[30] -translate-x-1/2",
               "w-[min(94vw,56rem)] px-4 text-center font-bold uppercase tracking-[0.04em]",
-              "text-[clamp(0.95rem,1.3vw,1.9rem)] text-[color:var(--home-title-color,var(--brand-primary))]"
+              "text-[clamp(0.95rem,1.3vw,1.9rem)] text-[color:color-mix(in_srgb,var(--home-scroll-cue-color,var(--home-title-color,var(--brand-primary)))_68%,white_32%)]"
             )}
           >
             AVAME 17.03, SOTSIAALTÖÖ PÄEVAL!

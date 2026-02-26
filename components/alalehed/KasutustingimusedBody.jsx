@@ -36,6 +36,15 @@ export default function KasutustingimusedBody() {
     t,
     locale
   } = useI18n();
+  const termsTitle = t("terms.title");
+  const termsTitleNode = locale === "ru" ? (() => {
+    const [firstWord, ...restWords] = String(termsTitle || "").trim().split(/\s+/);
+    if (!firstWord || !restWords.length) return termsTitle;
+    return <>
+        <span className="block">{firstWord}</span>
+        <span className="block">{restWords.join(" ")}</span>
+      </>;
+  })() : termsTitle;
   const {
     prefs
   } = useAccessibility();
@@ -162,7 +171,7 @@ export default function KasutustingimusedBody() {
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
         <h1 id="terms-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
-          {t("terms.title")}
+          {termsTitleNode}
         </h1>
         <div className={cn(contentClassName, "glass-ring-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
           <div className={cn(scrollClassName, isExpandedLayout ? "glass-ring-scroll--open" : null)} style={{ zIndex: 0 }}>

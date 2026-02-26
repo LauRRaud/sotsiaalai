@@ -2,15 +2,17 @@
   --mid-bg-top: #936f69;
   --mid-bg-mid: #7a5650;
   --mid-bg-bottom: #5f3d38;
-  --glass-surface-bg: rgba(250, 246, 245, 0.42);
-  --glass-ring-surface-bg: rgba(248, 242, 240, 0.46);
-  --glass-modal-bg: rgba(250, 246, 245, 0.42);
-  --home-panel-bg: rgba(248, 242, 240, 0.46);
+  --glass-surface-bg: rgba(252, 248, 247, 0.56);
+  --glass-ring-surface-bg: rgba(251, 246, 245, 0.62);
+  --glass-modal-bg: rgba(252, 248, 247, 0.58);
+  --glass-surface-text: #2c3340;
+  --glass-modal-text: #2c3340;
+  --home-panel-bg: rgba(251, 246, 245, 0.6);
   --drawer-glass-bg: linear-gradient(
     135deg,
-    rgba(252, 248, 247, 0.42),
-    rgba(250, 244, 243, 0.42) 58%,
-    rgba(248, 239, 238, 0.42)
+    rgba(253, 250, 249, 0.58),
+    rgba(251, 246, 245, 0.56) 58%,
+    rgba(249, 241, 239, 0.54)
   );
   --input-bg: rgba(252, 248, 247, 0.48);
   --input-bg-hover: rgba(253, 250, 249, 0.54);
@@ -60,6 +62,9 @@
   --seg-card-shadow: 0 5px 12px rgba(20, 12, 10, 0.14);
   --seg-card-shadow-hover: 0 7px 14px rgba(20, 12, 10, 0.16);
   --seg-card-shadow-selected: 0 7px 14px rgba(20, 12, 10, 0.16);
+  --seg-radio-bg: rgba(253, 250, 249, 0.62);
+  --seg-radio-border: rgba(255, 255, 255, 0.56);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(122, 58, 56, 0.2);
   --panel-secondary-bg: rgba(252, 248, 247, 0.44);
   --panel-secondary-border: rgba(255, 255, 255, 0.34);
   --panel-secondary-shadow: 0 6px 16px rgba(20, 12, 10, 0.12);
@@ -74,6 +79,16 @@
   );
 }
 
+/* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
+:root.theme-mid body.homepage {
+  --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
+}
+
+:root.theme-mid .home-scroll-cue .home-scroll-cue-mouse,
+:root.theme-mid .home-scroll-cue .home-scroll-cue-arrow {
+  opacity: 1 !important;
+}
+
 /* Home/footer brand marks in mid: keep softer presence over warm backdrop. */
 :root.theme-mid .site-footer-logo,
 :root.theme-mid .home-footer-logo {
@@ -84,14 +99,14 @@
 :root.theme-mid .drawer-panel .drawer-chat-card,
 :root.theme-mid .drawer-panel .drawer-chat-sidebar__list > li,
 :root.theme-mid .drawer-chat-card {
-  background: rgba(252, 248, 247, 0.42) !important;
+  background: rgba(252, 248, 247, 0.56) !important;
 }
 
 :root.theme-mid .drawer-panel .drawer-chat-card:hover,
 :root.theme-mid .drawer-panel .drawer-chat-sidebar__list > li:hover,
 :root.theme-mid .drawer-chat-card:hover,
 :root.theme-mid .drawer-chat-card:focus-within {
-  background: rgba(253, 250, 249, 0.48) !important;
+  background: rgba(253, 250, 249, 0.62) !important;
 }
 
 :root.theme-mid .drawer-panel .drawer-chat-card.drawer-chat-card--active,
@@ -100,13 +115,13 @@
   .drawer-chat-sidebar__list
   > li.drawer-chat-card--active,
 :root.theme-mid .drawer-chat-card.drawer-chat-card--active {
-  background: rgba(253, 250, 249, 0.52) !important;
+  background: rgba(253, 250, 249, 0.66) !important;
 }
 
 /* Login modal and OTP panel in mid use the same transparent glass level. */
 :root.theme-mid .login-modal-box {
-  --otp-panel-bg: rgba(252, 248, 247, 0.44);
-  --otp-input-bg: rgba(252, 248, 247, 0.48);
+  --otp-panel-bg: rgba(252, 248, 247, 0.58);
+  --otp-input-bg: rgba(252, 248, 247, 0.64);
 }
 
 /* OTP step in mid: keep shell, input and controls on same glass material. */
@@ -114,31 +129,32 @@
   background:
     linear-gradient(
       145deg,
-      rgba(252, 248, 247, 0.56) 0%,
-      rgba(245, 236, 234, 0.42) 56%,
-      rgba(239, 228, 225, 0.34) 100%
+      rgba(253, 250, 249, 0.68) 0%,
+      rgba(247, 239, 237, 0.54) 56%,
+      rgba(242, 232, 229, 0.46) 100%
     ),
-    rgba(249, 243, 241, 0.4) !important;
-  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+    rgba(250, 244, 242, 0.52) !important;
+  color: #3f2f2b !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
   box-shadow:
-    0 10px 22px rgba(20, 12, 10, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    0 10px 22px rgba(20, 12, 10, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58) !important;
 }
 
 :root.theme-mid .login-modal-box.login-modal--otp #otp-code-input {
-  background: rgba(252, 248, 247, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.42) !important;
-  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
-  color: #2f3a4a !important;
+  background: rgba(253, 250, 249, 0.62) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.16) !important;
+  color: #4a3833 !important;
 }
 
 :root.theme-mid .login-modal-box.login-modal--otp #otp-code-input::placeholder {
-  color: rgba(55, 65, 81, 0.84) !important;
+  color: rgba(82, 58, 51, 0.78) !important;
 }
 
 :root.theme-mid .login-modal-box.login-modal--otp .fancy-checkbox--otp .box {
-  background: rgba(252, 248, 247, 0.46) !important;
-  border-color: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(253, 250, 249, 0.58) !important;
+  border-color: rgba(255, 255, 255, 0.48) !important;
 }
 
 :root.theme-mid .login-modal-box.login-modal--otp .button,
@@ -147,12 +163,12 @@
   background:
     linear-gradient(
       145deg,
-      rgba(252, 247, 246, 0.5) 0%,
-      rgba(246, 237, 235, 0.36) 100%
+      rgba(253, 250, 249, 0.6) 0%,
+      rgba(248, 240, 238, 0.46) 100%
     ),
-    rgba(247, 238, 236, 0.32) !important;
-  border: 1px solid rgba(255, 255, 255, 0.46) !important;
-  color: #2f3a4a !important;
+    rgba(249, 241, 239, 0.42) !important;
+  border: 1px solid rgba(255, 255, 255, 0.52) !important;
+  color: #4a3833 !important;
   box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
 }
 
@@ -327,38 +343,38 @@
 
 /* Invite list card in mid should not jump to bright white due light modifiers. */
 :root.theme-light.theme-mid .invite-list-panel {
-  border-color: rgba(255, 255, 255, 0.34) !important;
-  background: rgba(252, 248, 247, 0.42) !important;
+  border-color: rgba(255, 255, 255, 0.44) !important;
+  background: rgba(252, 248, 247, 0.56) !important;
   color: #2f3a4a !important;
 }
 
 /* Invite modal primary actions in mid: keep same material, less white. */
 :root.theme-light.theme-mid .invite-modal-content .invite-primary-btn {
-  background: rgba(252, 248, 247, 0.42) !important;
-  border: 1px solid rgba(255, 255, 255, 0.44) !important;
+  background: rgba(252, 248, 247, 0.56) !important;
+  border: 1px solid rgba(255, 255, 255, 0.52) !important;
   color: #2f3a4a !important;
-  box-shadow: 0 5px 12px rgba(20, 12, 10, 0.14) !important;
+  box-shadow: 0 5px 12px rgba(20, 12, 10, 0.15) !important;
 }
 
 :root.theme-light.theme-mid .invite-modal-content .invite-primary-btn:hover,
 :root.theme-light.theme-mid .invite-modal-content .invite-primary-btn:focus-visible {
-  background: rgba(253, 250, 249, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.54) !important;
+  background: rgba(253, 250, 249, 0.62) !important;
+  border: 1px solid rgba(255, 255, 255, 0.62) !important;
   color: #2f3a4a !important;
-  box-shadow: 0 7px 14px rgba(20, 12, 10, 0.16) !important;
+  box-shadow: 0 7px 14px rgba(20, 12, 10, 0.17) !important;
 }
 
 :root.theme-light.theme-mid .invite-modal-content .invite-refresh-btn {
   background:
     linear-gradient(
       145deg,
-      rgba(247, 238, 236, 0.42) 0%,
-      rgba(239, 227, 224, 0.34) 100%
+      rgba(250, 242, 240, 0.54) 0%,
+      rgba(243, 231, 228, 0.44) 100%
     ),
-    rgba(241, 230, 227, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+    rgba(244, 233, 230, 0.42) !important;
+  border: 1px solid rgba(255, 255, 255, 0.48) !important;
   color: #3a4658 !important;
-  box-shadow: 0 4px 10px rgba(20, 12, 10, 0.12) !important;
+  box-shadow: 0 4px 10px rgba(20, 12, 10, 0.13) !important;
 }
 
 :root.theme-light.theme-mid .invite-modal-content .invite-refresh-btn:hover,
@@ -366,13 +382,13 @@
   background:
     linear-gradient(
       145deg,
-      rgba(250, 242, 240, 0.48) 0%,
-      rgba(243, 231, 228, 0.38) 100%
+      rgba(251, 244, 242, 0.6) 0%,
+      rgba(245, 234, 231, 0.5) 100%
     ),
-    rgba(244, 233, 230, 0.34) !important;
-  border: 1px solid rgba(255, 255, 255, 0.46) !important;
+    rgba(246, 236, 233, 0.46) !important;
+  border: 1px solid rgba(255, 255, 255, 0.56) !important;
   color: #2f3a4a !important;
-  box-shadow: 0 6px 12px rgba(20, 12, 10, 0.14) !important;
+  box-shadow: 0 6px 12px rgba(20, 12, 10, 0.16) !important;
 }
 
 /* Conversation drawer trash button: avoid bright white chip in mid mode. */

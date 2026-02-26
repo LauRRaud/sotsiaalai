@@ -23,17 +23,18 @@ function computeBaseUrl() {
 }
 const APP_BASE_URL = computeBaseUrl();
 const ALLOW_DIRECT_PIN_LOGIN = process.env.LOGIN_ALLOW_DIRECT_PIN === "true";
-function toInternalDestination(targetUrl) {
+function toInternalDestination(targetUrl, runtimeBaseUrl = APP_BASE_URL) {
+  const effectiveBaseUrl = normalizeBaseUrl(runtimeBaseUrl) || APP_BASE_URL;
   try {
-    const parsed = new URL(targetUrl, APP_BASE_URL);
-    if (parsed.origin === APP_BASE_URL || LOCALHOST_RE.test(parsed.origin)) {
-      return `${APP_BASE_URL}${parsed.pathname}${parsed.search}${parsed.hash}`;
+    const parsed = new URL(targetUrl, effectiveBaseUrl);
+    if (parsed.origin === effectiveBaseUrl || LOCALHOST_RE.test(parsed.origin)) {
+      return `${effectiveBaseUrl}${parsed.pathname}${parsed.search}${parsed.hash}`;
     }
   } catch {}
   if (typeof targetUrl === "string" && targetUrl.startsWith("/")) {
-    return `${APP_BASE_URL}${targetUrl}`;
+    return `${effectiveBaseUrl}${targetUrl}`;
   }
-  return `${APP_BASE_URL}/start`;
+  return `${effectiveBaseUrl}/start`;
 }
 export const authConfig = {
   adapter: PrismaAdapter(prisma),
@@ -173,9 +174,10 @@ export const authConfig = {
       return session;
     },
     async redirect({
-      url
+      url,
+      baseUrl
     }) {
-      return toInternalDestination(url);
+      return toInternalDestination(url, baseUrl);
     }
   },
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET
