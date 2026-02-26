@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 
+function isLocalHostname(hostname = "") {
+  const h = String(hostname).toLowerCase();
+  return h === "localhost" || h === "127.0.0.1" || h === "::1" || h === "[::1]";
+}
+
 function resolvePublicOrigin() {
   const candidates = [
+    process.env.PUBLIC_ORIGIN,
     process.env.APP_BASE_URL,
     process.env.NEXT_PUBLIC_APP_URL,
     process.env.NEXTAUTH_URL,
@@ -12,6 +18,7 @@ function resolvePublicOrigin() {
     if (!raw) continue;
     try {
       const u = new URL(String(raw));
+      if (isLocalHostname(u.hostname)) continue;
       return `${u.protocol}//${u.host}`;
     } catch {}
   }
