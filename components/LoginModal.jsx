@@ -1121,7 +1121,13 @@ export default function LoginModal({
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[48em]:!w-[2.66rem] max-[48em]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
-            <div className={modalTitleClassName}>
+            <div
+              className={`${modalTitleClassName} ${
+                isOtpStep
+                  ? "!text-[clamp(1.86rem,1.36rem+1.25vw,2.3rem)] max-md:!text-[clamp(2.1rem,8.8vw,2.9rem)]"
+                  : ""
+              }`}
+            >
               {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
             </div>
             <div className={headerMessageClass} role={error ? "alert" : showHeaderMessage ? "status" : undefined} aria-live={error ? "assertive" : showHeaderMessage ? "polite" : undefined} aria-atomic="true" aria-hidden={!showHeaderMessage}>

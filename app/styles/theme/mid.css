@@ -1,13 +1,15 @@
 :root.theme-mid {
-  --mid-bg-top: #936f69;
-  --mid-bg-mid: #7a5650;
-  --mid-bg-bottom: #5f3d38;
-  --glass-surface-bg: rgba(252, 248, 247, 0.56);
-  --glass-ring-surface-bg: rgba(251, 246, 245, 0.62);
+  --mid-bg-top: #9f807a;
+  --mid-bg-mid: #7e5f58;
+  --mid-bg-bottom: #644843;
+  --glass-surface-bg: rgba(253, 250, 249, 0.5);
+  --glass-ring-surface-bg: rgba(252, 248, 247, 0.53);
   --glass-modal-bg: rgba(252, 248, 247, 0.58);
   --glass-surface-text: #2c3340;
   --glass-modal-text: #2c3340;
-  --home-panel-bg: rgba(251, 246, 245, 0.6);
+  --home-panel-bg: rgba(252, 248, 247, 0.53);
+  --home-panel-shadow: 0 12px 22px rgba(20, 12, 10, 0.2);
+  --home-before-shadow: 0 10px 20px rgba(20, 12, 10, 0.18);
   --drawer-glass-bg: linear-gradient(
     135deg,
     rgba(253, 250, 249, 0.58),

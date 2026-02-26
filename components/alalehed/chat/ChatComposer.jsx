@@ -234,6 +234,7 @@ export default function ChatComposer({
   const actionButtonClassName =
     "chat-listen-btn relative z-[2] h-[48px] w-[48px] min-h-[48px] min-w-[48px] flex-[0_0_48px] rounded-full " +
     "flex items-center justify-center " +
+    "mr-[-0.56rem] " +
     "pointer-events-auto !translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
     "!bg-transparent !border-0 !shadow-none " +
     "hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent " +
@@ -315,7 +316,7 @@ export default function ChatComposer({
           <textarea id="chat-input" ref={inputRef} value={draft} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={onFocusInput} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
         </div>
         <Button type="button" variant="linkBrand" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} disabled={!canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
-          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[1.7rem] w-[1.7rem] text-[#c57171] light:text-[#7a3a38]">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="block h-[1.9rem] w-[1.9rem] translate-y-[0.06rem] text-[#c57171] light:text-[#7a3a38]">
             <path d="M11 5L6 9H2v6h4l5 4z" />
             <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
           </svg>

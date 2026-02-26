@@ -227,16 +227,31 @@
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
   .login-modal-box.login-modal--otp
   #otp-code-input {
-  background: rgba(12, 12, 18, 0.68) !important;
-  border: 1px solid rgba(190, 186, 180, 0.34) !important;
-  color: rgba(242, 239, 234, 0.94) !important;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.26) !important;
+  background: rgba(16, 16, 22, 0.84) !important;
+  border: 1px solid rgba(214, 208, 200, 0.28) !important;
+  color: rgba(247, 244, 239, 0.97) !important;
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
   .login-modal-box.login-modal--otp
   #otp-code-input::placeholder {
-  color: rgba(214, 210, 204, 0.76) !important;
+  color: rgba(201, 195, 187, 0.88) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+  .login-modal-box.login-modal--otp
+  #otp-code-input:focus,
+:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+  .login-modal-box.login-modal--otp
+  #otp-code-input:focus-visible {
+  border-color: rgba(236, 229, 220, 0.44) !important;
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.34),
+    0 0 0 2px rgba(236, 229, 220, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
