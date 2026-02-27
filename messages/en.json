@@ -577,6 +577,7 @@
       "document_analysis": "Document analysis",
       "deep_research": "Deep research",
       "deep_research_room_only": "Deep research is available only in 1:1 chat.",
+      "documents": "Documents",
       "agent_mode": "Agent mode"
     },
     "analysis": {
@@ -627,6 +628,177 @@
       "silence": "Dictation: no audio detected.",
       "error": "Dictation failed.",
       "cannot_start": "Could not open microphone."
+    }
+  },
+  "documents": {
+    "meta": {
+      "title": "Documents",
+      "description": "Manage private templates, materials, draft artifacts, and approved agent outputs.",
+      "artifactTitle": "Agent result",
+      "artifactDescription": "View and manage a saved agent result."
+    },
+    "page_title": "Documents",
+    "page_description": "Private templates and materials for future work mode, plus draft and approved agent results.",
+    "privacy_notice": "Please do not upload personal data; use this area for templates and anonymized forms.",
+    "back_to_chat": "Back to chat",
+    "back_to_documents": "Back to documents",
+    "inputs_title": "My documents",
+    "inputs_description": "Upload templates, materials, and other private files for future work mode.",
+    "outputs_title": "Agent results",
+    "outputs_description": "Recent draft and approved text results created by the agent workflow.",
+    "loading": "Loading...",
+    "empty_documents": "No documents yet.",
+    "empty_artifacts": "No agent results yet.",
+    "updated_at": "Updated",
+    "approved_at": "Approved",
+    "artifact_detail_title": "Agent result",
+    "draft_notice": "This draft is editable. Download becomes available after approval.",
+    "template_label": "Selected template",
+    "sources_section_title": "Sources",
+    "sources_label": "Sources: {count}",
+    "empty_sources": "No source documents linked.",
+    "filters": {
+      "all": "All"
+    },
+    "kinds": {
+      "template": "Template",
+      "material": "Material",
+      "other": "Other"
+    },
+    "template_for": {
+      "report_draft": "Report draft",
+      "case_brief": "Case brief",
+      "meeting_summary": "Meeting summary",
+      "checklist": "Checklist",
+      "letter_draft": "Letter draft",
+      "other": "Other"
+    },
+    "artifact_types": {
+      "meeting_summary": "Meeting summary",
+      "case_brief": "Case brief",
+      "report_draft": "Report draft",
+      "checklist": "Checklist",
+      "letter_draft": "Letter draft",
+      "other": "Other"
+    },
+    "status": {
+      "draft": "Draft",
+      "final": "Approved"
+    },
+    "form": {
+      "kind_label": "Document kind",
+        "title_placeholder": "Title (optional)",
+        "template_for_placeholder": "What is this template for?",
+        "template_optional": "Standard SotsiaalAI DOCX template",
+        "format_label": "Format",
+        "file_label": "Add file",
+        "choose_file": "Choose file",
+        "no_file_selected": "No file selected",
+        "file_help": "Allowed: PDF, DOCX, TXT. Maximum size 25 MB.",
+      "uploading": "Uploading...",
+      "artifact_title_placeholder": "Result title (optional)"
+    },
+    "actions": {
+      "upload": "Upload",
+      "download": "Download",
+        "download_docx": "Download DOCX",
+        "download_pdf": "Download PDF",
+      "rename": "Rename",
+      "delete": "Delete",
+      "open": "Open",
+      "copy": "Copy",
+      "open_all_results": "All results",
+      "show_latest": "Show latest",
+      "agent_allowed": "Use in work mode",
+      "saving": "Saving...",
+      "create_report": "Create report",
+      "creating_report": "Creating draft...",
+      "save_draft": "Save draft",
+      "refine_stub": "Ask agent to refine",
+      "approving": "Approving...",
+      "approve": "Approve",
+      "select_document": "Select document: {title}"
+    },
+    "feedback": {
+      "uploaded": "Document uploaded.",
+      "saved": "Changes saved.",
+      "deleted": "Document deleted.",
+      "artifact_deleted": "Agent result deleted.",
+      "copied": "Copied to clipboard.",
+      "draft_created": "Draft created from selected documents.",
+        "approved": "Approved. Your professional DOCX and PDF files are ready to download.",
+      "refine_stub": "Agent refinement will be added in work mode. You can continue editing manually."
+    },
+    "confirm": {
+      "delete_document": "Delete this document permanently? This cannot be undone.",
+      "delete_artifact": "Delete this agent result permanently? This cannot be undone."
+    },
+    "multi_doc": {
+      "title": "Multi-document report",
+      "description": "Select consented documents and create a draft artifact for review.",
+      "selected_count": "Selected: {count}",
+      "help": "Only documents with “Use in work mode” enabled can be selected. The selected template affects DOCX export after approval.",
+      "enable_agent_allowed": "Enable “Use in work mode” before selecting this document."
+    },
+    "errors": {
+      "load_documents": "Failed to load documents.",
+      "load_artifacts": "Failed to load agent results.",
+      "upload_failed": "Failed to upload document.",
+      "save_failed": "Failed to save document changes.",
+      "delete_failed": "Failed to delete document.",
+      "delete_artifact_failed": "Failed to delete agent result.",
+      "copy_failed": "Failed to copy content.",
+      "load_artifact": "Failed to load agent result.",
+      "rename_artifact_failed": "Failed to rename agent result.",
+      "create_artifact_failed": "Failed to create draft artifact.",
+      "file_required": "Select a file to upload.",
+      "file_too_large": "File is too large. Maximum size is 25 MB.",
+      "mime_not_allowed": "Only PDF, DOCX, and TXT files are allowed.",
+      "file_signature_invalid": "Uploaded file content does not match the declared file type.",
+      "multipart_required": "Upload must use multipart form data.",
+      "missing_id": "Document id is missing.",
+      "invalid_payload": "Invalid request payload.",
+      "not_found": "Document not found.",
+      "list_failed": "Failed to list documents.",
+      "update_failed": "Failed to update document.",
+      "download_failed": "Failed to download document.",
+      "storage_path_invalid": "Invalid document storage path.",
+      "storage_dir_missing": "Document storage directory is not configured.",
+      "agent_storage_dir_missing": "Agent storage directory is not configured."
+    },
+    "artifacts": {
+      "search_placeholder": "Search by title, text, type, or source document",
+      "search_help": "Use search and sorting to review all saved draft and approved results.",
+      "final_search_hint": "Filter to Approved and search finalized outputs by title, content, or source document.",
+      "sort_label": "Sort results",
+      "sort_updated_desc": "Newest updated first",
+      "sort_updated_asc": "Oldest updated first",
+      "sort_approved_desc": "Newest approved first",
+      "sort_title_asc": "Title A-Z",
+      "results_count": "Showing {shown} of {total}",
+      "no_matches": "No agent results match the current search and filters.",
+      "source_preview_more": "+{count} more",
+      "errors": {
+        "list_failed": "Failed to list agent results.",
+        "not_found": "Agent result not found.",
+        "read_failed": "Failed to read agent result.",
+        "update_failed": "Failed to update agent result.",
+        "delete_failed": "Failed to delete agent result.",
+        "create_failed": "Failed to create draft artifact.",
+        "approve_failed": "Failed to approve artifact.",
+        "format_not_supported": "Only DOCX download is available right now.",
+        "download_failed": "Failed to download approved artifact.",
+        "download_requires_approval": "Approve the draft before downloading.",
+        "content_required": "Artifact content cannot be empty.",
+        "content_too_large": "Artifact content is too large.",
+        "sources_required": "Select at least one source document.",
+        "too_many_sources": "Too many source documents selected.",
+        "sources_not_found": "One or more selected source documents were not found.",
+        "source_not_allowed": "Selected documents must be allowed for work mode.",
+        "template_not_found": "Selected template was not found.",
+        "template_not_allowed": "Selected template must be allowed for work mode.",
+        "final_read_only": "Approved artifacts are read-only."
+      }
     }
   },
   "research": {

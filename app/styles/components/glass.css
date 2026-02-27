@@ -24,6 +24,7 @@
 .glass-box.chat-container {
   margin: auto;
 }
+
 :root .glass-box:not(.chat-container):not(.profile-container) {
   background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));

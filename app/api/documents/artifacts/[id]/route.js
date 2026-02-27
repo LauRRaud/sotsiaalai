@@ -1,0 +1,210 @@
+import { assertOwnedByUser } from "@/lib/documents/access"
+import { logDocumentsAudit } from "@/lib/documents/audit"
+import {
+  assertDraftArtifactEditable,
+  normalizeArtifactContent,
+  normalizeArtifactTitle,
+  serializeArtifact
+} from "@/lib/documents/artifacts"
+import { prisma } from "@/lib/prisma"
+import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
+import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
+
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
+const DOCUMENTS_RATE_LIMIT_WINDOW_MS = readDocumentsRateLimit(process.env.DOCUMENTS_RATE_LIMIT_WINDOW_MS, 60_000, 1000)
+const ARTIFACTS_MUTATION_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.ARTIFACTS_MUTATION_RATE_LIMIT_MAX, 30)
+
+const artifactInclude = {
+  template: {
+    select: {
+      id: true,
+      title: true,
+      originalName: true
+    }
+  },
+  sourceDocuments: {
+    include: {
+      document: {
+        select: {
+          id: true,
+          title: true,
+          originalName: true,
+          kind: true,
+          templateFor: true
+        }
+      }
+    },
+    orderBy: {
+      createdAt: "asc"
+    }
+  }
+}
+
+async function findOwnedArtifact(id, userId) {
+  const artifact = await prisma.agentArtifact.findUnique({
+    where: { id },
+    include: artifactInclude
+  })
+
+  if (!artifact) return null
+  assertOwnedByUser(artifact, userId)
+  return artifact
+}
+
+export async function GET(request, { params }) {
+  const locale = localeFromRequest(request)
+  const auth = await requireDocumentUser()
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, locale)
+  }
+
+  const id = String(params?.id || "").trim()
+  if (!id) {
+    return errorJson("documents.errors.missing_id", 400, locale)
+  }
+
+  try {
+    const artifact = await findOwnedArtifact(id, auth.userId)
+    if (!artifact) {
+      return errorJson("documents.artifacts.errors.not_found", 404, locale)
+    }
+
+    return json({
+      ok: true,
+      artifact: serializeArtifact(artifact, { includeContent: true })
+    })
+  } catch (error) {
+    if (error?.status === 403) {
+      return errorJson("api.common.forbidden", 403, locale)
+    }
+    console.error("[documents artifacts] read failed", error)
+    return errorJson("documents.artifacts.errors.read_failed", 500, locale)
+  }
+}
+
+export async function PATCH(request, { params }) {
+  const locale = localeFromRequest(request)
+  const auth = await requireDocumentUser()
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, locale)
+  }
+
+  const rateLimitResponse = enforceDocumentsRateLimit(request, {
+    scope: "artifacts_update",
+    userId: auth.userId,
+    limit: ARTIFACTS_MUTATION_RATE_LIMIT_MAX,
+    windowMs: DOCUMENTS_RATE_LIMIT_WINDOW_MS
+  })
+  if (rateLimitResponse) return rateLimitResponse
+
+  const id = String(params?.id || "").trim()
+  if (!id) {
+    return errorJson("documents.errors.missing_id", 400, locale)
+  }
+
+  let body = {}
+  try {
+    body = await request.json()
+  } catch {
+    return errorJson("documents.errors.invalid_payload", 400, locale)
+  }
+
+  try {
+    const artifact = await findOwnedArtifact(id, auth.userId)
+    if (!artifact) {
+      return errorJson("documents.artifacts.errors.not_found", 404, locale)
+    }
+
+    assertDraftArtifactEditable(artifact)
+
+    const nextTitle = body?.title === undefined ? artifact.title : normalizeArtifactTitle(body.title)
+    const nextContent =
+      body?.content === undefined ? artifact.content : normalizeArtifactContent(body.content)
+
+    const updated = await prisma.agentArtifact.update({
+      where: { id },
+      data: {
+        title: nextTitle,
+        content: nextContent
+      },
+      include: artifactInclude
+    })
+
+    await logDocumentsAudit("artifact.updated", {
+      userId: auth.userId,
+      artifactId: updated.id,
+      title: updated.title,
+      status: updated.status
+    })
+
+    return json({
+      ok: true,
+      artifact: serializeArtifact(updated, { includeContent: true })
+    })
+  } catch (error) {
+    if (error?.status === 403) {
+      return errorJson("api.common.forbidden", 403, locale)
+    }
+    if (error?.status === 409) {
+      return errorJson(error.message, 409, locale)
+    }
+    if (error?.status === 400 || error?.status === 413) {
+      return errorJson(error.message, error.status, locale)
+    }
+    console.error("[documents artifacts] update failed", error)
+    return errorJson("documents.artifacts.errors.update_failed", 500, locale)
+  }
+}
+
+export async function DELETE(request, { params }) {
+  const locale = localeFromRequest(request)
+  const auth = await requireDocumentUser()
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, locale)
+  }
+
+  const rateLimitResponse = enforceDocumentsRateLimit(request, {
+    scope: "artifacts_delete",
+    userId: auth.userId,
+    limit: ARTIFACTS_MUTATION_RATE_LIMIT_MAX,
+    windowMs: DOCUMENTS_RATE_LIMIT_WINDOW_MS
+  })
+  if (rateLimitResponse) return rateLimitResponse
+
+  const id = String(params?.id || "").trim()
+  if (!id) {
+    return errorJson("documents.errors.missing_id", 400, locale)
+  }
+
+  try {
+    const artifact = await findOwnedArtifact(id, auth.userId)
+    if (!artifact) {
+      return errorJson("documents.artifacts.errors.not_found", 404, locale)
+    }
+
+    await prisma.agentArtifact.delete({
+      where: { id }
+    })
+
+    await logDocumentsAudit("artifact.deleted", {
+      userId: auth.userId,
+      artifactId: artifact.id,
+      title: artifact.title,
+      status: artifact.status
+    })
+
+    return json({
+      ok: true,
+      id
+    })
+  } catch (error) {
+    if (error?.status === 403) {
+      return errorJson("api.common.forbidden", 403, locale)
+    }
+    console.error("[documents artifacts] delete failed", error)
+    return errorJson("documents.artifacts.errors.delete_failed", 500, locale)
+  }
+}

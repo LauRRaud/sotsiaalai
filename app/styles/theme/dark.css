@@ -23,6 +23,28 @@
     );
 }
 
+:root:not(.theme-light):not(.theme-mid) .drawer-panel--chat-glass {
+  --drawer-glass-bg: var(--glass-modal-bg, rgba(0, 0, 0, 0.25));
+  --drawer-card-border: var(--chat-invite-list-border, rgba(248, 253, 255, 0.11));
+  --drawer-card-border-hover: rgba(248, 253, 255, 0.16);
+  --drawer-card-border-active: rgba(248, 253, 255, 0.2);
+  --drawer-card-bg: rgba(30, 32, 38, 0.42);
+  --drawer-card-bg-hover: rgba(34, 36, 42, 0.48);
+  --drawer-card-bg-active: rgba(36, 38, 44, 0.52);
+  --drawer-card-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+  --drawer-card-shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.24);
+  --drawer-card-shadow-active: 0 14px 26px rgba(0, 0, 0, 0.26);
+  --drawer-title-text: rgba(244, 242, 239, 0.96);
+  --drawer-preview-text: rgba(223, 222, 218, 0.88);
+  --drawer-time-text: rgba(171, 180, 196, 0.8);
+  --drawer-delete-border: rgba(248, 253, 255, 0.18);
+  --drawer-delete-bg: rgba(16, 20, 28, 0.32);
+  --drawer-delete-text: rgba(226, 232, 240, 0.9);
+  --drawer-delete-border-hover: rgba(255, 120, 120, 0.56);
+  --drawer-delete-bg-hover: rgba(48, 16, 20, 0.42);
+  --drawer-delete-text-hover: rgba(255, 230, 230, 0.98);
+}
+
 :root:not(.theme-light) body.homepage {
   --home-prose-color: rgba(242, 241, 239, 0.92);
   --home-card-blur: 0.6rem;

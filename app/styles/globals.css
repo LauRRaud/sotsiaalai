@@ -12,6 +12,7 @@
 @import url("./base/a11y.css");
 @import url("./base/animations.css");
 @import url("./components/glass.css");
+@import url("./components/documents-mode.css");
 @import url("./components/home.css");
 @import url("./components/chat-focus.css");
 @import url("./utilities/helpers.css");

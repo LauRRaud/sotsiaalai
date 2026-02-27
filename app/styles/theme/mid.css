@@ -260,17 +260,6 @@
 }
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
-:root.theme-mid .chat-tools-menu {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(251, 246, 245, 0.78) 0%,
-      rgba(244, 235, 233, 0.68) 100%
-    ) !important;
-  border: 1px solid rgba(255, 255, 255, 0.34) !important;
-  box-shadow: 0 10px 22px rgba(20, 12, 10, 0.2) !important;
-}
-
 :root.theme-mid .chat-tools-menu .chat-tools-item {
   color: #3f241f !important;
 }

@@ -98,6 +98,47 @@ enum BillingSource {
   SPONSORED_BY_HOST
 }
 
+enum DocumentKind {
+  TEMPLATE
+  MATERIAL
+  OTHER
+}
+
+enum TemplateFor {
+  REPORT_DRAFT
+  CASE_BRIEF
+  MEETING_SUMMARY
+  CHECKLIST
+  LETTER_DRAFT
+  OTHER
+}
+
+enum AgentArtifactType {
+  MEETING_SUMMARY
+  CASE_BRIEF
+  REPORT_DRAFT
+  CHECKLIST
+  LETTER_DRAFT
+  OTHER
+}
+
+enum AgentArtifactStatus {
+  DRAFT
+  FINAL
+}
+
+enum DocumentAuditAction {
+  UPLOAD
+  DOWNLOAD
+  UPDATE
+  DELETE
+  ARTIFACT_CREATE
+  ARTIFACT_UPDATE
+  ARTIFACT_APPROVE
+  ARTIFACT_DOWNLOAD
+  ARTIFACT_DELETE
+}
+
 /**
  * ---------- Models ----------
  */
@@ -116,10 +157,13 @@ model User {
   sessions Session[]
 
   // Äri
-  profile       Profile?
-  subscriptions Subscription[]
-  payments      Payment[]
-  ragDocuments  RagDocument[]
+  profile        Profile?
+  subscriptions  Subscription[]
+  payments       Payment[]
+  ragDocuments   RagDocument[]
+  documents      UserDocument[]
+  agentArtifacts AgentArtifact[]
+  documentAudits DocumentAudit[]
 
   // Chat / runs
   conversationRuns     ConversationRun[]
@@ -507,4 +551,84 @@ model RoomMessage {
 
   @@index([roomId, createdAt])
   @@index([roomId, id])
+}
+
+model UserDocument {
+  id           String       @id @default(cuid())
+  ownerId      String
+  title        String
+  originalName String
+  kind         DocumentKind @default(MATERIAL)
+  templateFor  TemplateFor?
+  agentAllowed Boolean      @default(false)
+  mime         String
+  size         Int
+  sha256       String
+  storagePath  String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  owner               User                          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  templateArtifacts   AgentArtifact[]               @relation("AgentArtifactTemplate")
+  sourceArtifactLinks AgentArtifactSourceDocument[]
+  audits              DocumentAudit[]
+
+  @@index([ownerId, updatedAt])
+  @@index([ownerId, kind, updatedAt])
+  @@index([ownerId, agentAllowed, updatedAt])
+  @@index([sha256])
+}
+
+model AgentArtifact {
+  id         String              @id @default(cuid())
+  ownerId    String
+  type       AgentArtifactType
+  title      String?
+  status     AgentArtifactStatus @default(DRAFT)
+  content    String              @db.Text
+  approvedAt DateTime?
+  templateId String?
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+  owner             User                          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  template          UserDocument?                @relation("AgentArtifactTemplate", fields: [templateId], references: [id], onDelete: SetNull)
+  sourceDocuments   AgentArtifactSourceDocument[]
+  audits            DocumentAudit[]
+
+  @@index([ownerId, updatedAt])
+  @@index([ownerId, type, updatedAt])
+  @@index([ownerId, status, updatedAt])
+  @@index([templateId])
+}
+
+model AgentArtifactSourceDocument {
+  artifactId  String
+  documentId  String
+  createdAt   DateTime      @default(now())
+
+  artifact AgentArtifact @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  document UserDocument  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@id([artifactId, documentId])
+  @@index([documentId])
+}
+
+model DocumentAudit {
+  id         String              @id @default(cuid())
+  ownerId    String
+  documentId String?
+  artifactId String?
+  action     DocumentAuditAction
+  meta       Json?
+  createdAt  DateTime            @default(now())
+
+  owner    User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  document UserDocument? @relation(fields: [documentId], references: [id], onDelete: SetNull)
+  artifact AgentArtifact? @relation(fields: [artifactId], references: [id], onDelete: SetNull)
+
+  @@index([ownerId, createdAt])
+  @@index([documentId, createdAt])
+  @@index([artifactId, createdAt])
+  @@index([action, createdAt])
 }

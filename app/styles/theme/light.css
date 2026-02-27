@@ -124,6 +124,7 @@
   --seg-card-bg: var(--form-surface-light, rgba(255, 255, 255, 0.68));
   --seg-card-bg-hover: var(--form-surface-hover-light, #ffffff);
   --seg-card-bg-selected: var(--form-surface-active-light, #ffffff);
+
   --seg-card-text: var(--text-strong);
   --seg-card-text-hover: var(--text-strong);
   --seg-card-text-selected: #9a5a55;
