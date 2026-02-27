@@ -17,6 +17,11 @@ export const revalidate = 0
 const DOCUMENTS_RATE_LIMIT_WINDOW_MS = readDocumentsRateLimit(process.env.DOCUMENTS_RATE_LIMIT_WINDOW_MS, 60_000, 1000)
 const DOCUMENTS_DOWNLOAD_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.DOCUMENTS_DOWNLOAD_RATE_LIMIT_MAX, 60)
 
+async function resolveRouteId(paramsLike) {
+  const params = await paramsLike
+  return String(params?.id || "").trim()
+}
+
 export async function GET(request, { params }) {
   const locale = localeFromRequest(request)
   const auth = await requireDocumentUser()
@@ -32,7 +37,7 @@ export async function GET(request, { params }) {
   })
   if (rateLimitResponse) return rateLimitResponse
 
-  const id = String(params?.id || "").trim()
+  const id = await resolveRouteId(params)
   if (!id) {
     return errorJson("documents.errors.missing_id", 400, locale)
   }

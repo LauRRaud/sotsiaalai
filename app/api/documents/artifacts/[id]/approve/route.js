@@ -12,6 +12,11 @@ export const revalidate = 0
 const DOCUMENTS_RATE_LIMIT_WINDOW_MS = readDocumentsRateLimit(process.env.DOCUMENTS_RATE_LIMIT_WINDOW_MS, 60_000, 1000)
 const ARTIFACTS_APPROVE_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.ARTIFACTS_APPROVE_RATE_LIMIT_MAX, 20)
 
+async function resolveRouteId(paramsLike) {
+  const params = await paramsLike
+  return String(params?.id || "").trim()
+}
+
 const artifactInclude = {
   template: {
     select: {
@@ -53,7 +58,7 @@ export async function POST(request, { params }) {
   })
   if (rateLimitResponse) return rateLimitResponse
 
-  const id = String(params?.id || "").trim()
+  const id = await resolveRouteId(params)
   if (!id) {
     return errorJson("documents.errors.missing_id", 400, locale)
   }
