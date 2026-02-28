@@ -1295,7 +1295,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                     </span>
                   ) : null}
                 </div>
-                <p className="documents-meta-text documents-agent-start-help">{conversationHelpText}</p>
+                <p className="documents-section-description documents-agent-start-help">{conversationHelpText}</p>
               </div>
 
               <div className="documents-agent-conversation-shell" style={agentConversationVars}>

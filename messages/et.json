@@ -643,7 +643,7 @@
     "back_to_chat": "Tagasi vestlusesse",
     "back_to_documents": "Tagasi dokumentidesse",
     "inputs_title": "Minu dokumendid",
-    "inputs_description": "Siin saad hoida oma malle, materjale ja muid töörežiimi jaoks vajalikke faile.",
+    "inputs_description": "Siin hoiad malle, materjale ja muid faile. Märgid siin, milliseid dokumente agent võib töö tegemisel kasutada.",
     "outputs_title": "Agendi tulemused",
     "outputs_description": "Siin näed agendi loodud mustandeid ja kinnitatud tulemusi ning saad need hiljem uuesti avada või alla laadida.",
     "library_sections": {
@@ -755,8 +755,8 @@
         "empty_help": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need agendirežiimi kaasa.",
         "ready_help": "Valitud dokumendid on valmis. Jätka agendirežiimis, et valida ülesanne ja alustada tööga.",
         "agent_page_title": "Agendirežiimi töölaud",
-        "agent_page_empty": "See vaade on valmis agenditööks. Alusta siit või mine Dokumentidesse tagasi ja vali enne failid.",
-        "agent_page_with_docs": "See vaade on valmis agenditööks. Dokumentidest toodi siia kaasa {count} valitud faili."
+        "agent_page_empty": "Anna agendile ülesanne ja juhis. Agent koostab valitud dokumentide põhjal mustandi.",
+        "agent_page_with_docs": "Valitud dokumendid on kaasas. Anna ülesanne ja juhis ning agent koostab mustandi."
       },
       "agent_workspace": {
         "selected_documents_title": "Valitud dokumendid",
@@ -766,7 +766,7 @@
         "select_documents": "Vali dokumendid",
         "missing_documents": "{count} varem valitud dokumenti ei õnnestunud laadida.",
         "goal_title": "Töö eesmärk",
-        "goal_description": "Määra esmalt väljundi tüüp, seejärel täpsusta kellele see on mõeldud ja kuidas mustand peab kõlama.",
+        "goal_description": "Vali, mida agent peab koostama, kellele see on mõeldud ja millises toonis tulemus peab olema.",
         "template_label": "Mall",
         "template_description": "Laadi mall üles Dokumentides. Siin valid, kas agent kasutab seda mustandi tegemisel.",
         "template_none": "Ilma mallita",

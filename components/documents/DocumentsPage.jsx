@@ -335,11 +335,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             <div className="documents-section-stack mt-[1rem]">
               <div className="documents-library-section documents-library-intro">
                 <div className="documents-library-intro">
-                  <div className="documents-section-heading">
-                    <div className="documents-section-copy">
-                      <h2 className="documents-section-title">{t("documents.inputs_title")}</h2>
-                    </div>
-                  </div>
                   <div className="documents-library-copy">
                     <p className="documents-section-description documents-library-description">{t("documents.inputs_description")} <span className="documents-library-help-inline">{t("documents.form.file_help")}</span></p>
                   </div>
@@ -351,7 +346,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     <h3 className="documents-subsection-title">{t("documents.library_sections.upload_title")}</h3>
                     <p className="documents-section-description documents-subsection-description">{t("documents.library_sections.upload_description")}</p>
                   </div>
-                <div className="documents-soft-subpanel rounded-[1rem]">
                 <form className="documents-upload-form documents-library-upload-block" onSubmit={submitUpload}>
                   <div className="documents-library-top-row grid gap-[0.65rem] min-[42rem]:grid-cols-[minmax(0,1.5fr)_minmax(11rem,0.9fr)]">
                     <Input value={uploadTitle} onChange={(event) => setUploadTitle(event.target.value)} placeholder={t("documents.form.title_placeholder")} className="documents-form-input" />
@@ -366,12 +360,11 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                         <span className="documents-meta-text text-[0.96rem]">{uploadFile ? `${uploadFile.name} · ${formatFileSize(uploadFile.size)}` : t("documents.form.no_file_selected")}</span>
                       </div>
                     </div>
-                    <div className="documents-upload-actions">
-                      <Button type="submit" size="sm" className="documents-primary-button documents-upload-submit" disabled={!uploadFile || uploading}>{uploading ? t("documents.form.uploading") : t("documents.actions.upload")}</Button>
-                    </div>
+                  <div className="documents-upload-actions">
+                    <Button type="submit" size="sm" className="documents-primary-button documents-upload-submit" disabled={!uploadFile || uploading}>{uploading ? t("documents.form.uploading") : t("documents.actions.upload")}</Button>
                   </div>
-                </form>
                 </div>
+                </form>
                 </div>
 
                 <div className="documents-subsection-stack">
@@ -396,10 +389,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 <article key={document.id} className="documents-card documents-document-row rounded-[1rem] border px-[0.85rem] py-[0.8rem]">
                   <div className="documents-document-row-top">
                     <div className="documents-document-row-main">
-                      <label className={`documents-inline-check documents-inline-check--select ${document.agentAllowed ? "" : "is-disabled"}`}>
-                        <input type="checkbox" className="documents-checkbox" checked={selectedDocumentIds.includes(document.id)} disabled={!document.agentAllowed} onChange={(event) => toggleDocumentSelection(document.id, event.target.checked)} aria-label={t("documents.actions.select_document", { title: document.title })} />
-                        <span>{t("documents.actions.select_for_agent")}</span>
-                      </label>
                       <div className="min-w-0 flex-1">
                         {editingId === document.id ? (
                           <div className="flex flex-wrap gap-[0.45rem]">
@@ -419,12 +408,25 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                         )}
                       </div>
                     </div>
-                    <label className="documents-inline-check documents-inline-check--allow">
-                      <input type="checkbox" className="documents-checkbox" checked={document.agentAllowed} onChange={(event) => { void patchDocument(document.id, { agentAllowed: event.target.checked }) }} />
-                      <span>{t("documents.actions.agent_allowed")}</span>
-                    </label>
+                    <div className="documents-document-row-side">
+                      <label className="documents-inline-check documents-inline-check--allow">
+                        <input type="checkbox" className="documents-checkbox" checked={document.agentAllowed} onChange={(event) => { void patchDocument(document.id, { agentAllowed: event.target.checked }) }} />
+                        <span>{t("documents.actions.agent_allowed")}</span>
+                      </label>
+                    </div>
                   </div>
-                  {!document.agentAllowed ? <p className="documents-meta-text documents-row-help">{t("documents.multi_doc.enable_agent_allowed")}</p> : null}
+                  <div className="documents-document-row-selection">
+                    {document.agentAllowed ? (
+                      <label className="documents-select-card">
+                        <input type="checkbox" className="documents-checkbox" checked={selectedDocumentIds.includes(document.id)} onChange={(event) => toggleDocumentSelection(document.id, event.target.checked)} aria-label={t("documents.actions.select_document", { title: document.title })} />
+                        <span className="documents-select-card-copy">
+                          <span className="documents-strong-text">{t("documents.actions.select_for_agent")}</span>
+                        </span>
+                      </label>
+                    ) : (
+                      <p className="documents-meta-text documents-row-help documents-row-help--inline">{t("documents.multi_doc.enable_agent_allowed")}</p>
+                    )}
+                  </div>
                   <div className="documents-document-row-bottom">
                     <div className="documents-controls-grid documents-controls-grid--row">
                       <DocumentsDropdown ariaLabel={t("documents.form.kind_label")} value={document.kind} onChange={(nextKind) => { void patchDocument(document.id, { kind: nextKind, templateFor: nextKind === "TEMPLATE" ? document.templateFor : null }) }} options={kindOptions} />
@@ -442,43 +444,41 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 </div>
                 </div>
 
-                <div className="documents-subsection-stack">
-                  <div className="documents-subsection-copy">
-                    <h3 className="documents-subsection-title">{t("documents.agent_handoff.title")}</h3>
-                    <p className="documents-section-description documents-subsection-description">{t("documents.agent_handoff.description")}</p>
-                  </div>
-                <div className="documents-soft-subpanel rounded-[1rem]">
-                <div className="documents-agent-section documents-inline-section">
-                  <div className="documents-tool-card-header documents-tool-card-header--inline">
-                    <div>
-                      <p className="documents-meta-text mt-[0.18rem]">{selectedDocumentIds.length ? t("documents.agent_handoff.ready_help") : t("documents.agent_handoff.empty_help")}</p>
-                    </div>
-                    <span className="documents-selection-chip documents-chip rounded-full px-[0.85rem] py-[0.28rem] text-[1rem]">{t("documents.agent_handoff.selected_count", { count: selectedDocumentIds.length })}</span>
-                  </div>
-                  <div className="documents-agent-handoff-bar">
-                    {selectedDocumentIds.length ? (
-                      <Button as="a" href={agentModeHref} size="sm" className="documents-primary-button documents-primary-button--compact documents-agent-handoff-button">{t("documents.actions.open_agent_mode")}</Button>
-                    ) : (
-                      <Button type="button" size="sm" disabled className="documents-primary-button documents-primary-button--compact documents-agent-handoff-button">{t("documents.actions.open_agent_mode")}</Button>
-                    )}
-                  </div>
-                </div>
-                </div>
-                </div>
                 </Panel>
               </div>
             </div>
           </Panel>
 
-          <Panel as="section" id="artifacts" variant="secondary" padding="sm" className="documents-panel rounded-[1.3rem]">
+          <Panel as="section" variant="secondary" padding="sm" className="documents-panel rounded-[1.3rem]">
             <div className="documents-section-stack">
-            <div className="documents-section-heading">
-              <div className="documents-section-copy">
-                <h2 className="documents-section-title">{t("documents.outputs_title")}</h2>
-                <p className="documents-section-description">{t("documents.outputs_description")}</p>
+            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
+            <div className="documents-subsection-copy">
+              <h3 className="documents-subsection-title">{t("documents.agent_handoff.title")}</h3>
+              <p className="documents-section-description documents-subsection-description">{selectedDocumentIds.length ? t("documents.agent_handoff.ready_help") : t("documents.agent_handoff.empty_help")}</p>
+            </div>
+            <div className="documents-agent-section">
+              <div className="documents-tool-card-header documents-tool-card-header--inline">
+                <span className="documents-selection-chip documents-chip rounded-full px-[0.85rem] py-[0.28rem] text-[1rem]">{t("documents.agent_handoff.selected_count", { count: selectedDocumentIds.length })}</span>
+              </div>
+              <div className="documents-agent-handoff-bar">
+                {selectedDocumentIds.length ? (
+                  <Button as="a" href={agentModeHref} size="sm" className="documents-primary-button documents-primary-button--compact documents-agent-handoff-button">{t("documents.actions.open_agent_mode")}</Button>
+                ) : (
+                  <Button type="button" size="sm" disabled className="documents-primary-button documents-primary-button--compact documents-agent-handoff-button">{t("documents.actions.open_agent_mode")}</Button>
+                )}
               </div>
             </div>
+            </Panel>
+            </div>
+          </Panel>
+
+          <Panel as="section" id="artifacts" variant="secondary" padding="sm" className="documents-panel rounded-[1.3rem]">
+            <div className="documents-section-stack">
             <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
+            <div className="documents-subsection-copy">
+              <h3 className="documents-subsection-title">{t("documents.outputs_title")}</h3>
+              <p className="documents-section-description documents-subsection-description">{t("documents.outputs_description")}</p>
+            </div>
             <div className="mt-[0.42rem] flex flex-wrap items-center justify-between gap-[0.8rem]">
               <div className="flex flex-wrap gap-[0.4rem]">
                 {[{ key: "ALL", label: t("documents.filters.all"), count: artifactCounts.all }, { key: "DRAFT", label: artifactStatusLabel("draft", t), count: artifactCounts.draft }, { key: "FINAL", label: artifactStatusLabel("final", t), count: artifactCounts.final }].map((item) => (

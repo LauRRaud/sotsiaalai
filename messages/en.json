@@ -643,7 +643,7 @@
     "back_to_chat": "Back to chat",
     "back_to_documents": "Back to documents",
     "inputs_title": "My documents",
-    "inputs_description": "Upload templates, materials, and other private files for future work mode.",
+    "inputs_description": "Store templates, materials, and other files here. This is where you decide which documents the agent may use for the work.",
     "outputs_title": "Agent results",
     "outputs_description": "Recent draft and approved text results created by the agent workflow.",
     "library_sections": {
@@ -755,8 +755,8 @@
         "empty_help": "Allow documents for work mode and select the ones you want to take into agent mode.",
         "ready_help": "Your selected documents are ready. Continue in agent mode to choose the task and start working.",
         "agent_page_title": "Agent mode workspace",
-        "agent_page_empty": "This workspace is ready for agent work. Start here or go back to Documents and select files first.",
-        "agent_page_with_docs": "This workspace is ready for agent work. {count} selected document(s) were carried over from Documents."
+        "agent_page_empty": "Give the agent a task and instructions. It prepares a draft from the selected documents.",
+        "agent_page_with_docs": "Your selected documents are ready. Give the task and instructions, and the agent will prepare a draft."
       },
       "agent_workspace": {
         "selected_documents_title": "Selected documents",
@@ -766,7 +766,7 @@
         "select_documents": "Choose documents",
         "missing_documents": "{count} previously selected document(s) could not be loaded.",
         "goal_title": "Work goal",
-        "goal_description": "Set the output type first, then adjust who it is for and how the draft should be written.",
+        "goal_description": "Choose what the agent should prepare, who it is for, and what tone the result should use.",
         "template_label": "Template",
         "template_description": "Upload the template in Documents. Choose here whether the agent should use it for the draft.",
         "template_none": "No template",
