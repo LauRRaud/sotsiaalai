@@ -40,6 +40,40 @@ function serializeDocument(document) {
   }
 }
 
+export async function GET(request, { params }) {
+  const locale = localeFromRequest(request)
+  const auth = await requireDocumentUser()
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, locale)
+  }
+
+  const id = await resolveRouteId(params)
+  if (!id) {
+    return errorJson("documents.errors.missing_id", 400, locale)
+  }
+
+  try {
+    const document = await prisma.userDocument.findUnique({
+      where: { id }
+    })
+    if (!document) {
+      return errorJson("documents.errors.not_found", 404, locale)
+    }
+    assertOwnedByUser(document, auth.userId)
+
+    return json({
+      ok: true,
+      document: serializeDocument(document)
+    })
+  } catch (error) {
+    if (error?.status === 403) {
+      return errorJson("api.common.forbidden", 403, locale)
+    }
+    console.error("[documents] read failed", error)
+    return errorJson("documents.errors.read_failed", 500, locale)
+  }
+}
+
 export async function PATCH(request, { params }) {
   const locale = localeFromRequest(request)
   const auth = await requireDocumentUser()

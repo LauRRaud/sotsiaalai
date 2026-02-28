@@ -1,0 +1,139 @@
+import { prisma } from "@/lib/prisma"
+import { normalizeArtifactContent, normalizeArtifactType, normalizeSelectedDocumentIds } from "@/lib/documents/artifacts"
+import {
+  normalizeAgentAudience,
+  normalizeAgentLanguage,
+  normalizeAgentLength,
+  normalizeAgentTone,
+  normalizeRefinementInstruction,
+  refineArtifactDraftContent
+} from "@/lib/documents/generation"
+import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
+import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
+
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
+const DOCUMENTS_RATE_LIMIT_WINDOW_MS = readDocumentsRateLimit(process.env.DOCUMENTS_RATE_LIMIT_WINDOW_MS, 60_000, 1000)
+const ARTIFACTS_REFINE_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.ARTIFACTS_CREATE_RATE_LIMIT_MAX, 20)
+
+export async function POST(request) {
+  const locale = localeFromRequest(request)
+  const auth = await requireDocumentUser()
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, locale)
+  }
+
+  const rateLimitResponse = enforceDocumentsRateLimit(request, {
+    scope: "artifacts_refine",
+    userId: auth.userId,
+    limit: ARTIFACTS_REFINE_RATE_LIMIT_MAX,
+    windowMs: DOCUMENTS_RATE_LIMIT_WINDOW_MS
+  })
+  if (rateLimitResponse) return rateLimitResponse
+
+  let body = {}
+  try {
+    body = await request.json()
+  } catch {
+    return errorJson("documents.errors.invalid_payload", 400, locale)
+  }
+
+  let selectedDocumentIds
+  let currentContent = ""
+  let refinementInstruction = ""
+  try {
+    selectedDocumentIds = normalizeSelectedDocumentIds(body?.documentIds)
+    currentContent = normalizeArtifactContent(body?.currentContent)
+    refinementInstruction = normalizeRefinementInstruction(body?.refinementInstruction)
+  } catch (error) {
+    return errorJson(error?.message || "documents.errors.invalid_payload", Number(error?.status) || 400, locale)
+  }
+
+  const type = normalizeArtifactType(body?.type)
+  const templateId = String(body?.templateId || "").trim() || null
+  const audience = normalizeAgentAudience(body?.audience)
+  const tone = normalizeAgentTone(body?.tone)
+  const language = normalizeAgentLanguage(body?.language, locale)
+  const length = normalizeAgentLength(body?.length)
+
+  try {
+    const documents = await prisma.userDocument.findMany({
+      where: {
+        ownerId: auth.userId,
+        id: {
+          in: selectedDocumentIds
+        }
+      },
+      select: {
+        id: true,
+        title: true,
+        originalName: true,
+        kind: true,
+        templateFor: true,
+        agentAllowed: true,
+        mime: true,
+        storagePath: true
+      }
+    })
+
+    if (documents.length !== selectedDocumentIds.length) {
+      return errorJson("documents.artifacts.errors.sources_not_found", 404, locale)
+    }
+
+    const notAllowed = documents.find((document) => !document.agentAllowed)
+    if (notAllowed) {
+      return errorJson("documents.artifacts.errors.source_not_allowed", 400, locale)
+    }
+
+    let template = null
+    if (templateId) {
+      template = await prisma.userDocument.findFirst({
+        where: {
+          id: templateId,
+          ownerId: auth.userId,
+          kind: "TEMPLATE"
+        },
+        select: {
+          id: true,
+          title: true,
+          originalName: true,
+          agentAllowed: true
+        }
+      })
+
+      if (!template) {
+        return errorJson("documents.artifacts.errors.template_not_found", 404, locale)
+      }
+
+      if (!template.agentAllowed) {
+        return errorJson("documents.artifacts.errors.template_not_allowed", 400, locale)
+      }
+    }
+
+    const content = await refineArtifactDraftContent({
+      type,
+      documents,
+      templateTitle: template?.title || null,
+      currentContent,
+      refinementInstruction,
+      audience,
+      tone,
+      language,
+      length
+    })
+
+    return json({
+      ok: true,
+      content,
+      updatedAt: new Date().toISOString()
+    })
+  } catch (error) {
+    const status = Number(error?.status) || 500
+    const messageKey =
+      status === 500 ? "documents.artifacts.errors.update_failed" : error?.message || "documents.artifacts.errors.update_failed"
+    console.error("[documents artifacts] refine failed", error)
+    return errorJson(messageKey, status, locale)
+  }
+}

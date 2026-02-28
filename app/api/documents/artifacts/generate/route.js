@@ -1,16 +1,9 @@
 import { prisma } from "@/lib/prisma"
 import {
-  ARTIFACT_LIST_LIMIT,
-  ARTIFACT_LIST_LIMIT_ALL,
-  MAX_ARTIFACT_SOURCE_DOCUMENTS
-} from "@/lib/documents/constants"
-import { logDocumentsAudit } from "@/lib/documents/audit"
-import {
-  normalizeArtifactContent,
   normalizeArtifactTitle,
   normalizeArtifactType,
   normalizeSelectedDocumentIds,
-  serializeArtifact
+  serializeArtifactSource
 } from "@/lib/documents/artifacts"
 import {
   generateArtifactDraftContent,
@@ -28,71 +21,7 @@ export const dynamic = "force-dynamic"
 export const revalidate = 0
 
 const DOCUMENTS_RATE_LIMIT_WINDOW_MS = readDocumentsRateLimit(process.env.DOCUMENTS_RATE_LIMIT_WINDOW_MS, 60_000, 1000)
-const ARTIFACTS_CREATE_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.ARTIFACTS_CREATE_RATE_LIMIT_MAX, 20)
-
-const artifactInclude = {
-  template: {
-    select: {
-      id: true,
-      title: true,
-      originalName: true
-    }
-  },
-  sourceDocuments: {
-    include: {
-      document: {
-        select: {
-          id: true,
-          title: true,
-          originalName: true,
-          kind: true,
-          templateFor: true
-        }
-      }
-    },
-    orderBy: {
-      createdAt: "asc"
-    }
-  }
-}
-
-function clampLimit(value, fallback = ARTIFACT_LIST_LIMIT) {
-  const parsed = Number(value)
-  if (!Number.isFinite(parsed) || parsed <= 0) return fallback
-  return Math.min(Math.floor(parsed), ARTIFACT_LIST_LIMIT_ALL)
-}
-
-export async function GET(request) {
-  const locale = localeFromRequest(request)
-  const auth = await requireDocumentUser()
-  if (!auth) {
-    return errorJson("api.common.unauthorized", 401, locale)
-  }
-
-  const requestUrl = new URL(request.url)
-  const limit = clampLimit(requestUrl.searchParams.get("limit"), ARTIFACT_LIST_LIMIT)
-
-  try {
-    const artifacts = await prisma.agentArtifact.findMany({
-      where: {
-        ownerId: auth.userId
-      },
-      include: artifactInclude,
-      orderBy: {
-        updatedAt: "desc"
-      },
-      take: limit
-    })
-
-    return json({
-      ok: true,
-      artifacts: artifacts.map((artifact) => serializeArtifact(artifact, { includeContent: true }))
-    })
-  } catch (error) {
-    console.error("[documents artifacts] list failed", error)
-    return errorJson("documents.artifacts.errors.list_failed", 500, locale)
-  }
-}
+const ARTIFACTS_GENERATE_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.ARTIFACTS_CREATE_RATE_LIMIT_MAX, 20)
 
 export async function POST(request) {
   const locale = localeFromRequest(request)
@@ -102,9 +31,9 @@ export async function POST(request) {
   }
 
   const rateLimitResponse = enforceDocumentsRateLimit(request, {
-    scope: "artifacts_create",
+    scope: "artifacts_generate",
     userId: auth.userId,
-    limit: ARTIFACTS_CREATE_RATE_LIMIT_MAX,
+    limit: ARTIFACTS_GENERATE_RATE_LIMIT_MAX,
     windowMs: DOCUMENTS_RATE_LIMIT_WINDOW_MS
   })
   if (rateLimitResponse) return rateLimitResponse
@@ -126,16 +55,13 @@ export async function POST(request) {
   const type = normalizeArtifactType(body?.type)
   const title = normalizeArtifactTitle(body?.title)
   const templateId = String(body?.templateId || "").trim() || null
-  const hasProvidedContent = body?.content !== undefined
   let instruction = ""
   let audience = "worker"
   let tone = "professional"
   let language = locale
   let length = "standard"
-  let content = ""
 
   try {
-    content = hasProvidedContent ? normalizeArtifactContent(body?.content) : ""
     instruction = normalizeAgentInstruction(body?.instruction)
     audience = normalizeAgentAudience(body?.audience)
     tone = normalizeAgentTone(body?.tone)
@@ -186,8 +112,7 @@ export async function POST(request) {
           id: true,
           title: true,
           originalName: true,
-          agentAllowed: true,
-          mime: true
+          agentAllowed: true
         }
       })
 
@@ -200,57 +125,54 @@ export async function POST(request) {
       }
     }
 
-    const artifact = await prisma.agentArtifact.create({
-      data: {
-        ownerId: auth.userId,
+    const content = await generateArtifactDraftContent({
+      type,
+      documents,
+      templateTitle: template?.title || null,
+      instruction,
+      audience,
+      tone,
+      language,
+      length
+    })
+
+    const now = new Date()
+    const sources = documents.map((document) => serializeArtifactSource({ document })).filter(Boolean)
+
+    return json({
+      ok: true,
+      draft: {
+        id: null,
         type,
         title,
         status: "DRAFT",
-        content: hasProvidedContent
-          ? content
-          : await generateArtifactDraftContent({
-              type,
-              documents,
-              templateTitle: template?.title || null,
-              instruction,
-              audience,
-              tone,
-              language,
-              length
-            }),
+        approvedAt: null,
         templateId: template?.id || null,
-        sourceDocuments: {
-          createMany: {
-            data: documents.slice(0, MAX_ARTIFACT_SOURCE_DOCUMENTS).map((document) => ({
-              documentId: document.id
-            }))
-          }
-        }
-      },
-      include: artifactInclude
+        template: template
+          ? {
+              id: template.id,
+              title: template.title,
+              originalName: template.originalName
+            }
+          : null,
+        content,
+        snippet: "",
+        createdAt: now,
+        updatedAt: now,
+        sourceCount: sources.length,
+        sources,
+        canDownload: false,
+        downloadFormats: [],
+        downloadUrl: null,
+        downloadUrls: {},
+        isTransient: true
+      }
     })
-
-    await logDocumentsAudit("artifact.created", {
-      userId: auth.userId,
-      artifactId: artifact.id,
-      type: artifact.type,
-      title: artifact.title,
-      templateId: artifact.templateId,
-      sourceCount: artifact.sourceDocuments.length
-    })
-
-    return json(
-      {
-        ok: true,
-        artifact: serializeArtifact(artifact, { includeContent: true })
-      },
-      201
-    )
   } catch (error) {
     const status = Number(error?.status) || 500
     const messageKey =
       status === 500 ? "documents.artifacts.errors.create_failed" : error?.message || "documents.artifacts.errors.create_failed"
-    console.error("[documents artifacts] create failed", error)
+    console.error("[documents artifacts] generate failed", error)
     return errorJson(messageKey, status, locale)
   }
 }

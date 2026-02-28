@@ -128,12 +128,43 @@ export async function PATCH(request, { params }) {
     const nextTitle = body?.title === undefined ? artifact.title : normalizeArtifactTitle(body.title)
     const nextContent =
       body?.content === undefined ? artifact.content : normalizeArtifactContent(body.content)
+    let nextTemplateId = artifact.templateId || null
+
+    if (body?.templateId !== undefined) {
+      const candidateTemplateId = String(body.templateId || "").trim()
+      if (!candidateTemplateId) {
+        nextTemplateId = null
+      } else {
+        const template = await prisma.userDocument.findFirst({
+          where: {
+            id: candidateTemplateId,
+            ownerId: auth.userId,
+            kind: "TEMPLATE"
+          },
+          select: {
+            id: true,
+            agentAllowed: true
+          }
+        })
+
+        if (!template) {
+          return errorJson("documents.artifacts.errors.template_not_found", 404, locale)
+        }
+
+        if (!template.agentAllowed) {
+          return errorJson("documents.artifacts.errors.template_not_allowed", 400, locale)
+        }
+
+        nextTemplateId = template.id
+      }
+    }
 
     const updated = await prisma.agentArtifact.update({
       where: { id },
       data: {
         title: nextTitle,
-        content: nextContent
+        content: nextContent,
+        templateId: nextTemplateId
       },
       include: artifactInclude
     })
@@ -142,7 +173,8 @@ export async function PATCH(request, { params }) {
       userId: auth.userId,
       artifactId: updated.id,
       title: updated.title,
-      status: updated.status
+      status: updated.status,
+      templateId: updated.templateId
     })
 
     return json({
