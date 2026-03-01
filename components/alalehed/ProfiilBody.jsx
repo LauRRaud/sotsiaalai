@@ -30,6 +30,14 @@ const ROLE_KEYS = {
   CLIENT: "profile.role_short.client"
 };
 
+function normalizeProfileRole(value, fallback = "CLIENT") {
+  const normalized = String(value || "").trim().toUpperCase();
+  if (normalized === "ADMIN") return "ADMIN";
+  if (normalized === "SOCIAL_WORKER") return "SOCIAL_WORKER";
+  if (normalized === "CLIENT") return "CLIENT";
+  return fallback;
+}
+
 function splitRoleLabelToTwoLines(label) {
   if (typeof label !== "string" || !label.trim()) return label;
   if (label.includes("\n")) return label;
@@ -66,7 +74,7 @@ const titleBaseClassName =
   "max-[48em]:text-[clamp(2.3rem,9.1vw,3rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const headerCenterBaseClassName =
-  "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[48em]:mb-[clamp(0.4rem,2vw,0.72rem)]";
+  "relative flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[48em]:mb-[clamp(0.4rem,2vw,0.72rem)]";
 const headerCenterPageClassName =
   "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(2.4rem,5.6vh,4.2rem)] " +
   "max-[48em]:mt-[clamp(0.72rem,3.2vw,1.02rem)] max-[48em]:translate-y-[clamp(0.02rem,0.25vw,0.16rem)]";
@@ -84,6 +92,13 @@ const rolePillMultiLineClassName =
   "translate-y-0";
 const rolePillMultiLineTextClassName =
   "flex flex-col items-center justify-center gap-[0.28rem] leading-[1.06] text-inherit";
+const rolePreviewWrapClassName =
+  "absolute left-1/2 bottom-[calc(100%+0.72rem)] z-[2] flex -translate-x-1/2 items-center justify-center " +
+  "w-max max-w-[min(88vw,24rem)] max-[48em]:bottom-[calc(100%+0.5rem)]";
+const rolePreviewButtonsClassName =
+  "flex flex-wrap items-center justify-center gap-[0.35rem] max-w-[min(88vw,22rem)]";
+const rolePreviewButtonBaseClassName =
+  "inline-flex min-h-[2.15rem] items-center justify-center rounded-full border px-[0.72rem] py-[0.28rem] text-[0.8rem] font-[600] uppercase tracking-[0.055em] transition-colors duration-150";
 const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
@@ -380,7 +395,13 @@ export default function ProfiilBody({
     t,
     locale
   } = useI18n();
-  const [_hasPassword, setHasPassword] = useState(!!initialProfile?.hasPassword);
+  const initialProfileUser = initialProfile?.user && typeof initialProfile.user === "object"
+    ? initialProfile.user
+    : initialProfile && typeof initialProfile === "object"
+      ? initialProfile
+      : null;
+  const [profileUser, setProfileUser] = useState(initialProfileUser);
+  const [_hasPassword, setHasPassword] = useState(!!initialProfileUser?.hasPassword);
   const [showDelete, setShowDelete] = useState(false);
   const [loading, setLoading] = useState(!initialProfile);
   const [loadFailed, setLoadFailed] = useState(false);
@@ -388,6 +409,7 @@ export default function ProfiilBody({
   const [success, setSuccess] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [roleSwitching, setRoleSwitching] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
   useEffect(() => {
@@ -407,6 +429,15 @@ export default function ProfiilBody({
   const isLightTheme =
     currentTheme === "light" || currentTheme === "mid";
   const profileShellTheme = isLightTheme ? "light" : "dark";
+  const actualRole = normalizeProfileRole(
+    profileUser?.role || session?.user?.role || (session?.user?.isAdmin ? "ADMIN" : "CLIENT"),
+    session?.user?.isAdmin ? "ADMIN" : "CLIENT"
+  );
+  const isAdminUser = actualRole === "ADMIN" || profileUser?.isAdmin === true || session?.user?.isAdmin === true;
+  const activePreviewRole = normalizeProfileRole(
+    profileUser?.adminViewRole || (isAdminUser ? profileUser?.effectiveRole || "SOCIAL_WORKER" : actualRole),
+    isAdminUser ? "SOCIAL_WORKER" : actualRole
+  );
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
     !embedded && "min-[48.0625em]:sr-only",
@@ -417,7 +448,7 @@ export default function ProfiilBody({
     headerCenterBaseClassName,
     !embedded && headerCenterPageClassName
   );
-  const roleLabel = t(ROLE_KEYS[session?.user?.role] || "profile.role_short.unknown");
+  const roleLabel = t(ROLE_KEYS[actualRole] || "profile.role_short.unknown");
   const footerNote = getFooterNote();
   const roleLabelDisplay = splitRoleLabelToTwoLines(roleLabel);
   const roleLabelIsMultiLine =
@@ -431,6 +462,16 @@ export default function ProfiilBody({
   const maskLayerRef = useRef(null);
   const maskRefreshRef = useRef(null);
   const logoutRedirectRef = useRef(false);
+  const rolePreviewOptions = [
+    {
+      value: "SOCIAL_WORKER",
+      label: t("profile.view_mode.worker")
+    },
+    {
+      value: "CLIENT",
+      label: t("profile.view_mode.client")
+    }
+  ];
   useLayoutEffect(() => {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
@@ -805,12 +846,14 @@ export default function ProfiilBody({
     if (embedded && !isActive) return;
     if (status === "loading") return;
     if (status !== "authenticated") {
+      setProfileUser(null);
       setLoading(false);
       setLoadFailed(false);
       return;
     }
     if (initialProfile) {
-      setHasPassword(!!initialProfile.hasPassword);
+      setProfileUser(initialProfileUser);
+      setHasPassword(!!initialProfileUser?.hasPassword);
       setLoadFailed(false);
       setLoading(false);
       return;
@@ -831,6 +874,7 @@ export default function ProfiilBody({
           setLoadFailed(true);
           return;
         }
+        setProfileUser(payload?.user || null);
         setHasPassword(!!payload?.user?.hasPassword);
       } catch (err) {
         console.error("profile GET", err);
@@ -840,7 +884,41 @@ export default function ProfiilBody({
         setLoading(false);
       }
     })();
-  }, [embedded, initialProfile, isActive, status, t]);
+  }, [embedded, initialProfile, initialProfileUser, isActive, status, t]);
+  const handleAdminViewRoleChange = useCallback(async nextRole => {
+    if (!isAdminUser || roleSwitching) return;
+    setError("");
+    setSuccess("");
+    setRoleSwitching(true);
+    try {
+      const res = await fetch("/api/profile/view-role", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept-Language": locale
+        },
+        body: JSON.stringify({ viewRole: nextRole })
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(resolveApiMessage({
+          payload,
+          t,
+          fallbackKey: "profile.view_mode.save_failed"
+        }));
+        return;
+      }
+      setProfileUser(current => ({
+        ...(current || {}),
+        ...(payload?.user || {})
+      }));
+    } catch (err) {
+      console.error("profile view role PUT", err);
+      setError(t("profile.view_mode.save_failed"));
+    } finally {
+      setRoleSwitching(false);
+    }
+  }, [isAdminUser, locale, roleSwitching, t]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
     return <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
         <h1 className={titleClassName}>{t("profile.title")}</h1>
@@ -888,6 +966,34 @@ export default function ProfiilBody({
       </h1>
 
       <div className={cn(headerCenterClassName, "profile-role-row")}>
+        {isAdminUser ? (
+          <div className={rolePreviewWrapClassName}>
+            <div className={rolePreviewButtonsClassName}>
+              {rolePreviewOptions.map(option => {
+                const active = activePreviewRole === option.value;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={cn(
+                      rolePreviewButtonBaseClassName,
+                      active
+                        ? "border-[color:#c57171] bg-[color:rgba(197,113,113,0.16)] text-[#f6ddd6] light:text-[#7A3A38]"
+                        : "border-[color:rgba(255,255,255,0.18)] bg-[color:rgba(255,255,255,0.06)] text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] light:border-[color:rgba(122,58,56,0.18)] light:bg-[color:rgba(122,58,56,0.08)]"
+                    )}
+                    onClick={() => {
+                      void handleAdminViewRoleChange(option.value);
+                    }}
+                    disabled={roleSwitching}
+                    aria-pressed={active}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
         <span
           ref={rolePillRef}
           className={cn(

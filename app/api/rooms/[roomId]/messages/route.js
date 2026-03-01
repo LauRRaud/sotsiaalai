@@ -10,7 +10,6 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 const PAGE_SIZE = 50;
 const RATE_LIMIT_WINDOW_MS = Number(process.env.ROOM_MESSAGES_POST_RATE_LIMIT_WINDOW_MS || 60_000);
 const RATE_LIMIT_POST = Number(process.env.ROOM_MESSAGES_POST_RATE_LIMIT_MAX || 20);
@@ -142,21 +141,6 @@ async function ensureAccess(userId, roomId, userRole) {
     member,
     billingSource: "SELF"
   };
-  if (member.billingSource === "SPONSORED_BY_HOST") {
-    if (ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
-      return {
-        ok: true,
-        member,
-        billingSource: "SPONSORED_BY_HOST"
-      };
-    }
-    const sponsorActive = await hasActiveSubscription(member.sponsorUserId);
-    if (sponsorActive) return {
-      ok: true,
-      member,
-      billingSource: "SPONSORED_BY_HOST"
-    };
-  }
   return {
     ok: false,
     status: 403,

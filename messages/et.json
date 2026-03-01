@@ -224,6 +224,13 @@
       "client": "Eluküsimusega pöörduja",
       "unknown": ""
     },
+    "view_mode": {
+      "worker": "Spetsialistile",
+      "client": "Pöördujale",
+      "current": "Praegu näed vaadet: {role}.",
+      "saved": "Vaade vahetati: {role}.",
+      "save_failed": "Vaate vahetamine ebaõnnestus."
+    },
     "preferences": {
       "title": "Keel ja ligipääsetavus",
       "title_line1": "Keel ja",
@@ -644,6 +651,11 @@
     "back_to_documents": "Tagasi dokumentidesse",
     "inputs_title": "Minu dokumendid",
     "inputs_description": "Siin hoiad malle, materjale ja muid faile. Märgid siin, milliseid dokumente agent võib töö tegemisel kasutada.",
+    "view_mode": {
+      "admin_notice": "Admini eelvaade: {role}",
+      "intro_worker": "Siin hoiad juhtumimaterjale, malle ja muid faile, mida agent saab kasutada spetsialisti töömustandite koostamisel.",
+      "intro_client": "Siin hoiad enda kirju, blankette ja taustadokumente, et agent saaks aidata neist teha selge vastuse või avalduse."
+    },
     "outputs_title": "Agendi tulemused",
     "outputs_description": "Siin näed agendi loodud mustandeid ja kinnitatud tulemusi ning saad need hiljem uuesti avada või alla laadida.",
     "library_sections": {
@@ -672,7 +684,7 @@
       "other": "Muu"
     },
     "template_for": {
-      "report_draft": "Aruande mustand",
+      "report_draft": "Aruanne",
       "case_brief": "Juhtumikokkuvõte",
       "meeting_summary": "Kohtumise kokkuvõte",
       "checklist": "Kontrollnimekiri",
@@ -720,6 +732,7 @@
         "saving": "Salvestan...",
         "create_report": "Koosta aruanne",
         "creating_report": "Loon mustandit...",
+      "save": "Salvesta",
       "save_draft": "Salvesta mustand",
       "refine_stub": "Palu agendil täiendada",
       "approving": "Kinnitan...",
@@ -750,13 +763,21 @@
       },
       "agent_handoff": {
         "title": "Agendirežiim",
-        "description": "Vali dokumendid siin ja ava need agendirežiimis, kus toimub tegelik töö.",
-        "selected_count": "Valitud: {count}",
-        "empty_help": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need agendirežiimi kaasa.",
-        "ready_help": "Valitud dokumendid on valmis. Jätka agendirežiimis, et valida ülesanne ja alustada tööga.",
-        "agent_page_title": "Agendirežiimi töölaud",
-        "agent_page_empty": "Anna agendile ülesanne ja juhis. Agent koostab valitud dokumentide põhjal mustandi.",
-        "agent_page_with_docs": "Valitud dokumendid on kaasas. Anna ülesanne ja juhis ning agent koostab mustandi."
+      "description": "Vali dokumendid siin ja ava need agendirežiimis, kus toimub tegelik töö.",
+      "selected_count": "Valitud: {count}",
+      "empty_help": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need agendirežiimi kaasa.",
+      "ready_help": "Valitud dokumendid on valmis. Jätka agendirežiimis, et valida ülesanne ja alustada tööga.",
+      "empty_help_worker": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need agendirežiimi kaasa spetsialisti töömustandi jaoks.",
+      "empty_help_client": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need agendirežiimi kaasa pöörduja teksti või vormi koostamiseks.",
+      "ready_help_worker": "Valitud dokumendid on valmis. Jätka agendirežiimis, et koostada spetsialisti töömustand.",
+      "ready_help_client": "Valitud dokumendid on valmis. Jätka agendirežiimis, et koostada pöördujale vajalik tekst või vormi täitmise tulemus.",
+      "agent_page_title": "Agendirežiimi töölaud",
+      "agent_page_empty": "Kirjelda, mida on vaja koostada. Agent teeb valitud dokumentide põhjal esimese mustandi.",
+      "agent_page_with_docs": "Valitud dokumendid on kaasas. Kirjelda ülesanne ja agent teeb nende põhjal esimese mustandi.",
+      "agent_page_empty_worker": "Anna agendile ülesanne ja juhis. Agent koostab valitud dokumentide põhjal spetsialisti töömustandi.",
+      "agent_page_empty_client": "Anna agendile ülesanne ja juhis. Agent aitab valitud dokumentide põhjal koostada pöördujale vajaliku teksti või vormi täitmise tulemuse.",
+      "agent_page_with_docs_worker": "Valitud dokumendid on kaasas. Anna ülesanne ja juhis ning agent koostab spetsialisti töömustandi.",
+      "agent_page_with_docs_client": "Valitud dokumendid on kaasas. Anna ülesanne ja juhis ning agent koostab pöördujale vajaliku teksti või vormi täitmise tulemuse."
       },
       "agent_workspace": {
         "selected_documents_title": "Valitud dokumendid",
@@ -778,10 +799,15 @@
         "tone_label": "Toon",
         "language_label": "Keel",
         "length_label": "Pikkus",
+        "admin_notice": "Admini eelvaade: {role}",
         "conversation_title": "Vestlus agendiga",
         "conversation_description": "Anna esimene juhis või täpsusta praegust mustandit vestluses. Agent kasutab valitud dokumente ja sinu määratud töö eesmärki.",
         "conversation_intro_empty": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, mida soovid koostada.",
         "conversation_intro_with_docs": "Tere! Kirjelda, mida pean valitud {count} dokumendi põhjal koostama.",
+        "conversation_intro_empty_worker": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, millise spetsialisti töömustandi pean koostama.",
+        "conversation_intro_empty_client": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, millise teksti või vormi täitmise tulemuse pean koostama.",
+        "conversation_intro_with_docs_worker": "Tere! Kirjelda, mida pean valitud {count} dokumendi põhjal spetsialisti jaoks koostama.",
+        "conversation_intro_with_docs_client": "Tere! Kirjelda, millise teksti, vastuse või vormi täitmise tulemuse pean valitud {count} dokumendi põhjal koostama.",
         "conversation_ready_help": "Saada esimene juhis vestluses. Agent kasutab valitud dokumente ja töö eesmärki.",
         "conversation_refine_help": "Saada uus sõnum, et praegust mustandit täpsustada või suunda muuta.",
         "conversation_generating": "Koostan mustandit valitud dokumentide põhjal...",
@@ -797,6 +823,8 @@
         "ready_help": "Töölaud on valmis. Järgmises etapis ühendame siia genereerimise ja mustandi halduse.",
         "result_title": "Praegune mustand",
         "result_description": "Viimati loodud mustand ilmub siia samasse tööruumi, et saaksid selle üle vaadata enne järgmist sammu.",
+        "result_results_link_intro": "Varem salvestatud ja kinnitatud tulemused leiad",
+        "result_results_link_label": "Agendi tulemustest",
         "result_empty": "Kui käivitad agendi, ilmub loodud mustand siia.",
         "result_ready": "Mustand on tööruumis valmis. Salvesta või kinnita see, et see liiguks Dokumentidesse.",
         "result_unsaved": "See mustand on ainult praeguses tööruumis. Dokumentidesse liigub see pärast Salvesta või Kinnita tegevust.",
@@ -828,6 +856,43 @@
         "summary_documents": "Dokumendid: {count}",
         "summary_output": "Väljund: {type}",
         "summary_template": "Mall: {title}",
+        "back_to_chat": "Tagasi vestlusesse",
+        "client_selected_documents_description": "Lisa siia selle töö jaoks vajalik fail või failid. Selles töös saad kasutada kuni 2 faili.",
+        "client_selected_documents_fill_form_description": "Lisa siia täidetav vorm või taotlus ning vajadusel teine fail, kus on info, mida vormi sisse panna. Selles töös saad kasutada kuni 2 faili.",
+        "client_empty_documents": "Faile pole veel lisatud.",
+        "client_upload_button": "Lisa fail",
+        "client_uploading": "Laen faili üles...",
+        "client_documents_limit": "Selles töös saad kasutada kuni {count} faili.",
+        "client_fill_form_hint": "Täida vorm või blankett töö puhul lisa võimalusel vorm ise ja soovi korral teine fail, kus on info, mida agent peab vormi sisse panema.",
+        "client_file_limit_reached": "Selles töös saad kasutada kuni {count} faili.",
+        "client_file_added": "Fail lisati sellesse töösse: {title}",
+        "client_file_removed": "Fail eemaldati sellest tööst.",
+        "client_remove_document": "Eemalda",
+        "client_task_title": "Mida soovid koostada",
+        "client_task_description": "Vali konkreetne tulemus, mida soovid nende failide põhjal koostada.",
+        "client_task_label": "Tulemus",
+        "client_needs_documents": "Lisa enne alustamist vähemalt üks fail.",
+        "client_result_description": "Siia ilmub agenti koostatud tulemus. Selle saad üle vaadata, muuta, salvestada ja alla laadida.",
+        "client_conversation_description": "Kirjuta, mida soovid valmis saada. Agent võib enne tulemuse koostamist küsida lühikesi täpsustusi.",
+        "client_result_ready": "Tulemus on valmis. Vaata see üle ja salvesta või märgi valmis.",
+        "client_result_unsaved": "See tulemus on praegu ainult tööruumis. Salvesta see, kui soovid selle hiljem uuesti avada.",
+        "client_result_dirty": "Selles tulemuses on salvestamata muudatused.",
+        "client_result_removed": "Aktiivne tulemus eemaldati tööruumist.",
+        "client_saved": "Tulemus salvestati.",
+        "client_finish": "Märgi valmis",
+        "client_finished": "Tulemus märgiti valmis ja on nüüd allalaaditav.",
+        "client_status_draft": "Pooleli",
+        "client_status_final": "Valmis",
+        "client_results_title": "Minu tulemused",
+        "client_results_description": "Siin on viimased salvestatud või lõpetatud tulemused, mida saad uuesti avada, kopeerida või alla laadida.",
+        "client_recent_results_loading": "Laadin viimaseid tulemusi...",
+        "client_recent_results_empty": "Siin pole veel ühtegi salvestatud tulemust.",
+        "client_open_result": "Ava",
+        "client_tasks": {
+          "letter_request": "Kirja või taotluse mustand",
+          "letter_reply": "Vastus kirjale",
+          "fill_form": "Täida vorm või blankett"
+        },
         "tones": {
           "professional": "Professionaalne",
           "supportive": "Toetav",
@@ -927,11 +992,10 @@
   "about": {
     "title": "Meist",
     "intro": {
-      "paragraph1": "<p><strong>SotsiaalAI</strong> on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.</p>",
-      "paragraph2": "<p>Platvormil on kaks rollipõhist AI-assistenti: üks spetsialistidele ja teine eluküsimustega pöördujatele. Mõlemad on loodud selleks, et pakkuda vajaduspõhist tuge – olgu see seotud seaduste, toetuste, teenuste või tööaliste olukordadega. Vastused tuginevad usaldusväärsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.</p>",
-      "paragraph3": "<p>Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka <oska>OSKA raport (2025)</oska>. Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.</p>",
-      "paragraph4": "<p>Platvormi arendab ja haldab SotsiaalAI OÜ. Tegu on sotsiaalse ettevõttega, mille eesmärk ei ole kasumi maksimeerimine, vaid ühiskondliku probleemi lahendamine ja positiivse mõju loomine. Sotsiaalne ettevõtlus ühendab äritegevuse ja sotsiaalse missiooni: teenime tulu, kuid suuname selle tagasi teenuse arendamisse, ligipääsu laiendamisse ning sotsiaalvaldkonna tugevdamisse.</p>",
-      "paragraph5": "<p>Teenust täiustatakse pidevalt, et tagada ajakohane ja praktiline kasutajakogemus kõigile.</p>"
+      "paragraph1": "<p><strong>SotsiaalAI</strong> on tehisintellektil põhinev veebiplatvorm, mis pakub usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad selgust elulistes küsimustes. Sotsiaalvaldkonda iseloomustavad <strong>suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis</strong> – seda kinnitab ka <oska>OSKA raport (2025)</oska>. SotsiaalAI eesmärk on tuua sellesse rohkem selgust, muuta vajalik teadmine paremini kättesaadavaks ning lihtsustada nii professionaalset tööd kui ka inimese enda olukorra mõistmist.</p>",
+      "paragraph2": "<p>Platvormil on <strong>kaks rollipõhist, agendivõimekusega tehisintellekti assistenti</strong>: üks <strong>sotsiaaltöö spetsialistidele</strong> ja teine <strong>eluküsimustega pöördujatele</strong>. Need pakuvad vajaduspõhist tuge õiguste, toetuste, teenuste, töövõtete, dokumentide ja praktiliste järgmiste sammude küsimustes ning aitavad vajadusel koostada ka konkreetse tulemuse. SotsiaalAI ei piirdu ainult küsimustele vastamisega – kasutada saab <strong>dokumendi analüüsi</strong>, <strong>süvauuringut</strong>, <strong>agendirežiimi</strong> ja <strong>grupivestlust</strong>, lisaks <strong>dikteerimist</strong> ning <strong>vastuste ettelugemist</strong>, mis parandavad ligipääsetavust ja kasutusmugavust.</p>",
+      "paragraph3": "<p><strong>Sotsiaaltöö spetsialistile</strong> on SotsiaalAI usaldusväärne töövahend sotsiaalvaldkonna küsimustes: see aitab orienteeruda õigusraamistikus, metoodikates ja praktikates ning toetab dokumentide ja aruannete koostamist. Lisaks saab spetsialist hoida ja hallata tööks vajalikke dokumente ning kasutada platvormi selgema, kiirema ja süsteemsema töövoo toetamiseks. <strong>Eluküsimustega pöördujale</strong> aitab SotsiaalAI mõista, millised toetused, teenused ja õigused võivad talle kättesaadavad olla, ning pakub arusaadavat, vajaduspõhist ja toetavat juhendamist. Vajadusel aitab platvorm koostada ka kirja, vastuse, taotluse või muu vajaliku teksti.</p>",
+      "paragraph4": "<p>Platvormi arendatakse ja hallatakse <strong>sotsiaalse ettevõttena</strong> ning <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta abi leidmine ja professionaalne töövoog selgemaks, kiiremaks ja ligipääsetavamaks. Teenitud tulu suuname eelkõige tagasi teenuse arendamisse, ligipääsu laiendamisse ning sotsiaalvaldkonna tugevdamisse.</p>"
     },
     "contact": {
       "title": "Kontakt",
@@ -1176,6 +1240,19 @@
       "self": "Tal on oma tellimus",
       "host": "Tasun tema eest"
     },
+    "sponsored": {
+      "title": "Vali sponsoreeritud tellimuse roll",
+      "description": "Vali, kas ostad kutsutule üheks kuuks sotsiaaltöö spetsialisti või eluküsimusega pöörduja tellimuse.",
+      "one_month_note": "Pärast makse kinnitamist saadetakse kutse välja. Sponsoreeritud tellimus kehtib ühe kuu; seejärel peab kutsutud inimene ise tellimust jätkama.",
+      "confirm_and_pay": "Kinnita ja mine maksma",
+      "payment_success": "Makse õnnestus. Kutse saadetakse välja pärast makse kinnitust.",
+      "payment_canceled": "Makse katkestati. Kutset ei saadetud välja.",
+      "payment_failed": "Makse ebaõnnestus. Proovi uuesti.",
+      "role": {
+        "worker": "Sotsiaaltöö spetsialisti tellimus",
+        "client": "Eluküsimusega pöörduja tellimus"
+      }
+    },
     "sending": "Saadan...",
     "send": "SAADA KUTSE",
     "list": "Kutsed",
@@ -1208,6 +1285,9 @@
     "error": {
       "rate_limited": "Too many requests. Please try again later.",
       "emails_required": "Add at least one email address.",
+      "sponsored_single_email_required": "Sponsoreeritud kutse puhul saad korraga kutsuda ühe inimese.",
+      "sponsor_plan_required": "Vali sponsoreeritud tellimuse roll enne makse alustamist.",
+      "sponsored_checkout_required": "Kui valid „Tasun tema eest”, tuleb kutse saata sponsoreeritud tellimuse checkout’i kaudu.",
       "sponsor_plan_unavailable": "Sponsored invites cannot be created: plan is unavailable.",
       "sponsor_capacity_full": "Sponsored seats limit is full."
     }
@@ -1245,6 +1325,11 @@
         "subject": "Invitation: {roomTitle}",
         "text": "Hello!\n\n{inviterName} invited you to the room \"{roomTitle}\".\n\nJoin: {joinLink}\n\nIf you did not expect this email, you can ignore it.",
         "html": "<p>Hello!</p><p>{inviterName} invited you to the room <strong>{roomTitle}</strong>.</p><p><a href=\"{joinLink}\">Join the room</a></p><p>If you did not expect this email, you can ignore it.</p>"
+      },
+      "sponsored": {
+        "subject": "Sponsoreeritud kutse: {roomTitle}",
+        "text": "Tere!\n\n{inviterName} kutsus sind ruumi \"{roomTitle}\" ja tasus sinu eest ühe kuu tellimuse.\nValitud roll: {roleLabel}\n\nLiitu: {joinLink}\n\nPärast ühe kuu lõppu pead kasutamise jätkamiseks tellimuse ise aktiveerima lehel Tellimus.\n\nKui sa ei oodanud seda kirja, võid selle eirata.",
+        "html": "<p>Tere!</p><p>{inviterName} kutsus sind ruumi <strong>{roomTitle}</strong> ja tasus sinu eest ühe kuu tellimuse.</p><p><strong>Valitud roll:</strong> {roleLabel}</p><p><a href=\"{joinLink}\">Liitu ruumiga</a></p><p>Pärast ühe kuu lõppu pead kasutamise jätkamiseks tellimuse ise aktiveerima lehel Tellimus.</p><p>Kui sa ei oodanud seda kirja, võid selle eirata.</p>"
       },
       "resend": {
         "subject": "Invitation reminder: {roomTitle}",
@@ -1407,6 +1492,8 @@
       "invite_expired": "Kutse on aegunud.",
       "invite_used": "Kutset on juba kasutatud.",
       "invite_email_mismatch": "See kutse on teisele e-posti aadressile.",
+      "invite_payment_pending": "Selle kutse makse on veel pooleli. Ava kutse uuesti pärast makse kinnitamist.",
+      "invite_role_mismatch": "See kutse on loodud teise kasutajarolli jaoks. Kasuta sobiva rolliga kontot.",
       "only_pending_resend": "Uuesti saab saata ainult ootel kutseid.",
       "subscription_required": "Sellesse ruumi liitumiseks on vaja tellimust.",
       "accept_failed": "Kutse vastuvõtmine ebaõnnestus.",

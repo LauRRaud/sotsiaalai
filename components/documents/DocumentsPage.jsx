@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
+import { useEffectiveRole } from "@/components/auth/useEffectiveRole"
 import { useI18n } from "@/components/i18n/I18nProvider"
 import BackButton from "@/components/ui/BackButton"
 import Button from "@/components/ui/Button"
@@ -103,6 +104,8 @@ function ChipLabel({ label, count }) {
 export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded = false }) {
   const router = useRouter()
   const { t, locale } = useI18n()
+  const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
+  const isClientRole = effectiveRole === "CLIENT"
   const isArtifactsExpanded = artifactsExpanded || initialArtifactLimit >= ARTIFACT_LIST_LIMIT_ALL
   const [kindFilter, setKindFilter] = useState("ALL")
   const [artifactFilter, setArtifactFilter] = useState("ALL")
@@ -125,6 +128,17 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const [selectedDocumentIds, setSelectedDocumentIds] = useState([])
   const uploadInputRef = useRef(null)
   const deferredArtifactSearch = useDeferredValue(artifactSearch)
+  const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
+  const roleViewLabel = t(effectiveRole === "SOCIAL_WORKER" ? "profile.role_short.worker" : "profile.role_short.client")
+  const roleIntroText = t(`documents.view_mode.intro_${roleScope}`)
+  const handoffHelpText = selectedDocumentIds.length
+    ? t(`documents.agent_handoff.ready_help_${roleScope}`)
+    : t(`documents.agent_handoff.empty_help_${roleScope}`)
+
+  useEffect(() => {
+    if (!isClientRole) return
+    router.replace(localizePath("/agendireziim", locale))
+  }, [isClientRole, locale, router])
 
   const loadDocuments = useCallback(async (nextKind = kindFilter) => {
     setDocumentsLoading(true)
@@ -302,6 +316,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     })
   }
 
+  if (isClientRole) return null
+
   return (
     <section className="documents-workspace documents-workspace-page">
       <div className={`documents-workspace-shell ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
@@ -320,6 +336,12 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
               </div>
             </header>
 
+            {isAdmin && isRoleViewActive ? (
+              <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                {t("documents.view_mode.admin_notice", { role: roleViewLabel })}
+              </div>
+            ) : null}
+
             {successNotice ? (
               <div className="documents-notice documents-notice--info flex flex-wrap items-center justify-between gap-[0.7rem] rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
                 <span>{successNotice.message}</span>
@@ -336,7 +358,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
               <div className="documents-library-section documents-library-intro">
                 <div className="documents-library-intro">
                   <div className="documents-library-copy">
-                    <p className="documents-section-description documents-library-description">{t("documents.inputs_description")} <span className="documents-library-help-inline">{t("documents.form.file_help")}</span></p>
+                    <p className="documents-section-description documents-library-description">{roleIntroText} <span className="documents-library-help-inline">{t("documents.form.file_help")}</span></p>
                   </div>
                 </div>
 
@@ -454,7 +476,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
             <div className="documents-subsection-copy">
               <h3 className="documents-subsection-title">{t("documents.agent_handoff.title")}</h3>
-              <p className="documents-section-description documents-subsection-description">{selectedDocumentIds.length ? t("documents.agent_handoff.ready_help") : t("documents.agent_handoff.empty_help")}</p>
+              <p className="documents-section-description documents-subsection-description">{handoffHelpText}</p>
             </div>
             <div className="documents-agent-section">
               <div className="documents-tool-card-header documents-tool-card-header--inline">

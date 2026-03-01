@@ -5,6 +5,7 @@ import { compare, hash } from "bcrypt";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
+import { resolveSessionRoleState } from "@/lib/authz";
 import { isValidPin } from "@/lib/auth/pin-login";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
@@ -161,11 +162,17 @@ export async function GET(request) {
       return errorJson("profile.errors.user_not_found", 404, locale);
     }
 
+    const roleState = resolveSessionRoleState(ctx.session, request.cookies);
+
     return json({
       ok: true,
       user: {
         email: user.email,
         role: user.role,
+        effectiveRole: roleState.effectiveRole,
+        adminViewRole: roleState.adminViewRole,
+        isAdmin: roleState.isAdmin,
+        isRoleViewActive: roleState.isRoleViewActive,
         hasPassword: !!user.passwordHash
       }
     });

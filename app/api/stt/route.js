@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { normalizeRole, requireSubscription } from "@/lib/authz";
+import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
 import { logEvent } from "@/lib/chat/logger";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
@@ -62,8 +62,8 @@ export async function POST(req) {
     return errorJson("api.common.unauthorized", 401, uiLocale);
   }
 
-  const pickedRole = String(session.user.role || "CLIENT").toUpperCase();
-  const role = normalizeRole(pickedRole);
+  const roleState = resolveSessionRoleState(session, req.cookies);
+  const role = roleState.effectiveRole;
   const gate = await requireSubscription(session, role);
   if (!gate.ok) {
     return NextResponse.json({

@@ -7,8 +7,6 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
-
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -104,14 +102,7 @@ export async function PUT(_req, { params }) {
     if (auth.userRole !== "ADMIN") {
       const userActive = await hasActiveSubscription(auth.userId);
       if (!userActive) {
-        if (member.billingSource === "SPONSORED_BY_HOST") {
-          if (!ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
-            const sponsorActive = await hasActiveSubscription(member.sponsorUserId);
-            if (!sponsorActive) return errorJson("api.common.forbidden", 403);
-          }
-        } else {
-          return errorJson("api.common.forbidden", 403);
-        }
+        return errorJson("api.common.forbidden", 403);
       }
     }
 

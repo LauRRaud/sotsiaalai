@@ -20,6 +20,24 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   const t = useT();
   const { locale } = useI18n();
   const ctaTitle = t("about.cta.title");
+  const aboutParagraphKeys = [
+    "paragraph1",
+    "paragraph2",
+    "paragraph3",
+    "paragraph4",
+    "paragraph5",
+    "paragraph6",
+    "paragraph7",
+    "paragraph8",
+    "paragraph9",
+    "paragraph10"
+  ];
+  const aboutParagraphs = aboutParagraphKeys
+    .map((key) => ({
+      key,
+      value: t(`about.intro.${key}`)
+    }))
+    .filter(({ key, value }) => value && value !== `about.intro.${key}`);
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
   const [beforeDiameter, setBeforeDiameter] = useState(null);
@@ -117,19 +135,20 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             {t("about.title")}
           </h2>
           <div className="text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[48em]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[48em]:leading-[1.62] tracking-[0.03em] max-[48em]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]">
-            <RichText as="div" className="[&>p]:m-0" value={t("about.intro.paragraph1")} />
-            <RichText as="div" className="[&>p]:m-0" value={t("about.intro.paragraph2")} />
-            <RichText
-              as="div"
-              className="[&>p]:m-0"
-              value={t("about.intro.paragraph3")}
-              replacements={{
-                oska: {
-                  open: `<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" target="_blank" rel="noreferrer" class="${oskaLinkClassName}">`,
-                  close: "</a>"
-                }
-              }}
-            />
+            {aboutParagraphs.map(({ key, value }) => (
+              <RichText
+                key={key}
+                as="div"
+                className="[&>p]:m-0"
+                value={value}
+                replacements={{
+                  oska: {
+                    open: `<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" target="_blank" rel="noreferrer" class="${oskaLinkClassName}">`,
+                    close: "</a>"
+                  }
+                }}
+              />
+            ))}
           </div>
         </div>
         <div

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider"
+import { useEffectiveRole } from "@/components/auth/useEffectiveRole"
 import { useI18n } from "@/components/i18n/I18nProvider"
 import ChatComposer from "@/components/alalehed/chat/ChatComposer"
 import ChatMessageItem from "@/components/alalehed/chat/ChatMessageItem"
@@ -18,6 +19,7 @@ import Panel from "@/components/ui/Panel"
 import Textarea from "@/components/ui/Textarea"
 import { useSpeech } from "@/components/chat/hooks/useSpeech"
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles"
+import { linkBrandInlineClass } from "@/components/ui/linkStyles"
 import { AGENT_ARTIFACT_TYPE_VALUES } from "@/lib/documents/constants"
 import { localizePath } from "@/lib/localizePath"
 
@@ -29,6 +31,12 @@ const agentTitleClassName =
 const chipBaseClassName =
   "documents-chip inline-flex min-h-[2.6rem] items-center justify-center rounded-full px-[0.9rem] py-[0.38rem] text-[1.02rem] leading-none"
 const WORKSPACE_VERSION_LIMIT = 8
+const CLIENT_MAX_DOCUMENTS = 2
+const CLIENT_AGENT_TASK_OPTIONS = [
+  { value: "LETTER_REQUEST", artifactType: "LETTER_DRAFT", labelKey: "documents.agent_workspace.client_tasks.letter_request" },
+  { value: "LETTER_REPLY", artifactType: "LETTER_DRAFT", labelKey: "documents.agent_workspace.client_tasks.letter_reply" },
+  { value: "FILL_FORM", artifactType: "OTHER", labelKey: "documents.agent_workspace.client_tasks.fill_form" }
+]
 
 function createWorkspaceMessage({ role, text, attachments = [] }) {
   return {
@@ -85,6 +93,16 @@ function artifactStatusLabel(status, t) {
   return t(`documents.status.${String(status || "draft").toLowerCase()}`)
 }
 
+function clientTaskInstruction(task) {
+  if (task === "LETTER_REPLY") {
+    return "Draft a clear and practical reply to the received letter. Base it only on the user's instruction and the selected source files."
+  }
+  if (task === "FILL_FORM") {
+    return "Help fill in the selected form or blank. Treat the uploaded files as the working materials for this task: one file may be the form itself and the second file may contain the information that should go into it. If the file is not directly fillable, produce a structured draft the user can copy into the form."
+  }
+  return "Draft a clear request or application text that the user can review, edit, and send."
+}
+
 function segmentedChipClassName(isActive) {
   return `${chipBaseClassName} ${isActive ? "is-active" : ""}`
 }
@@ -114,9 +132,16 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const router = useRouter()
   const { t, locale } = useI18n()
   const { prefs } = useAccessibility()
+  const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
+  const isClientRole = effectiveRole === "CLIENT"
   const documentsHref = localizePath("/documents", locale)
+  const chatHref = localizePath("/vestlus", locale)
+  const backHref = isClientRole ? chatHref : documentsHref
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid"
-  const selectedDocumentIds = useMemo(
+  const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
+  const roleViewLabel = t(effectiveRole === "SOCIAL_WORKER" ? "profile.role_short.worker" : "profile.role_short.client")
+  const defaultAudience = effectiveRole === "CLIENT" ? "client" : "worker"
+  const initialSelectedDocumentIds = useMemo(
     () => Array.from(new Set(initialDocumentIds.map((value) => String(value || "").trim()).filter(Boolean))),
     [initialDocumentIds]
   )
@@ -124,8 +149,10 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const inputBarRef = useRef(null)
   const inputRef = useRef(null)
   const fileInputRef = useRef(null)
+  const clientUploadInputRef = useRef(null)
   const composerDraftApiRef = useRef(null)
   const activeRequestAbortRef = useRef(null)
+  const [selectedDocumentIds, setSelectedDocumentIds] = useState(initialSelectedDocumentIds)
   const [documents, setDocuments] = useState([])
   const [templates, setTemplates] = useState([])
   const [missingDocumentIds, setMissingDocumentIds] = useState([])
@@ -133,14 +160,21 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const [templatesLoading, setTemplatesLoading] = useState(true)
   const [documentsError, setDocumentsError] = useState("")
   const [templatesError, setTemplatesError] = useState("")
+  const [clientUploadError, setClientUploadError] = useState("")
+  const [clientUploading, setClientUploading] = useState(false)
+  const [recentArtifacts, setRecentArtifacts] = useState([])
+  const [recentArtifactsLoading, setRecentArtifactsLoading] = useState(isClientRole)
+  const [recentArtifactsError, setRecentArtifactsError] = useState("")
 
   const [outputType, setOutputType] = useState("REPORT_DRAFT")
-  const [audience, setAudience] = useState("worker")
+  const [audience, setAudience] = useState(defaultAudience)
+  const [audienceTouched, setAudienceTouched] = useState(false)
   const [tone, setTone] = useState("professional")
   const [language, setLanguage] = useState(locale || "et")
   const [length, setLength] = useState("standard")
   const [instruction, setInstruction] = useState("")
   const [selectedTemplateId, setSelectedTemplateId] = useState("")
+  const [clientTask, setClientTask] = useState("LETTER_REQUEST")
 
   const [persistedArtifactId, setPersistedArtifactId] = useState(String(initialArtifactId || "").trim())
   const [workspaceResult, setWorkspaceResult] = useState(null)
@@ -263,6 +297,16 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   }, [])
 
   useEffect(() => {
+    if (!audienceTouched) {
+      setAudience(defaultAudience)
+    }
+  }, [audienceTouched, defaultAudience])
+
+  useEffect(() => {
+    setSelectedDocumentIds(initialSelectedDocumentIds)
+  }, [initialSelectedDocumentIds])
+
+  useEffect(() => {
     let cancelled = false
     const controller = new AbortController()
 
@@ -342,6 +386,13 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     const controller = new AbortController()
 
     async function loadTemplates() {
+      if (isClientRole) {
+        setTemplates([])
+        setTemplatesError("")
+        setTemplatesLoading(false)
+        return
+      }
+
       setTemplatesLoading(true)
       setTemplatesError("")
 
@@ -373,7 +424,48 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       cancelled = true
       controller.abort()
     }
-  }, [t])
+  }, [isClientRole, t])
+
+  useEffect(() => {
+    let cancelled = false
+    const controller = new AbortController()
+
+    async function loadRecentArtifacts() {
+      if (!isClientRole) {
+        setRecentArtifacts([])
+        setRecentArtifactsError("")
+        setRecentArtifactsLoading(false)
+        return
+      }
+
+      setRecentArtifactsLoading(true)
+      setRecentArtifactsError("")
+
+      try {
+        const response = await fetch("/api/documents/artifacts?limit=10", {
+          cache: "no-store",
+          signal: controller.signal
+        })
+        const payload = await response.json().catch(() => ({}))
+        if (!response.ok) throw new Error(payload?.message || t("documents.artifacts.errors.list_failed"))
+        if (cancelled) return
+        setRecentArtifacts(Array.isArray(payload?.artifacts) ? payload.artifacts : [])
+      } catch (error) {
+        if (controller.signal.aborted || cancelled) return
+        setRecentArtifacts([])
+        setRecentArtifactsError(error?.message || t("documents.artifacts.errors.list_failed"))
+      } finally {
+        if (!cancelled) setRecentArtifactsLoading(false)
+      }
+    }
+
+    void loadRecentArtifacts()
+
+    return () => {
+      cancelled = true
+      controller.abort()
+    }
+  }, [isClientRole, t])
 
   useEffect(() => {
     setPersistedArtifactId(String(initialArtifactId || "").trim())
@@ -443,10 +535,17 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     }
   }, [persistedArtifactId, t, workspaceResult?.id])
 
-  const outputTypeOptions = useMemo(
-    () => AGENT_ARTIFACT_TYPE_VALUES.map((value) => ({ value, label: artifactTypeLabel(value, t) })),
-    [t]
-  )
+  const outputTypeOptions = useMemo(() => {
+    if (isClientRole) {
+      return CLIENT_AGENT_TASK_OPTIONS.map((option) => ({
+        value: option.value,
+        label: t(option.labelKey),
+        artifactType: option.artifactType
+      }))
+    }
+
+    return AGENT_ARTIFACT_TYPE_VALUES.map((value) => ({ value, label: artifactTypeLabel(value, t) }))
+  }, [isClientRole, t])
   const audienceOptions = useMemo(
     () => [
       { value: "worker", label: t("chat.deep_research.scope_output_worker") },
@@ -480,6 +579,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   )
 
   const selectedCount = documents.length
+  const selectedCountLimitReached = isClientRole && selectedCount >= CLIENT_MAX_DOCUMENTS
   const templateTargetType = String(workspaceResult?.type || outputType || "REPORT_DRAFT")
   const allowedTemplates = useMemo(() => templates.filter((template) => template.agentAllowed), [templates])
   const activeTemplate =
@@ -518,6 +618,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     !savingResult &&
     !approvingResult
   const canRunAlternateOutput =
+    !isClientRole &&
     selectedCount > 0 &&
     instruction.trim().length > 0 &&
     !starting &&
@@ -526,15 +627,16 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     !approvingResult
   const alternateOutputOptions = outputTypeOptions.filter((option) => option.value !== String(workspaceResult?.type || outputType || ""))
   const introText = selectedDocumentIds.length
-    ? t("documents.agent_handoff.agent_page_with_docs", { count: selectedDocumentIds.length })
-    : t("documents.agent_handoff.agent_page_empty")
-  const activeArtifactDetailHref = isWorkspaceResultSaved
+    ? t(`documents.agent_handoff.agent_page_with_docs_${roleScope}`, { count: selectedDocumentIds.length })
+    : t(`documents.agent_handoff.agent_page_empty_${roleScope}`)
+  const activeArtifactDetailHref = !isClientRole && isWorkspaceResultSaved
     ? localizePath(`/documents/artifacts/${encodeURIComponent(workspaceResult.id)}`, locale)
     : ""
+  const artifactResultsHref = !isClientRole ? localizePath("/documents?artifacts=all#artifacts", locale) : ""
   const isAgentBusy = starting || refiningResult
   const conversationIntroText = selectedCount
-    ? t("documents.agent_workspace.conversation_intro_with_docs", { count: selectedCount })
-    : t("documents.agent_workspace.conversation_intro_empty")
+    ? t(`documents.agent_workspace.conversation_intro_with_docs_${roleScope}`, { count: selectedCount })
+    : t(`documents.agent_workspace.conversation_intro_empty_${roleScope}`)
   const latestAiText = useMemo(() => {
     const currentWorkspaceText = String(resultContent || workspaceResult?.content || "").trim()
     if (currentWorkspaceText) return currentWorkspaceText
@@ -562,10 +664,12 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       ? t("documents.agent_workspace.conversation_generating")
       : t("documents.agent_workspace.conversation_refining")
     : !selectedCount
-      ? t("documents.agent_workspace.needs_documents")
+      ? t(isClientRole ? "documents.agent_workspace.client_needs_documents" : "documents.agent_workspace.needs_documents")
       : hasWorkspaceResult && workspaceResult?.status === "DRAFT" && resultContent.trim()
         ? t("documents.agent_workspace.conversation_refine_help")
         : t("documents.agent_workspace.conversation_ready_help")
+  const clientResultLabel =
+    outputTypeOptions.find((option) => option.value === clientTask)?.label || t("documents.agent_workspace.client_tasks.letter_request")
   const agentConversationVars = useMemo(
     () => ({
       "--chat-window-max-w": "100%",
@@ -642,6 +746,141 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     activeRequestAbortRef.current?.abort?.()
   }
 
+  async function refreshRecentArtifacts() {
+    if (!isClientRole) return
+
+    try {
+      const response = await fetch("/api/documents/artifacts?limit=10", {
+        cache: "no-store",
+        headers: { "x-ui-locale": locale }
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.artifacts.errors.list_failed"))
+      setRecentArtifacts(Array.isArray(payload?.artifacts) ? payload.artifacts : [])
+      setRecentArtifactsError("")
+    } catch (error) {
+      setRecentArtifactsError(error?.message || t("documents.artifacts.errors.list_failed"))
+    }
+  }
+
+  async function handleClientUpload(event) {
+    const file = event?.target?.files?.[0]
+    event.target.value = ""
+    if (!file) return
+
+    if (selectedCount >= CLIENT_MAX_DOCUMENTS) {
+      setClientUploadError(t("documents.agent_workspace.client_file_limit_reached", { count: CLIENT_MAX_DOCUMENTS }))
+      return
+    }
+
+    setClientUploading(true)
+    setClientUploadError("")
+    clearResultMessages()
+
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("kind", "MATERIAL")
+
+      const uploadResponse = await fetch("/api/documents", {
+        method: "POST",
+        headers: { "x-ui-locale": locale },
+        body: formData
+      })
+      const uploadPayload = await uploadResponse.json().catch(() => ({}))
+      if (!uploadResponse.ok) throw new Error(uploadPayload?.message || t("documents.errors.upload_failed"))
+
+      const uploadedDocument = uploadPayload?.document || null
+      if (!uploadedDocument?.id) throw new Error(t("documents.errors.upload_failed"))
+
+      const allowResponse = await fetch(`/api/documents/${encodeURIComponent(uploadedDocument.id)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-ui-locale": locale
+        },
+        body: JSON.stringify({
+          kind: "MATERIAL",
+          agentAllowed: true
+        })
+      })
+      const allowPayload = await allowResponse.json().catch(() => ({}))
+      if (!allowResponse.ok) throw new Error(allowPayload?.message || t("documents.errors.update_failed"))
+
+      const nextDocument = allowPayload?.document || uploadedDocument
+      setDocuments((current) => [...current, nextDocument].slice(0, CLIENT_MAX_DOCUMENTS))
+      setSelectedDocumentIds((current) =>
+        Array.from(new Set([...current, nextDocument.id])).slice(0, CLIENT_MAX_DOCUMENTS)
+      )
+      setMissingDocumentIds((current) => current.filter((id) => id !== nextDocument.id))
+      setRunFeedback({
+        message: t("documents.agent_workspace.client_file_added", {
+          title: nextDocument.title || nextDocument.originalName
+        })
+      })
+    } catch (error) {
+      setClientUploadError(error?.message || t("documents.errors.upload_failed"))
+    } finally {
+      setClientUploading(false)
+    }
+  }
+
+  async function handleClientRemoveDocument(documentId) {
+    const nextId = String(documentId || "").trim()
+    if (!nextId) return
+
+    clearResultMessages()
+    try {
+      await fetch(`/api/documents/${encodeURIComponent(nextId)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-ui-locale": locale
+        },
+        body: JSON.stringify({ agentAllowed: false })
+      })
+    } catch {}
+
+    setSelectedDocumentIds((current) => current.filter((id) => id !== nextId))
+    setDocuments((current) => current.filter((document) => document.id !== nextId))
+    setMissingDocumentIds((current) => current.filter((id) => id !== nextId))
+    setRunFeedback({ message: t("documents.agent_workspace.client_file_removed") })
+  }
+
+  async function handleOpenClientArtifact(artifactId) {
+    const nextArtifactId = String(artifactId || "").trim()
+    if (!nextArtifactId) return
+
+    clearResultMessages()
+    setPersistedArtifactId(nextArtifactId)
+    router.replace(buildWorkspaceHref(nextArtifactId), { scroll: false })
+  }
+
+  async function handleDeleteClientArtifact(artifactId) {
+    const nextArtifactId = String(artifactId || "").trim()
+    if (!nextArtifactId) return
+
+    clearResultMessages()
+
+    try {
+      const response = await fetch(`/api/documents/artifacts/${encodeURIComponent(nextArtifactId)}`, {
+        method: "DELETE",
+        headers: { "x-ui-locale": locale }
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.artifacts.errors.delete_failed"))
+
+      setRecentArtifacts((current) => current.filter((artifact) => artifact.id !== nextArtifactId))
+      if (workspaceResult?.id === nextArtifactId) {
+        clearWorkspaceResult()
+        router.replace(buildWorkspaceHref(""), { scroll: false })
+      }
+      setRunFeedback({ message: t("documents.feedback.artifact_deleted") })
+    } catch (error) {
+      setRunError(error?.message || t("documents.artifacts.errors.delete_failed"))
+    }
+  }
+
   async function runGeneration({
     typeOverride = outputType,
     instructionOverride = instruction,
@@ -658,8 +897,14 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     activeRequestAbortRef.current = controller
 
     try {
+      const effectiveType = isClientRole
+        ? CLIENT_AGENT_TASK_OPTIONS.find((option) => option.value === clientTask)?.artifactType || "LETTER_DRAFT"
+        : typeOverride
+      const nextInstruction = isClientRole
+        ? `${clientTaskInstruction(clientTask)}\n\n${effectiveInstruction}`
+        : effectiveInstruction
       const nextTemplate = allowedTemplates.find((template) => template.id === selectedTemplateId)
-      const templateIdToUse = nextTemplate && isTemplateCompatible(nextTemplate, typeOverride) ? nextTemplate.id : ""
+      const templateIdToUse = nextTemplate && isTemplateCompatible(nextTemplate, effectiveType) ? nextTemplate.id : ""
       const response = await fetch("/api/documents/artifacts/generate", {
         method: "POST",
         signal: controller.signal,
@@ -669,9 +914,9 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
         },
         body: JSON.stringify({
           documentIds: documents.map((document) => document.id),
-          type: typeOverride,
-          templateId: templateIdToUse || undefined,
-          instruction: effectiveInstruction,
+          type: effectiveType,
+          templateId: isClientRole ? undefined : templateIdToUse || undefined,
+          instruction: nextInstruction,
           audience,
           tone,
           language,
@@ -687,6 +932,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       setPersistedArtifactId("")
       setRunFeedback({ message: t(feedbackKey) })
       router.replace(buildWorkspaceHref(""), { scroll: false })
+      if (isClientRole) await refreshRecentArtifacts()
       return nextDraft
     } catch (error) {
       if (error?.name === "AbortError") {
@@ -725,6 +971,9 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     activeRequestAbortRef.current = controller
 
     try {
+      const effectiveType = isClientRole
+        ? CLIENT_AGENT_TASK_OPTIONS.find((option) => option.value === clientTask)?.artifactType || "LETTER_DRAFT"
+        : workspaceResult.type || outputType
       const response = await fetch("/api/documents/artifacts/refine", {
         method: "POST",
         signal: controller.signal,
@@ -734,8 +983,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
         },
         body: JSON.stringify({
           documentIds: documents.map((document) => document.id),
-          type: workspaceResult.type || outputType,
-          templateId: selectedTemplateId || undefined,
+          type: effectiveType,
+          templateId: isClientRole ? undefined : selectedTemplateId || undefined,
           currentContent: resultContent,
           refinementInstruction: effectiveRefinement,
           audience,
@@ -764,8 +1013,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
         kind: "refined",
         title: resultTitle,
         content: nextContent,
-        type: workspaceResult?.type || outputType,
-        templateId: selectedTemplateId
+        type: effectiveType,
+        templateId: isClientRole ? "" : selectedTemplateId
       })
       setRunFeedback({ message: t("documents.agent_workspace.refine_ready") })
       if (!workspaceResult?.id) {
@@ -799,7 +1048,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     const trimmed = String(message || "").trim()
     if (!trimmed) return false
     if (!selectedCount) {
-      setRunError(t("documents.agent_workspace.needs_documents"))
+      setRunError(t(isClientRole ? "documents.agent_workspace.client_needs_documents" : "documents.agent_workspace.needs_documents"))
       return false
     }
 
@@ -830,7 +1079,11 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       typeOverride: outputType,
       instructionOverride: trimmed,
       historyKind: hasWorkspaceResult ? "rerun" : "generated",
-      feedbackKey: hasWorkspaceResult ? "documents.agent_workspace.quick_result_ready" : "documents.agent_workspace.result_ready"
+      feedbackKey: isClientRole
+        ? "documents.agent_workspace.client_result_ready"
+        : hasWorkspaceResult
+          ? "documents.agent_workspace.quick_result_ready"
+          : "documents.agent_workspace.result_ready"
     })
     if (!nextDraft?.content) {
       removeConversationMessage(userMessage.id)
@@ -894,7 +1147,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     clearResultMessages()
     clearWorkspaceResult()
     router.replace(buildWorkspaceHref(""), { scroll: false })
-    setRunFeedback({ message: t("documents.agent_workspace.result_removed") })
+    setRunFeedback({ message: t(isClientRole ? "documents.agent_workspace.client_result_removed" : "documents.agent_workspace.result_removed") })
   }
 
   async function persistCurrentDraft({ suppressFeedback = false } = {}) {
@@ -912,6 +1165,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     }
 
     if (selectedTemplateId) payload.templateId = selectedTemplateId
+    if (isClientRole) delete payload.templateId
 
     const response = workspaceResult.id
       ? await fetch(`/api/documents/artifacts/${encodeURIComponent(workspaceResult.id)}`, {
@@ -945,12 +1199,16 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     if (nextArtifactId) router.replace(buildWorkspaceHref(nextArtifactId), { scroll: false })
     if (!suppressFeedback) {
       setRunFeedback({
-        message: workspaceResult.id ? t("documents.feedback.saved") : t("documents.agent_workspace.saved_to_documents"),
-        actionUrl: nextArtifactId ? localizePath(`/documents/artifacts/${encodeURIComponent(nextArtifactId)}`, locale) : "",
-        actionLabel: nextArtifactId ? t("documents.agent_workspace.open_detail") : ""
+        message:
+          workspaceResult.id
+            ? t(isClientRole ? "documents.agent_workspace.client_saved" : "documents.feedback.saved")
+            : t(isClientRole ? "documents.agent_workspace.client_saved" : "documents.agent_workspace.saved_to_documents"),
+        actionUrl: !isClientRole && nextArtifactId ? localizePath(`/documents/artifacts/${encodeURIComponent(nextArtifactId)}`, locale) : "",
+        actionLabel: !isClientRole && nextArtifactId ? t("documents.agent_workspace.open_detail") : ""
       })
     }
 
+    if (isClientRole) await refreshRecentArtifacts()
     return nextArtifact
   }
 
@@ -988,10 +1246,11 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       applyWorkspaceResult(payload?.artifact || artifact)
       setPersistedArtifactId(artifactId)
       setApprovalNotice({
-        message: t("documents.feedback.approved"),
+        message: t(isClientRole ? "documents.agent_workspace.client_finished" : "documents.feedback.approved"),
         downloadUrls: payload?.downloadUrls || payload?.artifact?.downloadUrls || {}
       })
       router.replace(buildWorkspaceHref(artifactId), { scroll: false })
+      if (isClientRole) await refreshRecentArtifacts()
     } catch (error) {
       setRunError(error?.message || t("documents.artifacts.errors.approve_failed"))
     } finally {
@@ -1042,13 +1301,21 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     return items
   }, [conversationIntroText, conversationMessages, isAgentBusy, starting, t])
 
+  function clientArtifactStatusLabel(status) {
+    return t(
+      status === "FINAL"
+        ? "documents.agent_workspace.client_status_final"
+        : "documents.agent_workspace.client_status_draft"
+    )
+  }
+
   return (
     <section className="documents-workspace documents-workspace-page">
       <div className="documents-workspace-shell documents-workspace-shell--agent">
         <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-panel--primary rounded-[1.3rem]">
           <BackButton
-            onClick={() => router.push(documentsHref)}
-            ariaLabel={t("documents.back_to_documents")}
+            onClick={() => router.push(backHref)}
+            ariaLabel={isClientRole ? t("documents.agent_workspace.back_to_chat") : t("documents.back_to_documents")}
             className="documents-back-button absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[48em]:!h-[4.4rem] max-[48em]:!w-[4.4rem] max-[48em]:[&>svg]:!h-[4.4rem] max-[48em]:[&>svg]:!w-[4.4rem]"
           />
           <header className="documents-page-header documents-page-header--panel">
@@ -1056,6 +1323,11 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
               <div className="documents-page-heading">
                 <h1 className={agentTitleClassName}>{t("chat.tools.agent_mode")}</h1>
                 <p className="documents-page-description documents-agent-page-description">{introText}</p>
+                {isAdmin && isRoleViewActive ? (
+                  <div className="documents-notice documents-notice--muted mt-[0.8rem] rounded-[1rem] px-[1rem] py-[0.95rem] text-[0.95rem]">
+                    {t("documents.agent_workspace.admin_notice", { role: roleViewLabel })}
+                  </div>
+                ) : null}
               </div>
             </div>
           </header>
@@ -1089,14 +1361,162 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           ) : null}
 
           <div className="documents-agent-layout">
+            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card rounded-[1rem]">
+              <div className="documents-agent-card-copy">
+                <h2 className="documents-section-title">
+                  {t(isClientRole ? "documents.agent_workspace.client_task_title" : "documents.agent_workspace.goal_title")}
+                </h2>
+                <p className="documents-section-description documents-agent-copy">
+                  {t(isClientRole ? "documents.agent_workspace.client_task_description" : "documents.agent_workspace.goal_description")}
+                </p>
+              </div>
+
+              <div className="documents-agent-goal-groups">
+                {!isClientRole ? (
+                  <div className="documents-agent-goal-group documents-agent-goal-group--template">
+                    <div className="documents-agent-template-row">
+                      <div className="documents-agent-template-copy">
+                        <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.template_label")}</span>
+                        <p className="documents-agent-template-description">{t("documents.agent_workspace.template_description")}</p>
+                      </div>
+                      <div className="documents-agent-template-control">
+                      <DocumentsDropdown
+                        ariaLabel={t("documents.agent_workspace.template_label")}
+                        value={selectedTemplateId}
+                        disabled={templatesLoading || (!compatibleTemplates.length && !selectedTemplateId)}
+                        onChange={(nextValue) => {
+                          setSelectedTemplateId(nextValue)
+                          clearResultMessages()
+                        }}
+                        options={templateDropdownOptions}
+                        placeholder={t("documents.agent_workspace.template_none")}
+                        className="documents-agent-dropdown"
+                      />
+                      </div>
+                    </div>
+                    <p className="documents-meta-text documents-agent-template-note">
+                      {templatesLoading
+                        ? t("documents.agent_workspace.template_loading")
+                        : templatesError
+                          ? templatesError
+                          : activeTemplate
+                            ? t("documents.agent_workspace.template_selected", { title: activeTemplate.title || activeTemplate.originalName })
+                            : compatibleTemplates.length
+                              ? t("documents.agent_workspace.template_help")
+                              : t("documents.agent_workspace.template_empty")}
+                    </p>
+                  </div>
+                ) : null}
+
+                <div className="documents-agent-goal-group">
+                  <span className="documents-meta-text documents-agent-field-label">
+                    {t(isClientRole ? "documents.agent_workspace.client_task_label" : "documents.agent_workspace.output_type_label")}
+                  </span>
+                  <div className="documents-agent-chip-row">
+                    {outputTypeOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        className={segmentedChipClassName((isClientRole ? clientTask : outputType) === option.value)}
+                        onClick={() => {
+                          if (isClientRole) {
+                            setClientTask(option.value)
+                          } else {
+                            setOutputType(option.value)
+                          }
+                          clearResultMessages()
+                        }}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {!isClientRole ? (
+                  <>
+                    <div className="documents-agent-goal-group">
+                      <span className="documents-meta-text documents-agent-field-label">{t("chat.deep_research.scope_output_label")}</span>
+                      <div className="documents-agent-chip-row">
+                        {audienceOptions.map((option) => (
+                          <button
+                                key={option.value}
+                                type="button"
+                                className={segmentedChipClassName(audience === option.value)}
+                                onClick={() => {
+                                  setAudienceTouched(true)
+                                  setAudience(option.value)
+                                  clearResultMessages()
+                                }}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="documents-agent-select-grid">
+                      <label className="documents-agent-select-field">
+                        <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.tone_label")}</span>
+                        <DocumentsDropdown
+                          ariaLabel={t("documents.agent_workspace.tone_label")}
+                          value={tone}
+                          onChange={(nextValue) => {
+                            setTone(nextValue)
+                            clearResultMessages()
+                          }}
+                          options={toneOptions}
+                          className="documents-agent-dropdown"
+                        />
+                      </label>
+                      <label className="documents-agent-select-field">
+                        <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.language_label")}</span>
+                        <DocumentsDropdown
+                          ariaLabel={t("documents.agent_workspace.language_label")}
+                          value={language}
+                          onChange={(nextValue) => {
+                            setLanguage(nextValue)
+                            clearResultMessages()
+                          }}
+                          options={languageOptions}
+                          className="documents-agent-dropdown"
+                        />
+                      </label>
+                      <label className="documents-agent-select-field">
+                        <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.length_label")}</span>
+                        <DocumentsDropdown
+                          ariaLabel={t("documents.agent_workspace.length_label")}
+                          value={length}
+                          onChange={(nextValue) => {
+                            setLength(nextValue)
+                            clearResultMessages()
+                          }}
+                          options={lengthOptions}
+                          className="documents-agent-dropdown"
+                        />
+                      </label>
+                    </div>
+                  </>
+                ) : null}
+              </div>
+            </Panel>
+
             <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-agent-card--full rounded-[1rem]">
               <div className="documents-agent-card-header">
                 <div className="documents-agent-card-copy">
                   <h2 className="documents-section-title">{t("documents.agent_workspace.selected_documents_title")}</h2>
-                  <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.selected_documents_description")}</p>
+                  <p className="documents-section-description documents-agent-copy">
+                    {t(
+                      isClientRole
+                        ? clientTask === "FILL_FORM"
+                          ? "documents.agent_workspace.client_selected_documents_fill_form_description"
+                          : "documents.agent_workspace.client_selected_documents_description"
+                        : "documents.agent_workspace.selected_documents_description"
+                    )}
+                  </p>
                 </div>
                 <div className="documents-agent-card-actions">
-                  {selectedDocumentIds.length ? (
+                  {!isClientRole && selectedDocumentIds.length ? (
                     <Link href={documentsHref} className="documents-link-button documents-meta-text documents-agent-inline-link">
                       {t("documents.back_to_documents")}
                     </Link>
@@ -1104,27 +1524,54 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                 </div>
               </div>
 
+              {isClientRole ? (
+                <div className="documents-agent-row-actions documents-agent-row-actions--left">
+                  <Button
+                    type="button"
+                    size="sm"
+                    className="documents-primary-button documents-primary-button--compact"
+                    onClick={() => clientUploadInputRef.current?.click?.()}
+                    disabled={clientUploading || selectedCountLimitReached}
+                  >
+                    {clientUploading ? t("documents.agent_workspace.client_uploading") : t("documents.agent_workspace.client_upload_button")}
+                  </Button>
+                  <input
+                    ref={clientUploadInputRef}
+                    type="file"
+                    accept=".pdf,.docx,.txt"
+                    className="sr-only"
+                    onChange={handleClientUpload}
+                  />
+                </div>
+              ) : null}
+
               <div className="documents-agent-documents">
+                {clientUploadError ? (
+                  <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                    {clientUploadError}
+                  </div>
+                ) : null}
                 {documentsLoading ? <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">{t("documents.loading")}</div> : null}
                 {!documentsLoading && !selectedDocumentIds.length ? (
                   <div className="documents-agent-empty">
-                    <div className="documents-agent-empty--inline">
-                      <span className="documents-selection-chip documents-chip rounded-full px-[0.85rem] py-[0.28rem] text-[1rem]">
-                        {t("documents.agent_handoff.selected_count", { count: selectedCount })}
-                      </span>
-                      <p>{t("documents.agent_workspace.empty_documents")}</p>
+                    <div className={isClientRole ? "" : "documents-agent-empty--inline"}>
+                      <p>{t(isClientRole ? "documents.agent_workspace.client_empty_documents" : "documents.agent_workspace.empty_documents")}</p>
                     </div>
-                    <Button as="a" href={documentsHref} size="sm" className="documents-primary-button documents-primary-button--compact">
-                      {t("documents.agent_workspace.select_documents")}
-                    </Button>
+                    {!isClientRole ? (
+                      <Button as="a" href={documentsHref} size="sm" className="documents-primary-button documents-primary-button--compact">
+                        {t("documents.agent_workspace.select_documents")}
+                      </Button>
+                    ) : null}
                   </div>
                 ) : null}
                 {!documentsLoading && selectedDocumentIds.length > 0 && documents.length === 0 ? (
                   <div className="documents-empty-state documents-agent-empty rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">
                     <p>{t("documents.agent_workspace.unavailable_documents")}</p>
-                    <Button as="a" href={documentsHref} size="sm" className="documents-primary-button documents-primary-button--compact">
-                      {t("documents.back_to_documents")}
-                    </Button>
+                    {!isClientRole ? (
+                      <Button as="a" href={documentsHref} size="sm" className="documents-primary-button documents-primary-button--compact">
+                        {t("documents.back_to_documents")}
+                      </Button>
+                    ) : null}
                   </div>
                 ) : null}
                 {documents.map((document) => (
@@ -1140,142 +1587,34 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                           {document.originalName} - {formatFileSize(document.size)} - {formatDate(document.updatedAt, locale)}
                         </p>
                       </div>
-                      <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="ghost" className="documents-secondary-button">
-                        {t("documents.actions.download")}
-                      </Button>
+                      <div className="documents-agent-row-actions">
+                        <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="ghost" className="documents-secondary-button">
+                          {t("documents.actions.download")}
+                        </Button>
+                        {isClientRole ? (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="ghost"
+                            className="documents-secondary-button"
+                            onClick={() => void handleClientRemoveDocument(document.id)}
+                          >
+                            {t("documents.agent_workspace.client_remove_document")}
+                          </Button>
+                        ) : null}
+                      </div>
                     </div>
                   </article>
                 ))}
               </div>
             </Panel>
 
-            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card rounded-[1rem]">
-              <div className="documents-agent-card-copy">
-                <h2 className="documents-section-title">{t("documents.agent_workspace.goal_title")}</h2>
-                <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.goal_description")}</p>
-              </div>
-
-              <div className="documents-agent-goal-groups">
-                <div className="documents-agent-goal-group documents-agent-goal-group--template">
-                  <div className="documents-agent-template-row">
-                    <div className="documents-agent-template-copy">
-                      <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.template_label")}</span>
-                      <p className="documents-agent-template-description">{t("documents.agent_workspace.template_description")}</p>
-                    </div>
-                    <div className="documents-agent-template-control">
-                    <DocumentsDropdown
-                      ariaLabel={t("documents.agent_workspace.template_label")}
-                      value={selectedTemplateId}
-                      disabled={templatesLoading || (!compatibleTemplates.length && !selectedTemplateId)}
-                      onChange={(nextValue) => {
-                        setSelectedTemplateId(nextValue)
-                        clearResultMessages()
-                      }}
-                      options={templateDropdownOptions}
-                      placeholder={t("documents.agent_workspace.template_none")}
-                      className="documents-agent-dropdown"
-                    />
-                    </div>
-                  </div>
-                  <p className="documents-meta-text documents-agent-template-note">
-                    {templatesLoading
-                      ? t("documents.agent_workspace.template_loading")
-                      : templatesError
-                        ? templatesError
-                        : activeTemplate
-                          ? t("documents.agent_workspace.template_selected", { title: activeTemplate.title || activeTemplate.originalName })
-                          : compatibleTemplates.length
-                            ? t("documents.agent_workspace.template_help")
-                            : t("documents.agent_workspace.template_empty")}
-                  </p>
-                </div>
-
-                <div className="documents-agent-goal-group">
-                  <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.output_type_label")}</span>
-                  <div className="documents-agent-chip-row">
-                    {outputTypeOptions.map((option) => (
-                      <button
-                        key={option.value}
-                        type="button"
-                        className={segmentedChipClassName(outputType === option.value)}
-                        onClick={() => {
-                          setOutputType(option.value)
-                          clearResultMessages()
-                        }}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="documents-agent-goal-group">
-                  <span className="documents-meta-text documents-agent-field-label">{t("chat.deep_research.scope_output_label")}</span>
-                  <div className="documents-agent-chip-row">
-                    {audienceOptions.map((option) => (
-                      <button
-                        key={option.value}
-                        type="button"
-                        className={segmentedChipClassName(audience === option.value)}
-                        onClick={() => {
-                          setAudience(option.value)
-                          clearResultMessages()
-                        }}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="documents-agent-select-grid">
-                  <label className="documents-agent-select-field">
-                    <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.tone_label")}</span>
-                    <DocumentsDropdown
-                      ariaLabel={t("documents.agent_workspace.tone_label")}
-                      value={tone}
-                      onChange={(nextValue) => {
-                        setTone(nextValue)
-                        clearResultMessages()
-                      }}
-                      options={toneOptions}
-                      className="documents-agent-dropdown"
-                    />
-                  </label>
-                  <label className="documents-agent-select-field">
-                    <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.language_label")}</span>
-                    <DocumentsDropdown
-                      ariaLabel={t("documents.agent_workspace.language_label")}
-                      value={language}
-                      onChange={(nextValue) => {
-                        setLanguage(nextValue)
-                        clearResultMessages()
-                      }}
-                      options={languageOptions}
-                      className="documents-agent-dropdown"
-                    />
-                  </label>
-                  <label className="documents-agent-select-field">
-                    <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.length_label")}</span>
-                    <DocumentsDropdown
-                      ariaLabel={t("documents.agent_workspace.length_label")}
-                      value={length}
-                      onChange={(nextValue) => {
-                        setLength(nextValue)
-                        clearResultMessages()
-                      }}
-                      options={lengthOptions}
-                      className="documents-agent-dropdown"
-                    />
-                  </label>
-                </div>
-              </div>
-            </Panel>
-
             <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-agent-card--full rounded-[1rem]">
               <div className="documents-agent-card-copy">
                 <h2 className="documents-section-title">{t("documents.agent_workspace.conversation_title")}</h2>
-                <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.conversation_description")}</p>
+                <p className="documents-section-description documents-agent-copy">
+                  {t(isClientRole ? "documents.agent_workspace.client_conversation_description" : "documents.agent_workspace.conversation_description")}
+                </p>
               </div>
 
               <div className="documents-agent-conversation-meta">
@@ -1284,12 +1623,14 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                     {t("documents.agent_workspace.summary_documents", { count: selectedCount })}
                   </span>
                   <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
-                    {t("documents.agent_workspace.summary_output", { type: artifactTypeLabel(outputType, t) })}
+                    {t("documents.agent_workspace.summary_output", { type: isClientRole ? clientResultLabel : artifactTypeLabel(outputType, t) })}
                   </span>
-                  <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
-                    {audienceOptions.find((option) => option.value === audience)?.label}
-                  </span>
-                  {activeTemplate ? (
+                  {!isClientRole ? (
+                    <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
+                      {audienceOptions.find((option) => option.value === audience)?.label}
+                    </span>
+                  ) : null}
+                  {!isClientRole && activeTemplate ? (
                     <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
                       {t("documents.agent_workspace.summary_template", { title: activeTemplate.title || activeTemplate.originalName })}
                     </span>
@@ -1360,7 +1701,18 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
               <div className="documents-agent-card-header">
                 <div className="documents-agent-card-copy">
                   <h2 className="documents-section-title">{t("documents.agent_workspace.result_title")}</h2>
-                  <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.result_description")}</p>
+                  <p className="documents-section-description documents-agent-copy">
+                    {t(isClientRole ? "documents.agent_workspace.client_result_description" : "documents.agent_workspace.result_description")}
+                  </p>
+                  {!isClientRole ? (
+                    <p className="documents-meta-text documents-agent-copy mt-[0.12rem] text-[1rem] leading-[1.45]">
+                      {t("documents.agent_workspace.result_results_link_intro")}{" "}
+                      <Link href={artifactResultsHref} className={`${linkBrandInlineClass} documents-link-button documents-meta-text text-[1rem] leading-[1.45]`}>
+                        {t("documents.agent_workspace.result_results_link_label")}
+                      </Link>
+                      .
+                    </p>
+                  ) : null}
                 </div>
                 {hasWorkspaceResult ? (
                   <div className="documents-agent-card-actions">
@@ -1393,27 +1745,27 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                 <div className="documents-agent-result">
                   <div className="flex flex-wrap items-center gap-[0.45rem]">
                     <span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">
-                      {artifactTypeLabel(workspaceResult.type, t)}
+                      {isClientRole ? clientResultLabel : artifactTypeLabel(workspaceResult.type, t)}
                     </span>
                     <span className={`documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em] ${workspaceResult.status === "FINAL" ? "is-active" : ""}`}>
-                      {artifactStatusLabel(workspaceResult.status, t)}
+                      {isClientRole ? clientArtifactStatusLabel(workspaceResult.status) : artifactStatusLabel(workspaceResult.status, t)}
                     </span>
                   </div>
                   <div className="documents-agent-result-meta documents-meta-text text-[0.94rem]">
                     <span>{formatDate(workspaceResult.createdAt, locale)}</span>
                     <span>{t("documents.updated_at")} {formatDate(workspaceResult.updatedAt, locale)}</span>
-                    {workspaceResult.approvedAt ? <span>{t("documents.approved_at")} {formatDate(workspaceResult.approvedAt, locale)}</span> : null}
+                    {!isClientRole && workspaceResult.approvedAt ? <span>{t("documents.approved_at")} {formatDate(workspaceResult.approvedAt, locale)}</span> : null}
                     <span>{t("documents.sources_label", { count: workspaceResult.sourceCount || 0 })}</span>
                   </div>
 
                   {!isWorkspaceResultSaved ? (
                     <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                      {t("documents.agent_workspace.result_unsaved")}
+                      {t(isClientRole ? "documents.agent_workspace.client_result_unsaved" : "documents.agent_workspace.result_unsaved")}
                     </div>
                   ) : null}
                   {isWorkspaceResultSaved && hasDraftEdits ? (
                     <div className="documents-notice documents-notice--warning rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                      {t("documents.agent_workspace.result_dirty")}
+                      {t(isClientRole ? "documents.agent_workspace.client_result_dirty" : "documents.agent_workspace.result_dirty")}
                     </div>
                   ) : null}
                   {activeTemplate ? (
@@ -1422,7 +1774,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                     </div>
                   ) : null}
 
-                  {alternateOutputOptions.length ? (
+                  {!isClientRole && alternateOutputOptions.length ? (
                     <div className="documents-agent-quick-actions">
                       <div className="documents-agent-refine-copy">
                         <h3 className="documents-strong-text text-[0.98rem] font-semibold">{t("documents.agent_workspace.quick_actions_title")}</h3>
@@ -1473,12 +1825,12 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                       </div>
                       <div className="documents-row-actions">
                         <Button type="button" size="sm" className="documents-primary-button" onClick={() => void handleApprove()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
-                          {approvingResult ? t("documents.actions.approving") : t("documents.actions.approve")}
+                          {approvingResult ? t("documents.actions.approving") : t(isClientRole ? "documents.agent_workspace.client_finish" : "documents.actions.approve")}
                         </Button>
                         <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleSaveDraft()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
-                          {savingResult ? t("documents.actions.saving") : t("documents.actions.save_draft")}
+                          {savingResult ? t("documents.actions.saving") : t(isClientRole ? "documents.actions.save" : "documents.actions.save_draft")}
                         </Button>
-                        {canRestoreSavedVersion ? (
+                        {!isClientRole && canRestoreSavedVersion ? (
                           <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={handleRestoreSavedVersion}>
                             {t("documents.agent_workspace.restore_saved")}
                           </Button>
@@ -1487,7 +1839,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                           {t("documents.actions.copy")}
                         </Button>
                       </div>
-                      {workspaceVersions.length ? (
+                      {!isClientRole && workspaceVersions.length ? (
                         <div className="documents-agent-version-list">
                           <div className="documents-agent-refine-copy">
                             <h3 className="documents-strong-text text-[0.98rem] font-semibold">{t("documents.agent_workspace.version_history_title")}</h3>
@@ -1563,6 +1915,82 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                 </div>
               ) : null}
             </Panel>
+
+            {isClientRole ? (
+              <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-agent-card--full rounded-[1rem]">
+                <div className="documents-agent-card-copy">
+                  <h2 className="documents-section-title">{t("documents.agent_workspace.client_results_title")}</h2>
+                  <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.client_results_description")}</p>
+                </div>
+
+                {recentArtifactsError ? (
+                  <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                    {recentArtifactsError}
+                  </div>
+                ) : null}
+                {recentArtifactsLoading ? (
+                  <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">
+                    {t("documents.agent_workspace.client_recent_results_loading")}
+                  </div>
+                ) : null}
+                {!recentArtifactsLoading && !recentArtifacts.length ? (
+                  <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">
+                    {t("documents.agent_workspace.client_recent_results_empty")}
+                  </div>
+                ) : null}
+
+                {!recentArtifactsLoading && recentArtifacts.length ? (
+                  <div className="documents-agent-results-list">
+                    {recentArtifacts.map((artifact) => (
+                      <article key={artifact.id} className="documents-card documents-agent-result-row rounded-[1rem] border px-[0.95rem] py-[0.85rem]">
+                        <div className="documents-agent-result-row-top">
+                          <div className="min-w-0 flex-1">
+                            <div className="documents-document-row-title">
+                              <h3 className="documents-strong-text text-[1rem] font-semibold">
+                                {artifact.title || artifact.snippet || t("documents.agent_workspace.result_title")}
+                              </h3>
+                              <span className={`documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em] ${artifact.status === "FINAL" ? "is-active" : ""}`}>
+                                {clientArtifactStatusLabel(artifact.status)}
+                              </span>
+                            </div>
+                            <p className="documents-meta-text mt-[0.2rem] text-[0.9rem]">
+                              {formatDate(artifact.updatedAt || artifact.createdAt, locale)}
+                            </p>
+                          </div>
+                          <div className="documents-agent-row-actions">
+                            <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleOpenClientArtifact(artifact.id)}>
+                              {t("documents.agent_workspace.client_open_result")}
+                            </Button>
+                            {artifact.downloadUrls?.docx ? (
+                              <Button as="a" href={artifact.downloadUrls.docx} size="sm" variant="ghost" className="documents-secondary-button">
+                                {t("documents.actions.download_docx")}
+                              </Button>
+                            ) : null}
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="ghost"
+                              className="documents-secondary-button"
+                              onClick={() =>
+                                navigator.clipboard
+                                  .writeText(String(artifact.content || ""))
+                                  .then(() => setRunFeedback({ message: t("documents.feedback.copied") }))
+                                  .catch(() => setRunError(t("documents.errors.copy_failed")))
+                              }
+                            >
+                              {t("documents.actions.copy")}
+                            </Button>
+                            <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleDeleteClientArtifact(artifact.id)}>
+                              {t("documents.actions.delete")}
+                            </Button>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                ) : null}
+              </Panel>
+            ) : null}
           </div>
         </Panel>
       </div>

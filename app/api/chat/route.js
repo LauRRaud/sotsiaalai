@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { roleFromSession, normalizeRole, requireSubscription, hasActiveSubscription, isAdmin } from "@/lib/authz";
+import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
 import { pickReplyLang, langStrings, toResponsesInput, buildResponsesPayload } from "@/lib/chat/promptBuilder";
@@ -14,7 +14,6 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
-const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
 const CHAT_POST_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CHAT_POST_MAX, 24);
 const CHAT_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CHAT_GET_MAX, 120);
@@ -532,10 +531,8 @@ export async function POST(req) {
   const includeSources = forceSources || detectSourcesRequest(rawHistory, message);
   const wantsDocumentDownload = shouldOfferDocumentDownload(message);
   const userId = session?.user?.id || null;
-  const sessionRole = roleFromSession(session);
-  const payloadRole = typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
-  const pickedRole = sessionRole || payloadRole || "CLIENT";
-  const normalizedRole = normalizeRole(pickedRole);
+  const roleState = resolveSessionRoleState(session, req.cookies);
+  const normalizedRole = roleState.effectiveRole;
   const history = toOpenAiMessages(rawHistory, ephemeralChunks.length
     ? {
         maxItems: CHAT_HISTORY_WITH_DOC_MAX_ITEMS,
@@ -545,26 +542,12 @@ export async function POST(req) {
         maxItems: CHAT_HISTORY_MAX_ITEMS,
         maxChars: CHAT_HISTORY_MAX_CHARS
       });
-  const adminUser = isAdmin(session?.user);
-  let roomMembership = null;
+  const adminUser = roleState.isAdmin;
   if (roomId && userId && !adminUser) {
-    roomMembership = await getRoomMembership(userId, roomId);
+    const roomMembership = await getRoomMembership(userId, roomId);
     if (!roomMembership) return makeError("api.common.forbidden", 403);
   }
-  let gate = await requireSubscription(session, normalizedRole);
-  if (!gate.ok && roomId && roomMembership?.billingSource === "SPONSORED_BY_HOST") {
-    if (ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
-      gate = {
-        ok: true,
-        status: 200
-      };
-    } else if (await hasActiveSubscription(roomMembership.sponsorUserId)) {
-      gate = {
-        ok: true,
-        status: 200
-      };
-    }
-  }
+  const gate = await requireSubscription(session, normalizedRole);
   if (!gate.ok) {
     return NextResponse.json({
       ok: false,

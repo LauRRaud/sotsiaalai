@@ -2,7 +2,7 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { normalizeRole } from "@/lib/authz";
+import { resolveSessionRoleState } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
@@ -53,9 +53,9 @@ export async function GET(req) {
     windowMs: CHAT_RATE_LIMIT_WINDOW_MS
   });
   if (rateLimitResponse) return rateLimitResponse;
-  const pickedRole = (session.user.role || "CLIENT").toString().toUpperCase();
-  const role = normalizeRole(pickedRole);
-  const isAdmin = !!session.user.isAdmin || pickedRole === "ADMIN";
+  const roleState = resolveSessionRoleState(session, req.cookies);
+  const role = roleState.effectiveRole;
+  const isAdmin = roleState.isAdmin;
   const limit = getAnalyzeLimit(role, isAdmin);
   const day = utcDayStart();
   try {

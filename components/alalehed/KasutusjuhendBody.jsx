@@ -15,6 +15,7 @@ import { localizePath } from "@/lib/localizePath";
 import { localizeInternalHtmlLinks } from "@/lib/localizeHtmlLinks";
 import { getFooterNote } from "@/lib/footerNote";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
+import { etGuideContent } from "@/components/alalehed/guideContentEt";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
@@ -64,14 +65,20 @@ export default function KasutusjuhendBody() {
       openA11y();
     }
   };
-  const guideSections = SECTION_KEYS.map(key => ({
-    key,
-    title: t(`about.guide.sections_v2.${key}.title`),
-    body: localizeInternalHtmlLinks(
-      t(`about.guide.sections_v2.${key}.body`),
-      locale
-    )
-  }));
+  const guideContent = locale === "et" ? {
+    intro: etGuideContent.intro,
+    sections: etGuideContent.sections.map(section => ({
+      ...section,
+      body: localizeInternalHtmlLinks(section.body, locale)
+    }))
+  } : {
+    intro: t("about.guide.intro"),
+    sections: SECTION_KEYS.map(key => ({
+      key,
+      title: t(`about.guide.sections_v2.${key}.title`),
+      body: localizeInternalHtmlLinks(t(`about.guide.sections_v2.${key}.body`), locale)
+    }))
+  };
   const handleBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) {
       backWithTransition(router, {
@@ -107,10 +114,10 @@ export default function KasutusjuhendBody() {
         <div className={cn(contentClassName, "glass-ring-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
           <div className={cn(scrollClassName, isExpandedLayout ? "glass-ring-scroll--open" : null)} style={{ zIndex: 0 }}>
             <p className={`${bodyTextClassName} mb-[1.2rem]`}>
-              {t("about.guide.intro")}
+              {guideContent.intro}
             </p>
             <div className="flex flex-col gap-[1.6rem]">
-              {guideSections.map(({
+              {guideContent.sections.map(({
               key,
               title,
               body

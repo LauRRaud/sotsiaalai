@@ -224,6 +224,13 @@
       "client": "Life-question seeker",
       "unknown": ""
     },
+    "view_mode": {
+      "worker": "Specialist",
+      "client": "Help seeker",
+      "current": "Current preview: {role}.",
+      "saved": "Preview switched to: {role}.",
+      "save_failed": "Failed to switch preview."
+    },
     "theme_mode": {
       "light": "Light",
       "mid": "Dim",
@@ -644,6 +651,11 @@
     "back_to_documents": "Back to documents",
     "inputs_title": "My documents",
     "inputs_description": "Store templates, materials, and other files here. This is where you decide which documents the agent may use for the work.",
+    "view_mode": {
+      "admin_notice": "Admin preview: {role}",
+      "intro_worker": "Keep case materials, templates, and other files here so the agent can prepare specialist-facing drafts.",
+      "intro_client": "Keep your letters, forms, and background documents here so the agent can help turn them into a clear reply or application."
+    },
     "outputs_title": "Agent results",
     "outputs_description": "Recent draft and approved text results created by the agent workflow.",
     "library_sections": {
@@ -672,7 +684,7 @@
       "other": "Other"
     },
     "template_for": {
-      "report_draft": "Report draft",
+      "report_draft": "Report",
       "case_brief": "Case brief",
       "meeting_summary": "Meeting summary",
       "checklist": "Checklist",
@@ -720,6 +732,7 @@
         "saving": "Saving...",
         "create_report": "Create report",
         "creating_report": "Creating draft...",
+      "save": "Save",
       "save_draft": "Save draft",
       "refine_stub": "Ask agent to refine",
       "approving": "Approving...",
@@ -750,13 +763,21 @@
       },
       "agent_handoff": {
         "title": "Agent mode",
-        "description": "Choose documents here and open them in agent mode for the actual work.",
-        "selected_count": "Selected: {count}",
-        "empty_help": "Allow documents for work mode and select the ones you want to take into agent mode.",
-        "ready_help": "Your selected documents are ready. Continue in agent mode to choose the task and start working.",
-        "agent_page_title": "Agent mode workspace",
-        "agent_page_empty": "Give the agent a task and instructions. It prepares a draft from the selected documents.",
-        "agent_page_with_docs": "Your selected documents are ready. Give the task and instructions, and the agent will prepare a draft."
+      "description": "Choose documents here and open them in agent mode for the actual work.",
+      "selected_count": "Selected: {count}",
+      "empty_help": "Allow documents for work mode and select the ones you want to take into agent mode.",
+      "ready_help": "Your selected documents are ready. Continue in agent mode to choose the task and start working.",
+      "empty_help_worker": "Allow documents for work mode and select the ones you want to bring into agent mode for a specialist-facing draft.",
+      "empty_help_client": "Allow documents for work mode and select the ones you want to bring into agent mode for a help-seeker text or form-filling task.",
+      "ready_help_worker": "Your selected documents are ready. Continue in agent mode to prepare a specialist-facing draft.",
+      "ready_help_client": "Your selected documents are ready. Continue in agent mode to prepare the needed text or form-filling result for the help seeker.",
+      "agent_page_title": "Agent mode workspace",
+      "agent_page_empty": "Give the agent a task and instructions. It prepares a draft from the selected documents.",
+      "agent_page_with_docs": "Your selected documents are ready. Give the task and instructions, and the agent will prepare a draft.",
+      "agent_page_empty_worker": "Give the agent a task and instructions. It will prepare a specialist-facing draft from the selected documents.",
+      "agent_page_empty_client": "Give the agent a task and instructions. It will help prepare the needed text or form-filling result from the selected documents.",
+      "agent_page_with_docs_worker": "Your selected documents are ready. Give the task and instructions, and the agent will prepare a specialist-facing draft.",
+      "agent_page_with_docs_client": "Your selected documents are ready. Give the task and instructions, and the agent will prepare the needed text or form-filling result."
       },
       "agent_workspace": {
         "selected_documents_title": "Selected documents",
@@ -778,10 +799,15 @@
         "tone_label": "Tone",
         "language_label": "Language",
         "length_label": "Length",
+        "admin_notice": "Admin preview: {role}",
         "conversation_title": "Conversation with the agent",
         "conversation_description": "Send the first instruction or refine the current draft in the conversation. The agent uses the selected documents and your chosen work goal.",
         "conversation_intro_empty": "Hello! First bring documents into agent mode and then describe what you want me to create.",
         "conversation_intro_with_docs": "Hello! Describe what I should create based on the {count} selected document(s).",
+        "conversation_intro_empty_worker": "Hello! First bring documents into agent mode and then describe which specialist-facing draft I should create.",
+        "conversation_intro_empty_client": "Hello! First bring documents into agent mode and then describe which text or form-filling result I should create.",
+        "conversation_intro_with_docs_worker": "Hello! Describe what specialist-facing draft I should create based on the {count} selected document(s).",
+        "conversation_intro_with_docs_client": "Hello! Describe which text, reply, or form-filling result I should create based on the {count} selected document(s).",
         "conversation_ready_help": "Send the first instruction in the conversation. The agent will use the selected documents and the chosen work goal.",
         "conversation_refine_help": "Send another message to refine the current draft or change direction.",
         "conversation_generating": "Creating a draft from the selected documents...",
@@ -797,6 +823,8 @@
         "ready_help": "The workspace is ready. The next step will connect generation and draft handling.",
         "result_title": "Current draft",
         "result_description": "The latest generated draft appears here in the same workspace, so you can review it before moving on.",
+        "result_results_link_intro": "Previously saved and approved results are under",
+        "result_results_link_label": "Agent results",
         "result_empty": "When you start the agent, the generated draft will appear here.",
         "result_ready": "Draft is ready in the workspace. Save or approve it to add it under Documents.",
         "result_unsaved": "This draft exists only in the current workspace. It moves to Documents after Save or Approve.",
@@ -828,6 +856,43 @@
         "summary_documents": "Documents: {count}",
         "summary_output": "Output: {type}",
         "summary_template": "Template: {title}",
+        "back_to_chat": "Back to chat",
+        "client_selected_documents_description": "Add the file or files needed for this task here. You can use up to 2 files in this task.",
+        "client_selected_documents_fill_form_description": "Add the form or application you want to fill in, and if needed a second file with the information that should go into it. You can use up to 2 files in this task.",
+        "client_empty_documents": "No files have been added yet.",
+        "client_upload_button": "Add file",
+        "client_uploading": "Uploading file...",
+        "client_documents_limit": "You can use up to {count} files in this task.",
+        "client_fill_form_hint": "For Fill in form or blank, upload the form itself when possible and optionally a second file with the information that should go into it.",
+        "client_file_limit_reached": "You can use up to {count} files in this task.",
+        "client_file_added": "File added to this task: {title}",
+        "client_file_removed": "File removed from this task.",
+        "client_remove_document": "Remove",
+        "client_task_title": "What do you want to draft",
+        "client_task_description": "Choose the specific result you want the agent to create from these files.",
+        "client_task_label": "Result",
+        "client_needs_documents": "Add at least one file before you start.",
+        "client_result_description": "The agent's result appears here. You can review it, edit it, save it, and download it.",
+        "client_conversation_description": "Write what you want to get done. Before creating the result, the agent may ask a few short follow-up questions.",
+        "client_result_ready": "The result is ready. Review it, then save it or mark it as ready.",
+        "client_result_unsaved": "This result currently exists only in the workspace. Save it if you want to reopen it later.",
+        "client_result_dirty": "This result has unsaved changes.",
+        "client_result_removed": "The active result was removed from the workspace.",
+        "client_saved": "Result saved.",
+        "client_finish": "Mark as ready",
+        "client_finished": "Result marked as ready and available for download.",
+        "client_status_draft": "In progress",
+        "client_status_final": "Ready",
+        "client_results_title": "My results",
+        "client_results_description": "Here are your latest saved or finished results that you can reopen, copy, or download.",
+        "client_recent_results_loading": "Loading recent results...",
+        "client_recent_results_empty": "There are no saved results here yet.",
+        "client_open_result": "Open",
+        "client_tasks": {
+          "letter_request": "Letter or application draft",
+          "letter_reply": "Reply to a letter",
+          "fill_form": "Fill a form or blank"
+        },
         "tones": {
           "professional": "Professional",
           "supportive": "Supportive",
@@ -1176,6 +1241,19 @@
       "self": "They have their own subscription",
       "host": "I'll pay for them"
     },
+    "sponsored": {
+      "title": "Choose the sponsored subscription role",
+      "description": "Choose whether you are buying a one-month subscription for a social work specialist or a person seeking help.",
+      "one_month_note": "After payment is confirmed, the invite is sent out. The sponsored subscription is valid for one month; after that the invited person must continue with their own subscription.",
+      "confirm_and_pay": "Confirm and pay",
+      "payment_success": "Payment succeeded. The invite will be sent once the payment is confirmed.",
+      "payment_canceled": "Payment was canceled. The invite was not sent.",
+      "payment_failed": "Payment failed. Please try again.",
+      "role": {
+        "worker": "Social work specialist subscription",
+        "client": "Person seeking help subscription"
+      }
+    },
     "sending": "Sending...",
     "send": "SEND INVITE",
     "list": "Invites",
@@ -1208,6 +1286,9 @@
     "error": {
       "rate_limited": "Too many requests. Please try again later.",
       "emails_required": "Add at least one email address.",
+      "sponsored_single_email_required": "Sponsored invites can only be sent to one person at a time.",
+      "sponsor_plan_required": "Choose the sponsored subscription role before starting payment.",
+      "sponsored_checkout_required": "If you choose “I'll pay for them”, the invite must be sent through the sponsored checkout flow.",
       "sponsor_plan_unavailable": "Sponsored invites cannot be created: plan is unavailable.",
       "sponsor_capacity_full": "Sponsored seats limit is full."
     }
@@ -1245,6 +1326,11 @@
         "subject": "Invitation: {roomTitle}",
         "text": "Hello!\n\n{inviterName} invited you to the room \"{roomTitle}\".\n\nJoin: {joinLink}\n\nIf you did not expect this email, you can ignore it.",
         "html": "<p>Hello!</p><p>{inviterName} invited you to the room <strong>{roomTitle}</strong>.</p><p><a href=\"{joinLink}\">Join the room</a></p><p>If you did not expect this email, you can ignore it.</p>"
+      },
+      "sponsored": {
+        "subject": "Sponsored invite: {roomTitle}",
+        "text": "Hello!\n\n{inviterName} invited you to the room \"{roomTitle}\" and paid for one month of access.\nSelected role: {roleLabel}\n\nJoin: {joinLink}\n\nAfter the first month ends, you need to activate your own subscription from the Subscription page to continue using the platform.\n\nIf you did not expect this email, you can ignore it.",
+        "html": "<p>Hello!</p><p>{inviterName} invited you to the room <strong>{roomTitle}</strong> and paid for one month of access.</p><p><strong>Selected role:</strong> {roleLabel}</p><p><a href=\"{joinLink}\">Join the room</a></p><p>After the first month ends, you need to activate your own subscription from the Subscription page to continue using the platform.</p><p>If you did not expect this email, you can ignore it.</p>"
       },
       "resend": {
         "subject": "Invitation reminder: {roomTitle}",
@@ -1407,6 +1493,8 @@
       "invite_expired": "Invite has expired.",
       "invite_used": "Invite has already been used.",
       "invite_email_mismatch": "This invite is for a different email address.",
+      "invite_payment_pending": "Payment for this invite is still pending. Open the invite again after the payment is confirmed.",
+      "invite_role_mismatch": "This invite was created for a different user role. Use an account with the matching role.",
       "only_pending_resend": "Only pending invites can be resent.",
       "subscription_required": "Subscription is required to join this room.",
       "accept_failed": "Failed to accept invite.",

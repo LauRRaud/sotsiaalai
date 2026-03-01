@@ -1,5 +1,6 @@
 export const runtime = "nodejs";
 
+import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { PaymentProvider, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/client";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
@@ -30,6 +31,7 @@ const OWNER_NOTIFICATION_EMAIL = String(process.env.PAYMENT_OWNER_EMAIL || "info
   .toLowerCase();
 const OWNER_NOTIFICATION_LOCALE = normalizeServerLocale(process.env.PAYMENT_OWNER_EMAIL_LOCALE) || "en";
 const ownerMailer = getMailer("payment-owner-webhook");
+const inviteMailer = getMailer("invite");
 
 function shouldAllowUnsignedWebhook() {
   if (WEBHOOK_ALLOW_UNSIGNED === "1" || WEBHOOK_ALLOW_UNSIGNED === "true" || WEBHOOK_ALLOW_UNSIGNED === "yes") {
@@ -100,6 +102,47 @@ function asIso(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
   return date.toISOString();
+}
+
+function buildJoinLink(token) {
+  const base = resolveBaseUrl() || "http://localhost:3000";
+  return `${base.replace(/\/+$/, "")}/join?token=${encodeURIComponent(token)}`;
+}
+
+async function sendInvitePaymentEmail({
+  to,
+  token,
+  roomTitle,
+  inviterName,
+  locale,
+  targetRole
+}) {
+  const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
+  if (!from) return;
+
+  const joinLink = buildJoinLink(token);
+  const roleLabel =
+    String(targetRole || "").toUpperCase() === "SOCIAL_WORKER"
+      ? serverT(locale, "invite.sponsored.role.worker")
+      : serverT(locale, "invite.sponsored.role.client");
+
+  await inviteMailer.sendMail({
+    to,
+    from,
+    subject: serverT(locale, "email.invite.sponsored.subject", { roomTitle }),
+    text: serverT(locale, "email.invite.sponsored.text", {
+      inviterName,
+      roomTitle,
+      joinLink,
+      roleLabel
+    }),
+    html: serverT(locale, "email.invite.sponsored.html", {
+      inviterName,
+      roomTitle,
+      joinLink,
+      roleLabel
+    })
+  });
 }
 
 function canSendOwnerNotification(result) {
@@ -373,7 +416,9 @@ export async function POST(request) {
         select: {
           id: true,
           status: true,
-          subscriptionId: true
+          subscriptionId: true,
+          inviteId: true,
+          raw: true
         }
       });
 
@@ -425,12 +470,68 @@ export async function POST(request) {
         select: {
           id: true,
           status: true,
-          subscriptionId: true
+          subscriptionId: true,
+          inviteId: true
         }
       });
 
       let subscription = null;
-      if (nextStatus === PaymentStatus.PAID) {
+      let inviteEmail = null;
+
+      if (updatedPayment.inviteId) {
+        if (nextStatus === PaymentStatus.PAID) {
+          const token = crypto.randomBytes(48).toString("base64url");
+          const tokenHash = crypto
+            .createHash("sha256")
+            .update(token)
+            .digest("base64");
+          const invite = await tx.invite.update({
+            where: { id: updatedPayment.inviteId },
+            data: {
+              status: "SENT",
+              sponsoredPaidAt: paidAt || new Date(),
+              tokenHash
+            },
+            select: {
+              id: true,
+              inviteeEmail: true,
+              room: {
+                select: {
+                  title: true
+                }
+              },
+              inviter: {
+                select: {
+                  email: true
+                }
+              }
+            }
+          });
+
+          inviteEmail = {
+            to: invite.inviteeEmail,
+            token,
+            roomTitle: invite.room?.title || "Room",
+            inviterName: invite.inviter?.email || "SotsiaalAI",
+            locale:
+              normalizeServerLocale(payment?.raw?.locale) ||
+              normalizeServerLocale(payment?.raw?.lang) ||
+              "en",
+            targetRole: invite.sponsoredRole || "CLIENT"
+          };
+        } else if (
+          nextStatus === PaymentStatus.CANCELED ||
+          nextStatus === PaymentStatus.FAILED ||
+          nextStatus === PaymentStatus.REFUNDED
+        ) {
+          await tx.invite.update({
+            where: { id: updatedPayment.inviteId },
+            data: {
+              status: "REVOKED"
+            }
+          });
+        }
+      } else if (nextStatus === PaymentStatus.PAID) {
         subscription = await activateSubscriptionFromPayment(tx, updatedPayment);
       } else if (subscriptionAction === "cancel") {
         subscription = await cancelSubscriptionFromPayment(tx, updatedPayment);
@@ -441,7 +542,8 @@ export async function POST(request) {
         paymentId: updatedPayment.id,
         status: updatedPayment.status,
         subscription,
-        subscriptionAction
+        subscriptionAction,
+        inviteEmail
       };
     });
 
@@ -465,6 +567,21 @@ export async function POST(request) {
       idempotent: Boolean(result?.idempotent),
       ignored: Boolean(result?.ignored)
     });
+
+    if (result?.inviteEmail?.to && result?.status === PaymentStatus.PAID) {
+      try {
+        await sendInvitePaymentEmail({
+          ...result.inviteEmail,
+          locale: result.inviteEmail.locale
+        });
+      } catch (inviteError) {
+        logPaymentEvent("subscription_webhook_invite_email_failed", {
+          paymentId: result?.paymentId || "",
+          providerPaymentId,
+          error: inviteError
+        });
+      }
+    }
 
     if (canSendOwnerNotification(result)) {
       try {

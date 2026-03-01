@@ -9,6 +9,12 @@ import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { createMaksekeskusCheckout, makeProviderPaymentId } from "@/lib/payments/maksekeskus";
 import { logPaymentEvent } from "@/lib/payments/observability";
+import {
+  getRoleMonthlyAmount,
+  getRolePlanDescription,
+  getRolePlanKey,
+  normalizeSubscriptionRole
+} from "@/lib/subscriptionPlans";
 
 const PLAN_MAX_LEN = 80;
 const NO_STORE_HEADERS = {
@@ -86,9 +92,11 @@ async function requireUser(request) {
   }
 }
 
-function normalizePlan(value) {
+function normalizePlan(value, fallbackPlan) {
   const raw = typeof value === "string" ? value.trim() : "";
-  const fallback = String(process.env.SUBSCRIPTION_DEFAULT_PLAN || "monthly").trim();
+  const fallback = String(
+    fallbackPlan || process.env.SUBSCRIPTION_DEFAULT_PLAN || "monthly"
+  ).trim();
   const plan = raw || fallback || "monthly";
   return plan.length > PLAN_MAX_LEN ? plan.slice(0, PLAN_MAX_LEN) : plan;
 }
@@ -98,12 +106,6 @@ function normalizeCurrency(value) {
     .trim()
     .toUpperCase();
   return /^[A-Z]{3}$/.test(normalized) ? normalized : "EUR";
-}
-
-function resolveAmount() {
-  const raw = Number(process.env.SUBSCRIPTION_MONTHLY_AMOUNT || 7.99);
-  const normalized = Number.isFinite(raw) && raw > 0 ? raw : 7.99;
-  return normalized.toFixed(2);
 }
 
 function resolveUrl(request, envValue, fallbackPath) {
@@ -158,8 +160,20 @@ export async function POST(request) {
     );
   }
 
-  const plan = normalizePlan(body?.plan);
-  const amount = resolveAmount();
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: {
+      role: true
+    }
+  });
+
+  if (!user) {
+    return errorJson("api.subscription.user_not_found", 404, locale);
+  }
+
+  const planRole = normalizeSubscriptionRole(user.role);
+  const plan = normalizePlan(body?.plan, getRolePlanKey(planRole));
+  const amount = getRoleMonthlyAmount(planRole).toFixed(2);
   const currency = normalizeCurrency(process.env.SUBSCRIPTION_CURRENCY || "EUR");
 
   let paymentRecord = null;
@@ -167,6 +181,7 @@ export async function POST(request) {
     logPaymentEvent("subscription_init_started", {
       userId: session.userId,
       plan,
+      planRole,
       amount,
       currency
     });
@@ -176,11 +191,11 @@ export async function POST(request) {
       orderBy: [{ updatedAt: "desc" }],
       select: {
         id: true,
-        status: true,
-        validUntil: true,
-        plan: true
-      }
-    });
+          status: true,
+          validUntil: true,
+          plan: true
+        }
+      });
 
     if (isSubscriptionActive(existing)) {
       return errorJson("api.subscription.already_active", 409, locale);
@@ -215,6 +230,7 @@ export async function POST(request) {
         raw: {
           flow: "subscription_init",
           plan,
+          planRole,
           locale
         }
       },
@@ -238,7 +254,7 @@ export async function POST(request) {
       cancelUrl,
       webhookUrl,
       customerEmail: session.email,
-      description: `SotsiaalAI ${plan}`
+      description: getRolePlanDescription(planRole, locale)
     });
 
     const finalProviderPaymentId = checkout.providerPaymentId || providerPaymentId;
@@ -249,6 +265,7 @@ export async function POST(request) {
         raw: {
           flow: "subscription_init",
           plan,
+          planRole,
           locale,
           checkout: checkout.raw || null
         }

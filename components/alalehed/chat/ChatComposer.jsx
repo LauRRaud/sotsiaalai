@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 import { localizePath } from "@/lib/localizePath";
@@ -44,6 +45,8 @@ export default function ChatComposer({
   isMobile = false
 }) {
   const router = useRouter();
+  const { effectiveRole } = useEffectiveRole();
+  const isClientRole = effectiveRole === "CLIENT";
   const [draft, setDraft] = useState("");
   const [toolsOpen, setToolsOpen] = useState(false);
   const [composerMode, setComposerMode] = useState("chat");
@@ -317,16 +320,18 @@ export default function ChatComposer({
                   </span>
                   <span>{t("chat.tools.deep_research")}</span>
                 </button>
-                <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDocumentsSelect}>
-                  <span aria-hidden="true" className={toolIconSlotClassName}>
-                    <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
-                      <path d="M6 4.8h9.4L19 8.4v10.8a1.8 1.8 0 0 1-1.8 1.8H6.8A1.8 1.8 0 0 1 5 19.2V6.6A1.8 1.8 0 0 1 6.8 4.8Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M14.8 4.8v3.8H19" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M8.3 11.2h7.4M8.3 15.1h5.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
-                    </svg>
-                  </span>
-                  <span>{t("chat.tools.documents")}</span>
-                </button>
+                {!isClientRole ? (
+                  <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDocumentsSelect}>
+                    <span aria-hidden="true" className={toolIconSlotClassName}>
+                      <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
+                        <path d="M6 4.8h9.4L19 8.4v10.8a1.8 1.8 0 0 1-1.8 1.8H6.8A1.8 1.8 0 0 1 5 19.2V6.6A1.8 1.8 0 0 1 6.8 4.8Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M14.8 4.8v3.8H19" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M8.3 11.2h7.4M8.3 15.1h5.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
+                      </svg>
+                    </span>
+                    <span>{t("chat.tools.documents")}</span>
+                  </button>
+                ) : null}
                 <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleAgentModeSelect}>
                   <span aria-hidden="true" className={toolIconSlotClassName}>
                     <svg aria-hidden="true" width={agentToolIconSize} height={agentToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-95">

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
+import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import ChatMessageItem from "./chat/ChatMessageItem";
 import { useSpeech } from "../chat/hooks/useSpeech";
@@ -48,6 +49,7 @@ export default function ChatBody({
   const {
     data: session
   } = useSession();
+  const { effectiveRole } = useEffectiveRole();
   const {
     t,
     locale
@@ -61,12 +63,8 @@ export default function ChatBody({
   const aiNote = t("chat.ai_toggle.note");
   const crisisText = t("chat.crisis.notice");
   const sessionUserId = session?.user?.id;
-  const sessionUserRole = session?.user?.role;
-  const userRole = useMemo(() => {
-    const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : null);
-    const up = String(raw || "").toUpperCase();
-    return up || "CLIENT";
-  }, [session]);
+  const sessionUserRole = effectiveRole;
+  const userRole = effectiveRole;
   const [inputFocused, setInputFocused] = useState(false);
   const {
     isMobile,

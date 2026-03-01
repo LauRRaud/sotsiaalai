@@ -6,6 +6,7 @@ import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
+import { getRolePlanKey, normalizeSubscriptionRole } from "@/lib/subscriptionPlans";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,9 +15,6 @@ export const revalidate = 0;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_ACCEPT = 20;
 const SPONSORED_MEMBER_LIMIT = 50;
-const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION =
-  process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
-
 const NO_STORE_HEADERS = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
   Pragma: "no-cache",
@@ -115,6 +113,12 @@ async function hasSponsorCapacity(tx, roomId) {
   return count < SPONSORED_MEMBER_LIMIT;
 }
 
+function addOneMonth(date) {
+  const next = new Date(date);
+  next.setMonth(next.getMonth() + 1);
+  return next;
+}
+
 export async function POST(request, { params }) {
   const tokenRaw = String(params?.id || "").trim();
 
@@ -186,6 +190,14 @@ export async function POST(request, { params }) {
       }
 
       const now = new Date();
+      if (invite.status === "PENDING_PAYMENT") {
+        throw fail(
+          "api.invites.invite_payment_pending",
+          409,
+          "INVITE_PAYMENT_PENDING"
+        );
+      }
+
       if (invite.status !== "SENT" || invite.expiresAt <= now) {
         throw fail("api.invites.invite_expired", 410, "INVITE_EXPIRED");
       }
@@ -208,6 +220,23 @@ export async function POST(request, { params }) {
       let sponsorUserId = null;
       let sponsorOrgId = null;
 
+      const inviteRole = invite.sponsoredRole
+        ? normalizeSubscriptionRole(invite.sponsoredRole)
+        : null;
+
+      if (
+        invite.paymentMode === "SPONSORED_BY_HOST" &&
+        inviteRole &&
+        !auth.isAdmin &&
+        normalizeSubscriptionRole(auth.role) !== inviteRole
+      ) {
+        throw fail(
+          "api.invites.invite_role_mismatch",
+          409,
+          "INVITE_ROLE_MISMATCH"
+        );
+      }
+
       if (!userActive) {
         if (invite.paymentMode === "SELF_PAID") {
           throw fail(
@@ -218,17 +247,12 @@ export async function POST(request, { params }) {
         }
 
         if (invite.paymentMode === "SPONSORED_BY_HOST") {
-          const sponsorId = invite.sponsoredByUserId || invite.room?.ownerId;
-
-          if (!ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
-            const sponsorOk = await hasActiveSubscriptionTx(tx, sponsorId);
-            if (!sponsorOk) {
-              throw fail(
-                "invite.error.sponsor_plan_unavailable",
-                409,
-                "SPONSOR_NOT_AVAILABLE"
-              );
-            }
+          if (!invite.sponsoredPaidAt) {
+            throw fail(
+              "api.invites.invite_payment_pending",
+              409,
+              "INVITE_PAYMENT_PENDING"
+            );
           }
 
           const capacity = await hasSponsorCapacity(tx, invite.roomId);
@@ -241,8 +265,46 @@ export async function POST(request, { params }) {
           }
 
           billingSource = "SPONSORED_BY_HOST";
-          sponsorUserId = sponsorId;
+          sponsorUserId = invite.sponsoredByUserId || invite.room?.ownerId;
           sponsorOrgId = invite.sponsoredByOrgId || null;
+
+          const existingSubscription = await tx.subscription.findFirst({
+            where: { userId: auth.userId },
+            orderBy: [{ updatedAt: "desc" }]
+          });
+          const validUntil = addOneMonth(now);
+          const plan =
+            invite.sponsoredPlan ||
+            getRolePlanKey(inviteRole || normalizeSubscriptionRole(auth.role));
+
+          if (existingSubscription) {
+            await tx.subscription.update({
+              where: { id: existingSubscription.id },
+              data: {
+                status: "ACTIVE",
+                plan,
+                billingSource: "SPONSORED_BY_HOST",
+                sponsorUserId,
+                inviteId: invite.id,
+                validUntil,
+                nextBilling: null,
+                canceledAt: null
+              }
+            });
+          } else {
+            await tx.subscription.create({
+              data: {
+                userId: auth.userId,
+                status: "ACTIVE",
+                plan,
+                billingSource: "SPONSORED_BY_HOST",
+                sponsorUserId,
+                inviteId: invite.id,
+                validUntil,
+                nextBilling: null
+              }
+            });
+          }
         }
       }
 

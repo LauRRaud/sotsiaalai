@@ -77,6 +77,7 @@ enum RoomMessageSenderType {
 }
 
 enum InviteStatus {
+  PENDING_PAYMENT
   SENT
   ACCEPTED
   EXPIRED
@@ -160,6 +161,7 @@ model User {
   profile        Profile?
   subscriptions  Subscription[]
   payments       Payment[]
+  sponsoredSubscriptions Subscription[] @relation("SubscriptionSponsorUser")
   ragDocuments   RagDocument[]
   documents      UserDocument[]
   agentArtifacts AgentArtifact[]
@@ -240,23 +242,32 @@ model Subscription {
   userId      String
   status      SubscriptionStatus @default(NONE)
   plan        String             @default("kuutellimus")
+  billingSource BillingSource    @default(SELF)
+  sponsorUserId String?
+  inviteId      String?
   validUntil  DateTime?
   nextBilling DateTime?
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
   canceledAt  DateTime?
 
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  payments Payment[]
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sponsorUser User?     @relation("SubscriptionSponsorUser", fields: [sponsorUserId], references: [id], onDelete: SetNull)
+  invite      Invite?   @relation("InviteGrantedSubscription", fields: [inviteId], references: [id], onDelete: SetNull)
+  payments    Payment[]
 
   @@index([userId])
   @@index([status])
   @@index([validUntil])
+  @@index([billingSource])
+  @@index([sponsorUserId])
+  @@index([inviteId])
 }
 
 model Payment {
   id                String          @id @default(cuid())
-  subscriptionId    String
+  subscriptionId    String?
+  inviteId          String?
   userId            String
   provider          PaymentProvider @default(MAKSEKESKUS)
   providerPaymentId String
@@ -267,11 +278,13 @@ model Payment {
   raw               Json?
   createdAt         DateTime        @default(now())
 
-  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
-  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  invite       Invite?       @relation(fields: [inviteId], references: [id], onDelete: SetNull)
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerPaymentId])
   @@index([subscriptionId])
+  @@index([inviteId])
   @@index([userId])
 }
 
@@ -520,6 +533,9 @@ model Invite {
   paymentMode       InvitePaymentMode  @default(SELF_PAID)
   sponsoredByUserId String?
   sponsoredByOrgId  String?
+  sponsoredRole     Role?
+  sponsoredPlan     String?
+  sponsoredPaidAt   DateTime?
   expiresAt         DateTime
   maxUses           Int                @default(1)
   useCount          Int                @default(0)
@@ -527,14 +543,17 @@ model Invite {
   acceptedBillingSource BillingSource?
   acceptedByUserId      String?
 
-  room           Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  inviter        User   @relation("InviterUser", fields: [inviterId], references: [id], onDelete: Cascade)
-  sponsoredByUser User? @relation("InviteSponsorUser", fields: [sponsoredByUserId], references: [id], onDelete: SetNull)
-  acceptedByUser  User? @relation("InviteAcceptedBy", fields: [acceptedByUserId], references: [id], onDelete: SetNull)
+  room                   Room           @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  inviter                User           @relation("InviterUser", fields: [inviterId], references: [id], onDelete: Cascade)
+  sponsoredByUser        User?          @relation("InviteSponsorUser", fields: [sponsoredByUserId], references: [id], onDelete: SetNull)
+  acceptedByUser         User?          @relation("InviteAcceptedBy", fields: [acceptedByUserId], references: [id], onDelete: SetNull)
+  payments               Payment[]
+  grantedSubscriptions   Subscription[] @relation("InviteGrantedSubscription")
 
   @@index([roomId, status])
   @@index([tokenHash])
   @@index([expiresAt])
+  @@index([sponsoredRole])
 }
 
 model RoomMessage {

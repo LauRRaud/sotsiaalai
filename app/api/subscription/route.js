@@ -5,6 +5,11 @@ import { getToken } from "next-auth/jwt";
 import { SubscriptionStatus } from "@/generated/prisma/client";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
+import {
+  formatEuroAmount,
+  getRoleMonthlyAmount,
+  normalizeSubscriptionRole
+} from "@/lib/subscriptionPlans";
 
 const ACTIVE_STATUS = SubscriptionStatus.ACTIVE;
 const CANCELED_STATUS = SubscriptionStatus.CANCELED;
@@ -145,7 +150,12 @@ export async function GET(request) {
     });
 
     return ok({
-      user,
+      user: {
+        ...user,
+        planRole: normalizeSubscriptionRole(user.role),
+        monthlyAmount: getRoleMonthlyAmount(user.role),
+        monthlyAmountLabel: formatEuroAmount(getRoleMonthlyAmount(user.role), locale)
+      },
       subscription: shape(subscription)
     });
   } catch (error) {

@@ -55,6 +55,8 @@ export default function TellimusBody() {
   const [subActive, setSubActive] = useState(false);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
+  const [planRole, setPlanRole] = useState("CLIENT");
+  const [monthlyAmountLabel, setMonthlyAmountLabel] = useState("");
   const [processing, setProcessing] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const {
@@ -69,6 +71,31 @@ export default function TellimusBody() {
   const isVerifiedEntry = reason === "email-verified";
   const isAuthed = status === "authenticated" || !!session?.user;
   const hasPaymentNotice = Boolean(info || error);
+  const planRoleLabel = planRole === "SOCIAL_WORKER"
+    ? locale === "ru"
+      ? "специалист по социальной работе"
+      : locale === "en"
+        ? "social work specialist"
+        : "sotsiaaltöö spetsialist"
+    : locale === "ru"
+      ? "человек с жизненными вопросами"
+      : locale === "en"
+        ? "person seeking help"
+        : "eluküsimusega pöörduja";
+  const subscriptionInfoText = monthlyAmountLabel
+    ? locale === "ru"
+      ? `Для использования SotsiaalAI нужна ежемесячная подписка. Для роли "${planRoleLabel}" стоимость составляет ${monthlyAmountLabel} в месяц. Оплата проходит через Maksekeskus, подписка продлевается автоматически, а отменить её можно в любой момент на странице профиля.`
+      : locale === "en"
+        ? `To use SotsiaalAI you need a monthly subscription. For the "${planRoleLabel}" role, the fee is ${monthlyAmountLabel} per month. Payments are processed via Maksekeskus, the subscription renews automatically, and you can cancel it at any time from your profile.`
+        : `SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Rolli "${planRoleLabel}" kuutasu on ${monthlyAmountLabel}. Makse tehakse Maksekeskuse kaudu, tellimus pikeneb automaatselt ning seda saad igal ajal profiililehel lõpetada.`
+    : t("subscription.info");
+  const subscriptionActiveSummary = monthlyAmountLabel
+    ? locale === "ru"
+      ? `Твоя подписка активна. Пакет: ${planRoleLabel}. Стоимость: ${monthlyAmountLabel} в месяц.`
+      : locale === "en"
+        ? `Your subscription is active. Plan: ${planRoleLabel}. Fee: ${monthlyAmountLabel} per month.`
+        : `Sinu tellimus on aktiivne. Pakett: ${planRoleLabel}. Kuutasu: ${monthlyAmountLabel} kuus.`
+    : t("subscription.active.summary");
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {
     glassRingTilt: "left",
@@ -138,6 +165,8 @@ export default function TellimusBody() {
         }
         const status = String(payload?.subscription?.status || "").toUpperCase();
         setSubActive(Boolean(payload?.subscription?.isActive) || status === "ACTIVE");
+        setPlanRole(String(payload?.user?.planRole || payload?.user?.role || "CLIENT").toUpperCase());
+        setMonthlyAmountLabel(String(payload?.user?.monthlyAmountLabel || "").trim());
       } catch (err) {
         console.error("subscription GET", err);
         setError(t("profile.server_unreachable"));
@@ -251,7 +280,7 @@ export default function TellimusBody() {
           {subActive ? <>
               <div className={subscriptionActivePanelClassName} id="cancel-note">
                 <p className={subscriptionActiveSummaryClassName}>
-                  {t("subscription.active.summary")}
+                  {subscriptionActiveSummary}
                 </p>
                 <p className={subscriptionActiveNoteClassName}>
                   {t("subscription.active.cancel_note")}
@@ -268,7 +297,7 @@ export default function TellimusBody() {
               </div>
             </> : <>
               <div id="billing-info">
-                <RichText as="div" className={subscriptionInfoTextClassName} value={t("subscription.info")} replacements={emailReplacement} />
+                <RichText as="div" className={subscriptionInfoTextClassName} value={subscriptionInfoText} replacements={emailReplacement} />
               </div>
               {info && <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#a7f3d0]")}>
                   {info}
