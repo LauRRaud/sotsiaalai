@@ -505,6 +505,70 @@ body.login-modal-open {
   margin-top: clamp(-0.35rem, -0.9vh, -0.18rem);
 }
 
+.guide-rich-text ol,
+.guide-rich-text ul {
+  margin-left: 0 !important;
+}
+
+.guide-rich-text ol {
+  padding-left: clamp(1.25rem, 2.2vw, 1.55rem) !important;
+}
+
+.guide-rich-text ul {
+  padding-left: clamp(1.15rem, 2vw, 1.45rem) !important;
+}
+
+.guide-rich-text li {
+  padding-left: 0.08rem;
+}
+
+.guide-quickstart-rich-text {
+  line-height: 1.58 !important;
+}
+
+.guide-quickstart-rich-text p,
+.guide-quickstart-rich-text ol,
+.guide-quickstart-rich-text ul {
+  margin-top: 0.22rem !important;
+  margin-bottom: 0.22rem !important;
+}
+
+.guide-quickstart-rich-text li {
+  margin-top: 0.12rem !important;
+  margin-bottom: 0.12rem !important;
+}
+
+@media (min-width: 48em) {
+  .guide-quickstart-section {
+    margin-top: -0.72rem;
+  }
+
+  .guide-quickstart-rich-text {
+    line-height: 1.56 !important;
+  }
+
+  .guide-quickstart-rich-text p,
+  .guide-quickstart-rich-text ol,
+  .guide-quickstart-rich-text ul {
+    margin-top: 0.22rem !important;
+    margin-bottom: 0.22rem !important;
+  }
+
+  .guide-quickstart-rich-text li {
+    margin-top: 0.14rem !important;
+    margin-bottom: 0.14rem !important;
+  }
+}
+
+.guide-page-title {
+  margin-top: clamp(0.82rem, 1.95vh, 1.35rem) !important;
+}
+
+.guide-policy-content.glass-ring-content:not(.glass-ring-content--open) {
+  padding-top: clamp(0.38rem, 1vh, 0.7rem);
+  margin-top: clamp(-0.02rem, 0.12vh, 0.12rem);
+}
+
 .glass-ring-expand-toggle {
   border: 0;
   background: transparent;

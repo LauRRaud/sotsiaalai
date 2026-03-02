@@ -96,7 +96,7 @@ export default function KasutusjuhendBody() {
   };
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", glassPolicyRingClassName, "policy-mobile-lower", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
+        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", glassPolicyRingClassName, "policy-mobile-lower", "guide-policy-ring", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
         <CloseButton
           onClick={handleBack}
           ariaLabel={t("buttons.close")}
@@ -108,35 +108,36 @@ export default function KasutusjuhendBody() {
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
-        <h1 id="kasutusjuhend-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
+        <h1 id="kasutusjuhend-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName} guide-page-title`}>
           {t("about.guide.short_title")}
         </h1>
-        <div className={cn(contentClassName, "glass-ring-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
+        <div className={cn(contentClassName, "glass-ring-content", "guide-policy-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
           <div className={cn(
             scrollClassName,
+            "guide-policy-scroll",
             !isExpandedLayout ? "pb-[4.2rem] max-[48em]:pb-[4.8rem]" : null,
             isExpandedLayout ? "glass-ring-scroll--open" : null
           )} style={{ zIndex: 0 }}>
             <p className={`${bodyTextClassName} mb-[1.2rem]`}>
               {guideContent.intro}
             </p>
-            <div className="flex flex-col gap-[1.6rem]">
+            <div className="flex flex-col gap-[0.18rem] max-[48em]:gap-[0.14rem]">
               {guideContent.sections.map(({
               key,
               title,
               body
-            }) => <article key={key} onClick={key === "accessibility" ? handleA11yClick : undefined} aria-label={title}>
-                  <h2 className={`${sectionHeadingClassName} mb-2`}>{title}</h2>
-                  <div className={`${bodyTextClassName} max-[48em]:text-[clamp(1.24rem,4.65vw,1.42rem)] leading-[1.68] [&_p]:my-2 [&_ul]:my-2 [&_ol]:my-2 [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-1`} dangerouslySetInnerHTML={{
+            }) => <article key={key} onClick={key === "accessibility" ? handleA11yClick : undefined} aria-label={title} className={key === "quickstart" ? "guide-quickstart-section" : undefined}>
+                  <h2 className={`${sectionHeadingClassName} mb-[0.45rem] max-[48em]:mb-[0.4rem]`}>{title}</h2>
+                  <div className={`${bodyTextClassName} guide-rich-text ${key === "quickstart" ? "guide-quickstart-rich-text" : ""} max-[48em]:text-[clamp(1.24rem,4.65vw,1.42rem)] leading-[1.68] [&_p]:my-[0.38rem] [&_ul]:my-[0.38rem] [&_ol]:my-[0.38rem] [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-[0.22rem]`} dangerouslySetInnerHTML={{
                 __html: body
               }} />
                 </article>)}
             </div>
             <footer className={cn(
-              "mt-[1.2rem] text-center text-[1.05rem] max-[48em]:text-[1.12rem] text-[#d7cfd3] light:text-[#4a413a]",
+              "text-center text-[1.22rem] max-[48em]:text-[1.28rem] text-[#d7cfd3] light:text-[#4a413a]",
               isExpandedLayout
-                ? "mb-[clamp(0.7rem,2.2vh,1.25rem)] max-[48em]:mb-[clamp(0.8rem,2.4vh,1.35rem)]"
-                : "mb-[clamp(3.5rem,8.7vh,5.5rem)] max-[48em]:mb-[clamp(4.2rem,10.3vh,6.3rem)]"
+                ? "mt-[1.8rem] mb-[clamp(1rem,2.6vh,1.6rem)] max-[48em]:mb-[clamp(1rem,2.8vh,1.6rem)]"
+                : "mt-[clamp(2.7rem,6vh,3.4rem)] mb-[clamp(2.2rem,5.4vh,3.4rem)] max-[48em]:mt-[1.8rem] max-[48em]:mb-[clamp(2.4rem,5.8vh,3.6rem)]"
             )}>
               {getFooterNote()}
             </footer>

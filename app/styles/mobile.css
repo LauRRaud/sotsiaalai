@@ -959,6 +959,50 @@
     ) !important;
   }
 
+  .guide-policy-ring.policy-mobile-lower .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll,
+  .guide-policy-ring.policy-mobile-lower .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open {
+    padding-left: clamp(0.4rem, 2.6vw, 0.9rem) !important;
+    padding-right: clamp(0.4rem, 2.6vw, 0.9rem) !important;
+  }
+
+  .guide-page-title {
+    margin-top: calc(env(safe-area-inset-top, 0px) + 4.25rem) !important;
+  }
+
+  .guide-policy-content.glass-ring-content,
+  .guide-policy-content.glass-ring-content--open {
+    padding-top: clamp(0.16rem, 0.5vh, 0.36rem) !important;
+    margin-top: clamp(-0.04rem, 0.12vh, 0.08rem) !important;
+  }
+
+  .guide-rich-text ol {
+    padding-left: clamp(1.28rem, 5.6vw, 1.7rem) !important;
+  }
+
+  .guide-rich-text ul {
+    padding-left: clamp(1.12rem, 5vw, 1.48rem) !important;
+  }
+
+  .guide-rich-text li {
+    padding-left: 0 !important;
+  }
+
+  .guide-quickstart-rich-text {
+    line-height: 1.5 !important;
+  }
+
+  .guide-quickstart-rich-text p,
+  .guide-quickstart-rich-text ol,
+  .guide-quickstart-rich-text ul {
+    margin-top: 0.16rem !important;
+    margin-bottom: 0.16rem !important;
+  }
+
+  .guide-quickstart-rich-text li {
+    margin-top: 0.08rem !important;
+    margin-bottom: 0.08rem !important;
+  }
+
   .glass-ring-expandable .glass-ring-content,
   .glass-ring-expandable .glass-ring-content--open {
     margin-top: clamp(0.08rem, 0.6vh, 0.36rem) !important;
