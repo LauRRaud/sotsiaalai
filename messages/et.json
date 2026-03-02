@@ -111,7 +111,7 @@
       "toggle_keypad_desktop_aria": "Vaheta klahvistiku paigutust.",
       "zero_key_aria": "0 / kustuta",
       "help_hold_zero_before": "Hoia",
-      "help_hold_zero_after": "all ~0,5 s, et minna kustutusrežiimi",
+      "help_hold_zero_after": "all ~0,5 s, et kustutada kogu PIN-kood",
       "help_wrong_pin_note": "Vale PIN-i korral kustub PIN-kood automaatselt."
     },
     "register": {

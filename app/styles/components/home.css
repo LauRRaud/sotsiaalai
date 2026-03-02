@@ -169,3 +169,14 @@
     opacity: 0.32;
   }
 }
+
+.homepage-root .home-about-scrollbox {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.homepage-root .home-about-scrollbox::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}

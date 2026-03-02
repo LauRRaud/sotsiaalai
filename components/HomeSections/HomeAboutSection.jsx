@@ -40,7 +40,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     .filter(({ key, value }) => value && value !== `about.intro.${key}`);
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
+  const aboutScrollRef = useRef(null);
   const [beforeDiameter, setBeforeDiameter] = useState(null);
+  const [aboutFade, setAboutFade] = useState({ top: false, bottom: false });
   const oskaLinkClassName = cn(
     "home-link inline-flex items-center justify-center text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
     linkBrandInlineClass
@@ -84,6 +86,34 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     };
   }, [showAdminLinks]);
 
+  useEffect(() => {
+    const scrollEl = aboutScrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+
+    const updateFade = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollEl;
+      const maxScrollTop = scrollHeight - clientHeight;
+      setAboutFade({
+        top: scrollTop > 6,
+        bottom: maxScrollTop - scrollTop > 6
+      });
+    };
+
+    updateFade();
+    scrollEl.addEventListener("scroll", updateFade, { passive: true });
+    window.addEventListener("resize", updateFade);
+
+    const ro =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(updateFade) : null;
+    ro?.observe(scrollEl);
+
+    return () => {
+      scrollEl.removeEventListener("scroll", updateFade);
+      window.removeEventListener("resize", updateFade);
+      ro?.disconnect?.();
+    };
+  }, [aboutParagraphs.length]);
+
   const renderCircleTitle = (title) => {
     const normalized = String(title || "").trim().replace(/\s+/g, " ");
     const words = normalized.split(" ");
@@ -109,6 +139,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       persistGlassRingTilt: false
     });
   };
+  const aboutTopFade = aboutFade.top ? "2.2rem" : "0px";
+  const aboutBottomFade = aboutFade.bottom ? "4.4rem" : "0px";
+  const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.14), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.34), rgba(0,0,0,0.56) calc(${aboutTopFade} * 0.58), rgba(0,0,0,0.82) calc(${aboutTopFade} * 0.82), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,0.96) calc(100% - calc(${aboutBottomFade} * 0.86)), rgba(0,0,0,0.84) calc(100% - calc(${aboutBottomFade} * 0.68)), rgba(0,0,0,0.62) calc(100% - calc(${aboutBottomFade} * 0.48)), rgba(0,0,0,0.36) calc(100% - calc(${aboutBottomFade} * 0.28)), rgba(0,0,0,0.14) calc(100% - calc(${aboutBottomFade} * 0.1)), rgba(0,0,0,0) 100%)`;
 
   return (
     <section
@@ -125,30 +158,42 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         )}
       >
         <div
-          className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-[clamp(1.25rem,2.6vw,2.4rem)] shadow-[var(--home-panel-shadow)] border-0 px-[clamp(1rem,2.6vw,2.25rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(1.4rem,2.4vw,2.25rem)] isolation-isolate"
+          className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--home-panel-shadow)] border-0 px-[clamp(1rem,2.6vw,2.25rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.35rem,0.8vw,0.65rem)] isolation-isolate"
         >
           <h2
             className={cn(
-              "text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[1.1rem] text-[color:var(--home-title-color)]"
+              "text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[48em]:mb-[0.3rem] text-[color:var(--home-title-color)]"
             )}
           >
             {t("about.title")}
           </h2>
-          <div className="text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[48em]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[48em]:leading-[1.62] tracking-[0.03em] max-[48em]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]">
-            {aboutParagraphs.map(({ key, value }) => (
-              <RichText
-                key={key}
-                as="div"
-                className="[&>p]:m-0"
-                value={value}
-                replacements={{
-                  oska: {
-                    open: `<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" target="_blank" rel="noreferrer" class="${oskaLinkClassName}">`,
-                    close: "</a>"
-                  }
-                }}
-              />
-            ))}
+          <div className="relative mx-auto w-full max-w-[52rem]">
+            <div
+              ref={aboutScrollRef}
+              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.2rem,0.7vw,0.55rem)] pt-[0.05rem] pb-[0.5rem] max-[48em]:px-[0.1rem] max-[48em]:pt-[0rem] max-[48em]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[48em]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[48em]:leading-[1.62] tracking-[0.03em] max-[48em]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
+              style={{
+                maxHeight: "min(72vh, 42rem)",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                WebkitMaskImage: aboutMaskImage,
+                maskImage: aboutMaskImage
+              }}
+            >
+              {aboutParagraphs.map(({ key, value }) => (
+                <RichText
+                  key={key}
+                  as="div"
+                  className="[&>p]:m-0"
+                  value={value}
+                  replacements={{
+                    oska: {
+                      open: `<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" target="_blank" rel="noreferrer" class="${oskaLinkClassName}">`,
+                      close: "</a>"
+                    }
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <div

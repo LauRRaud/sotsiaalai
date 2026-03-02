@@ -111,7 +111,7 @@
       "toggle_keypad_desktop_aria": "Switch the keypad layout.",
       "zero_key_aria": "0 / clear",
       "help_hold_zero_before": "Hold",
-      "help_hold_zero_after": "for ~0.5 s to clear PIN entry",
+      "help_hold_zero_after": "for ~0.5 s to clear the whole PIN",
       "help_wrong_pin_note": "If the PIN is incorrect, the PIN code is cleared automatically."
     },
     "register": {

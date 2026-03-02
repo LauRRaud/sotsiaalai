@@ -112,7 +112,11 @@ export default function KasutusjuhendBody() {
           {t("about.guide.short_title")}
         </h1>
         <div className={cn(contentClassName, "glass-ring-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
-          <div className={cn(scrollClassName, isExpandedLayout ? "glass-ring-scroll--open" : null)} style={{ zIndex: 0 }}>
+          <div className={cn(
+            scrollClassName,
+            !isExpandedLayout ? "pb-[4.2rem] max-[48em]:pb-[4.8rem]" : null,
+            isExpandedLayout ? "glass-ring-scroll--open" : null
+          )} style={{ zIndex: 0 }}>
             <p className={`${bodyTextClassName} mb-[1.2rem]`}>
               {guideContent.intro}
             </p>
@@ -128,7 +132,12 @@ export default function KasutusjuhendBody() {
               }} />
                 </article>)}
             </div>
-            <footer className="mt-[1.2rem] mb-[clamp(1.45rem,4vh,2.3rem)] max-[48em]:mb-[clamp(1.7rem,5vh,2.6rem)] text-center text-[1.05rem] max-[48em]:text-[1.12rem] text-[#d7cfd3] light:text-[#4a413a]">
+            <footer className={cn(
+              "mt-[1.2rem] text-center text-[1.05rem] max-[48em]:text-[1.12rem] text-[#d7cfd3] light:text-[#4a413a]",
+              isExpandedLayout
+                ? "mb-[clamp(0.7rem,2.2vh,1.25rem)] max-[48em]:mb-[clamp(0.8rem,2.4vh,1.35rem)]"
+                : "mb-[clamp(3.5rem,8.7vh,5.5rem)] max-[48em]:mb-[clamp(4.2rem,10.3vh,6.3rem)]"
+            )}>
               {getFooterNote()}
             </footer>
           </div>

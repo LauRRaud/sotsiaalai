@@ -5,7 +5,6 @@ import { useEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OptionCard from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
-import AppLink from "@/components/ui/Link";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
@@ -38,7 +37,6 @@ const isRegistrationOpen = !["false", "0", "off"].includes(
   String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true").trim().toLowerCase()
 );
 export default function RegistreerimineBody({
-  openLoginModal = null
 }) {
   const router = useRouter();
   const {
@@ -436,17 +434,6 @@ export default function RegistreerimineBody({
                       {t("auth.register.submit")}
                     </span>
                   </Button>
-                </div>
-              </section>
-
-              <section className={`${registerStepClassName} ${getRegisterStepClassName(6)}`}>
-                <div className={`flex justify-center ${registerTextClassName}`}>
-                  <AppLink href="#" onClick={e => {
-                    e.preventDefault();
-                    openLoginModal?.();
-                  }} aria-label={t("auth.login.title")} className="register-login-link text-[1.14em] leading-[1.2] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38]">
-                      {t("auth.login.title")}
-                  </AppLink>
                 </div>
               </section>
             </form>

@@ -178,8 +178,6 @@ export default function LoginModal({
   const touchStartRef = useRef(null);
   const suppressNativeBlurSubmitRef = useRef(false);
   const zeroLongPressTimerRef = useRef(null);
-  const zeroRepeatTimerRef = useRef(null);
-  const zeroRepeatIntervalRef = useRef(null);
   const zeroLongPressFiredRef = useRef(false);
   const timeoutIdsRef = useRef(new Set());
   const registerTimeout = useCallback((callback, delay = 0) => {
@@ -814,44 +812,28 @@ export default function LoginModal({
       clearTimeout(zeroLongPressTimerRef.current);
       zeroLongPressTimerRef.current = null;
     }
-    if (zeroRepeatTimerRef.current) {
-      clearTimeout(zeroRepeatTimerRef.current);
-      zeroRepeatTimerRef.current = null;
-    }
-    if (zeroRepeatIntervalRef.current) {
-      clearInterval(zeroRepeatIntervalRef.current);
-      zeroRepeatIntervalRef.current = null;
-    }
   }, []);
-  const startZeroRepeat = useCallback(() => {
-    if (zeroRepeatIntervalRef.current) return;
-    zeroRepeatIntervalRef.current = setInterval(() => {
-      deleteOneDigit(false);
-    }, 130);
-  }, [deleteOneDigit]);
   const startZeroLongPress = useCallback(() => {
     if (step !== "pin") return;
     zeroLongPressFiredRef.current = false;
     stopZeroHoldActions();
-    if (zeroKeyMode === "backspace") {
-      zeroRepeatTimerRef.current = setTimeout(() => {
-        zeroLongPressFiredRef.current = true;
-        startZeroRepeat();
-      }, 420);
-      return;
-    }
     zeroLongPressTimerRef.current = setTimeout(() => {
-      setZeroKeyMode("backspace");
       zeroLongPressFiredRef.current = true;
+      setZeroKeyMode("backspace");
+      setPinValue("");
+      setError("");
+      resetIconState();
+      setPinError(false);
       if (typeof navigator !== "undefined" && navigator.vibrate) {
         try {
           navigator.vibrate(10);
         } catch {}
       }
     }, 430);
-  }, [startZeroRepeat, step, stopZeroHoldActions, zeroKeyMode]);
+  }, [resetIconState, step, stopZeroHoldActions]);
   const cancelZeroLongPress = useCallback(() => {
     stopZeroHoldActions();
+    setZeroKeyMode("digit");
   }, [stopZeroHoldActions]);
   useEffect(() => () => {
     stopZeroHoldActions();
@@ -1026,19 +1008,19 @@ export default function LoginModal({
     ? isMidTheme
       ? "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.14) 55%, rgba(255, 255, 255, 0.08) 100%)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.22) 55%, rgba(255, 255, 255, 0.14) 100%)"
-    : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, var(--pin-a)) 0%, rgba(255, 255, 255, 0.004) 42%, rgba(0, 0, 0, 0.4) 100%)";
+    : "radial-gradient(135% 135% at 18% 14%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 26%, rgba(255, 255, 255, 0) 58%), radial-gradient(118% 118% at 80% 86%, rgba(7, 10, 16, 0.2) 0%, rgba(7, 10, 16, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.055) 38%, rgba(255, 255, 255, 0.025) 64%, rgba(9, 12, 18, 0.14) 100%), rgba(244, 239, 234, 0.14)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
       ? "0 8px 16px rgba(0, 0, 0, 0.08), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.62), inset 0 -1px 0 rgba(0, 0, 0, 0.08)"
       : "0 10px 18px rgba(0, 0, 0, 0.1), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78), inset 0 -1px 0 rgba(0, 0, 0, 0.12)"
-    : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)";
+    : "0 6px 14px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.065), inset 0 1px 0 rgba(255, 255, 255, 0.095), inset 0 -1px 0 rgba(0, 0, 0, 0.18)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
       ? "linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.14) 32%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.08) 74%, rgba(0, 0, 0, 0.08) 100%), radial-gradient(120% 110% at 18% 16%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 64%), radial-gradient(120% 120% at 84% 90%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 56%)"
       : "linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.22) 32%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.14) 74%, rgba(0, 0, 0, 0.1) 100%), radial-gradient(120% 110% at 18% 16%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 64%), radial-gradient(120% 120% at 84% 90%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 56%)"
-    : "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.16) 100%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.34" : "0.42" : "0.2";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.2" : "0.26" : "0.18";
+    : "linear-gradient(140deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 24%, rgba(255, 255, 255, 0.015) 46%, rgba(255, 255, 255, 0) 64%, rgba(255, 255, 255, 0.03) 80%, rgba(0, 0, 0, 0.08) 100%)";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.34" : "0.42" : "0.14";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.2" : "0.26" : "0.1";
   const otpTextColor = isLightTheme
     ? isMidTheme
       ? "#4a3833"
@@ -1216,7 +1198,7 @@ export default function LoginModal({
           "--pin-a": "0.006",
           "--pin-a-alt": "0.01",
           "--pin-border-w": "1.45px",
-          "--pin-shadow": "0.11",
+          "--pin-shadow": isLightTheme ? "0.11" : "0.08",
           "--pin-gloss-bg": pinGlossBackground,
           "--pin-gloss-op": pinGlossOpacityBase
         }} aria-hidden="false" onTouchStart={handleKeypadTouchStart} onTouchEnd={handleKeypadTouchEnd} onTouchCancel={handleKeypadTouchEnd}>
@@ -1277,7 +1259,7 @@ export default function LoginModal({
               }
               const isZeroKey = key === "zero";
               const digitToAppend = isZeroKey ? "0" : key;
-              const digitLabel = isZeroKey ? zeroKeyMode === "backspace" ? t("auth.login.clear_short") : t("auth.login.key", {
+              const digitLabel = isZeroKey ? zeroKeyMode === "backspace" ? t("auth.login.clear") : t("auth.login.key", {
                 digit: 0
               }) : t("auth.login.key", {
                 digit: key
@@ -1299,26 +1281,10 @@ export default function LoginModal({
               }} onClick={() => {
                 if (isZeroKey && zeroLongPressFiredRef.current) {
                   zeroLongPressFiredRef.current = false;
-                  if (zeroKeyMode === "backspace" && !pinValue) {
-                    setZeroKeyMode("digit");
-                  }
+                  setZeroKeyMode("digit");
                   return;
                 }
                 if (isZeroKey) {
-                  if (zeroKeyMode === "backspace") {
-                    if (!pinValue) {
-                      setZeroKeyMode("digit");
-                      if (typeof navigator !== "undefined" && navigator.vibrate) {
-                        try {
-                          navigator.vibrate(8);
-                        } catch {}
-                      }
-                      return;
-                    }
-                    handleBackspace();
-                    setZeroKeyMode("digit");
-                    return;
-                  }
                   appendDigit(digitToAppend);
                   return;
                 }
@@ -1345,15 +1311,7 @@ export default function LoginModal({
                       <div className="text-[1.12rem] max-md:text-[1.2rem] leading-[1.36] mt-[0.06rem] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
                         {t("auth.login.help_hold_zero_before")}{" "}
                         <strong>{0}</strong>{" "}
-                        {t("auth.login.help_hold_zero_after")}{" "}
-                        <span className="inline-flex items-center align-[-0.06em] leading-none" aria-hidden="true">
-                          {"("}
-                          <svg viewBox="0 0 16 16" fill="none" focusable="false" className="h-[1.04em] w-[1.04em]">
-                            <path d="M13.2 7.35H5.35l2.8-2.35L7.2 4.05 3.1 8l4.1 3.95L8.15 11l-2.8-2.35h7.85z" fill="currentColor" />
-                          </svg>
-                          {")"}
-                        </span>
-                        .
+                        {t("auth.login.help_hold_zero_after")}.
                       </div>
                       <div className="mt-[0.36rem] text-[1.07rem] max-md:text-[1.14rem] leading-[1.34] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
                         {t("auth.login.help_wrong_pin_note")}
