@@ -231,19 +231,10 @@
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
   .login-modal-box.login-modal--otp
   .login-modal-shell {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(22, 22, 28, 0.8) 0%,
-      rgba(14, 14, 20, 0.74) 58%,
-      rgba(8, 8, 12, 0.7) 100%
-    ),
-    rgba(10, 10, 14, 0.66) !important;
-  color: rgba(236, 232, 226, 0.95) !important;
-  border: 1px solid rgba(196, 192, 186, 0.24) !important;
-  box-shadow:
-    0 14px 30px rgba(0, 0, 0, 0.34),
-    inset 0 1px 0 rgba(248, 253, 255, 0.08) !important;
+  background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+  color: var(--glass-modal-text, var(--glass-surface-text, #f2f2f2)) !important;
+  border: var(--glass-modal-border, none) !important;
+  box-shadow: var(--glass-modal-shadow, none) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)

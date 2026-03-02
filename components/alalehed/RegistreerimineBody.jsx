@@ -428,7 +428,7 @@ export default function RegistreerimineBody({
                       </div>
                     </div>
                   </div> : null}
-                <div className={`flex justify-center ${submitting ? "mt-[0.8rem]" : ""}`}>
+                <div className={`register-submit-wrap flex justify-center ${submitting ? "mt-[0.8rem]" : ""}`}>
                   <Button type="submit" variant="primary" className={registerButtonClassName} disabled={submitting || !isRegistrationOpen}>
                     <span className="register-submit-label">
                       {t("auth.register.submit")}

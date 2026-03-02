@@ -15,12 +15,11 @@ import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { getFooterNote } from "@/lib/footerNote";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
+import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionListClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const sectionHeadingClassName = "mt-[1.2rem] text-[clamp(1.32rem,1.75vw,1.5rem)] max-[48em]:text-[clamp(1.62rem,5.7vw,1.9rem)] font-semibold tracking-[0.013em] max-[48em]:tracking-[0.018em] text-[#cd8585] light:text-[#8a4b49]";
-const bodyTextClassName = "mt-[0.6rem] space-y-[0.9rem] text-[clamp(1.06rem,1.45vw,1.18rem)] max-[48em]:text-[clamp(1.22rem,4.55vw,1.38rem)] tracking-[0.013em] max-[48em]:tracking-[0.018em] leading-[1.74] text-[#e4dde0] light:text-[#3f3730]";
 const richLinkClassName = "inline-block text-[1.1em] font-[500] tracking-[0.03em] px-[0.2em] py-[0.02em] rounded-[0.32em] border-2 border-transparent no-underline transition-[border,box-shadow,color] duration-150 text-[#c57171] hover:border-[#c57171] hover:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] focus-visible:border-[#c57171] focus-visible:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] light:text-[#7A3A38] light:hover:border-[#7A3A38] light:focus-visible:border-[#7A3A38]";
 const lawLinkReplacements = {
   aLawEst: {
@@ -160,15 +159,20 @@ export default function PrivaatsusBody() {
         <h1 id="privacy-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
           {t("privacy.title")}
         </h1>
-        <div className={cn(contentClassName, "glass-ring-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
-          <div className={cn(scrollClassName, isExpandedLayout ? "glass-ring-scroll--open" : null)} style={{ zIndex: 0 }}>
-            {sections.map(section => <div key={section.heading}>
-                <h2 className={sectionHeadingClassName}>{section.heading}</h2>
-                <div className={bodyTextClassName}>
-                  {section.content.map((item, idx) => item.type === "list" ? <RichText key={`${section.heading}-list-${idx}`} as="ul" className="list-disc pl-[1.2rem] space-y-[0.4rem]" value={item.value} replacements={item.replacements || lawLinkReplacements} /> : <RichText key={`${section.heading}-p-${idx}`} as="div" value={item.value} replacements={item.replacements || {}} />)}
+        <div className={cn(contentClassName, "glass-ring-content", "policy-page-content", "privacy-page-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
+          <div className={cn(scrollClassName, "policy-page-scroll", isExpandedLayout ? "glass-ring-scroll--open" : null)} style={{ zIndex: 0 }}>
+            {sections.map(section => <div key={section.heading} className={policySectionClassName}>
+                <h2 className={policySectionHeadingClassName}>{section.heading}</h2>
+                <div className={cn(policySectionBodyClassName, "space-y-[0.9rem]")}>
+                  {section.content.map((item, idx) => item.type === "list" ? <RichText key={`${section.heading}-list-${idx}`} as="ul" className={cn(policySectionListClassName, policySectionRichTextClassName)} value={item.value} replacements={item.replacements || lawLinkReplacements} /> : <RichText key={`${section.heading}-p-${idx}`} as="div" className={policySectionRichTextClassName} value={item.value} replacements={item.replacements || {}} />)}
                 </div>
               </div>)}
-            <footer className="mt-[1.6rem] text-center text-[1.05rem] max-[48em]:text-[1.12rem] text-[#d7cfd3] light:text-[#4a413a]">
+            <footer className={cn(
+              "policy-page-footer privacy-page-footer text-center text-[1.32rem] max-[48em]:text-[1.38rem] text-[#d7cfd3] light:text-[#4a413a]",
+              isExpandedLayout
+                ? "mt-[1.8rem] mb-[clamp(1rem,2.6vh,1.6rem)] max-[48em]:mb-[clamp(1rem,2.8vh,1.6rem)]"
+                : "mt-[clamp(2.9rem,6.3vh,3.6rem)] mb-[clamp(2.3rem,5.6vh,3.5rem)] max-[48em]:mt-[1.8rem] max-[48em]:mb-[clamp(2.3rem,5.8vh,3.5rem)]"
+            )}>
               {getFooterNote()}
             </footer>
           </div>

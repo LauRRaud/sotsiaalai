@@ -56,9 +56,9 @@
     </radialGradient>
 
     <radialGradient id="gBottomLift" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
-      gradientTransform="translate(204 318) rotate(0) scale(164 70)">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
-      <stop offset="0.58" stop-color="#fffdf8" stop-opacity="0.08"/>
+      gradientTransform="translate(204 322) rotate(0) scale(164 46)">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="0.58" stop-color="#fffdf8" stop-opacity="0.05"/>
       <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
 

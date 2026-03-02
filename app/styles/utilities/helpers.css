@@ -407,9 +407,9 @@ body.login-modal-open {
       100% - var(--glass-ring-scroll-offset-open, 5rem) +
         var(--policy-scroll-rise, 0rem)
     );
-    margin-top: calc(var(--policy-scroll-rise, 0rem) * -1);
+    margin-top: calc(var(--policy-scroll-rise, 0rem) * -0.35);
     padding-top: calc(
-      clamp(1.45rem, 3.05vh, 2.2rem) + var(--policy-first-line-drop, 0rem)
+      clamp(1.9rem, 3.9vh, 2.8rem) + var(--policy-first-line-drop, 0rem)
     );
     width: calc(100% - clamp(1.5rem, 3vw, 2.3rem)) !important;
     max-width: calc(100% - clamp(1.5rem, 3vw, 2.3rem)) !important;
@@ -496,8 +496,8 @@ body.login-modal-open {
 
 .glass-ring-content--open {
   padding-bottom: clamp(0.35rem, 1.1vh, 0.7rem);
-  padding-top: clamp(0.05rem, 0.5vh, 0.3rem);
-  margin-top: clamp(-0.35rem, -0.9vh, -0.18rem);
+  padding-top: clamp(0.18rem, 0.9vh, 0.52rem);
+  margin-top: clamp(-0.12rem, -0.32vh, -0.04rem);
 }
 
 .glass-ring-content:not(.glass-ring-content--open) {
@@ -564,9 +564,71 @@ body.login-modal-open {
   margin-top: clamp(0.82rem, 1.95vh, 1.35rem) !important;
 }
 
-.guide-policy-content.glass-ring-content:not(.glass-ring-content--open) {
-  padding-top: clamp(0.38rem, 1vh, 0.7rem);
-  margin-top: clamp(-0.02rem, 0.12vh, 0.12rem);
+.guide-policy-content.glass-ring-content:not(.glass-ring-content--open),
+.policy-page-content.glass-ring-content:not(.glass-ring-content--open) {
+  padding-top: clamp(0.2rem, 0.72vh, 0.48rem);
+  margin-top: clamp(-0.16rem, -0.34vh, -0.06rem);
+}
+
+.policy-page-content.glass-ring-content--open {
+  padding-top: clamp(0.34rem, 1.15vh, 0.68rem);
+  margin-top: clamp(0.02rem, 0.18vh, 0.14rem);
+}
+
+.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
+.policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.12) 1.2%,
+    rgba(0, 0, 0, 0.24) 2.6%,
+    #000 4.6%,
+    #000 84%,
+    rgba(0, 0, 0, 0.14) 91%,
+    rgba(0, 0, 0, 0.01) 96%,
+    transparent 100%
+  ) !important;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.12) 1.2%,
+    rgba(0, 0, 0, 0.24) 2.6%,
+    #000 4.6%,
+    #000 84%,
+    rgba(0, 0, 0, 0.14) 91%,
+    rgba(0, 0, 0, 0.01) 96%,
+    transparent 100%
+  ) !important;
+}
+
+.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
+.policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.12) 1.4%,
+    rgba(0, 0, 0, 0.24) 3%,
+    #000 5.2%,
+    #000 92%,
+    rgba(0, 0, 0, 0.2) 96%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.12) 1.4%,
+    rgba(0, 0, 0, 0.24) 3%,
+    #000 5.2%,
+    #000 92%,
+    rgba(0, 0, 0, 0.2) 96%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+}
+
+@media (min-width: 48em) {
+  .privacy-page-footer {
+    margin-top: clamp(3.6rem, 7.4vh, 4.6rem) !important;
+  }
 }
 
 .glass-ring-expand-toggle {

@@ -976,7 +976,8 @@
   }
 
   .guide-rich-text ol {
-    padding-left: clamp(1.28rem, 5.6vw, 1.7rem) !important;
+    list-style-position: inside;
+    padding-left: 0 !important;
   }
 
   .guide-rich-text ul {

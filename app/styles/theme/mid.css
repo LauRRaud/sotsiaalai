@@ -130,19 +130,10 @@
 
 /* OTP step in mid: keep shell, input and controls on same glass material. */
 :root.theme-mid .login-modal-box.login-modal--otp .login-modal-shell {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(253, 250, 249, 0.68) 0%,
-      rgba(247, 239, 237, 0.54) 56%,
-      rgba(242, 232, 229, 0.46) 100%
-    ),
-    rgba(250, 244, 242, 0.52) !important;
-  color: #3f2f2b !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow:
-    0 10px 22px rgba(20, 12, 10, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.58) !important;
+  background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(252, 248, 247, 0.58))) !important;
+  color: var(--glass-modal-text, var(--glass-surface-text, #2c3340)) !important;
+  border: var(--glass-modal-border, none) !important;
+  box-shadow: var(--glass-modal-shadow, none) !important;
 }
 
 :root.theme-mid .login-modal-box.login-modal--otp #otp-code-input {

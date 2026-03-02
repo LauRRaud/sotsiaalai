@@ -20,6 +20,7 @@ const noteErrorClassName = "text-[#fca5a5] light:text-[#b44a4a]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
 const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-[1.55rem] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38] [--link-brand-shadow-hover:transparent]`;
 const homeLikeOtpLinkClassName = `${linkBrandInlineClass} home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.12rem,1.55vw,1.28rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]`;
+const helpPopoverLinkClassName = `${linkBrandInlineClass} mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap [--link-brand-shadow-hover:transparent]`;
 const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const MODAL_FOCUSABLE_SELECTOR = [
   "a[href]",
@@ -1004,23 +1005,39 @@ export default function LoginModal({
   const isMidTheme = prefs?.theme === "mid";
   const isNightTheme = prefs?.theme === "night";
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
+  const helpPopoverLinkStyle = isMidTheme
+    ? {
+        "--link-color": "#8a4b49",
+        "--link-brand-text": "#8a4b49",
+        "--link-brand-border-hover": "rgba(138,75,73,0.32)"
+      }
+    : isLightTheme
+      ? {
+          "--link-color": "#7A3A38",
+          "--link-brand-text": "#7A3A38",
+          "--link-brand-border-hover": "rgba(122,58,56,0.3)"
+        }
+      : {
+          "--link-brand-text": "#c57171",
+          "--link-brand-border-hover": "rgba(197,113,113,0.38)"
+        };
   const pinKeyBackground = isLightTheme
     ? isMidTheme
-      ? "radial-gradient(125% 125% at 26% 22%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.12) 28%, rgba(255, 255, 255, 0) 58%), linear-gradient(155deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.1) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.08)"
+      ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.22) 55%, rgba(255, 255, 255, 0.14) 100%)"
     : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, var(--pin-a)) 0%, rgba(255, 255, 255, 0.004) 42%, rgba(0, 0, 0, 0.4) 100%)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
-      ? "0 2px 7px rgba(61, 42, 42, 0.045), inset 0 0 0 1px rgba(122, 58, 56, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.24)"
-      : "0 10px 18px rgba(0, 0, 0, 0.1), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78), inset 0 -1px 0 rgba(0, 0, 0, 0.12)"
+      ? "0 6px 12px rgba(0, 0, 0, 0.075), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.74), inset 0 -1px 0 rgba(0, 0, 0, 0.08)"
+      : "0 6px 12px rgba(0, 0, 0, 0.075), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.74), inset 0 -1px 0 rgba(0, 0, 0, 0.08)"
     : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
-      ? "linear-gradient(140deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 26%, rgba(255, 255, 255, 0.015) 48%, rgba(255, 255, 255, 0) 68%, rgba(122, 58, 56, 0.035) 100%)"
+      ? "linear-gradient(138deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 22%, rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0) 66%, rgba(122, 58, 56, 0.045) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 72%)"
       : "linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.22) 32%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.14) 74%, rgba(0, 0, 0, 0.1) 100%), radial-gradient(120% 110% at 18% 16%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 64%), radial-gradient(120% 120% at 84% 90%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 56%)"
     : "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.16) 100%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.1" : "0.42" : "0.2";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.06" : "0.26" : "0.18";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.14" : "0.42" : "0.2";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.1" : "0.26" : "0.18";
   const otpTextColor = isLightTheme
     ? isMidTheme
       ? "#4a3833"
@@ -1095,7 +1112,7 @@ export default function LoginModal({
             : "var(--login-pin-modal-w)",
         boxSizing: "border-box"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside}>
-        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] ${
+        <div className={`login-modal-shell glass-box border-0 shadow-none w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] ${
         isOtpStep
           ? "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
           : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"
@@ -1299,7 +1316,7 @@ export default function LoginModal({
             })}
                 </div>
 
-                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className="login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] rounded-[16px] bg-[rgba(0,0,0,0.86)] text-[rgba(255,255,255,0.92)] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 light:bg-[rgba(255,255,255,0.94)] light:text-[#111827]" style={{
+                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className="login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] rounded-[16px] bg-[rgba(0,0,0,0.5)] text-[rgba(255,255,255,0.92)] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 backdrop-blur-[14px] backdrop-saturate-[118%] [-webkit-backdrop-filter:blur(14px)_saturate(118%)] border border-[rgba(255,255,255,0.12)] shadow-[0_14px_28px_rgba(0,0,0,0.24)] light:bg-[rgba(255,255,255,0.62)] light:text-[#111827] light:border-[rgba(122,58,56,0.12)] light:shadow-[0_12px_24px_rgba(15,23,42,0.12)]" style={{
                   width: isMobile ? "min(19.4rem, calc(100vw - 2.2rem))" : "19.2rem",
                   maxWidth: "calc(100vw - 1.6rem)"
                 }}>
@@ -1317,7 +1334,7 @@ export default function LoginModal({
                         {t("auth.login.help_wrong_pin_note")}
                       </div>
 
-                      <AppLink href={resetRequestPath} variant="brand" className="mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap" onClick={() => setHelpOpen(false)}>
+                      <AppLink href={resetRequestPath} variant="brand" className={helpPopoverLinkClassName} style={helpPopoverLinkStyle} onClick={() => setHelpOpen(false)}>
                         {t("auth.login.forgot")}
                       </AppLink>
                     </div>

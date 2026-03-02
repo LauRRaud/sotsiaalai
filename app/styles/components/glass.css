@@ -241,3 +241,9 @@ section[lang="en"] .register-guide-card {
   display: inline-block;
   width: 0.16em;
 }
+
+@media (min-width: 48.0625em) {
+  .register-submit-wrap {
+    transform: translateY(0.4rem);
+  }
+}

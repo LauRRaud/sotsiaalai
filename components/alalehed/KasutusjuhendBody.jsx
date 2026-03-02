@@ -16,12 +16,11 @@ import { localizeInternalHtmlLinks } from "@/lib/localizeHtmlLinks";
 import { getFooterNote } from "@/lib/footerNote";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { etGuideContent } from "@/components/alalehed/guideContentEt";
+import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const sectionHeadingClassName = "text-[clamp(1.32rem,1.75vw,1.5rem)] max-[48em]:text-[clamp(1.62rem,5.7vw,1.9rem)] font-semibold tracking-[0.013em] max-[48em]:tracking-[0.018em] text-[#cd8585] light:text-[#8a4b49]";
-const bodyTextClassName = "text-[clamp(1.06rem,1.45vw,1.18rem)] max-[48em]:text-[clamp(1.22rem,4.55vw,1.38rem)] tracking-[0.013em] max-[48em]:tracking-[0.018em] leading-[1.74] text-[#e4dde0] light:text-[#3f3730]";
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "profile", "about", "quickstart"];
 export default function KasutusjuhendBody() {
   const [expanded, setExpanded] = useState(false);
@@ -118,23 +117,23 @@ export default function KasutusjuhendBody() {
             !isExpandedLayout ? "pb-[4.2rem] max-[48em]:pb-[4.8rem]" : null,
             isExpandedLayout ? "glass-ring-scroll--open" : null
           )} style={{ zIndex: 0 }}>
-            <p className={`${bodyTextClassName} mb-[1.2rem]`}>
+            <p className={cn(policySectionBodyClassName, "mb-[0.58rem] max-[48em]:mb-[0.54rem]")}>
               {guideContent.intro}
             </p>
-            <div className="flex flex-col gap-[0.18rem] max-[48em]:gap-[0.14rem]">
+            <div className="flex flex-col gap-0">
               {guideContent.sections.map(({
               key,
               title,
               body
-            }) => <article key={key} onClick={key === "accessibility" ? handleA11yClick : undefined} aria-label={title} className={key === "quickstart" ? "guide-quickstart-section" : undefined}>
-                  <h2 className={`${sectionHeadingClassName} mb-[0.45rem] max-[48em]:mb-[0.4rem]`}>{title}</h2>
-                  <div className={`${bodyTextClassName} guide-rich-text ${key === "quickstart" ? "guide-quickstart-rich-text" : ""} max-[48em]:text-[clamp(1.24rem,4.65vw,1.42rem)] leading-[1.68] [&_p]:my-[0.38rem] [&_ul]:my-[0.38rem] [&_ol]:my-[0.38rem] [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-[0.22rem]`} dangerouslySetInnerHTML={{
+            }, idx) => <article key={key} onClick={key === "accessibility" ? handleA11yClick : undefined} aria-label={title} className={cn(policySectionClassName, idx === 0 ? "mt-0" : null, key === "quickstart" ? "guide-quickstart-section" : null)}>
+                  <h2 className={policySectionHeadingClassName}>{title}</h2>
+                  <div className={cn(policySectionBodyClassName, policySectionRichTextClassName, "guide-rich-text", key === "quickstart" ? "guide-quickstart-rich-text" : null, "max-[48em]:text-[clamp(1.24rem,4.65vw,1.42rem)] leading-[1.68] [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-[0.22rem]")} dangerouslySetInnerHTML={{
                 __html: body
               }} />
                 </article>)}
             </div>
             <footer className={cn(
-              "text-center text-[1.22rem] max-[48em]:text-[1.28rem] text-[#d7cfd3] light:text-[#4a413a]",
+              "text-center text-[1.32rem] max-[48em]:text-[1.38rem] text-[#d7cfd3] light:text-[#4a413a]",
               isExpandedLayout
                 ? "mt-[1.8rem] mb-[clamp(1rem,2.6vh,1.6rem)] max-[48em]:mb-[clamp(1rem,2.8vh,1.6rem)]"
                 : "mt-[clamp(2.7rem,6vh,3.4rem)] mb-[clamp(2.2rem,5.4vh,3.4rem)] max-[48em]:mt-[1.8rem] max-[48em]:mb-[clamp(2.4rem,5.8vh,3.6rem)]"

@@ -92,13 +92,6 @@ const rolePillMultiLineClassName =
   "translate-y-0";
 const rolePillMultiLineTextClassName =
   "flex flex-col items-center justify-center gap-[0.28rem] leading-[1.06] text-inherit";
-const rolePreviewWrapClassName =
-  "absolute left-1/2 bottom-[calc(100%+0.72rem)] z-[2] flex -translate-x-1/2 items-center justify-center " +
-  "w-max max-w-[min(88vw,24rem)] max-[48em]:bottom-[calc(100%+0.5rem)]";
-const rolePreviewButtonsClassName =
-  "flex flex-wrap items-center justify-center gap-[0.35rem] max-w-[min(88vw,22rem)]";
-const rolePreviewButtonBaseClassName =
-  "inline-flex min-h-[2.15rem] items-center justify-center rounded-full border px-[0.72rem] py-[0.28rem] text-[0.8rem] font-[600] uppercase tracking-[0.055em] transition-colors duration-150";
 const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
@@ -122,6 +115,18 @@ const orbitWrapperClassName =
   "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
+const orbitRoleToggleWrapClassName =
+  "absolute left-1/2 top-[calc(50%+clamp(4.95rem,20vw,5.95rem))] min-[48.0625em]:top-[calc(50%+6.55rem)] " +
+  "-translate-x-1/2 z-[6] pointer-events-auto";
+const orbitRoleToggleButtonClassName =
+  "inline-flex items-center justify-center gap-[0.62rem] rounded-full border-0 px-[1.14rem] py-[0.72rem] " +
+  "min-h-[2.92rem] px-[1rem] py-[0.64rem] whitespace-nowrap text-[1.14rem] max-[48em]:text-[1.04rem] font-[600] tracking-[0.03em] " +
+  "text-[#c57171] light:text-[#7A3A38] " +
+  "bg-[rgba(8,12,20,0.14)] light:bg-[rgba(255,255,255,0.24)] backdrop-blur-[0.9rem] " +
+  "shadow-[0_7px_16px_rgba(0,0,0,0.14)] light:shadow-[0_7px_14px_rgba(15,23,42,0.08)] " +
+  "transition-[transform,border-color,background,box-shadow,opacity] duration-180 ease-out " +
+  "hover:scale-[1.02] focus-visible:scale-[1.02] focus-visible:outline-none " +
+  "disabled:opacity-60 disabled:cursor-default disabled:hover:scale-100";
 const logoutButtonClassName =
   "group relative grid place-items-center h-[5.2rem] w-[5.2rem] max-[48em]:h-[6.2rem] max-[48em]:w-[6.2rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
 const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
@@ -337,6 +342,17 @@ function DeleteDockIcon({
       <path d="M9 6l.6-1.4A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.4.6L15 6m3 0-.8 11.6a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 6" />
     </svg>;
 }
+function RoleToggleDockIcon({
+  isHovered: _isHovered,
+  ...props
+}) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <path d="M7 7h10" />
+      <path d="m13.5 4.5 3 2.5-3 2.5" />
+      <path d="M17 17H7" />
+      <path d="m10.5 14.5-3 2.5 3 2.5" />
+    </svg>;
+}
 function ThemeSunDockIcon({
   isHovered: _isHovered,
   ...props
@@ -369,9 +385,14 @@ function ThemeMidDockIcon({
         <clipPath id="mid-sun-disc-clip">
           <circle cx="12" cy="12" r="3.7" />
         </clipPath>
+        <clipPath id="mid-sun-lower-clip">
+          <circle cx="12" cy="12" r="3.7" />
+          <rect x="8.3" y="12.5" width="7.4" height="3.3" />
+        </clipPath>
       </defs>
       <circle cx="12" cy="12" r="3.7" />
       <rect x="8.3" y="12.5" width="7.4" height="3.3" fill="currentColor" stroke="none" clipPath="url(#mid-sun-disc-clip)" />
+      <path d="M10.45 14.08h3.1" stroke="rgba(255,255,255,0.78)" strokeWidth="0.72" clipPath="url(#mid-sun-lower-clip)" />
       <path d="M12 2.6v2.1M4.7 12h2.1M17.2 12h2.1M5.8 5.8l1.5 1.5M18.2 5.8l-1.5 1.5" />
     </svg>;
 }
@@ -462,16 +483,8 @@ export default function ProfiilBody({
   const maskLayerRef = useRef(null);
   const maskRefreshRef = useRef(null);
   const logoutRedirectRef = useRef(false);
-  const rolePreviewOptions = [
-    {
-      value: "SOCIAL_WORKER",
-      label: t("profile.view_mode.worker")
-    },
-    {
-      value: "CLIENT",
-      label: t("profile.view_mode.client")
-    }
-  ];
+  const nextPreviewRole = activePreviewRole === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER";
+  const nextPreviewRoleLabel = t(nextPreviewRole === "SOCIAL_WORKER" ? "profile.view_mode.worker" : "profile.view_mode.client");
   useLayoutEffect(() => {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
@@ -966,34 +979,6 @@ export default function ProfiilBody({
       </h1>
 
       <div className={cn(headerCenterClassName, "profile-role-row")}>
-        {isAdminUser ? (
-          <div className={rolePreviewWrapClassName}>
-            <div className={rolePreviewButtonsClassName}>
-              {rolePreviewOptions.map(option => {
-                const active = activePreviewRole === option.value;
-                return (
-                  <button
-                    key={option.value}
-                    type="button"
-                    className={cn(
-                      rolePreviewButtonBaseClassName,
-                      active
-                        ? "border-[color:#c57171] bg-[color:rgba(197,113,113,0.16)] text-[#f6ddd6] light:text-[#7A3A38]"
-                        : "border-[color:rgba(255,255,255,0.18)] bg-[color:rgba(255,255,255,0.06)] text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] light:border-[color:rgba(122,58,56,0.18)] light:bg-[color:rgba(122,58,56,0.08)]"
-                    )}
-                    onClick={() => {
-                      void handleAdminViewRoleChange(option.value);
-                    }}
-                    disabled={roleSwitching}
-                    aria-pressed={active}
-                  >
-                    {option.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ) : null}
         <span
           ref={rolePillRef}
           className={cn(
@@ -1031,6 +1016,22 @@ export default function ProfiilBody({
             onOpenChange={setOrbitOpen}
           />
         </div>
+        {isAdminUser && !orbitOpen ? (
+          <div className={orbitRoleToggleWrapClassName}>
+            <button
+              type="button"
+              className={orbitRoleToggleButtonClassName}
+              onClick={() => {
+                void handleAdminViewRoleChange(nextPreviewRole);
+              }}
+              disabled={roleSwitching}
+              aria-label={nextPreviewRoleLabel}
+            >
+              <RoleToggleDockIcon className="h-[1.42rem] w-[1.42rem] shrink-0" />
+              <span>{nextPreviewRoleLabel}</span>
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {!orbitOpen && (
