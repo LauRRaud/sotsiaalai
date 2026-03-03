@@ -123,7 +123,7 @@ export default function ClickPulseCursor({
     refreshRef.current?.();
   }, [pathname]);
   return <div ref={dotRef} className={`click-pulse-cursor${active ? " is-active" : ""}`} style={{
-    width: size,
-    height: size
+    width: `var(--click-pulse-size, ${size}px)`,
+    height: `var(--click-pulse-size, ${size}px)`
   }} aria-hidden="true" />;
 }

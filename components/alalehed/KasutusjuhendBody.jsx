@@ -9,7 +9,7 @@ import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
-import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
+import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { localizeInternalHtmlLinks } from "@/lib/localizeHtmlLinks";
@@ -17,6 +17,7 @@ import { getFooterNote } from "@/lib/footerNote";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { etGuideContent } from "@/components/alalehed/guideContentEt";
 import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
+import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
@@ -39,7 +40,7 @@ export default function KasutusjuhendBody() {
   const isExpandedLayout = expanded || isMobilePolicyLayout;
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const media = window.matchMedia("(max-width: 48em), (pointer: coarse)");
+    const media = window.matchMedia("(max-width: 768px), (pointer: coarse)");
     const updateLayout = () => setIsMobilePolicyLayout(media.matches);
     updateLayout();
     if (typeof media.addEventListener === "function") {
@@ -99,7 +100,7 @@ export default function KasutusjuhendBody() {
         <CloseButton
           onClick={handleBack}
           ariaLabel={t("buttons.close")}
-          className={cn(glassPageCloseClassName, "max-[48em]:hidden")}
+          className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
         />
         <BackButton
           onClick={handleBack}
@@ -107,17 +108,25 @@ export default function KasutusjuhendBody() {
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
-        <h1 id="kasutusjuhend-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName} guide-page-title`}>
+        <h1 id="kasutusjuhend-title" className={cn(titleClassName, glassPolicyTitleOffsetClassName, "guide-page-title", isExpandedLayout ? glassPolicyTitleExpandedClassName : null)}>
           {t("about.guide.short_title")}
         </h1>
-        <div className={cn(contentClassName, "glass-ring-content", "guide-policy-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
-          <div className={cn(
-            scrollClassName,
-            "guide-policy-scroll",
-            !isExpandedLayout ? "pb-[4.2rem] max-[48em]:pb-[4.8rem]" : null,
-            isExpandedLayout ? "glass-ring-scroll--open" : null
-          )} style={{ zIndex: 0 }}>
-            <p className={cn(policySectionBodyClassName, "mb-[0.58rem] max-[48em]:mb-[0.54rem]")}>
+        <div className={cn(contentClassName, "glass-ring-content", "guide-policy-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
+          <div
+            className={cn(
+              scrollClassName,
+              "guide-policy-scroll",
+              !isExpandedLayout ? "pb-[4.2rem] max-[768px]:pb-[4.8rem]" : null,
+              isExpandedLayout ? "glass-ring-scroll--open" : null,
+              isExpandedLayout ? glassPolicyScrollExpandedClassName : null
+            )}
+            style={{ zIndex: 0 }}
+            tabIndex={0}
+            aria-labelledby="kasutusjuhend-title"
+            onKeyDown={handlePolicyScrollKeyDown}
+            onMouseDown={focusPolicyScrollArea}
+          >
+            <p className={cn(policySectionBodyClassName, "mb-[0.58rem] max-[768px]:mb-[0.54rem]")}>
               {guideContent.intro}
             </p>
             <div className="flex flex-col gap-0">
@@ -127,16 +136,16 @@ export default function KasutusjuhendBody() {
               body
             }, idx) => <article key={key} onClick={key === "accessibility" ? handleA11yClick : undefined} aria-label={title} className={cn(policySectionClassName, idx === 0 ? "mt-0" : null, key === "quickstart" ? "guide-quickstart-section" : null)}>
                   <h2 className={policySectionHeadingClassName}>{title}</h2>
-                  <div className={cn(policySectionBodyClassName, policySectionRichTextClassName, "guide-rich-text", key === "quickstart" ? "guide-quickstart-rich-text" : null, "max-[48em]:text-[clamp(1.24rem,4.65vw,1.42rem)] leading-[1.68] [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-[0.22rem]")} dangerouslySetInnerHTML={{
+                  <div className={cn(policySectionBodyClassName, policySectionRichTextClassName, "guide-rich-text", key === "quickstart" ? "guide-quickstart-rich-text" : null, "max-[768px]:text-[clamp(1.24rem,4.65vw,1.42rem)] leading-[1.68] [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-[0.22rem]")} dangerouslySetInnerHTML={{
                 __html: body
               }} />
                 </article>)}
             </div>
             <footer className={cn(
-              "text-center text-[1.32rem] max-[48em]:text-[1.38rem] text-[#d7cfd3] light:text-[#4a413a]",
+              "text-center text-[1.32rem] max-[768px]:text-[1.38rem] text-[#d7cfd3] light:text-[#4a413a]",
               isExpandedLayout
-                ? "mt-[1.8rem] mb-[clamp(1rem,2.6vh,1.6rem)] max-[48em]:mb-[clamp(1rem,2.8vh,1.6rem)]"
-                : "mt-[clamp(2.7rem,6vh,3.4rem)] mb-[clamp(2.2rem,5.4vh,3.4rem)] max-[48em]:mt-[1.8rem] max-[48em]:mb-[clamp(2.4rem,5.8vh,3.6rem)]"
+                ? "mt-[1.8rem] mb-[clamp(1rem,2.6vh,1.6rem)] max-[768px]:mb-[clamp(1rem,2.8vh,1.6rem)]"
+                : "mt-[clamp(2.7rem,6vh,3.4rem)] mb-[clamp(2.2rem,5.4vh,3.4rem)] max-[768px]:mt-[1.8rem] max-[768px]:mb-[clamp(2.4rem,5.8vh,3.6rem)]"
             )}>
               {getFooterNote()}
             </footer>

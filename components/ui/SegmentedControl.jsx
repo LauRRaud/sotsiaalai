@@ -1,5 +1,5 @@
 import { cn } from "@/components/ui/cn";
-const groupStyles = "grid gap-[0.65rem] [grid-template-columns:repeat(auto-fit,minmax(12rem,1fr))] max-[48em]:grid-cols-1";
+const groupStyles = "grid gap-[0.65rem] [grid-template-columns:repeat(auto-fit,minmax(12rem,1fr))] max-[768px]:grid-cols-1";
 export default function SegmentedControl({
   name,
   value,

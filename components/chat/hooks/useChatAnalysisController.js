@@ -37,7 +37,7 @@ export function useChatAnalysisController({
     : "inline";
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
-    const mq = window.matchMedia("(max-width: 48em)");
+    const mq = window.matchMedia("(max-width: 768px)");
     const update = () => setIsMobileViewport(!!mq.matches);
     update();
     if (mq.addEventListener) {

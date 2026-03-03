@@ -3,7 +3,7 @@
   display: none !important;
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .glass-mobile-only-close {
     display: none !important;
   }
@@ -38,7 +38,7 @@
   }
 }
 
-@media (max-width: 30em) {
+@media (max-width: 480px) {
   :root {
     --card-size: clamp(11.875rem, 76vw, 16.625rem);
   }
@@ -66,7 +66,7 @@
   }
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   :where(
       a,
       button,
@@ -165,7 +165,7 @@
   }
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .three-d-card {
     animation: none;
     opacity: var(--end-op, 1);
@@ -201,7 +201,7 @@
   }
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   html[data-display-mode="standalone"] .homepage-root > section,
   body[data-display-mode="standalone"] .homepage-root > section {
     min-height: calc(100dvh + clamp(2.2rem, 5.5vh, 3.4rem));
@@ -228,7 +228,7 @@
   }
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .glass-box {
     width: 100%;
     max-width: none;
@@ -270,7 +270,7 @@
   }
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .profile-container.glass-ring {
     background: transparent !important;
     border: 0 !important;
@@ -323,7 +323,7 @@
   }
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .profile-orbit-menu[data-mobile-variant="stack"].is-open
     .profile-orbit-menu__center {
     opacity: 0;
@@ -516,7 +516,7 @@
 
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     position: absolute !important;
     left: 50% !important;
@@ -554,7 +554,7 @@
 
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-role-row {
     transform: translateY(clamp(0.32rem, 1.45vw, 0.52rem)) !important;
   }
@@ -584,8 +584,8 @@
   }
 }
 
-@media (max-width: 48em) and (display-mode: standalone),
-  (max-width: 48em) and (display-mode: fullscreen) {
+@media (max-width: 768px) and (display-mode: standalone),
+  (max-width: 768px) and (display-mode: fullscreen) {
   .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     top: auto !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
@@ -593,7 +593,7 @@
   }
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .a11y-language-fieldset--single {
     padding-bottom: 6.9rem !important;
   }
@@ -875,7 +875,7 @@
   }
 }
 
-@media (max-width: 48em) and (pointer: coarse) {
+@media (max-width: 768px) and (pointer: coarse) {
   .a11y-language-fieldset--single {
     padding-bottom: 6.9rem !important;
     min-height: 0 !important;

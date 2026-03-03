@@ -1,5 +1,7 @@
 :root {
   color-scheme: dark;
+  --base-rem: 16px;
+  --ui-scale: 1;
 
   --brand-primary: #c57171;
   --brand-accent: var(--brand-primary);
@@ -14,18 +16,38 @@
 
   /* Desktop ring sizing (13"–27") */
   --ring-scale: 1;
-  --ring-base-max: 50rem;
-  --ring-base-min: 34rem;
-  --ring-desktop-max: 55rem;
-  --ring-fit-pad: 1.5rem;
-  --ring-ui-reserve: 2.5rem;
-  --ring-ui-reserve-page: 2.5rem;
-  --ring-pad-x: clamp(1.8rem, 5vw, 3.2rem);
-  --ring-pad-top: clamp(1.6rem, 4.2vw, 2.6rem);
-  --ring-pad-top-half: clamp(0.8rem, 2.1vw, 1.3rem);
-  --ring-gap: clamp(0.9rem, 2.4vh, 1.4rem);
-  --mobile-glass-card-gap: 0.35rem;
-  --mobile-glass-card-radius: clamp(1.05rem, 3.8vw, 1.45rem);
+  --ring-base-max: calc(50 * var(--base-rem));
+  --ring-base-min: calc(34 * var(--base-rem));
+  --ring-desktop-max: calc(55 * var(--base-rem));
+  --ring-fit-pad: calc(1.5 * var(--base-rem));
+  --ring-ui-reserve: calc(2.5 * var(--base-rem));
+  --ring-ui-reserve-page: calc(2.5 * var(--base-rem));
+  --ring-pad-x: clamp(
+    calc(1.8 * var(--base-rem)),
+    5vw,
+    calc(3.2 * var(--base-rem))
+  );
+  --ring-pad-top: clamp(
+    calc(1.6 * var(--base-rem)),
+    4.2vw,
+    calc(2.6 * var(--base-rem))
+  );
+  --ring-pad-top-half: clamp(
+    calc(0.8 * var(--base-rem)),
+    2.1vw,
+    calc(1.3 * var(--base-rem))
+  );
+  --ring-gap: clamp(
+    calc(0.9 * var(--base-rem)),
+    2.4vh,
+    calc(1.4 * var(--base-rem))
+  );
+  --mobile-glass-card-gap: calc(0.35 * var(--base-rem));
+  --mobile-glass-card-radius: clamp(
+    calc(1.05 * var(--base-rem)),
+    3.8vw,
+    calc(1.45 * var(--base-rem))
+  );
 
   --btn-base-bg-dark: linear-gradient(
     180deg,
@@ -222,7 +244,7 @@
   --admin-shadow: 0 24px 40px rgba(0, 0, 0, 0.35);
   --admin-shadow-soft: 0 12px 26px rgba(0, 0, 0, 0.22);
 }
-@media (min-width: 80em) {
+@media (min-width: 1280px) {
   :root {
     --card-size: clamp(15.5rem, 30vw, 23.5rem);
     --card-logo-front-left: clamp(
@@ -238,7 +260,7 @@
     --card-logo-back: clamp(2.9rem, calc(var(--card-size) * 0.25), 7.5rem);
   }
 }
-@media (min-width: 90em) {
+@media (min-width: 1440px) {
   :root {
     --card-size: clamp(16.75rem, 34vw, 25.5rem);
     --card-logo-front-left: clamp(
@@ -254,7 +276,7 @@
     --card-logo-back: clamp(3.1rem, calc(var(--card-size) * 0.25), 8.2rem);
   }
 }
-@media (min-width: 110em) {
+@media (min-width: 1760px) {
   :root {
     --card-size: clamp(19.5rem, 27vw, 28rem);
     --card-logo-front-left: clamp(
@@ -271,44 +293,91 @@
   }
 }
 
-@media (min-width: 48em) and (max-width: 90em) and (max-height: 780px) {
+@media (min-width: 768px) and (max-width: 1440px) and (max-height: 780px) {
   :root {
     --chat-diameter: clamp(520px, 82vmin, 940px);
     --chat-diameter-max: clamp(520px, 82vmin, 940px);
     --ring-scale: 0.78;
-    --ring-fit-pad: 1.8rem;
-    --ring-ui-reserve: 6.5rem;
-    --ring-ui-reserve-page: 6.5rem;
-    --ring-pad-x: clamp(1.2rem, 4vw, 2.2rem);
-    --ring-pad-top: clamp(1rem, 3vh, 1.8rem);
-    --ring-pad-top-half: clamp(0.6rem, 1.6vh, 1rem);
-    --ring-gap: clamp(0.7rem, 2vh, 1rem);
+    --ring-fit-pad: calc(1.8 * var(--base-rem));
+    --ring-ui-reserve: calc(6.5 * var(--base-rem));
+    --ring-ui-reserve-page: calc(6.5 * var(--base-rem));
+    --ring-pad-x: clamp(
+      calc(1.2 * var(--base-rem)),
+      4vw,
+      calc(2.2 * var(--base-rem))
+    );
+    --ring-pad-top: clamp(
+      calc(1 * var(--base-rem)),
+      3vh,
+      calc(1.8 * var(--base-rem))
+    );
+    --ring-pad-top-half: clamp(
+      calc(0.6 * var(--base-rem)),
+      1.6vh,
+      calc(1 * var(--base-rem))
+    );
+    --ring-gap: clamp(
+      calc(0.7 * var(--base-rem)),
+      2vh,
+      calc(1 * var(--base-rem))
+    );
   }
 }
 
-@media (min-width: 48em) and (max-width: 90em) and (min-height: 781px) and (max-height: 840px) {
+@media (min-width: 768px) and (max-width: 1440px) and (min-height: 781px) and (max-height: 840px) {
   :root {
     --chat-diameter: clamp(580px, 86vmin, 1020px);
     --chat-diameter-max: clamp(580px, 86vmin, 1020px);
     --ring-scale: 0.82;
-    --ring-fit-pad: 1.6rem;
-    --ring-ui-reserve: 6rem;
-    --ring-ui-reserve-page: 6rem;
-    --ring-pad-x: clamp(1.4rem, 4.4vw, 2.6rem);
-    --ring-pad-top: clamp(1.2rem, 3.4vh, 2.1rem);
-    --ring-pad-top-half: clamp(0.7rem, 1.8vh, 1.1rem);
-    --ring-gap: clamp(0.8rem, 2.2vh, 1.2rem);
+    --ring-fit-pad: calc(1.6 * var(--base-rem));
+    --ring-ui-reserve: calc(6 * var(--base-rem));
+    --ring-ui-reserve-page: calc(6 * var(--base-rem));
+    --ring-pad-x: clamp(
+      calc(1.4 * var(--base-rem)),
+      4.4vw,
+      calc(2.6 * var(--base-rem))
+    );
+    --ring-pad-top: clamp(
+      calc(1.2 * var(--base-rem)),
+      3.4vh,
+      calc(2.1 * var(--base-rem))
+    );
+    --ring-pad-top-half: clamp(
+      calc(0.7 * var(--base-rem)),
+      1.8vh,
+      calc(1.1 * var(--base-rem))
+    );
+    --ring-gap: clamp(
+      calc(0.8 * var(--base-rem)),
+      2.2vh,
+      calc(1.2 * var(--base-rem))
+    );
   }
 }
 
-@media (min-width: 48em) and (min-height: 841px) and (max-height: 940px) {
+@media (min-width: 768px) and (min-height: 841px) and (max-height: 940px) {
   :root {
     --ring-scale: 1;
   }
 }
 
-@media (min-width: 48em) and (min-height: 941px) {
+@media (min-width: 768px) and (min-height: 941px) {
   :root {
     --ring-scale: 1.1;
   }
+}
+
+html[data-ui-scale="lg"] {
+  --cursor-default-backup:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E")
+      4 4,
+    auto;
+  --cursor-default:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E")
+      4 4,
+    auto;
+  --cursor-pointer:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E")
+      5 5,
+    pointer;
 }

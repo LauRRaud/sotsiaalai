@@ -61,7 +61,7 @@ export default function InstallAppLink({
       setIsIOS(likelyIOS);
       setIsMacSafari(Boolean(likelyMac && isSafariEngine));
       setIsMobileViewport(
-        window.matchMedia?.("(max-width: 48em)")?.matches ??
+        window.matchMedia?.("(max-width: 768px)")?.matches ??
           /Android|iPhone|iPad|iPod/i.test(ua)
       );
     } catch {}

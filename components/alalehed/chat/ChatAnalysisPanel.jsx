@@ -99,8 +99,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "chat-analysis-overlay absolute left-1/2 bottom-[clamp(4.9rem,11vh,6.8rem)] " +
     "-translate-x-1/2 w-[min(64vw,24rem)] max-w-[calc(100%-2.2rem)] " +
     "m-0 p-[clamp(0.05rem,0.6vw,0.4rem)] z-[260] pointer-events-auto " +
-    "max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+7.15rem+var(--chat-vk-offset,0px))] " +
-    "max-[48em]:w-[min(88vw,24rem)]";
+    "max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+7.15rem+var(--chat-vk-offset,0px))] " +
+    "max-[768px]:w-[min(88vw,24rem)]";
   const cardOverlayClassName =
     "chat-analysis-overlay-card !isolation-auto !border-0";
   const cardClassName =
@@ -127,7 +127,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const closeClassName =
     "absolute top-[0.18rem] right-[0.18rem] grid place-items-center z-[220] rounded-[0.75rem] border-0 bg-transparent " +
     "h-[2.1rem] w-[2.1rem] text-[2.2rem] leading-none text-[#c57171] light:text-[#7a3a38] " +
-    "pointer-events-auto max-[48em]:h-[2.45rem] max-[48em]:w-[2.45rem] max-[48em]:text-[2.35rem]";
+    "pointer-events-auto max-[768px]:h-[2.45rem] max-[768px]:w-[2.45rem] max-[768px]:text-[2.35rem]";
   const bodyClassName =
     "relative z-[120] flex flex-col gap-[0.95rem] text-[1.08rem] leading-[1.85] " +
     "tracking-[0.02em] text-[rgba(226,232,240,0.92)] " +
@@ -145,7 +145,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const controlsContextClassName =
     "w-full pt-[0.25rem] flex-col gap-[0.55rem]";
   const modeRowClassName =
-    "flex items-center justify-center gap-[0.5rem] flex-nowrap max-[30em]:flex-wrap";
+    "flex items-center justify-center gap-[0.5rem] flex-nowrap max-[480px]:flex-wrap";
   const actionsInlineClassName =
     "w-full flex justify-center gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
   const jumpClassName = "whitespace-nowrap";

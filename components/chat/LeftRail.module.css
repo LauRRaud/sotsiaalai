@@ -19,28 +19,29 @@
   top: 0;
   transform: translateY(-50%);
   width: var(--left-rail-width, clamp(4.6rem, 8vw, 5.8rem));
-  height: min(56vh, calc(var(--chat-diameter, 100vmin) * 0.58));
+  height: min(78vh, calc(var(--chat-diameter, 100vmin) * 0.8));
   pointer-events: auto;
   outline: none;
   z-index: 70;
   --rail-item-size: var(--hud-icon, 3rem);
-  --rail-icon-scale: 0.72;
+  --rail-icon-scale: 0.79;
+  --rail-step-factor: 1.22;
   --rail-edge-offset: calc(var(--rail-item-size) * 0.5);
-  --rail-step: calc(var(--rail-item-size) * 1.18);
+  --rail-step: calc(var(--rail-item-size) * var(--rail-step-factor));
   overflow: hidden;
   overscroll-behavior: contain;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    black 12%,
-    black 88%,
+    black 3%,
+    black 97%,
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    black 12%,
-    black 88%,
+    black 3%,
+    black 97%,
     transparent 100%
   );
 }
@@ -156,7 +157,7 @@
 
 .tooltip {
   position: absolute;
-  transform: translate(0.5rem, -50%);
+  transform: translate(0.9rem, -50%);
   opacity: 1;
   padding: 0.26rem 0.66rem;
   border-radius: 0.7rem;
@@ -213,14 +214,14 @@
   }
 }
 
-@media (min-width: 48.0625em) {
+@media (min-width: 769px) {
   .item[data-key="sources"] .iconSvgSources {
     width: calc(100% * (var(--rail-icon-scale) - 0.13));
     height: calc(100% * (var(--rail-icon-scale) - 0.13));
   }
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .slot {
     display: none;
   }

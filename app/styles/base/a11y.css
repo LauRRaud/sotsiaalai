@@ -29,18 +29,6 @@
   outline: none;
   outline-offset: 0;
 }
-html[data-text-scale="sm"] {
-  font-size: 0.9375rem;
-}
-html[data-text-scale="md"] {
-  font-size: 1rem;
-}
-html[data-text-scale="lg"] {
-  font-size: 1.125rem;
-}
-html[data-text-scale="xl"] {
-  font-size: 1.25rem;
-}
 html[data-contrast="hc"]
   :is(
     a,

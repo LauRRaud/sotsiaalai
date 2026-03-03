@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -11,7 +11,7 @@ import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 
 const pageClassName = "flex flex-col gap-2 text-[color:var(--admin-text)] [--rag-text:var(--admin-text)]";
 const pageHeaderClassName = "flex flex-col items-start gap-2 text-left";
-const pageTitleClassName = `${glassPageTitleClassName} !mt-0 !mb-1 !px-0 !text-left !whitespace-normal !text-[clamp(1.55rem,2.5vw,2.1rem)] !tracking-[0.02em] max-[48em]:!text-[clamp(1.72rem,7vw,2.35rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0`;
+const pageTitleClassName = `${glassPageTitleClassName} !mt-0 !mb-1 !px-0 !text-left !whitespace-normal !text-[clamp(1.55rem,2.5vw,2.1rem)] !tracking-[0.02em] max-[768px]:!text-[clamp(1.72rem,7vw,2.35rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const cardClassName = "relative overflow-hidden rounded-[1rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] p-[clamp(0.72rem,1.9vw,0.95rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-65";
 const cardBodyClassName = "relative z-[1] grid gap-1.5";
 const kpiGridClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))] gap-2";
@@ -28,7 +28,7 @@ const cellSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
 const toolbarPrimaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2 shadow-[var(--admin-shadow-soft)]";
 const toolbarSecondaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_80%,transparent)] p-2";
 const usersSelectBarClassName = "grid gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2";
-const usersSelectActionsClassName = "flex flex-wrap items-center gap-2 max-[48em]:items-start max-[48em]:gap-1.5";
+const usersSelectActionsClassName = "flex flex-wrap items-center gap-2 max-[768px]:items-start max-[768px]:gap-1.5";
 const usersSelectCountClassName = "inline-flex items-center rounded-full border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] px-2.5 py-1 text-[0.82rem] text-[color:var(--admin-muted)]";
 const emailSendBarClassName = "grid gap-2 rounded-[14px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_90%,transparent),color-mix(in_srgb,var(--admin-surface-3)_92%,transparent))] p-2";
 const emailSendHeadClassName = "flex flex-wrap items-center justify-between gap-2";
@@ -1129,7 +1129,7 @@ export default function AnalyticsDashboard() {
                 maxLength={8000}
               />
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-2 [grid-column:1/-1] max-[48em]:flex-col max-[48em]:items-start">
+            <div className="flex flex-wrap items-center justify-between gap-2 [grid-column:1/-1] max-[768px]:flex-col max-[768px]:items-start">
               <div className={emailSendHintClassName}>
                 {tr("admin.analytics.users.actions.email_target_hint", {
                   mode:

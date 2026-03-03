@@ -228,13 +228,22 @@ export default function OrbitalMenu({
     let raf = 0;
     const measure = () => {
       const rect = root.getBoundingClientRect();
+      const style = window.getComputedStyle(root);
       const itemEl = root.querySelector(".profile-orbit-menu__item");
       if (!rect.width || !itemEl) return;
       const itemSize = itemEl.offsetWidth || 0;
       if (!itemSize) return;
-      const nextRadius = Math.max(0, (rect.width - itemSize) / 2);
-      setOrbitRadius(prev => Math.abs(prev - nextRadius) > 0.25 ? nextRadius : prev);
       const hubSize = hubBtnRef.current?.offsetWidth || 0;
+      const gapRaw = Number.parseFloat(
+        style
+          .getPropertyValue(isExpanded ? "--orbit-gap-open" : "--orbit-gap")
+          .trim()
+      );
+      const gap = Number.isFinite(gapRaw) ? gapRaw : 16;
+      const maxRadius = Math.max(0, (rect.width - itemSize) / 2);
+      const targetRadius = Math.max(0, (hubSize + itemSize) / 2 + gap);
+      const nextRadius = Math.min(maxRadius, targetRadius);
+      setOrbitRadius(prev => Math.abs(prev - nextRadius) > 0.25 ? nextRadius : prev);
       if (hubSize && nextRadius) {
         const hideRadius = Math.min(nextRadius, (hubSize + itemSize) / 2);
         const inwardRadius = hideRadius * 0.4;
@@ -258,7 +267,7 @@ export default function OrbitalMenu({
       ro?.disconnect?.();
       window.removeEventListener("resize", schedule);
     };
-  }, [items.length, useOrbitLayout]);
+  }, [isExpanded, items.length, useOrbitLayout]);
   const handleToggle = () => setIsPinnedOpen(prev => !prev);
   const buildVisualsFromActive = useCallback(activeIdx => {
     const next = new Array(items.length);
@@ -542,7 +551,6 @@ export default function OrbitalMenu({
   };
   const desktopAngleStep = useMemo(() => items.length ? 360 / items.length : 0, [items.length]);
   const desktopStartAngle = -90;
-  const orbitRadiusBoost = isExpanded ? 1.14 : 1;
   return <div
       ref={rootRef}
       data-mobile-variant={useMobileStack ? "stack" : useMobileOverlay ? "list" : "orbit"}
@@ -563,8 +571,8 @@ export default function OrbitalMenu({
           {items.map((item, index) => {
         const angle = desktopStartAngle + index * desktopAngleStep;
         const angleRad = angle * Math.PI / 180;
-        const orbitX = Math.round(Math.sin(angleRad) * orbitRadius * orbitRadiusBoost);
-        const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius * orbitRadiusBoost);
+        const orbitX = Math.round(Math.sin(angleRad) * orbitRadius);
+        const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius);
         const labelPos = item.labelPos || "up";
         const isSideLabel = labelPos === "left" || labelPos === "right";
         const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side-left,var(--label-gap-side,var(--label-gap)))+var(--label-gap-dynamic,0rem))] top-1/2 [transform:translateY(-50%)_translateX(var(--label-side-nudge-left,0rem))]" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side-right,var(--label-gap-side,var(--label-gap)))+var(--label-gap-dynamic,0rem))] top-1/2 [transform:translateY(-50%)_translateX(var(--label-side-nudge-right,0rem))]" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
@@ -572,8 +580,8 @@ export default function OrbitalMenu({
         const labelAlignClass = "text-center [text-align-last:center]";
         const sideLabelLength = String(item.label || "").replace(/\s+/g, "").length;
         const labelTypographyClass = !isSideLabel
-          ? "leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)]"
-          : "leading-[1.02] text-[clamp(1.08rem,2.3vw,1.24rem)]";
+          ? "leading-[1.05] text-[clamp(1.1rem,2.5vw,1.38rem)]"
+          : "leading-[1.02] text-[clamp(1.12rem,2.4vw,1.32rem)]";
         const labelGapDynamic = !isSideLabel
           ? 0
           : sideLabelLength <= 3
@@ -600,7 +608,7 @@ export default function OrbitalMenu({
             if ((event?.detail || 0) > 0) event.currentTarget?.blur?.();
             if (!item.keepOpen) closeMenu();
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>
-                  <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[clamp(2.9rem,3.4vw,3.8rem)] [&>svg]:h-[clamp(2.9rem,3.4vw,3.8rem)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
+                  <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[clamp(3.15rem,3.8vw,4.15rem)] [&>svg]:h-[clamp(3.15rem,3.8vw,4.15rem)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
                     {item.icon}
                   </span>
                 </button>
@@ -616,9 +624,9 @@ export default function OrbitalMenu({
         </div>}
 
       {}
-      <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[5] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [animation:profile-orbit-hub-pulse_4.4s_ease-in-out_infinite] [will-change:transform] before:content-none after:content-none" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
+      <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item w-[calc(var(--orbit-center-size)*var(--orbit-center-scale,1))] h-[calc(var(--orbit-center-size)*var(--orbit-center-scale,1))] rounded-full p-0 grid place-items-center z-[5] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [animation:profile-orbit-hub-pulse_4.4s_ease-in-out_infinite] [will-change:transform] before:content-none after:content-none" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
         <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
-          <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
+          <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[calc(var(--orbit-center-icon-size)*var(--orbit-center-scale,1))] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
         </span>
       </button>
 

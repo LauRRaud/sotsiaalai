@@ -9,7 +9,7 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
 
-const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
+const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
@@ -79,11 +79,9 @@ export default function RightRail({
     if (!rail) return;
     const railRect = rail.getBoundingClientRect();
     if (!railRect.width || !railRect.height) return;
-    const style = window.getComputedStyle(rail);
-    const itemSizeRaw = Number.parseFloat(style.getPropertyValue("--rail-item-size"));
-    const edgeOffsetRaw = Number.parseFloat(style.getPropertyValue("--rail-edge-offset"));
-    const itemSize = Number.isFinite(itemSizeRaw) && itemSizeRaw > 0 ? itemSizeRaw : 48;
-    const edgeOffset = Number.isFinite(edgeOffsetRaw) && edgeOffsetRaw > 0 ? edgeOffsetRaw : itemSize * 0.5;
+    const itemEl = rail.querySelector("[data-item-index]");
+    const itemSize = itemEl?.getBoundingClientRect?.().height || 48;
+    const edgeOffset = itemSize * 0.5;
     // Tooltip is rendered via portal with `position: fixed`, so anchor in viewport coordinates.
     const anchorLeft = railRect.left + railRect.width - edgeOffset - itemSize * 0.5;
     const anchorTop = railRect.top + railRect.height * 0.5;
@@ -135,8 +133,15 @@ export default function RightRail({
     if (!rail) return;
     const update = () => {
       const style = window.getComputedStyle(rail);
-      const raw = style.getPropertyValue("--rail-step").trim();
-      const parsed = Number.parseFloat(raw);
+      const itemEl = rail.querySelector("[data-item-index]");
+      const itemSize = itemEl?.getBoundingClientRect?.().height || 0;
+      const factorRaw = Number.parseFloat(
+        style.getPropertyValue("--rail-step-factor").trim()
+      );
+      const factor =
+        Number.isFinite(factorRaw) && factorRaw > 0 ? factorRaw : 1.42;
+      const parsed =
+        Number.isFinite(itemSize) && itemSize > 0 ? itemSize * factor : NaN;
       if (!Number.isFinite(parsed)) return;
       setStepPx(prev => {
         const next = Math.round(parsed);
@@ -477,23 +482,23 @@ export default function RightRail({
     !mobileVisible ? styles.mobileRailHidden : null,
     mobileVisible ? styles.mobileRailVisible : null,
     suspendPointerEvents ? styles.pointerBlocked : null,
-    "max-[48em]:absolute max-[48em]:top-[var(--chat-mobile-rail-top)] max-[48em]:left-0 max-[48em]:right-0 max-[48em]:h-auto",
+    "max-[768px]:absolute max-[768px]:top-[var(--chat-mobile-rail-top)] max-[768px]:left-0 max-[768px]:right-0 max-[768px]:h-auto",
     !isMounted ? "opacity-0 pointer-events-none" : null
   );
 
   const railClassName = cn(
     styles.rightRail,
-    "max-[48em]:relative max-[48em]:top-0 max-[48em]:right-0 max-[48em]:left-auto max-[48em]:ml-auto max-[48em]:[transform:none] max-[48em]:h-auto max-[48em]:w-auto max-[48em]:flex max-[48em]:flex-row max-[48em]:items-center max-[48em]:justify-end max-[48em]:gap-[clamp(0.3rem,1.9vw,0.52rem)] max-[48em]:pt-[0] max-[48em]:pb-[0] max-[48em]:pl-[clamp(0.25rem,1.6vw,0.5rem)] max-[48em]:pr-[clamp(0.45rem,2.4vw,0.75rem)] max-[48em]:overflow-visible max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] max-[48em]:[--rail-item-size:var(--chat-mobile-rail-size)] max-[48em]:[--rail-icon-scale:0.9]"
+    "max-[768px]:relative max-[768px]:top-0 max-[768px]:right-0 max-[768px]:left-auto max-[768px]:ml-auto max-[768px]:[transform:none] max-[768px]:h-auto max-[768px]:w-auto max-[768px]:flex max-[768px]:flex-row max-[768px]:items-center max-[768px]:justify-end max-[768px]:gap-[clamp(0.3rem,1.9vw,0.52rem)] max-[768px]:pt-[0] max-[768px]:pb-[0] max-[768px]:pl-[clamp(0.25rem,1.6vw,0.5rem)] max-[768px]:pr-[clamp(0.45rem,2.4vw,0.75rem)] max-[768px]:overflow-visible max-[768px]:[mask-image:none] max-[768px]:[-webkit-mask-image:none] max-[768px]:[--rail-item-size:var(--chat-mobile-rail-size)] max-[768px]:[--rail-icon-scale:0.9]"
   );
 
   const mobileItemClassName =
-    "max-[48em]:static max-[48em]:left-auto max-[48em]:top-auto max-[48em]:[transform:none] max-[48em]:w-[var(--rail-item-size)] max-[48em]:h-auto max-[48em]:opacity-100 max-[48em]:transition-[transform,opacity]";
+    "max-[768px]:static max-[768px]:left-auto max-[768px]:top-auto max-[768px]:[transform:none] max-[768px]:w-[var(--rail-item-size)] max-[768px]:h-auto max-[768px]:opacity-100 max-[768px]:transition-[transform,opacity]";
 
   const mobileIconButtonClassName =
-    "max-[48em]:grid max-[48em]:place-items-center max-[48em]:leading-none";
+    "max-[768px]:grid max-[768px]:place-items-center max-[768px]:leading-none";
 
   const mobileLabelClassName =
-    "max-[48em]:block max-[48em]:tracking-[0.035em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:opacity-0 max-[48em]:overflow-visible max-[48em]:transition-[opacity,transform] max-[48em]:duration-160 max-[48em]:ease-out";
+    "max-[768px]:block max-[768px]:tracking-[0.035em] max-[768px]:text-[#c57171] light:max-[768px]:text-[#7a3a38] max-[768px]:text-center max-[768px]:[text-wrap:balance] max-[768px]:opacity-0 max-[768px]:overflow-visible max-[768px]:transition-[opacity,transform] max-[768px]:duration-160 max-[768px]:ease-out";
   const showDesktopTooltip = !viewportIsMobile &&
     !suspendPointerEvents &&
     !suppressTooltip &&
@@ -519,16 +524,16 @@ export default function RightRail({
           slotOffset
         } = slot;
         if (!it) return null;
-        const outerFactor = 1.78;
-        const offsetY = slotOffset === 0 ? 0 : Math.sign(slotOffset) * (Math.abs(slotOffset) === 2 ? Math.round(stepPx * outerFactor) : stepPx);
+        const offsetY = slotOffset * stepPx;
         const curveNorm = Math.min(Math.abs(slotOffset) / 2, 1);
         const baseCurvePx = inputFocused ? 0 : 4;
         const edgeSafetyPx = inputFocused ? 0 : 12;
         const curveSkewPx = inputFocused ? 0 : 1.5;
         const offsetX = -baseCurvePx * curveNorm * curveNorm - edgeSafetyPx * curveNorm * curveNorm * curveNorm * curveNorm - slotOffset * curveSkewPx;
+        const profileOffsetY = it?.key === "profile" ? -6 : 0;
         const norm = Math.min(Math.abs(slotOffset) / 2, 1);
-        const scale = 0.78 + (1 - norm) * 0.46;
-        const opacity = 0.12 + (1 - norm) * 0.78;
+        const scale = 0.88 + (1 - norm) * 0.36;
+        const opacity = 0.42 + (1 - norm) * 0.58;
         const zIndex = 10 - Math.abs(slotOffset);
 
         const setRailRef = el => {
@@ -557,7 +562,7 @@ export default function RightRail({
           style: viewportIsMobile ? {
             "--mobile-reveal-delay": `${mobileRevealDelay}ms`
           } : {
-            transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(2)}px) translateY(${offsetY}px) scale(${scale.toFixed(3)})`,
+            transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(2)}px) translateY(${offsetY + profileOffsetY}px) scale(${scale.toFixed(3)})`,
             opacity: opacity.toFixed(3),
             zIndex
           }

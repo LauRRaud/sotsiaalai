@@ -1,7 +1,9 @@
 const CHAT_LAYOUT_BASE_VARS = Object.freeze({
   "--chat-diameter": "var(--profile-diameter)",
-  "--chat-window-max-w": "28.2rem",
-  "--chat-window-shift-x": "clamp(0.22rem, 0.52vw, 0.42rem)",
+  "--chat-window-inline-gap": "clamp(1.8rem, calc(var(--chat-diameter) * 0.038), 3rem)",
+  "--chat-window-max-w":
+    "min(clamp(29.5rem, calc(var(--chat-diameter) * 0.75), 45rem), calc(100% - var(--chat-window-inline-gap)))",
+  "--chat-window-shift-x": "clamp(0.22rem, calc(var(--chat-diameter) * 0.008), 0.42rem)",
   "--chat-window-top-offset": "0.65rem",
   "--chat-window-pad-top": "1.25rem",
   "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
@@ -20,11 +22,19 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
   "--chat-attach-left-pull": "-1.15rem",
   "--chat-hpad-left": "var(--chat-hpad)",
   "--chat-hpad-right": "var(--chat-hpad)",
-  "--chat-input-max-w": "clamp(8.2rem, 23vw, 15.8rem)",
+  "--chat-composer-side-control-size": "3.15rem",
+  "--chat-composer-main-control-size": "3.2rem",
+  "--chat-composer-send-control-size": "2.88rem",
+    "--chat-composer-send-icon-size": "1.08rem",
+  "--chat-composer-plus-icon-size": "2.32rem",
+  "--chat-composer-listen-icon-size": "2.02rem",
+  "--chat-composer-mic-icon-size": "1.62rem",
+  "--chat-input-max-w":
+    "min(clamp(calc(15.25 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.58), calc(20 * var(--base-rem))), calc(var(--chat-window-max-w) - clamp(calc(4.9 * var(--base-rem)), calc(var(--chat-diameter) * 0.092), calc(6.2 * var(--base-rem)))))",
   "--chat-ai-offset": "clamp(1.35rem, 3vw, 2.4rem)",
-  "--chat-hpad": "clamp(2.2rem, 6vw, 3.4rem)",
+  "--chat-hpad": "clamp(2.2rem, calc(var(--chat-diameter) * 0.06), 3.4rem)",
   "--hud-edge": "clamp(1.05rem, 2.5vw, 1.55rem)",
-  "--hud-icon": "clamp(3rem, 5vw, 3.3rem)",
+  "--hud-icon": "clamp(3.08rem, calc(var(--chat-diameter) * 0.061), 3.32rem)",
   "--hud-edge-safe": "calc(var(--hud-edge) + env(safe-area-inset-top, 0px))",
   "--hud-edge-left": "env(safe-area-inset-left, 0px)",
   "--hud-edge-right": "env(safe-area-inset-right, 0px)",
@@ -101,9 +111,21 @@ const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
 });
 
 const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
-  "--chat-diameter": "max(var(--profile-diameter), var(--chat-diameter-max))",
-  "--chat-window-max-w": "31.7rem",
-  "--chat-window-shift-x": "clamp(0.16rem, 0.34vw, 0.3rem)",
+  "--chat-focus-diameter-scale": "1.09",
+  "--ring-scale": "1",
+  "--ring-fit-pad": "calc(1.3 * var(--base-rem))",
+  "--ring-ui-reserve": "calc(2 * var(--base-rem))",
+  "--ring-ui-reserve-page": "calc(2 * var(--base-rem))",
+  "--ring-base-min": "calc(36 * var(--base-rem))",
+  "--ring-base-max": "calc(54 * var(--base-rem))",
+  "--ring-desktop-max": "calc(58 * var(--base-rem))",
+  "--ring-diameter":
+    "min(var(--ring-max), calc(var(--ring-diameter-default) * var(--chat-focus-diameter-scale, 1.09)))",
+  "--chat-diameter": "var(--ring-diameter, var(--ring-diameter-default))",
+  "--chat-window-inline-gap": "clamp(1.1rem, calc(var(--chat-diameter) * 0.022), 1.9rem)",
+  "--chat-window-max-w":
+    "min(clamp(31rem, calc(var(--chat-diameter) * 0.78), 45rem), calc(100% - var(--chat-window-inline-gap)))",
+  "--chat-window-shift-x": "clamp(0.16rem, calc(var(--chat-diameter) * 0.005), 0.3rem)",
   "--chat-window-pad-top": "clamp(3.6rem, 6.4vh, 4.8rem)",
   "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.1rem)",
   "--chat-window-top-offset": "0.65rem",
@@ -115,17 +137,26 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-scroll-down-offset": "-1.0rem",
   "--chat-window-fade-bottom-focus": "clamp(1.1rem, 3vh, 1.8rem)",
   "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
-  "--chat-input-max-w": "clamp(14rem, 42vw, 26rem)",
+  "--chat-composer-side-control-size": "3.3rem",
+  "--chat-composer-main-control-size": "3.35rem",
+  "--chat-composer-send-control-size": "2.98rem",
+    "--chat-composer-send-icon-size": "1.14rem",
+  "--chat-composer-plus-icon-size": "2.42rem",
+  "--chat-composer-listen-icon-size": "2.12rem",
+  "--chat-composer-mic-icon-size": "1.7rem",
+  "--chat-input-max-w":
+    "min(clamp(calc(20 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.87), calc(31.5 * var(--base-rem))), calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-diameter) * 0.026), calc(2.25 * var(--base-rem)))))",
   "--chat-input-focus-shift": "-2.35rem",
   "--chat-attach-left-pull": "-1.65rem",
   "--chat-inputbar-left-pull": "-1.6rem",
-  "--chat-hpad-right": "clamp(0.5rem, 1.4vw, 1rem)",
+  "--chat-hpad-right": "clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem)",
   "--chat-content-top-offset": "6.4rem",
   "--chat-content-spacer": "8.6rem",
-  "--chat-content-bottom-spacer": "0.25rem"
+  "--chat-content-bottom-spacer": "0.25rem",
+  "--hud-icon": "clamp(3.16rem, calc(var(--chat-diameter) * 0.063), 3.45rem)"
 });
 
-const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
+const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 
 function detectMobileViewport() {

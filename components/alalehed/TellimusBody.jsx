@@ -24,28 +24,28 @@ const emailReplacement = {
 };
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
+  `${glassPageTitleClassName} max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName =
-  "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] max-[48em]:max-w-none flex-col gap-4 text-center max-[48em]:text-left";
+  "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] max-[768px]:max-w-none flex-col gap-4 text-center max-[768px]:text-left";
 const subscriptionCopyClassName =
-  "text-center max-[48em]:text-left text-[0.98rem] leading-[1.45] opacity-80 max-[48em]:text-[1.08rem]";
+  "text-center max-[768px]:text-left text-[0.98rem] leading-[1.45] opacity-80 max-[768px]:text-[1.08rem]";
 const subscriptionInfoTextClassName =
-  "text-center max-[48em]:text-left text-[clamp(1.06rem,1.45vw,1.18rem)] max-[48em]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
-  "tracking-[0.013em] max-[48em]:tracking-[0.018em] leading-[1.68] opacity-80";
+  "text-center max-[768px]:text-left text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
+  "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.68] opacity-80";
 const subscriptionActionClassName =
   "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
-  "max-[48em]:w-full max-[48em]:min-w-0 max-[48em]:whitespace-normal max-[48em]:!px-[1rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem] max-[48em]:!min-h-[3.42rem]";
+  "max-[768px]:w-full max-[768px]:min-w-0 max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";
 const subscriptionStatusClassName =
-  "text-center max-[48em]:text-left text-[clamp(1.08rem,1.55vw,1.24rem)] leading-[1.36] font-[500]";
+  "text-center max-[768px]:text-left text-[clamp(1.08rem,1.55vw,1.24rem)] leading-[1.36] font-[500]";
 const subscriptionActivePanelClassName =
   "mx-auto w-full max-w-[min(30rem,100%)] rounded-[1.1rem] border border-[rgba(125,211,252,0.22)] " +
   "bg-[linear-gradient(170deg,rgba(16,30,56,0.7),rgba(6,12,26,0.56))] " +
   "px-[1.05rem] py-[0.95rem] shadow-[0_10px_30px_rgba(7,15,35,0.35)]";
 const subscriptionActiveSummaryClassName =
-  "text-center max-[48em]:text-left text-[clamp(1.08rem,1.48vw,1.2rem)] leading-[1.42] font-[600] text-[color:#d7f8ea]";
+  "text-center max-[768px]:text-left text-[clamp(1.08rem,1.48vw,1.2rem)] leading-[1.42] font-[600] text-[color:#d7f8ea]";
 const subscriptionActiveNoteClassName =
-  "mt-[0.52rem] text-center max-[48em]:text-left text-[clamp(0.96rem,1.2vw,1.06rem)] leading-[1.4] opacity-85";
+  "mt-[0.52rem] text-center max-[768px]:text-left text-[clamp(0.96rem,1.2vw,1.06rem)] leading-[1.4] opacity-85";
 const authModalBackdropClassName =
   "fixed inset-0 z-[94] bg-[rgba(6,10,18,0.74)] backdrop-blur-[2px] pointer-events-auto";
 export default function TellimusBody() {
@@ -217,7 +217,7 @@ export default function TellimusBody() {
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
         <GlassRing className={ringClassName}>
-          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
+          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
           <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
@@ -239,7 +239,7 @@ export default function TellimusBody() {
       : t("profile.login_to_manage_sub");
     return <section lang={locale} className={pageShellClassName}>
         <GlassRing className={cn(ringClassName, loginOpen ? "opacity-0 pointer-events-none" : "opacity-100", "transition-opacity duration-200 ease-out")} aria-hidden={loginOpen ? "true" : undefined}>
-          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
+          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
           <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
@@ -248,7 +248,7 @@ export default function TellimusBody() {
             <p className={subscriptionCopyClassName}>
               {reasonText}
             </p>
-            <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center max-[48em]:w-full">
+            <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center max-[768px]:w-full">
               <Button type="button" variant="primary" className={subscriptionActionClassName} onClick={() => setLoginOpen(true)}>
                 {t("auth.login.title")}
               </Button>
@@ -271,7 +271,7 @@ export default function TellimusBody() {
   }
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={ringClassName}>
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
+        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
         <h1 className={titleClassName}>
           {t("subscription.title")}
@@ -286,7 +286,7 @@ export default function TellimusBody() {
                   {t("subscription.active.cancel_note")}
                 </p>
               </div>
-              <div className="mt-[clamp(1rem,2.5vh,1.6rem)] flex justify-center max-[48em]:w-full">
+              <div className="mt-[clamp(1rem,2.5vh,1.6rem)] flex justify-center max-[768px]:w-full">
                 <Button type="button" variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note" onClick={() => pushWithTransition(router, localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale), {
                 glassRingTilt: "left",
                 waitForGlassRingTilt: true,
@@ -305,7 +305,7 @@ export default function TellimusBody() {
               {error && <p role="alert" aria-live="assertive" className={cn(subscriptionStatusClassName, "text-[color:#fca5a5]")}>
                   {error}
                 </p>}
-              <div className={cn("flex justify-center max-[48em]:w-full", hasPaymentNotice ? "mt-[clamp(0.9rem,2.2vh,1.4rem)]" : "mt-[clamp(1.6rem,4vh,2.6rem)]")}>
+              <div className={cn("flex justify-center max-[768px]:w-full", hasPaymentNotice ? "mt-[clamp(0.9rem,2.2vh,1.4rem)]" : "mt-[clamp(1.6rem,4vh,2.6rem)]")}>
                 <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
                   {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
                 </Button>

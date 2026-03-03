@@ -1,19 +1,49 @@
 .chat-container--input-focus {
-  --chat-window-max-w: clamp(18.5rem, 44vw, 29.5rem);
+  --chat-window-inline-gap: clamp(1.1rem, calc(var(--chat-diameter) * 0.022), 1.9rem);
+  --chat-window-max-w: min(
+    clamp(31rem, calc(var(--chat-diameter) * 0.78), 45rem),
+    calc(100% - var(--chat-window-inline-gap))
+  );
   --chat-window-top-offset: 0.65rem;
   --chat-window-bottom-gap: 0.4rem;
   --chat-scroll-down-offset: -1rem;
-  --chat-input-max-w: clamp(14rem, 42vw, 26rem);
+  --chat-input-max-w: min(
+    clamp(calc(20 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.87), calc(31.5 * var(--base-rem))),
+    calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-diameter) * 0.026), calc(2.25 * var(--base-rem))))
+  );
   --chat-input-focus-shift: -2.35rem;
   --chat-attach-left-pull: -1.65rem;
   --chat-inputbar-left-pull: -1.6rem;
-  --chat-hpad-right: clamp(0.5rem, 1.4vw, 1rem);
+  --chat-hpad-right: clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem);
   --chat-window-focus-shift: 0rem;
 }
 
-@media (min-width: 48em) {
+@media (min-width: 768px) {
   .chat-page-shell {
     overflow: visible !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1440px) {
+  .chat-page-shell
+    .chat-container.chat-container--round.chat-container--input-focus {
+    --chat-diameter: var(--ring-diameter, var(--ring-diameter-default)) !important;
+  }
+
+  .chat-page-shell .chat-container.chat-container--round .chat-window {
+    --chat-window-inline-gap: clamp(1.7rem, calc(var(--chat-diameter) * 0.036), 2.4rem) !important;
+    --chat-window-max-w: min(
+      clamp(27rem, calc(var(--chat-diameter) * 0.64), 38rem),
+      calc(100% - var(--chat-window-inline-gap))
+    ) !important;
+  }
+
+  .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window {
+    --chat-window-inline-gap: clamp(1.1rem, calc(var(--chat-diameter) * 0.024), 1.7rem) !important;
+    --chat-window-max-w: min(
+      clamp(28.5rem, calc(var(--chat-diameter) * 0.73), 40.5rem),
+      calc(100% - var(--chat-window-inline-gap))
+    ) !important;
   }
 }
 
@@ -23,7 +53,7 @@ body.invite-modal-open .chat-page-shell {
   pointer-events: none !important;
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   body.conversation-drawer-open .chat-page-shell {
     opacity: 0 !important;
     visibility: hidden !important;
@@ -39,7 +69,7 @@ body.invite-modal-open .chat-page-shell {
   --chat-window-fade-bottom-active: var(--chat-window-fade-bottom-focus);
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .chat-page-shell .chat-container.chat-container--round {
     --chat-nav-top: clamp(2.8rem, 11vw, 4.2rem);
     --chat-pad-top: clamp(0.75rem, 2vh, 1.1rem);
@@ -47,7 +77,7 @@ body.invite-modal-open .chat-page-shell {
   }
 }
 
-@media (min-width: 48em) {
+@media (min-width: 768px) {
   .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus
     .chat-back-button {
@@ -93,7 +123,7 @@ body.invite-modal-open .chat-page-shell {
     --chat-pad-bottom: clamp(3.2rem, 7vh, 5rem);
     --chat-window-pad-top: clamp(0.9rem, 2.2vh, 1.6rem);
     --chat-nav-top: 50%;
-    --chat-hpad: clamp(2.2rem, 6vw, 3.4rem);
+    --chat-hpad: clamp(2.2rem, calc(var(--chat-diameter) * 0.06), 3.4rem);
     transition:
       border-top-left-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
       border-top-right-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
@@ -136,7 +166,7 @@ body.invite-modal-open .chat-page-shell {
   }
 }
 
-@media (min-width: 48em) and (max-width: 90em) and (max-height: 840px) {
+@media (min-width: 768px) and (max-width: 1440px) and (max-height: 840px) {
   .chat-page-shell .chat-container.chat-container--round,
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
     --chat-window-top-offset: -1.9rem !important;
@@ -148,11 +178,19 @@ body.invite-modal-open .chat-page-shell {
   }
 
   .chat-page-shell .chat-container.chat-container--round .chat-window {
-    --chat-window-max-w: clamp(19rem, 43vw, 27rem) !important;
+    --chat-window-inline-gap: clamp(1.6rem, calc(var(--chat-diameter) * 0.034), 2.2rem) !important;
+    --chat-window-max-w: min(
+      clamp(26.5rem, calc(var(--chat-diameter) * 0.61), 35.5rem),
+      calc(100% - var(--chat-window-inline-gap))
+    ) !important;
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window {
-    --chat-window-max-w: clamp(18.4rem, 42.5vw, 27.4rem) !important;
+    --chat-window-inline-gap: clamp(1rem, calc(var(--chat-diameter) * 0.022), 1.5rem) !important;
+    --chat-window-max-w: min(
+      clamp(27.5rem, calc(var(--chat-diameter) * 0.69), 38rem),
+      calc(100% - var(--chat-window-inline-gap))
+    ) !important;
     --chat-window-fade-top-active: var(--chat-window-fade-top) !important;
   }
 }
@@ -190,6 +228,51 @@ body.invite-modal-open .chat-page-shell {
 }
 
 /* Keep chat send/dictate controls borderless in normal contrast modes. */
+body .chat-input-row > .chat-attach-btn {
+  width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
+  height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
+  min-width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
+  min-height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
+  flex: 0 0 var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
+}
+
+body .chat-inputbar .chat-listen-btn,
+body .chat-inputbar .chat-send-btn {
+  width: var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) !important;
+  height: var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) !important;
+  min-width: var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) !important;
+  min-height: var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) !important;
+  flex: 0 0 var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) !important;
+}
+
+body .chat-inputbar .chat-send-btn {
+  width: var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) !important;
+  height: var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) !important;
+  min-width: var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) !important;
+  min-height: var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) !important;
+  flex: 0 0 var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) !important;
+}
+
+body .chat-input-row > .chat-attach-btn svg {
+  width: var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) !important;
+  height: var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) !important;
+}
+
+body .chat-inputbar .chat-listen-btn svg {
+  width: var(--chat-composer-listen-icon-size, calc(2.02 * var(--base-rem))) !important;
+  height: var(--chat-composer-listen-icon-size, calc(2.02 * var(--base-rem))) !important;
+}
+
+body .chat-inputbar .chat-send-btn .chat-send-glyph {
+  width: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem)))) !important;
+  height: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem)))) !important;
+}
+
+body .chat-inputbar .chat-send-btn .chat-mic-glyph {
+  width: var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))) !important;
+  height: var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))) !important;
+}
+
 html:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn,
 html:not([data-contrast="hc"]) body .chat-inputbar:focus-within .chat-send-btn,
 html:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn:hover,

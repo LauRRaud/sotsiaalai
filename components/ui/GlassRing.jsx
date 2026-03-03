@@ -10,9 +10,9 @@ const baseStyles =
   "text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-blur-radius,1rem)] " +
   "overflow-hidden " +
-  "[--glass-ring-pad-x:clamp(1.8rem,5vw,3.2rem)] " +
-  "[--glass-ring-pad-top:clamp(1.6rem,4.2vw,2.6rem)] " +
-  "[--glass-ring-pad-top-half:clamp(0.8rem,2.1vw,1.3rem)] " +
+  "[--glass-ring-pad-x:clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem)))] " +
+  "[--glass-ring-pad-top:clamp(calc(1.6*var(--base-rem)),4.2vw,calc(2.6*var(--base-rem)))] " +
+  "[--glass-ring-pad-top-half:clamp(calc(0.8*var(--base-rem)),2.1vw,calc(1.3*var(--base-rem)))] " +
   "px-[var(--glass-ring-pad-x)] pt-[var(--glass-ring-pad-top)] " +
   "mx-auto " +
   "max-md:[--glass-mobile-gap:var(--mobile-glass-card-gap,0.35rem)] " +
@@ -23,8 +23,8 @@ const baseStyles =
   "max-md:h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:max-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:overflow-hidden " +
-  "max-md:[--glass-ring-pad-top:clamp(0.4rem,1.4vh,1.1rem)] " +
-  "max-md:[--glass-ring-pad-top-half:clamp(0.2rem,0.7vh,0.55rem)] " +
+  "max-md:[--glass-ring-pad-top:clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem)))] " +
+  "max-md:[--glass-ring-pad-top-half:clamp(calc(0.2*var(--base-rem)),0.7vh,calc(0.55*var(--base-rem)))] " +
   "[--glass-edge-left:calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] " +
   "[--glass-edge-right:calc(var(--hud-edge-right,0px)+clamp(0.1rem,1.2vw,0.8rem))]";
 

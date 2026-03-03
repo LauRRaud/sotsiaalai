@@ -1,14 +1,14 @@
 export const policySectionClassName =
-  "mt-[0.58rem] first:mt-0 max-[48em]:mt-[0.54rem] max-[48em]:first:mt-0";
+  "mt-[0.28rem] first:mt-0 max-[768px]:mt-[0.24rem] max-[768px]:first:mt-0";
 
 export const policySectionHeadingClassName =
-  "mb-[0.28rem] max-[48em]:mb-[0.24rem] text-[clamp(1.32rem,1.75vw,1.5rem)] " +
-  "max-[48em]:text-[clamp(1.62rem,5.7vw,1.9rem)] font-semibold tracking-[0.013em] " +
-  "max-[48em]:tracking-[0.018em] text-[#cd8585] light:text-[#8a4b49]";
+  "mb-[0.44rem] max-[768px]:mb-[0.36rem] text-[clamp(1.32rem,1.75vw,1.5rem)] " +
+  "max-[768px]:text-[clamp(1.62rem,5.7vw,1.9rem)] font-[500] tracking-[0.013em] " +
+  "max-[768px]:tracking-[0.018em] text-[#cd8585] light:text-[#8a4b49]";
 
 export const policySectionBodyClassName =
-  "text-[clamp(1.06rem,1.45vw,1.18rem)] max-[48em]:text-[clamp(1.22rem,4.55vw,1.38rem)] " +
-  "tracking-[0.013em] max-[48em]:tracking-[0.018em] leading-[1.74] text-[#e4dde0] light:text-[#3f3730]";
+  "text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.22rem,4.55vw,1.38rem)] " +
+  "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.74] text-[#e4dde0] light:text-[#3f3730]";
 
 export const policySectionRichTextClassName =
   "[&_p]:my-[0.34rem] [&_ul]:my-[0.34rem] [&_ol]:my-[0.34rem] " +

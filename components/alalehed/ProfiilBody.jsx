@@ -71,13 +71,13 @@ const containerBaseClassName =
 const titleBaseClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
-  "max-[48em]:text-[clamp(2.3rem,9.1vw,3rem)] " +
+  "max-[768px]:text-[clamp(2.3rem,9.1vw,3rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const headerCenterBaseClassName =
-  "relative flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[48em]:mb-[clamp(0.4rem,2vw,0.72rem)]";
+  "relative flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[768px]:mb-[clamp(0.4rem,2vw,0.72rem)]";
 const headerCenterPageClassName =
   "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(2.4rem,5.6vh,4.2rem)] " +
-  "max-[48em]:mt-[clamp(0.72rem,3.2vw,1.02rem)] max-[48em]:translate-y-[clamp(0.02rem,0.25vw,0.16rem)]";
+  "max-[768px]:mt-[clamp(0.72rem,3.2vw,1.02rem)] max-[768px]:translate-y-[clamp(0.02rem,0.25vw,0.16rem)]";
 const rolePillBaseClassName =
   "inline-flex items-center justify-center rounded-full " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
@@ -88,7 +88,7 @@ const rolePillSingleLineClassName =
 const rolePillMultiLineClassName =
   "h-auto min-h-[4.1rem] px-[1.15em] py-[0.56rem] " +
   "text-center [text-wrap:initial] " +
-  "max-w-[19.5rem] max-[48em]:max-w-[min(84vw,16.2rem)] " +
+  "max-w-[19.5rem] max-[768px]:max-w-[min(84vw,16.2rem)] " +
   "translate-y-0";
 const rolePillMultiLineTextClassName =
   "flex flex-col items-center justify-center gap-[0.28rem] leading-[1.06] text-inherit";
@@ -98,29 +98,31 @@ const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
   "[--label-gap-side-left:0.32rem] [--label-gap-side-right:0.02rem] " +
   "[--label-side-nudge-left:0.02rem] [--label-side-nudge-right:-0.12rem] " +
-  "min-[48.0625em]:[--label-gap-side-left:0.52rem] min-[48.0625em]:[--label-gap-side-right:0.1rem] " +
-  "min-[48.0625em]:[--label-side-nudge-left:-0.02rem] min-[48.0625em]:[--label-side-nudge-right:-0.16rem] " +
-  "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
-  "min-[48.0625em]:[--orbit-item-size:5.4rem] min-[48.0625em]:[--orbit-item-size-open:5.75rem] " +
-  "min-[48.0625em]:[--label-gap:0.95rem] " +
-  "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] min-[48.0625em]:[--orbit-size:22.8rem] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
-  "min-[48.0625em]:[--orbit-center-size:10.6rem] " +
-  "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
+  "[--orbit-gap:calc(0.95*var(--base-rem))] [--orbit-gap-open:calc(1.15*var(--base-rem))] " +
+  "min-[769px]:[--label-gap-side-left:0.52rem] min-[769px]:[--label-gap-side-right:0.1rem] " +
+  "min-[769px]:[--label-side-nudge-left:-0.02rem] min-[769px]:[--label-side-nudge-right:-0.16rem] " +
+  "min-[769px]:[--orbit-gap:calc(1.45*var(--base-rem))] min-[769px]:[--orbit-gap-open:calc(1.8*var(--base-rem))] " +
+  "[--orbit-item-size:clamp(calc(4.6*var(--base-rem)),9.2vw,calc(5.8*var(--base-rem)))] [--orbit-item-size-open:clamp(calc(4.9*var(--base-rem)),9.8vw,calc(6.2*var(--base-rem)))] " +
+  "min-[769px]:[--orbit-item-size:calc(6.55*var(--base-rem))] min-[769px]:[--orbit-item-size-open:calc(6.95*var(--base-rem))] " +
+  "min-[769px]:[--label-gap:0.95rem] " +
+  "[--orbit-size:clamp(calc(17.4*var(--base-rem)),35vw,calc(23.8*var(--base-rem)))] min-[769px]:[--orbit-size:calc(25.9*var(--base-rem))] [--orbit-center-size:clamp(calc(9.4*var(--base-rem)),17vw,calc(11.8*var(--base-rem)))] " +
+  "min-[769px]:[--orbit-center-size:calc(13.2*var(--base-rem))] min-[769px]:[--orbit-center-scale:1.12] " +
+  "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.42)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
-  "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
-  "max-[48em]:[--orbit-size:clamp(14.8rem,70vw,18.8rem)] max-[48em]:[--orbit-center-size:clamp(6.8rem,31vw,8.6rem)] " +
-  "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.44)] max-[48em]:mt-[clamp(0.9rem,4.1vw,1.25rem)] max-[48em]:mb-[clamp(0.15rem,0.9vw,0.3rem)] " +
+  "max-[768px]:[--orbit-item-size:clamp(calc(3.9*var(--base-rem)),16.8vw,calc(4.9*var(--base-rem)))] max-[768px]:[--orbit-item-size-open:clamp(calc(4.2*var(--base-rem)),17.8vw,calc(5.2*var(--base-rem)))] " +
+  "max-[768px]:[--orbit-size:clamp(calc(14.8*var(--base-rem)),70vw,calc(18.8*var(--base-rem)))] max-[768px]:[--orbit-center-size:clamp(calc(6.8*var(--base-rem)),31vw,calc(8.6*var(--base-rem)))] " +
+  "max-[768px]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.44)] max-[768px]:mt-[clamp(0.9rem,4.1vw,1.25rem)] max-[768px]:mb-[clamp(0.15rem,0.9vw,0.3rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
   "cursor-[var(--cursor-default)] " +
-  "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
-  "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
-  "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
+  "min-[769px]:absolute min-[769px]:top-1/2 min-[769px]:left-1/2 " +
+  "min-[769px]:w-[var(--orbit-size)] min-[769px]:min-h-[var(--orbit-size)] " +
+  "min-[769px]:m-0 min-[769px]:-translate-x-1/2 min-[769px]:-translate-y-1/2";
 const orbitRoleToggleWrapClassName =
-  "absolute left-1/2 top-[calc(50%+clamp(4.95rem,20vw,5.95rem))] min-[48.0625em]:top-[calc(50%+6.55rem)] " +
+  "absolute left-1/2 top-[calc(50%+clamp(4.95rem,20vw,5.95rem))] min-[769px]:top-[calc(50%+7rem)] " +
   "-translate-x-1/2 z-[6] pointer-events-auto";
 const orbitRoleToggleButtonClassName =
   "inline-flex items-center justify-center gap-[0.62rem] rounded-full border-0 px-[1.14rem] py-[0.72rem] " +
-  "min-h-[2.92rem] px-[1rem] py-[0.64rem] whitespace-nowrap text-[1.14rem] max-[48em]:text-[1.04rem] font-[600] tracking-[0.03em] " +
+  "min-h-[2.92rem] px-[1rem] py-[0.64rem] whitespace-nowrap text-[1.14rem] max-[768px]:text-[1.04rem] font-[600] tracking-[0.03em] " +
   "text-[#c57171] light:text-[#7A3A38] " +
   "bg-[rgba(8,12,20,0.14)] light:bg-[rgba(255,255,255,0.24)] backdrop-blur-[0.9rem] " +
   "shadow-[0_7px_16px_rgba(0,0,0,0.14)] light:shadow-[0_7px_14px_rgba(15,23,42,0.08)] " +
@@ -128,22 +130,22 @@ const orbitRoleToggleButtonClassName =
   "hover:scale-[1.02] focus-visible:scale-[1.02] focus-visible:outline-none " +
   "disabled:opacity-60 disabled:cursor-default disabled:hover:scale-100";
 const logoutButtonClassName =
-  "group relative grid place-items-center h-[5.2rem] w-[5.2rem] max-[48em]:h-[6.2rem] max-[48em]:w-[6.2rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
-const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
+  "group relative grid place-items-center h-[5.2rem] w-[5.2rem] max-[768px]:h-[6.2rem] max-[768px]:w-[6.2rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
+const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[768px]:h-[4.35rem] max-[768px]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
-  "text-[1.2rem] min-[48.0625em]:text-[1.36rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
+  "text-[1.2rem] min-[769px]:text-[1.36rem] max-[768px]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] opacity-0 -translate-y-[0.38rem] pointer-events-none transform-gpu will-change-transform " +
   "transition-all duration-[520ms] ease-out " +
   "group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0";
 const profileBackButtonClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
-  "max-[48em]:!z-[95]";
+  "max-[768px]:!z-[95]";
 const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
 const profileLogoutWrapClassName =
-  `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto min-[48.0625em]:translate-x-[-0.1rem] max-[48em]:translate-x-[-0.68rem] ` +
-  "max-[48em]:z-[95]";
+  `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto min-[769px]:translate-x-[-0.1rem] max-[768px]:translate-x-[-0.68rem] ` +
+  "max-[768px]:z-[95]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";
@@ -206,7 +208,7 @@ function ProfileShell({
     }
     window.addEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
     const isMobileViewport =
-      window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768;
+      window.matchMedia?.("(max-width: 768px)")?.matches ?? window.innerWidth <= 768;
     const motionReduced =
       document?.documentElement?.dataset?.reduceMotion === "1" ||
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
@@ -241,8 +243,8 @@ function ProfileShell({
       "data-[theme=dark]:[--profile-role-hole-shadow:0_6px_16px_rgba(0,0,0,0.26),0_8px_14px_-12px_rgba(248,253,255,0.52),0_18px_24px_-18px_rgba(248,253,255,0.26)] " +
       "data-[theme=light]:[--profile-role-text-color:#2b2620] " +
       "data-[theme=light]:[--profile-role-hole-shadow:0_4px_12px_rgba(0,0,0,0.12)] " +
-      "max-[48em]:border max-[48em]:border-[var(--glass-border-color)] max-[48em]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
-    !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,4.4vw,1.7rem)]",
+      "max-[768px]:border max-[768px]:border-[var(--glass-border-color)] max-[768px]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
+    !embedded && "max-md:[--glass-ring-pad-top:clamp(calc(1.1*var(--base-rem)),4.4vw,calc(1.7*var(--base-rem)))]",
     entrySettleActive && "glass-content-settle"
   );
   const ringSurfaceStyle = {
@@ -268,7 +270,7 @@ function ProfileShell({
         <footer
           aria-hidden={orbitOpen ? "true" : undefined}
           className={cn(
-            "profile-footer-note pointer-events-none absolute inset-x-0 top-[82%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[48em]:top-auto max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+clamp(0.35rem,1.8vw,0.7rem))] max-[48em]:translate-y-0 max-[48em]:text-[1.62rem]",
+            "profile-footer-note pointer-events-none absolute inset-x-0 top-[82%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[768px]:top-auto max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+clamp(0.35rem,1.8vw,0.7rem))] max-[768px]:translate-y-0 max-[768px]:text-[1.62rem]",
             orbitOpen ? "opacity-0" : "opacity-[0.65]"
           )}
         >
@@ -461,9 +463,9 @@ export default function ProfiilBody({
   );
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
-    !embedded && "min-[48.0625em]:sr-only",
-    "max-[48em]:sr-only",
-    "max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]"
+    !embedded && "min-[769px]:sr-only",
+    "max-[768px]:sr-only",
+    "max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)]"
   );
   const headerCenterClassName = cn(
     headerCenterBaseClassName,
@@ -1012,7 +1014,7 @@ export default function ProfiilBody({
             toggleLabelClose={t("buttons.close")}
             mobileVariant="stack"
             mobileBackItem={mobileBackItem}
-            className="min-[48.0625em]:[--label-gap:0.95rem]"
+            className="min-[769px]:[--label-gap:0.95rem]"
             onOpenChange={setOrbitOpen}
           />
         </div>

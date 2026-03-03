@@ -290,9 +290,9 @@
   },
   "accessibility": {
     "title": "Accessibility preferences",
-    "description": "Adjust text size, contrast, motion, and theme.",
+    "description": "Adjust screen profile, contrast, motion, and theme.",
     "language": "Language",
-    "text_scale": "Text size",
+    "text_scale": "Screen profile",
     "contrast": "Contrast",
     "motion": "Motion",
     "theme": "Theme",
@@ -303,10 +303,11 @@
         "en": "English"
       },
       "text_scale": {
-        "sm": "Small",
-        "md": "Default",
-        "lg": "Large",
-        "xl": "Extra large"
+        "auto": "Auto",
+        "sm": "Laptop screen",
+        "md": "Laptop screen",
+        "lg": "External or desktop monitor",
+        "xl": "External or desktop monitor"
       },
       "contrast": {
         "normal": "Standard",

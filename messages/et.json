@@ -290,9 +290,9 @@
   },
   "accessibility": {
     "title": "Ligipääsetavuse eelistused",
-    "description": "Kohanda teksti suurust, kontrasti, animatsioone ja teemat.",
+    "description": "Kohanda ekraani profiili, kontrasti, animatsioone ja teemat.",
     "language": "Keel",
-    "text_scale": "Teksti suurus",
+    "text_scale": "Ekraani profiil",
     "contrast": "Kontrast",
     "motion": "Animatsioonid",
     "theme": "Teema",
@@ -303,10 +303,11 @@
         "en": "Inglise"
       },
       "text_scale": {
-        "sm": "Väike",
-        "md": "Tavaline",
-        "lg": "Suur",
-        "xl": "Väga suur"
+        "auto": "Automaatne",
+        "sm": "Sülearvuti ekraan",
+        "md": "Sülearvuti ekraan",
+        "lg": "Väline ekraan",
+        "xl": "Väline ekraan"
       },
       "contrast": {
         "normal": "Tavaline",

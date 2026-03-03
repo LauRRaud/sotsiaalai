@@ -13,7 +13,7 @@ import { localizePath } from "@/lib/localizePath"
 const documentsTitleClassName =
   `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-left !whitespace-normal ` +
   `!text-[clamp(2rem,4vw,2.85rem)] !leading-[1.03] !tracking-[0.02em] ` +
-  `max-[48em]:!text-[clamp(2rem,8vw,2.7rem)] max-[48em]:!leading-[1.05] max-[48em]:!mt-0`
+  `max-[768px]:!text-[clamp(2rem,8vw,2.7rem)] max-[768px]:!leading-[1.05] max-[768px]:!mt-0`
 
 function formatDate(value, locale) {
   if (!value) return ""
@@ -156,7 +156,7 @@ export default function ArtifactDetailPage({ artifactId }) {
           <BackButton
             onClick={() => router.push(localizePath("/documents", locale))}
             ariaLabel={t("buttons.back")}
-            className="documents-back-button absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[48em]:!h-[4.4rem] max-[48em]:!w-[4.4rem] max-[48em]:[&>svg]:!h-[4.4rem] max-[48em]:[&>svg]:!w-[4.4rem]"
+            className="documents-back-button absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.4rem] max-[768px]:!w-[4.4rem] max-[768px]:[&>svg]:!h-[4.4rem] max-[768px]:[&>svg]:!w-[4.4rem]"
           />
           <div className="documents-workspace-content">
             <header className="documents-page-header">

@@ -194,7 +194,7 @@ section[lang="en"] .register-guide-card {
   line-height: 1.3;
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   section[lang="ru"] .register-checkbox-card {
     font-size: 1.22rem;
   }
@@ -220,7 +220,7 @@ section[lang="en"] .register-guide-card {
   }
 }
 
-@media (min-width: 48.0625em) {
+@media (min-width: 769px) {
   section[lang="ru"] .register-guide-card {
     width: calc(100% - clamp(1.7rem, calc(var(--ring-diameter, 52rem) / 26), 2.2rem)) !important;
     max-width: calc(100% - clamp(1.7rem, calc(var(--ring-diameter, 52rem) / 26), 2.2rem)) !important;
@@ -242,7 +242,7 @@ section[lang="en"] .register-guide-card {
   width: 0.16em;
 }
 
-@media (min-width: 48.0625em) {
+@media (min-width: 769px) {
   .register-submit-wrap {
     transform: translateY(0.4rem);
   }

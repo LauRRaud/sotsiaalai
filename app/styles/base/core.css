@@ -1,5 +1,6 @@
 html {
   font-family: var(--font-aino), Arial, sans-serif;
+  font-size: calc(var(--base-rem, 16px) * var(--ui-scale, 1));
   height: 100%;
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
@@ -44,6 +45,7 @@ body {
   left: 0;
   pointer-events: none;
   z-index: 100000;
+  --click-pulse-size: 16px;
   border-radius: 50%;
   border: 1.8px solid var(--click-pulse-ring-color, rgba(255, 255, 255, 0.6));
   background: transparent;
@@ -56,6 +58,27 @@ body {
 .click-pulse-cursor.is-active {
   opacity: 1;
   animation: click-pulse 0.9s ease-in-out infinite;
+}
+@media (min-width: 769px) {
+  html[data-ui-scale="lg"] .click-pulse-cursor {
+    --click-pulse-size: 20px;
+    border-width: 2.2px;
+  }
+
+  html[data-ui-scale="lg"] .home-scroll-cue .home-scroll-cue-mouse {
+    width: 3rem;
+    height: 2.9rem;
+  }
+
+  html[data-ui-scale="lg"] .home-scroll-cue .home-scroll-cue-arrow {
+    width: 3.1rem;
+    height: 3.1rem;
+  }
+
+  html[data-ui-scale="lg"] .home-scroll-cue .home-scroll-cue-arrow svg {
+    transform: scale(0.6);
+    transform-origin: center;
+  }
 }
 :where(
   a,

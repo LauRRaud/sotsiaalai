@@ -8,7 +8,7 @@ const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const PRESS_LOCK_MS = 620;
 
 const baseClassName =
-  "inline-flex h-[5.7rem] w-[5.7rem] min-[48.0625em]:h-[6.4rem] min-[48.0625em]:w-[6.4rem] items-center justify-center " +
+  "inline-flex h-[5.7rem] w-[5.7rem] min-[769px]:h-[6.4rem] min-[769px]:w-[6.4rem] items-center justify-center " +
   "bg-transparent p-0 border-0 cursor-[var(--cursor-pointer)] " +
   "group focus-visible:outline-none";
 

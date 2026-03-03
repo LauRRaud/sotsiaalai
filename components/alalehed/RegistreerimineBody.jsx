@@ -19,20 +19,20 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} glass-title-register max-[48em]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0`;
+  `${glassPageTitleClassName} glass-title-register max-[768px]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0 max-[768px]:!px-0`;
 const contentClassName = "register-content mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
-const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[48.0625em]:max-w-[clamp(18.2rem,calc(var(--ring-diameter,52rem)/2.2),23.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.6rem] min-[48.0625em]:px-[1.02rem] text-left csp-container mx-auto";
+const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[769px]:max-w-[clamp(18.2rem,calc(var(--ring-diameter,52rem)/2.2),23.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.6rem] min-[769px]:px-[1.02rem] text-left csp-container mx-auto";
 const registerTextClassName = "register-copy text-[1.25rem] leading-[1.45] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerPolicyLinkClassName = `${linkBrandInlineClass} register-policy-link`;
 const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:var(--pt-200)]`;
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
-const checkboxCardClassName = "register-checkbox-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[48.0625em]:mx-auto gap-[0.72rem] text-[1rem] leading-[1.34] px-[1.05rem] py-[0.86rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
+const checkboxCardClassName = "register-checkbox-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto gap-[0.72rem] text-[1rem] leading-[1.34] px-[1.05rem] py-[0.86rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName = "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
 const registerButtonClassName = "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
-const inputBaseClassName = "register-input w-full min-[48.0625em]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[48.0625em]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+const inputBaseClassName = "register-input w-full min-[769px]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[769px]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 const isRegistrationOpen = !["false", "0", "off"].includes(
   String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true").trim().toLowerCase()
 );
@@ -197,7 +197,7 @@ export default function RegistreerimineBody({
     getItemClassName(index);
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const query = window.matchMedia("(max-width: 48em)");
+    const query = window.matchMedia("(max-width: 768px)");
     const apply = () => setIsMobileViewport(query.matches);
     apply();
     if (typeof query.addEventListener === "function") {
@@ -320,9 +320,9 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] max-[48em]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[48em]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[48em]:[--mobile-glass-card-gap:clamp(0.26rem,1.2vw,0.4rem)] max-[48em]:[--ring-pad-x:clamp(0.44rem,2vw,0.78rem)]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
+      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
-        <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]" aria-hidden="true">
+        <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]" aria-hidden="true">
           <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>
         </div>
 
@@ -363,10 +363,10 @@ export default function RegistreerimineBody({
                   <div id={roleHintId} className="sr-only">
                     {t("auth.register.role_hint")}
                   </div>
-                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`register-option-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[48.0625em]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.worker")}
                 </OptionCard>
-                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`register-option-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[48.0625em]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.client")}
                 </OptionCard>
                 </div>
@@ -413,7 +413,7 @@ export default function RegistreerimineBody({
                 {error && <div role="alert" className="w-full rounded-[0.95rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fca5a5] text-[1.12rem] leading-[1.4]">
                     {error}
                   </div>}
-                {successMessage && <div role="status" className="w-full rounded-[1.02rem] border border-[rgba(52,211,153,0.45)] bg-[linear-gradient(145deg,rgba(6,78,59,0.58)_0%,rgba(6,95,70,0.4)_56%,rgba(16,185,129,0.24)_100%)] px-[1rem] py-[0.9rem] text-[color:#d1fae5] text-[1.2rem] max-[48em]:text-[1.34rem] leading-[1.38] font-medium shadow-[0_12px_22px_rgba(4,42,30,0.28)] light:border-[rgba(16,185,129,0.44)] light:bg-[linear-gradient(135deg,rgba(236,253,245,0.96)_0%,rgba(209,250,229,0.9)_56%,rgba(167,243,208,0.72)_100%)] light:text-[color:#065f46] light:shadow-[0_10px_18px_rgba(6,95,70,0.14)]">
+                {successMessage && <div role="status" className="w-full rounded-[1.02rem] border border-[rgba(52,211,153,0.45)] bg-[linear-gradient(145deg,rgba(6,78,59,0.58)_0%,rgba(6,95,70,0.4)_56%,rgba(16,185,129,0.24)_100%)] px-[1rem] py-[0.9rem] text-[color:#d1fae5] text-[1.2rem] max-[768px]:text-[1.34rem] leading-[1.38] font-medium shadow-[0_12px_22px_rgba(4,42,30,0.28)] light:border-[rgba(16,185,129,0.44)] light:bg-[linear-gradient(135deg,rgba(236,253,245,0.96)_0%,rgba(209,250,229,0.9)_56%,rgba(167,243,208,0.72)_100%)] light:text-[color:#065f46] light:shadow-[0_10px_18px_rgba(6,95,70,0.14)]">
                     {successMessage}
                   </div>}
                 {submitting ? <div className="flex justify-center py-[0.12rem]" role="status" aria-live="polite" aria-atomic="true">

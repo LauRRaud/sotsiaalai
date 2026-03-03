@@ -111,7 +111,7 @@ export default function ChatBodyView({
     }
     window.addEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
     const isMobileViewport =
-      window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768;
+      window.matchMedia?.("(max-width: 768px)")?.matches ?? window.innerWidth <= 768;
     const motionReduced =
       document?.documentElement?.dataset?.reduceMotion === "1" ||
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
@@ -137,7 +137,7 @@ export default function ChatBodyView({
 
   return <>
     <InviteModal />
-    <div className={cn("chat-page-shell grid place-items-center min-h-[100dvh] h-[100dvh] p-0 overflow-y-hidden overflow-x-visible max-[48em]:overflow-hidden [overflow-anchor:none] max-[48em]:overscroll-none max-[48em]:place-items-stretch", isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus place-items-center pt-0 pb-0 [scroll-padding-top:0] [scroll-padding-bottom:0]" : null)}>
+    <div className={cn("chat-page-shell grid place-items-center min-h-[100dvh] h-[100dvh] p-0 overflow-y-hidden overflow-x-visible max-[768px]:overflow-hidden [overflow-anchor:none] max-[768px]:overscroll-none max-[768px]:place-items-stretch", isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus place-items-center pt-0 pb-0 [scroll-padding-top:0] [scroll-padding-bottom:0]" : null)}>
       <>
         {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
           <div className="relative overflow-visible">
@@ -151,7 +151,7 @@ export default function ChatBodyView({
                   <div className="mask-pane mask-pane--right" />
                 </div>
               ) : null}
-              {!profileOpen && isMobile ? <BackButton onClick={handleBackHome} ariaLabel={t("chat.back_to_home")} className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95]")} iconClassName="group-hover:!scale-[1.01] group-focus-visible:!scale-[1.01]" /> : null}
+              {!profileOpen && isMobile ? <BackButton onClick={handleBackHome} ariaLabel={t("chat.back_to_home")} className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[768px]:!z-[95]")} iconClassName="group-hover:!scale-[1.01] group-focus-visible:!scale-[1.01]" /> : null}
               {!profileOpen && !mobileRailVisible ? <ChatMobileRailButton isLightTheme={isLightTheme} onShowMobileRail={showMobileRail} disabled={mobileRailInteractionLocked} ariaLabel={t("chat.show_quick_actions")} /> : null}
 
               <LeftRail t={t} locale={locale} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onBackHome={handleBackHome} embedded={embedded} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} />
@@ -168,7 +168,7 @@ export default function ChatBodyView({
               <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} />
               <ChatRecordingNotice recordingError={recordingError} />
 
-              <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[48em]:mt-[0.55rem] max-[48em]:min-h-[1.1rem] max-[48em]:pb-[0.15rem]" />
+              <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[768px]:mt-[0.55rem] max-[768px]:min-h-[1.1rem] max-[768px]:pb-[0.15rem]" />
               <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
             </GlassRing>
             {analysis.showAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem] mx-auto" style={analysisPanelWidth ? {

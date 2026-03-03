@@ -10,12 +10,13 @@ import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
-import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
+import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { getFooterNote } from "@/lib/footerNote";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionListClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
+import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
@@ -52,7 +53,7 @@ export default function KasutustingimusedBody() {
   const isExpandedLayout = expanded || isMobilePolicyLayout;
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const media = window.matchMedia("(max-width: 48em), (pointer: coarse)");
+    const media = window.matchMedia("(max-width: 768px), (pointer: coarse)");
     const updateLayout = () => setIsMobilePolicyLayout(media.matches);
     updateLayout();
     if (typeof media.addEventListener === "function") {
@@ -161,7 +162,7 @@ export default function KasutustingimusedBody() {
         <CloseButton
           onClick={handleBack}
           ariaLabel={t("buttons.close")}
-          className={cn(glassPageCloseClassName, "max-[48em]:hidden")}
+          className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
         />
         <BackButton
           onClick={handleBack}
@@ -169,11 +170,18 @@ export default function KasutustingimusedBody() {
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
-        <h1 id="terms-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
+        <h1 id="terms-title" className={cn(titleClassName, glassPolicyTitleOffsetClassName, isExpandedLayout ? glassPolicyTitleExpandedClassName : null)}>
           {termsTitleNode}
         </h1>
-        <div className={cn(contentClassName, "glass-ring-content", "policy-page-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
-          <div className={cn(scrollClassName, "policy-page-scroll", isExpandedLayout ? "glass-ring-scroll--open" : null)} style={{ zIndex: 0 }}>
+        <div className={cn(contentClassName, "glass-ring-content", "policy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
+          <div
+            className={cn(scrollClassName, "policy-page-scroll", isExpandedLayout ? "glass-ring-scroll--open" : null, isExpandedLayout ? glassPolicyScrollExpandedClassName : null)}
+            style={{ zIndex: 0 }}
+            tabIndex={0}
+            aria-labelledby="terms-title"
+            onKeyDown={handlePolicyScrollKeyDown}
+            onMouseDown={focusPolicyScrollArea}
+          >
             {sections.map(section => <div key={section.heading} className={policySectionClassName}>
                 <h2 className={policySectionHeadingClassName}>{section.heading}</h2>
                 <div className={cn(policySectionBodyClassName, "space-y-[0.9rem]")}>
@@ -181,10 +189,10 @@ export default function KasutustingimusedBody() {
                 </div>
               </div>)}
             <footer className={cn(
-              "policy-page-footer text-center text-[1.32rem] max-[48em]:text-[1.38rem] text-[#d7cfd3] light:text-[#4a413a]",
+              "policy-page-footer text-center text-[1.32rem] max-[768px]:text-[1.38rem] text-[#d7cfd3] light:text-[#4a413a]",
               isExpandedLayout
-                ? "mt-[1.8rem] mb-[clamp(1rem,2.6vh,1.6rem)] max-[48em]:mb-[clamp(1rem,2.8vh,1.6rem)]"
-                : "mt-[clamp(2.9rem,6.3vh,3.6rem)] mb-[clamp(2.3rem,5.6vh,3.5rem)] max-[48em]:mt-[1.8rem] max-[48em]:mb-[clamp(2.3rem,5.8vh,3.5rem)]"
+                ? "mt-[1.8rem] mb-[clamp(1rem,2.6vh,1.6rem)] max-[768px]:mb-[clamp(1rem,2.8vh,1.6rem)]"
+                : "mt-[clamp(2.9rem,6.3vh,3.6rem)] mb-[clamp(2.3rem,5.6vh,3.5rem)] max-[768px]:mt-[1.8rem] max-[768px]:mb-[clamp(2.3rem,5.8vh,3.5rem)]"
             )}>
               {getFooterNote()}
             </footer>

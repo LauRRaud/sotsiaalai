@@ -148,7 +148,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       id={id}
       className={cn(
         "home-section",
-        "relative z-30 w-full overflow-visible py-[clamp(2.8rem,7vw,5rem)] pb-[clamp(0.6rem,1.6vw,1rem)] max-[48em]:pt-[clamp(1.2rem,4.2vw,2rem)] max-[48em]:pb-[clamp(0.4rem,1.2vw,0.8rem)] touch-pan-y",
+        "relative z-30 w-full overflow-visible py-[clamp(2.8rem,7vw,5rem)] pb-[clamp(0.6rem,1.6vw,1rem)] max-[768px]:pt-[clamp(1.2rem,4.2vw,2rem)] max-[768px]:pb-[clamp(0.4rem,1.2vw,0.8rem)] touch-pan-y",
         className
       )}
     >
@@ -162,7 +162,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         >
           <h2
             className={cn(
-              "text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[48em]:mb-[0.3rem] text-[color:var(--home-title-color)]"
+              "text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[768px]:mb-[0.3rem] text-[color:var(--home-title-color)]"
             )}
           >
             {t("about.title")}
@@ -170,7 +170,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           <div className="relative mx-auto w-full max-w-[52rem]">
             <div
               ref={aboutScrollRef}
-              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.2rem,0.7vw,0.55rem)] pt-[0.05rem] pb-[0.5rem] max-[48em]:px-[0.1rem] max-[48em]:pt-[0rem] max-[48em]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[48em]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[48em]:leading-[1.62] tracking-[0.03em] max-[48em]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
+              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.2rem,0.7vw,0.55rem)] pt-[0.05rem] pb-[0.5rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
               style={{
                 maxHeight: "min(72vh, 42rem)",
                 scrollbarWidth: "none",

@@ -27,7 +27,7 @@
   --card-edge-opacity: 0.22;
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   body.homepage:is(.modal-open, .login-modal-open, .home-profile-open)
     .homepage-root
     .three-d-card,
@@ -164,7 +164,7 @@
     );
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .homepage-root .home-card-pattern-layer {
     opacity: 0.32;
   }

@@ -10,7 +10,7 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
 import styles from "./LeftRail.module.css";
 
-const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
+const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 
 function detectMobileViewport() {
@@ -78,19 +78,9 @@ export default function LeftRail({
     if (!rail) return;
     const railRect = rail.getBoundingClientRect();
     if (!railRect.width || !railRect.height) return;
-    const style = window.getComputedStyle(rail);
-    const itemSizeRaw = Number.parseFloat(
-      style.getPropertyValue("--rail-item-size")
-    );
-    const edgeOffsetRaw = Number.parseFloat(
-      style.getPropertyValue("--rail-edge-offset")
-    );
-    const itemSize =
-      Number.isFinite(itemSizeRaw) && itemSizeRaw > 0 ? itemSizeRaw : 48;
-    const edgeOffset =
-      Number.isFinite(edgeOffsetRaw) && edgeOffsetRaw > 0
-        ? edgeOffsetRaw
-        : itemSize * 0.5;
+    const itemEl = rail.querySelector("[data-item-index]");
+    const itemSize = itemEl?.getBoundingClientRect?.().height || 48;
+    const edgeOffset = itemSize * 0.5;
     const anchorLeft = railRect.left + edgeOffset - itemSize * 0.5;
     const anchorTop = railRect.top + railRect.height * 0.5;
     setTooltipRect({
@@ -138,8 +128,15 @@ export default function LeftRail({
     if (!rail) return;
     const update = () => {
       const style = window.getComputedStyle(rail);
-      const raw = style.getPropertyValue("--rail-step").trim();
-      const parsed = Number.parseFloat(raw);
+      const itemEl = rail.querySelector("[data-item-index]");
+      const itemSize = itemEl?.getBoundingClientRect?.().height || 0;
+      const factorRaw = Number.parseFloat(
+        style.getPropertyValue("--rail-step-factor").trim()
+      );
+      const factor =
+        Number.isFinite(factorRaw) && factorRaw > 0 ? factorRaw : 1.42;
+      const parsed =
+        Number.isFinite(itemSize) && itemSize > 0 ? itemSize * factor : NaN;
       if (!Number.isFinite(parsed)) return;
       setStepPx(prev => {
         const next = Math.round(parsed);
@@ -373,14 +370,7 @@ export default function LeftRail({
           .filter(Boolean)
           .map(slot => {
             const { item, itemIndex, slotOffset } = slot;
-            const outerFactor = 1.78;
-            const offsetY =
-              slotOffset === 0
-                ? 0
-                : Math.sign(slotOffset) *
-                  (Math.abs(slotOffset) === 2
-                    ? Math.round(stepPx * outerFactor)
-                    : stepPx);
+            const offsetY = slotOffset * stepPx;
             const curveNorm = Math.min(Math.abs(slotOffset) / 2, 1);
             const baseCurvePx = inputFocused ? 0 : 4;
             const edgeSafetyPx = inputFocused ? 0 : 12;
@@ -394,8 +384,8 @@ export default function LeftRail({
                 curveNorm +
               slotOffset * curveSkewPx;
             const norm = Math.min(Math.abs(slotOffset) / 2, 1);
-            const scale = 0.78 + (1 - norm) * 0.46;
-            const opacity = 0.12 + (1 - norm) * 0.78;
+            const scale = 0.88 + (1 - norm) * 0.36;
+            const opacity = 0.42 + (1 - norm) * 0.58;
             const zIndex = 10 - Math.abs(slotOffset);
 
             const onActivate = event => {

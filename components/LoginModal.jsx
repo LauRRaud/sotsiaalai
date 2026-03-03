@@ -211,7 +211,7 @@ export default function LoginModal({
   const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const query = window.matchMedia("(max-width: 48em)");
+    const query = window.matchMedia("(max-width: 768px)");
     const apply = () => setIsPhoneViewport(query.matches);
     apply();
     if (typeof query.addEventListener === "function") {
@@ -1117,7 +1117,7 @@ export default function LoginModal({
           ? "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
           : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"
       }`}>
-          <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[48em]:!w-[2.66rem] max-[48em]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
+          <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[768px]:!w-[2.66rem] max-[768px]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
             <div
@@ -1398,7 +1398,7 @@ export default function LoginModal({
             </div>
 
             <div className="w-full max-w-[23.6rem] flex flex-col items-center mt-[1.28rem]">
-              <Button type="submit" variant="primary" className="w-auto min-w-[11.2rem] whitespace-normal text-center leading-[1.16] px-[1.45rem] py-[0.86rem] text-[1.28rem] min-h-[3.1rem] max-[48em]:!min-h-[3.14rem] max-[48em]:!px-[1.56rem] max-[48em]:!py-[0.86rem] max-[48em]:!text-[1.36rem] rounded-[0.88rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
+              <Button type="submit" variant="primary" className="w-auto min-w-[11.2rem] whitespace-normal text-center leading-[1.16] px-[1.45rem] py-[0.86rem] text-[1.28rem] min-h-[3.1rem] max-[768px]:!min-h-[3.14rem] max-[768px]:!px-[1.56rem] max-[768px]:!py-[0.86rem] max-[768px]:!text-[1.36rem] rounded-[0.88rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
                 {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
               </Button>
 

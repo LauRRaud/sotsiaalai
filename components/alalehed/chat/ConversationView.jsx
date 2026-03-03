@@ -57,11 +57,11 @@ const ConversationView = memo(function ConversationView({
   }, []);
   const mainClassName =
     "conversation-view relative flex flex-1 flex-col min-h-0 w-full " +
-    "transition-[transform] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[48em]:transition-none";
+    "transition-[transform] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
   const mergedMainClassName = mainClassNameProp ? `${mainClassName} ${mainClassNameProp}` : mainClassName;
   const windowClassName =
     "chat-window relative flex flex-1 min-h-0 flex-col items-stretch gap-[0.75rem] " +
-    "mt-[var(--chat-window-top-offset,0rem)] max-[48em]:flex-none max-[48em]:h-[calc(100%-var(--chat-window-bottom-gap,0rem)-var(--chat-vk-offset,0px)+var(--chat-window-mobile-extra-height,0rem))] max-[48em]:mb-[calc(var(--chat-window-bottom-gap,0rem)+var(--chat-vk-offset,0px))] max-h-[calc(100%-var(--chat-window-top-offset,0rem)-var(--chat-window-bottom-gap,0rem))] " +
+    "mt-[var(--chat-window-top-offset,0rem)] max-[768px]:flex-none max-[768px]:h-[calc(100%-var(--chat-window-bottom-gap,0rem)-var(--chat-vk-offset,0px)+var(--chat-window-mobile-extra-height,0rem))] max-[768px]:mb-[calc(var(--chat-window-bottom-gap,0rem)+var(--chat-vk-offset,0px))] max-h-[calc(100%-var(--chat-window-top-offset,0rem)-var(--chat-window-bottom-gap,0rem))] " +
     "[--chat-window-corner:clamp(0.9rem,2.2vw,1.4rem)] [--chat-window-curve-x:100%] [--chat-window-curve-y:72%] [--chat-window-curve-y-left:calc(var(--chat-window-curve-y)-2%)] [--chat-window-curve-y-right:calc(var(--chat-window-curve-y)+2%)] " +
     "[--chat-window-pad-x:var(--chat-window-pad-x,clamp(0.6rem,1.8vw,1.35rem))] [--chat-window-pad-top:var(--chat-window-pad-top,clamp(1.8rem,4vh,3rem))] " +
     "[--chat-window-bottom-safe:clamp(1.2rem,2.8vh,2.4rem)] [--chat-window-fade-top-default:1.35rem] " +
@@ -79,10 +79,10 @@ const ConversationView = memo(function ConversationView({
     "bg-transparent border-0 shadow-none isolate overflow-hidden " +
     "w-full max-w-[var(--chat-window-max-w,calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))-clamp(1.4rem,3vw,2.2rem)))] mx-auto " +
     "[transform:translateX(var(--chat-window-shift-x,0rem))_translateY(var(--chat-window-shift-y,0rem))] " +
-    "max-[48em]:[--chat-window-curve-x:var(--chat-window-corner)] max-[48em]:[--chat-window-curve-y:var(--chat-window-corner)] max-[48em]:[--chat-window-curve-y-left:var(--chat-window-corner)] max-[48em]:[--chat-window-curve-y-right:var(--chat-window-corner)] " +
+    "max-[768px]:[--chat-window-curve-x:var(--chat-window-corner)] max-[768px]:[--chat-window-curve-y:var(--chat-window-corner)] max-[768px]:[--chat-window-curve-y-left:var(--chat-window-corner)] max-[768px]:[--chat-window-curve-y-right:var(--chat-window-corner)] " +
     "light:[--chat-arc-rgb:210_214_222] light:[--chat-arc-center-alpha:0.1] light:[--chat-arc-side-alpha:0.24] light:[--chat-arc-mid-alpha:0.09] " +
     "transition-[padding-top,padding-bottom,margin-top,max-height,max-width,transform] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    "max-[48em]:w-[calc(100%+var(--chat-window-mobile-width-right,0rem))] max-[48em]:max-w-none max-[48em]:mx-0 max-[48em]:mr-auto max-[48em]:transition-none";
+    "max-[768px]:w-[calc(100%+var(--chat-window-mobile-width-right,0rem))] max-[768px]:max-w-none max-[768px]:mx-0 max-[768px]:mr-auto max-[768px]:transition-none";
   const scrollClassName =
     "chat-window__scroll relative z-[1] h-full flex flex-col items-stretch gap-[0.75rem] flex-1 min-h-0 overflow-y-auto overscroll-contain " +
     "[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
@@ -95,7 +95,7 @@ const ConversationView = memo(function ConversationView({
     "transition-[padding] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-[padding] " +
     "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] " +
     "[scroll-padding-top:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))] " +
-    "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] max-[48em]:transition-none";
+    "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] max-[768px]:transition-none";
   const mergedWindowClassName = windowClassNameProp ? `${windowClassName} ${windowClassNameProp}` : windowClassName;
   const scrollButtonClassName =
     "absolute left-1/2 -translate-x-1/2 bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +

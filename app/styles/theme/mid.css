@@ -177,6 +177,7 @@
 :root.theme-mid .chat-inputbar,
 :root.theme-mid .chat-inputbar .chat-listen-btn,
 :root.theme-mid .chat-inputbar .chat-send-btn {
+  --chat-action-size: var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)));
   color: #2f3a4a;
   background: rgba(252, 248, 247, 0.44);
   border: 0;

@@ -26,13 +26,13 @@ const pageShellClassName = `${glassPageShellCenteredClassName} max-md:py-0`;
 const ringClassName =
   `${glassPageRingCenteredClassName} glass-ring--desktop-stable scroll-reactive-shell flex-col gap-0 overflow-hidden md:mt-0 md:mb-0 ` +
   `[--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,4.2vw,3.25rem)] ` +
-  `max-[48em]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[48em]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] ` +
-  `max-[48em]:[--mobile-glass-card-gap:clamp(0.26rem,1.2vw,0.4rem)] max-[48em]:[--ring-pad-x:clamp(0.44rem,2vw,0.78rem)]`;
+  `max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] ` +
+  `max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]`;
 const titleClassName =
-  `${glassPageTitleClassName} w-full max-w-full max-[48em]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0`;
+  `${glassPageTitleClassName} w-full max-w-full max-[768px]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0 max-[768px]:!px-0`;
 const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(0.95rem,2.8vh,1.55rem)]";
 const scrollAreaClassName =
-  "rooms-scroll relative flex-1 w-full max-w-[clamp(18.2rem,37vw,23.2rem)] min-[48.0625em]:max-w-[clamp(18rem,35vw,22.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.62rem] min-[48.0625em]:px-[0.95rem] text-left csp-container mx-auto";
+  "rooms-scroll relative flex-1 w-full max-w-[clamp(18.2rem,37vw,23.2rem)] min-[769px]:max-w-[clamp(18rem,35vw,22.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.62rem] min-[769px]:px-[0.95rem] text-left csp-container mx-auto";
 const roomStepClassName = "rooms-step csp-step !min-h-0 !py-[0.48rem]";
 const roomCardClassName =
   "w-full rounded-[1rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(22,24,30,0.38)] [.theme-night_&]:bg-[rgba(10,14,24,0.32)] px-[1.14rem] py-[1.02rem] text-[color:var(--pt-120)] shadow-[var(--input-shadow)] " +
@@ -305,7 +305,7 @@ export default function RoomsPage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const query = window.matchMedia("(max-width: 48em)");
+    const query = window.matchMedia("(max-width: 768px)");
     const apply = () => setIsMobileViewport(query.matches);
     apply();
     if (typeof query.addEventListener === "function") {
@@ -465,7 +465,7 @@ export default function RoomsPage() {
           />
 
           <div
-            className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
+            className="csp-overlayTitle [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
             aria-hidden="true"
           >
             <h1 className={titleClassName}>{t("rooms.title")}</h1>
@@ -509,7 +509,7 @@ export default function RoomsPage() {
               <p
                 role="alert"
                 aria-live="assertive"
-                className="mb-[0.5rem] w-full text-center text-[1.02rem] leading-[1.42] text-[color:#fca5a5] max-[48em]:text-left max-[48em]:text-[1.1rem]"
+                className="mb-[0.5rem] w-full text-center text-[1.02rem] leading-[1.42] text-[color:#fca5a5] max-[768px]:text-left max-[768px]:text-[1.1rem]"
               >
                 {errorText}
               </p>

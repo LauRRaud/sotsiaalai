@@ -70,11 +70,12 @@ export function EmailEnvelopeStatusIcon({
 
 export function SubmitArrowIcon({
   isLightTheme = false,
+  useCurrentColor = false,
   className,
   ...props
 }) {
-  const stroke = resolveThemeColor(isLightTheme);
-  const strokeOpacity = isLightTheme ? 1 : 0.8;
+  const stroke = useCurrentColor ? "currentColor" : resolveThemeColor(isLightTheme);
+  const strokeOpacity = useCurrentColor ? 1 : isLightTheme ? 1 : 0.8;
 
   return (
     <svg

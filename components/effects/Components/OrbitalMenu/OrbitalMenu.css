@@ -437,7 +437,7 @@
   }
 }
 
-@media (max-width: 48em) {
+@media (max-width: 768px) {
   .profile-orbit-stack-item[data-key="back"] .profile-orbit-stack-label {
     display: none;
   }

@@ -26,7 +26,7 @@ import { localizePath } from "@/lib/localizePath"
 const agentTitleClassName =
   `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
   `!text-[clamp(1.9rem,3.6vw,2.6rem)] !leading-[1.06] !tracking-[0.02em] ` +
-  `max-[48em]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[48em]:!leading-[1.08] max-[48em]:!mt-0`
+  `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08] max-[768px]:!mt-0`
 
 const chipBaseClassName =
   "documents-chip inline-flex min-h-[2.6rem] items-center justify-center rounded-full px-[0.9rem] py-[0.38rem] text-[1.02rem] leading-none"
@@ -283,7 +283,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     if (typeof window === "undefined") return undefined
     const updateMobileState = () => setIsMobile(detectMobileViewport())
     updateMobileState()
-    const mobileQuery = window.matchMedia("(max-width: 48em)")
+    const mobileQuery = window.matchMedia("(max-width: 768px)")
     mobileQuery.addEventListener?.("change", updateMobileState)
     window.addEventListener("resize", updateMobileState)
     return () => {
@@ -1316,7 +1316,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           <BackButton
             onClick={() => router.push(backHref)}
             ariaLabel={isClientRole ? t("documents.agent_workspace.back_to_chat") : t("documents.back_to_documents")}
-            className="documents-back-button absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[48em]:!h-[4.4rem] max-[48em]:!w-[4.4rem] max-[48em]:[&>svg]:!h-[4.4rem] max-[48em]:[&>svg]:!w-[4.4rem]"
+            className="documents-back-button absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.4rem] max-[768px]:!w-[4.4rem] max-[768px]:[&>svg]:!h-[4.4rem] max-[768px]:[&>svg]:!w-[4.4rem]"
           />
           <header className="documents-page-header documents-page-header--panel">
             <div className="documents-page-header-row">

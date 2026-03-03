@@ -92,7 +92,7 @@
     0 24px 30px -24px rgba(248, 253, 255, 0.4);
 }
 :root:not(.theme-light) .chat-inputbar {
-  --chat-action-size: calc(var(--inputbar-h, 3.2rem) - 0.2rem);
+  --chat-action-size: var(--chat-composer-main-control-size, calc(var(--inputbar-h, 3.2rem) - 0.2rem));
   border: 0;
   background: transparent;
   box-shadow:

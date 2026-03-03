@@ -6,13 +6,23 @@ import AccessibilityModal from "./AccessibilityModal";
 import { useI18n } from "@/components/i18n/I18nProvider";
 const A11yContext = createContext(null);
 const DEFAULT_PREFS = {
-  textScale: "md",
+  uiScale: "sm",
   contrast: "normal",
   reduceMotion: false,
   theme: "dark",
   colorTheme: "default"
 };
 const COLOR_THEME_KEYS = new Set(["default", "green", "blue", "neutral", "gold", "red", "purple"]);
+const UI_SCALE_STORAGE_KEY = "sotsiaalai.uiScale";
+
+function normalizeUIScaleMode(uiScale) {
+  if (uiScale === "lg" || uiScale === "xl") return "lg";
+  return "sm";
+}
+
+function resolveUIScaleValue(uiScale) {
+  return normalizeUIScaleMode(uiScale) === "lg" ? 1.25 : 1;
+}
 function normalizeTheme(theme) {
   if (theme === "light" || theme === "mid" || theme === "dark" || theme === "night") return theme;
   if (theme === "light-mono") return "light";
@@ -60,14 +70,14 @@ function readPrefsFromCookie() {
     const raw = getCookie("a11y_prefs");
     if (!raw) return null;
     const obj = JSON.parse(raw);
-    const textScale = obj?.textScale || DEFAULT_PREFS.textScale;
+    const uiScale = normalizeUIScaleMode(obj?.uiScale ?? obj?.textScale);
     const contrast = obj?.contrast || DEFAULT_PREFS.contrast;
     const reduceMotion = !!obj?.reduceMotion;
     let theme = normalizeTheme(obj?.theme);
     const colorTheme = normalizeColorTheme(obj?.colorTheme);
     if (contrast === "hc") theme = "dark";
     return {
-      textScale,
+      uiScale,
       contrast,
       reduceMotion,
       theme,
@@ -95,7 +105,7 @@ function readInitialPrefsFromDom() {
     theme = "dark";
   }
   const fromDataset = {
-    textScale: html.getAttribute("data-text-scale") || DEFAULT_PREFS.textScale,
+    uiScale: normalizeUIScaleMode(html.getAttribute("data-ui-scale")),
     contrast,
     reduceMotion: html.getAttribute("data-reduce-motion") === "1",
     theme,
@@ -113,10 +123,13 @@ function readInitialPrefsFromDom() {
 function applyPrefsToDom(prefs) {
   if (typeof document === "undefined") return;
   const html = document.documentElement;
-  html.setAttribute("data-text-scale", prefs.textScale || DEFAULT_PREFS.textScale);
+  const uiScale = normalizeUIScaleMode(prefs.uiScale);
+  html.setAttribute("data-ui-scale", uiScale);
+  html.setAttribute("data-ui-scale-auto", "0");
   html.setAttribute("data-contrast", prefs.contrast || DEFAULT_PREFS.contrast);
   html.setAttribute("data-reduce-motion", prefs.reduceMotion ? "1" : "0");
   html.setAttribute("data-color-theme", normalizeColorTheme(prefs.colorTheme));
+  html.style.setProperty("--ui-scale", String(resolveUIScaleValue(uiScale)));
   const theme = normalizeTheme(prefs.theme);
   const forceDark = prefs.contrast === "hc";
   const shouldBeLight = !forceDark && isLightBaseTheme(theme);
@@ -127,6 +140,7 @@ function applyPrefsToDom(prefs) {
   html.classList.toggle("theme-night", shouldBeNight);
 }
 function buildInitialPrefs(initialPrefs) {
+  const domPrefs = typeof document !== "undefined" ? readInitialPrefsFromDom() : null;
   if (initialPrefs) {
     const contrast = initialPrefs.contrast || DEFAULT_PREFS.contrast;
     const theme = normalizeTheme(initialPrefs.theme);
@@ -134,14 +148,22 @@ function buildInitialPrefs(initialPrefs) {
     return {
       ...DEFAULT_PREFS,
       ...initialPrefs,
+      ...(domPrefs || null),
+      uiScale: normalizeUIScaleMode(domPrefs?.uiScale ?? initialPrefs.uiScale),
       contrast,
       theme: contrast === "hc" ? "dark" : theme,
       colorTheme
     };
   }
-  return {
-    ...DEFAULT_PREFS
-  };
+  return domPrefs
+    ? {
+        ...DEFAULT_PREFS,
+        ...domPrefs,
+        uiScale: normalizeUIScaleMode(domPrefs.uiScale)
+      }
+    : {
+        ...DEFAULT_PREFS
+      };
 }
 function AccessibilityProvider({
   children,
@@ -272,6 +294,7 @@ function AccessibilityProvider({
       ...domPrefs,
       ...cookiePrefs
     } : domPrefs;
+    initial.uiScale = normalizeUIScaleMode(domPrefs.uiScale ?? cookiePrefs?.uiScale);
     if (initial.contrast === "hc") initial.theme = "dark";
     setPrefsState(initial);
     safeApplyPrefsToDom(initial, "init");
@@ -379,6 +402,7 @@ function AccessibilityProvider({
       ...prefs,
       ...next
     };
+    merged.uiScale = normalizeUIScaleMode(merged.uiScale);
     merged.theme = normalizeTheme(merged.theme);
     merged.colorTheme = normalizeColorTheme(merged.colorTheme);
     if (merged.contrast === "hc") {
@@ -391,7 +415,15 @@ function AccessibilityProvider({
       localStorage.setItem("a11y_prefs", JSON.stringify(merged));
     } catch {}
     try {
-      setCookie("a11y_prefs", JSON.stringify(merged));
+      const cookiePrefs = {
+        ...merged
+      };
+      delete cookiePrefs.uiScale;
+      delete cookiePrefs.textScale;
+      setCookie("a11y_prefs", JSON.stringify(cookiePrefs));
+    } catch {}
+    try {
+      localStorage.setItem(UI_SCALE_STORAGE_KEY, merged.uiScale);
     } catch {}
     try {
       if (
@@ -411,6 +443,7 @@ function AccessibilityProvider({
       ...prefs,
       ...partial
     };
+    preview.uiScale = normalizeUIScaleMode(preview.uiScale);
     preview.theme = normalizeTheme(preview.theme);
     preview.colorTheme = normalizeColorTheme(preview.colorTheme);
     if (preview.contrast === "hc") {
