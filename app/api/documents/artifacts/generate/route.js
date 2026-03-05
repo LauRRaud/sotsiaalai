@@ -13,6 +13,7 @@ import {
   normalizeAgentLength,
   normalizeAgentTone
 } from "@/lib/documents/generation"
+import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
 
@@ -87,7 +88,9 @@ export async function POST(request) {
         templateFor: true,
         agentAllowed: true,
         mime: true,
-        storagePath: true
+        storagePath: true,
+        sha256: true,
+        updatedAt: true
       }
     })
 
@@ -125,7 +128,7 @@ export async function POST(request) {
       }
     }
 
-    const content = await generateArtifactDraftContent({
+    const result = await generateArtifactDraftContent({
       type,
       documents,
       templateTitle: template?.title || null,
@@ -135,6 +138,10 @@ export async function POST(request) {
       language,
       length
     })
+    const content = result?.content || ""
+    if (content && result?.debugMeta) {
+      cacheRetrievalDebugMeta(auth.userId, content, result.debugMeta)
+    }
 
     const now = new Date()
     const sources = documents.map((document) => serializeArtifactSource({ document })).filter(Boolean)

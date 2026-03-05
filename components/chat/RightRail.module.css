@@ -59,27 +59,25 @@
   pointer-events: auto;
   outline: none;
   z-index: 70;
-  --rail-item-size: var(--hud-icon, 3rem);
+  --rail-profile-scale: 1;
+  --rail-item-size: calc(var(--hud-icon, 3rem) * var(--rail-profile-scale));
   --rail-icon-scale: 0.79;
-  --rail-step-factor: 1.22;
+  --rail-step-factor: 1.12;
   --rail-edge-offset: calc(var(--rail-item-size) * 0.5);
   --rail-step: calc(var(--rail-item-size) * var(--rail-step-factor));
-  overflow: hidden;
+  --rail-tooltip-gap: calc(0.4rem * var(--rail-profile-scale));
+  overflow: visible;
   overscroll-behavior: contain;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 3%,
-    black 97%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 3%,
-    black 97%,
-    transparent 100%
-  );
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+:global(html[data-ui-profile="lg"]) .rightRail {
+  --rail-profile-scale: 1.25;
+}
+
+:global(html[data-ui-scale="lg"]) .rightRail {
+  --rail-profile-scale: 1.25;
 }
 
 .item {
@@ -168,16 +166,6 @@
 .iconSvgSources {
   width: calc(100% * (var(--rail-icon-scale) - 0.07));
   height: calc(100% * (var(--rail-icon-scale) - 0.07));
-  transform: none !important;
-  transform-origin: center;
-  transition: none !important;
-}
-
-.iconBtn:hover .iconSvgSources,
-.iconBtn:focus-visible .iconSvgSources,
-.iconBtn:active .iconSvgSources {
-  transform: none !important;
-  transition: none !important;
 }
 
 @media (min-width: 769px) {
@@ -236,7 +224,9 @@
 
 .tooltip {
   position: absolute;
-  transform: translate(calc(-100% - 0.62rem), -50%);
+  --rail-profile-scale: 1;
+  --rail-tooltip-gap: calc(0.4rem * var(--rail-profile-scale));
+  transform: translate(calc(-100% - var(--rail-tooltip-gap)), -50%);
   opacity: 0;
   padding: 0.26rem 0.66rem;
   border-radius: 0.7rem;
@@ -257,14 +247,19 @@
     opacity 120ms ease;
 }
 
+:global(html[data-ui-profile="lg"]) .tooltip,
+:global(html[data-ui-scale="lg"]) .tooltip {
+  --rail-profile-scale: 1.25;
+}
+
 .tooltipVisible {
   opacity: 1;
-  transform: translate(calc(-100% - 0.62rem), -50%);
+  transform: translate(calc(-100% - var(--rail-tooltip-gap)), -50%);
 }
 
 .tooltipHidden {
   opacity: 0;
-  transform: translate(calc(-100% - 0.62rem), -50%);
+  transform: translate(calc(-100% - var(--rail-tooltip-gap)), -50%);
 }
 .tooltip::before {
   content: none;

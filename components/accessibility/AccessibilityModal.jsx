@@ -37,6 +37,10 @@ const languageOptionLabelClassName =
   "text-[clamp(1.04rem,2.55vw,1.16rem)] max-[768px]:text-[clamp(1.14rem,4.6vw,1.36rem)]";
 const optionsRowClassName =
   "flex flex-wrap justify-center items-center gap-[0.8rem_1.05rem] max-[768px]:gap-[1.26rem_1.3rem] w-full max-w-[42rem] mx-auto";
+const screenProfileFieldsetClassName = "a11y-screenprofile-fieldset max-[768px]:!pt-[1.42rem] max-[768px]:!pb-[1.55rem] max-[768px]:!min-h-[11.8rem]";
+const screenProfileLegendClassName = "";
+const screenProfileOptionsClassName = "a11y-screenprofile-options mt-0 flex-nowrap max-[768px]:flex-wrap max-[768px]:mb-[0rem]";
+const screenProfileOptionsDesktopClassName = "min-[769px]:gap-[0.55rem] min-[769px]:justify-center";
 const textScaleFieldsetClassName = "a11y-textscale-fieldset max-[768px]:!pt-[1.42rem] max-[768px]:!pb-[1.55rem] max-[768px]:!min-h-[11.8rem]";
 const textScaleAfterSingleLanguageClassName = "max-[768px]:!pt-[1.42rem]";
 const textScaleLegendClassName = "";
@@ -77,7 +81,10 @@ export default function AccessibilityModal({
   const a11yTitleLine1 = t("profile.preferences.title_line1");
   const a11yTitleLine2 = t("profile.preferences.title_line2");
   const router = useRouter();
-  const [uiScale, setUiScale] = useState(prefs.uiScale || "sm");
+  const normalizeUiProfile = value =>
+    value === "lg" || value === "xl" ? "lg" : "sm";
+  const [uiScale, setUiScale] = useState(prefs.uiScale || "md");
+  const [uiProfile, setUiProfile] = useState(prefs.uiProfile || normalizeUiProfile(prefs.uiScale));
   const [contrast, setContrast] = useState(prefs.contrast || "normal");
   const [reduceMotion, setReduceMotion] = useState(!!prefs.reduceMotion);
   const [lang, setLang] = useState(locale || "et");
@@ -97,7 +104,8 @@ export default function AccessibilityModal({
   const originalLocaleRef = useRef(locale);
   const previewedLangRef = useRef(null);
   useEffect(() => {
-    setUiScale(prefs.uiScale || "sm");
+    setUiScale(prefs.uiScale || "md");
+    setUiProfile(prefs.uiProfile || normalizeUiProfile(prefs.uiScale));
     setContrast(prefs.contrast || "normal");
     setReduceMotion(!!prefs.reduceMotion);
   }, [prefs]);
@@ -378,6 +386,7 @@ export default function AccessibilityModal({
   const save = async () => {
     onSave?.({
       uiScale,
+      uiProfile,
       contrast,
       reduceMotion
     });
@@ -406,10 +415,11 @@ export default function AccessibilityModal({
   useEffect(() => {
     onPreview?.({
       uiScale,
+      uiProfile,
       contrast,
       reduceMotion
     });
-  }, [uiScale, contrast, reduceMotion, onPreview]);
+  }, [uiScale, uiProfile, contrast, reduceMotion, onPreview]);
   useEffect(() => () => {
     onPreviewEnd?.();
   }, [onPreviewEnd]);
@@ -510,7 +520,41 @@ export default function AccessibilityModal({
             </div>
           </fieldset>
 
-          <fieldset className={`${fieldsetClassName} ${motionFieldsetClassName} ${getA11yStepClassName(2)}`}>
+          <fieldset className={`${fieldsetClassName} ${textScaleFieldsetClassName} ${languageWraps ? "" : textScaleAfterSingleLanguageClassName} ${getA11yStepClassName(2)}`}>
+            <legend className={`${legendClassName} ${textScaleLegendClassName}`.trim()}>
+              {t("accessibility.text_scale")}
+            </legend>
+            <div className={`${optionsRowClassName} ${textScaleOptionsClassName} ${textScaleOptionsDesktopTightClassName}`.trim()}>
+              <OptionCard type="radio" name="ts" value="sm" checked={uiScale === "sm"} onChange={() => setUiScale("sm")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.text_scale.sm")}</span>
+              </OptionCard>
+              <OptionCard type="radio" name="ts" value="md" checked={uiScale === "md"} onChange={() => setUiScale("md")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.text_scale.md")}</span>
+              </OptionCard>
+              <OptionCard type="radio" name="ts" value="lg" checked={uiScale === "lg"} onChange={() => setUiScale("lg")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.text_scale.lg")}</span>
+              </OptionCard>
+              <OptionCard type="radio" name="ts" value="xl" checked={uiScale === "xl"} onChange={() => setUiScale("xl")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.text_scale.xl")}</span>
+              </OptionCard>
+            </div>
+          </fieldset>
+
+          <fieldset className={`${fieldsetClassName} ${screenProfileFieldsetClassName} ${languageWraps ? "" : textScaleAfterSingleLanguageClassName} ${getA11yStepClassName(3)}`}>
+            <legend className={`${legendClassName} ${screenProfileLegendClassName}`.trim()}>
+              {t("accessibility.screen_profile")}
+            </legend>
+            <div className={`${optionsRowClassName} ${screenProfileOptionsClassName} ${screenProfileOptionsDesktopClassName}`.trim()}>
+              <OptionCard type="radio" name="sp" value="sm" checked={uiProfile === "sm"} onChange={() => setUiProfile("sm")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.screen_profile.sm")}</span>
+              </OptionCard>
+              <OptionCard type="radio" name="sp" value="lg" checked={uiProfile === "lg"} onChange={() => setUiProfile("lg")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.screen_profile.lg")}</span>
+              </OptionCard>
+            </div>
+          </fieldset>
+
+          <fieldset className={`${fieldsetClassName} ${motionFieldsetClassName} ${getA11yStepClassName(4)}`}>
             <legend className={`${legendClassName} ${motionLegendClassName} ${motionShiftClassName}`.trim()}>{t("accessibility.motion")}</legend>
             <OptionCard
               type="checkbox"
@@ -522,21 +566,7 @@ export default function AccessibilityModal({
             </OptionCard>
           </fieldset>
 
-          <fieldset className={`${fieldsetClassName} ${textScaleFieldsetClassName} ${languageWraps ? "" : textScaleAfterSingleLanguageClassName} ${getA11yStepClassName(3)}`}>
-            <legend className={`${legendClassName} ${textScaleLegendClassName}`.trim()}>
-              {t("accessibility.text_scale")}
-            </legend>
-            <div className={`${optionsRowClassName} ${textScaleOptionsClassName} ${textScaleOptionsDesktopTightClassName}`.trim()}>
-              <OptionCard type="radio" name="ts" value="sm" checked={uiScale === "sm"} onChange={() => setUiScale("sm")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
-                <span>{t("accessibility.options.text_scale.sm")}</span>
-              </OptionCard>
-              <OptionCard type="radio" name="ts" value="lg" checked={uiScale === "lg"} onChange={() => setUiScale("lg")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
-                <span>{t("accessibility.options.text_scale.lg")}</span>
-              </OptionCard>
-            </div>
-          </fieldset>
-
-          <div className={`csp-step a11y-save-step ${getA11yStepClassName(4)} flex justify-center mt-[1.6rem] min-[769px]:mt-[0.7rem] min-[769px]:translate-y-[-0.7rem] max-[768px]:mt-[1.1rem] max-[768px]:translate-y-0`}>
+          <div className={`csp-step a11y-save-step ${getA11yStepClassName(5)} flex justify-center mt-[1.6rem] min-[769px]:mt-[0.7rem] min-[769px]:translate-y-[-0.7rem] max-[768px]:mt-[1.1rem] max-[768px]:translate-y-0`}>
               <Button
               type="button"
               variant="primary"

@@ -1,5 +1,10 @@
 # Route Review Tracker
 
+> Status: internal working document.
+>
+> This file is a route-by-route review tracker, not a user-facing or evergreen
+> system overview.
+
 Date: 2026-02-15
 
 Purpose:

@@ -153,7 +153,7 @@ export function PowerExitIcon({
 
   return (
     <svg
-      viewBox="0 0 15.62 17"
+      viewBox="0 -1.4 15.62 18.4"
       fill="none"
       aria-hidden="true"
       focusable="false"
@@ -162,9 +162,9 @@ export function PowerExitIcon({
     >
       <g opacity={groupOpacity}>
         <path
-          d="M15.12 4C12.63.35 7.65-.6 4 1.89.35 4.37-.6 9.35 1.89 13c2.49 3.65 7.46 4.6 11.11 2.11.83-.57 1.55-1.28 2.11-2.11"
+          d="M15.3 3.6C12.78-.09 7.75-1.05 4.06 1.46.37 3.98-.59 9.01 1.92 12.7c2.52 3.69 7.55 4.65 11.24 2.14.84-.57 1.57-1.3 2.14-2.14"
           stroke={outerStroke}
-          strokeWidth="1"
+          strokeWidth="1.35"
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeOpacity={outerOpacity}

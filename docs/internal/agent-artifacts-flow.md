@@ -1,5 +1,14 @@
 # Agent Outputs Implementation Contract
 
+> Status: historical document.
+>
+> This file describes the earlier agent-artifact contract and parts of it are no
+> longer the source of truth for the current implementation.
+>
+> The current architecture is documented in `docs/assistant-agent-RAG-overview.md`.
+> In particular, the current agent implementation is retrieval-first and uses
+> the Python RAG service for indexing and retrieval of selected user documents.
+
 ## Assumptions
 
 - Export storage approach: `Approach A`
@@ -28,7 +37,10 @@
   - arbitrary complex template logic is still out of scope; this is not a general DOCX automation engine
   - if a selected template cannot be processed, export falls back to the standard SotsiaalAI DOCX template so approval always remains downloadable
 
-## Out of Scope
+## Historical Out of Scope
+
+The items below reflect the earlier implementation contract, not the current
+live behavior.
 
 - no OCR
 - no RAG indexing or retrieval over uploaded documents

@@ -64,8 +64,8 @@ const BackgroundContent = memo(function BackgroundContent({
   const [colorBendsReady, setColorBendsReady] = useState(false);
   // Keep initial server/client render identical; compute real value after mount.
   const [mobileLike, setMobileLike] = useState(false);
-  const allowParticles = !reduceMotion;
-  const allowColorBends = !reduceMotion;
+  const allowParticles = true;
+  const allowColorBends = true;
   const parallaxActive = !reduceMotion && !mobileLike;
   useEffect(() => setMounted(true), []);
   useEffect(() => {
@@ -98,22 +98,18 @@ const BackgroundContent = memo(function BackgroundContent({
   }, []);
   useEffect(() => {
     if (!mounted) return;
-    if (!allowParticles) {
-      setParticlesReady(false);
-      return;
-    }
     const cancel = whenVisible(() => onIdle(() => setParticlesReady(true), 1000));
     return () => cancel?.();
-  }, [mounted, allowParticles]);
+  }, [mounted]);
   useEffect(() => {
     if (!mounted) return;
-    if (!prefsHydrated || !allowColorBends) {
+    if (!prefsHydrated) {
       setColorBendsReady(false);
       return;
     }
     const cancel = whenVisible(() => onIdle(() => setColorBendsReady(true), 900));
     return () => cancel?.();
-  }, [mounted, prefsHydrated, allowColorBends]);
+  }, [mounted, prefsHydrated]);
   useEffect(() => {
     if (!mounted) return;
     if (reduceMotion || mobileLike) {
@@ -172,14 +168,14 @@ const BackgroundContent = memo(function BackgroundContent({
         {prefsHydrated && colorBendsReady && allowColorBends && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
-              <ColorBends performanceMode={mobileLike ? "performance" : "auto"} />
+              <ColorBends performanceMode={mobileLike ? "performance" : "auto"} freeze={reduceMotion} />
             </Suspense>
           </div>
         )}
 
         {}
         {particlesReady && allowParticles && <div className="bg-particles-layer">
-            <Particles />
+            <Particles freeze={reduceMotion} />
           </div>}
 
         {}

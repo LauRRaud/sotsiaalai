@@ -25,6 +25,7 @@ yarn-error.log*
 *.tmp
 *.patch
 *.tgz
+/tmp/
 
 # Node
 node_modules/

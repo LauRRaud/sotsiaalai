@@ -6,6 +6,7 @@ import {
   normalizeArtifactTitle,
   serializeArtifact
 } from "@/lib/documents/artifacts"
+import { getCachedRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { prisma } from "@/lib/prisma"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
@@ -57,6 +58,18 @@ async function findOwnedArtifact(id, userId) {
   if (!artifact) return null
   assertOwnedByUser(artifact, userId)
   return artifact
+}
+
+function buildRetrievalAuditFields(debugMeta) {
+  if (!debugMeta) return {}
+  return {
+    retrievalMode: debugMeta.retrieval_mode || null,
+    chunksUsed: Number(debugMeta.chunks_used) || 0,
+    fallbackUsed: debugMeta.retrieval_mode === "fallback_source_material",
+    fallbackReason: debugMeta.fallback_reason || null,
+    documentsIndexed: Number(debugMeta.documents_indexed) || 0,
+    tokenBudget: Number(debugMeta.token_budget) || 0
+  }
 }
 
 export async function GET(request, { params }) {
@@ -128,6 +141,8 @@ export async function PATCH(request, { params }) {
     const nextTitle = body?.title === undefined ? artifact.title : normalizeArtifactTitle(body.title)
     const nextContent =
       body?.content === undefined ? artifact.content : normalizeArtifactContent(body.content)
+    const cachedDebugMeta =
+      body?.content === undefined ? null : getCachedRetrievalDebugMeta(auth.userId, nextContent)
     let nextTemplateId = artifact.templateId || null
 
     if (body?.templateId !== undefined) {
@@ -174,7 +189,8 @@ export async function PATCH(request, { params }) {
       artifactId: updated.id,
       title: updated.title,
       status: updated.status,
-      templateId: updated.templateId
+      templateId: updated.templateId,
+      ...buildRetrievalAuditFields(cachedDebugMeta)
     })
 
     return json({

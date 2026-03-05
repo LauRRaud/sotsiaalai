@@ -8,9 +8,8 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu";
-import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
-import { pushWithTransition, triggerRouteTransition } from "@/lib/routeTransition";
-import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
+import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
@@ -19,133 +18,75 @@ import BackButton from "@/components/ui/BackButton";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
-
-const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
-const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
-const ENTRY_SETTLE_MS = 620;
-
 const ROLE_KEYS = {
-  ADMIN: "profile.role_short.admin",
-  SOCIAL_WORKER: "profile.role_short.worker",
-  CLIENT: "profile.role_short.client"
+  ADMIN: "role.admin",
+  SOCIAL_WORKER: "role.worker",
+  CLIENT: "role.client"
 };
-
-function normalizeProfileRole(value, fallback = "CLIENT") {
-  const normalized = String(value || "").trim().toUpperCase();
-  if (normalized === "ADMIN") return "ADMIN";
-  if (normalized === "SOCIAL_WORKER") return "SOCIAL_WORKER";
-  if (normalized === "CLIENT") return "CLIENT";
-  return fallback;
-}
-
-function splitRoleLabelToTwoLines(label) {
-  if (typeof label !== "string" || !label.trim()) return label;
-  if (label.includes("\n")) return label;
-  const words = label.trim().split(/\s+/).filter(Boolean);
-  if (words.length <= 1) return label;
-  if (words.length === 2) return `${words[0]}\n${words[1]}`;
-
-  // Pick the split point that keeps line lengths as balanced as possible.
-  let bestIndex = 1;
-  let bestDelta = Number.POSITIVE_INFINITY;
-  for (let i = 1; i < words.length; i += 1) {
-    const left = words.slice(0, i).join(" ");
-    const right = words.slice(i).join(" ");
-    const delta = Math.abs(left.length - right.length);
-    if (delta < bestDelta) {
-      bestDelta = delta;
-      bestIndex = i;
-    }
-  }
-
-  return `${words.slice(0, bestIndex).join(" ")}\n${words.slice(bestIndex).join(" ")}`;
-}
-
 const pageShellClassName =
   `${glassPageShellCenteredClassName} max-md:py-0`;
 const containerBaseClassName =
   "relative z-[21] flex flex-col items-stretch justify-start gap-[clamp(1.4rem,3.2vh,2.3rem)] " +
   "box-border text-[color:var(--glass-surface-text,#f2f2f2)] " +
-  "[&>*:not(.profile-mask-layer):not(.profile-mask-tilt-fallback):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:relative " +
-  "[&>*:not(.profile-mask-layer):not(.profile-mask-tilt-fallback):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:z-[1]";
+  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:relative " +
+  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:z-[1]";
 const titleBaseClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
-  "max-[768px]:text-[clamp(2.3rem,9.1vw,3rem)] " +
+  "max-[48em]:text-[clamp(2.3rem,9.1vw,3rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const headerCenterBaseClassName =
-  "relative flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[768px]:mb-[clamp(0.4rem,2vw,0.72rem)]";
+  "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[48em]:mb-[clamp(0.4rem,2vw,0.72rem)]";
 const headerCenterPageClassName =
   "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(2.4rem,5.6vh,4.2rem)] " +
-  "max-[768px]:mt-[clamp(0.72rem,3.2vw,1.02rem)] max-[768px]:translate-y-[clamp(0.02rem,0.25vw,0.16rem)]";
-const rolePillBaseClassName =
-  "inline-flex items-center justify-center rounded-full " +
+  "max-[48em]:mt-[clamp(0.72rem,3.2vw,1.02rem)] max-[48em]:translate-y-[clamp(0.02rem,0.25vw,0.16rem)]";
+const rolePillClassName =
+  "inline-flex items-center justify-center rounded-full px-[0.75em] " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
   "text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] " +
-  "bg-transparent border-none";
-const rolePillSingleLineClassName =
-  "px-[0.75em] h-[3.2rem] leading-[3.2rem] whitespace-nowrap";
+  "bg-transparent border-none " +
+  "leading-[3.2rem] h-[3.2rem] whitespace-nowrap";
 const rolePillMultiLineClassName =
-  "h-auto min-h-[4.1rem] px-[1.15em] py-[0.56rem] " +
-  "text-center [text-wrap:initial] " +
-  "max-w-[19.5rem] max-[768px]:max-w-[min(84vw,16.2rem)] " +
-  "translate-y-0";
-const rolePillMultiLineTextClassName =
-  "flex flex-col items-center justify-center gap-[0.28rem] leading-[1.06] text-inherit";
+  "h-auto min-h-[4.5rem] max-w-[19.5rem] px-[1.05em] py-[0.5rem] " +
+  "leading-[1.24] whitespace-normal text-center [text-wrap:balance] " +
+  "max-[48em]:max-w-[min(84vw,16.2rem)] " +
+  "min-[48.0625em]:-translate-y-[0.34rem] max-[48em]:-translate-y-[0.14rem]";
 const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
-  "[--label-gap-side-left:0.32rem] [--label-gap-side-right:0.02rem] " +
-  "[--label-side-nudge-left:0.02rem] [--label-side-nudge-right:-0.12rem] " +
-  "[--orbit-gap:calc(0.95*var(--base-rem))] [--orbit-gap-open:calc(1.15*var(--base-rem))] " +
-  "min-[769px]:[--label-gap-side-left:0.52rem] min-[769px]:[--label-gap-side-right:0.1rem] " +
-  "min-[769px]:[--label-side-nudge-left:-0.02rem] min-[769px]:[--label-side-nudge-right:-0.16rem] " +
-  "min-[769px]:[--orbit-gap:calc(1.45*var(--base-rem))] min-[769px]:[--orbit-gap-open:calc(1.8*var(--base-rem))] " +
-  "[--orbit-item-size:clamp(calc(4.6*var(--base-rem)),9.2vw,calc(5.8*var(--base-rem)))] [--orbit-item-size-open:clamp(calc(4.9*var(--base-rem)),9.8vw,calc(6.2*var(--base-rem)))] " +
-  "min-[769px]:[--orbit-item-size:calc(6.55*var(--base-rem))] min-[769px]:[--orbit-item-size-open:calc(6.95*var(--base-rem))] " +
-  "min-[769px]:[--label-gap:0.95rem] " +
-  "[--orbit-size:clamp(calc(17.4*var(--base-rem)),35vw,calc(23.8*var(--base-rem)))] min-[769px]:[--orbit-size:calc(25.9*var(--base-rem))] [--orbit-center-size:clamp(calc(9.4*var(--base-rem)),17vw,calc(11.8*var(--base-rem)))] " +
-  "min-[769px]:[--orbit-center-size:calc(13.2*var(--base-rem))] min-[769px]:[--orbit-center-scale:1.12] " +
-  "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.42)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
+  "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
+  "min-[48.0625em]:[--orbit-item-size:clamp(4.35rem,8.4vw,5.4rem)] min-[48.0625em]:[--orbit-item-size-open:clamp(4.6rem,8.9vw,5.75rem)] " +
+  "min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem] " +
+  "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] min-[48.0625em]:[--orbit-size:clamp(16.6rem,33vw,22.8rem)] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
+  "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,15vw,10.4rem)] " +
+  "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
-  "max-[768px]:[--orbit-item-size:clamp(calc(3.9*var(--base-rem)),16.8vw,calc(4.9*var(--base-rem)))] max-[768px]:[--orbit-item-size-open:clamp(calc(4.2*var(--base-rem)),17.8vw,calc(5.2*var(--base-rem)))] " +
-  "max-[768px]:[--orbit-size:clamp(calc(14.8*var(--base-rem)),70vw,calc(18.8*var(--base-rem)))] max-[768px]:[--orbit-center-size:clamp(calc(6.8*var(--base-rem)),31vw,calc(8.6*var(--base-rem)))] " +
-  "max-[768px]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.44)] max-[768px]:mt-[clamp(0.9rem,4.1vw,1.25rem)] max-[768px]:mb-[clamp(0.15rem,0.9vw,0.3rem)] " +
+  "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
+  "max-[48em]:[--orbit-size:clamp(14.8rem,70vw,18.8rem)] max-[48em]:[--orbit-center-size:clamp(7.6rem,36vw,9.6rem)] " +
+  "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.44)] max-[48em]:mt-[clamp(0.9rem,4.1vw,1.25rem)] max-[48em]:mb-[clamp(0.15rem,0.9vw,0.3rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
   "cursor-[var(--cursor-default)] " +
-  "min-[769px]:absolute min-[769px]:top-1/2 min-[769px]:left-1/2 " +
-  "min-[769px]:w-[var(--orbit-size)] min-[769px]:min-h-[var(--orbit-size)] " +
-  "min-[769px]:m-0 min-[769px]:-translate-x-1/2 min-[769px]:-translate-y-1/2";
-const orbitRoleToggleWrapClassName =
-  "absolute left-1/2 top-[calc(50%+clamp(4.95rem,20vw,5.95rem))] min-[769px]:top-[calc(50%+7rem)] " +
-  "-translate-x-1/2 z-[6] pointer-events-auto";
-const orbitRoleToggleButtonClassName =
-  "inline-flex items-center justify-center gap-[0.62rem] rounded-full border-0 px-[1.14rem] py-[0.72rem] " +
-  "min-h-[2.92rem] px-[1rem] py-[0.64rem] whitespace-nowrap text-[1.14rem] max-[768px]:text-[1.04rem] font-[600] tracking-[0.03em] " +
-  "text-[#c57171] light:text-[#7A3A38] " +
-  "bg-[rgba(8,12,20,0.14)] light:bg-[rgba(255,255,255,0.24)] backdrop-blur-[0.9rem] " +
-  "shadow-[0_7px_16px_rgba(0,0,0,0.14)] light:shadow-[0_7px_14px_rgba(15,23,42,0.08)] " +
-  "transition-[transform,border-color,background,box-shadow,opacity] duration-180 ease-out " +
-  "hover:scale-[1.02] focus-visible:scale-[1.02] focus-visible:outline-none " +
-  "disabled:opacity-60 disabled:cursor-default disabled:hover:scale-100";
+  "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
+  "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
+  "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const logoutButtonClassName =
-  "group relative grid place-items-center h-[5.2rem] w-[5.2rem] max-[768px]:h-[6.2rem] max-[768px]:w-[6.2rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
-const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[768px]:h-[4.35rem] max-[768px]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
+  "group relative grid place-items-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
+const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
-  "text-[1.2rem] min-[769px]:text-[1.36rem] max-[768px]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
+  "text-[1.2rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] opacity-0 -translate-y-[0.38rem] pointer-events-none transform-gpu will-change-transform " +
   "transition-all duration-[520ms] ease-out " +
   "group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0";
 const profileBackButtonClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
-  "max-[768px]:!z-[95]";
+  "max-[48em]:!z-[95]";
 const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
 const profileLogoutWrapClassName =
-  `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto min-[769px]:translate-x-[-0.1rem] max-[768px]:translate-x-[-0.68rem] ` +
-  "max-[768px]:z-[95]";
+  `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto translate-x-[-0.68rem] ` +
+  "max-[48em]:z-[95]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";
@@ -189,44 +130,6 @@ function ProfileShell({
   maskLayerRef,
   footerNote
 }) {
-  const [entrySettleActive, setEntrySettleActive] = useState(false);
-
-  useEffect(() => {
-    if (embedded) {
-      setEntrySettleActive(false);
-      return;
-    }
-    let timeoutId = 0;
-    const handleTiltState = event => {
-      if (event?.detail?.active) {
-        setEntrySettleActive(false);
-      }
-    };
-    if (Boolean(window[TILT_ACTIVE_FLAG_KEY])) {
-      setEntrySettleActive(false);
-      return;
-    }
-    window.addEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
-    const isMobileViewport =
-      window.matchMedia?.("(max-width: 768px)")?.matches ?? window.innerWidth <= 768;
-    const motionReduced =
-      document?.documentElement?.dataset?.reduceMotion === "1" ||
-      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-    if (motionReduced || isMobileViewport) {
-      setEntrySettleActive(false);
-      window.removeEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
-      return;
-    }
-    setEntrySettleActive(true);
-    timeoutId = window.setTimeout(() => {
-      setEntrySettleActive(false);
-    }, ENTRY_SETTLE_MS);
-    return () => {
-      window.removeEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
-      window.clearTimeout(timeoutId);
-    };
-  }, [embedded]);
-
   const footerShineBackgroundImage =
     (theme === "light"
       ? PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT[PROFILE_FOOTER_SHINE_VARIANT]
@@ -243,9 +146,8 @@ function ProfileShell({
       "data-[theme=dark]:[--profile-role-hole-shadow:0_6px_16px_rgba(0,0,0,0.26),0_8px_14px_-12px_rgba(248,253,255,0.52),0_18px_24px_-18px_rgba(248,253,255,0.26)] " +
       "data-[theme=light]:[--profile-role-text-color:#2b2620] " +
       "data-[theme=light]:[--profile-role-hole-shadow:0_4px_12px_rgba(0,0,0,0.12)] " +
-      "max-[768px]:border max-[768px]:border-[var(--glass-border-color)] max-[768px]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
-    !embedded && "max-md:[--glass-ring-pad-top:clamp(calc(1.1*var(--base-rem)),4.4vw,calc(1.7*var(--base-rem)))]",
-    entrySettleActive && "glass-content-settle"
+      "max-[48em]:border max-[48em]:border-[var(--glass-border-color)] max-[48em]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
+    !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,4.4vw,1.7rem)]"
   );
   const ringSurfaceStyle = {
     background: "transparent",
@@ -255,22 +157,16 @@ function ProfileShell({
   const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"} style={ringSurfaceStyle}>
       <div
         ref={maskLayerRef}
-        className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"
+        className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"
         aria-hidden="true"
         data-orbit-open={orbitOpen ? "true" : "false"}
       />
-      <div className="profile-mask-tilt-fallback absolute inset-0 z-0 rounded-[inherit] pointer-events-none" aria-hidden="true">
-        <div className="mask-pane mask-pane--top" />
-        <div className="mask-pane mask-pane--bottom" />
-        <div className="mask-pane mask-pane--left" />
-        <div className="mask-pane mask-pane--right" />
-      </div>
       {children}
       {footerNote ? (
         <footer
           aria-hidden={orbitOpen ? "true" : undefined}
           className={cn(
-            "profile-footer-note pointer-events-none absolute inset-x-0 top-[82%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[768px]:top-auto max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+clamp(0.35rem,1.8vw,0.7rem))] max-[768px]:translate-y-0 max-[768px]:text-[1.62rem]",
+            "profile-footer-note pointer-events-none absolute inset-x-0 top-[82%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[48em]:top-auto max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+clamp(0.35rem,1.8vw,0.7rem))] max-[48em]:translate-y-0 max-[48em]:text-[1.62rem]",
             orbitOpen ? "opacity-0" : "opacity-[0.65]"
           )}
         >
@@ -344,17 +240,6 @@ function DeleteDockIcon({
       <path d="M9 6l.6-1.4A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.4.6L15 6m3 0-.8 11.6a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 6" />
     </svg>;
 }
-function RoleToggleDockIcon({
-  isHovered: _isHovered,
-  ...props
-}) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
-      <path d="M7 7h10" />
-      <path d="m13.5 4.5 3 2.5-3 2.5" />
-      <path d="M17 17H7" />
-      <path d="m10.5 14.5-3 2.5 3 2.5" />
-    </svg>;
-}
 function ThemeSunDockIcon({
   isHovered: _isHovered,
   ...props
@@ -418,13 +303,8 @@ export default function ProfiilBody({
     t,
     locale
   } = useI18n();
-  const initialProfileUser = initialProfile?.user && typeof initialProfile.user === "object"
-    ? initialProfile.user
-    : initialProfile && typeof initialProfile === "object"
-      ? initialProfile
-      : null;
-  const [profileUser, setProfileUser] = useState(initialProfileUser);
-  const [_hasPassword, setHasPassword] = useState(!!initialProfileUser?.hasPassword);
+  const footerNote = getFooterNote();
+  const [_hasPassword, setHasPassword] = useState(!!initialProfile?.hasPassword);
   const [showDelete, setShowDelete] = useState(false);
   const [loading, setLoading] = useState(!initialProfile);
   const [loadFailed, setLoadFailed] = useState(false);
@@ -432,7 +312,6 @@ export default function ProfiilBody({
   const [success, setSuccess] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
-  const [roleSwitching, setRoleSwitching] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
   useEffect(() => {
@@ -440,7 +319,6 @@ export default function ProfiilBody({
   }, []);
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
-  const suppressAutoLoginModal = registrationReason === "email-verified";
   const isAuthed = status === "authenticated" || !!session?.user;
   const currentTheme =
     prefs?.theme === "light" ||
@@ -452,53 +330,28 @@ export default function ProfiilBody({
   const isLightTheme =
     currentTheme === "light" || currentTheme === "mid";
   const profileShellTheme = isLightTheme ? "light" : "dark";
-  const actualRole = normalizeProfileRole(
-    profileUser?.role || session?.user?.role || (session?.user?.isAdmin ? "ADMIN" : "CLIENT"),
-    session?.user?.isAdmin ? "ADMIN" : "CLIENT"
-  );
-  const isAdminUser = actualRole === "ADMIN" || profileUser?.isAdmin === true || session?.user?.isAdmin === true;
-  const activePreviewRole = normalizeProfileRole(
-    profileUser?.adminViewRole || (isAdminUser ? profileUser?.effectiveRole || "SOCIAL_WORKER" : actualRole),
-    isAdminUser ? "SOCIAL_WORKER" : actualRole
-  );
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
-    !embedded && "min-[769px]:sr-only",
-    "max-[768px]:sr-only",
-    "max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)]"
+    !embedded && "min-[48.0625em]:sr-only",
+    "max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]"
   );
   const headerCenterClassName = cn(
     headerCenterBaseClassName,
     !embedded && headerCenterPageClassName
   );
-  const roleLabel = t(ROLE_KEYS[actualRole] || "profile.role_short.unknown");
-  const footerNote = getFooterNote();
-  const roleLabelDisplay = splitRoleLabelToTwoLines(roleLabel);
-  const roleLabelIsMultiLine =
-    typeof roleLabelDisplay === "string" && roleLabelDisplay.includes("\n");
-  const roleLabelLines = roleLabelIsMultiLine
-    ? roleLabelDisplay.split("\n").map(line => line.trim()).filter(Boolean)
-    : [];
+  const isLongRoleLabel = session?.user?.role === "SOCIAL_WORKER" || session?.user?.role === "CLIENT";
+  const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
   const maskLayerRef = useRef(null);
   const maskRefreshRef = useRef(null);
-  const logoutRedirectRef = useRef(false);
-  const nextPreviewRole = activePreviewRole === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER";
-  const nextPreviewRoleLabel = t(nextPreviewRole === "SOCIAL_WORKER" ? "profile.view_mode.worker" : "profile.view_mode.client");
   useLayoutEffect(() => {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
     const form = profileFormRef.current;
     if (!box || !pill) return;
     const maskLayer = maskLayerRef.current;
-    const clearHoleGeometryVars = () => {
-      box.style.removeProperty("--profile-hole-x");
-      box.style.removeProperty("--profile-hole-y");
-      box.style.removeProperty("--profile-hole-w");
-      box.style.removeProperty("--profile-hole-h");
-    };
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = svg => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
     const getLocalRect = (el, root) => {
@@ -524,9 +377,6 @@ export default function ProfiilBody({
     let raf = 0;
     let rafLoop = 0;
     let loopUntil = 0;
-    let pendingAfterTilt = false;
-    const isTiltActive = () =>
-      typeof window !== "undefined" && Boolean(window[TILT_ACTIVE_FLAG_KEY]);
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
       const right = x + width;
@@ -540,11 +390,7 @@ export default function ProfiilBody({
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${rootW} ${rootH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}"/></svg>`;
       return encodeSvgMask(svg);
     };
-    const updateMask = ({ force = false } = {}) => {
-      if (isTiltActive() && lastMask) {
-        pendingAfterTilt = true;
-        return;
-      }
+    const updateMask = () => {
       if (box.dataset?.orbitOpen === "true") {
         if (maskLayer) {
           maskLayer.style.setProperty("-webkit-mask-image", "none");
@@ -570,15 +416,11 @@ export default function ProfiilBody({
         }
         return;
       }
-      box.style.setProperty("--profile-hole-x", `${pillLocal.x}px`);
-      box.style.setProperty("--profile-hole-y", `${pillLocal.y}px`);
-      box.style.setProperty("--profile-hole-w", `${pillLocal.w}px`);
-      box.style.setProperty("--profile-hole-h", `${pillLocal.h}px`);
       retryCount = 0;
       const pillRadiusRaw = Number.parseFloat(window.getComputedStyle(pill).borderTopLeftRadius);
       const pillRadius = Number.isFinite(pillRadiusRaw) ? pillRadiusRaw : pillLocal.h / 2;
       const mask = buildMask(boxW, boxH, pillLocal, pillRadius);
-      if (mask && (mask !== lastMask || force)) {
+      if (mask && mask !== lastMask) {
         box.style.setProperty("--profile-role-hole-mask", mask);
         if (maskLayer) {
           maskLayer.style.setProperty("--profile-role-hole-mask", mask);
@@ -587,7 +429,6 @@ export default function ProfiilBody({
         }
         lastMask = mask;
       }
-      pendingAfterTilt = false;
     };
     const nowMs = () => typeof performance !== "undefined" ? performance.now() : Date.now();
     const tick = (ts) => {
@@ -605,28 +446,18 @@ export default function ProfiilBody({
         rafLoop = window.requestAnimationFrame(tick);
       }
     };
-    const scheduleUpdate = ({ force = false } = {}) => {
-      if (isTiltActive() && lastMask) {
-        pendingAfterTilt = true;
-        return;
-      }
+    const scheduleUpdate = () => {
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
-        updateMask({ force });
+        updateMask();
         startLoop();
       });
     };
-    const onTiltState = event => {
-      if (event?.detail?.active) return;
-      if (pendingAfterTilt) scheduleUpdate({ force: true });
-    };
     maskRefreshRef.current = scheduleUpdate;
-    updateMask({ force: true });
     scheduleUpdate();
     const settleTimers = [0, 60, 160, 320, 600, 900, 1400].map(delay =>
       window.setTimeout(scheduleUpdate, delay)
     );
-    window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
     window.addEventListener("resize", scheduleUpdate);
     box.addEventListener("scroll", scheduleUpdate);
     box.addEventListener("transitionend", scheduleUpdate);
@@ -652,7 +483,6 @@ export default function ProfiilBody({
       window.cancelAnimationFrame(raf);
       if (rafLoop) window.cancelAnimationFrame(rafLoop);
       settleTimers.forEach(timer => window.clearTimeout(timer));
-      window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
       window.removeEventListener("resize", scheduleUpdate);
       box.removeEventListener("scroll", scheduleUpdate);
       box.removeEventListener("transitionend", scheduleUpdate);
@@ -663,7 +493,6 @@ export default function ProfiilBody({
       if (maskRefreshRef.current === scheduleUpdate) {
         maskRefreshRef.current = null;
       }
-      clearHoleGeometryVars();
     };
   }, [embedded, isActive, prefs?.theme, roleLabel, loading, loadFailed, isAuthed]);
   useEffect(() => {
@@ -677,10 +506,6 @@ export default function ProfiilBody({
     if (typeof window === "undefined") return;
     const maskLayer = maskLayerRef.current;
     if (orbitOpen) {
-      profileContainerRef.current?.style?.removeProperty("--profile-hole-x");
-      profileContainerRef.current?.style?.removeProperty("--profile-hole-y");
-      profileContainerRef.current?.style?.removeProperty("--profile-hole-w");
-      profileContainerRef.current?.style?.removeProperty("--profile-hole-h");
       if (maskLayer) {
         maskLayer.style.setProperty("-webkit-mask-image", "none");
         maskLayer.style.setProperty("mask-image", "none");
@@ -709,15 +534,12 @@ export default function ProfiilBody({
   }, [isActive]);
   useEffect(() => {
     if (status !== "unauthenticated") return;
-    if (logoutRedirectRef.current) return;
     if (embedded && !isActive) return;
-    if (suppressAutoLoginModal) return;
     setLoginOpen(true);
-  }, [embedded, isActive, status, suppressAutoLoginModal]);
+  }, [embedded, isActive, status]);
   useEffect(() => {
     if (embedded && !isActive) setLoginOpen(false);
   }, [embedded, isActive]);
-  const orbitNavTransitionOptions = {};
   const modeSequence = ["light", "mid", "dark", "night"];
   const currentModeIndex = modeSequence.indexOf(currentTheme);
   const nextMode = modeSequence[(currentModeIndex + 1 + modeSequence.length) % modeSequence.length];
@@ -746,13 +568,13 @@ export default function ProfiilBody({
     icon: <PinDockIcon />,
     label: t("profile.change_password_cta"),
     labelPos: "up",
-    onClick: () => pushWithTransition(router, localizePath(`/uuenda-pin${embedded ? "?return=profile" : ""}`, locale), orbitNavTransitionOptions)
+    onClick: () => pushWithTransition(router, localizePath(`/uuenda-pin${embedded ? "?return=profile" : ""}`, locale))
   }, {
     key: "email",
     icon: <EmailDockIcon />,
     label: t("profile.update_email_cta"),
     labelPos: "up",
-    onClick: () => pushWithTransition(router, localizePath(`/uuenda-epost${embedded ? "?return=profile" : ""}`, locale), orbitNavTransitionOptions)
+    onClick: () => pushWithTransition(router, localizePath(`/uuenda-epost${embedded ? "?return=profile" : ""}`, locale))
   }, {
     key: "delete",
     icon: <DeleteDockIcon />,
@@ -769,7 +591,7 @@ export default function ProfiilBody({
     icon: <SubscriptionDockIcon />,
     label: t("profile.manage_subscription"),
     labelPos: "down",
-    onClick: () => pushWithTransition(router, localizePath(`/tellimus${embedded ? "?return=profile" : ""}`, locale), orbitNavTransitionOptions)
+    onClick: () => pushWithTransition(router, localizePath(`/tellimus${embedded ? "?return=profile" : ""}`, locale))
   }, {
     key: "preferences",
     icon: <PreferencesDockIcon />,
@@ -788,87 +610,54 @@ export default function ProfiilBody({
       persistGlassRingTilt: false
     });
   }, [locale, onBack, router]);
+  const handleMobileOrbitBack = useCallback(() => {
+    pushWithTransition(router, localizePath("/profiil", locale));
+  }, [locale, router]);
   const mobileBackItem = {
     key: "back",
     icon: <BackIcon className="profile-orbit-back-icon h-full w-full" />,
-    label: t("buttons.back")
+    label: t("buttons.back"),
+    onClick: handleMobileOrbitBack
   };
   const handleLogout = async () => {
     if (loggingOut) return;
     setError("");
     setSuccess("");
-    setLoginOpen(false);
-    logoutRedirectRef.current = true;
     setLoggingOut(true);
     try {
-      const tiltDelayMs = (() => {
-        if (typeof window === "undefined") return 0;
-        try {
-          if (document?.documentElement?.dataset?.reduceMotion === "1") return 0;
-          if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return 0;
-        } catch {}
-        return 540;
-      })();
-      if (tiltDelayMs > 0) {
-        triggerRouteTransition({
-          glassRingTilt: "right",
-          persistGlassRingTilt: false
-        });
-        await new Promise(resolve => window.setTimeout(resolve, tiltDelayMs));
-      }
-
-      const signOutResult = await signOut({
-        redirect: false,
-        callbackUrl: localizePath("/", locale)
-      });
-      if (typeof document !== "undefined") {
-        document.documentElement.classList.remove("modal-open", "login-modal-open", "profile-orbit-open");
-        document.body.classList.remove("modal-open", "login-modal-open", "home-profile-open");
-      }
-      clearStaleScrollLock();
-      const fallbackPath = localizePath("/", locale);
-      const redirectUrl = signOutResult?.url || fallbackPath;
-      let targetHref = fallbackPath;
-      try {
-        const parsed = new URL(
-          redirectUrl,
-          typeof window !== "undefined" ? window.location.origin : "http://localhost"
+      await new Promise((resolve, reject) => {
+        runWithTransition(
+          () => {
+            signOut({
+              callbackUrl: localizePath("/", locale)
+            })
+              .then(resolve)
+              .catch(reject);
+          },
+          {
+            glassRingTilt: "left",
+            waitForGlassRingTilt: true,
+            persistGlassRingTilt: false
+          }
         );
-        if (typeof window === "undefined" || parsed.origin === window.location.origin) {
-          targetHref = `${parsed.pathname}${parsed.search}${parsed.hash}`;
-        }
-      } catch {
-        targetHref = fallbackPath;
-      }
-      pushWithTransition(router, targetHref);
-      if (typeof window !== "undefined") {
-        window.setTimeout(() => {
-          if (!stripLocaleFromPath(window.location.pathname).startsWith("/profiil")) return;
-          window.location.assign(targetHref);
-        }, 540);
-      }
+      });
     } catch (err) {
-      logoutRedirectRef.current = false;
       console.error("profile logout", err);
       setError(t("profile.server_unreachable"));
     } finally {
-      if (!logoutRedirectRef.current) {
-        setLoggingOut(false);
-      }
+      setLoggingOut(false);
     }
   };
   useEffect(() => {
     if (embedded && !isActive) return;
     if (status === "loading") return;
     if (status !== "authenticated") {
-      setProfileUser(null);
       setLoading(false);
       setLoadFailed(false);
       return;
     }
     if (initialProfile) {
-      setProfileUser(initialProfileUser);
-      setHasPassword(!!initialProfileUser?.hasPassword);
+      setHasPassword(!!initialProfile.hasPassword);
       setLoadFailed(false);
       setLoading(false);
       return;
@@ -881,15 +670,10 @@ export default function ProfiilBody({
         });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(resolveApiMessage({
-            payload,
-            t,
-            fallbackKey: "profile.load_failed"
-          }));
+          setError(payload?.error || payload?.message || t("profile.load_failed"));
           setLoadFailed(true);
           return;
         }
-        setProfileUser(payload?.user || null);
         setHasPassword(!!payload?.user?.hasPassword);
       } catch (err) {
         console.error("profile GET", err);
@@ -899,60 +683,15 @@ export default function ProfiilBody({
         setLoading(false);
       }
     })();
-  }, [embedded, initialProfile, initialProfileUser, isActive, status, t]);
-  const handleAdminViewRoleChange = useCallback(async nextRole => {
-    if (!isAdminUser || roleSwitching) return;
-    setError("");
-    setSuccess("");
-    setRoleSwitching(true);
-    try {
-      const res = await fetch("/api/profile/view-role", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept-Language": locale
-        },
-        body: JSON.stringify({ viewRole: nextRole })
-      });
-      const payload = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(resolveApiMessage({
-          payload,
-          t,
-          fallbackKey: "profile.view_mode.save_failed"
-        }));
-        return;
-      }
-      setProfileUser(current => ({
-        ...(current || {}),
-        ...(payload?.user || {})
-      }));
-    } catch (err) {
-      console.error("profile view role PUT", err);
-      setError(t("profile.view_mode.save_failed"));
-    } finally {
-      setRoleSwitching(false);
-    }
-  }, [isAdminUser, locale, roleSwitching, t]);
+  }, [embedded, initialProfile, isActive, status, t]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
     return <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
         <h1 className={titleClassName}>{t("profile.title")}</h1>
       </ProfileShell>;
   }
   if (!isAuthed) {
-    if (logoutRedirectRef.current || loggingOut) {
-      return null;
-    }
     const reason = registrationReason || "not-logged-in";
-    const reasonText =
-      reason === "email-verified"
-        ? t(
-            "profile.login_after_email_verify",
-            "E-post on kinnitatud. Palun logi sisse, et jatkata."
-          )
-        : reason === "no-sub"
-          ? t("profile.login_to_manage_sub")
-          : t("profile.login_to_view");
+    const reasonText = reason === "no-sub" ? t("profile.login_to_manage_sub") : t("profile.login_to_view");
     return <>
         <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
           <h1 className={titleClassName}>{t("profile.title")}</h1>
@@ -983,25 +722,10 @@ export default function ProfiilBody({
       <div className={cn(headerCenterClassName, "profile-role-row")}>
         <span
           ref={rolePillRef}
-          className={cn(
-            rolePillBaseClassName,
-            roleLabelIsMultiLine ? rolePillMultiLineClassName : rolePillSingleLineClassName,
-            "shadow-[var(--profile-role-hole-shadow,none)]",
-            orbitOpen ? "opacity-0 pointer-events-none" : null
-          )}
+          className={cn(rolePillClassName, isLongRoleLabel ? rolePillMultiLineClassName : null, "shadow-[var(--profile-role-hole-shadow,none)]", orbitOpen ? "opacity-0 pointer-events-none" : null)}
           aria-hidden={orbitOpen ? "true" : undefined}
         >
-          {roleLabelIsMultiLine ? (
-            <span className={rolePillMultiLineTextClassName}>
-              {roleLabelLines.map((line, index) => (
-                <span key={`role-line-${index}`} className="block">
-                  {line}
-                </span>
-              ))}
-            </span>
-          ) : (
-            roleLabelDisplay
-          )}
+          {roleLabel}
         </span>
       </div>
 
@@ -1014,26 +738,10 @@ export default function ProfiilBody({
             toggleLabelClose={t("buttons.close")}
             mobileVariant="stack"
             mobileBackItem={mobileBackItem}
-            className="min-[769px]:[--label-gap:0.95rem]"
+            className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem]"
             onOpenChange={setOrbitOpen}
           />
         </div>
-        {isAdminUser && !orbitOpen ? (
-          <div className={orbitRoleToggleWrapClassName}>
-            <button
-              type="button"
-              className={orbitRoleToggleButtonClassName}
-              onClick={() => {
-                void handleAdminViewRoleChange(nextPreviewRole);
-              }}
-              disabled={roleSwitching}
-              aria-label={nextPreviewRoleLabel}
-            >
-              <RoleToggleDockIcon className="h-[1.42rem] w-[1.42rem] shrink-0" />
-              <span>{nextPreviewRoleLabel}</span>
-            </button>
-          </div>
-        ) : null}
       </div>
 
       {!orbitOpen && (
@@ -1060,25 +768,18 @@ export default function ProfiilBody({
           </div>}
       </div>
 
-      {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmLabel={t("profile.delete_account")} cancelLabel={t("buttons.cancel")} busy={deleting} busyLabel={t("profile.delete_loading_status", "Konto kustutamine")} onConfirm={async () => {
+      {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")} cancelLabel={t("buttons.cancel")} onConfirm={async () => {
       if (deleting) return;
       setError("");
       setSuccess("");
       setDeleting(true);
       try {
         const res = await fetch("/api/profile", {
-          method: "DELETE",
-          headers: {
-            "Accept-Language": locale
-          }
+          method: "DELETE"
         });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(resolveApiMessage({
-            payload,
-            t,
-            fallbackKey: "profile.delete_failed"
-          }));
+          setError(payload?.error || payload?.message || t("profile.delete_failed"));
           setDeleting(false);
           return;
         }
@@ -1087,21 +788,8 @@ export default function ProfiilBody({
           redirect: false,
           callbackUrl: localizePath("/", locale)
         });
-        const fallbackPath = localizePath("/", locale);
-        const redirectUrl = signOutResult?.url || fallbackPath;
-        let targetHref = fallbackPath;
-        try {
-          const parsed = new URL(
-            redirectUrl,
-            typeof window !== "undefined" ? window.location.origin : "http://localhost"
-          );
-          if (typeof window === "undefined" || parsed.origin === window.location.origin) {
-            targetHref = `${parsed.pathname}${parsed.search}${parsed.hash}`;
-          }
-        } catch {
-          targetHref = fallbackPath;
-        }
-        window.location.href = targetHref;
+        const redirectUrl = signOutResult?.url || localizePath("/", locale);
+        window.location.href = redirectUrl;
       } catch (err) {
         console.error("profile DELETE", err);
         setError(t("profile.server_unreachable"));

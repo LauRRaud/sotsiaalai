@@ -48,12 +48,14 @@ export default function LeftRail({
   const didInitDesktopActiveRef = useRef(false);
   const wheelAccumRef = useRef(0);
   const lastStepRef = useRef(0);
+  const activeIndexRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [tooltipLabelIndex, setTooltipLabelIndex] = useState(1);
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [stepPx, setStepPx] = useState(56);
+  const [railProfileScale, setRailProfileScale] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
@@ -79,7 +81,7 @@ export default function LeftRail({
     const railRect = rail.getBoundingClientRect();
     if (!railRect.width || !railRect.height) return;
     const itemEl = rail.querySelector("[data-item-index]");
-    const itemSize = itemEl?.getBoundingClientRect?.().height || 48;
+    const itemSize = itemEl instanceof HTMLElement ? itemEl.offsetHeight : 48;
     const edgeOffset = itemSize * 0.5;
     const anchorLeft = railRect.left + edgeOffset - itemSize * 0.5;
     const anchorTop = railRect.top + railRect.height * 0.5;
@@ -129,14 +131,18 @@ export default function LeftRail({
     const update = () => {
       const style = window.getComputedStyle(rail);
       const itemEl = rail.querySelector("[data-item-index]");
-      const itemSize = itemEl?.getBoundingClientRect?.().height || 0;
+      const itemSize = itemEl instanceof HTMLElement ? itemEl.offsetHeight : 0;
       const factorRaw = Number.parseFloat(
         style.getPropertyValue("--rail-step-factor").trim()
       );
       const factor =
-        Number.isFinite(factorRaw) && factorRaw > 0 ? factorRaw : 1.42;
+        Number.isFinite(factorRaw) && factorRaw > 0 ? factorRaw : 1.22;
       const parsed =
         Number.isFinite(itemSize) && itemSize > 0 ? itemSize * factor : NaN;
+      const profileScaleParsed = Number.parseFloat(style.getPropertyValue("--rail-profile-scale").trim());
+      if (Number.isFinite(profileScaleParsed) && profileScaleParsed > 0) {
+        setRailProfileScale(prev => (Math.abs(prev - profileScaleParsed) > 0.001 ? profileScaleParsed : prev));
+      }
       if (!Number.isFinite(parsed)) return;
       setStepPx(prev => {
         const next = Math.round(parsed);
@@ -147,9 +153,16 @@ export default function LeftRail({
     const ro = new ResizeObserver(() => update());
     ro.observe(rail);
     window.addEventListener("resize", update);
+    const html = document.documentElement;
+    const mo = new MutationObserver(() => update());
+    mo.observe(html, {
+      attributes: true,
+      attributeFilter: ["data-ui-profile", "data-ui-scale", "data-text-scale", "style"]
+    });
     return () => {
       window.removeEventListener("resize", update);
       ro.disconnect();
+      mo.disconnect();
     };
   }, []);
 
@@ -249,6 +262,10 @@ export default function LeftRail({
   }, [isMobile, isTooltipVisible, setTooltipFromRail]);
 
   useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  useEffect(() => {
     const rail = railRef.current;
     if (!rail || isMobile) return;
     const onWheel = event => {
@@ -265,16 +282,20 @@ export default function LeftRail({
       const direction = wheelAccumRef.current > 0 ? 1 : -1;
       wheelAccumRef.current = 0;
       lastStepRef.current = now;
-      setActiveIndex(prev =>
-        Math.max(0, Math.min(items.length - 1, prev + direction))
-      );
+      const prev = activeIndexRef.current;
+      const next = Math.max(0, Math.min(items.length - 1, prev + direction));
+      if (next !== prev) {
+        activeIndexRef.current = next;
+        setActiveIndex(next);
+      }
+      showTooltipTemporarily(next, 1300);
     };
     rail.addEventListener("wheel", onWheel, {
       passive: false,
       capture: true
     });
     return () => rail.removeEventListener("wheel", onWheel);
-  }, [isMobile, items.length, stepPx]);
+  }, [isMobile, items.length, stepPx, showTooltipTemporarily]);
 
   useEffect(() => {
     if (isMobile || suspendPointerEvents) {
@@ -282,10 +303,12 @@ export default function LeftRail({
       hideTooltipImmediately();
       return;
     }
-    if (!didInitDesktopActiveRef.current) {
-      didInitDesktopActiveRef.current = true;
+    if (items[activeIndex]?.key !== "back") {
       tooltipLabelIndexRef.current = activeIndex;
       setTooltipLabelIndex(activeIndex);
+    }
+    if (!didInitDesktopActiveRef.current) {
+      didInitDesktopActiveRef.current = true;
       return;
     }
     if (tooltipHideTimerRef.current) {
@@ -370,11 +393,40 @@ export default function LeftRail({
           .filter(Boolean)
           .map(slot => {
             const { item, itemIndex, slotOffset } = slot;
+            const curveOffset = slotOffset;
             const offsetY = slotOffset * stepPx;
-            const curveNorm = Math.min(Math.abs(slotOffset) / 2, 1);
-            const baseCurvePx = inputFocused ? 0 : 4;
-            const edgeSafetyPx = inputFocused ? 0 : 12;
-            const curveSkewPx = inputFocused ? 0 : 1.5;
+            const curveNorm = Math.min(Math.abs(curveOffset) / 2, 1);
+            const edgeCurveBoost =
+              !inputFocused && (activeIndex === 0 || activeIndex === items.length - 1)
+                ? 1.35 * railProfileScale
+                : 0;
+            const edgeSafetyBoost =
+              !inputFocused && (activeIndex === 0 || activeIndex === items.length - 1)
+                ? 3.5 * railProfileScale
+                : 0;
+            const baseCurvePx =
+              ((inputFocused ? 0 : 1.9) * railProfileScale) + edgeCurveBoost;
+            const edgeSafetyPx =
+              ((inputFocused ? 0 : 7.2) * railProfileScale) + edgeSafetyBoost;
+            const curveSkewPx = (inputFocused ? 0 : 0.6) * railProfileScale;
+            const inwardSkewPx = Math.abs(curveOffset) * curveSkewPx;
+            const centerOutwardPx =
+              !inputFocused &&
+              slotOffset === 0
+                ? 7.4 * railProfileScale
+                : 0;
+            const adjacentEdgeOutwardPx =
+              !inputFocused &&
+              ((activeIndex === 0 && slotOffset === 1) ||
+                (activeIndex === items.length - 1 && slotOffset === -1))
+                ? 3.2 * railProfileScale
+                : 0;
+            const farEdgeOutwardPx =
+              !inputFocused &&
+              ((activeIndex === 0 && slotOffset === 2) ||
+                (activeIndex === items.length - 1 && slotOffset === -2))
+                ? 2.2 * railProfileScale
+                : 0;
             const offsetX =
               baseCurvePx * curveNorm * curveNorm +
               edgeSafetyPx *
@@ -382,10 +434,18 @@ export default function LeftRail({
                 curveNorm *
                 curveNorm *
                 curveNorm +
-              slotOffset * curveSkewPx;
+              inwardSkewPx -
+              centerOutwardPx -
+              adjacentEdgeOutwardPx -
+              farEdgeOutwardPx;
+            const edgeOuterYFactor = (() => {
+              const atTopEdge = activeIndex === 0 && slotOffset === 2;
+              const atBottomEdge = activeIndex === items.length - 1 && slotOffset === -2;
+              return atTopEdge || atBottomEdge ? 0.9 : 1;
+            })();
             const norm = Math.min(Math.abs(slotOffset) / 2, 1);
             const scale = 0.88 + (1 - norm) * 0.36;
-            const opacity = 0.42 + (1 - norm) * 0.58;
+            const opacity = slotOffset === 0 ? 1 : 0.32 + (1 - norm) * 0.48;
             const zIndex = 10 - Math.abs(slotOffset);
 
             const onActivate = event => {
@@ -437,7 +497,7 @@ export default function LeftRail({
                 style={{
                   transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(
                     2
-                  )}px) translateY(${offsetY.toFixed(2)}px) scale(${scale.toFixed(3)})`,
+                  )}px) translateY(${(offsetY * edgeOuterYFactor).toFixed(2)}px) scale(${scale.toFixed(3)})`,
                   opacity: opacity.toFixed(3),
                   zIndex
                 }}
@@ -493,7 +553,7 @@ export default function LeftRail({
               style={{
                 position: "fixed",
                 top: tooltipRect.top + tooltipRect.height / 2,
-                left: tooltipRect.left + tooltipRect.width + 2
+                left: tooltipRect.left + tooltipRect.width
               }}
               role="tooltip"
             >

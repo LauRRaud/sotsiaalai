@@ -603,15 +603,22 @@ export default function ChatBody({
     const now = Date.now();
     if (now - backTapGuardRef.current < 320) return;
     backTapGuardRef.current = now;
+    setShowSourcesPanel(false);
+    setInputFocused(false);
+    try {
+      inputRef.current?.blur?.();
+    } catch {}
     if (typeof onBackHome === "function") {
       onBackHome();
       return;
     }
     const homePath = localizePath("/", locale);
-    pushWithTransition(router, homePath, {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
+    window.requestAnimationFrame(() => {
+      pushWithTransition(router, homePath, {
+        glassRingTilt: "left",
+        waitForGlassRingTilt: true,
+        persistGlassRingTilt: false
+      });
     });
     if (typeof window !== "undefined") {
       window.setTimeout(() => {
@@ -620,7 +627,7 @@ export default function ChatBody({
         }
       }, 760);
     }
-  }, [locale, onBackHome, router]);
+  }, [locale, onBackHome, router, setShowSourcesPanel]);
   const handleComposerFocus = useCallback(() => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
@@ -807,6 +814,7 @@ export default function ChatBody({
     onHideOlder={hideOlder}
     onJumpToBottom={handleJumpToBottom}
     messageItems={messageItems}
+    emptyIntroText={!isRoomMode ? t("chat.empty_intro") : ""}
     onWindowDoubleClick={handleChatWindowDoubleClick}
     chatAnalysisPanelProps={chatAnalysisPanelProps}
     inputBarRef={inputBarRef}

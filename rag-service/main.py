@@ -825,6 +825,13 @@ class IngestFile(BaseModel):
     district_name: Optional[str] = None
     district_id: Optional[str] = None
 
+class IngestText(BaseModel):
+    model_config = {"populate_by_name": True, "extra": "allow"}
+
+    doc_id: str
+    text: str
+    metadata: Dict[str, object] = Field(default_factory=dict)
+
 class IngestURL(BaseModel):
     docId: Optional[str] = None
     url: str
@@ -1041,9 +1048,14 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
 
     metadatas = []
     for i, _ in enumerate(final_texts):
+        chunk_id = f"{doc_id}:{i}"
         m = {
             "doc_id": meta.docId or doc_id,
             "docId": meta.docId or doc_id,
+            "chunk_id": chunk_id,
+            "chunkId": chunk_id,
+            "chunk_index": i,
+            "chunkIndex": i,
             "title": title or None,
             "description": description or None,
             "authors": authors,
@@ -1340,6 +1352,54 @@ def ingest_file(payload: _IngestFileModel):
             "district_id": payload.district_id,
         },
     )
+
+@app.post("/ingest/text", dependencies=[Depends(_require_key)])
+def ingest_text(payload: IngestText):
+    doc_id = str(payload.doc_id or "").strip()
+    text = str(payload.text or "")
+    if not doc_id:
+        raise HTTPException(400, "doc_id is required")
+    if not text.strip():
+        raise HTTPException(400, "text is required")
+
+    meta = dict(payload.metadata or {})
+    try:
+        collection.delete(where={"doc_id": doc_id})
+    except Exception:
+        pass
+
+    inserted = _ingest_text(
+        doc_id,
+        text,
+        meta_common={
+            **meta,
+            "source_type": meta.get("source_type") or "agent_document",
+            "source_path": meta.get("source_path"),
+            "source_url": meta.get("source_url"),
+            "audience": normalize_audience(meta.get("audience")),
+        },
+    )
+
+    reg_entry = {
+        "type": "TEXT",
+        "lastIngested": now_iso(),
+        "title": meta.get("title"),
+        "description": meta.get("description"),
+        "audience": normalize_audience(meta.get("audience")),
+        "authors": normalize_authors(meta.get("authors")),
+        "tags": normalize_tags(meta.get("tags")),
+        "language": (meta.get("language") or "et"),
+        "collection_id": (meta.get("collection_id") or meta.get("collectionId") or None),
+        "source_type": meta.get("source_type") or "agent_document",
+        "source_sha256": meta.get("source_sha256"),
+        "source_updated_at": meta.get("source_updated_at"),
+        "original_doc_id": meta.get("original_doc_id"),
+        "fileName": meta.get("fileName"),
+        "mimeType": meta.get("mimeType"),
+    }
+    _register(doc_id, reg_entry)
+
+    return {"ok": True, "inserted": inserted, "docId": doc_id}
 
 # --- Multipart ingest (compat with older UI / direct browser forms) ---
 @app.post("/upload", dependencies=[Depends(_require_key)])
@@ -2004,8 +2064,14 @@ def search(payload: SearchIn):
             md_where["audience"] = {"$in": [normalize_audience(a) for a in list(aud["$in"])]}
         elif isinstance(aud, str):
             md_where["audience"] = normalize_audience(aud)
-        if "doc_id" in payload.where and isinstance(payload.where["doc_id"], str):
-            md_where["doc_id"] = payload.where["doc_id"]
+        if "doc_id" in payload.where:
+            doc_id_filter = payload.where["doc_id"]
+            if isinstance(doc_id_filter, dict) and "$in" in doc_id_filter:
+                cleaned_doc_ids = [str(v).strip() for v in list(doc_id_filter["$in"]) if str(v).strip()]
+                if cleaned_doc_ids:
+                    md_where["doc_id"] = {"$in": cleaned_doc_ids}
+            elif isinstance(doc_id_filter, str):
+                md_where["doc_id"] = doc_id_filter
         if "authors" in payload.where:
             md_where["authors"] = payload.where["authors"]
         if "tags" in payload.where:
@@ -2070,6 +2136,12 @@ def search(payload: SearchIn):
             "id": _id,
             "doc_id": md.get("doc_id") or md.get("docId"),
             "docId": md.get("docId") or md.get("doc_id"),
+            "chunk_id": md.get("chunk_id") or md.get("chunkId"),
+            "chunkId": md.get("chunkId") or md.get("chunk_id"),
+            "chunk_index": md.get("chunk_index") or md.get("chunkIndex"),
+            "chunkIndex": md.get("chunkIndex") or md.get("chunk_index"),
+            "original_doc_id": md.get("original_doc_id") or md.get("originalDocId"),
+            "originalDocId": md.get("originalDocId") or md.get("original_doc_id"),
             "title": md.get("title"),
             "description": md.get("description"),
             "audience": md.get("audience"),

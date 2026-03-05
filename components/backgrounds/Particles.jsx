@@ -74,7 +74,8 @@ const Particles = ({
   disableRotation = false,
   className = "",
   fps = null,
-  timeScale = 1.2
+  timeScale = 1.2,
+  freeze = false
 }) => {
   const containerRef = useRef(null);
   const particleColorsRef = useRef(particleColors);
@@ -90,9 +91,10 @@ const Particles = ({
     const MOBILE_RESIZE_HEIGHT_THRESHOLD = 120;
     let lastSize = null;
     const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+    const isFrozen = freeze || prefersReducedMotion;
     const targetFps = Number.isFinite(fps) && fps > 0 ? fps : isMobile ? 30 : 0;
-    const effectiveSpeed = prefersReducedMotion ? 0 : speed;
-    const canAnimate = !prefersReducedMotion;
+    const effectiveSpeed = isFrozen ? 0 : speed;
+    const canAnimate = !isFrozen;
     const cfg = {
       count: isMobile ? Math.max(110, Math.round(particleCount * 1.05)) : particleCount,
       spread: isMobile ? particleSpread * 0.86 : particleSpread,
@@ -236,7 +238,7 @@ const Particles = ({
           particles.position.x = 0;
           particles.position.y = 0;
         }
-        if (!disableRotation && !prefersReducedMotion) {
+        if (!disableRotation && canAnimate) {
           particles.rotation.x = Math.sin(visTime * 0.2) * 0.1;
           particles.rotation.y = Math.cos(visTime * 0.5) * 0.15;
           particles.rotation.z += 0.01 * cfg.speed * timeScale;
@@ -284,7 +286,7 @@ const Particles = ({
     });
     io.observe(container);
     if (!document.hidden && canAnimate) startLoop();
-    if (prefersReducedMotion) renderer.render({
+    if (!canAnimate) renderer.render({
       scene: particles,
       camera
     });
@@ -313,7 +315,7 @@ const Particles = ({
         lose?.loseContext?.();
       } catch {}
     };
-  }, [particleCount, particleSpread, speed, moveParticlesOnHover, particleHoverFactor, alphaParticles, particleBaseSize, sizeRandomness, cameraDistance, disableRotation, particleColorsKey, fps, timeScale]);
+  }, [particleCount, particleSpread, speed, moveParticlesOnHover, particleHoverFactor, alphaParticles, particleBaseSize, sizeRandomness, cameraDistance, disableRotation, particleColorsKey, fps, timeScale, freeze]);
   return <div ref={containerRef} className={`particles-container${className ? " " + className : ""}`} />;
 };
 export default Particles;

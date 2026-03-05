@@ -10,37 +10,59 @@ import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
 import { authConfig } from "@/auth";
 const ICON_VERSION = "v20260214";
 const UI_SCALE_STORAGE_KEY = "sotsiaalai.uiScale";
+const UI_PROFILE_STORAGE_KEY = "sotsiaalai.uiProfile";
 const UI_SCALE_INIT_SCRIPT = `(function () {
-  var KEY = ${JSON.stringify(UI_SCALE_STORAGE_KEY)};
-  function normalizeMode(value) {
-    if (value === "lg" || value === "xl") return "lg";
-    if (value === "sm" || value === "md" || value === "auto") return "sm";
+  var SCALE_KEY = ${JSON.stringify(UI_SCALE_STORAGE_KEY)};
+  var PROFILE_KEY = ${JSON.stringify(UI_PROFILE_STORAGE_KEY)};
+  function normalizeTextScale(value) {
+    if (value === "sm" || value === "md" || value === "lg" || value === "xl") return value;
     return null;
   }
-  function resolveScale(mode) {
-    if (mode === "lg") return 1.25;
+  function normalizeProfile(value) {
+    if (value === "lg" || value === "xl") return "lg";
+    if (value === "sm" || value === "md") return "sm";
+    return null;
+  }
+  function resolveTextScale(value) {
+    if (value === "sm") return 0.9375;
+    if (value === "lg") return 1.125;
+    if (value === "xl") return 1.25;
     return 1;
   }
-  function apply(mode) {
+  function resolveProfileScale(value) {
+    return normalizeProfile(value) === "lg" ? 1.25 : 1;
+  }
+  function apply(textScale, profile) {
     var root = document.documentElement;
     if (!root) return;
-    var resolvedMode = normalizeMode(mode) || "sm";
-    root.style.setProperty("--ui-scale", String(resolveScale(resolvedMode)));
-    root.setAttribute("data-ui-scale", resolvedMode);
+    var resolvedTextScale = normalizeTextScale(textScale) || "md";
+    var resolvedProfile = normalizeProfile(profile) || normalizeProfile(resolvedTextScale) || "sm";
+    root.style.setProperty(
+      "--ui-scale",
+      String(resolveTextScale(resolvedTextScale) * resolveProfileScale(resolvedProfile))
+    );
+    root.setAttribute("data-text-scale", resolvedTextScale);
+    root.setAttribute("data-ui-scale", resolvedProfile);
+    root.setAttribute("data-ui-profile", resolvedProfile);
     root.setAttribute("data-ui-scale-auto", "0");
   }
-  var mode = null;
+  var textScale = null;
+  var profile = null;
   try {
-    mode = normalizeMode(window.localStorage.getItem(KEY));
+    textScale = normalizeTextScale(window.localStorage.getItem(SCALE_KEY));
   } catch {}
-  if (!mode) {
+  try {
+    profile = normalizeProfile(window.localStorage.getItem(PROFILE_KEY));
+  } catch {}
+  if (!textScale || !profile) {
     try {
       var rawPrefs = window.localStorage.getItem("a11y_prefs");
       var prefs = rawPrefs ? JSON.parse(rawPrefs) : null;
-      mode = normalizeMode((prefs && (prefs.uiScale || prefs.textScale)) || null);
+      textScale = normalizeTextScale((prefs && (prefs.uiScale || prefs.textScale)) || null);
+      profile = normalizeProfile((prefs && (prefs.uiProfile || prefs.screenProfile || prefs.uiScale || prefs.textScale)) || null);
     } catch {}
   }
-  apply(mode || "sm");
+  apply(textScale || "md", profile || null);
 })();`;
 export const metadata = {
   title: "SotsiaalAI",
@@ -106,6 +128,14 @@ function normalizeColorTheme(colorTheme) {
   const allowed = new Set(["default", "green", "blue", "neutral", "gold", "red", "purple"]);
   return allowed.has(colorTheme) ? colorTheme : "default";
 }
+function normalizeUiProfile(uiProfile) {
+  if (uiProfile === "lg" || uiProfile === "xl") return "lg";
+  return "sm";
+}
+function normalizeTextScale(uiScale) {
+  if (uiScale === "sm" || uiScale === "md" || uiScale === "lg" || uiScale === "xl") return uiScale;
+  return "md";
+}
 function parseA11yPrefs(jar) {
   const raw = jar.get("a11y_prefs")?.value;
   if (!raw) return null;
@@ -126,6 +156,7 @@ function parseA11yPrefs(jar) {
           : "dark";
     return {
       uiScale: obj?.uiScale ?? obj?.textScale,
+      uiProfile: obj?.uiProfile ?? obj?.screenProfile ?? obj?.uiScale ?? obj?.textScale,
       contrast,
       reduceMotion: !!obj?.reduceMotion,
       theme: contrast === "hc" ? "dark" : theme,
@@ -147,8 +178,10 @@ export default async function RootLayout({
   } catch {}
   const session = await getServerSession(authConfig);
   const initialA11yPrefs = parseA11yPrefs(jar);
+  const initialUiProfile = normalizeUiProfile(initialA11yPrefs?.uiProfile);
+  const initialTextScale = normalizeTextScale(initialA11yPrefs?.uiScale);
   const skipText = messages?.common?.skip_to_content ?? (locale === "ru" ? "ŠŠµŃ€ŠµŠ¹Ń‚Šø Šŗ ŃŠ¾Š´ŠµŃ€Š¶ŠøŠ¼Š¾Š¼Ń" : locale === "en" ? "Skip to content" : "JĆ¤tka sisuni");
-  return <html lang={locale} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale="sm" data-ui-scale-auto="0" className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" || initialA11yPrefs?.theme === "mid" ? "theme-light" : ""} ${initialA11yPrefs?.theme === "mid" ? "theme-mid" : ""} ${initialA11yPrefs?.theme === "night" ? "theme-night" : ""}`.trim()} suppressHydrationWarning>
+  return <html lang={locale} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale={initialUiProfile} data-ui-profile={initialUiProfile} data-text-scale={initialTextScale} data-ui-scale-auto="0" className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" || initialA11yPrefs?.theme === "mid" ? "theme-light" : ""} ${initialA11yPrefs?.theme === "mid" ? "theme-mid" : ""} ${initialA11yPrefs?.theme === "night" ? "theme-night" : ""}`.trim()} suppressHydrationWarning>
       <head>
         <Script id="ui-scale-init" strategy="beforeInteractive">
           {UI_SCALE_INIT_SCRIPT}

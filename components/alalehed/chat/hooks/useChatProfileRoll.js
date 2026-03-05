@@ -61,10 +61,12 @@ export function useChatProfileRoll({
   const openProfile = useCallback(() => {
     if (!embedded) {
       prepareForProfileTransition();
-      pushWithTransition(router, localizePath("/profiil", locale), {
-        glassRingTilt: "right",
-        waitForGlassRingTilt: true,
-        persistGlassRingTilt: false
+      window.requestAnimationFrame(() => {
+        pushWithTransition(router, localizePath("/profiil", locale), {
+          glassRingTilt: "right",
+          waitForGlassRingTilt: true,
+          persistGlassRingTilt: false
+        });
       });
       return;
     }

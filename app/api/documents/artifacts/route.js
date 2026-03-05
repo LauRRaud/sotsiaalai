@@ -20,6 +20,7 @@ import {
   normalizeAgentLength,
   normalizeAgentTone
 } from "@/lib/documents/generation"
+import { getCachedRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
 
@@ -60,6 +61,18 @@ function clampLimit(value, fallback = ARTIFACT_LIST_LIMIT) {
   const parsed = Number(value)
   if (!Number.isFinite(parsed) || parsed <= 0) return fallback
   return Math.min(Math.floor(parsed), ARTIFACT_LIST_LIMIT_ALL)
+}
+
+function buildRetrievalAuditFields(debugMeta) {
+  if (!debugMeta) return {}
+  return {
+    retrievalMode: debugMeta.retrieval_mode || null,
+    chunksUsed: Number(debugMeta.chunks_used) || 0,
+    fallbackUsed: debugMeta.retrieval_mode === "fallback_source_material",
+    fallbackReason: debugMeta.fallback_reason || null,
+    documentsIndexed: Number(debugMeta.documents_indexed) || 0,
+    tokenBudget: Number(debugMeta.token_budget) || 0
+  }
 }
 
 export async function GET(request) {
@@ -161,7 +174,9 @@ export async function POST(request) {
         templateFor: true,
         agentAllowed: true,
         mime: true,
-        storagePath: true
+        storagePath: true,
+        sha256: true,
+        updatedAt: true
       }
     })
 
@@ -200,24 +215,36 @@ export async function POST(request) {
       }
     }
 
+    let generatedDebugMeta = null
+    const finalContent = hasProvidedContent
+      ? content
+      : await (async () => {
+          const generated = await generateArtifactDraftContent({
+            type,
+            documents,
+            templateTitle: template?.title || null,
+            instruction,
+            audience,
+            tone,
+            language,
+            length
+          })
+          generatedDebugMeta = generated?.debugMeta || null
+          return generated?.content || ""
+        })()
+
+    const cachedDebugMeta = hasProvidedContent
+      ? getCachedRetrievalDebugMeta(auth.userId, finalContent)
+      : null
+    const debugMeta = generatedDebugMeta || cachedDebugMeta || null
+
     const artifact = await prisma.agentArtifact.create({
       data: {
         ownerId: auth.userId,
         type,
         title,
         status: "DRAFT",
-        content: hasProvidedContent
-          ? content
-          : await generateArtifactDraftContent({
-              type,
-              documents,
-              templateTitle: template?.title || null,
-              instruction,
-              audience,
-              tone,
-              language,
-              length
-            }),
+        content: finalContent,
         templateId: template?.id || null,
         sourceDocuments: {
           createMany: {
@@ -236,7 +263,8 @@ export async function POST(request) {
       type: artifact.type,
       title: artifact.title,
       templateId: artifact.templateId,
-      sourceCount: artifact.sourceDocuments.length
+      sourceCount: artifact.sourceDocuments.length,
+      ...buildRetrievalAuditFields(debugMeta)
     })
 
     return json(

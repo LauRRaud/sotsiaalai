@@ -187,10 +187,13 @@ export default function ColorBends({
   noise = 0,
   maxDpr = 2,
   powerPreference = "high-performance",
-  performanceMode = "auto"
+  performanceMode = "auto",
+  freeze = false
 }) {
   const containerRef = useRef(null);
   const rendererRef = useRef(null);
+  const sceneRef = useRef(null);
+  const cameraRef = useRef(null);
   const rafRef = useRef(null);
   const materialRef = useRef(null);
   const resizeObserverRef = useRef(null);
@@ -200,6 +203,8 @@ export default function ColorBends({
   const pointerTargetRef = useRef(new THREE.Vector2(0, 0));
   const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
   const pointerSmoothRef = useRef(8);
+  const freezeMotionRef = useRef(false);
+  freezeMotionRef.current = freeze;
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -208,7 +213,10 @@ export default function ColorBends({
     let lastSize = null;
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    sceneRef.current = scene;
+    cameraRef.current = camera;
     const geometry = new THREE.PlaneGeometry(2, 2);
+    const initialRad = rotationRef.current * Math.PI / 180;
     const uColorsArray = Array.from({
       length: MAX_COLORS
     }, () => new THREE.Vector3(0, 0, 0));
@@ -226,7 +234,7 @@ export default function ColorBends({
           value: speed
         },
         uRot: {
-          value: new THREE.Vector2(1, 0)
+          value: new THREE.Vector2(Math.cos(initialRad), Math.sin(initialRad))
         },
         uColorCount: {
           value: 0
@@ -295,6 +303,8 @@ export default function ColorBends({
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
+    const freezeMotion = freezeMotionRef.current || prefersReduced;
+    freezeMotionRef.current = freezeMotion;
     const profile = resolveProfile(performanceMode, prefersReduced);
     const minScale = prefersReduced ? Math.min(profile.minScale, 0.75) : profile.minScale;
     const maxScale = profile.maxScale;
@@ -317,6 +327,9 @@ export default function ColorBends({
       };
       renderer.setSize(w, h, false);
       material.uniforms.uCanvas.value.set(w, h);
+      if (!document.hidden) {
+        renderer.render(scene, camera);
+      }
     };
     handleResize();
     if ("ResizeObserver" in window) {
@@ -341,16 +354,18 @@ export default function ColorBends({
       if (lastTs == null) lastTs = ts;
       const dt = Math.max(0, (ts - lastTs) / 1000);
       lastTs = ts;
-      timeline += dt;
-      material.uniforms.uTime.value = timeline;
-      const deg = rotationRef.current % 360 + autoRotateRef.current * timeline;
-      const rad = deg * Math.PI / 180;
-      material.uniforms.uRot.value.set(Math.cos(rad), Math.sin(rad));
-      const cur = pointerCurrentRef.current;
-      const tgt = pointerTargetRef.current;
-      const amt = Math.min(1, dt * pointerSmoothRef.current);
-      cur.lerp(tgt, amt);
-      material.uniforms.uPointer.value.copy(cur);
+      if (!freezeMotionRef.current) {
+        timeline += dt;
+        material.uniforms.uTime.value = timeline;
+        const deg = rotationRef.current % 360 + autoRotateRef.current * timeline;
+        const rad = deg * Math.PI / 180;
+        material.uniforms.uRot.value.set(Math.cos(rad), Math.sin(rad));
+        const cur = pointerCurrentRef.current;
+        const tgt = pointerTargetRef.current;
+        const amt = Math.min(1, dt * pointerSmoothRef.current);
+        cur.lerp(tgt, amt);
+        material.uniforms.uPointer.value.copy(cur);
+      }
       if (!tabHidden && isVisible) {
         renderer.render(scene, camera);
       }
@@ -409,6 +424,7 @@ export default function ColorBends({
       rootMargin: "200px"
     });
     io.observe(container);
+    forceRenderNow();
     if (!document.hidden) startLoop();
     return () => {
       document.removeEventListener("visibilitychange", onVis);
@@ -423,6 +439,8 @@ export default function ColorBends({
       if (renderer.domElement?.parentElement === container) {
         container.removeChild(renderer.domElement);
       }
+      sceneRef.current = null;
+      cameraRef.current = null;
     };
   }, [frequency, thicknessBias, edgeTightness, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength, maxDpr, powerPreference, performanceMode]);
   useEffect(() => {
@@ -430,11 +448,13 @@ export default function ColorBends({
     const renderer = rendererRef.current;
     if (!material) return;
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
+    const freezeMotion = freeze || prefersReduced;
+    freezeMotionRef.current = freezeMotion;
     const profile = resolveProfile(performanceMode, prefersReduced);
     bgColorRef.current = bgColor;
     rotationRef.current = rotation;
     autoRotateRef.current = autoRotate;
-    material.uniforms.uSpeed.value = speed;
+    material.uniforms.uSpeed.value = freezeMotion ? 0 : speed;
     material.uniforms.uScale.value = scale;
     material.uniforms.uFrequency.value = frequency;
     material.uniforms.uWarpStrength.value = warpStrength;
@@ -458,8 +478,11 @@ export default function ColorBends({
     if (renderer) {
       const clearColor = typeof bgColor === "string" && bgColor.trim() ? bgColor.trim() : "#000000";
       renderer.setClearColor(transparent ? "#000000" : clearColor, transparent ? 0 : 1);
+      if (sceneRef.current && cameraRef.current) {
+        renderer.render(sceneRef.current, cameraRef.current);
+      }
     }
-  }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent, bgColor, performanceMode]);
+  }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent, bgColor, performanceMode, freeze]);
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -470,6 +493,7 @@ export default function ColorBends({
     const ro = new ResizeObserver(updateRect);
     ro.observe(container);
     const handlePointerMove = e => {
+      if (freezeMotionRef.current) return;
       const x = (e.clientX - rect.left) / (rect.width || 1) * 2 - 1;
       const y = -((e.clientY - rect.top) / (rect.height || 1) * 2 - 1);
       pointerTargetRef.current.set(x, y);

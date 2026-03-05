@@ -4,7 +4,6 @@ import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useSta
 import SmustCenterLogo from "@/public/logo/smust-center.svg";
 import { cn } from "@/components/ui/cn";
 import "./OrbitalMenu.css";
-
 function useMatchMedia(query, defaultValue = false) {
   const [matches, setMatches] = useState(defaultValue);
   useEffect(() => {
@@ -22,7 +21,6 @@ function useMatchMedia(query, defaultValue = false) {
   return matches;
 }
 const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
-const MOBILE_SETTLE_MS = 180;
 export default function OrbitalMenu({
   items = [],
   ariaLabel = "Actions",
@@ -58,8 +56,6 @@ export default function OrbitalMenu({
   const rafRef = useRef(0);
   const settleTimerRef = useRef(0);
   const stackSettleTimerRef = useRef(0);
-  const listTouchingRef = useRef(false);
-  const stackTouchingRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
   const [listPad, setListPad] = useState(0);
@@ -69,19 +65,10 @@ export default function OrbitalMenu({
   const [stackFocusIndex, setStackFocusIndex] = useState(null);
   const closeMenu = useCallback(() => {
     setIsPinnedOpen(false);
-    if (isCoarsePointer) return;
     requestAnimationFrame(() => {
-      const hubEl = hubBtnRef.current;
-      if (!hubEl?.focus) return;
-      try {
-        hubEl.focus({
-          preventScroll: true
-        });
-      } catch {
-        hubEl.focus();
-      }
+      hubBtnRef.current?.focus?.();
     });
-  }, [isCoarsePointer]);
+  }, []);
   const stackItems = useMemo(() => {
     if (!useMobileStack) return items;
     if (!mobileBackItem) return items;
@@ -142,7 +129,7 @@ export default function OrbitalMenu({
       };
       if (d === 1) return {
         scale: 0.92,
-        opacity: 0.45,
+        opacity: 0.32,
         blur: 0.8,
         hide: false
       };
@@ -211,6 +198,8 @@ export default function OrbitalMenu({
   }, [isOpen, useMobileDialog]);
   useEffect(() => {
     if (!isOpen || !useMobileDialog) return;
+    const prevActive = typeof document !== "undefined" ? document.activeElement : null;
+    const hubEl = hubBtnRef.current;
     const closeEl = overlayCloseBtnRef.current;
     const raf = requestAnimationFrame(() => {
       if (useMobileStack) {
@@ -219,7 +208,14 @@ export default function OrbitalMenu({
         closeEl?.focus?.();
       }
     });
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      if (hubEl?.focus) {
+        hubEl.focus();
+        return;
+      }
+      if (prevActive && prevActive instanceof HTMLElement) prevActive.focus();
+    };
   }, [isOpen, useMobileDialog, useMobileStack]);
   useLayoutEffect(() => {
     if (!useOrbitLayout) return;
@@ -228,22 +224,13 @@ export default function OrbitalMenu({
     let raf = 0;
     const measure = () => {
       const rect = root.getBoundingClientRect();
-      const style = window.getComputedStyle(root);
       const itemEl = root.querySelector(".profile-orbit-menu__item");
       if (!rect.width || !itemEl) return;
       const itemSize = itemEl.offsetWidth || 0;
       if (!itemSize) return;
-      const hubSize = hubBtnRef.current?.offsetWidth || 0;
-      const gapRaw = Number.parseFloat(
-        style
-          .getPropertyValue(isExpanded ? "--orbit-gap-open" : "--orbit-gap")
-          .trim()
-      );
-      const gap = Number.isFinite(gapRaw) ? gapRaw : 16;
-      const maxRadius = Math.max(0, (rect.width - itemSize) / 2);
-      const targetRadius = Math.max(0, (hubSize + itemSize) / 2 + gap);
-      const nextRadius = Math.min(maxRadius, targetRadius);
+      const nextRadius = Math.max(0, (rect.width - itemSize) / 2);
       setOrbitRadius(prev => Math.abs(prev - nextRadius) > 0.25 ? nextRadius : prev);
+      const hubSize = hubBtnRef.current?.offsetWidth || 0;
       if (hubSize && nextRadius) {
         const hideRadius = Math.min(nextRadius, (hubSize + itemSize) / 2);
         const inwardRadius = hideRadius * 0.4;
@@ -267,7 +254,7 @@ export default function OrbitalMenu({
       ro?.disconnect?.();
       window.removeEventListener("resize", schedule);
     };
-  }, [isExpanded, items.length, useOrbitLayout]);
+  }, [items.length, useOrbitLayout]);
   const handleToggle = () => setIsPinnedOpen(prev => !prev);
   const buildVisualsFromActive = useCallback(activeIdx => {
     const next = new Array(items.length);
@@ -280,7 +267,7 @@ export default function OrbitalMenu({
         hide: false
       };else if (d === 1) next[i] = {
         scale: 0.92,
-        opacity: 0.45,
+        opacity: 0.32,
         blur: 0.8,
         hide: false
       };else next[i] = {
@@ -365,9 +352,8 @@ export default function OrbitalMenu({
   const scheduleSettleSnap = useCallback(() => {
     if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current);
     settleTimerRef.current = window.setTimeout(() => {
-      if (listTouchingRef.current) return;
       snapToIndex(activeIndexRef.current);
-    }, prefersReducedMotion ? 0 : MOBILE_SETTLE_MS);
+    }, prefersReducedMotion ? 0 : 140);
   }, [prefersReducedMotion, snapToIndex]);
   useLayoutEffect(() => {
     if (!isOpen || !useMobileOverlay) return;
@@ -381,32 +367,11 @@ export default function OrbitalMenu({
     });
     const listEl = scrollRef.current;
     if (!listEl) return;
-    const onTouchStart = () => {
-      listTouchingRef.current = true;
-      if (settleTimerRef.current) {
-        window.clearTimeout(settleTimerRef.current);
-        settleTimerRef.current = 0;
-      }
-    };
-    const onTouchEnd = () => {
-      if (!listTouchingRef.current) return;
-      listTouchingRef.current = false;
-      scheduleSettleSnap();
-    };
     const onScroll = () => {
       scheduleMobileUpdate();
-      if (!listTouchingRef.current) scheduleSettleSnap();
+      scheduleSettleSnap();
     };
     listEl.addEventListener("scroll", onScroll, {
-      passive: true
-    });
-    listEl.addEventListener("touchstart", onTouchStart, {
-      passive: true
-    });
-    listEl.addEventListener("touchend", onTouchEnd, {
-      passive: true
-    });
-    listEl.addEventListener("touchcancel", onTouchEnd, {
       passive: true
     });
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
@@ -422,11 +387,7 @@ export default function OrbitalMenu({
     };
     window.addEventListener("resize", onResize);
     return () => {
-      listTouchingRef.current = false;
       listEl.removeEventListener("scroll", onScroll);
-      listEl.removeEventListener("touchstart", onTouchStart);
-      listEl.removeEventListener("touchend", onTouchEnd);
-      listEl.removeEventListener("touchcancel", onTouchEnd);
       ro?.disconnect?.();
       window.removeEventListener("resize", onResize);
     };
@@ -471,11 +432,10 @@ export default function OrbitalMenu({
         window.clearTimeout(stackSettleTimerRef.current);
       }
       stackSettleTimerRef.current = window.setTimeout(() => {
-        if (stackTouchingRef.current) return;
         const idx = computeActive();
         if (idx == null) return;
         snapToStackIndex(idx, true);
-      }, prefersReducedMotion ? 0 : MOBILE_SETTLE_MS);
+      }, prefersReducedMotion ? 0 : 140);
     };
     const computePad = () => {
       const first = stackItemRefs.current?.[0];
@@ -489,26 +449,11 @@ export default function OrbitalMenu({
     computePad();
     setStackFocusIndex(0);
     snapToStackIndex(0, false);
-    const onTouchStart = () => {
-      stackTouchingRef.current = true;
-      if (stackSettleTimerRef.current) {
-        window.clearTimeout(stackSettleTimerRef.current);
-        stackSettleTimerRef.current = 0;
-      }
-    };
-    const onTouchEnd = () => {
-      if (!stackTouchingRef.current) return;
-      stackTouchingRef.current = false;
-      scheduleStackSettle();
-    };
     const onScroll = () => {
       computeActive();
-      if (!stackTouchingRef.current) scheduleStackSettle();
+      scheduleStackSettle();
     };
     listEl.addEventListener("scroll", onScroll, { passive: true });
-    listEl.addEventListener("touchstart", onTouchStart, { passive: true });
-    listEl.addEventListener("touchend", onTouchEnd, { passive: true });
-    listEl.addEventListener("touchcancel", onTouchEnd, { passive: true });
     const onResize = () => {
       computeActive();
       scheduleStackSettle();
@@ -522,11 +467,7 @@ export default function OrbitalMenu({
     ro?.observe(listEl);
     scheduleStackSettle();
     return () => {
-      stackTouchingRef.current = false;
       listEl.removeEventListener("scroll", onScroll);
-      listEl.removeEventListener("touchstart", onTouchStart);
-      listEl.removeEventListener("touchend", onTouchEnd);
-      listEl.removeEventListener("touchcancel", onTouchEnd);
       window.removeEventListener("resize", onResize);
       if (stackSettleTimerRef.current) {
         window.clearTimeout(stackSettleTimerRef.current);
@@ -551,13 +492,15 @@ export default function OrbitalMenu({
   };
   const desktopAngleStep = useMemo(() => items.length ? 360 / items.length : 0, [items.length]);
   const desktopStartAngle = -90;
+  const orbitRadiusBoost = isExpanded ? 1.14 : 1;
   return <div
       ref={rootRef}
       data-mobile-variant={useMobileStack ? "stack" : useMobileOverlay ? "list" : "orbit"}
       className={cn(
       "profile-orbit-menu relative grid place-items-center w-[var(--orbit-size)] h-[var(--orbit-size)] " +
         "[--item-opacity:0] [--item-scale:0.9] [--item-scale-hover:0.885] " +
-        "[--label-gap:0.5rem] [--label-nudge:0.3rem]",
+        "[--label-gap:0.5rem] [--label-gap-side:0.01rem] [--label-nudge:0.3rem] " +
+        "[--orbit-item-icon-scale:0.56] [--orbit-item-icon-size:calc(var(--orbit-item-size)*var(--orbit-item-icon-scale))]",
       isOpen && "is-open [--item-opacity:1]",
       isClosing && "is-closing",
       isExpanded && "is-expanded [--item-scale:1.06] [--item-scale-hover:1.03] [--orbit-item-size:var(--orbit-item-size-open)]",
@@ -571,52 +514,36 @@ export default function OrbitalMenu({
           {items.map((item, index) => {
         const angle = desktopStartAngle + index * desktopAngleStep;
         const angleRad = angle * Math.PI / 180;
-        const orbitX = Math.round(Math.sin(angleRad) * orbitRadius);
-        const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius);
+        const orbitX = Math.round(Math.sin(angleRad) * orbitRadius * orbitRadiusBoost);
+        const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius * orbitRadiusBoost);
         const labelPos = item.labelPos || "up";
-        const isSideLabel = labelPos === "left" || labelPos === "right";
-        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side-left,var(--label-gap-side,var(--label-gap)))+var(--label-gap-dynamic,0rem))] top-1/2 [transform:translateY(-50%)_translateX(var(--label-side-nudge-left,0rem))]" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side-right,var(--label-gap-side,var(--label-gap)))+var(--label-gap-dynamic,0rem))] top-1/2 [transform:translateY(-50%)_translateX(var(--label-side-nudge-right,0rem))]" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
-        const labelWidthClass = item.key === "subscription" ? "w-[7.8rem] max-w-[7.8rem]" : isSideLabel ? "w-max max-w-[var(--label-side-width,7.2rem)] [overflow-wrap:normal] [word-break:normal] [text-wrap:pretty]" : "max-w-[12rem] w-max";
-        const labelAlignClass = "text-center [text-align-last:center]";
-        const sideLabelLength = String(item.label || "").replace(/\s+/g, "").length;
-        const labelTypographyClass = !isSideLabel
-          ? "leading-[1.05] text-[clamp(1.1rem,2.5vw,1.38rem)]"
-          : "leading-[1.02] text-[clamp(1.12rem,2.4vw,1.32rem)]";
-        const labelGapDynamic = !isSideLabel
-          ? 0
-          : sideLabelLength <= 3
-            ? 0.34
-            : sideLabelLength <= 6
-              ? 0.2
-              : sideLabelLength <= 10
-                ? 0.04
-                : sideLabelLength <= 14
-                  ? -0.12
-                  : sideLabelLength <= 20
-                    ? -0.24
-                    : -0.34;
+        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
+        const labelWidthClass =
+          item.key === "subscription"
+            ? "max-w-[5.8rem]"
+            : item.key === "theme" || item.key === "delete"
+              ? "max-w-[6.4rem] [overflow-wrap:anywhere]"
+              : labelPos === "left" || labelPos === "right"
+                ? "max-w-[6.6rem] [overflow-wrap:anywhere]"
+                : "max-w-[12rem]";
         return <div key={item.key || index} className={cn("profile-orbit-menu__slot group absolute top-1/2 left-1/2 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] [transform:translate3d(var(--orbit-x,0px),var(--orbit-y,0px),0)_translate(-50%,-50%)] opacity-[var(--item-opacity)] transition-opacity [transition-duration:200ms] [transition-timing-function:ease] z-[1]", isOpen && "animate-[orbit-item-reveal_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]", !isOpen && isClosing && "animate-[orbit-item-hide_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]")} data-key={item.key || index} data-label-pos={labelPos} style={{
           "--orbit-x": `${orbitX}px`,
           "--orbit-y": `${orbitY}px`,
           "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
           "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
-          "--label-gap-dynamic": `${labelGapDynamic}rem`
+          "--label-gap-side": item.key === "theme" ? "0.86rem" : item.key === "delete" ? "-0.02rem" : undefined
         }}>
-                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease,box-shadow_0.28s_ease,border-color_0.18s_ease,background_0.18s_ease]" onClick={event => {
+                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease,box-shadow_0.28s_ease,border-color_0.18s_ease,background_0.18s_ease]" onClick={() => {
             item.onClick?.();
-            // Prevent sticky hover-label after pointer clicks while preserving keyboard focus behavior.
-            if ((event?.detail || 0) > 0) event.currentTarget?.blur?.();
             if (!item.keepOpen) closeMenu();
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>
-                  <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[clamp(3.15rem,3.8vw,4.15rem)] [&>svg]:h-[clamp(3.15rem,3.8vw,4.15rem)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
+                  <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[var(--orbit-item-icon-size)] [&>svg]:h-[var(--orbit-item-icon-size)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
                     {item.icon}
                   </span>
                 </button>
                 <span className={cn(
-            "dock-label profile-orbit-item-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none whitespace-normal break-normal hyphens-none tracking-[0.02em] antialiased z-[20] transition-opacity duration-[260ms] ease-out",
+            "dock-label profile-orbit-item-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none w-max whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-opacity duration-[260ms] ease-out max-[640px]:!opacity-100 max-[640px]:!left-1/2 max-[640px]:!bottom-[0.8rem] max-[640px]:!right-auto max-[640px]:!top-auto max-[640px]:!translate-x-1/2 max-[640px]:!translate-y-0 max-[640px]:!w-[calc(var(--orbit-item-size)-0.9rem)] max-[640px]:!max-w-none max-[640px]:!text-[clamp(0.72rem,2.8vw,0.9rem)] max-[640px]:!bg-transparent max-[640px]:!border-0 max-[640px]:!shadow-none max-[640px]:!p-0",
             labelPositionClass,
-            labelAlignClass,
-            labelTypographyClass,
             labelWidthClass
           )}>{item.label}</span>
               </div>;
@@ -624,9 +551,9 @@ export default function OrbitalMenu({
         </div>}
 
       {}
-      <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item w-[calc(var(--orbit-center-size)*var(--orbit-center-scale,1))] h-[calc(var(--orbit-center-size)*var(--orbit-center-scale,1))] rounded-full p-0 grid place-items-center z-[5] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [animation:profile-orbit-hub-pulse_4.4s_ease-in-out_infinite] [will-change:transform] before:content-none after:content-none" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
+      <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[5] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [animation:profile-orbit-hub-pulse_4.4s_ease-in-out_infinite] [will-change:transform] before:content-none after:content-none" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
         <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
-          <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[calc(var(--orbit-center-icon-size)*var(--orbit-center-scale,1))] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
+          <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
         </span>
       </button>
 
@@ -644,7 +571,7 @@ export default function OrbitalMenu({
               <div className="profile-orbit-mobile-chevron absolute left-1/2 top-[1.35rem] h-[1.65rem] w-[1.65rem] -translate-x-1/2 rotate-45 border-l-[3px] border-t-[3px] border-current opacity-70 drop-shadow-[0_8px_12px_rgba(0,0,0,0.2)] animate-[orbitChevronBlink_1.15s_ease-in-out_infinite]" />
             </div>
 
-            <div ref={scrollRef} className="profile-orbit-mobile-list relative z-[2] flex-1 overflow-auto overscroll-contain snap-y snap-proximity px-[0.85rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0" style={{
+            <div ref={scrollRef} className="profile-orbit-mobile-list relative z-[2] flex-1 overflow-auto overscroll-contain snap-y snap-mandatory px-[0.85rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0" style={{
           paddingTop: listPad,
           paddingBottom: listPad
         }}>

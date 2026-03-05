@@ -6,22 +6,52 @@ import AccessibilityModal from "./AccessibilityModal";
 import { useI18n } from "@/components/i18n/I18nProvider";
 const A11yContext = createContext(null);
 const DEFAULT_PREFS = {
-  uiScale: "sm",
+  uiScale: "md",
+  uiProfile: "sm",
   contrast: "normal",
   reduceMotion: false,
   theme: "dark",
   colorTheme: "default"
 };
 const COLOR_THEME_KEYS = new Set(["default", "green", "blue", "neutral", "gold", "red", "purple"]);
+const UI_SCALE_VALUES = new Set(["sm", "md", "lg", "xl"]);
+const UI_PROFILE_VALUES = new Set(["sm", "lg"]);
 const UI_SCALE_STORAGE_KEY = "sotsiaalai.uiScale";
+const UI_PROFILE_STORAGE_KEY = "sotsiaalai.uiProfile";
 
-function normalizeUIScaleMode(uiScale) {
-  if (uiScale === "lg" || uiScale === "xl") return "lg";
-  return "sm";
+function parseUIScale(uiScale) {
+  if (!uiScale || typeof uiScale !== "string") return null;
+  return UI_SCALE_VALUES.has(uiScale) ? uiScale : null;
 }
 
-function resolveUIScaleValue(uiScale) {
-  return normalizeUIScaleMode(uiScale) === "lg" ? 1.25 : 1;
+function normalizeUIScale(uiScale) {
+  return parseUIScale(uiScale) || DEFAULT_PREFS.uiScale;
+}
+
+function parseUIProfile(uiProfile) {
+  if (!uiProfile || typeof uiProfile !== "string") return null;
+  if (UI_PROFILE_VALUES.has(uiProfile)) return uiProfile;
+  if (uiProfile === "md") return "sm";
+  if (uiProfile === "xl") return "lg";
+  return null;
+}
+
+function normalizeUIProfile(uiProfile) {
+  return parseUIProfile(uiProfile) || DEFAULT_PREFS.uiProfile;
+}
+
+function resolveUIScaleValue(uiScale, uiProfile) {
+  const normalized = normalizeUIScale(uiScale);
+  const textFactor =
+    normalized === "sm"
+      ? 0.9375
+      : normalized === "lg"
+        ? 1.125
+        : normalized === "xl"
+          ? 1.25
+          : 1;
+  const profileFactor = normalizeUIProfile(uiProfile) === "lg" ? 1.25 : 1;
+  return profileFactor * textFactor;
 }
 function normalizeTheme(theme) {
   if (theme === "light" || theme === "mid" || theme === "dark" || theme === "night") return theme;
@@ -70,7 +100,8 @@ function readPrefsFromCookie() {
     const raw = getCookie("a11y_prefs");
     if (!raw) return null;
     const obj = JSON.parse(raw);
-    const uiScale = normalizeUIScaleMode(obj?.uiScale ?? obj?.textScale);
+    const uiScale = normalizeUIScale(obj?.uiScale ?? obj?.textScale);
+    const uiProfile = normalizeUIProfile(obj?.uiProfile ?? obj?.screenProfile ?? obj?.uiScale ?? obj?.textScale);
     const contrast = obj?.contrast || DEFAULT_PREFS.contrast;
     const reduceMotion = !!obj?.reduceMotion;
     let theme = normalizeTheme(obj?.theme);
@@ -78,6 +109,7 @@ function readPrefsFromCookie() {
     if (contrast === "hc") theme = "dark";
     return {
       uiScale,
+      uiProfile,
       contrast,
       reduceMotion,
       theme,
@@ -86,6 +118,34 @@ function readPrefsFromCookie() {
   } catch {
     return null;
   }
+}
+function readStoredUIScale() {
+  if (typeof window === "undefined") return null;
+  try {
+    const fromKey = parseUIScale(window.localStorage.getItem(UI_SCALE_STORAGE_KEY));
+    if (fromKey) return fromKey;
+  } catch {}
+  try {
+    const rawPrefs = window.localStorage.getItem("a11y_prefs");
+    const prefs = rawPrefs ? JSON.parse(rawPrefs) : null;
+    const fromPrefs = parseUIScale((prefs && (prefs.uiScale || prefs.textScale)) || null);
+    if (fromPrefs) return fromPrefs;
+  } catch {}
+  return null;
+}
+function readStoredUIProfile() {
+  if (typeof window === "undefined") return null;
+  try {
+    const fromKey = parseUIProfile(window.localStorage.getItem(UI_PROFILE_STORAGE_KEY));
+    if (fromKey) return fromKey;
+  } catch {}
+  try {
+    const rawPrefs = window.localStorage.getItem("a11y_prefs");
+    const prefs = rawPrefs ? JSON.parse(rawPrefs) : null;
+    const fromPrefs = parseUIProfile((prefs && (prefs.uiProfile || prefs.screenProfile || prefs.uiScale || prefs.textScale)) || null);
+    if (fromPrefs) return fromPrefs;
+  } catch {}
+  return null;
 }
 function readInitialPrefsFromDom() {
   if (typeof document === "undefined") return {
@@ -104,8 +164,11 @@ function readInitialPrefsFromDom() {
   } else {
     theme = "dark";
   }
+  const storedUIScale = readStoredUIScale();
+  const storedUIProfile = readStoredUIProfile();
   const fromDataset = {
-    uiScale: normalizeUIScaleMode(html.getAttribute("data-ui-scale")),
+    uiScale: normalizeUIScale(storedUIScale ?? html.getAttribute("data-text-scale")),
+    uiProfile: normalizeUIProfile(storedUIProfile ?? html.getAttribute("data-ui-profile") ?? html.getAttribute("data-ui-scale")),
     contrast,
     reduceMotion: html.getAttribute("data-reduce-motion") === "1",
     theme,
@@ -123,13 +186,16 @@ function readInitialPrefsFromDom() {
 function applyPrefsToDom(prefs) {
   if (typeof document === "undefined") return;
   const html = document.documentElement;
-  const uiScale = normalizeUIScaleMode(prefs.uiScale);
-  html.setAttribute("data-ui-scale", uiScale);
+  const uiScale = normalizeUIScale(prefs.uiScale);
+  const uiProfile = normalizeUIProfile(prefs.uiProfile ?? uiScale);
+  html.setAttribute("data-ui-scale", uiProfile);
+  html.setAttribute("data-ui-profile", uiProfile);
+  html.setAttribute("data-text-scale", uiScale);
   html.setAttribute("data-ui-scale-auto", "0");
   html.setAttribute("data-contrast", prefs.contrast || DEFAULT_PREFS.contrast);
   html.setAttribute("data-reduce-motion", prefs.reduceMotion ? "1" : "0");
   html.setAttribute("data-color-theme", normalizeColorTheme(prefs.colorTheme));
-  html.style.setProperty("--ui-scale", String(resolveUIScaleValue(uiScale)));
+  html.style.setProperty("--ui-scale", String(resolveUIScaleValue(uiScale, uiProfile)));
   const theme = normalizeTheme(prefs.theme);
   const forceDark = prefs.contrast === "hc";
   const shouldBeLight = !forceDark && isLightBaseTheme(theme);
@@ -149,7 +215,8 @@ function buildInitialPrefs(initialPrefs) {
       ...DEFAULT_PREFS,
       ...initialPrefs,
       ...(domPrefs || null),
-      uiScale: normalizeUIScaleMode(domPrefs?.uiScale ?? initialPrefs.uiScale),
+      uiScale: normalizeUIScale(initialPrefs.uiScale ?? domPrefs?.uiScale),
+      uiProfile: normalizeUIProfile(initialPrefs.uiProfile ?? domPrefs?.uiProfile ?? initialPrefs.uiScale ?? domPrefs?.uiScale),
       contrast,
       theme: contrast === "hc" ? "dark" : theme,
       colorTheme
@@ -159,7 +226,8 @@ function buildInitialPrefs(initialPrefs) {
     ? {
         ...DEFAULT_PREFS,
         ...domPrefs,
-        uiScale: normalizeUIScaleMode(domPrefs.uiScale)
+        uiScale: normalizeUIScale(domPrefs.uiScale),
+        uiProfile: normalizeUIProfile(domPrefs.uiProfile ?? domPrefs.uiScale)
       }
     : {
         ...DEFAULT_PREFS
@@ -294,7 +362,8 @@ function AccessibilityProvider({
       ...domPrefs,
       ...cookiePrefs
     } : domPrefs;
-    initial.uiScale = normalizeUIScaleMode(domPrefs.uiScale ?? cookiePrefs?.uiScale);
+    initial.uiScale = normalizeUIScale(cookiePrefs?.uiScale ?? domPrefs.uiScale);
+    initial.uiProfile = normalizeUIProfile(cookiePrefs?.uiProfile ?? domPrefs.uiProfile ?? initial.uiScale);
     if (initial.contrast === "hc") initial.theme = "dark";
     setPrefsState(initial);
     safeApplyPrefsToDom(initial, "init");
@@ -402,7 +471,8 @@ function AccessibilityProvider({
       ...prefs,
       ...next
     };
-    merged.uiScale = normalizeUIScaleMode(merged.uiScale);
+    merged.uiScale = normalizeUIScale(merged.uiScale);
+    merged.uiProfile = normalizeUIProfile(merged.uiProfile ?? merged.uiScale);
     merged.theme = normalizeTheme(merged.theme);
     merged.colorTheme = normalizeColorTheme(merged.colorTheme);
     if (merged.contrast === "hc") {
@@ -426,6 +496,9 @@ function AccessibilityProvider({
       localStorage.setItem(UI_SCALE_STORAGE_KEY, merged.uiScale);
     } catch {}
     try {
+      localStorage.setItem(UI_PROFILE_STORAGE_KEY, merged.uiProfile);
+    } catch {}
+    try {
       if (
         merged.theme === "light" ||
         merged.theme === "mid" ||
@@ -443,7 +516,8 @@ function AccessibilityProvider({
       ...prefs,
       ...partial
     };
-    preview.uiScale = normalizeUIScaleMode(preview.uiScale);
+    preview.uiScale = normalizeUIScale(preview.uiScale);
+    preview.uiProfile = normalizeUIProfile(preview.uiProfile ?? preview.uiScale);
     preview.theme = normalizeTheme(preview.theme);
     preview.colorTheme = normalizeColorTheme(preview.colorTheme);
     if (preview.contrast === "hc") {

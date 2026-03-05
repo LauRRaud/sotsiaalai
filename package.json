@@ -35,8 +35,6 @@
     "i18n:types": "node scripts/generate-message-types.mjs",
     "i18n:check": "node scripts/check-messages.mjs",
     "env:check": "node scripts/check-env.mjs",
-    "css:audit": "node scripts/legacy-css-audit.mjs",
-    "css:guard": "node scripts/check-legacy-css.mjs",
     "encoding:check": "node scripts/encoding/check.mjs",
     "encoding:fix": "node scripts/encoding/fix.mjs",
     "test:e2e": "playwright test",
