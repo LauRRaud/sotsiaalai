@@ -303,6 +303,12 @@
     opacity: 1 !important;
   }
 
+  .profile-container.glass-ring[data-orbit-open="true"] .profile-mask-layer {
+    opacity: 0 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
   .profile-orbit-menu.is-mobile {
     --label-gap: 0.5rem;
     --label-nudge: 0.32rem;
@@ -344,6 +350,31 @@
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.85rem);
     padding-left: max(0.8rem, env(safe-area-inset-left, 0px));
     padding-right: max(0.8rem, env(safe-area-inset-right, 0px));
+  }
+  .profile-orbit-stack-panel::before {
+    content: "";
+    position: absolute;
+    top: var(--mobile-glass-card-gap, 0.35rem);
+    right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px));
+    bottom: var(--mobile-glass-card-gap, 0.35rem);
+    left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px));
+    border-radius: var(
+      --mobile-glass-card-radius,
+      clamp(calc(1.05 * var(--base-rem)), 3.8vw, calc(1.45 * var(--base-rem)))
+    );
+    background: var(
+      --glass-ring-surface-bg,
+      var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+    );
+    box-shadow: var(--glass-shell-shadow, none);
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    pointer-events: none;
+    z-index: 0;
+  }
+  .profile-orbit-stack-panel > * {
+    position: relative;
+    z-index: 1;
   }
   .profile-orbit-stack-fade {
     display: block;
