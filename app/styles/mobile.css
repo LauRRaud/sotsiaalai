@@ -332,6 +332,7 @@
   }
   .profile-orbit-stack-backdrop {
     background: transparent;
+    align-items: center;
   }
   .profile-orbit-stack-panel {
     background: transparent;
@@ -340,16 +341,32 @@
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     overflow: hidden;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 0.9rem);
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.85rem);
-    padding-left: max(0.8rem, env(safe-area-inset-left, 0px));
-    padding-right: max(0.8rem, env(safe-area-inset-right, 0px));
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    );
+    max-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    );
+    height: calc(
+      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    );
+    max-height: calc(
+      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    );
+    padding-top: clamp(0.9rem, 2.8vh, 1.25rem);
+    padding-bottom: clamp(0.85rem, 2.6vh, 1.2rem);
+    padding-left: clamp(0.8rem, 3vw, 1rem);
+    padding-right: clamp(0.8rem, 3vw, 1rem);
   }
   .profile-orbit-stack-fade {
     display: block;
     position: absolute;
-    left: max(0.8rem, env(safe-area-inset-left, 0px));
-    right: max(0.8rem, env(safe-area-inset-right, 0px));
+    left: 0;
+    right: 0;
     height: clamp(3.6rem, 9.5vh, 5.8rem);
     z-index: 4;
     pointer-events: none;
@@ -517,26 +534,6 @@
 }
 
 @media (max-width: 768px) {
-  .profile-container.glass-ring .profile-nav-overlay .profile-back-button {
-    left: 50% !important;
-    right: auto !important;
-    top: calc(50% + clamp(5.8rem, 25vw, 7.25rem)) !important;
-    bottom: auto !important;
-    transform: translateX(-50%) !important;
-    z-index: 95 !important;
-  }
-
-  .profile-container.glass-ring .profile-role-toggle-wrap {
-    top: calc(50% + clamp(10.9rem, 46vw, 13.2rem)) !important;
-    width: min(84vw, 18rem);
-    z-index: 95 !important;
-  }
-
-  .profile-container.glass-ring .profile-role-toggle-wrap button {
-    width: 100%;
-    justify-content: center;
-  }
-
   .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     position: absolute !important;
     left: 50% !important;

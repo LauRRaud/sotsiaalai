@@ -81,7 +81,7 @@ const orbitWrapperClassName =
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const orbitRoleToggleWrapClassName =
-  "profile-role-toggle-wrap absolute left-1/2 top-[calc(50%+clamp(4.95rem,20vw,5.95rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
+  "absolute left-1/2 top-[calc(50%+clamp(4.95rem,20vw,5.95rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
   "-translate-x-1/2 z-[6] pointer-events-auto";
 const orbitRoleToggleButtonClassName =
   "whitespace-normal text-center leading-[1.16] px-[1.22rem] py-[0.76rem] text-[1.02rem] min-h-[2.7rem] " +
@@ -97,7 +97,7 @@ const logoutLabelClassName =
   "group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0";
 const profileBackButtonClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
-  "profile-back-button max-[48em]:!z-[95]";
+  "max-[48em]:!z-[95]";
 const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
 const profileLogoutWrapClassName =
