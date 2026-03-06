@@ -654,6 +654,18 @@ body.login-modal-open {
     letter-spacing: 0.014em !important;
     transform: translateY(-1.02rem);
   }
+
+  #terms-title.glass-policy-title--expanded,
+  #privacy-title.glass-policy-title--expanded,
+  #kasutusjuhend-title.glass-policy-title--expanded,
+  [lang="ru"] #terms-title.glass-policy-title--expanded,
+  [lang="ru"] #privacy-title.glass-policy-title--expanded,
+  [lang="ru"] #kasutusjuhend-title.glass-policy-title--expanded {
+    margin-top: clamp(-0.35rem, -0.55vh, -0.12rem) !important;
+    margin-bottom: clamp(-0.12rem, -0.2vh, -0.04rem) !important;
+    transform: translateY(clamp(-3.1rem, -6.2vh, -4.15rem));
+    max-width: none;
+  }
 }
 
 @media (min-width: 768px) {
