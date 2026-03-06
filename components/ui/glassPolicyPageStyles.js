@@ -5,17 +5,17 @@ export const glassPolicyRingClassName =
   "max-[768px]:[--glass-ring-scroll-offset-open:clamp(0.95rem,2.4vh,1.6rem)]";
 
 export const glassPolicyTitleOffsetClassName =
-  "!mt-[clamp(3rem,6.2vh,4.2rem)] max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+4.05rem)] max-[768px]:mb-[clamp(0.2rem,0.8vh,0.55rem)]";
+  "!mt-[clamp(2.6rem,5.5vh,3.7rem)] max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+3.7rem)] max-[768px]:mb-[clamp(0.16rem,0.65vh,0.45rem)]";
 
 export const glassPolicyTitleExpandedClassName = "glass-policy-title--expanded";
 
 export const glassPolicyContentClassName =
-  "glass-policy-content mt-[clamp(0.4rem,1.6vh,1.1rem)] flex w-full flex-1 flex-col items-center max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-[clamp(0rem,1vw,0.25rem)] max-[768px]:pt-[clamp(0.25rem,1.1vh,0.65rem)] max-[768px]:pb-[clamp(0.05rem,0.45vh,0.25rem)]";
+  "glass-policy-content mt-[clamp(0.18rem,1.1vh,0.75rem)] flex w-full flex-1 flex-col items-center max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-[clamp(0rem,1vw,0.25rem)] max-[768px]:pt-[clamp(0.12rem,0.7vh,0.42rem)] max-[768px]:pb-[clamp(0.05rem,0.45vh,0.25rem)]";
 
 export const glassPolicyContentExpandedClassName = "glass-policy-content--expanded";
 
 export const glassPolicyScrollClassName =
-  "glass-ring-scroll glass-policy-scroll glass-policy-scroll-bottom-arc relative w-full max-w-[var(--policy-scroll-max-width,clamp(18.8rem,48.5vw,33rem))] overflow-y-auto pr-[0.1rem] pt-[clamp(1rem,2.4vh,1.6rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:max-h-[calc(100%-0.35rem)] max-[768px]:translate-x-0 max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-[clamp(0rem,1vw,0.25rem)] max-[768px]:pt-[clamp(0.5rem,1.8vh,1.05rem)] max-[768px]:pb-[clamp(0.02rem,0.35vh,0.18rem)]";
+  "glass-ring-scroll glass-policy-scroll glass-policy-scroll-bottom-arc relative w-full max-w-[var(--policy-scroll-max-width,clamp(18.8rem,48.5vw,33rem))] overflow-y-auto pr-[0.1rem] pt-[clamp(0.7rem,1.8vh,1.2rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:max-h-[calc(100%-0.35rem)] max-[768px]:translate-x-0 max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-[clamp(0rem,1vw,0.25rem)] max-[768px]:pt-[clamp(0.25rem,1vh,0.7rem)] max-[768px]:pb-[clamp(0.02rem,0.35vh,0.18rem)]";
 
 export const glassPolicyScrollExpandedClassName = "glass-policy-scroll--expanded";
 

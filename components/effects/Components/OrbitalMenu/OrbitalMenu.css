@@ -31,7 +31,7 @@
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item {
   background: var(--glass-surface-bg, rgba(0, 0, 0, 0.22));
-  border: 1px solid rgba(84, 95, 115, 0.45);
+  border: 1px solid transparent;
   -webkit-backdrop-filter: blur(0.9rem) saturate(120%);
   backdrop-filter: blur(0.9rem) saturate(120%);
   box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
@@ -212,6 +212,36 @@
     inset 0 -1px 0 rgba(0, 0, 0, 0.46);
   --pin-gloss-op: 0.24;
   border: none;
+}
+
+:root:not(.theme-light):not(.theme-mid)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item {
+  background:
+    radial-gradient(
+      120% 120% at 18% 16%,
+      rgba(255, 255, 255, 0.055) 0%,
+      rgba(255, 255, 255, 0) 56%
+    ),
+    radial-gradient(
+      120% 120% at 86% 90%,
+      rgba(0, 0, 0, 0.42) 0%,
+      rgba(0, 0, 0, 0) 64%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.008) 0%,
+      rgba(255, 255, 255, 0.006) 42%,
+      rgba(0, 0, 0, 0.34) 100%
+    );
+  --pin-gloss-op: 0.28;
+}
+
+:root[data-theme-switching="1"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item {
+  transition: none !important;
+  border-color: transparent !important;
 }
 :root:not(.theme-light)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper

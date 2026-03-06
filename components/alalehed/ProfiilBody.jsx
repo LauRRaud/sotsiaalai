@@ -15,14 +15,24 @@ import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import { getFooterNote } from "@/lib/footerNote";
 import BackButton from "@/components/ui/BackButton";
+import Button from "@/components/ui/Button";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
+const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const ROLE_KEYS = {
   ADMIN: "role.admin",
   SOCIAL_WORKER: "role.worker",
   CLIENT: "role.client"
 };
+function normalizeProfileRole(value, fallback = "CLIENT") {
+  const normalized = String(value || "").trim().toUpperCase();
+  if (normalized === "ADMIN") return "ADMIN";
+  if (normalized === "SOCIAL_WORKER") return "SOCIAL_WORKER";
+  if (normalized === "CLIENT") return "CLIENT";
+  return fallback;
+}
 const pageShellClassName =
   `${glassPageShellCenteredClassName} max-md:py-0`;
 const containerBaseClassName =
@@ -70,6 +80,12 @@ const orbitWrapperClassName =
   "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
+const orbitRoleToggleWrapClassName =
+  "absolute left-1/2 top-[calc(50%+clamp(4.95rem,20vw,5.95rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
+  "-translate-x-1/2 z-[6] pointer-events-auto";
+const orbitRoleToggleButtonClassName =
+  "whitespace-normal text-center leading-[1.16] px-[1.22rem] py-[0.76rem] text-[1.02rem] min-h-[2.7rem] " +
+  "max-[48em]:!min-h-[3rem] max-[48em]:!px-[1.35rem] max-[48em]:!py-[0.8rem] max-[48em]:!text-[1.14rem]";
 const logoutButtonClassName =
   "group relative grid place-items-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
 const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
@@ -240,6 +256,17 @@ function DeleteDockIcon({
       <path d="M9 6l.6-1.4A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.4.6L15 6m3 0-.8 11.6a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 6" />
     </svg>;
 }
+function RoleToggleDockIcon({
+  isHovered: _isHovered,
+  ...props
+}) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <path d="M7 7h10" />
+      <path d="m13.5 4.5 3 2.5-3 2.5" />
+      <path d="M17 17H7" />
+      <path d="m10.5 14.5-3 2.5 3 2.5" />
+    </svg>;
+}
 function ThemeSunDockIcon({
   isHovered: _isHovered,
   ...props
@@ -304,14 +331,20 @@ export default function ProfiilBody({
     locale
   } = useI18n();
   const footerNote = getFooterNote();
-  const [_hasPassword, setHasPassword] = useState(!!initialProfile?.hasPassword);
+  const initialProfileUser = initialProfile?.user && typeof initialProfile.user === "object"
+    ? initialProfile.user
+    : initialProfile && typeof initialProfile === "object"
+      ? initialProfile
+      : null;
+  const [profileUser, setProfileUser] = useState(initialProfileUser);
+  const [_hasPassword, setHasPassword] = useState(!!initialProfileUser?.hasPassword);
   const [showDelete, setShowDelete] = useState(false);
   const [loading, setLoading] = useState(!initialProfile);
   const [loadFailed, setLoadFailed] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [roleSwitching, setRoleSwitching] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
   useEffect(() => {
@@ -339,8 +372,19 @@ export default function ProfiilBody({
     headerCenterBaseClassName,
     !embedded && headerCenterPageClassName
   );
-  const isLongRoleLabel = session?.user?.role === "SOCIAL_WORKER" || session?.user?.role === "CLIENT";
-  const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
+  const actualRole = normalizeProfileRole(
+    profileUser?.role || session?.user?.role || (session?.user?.isAdmin ? "ADMIN" : "CLIENT"),
+    session?.user?.isAdmin ? "ADMIN" : "CLIENT"
+  );
+  const isAdminUser = actualRole === "ADMIN" || profileUser?.isAdmin === true || session?.user?.isAdmin === true;
+  const activePreviewRole = normalizeProfileRole(
+    profileUser?.adminViewRole || (isAdminUser ? profileUser?.effectiveRole || "SOCIAL_WORKER" : actualRole),
+    isAdminUser ? "SOCIAL_WORKER" : actualRole
+  );
+  const nextPreviewRole = activePreviewRole === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER";
+  const nextPreviewRoleLabel = t(nextPreviewRole === "SOCIAL_WORKER" ? "profile.view_mode.worker" : "profile.view_mode.client");
+  const isLongRoleLabel = actualRole === "SOCIAL_WORKER" || actualRole === "CLIENT";
+  const roleLabel = t(ROLE_KEYS[actualRole] || "role.unknown");
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -377,6 +421,9 @@ export default function ProfiilBody({
     let raf = 0;
     let rafLoop = 0;
     let loopUntil = 0;
+    let pendingAfterTilt = false;
+    const isTiltActive = () =>
+      typeof window !== "undefined" && Boolean(window[TILT_ACTIVE_FLAG_KEY]);
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
       const right = x + width;
@@ -391,6 +438,10 @@ export default function ProfiilBody({
       return encodeSvgMask(svg);
     };
     const updateMask = () => {
+      if (isTiltActive() && lastMask) {
+        pendingAfterTilt = true;
+        return;
+      }
       if (box.dataset?.orbitOpen === "true") {
         if (maskLayer) {
           maskLayer.style.setProperty("-webkit-mask-image", "none");
@@ -429,6 +480,7 @@ export default function ProfiilBody({
         }
         lastMask = mask;
       }
+      pendingAfterTilt = false;
     };
     const nowMs = () => typeof performance !== "undefined" ? performance.now() : Date.now();
     const tick = (ts) => {
@@ -447,17 +499,28 @@ export default function ProfiilBody({
       }
     };
     const scheduleUpdate = () => {
+      if (isTiltActive() && lastMask) {
+        pendingAfterTilt = true;
+        return;
+      }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
         updateMask();
         startLoop();
       });
     };
+    const onTiltState = event => {
+      if (event?.detail?.active) return;
+      if (pendingAfterTilt) {
+        scheduleUpdate();
+      }
+    };
     maskRefreshRef.current = scheduleUpdate;
     scheduleUpdate();
     const settleTimers = [0, 60, 160, 320, 600, 900, 1400].map(delay =>
       window.setTimeout(scheduleUpdate, delay)
     );
+    window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
     window.addEventListener("resize", scheduleUpdate);
     box.addEventListener("scroll", scheduleUpdate);
     box.addEventListener("transitionend", scheduleUpdate);
@@ -483,6 +546,7 @@ export default function ProfiilBody({
       window.cancelAnimationFrame(raf);
       if (rafLoop) window.cancelAnimationFrame(rafLoop);
       settleTimers.forEach(timer => window.clearTimeout(timer));
+      window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
       window.removeEventListener("resize", scheduleUpdate);
       box.removeEventListener("scroll", scheduleUpdate);
       box.removeEventListener("transitionend", scheduleUpdate);
@@ -582,7 +646,6 @@ export default function ProfiilBody({
     labelPos: "right",
     onClick: () => {
       setError("");
-      setSuccess("");
       setDeleting(false);
       setShowDelete(true);
     }
@@ -622,7 +685,6 @@ export default function ProfiilBody({
   const handleLogout = async () => {
     if (loggingOut) return;
     setError("");
-    setSuccess("");
     setLoggingOut(true);
     try {
       await new Promise((resolve, reject) => {
@@ -648,16 +710,47 @@ export default function ProfiilBody({
       setLoggingOut(false);
     }
   };
+  const handleAdminViewRoleChange = useCallback(async nextRole => {
+    if (!isAdminUser || roleSwitching) return;
+    setError("");
+    setRoleSwitching(true);
+    try {
+      const res = await fetch("/api/profile/view-role", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept-Language": locale
+        },
+        body: JSON.stringify({ viewRole: nextRole })
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(payload?.error || payload?.message || t("profile.view_mode.save_failed"));
+        return;
+      }
+      setProfileUser(current => ({
+        ...(current || {}),
+        ...(payload?.user || {})
+      }));
+    } catch (err) {
+      console.error("profile view role PUT", err);
+      setError(t("profile.view_mode.save_failed"));
+    } finally {
+      setRoleSwitching(false);
+    }
+  }, [isAdminUser, locale, roleSwitching, t]);
   useEffect(() => {
     if (embedded && !isActive) return;
     if (status === "loading") return;
     if (status !== "authenticated") {
+      setProfileUser(null);
       setLoading(false);
       setLoadFailed(false);
       return;
     }
     if (initialProfile) {
-      setHasPassword(!!initialProfile.hasPassword);
+      setProfileUser(initialProfileUser);
+      setHasPassword(!!initialProfileUser?.hasPassword);
       setLoadFailed(false);
       setLoading(false);
       return;
@@ -674,6 +767,7 @@ export default function ProfiilBody({
           setLoadFailed(true);
           return;
         }
+        setProfileUser(payload?.user || null);
         setHasPassword(!!payload?.user?.hasPassword);
       } catch (err) {
         console.error("profile GET", err);
@@ -683,7 +777,7 @@ export default function ProfiilBody({
         setLoading(false);
       }
     })();
-  }, [embedded, initialProfile, isActive, status, t]);
+  }, [embedded, initialProfile, initialProfileUser, isActive, status, t]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
     return <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
         <h1 className={titleClassName}>{t("profile.title")}</h1>
@@ -742,6 +836,22 @@ export default function ProfiilBody({
             onOpenChange={setOrbitOpen}
           />
         </div>
+        {isAdminUser && !orbitOpen ? (
+          <div className={orbitRoleToggleWrapClassName}>
+            <Button
+              variant="primary"
+              className={orbitRoleToggleButtonClassName}
+              onClick={() => {
+                void handleAdminViewRoleChange(nextPreviewRole);
+              }}
+              disabled={roleSwitching}
+              aria-label={nextPreviewRoleLabel}
+            >
+              <RoleToggleDockIcon className="h-[1.42rem] w-[1.42rem] shrink-0" />
+              <span>{nextPreviewRoleLabel}</span>
+            </Button>
+          </div>
+        ) : null}
       </div>
 
       {!orbitOpen && (
@@ -762,16 +872,11 @@ export default function ProfiilBody({
         {error && <div role="alert" className={cn(noteClassName, noteRowClassName)}>
             {error}
           </div>}
-
-        {success && !error && <div role="status" className={cn(noteClassName, noteRowClassName)}>
-            {success}
-          </div>}
       </div>
 
       {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")} cancelLabel={t("buttons.cancel")} onConfirm={async () => {
       if (deleting) return;
       setError("");
-      setSuccess("");
       setDeleting(true);
       try {
         const res = await fetch("/api/profile", {

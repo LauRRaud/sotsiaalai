@@ -18,6 +18,7 @@ const UI_SCALE_VALUES = new Set(["sm", "md", "lg", "xl"]);
 const UI_PROFILE_VALUES = new Set(["sm", "lg"]);
 const UI_SCALE_STORAGE_KEY = "sotsiaalai.uiScale";
 const UI_PROFILE_STORAGE_KEY = "sotsiaalai.uiProfile";
+let themeSwitchClearTimer = null;
 
 function parseUIScale(uiScale) {
   if (!uiScale || typeof uiScale !== "string") return null;
@@ -201,9 +202,29 @@ function applyPrefsToDom(prefs) {
   const shouldBeLight = !forceDark && isLightBaseTheme(theme);
   const shouldBeMid = !forceDark && theme === "mid";
   const shouldBeNight = !forceDark && theme === "night";
+  const hadThemeLight = html.classList.contains("theme-light");
+  const hadThemeMid = html.classList.contains("theme-mid");
+  const hadThemeNight = html.classList.contains("theme-night");
+  const themeChanged =
+    hadThemeLight !== shouldBeLight ||
+    hadThemeMid !== shouldBeMid ||
+    hadThemeNight !== shouldBeNight;
+  if (themeChanged) {
+    html.setAttribute("data-theme-switching", "1");
+  }
   html.classList.toggle("theme-light", shouldBeLight);
   html.classList.toggle("theme-mid", shouldBeMid);
   html.classList.toggle("theme-night", shouldBeNight);
+  if (themeChanged && typeof window !== "undefined") {
+    if (themeSwitchClearTimer) window.clearTimeout(themeSwitchClearTimer);
+    themeSwitchClearTimer = window.setTimeout(() => {
+      if (typeof document === "undefined") return;
+      document.documentElement.removeAttribute("data-theme-switching");
+      themeSwitchClearTimer = null;
+    }, 240);
+  } else if (!themeChanged) {
+    html.removeAttribute("data-theme-switching");
+  }
 }
 function buildInitialPrefs(initialPrefs) {
   const domPrefs = typeof document !== "undefined" ? readInitialPrefsFromDom() : null;

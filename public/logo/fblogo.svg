@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-40 -40 480 480"
+     width="420"
+     height="420">
+
+<defs>
+
+<!-- ORB BASE -->
+<radialGradient id="orbGrad" cx="46%" cy="44%" r="95%">
+  <stop offset="0%"  stop-color="#1b2735"/>
+  <stop offset="25%" stop-color="#18222e"/>
+  <stop offset="45%" stop-color="#141c25"/>
+  <stop offset="65%" stop-color="#10161d"/>
+  <stop offset="82%" stop-color="#0c1116"/>
+  <stop offset="100%" stop-color="#090a0f"/>
+</radialGradient>
+
+<!-- CENTER LIGHT -->
+<radialGradient id="orbLight" cx="44%" cy="40%" r="70%">
+  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.07"/>
+  <stop offset="40%" stop-color="#ffffff" stop-opacity="0.03"/>
+  <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+</radialGradient>
+
+<!-- RIM SHADING -->
+<radialGradient id="orbRim" cx="50%" cy="50%" r="70%">
+  <stop offset="60%" stop-color="#000" stop-opacity="0"/>
+  <stop offset="100%" stop-color="#000" stop-opacity="0.45"/>
+</radialGradient>
+
+</defs>
+
+<!-- ORB -->
+<circle cx="200" cy="200" r="180" fill="url(#orbGrad)"/>
+<circle cx="200" cy="200" r="180" fill="url(#orbLight)"/>
+<circle cx="200" cy="200" r="180" fill="url(#orbRim)"/>
+
+</svg>

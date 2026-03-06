@@ -487,6 +487,7 @@ export default function LeftRail({
                 data-item-index={itemIndex}
                 className={cn(
                   styles.item,
+                  item.key === "back" ? styles.itemBack : null,
                   styles.iconBtn,
                   slotOffset === 0 ? styles.isActive : null,
                   item.key === "sources" && showSourcesPanel
@@ -549,7 +550,10 @@ export default function LeftRail({
       {isMounted && showDesktopTooltip && typeof document !== "undefined"
         ? createPortal(
             <div
-              className={styles.tooltip}
+              className={cn(
+                styles.tooltip,
+                isTooltipVisible ? styles.tooltipVisible : styles.tooltipHidden
+              )}
               style={{
                 position: "fixed",
                 top: tooltipRect.top + tooltipRect.height / 2,

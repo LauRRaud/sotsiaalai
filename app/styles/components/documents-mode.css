@@ -1006,6 +1006,17 @@
   overflow: hidden;
 }
 
+:root:not(.theme-light):not(.theme-mid)
+  .documents-agent-conversation-window {
+  background: var(--documents-agent-thread-bg) !important;
+  border-color: var(--documents-agent-thread-border) !important;
+}
+
+:root.theme-night .documents-agent-conversation-window {
+  background: var(--documents-agent-thread-bg) !important;
+  border-color: var(--documents-agent-thread-border) !important;
+}
+
 .documents-agent-conversation-window .chat-window__scroll {
   padding: 1rem !important;
   mask-image: none !important;

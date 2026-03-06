@@ -259,7 +259,7 @@ export default function ChatComposer({
     "outline-none border-0 shadow-none " +
     `${forcePlaceholderVisible ? "placeholder:opacity-100 placeholder:text-[color:var(--input-placeholder)] " : "placeholder:opacity-0 light:placeholder:opacity-100 light:placeholder:text-[color:var(--input-placeholder)]"}`;
   const actionButtonClassName =
-    "chat-listen-btn relative z-[2] h-[var(--chat-composer-main-control-size)] w-[var(--chat-composer-main-control-size)] min-h-[var(--chat-composer-main-control-size)] min-w-[var(--chat-composer-main-control-size)] flex-[0_0_var(--chat-composer-main-control-size)] rounded-full " +
+    "chat-listen-btn relative z-[2] !h-[calc(var(--inputbar-h)*0.96)] !w-[calc(var(--inputbar-h)*0.96)] !min-h-[calc(var(--inputbar-h)*0.96)] !min-w-[calc(var(--inputbar-h)*0.96)] !flex-[0_0_calc(var(--inputbar-h)*0.96)] !p-0 rounded-full " +
     "flex items-center justify-center " +
     "mr-[-0.56rem] " +
     "pointer-events-auto !translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
@@ -268,9 +268,9 @@ export default function ChatComposer({
     "data-[speaking=true]:shadow-[0_0_0_1px_rgba(148,163,184,0.22),0_0_6px_rgba(84,95,115,0.45)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonClassName =
-    "chat-send-btn relative z-[2] h-[var(--chat-composer-send-control-size,var(--chat-composer-main-control-size))] w-[var(--chat-composer-send-control-size,var(--chat-composer-main-control-size))] min-h-[var(--chat-composer-send-control-size,var(--chat-composer-main-control-size))] min-w-[var(--chat-composer-send-control-size,var(--chat-composer-main-control-size))] flex-[0_0_var(--chat-composer-send-control-size,var(--chat-composer-main-control-size))] rounded-full border-0 " +
+    "chat-send-btn relative z-[2] !h-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !w-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !min-h-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !min-w-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !flex-[0_0_calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !p-0 rounded-full border-0 " +
     "flex items-center justify-center overflow-hidden leading-none " +
-    "!translate-y-0 !translate-x-[-0.01rem] hover:!translate-y-0 hover:!translate-x-[-0.01rem] active:!translate-y-0 active:!translate-x-[-0.01rem] " +
+    "!translate-y-[var(--chat-send-btn-shift-y,0rem)] !translate-x-[var(--chat-send-btn-shift-x,-0.01rem)] hover:!translate-y-[var(--chat-send-btn-shift-y,0rem)] hover:!translate-x-[var(--chat-send-btn-shift-x,-0.01rem)] active:!translate-y-[var(--chat-send-btn-shift-y,0rem)] active:!translate-x-[var(--chat-send-btn-shift-x,-0.01rem)] " +
     "px-[6px] py-[1px] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
@@ -375,7 +375,7 @@ export default function ChatComposer({
               className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[#c57171] light:text-[#7a3a38]"
             />
           </Button> : <Button type="button" variant="primary" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handleMic} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
-            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] text-[#c57171] light:text-[#7a3a38]">
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.82" strokeLinecap="round" strokeLinejoin="round" shapeRendering="geometricPrecision" className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[#c57171] light:text-[#7a3a38]">
               <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
               <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
               <line x1="12" y1="19" x2="12" y2="23" />

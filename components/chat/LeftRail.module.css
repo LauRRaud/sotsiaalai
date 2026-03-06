@@ -68,6 +68,13 @@
   transform-origin: center;
 }
 
+.itemBack {
+  width: calc(var(--rail-item-size) * 0.94);
+  height: calc(var(--rail-item-size) * 0.94);
+  min-width: calc(var(--rail-item-size) * 0.94);
+  min-height: calc(var(--rail-item-size) * 0.94);
+}
+
 .item:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.14);
   outline-offset: 3px;
@@ -122,8 +129,8 @@
 }
 
 .iconBack {
-  width: calc(100% * (var(--rail-icon-scale) + 0.62)) !important;
-  height: calc(100% * (var(--rail-icon-scale) + 0.62)) !important;
+  width: calc(100% * (var(--rail-icon-scale) + 0.57)) !important;
+  height: calc(100% * (var(--rail-icon-scale) + 0.57)) !important;
   transform: translateY(-0.1rem) scale(1);
   transform-origin: center;
   will-change: transform;
@@ -158,7 +165,7 @@
   --rail-profile-scale: 1;
   --rail-tooltip-gap: calc(0.4rem * var(--rail-profile-scale));
   transform: translate(var(--rail-tooltip-gap), -50%);
-  opacity: 1;
+  opacity: 0;
   padding: 0.26rem 0.66rem;
   border-radius: 0.7rem;
   white-space: nowrap;
@@ -166,13 +173,23 @@
   font-size: 1.42rem;
   letter-spacing: 0.05em;
   color: #c57171;
-  background: rgba(28, 30, 36, 0.26);
-  -webkit-backdrop-filter: blur(20px) saturate(165%) !important;
-  backdrop-filter: blur(20px) saturate(165%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  background: rgb(28, 31, 38);
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+  border: 0;
+  box-shadow: none;
   pointer-events: none;
   z-index: 80;
+  isolation: isolate;
+  overflow: hidden;
+  will-change: opacity, transform;
+  transition: opacity 120ms ease;
+  text-shadow: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
 }
 
 :global(html[data-ui-profile="lg"]) .tooltip,
@@ -180,42 +197,52 @@
   --rail-profile-scale: 1.25;
 }
 
+.tooltipVisible {
+  opacity: 1;
+  transform: translate(var(--rail-tooltip-gap), -50%);
+}
+
+.tooltipHidden {
+  opacity: 0;
+  transform: translate(var(--rail-tooltip-gap), -50%);
+}
+
 :global(:root.theme-night) .tooltip {
-  background: rgba(18, 24, 36, 0.24);
+  background: rgb(16, 19, 26);
+  box-shadow: none;
 }
 
 :global(:root.theme-light) .tooltip {
   color: #7a3a38;
-  font-size: 1.2rem;
-  font-weight: 500;
-  background: rgba(255, 255, 255, 0.34);
-  border-color: rgba(122, 58, 56, 0.28);
+  font-size: 1.42rem;
+  font-weight: 450;
+  background: rgb(253, 253, 253);
+  box-shadow: none;
 }
 
 :global(:root.theme-mid) .tooltip {
   color: #7a3a38;
-  background: rgba(246, 249, 252, 0.6);
-  border-color: rgba(255, 255, 255, 0.46);
-  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.12);
-  -webkit-backdrop-filter: blur(16px) saturate(118%) !important;
-  backdrop-filter: blur(16px) saturate(118%) !important;
+  font-size: 1.42rem;
+  font-weight: 450;
+  background: rgba(253, 250, 249, 0.54);
+  box-shadow: none;
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .tooltip {
-    background: rgba(30, 32, 38, 0.46);
+    background: rgb(28, 31, 38);
   }
 
   :global(:root.theme-night) .tooltip {
-    background: rgba(18, 24, 36, 0.44);
+    background: rgb(16, 19, 26);
   }
 
   :global(:root.theme-light) .tooltip {
-    background: rgba(255, 255, 255, 0.42);
+    background: rgb(253, 253, 253);
   }
 
   :global(:root.theme-mid) .tooltip {
-    background: rgba(246, 249, 252, 0.64);
+    background: rgba(253, 250, 249, 0.54);
   }
 }
 

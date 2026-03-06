@@ -53,7 +53,7 @@ export default function InviteModal() {
   };
   const sendLabel = formatSentenceCase(t("invite.send"));
   const mobileInviteInputClassName =
-    "max-[768px]:!text-[1.16rem] max-[768px]:placeholder:!text-[1.08rem] max-[768px]:!min-h-[3.2rem] max-[768px]:!py-[0.84rem]";
+    "!text-[1.28rem] !tracking-[0.02em] placeholder:!text-[1.12rem] placeholder:!tracking-[0.02em] max-[768px]:!text-[1.34rem] max-[768px]:!tracking-[0.024em] max-[768px]:placeholder:!text-[1.2rem] max-[768px]:placeholder:!tracking-[0.022em] max-[768px]:!min-h-[3.2rem] max-[768px]:!py-[0.84rem]";
   const invitePrimaryButtonClassName =
     "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
   const sponsoredRoleOptions = [{
@@ -64,7 +64,24 @@ export default function InviteModal() {
     label: t("invite.sponsored.role.client")
   }];
   const inviteRefreshButtonClassName =
-    "!min-h-[2rem] !px-[0.82rem] !py-[0.22rem] !text-[0.94rem] !tracking-[0.01em] max-[768px]:!min-h-[2.08rem] max-[768px]:!px-[0.88rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[0.98rem]";
+    "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
+  const inviteNoticeBaseClassName =
+    "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
+    "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
+    "px-[1rem] py-[0.54rem] text-[0.98rem] leading-[1.28] shadow-[0_8px_18px_rgba(15,23,42,0.1)] " +
+    "backdrop-blur-[10px] [-webkit-backdrop-filter:blur(10px)] max-[768px]:max-w-[min(92vw,24rem)]";
+  const inviteErrorNoticeClassName =
+    `${inviteNoticeBaseClassName} ` +
+    "border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] text-[rgba(255,223,218,0.96)] " +
+    "[.theme-night_&]:border-[rgba(130,176,228,0.2)] [.theme-night_&]:bg-[rgba(12,20,34,0.84)] [.theme-night_&]:text-[rgba(226,238,255,0.94)] " +
+    "light:border-[rgba(185,89,82,0.18)] light:bg-[rgba(255,249,248,0.94)] light:text-[#b2615d] " +
+    "[.theme-mid_&]:border-[rgba(132,72,68,0.18)] [.theme-mid_&]:bg-[rgba(251,242,239,0.9)] [.theme-mid_&]:text-[#a65e59]";
+  const inviteSuccessNoticeClassName =
+    `${inviteNoticeBaseClassName} ` +
+    "border-[rgba(88,148,118,0.22)] bg-[rgba(18,44,34,0.82)] text-[rgba(223,246,236,0.96)] " +
+    "[.theme-night_&]:border-[rgba(104,178,154,0.2)] [.theme-night_&]:bg-[rgba(10,28,26,0.84)] [.theme-night_&]:text-[rgba(220,245,236,0.95)] " +
+    "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
+    "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
     "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
     "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
@@ -297,8 +314,8 @@ export default function InviteModal() {
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} className={mobileInviteInputClassName} />
             <div className="mt-[0.6rem] grid grid-cols-2 gap-[0.6rem] max-[768px]:justify-items-center" role="radiogroup" aria-label={t("invite.pay.label")}>
             {paymentOptions.map(option => (
-                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[768px]:w-[min(38vw,12.2rem)] !min-h-[3.05rem] !py-[0.78rem] !text-[1.02rem] !leading-[1.2] !tracking-[0.02rem] text-center justify-center max-[768px]:!text-[1.12rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!pt-[0.52rem] max-[768px]:!pb-[0.2rem]">
-                  <span className="text-center [text-wrap:balance]">{option.label}</span>
+                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[768px]:w-[min(38vw,12.2rem)] !min-h-[3.05rem] !py-[0.78rem] !text-[1.08rem] !leading-[1.2] !tracking-[0.025em] text-center justify-center max-[768px]:!text-[1.18rem] max-[768px]:!tracking-[0.03em] max-[768px]:!min-h-[2.9rem] max-[768px]:!pt-[0.52rem] max-[768px]:!pb-[0.2rem]">
+                  <span className="text-center tracking-[0.025em] max-[768px]:tracking-[0.03em] [text-wrap:balance]">{option.label}</span>
                 </OptionCard>
               ))}
             </div>
@@ -329,14 +346,13 @@ export default function InviteModal() {
                 </div>
               </Panel> : null}
 
-            {error ? <p className="text-center text-[color:#fca5a5]" role="alert">
-                {error}
-              </p> : null}
-            {message ? <p className="text-center text-[color:#a7f3d0]" role="status">
-                {message}
-              </p> : null}
-
-            <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
+            <div className="relative mt-[1.25rem] mb-[1rem] flex justify-center">
+              {error ? <p className={inviteErrorNoticeClassName} role="alert">
+                  {error}
+                </p> : null}
+              {message ? <p className={inviteSuccessNoticeClassName} role="status">
+                  {message}
+                </p> : null}
               <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy}>
                 {busy ? t("invite.sending") : paymentMode === "sponsored_by_host" && sponsoredStep ? t("invite.sponsored.confirm_and_pay") : sendLabel}
               </Button>
@@ -345,7 +361,7 @@ export default function InviteModal() {
 
         <Panel variant="secondary" padding="sm" className={`invite-list-panel ${inviteListCardClassName} min-h-[9.5rem] max-h-[min(48dvh,24rem)] max-[768px]:min-h-[8rem] max-[768px]:max-h-[min(32dvh,18rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
           <div className="flex items-center justify-between gap-[0.75rem]">
-            <span className="text-[1.05rem] font-[650] tracking-[0.02em] max-[768px]:text-[1.14rem]">
+            <span className="text-[1.18rem] font-[650] tracking-[0.03em] max-[768px]:text-[1.24rem] max-[768px]:tracking-[0.034em]">
               {t("invite.list")}
             </span>
             <Button type="button" variant="primary" size="sm" className={`${inviteRefreshButtonClassName} invite-refresh-btn`} onClick={loadInvites} disabled={loadingList}>
@@ -353,10 +369,10 @@ export default function InviteModal() {
             </Button>
           </div>
           {invites.length === 0 ? (
-            <p className="mt-[0.5rem] opacity-80 max-[768px]:text-[1.06rem]">{t("invite.empty")}</p>
+            <p className="mt-[0.5rem] text-[1.16rem] tracking-[0.02em] opacity-80 max-[768px]:text-[1.22rem] max-[768px]:tracking-[0.024em]">{t("invite.empty")}</p>
           ) : (
-            <div className="mt-[0.5rem] grid gap-[0.6rem] text-[0.98rem] max-[768px]:text-[1.05rem]">
-              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] text-[0.85rem] uppercase tracking-[0.08em] opacity-70 max-[768px]:text-[0.94rem]">
+            <div className="mt-[0.5rem] grid gap-[0.6rem] text-[1.08rem] tracking-[0.016em] max-[768px]:text-[1.14rem] max-[768px]:tracking-[0.02em]">
+              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] text-[0.98rem] uppercase tracking-[0.09em] opacity-70 max-[768px]:text-[1.04rem]">
                 <span>{t("invite.table.email")}</span>
                 <span>{t("invite.table.payer")}</span>
                 <span>{t("invite.table.status")}</span>

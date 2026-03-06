@@ -167,7 +167,7 @@ export default function ChatBodyView({
               <ChatComposer t={t} locale={locale} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={onFocusComposer} onBlurInput={onBlurInput} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={onStop} onSend={onSend} onSendDeepResearch={onSendDeepResearch} onArmDeepResearch={onArmDeepResearch} onCancelDeepResearchMode={onCancelDeepResearchMode} onConsumeDeepResearchMode={onConsumeDeepResearchMode} onDeepResearchEmptySubmit={onDeepResearchEmptySubmit} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={focusActive} isMobile={isMobile} />
 
               <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} />
-              <ChatRecordingNotice recordingError={recordingError} />
+              <ChatRecordingNotice recordingError={recordingError} floating />
 
               <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[768px]:mt-[0.55rem] max-[768px]:min-h-[1.1rem] max-[768px]:pb-[0.15rem]" />
               <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />

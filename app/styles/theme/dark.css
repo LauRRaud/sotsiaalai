@@ -75,7 +75,7 @@
     rgba(12, 16, 26, 0.78),
     rgba(28, 32, 44, 0.56)
   );
-  border-color: rgba(114, 124, 140, 0.7);
+  border-color: transparent;
 }
 :root:not(.theme-light) .chat-input-row {
   --chat-under-glow:

@@ -533,7 +533,7 @@ export default function OrbitalMenu({
           "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
           "--label-gap-side": item.key === "theme" ? "0.86rem" : item.key === "delete" ? "-0.02rem" : undefined
         }}>
-                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease,box-shadow_0.28s_ease,border-color_0.18s_ease,background_0.18s_ease]" onClick={() => {
+                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease]" onClick={() => {
             item.onClick?.();
             if (!item.keepOpen) closeMenu();
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>

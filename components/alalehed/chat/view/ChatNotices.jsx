@@ -1,11 +1,16 @@
 const chatAlertClassName =
   "mt-[0.5rem] mb-[0.75rem] self-center mx-auto text-center " +
   "w-fit max-w-[min(30rem,calc(100%-2.2rem))] whitespace-normal " +
-  "rounded-[999px] border border-[rgba(231,112,100,0.34)] " +
-  "bg-[linear-gradient(135deg,rgba(110,32,31,0.38)_0%,rgba(92,29,31,0.26)_48%,rgba(74,24,27,0.22)_100%)] " +
-  "px-[1.05rem] py-[0.62rem] text-[0.92rem] leading-[1.32] text-[#ffb3aa] " +
-  "shadow-[0_10px_18px_rgba(0,0,0,0.24)] backdrop-blur-[8px] [-webkit-backdrop-filter:blur(8px)] " +
-  "light:border-[rgba(190,88,80,0.28)] light:bg-[rgba(255,233,231,0.76)] light:text-[#8c3c38]";
+  "rounded-[999px] border px-[1.05rem] py-[0.62rem] text-[0.92rem] leading-[1.32] " +
+  "shadow-[0_10px_18px_rgba(0,0,0,0.18)] backdrop-blur-[8px] [-webkit-backdrop-filter:blur(8px)] " +
+  "border-[rgba(231,112,100,0.24)] bg-[linear-gradient(135deg,rgba(52,19,21,0.74)_0%,rgba(33,15,20,0.68)_100%)] text-[rgba(255,230,225,0.96)] " +
+  "light:border-[rgba(122,58,56,0.14)] light:bg-[linear-gradient(180deg,rgba(255,252,251,0.96)_0%,rgba(246,241,239,0.94)_100%)] light:text-[#6f3b38] " +
+  "[.theme-mid_&]:border-[rgba(122,58,56,0.16)] [.theme-mid_&]:bg-[linear-gradient(180deg,rgba(253,248,246,0.92)_0%,rgba(244,234,231,0.88)_100%)] [.theme-mid_&]:text-[#71413d]";
+
+const floatingRecordingAlertClassName =
+  "pointer-events-none absolute left-1/2 z-[86] -translate-x-1/2 " +
+  "bottom-[clamp(1.15rem,3.2vh,1.9rem)] max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+5rem)] " +
+  "mb-0 mt-0";
 
 export function ChatTopNotices({
   t,
@@ -37,10 +42,11 @@ export function ChatTopNotices({
 }
 
 export function ChatRecordingNotice({
-  recordingError
+  recordingError,
+  floating = false
 }) {
   if (!recordingError) return null;
-  return <div role="alert" className={chatAlertClassName}>
+  return <div role="alert" className={`${chatAlertClassName} ${floating ? floatingRecordingAlertClassName : ""}`.trim()}>
     {recordingError}
   </div>;
 }
