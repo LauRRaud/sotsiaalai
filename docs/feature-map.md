@@ -1,6 +1,6 @@
 # Feature Map
 
-Date: 2026-03-04
+Date: 2026-03-06
 
 This document maps the main platform features to their frontend surfaces, API
 entrypoints, and primary data models.
@@ -207,7 +207,50 @@ entrypoints, and primary data models.
   - `RoomMember`
   - `RoomMessage`
 
-## 9. Invites
+## 9. Help Requests, Offers, and Matching
+
+- User-facing functions:
+  - create a help request in chat
+  - create a help offer in chat
+  - browse global help requests
+  - browse global help offers
+  - manage own help listings from the chat page
+  - open selected listing context in the chat area
+  - explicitly connect a request and offer
+  - continue the real conversation in an existing Room flow
+- Frontend surfaces:
+  - `/vestlus`
+  - `components/chat/LeftRail.jsx`
+  - `components/chat/RightRail.jsx`
+  - `components/chat/HelpListingsPanel.jsx`
+  - `components/chat/SelectedListingContext.jsx`
+  - `components/alalehed/ChatBody.jsx`
+- API:
+  - `app/api/chat/route.js`
+  - `app/api/help/listings/route.js`
+  - `app/api/help/listings/[kind]/[id]/route.js`
+  - `app/api/help/matches/route.js`
+- Backend modules:
+  - `lib/help/chatWorkflow.js`
+  - `lib/help/requests.js`
+  - `lib/help/offers.js`
+  - `lib/help/matches.js`
+  - `lib/help/listingViews.js`
+  - `lib/help/locationNormalization.js`
+  - `lib/help/municipalities.js`
+- Data models:
+  - `Municipality`
+  - `HelpCategory`
+  - `TargetGroup`
+  - `HelpRequest`
+  - `HelpOffer`
+  - `HelpMatch`
+  - `HelpRequestCategory`
+  - `HelpOfferCategory`
+  - `HelpRequestTargetGroup`
+  - `HelpOfferTargetGroup`
+
+## 10. Invites
 
 - User-facing functions:
   - invite people into rooms by email
@@ -228,7 +271,7 @@ entrypoints, and primary data models.
   - `Invite`
   - related `Room`, `RoomMember`, `Subscription`, `Payment`
 
-## 10. Admin and Analytics
+## 11. Admin and Analytics
 
 - User-facing functions:
   - view platform analytics
@@ -251,7 +294,7 @@ entrypoints, and primary data models.
   - `Subscription`
   - `Payment`
 
-## 11. Speech, Accessibility, and Platform UX
+## 12. Speech, Accessibility, and Platform UX
 
 - User-facing functions:
   - text-to-speech
@@ -284,6 +327,7 @@ The platform is structured as a modular application monolith:
 The strongest current feature domains are:
 
 - chat assistant
+- help requests / help offers / matching
 - document agent workspace
 - retrieval-backed knowledge access
 - collaboration via rooms and invites

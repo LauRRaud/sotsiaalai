@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import BackIcon from "@/components/ui/icons/BackIcon";
-import { ChatBubbleIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
+import { ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
@@ -20,6 +20,17 @@ function detectMobileViewport() {
   return Boolean(matchWidth || matchCoarse || window.innerWidth <= 768);
 }
 
+function _getHelpLabels(locale = "et") {
+  const normalized = String(locale || "et").trim().toLowerCase();
+  if (normalized === "en") {
+    return { requests: "Help requests", offers: "Help offers" };
+  }
+  if (normalized === "ru") {
+    return { requests: "Запросы помощи", offers: "Предложения помощи" };
+  }
+  return { requests: "Abisoovid", offers: "Abipakkumised" };
+}
+
 export default function LeftRail({
   t,
   locale = "et",
@@ -32,6 +43,9 @@ export default function LeftRail({
   conversationSources,
   hasConversationSources,
   onBackHome,
+  activeHelpPanelKey = "",
+  onShowHelpRequests,
+  onShowHelpOffers,
   embedded = false,
   suspendPointerEvents = false
 }) {
@@ -65,11 +79,12 @@ export default function LeftRail({
     "{count}",
     String(conversationSources.length)
   );
-
   const items = useMemo(
     () => [
       { key: "back", label: t("chat.back_to_home") },
       { key: "chats", label: t("nav.chats") },
+      { key: "help_requests", label: t("chat.help.helpRequests") },
+      { key: "help_offers", label: t("chat.help.helpOffers") },
       { key: "sources", label: t("nav.sources") }
     ],
     [t]
@@ -217,12 +232,20 @@ export default function LeftRail({
   );
 
   useEffect(() => {
+    if (activeHelpPanelKey) {
+      const nextIndex = items.findIndex((item) => item.key === activeHelpPanelKey);
+      if (nextIndex >= 0) {
+        setActiveIndex(nextIndex);
+        return;
+      }
+    }
     if (showSourcesPanel) {
-      setActiveIndex(2);
+      const sourcesIndex = items.findIndex((item) => item.key === "sources");
+      setActiveIndex(sourcesIndex >= 0 ? sourcesIndex : 0);
       return;
     }
     setActiveIndex(0);
-  }, [showSourcesPanel]);
+  }, [activeHelpPanelKey, items, showSourcesPanel]);
 
   useEffect(() => {
     const shouldTrackTooltip = !isMobile;
@@ -461,6 +484,14 @@ export default function LeftRail({
               if (item.key === "sources") {
                 if (!hasConversationSources) return;
                 toggleSourcesPanel();
+                return;
+              }
+              if (item.key === "help_requests") {
+                onShowHelpRequests?.();
+                return;
+              }
+              if (item.key === "help_offers") {
+                onShowHelpOffers?.();
               }
             };
 
@@ -538,6 +569,18 @@ export default function LeftRail({
                   <SourcesIcon
                     isLightTheme={isLightTheme}
                     className={cn(styles.iconSvg, styles.iconSvgSources)}
+                  />
+                ) : null}
+                {item.key === "help_requests" ? (
+                  <HelpRequestIcon
+                    isLightTheme={isLightTheme}
+                    className={cn(styles.iconSvg, styles.iconHelp)}
+                  />
+                ) : null}
+                {item.key === "help_offers" ? (
+                  <HelpOfferIcon
+                    isLightTheme={isLightTheme}
+                    className={cn(styles.iconSvg, styles.iconHelp)}
                   />
                 ) : null}
                 {item.key === "back" ? (

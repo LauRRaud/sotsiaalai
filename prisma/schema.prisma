@@ -76,6 +76,46 @@ enum RoomMessageSenderType {
   ASSISTANT
 }
 
+enum MunicipalityType {
+  LINN
+  VALD
+}
+
+enum HelpRecordStatus {
+  DRAFT
+  OPEN
+  MATCHED
+  CLOSED
+  CANCELLED
+  ARCHIVED
+}
+
+enum HelpType {
+  VOLUNTARY
+  PAID
+  MIXED
+}
+
+enum TimeType {
+  ONE_TIME
+  RECURRING
+  FLEXIBLE
+}
+
+enum ClassificationSource {
+  AI
+  USER
+  MANUAL
+}
+
+enum HelpMatchStatus {
+  PENDING
+  CONTACTED
+  ACCEPTED
+  DECLINED
+  CLOSED
+}
+
 enum InviteStatus {
   PENDING_PAYMENT
   SENT
@@ -182,6 +222,8 @@ model User {
   sponsoredMembers     RoomMember[]        @relation("RoomMemberSponsorUser")
   acceptedInvites      Invite[]            @relation("InviteAcceptedBy")
   roomMessages         RoomMessage[]       @relation("RoomMessageAuthor")
+  helpRequests         HelpRequest[]
+  helpOffers           HelpOffer[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -485,6 +527,199 @@ model ChatLog {
   @@index([role, createdAt])
 }
 
+model Municipality {
+  id          String           @id @default(cuid())
+  slug        String           @unique
+  baseName    String
+  type        MunicipalityType
+  displayName String           @unique
+  county      String?
+  isActive    Boolean          @default(true)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  helpRequests HelpRequest[]
+  helpOffers   HelpOffer[]
+  @@index([baseName])
+  @@index([type])
+  @@index([isActive])
+}
+
+model HelpCategory {
+  id            String               @id @default(cuid())
+  code          String               @unique
+  labelEt       String
+  labelEn       String
+  labelRu       String
+  descriptionEt String?
+  descriptionEn String?
+  descriptionRu String?
+  sortOrder     Int                  @default(0)
+  isActive      Boolean              @default(true)
+  parentId      String?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  parent         HelpCategory?         @relation("HelpCategoryTree", fields: [parentId], references: [id])
+  children       HelpCategory[]        @relation("HelpCategoryTree")
+  requestPrimary HelpRequest[]         @relation("HelpRequestPrimaryCategory")
+  offerPrimary   HelpOffer[]           @relation("HelpOfferPrimaryCategory")
+  requestLinks   HelpRequestCategory[]
+  offerLinks     HelpOfferCategory[]
+
+  @@index([isActive])
+  @@index([sortOrder])
+  @@index([parentId])
+}
+
+model TargetGroup {
+  id           String                   @id @default(cuid())
+  code         String                   @unique
+  labelEt      String
+  labelEn      String
+  labelRu      String
+  isActive     Boolean                  @default(true)
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+
+  requestLinks HelpRequestTargetGroup[]
+  offerLinks   HelpOfferTargetGroup[]
+}
+
+model HelpRequest {
+  id                       String                 @id @default(cuid())
+  userId                   String
+  municipalityId           String?
+  primaryCategoryId        String
+  title                    String?
+  description              String                 @db.Text
+  structuredSummary        String?
+  roleLabel                String?
+  rawPlace                 String?
+  helpType                 HelpType?
+  timeType                 TimeType?
+  status                   HelpRecordStatus       @default(OPEN)
+  classificationSource     ClassificationSource   @default(AI)
+  classificationConfidence Float?
+  userConfirmedAt          DateTime?
+  createdAt                DateTime               @default(now())
+  updatedAt                DateTime               @updatedAt
+
+  user             User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  municipality     Municipality?            @relation(fields: [municipalityId], references: [id], onDelete: SetNull)
+  primaryCategory  HelpCategory             @relation("HelpRequestPrimaryCategory", fields: [primaryCategoryId], references: [id])
+  categoryLinks    HelpRequestCategory[]
+  targetGroupLinks HelpRequestTargetGroup[]
+  matches          HelpMatch[]
+
+  @@index([userId])
+  @@index([municipalityId])
+  @@index([primaryCategoryId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model HelpOffer {
+  id                       String                 @id @default(cuid())
+  userId                   String
+  municipalityId           String?
+  primaryCategoryId        String
+  title                    String?
+  description              String                 @db.Text
+  structuredSummary        String?
+  roleLabel                String?
+  rawPlace                 String?
+  helpType                 HelpType?
+  timeType                 TimeType?
+  status                   HelpRecordStatus       @default(OPEN)
+  classificationSource     ClassificationSource   @default(AI)
+  classificationConfidence Float?
+  userConfirmedAt          DateTime?
+  createdAt                DateTime               @default(now())
+  updatedAt                DateTime               @updatedAt
+
+  user             User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  municipality     Municipality?          @relation(fields: [municipalityId], references: [id], onDelete: SetNull)
+  primaryCategory  HelpCategory           @relation("HelpOfferPrimaryCategory", fields: [primaryCategoryId], references: [id])
+  categoryLinks    HelpOfferCategory[]
+  targetGroupLinks HelpOfferTargetGroup[]
+  matches          HelpMatch[]
+
+  @@index([userId])
+  @@index([municipalityId])
+  @@index([primaryCategoryId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model HelpRequestCategory {
+  requestId  String
+  categoryId String
+
+  request  HelpRequest  @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  category HelpCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([requestId, categoryId])
+  @@index([categoryId])
+}
+
+model HelpOfferCategory {
+  offerId    String
+  categoryId String
+
+  offer    HelpOffer    @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  category HelpCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([offerId, categoryId])
+  @@index([categoryId])
+}
+
+model HelpRequestTargetGroup {
+  requestId     String
+  targetGroupId String
+
+  request     HelpRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  targetGroup TargetGroup @relation(fields: [targetGroupId], references: [id], onDelete: Cascade)
+
+  @@id([requestId, targetGroupId])
+  @@index([targetGroupId])
+}
+
+model HelpOfferTargetGroup {
+  offerId       String
+  targetGroupId String
+
+  offer       HelpOffer   @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  targetGroup TargetGroup @relation(fields: [targetGroupId], references: [id], onDelete: Cascade)
+
+  @@id([offerId, targetGroupId])
+  @@index([targetGroupId])
+}
+
+model HelpMatch {
+  id            String          @id @default(cuid())
+  requestId     String
+  offerId       String
+  requesterId   String
+  offererId     String
+  roomId        String?         @unique
+  status        HelpMatchStatus @default(PENDING)
+  scoreSnapshot Float?
+  reasonsJson   Json?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  request HelpRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  offer   HelpOffer   @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  room    Room?       @relation(fields: [roomId], references: [id], onDelete: SetNull)
+
+  @@unique([requestId, offerId])
+  @@index([requesterId])
+  @@index([offererId])
+  @@index([roomId])
+  @@index([status])
+}
+
 model Room {
   id          String    @id @default(cuid())
   ownerId     String
@@ -497,6 +732,7 @@ model Room {
   members RoomMember[]
   invites Invite[]
   messages RoomMessage[]
+  helpMatch HelpMatch?
 
   @@index([ownerId])
 }

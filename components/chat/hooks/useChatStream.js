@@ -39,6 +39,28 @@ function normalizeAttachments(payload) {
     .filter(Boolean);
 }
 
+function normalizeCards(payload) {
+  if (!Array.isArray(payload)) return [];
+  return payload
+    .filter((item) => item && typeof item === "object")
+    .map((item) => {
+      const title = String(item.title || "").trim();
+      const subtitle = String(item.subtitle || "").trim();
+      const body = String(item.body || "").trim();
+      const meta = String(item.meta || "").trim();
+      const hint = String(item.hint || "").trim();
+      if (!title && !body) return null;
+      return {
+        ...(title ? { title } : {}),
+        ...(subtitle ? { subtitle } : {}),
+        ...(body ? { body } : {}),
+        ...(meta ? { meta } : {}),
+        ...(hint ? { hint } : {})
+      };
+    })
+    .filter(Boolean);
+}
+
 export function useChatStream(config) {
   const cfgRef = useRef(config);
 
@@ -150,6 +172,7 @@ export function useChatStream(config) {
     let visibleText = "";
     let sources = [];
     let attachments = [];
+    let cards = [];
     let streamTimer = null;
     let pushTimer = null;
 
@@ -320,6 +343,7 @@ export function useChatStream(config) {
           const normalize = cfg.normalizeSources || defaultNormalizeSources;
           const normSources = normalize(data?.sources);
           const attachments = normalizeAttachments(data?.attachments);
+          const cards = normalizeCards(data?.cards);
 
           cfg.setIsCrisis?.(!!data?.isCrisis);
 
@@ -328,6 +352,7 @@ export function useChatStream(config) {
             text: replyText,
             sources: normSources,
             attachments,
+            cards,
             aiVisible: true
           });
 
@@ -391,6 +416,7 @@ export function useChatStream(config) {
             try {
               const payload = ev?.data ? JSON.parse(ev.data) : {};
               attachments = normalizeAttachments(payload?.attachments);
+              cards = normalizeCards(payload?.cards);
             } catch {}
             break;
           }
@@ -403,6 +429,7 @@ export function useChatStream(config) {
           text: (visibleText || "").trim() || tr("chat.error.no_answer"),
           sources,
           attachments,
+          cards,
           isStreaming: false
         }));
 
@@ -451,6 +478,7 @@ export function useChatStream(config) {
               ...msg,
               text: errWithPrefix,
               sources: [],
+              cards: [],
               isStreaming: false
             }));
             streamingMessageId = null;

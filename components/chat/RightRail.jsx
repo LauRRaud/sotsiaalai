@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { AddPersonIcon, ChatBubbleIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
+import { AddPersonIcon, ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
@@ -21,6 +21,17 @@ function detectMobileViewport() {
   return Boolean(matchWidth || matchCoarse || window.innerWidth <= 768);
 }
 
+function _getHelpLabels(locale = "et") {
+  const normalized = String(locale || "et").trim().toLowerCase();
+  if (normalized === "en") {
+    return { myRequests: "My requests", myOffers: "My offers" };
+  }
+  if (normalized === "ru") {
+    return { myRequests: "Мои запросы", myOffers: "Мои предложения" };
+  }
+  return { myRequests: "Minu abisoovid", myOffers: "Minu abipakkumised" };
+}
+
 export default function RightRail({
   t,
   locale = "et",
@@ -34,6 +45,9 @@ export default function RightRail({
   conversationSources,
   hasConversationSources,
   onProfileToggle,
+  activeWorkspaceKey = "",
+  onShowMyHelpRequests,
+  onShowMyHelpOffers,
   embedded = false,
   suspendPointerEvents = false,
   suppressTooltip = false,
@@ -287,7 +301,6 @@ export default function RightRail({
   };
 
   const sourcesLabel = t("chat.sources.button").replace("{count}", String(conversationSources.length));
-
   const desktopItems = useMemo(() => {
     return [{
       key: "profile",
@@ -298,6 +311,12 @@ export default function RightRail({
     }, {
       key: "invite",
       label: t("nav.add_person")
+    }, {
+      key: "my_help_requests",
+      label: t("chat.help.myHelpRequests")
+    }, {
+      key: "my_help_offers",
+      label: t("chat.help.myHelpOffers")
     }];
   }, [t]);
 
@@ -315,6 +334,12 @@ export default function RightRail({
       key: "invite",
       label: t("nav.add_person")
     }, {
+      key: "my_help_requests",
+      label: t("chat.help.myHelpRequests")
+    }, {
+      key: "my_help_offers",
+      label: t("chat.help.myHelpOffers")
+    }, {
       key: "sources",
       label: t("nav.sources")
     }];
@@ -322,7 +347,7 @@ export default function RightRail({
   const items = viewportIsMobile ? mobileItems : desktopItems;
 
   const mobileSlots = useMemo(() => {
-    const order = ["chats", "sources", "rooms", "invite", "profile"];
+    const order = ["chats", "sources", "rooms", "invite", "my_help_requests", "my_help_offers", "profile"];
     return order.map(key => {
       const itemIndex = mobileItems.findIndex(item => item.key === key);
       if (itemIndex < 0) return null;
@@ -335,6 +360,14 @@ export default function RightRail({
   }, [mobileItems]);
 
   useEffect(() => {
+    if (activeWorkspaceKey) {
+      const nextIndex = items.findIndex((item) => item.key === activeWorkspaceKey);
+      if (nextIndex >= 0) {
+        setActiveIndex(nextIndex);
+        clearArmed();
+        return;
+      }
+    }
     const idx = (() => {
       if (!viewportIsMobile) {
         if (normalizedPathname.startsWith("/profiil")) return 0;
@@ -349,7 +382,7 @@ export default function RightRail({
     })();
     setActiveIndex(idx);
     clearArmed();
-  }, [normalizedPathname, clearArmed, viewportIsMobile]);
+  }, [activeWorkspaceKey, clearArmed, items, normalizedPathname, viewportIsMobile]);
 
   useEffect(() => {
     const shouldTrackTooltip = !isMobile;
@@ -628,6 +661,14 @@ export default function RightRail({
             openInvite();
             return;
           }
+          if (it.key === "my_help_requests") {
+            onShowMyHelpRequests?.();
+            return;
+          }
+          if (it.key === "my_help_offers") {
+            onShowMyHelpOffers?.();
+            return;
+          }
           if (it.key === "sources") {
             if (!hasConversationSources) return;
             toggleSourcesPanel();
@@ -674,7 +715,7 @@ export default function RightRail({
         clearArmed();
         performActivate(event);
       } : undefined} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
-              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : null}
+              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "my_help_requests" ? <HelpRequestIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : it?.key === "my_help_offers" ? <HelpOfferIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {displayLabel}
               </span>

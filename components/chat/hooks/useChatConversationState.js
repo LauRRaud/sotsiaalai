@@ -238,6 +238,9 @@ export function useChatConversationState({
       const serverAttachments = Array.isArray(data.attachments)
         ? data.attachments
         : [];
+      const serverCards = Array.isArray(data.cards)
+        ? data.cards
+        : [];
       const serverCrisis = !!data.isCrisis;
       const serverMessages = Array.isArray(data.messages) ? data.messages : [];
       setIsCrisis?.(serverCrisis);
@@ -256,6 +259,10 @@ export function useChatConversationState({
               attachments:
                 normalizedRole === "ai" && Array.isArray(msg.attachments)
                   ? msg.attachments
+                  : undefined,
+              cards:
+                normalizedRole === "ai" && Array.isArray(msg.cards)
+                  ? msg.cards
                   : undefined,
               isStreaming: false,
               ...(Number.isFinite(rawCreatedAt) ? {
@@ -297,6 +304,7 @@ export function useChatConversationState({
             text: serverTextTrim,
             sources: serverSources,
             attachments: serverAttachments,
+            cards: serverCards,
             isStreaming: false
           });
         } else {
@@ -307,6 +315,7 @@ export function useChatConversationState({
               text: serverTextTrim,
               sources: serverSources,
               attachments: serverAttachments,
+              cards: serverCards,
               isStreaming: false
             };
           }

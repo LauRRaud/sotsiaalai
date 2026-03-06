@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "description": "SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna spetsialistidele ja abivajajatele.",
   "author": "SotsiaalAI OÜ",
   "scripts": {
@@ -11,8 +14,11 @@
     "dev:no-turbo": "cross-env NODE_ENV=development next dev --webpack -p 3000",
     "portaal": "npm run dev",
     "test": "npm run i18n:check && npm run lint",
+    "test:help": "node --test tests/help/*.test.js",
     "db:push:local": "dotenv -e .env.local -- prisma db push",
+    "db:seed:local": "dotenv -e .env.local -- prisma db seed",
     "prisma:generate:local": "dotenv -e .env.local -- prisma generate",
+    "seed:municipalities": "node scripts/seed-municipalities.mjs",
     "dev:create-admin:sotsiaalai": "node scripts/create-admin.mjs --email \"admin@sotsiaal.ai\" --password \"sotsiaalai1\" --role ADMIN --admin",
     "build": "npm run i18n:check && next build",
     "start": "npm run env:check && cross-env NODE_ENV=production next start -p 3000",

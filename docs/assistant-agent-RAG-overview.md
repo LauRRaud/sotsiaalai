@@ -1,42 +1,53 @@
 # Assistant, Agent and RAG Overview
 
-Date: 2026-03-04
+Date: 2026-03-06
 
 This document describes the current AI architecture of the SotsiaalAI project:
 
-- the chat assistant
-- the document drafting agent
+- the main chat orchestrator
+- chat-native help and document workflows
 - the shared Python RAG service
 
 It reflects the current retrieval-first agent implementation and the current chat prompt / RAG configuration.
 
 ## High-Level Split
 
-The platform has two separate AI workflows:
+The intended product behavior is one continuous chat experience with internal
+mode switching.
 
-1. Chat assistant at `/vestlus`
-2. Document drafting agent at `/agendireziim`
+The current runtime split is:
+
+1. Main chat orchestrator at `/vestlus`
+2. Legacy document workspace at `/agendireziim`
 
 They share:
 
 - the OpenAI API
 - the Python RAG backend
-- some document extraction infrastructure
+- document extraction and retrieval infrastructure
+- conversation persistence
 
-But they solve different problems:
+Inside `/vestlus`, the orchestrator now routes between:
 
-- the assistant is a conversational, RAG-grounded answer system
-- the agent is a retrieval-first drafting workflow for user-selected documents
+- information / RAG guidance
+- help request creation
+- help offer creation
+- browse / retrieval
+- deterministic match handoff
+- document drafting entry into the existing document flow
 
-## 1. Chat Assistant
+The user does not choose assistant vs agent as separate products.
+
+## 1. Main Chat Orchestrator
 
 ### Purpose
 
-The assistant answers user questions in a chat interface using:
+The main chat route answers user questions and starts structured workflows using:
 
 - recent conversation turns
 - retrieved RAG evidence
 - optional uploaded-document context
+- workflow state persisted in conversation metadata
 
 ### Main files
 
@@ -47,10 +58,13 @@ The assistant answers user questions in a chat interface using:
 - `components/chat/hooks/useChatAnalysisController.js`
 - `app/api/chat/route.js`
 - `app/api/chat/run/route.js`
+- `lib/chat/orchestrationPolicy.js`
+- `lib/chat/documentOrchestration.js`
 - `lib/chat/promptBuilder.js`
 - `lib/chat/ragContext.js`
 - `lib/chat/settings.js`
 - `lib/chat/persistence.js`
+- `lib/help/chatWorkflow.js`
 
 ### Message flow
 
@@ -62,9 +76,27 @@ The assistant answers user questions in a chat interface using:
    - caps the model-facing user message
    - optionally retrieves RAG matches
    - optionally builds temporary document context from uploaded file chunks
-4. The backend builds the prompt and calls OpenAI.
-5. The response is streamed back via SSE.
-6. The conversation is persisted in the database.
+4. The backend chooses work mode and reasoning depth by policy.
+5. The backend builds the prompt and calls OpenAI.
+6. If help workflow is active, the backend can save listings, browse matches,
+   or create HelpMatch + Room on explicit action.
+7. The response is streamed back via SSE.
+8. The conversation is persisted in the database.
+
+### Current orchestration rule
+
+`GPT-5 mini` is treated as the main orchestration model behind the conversation
+page, but reasoning depth is chosen by server policy, not by the user.
+
+Current policy shape:
+
+- low
+  - browse, retrieval, connect, short RAG answers
+- medium
+  - help workflow refinement, structured guidance, confirmation summaries,
+    ordinary document drafting
+- high
+  - reports, formal drafting, deeper synthesis
 
 ### Current prompt structure
 
@@ -92,7 +124,51 @@ Current chat-side limits:
 
 These values are designed to keep quality reasonably high while still limiting prompt growth.
 
-## 2. Document Drafting Agent
+## 2. Help Workflows Inside Chat
+
+### Purpose
+
+The help domain lets the user create and work with:
+
+- help requests
+- help offers
+- ranked candidate matches
+- Room-based continuation after explicit connection
+
+### Main files
+
+- `lib/help/chatWorkflow.js`
+- `lib/help/requests.js`
+- `lib/help/offers.js`
+- `lib/help/matches.js`
+- `lib/help/listingViews.js`
+- `lib/help/locationNormalization.js`
+- `components/chat/LeftRail.jsx`
+- `components/chat/RightRail.jsx`
+- `components/chat/SelectedListingContext.jsx`
+- `components/alalehed/ChatBody.jsx`
+
+### Current architecture
+
+The help feature is chat-native:
+
+1. user writes a natural message
+2. intent detection starts request/offer workflow when appropriate
+3. draft state persists across turns
+4. only missing fields are asked
+5. confirmation happens before save
+6. after save, the same chat can browse matches or continue toward contact
+
+Matching is not done by AI over raw text.
+
+The backend does:
+
+- hard filters over structured fields
+- weighted ranking over structured fields
+- `HelpMatch` creation only on explicit user contact action
+- `Room` creation or reuse for real connection
+
+## 3. Document Drafting Workflow
 
 ### Purpose
 
@@ -186,7 +262,7 @@ The fallback excerpt keeps:
 
 This keeps fallback prompts bounded even when retrieval fails completely.
 
-## 3. Shared Python RAG Service
+## 4. Shared Python RAG Service
 
 ### Purpose
 
@@ -226,7 +302,7 @@ For the agent:
 - Python handles chunking and embeddings through `/ingest/text`
 - Python handles vector search through `/search`
 
-## 4. Agent Retrieval and Observability
+## 5. Document Retrieval and Observability
 
 The agent now includes internal observability for retrieval behavior.
 
@@ -281,7 +357,7 @@ Current persisted diagnostic fields include:
 
 These are stored in audit metadata, not exposed to end users.
 
-## 5. Data and Persistence
+## 6. Data and Persistence
 
 ### Chat
 
@@ -290,12 +366,24 @@ Chat persistence stores:
 - conversations
 - conversation messages
 - room messages
+- workflow metadata for help/document orchestration
 
 Main persistence file:
 
 - `lib/chat/persistence.js`
 
-### Agent
+### Help domain
+
+Help-domain persistence stores:
+
+- `Municipality`
+- `HelpCategory`
+- `TargetGroup`
+- `HelpRequest`
+- `HelpOffer`
+- `HelpMatch`
+
+### Documents
 
 Agent persistence stores:
 
@@ -308,13 +396,16 @@ Relevant schema:
 
 - `prisma/schema.prisma`
 
-## 6. What the User Sees vs What Stays Internal
+## 7. What the User Sees vs What Stays Internal
 
 ### User-facing
 
 Users see:
 
 - assistant responses
+- help request / help offer listing cards
+- selected listing detail context in chat
+- explicit contact actions that continue into Rooms
 - agent draft/refine results
 - artifact save/approve/export behavior
 
@@ -330,11 +421,12 @@ Users do not see:
 
 This is intentional.
 
-## 7. Current Production Position
+## 8. Current Production Position
 
 From an architecture perspective, the platform is now in a much stronger state than before:
 
-- chat prompt is smaller and more controlled
+- chat orchestration is centralized and policy-driven
+- help requests and offers are integrated into the main chat shell
 - agent is retrieval-first instead of sending huge raw source blobs by default
 - Python RAG remains the single embedding pipeline
 - fallback behavior preserves reliability
@@ -345,13 +437,18 @@ The current balance is:
 - more quality-oriented than the earlier strict cost-optimized configuration
 - still bounded enough to avoid obvious prompt explosion
 
-## 8. Important Note About Older Docs
+## 9. Important Note About Older Docs
 
 `docs/internal/agent-artifacts-flow.md` contains historical assumptions that are no longer fully accurate.
 
-Specifically, it says uploaded documents are out of scope for RAG retrieval in the agent workflow.
+Specifically:
 
-That is no longer true for the current implementation.
+- it predates the retrieval-first document workflow
+- it predates the single-chat orchestration policy
+- it predates the help request / help offer domain inside `/vestlus`
+
+Those older assumptions are no longer the source of truth for the current
+system.
 
 The current source of truth for the actual system behavior is:
 

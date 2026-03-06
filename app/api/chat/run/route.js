@@ -69,6 +69,28 @@ function normalizeAttachments(value) {
     .filter(Boolean);
 }
 
+function normalizeCards(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((item) => item && typeof item === "object")
+    .map((item) => {
+      const title = String(item.title || "").trim();
+      const subtitle = String(item.subtitle || "").trim();
+      const body = String(item.body || "").trim();
+      const meta = String(item.meta || "").trim();
+      const hint = String(item.hint || "").trim();
+      if (!title && !body) return null;
+      return {
+        ...(title ? { title } : {}),
+        ...(subtitle ? { subtitle } : {}),
+        ...(body ? { body } : {}),
+        ...(meta ? { meta } : {}),
+        ...(hint ? { hint } : {})
+      };
+    })
+    .filter(Boolean);
+}
+
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -183,6 +205,7 @@ export async function GET(req) {
               text: msg.content || "",
               sources: normalizedRole === "ai" ? normalizeSources(msg.metadata?.sources || []) : [],
               attachments: normalizedRole === "ai" ? normalizeAttachments(msg.metadata?.attachments) : [],
+              cards: normalizedRole === "ai" ? normalizeCards(msg.metadata?.cards) : [],
               createdAt: msg.createdAt
             };
           })
@@ -197,6 +220,7 @@ export async function GET(req) {
       text: latestAssistant?.content || conversation.summary || "",
       sources: normalizeSources(latestAssistant?.metadata?.sources || []),
       attachments: normalizeAttachments(latestAssistant?.metadata?.attachments),
+      cards: normalizeCards(latestAssistant?.metadata?.cards),
       isCrisis: !!latestAssistant?.metadata?.isCrisis,
       updatedAt: conversation.lastActivityAt,
       createdAt: conversation.createdAt,

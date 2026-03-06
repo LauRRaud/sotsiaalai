@@ -13,6 +13,7 @@ const ConversationView = memo(function ConversationView({
   onHideOlder,
   onJumpToBottom,
   messageItems,
+  contextNode,
   windowClassName: windowClassNameProp,
   mainClassName: mainClassNameProp,
   onWindowDoubleClick,
@@ -189,6 +190,8 @@ const ConversationView = memo(function ConversationView({
               {emptyIntroVisibleText}
             </div>
           ) : null}
+
+          {contextNode}
 
           {messageItems}
 

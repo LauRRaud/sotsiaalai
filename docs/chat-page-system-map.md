@@ -9,7 +9,7 @@ This document covers `/vestlus` end-to-end behavior:
 - voice features (`listen`, `speak`, `dictate`)
 - persistence and refresh behavior
 
-Date: 2026-02-15
+Date: 2026-03-06
 
 ## Frontend Structure
 
@@ -36,7 +36,33 @@ Primary hooks and responsibilities:
 Chat sidebar and drawer:
 - `components/ChatSidebar.jsx`
 - `components/alalehed/ConversationDrawer.jsx`
+- `components/chat/LeftRail.jsx`
 - `components/chat/RightRail.jsx`
+- `components/chat/HelpListingsPanel.jsx`
+- `components/chat/SelectedListingContext.jsx`
+
+## Page shell model
+
+The chat page is now intended to behave as:
+
+- LeftRail
+  - platform browsing
+  - chats
+  - help requests
+  - help offers
+- Chat area
+  - active work area
+  - AI conversation
+  - help workflows
+  - selected listing context
+  - Room conversation
+- RightRail
+  - personal workspace
+  - profile
+  - rooms
+  - add people
+  - my help requests
+  - my help offers
 
 ## End-to-End Flows
 
@@ -77,6 +103,27 @@ Result: no extra click is required after pressing "new conversation".
    - optional assistant relay uses `/api/chat` with `roomId`
 6. Backend persists assistant room message and publishes room event.
 
+### 5) Help requests and offers inside chat
+
+1. User writes natural language in the main composer.
+2. `POST /api/chat` detects help intent when appropriate.
+3. Help workflow state is loaded from persisted conversation metadata.
+4. The backend either:
+   - asks for missing request / offer fields
+   - shows confirmation before save
+   - saves a structured help record
+   - returns ranked browse candidates
+   - creates a `HelpMatch` and Room only on explicit connect action
+5. LeftRail can open global help requests / help offers panels.
+6. RightRail can open `my help requests` / `my help offers`.
+7. Selecting a listing opens a human-readable listing context in the chat area.
+8. From selected listing context the user can:
+   - contact / offer help
+   - edit own listing
+   - close own listing
+   - delete own listing
+   - ask AI about the selected listing
+
 ### 4) Voice flow (`listen`, `speak`, `dictate`)
 
 `listen/speak`:
@@ -107,6 +154,22 @@ Result: no extra click is required after pressing "new conversation".
 
 - `GET /api/chat/run?convId=...`
   - used by frontend to hydrate latest conversation state
+
+- `GET /api/help/listings`
+  - paged listing browse
+  - supports global or `scope=mine`
+
+- `GET /api/help/listings/{kind}/{id}`
+  - selected listing detail for chat context
+
+- `PATCH /api/help/listings/{kind}/{id}`
+  - owner edit and close actions
+
+- `DELETE /api/help/listings/{kind}/{id}`
+  - owner delete action
+
+- `POST /api/help/matches`
+  - explicit HelpMatch + Room creation
 
 - `GET/POST /api/chat/conversations`
   - list/create conversation shells
@@ -158,6 +221,10 @@ Result: no extra click is required after pressing "new conversation".
   - `conversation`
   - `conversationMessage`
   - `roomMessage`
+  - `municipality`
+  - `helpRequest`
+  - `helpOffer`
+  - `helpMatch`
   - `analyzeUsage`
 - Room event transport:
   - local in-memory subscribers
@@ -193,3 +260,5 @@ Result: no extra click is required after pressing "new conversation".
 4. Verify `listen/speak/dictate` in `et`, `ru`, `en`.
 5. Verify subscription and room membership gates.
 6. Verify conversation list refresh after each assistant reply.
+7. Verify LeftRail global help browse, RightRail my listings, and selected listing context.
+8. Verify explicit connect action opens or reuses a Room conversation.

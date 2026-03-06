@@ -1,6 +1,6 @@
 # Architecture Overview
 
-Date: 2026-03-04
+Date: 2026-03-06
 
 This is a concise implementation-based architecture summary of the SotsiaalAI
 project.
@@ -14,7 +14,7 @@ project.
   - `/` -> landing page
   - `/vestlus` -> chat
   - `/documents` -> documents and artifacts
-  - `/agendireziim` -> agent workspace
+  - `/agendireziim` -> legacy document-agent workspace
   - `/rooms` and `/room/[roomId]` -> rooms
   - `/admin/*` -> admin pages
 - Backend endpoints are implemented as route handlers under `app/api/*`.
@@ -60,6 +60,11 @@ project.
       `ChatLog`
   - Rooms and invites:
     - `Room`, `RoomMember`, `Invite`, `RoomMessage`
+  - Help mediation domain:
+    - `Municipality`, `HelpCategory`, `TargetGroup`
+    - `HelpRequest`, `HelpOffer`, `HelpMatch`
+    - `HelpRequestCategory`, `HelpOfferCategory`
+    - `HelpRequestTargetGroup`, `HelpOfferTargetGroup`
   - Documents and agent artifacts:
     - `UserDocument`, `AgentArtifact`, `AgentArtifactSourceDocument`,
       `DocumentAudit`
@@ -68,10 +73,14 @@ project.
 
 - `app/api/chat/route.js`
   - main chat orchestration endpoint
-  - performs auth, rate limiting, subscription checks, RAG retrieval, OpenAI
-    calls, streaming, and persistence
+  - performs auth, rate limiting, subscription checks, intent routing, RAG
+    retrieval, OpenAI calls, streaming, and persistence
 - `app/api/chat/conversations/*`
   - conversation lifecycle and message history
+- `app/api/help/listings/*`
+  - global and user-scoped help listing browse, detail, edit, close, delete
+- `app/api/help/matches/route.js`
+  - explicit HelpMatch + Room creation on user action
 - `app/api/documents/*`
   - document upload, retrieval, download, and metadata actions
 - `app/api/documents/artifacts/*`
@@ -91,6 +100,11 @@ embedded directly in route handlers.
 ## 5. AI Integration and RAG
 
 - Chat generation uses the OpenAI Responses API from `app/api/chat/route.js`.
+- GPT-5 mini acts as the primary chat-page orchestrator:
+  - chooses work mode by intent and workflow state
+  - chooses reasoning depth by server-side policy
+  - routes into guidance, help workflows, document workflows, browse, or room
+    continuation without exposing model mechanics to the user
 - Document artifact drafting and refinement use OpenAI through
   `lib/documents/generation.js`.
 - Deep research uses a planner -> retrieval -> synthesis pipeline in
@@ -112,11 +126,12 @@ embedded directly in route handlers.
   - pages, route handlers, root layout, error/loading boundaries
 - `components/`
   - frontend UI and feature components
-  - important areas: `chat`, `documents`, `rooms`, `agent`, `auth`, `ui`
+  - important areas: `chat`, `documents`, `rooms`, `agent`, `help`, `auth`,
+    `ui`
 - `lib/`
   - shared application logic grouped by domain
-  - key subfolders: `chat`, `documents`, `research`, `payments`, `auth`,
-    `admin`, `i18n`
+  - key subfolders: `chat`, `help`, `documents`, `research`, `payments`,
+    `auth`, `admin`, `i18n`
 - `prisma/`
   - schema and migrations
 - `rag-service/`
@@ -130,24 +145,53 @@ embedded directly in route handlers.
 - `generated/`
   - generated Prisma client output
 
-## 7. Clean Place for an "Agent Portal"
+## 7. Chat-Shell Product Shape
 
-The cleanest extension point is around the existing document-agent workspace,
-not inside the generic chat surface.
+The product direction is now a single-chat ecosystem, not separate assistant and
+agent products.
 
-- Current portal-like entrypoint:
-  - `app/agendireziim/page.js`
-  - `components/agent/AgentModePage.jsx`
-- Clean expansion path:
-  - add a dedicated route such as `app/agents/page.js` or evolve
-    `/agendireziim` into a fuller portal shell
-  - create a new bounded context under `app/api/agents/*` and `lib/agents/*`
-  - reuse existing modules from `lib/documents/*` and `lib/research/*`
-  - add dedicated Prisma models if workflow state is needed instead of
-    overloading `Conversation` or `AgentArtifact`
+The current intended shell is:
 
-That keeps the separation clean:
+- LeftRail
+  - platform browsing
+  - chats
+  - help requests
+  - help offers
+- Chat area
+  - active work area
+  - assistant answers
+  - help request / help offer workflows
+  - selected listing context
+  - Room-based person-to-person communication
+- RightRail
+  - personal workspace and communication controls
+  - profile
+  - rooms
+  - add people
+  - my help requests
+  - my help offers
 
-- chat remains conversational
-- documents and artifacts remain document-centric
-- a future agent portal becomes the orchestration layer above both
+The older `/agendireziim` route still exists for document work, but it is not
+the main product architecture for the new help domain.
+
+## 8. Help Requests and Offers in the Main Chat
+
+The new help mediation feature is implemented as a domain inside the main chat
+ecosystem:
+
+- user writes naturally in `/vestlus`
+- chat orchestrator detects intent
+- help workflow builds draft state across turns
+- user confirms before save
+- records are saved with structured fields
+- browsing happens through LeftRail and RightRail panels
+- candidate matching is deterministic backend logic
+- real contact creates a `HelpMatch` and reuses existing `Room` chat
+
+Important design rules now in code:
+
+- `municipalityId` is the structured saved location
+- `municipalities.rich.json` is the municipality source of truth
+- `HelpCategory` controls category semantics
+- `TargetGroup` is separate from category
+- matching is backend/domain logic, not AI free-form matching

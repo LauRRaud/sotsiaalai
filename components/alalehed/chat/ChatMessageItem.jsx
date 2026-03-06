@@ -6,6 +6,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   role,
   text,
   attachments,
+  cards,
   aiVisible: _aiVisible,
   authorName,
   authorRole: _authorRole,
@@ -51,6 +52,19 @@ const ChatMessageItem = memo(function ChatMessageItem({
         .filter(item => !!item.url)
     : [];
   const showAttachments = isAssistant && normalizedAttachments.length > 0;
+  const normalizedCards = Array.isArray(cards)
+    ? cards
+        .filter((item) => item && typeof item === "object")
+        .map((item) => ({
+          title: String(item.title || "").trim(),
+          subtitle: String(item.subtitle || "").trim(),
+          body: String(item.body || "").trim(),
+          meta: String(item.meta || "").trim(),
+          hint: String(item.hint || "").trim()
+        }))
+        .filter((item) => item.title || item.body)
+    : [];
+  const showCards = isAssistant && normalizedCards.length > 0;
   const attachmentsWrapClassName = "mt-[0.45rem] flex flex-wrap gap-[0.45rem]";
   const attachmentLinkClassName =
     "inline-flex items-center justify-center rounded-full border border-[rgba(240,240,240,0.45)] " +
@@ -58,6 +72,11 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "text-[color:var(--pt-150)] no-underline transition-colors duration-150 " +
     "hover:bg-[rgba(14,20,32,0.45)] focus-visible:bg-[rgba(14,20,32,0.45)] " +
     "light:border-[rgba(15,23,42,0.2)] light:bg-[rgba(255,255,255,0.75)] light:text-[color:var(--input-text)]";
+  const cardsWrapClassName = "mt-[0.55rem] grid gap-[0.55rem]";
+  const cardClassName =
+    "rounded-[1rem] border border-[rgba(240,240,240,0.18)] bg-[rgba(14,20,32,0.26)] " +
+    "px-[0.9rem] py-[0.78rem] text-left shadow-[0_0.32rem_0.85rem_rgba(5,8,15,0.12)] " +
+    "light:border-[rgba(15,23,42,0.12)] light:bg-[rgba(255,255,255,0.82)]";
   if (!isAssistant && !isOwn) {
     return <div className={messageWrapClassName} role="article" tabIndex={0}>
         {authorName ? <div className={nameClassName}>{authorName}</div> : null}
@@ -77,6 +96,19 @@ const ChatMessageItem = memo(function ChatMessageItem({
       </span>
 
       <div className="whitespace-pre-wrap">{text}</div>
+      {showCards ? (
+        <div className={cardsWrapClassName}>
+          {normalizedCards.map((item, idx) => (
+            <article key={`${item.title || item.body}-${idx}`} className={cardClassName}>
+              {item.title ? <div className="text-[0.98rem] font-semibold leading-[1.35]">{item.title}</div> : null}
+              {item.subtitle ? <div className="mt-[0.12rem] text-[0.82rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)]">{item.subtitle}</div> : null}
+              {item.body ? <div className="mt-[0.42rem] whitespace-pre-wrap text-[0.96rem] leading-[1.5]">{item.body}</div> : null}
+              {item.meta ? <div className="mt-[0.45rem] text-[0.82rem] opacity-80">{item.meta}</div> : null}
+              {item.hint ? <div className="mt-[0.38rem] text-[0.84rem] font-medium opacity-90">{item.hint}</div> : null}
+            </article>
+          ))}
+        </div>
+      ) : null}
       {showAttachments ? (
         <div className={attachmentsWrapClassName}>
           {normalizedAttachments.map((item, idx) => (

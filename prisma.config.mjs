@@ -9,7 +9,7 @@ export default defineConfig({
   // Migratsioonid (saab hiljem sättida, kui tahad seed'i jms)
   migrations: {
     path: "prisma/migrations",
-    // seed: 'node prisma/seed.js',  // kui sul on seedi skript
+    seed: "node prisma/seed.js",
   },
 
   // Andmebaasi ühendus CLI jaoks (migrate, studio, db push jne)

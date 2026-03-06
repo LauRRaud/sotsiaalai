@@ -193,6 +193,84 @@ export function SourcesIcon({ isLightTheme = false, className, ...props }) {
   );
 }
 
+export function HelpRequestIcon({ isLightTheme = false, className, ...props }) {
+  const stroke = resolveThemeColor(isLightTheme);
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+      {...props}
+    >
+      <rect
+        x="4.75"
+        y="4.5"
+        width="14.5"
+        height="15"
+        rx="3.2"
+        stroke={stroke}
+        strokeWidth="1.5"
+      />
+      <path
+        d="M8.15 8.95H15.85"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8.15 12.05H14.25"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8.15 15.15H12.95"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function HelpOfferIcon({ isLightTheme = false, className, ...props }) {
+  const stroke = resolveThemeColor(isLightTheme);
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+      {...props}
+    >
+      <rect
+        x="4.75"
+        y="4.5"
+        width="14.5"
+        height="15"
+        rx="3.2"
+        stroke={stroke}
+        strokeWidth="1.5"
+      />
+      <path
+        d="M8.1 12H15.9"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M12 8.1V15.9"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function ShowRailIcon({ isLightTheme = false, className, ...props }) {
   const color = resolveThemeColor(isLightTheme);
   return (

@@ -53,6 +53,18 @@ body.invite-modal-open .chat-page-shell {
   pointer-events: none !important;
 }
 
+body.help-listings-modal-open .chat-page-shell {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+body.selected-listing-modal-open .chat-page-shell {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 @media (max-width: 768px) {
   body.conversation-drawer-open .chat-page-shell {
     opacity: 0 !important;

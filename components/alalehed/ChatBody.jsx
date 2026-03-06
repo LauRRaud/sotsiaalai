@@ -15,6 +15,9 @@ import { prettifyFileName } from "@/components/chat/utils/sources";
 import { useChatInputHoleMask } from "@/components/chat/hooks/useChatInputHoleMask";
 import { useConversationSources } from "@/components/chat/hooks/useConversationSources";
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
+import HelpListingsPanel from "@/components/chat/HelpListingsPanel";
+import SelectedListingContext from "@/components/chat/SelectedListingContext";
+import { getHelpUiText } from "@/components/chat/helpUiText";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import { cn } from "@/components/ui/cn";
@@ -76,6 +79,24 @@ export default function ChatBody({
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
+  const helpUi = useMemo(() => getHelpUiText(t), [t]);
+  const [activeListingsPanel, setActiveListingsPanel] = useState(null);
+  const [listingsPanelState, setListingsPanelState] = useState({
+    items: [],
+    nextOffset: null,
+    loading: false,
+    error: ""
+  });
+  const [selectedListingState, setSelectedListingState] = useState({
+    loading: false,
+    error: "",
+    listing: null,
+    isOwn: false,
+    connectOptions: [],
+    selectedConnectListingId: "",
+    edit: null,
+    busyAction: ""
+  });
   const [isEntering, setIsEntering] = useState(false);
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
@@ -392,6 +413,394 @@ export default function ChatBody({
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
+  const patchListingCollections = useCallback((kind, listing, mode = "replace") => {
+    setListingsPanelState((prev) => {
+      const nextItems = prev.items.filter((item) => !(item.kind === kind && item.id === listing.id));
+      if (mode === "delete") {
+        return {
+          ...prev,
+          items: nextItems
+        };
+      }
+      return {
+        ...prev,
+        items: [listing, ...nextItems]
+      };
+    });
+    setSelectedListingState((prev) => {
+      if (!prev.listing || prev.listing.id !== listing.id || prev.listing.kind !== kind) return prev;
+      if (mode === "delete") {
+        return {
+          loading: false,
+          error: "",
+          listing: null,
+          isOwn: false,
+          connectOptions: [],
+          selectedConnectListingId: "",
+          edit: null,
+          busyAction: ""
+        };
+      }
+      return {
+        ...prev,
+        listing
+      };
+    });
+  }, []);
+  const loadListingsPanel = useCallback(async (panelConfig, options = {}) => {
+    if (!panelConfig) return;
+    const append = options?.append === true;
+    const offset = append
+      ? (Number.isFinite(Number(listingsPanelState.nextOffset)) ? Number(listingsPanelState.nextOffset) : 0)
+      : 0;
+
+    setListingsPanelState((prev) => ({
+      ...prev,
+      loading: true,
+      error: append ? prev.error : ""
+    }));
+
+    try {
+      const search = new URLSearchParams({
+        kind: panelConfig.kind,
+        scope: panelConfig.scope,
+        locale,
+        limit: "10"
+      });
+      if (offset > 0) search.set("offset", String(offset));
+      if (panelConfig.status) search.set("status", panelConfig.status);
+      const response = await fetch(`/api/help/listings?${search.toString()}`, {
+        cache: "no-store"
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || payload?.ok === false) {
+        throw new Error(helpUi.loadFailed);
+      }
+      setListingsPanelState((prev) => ({
+        items: append ? [...prev.items, ...(payload?.items || [])] : (payload?.items || []),
+        nextOffset: payload?.nextOffset ?? null,
+        loading: false,
+        error: ""
+      }));
+    } catch (error) {
+      setListingsPanelState((prev) => ({
+        ...prev,
+        loading: false,
+        error: error?.message || helpUi.loadFailed
+      }));
+    }
+  }, [helpUi.loadFailed, listingsPanelState.nextOffset, locale]);
+  const openListingsPanel = useCallback((panelConfig) => {
+    setShowSourcesPanel(false);
+    setActiveListingsPanel(panelConfig);
+  }, []);
+  const closeListingsPanel = useCallback(() => {
+    setActiveListingsPanel(null);
+    setListingsPanelState({
+      items: [],
+      nextOffset: null,
+      loading: false,
+      error: ""
+    });
+  }, []);
+  const openSelectedListing = useCallback(async (item) => {
+    const kind = String(item?.kind || "").trim().toLowerCase();
+    const id = String(item?.id || "").trim();
+    if (!kind || !id) return;
+    closeListingsPanel();
+    setSelectedListingState((prev) => ({
+      ...prev,
+      loading: true,
+      error: "",
+      edit: null,
+      busyAction: "",
+      selectedConnectListingId: "",
+      connectOptions: []
+    }));
+    try {
+      const response = await fetch(`/api/help/listings/${encodeURIComponent(kind)}/${encodeURIComponent(id)}?locale=${encodeURIComponent(locale)}`, {
+        cache: "no-store"
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || payload?.ok === false || !payload?.listing) {
+        throw new Error(helpUi.detailLoadFailed);
+      }
+
+      let connectOptions = [];
+      if (!payload.isOwn) {
+        const oppositeKind = kind === "request" ? "offer" : "request";
+        const optionsResponse = await fetch(`/api/help/listings?kind=${encodeURIComponent(oppositeKind)}&scope=mine&status=OPEN&locale=${encodeURIComponent(locale)}&limit=20`, {
+          cache: "no-store"
+        });
+        const optionsPayload = await optionsResponse.json().catch(() => ({}));
+        if (optionsResponse.ok && optionsPayload?.ok !== false) {
+          connectOptions = Array.isArray(optionsPayload?.items) ? optionsPayload.items : [];
+        }
+      }
+
+      setSelectedListingState({
+        loading: false,
+        error: "",
+        listing: payload.listing,
+        isOwn: Boolean(payload.isOwn),
+        connectOptions,
+        selectedConnectListingId: "",
+        edit: null,
+        busyAction: ""
+      });
+    } catch (error) {
+      setSelectedListingState({
+        loading: false,
+        error: error?.message || helpUi.detailLoadFailed,
+        listing: null,
+        isOwn: false,
+        connectOptions: [],
+        selectedConnectListingId: "",
+        edit: null,
+        busyAction: ""
+      });
+    }
+  }, [closeListingsPanel, helpUi.detailLoadFailed, locale]);
+  const dismissSelectedListing = useCallback(() => {
+    setSelectedListingState({
+      loading: false,
+      error: "",
+      listing: null,
+      isOwn: false,
+      connectOptions: [],
+      selectedConnectListingId: "",
+      edit: null,
+      busyAction: ""
+    });
+  }, []);
+  const startListingEdit = useCallback(() => {
+    setSelectedListingState((prev) => {
+      if (!prev.listing) return prev;
+      return {
+        ...prev,
+        edit: {
+          title: prev.listing.editableTitle || prev.listing.title || "",
+          description: prev.listing.editableDescription || prev.listing.description || "",
+          roleLabel: prev.listing.roleLabel || "",
+          helpType: prev.listing.helpType || "",
+          timeType: prev.listing.timeType || "",
+          targetGroups: Array.isArray(prev.listing.targetGroupLabels) ? prev.listing.targetGroupLabels.join(", ") : ""
+        }
+      };
+    });
+  }, []);
+  const changeListingEditField = useCallback((field, value) => {
+    setSelectedListingState((prev) => prev.edit ? {
+      ...prev,
+      edit: {
+        ...prev.edit,
+        [field]: value
+      }
+    } : prev);
+  }, []);
+  const saveListingEdit = useCallback(async (editPayload) => {
+    const listing = selectedListingState.listing;
+    if (!listing) return;
+    setSelectedListingState((prev) => ({
+      ...prev,
+      busyAction: "save",
+      error: ""
+    }));
+    try {
+      const response = await fetch(`/api/help/listings/${encodeURIComponent(listing.kind)}/${encodeURIComponent(listing.id)}?locale=${encodeURIComponent(locale)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: editPayload?.title,
+          description: editPayload?.description,
+          roleLabel: editPayload?.roleLabel,
+          helpType: editPayload?.helpType,
+          timeType: editPayload?.timeType,
+          targetGroups: Array.isArray(editPayload?.targetGroups) ? editPayload.targetGroups : []
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || payload?.ok === false || !payload?.listing) {
+        throw new Error(helpUi.updateFailed);
+      }
+      patchListingCollections(listing.kind, payload.listing);
+      setSelectedListingState((prev) => ({
+        ...prev,
+        listing: payload.listing,
+        edit: null,
+        busyAction: "",
+        error: ""
+      }));
+    } catch (error) {
+      setSelectedListingState((prev) => ({
+        ...prev,
+        busyAction: "",
+        error: error?.message || helpUi.updateFailed
+      }));
+    }
+  }, [helpUi.updateFailed, locale, patchListingCollections, selectedListingState.listing]);
+  const closeOwnedListing = useCallback(async () => {
+    const listing = selectedListingState.listing;
+    if (!listing) return;
+    setSelectedListingState((prev) => ({
+      ...prev,
+      busyAction: "close",
+      error: ""
+    }));
+    try {
+      const response = await fetch(`/api/help/listings/${encodeURIComponent(listing.kind)}/${encodeURIComponent(listing.id)}?locale=${encodeURIComponent(locale)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          status: "CLOSED"
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || payload?.ok === false || !payload?.listing) {
+        throw new Error(helpUi.updateFailed);
+      }
+      patchListingCollections(listing.kind, payload.listing);
+      setSelectedListingState((prev) => ({
+        ...prev,
+        listing: payload.listing,
+        busyAction: "",
+        error: ""
+      }));
+    } catch (error) {
+      setSelectedListingState((prev) => ({
+        ...prev,
+        busyAction: "",
+        error: error?.message || helpUi.updateFailed
+      }));
+    }
+  }, [helpUi.updateFailed, locale, patchListingCollections, selectedListingState.listing]);
+  const deleteOwnedListing = useCallback(async () => {
+    const listing = selectedListingState.listing;
+    if (!listing) return;
+    if (typeof window !== "undefined" && !window.confirm(helpUi.deleteConfirm)) return;
+    setSelectedListingState((prev) => ({
+      ...prev,
+      busyAction: "delete",
+      error: ""
+    }));
+    try {
+      const response = await fetch(`/api/help/listings/${encodeURIComponent(listing.kind)}/${encodeURIComponent(listing.id)}`, {
+        method: "DELETE"
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || payload?.ok === false) {
+        throw new Error(helpUi.deleteFailed);
+      }
+      patchListingCollections(listing.kind, listing, "delete");
+      dismissSelectedListing();
+    } catch (error) {
+      setSelectedListingState((prev) => ({
+        ...prev,
+        busyAction: "",
+        error: error?.message || helpUi.deleteFailed
+      }));
+    }
+  }, [dismissSelectedListing, helpUi.deleteConfirm, helpUi.deleteFailed, patchListingCollections, selectedListingState.listing]);
+  const connectSelectedListing = useCallback(async () => {
+    const listing = selectedListingState.listing;
+    const selectedConnectListingId = String(selectedListingState.selectedConnectListingId || "").trim();
+    if (!listing || !selectedConnectListingId) return;
+    setSelectedListingState((prev) => ({
+      ...prev,
+      busyAction: "connect",
+      error: ""
+    }));
+    try {
+      const payload = listing.kind === "request"
+        ? { requestId: listing.id, offerId: selectedConnectListingId }
+        : { requestId: selectedConnectListingId, offerId: listing.id };
+      const response = await fetch("/api/help/matches", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok || body?.ok === false || !body?.match) {
+        throw new Error(helpUi.connectFailed);
+      }
+      const roomTarget = body?.match?.roomId ? localizePath(`/room/${body.match.roomId}`, locale) : null;
+      setSelectedListingState((prev) => ({
+        ...prev,
+        busyAction: ""
+      }));
+      if (roomTarget) {
+        pushWithTransition(router, roomTarget);
+      }
+    } catch (error) {
+      setSelectedListingState((prev) => ({
+        ...prev,
+        busyAction: "",
+        error: error?.message || helpUi.connectFailed
+      }));
+    }
+  }, [helpUi.connectFailed, locale, router, selectedListingState.listing, selectedListingState.selectedConnectListingId]);
+  const askAiAboutListing = useCallback(() => {
+    const listing = selectedListingState.listing;
+    if (!listing) return;
+    const parts = [
+      helpUi.aiPromptPrefix,
+      listing.title,
+      listing.description || listing.summary || "",
+      listing.municipalityLabel || ""
+    ].filter(Boolean);
+    composerDraftApiRef.current?.appendText?.(`${parts.join("\n")}\n`);
+    focusInput();
+  }, [focusInput, helpUi.aiPromptPrefix, selectedListingState.listing]);
+  const openGlobalRequestsPanel = useCallback(() => {
+    openListingsPanel({
+      key: "help_requests",
+      side: "left",
+      kind: "request",
+      scope: "global",
+      title: helpUi.helpRequests,
+      emptyText: helpUi.emptyGlobalRequests
+    });
+  }, [helpUi.emptyGlobalRequests, helpUi.helpRequests, openListingsPanel]);
+  const openGlobalOffersPanel = useCallback(() => {
+    openListingsPanel({
+      key: "help_offers",
+      side: "left",
+      kind: "offer",
+      scope: "global",
+      title: helpUi.helpOffers,
+      emptyText: helpUi.emptyGlobalOffers
+    });
+  }, [helpUi.emptyGlobalOffers, helpUi.helpOffers, openListingsPanel]);
+  const openMyRequestsPanel = useCallback(() => {
+    openListingsPanel({
+      key: "my_help_requests",
+      side: "right",
+      kind: "request",
+      scope: "mine",
+      title: helpUi.myHelpRequests,
+      emptyText: helpUi.emptyMyRequests
+    });
+  }, [helpUi.emptyMyRequests, helpUi.myHelpRequests, openListingsPanel]);
+  const openMyOffersPanel = useCallback(() => {
+    openListingsPanel({
+      key: "my_help_offers",
+      side: "right",
+      kind: "offer",
+      scope: "mine",
+      title: helpUi.myHelpOffers,
+      emptyText: helpUi.emptyMyOffers
+    });
+  }, [helpUi.emptyMyOffers, helpUi.myHelpOffers, openListingsPanel]);
+  useEffect(() => {
+    if (!activeListingsPanel) return;
+    void loadListingsPanel(activeListingsPanel);
+  }, [activeListingsPanel, loadListingsPanel]);
   const requestConversationsRefresh = useCallback(() => {
     try {
       window.dispatchEvent(new CustomEvent("sotsiaalai:refresh-conversations"));
@@ -499,8 +908,46 @@ export default function ChatBody({
     return runDeepResearch(query);
   }, [runDeepResearch]);
   const messageItems = useMemo(() => {
-    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
+    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
   }, [isRoomMode, renderedMessages, t]);
+  const listingsPanelNode = activeListingsPanel ? (
+    <HelpListingsPanel
+      locale={locale}
+      title={activeListingsPanel.title}
+      side={activeListingsPanel.side}
+      items={listingsPanelState.items}
+      loading={listingsPanelState.loading}
+      error={listingsPanelState.error}
+      nextOffset={listingsPanelState.nextOffset}
+      emptyText={activeListingsPanel.emptyText}
+      onClose={closeListingsPanel}
+      onLoadMore={() => loadListingsPanel(activeListingsPanel, { append: true })}
+      onSelectItem={openSelectedListing}
+    />
+  ) : null;
+  const selectedListingContextNode = (selectedListingState.listing || selectedListingState.loading || selectedListingState.error) ? (
+    <SelectedListingContext
+      locale={locale}
+      loading={selectedListingState.loading}
+      error={selectedListingState.error}
+      listing={selectedListingState.listing}
+      isOwn={selectedListingState.isOwn}
+      editState={selectedListingState.edit}
+      connectOptions={selectedListingState.connectOptions}
+      selectedConnectListingId={selectedListingState.selectedConnectListingId}
+      busyAction={selectedListingState.busyAction}
+      onDismiss={dismissSelectedListing}
+      onAskAi={askAiAboutListing}
+      onStartEdit={startListingEdit}
+      onChangeEditField={changeListingEditField}
+      onCancelEdit={() => setSelectedListingState((prev) => ({ ...prev, edit: null, busyAction: "" }))}
+      onSaveEdit={saveListingEdit}
+      onCloseListing={closeOwnedListing}
+      onDeleteListing={deleteOwnedListing}
+      onSelectConnectListing={(value) => setSelectedListingState((prev) => ({ ...prev, selectedConnectListingId: value }))}
+      onConnect={connectSelectedListing}
+    />
+  ) : null;
   const isStreamingAny = useMemo(() => isGenerating || visibleMessages.some(m => m.role === "ai" && m.isStreaming), [isGenerating, visibleMessages]);
   useEffect(() => {
     setIsGeneratingForSave(isGenerating);
@@ -796,6 +1243,12 @@ export default function ChatBody({
     sourcesPulse={sourcesPulse}
     conversationSources={conversationSources}
     hasConversationSources={hasConversationSources}
+    leftRailActiveKey={activeListingsPanel?.side === "left" ? activeListingsPanel.key : ""}
+    rightRailActiveKey={activeListingsPanel?.side === "right" ? activeListingsPanel.key : ""}
+    onShowHelpRequests={openGlobalRequestsPanel}
+    onShowHelpOffers={openGlobalOffersPanel}
+    onShowMyHelpRequests={openMyRequestsPanel}
+    onShowMyHelpOffers={openMyOffersPanel}
     toggleProfile={toggleProfile}
     analysis={analysis}
     isRoomMode={isRoomMode}
@@ -814,6 +1267,8 @@ export default function ChatBody({
     onHideOlder={hideOlder}
     onJumpToBottom={handleJumpToBottom}
     messageItems={messageItems}
+    listingsPanelNode={listingsPanelNode}
+    selectedListingContextNode={selectedListingContextNode}
     emptyIntroText={!isRoomMode ? t("chat.empty_intro") : ""}
     onWindowDoubleClick={handleChatWindowDoubleClick}
     chatAnalysisPanelProps={chatAnalysisPanelProps}

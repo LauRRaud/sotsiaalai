@@ -3,6 +3,12 @@ import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
 import { pickReplyLang, langStrings, toResponsesInput, buildResponsesPayload } from "@/lib/chat/promptBuilder";
+import {
+  chooseOrchestrationPlan,
+  countClarifyingTurns,
+  inferRequestedThoroughness,
+  WORK_MODES
+} from "@/lib/chat/orchestrationPolicy";
 import { collapsePages, groupMatches, diversifyGroupsMMR, buildContextWithBudget, makeShortRef } from "@/lib/chat/ragContext";
 import { detectCrisis, isGreeting, groundingStrength } from "@/lib/chat/safety";
 import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence";
@@ -13,6 +19,11 @@ import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 import { AGENT_ARTIFACT_TYPE_VALUES, MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib/documents/constants";
 import { generateArtifactDraftContent, normalizeAgentLanguage } from "@/lib/documents/generation";
 import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability";
+import {
+  resolveDocumentTaskDecision
+} from "@/lib/chat/documentOrchestration";
+import { buildHelpWorkflowMetadata, runHelpChatWorkflow } from "@/lib/help/chatWorkflow";
+import { detectHelpChatIntent } from "@/lib/help/intents";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -54,6 +65,24 @@ const logError = (event, payload = {}) => {
     console.error("[chat]", event, payload);
   } catch {}
 };
+function buildOrchestrationMetadata(plan, extra = null) {
+  const orchestration = plan && typeof plan === "object"
+    ? {
+        mode: plan.mode || WORK_MODES.GENERAL_QUESTION,
+        step: plan.step || "detect",
+        complexity: plan.complexity || "normal",
+        reasoning: plan.reasoning || "medium",
+        capability: plan.capability || "assistant",
+        userVisibleMode: plan.userVisibleMode || "assistant"
+      }
+    : null;
+
+  if (!orchestration && !extra) return null;
+  return {
+    ...(extra && typeof extra === "object" ? extra : {}),
+    ...(orchestration ? { orchestration } : {})
+  };
+}
 function toOpenAiMessages(history, options = {}) {
   if (!Array.isArray(history) || history.length === 0) return [];
   const maxItems = Math.max(1, Number(options.maxItems) || CHAT_HISTORY_MAX_ITEMS);
@@ -325,7 +354,7 @@ function detectDocumentTaskIntent(message = "") {
   const hasType = /\b(aruan\w*|raport\w*|report\w*|kokkuv\w*|summary\w*|letter\w*|kiri\w*|memo\w*|checklist\w*|protokoll\w*|brief\w*|case\w*|vorm\w*|form\w*|taotlus\w*|avaldus\w*|vastus\w*)\b/.test(text);
   return hasAction && hasType;
 }
-function detectDocumentTaskFollowup(message = "") {
+function _detectDocumentTaskFollowup(message = "") {
   const text = normalizeIntentText(message);
   if (!text) return false;
   return /\b(mall|template|allik|source|tahtaeg|deadline|sihtr|audience|toon|tone|pikkus|length|keel|language|eesmark|goal|format|taotlus|vastus|vorm)\b/.test(text);
@@ -500,7 +529,7 @@ function buildDocumentTaskAttachments({ replyLang, artifactId = "", includeAgent
   if (includeAgentWorkspace) links.push({ label: labels.openAgent, url: "/agendireziim" });
   return links;
 }
-function buildDocumentTaskRuntimeConfig({ role = "SOCIAL_WORKER", replyLang = "et", history = [], message = "" }) {
+function _buildDocumentTaskRuntimeConfig({ role = "SOCIAL_WORKER", replyLang = "et", history = [], message = "" }) {
   const defaultAudience = role === "CLIENT" ? "client" : "worker";
   const inputs = collectRecentUserInputs(history, message, 8);
   const contextText = normalizeIntentText(inputs.join("\n"));
@@ -596,14 +625,14 @@ function buildDownloadAttachments({
     };
   });
 }
-function buildSseImmediateResponse({ sources = [], isCrisis = false, reply = "", attachments = [] }) {
+function buildSseImmediateResponse({ sources = [], isCrisis = false, reply = "", attachments = [], cards = [] }) {
   const enc = new TextEncoder();
   const sse = new ReadableStream({
     async start(controller) {
       try {
         controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources, isCrisis })}\n\n`));
         controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({ t: reply })}\n\n`));
-        controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({ attachments })}\n\n`));
+        controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({ attachments, cards })}\n\n`));
       } finally {
         try {
           controller.close();
@@ -665,7 +694,8 @@ async function callOpenAI({
   grounding,
   includeSources,
   replyLang,
-  isCrisis
+  isCrisis,
+  reasoningEffort
 }) {
   const {
     default: OpenAI
@@ -686,7 +716,8 @@ async function callOpenAI({
     isCrisis
   });
   const payload = buildResponsesPayload(input, {
-    stream: false
+    stream: false,
+    reasoningEffort
   });
   const resp = await client.responses.create(payload);
   const reply = resp.output_text && resp.output_text.trim() || "Sorry, I couldn't generate an answer right now.";
@@ -702,7 +733,8 @@ async function streamOpenAI({
   grounding,
   includeSources,
   replyLang,
-  isCrisis
+  isCrisis,
+  reasoningEffort
 }) {
   const {
     default: OpenAI
@@ -723,7 +755,8 @@ async function streamOpenAI({
     isCrisis
   });
   const payload = buildResponsesPayload(input, {
-    stream: true
+    stream: true,
+    reasoningEffort
   });
   const stream = await client.responses.stream(payload);
   async function* iterator() {
@@ -809,8 +842,8 @@ async function saveAssistantRoomMessage({
   } catch {}
   return payload;
 }
-async function persistDownloadAttachments(assistantMessageId, attachments) {
-  if (!assistantMessageId || !Array.isArray(attachments) || !attachments.length) return;
+async function mergeAssistantMessageMetadata(assistantMessageId, metadataPatch) {
+  if (!assistantMessageId || !metadataPatch || typeof metadataPatch !== "object") return;
   try {
     const existing = await prisma.conversationMessage.findUnique({
       where: {
@@ -828,7 +861,7 @@ async function persistDownloadAttachments(assistantMessageId, attachments) {
       data: {
         metadata: {
           ...baseMeta,
-          attachments
+          ...metadataPatch
         }
       }
     });
@@ -838,6 +871,11 @@ async function persistDownloadAttachments(assistantMessageId, attachments) {
       err: err?.message || String(err)
     });
   }
+}
+
+async function persistDownloadAttachments(assistantMessageId, attachments) {
+  if (!Array.isArray(attachments) || !attachments.length) return;
+  await mergeAssistantMessageMetadata(assistantMessageId, { attachments });
 }
 export async function POST(req) {
   const {
@@ -937,6 +975,9 @@ export async function POST(req) {
     userMessage: message,
     uiLocale
   });
+  const explicitHelpIntent = !roomId ? detectHelpChatIntent(message) : null;
+  const clarifyingTurns = countClarifyingTurns(rawHistory);
+  const requestedThoroughness = inferRequestedThoroughness(message);
   const L = langStrings(replyLang, normalizedRole);
   const isCrisis = detectCrisis(message);
   const hasHistory = Array.isArray(rawHistory) && rawHistory.length > 0;
@@ -955,21 +996,37 @@ export async function POST(req) {
     hasHistory,
     hasEphemeralDoc: !!ephemeralChunks.length,
     messageLength: message.length,
+    explicitHelpIntent: explicitHelpIntent || undefined,
+    clarifyingTurns,
+    requestedThoroughness,
     convId
   });
-  const historyHasDocumentTask = hasDocumentTaskContext(rawHistory);
-  const documentTaskStart = isDocumentStartCommand(message, rawHistory);
-  const documentTaskIntent =
-    detectDocumentTaskIntent(message) ||
-    (historyHasDocumentTask && (detectDocumentTaskFollowup(message) || documentTaskStart));
+  const documentDecision = resolveDocumentTaskDecision({
+    message,
+    history: rawHistory,
+    role: normalizedRole,
+    replyLang,
+    sourceCount: ephemeralChunks.length,
+    clarifyingTurns,
+    requestedThoroughness
+  });
+  const documentTaskIntent = documentDecision.isDocumentTask;
+  const documentPlan = documentDecision.plan;
+  if (documentPlan) {
+    logInfo("orchestration.plan", {
+      mode: documentPlan.mode,
+      step: documentPlan.step,
+      complexity: documentPlan.complexity,
+      reasoning: documentPlan.reasoning,
+      capability: documentPlan.capability
+    });
+  }
   if (userId && !roomId && documentTaskIntent) {
+    const documentMetadataExtra = buildOrchestrationMetadata(documentPlan);
     try {
-      const [taskConfig, taskDefaults] = buildDocumentTaskRuntimeConfig({
-        role: normalizedRole,
-        replyLang,
-        history: rawHistory,
-        message
-      });
+      const taskConfig = documentDecision.taskConfig;
+      const taskDefaults = documentDecision.taskDefaults;
+      const documentTaskStart = documentDecision.documentTaskStart;
       const documentsLimit = normalizedRole === "CLIENT"
         ? Math.min(CLIENT_AGENT_DOCUMENT_LIMIT, MAX_ARTIFACT_SOURCE_DOCUMENTS)
         : MAX_ARTIFACT_SOURCE_DOCUMENTS;
@@ -1049,7 +1106,8 @@ export async function POST(req) {
             finalText: reply,
             sources: [],
             attachments: [],
-            isCrisis: false
+            isCrisis: false,
+            metadataExtra: documentMetadataExtra
           });
           await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
         }
@@ -1096,7 +1154,8 @@ export async function POST(req) {
             finalText: reply,
             sources: [],
             attachments: [],
-            isCrisis: false
+            isCrisis: false,
+            metadataExtra: documentMetadataExtra
           });
           await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
         }
@@ -1142,7 +1201,8 @@ export async function POST(req) {
             finalText: reply,
             sources: [],
             attachments: [],
-            isCrisis: false
+            isCrisis: false,
+            metadataExtra: documentMetadataExtra
           });
           await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
         }
@@ -1172,7 +1232,8 @@ export async function POST(req) {
         audience: taskConfig.audience,
         tone: taskConfig.tone,
         language: taskConfig.language,
-        length: taskConfig.length
+        length: taskConfig.length,
+        reasoningEffort: documentPlan?.reasoning
       });
       const content = String(generated?.content || "").trim();
       if (!content) throw new Error("documents.artifacts.errors.ai_empty");
@@ -1248,7 +1309,8 @@ export async function POST(req) {
           finalText: reply,
           sources,
           attachments: [],
-          isCrisis: false
+          isCrisis: false,
+          metadataExtra: documentMetadataExtra
         });
         await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
       }
@@ -1303,7 +1365,8 @@ export async function POST(req) {
           finalText: reply,
           sources: [],
           attachments: [],
-          isCrisis: false
+          isCrisis: false,
+          metadataExtra: documentMetadataExtra
         });
         await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
       }
@@ -1323,6 +1386,87 @@ export async function POST(req) {
         isCrisis: false,
         reply,
         attachments
+      });
+    }
+  }
+  if (userId && !roomId) {
+    const helpResult = await runHelpChatWorkflow({
+      message,
+      convId,
+      userId,
+      replyLang
+    }, prisma);
+
+    if (helpResult?.handled) {
+      const reply = String(helpResult.reply || "").trim();
+      const attachments = Array.isArray(helpResult.attachments) ? helpResult.attachments : [];
+      const cards = Array.isArray(helpResult.cards) ? helpResult.cards : [];
+      const sources = Array.isArray(helpResult.sources) ? helpResult.sources : [];
+      const helpPlan = chooseOrchestrationPlan({
+        intent: helpResult?.workflowState?.intent || explicitHelpIntent || WORK_MODES.CREATE_HELP_REQUEST,
+        message,
+        workflowState: helpResult?.workflowState || null,
+        clarifyingTurns,
+        requestedThoroughness
+      });
+      logInfo("orchestration.plan", {
+        mode: helpPlan.mode,
+        step: helpPlan.step,
+        complexity: helpPlan.complexity,
+        reasoning: helpPlan.reasoning,
+        capability: helpPlan.capability
+      });
+      const metadataExtra = buildOrchestrationMetadata(
+        helpPlan,
+        buildHelpWorkflowMetadata(helpResult.workflowState)
+      );
+
+      if (persist && convId && userId) {
+        await persistInit({
+          convId,
+          userId,
+          role: normalizedRole,
+          sources,
+          isCrisis: false,
+          userMessage: message
+        });
+        await persistAppend({
+          convId,
+          userId,
+          fullText: reply
+        });
+        await persistDone({
+          convId,
+          userId,
+          status: "COMPLETED",
+          finalText: reply,
+          sources,
+          attachments,
+          cards,
+          metadataExtra,
+          isCrisis: false
+        });
+      }
+
+      if (!wantStream) {
+        return NextResponse.json({
+          ok: true,
+          reply,
+          answer: reply,
+          sources,
+          attachments,
+          cards,
+          isCrisis: false,
+          convId: convId || undefined
+        });
+      }
+
+      return buildSseImmediateResponse({
+        sources,
+        isCrisis: false,
+        reply,
+        attachments,
+        cards
       });
     }
   }
@@ -1560,6 +1704,26 @@ export async function POST(req) {
   } else {
     sources = ragSources;
   }
+  const genericIntent =
+    explicitHelpIntent === "service_guidance"
+      ? WORK_MODES.SERVICE_GUIDANCE
+      : WORK_MODES.GENERAL_QUESTION;
+  const mainOrchestrationPlan = chooseOrchestrationPlan({
+    intent: genericIntent,
+    message,
+    clarifyingTurns,
+    requestedThoroughness,
+    sourceCount: Number(chosen.length || 0) + Number(docContextResult.usedChunks || 0),
+    hybridTask: genericIntent === WORK_MODES.SERVICE_GUIDANCE && hasDocumentTaskContext(rawHistory)
+  });
+  logInfo("orchestration.plan", {
+    mode: mainOrchestrationPlan.mode,
+    step: mainOrchestrationPlan.step,
+    complexity: mainOrchestrationPlan.complexity,
+    reasoning: mainOrchestrationPlan.reasoning,
+    capability: mainOrchestrationPlan.capability
+  });
+  const mainMetadataExtra = buildOrchestrationMetadata(mainOrchestrationPlan);
   if (!context || !context.trim()) {
     const out = isCrisis ? L.crisisNoCtx : L.noContext;
     let attachments = [];
@@ -1597,6 +1761,7 @@ export async function POST(req) {
         finalText: out,
         sources,
         attachments: [],
+        metadataExtra: mainMetadataExtra,
         isCrisis
       });
       if (wantsDocumentDownload) {
@@ -1677,7 +1842,8 @@ export async function POST(req) {
         grounding,
         includeSources,
         replyLang,
-        isCrisis
+        isCrisis,
+        reasoningEffort: mainOrchestrationPlan.reasoning
       });
       let attachments = [];
       if (persist && convId && userId) {
@@ -1693,6 +1859,7 @@ export async function POST(req) {
           finalText: aiResult.reply,
           sources,
           attachments: [],
+          metadataExtra: mainMetadataExtra,
           isCrisis
         });
         if (wantsDocumentDownload) {
@@ -1796,7 +1963,8 @@ export async function POST(req) {
           grounding,
           includeSources,
           replyLang,
-          isCrisis
+          isCrisis,
+          reasoningEffort: mainOrchestrationPlan.reasoning
         });
         for await (const ev of iter) {
           if (ev.type === "delta" && ev.text) {
@@ -1825,6 +1993,7 @@ export async function POST(req) {
                 finalText: accumulated,
                 sources,
                 attachments: [],
+                metadataExtra: mainMetadataExtra,
                 isCrisis
               });
               if (wantsDocumentDownload) {
