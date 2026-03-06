@@ -37,7 +37,7 @@ function SelectField({ label, value, onChange, options = [] }) {
       <select
         value={value}
         onChange={onChange}
-        className="min-h-[3rem] rounded-[1rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[0.95rem] py-[0.62rem] text-[1rem] text-[color:var(--glass-modal-text)] outline-none [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.44)]"
+        className="min-h-[3rem] rounded-[1rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[0.95rem] py-[0.62rem] text-[1rem] text-[color:var(--glass-modal-text)] outline-none [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)]"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -118,7 +118,7 @@ export default function SelectedListingContext({
       closeOnOverlayClick
       aria-label={listing?.title || ui.selectedListing}
       className="selected-listing-modal-overlay z-[142] bg-transparent max-[768px]:p-0 max-[768px]:items-stretch"
-      contentClassName="selected-listing-modal-content !w-[min(100%,52rem)] !max-w-[clamp(34rem,60vw,44rem)] relative overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] leading-[1.35] tracking-[0.024rem] max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!max-h-[100dvh] max-[768px]:!rounded-none max-[768px]:!px-[0.3rem] max-[768px]:!pt-[0.35rem] max-[768px]:!pb-[calc(env(safe-area-inset-bottom,0px)+0.8rem)]"
+      contentClassName="selected-listing-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] relative overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] leading-[1.35] tracking-[0.024rem] max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!max-h-[100dvh] max-[768px]:!rounded-none max-[768px]:!px-[0.3rem] max-[768px]:!pt-[0.35rem] max-[768px]:!pb-[calc(env(safe-area-inset-bottom,0px)+0.8rem)]"
     >
       <BackButton
         onClick={onDismiss}
@@ -128,15 +128,15 @@ export default function SelectedListingContext({
 
       <header className="flex items-start justify-center">
         <div className="flex flex-col items-center">
-          <div className="mt-[0.65rem] text-[0.82rem] uppercase tracking-[0.12em] text-[color:var(--title-color,var(--brand-primary))] opacity-76 max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)]">
+          <div className="mt-[0.7rem] text-[0.82rem] uppercase tracking-[0.12em] text-[color:var(--title-color,var(--brand-primary))] opacity-76 max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)]">
             {isOwn ? ui.ownListing : ui.selectedListing}
           </div>
           <h2 className={`${glassPageTitleClassName} !mb-0 !mt-[0.5rem] max-[768px]:!mt-[0.5rem]`}>
             {loading ? ui.loading : listing?.title || ui.selectedListing}
           </h2>
-          {listing?.municipalityLabel ? (
-            <p className="mt-[0.8rem] text-[1.08rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:text-[1.12rem]">
-              {listing.municipalityLabel}
+          {listing?.municipalityLabel || listing?.statusLabel ? (
+            <p className="mt-[0.82rem] text-[1.08rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:text-[1.12rem]">
+              {[listing?.municipalityLabel, listing?.statusLabel].filter(Boolean).join(" | ")}
             </p>
           ) : null}
         </div>
@@ -159,7 +159,6 @@ export default function SelectedListingContext({
                   {metaLine}
                 </div>
               ) : null}
-              {listing.statusLabel ? <div className="text-[0.88rem] opacity-72">{listing.statusLabel}</div> : null}
 
               {editState ? (
                 <div className="grid gap-[0.8rem] pt-[0.35rem]">
@@ -176,7 +175,7 @@ export default function SelectedListingContext({
                       value={descriptionValue}
                       onChange={(event) => onChangeEditField?.("description", event.target.value)}
                       rows={5}
-                      className="rounded-[1rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[0.95rem] py-[0.78rem] text-[1rem] text-[color:var(--glass-modal-text)] outline-none [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.44)]"
+                      className="rounded-[1rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[0.95rem] py-[0.78rem] text-[1rem] text-[color:var(--glass-modal-text)] outline-none [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)]"
                     />
                   </label>
                   <div className="grid gap-[0.8rem] md:grid-cols-2">
@@ -217,11 +216,11 @@ export default function SelectedListingContext({
                       aria-label={ui.targetGroups}
                     />
                   </div>
-                  <div className="flex flex-wrap justify-center gap-[0.6rem] pt-[0.2rem]">
-                    <Button type="button" variant="primary" onClick={() => onSaveEdit?.({ ...editState, targetGroups: splitTargetGroups(targetGroupsValue) })}>
+                  <div className="flex flex-wrap justify-center gap-[0.6rem] pt-[0.25rem]">
+                    <Button type="button" variant="primary" size="md" onClick={() => onSaveEdit?.({ ...editState, targetGroups: splitTargetGroups(targetGroupsValue) })}>
                       {ui.save}
                     </Button>
-                    <Button type="button" variant="ghost" onClick={onCancelEdit}>
+                    <Button type="button" variant="ghost" size="md" onClick={onCancelEdit}>
                       {ui.cancel}
                     </Button>
                   </div>
@@ -230,14 +229,17 @@ export default function SelectedListingContext({
 
               {!editState && isOwn ? (
                 <div className="flex flex-wrap justify-center gap-[0.6rem] pt-[0.4rem]">
-                  <Button type="button" variant="primary" onClick={onStartEdit}>
+                  <Button type="button" variant="primary" size="md" onClick={onStartEdit}>
                     {ui.edit}
                   </Button>
-                  <Button type="button" variant="ghost" onClick={onCloseListing} disabled={busyAction === "close" || listing.status === "CLOSED"}>
+                  <Button type="button" variant="ghost" size="md" onClick={onCloseListing} disabled={busyAction === "close" || listing.status === "CLOSED"}>
                     {ui.closeListing}
                   </Button>
-                  <Button type="button" variant="danger" onClick={onDeleteListing} disabled={busyAction === "delete"}>
+                  <Button type="button" variant="danger" size="md" onClick={onDeleteListing} disabled={busyAction === "delete"}>
                     {ui.delete}
+                  </Button>
+                  <Button type="button" variant="ghost" size="md" onClick={onAskAi}>
+                    {ui.askAi}
                   </Button>
                 </div>
               ) : null}
@@ -258,21 +260,13 @@ export default function SelectedListingContext({
                     ]}
                   />
                   <div className="flex flex-wrap justify-center gap-[0.6rem]">
-                    <Button type="button" variant="primary" onClick={onConnect} disabled={connectDisabled}>
+                    <Button type="button" variant="primary" size="md" onClick={onConnect} disabled={connectDisabled}>
                       {busyAction === "connect" ? `${kindActionLabel}...` : kindActionLabel}
                     </Button>
-                    <Button type="button" variant="ghost" onClick={onAskAi}>
+                    <Button type="button" variant="ghost" size="md" onClick={onAskAi}>
                       {ui.askAi}
                     </Button>
                   </div>
-                </div>
-              ) : null}
-
-              {!editState && isOwn ? (
-                <div className="flex justify-center pt-[0.2rem]">
-                  <Button type="button" variant="ghost" onClick={onAskAi}>
-                    {ui.askAi}
-                  </Button>
                 </div>
               ) : null}
             </div>
