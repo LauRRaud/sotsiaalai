@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node --import tsx prisma/seed.js"
   },
   "description": "SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna spetsialistidele ja abivajajatele.",
   "author": "SotsiaalAI OÜ",
@@ -14,7 +14,7 @@
     "dev:no-turbo": "cross-env NODE_ENV=development next dev --webpack -p 3000",
     "portaal": "npm run dev",
     "test": "npm run i18n:check && npm run lint",
-    "test:help": "node --test tests/help/*.test.js",
+    "test:help": "node --import tsx --test tests/help/*.test.js",
     "db:push:local": "dotenv -e .env.local -- prisma db push",
     "db:seed:local": "dotenv -e .env.local -- prisma db seed",
     "prisma:generate:local": "dotenv -e .env.local -- prisma generate",
@@ -92,7 +92,8 @@
     "globals": "^17.0.0",
     "postcss-safe-parser": "^7.0.1",
     "prettier": "3.6.2",
-    "prisma": "^7.3.0"
+    "prisma": "^7.3.0",
+    "tsx": "^4.20.6"
   },
   "browserslist": [
     "last 2 Chrome versions",
