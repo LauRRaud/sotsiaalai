@@ -95,6 +95,16 @@ project.
 - `app/api/admin/*`
   - analytics, retrieval stats, payment alert dispatch, and RAG admin features
 
+Subscription and invite behavior now includes a dedicated one-month sponsored
+access path:
+
+- a room owner can pay one month of access for an invited person
+- sponsored checkout is blocked if the invitee already has their own active
+  subscription
+- sponsored access does not auto-convert into ongoing self-paid billing
+- room access for `SPONSORED_BY_HOST` membership is revalidated against active
+  subscription state, not just room membership metadata
+
 Business logic is intentionally pushed into `lib/*` modules instead of being
 embedded directly in route handlers.
 
@@ -196,6 +206,12 @@ The current intended shell is:
 `/agendireziim` still exists as the dedicated document workspace and also acts
 as the primary results surface for the client role.
 
+`/tellimus` is also the user-facing status surface for sponsored access:
+
+- it shows the sponsored-until date
+- warns when sponsored access is close to ending
+- prompts the user to activate their own subscription after expiry
+
 Current role-based document result behavior:
 
 - `SOCIAL_WORKER`
@@ -208,6 +224,8 @@ Current role-based document result behavior:
     active draft are shown
 - DOCX/PDF download remains available only after approval (`FINAL`), not while
   the artifact is still a draft
+- artifact list endpoints now return lighter list payloads by default; full
+  draft content is fetched on demand from artifact detail endpoints
 
 ## 8. Help Requests and Offers in the Main Chat
 

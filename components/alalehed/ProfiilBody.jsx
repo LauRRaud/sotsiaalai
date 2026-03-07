@@ -18,6 +18,7 @@ import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
@@ -66,10 +67,10 @@ const orbitLayerClassName =
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
   "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
-  "min-[48.0625em]:[--orbit-item-size:clamp(4.35rem,8.4vw,5.4rem)] min-[48.0625em]:[--orbit-item-size-open:clamp(4.6rem,8.9vw,5.75rem)] " +
+  "min-[48.0625em]:[--orbit-item-size:clamp(4.35rem,calc(var(--profile-diameter,34rem)*0.128),5.4rem)] min-[48.0625em]:[--orbit-item-size-open:clamp(4.6rem,calc(var(--profile-diameter,34rem)*0.136),5.75rem)] " +
   "min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem] " +
-  "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] min-[48.0625em]:[--orbit-size:clamp(16.6rem,33vw,22.8rem)] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
-  "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,15vw,10.4rem)] " +
+  "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] min-[48.0625em]:[--orbit-size:clamp(16.6rem,calc(var(--profile-diameter,34rem)*0.47),22.8rem)] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
+  "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,calc(var(--profile-diameter,34rem)*0.235),10.4rem)] " +
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
   "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
@@ -109,6 +110,9 @@ const noteClassName =
 const noteRowClassName = "mt-[0.75rem]";
 const noteCenterClassName = "w-[min(32rem,100%)] mx-auto";
 const errorStateClassName = "flex-1 w-full flex items-center justify-center";
+const modalInputWrapClassName = "flex w-full justify-center";
+const modalInputClassName =
+  "w-full max-w-[22rem] rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.15rem] py-[0.9rem] px-[1.35rem] min-h-[3.45rem]";
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {
   soft:
@@ -339,6 +343,7 @@ export default function ProfiilBody({
   const [profileUser, setProfileUser] = useState(initialProfileUser);
   const [_hasPassword, setHasPassword] = useState(!!initialProfileUser?.hasPassword);
   const [showDelete, setShowDelete] = useState(false);
+  const [deletePin, setDeletePin] = useState("");
   const [loading, setLoading] = useState(!initialProfile);
   const [loadFailed, setLoadFailed] = useState(false);
   const [error, setError] = useState("");
@@ -647,6 +652,7 @@ export default function ProfiilBody({
     onClick: () => {
       setError("");
       setDeleting(false);
+      setDeletePin("");
       setShowDelete(true);
     }
   }, {
@@ -869,25 +875,42 @@ export default function ProfiilBody({
 
       <div ref={profileFormRef}>
 
-        {error && <div role="alert" className={cn(noteClassName, noteRowClassName)}>
+        {error && !showDelete && <div role="alert" className={cn(noteClassName, noteRowClassName)}>
             {error}
           </div>}
       </div>
 
-      {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")} cancelLabel={t("buttons.cancel")} onConfirm={async () => {
+      {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmVariant="danger" confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")} cancelLabel={t("buttons.cancel")} onConfirm={async () => {
       if (deleting) return;
       setError("");
+      const normalizedDeletePin = deletePin.replace(/\D/g, "");
+      if (!normalizedDeletePin) {
+        setError(t("profile.errors.current_pin_required"));
+        return;
+      }
       setDeleting(true);
       try {
         const res = await fetch("/api/profile", {
-          method: "DELETE"
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            currentPassword: normalizedDeletePin,
+            locale
+          })
         });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(payload?.error || payload?.message || t("profile.delete_failed"));
+          setError(resolveApiMessage({
+            payload,
+            t,
+            fallbackKey: "profile.delete_failed"
+          }));
           setDeleting(false);
           return;
         }
+        setDeletePin("");
         setShowDelete(false);
         const signOutResult = await signOut({
           redirect: false,
@@ -902,7 +925,32 @@ export default function ProfiilBody({
       }
     }} onCancel={() => {
       if (deleting) return;
+      setDeletePin("");
       setShowDelete(false);
-    }} disabled={deleting} />}
+    }} disabled={deleting}>
+        <div className={modalInputWrapClassName}>
+          <label htmlFor="delete-current-pin" className="sr-only">
+            {t("profile.current_pin_label")}
+          </label>
+          <input
+            id="delete-current-pin"
+            name="delete-current-pin"
+            type="password"
+            autoComplete="current-password"
+            inputMode="numeric"
+            className={modalInputClassName}
+            placeholder={t("profile.current_pin_label")}
+            value={deletePin}
+            onChange={(e) => setDeletePin(e.target.value.replace(/\D/g, "").slice(0, 8))}
+            disabled={deleting}
+            aria-describedby={error ? "profile-delete-error" : undefined}
+          />
+        </div>
+        {error ? (
+          <p id="profile-delete-error" role="alert" className={cn(noteClassName, "mt-1 text-center")}>
+            {error}
+          </p>
+        ) : null}
+    </ModalConfirm>}
     </ProfileShell>;
 }

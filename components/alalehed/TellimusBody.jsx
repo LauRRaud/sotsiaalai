@@ -72,30 +72,19 @@ export default function TellimusBody() {
   const isVerifiedEntry = reason === "email-verified";
   const isAuthed = status === "authenticated" || !!session?.user;
   const hasPaymentNotice = Boolean(info || error);
-  const planRoleLabel = planRole === "SOCIAL_WORKER"
-    ? locale === "ru"
-      ? "специалист по социальной работе"
-      : locale === "en"
-        ? "social work specialist"
-        : "sotsiaaltöö spetsialist"
-    : locale === "ru"
-      ? "человек с жизненными вопросами"
-      : locale === "en"
-        ? "person seeking help"
-        : "eluküsimusega pöörduja";
+  const planRoleLabel =
+    planRole === "SOCIAL_WORKER" ? t("role.worker") : t("role.client");
   const subscriptionInfoText = monthlyAmountLabel
-    ? locale === "ru"
-      ? `Для использования SotsiaalAI нужна ежемесячная подписка. Для роли "${planRoleLabel}" стоимость составляет ${monthlyAmountLabel} в месяц. Оплата проходит через Maksekeskus, подписка продлевается автоматически, а отменить её можно в любой момент на странице профиля.`
-      : locale === "en"
-        ? `To use SotsiaalAI you need a monthly subscription. For the "${planRoleLabel}" role, the fee is ${monthlyAmountLabel} per month. Payments are processed via Maksekeskus, the subscription renews automatically, and you can cancel it at any time from your profile.`
-        : `SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Rolli "${planRoleLabel}" kuutasu on ${monthlyAmountLabel}. Makse tehakse Maksekeskuse kaudu, tellimus pikeneb automaatselt ning seda saad igal ajal profiililehel lõpetada.`
+    ? t("subscription.info_priced", {
+        role: planRoleLabel,
+        amount: monthlyAmountLabel
+      })
     : t("subscription.info");
   const subscriptionActiveSummary = monthlyAmountLabel
-    ? locale === "ru"
-      ? `Твоя подписка активна. Пакет: ${planRoleLabel}. Стоимость: ${monthlyAmountLabel} в месяц.`
-      : locale === "en"
-        ? `Your subscription is active. Plan: ${planRoleLabel}. Fee: ${monthlyAmountLabel} per month.`
-        : `Sinu tellimus on aktiivne. Pakett: ${planRoleLabel}. Kuutasu: ${monthlyAmountLabel} kuus.`
+    ? t("subscription.active.summary_priced", {
+        role: planRoleLabel,
+        amount: monthlyAmountLabel
+      })
     : t("subscription.active.summary");
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {

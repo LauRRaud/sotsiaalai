@@ -322,3 +322,5 @@ Result: no extra click is required after pressing "new conversation".
 12. Verify a generated draft appears in chat, then in:
     - Documents results for `SOCIAL_WORKER`
     - Agent mode recent results for `CLIENT`
+13. Verify sponsored room access disappears after sponsored subscription expiry
+    unless the user has activated their own subscription.

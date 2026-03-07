@@ -314,20 +314,43 @@ export async function PUT(request) {
 }
 
 export async function DELETE(request) {
-  const locale = localeFromRequest(request);
+  const fallbackLocale = localeFromRequest(request);
   const ctx = await requireUser();
   if (!ctx) {
-    return errorJson("api.common.unauthorized", 401, locale);
+    return errorJson("api.common.unauthorized", 401, fallbackLocale);
   }
 
   try {
+    const body = await request.json().catch(() => ({}));
+    const requestLocale = localeFromRequest(request, body?.locale || body?.lang);
+    const currentPassword =
+      typeof body?.currentPassword === "string" ? body.currentPassword : undefined;
+
     const current = await prisma.user.findUnique({
       where: { id: ctx.userId },
-      select: { email: true }
+      select: {
+        email: true,
+        passwordHash: true
+      }
     });
 
     if (!current) {
-      return errorJson("profile.errors.user_not_found", 404, locale);
+      return errorJson("profile.errors.user_not_found", 404, requestLocale);
+    }
+
+    if (current.passwordHash) {
+      if (!currentPassword) {
+        return errorJson("profile.errors.current_pin_required", 400, requestLocale, {
+          code: "CURRENT_PASSWORD_REQUIRED"
+        });
+      }
+
+      const currentOk = await compare(currentPassword, current.passwordHash);
+      if (!currentOk) {
+        return errorJson("profile.errors.current_pin_invalid", 401, requestLocale, {
+          code: "CURRENT_PASSWORD_INVALID"
+        });
+      }
     }
 
     await prisma.user.delete({
@@ -336,7 +359,7 @@ export async function DELETE(request) {
 
     if (current.email) {
       try {
-        await sendAccountDeletedEmail(current.email, locale);
+        await sendAccountDeletedEmail(current.email, requestLocale);
       } catch (sendError) {
         console.error("profile account-deleted email send failed", sendError);
       }
@@ -348,10 +371,10 @@ export async function DELETE(request) {
     });
   } catch (error) {
     if (error?.code === "P2025") {
-      return errorJson("profile.errors.user_not_found", 404, locale);
+      return errorJson("profile.errors.user_not_found", 404, fallbackLocale);
     }
 
     console.error("profile DELETE error", error);
-    return errorJson("profile.delete_failed", 500, locale);
+    return errorJson("profile.delete_failed", 500, fallbackLocale);
   }
 }

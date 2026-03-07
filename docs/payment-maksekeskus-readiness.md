@@ -36,6 +36,25 @@ Behavior today:
 12. Payment alert dispatch supports secure webhook signatures and dry-run mode for rollout validation.
 13. Scheduler automation is configured via GitHub Actions (`.github/workflows/payment-alert-dispatch.yml`).
 14. Webhook status changes now trigger owner email notifications (default recipient `info@sotsiaal.ai`, configurable).
+15. Sponsored invite checkout is blocked when the invitee already has an active subscription.
+16. Sponsored invite acceptance creates a one-month sponsored subscription; it does not automatically roll over into the invitee's own paid renewal.
+17. `/tellimus` now shows sponsored-access metadata and warns when sponsored access is ending soon or has expired.
+
+## Sponsored Invite Payment Policy
+
+Current implemented behavior:
+
+1. A sponsor can pay for one month of access for the invited person.
+2. That payment creates sponsored access for roughly one month after invite acceptance.
+3. The invited user is not auto-converted into a self-paying subscription after that month.
+4. If the invited user already has an active subscription, sponsored checkout is rejected up front.
+5. After the sponsored month ends:
+   - normal subscription-gated platform access ends unless the user activates their own subscription
+   - sponsored room access also ends unless the user has their own active subscription
+6. The Subscription page is the user-facing reminder surface for:
+   - sponsored until date
+   - ending soon state
+   - expired state with prompt to activate own subscription
 
 ## Remaining Launch Risks
 
@@ -114,6 +133,7 @@ Current rule:
   - calls `POST /api/subscription/init`
   - redirects to checkout URL
   - reads callback state (`payment=success|pending|failed|canceled`) and shows localized feedback
+  - reads sponsored subscription metadata and shows ending-soon / expired notices for sponsor-paid access
 
 ## Security/Operations Checklist
 

@@ -9,13 +9,17 @@ const ghostStyles =
   "focus-visible:shadow-[0_0_0_3px_rgba(170,190,215,0.22)] " +
   "active:bg-[rgba(255,255,255,0.06)]";
 const dangerStyles =
-  "text-[#ffb8b8] bg-[rgba(120,30,30,0.22)] border border-[rgba(192,72,72,0.45)] " +
+  "text-[#fff3f3] bg-[rgba(145,28,28,0.78)] border border-[rgba(255,179,179,0.32)] " +
   "shadow-[0_6px_16px_rgba(0,0,0,0.2)] " +
-  "hover:bg-[rgba(140,40,40,0.28)] hover:border-[rgba(192,72,72,0.6)] " +
+  "hover:bg-[rgba(165,32,32,0.84)] hover:border-[rgba(255,201,201,0.42)] " +
   "focus-visible:shadow-[0_0_0_3px_rgba(255,120,120,0.2)] " +
-  "active:bg-[rgba(110,26,26,0.22)]";
+  "active:bg-[rgba(122,22,22,0.82)] " +
+  "light:text-[#fff7f7] light:bg-[rgba(177,45,45,0.92)] light:border-[rgba(138,28,28,0.28)] " +
+  "light:hover:bg-[rgba(197,53,53,0.96)] light:hover:border-[rgba(138,28,28,0.36)] " +
+  "light:active:bg-[rgba(160,38,38,0.94)]";
 const variantStyles = {
   primary: primaryStyles,
+  secondary: ghostStyles,
   ghost: ghostStyles,
   danger: dangerStyles,
   linkBrand: `${linkBrandBase} ${linkBrandButtonBase}`

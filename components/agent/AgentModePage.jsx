@@ -21,6 +21,15 @@ import { useSpeech } from "@/components/chat/hooks/useSpeech"
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass } from "@/components/ui/linkStyles"
 import { AGENT_ARTIFACT_TYPE_VALUES } from "@/lib/documents/constants"
+import { clientTaskInstruction } from "@/lib/documents/agentTasks"
+import {
+  artifactStatusLabel,
+  artifactTypeLabel,
+  formatDate,
+  formatFileSize,
+  kindLabel,
+  templateForLabel
+} from "@/lib/documents/presentation"
 import { localizePath } from "@/lib/localizePath"
 
 const agentTitleClassName =
@@ -47,32 +56,6 @@ function createWorkspaceMessage({ role, text, attachments = [] }) {
   }
 }
 
-function formatDate(value, locale) {
-  if (!value) return ""
-  try {
-    return new Intl.DateTimeFormat(locale || "et", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value))
-  } catch {
-    return ""
-  }
-}
-
-function formatFileSize(size) {
-  const nextSize = Number(size || 0)
-  if (nextSize >= 1024 * 1024) return `${(nextSize / (1024 * 1024)).toFixed(1)} MB`
-  if (nextSize >= 1024) return `${Math.round(nextSize / 1024)} KB`
-  return `${nextSize} B`
-}
-
-function kindLabel(kind, t) {
-  if (kind === "TEMPLATE") return t("documents.kinds.template")
-  if (kind === "MATERIAL") return t("documents.kinds.material")
-  return t("documents.kinds.other")
-}
-
-function templateForLabel(value, t) {
-  return value ? t(`documents.template_for.${String(value).toLowerCase()}`) : ""
-}
-
 function isTemplateCompatible(template, artifactType) {
   const templateType = String(template?.templateFor || "").trim().toUpperCase()
   const targetType = String(artifactType || "").trim().toUpperCase()
@@ -83,24 +66,6 @@ function templateOptionLabel(template, t) {
   const title = String(template?.title || template?.originalName || "").trim()
   const target = template?.templateFor ? templateForLabel(template.templateFor, t) : ""
   return target ? `${title} - ${target}` : title
-}
-
-function artifactTypeLabel(type, t) {
-  return t(`documents.artifact_types.${String(type || "other").toLowerCase()}`)
-}
-
-function artifactStatusLabel(status, t) {
-  return t(`documents.status.${String(status || "draft").toLowerCase()}`)
-}
-
-function clientTaskInstruction(task) {
-  if (task === "LETTER_REPLY") {
-    return "Draft a clear and practical reply to the received letter. Base it only on the user's instruction and the selected source files."
-  }
-  if (task === "FILL_FORM") {
-    return "Help fill in the selected form or blank. Treat the uploaded files as the working materials for this task: one file may be the form itself and the second file may contain the information that should go into it. If the file is not directly fillable, produce a structured draft the user can copy into the form."
-  }
-  return "Draft a clear request or application text that the user can review, edit, and send."
 }
 
 function segmentedChipClassName(isActive) {

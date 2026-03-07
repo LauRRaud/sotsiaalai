@@ -43,6 +43,14 @@ Current download rule:
 - `FINAL`
   - exposes DOCX and PDF download URLs
 
+Current list/detail payload rule:
+
+- artifact list endpoints return lightweight rows by default
+- full `content` is fetched on demand from the artifact detail route when the UI
+  needs copy or full-detail actions
+- this keeps `/documents` and `/agendireziim` result lists lighter while keeping
+  detail behavior unchanged
+
 ## Assumptions
 
 - Export storage approach: `Approach A`

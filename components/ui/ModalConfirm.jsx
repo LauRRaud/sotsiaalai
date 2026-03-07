@@ -20,7 +20,9 @@ const modalBusyCardClassName =
 const modalBusyTextClassName = "text-center text-[1.16rem] leading-[1.2] font-medium tracking-[0.01em] text-[color:var(--pt-30)] light:text-[color:var(--input-text)]";
 export default function ModalConfirm({
   message,
+  children = null,
   confirmLabel = "Jah",
+  confirmVariant = "primary",
   cancelLabel = "Katkesta",
   onConfirm,
   onCancel,
@@ -44,6 +46,7 @@ export default function ModalConfirm({
   }, [onCancel, disabled]);
   const modal = <Modal open onClose={onCancel} closeOnOverlayClick={false} aria-label={typeof message === "string" ? message : "Confirm dialog"} className={modalOverlayClassName} contentClassName={modalContentClassName}>
       {!busy ? <p className={modalMessageClassName}>{message}</p> : null}
+      {!busy && children ? children : null}
       {busy ? <div className={modalBusyWrapClassName} role="status" aria-live="polite" aria-atomic="true">
           <div className={modalBusyCardClassName}>
             <div className="flex flex-col items-center gap-[0.64rem]">
@@ -52,7 +55,7 @@ export default function ModalConfirm({
             </div>
           </div>
         </div> : <div className={modalActionsClassName}>
-          <Button type="button" variant="primary" onClick={onConfirm} disabled={disabled}>
+          <Button type="button" variant={confirmVariant} onClick={onConfirm} disabled={disabled}>
             <span>{confirmLabel}</span>
           </Button>
           {cancelLabel ? <Button type="button" variant="secondary" onClick={onCancel} disabled={disabled}>

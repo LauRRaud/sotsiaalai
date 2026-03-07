@@ -47,6 +47,7 @@ entrypoints, and primary data models.
   - start subscription checkout
   - cancel subscription
   - process payment callbacks and webhooks
+  - see sponsored access end date and expiry warnings
 - Frontend surfaces:
   - subscription page
   - payment result handling
@@ -176,6 +177,8 @@ Current role split:
   - recent chat-generated drafts appear there and open in the same workspace
 - draft download is blocked until approval; only `FINAL` artifacts expose DOCX
   and PDF download URLs
+- artifact lists now omit full `content` by default and load it only when a
+  detail or copy action explicitly needs it
 
 ## 7. Deep Research
 
@@ -207,6 +210,8 @@ Current role split:
   - track unread state
   - manage members
   - leave room
+  - allow sponsored members to access the room only while their sponsored or
+    own subscription is active
 - Frontend surfaces:
   - `/rooms`
   - `/room/[roomId]`
@@ -277,6 +282,7 @@ Current role split:
   - resend or revoke invites
   - accept invite
   - support self-paid and sponsored invite modes
+  - allow a sponsor to pay one month of access for the invited person
 - Frontend surfaces:
   - invite modal
   - join page
@@ -290,6 +296,13 @@ Current role split:
 - Data models:
   - `Invite`
   - related `Room`, `RoomMember`, `Subscription`, `Payment`
+
+Current sponsored invite rule:
+
+- sponsor pays one month of access
+- invitee is not automatically converted to self-paid billing afterwards
+- if invitee already has their own active subscription, sponsored checkout is
+  blocked
 
 ## 11. Admin and Analytics
 

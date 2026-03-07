@@ -1332,6 +1332,7 @@
     },
     "active": {
       "summary": "Your subscription is active. Monthly price: 7.99.",
+      "summary_priced": "Your subscription is active. Plan: {role}. Fee: {amount} per month.",
       "cancel_note": "You can cancel your subscription at any time on the profile page.",
       "sponsored_note": "Your access is currently sponsored and is valid until {date}. After that, you need to activate your own subscription to continue using the platform.",
       "sponsored_ending_soon": "Your sponsored access ends in {days} days, on {date}. Activate your own subscription to continue using the platform.",
@@ -1342,7 +1343,8 @@
       "activate": "Pay and activate subscription",
       "processing": "Redirecting to payment..."
     },
-    "info": "To use SotsiaalAI you need a monthly subscription priced at 7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period."
+    "info": "To use SotsiaalAI you need a monthly subscription priced at 7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period.",
+    "info_priced": "To use SotsiaalAI you need a monthly subscription. For the \"{role}\" role, the fee is {amount} per month. Payments are processed via Maksekeskus, the subscription renews automatically, and you can cancel it at any time from your profile."
   },
   "pwa": {
     "heading": "Want the platform as an app?",

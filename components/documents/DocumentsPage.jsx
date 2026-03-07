@@ -13,46 +13,20 @@ import Panel from "@/components/ui/Panel"
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass } from "@/components/ui/linkStyles"
 import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
+import {
+  artifactStatusLabel,
+  artifactTypeLabel,
+  formatDate,
+  formatFileSize,
+  kindLabel,
+  templateForLabel
+} from "@/lib/documents/presentation"
 import { localizePath } from "@/lib/localizePath"
 
 const documentsTitleClassName =
   `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
   `!text-[clamp(1.9rem,3.6vw,2.6rem)] !leading-[1.06] !tracking-[0.02em] ` +
   `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08] max-[768px]:!mt-0`
-
-function formatDate(value, locale) {
-  if (!value) return ""
-  try {
-    return new Intl.DateTimeFormat(locale || "et", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value))
-  } catch {
-    return ""
-  }
-}
-
-function formatFileSize(size) {
-  const nextSize = Number(size || 0)
-  if (nextSize >= 1024 * 1024) return `${(nextSize / (1024 * 1024)).toFixed(1)} MB`
-  if (nextSize >= 1024) return `${Math.round(nextSize / 1024)} KB`
-  return `${nextSize} B`
-}
-
-function kindLabel(kind, t) {
-  if (kind === "TEMPLATE") return t("documents.kinds.template")
-  if (kind === "MATERIAL") return t("documents.kinds.material")
-  return t("documents.kinds.other")
-}
-
-function templateForLabel(value, t) {
-  return value ? t(`documents.template_for.${String(value).toLowerCase()}`) : ""
-}
-
-function artifactTypeLabel(type, t) {
-  return t(`documents.artifact_types.${String(type || "other").toLowerCase()}`)
-}
-
-function artifactStatusLabel(status, t) {
-  return t(`documents.status.${String(status || "draft").toLowerCase()}`)
-}
 
 function normalizeSearchValue(value) {
   return String(value || "").trim().toLowerCase()
@@ -133,11 +107,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const handoffHelpText = selectedDocumentIds.length
     ? t(`documents.agent_handoff.ready_help_${roleScope}`)
     : t(`documents.agent_handoff.empty_help_${roleScope}`)
-
-  useEffect(() => {
-    if (!isClientRole) return
-    router.replace(localizePath("/agendireziim", locale))
-  }, [isClientRole, locale, router])
 
   const loadDocuments = useCallback(async (nextKind = kindFilter) => {
     setDocumentsLoading(true)

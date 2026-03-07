@@ -1332,6 +1332,7 @@
     },
     "active": {
       "summary": "Sinu tellimus on aktiivne. Kuutasu: 7,99 € / kuu.",
+      "summary_priced": "Sinu tellimus on aktiivne. Pakett: {role}. Kuutasu: {amount} kuus.",
       "cancel_note": "Tellimuse saad igal ajal tühistada oma profiililehelt.",
       "sponsored_note": "Sinu ligipääs on praegu sponsoreeritud ja kehtib kuni {date}. Pärast seda pead kasutamise jätkamiseks aktiveerima oma tellimuse.",
       "sponsored_ending_soon": "Sinu sponsoreeritud ligipääs lõpeb {days} päeva pärast, kuupäeval {date}. Kasutamise jätkamiseks aktiveeri oma tellimus.",
@@ -1342,7 +1343,8 @@
       "activate": "Maksa ja aktiveeri tellimus",
       "processing": "Suunan maksele…"
     },
-    "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus hinnaga 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni."
+    "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus hinnaga 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni.",
+    "info_priced": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Rolli \"{role}\" kuutasu on {amount}. Makse tehakse Maksekeskuse kaudu, tellimus pikeneb automaatselt ning seda saad igal ajal profiililehel lõpetada."
   },
   "pwa": {
     "heading": "Soovid platvormi eraldi rakendusena?",
