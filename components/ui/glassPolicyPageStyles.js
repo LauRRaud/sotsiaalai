@@ -5,7 +5,7 @@ export const glassPolicyRingClassName =
   "max-[768px]:[--glass-ring-scroll-offset-open:clamp(0.95rem,2.4vh,1.6rem)]";
 
 export const glassPolicyTitleOffsetClassName =
-  "!mt-[clamp(2.6rem,5.5vh,3.7rem)] max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+3.7rem)] max-[768px]:mb-[clamp(0.16rem,0.65vh,0.45rem)]";
+  "!mt-[clamp(2.6rem,5.5vh,3.7rem)] max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+3.7rem)] max-[768px]:mb-[clamp(0.82rem,1.9vh,1.26rem)]";
 
 export const glassPolicyTitleExpandedClassName = "glass-policy-title--expanded";
 

@@ -192,6 +192,7 @@ model User {
   passwordHash            String?
   role                    Role      @default(CLIENT)
   isAdmin                 Boolean   @default(false)
+  sessionVersion          Int       @default(0)
 
   // NextAuth
   accounts Account[]

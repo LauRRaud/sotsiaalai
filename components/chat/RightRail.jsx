@@ -70,10 +70,6 @@ export default function RightRail({
   const lastStepRef = useRef(0);
   const activeIndexRef = useRef(0);
   const armClearTimerRef = useRef(0);
-  const lastTapRef = useRef({
-    key: "",
-    at: 0
-  });
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [tooltipLabelIndex, setTooltipLabelIndex] = useState(1);
@@ -85,6 +81,7 @@ export default function RightRail({
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [isRouteTilting, setIsRouteTilting] = useState(false);
   const [armedKey, setArmedKey] = useState(null);
+  const localizedHelpLabels = useMemo(() => _getHelpLabels(locale), [locale]);
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
     [pathname]
@@ -260,17 +257,6 @@ export default function RightRail({
     tooltipLabelIndexRef.current = tooltipLabelIndex;
   }, [tooltipLabelIndex]);
 
-  const armItem = useCallback(key => {
-    setArmedKey(key);
-    if (armClearTimerRef.current) {
-      window.clearTimeout(armClearTimerRef.current);
-    }
-    armClearTimerRef.current = window.setTimeout(() => {
-      setArmedKey(prev => (prev === key ? null : prev));
-      armClearTimerRef.current = 0;
-    }, 1800);
-  }, []);
-
   const openChatsDrawer = e => {
     if (embedded || normalizedPathname.startsWith("/vestlus")) {
       e?.preventDefault?.();
@@ -313,41 +299,29 @@ export default function RightRail({
       label: t("nav.add_person")
     }, {
       key: "my_help_requests",
-      label: t("chat.help.myHelpRequests")
+      label: t("chat.help.myHelpRequests") || localizedHelpLabels.myRequests
     }, {
       key: "my_help_offers",
-      label: t("chat.help.myHelpOffers")
+      label: t("chat.help.myHelpOffers") || localizedHelpLabels.myOffers
     }];
-  }, [t]);
+  }, [localizedHelpLabels.myOffers, localizedHelpLabels.myRequests, t]);
 
   const mobileItems = useMemo(() => {
     return [{
       key: "profile",
       label: t("nav.profile")
     }, {
-      key: "chats",
-      label: t("nav.chats")
-    }, {
       key: "rooms",
       label: t("nav.rooms")
     }, {
       key: "invite",
       label: t("nav.add_person")
-    }, {
-      key: "my_help_requests",
-      label: t("chat.help.myHelpRequests")
-    }, {
-      key: "my_help_offers",
-      label: t("chat.help.myHelpOffers")
-    }, {
-      key: "sources",
-      label: t("nav.sources")
     }];
   }, [t]);
   const items = viewportIsMobile ? mobileItems : desktopItems;
 
   const mobileSlots = useMemo(() => {
-    const order = ["chats", "sources", "rooms", "invite", "my_help_requests", "my_help_offers", "profile"];
+    const order = ["profile", "rooms", "invite"];
     return order.map(key => {
       const itemIndex = mobileItems.findIndex(item => item.key === key);
       if (itemIndex < 0) return null;
@@ -681,21 +655,8 @@ export default function RightRail({
             performActivate(event);
             return;
           }
-          event.preventDefault();
-          event.stopPropagation();
-          const now = performance.now();
-          const lastTap = lastTapRef.current;
-          const isRapidDoubleTap = lastTap.key === it.key && now - lastTap.at < 360;
-          lastTapRef.current = {
-            key: it.key,
-            at: now
-          };
-          if (isRapidDoubleTap || armedKey === it.key) {
-            clearArmed();
-            performActivate(event);
-            return;
-          }
-          armItem(it.key);
+          clearArmed();
+          performActivate(event);
         };
 
         const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";

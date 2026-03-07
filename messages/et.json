@@ -206,11 +206,20 @@
     "save": "Salvesta",
     "logout": "Logi välja",
     "logout_short": "Välja",
+    "account_settings": "Konto seaded",
+    "account_settings_hint": "Siin saad hallata sisselogimist, turvalisust ja konto sulgemist.",
+    "logout_all_devices": "Logi kõikjalt välja",
+    "logout_all_confirm": "Kas logida välja kõigist seadmetest ja brauseritest ning eemaldada usaldatud seadmed?",
+    "logging_out_all": "Logime välja kõigist seadmetest",
+    "logout_all_failed": "Kõigist seadmetest väljalogimine ebaõnnestus.",
+    "logout_hint": "Lõpetab aktiivse seansi selles seadmes.",
+    "logout_all_hint": "Logib sind välja kõigist seadmetest ja eemaldab meelde jäetud seadmed.",
     "back_to_chat": "Tagasi vestlusesse",
     "actions_label": "Profiili toimingud",
     "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
     "deleting": "Kustutan…",
     "delete_account": "Kustuta konto",
+    "delete_account_hint": "Kustutab konto ja sellega seotud ligipääsu püsivalt. Seda ei saa tagasi võtta.",
     "delete_loading_status": "Konto kustutamine",
     "load_failed": "Profiili laadimine ebaõnnestus.",
     "update_failed": "Profiili uuendamine ebaõnnestus.",
@@ -550,6 +559,9 @@
       "initial_loading": "Laen vestlust…"
     },
     "back_to_home": "Tagasi avalehele",
+    "mobile": {
+      "show_navigation": "Näita navigeerimist"
+    },
     "help": {
       "helpRequests": "Abisoovid",
       "helpOffers": "Abipakkumised",
@@ -1255,8 +1267,11 @@
       "paragraph1": "<p><strong>SotsiaalAI</strong> on tehisintellektil põhinev veebiplatvorm, mis toetab nii sotsiaalvaldkonna spetsialiste kui ka inimesi, kes otsivad selgust elulistes küsimustes. Sotsiaalvaldkonda iseloomustavad <strong>suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis</strong> – seda kinnitab ka <oska>OSKA raport (2025)</oska>. SotsiaalAI eesmärk on muuta vajalik teadmine paremini kättesaadavaks ning toetada nii professionaalset tööd kui ka abi otsimist.</p>",
       "paragraph2": "<p>Platvormi keskmes on üks vestlusaken, mille kaudu saab küsida infot, saada juhendamist, koostada dokumente ja aruandeid ning vormistada praktilisi järgmisi samme. Vestluse kaudu saab kirjeldada ka abisoove ja abipakkumisi, lasta need struktureerida, vaadata sobivaid kuulutusi ning vajadusel liikuda edasi inimestevahelise suhtluseni. Lisaks saab kasutada <strong>dokumendi analüüsi, süvauuringut, grupivestlust, dikteerimist ja vastuste ettelugemist</strong>, mis parandavad ligipääsetavust ja kasutusmugavust.</p>",
       "paragraph3": "<p>Platvormil on kaks rollipõhist, agendivõimekusega tehisintellekti assistenti: üks <strong>sotsiaaltöö spetsialistidele</strong> ja teine <strong>eluküsimustega pöördujatele</strong>. Spetsialistile on SotsiaalAI töövahend õigusraamistiku, metoodikate ja praktikate mõtestamisel, dokumentide koostamisel, materjalide haldamisel ning kovisiooni ja koostöö toetamisel. Pöördujale aitab see mõista toetusi, teenuseid ja õigusi ning vajadusel koostada ka kirju, taotlusi ja muid vajalikke tekste.</p>",
-      "paragraph4": "<p>SotsiaalAI visioon on kujuneda <strong>järgmise põlvkonna sotsiaalsüsteemi ühe akna platvormiks</strong>, kus tehisintellekti agendid, usaldusväärne andmebaas ning praktilised teenuslahendused moodustavad ühtse ökosüsteemi. Selles ökosüsteemis saavad kokku teadmised, dokumentide loomine, teenuste ja toetuste leidmine, töö- ja karjäärivõimalused, abivahendite otsing ning abisoovide ja abipakkumiste sobitamine, et aidata inimestel ja spetsialistidel jõuda küsimusest, vajadusest või pakkumisest selguse, tegevusplaani ja toimiva lahenduseni.</p>",
-      "paragraph5": "<p>SotsiaalAI-d arendatakse <strong>sotsiaalse ettevõttena</strong> ja <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta töövood, koostöö ja abi leidmine selgemaks, kiiremaks ja ligipääsetavamaks.</p>"
+      "paragraph4": "<p>SotsiaalAI visioon on kujuneda <strong>järgmise põlvkonna sotsiaalvaldkonna platvormiks</strong>, mille keskmes on üks vestlusaken. See ühendab tehisintellekti agendid, usaldusväärse teadmuspõhja ja praktilised lahendused ühtseks ökosüsteemiks. Sama vestluse kaudu saab küsida infot, luua dokumente, leida teenuseid ja toetusi, avastada töö- ja karjäärivõimalusi, otsida abivahendeid ning viia kokku abisoove ja abipakkumisi. Nii aitab SotsiaalAI nii inimestel kui ka spetsialistidel jõuda küsimusest või vajadusest selguse ja toimiva lahenduseni.</p>",
+      "paragraph5": "<p>SotsiaalAI-d arendatakse <strong>sotsiaalse ettevõttena</strong> ja <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta töövood, koostöö ja abi leidmine selgemaks, kiiremaks ja ligipääsetavamaks.</p>",
+      "paragraph8": "<p>Arendame platvormi nii, et oluline teadmine oleks kättesaadav selges keeles, ühest kohast ja sellisel kujul, mida saab kohe kasutada nii igapäevatöös kui ka isikliku abiotsingu olukorras.</p>",
+      "paragraph9": "<p>Ligipääsetavus on SotsiaalAI keskne põhimõte. Seetõttu on platvormil tugi erinevatele kasutajaliidese keeltele, teksti suuruse ja kontrasti seadetele, dikteerimisele ning vastuste ettelugemisele.</p>",
+      "paragraph10": "<p>SotsiaalAI ei asenda inimest, spetsialisti ega erakorralist abi. See on praktiline abiline, mis aitab jõuda selgema infoni, valmistada ette järgmisi samme ja vajadusel liikuda edasi inimeselt saadava toe poole.</p>"
     },
     "contact": {
       "title": "Kontakt",
@@ -1575,6 +1590,11 @@
         "subject": "SotsiaalAI uus kinnituskood",
         "text": "Tere!\n\nSinu uus kinnituskood on: {code}\nKood kehtib {minutes} minutit.\n\nKui sa ei proovinud sisse logida, eira seda kirja.",
         "html": "<p>Tere!</p><p>Sinu uus kinnituskood on: <strong>{code}</strong></p><p>Kood kehtib {minutes} minutit.</p><p>Kui sa ei proovinud sisse logida, eira seda kirja.</p>"
+      },
+      "login_device_alert": {
+        "subject": "SotsiaalAI sisselogimine uuest või tundmatust seadmest",
+        "text": "Tere!\n\nMärkasime sisselogimiskatset uuest või tundmatust seadmest.\n\nAeg: {time}\nSeade: {device}\nIP-aadress: {ip}\n\nKui see olid sina, saad sisselogimist kinnituskoodiga jätkata. Kui mitte, muuda palun kohe oma PIN-i.",
+        "html": "<p>Tere!</p><p>Märkasime sisselogimiskatset uuest või tundmatust seadmest.</p><ul><li><strong>Aeg:</strong> {time}</li><li><strong>Seade:</strong> {device}</li><li><strong>IP-aadress:</strong> {ip}</li></ul><p>Kui see olid sina, saad sisselogimist kinnituskoodiga jätkata. Kui mitte, muuda palun kohe oma PIN-i.</p>"
       },
       "verify": {
         "subject": "Kinnita oma e-posti aadress",

@@ -47,7 +47,8 @@ export default function LeftRail({
   onShowHelpRequests,
   onShowHelpOffers,
   embedded = false,
-  suspendPointerEvents = false
+  suspendPointerEvents = false,
+  mobileVisible = true
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -71,6 +72,7 @@ export default function LeftRail({
   const [stepPx, setStepPx] = useState(56);
   const [railProfileScale, setRailProfileScale] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
+  const localizedHelpLabels = useMemo(() => _getHelpLabels(locale), [locale]);
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
     [pathname]
@@ -78,6 +80,21 @@ export default function LeftRail({
   const sourcesLabel = t("chat.sources.button").replace(
     "{count}",
     String(conversationSources.length)
+  );
+  const mobileItems = useMemo(
+    () => [
+      { key: "chats", label: t("nav.chats") },
+      { key: "sources", label: sourcesLabel },
+      {
+        key: "help_requests",
+        label: t("chat.help.helpRequests") || localizedHelpLabels.requests
+      },
+      {
+        key: "help_offers",
+        label: t("chat.help.helpOffers") || localizedHelpLabels.offers
+      }
+    ],
+    [localizedHelpLabels.offers, localizedHelpLabels.requests, sourcesLabel, t]
   );
   const items = useMemo(
     () => [
@@ -382,6 +399,9 @@ export default function LeftRail({
   const slotClassName = cn(
     styles.slot,
     "chat-left-actions",
+    styles.mobileRailTransition,
+    !mobileVisible ? styles.mobileRailHidden : null,
+    mobileVisible ? styles.mobileRailVisible : null,
     suspendPointerEvents ? styles.pointerBlocked : null
   );
   const showDesktopTooltip =
@@ -392,7 +412,114 @@ export default function LeftRail({
     tooltipLabelIndex >= 0 &&
     tooltipLabelIndex < items.length;
 
-  if (isMobile) return null;
+  if (isMobile) {
+    return (
+      <div className={slotClassName}>
+        <nav
+          ref={railRef}
+          className={styles.leftRail}
+          tabIndex={0}
+          aria-label={t("chat.page_label")}
+        >
+          {mobileItems.map((item, itemIndex) => {
+            const setMobileRailRef = el => {
+              if (item.key !== "sources") return;
+              if (!sourcesButtonRef) return;
+              if (typeof sourcesButtonRef === "function") {
+                sourcesButtonRef(el);
+              } else {
+                sourcesButtonRef.current = el;
+              }
+            };
+
+            const onActivate = event => {
+              event.preventDefault();
+              event.stopPropagation();
+              if (item.key === "chats") {
+                openChatsDrawer(event);
+                return;
+              }
+              if (item.key === "sources") {
+                if (!hasConversationSources) return;
+                toggleSourcesPanel();
+                return;
+              }
+              if (item.key === "help_requests") {
+                onShowHelpRequests?.();
+                return;
+              }
+              if (item.key === "help_offers") {
+                onShowHelpOffers?.();
+              }
+            };
+
+            return (
+              <button
+                key={`left-mobile-${item.key}`}
+                type="button"
+                ref={setMobileRailRef}
+                data-key={item.key}
+                data-item-index={itemIndex}
+                className={cn(
+                  styles.item,
+                  styles.iconBtn,
+                  styles.mobileItem,
+                  item.key === "sources" && showSourcesPanel
+                    ? styles.iconBtnActive
+                    : null,
+                  item.key === "sources" && sourcesPulse ? styles.isPulse : null
+                )}
+                onClick={onActivate}
+                aria-label={item.label}
+                aria-haspopup={item.key === "sources" ? "dialog" : undefined}
+                aria-expanded={
+                  item.key === "sources"
+                    ? showSourcesPanel
+                      ? "true"
+                      : "false"
+                    : undefined
+                }
+                aria-controls={
+                  item.key === "sources" ? "chat-sources-panel" : undefined
+                }
+                aria-disabled={
+                  item.key === "sources" && !hasConversationSources
+                    ? "true"
+                    : undefined
+                }
+                disabled={item.key === "sources" && !hasConversationSources}
+              >
+                {item.key === "chats" ? (
+                  <ChatBubbleIcon
+                    isLightTheme={isLightTheme}
+                    className={cn(styles.iconSvg, styles.iconChats)}
+                  />
+                ) : null}
+                {item.key === "sources" ? (
+                  <SourcesIcon
+                    isLightTheme={isLightTheme}
+                    className={cn(styles.iconSvg, styles.iconSvgSources)}
+                  />
+                ) : null}
+                {item.key === "help_requests" ? (
+                  <HelpRequestIcon
+                    isLightTheme={isLightTheme}
+                    className={cn(styles.iconSvg, styles.iconHelp)}
+                  />
+                ) : null}
+                {item.key === "help_offers" ? (
+                  <HelpOfferIcon
+                    isLightTheme={isLightTheme}
+                    className={cn(styles.iconSvg, styles.iconHelp)}
+                  />
+                ) : null}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+    );
+  }
 
   return (
     <div className={slotClassName}>

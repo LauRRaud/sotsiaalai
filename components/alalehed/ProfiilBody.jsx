@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import LoginModal from "@/components/LoginModal";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import ModalConfirm from "@/components/ui/ModalConfirm";
+import Modal from "@/components/ui/Modal";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu";
 import { localizePath } from "@/lib/localizePath";
@@ -18,10 +19,14 @@ import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
+import { HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
+const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
+const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
+const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const ROLE_KEYS = {
   ADMIN: "role.admin",
   SOCIAL_WORKER: "role.worker",
@@ -82,7 +87,7 @@ const orbitWrapperClassName =
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const orbitRoleToggleWrapClassName =
-  "absolute left-1/2 top-[calc(50%+clamp(4.95rem,20vw,5.95rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
+  "absolute left-1/2 top-[calc(50%+clamp(6.15rem,24vw,7.45rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
   "-translate-x-1/2 z-[6] pointer-events-auto";
 const orbitRoleToggleButtonClassName =
   "whitespace-normal text-center leading-[1.16] px-[1.22rem] py-[0.76rem] text-[1.02rem] min-h-[2.7rem] " +
@@ -113,6 +118,36 @@ const errorStateClassName = "flex-1 w-full flex items-center justify-center";
 const modalInputWrapClassName = "flex w-full justify-center";
 const modalInputClassName =
   "w-full max-w-[22rem] rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.15rem] py-[0.9rem] px-[1.35rem] min-h-[3.45rem]";
+const accountModalOverlayClassName =
+  "z-[140] bg-[rgba(6,8,14,0.84)] px-[1rem] py-[1.2rem] max-[768px]:items-end max-[768px]:p-0";
+const accountModalContentClassName =
+  "invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain " +
+  "!w-[min(100%,40rem)] !max-w-[40rem] !max-h-[min(86dvh,42rem)] !rounded-[1.45rem] " +
+  "!border-[rgba(248,253,255,0.16)] !bg-[rgba(14,18,28,0.82)] !px-[1.2rem] !pt-[1rem] !pb-[1.05rem] " +
+  "!text-[1.2rem] !leading-[1.42] !tracking-[0.02rem] light:!bg-[rgba(255,255,255,0.9)] " +
+  "max-[768px]:!w-screen max-[768px]:!max-w-screen max-[768px]:!max-h-[92dvh] max-[768px]:!rounded-t-[1.45rem] max-[768px]:!rounded-b-none max-[768px]:!px-[0.95rem] max-[768px]:!pt-[0.95rem]";
+const accountModalHeadClassName =
+  "relative flex min-h-[4rem] items-start justify-center px-[0.15rem] pt-[0.2rem] pb-[0.55rem]";
+const accountModalBackButtonClassName =
+  "absolute left-[-0.55rem] top-[-0.85rem] translate-x-0 translate-y-0 bottom-auto z-[92] " +
+  "!h-[4.85rem] !w-[4.85rem] min-[769px]:!h-[5.3rem] min-[769px]:!w-[5.3rem] " +
+  "[&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] " +
+  "max-[768px]:left-[calc(env(safe-area-inset-left,0px)-0.05rem)] max-[768px]:top-[calc(env(safe-area-inset-top,0px)-0.2rem)]";
+const accountModalTitleWrapClassName = "grid max-w-[30rem] gap-[0.38rem] px-[2.6rem] text-center";
+const accountModalTitleClassName =
+  "m-0 w-full text-center text-[2.26rem] leading-[1.06] tracking-[0.03em] font-normal [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] text-[#c57171] light:text-[color:var(--title-color)]";
+const accountModalDescriptionClassName =
+  "text-[1.12rem] leading-[1.46] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
+const accountModalActionStackClassName = "grid gap-[0.68rem] pt-[0.1rem]";
+const accountModalCardClassName =
+  "rounded-[1.05rem] border border-[rgba(248,253,255,0.14)] bg-[rgba(255,255,255,0.045)] p-[0.8rem_0.95rem] " +
+  "shadow-[0_12px_24px_rgba(4,6,12,0.14)] light:border-[rgba(148,163,184,0.24)] light:bg-[rgba(255,255,255,0.68)]";
+const accountModalActionRowClassName = "flex items-center justify-between gap-3 max-[560px]:flex-col max-[560px]:items-start";
+const accountModalActionLabelClassName = "text-[1.16rem] font-medium leading-[1.28]";
+const accountModalNoteClassName =
+  "mt-[0.82rem] text-[1.01rem] leading-[1.32] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
+const accountModalButtonClassName =
+  "!min-h-[2.8rem] !px-[1.08rem] !py-[0.48rem] !text-[1.06rem] !tracking-[0.02em] shrink-0";
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {
   soft:
@@ -147,6 +182,7 @@ function ProfileShell({
   embedded = false,
   theme = "dark",
   orbitOpen = false,
+  hidden = false,
   maskLayerRef,
   footerNote
 }) {
@@ -167,6 +203,7 @@ function ProfileShell({
       "data-[theme=light]:[--profile-role-text-color:#2b2620] " +
       "data-[theme=light]:[--profile-role-hole-shadow:0_4px_12px_rgba(0,0,0,0.12)] " +
       "max-[48em]:border max-[48em]:border-[var(--glass-border-color)] max-[48em]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
+    hidden && "opacity-0 pointer-events-none",
     !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,4.4vw,1.7rem)]"
   );
   const ringSurfaceStyle = {
@@ -260,6 +297,17 @@ function DeleteDockIcon({
       <path d="M9 6l.6-1.4A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.4.6L15 6m3 0-.8 11.6a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 6" />
     </svg>;
 }
+function AccountSettingsDockIcon({
+  isHovered: _isHovered,
+  ...props
+}) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <g transform="translate(12 12) scale(0.82) translate(-12 -12)">
+        <circle cx="12" cy="12" r="3.1" />
+        <path d="M19.4 15a1.6 1.6 0 0 0 .35 1.77l.08.08a2 2 0 1 1-2.83 2.83l-.08-.08a1.6 1.6 0 0 0-1.77-.35 1.6 1.6 0 0 0-.97 1.47V21a2 2 0 1 1-4 0v-.11a1.6 1.6 0 0 0-.97-1.47 1.6 1.6 0 0 0-1.77.35l-.08.08a2 2 0 1 1-2.83-2.83l.08-.08A1.6 1.6 0 0 0 4.6 15a1.6 1.6 0 0 0-1.47-.97H3a2 2 0 1 1 0-4h.11A1.6 1.6 0 0 0 4.58 9a1.6 1.6 0 0 0-.35-1.77l-.08-.08a2 2 0 1 1 2.83-2.83l.08.08A1.6 1.6 0 0 0 8.83 4a1.6 1.6 0 0 0 .97-1.47V2.5a2 2 0 1 1 4 0v.11A1.6 1.6 0 0 0 14.77 4a1.6 1.6 0 0 0 1.77-.35l.08-.08a2 2 0 1 1 2.83 2.83l-.08.08A1.6 1.6 0 0 0 19.02 9c.22.6.8 1 1.43 1H20.5a2 2 0 1 1 0 4h-.11a1.6 1.6 0 0 0-1.47 1Z" />
+      </g>
+    </svg>;
+}
 function RoleToggleDockIcon({
   isHovered: _isHovered,
   ...props
@@ -349,11 +397,26 @@ export default function ProfiilBody({
   const [error, setError] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [loggingOutEverywhere, setLoggingOutEverywhere] = useState(false);
+  const [showAccountSettings, setShowAccountSettings] = useState(false);
+  const [showLogoutAll, setShowLogoutAll] = useState(false);
   const [roleSwitching, setRoleSwitching] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
+  const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(false);
   useEffect(() => {
     clearStaleScrollLock();
+  }, []);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const updateViewport = () => {
+      const matchWidth = window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches;
+      const matchCoarse = window.matchMedia?.(COARSE_POINTER_QUERY)?.matches;
+      setIsMobileProfileMenu(Boolean(matchWidth || matchCoarse || window.innerWidth <= 768));
+    };
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+    return () => window.removeEventListener("resize", updateViewport);
   }, []);
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
@@ -613,19 +676,36 @@ export default function ProfiilBody({
   const currentModeIndex = modeSequence.indexOf(currentTheme);
   const nextMode = modeSequence[(currentModeIndex + 1 + modeSequence.length) % modeSequence.length];
   const nextModeLabel = t(`profile.theme_mode.${nextMode}`);
-  const nextModeIcon =
+  const nextModeIcon = useMemo(() =>
     nextMode === "mid"
       ? <ThemeMidDockIcon width={30} height={30} className="scale-[1.12]" />
       : nextMode === "light"
         ? <ThemeSunDockIcon width={26} height={26} />
-        : <ThemeMoonDockIcon width={26} height={26} showStars={nextMode === "night"} />;
-  const handleModeSwitch = () => {
+        : <ThemeMoonDockIcon width={26} height={26} showStars={nextMode === "night"} />, [nextMode]);
+  const handleModeSwitch = useCallback(() => {
     setPrefs?.({
       theme: nextMode,
       colorTheme: "default"
     });
-  };
-  const orbitItems = [{
+  }, [nextMode, setPrefs]);
+  const openChatHelpPanel = useCallback((panelKey) => {
+    if (!panelKey) return;
+    if (typeof window !== "undefined") {
+      if (embedded) {
+        try {
+          window.dispatchEvent(new CustomEvent("sotsiaalai:open-help-listings", {
+            detail: { panelKey }
+          }));
+          return;
+        } catch {}
+      }
+      try {
+        window.sessionStorage.setItem(CHAT_HELP_PANEL_STORAGE_KEY, panelKey);
+      } catch {}
+    }
+    pushWithTransition(router, localizePath("/vestlus", locale));
+  }, [embedded, locale, router]);
+  const orbitItems = useMemo(() => [{
     key: "theme",
     icon: nextModeIcon,
     label: nextModeLabel,
@@ -645,15 +725,13 @@ export default function ProfiilBody({
     labelPos: "up",
     onClick: () => pushWithTransition(router, localizePath(`/uuenda-epost${embedded ? "?return=profile" : ""}`, locale))
   }, {
-    key: "delete",
-    icon: <DeleteDockIcon />,
-    label: t("profile.delete_account"),
+    key: "account",
+    icon: <AccountSettingsDockIcon />,
+    label: t("profile.account_settings"),
     labelPos: "right",
     onClick: () => {
       setError("");
-      setDeleting(false);
-      setDeletePin("");
-      setShowDelete(true);
+      setShowAccountSettings(true);
     }
   }, {
     key: "subscription",
@@ -661,13 +739,25 @@ export default function ProfiilBody({
     label: t("profile.manage_subscription"),
     labelPos: "down",
     onClick: () => pushWithTransition(router, localizePath(`/tellimus${embedded ? "?return=profile" : ""}`, locale))
+  }, ...(isMobileProfileMenu ? [{
+    key: "my_help_requests",
+    icon: <HelpRequestIcon isLightTheme={isLightTheme} />,
+    label: t("chat.help.myHelpRequests"),
+    labelPos: "down",
+    onClick: () => openChatHelpPanel("my_help_requests")
   }, {
+    key: "my_help_offers",
+    icon: <HelpOfferIcon isLightTheme={isLightTheme} />,
+    label: t("chat.help.myHelpOffers"),
+    labelPos: "down",
+    onClick: () => openChatHelpPanel("my_help_offers")
+  }] : []), {
     key: "preferences",
     icon: <PreferencesDockIcon />,
     label: t("profile.preferences.title"),
     labelPos: "down",
     onClick: () => openA11y?.()
-  }];
+  }], [embedded, handleModeSwitch, isLightTheme, isMobileProfileMenu, locale, nextModeIcon, nextModeLabel, openA11y, openChatHelpPanel, router, t]);
   const handleBack = useCallback(() => {
     if (typeof onBack === "function") {
       onBack();
@@ -714,6 +804,39 @@ export default function ProfiilBody({
       setError(t("profile.server_unreachable"));
     } finally {
       setLoggingOut(false);
+    }
+  };
+  const handleLogoutAll = async () => {
+    if (loggingOutEverywhere) return;
+    setError("");
+    setLoggingOutEverywhere(true);
+    try {
+      const res = await fetch("/api/profile/logout-all", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept-Language": locale
+        },
+        body: JSON.stringify({ locale })
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(resolveApiMessage({
+          payload,
+          t,
+          fallbackKey: "profile.logout_all_failed"
+        }));
+        return;
+      }
+      setShowLogoutAll(false);
+      await signOut({
+        callbackUrl: localizePath("/", locale)
+      });
+    } catch (err) {
+      console.error("profile logout-all", err);
+      setError(t("profile.logout_all_failed"));
+    } finally {
+      setLoggingOutEverywhere(false);
     }
   };
   const handleAdminViewRoleChange = useCallback(async nextRole => {
@@ -814,7 +937,7 @@ export default function ProfiilBody({
         </div>
       </ProfileShell>;
   }
-  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} orbitOpen={orbitOpen} maskLayerRef={maskLayerRef} footerNote={footerNote}>
+  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} orbitOpen={orbitOpen} hidden={showAccountSettings} maskLayerRef={maskLayerRef} footerNote={footerNote}>
       <h1 id="profile-title" className={cn(titleClassName, "profile-title", orbitOpen ? "opacity-0 pointer-events-none" : null)}>
         {t("profile.title")}
       </h1>
@@ -879,6 +1002,100 @@ export default function ProfiilBody({
             {error}
           </div>}
       </div>
+
+      {showAccountSettings ? (
+        <Modal
+          open
+          variant="glass"
+          onClose={() => {
+            if (loggingOut || loggingOutEverywhere || deleting) return;
+            setShowAccountSettings(false);
+          }}
+          closeOnOverlayClick={!loggingOut && !loggingOutEverywhere && !deleting}
+          aria-label={t("profile.account_settings")}
+          className={accountModalOverlayClassName}
+          contentClassName={accountModalContentClassName}
+        >
+          <div className={accountModalHeadClassName}>
+            <BackButton
+              onClick={() => {
+                if (loggingOut || loggingOutEverywhere || deleting) return;
+                setShowAccountSettings(false);
+              }}
+              ariaLabel={t("buttons.back")}
+              holdPressedVisualDisabled
+              className={accountModalBackButtonClassName}
+            />
+            <div className={accountModalTitleWrapClassName}>
+              <h2 className={accountModalTitleClassName}>{t("profile.account_settings")}</h2>
+              <p className={accountModalDescriptionClassName}>{t("profile.account_settings_hint")}</p>
+            </div>
+          </div>
+          <div className={accountModalActionStackClassName}>
+            <section className={accountModalCardClassName}>
+              <div className={accountModalActionRowClassName}>
+                <div className={accountModalActionLabelClassName}>{t("profile.logout")}</div>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className={accountModalButtonClassName}
+                  onClick={async () => {
+                    setShowAccountSettings(false);
+                    await handleLogout();
+                  }}
+                  disabled={loggingOut || loggingOutEverywhere || deleting}
+                >
+                  {t("profile.logout")}
+                </Button>
+              </div>
+              <p className={accountModalNoteClassName}>{t("profile.logout_hint")}</p>
+            </section>
+            <section className={accountModalCardClassName}>
+              <div className={accountModalActionRowClassName}>
+                <div className={accountModalActionLabelClassName}>{t("profile.logout_all_devices")}</div>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className={accountModalButtonClassName}
+                  onClick={() => {
+                    setShowAccountSettings(false);
+                    setError("");
+                    setShowLogoutAll(true);
+                  }}
+                  disabled={loggingOut || loggingOutEverywhere || deleting}
+                >
+                  {t("profile.logout_all_devices")}
+                </Button>
+              </div>
+              <p className={accountModalNoteClassName}>{t("profile.logout_all_hint")}</p>
+            </section>
+            <section className={accountModalCardClassName}>
+              <div className={accountModalActionRowClassName}>
+                <div className={accountModalActionLabelClassName}>{t("profile.delete_account")}</div>
+                <Button
+                  type="button"
+                  variant="danger"
+                  size="sm"
+                  className={accountModalButtonClassName}
+                  onClick={() => {
+                    setShowAccountSettings(false);
+                    setError("");
+                    setDeleting(false);
+                    setDeletePin("");
+                    setShowDelete(true);
+                  }}
+                  disabled={loggingOut || loggingOutEverywhere || deleting}
+                >
+                  <span>{t("profile.delete_account")}</span>
+                </Button>
+              </div>
+              <p className={accountModalNoteClassName}>{t("profile.delete_account_hint")}</p>
+            </section>
+          </div>
+        </Modal>
+      ) : null}
 
       {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmVariant="danger" confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")} cancelLabel={t("buttons.cancel")} onConfirm={async () => {
       if (deleting) return;
@@ -952,5 +1169,18 @@ export default function ProfiilBody({
           </p>
         ) : null}
     </ModalConfirm>}
+      {showLogoutAll ? (
+        <ModalConfirm
+          message={t("profile.logout_all_confirm")}
+          confirmLabel={loggingOutEverywhere ? t("profile.logging_out_all") : t("profile.logout_all_devices")}
+          cancelLabel={t("buttons.cancel")}
+          onConfirm={handleLogoutAll}
+          onCancel={() => {
+            if (loggingOutEverywhere) return;
+            setShowLogoutAll(false);
+          }}
+          disabled={loggingOutEverywhere}
+        />
+      ) : null}
     </ProfileShell>;
 }

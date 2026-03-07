@@ -78,16 +78,17 @@ export default function HelpListingsPanel({
         className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.4rem] max-[768px]:!w-[4.4rem] max-[768px]:[&>svg]:!h-[4.4rem] max-[768px]:[&>svg]:!w-[4.4rem]"
       />
 
-      <header className="flex items-start justify-center gap-[0.75rem]">
-        <div className="flex flex-col items-center">
-          <h2 className={`${glassPageTitleClassName} !mb-0 max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`}>
-            {title}
-          </h2>
-          <p className="mt-[1.45rem] text-[1.28rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:mt-[1.2rem] max-[768px]:text-[1.26rem] max-[768px]:tracking-[0.01em]">
-            {countLabel}
-          </p>
-        </div>
+      <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
+        <h2 className={`${glassPageTitleClassName} max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`}>
+          {title}
+        </h2>
       </header>
+
+      <div className="flex justify-center">
+        <p className="mt-[0.88rem] text-center text-[1.28rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:mt-[0.82rem] max-[768px]:text-[1.26rem] max-[768px]:tracking-[0.01em]">
+          {countLabel}
+        </p>
+      </div>
 
       <div className="grid gap-[0.7rem] px-[1.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.12rem]">
         <Panel

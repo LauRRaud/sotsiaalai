@@ -281,6 +281,12 @@ export async function PUT(request) {
       });
     }
 
+    if (requiresReauth) {
+      data.sessionVersion = {
+        increment: 1
+      };
+    }
+
     const updated = await prisma.user.update({
       where: { id: ctx.userId },
       data,

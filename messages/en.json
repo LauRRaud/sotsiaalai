@@ -206,11 +206,20 @@
     "save": "Save",
     "logout": "Sign out",
     "logout_short": "Out",
+    "account_settings": "Account settings",
+    "account_settings_hint": "Manage sign-in, security, and account closure here.",
+    "logout_all_devices": "Sign out everywhere",
+    "logout_all_confirm": "Sign out on all devices and browsers and remove trusted devices?",
+    "logging_out_all": "Signing out everywhere",
+    "logout_all_failed": "Failed to sign out on all devices.",
+    "logout_hint": "Ends the active session on this device.",
+    "logout_all_hint": "Signs you out on all devices and removes remembered devices.",
     "back_to_chat": "Back to chat",
     "actions_label": "Profile actions",
     "delete_confirm": "Are you sure you want to permanently delete your account? This cannot be undone.",
     "deleting": "Deleting",
     "delete_account": "Delete account",
+    "delete_account_hint": "Permanently deletes your account and related access. This cannot be undone.",
     "delete_loading_status": "Deleting account",
     "load_failed": "Failed to load profile.",
     "update_failed": "Failed to update profile.",
@@ -550,6 +559,9 @@
       "initial_loading": "Loading conversation..."
     },
     "back_to_home": "Back to homepage",
+    "mobile": {
+      "show_navigation": "Show navigation"
+    },
     "help": {
       "helpRequests": "Help requests",
       "helpOffers": "Help offers",
@@ -1255,8 +1267,11 @@
       "paragraph1": "<p><strong>SotsiaalAI</strong> is an AI-powered web platform that supports both social-sector professionals and people looking for clarity in life-related questions. The social sector is characterised by <strong>heavy workloads, fragmented information, and complex system navigation</strong> – as also confirmed by <oska>the OSKA report (2025)</oska>. SotsiaalAI aims to make essential knowledge more accessible and support both professional work and the search for help.</p>",
       "paragraph2": "<p>At the centre of the platform is a single chat window through which users can ask for information, receive guidance, draft documents and reports, and shape practical next steps. Through the chat, users can also describe requests for help and offers of help, have them structured, view matching listings, and, when needed, move on to person-to-person communication. The platform also includes <strong>document analysis, deep research, group chat, dictation, and read-aloud responses</strong>, which improve accessibility and ease of use.</p>",
       "paragraph3": "<p>The platform includes two role-based, agent-capable AI assistants: one for <strong>social work professionals</strong> and one for <strong>people approaching with life-related questions</strong>. For professionals, SotsiaalAI is a working tool for interpreting legal frameworks, methodologies, and practices, drafting documents, managing materials, and supporting co-vision and collaboration. For people seeking help, it helps explain benefits, services, and rights and, when needed, also assists in drafting letters, applications, and other necessary texts.</p>",
-      "paragraph4": "<p>SotsiaalAI's vision is to become a <strong>one-stop platform for the next generation of the social system</strong>, where AI agents, a trusted knowledge base, and practical service solutions form a single ecosystem. In this ecosystem, knowledge, document creation, finding services and benefits, work and career opportunities, assistive-aid search, and matching help requests with offers of help come together to help both people and professionals move from a question, need, or offer to clarity, an action plan, and a working solution.</p>",
-      "paragraph5": "<p>SotsiaalAI is being developed as a <strong>social enterprise</strong> and a <strong>social innovation initiative</strong>. We combine technology and social-sector practice to reduce information barriers and make workflows, collaboration, and finding help clearer, faster, and more accessible.</p>"
+      "paragraph4": "<p>SotsiaalAI's vision is to become a <strong>next-generation platform for the social sector</strong>, centred around a single chat window. It brings together AI agents, a trusted knowledge base, and practical solutions into a single ecosystem. Through the same conversation, users can ask for information, create documents, find services and benefits, discover work and career opportunities, search for assistive aids, and connect help requests with offers of help. In this way, SotsiaalAI helps both people and professionals move from a question or need to clarity and a working solution.</p>",
+      "paragraph5": "<p>SotsiaalAI is being developed as a <strong>social enterprise</strong> and a <strong>social innovation initiative</strong>. We combine technology and social-sector practice to reduce information barriers and make workflows, collaboration, and finding help clearer, faster, and more accessible.</p>",
+      "paragraph8": "<p>We are designing the platform so that important knowledge is available in clear language, in one place, and in a format that can be used immediately in daily work or in a personal help-seeking situation.</p>",
+      "paragraph9": "<p>Accessibility is a core principle of SotsiaalAI. That is why the platform includes support for different interface languages, text size and contrast settings, dictation, and read-aloud responses.</p>",
+      "paragraph10": "<p>SotsiaalAI does not replace a person, a specialist, or emergency help. It is a practical assistant that helps people reach clearer information, prepare next steps, and, when needed, move toward human support.</p>"
     },
     "contact": {
       "title": "Contact",
@@ -1575,6 +1590,11 @@
         "subject": "SotsiaalAI new verification code",
         "text": "Hello!\n\nYour new verification code is: {code}\nThe code is valid for {minutes} minutes.\n\nIf you did not try to sign in, please ignore this email.",
         "html": "<p>Hello!</p><p>Your new verification code is: <strong>{code}</strong></p><p>The code is valid for {minutes} minutes.</p><p>If you did not try to sign in, please ignore this email.</p>"
+      },
+      "login_device_alert": {
+        "subject": "SotsiaalAI sign-in from a new or unrecognized device",
+        "text": "Hello!\n\nWe noticed a sign-in attempt from a new or unrecognized device.\n\nTime: {time}\nDevice: {device}\nIP address: {ip}\n\nIf this was you, you can continue signing in with the verification code. If this was not you, please change your PIN immediately.",
+        "html": "<p>Hello!</p><p>We noticed a sign-in attempt from a new or unrecognized device.</p><ul><li><strong>Time:</strong> {time}</li><li><strong>Device:</strong> {device}</li><li><strong>IP address:</strong> {ip}</li></ul><p>If this was you, you can continue signing in with the verification code. If this was not you, please change your PIN immediately.</p>"
       },
       "verify": {
         "subject": "Confirm your email address",

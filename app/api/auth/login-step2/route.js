@@ -11,7 +11,9 @@ import {
   generateOpaqueToken,
   buildDeviceCookie,
   DEVICE_COOKIE_NAME,
-  TRUSTED_DEVICE_DAYS
+  TRUSTED_DEVICE_DAYS,
+  TRUSTED_DEVICE_MAX,
+  pickTrustedDeviceIdsToEvict
 } from "@/lib/auth/pin-login";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { serverT, normalizeServerLocale } from "@/lib/i18n/serverMessages";
@@ -193,6 +195,44 @@ export async function POST(request) {
 
       let trustedDeviceId = null;
       if (rememberDevice) {
+        await tx.trustedDevice.deleteMany({
+          where: {
+            userId: loginToken.userId,
+            expiresAt: {
+              lte: now
+            }
+          }
+        });
+
+        const activeTrustedDevices = await tx.trustedDevice.findMany({
+          where: {
+            userId: loginToken.userId,
+            expiresAt: {
+              gt: now
+            }
+          },
+          select: {
+            id: true,
+            lastUsedAt: true,
+            createdAt: true
+          }
+        });
+
+        const evictIds = pickTrustedDeviceIdsToEvict(
+          activeTrustedDevices,
+          Math.max(1, TRUSTED_DEVICE_MAX)
+        );
+
+        if (evictIds.length > 0) {
+          await tx.trustedDevice.deleteMany({
+            where: {
+              id: {
+                in: evictIds
+              }
+            }
+          });
+        }
+
         const deviceToken = generateOpaqueToken(32);
         const record = await tx.trustedDevice.create({
           data: {

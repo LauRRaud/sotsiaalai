@@ -2,7 +2,13 @@ import CredentialsProviderImport from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "./lib/prisma";
 import { compare } from "bcrypt";
-import { hashOpaqueToken, normalizeEmail, normalizePin, isValidPin } from "@/lib/auth/pin-login";
+import {
+  hashOpaqueToken,
+  normalizeEmail,
+  normalizePin,
+  isValidPin,
+  isDirectPinLoginAllowed
+} from "@/lib/auth/pin-login";
 const CredentialsProvider = CredentialsProviderImport?.default ?? CredentialsProviderImport;
 const LOCALHOST_RE = /^https?:\/\/(?:localhost|127(?:\.\d{1,3}){1,3})(?::\d+)?$/i;
 function normalizeBaseUrl(value) {
@@ -22,7 +28,7 @@ function computeBaseUrl() {
   return normalized.find(url => LOCALHOST_RE.test(url)) || normalized[0] || "http://localhost:3000";
 }
 const APP_BASE_URL = computeBaseUrl();
-const ALLOW_DIRECT_PIN_LOGIN = process.env.LOGIN_ALLOW_DIRECT_PIN === "true";
+const ALLOW_DIRECT_PIN_LOGIN = isDirectPinLoginAllowed();
 function toInternalDestination(targetUrl, runtimeBaseUrl = APP_BASE_URL) {
   const effectiveBaseUrl = normalizeBaseUrl(runtimeBaseUrl) || APP_BASE_URL;
   try {
@@ -78,7 +84,8 @@ export const authConfig = {
                 id: true,
                 email: true,
                 role: true,
-                isAdmin: true
+                isAdmin: true,
+                sessionVersion: true
               }
             }
           }
@@ -87,20 +94,39 @@ export const authConfig = {
         const now = new Date();
         if (loginToken.expiresAt <= now || loginToken.usedAt) return null;
         if (loginToken.requiresOtp && !loginToken.otpVerifiedAt) return null;
-        await prisma.loginTempToken.update({
-          where: {
-            id: loginToken.id
-          },
-          data: {
-            usedAt: now
-          }
+        const user = await prisma.$transaction(async tx => {
+          await tx.loginTempToken.update({
+            where: {
+              id: loginToken.id
+            },
+            data: {
+              usedAt: now
+            }
+          });
+          return tx.user.update({
+            where: {
+              id: loginToken.user.id
+            },
+            data: {
+              sessionVersion: {
+                increment: 1
+              }
+            },
+            select: {
+              id: true,
+              email: true,
+              role: true,
+              isAdmin: true,
+              sessionVersion: true
+            }
+          });
         });
-        const user = loginToken.user;
         return {
           id: user.id,
           email: user.email,
           role: user.role,
-          isAdmin: user.isAdmin
+          isAdmin: user.isAdmin,
+          sessionVersion: user.sessionVersion
         };
       }
       if (!ALLOW_DIRECT_PIN_LOGIN) {
@@ -112,16 +138,42 @@ export const authConfig = {
       const user = await prisma.user.findUnique({
         where: {
           email
+        },
+        select: {
+          id: true,
+          email: true,
+          role: true,
+          isAdmin: true,
+          passwordHash: true,
+          sessionVersion: true
         }
       });
       if (!user?.passwordHash) return null;
       const ok = await compare(pin, user.passwordHash);
       if (!ok) return null;
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: user.id
+        },
+        data: {
+          sessionVersion: {
+            increment: 1
+          }
+        },
+        select: {
+          id: true,
+          email: true,
+          role: true,
+          isAdmin: true,
+          sessionVersion: true
+        }
+      });
       return {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-        isAdmin: user.isAdmin
+        id: updatedUser.id,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        isAdmin: updatedUser.isAdmin,
+        sessionVersion: updatedUser.sessionVersion
       };
     }
   })],
@@ -134,27 +186,50 @@ export const authConfig = {
         token.id = user.id;
         token.role = user.role ?? "CLIENT";
         token.isAdmin = Boolean(user.isAdmin);
+        token.sessionVersion = Number.isFinite(user.sessionVersion) ? user.sessionVersion : 0;
       }
       if (token.id) {
         try {
-          const active = await prisma.subscription.findFirst({
+          const currentUser = await prisma.user.findUnique({
             where: {
-              userId: String(token.id),
-              status: "ACTIVE",
-              OR: [{
-                validUntil: null
-              }, {
-                validUntil: {
-                  gt: new Date()
-                }
-              }]
+              id: String(token.id)
             },
             select: {
-              id: true
+              role: true,
+              isAdmin: true,
+              sessionVersion: true,
+              subscriptions: {
+                where: {
+                  status: "ACTIVE",
+                  OR: [{
+                    validUntil: null
+                  }, {
+                    validUntil: {
+                      gt: new Date()
+                    }
+                  }]
+                },
+                select: {
+                  id: true
+                },
+                take: 1
+              }
             }
           });
-          token.subActive = Boolean(active);
-        } catch {
+          if (!currentUser) {
+            throw new Error("SESSION_USER_MISSING");
+          }
+          if (Number(token.sessionVersion ?? 0) !== Number(currentUser.sessionVersion ?? 0)) {
+            throw new Error("SESSION_REVOKED");
+          }
+          token.role = currentUser.role ?? "CLIENT";
+          token.isAdmin = Boolean(currentUser.isAdmin);
+          token.subActive = currentUser.subscriptions.length > 0;
+        } catch (error) {
+          const reason = String(error?.message || "");
+          if (reason === "SESSION_USER_MISSING" || reason === "SESSION_REVOKED") {
+            throw error;
+          }
           token.subActive = false;
         }
       } else {

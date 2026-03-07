@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import InviteModal from "@/components/invite/InviteModal";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
-import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
 import RightRail from "@/components/chat/RightRail";
 import LeftRail from "@/components/chat/LeftRail";
@@ -9,11 +8,10 @@ import ChatAnalysisPanel from "./ChatAnalysisPanel";
 import ChatComposer from "./ChatComposer";
 import ConversationView from "./ConversationView";
 import ChatSourcesPanel from "./ChatSourcesPanel";
-import { glassPageBackMobileBottomCenterClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
-import ChatMobileRailButton from "./view/ChatMobileRailButton";
 import ChatAiForwardToggle from "./view/ChatAiForwardToggle";
 import { ChatRecordingNotice, ChatTopNotices } from "./view/ChatNotices";
+import ChatMobileTopNav from "./view/ChatMobileTopNav";
 
 const ENTRY_SETTLE_MS = 620;
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
@@ -33,8 +31,8 @@ export default function ChatBodyView({
   useMaskedChatSurface,
   handleBackHome,
   mobileRailVisible,
-  showMobileRail,
   mobileRailInteractionLocked,
+  showMobileRail,
   isLightTheme,
   roomId,
   inputFocused,
@@ -162,11 +160,37 @@ export default function ChatBodyView({
                   <div className="mask-pane mask-pane--right" />
                 </div>
               ) : null}
-              {!profileOpen && isMobile ? <BackButton onClick={handleBackHome} ariaLabel={t("chat.back_to_home")} className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[768px]:!z-[95]")} iconClassName="group-hover:!scale-[1.01] group-focus-visible:!scale-[1.01]" /> : null}
-              {!profileOpen && !mobileRailVisible ? <ChatMobileRailButton isLightTheme={isLightTheme} onShowMobileRail={showMobileRail} disabled={mobileRailInteractionLocked} ariaLabel={t("chat.show_quick_actions")} /> : null}
+              {!profileOpen && isMobile ? (
+                <ChatMobileTopNav
+                  t={t}
+                  locale={locale}
+                  isLightTheme={isLightTheme}
+                  roomId={roomId}
+                  embedded={embedded}
+                  handleBackHome={handleBackHome}
+                  mobileRailVisible={mobileRailVisible}
+                  mobileRailInteractionLocked={
+                    (analysis.showAnalysisPanel &&
+                      analysis.analysisPanelMode === "overlay") ||
+                    mobileRailInteractionLocked
+                  }
+                  showMobileRail={showMobileRail}
+                  sourcesButtonRef={sourcesButtonRef}
+                  toggleSourcesPanel={toggleSourcesPanel}
+                  showSourcesPanel={showSourcesPanel}
+                  sourcesPulse={sourcesPulse}
+                  conversationSources={conversationSources}
+                  hasConversationSources={hasConversationSources}
+                  leftRailActiveKey={leftRailActiveKey}
+                  rightRailActiveKey={rightRailActiveKey}
+                  onShowHelpRequests={onShowHelpRequests}
+                  onShowHelpOffers={onShowHelpOffers}
+                  toggleProfile={toggleProfile}
+                />
+              ) : null}
 
-              <LeftRail t={t} locale={locale} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} activeHelpPanelKey={leftRailActiveKey} onShowHelpRequests={onShowHelpRequests} onShowHelpOffers={onShowHelpOffers} onBackHome={handleBackHome} embedded={embedded} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} />
-              <RightRail t={t} locale={locale} roomId={roomId} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onProfileToggle={toggleProfile} activeWorkspaceKey={rightRailActiveKey} onShowMyHelpRequests={onShowMyHelpRequests} onShowMyHelpOffers={onShowMyHelpOffers} embedded={embedded} suppressTooltip={analysis.showAnalysisPanel} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} />
+              {!isMobile ? <LeftRail t={t} locale={locale} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} activeHelpPanelKey={leftRailActiveKey} onShowHelpRequests={onShowHelpRequests} onShowHelpOffers={onShowHelpOffers} onBackHome={handleBackHome} embedded={embedded} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} /> : null}
+              {!isMobile ? <RightRail t={t} locale={locale} roomId={roomId} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onProfileToggle={toggleProfile} activeWorkspaceKey={rightRailActiveKey} onShowMyHelpRequests={onShowMyHelpRequests} onShowMyHelpOffers={onShowMyHelpOffers} embedded={embedded} suppressTooltip={analysis.showAnalysisPanel} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} /> : null}
               {listingsPanelNode}
               {selectedListingContextNode}
 

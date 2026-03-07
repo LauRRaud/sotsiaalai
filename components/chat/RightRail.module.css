@@ -355,11 +355,11 @@
   @keyframes right-rail-mobile-item-fade-in {
     from {
       opacity: 0;
-      transform: translateX(0.26rem);
+      transform: translateY(0.22rem);
     }
     to {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateY(0);
     }
   }
 
@@ -368,8 +368,19 @@
     animation-delay: var(--mobile-reveal-delay, 0ms);
   }
 
+  .rightRail {
+    --chat-mobile-icon-box: calc(var(--rail-item-size) * 0.82);
+    --chat-mobile-icon-scale-default: 0.92;
+    --chat-mobile-icon-scale-chat: 0.88;
+    --chat-mobile-icon-scale-sources: 0.8;
+    --chat-mobile-icon-scale-profile: 0.92;
+    --chat-mobile-icon-scale-rooms: 0.94;
+    --chat-mobile-icon-scale-invite: 0.94;
+    --chat-mobile-icon-scale-help: 1.1;
+  }
+
   .avatar {
-    --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.12));
+    --avatar-icon-size: var(--chat-mobile-icon-box);
   }
 
   .iconBtnActive {
@@ -378,40 +389,7 @@
   }
 
   .label {
-    display: block;
-    position: absolute;
-    left: 50%;
-    top: calc(100% + 0.24rem);
-    isolation: isolate;
-    opacity: 0;
-    transform: translate(-50%, 0.08rem);
-    font-size: clamp(1.16rem, 4.4vw, 1.46rem) !important;
-    font-weight: 540 !important;
-    line-height: 1.1 !important;
-    max-width: 7.2rem !important;
-    min-height: auto !important;
-    margin-top: 0 !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    white-space: normal !important;
-    text-wrap: balance !important;
-    text-align: center !important;
-    pointer-events: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    will-change: opacity, transform;
-    z-index: 4;
-  }
-
-  .label::before {
-    content: none;
-  }
-
-  .isArmed .label {
-    opacity: 1 !important;
-    transform: translate(-50%, 0) !important;
+    display: none !important;
   }
 
   :global(:root.theme-light) .label {
@@ -420,14 +398,18 @@
 
   .iconImg,
   .iconSvg {
-    width: calc(100% * var(--rail-icon-scale)) !important;
-    height: calc(100% * var(--rail-icon-scale)) !important;
-    transform: none;
+    width: var(--chat-mobile-icon-box) !important;
+    height: var(--chat-mobile-icon-box) !important;
+    transform: scale(var(--chat-mobile-icon-scale-default)) translateY(0) !important;
     transform-origin: center;
+    transform-box: fill-box;
     transition: transform 160ms ease, opacity 160ms ease;
   }
 
   .profileAvatar {
+    inline-size: var(--chat-mobile-icon-box) !important;
+    block-size: var(--chat-mobile-icon-box) !important;
+    transform: scale(var(--chat-mobile-icon-scale-profile)) translateY(0) !important;
     transition: transform 160ms ease, opacity 160ms ease;
   }
 
@@ -437,36 +419,40 @@
     transform: none !important;
   }
 
-  .iconSvgSources {
-    width: calc(100% * (var(--rail-icon-scale) + 0.08)) !important;
-    height: calc(100% * (var(--rail-icon-scale) + 0.08)) !important;
+  .iconSvgSources,
+  .iconChats,
+  .iconInvite,
+  .iconRooms,
+  .iconHelp {
+    width: var(--chat-mobile-icon-box) !important;
+    height: var(--chat-mobile-icon-box) !important;
+    transform: scale(var(--chat-mobile-icon-scale-default)) translateY(0) !important;
   }
+
   .iconChats {
-    width: calc(100% * (var(--rail-icon-scale) + 0.11)) !important;
-    height: calc(100% * (var(--rail-icon-scale) + 0.11)) !important;
+    transform: scale(var(--chat-mobile-icon-scale-chat)) translateY(0) !important;
   }
-  .iconInvite {
-    width: calc(100% * (var(--rail-icon-scale) + 0.15)) !important;
-    height: calc(100% * (var(--rail-icon-scale) + 0.15)) !important;
+
+  .iconSvgSources {
+    transform: scale(var(--chat-mobile-icon-scale-sources)) translateY(0) !important;
   }
+
   .iconRooms {
-    width: calc(100% * (var(--rail-icon-scale) + 0.1)) !important;
-    height: calc(100% * (var(--rail-icon-scale) + 0.1)) !important;
-    transform: none !important;
+    transform: scale(var(--chat-mobile-icon-scale-rooms)) translateY(0) !important;
+  }
+
+  .iconInvite {
+    transform: scale(var(--chat-mobile-icon-scale-invite)) translateY(0) !important;
   }
 
   .iconHelp {
-    width: calc(100% * (var(--rail-icon-scale) + 0.24)) !important;
-    height: calc(100% * (var(--rail-icon-scale) + 0.24)) !important;
-    transform: none !important;
+    transform: scale(var(--chat-mobile-icon-scale-help)) translateY(0) !important;
   }
 
   .slot {
-    top: var(--chat-mobile-rail-top) !important;
-    left: calc(
-      env(safe-area-inset-left, 0px) + 0.04rem + 3.85rem + clamp(0.42rem, 1.9vw, 0.58rem)
-    ) !important;
-    right: calc(env(safe-area-inset-right, 0px) + 0.02rem) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.48rem) !important;
+    left: auto !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.42rem) !important;
     width: auto !important;
     height: auto !important;
   }
@@ -483,7 +469,7 @@
     flex-direction: row !important;
     justify-content: flex-end !important;
     align-items: center !important;
-    gap: clamp(0.62rem, 2.8vw, 0.94rem) !important;
+    gap: clamp(0.14rem, 0.8vw, 0.24rem) !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     padding-left: 0 !important;
@@ -492,7 +478,7 @@
     -webkit-mask-image: none !important;
     mask-image: none !important;
     --rail-item-size: var(--chat-mobile-rail-size);
-    --rail-icon-scale: 0.9;
+    --rail-icon-scale: 0.82;
   }
 
   .item {
@@ -502,7 +488,7 @@
     transform: none !important;
     width: var(--rail-item-size) !important;
     height: var(--rail-item-size) !important;
-    min-width: var(--rail-item-size) !important;
+    min-width: 0 !important;
     min-height: var(--rail-item-size) !important;
     opacity: 1 !important;
     transition: transform 160ms ease, opacity 160ms ease !important;
@@ -511,8 +497,12 @@
   .iconBtn {
     position: relative !important;
     overflow: visible !important;
-    display: grid !important;
-    place-items: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: var(--rail-item-size) !important;
+    height: var(--rail-item-size) !important;
+    min-height: var(--rail-item-size) !important;
     line-height: 0 !important;
   }
 

@@ -34,6 +34,11 @@ export function useChatMobileRail() {
     setMobileRailVisible(true);
   }, []);
 
+  const toggleMobileRail = useCallback(() => {
+    setMobileRailInteractionLocked(false);
+    setMobileRailVisible(prev => !prev);
+  }, []);
+
   const hideMobileRail = useCallback(() => {
     if (!isMobile) return;
     setMobileRailInteractionLocked(false);
@@ -45,6 +50,7 @@ export function useChatMobileRail() {
     mobileRailVisible,
     mobileRailInteractionLocked,
     showMobileRail,
+    toggleMobileRail,
     hideMobileRail
   };
 }

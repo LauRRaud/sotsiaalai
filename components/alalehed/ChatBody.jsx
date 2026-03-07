@@ -38,6 +38,7 @@ const DEEP_RESEARCH_ARMED_TEXT =
   "S\u00fcvauuring on valitud ja ootel. Kirjuta oma uurimisk\u00fcsimus ning soovi korral t\u00e4psusta piirkond (KOV/linnaosa) v\u00f5i tasand (riiklik/kohalik). Seej\u00e4rel vajuta Enter v\u00f5i Saada. T\u00fchistamiseks vajuta s\u00fcvauuringu ikooni.";
 const DEEP_RESEARCH_EMPTY_QUERY_HINT = "Kirjuta uurimisk\u00fcsimus.";
 const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petatud.";
+const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 
 function isEditableElement(node) {
   if (!(node instanceof Element)) return false;
@@ -75,8 +76,7 @@ export default function ChatBody({
     isMobile,
     mobileRailVisible,
     mobileRailInteractionLocked,
-    showMobileRail,
-    hideMobileRail
+    showMobileRail
   } = useChatMobileRail();
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
@@ -804,6 +804,46 @@ export default function ChatBody({
       emptyText: helpUi.emptyMyOffers
     });
   }, [helpUi.emptyMyOffers, helpUi.myHelpOffers, openListingsPanel]);
+  const openHelpPanelByKey = useCallback((panelKey) => {
+    if (panelKey === "my_help_requests") {
+      openMyRequestsPanel();
+      return;
+    }
+    if (panelKey === "my_help_offers") {
+      openMyOffersPanel();
+      return;
+    }
+    if (panelKey === "help_requests") {
+      openGlobalRequestsPanel();
+      return;
+    }
+    if (panelKey === "help_offers") {
+      openGlobalOffersPanel();
+    }
+  }, [openGlobalOffersPanel, openGlobalRequestsPanel, openMyOffersPanel, openMyRequestsPanel]);
+  useEffect(() => {
+    const onOpenHelpListings = event => {
+      openHelpPanelByKey(String(event?.detail?.panelKey || ""));
+    };
+    window.addEventListener("sotsiaalai:open-help-listings", onOpenHelpListings);
+    return () => {
+      window.removeEventListener("sotsiaalai:open-help-listings", onOpenHelpListings);
+    };
+  }, [openHelpPanelByKey]);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let panelKey = "";
+    try {
+      panelKey = String(window.sessionStorage.getItem(CHAT_HELP_PANEL_STORAGE_KEY) || "");
+      if (panelKey) {
+        window.sessionStorage.removeItem(CHAT_HELP_PANEL_STORAGE_KEY);
+      }
+    } catch {
+      panelKey = "";
+    }
+    if (!panelKey) return;
+    openHelpPanelByKey(panelKey);
+  }, [openHelpPanelByKey]);
   useEffect(() => {
     if (!activeListingsPanel) return;
     void loadListingsPanel(activeListingsPanel);
@@ -1110,7 +1150,6 @@ export default function ChatBody({
     }
     setInputFocused(true);
     if (!isMobile) return;
-    hideMobileRail();
     const keepConversationAtBottom = () => {
       const node = chatWindowRef.current;
       if (!node) return;
@@ -1119,7 +1158,7 @@ export default function ChatBody({
     requestAnimationFrame(keepConversationAtBottom);
     setTimeout(keepConversationAtBottom, 90);
     setTimeout(keepConversationAtBottom, 190);
-  }, [hideMobileRail, isMobile]);
+  }, [isMobile]);
   useEffect(() => {
     return () => {
       if (blurTimerRef.current && typeof window !== "undefined") {
@@ -1262,8 +1301,8 @@ export default function ChatBody({
     useMaskedChatSurface={useMaskedChatSurface}
     handleBackHome={handleBackHome}
     mobileRailVisible={mobileRailVisible}
-    showMobileRail={showMobileRail}
     mobileRailInteractionLocked={mobileRailInteractionLocked}
+    showMobileRail={showMobileRail}
     isLightTheme={isLightTheme}
     roomId={roomId}
     inputFocused={inputFocused}

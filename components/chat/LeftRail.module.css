@@ -13,6 +13,19 @@
   pointer-events: none;
 }
 
+.mobileRailTransition {
+  will-change: opacity, transform;
+  transition:
+    opacity 220ms ease,
+    transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.mobileRailHidden {
+}
+
+.mobileRailVisible {
+}
+
 .leftRail {
   position: absolute;
   left: calc(var(--glass-edge-left, 0px) + var(--rail-inset, -0.7rem));
@@ -259,17 +272,111 @@
 }
 
 @media (max-width: 768px) {
+  .mobileRailHidden {
+    opacity: 0;
+    transform: translateX(-0.4rem);
+    pointer-events: none;
+  }
+
+  .mobileRailVisible {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
   .slot {
-    display: none;
+    display: block;
+    top: calc(env(safe-area-inset-top, 0px) + 0.48rem) !important;
+    left: auto !important;
+    right: calc(
+      env(safe-area-inset-right, 0px) + 0.42rem +
+        (var(--chat-mobile-rail-size, clamp(2rem, 6.2vw, 2.22rem)) * 3) +
+        (clamp(0.14rem, 0.8vw, 0.24rem) * 2) +
+        var(--chat-mobile-cluster-gap, clamp(0.14rem, 0.8vw, 0.24rem))
+    ) !important;
+    width: auto !important;
+    height: auto !important;
   }
 
   .tooltip {
     display: none;
   }
 
+  .leftRail {
+    --chat-mobile-icon-box: calc(var(--rail-item-size) * 0.82);
+    --chat-mobile-icon-scale-default: 0.92;
+    --chat-mobile-icon-scale-chat: 0.88;
+    --chat-mobile-icon-scale-sources: 0.8;
+    --chat-mobile-icon-scale-help: 1.1;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: clamp(0.14rem, 0.8vw, 0.24rem) !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+    --rail-item-size: var(--chat-mobile-rail-size);
+    --rail-icon-scale: 0.82;
+  }
+
+  .item {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: var(--rail-item-size) !important;
+    height: var(--rail-item-size) !important;
+    min-width: var(--rail-item-size) !important;
+    min-height: var(--rail-item-size) !important;
+    opacity: 1 !important;
+  }
+
+  .mobileItem {
+    margin: 0 !important;
+  }
+
+  .iconBtn {
+    width: var(--rail-item-size) !important;
+    height: var(--rail-item-size) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: visible !important;
+  }
+
+  .iconSvg,
+  .iconChats,
+  .iconHelp,
+  .iconSvgSources {
+    width: var(--chat-mobile-icon-box) !important;
+    height: var(--chat-mobile-icon-box) !important;
+    transform: scale(var(--chat-mobile-icon-scale-default)) translateY(0) !important;
+    transform-origin: center !important;
+    transform-box: fill-box;
+  }
+
+  .iconChats {
+    transform: scale(var(--chat-mobile-icon-scale-chat)) translateY(0) !important;
+  }
+
+  .iconSvgSources {
+    transform: scale(var(--chat-mobile-icon-scale-sources)) translateY(0) !important;
+  }
+
   .iconHelp {
-    width: calc(100% * (var(--rail-icon-scale) + 0.22)) !important;
-    height: calc(100% * (var(--rail-icon-scale) + 0.22)) !important;
+    transform: scale(var(--chat-mobile-icon-scale-help)) translateY(0) !important;
+  }
+
+  .iconBtn:hover .iconSvgSources,
+  .iconBtn:focus-visible .iconSvgSources,
+  .iconBtn:active .iconSvgSources {
+    transform: scale(var(--chat-mobile-icon-scale-sources)) translateY(0) !important;
   }
 }
 

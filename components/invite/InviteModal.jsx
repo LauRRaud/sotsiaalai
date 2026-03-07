@@ -296,7 +296,7 @@ export default function InviteModal() {
   }
   if (!open) return null;
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName="invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] [--input-text:var(--glass-modal-text)]">
-      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.4rem] max-[768px]:!w-[4.4rem] max-[768px]:[&>svg]:!h-[4.4rem] max-[768px]:[&>svg]:!w-[4.4rem]" />
+      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className="absolute top-[0.15rem] left-[0.2rem] translate-x-0 translate-y-0 bottom-auto z-[92] !h-[4.85rem] !w-[4.85rem] min-[769px]:!h-[5.3rem] min-[769px]:!w-[5.3rem] [&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)]" />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className={`${glassPageTitleClassName} max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`}>
           {t("invite.eyebrow")}
@@ -359,7 +359,7 @@ export default function InviteModal() {
             </div>
           </form>}
 
-        <Panel variant="secondary" padding="sm" className={`invite-list-panel ${inviteListCardClassName} min-h-[9.5rem] max-h-[min(48dvh,24rem)] max-[768px]:min-h-[8rem] max-[768px]:max-h-[min(32dvh,18rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
+        <Panel variant="secondary" padding="sm" className={`invite-list-panel ${inviteListCardClassName} min-h-[7.8rem] max-h-[min(38dvh,18rem)] max-[768px]:min-h-[6.9rem] max-[768px]:max-h-[min(24dvh,13.5rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
           <div className="flex items-center justify-between gap-[0.75rem]">
             <span className="text-[1.18rem] font-[650] tracking-[0.03em] max-[768px]:text-[1.24rem] max-[768px]:tracking-[0.034em]">
               {t("invite.list")}

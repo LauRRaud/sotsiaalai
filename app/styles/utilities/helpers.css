@@ -722,11 +722,32 @@ body.login-modal-open {
 .policy-page-content.glass-ring-content--open {
   padding-top: clamp(0.04rem, 0.16vh, 0.14rem);
   margin-top: clamp(-1.08rem, -2.1vh, -0.68rem);
+  position: relative;
 }
 
 .glass-policy-content--expanded {
   padding-top: clamp(0.02rem, 0.12vh, 0.12rem) !important;
   margin-top: clamp(-1.42rem, -2.75vh, -0.92rem) !important;
+}
+
+:root {
+  --policy-bottom-fade-rgb: 3 8 18;
+}
+
+:root.theme-light:not(.theme-mid) {
+  --policy-bottom-fade-rgb: 247 247 246;
+}
+
+:root.theme-mid {
+  --policy-bottom-fade-rgb: 252 248 247;
+}
+
+:root.theme-night {
+  --policy-bottom-fade-rgb: 12 20 34;
+}
+
+html[data-contrast="hc"] {
+  --policy-bottom-fade-rgb: 11 11 11;
 }
 
 .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
@@ -776,6 +797,7 @@ body.login-modal-open {
   padding-top: calc(
     clamp(0.46rem, 1.05vh, 0.82rem) + var(--policy-first-line-drop, 0rem)
   ) !important;
+  padding-bottom: clamp(3.2rem, 6.2vh, 4.4rem) !important;
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
@@ -784,11 +806,11 @@ body.login-modal-open {
     rgba(0, 0, 0, 0.26) 4.4%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 80.8%,
-    rgba(0, 0, 0, 0.92) 87.2%,
-    rgba(0, 0, 0, 0.68) 92.6%,
-    rgba(0, 0, 0, 0.28) 96.6%,
-    rgba(0, 0, 0, 0.06) 98.8%,
+    #000 80.2%,
+    rgba(0, 0, 0, 0.94) 86.2%,
+    rgba(0, 0, 0, 0.62) 90.2%,
+    rgba(0, 0, 0, 0.28) 94.1%,
+    rgba(0, 0, 0, 0.07) 97%,
     transparent 100%
   ) !important;
   -webkit-mask-image: linear-gradient(
@@ -799,11 +821,11 @@ body.login-modal-open {
     rgba(0, 0, 0, 0.26) 4.4%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 80.8%,
-    rgba(0, 0, 0, 0.92) 87.2%,
-    rgba(0, 0, 0, 0.68) 92.6%,
-    rgba(0, 0, 0, 0.28) 96.6%,
-    rgba(0, 0, 0, 0.06) 98.8%,
+    #000 80.2%,
+    rgba(0, 0, 0, 0.94) 86.2%,
+    rgba(0, 0, 0, 0.62) 90.2%,
+    rgba(0, 0, 0, 0.28) 94.1%,
+    rgba(0, 0, 0, 0.07) 97%,
     transparent 100%
   ) !important;
 }
@@ -815,45 +837,92 @@ body.login-modal-open {
   left: 0;
   right: 0;
   bottom: 0;
-  height: clamp(4.8rem, 8.8vh, 6.8rem);
+  height: clamp(4.4rem, 8.2vh, 5.8rem);
   pointer-events: none;
-  z-index: 3;
+  z-index: 6;
+  opacity: 1;
   background: linear-gradient(
     to bottom,
-    rgba(3, 8, 18, 0) 0%,
-    rgba(3, 8, 18, 0.78) 40%,
-    rgba(3, 8, 18, 0.96) 66%,
-    rgba(3, 8, 18, 1) 100%
+    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+    rgba(var(--policy-bottom-fade-rgb), 0.03) 24%,
+    rgba(var(--policy-bottom-fade-rgb), 0.1) 48%,
+    rgba(var(--policy-bottom-fade-rgb), 0.24) 68%,
+    rgba(var(--policy-bottom-fade-rgb), 0.4) 82%,
+    rgba(var(--policy-bottom-fade-rgb), 0.54) 100%
   );
 }
 
-:root.theme-light:not(.theme-mid) .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-:root.theme-light:not(.theme-mid) .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-  opacity: 1;
-  height: clamp(5.8rem, 10.2vh, 7.8rem);
+:root.theme-light:not(.theme-mid)
+  .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
+:root.theme-light:not(.theme-mid)
+  .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
+  height: clamp(4.8rem, 8.7vh, 6.2rem);
   background: linear-gradient(
     to bottom,
-    rgba(244, 244, 244, 0) 0%,
-    rgba(244, 244, 244, 0.24) 32%,
-    rgba(244, 244, 244, 0.58) 56%,
-    rgba(244, 244, 244, 0.82) 76%,
-    rgba(244, 244, 244, 0.94) 90%,
-    rgba(244, 244, 244, 1) 100%
+    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+    rgba(var(--policy-bottom-fade-rgb), 0.02) 24%,
+    rgba(var(--policy-bottom-fade-rgb), 0.08) 48%,
+    rgba(var(--policy-bottom-fade-rgb), 0.2) 68%,
+    rgba(var(--policy-bottom-fade-rgb), 0.32) 82%,
+    rgba(var(--policy-bottom-fade-rgb), 0.4) 92%,
+    rgba(var(--policy-bottom-fade-rgb), 0.48) 100%
   );
 }
 
-:root.theme-mid .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-:root.theme-mid .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-  opacity: 1;
-  height: clamp(5.8rem, 10.2vh, 7.8rem);
+:root.theme-mid
+  .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
+:root.theme-mid
+  .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
+  height: clamp(4.8rem, 8.7vh, 6.2rem);
   background: linear-gradient(
     to bottom,
-    rgba(206, 192, 189, 0) 0%,
-    rgba(206, 192, 189, 0.24) 32%,
-    rgba(206, 192, 189, 0.58) 56%,
-    rgba(206, 192, 189, 0.82) 76%,
-    rgba(206, 192, 189, 0.94) 90%,
-    rgba(206, 192, 189, 1) 100%
+    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+    rgba(var(--policy-bottom-fade-rgb), 0.02) 24%,
+    rgba(var(--policy-bottom-fade-rgb), 0.07) 48%,
+    rgba(var(--policy-bottom-fade-rgb), 0.18) 68%,
+    rgba(var(--policy-bottom-fade-rgb), 0.28) 82%,
+    rgba(var(--policy-bottom-fade-rgb), 0.35) 92%,
+    rgba(var(--policy-bottom-fade-rgb), 0.42) 100%
+  );
+}
+
+.guide-policy-content.glass-ring-content--open::after,
+.policy-page-content.glass-ring-content--open::after {
+  height: clamp(5.8rem, 10.8vh, 7.6rem);
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+    rgba(var(--policy-bottom-fade-rgb), 0.04) 18%,
+    rgba(var(--policy-bottom-fade-rgb), 0.16) 42%,
+    rgba(var(--policy-bottom-fade-rgb), 0.32) 64%,
+    rgba(var(--policy-bottom-fade-rgb), 0.48) 80%,
+    rgba(var(--policy-bottom-fade-rgb), 0.6) 100%
+  );
+}
+
+:root.theme-light:not(.theme-mid) .guide-policy-content.glass-ring-content--open::after,
+:root.theme-light:not(.theme-mid) .policy-page-content.glass-ring-content--open::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+    rgba(var(--policy-bottom-fade-rgb), 0.03) 18%,
+    rgba(var(--policy-bottom-fade-rgb), 0.12) 42%,
+    rgba(var(--policy-bottom-fade-rgb), 0.24) 64%,
+    rgba(var(--policy-bottom-fade-rgb), 0.36) 80%,
+    rgba(var(--policy-bottom-fade-rgb), 0.48) 100%
+  );
+}
+
+:root.theme-mid .guide-policy-content.glass-ring-content--open::after,
+:root.theme-mid .policy-page-content.glass-ring-content--open::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+    rgba(var(--policy-bottom-fade-rgb), 0.02) 18%,
+    rgba(var(--policy-bottom-fade-rgb), 0.1) 42%,
+    rgba(var(--policy-bottom-fade-rgb), 0.2) 64%,
+    rgba(var(--policy-bottom-fade-rgb), 0.3) 80%,
+    rgba(var(--policy-bottom-fade-rgb), 0.4) 100%
   );
 }
 
@@ -863,7 +932,7 @@ body.login-modal-open {
   max-height: calc(
     100% - var(--glass-ring-scroll-offset-open, 5rem) +
       var(--policy-scroll-rise, 0rem) + var(--policy-scroll-open-top-lift, 0rem) +
-      var(--policy-scroll-open-top-raise, 0rem)
+      var(--policy-scroll-open-top-raise, 0rem) + clamp(0.62rem, 1.14vh, 0.95rem)
   ) !important;
   width: var(
     --policy-scroll-open-width,
@@ -898,13 +967,14 @@ body.login-modal-open {
     )
   ) !important;
   margin-top: calc(
-    (var(--policy-scroll-rise, 0rem) * -0.5) -
+    (var(--policy-scroll-rise, 0rem) * -0.12) -
       var(--policy-scroll-open-top-lift, 0rem) -
       var(--policy-scroll-open-top-raise, 0rem)
   ) !important;
   padding-top: calc(
     clamp(-0.4rem, -0.26vh, -0.08rem) + var(--policy-first-line-drop, 0rem)
   ) !important;
+  padding-bottom: clamp(1.35rem, 2.8vh, 2.2rem) !important;
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
@@ -913,9 +983,11 @@ body.login-modal-open {
     rgba(0, 0, 0, 0.26) 4.2%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 89.4%,
-    rgba(0, 0, 0, 0.5) 94.2%,
-    rgba(0, 0, 0, 0.16) 97.4%,
+    #000 84.4%,
+    rgba(0, 0, 0, 0.92) 88.8%,
+    rgba(0, 0, 0, 0.64) 92.6%,
+    rgba(0, 0, 0, 0.3) 96%,
+    rgba(0, 0, 0, 0.08) 98.7%,
     rgba(0, 0, 0, 0) 100%
   ) !important;
   -webkit-mask-image: linear-gradient(
@@ -926,9 +998,11 @@ body.login-modal-open {
     rgba(0, 0, 0, 0.26) 4.2%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 89.4%,
-    rgba(0, 0, 0, 0.5) 94.2%,
-    rgba(0, 0, 0, 0.16) 97.4%,
+    #000 84.4%,
+    rgba(0, 0, 0, 0.92) 88.8%,
+    rgba(0, 0, 0, 0.64) 92.6%,
+    rgba(0, 0, 0, 0.3) 96%,
+    rgba(0, 0, 0, 0.08) 98.7%,
     rgba(0, 0, 0, 0) 100%
   ) !important;
 }
@@ -1067,7 +1141,7 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   }
 
   .glass-policy-scroll-bottom-arc.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
-    padding-bottom: clamp(0.5rem, 1.04vh, 0.72rem) !important;
+    padding-bottom: clamp(3rem, 5.9vh, 4.2rem) !important;
   }
 
   .glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
@@ -1091,10 +1165,10 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
       rgba(0, 0, 0, 0.34) 5.2%,
       #000 8.2%,
       #000 79.8%,
-      rgba(0, 0, 0, 0.94) 86.6%,
-      rgba(0, 0, 0, 0.7) 92.2%,
-      rgba(0, 0, 0, 0.3) 96.4%,
-      rgba(0, 0, 0, 0.06) 98.8%,
+      rgba(0, 0, 0, 0.99) 87.1%,
+      rgba(0, 0, 0, 0.9) 92%,
+      rgba(0, 0, 0, 0.52) 95.9%,
+      rgba(0, 0, 0, 0.14) 98.6%,
       rgba(0, 0, 0, 0) 100%
     ) !important;
     -webkit-mask-image: linear-gradient(
@@ -1105,53 +1179,101 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
       rgba(0, 0, 0, 0.34) 5.2%,
       #000 8.2%,
       #000 79.8%,
-      rgba(0, 0, 0, 0.94) 86.6%,
-      rgba(0, 0, 0, 0.7) 92.2%,
-      rgba(0, 0, 0, 0.3) 96.4%,
-      rgba(0, 0, 0, 0.06) 98.8%,
+      rgba(0, 0, 0, 0.99) 87.1%,
+      rgba(0, 0, 0, 0.9) 92%,
+      rgba(0, 0, 0, 0.52) 95.9%,
+      rgba(0, 0, 0, 0.14) 98.6%,
       rgba(0, 0, 0, 0) 100%
     ) !important;
   }
 
   .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
   .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-    height: clamp(4.7rem, 8.4vh, 6.4rem) !important;
+    height: clamp(4.2rem, 7.8vh, 5.4rem) !important;
     background: linear-gradient(
       to bottom,
-      rgba(3, 8, 18, 0) 0%,
-      rgba(3, 8, 18, 0.82) 38%,
-      rgba(3, 8, 18, 0.97) 64%,
-      rgba(3, 8, 18, 1) 100%
+      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+      rgba(var(--policy-bottom-fade-rgb), 0.03) 24%,
+      rgba(var(--policy-bottom-fade-rgb), 0.12) 48%,
+      rgba(var(--policy-bottom-fade-rgb), 0.28) 68%,
+      rgba(var(--policy-bottom-fade-rgb), 0.44) 82%,
+      rgba(var(--policy-bottom-fade-rgb), 0.58) 100%
     ) !important;
   }
 
-  :root.theme-light:not(.theme-mid) .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root.theme-light:not(.theme-mid) .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-    opacity: 1 !important;
-    height: clamp(5.6rem, 9.8vh, 7.2rem) !important;
+  :root.theme-light:not(.theme-mid)
+    .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
+  :root.theme-light:not(.theme-mid)
+    .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
+    height: clamp(4.6rem, 8.3vh, 5.8rem) !important;
     background: linear-gradient(
       to bottom,
-      rgba(244, 244, 244, 0) 0%,
-      rgba(244, 244, 244, 0.22) 34%,
-      rgba(244, 244, 244, 0.56) 58%,
-      rgba(244, 244, 244, 0.8) 77%,
-      rgba(244, 244, 244, 0.93) 90%,
-      rgba(244, 244, 244, 1) 100%
+      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+      rgba(var(--policy-bottom-fade-rgb), 0.02) 24%,
+      rgba(var(--policy-bottom-fade-rgb), 0.09) 48%,
+      rgba(var(--policy-bottom-fade-rgb), 0.22) 68%,
+      rgba(var(--policy-bottom-fade-rgb), 0.34) 82%,
+      rgba(var(--policy-bottom-fade-rgb), 0.42) 92%,
+      rgba(var(--policy-bottom-fade-rgb), 0.5) 100%
     ) !important;
   }
 
-  :root.theme-mid .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root.theme-mid .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-    opacity: 1 !important;
-    height: clamp(5.6rem, 9.8vh, 7.2rem) !important;
+  :root.theme-mid
+    .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
+  :root.theme-mid
+    .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
+    height: clamp(4.6rem, 8.3vh, 5.8rem) !important;
     background: linear-gradient(
       to bottom,
-      rgba(206, 192, 189, 0) 0%,
-      rgba(206, 192, 189, 0.22) 34%,
-      rgba(206, 192, 189, 0.56) 58%,
-      rgba(206, 192, 189, 0.8) 77%,
-      rgba(206, 192, 189, 0.93) 90%,
-      rgba(206, 192, 189, 1) 100%
+      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+      rgba(var(--policy-bottom-fade-rgb), 0.02) 24%,
+      rgba(var(--policy-bottom-fade-rgb), 0.08) 48%,
+      rgba(var(--policy-bottom-fade-rgb), 0.2) 68%,
+      rgba(var(--policy-bottom-fade-rgb), 0.3) 82%,
+      rgba(var(--policy-bottom-fade-rgb), 0.38) 92%,
+      rgba(var(--policy-bottom-fade-rgb), 0.46) 100%
+    ) !important;
+  }
+
+  .guide-policy-content.glass-ring-content--open::after,
+  .policy-page-content.glass-ring-content--open::after {
+    height: clamp(5.6rem, 10.2vh, 7.2rem) !important;
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+      rgba(var(--policy-bottom-fade-rgb), 0.05) 18%,
+      rgba(var(--policy-bottom-fade-rgb), 0.18) 42%,
+      rgba(var(--policy-bottom-fade-rgb), 0.36) 64%,
+      rgba(var(--policy-bottom-fade-rgb), 0.52) 80%,
+      rgba(var(--policy-bottom-fade-rgb), 0.64) 100%
+    ) !important;
+  }
+
+  :root.theme-light:not(.theme-mid)
+    .guide-policy-content.glass-ring-content--open::after,
+  :root.theme-light:not(.theme-mid)
+    .policy-page-content.glass-ring-content--open::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+      rgba(var(--policy-bottom-fade-rgb), 0.03) 18%,
+      rgba(var(--policy-bottom-fade-rgb), 0.12) 42%,
+      rgba(var(--policy-bottom-fade-rgb), 0.24) 64%,
+      rgba(var(--policy-bottom-fade-rgb), 0.36) 80%,
+      rgba(var(--policy-bottom-fade-rgb), 0.48) 100%
+    ) !important;
+  }
+
+  :root.theme-mid .guide-policy-content.glass-ring-content--open::after,
+  :root.theme-mid .policy-page-content.glass-ring-content--open::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
+      rgba(var(--policy-bottom-fade-rgb), 0.02) 18%,
+      rgba(var(--policy-bottom-fade-rgb), 0.1) 42%,
+      rgba(var(--policy-bottom-fade-rgb), 0.2) 64%,
+      rgba(var(--policy-bottom-fade-rgb), 0.3) 80%,
+      rgba(var(--policy-bottom-fade-rgb), 0.4) 100%
     ) !important;
   }
 
@@ -1161,16 +1283,17 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     max-height: calc(
       100% - var(--glass-ring-scroll-offset-open, 5rem) +
         var(--policy-scroll-rise, 0rem) + var(--policy-scroll-open-top-lift, 0rem) +
-        var(--policy-scroll-open-top-raise, 0rem)
+        var(--policy-scroll-open-top-raise, 0rem) + clamp(0.58rem, 1.04vh, 0.86rem)
     ) !important;
     margin-top: calc(
-      (var(--policy-scroll-rise, 0rem) * -1.14) -
+      (var(--policy-scroll-rise, 0rem) * -0.46) -
         var(--policy-scroll-open-top-lift, 0rem) -
         var(--policy-scroll-open-top-raise, 0rem)
     ) !important;
     padding-top: calc(
       clamp(0.32rem, 0.9vh, 0.68rem) + var(--policy-first-line-drop, 0rem)
     ) !important;
+    padding-bottom: clamp(1.2rem, 2.5vh, 2rem) !important;
     padding-left: clamp(0.02rem, 0.1vw, 0.1rem) !important;
     padding-right: clamp(0.28rem, 0.68vw, 0.5rem) !important;
     mask-image: linear-gradient(
@@ -1181,9 +1304,11 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
       rgba(0, 0, 0, 0.3) 4.8%,
       rgba(0, 0, 0, 0.48) 7.4%,
       #000 10%,
-      #000 88.8%,
-      rgba(0, 0, 0, 0.5) 93.8%,
-      rgba(0, 0, 0, 0.18) 97.1%,
+      #000 83.8%,
+      rgba(0, 0, 0, 0.9) 88.2%,
+      rgba(0, 0, 0, 0.6) 92.2%,
+      rgba(0, 0, 0, 0.28) 95.8%,
+      rgba(0, 0, 0, 0.07) 98.5%,
       rgba(0, 0, 0, 0) 100%
     ) !important;
     -webkit-mask-image: linear-gradient(
@@ -1194,9 +1319,11 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
       rgba(0, 0, 0, 0.3) 4.8%,
       rgba(0, 0, 0, 0.48) 7.4%,
       #000 10%,
-      #000 88.8%,
-      rgba(0, 0, 0, 0.5) 93.8%,
-      rgba(0, 0, 0, 0.18) 97.1%,
+      #000 83.8%,
+      rgba(0, 0, 0, 0.9) 88.2%,
+      rgba(0, 0, 0, 0.6) 92.2%,
+      rgba(0, 0, 0, 0.28) 95.8%,
+      rgba(0, 0, 0, 0.07) 98.5%,
       rgba(0, 0, 0, 0) 100%
     ) !important;
   }
@@ -1239,6 +1366,85 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
 
 }
 
+/* Policy fade is mask-based; disabling color overlays avoids theme tint seams. */
+.guide-policy-content.glass-ring-content::after,
+.policy-page-content.glass-ring-content::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Keep policy fades symmetrical (top and bottom use mirrored stops). */
+.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
+.policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.06) 1.1%,
+    rgba(0, 0, 0, 0.14) 2.5%,
+    rgba(0, 0, 0, 0.26) 4.4%,
+    rgba(0, 0, 0, 0.48) 6.8%,
+    #000 9.2%,
+    #000 72.5%,
+    rgba(0, 0, 0, 0.95) 78.5%,
+    rgba(0, 0, 0, 0.76) 84.5%,
+    rgba(0, 0, 0, 0.5) 89.2%,
+    rgba(0, 0, 0, 0.25) 93.2%,
+    rgba(0, 0, 0, 0.1) 96%,
+    rgba(0, 0, 0, 0.03) 98.3%,
+    transparent 100%
+  ) !important;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.06) 1.1%,
+    rgba(0, 0, 0, 0.14) 2.5%,
+    rgba(0, 0, 0, 0.26) 4.4%,
+    rgba(0, 0, 0, 0.48) 6.8%,
+    #000 9.2%,
+    #000 72.5%,
+    rgba(0, 0, 0, 0.95) 78.5%,
+    rgba(0, 0, 0, 0.76) 84.5%,
+    rgba(0, 0, 0, 0.5) 89.2%,
+    rgba(0, 0, 0, 0.25) 93.2%,
+    rgba(0, 0, 0, 0.1) 96%,
+    rgba(0, 0, 0, 0.03) 98.3%,
+    transparent 100%
+  ) !important;
+}
+
+.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
+.policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.06) 1%,
+    rgba(0, 0, 0, 0.14) 2.3%,
+    rgba(0, 0, 0, 0.26) 4.2%,
+    rgba(0, 0, 0, 0.48) 6.8%,
+    #000 9.2%,
+    #000 79.8%,
+    rgba(0, 0, 0, 0.97) 85.6%,
+    rgba(0, 0, 0, 0.78) 89.8%,
+    rgba(0, 0, 0, 0.44) 93.9%,
+    rgba(0, 0, 0, 0.14) 97.4%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.06) 1%,
+    rgba(0, 0, 0, 0.14) 2.3%,
+    rgba(0, 0, 0, 0.26) 4.2%,
+    rgba(0, 0, 0, 0.48) 6.8%,
+    #000 9.2%,
+    #000 79.8%,
+    rgba(0, 0, 0, 0.97) 85.6%,
+    rgba(0, 0, 0, 0.78) 89.8%,
+    rgba(0, 0, 0, 0.44) 93.9%,
+    rgba(0, 0, 0, 0.14) 97.4%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+}
 
 .invite-modal::-webkit-scrollbar {
   width: 0;

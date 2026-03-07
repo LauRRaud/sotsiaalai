@@ -18,7 +18,9 @@ import {
   computeIpRange,
   DEVICE_COOKIE_NAME,
   OTP_TTL_MINUTES,
-  TEMP_LOGIN_TOKEN_MINUTES
+  TEMP_LOGIN_TOKEN_MINUTES,
+  summarizeUserAgent,
+  formatSecurityEventTime
 } from "@/lib/auth/pin-login";
 import { getMailer } from "@/lib/mailer";
 import { consumeRateLimit } from "@/lib/rate-limit";
@@ -150,6 +152,38 @@ async function sendOtpEmail(email, code, locale) {
     }
   } catch (error) {
     console.error("[login-otp] send failed", error);
+    if (!isDev) throw error;
+  }
+}
+
+async function sendNewDeviceAlertEmail(email, locale, { userAgent, ipAddress } = {}) {
+  const mailer = getMailer("login-device-alert");
+  const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
+  const isDev = process.env.NODE_ENV === "development";
+
+  if (!from) {
+    if (isDev) return;
+    throw new Error("api.auth.login.email_from_missing");
+  }
+
+  const values = {
+    device: summarizeUserAgent(userAgent),
+    ip: ipAddress || "-",
+    time: formatSecurityEventTime(locale, new Date())
+  };
+
+  try {
+    if (!isDev) {
+      await mailer.sendMail({
+        to: email,
+        from,
+        subject: serverT(locale, "email.auth.login_device_alert.subject", values),
+        text: serverT(locale, "email.auth.login_device_alert.text", values),
+        html: serverT(locale, "email.auth.login_device_alert.html", values)
+      });
+    }
+  } catch (error) {
+    console.error("[login-device-alert] send failed", error);
     if (!isDev) throw error;
   }
 }
@@ -296,6 +330,14 @@ export async function POST(request) {
         expiresAt: otpExpiresAt
       }
     });
+
+    try {
+      if (!trustedDevice) {
+        await sendNewDeviceAlertEmail(user.email, locale, { userAgent, ipAddress });
+      }
+    } catch (mailError) {
+      console.error("login-step1 device alert send failed", mailError);
+    }
 
     await sendOtpEmail(user.email, otpCode, locale);
 
