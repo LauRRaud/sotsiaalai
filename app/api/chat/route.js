@@ -470,8 +470,8 @@ function buildDownloadAttachments({
         }
       : replyLang === "ru"
         ? {
-            pdf: "ŠŠŗŠ°Ń‡Š°Ń‚Ń PDF",
-            word: "ŠŠŗŠ°Ń‡Š°Ń‚Ń Word"
+            pdf: "Скачать PDF",
+            word: "Скачать Word"
           }
         : {
             pdf: "Download PDF",
@@ -1330,10 +1330,10 @@ export async function POST(req) {
         });
         const reply =
           replyLang === "ru"
-            ? "Š¯Šµ ŃŠ´Š°Š»Š¾ŃŃ ŃŠ¾Š·Š´Š°Ń‚Ń Ń‡ŠµŃ€Š½Š¾Š²ŠøŠŗ. ŠŃ€Š¾Š²ŠµŃ€ŃŃ‚Šµ ŠøŃŃ…Š¾Š´Š½Ń‹Šµ Š¼Š°Ń‚ŠµŃ€ŠøŠ°Š»Ń‹ Šø ŠæŠ¾ŠæŃ€Š¾Š±ŃŠ¹Ń‚Šµ ŃŠ½Š¾Š²Š°."
+            ? "Не удалось создать черновик. Проверьте исходные материалы и попробуйте снова."
             : replyLang === "en"
               ? "Failed to create the draft. Check the source material and try again."
-              : "Mustandi loomine ebaĆµnnestus. Kontrolli alusmaterjale ja proovi uuesti.";
+              : "Mustandi loomine ebaõnnestus. Kontrolli alusmaterjale ja proovi uuesti.";
         const attachments = buildDocumentTaskAttachments({
           replyLang,
           role: normalizedRole
