@@ -67,10 +67,10 @@ const orbitLayerClassName =
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
   "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
-  "min-[48.0625em]:[--orbit-item-size:clamp(4.35rem,calc(var(--profile-diameter,34rem)*0.128),5.4rem)] min-[48.0625em]:[--orbit-item-size-open:clamp(4.6rem,calc(var(--profile-diameter,34rem)*0.136),5.75rem)] " +
+  "min-[48.0625em]:[--orbit-item-size:clamp(4.35rem,max(8.4vw,calc(var(--profile-diameter,34rem)*0.14)),5.4rem)] min-[48.0625em]:[--orbit-item-size-open:clamp(4.6rem,max(8.9vw,calc(var(--profile-diameter,34rem)*0.148)),5.75rem)] " +
   "min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem] " +
-  "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] min-[48.0625em]:[--orbit-size:clamp(16.6rem,calc(var(--profile-diameter,34rem)*0.47),22.8rem)] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
-  "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,calc(var(--profile-diameter,34rem)*0.235),10.4rem)] " +
+  "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] min-[48.0625em]:[--orbit-size:clamp(16.6rem,max(33vw,calc(var(--profile-diameter,34rem)*0.55)),22.8rem)] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
+  "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,max(15vw,calc(var(--profile-diameter,34rem)*0.26)),10.4rem)] " +
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
   "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
