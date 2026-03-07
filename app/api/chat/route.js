@@ -22,8 +22,10 @@ import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import {
   resolveDocumentTaskDecision
 } from "@/lib/chat/documentOrchestration";
-import { buildHelpWorkflowMetadata, runHelpChatWorkflow } from "@/lib/help/chatWorkflow";
+import { buildHelpWorkflowMetadata, getHelpWorkflowState, runHelpChatWorkflow } from "@/lib/help/chatWorkflow";
 import { detectHelpChatIntent } from "@/lib/help/intents";
+import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
+import { buildModeSelectionMetadata, resolveModeSelection } from "@/lib/chat/modeSelection";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -82,6 +84,58 @@ function buildOrchestrationMetadata(plan, extra = null) {
     ...(extra && typeof extra === "object" ? extra : {}),
     ...(orchestration ? { orchestration } : {})
   };
+}
+function buildImmediateChatResponse({
+  wantStream = false,
+  reply = "",
+  sources = [],
+  attachments = [],
+  cards = [],
+  isCrisis = false,
+  convId = null
+}) {
+  if (!wantStream) {
+    return NextResponse.json({
+      ok: true,
+      reply,
+      answer: reply,
+      sources,
+      attachments,
+      cards,
+      isCrisis,
+      convId: convId || undefined
+    });
+  }
+  const enc = new TextEncoder();
+  const sse = new ReadableStream({
+    async start(controller) {
+      try {
+        controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({
+          sources,
+          isCrisis
+        })}\n\n`));
+        controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({
+          t: reply
+        })}\n\n`));
+        controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({
+          attachments,
+          cards
+        })}\n\n`));
+      } finally {
+        try {
+          controller.close();
+        } catch {}
+      }
+    }
+  });
+  return new Response(sse, {
+    headers: {
+      "Content-Type": "text/event-stream; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      Connection: "keep-alive",
+      "X-Accel-Buffering": "no"
+    }
+  });
 }
 function toOpenAiMessages(history, options = {}) {
   if (!Array.isArray(history) || history.length === 0) return [];
@@ -975,6 +1029,7 @@ export async function POST(req) {
     userMessage: message,
     uiLocale
   });
+  const greeting = isGreeting(message);
   const explicitHelpIntent = !roomId ? detectHelpChatIntent(message) : null;
   const clarifyingTurns = countClarifyingTurns(rawHistory);
   const requestedThoroughness = inferRequestedThoroughness(message);
@@ -1001,7 +1056,12 @@ export async function POST(req) {
     requestedThoroughness,
     convId
   });
-  const documentDecision = resolveDocumentTaskDecision({
+  const helpWorkflowState = userId && !roomId
+    ? await getHelpWorkflowState(convId, userId, prisma)
+    : null;
+  const helpWorkflowActive = isActiveHelpWorkflowState(helpWorkflowState);
+  const documentHistoryActive = hasDocumentTaskContext(rawHistory);
+  const initialDocumentDecision = resolveDocumentTaskDecision({
     message,
     history: rawHistory,
     role: normalizedRole,
@@ -1010,6 +1070,93 @@ export async function POST(req) {
     clarifyingTurns,
     requestedThoroughness
   });
+  const modeSelection = !roomId
+    ? resolveModeSelection({
+        message,
+        history: rawHistory,
+        replyLang,
+        helpIntent: explicitHelpIntent,
+        documentTaskIntent: initialDocumentDecision.isDocumentTask,
+        skipSelection:
+          greeting ||
+          isCrisis ||
+          helpWorkflowActive ||
+          documentHistoryActive
+      })
+    : {
+        handled: false,
+        resolvedMode: null,
+        routedMessage: message,
+        suggestedMode: "rag"
+      };
+  if (userId && !roomId && modeSelection?.handled) {
+    const reply = String(modeSelection.reply || "").trim();
+    const metadataExtra = buildModeSelectionMetadata(modeSelection.suggestedMode);
+    if (persist && convId && userId) {
+      await persistInit({
+        convId,
+        userId,
+        role: normalizedRole,
+        userMessage: message
+      });
+      await persistAppend({
+        convId,
+        userId,
+        fullText: reply
+      });
+      await persistDone({
+        convId,
+        userId,
+        status: "COMPLETED",
+        finalText: reply,
+        sources: [],
+        attachments: [],
+        cards: [],
+        metadataExtra,
+        isCrisis: false
+      });
+    }
+    return buildImmediateChatResponse({
+      wantStream,
+      reply,
+      sources: [],
+      attachments: [],
+      cards: [],
+      isCrisis: false,
+      convId
+    });
+  }
+  const effectiveMessage = String(modeSelection?.routedMessage || message).trim() || message;
+  const forcedMode = modeSelection?.resolvedMode || null;
+  const effectiveExplicitHelpIntent =
+    forcedMode === "help_request"
+      ? "create_help_request"
+      : forcedMode === "help_offer"
+        ? "create_help_offer"
+        : forcedMode === "rag"
+          ? null
+          : !roomId
+            ? detectHelpChatIntent(effectiveMessage)
+            : null;
+  const documentDecision = forcedMode === "rag"
+    ? {
+        isDocumentTask: false,
+        historyHasDocumentTask: false,
+        documentTaskStart: false,
+        plan: null,
+        taskConfig: null,
+        taskDefaults: null
+      }
+    : resolveDocumentTaskDecision({
+        message: effectiveMessage,
+        history: rawHistory,
+        role: normalizedRole,
+        replyLang,
+        sourceCount: ephemeralChunks.length,
+        clarifyingTurns,
+        requestedThoroughness,
+        forceDocumentTask: forcedMode === "document"
+      });
   const documentTaskIntent = documentDecision.isDocumentTask;
   const documentPlan = documentDecision.plan;
   if (documentPlan) {
@@ -1092,7 +1239,7 @@ export async function POST(req) {
             role: normalizedRole,
             sources: [],
             isCrisis: false,
-            userMessage: message
+            userMessage: effectiveMessage
           });
           await persistAppend({
             convId,
@@ -1140,7 +1287,7 @@ export async function POST(req) {
             role: normalizedRole,
             sources: [],
             isCrisis: false,
-            userMessage: message
+            userMessage: effectiveMessage
           });
           await persistAppend({
             convId,
@@ -1187,7 +1334,7 @@ export async function POST(req) {
             role: normalizedRole,
             sources: [],
             isCrisis: false,
-            userMessage: message
+            userMessage: effectiveMessage
           });
           await persistAppend({
             convId,
@@ -1295,7 +1442,7 @@ export async function POST(req) {
           role: normalizedRole,
           sources,
           isCrisis: false,
-          userMessage: message
+          userMessage: effectiveMessage
         });
         await persistAppend({
           convId,
@@ -1351,7 +1498,7 @@ export async function POST(req) {
           role: normalizedRole,
           sources: [],
           isCrisis: false,
-          userMessage: message
+          userMessage: effectiveMessage
         });
         await persistAppend({
           convId,
@@ -1391,10 +1538,11 @@ export async function POST(req) {
   }
   if (userId && !roomId) {
     const helpResult = await runHelpChatWorkflow({
-      message,
+      message: effectiveMessage,
       convId,
       userId,
-      replyLang
+      replyLang,
+      forcedIntent: effectiveExplicitHelpIntent
     }, prisma);
 
     if (helpResult?.handled) {
@@ -1403,8 +1551,8 @@ export async function POST(req) {
       const cards = Array.isArray(helpResult.cards) ? helpResult.cards : [];
       const sources = Array.isArray(helpResult.sources) ? helpResult.sources : [];
       const helpPlan = chooseOrchestrationPlan({
-        intent: helpResult?.workflowState?.intent || explicitHelpIntent || WORK_MODES.CREATE_HELP_REQUEST,
-        message,
+        intent: helpResult?.workflowState?.intent || effectiveExplicitHelpIntent || WORK_MODES.CREATE_HELP_REQUEST,
+        message: effectiveMessage,
         workflowState: helpResult?.workflowState || null,
         clarifyingTurns,
         requestedThoroughness
@@ -1428,7 +1576,7 @@ export async function POST(req) {
           role: normalizedRole,
           sources,
           isCrisis: false,
-          userMessage: message
+          userMessage: effectiveMessage
         });
         await persistAppend({
           convId,
@@ -1477,7 +1625,6 @@ export async function POST(req) {
       fromRag: false
     });
   }
-  const greeting = isGreeting(message);
   if (greeting && !isCrisis && !hasHistory) {
     const reply = normalizedRole === "SOCIAL_WORKER" ? L.greetingWorker : L.greetingClient;
     let attachments = [];
@@ -1581,7 +1728,7 @@ export async function POST(req) {
   if (!ephemeralChunks.length || combineSources) {
     try {
       matches = await searchRagDirect({
-        query: message,
+        query: effectiveMessage,
         topK: RAG_TOP_K,
         filters: audienceFilter
       });
@@ -1604,7 +1751,7 @@ export async function POST(req) {
   }
   const ragContext = budgeted.text;
   const docBudget = getDocContextBudget(normalizedRole, combineSources);
-  const docQueryText = [message, ...extractRecentUserText(rawHistory, 2)].filter(Boolean).join("\n");
+  const docQueryText = [effectiveMessage, ...extractRecentUserText(rawHistory, 2)].filter(Boolean).join("\n");
   const docContextResult = buildEphemeralDocContext(ephemeralChunks, {
     queryText: docQueryText,
     charBudget: docBudget.charBudget,
@@ -1705,12 +1852,14 @@ export async function POST(req) {
     sources = ragSources;
   }
   const genericIntent =
-    explicitHelpIntent === "service_guidance"
+    forcedMode === "rag"
+      ? WORK_MODES.SERVICE_GUIDANCE
+      : effectiveExplicitHelpIntent === "service_guidance"
       ? WORK_MODES.SERVICE_GUIDANCE
       : WORK_MODES.GENERAL_QUESTION;
   const mainOrchestrationPlan = chooseOrchestrationPlan({
     intent: genericIntent,
-    message,
+    message: effectiveMessage,
     clarifyingTurns,
     requestedThoroughness,
     sourceCount: Number(chosen.length || 0) + Number(docContextResult.usedChunks || 0),
@@ -1747,7 +1896,7 @@ export async function POST(req) {
         role: normalizedRole,
         sources,
         isCrisis,
-        userMessage: message
+        userMessage: effectiveMessage
       });
       await persistAppend({
         convId,
@@ -1768,7 +1917,7 @@ export async function POST(req) {
         attachments = buildDownloadAttachments({
           convId,
           assistantMessageId: persistResult?.assistantMessageId,
-          message,
+          message: effectiveMessage,
           replyLang
         });
         await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
@@ -1829,14 +1978,14 @@ export async function POST(req) {
       role: normalizedRole,
       sources,
       isCrisis,
-      userMessage: message
+      userMessage: effectiveMessage
     });
   }
   if (!wantStream) {
     try {
       const aiResult = await callOpenAI({
         history,
-        userMessage: modelMessage,
+        userMessage: effectiveMessage.slice(0, MAX_USER_MESSAGE_CHARS),
         context,
         effectiveRole: normalizedRole,
         grounding,
@@ -1866,7 +2015,7 @@ export async function POST(req) {
           attachments = buildDownloadAttachments({
             convId,
             assistantMessageId: persistResult?.assistantMessageId,
-            message,
+            message: effectiveMessage,
             replyLang
           });
           await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
@@ -1957,7 +2106,7 @@ export async function POST(req) {
       try {
         const iter = await streamOpenAI({
           history,
-          userMessage: modelMessage,
+          userMessage: effectiveMessage.slice(0, MAX_USER_MESSAGE_CHARS),
           context,
           effectiveRole: normalizedRole,
           grounding,
@@ -2000,7 +2149,7 @@ export async function POST(req) {
                 attachments = buildDownloadAttachments({
                   convId,
                   assistantMessageId: persistResult?.assistantMessageId,
-                  message,
+                  message: effectiveMessage,
                   replyLang
                 });
                 await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
