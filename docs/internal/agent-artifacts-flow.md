@@ -8,6 +8,40 @@
 > The current architecture is documented in `docs/assistant-agent-RAG-overview.md`.
 > In particular, the current agent implementation is retrieval-first and uses
 > the Python RAG service for indexing and retrieval of selected user documents.
+> It also predates the current plain-language mode-confirmation layer in the
+> main `/vestlus` chat.
+
+## Current implementation overlay
+
+The current code adds a chat-native document workflow on top of the older
+artifact model:
+
+- `/vestlus` can now create document drafts through a locked slot-filling flow
+  after one plain-language confirmation
+- chat-session file uploads are attached through the composer paperclip and are
+  scoped only to the active chat document flow
+- chat document flow does not inherit `agentAllowed` selections from
+  `/documents` or `/agendireziim`
+- role-based file limits in chat:
+  - `CLIENT`: `2`
+  - `SOCIAL_WORKER`: `10`
+
+Current result surfaces are role-based even though persistence stays in the same
+`AgentArtifact` model:
+
+- `SOCIAL_WORKER`
+  - sees chat-generated drafts under `/documents` results and artifact detail
+    pages
+- `CLIENT`
+  - sees chat-generated drafts in `/agendireziim`
+
+Current download rule:
+
+- `DRAFT`
+  - visible in chat and in result surfaces
+  - not downloadable
+- `FINAL`
+  - exposes DOCX and PDF download URLs
 
 ## Assumptions
 
@@ -68,6 +102,8 @@ live behavior.
    - edit content manually
    - rename the draft
    - use a refine stub in the UI
+   - view the full draft immediately in chat if it was generated from
+     `/vestlus`
 4. When the user approves the draft:
    - status becomes `FINAL`
    - `approvedAt` is stored

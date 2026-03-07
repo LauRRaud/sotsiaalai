@@ -264,6 +264,10 @@ export function useChatConversationState({
                 normalizedRole === "ai" && Array.isArray(msg.cards)
                   ? msg.cards
                   : undefined,
+              workflow:
+                normalizedRole === "ai" && msg.workflow && typeof msg.workflow === "object"
+                  ? msg.workflow
+                  : undefined,
               isStreaming: false,
               ...(Number.isFinite(rawCreatedAt) ? {
                 createdAt: rawCreatedAt
@@ -298,15 +302,16 @@ export function useChatConversationState({
           }
         }
         if (aiIdx === -1) {
-          next.push({
-            id: (next.at(-1)?.id ?? 0) + 1,
-            role: "ai",
-            text: serverTextTrim,
-            sources: serverSources,
-            attachments: serverAttachments,
-            cards: serverCards,
-            isStreaming: false
-          });
+            next.push({
+              id: (next.at(-1)?.id ?? 0) + 1,
+              role: "ai",
+              text: serverTextTrim,
+              sources: serverSources,
+              attachments: serverAttachments,
+              cards: serverCards,
+              workflow: data?.workflow && typeof data.workflow === "object" ? data.workflow : undefined,
+              isStreaming: false
+            });
         } else {
           const cur = next[aiIdx];
           if (serverTextTrim.length > (cur.text || "").length) {
@@ -316,6 +321,7 @@ export function useChatConversationState({
               sources: serverSources,
               attachments: serverAttachments,
               cards: serverCards,
+              workflow: data?.workflow && typeof data.workflow === "object" ? data.workflow : cur.workflow,
               isStreaming: false
             };
           }

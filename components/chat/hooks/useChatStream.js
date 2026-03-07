@@ -61,6 +61,20 @@ function normalizeCards(payload) {
     .filter(Boolean);
 }
 
+function normalizeWorkflow(payload) {
+  return payload && typeof payload === "object" ? payload : null;
+}
+
+function dispatchHelpListingsRefresh(workflow) {
+  if (typeof window === "undefined") return;
+  const helpState = workflow?.help;
+  if (!helpState || typeof helpState !== "object") return;
+  if (!(helpState.step === "saved" || helpState.mode === "saved")) return;
+  try {
+    window.dispatchEvent(new CustomEvent("sotsiaalai:refresh-help-listings"));
+  } catch {}
+}
+
 export function useChatStream(config) {
   const cfgRef = useRef(config);
 
@@ -173,6 +187,7 @@ export function useChatStream(config) {
     let sources = [];
     let attachments = [];
     let cards = [];
+    let workflow = null;
     let streamTimer = null;
     let pushTimer = null;
 
@@ -260,10 +275,15 @@ export function useChatStream(config) {
             ...(cfg.ephemeralChunks?.length
               ? {
                   ephemeralChunks: cfg.ephemeralChunks,
-                  ...(cfg.uploadPreview?.fileName
+                  ...((cfg.ephemeralSource?.fileName || cfg.uploadPreview?.fileName)
                     ? {
                         ephemeralSource: {
-                          fileName: cfg.uploadPreview.fileName
+                          fileName: cfg.ephemeralSource?.fileName || cfg.uploadPreview?.fileName,
+                          ...(Array.isArray(cfg.ephemeralSource?.fileNames) && cfg.ephemeralSource.fileNames.length
+                            ? {
+                                fileNames: cfg.ephemeralSource.fileNames
+                              }
+                            : {})
                         }
                       }
                     : {}),
@@ -344,6 +364,7 @@ export function useChatStream(config) {
           const normSources = normalize(data?.sources);
           const attachments = normalizeAttachments(data?.attachments);
           const cards = normalizeCards(data?.cards);
+          const workflow = normalizeWorkflow(data?.workflow);
 
           cfg.setIsCrisis?.(!!data?.isCrisis);
 
@@ -353,10 +374,12 @@ export function useChatStream(config) {
             sources: normSources,
             attachments,
             cards,
+            workflow,
             aiVisible: true
           });
 
           cfg.onAssistantMessageCreated?.(createdId);
+          dispatchHelpListingsRefresh(workflow);
           cfg.requestConversationsRefresh?.();
           return true;
         }
@@ -398,6 +421,13 @@ export function useChatStream(config) {
                   sources
                 }));
               }
+              workflow = normalizeWorkflow(payload?.workflow);
+              if (workflow) {
+                cfg.mutateMessage?.(streamingMessageId, msg => ({
+                  ...msg,
+                  workflow
+                }));
+              }
               if (typeof payload?.isCrisis !== "undefined") {
                 cfg.setIsCrisis?.(!!payload.isCrisis);
               }
@@ -430,9 +460,11 @@ export function useChatStream(config) {
           sources,
           attachments,
           cards,
+          workflow: workflow || normalizeWorkflow(msg?.workflow),
           isStreaming: false
         }));
 
+        dispatchHelpListingsRefresh(workflow);
         cfg.requestConversationsRefresh?.();
         streamingMessageId = null;
         return true;

@@ -1,6 +1,6 @@
 # Assistant, Agent and RAG Overview
 
-Date: 2026-03-06
+Date: 2026-03-07
 
 This document describes the current AI architecture of the SotsiaalAI project:
 
@@ -8,17 +8,22 @@ This document describes the current AI architecture of the SotsiaalAI project:
 - chat-native help and document workflows
 - the shared Python RAG service
 
-It reflects the current retrieval-first agent implementation and the current chat prompt / RAG configuration.
+It reflects the current retrieval-first agent implementation and the current
+chat prompt / RAG configuration.
 
 ## High-Level Split
 
 The intended product behavior is one continuous chat experience with internal
 mode switching.
 
+That mode switching is now explicitly confirmed in natural language before the
+system commits to document drafting, information/guidance, help-request
+structuring, or help-offer structuring.
+
 The current runtime split is:
 
 1. Main chat orchestrator at `/vestlus`
-2. Legacy document workspace at `/agendireziim`
+2. Document workspace at `/agendireziim`
 
 They share:
 
@@ -34,7 +39,7 @@ Inside `/vestlus`, the orchestrator now routes between:
 - help offer creation
 - browse / retrieval
 - deterministic match handoff
-- document drafting entry into the existing document flow
+- locked document drafting flow
 
 The user does not choose assistant vs agent as separate products.
 
@@ -59,6 +64,7 @@ The main chat route answers user questions and starts structured workflows using
 - `app/api/chat/route.js`
 - `app/api/chat/run/route.js`
 - `lib/chat/orchestrationPolicy.js`
+- `lib/chat/modeSelection.js`
 - `lib/chat/documentOrchestration.js`
 - `lib/chat/promptBuilder.js`
 - `lib/chat/ragContext.js`
@@ -73,10 +79,13 @@ The main chat route answers user questions and starts structured workflows using
 3. The backend:
    - validates auth and subscription
    - normalizes recent history
+   - checks whether the user should first confirm the work mode in plain
+     language
    - caps the model-facing user message
    - optionally retrieves RAG matches
    - optionally builds temporary document context from uploaded file chunks
-4. The backend chooses work mode and reasoning depth by policy.
+4. The backend chooses work mode and reasoning depth by policy after the
+   confirmation layer is resolved.
 5. The backend builds the prompt and calls OpenAI.
 6. If help workflow is active, the backend can save listings, browse matches,
    or create HelpMatch + Room on explicit action.
@@ -122,7 +131,8 @@ Current chat-side limits:
 - `RAG_CTX_MAX_CHARS = 4500`
 - `RAG_GROUP_BODY_MAX_CHARS = 1100`
 
-These values are designed to keep quality reasonably high while still limiting prompt growth.
+These values are designed to keep quality reasonably high while still limiting
+prompt growth.
 
 ## 2. Help Workflows Inside Chat
 
@@ -138,11 +148,13 @@ The help domain lets the user create and work with:
 ### Main files
 
 - `lib/help/chatWorkflow.js`
+- `lib/help/intents.js`
 - `lib/help/requests.js`
 - `lib/help/offers.js`
 - `lib/help/matches.js`
 - `lib/help/listingViews.js`
 - `lib/help/locationNormalization.js`
+- `lib/chat/modeSelection.js`
 - `components/chat/LeftRail.jsx`
 - `components/chat/RightRail.jsx`
 - `components/chat/SelectedListingContext.jsx`
@@ -153,11 +165,19 @@ The help domain lets the user create and work with:
 The help feature is chat-native:
 
 1. user writes a natural message
-2. intent detection starts request/offer workflow when appropriate
-3. draft state persists across turns
-4. only missing fields are asked
-5. confirmation happens before save
-6. after save, the same chat can browse matches or continue toward contact
+2. the orchestrator first asks which kind of work is needed in the current
+   conversation:
+   - information and guidance
+   - document/report drafting
+   - help request
+   - help offer
+3. help intent detection uses intent-pattern matching, not category keywords
+   alone
+4. draft state persists across turns
+5. only missing fields are asked
+6. save happens only after a plain chat-text confirmation such as `jah` or
+   `salvesta`
+7. after save, the same chat can browse matches or continue toward contact
 
 Matching is not done by AI over raw text.
 
@@ -165,10 +185,41 @@ The backend does:
 
 - hard filters over structured fields
 - weighted ranking over structured fields
+- save confirmation through ordinary chat text, not modal UI
 - `HelpMatch` creation only on explicit user contact action
 - `Room` creation or reuse for real connection
 
-## 3. Document Drafting Workflow
+## 3. Document Drafting Workflows
+
+### 3.1 Chat-native document flow
+
+The main chat now has its own document drafting workflow instead of only
+handing the user off to a technical intake.
+
+Current flow in `/vestlus`:
+
+1. The user writes naturally.
+2. The orchestrator proposes document drafting in plain language.
+3. After `jah`, the flow is locked.
+4. The original user message is kept as the starting instruction.
+5. The backend extracts as many fields as possible from each reply.
+6. Only missing required fields are asked.
+7. A preview is shown before draft generation.
+8. The user can edit fields in natural language before generation.
+9. `jah` creates the draft without a separate technical command.
+
+Current document-flow UX rules:
+
+- no jump back to mode selection after confirmation unless the user explicitly
+  cancels or switches
+- no `Alusta mustandi loomist` style command is required
+- current-chat file uploads can be attached through the paperclip shown only in
+  document flow
+- file limits are role-based in chat:
+  - `CLIENT`: up to `2`
+  - `SOCIAL_WORKER`: up to `10`
+
+### 3.2 Dedicated document workspace
 
 ### Purpose
 
@@ -182,6 +233,10 @@ The agent creates and refines drafts from user-selected documents, such as:
 
 ### Main files
 
+- `lib/chat/documentOrchestration.js`
+- `lib/chat/documentWorkflowState.js`
+- `lib/chat/documentWorkflowText.js`
+- `app/api/chat/route.js`
 - `app/agendireziim/page.js`
 - `components/agent/AgentModePage.jsx`
 - `app/api/documents/artifacts/generate/route.js`
@@ -212,13 +267,34 @@ Current flow:
 
 Fallback flow:
 
-If indexing or retrieval fails completely, the system falls back to the previous source-material behavior:
+If indexing or retrieval fails completely, the system falls back to the previous
+source-material behavior:
 
 1. extract text
 2. build bounded source-document excerpts
 3. send only those excerpts to the model
 
 This preserves backward compatibility.
+
+### Role-based artifact destinations
+
+Generated drafts are stored uniformly as `AgentArtifact`, but the primary user
+surface is role-dependent:
+
+- `SOCIAL_WORKER`
+  - chat-generated draft appears in Documents results
+  - chat response links point to the Documents page and artifact detail
+- `CLIENT`
+  - chat-generated draft appears in `/agendireziim`
+  - recent results are listed there and the active draft opens there
+
+Download behavior remains approval-gated:
+
+- `DRAFT`
+  - visible in chat and role-specific result surfaces
+  - not downloadable
+- `FINAL`
+  - DOCX and PDF download URLs become available
 
 ### Agent action model
 
@@ -241,14 +317,16 @@ Current evidence budgets:
 - standard: `4000` tokens
 - detailed: `4500` tokens
 
-This is intentionally larger than the earlier cost-optimized configuration because long reports need more grounded context.
+This is intentionally larger than the earlier cost-optimized configuration
+because long reports need more grounded context.
 
 Current retrieval diversity limits:
 
 - default: max `2` chunks per document
 - detailed: max `3` chunks per document
 
-This reduces semantic duplication when retrieval would otherwise return many very similar chunks from the same source document.
+This reduces semantic duplication when retrieval would otherwise return many
+very similar chunks from the same source document.
 
 Current fallback excerpt limit:
 
@@ -344,7 +422,8 @@ Returned counters:
 
 ### Persistence of retrieval diagnostics
 
-Retrieval debug metadata is linked to artifact lifecycle through document audit records.
+Retrieval debug metadata is linked to artifact lifecycle through document audit
+records.
 
 Current persisted diagnostic fields include:
 
@@ -403,6 +482,7 @@ Relevant schema:
 Users see:
 
 - assistant responses
+- natural mode-confirmation questions
 - help request / help offer listing cards
 - selected listing detail context in chat
 - explicit contact actions that continue into Rooms
@@ -423,9 +503,11 @@ This is intentional.
 
 ## 8. Current Production Position
 
-From an architecture perspective, the platform is now in a much stronger state than before:
+From an architecture perspective, the platform is now in a much stronger state
+than before:
 
 - chat orchestration is centralized and policy-driven
+- the single chat now confirms the intended work mode in natural language
 - help requests and offers are integrated into the main chat shell
 - agent is retrieval-first instead of sending huge raw source blobs by default
 - Python RAG remains the single embedding pipeline
@@ -439,13 +521,15 @@ The current balance is:
 
 ## 9. Important Note About Older Docs
 
-`docs/internal/agent-artifacts-flow.md` contains historical assumptions that are no longer fully accurate.
+`docs/internal/agent-artifacts-flow.md` contains historical assumptions that are
+no longer fully accurate.
 
 Specifically:
 
 - it predates the retrieval-first document workflow
 - it predates the single-chat orchestration policy
 - it predates the help request / help offer domain inside `/vestlus`
+- it predates the current plain-language mode-confirmation layer
 
 Those older assumptions are no longer the source of truth for the current
 system.

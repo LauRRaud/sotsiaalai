@@ -27,6 +27,8 @@ import { useChatProfileRoll } from "./chat/hooks/useChatProfileRoll";
 import { useChatRoomMode, useSyncRoomAssistantMessages } from "./chat/hooks/useChatRoomMode";
 import ChatBodyView from "./chat/ChatBodyView";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
+import { buildRoomChatPath } from "@/lib/roomPath";
+import { isActiveDocumentWorkflowState } from "@/lib/chat/documentWorkflowState";
 const MOBILE_KEYBOARD_OPEN_THRESHOLD = 88;
 const MOBILE_KEYBOARD_CLOSE_THRESHOLD = 56;
 const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
@@ -346,6 +348,7 @@ export default function ChatBody({
     t,
     locale,
     sessionUserId,
+    userRole: sessionUserRole,
     chatWindowRef,
     visibleMessagesCount: visibleMessages.length,
     isGeneratingRef
@@ -729,7 +732,7 @@ export default function ChatBody({
       if (!response.ok || body?.ok === false || !body?.match) {
         throw new Error(helpUi.connectFailed);
       }
-      const roomTarget = body?.match?.roomId ? localizePath(`/room/${body.match.roomId}`, locale) : null;
+      const roomTarget = body?.match?.roomId ? buildRoomChatPath(body.match.roomId, locale) : null;
       setSelectedListingState((prev) => ({
         ...prev,
         busyAction: ""
@@ -763,6 +766,7 @@ export default function ChatBody({
       side: "left",
       kind: "request",
       scope: "global",
+      status: "OPEN",
       title: helpUi.helpRequests,
       emptyText: helpUi.emptyGlobalRequests
     });
@@ -773,6 +777,7 @@ export default function ChatBody({
       side: "left",
       kind: "offer",
       scope: "global",
+      status: "OPEN",
       title: helpUi.helpOffers,
       emptyText: helpUi.emptyGlobalOffers
     });
@@ -783,6 +788,7 @@ export default function ChatBody({
       side: "right",
       kind: "request",
       scope: "mine",
+      status: "OPEN",
       title: helpUi.myHelpRequests,
       emptyText: helpUi.emptyMyRequests
     });
@@ -793,6 +799,7 @@ export default function ChatBody({
       side: "right",
       kind: "offer",
       scope: "mine",
+      status: "OPEN",
       title: helpUi.myHelpOffers,
       emptyText: helpUi.emptyMyOffers
     });
@@ -800,6 +807,16 @@ export default function ChatBody({
   useEffect(() => {
     if (!activeListingsPanel) return;
     void loadListingsPanel(activeListingsPanel);
+  }, [activeListingsPanel, loadListingsPanel]);
+  useEffect(() => {
+    const onRefreshHelpListings = () => {
+      if (!activeListingsPanel) return;
+      void loadListingsPanel(activeListingsPanel);
+    };
+    window.addEventListener("sotsiaalai:refresh-help-listings", onRefreshHelpListings);
+    return () => {
+      window.removeEventListener("sotsiaalai:refresh-help-listings", onRefreshHelpListings);
+    };
   }, [activeListingsPanel, loadListingsPanel]);
   const requestConversationsRefresh = useCallback(() => {
     try {
@@ -817,6 +834,7 @@ export default function ChatBody({
     locale,
     docOnlyMode: analysis.docOnlyMode,
     ephemeralChunks: analysis.ephemeralChunks,
+    ephemeralSource: analysis.ephemeralSource,
     uploadPreview: analysis.uploadPreview,
     isRoomMode,
     roomId,
@@ -910,6 +928,16 @@ export default function ChatBody({
   const messageItems = useMemo(() => {
     return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
   }, [isRoomMode, renderedMessages, t]);
+  const documentFlowActive = useMemo(() => {
+    for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
+      const message = visibleMessages[i];
+      if (message?.role !== "ai") continue;
+      if (!message?.workflow || typeof message.workflow !== "object") continue;
+      if (!Object.prototype.hasOwnProperty.call(message.workflow, "document")) continue;
+      return isActiveDocumentWorkflowState(message.workflow.document);
+    }
+    return false;
+  }, [visibleMessages]);
   const listingsPanelNode = activeListingsPanel ? (
     <HelpListingsPanel
       locale={locale}
@@ -1160,6 +1188,9 @@ export default function ChatBody({
     analysisPanelRef: analysis.analysisPanelRef,
     analysisPanelMode: analysis.analysisPanelMode,
     uploadPreview: analysis.uploadPreview,
+    uploadedFilesCount: analysis.uploadedFilesCount,
+    uploadedFileNames: analysis.uploadedFileNames,
+    uploadFileLimit: analysis.uploadFileLimit,
     uploadBusy: analysis.uploadBusy,
     uploadError: analysis.uploadError,
     uploadUsage: analysis.uploadUsage,
@@ -1284,6 +1315,8 @@ export default function ChatBody({
     onCancelDeepResearchMode={handleCancelDeepResearchMode}
     onConsumeDeepResearchMode={handleConsumeDeepResearchMode}
     onDeepResearchEmptySubmit={handleDeepResearchEmptySubmit}
+    documentFlowActive={documentFlowActive}
+    onPickDocumentFile={analysis.onPickFile}
     speakLatestReply={speakLatestReply}
     canSpeakLatest={canSpeakLatest}
     isSpeaking={isSpeaking}

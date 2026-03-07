@@ -5,7 +5,7 @@
 > This file is a route-by-route review tracker, not a user-facing or evergreen
 > system overview.
 
-Date: 2026-02-15
+Date: 2026-03-07
 
 Purpose:
 - Every route is reviewed for behavior, dependencies, error handling, and launch risks.
@@ -55,7 +55,7 @@ Review status legend:
 | `app/api/chat/conversations/[id]/messages/route.js` | MONITOR | reviewed: message listing is ownership-scoped, archived conversation safe, cursor pagination bounded, and route-level rate limits are applied |
 | `app/api/chat/conversations/[id]/route.js` | MONITOR | reviewed: read/archive/restore flow is ownership/admin guarded, archived handling is explicit, and route-level rate limits + DB-offline degraded responses exist |
 | `app/api/chat/conversations/route.js` | MONITOR | reviewed: list/create flow is rate-limited and ownership-scoped; server now enforces non-admin conversation role from session (prevents request-body role spoofing) |
-| `app/api/chat/route.js` | MONITOR | reviewed: core chat pipeline enforces auth/subscription gate, room sponsorship exceptions, rate limits, and SSE/non-stream paths; gate error payload now consistently includes `messageKey`; document context now uses query-aware chunk selection + role-based char/chunk budgets (instead of prefix-only slice); monthly per-user usage-budget gate is applied before response generation |
+| `app/api/chat/route.js` | MONITOR | reviewed: core chat pipeline enforces auth/subscription gate, room sponsorship exceptions, rate limits, and SSE/non-stream paths; gate error payload now consistently includes `messageKey`; document context now uses query-aware chunk selection + role-based char/chunk budgets (instead of prefix-only slice); monthly per-user usage-budget gate is applied before response generation; new natural mode-selection gate now asks the user to confirm whether the turn should become information/guidance, document drafting, help request, or help offer before routing deeper |
 | `app/api/chat/run/route.js` | MONITOR | reviewed: run-state read endpoint is ownership/admin scoped, rate-limited, and returns bounded conversation history with DB-offline fallback |
 | `app/api/invites/[id]/accept/route.js` | MONITOR | reviewed: token accept flow, billing/sponsorship gating, room member upsert, localized key-based failures |
 | `app/api/invites/[id]/resend/route.js` | MONITOR | reviewed: moderator/owner access, token rotation resend, localized key-based failures |

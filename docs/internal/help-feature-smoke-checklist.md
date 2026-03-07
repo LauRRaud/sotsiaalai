@@ -1,29 +1,51 @@
 # Help Feature Smoke Checklist
 
-Date: 2026-03-06
+Date: 2026-03-07
 
 Use this checklist before calling the help request / help offer feature ready
 for production on the chat page.
 
-## 1. Chat-native creation
+## 1. Chat-native mode confirmation
+
+1. Open `/vestlus`.
+2. Write a natural help message such as:
+   - `Mul oleks vaja emale abi poes kaimiseks.`
+3. Verify the first assistant reply is a natural mode-confirmation question, not
+   an immediate save flow.
+4. Verify the wording is user-facing:
+   - no mention of `RAG`
+   - no technical mode names
+5. Reply `jah`.
+6. Verify the help workflow starts only after that confirmation.
+
+Repeat for:
+
+- `Soovin pakkuda transporti Tabasalus.`
+- `Koosta mulle vallale aruanne.`
+- `Mul oleks vaja infot koduhoolduse kohta meie vallas.`
+
+## 2. Chat-native creation
 
 1. Open `/vestlus`.
 2. Write a natural request message such as:
-   - `Mul oleks vaja emale abi poes käimiseks.`
-3. Verify the chat starts a help-request workflow instead of a generic answer.
-4. Verify only missing fields are asked.
-5. Verify a confirmation summary is shown before save.
-6. Confirm save.
-7. Verify the success reply appears in the same conversation.
+   - `Mul oleks vaja emale abi poes kaimiseks.`
+3. Reply `jah` to the mode-confirmation question.
+4. Verify the chat starts a help-request workflow instead of a generic answer.
+5. Verify only missing fields are asked.
+6. Verify a confirmation summary is shown before save.
+7. Confirm save by writing `jah` or `salvesta`.
+8. Verify the success reply appears in the same conversation.
 
 Repeat for help offer:
 
 1. Write:
    - `Soovin pakkuda transporti Tallinnas.`
-2. Verify the offer workflow starts inside the same chat.
-3. Verify confirmation happens before save.
+2. Reply `jah` to the mode-confirmation question.
+3. Verify the offer workflow starts inside the same chat.
+4. Verify confirmation happens before save.
+5. Verify save confirmation is plain chat text, not buttons or modal UI.
 
-## 2. Location normalization
+## 3. Location normalization
 
 1. Start a request with a smaller place name:
    - `Mul oleks vaja abi Tabasalus.`
@@ -31,7 +53,21 @@ Repeat for help offer:
 3. If confidence is lower, verify it asks for confirmation.
 4. Verify the saved structured location is `municipalityId`, not raw text.
 
-## 3. LeftRail global browse
+## 4. Trigger boundaries
+
+1. Write an info-seeking message such as:
+   - `Mul oleks vaja infot koduhoolduse kohta meie koduvallas.`
+2. Verify the assistant suggests `information and guidance`, not a help listing.
+3. Reply `jah`.
+4. Verify the response stays in info/guidance flow and does not start a
+   help-offer or help-request draft.
+
+Repeat for:
+
+- `Kas tugiisik voiks olla KOV teenus voi peaksin ise otsima?`
+- `Elan selles kohalikus omavalitsuses ja vajan infot abi saamiseks.`
+
+## 5. LeftRail global browse
 
 1. Open global `help requests` from LeftRail.
 2. Verify listings are loaded from DB, not hardcoded.
@@ -42,7 +78,7 @@ Repeat for help offer:
 
 Repeat for LeftRail `help offers`.
 
-## 4. RightRail personal workspace
+## 6. RightRail personal workspace
 
 1. Open `my help requests` from RightRail.
 2. Verify only signed-in user listings are shown.
@@ -57,7 +93,7 @@ Important:
 - verify `Add people` still remains in RightRail
 - verify it still opens the existing group-chat invite flow
 
-## 5. Selected listing context
+## 7. Selected listing context
 
 1. Open a global listing you do not own.
 2. Verify the detail view is human-readable, not a raw DB dump.
@@ -73,7 +109,7 @@ Important:
    - status
 4. Verify `Ask AI`, `Contact`, or `Offer help` actions are available as expected.
 
-## 6. Matching and Room continuation
+## 8. Matching and Room continuation
 
 1. Open a request and choose one of your own offers, or vice versa.
 2. Trigger explicit connect action.
@@ -82,7 +118,7 @@ Important:
 5. Verify the user lands in `/room/[roomId]`.
 6. Verify the matched pair can continue communication in that Room.
 
-## 7. Language checks
+## 9. Language checks
 
 Check in:
 
@@ -92,6 +128,7 @@ Check in:
 
 Verify for each language:
 
+- mode-confirmation wording
 - LeftRail help labels
 - RightRail personal help labels
 - listing panel actions
@@ -99,11 +136,12 @@ Verify for each language:
 - empty states
 - edit / close / delete flows
 
-## 8. Regression checks
+## 10. Regression checks
 
 1. Generic RAG answers still work in the same chat page.
 2. Existing Room chat still works.
 3. `Add people` still works.
-4. Document workflow still starts from the main chat when relevant.
+4. Document workflow still starts from the main chat when relevant, but only
+   after a natural mode-confirmation question.
 5. Profile page remains account/settings-focused and does not become the main
    listing-management surface.

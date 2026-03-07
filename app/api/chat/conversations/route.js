@@ -1,5 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth";
+import { resolveSessionRoleState } from "@/lib/authz";
+import {
+  normalizeConversationRole as normalizeRole,
+  resolveConversationListRoleFilter,
+  resolveConversationWriteRole
+} from "@/lib/chat/conversationRoles";
 import { prisma } from "@/lib/prisma";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
@@ -32,12 +40,6 @@ function errorJson(messageKey, status, extras = {}) {
     message: messageKey,
     ...extras
   }, status);
-}
-
-function normalizeRole(role) {
-  const r = String(role || "CLIENT").toUpperCase().trim();
-  if (r === "ADMIN") return "SOCIAL_WORKER";
-  return r === "SOCIAL_WORKER" || r === "CLIENT" ? r : "CLIENT";
 }
 
 function isPlausibleConversationId(id) {
@@ -99,25 +101,9 @@ function conversationExpiryDate() {
   return new Date(Date.now() + CONVERSATION_TTL_MS);
 }
 
-async function getAuthOptions() {
-  try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
-    return mod.authOptions || mod.default || mod.authConfig;
-  } catch {
-    try {
-      const mod = await import("@/auth");
-      return mod.authOptions || mod.default || mod.authConfig;
-    } catch {
-      return undefined;
-    }
-  }
-}
-
 async function requireUser() {
   try {
-    const { getServerSession } = await import("next-auth/next");
-    const authOptions = await getAuthOptions();
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authConfig);
     if (!session?.user?.id) {
       return {
         ok: false,
@@ -127,6 +113,7 @@ async function requireUser() {
     }
     return {
       ok: true,
+      session,
       userId: session.user.id,
       isAdmin: !!session.user.isAdmin,
       role: normalizeRole(session?.user?.role || (session?.user?.isAdmin ? "SOCIAL_WORKER" : "CLIENT"))
@@ -160,8 +147,9 @@ export async function GET(req) {
   const limit = Math.max(1, Math.min(100, Number.isFinite(limitParam) ? limitParam : 30));
   const cursorToken = url.searchParams.get("cursor");
   const parsedCursor = parseCursor(cursorToken);
+  const roleState = resolveSessionRoleState(auth.session, req.cookies);
   const roleParam = url.searchParams.get("role");
-  const roleFilter = roleParam ? normalizeRole(roleParam) : null;
+  const roleFilter = resolveConversationListRoleFilter(roleParam, roleState.effectiveRole);
 
   const baseWhere = {
     userId: auth.userId,
@@ -305,8 +293,17 @@ export async function POST(req) {
     }
   }
 
-  const requestedRole = normalizeRole(body?.role);
-  const role = auth.isAdmin ? requestedRole : auth.role;
+  const roleState = resolveSessionRoleState(auth.session, req.cookies);
+  const requestedRole =
+    body?.role == null || body?.role === ""
+      ? null
+      : normalizeRole(body?.role);
+  const role = resolveConversationWriteRole({
+    requestedRole,
+    effectiveRole: roleState.effectiveRole,
+    isAdmin: auth.isAdmin,
+    sessionRole: auth.role
+  });
   const title = typeof body?.title === "string" && body.title.trim() ? body.title.trim().slice(0, 160) : null;
 
   try {

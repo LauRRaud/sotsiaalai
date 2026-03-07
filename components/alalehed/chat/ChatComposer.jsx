@@ -35,6 +35,8 @@ export default function ChatComposer({
   onCancelDeepResearchMode,
   onConsumeDeepResearchMode,
   onDeepResearchEmptySubmit,
+  showDocumentAttachButton = false,
+  onPickDocumentFile,
   speakLatestReply,
   canSpeakLatest,
   isSpeaking,
@@ -291,18 +293,28 @@ export default function ChatComposer({
   const toolIconStrokeWidth = 1.8;
   const agentToolStrokeWidth = 1.6;
   const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
+  const sideControlsClassName =
+    "relative flex items-center gap-[0.18rem] max-[768px]:gap-[0.12rem] " +
+    "translate-x-[var(--chat-attach-left-pull,0rem)] max-[768px]:translate-x-0 " +
+    "max-[768px]:ml-[clamp(-0.52rem,-1.6vw,-0.3rem)] max-[768px]:mr-[clamp(0.02rem,0.4vw,0.12rem)]";
+  const sideControlButtonClassName =
+    "group h-[var(--chat-composer-side-control-size)] w-[var(--chat-composer-side-control-size)] " +
+    "min-h-[var(--chat-composer-side-control-size)] min-w-[var(--chat-composer-side-control-size)] " +
+    "flex-[0_0_var(--chat-composer-side-control-size)] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none";
+  const documentAttachDisabled = isGenerating || isRoomMode && (roomBlocked || roomAuthRequired);
   return <form className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
-      {!embedded || !hideTools ? <div className="relative h-[var(--chat-composer-side-control-size)] w-[var(--chat-composer-side-control-size)] min-h-[var(--chat-composer-side-control-size)] min-w-[var(--chat-composer-side-control-size)] flex-[0_0_var(--chat-composer-side-control-size)] translate-x-[var(--chat-attach-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:ml-[clamp(-0.52rem,-1.6vw,-0.3rem)] max-[768px]:mr-[clamp(0.02rem,0.4vw,0.12rem)]">
+      {!embedded || !hideTools ? <div className={sideControlsClassName}>
         {hideTools ? <div aria-hidden="true" className="h-[var(--chat-composer-side-control-size)] w-[var(--chat-composer-side-control-size)] min-h-[var(--chat-composer-side-control-size)] min-w-[var(--chat-composer-side-control-size)]" /> : <>
-            <button ref={toolsButtonRef} type="button" className="chat-attach-btn group h-[var(--chat-composer-side-control-size)] w-[var(--chat-composer-side-control-size)] min-h-[var(--chat-composer-side-control-size)] min-w-[var(--chat-composer-side-control-size)] flex-[0_0_var(--chat-composer-side-control-size)] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none" aria-label={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.aria")} title={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={isDeepResearchMode ? undefined : "menu"} aria-expanded={isDeepResearchMode ? undefined : toolsOpen ? "true" : "false"} onClick={handleToolsButtonClick}>
+            <div className="relative">
+              <button ref={toolsButtonRef} type="button" className={`chat-attach-btn ${sideControlButtonClassName}`} aria-label={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.aria")} title={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={isDeepResearchMode ? undefined : "menu"} aria-expanded={isDeepResearchMode ? undefined : toolsOpen ? "true" : "false"} onClick={handleToolsButtonClick}>
               {isDeepResearchMode ? <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
                   <circle cx="17.8" cy="17.8" r="8.8" stroke={iconStroke} strokeWidth="2.8" />
                   <path d="M24.2 24.2L31.5 31.5" stroke={iconStroke} strokeWidth="2.8" strokeLinecap="round" />
                 </svg> : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
                   <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth="3.1" strokeLinecap="round" />
                 </svg>}
-            </button>
-            {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="chat-tools-menu absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] border border-[rgba(255,255,255,0.14)] bg-[rgba(24,26,32,0.96)] [.theme-night_&]:border-[rgba(120,156,231,0.12)] [.theme-night_&]:bg-[rgba(9,14,24,0.88)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.34)] backdrop-blur-[10px] light:border-[rgba(122,58,56,0.12)] light:bg-[rgba(255,250,248,0.94)] [.theme-mid_&]:border-[rgba(141,77,74,0.14)] [.theme-mid_&]:bg-[rgba(252,246,244,0.9)]">
+              </button>
+              {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="chat-tools-menu absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] border border-[rgba(255,255,255,0.14)] bg-[rgba(24,26,32,0.96)] [.theme-night_&]:border-[rgba(120,156,231,0.12)] [.theme-night_&]:bg-[rgba(9,14,24,0.88)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.34)] backdrop-blur-[10px] light:border-[rgba(122,58,56,0.12)] light:bg-[rgba(255,250,248,0.94)] [.theme-mid_&]:border-[rgba(141,77,74,0.14)] [.theme-mid_&]:bg-[rgba(252,246,244,0.9)]">
                 <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
                   <span aria-hidden="true" className={toolIconSlotClassName}>
                     <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
@@ -345,10 +357,16 @@ export default function ChatComposer({
                   <span>{t("chat.tools.agent_mode")}</span>
                 </button>
               </div> : null}
+            </div>
+            {showDocumentAttachButton ? <button type="button" className={`chat-attach-btn ${sideControlButtonClassName}`} aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={onPickDocumentFile} disabled={documentAttachDisabled}>
+                <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
+                  <path d="M26.9 14.2 18 23.1a4.45 4.45 0 1 0 6.29 6.29l9.26-9.26a7.42 7.42 0 0 0-10.49-10.49l-9.78 9.79a10.39 10.39 0 1 0 14.7 14.69l7.95-7.95" stroke={iconStroke} strokeWidth="2.95" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button> : null}
           </>}
       </div> : null}
 
-      <input ref={fileInputRef} type="file" accept={acceptAttr} onChange={onFileChange} className="hidden" />
+      <input ref={fileInputRef} type="file" accept={acceptAttr} multiple onChange={onFileChange} className="hidden" />
 
       <label htmlFor="chat-input" className="sr-only">
         {t("chat.input.label")}

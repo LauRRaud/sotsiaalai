@@ -41,7 +41,7 @@
   },
   "symbols": {
     "question": "?",
-    "times": "Ć—"
+    "times": "×"
   },
   "errors": {
     "title": "Something went wrong",
@@ -217,7 +217,7 @@
     "delete_failed": "Failed to delete account.",
     "saved_ok": "Changes saved.",
     "server_unreachable": "Server is not responding. Please try again.",
-    "footer_brand": "SotsiaalAI Ā©",
+    "footer_brand": "SotsiaalAI ©",
     "role_short": {
       "admin": "Administrator",
       "worker": "Specialist",
@@ -358,7 +358,7 @@
     },
     "section7": {
       "heading": "7. Retention",
-      "body": "<p><strong>7.1 Account data.</strong> Account data is retained until the account is deleted or upon the user's request, unless a longer retention period is required by law.</p><p><strong>7.2 Conversation history.</strong> Conversation history shown under the ā€Conversationsā€¯ button is generally kept for up to 90 days from the last activity in the respective conversation. After that, the conversation is no longer shown to the user and is marked internally for deletion. The user can delete their conversations at any time.</p><p><strong>7.3 Billing data.</strong> Billing and payment data are retained to the extent and for the periods required by accounting and other applicable laws.</p><p><strong>7.4 Technical logs.</strong> Technical logs are stored for a short period for security, troubleshooting and service reliability purposes, after which they are deleted or anonymised.</p>"
+      "body": "<p><strong>7.1 Account data.</strong> Account data is retained until the account is deleted or upon the user's request, unless a longer retention period is required by law.</p><p><strong>7.2 Conversation history.</strong> Conversation history shown under the \"Conversations\" button is generally kept for up to 90 days from the last activity in the respective conversation. After that, the conversation is no longer shown to the user and is marked internally for deletion. The user can delete their conversations at any time.</p><p><strong>7.3 Billing data.</strong> Billing and payment data are retained to the extent and for the periods required by accounting and other applicable laws.</p><p><strong>7.4 Technical logs.</strong> Technical logs are stored for a short period for security, troubleshooting and service reliability purposes, after which they are deleted or anonymised.</p>"
     },
     "section8": {
       "heading": "8. Your Rights",
@@ -397,7 +397,7 @@
     },
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
-      "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee ā‚¬7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
+      "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee €7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
       "paragraph2": "<p>The subscription can be managed at any time on the profile page (\"Manage subscription\"). When cancelled, billing stops from the next billing period.</p>",
       "paragraph3": "<p>SotsiaalAI may change pricing and subscription terms by publishing the information on the Platform and notifying active subscribers with reasonable prior notice.</p>"
     },
@@ -420,7 +420,7 @@
     },
     "section10": {
       "heading": "10. Data Processing in Chats and Uploaded Materials",
-      "paragraph1": "<p>When using the Platform, the user may provide information in several ways ā€” by typing, speaking (dictation) or uploading documents. All data provided in this way is processed solely for the purpose of providing the Platform's service, generating responses and ensuring the functioning of the chat, in accordance with the privacy policy.</p>",
+      "paragraph1": "<p>When using the Platform, the user may provide information in several ways — by typing, speaking (dictation) or uploading documents. All data provided in this way is processed solely for the purpose of providing the Platform's service, generating responses and ensuring the functioning of the chat, in accordance with the privacy policy.</p>",
       "paragraph2": "<p>A more detailed description of data processing and the user's rights is provided in the privacy policy.</p>",
       "items": "<li><strong>Text entered in the chat.</strong> Text entered by the user is transmitted via a secure connection to SotsiaalAI servers to generate a response. The content of the chat is not stored permanently and is not used for marketing, profiling or training models outside the operation of the Platform's service.</li><li><strong>Dictation (microphone, speech recognition).</strong> When using the dictation feature, a short audio clip is recorded, indicated by a red outline around the microphone button. The audio clip is securely transmitted to the speech recognition service and converted into text, which is shown to the user before sending. Audio files are not stored permanently and are used only to create text and to operate the service.</li><li><strong>Reading responses aloud.</strong> The read-aloud feature uses the text displayed in the chat window to present it to the user as audio output. The technology does not permanently store user-related data and does not process it for any other purpose than enabling the read-aloud functionality.</li><li><strong>Uploaded documents.</strong> The user may upload documents to the Platform (for example PDF, DOC/DOCX, TXT, MD or HTML files) so that the assistant can analyse them within the ongoing chat. Documents are not stored permanently, are used only in the context of the given conversation and are removed from the system when the chat window or page is closed. Content derived from the documents is not used for marketing, profiling or training third-party models.</li><li><strong>Special categories of data.</strong> The user may provide sensitive information in the chat or in documents (for example, information about health, family, violence or socio-economic situation). SotsiaalAI processes such data only for the purpose of generating a response and does not process it for other purposes. To ensure security, SotsiaalAI recommends avoiding entering a personal identification code, exact address and full names of third parties, unless this is strictly necessary for using the service.</li><li><strong>Processors.</strong> Technical processing for dictation, read-aloud and response generation may be carried out via authorised service providers. Such providers process data only in accordance with SotsiaalAI's instructions, under concluded agreements and in compliance with applicable data protection requirements. Where processing involves transferring data outside the European Economic Area, appropriate legal safeguards are used.</li>"
     },
@@ -542,7 +542,7 @@
     },
     "listen": {
       "last_reply": "Listen to last reply",
-      "title": "Listen to the assistantā€™s last reply"
+      "title": "Listen to the assistant's last reply"
     },
     "history": {
       "load_more": "Load earlier messages",
@@ -623,7 +623,9 @@
       "summary_show": "Show text",
       "summary_hide": "Hide preview",
       "privacy": "For analysis only, not stored permanently.",
-      "context_hint": "If the \"Analyse in chat\" toggle is on, the assistant can use this document in answers ā€” summarise, explain, compare, translate, and help draft letters and applications. If the toggle is off, the answer relies only on the SotsiaalAI knowledge base. The document is never stored regardless of the toggle.",
+      "context_hint": "If the \"Analyse in chat\" toggle is on, the assistant can use this document in answers — summarise, explain, compare, translate, and help draft letters and applications. If the toggle is off, the answer relies only on the SotsiaalAI knowledge base. The document is never stored regardless of the toggle.",
+      "files_selected": "Added files: {count}/{limit}",
+      "limit_reached": "You can add up to {limit} files in this conversation.",
       "ask_more": "Please explain this document briefly and highlight 5 key points.",
       "ask_more_btn": "Start your question",
       "use_as_context": "Analyse in chat",
@@ -692,7 +694,208 @@
       "error": "Dictation failed.",
       "cannot_start": "Could not open microphone."
     },
-    "empty_intro": "Hello! Briefly describe your question or request - I can provide information, help draft documents, and connect people with each other."
+    "empty_intro": "Hello! Briefly describe your question or request - I can provide information, help draft documents, and connect people with each other.",
+    "modeSelection": {
+      "confirm": {
+        "rag": "I understood that you want information and guidance. Shall we continue with that?",
+        "document": "I understood that you want to draft a document or report. Shall we continue with that?",
+        "documentClient": "I understood that you want to draft a document. Shall we continue with that?",
+        "help_request": "I understood that you want to structure a help request. Shall we continue with that?",
+        "help_offer": "I understood that you want to structure a help offer. Shall we continue with that?"
+      },
+      "alternativesLead": "If you want something else instead, choose:",
+      "options": {
+        "rag": "Ask for information and guidance",
+        "document": "Draft a document or report",
+        "documentClient": "Draft a document",
+        "help_request": "Structure a help request",
+        "help_offer": "Structure a help offer"
+      },
+      "reprompt": "Reply “yes” to continue. To choose another option, enter its number."
+    },
+    "documentWorkflow": {
+      "questions": {
+        "describe": "Please describe what kind of document or report you want to prepare and for what purpose.",
+        "describeClient": "Please describe what kind of document you want to prepare and for what purpose.",
+        "purpose": "I understood that you want to prepare a {documentType}. Please add what the purpose is.",
+        "purposeClient": "I understood that you want to prepare a {documentType}. Please add why you need this document.",
+        "recipient": "Who is it meant for or where should it be submitted?",
+        "sourceBasis": "Do you want me to prepare a new text from your description, or do you already have a text, note, document, form, or template I should use as a basis? If you have a file, add it with the paperclip.",
+        "sourceMaterial": "Please add the text, notes, or file that the document should be based on. If you have a file, add it with the paperclip.",
+        "background": "Is there any important background or circumstance that should definitely be taken into account?",
+        "languageTone": "What language and tone should it use?",
+        "optionalPreferences": "If you want, you can also add whether the text should be shorter or more detailed, whether it should follow a form or template, and whether there is any deadline or reporting period to consider.",
+        "optionalPreferencesClient": "If you want, you can also add whether the text should be shorter or more detailed, whether it should follow a form or template, and whether there is any deadline to consider."
+      },
+      "reflections": {
+        "sourceDescription": "I noted that this should be drafted from your description.",
+        "sourceExisting": "I noted that I can use existing material as the basis.",
+        "background": "I noted the important background.",
+        "languageTone": "I noted the language as {language} and the tone as {tone}.",
+        "preferences": "I noted the extra preferences."
+      },
+      "preview": {
+        "title": "Please review the summary.",
+        "confirm": "If this looks right, reply \"yes\" and I will prepare the draft. If you want to change something, write the change directly here."
+      },
+      "generated": {
+        "worker": "Draft ready. Open it on the Documents page.",
+        "client": "Draft ready. Open it on the Agent mode page."
+      },
+      "labels": {
+        "documentType": "Document type",
+        "purpose": "Purpose",
+        "recipient": "For / submit to",
+        "sourceBasis": "Basis",
+        "sourceDetails": "Source material",
+        "background": "Important background",
+        "subjectLabel": "About / for whom",
+        "language": "Language",
+        "tone": "Tone",
+        "length": "Length",
+        "templatePreference": "Template or form",
+        "deadline": "Deadline",
+        "reportPeriod": "Report period",
+        "recipientDetail": "Recipient detail",
+        "sourceModeValues": {
+          "description": "From your description",
+          "existingMaterial": "From existing material"
+        },
+        "languageValues": {
+          "estonian": "Estonian",
+          "english": "English",
+          "russian": "Russian"
+        },
+        "toneValues": {
+          "professional": "professional",
+          "plain": "plain and clear",
+          "supportive": "supportive"
+        },
+        "lengthValues": {
+          "short": "short",
+          "standard": "standard",
+          "detailed": "more detailed"
+        }
+      },
+      "cancelled": "Understood. I stopped the document or report drafting flow.",
+      "cancelledClient": "Understood. I stopped the document drafting flow.",
+      "restarted": "Understood. Let us start the document or report drafting flow again from the beginning.",
+      "restartedClient": "Understood. Let us start the document drafting flow again from the beginning.",
+      "switchToInfo": "Understood. I stopped the document drafting flow. Write your question now and I will provide information or guidance."
+    },
+    "helpWorkflow": {
+      "entry": {
+        "helpOffer": "I understood that you want to structure a help offer. Shall we continue with that?",
+        "helpRequest": "I understood that you want to structure a help request. Shall we continue with that?",
+        "reprompt": "Reply \"yes\" to continue, or choose another option by number or keyword."
+      },
+      "questions": {
+        "offer": {
+          "describe": "Please describe briefly what you want to offer, for whom, and where.",
+          "rawPlace": "Please write where you want to offer help.",
+          "helpType": "Is this help voluntary, paid, or are you open to both?",
+          "compensationDetails": "Please briefly describe the payment terms.",
+          "timeType": "Is this help one-time, regular, or flexible?",
+          "availability": "When can you start or when is this help available?",
+          "scope": "Would you like to add any conditions or details, for example when or to what extent you can help?"
+        },
+        "request": {
+          "describe": "Please describe briefly what help you need, for whom, and where.",
+          "rawPlace": "Please write where the help is needed.",
+          "beneficiary": "Is this help request for you or for someone else?",
+          "urgency": "How quickly is the help needed: immediately, soon, or flexibly?",
+          "helpType": "Are you looking for voluntary help, a paid service, or are you open to both?",
+          "compensationDetails": "Please briefly describe the payment or compensation preference.",
+          "timeType": "Do you need this help one-time, regularly, or flexibly?",
+          "availability": "When is the help needed or when could it start?"
+        },
+        "shared": {
+          "contactPreference": "How would you like to be contacted: via chat, by phone, by email, or by agreement?",
+          "targetGroup": "Who is this help meant for?",
+          "category": "Which kind of help does this fit best under?",
+          "title": "I set a title. If you want a different one, write it now."
+        },
+        "location": {
+          "confirmSingle": "Did you mean the municipality {municipality}?",
+          "detectedPlace": "Detected place",
+          "confirmSingleRetry": "Reply \"yes\" or write the correct municipality or place again.",
+          "confirmMany": "I found several possible municipalities. Which one do you mean?",
+          "confirmManyHint": "Reply with the name or the number.",
+          "askMunicipality": "Do you mean a specific municipality or area?"
+        }
+      },
+      "reflections": {
+        "offerSummary": "I understood that you want to offer {category}{target}{place}.",
+        "requestSummary": "I understood that you need {category}{target}{place}.",
+        "locationWithMunicipality": "I marked the location as {rawPlace} and the municipality as {municipality}.",
+        "locationOnly": "I marked the location as {rawPlace}.",
+        "helpType": "I marked this as {helpType} help.",
+        "timeType": "I marked the timing as {timeType}.",
+        "contactPreference": "I marked the contact preference as {contactPreference}.",
+        "beneficiary": "I marked that the help is needed for {beneficiary}.",
+        "urgency": "I marked the urgency as {urgency}.",
+        "conditions": "I marked the conditions.",
+        "title": "I set the title to \"{title}\"."
+      },
+      "preview": {
+        "offerTitle": "Please review the help offer.",
+        "requestTitle": "Please review the help request.",
+        "offerTypeValue": "Help offer",
+        "requestTypeValue": "Help request",
+        "savePrompt": "If this looks right, reply “yes” or “save”. If you want to change something, write the change directly here."
+      },
+      "labels": {
+        "type": "Type",
+        "title": "Title",
+        "description": "Description",
+        "primaryCategory": "Primary category",
+        "secondaryCategories": "Secondary categories",
+        "municipality": "Municipality",
+        "rawPlace": "Detailed location",
+        "targetGroups": "Target group",
+        "helpForm": "Help form",
+        "compensationInfo": "Payment details",
+        "compensationPreference": "Payment preference",
+        "timeType": "Timing",
+        "availabilityOrStart": "Availability / start",
+        "availabilityForRequest": "Needed time / start",
+        "conditions": "Conditions",
+        "skillsOrBackground": "Skills or background",
+        "contactPreference": "Contact preference",
+        "beneficiaryLabel": "Who needs the help",
+        "urgency": "Urgency",
+        "status": "Status"
+      },
+      "saved": {
+        "offer": "Thank you! The help offer has been saved.",
+        "request": "Thank you! The help request has been saved."
+      },
+      "create": {
+        "cancelled": "Understood, I stopped creating this help listing."
+      },
+      "browse": {
+        "nextOffers": "Next you can write: \"show matching offers\".",
+        "nextRequests": "Next you can write: \"show matching requests\".",
+        "emptyOffers": "No active matching help offers found yet.",
+        "emptyRequests": "No active matching help requests found yet.",
+        "foundOffers": "I found {count} possible offers.",
+        "foundRequests": "I found {count} possible requests.",
+        "connectHintOffers": "If you want to connect, write for example: \"connect to the first offer\".",
+        "connectHintRequests": "If you want to connect, write for example: \"connect to the first request\".",
+        "sourceMissingOffers": "First I need to know which request to browse offers for.",
+        "sourceMissingRequests": "First I need to know which offer to browse requests for.",
+        "cardHintOffer": "Write: “connect to offer {index}”",
+        "cardHintRequest": "Write: \"connect to request {index}\""
+      },
+      "connect": {
+        "needBrowse": "Before connecting, I need to show matching results first.",
+        "askWhich": "Please tell me which result to connect to, for example \"connect 1\".",
+        "created": "The connection has been created. I linked an existing Room chat for this match.",
+        "openRoom": "Open Room chat",
+        "alreadyActive": "There is already an active match for this listing.",
+        "failed": "Failed to create the connection."
+      }
+    }
   },
   "documents": {
     "meta": {
@@ -815,8 +1018,8 @@
       "title": "Create result",
       "description": "Select documents allowed for work mode and create a new draft.",
       "selected_count": "Selected: {count}",
-      "help": "Only documents with “Use in work mode” enabled can be selected. The selected template affects DOCX export after approval.",
-      "enable_agent_allowed": "Enable “Use in work mode” before selecting this document."
+      "help": "Only documents with \"Use in work mode\" enabled can be selected. The selected template affects DOCX export after approval.",
+      "enable_agent_allowed": "Enable \"Use in work mode\" before selecting this document."
     },
     "agent_handoff": {
       "title": "Agent mode",
@@ -1071,7 +1274,7 @@
       "back_home": "Back to homepage"
     },
     "footer": {
-      "note": "SotsiaalAI Ā© 2025"
+      "note": "SotsiaalAI © 2025"
     },
     "guide": {
       "jump_link": "Platform guide",
@@ -1081,7 +1284,7 @@
       "sections_v2": {
         "accessibility": {
           "title": "1. Language and accessibility",
-          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens so you can decide how SotsiaalAI should look and behave. You can open the same window later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose the interface language: Estonian, Russian or English.</li><li><strong>Text size.</strong> Pick the size that is easiest to read (small, standard, large or extra large).</li><li><strong>Contrast.</strong> Enable high contrast whenever you need clearer buttons and text.</li><li><strong>Animations.</strong> Select \"Reduce motion\" if movement distracts you or if your computer is slower ā€” this can make the experience more stable.</li></ul>"
+          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens so you can decide how SotsiaalAI should look and behave. You can open the same window later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose the interface language: Estonian, Russian or English.</li><li><strong>Text size.</strong> Pick the size that is easiest to read (small, standard, large or extra large).</li><li><strong>Contrast.</strong> Enable high contrast whenever you need clearer buttons and text.</li><li><strong>Animations.</strong> Select \"Reduce motion\" if movement distracts you or if your computer is slower — this can make the experience more stable.</li></ul>"
         },
         "home": {
           "title": "2. Home page",
@@ -1097,7 +1300,7 @@
         },
         "chat": {
           "title": "5. Chat page",
-          "body": "<p><strong>Chat page</strong> opens after sign-in. To actively use chat (for example, sending questions or document analysis), your account must have an active subscription. The assistant is role-based - answers and recommendations may differ depending on your role (for example, specialist or help-seeker). Role-specific functions on the chat page may differ slightly, but the core workflow - sending messages, adding documents, and managing chats - is similar for everyone.</p><p><strong>Sending a message</strong></p>\n<ul>\n  <li>Type your question in the input field below the chat window and send it with the button or Enter.</li>\n  <li>While the answer is being generated, the send button turns into a stop button, so you can stop streaming and continue typing.</li>\n</ul>\n<p><strong>Viewing messages and scrolling</strong></p>\n<ul>\n  <li>If you scroll up, an arrow icon appears near the input field so you can jump to the bottom with one click.</li>\n</ul>\n<p><strong>Add a person to a group chat</strong></p>\n<p>If you want to include another person in the chat, you can send them an invite. After they accept, you will have a shared room (group chat) where you can chat together.</p>\n<ul>\n  <li>Open the chat page and select \"Add person\" from the top bar (or open \"Rooms\" and click \"Invite\" for a room).</li>\n  <li>If you are creating a new room, enter a room name.</li>\n  <li>Enter the invitee email address.</li>\n  <li>If you enter multiple addresses, separate them with commas.</li>\n  <li>Choose the subscription option: they have their own subscription or I will pay for them.</li>\n  <li>Click \"Send invite\".</li>\n  <li>The invite appears in the \"Invites\" list, where you can track its status.</li>\n  <li>Once the person accepts, you can open the group chat from the \"Rooms\" view or from the same chat page.</li>\n</ul>\n<p><strong>Room management</strong></p>\n<ul>\n  <li>In the \"Rooms\" view you can invite people, leave a room, or delete a room (delete is only available to the room owner).</li>\n</ul>\n\n<p><strong>Document analysis</strong></p>\n<ul>\n  <li>Uploading a document helps the assistant work with your text ā€” for example a longer letter, contract, guide, or application.</li>\n  <li>The assistant can use the document to create a brief summary, clarify complex or legal parts, compare terms against laws or guidelines, help draft replies and applications, and highlight important dates, requirements, and risks.</li>\n  <li>The document is used only within the current conversation and is not stored permanently.</li>\n</ul>\n<p><strong>Adding a document</strong></p>\n<ul>\n  <li>The paperclip button opens a file picker and lets you upload documents (up to 50 MB), e.g. PDF, DOC/DOCX, TXT, MD, or HTML.</li>\n  <li>Documents are not stored permanently ā€” they are used only for the current conversation.</li>\n</ul>\n<p>After a successful upload, a document window opens where you see:</p>\n<ul>\n  <li>the file name,</li>\n  <li>the \"Analyse in chat\" toggle to choose whether the assistant may rely on the uploaded document or only on the SotsiaalAI knowledge base when answering,</li>\n  <li>a clarification that opens when you click the question-mark icon,</li>\n  <li>the \"Show document\" / \"Hide document\" button to open or hide the document text in the window,</li>\n  <li>the document text (scrollable in the same window) when \"Show document\" is selected,</li>\n  <li>the \"Back to chat\" button to jump back to the chat window and input field to continue with questions.</li>\n</ul>\n<p>Under the \"Upload document\" button you see how many document analyses you still have available today.</p>\n<p><strong>Sources</strong></p>\n<ul>\n  <li>If an answer uses documents, a \"Sources\" button appears in the footer to open the list of materials used.</li>\n</ul>\n<p><strong>Chat sidebar</strong></p>\n<ul>\n  <li>The \"Conversations\" button in the quick-actions rail opens a side panel where you can:</li>\n  <li>load previous conversations,</li>\n  <li>start a new conversation,</li>\n  <li>refresh the list,</li>\n  <li>delete conversations you no longer need,</li>\n  <li>use \"Load more\" to view older conversations.</li>\n</ul>\n<p>The active conversation is highlighted in the list and the panel closes automatically when you switch to another conversation.</p>\n<p><strong>Profile and accessibility</strong></p>\n<ul>\n  <li>From the chat pageā€™s top-right profile icon you can open the profile page and accessibility settings (see the \"Profile and accessibility\" chapter).</li>\n</ul>\n<p><strong>Warnings</strong></p>\n<ul>\n  <li>If the conversation touches a possible crisis, a red info box appears with instructions for getting urgent help.</li>\n</ul>"
+          "body": "<p><strong>Chat page</strong> opens after sign-in. To actively use chat (for example, sending questions or document analysis), your account must have an active subscription. The assistant is role-based - answers and recommendations may differ depending on your role (for example, specialist or help-seeker). Role-specific functions on the chat page may differ slightly, but the core workflow - sending messages, adding documents, and managing chats - is similar for everyone.</p><p><strong>Sending a message</strong></p>\n<ul>\n  <li>Type your question in the input field below the chat window and send it with the button or Enter.</li>\n  <li>While the answer is being generated, the send button turns into a stop button, so you can stop streaming and continue typing.</li>\n</ul>\n<p><strong>Viewing messages and scrolling</strong></p>\n<ul>\n  <li>If you scroll up, an arrow icon appears near the input field so you can jump to the bottom with one click.</li>\n</ul>\n<p><strong>Add a person to a group chat</strong></p>\n<p>If you want to include another person in the chat, you can send them an invite. After they accept, you will have a shared room (group chat) where you can chat together.</p>\n<ul>\n  <li>Open the chat page and select \"Add person\" from the top bar (or open \"Rooms\" and click \"Invite\" for a room).</li>\n  <li>If you are creating a new room, enter a room name.</li>\n  <li>Enter the invitee email address.</li>\n  <li>If you enter multiple addresses, separate them with commas.</li>\n  <li>Choose the subscription option: they have their own subscription or I will pay for them.</li>\n  <li>Click \"Send invite\".</li>\n  <li>The invite appears in the \"Invites\" list, where you can track its status.</li>\n  <li>Once the person accepts, you can open the group chat from the \"Rooms\" view or from the same chat page.</li>\n</ul>\n<p><strong>Room management</strong></p>\n<ul>\n  <li>In the \"Rooms\" view you can invite people, leave a room, or delete a room (delete is only available to the room owner).</li>\n</ul>\n\n<p><strong>Document analysis</strong></p>\n<ul>\n  <li>Uploading a document helps the assistant work with your text — for example a longer letter, contract, guide, or application.</li>\n  <li>The assistant can use the document to create a brief summary, clarify complex or legal parts, compare terms against laws or guidelines, help draft replies and applications, and highlight important dates, requirements, and risks.</li>\n  <li>The document is used only within the current conversation and is not stored permanently.</li>\n</ul>\n<p><strong>Adding a document</strong></p>\n<ul>\n  <li>The paperclip button opens a file picker and lets you upload documents (up to 50 MB), e.g. PDF, DOC/DOCX, TXT, MD, or HTML.</li>\n  <li>Documents are not stored permanently — they are used only for the current conversation.</li>\n</ul>\n<p>After a successful upload, a document window opens where you see:</p>\n<ul>\n  <li>the file name,</li>\n  <li>the \"Analyse in chat\" toggle to choose whether the assistant may rely on the uploaded document or only on the SotsiaalAI knowledge base when answering,</li>\n  <li>a clarification that opens when you click the question-mark icon,</li>\n  <li>the \"Show document\" / \"Hide document\" button to open or hide the document text in the window,</li>\n  <li>the document text (scrollable in the same window) when \"Show document\" is selected,</li>\n  <li>the \"Back to chat\" button to jump back to the chat window and input field to continue with questions.</li>\n</ul>\n<p>Under the \"Upload document\" button you see how many document analyses you still have available today.</p>\n<p><strong>Sources</strong></p>\n<ul>\n  <li>If an answer uses documents, a \"Sources\" button appears in the footer to open the list of materials used.</li>\n</ul>\n<p><strong>Chat sidebar</strong></p>\n<ul>\n  <li>The \"Conversations\" button in the quick-actions rail opens a side panel where you can:</li>\n  <li>load previous conversations,</li>\n  <li>start a new conversation,</li>\n  <li>refresh the list,</li>\n  <li>delete conversations you no longer need,</li>\n  <li>use \"Load more\" to view older conversations.</li>\n</ul>\n<p>The active conversation is highlighted in the list and the panel closes automatically when you switch to another conversation.</p>\n<p><strong>Profile and accessibility</strong></p>\n<ul>\n  <li>From the chat page's top-right profile icon you can open the profile page and accessibility settings (see the \"Profile and accessibility\" chapter).</li>\n</ul>\n<p><strong>Warnings</strong></p>\n<ul>\n  <li>If the conversation touches a possible crisis, a red info box appears with instructions for getting urgent help.</li>\n</ul>"
         },
         "profile": {
           "title": "6. Profile",
@@ -1109,7 +1312,7 @@
         },
         "quickstart": {
           "title": "8. Quick overview",
-          "body": "<p>This is a short guide to using SotsiaalAI.</p>\n<p><strong>First time</strong></p>\n<ol>\n  <li><strong>Open sotsiaal.ai</strong><br/>On your first visit choose language and accessibility (text size, contrast, animations).</li>\n  <li><strong>Choose a role and create an account</strong>\n    <ul>\n      <li>On the home page pick the role card (\"For social work professionals\" or \"For people seeking help\") and click <a href=\"/registreerimine\">Register</a>.</li>\n      <li>Enter your email address and a PIN (4-8 digits) and accept the terms and privacy policy.</li>\n    </ul>\n  </li>\n  <li><strong>Confirm email and sign in</strong>\n    <ul>\n      <li>Open the verification email and confirm your address.</li>\n      <li>Then sign in with email + PIN. If needed, confirm with the 6-digit code sent to your email and optionally select \"Remember this device for 30 days\" on devices you trust.</li>\n    </ul>\n  </li>\n  <li><strong>Activate subscription</strong>\n    <ul>\n      <li>If you do not yet have an active subscription, after the first sign-in you will be redirected to the Subscription page.</li>\n      <li>Choose the plan and confirm payment (monthly fee ā‚¬7.99).</li>\n    </ul>\n  </li>\n  <li><strong>Start using the chat assistant</strong>\n    <ul>\n      <li>On the chat page type your question in the input field and press Enter or click \"Send\".</li>\n      <li>Use documents and sources as described in section 5 of this guide.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>Next visits</strong></p>\n<ol>\n  <li>Open <a href=\"https://sotsiaal.ai\">sotsiaal.ai</a>.</li>\n  <li>If your device is remembered and you have an active subscription, you can usually sign in with just your PIN.</li>\n  <li>If something seems off or access is limited, check your subscription status on the Profile page.</li>\n</ol>"
+          "body": "<p>This is a short guide to using SotsiaalAI.</p>\n<p><strong>First time</strong></p>\n<ol>\n  <li><strong>Open sotsiaal.ai</strong><br/>On your first visit choose language and accessibility (text size, contrast, animations).</li>\n  <li><strong>Choose a role and create an account</strong>\n    <ul>\n      <li>On the home page pick the role card (\"For social work professionals\" or \"For people seeking help\") and click <a href=\"/registreerimine\">Register</a>.</li>\n      <li>Enter your email address and a PIN (4-8 digits) and accept the terms and privacy policy.</li>\n    </ul>\n  </li>\n  <li><strong>Confirm email and sign in</strong>\n    <ul>\n      <li>Open the verification email and confirm your address.</li>\n      <li>Then sign in with email + PIN. If needed, confirm with the 6-digit code sent to your email and optionally select \"Remember this device for 30 days\" on devices you trust.</li>\n    </ul>\n  </li>\n  <li><strong>Activate subscription</strong>\n    <ul>\n      <li>If you do not yet have an active subscription, after the first sign-in you will be redirected to the Subscription page.</li>\n      <li>Choose the plan and confirm payment (monthly fee €7.99).</li>\n    </ul>\n  </li>\n  <li><strong>Start using the chat assistant</strong>\n    <ul>\n      <li>On the chat page type your question in the input field and press Enter or click \"Send\".</li>\n      <li>Use documents and sources as described in section 5 of this guide.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>Next visits</strong></p>\n<ol>\n  <li>Open <a href=\"https://sotsiaal.ai\">sotsiaal.ai</a>.</li>\n  <li>If your device is remembered and you have an active subscription, you can usually sign in with just your PIN.</li>\n  <li>If something seems off or access is limited, check your subscription status on the Profile page.</li>\n</ol>"
         }
       }
     }
@@ -1129,7 +1332,10 @@
     },
     "active": {
       "summary": "Your subscription is active. Monthly price: 7.99.",
-      "cancel_note": "You can cancel your subscription at any time on the profile page."
+      "cancel_note": "You can cancel your subscription at any time on the profile page.",
+      "sponsored_note": "Your access is currently sponsored and is valid until {date}. After that, you need to activate your own subscription to continue using the platform.",
+      "sponsored_ending_soon": "Your sponsored access ends in {days} days, on {date}. Activate your own subscription to continue using the platform.",
+      "sponsored_expired": "Your sponsored month has ended. Activate your own subscription to continue."
     },
     "button": {
       "open_profile": "Open profile",
@@ -1345,7 +1551,8 @@
       "emails_required": "Add at least one email address.",
       "sponsored_single_email_required": "Sponsored invites can only be sent to one person at a time.",
       "sponsor_plan_required": "Choose the sponsored subscription role before starting payment.",
-      "sponsored_checkout_required": "If you choose “I'll pay for them”, the invite must be sent through the sponsored checkout flow.",
+      "invitee_active_subscription": "This email already has an active subscription. A sponsored month cannot be purchased for them again.",
+      "sponsored_checkout_required": "If you choose \"I'll pay for them\", the invite must be sent through the sponsored checkout flow.",
       "sponsor_plan_unavailable": "Sponsored invites cannot be created: plan is unavailable.",
       "sponsor_capacity_full": "Sponsored seats limit is full."
     }

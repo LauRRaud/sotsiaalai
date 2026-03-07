@@ -9,7 +9,7 @@ This document covers `/vestlus` end-to-end behavior:
 - voice features (`listen`, `speak`, `dictate`)
 - persistence and refresh behavior
 
-Date: 2026-03-06
+Date: 2026-03-07
 
 ## Frontend Structure
 
@@ -53,6 +53,7 @@ The chat page is now intended to behave as:
 - Chat area
   - active work area
   - AI conversation
+  - mode confirmation
   - help workflows
   - selected listing context
   - Room conversation
@@ -71,12 +72,14 @@ The chat page is now intended to behave as:
 1. User sends text in `ChatComposer`.
 2. `useChatStream.sendMessage` appends local `user` message.
 3. `POST /api/chat` with `stream: true`, `persist: true`, `convId`, locale, role, history.
-4. SSE events are consumed:
+4. The backend may first return a natural mode-confirmation prompt before
+   routing into help, document, or information flow.
+5. SSE events are consumed:
    - `meta`: sources + crisis flag
    - `delta`: streamed text chunks
    - `done`: finalize response
-5. Local message is finalized and marked non-streaming.
-6. `sotsiaalai:refresh-conversations` event refreshes sidebar list.
+6. Local message is finalized and marked non-streaming.
+7. `sotsiaalai:refresh-conversations` event refreshes sidebar list.
 
 Auth/error handling in stream path:
 - `401` from `/api/chat` -> sign-in redirect flow
@@ -92,7 +95,21 @@ Auth/error handling in stream path:
 
 Result: no extra click is required after pressing "new conversation".
 
-### 3) Room mode flow
+### 3) Mode confirmation gate
+
+1. The user writes a substantive new message in the main chat.
+2. `POST /api/chat` infers the most likely mode:
+   - information and guidance
+   - document/report drafting
+   - help request
+   - help offer
+3. The assistant asks for confirmation in plain language.
+4. If the user answers `jah`, the suggested mode is used.
+5. If the user answers `ei`, the assistant offers the other modes in plain
+   language.
+6. Technical labels such as `RAG` are not shown to the end user.
+
+### 4) Room mode flow
 
 1. `roomId` enables room mode in `ChatBody`.
 2. `useRoomMessages` loads messages from `/api/rooms/{roomId}/messages`.
@@ -106,25 +123,55 @@ Result: no extra click is required after pressing "new conversation".
 ### 5) Help requests and offers inside chat
 
 1. User writes natural language in the main composer.
-2. `POST /api/chat` detects help intent when appropriate.
-3. Help workflow state is loaded from persisted conversation metadata.
-4. The backend either:
+2. `POST /api/chat` first asks the user to confirm that this should become a
+   help request or help offer.
+3. After `jah`, help workflow state is loaded from persisted conversation metadata.
+4. Help intent detection uses offer/request/mediation patterns, not category or
+   municipality words alone.
+5. The backend either:
    - asks for missing request / offer fields
    - shows confirmation before save
-   - saves a structured help record
+   - saves a structured help record only after a text confirmation such as
+     `jah` or `salvesta`
    - returns ranked browse candidates
    - creates a `HelpMatch` and Room only on explicit connect action
-5. LeftRail can open global help requests / help offers panels.
-6. RightRail can open `my help requests` / `my help offers`.
-7. Selecting a listing opens a human-readable listing context in the chat area.
-8. From selected listing context the user can:
+6. LeftRail can open global help requests / help offers panels.
+7. RightRail can open `my help requests` / `my help offers`.
+8. Selecting a listing opens a human-readable listing context in the chat area.
+9. From selected listing context the user can:
    - contact / offer help
    - edit own listing
    - close own listing
    - delete own listing
    - ask AI about the selected listing
 
-### 4) Voice flow (`listen`, `speak`, `dictate`)
+### 6) Document drafting inside chat
+
+1. User writes a natural message that suggests document drafting.
+2. `POST /api/chat` asks for one plain-language confirmation before entering
+   the document flow.
+3. After `jah`, document workflow state is locked into the conversation.
+4. The original user message is reused as the initial document brief.
+5. The backend extracts document fields from each reply and asks only for the
+   next missing required item.
+6. If document flow is active, the composer shows a paperclip next to the `+`
+   button.
+7. Files added with that paperclip are treated as chat-session material for the
+   current document flow only.
+8. Chat-session file limits are role-based:
+   - `CLIENT`: up to `2`
+   - `SOCIAL_WORKER`: up to `10`
+9. Before generation, the backend returns a short summary preview.
+10. The user can reply with edits in natural language instead of restarting.
+11. `jah` generates the draft and stores it as `AgentArtifact.status = DRAFT`.
+12. The draft text is shown immediately in chat.
+13. Role-specific result destination after generation:
+   - `SOCIAL_WORKER`: Documents page results + artifact detail
+   - `CLIENT`: Agent mode page result area
+14. Drafts are not directly downloadable; DOCX/PDF downloads are enabled only
+   after approval (`FINAL`).
+
+### 7) Voice flow (`listen`, `speak`, `dictate`)
 
 `listen/speak`:
 - Trigger: `speakLatestReply` in `useSpeech`
@@ -147,6 +194,8 @@ Result: no extra click is required after pressing "new conversation".
 - `POST /api/chat`
   - auth/subscription gate
   - optional room membership gate
+  - natural mode-selection gate for new substantive chat turns
+  - locked document/help workflow continuation after confirmation
   - RAG retrieval + context build
   - OpenAI call (streaming or non-streaming)
   - conversation persistence (`persistInit/Append/Done`)
@@ -205,12 +254,15 @@ Result: no extra click is required after pressing "new conversation".
   - quota checked in DB (`analyzeUsage`)
   - forwards file to RAG analyze service with bounded `maxChunks`
   - returns ephemeral chunks/preview for the current chat context
+  - current chat UI uses this path for document-flow paperclip uploads
 - `POST /api/chat`
   - when ephemeral chunks are present, server builds document context by relevance to current question (not document prefix only)
   - applies role-aware char/chunk budgets:
     - `CLIENT`: smaller context budget by default
     - `SOCIAL_WORKER`: larger context budget by default
   - in extended mode (`combineSources=true`) document budget is reduced to leave room for RAG context
+  - uses only chat-session uploaded material for chat document flow, not
+    `agentAllowed` selections from `/documents` or `/agendireziim`
 
 ## Storage and State
 
@@ -262,3 +314,11 @@ Result: no extra click is required after pressing "new conversation".
 6. Verify conversation list refresh after each assistant reply.
 7. Verify LeftRail global help browse, RightRail my listings, and selected listing context.
 8. Verify explicit connect action opens or reuses a Room conversation.
+9. Verify new conversations use natural mode confirmation before entering help
+   or document workflows.
+10. Verify document flow lock after `jah`, including cancel/restart/switch.
+11. Verify the paperclip appears only during document flow and respects role
+    file limits.
+12. Verify a generated draft appears in chat, then in:
+    - Documents results for `SOCIAL_WORKER`
+    - Agent mode recent results for `CLIENT`

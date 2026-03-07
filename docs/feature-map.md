@@ -1,6 +1,6 @@
 # Feature Map
 
-Date: 2026-03-06
+Date: 2026-03-07
 
 This document maps the main platform features to their frontend surfaces, API
 entrypoints, and primary data models.
@@ -63,6 +63,9 @@ entrypoints, and primary data models.
 
 - User-facing functions:
   - ask questions in chat
+  - confirm in plain language whether the current turn should be treated as
+    information/guidance, document drafting, help request, or help offer
+  - continue locked document/help workflows after one confirmation
   - receive grounded AI answers
   - stream answers live
   - continue saved conversations
@@ -139,9 +142,12 @@ entrypoints, and primary data models.
   - save draft
   - approve final result
   - download DOCX or PDF
+  - show chat-generated drafts in different result surfaces by role
 - Frontend surfaces:
   - `/agendireziim`
   - `components/agent/AgentModePage.jsx`
+  - `/documents`
+  - document artifact detail views
 - API:
   - `app/api/documents/artifacts/route.js`
   - `app/api/documents/artifacts/generate/route.js`
@@ -159,6 +165,17 @@ entrypoints, and primary data models.
   - `AgentArtifactSourceDocument`
   - `UserDocument`
   - `DocumentAudit`
+
+Current role split:
+
+- `SOCIAL_WORKER`
+  - primary results surface: `/documents` -> results list and artifact detail
+  - chat-generated drafts link back to Documents
+- `CLIENT`
+  - primary results surface: `/agendireziim`
+  - recent chat-generated drafts appear there and open in the same workspace
+- draft download is blocked until approval; only `FINAL` artifacts expose DOCX
+  and PDF download URLs
 
 ## 7. Deep Research
 
@@ -212,6 +229,8 @@ entrypoints, and primary data models.
 - User-facing functions:
   - create a help request in chat
   - create a help offer in chat
+  - confirm save in plain chat text (`jah`, `salvesta`) before a listing is
+    written to the database
   - browse global help requests
   - browse global help offers
   - manage own help listings from the chat page
@@ -231,6 +250,7 @@ entrypoints, and primary data models.
   - `app/api/help/listings/[kind]/[id]/route.js`
   - `app/api/help/matches/route.js`
 - Backend modules:
+  - `lib/chat/modeSelection.js`
   - `lib/help/chatWorkflow.js`
   - `lib/help/requests.js`
   - `lib/help/offers.js`

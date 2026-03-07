@@ -91,6 +91,10 @@ function normalizeCards(value) {
     .filter(Boolean);
 }
 
+function normalizeWorkflow(value) {
+  return value && typeof value === "object" ? value : null;
+}
+
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -206,6 +210,7 @@ export async function GET(req) {
               sources: normalizedRole === "ai" ? normalizeSources(msg.metadata?.sources || []) : [],
               attachments: normalizedRole === "ai" ? normalizeAttachments(msg.metadata?.attachments) : [],
               cards: normalizedRole === "ai" ? normalizeCards(msg.metadata?.cards) : [],
+              workflow: normalizedRole === "ai" ? normalizeWorkflow(msg.metadata?.workflow) : null,
               createdAt: msg.createdAt
             };
           })
@@ -221,6 +226,7 @@ export async function GET(req) {
       sources: normalizeSources(latestAssistant?.metadata?.sources || []),
       attachments: normalizeAttachments(latestAssistant?.metadata?.attachments),
       cards: normalizeCards(latestAssistant?.metadata?.cards),
+      workflow: normalizeWorkflow(latestAssistant?.metadata?.workflow),
       isCrisis: !!latestAssistant?.metadata?.isCrisis,
       updatedAt: conversation.lastActivityAt,
       createdAt: conversation.createdAt,

@@ -1,6 +1,6 @@
 # Architecture Overview
 
-Date: 2026-03-06
+Date: 2026-03-07
 
 This is a concise implementation-based architecture summary of the SotsiaalAI
 project.
@@ -14,7 +14,7 @@ project.
   - `/` -> landing page
   - `/vestlus` -> chat
   - `/documents` -> documents and artifacts
-  - `/agendireziim` -> legacy document-agent workspace
+  - `/agendireziim` -> document workspace and client results surface
   - `/rooms` and `/room/[roomId]` -> rooms
   - `/admin/*` -> admin pages
 - Backend endpoints are implemented as route handlers under `app/api/*`.
@@ -73,8 +73,9 @@ project.
 
 - `app/api/chat/route.js`
   - main chat orchestration endpoint
-  - performs auth, rate limiting, subscription checks, intent routing, RAG
-    retrieval, OpenAI calls, streaming, and persistence
+  - performs auth, rate limiting, subscription checks, natural mode
+    confirmation, intent routing, RAG retrieval, OpenAI calls, streaming, and
+    persistence
 - `app/api/chat/conversations/*`
   - conversation lifecycle and message history
 - `app/api/help/listings/*`
@@ -101,10 +102,22 @@ embedded directly in route handlers.
 
 - Chat generation uses the OpenAI Responses API from `app/api/chat/route.js`.
 - GPT-5 mini acts as the primary chat-page orchestrator:
+  - asks for natural-language confirmation before entering document drafting,
+    information/guidance, help request, or help offer flow
   - chooses work mode by intent and workflow state
   - chooses reasoning depth by server-side policy
   - routes into guidance, help workflows, document workflows, browse, or room
     continuation without exposing model mechanics to the user
+- The chat-native document workflow now uses the same locked-flow pattern as
+  help workflows:
+  - one plain-language confirmation
+  - flow lock after `jah`
+  - slot-filling over only missing fields
+  - preview before generation
+  - natural-language edits before draft creation
+- Chat document drafting can use files uploaded in the current chat session via
+  the composer paperclip, without inheriting `agentAllowed` selections from the
+  Documents or Agent mode pages.
 - Document artifact drafting and refinement use OpenAI through
   `lib/documents/generation.js`.
 - Deep research uses a planner -> retrieval -> synthesis pipeline in
@@ -150,6 +163,14 @@ embedded directly in route handlers.
 The product direction is now a single-chat ecosystem, not separate assistant and
 agent products.
 
+The central interaction rule is:
+
+- the user describes what they need in ordinary language
+- the platform suggests the most likely work mode in ordinary language
+- the user confirms with chat text such as `jah` or corrects it with `ei`
+- only then does the system commit to document, guidance, help-request, or
+  help-offer workflow
+
 The current intended shell is:
 
 - LeftRail
@@ -160,6 +181,7 @@ The current intended shell is:
 - Chat area
   - active work area
   - assistant answers
+  - mode confirmation
   - help request / help offer workflows
   - selected listing context
   - Room-based person-to-person communication
@@ -171,8 +193,21 @@ The current intended shell is:
   - my help requests
   - my help offers
 
-The older `/agendireziim` route still exists for document work, but it is not
-the main product architecture for the new help domain.
+`/agendireziim` still exists as the dedicated document workspace and also acts
+as the primary results surface for the client role.
+
+Current role-based document result behavior:
+
+- `SOCIAL_WORKER`
+  - chat-generated drafts are stored as `AgentArtifact` records
+  - the user is directed to the Documents page results area and artifact detail
+    views
+- `CLIENT`
+  - chat-generated drafts are stored as `AgentArtifact` records
+  - the user is directed to `/agendireziim`, where recent results and the
+    active draft are shown
+- DOCX/PDF download remains available only after approval (`FINAL`), not while
+  the artifact is still a draft
 
 ## 8. Help Requests and Offers in the Main Chat
 
@@ -180,9 +215,12 @@ The new help mediation feature is implemented as a domain inside the main chat
 ecosystem:
 
 - user writes naturally in `/vestlus`
-- chat orchestrator detects intent
+- chat orchestrator confirms whether this should become guidance, document
+  drafting, a help request, or a help offer
+- help intent uses offer/request/mediation signal patterns instead of category
+  words alone
 - help workflow builds draft state across turns
-- user confirms before save
+- user confirms before save with ordinary chat text
 - records are saved with structured fields
 - browsing happens through LeftRail and RightRail panels
 - candidate matching is deterministic backend logic
@@ -194,4 +232,5 @@ Important design rules now in code:
 - `municipalities.rich.json` is the municipality source of truth
 - `HelpCategory` controls category semantics
 - `TargetGroup` is separate from category
+- municipality or category terms alone do not start help mediation
 - matching is backend/domain logic, not AI free-form matching

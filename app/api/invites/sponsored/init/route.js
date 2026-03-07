@@ -18,6 +18,7 @@ import {
   getRolePlanKey,
   normalizeSubscriptionRole
 } from "@/lib/subscriptionPlans";
+import { isSubscriptionActive } from "@/lib/subscriptionStatus";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -264,6 +265,34 @@ async function hasActiveSubscription(userId) {
   return Boolean(active);
 }
 
+async function inviteeHasActiveSubscription(email) {
+  const normalizedEmail = String(email || "").trim().toLowerCase();
+  if (!normalizedEmail) return false;
+
+  const invitee = await prisma.user.findFirst({
+    where: {
+      email: {
+        equals: normalizedEmail,
+        mode: "insensitive"
+      }
+    },
+    select: {
+      subscriptions: {
+        orderBy: [{ updatedAt: "desc" }],
+        take: 5,
+        select: {
+          status: true,
+          validUntil: true
+        }
+      }
+    }
+  });
+
+  return Boolean(
+    invitee?.subscriptions?.some((subscription) => isSubscriptionActive(subscription))
+  );
+}
+
 async function hasSponsorCapacity(roomId) {
   const count = await prisma.roomMember.count({
     where: {
@@ -354,6 +383,12 @@ export async function POST(request) {
     if (!sponsorHasPlan) {
       return errorJson("invite.error.sponsor_plan_required", 409, locale, {
         code: "SPONSOR_PLAN_REQUIRED"
+      });
+    }
+
+    if (await inviteeHasActiveSubscription(emails[0])) {
+      return errorJson("invite.error.invitee_active_subscription", 409, locale, {
+        code: "INVITEE_ACTIVE_SUBSCRIPTION"
       });
     }
 

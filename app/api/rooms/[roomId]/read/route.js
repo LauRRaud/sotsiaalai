@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { hasRoomBillingAccess } from "@/lib/rooms/access";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -101,7 +102,12 @@ export async function PUT(_req, { params }) {
 
     if (auth.userRole !== "ADMIN") {
       const userActive = await hasActiveSubscription(auth.userId);
-      if (!userActive) {
+      const billingAccess = hasRoomBillingAccess({
+        userRole: auth.userRole,
+        membership: member,
+        hasActiveSubscription: userActive
+      });
+      if (!billingAccess.ok) {
         return errorJson("api.common.forbidden", 403);
       }
     }

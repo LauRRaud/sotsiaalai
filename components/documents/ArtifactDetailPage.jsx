@@ -32,6 +32,10 @@ function artifactStatusLabel(status, t) {
   return t(`documents.status.${String(status || "draft").toLowerCase()}`)
 }
 
+function joinMetaParts(parts) {
+  return parts.filter(Boolean).join(" · ")
+}
+
 export default function ArtifactDetailPage({ artifactId }) {
   const router = useRouter()
   const { t, locale } = useI18n()
@@ -69,7 +73,9 @@ export default function ArtifactDetailPage({ artifactId }) {
     }
   }, [artifactId, t])
 
-  useEffect(() => { void loadArtifact() }, [loadArtifact])
+  useEffect(() => {
+    void loadArtifact()
+  }, [loadArtifact])
 
   async function saveDraft() {
     if (saving || !artifact || artifact.status !== "DRAFT") return
@@ -165,33 +171,154 @@ export default function ArtifactDetailPage({ artifactId }) {
                   <h1 className={documentsTitleClassName}>{t("documents.artifact_detail_title")}</h1>
                 </div>
               </div>
-              {approvalNotice ? <div className="documents-notice documents-notice--success flex flex-wrap items-center justify-between gap-[0.7rem] rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]"><span>{approvalNotice.message}</span><div className="flex items-center gap-[0.8rem]">{approvalNotice.downloadUrls?.docx ? <a href={approvalNotice.downloadUrls.docx} className="font-medium underline underline-offset-[0.22rem]">{t("documents.actions.download_docx")}</a> : null}{approvalNotice.downloadUrls?.pdf ? <a href={approvalNotice.downloadUrls.pdf} className="font-medium underline underline-offset-[0.22rem]">{t("documents.actions.download_pdf")}</a> : null}<button type="button" className="text-[0.88rem] underline underline-offset-[0.18rem]" onClick={() => setApprovalNotice(null)}>{t("common.close")}</button></div></div> : null}
-              {feedback ? <div className="documents-notice documents-notice--info rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">{feedback}</div> : null}
-              {loading ? <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">{t("documents.loading")}</div> : null}
-              {!loading && errorText ? <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">{errorText}</div> : null}
+              {approvalNotice ? (
+                <div className="documents-notice documents-notice--success flex flex-wrap items-center justify-between gap-[0.7rem] rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                  <span>{approvalNotice.message}</span>
+                  <div className="flex items-center gap-[0.8rem]">
+                    {approvalNotice.downloadUrls?.docx ? (
+                      <a href={approvalNotice.downloadUrls.docx} className="font-medium underline underline-offset-[0.22rem]">
+                        {t("documents.actions.download_docx")}
+                      </a>
+                    ) : null}
+                    {approvalNotice.downloadUrls?.pdf ? (
+                      <a href={approvalNotice.downloadUrls.pdf} className="font-medium underline underline-offset-[0.22rem]">
+                        {t("documents.actions.download_pdf")}
+                      </a>
+                    ) : null}
+                    <button type="button" className="text-[0.88rem] underline underline-offset-[0.18rem]" onClick={() => setApprovalNotice(null)}>
+                      {t("common.close")}
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+              {feedback ? (
+                <div className="documents-notice documents-notice--info rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                  {feedback}
+                </div>
+              ) : null}
+              {loading ? (
+                <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">
+                  {t("documents.loading")}
+                </div>
+              ) : null}
+              {!loading && errorText ? (
+                <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                  {errorText}
+                </div>
+              ) : null}
             </header>
 
-            {!loading && !errorText && artifact ? <Panel variant="secondary" padding="sm" className="documents-panel mt-[1rem] rounded-[1.2rem]">
-              <div className="flex flex-wrap items-center gap-[0.45rem]"><span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{artifactTypeLabel(artifact.type, t)}</span><span className={`documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em] ${artifact.status === "FINAL" ? "is-active" : ""}`}>{artifactStatusLabel(artifact.status, t)}</span></div>
-              <h2 className="documents-strong-text mt-[0.75rem] text-[1.25rem] font-semibold">{artifact.title || artifactTypeLabel(artifact.type, t)}</h2>
-              <div className="documents-meta-text mt-[0.8rem] flex flex-wrap gap-[0.55rem] text-[0.94rem]"><span>{formatDate(artifact.createdAt, locale)}</span><span>· {t("documents.updated_at")} {formatDate(artifact.updatedAt, locale)}</span>{artifact.approvedAt ? <span>· {t("documents.approved_at")} {formatDate(artifact.approvedAt, locale)}</span> : null}</div>
-
-              {artifact.status === "DRAFT" ? <>
-                <div className="mt-[0.9rem] grid gap-[0.7rem]">
-                  <Input value={title} onChange={(event) => setTitle(event.target.value)} placeholder={t("documents.form.artifact_title_placeholder")} className="documents-form-input" />
-                  <textarea value={content} onChange={(event) => setContent(event.target.value)} className="documents-field documents-field--textarea min-h-[18rem] w-full px-[1rem] py-[0.95rem] text-[0.98rem] leading-[1.65] outline-none" />
+            {!loading && !errorText && artifact ? (
+              <Panel variant="secondary" padding="sm" className="documents-panel mt-[1rem] rounded-[1.2rem]">
+                <div className="flex flex-wrap items-center gap-[0.45rem]">
+                  <span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">
+                    {artifactTypeLabel(artifact.type, t)}
+                  </span>
+                  <span className={`documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em] ${artifact.status === "FINAL" ? "is-active" : ""}`}>
+                    {artifactStatusLabel(artifact.status, t)}
+                  </span>
                 </div>
-                <div className="documents-notice documents-notice--muted mt-[0.8rem] rounded-[0.9rem] px-[0.85rem] py-[0.7rem] text-[0.9rem]">{t("documents.draft_notice")}</div>
-                <div className="mt-[0.85rem] flex flex-wrap gap-[0.45rem]"><Button type="button" size="sm" className="documents-primary-button" onClick={() => void approveArtifact()} disabled={approving}>{approving ? t("documents.actions.approving") : t("documents.actions.approve")}</Button><Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void saveDraft()} disabled={saving}>{saving ? t("documents.actions.saving") : t("documents.actions.save_draft")}</Button><Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => setFeedback(t("documents.feedback.refine_stub"))}>{t("documents.actions.refine_stub")}</Button><Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void copyContent()}>{t("documents.actions.copy")}</Button><Button type="button" size="sm" variant="danger" className="documents-danger-button" onClick={() => void deleteArtifact()}>{t("documents.actions.delete")}</Button></div>
-              </> : <>
-                <div className="documents-content mt-[0.9rem] rounded-[1rem] border px-[1rem] py-[0.95rem] whitespace-pre-wrap text-[0.98rem] leading-[1.65]">{artifact.content}</div>
-                <div className="documents-notice documents-notice--success mt-[0.8rem] rounded-[0.9rem] px-[0.85rem] py-[0.7rem] text-[0.9rem]">{t("documents.feedback.approved")}</div>
-                <div className="mt-[0.85rem] flex flex-wrap gap-[0.45rem]">{artifact.downloadUrls?.docx ? <Button as="a" href={artifact.downloadUrls.docx} size="sm" className="documents-primary-button">{t("documents.actions.download_docx")}</Button> : null}{artifact.downloadUrls?.pdf ? <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">{t("documents.actions.download_pdf")}</Button> : null}<Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void copyContent()}>{t("documents.actions.copy")}</Button><Button type="button" size="sm" variant="danger" className="documents-danger-button" onClick={() => void deleteArtifact()}>{t("documents.actions.delete")}</Button></div>
-              </>}
+                <h2 className="documents-strong-text mt-[0.75rem] text-[1.25rem] font-semibold">
+                  {artifact.title || artifactTypeLabel(artifact.type, t)}
+                </h2>
+                <div className="documents-meta-text mt-[0.8rem] flex flex-wrap gap-[0.55rem] text-[0.94rem]">
+                  {joinMetaParts([
+                    formatDate(artifact.createdAt, locale),
+                    `${t("documents.updated_at")} ${formatDate(artifact.updatedAt, locale)}`,
+                    artifact.approvedAt ? `${t("documents.approved_at")} ${formatDate(artifact.approvedAt, locale)}` : ""
+                  ])}
+                </div>
 
-              {artifact.template ? <Panel variant="secondary" padding="sm" className="documents-subpanel mt-[1rem] rounded-[0.95rem]"><h2 className="documents-subsection-title">{t("documents.template_label")}</h2><p className="documents-meta-text mt-[0.25rem] text-[0.92rem]">{artifact.template.title || artifact.template.originalName}</p></Panel> : null}
-              <Panel variant="secondary" padding="sm" className="documents-subpanel mt-[1rem] rounded-[0.95rem]"><h2 className="documents-subsection-title">{t("documents.sources_section_title")}</h2><div className="mt-[0.55rem] flex flex-col gap-[0.45rem]">{artifact.sources?.length ? artifact.sources.map((source) => <div key={source.id} className="documents-card rounded-[0.8rem] border px-[0.75rem] py-[0.65rem] text-[0.92rem]"><div className="documents-strong-text font-medium">{source.title}</div><div className="documents-meta-text text-[0.84rem]">{source.originalName}</div></div>) : <p className="documents-meta-text text-[0.92rem]">{t("documents.empty_sources")}</p>}</div></Panel>
-            </Panel> : null}
+                {artifact.status === "DRAFT" ? (
+                  <>
+                    <div className="mt-[0.9rem] grid gap-[0.7rem]">
+                      <Input
+                        value={title}
+                        onChange={(event) => setTitle(event.target.value)}
+                        placeholder={t("documents.form.artifact_title_placeholder")}
+                        className="documents-form-input"
+                      />
+                      <textarea
+                        value={content}
+                        onChange={(event) => setContent(event.target.value)}
+                        className="documents-field documents-field--textarea min-h-[18rem] w-full px-[1rem] py-[0.95rem] text-[0.98rem] leading-[1.65] outline-none"
+                      />
+                    </div>
+                    <div className="documents-notice documents-notice--muted mt-[0.8rem] rounded-[0.9rem] px-[0.85rem] py-[0.7rem] text-[0.9rem]">
+                      {t("documents.draft_notice")}
+                    </div>
+                    <div className="mt-[0.85rem] flex flex-wrap gap-[0.45rem]">
+                      <Button type="button" size="sm" className="documents-primary-button" onClick={() => void approveArtifact()} disabled={approving}>
+                        {approving ? t("documents.actions.approving") : t("documents.actions.approve")}
+                      </Button>
+                      <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void saveDraft()} disabled={saving}>
+                        {saving ? t("documents.actions.saving") : t("documents.actions.save_draft")}
+                      </Button>
+                      <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => setFeedback(t("documents.feedback.refine_stub"))}>
+                        {t("documents.actions.refine_stub")}
+                      </Button>
+                      <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void copyContent()}>
+                        {t("documents.actions.copy")}
+                      </Button>
+                      <Button type="button" size="sm" variant="danger" className="documents-danger-button" onClick={() => void deleteArtifact()}>
+                        {t("documents.actions.delete")}
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="documents-content mt-[0.9rem] rounded-[1rem] border px-[1rem] py-[0.95rem] whitespace-pre-wrap text-[0.98rem] leading-[1.65]">
+                      {artifact.content}
+                    </div>
+                    <div className="documents-notice documents-notice--success mt-[0.8rem] rounded-[0.9rem] px-[0.85rem] py-[0.7rem] text-[0.9rem]">
+                      {t("documents.feedback.approved")}
+                    </div>
+                    <div className="mt-[0.85rem] flex flex-wrap gap-[0.45rem]">
+                      {artifact.downloadUrls?.docx ? (
+                        <Button as="a" href={artifact.downloadUrls.docx} size="sm" className="documents-primary-button">
+                          {t("documents.actions.download_docx")}
+                        </Button>
+                      ) : null}
+                      {artifact.downloadUrls?.pdf ? (
+                        <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">
+                          {t("documents.actions.download_pdf")}
+                        </Button>
+                      ) : null}
+                      <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void copyContent()}>
+                        {t("documents.actions.copy")}
+                      </Button>
+                      <Button type="button" size="sm" variant="danger" className="documents-danger-button" onClick={() => void deleteArtifact()}>
+                        {t("documents.actions.delete")}
+                      </Button>
+                    </div>
+                  </>
+                )}
+
+                {artifact.template ? (
+                  <Panel variant="secondary" padding="sm" className="documents-subpanel mt-[1rem] rounded-[0.95rem]">
+                    <h2 className="documents-subsection-title">{t("documents.template_label")}</h2>
+                    <p className="documents-meta-text mt-[0.25rem] text-[0.92rem]">
+                      {artifact.template.title || artifact.template.originalName}
+                    </p>
+                  </Panel>
+                ) : null}
+                <Panel variant="secondary" padding="sm" className="documents-subpanel mt-[1rem] rounded-[0.95rem]">
+                  <h2 className="documents-subsection-title">{t("documents.sources_section_title")}</h2>
+                  <div className="mt-[0.55rem] flex flex-col gap-[0.45rem]">
+                    {artifact.sources?.length ? (
+                      artifact.sources.map((source) => (
+                        <div key={source.id} className="documents-card rounded-[0.8rem] border px-[0.75rem] py-[0.65rem] text-[0.92rem]">
+                          <div className="documents-strong-text font-medium">{source.title}</div>
+                          <div className="documents-meta-text text-[0.84rem]">{source.originalName}</div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="documents-meta-text text-[0.92rem]">{t("documents.empty_sources")}</p>
+                    )}
+                  </div>
+                </Panel>
+              </Panel>
+            ) : null}
           </div>
         </Panel>
       </div>

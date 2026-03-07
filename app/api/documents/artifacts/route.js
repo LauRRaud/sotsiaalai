@@ -63,6 +63,11 @@ function clampLimit(value, fallback = ARTIFACT_LIST_LIMIT) {
   return Math.min(Math.floor(parsed), ARTIFACT_LIST_LIMIT_ALL)
 }
 
+function parseIncludeContent(value) {
+  const normalized = String(value || "").trim().toLowerCase()
+  return normalized === "1" || normalized === "true" || normalized === "yes"
+}
+
 function buildRetrievalAuditFields(debugMeta) {
   if (!debugMeta) return {}
   return {
@@ -84,6 +89,7 @@ export async function GET(request) {
 
   const requestUrl = new URL(request.url)
   const limit = clampLimit(requestUrl.searchParams.get("limit"), ARTIFACT_LIST_LIMIT)
+  const includeContent = parseIncludeContent(requestUrl.searchParams.get("includeContent"))
 
   try {
     const artifacts = await prisma.agentArtifact.findMany({
@@ -99,7 +105,7 @@ export async function GET(request) {
 
     return json({
       ok: true,
-      artifacts: artifacts.map((artifact) => serializeArtifact(artifact, { includeContent: true }))
+      artifacts: artifacts.map((artifact) => serializeArtifact(artifact, { includeContent }))
     })
   } catch (error) {
     console.error("[documents artifacts] list failed", error)

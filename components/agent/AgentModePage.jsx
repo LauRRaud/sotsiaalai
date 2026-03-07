@@ -856,6 +856,22 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     router.replace(buildWorkspaceHref(nextArtifactId), { scroll: false })
   }
 
+  async function handleCopyRecentArtifact(artifactId) {
+    try {
+      const response = await fetch(`/api/documents/artifacts/${encodeURIComponent(artifactId)}`, {
+        cache: "no-store"
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.errors.copy_failed"))
+      await navigator.clipboard.writeText(String(payload?.artifact?.content || ""))
+      setRunError("")
+      setRunFeedback({ message: t("documents.feedback.copied") })
+    } catch (error) {
+      setRunFeedback(null)
+      setRunError(error?.message || t("documents.errors.copy_failed"))
+    }
+  }
+
   async function handleDeleteClientArtifact(artifactId) {
     const nextArtifactId = String(artifactId || "").trim()
     if (!nextArtifactId) return
@@ -1961,22 +1977,22 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                             <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleOpenClientArtifact(artifact.id)}>
                               {t("documents.agent_workspace.client_open_result")}
                             </Button>
-                            {artifact.downloadUrls?.docx ? (
-                              <Button as="a" href={artifact.downloadUrls.docx} size="sm" variant="ghost" className="documents-secondary-button">
-                                {t("documents.actions.download_docx")}
-                              </Button>
-                            ) : null}
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="ghost"
+                              {artifact.downloadUrls?.docx ? (
+                                <Button as="a" href={artifact.downloadUrls.docx} size="sm" variant="ghost" className="documents-secondary-button">
+                                  {t("documents.actions.download_docx")}
+                                </Button>
+                              ) : null}
+                              {artifact.downloadUrls?.pdf ? (
+                                <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">
+                                  {t("documents.actions.download_pdf")}
+                                </Button>
+                              ) : null}
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="ghost"
                               className="documents-secondary-button"
-                              onClick={() =>
-                                navigator.clipboard
-                                  .writeText(String(artifact.content || ""))
-                                  .then(() => setRunFeedback({ message: t("documents.feedback.copied") }))
-                                  .catch(() => setRunError(t("documents.errors.copy_failed")))
-                              }
+                              onClick={() => void handleCopyRecentArtifact(artifact.id)}
                             >
                               {t("documents.actions.copy")}
                             </Button>

@@ -14,6 +14,9 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   analysisPanelRef,
   analysisPanelMode,
   uploadPreview,
+  uploadedFilesCount,
+  uploadedFileNames,
+  uploadFileLimit,
   uploadBusy,
   uploadError,
   uploadUsage,
@@ -236,6 +239,18 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
               <div className={fileNameClassName}>
                 {prettifyFileName(uploadPreview.fileName)}
               </div>
+              {uploadedFilesCount ? (
+                <div className={metaClassName}>
+                  {t("chat.upload.files_selected")
+                    .replace("{count}", String(uploadedFilesCount))
+                    .replace("{limit}", String(uploadFileLimit || uploadedFilesCount))}
+                </div>
+              ) : null}
+              {uploadedFilesCount > 1 && uploadedFileNames?.length ? (
+                <div className={metaClassName}>
+                  {uploadedFileNames.map(name => prettifyFileName(name)).join(", ")}
+                </div>
+              ) : null}
             </div>
           ) : null}
         </header>

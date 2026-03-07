@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
@@ -32,7 +32,7 @@ export default function ChatSidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { data: session } = useSession();
+  const { effectiveRole } = useEffectiveRole();
   const [items, setItems] = useState([]);
   const [roomItems, setRoomItems] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -69,13 +69,12 @@ export default function ChatSidebar() {
     return window.innerWidth < 640 ? 15 : 30;
   }, []);
   const conversationRole = useMemo(() => {
-    const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : "CLIENT");
-    const normalized = String(raw || "CLIENT").toUpperCase().trim();
-    if (normalized === "SOCIAL_WORKER" || normalized === "CLIENT" || normalized === "ADMIN") {
+    const normalized = String(effectiveRole || "CLIENT").toUpperCase().trim();
+    if (normalized === "SOCIAL_WORKER" || normalized === "CLIENT") {
       return normalized;
     }
     return "CLIENT";
-  }, [session]);
+  }, [effectiveRole]);
   const fetchList = useCallback(async ({
     reset
   } = {
@@ -95,6 +94,7 @@ export default function ChatSidebar() {
       const params = new URLSearchParams({
         limit: String(pageSize)
       });
+      params.set("role", conversationRole);
       if (!reset && cursorRef.current) {
         params.set("cursor", cursorRef.current);
       }
@@ -125,7 +125,7 @@ export default function ChatSidebar() {
       if (abortRef.current === ac) abortRef.current = null;
       setBusy(false);
     }
-  }, [pageSize, resolveErrorMessage, t]);
+  }, [conversationRole, pageSize, resolveErrorMessage, t]);
   const fetchRooms = useCallback(async () => {
     roomsAbortRef.current?.abort();
     const ac = new AbortController();
@@ -377,6 +377,7 @@ export default function ChatSidebar() {
       const params = new URLSearchParams({
         limit: "100"
       });
+      params.set("role", conversationRole);
       if (nextCursor) params.set("cursor", nextCursor);
       const r = await fetch(`/api/chat/conversations?${params.toString()}`, {
         cache: "no-store"
@@ -396,7 +397,7 @@ export default function ChatSidebar() {
       loops += 1;
     } while (nextCursor && loops < 50);
     return ids;
-  }, [resolveErrorMessage]);
+  }, [conversationRole, resolveErrorMessage]);
   const deleteConversationIds = useCallback(async ids => {
     const unique = Array.from(new Set(ids)).filter(Boolean);
     if (!unique.length) return {

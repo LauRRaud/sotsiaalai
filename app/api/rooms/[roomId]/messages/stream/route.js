@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { subscribeRoom } from "@/lib/roomStream";
+import { hasRoomBillingAccess } from "@/lib/rooms/access";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -72,7 +73,12 @@ async function ensureAccess(userId, roomId, userRole) {
     status: 403
   };
   const userActive = await hasActiveSubscription(userId);
-  if (userActive) return {
+  const billingAccess = hasRoomBillingAccess({
+    userRole,
+    membership: member,
+    hasActiveSubscription: userActive
+  });
+  if (billingAccess.ok) return {
     ok: true
   };
   return {

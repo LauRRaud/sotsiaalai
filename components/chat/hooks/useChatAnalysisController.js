@@ -4,15 +4,15 @@ export function useChatAnalysisController({
   t,
   locale: _locale,
   sessionUserId,
+  userRole = "CLIENT",
   chatWindowRef,
   visibleMessagesCount,
   isGeneratingRef
 }) {
   const [uploadBusy, setUploadBusy] = useState(false);
   const [uploadError, setUploadError] = useState(null);
-  const [uploadPreview, setUploadPreview] = useState(null);
+  const [uploadedMaterials, setUploadedMaterials] = useState([]);
   const [uploadUsage, setUploadUsage] = useState(null);
-  const [ephemeralChunks, setEphemeralChunks] = useState([]);
   const [docOnlyMode, setDocOnlyMode] = useState(true);
   const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
   const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
@@ -21,8 +21,50 @@ export function useChatAnalysisController({
   const fileInputRef = useRef(null);
   const analysisPanelRef = useRef(null);
   const pageScrollRef = useRef(null);
-  const hasAnalysisContent = !!(uploadPreview || uploadBusy);
-  const hasAnyAnalysisState = !!(uploadPreview || uploadBusy || uploadError);
+  const normalizedRole = useMemo(
+    () => (String(userRole || "").trim().toUpperCase() === "CLIENT" ? "CLIENT" : "SOCIAL_WORKER"),
+    [userRole]
+  );
+  const uploadFileLimit = useMemo(
+    () => (normalizedRole === "CLIENT" ? 2 : 10),
+    [normalizedRole]
+  );
+  const uploadPreview = useMemo(
+    () => (uploadedMaterials.length ? uploadedMaterials[uploadedMaterials.length - 1] : null),
+    [uploadedMaterials]
+  );
+  const uploadedFileNames = useMemo(
+    () =>
+      uploadedMaterials
+        .map(item => String(item?.fileName || "").trim())
+        .filter(Boolean),
+    [uploadedMaterials]
+  );
+  const uploadedFilesCount = uploadedFileNames.length;
+  const ephemeralChunks = useMemo(
+    () =>
+      uploadedMaterials.flatMap(item =>
+        Array.isArray(item?.chunks)
+          ? item.chunks.filter(chunk => typeof chunk === "string" && chunk.trim())
+          : []
+      ),
+    [uploadedMaterials]
+  );
+  const ephemeralSource = useMemo(() => {
+    if (!uploadedFileNames.length) return null;
+    if (uploadedFileNames.length === 1) {
+      return {
+        fileName: uploadedFileNames[0],
+        fileNames: uploadedFileNames
+      };
+    }
+    return {
+      fileName: `${uploadedFileNames[0]} +${uploadedFileNames.length - 1}`,
+      fileNames: uploadedFileNames
+    };
+  }, [uploadedFileNames]);
+  const hasAnalysisContent = !!(uploadedMaterials.length || uploadBusy);
+  const hasAnyAnalysisState = !!(uploadedMaterials.length || uploadBusy || uploadError);
   const showAnalysisPanel = analysisPanelOpen || hasAnyAnalysisState;
   const previewText = useMemo(() => {
     if (uploadPreview?.fullText && uploadPreview.fullText.trim()) return uploadPreview.fullText;
@@ -247,87 +289,153 @@ export function useChatAnalysisController({
   const onPickFile = useCallback(() => {
     if (uploadBusy) return;
     if (isGeneratingRef?.current) return;
+    if (uploadedFilesCount >= uploadFileLimit) {
+      setUploadError(t("chat.upload.limit_reached").replace("{limit}", String(uploadFileLimit)));
+      return;
+    }
     setUploadError(null);
     try {
       fileInputRef.current?.click?.();
       preservePageScroll();
     } catch {}
-  }, [preservePageScroll, uploadBusy, isGeneratingRef]);
+  }, [isGeneratingRef, preservePageScroll, t, uploadBusy, uploadedFilesCount, uploadFileLimit]);
   const onFileChange = useCallback(async e => {
-    const file = e.target?.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target?.files || []);
+    if (!files.length) return;
     setUploadError(null);
     setDocOnlyMode(true);
-    const sizeMB = file.size / (1024 * 1024);
-    if (sizeMB > MAX_UPLOAD_MB) {
-      const sizeError = t("chat.upload.error_size").replace("{size}", sizeMB.toFixed(1)).replace("{limit}", String(MAX_UPLOAD_MB));
-      setUploadError(sizeError);
+    const remainingSlots = Math.max(0, uploadFileLimit - uploadedFilesCount);
+    if (!remainingSlots) {
+      setUploadError(t("chat.upload.limit_reached").replace("{limit}", String(uploadFileLimit)));
       e.target.value = "";
       return;
     }
+    const filesToProcess = files.slice(0, remainingSlots);
+    const limitError =
+      files.length > remainingSlots
+        ? t("chat.upload.limit_reached").replace("{limit}", String(uploadFileLimit))
+        : "";
+    const nextMaterials = [];
+    let latestError = "";
     try {
       setUploadBusy(true);
-      const fd = new FormData();
-      fd.append("file", file, file.name || "file");
-      fd.append("mimeType", file.type || "");
-      fd.append("maxChunks", String(MAX_ANALYZE_CHUNKS));
-      const res = await fetch("/api/chat/analyze-file", {
-        method: "POST",
-        body: fd
-      });
-      const data = await res.json().catch(() => ({
-        ok: false
-      }));
-      if (!res.ok || !data?.ok) {
-        const statusError = resolveApiMessage({
-          payload: data,
-          t,
-          fallbackKey: "chat.upload.error_status",
-          fallbackText: t("chat.upload.error_status")
-        }).replace("{status}", String(res.status));
-        const statusErr = new Error("chat.upload.error_status");
-        statusErr.userMessage = statusError;
-        throw statusErr;
+      for (const file of filesToProcess) {
+        const sizeMB = file.size / (1024 * 1024);
+        if (sizeMB > MAX_UPLOAD_MB) {
+          latestError = t("chat.upload.error_size").replace("{size}", sizeMB.toFixed(1)).replace("{limit}", String(MAX_UPLOAD_MB));
+          continue;
+        }
+        try {
+          const fd = new FormData();
+          fd.append("file", file, file.name || "file");
+          fd.append("mimeType", file.type || "");
+          fd.append("maxChunks", String(MAX_ANALYZE_CHUNKS));
+          const res = await fetch("/api/chat/analyze-file", {
+            method: "POST",
+            body: fd
+          });
+          const data = await res.json().catch(() => ({
+            ok: false
+          }));
+          if (!res.ok || !data?.ok) {
+            const statusError = resolveApiMessage({
+              payload: data,
+              t,
+              fallbackKey: "chat.upload.error_status",
+              fallbackText: t("chat.upload.error_status")
+            }).replace("{status}", String(res.status));
+            const statusErr = new Error("chat.upload.error_status");
+            statusErr.userMessage = statusError;
+            throw statusErr;
+          }
+          const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
+          nextMaterials.push({
+            fileName: data.fileName || file.name,
+            sizeMB: typeof data.sizeMB === "number" ? data.sizeMB : Number(sizeMB.toFixed(2)),
+            mimeType: data.mimeType || file.type,
+            preview: data.preview || "",
+            fullText:
+              typeof data.fullText === "string" && data.fullText.trim()
+                ? data.fullText
+                : chunksArray.length
+                  ? chunksArray.join("\n\n")
+                  : data.preview || "",
+            chunksCount: chunksArray.length,
+            chunks: chunksArray
+          });
+        } catch (err) {
+          latestError = err?.userMessage || t("chat.upload.error_generic");
+        }
       }
-      const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
-      setUploadPreview({
-        fileName: data.fileName || file.name,
-        sizeMB: typeof data.sizeMB === "number" ? data.sizeMB : Number(sizeMB.toFixed(2)),
-        mimeType: data.mimeType || file.type,
-        preview: data.preview || "",
-        fullText: typeof data.fullText === "string" && data.fullText.trim() ? data.fullText : chunksArray.length ? chunksArray.join("\n\n") : data.preview || "",
-        chunksCount: chunksArray.length
-      });
-      scrollAnalysisPanelIntoView({
-        force: true,
-        block: "start"
-      });
-      setTimeout(() => scrollAnalysisPanelIntoView({
-        force: true,
-        block: "start"
-      }), 120);
-      setTimeout(() => scrollAnalysisPanelIntoView({
-        force: true,
-        block: "start"
-      }), 260);
-      setEphemeralChunks(chunksArray);
-      setDocOnlyMode(true);
-      refreshUsage();
+      if (nextMaterials.length) {
+        setUploadedMaterials(prev => [...prev, ...nextMaterials]);
+        scrollAnalysisPanelIntoView({
+          force: true,
+          block: "start"
+        });
+        setTimeout(() => scrollAnalysisPanelIntoView({
+          force: true,
+          block: "start"
+        }), 120);
+        setTimeout(() => scrollAnalysisPanelIntoView({
+          force: true,
+          block: "start"
+        }), 260);
+        refreshUsage();
+      }
+      setUploadError(latestError || limitError || null);
     } catch (err) {
       const genericError = t("chat.upload.error_generic");
       setUploadError(err?.userMessage || genericError);
-      setUploadPreview(null);
-      setEphemeralChunks([]);
+      setUploadedMaterials([]);
       setDocOnlyMode(true);
     } finally {
       setUploadBusy(false);
       e.target.value = "";
     }
-  }, [MAX_ANALYZE_CHUNKS, MAX_UPLOAD_MB, refreshUsage, scrollAnalysisPanelIntoView, t]);
+  }, [
+    MAX_ANALYZE_CHUNKS,
+    MAX_UPLOAD_MB,
+    refreshUsage,
+    scrollAnalysisPanelIntoView,
+    t,
+    uploadedFilesCount,
+    uploadFileLimit
+  ]);
+
+  const setUploadPreview = useCallback(nextPreview => {
+    if (!nextPreview) {
+      setUploadedMaterials([]);
+      return;
+    }
+    setUploadedMaterials([nextPreview]);
+  }, []);
+
+  const setEphemeralChunks = useCallback(nextChunks => {
+    const chunks = Array.isArray(nextChunks)
+      ? nextChunks.filter(chunk => typeof chunk === "string" && chunk.trim())
+      : [];
+    if (!chunks.length) {
+      setUploadedMaterials([]);
+      return;
+    }
+    setUploadedMaterials([
+      {
+        fileName: "chat-uploaded-material",
+        preview: "",
+        fullText: chunks.join("\n\n"),
+        chunksCount: chunks.length,
+        chunks
+      }
+    ]);
+  }, []);
   return {
     analysisPanelRef,
     fileInputRef,
     uploadPreview,
+    uploadedFilesCount,
+    uploadedFileNames,
+    uploadFileLimit,
     uploadBusy,
     uploadError,
     uploadUsage,
@@ -335,6 +443,7 @@ export function useChatAnalysisController({
     docOnlyMode,
     setDocOnlyMode,
     ephemeralChunks,
+    ephemeralSource,
     setEphemeralChunks,
     analysisCollapsed,
     showAnalysisPanel,

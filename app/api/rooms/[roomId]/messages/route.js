@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
+import { hasRoomBillingAccess } from "@/lib/rooms/access";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -136,10 +137,15 @@ async function ensureAccess(userId, roomId, userRole) {
   };
 
   const userActive = await hasActiveSubscription(userId);
-  if (userActive) return {
+  const billingAccess = hasRoomBillingAccess({
+    userRole,
+    membership: member,
+    hasActiveSubscription: userActive
+  });
+  if (billingAccess.ok) return {
     ok: true,
     member,
-    billingSource: "SELF"
+    billingSource: billingAccess.billingSource
   };
   return {
     ok: false,

@@ -65,7 +65,6 @@ function artifactSearchBlob(artifact, t) {
   return normalizeSearchValue([
     artifact?.title,
     artifact?.snippet,
-    artifact?.content,
     artifact?.type,
     artifactTypeLabel(artifact?.type, t),
     sourcesText
@@ -291,13 +290,16 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     }
   }
 
-  async function copyArtifact(content) {
+  async function copyArtifact(artifactId) {
     try {
-      await navigator.clipboard.writeText(String(content || ""))
+      const response = await fetch(`/api/documents/artifacts/${encodeURIComponent(artifactId)}`, { cache: "no-store" })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.errors.copy_failed"))
+      await navigator.clipboard.writeText(String(payload?.artifact?.content || ""))
       setArtifactsError("")
       setSuccessNotice({ message: t("documents.feedback.copied") })
-    } catch {
-      setArtifactsError(t("documents.errors.copy_failed"))
+    } catch (error) {
+      setArtifactsError(error?.message || t("documents.errors.copy_failed"))
     }
   }
 
@@ -544,7 +546,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     {artifact.downloadUrls?.docx ? <Button as="a" href={artifact.downloadUrls.docx} size="sm" className="documents-primary-button">{t("documents.actions.download_docx")}</Button> : null}
                     {artifact.downloadUrls?.pdf ? <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">{t("documents.actions.download_pdf")}</Button> : null}
                     <Link href={localizePath(`/documents/artifacts/${encodeURIComponent(artifact.id)}`, locale)} className={`${linkBrandInlineClass} documents-link-button inline-flex min-h-[2.5rem] items-center justify-center rounded-full px-[0.98rem] py-[0.5rem] text-[0.96rem]`}>{t("documents.actions.open")}</Link>
-                    <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void copyArtifact(artifact.content)}>{t("documents.actions.copy")}</Button>
+                    <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void copyArtifact(artifact.id)}>{t("documents.actions.copy")}</Button>
                     <Button type="button" size="sm" variant="danger" className="documents-danger-button" onClick={() => void deleteArtifact(artifact.id)}>{t("documents.actions.delete")}</Button>
                   </div>
                 </article>

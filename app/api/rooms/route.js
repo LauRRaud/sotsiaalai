@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { hasRoomBillingAccess } from "@/lib/rooms/access";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,11 +50,35 @@ async function requireUser() {
   }
 }
 
+async function hasActiveSubscription(userId) {
+  if (!userId) return false;
+  const now = new Date();
+  const sub = await prisma.subscription.findFirst({
+    where: {
+      userId,
+      status: "ACTIVE",
+      OR: [
+        { validUntil: null },
+        {
+          validUntil: {
+            gt: now
+          }
+        }
+      ]
+    },
+    select: {
+      id: true
+    }
+  });
+  return Boolean(sub);
+}
+
 export async function GET() {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
 
   const isAdmin = auth.userRole === "ADMIN";
+  const userActiveSubscription = isAdmin ? true : await hasActiveSubscription(auth.userId);
   const memberships = isAdmin
     ? await prisma.room.findMany({
         select: {
@@ -113,7 +138,15 @@ export async function GET() {
       ...m,
       roomId: String(m?.roomId || "").trim()
     }))
-    .filter(m => m.roomId);
+    .filter(m => {
+      if (!m.roomId) return false;
+      if (isAdmin) return true;
+      return hasRoomBillingAccess({
+        userRole: auth.userRole,
+        membership: m,
+        hasActiveSubscription: userActiveSubscription
+      }).ok;
+    });
 
   if (!normalizedMemberships.length) {
     return json({

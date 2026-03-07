@@ -494,6 +494,7 @@ export async function POST(request) {
             },
             select: {
               id: true,
+              sponsoredRole: true,
               inviteeEmail: true,
               room: {
                 select: {

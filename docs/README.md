@@ -1,6 +1,6 @@
 # Documentation Map
 
-Date: 2026-03-04
+Date: 2026-03-07
 
 This folder contains both current platform documentation and older internal
 working documents.
@@ -14,7 +14,10 @@ working documents.
 - `assistant-agent-RAG-overview.md`
   - current AI architecture: assistant, agent, shared RAG service
 - `chat-page-system-map.md`
-  - current chat page behavior and flow map
+  - current chat page behavior and flow map, including locked document/help
+    workflows and role-based chat document results
+- `internal/help-feature-smoke-checklist.md`
+  - current pre-release checklist for help workflows, listings panels, and chat-native confirmations
 - `RAG_SETUP.md`
   - current RAG service setup notes
 - `LOCAL_DEV.md`
@@ -42,7 +45,8 @@ These files are still useful internally, but they are not the main source of
 truth for the current platform behavior:
 
 - `internal/agent-artifacts-flow.md`
-  - historical contract; partly outdated after the retrieval-first agent change
+  - historical contract with a current implementation overlay for draft/final
+    behavior and role-based result surfaces
 - `internal/platform-production-audit.md`
   - large audit log / working review document
 - `internal/route-review-tracker.md`
@@ -58,4 +62,5 @@ When a historical document conflicts with live implementation:
 
 1. trust the code first
 2. use `assistant-agent-RAG-overview.md` for the current AI architecture
-3. treat older implementation-contract docs as historical context
+3. use `chat-page-system-map.md` for `/vestlus` runtime behavior
+4. treat older implementation-contract docs as historical context

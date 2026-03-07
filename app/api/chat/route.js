@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
@@ -20,8 +20,15 @@ import { AGENT_ARTIFACT_TYPE_VALUES, MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib
 import { generateArtifactDraftContent, normalizeAgentLanguage } from "@/lib/documents/generation";
 import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability";
 import {
+  buildDocumentGeneratedIntro,
+  buildDocumentTaskAttachments,
+  buildDocumentWorkflowMetadata,
+  getDocumentWorkflowPlanInput,
+  getDocumentWorkflowState,
+  isActiveDocumentWorkflowState,
   resolveDocumentTaskDecision
 } from "@/lib/chat/documentOrchestration";
+import { runDocumentChatWorkflow } from "@/lib/chat/documentOrchestration";
 import { buildHelpWorkflowMetadata, getHelpWorkflowState, runHelpChatWorkflow } from "@/lib/help/chatWorkflow";
 import { detectHelpChatIntent } from "@/lib/help/intents";
 import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
@@ -91,6 +98,7 @@ function buildImmediateChatResponse({
   sources = [],
   attachments = [],
   cards = [],
+  workflow = null,
   isCrisis = false,
   convId = null
 }) {
@@ -102,6 +110,7 @@ function buildImmediateChatResponse({
       sources,
       attachments,
       cards,
+      workflow,
       isCrisis,
       convId: convId || undefined
     });
@@ -112,6 +121,7 @@ function buildImmediateChatResponse({
       try {
         controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({
           sources,
+          workflow,
           isCrisis
         })}\n\n`));
         controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({
@@ -119,7 +129,8 @@ function buildImmediateChatResponse({
         })}\n\n`));
         controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({
           attachments,
-          cards
+          cards,
+          workflow
         })}\n\n`));
       } finally {
         try {
@@ -266,6 +277,21 @@ function buildEphemeralDocContext(ephemeralChunks = [], options = {}) {
     usedChunks: selected.length
   };
 }
+
+function getEphemeralSourceNames(ephemeralSource) {
+  const names = Array.isArray(ephemeralSource?.fileNames)
+    ? ephemeralSource.fileNames.map(name => String(name || "").trim()).filter(Boolean)
+    : [];
+  if (names.length) return names;
+  const singleName = String(ephemeralSource?.fileName || "").trim();
+  return singleName ? [singleName] : [];
+}
+
+function getEphemeralSourceLabel(ephemeralSource, fallback = "chat-uploaded-material") {
+  const names = getEphemeralSourceNames(ephemeralSource);
+  if (!names.length) return fallback;
+  return names.length === 1 ? names[0] : `${names[0]} +${names.length - 1}`;
+}
 function detectSourcesRequest(history = [], message = "") {
   const sourcesText = [];
   if (typeof message === "string") sourcesText.push(message);
@@ -408,11 +434,6 @@ function detectDocumentTaskIntent(message = "") {
   const hasType = /\b(aruan\w*|raport\w*|report\w*|kokkuv\w*|summary\w*|letter\w*|kiri\w*|memo\w*|checklist\w*|protokoll\w*|brief\w*|case\w*|vorm\w*|form\w*|taotlus\w*|avaldus\w*|vastus\w*)\b/.test(text);
   return hasAction && hasType;
 }
-function _detectDocumentTaskFollowup(message = "") {
-  const text = normalizeIntentText(message);
-  if (!text) return false;
-  return /\b(mall|template|allik|source|tahtaeg|deadline|sihtr|audience|toon|tone|pikkus|length|keel|language|eesmark|goal|format|taotlus|vastus|vorm)\b/.test(text);
-}
 function hasDocumentTaskContext(history = []) {
   if (!Array.isArray(history) || !history.length) return false;
   for (let i = history.length - 1; i >= 0 && i >= history.length - 10; i -= 1) {
@@ -425,116 +446,6 @@ function hasDocumentTaskContext(history = []) {
   }
   return false;
 }
-function isAffirmativeMessage(message = "") {
-  const text = normalizeIntentText(message);
-  if (!text) return false;
-  return ["jah", "j", "yes", "y", "ok", "okay", "okei"].includes(text);
-}
-function isDocumentStartCommand(message = "", history = []) {
-  const text = normalizeIntentText(message);
-  if (!text) return false;
-  if (/\b(alust\w*|kaivit\w*|hakka\w*|start\w*|run\w*|begin\w*)\b/.test(text) && /\b(mustand\w*|draft\w*|aruan\w*|raport\w*|kokkuv\w*|kiri\w*|checklist\w*|protokoll\w*|vorm\w*|document\w*|dokument\w*|report\w*|summary\w*|letter\w*|form\w*|taotlus\w*|avaldus\w*)\b/.test(text)) {
-    return true;
-  }
-  return isAffirmativeMessage(text) && hasDocumentTaskContext(history);
-}
-function extractDocumentTaskInstruction(history = [], currentMessage = "") {
-  const inputs = collectRecentUserInputs(history, currentMessage, 6);
-  const filtered = inputs.filter((text) => {
-    if (!text) return false;
-    if (isDocumentStartCommand(text, history)) return false;
-    if (isAffirmativeMessage(text)) return false;
-    return true;
-  });
-  return filtered.slice(-4).join("\n").trim();
-}
-function buildDocumentIntakeReply({
-  replyLang,
-  sourceCount = 0,
-  role = "SOCIAL_WORKER",
-  defaults = {}
-}) {
-  const outputList = role === "CLIENT"
-    ? "LETTER_REQUEST, LETTER_REPLY, FILL_FORM"
-    : AGENT_ARTIFACT_TYPE_VALUES.join(", ");
-  const audience = String(defaults?.audience || (role === "CLIENT" ? "client" : "worker"));
-  const tone = String(defaults?.tone || "professional");
-  const language = String(defaults?.language || "et");
-  const length = String(defaults?.length || "standard");
-  if (replyLang === "en") {
-    return [
-      "Understood: this is a document task and I can run the same agent workflow as in Agent mode.",
-      "",
-      `Role profile: ${role === "CLIENT" ? "help-seeker" : "social work specialist"}.`,
-      `Available output options: ${outputList}.`,
-      "",
-      "Before starting, confirm:",
-      "1. Output type / task",
-      "2. Instruction details",
-      "3. Audience, tone, language, length",
-      "4. Template usage (if needed)",
-      "5. Source documents",
-      "",
-      `Current defaults: audience=${audience}, tone=${tone}, language=${language}, length=${length}.`,
-      `Currently agent-allowed source documents: ${sourceCount}.`,
-      role === "CLIENT"
-        ? `Client mode limit is ${CLIENT_AGENT_DOCUMENT_LIMIT} source documents per run.`
-        : "Specialist mode supports more source documents per run.",
-      "When ready, write: \"Start draft generation\"."
-    ].join("\n");
-  }
-  if (replyLang === "ru") {
-    return [
-      "Ponjal: eto zadacha na dokument, i mozhno zapustit agent workflow kak v Agent mode.",
-      "",
-      `Profil roli: ${role === "CLIENT" ? "help-seeker" : "social work specialist"}.`,
-      `Dostupnye varianty vyhoda: ${outputList}.`,
-      "",
-      "Pered zapuskom utochnite:",
-      "1. Tip vyhoda / zadachi",
-      "2. Detali instrukcii",
-      "3. Audience, tone, language, length",
-      "4. Nuzhen li template",
-      "5. Kakie istochniki ispolzovat",
-      "",
-      `Tekushchie defaulty: audience=${audience}, tone=${tone}, language=${language}, length=${length}.`,
-      `Razreshennye istochniki: ${sourceCount}.`,
-      role === "CLIENT"
-        ? `V client profile limit = ${CLIENT_AGENT_DOCUMENT_LIMIT} istochnika na zapusk.`
-        : "V specialist profile mozhno bolshe istochnikov.",
-      "Kogda gotovy, napishite: \"Start draft generation\"."
-    ].join("\n");
-  }
-  return [
-    "Sain aru: see on dokumendiülesanne ja saan käivitada sama agent-töövoo nagu agendireziimis.",
-    "",
-    `Rolliprofiil: ${role === "CLIENT" ? "eluküsimusega poorduja" : "sotsiaaltoo spetsialist"}.`,
-    `Valjundi valikud: ${outputList}.`,
-    "",
-    "Enne kaivitamist taipsusta:",
-    "1. Väljundi tüüp / ülesanne",
-    "2. Täpne juhis",
-    "3. Audience, tone, language, length",
-    "4. Kas kasutada malli",
-    "5. Millised allikad kasutada",
-    "",
-    `Vaikesätted: audience=${audience}, tone=${tone}, language=${language}, length=${length}.`,
-    `Praegu on agendile lubatud allikaid: ${sourceCount}.`,
-    role === "CLIENT"
-      ? `Pöörduja profiilis on piirang ${CLIENT_AGENT_DOCUMENT_LIMIT} allikat jooksu kohta.`
-      : "Spetsialisti profiilis saab kasutada suuremat allikate hulka.",
-    "Kui valmis, kirjuta: \"Alusta mustandi loomist\"."
-  ].join("\n");
-}
-function buildDocumentMissingSourcesReply(replyLang) {
-  if (replyLang === "en") {
-    return "I cannot start the draft yet because there are no agent-allowed source documents. Add files in Documents and allow them for agent mode.";
-  }
-  if (replyLang === "ru") {
-    return "Ne mogu zapustit draft: net istochnikov s dostupom dlya agenta. Dobavte faily v Documents i vklyuchite agent mode.";
-  }
-  return "Mustandit ei saa veel käivitada, sest agendile lubatud allikaid ei ole. Lisa failid Dokumentidesse ja luba need agendirežiimi jaoks.";
-}
 function buildDocumentMissingInstructionReply(replyLang) {
   if (replyLang === "en") {
     return "To run 1:1 agent workflow I still need a concrete instruction. Describe what exactly should be created and what to emphasize.";
@@ -543,103 +454,6 @@ function buildDocumentMissingInstructionReply(replyLang) {
     return "Dlya zapuska 1:1 agent workflow nuzhna konkretnaya instrukciya: chto sozdavat i chto podcherknut.";
   }
   return "1:1 agent-workflow kaivitamiseks on vaja konkreetset juhist: mida tapselt koostada ja mida rohutada.";
-}
-function buildDocumentTaskAttachments({ replyLang, artifactId = "", includeAgentWorkspace = true }) {
-  const labels = replyLang === "en"
-    ? {
-        addSources: "Add sources",
-        openDocuments: "Open documents",
-        openDraft: "Open draft",
-        openEditor: "Open in editor",
-        openAgent: "Open Agent mode"
-      }
-    : replyLang === "ru"
-      ? {
-          addSources: "Dobavit istochniki",
-          openDocuments: "Otkryt documents",
-          openDraft: "Otkryt draft",
-          openEditor: "Otkryt v redaktore",
-          openAgent: "Otkryt Agent mode"
-        }
-      : {
-          addSources: "Lisa allikad",
-          openDocuments: "Ava dokumendid",
-          openDraft: "Ava mustand",
-          openEditor: "Ava redigeerijas",
-          openAgent: "Ava agendireziim"
-        };
-  if (!artifactId) {
-    const links = [
-      { label: labels.addSources, url: "/documents" },
-      { label: labels.openDocuments, url: "/documents" }
-    ];
-    if (includeAgentWorkspace) links.push({ label: labels.openAgent, url: "/agendireziim" });
-    return links;
-  }
-  const links = [
-    { label: labels.openDraft, url: `/documents/artifacts/${encodeURIComponent(artifactId)}` },
-    { label: labels.openEditor, url: `/agendireziim?artifact=${encodeURIComponent(artifactId)}` }
-  ];
-  if (includeAgentWorkspace) links.push({ label: labels.openAgent, url: "/agendireziim" });
-  return links;
-}
-function _buildDocumentTaskRuntimeConfig({ role = "SOCIAL_WORKER", replyLang = "et", history = [], message = "" }) {
-  const defaultAudience = role === "CLIENT" ? "client" : "worker";
-  const inputs = collectRecentUserInputs(history, message, 8);
-  const contextText = normalizeIntentText(inputs.join("\n"));
-  const instruction = extractDocumentTaskInstruction(history, message) || String(message || "").trim();
-  const tone = inferToneFromText(contextText);
-  const length = inferLengthFromText(contextText);
-  const audience = inferAudienceFromText(contextText, defaultAudience);
-  const language = normalizeAgentLanguage(inferLanguageFromText(contextText, replyLang), replyLang);
-  const wantsTemplate = role !== "CLIENT" && wantsTemplateFromText(contextText);
-  if (role === "CLIENT") {
-    const clientTask = detectClientTaskFromText(contextText);
-    const artifactType = artifactTypeFromClientTask(clientTask);
-    const mergedInstruction = `${clientTaskInstruction(clientTask)}\n\n${instruction}`.trim();
-    return [
-      {
-        role,
-        artifactType,
-        clientTask,
-        instruction: mergedInstruction,
-        audience,
-        tone,
-        language,
-        length,
-        wantsTemplate: false
-      },
-      {
-        role,
-        audience,
-        tone,
-        language,
-        length
-      }
-    ];
-  }
-  const artifactType = inferWorkerArtifactTypeFromText(contextText);
-  const safeType = AGENT_ARTIFACT_TYPE_VALUES.includes(artifactType) ? artifactType : "REPORT_DRAFT";
-  return [
-    {
-      role,
-      artifactType: safeType,
-      clientTask: null,
-      instruction,
-      audience,
-      tone,
-      language,
-      length,
-      wantsTemplate
-    },
-    {
-      role,
-      audience,
-      tone,
-      language,
-      length
-    }
-  ];
 }
 function buildDownloadAttachments({
   convId,
@@ -656,8 +470,8 @@ function buildDownloadAttachments({
         }
       : replyLang === "ru"
         ? {
-            pdf: "Скачать PDF",
-            word: "Скачать Word"
+            pdf: "ŠŠŗŠ°Ń‡Š°Ń‚Ń PDF",
+            word: "ŠŠŗŠ°Ń‡Š°Ń‚Ń Word"
           }
         : {
             pdf: "Download PDF",
@@ -1060,7 +874,10 @@ export async function POST(req) {
     ? await getHelpWorkflowState(convId, userId, prisma)
     : null;
   const helpWorkflowActive = isActiveHelpWorkflowState(helpWorkflowState);
-  const documentHistoryActive = hasDocumentTaskContext(rawHistory);
+  const documentWorkflowState = userId && !roomId
+    ? await getDocumentWorkflowState(convId, userId, prisma)
+    : null;
+  const documentWorkflowActive = isActiveDocumentWorkflowState(documentWorkflowState);
   const initialDocumentDecision = resolveDocumentTaskDecision({
     message,
     history: rawHistory,
@@ -1075,13 +892,14 @@ export async function POST(req) {
         message,
         history: rawHistory,
         replyLang,
+        role: normalizedRole,
         helpIntent: explicitHelpIntent,
         documentTaskIntent: initialDocumentDecision.isDocumentTask,
         skipSelection:
           greeting ||
           isCrisis ||
           helpWorkflowActive ||
-          documentHistoryActive
+          documentWorkflowActive
       })
     : {
         handled: false,
@@ -1168,372 +986,401 @@ export async function POST(req) {
       capability: documentPlan.capability
     });
   }
-  if (userId && !roomId && documentTaskIntent) {
-    const documentMetadataExtra = buildOrchestrationMetadata(documentPlan);
-    try {
-      const taskConfig = documentDecision.taskConfig;
-      const taskDefaults = documentDecision.taskDefaults;
-      const documentTaskStart = documentDecision.documentTaskStart;
-      const documentsLimit = normalizedRole === "CLIENT"
-        ? Math.min(CLIENT_AGENT_DOCUMENT_LIMIT, MAX_ARTIFACT_SOURCE_DOCUMENTS)
-        : MAX_ARTIFACT_SOURCE_DOCUMENTS;
-      const agentDocuments = await prisma.userDocument.findMany({
-        where: {
-          ownerId: userId,
-          agentAllowed: true,
-          kind: {
-            not: "TEMPLATE"
-          }
-        },
-        select: {
-          id: true,
-          title: true,
-          originalName: true,
-          kind: true,
-          templateFor: true,
-          agentAllowed: true,
-          mime: true,
-          storagePath: true,
-          sha256: true,
-          updatedAt: true
-        },
-        orderBy: {
-          updatedAt: "desc"
-        },
-        take: documentsLimit
-      });
-      const templates = taskConfig.wantsTemplate
-        ? await prisma.userDocument.findMany({
-            where: {
-              ownerId: userId,
-              kind: "TEMPLATE",
-              agentAllowed: true
-            },
-            select: {
-              id: true,
-              title: true,
-              originalName: true,
-              templateFor: true
-            },
-            orderBy: {
-              updatedAt: "desc"
-            },
-            take: 30
-          })
-        : [];
-      const selectedTemplate = taskConfig.wantsTemplate
-        ? templates.find((template) => isTemplateCompatibleForType(template, taskConfig.artifactType)) || null
-        : null;
-      if (!documentTaskStart) {
-        const reply = buildDocumentIntakeReply({
-          replyLang,
-          sourceCount: agentDocuments.length,
-          role: normalizedRole,
-          defaults: taskDefaults
-        });
-        const attachments = buildDocumentTaskAttachments({ replyLang });
-        if (persist && convId && userId) {
-          await persistInit({
-            convId,
-            userId,
-            role: normalizedRole,
-            sources: [],
-            isCrisis: false,
-            userMessage: effectiveMessage
-          });
-          await persistAppend({
-            convId,
-            userId,
-            fullText: reply
-          });
-          const persistResult = await persistDone({
-            convId,
-            userId,
-            status: "COMPLETED",
-            finalText: reply,
-            sources: [],
-            attachments: [],
-            isCrisis: false,
-            metadataExtra: documentMetadataExtra
-          });
-          await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-        }
-        if (!wantStream) {
-          return NextResponse.json({
-            ok: true,
-            reply,
-            answer: reply,
-            sources: [],
-            attachments,
-            isCrisis: false,
-            convId: convId || undefined
-          });
-        }
-        return buildSseImmediateResponse({
-          sources: [],
-          isCrisis: false,
-          reply,
-          attachments
-        });
-      }
-      const runInstruction = String(taskConfig.instruction || "").trim();
-      if (runInstruction.length < 12) {
-        const reply = buildDocumentMissingInstructionReply(replyLang);
-        const attachments = buildDocumentTaskAttachments({ replyLang });
-        if (persist && convId && userId) {
-          await persistInit({
-            convId,
-            userId,
-            role: normalizedRole,
-            sources: [],
-            isCrisis: false,
-            userMessage: effectiveMessage
-          });
-          await persistAppend({
-            convId,
-            userId,
-            fullText: reply
-          });
-          const persistResult = await persistDone({
-            convId,
-            userId,
-            status: "COMPLETED",
-            finalText: reply,
-            sources: [],
-            attachments: [],
-            isCrisis: false,
-            metadataExtra: documentMetadataExtra
-          });
-          await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-        }
-        if (!wantStream) {
-          return NextResponse.json({
-            ok: true,
-            reply,
-            answer: reply,
-            sources: [],
-            attachments,
-            isCrisis: false,
-            convId: convId || undefined
-          });
-        }
-        return buildSseImmediateResponse({
-          sources: [],
-          isCrisis: false,
-          reply,
-          attachments
-        });
-      }
-      if (!agentDocuments.length) {
-        const reply = buildDocumentMissingSourcesReply(replyLang);
-        const attachments = buildDocumentTaskAttachments({ replyLang });
-        if (persist && convId && userId) {
-          await persistInit({
-            convId,
-            userId,
-            role: normalizedRole,
-            sources: [],
-            isCrisis: false,
-            userMessage: effectiveMessage
-          });
-          await persistAppend({
-            convId,
-            userId,
-            fullText: reply
-          });
-          const persistResult = await persistDone({
-            convId,
-            userId,
-            status: "COMPLETED",
-            finalText: reply,
-            sources: [],
-            attachments: [],
-            isCrisis: false,
-            metadataExtra: documentMetadataExtra
-          });
-          await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-        }
-        if (!wantStream) {
-          return NextResponse.json({
-            ok: true,
-            reply,
-            answer: reply,
-            sources: [],
-            attachments,
-            isCrisis: false,
-            convId: convId || undefined
-          });
-        }
-        return buildSseImmediateResponse({
-          sources: [],
-          isCrisis: false,
-          reply,
-          attachments
-        });
-      }
-      const generated = await generateArtifactDraftContent({
-        type: taskConfig.artifactType,
-        documents: agentDocuments,
-        templateTitle: selectedTemplate?.title || null,
-        instruction: runInstruction,
-        audience: taskConfig.audience,
-        tone: taskConfig.tone,
-        language: taskConfig.language,
-        length: taskConfig.length,
-        reasoningEffort: documentPlan?.reasoning
-      });
-      const content = String(generated?.content || "").trim();
-      if (!content) throw new Error("documents.artifacts.errors.ai_empty");
-      if (generated?.debugMeta) {
-        cacheRetrievalDebugMeta(userId, content, generated.debugMeta);
-      }
-      const artifact = await prisma.agentArtifact.create({
-        data: {
-          ownerId: userId,
-          type: taskConfig.artifactType,
-          title: null,
-          status: "DRAFT",
-          content,
-          templateId: selectedTemplate?.id || null,
-          sourceDocuments: {
-            createMany: {
-              data: agentDocuments.slice(0, documentsLimit).map((document) => ({
-                documentId: document.id
-              }))
-            }
-          }
-        },
-        select: {
-          id: true
-        }
-      });
-      const intro =
-        replyLang === "ru"
-          ? "Черновик готов. Ниже результат и ссылки для редактирования."
-          : replyLang === "en"
-            ? "Draft ready. The result is below with links for editing."
-            : "Mustand valmis. Allpool on tulemus ja redigeerimise lingid.";
-      const optionSummary = [
-        `type=${taskConfig.artifactType}`,
-        `audience=${taskConfig.audience}`,
-        `tone=${taskConfig.tone}`,
-        `language=${taskConfig.language}`,
-        `length=${taskConfig.length}`,
-        selectedTemplate?.id ? `template=${selectedTemplate.title || selectedTemplate.originalName || selectedTemplate.id}` : "template=none",
-        normalizedRole === "CLIENT" ? `clientTask=${taskConfig.clientTask || "LETTER_REQUEST"}` : ""
-      ]
-        .filter(Boolean)
-        .join(", ");
-      const reply = `${intro}\n\n(${optionSummary})\n\n${content}`;
-      const sources = agentDocuments.map((document, index) => ({
-        id: document.id,
-        title: document.title || document.originalName || `source-${index + 1}`,
-        fileName: document.originalName || undefined,
-        short_ref: "(selected document)"
-      }));
-      const attachments = buildDocumentTaskAttachments({
-        replyLang,
-        artifactId: artifact.id
-      });
-      if (persist && convId && userId) {
-        await persistInit({
-          convId,
-          userId,
-          role: normalizedRole,
-          sources,
-          isCrisis: false,
-          userMessage: effectiveMessage
-        });
-        await persistAppend({
-          convId,
-          userId,
-          fullText: reply
-        });
-        const persistResult = await persistDone({
-          convId,
-          userId,
-          status: "COMPLETED",
-          finalText: reply,
-          sources,
-          attachments: [],
-          isCrisis: false,
-          metadataExtra: documentMetadataExtra
-        });
-        await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-      }
-      if (!wantStream) {
-        return NextResponse.json({
-          ok: true,
-          reply,
-          answer: reply,
-          sources,
-          attachments,
-          isCrisis: false,
-          convId: convId || undefined
-        });
-      }
-      return buildSseImmediateResponse({
-        sources,
-        isCrisis: false,
-        reply,
-        attachments
-      });
-    } catch (error) {
-      logError("document_task.flow_failed", {
-        err: error?.message || String(error),
+  if (userId && !roomId && (forcedMode === "document" || documentWorkflowActive)) {
+    const documentResult = await runDocumentChatWorkflow({
+      message: effectiveMessage,
+      convId,
+      userId,
+      replyLang,
+      role: normalizedRole,
+      workflowState: documentWorkflowState,
+      hasSourceMaterial: ephemeralChunks.length > 0,
+      forceConfirmed: forcedMode === "document"
+    }, prisma);
+
+    if (documentResult?.switchTo === "help_request" || documentResult?.switchTo === "help_offer") {
+      const switchedHelpIntent = documentResult.switchTo === "help_request"
+        ? "create_help_request"
+        : "create_help_offer";
+      const helpSeedMessage = String(documentResult.switchMessage || effectiveMessage).trim() || effectiveMessage;
+      const helpResult = await runHelpChatWorkflow({
+        message: helpSeedMessage,
+        convId,
         userId,
-        role: normalizedRole
-      });
-      const reply =
-        replyLang === "ru"
-          ? "Запуск черновика не удался. Проверьте источники и попробуйте снова."
-          : replyLang === "en"
-            ? "Failed to start draft generation. Check your sources and try again."
-            : "Mustandi käivitamine ebaõnnestus. Kontrolli allikaid ja proovi uuesti.";
-      const attachments = buildDocumentTaskAttachments({ replyLang });
-      if (persist && convId && userId) {
-        await persistInit({
-          convId,
-          userId,
-          role: normalizedRole,
-          sources: [],
-          isCrisis: false,
-          userMessage: effectiveMessage
+        replyLang,
+        forcedIntent: switchedHelpIntent
+      }, prisma);
+
+      if (helpResult?.handled) {
+        const reply = String(helpResult.reply || "").trim();
+        const attachments = Array.isArray(helpResult.attachments) ? helpResult.attachments : [];
+        const cards = Array.isArray(helpResult.cards) ? helpResult.cards : [];
+        const sources = Array.isArray(helpResult.sources) ? helpResult.sources : [];
+        const helpPlan = chooseOrchestrationPlan({
+          intent: helpResult?.workflowState?.intent || switchedHelpIntent || WORK_MODES.CREATE_HELP_REQUEST,
+          message: helpSeedMessage,
+          workflowState: helpResult?.workflowState || null,
+          clarifyingTurns,
+          requestedThoroughness
         });
-        await persistAppend({
-          convId,
-          userId,
-          fullText: reply
-        });
-        const persistResult = await persistDone({
-          convId,
-          userId,
-          status: "COMPLETED",
-          finalText: reply,
-          sources: [],
-          attachments: [],
-          isCrisis: false,
-          metadataExtra: documentMetadataExtra
-        });
-        await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-      }
-      if (!wantStream) {
-        return NextResponse.json({
-          ok: true,
+        const metadataExtra = buildOrchestrationMetadata(
+          helpPlan,
+          buildHelpWorkflowMetadata(helpResult.workflowState)
+        );
+
+        if (persist && convId && userId) {
+          await persistInit({
+            convId,
+            userId,
+            role: normalizedRole,
+            sources,
+            isCrisis: false,
+            userMessage: effectiveMessage
+          });
+          await persistAppend({
+            convId,
+            userId,
+            fullText: reply
+          });
+          await persistDone({
+            convId,
+            userId,
+            status: "COMPLETED",
+            finalText: reply,
+            sources,
+            attachments,
+            cards,
+            metadataExtra,
+            isCrisis: false
+          });
+        }
+
+        return buildImmediateChatResponse({
+          wantStream,
           reply,
-          answer: reply,
+          sources,
+          attachments,
+          cards,
+          isCrisis: false,
+          convId
+        });
+      }
+    }
+
+    if (documentResult?.handled) {
+      const documentWorkflowMeta = buildDocumentWorkflowMetadata(documentResult.workflowState).workflow;
+      const workflowPlan = documentResult?.workflowState
+        ? getDocumentWorkflowPlanInput(documentResult.workflowState, requestedThoroughness, clarifyingTurns)
+        : documentPlan;
+
+      if (workflowPlan) {
+        logInfo("orchestration.plan", {
+          mode: workflowPlan.mode,
+          step: workflowPlan.step,
+          complexity: workflowPlan.complexity,
+          reasoning: workflowPlan.reasoning,
+          capability: workflowPlan.capability
+        });
+      }
+
+      if (!documentResult.readyToGenerate) {
+        const reply = String(documentResult.reply || "").trim();
+        const attachments = Array.isArray(documentResult.attachments) ? documentResult.attachments : [];
+        const metadataExtra = buildOrchestrationMetadata(
+          workflowPlan,
+          buildDocumentWorkflowMetadata(documentResult.workflowState)
+        );
+
+        if (persist && convId && userId) {
+          await persistInit({
+            convId,
+            userId,
+            role: normalizedRole,
+            sources: [],
+            isCrisis: false,
+            userMessage: effectiveMessage
+          });
+          await persistAppend({
+            convId,
+            userId,
+            fullText: reply
+          });
+          const persistResult = await persistDone({
+            convId,
+            userId,
+            status: "COMPLETED",
+            finalText: reply,
+            sources: [],
+            attachments: [],
+            isCrisis: false,
+            metadataExtra
+          });
+          if (attachments.length) {
+            await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
+          }
+        }
+
+        return buildImmediateChatResponse({
+          wantStream,
+          reply,
           sources: [],
           attachments,
+          cards: [],
+          workflow: documentWorkflowMeta,
           isCrisis: false,
-          convId: convId || undefined
+          convId
         });
       }
-      return buildSseImmediateResponse({
-        sources: [],
-        isCrisis: false,
-        reply,
-        attachments
-      });
+
+      try {
+        const taskConfig = documentResult.taskConfig;
+        const documentsLimit = normalizedRole === "CLIENT"
+          ? Math.min(CLIENT_AGENT_DOCUMENT_LIMIT, MAX_ARTIFACT_SOURCE_DOCUMENTS)
+          : MAX_ARTIFACT_SOURCE_DOCUMENTS;
+        const agentDocuments = [];
+        const selectedTemplate = null;
+        const runInstruction = String(taskConfig?.instruction || "").trim();
+        const workflowDraft = documentResult?.workflowState?.draft || {};
+        const uploadedMaterialText = Array.isArray(ephemeralChunks) && ephemeralChunks.length
+          ? ephemeralChunks.join("\n\n---\n\n").slice(0, 14_000)
+          : "";
+        const sessionSourceMaterialText =
+          workflowDraft?.sourceMode === "existing_material"
+            ? uploadedMaterialText || runInstruction
+            : runInstruction;
+        const sessionSourceMaterialName =
+          workflowDraft?.sourceMode === "existing_material"
+            ? getEphemeralSourceLabel(ephemeralSource, "chat-uploaded-material")
+            : "chat-conversation-brief";
+        if (runInstruction.length < 12) {
+          const reply = buildDocumentMissingInstructionReply(replyLang);
+          const attachments = buildDocumentTaskAttachments({
+            replyLang,
+            role: normalizedRole
+          });
+          const metadataExtra = buildOrchestrationMetadata(
+            workflowPlan,
+            buildDocumentWorkflowMetadata(documentResult.workflowState)
+          );
+          if (persist && convId && userId) {
+            await persistInit({
+              convId,
+              userId,
+              role: normalizedRole,
+              sources: [],
+              isCrisis: false,
+              userMessage: effectiveMessage
+            });
+            await persistAppend({
+              convId,
+              userId,
+              fullText: reply
+            });
+            const persistResult = await persistDone({
+              convId,
+              userId,
+              status: "COMPLETED",
+              finalText: reply,
+              sources: [],
+              attachments: [],
+              isCrisis: false,
+              metadataExtra
+            });
+            await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
+          }
+          return buildImmediateChatResponse({
+            wantStream,
+            reply,
+            sources: [],
+            attachments,
+            cards: [],
+            workflow: documentWorkflowMeta,
+            isCrisis: false,
+            convId
+          });
+        }
+
+        const generated = await generateArtifactDraftContent({
+          type: taskConfig.artifactType,
+          documents: agentDocuments,
+          sourceMaterialText: sessionSourceMaterialText,
+          sourceMaterialName: sessionSourceMaterialName,
+          templateTitle: selectedTemplate?.title || null,
+          instruction: runInstruction,
+          audience: taskConfig.audience,
+          tone: taskConfig.tone,
+          language: taskConfig.language,
+          length: taskConfig.length,
+          reasoningEffort: workflowPlan?.reasoning || documentPlan?.reasoning
+        });
+        const content = String(generated?.content || "").trim();
+        if (!content) throw new Error("documents.artifacts.errors.ai_empty");
+        if (generated?.debugMeta) {
+          cacheRetrievalDebugMeta(userId, content, generated.debugMeta);
+        }
+
+        const sourceData = agentDocuments
+          .slice(0, documentsLimit)
+          .map((document) => ({
+            documentId: document.id
+          }));
+        const artifact = await prisma.agentArtifact.create({
+          data: {
+            ownerId: userId,
+            type: taskConfig.artifactType,
+            title: taskConfig.generatedTitle || null,
+            status: "DRAFT",
+            content,
+            templateId: selectedTemplate?.id || null,
+            ...(sourceData.length
+              ? {
+                  sourceDocuments: {
+                    createMany: {
+                      data: sourceData
+                    }
+                  }
+                }
+              : {})
+          },
+          select: {
+            id: true
+          }
+        });
+        const intro = buildDocumentGeneratedIntro({
+          replyLang,
+          role: normalizedRole
+        });
+        const optionSummary = [
+          `type=${taskConfig.artifactType}`,
+          `audience=${taskConfig.audience}`,
+          `tone=${taskConfig.tone}`,
+          `language=${taskConfig.language}`,
+          `length=${taskConfig.length}`,
+          "template=none",
+          normalizedRole === "CLIENT" ? `clientTask=${taskConfig.clientTask || "LETTER_REQUEST"}` : ""
+        ]
+          .filter(Boolean)
+          .join(", ");
+        const reply = `${intro}\n\n(${optionSummary})\n\n${content}`;
+        const sources = workflowDraft?.sourceMode === "existing_material" && sessionSourceMaterialText
+          ? [{
+              id: "chat-session-material",
+              title: getEphemeralSourceLabel(ephemeralSource, "Uploaded document"),
+              fileName: getEphemeralSourceLabel(ephemeralSource, "") || undefined,
+              short_ref: "(uploaded document)"
+            }]
+          : agentDocuments.map((document, index) => ({
+              id: document.id,
+              title: document.title || document.originalName || `source-${index + 1}`,
+              fileName: document.originalName || undefined,
+              short_ref: "(selected document)"
+            }));
+        const attachments = buildDocumentTaskAttachments({
+          replyLang,
+          artifactId: artifact.id,
+          role: normalizedRole
+        });
+        const metadataExtra = buildOrchestrationMetadata(
+          workflowPlan,
+          buildDocumentWorkflowMetadata(null)
+        );
+
+        if (persist && convId && userId) {
+          await persistInit({
+            convId,
+            userId,
+            role: normalizedRole,
+            sources,
+            isCrisis: false,
+            userMessage: effectiveMessage
+          });
+          await persistAppend({
+            convId,
+            userId,
+            fullText: reply
+          });
+          const persistResult = await persistDone({
+            convId,
+            userId,
+            status: "COMPLETED",
+            finalText: reply,
+            sources,
+            attachments: [],
+            isCrisis: false,
+            metadataExtra
+          });
+          await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
+        }
+
+        return buildImmediateChatResponse({
+          wantStream,
+          reply,
+          sources,
+          attachments,
+          cards: [],
+          workflow: buildDocumentWorkflowMetadata(null).workflow,
+          isCrisis: false,
+          convId
+        });
+      } catch (error) {
+        logError("document_task.flow_failed", {
+          err: error?.message || String(error),
+          userId,
+          role: normalizedRole
+        });
+        const reply =
+          replyLang === "ru"
+            ? "Š¯Šµ ŃŠ´Š°Š»Š¾ŃŃ ŃŠ¾Š·Š´Š°Ń‚Ń Ń‡ŠµŃ€Š½Š¾Š²ŠøŠŗ. ŠŃ€Š¾Š²ŠµŃ€ŃŃ‚Šµ ŠøŃŃ…Š¾Š´Š½Ń‹Šµ Š¼Š°Ń‚ŠµŃ€ŠøŠ°Š»Ń‹ Šø ŠæŠ¾ŠæŃ€Š¾Š±ŃŠ¹Ń‚Šµ ŃŠ½Š¾Š²Š°."
+            : replyLang === "en"
+              ? "Failed to create the draft. Check the source material and try again."
+              : "Mustandi loomine ebaĆµnnestus. Kontrolli alusmaterjale ja proovi uuesti.";
+        const attachments = buildDocumentTaskAttachments({
+          replyLang,
+          role: normalizedRole
+        });
+        const metadataExtra = buildOrchestrationMetadata(
+          workflowPlan,
+          buildDocumentWorkflowMetadata(documentResult.workflowState)
+        );
+
+        if (persist && convId && userId) {
+          await persistInit({
+            convId,
+            userId,
+            role: normalizedRole,
+            sources: [],
+            isCrisis: false,
+            userMessage: effectiveMessage
+          });
+          await persistAppend({
+            convId,
+            userId,
+            fullText: reply
+          });
+          const persistResult = await persistDone({
+            convId,
+            userId,
+            status: "COMPLETED",
+            finalText: reply,
+            sources: [],
+            attachments: [],
+            isCrisis: false,
+            metadataExtra
+          });
+          await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
+        }
+
+        return buildImmediateChatResponse({
+          wantStream,
+          reply,
+          sources: [],
+          attachments,
+          cards: [],
+          workflow: documentWorkflowMeta,
+          isCrisis: false,
+          convId
+        });
+      }
     }
   }
   if (userId && !roomId) {
@@ -1804,10 +1651,10 @@ export async function POST(req) {
   }
   const docSources = ephemeralChunks && ephemeralChunks.length ? [{
     id: "user-document",
-    title: "(Uploaded document)",
+    title: getEphemeralSourceLabel(ephemeralSource, "(Uploaded document)"),
     url: undefined,
     file: undefined,
-    fileName: typeof ephemeralSource?.fileName === "string" ? ephemeralSource.fileName : undefined,
+    fileName: getEphemeralSourceLabel(ephemeralSource, "") || undefined,
     audience: undefined,
     pageRange: undefined,
     authors: undefined,
@@ -2235,3 +2082,4 @@ export async function GET(req) {
     route: "api/chat"
   });
 }
+

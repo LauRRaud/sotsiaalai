@@ -103,17 +103,25 @@ function shape(subscription) {
   const isActive =
     subscription.status === ACTIVE_STATUS &&
     (hasNoExpiry || daysLeft > 0);
+  const billingSource = String(subscription.billingSource || "SELF").toUpperCase();
+  const isSponsored = billingSource === "SPONSORED_BY_HOST";
+  const sponsorEndsSoon = Boolean(isSponsored && isActive && daysLeft > 0 && daysLeft <= 7);
+  const sponsorExpired = Boolean(isSponsored && !isActive);
 
   return {
     id: subscription.id,
     status: subscription.status,
     plan: subscription.plan,
+    billingSource,
     validUntil: subscription.validUntil,
     nextBilling: subscription.nextBilling,
     canceledAt: subscription.canceledAt,
     updatedAt: subscription.updatedAt,
     isActive,
-    daysLeft
+    daysLeft,
+    isSponsored,
+    sponsorEndsSoon,
+    sponsorExpired
   };
 }
 

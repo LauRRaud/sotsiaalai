@@ -57,6 +57,7 @@ export default function TellimusBody() {
   const [info, setInfo] = useState("");
   const [planRole, setPlanRole] = useState("CLIENT");
   const [monthlyAmountLabel, setMonthlyAmountLabel] = useState("");
+  const [subscriptionMeta, setSubscriptionMeta] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const {
@@ -167,6 +168,7 @@ export default function TellimusBody() {
         setSubActive(Boolean(payload?.subscription?.isActive) || status === "ACTIVE");
         setPlanRole(String(payload?.user?.planRole || payload?.user?.role || "CLIENT").toUpperCase());
         setMonthlyAmountLabel(String(payload?.user?.monthlyAmountLabel || "").trim());
+        setSubscriptionMeta(payload?.subscription || null);
       } catch (err) {
         console.error("subscription GET", err);
         setError(t("profile.server_unreachable"));
@@ -214,6 +216,12 @@ export default function TellimusBody() {
       setProcessing(false);
     }
   }
+  const sponsoredEndsSoon = Boolean(subscriptionMeta?.isSponsored && subscriptionMeta?.sponsorEndsSoon);
+  const sponsoredExpired = Boolean(subscriptionMeta?.isSponsored && subscriptionMeta?.sponsorExpired);
+  const sponsorDaysLeft = Number(subscriptionMeta?.daysLeft || 0);
+  const sponsorValidUntil = subscriptionMeta?.validUntil
+    ? new Date(subscriptionMeta.validUntil).toLocaleDateString(locale === "ru" ? "ru-RU" : locale === "en" ? "en-GB" : "et-EE")
+    : "";
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
         <GlassRing className={ringClassName}>
@@ -283,7 +291,16 @@ export default function TellimusBody() {
                   {subscriptionActiveSummary}
                 </p>
                 <p className={subscriptionActiveNoteClassName}>
-                  {t("subscription.active.cancel_note")}
+                  {sponsoredEndsSoon
+                    ? t("subscription.active.sponsored_ending_soon", {
+                        days: sponsorDaysLeft,
+                        date: sponsorValidUntil
+                      })
+                    : subscriptionMeta?.isSponsored
+                      ? t("subscription.active.sponsored_note", {
+                          date: sponsorValidUntil
+                        })
+                      : t("subscription.active.cancel_note")}
                 </p>
               </div>
               <div className="mt-[clamp(1rem,2.5vh,1.6rem)] flex justify-center max-[768px]:w-full">
@@ -299,6 +316,9 @@ export default function TellimusBody() {
               <div id="billing-info">
                 <RichText as="div" className={subscriptionInfoTextClassName} value={subscriptionInfoText} replacements={emailReplacement} />
               </div>
+              {sponsoredExpired ? <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#fde68a]")}>
+                  {t("subscription.active.sponsored_expired")}
+                </p> : null}
               {info && <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#a7f3d0]")}>
                   {info}
                 </p>}

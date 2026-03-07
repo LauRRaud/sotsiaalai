@@ -127,3 +127,106 @@ test("createHelpMatchAndRoom creates a real HelpMatch only on explicit action an
   assert.equal(created.matchData.offererId, "offerer-1");
 });
 
+test("createHelpMatchAndRoom reuses existing match and room on repeated contact", async () => {
+  const request = buildRequest();
+  const offer = buildOffer();
+  const created = { roomCreateCalls: 0, updated: null };
+  const tx = {
+    helpRequest: {
+      findUnique: async () => request
+    },
+    helpOffer: {
+      findUnique: async () => offer
+    },
+    helpMatch: {
+      findUnique: async () => ({
+        id: "match-1",
+        requestId: "request-1",
+        offerId: "offer-1",
+        requesterId: "requester-1",
+        offererId: "offerer-1",
+        roomId: "room-1",
+        status: "PENDING"
+      }),
+      update: async ({ data }) => {
+        created.updated = data;
+        return {
+          id: "match-1",
+          ...data
+        };
+      }
+    },
+    room: {
+      findUnique: async () => ({ id: "room-1" }),
+      create: async () => {
+        created.roomCreateCalls += 1;
+        return { id: `room-${created.roomCreateCalls}` };
+      }
+    }
+  };
+  const prisma = {
+    $transaction: async (callback) => callback(tx)
+  };
+
+  const match = await createHelpMatchAndRoom({
+    requestId: "request-1",
+    offerId: "offer-1",
+    initiatedByUserId: "offerer-1"
+  }, prisma);
+
+  assert.equal(match.roomId, "room-1");
+  assert.equal(created.roomCreateCalls, 0);
+  assert.equal(created.updated.status, "CONTACTED");
+});
+
+test("createHelpMatchAndRoom recreates room if existing match points to a missing room", async () => {
+  const request = buildRequest();
+  const offer = buildOffer();
+  const created = { roomCreateCalls: 0, updated: null };
+  const tx = {
+    helpRequest: {
+      findUnique: async () => request
+    },
+    helpOffer: {
+      findUnique: async () => offer
+    },
+    helpMatch: {
+      findUnique: async () => ({
+        id: "match-1",
+        requestId: "request-1",
+        offerId: "offer-1",
+        requesterId: "requester-1",
+        offererId: "offerer-1",
+        roomId: "missing-room",
+        status: "CONTACTED"
+      }),
+      update: async ({ data }) => {
+        created.updated = data;
+        return {
+          id: "match-1",
+          ...data
+        };
+      }
+    },
+    room: {
+      findUnique: async () => null,
+      create: async () => {
+        created.roomCreateCalls += 1;
+        return { id: `room-${created.roomCreateCalls}` };
+      }
+    }
+  };
+  const prisma = {
+    $transaction: async (callback) => callback(tx)
+  };
+
+  const match = await createHelpMatchAndRoom({
+    requestId: "request-1",
+    offerId: "offer-1",
+    initiatedByUserId: "requester-1"
+  }, prisma);
+
+  assert.equal(match.roomId, "room-1");
+  assert.equal(created.roomCreateCalls, 1);
+  assert.equal(created.updated.roomId, "room-1");
+});
