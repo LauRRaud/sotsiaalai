@@ -9,7 +9,7 @@ import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
-import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageMobileCardClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 function parseEmails(raw) {
@@ -53,6 +53,16 @@ export default function InviteModal() {
     return `${lower.charAt(0).toLocaleUpperCase(locale || "et")}${lower.slice(1)}`;
   };
   const sendLabel = formatSentenceCase(t("invite.send"));
+  const inviteModalContentClassName =
+    `invite-modal-content person-invite-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
+    `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
+    `[--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
+  const inviteModalTitleClassName =
+    `${glassPageTitleClassName} w-full max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.3rem)] ` +
+    "max-[768px]:!px-0 max-[768px]:!whitespace-normal max-[768px]:!text-[clamp(2.2rem,8.7vw,2.9rem)] max-[768px]:!leading-[1.04]";
+  const inviteModalBodyClassName =
+    "invite-modal-scroll mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]";
+  const inviteFormClassName = "grid gap-[1rem] max-[768px]:gap-[0.95rem]";
   const mobileInviteInputClassName =
     "!text-[1.28rem] !tracking-[0.02em] placeholder:!text-[1.12rem] placeholder:!tracking-[0.02em] max-[768px]:!text-[1.34rem] max-[768px]:!tracking-[0.024em] max-[768px]:placeholder:!text-[1.2rem] max-[768px]:placeholder:!tracking-[0.022em] max-[768px]:!min-h-[3.2rem] max-[768px]:!py-[0.84rem]";
   const invitePrimaryButtonClassName =
@@ -65,7 +75,7 @@ export default function InviteModal() {
     label: t("invite.sponsored.role.client")
   }];
   const inviteRefreshButtonClassName =
-    "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
+    "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-full max-[768px]:!justify-center max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -296,26 +306,26 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay person-invite-modal-overlay max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName="invite-modal-content person-invite-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] [--input-text:var(--glass-modal-text)]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay person-invite-modal-overlay max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName={inviteModalContentClassName}>
       <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className="absolute top-[0.15rem] left-[0.2rem] translate-x-0 translate-y-0 bottom-auto z-[92] !h-[4.85rem] !w-[4.85rem] min-[769px]:!h-[5.3rem] min-[769px]:!w-[5.3rem] [&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)]" />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
-        <h2 className={`${glassPageTitleClassName} w-full max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)] max-[768px]:px-[clamp(0.35rem,1.8vw,0.85rem)]`}>
+        <h2 className={inviteModalTitleClassName}>
           {t("invite.eyebrow")}
         </h2>
       </header>
 
-      <div className="invite-modal-scroll grid gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:px-[0.2rem]">
+      <div className={inviteModalBodyClassName}>
         {!session?.user?.id ? <div className="grid gap-[1rem]">
             <p>{t("invite.login_required")}</p>
-          </div> : <form className="grid gap-[1rem]" onSubmit={submit}>
+          </div> : <form className={inviteFormClassName} onSubmit={submit}>
             {!roomId ? <>
                 <Input id="invite-room-title" value={roomTitle} onChange={e => setRoomTitle(e.target.value)} disabled={busy} placeholder={t("invite.room_title")} aria-label={t("invite.room_title")} className={mobileInviteInputClassName} />
                 <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name_ph")} aria-label={t("invite.host_name")} className={mobileInviteInputClassName} />
               </> : null}
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} className={mobileInviteInputClassName} />
-            <div className="mt-[0.6rem] grid grid-cols-2 gap-[0.6rem] max-[768px]:justify-items-center" role="radiogroup" aria-label={t("invite.pay.label")}>
+            <div className="mt-[0.6rem] grid grid-cols-2 gap-[0.6rem] max-[768px]:grid-cols-1" role="radiogroup" aria-label={t("invite.pay.label")}>
             {paymentOptions.map(option => (
-                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[768px]:w-[min(38vw,12.2rem)] !min-h-[3.05rem] !py-[0.78rem] !text-[1.08rem] !leading-[1.2] !tracking-[0.025em] text-center justify-center max-[768px]:!text-[1.18rem] max-[768px]:!tracking-[0.03em] max-[768px]:!min-h-[2.9rem] max-[768px]:!pt-[0.52rem] max-[768px]:!pb-[0.2rem]">
+                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[768px]:max-w-none max-[768px]:w-full !min-h-[3.05rem] !py-[0.78rem] !text-[1.08rem] !leading-[1.2] !tracking-[0.025em] text-center justify-center max-[768px]:!text-[1.18rem] max-[768px]:!tracking-[0.03em] max-[768px]:!min-h-[3rem] max-[768px]:!pt-[0.68rem] max-[768px]:!pb-[0.46rem]">
                   <span className="text-center tracking-[0.025em] max-[768px]:tracking-[0.03em] [text-wrap:balance]">{option.label}</span>
                 </OptionCard>
               ))}
@@ -361,7 +371,7 @@ export default function InviteModal() {
           </form>}
 
         <Panel variant="secondary" padding="sm" className={`invite-list-panel ${inviteListCardClassName} min-h-[7.8rem] max-h-[min(38dvh,18rem)] max-[768px]:min-h-[6.9rem] max-[768px]:max-h-[min(24dvh,13.5rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
-          <div className="flex items-center justify-between gap-[0.75rem]">
+          <div className="flex items-center justify-between gap-[0.75rem] max-[768px]:flex-col max-[768px]:items-stretch">
             <span className="text-[1.18rem] font-[650] tracking-[0.03em] max-[768px]:text-[1.24rem] max-[768px]:tracking-[0.034em]">
               {t("invite.list")}
             </span>
@@ -373,20 +383,29 @@ export default function InviteModal() {
             <p className="mt-[0.5rem] text-[1.16rem] tracking-[0.02em] opacity-80 max-[768px]:text-[1.22rem] max-[768px]:tracking-[0.024em]">{t("invite.empty")}</p>
           ) : (
             <div className="mt-[0.5rem] grid gap-[0.6rem] text-[1.08rem] tracking-[0.016em] max-[768px]:text-[1.14rem] max-[768px]:tracking-[0.02em]">
-              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] text-[0.98rem] uppercase tracking-[0.09em] opacity-70 max-[768px]:text-[1.04rem]">
+              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] text-[0.98rem] uppercase tracking-[0.09em] opacity-70 max-[768px]:hidden">
                 <span>{t("invite.table.email")}</span>
                 <span>{t("invite.table.payer")}</span>
                 <span>{t("invite.table.status")}</span>
                 <span></span>
               </div>
               {invites.map(inv => (
-                <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem]" key={inv.id}>
-                  <span>{inv.inviteeEmail}</span>
-                  <span>
+                <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:border max-[768px]:border-[rgba(248,253,255,0.12)] max-[768px]:bg-[rgba(255,255,255,0.08)] max-[768px]:p-[0.78rem] [.theme-light_&]:max-[768px]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:max-[768px]:bg-[rgba(255,255,255,0.38)]" key={inv.id}>
+                  <div className="min-w-0">
+                    <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">{t("invite.table.email")}</span>
+                    <span className="break-words">{inv.inviteeEmail}</span>
+                  </div>
+                  <div>
+                    <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">{t("invite.table.payer")}</span>
+                    <span>
                     {inv.paymentMode === "SPONSORED_BY_HOST" ? t("invite.payer.host") : t("invite.payer.self")}
-                  </span>
-                  <span>{formatStatus(inv)}</span>
-                  <span className="flex items-center justify-end gap-[0.5rem]">
+                    </span>
+                  </div>
+                  <div>
+                    <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">{t("invite.table.status")}</span>
+                    <span>{formatStatus(inv)}</span>
+                  </div>
+                  <span className="flex items-center justify-end gap-[0.5rem] max-[768px]:justify-start max-[768px]:pt-[0.1rem]">
                     {inv.status === "SENT" ? (
                       <>
                         <Button type="button" variant="primary" onClick={() => action(inv.id, "resend")}>

@@ -543,17 +543,20 @@
 
 @media (max-width: 768px) {
   .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
-    position: fixed !important;
-    left: 50vw !important;
-    right: auto !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
     top: auto !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.8rem, 11vw, 5.8rem)) !important;
-    transform: translateX(-50%) !important;
+    transform: none !important;
     align-items: center !important;
     justify-content: center !important;
-    width: max-content !important;
-    max-width: calc(100vw - 2rem) !important;
+    width: 100% !important;
+    max-width: none !important;
     margin: 0 !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    text-align: center !important;
     z-index: 95 !important;
   }
 
@@ -638,11 +641,11 @@
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
-    left: 50vw !important;
-    right: auto !important;
+    left: 0 !important;
+    right: 0 !important;
     top: auto !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(5.35rem, 12.6vw, 6.45rem)) !important;
-    transform: translateX(-50%) !important;
+    transform: none !important;
   }
 }
 

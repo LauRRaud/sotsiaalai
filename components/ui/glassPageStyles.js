@@ -38,3 +38,16 @@ export const glassPageCloseClassName =
 
 export const glassPageRingCenteredClassName =
   "glass-ring md:mt-0 md:mb-0 [--ring-ui-reserve:var(--ring-ui-reserve-page)]";
+
+export const glassPageMobileCardClassName =
+  "max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
+  "max-[768px]:!max-w-none max-[768px]:!h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
+  "max-[768px]:!max-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
+  "max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+var(--mobile-glass-card-gap,0.35rem))] " +
+  "max-[768px]:!mr-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-right,0px))] " +
+  "max-[768px]:!mb-[calc(env(safe-area-inset-bottom,0px)+var(--mobile-glass-card-gap,0.35rem))] " +
+  "max-[768px]:!ml-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] " +
+  "max-[768px]:!rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] " +
+  "max-[768px]:!px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] " +
+  "max-[768px]:!pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] " +
+  "max-[768px]:!pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]";

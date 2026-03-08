@@ -63,11 +63,14 @@ export default function ChatMobileTopNav({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const navRef = useRef(null);
   const backButtonRef = useRef(null);
   const showButtonRef = useRef(null);
   const itemButtonRefs = useRef({});
+  const tooltipRef = useRef(null);
   const tooltipHideTimerRef = useRef(0);
   const [armedKey, setArmedKey] = useState("");
+  const [tooltipLeft, setTooltipLeft] = useState(null);
 
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
@@ -100,27 +103,30 @@ export default function ChatMobileTopNav({
     }
     tooltipHideTimerRef.current = 0;
     setArmedKey("");
+    setTooltipLeft(null);
   }, []);
 
   const showTooltip = useCallback(
-    (key, _label, _element, durationMs = 1650) => {
+    (key, durationMs = 1650) => {
       if (typeof window === "undefined") {
         return;
       }
       if (tooltipHideTimerRef.current) {
         window.clearTimeout(tooltipHideTimerRef.current);
       }
+      setTooltipLeft(null);
       setArmedKey(key);
       tooltipHideTimerRef.current = window.setTimeout(() => {
         tooltipHideTimerRef.current = 0;
         setArmedKey("");
+        setTooltipLeft(null);
       }, durationMs);
     },
     []
   );
 
   const armOrActivate = useCallback(
-    (key, label, element, event, action) => {
+    (key, event, action) => {
       event?.preventDefault?.();
       event?.stopPropagation?.();
       if (armedKey === key) {
@@ -128,7 +134,7 @@ export default function ChatMobileTopNav({
         action?.(event);
         return;
       }
-      showTooltip(key, label, element);
+      showTooltip(key);
     },
     [armedKey, clearTooltip, showTooltip]
   );
@@ -168,6 +174,36 @@ export default function ChatMobileTopNav({
   useEffect(() => {
     clearTooltip();
   }, [clearTooltip, mobileRailVisible]);
+
+  useEffect(() => {
+    if (!armedKey || typeof window === "undefined") return;
+
+    const updateTooltipPosition = () => {
+      const navElement = navRef.current;
+      const buttonElement = itemButtonRefs.current[armedKey];
+      const tooltipElement = tooltipRef.current;
+      if (!navElement || !buttonElement || !tooltipElement) return;
+
+      const navRect = navElement.getBoundingClientRect();
+      const buttonRect = buttonElement.getBoundingClientRect();
+      const tooltipRect = tooltipElement.getBoundingClientRect();
+      const buttonCenter = buttonRect.left - navRect.left + buttonRect.width / 2;
+      const tooltipHalfWidth = tooltipRect.width / 2;
+      const minCenter = tooltipHalfWidth;
+      const maxCenter = Math.max(tooltipHalfWidth, navRect.width - tooltipHalfWidth);
+      const clampedCenter = Math.min(maxCenter, Math.max(minCenter, buttonCenter));
+
+      setTooltipLeft(clampedCenter);
+    };
+
+    const frameId = window.requestAnimationFrame(updateTooltipPosition);
+    window.addEventListener("resize", updateTooltipPosition);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("resize", updateTooltipPosition);
+    };
+  }, [armedKey, labels]);
 
   const activeKey = showSourcesPanel
     ? "sources"
@@ -338,12 +374,6 @@ export default function ChatMobileTopNav({
     const isDisabled =
       item.key === "sources" ? !hasConversationSources : false;
     const isActive = activeKey === item.key;
-    const mobileLabelPositionClass =
-      item.key === "chats" || item.key === "sources"
-        ? "left-0 translate-x-0 text-left"
-        : item.key === "rooms" || item.key === "invite" || item.key === "profile"
-          ? "left-auto right-0 translate-x-0 text-right"
-          : "left-1/2 -translate-x-1/2 text-center";
     const setSourcesRef = element => {
       itemButtonRefs.current[item.key] = element;
       if (item.key !== "sources") return;
@@ -377,8 +407,6 @@ export default function ChatMobileTopNav({
         onClick={event =>
           armOrActivate(
             item.key,
-            labels[item.key],
-            event.currentTarget,
             event,
             evt => handleActivate(item.key, evt)
           )
@@ -399,23 +427,13 @@ export default function ChatMobileTopNav({
         )}
       >
         {renderIcon(item)}
-        {armedKey === item.key ? (
-          <span
-            className={cn(
-              "pointer-events-none absolute top-[calc(100%+0.18rem)] z-[160] w-max max-w-[min(52vw,10.5rem)] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.08rem,4.3vw,1.28rem)] leading-[1.14] font-medium tracking-[0.01em] text-[#c57171] opacity-[0.96] light:text-[#7a3a38]",
-              mobileLabelPositionClass
-            )}
-            aria-hidden="true"
-          >
-            {labels[item.key]}
-          </span>
-        ) : null}
       </button>
     );
   };
 
   return (
     <div
+      ref={navRef}
       className={cn(
         "chat-mobile-topnav absolute z-[121] left-[calc(env(safe-area-inset-left,0px)+0.08rem)] right-[calc(env(safe-area-inset-right,0px)+0.16rem)] top-[calc(env(safe-area-inset-top,0px)+0.18rem)] flex items-center gap-[clamp(0.04rem,0.45vw,0.16rem)] min-[769px]:hidden",
         mobileRailInteractionLocked ? "pointer-events-none opacity-70" : null
@@ -474,6 +492,20 @@ export default function ChatMobileTopNav({
           </div>
         </div>
       )}
+      {mobileRailVisible && armedKey ? (
+        <span
+          ref={tooltipRef}
+          className="pointer-events-none absolute top-[calc(100%+0.18rem)] z-[160] w-max max-w-[min(52vw,10.5rem)] -translate-x-1/2 whitespace-normal break-words text-center [text-wrap:balance] text-[clamp(1.08rem,4.3vw,1.28rem)] leading-[1.14] font-medium tracking-[0.01em] text-[#c57171] light:text-[#7a3a38]"
+          style={
+            tooltipLeft == null
+              ? { left: 0, opacity: 0 }
+              : { left: `${tooltipLeft}px`, opacity: 0.96 }
+          }
+          aria-hidden="true"
+        >
+          {labels[armedKey]}
+        </span>
+      ) : null}
     </div>
   );
 }

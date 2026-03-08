@@ -6,7 +6,7 @@ import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageMobileCardClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
 
@@ -39,6 +39,10 @@ export default function HelpListingsPanel({
   const ui = getHelpUiText(t);
   const [isMounted, setIsMounted] = useState(false);
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
+  const helpListingsContentClassName =
+    `help-listings-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] ` +
+    `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `leading-[1.35] tracking-[0.024rem] ${glassPageMobileCardClassName}`;
 
   useEffect(() => {
     setIsMounted(true);
@@ -71,7 +75,7 @@ export default function HelpListingsPanel({
       closeOnOverlayClick
       aria-label={title || ui.listingPlural}
       className="help-listings-modal-overlay z-[140] bg-transparent max-[768px]:p-0 max-[768px]:items-stretch"
-      contentClassName="help-listings-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] relative overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] leading-[1.35] tracking-[0.024rem] max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!max-h-[100dvh] max-[768px]:!rounded-none max-[768px]:!px-[0.3rem] max-[768px]:!pt-[0.35rem] max-[768px]:!pb-[calc(env(safe-area-inset-bottom,0px)+0.8rem)]"
+      contentClassName={helpListingsContentClassName}
     >
       <BackButton
         onClick={onBackToProfile || onClose}
