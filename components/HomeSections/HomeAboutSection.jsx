@@ -25,12 +25,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     "paragraph2",
     "paragraph3",
     "paragraph4",
-    "paragraph5",
-    "paragraph6",
-    "paragraph7",
-    "paragraph8",
-    "paragraph9",
-    "paragraph10"
+    "paragraph5"
   ];
   const aboutParagraphs = aboutParagraphKeys
     .map((key) => ({

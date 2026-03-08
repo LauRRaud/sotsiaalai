@@ -94,7 +94,7 @@ export default function HelpListingsPanel({
         <Panel
           variant="secondary"
           padding="sm"
-          className="mt-[0.25rem] max-[768px]:mt-[0.2rem] min-h-[min(56dvh,28rem)] max-h-[min(62dvh,30rem)] max-[768px]:min-h-[min(60dvh,32rem)] max-[768px]:max-h-[min(66dvh,34rem)] overflow-y-auto border-[rgba(248,253,255,0.1)] bg-[rgba(255,255,255,0.12)] shadow-[0_16px_34px_rgba(15,23,42,0.06)] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 [.theme-night_&]:bg-[rgba(17,22,34,0.2)] [.theme-dark_&]:bg-[rgba(18,23,32,0.22)] [.theme-mid_&]:bg-[rgba(255,255,255,0.1)] [.theme-light_&]:border-[rgba(122,58,56,0.07)] [.theme-light_&]:bg-[rgba(255,255,255,0.2)]"
+          className="mt-[0.25rem] max-[768px]:mt-[0.2rem] min-h-[min(56dvh,28rem)] max-h-[min(62dvh,30rem)] max-[768px]:min-h-[min(60dvh,32rem)] max-[768px]:max-h-[min(66dvh,34rem)] overflow-y-auto border-[rgba(248,253,255,0.1)] bg-[rgba(255,255,255,0.12)] shadow-[0_16px_34px_rgba(15,23,42,0.06)] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 [.theme-night_&]:bg-[rgba(10,14,24,0.34)] [.theme-dark_&]:bg-[rgba(12,16,24,0.38)] [.theme-mid_&]:bg-[rgba(255,255,255,0.1)] [.theme-light_&]:border-[rgba(122,58,56,0.07)] [.theme-light_&]:bg-[rgba(255,255,255,0.2)]"
         >
           {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
           {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}

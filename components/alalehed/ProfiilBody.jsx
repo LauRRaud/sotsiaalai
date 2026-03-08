@@ -148,7 +148,8 @@ const accountModalActionStackClassName =
 const accountModalCardClassName =
   "rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] " +
   "p-[0.95rem_1rem] text-[color:var(--glass-modal-text)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
-  "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
+  "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] [.theme-dark_&]:shadow-[0_6px_14px_rgba(0,0,0,0.22),0_10px_18px_-18px_rgba(248,253,255,0.24)] " +
+  "[.theme-night_&]:bg-[rgba(16,22,34,0.4)] [.theme-night_&]:shadow-[0_6px_14px_rgba(0,0,0,0.24),0_10px_18px_-18px_rgba(188,220,255,0.14)] " +
   "[.theme-mid_&]:border-[rgba(132,72,68,0.18)] [.theme-mid_&]:bg-[rgba(251,242,239,0.9)] [.theme-mid_&]:text-[#3f4756] " +
   "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
 const accountModalActionRowClassName = "flex items-center justify-between gap-3 max-[560px]:flex-col max-[560px]:items-start";

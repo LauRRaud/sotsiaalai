@@ -2165,62 +2165,62 @@
     },
     "rag": {
       "status": {
-        "pending": "Pending",
-        "processing": "Processing",
-        "completed": "Completed",
-        "failed": "Failed"
+        "pending": "Ootel",
+        "processing": "Töötlemisel",
+        "completed": "Valmis",
+        "failed": "Vigane"
       },
       "audience": {
-        "social_worker": "Social worker specialist",
-        "client": "Help seeker",
-        "both": "Both"
+        "social_worker": "Sotsiaaltöö spetsialist",
+        "client": "Abiotsija",
+        "both": "Mõlemad"
       },
       "common": {
         "ok": "OK",
-        "failed": "Failed",
+        "failed": "Ebaõnnestus",
         "saved": "Salvestatud"
       },
       "errors": {
         "invalid_documents_json": "Server tagastas dokumendiloendi jaoks vigase JSON-i.",
         "documents_load_failed": "Dokumentide laadimine ebaõnnestus.",
-        "pdf_required": "Select a PDF file.",
+        "pdf_required": "Vali PDF-fail.",
         "meta_required": "Lisa metaandmete JSON-fail või kleebi JSON väljale.",
-        "pdf_ingest_failed": "PDF ingest failed.",
+        "pdf_ingest_failed": "PDF-i lisamine ebaõnnestus.",
         "meta_json_invalid": "Metaandmete JSON on vigane.",
         "meta_json_must_be_object": "Metaandmete JSON peab olema objekt.",
-        "url_required": "Enter URL.",
-        "url_ingest_failed": "URL ingest failed.",
+        "url_required": "Sisesta URL.",
+        "url_ingest_failed": "URL-i lisamine ebaõnnestus.",
         "articles_json_required": "Lisa artiklite JSON (fail või tekst).",
-        "articles_json_invalid": "Articles JSON is invalid.",
+        "articles_json_invalid": "Artiklite JSON on vigane.",
         "doc_id_required": "docId puudub. Lisa docId väljale või JSON-faili.",
         "articles_array_required": "Artiklite massiiv puudub või on tühi.",
         "article_item_invalid": "Igal artiklil peab olema `title` ja `pageRange` või `startPage/endPage`.",
-        "articles_ingest_failed": "Articles ingest failed.",
-        "reindex_failed": "Reindex failed.",
-        "delete_failed": "Delete failed.",
+        "articles_ingest_failed": "Artiklite lisamine ebaõnnestus.",
+        "reindex_failed": "Uuesti indekseerimine ebaõnnestus.",
+        "delete_failed": "Kustutamine ebaõnnestus.",
         "meta_update_failed": "Metaandmete uuendamine ebaõnnestus.",
-        "selftest_failed": "Self-test failed.",
-        "selftest_aborted": "Self-test aborted."
+        "selftest_failed": "Enesetest ebaõnnestus.",
+        "selftest_aborted": "Enesetest katkestati."
       },
       "success": {
-        "added_with_ref": "Added: {ref}",
-        "pdf_ingest_with_doc_id": "PDF ingest succeeded (docId {docId}).",
-        "pdf_ingest": "PDF ingest succeeded.",
+        "added_with_ref": "Lisatud: {ref}",
+        "pdf_ingest_with_doc_id": "PDF lisamine õnnestus (docId {docId}).",
+        "pdf_ingest": "PDF lisamine õnnestus.",
         "meta_looks_valid": "Metaandmed tunduvad korrektsed. Otsing ja filtreerimine peaksid olema kiired.",
-        "url_sent": "URL was sent to RAG database.",
-        "articles_added_with_doc_id": "Articles added (docId {docId}).",
-        "reindex_started": "Reindex started.",
+        "url_sent": "URL saadeti RAG-andmebaasi.",
+        "articles_added_with_doc_id": "Artiklid lisati (docId {docId}).",
+        "reindex_started": "Uuesti indekseerimine käivitati.",
         "document_deleted": "Dokument kustutati.",
         "meta_saved": "Metaandmed salvestati.",
-        "selftest_finished": "Self-test completed."
+        "selftest_finished": "Enesetest lõpetati."
       },
       "confirm": {
-        "delete_doc": "Do you want to delete this entry? This cannot be undone."
+        "delete_doc": "Kas soovid selle kirje kustutada? Seda ei saa tagasi võtta."
       },
       "selftest": {
         "results_title": "Enesetesti tulemused",
-        "run": "Run self-test",
-        "running": "Checking..."
+        "run": "Käivita enesetest",
+        "running": "Kontrollin..."
       },
       "ingest": {
         "title": "Andmete lisamine: URL või PDF + metaandmed",
@@ -2241,19 +2241,19 @@
         "hide_templates": "Peida metaandmete mallid",
         "check_json": "Kontrolli metaandmete JSON-i",
         "templates_title": "Metaandmete JSON-i mallid",
-        "templates_note": "Platform expects one JSON object per ingest. Use separate JSON files for different materials. For multi-article PDFs use /ingest/articles.",
+        "templates_note": "Platvorm eeldab iga lisamise kohta ühte JSON-objekti. Eri materjalide jaoks kasuta eraldi JSON-faile. Mitme artikliga PDF-ide jaoks kasuta /ingest/articles.",
         "open_json": "Ava .json",
-        "important": "Important",
-        "recommended": "Recommended",
+        "important": "Oluline",
+        "recommended": "Soovitatav",
         "page_range_or_pdf_pages": "pageRange või pdf_start_page/pdf_end_page",
-        "missing_required": "Missing: {fields}",
-        "missing_recommended": "Recommended: {fields}",
+        "missing_required": "Puudub: {fields}",
+        "missing_recommended": "Soovitatav: {fields}",
         "templates": {
           "base": "Põhi (ülddokument)",
-          "periodical": "Periodical article",
+          "periodical": "Perioodika artikkel",
           "regulation": "Seadus või määrus",
           "report": "Aruanne või juhend",
-          "web": "Web page"
+          "web": "Veebileht"
         },
         "important_line_1": "docId, title, section",
         "important_line_2": "year, audience, tags",
@@ -2300,7 +2300,7 @@
         "showing": "Näidatud {count}",
         "selected": "Valitud {count}",
         "untitled": "(pealkirjata)",
-        "issue_label": "number {issue}",
+        "issue_label": "nr {issue}",
         "no_results": "Tulemusi ei leitud.",
         "load_more": "Lae rohkem"
       },
@@ -2331,8 +2331,8 @@
       "modal": {
         "edit_meta": "Muuda metaandmeid",
         "doc_id": "docId",
-        "type": "type",
-        "language": "language"
+        "type": "Tüüp",
+        "language": "Keel"
       }
     }
   }

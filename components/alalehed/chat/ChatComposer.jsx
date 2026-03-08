@@ -314,7 +314,7 @@ export default function ChatComposer({
                   <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth="3.1" strokeLinecap="round" />
                 </svg>}
               </button>
-              {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="chat-tools-menu absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] border border-[rgba(255,255,255,0.14)] bg-[rgba(24,26,32,0.96)] [.theme-night_&]:border-[rgba(120,156,231,0.12)] [.theme-night_&]:bg-[rgba(9,14,24,0.88)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.34)] backdrop-blur-[10px] light:border-[rgba(122,58,56,0.12)] light:bg-[rgba(255,250,248,0.94)] [.theme-mid_&]:border-[rgba(141,77,74,0.14)] [.theme-mid_&]:bg-[rgba(252,246,244,0.9)]">
+              {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="chat-tools-menu absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] bg-[rgba(24,26,32,0.96)] [.theme-night_&]:bg-[rgba(9,14,24,0.88)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.34)] backdrop-blur-[10px] light:bg-[rgba(255,250,248,0.94)] [.theme-mid_&]:bg-[rgba(252,246,244,0.9)]">
                 <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
                   <span aria-hidden="true" className={toolIconSlotClassName}>
                     <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
