@@ -41,6 +41,7 @@ const DEEP_RESEARCH_ARMED_TEXT =
 const DEEP_RESEARCH_EMPTY_QUERY_HINT = "Kirjuta uurimisk\u00fcsimus.";
 const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petatud.";
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
+const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 
 function isEditableElement(node) {
   if (!(node instanceof Element)) return false;
@@ -291,7 +292,7 @@ export default function ChatBody({
   const maskRefreshRef = useRef(null);
   const {
     profileOpen,
-    openProfile,
+    openProfileDirect,
     closeProfile,
     toggleProfile
   } = useChatProfileRoll({
@@ -518,15 +519,9 @@ export default function ChatBody({
     });
   }, []);
   const backToProfileFromListingsPanel = useCallback(() => {
+    openProfileDirect();
     closeListingsPanel();
-    if (typeof window === "undefined") {
-      openProfile();
-      return;
-    }
-    window.requestAnimationFrame(() => {
-      openProfile();
-    });
-  }, [closeListingsPanel, openProfile]);
+  }, [closeListingsPanel, openProfileDirect]);
   const openSelectedListing = useCallback(async (item) => {
     const kind = String(item?.kind || "").trim().toLowerCase();
     const id = String(item?.id || "").trim();
@@ -788,6 +783,7 @@ export default function ChatBody({
       kind: "request",
       scope: "global",
       status: "OPEN",
+      returnToProfile: false,
       title: helpUi.helpRequests,
       emptyText: helpUi.emptyGlobalRequests
     });
@@ -799,39 +795,42 @@ export default function ChatBody({
       kind: "offer",
       scope: "global",
       status: "OPEN",
+      returnToProfile: false,
       title: helpUi.helpOffers,
       emptyText: helpUi.emptyGlobalOffers
     });
   }, [helpUi.emptyGlobalOffers, helpUi.helpOffers, openListingsPanel]);
-  const openMyRequestsPanel = useCallback(() => {
+  const openMyRequestsPanel = useCallback((source = "chat") => {
     openListingsPanel({
       key: "my_help_requests",
       side: "right",
       kind: "request",
       scope: "mine",
       status: "OPEN",
-      title: helpUi.myHelpRequests,
+      returnToProfile: source === "profile",
+      title: helpUi.helpRequests,
       emptyText: helpUi.emptyMyRequests
     });
-  }, [helpUi.emptyMyRequests, helpUi.myHelpRequests, openListingsPanel]);
-  const openMyOffersPanel = useCallback(() => {
+  }, [helpUi.emptyMyRequests, helpUi.helpRequests, openListingsPanel]);
+  const openMyOffersPanel = useCallback((source = "chat") => {
     openListingsPanel({
       key: "my_help_offers",
       side: "right",
       kind: "offer",
       scope: "mine",
       status: "OPEN",
-      title: helpUi.myHelpOffers,
+      returnToProfile: source === "profile",
+      title: helpUi.helpOffers,
       emptyText: helpUi.emptyMyOffers
     });
-  }, [helpUi.emptyMyOffers, helpUi.myHelpOffers, openListingsPanel]);
-  const openHelpPanelByKey = useCallback((panelKey) => {
+  }, [helpUi.emptyMyOffers, helpUi.helpOffers, openListingsPanel]);
+  const openHelpPanelByKey = useCallback((panelKey, source = "chat") => {
     if (panelKey === "my_help_requests") {
-      openMyRequestsPanel();
+      openMyRequestsPanel(source);
       return;
     }
     if (panelKey === "my_help_offers") {
-      openMyOffersPanel();
+      openMyOffersPanel(source);
       return;
     }
     if (panelKey === "help_requests") {
@@ -844,7 +843,9 @@ export default function ChatBody({
   }, [openGlobalOffersPanel, openGlobalRequestsPanel, openMyOffersPanel, openMyRequestsPanel]);
   useEffect(() => {
     const onOpenHelpListings = event => {
-      openHelpPanelByKey(String(event?.detail?.panelKey || ""));
+      const panelKey = String(event?.detail?.panelKey || "");
+      const source = String(event?.detail?.source || "chat");
+      openHelpPanelByKey(panelKey, source);
     };
     window.addEventListener("sotsiaalai:open-help-listings", onOpenHelpListings);
     return () => {
@@ -854,16 +855,20 @@ export default function ChatBody({
   useEffect(() => {
     if (typeof window === "undefined") return;
     let panelKey = "";
+    let source = "chat";
     try {
       panelKey = String(window.sessionStorage.getItem(CHAT_HELP_PANEL_STORAGE_KEY) || "");
+      source = String(window.sessionStorage.getItem(CHAT_HELP_PANEL_SOURCE_STORAGE_KEY) || "chat");
       if (panelKey) {
         window.sessionStorage.removeItem(CHAT_HELP_PANEL_STORAGE_KEY);
+        window.sessionStorage.removeItem(CHAT_HELP_PANEL_SOURCE_STORAGE_KEY);
       }
     } catch {
       panelKey = "";
+      source = "chat";
     }
     if (!panelKey) return;
-    openHelpPanelByKey(panelKey);
+    openHelpPanelByKey(panelKey, source);
   }, [openHelpPanelByKey]);
   useEffect(() => {
     if (!activeListingsPanel) return;
@@ -1010,7 +1015,7 @@ export default function ChatBody({
       nextOffset={listingsPanelState.nextOffset}
       emptyText={activeListingsPanel.emptyText}
       onClose={closeListingsPanel}
-      onBackToProfile={backToProfileFromListingsPanel}
+      onBackToProfile={activeListingsPanel?.returnToProfile ? backToProfileFromListingsPanel : undefined}
       onLoadMore={() => loadListingsPanel(activeListingsPanel, { append: true })}
       onSelectItem={openSelectedListing}
     />
@@ -1291,7 +1296,7 @@ export default function ChatBody({
         "relative z-[21] min-h-0 [overflow-anchor:none] light:text-[#1f2937] " +
         "[scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
         "[&::-webkit-scrollbar-track]:bg-transparent " +
-        "[&>:not(.chat-mask-layer):not(.chat-mask-tilt-fallback):not(.top-nav--chat):not(.chat-left-actions):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button):not(.chat-analysis-overlay)]:z-[1] " +
+        "[&>:not(.chat-mask-layer):not(.chat-mask-tilt-fallback):not(.top-nav--chat):not(.chat-mobile-topnav):not(.chat-left-actions):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button):not(.chat-analysis-overlay)]:z-[1] " +
         "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
         "overflow-hidden [--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
         "max-[768px]:gap-[0.35rem] max-[768px]:flex-[1_1_auto] max-[768px]:min-h-0 max-[768px]:mx-auto " +

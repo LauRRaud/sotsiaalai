@@ -131,7 +131,9 @@ export default function SelectedListingContext({
           <div className="mt-[0.7rem] text-[0.82rem] uppercase tracking-[0.12em] text-[color:var(--title-color,var(--brand-primary))] opacity-76 max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)]">
             {isOwn ? ui.ownListing : ui.selectedListing}
           </div>
-          <h2 className={`${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 min-[769px]:!mt-[0.5rem]`}>
+          <h2
+            className={`${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 min-[769px]:!mt-[0.5rem] max-[768px]:!text-[clamp(1.9rem,7.1vw,2.2rem)] max-[768px]:!whitespace-nowrap`}
+          >
             {loading ? ui.loading : listing?.title || ui.selectedListing}
           </h2>
           {listing?.municipalityLabel || listing?.statusLabel ? (

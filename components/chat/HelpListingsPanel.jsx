@@ -45,7 +45,7 @@ export default function HelpListingsPanel({
     `leading-[1.35] tracking-[0.024rem] ${glassPageMobileCardClassName}`;
   const helpListingsTitleClassName =
     `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} ` +
-    `max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
+    `max-[768px]:!text-[clamp(1.9rem,7.1vw,2.2rem)] max-[768px]:!whitespace-nowrap`;
 
   useEffect(() => {
     setIsMounted(true);

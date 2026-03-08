@@ -73,6 +73,25 @@ export function useChatProfileRoll({
     triggerRoll("right", true);
   }, [embedded, locale, prepareForProfileTransition, router, triggerRoll]);
 
+  const openProfileDirect = useCallback(() => {
+    if (!embedded) {
+      prepareForProfileTransition();
+      pushWithTransition(router, localizePath("/profiil", locale), {
+        glassRingTilt: "right",
+        waitForGlassRingTilt: true,
+        persistGlassRingTilt: false
+      });
+      return;
+    }
+    prepareForProfileTransition();
+    if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
+    if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
+    setIsRolling(false);
+    setRollDirection("right");
+    setProfileOpen(true);
+    syncProfileUrl(true);
+  }, [embedded, locale, prepareForProfileTransition, router, syncProfileUrl]);
+
   const closeProfile = useCallback(() => {
     if (!embedded) return;
     triggerRoll("left", false);
@@ -121,6 +140,7 @@ export function useChatProfileRoll({
     profileOpen,
     isRolling,
     openProfile,
+    openProfileDirect,
     closeProfile,
     toggleProfile
   };

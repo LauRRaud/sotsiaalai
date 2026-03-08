@@ -22,12 +22,30 @@ const MOBILE_NAV_ITEMS = [
   { key: "sources", scale: 1.01 },
   { key: "help_requests", scale: 1.2 },
   { key: "help_offers", scale: 1.2 },
-  { key: "invite", scale: 1.1 },
   { key: "profile", scale: 1.08 },
+  { key: "invite", scale: 1.1 },
   { key: "rooms", scale: 1.1 }
 ];
 
 const DEFAULT_FOCUSED_KEY = "profile";
+const FOCUS_CENTER_OFFSET_REM = -0.96;
+const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
+
+function getSlotOffsetRem(slot) {
+  const direction = Math.sign(slot);
+  const distance = Math.abs(slot);
+  if (distance === 0) {
+    return 0;
+  }
+  if (distance === 2) {
+    return direction * 6.96;
+  }
+  if (distance === 1) {
+    return direction * 3.48;
+  }
+  return direction * (6.96 + (distance - 2) * 3.16);
+}
+
 function MobileIconFrame({ scale = 1, xNudge = 0, children }) {
   return (
     <span
@@ -67,21 +85,50 @@ export default function ChatMobileTopNav({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const overlayRef = useRef(null);
-  const trackViewportRef = useRef(null);
   const itemButtonRefs = useRef({});
+  const suppressClickUntilRef = useRef(0);
+  const swipeSurfaceRef = useRef(null);
+  const focusedIndexRef = useRef(getItemIndex(DEFAULT_FOCUSED_KEY));
+  const previousActiveKeyRef = useRef(null);
   const dragStateRef = useRef({
     pointerId: null,
+    touchId: null,
     startX: 0,
     currentX: 0,
     moved: false
   });
 
   const [focusedIndex, setFocusedIndex] = useState(getItemIndex(DEFAULT_FOCUSED_KEY));
-  const [dragOffset, setDragOffset] = useState(0);
-  const [viewportWidth, setViewportWidth] = useState(0);
-  const [itemWidth, setItemWidth] = useState(58);
-  const [itemGap, setItemGap] = useState(10);
+
+  const setFocusedIndexImmediate = useCallback(nextValue => {
+    if (typeof nextValue === "function") {
+      setFocusedIndex(current => {
+        const resolvedValue = nextValue(current);
+        focusedIndexRef.current = resolvedValue;
+        return resolvedValue;
+      });
+      return;
+    }
+
+    focusedIndexRef.current = nextValue;
+    setFocusedIndex(nextValue);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let suppressOnEntry = false;
+    try {
+      suppressOnEntry =
+        window.sessionStorage.getItem(CHAT_SKIP_ENTRY_SETTLE_KEY) === "1";
+      if (suppressOnEntry) {
+        window.sessionStorage.removeItem(CHAT_SKIP_ENTRY_SETTLE_KEY);
+      }
+    } catch {}
+    if (!suppressOnEntry) return;
+    const now =
+      typeof performance !== "undefined" ? performance.now() : Date.now();
+    suppressClickUntilRef.current = now + 700;
+  }, []);
 
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
@@ -112,38 +159,14 @@ export default function ChatMobileTopNav({
     : leftRailActiveKey || rightRailActiveKey || "";
 
   useEffect(() => {
-    const viewport = trackViewportRef.current;
-    const profileButton = itemButtonRefs.current.profile;
-    if (!viewport || !profileButton) return;
-
-    const updateMetrics = () => {
-      const viewportRect = viewport.getBoundingClientRect();
-      const buttonRect = profileButton.getBoundingClientRect();
-      const computedStyle = window.getComputedStyle(viewport);
-      const gapRaw = Number.parseFloat(computedStyle.columnGap || computedStyle.gap || "10");
-      setViewportWidth(viewportRect.width);
-      setItemWidth(buttonRect.width);
-      setItemGap(Number.isFinite(gapRaw) ? gapRaw : 10);
-    };
-
-    updateMetrics();
-    const resizeObserver =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(updateMetrics)
-        : null;
-    resizeObserver?.observe(viewport);
-    resizeObserver?.observe(profileButton);
-    window.addEventListener("resize", updateMetrics);
-    return () => {
-      resizeObserver?.disconnect?.();
-      window.removeEventListener("resize", updateMetrics);
-    };
-  }, []);
-
-  useEffect(() => {
+    const previousActiveKey = previousActiveKeyRef.current;
+    previousActiveKeyRef.current = activeKey || "";
+    if (previousActiveKey === null) {
+      return;
+    }
     if (!activeKey) return;
-    setFocusedIndex(getItemIndex(activeKey));
-  }, [activeKey]);
+    setFocusedIndexImmediate(getItemIndex(activeKey));
+  }, [activeKey, setFocusedIndexImmediate]);
 
   const openChatsDrawer = useCallback(
     event => {
@@ -236,10 +259,23 @@ export default function ChatMobileTopNav({
 
   const handleItemActivation = useCallback(
     (key, event) => {
-      setFocusedIndex(getItemIndex(key));
+      setFocusedIndexImmediate(getItemIndex(key));
       handleActivate(key, event);
     },
-    [handleActivate]
+    [handleActivate, setFocusedIndexImmediate]
+  );
+
+  const activateIndex = useCallback(
+    (index, event) => {
+      const item = MOBILE_NAV_ITEMS[index];
+      if (!item) return;
+      if (item.key === "sources" && !hasConversationSources) {
+        setFocusedIndexImmediate(index);
+        return;
+      }
+      handleItemActivation(item.key, event);
+    },
+    [handleItemActivation, hasConversationSources, setFocusedIndexImmediate]
   );
 
   const renderIcon = item => {
@@ -298,38 +334,83 @@ export default function ChatMobileTopNav({
 
   const handleTrackPointerEnd = useCallback(() => {
     const deltaX = dragStateRef.current.currentX - dragStateRef.current.startX;
-    const swipeThreshold = Math.max(18, Math.min(28, itemWidth * 0.24));
+    const swipeThreshold = 18;
     if (Math.abs(deltaX) >= swipeThreshold) {
-      setFocusedIndex(current => {
+      const steps = Math.max(1, Math.round(Math.abs(deltaX) / 72));
+      setFocusedIndexImmediate(current => {
         if (deltaX < 0) {
-          return Math.min(MOBILE_NAV_ITEMS.length - 1, current + 1);
+          return Math.min(MOBILE_NAV_ITEMS.length - 1, current + steps);
         }
-        return Math.max(0, current - 1);
+        return Math.max(0, current - steps);
       });
     }
-    setDragOffset(0);
     dragStateRef.current.pointerId = null;
+    dragStateRef.current.touchId = null;
     dragStateRef.current.moved = false;
-  }, [itemWidth]);
+  }, [setFocusedIndexImmediate]);
 
-  const baseTranslateX = useMemo(() => {
-    const step = itemWidth + itemGap;
-    return viewportWidth / 2 - itemWidth / 2 - focusedIndex * step;
-  }, [focusedIndex, itemGap, itemWidth, viewportWidth]);
+  const beginSwipe = useCallback(clientX => {
+    dragStateRef.current.startX = clientX;
+    dragStateRef.current.currentX = clientX;
+    dragStateRef.current.moved = false;
+  }, []);
 
-  const getClosestItemIndex = useCallback(
+  const moveSwipe = useCallback((clientX, event) => {
+    const deltaX = clientX - dragStateRef.current.startX;
+    dragStateRef.current.currentX = clientX;
+    if (Math.abs(deltaX) > 4) {
+      dragStateRef.current.moved = true;
+    }
+    if (dragStateRef.current.moved && event?.cancelable) {
+      event.preventDefault();
+    }
+  }, []);
+
+  const finishSwipe = useCallback(
+    (clientX, event) => {
+      dragStateRef.current.currentX = clientX;
+      if (dragStateRef.current.moved) {
+        suppressClickUntilRef.current =
+          typeof performance !== "undefined" ? performance.now() + 260 : Date.now() + 260;
+        handleTrackPointerEnd();
+        return;
+      }
+      dragStateRef.current.pointerId = null;
+      dragStateRef.current.touchId = null;
+      activateIndex(getClosestVisibleIndex(clientX), event);
+    },
+    [activateIndex, getClosestVisibleIndex, handleTrackPointerEnd]
+  );
+
+  const focusedItem = MOBILE_NAV_ITEMS[focusedIndex] || MOBILE_NAV_ITEMS[0];
+  const visibleItems = useMemo(() => {
+    const maxVisible = Math.min(5, MOBILE_NAV_ITEMS.length);
+    let start = Math.max(0, focusedIndex - 2);
+    if (start + maxVisible > MOBILE_NAV_ITEMS.length) {
+      start = Math.max(0, MOBILE_NAV_ITEMS.length - maxVisible);
+    }
+
+    return MOBILE_NAV_ITEMS.slice(start, start + maxVisible).map((item, localIndex) => ({
+      item,
+      index: start + localIndex,
+      slot: start + localIndex - focusedIndex
+    }));
+  }, [focusedIndex]);
+
+  const getClosestVisibleIndex = useCallback(
     clientX => {
-      const viewport = trackViewportRef.current;
-      if (!viewport) return focusedIndex;
-      const viewportRect = viewport.getBoundingClientRect();
-      const step = itemWidth + itemGap;
-      let nearestIndex = focusedIndex;
+      const surface = swipeSurfaceRef.current;
+      const baseFocusedIndex = focusedIndexRef.current;
+      if (!surface || visibleItems.length === 0) return baseFocusedIndex;
+      const rect = surface.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      let nearestIndex = baseFocusedIndex;
       let nearestDistance = Number.POSITIVE_INFINITY;
 
-      MOBILE_NAV_ITEMS.forEach((item, index) => {
-        const centerX =
-          viewportRect.left + baseTranslateX + dragOffset + index * step + itemWidth / 2;
-        const distance = Math.abs(clientX - centerX);
+      visibleItems.forEach(({ index, slot }) => {
+        const slotCenterX =
+          centerX + (FOCUS_CENTER_OFFSET_REM + getSlotOffsetRem(slot)) * 16;
+        const distance = Math.abs(clientX - slotCenterX);
         if (distance < nearestDistance) {
           nearestDistance = distance;
           nearestIndex = index;
@@ -338,10 +419,8 @@ export default function ChatMobileTopNav({
 
       return nearestIndex;
     },
-    [baseTranslateX, dragOffset, focusedIndex, itemGap, itemWidth]
+    [visibleItems]
   );
-
-  const focusedItem = MOBILE_NAV_ITEMS[focusedIndex] || MOBILE_NAV_ITEMS[0];
 
   const renderNavButton = (item, index) => {
     const isDisabled =
@@ -374,24 +453,32 @@ export default function ChatMobileTopNav({
         }
         aria-controls={item.key === "sources" ? "chat-sources-panel" : undefined}
         onClick={event => {
+          if (
+            typeof performance !== "undefined" &&
+            performance.now() < suppressClickUntilRef.current
+          ) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
           if (isDisabled) {
             event.preventDefault();
             event.stopPropagation();
-            setFocusedIndex(index);
+            setFocusedIndexImmediate(index);
             return;
           }
           handleItemActivation(item.key, event);
         }}
-        onFocus={() => setFocusedIndex(index)}
+        onFocus={() => setFocusedIndexImmediate(index)}
         onKeyDown={event => {
           if (event.key === "ArrowRight") {
             event.preventDefault();
-            setFocusedIndex(current => Math.min(MOBILE_NAV_ITEMS.length - 1, current + 1));
+            setFocusedIndexImmediate(current => Math.min(MOBILE_NAV_ITEMS.length - 1, current + 1));
             return;
           }
           if (event.key === "ArrowLeft") {
             event.preventDefault();
-            setFocusedIndex(current => Math.max(0, current - 1));
+            setFocusedIndexImmediate(current => Math.max(0, current - 1));
             return;
           }
           if (event.key === "Enter" || event.key === " ") {
@@ -399,7 +486,7 @@ export default function ChatMobileTopNav({
           }
         }}
         className={cn(
-          "pointer-events-none relative shrink-0 inline-flex h-[clamp(3.25rem,13vw,3.9rem)] w-[clamp(3.25rem,13vw,3.9rem)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
+          "pointer-events-none relative inline-flex h-[clamp(2.96rem,11.9vw,3.42rem)] w-[clamp(2.96rem,11.9vw,3.42rem)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
           isFocused ? "opacity-100" : isActive ? "opacity-[0.78]" : "opacity-[0.46]",
           isDisabled ? "cursor-default" : "cursor-pointer"
         )}
@@ -420,8 +507,8 @@ export default function ChatMobileTopNav({
   return (
     <div
       className={cn(
-        "chat-mobile-topnav pointer-events-none absolute inset-x-0 top-0 z-[121] min-[769px]:hidden",
-        mobileRailInteractionLocked ? "pointer-events-none opacity-70" : null
+        "chat-mobile-topnav top-nav--chat absolute inset-x-0 top-0 z-[121] h-[8.95rem] min-[769px]:hidden",
+        mobileRailInteractionLocked ? "pointer-events-none opacity-70" : "pointer-events-auto"
       )}
     >
       <BackButton
@@ -443,88 +530,94 @@ export default function ChatMobileTopNav({
         iconClassName="!h-[100%] !w-[100%]"
       />
 
-      <div className="absolute left-[calc(env(safe-area-inset-left,0px)+4.9rem)] right-[calc(env(safe-area-inset-right,0px)+0.28rem)] top-[calc(env(safe-area-inset-top,0px)+0.44rem)] pointer-events-auto">
-        <div className="relative h-[7.15rem] overflow-hidden">
+      <div className="absolute left-[calc(env(safe-area-inset-left,0px)+4.9rem)] right-[calc(env(safe-area-inset-right,0px)+0.28rem)] top-[calc(env(safe-area-inset-top,0px)+0.3rem)]">
+        <div
+          ref={swipeSurfaceRef}
+          className="relative h-[8.6rem] overflow-visible"
+        >
           <div
-            ref={overlayRef}
-            className="absolute inset-0 z-[3]"
+            className="absolute inset-x-[-0.8rem] top-0 bottom-0 z-[20]"
             style={{ touchAction: "none" }}
             onPointerDown={event => {
               if (event.pointerType === "mouse" && event.button !== 0) {
                 return;
               }
-              overlayRef.current?.setPointerCapture?.(event.pointerId);
+              swipeSurfaceRef.current?.setPointerCapture?.(event.pointerId);
               dragStateRef.current.pointerId = event.pointerId;
-              dragStateRef.current.startX = event.clientX;
-              dragStateRef.current.currentX = event.clientX;
-              dragStateRef.current.moved = false;
+              beginSwipe(event.clientX);
             }}
             onPointerMove={event => {
               const pointerId = dragStateRef.current.pointerId;
               if (pointerId == null || event.pointerId !== pointerId) return;
-              const deltaX = event.clientX - dragStateRef.current.startX;
-              dragStateRef.current.currentX = event.clientX;
-              if (Math.abs(deltaX) > 3) {
-                dragStateRef.current.moved = true;
-              }
-              setDragOffset(deltaX);
-              if (event.cancelable) {
-                event.preventDefault();
-              }
+              moveSwipe(event.clientX, event);
             }}
             onPointerUp={event => {
               const pointerId = dragStateRef.current.pointerId;
               if (pointerId == null || event.pointerId !== pointerId) return;
-              overlayRef.current?.releasePointerCapture?.(event.pointerId);
-
-              if (!dragStateRef.current.moved) {
-                const tappedIndex = getClosestItemIndex(event.clientX);
-                const tappedItem = MOBILE_NAV_ITEMS[tappedIndex];
-                if (tappedItem) {
-                  if (tappedItem.key === "sources" && !hasConversationSources) {
-                    setFocusedIndex(tappedIndex);
-                  } else {
-                    handleItemActivation(tappedItem.key, event);
-                  }
-                }
-                dragStateRef.current.pointerId = null;
-                setDragOffset(0);
-                return;
-              }
-
-              handleTrackPointerEnd();
+              swipeSurfaceRef.current?.releasePointerCapture?.(event.pointerId);
+              finishSwipe(event.clientX, event);
             }}
             onPointerCancel={event => {
               const pointerId = dragStateRef.current.pointerId;
-              if (pointerId != null && event.pointerId === pointerId) {
-                overlayRef.current?.releasePointerCapture?.(event.pointerId);
-              }
+              if (pointerId == null || event.pointerId !== pointerId) return;
+              swipeSurfaceRef.current?.releasePointerCapture?.(event.pointerId);
               dragStateRef.current.pointerId = null;
+              dragStateRef.current.touchId = null;
               dragStateRef.current.moved = false;
-              setDragOffset(0);
+            }}
+            onTouchStart={event => {
+              const touch = event.changedTouches?.[0];
+              if (!touch) return;
+              dragStateRef.current.touchId = touch.identifier;
+              beginSwipe(touch.clientX);
+            }}
+            onTouchMove={event => {
+              const touchId = dragStateRef.current.touchId;
+              if (touchId == null) return;
+              const touch = Array.from(event.touches).find(currentTouch => currentTouch.identifier === touchId);
+              if (!touch) return;
+              moveSwipe(touch.clientX, event);
+            }}
+            onTouchEnd={event => {
+              const touchId = dragStateRef.current.touchId;
+              if (touchId == null) return;
+              const touch = Array.from(event.changedTouches).find(
+                currentTouch => currentTouch.identifier === touchId
+              );
+              if (!touch) return;
+              finishSwipe(touch.clientX, event);
+            }}
+            onTouchCancel={() => {
+              dragStateRef.current.pointerId = null;
+              dragStateRef.current.touchId = null;
+              dragStateRef.current.moved = false;
             }}
           />
 
-          <div
-            ref={trackViewportRef}
-            className="pointer-events-none relative h-[5.55rem] overflow-hidden"
-          >
-            <div
-              className="absolute left-0 top-[0.68rem] z-[1] flex items-center gap-[clamp(0.22rem,0.95vw,0.48rem)]"
-              style={{
-                transform: `translate3d(${baseTranslateX + dragOffset}px, 0, 0)`,
-                transition:
-                  dragOffset === 0
-                    ? "transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1)"
-                    : "none"
-              }}
-            >
-              {MOBILE_NAV_ITEMS.map(renderNavButton)}
-            </div>
+          <div className="relative h-[5.18rem] overflow-hidden">
+            {visibleItems.map(({ item, index, slot }) => {
+              const distance = Math.abs(slot);
+              const xOffsetRem = getSlotOffsetRem(slot);
+              return (
+                <div
+                  key={item.key}
+                  className="absolute left-1/2 top-[0.98rem] z-[1] -translate-x-1/2 transition-[transform,opacity] duration-200 ease-out"
+                  style={{
+                    transform: `translateX(${FOCUS_CENTER_OFFSET_REM + xOffsetRem}rem) scale(${slot === 0 ? 1.08 : distance === 1 ? 0.92 : 0.76})`,
+                    opacity: slot === 0 ? 1 : distance === 1 ? 0.78 : 0.4
+                  }}
+                >
+                  {renderNavButton(item, index)}
+                </div>
+              );
+            })}
           </div>
 
-          <div className="pointer-events-none absolute inset-x-0 top-[4.68rem] flex justify-center px-[0.65rem] text-center">
-            <span className="max-w-[13.4rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.34rem,5.45vw,1.54rem)] font-medium leading-[1.06] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38]">
+          <div
+            className="pointer-events-none absolute inset-x-0 top-[4.92rem] flex justify-center px-[0.45rem] text-center"
+            style={{ transform: `translateX(${FOCUS_CENTER_OFFSET_REM}rem)` }}
+          >
+            <span className="max-w-[14rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.42rem,5.9vw,1.68rem)] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38]">
               {labels[focusedItem.key]}
             </span>
           </div>

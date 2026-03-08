@@ -9,6 +9,8 @@ import ModalConfirm from "@/components/ui/ModalConfirm";
 import Modal from "@/components/ui/Modal";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu";
+import HelpListingsPanel from "@/components/chat/HelpListingsPanel";
+import { getHelpUiText } from "@/components/chat/helpUiText";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { cn } from "@/components/ui/cn";
@@ -24,7 +26,6 @@ import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
-const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
 const CHAT_BACK_HOVER_ARM_KEY = "sotsiaalai:chat:back-hover-arm-on-move";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
@@ -418,6 +419,14 @@ export default function ProfiilBody({
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
   const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(false);
+  const [profileHelpPanel, setProfileHelpPanel] = useState(null);
+  const [profileHelpPanelState, setProfileHelpPanelState] = useState({
+    items: [],
+    nextOffset: null,
+    loading: false,
+    error: ""
+  });
+  const helpUi = useMemo(() => getHelpUiText(t), [t]);
   useEffect(() => {
     clearStaleScrollLock();
   }, []);
@@ -706,23 +715,111 @@ export default function ProfiilBody({
       colorTheme: "default"
     });
   }, [nextMode, setPrefs]);
+  const closeProfileHelpPanel = useCallback(() => {
+    setProfileHelpPanel(null);
+    setProfileHelpPanelState({
+      items: [],
+      nextOffset: null,
+      loading: false,
+      error: ""
+    });
+  }, []);
+  const loadProfileHelpPanel = useCallback(async (panelConfig, options = {}) => {
+    if (!panelConfig) return;
+    const append = options?.append === true;
+    const requestedOffset = Number(options?.offset);
+    const offset = append
+      ? (Number.isFinite(requestedOffset) ? requestedOffset : 0)
+      : 0;
+
+    setProfileHelpPanelState(prev => ({
+      ...prev,
+      loading: true,
+      error: append ? prev.error : ""
+    }));
+
+    try {
+      const search = new URLSearchParams({
+        kind: panelConfig.kind,
+        scope: "mine",
+        status: "OPEN",
+        locale,
+        limit: "10"
+      });
+      if (offset > 0) search.set("offset", String(offset));
+      const response = await fetch(`/api/help/listings?${search.toString()}`, {
+        cache: "no-store"
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || payload?.ok === false) {
+        throw new Error(helpUi.loadFailed);
+      }
+      setProfileHelpPanelState(prev => ({
+        items: append ? [...prev.items, ...(payload?.items || [])] : (payload?.items || []),
+        nextOffset: payload?.nextOffset ?? null,
+        loading: false,
+        error: ""
+      }));
+    } catch (err) {
+      setProfileHelpPanelState(prev => ({
+        ...prev,
+        loading: false,
+        error: err?.message || helpUi.loadFailed
+      }));
+    }
+  }, [helpUi.loadFailed, locale]);
+  useEffect(() => {
+    if (!profileHelpPanel) return;
+    void loadProfileHelpPanel(profileHelpPanel);
+  }, [loadProfileHelpPanel, profileHelpPanel]);
+  const openProfileHelpPanel = useCallback((panelKey) => {
+    const key = String(panelKey || "");
+    if (key === "my_help_requests") {
+      setOrbitOpen(false);
+      setProfileHelpPanelState({
+        items: [],
+        nextOffset: null,
+        loading: false,
+        error: ""
+      });
+      setProfileHelpPanel({
+        key,
+        kind: "request",
+        title: helpUi.helpRequests,
+        emptyText: helpUi.emptyMyRequests
+      });
+      return;
+    }
+    if (key === "my_help_offers") {
+      setOrbitOpen(false);
+      setProfileHelpPanelState({
+        items: [],
+        nextOffset: null,
+        loading: false,
+        error: ""
+      });
+      setProfileHelpPanel({
+        key,
+        kind: "offer",
+        title: helpUi.helpOffers,
+        emptyText: helpUi.emptyMyOffers
+      });
+    }
+  }, [helpUi.emptyMyOffers, helpUi.emptyMyRequests, helpUi.helpOffers, helpUi.helpRequests]);
   const openChatHelpPanel = useCallback((panelKey) => {
     if (!panelKey) return;
     if (typeof window !== "undefined") {
       if (embedded) {
         try {
           window.dispatchEvent(new CustomEvent("sotsiaalai:open-help-listings", {
-            detail: { panelKey }
+            detail: { panelKey, source: "profile" }
           }));
           return;
         } catch {}
       }
-      try {
-        window.sessionStorage.setItem(CHAT_HELP_PANEL_STORAGE_KEY, panelKey);
-      } catch {}
     }
-    pushWithTransition(router, localizePath("/vestlus", locale));
-  }, [embedded, locale, router]);
+    openProfileHelpPanel(panelKey);
+  }, [embedded, openProfileHelpPanel]);
   const orbitItems = useMemo(() => [{
     key: "theme",
     icon: nextModeIcon,
@@ -959,7 +1056,7 @@ export default function ProfiilBody({
         </div>
       </ProfileShell>;
   }
-  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} orbitOpen={orbitOpen} hidden={showAccountSettings} maskLayerRef={maskLayerRef} footerNote={footerNote}>
+  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} orbitOpen={orbitOpen} hidden={showAccountSettings || Boolean(profileHelpPanel)} maskLayerRef={maskLayerRef} footerNote={footerNote}>
       <h1 id="profile-title" className={cn(titleClassName, "profile-title", orbitOpen ? "opacity-0 pointer-events-none" : null)}>
         {t("profile.title")}
       </h1>
@@ -1222,6 +1319,21 @@ export default function ProfiilBody({
             setShowLogoutAll(false);
           }}
           disabled={loggingOutEverywhere}
+        />
+      ) : null}
+      {profileHelpPanel ? (
+        <HelpListingsPanel
+          locale={locale}
+          title={profileHelpPanel.title}
+          side="right"
+          items={profileHelpPanelState.items}
+          loading={profileHelpPanelState.loading}
+          error={profileHelpPanelState.error}
+          nextOffset={profileHelpPanelState.nextOffset}
+          emptyText={profileHelpPanel.emptyText}
+          onClose={closeProfileHelpPanel}
+          onBackToProfile={closeProfileHelpPanel}
+          onLoadMore={() => loadProfileHelpPanel(profileHelpPanel, { append: true, offset: profileHelpPanelState.nextOffset })}
         />
       ) : null}
     </ProfileShell>;
