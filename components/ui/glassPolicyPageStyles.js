@@ -10,7 +10,7 @@ export const glassPolicyTitleOffsetClassName =
 export const glassPolicyTitleExpandedClassName = "glass-policy-title--expanded";
 
 export const glassPolicyContentClassName =
-  "glass-policy-content mt-[clamp(0.18rem,1.1vh,0.75rem)] flex w-full flex-1 flex-col items-center max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-[clamp(0rem,1vw,0.25rem)] max-[768px]:pt-[clamp(0.12rem,0.7vh,0.42rem)] max-[768px]:pb-[clamp(0.05rem,0.45vh,0.25rem)]";
+  "glass-policy-content mt-[clamp(0.18rem,1.1vh,0.75rem)] flex w-full flex-1 flex-col items-center max-[768px]:-mt-[clamp(0.16rem,0.6vh,0.3rem)] max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-[clamp(0rem,1vw,0.25rem)] max-[768px]:pt-[clamp(0.12rem,0.7vh,0.42rem)] max-[768px]:pb-[clamp(0.05rem,0.45vh,0.25rem)]";
 
 export const glassPolicyContentExpandedClassName = "glass-policy-content--expanded";
 

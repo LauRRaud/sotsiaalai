@@ -28,6 +28,24 @@ const PERFORMANCE_PROFILES = {
     disableNoise: true
   }
 };
+
+function resolveViewportMaxDpr(maxDpr, width, height) {
+  const area = Math.max(1, width * height);
+  let areaCap = 2;
+
+  if (area >= 3200 * 1800) {
+    areaCap = 1;
+  } else if (area >= 2560 * 1440) {
+    areaCap = 1.15;
+  } else if (area >= 1920 * 1080) {
+    areaCap = 1.35;
+  } else if (area >= 1600 * 900) {
+    areaCap = 1.5;
+  }
+
+  return Math.min(maxDpr, areaCap);
+}
+
 function isWeakDevice(prefersReduced) {
   if (prefersReduced) return true;
   if (typeof navigator === "undefined") return false;
@@ -309,9 +327,8 @@ export default function ColorBends({
     const minScale = prefersReduced ? Math.min(profile.minScale, 0.75) : profile.minScale;
     const maxScale = profile.maxScale;
     let renderScale = prefersReduced ? Math.min(profile.initialScale, 0.75) : profile.initialScale;
-    const baseDpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+    let baseDpr = Math.min(window.devicePixelRatio || 1, maxDpr);
     const applyDpr = () => renderer.setPixelRatio(Math.min(baseDpr * renderScale, 2));
-    applyDpr();
     const handleResize = () => {
       const w = container.clientWidth || 1;
       const h = container.clientHeight || 1;
@@ -325,6 +342,8 @@ export default function ColorBends({
         width: w,
         height: h
       };
+      baseDpr = Math.min(window.devicePixelRatio || 1, resolveViewportMaxDpr(maxDpr, w, h));
+      applyDpr();
       renderer.setSize(w, h, false);
       material.uniforms.uCanvas.value.set(w, h);
       if (!document.hidden) {

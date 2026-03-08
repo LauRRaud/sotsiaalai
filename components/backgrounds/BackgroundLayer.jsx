@@ -64,9 +64,24 @@ const BackgroundContent = memo(function BackgroundContent({
   const [colorBendsReady, setColorBendsReady] = useState(false);
   // Keep initial server/client render identical; compute real value after mount.
   const [mobileLike, setMobileLike] = useState(false);
+  const [wideViewport, setWideViewport] = useState(false);
   const allowParticles = true;
   const allowColorBends = true;
   const parallaxActive = !reduceMotion && !mobileLike;
+  const colorBendsProps = mobileLike
+    ? {
+        performanceMode: "performance",
+        maxDpr: 1.1
+      }
+    : wideViewport
+      ? {
+          performanceMode: "balanced",
+          maxDpr: 1.15
+        }
+      : {
+          performanceMode: "balanced",
+          maxDpr: 1.35
+        };
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -74,7 +89,10 @@ const BackgroundContent = memo(function BackgroundContent({
     const coarse = mql("(pointer: coarse)");
     const noHover = mql("(hover: none)");
     const small = mql("(max-width: 768px)");
-    const compute = () => setMobileLike(detectMobileLikeDevice());
+    const compute = () => {
+      setMobileLike(detectMobileLikeDevice());
+      setWideViewport(window.innerWidth >= 1440 || window.innerHeight >= 1100);
+    };
     compute();
     const attach = media => {
       if (!media) return () => {};
@@ -168,7 +186,7 @@ const BackgroundContent = memo(function BackgroundContent({
         {prefsHydrated && colorBendsReady && allowColorBends && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
-              <ColorBends performanceMode={mobileLike ? "performance" : "auto"} freeze={reduceMotion} />
+              <ColorBends {...colorBendsProps} freeze={reduceMotion} />
             </Suspense>
           </div>
         )}

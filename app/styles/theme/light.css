@@ -197,6 +197,9 @@
   --home-prose-color: var(--text-strong, #1f2937);
   --home-card-blur: 0.75rem;
   --home-card-saturate: 100%;
+  --home-card-surface-bg: rgba(255, 255, 255, 0.18);
+  --home-card-surface-blur: 1.2rem;
+  --home-card-surface-saturate: 104%;
   --home-card-light-opacity: 0.6;
   --home-card-dark-opacity: 0.8;
   --home-scroll-cue-color: #7a3a38;

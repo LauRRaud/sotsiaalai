@@ -27,6 +27,7 @@ const MOBILE_NAV_ITEMS = [
   { key: "invite", scale: 1.1 },
   { key: "profile", scale: 1.08 }
 ];
+const MOBILE_NAV_LEFT_KEYS = new Set(["chats", "sources"]);
 
 function MobileIconFrame({ scale = 1, children }) {
   return (
@@ -353,6 +354,71 @@ export default function ChatMobileTopNav({
     );
   };
 
+  const renderNavButton = item => {
+    const isDisabled =
+      item.key === "sources" ? !hasConversationSources : false;
+    const isActive = activeKey === item.key;
+    const setSourcesRef = element => {
+      itemButtonRefs.current[item.key] = element;
+      if (item.key !== "sources") return;
+      if (!sourcesButtonRef) return;
+      if (typeof sourcesButtonRef === "function") {
+        sourcesButtonRef(element);
+      } else {
+        sourcesButtonRef.current = element;
+      }
+    };
+
+    return (
+      <button
+        key={item.key}
+        ref={setSourcesRef}
+        type="button"
+        data-key={item.key}
+        aria-label={labels[item.key]}
+        aria-haspopup={item.key === "sources" ? "dialog" : undefined}
+        aria-expanded={
+          item.key === "sources"
+            ? showSourcesPanel
+              ? "true"
+              : "false"
+            : undefined
+        }
+        aria-controls={
+          item.key === "sources" ? "chat-sources-panel" : undefined
+        }
+        aria-disabled={isDisabled ? "true" : undefined}
+        onClick={event =>
+          armOrActivate(
+            item.key,
+            labels[item.key],
+            itemButtonRefs.current[item.key],
+            event,
+            evt => handleActivate(item.key, evt)
+          )
+        }
+        onKeyDown={event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            event.stopPropagation();
+            clearTooltip();
+            handleActivate(item.key, event);
+          }
+        }}
+        className={cn(
+          "shrink-0 inline-flex h-[clamp(2.62rem,10.8vw,3.02rem)] w-[clamp(2.62rem,10.8vw,3.02rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 touch-manipulation transition-[transform,opacity] duration-150 focus-visible:scale-[1.03] active:scale-[0.97]",
+          isActive ? "opacity-100" : null,
+          "opacity-100"
+        )}
+      >
+        {renderIcon(item)}
+      </button>
+    );
+  };
+
+  const leftNavItems = MOBILE_NAV_ITEMS.filter(item => MOBILE_NAV_LEFT_KEYS.has(item.key));
+  const rightNavItems = MOBILE_NAV_ITEMS.filter(item => !MOBILE_NAV_LEFT_KEYS.has(item.key));
+
   return (
     <div
       className={cn(
@@ -362,15 +428,10 @@ export default function ChatMobileTopNav({
     >
       <BackButton
         ref={backButtonRef}
-        onClick={event =>
-          armOrActivate(
-            "back",
-            labels.back,
-            backButtonRef.current,
-            event,
-            handleBackHome
-          )
-        }
+        onClick={event => {
+          clearTooltip();
+          handleBackHome?.(event);
+        }}
         onKeyDown={event => {
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
@@ -380,13 +441,8 @@ export default function ChatMobileTopNav({
           }
         }}
         ariaLabel={labels.back}
-        className={cn(
-          "shrink-0 !h-[clamp(2.9rem,12vw,3.3rem)] !w-[clamp(2.9rem,12vw,3.3rem)] rounded-full",
-          armedKey === "back"
-            ? "bg-white/6 shadow-[0_0_0_1px_rgba(255,255,255,0.12)]"
-            : null
-        )}
-        iconClassName="!h-[108%] !w-[108%]"
+        className="shrink-0 !h-[clamp(3.35rem,13.8vw,3.85rem)] !w-[clamp(3.35rem,13.8vw,3.85rem)] rounded-full"
+        iconClassName="!h-[122%] !w-[122%]"
       />
 
       {!mobileRailVisible ? (
@@ -394,15 +450,10 @@ export default function ChatMobileTopNav({
           <button
             type="button"
             ref={showButtonRef}
-            onClick={event =>
-              armOrActivate(
-                "show",
-                labels.show,
-                showButtonRef.current,
-                event,
-                showMobileRail
-              )
-            }
+            onClick={() => {
+              clearTooltip();
+              showMobileRail?.();
+            }}
             onKeyDown={event => {
               if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
@@ -413,12 +464,7 @@ export default function ChatMobileTopNav({
             }}
             disabled={mobileRailInteractionLocked}
             aria-label={labels.show}
-            className={cn(
-              "inline-flex h-[clamp(3.08rem,12.8vw,3.46rem)] w-[clamp(3.08rem,12.8vw,3.46rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] opacity-95 touch-manipulation transition-[transform,background-color,box-shadow,opacity] duration-150 focus-visible:bg-white/6 active:bg-white/10 focus-visible:scale-[1.03] active:scale-[0.97] disabled:opacity-55",
-              armedKey === "show"
-                ? "bg-white/6 shadow-[0_0_0_1px_rgba(255,255,255,0.12)]"
-                : null
-            )}
+            className="inline-flex h-[clamp(3.08rem,12.8vw,3.46rem)] w-[clamp(3.08rem,12.8vw,3.46rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] opacity-95 touch-manipulation transition-[transform,opacity] duration-150 focus-visible:scale-[1.03] active:scale-[0.97] disabled:opacity-55"
           >
             <ShowRailIcon
               isLightTheme={isLightTheme}
@@ -427,79 +473,19 @@ export default function ChatMobileTopNav({
           </button>
         </div>
       ) : (
-        <div className="min-w-0 flex-1 flex items-center justify-end gap-[clamp(0.14rem,0.9vw,0.38rem)] overflow-visible">
-          {MOBILE_NAV_ITEMS.map(item => {
-            const isDisabled =
-              item.key === "sources" ? !hasConversationSources : false;
-            const isActive = activeKey === item.key;
-            const setSourcesRef = element => {
-              itemButtonRefs.current[item.key] = element;
-              if (item.key !== "sources") return;
-              if (!sourcesButtonRef) return;
-              if (typeof sourcesButtonRef === "function") {
-                sourcesButtonRef(element);
-              } else {
-                sourcesButtonRef.current = element;
-              }
-            };
-
-            return (
-              <button
-                key={item.key}
-                ref={setSourcesRef}
-                type="button"
-                data-key={item.key}
-                aria-label={labels[item.key]}
-                aria-haspopup={item.key === "sources" ? "dialog" : undefined}
-                aria-expanded={
-                  item.key === "sources"
-                    ? showSourcesPanel
-                      ? "true"
-                      : "false"
-                    : undefined
-                }
-                aria-controls={
-                  item.key === "sources" ? "chat-sources-panel" : undefined
-                }
-                aria-disabled={isDisabled ? "true" : undefined}
-                onClick={event =>
-                  armOrActivate(
-                    item.key,
-                    labels[item.key],
-                    itemButtonRefs.current[item.key],
-                    event,
-                    evt => handleActivate(item.key, evt)
-                  )
-                }
-                onKeyDown={event => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    clearTooltip();
-                    handleActivate(item.key, event);
-                  }
-                }}
-                className={cn(
-                  "shrink-0 inline-flex h-[clamp(2.62rem,10.8vw,3.02rem)] w-[clamp(2.62rem,10.8vw,3.02rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 touch-manipulation transition-[transform,background-color,box-shadow,opacity] duration-150 focus-visible:bg-white/6 active:bg-white/10 focus-visible:scale-[1.03] active:scale-[0.97]",
-                  armedKey === item.key
-                    ? "bg-white/6 shadow-[0_0_0_1px_rgba(255,255,255,0.12)]"
-                    : null,
-                  isActive
-                    ? "bg-white/8 shadow-[0_0_0_1px_rgba(255,255,255,0.16)]"
-                    : null,
-                  "opacity-100"
-                )}
-              >
-                {renderIcon(item)}
-              </button>
-            );
-          })}
+        <div className="min-w-0 flex-1 flex items-center justify-between overflow-visible">
+          <div className="flex min-w-0 items-center gap-[clamp(0.14rem,0.9vw,0.38rem)] overflow-visible">
+            {leftNavItems.map(renderNavButton)}
+          </div>
+          <div className="flex min-w-0 items-center gap-[clamp(0.14rem,0.9vw,0.38rem)] overflow-visible">
+            {rightNavItems.map(renderNavButton)}
+          </div>
         </div>
       )}
       {isMounted && tooltipState && typeof document !== "undefined"
         ? createPortal(
             <div
-              className="pointer-events-none fixed z-[160] rounded-[0.72rem] border-0 bg-[rgb(16,19,26)] px-[0.66rem] py-[0.3rem] text-[0.84rem] font-medium tracking-[0.04em] text-[#c57171] opacity-[0.98] shadow-none light:bg-[rgb(253,253,253)] light:text-[#7a3a38]"
+              className="pointer-events-none fixed z-[160] rounded-[0.72rem] border-0 bg-[rgb(16,19,26)] px-[0.85rem] py-[0.42rem] text-[1.68rem] leading-[1.05] font-medium tracking-[0.03em] text-[#c57171] opacity-[0.98] shadow-none light:bg-[rgb(253,253,253)] light:text-[#7a3a38]"
               style={{
                 left: tooltipState.left,
                 top: tooltipState.top,

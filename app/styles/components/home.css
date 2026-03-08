@@ -44,6 +44,12 @@
   --home-card-blur-scale: 1;
 }
 
+:root:not(.theme-light) .homepage-root .three-d-card.right .card-blur-layer {
+  --home-card-blur: 0.28rem;
+  --home-card-blur-inset: 2px;
+  --home-card-blur-radius: 48.9%;
+}
+
 .homepage-root .home-card-pattern-layer {
   position: absolute;
   inset: 0;

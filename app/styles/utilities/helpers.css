@@ -1079,6 +1079,45 @@ html[data-contrast="hc"] {
   transition: bottom 520ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
+@media (min-width: 769px) {
+  /* Short, strong bottom arc fade directly on the ring edge. */
+  .glass-policy-expand-shape {
+    isolation: isolate;
+  }
+
+  .glass-policy-expand-shape::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(-0.2rem, -0.4vh, -0.08rem);
+    height: clamp(2rem, 3.8vh, 2.9rem);
+    pointer-events: none;
+    z-index: 5;
+    background: linear-gradient(
+      to top,
+      rgba(var(--policy-bottom-fade-rgb), 1) 0%,
+      rgba(var(--policy-bottom-fade-rgb), 0.98) 28%,
+      rgba(var(--policy-bottom-fade-rgb), 0.84) 52%,
+      rgba(var(--policy-bottom-fade-rgb), 0.42) 78%,
+      rgba(var(--policy-bottom-fade-rgb), 0) 100%
+    );
+  }
+
+  .glass-policy-expand-shape.glass-ring-expandable--open::before {
+    bottom: clamp(-0.16rem, -0.3vh, -0.06rem);
+    height: clamp(1.8rem, 3.4vh, 2.6rem);
+    background: linear-gradient(
+      to top,
+      rgba(var(--policy-bottom-fade-rgb), 1) 0%,
+      rgba(var(--policy-bottom-fade-rgb), 0.98) 30%,
+      rgba(var(--policy-bottom-fade-rgb), 0.86) 54%,
+      rgba(var(--policy-bottom-fade-rgb), 0.44) 80%,
+      rgba(var(--policy-bottom-fade-rgb), 0) 100%
+    );
+  }
+}
+
 .glass-ring-expand-toggle:hover,
 .glass-ring-expand-toggle:focus-visible {
   opacity: 1;
@@ -1400,7 +1439,7 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
 
 }
 
-/* Policy fade is mask-based; disabling color overlays avoids theme tint seams. */
+/* Policy fade is mask-based; keep content overlays disabled to avoid long fades over text. */
 .guide-policy-content.glass-ring-content::after,
 .policy-page-content.glass-ring-content::after {
   content: none !important;

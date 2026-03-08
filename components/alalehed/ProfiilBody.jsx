@@ -88,16 +88,16 @@ const orbitWrapperClassName =
   "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
-const bottomRoleToggleWrapClassName =
-  "relative z-[4] flex w-full justify-center mt-[clamp(0.7rem,1.8vh,1.3rem)] " +
-  "mb-[clamp(3.2rem,8vh,4.9rem)] min-[48.0625em]:hidden max-[48em]:mt-[clamp(0.5rem,2.4vw,0.95rem)] " +
-  "max-[48em]:mb-[calc(env(safe-area-inset-bottom,0px)+4.8rem)]";
 const orbitRoleToggleWrapClassName =
   "absolute left-1/2 top-[calc(50%+clamp(6.15rem,24vw,7.45rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
   "-translate-x-1/2 z-[6] pointer-events-auto max-[48em]:hidden";
 const orbitRoleToggleButtonClassName =
   "whitespace-normal text-center leading-[1.16] px-[1.22rem] py-[0.76rem] text-[1.02rem] min-h-[2.7rem] " +
   "max-[48em]:!min-h-[3rem] max-[48em]:!px-[1.35rem] max-[48em]:!py-[0.8rem] max-[48em]:!text-[1.14rem]";
+const profileMobileActionStackClassName =
+  "profile-mobile-action-stack absolute left-1/2 z-[95] flex -translate-x-1/2 flex-col items-center gap-[clamp(0.7rem,3vw,1rem)] pointer-events-auto min-[48.0625em]:hidden";
+const profileMobileRoleToggleButtonClassName =
+  `${orbitRoleToggleButtonClassName} !w-[min(19.5rem,calc(100vw-2.4rem))] justify-center`;
 const logoutButtonClassName =
   "group relative grid place-items-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
 const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
@@ -125,9 +125,9 @@ const modalInputWrapClassName = "flex w-full justify-center";
 const modalInputClassName =
   "w-full max-w-[22rem] rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.15rem] py-[0.9rem] px-[1.35rem] min-h-[3.45rem]";
 const accountModalOverlayClassName =
-  "invite-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
+  "invite-modal-overlay account-settings-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
 const accountModalContentClassName =
-  "invite-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain " +
+  "invite-modal-content account-settings-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain " +
   "pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] " +
   "max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] [--input-text:var(--glass-modal-text)]";
 const accountModalHeadClassName =
@@ -138,7 +138,7 @@ const accountModalBackButtonClassName =
   "[&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] " +
   "max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)]";
 const accountModalTitleWrapClassName =
-  "grid max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center";
+  "grid max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:w-full max-[768px]:max-w-none max-[768px]:px-[clamp(0.35rem,1.8vw,0.85rem)]";
 const accountModalTitleClassName =
   `${glassPageTitleClassName} !mb-0 max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`;
 const accountModalDescriptionClassName =
@@ -1000,7 +1000,28 @@ export default function ProfiilBody({
       {!orbitOpen && (
         <div className={profileNavOverlayClassName}>
           <BackButton onClick={handleBack} ariaLabel={t("profile.back_to_chat")} className={cn(profileBackButtonClassName, "pointer-events-auto")} />
-          <div className={profileLogoutWrapClassName}>
+          <div className={cn(profileLogoutWrapClassName, "max-[48em]:hidden")}>
+            <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
+              <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
+              <span className={logoutLabelClassName}>{t("profile.logout_short")}</span>
+              <span className="sr-only">{t("profile.logout")}</span>
+            </button>
+          </div>
+          <div className={profileMobileActionStackClassName}>
+            {isAdminUser ? (
+              <Button
+                variant="primary"
+                className={profileMobileRoleToggleButtonClassName}
+                onClick={() => {
+                  void handleAdminViewRoleChange(nextPreviewRole);
+                }}
+                disabled={roleSwitching}
+                aria-label={nextPreviewRoleLabel}
+              >
+                <RoleToggleDockIcon className="h-[1.42rem] w-[1.42rem] shrink-0" />
+                <span>{nextPreviewRoleLabel}</span>
+              </Button>
+            ) : null}
             <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
               <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
               <span className={logoutLabelClassName}>{t("profile.logout_short")}</span>
@@ -1016,23 +1037,6 @@ export default function ProfiilBody({
             {error}
           </div>}
       </div>
-
-      {isAdminUser && !orbitOpen ? (
-        <div className={bottomRoleToggleWrapClassName}>
-          <Button
-            variant="primary"
-            className={orbitRoleToggleButtonClassName}
-            onClick={() => {
-              void handleAdminViewRoleChange(nextPreviewRole);
-            }}
-            disabled={roleSwitching}
-            aria-label={nextPreviewRoleLabel}
-          >
-            <RoleToggleDockIcon className="h-[1.42rem] w-[1.42rem] shrink-0" />
-            <span>{nextPreviewRoleLabel}</span>
-          </Button>
-        </div>
-      ) : null}
 
       {showAccountSettings ? (
         <Modal

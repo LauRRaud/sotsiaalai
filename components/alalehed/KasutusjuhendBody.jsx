@@ -21,7 +21,7 @@ import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
 import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
-const titleClassName = glassPageTitleClassName;
+const titleClassName = cn(glassPageTitleClassName, "max-[768px]:translate-y-[0.32rem]");
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "before_use", "quickstart"];

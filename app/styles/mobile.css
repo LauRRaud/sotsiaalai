@@ -534,6 +534,16 @@
 }
 
 @media (max-width: 768px) {
+  .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
+    position: absolute !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: clamp(6.6rem, 30vw, 8.2rem) !important;
+    transform: translateX(-50%) !important;
+    z-index: 95 !important;
+  }
+
   .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     position: absolute !important;
     left: 50% !important;
@@ -560,7 +570,9 @@
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
-  body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack,
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.75rem, 3.8vw, 1.35rem)) !important;
   }
 
@@ -594,7 +606,9 @@
   }
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
-  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
     top: auto !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
     transform: translateX(-50%) !important;
@@ -603,7 +617,8 @@
 
 @media (max-width: 768px) and (display-mode: standalone),
   (max-width: 768px) and (display-mode: fullscreen) {
-  .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
+  .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
+  .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
     top: auto !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
     transform: translateX(-50%) !important;
@@ -752,6 +767,52 @@
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.8rem) !important;
     padding-left: clamp(0.05rem, 1vw, 0.3rem) !important;
     padding-right: clamp(0.05rem, 1vw, 0.3rem) !important;
+  }
+
+  .account-settings-modal-content {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: 0 !important;
+    background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    padding-top: 0.75rem !important;
+    padding-right: clamp(0.8rem, 3vw, 1rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem) !important;
+    padding-left: clamp(0.8rem, 3vw, 1rem) !important;
+  }
+
+  .account-settings-modal-content .invite-modal-scroll {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .person-invite-modal-content {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: 0 !important;
+    background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    padding-top: 0.75rem !important;
+    padding-right: clamp(0.8rem, 3vw, 1rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem) !important;
+    padding-left: clamp(0.8rem, 3vw, 1rem) !important;
+  }
+
+  .person-invite-modal-content .invite-modal-scroll {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .drawer-overlay {
