@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
+import AppLink from "@/components/ui/Link";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
+import InstallAppLink from "@/components/pwa/InstallAppLink";
+import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
@@ -15,14 +18,14 @@ import { localizePath } from "@/lib/localizePath";
 import { localizeInternalHtmlLinks } from "@/lib/localizeHtmlLinks";
 import { getFooterNote } from "@/lib/footerNote";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
-import { etGuideContent } from "@/components/alalehed/guideContentEt";
 import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
 import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "profile", "about", "quickstart"];
+const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "before_use", "quickstart"];
+const guideLinkClassName = cn("inline-flex items-center justify-center text-center", linkBrandInlineClass);
 export default function KasutusjuhendBody() {
   const [expanded, setExpanded] = useState(false);
   const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(false);
@@ -65,13 +68,7 @@ export default function KasutusjuhendBody() {
       openA11y();
     }
   };
-  const guideContent = locale === "et" ? {
-    intro: etGuideContent.intro,
-    sections: etGuideContent.sections.map(section => ({
-      ...section,
-      body: localizeInternalHtmlLinks(section.body, locale)
-    }))
-  } : {
+  const guideContent = {
     intro: t("about.guide.intro"),
     sections: SECTION_KEYS.map(key => ({
       key,
@@ -90,6 +87,17 @@ export default function KasutusjuhendBody() {
     }
     pushWithTransition(router, localizePath("/", locale), {
       glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  };
+  const openGlassPage = (event, pathname) => {
+    if (event.defaultPrevented) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (event.button !== 0) return;
+    event.preventDefault();
+    pushWithTransition(router, localizePath(pathname, locale), {
+      glassRingTilt: "right",
       waitForGlassRingTilt: true,
       persistGlassRingTilt: false
     });
@@ -141,6 +149,29 @@ export default function KasutusjuhendBody() {
               }} />
                 </article>)}
             </div>
+            <section className={cn(policySectionClassName, "mt-[1.1rem] max-[768px]:mt-[0.9rem]")}>
+              <h2 className={policySectionHeadingClassName}>{t("about.cta.title")}</h2>
+              <ul className={cn(policySectionBodyClassName, "list-none p-0 m-0 flex flex-wrap gap-x-[1rem] gap-y-[0.45rem] justify-center text-center")}>
+                <li>
+                  <AppLink href="/kasutusjuhend" onClick={event => openGlassPage(event, "/kasutusjuhend")} className={guideLinkClassName}>
+                    {t("about.guide.jump_link")}
+                  </AppLink>
+                </li>
+                <li>
+                  <AppLink href="/kasutustingimused" onClick={event => openGlassPage(event, "/kasutustingimused")} className={guideLinkClassName}>
+                    {t("about.links.terms")}
+                  </AppLink>
+                </li>
+                <li>
+                  <AppLink href="/privaatsustingimused" onClick={event => openGlassPage(event, "/privaatsustingimused")} className={guideLinkClassName}>
+                    {t("about.links.privacy")}
+                  </AppLink>
+                </li>
+                <li>
+                  <InstallAppLink variant="row" className={guideLinkClassName} />
+                </li>
+              </ul>
+            </section>
             <footer className={cn(
               "text-center text-[1.32rem] max-[768px]:text-[1.38rem] text-[#d7cfd3] light:text-[#4a413a]",
               isExpandedLayout

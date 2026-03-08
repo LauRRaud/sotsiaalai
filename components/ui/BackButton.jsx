@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/components/ui/cn";
 import BackIcon from "@/components/ui/icons/BackIcon";
 
@@ -17,7 +17,7 @@ const iconClassName =
   "ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] " +
   "group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 
-export default function BackButton({
+const BackButton = forwardRef(function BackButton({
   onClick,
   ariaLabel,
   className,
@@ -26,7 +26,7 @@ export default function BackButton({
   onPointerDown,
   onKeyDown,
   ...props
-}) {
+}, ref) {
   const [isRouteTilting, setIsRouteTilting] = useState(false);
   const [isPressLocked, setIsPressLocked] = useState(false);
   const pressLockTimerRef = useRef(null);
@@ -89,6 +89,7 @@ export default function BackButton({
 
   return (
     <button
+      ref={ref}
       type="button"
       onClick={handleClick}
       onPointerDown={handlePointerDown}
@@ -108,4 +109,8 @@ export default function BackButton({
       />
     </button>
   );
-}
+});
+
+BackButton.displayName = "BackButton";
+
+export default BackButton;

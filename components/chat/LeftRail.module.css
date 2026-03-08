@@ -107,10 +107,10 @@
   line-height: 0;
 }
 
-.iconBtn:hover img,
-.iconBtn:hover svg,
-.iconBtn:focus-visible img,
-.iconBtn:focus-visible svg {
+.iconBtn:hover img:not(.iconBack),
+.iconBtn:hover svg:not(.iconBack),
+.iconBtn:focus-visible img:not(.iconBack),
+.iconBtn:focus-visible svg:not(.iconBack) {
   transform: none !important;
   filter: none !important;
 }
@@ -157,11 +157,17 @@
 
 .iconBtn:hover .iconBack,
 .iconBtn:focus-visible .iconBack {
-  transform: translateY(-0.1rem) scale(1.06) !important;
+  transform: translateY(-0.1rem) scale(1.1) !important;
 }
 
 .iconBtn:active .iconBack {
   transform: translateY(-0.1rem) scale(0.98) !important;
+}
+
+.backHoverSuppressed:hover .iconBack,
+.backHoverSuppressed:focus-visible .iconBack,
+.backHoverSuppressed:active .iconBack {
+  transform: translateY(-0.1rem) scale(1) !important;
 }
 
 .iconBack :global(.back-icon-arrow),

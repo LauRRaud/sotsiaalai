@@ -142,6 +142,8 @@ const AUDIENCE_VALUES = ["SOCIAL_WORKER", "CLIENT", "BOTH"];
 const DEFAULT_POLL_MS = 15000;
 const POLL_MS = Number(process.env.NEXT_PUBLIC_RAG_POLL_MS || DEFAULT_POLL_MS);
 const PAGE_SIZE = 25;
+const DOCS_FETCH_LIMIT = 100;
+const MAX_DOCS_FETCH_PAGES = 50;
 const META_TEMPLATES = [
   { key: "base", labelKey: "admin.rag.meta.templates.base", file: "/rag-meta-templates/base.json" },
   { key: "periodical", labelKey: "admin.rag.meta.templates.periodical", file: "/rag-meta-templates/periodical.json" },
@@ -258,6 +260,7 @@ const formatDateTime = (value, localeTag = "en-US") => {
 };
 const deriveStatus = doc => doc && doc.status ? doc.status : "COMPLETED";
 const deriveSyncedAt = doc => doc?.insertedAt || doc?.lastIngested || doc?.updatedAt || doc?.createdAt || null;
+const deriveDocType = doc => normalizeUpper(doc?.type || doc?.source_type || "");
 const formatPdfRange = doc => {
   const start = doc?.pdf_start_page;
   const end = doc?.pdf_end_page;
@@ -423,20 +426,26 @@ export default function RagAdminPanel() {
     fetchAbortRef.current = ac;
     setLoadingList(true);
     try {
-      const res = await fetch("/api/rag/documents?limit=200", {
-        cache: "no-store",
-        signal: ac.signal
-      });
-      const raw = await res.text();
-      let data = null;
-      try {
-        data = raw ? JSON.parse(raw) : null;
-      } catch {
-        throw new Error(tr("admin.rag.errors.invalid_documents_json"));
+      const allDocs = [];
+      for (let pageIndex = 0; pageIndex < MAX_DOCS_FETCH_PAGES; pageIndex += 1) {
+        const offset = pageIndex * DOCS_FETCH_LIMIT;
+        const res = await fetch(`/api/rag/documents?limit=${DOCS_FETCH_LIMIT}&offset=${offset}`, {
+          cache: "no-store",
+          signal: ac.signal
+        });
+        const raw = await res.text();
+        let data = null;
+        try {
+          data = raw ? JSON.parse(raw) : null;
+        } catch {
+          throw new Error(tr("admin.rag.errors.invalid_documents_json"));
+        }
+        if (!res.ok) throw new Error(resolveErrorText(data, "admin.rag.errors.documents_load_failed"));
+        const list = Array.isArray(data) ? data : Array.isArray(data?.documents) ? data.documents : Array.isArray(data?.docs) ? data.docs : [];
+        allDocs.push(...list);
+        if (list.length < DOCS_FETCH_LIMIT) break;
       }
-      if (!res.ok) throw new Error(resolveErrorText(data, "admin.rag.errors.documents_load_failed"));
-      const list = Array.isArray(data) ? data : Array.isArray(data?.documents) ? data.documents : Array.isArray(data?.docs) ? data.docs : [];
-      setDocs(list);
+      setDocs(allDocs);
     } catch (err) {
       if (err?.name !== "AbortError") showError(err?.message || tr("admin.rag.errors.documents_load_failed"));
     } finally {
@@ -904,6 +913,7 @@ export default function RagAdminPanel() {
   }, [visibleDocs]);
   const openDetail = useCallback(doc => {
     if (!doc) return;
+    if (deriveDocType(doc) !== "FILE") return;
     setDetailDoc(doc);
     setDetailForm({
       title: doc.title || "",
@@ -925,6 +935,10 @@ export default function RagAdminPanel() {
   const closeDetail = useCallback(() => setDetailDoc(null), []);
   const saveDetail = useCallback(async () => {
     if (!detailDoc) return;
+    if (deriveDocType(detailDoc) !== "FILE") {
+      showError(tr("admin.rag.errors.meta_update_failed"));
+      return;
+    }
     resetMessage();
     const payload = {
       title: detailForm.title?.trim() || null,
@@ -1010,8 +1024,16 @@ export default function RagAdminPanel() {
         {extra > 0 ? <span className={`${badgeBaseClassName} ${badgeGhostClassName}`}>+{extra}</span> : null}
       </div>;
   };
+  const canEditDocMeta = useCallback(doc => deriveDocType(doc) === "FILE", []);
+  const canViewSource = useCallback(doc => {
+    const docType = deriveDocType(doc);
+    if (docType === "FILE") return Boolean(doc?.id);
+    if (docType === "URL") return Boolean(doc?.url || doc?.source_url);
+    return false;
+  }, []);
   const viewSource = doc => {
-    const href = doc?.source_path || doc?.source_url || doc?.url;
+    const docType = deriveDocType(doc);
+    const href = docType === "FILE" ? `/api/rag/documents/${encodeURIComponent(doc?.id || "")}/source` : doc?.url || doc?.source_url;
     if (!href) return;
     window.open(href, "_blank", "noopener,noreferrer");
   };
@@ -1286,6 +1308,7 @@ export default function RagAdminPanel() {
               const syncedAt = deriveSyncedAt(doc);
               const isSelected = selectedIds.has(doc.id);
               const isActive = doc.id === previewId;
+              const docType = deriveDocType(doc);
               return <div key={doc.id || doc._idx} className={`${docItemBaseClassName}${isActive ? " " + docItemActiveClassName : ""}`} role="button" tabIndex={0} aria-pressed={isActive} onClick={() => setPreviewId(doc.id)} onKeyDown={e => {
                 if (e.target !== e.currentTarget) return;
                 if (e.key === "Enter" || e.key === " ") {
@@ -1304,6 +1327,7 @@ export default function RagAdminPanel() {
                         <span className={STATUS_CLASSES[status] || badgeBaseClassName}>
                           {statusLabels[status] || status}
                         </span>
+                        {docType ? <span className={docItemMetaPillClassName}>{docType}</span> : null}
                         {doc.section ? <span className={docItemMetaPillClassName}>{doc.section}</span> : null}
                         {doc.year ? <span className={docItemMetaPillClassName}>{doc.year}</span> : null}
                         {doc.issueLabel ? <span className={docItemMetaPillClassName}>{tr("admin.rag.documents.issue_label", { issue: doc.issueLabel })}</span> : null}
@@ -1323,8 +1347,10 @@ export default function RagAdminPanel() {
               const status = deriveStatus(previewDoc);
               const syncedAt = deriveSyncedAt(previewDoc);
               const pageLabel = previewDoc.pageRange || formatPdfRange(previewDoc) || "-";
-              const source = previewDoc.source_path || previewDoc.source_url || previewDoc.url || "";
-              const typeLabel = (previewDoc.source_type || previewDoc.type || "").toString().toUpperCase();
+              const source = previewDoc.url || previewDoc.source_url || previewDoc.source_path || "";
+              const typeLabel = deriveDocType(previewDoc);
+              const canEdit = canEditDocMeta(previewDoc);
+              const canView = canViewSource(previewDoc);
               return <div className={docDetailClassName}>
                       <div className={docDetailTopClassName}>
                         <div>
@@ -1442,7 +1468,7 @@ export default function RagAdminPanel() {
                           </span>
                         </div> : null}
                       <div className={docDetailActionsClassName}>
-                        <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => openDetail(previewDoc)}>
+                        <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => openDetail(previewDoc)} disabled={!canEdit}>
                           {tr("admin.rag.actions.edit")}
                         </Button>
                         <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => handleReindex(previewDoc.id)} disabled={reindexingId === previewDoc.id}>
@@ -1451,7 +1477,7 @@ export default function RagAdminPanel() {
                         <Button variant="danger" className={`${buttonBaseClassName} ${buttonDangerClassName} ${buttonCompactClassName}`} onClick={() => handleDelete(previewDoc.id)} disabled={deletingId === previewDoc.id}>
                           {deletingId === previewDoc.id ? tr("admin.rag.actions.deleting") : tr("admin.rag.actions.delete")}
                         </Button>
-                        <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => viewSource(previewDoc)} disabled={!previewDoc.source_path && !previewDoc.url}>
+                        <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => viewSource(previewDoc)} disabled={!canView}>
                           {tr("admin.rag.actions.view")}
                         </Button>
                       </div>

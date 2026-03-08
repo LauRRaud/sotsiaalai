@@ -22,6 +22,8 @@ const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-
 const homeLikeOtpLinkClassName = `${linkBrandInlineClass} home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.12rem,1.55vw,1.28rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]`;
 const helpPopoverLinkClassName = `${linkBrandInlineClass} mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap [--link-brand-shadow-hover:transparent]`;
 const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const otpTextClassName = "text-[#ece8e2] [.theme-night_&]:text-[#e8eef9] [.theme-mid_&]:text-[#4a3833] [.theme-light:not(.theme-mid)_&]:text-[#1f2937]";
+const otpInfoTextClassName = "text-[#f2eee8] [.theme-night_&]:text-[#f3f7ff] [.theme-mid_&]:text-[#3f2f2b] [.theme-light:not(.theme-mid)_&]:text-[#111827]";
 const MODAL_FOCUSABLE_SELECTOR = [
   "a[href]",
   "button:not([disabled])",
@@ -1003,7 +1005,6 @@ export default function LoginModal({
   }, [prefs?.reduceMotion]);
   if (!open) return null;
   const isMidTheme = prefs?.theme === "mid";
-  const isNightTheme = prefs?.theme === "night";
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
   const helpPopoverLinkStyle = isMidTheme
     ? {
@@ -1038,20 +1039,6 @@ export default function LoginModal({
     : "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.16) 100%)";
   const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.14" : "0.42" : "0.2";
   const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.1" : "0.26" : "0.18";
-  const otpTextColor = isLightTheme
-    ? isMidTheme
-      ? "#4a3833"
-      : "#1f2937"
-    : isNightTheme
-      ? "#e8eef9"
-      : "#ece8e2";
-  const otpInfoTextColor = isLightTheme
-    ? isMidTheme
-      ? "#3f2f2b"
-      : "#111827"
-    : isNightTheme
-      ? "#f3f7ff"
-      : "#f2eee8";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
   const currentEmailValue = String(
     (emailRevealed ? emailInputRef.current?.value : "") ||
@@ -1357,12 +1344,8 @@ export default function LoginModal({
         e.preventDefault();
         submitOtpStep();
       }}>
-            <div className="w-full max-w-[23.6rem] flex flex-col gap-[0.48rem]" style={{
-          color: otpTextColor
-        }}>
-                {info && <p role="status" className="m-0 font-semibold text-[1.04rem]" style={{
-              color: otpInfoTextColor
-            }}>
+            <div className={`w-full max-w-[23.6rem] flex flex-col gap-[0.48rem] ${otpTextClassName}`}>
+                {info && <p role="status" className={`m-0 font-semibold text-[1.04rem] ${otpInfoTextClassName}`}>
                     {info}
                   </p>}
                 <p className="m-0 leading-[1.45] text-[1rem] max-md:text-[1.04rem] [overflow-wrap:normal] [word-break:normal] hyphens-none">
@@ -1370,9 +1353,7 @@ export default function LoginModal({
                 email: emailMask || ""
               })}
                 </p>
-                {otpDeadlineLabel && <p className="mt-[0.22rem] translate-y-[0.32rem] w-full text-center font-medium tracking-[0.01em] text-[1.04rem]" id="otp-deadline" style={{
-              color: otpTextColor
-            }}>
+                {otpDeadlineLabel && <p className="mt-[0.22rem] translate-y-[0.32rem] w-full text-center font-medium tracking-[0.01em] text-[1.04rem]" id="otp-deadline">
                     {t("auth.login.otp_expires", {
                 time: otpDeadlineLabel
               })}

@@ -413,7 +413,7 @@ export default function RegistreerimineBody({
                 {error && <div role="alert" className="w-full rounded-[0.95rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fca5a5] text-[1.12rem] leading-[1.4]">
                     {error}
                   </div>}
-                {successMessage && <div role="status" className="w-full rounded-[1.02rem] border border-[rgba(52,211,153,0.45)] bg-[linear-gradient(145deg,rgba(6,78,59,0.58)_0%,rgba(6,95,70,0.4)_56%,rgba(16,185,129,0.24)_100%)] px-[1rem] py-[0.9rem] text-[color:#d1fae5] text-[1.2rem] max-[768px]:text-[1.34rem] leading-[1.38] font-medium shadow-[0_12px_22px_rgba(4,42,30,0.28)] light:border-[rgba(16,185,129,0.44)] light:bg-[linear-gradient(135deg,rgba(236,253,245,0.96)_0%,rgba(209,250,229,0.9)_56%,rgba(167,243,208,0.72)_100%)] light:text-[color:#065f46] light:shadow-[0_10px_18px_rgba(6,95,70,0.14)]">
+                {successMessage && <div role="status" className="auth-success-panel w-full rounded-[1.02rem] px-[1rem] py-[0.9rem] text-[1.2rem] max-[768px]:text-[1.34rem] leading-[1.38] font-medium">
                     {successMessage}
                   </div>}
                 {submitting ? <div className="flex justify-center py-[0.12rem]" role="status" aria-live="polite" aria-atomic="true">

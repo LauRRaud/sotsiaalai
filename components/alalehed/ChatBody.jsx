@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -29,6 +29,8 @@ import ChatBodyView from "./chat/ChatBodyView";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { isActiveDocumentWorkflowState } from "@/lib/chat/documentWorkflowState";
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 const MOBILE_KEYBOARD_OPEN_THRESHOLD = 88;
 const MOBILE_KEYBOARD_CLOSE_THRESHOLD = 56;
 const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
@@ -103,6 +105,7 @@ export default function ChatBody({
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [layoutTransitionsReady, setLayoutTransitionsReady] = useState(false);
   const deepResearchHintMessageIdRef = useRef(null);
   const {
     isRoomMode,
@@ -125,8 +128,15 @@ export default function ChatBody({
   useEffect(() => {
     clearStaleScrollLock();
   }, []);
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setHasHydrated(true);
+  }, []);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const rafId = window.requestAnimationFrame(() => {
+      setLayoutTransitionsReady(true);
+    });
+    return () => window.cancelAnimationFrame(rafId);
   }, []);
   useEffect(() => {
     const node = chatContainerRef.current;
@@ -1278,10 +1288,12 @@ export default function ChatBody({
         "min-[768px]:min-w-[var(--chat-diameter)] min-[768px]:min-h-[var(--chat-diameter)] " +
         "min-[768px]:max-w-[var(--chat-diameter)] min-[768px]:max-h-[var(--chat-diameter)] " +
         "min-[768px]:flex-[0_0_auto] min-[768px]:self-center min-[768px]:aspect-square min-[768px]:rounded-full " +
-        "min-[768px]:[transition:border-top-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-top-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),width_400ms_cubic-bezier(0.22,0.61,0.36,1),min-width_400ms_cubic-bezier(0.22,0.61,0.36,1),max-width_400ms_cubic-bezier(0.22,0.61,0.36,1),height_400ms_cubic-bezier(0.22,0.61,0.36,1),min-height_400ms_cubic-bezier(0.22,0.61,0.36,1),max-height_400ms_cubic-bezier(0.22,0.61,0.36,1),inline-size_400ms_cubic-bezier(0.22,0.61,0.36,1),block-size_400ms_cubic-bezier(0.22,0.61,0.36,1),transform_400ms_cubic-bezier(0.22,0.61,0.36,1)] " +
         "min-[768px]:[&_.chat-left-actions]:left-[max(0px,calc(var(--hud-edge-left)+0.2rem))] " +
         "min-[768px]:[&_.top-nav--chat]:left-[max(0px,calc(var(--hud-edge-left)+0.9rem))] " +
         "min-[768px]:[&_.chat-right-actions]:right-[max(0px,calc(var(--hud-edge-right)+0.2rem))]",
+      layoutTransitionsReady
+        ? "min-[768px]:[transition:border-top-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-top-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),width_400ms_cubic-bezier(0.22,0.61,0.36,1),min-width_400ms_cubic-bezier(0.22,0.61,0.36,1),max-width_400ms_cubic-bezier(0.22,0.61,0.36,1),height_400ms_cubic-bezier(0.22,0.61,0.36,1),min-height_400ms_cubic-bezier(0.22,0.61,0.36,1),max-height_400ms_cubic-bezier(0.22,0.61,0.36,1),inline-size_400ms_cubic-bezier(0.22,0.61,0.36,1),block-size_400ms_cubic-bezier(0.22,0.61,0.36,1),transform_400ms_cubic-bezier(0.22,0.61,0.36,1)]"
+        : null,
       focusActive
         ? "chat-container--input-focus"
         : null,

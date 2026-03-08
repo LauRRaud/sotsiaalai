@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 
 import { authConfig } from "@/auth";
 import { assertAdmin } from "@/lib/authz";
-import { getAnalyzeLimit, utcDayStart } from "@/lib/analyzeQuota";
+import { getAnalyzeLimitDetails, utcDayStart } from "@/lib/analyzeQuota";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
@@ -12,7 +12,8 @@ import {
   COST_CHAT_REQUEST_EUR,
   COST_RAG_SEARCH_EUR,
   COST_STT_PER_AUDIO_MB_EUR,
-  COST_TTS_PER_1K_CHARS_EUR
+  COST_TTS_PER_1K_CHARS_EUR,
+  getMonthlyCostBudgetForRole
 } from "@/lib/usageBudget";
 
 export const runtime = "nodejs";
@@ -187,6 +188,7 @@ export async function GET(req) {
     const periodDays = Math.min(MAX_PERIOD_DAYS, Math.max(1, Number.isFinite(daysRaw) ? daysRaw : DEFAULT_PERIOD_DAYS));
     const since = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000);
     const sinceDay = utcDayStart(since);
+    const todayDay = utcDayStart(now);
 
     const userWhere = q
       ? {
@@ -219,7 +221,9 @@ export async function GET(req) {
         items: [],
         totals: {
           estimatedCostEur: 0,
-          paidAmountEur: 0
+          paidAmountEur: 0,
+          budgetCapacityEur: 0,
+          nearLimitUsersCount: 0
         },
         costModel: {
           chatRequestEur: COST_CHAT_REQUEST_EUR,
@@ -264,13 +268,16 @@ export async function GET(req) {
           data: true
         }
       }),
-      prisma.analyzeUsage.groupBy({
-        by: ["userId"],
+      prisma.analyzeUsage.findMany({
         where: {
           userId: { in: userIds },
           day: { gte: sinceDay }
         },
-        _sum: { count: true }
+        select: {
+          userId: true,
+          day: true,
+          count: true
+        }
       }),
       prisma.subscription.findMany({
         where: { userId: { in: userIds } },
@@ -328,10 +335,25 @@ export async function GET(req) {
       }
     }
 
+    const analyzeUsageByUser = Object.fromEntries(
+      userIds.map(userId => [
+        userId,
+        {
+          total30d: 0,
+          today: 0
+        }
+      ])
+    );
+
     for (const row of analyzeRows) {
       const userId = row?.userId;
-      if (!userId || !usageByUser[userId]) continue;
-      usageByUser[userId].analyses = Number(row?._sum?.count || 0);
+      if (!userId || !analyzeUsageByUser[userId]) continue;
+
+      const count = Number(row?.count || 0);
+      analyzeUsageByUser[userId].total30d += count;
+      if (row?.day instanceof Date && row.day.getTime() === todayDay.getTime()) {
+        analyzeUsageByUser[userId].today += count;
+      }
     }
 
     const latestSubscriptionByUser = {};
@@ -348,11 +370,15 @@ export async function GET(req) {
 
     let totalEstimatedCost = 0;
     let totalPaidAmount = 0;
+    let totalBudgetCapacity = 0;
+    let nearLimitUsersCount = 0;
 
     const items = users.map(user => {
       const usage = usageByUser[user.id] || buildUsageSeed();
+      const analyzeUsage = analyzeUsageByUser[user.id] || { total30d: 0, today: 0 };
       const latestSubscription = latestSubscriptionByUser[user.id] || null;
       const sttAudioMb = usage.sttAudioBytes > 0 ? usage.sttAudioBytes / (1024 * 1024) : 0;
+      const analyzeLimit = getAnalyzeLimitDetails(String(user.role || "CLIENT").toUpperCase(), !!user.isAdmin);
 
       const chatCost = usage.chatRequests * COST_CHAT_REQUEST_EUR;
       const ragCost = usage.ragSearches * COST_RAG_SEARCH_EUR;
@@ -360,12 +386,18 @@ export async function GET(req) {
       const ttsCost = (usage.ttsChars / 1000) * COST_TTS_PER_1K_CHARS_EUR;
       const totalCost = chatCost + ragCost + sttCost + ttsCost;
       const paidAmount = Number(paidByUserMap[user.id] || 0);
-      const budget = Number(MONTHLY_COST_BUDGET_EUR_PER_USER || 0);
+      const budget = Number(getMonthlyCostBudgetForRole(String(user.role || "CLIENT").toUpperCase(), !!user.isAdmin) || 0);
       const remainingBudget = Math.max(0, budget - totalCost);
       const utilizationPct = budget > 0 ? Math.min(100, (totalCost / budget) * 100) : 0;
+      const analyzeUtilizationPct = analyzeLimit.limit > 0 ? Math.min(100, (analyzeUsage.today / analyzeLimit.limit) * 100) : 0;
+      const analyzeRemainingToday = Math.max(0, analyzeLimit.limit - analyzeUsage.today);
 
       totalEstimatedCost += totalCost;
       totalPaidAmount += paidAmount;
+      totalBudgetCapacity += budget;
+      if (analyzeUtilizationPct >= 80 || utilizationPct >= 80) {
+        nearLimitUsersCount += 1;
+      }
 
       return {
         userId: user.id,
@@ -386,7 +418,12 @@ export async function GET(req) {
             }
           : null,
         limits: {
-          analyzeDaily: getAnalyzeLimit(String(user.role || "CLIENT").toUpperCase(), !!user.isAdmin)
+          analyzeDaily: analyzeLimit.limit,
+          analyzeBaseDaily: analyzeLimit.baseLimit,
+          analyzeToday: analyzeUsage.today,
+          analyzeRemainingToday,
+          analyzeUtilizationPct: round2(analyzeUtilizationPct),
+          planAmountEur: round2(analyzeLimit.monthlyAmount || 0)
         },
         usage: {
           chatRequests: usage.chatRequests,
@@ -397,7 +434,8 @@ export async function GET(req) {
           sttAudioMb: round3(sttAudioMb),
           ttsRequests: usage.ttsRequests,
           ttsChars: usage.ttsChars,
-          analyses: usage.analyses
+          analyses30d: analyzeUsage.total30d,
+          analysesToday: analyzeUsage.today
         },
         costs: {
           chatEur: round2(chatCost),
@@ -423,7 +461,9 @@ export async function GET(req) {
       items,
       totals: {
         estimatedCostEur: round2(totalEstimatedCost),
-        paidAmountEur: round2(totalPaidAmount)
+        paidAmountEur: round2(totalPaidAmount),
+        budgetCapacityEur: round2(totalBudgetCapacity),
+        nearLimitUsersCount
       },
       costModel: {
         chatRequestEur: COST_CHAT_REQUEST_EUR,

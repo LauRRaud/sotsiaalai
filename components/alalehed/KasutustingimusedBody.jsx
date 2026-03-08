@@ -92,6 +92,8 @@ export default function KasutustingimusedBody() {
     }, {
       value: t("terms.section5.paragraph2"),
       replacements: emailReplacement
+    }, {
+      value: t("terms.section5.paragraph3")
     }]
   }, {
     heading: t("terms.section6.heading"),

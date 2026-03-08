@@ -173,7 +173,7 @@ export default function UuendaEpostiBody() {
                 <span>{t("auth.login.title")}</span>
               </Button>
             </div> : submitted ? <div className="flex flex-col gap-4 text-center">
-              <p className="text-[color:#a7f3d0]">
+              <p className="auth-success-text">
                 {t("profile.email_update.success")}
               </p>
             </div> : <form className="flex w-full flex-col items-center gap-7 text-center" onSubmit={handleSubmit} autoComplete="on" aria-busy={loading ? "true" : "false"}>

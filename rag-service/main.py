@@ -6,13 +6,16 @@ import json
 import os
 import re
 import hashlib
+import ipaddress
+import socket
 from io import BytesIO
 import logging
 import mimetypes
 from datetime import datetime, timezone
 from pathlib import Path
+from threading import Lock
 from typing import Dict, List, Optional, Tuple
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 # --- optional libmagic (fall back if missing) ---
 try:
@@ -26,7 +29,7 @@ import requests
 from bs4 import BeautifulSoup
 from fastapi import Depends, FastAPI, Header, HTTPException, Request, UploadFile, File, Form, Path as FastPath
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
@@ -88,6 +91,8 @@ ALLOWED_MIME = set(
 )
 
 ALLOWED_ORIGINS = [o.strip() for o in os.getenv("RAG_ALLOWED_ORIGINS", "*").split(",") if o.strip()]
+ALLOW_PRIVATE_URL_FETCH = os.getenv("RAG_ALLOW_PRIVATE_URL_FETCH", "0").strip().lower() in {"1", "true", "yes"}
+URL_FETCH_MAX_BYTES = int(os.getenv("RAG_URL_FETCH_MAX_BYTES", str(MAX_MB * 1024 * 1024)))
 
 if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY is missing for RAG embeddings")
@@ -101,6 +106,7 @@ collection = client.get_or_create_collection(name=COLLECTION_NAME)
 # OpenAI client
 oa = OpenAI(api_key=OPENAI_API_KEY)
 logger = logging.getLogger("rag-service")
+REGISTRY_LOCK = Lock()
 
 app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.9")
 
@@ -378,7 +384,7 @@ def _make_short_ref(meta, pages_compact):
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
-def _load_registry() -> Dict[str, Dict]:
+def _load_registry_unlocked() -> Dict[str, Dict]:
     if REGISTRY_PATH.exists():
         try:
             return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
@@ -386,8 +392,27 @@ def _load_registry() -> Dict[str, Dict]:
             pass
     return {}
 
+def _load_registry() -> Dict[str, Dict]:
+    with REGISTRY_LOCK:
+        return _load_registry_unlocked()
+
+def _save_registry_unlocked(data: Dict[str, Dict]) -> None:
+    tmp_path = REGISTRY_PATH.with_suffix(f"{REGISTRY_PATH.suffix}.tmp")
+    tmp_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    os.replace(tmp_path, REGISTRY_PATH)
+
 def _save_registry(data: Dict[str, Dict]) -> None:
-    REGISTRY_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    with REGISTRY_LOCK:
+        _save_registry_unlocked(data)
+
+def _pop_registry_entry(doc_id: str) -> bool:
+    with REGISTRY_LOCK:
+        reg = _load_registry_unlocked()
+        had = doc_id in reg
+        if had:
+            reg.pop(doc_id, None)
+            _save_registry_unlocked(reg)
+        return had
 
 def _require_key(x_api_key: Optional[str] = Header(default=None, alias="X-API-Key")) -> None:
     if not RAG_SERVICE_API_KEY:
@@ -501,6 +526,85 @@ def infer_url_geo_metadata(url: str, title: Optional[str], extracted_text: str) 
         "geo_detection_method": "url_heuristic",
         "geo_detection_confidence": confidence,
     }
+
+def _host_resolves_to_non_public_ip(host: str) -> bool:
+    raw_host = (host or "").strip().strip("[]")
+    if not raw_host:
+        return True
+    if raw_host.lower() == "localhost":
+        return True
+    try:
+        parsed_ip = ipaddress.ip_address(raw_host)
+        return not parsed_ip.is_global
+    except ValueError:
+        pass
+
+    try:
+        infos = socket.getaddrinfo(raw_host, None, proto=socket.IPPROTO_TCP)
+    except socket.gaierror as e:
+        raise HTTPException(422, f"Host resolution failed: {e}") from e
+
+    has_public_ip = False
+    for info in infos:
+        addr = info[4][0]
+        try:
+            parsed_ip = ipaddress.ip_address(addr.split("%", 1)[0])
+        except ValueError:
+            continue
+        if parsed_ip.is_global:
+            has_public_ip = True
+            continue
+        return True
+    return not has_public_ip
+
+def _assert_safe_fetch_url(url: str) -> str:
+    parsed = urlparse(str(url or "").strip())
+    if parsed.scheme not in {"http", "https"}:
+        raise HTTPException(400, "Only http and https URLs are allowed.")
+    if not parsed.netloc:
+        raise HTTPException(400, "URL host is required.")
+    if not ALLOW_PRIVATE_URL_FETCH and _host_resolves_to_non_public_ip(parsed.hostname or ""):
+        raise HTTPException(400, "Private or local network URLs are not allowed.")
+    return parsed.geturl()
+
+def _fetch_remote_html(url: str) -> str:
+    current = _assert_safe_fetch_url(url)
+    headers = {"User-Agent": "SotsiaalAI-RAG/1.0"}
+
+    with requests.Session() as session:
+        for _ in range(5):
+            with session.get(current, timeout=30, headers=headers, allow_redirects=False, stream=True) as response:
+                if 300 <= response.status_code < 400:
+                    location = response.headers.get("location")
+                    if not location:
+                        raise HTTPException(422, f"Redirect without location: HTTP {response.status_code}")
+                    current = _assert_safe_fetch_url(urljoin(current, location))
+                    continue
+
+                response.raise_for_status()
+
+                declared_len = response.headers.get("content-length")
+                if declared_len:
+                    try:
+                        if int(declared_len) > URL_FETCH_MAX_BYTES:
+                            raise HTTPException(413, f"Fetched URL is too large ({declared_len} bytes).")
+                    except ValueError:
+                        pass
+
+                chunks = []
+                total = 0
+                for chunk in response.iter_content(chunk_size=64 * 1024):
+                    if not chunk:
+                        continue
+                    total += len(chunk)
+                    if total > URL_FETCH_MAX_BYTES:
+                        raise HTTPException(413, f"Fetched URL exceeds {URL_FETCH_MAX_BYTES} bytes.")
+                    chunks.append(chunk)
+
+                encoding = response.encoding or response.apparent_encoding or "utf-8"
+                return b"".join(chunks).decode(encoding, errors="ignore")
+
+    raise HTTPException(422, "Too many redirects while fetching URL.")
 
 # --- PDF / DOCX / HTML extractors ---
 def _extract_text_from_pdf(buff: bytes) -> List[Tuple[int, str]]:
@@ -953,7 +1057,7 @@ def _split_chunks_with_pages(pages: List[Tuple[Optional[int], str]]) -> Tuple[Li
             pnums.append(page_no)
     return docs, pnums
 
-def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
+def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict[str, object]:
     meta = build_rag_metadata(meta_common, doc_id=doc_id)
     title = (meta.title or "").strip()
     description = (meta.description or "").strip()
@@ -1036,7 +1140,13 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
             page_nums = [None] * len(chunks)
 
     if not chunks:
-        return 0
+        return {
+            "count": 0,
+            "documents": [],
+            "metadatas": [],
+            "ids": [],
+            "embeddings": [],
+        }
 
     final_texts = [(prefix + ch).strip() if prefix else ch for ch in chunks]
 
@@ -1103,19 +1213,75 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
         metadatas.append(cleaned)
 
     embeddings = _embed_batch(final_texts)
-    collection.upsert(documents=final_texts, metadatas=metadatas, ids=ids, embeddings=embeddings)
-    return len(final_texts)
+    return {
+        "count": len(final_texts),
+        "documents": final_texts,
+        "metadatas": metadatas,
+        "ids": ids,
+        "embeddings": embeddings,
+    }
+
+def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
+    payload = _build_ingest_payload(doc_id, text_or_pages, meta_common)
+    if not payload["count"]:
+        return 0
+    collection.upsert(
+        documents=payload["documents"],
+        metadatas=payload["metadatas"],
+        ids=payload["ids"],
+        embeddings=payload["embeddings"],
+    )
+    return int(payload["count"])
+
+def _replace_document_vectors(doc_id: str, text_or_pages, meta_common: Dict) -> int:
+    payload = _build_ingest_payload(doc_id, text_or_pages, meta_common)
+
+    existing = None
+    try:
+        existing = collection.get(where={"doc_id": doc_id}, include=["documents", "metadatas", "embeddings"], limit=100000)
+    except Exception:
+        existing = None
+
+    existing_ids = list((existing or {}).get("ids") or [])
+    existing_documents = list((existing or {}).get("documents") or [])
+    existing_metadatas = list((existing or {}).get("metadatas") or [])
+    existing_embeddings = list((existing or {}).get("embeddings") or [])
+
+    try:
+        collection.delete(where={"doc_id": doc_id})
+        if payload["count"]:
+            collection.upsert(
+                documents=payload["documents"],
+                metadatas=payload["metadatas"],
+                ids=payload["ids"],
+                embeddings=payload["embeddings"],
+            )
+    except Exception:
+        if existing_ids and len(existing_ids) == len(existing_documents) == len(existing_metadatas) == len(existing_embeddings):
+            try:
+                collection.upsert(
+                    documents=existing_documents,
+                    metadatas=existing_metadatas,
+                    ids=existing_ids,
+                    embeddings=existing_embeddings,
+                )
+            except Exception:
+                logger.exception("Failed to restore previous vectors for doc_id=%s after replace error", doc_id)
+        raise
+
+    return int(payload["count"])
 
 def _register(doc_id: str, entry: Dict) -> None:
-    reg = _load_registry()
-    e = reg.get(doc_id, {})
-    if not e.get("createdAt"):
-        e["createdAt"] = now_iso()
-    e.update(entry)
-    e["docId"] = doc_id
-    e["updatedAt"] = now_iso()
-    reg[doc_id] = e
-    _save_registry(reg)
+    with REGISTRY_LOCK:
+        reg = _load_registry_unlocked()
+        e = reg.get(doc_id, {})
+        if not e.get("createdAt"):
+            e["createdAt"] = now_iso()
+        e.update(entry)
+        e["docId"] = doc_id
+        e["updatedAt"] = now_iso()
+        reg[doc_id] = e
+        _save_registry_unlocked(reg)
 
 # --------------------
 # Routes
@@ -1249,17 +1415,26 @@ def _process_ingest_file(
     if isinstance(text_or_pages, list):
         pages_compact = _collapse_pages([p for p, _ in text_or_pages if isinstance(p, int)])
 
-    inserted = _ingest_text(
-        doc_id,
-        text_or_pages,
-        meta_common={
-            **meta,
-            "source_type": "file",
-            "source_path": meta.get("source_path") or str(raw_path),
-            "mimeType": mime,
-            "audience": normalize_audience(meta.get("audience")),
-        },
-    )
+    existing_doc_known = doc_id in _load_registry()
+    try:
+        inserted = _replace_document_vectors(
+            doc_id,
+            text_or_pages,
+            meta_common={
+                **meta,
+                "source_type": "file",
+                "source_path": meta.get("source_path") or str(raw_path),
+                "mimeType": mime,
+                "audience": normalize_audience(meta.get("audience")),
+            },
+        )
+    except Exception:
+        if not existing_doc_known:
+            try:
+                raw_path.unlink(missing_ok=True)
+            except Exception:
+                pass
+        raise
 
     reg_entry = {
         "type": "FILE",
@@ -1363,12 +1538,7 @@ def ingest_text(payload: IngestText):
         raise HTTPException(400, "text is required")
 
     meta = dict(payload.metadata or {})
-    try:
-        collection.delete(where={"doc_id": doc_id})
-    except Exception:
-        pass
-
-    inserted = _ingest_text(
+    inserted = _replace_document_vectors(
         doc_id,
         text,
         meta_common={
@@ -1562,12 +1732,11 @@ async def ingest_pdf_with_metadata(
 @app.post("/ingest/url", dependencies=[Depends(_require_key)])
 def ingest_url(payload: IngestURL):
     try:
-        r = requests.get(payload.url, timeout=30, headers={"User-Agent": "SotsiaalAI-RAG/1.0"})
-        r.raise_for_status()
+        html = _fetch_remote_html(payload.url)
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(422, f"Fetch failed: {e}")
-
-    html = r.text
     text = _extract_text_from_html(html)
     doc_id = (payload.docId or str(uuid.uuid4())).strip()
     if not doc_id:
@@ -1585,7 +1754,7 @@ def ingest_url(payload: IngestURL):
     html_path = d / "source.html"
     html_path.write_text(html, encoding="utf-8")
 
-    inserted = _ingest_text(
+    inserted = _replace_document_vectors(
         doc_id,
         text,
         meta_common={
@@ -1786,7 +1955,7 @@ def ingest_articles_path(doc_id: str = FastPath(...), payload: IngestArticlesIn 
 
 # ---------------- Documents -----------------
 @app.get("/documents", dependencies=[Depends(_require_key)])
-def documents(limit: Optional[int] = None):
+def documents(limit: Optional[int] = None, offset: int = 0):
     reg = _load_registry()
     out = []
 
@@ -1795,8 +1964,11 @@ def documents(limit: Optional[int] = None):
         return (_meta.get("updatedAt") or _meta.get("createdAt") or "", item[0])
 
     items = sorted(reg.items(), key=_key, reverse=True)
+    page_size = 100
     if isinstance(limit, int) and limit > 0:
-        items = items[: min(limit, 100)]
+        page_size = min(limit, 100)
+    start = max(0, int(offset or 0))
+    items = items[start : start + page_size]
 
     for doc_id, meta in items:
         try:
@@ -1850,17 +2022,45 @@ def get_document(doc_id: str):
         **meta,
     }
 
+@app.get("/documents/{doc_id}/source", dependencies=[Depends(_require_key)])
+def get_document_source(doc_id: str):
+    reg = _load_registry()
+    entry = reg.get(doc_id)
+    if not entry:
+        raise HTTPException(404, "Document not in registry")
+
+    entry_type = (entry.get("type") or "").upper()
+    if entry_type == "URL":
+        target_url = str(entry.get("url") or "").strip()
+        if target_url:
+            return RedirectResponse(target_url, status_code=307)
+
+        html_path = Path(entry.get("path") or "")
+        if not html_path.exists():
+            raise HTTPException(404, "Stored URL snapshot is missing")
+        return FileResponse(
+            html_path,
+            media_type="text/html; charset=utf-8",
+            filename=_sanitize_filename(html_path.name or "source.html", "source.html"),
+        )
+
+    if entry_type != "FILE":
+        raise HTTPException(400, "Source download is supported only for FILE and URL documents.")
+
+    path = Path(entry.get("path") or "")
+    if not path.exists():
+        raise HTTPException(404, "Stored file is missing")
+
+    filename = _sanitize_filename(entry.get("fileName") or path.name or f"{doc_id}.bin", path.name or "document.bin")
+    media_type = entry.get("mimeType") or mimetypes.guess_type(filename)[0] or "application/octet-stream"
+    return FileResponse(path, media_type=media_type, filename=filename)
+
 @app.post("/documents/{doc_id}/reindex", dependencies=[Depends(_require_key)])
 def reindex(doc_id: str):
     reg = _load_registry()
     entry = reg.get(doc_id)
     if not entry:
         raise HTTPException(404, "Document not in registry")
-
-    try:
-        collection.delete(where={"doc_id": doc_id})
-    except Exception:
-        pass
 
     if entry.get("type") == "FILE":
         p = Path(entry["path"])
@@ -1875,7 +2075,7 @@ def reindex(doc_id: str):
         else:
             text_or_pages = raw.decode("utf-8", errors="ignore")
 
-        inserted = _ingest_text(doc_id, text_or_pages, meta_common={
+        inserted = _replace_document_vectors(doc_id, text_or_pages, meta_common={
             "title": entry.get("title"),
             "description": entry.get("description"),
             "authors": entry.get("authors"),
@@ -1912,7 +2112,7 @@ def reindex(doc_id: str):
         html_path = Path(entry["path"])
         html = html_path.read_text(encoding="utf-8")
         text = _extract_text_from_html(html)
-        inserted = _ingest_text(doc_id, text, meta_common={
+        inserted = _replace_document_vectors(doc_id, text, meta_common={
             "title": entry.get("title"),
             "description": entry.get("description"),
             "authors": entry.get("authors"),
@@ -1960,11 +2160,6 @@ def update_document_metadata(doc_id: str, payload: UpdateMetadata):
     path = Path(entry["path"])
     if not path.exists():
         raise HTTPException(404, "Stored file is missing; cannot update.")
-
-    try:
-        collection.delete(where={"doc_id": doc_id})
-    except Exception:
-        pass
 
     raw = path.read_bytes()
     mime = entry.get("mimeType") or _detect_mime(path.name, raw, None)
@@ -2031,11 +2226,7 @@ def delete_doc(doc_id: str):
     except Exception:
         pass
 
-    reg = _load_registry()
-    had = doc_id in reg
-    if had:
-        reg.pop(doc_id, None)
-        _save_registry(reg)
+    had = _pop_registry_entry(doc_id)
 
     try:
         sub = _doc_dir_hashed(doc_id)

@@ -340,110 +340,110 @@
     "title": "Privacy Policy",
     "section1": {
       "heading": "1. General Provisions",
-      "paragraph1": "<p>These Privacy Terms apply when using the web platform operated by <strong>SotsiaalAI OÜ</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). The policy explains how SotsiaalAI collects, uses and protects personal data in line with Estonian and EU law.</p>",
-      "paragraph2": "<p>SotsiaalAI processes personal data in accordance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>.</p>"
+      "paragraph1": "<p>This Privacy Policy explains how <strong>SotsiaalAI OÜ</strong> processes personal data when you use the <strong>SotsiaalAI</strong> web platform. It covers account creation, sign-in, subscriptions, chats, rooms, help requests and offers, documents, and other platform workflows.</p>",
+      "paragraph2": "<p>SotsiaalAI processes personal data in accordance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>. If you have questions about data processing, contact us before continuing to use the service.</p>"
     },
     "section2": {
       "heading": "2. Data We Collect",
-      "paragraph1": "<p><strong>2.1 Account data.</strong> Email address, role (social worker or client), and authentication method (two-step sign-in: email + one-time verification code). The one-time code is used only to confirm sign-in and is not stored permanently.</p>",
-      "paragraph2": "<p><strong>2.2 Subscription and payment data.</strong> Subscription type and status, payment ID and payment transaction metadata. Payments are processed by Maksekeskus AS; SotsiaalAI does not store card or bank account details.</p>",
-      "paragraph3": "<p><strong>2.3 Technical metadata.</strong> IP address, browser and device type, access times and log information for security, troubleshooting and service reliability purposes.</p>"
+      "paragraph1": "<p><strong>2.1 Account and authentication data.</strong> We process your email address, user role, password/PIN hash, email verification state, temporary sign-in tokens, one-time code records, trusted-device data, and any profile data you choose to add or update.</p>",
+      "paragraph2": "<p><strong>2.2 Service usage data.</strong> We process conversations and conversation messages, room messages and membership data, help requests, help offers, help matches, invites, subscription and sponsored-access status, payment metadata, files uploaded to the Documents library, agent drafts and final outputs, and audit records needed to run those workflows.</p>",
+      "paragraph3": "<p><strong>2.3 Technical and local data.</strong> We process IP address, browser and device information, usage and error logs, and security events. The platform also uses essential cookies and browser storage to keep language, accessibility settings, active conversation state, PIN keypad preferences, and other usability settings.</p>"
     },
     "section3": {
       "heading": "3. Purposes and Legal Bases",
-      "items": "<li>Service delivery (providing conversations, account access) - performance of a contract (GDPR Art. 6(1)(b)).</li><li>Payment processing - performance of a contract and legitimate interest in preventing fraud (Art. 6(1)(b),(f)).</li><li>Implementation of two-step authentication and account protection - performance of a contract and legitimate interest in keeping accounts secure (Art. 6(1)(b),(f)).</li><li>Security, error detection and reliability - legitimate interest (Art. 6(1)(f)).</li><li>Legal compliance, handling of claims and reporting - legal obligation and legitimate interest (Art. 6(1)(c),(f)).</li>"
+      "items": "<li>Account creation, sign-in, role handling, subscription management, and core platform features are processed for the performance of a contract (GDPR Art. 6(1)(b)).</li><li>Payments, fraud prevention, security checks, logging, and service reliability are processed for the performance of a contract and for legitimate interests (Art. 6(1)(b),(f)).</li><li>Compliance with legal obligations, accounting, and claim defense are processed on the basis of legal obligation and legitimate interest (Art. 6(1)(c),(f)).</li><li>Microphone access, browser speech, and device-local storage are used only when the user triggers or allows the relevant feature.</li><li>Help listings, rooms, and invite flows are processed to operate the service and to mediate communication initiated by the user.</li>"
     },
     "section4": {
-      "heading": "4. Conversation Privacy",
-      "body": "<p><strong>4.1 Conversation content.</strong> Conversation content (user questions, assistant replies and any other text entered) is used only to provide the service - to generate responses, mediate the conversation and show the conversation history to the user. Conversation content is not stored indefinitely, is not used for marketing, profiling or training third-party models, and is retained only for a limited time as described in section 7.</p><p><strong>4.2 Document analysis.</strong> When using the document analysis feature, uploaded files are not stored permanently. A document is used only in the current chat window and in the context of the specific conversation. The document is removed from the system when the chat window or page is closed and is not later used for marketing, profiling or model training.</p><p><strong>4.3 Dictation (speech recognition).</strong> Dictation mode is provided via an authorised third-party service (processor). Audio from the microphone is sent over a secure connection to the service provider, who processes it only to create text, in line with SotsiaalAI's instructions and data protection requirements. SotsiaalAI does not collect or store users' voice data permanently; audio is used only temporarily to create text and is not used for marketing or model training.</p>"
+      "heading": "4. How Platform Content Is Used",
+      "body": "<p><strong>4.1 Chats and rooms.</strong> Chat and room messages are used to generate responses, show history, and enable collaboration. A conversation can also contain workflow state, such as whether it is locked into document drafting, a help request, or a help offer flow.</p><p><strong>4.2 Help requests, help offers, and matching.</strong> When you save a help request or help offer, it becomes visible to other users in the relevant listing views according to the platform workflow. When you connect a request and an offer, the platform creates or reopens a room and shares the necessary details with the involved parties.</p><p><strong>4.3 Documents and agent outputs.</strong> Files uploaded to <strong>Documents</strong> and the drafts or final outputs created from them are stored in the user's workspace until deleted by the user or removed with the account. They are not made public to other users unless the user explicitly shares them through platform actions.</p><p><strong>4.4 Temporary chat files.</strong> Files added in the chat document workflow or analysis flow are meant only for that specific conversation or session. They are not automatically added to the persistent Documents library unless the user separately uses the document-library workflow.</p><p><strong>4.5 Voice features.</strong> Dictation audio is processed only to create text. Read-aloud uses chat text to produce audio playback. These features are not used for marketing or user profiling.</p>"
     },
     "section5": {
       "heading": "5. Processors",
-      "body": "<p>SotsiaalAI may use processors who handle data under SotsiaalAI's instructions, including the payment service provider (Maksekeskus AS) and the AI service provider. Contracts are in place with processors to ensure the level of data protection and confidentiality.</p>"
+      "body": "<p>SotsiaalAI uses processors where needed to provide the service, for example payment processing, email delivery, AI and speech services, hosting, and logging infrastructure. Processors handle data only under SotsiaalAI's instructions and subject to contractual and technical safeguards.</p>"
     },
     "section6": {
       "heading": "6. Data Disclosure and Sharing",
-      "body": "<p>Personal data is not shared with third parties unless required to provide the service, mandated by law or based on user consent. Payment data is processed by Maksekeskus AS under its own terms.</p>"
+      "body": "<p>SotsiaalAI does not sell personal data. Data is shared only to the extent needed to run the service: with processors, with the payment provider, with users you invite or are matched with in rooms and help-mediation workflows, and with competent authorities where required by law. If you create an invite or save a visible help listing, the relevant information is shared inside the platform with the users for whom that workflow is intended.</p>"
     },
     "section7": {
       "heading": "7. Retention",
-      "body": "<p><strong>7.1 Account data.</strong> Account data is retained until the account is deleted or upon the user's request, unless a longer retention period is required by law.</p><p><strong>7.2 Conversation history.</strong> Conversation history shown under the \"Conversations\" button is generally kept for up to 90 days from the last activity in the respective conversation. After that, the conversation is no longer shown to the user and is marked internally for deletion. The user can delete their conversations at any time.</p><p><strong>7.3 Billing data.</strong> Billing and payment data are retained to the extent and for the periods required by accounting and other applicable laws.</p><p><strong>7.4 Technical logs.</strong> Technical logs are stored for a short period for security, troubleshooting and service reliability purposes, after which they are deleted or anonymised.</p>"
+      "body": "<p><strong>7.1 Account and profile data.</strong> Account data is stored until the account is deleted, except where the law requires longer retention.</p><p><strong>7.2 Conversation history.</strong> Conversations are generally shown to the user for up to 90 days from the last activity unless deleted earlier by the user. After that, a conversation may be removed from the user view and marked for internal cleanup or deletion.</p><p><strong>7.3 Rooms, invites, and help data.</strong> Room data, invites, help requests, help offers, and matches are retained while active or otherwise needed for service operation, dispute handling, or security review.</p><p><strong>7.4 Documents and agent outputs.</strong> Files stored in the Documents library, drafts, and final outputs remain available until the user deletes them or the account is deleted, unless the law requires otherwise.</p><p><strong>7.5 Billing, audit, and technical logs.</strong> Payment data, audit records, and technical logs are retained according to applicable legal, security, and reliability needs and then deleted or anonymised within a reasonable time.</p>"
     },
     "section8": {
       "heading": "8. Your Rights",
-      "items": "<li>Right to access your data and obtain a copy.</li><li>Right to rectify inaccurate or incomplete data.</li><li>Right to request erasure (\"right to be forgotten\").</li><li>Right to restrict processing or object to it.</li><li>Right to lodge a complaint with the <aDpa>Data Protection Inspectorate</aDpa>.</li>"
+      "items": "<li>Right to access your personal data and obtain a copy.</li><li>Right to correct inaccurate or incomplete data.</li><li>Right to request erasure where there is a legal basis for it.</li><li>Right to restrict processing or object to processing based on legitimate interest.</li><li>Right to lodge a complaint with the <aDpa>Data Protection Inspectorate</aDpa>.</li>"
     },
     "section9": {
-      "heading": "9. Cookies",
-      "body": "<p>We only use essential cookies (login, session, language preference and accessibility settings, such as text size, contrast and animations). No advertising, tracking or analytics cookies are used.</p>"
+      "heading": "9. Cookies and Browser Storage",
+      "body": "<p>SotsiaalAI uses essential cookies and browser storage for sign-in, session handling, language, accessibility, trusted-device state, active conversation state, and other usability preferences. We do not use advertising cookies or third-party marketing trackers. The public product UI also does not currently use advertising trackers.</p>"
     },
     "section10": {
       "heading": "10. Security",
-      "body": "<p>We implement technical and organisational measures (HTTPS, two-step authentication: email + one-time verification code, access controls, logging and backups) and regularly update the software and service and apply security patches to protect data against unauthorised access, alteration or destruction.</p>"
+      "body": "<p>We apply reasonable technical and organisational safeguards, including HTTPS, two-step sign-in, permission checks, logging, dependency updates, and other protective measures. No web service is entirely risk-free, so we recommend entering only the data that is necessary for the workflow at hand.</p>"
     },
     "section11": {
       "heading": "11. Changes",
-      "body": "<p>This privacy policy may be updated. Significant changes will be communicated within the product or via email.</p>"
+      "body": "<p>This Privacy Policy may be updated if platform features, data flows, or legal requirements change. Significant changes will be communicated in the product or by email.</p>"
     }
   },
   "terms": {
     "title": "Terms of Use",
     "section1": {
       "heading": "1. General Provisions",
-      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operator: <strong>SotsiaalAI OÜ</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have read these Terms and agree with them.</p>"
+      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform operated by <strong>SotsiaalAI OÜ</strong>. By using the platform, you confirm that you have read and accepted these Terms.</p><p>If you do not agree with these Terms, you must not use the platform. The Privacy Policy and these Terms complement each other and together define the basis for using the service.</p>"
     },
     "section2": {
       "heading": "2. Service Description",
-      "body": "<p>The platform provides AI-powered information support in the social sector. Responses are generated based on the SotsiaalAI knowledge base hosted in Estonia, which brings together reliable sources (for example laws, guidelines, service descriptions and other sector-specific information).</p>"
+      "body": "<p>SotsiaalAI is a role-based web platform where a user can ask questions in chat, continue in guidance mode, describe help requests and help offers, use document workflows, manage documents, open rooms, send invites, and use profile, subscription, and accessibility settings.</p><p>The platform combines AI, retrieval-based knowledge access, and user-selected workflows to support both social work professionals and people seeking help. It is not an emergency channel and does not replace binding official decisions, professional advice, or urgent assistance.</p>"
     },
     "section3": {
       "heading": "3. Account and Access",
-      "items": "<li>Keep your account secure and your PIN private.</li><li>Do not share your account or login credentials with third parties.</li><li>Keep your contact and payment details up to date.</li>"
+      "items": "<li>You must create an account and choose an appropriate role to use the core platform features.</li><li>You must keep your email, PIN, and other sign-in information confidential and are responsible for actions taken through your account.</li><li>Sign-in may require an extra verification code sent by email, and you may choose to trust a device for future sign-ins.</li><li>Many workflows require an active subscription or valid sponsored access.</li><li>Administrator preview mode does not grant the right to impersonate another user or modify another user's data without proper authority.</li>"
     },
     "section4": {
       "heading": "4. Permitted Use",
-      "items": "<li>It is prohibited to breach security, distribute malware or send mass requests.</li><li>It is prohibited to transmit unlawful content or violate the rights of others.</li>"
+      "items": "<li>You must use the platform in compliance with law, good practice, and these Terms.</li><li>Unlawful, threatening, deceptive, defamatory, hateful, or rights-infringing content is prohibited, including help listings or invites that mislead other users.</li><li>It is prohibited to bypass security controls, send automated mass requests, spread malware, disrupt the service, or knowingly evade subscription limits.</li><li>It is prohibited to use another person's account without permission, create a false identity, or use the platform in a way that harms other users or SotsiaalAI.</li><li>It is prohibited to systematically copy platform data or outputs, or use them to build a competing service, without SotsiaalAI's permission.</li>"
     },
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
-      "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee €7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
-      "paragraph2": "<p>The subscription can be managed at any time on the profile page (\"Manage subscription\"). When cancelled, billing stops from the next billing period.</p>",
-      "paragraph3": "<p>SotsiaalAI may change pricing and subscription terms by publishing the information on the Platform and notifying active subscribers with reasonable prior notice.</p>"
+      "paragraph1": "<p>Paid platform features are provided through a role-based monthly subscription. The monthly fee is 7.99 EUR for a person seeking help and 14.99 EUR for a social work professional, unless a different price is shown on the platform at the time of checkout. Payments are processed by Maksekeskus AS or another payment provider shown on the platform.</p>",
+      "paragraph2": "<p>Access may be self-paid or sponsored by the person who invited you. Under the current product rules, sponsored access lasts for one month and does not automatically convert into the invitee's own paid subscription. If the invited user already has an active subscription, sponsored checkout may be blocked.</p>",
+      "paragraph3": "<p>Subscriptions can be managed from the <a href=\"/tellimus\">Subscription</a> page and from Profile. When cancelled, the next automatic billing cycle stops, but the already paid period remains active until its end unless the law requires otherwise. SotsiaalAI may change pricing or package terms with reasonable advance notice.</p>"
     },
     "section6": {
       "heading": "6. Availability and Maintenance",
-      "body": "<p>We make reasonable efforts to ensure reliability and continuous availability. Maintenance and updates may temporarily limit the service, but we aim to keep interruptions as short as possible.</p>"
+      "body": "<p>SotsiaalAI makes reasonable efforts to keep the service available, but uninterrupted operation is not guaranteed. Maintenance, updates, security fixes, failures of external providers, or usage limits may temporarily restrict the platform. SotsiaalAI may apply technical limits and abuse-prevention controls to protect service operation.</p>"
     },
     "section7": {
-      "heading": "7. Reliability and Accuracy",
-      "body": "<p>SotsiaalAI aims to provide accurate and up-to-date information. If an error or inaccuracy occurs, we will correct it as soon as possible.</p>"
+      "heading": "7. Platform Workflows and Results",
+      "body": "<p>SotsiaalAI supports users through the platform's chat, document, help, and room workflows as described on the platform.</p>"
     },
     "section8": {
       "heading": "8. Changes to the Terms",
-      "body": "<p>The Terms of Use may be updated by publishing a new version on the platform. Users will be informed of significant changes via email or in-product notifications.</p>"
+      "body": "<p>SotsiaalAI may update these Terms if the service, pricing, workflows, or legal requirements change. A new version will be published on the platform, and material changes will be communicated with reasonable prior notice.</p><p>Continuing to use the platform after the changes take effect means you accept the updated Terms unless applicable law requires a different process.</p>"
     },
     "section9": {
-      "heading": "9. Use of AI and Data Processing",
-      "paragraph1": "<p><strong>SotsiaalAI</strong> uses language technology developed by <strong>OpenAI</strong> (GPT model) to generate answers in the language provided by the user, relying on the SotsiaalAI knowledge base hosted in Estonia.</p>",
-      "paragraph2": "<p>The OpenAI service is used exclusively for text processing. Conversation content is not used for model training or improvement, and data stored permanently (user account, subscription and conversation summaries) is kept securely on servers operated by SotsiaalAI in Estonia.</p>"
+      "heading": "9. Use of AI",
+      "paragraph1": "<p>SotsiaalAI uses AI, retrieval-backed knowledge access, and other technical services to answer questions, provide guidance, help draft documents, and support help-request and help-offer workflows. The platform may ask the user to confirm in chat which work mode the current conversation should continue in.</p>",
+      "paragraph2": "<p>The AI may suggest the most likely workflow, but the final decision to continue in that workflow remains with the user. AI output must not be treated as automatically binding truth, an official position, or a professional decision.</p>"
     },
     "section10": {
       "heading": "10. Data Processing in Chats and Uploaded Materials",
-      "paragraph1": "<p>When using the Platform, the user may provide information in several ways — by typing, speaking (dictation) or uploading documents. All data provided in this way is processed solely for the purpose of providing the Platform's service, generating responses and ensuring the functioning of the chat, in accordance with the privacy policy.</p>",
-      "paragraph2": "<p>A more detailed description of data processing and the user's rights is provided in the privacy policy.</p>",
-      "items": "<li><strong>Text entered in the chat.</strong> Text entered by the user is transmitted via a secure connection to SotsiaalAI servers to generate a response. The content of the chat is not stored permanently and is not used for marketing, profiling or training models outside the operation of the Platform's service.</li><li><strong>Dictation (microphone, speech recognition).</strong> When using the dictation feature, a short audio clip is recorded, indicated by a red outline around the microphone button. The audio clip is securely transmitted to the speech recognition service and converted into text, which is shown to the user before sending. Audio files are not stored permanently and are used only to create text and to operate the service.</li><li><strong>Reading responses aloud.</strong> The read-aloud feature uses the text displayed in the chat window to present it to the user as audio output. The technology does not permanently store user-related data and does not process it for any other purpose than enabling the read-aloud functionality.</li><li><strong>Uploaded documents.</strong> The user may upload documents to the Platform (for example PDF, DOC/DOCX, TXT, MD or HTML files) so that the assistant can analyse them within the ongoing chat. Documents are not stored permanently, are used only in the context of the given conversation and are removed from the system when the chat window or page is closed. Content derived from the documents is not used for marketing, profiling or training third-party models.</li><li><strong>Special categories of data.</strong> The user may provide sensitive information in the chat or in documents (for example, information about health, family, violence or socio-economic situation). SotsiaalAI processes such data only for the purpose of generating a response and does not process it for other purposes. To ensure security, SotsiaalAI recommends avoiding entering a personal identification code, exact address and full names of third parties, unless this is strictly necessary for using the service.</li><li><strong>Processors.</strong> Technical processing for dictation, read-aloud and response generation may be carried out via authorised service providers. Such providers process data only in accordance with SotsiaalAI's instructions, under concluded agreements and in compliance with applicable data protection requirements. Where processing involves transferring data outside the European Economic Area, appropriate legal safeguards are used.</li>"
+      "paragraph1": "<p>When using the platform, a user may enter text, send room messages, save help data, invite other people, upload documents, or use voice features. That data is processed to operate the service in accordance with the Privacy Policy.</p>",
+      "paragraph2": "<p>More detailed rules on retention, visibility, and user rights are described in the Privacy Policy.</p>",
+      "items": "<li><strong>Chat and room content.</strong> Conversations, rooms, and their related workflow state are stored to operate the platform, show history, and continue the features chosen by the user.</li><li><strong>Help listings and invites.</strong> The user is responsible for sharing only the data needed to connect with another person or mediate help.</li><li><strong>Temporary chat files.</strong> Files added in the chat document workflow or analysis flow are intended for that session or workflow and are not automatically added to the persistent Documents library.</li><li><strong>Documents library and agent outputs.</strong> If the user uploads a file into the persistent Documents library or approves an agent result, it is stored in the user's workspace until deleted.</li><li><strong>Dictation and read-aloud.</strong> Voice features are used only to provide that feature. The user must ensure they have the right to transmit another person's data through a microphone or file.</li><li><strong>Sensitive data.</strong> If the user enters sensitive information or data about third parties, the user is responsible for having a lawful basis and for sharing only the minimum necessary information.</li>"
     },
     "section11": {
       "heading": "11. Intellectual Property",
-      "body": "<p>The Platform's trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OÜ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI's written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
+      "body": "<p>The platform software, design, data structures, trademarks, and other content created by SotsiaalAI belong to SotsiaalAI or its partners unless stated otherwise. The user retains rights to their own submitted data to the extent provided by law and by their rights in that data.</p><p>Without SotsiaalAI's written permission, you may not systematically copy, distribute, repackage, or reuse parts of the platform, its outputs, or its technical solution to create a competing service.</p>"
     },
     "section12": {
       "heading": "12. Termination of the Agreement",
-      "body": "<p>You may stop using the Platform at any time, including by deleting your account or cancelling your subscription in accordance with these Terms.</p><p>SotsiaalAI may suspend or terminate your access to the Platform if you materially breach the Terms, abuse the service, or jeopardise the Platform's security.</p>"
+      "body": "<p>The user may stop using the platform at any time, including by deleting the account or cancelling the subscription. Account deletion may result in loss of access to related documents, conversations, drafts, and other workspace content.</p><p>SotsiaalAI may suspend or terminate access if the user materially breaches the Terms, abuses the service, threatens the safety of other users, or harms the operation of the platform.</p>"
     },
     "section13": {
       "heading": "13. Governing Law and Dispute Resolution",
-      "body": "<p>These Terms are governed by the laws of the Republic of Estonia.</p><p>Disputes will first be attempted to be resolved by negotiation. If no agreement is reached, the dispute will be resolved by the courts of the Republic of Estonia in accordance with applicable law.</p>"
+      "body": "<p>These Terms are governed by the laws of the Republic of Estonia.</p><p>The parties will first try to resolve disputes by negotiation. If no agreement is reached, the dispute will be resolved by the courts of the Republic of Estonia or through another competent dispute resolution process under applicable law.</p>"
     }
   },
   "chat": {
@@ -1295,39 +1295,51 @@
       "jump_link": "Platform guide",
       "short_title": "Guide",
       "title": "How to use the SotsiaalAI platform?",
-      "intro": "This guide provides a step-by-step overview for getting started on the SotsiaalAI platform: choose a role, create an account, activate a subscription, sign in, use the chat assistant, and configure language and accessibility.",
+      "intro": "This guide explains how to choose a role in SotsiaalAI, create an account, activate access, and use chat, language and accessibility settings, help and document workflows, Agent mode, rooms, and role-based pages.",
       "sections_v2": {
         "accessibility": {
           "title": "1. Language and accessibility",
-          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens so you can decide how SotsiaalAI should look and behave. You can open the same window later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose the interface language: Estonian, Russian or English.</li><li><strong>Text size.</strong> Pick the size that is easiest to read (small, standard, large or extra large).</li><li><strong>Contrast.</strong> Enable high contrast whenever you need clearer buttons and text.</li><li><strong>Animations.</strong> Select \"Reduce motion\" if movement distracts you or if your computer is slower — this can make the experience more stable.</li></ul>"
+          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens automatically. You can reopen the same view later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose Estonian, Russian, or English.</li><li><strong>Screen profile.</strong> Choose a laptop or external-screen profile so the display fits your device better.</li><li><strong>Text size.</strong> Adjust the text size to what feels most comfortable.</li><li><strong>Contrast.</strong> Enable stronger contrast when needed.</li><li><strong>Animations.</strong> Turn on \"Reduce motion\" for a calmer and more stable experience.</li><li><strong>Theme.</strong> From Profile you can also switch between light, dim, dark, and night themes.</li><li><strong>Save and reset.</strong> Changes apply immediately, but you can also reset and save your preferences again when needed.</li></ul>"
         },
         "home": {
           "title": "2. Home page",
-          "body": "<p>The home page has two role cards - \"For social work professionals\" and \"For people seeking help\".</p><ul><li>If you are not signed in, clicking a role card opens the sign-in view, where you can also choose registration.</li><li>If you are signed in, clicking a role card takes you to chat.</li><li>The <a href=\"/#meist\">ABOUT</a> section is on the lower part of the home page and can be reached by scrolling (or by using the home page scroll cue).</li></ul>"
+          "body": "<p>The home page shows two role cards: \"For social work professionals\" and \"For people seeking help\".</p><ul><li>If you are not signed in, clicking a role card opens the sign-in flow, where you can also move to registration.</li><li>If you are already signed in, clicking a role card opens the chat view for that role.</li><li>The home page also shows the option to install SotsiaalAI on your device as a standalone app, so it is easier to open on a phone or computer.</li><li>The <a href=\"/#meist\">ABOUT</a> section sits below the role cards and includes platform information, policy links, and the guide link.</li></ul>"
         },
         "register": {
-          "title": "3. Registration and subscription activation",
-          "body": "<p>To use the SotsiaalAI chat assistant you need an account and an active subscription.</p>\n<p><strong>3.1 Registration</strong></p>\n<ol>\n<li>On the home page choose the relevant role card and click <a href=\"/registreerimine\">Register</a>.</li>\n<li>Fill in the registration form:\n  <ul>\n    <li>email address</li>\n    <li>PIN code (4-8 digit numeric access code)</li>\n  </ul>\n</li>\n<li>Accept the terms of use and the privacy policy.</li>\n<li>After submitting the form we send a verification email - open the message and confirm your email address.</li>\n</ol>\n<p><strong>3.2 After confirming your email and activating your subscription</strong></p>\n<p>After email confirmation you can sign in with your email address and PIN (see chapter \"4. Sign-in and navigation by role\").</p>\n<p>If your subscription is missing or expired, you will see a notice when using chat, and you can activate access on the <a href=\"/tellimus\">Subscription</a> page.</p>\n<p>If your subscription is active, you can use chat right away.</p>"
+          "title": "3. Registration and access activation",
+          "body": "<p>You need an account to use SotsiaalAI. To actively use chat, the account also needs an active subscription or sponsored access.</p><p><strong>3.1 Registration</strong></p><ol><li>Choose the relevant role card on the home page and open <a href=\"/registreerimine\">Register</a>.</li><li>Fill in the form with your email address and PIN code (4-8 digits).</li><li>Accept the terms of use and privacy policy, and confirm that you have read the platform guide.</li><li>After submitting the form, open the verification email and confirm your address.</li></ol><p><strong>3.2 Subscription or sponsored access</strong></p><ul><li>After verification you can sign in with your email and PIN.</li><li>If you do not have active access, the platform directs you to the <a href=\"/tellimus\">Subscription</a> page.</li><li><strong>Monthly pricing is role-based:</strong> 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li>If your access comes from a sponsored invite, it stays active for the sponsored period without a separate payment.</li></ul>"
         },
         "signin": {
-          "title": "4. Sign-in and navigation by role",
-          "body": "<p>Sign-in starts on the home page, which shows two role cards: \"For social work professionals\" and \"For people seeking help\".</p>\n<ul>\n<li>Click the relevant role card to open the sign-in dialog.</li>\n<li>Enter your email address and PIN (4-8 digit numeric access code).</li>\n<li>On the same previously trusted device/browser, the PIN is usually sufficient.</li>\n<li>If you sign in from a new or unusual environment, we send a 6-digit verification code to your email. Enter the code in the input field.</li>\n<li>Optionally select \"Remember this device for 30 days\" so that on this device you will usually only need your PIN next time.</li>\n<li>If you forgot your PIN, use the <a href=\"/taasta-parool\">Forgot PIN</a> link to set a new PIN by following the instructions.</li>\n<li>After a successful sign-in the chat view for your role opens. If access is limited (e.g. subscription is missing or expired), a notice and next steps are shown.</li>\n</ul>"
+          "title": "4. Sign-in and role-based navigation",
+          "body": "<p>Sign-in starts by choosing the relevant role card on the home page.</p><ul><li>Enter your email address and PIN.</li><li>On a previously trusted device, the PIN is usually enough.</li><li>If you sign in from a new or unusual environment, we send a 6-digit verification code to your email.</li><li>You can optionally select \"Remember this device for 30 days\".</li><li>If you forgot your PIN, use <a href=\"/taasta-parool\">Forgot PIN</a>.</li><li>After a successful sign-in, the chat view for your role opens. If access is limited, the platform shows the next steps.</li></ul>"
         },
         "chat": {
           "title": "5. Chat page",
-          "body": "<p><strong>Chat page</strong> opens after sign-in. To actively use chat (for example, sending questions or document analysis), your account must have an active subscription. The assistant is role-based - answers and recommendations may differ depending on your role (for example, specialist or help-seeker). Role-specific functions on the chat page may differ slightly, but the core workflow - sending messages, adding documents, and managing chats - is similar for everyone.</p><p><strong>Sending a message</strong></p>\n<ul>\n  <li>Type your question in the input field below the chat window and send it with the button or Enter.</li>\n  <li>While the answer is being generated, the send button turns into a stop button, so you can stop streaming and continue typing.</li>\n</ul>\n<p><strong>Viewing messages and scrolling</strong></p>\n<ul>\n  <li>If you scroll up, an arrow icon appears near the input field so you can jump to the bottom with one click.</li>\n</ul>\n<p><strong>Add a person to a group chat</strong></p>\n<p>If you want to include another person in the chat, you can send them an invite. After they accept, you will have a shared room (group chat) where you can chat together.</p>\n<ul>\n  <li>Open the chat page and select \"Add person\" from the top bar (or open \"Rooms\" and click \"Invite\" for a room).</li>\n  <li>If you are creating a new room, enter a room name.</li>\n  <li>Enter the invitee email address.</li>\n  <li>If you enter multiple addresses, separate them with commas.</li>\n  <li>Choose the subscription option: they have their own subscription or I will pay for them.</li>\n  <li>Click \"Send invite\".</li>\n  <li>The invite appears in the \"Invites\" list, where you can track its status.</li>\n  <li>Once the person accepts, you can open the group chat from the \"Rooms\" view or from the same chat page.</li>\n</ul>\n<p><strong>Room management</strong></p>\n<ul>\n  <li>In the \"Rooms\" view you can invite people, leave a room, or delete a room (delete is only available to the room owner).</li>\n</ul>\n\n<p><strong>Document analysis</strong></p>\n<ul>\n  <li>Uploading a document helps the assistant work with your text — for example a longer letter, contract, guide, or application.</li>\n  <li>The assistant can use the document to create a brief summary, clarify complex or legal parts, compare terms against laws or guidelines, help draft replies and applications, and highlight important dates, requirements, and risks.</li>\n  <li>The document is used only within the current conversation and is not stored permanently.</li>\n</ul>\n<p><strong>Adding a document</strong></p>\n<ul>\n  <li>The paperclip button opens a file picker and lets you upload documents (up to 50 MB), e.g. PDF, DOC/DOCX, TXT, MD, or HTML.</li>\n  <li>Documents are not stored permanently — they are used only for the current conversation.</li>\n</ul>\n<p>After a successful upload, a document window opens where you see:</p>\n<ul>\n  <li>the file name,</li>\n  <li>the \"Analyse in chat\" toggle to choose whether the assistant may rely on the uploaded document or only on the SotsiaalAI knowledge base when answering,</li>\n  <li>a clarification that opens when you click the question-mark icon,</li>\n  <li>the \"Show document\" / \"Hide document\" button to open or hide the document text in the window,</li>\n  <li>the document text (scrollable in the same window) when \"Show document\" is selected,</li>\n  <li>the \"Back to chat\" button to jump back to the chat window and input field to continue with questions.</li>\n</ul>\n<p>Under the \"Upload document\" button you see how many document analyses you still have available today.</p>\n<p><strong>Sources</strong></p>\n<ul>\n  <li>If an answer uses documents, a \"Sources\" button appears in the footer to open the list of materials used.</li>\n</ul>\n<p><strong>Chat sidebar</strong></p>\n<ul>\n  <li>The \"Conversations\" button in the quick-actions rail opens a side panel where you can:</li>\n  <li>load previous conversations,</li>\n  <li>start a new conversation,</li>\n  <li>refresh the list,</li>\n  <li>delete conversations you no longer need,</li>\n  <li>use \"Load more\" to view older conversations.</li>\n</ul>\n<p>The active conversation is highlighted in the list and the panel closes automatically when you switch to another conversation.</p>\n<p><strong>Profile and accessibility</strong></p>\n<ul>\n  <li>From the chat page's top-right profile icon you can open the profile page and accessibility settings (see the \"Profile and accessibility\" chapter).</li>\n</ul>\n<p><strong>Warnings</strong></p>\n<ul>\n  <li>If the conversation touches a possible crisis, a red info box appears with instructions for getting urgent help.</li>\n</ul>"
+          "body": "<p><strong>The chat page</strong> opens after sign-in and is split into three areas: the left scroll menu, the main chat area, and the right scroll menu.</p><p><strong>Left scroll menu</strong></p><ul><li><strong>Conversations.</strong> Open older conversations, start a new one, and load more history.</li><li><strong>Help requests.</strong> Browse global help-request listings.</li><li><strong>Help offers.</strong> Browse global help-offer listings.</li><li><strong>Sources.</strong> Open the list of materials used in the current answer when sources are available.</li></ul><p><strong>Main chat area</strong></p><ul><li>Type your message and send it with the button or Enter.</li><li>While the assistant is responding, the send button becomes a stop button.</li><li><strong>Plus button (+).</strong> The <strong>+</strong> next to the message field opens chat tools. Depending on your role and context, you can open document analysis, deep research, <strong>Documents</strong>, or <strong>Agent mode</strong> from there.</li><li>When you open an existing room, the same main area switches into room conversation mode, where you see shared messages and continue the real discussion with invited people.</li></ul><p><strong>Assistant workflows in chat</strong></p><ul><li><strong>Assistant mode.</strong> This is the normal chat mode for asking questions, getting explanations, next steps, and source-based answers.</li><li><strong>Document drafting mode.</strong> If your message suggests creating a document, letter, reply, or form, the assistant first asks for plain-language confirmation before entering the workflow.</li><li><strong>Help request mode.</strong> If you want to ask for help, the assistant guides you through creating a help-request listing.</li><li><strong>Help offer mode.</strong> If you want to offer help, the assistant guides you through creating a help-offer listing.</li><li>If you answer <strong>yes</strong> to the workflow question, that workflow stays locked to the conversation. If you answer <strong>no</strong>, the assistant offers alternatives.</li></ul><p><strong>Help requests and help offers</strong></p><ul><li>Help requests and help offers are created step by step inside the chat.</li><li>A listing is saved only after you confirm it in plain chat text, such as <strong>yes</strong> or <strong>save</strong>.</li><li>The left scroll menu shows global listings; the right scroll menu shows your own listings.</li><li>When you open a listing, the chat area shows a detail context where you can contact the other side, offer help, ask AI about the listing, edit your own listing, close it, or delete it.</li><li>Connecting a help request and a help offer creates or reopens a room where the actual person-to-person conversation can continue.</li></ul><p><strong>Document mode and role-based results</strong></p><ul><li>Document drafting starts only after you confirm the document workflow proposed by the assistant.</li><li>The assistant asks for missing details one at a time and shows a short summary before generation.</li><li>In an active document workflow, a paperclip appears next to the <strong>+</strong>. Files added there are used only for that conversation and that document task.</li><li>File limits depend on role: up to 2 files for a person seeking help and up to 10 files for a social work professional.</li><li>If you confirm the summary with <strong>yes</strong>, the platform creates a draft.</li><li>For a <strong>social work professional</strong>, the result opens on the <strong>Documents</strong> page.</li><li>For a <strong>person seeking help</strong>, the result opens on the <strong>Agent mode</strong> page, where you can continue refining, saving, and marking the result as finished.</li><li>DOCX and PDF downloads become available only after the draft is approved as final.</li></ul><p><strong>Right scroll menu</strong></p><ul><li><strong>Profile.</strong> Open account, subscription, and accessibility settings.</li><li><strong>Rooms.</strong> Open existing group conversations.</li><li><strong>Add person.</strong> Send an invite. In the invite flow you can choose whether the invited person uses their own subscription or receives one month of sponsored access paid by you.</li><li><strong>My help requests</strong> and <strong>My help offers.</strong> Open your own listings directly from chat.</li></ul><p><strong>Voice, scrolling, and warnings</strong></p><ul><li>Use the microphone for dictation and the listen action for reading the latest reply aloud.</li><li>If you scroll up in the conversation, a quick button appears to jump back to the bottom.</li><li>If the conversation touches a possible crisis, the platform shows a red urgent-help notice.</li></ul>"
+        },
+        "documents": {
+          "title": "6. Documents",
+          "body": "<p>The <strong>Documents</strong> page is meant for a <strong>social work professional</strong>. It is the place for managing persistent work files and results created from chat or agent workflows.</p><ul><li>You can upload documents, open their detail views, and download original files.</li><li>Documents can be marked for use in a workflow so they are included in agent work or other document tasks.</li><li>The page also shows drafts and approved results created from those documents.</li><li>Results can be opened in detail view, saved, approved, and after approval downloaded as DOCX or PDF files.</li><li>If a chat-created draft is meant for the specialist's work, it appears on this page.</li></ul>"
+        },
+        "agent_mode": {
+          "title": "7. Agent mode",
+          "body": "<p>The <strong>Agent mode</strong> page is a workspace where the agent helps create texts and drafts from selected files. For a person seeking help, this is the main place to continue documents that started in chat.</p><ul><li>You can choose the task type, tone, language, length, and, when needed, a template.</li><li>A help seeker can add files needed for their work directly in Agent mode and use the role-based file limit there.</li><li>The conversation with the agent happens on the same page: you can give the first instruction, ask for refinements, and generate new versions.</li><li>The page shows the current draft, version history, and previously saved or finished results.</li><li>If a chat-created result is meant for the help seeker's work, it opens here for further editing.</li></ul>"
         },
         "profile": {
-          "title": "6. Profile",
-          "body": "<p>The \"Profile\" page contains your account, subscription and accessibility settings.</p><ul><li>See your user role.</li><li>Show subscription: plan, monthly price and validity.</li><li><strong>To change email</strong> enter your current PIN; we send a verification email to the new address.</li><li><strong>To update PIN</strong> enter your current PIN and a new PIN (4-8 digits).</li><li>Adjust language, text size, contrast and motion preferences.</li><li>In the profile quick actions menu, you can switch between dark and light layout.</li></ul>"
+          "title": "8. Profile",
+          "body": "<p>The <a href=\"/profiil\">Profile</a> page gathers your account, subscription, and personal preferences.</p><ul><li>The main actions open from the orbital menu in the center of the page.</li><li><strong>Update PIN.</strong> Opens a separate page where you enter the current PIN, the new PIN, and confirmation.</li><li><strong>Update email.</strong> Opens a separate page where you enter the new email address and confirm the change with your current PIN.</li><li><strong>Manage subscription.</strong> Opens the subscription page, where you can see the active plan, sponsored-access end date, and role-based monthly pricing: 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li><strong>Language and accessibility.</strong> Open language, screen profile, text size, contrast, and motion settings; changes apply immediately.</li><li><strong>Theme.</strong> Switch between light, dim, dark, and night views.</li><li><strong>Account settings.</strong> Open the account-settings view, where you can sign out on this device, sign out everywhere, or start account deletion.</li><li>On mobile, the profile menu can also include shortcuts to your own help requests and help offers.</li></ul>"
         },
         "about": {
-          "title": "7. ABOUT",
-          "body": "<p>The <a href=\"/#meist\">ABOUT</a> section is on the home page below the role cards. It includes:</p><ul><li>a short explanation of who the platform is for and how it helps;</li><li>contact by email: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>;</li><li><a href=\"/kasutustingimused\">Terms of Use</a> and <a href=\"/privaatsustingimused\">Privacy Policy</a>;</li><li>a link to the <a href=\"/kasutusjuhend\">Platform guide</a> (this guide).</li></ul>"
+          "title": "9. ABOUT",
+          "body": "<p>The <a href=\"/#meist\">ABOUT</a> section is below the role cards on the home page. It includes:</p><ul><li>a short explanation of what the platform is for;</li><li>contact email: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>;</li><li>links to the <a href=\"/kasutustingimused\">Terms of Use</a> and <a href=\"/privaatsustingimused\">Privacy Policy</a>;</li><li>a link to the <a href=\"/kasutusjuhend\">platform guide</a>.</li></ul>"
+        },
+        "before_use": {
+          "title": "10. Before using",
+          "body": "<p>At the end of the guide page there is a separate <strong>Before using</strong> block. It gives quick access to the most important links before you begin.</p><ul><li><strong>Platform guide.</strong> Opens this guide page again.</li><li><strong>Terms of Use</strong> and <strong>Privacy Policy.</strong> Open the platform's terms and data-use pages.</li><li><strong>Install on mobile or desktop.</strong> Starts the install action or shows instructions for adding SotsiaalAI as a separate app on your phone or computer.</li></ul>"
         },
         "quickstart": {
-          "title": "8. Quick overview",
-          "body": "<p>This is a short guide to using SotsiaalAI.</p>\n<p><strong>First time</strong></p>\n<ol>\n  <li><strong>Open sotsiaal.ai</strong><br/>On your first visit choose language and accessibility (text size, contrast, animations).</li>\n  <li><strong>Choose a role and create an account</strong>\n    <ul>\n      <li>On the home page pick the role card (\"For social work professionals\" or \"For people seeking help\") and click <a href=\"/registreerimine\">Register</a>.</li>\n      <li>Enter your email address and a PIN (4-8 digits) and accept the terms and privacy policy.</li>\n    </ul>\n  </li>\n  <li><strong>Confirm email and sign in</strong>\n    <ul>\n      <li>Open the verification email and confirm your address.</li>\n      <li>Then sign in with email + PIN. If needed, confirm with the 6-digit code sent to your email and optionally select \"Remember this device for 30 days\" on devices you trust.</li>\n    </ul>\n  </li>\n  <li><strong>Activate subscription</strong>\n    <ul>\n      <li>If you do not yet have an active subscription, after the first sign-in you will be redirected to the Subscription page.</li>\n      <li>Choose the plan and confirm payment (monthly fee €7.99).</li>\n    </ul>\n  </li>\n  <li><strong>Start using the chat assistant</strong>\n    <ul>\n      <li>On the chat page type your question in the input field and press Enter or click \"Send\".</li>\n      <li>Use documents and sources as described in section 5 of this guide.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>Next visits</strong></p>\n<ol>\n  <li>Open <a href=\"https://sotsiaal.ai\">sotsiaal.ai</a>.</li>\n  <li>If your device is remembered and you have an active subscription, you can usually sign in with just your PIN.</li>\n  <li>If something seems off or access is limited, check your subscription status on the Profile page.</li>\n</ol>"
+          "title": "11. Quick overview",
+          "body": "<p>If you want to get started quickly, follow these steps:</p><ol><li><strong>Choose your role</strong> on the home page and create an account.</li><li><strong>Accept the policies</strong>, confirm that you have read the platform guide, and then verify your email.</li><li><strong>Activate a subscription or sponsored access.</strong> Monthly pricing is 7.99 EUR for a person seeking help and 14.99 EUR for a social work professional.</li><li><strong>Sign in</strong> and open the chat page.</li><li><strong>Write your question</strong> or describe your situation.</li><li>If the assistant asks about the workflow, answer <strong>yes</strong> or <strong>no</strong> to move into assistant, help, or document workflows.</li><li>Use the left and right scroll menus for conversations, rooms, sources, and your own help listings.</li><li>Manage settings, account, and subscription on the <a href=\"/profiil\">Profile</a> page.</li></ol>"
         }
       }
     }
@@ -1927,6 +1939,14 @@
           "title": "Crisis",
           "meta": "Crisis severity detected"
         },
+        "stt_requests": {
+          "title": "STT requests",
+          "meta": "Voice input share {percent}%"
+        },
+        "tts_requests": {
+          "title": "TTS requests",
+          "meta": "Voice output share {percent}%"
+        },
         "rag_averages": {
           "title": "Averages (RAG)",
           "meta": "Hits {hits}, groups {groups}, chosen {chosen}"
@@ -1934,6 +1954,43 @@
         "grounding": {
           "title": "Grounding",
           "meta": "Strong {strong}% | OK {ok}% | Weak {weak}%"
+        }
+      },
+      "platform": {
+        "title": "Platform overview",
+        "subtitle": "Combined view of chat, help, collaboration and document workflows.",
+        "chat": {
+          "title": "Chat and voice",
+          "conversations_total": "Conversations total",
+          "active_conversations_30d": "Active conversations (30d)",
+          "ai_errors_30d": "AI errors (30d)"
+        },
+        "help": {
+          "title": "Help flow",
+          "open_requests": "Open requests",
+          "open_offers": "Open offers",
+          "matches_30d": "Matches (30d)",
+          "match_statuses_30d": "Match statuses (30d)"
+        },
+        "collaboration": {
+          "title": "Rooms and invites",
+          "rooms_total": "Rooms total",
+          "active_rooms_30d": "Active rooms (30d)",
+          "room_messages_30d": "Room messages (30d)",
+          "pending_invites": "Pending invites",
+          "sponsored_invites_30d": "Sponsored invites (30d)",
+          "active_sponsored_members": "Active sponsored members"
+        },
+        "documents": {
+          "title": "Documents and agent",
+          "total": "Documents total",
+          "uploaded_30d": "Uploaded (30d)",
+          "draft_artifacts": "Draft artifacts",
+          "final_artifacts": "Final artifacts",
+          "created_30d": "Created (30d)",
+          "approved_30d": "Approved (30d)",
+          "downloads_30d": "Document downloads (30d)",
+          "artifact_downloads_30d": "Artifact downloads (30d)"
         }
       },
       "rag_docs": {
@@ -2006,7 +2063,9 @@
         "summary": {
           "users": "Users in table",
           "estimated_cost": "Estimated cost (30d)",
-          "paid_amount": "Paid amount (30d)"
+          "paid_amount": "Paid amount (30d)",
+          "budget_capacity": "Total budget capacity",
+          "near_limits": "Near limits"
         },
         "active": "Active",
         "inactive": "Inactive",
@@ -2015,10 +2074,14 @@
           "rag": "RAG",
           "stt": "STT",
           "tts": "TTS",
-          "analyze": "Analyses"
+          "analyze": "Analyses (30d)",
+          "analyze_today": "Analyses today"
         },
         "limits": {
           "analyze_daily": "Analyze/day",
+          "analyze_usage_today": "Used today",
+          "analyze_remaining": "Remaining today",
+          "plan_amount": "Monthly fee",
           "monthly_budget": "Monthly budget",
           "remaining_budget": "Remaining budget",
           "utilization": "Budget use"
@@ -2034,9 +2097,10 @@
           "paid_30d": "Paid (30d)",
           "empty": "No users found."
         },
-        "note": "Estimate model (EUR): chat/request {chat}, rag/search {rag}, stt/MB {stt}, tts/1k chars {tts}, monthly budget {budget}. STT/TTS historical cost appears from event logging onwards.",
+        "note": "Estimate model (EUR): chat/request {chat}, rag/search {rag}, stt/MB {stt}, tts/1k chars {tts}, base monthly budget {budget}. Daily analyze limits and monthly budget scale by role and current monthly fee. STT/TTS historical cost appears from event logging onwards.",
         "actions": {
           "selected_count": "Selected: {count}",
+          "selected_visible": "Selected from visible: {count}",
           "select_visible": "Select visible",
           "clear_visible": "Clear visible",
           "delete_selected": "Delete selected",

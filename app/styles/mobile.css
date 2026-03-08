@@ -1034,9 +1034,9 @@
   .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll--open {
     max-height: calc(
       100% - var(--glass-ring-scroll-offset-open, 1.7rem) -
-        var(--policy-mobile-content-drop, 1.6rem) + clamp(0.7rem, 1.45vh, 1.05rem)
+        var(--policy-mobile-content-drop, 1.6rem) + clamp(1.95rem, 4.3vh, 2.7rem)
     ) !important;
-    padding-bottom: clamp(2rem, 4.2vh, 3rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.25rem, 0.8vh, 0.65rem)) !important;
     mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,

@@ -1,7 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
@@ -12,12 +12,25 @@ import styles from "./LeftRail.module.css";
 
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
+const CHAT_BACK_HOVER_ARM_KEY = "sotsiaalai:chat:back-hover-arm-on-move";
+const DEFAULT_RAIL_ITEM_SIZE_PX = 48;
+const DEFAULT_RAIL_STEP_FACTOR = 1.12;
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 function detectMobileViewport() {
   if (typeof window === "undefined") return false;
   const matchWidth = window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches;
   const matchCoarse = window.matchMedia?.(COARSE_POINTER_QUERY)?.matches;
   return Boolean(matchWidth || matchCoarse || window.innerWidth <= 768);
+}
+
+function detectRailProfileScale() {
+  if (typeof document === "undefined") return 1;
+  const root = document.documentElement;
+  const profile = root?.dataset?.uiProfile;
+  const scale = root?.dataset?.uiScale;
+  return profile === "lg" || scale === "lg" ? 1.25 : 1;
 }
 
 function _getHelpLabels(locale = "et") {
@@ -69,8 +82,11 @@ export default function LeftRail({
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [stepPx, setStepPx] = useState(56);
-  const [railProfileScale, setRailProfileScale] = useState(1);
+  const [backHoverReady, setBackHoverReady] = useState(true);
+  const [railProfileScale, setRailProfileScale] = useState(() => detectRailProfileScale());
+  const [stepPx, setStepPx] = useState(() =>
+    Math.round(DEFAULT_RAIL_ITEM_SIZE_PX * DEFAULT_RAIL_STEP_FACTOR * detectRailProfileScale())
+  );
   const [isMobile, setIsMobile] = useState(false);
   const localizedHelpLabels = useMemo(() => _getHelpLabels(locale), [locale]);
   const normalizedPathname = useMemo(
@@ -125,9 +141,30 @@ export default function LeftRail({
     });
   }, []);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setIsMounted(true);
   }, []);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (isMobile) return;
+    let armOnMove = false;
+    try {
+      armOnMove = window.sessionStorage.getItem(CHAT_BACK_HOVER_ARM_KEY) === "1";
+      if (armOnMove) {
+        window.sessionStorage.removeItem(CHAT_BACK_HOVER_ARM_KEY);
+      }
+    } catch {}
+    if (!armOnMove) {
+      setBackHoverReady(true);
+      return;
+    }
+    setBackHoverReady(false);
+    const onMouseMove = () => setBackHoverReady(true);
+    window.addEventListener("mousemove", onMouseMove, { once: true });
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+    };
+  }, [isMobile]);
 
   useEffect(() => {
     return () => {
@@ -146,7 +183,7 @@ export default function LeftRail({
     };
   }, []);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const update = () => {
       if (typeof window === "undefined") return;
       setIsMobile(detectMobileViewport());
@@ -157,13 +194,19 @@ export default function LeftRail({
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
     const update = () => {
       const style = window.getComputedStyle(rail);
-      const itemEl = rail.querySelector("[data-item-index]");
-      const itemSize = itemEl instanceof HTMLElement ? itemEl.offsetHeight : 0;
+      // Read the rail item size from CSS var instead of a rendered item node.
+      // The first visible node can be the smaller "back" button variant, which
+      // made the computed step unstable and caused visible re-layout on load.
+      const itemSizeRaw = Number.parseFloat(
+        style.getPropertyValue("--rail-item-size").trim()
+      );
+      const itemSize =
+        Number.isFinite(itemSizeRaw) && itemSizeRaw > 0 ? itemSizeRaw : 0;
       const factorRaw = Number.parseFloat(
         style.getPropertyValue("--rail-step-factor").trim()
       );
@@ -402,7 +445,8 @@ export default function LeftRail({
     styles.mobileRailTransition,
     !mobileVisible ? styles.mobileRailHidden : null,
     mobileVisible ? styles.mobileRailVisible : null,
-    suspendPointerEvents ? styles.pointerBlocked : null
+    suspendPointerEvents ? styles.pointerBlocked : null,
+    !isMounted ? "opacity-0 pointer-events-none" : null
   );
   const showDesktopTooltip =
     !isMobile &&
@@ -646,6 +690,9 @@ export default function LeftRail({
                 className={cn(
                   styles.item,
                   item.key === "back" ? styles.itemBack : null,
+                  item.key === "back" && !backHoverReady
+                    ? styles.backHoverSuppressed
+                    : null,
                   styles.iconBtn,
                   slotOffset === 0 ? styles.isActive : null,
                   item.key === "sources" && showSourcesPanel

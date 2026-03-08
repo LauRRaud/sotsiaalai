@@ -105,7 +105,7 @@ export default function UnustasinParooliBody() {
           {title}
         </h1>
         <div className={contentClassName}>
-          {submitted ? <RichText className="text-center text-[color:#a7f3d0]" as="div" value={t("auth.reset.success")} /> : <form className="flex w-full flex-col items-center gap-6 text-center" onSubmit={handleSubmit} autoComplete="off" aria-busy={loading ? "true" : "false"}>
+          {submitted ? <RichText className="auth-success-text text-center" as="div" value={t("auth.reset.success")} /> : <form className="flex w-full flex-col items-center gap-6 text-center" onSubmit={handleSubmit} autoComplete="off" aria-busy={loading ? "true" : "false"}>
               <label htmlFor="email" className="sr-only">
                 {t("profile.email")}
               </label>

@@ -1,5 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { detectMobileViewport } from "../chatLayoutVars";
+
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function useChatMobileRail() {
   const [isMobile, setIsMobile] = useState(false);
@@ -7,7 +10,7 @@ export function useChatMobileRail() {
   const [mobileRailInteractionLocked, setMobileRailInteractionLocked] = useState(false);
   const mobileModeRef = useRef(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const update = () => {
       if (typeof window === "undefined") return;
       const nextIsMobile = detectMobileViewport();

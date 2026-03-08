@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
@@ -13,12 +13,24 @@ const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
+const DEFAULT_RAIL_ITEM_SIZE_PX = 48;
+const DEFAULT_RAIL_STEP_FACTOR = 1.12;
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 function detectMobileViewport() {
   if (typeof window === "undefined") return false;
   const matchWidth = window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches;
   const matchCoarse = window.matchMedia?.(COARSE_POINTER_QUERY)?.matches;
   return Boolean(matchWidth || matchCoarse || window.innerWidth <= 768);
+}
+
+function detectRailProfileScale() {
+  if (typeof document === "undefined") return 1;
+  const root = document.documentElement;
+  const profile = root?.dataset?.uiProfile;
+  const scale = root?.dataset?.uiScale;
+  return profile === "lg" || scale === "lg" ? 1.25 : 1;
 }
 
 function _getHelpLabels(locale = "et") {
@@ -75,8 +87,10 @@ export default function RightRail({
   const [tooltipLabelIndex, setTooltipLabelIndex] = useState(1);
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
-  const [stepPx, setStepPx] = useState(56);
-  const [railProfileScale, setRailProfileScale] = useState(1);
+  const [railProfileScale, setRailProfileScale] = useState(() => detectRailProfileScale());
+  const [stepPx, setStepPx] = useState(() =>
+    Math.round(DEFAULT_RAIL_ITEM_SIZE_PX * DEFAULT_RAIL_STEP_FACTOR * detectRailProfileScale())
+  );
   const [isMobile, setIsMobile] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [isRouteTilting, setIsRouteTilting] = useState(false);
@@ -105,7 +119,7 @@ export default function RightRail({
     });
   }, []);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setIsMounted(true);
   }, []);
   useEffect(() => {
@@ -129,7 +143,7 @@ export default function RightRail({
     };
   }, []);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const update = () => {
       if (typeof window === "undefined") return;
       setIsMobile(detectMobileViewport());
@@ -140,7 +154,7 @@ export default function RightRail({
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
     const update = () => {

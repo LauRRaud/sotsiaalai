@@ -25,6 +25,8 @@ import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, 
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
+const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
+const CHAT_BACK_HOVER_ARM_KEY = "sotsiaalai:chat:back-hover-arm-on-move";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const ROLE_KEYS = {
@@ -86,9 +88,13 @@ const orbitWrapperClassName =
   "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
+const bottomRoleToggleWrapClassName =
+  "relative z-[4] flex w-full justify-center mt-[clamp(0.7rem,1.8vh,1.3rem)] " +
+  "mb-[clamp(3.2rem,8vh,4.9rem)] min-[48.0625em]:hidden max-[48em]:mt-[clamp(0.5rem,2.4vw,0.95rem)] " +
+  "max-[48em]:mb-[calc(env(safe-area-inset-bottom,0px)+4.8rem)]";
 const orbitRoleToggleWrapClassName =
   "absolute left-1/2 top-[calc(50%+clamp(6.15rem,24vw,7.45rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
-  "-translate-x-1/2 z-[6] pointer-events-auto";
+  "-translate-x-1/2 z-[6] pointer-events-auto max-[48em]:hidden";
 const orbitRoleToggleButtonClassName =
   "whitespace-normal text-center leading-[1.16] px-[1.22rem] py-[0.76rem] text-[1.02rem] min-h-[2.7rem] " +
   "max-[48em]:!min-h-[3rem] max-[48em]:!px-[1.35rem] max-[48em]:!py-[0.8rem] max-[48em]:!text-[1.14rem]";
@@ -119,29 +125,32 @@ const modalInputWrapClassName = "flex w-full justify-center";
 const modalInputClassName =
   "w-full max-w-[22rem] rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.15rem] py-[0.9rem] px-[1.35rem] min-h-[3.45rem]";
 const accountModalOverlayClassName =
-  "z-[140] bg-[rgba(6,8,14,0.84)] px-[1rem] py-[1.2rem] max-[768px]:items-end max-[768px]:p-0";
+  "invite-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
 const accountModalContentClassName =
-  "invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain " +
-  "!w-[min(100%,40rem)] !max-w-[40rem] !max-h-[min(86dvh,42rem)] !rounded-[1.45rem] " +
-  "!border-[rgba(248,253,255,0.16)] !bg-[rgba(14,18,28,0.82)] !px-[1.2rem] !pt-[1rem] !pb-[1.05rem] " +
-  "!text-[1.2rem] !leading-[1.42] !tracking-[0.02rem] light:!bg-[rgba(255,255,255,0.9)] " +
-  "max-[768px]:!w-screen max-[768px]:!max-w-screen max-[768px]:!max-h-[92dvh] max-[768px]:!rounded-t-[1.45rem] max-[768px]:!rounded-b-none max-[768px]:!px-[0.95rem] max-[768px]:!pt-[0.95rem]";
+  "invite-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain " +
+  "pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] " +
+  "max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] [--input-text:var(--glass-modal-text)]";
 const accountModalHeadClassName =
-  "relative flex min-h-[4rem] items-start justify-center px-[0.15rem] pt-[0.2rem] pb-[0.55rem]";
+  "mb-[0.35rem] flex items-start justify-center gap-[0.75rem]";
 const accountModalBackButtonClassName =
-  "absolute left-[-0.55rem] top-[-0.85rem] translate-x-0 translate-y-0 bottom-auto z-[92] " +
+  "absolute top-[0.15rem] left-[0.2rem] translate-x-0 translate-y-0 bottom-auto z-[92] " +
   "!h-[4.85rem] !w-[4.85rem] min-[769px]:!h-[5.3rem] min-[769px]:!w-[5.3rem] " +
   "[&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] " +
-  "max-[768px]:left-[calc(env(safe-area-inset-left,0px)-0.05rem)] max-[768px]:top-[calc(env(safe-area-inset-top,0px)-0.2rem)]";
-const accountModalTitleWrapClassName = "grid max-w-[30rem] gap-[0.38rem] px-[2.6rem] text-center";
+  "max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)]";
+const accountModalTitleWrapClassName =
+  "grid max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center";
 const accountModalTitleClassName =
-  "m-0 w-full text-center text-[2.26rem] leading-[1.06] tracking-[0.03em] font-normal [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] text-[#c57171] light:text-[color:var(--title-color)]";
+  `${glassPageTitleClassName} !mb-0 max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`;
 const accountModalDescriptionClassName =
-  "text-[1.12rem] leading-[1.46] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
-const accountModalActionStackClassName = "grid gap-[0.68rem] pt-[0.1rem]";
+  "mx-auto max-w-[28rem] text-[1.04rem] leading-[1.4] tracking-[0.02em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:text-[1.08rem]";
+const accountModalActionStackClassName =
+  "invite-modal-scroll grid gap-[0.82rem] px-[1.15rem] pt-[0.35rem] pb-[0.4rem] max-[768px]:px-[0.2rem]";
 const accountModalCardClassName =
-  "rounded-[1.05rem] border border-[rgba(248,253,255,0.14)] bg-[rgba(255,255,255,0.045)] p-[0.8rem_0.95rem] " +
-  "shadow-[0_12px_24px_rgba(4,6,12,0.14)] light:border-[rgba(148,163,184,0.24)] light:bg-[rgba(255,255,255,0.68)]";
+  "rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] " +
+  "p-[0.95rem_1rem] text-[color:var(--glass-modal-text)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
+  "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
+  "[.theme-mid_&]:border-[rgba(132,72,68,0.18)] [.theme-mid_&]:bg-[rgba(251,242,239,0.9)] [.theme-mid_&]:text-[#3f4756] " +
+  "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
 const accountModalActionRowClassName = "flex items-center justify-between gap-3 max-[560px]:flex-col max-[560px]:items-start";
 const accountModalActionLabelClassName = "text-[1.16rem] font-medium leading-[1.28]";
 const accountModalNoteClassName =
@@ -763,6 +772,10 @@ export default function ProfiilBody({
       onBack();
       return;
     }
+    try {
+      window.sessionStorage.setItem(CHAT_SKIP_ENTRY_SETTLE_KEY, "1");
+      window.sessionStorage.setItem(CHAT_BACK_HOVER_ARM_KEY, "1");
+    } catch {}
     pushWithTransition(router, localizePath("/vestlus", locale), {
       glassRingTilt: "left",
       waitForGlassRingTilt: true,
@@ -1002,6 +1015,23 @@ export default function ProfiilBody({
             {error}
           </div>}
       </div>
+
+      {isAdminUser && !orbitOpen ? (
+        <div className={bottomRoleToggleWrapClassName}>
+          <Button
+            variant="primary"
+            className={orbitRoleToggleButtonClassName}
+            onClick={() => {
+              void handleAdminViewRoleChange(nextPreviewRole);
+            }}
+            disabled={roleSwitching}
+            aria-label={nextPreviewRoleLabel}
+          >
+            <RoleToggleDockIcon className="h-[1.42rem] w-[1.42rem] shrink-0" />
+            <span>{nextPreviewRoleLabel}</span>
+          </Button>
+        </div>
+      ) : null}
 
       {showAccountSettings ? (
         <Modal

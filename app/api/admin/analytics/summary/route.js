@@ -58,6 +58,10 @@ function toCountMap(rows, keyField) {
   return out;
 }
 
+function countDistinct(rows, keyField) {
+  return Array.isArray(rows) ? rows.filter(row => row?.[keyField] != null).length : 0;
+}
+
 export async function GET(req) {
   const locale = localeFromRequest(req);
   const session = await getServerSession(authConfig).catch(() => null);
@@ -76,6 +80,12 @@ export async function GET(req) {
       totalCrisis,
       noContextCount,
       ragSearchCount,
+      sttRequestCount,
+      ttsRequestCount,
+      ragErrorCount,
+      openAiErrorCount,
+      conversationTotal,
+      activeConversations30d,
       ragDocTotal,
       ragDocFailed,
       ragDocError30d,
@@ -104,7 +114,26 @@ export async function GET(req) {
       paymentEventWebhookErrorCount,
       paymentEventWebhookInvalidSignatureCount,
       paymentEventWebhookInvalidPayloadCount,
-      paymentEventWebhookRateLimitedCount
+      paymentEventWebhookRateLimitedCount,
+      helpRequestsOpen,
+      helpOffersOpen,
+      helpRequests30d,
+      helpOffers30d,
+      helpMatches30d,
+      helpMatchesByStatus,
+      roomsTotal,
+      roomMessages30d,
+      activeRooms30dRows,
+      pendingInvites,
+      sponsoredInvites30d,
+      activeSponsoredMembers,
+      documentsTotal,
+      documents30d,
+      artifactsDraft,
+      artifactsFinal,
+      artifactCreates30d,
+      artifactApprovals30d,
+      documentAuditActions30d
     ] = await Promise.all([
       prisma.chatLog.count({
         where: {
@@ -128,6 +157,37 @@ export async function GET(req) {
         where: {
           event: "rag_search",
           createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "stt_request",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "tts_request",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "rag_error",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "openai_error",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.conversation.count(),
+      prisma.conversation.count({
+        where: {
+          archivedAt: null,
+          lastActivityAt: { gte: since }
         }
       }),
       prisma.ragDocument.count(),
@@ -318,6 +378,103 @@ export async function GET(req) {
           event: "subscription_webhook_rate_limited",
           createdAt: { gte: since }
         }
+      }),
+      prisma.helpRequest.count({
+        where: {
+          status: { in: ["OPEN", "MATCHED"] }
+        }
+      }),
+      prisma.helpOffer.count({
+        where: {
+          status: { in: ["OPEN", "MATCHED"] }
+        }
+      }),
+      prisma.helpRequest.count({
+        where: {
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.helpOffer.count({
+        where: {
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.helpMatch.count({
+        where: {
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.helpMatch.groupBy({
+        by: ["status"],
+        where: {
+          createdAt: { gte: since }
+        },
+        _count: { _all: true }
+      }),
+      prisma.room.count(),
+      prisma.roomMessage.count({
+        where: {
+          createdAt: { gte: since },
+          deletedAt: null
+        }
+      }),
+      prisma.roomMessage.groupBy({
+        by: ["roomId"],
+        where: {
+          createdAt: { gte: since },
+          deletedAt: null
+        },
+        _count: { _all: true }
+      }),
+      prisma.invite.count({
+        where: {
+          status: "PENDING_PAYMENT"
+        }
+      }),
+      prisma.invite.count({
+        where: {
+          paymentMode: "SPONSORED_BY_HOST",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.roomMember.count({
+        where: {
+          billingSource: "SPONSORED_BY_HOST",
+          leftAt: null
+        }
+      }),
+      prisma.userDocument.count(),
+      prisma.userDocument.count({
+        where: {
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.agentArtifact.count({
+        where: {
+          status: "DRAFT"
+        }
+      }),
+      prisma.agentArtifact.count({
+        where: {
+          status: "FINAL"
+        }
+      }),
+      prisma.agentArtifact.count({
+        where: {
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.agentArtifact.count({
+        where: {
+          approvedAt: { gte: since }
+        }
+      }),
+      prisma.documentAudit.groupBy({
+        by: ["action"],
+        where: {
+          createdAt: { gte: since }
+        },
+        _count: { _all: true }
       })
     ]);
 
@@ -389,6 +546,14 @@ export async function GET(req) {
       totalCrisis,
       noContextCount,
       ragSearchCount,
+      chat: {
+        conversationsTotal: conversationTotal,
+        activeConversations30d,
+        sttRequests30d: sttRequestCount,
+        ttsRequests30d: ttsRequestCount,
+        ragErrors30d: ragErrorCount,
+        openAiErrors30d: openAiErrorCount
+      },
       ragDocs: {
         total: ragDocTotal,
         failed: ragDocFailed,
@@ -407,6 +572,31 @@ export async function GET(req) {
         recentPayments,
         paymentPipeline30d,
         paymentAlerts30d
+      },
+      help: {
+        openRequests: helpRequestsOpen,
+        openOffers: helpOffersOpen,
+        newRequests30d: helpRequests30d,
+        newOffers30d: helpOffers30d,
+        matches30d: helpMatches30d,
+        matchesByStatus30d: toCountMap(helpMatchesByStatus, "status")
+      },
+      collaboration: {
+        roomsTotal,
+        activeRooms30d: countDistinct(activeRooms30dRows, "roomId"),
+        roomMessages30d,
+        pendingInvites,
+        sponsoredInvites30d,
+        activeSponsoredMembers
+      },
+      documents: {
+        total: documentsTotal,
+        uploaded30d: documents30d,
+        draftArtifacts: artifactsDraft,
+        finalArtifacts: artifactsFinal,
+        created30d: artifactCreates30d,
+        approved30d: artifactApprovals30d,
+        actions30d: toCountMap(documentAuditActions30d, "action")
       },
       averages: {
         avgRagMatchCount,
