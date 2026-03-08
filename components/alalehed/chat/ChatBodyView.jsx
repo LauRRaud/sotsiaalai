@@ -45,6 +45,7 @@ export default function ChatBodyView({
   onShowMyHelpRequests,
   onShowMyHelpOffers,
   toggleProfile,
+  openProfileDirect,
   analysis,
   isRoomMode,
   roomTitle,
@@ -143,6 +144,7 @@ export default function ChatBodyView({
                   onShowHelpRequests={onShowHelpRequests}
                   onShowHelpOffers={onShowHelpOffers}
                   toggleProfile={toggleProfile}
+                  openProfileDirect={openProfileDirect}
                 />
               ) : null}
 

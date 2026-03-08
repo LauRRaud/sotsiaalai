@@ -4,13 +4,10 @@ import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
-import AppLink from "@/components/ui/Link";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
-import InstallAppLink from "@/components/pwa/InstallAppLink";
-import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
@@ -26,7 +23,6 @@ const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "before_use", "quickstart"];
-const guideLinkClassName = cn("inline-flex items-center justify-center text-center", linkBrandInlineClass);
 export default function KasutusjuhendBody() {
   const [expanded, setExpanded] = useState(false);
   const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(true);
@@ -96,17 +92,6 @@ export default function KasutusjuhendBody() {
       persistGlassRingTilt: false
     });
   };
-  const openGlassPage = (event, pathname) => {
-    if (event.defaultPrevented) return;
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    if (event.button !== 0) return;
-    event.preventDefault();
-    pushWithTransition(router, localizePath(pathname, locale), {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  };
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
         <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", glassPolicyRingClassName, "policy-mobile-lower", "guide-policy-ring", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
@@ -163,34 +148,11 @@ export default function KasutusjuhendBody() {
               }} />
                 </article>)}
             </div>
-            <section className={cn(policySectionClassName, "mt-[1.1rem] max-[768px]:mt-[0.9rem]")}>
-              <h2 className={policySectionHeadingClassName}>{t("about.cta.title")}</h2>
-              <ul className={cn(policySectionBodyClassName, "list-none p-0 m-0 flex flex-wrap gap-x-[1rem] gap-y-[0.45rem] justify-center text-center")}>
-                <li>
-                  <AppLink href="/kasutusjuhend" onClick={event => openGlassPage(event, "/kasutusjuhend")} className={guideLinkClassName}>
-                    {t("about.guide.jump_link")}
-                  </AppLink>
-                </li>
-                <li>
-                  <AppLink href="/kasutustingimused" onClick={event => openGlassPage(event, "/kasutustingimused")} className={guideLinkClassName}>
-                    {t("about.links.terms")}
-                  </AppLink>
-                </li>
-                <li>
-                  <AppLink href="/privaatsustingimused" onClick={event => openGlassPage(event, "/privaatsustingimused")} className={guideLinkClassName}>
-                    {t("about.links.privacy")}
-                  </AppLink>
-                </li>
-                <li>
-                  <InstallAppLink variant="row" className={guideLinkClassName} />
-                </li>
-              </ul>
-            </section>
             <footer className={cn(
               "text-center text-[1.32rem] max-[768px]:text-[1.38rem] text-[#d7cfd3] light:text-[#4a413a]",
               isExpandedLayout
                 ? "mt-[clamp(1.2rem,2.8vh,1.9rem)] mb-[clamp(0.85rem,2vh,1.3rem)] max-[768px]:mt-[clamp(1rem,2.5vh,1.6rem)] max-[768px]:mb-[clamp(0.75rem,1.9vh,1.2rem)]"
-                : "mt-[clamp(1.5rem,3.4vh,2.4rem)] mb-[clamp(0.32rem,0.95vh,0.68rem)] max-[768px]:mt-[clamp(1.2rem,3vh,1.9rem)] max-[768px]:mb-[clamp(0.26rem,0.85vh,0.6rem)]"
+                : "mt-[clamp(0.18rem,0.55vh,0.42rem)] mb-[clamp(0.32rem,0.95vh,0.68rem)] max-[768px]:mt-[clamp(0.3rem,0.9vh,0.56rem)] max-[768px]:mb-[clamp(0.26rem,0.85vh,0.6rem)]"
             )}>
               {getFooterNote()}
             </footer>

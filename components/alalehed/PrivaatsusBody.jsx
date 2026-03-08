@@ -192,7 +192,7 @@ export default function PrivaatsusBody() {
               "policy-page-footer privacy-page-footer text-center text-[1.32rem] max-[768px]:text-[1.38rem] text-[#d7cfd3] light:text-[#4a413a]",
               isExpandedLayout
                 ? "mt-[clamp(1.2rem,2.8vh,1.9rem)] mb-[clamp(0.85rem,2vh,1.3rem)] max-[768px]:mt-[clamp(1rem,2.5vh,1.6rem)] max-[768px]:mb-[clamp(0.75rem,1.9vh,1.2rem)]"
-                : "mt-[clamp(1.5rem,3.4vh,2.4rem)] mb-[clamp(0.35rem,1vh,0.7rem)] max-[768px]:mt-[clamp(1.2rem,3vh,1.9rem)] max-[768px]:mb-[clamp(0.28rem,0.9vh,0.62rem)]"
+                : "mt-[clamp(0.18rem,0.55vh,0.42rem)] mb-[clamp(0.35rem,1vh,0.7rem)] max-[768px]:mt-[clamp(0.3rem,0.9vh,0.56rem)] max-[768px]:mb-[clamp(0.28rem,0.9vh,0.62rem)]"
             )}>
               {getFooterNote()}
             </footer>

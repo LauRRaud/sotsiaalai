@@ -12,7 +12,7 @@ import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu
 import HelpListingsPanel from "@/components/chat/HelpListingsPanel";
 import { getHelpUiText } from "@/components/chat/helpUiText";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
+import { pushWithTransition, runWithTransition, triggerRouteTransition } from "@/lib/routeTransition";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
@@ -30,6 +30,7 @@ const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
 const CHAT_BACK_HOVER_ARM_KEY = "sotsiaalai:chat:back-hover-arm-on-move";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
+const ACCOUNT_SETTINGS_TILT_MS = 540;
 const ROLE_KEYS = {
   ADMIN: "role.admin",
   SOCIAL_WORKER: "role.worker",
@@ -149,17 +150,17 @@ const accountModalTitleClassName =
 const accountModalDescriptionClassName =
   "mx-auto max-w-[28rem] text-[1.04rem] leading-[1.4] tracking-[0.02em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:max-w-none max-[768px]:px-[0.15rem] max-[768px]:text-[1.08rem]";
 const accountModalActionStackClassName =
-  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.82rem] px-[1.15rem] pt-[0.35rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:px-[0.08rem]";
+  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.52rem] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:px-[0.08rem]";
 const accountModalCardClassName =
   "rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] " +
-  "p-[1.2rem_1rem_1.35rem] min-h-[12.25rem] text-[color:var(--glass-modal-text)] shadow-none max-[768px]:p-[1.2rem_1rem_1.35rem] " +
+  "p-[0.94rem_0.92rem_0.72rem] min-h-[8.9rem] text-[color:var(--glass-modal-text)] shadow-none max-[768px]:p-[0.98rem_0.92rem_0.76rem] " +
   "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] " +
   "[.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
-  "[.theme-mid_&]:border-[rgba(132,72,68,0.18)] [.theme-mid_&]:bg-[rgba(251,242,239,0.9)] [.theme-mid_&]:text-[#3f4756] " +
+  "[.theme-mid_&]:border-[rgba(132,72,68,0.16)] [.theme-mid_&]:bg-[rgba(251,242,239,0.72)] [.theme-mid_&]:text-[#3f4756] " +
   "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
-const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[1rem] pt-[0.9rem] text-center";
+const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[1rem] pt-[0.6rem] text-center";
 const accountModalNoteClassName =
-  "mx-auto max-w-[24rem] text-center text-[1.01rem] leading-[1.38] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
+  "m-0 mx-auto max-w-[24rem] text-center text-[0.99rem] leading-[1.26] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
 const accountModalButtonClassName =
   "!min-h-[2.8rem] !px-[1.28rem] !py-[0.56rem] !text-[1.06rem] !tracking-[0.02em] !self-center shrink-0 " +
   "!min-w-[12.5rem] max-[768px]:!w-auto max-[768px]:!min-w-[12rem] max-[768px]:!max-w-full max-[768px]:!justify-center";
@@ -414,12 +415,14 @@ export default function ProfiilBody({
   const [loggingOut, setLoggingOut] = useState(false);
   const [loggingOutEverywhere, setLoggingOutEverywhere] = useState(false);
   const [showAccountSettings, setShowAccountSettings] = useState(false);
+  const [accountSettingsClosing, setAccountSettingsClosing] = useState(false);
   const [showLogoutAll, setShowLogoutAll] = useState(false);
   const [roleSwitching, setRoleSwitching] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
   const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(false);
   const [profileHelpPanel, setProfileHelpPanel] = useState(null);
+  const [profileHelpPanelClosing, setProfileHelpPanelClosing] = useState(false);
   const [profileHelpPanelState, setProfileHelpPanelState] = useState({
     items: [],
     nextOffset: null,
@@ -485,6 +488,18 @@ export default function ProfiilBody({
   const rolePillRef = useRef(null);
   const maskLayerRef = useRef(null);
   const maskRefreshRef = useRef(null);
+  const accountSettingsCloseTimerRef = useRef(null);
+  const profileHelpPanelCloseTimerRef = useRef(null);
+  useEffect(() => () => {
+    if (accountSettingsCloseTimerRef.current) {
+      window.clearTimeout(accountSettingsCloseTimerRef.current);
+      accountSettingsCloseTimerRef.current = null;
+    }
+    if (profileHelpPanelCloseTimerRef.current) {
+      window.clearTimeout(profileHelpPanelCloseTimerRef.current);
+      profileHelpPanelCloseTimerRef.current = null;
+    }
+  }, []);
   useLayoutEffect(() => {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
@@ -715,15 +730,66 @@ export default function ProfiilBody({
       colorTheme: "default"
     });
   }, [nextMode, setPrefs]);
-  const closeProfileHelpPanel = useCallback(() => {
-    setProfileHelpPanel(null);
-    setProfileHelpPanelState({
-      items: [],
-      nextOffset: null,
-      loading: false,
-      error: ""
+  const triggerLeftTilt = useCallback(() => {
+    triggerRouteTransition({
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
     });
   }, []);
+  const shouldReduceMotion = useCallback(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      if (document?.documentElement?.dataset?.reduceMotion === "1") return true;
+      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches);
+    } catch {
+      return false;
+    }
+  }, []);
+  const closeAccountSettingsWithTilt = useCallback(() => {
+    if (loggingOut || loggingOutEverywhere || deleting || accountSettingsClosing) return;
+    if (accountSettingsCloseTimerRef.current) {
+      window.clearTimeout(accountSettingsCloseTimerRef.current);
+      accountSettingsCloseTimerRef.current = null;
+    }
+    if (shouldReduceMotion()) {
+      setAccountSettingsClosing(false);
+      setShowAccountSettings(false);
+      return;
+    }
+    setAccountSettingsClosing(true);
+    accountSettingsCloseTimerRef.current = window.setTimeout(() => {
+      setAccountSettingsClosing(false);
+      setShowAccountSettings(false);
+      accountSettingsCloseTimerRef.current = null;
+    }, ACCOUNT_SETTINGS_TILT_MS);
+  }, [accountSettingsClosing, deleting, loggingOut, loggingOutEverywhere, shouldReduceMotion]);
+  const closeProfileHelpPanel = useCallback(() => {
+    if (profileHelpPanelClosing) return;
+    if (profileHelpPanelCloseTimerRef.current) {
+      window.clearTimeout(profileHelpPanelCloseTimerRef.current);
+      profileHelpPanelCloseTimerRef.current = null;
+    }
+    const finishClose = () => {
+      setProfileHelpPanelClosing(false);
+      setProfileHelpPanel(null);
+      setProfileHelpPanelState({
+        items: [],
+        nextOffset: null,
+        loading: false,
+        error: ""
+      });
+    };
+    if (shouldReduceMotion()) {
+      finishClose();
+      return;
+    }
+    setProfileHelpPanelClosing(true);
+    profileHelpPanelCloseTimerRef.current = window.setTimeout(() => {
+      finishClose();
+      profileHelpPanelCloseTimerRef.current = null;
+    }, ACCOUNT_SETTINGS_TILT_MS);
+  }, [profileHelpPanelClosing, shouldReduceMotion]);
   const loadProfileHelpPanel = useCallback(async (panelConfig, options = {}) => {
     if (!panelConfig) return;
     const append = options?.append === true;
@@ -776,6 +842,7 @@ export default function ProfiilBody({
     const key = String(panelKey || "");
     if (key === "my_help_requests") {
       setOrbitOpen(false);
+      setProfileHelpPanelClosing(false);
       setProfileHelpPanelState({
         items: [],
         nextOffset: null,
@@ -792,6 +859,7 @@ export default function ProfiilBody({
     }
     if (key === "my_help_offers") {
       setOrbitOpen(false);
+      setProfileHelpPanelClosing(false);
       setProfileHelpPanelState({
         items: [],
         nextOffset: null,
@@ -846,6 +914,7 @@ export default function ProfiilBody({
     labelPos: "right",
     onClick: () => {
       setError("");
+      setAccountSettingsClosing(false);
       setShowAccountSettings(true);
     }
   }, {
@@ -1149,89 +1218,91 @@ export default function ProfiilBody({
         <Modal
           open
           variant="glass"
-          onClose={() => {
-            if (loggingOut || loggingOutEverywhere || deleting) return;
-            setShowAccountSettings(false);
-          }}
-          closeOnOverlayClick={!loggingOut && !loggingOutEverywhere && !deleting}
+          onClose={closeAccountSettingsWithTilt}
+          closeOnOverlayClick={!loggingOut && !loggingOutEverywhere && !deleting && !accountSettingsClosing}
           aria-label={t("profile.account_settings")}
           className={accountModalOverlayClassName}
-          contentClassName={accountModalContentClassName}
+          contentClassName={cn(
+            accountModalContentClassName,
+            accountSettingsClosing
+              ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
+              : null
+          )}
         >
           <div className={accountModalHeadClassName}>
-            <BackButton
-              onClick={() => {
-                if (loggingOut || loggingOutEverywhere || deleting) return;
-                setShowAccountSettings(false);
-              }}
-              ariaLabel={t("buttons.back")}
-              holdPressedVisualDisabled
-              className={accountModalBackButtonClassName}
-            />
-            <div className={accountModalTitleWrapClassName}>
-              <h2 className={accountModalTitleClassName}>{t("profile.account_settings")}</h2>
-              <p className={accountModalDescriptionClassName}>{t("profile.account_settings_hint")}</p>
+              <BackButton
+                onClick={closeAccountSettingsWithTilt}
+                ariaLabel={t("buttons.back")}
+                holdPressedVisualDisabled
+                className={accountModalBackButtonClassName}
+              />
+              <div className={accountModalTitleWrapClassName}>
+                <h2 className={accountModalTitleClassName}>{t("profile.account_settings")}</h2>
+                <p className={accountModalDescriptionClassName}>{t("profile.account_settings_hint")}</p>
+              </div>
             </div>
-          </div>
           <div className={accountModalActionStackClassName}>
-            <section className={accountModalCardClassName}>
-              <div className={accountModalActionRowClassName}>
-                <Button
-                  type="button"
-                  variant="primary"
-                  size="sm"
-                  className={accountModalButtonClassName}
-                  onClick={async () => {
-                    setShowAccountSettings(false);
-                    await handleLogout();
-                  }}
-                  disabled={loggingOut || loggingOutEverywhere || deleting}
-                >
-                  {t("profile.logout")}
-                </Button>
-                <p className={accountModalNoteClassName}>{t("profile.logout_hint")}</p>
-              </div>
-            </section>
-            <section className={accountModalCardClassName}>
-              <div className={accountModalActionRowClassName}>
-                <Button
-                  type="button"
-                  variant="primary"
-                  size="sm"
-                  className={accountModalButtonClassName}
-                  onClick={() => {
-                    setShowAccountSettings(false);
-                    setError("");
-                    setShowLogoutAll(true);
-                  }}
-                  disabled={loggingOut || loggingOutEverywhere || deleting}
-                >
-                  {t("profile.logout_all_devices")}
-                </Button>
-                <p className={accountModalNoteClassName}>{t("profile.logout_all_hint")}</p>
-              </div>
-            </section>
-            <section className={accountModalCardClassName}>
-              <div className={accountModalActionRowClassName}>
-                <Button
-                  type="button"
-                  variant="danger"
-                  size="sm"
-                  className={accountModalButtonClassName}
-                  onClick={() => {
-                    setShowAccountSettings(false);
-                    setError("");
-                    setDeleting(false);
-                    setDeletePin("");
-                    setShowDelete(true);
-                  }}
-                  disabled={loggingOut || loggingOutEverywhere || deleting}
-                >
-                  <span>{t("profile.delete_account")}</span>
-                </Button>
-                <p className={accountModalNoteClassName}>{t("profile.delete_account_hint")}</p>
-              </div>
-            </section>
+              <section className={accountModalCardClassName}>
+                <div className={accountModalActionRowClassName}>
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="sm"
+                    className={accountModalButtonClassName}
+                    onClick={async () => {
+                      setAccountSettingsClosing(false);
+                      setShowAccountSettings(false);
+                      await handleLogout();
+                    }}
+                    disabled={loggingOut || loggingOutEverywhere || deleting || accountSettingsClosing}
+                  >
+                    {t("profile.logout")}
+                  </Button>
+                  <p className={accountModalNoteClassName}>{t("profile.logout_hint")}</p>
+                </div>
+              </section>
+              <section className={accountModalCardClassName}>
+                <div className={accountModalActionRowClassName}>
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="sm"
+                    className={accountModalButtonClassName}
+                    onClick={() => {
+                      setAccountSettingsClosing(false);
+                      setShowAccountSettings(false);
+                      setError("");
+                      setShowLogoutAll(true);
+                    }}
+                    disabled={loggingOut || loggingOutEverywhere || deleting || accountSettingsClosing}
+                  >
+                    {t("profile.logout_all_devices")}
+                  </Button>
+                  <p className={accountModalNoteClassName}>{t("profile.logout_all_hint")}</p>
+                </div>
+              </section>
+              <section className={accountModalCardClassName}>
+                <div className={accountModalActionRowClassName}>
+                  <Button
+                    type="button"
+                    variant="danger"
+                    size="sm"
+                    className={accountModalButtonClassName}
+                    onClick={() => {
+                      setAccountSettingsClosing(false);
+                      setShowAccountSettings(false);
+                      setError("");
+                      setDeleting(false);
+                      setDeletePin("");
+                      setShowDelete(true);
+                    }}
+                    disabled={loggingOut || loggingOutEverywhere || deleting || accountSettingsClosing}
+                  >
+                    <span>{t("profile.delete_account")}</span>
+                  </Button>
+                  <p className={accountModalNoteClassName}>{t("profile.delete_account_hint")}</p>
+                </div>
+              </section>
           </div>
         </Modal>
       ) : null}
@@ -1331,6 +1402,7 @@ export default function ProfiilBody({
           error={profileHelpPanelState.error}
           nextOffset={profileHelpPanelState.nextOffset}
           emptyText={profileHelpPanel.emptyText}
+          isClosing={profileHelpPanelClosing}
           onClose={closeProfileHelpPanel}
           onBackToProfile={closeProfileHelpPanel}
           onLoadMore={() => loadProfileHelpPanel(profileHelpPanel, { append: true, offset: profileHelpPanelState.nextOffset })}

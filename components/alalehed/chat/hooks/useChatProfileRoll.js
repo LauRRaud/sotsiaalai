@@ -73,14 +73,19 @@ export function useChatProfileRoll({
     triggerRoll("right", true);
   }, [embedded, locale, prepareForProfileTransition, router, triggerRoll]);
 
-  const openProfileDirect = useCallback(() => {
+  const openProfileDirect = useCallback((options = {}) => {
+    const { withTilt = true } = options;
     if (!embedded) {
       prepareForProfileTransition();
-      pushWithTransition(router, localizePath("/profiil", locale), {
-        glassRingTilt: "right",
-        waitForGlassRingTilt: true,
-        persistGlassRingTilt: false
-      });
+      if (withTilt) {
+        pushWithTransition(router, localizePath("/profiil", locale), {
+          glassRingTilt: "right",
+          waitForGlassRingTilt: true,
+          persistGlassRingTilt: false
+        });
+      } else {
+        pushWithTransition(router, localizePath("/profiil", locale));
+      }
       return;
     }
     prepareForProfileTransition();

@@ -18,18 +18,20 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 
 const MOBILE_NAV_ITEMS = [
-  { key: "chats", scale: 1.05 },
-  { key: "sources", scale: 1.01 },
-  { key: "help_requests", scale: 1.2 },
-  { key: "help_offers", scale: 1.2 },
+  { key: "chats", scale: 0.96 },
+  { key: "sources", scale: 0.94 },
+  { key: "help_requests", scale: 1.28 },
+  { key: "help_offers", scale: 1.28 },
   { key: "profile", scale: 1.08 },
   { key: "invite", scale: 1.1 },
   { key: "rooms", scale: 1.1 }
 ];
 
 const DEFAULT_FOCUSED_KEY = "profile";
-const FOCUS_CENTER_OFFSET_REM = -0.96;
+const FOCUS_CENTER_OFFSET_REM = -0.34;
 const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
+const SLOT_STEP_REM = 3.82;
+const SLOT_STEP_PX = SLOT_STEP_REM * 16;
 
 function getSlotOffsetRem(slot) {
   const direction = Math.sign(slot);
@@ -37,13 +39,19 @@ function getSlotOffsetRem(slot) {
   if (distance === 0) {
     return 0;
   }
-  if (distance === 2) {
-    return direction * 6.96;
-  }
   if (distance === 1) {
-    return direction * 3.48;
+    return direction * 3.82;
   }
-  return direction * (6.96 + (distance - 2) * 3.16);
+  if (distance < 1) {
+    return direction * (3.82 * distance);
+  }
+  if (distance < 2) {
+    return direction * (3.82 + (distance - 1) * (7.28 - 3.82));
+  }
+  if (distance < 3) {
+    return direction * (7.28 + (distance - 2) * (10.05 - 7.28));
+  }
+  return direction * (10.05 + (distance - 3) * 2.54);
 }
 
 function MobileIconFrame({ scale = 1, xNudge = 0, children }) {
@@ -61,6 +69,36 @@ function MobileIconFrame({ scale = 1, xNudge = 0, children }) {
 function getItemIndex(key) {
   const index = MOBILE_NAV_ITEMS.findIndex(item => item.key === key);
   return index >= 0 ? index : 0;
+}
+
+function getVisualScale(distance) {
+  if (distance <= 1) {
+    return 1.22 - distance * 0.34;
+  }
+  if (distance <= 2) {
+    return 0.88 - (distance - 1) * 0.12;
+  }
+  return 0.76;
+}
+
+function getVisualOpacity(distance) {
+  if (distance <= 1) {
+    return 1 - distance * 0.14;
+  }
+  if (distance <= 2) {
+    return 0.94 - (distance - 1) * 0.28;
+  }
+  return 0.66;
+}
+
+function getEdgeFadeOpacity(distance) {
+  if (distance <= 2.25) {
+    return 1;
+  }
+  if (distance >= 2.9) {
+    return 0;
+  }
+  return 1 - (distance - 2.25) / 0.65;
 }
 
 export default function ChatMobileTopNav({
@@ -81,7 +119,8 @@ export default function ChatMobileTopNav({
   rightRailActiveKey,
   onShowHelpRequests,
   onShowHelpOffers,
-  toggleProfile
+  toggleProfile,
+  openProfileDirect
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -99,6 +138,8 @@ export default function ChatMobileTopNav({
   });
 
   const [focusedIndex, setFocusedIndex] = useState(getItemIndex(DEFAULT_FOCUSED_KEY));
+  const [dragOffsetPx, setDragOffsetPx] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   const setFocusedIndexImmediate = useCallback(nextValue => {
     if (typeof nextValue === "function") {
@@ -187,11 +228,7 @@ export default function ChatMobileTopNav({
   );
 
   const openRooms = useCallback(() => {
-    pushWithTransition(router, localizePath("/ruum", locale), {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
+    pushWithTransition(router, localizePath("/ruum", locale));
   }, [locale, router]);
 
   const openInvite = useCallback(() => {
@@ -224,15 +261,15 @@ export default function ChatMobileTopNav({
         return;
       }
       if (key === "profile") {
+        if (typeof openProfileDirect === "function") {
+          openProfileDirect({ withTilt: false });
+          return;
+        }
         if (typeof toggleProfile === "function") {
           toggleProfile();
           return;
         }
-        pushWithTransition(router, localizePath("/profiil", locale), {
-          glassRingTilt: "right",
-          waitForGlassRingTilt: true,
-          persistGlassRingTilt: false
-        });
+        pushWithTransition(router, localizePath("/profiil", locale));
         return;
       }
       if (key === "rooms") {
@@ -250,6 +287,7 @@ export default function ChatMobileTopNav({
       onShowHelpRequests,
       openChatsDrawer,
       openInvite,
+      openProfileDirect,
       openRooms,
       router,
       toggleProfile,
@@ -334,9 +372,9 @@ export default function ChatMobileTopNav({
 
   const handleTrackPointerEnd = useCallback(() => {
     const deltaX = dragStateRef.current.currentX - dragStateRef.current.startX;
-    const swipeThreshold = 18;
+    const swipeThreshold = 14;
     if (Math.abs(deltaX) >= swipeThreshold) {
-      const steps = Math.max(1, Math.round(Math.abs(deltaX) / 72));
+      const steps = Math.max(1, Math.round(Math.abs(deltaX) / SLOT_STEP_PX));
       setFocusedIndexImmediate(current => {
         if (deltaX < 0) {
           return Math.min(MOBILE_NAV_ITEMS.length - 1, current + steps);
@@ -347,12 +385,16 @@ export default function ChatMobileTopNav({
     dragStateRef.current.pointerId = null;
     dragStateRef.current.touchId = null;
     dragStateRef.current.moved = false;
+    setDragOffsetPx(0);
+    setIsDragging(false);
   }, [setFocusedIndexImmediate]);
 
   const beginSwipe = useCallback(clientX => {
     dragStateRef.current.startX = clientX;
     dragStateRef.current.currentX = clientX;
     dragStateRef.current.moved = false;
+    setDragOffsetPx(0);
+    setIsDragging(false);
   }, []);
 
   const moveSwipe = useCallback((clientX, event) => {
@@ -360,8 +402,14 @@ export default function ChatMobileTopNav({
     dragStateRef.current.currentX = clientX;
     if (Math.abs(deltaX) > 4) {
       dragStateRef.current.moved = true;
+      setIsDragging(true);
     }
-    if (dragStateRef.current.moved && event?.cancelable) {
+    setDragOffsetPx(Math.max(-192, Math.min(192, deltaX)));
+    if (
+      dragStateRef.current.moved &&
+      event?.cancelable &&
+      !String(event?.type || "").startsWith("touch")
+    ) {
       event.preventDefault();
     }
   }, []);
@@ -377,25 +425,40 @@ export default function ChatMobileTopNav({
       }
       dragStateRef.current.pointerId = null;
       dragStateRef.current.touchId = null;
+      setDragOffsetPx(0);
+      setIsDragging(false);
       activateIndex(getClosestVisibleIndex(clientX), event);
     },
     [activateIndex, getClosestVisibleIndex, handleTrackPointerEnd]
   );
 
   const focusedItem = MOBILE_NAV_ITEMS[focusedIndex] || MOBILE_NAV_ITEMS[0];
+  const dragProgress = dragOffsetPx / SLOT_STEP_PX;
   const visibleItems = useMemo(() => {
-    const maxVisible = Math.min(5, MOBILE_NAV_ITEMS.length);
-    let start = Math.max(0, focusedIndex - 2);
-    if (start + maxVisible > MOBILE_NAV_ITEMS.length) {
-      start = Math.max(0, MOBILE_NAV_ITEMS.length - maxVisible);
-    }
-
-    return MOBILE_NAV_ITEMS.slice(start, start + maxVisible).map((item, localIndex) => ({
+    return MOBILE_NAV_ITEMS.map((item, index) => ({
       item,
-      index: start + localIndex,
-      slot: start + localIndex - focusedIndex
+      index,
+      slot: index - focusedIndex
     }));
   }, [focusedIndex]);
+
+  const previewFocusedItem = useMemo(() => {
+    if (!visibleItems.length) return focusedItem;
+    let nearestItem = visibleItems[0].item;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    visibleItems.forEach(({ item, slot }) => {
+      const distance = Math.abs(slot + dragProgress);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestItem = item;
+      }
+    });
+
+    return nearestItem;
+  }, [dragProgress, focusedItem, visibleItems]);
+
+  const visualFocusedKey = previewFocusedItem.key;
 
   const getClosestVisibleIndex = useCallback(
     clientX => {
@@ -425,8 +488,7 @@ export default function ChatMobileTopNav({
   const renderNavButton = (item, index) => {
     const isDisabled =
       item.key === "sources" ? !hasConversationSources : false;
-    const isFocused = focusedIndex === index;
-    const isActive = activeKey === item.key;
+    const isFocused = visualFocusedKey === item.key;
 
     const setButtonRef = element => {
       itemButtonRefs.current[item.key] = element;
@@ -487,11 +549,11 @@ export default function ChatMobileTopNav({
         }}
         className={cn(
           "pointer-events-none relative inline-flex h-[clamp(2.96rem,11.9vw,3.42rem)] w-[clamp(2.96rem,11.9vw,3.42rem)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
-          isFocused ? "opacity-100" : isActive ? "opacity-[0.78]" : "opacity-[0.46]",
+          "opacity-100",
           isDisabled ? "cursor-default" : "cursor-pointer"
         )}
         style={{
-          transform: `scale(${isFocused ? 1.12 : 0.92})`,
+          transform: "scale(1)",
           color: isFocused
             ? isLightTheme
               ? "#9d4e49"
@@ -530,7 +592,7 @@ export default function ChatMobileTopNav({
         iconClassName="!h-[100%] !w-[100%]"
       />
 
-      <div className="absolute left-[calc(env(safe-area-inset-left,0px)+4.9rem)] right-[calc(env(safe-area-inset-right,0px)+0.28rem)] top-[calc(env(safe-area-inset-top,0px)+0.3rem)]">
+      <div className="absolute left-[calc(env(safe-area-inset-left,0px)+3.68rem)] right-[calc(env(safe-area-inset-right,0px)+0.34rem)] top-[calc(env(safe-area-inset-top,0px)+0.3rem)]">
         <div
           ref={swipeSurfaceRef}
           className="relative h-[8.6rem] overflow-visible"
@@ -564,6 +626,8 @@ export default function ChatMobileTopNav({
               dragStateRef.current.pointerId = null;
               dragStateRef.current.touchId = null;
               dragStateRef.current.moved = false;
+              setDragOffsetPx(0);
+              setIsDragging(false);
             }}
             onTouchStart={event => {
               const touch = event.changedTouches?.[0];
@@ -591,20 +655,29 @@ export default function ChatMobileTopNav({
               dragStateRef.current.pointerId = null;
               dragStateRef.current.touchId = null;
               dragStateRef.current.moved = false;
+              setDragOffsetPx(0);
+              setIsDragging(false);
             }}
           />
 
           <div className="relative h-[5.18rem] overflow-hidden">
             {visibleItems.map(({ item, index, slot }) => {
-              const distance = Math.abs(slot);
-              const xOffsetRem = getSlotOffsetRem(slot);
+              const visualSlot = slot + dragProgress;
+              const visualDistance = Math.abs(visualSlot);
+              const xOffsetRem = getSlotOffsetRem(visualSlot);
+              const combinedOpacity =
+                getVisualOpacity(visualDistance) * getEdgeFadeOpacity(visualDistance);
               return (
                 <div
                   key={item.key}
-                  className="absolute left-1/2 top-[0.98rem] z-[1] -translate-x-1/2 transition-[transform,opacity] duration-200 ease-out"
+                  className={cn(
+                    "absolute left-1/2 top-[0.98rem] z-[1] -translate-x-1/2 transition-[transform,opacity] duration-200 ease-out",
+                    isDragging ? "duration-0" : null
+                  )}
                   style={{
-                    transform: `translateX(${FOCUS_CENTER_OFFSET_REM + xOffsetRem}rem) scale(${slot === 0 ? 1.08 : distance === 1 ? 0.92 : 0.76})`,
-                    opacity: slot === 0 ? 1 : distance === 1 ? 0.78 : 0.4
+                    transform: `translateX(${FOCUS_CENTER_OFFSET_REM + xOffsetRem}rem) scale(${getVisualScale(visualDistance)})`,
+                    opacity: combinedOpacity,
+                    transition: isDragging ? "none" : undefined
                   }}
                 >
                   {renderNavButton(item, index)}
@@ -618,7 +691,7 @@ export default function ChatMobileTopNav({
             style={{ transform: `translateX(${FOCUS_CENTER_OFFSET_REM}rem)` }}
           >
             <span className="max-w-[14rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.42rem,5.9vw,1.68rem)] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38]">
-              {labels[focusedItem.key]}
+              {labels[previewFocusedItem.key]}
             </span>
           </div>
         </div>

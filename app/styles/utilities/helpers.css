@@ -789,6 +789,7 @@ html[data-contrast="hc"] {
 .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
 .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
   --policy-scroll-top-raise: 0rem;
+  --policy-scroll-normal-top-lift: clamp(0.72rem, 1.45vh, 1.08rem);
   --policy-scroll-normal-bottom-cut: clamp(0.08rem, 0.24vh, 0.2rem);
   --policy-scroll-bottom-curve-reveal: clamp(0.3rem, 0.68vh, 0.52rem);
   width: var(
@@ -821,13 +822,15 @@ html[data-contrast="hc"] {
   ) !important;
   margin-top: calc(
     (var(--policy-scroll-rise, 0rem) * -0.32) -
-      var(--policy-scroll-normal-top-shift, 0rem) +
+      var(--policy-scroll-normal-top-shift, 0rem) -
+      var(--policy-scroll-normal-top-lift, 0rem) +
       clamp(0.12rem, 0.32vh, 0.24rem)
   ) !important;
   max-height: calc(
     100% - clamp(0.72rem, 1.54vh, 1.12rem) + var(--policy-scroll-rise, 0rem) -
       var(--policy-scroll-normal-bottom-cut, 0rem) -
       var(--policy-scroll-bottom-curve-reveal, 0rem) +
+      var(--policy-scroll-normal-top-lift, 0rem) +
       var(--policy-scroll-top-raise, 0rem)
   ) !important;
   padding-top: calc(
@@ -1454,7 +1457,7 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
 /* Desktop ring mode needs a longer, stronger bottom fade so text clears the curve. */
 .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
 .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
-  padding-bottom: clamp(7.2rem, 13.6vh, 9.4rem) !important;
+  padding-bottom: clamp(5rem, 9.8vh, 6.9rem) !important;
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
@@ -1529,7 +1532,8 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   > footer,
 .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
   > footer.policy-page-footer {
-  transform: translateY(clamp(1rem, 2.2vh, 1.6rem));
+  margin-top: clamp(2.55rem, 4.8vh, 3.2rem) !important;
+  transform: translateY(0);
 }
 
 @media (min-width: 769px) {

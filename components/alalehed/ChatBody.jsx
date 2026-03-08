@@ -1349,6 +1349,7 @@ export default function ChatBody({
     onShowMyHelpRequests={openMyRequestsPanel}
     onShowMyHelpOffers={openMyOffersPanel}
     toggleProfile={toggleProfile}
+    openProfileDirect={openProfileDirect}
     analysis={analysis}
     isRoomMode={isRoomMode}
     roomTitle={roomTitle}
