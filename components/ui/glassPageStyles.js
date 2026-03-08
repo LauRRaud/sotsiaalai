@@ -4,6 +4,11 @@ export const glassPageTitleClassName =
   "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
   "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 
+export const glassPageTitleMobileHeaderClassName =
+  "max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.3rem)] max-[768px]:!mb-[clamp(0.24rem,1vh,0.58rem)] " +
+  "max-[768px]:!px-[clamp(4.15rem,16.5vw,5.35rem)] max-[768px]:!whitespace-normal max-[768px]:!leading-[1.04] " +
+  "max-[768px]:!tracking-[0.012em] max-[768px]:[text-wrap:balance]";
+
 export const glassPageTitleProminentClassName =
   "min-[769px]:!text-[2.6rem] max-[768px]:!text-[clamp(2.28rem,9.25vw,3.08rem)]";
 
@@ -26,10 +31,10 @@ export const glassPageBackMobileCornerClassName =
 
 export const glassPageBackMobileBottomCenterClassName =
   `${glassPageBackClassName} ` +
-  "max-[768px]:!inline-flex max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] " +
+  "max-[768px]:!inline-flex max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] " +
   "max-[768px]:translate-x-0 max-[768px]:translate-y-0 max-[768px]:bottom-auto " +
-  "max-[768px]:h-[4.4rem] max-[768px]:w-[4.4rem] max-[768px]:z-[92] " +
-  "max-[768px]:[&>svg]:h-[4.4rem] max-[768px]:[&>svg]:w-[4.4rem]";
+  "max-[768px]:h-[4.85rem] max-[768px]:w-[4.85rem] max-[768px]:z-[92] " +
+  "max-[768px]:[&>svg]:h-[4.35rem] max-[768px]:[&>svg]:w-[4.35rem]";
 
 export const glassPageBackRightClassName =
   "absolute right-[max(0px,calc(var(--glass-edge-right)-clamp(0.35rem,0.9vw,0.7rem)))] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";

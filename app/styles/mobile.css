@@ -1059,7 +1059,7 @@
   }
 
   .policy-mobile-lower {
-    --policy-mobile-content-drop: clamp(1rem, 2.6vh, 1.6rem);
+    --policy-mobile-content-drop: clamp(0.78rem, 2.1vh, 1.32rem);
     --glass-ring-scroll-offset: clamp(2.05rem, 4.4vh, 2.8rem);
     --glass-ring-scroll-offset-open: clamp(1.18rem, 2.3vh, 1.7rem);
   }
@@ -1150,7 +1150,7 @@
   }
 
   .guide-page-title {
-    margin-top: calc(env(safe-area-inset-top, 0px) + 4.25rem) !important;
+    margin-top: calc(env(safe-area-inset-top, 0px) + 2.3rem) !important;
   }
 
   .guide-policy-content.glass-ring-content,

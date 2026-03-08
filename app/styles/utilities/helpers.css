@@ -639,8 +639,10 @@ body.login-modal-open {
   }
 }
 
-.guide-page-title {
-  margin-top: clamp(3rem, 6.2vh, 4.2rem) !important;
+@media (min-width: 769px) {
+  .guide-page-title {
+    margin-top: clamp(3rem, 6.2vh, 4.2rem) !important;
+  }
 }
 
 #terms-title,

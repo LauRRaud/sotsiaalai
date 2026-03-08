@@ -6,7 +6,7 @@ import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import { glassPageMobileCardClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageMobileCardClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
 
@@ -44,8 +44,8 @@ export default function HelpListingsPanel({
     `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `leading-[1.35] tracking-[0.024rem] ${glassPageMobileCardClassName}`;
   const helpListingsTitleClassName =
-    `${glassPageTitleClassName} max-[768px]:!whitespace-normal max-[768px]:!px-[clamp(2.4rem,9vw,3.4rem)] ` +
-    `max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)] max-[768px]:!leading-[1.04]`;
+    `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} ` +
+    `max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
 
   useEffect(() => {
     setIsMounted(true);
@@ -83,7 +83,7 @@ export default function HelpListingsPanel({
       <BackButton
         onClick={onBackToProfile || onClose}
         ariaLabel={onBackToProfile ? t("buttons.back") : ui.close}
-        className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.4rem] max-[768px]:!w-[4.4rem] max-[768px]:[&>svg]:!h-[4.4rem] max-[768px]:[&>svg]:!w-[4.4rem]"
+        className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.85rem] max-[768px]:!w-[4.85rem] max-[768px]:[&>svg]:!h-[4.35rem] max-[768px]:[&>svg]:!w-[4.35rem]"
       />
 
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">

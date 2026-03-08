@@ -11,12 +11,12 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName = "mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-4";
 const inputClassName = "w-full max-w-[22rem]";

@@ -21,7 +21,7 @@ import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
-import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
@@ -147,26 +147,25 @@ const accountModalBackButtonClassName =
 const accountModalTitleWrapClassName =
   "grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]";
 const accountModalTitleClassName =
-  `${glassPageTitleClassName} !mb-0 max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.3rem)] ` +
-  "max-[768px]:!px-0 max-[768px]:!whitespace-normal max-[768px]:!text-[clamp(2.2rem,8.7vw,2.9rem)] max-[768px]:!leading-[1.04]";
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 ` +
+  "max-[768px]:!text-[clamp(2.2rem,8.7vw,2.9rem)]";
 const accountModalDescriptionClassName =
   "mx-auto max-w-[28rem] text-[1.04rem] leading-[1.4] tracking-[0.02em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:max-w-none max-[768px]:px-[0.15rem] max-[768px]:text-[1.08rem]";
 const accountModalActionStackClassName =
   "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.82rem] px-[1.15rem] pt-[0.35rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:px-[0.08rem]";
 const accountModalCardClassName =
   "rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] " +
-  "p-[0.95rem_1rem] text-[color:var(--glass-modal-text)] shadow-none max-[768px]:p-[1rem] " +
+  "p-[1.1rem_1rem] text-[color:var(--glass-modal-text)] shadow-none max-[768px]:p-[1rem] " +
   "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] " +
   "[.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
   "[.theme-mid_&]:border-[rgba(132,72,68,0.18)] [.theme-mid_&]:bg-[rgba(251,242,239,0.9)] [.theme-mid_&]:text-[#3f4756] " +
   "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
-const accountModalActionRowClassName = "flex items-center justify-between gap-3 max-[768px]:flex-col max-[768px]:items-start";
-const accountModalActionLabelClassName = "text-[1.16rem] font-medium leading-[1.28]";
+const accountModalActionRowClassName = "flex flex-col items-center justify-center gap-[0.8rem] text-center";
 const accountModalNoteClassName =
-  "mt-[0.82rem] text-[1.01rem] leading-[1.32] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
+  "mx-auto max-w-[24rem] text-center text-[1.01rem] leading-[1.38] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
 const accountModalButtonClassName =
-  "!min-h-[2.8rem] !px-[1.08rem] !py-[0.48rem] !text-[1.06rem] !tracking-[0.02em] shrink-0 " +
-  "max-[768px]:!w-auto max-[768px]:!min-w-[12rem] max-[768px]:!max-w-full max-[768px]:!self-center max-[768px]:!justify-center";
+  "!min-h-[2.8rem] !px-[1.28rem] !py-[0.56rem] !text-[1.06rem] !tracking-[0.02em] !self-center shrink-0 " +
+  "!min-w-[12.5rem] max-[768px]:!w-auto max-[768px]:!min-w-[12rem] max-[768px]:!max-w-full max-[768px]:!justify-center";
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {
   soft:
@@ -1084,7 +1083,6 @@ export default function ProfiilBody({
           <div className={accountModalActionStackClassName}>
             <section className={accountModalCardClassName}>
               <div className={accountModalActionRowClassName}>
-                <div className={accountModalActionLabelClassName}>{t("profile.logout")}</div>
                 <Button
                   type="button"
                   variant="primary"
@@ -1098,12 +1096,11 @@ export default function ProfiilBody({
                 >
                   {t("profile.logout")}
                 </Button>
+                <p className={accountModalNoteClassName}>{t("profile.logout_hint")}</p>
               </div>
-              <p className={accountModalNoteClassName}>{t("profile.logout_hint")}</p>
             </section>
             <section className={accountModalCardClassName}>
               <div className={accountModalActionRowClassName}>
-                <div className={accountModalActionLabelClassName}>{t("profile.logout_all_devices")}</div>
                 <Button
                   type="button"
                   variant="primary"
@@ -1118,12 +1115,11 @@ export default function ProfiilBody({
                 >
                   {t("profile.logout_all_devices")}
                 </Button>
+                <p className={accountModalNoteClassName}>{t("profile.logout_all_hint")}</p>
               </div>
-              <p className={accountModalNoteClassName}>{t("profile.logout_all_hint")}</p>
             </section>
             <section className={accountModalCardClassName}>
               <div className={accountModalActionRowClassName}>
-                <div className={accountModalActionLabelClassName}>{t("profile.delete_account")}</div>
                 <Button
                   type="button"
                   variant="danger"
@@ -1140,8 +1136,8 @@ export default function ProfiilBody({
                 >
                   <span>{t("profile.delete_account")}</span>
                 </Button>
+                <p className={accountModalNoteClassName}>{t("profile.delete_account_hint")}</p>
               </div>
-              <p className={accountModalNoteClassName}>{t("profile.delete_account_hint")}</p>
             </section>
           </div>
         </Modal>

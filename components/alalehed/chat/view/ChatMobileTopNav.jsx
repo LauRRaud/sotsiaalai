@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import BackButton from "@/components/ui/BackButton";
+import { glassPageBackMobileBottomCenterClassName } from "@/components/ui/glassPageStyles";
 import {
   AddPersonIcon,
   ChatBubbleIcon,
@@ -10,7 +11,6 @@ import {
   HelpRequestIcon,
   ProfileIcon,
   RoomsIcon,
-  ShowRailIcon,
   SourcesIcon
 } from "@/components/ui/icons/ChatIcons";
 import { cn } from "@/components/ui/cn";
@@ -22,9 +22,9 @@ const MOBILE_NAV_ITEMS = [
   { key: "sources", scale: 1.01 },
   { key: "help_requests", scale: 1.2 },
   { key: "help_offers", scale: 1.2 },
-  { key: "rooms", scale: 1.1 },
   { key: "invite", scale: 1.1 },
-  { key: "profile", scale: 1.08 }
+  { key: "profile", scale: 1.08 },
+  { key: "rooms", scale: 1.1 }
 ];
 
 function MobileIconFrame({ scale = 1, xNudge = 0, children }) {
@@ -46,9 +46,7 @@ export default function ChatMobileTopNav({
   roomId,
   embedded = false,
   handleBackHome,
-  mobileRailVisible,
   mobileRailInteractionLocked,
-  showMobileRail,
   sourcesButtonRef,
   toggleSourcesPanel,
   showSourcesPanel,
@@ -61,17 +59,16 @@ export default function ChatMobileTopNav({
   onShowHelpOffers,
   toggleProfile
 }) {
+  const defaultFocusedKey = "profile";
   const router = useRouter();
   const pathname = usePathname();
-  const navRef = useRef(null);
-  const backButtonRef = useRef(null);
-  const showButtonRef = useRef(null);
+  const railViewportRef = useRef(null);
   const itemButtonRefs = useRef({});
-  const tooltipRef = useRef(null);
-  const tooltipFrameRef = useRef(0);
-  const tooltipHideTimerRef = useRef(0);
-  const [armedKey, setArmedKey] = useState("");
-  const [tooltipLeft, setTooltipLeft] = useState(null);
+  const focusUpdateFrameRef = useRef(0);
+  const railDidAutoCenterRef = useRef(false);
+  const focusedKeyRef = useRef(defaultFocusedKey);
+  const [focusedKey, setFocusedKey] = useState(defaultFocusedKey);
+  const railVisible = true;
 
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
@@ -86,7 +83,6 @@ export default function ChatMobileTopNav({
   const labels = useMemo(
     () => ({
       back: t("chat.back_to_home"),
-      show: t("chat.mobile.show_navigation", "Show navigation"),
       chats: t("nav.chats"),
       sources: sourcesLabel,
       help_requests: t("chat.help.helpRequests"),
@@ -98,135 +94,128 @@ export default function ChatMobileTopNav({
     [sourcesLabel, t]
   );
 
-  const clearTooltip = useCallback(() => {
-    if (typeof window !== "undefined" && tooltipFrameRef.current) {
-      window.cancelAnimationFrame(tooltipFrameRef.current);
-    }
-    tooltipFrameRef.current = 0;
-    if (typeof window !== "undefined" && tooltipHideTimerRef.current) {
-      window.clearTimeout(tooltipHideTimerRef.current);
-    }
-    tooltipHideTimerRef.current = 0;
-    setArmedKey("");
-    setTooltipLeft(null);
-  }, []);
-
-  const showTooltip = useCallback(
-    (key, durationMs = 1650) => {
-      if (typeof window === "undefined") {
-        return;
-      }
-      if (tooltipHideTimerRef.current) {
-        window.clearTimeout(tooltipHideTimerRef.current);
-      }
-      setTooltipLeft(null);
-      setArmedKey(key);
-      tooltipHideTimerRef.current = window.setTimeout(() => {
-        tooltipHideTimerRef.current = 0;
-        setArmedKey("");
-        setTooltipLeft(null);
-      }, durationMs);
-    },
-    []
-  );
-
-  const armOrActivate = useCallback(
-    (key, event, action) => {
-      event?.preventDefault?.();
-      event?.stopPropagation?.();
-      if (armedKey === key) {
-        clearTooltip();
-        action?.(event);
-        return;
-      }
-      if (armedKey && armedKey !== key && typeof window !== "undefined") {
-        clearTooltip();
-        tooltipFrameRef.current = window.requestAnimationFrame(() => {
-          tooltipFrameRef.current = 0;
-          showTooltip(key);
-        });
-        return;
-      }
-      showTooltip(key);
-    },
-    [armedKey, clearTooltip, showTooltip]
-  );
-
-  useEffect(() => {
-    return () => {
-      if (typeof window !== "undefined" && tooltipFrameRef.current) {
-        window.cancelAnimationFrame(tooltipFrameRef.current);
-      }
-      if (typeof window !== "undefined" && tooltipHideTimerRef.current) {
-        window.clearTimeout(tooltipHideTimerRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!armedKey || typeof document === "undefined") return;
-    const handlePointerDown = event => {
-      const target = event.target;
-      if (!(target instanceof Node)) {
-        clearTooltip();
-        return;
-      }
-      const buttons = [
-        backButtonRef.current,
-        showButtonRef.current,
-        ...Object.values(itemButtonRefs.current)
-      ].filter(Boolean);
-      const pressedInside = buttons.some(button => button?.contains?.(target));
-      if (!pressedInside) {
-        clearTooltip();
-      }
-    };
-    document.addEventListener("pointerdown", handlePointerDown, true);
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown, true);
-    };
-  }, [armedKey, clearTooltip]);
-
-  useEffect(() => {
-    clearTooltip();
-  }, [clearTooltip, mobileRailVisible]);
-
-  useEffect(() => {
-    if (!armedKey || typeof window === "undefined") return;
-
-    const updateTooltipPosition = () => {
-      const navElement = navRef.current;
-      const buttonElement = itemButtonRefs.current[armedKey];
-      const tooltipElement = tooltipRef.current;
-      if (!navElement || !buttonElement || !tooltipElement) return;
-
-      const navRect = navElement.getBoundingClientRect();
-      const buttonRect = buttonElement.getBoundingClientRect();
-      const tooltipRect = tooltipElement.getBoundingClientRect();
-      const edgePadding = armedKey === "profile" ? 6 : 12;
-      const centerBias = armedKey === "profile" ? 4 : 0;
-      const buttonCenter =
-        buttonRect.left - navRect.left + buttonRect.width / 2 + centerBias;
-      const tooltipHalfWidth = tooltipRect.width / 2;
-      const minCenter = tooltipHalfWidth + edgePadding;
-      const maxCenter = Math.max(minCenter, navRect.width - tooltipHalfWidth - edgePadding);
-      const clampedCenter = Math.min(maxCenter, Math.max(minCenter, buttonCenter));
-
-      setTooltipLeft(clampedCenter);
-    };
-
-    const frameId = window.requestAnimationFrame(updateTooltipPosition);
-    window.addEventListener("resize", updateTooltipPosition);
-
-    return () => {
-      window.cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", updateTooltipPosition);
-    };
-  }, [armedKey, labels]);
-
   const activeKey = showSourcesPanel
     ? "sources"
     : leftRailActiveKey || rightRailActiveKey || "";
+
+  useEffect(() => {
+    return () => {
+      if (typeof window !== "undefined" && focusUpdateFrameRef.current) {
+        window.cancelAnimationFrame(focusUpdateFrameRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    focusedKeyRef.current = focusedKey;
+  }, [focusedKey]);
+
+  const scrollItemIntoCenter = useCallback((key, behavior = "smooth") => {
+    const viewport = railViewportRef.current;
+    const button = itemButtonRefs.current[key];
+    if (!viewport || !button) return;
+
+    const viewportRect = viewport.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+    const nextLeft =
+      viewport.scrollLeft +
+      (buttonRect.left - viewportRect.left) -
+      (viewportRect.width / 2 - buttonRect.width / 2);
+
+    viewport.scrollTo({
+      left: nextLeft,
+      behavior
+    });
+  }, []);
+
+  const updateFocusedItem = useCallback(() => {
+    const viewport = railViewportRef.current;
+    if (!viewport) return;
+
+    const viewportRect = viewport.getBoundingClientRect();
+    const viewportCenter = viewportRect.left + viewportRect.width / 2;
+    let nextKey = focusedKeyRef.current || defaultFocusedKey;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    MOBILE_NAV_ITEMS.forEach(item => {
+      const button = itemButtonRefs.current[item.key];
+      if (!button) return;
+      const rect = button.getBoundingClientRect();
+      const center = rect.left + rect.width / 2;
+      const distance = Math.abs(center - viewportCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        nextKey = item.key;
+      }
+    });
+
+    setFocusedKey(current => (current === nextKey ? current : nextKey));
+  }, [defaultFocusedKey]);
+
+  useEffect(() => {
+    if (!railVisible) {
+      railDidAutoCenterRef.current = false;
+      return;
+    }
+    if (typeof window === "undefined") return;
+
+    const nextKey = railDidAutoCenterRef.current
+      ? activeKey || focusedKeyRef.current || defaultFocusedKey
+      : defaultFocusedKey;
+    const behavior = railDidAutoCenterRef.current ? "smooth" : "auto";
+    railDidAutoCenterRef.current = true;
+
+    setFocusedKey(nextKey);
+    const frameId = window.requestAnimationFrame(() => {
+      scrollItemIntoCenter(nextKey, behavior);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [activeKey, defaultFocusedKey, railVisible, scrollItemIntoCenter]);
+
+  useEffect(() => {
+    if (!railVisible || typeof window === "undefined") return;
+    const viewport = railViewportRef.current;
+    if (!viewport) return;
+
+    const scheduleFocusUpdate = () => {
+      if (focusUpdateFrameRef.current) {
+        window.cancelAnimationFrame(focusUpdateFrameRef.current);
+      }
+      focusUpdateFrameRef.current = window.requestAnimationFrame(() => {
+        focusUpdateFrameRef.current = 0;
+        updateFocusedItem();
+      });
+    };
+
+    scheduleFocusUpdate();
+    viewport.addEventListener("scroll", scheduleFocusUpdate, { passive: true });
+    window.addEventListener("resize", scheduleFocusUpdate);
+
+    let resizeObserver;
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(scheduleFocusUpdate);
+      resizeObserver.observe(viewport);
+      MOBILE_NAV_ITEMS.forEach(item => {
+        const button = itemButtonRefs.current[item.key];
+        if (button) {
+          resizeObserver.observe(button);
+        }
+      });
+    }
+
+    return () => {
+      viewport.removeEventListener("scroll", scheduleFocusUpdate);
+      window.removeEventListener("resize", scheduleFocusUpdate);
+      resizeObserver?.disconnect?.();
+      if (focusUpdateFrameRef.current) {
+        window.cancelAnimationFrame(focusUpdateFrameRef.current);
+        focusUpdateFrameRef.current = 0;
+      }
+    };
+  }, [railVisible, updateFocusedItem]);
 
   const openChatsDrawer = useCallback(
     event => {
@@ -389,9 +378,21 @@ export default function ChatMobileTopNav({
     );
   };
 
-  const renderNavButton = item => {
+  const handleItemActivation = useCallback(
+    (key, event) => {
+      event?.preventDefault?.();
+      event?.stopPropagation?.();
+      setFocusedKey(key);
+      scrollItemIntoCenter(key);
+      handleActivate(key, event);
+    },
+    [handleActivate, scrollItemIntoCenter]
+  );
+
+  const renderNavButton = (item, index) => {
     const isDisabled =
       item.key === "sources" ? !hasConversationSources : false;
+    const isFocused = focusedKey === item.key;
     const isActive = activeKey === item.key;
     const setSourcesRef = element => {
       itemButtonRefs.current[item.key] = element;
@@ -410,6 +411,7 @@ export default function ChatMobileTopNav({
         ref={setSourcesRef}
         type="button"
         data-key={item.key}
+        data-index={index}
         aria-label={labels[item.key]}
         aria-haspopup={item.key === "sources" ? "dialog" : undefined}
         aria-expanded={
@@ -423,27 +425,62 @@ export default function ChatMobileTopNav({
           item.key === "sources" ? "chat-sources-panel" : undefined
         }
         aria-disabled={isDisabled ? "true" : undefined}
-        onClick={event =>
-          armOrActivate(
-            item.key,
-            event,
-            evt => handleActivate(item.key, evt)
-          )
-        }
-        onKeyDown={event => {
-          if (event.key === "Enter" || event.key === " ") {
+        onClick={event => {
+          if (isDisabled) {
             event.preventDefault();
             event.stopPropagation();
-            clearTooltip();
-            handleActivate(item.key, event);
+            setFocusedKey(item.key);
+            scrollItemIntoCenter(item.key);
+            return;
+          }
+          handleItemActivation(item.key, event);
+        }}
+        onFocus={() => {
+          setFocusedKey(item.key);
+          scrollItemIntoCenter(item.key);
+        }}
+        onKeyDown={event => {
+          if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+            event.preventDefault();
+            event.stopPropagation();
+            const direction = event.key === "ArrowRight" ? 1 : -1;
+            const nextItem =
+              MOBILE_NAV_ITEMS[
+                (index + direction + MOBILE_NAV_ITEMS.length) %
+                  MOBILE_NAV_ITEMS.length
+              ];
+            setFocusedKey(nextItem.key);
+            scrollItemIntoCenter(nextItem.key);
+            itemButtonRefs.current[nextItem.key]?.focus?.();
+            return;
+          }
+          if (event.key === "Enter" || event.key === " ") {
+            handleItemActivation(item.key, event);
           }
         }}
         className={cn(
-          "relative shrink-0 inline-flex h-[clamp(2.62rem,10.8vw,3.02rem)] w-[clamp(2.62rem,10.8vw,3.02rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 touch-manipulation transition-[transform,opacity] duration-150 focus-visible:scale-[1.03] active:scale-[0.97]",
-          item.key === "chats" ? "-translate-x-[0.18rem]" : null,
-          isActive ? "opacity-100" : null,
-          "opacity-100"
+          "group relative snap-center shrink-0 inline-flex h-[clamp(3.2rem,13.2vw,3.82rem)] w-[clamp(3.2rem,13.2vw,3.82rem)] items-center justify-center rounded-[1.45rem] border p-0 touch-manipulation transition-[transform,opacity,border-color,background-color,box-shadow] duration-200 ease-out focus-visible:outline-none",
+          isFocused
+            ? "opacity-100"
+            : "opacity-[0.52]",
+          isActive
+            ? "border-[rgba(197,113,113,0.28)] light:border-[rgba(122,58,56,0.28)]"
+            : "border-transparent bg-transparent",
+          isDisabled ? "cursor-default" : "cursor-pointer"
         )}
+        style={{
+          transform: `translateZ(0) scale(${isFocused ? 1.12 : isActive ? 0.98 : 0.9})`,
+          color: isFocused
+            ? isLightTheme
+              ? "#9d4e49"
+              : "#e6a4a3"
+            : undefined,
+          boxShadow: isFocused
+            ? isLightTheme
+              ? "0 10px 20px rgba(122,58,56,0.08)"
+              : "0 12px 22px rgba(7,11,18,0.18)"
+            : "none"
+        }}
       >
         {renderIcon(item)}
       </button>
@@ -452,78 +489,53 @@ export default function ChatMobileTopNav({
 
   return (
     <div
-      ref={navRef}
       className={cn(
-        "chat-mobile-topnav absolute z-[121] left-[calc(env(safe-area-inset-left,0px)+0.08rem)] right-[calc(env(safe-area-inset-right,0px)+0.16rem)] top-[calc(env(safe-area-inset-top,0px)+0.18rem)] flex items-center gap-[clamp(0.04rem,0.45vw,0.16rem)] min-[769px]:hidden",
+        "chat-mobile-topnav pointer-events-none absolute inset-x-0 top-0 z-[121] min-[769px]:hidden",
         mobileRailInteractionLocked ? "pointer-events-none opacity-70" : null
       )}
     >
       <BackButton
-        ref={backButtonRef}
         onClick={event => {
-          clearTooltip();
           handleBackHome?.(event);
         }}
         onKeyDown={event => {
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             event.stopPropagation();
-            clearTooltip();
             handleBackHome?.(event);
           }
         }}
         ariaLabel={labels.back}
-        className="shrink-0 !h-[clamp(4.08rem,16.7vw,4.58rem)] !w-[clamp(4.08rem,16.7vw,4.58rem)] rounded-full"
-        iconClassName="!h-[142%] !w-[142%]"
+        className={cn(
+          glassPageBackMobileBottomCenterClassName,
+          "pointer-events-auto !z-[123] rounded-full"
+        )}
+        iconClassName="!h-[100%] !w-[100%]"
       />
 
-      {!mobileRailVisible ? (
-        <div className="min-w-0 flex-1 flex justify-end">
-          <button
-            type="button"
-            ref={showButtonRef}
-            onClick={() => {
-              clearTooltip();
-              showMobileRail?.();
-            }}
-            onKeyDown={event => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                event.stopPropagation();
-                clearTooltip();
-                showMobileRail?.();
-              }
-            }}
-            disabled={mobileRailInteractionLocked}
-            aria-label={labels.show}
-            className="inline-flex h-[clamp(3.34rem,13.9vw,3.78rem)] w-[clamp(3.34rem,13.9vw,3.78rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] opacity-95 touch-manipulation transition-[transform,opacity] duration-150 focus-visible:scale-[1.03] active:scale-[0.97] disabled:opacity-55"
-          >
-            <ShowRailIcon
-              isLightTheme={isLightTheme}
-              className="h-[96%] w-[96%]"
-            />
-          </button>
-        </div>
-      ) : (
-        <div className="min-w-0 flex-1 flex items-center overflow-visible">
-          <div className="flex min-w-0 items-center gap-[clamp(0.1rem,0.72vw,0.28rem)] overflow-visible">
-            {MOBILE_NAV_ITEMS.map(renderNavButton)}
+      {railVisible ? (
+        <div className="absolute left-[calc(env(safe-area-inset-left,0px)+4.9rem)] right-[calc(env(safe-area-inset-right,0px)+0.28rem)] top-[calc(env(safe-area-inset-top,0px)+0.84rem)] pointer-events-auto">
+          <div className="relative">
+            <div
+              ref={railViewportRef}
+              className="relative z-[1] flex items-center gap-[clamp(0.18rem,0.9vw,0.42rem)] overflow-x-auto overscroll-x-contain pb-[0.18rem] pt-[0.18rem] snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0"
+              style={{
+                paddingInline: "max(0px, calc(50% - 2.05rem))",
+                WebkitMaskImage:
+                  "linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.82) 8%, #000 18%, #000 82%, rgba(0,0,0,0.82) 92%, transparent 100%)",
+                maskImage:
+                  "linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.82) 8%, #000 18%, #000 82%, rgba(0,0,0,0.82) 92%, transparent 100%)"
+              }}
+            >
+              {MOBILE_NAV_ITEMS.map(renderNavButton)}
+            </div>
+            <div className="pointer-events-none mt-[0.22rem] flex min-h-[2.05rem] items-start justify-center px-[0.5rem] text-center">
+              <span className="max-w-[12rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.28rem,5.2vw,1.46rem)] font-medium leading-[1.02] tracking-[0.01em] text-[#c57171] light:text-[#7a3a38]">
+                {labels[focusedKey]}
+              </span>
+            </div>
           </div>
         </div>
-      )}
-      {mobileRailVisible && armedKey ? (
-        <span
-          ref={tooltipRef}
-          className="pointer-events-none absolute top-[calc(100%+0.18rem)] z-[160] w-max max-w-[min(calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-1.25rem),12rem)] -translate-x-1/2 whitespace-normal break-words text-center [text-wrap:balance] text-[clamp(1.22rem,4.95vw,1.46rem)] leading-[1.12] font-medium tracking-[0.01em] text-[#c57171] light:text-[#7a3a38]"
-          style={
-            tooltipLeft == null
-              ? { left: 0, opacity: 0 }
-              : { left: `${tooltipLeft}px`, opacity: 0.96 }
-          }
-          aria-hidden="true"
-        >
-          {labels[armedKey]}
-        </span>
       ) : null}
     </div>
   );

@@ -11,7 +11,7 @@ import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
@@ -22,7 +22,7 @@ import { policySectionBodyClassName, policySectionClassName, policySectionHeadin
 import { policyDesktopBottomFadeOverlayClassName, policyDesktopBottomFadeOverlayStyle, shouldShowPolicyDesktopBottomFade } from "@/components/alalehed/policyBottomFadeOverlay";
 import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
-const titleClassName = cn(glassPageTitleClassName, "max-[768px]:translate-y-[0.32rem]");
+const titleClassName = cn(glassPageTitleClassName, glassPageTitleMobileHeaderClassName);
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "before_use", "quickstart"];

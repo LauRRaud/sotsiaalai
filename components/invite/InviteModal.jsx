@@ -9,7 +9,7 @@ import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
-import { glassPageMobileCardClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageMobileCardClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 function parseEmails(raw) {
@@ -58,8 +58,8 @@ export default function InviteModal() {
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
   const inviteModalTitleClassName =
-    `${glassPageTitleClassName} w-full max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.3rem)] ` +
-    "max-[768px]:!px-0 max-[768px]:!whitespace-normal max-[768px]:!text-[clamp(2.2rem,8.7vw,2.9rem)] max-[768px]:!leading-[1.04]";
+    `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} w-full ` +
+    "max-[768px]:!text-[clamp(2.2rem,8.7vw,2.9rem)]";
   const inviteModalBodyClassName =
     "invite-modal-scroll mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]";
   const inviteFormClassName = "grid gap-[1rem] max-[768px]:gap-[0.95rem]";

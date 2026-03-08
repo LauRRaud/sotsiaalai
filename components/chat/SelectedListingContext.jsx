@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
 
@@ -123,7 +123,7 @@ export default function SelectedListingContext({
       <BackButton
         onClick={onDismiss}
         ariaLabel={ui.close}
-        className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.4rem] max-[768px]:!w-[4.4rem] max-[768px]:[&>svg]:!h-[4.4rem] max-[768px]:[&>svg]:!w-[4.4rem]"
+        className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.85rem] max-[768px]:!w-[4.85rem] max-[768px]:[&>svg]:!h-[4.35rem] max-[768px]:[&>svg]:!w-[4.35rem]"
       />
 
       <header className="flex items-start justify-center">
@@ -131,7 +131,7 @@ export default function SelectedListingContext({
           <div className="mt-[0.7rem] text-[0.82rem] uppercase tracking-[0.12em] text-[color:var(--title-color,var(--brand-primary))] opacity-76 max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)]">
             {isOwn ? ui.ownListing : ui.selectedListing}
           </div>
-          <h2 className={`${glassPageTitleClassName} !mb-0 !mt-[0.5rem] max-[768px]:!mt-[0.5rem]`}>
+          <h2 className={`${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 min-[769px]:!mt-[0.5rem]`}>
             {loading ? ui.loading : listing?.title || ui.selectedListing}
           </h2>
           {listing?.municipalityLabel || listing?.statusLabel ? (
