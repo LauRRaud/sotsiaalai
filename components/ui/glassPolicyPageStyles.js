@@ -7,15 +7,21 @@ export const glassPolicyRingClassName =
 export const glassPolicyTitleOffsetClassName =
   "!mt-[clamp(2.6rem,5.5vh,3.7rem)] max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.3rem)] max-[768px]:mb-[clamp(0.4rem,1.3vh,0.8rem)]";
 
+export const glassPolicyTitleMobileLongClassName =
+  "max-[768px]:!ml-0 max-[768px]:!mr-auto max-[768px]:!w-full max-[768px]:!max-w-none " +
+  "max-[768px]:!pl-[clamp(4.15rem,15vw,4.95rem)] max-[768px]:!pr-[clamp(0.8rem,3.8vw,1.2rem)] " +
+  "max-[768px]:!text-left max-[768px]:!text-[clamp(1.96rem,7.8vw,2.46rem)] max-[768px]:!leading-[1.05] " +
+  "max-[768px]:!tracking-[0.01em] max-[768px]:[text-wrap:balance]";
+
 export const glassPolicyTitleExpandedClassName = "glass-policy-title--expanded";
 
 export const glassPolicyContentClassName =
-  "glass-policy-content mt-[clamp(0.18rem,1.1vh,0.75rem)] flex w-full flex-1 flex-col items-center max-[768px]:-mt-[clamp(0.16rem,0.6vh,0.3rem)] max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-[clamp(0rem,1vw,0.25rem)] max-[768px]:pt-[clamp(0.12rem,0.7vh,0.42rem)] max-[768px]:pb-[clamp(0.05rem,0.45vh,0.25rem)]";
+  "glass-policy-content mt-[clamp(0.18rem,1.1vh,0.75rem)] flex w-full flex-1 flex-col items-center max-[768px]:-mt-[clamp(0.16rem,0.6vh,0.3rem)] max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-0 max-[768px]:pt-[clamp(0.12rem,0.7vh,0.42rem)] max-[768px]:pb-[clamp(0.05rem,0.45vh,0.25rem)]";
 
 export const glassPolicyContentExpandedClassName = "glass-policy-content--expanded";
 
 export const glassPolicyScrollClassName =
-  "glass-ring-scroll glass-policy-scroll glass-policy-scroll-bottom-arc relative w-full max-w-[var(--policy-scroll-max-width,clamp(18.8rem,48.5vw,33rem))] overflow-y-auto pr-[0.1rem] pt-[clamp(0.7rem,1.8vh,1.2rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:max-h-[calc(100%-0.35rem)] max-[768px]:translate-x-0 max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-[clamp(0rem,1vw,0.25rem)] max-[768px]:pt-[clamp(0.25rem,1vh,0.7rem)] max-[768px]:pb-[clamp(0.02rem,0.35vh,0.18rem)]";
+  "glass-ring-scroll glass-policy-scroll glass-policy-scroll-bottom-arc relative w-full max-w-[var(--policy-scroll-max-width,clamp(18.8rem,48.5vw,33rem))] overflow-y-auto pr-[0.1rem] pt-[clamp(0.7rem,1.8vh,1.2rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:max-h-[calc(100%-0.35rem)] max-[768px]:translate-x-0 max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-0 max-[768px]:pt-[clamp(0.25rem,1vh,0.7rem)] max-[768px]:pb-[clamp(0.02rem,0.35vh,0.18rem)]";
 
 export const glassPolicyScrollExpandedClassName = "glass-policy-scroll--expanded";
 

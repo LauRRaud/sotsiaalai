@@ -151,12 +151,12 @@ const accountModalActionStackClassName =
   "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.82rem] px-[1.15rem] pt-[0.35rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:px-[0.08rem]";
 const accountModalCardClassName =
   "rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] " +
-  "p-[1.1rem_1rem] text-[color:var(--glass-modal-text)] shadow-none max-[768px]:p-[1rem] " +
+  "p-[1.2rem_1rem_1.35rem] min-h-[12.25rem] text-[color:var(--glass-modal-text)] shadow-none max-[768px]:p-[1.2rem_1rem_1.35rem] " +
   "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] " +
   "[.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
   "[.theme-mid_&]:border-[rgba(132,72,68,0.18)] [.theme-mid_&]:bg-[rgba(251,242,239,0.9)] [.theme-mid_&]:text-[#3f4756] " +
   "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
-const accountModalActionRowClassName = "flex flex-col items-center justify-center gap-[0.8rem] text-center";
+const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[1rem] pt-[0.9rem] text-center";
 const accountModalNoteClassName =
   "mx-auto max-w-[24rem] text-center text-[1.01rem] leading-[1.38] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
 const accountModalButtonClassName =

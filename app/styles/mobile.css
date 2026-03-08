@@ -96,6 +96,21 @@
     overscroll-behavior: auto;
     min-height: 100dvh;
   }
+
+  html[data-chat-mobile-rail-active="true"],
+  body[data-chat-mobile-rail-active="true"] {
+    touch-action: pan-x pan-y !important;
+  }
+
+  .chat-mobile-topnav__rail {
+    touch-action: pan-x !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chat-mobile-topnav__rail-button {
+    touch-action: pan-x !important;
+  }
+
   main#main {
     align-items: stretch;
   }
@@ -1047,8 +1062,8 @@
     max-width: 100% !important;
     width: 100% !important;
     transform: translateX(0) !important;
-    padding-left: clamp(0.15rem, 1.4vw, 0.5rem) !important;
-    padding-right: clamp(0.6rem, 2.6vw, 1.05rem) !important;
+    padding-left: 0 !important;
+    padding-right: clamp(0.06rem, 0.4vw, 0.16rem) !important;
   }
 
   .policy-mobile-lower .glass-ring-content,
@@ -1145,12 +1160,28 @@
 
   .guide-policy-ring.policy-mobile-lower .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll,
   .guide-policy-ring.policy-mobile-lower .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open {
-    padding-left: clamp(0.4rem, 2.6vw, 0.9rem) !important;
-    padding-right: clamp(0.4rem, 2.6vw, 0.9rem) !important;
+    padding-left: 0 !important;
+    padding-right: clamp(0.04rem, 0.3vw, 0.12rem) !important;
   }
 
   .guide-page-title {
     margin-top: calc(env(safe-area-inset-top, 0px) + 2.3rem) !important;
+  }
+
+  #terms-title,
+  #privacy-title,
+  #kasutusjuhend-title {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    padding-left: clamp(2.85rem, 9.8vw, 3.55rem) !important;
+    padding-right: clamp(0.45rem, 2.2vw, 0.8rem) !important;
+    text-align: left !important;
+    font-size: clamp(1.96rem, 7.8vw, 2.46rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0.01em !important;
+    text-wrap: balance !important;
   }
 
   .guide-policy-content.glass-ring-content,

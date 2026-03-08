@@ -12,7 +12,7 @@ import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
-import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
+import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleMobileLongClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { localizeInternalHtmlLinks } from "@/lib/localizeHtmlLinks";
@@ -22,7 +22,7 @@ import { policySectionBodyClassName, policySectionClassName, policySectionHeadin
 import { policyDesktopBottomFadeOverlayClassName, policyDesktopBottomFadeOverlayStyle, shouldShowPolicyDesktopBottomFade } from "@/components/alalehed/policyBottomFadeOverlay";
 import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
-const titleClassName = cn(glassPageTitleClassName, glassPageTitleMobileHeaderClassName);
+const titleClassName = cn(glassPageTitleClassName, glassPageTitleMobileHeaderClassName, glassPolicyTitleMobileLongClassName);
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "before_use", "quickstart"];
@@ -121,7 +121,16 @@ export default function KasutusjuhendBody() {
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
-        <h1 id="kasutusjuhend-title" className={cn(titleClassName, glassPolicyTitleOffsetClassName, "guide-page-title", isExpandedLayout ? glassPolicyTitleExpandedClassName : null)}>
+        <h1
+          id="kasutusjuhend-title"
+          className={cn(
+            titleClassName,
+            glassPolicyTitleOffsetClassName,
+            "guide-page-title",
+            "max-[1024px]:!w-full max-[1024px]:!max-w-none max-[1024px]:!ml-0 max-[1024px]:!mr-auto max-[1024px]:!text-left max-[1024px]:!pl-[clamp(2.85rem,9.8vw,3.55rem)] max-[1024px]:!pr-[clamp(0.45rem,2.2vw,0.8rem)]",
+            isExpandedLayout ? glassPolicyTitleExpandedClassName : null
+          )}
+        >
           {t("about.guide.short_title")}
         </h1>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "guide-policy-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>

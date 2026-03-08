@@ -67,12 +67,6 @@ export default function ChatMobileTopNav({
   const focusUpdateFrameRef = useRef(0);
   const railDidAutoCenterRef = useRef(false);
   const focusedKeyRef = useRef(defaultFocusedKey);
-  const touchGestureRef = useRef({
-    pointerId: null,
-    startX: 0,
-    startY: 0,
-    dragged: false
-  });
   const [focusedKey, setFocusedKey] = useState(defaultFocusedKey);
   const railVisible = true;
 
@@ -115,6 +109,18 @@ export default function ChatMobileTopNav({
   useEffect(() => {
     focusedKeyRef.current = focusedKey;
   }, [focusedKey]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const body = document.body;
+    const html = document.documentElement;
+    body?.setAttribute("data-chat-mobile-rail-active", "true");
+    html?.setAttribute("data-chat-mobile-rail-active", "true");
+    return () => {
+      body?.removeAttribute("data-chat-mobile-rail-active");
+      html?.removeAttribute("data-chat-mobile-rail-active");
+    };
+  }, []);
 
   const scrollItemIntoCenter = useCallback((key, behavior = "smooth") => {
     const viewport = railViewportRef.current;
@@ -386,12 +392,6 @@ export default function ChatMobileTopNav({
 
   const handleItemActivation = useCallback(
     (key, event) => {
-      if (touchGestureRef.current.dragged) {
-        touchGestureRef.current.dragged = false;
-        event?.preventDefault?.();
-        event?.stopPropagation?.();
-        return;
-      }
       event?.preventDefault?.();
       event?.stopPropagation?.();
       setFocusedKey(key);
@@ -418,7 +418,7 @@ export default function ChatMobileTopNav({
     };
 
     return (
-      <button
+        <button
         key={item.key}
         ref={setSourcesRef}
         type="button"
@@ -471,7 +471,7 @@ export default function ChatMobileTopNav({
           }
         }}
         className={cn(
-          "group relative snap-center shrink-0 inline-flex h-[clamp(3.2rem,13.2vw,3.82rem)] w-[clamp(3.2rem,13.2vw,3.82rem)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 [touch-action:pan-x] transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
+          "chat-mobile-topnav__rail-button group relative snap-center shrink-0 inline-flex h-[clamp(3.2rem,13.2vw,3.82rem)] w-[clamp(3.2rem,13.2vw,3.82rem)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 [touch-action:pan-x] transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
           isFocused
             ? "opacity-100"
             : isActive
@@ -524,39 +524,7 @@ export default function ChatMobileTopNav({
           <div className="relative">
             <div
               ref={railViewportRef}
-              className="relative z-[1] flex items-center gap-[clamp(0.18rem,0.9vw,0.42rem)] overflow-x-auto overscroll-x-contain pb-[0.18rem] pt-[0.18rem] snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0"
-              onPointerDownCapture={event => {
-                if (event.pointerType !== "touch") return;
-                touchGestureRef.current.pointerId = event.pointerId;
-                touchGestureRef.current.startX = event.clientX;
-                touchGestureRef.current.startY = event.clientY;
-                touchGestureRef.current.dragged = false;
-              }}
-              onPointerMoveCapture={event => {
-                if (event.pointerType !== "touch") return;
-                if (touchGestureRef.current.pointerId !== event.pointerId) return;
-                const deltaX = Math.abs(event.clientX - touchGestureRef.current.startX);
-                const deltaY = Math.abs(event.clientY - touchGestureRef.current.startY);
-                if (deltaX > 8 && deltaX > deltaY) {
-                  touchGestureRef.current.dragged = true;
-                }
-              }}
-              onPointerUpCapture={event => {
-                if (event.pointerType !== "touch") return;
-                if (touchGestureRef.current.pointerId !== event.pointerId) return;
-                window.setTimeout(() => {
-                  touchGestureRef.current.pointerId = null;
-                  touchGestureRef.current.startX = 0;
-                  touchGestureRef.current.startY = 0;
-                  touchGestureRef.current.dragged = false;
-                }, 0);
-              }}
-              onPointerCancelCapture={() => {
-                touchGestureRef.current.pointerId = null;
-                touchGestureRef.current.startX = 0;
-                touchGestureRef.current.startY = 0;
-                touchGestureRef.current.dragged = false;
-              }}
+              className="chat-mobile-topnav__rail relative z-[1] flex items-center gap-[clamp(0.18rem,0.9vw,0.42rem)] overflow-x-auto overscroll-x-contain pb-[0.18rem] pt-[0.18rem] snap-x snap-proximity [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0"
               style={{
                 paddingInline: "max(0px, calc(50% - 2.05rem))",
                 touchAction: "pan-x",

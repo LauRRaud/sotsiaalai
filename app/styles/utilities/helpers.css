@@ -655,6 +655,20 @@ body.login-modal-open {
   will-change: transform;
 }
 
+@media (max-width: 1024px) {
+  #terms-title,
+  #privacy-title,
+  #kasutusjuhend-title {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    padding-left: clamp(2.85rem, 9.8vw, 3.55rem) !important;
+    padding-right: clamp(0.45rem, 2.2vw, 0.8rem) !important;
+    text-align: left !important;
+  }
+}
+
 @media (min-width: 768px) {
   #terms-title,
   #privacy-title,
