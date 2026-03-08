@@ -372,9 +372,12 @@ export default function ChatMobileTopNav({
 
   const handleTrackPointerEnd = useCallback(() => {
     const deltaX = dragStateRef.current.currentX - dragStateRef.current.startX;
-    const swipeThreshold = 14;
+    const swipeThreshold = 24;
     if (Math.abs(deltaX) >= swipeThreshold) {
-      const steps = Math.max(1, Math.round(Math.abs(deltaX) / SLOT_STEP_PX));
+      const steps = Math.max(
+        1,
+        Math.floor((Math.abs(deltaX) - swipeThreshold) / SLOT_STEP_PX) + 1
+      );
       setFocusedIndexImmediate(current => {
         if (deltaX < 0) {
           return Math.min(MOBILE_NAV_ITEMS.length - 1, current + steps);
@@ -400,7 +403,7 @@ export default function ChatMobileTopNav({
   const moveSwipe = useCallback((clientX, event) => {
     const deltaX = clientX - dragStateRef.current.startX;
     dragStateRef.current.currentX = clientX;
-    if (Math.abs(deltaX) > 4) {
+    if (Math.abs(deltaX) > 8) {
       dragStateRef.current.moved = true;
       setIsDragging(true);
     }
@@ -462,18 +465,17 @@ export default function ChatMobileTopNav({
 
   const getClosestVisibleIndex = useCallback(
     clientX => {
-      const surface = swipeSurfaceRef.current;
       const baseFocusedIndex = focusedIndexRef.current;
-      if (!surface || visibleItems.length === 0) return baseFocusedIndex;
-      const rect = surface.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
+      if (visibleItems.length === 0) return baseFocusedIndex;
       let nearestIndex = baseFocusedIndex;
       let nearestDistance = Number.POSITIVE_INFINITY;
 
-      visibleItems.forEach(({ index, slot }) => {
-        const slotCenterX =
-          centerX + (FOCUS_CENTER_OFFSET_REM + getSlotOffsetRem(slot)) * 16;
-        const distance = Math.abs(clientX - slotCenterX);
+      visibleItems.forEach(({ item, index }) => {
+        const button = itemButtonRefs.current[item.key];
+        const rect = button?.getBoundingClientRect?.();
+        if (!rect) return;
+        const buttonCenterX = rect.left + rect.width / 2;
+        const distance = Math.abs(clientX - buttonCenterX);
         if (distance < nearestDistance) {
           nearestDistance = distance;
           nearestIndex = index;

@@ -8,13 +8,7 @@ import { localizePath } from "@/lib/localizePath";
 import { unstable_noStore as noStore } from "next/cache";
 import AdminAnalyticsClient from "./AdminAnalyticsClient";
 const shellClassName =
-  "glass-box mx-auto my-[clamp(0.85rem,2.8vw,2.2rem)] flex w-[min(100%,96vw)] max-w-[clamp(60rem,92vw,98rem)] " +
-  "flex-col gap-[clamp(0.9rem,2vw,1.3rem)] rounded-[1.65rem] border border-[color:var(--glass-border-color)] " +
-  "px-[clamp(1.05rem,2.7vw,2.4rem)] pt-[clamp(0.9rem,2.2vw,1.25rem)] pb-[clamp(1rem,2.8vw,1.9rem)] " +
-  "text-[1.05rem] text-[color:var(--admin-text)] shadow-[var(--glass-shell-shadow,var(--admin-shadow))] " +
-  "max-md:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-0.7rem)] max-md:max-w-none " +
-  "max-md:my-[0.35rem] max-md:rounded-[1.35rem] max-md:px-[clamp(0.85rem,3.8vw,1.2rem)] " +
-  "max-md:pt-[calc(env(safe-area-inset-top,0px)+0.95rem)] max-md:pb-[calc(env(safe-area-inset-bottom,0px)+1.1rem)]";
+  "documents-panel documents-panel--primary mx-auto my-[clamp(1.1rem,3vw,2.2rem)] flex w-full max-w-[60rem] flex-col gap-2 rounded-[1.5rem] border px-[clamp(1rem,2.1vw,1.7rem)] pt-[clamp(0.75rem,2vw,1.1rem)] pb-[clamp(0.6rem,1.8vw,1rem)] text-[1.05rem] text-[color:var(--admin-text)] max-md:w-full max-md:max-w-none max-md:my-0 max-md:rounded-none max-md:border-x-0 max-md:px-[clamp(0.85rem,3.8vw,1.3rem)] max-md:pt-[calc(env(safe-area-inset-top,0px)+2.3rem)] max-md:pb-[calc(env(safe-area-inset-bottom,0px)+1rem)]";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const revalidate = 0;
@@ -39,7 +33,11 @@ export default async function AdminAnalyticsPage() {
   }
   const isAdmin = !!session?.user?.isAdmin || String(session?.user?.role || "").toUpperCase() === "ADMIN";
   if (!isAdmin) redirect(localizePath("/", locale));
-  return <div className={shellClassName}>
-      <AdminAnalyticsClient />
-    </div>;
+  return (
+    <section className="documents-workspace mx-auto w-full px-[clamp(0.4rem,1.4vw,0.9rem)] py-[clamp(0.5rem,1.6vw,1rem)]">
+      <div className={shellClassName}>
+        <AdminAnalyticsClient />
+      </div>
+    </section>
+  );
 }

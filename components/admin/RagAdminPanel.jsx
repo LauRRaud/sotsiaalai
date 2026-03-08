@@ -9,22 +9,29 @@ import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Modal from "@/components/ui/Modal";
 import ModalConfirm from "@/components/ui/ModalConfirm";
+import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 const STATUS_LABEL_KEYS = {
   PENDING: "admin.rag.status.pending",
   PROCESSING: "admin.rag.status.processing",
   COMPLETED: "admin.rag.status.completed",
   FAILED: "admin.rag.status.failed"
 };
-const rootClassName = "flex flex-col gap-2 text-[color:var(--admin-text)] [--rag-text:var(--admin-text)] [--rag-muted:var(--admin-muted)]";
+const rootClassName =
+  "flex flex-col gap-2 text-[color:var(--admin-text)] " +
+  "[--admin-text:var(--documents-page-text)] [--admin-muted:var(--documents-page-muted)] [--admin-surface:var(--documents-card-bg)] " +
+  "[--admin-surface-2:var(--documents-subpanel-bg)] [--admin-surface-3:var(--documents-content-bg)] [--admin-border:var(--documents-card-border)] " +
+  "[--admin-border-strong:var(--documents-subpanel-border)] [--admin-shadow-soft:var(--documents-soft-shadow)] [--admin-shadow:var(--documents-strong-shadow)] " +
+  "[--admin-accent:var(--documents-accent)] [--admin-accent-soft:var(--documents-accent-soft)] [--admin-accent-cool:var(--documents-accent)] " +
+  "[--admin-success:var(--documents-success-text)] [--admin-danger:var(--documents-error-text)] [--rag-text:var(--admin-text)] [--rag-muted:var(--admin-muted)]";
 const rootInputVars = {
-  "--input-bg": "linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))",
-  "--input-bg-hover": "linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))",
-  "--input-bg-focus": "linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))",
+  "--input-bg": "var(--documents-content-bg)",
+  "--input-bg-hover": "var(--documents-content-bg)",
+  "--input-bg-focus": "var(--documents-content-bg)",
   "--input-border": "1px solid var(--admin-border-strong)",
   "--input-text": "var(--admin-text)",
   "--input-caret": "var(--admin-text)",
   "--input-placeholder": "color-mix(in srgb, var(--admin-muted) 85%, transparent)",
-  "--input-shadow": "inset 0 1px 0 rgba(255,255,255,0.04)",
+  "--input-shadow": "var(--documents-soft-shadow)",
   "--input-radius": "12px"
 };
 const cardClassName = "relative overflow-hidden rounded-[1rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] p-[clamp(0.72rem,1.9vw,0.95rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-65";
@@ -33,8 +40,8 @@ const cardHeadClassName = "flex flex-wrap items-start justify-between gap-2";
 const cardSubClassName = "text-[0.95rem] text-[color:var(--admin-muted)] max-w-[56ch]";
 const cardActionsClassName = "flex flex-wrap items-center justify-start gap-2";
 const inputClassName = "rounded-[12px] text-[0.95rem]";
-const selectClassName = "w-full rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.55rem] text-[0.95rem] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
-const compactSelectClassName = `${selectClassName} w-auto min-w-[11rem] max-w-full self-start text-left pr-9`;
+const dropdownClassName = "w-full";
+const compactDropdownClassName = "w-full max-w-[14rem]";
 const formNoteClassName = "text-[0.84rem] text-[color:var(--admin-muted)]";
 const ingestGridClassName = "grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(340px,1fr))] items-start";
 const ingestMainGridClassName = "grid gap-2 [grid-template-columns:minmax(0,1fr)]";
@@ -48,8 +55,8 @@ const badgeBlueClassName = "border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_18%,v
 const badgeGreenClassName = "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#22c55e_78%,var(--admin-text)_22%)]";
 const badgeRedClassName = "border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#ef4444_78%,var(--admin-text)_22%)]";
 const badgeGhostClassName = "border-transparent bg-[color-mix(in_srgb,var(--admin-accent)_18%,transparent)] text-[color:var(--admin-accent)]";
-const toolbarPrimaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2 shadow-[var(--admin-shadow-soft)]";
-const toolbarSecondaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_80%,transparent)] p-2";
+const toolbarPrimaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(150px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2 shadow-[var(--admin-shadow-soft)]";
+const toolbarSecondaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(150px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_80%,transparent)] p-2";
 const metaCheckBaseClassName = "rounded-[10px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-2 text-[0.86rem] leading-[1.4]";
 const metaCheckOkClassName = "border-[color:var(--admin-success)] bg-[color-mix(in_srgb,var(--admin-success)_12%,var(--admin-surface-3)_88%)]";
 const metaCheckWarnClassName = "border-[color:var(--admin-accent)] bg-[color-mix(in_srgb,var(--admin-accent)_12%,var(--admin-surface-3)_88%)]";
@@ -80,6 +87,9 @@ const articlesFormClassName = "grid gap-2";
 const articlesActionsClassName = "flex flex-wrap gap-2";
 const articlesResultClassName = "grid gap-2 text-[0.9rem] text-[color:var(--admin-muted)]";
 const articlesListClassName = "m-0 grid gap-1 pl-4 text-[color:var(--admin-text)]";
+const filePickerClassName = "flex flex-wrap items-center gap-2 rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-3)] px-3 py-2 shadow-[var(--admin-shadow-soft)]";
+const filePickerNameClassName = "min-w-0 text-[0.92rem] text-[color:var(--admin-muted)]";
+const emptyFilterNoteClassName = "flex min-h-[2.9rem] items-center rounded-[12px] border border-dashed border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-2 text-[0.86rem] text-[color:var(--admin-muted)]";
 const tagsWrapClassName = "flex flex-wrap gap-1.5";
 const quickTagsClassName = "flex flex-wrap items-center gap-2";
 const quickTagsLabelClassName = "text-[0.88rem] text-[color:var(--admin-muted)]";
@@ -91,7 +101,7 @@ const docSummaryDotClassName = "text-[color:var(--admin-muted)]";
 const docSummarySelectedClassName = "font-semibold text-[color:var(--admin-accent)]";
 const docsClassName = "flex flex-col gap-1.5";
 const docCheckClassName = "inline-flex items-center gap-2 font-semibold text-[color:var(--admin-text)]";
-const docsLayoutClassName = "grid gap-4 [grid-template-columns:minmax(260px,0.95fr)_minmax(0,1.45fr)] items-start max-lg:[grid-template-columns:minmax(0,1fr)]";
+const docsLayoutClassName = "grid gap-4 xl:[grid-template-columns:minmax(220px,0.9fr)_minmax(0,1.35fr)] items-start max-xl:[grid-template-columns:minmax(0,1fr)]";
 const docsListClassName = "grid gap-2 max-h-[560px] overflow-auto pr-1";
 const docsEmptyClassName = "text-center rounded-[12px] border border-dashed border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3 text-[color:var(--admin-muted)]";
 const docDetailWrapperClassName = "sticky top-3 self-start max-lg:static";
@@ -357,12 +367,15 @@ export default function RagAdminPanel() {
   const [pdfMetaAudience, setPdfMetaAudience] = useState("BOTH");
   const [pdfMetaBusy, setPdfMetaBusy] = useState(false);
   const [pdfMetaResult, setPdfMetaResult] = useState(null);
+  const [pdfFileName, setPdfFileName] = useState("");
+  const [pdfMetaFileName, setPdfMetaFileName] = useState("");
   const [metaCheck, setMetaCheck] = useState(null);
   const [showMetaGuide, setShowMetaGuide] = useState(false);
   const [activeMetaTemplateKey, setActiveMetaTemplateKey] = useState(META_TEMPLATES[0]?.key || "base");
   const [activeMetaTemplateContent, setActiveMetaTemplateContent] = useState("");
   const [articlesDocId, setArticlesDocId] = useState("");
   const [articlesJson, setArticlesJson] = useState("");
+  const [articlesJsonFileName, setArticlesJsonFileName] = useState("");
   const [articlesBusy, setArticlesBusy] = useState(false);
   const [articlesResult, setArticlesResult] = useState(null);
   const [urlBusy, setUrlBusy] = useState(false);
@@ -402,6 +415,9 @@ export default function RagAdminPanel() {
   const [deleteConfirmDocId, setDeleteConfirmDocId] = useState(null);
   const urlFormRef = useRef(null);
   const pdfFormRef = useRef(null);
+  const pdfFileInputRef = useRef(null);
+  const pdfMetaFileInputRef = useRef(null);
+  const articlesFileInputRef = useRef(null);
   const articlesFormRef = useRef(null);
   const fetchAbortRef = useRef(null);
   const resetMessage = useCallback(() => setMessage(null), []);
@@ -790,6 +806,29 @@ export default function RagAdminPanel() {
   const audienceOptions = useMemo(() => Array.from(new Set(normalizedDocs.map(d => d.audience).filter(Boolean))), [normalizedDocs]);
   const yearOptions = useMemo(() => Array.from(new Set(normalizedDocs.map(d => String(d.year || "").trim()).filter(Boolean))).sort((a, b) => b.localeCompare(a)), [normalizedDocs]);
   const issueOptions = useMemo(() => Array.from(new Set(normalizedDocs.map(d => d.issueLabel).filter(Boolean))).sort(), [normalizedDocs]);
+  const sectionFilterOptions = useMemo(() => [
+    { value: "ALL", label: tr("admin.rag.documents.filters.all_sections") },
+    ...sectionOptions.map(value => ({ value, label: value }))
+  ], [sectionOptions, tr]);
+  const audienceFilterOptions = useMemo(() => [
+    { value: "ALL", label: tr("admin.rag.documents.filters.all_audiences") },
+    ...audienceOptions.map(value => ({ value, label: getAudienceLabel(value) }))
+  ], [audienceOptions, getAudienceLabel, tr]);
+  const yearFilterOptions = useMemo(() => [
+    { value: "ALL", label: tr("admin.rag.documents.filters.all_years") },
+    ...yearOptions.map(value => ({ value, label: value }))
+  ], [tr, yearOptions]);
+  const sortOptions = useMemo(() => [
+    { value: "recent", label: tr("admin.rag.documents.sort.recent") },
+    { value: "title", label: tr("admin.rag.documents.sort.title") },
+    { value: "section", label: tr("admin.rag.documents.sort.section") },
+    { value: "year", label: tr("admin.rag.documents.sort.year") },
+    { value: "issue", label: tr("admin.rag.documents.sort.issue") }
+  ], [tr]);
+  const issueFilterOptions = useMemo(() => [
+    { value: "ALL", label: tr("admin.rag.documents.filters.all_issues") },
+    ...issueOptions.map(value => ({ value, label: value }))
+  ], [issueOptions, tr]);
   const allTags = useMemo(() => Array.from(new Set(normalizedDocs.flatMap(d => d.tags || []))).filter(Boolean).sort((a, b) => a.localeCompare(b)), [normalizedDocs]);
   const topTags = useMemo(() => {
     const counts = new Map();
@@ -1071,11 +1110,13 @@ export default function RagAdminPanel() {
                 <Input value={urlTitle} onChange={e => setUrlTitle(e.target.value)} placeholder={tr("admin.rag.ingest.url_title_placeholder")} size="sm" className={inputClassName} />
                 <Textarea value={urlDescription} onChange={e => setUrlDescription(e.target.value)} placeholder={tr("admin.rag.ingest.url_description_placeholder")} rows={2} size="sm" className={inputClassName} />
                 <Input value={urlTags} onChange={e => setUrlTags(e.target.value)} placeholder={tr("admin.rag.ingest.url_tags_placeholder")} size="sm" className={inputClassName} />
-                <select value={urlAudience} onChange={e => setUrlAudience(e.target.value)} className={compactSelectClassName}>
-                  {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>)}
-                </select>
+                <DocumentsDropdown
+                  ariaLabel={tr("admin.rag.ingest.url_section_title")}
+                  value={urlAudience}
+                  onChange={setUrlAudience}
+                  options={audienceSelectOptions}
+                  className={compactDropdownClassName}
+                />
                 <Button size="sm" type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName} self-start`} disabled={urlBusy}>
                   {urlBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_url")}
                 </Button>
@@ -1086,14 +1127,28 @@ export default function RagAdminPanel() {
                 <div className={formNoteClassName}>
                   {tr("admin.rag.ingest.pdf_section_note")}
                 </div>
-                <input name="pdfWithMetaFile" type="file" accept="application/pdf" className={selectClassName} />
-                <input name="pdfMetaFile" type="file" accept="application/json" className={selectClassName} />
+                <input ref={pdfFileInputRef} name="pdfWithMetaFile" type="file" accept="application/pdf" className="sr-only" onChange={e => setPdfFileName(e.target.files?.[0]?.name || "")} />
+                <div className={filePickerClassName}>
+                  <Button type="button" size="sm" className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`} onClick={() => pdfFileInputRef.current?.click()}>
+                    Vali fail
+                  </Button>
+                  <span className={filePickerNameClassName}>{pdfFileName || "Pole valitud PDF faili"}</span>
+                </div>
+                <input ref={pdfMetaFileInputRef} name="pdfMetaFile" type="file" accept="application/json" className="sr-only" onChange={e => setPdfMetaFileName(e.target.files?.[0]?.name || "")} />
+                <div className={filePickerClassName}>
+                  <Button type="button" size="sm" className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`} onClick={() => pdfMetaFileInputRef.current?.click()}>
+                    Vali fail
+                  </Button>
+                  <span className={filePickerNameClassName}>{pdfMetaFileName || "Pole valitud JSON faili"}</span>
+                </div>
                 <Textarea name="pdfMetaText" placeholder={tr("admin.rag.ingest.pdf_meta_text_placeholder")} rows={3} size="sm" className={inputClassName} />
-                <select value={pdfMetaAudience} onChange={e => setPdfMetaAudience(e.target.value)} className={compactSelectClassName}>
-                  {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>)}
-                </select>
+                <DocumentsDropdown
+                  ariaLabel={tr("admin.rag.ingest.pdf_section_title")}
+                  value={pdfMetaAudience}
+                  onChange={setPdfMetaAudience}
+                  options={audienceSelectOptions}
+                  className={compactDropdownClassName}
+                />
                 <div className={metaActionsClassName}>
                   <Button size="sm" type="button" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => setShowMetaGuide(s => !s)} aria-expanded={showMetaGuide} aria-controls="rag-meta-panel">
                     {showMetaGuide ? tr("admin.rag.meta.hide_templates") : tr("admin.rag.meta.open_templates")}
@@ -1131,7 +1186,13 @@ export default function RagAdminPanel() {
               </div>
               <form className={articlesFormClassName} onSubmit={handleArticlesSubmit} ref={articlesFormRef}>
                 <Input name="articlesDocId" value={articlesDocId} onChange={e => setArticlesDocId(e.target.value)} placeholder={tr("admin.rag.articles.doc_id_placeholder")} size="sm" className={inputClassName} />
-                <input name="articlesJsonFile" type="file" accept="application/json" className={selectClassName} />
+                <input ref={articlesFileInputRef} name="articlesJsonFile" type="file" accept="application/json" className="sr-only" onChange={e => setArticlesJsonFileName(e.target.files?.[0]?.name || "")} />
+                <div className={filePickerClassName}>
+                  <Button type="button" size="sm" className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`} onClick={() => articlesFileInputRef.current?.click()}>
+                    Vali fail
+                  </Button>
+                  <span className={filePickerNameClassName}>{articlesJsonFileName || "Pole valitud JSON faili"}</span>
+                </div>
                 <Textarea name="articlesJsonText" value={articlesJson} onChange={e => setArticlesJson(e.target.value)} placeholder={tr("admin.rag.articles.json_placeholder")} rows={5} size="sm" className={inputClassName} />
                 <div className={articlesActionsClassName}>
                   <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={articlesBusy}>
@@ -1236,44 +1297,20 @@ export default function RagAdminPanel() {
           </div> : null}
         <div className={toolbarPrimaryClassName}>
           <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder={tr("admin.rag.documents.search_placeholder")} size="sm" className={inputClassName} />
-          <select value={filterSection} onChange={e => setFilterSection(e.target.value)} className={selectClassName}>
-            <option value="ALL">{tr("admin.rag.documents.filters.all_sections")}</option>
-            {sectionOptions.map(s => <option key={s} value={s}>
-                {s}
-              </option>)}
-          </select>
-          <select value={filterAudience} onChange={e => setFilterAudience(e.target.value)} className={selectClassName}>
-            <option value="ALL">{tr("admin.rag.documents.filters.all_audiences")}</option>
-            {audienceOptions.map(s => <option key={s} value={s}>
-                {getAudienceLabel(s)}
-              </option>)}
-          </select>
-          <select value={filterYear} onChange={e => setFilterYear(e.target.value)} className={selectClassName}>
-            <option value="ALL">{tr("admin.rag.documents.filters.all_years")}</option>
-            {yearOptions.map(s => <option key={s} value={s}>
-                {s}
-              </option>)}
-          </select>
-          <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={selectClassName}>
-            <option value="recent">{tr("admin.rag.documents.sort.recent")}</option>
-            <option value="title">{tr("admin.rag.documents.sort.title")}</option>
-            <option value="section">{tr("admin.rag.documents.sort.section")}</option>
-            <option value="year">{tr("admin.rag.documents.sort.year")}</option>
-            <option value="issue">{tr("admin.rag.documents.sort.issue")}</option>
-          </select>
+          <DocumentsDropdown ariaLabel={tr("admin.rag.documents.filters.all_sections")} value={filterSection} onChange={setFilterSection} options={sectionFilterOptions} className={dropdownClassName} />
+          <DocumentsDropdown ariaLabel={tr("admin.rag.documents.filters.all_audiences")} value={filterAudience} onChange={setFilterAudience} options={audienceFilterOptions} className={dropdownClassName} />
+          <DocumentsDropdown ariaLabel={tr("admin.rag.documents.filters.all_years")} value={filterYear} onChange={setFilterYear} options={yearFilterOptions} className={dropdownClassName} />
+          <DocumentsDropdown ariaLabel={tr("admin.rag.documents.sort.recent")} value={sortBy} onChange={setSortBy} options={sortOptions} className={dropdownClassName} />
         </div>
         <div className={toolbarSecondaryClassName}>
-          <select value={filterIssue} onChange={e => setFilterIssue(e.target.value)} className={selectClassName}>
-            <option value="ALL">{tr("admin.rag.documents.filters.all_issues")}</option>
-            {issueOptions.map(s => <option key={s} value={s}>
-                {s}
-              </option>)}
-          </select>
-          <select multiple value={filterTags} onChange={e => setFilterTags(Array.from(e.target.selectedOptions, o => o.value))} className={selectClassName} size={Math.min(6, Math.max(2, allTags.length)) || 2}>
-            {allTags.map(t => <option key={t} value={t}>
-                {t}
-              </option>)}
-          </select>
+          <DocumentsDropdown ariaLabel={tr("admin.rag.documents.filters.all_issues")} value={filterIssue} onChange={setFilterIssue} options={issueFilterOptions} className={dropdownClassName} />
+          {allTags.length ? <div className="flex flex-wrap items-center gap-1.5 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-2.5 py-2">
+              {allTags.map(tag => <button type="button" key={tag} className={`${tagChipBaseClassName}${filterTags.includes(tag) ? " " + tagChipActiveClassName : ""}`} onClick={() => toggleFilterTag(tag)}>
+                  {tag}
+                </button>)}
+            </div> : <div className={emptyFilterNoteClassName}>
+              Silte pole saadaval.
+            </div>}
           {selectedIds.size ? <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={handleBulkReindex} disabled={reindexingId !== null}>
               {tr("admin.rag.documents.reindex_selected", { count: selectedIds.size })}
             </Button> : null}
@@ -1559,14 +1596,16 @@ export default function RagAdminPanel() {
             }))} className={inputClassName} size="sm" />
               </div>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2">
-                <select value={detailForm.audience} onChange={e => setDetailForm(f => ({
+                <DocumentsDropdown
+                  ariaLabel={tr("admin.rag.document_detail.audience")}
+                  value={detailForm.audience}
+                  onChange={nextAudience => setDetailForm(f => ({
               ...f,
-              audience: e.target.value
-            }))} className={selectClassName}>
-                  {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>)}
-                </select>
+              audience: nextAudience
+            }))}
+                  options={audienceSelectOptions}
+                  className={dropdownClassName}
+                />
                 <Input value={detailForm.pageRange} onChange={e => setDetailForm(f => ({
               ...f,
               pageRange: e.target.value

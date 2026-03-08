@@ -9,69 +9,93 @@ import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath } from "@/lib/localizePath";
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
+import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 
 const pageClassName =
-  "flex flex-col gap-[clamp(1rem,2.2vw,1.45rem)] text-[color:var(--admin-text)] [--rag-text:var(--admin-text)]";
+  "flex w-full min-w-0 max-w-full flex-col gap-[clamp(1rem,2.2vw,1.45rem)] overflow-x-clip text-[color:var(--admin-text)] " +
+  "[--admin-text:var(--documents-page-text)] [--admin-muted:var(--documents-page-muted)] [--admin-surface:var(--documents-card-bg)] " +
+  "[--admin-surface-2:var(--documents-subpanel-bg)] [--admin-surface-3:var(--documents-content-bg)] [--admin-border:var(--documents-card-border)] " +
+  "[--admin-border-strong:var(--documents-subpanel-border)] [--admin-shadow-soft:var(--documents-soft-shadow)] [--admin-shadow:var(--documents-strong-shadow)] " +
+  "[--admin-accent:var(--documents-accent)] [--admin-accent-soft:var(--documents-accent-soft)] [--admin-accent-cool:var(--documents-accent)] " +
+  "[--admin-success:var(--documents-success-text)] [--admin-danger:var(--documents-error-text)] [--rag-text:var(--documents-page-text)]";
 const pageHeaderClassName =
-  "relative overflow-hidden rounded-[1.35rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
+  "relative w-full min-w-0 max-w-full overflow-hidden rounded-[1.1rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
   "bg-[radial-gradient(circle_at_top,rgba(244,179,107,0.16),transparent_38%),linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] " +
-  "px-[clamp(0.95rem,2.6vw,1.35rem)] py-[clamp(0.95rem,2.2vw,1.2rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
+  "px-[clamp(0.9rem,2.2vw,1.15rem)] py-[clamp(0.9rem,2vw,1.05rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
   "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_85%_18%,rgba(58,182,167,0.12),transparent_28%)] before:opacity-95";
-const pageHeaderSurfaceClassName = "relative z-[1] grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start";
+const pageHeaderSurfaceClassName = "relative z-[1] grid gap-3 min-w-0";
 const pageHeaderMainClassName =
-  "relative flex min-h-[5.5rem] items-start justify-center px-[clamp(4.8rem,9vw,6rem)] pt-[0.15rem] text-center max-[768px]:min-h-0 max-[768px]:px-[clamp(3.1rem,13vw,4.4rem)] max-[768px]:pt-0";
-const pageHeaderTitleWrapClassName = "grid justify-items-center gap-[0.78rem] max-w-[58rem]";
-const pageTitleClassName = `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal !text-[clamp(1.84rem,3.05vw,2.55rem)] !tracking-[0.03em] max-[768px]:!text-[clamp(1.98rem,8.2vw,2.72rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
-const pageHeaderSubtitleClassName = "max-w-[56ch] text-[0.98rem] leading-[1.6] text-[color:var(--admin-muted)] max-[768px]:text-[0.96rem]";
-const pageHeaderMetaClassName = "flex flex-wrap items-center justify-center gap-2 xl:justify-start";
-const pageHeaderToolbarClassName = "flex flex-wrap items-center justify-center gap-2 xl:justify-end xl:self-center";
+  "relative flex w-full min-w-0 items-start justify-center px-[clamp(4.8rem,9vw,6.1rem)] pt-[0.05rem] text-center max-[768px]:px-0";
+const pageHeaderTitleWrapClassName = "grid min-w-0 flex-1 justify-items-center gap-[0.45rem] text-center";
+const pageTitleClassName = `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal !text-[clamp(1.72rem,2.9vw,2.35rem)] !tracking-[0.03em] !leading-[1.08] !break-words [text-wrap:balance] max-[768px]:!text-[clamp(1.92rem,8vw,2.6rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
+const pageHeaderSubtitleClassName = "max-w-[68ch] text-[0.92rem] leading-[1.5] text-[color:var(--admin-muted)] [text-wrap:pretty] max-[768px]:text-[0.92rem]";
+const pageHeaderMetaRowClassName = "flex w-full min-w-0 flex-col items-center gap-3";
+const pageHeaderMetaClassName = "flex min-w-0 max-w-full flex-wrap items-center justify-center gap-2";
+const pageHeaderToolbarClassName = "flex flex-wrap items-center justify-center gap-2";
+const sectionNavClassName =
+  "flex w-full min-w-0 max-w-full flex-wrap items-center justify-center gap-2 border-t border-[color:color-mix(in_srgb,var(--admin-border)_72%,transparent)] pt-3";
+const sectionNavLinkClassName =
+  "inline-flex max-w-full items-center rounded-full border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_78%,transparent)] px-3 py-1.5 text-[0.8rem] font-[600] tracking-[0.01em] text-[color:var(--admin-muted)] transition-colors hover:text-[color:var(--admin-text)]";
 const headerPillClassName =
   "inline-flex items-center gap-2 rounded-full border border-[color:var(--admin-border-strong)] " +
-  "bg-[color-mix(in_srgb,var(--admin-surface-2)_76%,transparent)] px-[0.9rem] py-[0.45rem] text-[0.82rem] font-[600] " +
+  "max-w-full bg-[color-mix(in_srgb,var(--admin-surface-2)_76%,transparent)] px-[0.9rem] py-[0.45rem] text-[0.82rem] font-[600] " +
   "tracking-[0.01em] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]";
 const headerPillLabelClassName = "text-[color:var(--admin-muted)]";
 const headerPillValueClassName = "text-[color:var(--admin-text)]";
 const cardClassName =
-  "relative overflow-hidden rounded-[1.18rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
+  "relative w-full min-w-0 self-start overflow-hidden rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
   "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
-  "p-[clamp(0.9rem,2.2vw,1.15rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
+  "p-[clamp(0.62rem,1.4vw,0.82rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
   "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
-const cardBodyClassName = "relative z-[1] grid gap-[0.85rem]";
-const kpiGridClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))] gap-3";
+const cardBodyClassName = "relative z-[1] grid min-w-0 gap-[0.6rem]";
+const kpiGridClassName = "grid grid-cols-1";
+const topKpiGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
+const platformGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
+const docsGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
+const billingSummaryGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
+const billingPipelineGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
+const usersSummaryGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
 const sectionHeadClassName = "flex flex-wrap items-start justify-between gap-3";
-const sectionSubClassName = "text-[0.95rem] leading-[1.55] text-[color:var(--admin-muted)] max-w-[68ch]";
-const kpiValueClassName = "text-[clamp(1.55rem,2.45vw,1.92rem)] font-[700] text-[color:var(--admin-text)]";
-const kpiMetaClassName = "text-[0.9rem] leading-[1.4] text-[color:var(--admin-muted)]";
+const sectionSubClassName = "text-[0.9rem] leading-[1.45] text-[color:var(--admin-muted)] max-w-[68ch]";
+const kpiValueClassName = "text-[clamp(1.2rem,1.55vw,1.52rem)] font-[700] leading-[1.02] text-[color:var(--admin-text)]";
+const kpiMetaClassName = "text-[0.84rem] leading-[1.3] text-[color:var(--admin-muted)]";
+const statRowClassName =
+  "grid min-w-0 gap-x-3 gap-y-1 border-b border-[color:var(--admin-border)] py-2 last:border-b-0 grid-cols-[minmax(0,1fr)_auto]";
+const statRowMainClassName = "grid min-w-0 gap-[0.08rem] content-start";
+const statRowValueWrapClassName = "grid min-w-0 justify-items-end content-start";
+const metricGroupClassName = "grid min-w-0 gap-1.5 border-b border-[color:var(--admin-border)] py-2 last:border-b-0";
 const barClassName = "flex h-2 overflow-hidden rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)]";
 const tableHeaderClassName = "flex flex-wrap items-center justify-between gap-2";
 const tableScrollHintClassName = "hidden";
-const tableDesktopWrapClassName = "max-[768px]:hidden";
+const tableDesktopWrapClassName = "max-[1180px]:hidden";
 const tableWrapClassName =
   "overflow-auto rounded-[1rem] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] " +
   "shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]";
-const tableClassName = "min-w-[46rem] w-full border-collapse text-[color:var(--admin-text)]";
+const tableClassName = "min-w-[38rem] w-full border-collapse text-[color:var(--admin-text)]";
 const tableHeadCellClassName =
-  "sticky top-0 z-[1] border-b border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-2 text-left text-[0.82rem] uppercase tracking-[0.04em] text-[color:var(--admin-muted)]";
-const tableCellClassName = "border-b border-[color:var(--admin-border)] px-3 py-2.5 text-left text-[0.9rem] align-top";
+  "sticky top-0 z-[1] border-b border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2 py-1.25 text-left text-[0.76rem] uppercase tracking-[0.04em] text-[color:var(--admin-muted)]";
+const tableCellClassName = "border-b border-[color:var(--admin-border)] px-2 py-1.75 text-left text-[0.86rem] align-top";
 const cellSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
 const toolbarPrimaryClassName =
-  "grid [grid-template-columns:repeat(auto-fit,minmax(190px,1fr))] items-center gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.8rem] shadow-[var(--admin-shadow-soft)]";
+  "grid min-w-0 grid-cols-1 items-center gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.72rem] shadow-[var(--admin-shadow-soft)] xl:grid-cols-[minmax(0,1fr)_auto_auto]";
+const logsToolbarClassName =
+  "grid min-w-0 grid-cols-1 items-center gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.72rem] shadow-[var(--admin-shadow-soft)] xl:grid-cols-[minmax(12rem,15rem)_minmax(7.5rem,8.5rem)_auto_auto] xl:justify-start";
 const usersSelectBarClassName =
-  "grid gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.8rem]";
-const usersSelectActionsClassName = "flex flex-wrap items-center gap-2";
+  "grid min-w-0 gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.8rem]";
+const usersSelectActionsClassName = "flex min-w-0 flex-wrap items-center gap-2";
 const usersSelectCountClassName =
   "inline-flex items-center rounded-full border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] px-2.5 py-1 text-[0.82rem] text-[color:var(--admin-muted)]";
 const emailSendBarClassName =
   "grid gap-2 rounded-[16px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_90%,transparent),color-mix(in_srgb,var(--admin-surface-3)_92%,transparent))] p-[0.8rem]";
-const emailSendHeadClassName = "flex flex-wrap items-center justify-between gap-2";
-const emailSendHintClassName = "text-[0.86rem] text-[color:var(--admin-muted)]";
-const selectClassName =
-  "w-full rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.55rem] text-[0.95rem] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
+const emailSendHeadClassName = "flex min-w-0 flex-wrap items-start justify-between gap-2";
+const emailSendHintClassName = "min-w-0 max-w-full text-[0.86rem] text-[color:var(--admin-muted)] break-words";
+const dropdownClassName = "w-full min-w-0 xl:max-w-[15rem]";
+const compactDropdownClassName = "w-full min-w-0 xl:max-w-[8.5rem]";
 const inputClassName =
-  "w-full rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.6rem] text-[0.95rem] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
+  "documents-field documents-form-input min-w-0 w-full max-w-full rounded-[12px] border px-3 py-[0.6rem] text-[0.95rem] text-[color:var(--admin-text)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none";
 const textAreaClassName =
-  "w-full min-h-[120px] rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.7rem] text-[0.95rem] leading-[1.45] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
+  "documents-field documents-form-input documents-field--textarea min-w-0 w-full max-w-full min-h-[120px] rounded-[12px] border px-3 py-[0.7rem] text-[0.95rem] leading-[1.45] text-[color:var(--admin-text)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none";
 const alertErrorClassName =
   "rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)]";
 const alertInfoClassName =
@@ -96,18 +120,24 @@ const refreshButtonStyle = {
   "--btn-primary-focus-ring-color": "var(--admin-accent-soft)"
 };
 const refreshButtonClassName =
-  "!justify-self-start !self-start !w-auto !min-h-[2.48rem] !rounded-[0.92rem] !px-[1.18rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.12] !font-semibold !tracking-[0.01em] max-[768px]:!w-full max-[768px]:!justify-center";
+  "!justify-self-start !self-start !w-auto !min-h-[2.06rem] !rounded-[0.8rem] !px-[0.9rem] !py-[0.34rem] !text-[0.9rem] !leading-[1.05] !font-semibold !tracking-[0.01em] max-[768px]:!w-full max-[768px]:!justify-center";
 const actionButtonClassName =
-  "!justify-self-start !self-start !w-auto !min-h-[2.24rem] !rounded-[0.9rem] !px-[1.02rem] !py-[0.42rem] !text-[0.92rem] !leading-[1.1] !font-semibold !tracking-[0.01em] max-[768px]:!w-full max-[768px]:!justify-center";
+  "!justify-self-start !self-start !w-auto !max-w-full !min-h-[2.06rem] !rounded-[0.82rem] !px-[0.92rem] !py-[0.34rem] !text-[0.88rem] !leading-[1.05] !font-semibold !tracking-[0.01em] max-[768px]:!w-full max-[768px]:!justify-center";
 const resetActionGridClassName = "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 xl:grid-cols-3";
 const resetActionButtonClassName =
   `${actionButtonClassName} !w-full !justify-start !min-h-[2.38rem] !px-[1.1rem] !py-[0.56rem] !text-[0.97rem] !leading-[1.15]`;
 const backButtonClassName =
-  "absolute left-0 top-[-0.15rem] z-[2] !h-[4.85rem] !w-[4.85rem] min-[769px]:!h-[5.3rem] min-[769px]:!w-[5.3rem] [&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] max-[768px]:top-0 max-[768px]:left-[0.04rem]";
-const metricListClassName = "grid gap-1.5";
-const metricRowClassName = "flex items-start justify-between gap-3 text-[0.9rem]";
-const summaryDeckClassName = "grid gap-3 xl:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.9fr)]";
-const mobileListClassName = "hidden max-[768px]:grid gap-2";
+  "absolute left-0 top-[-0.12rem] z-[2] !h-[3.6rem] !w-[3.6rem] min-[769px]:!h-[3.8rem] min-[769px]:!w-[3.8rem] [&>svg]:!h-[3.1rem] [&>svg]:!w-[3.1rem] min-[769px]:[&>svg]:!h-[3.25rem] min-[769px]:[&>svg]:!w-[3.25rem] max-[768px]:top-0 max-[768px]:left-[0.02rem]";
+const metricListClassName = "grid gap-1";
+const metricRowClassName = "grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2 text-[0.86rem]";
+const summaryDeckClassName = "grid w-full items-start gap-3 2xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)]";
+const summaryPanelClassName =
+  "relative w-full min-w-0 overflow-hidden rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
+  "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
+  "p-[clamp(0.62rem,1.4vw,0.82rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
+  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
+const summaryPanelBodyClassName = "relative z-[1] grid min-w-0 gap-2.5";
+const mobileListClassName = "hidden max-[1180px]:grid gap-2";
 const mobileRowCardClassName =
   "grid gap-3 rounded-[1rem] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_92%,transparent),color-mix(in_srgb,var(--admin-surface-3)_94%,transparent))] p-3 shadow-[var(--admin-shadow-soft)]";
 const mobileRowHeadClassName = "flex items-start justify-between gap-3";
@@ -262,19 +292,23 @@ function SectionAlert({ tone = "info", message }) {
 function HeaderPill({ label, value }) {
   return (
     <div className={headerPillClassName}>
-      <span className={headerPillLabelClassName}>{label}</span>
-      <span className={headerPillValueClassName}>{value}</span>
+      <span className={`${headerPillLabelClassName} min-w-0`}>{label}</span>
+      <span className={`${headerPillValueClassName} shrink-0`}>{value}</span>
     </div>
   );
 }
 
 function KpiCard({ title, value, meta, children }) {
   return (
-    <div className={cardClassName}>
-      <div className={`${cardBodyClassName} min-h-[96px]`}>
-        <CardTitle>{title}</CardTitle>
-        {value != null ? <div className={kpiValueClassName}>{value}</div> : null}
-        {meta ? <div className={kpiMetaClassName}>{meta}</div> : null}
+    <div className={statRowClassName}>
+      <div className={statRowMainClassName}>
+        <CardTitle className="min-w-0 !mb-0 text-[clamp(0.96rem,1.1vw,1.04rem)] leading-[1.06] [text-wrap:balance]">
+          {title}
+        </CardTitle>
+        {meta ? <div className={`${kpiMetaClassName} col-span-2 xl:col-span-1`}>{meta}</div> : null}
+      </div>
+      <div className={statRowValueWrapClassName}>
+        {value != null ? <div className={`${kpiValueClassName} whitespace-nowrap text-right`}>{value}</div> : null}
         {children}
       </div>
     </div>
@@ -292,17 +326,17 @@ function MobileInfoField({ label, value, className = "", valueClassName = "" }) 
 
 function MetricListCard({ title, items }) {
   return (
-    <div className={cardClassName}>
-      <div className={cardBodyClassName}>
-        <CardTitle>{title}</CardTitle>
-        <div className={metricListClassName}>
-          {items.map(item => (
-            <div key={item.label} className={metricRowClassName}>
-              <span className={cellSubClassName}>{item.label}</span>
-              <span>{item.value}</span>
-            </div>
-          ))}
-        </div>
+    <div className={metricGroupClassName}>
+      <CardTitle className="min-w-0 text-[clamp(0.96rem,1.15vw,1.04rem)] leading-[1.08] [text-wrap:balance]">
+        {title}
+      </CardTitle>
+      <div className={metricListClassName}>
+        {items.map(item => (
+          <div key={item.label} className={metricRowClassName}>
+            <span className={`${cellSubClassName} min-w-0`}>{item.label}</span>
+            <span className="shrink-0 whitespace-nowrap text-right">{item.value}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -345,6 +379,39 @@ export default function AnalyticsDashboard() {
       CLIENT: t(AUDIENCE_LABEL_KEYS.CLIENT, "Client"),
       BOTH: t(AUDIENCE_LABEL_KEYS.BOTH, "Both")
     }),
+    [t]
+  );
+  const sectionLinks = useMemo(
+    () => [
+      { href: "#analytics-overview", label: t("admin.analytics.title", "Analytics") },
+      { href: "#analytics-platform", label: t("admin.analytics.platform.title", "Platform overview") },
+      { href: "#analytics-rag-docs", label: t("admin.analytics.rag_docs.title", "RAG documents") },
+      { href: "#analytics-billing", label: t("admin.analytics.billing.title", "Subscriptions and payments") },
+      { href: "#analytics-users", label: t("admin.analytics.users.title", "Users, costs and limits") },
+      { href: "#analytics-logs", label: t("admin.analytics.logs.title", "Logs") }
+    ],
+    [t]
+  );
+  const emailTargetOptions = useMemo(
+    () => [
+      { value: "selected", label: t("admin.analytics.users.actions.email_selected", "Selected users") },
+      { value: "all", label: t("admin.analytics.users.actions.email_all", "All users") }
+    ],
+    [t]
+  );
+  const eventFilterOptions = useMemo(
+    () => [
+      { value: "all", label: t("admin.analytics.logs.filter.all_events", "All events") },
+      ...EVENT_OPTIONS.map(item => ({ value: item.value, label: eventLabels[item.value] || item.value }))
+    ],
+    [eventLabels, t]
+  );
+  const crisisFilterOptions = useMemo(
+    () => [
+      { value: "all", label: t("admin.analytics.logs.filter.crisis_all", "Crisis: all") },
+      { value: "true", label: t("admin.analytics.logs.filter.crisis_yes", "Crisis: yes") },
+      { value: "false", label: t("admin.analytics.logs.filter.crisis_no", "Crisis: no") }
+    ],
     [t]
   );
 
@@ -1026,7 +1093,7 @@ export default function AnalyticsDashboard() {
 
   return (
     <div className={pageClassName}>
-      <div className={pageHeaderClassName}>
+      <div className={pageHeaderClassName} id="analytics-overview">
         <div className={pageHeaderSurfaceClassName}>
           <div className={pageHeaderMainClassName}>
             <BackButton
@@ -1044,7 +1111,7 @@ export default function AnalyticsDashboard() {
               </div>
             </div>
           </div>
-          <div className="grid gap-3">
+          <div className={pageHeaderMetaRowClassName}>
             <div className={pageHeaderMetaClassName}>
               {headerStats.map(item => (
                 <HeaderPill key={item.label} label={item.label} value={item.value} />
@@ -1062,116 +1129,125 @@ export default function AnalyticsDashboard() {
               </Button>
             </div>
           </div>
+          <div className={sectionNavClassName}>
+            {sectionLinks.map(item => (
+              <a key={item.href} href={item.href} className={sectionNavLinkClassName}>
+                {item.label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
       <SectionAlert tone="error" message={pageError} />
 
-      <div className={summaryDeckClassName}>
-        <div className={kpiGridClassName}>
-          <KpiCard
-            title={t("admin.analytics.kpis.requests_30d.title", "Requests (30d)")}
-            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.totalRequests || 0, localeTag)}
-            meta={t("admin.analytics.kpis.requests_30d.meta", "Total chat requests")}
-          />
-          <KpiCard
-            title={t("admin.analytics.kpis.rag_searches.title", "RAG searches")}
-            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.ragSearchCount || 0, localeTag)}
-            meta={
-              requestSplit
-                ? t("admin.analytics.kpis.share", { percent: requestSplit.rag }, "Share {percent}%")
-                : t("admin.analytics.kpis.share_missing", "Share unavailable")
-            }
-          />
-          <KpiCard
-            title={t("admin.analytics.kpis.no_context.title", "No context")}
-            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.noContextCount || 0, localeTag)}
-            meta={
-              requestSplit
-                ? t("admin.analytics.kpis.share", { percent: requestSplit.noContext }, "Share {percent}%")
-                : t("admin.analytics.kpis.share_missing", "Share unavailable")
-            }
-          />
-          <KpiCard
-            title={t("admin.analytics.kpis.crisis.title", "Crisis")}
-            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.totalCrisis || 0, localeTag)}
-            meta={t("admin.analytics.kpis.crisis.meta", "Detected crisis risk")}
-          />
-          <KpiCard
-            title={t("admin.analytics.kpis.stt_requests.title", "STT requests")}
-            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.chat?.sttRequests30d || 0, localeTag)}
-            meta={
-              requestSplit
-                ? t("admin.analytics.kpis.stt_requests.meta", { percent: requestSplit.stt }, "Voice input share {percent}%")
-                : t("admin.analytics.kpis.share_missing", "Share unavailable")
-            }
-          />
-          <KpiCard
-            title={t("admin.analytics.kpis.tts_requests.title", "TTS requests")}
-            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.chat?.ttsRequests30d || 0, localeTag)}
-            meta={
-              requestSplit
-                ? t("admin.analytics.kpis.tts_requests.meta", { percent: requestSplit.tts }, "Voice output share {percent}%")
-                : t("admin.analytics.kpis.share_missing", "Share unavailable")
-            }
-          />
+      <div className={summaryPanelClassName}>
+        <div className={summaryPanelBodyClassName}>
+          <div className={summaryDeckClassName}>
+            <div className={topKpiGridClassName}>
+              <KpiCard
+                title={t("admin.analytics.kpis.requests_30d.title", "Requests (30d)")}
+                value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.totalRequests || 0, localeTag)}
+                meta={t("admin.analytics.kpis.requests_30d.meta", "Total chat requests")}
+              />
+              <KpiCard
+                title={t("admin.analytics.kpis.rag_searches.title", "RAG searches")}
+                value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.ragSearchCount || 0, localeTag)}
+                meta={
+                  requestSplit
+                    ? t("admin.analytics.kpis.share", { percent: requestSplit.rag }, "Share {percent}%")
+                    : t("admin.analytics.kpis.share_missing", "Share unavailable")
+                }
+              />
+              <KpiCard
+                title={t("admin.analytics.kpis.no_context.title", "No context")}
+                value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.noContextCount || 0, localeTag)}
+                meta={
+                  requestSplit
+                    ? t("admin.analytics.kpis.share", { percent: requestSplit.noContext }, "Share {percent}%")
+                    : t("admin.analytics.kpis.share_missing", "Share unavailable")
+                }
+              />
+              <KpiCard
+                title={t("admin.analytics.kpis.crisis.title", "Crisis")}
+                value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.totalCrisis || 0, localeTag)}
+                meta={t("admin.analytics.kpis.crisis.meta", "Detected crisis risk")}
+              />
+              <KpiCard
+                title={t("admin.analytics.kpis.stt_requests.title", "STT requests")}
+                value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.chat?.sttRequests30d || 0, localeTag)}
+                meta={
+                  requestSplit
+                    ? t("admin.analytics.kpis.stt_requests.meta", { percent: requestSplit.stt }, "Voice input share {percent}%")
+                    : t("admin.analytics.kpis.share_missing", "Share unavailable")
+                }
+              />
+              <KpiCard
+                title={t("admin.analytics.kpis.tts_requests.title", "TTS requests")}
+                value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.chat?.ttsRequests30d || 0, localeTag)}
+                meta={
+                  requestSplit
+                    ? t("admin.analytics.kpis.tts_requests.meta", { percent: requestSplit.tts }, "Voice output share {percent}%")
+                    : t("admin.analytics.kpis.share_missing", "Share unavailable")
+                }
+              />
+            </div>
+            <MetricListCard title={t("admin.analytics.snapshot.title", "Live snapshot")} items={liveSnapshotItems} />
+          </div>
         </div>
-        <MetricListCard title={t("admin.analytics.snapshot.title", "Live snapshot")} items={liveSnapshotItems} />
       </div>
 
-      <div className={kpiGridClassName}>
-        <KpiCard
-          title={t("admin.analytics.kpis.rag_averages.title", "Averages (RAG)")}
-          meta={
-            loadingSummary
-              ? t("admin.common.loading", "Loading...")
-              : t(
-                  "admin.analytics.kpis.rag_averages.meta",
-                  {
-                    hits: formatPercent(summary?.averages?.avgRagMatchCount || 0, localeTag, 1),
-                    groups: formatPercent(summary?.averages?.avgGroupCount || 0, localeTag, 1),
-                    chosen: formatPercent(summary?.averages?.avgChosenGroupCount || 0, localeTag, 1)
-                  },
-                  "Hits {hits}, groups {groups}, chosen {chosen}"
-                )
-          }
-        />
-        <KpiCard title={t("admin.analytics.kpis.grounding.title", "Grounding")}>
-          {groundingSummary ? (
-            <>
-              <UsageBar value={100} />
-              <div className={kpiMetaClassName}>
-                {t(
-                  "admin.analytics.kpis.grounding.meta",
-                  {
-                    strong: groundingSummary.strong,
-                    ok: groundingSummary.ok,
-                    weak: groundingSummary.weak
-                  },
-                  "Strong {strong}% | OK {ok}% | Weak {weak}%"
-                )}
-              </div>
-            </>
-          ) : (
-            <div className={kpiMetaClassName}>{loadingSummary ? t("admin.common.loading", "Loading...") : "-"}</div>
-          )}
-        </KpiCard>
+      <div className={summaryPanelClassName}>
+        <div className={summaryPanelBodyClassName}>
+          <div className={kpiGridClassName}>
+            <KpiCard
+              title={t("admin.analytics.kpis.rag_averages.title", "Averages (RAG)")}
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : t(
+                      "admin.analytics.kpis.rag_averages.meta",
+                      {
+                        hits: formatPercent(summary?.averages?.avgRagMatchCount || 0, localeTag, 1),
+                        groups: formatPercent(summary?.averages?.avgGroupCount || 0, localeTag, 1),
+                        chosen: formatPercent(summary?.averages?.avgChosenGroupCount || 0, localeTag, 1)
+                      },
+                      "Hits {hits}, groups {groups}, chosen {chosen}"
+                    )
+              }
+            />
+            <KpiCard title={t("admin.analytics.kpis.grounding.title", "Grounding")}>
+              {groundingSummary ? (
+                <>
+                  <UsageBar value={100} />
+                  <div className={kpiMetaClassName}>
+                    {t(
+                      "admin.analytics.kpis.grounding.meta",
+                      {
+                        strong: groundingSummary.strong,
+                        ok: groundingSummary.ok,
+                        weak: groundingSummary.weak
+                      },
+                      "Strong {strong}% | OK {ok}% | Weak {weak}%"
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className={kpiMetaClassName}>{loadingSummary ? t("admin.common.loading", "Loading...") : "-"}</div>
+              )}
+            </KpiCard>
+          </div>
+        </div>
       </div>
 
-      <div className={cardClassName}>
+      <div className={cardClassName} id="analytics-platform">
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
               <CardTitle>{t("admin.analytics.platform.title", "Platform overview")}</CardTitle>
-              <div className={sectionSubClassName}>
-                {t(
-                  "admin.analytics.platform.subtitle",
-                  "View chat, help, collaboration and document workflows alongside the existing RAG and billing analytics."
-                )}
-              </div>
             </div>
           </div>
-          <div className={kpiGridClassName}>
+          <div className={platformGridClassName}>
             {platformCards.map(card => (
               <MetricListCard key={card.title} title={card.title} items={card.items} />
             ))}
@@ -1179,7 +1255,7 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      <div className={cardClassName}>
+      <div className={cardClassName} id="analytics-rag-docs">
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
@@ -1189,7 +1265,7 @@ export default function AnalyticsDashboard() {
               </div>
             </div>
           </div>
-          <div className={kpiGridClassName}>
+          <div className={docsGridClassName}>
             <KpiCard
               title={t("admin.analytics.rag_docs.total", "Total")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.ragDocs?.total || 0, localeTag)}
@@ -1318,7 +1394,7 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      <div className={cardClassName}>
+      <div className={cardClassName} id="analytics-billing">
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
@@ -1352,7 +1428,7 @@ export default function AnalyticsDashboard() {
             <SectionAlert tone="info" message={t("admin.analytics.billing.alerts.none", "No billing alerts.")} />
           )}
 
-          <div className={kpiGridClassName}>
+          <div className={billingSummaryGridClassName}>
             <KpiCard
               title={t("admin.analytics.billing.active_subscriptions", "Active subscriptions")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.billing?.activeSubscriptions || 0, localeTag)}
@@ -1385,7 +1461,7 @@ export default function AnalyticsDashboard() {
             />
           </div>
 
-          <div className={kpiGridClassName}>
+          <div className={billingPipelineGridClassName}>
             <KpiCard
               title={t("admin.analytics.billing.pipeline.checkout_ready", "Checkout ready (30d)")}
               value={formatCount(paymentPipeline.checkoutCreated || 0, localeTag)}
@@ -1507,7 +1583,7 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      <div className={cardClassName}>
+      <div className={cardClassName} id="analytics-users">
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
@@ -1521,7 +1597,7 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
 
-          <div className={kpiGridClassName}>
+          <div className={usersSummaryGridClassName}>
             <KpiCard
               title={t("admin.analytics.users.summary.users", "Users in table")}
               value={loadingUsers ? t("admin.common.loading", "Loading...") : formatCount(visibleUserRows.length, localeTag)}
@@ -1567,23 +1643,22 @@ export default function AnalyticsDashboard() {
           </form>
 
           <div className={usersSelectBarClassName}>
-            <div className="grid gap-2 md:grid-cols-[1fr_auto] md:items-end">
-              <div className="grid gap-2">
+            <div className="grid min-w-0 gap-2 xl:grid-cols-[minmax(14rem,18rem)_auto] xl:items-end">
+              <div className="grid min-w-0 gap-2 xl:max-w-[18rem]">
                 <label className={cellSubClassName} htmlFor="analytics-bulk-email-target">
                   {t("admin.analytics.users.actions.email_target", "Email target")}
                 </label>
-                <select
+                <DocumentsDropdown
+                  className={compactDropdownClassName}
                   id="analytics-bulk-email-target"
-                  className={selectClassName}
                   value={emailTarget}
-                  onChange={event => setEmailTarget(event.target.value === "all" ? "all" : "selected")}
+                  onChange={nextValue => setEmailTarget(nextValue === "all" ? "all" : "selected")}
+                  options={emailTargetOptions}
+                  ariaLabel={t("admin.analytics.users.actions.email_target", "Email target")}
                   disabled={sendingUsersEmail || deletingUsers}
-                >
-                  <option value="selected">{t("admin.analytics.users.actions.email_selected", "Selected users")}</option>
-                  <option value="all">{t("admin.analytics.users.actions.email_all", "All users")}</option>
-                </select>
+                />
               </div>
-              <div className={usersSelectActionsClassName}>
+              <div className={`${usersSelectActionsClassName} xl:justify-end`}>
                 <Button
                   size="sm"
                   variant="ghost"
@@ -1953,7 +2028,7 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      <div className={cardClassName}>
+      <div className={cardClassName} id="analytics-logs">
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
@@ -1964,20 +2039,21 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
 
-          <div className={toolbarPrimaryClassName}>
-            <select className={selectClassName} value={eventFilter} onChange={event => setEventFilter(event.target.value)}>
-              <option value="all">{t("admin.analytics.logs.filter.all_events", "All events")}</option>
-              {EVENT_OPTIONS.map(item => (
-                <option key={item.value} value={item.value}>
-                  {eventLabels[item.value] || item.value}
-                </option>
-              ))}
-            </select>
-            <select className={selectClassName} value={isCrisisFilter} onChange={event => setIsCrisisFilter(event.target.value)}>
-              <option value="all">{t("admin.analytics.logs.filter.crisis_all", "Crisis: all")}</option>
-              <option value="true">{t("admin.analytics.logs.filter.crisis_yes", "Crisis: yes")}</option>
-              <option value="false">{t("admin.analytics.logs.filter.crisis_no", "Crisis: no")}</option>
-            </select>
+          <div className={logsToolbarClassName}>
+            <DocumentsDropdown
+              className={dropdownClassName}
+              value={eventFilter}
+              onChange={setEventFilter}
+              options={eventFilterOptions}
+              ariaLabel={t("admin.analytics.logs.filter.all_events", "All events")}
+            />
+            <DocumentsDropdown
+              className={compactDropdownClassName}
+              value={isCrisisFilter}
+              onChange={setIsCrisisFilter}
+              options={crisisFilterOptions}
+              ariaLabel={t("admin.analytics.logs.filter.crisis_all", "Crisis: all")}
+            />
             <Button
               size="sm"
               variant="danger"

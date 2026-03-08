@@ -93,9 +93,13 @@ const orbitWrapperClassName =
 const orbitRoleToggleWrapClassName =
   "absolute left-1/2 top-[calc(50%+clamp(6.15rem,24vw,7.45rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
   "-translate-x-1/2 z-[6] pointer-events-auto max-[48em]:hidden";
-const orbitRoleToggleButtonClassName =
-  "whitespace-normal text-center leading-[1.16] px-[1.22rem] py-[0.76rem] text-[1.02rem] min-h-[2.7rem] " +
-  "max-[48em]:!min-h-[3rem] max-[48em]:!px-[1.35rem] max-[48em]:!py-[0.8rem] max-[48em]:!text-[1.14rem]";
+const orbitRoleToggleLinkClassName =
+  "profile-orbit-role-toggle-link !inline-flex w-auto items-center justify-center gap-[0.34rem] self-center " +
+  "!p-0 !text-[1.32rem] leading-[1.14] tracking-[0.02em] text-center [text-wrap:balance] mt-0 mx-auto " +
+  "!rounded-none !border-transparent !shadow-none !no-underline " +
+  "hover:!border-transparent hover:!shadow-none hover:!no-underline " +
+  "focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!no-underline " +
+  "active:!border-transparent active:!shadow-none active:!no-underline";
 const profileMobileActionStackClassName =
   "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+4.7rem)] z-[95] flex w-full flex-col items-center justify-center " +
   "gap-[clamp(0.28rem,1.8vw,0.58rem)] px-[1rem] pointer-events-auto min-[48.0625em]:hidden";
@@ -1156,15 +1160,15 @@ export default function ProfiilBody({
         {isAdminUser && !orbitOpen ? (
           <div className={orbitRoleToggleWrapClassName}>
             <Button
-              variant="primary"
-              className={orbitRoleToggleButtonClassName}
+              variant="linkBrand"
+              className={orbitRoleToggleLinkClassName}
               onClick={() => {
                 void handleAdminViewRoleChange(nextPreviewRole);
               }}
               disabled={roleSwitching}
               aria-label={nextPreviewRoleLabel}
             >
-              <RoleToggleDockIcon className="h-[1.42rem] w-[1.42rem] shrink-0" />
+              <RoleToggleDockIcon className="h-[1.3rem] w-[1.3rem] shrink-0" />
               <span>{nextPreviewRoleLabel}</span>
             </Button>
           </div>

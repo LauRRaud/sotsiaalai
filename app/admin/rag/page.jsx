@@ -10,10 +10,11 @@ import { unstable_noStore as noStore } from "next/cache";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import RagAdminClient from "./RagAdminClient";
-const shellClassName = "glass-box mx-auto my-[clamp(1.1rem,3vw,2.2rem)] flex w-[min(100%,94vw)] max-w-[clamp(54rem,86vw,88rem)] flex-col gap-2 rounded-[1.5rem] border border-[color:var(--glass-border-color)] px-[clamp(1.25rem,2.8vw,2.3rem)] pt-[clamp(0.75rem,2vw,1.1rem)] pb-[clamp(0.6rem,1.8vw,1rem)] text-[1.05rem] text-[color:var(--admin-text)] [--rag-text:var(--admin-text)] [--rag-muted:var(--admin-muted)] max-md:w-full max-md:max-w-none max-md:my-0 max-md:rounded-none max-md:border-x-0 max-md:px-[clamp(0.85rem,3.8vw,1.3rem)] max-md:pt-[calc(env(safe-area-inset-top,0px)+2.3rem)] max-md:pb-[calc(env(safe-area-inset-bottom,0px)+1rem)]";
+const shellClassName =
+  "documents-panel documents-panel--primary mx-auto my-[clamp(1.1rem,3vw,2.2rem)] flex w-full max-w-[60rem] flex-col gap-2 rounded-[1.5rem] border px-[clamp(1rem,2.1vw,1.7rem)] pt-[clamp(0.75rem,2vw,1.1rem)] pb-[clamp(0.6rem,1.8vw,1rem)] text-[1.05rem] text-[color:var(--admin-text)] max-md:w-full max-md:max-w-none max-md:my-0 max-md:rounded-none max-md:border-x-0 max-md:px-[clamp(0.85rem,3.8vw,1.3rem)] max-md:pt-[calc(env(safe-area-inset-top,0px)+2.3rem)] max-md:pb-[calc(env(safe-area-inset-bottom,0px)+1rem)]";
 const pageHeaderClassName = "relative flex min-h-[5rem] items-start justify-center px-[clamp(4.8rem,9vw,6.1rem)] pt-[0.1rem] text-center max-[768px]:min-h-0 max-[768px]:px-0 max-[768px]:pt-0";
 const headingClassName = `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal !text-[clamp(1.72rem,2.9vw,2.35rem)] !tracking-[0.03em] max-[768px]:!text-[clamp(1.92rem,8vw,2.6rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
-const guideCardClassName = "relative overflow-hidden rounded-[1rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] p-[clamp(0.85rem,2.2vw,1.05rem)] text-[color:var(--admin-text)]";
+const guideCardClassName = "documents-subpanel relative overflow-hidden rounded-[1rem] p-[clamp(0.85rem,2.2vw,1.05rem)] text-[color:var(--admin-text)]";
 const guideTitleClassName = "m-0 text-[1.06rem] font-[650] tracking-[0.01em]";
 const guideListClassName = "m-[0.45rem_0_0] grid gap-[0.35rem] pl-[1.1rem] text-[0.94rem] text-[color:var(--admin-muted)] leading-[1.35]";
 const backButtonClassName =
@@ -50,7 +51,7 @@ export default async function AdminRagPage() {
   if (!isAdmin) {
     redirect(localizePath("/", locale));
   }
-  return <div className={shellClassName} aria-labelledby="rag-admin-title">
+  return <section className="documents-workspace mx-auto w-full px-[clamp(0.4rem,1.4vw,0.9rem)] py-[clamp(0.5rem,1.6vw,1rem)]"><div className={shellClassName} aria-labelledby="rag-admin-title">
       <header className={pageHeaderClassName}>
         <Link
           prefetch={false}
@@ -90,5 +91,5 @@ export default async function AdminRagPage() {
           </li>
         </ul>
       </div>
-    </div>;
+    </div></section>;
 }
