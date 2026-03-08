@@ -160,12 +160,13 @@ const accountModalCardClassName =
   "[.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
   "[.theme-mid_&]:border-[rgba(132,72,68,0.18)] [.theme-mid_&]:bg-[rgba(251,242,239,0.9)] [.theme-mid_&]:text-[#3f4756] " +
   "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
-const accountModalActionRowClassName = "flex items-center justify-between gap-3 max-[768px]:flex-col max-[768px]:items-stretch";
+const accountModalActionRowClassName = "flex items-center justify-between gap-3 max-[768px]:flex-col max-[768px]:items-start";
 const accountModalActionLabelClassName = "text-[1.16rem] font-medium leading-[1.28]";
 const accountModalNoteClassName =
   "mt-[0.82rem] text-[1.01rem] leading-[1.32] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
 const accountModalButtonClassName =
-  "!min-h-[2.8rem] !px-[1.08rem] !py-[0.48rem] !text-[1.06rem] !tracking-[0.02em] shrink-0 max-[768px]:!w-full max-[768px]:!justify-center";
+  "!min-h-[2.8rem] !px-[1.08rem] !py-[0.48rem] !text-[1.06rem] !tracking-[0.02em] shrink-0 " +
+  "max-[768px]:!w-auto max-[768px]:!min-w-[12rem] max-[768px]:!max-w-full max-[768px]:!self-center max-[768px]:!justify-center";
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {
   soft:
@@ -1086,7 +1087,7 @@ export default function ProfiilBody({
                 <div className={accountModalActionLabelClassName}>{t("profile.logout")}</div>
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="primary"
                   size="sm"
                   className={accountModalButtonClassName}
                   onClick={async () => {
@@ -1105,7 +1106,7 @@ export default function ProfiilBody({
                 <div className={accountModalActionLabelClassName}>{t("profile.logout_all_devices")}</div>
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="primary"
                   size="sm"
                   className={accountModalButtonClassName}
                   onClick={() => {

@@ -11,7 +11,8 @@ export const glassPageShellClassName =
   "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start box-border";
 
 export const glassPageShellCenteredClassName =
-  "mx-auto grid w-full min-h-[100dvh] place-items-center box-border";
+  "mx-auto grid w-full min-h-[100dvh] place-items-center box-border " +
+  "max-[768px]:flex max-[768px]:flex-col max-[768px]:items-center max-[768px]:justify-start";
 
 export const glassPageBackClassName =
   "absolute left-[max(0px,calc(var(--glass-edge-left)-clamp(0.72rem,1.35vw,1.12rem)))] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2 min-[768px]:-translate-x-[0.42rem] max-[768px]:hidden min-[768px]:opacity-[0.85] light:min-[768px]:opacity-100";

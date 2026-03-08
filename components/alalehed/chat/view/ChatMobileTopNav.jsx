@@ -68,6 +68,7 @@ export default function ChatMobileTopNav({
   const showButtonRef = useRef(null);
   const itemButtonRefs = useRef({});
   const tooltipRef = useRef(null);
+  const tooltipFrameRef = useRef(0);
   const tooltipHideTimerRef = useRef(0);
   const [armedKey, setArmedKey] = useState("");
   const [tooltipLeft, setTooltipLeft] = useState(null);
@@ -98,6 +99,10 @@ export default function ChatMobileTopNav({
   );
 
   const clearTooltip = useCallback(() => {
+    if (typeof window !== "undefined" && tooltipFrameRef.current) {
+      window.cancelAnimationFrame(tooltipFrameRef.current);
+    }
+    tooltipFrameRef.current = 0;
     if (typeof window !== "undefined" && tooltipHideTimerRef.current) {
       window.clearTimeout(tooltipHideTimerRef.current);
     }
@@ -134,6 +139,14 @@ export default function ChatMobileTopNav({
         action?.(event);
         return;
       }
+      if (armedKey && armedKey !== key && typeof window !== "undefined") {
+        clearTooltip();
+        tooltipFrameRef.current = window.requestAnimationFrame(() => {
+          tooltipFrameRef.current = 0;
+          showTooltip(key);
+        });
+        return;
+      }
       showTooltip(key);
     },
     [armedKey, clearTooltip, showTooltip]
@@ -141,6 +154,9 @@ export default function ChatMobileTopNav({
 
   useEffect(() => {
     return () => {
+      if (typeof window !== "undefined" && tooltipFrameRef.current) {
+        window.cancelAnimationFrame(tooltipFrameRef.current);
+      }
       if (typeof window !== "undefined" && tooltipHideTimerRef.current) {
         window.clearTimeout(tooltipHideTimerRef.current);
       }
@@ -187,10 +203,13 @@ export default function ChatMobileTopNav({
       const navRect = navElement.getBoundingClientRect();
       const buttonRect = buttonElement.getBoundingClientRect();
       const tooltipRect = tooltipElement.getBoundingClientRect();
-      const buttonCenter = buttonRect.left - navRect.left + buttonRect.width / 2;
+      const edgePadding = armedKey === "profile" ? 6 : 12;
+      const centerBias = armedKey === "profile" ? 4 : 0;
+      const buttonCenter =
+        buttonRect.left - navRect.left + buttonRect.width / 2 + centerBias;
       const tooltipHalfWidth = tooltipRect.width / 2;
-      const minCenter = tooltipHalfWidth;
-      const maxCenter = Math.max(tooltipHalfWidth, navRect.width - tooltipHalfWidth);
+      const minCenter = tooltipHalfWidth + edgePadding;
+      const maxCenter = Math.max(minCenter, navRect.width - tooltipHalfWidth - edgePadding);
       const clampedCenter = Math.min(maxCenter, Math.max(minCenter, buttonCenter));
 
       setTooltipLeft(clampedCenter);
@@ -454,8 +473,8 @@ export default function ChatMobileTopNav({
           }
         }}
         ariaLabel={labels.back}
-        className="shrink-0 !h-[clamp(3.82rem,15.7vw,4.32rem)] !w-[clamp(3.82rem,15.7vw,4.32rem)] rounded-full"
-        iconClassName="!h-[132%] !w-[132%]"
+        className="shrink-0 !h-[clamp(4.08rem,16.7vw,4.58rem)] !w-[clamp(4.08rem,16.7vw,4.58rem)] rounded-full"
+        iconClassName="!h-[142%] !w-[142%]"
       />
 
       {!mobileRailVisible ? (
@@ -495,7 +514,7 @@ export default function ChatMobileTopNav({
       {mobileRailVisible && armedKey ? (
         <span
           ref={tooltipRef}
-          className="pointer-events-none absolute top-[calc(100%+0.18rem)] z-[160] w-max max-w-[min(52vw,10.5rem)] -translate-x-1/2 whitespace-normal break-words text-center [text-wrap:balance] text-[clamp(1.08rem,4.3vw,1.28rem)] leading-[1.14] font-medium tracking-[0.01em] text-[#c57171] light:text-[#7a3a38]"
+          className="pointer-events-none absolute top-[calc(100%+0.18rem)] z-[160] w-max max-w-[min(calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-1.25rem),12rem)] -translate-x-1/2 whitespace-normal break-words text-center [text-wrap:balance] text-[clamp(1.22rem,4.95vw,1.46rem)] leading-[1.12] font-medium tracking-[0.01em] text-[#c57171] light:text-[#7a3a38]"
           style={
             tooltipLeft == null
               ? { left: 0, opacity: 0 }

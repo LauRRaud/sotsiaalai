@@ -11,37 +11,59 @@ import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 
-const pageClassName = "flex flex-col gap-3 text-[color:var(--admin-text)] [--rag-text:var(--admin-text)]";
-const pageHeaderClassName = "grid gap-2";
+const pageClassName =
+  "flex flex-col gap-[clamp(1rem,2.2vw,1.45rem)] text-[color:var(--admin-text)] [--rag-text:var(--admin-text)]";
+const pageHeaderClassName =
+  "relative overflow-hidden rounded-[1.35rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
+  "bg-[radial-gradient(circle_at_top,rgba(244,179,107,0.16),transparent_38%),linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] " +
+  "px-[clamp(0.95rem,2.6vw,1.35rem)] py-[clamp(0.95rem,2.2vw,1.2rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
+  "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_85%_18%,rgba(58,182,167,0.12),transparent_28%)] before:opacity-95";
+const pageHeaderSurfaceClassName = "relative z-[1] grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start";
 const pageHeaderMainClassName =
-  "relative flex min-h-[5rem] items-start justify-center px-[clamp(4.8rem,9vw,6.1rem)] pt-[0.1rem] text-center max-[768px]:min-h-0 max-[768px]:px-0 max-[768px]:pt-0";
-const pageHeaderTitleWrapClassName = "grid justify-items-center gap-1";
-const pageTitleClassName = `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal !text-[clamp(1.72rem,2.9vw,2.35rem)] !tracking-[0.03em] max-[768px]:!text-[clamp(1.92rem,8vw,2.6rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
-const pageHeaderToolbarClassName = "flex justify-end max-[768px]:justify-center";
+  "relative flex min-h-[5.5rem] items-start justify-center px-[clamp(4.8rem,9vw,6rem)] pt-[0.15rem] text-center max-[768px]:min-h-0 max-[768px]:px-[clamp(3.1rem,13vw,4.4rem)] max-[768px]:pt-0";
+const pageHeaderTitleWrapClassName = "grid justify-items-center gap-[0.78rem] max-w-[58rem]";
+const pageTitleClassName = `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal !text-[clamp(1.84rem,3.05vw,2.55rem)] !tracking-[0.03em] max-[768px]:!text-[clamp(1.98rem,8.2vw,2.72rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
+const pageHeaderSubtitleClassName = "max-w-[56ch] text-[0.98rem] leading-[1.6] text-[color:var(--admin-muted)] max-[768px]:text-[0.96rem]";
+const pageHeaderMetaClassName = "flex flex-wrap items-center justify-center gap-2 xl:justify-start";
+const pageHeaderToolbarClassName = "flex flex-wrap items-center justify-center gap-2 xl:justify-end xl:self-center";
+const headerPillClassName =
+  "inline-flex items-center gap-2 rounded-full border border-[color:var(--admin-border-strong)] " +
+  "bg-[color-mix(in_srgb,var(--admin-surface-2)_76%,transparent)] px-[0.9rem] py-[0.45rem] text-[0.82rem] font-[600] " +
+  "tracking-[0.01em] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]";
+const headerPillLabelClassName = "text-[color:var(--admin-muted)]";
+const headerPillValueClassName = "text-[color:var(--admin-text)]";
 const cardClassName =
-  "relative overflow-hidden rounded-[1rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] p-[clamp(0.72rem,1.9vw,0.95rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-65";
-const cardBodyClassName = "relative z-[1] grid gap-2";
-const kpiGridClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))] gap-2";
-const sectionHeadClassName = "flex flex-wrap items-start justify-between gap-2";
-const sectionSubClassName = "text-[0.95rem] text-[color:var(--admin-muted)] max-w-[64ch]";
-const kpiValueClassName = "text-[1.6rem] font-[700] text-[color:var(--admin-text)]";
+  "relative overflow-hidden rounded-[1.18rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
+  "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
+  "p-[clamp(0.9rem,2.2vw,1.15rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
+  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
+const cardBodyClassName = "relative z-[1] grid gap-[0.85rem]";
+const kpiGridClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))] gap-3";
+const sectionHeadClassName = "flex flex-wrap items-start justify-between gap-3";
+const sectionSubClassName = "text-[0.95rem] leading-[1.55] text-[color:var(--admin-muted)] max-w-[68ch]";
+const kpiValueClassName = "text-[clamp(1.55rem,2.45vw,1.92rem)] font-[700] text-[color:var(--admin-text)]";
 const kpiMetaClassName = "text-[0.9rem] leading-[1.4] text-[color:var(--admin-muted)]";
 const barClassName = "flex h-2 overflow-hidden rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)]";
-const tableWrapClassName = "overflow-x-auto rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)]";
-const tableClassName = "w-full border-collapse text-[color:var(--admin-text)]";
+const tableHeaderClassName = "flex flex-wrap items-center justify-between gap-2";
+const tableScrollHintClassName = "hidden";
+const tableDesktopWrapClassName = "max-[768px]:hidden";
+const tableWrapClassName =
+  "overflow-auto rounded-[1rem] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] " +
+  "shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]";
+const tableClassName = "min-w-[46rem] w-full border-collapse text-[color:var(--admin-text)]";
 const tableHeadCellClassName =
-  "border-b border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2 py-1.5 text-left text-[0.82rem] uppercase tracking-[0.02em] text-[color:var(--admin-muted)]";
-const tableCellClassName = "border-b border-[color:var(--admin-border)] px-2 py-1.5 text-left text-[0.9rem] align-top";
+  "sticky top-0 z-[1] border-b border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-2 text-left text-[0.82rem] uppercase tracking-[0.04em] text-[color:var(--admin-muted)]";
+const tableCellClassName = "border-b border-[color:var(--admin-border)] px-3 py-2.5 text-left text-[0.9rem] align-top";
 const cellSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
 const toolbarPrimaryClassName =
-  "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2 shadow-[var(--admin-shadow-soft)]";
+  "grid [grid-template-columns:repeat(auto-fit,minmax(190px,1fr))] items-center gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.8rem] shadow-[var(--admin-shadow-soft)]";
 const usersSelectBarClassName =
-  "grid gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2";
+  "grid gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.8rem]";
 const usersSelectActionsClassName = "flex flex-wrap items-center gap-2";
 const usersSelectCountClassName =
   "inline-flex items-center rounded-full border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] px-2.5 py-1 text-[0.82rem] text-[color:var(--admin-muted)]";
 const emailSendBarClassName =
-  "grid gap-2 rounded-[14px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_90%,transparent),color-mix(in_srgb,var(--admin-surface-3)_92%,transparent))] p-2";
+  "grid gap-2 rounded-[16px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_90%,transparent),color-mix(in_srgb,var(--admin-surface-3)_92%,transparent))] p-[0.8rem]";
 const emailSendHeadClassName = "flex flex-wrap items-center justify-between gap-2";
 const emailSendHintClassName = "text-[0.86rem] text-[color:var(--admin-muted)]";
 const selectClassName =
@@ -74,9 +96,9 @@ const refreshButtonStyle = {
   "--btn-primary-focus-ring-color": "var(--admin-accent-soft)"
 };
 const refreshButtonClassName =
-  "!justify-self-start !self-start !w-auto !min-h-[2.34rem] !rounded-[0.86rem] !px-[1.05rem] !py-[0.42rem] !text-[0.96rem] !leading-[1.12] !font-semibold !tracking-[0.01em]";
+  "!justify-self-start !self-start !w-auto !min-h-[2.48rem] !rounded-[0.92rem] !px-[1.18rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.12] !font-semibold !tracking-[0.01em] max-[768px]:!w-full max-[768px]:!justify-center";
 const actionButtonClassName =
-  "!justify-self-start !self-start !w-auto !min-h-[2.18rem] !rounded-[0.86rem] !px-[0.98rem] !py-[0.38rem] !text-[0.92rem] !leading-[1.1] !font-semibold !tracking-[0.01em]";
+  "!justify-self-start !self-start !w-auto !min-h-[2.24rem] !rounded-[0.9rem] !px-[1.02rem] !py-[0.42rem] !text-[0.92rem] !leading-[1.1] !font-semibold !tracking-[0.01em] max-[768px]:!w-full max-[768px]:!justify-center";
 const resetActionGridClassName = "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 xl:grid-cols-3";
 const resetActionButtonClassName =
   `${actionButtonClassName} !w-full !justify-start !min-h-[2.38rem] !px-[1.1rem] !py-[0.56rem] !text-[0.97rem] !leading-[1.15]`;
@@ -84,6 +106,18 @@ const backButtonClassName =
   "absolute left-0 top-[-0.15rem] z-[2] !h-[4.85rem] !w-[4.85rem] min-[769px]:!h-[5.3rem] min-[769px]:!w-[5.3rem] [&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] max-[768px]:top-0 max-[768px]:left-[0.04rem]";
 const metricListClassName = "grid gap-1.5";
 const metricRowClassName = "flex items-start justify-between gap-3 text-[0.9rem]";
+const summaryDeckClassName = "grid gap-3 xl:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.9fr)]";
+const mobileListClassName = "hidden max-[768px]:grid gap-2";
+const mobileRowCardClassName =
+  "grid gap-3 rounded-[1rem] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_92%,transparent),color-mix(in_srgb,var(--admin-surface-3)_94%,transparent))] p-3 shadow-[var(--admin-shadow-soft)]";
+const mobileRowHeadClassName = "flex items-start justify-between gap-3";
+const mobileRowTitleClassName = "text-[1rem] font-semibold leading-[1.25] text-[color:var(--admin-text)]";
+const mobileRowSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
+const mobileFieldGridClassName = "grid gap-2 sm:grid-cols-2";
+const mobileFieldClassName = "grid gap-[0.35rem]";
+const mobileFieldLabelClassName = "text-[0.68rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
+const mobileFieldValueClassName = "text-[0.92rem] leading-[1.45] break-words text-[color:var(--admin-text)]";
+const checkboxClassName = "h-4 w-4 accent-[color:var(--admin-accent)]";
 
 const EVENT_OPTIONS = [
   { value: "chat_request", labelKey: "admin.analytics.events.chat_request" },
@@ -225,6 +259,15 @@ function SectionAlert({ tone = "info", message }) {
   return <div className={className}>{message}</div>;
 }
 
+function HeaderPill({ label, value }) {
+  return (
+    <div className={headerPillClassName}>
+      <span className={headerPillLabelClassName}>{label}</span>
+      <span className={headerPillValueClassName}>{value}</span>
+    </div>
+  );
+}
+
 function KpiCard({ title, value, meta, children }) {
   return (
     <div className={cardClassName}>
@@ -234,6 +277,15 @@ function KpiCard({ title, value, meta, children }) {
         {meta ? <div className={kpiMetaClassName}>{meta}</div> : null}
         {children}
       </div>
+    </div>
+  );
+}
+
+function MobileInfoField({ label, value, className = "", valueClassName = "" }) {
+  return (
+    <div className={`${mobileFieldClassName} ${className}`.trim()}>
+      <div className={mobileFieldLabelClassName}>{label}</div>
+      <div className={`${mobileFieldValueClassName} ${valueClassName}`.trim()}>{value}</div>
     </div>
   );
 }
@@ -656,6 +708,59 @@ export default function AnalyticsDashboard() {
     [artifactDownloadCount, downloadCount, helpStatusSummary, localeTag, summary, t]
   );
 
+  const headerStats = useMemo(() => {
+    const loadingLabel = t("admin.common.loading", "Loading...");
+    return [
+      {
+        label: t("admin.analytics.platform.help.open_requests", "Open requests"),
+        value: loadingSummary ? loadingLabel : formatCount(summary?.help?.openRequests || 0, localeTag)
+      },
+      {
+        label: t("admin.analytics.billing.active_subscriptions", "Active subscriptions"),
+        value: loadingSummary ? loadingLabel : formatCount(summary?.billing?.activeSubscriptions || 0, localeTag)
+      },
+      {
+        label: t("admin.analytics.users.summary.users", "Users in table"),
+        value: loadingUsers ? loadingLabel : formatCount(visibleUserRows.length, localeTag)
+      },
+      {
+        label: t("admin.analytics.logs.title", "Logs"),
+        value: loadingEvents ? loadingLabel : formatCount(events.length, localeTag)
+      }
+    ];
+  }, [events.length, loadingEvents, loadingSummary, loadingUsers, localeTag, summary, t, visibleUserRows.length]);
+
+  const liveSnapshotItems = useMemo(() => {
+    const loadingLabel = t("admin.common.loading", "Loading...");
+    const aiErrors = toNumber(summary?.chat?.ragErrors30d) + toNumber(summary?.chat?.openAiErrors30d);
+    return [
+      {
+        label: t("admin.analytics.platform.help.open_offers", "Open offers"),
+        value: loadingSummary ? loadingLabel : formatCount(summary?.help?.openOffers || 0, localeTag)
+      },
+      {
+        label: t("admin.analytics.platform.collaboration.pending_invites", "Pending invites"),
+        value: loadingSummary ? loadingLabel : formatCount(summary?.collaboration?.pendingInvites || 0, localeTag)
+      },
+      {
+        label: t("admin.analytics.platform.documents.uploaded_30d", "Uploaded (30d)"),
+        value: loadingSummary ? loadingLabel : formatCount(summary?.documents?.uploaded30d || 0, localeTag)
+      },
+      {
+        label: t("admin.analytics.billing.paid_amount_30d", "Paid amount (30d)"),
+        value: loadingSummary ? loadingLabel : formatMoney(summary?.billing?.paidAmount30d || 0, "EUR", localeTag)
+      },
+      {
+        label: t("admin.analytics.platform.chat.ai_errors_30d", "AI errors (30d)"),
+        value: loadingSummary ? loadingLabel : formatCount(aiErrors, localeTag)
+      },
+      {
+        label: t("admin.analytics.platform.help.matches_30d", "Matches (30d)"),
+        value: loadingSummary ? loadingLabel : formatCount(summary?.help?.matches30d || 0, localeTag)
+      }
+    ];
+  }, [loadingSummary, localeTag, summary, t]);
+
   const toggleUserSelection = useCallback(userId => {
     setSelectedUserIds(prev => (prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]));
   }, []);
@@ -922,85 +1027,98 @@ export default function AnalyticsDashboard() {
   return (
     <div className={pageClassName}>
       <div className={pageHeaderClassName}>
-        <div className={pageHeaderMainClassName}>
-          <BackButton
-            onClick={() => router.push(localizePath("/#meist", locale))}
-            ariaLabel={t("admin.common.back", "Back")}
-            className={backButtonClassName}
-          />
-          <div className={pageHeaderTitleWrapClassName}>
-            <h1 className={pageTitleClassName}>{t("admin.analytics.title", "Analytics")}</h1>
-            <div className={sectionSubClassName}>
-              {t(
-                "admin.analytics.platform.subtitle",
-                "Overview of chat, help, collaboration, documents, payments and platform limits."
-              )}
+        <div className={pageHeaderSurfaceClassName}>
+          <div className={pageHeaderMainClassName}>
+            <BackButton
+              onClick={() => router.push(localizePath("/#meist", locale))}
+              ariaLabel={t("admin.common.back", "Back")}
+              className={backButtonClassName}
+            />
+            <div className={pageHeaderTitleWrapClassName}>
+              <h1 className={pageTitleClassName}>{t("admin.analytics.title", "Analytics")}</h1>
+              <div className={pageHeaderSubtitleClassName}>
+                {t(
+                  "admin.analytics.platform.subtitle",
+                  "Overview of chat, help, collaboration, documents, payments and platform limits."
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        <div className={pageHeaderToolbarClassName}>
-          <Button
-            variant="primary"
-            className={refreshButtonClassName}
-            style={refreshButtonStyle}
-            onClick={refreshAll}
-            disabled={refreshing || loadingSummary || loadingEvents || loadingUsers}
-          >
-            {refreshing ? t("admin.common.loading_data", "Loading...") : t("admin.common.refresh", "Refresh")}
-          </Button>
+          <div className="grid gap-3">
+            <div className={pageHeaderMetaClassName}>
+              {headerStats.map(item => (
+                <HeaderPill key={item.label} label={item.label} value={item.value} />
+              ))}
+            </div>
+            <div className={pageHeaderToolbarClassName}>
+              <Button
+                variant="primary"
+                className={refreshButtonClassName}
+                style={refreshButtonStyle}
+                onClick={refreshAll}
+                disabled={refreshing || loadingSummary || loadingEvents || loadingUsers}
+              >
+                {refreshing ? t("admin.common.loading_data", "Loading...") : t("admin.common.refresh", "Refresh")}
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 
       <SectionAlert tone="error" message={pageError} />
 
-      <div className={kpiGridClassName}>
-        <KpiCard
-          title={t("admin.analytics.kpis.requests_30d.title", "Requests (30d)")}
-          value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.totalRequests || 0, localeTag)}
-          meta={t("admin.analytics.kpis.requests_30d.meta", "Total chat requests")}
-        />
-        <KpiCard
-          title={t("admin.analytics.kpis.rag_searches.title", "RAG searches")}
-          value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.ragSearchCount || 0, localeTag)}
-          meta={
-            requestSplit
-              ? t("admin.analytics.kpis.share", { percent: requestSplit.rag }, "Share {percent}%")
-              : t("admin.analytics.kpis.share_missing", "Share unavailable")
-          }
-        />
-        <KpiCard
-          title={t("admin.analytics.kpis.no_context.title", "No context")}
-          value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.noContextCount || 0, localeTag)}
-          meta={
-            requestSplit
-              ? t("admin.analytics.kpis.share", { percent: requestSplit.noContext }, "Share {percent}%")
-              : t("admin.analytics.kpis.share_missing", "Share unavailable")
-          }
-        />
-        <KpiCard
-          title={t("admin.analytics.kpis.crisis.title", "Crisis")}
-          value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.totalCrisis || 0, localeTag)}
-          meta={t("admin.analytics.kpis.crisis.meta", "Detected crisis risk")}
-        />
-        <KpiCard
-          title={t("admin.analytics.kpis.stt_requests.title", "STT requests")}
-          value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.chat?.sttRequests30d || 0, localeTag)}
-          meta={
-            requestSplit
-              ? t("admin.analytics.kpis.stt_requests.meta", { percent: requestSplit.stt }, "Voice input share {percent}%")
-              : t("admin.analytics.kpis.share_missing", "Share unavailable")
-          }
-        />
-        <KpiCard
-          title={t("admin.analytics.kpis.tts_requests.title", "TTS requests")}
-          value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.chat?.ttsRequests30d || 0, localeTag)}
-          meta={
-            requestSplit
-              ? t("admin.analytics.kpis.tts_requests.meta", { percent: requestSplit.tts }, "Voice output share {percent}%")
-              : t("admin.analytics.kpis.share_missing", "Share unavailable")
-          }
-        />
+      <div className={summaryDeckClassName}>
+        <div className={kpiGridClassName}>
+          <KpiCard
+            title={t("admin.analytics.kpis.requests_30d.title", "Requests (30d)")}
+            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.totalRequests || 0, localeTag)}
+            meta={t("admin.analytics.kpis.requests_30d.meta", "Total chat requests")}
+          />
+          <KpiCard
+            title={t("admin.analytics.kpis.rag_searches.title", "RAG searches")}
+            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.ragSearchCount || 0, localeTag)}
+            meta={
+              requestSplit
+                ? t("admin.analytics.kpis.share", { percent: requestSplit.rag }, "Share {percent}%")
+                : t("admin.analytics.kpis.share_missing", "Share unavailable")
+            }
+          />
+          <KpiCard
+            title={t("admin.analytics.kpis.no_context.title", "No context")}
+            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.noContextCount || 0, localeTag)}
+            meta={
+              requestSplit
+                ? t("admin.analytics.kpis.share", { percent: requestSplit.noContext }, "Share {percent}%")
+                : t("admin.analytics.kpis.share_missing", "Share unavailable")
+            }
+          />
+          <KpiCard
+            title={t("admin.analytics.kpis.crisis.title", "Crisis")}
+            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.totalCrisis || 0, localeTag)}
+            meta={t("admin.analytics.kpis.crisis.meta", "Detected crisis risk")}
+          />
+          <KpiCard
+            title={t("admin.analytics.kpis.stt_requests.title", "STT requests")}
+            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.chat?.sttRequests30d || 0, localeTag)}
+            meta={
+              requestSplit
+                ? t("admin.analytics.kpis.stt_requests.meta", { percent: requestSplit.stt }, "Voice input share {percent}%")
+                : t("admin.analytics.kpis.share_missing", "Share unavailable")
+            }
+          />
+          <KpiCard
+            title={t("admin.analytics.kpis.tts_requests.title", "TTS requests")}
+            value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.chat?.ttsRequests30d || 0, localeTag)}
+            meta={
+              requestSplit
+                ? t("admin.analytics.kpis.tts_requests.meta", { percent: requestSplit.tts }, "Voice output share {percent}%")
+                : t("admin.analytics.kpis.share_missing", "Share unavailable")
+            }
+          />
+        </div>
+        <MetricListCard title={t("admin.analytics.snapshot.title", "Live snapshot")} items={liveSnapshotItems} />
       </div>
+
       <div className={kpiGridClassName}>
         <KpiCard
           title={t("admin.analytics.kpis.rag_averages.title", "Averages (RAG)")}
@@ -1118,47 +1236,84 @@ export default function AnalyticsDashboard() {
               }
             />
           </div>
-          <div className={tableWrapClassName}>
-            <table className={tableClassName}>
-              <thead>
-                <tr>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.table.time", "Time")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.table.title", "Title")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.table.status", "Status")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.table.type", "Type")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.table.audience", "Audience")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.table.source", "Source")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loadingSummary ? (
+          <div className={tableHeaderClassName}>
+            <div className={tableScrollHintClassName}>
+              {t("admin.common.table_scroll_hint", "Scroll sideways on smaller screens to see all columns.")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
                   <tr>
-                    <td className={tableCellClassName} colSpan={6}>
-                      {t("admin.common.loading_data", "Loading...")}
-                    </td>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.time", "Time")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.title", "Title")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.status", "Status")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.type", "Type")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.audience", "Audience")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.source", "Source")}</th>
                   </tr>
-                ) : (summary?.ragDocs?.recent || []).length ? (
-                  summary.ragDocs.recent.map(doc => (
-                    <tr key={doc.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
-                      <td className={tableCellClassName}>{formatDate(doc.insertedAt || doc.createdAt, localeTag)}</td>
-                      <td className={tableCellClassName}>{doc.title || t("admin.analytics.table.untitled", "(untitled)")}</td>
-                      <td className={tableCellClassName}>{statusLabels[doc.status] || doc.status || "-"}</td>
-                      <td className={tableCellClassName}>{doc.type || "-"}</td>
-                      <td className={tableCellClassName}>{audienceLabels[doc.audience] || doc.audience || "-"}</td>
-                      <td className={`${tableCellClassName} ${cellSubClassName}`}>
-                        {(doc.sourceUrl || doc.fileName || "-").toString().slice(0, 90)}
+                </thead>
+                <tbody>
+                  {loadingSummary ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={6}>
+                        {t("admin.common.loading_data", "Loading...")}
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td className={tableCellClassName} colSpan={6}>
-                      {t("admin.analytics.table.empty", "No records found.")}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  ) : (summary?.ragDocs?.recent || []).length ? (
+                    summary.ragDocs.recent.map(doc => (
+                      <tr key={doc.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>{formatDate(doc.insertedAt || doc.createdAt, localeTag)}</td>
+                        <td className={tableCellClassName}>{doc.title || t("admin.analytics.table.untitled", "(untitled)")}</td>
+                        <td className={tableCellClassName}>{statusLabels[doc.status] || doc.status || "-"}</td>
+                        <td className={tableCellClassName}>{doc.type || "-"}</td>
+                        <td className={tableCellClassName}>{audienceLabels[doc.audience] || doc.audience || "-"}</td>
+                        <td className={`${tableCellClassName} ${cellSubClassName}`}>
+                          {(doc.sourceUrl || doc.fileName || "-").toString().slice(0, 90)}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={6}>
+                        {t("admin.analytics.table.empty", "No records found.")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingSummary ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : (summary?.ragDocs?.recent || []).length ? (
+              summary.ragDocs.recent.map(doc => (
+                <div key={doc.id} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div>
+                      <div className={mobileRowTitleClassName}>{doc.title || t("admin.analytics.table.untitled", "(untitled)")}</div>
+                      <div className={mobileRowSubClassName}>{formatDate(doc.insertedAt || doc.createdAt, localeTag)}</div>
+                    </div>
+                    <span className={usersSelectCountClassName}>{statusLabels[doc.status] || doc.status || "-"}</span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField label={t("admin.analytics.table.type", "Type")} value={doc.type || "-"} />
+                    <MobileInfoField
+                      label={t("admin.analytics.table.audience", "Audience")}
+                      value={audienceLabels[doc.audience] || doc.audience || "-"}
+                    />
+                  </div>
+                  <MobileInfoField
+                    label={t("admin.analytics.table.source", "Source")}
+                    value={(doc.sourceUrl || doc.fileName || "-").toString().slice(0, 140)}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>{t("admin.analytics.table.empty", "No records found.")}</div>
+            )}
           </div>
         </div>
       </div>
@@ -1273,43 +1428,81 @@ export default function AnalyticsDashboard() {
             />
           </div>
 
-          <div className={tableWrapClassName}>
-            <table className={tableClassName}>
-              <thead>
-                <tr>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.time", "Time")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.status", "Status")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.amount", "Amount")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.provider", "Provider")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.paid_at", "Paid at")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loadingSummary ? (
+          <div className={tableHeaderClassName}>
+            <div className={tableScrollHintClassName}>
+              {t("admin.common.table_scroll_hint", "Scroll sideways on smaller screens to see all columns.")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
                   <tr>
-                    <td className={tableCellClassName} colSpan={5}>
-                      {t("admin.common.loading_data", "Loading...")}
-                    </td>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.time", "Time")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.status", "Status")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.amount", "Amount")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.provider", "Provider")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.billing.table.paid_at", "Paid at")}</th>
                   </tr>
-                ) : (summary?.billing?.recentPayments || []).length ? (
-                  summary.billing.recentPayments.map(payment => (
-                    <tr key={payment.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
-                      <td className={tableCellClassName}>{formatDate(payment.createdAt, localeTag)}</td>
-                      <td className={tableCellClassName}>{payment.status || "-"}</td>
-                      <td className={tableCellClassName}>{formatMoney(payment.amount || 0, payment.currency || "EUR", localeTag)}</td>
-                      <td className={tableCellClassName}>{payment.provider || "-"}</td>
-                      <td className={tableCellClassName}>{payment.paidAt ? formatDate(payment.paidAt, localeTag) : "-"}</td>
+                </thead>
+                <tbody>
+                  {loadingSummary ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={5}>
+                        {t("admin.common.loading_data", "Loading...")}
+                      </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td className={tableCellClassName} colSpan={5}>
-                      {t("admin.analytics.billing.table.empty", "No records found.")}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  ) : (summary?.billing?.recentPayments || []).length ? (
+                    summary.billing.recentPayments.map(payment => (
+                      <tr key={payment.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>{formatDate(payment.createdAt, localeTag)}</td>
+                        <td className={tableCellClassName}>{payment.status || "-"}</td>
+                        <td className={tableCellClassName}>{formatMoney(payment.amount || 0, payment.currency || "EUR", localeTag)}</td>
+                        <td className={tableCellClassName}>{payment.provider || "-"}</td>
+                        <td className={tableCellClassName}>{payment.paidAt ? formatDate(payment.paidAt, localeTag) : "-"}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={5}>
+                        {t("admin.analytics.billing.table.empty", "No records found.")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingSummary ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : (summary?.billing?.recentPayments || []).length ? (
+              summary.billing.recentPayments.map(payment => (
+                <div key={payment.id} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div>
+                      <div className={mobileRowTitleClassName}>
+                        {formatMoney(payment.amount || 0, payment.currency || "EUR", localeTag)}
+                      </div>
+                      <div className={mobileRowSubClassName}>{formatDate(payment.createdAt, localeTag)}</div>
+                    </div>
+                    <span className={usersSelectCountClassName}>{payment.status || "-"}</span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField
+                      label={t("admin.analytics.billing.table.provider", "Provider")}
+                      value={payment.provider || "-"}
+                    />
+                    <MobileInfoField
+                      label={t("admin.analytics.billing.table.paid_at", "Paid at")}
+                      value={payment.paidAt ? formatDate(payment.paidAt, localeTag) : "-"}
+                    />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>{t("admin.analytics.billing.table.empty", "No records found.")}</div>
+            )}
           </div>
         </div>
       </div>
@@ -1359,10 +1552,16 @@ export default function AnalyticsDashboard() {
               placeholder={t("admin.analytics.users.table.user", "User")}
               aria-label={t("admin.analytics.users.table.user", "User")}
             />
-            <Button variant="ghost" className={actionButtonClassName} type="submit" disabled={loadingUsers}>
+            <Button variant="primary" className={actionButtonClassName} type="submit" disabled={loadingUsers}>
               {t("admin.common.refresh", "Search")}
             </Button>
-            <Button variant="ghost" className={actionButtonClassName} onClick={handleUsersSearchClear} disabled={loadingUsers}>
+            <Button
+              variant="ghost"
+              className={actionButtonClassName}
+              type="button"
+              onClick={handleUsersSearchClear}
+              disabled={loadingUsers}
+            >
               {t("buttons.cancel", "Clear")}
             </Button>
           </form>
@@ -1478,152 +1677,264 @@ export default function AnalyticsDashboard() {
                 : t("admin.analytics.users.actions.send_email", "Send email")}
             </Button>
           </div>
-          <div className={tableWrapClassName}>
-            <table className={tableClassName}>
-              <thead>
-                <tr>
-                  <th className={tableHeadCellClassName}>
-                    <input
-                      type="checkbox"
-                      checked={allVisibleSelected}
-                      onChange={toggleAllVisibleUsers}
-                      aria-label={t("admin.analytics.users.actions.select_visible", "Select visible")}
-                    />
-                  </th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.user", "User")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.role", "Role")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.subscription", "Subscription")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.usage_30d", "Usage (30d)")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.cost_30d", "Cost estimate (30d)")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.limits", "Limits")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.paid_30d", "Paid (30d)")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loadingUsers ? (
+          <div className={tableHeaderClassName}>
+            <div className={tableScrollHintClassName}>
+              {t("admin.common.table_scroll_hint", "Scroll sideways on smaller screens to see all columns.")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
                   <tr>
-                    <td className={tableCellClassName} colSpan={8}>
-                      {t("admin.common.loading_data", "Loading...")}
-                    </td>
+                    <th className={tableHeadCellClassName}>
+                      <input
+                        type="checkbox"
+                        className={checkboxClassName}
+                        checked={allVisibleSelected}
+                        onChange={toggleAllVisibleUsers}
+                        aria-label={t("admin.analytics.users.actions.select_visible", "Select visible")}
+                      />
+                    </th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.user", "User")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.role", "Role")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.subscription", "Subscription")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.usage_30d", "Usage (30d)")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.cost_30d", "Cost estimate (30d)")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.limits", "Limits")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.paid_30d", "Paid (30d)")}</th>
                   </tr>
-                ) : visibleUserRows.length ? (
-                  visibleUserRows.map(row => (
-                    <tr key={row.userId} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
-                      <td className={tableCellClassName}>
-                        <input
-                          type="checkbox"
-                          checked={selectedUserIds.includes(row.userId)}
-                          onChange={() => toggleUserSelection(row.userId)}
-                          aria-label={t(
-                            "admin.analytics.users.actions.select_user",
-                            { user: row.email || row.userId },
-                            "Select user {user}"
-                          )}
-                        />
+                </thead>
+                <tbody>
+                  {loadingUsers ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={8}>
+                        {t("admin.common.loading_data", "Loading...")}
                       </td>
-                      <td className={tableCellClassName}>
-                        <div>{row.email || row.userId}</div>
-                        <div className={cellSubClassName}>{row.userId}</div>
+                    </tr>
+                  ) : visibleUserRows.length ? (
+                    visibleUserRows.map(row => (
+                      <tr key={row.userId} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>
+                          <input
+                            type="checkbox"
+                            className={checkboxClassName}
+                            checked={selectedUserIds.includes(row.userId)}
+                            onChange={() => toggleUserSelection(row.userId)}
+                            aria-label={t(
+                              "admin.analytics.users.actions.select_user",
+                              { user: row.email || row.userId },
+                              "Select user {user}"
+                            )}
+                          />
+                        </td>
+                        <td className={tableCellClassName}>
+                          <div>{row.email || row.userId}</div>
+                          <div className={cellSubClassName}>{row.userId}</div>
+                        </td>
+                        <td className={tableCellClassName}>
+                          <div>{getRoleLabel(row.role, row.isAdmin)}</div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.table.admin", "Admin")}:{" "}
+                            {row.isAdmin ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")}
+                          </div>
+                        </td>
+                        <td className={tableCellClassName}>
+                          <div>{row?.subscription?.status || "-"}</div>
+                          <div className={cellSubClassName}>
+                            {row?.subscription?.isActive
+                              ? t("admin.analytics.users.active", "Active")
+                              : t("admin.analytics.users.inactive", "Inactive")}
+                          </div>
+                          <div className={cellSubClassName}>{row?.subscription?.plan || "-"}</div>
+                        </td>
+                        <td className={tableCellClassName}>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.chat", "Chat")}: {formatCount(row?.usage?.chatRequests || 0, localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.rag", "RAG")}: {formatCount(row?.usage?.ragSearches || 0, localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.stt", "STT")}: {formatCount(row?.usage?.sttRequests || 0, localeTag)} /{" "}
+                            {formatPercent(row?.usage?.sttAudioMb || 0, localeTag, 3)} MB
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.tts", "TTS")}: {formatCount(row?.usage?.ttsRequests || 0, localeTag)} /{" "}
+                            {formatCount(row?.usage?.ttsChars || 0, localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.analyze", "Analyses (30d)")}:{" "}
+                            {formatCount(row?.usage?.analyses30d || 0, localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.analyze_today", "Analyses today")}:{" "}
+                            {formatCount(row?.usage?.analysesToday || 0, localeTag)}
+                          </div>
+                        </td>
+                        <td className={tableCellClassName}>
+                          <div>{formatMoney(row?.costs?.totalEur || 0, "EUR", localeTag)}</div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.chat", "Chat")}: {formatMoney(row?.costs?.chatEur || 0, "EUR", localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.rag", "RAG")}: {formatMoney(row?.costs?.ragEur || 0, "EUR", localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.stt", "STT")}: {formatMoney(row?.costs?.sttEur || 0, "EUR", localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.usage.tts", "TTS")}: {formatMoney(row?.costs?.ttsEur || 0, "EUR", localeTag)}
+                          </div>
+                        </td>
+                        <td className={tableCellClassName}>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.limits.plan_amount", "Monthly fee")}:{" "}
+                            {row.isAdmin ? "-" : formatMoney(row?.limits?.planAmountEur || 0, "EUR", localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.limits.analyze_daily", "Analyze/day")}:{" "}
+                            {formatCount(row?.limits?.analyzeDaily || 0, localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.limits.analyze_usage_today", "Used today")}:{" "}
+                            {formatCount(row?.limits?.analyzeToday || 0, localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.limits.analyze_remaining", "Remaining today")}:{" "}
+                            {formatCount(row?.limits?.analyzeRemainingToday || 0, localeTag)}
+                          </div>
+                          <UsageBar value={row?.limits?.analyzeUtilizationPct || 0} />
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.limits.monthly_budget", "Monthly budget")}:{" "}
+                            {formatMoney(row?.budget?.monthlyEur || 0, "EUR", localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.limits.remaining_budget", "Remaining budget")}:{" "}
+                            {formatMoney(row?.budget?.remainingEur || 0, "EUR", localeTag)}
+                          </div>
+                          <UsageBar value={row?.budget?.utilizationPct || 0} />
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.users.limits.utilization", "Utilization")}:{" "}
+                            {formatPercent(row?.budget?.utilizationPct || 0, localeTag, 1)}%
+                          </div>
+                        </td>
+                        <td className={tableCellClassName}>{formatMoney(row?.paidAmount30dEur || 0, "EUR", localeTag)}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={8}>
+                        {t("admin.analytics.users.table.empty", "No users found.")}
                       </td>
-                      <td className={tableCellClassName}>
-                        <div>{getRoleLabel(row.role, row.isAdmin)}</div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.table.admin", "Admin")}:{" "}
-                          {row.isAdmin ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")}
-                        </div>
-                      </td>
-                      <td className={tableCellClassName}>
-                        <div>{row?.subscription?.status || "-"}</div>
-                        <div className={cellSubClassName}>
-                          {row?.subscription?.isActive
-                            ? t("admin.analytics.users.active", "Active")
-                            : t("admin.analytics.users.inactive", "Inactive")}
-                        </div>
-                        <div className={cellSubClassName}>{row?.subscription?.plan || "-"}</div>
-                      </td>
-                      <td className={tableCellClassName}>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.usage.chat", "Chat")}: {formatCount(row?.usage?.chatRequests || 0, localeTag)}
-                        </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.usage.rag", "RAG")}: {formatCount(row?.usage?.ragSearches || 0, localeTag)}
-                        </div>
-                        <div className={cellSubClassName}>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingUsers ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : visibleUserRows.length ? (
+              visibleUserRows.map(row => (
+                <div key={row.userId} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="checkbox"
+                        className={checkboxClassName}
+                        checked={selectedUserIds.includes(row.userId)}
+                        onChange={() => toggleUserSelection(row.userId)}
+                        aria-label={t(
+                          "admin.analytics.users.actions.select_user",
+                          { user: row.email || row.userId },
+                          "Select user {user}"
+                        )}
+                      />
+                      <div>
+                        <div className={mobileRowTitleClassName}>{row.email || row.userId}</div>
+                        <div className={mobileRowSubClassName}>{row.userId}</div>
+                      </div>
+                    </div>
+                    <span className={usersSelectCountClassName}>{getRoleLabel(row.role, row.isAdmin)}</span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField
+                      label={t("admin.analytics.users.table.subscription", "Subscription")}
+                      value={
+                        <>
+                          <div>{row?.subscription?.status || "-"}</div>
+                          <div className={cellSubClassName}>
+                            {row?.subscription?.isActive
+                              ? t("admin.analytics.users.active", "Active")
+                              : t("admin.analytics.users.inactive", "Inactive")}
+                          </div>
+                          <div className={cellSubClassName}>{row?.subscription?.plan || "-"}</div>
+                        </>
+                      }
+                    />
+                    <MobileInfoField
+                      label={t("admin.analytics.users.table.paid_30d", "Paid (30d)")}
+                      value={formatMoney(row?.paidAmount30dEur || 0, "EUR", localeTag)}
+                    />
+                  </div>
+                  <MobileInfoField
+                    label={t("admin.analytics.users.table.usage_30d", "Usage (30d)")}
+                    value={
+                      <div className="grid gap-0.5">
+                        <div>{t("admin.analytics.users.usage.chat", "Chat")}: {formatCount(row?.usage?.chatRequests || 0, localeTag)}</div>
+                        <div>{t("admin.analytics.users.usage.rag", "RAG")}: {formatCount(row?.usage?.ragSearches || 0, localeTag)}</div>
+                        <div>
                           {t("admin.analytics.users.usage.stt", "STT")}: {formatCount(row?.usage?.sttRequests || 0, localeTag)} /{" "}
                           {formatPercent(row?.usage?.sttAudioMb || 0, localeTag, 3)} MB
                         </div>
-                        <div className={cellSubClassName}>
+                        <div>
                           {t("admin.analytics.users.usage.tts", "TTS")}: {formatCount(row?.usage?.ttsRequests || 0, localeTag)} /{" "}
                           {formatCount(row?.usage?.ttsChars || 0, localeTag)}
                         </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.usage.analyze", "Analyses (30d)")}:{" "}
-                          {formatCount(row?.usage?.analyses30d || 0, localeTag)}
+                        <div>
+                          {t("admin.analytics.users.usage.analyze", "Analyses (30d)")}: {formatCount(row?.usage?.analyses30d || 0, localeTag)}
                         </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.usage.analyze_today", "Analyses today")}:{" "}
-                          {formatCount(row?.usage?.analysesToday || 0, localeTag)}
+                        <div>
+                          {t("admin.analytics.users.usage.analyze_today", "Analyses today")}: {formatCount(row?.usage?.analysesToday || 0, localeTag)}
                         </div>
-                      </td>
-                      <td className={tableCellClassName}>
+                      </div>
+                    }
+                  />
+                  <MobileInfoField
+                    label={t("admin.analytics.users.table.cost_30d", "Cost estimate (30d)")}
+                    value={
+                      <div className="grid gap-0.5">
                         <div>{formatMoney(row?.costs?.totalEur || 0, "EUR", localeTag)}</div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.usage.chat", "Chat")}: {formatMoney(row?.costs?.chatEur || 0, "EUR", localeTag)}
-                        </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.usage.rag", "RAG")}: {formatMoney(row?.costs?.ragEur || 0, "EUR", localeTag)}
-                        </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.usage.stt", "STT")}: {formatMoney(row?.costs?.sttEur || 0, "EUR", localeTag)}
-                        </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.usage.tts", "TTS")}: {formatMoney(row?.costs?.ttsEur || 0, "EUR", localeTag)}
-                        </div>
-                      </td>
-                      <td className={tableCellClassName}>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.limits.plan_amount", "Monthly fee")}:{" "}
-                          {row.isAdmin ? "-" : formatMoney(row?.limits?.planAmountEur || 0, "EUR", localeTag)}
-                        </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.limits.analyze_daily", "Analyze/day")}:{" "}
-                          {formatCount(row?.limits?.analyzeDaily || 0, localeTag)}
-                        </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.limits.analyze_usage_today", "Used today")}:{" "}
-                          {formatCount(row?.limits?.analyzeToday || 0, localeTag)}
-                        </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.limits.analyze_remaining", "Remaining today")}:{" "}
-                          {formatCount(row?.limits?.analyzeRemainingToday || 0, localeTag)}
-                        </div>
+                        <div>{t("admin.analytics.users.usage.chat", "Chat")}: {formatMoney(row?.costs?.chatEur || 0, "EUR", localeTag)}</div>
+                        <div>{t("admin.analytics.users.usage.rag", "RAG")}: {formatMoney(row?.costs?.ragEur || 0, "EUR", localeTag)}</div>
+                        <div>{t("admin.analytics.users.usage.stt", "STT")}: {formatMoney(row?.costs?.sttEur || 0, "EUR", localeTag)}</div>
+                        <div>{t("admin.analytics.users.usage.tts", "TTS")}: {formatMoney(row?.costs?.ttsEur || 0, "EUR", localeTag)}</div>
+                      </div>
+                    }
+                  />
+                  <MobileInfoField
+                    label={t("admin.analytics.users.table.limits", "Limits")}
+                    value={
+                      <div className="grid gap-1.5">
+                        <div>{t("admin.analytics.users.limits.plan_amount", "Monthly fee")}: {row.isAdmin ? "-" : formatMoney(row?.limits?.planAmountEur || 0, "EUR", localeTag)}</div>
+                        <div>{t("admin.analytics.users.limits.analyze_daily", "Analyze/day")}: {formatCount(row?.limits?.analyzeDaily || 0, localeTag)}</div>
+                        <div>{t("admin.analytics.users.limits.analyze_usage_today", "Used today")}: {formatCount(row?.limits?.analyzeToday || 0, localeTag)}</div>
+                        <div>{t("admin.analytics.users.limits.analyze_remaining", "Remaining today")}: {formatCount(row?.limits?.analyzeRemainingToday || 0, localeTag)}</div>
                         <UsageBar value={row?.limits?.analyzeUtilizationPct || 0} />
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.limits.monthly_budget", "Monthly budget")}:{" "}
-                          {formatMoney(row?.budget?.monthlyEur || 0, "EUR", localeTag)}
-                        </div>
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.limits.remaining_budget", "Remaining budget")}:{" "}
-                          {formatMoney(row?.budget?.remainingEur || 0, "EUR", localeTag)}
-                        </div>
+                        <div>{t("admin.analytics.users.limits.monthly_budget", "Monthly budget")}: {formatMoney(row?.budget?.monthlyEur || 0, "EUR", localeTag)}</div>
+                        <div>{t("admin.analytics.users.limits.remaining_budget", "Remaining budget")}: {formatMoney(row?.budget?.remainingEur || 0, "EUR", localeTag)}</div>
                         <UsageBar value={row?.budget?.utilizationPct || 0} />
-                        <div className={cellSubClassName}>
-                          {t("admin.analytics.users.limits.utilization", "Utilization")}:{" "}
-                          {formatPercent(row?.budget?.utilizationPct || 0, localeTag, 1)}%
-                        </div>
-                      </td>
-                      <td className={tableCellClassName}>{formatMoney(row?.paidAmount30dEur || 0, "EUR", localeTag)}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td className={tableCellClassName} colSpan={8}>
-                      {t("admin.analytics.users.table.empty", "No users found.")}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                        <div>{t("admin.analytics.users.limits.utilization", "Utilization")}: {formatPercent(row?.budget?.utilizationPct || 0, localeTag, 1)}%</div>
+                      </div>
+                    }
+                  />
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>{t("admin.analytics.users.table.empty", "No users found.")}</div>
+            )}
           </div>
 
           <div className={cellSubClassName}>
@@ -1693,45 +2004,78 @@ export default function AnalyticsDashboard() {
 
           <SectionAlert tone={logsNotice?.tone} message={logsNotice?.message} />
 
-          <div className={tableWrapClassName}>
-            <table className={tableClassName}>
-              <thead>
-                <tr>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.time", "Time")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.event", "Event")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.role", "Role")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.crisis", "Crisis")}</th>
-                  <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.meta", "Meta")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loadingEvents ? (
+          <div className={tableHeaderClassName}>
+            <div className={tableScrollHintClassName}>
+              {t("admin.common.table_scroll_hint", "Scroll sideways on smaller screens to see all columns.")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
                   <tr>
-                    <td className={tableCellClassName} colSpan={5}>
-                      {t("admin.common.loading_data", "Loading...")}
-                    </td>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.time", "Time")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.event", "Event")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.role", "Role")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.crisis", "Crisis")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.logs.table.meta", "Meta")}</th>
                   </tr>
-                ) : events.length ? (
-                  events.map(row => (
-                    <tr key={row.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
-                      <td className={tableCellClassName}>{formatDate(row.createdAt, localeTag)}</td>
-                      <td className={tableCellClassName}>{eventLabels[row.event] || row.event || "-"}</td>
-                      <td className={tableCellClassName}>{getRoleLabel(row.role, false)}</td>
-                      <td className={tableCellClassName}>
-                        {row?.data?.isCrisis ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")}
+                </thead>
+                <tbody>
+                  {loadingEvents ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={5}>
+                        {t("admin.common.loading_data", "Loading...")}
                       </td>
-                      <td className={`${tableCellClassName} ${cellSubClassName}`}>{summarizeEventMeta(row?.data)}</td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td className={tableCellClassName} colSpan={5}>
-                      {t("admin.analytics.logs.table.empty", "No records found.")}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  ) : events.length ? (
+                    events.map(row => (
+                      <tr key={row.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>{formatDate(row.createdAt, localeTag)}</td>
+                        <td className={tableCellClassName}>{eventLabels[row.event] || row.event || "-"}</td>
+                        <td className={tableCellClassName}>{getRoleLabel(row.role, false)}</td>
+                        <td className={tableCellClassName}>
+                          {row?.data?.isCrisis ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")}
+                        </td>
+                        <td className={`${tableCellClassName} ${cellSubClassName}`}>{summarizeEventMeta(row?.data)}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={5}>
+                        {t("admin.analytics.logs.table.empty", "No records found.")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingEvents ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : events.length ? (
+              events.map(row => (
+                <div key={row.id} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div>
+                      <div className={mobileRowTitleClassName}>{eventLabels[row.event] || row.event || "-"}</div>
+                      <div className={mobileRowSubClassName}>{formatDate(row.createdAt, localeTag)}</div>
+                    </div>
+                    <span className={usersSelectCountClassName}>{getRoleLabel(row.role, false)}</span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField
+                      label={t("admin.analytics.logs.table.crisis", "Crisis")}
+                      value={row?.data?.isCrisis ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")}
+                    />
+                  </div>
+                  <MobileInfoField label={t("admin.analytics.logs.table.meta", "Meta")} value={summarizeEventMeta(row?.data)} />
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>{t("admin.analytics.logs.table.empty", "No records found.")}</div>
+            )}
           </div>
         </div>
       </div>

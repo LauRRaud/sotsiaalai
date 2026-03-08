@@ -43,6 +43,9 @@ export default function HelpListingsPanel({
     `help-listings-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] ` +
     `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `leading-[1.35] tracking-[0.024rem] ${glassPageMobileCardClassName}`;
+  const helpListingsTitleClassName =
+    `${glassPageTitleClassName} max-[768px]:!whitespace-normal max-[768px]:!px-[clamp(2.4rem,9vw,3.4rem)] ` +
+    `max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)] max-[768px]:!leading-[1.04]`;
 
   useEffect(() => {
     setIsMounted(true);
@@ -84,7 +87,7 @@ export default function HelpListingsPanel({
       />
 
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
-        <h2 className={`${glassPageTitleClassName} w-full max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.75rem)] max-[768px]:translate-y-[0.32rem] max-[768px]:px-[clamp(4.2rem,17vw,5.4rem)]`}>
+        <h2 className={helpListingsTitleClassName}>
           {title}
         </h2>
       </header>
