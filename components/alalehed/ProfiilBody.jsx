@@ -21,7 +21,7 @@ import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
-import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
@@ -139,11 +139,7 @@ const accountModalContentClassName =
   `max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] [--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
 const accountModalHeadClassName =
   "mb-[0.35rem] flex items-start justify-center gap-[0.75rem]";
-const accountModalBackButtonClassName =
-  "absolute top-[0.15rem] left-[0.2rem] translate-x-0 translate-y-0 bottom-auto z-[92] " +
-  "!h-[4.85rem] !w-[4.85rem] min-[769px]:!h-[5.3rem] min-[769px]:!w-[5.3rem] " +
-  "[&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] " +
-  "max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)]";
+const accountModalBackButtonClassName = glassPageBackTopLeftClassName;
 const accountModalTitleWrapClassName =
   "grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]";
 const accountModalTitleClassName =
@@ -1143,7 +1139,7 @@ export default function ProfiilBody({
         </Modal>
       ) : null}
 
-      {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmVariant="danger" confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")} cancelLabel={t("buttons.cancel")} onConfirm={async () => {
+      {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmVariant="danger" confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")} cancelLabel={t("buttons.cancel")} actionsClassName="mt-[0.6rem]" onConfirm={async () => {
       if (deleting) return;
       setError("");
       const normalizedDeletePin = deletePin.replace(/\D/g, "");

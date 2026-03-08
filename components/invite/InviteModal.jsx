@@ -9,7 +9,7 @@ import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
-import { glassPageMobileCardClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 function parseEmails(raw) {
@@ -307,7 +307,7 @@ export default function InviteModal() {
   }
   if (!open) return null;
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay person-invite-modal-overlay max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName={inviteModalContentClassName}>
-      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className="absolute top-[0.15rem] left-[0.2rem] translate-x-0 translate-y-0 bottom-auto z-[92] !h-[4.85rem] !w-[4.85rem] min-[769px]:!h-[5.3rem] min-[769px]:!w-[5.3rem] [&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)]" />
+      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className={glassPageBackTopLeftClassName} />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className={inviteModalTitleClassName}>
           {t("invite.eyebrow")}

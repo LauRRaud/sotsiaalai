@@ -67,6 +67,12 @@ export default function ChatMobileTopNav({
   const focusUpdateFrameRef = useRef(0);
   const railDidAutoCenterRef = useRef(false);
   const focusedKeyRef = useRef(defaultFocusedKey);
+  const touchGestureRef = useRef({
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    dragged: false
+  });
   const [focusedKey, setFocusedKey] = useState(defaultFocusedKey);
   const railVisible = true;
 
@@ -380,6 +386,12 @@ export default function ChatMobileTopNav({
 
   const handleItemActivation = useCallback(
     (key, event) => {
+      if (touchGestureRef.current.dragged) {
+        touchGestureRef.current.dragged = false;
+        event?.preventDefault?.();
+        event?.stopPropagation?.();
+        return;
+      }
       event?.preventDefault?.();
       event?.stopPropagation?.();
       setFocusedKey(key);
@@ -459,13 +471,12 @@ export default function ChatMobileTopNav({
           }
         }}
         className={cn(
-          "group relative snap-center shrink-0 inline-flex h-[clamp(3.2rem,13.2vw,3.82rem)] w-[clamp(3.2rem,13.2vw,3.82rem)] items-center justify-center rounded-[1.45rem] border p-0 touch-manipulation transition-[transform,opacity,border-color,background-color,box-shadow] duration-200 ease-out focus-visible:outline-none",
+          "group relative snap-center shrink-0 inline-flex h-[clamp(3.2rem,13.2vw,3.82rem)] w-[clamp(3.2rem,13.2vw,3.82rem)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 [touch-action:pan-x] transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
           isFocused
             ? "opacity-100"
-            : "opacity-[0.52]",
-          isActive
-            ? "border-[rgba(197,113,113,0.28)] light:border-[rgba(122,58,56,0.28)]"
-            : "border-transparent bg-transparent",
+            : isActive
+              ? "opacity-[0.78]"
+              : "opacity-[0.52]",
           isDisabled ? "cursor-default" : "cursor-pointer"
         )}
         style={{
@@ -474,12 +485,7 @@ export default function ChatMobileTopNav({
             ? isLightTheme
               ? "#9d4e49"
               : "#e6a4a3"
-            : undefined,
-          boxShadow: isFocused
-            ? isLightTheme
-              ? "0 10px 20px rgba(122,58,56,0.08)"
-              : "0 12px 22px rgba(7,11,18,0.18)"
-            : "none"
+            : undefined
         }}
       >
         {renderIcon(item)}
@@ -519,8 +525,41 @@ export default function ChatMobileTopNav({
             <div
               ref={railViewportRef}
               className="relative z-[1] flex items-center gap-[clamp(0.18rem,0.9vw,0.42rem)] overflow-x-auto overscroll-x-contain pb-[0.18rem] pt-[0.18rem] snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0"
+              onPointerDownCapture={event => {
+                if (event.pointerType !== "touch") return;
+                touchGestureRef.current.pointerId = event.pointerId;
+                touchGestureRef.current.startX = event.clientX;
+                touchGestureRef.current.startY = event.clientY;
+                touchGestureRef.current.dragged = false;
+              }}
+              onPointerMoveCapture={event => {
+                if (event.pointerType !== "touch") return;
+                if (touchGestureRef.current.pointerId !== event.pointerId) return;
+                const deltaX = Math.abs(event.clientX - touchGestureRef.current.startX);
+                const deltaY = Math.abs(event.clientY - touchGestureRef.current.startY);
+                if (deltaX > 8 && deltaX > deltaY) {
+                  touchGestureRef.current.dragged = true;
+                }
+              }}
+              onPointerUpCapture={event => {
+                if (event.pointerType !== "touch") return;
+                if (touchGestureRef.current.pointerId !== event.pointerId) return;
+                window.setTimeout(() => {
+                  touchGestureRef.current.pointerId = null;
+                  touchGestureRef.current.startX = 0;
+                  touchGestureRef.current.startY = 0;
+                  touchGestureRef.current.dragged = false;
+                }, 0);
+              }}
+              onPointerCancelCapture={() => {
+                touchGestureRef.current.pointerId = null;
+                touchGestureRef.current.startX = 0;
+                touchGestureRef.current.startY = 0;
+                touchGestureRef.current.dragged = false;
+              }}
               style={{
                 paddingInline: "max(0px, calc(50% - 2.05rem))",
+                touchAction: "pan-x",
                 WebkitMaskImage:
                   "linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.82) 8%, #000 18%, #000 82%, rgba(0,0,0,0.82) 92%, transparent 100%)",
                 maskImage:
@@ -529,8 +568,8 @@ export default function ChatMobileTopNav({
             >
               {MOBILE_NAV_ITEMS.map(renderNavButton)}
             </div>
-            <div className="pointer-events-none mt-[0.22rem] flex min-h-[2.05rem] items-start justify-center px-[0.5rem] text-center">
-              <span className="max-w-[12rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.28rem,5.2vw,1.46rem)] font-medium leading-[1.02] tracking-[0.01em] text-[#c57171] light:text-[#7a3a38]">
+            <div className="pointer-events-none mt-[0.22rem] flex min-h-[2.18rem] items-start justify-center px-[0.5rem] text-center">
+              <span className="max-w-[12.4rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.36rem,5.5vw,1.56rem)] font-medium leading-[1.02] tracking-[0.01em] text-[#c57171] light:text-[#7a3a38]">
                 {labels[focusedKey]}
               </span>
             </div>

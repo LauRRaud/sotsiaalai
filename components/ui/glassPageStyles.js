@@ -36,6 +36,12 @@ export const glassPageBackMobileBottomCenterClassName =
   "max-[768px]:h-[4.85rem] max-[768px]:w-[4.85rem] max-[768px]:z-[92] " +
   "max-[768px]:[&>svg]:h-[4.35rem] max-[768px]:[&>svg]:w-[4.35rem]";
 
+export const glassPageBackTopLeftClassName =
+  `${glassPageBackMobileBottomCenterClassName} ` +
+  "min-[769px]:top-[0.55rem] min-[769px]:left-[0.55rem] min-[769px]:bottom-auto " +
+  "min-[769px]:translate-x-0 min-[769px]:translate-y-0 min-[769px]:!h-[4rem] min-[769px]:!w-[4rem] " +
+  "min-[769px]:[&>svg]:!h-[4rem] min-[769px]:[&>svg]:!w-[4rem]";
+
 export const glassPageBackRightClassName =
   "absolute right-[max(0px,calc(var(--glass-edge-right)-clamp(0.35rem,0.9vw,0.7rem)))] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";
 

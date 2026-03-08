@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
+import { cn } from "@/components/ui/cn";
 const modalOverlayClassName = "modal-confirm-overlay";
 const modalContentClassName = "modal-confirm-content flex w-full max-w-[28rem] flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]";
 const modalMessageClassName = "text-[1.05rem] leading-[1.5] text-[color:var(--pt-120)] light:text-[color:var(--text-strong)]";
@@ -28,7 +29,8 @@ export default function ModalConfirm({
   onCancel,
   disabled = false,
   busy = false,
-  busyLabel = ""
+  busyLabel = "",
+  actionsClassName = ""
 }) {
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -54,7 +56,7 @@ export default function ModalConfirm({
               {busyLabel ? <span className={modalBusyTextClassName}>{busyLabel}</span> : null}
             </div>
           </div>
-        </div> : <div className={modalActionsClassName}>
+        </div> : <div className={cn(modalActionsClassName, actionsClassName)}>
           <Button type="button" variant={confirmVariant} onClick={onConfirm} disabled={disabled}>
             <span>{confirmLabel}</span>
           </Button>

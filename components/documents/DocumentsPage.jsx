@@ -10,7 +10,7 @@ import Button from "@/components/ui/Button"
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
 import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
-import { glassPageTitleClassName } from "@/components/ui/glassPageStyles"
+import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass } from "@/components/ui/linkStyles"
 import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
 import {
@@ -297,7 +297,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             <BackButton
               onClick={() => router.push(localizePath("/vestlus", locale))}
               ariaLabel={t("buttons.back")}
-              className="documents-back-button absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.4rem] max-[768px]:!w-[4.4rem] max-[768px]:[&>svg]:!h-[4.4rem] max-[768px]:[&>svg]:!w-[4.4rem]"
+              className={glassPageBackTopLeftClassName}
             />
             <header className="documents-page-header documents-page-header--panel">
               <div className="documents-page-header-row">

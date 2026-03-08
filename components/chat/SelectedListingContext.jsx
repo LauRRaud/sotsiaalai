@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import { glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
 
@@ -123,7 +123,7 @@ export default function SelectedListingContext({
       <BackButton
         onClick={onDismiss}
         ariaLabel={ui.close}
-        className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.85rem] max-[768px]:!w-[4.85rem] max-[768px]:[&>svg]:!h-[4.35rem] max-[768px]:[&>svg]:!w-[4.35rem]"
+        className={glassPageBackTopLeftClassName}
       />
 
       <header className="flex items-start justify-center">
