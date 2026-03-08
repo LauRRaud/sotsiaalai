@@ -254,6 +254,14 @@
   border: var(--glass-modal-border, none) !important;
   box-shadow: var(--glass-modal-shadow, none) !important;
 }
+
+/* OTP explanatory copy must stay dark in light mode (desktop + mobile). */
+:root.theme-light:not(.theme-mid)
+  .login-modal-box.login-modal--otp
+  .login-modal-shell
+  p {
+  color: #1f2937 !important;
+}
 :root.theme-light .drawer-panel .cs-btn,
 :root.theme-light .drawer-panel .cs-refresh {
   color: color-mix(in srgb, var(--text-strong) 68%, transparent);

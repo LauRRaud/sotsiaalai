@@ -27,13 +27,12 @@ const MOBILE_NAV_ITEMS = [
   { key: "invite", scale: 1.1 },
   { key: "profile", scale: 1.08 }
 ];
-const MOBILE_NAV_LEFT_KEYS = new Set(["chats", "sources"]);
 
-function MobileIconFrame({ scale = 1, children }) {
+function MobileIconFrame({ scale = 1, xNudge = 0, children }) {
   return (
     <span
       className="flex h-[92%] w-[92%] items-center justify-center"
-      style={{ transform: `scale(${scale})` }}
+      style={{ transform: `translateX(${xNudge}rem) scale(${scale})` }}
       aria-hidden="true"
     >
       {children}
@@ -114,10 +113,17 @@ export default function ChatMobileTopNav({
       }
       const rect = element.getBoundingClientRect();
       const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
-      const maxInset = 16;
+      const maxInset = 8;
+      const tooltipMaxWidthPx = Math.min(viewportWidth * 0.86, 208);
+      const labelLength = String(label || "").trim().length;
+      const estimatedTooltipWidth = Math.min(
+        tooltipMaxWidthPx,
+        Math.max(76, labelLength * 9 + 30)
+      );
+      const halfTooltipSafe = Math.max(maxInset, estimatedTooltipWidth / 2 + 4);
       const anchorLeft = Math.min(
-        Math.max(rect.left + rect.width / 2, maxInset),
-        Math.max(maxInset, viewportWidth - maxInset)
+        Math.max(rect.left + rect.width / 2, halfTooltipSafe),
+        Math.max(halfTooltipSafe, viewportWidth - halfTooltipSafe)
       );
       const nextTooltipState = {
         label,
@@ -286,7 +292,7 @@ export default function ChatMobileTopNav({
     const iconClassName = "h-full w-full";
     if (item.key === "chats") {
       return (
-        <MobileIconFrame scale={item.scale}>
+        <MobileIconFrame scale={item.scale} xNudge={-0.34}>
           <ChatBubbleIcon
             isLightTheme={isLightTheme}
             className={iconClassName}
@@ -392,7 +398,7 @@ export default function ChatMobileTopNav({
           armOrActivate(
             item.key,
             labels[item.key],
-            itemButtonRefs.current[item.key],
+            event.currentTarget,
             event,
             evt => handleActivate(item.key, evt)
           )
@@ -407,6 +413,7 @@ export default function ChatMobileTopNav({
         }}
         className={cn(
           "shrink-0 inline-flex h-[clamp(2.62rem,10.8vw,3.02rem)] w-[clamp(2.62rem,10.8vw,3.02rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 touch-manipulation transition-[transform,opacity] duration-150 focus-visible:scale-[1.03] active:scale-[0.97]",
+          item.key === "chats" ? "-translate-x-[0.18rem]" : null,
           isActive ? "opacity-100" : null,
           "opacity-100"
         )}
@@ -416,13 +423,10 @@ export default function ChatMobileTopNav({
     );
   };
 
-  const leftNavItems = MOBILE_NAV_ITEMS.filter(item => MOBILE_NAV_LEFT_KEYS.has(item.key));
-  const rightNavItems = MOBILE_NAV_ITEMS.filter(item => !MOBILE_NAV_LEFT_KEYS.has(item.key));
-
   return (
     <div
       className={cn(
-        "chat-mobile-topnav absolute z-[121] left-[calc(env(safe-area-inset-left,0px)+0.18rem)] right-[calc(env(safe-area-inset-right,0px)+0.18rem)] top-[calc(env(safe-area-inset-top,0px)+0.18rem)] flex items-center gap-[clamp(0.16rem,0.9vw,0.34rem)] min-[769px]:hidden",
+        "chat-mobile-topnav absolute z-[121] left-[calc(env(safe-area-inset-left,0px)+0.08rem)] right-[calc(env(safe-area-inset-right,0px)+0.16rem)] top-[calc(env(safe-area-inset-top,0px)+0.18rem)] flex items-center gap-[clamp(0.04rem,0.45vw,0.16rem)] min-[769px]:hidden",
         mobileRailInteractionLocked ? "pointer-events-none opacity-70" : null
       )}
     >
@@ -441,8 +445,8 @@ export default function ChatMobileTopNav({
           }
         }}
         ariaLabel={labels.back}
-        className="shrink-0 !h-[clamp(3.35rem,13.8vw,3.85rem)] !w-[clamp(3.35rem,13.8vw,3.85rem)] rounded-full"
-        iconClassName="!h-[122%] !w-[122%]"
+        className="shrink-0 !h-[clamp(3.6rem,14.8vw,4.1rem)] !w-[clamp(3.6rem,14.8vw,4.1rem)] rounded-full"
+        iconClassName="!h-[128%] !w-[128%]"
       />
 
       {!mobileRailVisible ? (
@@ -473,19 +477,16 @@ export default function ChatMobileTopNav({
           </button>
         </div>
       ) : (
-        <div className="min-w-0 flex-1 flex items-center justify-between overflow-visible">
-          <div className="flex min-w-0 items-center gap-[clamp(0.14rem,0.9vw,0.38rem)] overflow-visible">
-            {leftNavItems.map(renderNavButton)}
-          </div>
-          <div className="flex min-w-0 items-center gap-[clamp(0.14rem,0.9vw,0.38rem)] overflow-visible">
-            {rightNavItems.map(renderNavButton)}
+        <div className="min-w-0 flex-1 flex items-center overflow-visible">
+          <div className="flex min-w-0 items-center gap-[clamp(0.1rem,0.72vw,0.28rem)] overflow-visible">
+            {MOBILE_NAV_ITEMS.map(renderNavButton)}
           </div>
         </div>
       )}
       {isMounted && tooltipState && typeof document !== "undefined"
         ? createPortal(
             <div
-              className="pointer-events-none fixed z-[160] rounded-[0.72rem] border-0 bg-[rgb(16,19,26)] px-[0.85rem] py-[0.42rem] text-[1.68rem] leading-[1.05] font-medium tracking-[0.03em] text-[#c57171] opacity-[0.98] shadow-none light:bg-[rgb(253,253,253)] light:text-[#7a3a38]"
+              className="pointer-events-none fixed z-[160] max-w-[min(86vw,13rem)] whitespace-normal break-words text-center rounded-[0.72rem] border-0 bg-transparent px-[0.32rem] py-[0.12rem] text-[clamp(0.94rem,3.7vw,1.12rem)] leading-[1.2] font-medium tracking-[0.01em] text-[#c57171] opacity-[0.96] shadow-none light:bg-transparent light:text-[#7a3a38]"
               style={{
                 left: tooltipState.left,
                 top: tooltipState.top,

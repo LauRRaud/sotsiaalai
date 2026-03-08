@@ -314,6 +314,11 @@
     opacity: 1;
     font-size: clamp(0.98rem, 3.8vw, 1.22rem);
     max-width: 9rem;
+    white-space: normal;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
   }
   .profile-orbit-menu.is-mobile
     :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item::before,
@@ -514,6 +519,9 @@
     max-width: min(78vw, 18.5rem);
     text-wrap: balance;
     white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
   }
   .profile-orbit-stack-label {
     opacity: 1;
@@ -536,11 +544,12 @@
 @media (max-width: 768px) {
   .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
     position: absolute !important;
-    left: 50% !important;
-    right: auto !important;
-    top: auto !important;
-    bottom: clamp(6.6rem, 30vw, 8.2rem) !important;
-    transform: translateX(-50%) !important;
+    left: auto !important;
+    right: calc(env(safe-area-inset-right, 0px) + clamp(0.45rem, 2.6vw, 0.9rem)) !important;
+    top: calc(env(safe-area-inset-top, 0px) + clamp(5.15rem, 11.6vh, 6.75rem)) !important;
+    bottom: auto !important;
+    transform: none !important;
+    align-items: center !important;
     z-index: 95 !important;
   }
 
@@ -570,9 +579,7 @@
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
-  body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
-  html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack,
-  body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.75rem, 3.8vw, 1.35rem)) !important;
   }
 
@@ -606,19 +613,24 @@
   }
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
-  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
-  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack,
-  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     top: auto !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
     transform: translateX(-50%) !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
+    right: calc(env(safe-area-inset-right, 0px) + clamp(0.4rem, 2.4vw, 0.85rem)) !important;
+    top: calc(env(safe-area-inset-top, 0px) + clamp(5.45rem, 12.2vh, 7.05rem)) !important;
+    bottom: auto !important;
+    transform: none !important;
   }
 }
 
 @media (max-width: 768px) and (display-mode: standalone),
   (max-width: 768px) and (display-mode: fullscreen) {
-  .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
-  .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
+  .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     top: auto !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
     transform: translateX(-50%) !important;
@@ -1056,7 +1068,8 @@
     padding-bottom: clamp(4.4rem, 9.2vh, 6.2rem) !important;
     max-height: calc(
       100% - var(--glass-ring-scroll-offset-open, 1.7rem) -
-        var(--policy-mobile-content-drop, 1.6rem)
+        var(--policy-mobile-content-drop, 1.6rem) +
+        clamp(0.72rem, 1.75vh, 1.1rem)
     ) !important;
     mask-image: linear-gradient(
       to bottom,
@@ -1095,7 +1108,7 @@
   .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll--open {
     max-height: calc(
       100% - var(--glass-ring-scroll-offset-open, 1.7rem) -
-        var(--policy-mobile-content-drop, 1.6rem) + clamp(1.95rem, 4.3vh, 2.7rem)
+        var(--policy-mobile-content-drop, 1.6rem) + clamp(2.55rem, 5.6vh, 3.45rem)
     ) !important;
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.25rem, 0.8vh, 0.65rem)) !important;
     mask-image: linear-gradient(

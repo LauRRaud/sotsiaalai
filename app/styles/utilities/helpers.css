@@ -1090,29 +1090,31 @@ html[data-contrast="hc"] {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: clamp(-0.2rem, -0.4vh, -0.08rem);
-    height: clamp(2rem, 3.8vh, 2.9rem);
+    bottom: clamp(-0.34rem, -0.62vh, -0.16rem);
+    height: clamp(2.3rem, 4.3vh, 3.2rem);
     pointer-events: none;
-    z-index: 5;
+    z-index: 12;
     background: linear-gradient(
       to top,
       rgba(var(--policy-bottom-fade-rgb), 1) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 0.98) 28%,
-      rgba(var(--policy-bottom-fade-rgb), 0.84) 52%,
-      rgba(var(--policy-bottom-fade-rgb), 0.42) 78%,
+      rgba(var(--policy-bottom-fade-rgb), 1) 46%,
+      rgba(var(--policy-bottom-fade-rgb), 0.95) 68%,
+      rgba(var(--policy-bottom-fade-rgb), 0.72) 82%,
+      rgba(var(--policy-bottom-fade-rgb), 0.34) 93%,
       rgba(var(--policy-bottom-fade-rgb), 0) 100%
     );
   }
 
   .glass-policy-expand-shape.glass-ring-expandable--open::before {
-    bottom: clamp(-0.16rem, -0.3vh, -0.06rem);
-    height: clamp(1.8rem, 3.4vh, 2.6rem);
+    bottom: clamp(-0.28rem, -0.52vh, -0.12rem);
+    height: clamp(2rem, 3.8vh, 2.8rem);
     background: linear-gradient(
       to top,
       rgba(var(--policy-bottom-fade-rgb), 1) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 0.98) 30%,
-      rgba(var(--policy-bottom-fade-rgb), 0.86) 54%,
-      rgba(var(--policy-bottom-fade-rgb), 0.44) 80%,
+      rgba(var(--policy-bottom-fade-rgb), 1) 48%,
+      rgba(var(--policy-bottom-fade-rgb), 0.95) 70%,
+      rgba(var(--policy-bottom-fade-rgb), 0.74) 83%,
+      rgba(var(--policy-bottom-fade-rgb), 0.36) 94%,
       rgba(var(--policy-bottom-fade-rgb), 0) 100%
     );
   }
@@ -1361,7 +1363,8 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     margin-top: calc(
       (var(--policy-scroll-rise, 0rem) * -0.46) -
         var(--policy-scroll-open-top-lift, 0rem) -
-        var(--policy-scroll-open-top-raise, 0rem)
+        var(--policy-scroll-open-top-raise, 0rem) -
+        clamp(0.16rem, 0.32vh, 0.24rem)
     ) !important;
     padding-top: calc(
       clamp(0.32rem, 0.9vh, 0.68rem) + var(--policy-first-line-drop, 0rem)
@@ -1458,13 +1461,11 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     rgba(0, 0, 0, 0.26) 4.4%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 69%,
-    rgba(0, 0, 0, 0.97) 75.5%,
-    rgba(0, 0, 0, 0.84) 81.2%,
-    rgba(0, 0, 0, 0.62) 86.4%,
-    rgba(0, 0, 0, 0.36) 91.1%,
-    rgba(0, 0, 0, 0.15) 95.1%,
-    rgba(0, 0, 0, 0.05) 97.9%,
+    #000 86.8%,
+    rgba(0, 0, 0, 0.98) 91.2%,
+    rgba(0, 0, 0, 0.78) 94.2%,
+    rgba(0, 0, 0, 0.42) 96.8%,
+    rgba(0, 0, 0, 0.14) 98.6%,
     transparent 100%
   ) !important;
   -webkit-mask-image: linear-gradient(
@@ -1475,13 +1476,11 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     rgba(0, 0, 0, 0.26) 4.4%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 69%,
-    rgba(0, 0, 0, 0.97) 75.5%,
-    rgba(0, 0, 0, 0.84) 81.2%,
-    rgba(0, 0, 0, 0.62) 86.4%,
-    rgba(0, 0, 0, 0.36) 91.1%,
-    rgba(0, 0, 0, 0.15) 95.1%,
-    rgba(0, 0, 0, 0.05) 97.9%,
+    #000 86.8%,
+    rgba(0, 0, 0, 0.98) 91.2%,
+    rgba(0, 0, 0, 0.78) 94.2%,
+    rgba(0, 0, 0, 0.42) 96.8%,
+    rgba(0, 0, 0, 0.14) 98.6%,
     transparent 100%
   ) !important;
 }
@@ -1497,11 +1496,10 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     rgba(0, 0, 0, 0.26) 4.2%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 76%,
-    rgba(0, 0, 0, 0.98) 82.5%,
-    rgba(0, 0, 0, 0.84) 87.4%,
-    rgba(0, 0, 0, 0.54) 92.2%,
-    rgba(0, 0, 0, 0.2) 96.3%,
+    #000 88%,
+    rgba(0, 0, 0, 0.96) 92.5%,
+    rgba(0, 0, 0, 0.62) 95.6%,
+    rgba(0, 0, 0, 0.28) 98%,
     rgba(0, 0, 0, 0) 100%
   ) !important;
   -webkit-mask-image: linear-gradient(
@@ -1512,11 +1510,10 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     rgba(0, 0, 0, 0.26) 4.2%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 76%,
-    rgba(0, 0, 0, 0.98) 82.5%,
-    rgba(0, 0, 0, 0.84) 87.4%,
-    rgba(0, 0, 0, 0.54) 92.2%,
-    rgba(0, 0, 0, 0.2) 96.3%,
+    #000 88%,
+    rgba(0, 0, 0, 0.96) 92.5%,
+    rgba(0, 0, 0, 0.62) 95.6%,
+    rgba(0, 0, 0, 0.28) 98%,
     rgba(0, 0, 0, 0) 100%
   ) !important;
 }
@@ -1531,6 +1528,41 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
 .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
   > footer.policy-page-footer {
   transform: translateY(clamp(1rem, 2.2vh, 1.6rem));
+}
+
+@media (min-width: 769px) {
+  .glass-ring-expandable--open
+    .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
+  .glass-ring-expandable--open
+    .policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
+    margin-top: calc(
+      (var(--policy-scroll-rise, 0rem) * -0.12) -
+        var(--policy-scroll-open-top-lift, 0rem) -
+        var(--policy-scroll-open-top-raise, 0rem) -
+        clamp(0.56rem, 1.08vh, 0.84rem)
+    ) !important;
+  }
+}
+
+/* Kill legacy policy content overlays with higher specificity.
+   Final fade control is done by the scroll mask + ring bottom arc overlay above. */
+@media (min-width: 769px) {
+  :root .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
+  :root .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
+  :root .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content--open::after,
+  :root .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content--open::after,
+  :root.theme-light:not(.theme-mid) .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
+  :root.theme-light:not(.theme-mid) .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
+  :root.theme-light:not(.theme-mid) .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content--open::after,
+  :root.theme-light:not(.theme-mid) .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content--open::after,
+  :root.theme-mid .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
+  :root.theme-mid .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
+  :root.theme-mid .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content--open::after,
+  :root.theme-mid .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content--open::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+  }
 }
 
 .invite-modal::-webkit-scrollbar {

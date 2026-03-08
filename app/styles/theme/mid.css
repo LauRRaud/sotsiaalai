@@ -160,6 +160,11 @@
   box-shadow: var(--glass-modal-shadow, none) !important;
 }
 
+/* OTP explanatory copy must stay dark in mid mode (desktop + mobile). */
+:root.theme-mid .login-modal-box.login-modal--otp .login-modal-shell p {
+  color: #2c3340 !important;
+}
+
 :root.theme-mid .login-modal-box.login-modal--otp #otp-code-input {
   background: rgba(253, 250, 249, 0.62) !important;
   border: 1px solid rgba(255, 255, 255, 0.5) !important;

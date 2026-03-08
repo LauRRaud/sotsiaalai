@@ -79,7 +79,7 @@ export default function HelpListingsPanel({
       />
 
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
-        <h2 className={`${glassPageTitleClassName} max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`}>
+        <h2 className={`${glassPageTitleClassName} max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.75rem)] max-[768px]:translate-y-[0.32rem]`}>
           {title}
         </h2>
       </header>

@@ -95,9 +95,12 @@ const orbitRoleToggleButtonClassName =
   "whitespace-normal text-center leading-[1.16] px-[1.22rem] py-[0.76rem] text-[1.02rem] min-h-[2.7rem] " +
   "max-[48em]:!min-h-[3rem] max-[48em]:!px-[1.35rem] max-[48em]:!py-[0.8rem] max-[48em]:!text-[1.14rem]";
 const profileMobileActionStackClassName =
-  "profile-mobile-action-stack absolute left-1/2 z-[95] flex -translate-x-1/2 flex-col items-center gap-[clamp(0.7rem,3vw,1rem)] pointer-events-auto min-[48.0625em]:hidden";
-const profileMobileRoleToggleButtonClassName =
-  `${orbitRoleToggleButtonClassName} !w-[min(19.5rem,calc(100vw-2.4rem))] justify-center`;
+  "profile-mobile-action-stack absolute z-[95] flex flex-col items-center gap-[clamp(0.7rem,3vw,1rem)] pointer-events-auto min-[48.0625em]:hidden";
+const profileMobileRoleToggleLinkClassName =
+  "profile-mobile-role-toggle-link inline-flex items-center justify-center gap-[0.34rem] " +
+  "!px-[0.16rem] !py-0 !text-[0.98rem] leading-[1.16] tracking-[0.02em] " +
+  "max-w-[min(16rem,66vw)] text-center [text-wrap:balance] " +
+  "underline decoration-[1.5px] underline-offset-[0.23em] mt-[0.1rem]";
 const logoutButtonClassName =
   "group relative grid place-items-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
 const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
@@ -138,7 +141,7 @@ const accountModalBackButtonClassName =
   "[&>svg]:!h-[4.35rem] [&>svg]:!w-[4.35rem] min-[769px]:[&>svg]:!h-[4.75rem] min-[769px]:[&>svg]:!w-[4.75rem] " +
   "max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)]";
 const accountModalTitleWrapClassName =
-  "grid max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:w-full max-[768px]:max-w-none max-[768px]:px-[clamp(0.35rem,1.8vw,0.85rem)]";
+  "grid max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:w-full max-[768px]:max-w-none max-[768px]:px-[clamp(4.2rem,17vw,5.4rem)]";
 const accountModalTitleClassName =
   `${glassPageTitleClassName} !mb-0 max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`;
 const accountModalDescriptionClassName =
@@ -147,9 +150,9 @@ const accountModalActionStackClassName =
   "invite-modal-scroll grid gap-[0.82rem] px-[1.15rem] pt-[0.35rem] pb-[0.4rem] max-[768px]:px-[0.2rem]";
 const accountModalCardClassName =
   "rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] " +
-  "p-[0.95rem_1rem] text-[color:var(--glass-modal-text)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
-  "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] [.theme-dark_&]:shadow-[0_6px_14px_rgba(0,0,0,0.22),0_10px_18px_-18px_rgba(248,253,255,0.24)] " +
-  "[.theme-night_&]:bg-[rgba(16,22,34,0.4)] [.theme-night_&]:shadow-[0_6px_14px_rgba(0,0,0,0.24),0_10px_18px_-18px_rgba(188,220,255,0.14)] " +
+  "p-[0.95rem_1rem] text-[color:var(--glass-modal-text)] shadow-none " +
+  "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] " +
+  "[.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
   "[.theme-mid_&]:border-[rgba(132,72,68,0.18)] [.theme-mid_&]:bg-[rgba(251,242,239,0.9)] [.theme-mid_&]:text-[#3f4756] " +
   "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
 const accountModalActionRowClassName = "flex items-center justify-between gap-3 max-[560px]:flex-col max-[560px]:items-start";
@@ -444,7 +447,7 @@ export default function ProfiilBody({
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
     !embedded && "min-[48.0625em]:sr-only",
-    "max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]"
+    "max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)] max-[48em]:!px-[clamp(4.2rem,17vw,5.4rem)]"
   );
   const headerCenterClassName = cn(
     headerCenterBaseClassName,
@@ -1008,25 +1011,25 @@ export default function ProfiilBody({
             </button>
           </div>
           <div className={profileMobileActionStackClassName}>
+            <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
+              <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
+              <span className={logoutLabelClassName}>{t("profile.logout_short")}</span>
+              <span className="sr-only">{t("profile.logout")}</span>
+            </button>
             {isAdminUser ? (
               <Button
-                variant="primary"
-                className={profileMobileRoleToggleButtonClassName}
+                variant="linkBrand"
+                className={profileMobileRoleToggleLinkClassName}
                 onClick={() => {
                   void handleAdminViewRoleChange(nextPreviewRole);
                 }}
                 disabled={roleSwitching}
                 aria-label={nextPreviewRoleLabel}
               >
-                <RoleToggleDockIcon className="h-[1.42rem] w-[1.42rem] shrink-0" />
+                <RoleToggleDockIcon className="h-[1.04rem] w-[1.04rem] shrink-0" />
                 <span>{nextPreviewRoleLabel}</span>
               </Button>
             ) : null}
-            <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
-              <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
-              <span className={logoutLabelClassName}>{t("profile.logout_short")}</span>
-              <span className="sr-only">{t("profile.logout")}</span>
-            </button>
           </div>
         </div>
       )}
