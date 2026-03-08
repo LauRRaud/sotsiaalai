@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -11,8 +11,8 @@ import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
-import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleMobileLongClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { localizeInternalHtmlLinks } from "@/lib/localizeHtmlLinks";
@@ -22,14 +22,14 @@ import { policySectionBodyClassName, policySectionClassName, policySectionHeadin
 import { policyDesktopBottomFadeOverlayClassName, policyDesktopBottomFadeOverlayStyle, shouldShowPolicyDesktopBottomFade } from "@/components/alalehed/policyBottomFadeOverlay";
 import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
-const titleClassName = cn(glassPageTitleClassName, glassPageTitleMobileHeaderClassName, glassPolicyTitleMobileLongClassName);
+const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "before_use", "quickstart"];
 const guideLinkClassName = cn("inline-flex items-center justify-center text-center", linkBrandInlineClass);
 export default function KasutusjuhendBody() {
   const [expanded, setExpanded] = useState(false);
-  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(false);
+  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(true);
   const router = useRouter();
   const {
     t,
@@ -46,7 +46,7 @@ export default function KasutusjuhendBody() {
     isExpandedLayout,
     isMobilePolicyLayout
   });
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     const media = window.matchMedia("(max-width: 768px), (pointer: coarse)");
     const updateLayout = () => setIsMobilePolicyLayout(media.matches);
@@ -127,7 +127,6 @@ export default function KasutusjuhendBody() {
             titleClassName,
             glassPolicyTitleOffsetClassName,
             "guide-page-title",
-            "max-[1024px]:!w-full max-[1024px]:!max-w-none max-[1024px]:!ml-0 max-[1024px]:!mr-auto max-[1024px]:!text-left max-[1024px]:!pl-[clamp(2.85rem,9.8vw,3.55rem)] max-[1024px]:!pr-[clamp(0.45rem,2.2vw,0.8rem)]",
             isExpandedLayout ? glassPolicyTitleExpandedClassName : null
           )}
         >

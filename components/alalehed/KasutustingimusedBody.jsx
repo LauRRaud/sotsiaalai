@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
@@ -9,8 +9,8 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
-import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleMobileLongClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { getFooterNote } from "@/lib/footerNote";
@@ -19,7 +19,7 @@ import { policyDesktopBottomFadeOverlayClassName, policyDesktopBottomFadeOverlay
 import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionListClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
 import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
-const titleClassName = cn(glassPageTitleClassName, glassPageTitleMobileHeaderClassName, glassPolicyTitleMobileLongClassName);
+const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
 const richLinkClassName = "inline-block text-[1.1em] font-[500] tracking-[0.03em] px-[0.2em] py-[0.02em] rounded-[0.32em] border-2 border-transparent no-underline transition-[border,box-shadow,color] duration-150 text-[#c57171] hover:border-[#c57171] hover:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] focus-visible:border-[#c57171] focus-visible:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] light:text-[#7A3A38] light:hover:border-[#7A3A38] light:focus-visible:border-[#7A3A38]";
@@ -31,7 +31,7 @@ const emailReplacement = {
 };
 export default function KasutustingimusedBody() {
   const [expanded, setExpanded] = useState(false);
-  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(false);
+  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(true);
   const router = useRouter();
   const {
     t,
@@ -56,7 +56,7 @@ export default function KasutustingimusedBody() {
     isExpandedLayout,
     isMobilePolicyLayout
   });
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     const media = window.matchMedia("(max-width: 768px), (pointer: coarse)");
     const updateLayout = () => setIsMobilePolicyLayout(media.matches);
@@ -182,7 +182,6 @@ export default function KasutustingimusedBody() {
           className={cn(
             titleClassName,
             glassPolicyTitleOffsetClassName,
-            "max-[1024px]:!w-full max-[1024px]:!max-w-none max-[1024px]:!ml-0 max-[1024px]:!mr-auto max-[1024px]:!text-left max-[1024px]:!pl-[clamp(2.85rem,9.8vw,3.55rem)] max-[1024px]:!pr-[clamp(0.45rem,2.2vw,0.8rem)]",
             isExpandedLayout ? glassPolicyTitleExpandedClassName : null
           )}
         >
