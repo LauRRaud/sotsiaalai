@@ -95,14 +95,20 @@ const orbitRoleToggleButtonClassName =
   "whitespace-normal text-center leading-[1.16] px-[1.22rem] py-[0.76rem] text-[1.02rem] min-h-[2.7rem] " +
   "max-[48em]:!min-h-[3rem] max-[48em]:!px-[1.35rem] max-[48em]:!py-[0.8rem] max-[48em]:!text-[1.14rem]";
 const profileMobileActionStackClassName =
-  "profile-mobile-action-stack absolute z-[95] flex flex-col items-center gap-[clamp(0.7rem,3vw,1rem)] pointer-events-auto min-[48.0625em]:hidden";
+  "profile-mobile-action-stack absolute left-1/2 z-[95] flex w-auto max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-col items-center justify-center gap-[clamp(0.28rem,1.8vw,0.58rem)] pointer-events-auto min-[48.0625em]:hidden " +
+  "max-[48em]:!fixed max-[48em]:!left-[50vw] max-[48em]:!right-auto max-[48em]:!top-auto " +
+  "max-[48em]:!bottom-[calc(env(safe-area-inset-bottom,0px)+5.2rem)] max-[48em]:!translate-x-[-50%] max-[48em]:!translate-y-0 " +
+  "max-[48em]:!w-max max-[48em]:!max-w-[calc(100vw-2rem)] max-[48em]:!m-0";
 const profileMobileRoleToggleLinkClassName =
-  "profile-mobile-role-toggle-link inline-flex items-center justify-center gap-[0.34rem] " +
-  "!px-[0.16rem] !py-0 !text-[0.98rem] leading-[1.16] tracking-[0.02em] " +
-  "max-w-[min(16rem,66vw)] text-center [text-wrap:balance] " +
-  "underline decoration-[1.5px] underline-offset-[0.23em] mt-[0.1rem]";
+  "profile-mobile-role-toggle-link !inline-flex w-auto items-center justify-center gap-[0.34rem] self-center max-[48em]:!self-center " +
+  "!p-0 !text-[0.98rem] leading-[1.16] tracking-[0.02em] " +
+  "max-w-[min(15.5rem,76vw)] text-center [text-wrap:balance] mt-0 mx-auto max-[48em]:!mx-auto " +
+  "!rounded-none !border-transparent !shadow-none !no-underline " +
+  "hover:!border-transparent hover:!shadow-none hover:!no-underline " +
+  "focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!no-underline " +
+  "active:!border-transparent active:!shadow-none active:!no-underline";
 const logoutButtonClassName =
-  "group relative grid place-items-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
+  "group relative grid place-items-center self-center max-[48em]:!self-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
 const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
@@ -117,7 +123,7 @@ const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
 const profileLogoutWrapClassName =
   `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto translate-x-[-0.68rem] ` +
-  "max-[48em]:z-[95]";
+  "max-[48em]:!hidden max-[48em]:z-[95]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";
@@ -423,9 +429,13 @@ export default function ProfiilBody({
   useEffect(() => {
     if (typeof window === "undefined") return;
     const updateViewport = () => {
+      const ua = typeof navigator !== "undefined" ? navigator.userAgent || "" : "";
+      const uaMobile =
+        Boolean(typeof navigator !== "undefined" && "userAgentData" in navigator && navigator.userAgentData?.mobile) ||
+        /Android|iPhone|iPad|iPod|Windows Phone|IEMobile|Opera Mini|Mobile/i.test(ua);
       const matchWidth = window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches;
       const matchCoarse = window.matchMedia?.(COARSE_POINTER_QUERY)?.matches;
-      setIsMobileProfileMenu(Boolean(matchWidth || matchCoarse || window.innerWidth <= 768));
+      setIsMobileProfileMenu(Boolean(uaMobile || matchWidth || matchCoarse || window.innerWidth <= 768));
     };
     updateViewport();
     window.addEventListener("resize", updateViewport);
@@ -1011,11 +1021,6 @@ export default function ProfiilBody({
             </button>
           </div>
           <div className={profileMobileActionStackClassName}>
-            <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
-              <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
-              <span className={logoutLabelClassName}>{t("profile.logout_short")}</span>
-              <span className="sr-only">{t("profile.logout")}</span>
-            </button>
             {isAdminUser ? (
               <Button
                 variant="linkBrand"
@@ -1030,6 +1035,11 @@ export default function ProfiilBody({
                 <span>{nextPreviewRoleLabel}</span>
               </Button>
             ) : null}
+            <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
+              <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
+              <span className={logoutLabelClassName}>{t("profile.logout_short")}</span>
+              <span className="sr-only">{t("profile.logout")}</span>
+            </button>
           </div>
         </div>
       )}

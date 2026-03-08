@@ -238,6 +238,7 @@ export default function ChatComposer({
     void submitSend();
   }, [composerMode, draft, isGenerating, isMobile, submitDeepResearch, submitSend]);
   const inputRowClassName =
+    `${embedded ? "chat-input-row--embedded " : ""}` +
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
     "transition-[transform,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform max-[768px]:transition-none";
   const inputRowModeClassName = embedded

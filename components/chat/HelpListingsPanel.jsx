@@ -32,6 +32,7 @@ export default function HelpListingsPanel({
   onLoadMore,
   onSelectItem,
   onClose,
+  onBackToProfile,
   emptyText = ""
 }) {
   const { t } = useI18n();
@@ -73,13 +74,13 @@ export default function HelpListingsPanel({
       contentClassName="help-listings-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] relative overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] leading-[1.35] tracking-[0.024rem] max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!max-h-[100dvh] max-[768px]:!rounded-none max-[768px]:!px-[0.3rem] max-[768px]:!pt-[0.35rem] max-[768px]:!pb-[calc(env(safe-area-inset-bottom,0px)+0.8rem)]"
     >
       <BackButton
-        onClick={onClose}
-        ariaLabel={ui.close}
+        onClick={onBackToProfile || onClose}
+        ariaLabel={onBackToProfile ? t("buttons.back") : ui.close}
         className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[768px]:!h-[4.4rem] max-[768px]:!w-[4.4rem] max-[768px]:[&>svg]:!h-[4.4rem] max-[768px]:[&>svg]:!w-[4.4rem]"
       />
 
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
-        <h2 className={`${glassPageTitleClassName} max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.75rem)] max-[768px]:translate-y-[0.32rem]`}>
+        <h2 className={`${glassPageTitleClassName} w-full max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.75rem)] max-[768px]:translate-y-[0.32rem] max-[768px]:px-[clamp(4.2rem,17vw,5.4rem)]`}>
           {title}
         </h2>
       </header>

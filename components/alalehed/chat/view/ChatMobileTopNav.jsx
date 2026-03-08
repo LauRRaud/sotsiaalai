@@ -1,6 +1,5 @@
 "use client";
 
-import { createPortal } from "react-dom";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import BackButton from "@/components/ui/BackButton";
@@ -68,9 +67,7 @@ export default function ChatMobileTopNav({
   const showButtonRef = useRef(null);
   const itemButtonRefs = useRef({});
   const tooltipHideTimerRef = useRef(0);
-  const [isMounted, setIsMounted] = useState(false);
   const [armedKey, setArmedKey] = useState("");
-  const [tooltipState, setTooltipState] = useState(null);
 
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
@@ -103,42 +100,20 @@ export default function ChatMobileTopNav({
     }
     tooltipHideTimerRef.current = 0;
     setArmedKey("");
-    setTooltipState(null);
   }, []);
 
   const showTooltip = useCallback(
-    (key, label, element, durationMs = 1650) => {
-      if (!(element instanceof HTMLElement) || typeof window === "undefined") {
+    (key, _label, _element, durationMs = 1650) => {
+      if (typeof window === "undefined") {
         return;
       }
-      const rect = element.getBoundingClientRect();
-      const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
-      const maxInset = 8;
-      const tooltipMaxWidthPx = Math.min(viewportWidth * 0.86, 208);
-      const labelLength = String(label || "").trim().length;
-      const estimatedTooltipWidth = Math.min(
-        tooltipMaxWidthPx,
-        Math.max(76, labelLength * 9 + 30)
-      );
-      const halfTooltipSafe = Math.max(maxInset, estimatedTooltipWidth / 2 + 4);
-      const anchorLeft = Math.min(
-        Math.max(rect.left + rect.width / 2, halfTooltipSafe),
-        Math.max(halfTooltipSafe, viewportWidth - halfTooltipSafe)
-      );
-      const nextTooltipState = {
-        label,
-        left: anchorLeft,
-        top: rect.bottom + 8
-      };
       if (tooltipHideTimerRef.current) {
         window.clearTimeout(tooltipHideTimerRef.current);
       }
       setArmedKey(key);
-      setTooltipState(nextTooltipState);
       tooltipHideTimerRef.current = window.setTimeout(() => {
         tooltipHideTimerRef.current = 0;
         setArmedKey("");
-        setTooltipState(null);
       }, durationMs);
     },
     []
@@ -159,7 +134,6 @@ export default function ChatMobileTopNav({
   );
 
   useEffect(() => {
-    setIsMounted(true);
     return () => {
       if (typeof window !== "undefined" && tooltipHideTimerRef.current) {
         window.clearTimeout(tooltipHideTimerRef.current);
@@ -364,6 +338,12 @@ export default function ChatMobileTopNav({
     const isDisabled =
       item.key === "sources" ? !hasConversationSources : false;
     const isActive = activeKey === item.key;
+    const mobileLabelPositionClass =
+      item.key === "chats" || item.key === "sources"
+        ? "left-0 translate-x-0 text-left"
+        : item.key === "rooms" || item.key === "invite" || item.key === "profile"
+          ? "left-auto right-0 translate-x-0 text-right"
+          : "left-1/2 -translate-x-1/2 text-center";
     const setSourcesRef = element => {
       itemButtonRefs.current[item.key] = element;
       if (item.key !== "sources") return;
@@ -412,13 +392,24 @@ export default function ChatMobileTopNav({
           }
         }}
         className={cn(
-          "shrink-0 inline-flex h-[clamp(2.62rem,10.8vw,3.02rem)] w-[clamp(2.62rem,10.8vw,3.02rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 touch-manipulation transition-[transform,opacity] duration-150 focus-visible:scale-[1.03] active:scale-[0.97]",
+          "relative shrink-0 inline-flex h-[clamp(2.62rem,10.8vw,3.02rem)] w-[clamp(2.62rem,10.8vw,3.02rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 touch-manipulation transition-[transform,opacity] duration-150 focus-visible:scale-[1.03] active:scale-[0.97]",
           item.key === "chats" ? "-translate-x-[0.18rem]" : null,
           isActive ? "opacity-100" : null,
           "opacity-100"
         )}
       >
         {renderIcon(item)}
+        {armedKey === item.key ? (
+          <span
+            className={cn(
+              "pointer-events-none absolute top-[calc(100%+0.18rem)] z-[160] w-max max-w-[min(52vw,10.5rem)] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.08rem,4.3vw,1.28rem)] leading-[1.14] font-medium tracking-[0.01em] text-[#c57171] opacity-[0.96] light:text-[#7a3a38]",
+              mobileLabelPositionClass
+            )}
+            aria-hidden="true"
+          >
+            {labels[item.key]}
+          </span>
+        ) : null}
       </button>
     );
   };
@@ -445,8 +436,8 @@ export default function ChatMobileTopNav({
           }
         }}
         ariaLabel={labels.back}
-        className="shrink-0 !h-[clamp(3.6rem,14.8vw,4.1rem)] !w-[clamp(3.6rem,14.8vw,4.1rem)] rounded-full"
-        iconClassName="!h-[128%] !w-[128%]"
+        className="shrink-0 !h-[clamp(3.82rem,15.7vw,4.32rem)] !w-[clamp(3.82rem,15.7vw,4.32rem)] rounded-full"
+        iconClassName="!h-[132%] !w-[132%]"
       />
 
       {!mobileRailVisible ? (
@@ -468,11 +459,11 @@ export default function ChatMobileTopNav({
             }}
             disabled={mobileRailInteractionLocked}
             aria-label={labels.show}
-            className="inline-flex h-[clamp(3.08rem,12.8vw,3.46rem)] w-[clamp(3.08rem,12.8vw,3.46rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] opacity-95 touch-manipulation transition-[transform,opacity] duration-150 focus-visible:scale-[1.03] active:scale-[0.97] disabled:opacity-55"
+            className="inline-flex h-[clamp(3.34rem,13.9vw,3.78rem)] w-[clamp(3.34rem,13.9vw,3.78rem)] items-center justify-center rounded-full border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] opacity-95 touch-manipulation transition-[transform,opacity] duration-150 focus-visible:scale-[1.03] active:scale-[0.97] disabled:opacity-55"
           >
             <ShowRailIcon
               isLightTheme={isLightTheme}
-              className="h-[92%] w-[92%]"
+              className="h-[96%] w-[96%]"
             />
           </button>
         </div>
@@ -483,22 +474,6 @@ export default function ChatMobileTopNav({
           </div>
         </div>
       )}
-      {isMounted && tooltipState && typeof document !== "undefined"
-        ? createPortal(
-            <div
-              className="pointer-events-none fixed z-[160] max-w-[min(86vw,13rem)] whitespace-normal break-words text-center rounded-[0.72rem] border-0 bg-transparent px-[0.32rem] py-[0.12rem] text-[clamp(0.94rem,3.7vw,1.12rem)] leading-[1.2] font-medium tracking-[0.01em] text-[#c57171] opacity-[0.96] shadow-none light:bg-transparent light:text-[#7a3a38]"
-              style={{
-                left: tooltipState.left,
-                top: tooltipState.top,
-                transform: "translateX(-50%)"
-              }}
-              role="tooltip"
-            >
-              {tooltipState.label}
-            </div>,
-            document.body
-          )
-        : null}
     </div>
   );
 }

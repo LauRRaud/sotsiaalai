@@ -291,6 +291,7 @@ export default function ChatBody({
   const maskRefreshRef = useRef(null);
   const {
     profileOpen,
+    openProfile,
     closeProfile,
     toggleProfile
   } = useChatProfileRoll({
@@ -516,6 +517,16 @@ export default function ChatBody({
       error: ""
     });
   }, []);
+  const backToProfileFromListingsPanel = useCallback(() => {
+    closeListingsPanel();
+    if (typeof window === "undefined") {
+      openProfile();
+      return;
+    }
+    window.requestAnimationFrame(() => {
+      openProfile();
+    });
+  }, [closeListingsPanel, openProfile]);
   const openSelectedListing = useCallback(async (item) => {
     const kind = String(item?.kind || "").trim().toLowerCase();
     const id = String(item?.id || "").trim();
@@ -999,6 +1010,7 @@ export default function ChatBody({
       nextOffset={listingsPanelState.nextOffset}
       emptyText={activeListingsPanel.emptyText}
       onClose={closeListingsPanel}
+      onBackToProfile={backToProfileFromListingsPanel}
       onLoadMore={() => loadListingsPanel(activeListingsPanel, { append: true })}
       onSelectItem={openSelectedListing}
     />

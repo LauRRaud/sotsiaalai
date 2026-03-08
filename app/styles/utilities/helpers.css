@@ -1090,17 +1090,17 @@ html[data-contrast="hc"] {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: clamp(-0.34rem, -0.62vh, -0.16rem);
-    height: clamp(2.3rem, 4.3vh, 3.2rem);
+    bottom: clamp(-0.56rem, -0.94vh, -0.28rem);
+    height: clamp(4.2rem, 7.4vh, 5.9rem);
     pointer-events: none;
     z-index: 12;
     background: linear-gradient(
       to top,
       rgba(var(--policy-bottom-fade-rgb), 1) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 1) 46%,
-      rgba(var(--policy-bottom-fade-rgb), 0.95) 68%,
-      rgba(var(--policy-bottom-fade-rgb), 0.72) 82%,
-      rgba(var(--policy-bottom-fade-rgb), 0.34) 93%,
+      rgba(var(--policy-bottom-fade-rgb), 1) 62%,
+      rgba(var(--policy-bottom-fade-rgb), 0.99) 78%,
+      rgba(var(--policy-bottom-fade-rgb), 0.88) 88%,
+      rgba(var(--policy-bottom-fade-rgb), 0.58) 95%,
       rgba(var(--policy-bottom-fade-rgb), 0) 100%
     );
   }
@@ -1449,10 +1449,10 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   display: none !important;
 }
 
-/* Keep policy fades symmetrical (top and bottom use mirrored stops). */
+/* Desktop ring mode needs a longer, stronger bottom fade so text clears the curve. */
 .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
 .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
-  padding-bottom: clamp(4.6rem, 8.8vh, 6.2rem) !important;
+  padding-bottom: clamp(7.2rem, 13.6vh, 9.4rem) !important;
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
@@ -1461,11 +1461,11 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     rgba(0, 0, 0, 0.26) 4.4%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 86.8%,
-    rgba(0, 0, 0, 0.98) 91.2%,
-    rgba(0, 0, 0, 0.78) 94.2%,
-    rgba(0, 0, 0, 0.42) 96.8%,
-    rgba(0, 0, 0, 0.14) 98.6%,
+    #000 73.4%,
+    rgba(0, 0, 0, 0.99) 79.2%,
+    rgba(0, 0, 0, 0.86) 84.8%,
+    rgba(0, 0, 0, 0.58) 90.6%,
+    rgba(0, 0, 0, 0.26) 95.6%,
     transparent 100%
   ) !important;
   -webkit-mask-image: linear-gradient(
@@ -1476,11 +1476,11 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     rgba(0, 0, 0, 0.26) 4.4%,
     rgba(0, 0, 0, 0.48) 6.8%,
     #000 9.2%,
-    #000 86.8%,
-    rgba(0, 0, 0, 0.98) 91.2%,
-    rgba(0, 0, 0, 0.78) 94.2%,
-    rgba(0, 0, 0, 0.42) 96.8%,
-    rgba(0, 0, 0, 0.14) 98.6%,
+    #000 73.4%,
+    rgba(0, 0, 0, 0.99) 79.2%,
+    rgba(0, 0, 0, 0.86) 84.8%,
+    rgba(0, 0, 0, 0.58) 90.6%,
+    rgba(0, 0, 0, 0.26) 95.6%,
     transparent 100%
   ) !important;
 }

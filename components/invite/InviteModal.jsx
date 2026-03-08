@@ -11,6 +11,7 @@ import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
+
 function parseEmails(raw) {
   if (!raw) return [];
   const list = String(raw).split(/[,;\n\r]/).map(s => s.trim().toLowerCase()).filter(Boolean);
