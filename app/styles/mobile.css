@@ -1775,15 +1775,36 @@
     overflow: hidden !important;
   }
 
+  .policy-mobile-title--static {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    white-space: normal !important;
+    text-wrap: balance !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: manual !important;
+    overflow: visible !important;
+    font-size: clamp(1.72rem, 6.2vw, 2.12rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0.004em !important;
+  }
+
   html:not([data-platform="android"]) .policy-mobile-title-wrap {
-    --policy-title-inline-start: clamp(2.95rem, 9.8vw, 3.45rem) !important;
+    --policy-title-inline-start: clamp(3.7rem, 12.2vw, 4.45rem) !important;
     --policy-title-inline-end: var(--policy-title-inline-start) !important;
   }
 
   html[data-platform="android"] .policy-mobile-title-wrap,
   body[data-platform="android"] .policy-mobile-title-wrap {
-    --policy-title-inline-start: clamp(2.8rem, 9.1vw, 3.28rem) !important;
+    --policy-title-inline-start: clamp(3.35rem, 10.9vw, 3.95rem) !important;
     --policy-title-inline-end: var(--policy-title-inline-start) !important;
+  }
+
+  html[data-platform="android"] .policy-mobile-title--static,
+  body[data-platform="android"] .policy-mobile-title--static {
+    font-size: clamp(1.62rem, 5.8vw, 1.94rem) !important;
+    line-height: 1.08 !important;
   }
 
 }

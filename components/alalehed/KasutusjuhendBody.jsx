@@ -4,7 +4,6 @@ import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
-import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
@@ -108,20 +107,17 @@ export default function KasutusjuhendBody() {
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
         <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-          <AutoFitPageTitle
+          <h1
             id="kasutusjuhend-title"
             className={cn(
-              "subpage-mobile-title policy-mobile-title max-[768px]:!mt-0 max-[768px]:!mb-0",
+              "subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0",
               titleClassName,
               glassPolicyTitleOffsetClassName,
-              "max-[768px]:[--subpage-title-tracking:0.003em]",
-              "max-[768px]:[--fit-title-max-px:36]",
               isExpandedLayout ? glassPolicyTitleExpandedClassName : null
             )}
-            minFontPx={18}
           >
             {t("about.guide.short_title")}
-          </AutoFitPageTitle>
+          </h1>
         </div>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "guide-policy-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           {showDesktopBottomFade ? <div aria-hidden className={policyDesktopBottomFadeOverlayClassName} style={policyDesktopBottomFadeOverlayStyle} /> : null}
