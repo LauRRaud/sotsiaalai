@@ -90,27 +90,9 @@ const orbitWrapperClassName =
   "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
-const orbitRoleToggleWrapClassName =
-  "absolute left-1/2 top-[calc(50%+clamp(6.15rem,24vw,7.45rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
-  "-translate-x-1/2 z-[6] pointer-events-auto max-[48em]:hidden";
-const orbitRoleToggleLinkClassName =
-  "profile-orbit-role-toggle-link !inline-flex w-auto items-center justify-center gap-[0.34rem] self-center " +
-  "!p-0 !text-[1.32rem] leading-[1.14] tracking-[0.02em] text-center [text-wrap:balance] mt-0 mx-auto " +
-  "!rounded-none !border-transparent !shadow-none !no-underline " +
-  "hover:!border-transparent hover:!shadow-none hover:!no-underline " +
-  "focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!no-underline " +
-  "active:!border-transparent active:!shadow-none active:!no-underline";
 const profileMobileActionStackClassName =
   "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+4.7rem)] z-[95] flex w-full flex-col items-center justify-center " +
   "gap-[clamp(0.28rem,1.8vw,0.58rem)] px-[1rem] pointer-events-auto min-[48.0625em]:hidden";
-const profileMobileRoleToggleLinkClassName =
-  "profile-mobile-role-toggle-link !inline-flex w-auto items-center justify-center gap-[0.34rem] self-center max-[48em]:!self-center " +
-  "!p-0 !text-[0.98rem] leading-[1.16] tracking-[0.02em] " +
-  "max-w-[min(15.5rem,76vw)] text-center [text-wrap:balance] mt-0 mx-auto max-[48em]:!mx-auto " +
-  "!rounded-none !border-transparent !shadow-none !no-underline " +
-  "hover:!border-transparent hover:!shadow-none hover:!no-underline " +
-  "focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!no-underline " +
-  "active:!border-transparent active:!shadow-none active:!no-underline";
 const logoutButtonClassName =
   "profile-logout-button group relative grid place-items-center self-center max-[48em]:!self-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
 const logoutIconClassName = "profile-logout-icon h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
@@ -892,6 +874,35 @@ export default function ProfiilBody({
     }
     openProfileHelpPanel(panelKey);
   }, [embedded, openProfileHelpPanel]);
+  const handleAdminViewRoleChange = useCallback(async nextRole => {
+    if (!isAdminUser || roleSwitching) return;
+    setError("");
+    setRoleSwitching(true);
+    try {
+      const res = await fetch("/api/profile/view-role", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept-Language": locale
+        },
+        body: JSON.stringify({ viewRole: nextRole })
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(payload?.error || payload?.message || t("profile.view_mode.save_failed"));
+        return;
+      }
+      setProfileUser(current => ({
+        ...(current || {}),
+        ...(payload?.user || {})
+      }));
+    } catch (err) {
+      console.error("profile view role PUT", err);
+      setError(t("profile.view_mode.save_failed"));
+    } finally {
+      setRoleSwitching(false);
+    }
+  }, [isAdminUser, locale, roleSwitching, t]);
   const orbitItems = useMemo(() => [{
     key: "theme",
     icon: nextModeIcon,
@@ -939,13 +950,21 @@ export default function ProfiilBody({
     label: t("chat.help.myHelpOffers"),
     labelPos: "down",
     onClick: () => openChatHelpPanel("my_help_offers")
+  }] : []), ...(isAdminUser ? [{
+    key: "view_role",
+    icon: <RoleToggleDockIcon className="h-full w-full" />,
+    label: nextPreviewRoleLabel,
+    labelPos: "down",
+    onClick: () => {
+      void handleAdminViewRoleChange(nextPreviewRole);
+    }
   }] : []), {
     key: "preferences",
     icon: <PreferencesDockIcon />,
     label: t("profile.preferences.title"),
     labelPos: "down",
     onClick: () => openA11y?.()
-  }], [embedded, handleModeSwitch, isLightTheme, isMobileProfileMenu, locale, nextModeIcon, nextModeLabel, openA11y, openChatHelpPanel, router, t]);
+  }], [embedded, handleAdminViewRoleChange, handleModeSwitch, isAdminUser, isLightTheme, isMobileProfileMenu, locale, nextModeIcon, nextModeLabel, nextPreviewRole, nextPreviewRoleLabel, openA11y, openChatHelpPanel, router, t]);
   const handleBack = useCallback(() => {
     if (typeof onBack === "function") {
       onBack();
@@ -1031,35 +1050,6 @@ export default function ProfiilBody({
       setLoggingOutEverywhere(false);
     }
   };
-  const handleAdminViewRoleChange = useCallback(async nextRole => {
-    if (!isAdminUser || roleSwitching) return;
-    setError("");
-    setRoleSwitching(true);
-    try {
-      const res = await fetch("/api/profile/view-role", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept-Language": locale
-        },
-        body: JSON.stringify({ viewRole: nextRole })
-      });
-      const payload = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(payload?.error || payload?.message || t("profile.view_mode.save_failed"));
-        return;
-      }
-      setProfileUser(current => ({
-        ...(current || {}),
-        ...(payload?.user || {})
-      }));
-    } catch (err) {
-      console.error("profile view role PUT", err);
-      setError(t("profile.view_mode.save_failed"));
-    } finally {
-      setRoleSwitching(false);
-    }
-  }, [isAdminUser, locale, roleSwitching, t]);
   useEffect(() => {
     if (embedded && !isActive) return;
     if (status === "loading") return;
@@ -1144,9 +1134,9 @@ export default function ProfiilBody({
         </span>
       </div>
 
-      <div className={orbitLayerClassName}>
-        <div className={orbitWrapperClassName} style={{ marginTop: 0, marginBottom: 0 }}>
-          <OrbitalMenu
+        <div className={orbitLayerClassName}>
+          <div className={orbitWrapperClassName} style={{ marginTop: 0, marginBottom: 0 }}>
+            <OrbitalMenu
             items={orbitItems}
             ariaLabel={t("profile.actions_label")}
             toggleLabelOpen={t("profile.actions_label")}
@@ -1154,26 +1144,10 @@ export default function ProfiilBody({
             mobileVariant="stack"
             mobileBackItem={mobileBackItem}
             className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem]"
-            onOpenChange={setOrbitOpen}
-          />
-        </div>
-        {isAdminUser && !orbitOpen ? (
-          <div className={orbitRoleToggleWrapClassName}>
-            <Button
-              variant="linkBrand"
-              className={orbitRoleToggleLinkClassName}
-              onClick={() => {
-                void handleAdminViewRoleChange(nextPreviewRole);
-              }}
-              disabled={roleSwitching}
-              aria-label={nextPreviewRoleLabel}
-            >
-              <RoleToggleDockIcon className="h-[1.3rem] w-[1.3rem] shrink-0" />
-              <span>{nextPreviewRoleLabel}</span>
-            </Button>
+              onOpenChange={setOrbitOpen}
+            />
           </div>
-        ) : null}
-      </div>
+        </div>
 
       {!orbitOpen && (
         <>
@@ -1188,20 +1162,6 @@ export default function ProfiilBody({
             </div>
           </div>
           <div className={profileMobileActionStackClassName}>
-            {isAdminUser ? (
-              <Button
-                variant="linkBrand"
-                className={profileMobileRoleToggleLinkClassName}
-                onClick={() => {
-                  void handleAdminViewRoleChange(nextPreviewRole);
-                }}
-                disabled={roleSwitching}
-                aria-label={nextPreviewRoleLabel}
-              >
-                <RoleToggleDockIcon className="h-[1.04rem] w-[1.04rem] shrink-0" />
-                <span>{nextPreviewRoleLabel}</span>
-              </Button>
-            ) : null}
             <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
               <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
               <span className={logoutLabelClassName}>{t("profile.logout_short")}</span>
