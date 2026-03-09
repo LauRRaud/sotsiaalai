@@ -644,6 +644,42 @@
     letter-spacing: 0.008em !important;
   }
 
+  html[data-platform="android"] .help-listings-title,
+  html[data-platform="android"] .selected-listing-title,
+  html[data-platform="android"] .rooms-page-title,
+  body[data-platform="android"] .help-listings-title,
+  body[data-platform="android"] .selected-listing-title,
+  body[data-platform="android"] .rooms-page-title {
+    width: calc(100% - clamp(0.2rem, 1vw, 0.5rem)) !important;
+    max-width: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: clamp(3.55rem, 12.8vw, 4.35rem) !important;
+    padding-right: clamp(0.45rem, 2.4vw, 0.85rem) !important;
+    white-space: normal !important;
+    text-wrap: balance !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+    font-size: clamp(1.6rem, 6.1vw, 2rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: 0.008em !important;
+  }
+
+  html[data-platform="android"] .rooms-page-title,
+  body[data-platform="android"] .rooms-page-title {
+    padding-left: clamp(3.35rem, 11.8vw, 4rem) !important;
+    padding-right: clamp(0.35rem, 2vw, 0.75rem) !important;
+    font-size: clamp(1.52rem, 5.8vw, 1.9rem) !important;
+    line-height: 1.03 !important;
+    letter-spacing: 0.006em !important;
+  }
+
+  html[data-platform="android"] .rooms-page-title-wrap,
+  body[data-platform="android"] .rooms-page-title-wrap {
+    width: min(96%, 28rem) !important;
+  }
+
   html[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     --orbit-size: min(82vw, 18.2rem) !important;
@@ -659,6 +695,14 @@
   body[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack {
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(3.1rem, 9vw, 4.1rem)) !important;
     gap: clamp(0.22rem, 1.2vw, 0.42rem) !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-list,
+  body[data-platform="android"] .profile-orbit-stack-list {
+    justify-content: flex-start !important;
+    overscroll-behavior-y: auto !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
   }
 
   html[data-platform="android"] .profile-container.glass-ring .profile-mobile-role-toggle-link,

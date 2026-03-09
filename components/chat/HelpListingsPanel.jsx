@@ -47,7 +47,7 @@ export default function HelpListingsPanel({
     `${isClosing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const helpListingsTitleClassName =
     `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} ` +
-    `max-[768px]:!text-[clamp(1.9rem,7.1vw,2.2rem)] max-[768px]:!whitespace-nowrap`;
+    `help-listings-title max-[768px]:!text-[clamp(1.9rem,7.1vw,2.2rem)] max-[768px]:!whitespace-nowrap`;
 
   useEffect(() => {
     setIsMounted(true);
