@@ -309,7 +309,7 @@ export default function InviteModal() {
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay person-invite-modal-overlay max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName={inviteModalContentClassName}>
       <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className={glassPageBackTopLeftClassName} />
       <header className="invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
-        <AutoFitPageTitle as="h2" className={inviteModalTitleClassName} minFontPx={16}>
+        <AutoFitPageTitle as="h2" className={inviteModalTitleClassName} minFontPx={18}>
           {t("invite.eyebrow")}
         </AutoFitPageTitle>
       </header>

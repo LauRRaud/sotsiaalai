@@ -84,8 +84,8 @@ const orbitWrapperClassName =
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
   "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
-  "max-[48em]:[--orbit-size:clamp(14.8rem,70vw,18.8rem)] max-[48em]:[--orbit-center-size:clamp(8.25rem,39vw,10.35rem)] " +
-  "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] max-[48em]:mt-[clamp(0.9rem,4.1vw,1.25rem)] max-[48em]:mb-[clamp(0.15rem,0.9vw,0.3rem)] " +
+  "max-[48em]:[--orbit-size:clamp(14.8rem,70vw,18.8rem)] max-[48em]:[--orbit-center-size:clamp(9.4rem,41vw,11.2rem)] " +
+  "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.42)] max-[48em]:mt-[clamp(0.45rem,2.2vw,0.72rem)] max-[48em]:mb-[clamp(0.12rem,0.7vw,0.24rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
   "cursor-[var(--cursor-default)] " +
   "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
@@ -1194,7 +1194,7 @@ export default function ProfiilBody({
                 className={accountModalBackButtonClassName}
               />
               <div className={accountModalTitleWrapClassName}>
-                <AutoFitPageTitle as="h2" className={accountModalTitleClassName} minFontPx={16}>{t("profile.account_settings")}</AutoFitPageTitle>
+                <AutoFitPageTitle as="h2" className={accountModalTitleClassName} minFontPx={18}>{t("profile.account_settings")}</AutoFitPageTitle>
                 <p className={accountModalDescriptionClassName}>{t("profile.account_settings_hint")}</p>
               </div>
             </div>

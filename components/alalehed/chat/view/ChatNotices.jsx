@@ -30,7 +30,7 @@ export function ChatTopNotices({
     "max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)] max-[768px]:mb-[0.62rem]";
 
   return <>
-    {isRoomMode && roomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={15}>
+    {isRoomMode && roomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={17}>
       {roomTitle}
     </AutoFitPageTitle> : null}
     {isCrisis ? <div role="alert" className={chatAlertClassName}>

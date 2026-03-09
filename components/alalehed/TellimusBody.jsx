@@ -217,7 +217,7 @@ export default function TellimusBody() {
         <GlassRing className={ringClassName}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
           <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
-          <AutoFitPageTitle className={titleClassName} minFontPx={17}>
+          <AutoFitPageTitle className={titleClassName} minFontPx={18}>
             {t("subscription.title")}
           </AutoFitPageTitle>
           <div className={contentClassName}>
@@ -239,7 +239,7 @@ export default function TellimusBody() {
         <GlassRing className={cn(ringClassName, loginOpen ? "opacity-0 pointer-events-none" : "opacity-100", "transition-opacity duration-200 ease-out")} aria-hidden={loginOpen ? "true" : undefined}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
           <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
-          <AutoFitPageTitle className={titleClassName} minFontPx={17}>
+          <AutoFitPageTitle className={titleClassName} minFontPx={18}>
             {t("subscription.title")}
           </AutoFitPageTitle>
           <div className={contentClassName}>
@@ -271,7 +271,7 @@ export default function TellimusBody() {
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
-        <AutoFitPageTitle className={titleClassName} minFontPx={17}>
+        <AutoFitPageTitle className={titleClassName} minFontPx={18}>
           {t("subscription.title")}
         </AutoFitPageTitle>
         <div className={contentClassName}>

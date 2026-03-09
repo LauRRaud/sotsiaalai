@@ -178,7 +178,7 @@ export default function UuendaPinBody() {
           holdPressedVisualDisabled
           className={glassPageBackMobileBottomCenterClassName}
         />
-        <AutoFitPageTitle className={titleClassName} minFontPx={17}>
+        <AutoFitPageTitle className={titleClassName} minFontPx={18}>
           {t("profile.change_password_cta")}
         </AutoFitPageTitle>
         <div className={contentClassName}>

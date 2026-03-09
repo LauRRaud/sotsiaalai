@@ -469,7 +469,7 @@ export default function RoomsPage() {
             className="csp-overlayTitle rooms-page-title-wrap [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
             aria-hidden="true"
           >
-            <AutoFitPageTitle className={titleClassName} minFontPx={17}>
+            <AutoFitPageTitle className={titleClassName} minFontPx={18}>
               {t("rooms.title")}
             </AutoFitPageTitle>
           </div>

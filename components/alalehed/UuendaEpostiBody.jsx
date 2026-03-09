@@ -162,7 +162,7 @@ export default function UuendaEpostiBody() {
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
-        <AutoFitPageTitle className={titleClassName} minFontPx={17}>
+        <AutoFitPageTitle className={titleClassName} minFontPx={18}>
           {t("profile.email_update.title")}
         </AutoFitPageTitle>
         <div className={contentClassName}>

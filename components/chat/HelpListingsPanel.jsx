@@ -89,7 +89,7 @@ export default function HelpListingsPanel({
       />
 
         <header className="help-listings-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
-          <AutoFitPageTitle as="h2" className={helpListingsTitleClassName} minFontPx={16}>
+          <AutoFitPageTitle as="h2" className={helpListingsTitleClassName} minFontPx={18}>
             {title}
           </AutoFitPageTitle>
         </header>
