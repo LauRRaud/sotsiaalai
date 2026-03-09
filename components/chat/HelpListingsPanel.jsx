@@ -47,8 +47,7 @@ export default function HelpListingsPanel({
     `${isClosing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const helpListingsTitleClassName =
     `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} ` +
-    `help-listings-title max-[768px]:!text-[clamp(1.18rem,4.25vw,1.42rem)] max-[768px]:!leading-[1.04] ` +
-    `max-[768px]:!px-[clamp(3.15rem,10.8vw,3.7rem)] max-[768px]:!tracking-[0.002em] max-[768px]:!whitespace-nowrap`;
+    `help-listings-title max-[768px]:!text-[clamp(1.9rem,7.1vw,2.2rem)] max-[768px]:!whitespace-nowrap`;
 
   useEffect(() => {
     setIsMounted(true);

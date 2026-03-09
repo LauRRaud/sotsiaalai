@@ -663,7 +663,7 @@
     overflow-wrap: normal !important;
     word-break: normal !important;
     hyphens: none !important;
-    font-size: clamp(1.24rem, 4.45vw, 1.54rem) !important;
+    font-size: clamp(1.34rem, 4.8vw, 1.66rem) !important;
     line-height: 1.04 !important;
     letter-spacing: 0.003em !important;
   }
@@ -672,7 +672,7 @@
   body[data-platform="android"] .rooms-page-title {
     padding-left: clamp(2.95rem, 10.2vw, 3.5rem) !important;
     padding-right: clamp(0.12rem, 0.8vw, 0.32rem) !important;
-    font-size: clamp(1.18rem, 4.2vw, 1.42rem) !important;
+    font-size: clamp(1.28rem, 4.55vw, 1.54rem) !important;
     line-height: 1.04 !important;
     letter-spacing: 0.003em !important;
   }
@@ -759,7 +759,7 @@
     overflow-wrap: normal !important;
     word-break: normal !important;
     hyphens: none !important;
-    font-size: clamp(1.16rem, 4.15vw, 1.4rem) !important;
+    font-size: clamp(1.28rem, 4.55vw, 1.52rem) !important;
     line-height: 1.04 !important;
     letter-spacing: 0.002em !important;
   }
@@ -768,7 +768,7 @@
   body[data-platform="android"] .selected-listing-title {
     padding-left: clamp(2.95rem, 10.2vw, 3.5rem) !important;
     padding-right: clamp(0.12rem, 0.8vw, 0.32rem) !important;
-    font-size: clamp(1.1rem, 3.95vw, 1.34rem) !important;
+    font-size: clamp(1.22rem, 4.3vw, 1.46rem) !important;
     letter-spacing: 0.001em !important;
   }
 

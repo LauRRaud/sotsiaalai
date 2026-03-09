@@ -29,7 +29,7 @@ const ringClassName =
   `max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] ` +
   `max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]`;
 const titleClassName =
-  `rooms-page-title ${glassPageTitleClassName} w-full max-w-full max-[768px]:!text-[clamp(1.18rem,4.2vw,1.42rem)] max-[768px]:!leading-[1.04] max-[768px]:!mt-0 max-[768px]:!mb-0 max-[768px]:!px-[clamp(3.05rem,10.4vw,3.55rem)] max-[768px]:!tracking-[0.002em] max-[768px]:!whitespace-nowrap`;
+  `rooms-page-title ${glassPageTitleClassName} w-full max-w-full max-[768px]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0 max-[768px]:!px-[clamp(4.2rem,17vw,5.4rem)] max-[768px]:!whitespace-nowrap`;
 const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(0.95rem,2.8vh,1.55rem)]";
 const scrollAreaClassName =
   "rooms-scroll relative flex-1 w-full max-w-[clamp(18.2rem,37vw,23.2rem)] min-[769px]:max-w-[clamp(18rem,35vw,22.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.62rem] min-[769px]:px-[0.95rem] text-left csp-container mx-auto";
