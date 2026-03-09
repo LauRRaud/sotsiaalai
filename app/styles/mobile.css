@@ -561,19 +561,20 @@
 
   html[data-platform="android"] .policy-page-title,
   body[data-platform="android"] .policy-page-title {
-    max-width: min(100%, 24rem) !important;
+    width: calc(100% - clamp(0.2rem, 1vw, 0.5rem)) !important;
+    max-width: none !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding-left: clamp(4.1rem, 15vw, 5rem) !important;
-    padding-right: clamp(0.9rem, 4vw, 1.3rem) !important;
+    padding-left: clamp(3.55rem, 12.8vw, 4.4rem) !important;
+    padding-right: clamp(0.45rem, 2.4vw, 0.85rem) !important;
     white-space: normal !important;
     overflow-wrap: normal !important;
-    word-break: keep-all !important;
-    hyphens: auto;
+    word-break: normal !important;
+    hyphens: none !important;
     text-wrap: balance;
-    font-size: clamp(1.84rem, 7.1vw, 2.42rem) !important;
+    font-size: clamp(1.58rem, 6.05vw, 2rem) !important;
     line-height: 1.06 !important;
-    letter-spacing: 0.012em !important;
+    letter-spacing: 0.008em !important;
   }
 
   html[data-platform="android"] .policy-section-heading,
@@ -628,14 +629,19 @@
 
   html[data-platform="android"] .profile-title,
   body[data-platform="android"] .profile-title {
-    max-width: min(100%, 12rem);
+    width: calc(100% - clamp(0.15rem, 0.8vw, 0.42rem)) !important;
+    max-width: none !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding-left: clamp(3.5rem, 13vw, 4.4rem) !important;
-    padding-right: clamp(0.6rem, 2.8vw, 0.95rem) !important;
-    white-space: normal !important;
-    text-wrap: balance;
-    line-height: 1.08 !important;
+    padding-left: clamp(3.6rem, 12.8vw, 4.35rem) !important;
+    padding-right: clamp(0.28rem, 1.4vw, 0.6rem) !important;
+    white-space: nowrap !important;
+    text-wrap: nowrap !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0.008em !important;
   }
 
   html[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
@@ -1605,6 +1611,29 @@
     font-size: clamp(1.9rem, 7.1vw, 2.2rem) !important;
     line-height: 1.06 !important;
     letter-spacing: 0.001em !important;
+  }
+}
+
+@media (max-width: 768px) {
+  html[data-platform="android"] #terms-title,
+  html[data-platform="android"] #privacy-title,
+  html[data-platform="android"] #kasutusjuhend-title,
+  body[data-platform="android"] #terms-title,
+  body[data-platform="android"] #privacy-title,
+  body[data-platform="android"] #kasutusjuhend-title {
+    width: calc(100% - clamp(0.2rem, 1vw, 0.5rem)) !important;
+    max-width: none !important;
+    padding-left: clamp(3.55rem, 12.8vw, 4.4rem) !important;
+    padding-right: clamp(0.45rem, 2.4vw, 0.85rem) !important;
+    text-align: center !important;
+    white-space: normal !important;
+    text-wrap: balance !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+    font-size: clamp(1.58rem, 6.05vw, 2rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: 0.008em !important;
   }
 }
 
