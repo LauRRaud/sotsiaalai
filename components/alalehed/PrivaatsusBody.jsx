@@ -10,7 +10,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
@@ -163,22 +163,21 @@ export default function PrivaatsusBody() {
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
-        <AutoFitPageTitle
-          id="privacy-title"
-          className={cn(
-            "subpage-mobile-title",
-            titleClassName,
-            glassPageTitleMobileHeaderClassName,
-            glassPolicyTitleOffsetClassName,
-            "max-[768px]:[--fit-title-max-px:34]",
-            "max-[768px]:[--subpage-title-start-reserve:clamp(3.55rem,11.8vw,4rem)]",
-            "max-[768px]:[--subpage-title-end-reserve:clamp(0.35rem,1.8vw,0.72rem)]",
-            isExpandedLayout ? glassPolicyTitleExpandedClassName : null
-          )}
-          minFontPx={9}
-        >
-          {t("privacy.title")}
-        </AutoFitPageTitle>
+        <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+          <AutoFitPageTitle
+            id="privacy-title"
+            className={cn(
+              "subpage-mobile-title policy-mobile-title max-[768px]:!mt-0 max-[768px]:!mb-0",
+              titleClassName,
+              glassPolicyTitleOffsetClassName,
+              "max-[768px]:[--fit-title-max-px:34]",
+              isExpandedLayout ? glassPolicyTitleExpandedClassName : null
+            )}
+            minFontPx={9}
+          >
+            {t("privacy.title")}
+          </AutoFitPageTitle>
+        </div>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", "privacy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           {showDesktopBottomFade ? <div aria-hidden className={policyDesktopBottomFadeOverlayClassName} style={policyDesktopBottomFadeOverlayStyle} /> : null}
           <div
