@@ -116,8 +116,7 @@ const BackgroundContent = memo(function BackgroundContent({
   }, []);
   useEffect(() => {
     if (!mounted) return;
-    const cancel = whenVisible(() => onIdle(() => setParticlesReady(true), 1000));
-    return () => cancel?.();
+    setParticlesReady(true);
   }, [mounted]);
   useEffect(() => {
     if (!mounted) return;
@@ -125,8 +124,7 @@ const BackgroundContent = memo(function BackgroundContent({
       setColorBendsReady(false);
       return;
     }
-    const cancel = whenVisible(() => onIdle(() => setColorBendsReady(true), 900));
-    return () => cancel?.();
+    setColorBendsReady(true);
   }, [mounted, prefsHydrated]);
   useEffect(() => {
     if (!mounted) return;
