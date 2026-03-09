@@ -5,7 +5,7 @@ export const glassPolicyRingClassName =
   "max-[768px]:[--glass-ring-scroll-offset-open:clamp(0.95rem,2.4vh,1.6rem)]";
 
 export const glassPolicyTitleOffsetClassName =
-  "!mt-[clamp(2.6rem,5.5vh,3.7rem)] max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+2.3rem)] max-[768px]:mb-[clamp(0.4rem,1.3vh,0.8rem)]";
+  "min-[769px]:!mt-[clamp(2.6rem,5.5vh,3.7rem)]";
 
 export const glassPolicyTitleMobileLongClassName =
   "max-[768px]:!ml-0 max-[768px]:!mr-auto max-[768px]:!w-full max-[768px]:!max-w-none " +

@@ -10,7 +10,7 @@ import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
@@ -173,12 +173,14 @@ export default function KasutustingimusedBody() {
         <AutoFitPageTitle
           id="terms-title"
           className={cn(
-            "policy-page-title",
+            "subpage-mobile-title",
             titleClassName,
+            glassPageTitleMobileHeaderClassName,
             glassPolicyTitleOffsetClassName,
+            "max-[768px]:[--subpage-title-inline-reserve:clamp(3.1rem,10.5vw,3.7rem)]",
             isExpandedLayout ? glassPolicyTitleExpandedClassName : null
           )}
-          minFontPx={16}
+          minFontPx={11}
         >
           {termsTitle}
         </AutoFitPageTitle>

@@ -742,7 +742,7 @@
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-role-row,
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-role-row,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-role-row {
-    transform: translateY(-0.34rem) !important;
+    transform: translateY(clamp(0.95rem, 4.1vw, 1.45rem)) !important;
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
@@ -783,7 +783,7 @@
 
 @media (max-width: 768px) {
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-role-row {
-    transform: translateY(clamp(0.32rem, 1.45vw, 0.52rem)) !important;
+    transform: translateY(clamp(1.2rem, 5vw, 1.7rem)) !important;
   }
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
@@ -1618,31 +1618,35 @@
 }
 
 @media (max-width: 768px) {
-  .subpage-mobile-title,
-  .policy-page-title {
+  .subpage-mobile-title {
+    --fit-title-max-px: 42 !important;
     display: block !important;
+    position: relative !important;
+    z-index: 2 !important;
     box-sizing: border-box !important;
     min-width: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding-left: var(--subpage-title-inline-reserve, clamp(4.45rem, 16vw, 5.15rem)) !important;
-    padding-right: var(--subpage-title-inline-reserve, clamp(4.45rem, 16vw, 5.15rem)) !important;
+    padding-left: var(--subpage-title-inline-reserve, clamp(3.8rem, 13.5vw, 4.45rem)) !important;
+    padding-right: var(--subpage-title-inline-reserve, clamp(3.8rem, 13.5vw, 4.45rem)) !important;
     text-align: center !important;
     white-space: nowrap !important;
     text-wrap: nowrap !important;
     overflow-wrap: normal !important;
     word-break: normal !important;
     hyphens: none !important;
-    font-size: var(--subpage-title-font, clamp(1.72rem, 6.2vw, 2.12rem)) !important;
+    font-size: var(--subpage-title-font, clamp(1.92rem, 6.9vw, 2.42rem)) !important;
     line-height: 1.06 !important;
     letter-spacing: var(--subpage-title-tracking, 0.008em) !important;
     overflow: hidden !important;
     transition: none !important;
     transform: none !important;
     will-change: auto !important;
+    text-shadow: none !important;
   }
+
 }
 
 @keyframes home-scroll-blink {

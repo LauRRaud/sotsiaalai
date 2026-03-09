@@ -10,6 +10,7 @@ export default function AutoFitPageTitle({
   className,
   children,
   minFontPx = 16,
+  maxFontPx = null,
   mobileOnly = true,
   ...props
 }) {
@@ -37,12 +38,24 @@ export default function AutoFitPageTitle({
 
       const computedStyle = window.getComputedStyle(node);
       const baseFontPx = Number.parseFloat(computedStyle.fontSize) || 16;
-      const minFont = Math.min(baseFontPx, minFontPx);
+      const cssMaxFontPx = Number.parseFloat(
+        computedStyle.getPropertyValue("--fit-title-max-px")
+      );
+      const resolvedMaxFont = Number.isFinite(maxFontPx)
+        ? maxFontPx
+        : Number.isFinite(cssMaxFontPx) && cssMaxFontPx > 0
+          ? cssMaxFontPx
+          : baseFontPx;
+      const maxFont = Math.max(1, resolvedMaxFont);
+      const minFont = Math.min(maxFont, Math.min(baseFontPx, minFontPx));
+
+      node.style.fontSize = `${maxFont}px`;
+      node.style.setProperty("--fit-title-font-size", `${maxFont}px`);
 
       if (node.scrollWidth <= availableWidth + 1) return;
 
       let low = minFont;
-      let high = baseFontPx;
+      let high = maxFont;
       let best = minFont;
 
       for (let index = 0; index < 12; index += 1) {
@@ -84,7 +97,7 @@ export default function AutoFitPageTitle({
       resizeObserver?.disconnect?.();
       window.removeEventListener("resize", scheduleFit);
     };
-  }, [children, minFontPx, mobileOnly]);
+  }, [children, maxFontPx, minFontPx, mobileOnly]);
 
   return createElement(
     as,
