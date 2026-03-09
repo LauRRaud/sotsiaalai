@@ -24,15 +24,15 @@ export const glassPageBackMobileCornerClassName =
   `${glassPageBackClassName} ` +
   "max-[768px]:!inline-flex max-[768px]:top-auto max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.2rem)] " +
   "max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+0.2rem)] max-[768px]:translate-y-0 " +
-  "max-[768px]:h-[3.45rem] max-[768px]:w-[3.45rem] max-[768px]:z-[92] " +
-  "max-[768px]:[&>svg]:h-[3.45rem] max-[768px]:[&>svg]:w-[3.45rem]";
+  "max-[768px]:h-[3.2rem] max-[768px]:w-[3.2rem] max-[768px]:z-[92] " +
+  "max-[768px]:[&>svg]:h-[3.2rem] max-[768px]:[&>svg]:w-[3.2rem]";
 
 export const glassPageBackMobileBottomCenterClassName =
   `${glassPageBackClassName} ` +
   "max-[768px]:!inline-flex max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] " +
   "max-[768px]:translate-x-0 max-[768px]:translate-y-0 max-[768px]:bottom-auto " +
-  "max-[768px]:h-[4.85rem] max-[768px]:w-[4.85rem] max-[768px]:z-[92] " +
-  "max-[768px]:[&>svg]:h-[4.85rem] max-[768px]:[&>svg]:w-[4.85rem]";
+  "max-[768px]:h-[4rem] max-[768px]:w-[4rem] max-[768px]:z-[92] " +
+  "max-[768px]:[&>svg]:h-[4rem] max-[768px]:[&>svg]:w-[4rem]";
 
 export const glassPageBackTopLeftClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +

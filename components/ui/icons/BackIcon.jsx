@@ -1,7 +1,7 @@
 import { cn } from "@/components/ui/cn";
 
 const baseClassName =
-  "block h-[5.7rem] w-[5.7rem] min-[769px]:h-[6.4rem] min-[769px]:w-[6.4rem] " +
+  "block h-[4rem] w-[4rem] min-[769px]:h-[6.4rem] min-[769px]:w-[6.4rem] " +
   "[--back-arrow-color:#c57171] [--back-dot-color:#7A3A38] " +
   "light:[--back-arrow-color:#7A3A38] light:[--back-dot-color:#c57171]";
 
