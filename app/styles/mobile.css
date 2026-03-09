@@ -650,31 +650,31 @@
   body[data-platform="android"] .help-listings-title,
   body[data-platform="android"] .selected-listing-title,
   body[data-platform="android"] .rooms-page-title {
+    display: block !important;
+    box-sizing: border-box !important;
     width: calc(100% - clamp(0.2rem, 1vw, 0.5rem)) !important;
     max-width: none !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding-left: clamp(3.35rem, 11.8vw, 4.1rem) !important;
-    padding-right: clamp(0.32rem, 1.8vw, 0.68rem) !important;
-    white-space: normal !important;
-    text-wrap: balance !important;
+    padding-left: clamp(3.1rem, 10.8vw, 3.7rem) !important;
+    padding-right: clamp(0.18rem, 1.1vw, 0.42rem) !important;
+    white-space: nowrap !important;
+    text-wrap: nowrap !important;
     overflow-wrap: normal !important;
     word-break: normal !important;
     hyphens: none !important;
-    font-size: clamp(1.48rem, 5.45vw, 1.82rem) !important;
+    font-size: clamp(1.24rem, 4.45vw, 1.54rem) !important;
     line-height: 1.04 !important;
-    letter-spacing: 0.005em !important;
+    letter-spacing: 0.003em !important;
   }
 
   html[data-platform="android"] .rooms-page-title,
   body[data-platform="android"] .rooms-page-title {
-    padding-left: clamp(3.2rem, 11.2vw, 3.85rem) !important;
-    padding-right: clamp(0.28rem, 1.6vw, 0.62rem) !important;
-    font-size: clamp(1.36rem, 4.95vw, 1.68rem) !important;
+    padding-left: clamp(2.95rem, 10.2vw, 3.5rem) !important;
+    padding-right: clamp(0.12rem, 0.8vw, 0.32rem) !important;
+    font-size: clamp(1.18rem, 4.2vw, 1.42rem) !important;
     line-height: 1.04 !important;
     letter-spacing: 0.003em !important;
-    white-space: normal !important;
-    text-wrap: balance !important;
   }
 
   html[data-platform="android"] .rooms-page-title-wrap,
@@ -752,25 +752,35 @@
 
   html[data-platform="android"] .help-listings-title,
   body[data-platform="android"] .help-listings-title {
-    white-space: normal !important;
-    text-wrap: balance !important;
+    padding-left: clamp(2.95rem, 10.2vw, 3.5rem) !important;
+    padding-right: clamp(0.12rem, 0.8vw, 0.32rem) !important;
+    white-space: nowrap !important;
+    text-wrap: nowrap !important;
     overflow-wrap: normal !important;
     word-break: normal !important;
     hyphens: none !important;
-    font-size: clamp(1.34rem, 4.95vw, 1.64rem) !important;
+    font-size: clamp(1.16rem, 4.15vw, 1.4rem) !important;
     line-height: 1.04 !important;
-    letter-spacing: 0.004em !important;
+    letter-spacing: 0.002em !important;
+  }
+
+  html[data-platform="android"] .selected-listing-title,
+  body[data-platform="android"] .selected-listing-title {
+    padding-left: clamp(2.95rem, 10.2vw, 3.5rem) !important;
+    padding-right: clamp(0.12rem, 0.8vw, 0.32rem) !important;
+    font-size: clamp(1.1rem, 3.95vw, 1.34rem) !important;
+    letter-spacing: 0.001em !important;
   }
 
   html[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    --orbit-size: min(82vw, 18.2rem) !important;
-    --orbit-item-size: clamp(4.55rem, 19vw, 5.5rem) !important;
-    --orbit-item-size-open: clamp(4.8rem, 20.5vw, 5.8rem) !important;
-    --orbit-center-size: clamp(7.9rem, 33.5vw, 9.2rem) !important;
+    --orbit-size: min(88vw, 20.1rem) !important;
+    --orbit-item-size: clamp(4.7rem, 19.8vw, 5.75rem) !important;
+    --orbit-item-size-open: clamp(4.95rem, 21vw, 6.05rem) !important;
+    --orbit-center-size: clamp(8.55rem, 36.5vw, 10.2rem) !important;
     --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.44) !important;
-    margin-top: clamp(0.9rem, 4.2vw, 1.35rem) !important;
-    transform: translateY(clamp(0.18rem, 1vw, 0.34rem)) !important;
+    margin-top: clamp(1.55rem, 6.2vw, 2.25rem) !important;
+    transform: translateY(clamp(0.55rem, 2.2vw, 0.95rem)) !important;
   }
 
   html[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack,
@@ -785,6 +795,17 @@
     overscroll-behavior-y: auto !important;
     -webkit-mask-image: none !important;
     mask-image: none !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-item,
+  body[data-platform="android"] .profile-orbit-stack-item {
+    gap: clamp(0.48rem, 1.8vw, 0.78rem) !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-bubble.dock-item,
+  body[data-platform="android"] .profile-orbit-stack-bubble.dock-item {
+    width: clamp(5.8rem, 24.2vw, 7.1rem) !important;
+    height: clamp(5.8rem, 24.2vw, 7.1rem) !important;
   }
 
   html[data-platform="android"] .profile-orbit-stack-label,
@@ -896,6 +917,14 @@
     transform: none !important;
   }
 
+  html[data-platform="android"][data-display-mode="browser"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"][data-display-mode="browser"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  html[data-platform="android"]:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"]:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(3.05rem, 11vw, 4.15rem) !important;
+    transform: translateY(clamp(0.42rem, 1.8vw, 0.82rem)) !important;
+  }
+
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.75rem, 3.8vw, 1.35rem)) !important;
@@ -904,6 +933,14 @@
   html[data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     margin-top: clamp(2.45rem, 9.5vw, 3.35rem) !important;
     transform: none !important;
+  }
+
+  html[data-platform="android"][data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"][data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  html[data-platform="android"]:not([data-display-mode="standalone"]).profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"]:not([data-display-mode="standalone"]).profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(3.05rem, 11vw, 4.15rem) !important;
+    transform: translateY(clamp(0.42rem, 1.8vw, 0.82rem)) !important;
   }
 
 }
@@ -919,6 +956,12 @@
     transform: translateY(clamp(0.18rem, 0.8vw, 0.34rem)) !important;
   }
 
+  html[data-platform="android"][data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"][data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(2.15rem, 8.4vw, 3rem) !important;
+    transform: translateY(clamp(0.42rem, 1.7vw, 0.78rem)) !important;
+  }
+
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center {
     transform: translateY(clamp(-0.28rem, -1.4vw, -0.16rem)) translateZ(0) scale(1) !important;
@@ -928,6 +971,12 @@
   body[data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     margin-top: clamp(1.45rem, 6.4vw, 2rem) !important;
     transform: translateY(clamp(0.18rem, 0.8vw, 0.34rem)) !important;
+  }
+
+  html[data-platform="android"][data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"][data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(2.15rem, 8.4vw, 3rem) !important;
+    transform: translateY(clamp(0.42rem, 1.7vw, 0.78rem)) !important;
   }
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
