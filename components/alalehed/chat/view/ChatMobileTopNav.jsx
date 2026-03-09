@@ -18,12 +18,12 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 
 const MOBILE_NAV_ITEMS = [
-  { key: "chats", scale: 0.96 },
-  { key: "sources", scale: 0.94 },
-  { key: "help_requests", scale: 1.28 },
-  { key: "help_offers", scale: 1.28 },
-  { key: "profile", scale: 1.08 },
+  { key: "chats", scale: 1.05 },
+  { key: "sources", scale: 1.01 },
+  { key: "help_requests", scale: 1.2 },
+  { key: "help_offers", scale: 1.2 },
   { key: "invite", scale: 1.1 },
+  { key: "profile", scale: 1.08 },
   { key: "rooms", scale: 1.1 }
 ];
 
@@ -557,7 +557,7 @@ export default function ChatMobileTopNav({
           }
         }}
         className={cn(
-          "pointer-events-none relative inline-flex h-[clamp(2.62rem,10vw,3rem)] w-[clamp(2.62rem,10vw,3rem)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
+          "pointer-events-none relative inline-flex h-[clamp(2.96rem,11.9vw,3.42rem)] w-[clamp(2.96rem,11.9vw,3.42rem)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
           "opacity-100",
           isDisabled ? "cursor-default" : "cursor-pointer"
         )}
@@ -578,7 +578,7 @@ export default function ChatMobileTopNav({
   return (
     <div
       className={cn(
-        "chat-mobile-topnav top-nav--chat absolute inset-x-0 top-0 z-[121] h-[7.85rem] min-[769px]:hidden",
+        "chat-mobile-topnav top-nav--chat absolute inset-x-0 top-0 z-[121] h-[8.6rem] min-[769px]:hidden",
         mobileRailInteractionLocked ? "pointer-events-none opacity-70" : "pointer-events-auto"
       )}
     >
@@ -601,10 +601,10 @@ export default function ChatMobileTopNav({
         iconClassName="!h-[100%] !w-[100%]"
       />
 
-      <div className="absolute left-[calc(env(safe-area-inset-left,0px)+3.02rem)] right-[calc(env(safe-area-inset-right,0px)+0.16rem)] top-[calc(env(safe-area-inset-top,0px)+0.22rem)]">
+      <div className="absolute left-[calc(env(safe-area-inset-left,0px)+3.68rem)] right-[calc(env(safe-area-inset-right,0px)+0.34rem)] top-[calc(env(safe-area-inset-top,0px)+0.3rem)]">
         <div
           ref={swipeSurfaceRef}
-          className="relative h-[7.5rem] overflow-visible"
+          className="relative h-[8.6rem] overflow-visible"
         >
           <div
             className="absolute inset-x-[-0.8rem] top-0 bottom-0 z-[20]"
@@ -669,7 +669,7 @@ export default function ChatMobileTopNav({
             }}
           />
 
-          <div className="relative h-[4.6rem] overflow-hidden">
+          <div className="relative h-[5.55rem] overflow-hidden">
             {visibleItems.map(({ item, index, slot }) => {
               const visualSlot = slot + dragProgress;
               const visualDistance = Math.abs(visualSlot);
@@ -680,7 +680,7 @@ export default function ChatMobileTopNav({
                 <div
                   key={item.key}
                   className={cn(
-                    "absolute left-1/2 top-[0.82rem] z-[1] -translate-x-1/2 transition-[transform,opacity] duration-200 ease-out",
+                    "absolute left-1/2 top-[0.68rem] z-[1] -translate-x-1/2 transition-[transform,opacity] duration-200 ease-out",
                     isDragging ? "duration-0" : null
                   )}
                   style={{
@@ -696,10 +696,10 @@ export default function ChatMobileTopNav({
           </div>
 
           <div
-            className="pointer-events-none absolute inset-x-0 top-[4.2rem] flex justify-center px-[0.45rem] text-center"
+            className="pointer-events-none absolute inset-x-0 top-[4.68rem] flex justify-center px-[0.65rem] text-center"
             style={{ transform: `translateX(${FOCUS_CENTER_OFFSET_REM}rem)` }}
           >
-            <span className="max-w-[13rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.18rem,4.9vw,1.42rem)] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38]">
+            <span className="max-w-[13.4rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.34rem,5.45vw,1.54rem)] font-medium leading-[1.06] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38]">
               {labels[previewFocusedItem.key]}
             </span>
           </div>

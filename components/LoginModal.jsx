@@ -130,7 +130,6 @@ export default function LoginModal({
     return /Android|iPhone|iPad|iPod/i.test(ua);
   }, []);
   const [isPhoneViewport, setIsPhoneViewport] = useState(false);
-  const [phoneViewportHeight, setPhoneViewportHeight] = useState(0);
   const [step, setStep] = useState("pin");
   const [pinValue, setPinValue] = useState("");
   const [_pinError, setPinError] = useState(false);
@@ -215,32 +214,15 @@ export default function LoginModal({
   useEffect(() => {
     if (typeof window === "undefined") return;
     const query = window.matchMedia("(max-width: 768px)");
-    const apply = () => {
-      setIsPhoneViewport(query.matches);
-      const vv = window.visualViewport;
-      const nextHeight = Math.round(vv?.height || window.innerHeight || 0);
-      setPhoneViewportHeight(nextHeight);
-    };
+    const apply = () => setIsPhoneViewport(query.matches);
     apply();
-    window.addEventListener("resize", apply);
-    window.visualViewport?.addEventListener("resize", apply);
     if (typeof query.addEventListener === "function") {
       query.addEventListener("change", apply);
-      return () => {
-        query.removeEventListener("change", apply);
-        window.removeEventListener("resize", apply);
-        window.visualViewport?.removeEventListener("resize", apply);
-      };
+      return () => query.removeEventListener("change", apply);
     }
     query.addListener(apply);
-    return () => {
-      query.removeListener(apply);
-      window.removeEventListener("resize", apply);
-      window.visualViewport?.removeEventListener("resize", apply);
-    };
+    return () => query.removeListener(apply);
   }, []);
-  const isCompactPhoneLayout = isPhoneViewport && phoneViewportHeight > 0 && phoneViewportHeight <= 860;
-  const isVeryCompactPhoneLayout = isPhoneViewport && phoneViewportHeight > 0 && phoneViewportHeight <= 780;
   useEffect(() => {
     const timeoutIds = timeoutIdsRef.current;
     return () => {
@@ -272,8 +254,10 @@ export default function LoginModal({
     "overflow-x-hidden",
     "gap-0",
     "!rounded-[2.2rem]",
-    isCompactPhoneLayout ? "pt-[clamp(2rem,7vh,3.5rem)] pb-[0.12em] max-md:pt-[clamp(1.8rem,6vh,3rem)]" : "pt-[0.1em] pb-[0.7em] max-md:pt-[0.02em]",
-    isOtpStep ? (isCompactPhoneLayout ? "max-md:pb-[0.08em]" : "max-md:pb-[0.28em]") : (isCompactPhoneLayout ? "max-md:pb-0" : "max-md:pb-[0.12em]"),
+    "pt-[0.1em]",
+    "pb-[0.7em]",
+    "max-md:pt-[0.02em]",
+    isOtpStep ? "max-md:pb-[0.28em]" : "max-md:pb-[0.12em]",
     "px-[var(--login-modal-inner-side-pad,var(--login-modal-side-pad))]"
   ].filter(Boolean).join(" ");
   const keypadKeysPhone = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "help", "zero", "submit"], []);
@@ -1087,42 +1071,16 @@ export default function LoginModal({
         : isPhoneViewport
           ? "0px"
           : "0.64em",
-      "--pin-btn": isPhoneViewport
-        ? isVeryCompactPhoneLayout
-          ? "clamp(4.1rem, 16vw, 4.7rem)"
-          : isCompactPhoneLayout
-            ? "clamp(4.4rem, 17.2vw, 5rem)"
-            : "clamp(5.15rem, 19.8vw, 5.85rem)"
-        : "4.58rem",
-      "--pin-gap-x": isPhoneViewport
-        ? isVeryCompactPhoneLayout
-          ? "clamp(0.78rem, 3.2vw, 1rem)"
-          : isCompactPhoneLayout
-            ? "clamp(0.92rem, 3.8vw, 1.16rem)"
-            : "clamp(1.26rem, 4.9vw, 1.56rem)"
-        : "0.9rem",
-      "--pin-gap-y": isPhoneViewport
-        ? isVeryCompactPhoneLayout
-          ? "clamp(0.24rem, 0.9vh, 0.42rem)"
-          : isCompactPhoneLayout
-            ? "clamp(0.34rem, 1.15vh, 0.52rem)"
-            : "clamp(0.68rem, 2.1vh, 0.9rem)"
-        : "0.82rem",
+      "--pin-btn": isPhoneViewport ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.58rem",
+      "--pin-gap-x": isPhoneViewport ? "clamp(1.26rem, 4.9vw, 1.56rem)" : "0.9rem",
+      "--pin-gap-y": isPhoneViewport ? "clamp(0.68rem, 2.1vh, 0.9rem)" : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
       "--login-email-w": isPhoneViewport ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
       "--login-modal-pad-effective": isOtpStep ? "var(--login-modal-side-pad)" : "var(--login-modal-inner-side-pad)",
       "--login-pin-modal-w": "min(90vw, max(22rem, calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 1.5rem)))",
-      "--login-envelope-size": isPhoneViewport
-        ? isCompactPhoneLayout
-          ? "clamp(4.35rem, 13vw, 5.45rem)"
-          : "clamp(5.45rem, 15.2vw, 6.9rem)"
-        : "clamp(4.4rem, 7vw, 5.2rem)",
-      "--login-envelope-hit": isPhoneViewport
-        ? isCompactPhoneLayout
-          ? "clamp(4.55rem, 13.8vw, 5.7rem)"
-          : "clamp(5.6rem, 15.8vw, 7.1rem)"
-        : "clamp(4.4rem, 7vw, 5.2rem)"
+      "--login-envelope-size": isPhoneViewport ? "clamp(5.45rem, 15.2vw, 6.9rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
+      "--login-envelope-hit": isPhoneViewport ? "clamp(5.6rem, 15.8vw, 7.1rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
       ,
         width: isPhoneViewport
           ? "100%"
@@ -1141,14 +1099,10 @@ export default function LoginModal({
             : "var(--login-pin-modal-w)",
         boxSizing: "border-box"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside}>
-        <div className={`login-modal-shell glass-box border-0 shadow-none w-full !my-0 ${isCompactPhoneLayout ? "!pt-[clamp(0.28rem,1.2vw,0.56rem)] max-md:!pt-[clamp(0.28rem,1.6vw,0.6rem)]" : "!pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)]"} ${
+        <div className={`login-modal-shell glass-box border-0 shadow-none w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] ${
         isOtpStep
-          ? isCompactPhoneLayout
-            ? "!pb-[clamp(0.42rem,1.2vw,0.78rem)] max-md:!pb-[clamp(0.42rem,1.3vw,0.8rem)]"
-            : "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
-          : isCompactPhoneLayout
-            ? "!pb-[clamp(0.42rem,1.2vw,0.72rem)] max-md:!pb-[clamp(0.34rem,1.2vw,0.68rem)]"
-            : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"
+          ? "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
+          : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"
       }`}>
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[768px]:!w-[2.66rem] max-[768px]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
@@ -1158,7 +1112,7 @@ export default function LoginModal({
                 isOtpStep
                   ? "!text-[clamp(1.86rem,1.36rem+1.25vw,2.3rem)] max-md:!text-[clamp(2.1rem,8.8vw,2.9rem)]"
                   : ""
-              } ${isCompactPhoneLayout ? "max-md:!text-[clamp(2rem,8vw,2.8rem)] max-md:!leading-[0.98] max-md:translate-y-[0.14rem]" : ""}`}
+              }`}
             >
               {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
             </div>
@@ -1167,9 +1121,7 @@ export default function LoginModal({
             </div>
           </div>
 
-        {!isOtpStep && <form className={isCompactPhoneLayout
-        ? "w-full max-w-full mx-auto flex flex-col items-center gap-[0.12em] mt-[-0.24rem] max-md:mt-0"
-        : "w-full max-w-full mx-auto flex flex-col items-center gap-[0.35em] mt-[-0.24rem] max-md:mt-[-0.04rem]"} onSubmit={e => {
+        {!isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center gap-[0.35em] mt-[-0.24rem] max-md:mt-[-0.04rem]" onSubmit={e => {
         e.preventDefault();
         submitPinStep();
       }} autoComplete="off">
@@ -1381,8 +1333,8 @@ export default function LoginModal({
               {showPinMessage ? messageText : null}
             </div>
 
-            <div className={`text-center ${isCompactPhoneLayout ? "mt-[-0.1rem] mb-[0.02rem]" : "mt-[-0.2rem] mb-[0.08rem]"}`}>
-              <button type="button" className={`${inlineLinkClassName} ${isCompactPhoneLayout ? "!text-[1.2rem] max-md:!text-[1.34rem]" : ""} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
+            <div className="text-center mt-[-0.2rem] mb-[0.08rem]">
+              <button type="button" className={`${inlineLinkClassName} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
                 {t("auth.login.toggle_keypad")}
               </button>
             </div>
@@ -1443,8 +1395,8 @@ export default function LoginModal({
           </form>}
 
         {!isOtpStep && <>
-            <div className={`text-center ${isCompactPhoneLayout ? "mt-[-0.08rem] max-md:mt-0 mb-0 max-md:mb-0" : "mt-[-0.2rem] max-md:mt-[-0.08rem] mb-[0.04rem] max-md:mb-[0.04rem]"}`}>
-              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)] ${isCompactPhoneLayout ? "!text-[1.4rem] max-md:!text-[clamp(1.46rem,4.8vw,1.9rem)] !leading-[1.08]" : ""}`}>
+            <div className="text-center mt-[-0.2rem] max-md:mt-[-0.08rem] mb-[0.04rem] max-md:mb-[0.04rem]">
+              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)]`}>
                 {t("auth.login.register_link")}
               </AppLink>
             </div>

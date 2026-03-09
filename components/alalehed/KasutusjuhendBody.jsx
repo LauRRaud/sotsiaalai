@@ -143,7 +143,7 @@ export default function KasutusjuhendBody() {
               body
             }, idx) => <article key={key} onClick={key === "accessibility" ? handleA11yClick : undefined} aria-label={title} className={cn(policySectionClassName, idx === 0 ? "mt-0" : null, key === "quickstart" ? "guide-quickstart-section" : null)}>
                   <h2 className={policySectionHeadingClassName}>{title}</h2>
-                  <div className={cn(policySectionBodyClassName, policySectionRichTextClassName, "guide-rich-text", key === "quickstart" ? "guide-quickstart-rich-text" : null, "max-[768px]:text-[clamp(1.06rem,4.1vw,1.2rem)] leading-[1.64] [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-[0.22rem]")} dangerouslySetInnerHTML={{
+                  <div className={cn(policySectionBodyClassName, policySectionRichTextClassName, "guide-rich-text", key === "quickstart" ? "guide-quickstart-rich-text" : null, "max-[768px]:text-[clamp(1.24rem,4.65vw,1.42rem)] leading-[1.68] [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-[0.22rem]")} dangerouslySetInnerHTML={{
                 __html: body
               }} />
                 </article>)}

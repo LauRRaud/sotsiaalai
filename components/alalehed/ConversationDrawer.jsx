@@ -249,7 +249,7 @@ export default function ConversationDrawer({
       {open && <div ref={overlayRef} className={overlayClassName} onClick={close} aria-hidden="true" />}
       <aside ref={panelRef} role="dialog" aria-labelledby={headerId} aria-modal={open ? "true" : undefined} aria-hidden={open ? undefined : "true"} inert={open ? undefined : true} tabIndex={open ? undefined : -1} className={panelClassName}>
         <header className={headerClassName}>
-          <h1 id={headerId} className="drawer-title w-full text-center text-[clamp(1.62rem,1.28rem+1.2vw,2.08rem)] max-[768px]:text-[clamp(1.72rem,6.8vw,2.08rem)] leading-[1.1] tracking-[0.018em] mt-[clamp(0.2rem,0.62vh,0.36rem)] mb-[clamp(0.34rem,1vh,0.7rem)] text-[#d18484] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[500] opacity-100 [text-shadow:0_0.2rem_0.65rem_rgba(0,0,0,0.28)] light:[text-shadow:0_0.1rem_0.35rem_rgba(255,255,255,0.22)]">
+          <h1 id={headerId} className="drawer-title w-full text-center text-[clamp(1.62rem,1.28rem+1.2vw,2.08rem)] max-[768px]:text-[clamp(2rem,8.1vw,2.45rem)] leading-[1.1] tracking-[0.018em] mt-[clamp(0.2rem,0.62vh,0.36rem)] mb-[clamp(0.34rem,1vh,0.7rem)] text-[#d18484] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[500] opacity-100 [text-shadow:0_0.2rem_0.65rem_rgba(0,0,0,0.28)] light:[text-shadow:0_0.1rem_0.35rem_rgba(255,255,255,0.22)]">
             {t("chat.menu.label")}
           </h1>
           <IconButton ref={closeBtnRef} onClick={close} className={closeButtonClassName} label={t("buttons.close")} />

@@ -72,8 +72,7 @@ const rolePillMultiLineClassName =
   "max-[48em]:max-w-[min(84vw,16.2rem)] " +
   "min-[48.0625em]:-translate-y-[0.34rem] max-[48em]:-translate-y-[0.14rem]";
 const orbitLayerClassName =
-  "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none " +
-  "max-[48em]:translate-y-[clamp(1.2rem,5vw,2rem)]";
+  "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
   "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
@@ -83,9 +82,9 @@ const orbitWrapperClassName =
   "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,max(15vw,calc(var(--profile-diameter,34rem)*0.26)),10.4rem)] " +
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
-  "max-[48em]:[--orbit-item-size:clamp(3.45rem,14vw,4.25rem)] max-[48em]:[--orbit-item-size-open:clamp(3.72rem,15vw,4.55rem)] " +
-  "max-[48em]:[--orbit-size:clamp(12.8rem,60vw,16rem)] max-[48em]:[--orbit-center-size:clamp(6.1rem,29vw,7.7rem)] " +
-  "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.43)] max-[48em]:mt-[clamp(0.45rem,2.4vw,0.82rem)] max-[48em]:mb-[clamp(0.1rem,0.7vw,0.24rem)] " +
+  "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
+  "max-[48em]:[--orbit-size:clamp(14.8rem,70vw,18.8rem)] max-[48em]:[--orbit-center-size:clamp(7.6rem,36vw,9.6rem)] " +
+  "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.44)] max-[48em]:mt-[clamp(0.9rem,4.1vw,1.25rem)] max-[48em]:mb-[clamp(0.15rem,0.9vw,0.3rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
   "cursor-[var(--cursor-default)] " +
   "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
@@ -94,15 +93,11 @@ const orbitWrapperClassName =
 const orbitRoleToggleWrapClassName =
   "absolute left-1/2 top-[calc(50%+clamp(6.15rem,24vw,7.45rem))] min-[48.0625em]:top-[calc(50%+7rem)] " +
   "-translate-x-1/2 z-[6] pointer-events-auto max-[48em]:hidden";
-const orbitRoleToggleLinkClassName =
-  "profile-orbit-role-toggle-link !inline-flex w-auto items-center justify-center gap-[0.34rem] self-center " +
-  "!p-0 !text-[1.32rem] leading-[1.14] tracking-[0.02em] text-center [text-wrap:balance] mt-0 mx-auto " +
-  "!rounded-none !border-transparent !shadow-none !no-underline " +
-  "hover:!border-transparent hover:!shadow-none hover:!no-underline " +
-  "focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!no-underline " +
-  "active:!border-transparent active:!shadow-none active:!no-underline";
+const orbitRoleToggleButtonClassName =
+  "whitespace-normal text-center leading-[1.16] px-[1.22rem] py-[0.76rem] text-[1.02rem] min-h-[2.7rem] " +
+  "max-[48em]:!min-h-[3rem] max-[48em]:!px-[1.35rem] max-[48em]:!py-[0.8rem] max-[48em]:!text-[1.14rem]";
 const profileMobileActionStackClassName =
-  "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+clamp(2.1rem,7vw,3.05rem))] z-[95] flex w-full flex-col items-center justify-center " +
+  "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+4.7rem)] z-[95] flex w-full flex-col items-center justify-center " +
   "gap-[clamp(0.28rem,1.8vw,0.58rem)] px-[1rem] pointer-events-auto min-[48.0625em]:hidden";
 const profileMobileRoleToggleLinkClassName =
   "profile-mobile-role-toggle-link !inline-flex w-auto items-center justify-center gap-[0.34rem] self-center max-[48em]:!self-center " +
@@ -113,8 +108,8 @@ const profileMobileRoleToggleLinkClassName =
   "focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!no-underline " +
   "active:!border-transparent active:!shadow-none active:!no-underline";
 const logoutButtonClassName =
-  "group relative grid place-items-center self-center max-[48em]:!self-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[5.35rem] max-[48em]:w-[5.35rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
-const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[3.95rem] max-[48em]:w-[3.95rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
+  "group relative grid place-items-center self-center max-[48em]:!self-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
+const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
   "text-[1.2rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
@@ -1147,15 +1142,15 @@ export default function ProfiilBody({
         {isAdminUser && !orbitOpen ? (
           <div className={orbitRoleToggleWrapClassName}>
             <Button
-              variant="linkBrand"
-              className={orbitRoleToggleLinkClassName}
+              variant="primary"
+              className={orbitRoleToggleButtonClassName}
               onClick={() => {
                 void handleAdminViewRoleChange(nextPreviewRole);
               }}
               disabled={roleSwitching}
               aria-label={nextPreviewRoleLabel}
             >
-              <RoleToggleDockIcon className="h-[1.3rem] w-[1.3rem] shrink-0" />
+              <RoleToggleDockIcon className="h-[1.42rem] w-[1.42rem] shrink-0" />
               <span>{nextPreviewRoleLabel}</span>
             </Button>
           </div>
