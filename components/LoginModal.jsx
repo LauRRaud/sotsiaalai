@@ -129,6 +129,15 @@ export default function LoginModal({
     const ua = navigator.userAgent || "";
     return /Android|iPhone|iPad|iPod/i.test(ua);
   }, []);
+  const isAndroidPlatform = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    const flaggedPlatform =
+      document.documentElement?.getAttribute("data-platform") ||
+      document.body?.getAttribute("data-platform") ||
+      "";
+    if (flaggedPlatform === "android") return true;
+    return /Android/i.test(navigator.userAgent || "");
+  }, []);
   const [isPhoneViewport, setIsPhoneViewport] = useState(false);
   const [step, setStep] = useState("pin");
   const [pinValue, setPinValue] = useState("");
@@ -206,7 +215,7 @@ export default function LoginModal({
   const otpInlineError = isOtpStep && error ? error : "";
   const managedByExternalAuthSuccess =
     suppressRedirect && typeof onAuthSuccess === "function";
-  const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-[0.38em] leading-[1.24]", "mt-[0.02rem] max-md:mt-[0rem]", "mb-[0.0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
+  const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-0 max-md:min-h-[0.38em] leading-[1.2]", "mt-[-0.08rem] max-md:mt-[0rem]", "mb-[-0.08rem] max-md:mb-[0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
   const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.02em]", "mt-[-0.04rem]", "max-md:mt-[0.08rem]", "mb-0"].join(" ");
   const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.52rem]", "max-md:mt-[-0.3rem]", "mb-[-0.18rem]", "max-md:mb-[-0.04rem]"].join(" ");
   const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
@@ -1040,6 +1049,21 @@ export default function LoginModal({
   const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.14" : "0.42" : "0.2";
   const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.1" : "0.26" : "0.18";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
+  const androidPinToggleClassName = isAndroidPlatform
+    ? "!text-[1.22rem] max-md:!text-[clamp(1.22rem,4.45vw,1.54rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"
+    : "";
+  const androidRegisterLinkClassName = isAndroidPlatform
+    ? "!text-[1.46rem] max-md:!text-[clamp(1.46rem,4.95vw,1.95rem)] leading-[1.14] whitespace-normal [text-wrap:balance]"
+    : "";
+  const androidOtpActionClassName = isAndroidPlatform
+    ? "!text-[clamp(1rem,4vw,1.14rem)] whitespace-normal [text-wrap:balance]"
+    : "";
+  const androidHelpPopoverLinkClassName = isAndroidPlatform
+    ? "whitespace-normal [text-wrap:balance] leading-[1.2]"
+    : "";
+  const androidModalTitleClassName = isAndroidPlatform
+    ? "!text-[clamp(1.82rem,1.3rem+1.2vw,2.2rem)] max-md:!text-[clamp(2.02rem,8vw,2.65rem)]"
+    : "";
   const currentEmailValue = String(
     (emailRevealed ? emailInputRef.current?.value : "") ||
       emailValue ||
@@ -1071,16 +1095,36 @@ export default function LoginModal({
         : isPhoneViewport
           ? "0px"
           : "0.64em",
-      "--pin-btn": isPhoneViewport ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.58rem",
-      "--pin-gap-x": isPhoneViewport ? "clamp(1.26rem, 4.9vw, 1.56rem)" : "0.9rem",
-      "--pin-gap-y": isPhoneViewport ? "clamp(0.68rem, 2.1vh, 0.9rem)" : "0.82rem",
+      "--pin-btn": isPhoneViewport
+        ? isAndroidPlatform
+          ? "clamp(4.3rem, 16.4vw, 4.95rem)"
+          : "clamp(5.15rem, 19.8vw, 5.85rem)"
+        : "4.58rem",
+      "--pin-gap-x": isPhoneViewport
+        ? isAndroidPlatform
+          ? "clamp(0.72rem, 2.9vw, 0.96rem)"
+          : "clamp(1.26rem, 4.9vw, 1.56rem)"
+        : "0.9rem",
+      "--pin-gap-y": isPhoneViewport
+        ? isAndroidPlatform
+          ? "clamp(0.48rem, 1.5vh, 0.68rem)"
+          : "clamp(0.68rem, 2.1vh, 0.9rem)"
+        : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
       "--login-email-w": isPhoneViewport ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
       "--login-modal-pad-effective": isOtpStep ? "var(--login-modal-side-pad)" : "var(--login-modal-inner-side-pad)",
       "--login-pin-modal-w": "min(90vw, max(22rem, calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 1.5rem)))",
-      "--login-envelope-size": isPhoneViewport ? "clamp(5.45rem, 15.2vw, 6.9rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
-      "--login-envelope-hit": isPhoneViewport ? "clamp(5.6rem, 15.8vw, 7.1rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
+      "--login-envelope-size": isPhoneViewport
+        ? isAndroidPlatform
+          ? "clamp(4.5rem, 13vw, 5.45rem)"
+          : "clamp(5.45rem, 15.2vw, 6.9rem)"
+        : "clamp(4.4rem, 7vw, 5.2rem)",
+      "--login-envelope-hit": isPhoneViewport
+        ? isAndroidPlatform
+          ? "clamp(4.72rem, 13.8vw, 5.8rem)"
+          : "clamp(5.6rem, 15.8vw, 7.1rem)"
+        : "clamp(4.4rem, 7vw, 5.2rem)"
       ,
         width: isPhoneViewport
           ? "100%"
@@ -1112,7 +1156,7 @@ export default function LoginModal({
                 isOtpStep
                   ? "!text-[clamp(1.86rem,1.36rem+1.25vw,2.3rem)] max-md:!text-[clamp(2.1rem,8.8vw,2.9rem)]"
                   : ""
-              }`}
+              } ${androidModalTitleClassName}`}
             >
               {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
             </div>
@@ -1321,7 +1365,7 @@ export default function LoginModal({
                         {t("auth.login.help_wrong_pin_note")}
                       </div>
 
-                      <AppLink href={resetRequestPath} variant="brand" className={helpPopoverLinkClassName} style={helpPopoverLinkStyle} onClick={() => setHelpOpen(false)}>
+                      <AppLink href={resetRequestPath} variant="brand" className={`${helpPopoverLinkClassName} ${androidHelpPopoverLinkClassName}`} style={helpPopoverLinkStyle} onClick={() => setHelpOpen(false)}>
                         {t("auth.login.forgot")}
                       </AppLink>
                     </div>
@@ -1334,7 +1378,7 @@ export default function LoginModal({
             </div>
 
             <div className="text-center mt-[-0.2rem] mb-[0.08rem]">
-              <button type="button" className={`${inlineLinkClassName} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
+              <button type="button" className={`${inlineLinkClassName} ${androidPinToggleClassName} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
                 {t("auth.login.toggle_keypad")}
               </button>
             </div>
@@ -1384,10 +1428,10 @@ export default function LoginModal({
               </Button>
 
               <div className="w-full flex flex-col items-center gap-[0.74rem] mt-[1.9rem]">
-                <button type="button" className={homeLikeOtpLinkClassName} onClick={handleResendOtp} disabled={resendLoading}>
+                <button type="button" className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName}`} onClick={handleResendOtp} disabled={resendLoading}>
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
                 </button>
-                <button type="button" className={homeLikeOtpLinkClassName} onClick={resetToPinStep}>
+                <button type="button" className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName}`} onClick={resetToPinStep}>
                   {t("auth.login.otp_back")}
                 </button>
               </div>
@@ -1396,7 +1440,7 @@ export default function LoginModal({
 
         {!isOtpStep && <>
             <div className="text-center mt-[-0.2rem] max-md:mt-[-0.08rem] mb-[0.04rem] max-md:mb-[0.04rem]">
-              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)]`}>
+              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)] ${androidRegisterLinkClassName}`}>
                 {t("auth.login.register_link")}
               </AppLink>
             </div>
