@@ -28,6 +28,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "border-2 border-[rgba(240,240,240,0.55)] " +
     "rounded-[1.15em] rounded-br-[0.55em] " +
     "px-[1em] py-[0.62em] text-[1.16rem] leading-[1.32] tracking-[0.04em] font-[400] " +
+    "max-[768px]:text-[clamp(0.98rem,3.95vw,1.06rem)] max-[768px]:leading-[1.28] max-[768px]:tracking-[0.028em] " +
     "shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_0.32rem_0.85rem_rgba(5,8,15,0.16)] " +
     "transition-[border-color,box-shadow,background] duration-150 " +
     "hover:border-[rgba(255,255,255,0.32)] hover:[background:var(--glass-input-bg-active)] " +
@@ -40,6 +41,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const aiBubbleClassName =
     "chat-msg-ai w-full bg-transparent border-0 shadow-none py-[0.25em] " +
     "text-[color:var(--pt-150)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500] " +
+    "max-[768px]:text-[clamp(1rem,4.05vw,1.08rem)] max-[768px]:leading-[1.28] max-[768px]:tracking-[0.02em] " +
     "light:text-[color:var(--input-text)]";
   const normalizedAttachments = Array.isArray(attachments)
     ? attachments

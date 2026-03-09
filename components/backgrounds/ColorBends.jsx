@@ -404,9 +404,17 @@ export default function ColorBends({
         msAccum = 0;
         frameCount = 0;
       }
-      rafRef.current = requestAnimationFrame(loop);
+      if (!freezeMotionRef.current) {
+        rafRef.current = requestAnimationFrame(loop);
+      } else {
+        rafRef.current = null;
+      }
     }
     function startLoop() {
+      if (freezeMotionRef.current) {
+        forceRenderNow();
+        return;
+      }
       if (rafRef.current != null) return;
       msAccum = 0;
       frameCount = 0;
@@ -423,7 +431,7 @@ export default function ColorBends({
     }
     const onVis = () => {
       tabHidden = document.hidden;
-      if (tabHidden) stopLoop();else if (isVisible) startLoop();
+      if (tabHidden) stopLoop();else if (isVisible && !freezeMotionRef.current) startLoop();else forceRenderNow();
     };
     document.addEventListener("visibilitychange", onVis);
     const onPageHide = () => {
@@ -431,20 +439,20 @@ export default function ColorBends({
     };
     const onPageShow = () => {
       tabHidden = document.hidden;
-      if (!tabHidden && isVisible) startLoop();
+      if (!tabHidden && isVisible && !freezeMotionRef.current) startLoop();else forceRenderNow();
     };
     window.addEventListener("pagehide", onPageHide);
     window.addEventListener("pageshow", onPageShow);
     const io = new IntersectionObserver(([e]) => {
       isVisible = !!e.isIntersecting;
-      if (!isVisible) stopLoop();else if (!tabHidden) startLoop();
+      if (!isVisible) stopLoop();else if (!tabHidden && !freezeMotionRef.current) startLoop();else forceRenderNow();
     }, {
       root: null,
       rootMargin: "200px"
     });
     io.observe(container);
     forceRenderNow();
-    if (!document.hidden) startLoop();
+    if (!document.hidden && !freezeMotionRef.current) startLoop();
     return () => {
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pagehide", onPageHide);
@@ -461,7 +469,7 @@ export default function ColorBends({
       sceneRef.current = null;
       cameraRef.current = null;
     };
-  }, [frequency, thicknessBias, edgeTightness, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength, maxDpr, powerPreference, performanceMode]);
+  }, [frequency, thicknessBias, edgeTightness, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength, maxDpr, powerPreference, performanceMode, freeze]);
   useEffect(() => {
     const material = materialRef.current;
     const renderer = rendererRef.current;

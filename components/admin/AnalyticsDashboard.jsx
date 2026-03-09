@@ -13,7 +13,7 @@ import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 
 const pageClassName =
-  "flex w-full min-w-0 max-w-full flex-col gap-[clamp(1rem,2.2vw,1.45rem)] overflow-x-clip text-[color:var(--admin-text)] " +
+  "flex w-full min-w-0 max-w-full flex-col gap-[clamp(1rem,2.2vw,1.45rem)] overflow-x-visible text-[color:var(--admin-text)] " +
   "[--admin-text:var(--documents-page-text)] [--admin-muted:var(--documents-page-muted)] [--admin-surface:var(--documents-card-bg)] " +
   "[--admin-surface-2:var(--documents-subpanel-bg)] [--admin-surface-3:var(--documents-content-bg)] [--admin-border:var(--documents-card-border)] " +
   "[--admin-border-strong:var(--documents-subpanel-border)] [--admin-shadow-soft:var(--documents-soft-shadow)] [--admin-shadow:var(--documents-strong-shadow)] " +
@@ -70,7 +70,7 @@ const tableHeaderClassName = "flex flex-wrap items-center justify-between gap-2"
 const tableScrollHintClassName = "hidden";
 const tableDesktopWrapClassName = "max-[1180px]:hidden";
 const tableWrapClassName =
-  "overflow-auto rounded-[1rem] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] " +
+  "max-w-full overflow-auto overscroll-x-contain rounded-[1rem] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] " +
   "shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]";
 const tableClassName = "min-w-[38rem] w-full border-collapse text-[color:var(--admin-text)]";
 const tableHeadCellClassName =
@@ -139,14 +139,14 @@ const summaryPanelClassName =
 const summaryPanelBodyClassName = "relative z-[1] grid min-w-0 gap-2.5";
 const mobileListClassName = "hidden max-[1180px]:grid gap-2";
 const mobileRowCardClassName =
-  "grid gap-3 rounded-[1rem] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_92%,transparent),color-mix(in_srgb,var(--admin-surface-3)_94%,transparent))] p-3 shadow-[var(--admin-shadow-soft)]";
-const mobileRowHeadClassName = "flex items-start justify-between gap-3";
-const mobileRowTitleClassName = "text-[1rem] font-semibold leading-[1.25] text-[color:var(--admin-text)]";
-const mobileRowSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
-const mobileFieldGridClassName = "grid gap-2 sm:grid-cols-2";
-const mobileFieldClassName = "grid gap-[0.35rem]";
+  "grid min-w-0 max-w-full gap-3 rounded-[1rem] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_92%,transparent),color-mix(in_srgb,var(--admin-surface-3)_94%,transparent))] p-3 shadow-[var(--admin-shadow-soft)]";
+const mobileRowHeadClassName = "flex min-w-0 max-w-full items-start justify-between gap-3";
+const mobileRowTitleClassName = "min-w-0 break-words text-[1rem] font-semibold leading-[1.25] text-[color:var(--admin-text)] [overflow-wrap:anywhere]";
+const mobileRowSubClassName = "min-w-0 break-words text-[0.82rem] text-[color:var(--admin-muted)] [overflow-wrap:anywhere]";
+const mobileFieldGridClassName = "grid min-w-0 gap-2 sm:grid-cols-2";
+const mobileFieldClassName = "grid min-w-0 gap-[0.35rem]";
 const mobileFieldLabelClassName = "text-[0.68rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
-const mobileFieldValueClassName = "text-[0.92rem] leading-[1.45] break-words text-[color:var(--admin-text)]";
+const mobileFieldValueClassName = "min-w-0 break-words text-[0.92rem] leading-[1.45] text-[color:var(--admin-text)] [overflow-wrap:anywhere]";
 const checkboxClassName = "h-4 w-4 accent-[color:var(--admin-accent)]";
 
 const EVENT_OPTIONS = [

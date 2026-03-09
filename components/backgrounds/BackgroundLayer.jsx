@@ -26,6 +26,22 @@ function detectMobileLikeDevice() {
   const uaMobile = typeof navigator !== "undefined" ? navigator.userAgentData?.mobile ?? /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua) : false;
   return coarse || noHover || small || layoutMobile || uaMobile || touchCapable && !desktopPointer;
 }
+function detectLowPowerColorBendsDevice() {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
+  const mq = query => typeof window.matchMedia === "function" ? window.matchMedia(query)?.matches ?? false : false;
+  const ua = navigator.userAgent || "";
+  const android = /Android/i.test(ua);
+  const coarse = mq("(pointer: coarse)");
+  const small = mq("(max-width: 768px)") || window.innerWidth <= 768;
+  const cores = navigator.hardwareConcurrency || 8;
+  const memory = typeof navigator.deviceMemory === "number" ? navigator.deviceMemory : 8;
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const saveData = !!conn?.saveData;
+  const effectiveType = typeof conn?.effectiveType === "string" ? conn.effectiveType.toLowerCase() : "";
+  const slowerNetwork = effectiveType.includes("2g") || effectiveType.includes("3g");
+  const constrainedDevice = cores <= 6 || memory <= 6;
+  return saveData || slowerNetwork || android && (coarse || small) && constrainedDevice;
+}
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
   if ("requestIdleCallback" in window) {
@@ -65,10 +81,17 @@ const BackgroundContent = memo(function BackgroundContent({
   // Keep initial server/client render identical; compute real value after mount.
   const [mobileLike, setMobileLike] = useState(false);
   const [wideViewport, setWideViewport] = useState(false);
+  const [lowPowerBends, setLowPowerBends] = useState(false);
   const allowParticles = true;
   const allowColorBends = true;
   const parallaxActive = !reduceMotion && !mobileLike;
-  const colorBendsProps = mobileLike
+  const colorBendsProps = lowPowerBends
+    ? {
+        performanceMode: "performance",
+        maxDpr: 1,
+        freeze: true
+      }
+    : mobileLike
     ? {
         performanceMode: "performance",
         maxDpr: 1.1
@@ -92,6 +115,7 @@ const BackgroundContent = memo(function BackgroundContent({
     const compute = () => {
       setMobileLike(detectMobileLikeDevice());
       setWideViewport(window.innerWidth >= 1440 || window.innerHeight >= 1100);
+      setLowPowerBends(detectLowPowerColorBendsDevice());
     };
     compute();
     const attach = media => {

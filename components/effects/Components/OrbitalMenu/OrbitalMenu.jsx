@@ -35,9 +35,11 @@ export default function OrbitalMenu({
   const rootRef = useRef(null);
   const hubBtnRef = useRef(null);
   const isCoarsePointer = useMatchMedia("(hover: none) and (pointer: coarse)", false);
+  const isNarrowViewport = useMatchMedia("(max-width: 768px)", false);
   const prefersReducedMotion = useMatchMedia("(prefers-reduced-motion: reduce)", false);
-  const useMobileOverlay = isCoarsePointer && mobileVariant === "list";
-  const useMobileStack = isCoarsePointer && mobileVariant === "stack";
+  const useMobileUi = isCoarsePointer || isNarrowViewport;
+  const useMobileOverlay = useMobileUi && mobileVariant === "list";
+  const useMobileStack = useMobileUi && mobileVariant === "stack";
   const useMobileDialog = useMobileOverlay || useMobileStack;
   const useOrbitLayout = !useMobileDialog;
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);

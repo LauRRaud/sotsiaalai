@@ -132,7 +132,7 @@ export default function SelectedListingContext({
             {isOwn ? ui.ownListing : ui.selectedListing}
           </div>
           <h2
-            className={`${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 min-[769px]:!mt-[0.5rem] max-[768px]:!text-[clamp(1.9rem,7.1vw,2.2rem)] max-[768px]:!whitespace-nowrap`}
+            className={`${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 min-[769px]:!mt-[0.5rem] max-[768px]:!text-[clamp(1.72rem,6.4vw,2rem)] max-[768px]:!whitespace-normal max-[768px]:![text-wrap:balance]`}
           >
             {loading ? ui.loading : listing?.title || ui.selectedListing}
           </h2>

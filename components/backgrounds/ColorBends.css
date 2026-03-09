@@ -4,6 +4,10 @@
   height: 100%;
   overflow: hidden;
   isolation: isolate;
+  background:
+    radial-gradient(80% 68% at 22% 78%, rgba(197, 113, 113, 0.17), transparent 64%),
+    radial-gradient(72% 60% at 82% 18%, rgba(197, 113, 113, 0.13), transparent 62%),
+    linear-gradient(135deg, rgba(197, 113, 113, 0.08), rgba(255, 255, 255, 0));
 }
 .color-bends-container canvas {
   position: relative;

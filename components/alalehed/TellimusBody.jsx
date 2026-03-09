@@ -24,7 +24,7 @@ const emailReplacement = {
 };
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} max-[768px]:!text-[clamp(1.9rem,7.2vw,2.32rem)]`;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName =
   "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] max-[768px]:max-w-none flex-col gap-4 text-center max-[768px]:text-left";
