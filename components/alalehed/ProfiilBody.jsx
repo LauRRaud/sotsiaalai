@@ -129,9 +129,9 @@ const accountModalHeadClassName =
   "mb-[0.35rem] flex items-start justify-center gap-[0.75rem]";
 const accountModalBackButtonClassName = glassPageBackTopLeftClassName;
 const accountModalTitleWrapClassName =
-  "grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]";
+  "account-modal-title-wrap grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]";
 const accountModalTitleClassName =
-  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 ` +
+  `account-modal-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 ` +
   "max-[768px]:!text-[clamp(2.2rem,8.7vw,2.9rem)]";
 const accountModalDescriptionClassName =
   "mx-auto max-w-[28rem] text-[1.04rem] leading-[1.4] tracking-[0.02em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:max-w-none max-[768px]:px-[0.15rem] max-[768px]:text-[1.08rem]";
