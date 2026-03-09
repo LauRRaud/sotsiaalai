@@ -165,6 +165,7 @@ export default function PrivaatsusBody() {
         <h1
           id="privacy-title"
           className={cn(
+            "policy-page-title",
             titleClassName,
             glassPolicyTitleOffsetClassName,
             isExpandedLayout ? glassPolicyTitleExpandedClassName : null

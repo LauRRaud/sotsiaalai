@@ -2,12 +2,12 @@ export const policySectionClassName =
   "mt-[0.28rem] first:mt-0 max-[768px]:mt-[0.24rem] max-[768px]:first:mt-0";
 
 export const policySectionHeadingClassName =
-  "mb-[0.96rem] max-[768px]:mb-[0.82rem] text-[clamp(1.4rem,1.9vw,1.6rem)] " +
+  "policy-section-heading mb-[0.96rem] max-[768px]:mb-[0.82rem] text-[clamp(1.4rem,1.9vw,1.6rem)] " +
   "max-[768px]:text-[clamp(1.72rem,6vw,2rem)] font-[500] tracking-[0.013em] " +
   "max-[768px]:tracking-[0.018em] text-[#cd8585] light:text-[#8a4b49]";
 
 export const policySectionBodyClassName =
-  "text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.22rem,4.55vw,1.38rem)] " +
+  "policy-section-body text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.22rem,4.55vw,1.38rem)] " +
   "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.74] text-[#e4dde0] light:text-[#3f3730]";
 
 export const policySectionRichTextClassName =

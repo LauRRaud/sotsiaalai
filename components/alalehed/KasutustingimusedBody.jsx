@@ -180,6 +180,7 @@ export default function KasutustingimusedBody() {
         <h1
           id="terms-title"
           className={cn(
+            "policy-page-title",
             titleClassName,
             glassPolicyTitleOffsetClassName,
             isExpandedLayout ? glassPolicyTitleExpandedClassName : null

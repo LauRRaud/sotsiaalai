@@ -30,28 +30,41 @@ const MOBILE_NAV_ITEMS = [
 const DEFAULT_FOCUSED_KEY = "profile";
 const FOCUS_CENTER_OFFSET_REM = -0.34;
 const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
-const SLOT_STEP_REM = 3.82;
-const SLOT_STEP_PX = SLOT_STEP_REM * 16;
+const DEFAULT_SLOT_PROFILE = Object.freeze({
+  step1: 3.82,
+  step2: 7.28,
+  step3: 10.05,
+  tailStep: 2.54,
+  centerOffsetRem: FOCUS_CENTER_OFFSET_REM
+});
+const ANDROID_SLOT_PROFILE = Object.freeze({
+  step1: 3.28,
+  step2: 6.18,
+  step3: 8.66,
+  tailStep: 2.18,
+  centerOffsetRem: -0.18
+});
 
-function getSlotOffsetRem(slot) {
+function getSlotOffsetRem(slot, profile = DEFAULT_SLOT_PROFILE) {
   const direction = Math.sign(slot);
   const distance = Math.abs(slot);
+  const { step1, step2, step3, tailStep } = profile;
   if (distance === 0) {
     return 0;
   }
   if (distance === 1) {
-    return direction * 3.82;
+    return direction * step1;
   }
   if (distance < 1) {
-    return direction * (3.82 * distance);
+    return direction * (step1 * distance);
   }
   if (distance < 2) {
-    return direction * (3.82 + (distance - 1) * (7.28 - 3.82));
+    return direction * (step1 + (distance - 1) * (step2 - step1));
   }
   if (distance < 3) {
-    return direction * (7.28 + (distance - 2) * (10.05 - 7.28));
+    return direction * (step2 + (distance - 2) * (step3 - step2));
   }
-  return direction * (10.05 + (distance - 3) * 2.54);
+  return direction * (step3 + (distance - 3) * tailStep);
 }
 
 function MobileIconFrame({ scale = 1, xNudge = 0, children }) {
@@ -140,6 +153,8 @@ export default function ChatMobileTopNav({
   const [focusedIndex, setFocusedIndex] = useState(getItemIndex(DEFAULT_FOCUSED_KEY));
   const [dragOffsetPx, setDragOffsetPx] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isAndroidPlatform, setIsAndroidPlatform] = useState(false);
+  const [rootRemPx, setRootRemPx] = useState(16);
 
   const setFocusedIndexImmediate = useCallback(nextValue => {
     if (typeof nextValue === "function") {
@@ -171,10 +186,53 @@ export default function ChatMobileTopNav({
     suppressClickUntilRef.current = now + 700;
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const updatePlatformMetrics = () => {
+      const platformFlag =
+        document.documentElement?.getAttribute("data-platform") ||
+        document.body?.getAttribute("data-platform") ||
+        "";
+      const ua = window.navigator?.userAgent || "";
+      setIsAndroidPlatform(platformFlag === "android" || /android/i.test(ua));
+      const nextRootRem = parseFloat(
+        window.getComputedStyle(document.documentElement).fontSize || "16"
+      );
+      setRootRemPx(Number.isFinite(nextRootRem) && nextRootRem > 0 ? nextRootRem : 16);
+    };
+    updatePlatformMetrics();
+    window.addEventListener("resize", updatePlatformMetrics);
+    window.visualViewport?.addEventListener("resize", updatePlatformMetrics);
+    return () => {
+      window.removeEventListener("resize", updatePlatformMetrics);
+      window.visualViewport?.removeEventListener("resize", updatePlatformMetrics);
+    };
+  }, []);
+
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
     [pathname]
   );
+
+  const slotProfile = isAndroidPlatform ? ANDROID_SLOT_PROFILE : DEFAULT_SLOT_PROFILE;
+  const slotStepPx = Math.max(1, slotProfile.step1 * rootRemPx);
+  const centerOffsetRem = slotProfile.centerOffsetRem ?? FOCUS_CENTER_OFFSET_REM;
+  const dragEngageThreshold = isAndroidPlatform ? 12 : 8;
+  const swipeThresholdPx = isAndroidPlatform ? 44 : 24;
+  const maxSwipeSteps = isAndroidPlatform ? 1 : Number.POSITIVE_INFINITY;
+  const dragDamping = isAndroidPlatform ? 0.72 : 1;
+  const dragClampPx = isAndroidPlatform ? 156 : 192;
+  const navRailStyle = isAndroidPlatform
+    ? {
+        left: "calc(env(safe-area-inset-left,0px) + 3.26rem)",
+        right: "calc(env(safe-area-inset-right,0px) + 0.16rem)",
+        top: "calc(env(safe-area-inset-top,0px) + 0.18rem)"
+      }
+    : {
+        left: "calc(env(safe-area-inset-left,0px) + 3.68rem)",
+        right: "calc(env(safe-area-inset-right,0px) + 0.34rem)",
+        top: "calc(env(safe-area-inset-top,0px) + 0.3rem)"
+      };
 
   const sourcesLabel = t("chat.sources.button").replace(
     "{count}",
@@ -372,11 +430,10 @@ export default function ChatMobileTopNav({
 
   const handleTrackPointerEnd = useCallback(() => {
     const deltaX = dragStateRef.current.currentX - dragStateRef.current.startX;
-    const swipeThreshold = 24;
-    if (Math.abs(deltaX) >= swipeThreshold) {
-      const steps = Math.max(
-        1,
-        Math.floor((Math.abs(deltaX) - swipeThreshold) / SLOT_STEP_PX) + 1
+    if (Math.abs(deltaX) >= swipeThresholdPx) {
+      const steps = Math.min(
+        maxSwipeSteps,
+        Math.max(1, Math.floor((Math.abs(deltaX) - swipeThresholdPx) / slotStepPx) + 1)
       );
       setFocusedIndexImmediate(current => {
         if (deltaX < 0) {
@@ -390,7 +447,7 @@ export default function ChatMobileTopNav({
     dragStateRef.current.moved = false;
     setDragOffsetPx(0);
     setIsDragging(false);
-  }, [setFocusedIndexImmediate]);
+  }, [maxSwipeSteps, setFocusedIndexImmediate, slotStepPx, swipeThresholdPx]);
 
   const beginSwipe = useCallback(clientX => {
     dragStateRef.current.startX = clientX;
@@ -403,11 +460,13 @@ export default function ChatMobileTopNav({
   const moveSwipe = useCallback((clientX, event) => {
     const deltaX = clientX - dragStateRef.current.startX;
     dragStateRef.current.currentX = clientX;
-    if (Math.abs(deltaX) > 8) {
+    if (Math.abs(deltaX) > dragEngageThreshold) {
       dragStateRef.current.moved = true;
       setIsDragging(true);
     }
-    setDragOffsetPx(Math.max(-192, Math.min(192, deltaX)));
+    setDragOffsetPx(
+      Math.max(-dragClampPx, Math.min(dragClampPx, deltaX * dragDamping))
+    );
     if (
       dragStateRef.current.moved &&
       event?.cancelable &&
@@ -415,7 +474,7 @@ export default function ChatMobileTopNav({
     ) {
       event.preventDefault();
     }
-  }, []);
+  }, [dragClampPx, dragDamping, dragEngageThreshold]);
 
   const finishSwipe = useCallback(
     (clientX, event) => {
@@ -436,7 +495,7 @@ export default function ChatMobileTopNav({
   );
 
   const focusedItem = MOBILE_NAV_ITEMS[focusedIndex] || MOBILE_NAV_ITEMS[0];
-  const dragProgress = dragOffsetPx / SLOT_STEP_PX;
+  const dragProgress = dragOffsetPx / slotStepPx;
   const visibleItems = useMemo(() => {
     return MOBILE_NAV_ITEMS.map((item, index) => ({
       item,
@@ -594,7 +653,7 @@ export default function ChatMobileTopNav({
         iconClassName="!h-[100%] !w-[100%]"
       />
 
-      <div className="absolute left-[calc(env(safe-area-inset-left,0px)+3.68rem)] right-[calc(env(safe-area-inset-right,0px)+0.34rem)] top-[calc(env(safe-area-inset-top,0px)+0.3rem)]">
+      <div className="absolute" style={navRailStyle}>
         <div
           ref={swipeSurfaceRef}
           className="relative h-[8.6rem] overflow-visible"
@@ -666,7 +725,7 @@ export default function ChatMobileTopNav({
             {visibleItems.map(({ item, index, slot }) => {
               const visualSlot = slot + dragProgress;
               const visualDistance = Math.abs(visualSlot);
-              const xOffsetRem = getSlotOffsetRem(visualSlot);
+              const xOffsetRem = getSlotOffsetRem(visualSlot, slotProfile);
               const combinedOpacity =
                 getVisualOpacity(visualDistance) * getEdgeFadeOpacity(visualDistance);
               return (
@@ -677,7 +736,7 @@ export default function ChatMobileTopNav({
                     isDragging ? "duration-0" : null
                   )}
                   style={{
-                    transform: `translateX(${FOCUS_CENTER_OFFSET_REM + xOffsetRem}rem) scale(${getVisualScale(visualDistance)})`,
+                    transform: `translateX(${centerOffsetRem + xOffsetRem}rem) scale(${getVisualScale(visualDistance)})`,
                     opacity: combinedOpacity,
                     transition: isDragging ? "none" : undefined
                   }}
@@ -690,7 +749,7 @@ export default function ChatMobileTopNav({
 
           <div
             className="pointer-events-none absolute inset-x-0 top-[4.92rem] flex justify-center px-[0.45rem] text-center"
-            style={{ transform: `translateX(${FOCUS_CENTER_OFFSET_REM}rem)` }}
+            style={{ transform: `translateX(${centerOffsetRem}rem)` }}
           >
             <span className="max-w-[14rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.42rem,5.9vw,1.68rem)] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38]">
               {labels[previewFocusedItem.key]}

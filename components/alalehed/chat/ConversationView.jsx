@@ -117,7 +117,7 @@ const ConversationView = memo(function ConversationView({
   const showEmptyIntro = !isStreamingAny && messageItems.length === 0 && String(emptyIntroText || "").trim().length > 0;
   const emptyIntroTargetText = String(emptyIntroText || "").trim();
   const emptyIntroClassName =
-    "chat-msg-ai w-full bg-transparent border-0 shadow-none py-[0.25em] " +
+    "chat-msg-ai chat-empty-intro w-full bg-transparent border-0 shadow-none py-[0.25em] " +
     "text-[color:var(--pt-150)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500] " +
     "light:text-[color:var(--input-text)]";
   useEffect(() => {

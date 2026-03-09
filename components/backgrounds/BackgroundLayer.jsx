@@ -186,7 +186,7 @@ const BackgroundContent = memo(function BackgroundContent({
         {prefsHydrated && colorBendsReady && allowColorBends && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
-              <ColorBends {...colorBendsProps} freeze={reduceMotion} />
+              <ColorBends {...colorBendsProps} freeze={reduceMotion || mobileLike} />
             </Suspense>
           </div>
         )}

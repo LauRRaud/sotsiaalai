@@ -215,6 +215,8 @@ export default function ColorBends({
   const rafRef = useRef(null);
   const materialRef = useRef(null);
   const resizeObserverRef = useRef(null);
+  const startLoopRef = useRef(() => {});
+  const stopLoopRef = useRef(() => {});
   const bgColorRef = useRef(bgColor);
   const rotationRef = useRef(rotation);
   const autoRotateRef = useRef(autoRotate);
@@ -421,9 +423,11 @@ export default function ColorBends({
       }
       lastTs = null;
     }
+    startLoopRef.current = startLoop;
+    stopLoopRef.current = stopLoop;
     const onVis = () => {
       tabHidden = document.hidden;
-      if (tabHidden) stopLoop();else if (isVisible) startLoop();
+      if (tabHidden) stopLoop();else if (isVisible && !freezeMotionRef.current) startLoop();
     };
     document.addEventListener("visibilitychange", onVis);
     const onPageHide = () => {
@@ -431,20 +435,20 @@ export default function ColorBends({
     };
     const onPageShow = () => {
       tabHidden = document.hidden;
-      if (!tabHidden && isVisible) startLoop();
+      if (!tabHidden && isVisible && !freezeMotionRef.current) startLoop();
     };
     window.addEventListener("pagehide", onPageHide);
     window.addEventListener("pageshow", onPageShow);
     const io = new IntersectionObserver(([e]) => {
       isVisible = !!e.isIntersecting;
-      if (!isVisible) stopLoop();else if (!tabHidden) startLoop();
+      if (!isVisible) stopLoop();else if (!tabHidden && !freezeMotionRef.current) startLoop();
     }, {
       root: null,
       rootMargin: "200px"
     });
     io.observe(container);
     forceRenderNow();
-    if (!document.hidden) startLoop();
+    if (!document.hidden && !freezeMotionRef.current) startLoop();
     return () => {
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pagehide", onPageHide);
@@ -458,6 +462,8 @@ export default function ColorBends({
       if (renderer.domElement?.parentElement === container) {
         container.removeChild(renderer.domElement);
       }
+      startLoopRef.current = () => {};
+      stopLoopRef.current = () => {};
       sceneRef.current = null;
       cameraRef.current = null;
     };
@@ -500,6 +506,11 @@ export default function ColorBends({
       if (sceneRef.current && cameraRef.current) {
         renderer.render(sceneRef.current, cameraRef.current);
       }
+    }
+    if (freezeMotion) {
+      stopLoopRef.current?.();
+    } else if (typeof document !== "undefined" && !document.hidden) {
+      startLoopRef.current?.();
     }
   }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent, bgColor, performanceMode, freeze]);
   useEffect(() => {

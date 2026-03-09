@@ -109,6 +109,7 @@ export default function KasutusjuhendBody() {
         <h1
           id="kasutusjuhend-title"
           className={cn(
+            "policy-page-title",
             titleClassName,
             glassPolicyTitleOffsetClassName,
             "guide-page-title",

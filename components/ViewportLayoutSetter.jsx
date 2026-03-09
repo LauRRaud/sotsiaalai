@@ -13,6 +13,16 @@ function resolveDisplayMode() {
   return isStandalone ? "standalone" : "browser";
 }
 
+function resolvePlatform() {
+  if (typeof window === "undefined") return "";
+  const ua = window.navigator?.userAgent || "";
+  const platform = window.navigator?.userAgentData?.platform || window.navigator?.platform || "";
+  const normalized = `${platform} ${ua}`.toLowerCase();
+  if (/android/.test(normalized)) return "android";
+  if (/iphone|ipad|ipod|ios/.test(normalized)) return "ios";
+  return "other";
+}
+
 function applyLayoutFlag(matches) {
   const root = document.documentElement;
   const body = document.body;
@@ -34,6 +44,21 @@ function applyDisplayModeFlag() {
   root.setAttribute("data-display-mode", mode);
   body.setAttribute("data-display-mode", mode);
 }
+
+function applyPlatformFlag() {
+  const root = document.documentElement;
+  const body = document.body;
+  if (!root || !body) return;
+  const platform = resolvePlatform();
+  if (platform) {
+    root.setAttribute("data-platform", platform);
+    body.setAttribute("data-platform", platform);
+    return;
+  }
+  root.removeAttribute("data-platform");
+  body.removeAttribute("data-platform");
+}
+
 function applyVhVar() {
   if (typeof window === "undefined") return;
   const root = document.documentElement;
@@ -60,11 +85,13 @@ export default function ViewportLayoutSetter() {
     const fullscreenMql = window.matchMedia("(display-mode: fullscreen)");
     applyLayoutFlag(mql.matches);
     applyDisplayModeFlag();
+    applyPlatformFlag();
     applyVhVar();
     const onMqChange = e => applyLayoutFlag(e.matches);
     const onResize = () => {
       window.requestAnimationFrame(() => {
         applyDisplayModeFlag();
+        applyPlatformFlag();
         applyVhVar();
       });
     };
@@ -74,9 +101,13 @@ export default function ViewportLayoutSetter() {
     const onPageShow = () => {
       applyLayoutFlag(mql.matches);
       applyDisplayModeFlag();
+      applyPlatformFlag();
       applyVhVar();
     };
-    const onDisplayModeChange = () => applyDisplayModeFlag();
+    const onDisplayModeChange = () => {
+      applyDisplayModeFlag();
+      applyPlatformFlag();
+    };
     mql.addEventListener?.("change", onMqChange);
     standaloneMql.addEventListener?.("change", onDisplayModeChange);
     fullscreenMql.addEventListener?.("change", onDisplayModeChange);
@@ -99,6 +130,8 @@ export default function ViewportLayoutSetter() {
       applyLayoutFlag(false);
       document.documentElement.removeAttribute("data-display-mode");
       document.body.removeAttribute("data-display-mode");
+      document.documentElement.removeAttribute("data-platform");
+      document.body.removeAttribute("data-platform");
     };
   }, []);
   useEffect(() => {
