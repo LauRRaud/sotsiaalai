@@ -16,7 +16,7 @@ import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title`;
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title subpage-mobile-title--static`;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName = "mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col items-center gap-5 text-center";
 const inputClassName = "w-full max-w-[22rem]";
@@ -102,7 +102,7 @@ export default function UnustasinParooliBody() {
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
-        <AutoFitPageTitle className={titleClassName} minFontPx={18}>
+        <AutoFitPageTitle className={titleClassName} minFontPx={18} disableFit>
           {title}
         </AutoFitPageTitle>
         <div className={contentClassName}>

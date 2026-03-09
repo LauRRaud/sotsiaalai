@@ -25,7 +25,7 @@ import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title`;
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title subpage-mobile-title--static`;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName =
   "mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-4";
@@ -178,7 +178,7 @@ export default function UuendaPinBody() {
           holdPressedVisualDisabled
           className={glassPageBackMobileBottomCenterClassName}
         />
-        <AutoFitPageTitle className={titleClassName} minFontPx={18}>
+        <AutoFitPageTitle className={titleClassName} minFontPx={18} disableFit>
           {t("profile.change_password_cta")}
         </AutoFitPageTitle>
         <div className={contentClassName}>

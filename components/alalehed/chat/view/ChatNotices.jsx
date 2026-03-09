@@ -25,12 +25,12 @@ export function ChatTopNotices({
   roomAuthRequired
 }) {
   const roomTitleClassName =
-    "chat-room-title subpage-mobile-title mx-auto max-w-[min(30rem,calc(100%-2.2rem))] text-center mt-[-0.6rem] mb-[0.9rem] " +
+    "chat-room-title subpage-mobile-title subpage-mobile-title--static mx-auto max-w-[min(30rem,calc(100%-2.2rem))] text-center mt-[-0.6rem] mb-[0.9rem] " +
     "text-[1.25rem] leading-[1.08] tracking-[0.02em] text-[color:var(--pt-200)] " +
     "max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)] max-[768px]:mb-[0.62rem]";
 
   return <>
-    {isRoomMode && roomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={17}>
+    {isRoomMode && roomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={17} disableFit>
       {roomTitle}
     </AutoFitPageTitle> : null}
     {isCrisis ? <div role="alert" className={chatAlertClassName}>

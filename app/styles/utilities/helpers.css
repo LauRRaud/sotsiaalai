@@ -553,13 +553,13 @@ body.login-modal-open {
 
 @media (max-width: 768px) {
   .glass-policy-back.glass-policy-back--compact {
-    width: 4rem !important;
-    height: 4rem !important;
+    width: 4.2rem !important;
+    height: 4.2rem !important;
   }
 
   .glass-policy-back.glass-policy-back--compact > svg {
-    width: 4rem !important;
-    height: 4rem !important;
+    width: 4.2rem !important;
+    height: 4.2rem !important;
   }
 }
 

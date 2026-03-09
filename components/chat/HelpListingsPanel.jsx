@@ -47,7 +47,7 @@ export default function HelpListingsPanel({
     `leading-[1.35] tracking-[0.024rem] ${glassPageMobileCardClassName} ` +
     `${isClosing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const helpListingsTitleClassName =
-    `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title help-listings-title`;
+    `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title subpage-mobile-title--static help-listings-title`;
 
   useEffect(() => {
     setIsMounted(true);
@@ -89,7 +89,7 @@ export default function HelpListingsPanel({
       />
 
         <header className="help-listings-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
-          <AutoFitPageTitle as="h2" className={helpListingsTitleClassName} minFontPx={18}>
+          <AutoFitPageTitle as="h2" className={helpListingsTitleClassName} minFontPx={18} disableFit>
             {title}
           </AutoFitPageTitle>
         </header>

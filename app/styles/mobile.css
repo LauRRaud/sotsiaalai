@@ -264,8 +264,8 @@
     --orbit-size: min(92vw, 22.5rem);
     --orbit-item-size: clamp(5.6rem, 23vw, 7.2rem);
     --orbit-item-size-open: clamp(6rem, 24.5vw, 7.6rem);
-    --orbit-center-size: clamp(9.8rem, 42vw, 11.8rem);
-    --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.42);
+    --orbit-center-size: clamp(10.4rem, 45vw, 12.4rem);
+    --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.45);
     margin-top: 0;
     margin-bottom: 0;
   }
@@ -584,8 +584,8 @@
     --orbit-size: min(88vw, 20.1rem) !important;
     --orbit-item-size: clamp(4.7rem, 19.8vw, 5.75rem) !important;
     --orbit-item-size-open: clamp(4.95rem, 21vw, 6.05rem) !important;
-    --orbit-center-size: clamp(9rem, 37vw, 10.6rem) !important;
-    --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.4) !important;
+    --orbit-center-size: clamp(9.8rem, 40vw, 11.3rem) !important;
+    --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.435) !important;
     margin-top: clamp(1.1rem, 4.8vw, 1.7rem) !important;
     transform: translateY(clamp(0.16rem, 0.7vw, 0.3rem)) !important;
   }
@@ -768,6 +768,24 @@
     transform: translateY(clamp(-1.08rem, -4.2vw, -0.62rem)) translateZ(0) scale(1) !important;
   }
 
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before,
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before,
+  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before,
+  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: inherit !important;
+    background: inherit !important;
+    box-shadow: inherit !important;
+    opacity: 0.96 !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    transform-origin: center !important;
+    will-change: transform, opacity !important;
+    animation: profile-orbit-mobile-button-breathe 4.4s ease-in-out infinite !important;
+  }
+
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon,
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon,
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon,
@@ -817,6 +835,22 @@
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center {
     transform: translateY(clamp(-1.18rem, -4.6vw, -0.72rem)) translateZ(0) scale(1) !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: inherit !important;
+    background: inherit !important;
+    box-shadow: inherit !important;
+    opacity: 0.96 !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    transform-origin: center !important;
+    will-change: transform, opacity !important;
+    animation: profile-orbit-mobile-button-breathe 4.4s ease-in-out infinite !important;
   }
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon,
@@ -1721,6 +1755,21 @@
     text-shadow: none !important;
   }
 
+  .subpage-mobile-title--static {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    white-space: normal !important;
+    text-wrap: balance !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: manual !important;
+    overflow: visible !important;
+    font-size: clamp(1.72rem, 6.2vw, 2.12rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0.004em !important;
+  }
+
   html:not([data-platform="android"]) .subpage-mobile-title {
     --subpage-title-start-reserve: clamp(3.15rem, 10.4vw, 3.7rem) !important;
     --subpage-title-end-reserve: var(--subpage-title-start-reserve) !important;
@@ -1734,6 +1783,12 @@
     --subpage-title-end-reserve: var(--subpage-title-start-reserve) !important;
     font-size: var(--subpage-title-font, clamp(1.72rem, 6vw, 2.12rem)) !important;
     letter-spacing: var(--subpage-title-tracking, 0.006em) !important;
+  }
+
+  html[data-platform="android"] .subpage-mobile-title--static,
+  body[data-platform="android"] .subpage-mobile-title--static {
+    font-size: clamp(1.62rem, 5.8vw, 1.94rem) !important;
+    line-height: 1.08 !important;
   }
 
   .policy-mobile-title-wrap {
@@ -1830,15 +1885,32 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(0.95);
+    transform: scale(0.93);
   }
   100% {
     transform: scale(1);
   }
 }
 
+@keyframes profile-orbit-mobile-button-breathe {
+  0% {
+    transform: scale(1);
+    opacity: 0.96;
+  }
+  50% {
+    transform: scale(0.955);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.96;
+  }
+}
+
 html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu.is-mobile .profile-orbit-menu__hub-icon,
-body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu.is-mobile .profile-orbit-menu__hub-icon {
+body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu.is-mobile .profile-orbit-menu__hub-icon,
+html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu.is-mobile .profile-orbit-menu__center::before,
+body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu.is-mobile .profile-orbit-menu__center::before {
   animation: none !important;
 }
 

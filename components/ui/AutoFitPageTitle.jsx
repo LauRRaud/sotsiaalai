@@ -13,6 +13,7 @@ export default function AutoFitPageTitle({
   maxFontPx = null,
   minScaleX = null,
   mobileOnly = true,
+  disableFit = false,
   style,
   ...props
 }) {
@@ -22,6 +23,15 @@ export default function AutoFitPageTitle({
     if (typeof window === "undefined") return undefined;
     const node = titleRef.current;
     if (!(node instanceof HTMLElement)) return undefined;
+    if (disableFit) {
+      node.dataset.fitReady = "1";
+      node.style.removeProperty("font-size");
+      node.style.removeProperty("--fit-title-font-size");
+      node.style.removeProperty("transform");
+      node.style.removeProperty("transform-origin");
+      node.style.removeProperty("--fit-title-scale-x");
+      return undefined;
+    }
 
     let rafId = 0;
     let resizeObserver = null;
@@ -151,14 +161,14 @@ export default function AutoFitPageTitle({
       resizeObserver?.disconnect?.();
       window.removeEventListener("resize", scheduleFit);
     };
-  }, [children, maxFontPx, minFontPx, minScaleX, mobileOnly]);
+  }, [children, disableFit, maxFontPx, minFontPx, minScaleX, mobileOnly]);
 
   return createElement(
     as,
     {
       ...props,
       ref: titleRef,
-      "data-fit-ready": mobileOnly ? "0" : "1",
+      "data-fit-ready": mobileOnly && !disableFit ? "0" : "1",
       className: cn(className),
       style: {
         ...style,
