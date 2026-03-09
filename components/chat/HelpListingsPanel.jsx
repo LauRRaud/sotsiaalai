@@ -88,7 +88,7 @@ export default function HelpListingsPanel({
         className={glassPageBackTopLeftClassName}
       />
 
-        <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
+        <header className="help-listings-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
           <h2 className={helpListingsTitleClassName}>
             {title}
           </h2>

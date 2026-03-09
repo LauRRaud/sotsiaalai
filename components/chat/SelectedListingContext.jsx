@@ -126,8 +126,8 @@ export default function SelectedListingContext({
         className={glassPageBackTopLeftClassName}
       />
 
-      <header className="flex items-start justify-center">
-        <div className="flex flex-col items-center">
+      <header className="selected-listing-title-wrap flex w-full items-start justify-center">
+        <div className="flex w-full flex-col items-center">
           <div className="mt-[0.7rem] text-[0.82rem] uppercase tracking-[0.12em] text-[color:var(--title-color,var(--brand-primary))] opacity-76 max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)]">
             {isOwn ? ui.ownListing : ui.selectedListing}
           </div>

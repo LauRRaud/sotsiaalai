@@ -58,7 +58,7 @@ export default function InviteModal() {
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
   const inviteModalTitleClassName =
-    `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} w-full ` +
+    `invite-modal-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} w-full ` +
     "max-[768px]:!text-[clamp(2.2rem,8.7vw,2.9rem)]";
   const inviteModalBodyClassName =
     "invite-modal-scroll mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]";
@@ -308,7 +308,7 @@ export default function InviteModal() {
   if (!open) return null;
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay person-invite-modal-overlay max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName={inviteModalContentClassName}>
       <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className={glassPageBackTopLeftClassName} />
-      <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
+      <header className="invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
         <h2 className={inviteModalTitleClassName}>
           {t("invite.eyebrow")}
         </h2>
