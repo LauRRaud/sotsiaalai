@@ -654,27 +654,27 @@
     max-width: none !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding-left: clamp(3.55rem, 12.8vw, 4.35rem) !important;
-    padding-right: clamp(0.45rem, 2.4vw, 0.85rem) !important;
+    padding-left: clamp(3.35rem, 11.8vw, 4.1rem) !important;
+    padding-right: clamp(0.32rem, 1.8vw, 0.68rem) !important;
     white-space: normal !important;
     text-wrap: balance !important;
     overflow-wrap: normal !important;
     word-break: normal !important;
     hyphens: none !important;
-    font-size: clamp(1.6rem, 6.1vw, 2rem) !important;
+    font-size: clamp(1.48rem, 5.45vw, 1.82rem) !important;
     line-height: 1.04 !important;
-    letter-spacing: 0.008em !important;
+    letter-spacing: 0.005em !important;
   }
 
   html[data-platform="android"] .rooms-page-title,
   body[data-platform="android"] .rooms-page-title {
-    padding-left: clamp(3.35rem, 11.8vw, 4rem) !important;
-    padding-right: clamp(0.35rem, 2vw, 0.75rem) !important;
-    font-size: clamp(1.4rem, 5.15vw, 1.72rem) !important;
-    line-height: 1.03 !important;
-    letter-spacing: 0.004em !important;
-    white-space: nowrap !important;
-    text-wrap: nowrap !important;
+    padding-left: clamp(3.2rem, 11.2vw, 3.85rem) !important;
+    padding-right: clamp(0.28rem, 1.6vw, 0.62rem) !important;
+    font-size: clamp(1.36rem, 4.95vw, 1.68rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: 0.003em !important;
+    white-space: normal !important;
+    text-wrap: balance !important;
   }
 
   html[data-platform="android"] .rooms-page-title-wrap,
@@ -682,13 +682,13 @@
   html[data-platform="android"] .selected-listing-title-wrap,
   html[data-platform="android"] .invite-modal-title-wrap,
   body[data-platform="android"] .rooms-page-title-wrap {
-    width: min(96%, 28rem) !important;
+    width: min(99%, 30rem) !important;
   }
 
   body[data-platform="android"] .help-listings-title-wrap,
   body[data-platform="android"] .selected-listing-title-wrap,
   body[data-platform="android"] .invite-modal-title-wrap {
-    width: min(96%, 28rem) !important;
+    width: min(99%, 30rem) !important;
   }
 
   html[data-platform="android"] .invite-modal-title,
@@ -732,16 +732,34 @@
     letter-spacing: 0.004em !important;
   }
 
-  html[data-platform="android"] .help-listings-title,
-  body[data-platform="android"] .help-listings-title {
+  html[data-platform="android"] .subscription-page-title,
+  body[data-platform="android"] .subscription-page-title {
+    width: calc(100% - clamp(0.15rem, 0.8vw, 0.42rem)) !important;
+    max-width: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: clamp(3.55rem, 12.2vw, 4.15rem) !important;
+    padding-right: clamp(0.35rem, 1.8vw, 0.72rem) !important;
     white-space: nowrap !important;
     text-wrap: nowrap !important;
     overflow-wrap: normal !important;
     word-break: normal !important;
     hyphens: none !important;
-    font-size: clamp(1.42rem, 5.15vw, 1.74rem) !important;
+    font-size: clamp(1.34rem, 4.9vw, 1.68rem) !important;
     line-height: 1.04 !important;
-    letter-spacing: 0.006em !important;
+    letter-spacing: 0.004em !important;
+  }
+
+  html[data-platform="android"] .help-listings-title,
+  body[data-platform="android"] .help-listings-title {
+    white-space: normal !important;
+    text-wrap: balance !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+    font-size: clamp(1.34rem, 4.95vw, 1.64rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: 0.004em !important;
   }
 
   html[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
@@ -874,7 +892,7 @@
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    margin-top: clamp(2rem, 8vw, 2.85rem) !important;
+    margin-top: clamp(2.45rem, 9.5vw, 3.35rem) !important;
     transform: none !important;
   }
 
@@ -884,7 +902,7 @@
   }
 
   html[data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    margin-top: clamp(2rem, 8vw, 2.85rem) !important;
+    margin-top: clamp(2.45rem, 9.5vw, 3.35rem) !important;
     transform: none !important;
   }
 
@@ -897,8 +915,8 @@
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    margin-top: clamp(1.05rem, 4.8vw, 1.55rem) !important;
-    transform: translateY(clamp(0.02rem, 0.25vw, 0.12rem)) !important;
+    margin-top: clamp(1.45rem, 6.4vw, 2rem) !important;
+    transform: translateY(clamp(0.18rem, 0.8vw, 0.34rem)) !important;
   }
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
@@ -908,8 +926,8 @@
 
   html[data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body[data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    margin-top: clamp(1.05rem, 4.8vw, 1.55rem) !important;
-    transform: translateY(clamp(0.02rem, 0.25vw, 0.12rem)) !important;
+    margin-top: clamp(1.45rem, 6.4vw, 2rem) !important;
+    transform: translateY(clamp(0.18rem, 0.8vw, 0.34rem)) !important;
   }
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
