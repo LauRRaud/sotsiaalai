@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import BackButton from "@/components/ui/BackButton";
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
@@ -177,7 +178,7 @@ export default function KasutustingimusedBody() {
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
-        <h1
+        <AutoFitPageTitle
           id="terms-title"
           className={cn(
             "policy-page-title",
@@ -185,9 +186,10 @@ export default function KasutustingimusedBody() {
             glassPolicyTitleOffsetClassName,
             isExpandedLayout ? glassPolicyTitleExpandedClassName : null
           )}
+          minFontPx={16}
         >
           {termsTitleNode}
-        </h1>
+        </AutoFitPageTitle>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           {showDesktopBottomFade ? <div aria-hidden className={policyDesktopBottomFadeOverlayClassName} style={policyDesktopBottomFadeOverlayStyle} /> : null}
           <div

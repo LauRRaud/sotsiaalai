@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
@@ -162,7 +163,7 @@ export default function PrivaatsusBody() {
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
-        <h1
+        <AutoFitPageTitle
           id="privacy-title"
           className={cn(
             "policy-page-title",
@@ -170,9 +171,10 @@ export default function PrivaatsusBody() {
             glassPolicyTitleOffsetClassName,
             isExpandedLayout ? glassPolicyTitleExpandedClassName : null
           )}
+          minFontPx={16}
         >
           {t("privacy.title")}
-        </h1>
+        </AutoFitPageTitle>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", "privacy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           {showDesktopBottomFade ? <div aria-hidden className={policyDesktopBottomFadeOverlayClassName} style={policyDesktopBottomFadeOverlayStyle} /> : null}
           <div

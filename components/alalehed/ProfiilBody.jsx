@@ -15,6 +15,7 @@ import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition, runWithTransition, triggerRouteTransition } from "@/lib/routeTransition";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import { getFooterNote } from "@/lib/footerNote";
 import BackButton from "@/components/ui/BackButton";
@@ -1091,7 +1092,7 @@ export default function ProfiilBody({
   }, [embedded, initialProfile, initialProfileUser, isActive, status, t]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
     return <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
-        <h1 className={titleClassName}>{t("profile.title")}</h1>
+        <AutoFitPageTitle className={titleClassName} minFontPx={17}>{t("profile.title")}</AutoFitPageTitle>
       </ProfileShell>;
   }
   if (!isAuthed) {
@@ -1099,7 +1100,7 @@ export default function ProfiilBody({
     const reasonText = reason === "no-sub" ? t("profile.login_to_manage_sub") : t("profile.login_to_view");
     return <>
         <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
-          <h1 className={titleClassName}>{t("profile.title")}</h1>
+          <AutoFitPageTitle className={titleClassName} minFontPx={17}>{t("profile.title")}</AutoFitPageTitle>
           <p className={noteClassName}>{reasonText}</p>
           <BackButton onClick={embedded ? handleBack : () => setLoginOpen(true)} ariaLabel={embedded ? t("profile.back_to_chat") : t("auth.login.title")} className={profileBackButtonClassName} />
         </ProfileShell>
@@ -1109,9 +1110,9 @@ export default function ProfiilBody({
   }
   if (loadFailed) {
     return <ProfileShell locale={locale} ariaLabelledby="profile-title" embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
-        <h1 id="profile-title" className={titleClassName}>
+        <AutoFitPageTitle id="profile-title" className={titleClassName} minFontPx={17}>
           {t("profile.title")}
-        </h1>
+        </AutoFitPageTitle>
         <div className={errorStateClassName}>
           <div role="alert" className={cn(noteClassName, noteCenterClassName)}>
             {error || t("profile.load_failed")}
@@ -1120,9 +1121,9 @@ export default function ProfiilBody({
       </ProfileShell>;
   }
   return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} orbitOpen={orbitOpen} hidden={showAccountSettings || Boolean(profileHelpPanel)} maskLayerRef={maskLayerRef} footerNote={footerNote}>
-      <h1 id="profile-title" className={cn(titleClassName, "profile-title", orbitOpen ? "opacity-0 pointer-events-none" : null)}>
+      <AutoFitPageTitle id="profile-title" className={cn(titleClassName, "profile-title", orbitOpen ? "opacity-0 pointer-events-none" : null)} minFontPx={17}>
         {t("profile.title")}
-      </h1>
+      </AutoFitPageTitle>
 
       <div className={cn(headerCenterClassName, "profile-role-row")}>
         <span
@@ -1201,7 +1202,7 @@ export default function ProfiilBody({
                 className={accountModalBackButtonClassName}
               />
               <div className={accountModalTitleWrapClassName}>
-                <h2 className={accountModalTitleClassName}>{t("profile.account_settings")}</h2>
+                <AutoFitPageTitle as="h2" className={accountModalTitleClassName} minFontPx={16}>{t("profile.account_settings")}</AutoFitPageTitle>
                 <p className={accountModalDescriptionClassName}>{t("profile.account_settings_hint")}</p>
               </div>
             </div>

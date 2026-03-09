@@ -11,6 +11,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
@@ -162,9 +163,9 @@ export default function UuendaEpostiBody() {
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
-        <h1 className={titleClassName}>
+        <AutoFitPageTitle className={titleClassName} minFontPx={17}>
           {t("profile.email_update.title")}
-        </h1>
+        </AutoFitPageTitle>
         <div className={contentClassName}>
           {unauthenticated ? <div className="flex w-full flex-col items-center gap-6 text-center">
               <p className="text-[color:#fca5a5]">

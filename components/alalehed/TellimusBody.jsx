@@ -10,6 +10,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
@@ -217,9 +218,9 @@ export default function TellimusBody() {
         <GlassRing className={ringClassName}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
           <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
-          <h1 className={titleClassName}>
+          <AutoFitPageTitle className={titleClassName} minFontPx={17}>
             {t("subscription.title")}
-          </h1>
+          </AutoFitPageTitle>
           <div className={contentClassName}>
             <p className={subscriptionCopyClassName} aria-live="polite">
               {t("subscription.loading")}
@@ -239,9 +240,9 @@ export default function TellimusBody() {
         <GlassRing className={cn(ringClassName, loginOpen ? "opacity-0 pointer-events-none" : "opacity-100", "transition-opacity duration-200 ease-out")} aria-hidden={loginOpen ? "true" : undefined}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
           <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
-          <h1 className={titleClassName}>
+          <AutoFitPageTitle className={titleClassName} minFontPx={17}>
             {t("subscription.title")}
-          </h1>
+          </AutoFitPageTitle>
           <div className={contentClassName}>
             <p className={subscriptionCopyClassName}>
               {reasonText}
@@ -271,9 +272,9 @@ export default function TellimusBody() {
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
-        <h1 className={titleClassName}>
+        <AutoFitPageTitle className={titleClassName} minFontPx={17}>
           {t("subscription.title")}
-        </h1>
+        </AutoFitPageTitle>
         <div className={contentClassName}>
           {subActive ? <>
               <div className={subscriptionActivePanelClassName} id="cancel-note">

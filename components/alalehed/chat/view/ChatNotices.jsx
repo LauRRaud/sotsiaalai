@@ -1,3 +1,5 @@
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
+
 const chatAlertClassName =
   "mt-[0.5rem] mb-[0.75rem] self-center mx-auto text-center " +
   "w-fit max-w-[min(30rem,calc(100%-2.2rem))] whitespace-normal " +
@@ -29,9 +31,9 @@ export function ChatTopNotices({
     "max-[768px]:[--subpage-title-font:clamp(1.1rem,4.15vw,1.28rem)] max-[768px]:[--subpage-title-font-android:clamp(0.98rem,3.7vw,1.12rem)]";
 
   return <>
-    {isRoomMode && roomTitle ? <div className={roomTitleClassName}>
+    {isRoomMode && roomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={15}>
       {roomTitle}
-    </div> : null}
+    </AutoFitPageTitle> : null}
     {isCrisis ? <div role="alert" className={chatAlertClassName}>
       {crisisText}
     </div> : null}

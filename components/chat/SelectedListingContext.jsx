@@ -2,6 +2,7 @@
 
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -131,11 +132,13 @@ export default function SelectedListingContext({
           <div className="mt-[0.7rem] text-[0.82rem] uppercase tracking-[0.12em] text-[color:var(--title-color,var(--brand-primary))] opacity-76 max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)]">
             {isOwn ? ui.ownListing : ui.selectedListing}
           </div>
-          <h2
+          <AutoFitPageTitle
+            as="h2"
             className={`selected-listing-title subpage-mobile-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 min-[769px]:!mt-[0.5rem] max-[768px]:[--subpage-title-font:clamp(1.16rem,4.35vw,1.36rem)] max-[768px]:[--subpage-title-font-android:clamp(1rem,3.8vw,1.14rem)]`}
+            minFontPx={16}
           >
             {loading ? ui.loading : listing?.title || ui.selectedListing}
-          </h2>
+          </AutoFitPageTitle>
           {listing?.municipalityLabel || listing?.statusLabel ? (
             <p className="mt-[0.82rem] text-[1.08rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:text-[1.12rem]">
               {[listing?.municipalityLabel, listing?.statusLabel].filter(Boolean).join(" | ")}

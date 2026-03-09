@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import BackButton from "@/components/ui/BackButton";
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
@@ -89,9 +90,9 @@ export default function HelpListingsPanel({
       />
 
         <header className="help-listings-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
-          <h2 className={helpListingsTitleClassName}>
+          <AutoFitPageTitle as="h2" className={helpListingsTitleClassName} minFontPx={16}>
             {title}
-          </h2>
+          </AutoFitPageTitle>
         </header>
 
         <div className="flex justify-center">

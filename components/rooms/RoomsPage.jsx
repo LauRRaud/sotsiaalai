@@ -10,6 +10,7 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import InviteModal from "@/components/invite/InviteModal";
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
@@ -469,7 +470,9 @@ export default function RoomsPage() {
             className="csp-overlayTitle rooms-page-title-wrap [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
             aria-hidden="true"
           >
-            <h1 className={titleClassName}>{t("rooms.title")}</h1>
+            <AutoFitPageTitle className={titleClassName} minFontPx={17}>
+              {t("rooms.title")}
+            </AutoFitPageTitle>
           </div>
 
           <div

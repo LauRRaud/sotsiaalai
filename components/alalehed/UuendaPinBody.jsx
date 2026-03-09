@@ -11,6 +11,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
+import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import {
   glassPageBackMobileBottomCenterClassName,
   glassPageCloseClassName,
@@ -178,7 +179,9 @@ export default function UuendaPinBody() {
           holdPressedVisualDisabled
           className={glassPageBackMobileBottomCenterClassName}
         />
-        <h1 className={titleClassName}>{t("profile.change_password_cta")}</h1>
+        <AutoFitPageTitle className={titleClassName} minFontPx={17}>
+          {t("profile.change_password_cta")}
+        </AutoFitPageTitle>
         <div className={contentClassName}>
           {status === "unauthenticated" ? <div className="flex w-full flex-col items-center gap-6 text-center">
               <p role="alert" className="text-[color:#fca5a5]">
