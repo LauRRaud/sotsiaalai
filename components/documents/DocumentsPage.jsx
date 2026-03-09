@@ -10,7 +10,7 @@ import Button from "@/components/ui/Button"
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
 import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
-import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles"
+import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass } from "@/components/ui/linkStyles"
 import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
 import {
@@ -24,9 +24,9 @@ import {
 import { localizePath } from "@/lib/localizePath"
 
 const documentsTitleClassName =
-  `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
   `!text-[clamp(1.9rem,3.6vw,2.6rem)] !leading-[1.06] !tracking-[0.02em] ` +
-  `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08] max-[768px]:!mt-0`
+  `max-[768px]:!text-[clamp(1.64rem,6vw,2rem)] max-[768px]:!leading-[1.08] max-[768px]:!mt-0`
 
 function normalizeSearchValue(value) {
   return String(value || "").trim().toLowerCase()

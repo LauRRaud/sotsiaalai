@@ -272,6 +272,13 @@
 }
 
 @media (max-width: 768px) {
+  html[data-platform="android"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    --orbit-size: clamp(11.8rem, 56vw, 14.6rem) !important;
+    --orbit-center-size: clamp(5.45rem, 25.5vw, 6.9rem) !important;
+    --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.42) !important;
+  }
+
   .profile-container.glass-ring {
     background: transparent !important;
     border: 0 !important;
@@ -1138,18 +1145,37 @@
     margin-left: auto !important;
     margin-right: auto !important;
     padding-left: clamp(4rem, 13vw, 4.95rem) !important;
-    padding-right: clamp(0.9rem, 3.8vw, 1.3rem) !important;
+    padding-right: clamp(0.8rem, 3.2vw, 1.15rem) !important;
     text-align: left !important;
     white-space: normal !important;
     text-wrap: balance !important;
-    overflow-wrap: anywhere !important;
+    overflow-wrap: normal !important;
     word-break: normal !important;
-    font-size: clamp(1.56rem, 6vw, 1.94rem) !important;
+    hyphens: manual !important;
+    font-size: clamp(1.38rem, 5.2vw, 1.72rem) !important;
     line-height: 1.08 !important;
     letter-spacing: 0.008em !important;
     transition: none !important;
     transform: none !important;
     will-change: auto !important;
+  }
+
+  html[data-platform="android"] #terms-title,
+  html[data-platform="android"] #privacy-title,
+  html[data-platform="android"] #kasutusjuhend-title,
+  body[data-platform="android"] #terms-title,
+  body[data-platform="android"] #privacy-title,
+  body[data-platform="android"] #kasutusjuhend-title {
+    font-size: clamp(1.38rem, 5.2vw, 1.72rem) !important;
+  }
+
+  html[data-platform="ios"] #terms-title,
+  html[data-platform="ios"] #privacy-title,
+  html[data-platform="ios"] #kasutusjuhend-title,
+  body[data-platform="ios"] #terms-title,
+  body[data-platform="ios"] #privacy-title,
+  body[data-platform="ios"] #kasutusjuhend-title {
+    font-size: clamp(1.5rem, 5.8vw, 1.88rem) !important;
   }
 
   .policy-page-content.glass-ring-content,
@@ -1410,15 +1436,25 @@
     margin-left: auto !important;
     margin-right: auto !important;
     padding-left: clamp(4rem, 13vw, 4.95rem) !important;
-    padding-right: clamp(0.9rem, 3.8vw, 1.3rem) !important;
+    padding-right: clamp(0.8rem, 3.2vw, 1.15rem) !important;
     text-align: left !important;
     white-space: normal !important;
     text-wrap: balance !important;
-    overflow-wrap: anywhere !important;
+    overflow-wrap: normal !important;
     word-break: normal !important;
-    font-size: clamp(1.56rem, 6vw, 1.94rem) !important;
+    hyphens: manual !important;
+    font-size: clamp(1.5rem, 5.8vw, 1.88rem) !important;
     line-height: 1.06 !important;
     letter-spacing: 0.008em !important;
+  }
+
+  html[data-platform="android"] #terms-title,
+  html[data-platform="android"] #privacy-title,
+  html[data-platform="android"] #kasutusjuhend-title,
+  body[data-platform="android"] #terms-title,
+  body[data-platform="android"] #privacy-title,
+  body[data-platform="android"] #kasutusjuhend-title {
+    font-size: clamp(1.38rem, 5.2vw, 1.72rem) !important;
   }
 }
 

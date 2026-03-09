@@ -32,26 +32,27 @@ const FOCUS_CENTER_OFFSET_REM = -0.18;
 const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
 const SLOT_STEP_REM = 3.18;
 const SLOT_STEP_PX = SLOT_STEP_REM * 16;
+const ANDROID_SPACING_FACTOR = 0.86;
 
-function getSlotOffsetRem(slot) {
+function getSlotOffsetRem(slot, spacingFactor = 1) {
   const direction = Math.sign(slot);
   const distance = Math.abs(slot);
   if (distance === 0) {
     return 0;
   }
   if (distance === 1) {
-    return direction * 3.82;
+    return direction * 3.82 * spacingFactor;
   }
   if (distance < 1) {
-    return direction * (3.82 * distance);
+    return direction * (3.82 * distance) * spacingFactor;
   }
   if (distance < 2) {
-    return direction * (3.82 + (distance - 1) * (7.28 - 3.82));
+    return direction * (3.82 + (distance - 1) * (7.28 - 3.82)) * spacingFactor;
   }
   if (distance < 3) {
-    return direction * (7.28 + (distance - 2) * (10.05 - 7.28));
+    return direction * (7.28 + (distance - 2) * (10.05 - 7.28)) * spacingFactor;
   }
-  return direction * (10.05 + (distance - 3) * 2.54);
+  return direction * (10.05 + (distance - 3) * 2.54) * spacingFactor;
 }
 
 function MobileIconFrame({ scale = 1, xNudge = 0, children }) {
@@ -140,6 +141,12 @@ export default function ChatMobileTopNav({
   const [focusedIndex, setFocusedIndex] = useState(getItemIndex(DEFAULT_FOCUSED_KEY));
   const [dragOffsetPx, setDragOffsetPx] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const isAndroidMobile = useMemo(() => {
+    if (typeof navigator === "undefined") return false;
+    return /Android/i.test(navigator.userAgent || "");
+  }, []);
+  const spacingFactor = isAndroidMobile ? ANDROID_SPACING_FACTOR : 1;
+  const slotStepPx = SLOT_STEP_PX * spacingFactor;
 
   const setFocusedIndexImmediate = useCallback(nextValue => {
     if (typeof nextValue === "function") {
@@ -376,7 +383,7 @@ export default function ChatMobileTopNav({
     if (Math.abs(deltaX) >= swipeThreshold) {
       const steps = Math.max(
         1,
-        Math.floor((Math.abs(deltaX) - swipeThreshold) / SLOT_STEP_PX) + 1
+        Math.floor((Math.abs(deltaX) - swipeThreshold) / slotStepPx) + 1
       );
       setFocusedIndexImmediate(current => {
         if (deltaX < 0) {
@@ -390,7 +397,7 @@ export default function ChatMobileTopNav({
     dragStateRef.current.moved = false;
     setDragOffsetPx(0);
     setIsDragging(false);
-  }, [setFocusedIndexImmediate]);
+  }, [setFocusedIndexImmediate, slotStepPx]);
 
   const beginSwipe = useCallback(clientX => {
     dragStateRef.current.startX = clientX;
@@ -436,7 +443,7 @@ export default function ChatMobileTopNav({
   );
 
   const focusedItem = MOBILE_NAV_ITEMS[focusedIndex] || MOBILE_NAV_ITEMS[0];
-  const dragProgress = dragOffsetPx / SLOT_STEP_PX;
+  const dragProgress = dragOffsetPx / slotStepPx;
   const visibleItems = useMemo(() => {
     return MOBILE_NAV_ITEMS.map((item, index) => ({
       item,
@@ -666,7 +673,7 @@ export default function ChatMobileTopNav({
             {visibleItems.map(({ item, index, slot }) => {
               const visualSlot = slot + dragProgress;
               const visualDistance = Math.abs(visualSlot);
-              const xOffsetRem = getSlotOffsetRem(visualSlot);
+              const xOffsetRem = getSlotOffsetRem(visualSlot, spacingFactor);
               const combinedOpacity =
                 getVisualOpacity(visualDistance) * getEdgeFadeOpacity(visualDistance);
               return (

@@ -34,6 +34,19 @@ function applyDisplayModeFlag() {
   root.setAttribute("data-display-mode", mode);
   body.setAttribute("data-display-mode", mode);
 }
+function applyPlatformFlag() {
+  const root = document.documentElement;
+  const body = document.body;
+  if (!root || !body || typeof navigator === "undefined") return;
+  const ua = navigator.userAgent || "";
+  const platform = /Android/i.test(ua)
+    ? "android"
+    : /iPhone|iPad|iPod/i.test(ua)
+      ? "ios"
+      : "other";
+  root.setAttribute("data-platform", platform);
+  body.setAttribute("data-platform", platform);
+}
 function applyVhVar() {
   if (typeof window === "undefined") return;
   const root = document.documentElement;
@@ -60,11 +73,13 @@ export default function ViewportLayoutSetter() {
     const fullscreenMql = window.matchMedia("(display-mode: fullscreen)");
     applyLayoutFlag(mql.matches);
     applyDisplayModeFlag();
+    applyPlatformFlag();
     applyVhVar();
     const onMqChange = e => applyLayoutFlag(e.matches);
     const onResize = () => {
       window.requestAnimationFrame(() => {
         applyDisplayModeFlag();
+        applyPlatformFlag();
         applyVhVar();
       });
     };
@@ -74,6 +89,7 @@ export default function ViewportLayoutSetter() {
     const onPageShow = () => {
       applyLayoutFlag(mql.matches);
       applyDisplayModeFlag();
+      applyPlatformFlag();
       applyVhVar();
     };
     const onDisplayModeChange = () => applyDisplayModeFlag();
@@ -99,6 +115,8 @@ export default function ViewportLayoutSetter() {
       applyLayoutFlag(false);
       document.documentElement.removeAttribute("data-display-mode");
       document.body.removeAttribute("data-display-mode");
+      document.documentElement.removeAttribute("data-platform");
+      document.body.removeAttribute("data-platform");
     };
   }, []);
   useEffect(() => {

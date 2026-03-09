@@ -593,13 +593,13 @@ export default function OrbitalMenu({
                 opacity: v.opacity,
                 filter: v.blur ? `blur(${v.blur}px)` : "none"
               }}>
-                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.16rem,0.8vw,0.34rem)] w-[clamp(7.6rem,50vw,10.4rem)] min-h-[clamp(7.6rem,50vw,10.4rem)] h-auto rounded-full px-[0.8rem] pt-[0.72rem] pb-[0.56rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
+                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.18rem,0.85vw,0.36rem)] w-[clamp(6.7rem,44vw,8.9rem)] min-h-[clamp(6.7rem,44vw,8.9rem)] h-auto rounded-full px-[0.72rem] pt-[0.66rem] pb-[0.5rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
                         <span className="dock-icon w-full h-auto flex-shrink-0 grid place-items-center leading-none min-h-[clamp(2.6rem,14vw,3.8rem)]" aria-hidden="true">
                           {item.icon}
                         </span>
 
                         {}
-                        <span className={cn("profile-orbit-mobile-action__label block w-full shrink-0 order-[-1] text-center leading-[1.08] font-semibold tracking-[0.02em] text-[clamp(0.96rem,3.35vw,1.2rem)] mt-0 mb-[clamp(0.18rem,0.9vw,0.42rem)] p-0 rounded-none transition-opacity duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-visible break-words max-w-[95%] break-normal [hyphens:auto] [text-wrap:balance] max-h-none bg-transparent border-0", isActive ? "opacity-100" : "opacity-0")} aria-hidden={!isActive}>
+                        <span className={cn("profile-orbit-mobile-action__label block w-full shrink-0 order-[-1] text-center leading-[1.08] font-semibold tracking-[0.02em] text-[clamp(1.02rem,3.55vw,1.28rem)] mt-0 mb-[clamp(0.18rem,0.9vw,0.42rem)] p-0 rounded-none transition-opacity duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-visible break-words max-w-[95%] break-normal [hyphens:auto] [text-wrap:balance] max-h-none bg-transparent border-0", isActive ? "opacity-100" : "opacity-0")} aria-hidden={!isActive}>
                           {item.label}
                         </span>
                       </button>

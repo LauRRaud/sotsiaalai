@@ -18,7 +18,7 @@ import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
 import Textarea from "@/components/ui/Textarea"
 import { useSpeech } from "@/components/chat/hooks/useSpeech"
-import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles"
+import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass } from "@/components/ui/linkStyles"
 import { AGENT_ARTIFACT_TYPE_VALUES } from "@/lib/documents/constants"
 import { clientTaskInstruction } from "@/lib/documents/agentTasks"
@@ -33,9 +33,9 @@ import {
 import { localizePath } from "@/lib/localizePath"
 
 const agentTitleClassName =
-  `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
   `!text-[clamp(1.9rem,3.6vw,2.6rem)] !leading-[1.06] !tracking-[0.02em] ` +
-  `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08] max-[768px]:!mt-0`
+  `max-[768px]:!text-[clamp(1.64rem,6vw,2rem)] max-[768px]:!leading-[1.08] max-[768px]:!mt-0`
 
 const chipBaseClassName =
   "documents-chip inline-flex min-h-[2.6rem] items-center justify-center rounded-full px-[0.9rem] py-[0.38rem] text-[1.02rem] leading-none"

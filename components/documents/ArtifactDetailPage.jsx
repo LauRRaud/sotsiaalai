@@ -7,13 +7,13 @@ import BackButton from "@/components/ui/BackButton"
 import Button from "@/components/ui/Button"
 import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
-import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles"
+import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles"
 import { localizePath } from "@/lib/localizePath"
 
 const documentsTitleClassName =
-  `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-left !whitespace-normal ` +
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mt-0 !mb-0 !px-0 !text-left !whitespace-normal ` +
   `!text-[clamp(2rem,4vw,2.85rem)] !leading-[1.03] !tracking-[0.02em] ` +
-  `max-[768px]:!text-[clamp(2rem,8vw,2.7rem)] max-[768px]:!leading-[1.05] max-[768px]:!mt-0`
+  `max-[768px]:!text-[clamp(1.62rem,5.9vw,2rem)] max-[768px]:!leading-[1.05] max-[768px]:!mt-0`
 
 function formatDate(value, locale) {
   if (!value) return ""
