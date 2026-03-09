@@ -59,8 +59,7 @@ export default function InviteModal() {
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
   const inviteModalTitleClassName =
-    `invite-modal-title subpage-mobile-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} w-full ` +
-    "max-[768px]:[--subpage-title-font:clamp(1.22rem,4.6vw,1.46rem)] max-[768px]:[--subpage-title-font-android:clamp(1.05rem,3.95vw,1.24rem)]";
+    `invite-modal-title subpage-mobile-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} w-full`;
   const inviteModalBodyClassName =
     "invite-modal-scroll mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]";
   const inviteFormClassName = "grid gap-[1rem] max-[768px]:gap-[0.95rem]";

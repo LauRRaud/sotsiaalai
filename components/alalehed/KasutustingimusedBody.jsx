@@ -39,14 +39,6 @@ export default function KasutustingimusedBody() {
     locale
   } = useI18n();
   const termsTitle = t("terms.title");
-  const termsTitleNode = locale === "ru" ? (() => {
-    const [firstWord, ...restWords] = String(termsTitle || "").trim().split(/\s+/);
-    if (!firstWord || !restWords.length) return termsTitle;
-    return <>
-        <span className="block">{firstWord}</span>
-        <span className="block">{restWords.join(" ")}</span>
-      </>;
-  })() : termsTitle;
   const {
     prefs
   } = useAccessibility();
@@ -188,7 +180,7 @@ export default function KasutustingimusedBody() {
           )}
           minFontPx={16}
         >
-          {termsTitleNode}
+          {termsTitle}
         </AutoFitPageTitle>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           {showDesktopBottomFade ? <div aria-hidden className={policyDesktopBottomFadeOverlayClassName} style={policyDesktopBottomFadeOverlayStyle} /> : null}

@@ -134,7 +134,7 @@ export default function SelectedListingContext({
           </div>
           <AutoFitPageTitle
             as="h2"
-            className={`selected-listing-title subpage-mobile-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 min-[769px]:!mt-[0.5rem] max-[768px]:[--subpage-title-font:clamp(1.16rem,4.35vw,1.36rem)] max-[768px]:[--subpage-title-font-android:clamp(1rem,3.8vw,1.14rem)]`}
+            className={`selected-listing-title subpage-mobile-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 min-[769px]:!mt-[0.5rem]`}
             minFontPx={16}
           >
             {loading ? ui.loading : listing?.title || ui.selectedListing}

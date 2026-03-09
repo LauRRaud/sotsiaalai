@@ -166,8 +166,18 @@ export default function OrbitalMenu({
   useEffect(() => {
     if (typeof document === "undefined") return;
     const html = document.documentElement;
-    if (isOpen) html.classList.add("profile-orbit-open");else html.classList.remove("profile-orbit-open");
-    return () => html.classList.remove("profile-orbit-open");
+    const body = document.body;
+    if (isOpen) {
+      html.classList.add("profile-orbit-open");
+      body?.classList.add("profile-orbit-open");
+    } else {
+      html.classList.remove("profile-orbit-open");
+      body?.classList.remove("profile-orbit-open");
+    }
+    return () => {
+      html.classList.remove("profile-orbit-open");
+      body?.classList.remove("profile-orbit-open");
+    };
   }, [isOpen]);
   useEffect(() => {
     if (!isOpen || !useMobileDialog) return;

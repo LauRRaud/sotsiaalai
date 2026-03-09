@@ -47,8 +47,7 @@ export default function HelpListingsPanel({
     `leading-[1.35] tracking-[0.024rem] ${glassPageMobileCardClassName} ` +
     `${isClosing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const helpListingsTitleClassName =
-    `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title ` +
-    `help-listings-title max-[768px]:[--subpage-title-font:clamp(1.18rem,4.45vw,1.42rem)] max-[768px]:[--subpage-title-font-android:clamp(1.02rem,3.85vw,1.2rem)]`;
+    `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title help-listings-title`;
 
   useEffect(() => {
     setIsMounted(true);

@@ -133,7 +133,7 @@ const accountModalTitleWrapClassName =
   "account-modal-title-wrap grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]";
 const accountModalTitleClassName =
   `account-modal-title subpage-mobile-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 ` +
-  "max-[768px]:[--subpage-title-font:clamp(1.22rem,4.6vw,1.46rem)] max-[768px]:[--subpage-title-font-android:clamp(1.05rem,3.95vw,1.24rem)]";
+  "";
 const accountModalDescriptionClassName =
   "mx-auto max-w-[28rem] text-[1.04rem] leading-[1.4] tracking-[0.02em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:max-w-none max-[768px]:px-[0.15rem] max-[768px]:text-[1.08rem]";
 const accountModalActionStackClassName =
@@ -181,6 +181,7 @@ function ProfileShell({
   children,
   role = "region",
   ariaLabelledby,
+  ariaLabel,
   innerRef,
   embedded = false,
   theme = "dark",
@@ -214,7 +215,7 @@ function ProfileShell({
     backdropFilter: "none",
     WebkitBackdropFilter: "none"
   };
-  const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"} style={ringSurfaceStyle}>
+  const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} aria-label={ariaLabel} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"} style={ringSurfaceStyle}>
       <div
         ref={maskLayerRef}
         className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"
@@ -451,7 +452,7 @@ export default function ProfiilBody({
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
     !embedded && "min-[48.0625em]:sr-only",
-    "subpage-mobile-title max-[48em]:[--subpage-title-font:clamp(1.22rem,4.6vw,1.46rem)] max-[48em]:[--subpage-title-font-android:clamp(1.05rem,3.95vw,1.24rem)]"
+    "subpage-mobile-title"
   );
   const headerCenterClassName = cn(
     headerCenterBaseClassName,
@@ -1091,16 +1092,14 @@ export default function ProfiilBody({
     })();
   }, [embedded, initialProfile, initialProfileUser, isActive, status, t]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
-    return <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
-        <AutoFitPageTitle className={titleClassName} minFontPx={17}>{t("profile.title")}</AutoFitPageTitle>
+    return <ProfileShell locale={locale} embedded={embedded} ariaLabel={t("profile.title")} theme={profileShellTheme} footerNote={footerNote}>
       </ProfileShell>;
   }
   if (!isAuthed) {
     const reason = registrationReason || "not-logged-in";
     const reasonText = reason === "no-sub" ? t("profile.login_to_manage_sub") : t("profile.login_to_view");
     return <>
-        <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
-          <AutoFitPageTitle className={titleClassName} minFontPx={17}>{t("profile.title")}</AutoFitPageTitle>
+        <ProfileShell locale={locale} embedded={embedded} ariaLabel={t("profile.title")} theme={profileShellTheme} footerNote={footerNote}>
           <p className={noteClassName}>{reasonText}</p>
           <BackButton onClick={embedded ? handleBack : () => setLoginOpen(true)} ariaLabel={embedded ? t("profile.back_to_chat") : t("auth.login.title")} className={profileBackButtonClassName} />
         </ProfileShell>
@@ -1109,10 +1108,7 @@ export default function ProfiilBody({
       </>;
   }
   if (loadFailed) {
-    return <ProfileShell locale={locale} ariaLabelledby="profile-title" embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
-        <AutoFitPageTitle id="profile-title" className={titleClassName} minFontPx={17}>
-          {t("profile.title")}
-        </AutoFitPageTitle>
+    return <ProfileShell locale={locale} ariaLabel={t("profile.title")} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
         <div className={errorStateClassName}>
           <div role="alert" className={cn(noteClassName, noteCenterClassName)}>
             {error || t("profile.load_failed")}
@@ -1120,11 +1116,7 @@ export default function ProfiilBody({
         </div>
       </ProfileShell>;
   }
-  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} orbitOpen={orbitOpen} hidden={showAccountSettings || Boolean(profileHelpPanel)} maskLayerRef={maskLayerRef} footerNote={footerNote}>
-      <AutoFitPageTitle id="profile-title" className={cn(titleClassName, "profile-title", orbitOpen ? "opacity-0 pointer-events-none" : null)} minFontPx={17}>
-        {t("profile.title")}
-      </AutoFitPageTitle>
-
+  return <ProfileShell locale={locale} ariaLabel={t("profile.title")} innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} orbitOpen={orbitOpen} hidden={showAccountSettings || Boolean(profileHelpPanel)} maskLayerRef={maskLayerRef} footerNote={footerNote}>
       <div className={cn(headerCenterClassName, "profile-role-row")}>
         <span
           ref={rolePillRef}

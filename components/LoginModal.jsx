@@ -21,6 +21,14 @@ const noteInfoClassName = "text-[color:var(--pt-120)]";
 const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-[1.55rem] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38] [--link-brand-shadow-hover:transparent]`;
 const homeLikeOtpLinkClassName = `${linkBrandInlineClass} home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.12rem,1.55vw,1.28rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]`;
 const helpPopoverLinkClassName = `${linkBrandInlineClass} mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap [--link-brand-shadow-hover:transparent]`;
+const helpPopoverClassName =
+  "login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] " +
+  "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border shadow-[0_14px_28px_rgba(0,0,0,0.3)] " +
+  "bg-[#13151b] text-[#f3eee8] border-[rgba(255,255,255,0.12)] " +
+  "[.theme-night_&]:bg-[#0d1422] [.theme-night_&]:text-[#eef4ff] [.theme-night_&]:border-[rgba(148,163,184,0.24)] " +
+  "[.theme-dark_&]:bg-[#13151b] [.theme-dark_&]:text-[#f3eee8] [.theme-dark_&]:border-[rgba(255,255,255,0.12)] " +
+  "[.theme-mid_&]:bg-[#f3ece8] [.theme-mid_&]:text-[#4a3833] [.theme-mid_&]:border-[rgba(122,58,56,0.14)] [.theme-mid_&]:shadow-[0_12px_24px_rgba(80,58,52,0.12)] " +
+  "[.theme-light:not(.theme-mid)_&]:bg-[#fffaf8] [.theme-light:not(.theme-mid)_&]:text-[#111827] [.theme-light:not(.theme-mid)_&]:border-[rgba(122,58,56,0.12)] [.theme-light:not(.theme-mid)_&]:shadow-[0_12px_24px_rgba(15,23,42,0.12)]";
 const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const otpTextClassName = "text-[#ece8e2] [.theme-night_&]:text-[#e8eef9] [.theme-mid_&]:text-[#4a3833] [.theme-light:not(.theme-mid)_&]:text-[#1f2937]";
 const otpInfoTextClassName = "text-[#f2eee8] [.theme-night_&]:text-[#f3f7ff] [.theme-mid_&]:text-[#3f2f2b] [.theme-light:not(.theme-mid)_&]:text-[#111827]";
@@ -1347,7 +1355,7 @@ export default function LoginModal({
             })}
                 </div>
 
-                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className="login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] rounded-[16px] bg-[rgba(0,0,0,0.5)] text-[rgba(255,255,255,0.92)] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 backdrop-blur-[14px] backdrop-saturate-[118%] [-webkit-backdrop-filter:blur(14px)_saturate(118%)] border border-[rgba(255,255,255,0.12)] shadow-[0_14px_28px_rgba(0,0,0,0.24)] light:bg-[rgba(255,255,255,0.62)] light:text-[#111827] light:border-[rgba(122,58,56,0.12)] light:shadow-[0_12px_24px_rgba(15,23,42,0.12)]" style={{
+                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className={helpPopoverClassName} style={{
                   width: isMobile ? "min(19.4rem, calc(100vw - 2.2rem))" : "19.2rem",
                   maxWidth: "calc(100vw - 1.6rem)"
                 }}>
@@ -1356,12 +1364,12 @@ export default function LoginModal({
                     </button>
 
                     <div className="flex flex-col pr-[1.28rem] max-w-[inherit]">
-                      <div className="text-[1.12rem] max-md:text-[1.2rem] leading-[1.36] mt-[0.06rem] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
+                      <div className="mt-[0.06rem] text-[1.12rem] max-md:text-[1.2rem] leading-[1.36] text-inherit opacity-95 hyphens-none">
                         {t("auth.login.help_hold_zero_before")}{" "}
                         <strong>{0}</strong>{" "}
                         {t("auth.login.help_hold_zero_after")}.
                       </div>
-                      <div className="mt-[0.36rem] text-[1.07rem] max-md:text-[1.14rem] leading-[1.34] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
+                      <div className="mt-[0.36rem] text-[1.07rem] max-md:text-[1.14rem] leading-[1.34] text-inherit opacity-95 hyphens-none">
                         {t("auth.login.help_wrong_pin_note")}
                       </div>
 

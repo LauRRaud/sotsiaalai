@@ -25,8 +25,7 @@ const emailReplacement = {
 };
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subscription-page-title subpage-mobile-title ` +
-  `max-[768px]:[--subpage-title-font:clamp(1.26rem,4.8vw,1.56rem)] max-[768px]:[--subpage-title-font-android:clamp(1.08rem,4.05vw,1.28rem)]`;
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subscription-page-title subpage-mobile-title`;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName =
   "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] max-[768px]:max-w-none flex-col gap-4 text-center max-[768px]:text-left";
