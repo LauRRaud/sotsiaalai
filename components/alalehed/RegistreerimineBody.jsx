@@ -363,17 +363,17 @@ export default function RegistreerimineBody({
                   <div id={roleHintId} className="sr-only">
                     {t("auth.register.role_hint")}
                   </div>
-                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.worker")}
                 </OptionCard>
-                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.client")}
                 </OptionCard>
                 </div>
               </section>
 
               <section className={`${registerStepClassName} ${getRegisterStepClassName(3)}`}>
-                <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className={`register-agree-card ${checkboxCardClassName} ${registerControlVarsClassName}`}>
+                <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-agree-card ${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.agreement")} replacements={{
                     terms: {
                       open: `<a class="${registerPolicyLinkClassName}" href="${localizePath("/kasutustingimused", locale)}">`,
@@ -388,7 +388,7 @@ export default function RegistreerimineBody({
               </section>
 
               <section className={`${registerStepClassName} ${getRegisterStepClassName(4)}`}>
-                <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className={`register-guide-card ${checkboxCardClassName} ${registerControlVarsClassName}`}>
+                <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-guide-card ${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.guide_ack")} replacements={{
                     guide: {
                       open: `<a class="${registerPolicyLinkClassName}" href="${localizePath("/kasutusjuhend", locale)}">`,

@@ -16,7 +16,8 @@ import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} max-[768px]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
+  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title ` +
+  `max-[768px]:[--subpage-title-font:clamp(1.3rem,4.9vw,1.62rem)] max-[768px]:[--subpage-title-font-android:clamp(1.12rem,4.2vw,1.34rem)]`;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName = "mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-4";
 const inputClassName = "w-full max-w-[22rem]";

@@ -1,5 +1,5 @@
 import { cn } from "@/components/ui/cn";
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 const baseCard = "flex items-center gap-[0.45rem] rounded-[var(--seg-card-radius)] [border-width:var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[0.85rem] py-[0.65rem] text-[1.18rem] font-normal tracking-[0.03em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-150 ease-out hover:[background:var(--seg-card-bg-hover)] hover:text-[color:var(--seg-card-text-hover)] hover:shadow-[var(--seg-card-shadow-hover)] [&_a]:!text-[color:var(--link-brand-text,var(--link-color,var(--brand-primary)))] [&_a:hover]:!text-[color:var(--link-brand-text,var(--link-color,var(--brand-primary)))] [&_a:active]:!text-[color:var(--link-brand-text,var(--link-color,var(--brand-primary)))] [&_a:focus-visible]:!text-[color:var(--link-brand-text,var(--link-color,var(--brand-primary)))]";
 const selectedCard = "text-[color:var(--seg-card-text-selected)]";
 const checkboxIndicator = "relative flex h-[var(--seg-control-size,20px)] w-[var(--seg-control-size,20px)] items-center justify-center rounded-[var(--seg-control-radius,0.4rem)] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100";
@@ -27,10 +27,13 @@ export default function OptionCard({
   inputRef,
   disabled = false,
   className,
-  children
+  children,
+  fitTextLines,
+  fitTextMinPx = 16
 }) {
   const internalRef = useRef(null);
   const resolvedRef = inputRef || internalRef;
+  const textRef = useRef(null);
   const indicator = type === "checkbox" ? <span aria-hidden="true" className={`${checkboxIndicator} shrink-0`}>
         <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[var(--seg-check-size,18px)] w-[var(--seg-check-size,18px)] scale-100 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M6 12.5l4 4 8-8" />
@@ -51,9 +54,73 @@ export default function OptionCard({
     }
     if (e.key !== " " && e.key !== "Enter") return;
   };
+  useLayoutEffect(() => {
+    if (!fitTextLines || typeof window === "undefined") return undefined;
+    const node = textRef.current;
+    if (!(node instanceof HTMLElement)) return undefined;
+
+    let rafId = 0;
+    let resizeObserver = null;
+
+    const fit = () => {
+      const style = window.getComputedStyle(node);
+      const baseFont = Number.parseFloat(style.fontSize) || 16;
+      const lineHeightRaw = Number.parseFloat(style.lineHeight);
+      const lineHeight = Number.isFinite(lineHeightRaw) ? lineHeightRaw : baseFont * 1.24;
+      const maxHeight = lineHeight * fitTextLines + 1;
+      const minFont = Math.min(baseFont, fitTextMinPx);
+
+      node.style.removeProperty("font-size");
+      node.style.removeProperty("--fit-text-size");
+
+      if (node.scrollHeight <= maxHeight) return;
+
+      let low = minFont;
+      let high = baseFont;
+      let best = minFont;
+
+      for (let i = 0; i < 10; i += 1) {
+        const mid = (low + high) / 2;
+        node.style.fontSize = `${mid}px`;
+        if (node.scrollHeight <= maxHeight) {
+          best = mid;
+          low = mid;
+        } else {
+          high = mid;
+        }
+      }
+
+      node.style.fontSize = `${best}px`;
+      node.style.setProperty("--fit-text-size", `${best}px`);
+    };
+
+    const scheduleFit = () => {
+      window.cancelAnimationFrame(rafId);
+      rafId = window.requestAnimationFrame(fit);
+    };
+
+    scheduleFit();
+
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(scheduleFit);
+      resizeObserver.observe(node);
+      if (resolvedRef.current?.parentElement instanceof HTMLElement) {
+        resizeObserver.observe(resolvedRef.current.parentElement);
+      }
+    }
+
+    window.addEventListener("resize", scheduleFit);
+    document.fonts?.ready?.then?.(scheduleFit).catch?.(() => {});
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      resizeObserver?.disconnect?.();
+      window.removeEventListener("resize", scheduleFit);
+    };
+  }, [children, fitTextLines, fitTextMinPx, resolvedRef]);
   return <label data-checked={checked ? "true" : "false"} data-control-type={type} className={cn(baseCard, disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer", className, checked ? selectedCard : null)}>
       <input ref={resolvedRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} disabled={disabled} className="peer sr-only" style={visuallyHiddenInputStyle} tabIndex={0} />
       {indicator}
-      <span className="flex-1">{children}</span>
+      <span ref={textRef} className="flex-1">{children}</span>
     </label>;
 }

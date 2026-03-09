@@ -131,8 +131,8 @@ const accountModalBackButtonClassName = glassPageBackTopLeftClassName;
 const accountModalTitleWrapClassName =
   "account-modal-title-wrap grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]";
 const accountModalTitleClassName =
-  `account-modal-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 ` +
-  "max-[768px]:!text-[clamp(2.2rem,8.7vw,2.9rem)]";
+  `account-modal-title subpage-mobile-title ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 ` +
+  "max-[768px]:[--subpage-title-font:clamp(1.22rem,4.6vw,1.46rem)] max-[768px]:[--subpage-title-font-android:clamp(1.05rem,3.95vw,1.24rem)]";
 const accountModalDescriptionClassName =
   "mx-auto max-w-[28rem] text-[1.04rem] leading-[1.4] tracking-[0.02em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:max-w-none max-[768px]:px-[0.15rem] max-[768px]:text-[1.08rem]";
 const accountModalActionStackClassName =
@@ -450,7 +450,7 @@ export default function ProfiilBody({
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
     !embedded && "min-[48.0625em]:sr-only",
-    "max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)] max-[48em]:!px-[clamp(4.2rem,17vw,5.4rem)]"
+    "subpage-mobile-title max-[48em]:[--subpage-title-font:clamp(1.22rem,4.6vw,1.46rem)] max-[48em]:[--subpage-title-font-android:clamp(1.05rem,3.95vw,1.24rem)]"
   );
   const headerCenterClassName = cn(
     headerCenterBaseClassName,

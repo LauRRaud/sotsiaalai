@@ -23,10 +23,10 @@ export function ChatTopNotices({
   roomAuthRequired
 }) {
   const roomTitleClassName =
-    "chat-room-title mx-auto max-w-[min(30rem,calc(100%-2.2rem))] text-center mt-[-0.6rem] mb-[0.9rem] " +
+    "chat-room-title subpage-mobile-title mx-auto max-w-[min(30rem,calc(100%-2.2rem))] text-center mt-[-0.6rem] mb-[0.9rem] " +
     "text-[1.25rem] leading-[1.08] tracking-[0.02em] text-[color:var(--pt-200)] " +
     "max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)] max-[768px]:mb-[0.62rem] " +
-    "max-[768px]:px-[clamp(3.6rem,16vw,5.6rem)] max-[768px]:text-[clamp(1.28rem,5vw,1.5rem)]";
+    "max-[768px]:[--subpage-title-font:clamp(1.1rem,4.15vw,1.28rem)] max-[768px]:[--subpage-title-font-android:clamp(0.98rem,3.7vw,1.12rem)]";
 
   return <>
     {isRoomMode && roomTitle ? <div className={roomTitleClassName}>
