@@ -28,9 +28,9 @@ const MOBILE_NAV_ITEMS = [
 ];
 
 const DEFAULT_FOCUSED_KEY = "profile";
-const FOCUS_CENTER_OFFSET_REM = -0.34;
+const FOCUS_CENTER_OFFSET_REM = -0.18;
 const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
-const SLOT_STEP_REM = 3.82;
+const SLOT_STEP_REM = 3.18;
 const SLOT_STEP_PX = SLOT_STEP_REM * 16;
 
 function getSlotOffsetRem(slot) {
@@ -594,7 +594,7 @@ export default function ChatMobileTopNav({
         iconClassName="!h-[100%] !w-[100%]"
       />
 
-      <div className="absolute left-[calc(env(safe-area-inset-left,0px)+3.4rem)] right-[calc(env(safe-area-inset-right,0px)+0.34rem)] top-[calc(env(safe-area-inset-top,0px)+0.22rem)]">
+      <div className="absolute left-[calc(env(safe-area-inset-left,0px)+3.02rem)] right-[calc(env(safe-area-inset-right,0px)+0.16rem)] top-[calc(env(safe-area-inset-top,0px)+0.22rem)]">
         <div
           ref={swipeSurfaceRef}
           className="relative h-[7.5rem] overflow-visible"

@@ -593,13 +593,13 @@ export default function OrbitalMenu({
                 opacity: v.opacity,
                 filter: v.blur ? `blur(${v.blur}px)` : "none"
               }}>
-                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
+                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.16rem,0.8vw,0.34rem)] w-[clamp(7.6rem,50vw,10.4rem)] min-h-[clamp(7.6rem,50vw,10.4rem)] h-auto rounded-full px-[0.8rem] pt-[0.72rem] pb-[0.56rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
                         <span className="dock-icon w-full h-auto flex-shrink-0 grid place-items-center leading-none min-h-[clamp(2.6rem,14vw,3.8rem)]" aria-hidden="true">
                           {item.icon}
                         </span>
 
                         {}
-                        <span className={cn("profile-orbit-mobile-action__label block w-full shrink-0 order-[-1] text-center leading-[1.1] font-semibold tracking-[0.025em] text-[clamp(1.1rem,3.9vw,1.5rem)] mt-0 mb-[clamp(0.25rem,1.1vw,0.55rem)] p-0 rounded-none transition-opacity duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-visible break-words max-w-[95%] break-normal [hyphens:auto] [text-wrap:balance] max-h-none bg-transparent border-0", isActive ? "opacity-100" : "opacity-0")} aria-hidden={!isActive}>
+                        <span className={cn("profile-orbit-mobile-action__label block w-full shrink-0 order-[-1] text-center leading-[1.08] font-semibold tracking-[0.02em] text-[clamp(0.96rem,3.35vw,1.2rem)] mt-0 mb-[clamp(0.18rem,0.9vw,0.42rem)] p-0 rounded-none transition-opacity duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-visible break-words max-w-[95%] break-normal [hyphens:auto] [text-wrap:balance] max-h-none bg-transparent border-0", isActive ? "opacity-100" : "opacity-0")} aria-hidden={!isActive}>
                           {item.label}
                         </span>
                       </button>
@@ -618,11 +618,11 @@ export default function OrbitalMenu({
       {useMobileStack && isOpen && <div className="profile-orbit-stack-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
       if (e.target === e.currentTarget) closeMenu();
     }}>
-          <div className="profile-orbit-stack-panel relative w-screen max-w-screen h-[100dvh] max-h-[100dvh] flex flex-col items-center justify-between gap-[clamp(1.1rem,2.6vh,2rem)]" onPointerDown={e => e.stopPropagation()}>
+          <div className="profile-orbit-stack-panel relative w-screen max-w-screen h-[100dvh] max-h-[100dvh] flex flex-col items-center justify-between gap-[clamp(0.8rem,2vh,1.45rem)]" onPointerDown={e => e.stopPropagation()}>
             <div className="profile-orbit-stack-fade profile-orbit-stack-fade--top" aria-hidden="true" />
             <div className="profile-orbit-stack-fade profile-orbit-stack-fade--bottom" aria-hidden="true" />
 
-            <div ref={stackListRef} className="profile-orbit-stack-list w-full flex flex-col items-center gap-[clamp(1rem,2.6vh,1.6rem)]" style={{
+            <div ref={stackListRef} className="profile-orbit-stack-list w-full flex flex-col items-center gap-[clamp(0.72rem,2vh,1.2rem)]" style={{
           paddingTop: stackPad,
           paddingBottom: stackPad,
           "--stack-pad": `${stackPad}px`

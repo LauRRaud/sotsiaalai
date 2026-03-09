@@ -42,6 +42,13 @@ function detectLowPowerColorBendsDevice() {
   const constrainedDevice = cores <= 6 || memory <= 6;
   return saveData || slowerNetwork || android && (coarse || small) && constrainedDevice;
 }
+function detectAndroidMobileColorBendsDisable() {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
+  const mq = query => typeof window.matchMedia === "function" ? window.matchMedia(query)?.matches ?? false : false;
+  const ua = navigator.userAgent || "";
+  const android = /Android/i.test(ua);
+  return android && (mq("(pointer: coarse)") || mq("(max-width: 900px)") || window.innerWidth <= 900);
+}
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
   if ("requestIdleCallback" in window) {
@@ -82,8 +89,9 @@ const BackgroundContent = memo(function BackgroundContent({
   const [mobileLike, setMobileLike] = useState(false);
   const [wideViewport, setWideViewport] = useState(false);
   const [lowPowerBends, setLowPowerBends] = useState(false);
+  const [disableColorBends, setDisableColorBends] = useState(false);
   const allowParticles = true;
-  const allowColorBends = true;
+  const allowColorBends = !disableColorBends;
   const parallaxActive = !reduceMotion && !mobileLike;
   const colorBendsProps = lowPowerBends
     ? {
@@ -116,6 +124,7 @@ const BackgroundContent = memo(function BackgroundContent({
       setMobileLike(detectMobileLikeDevice());
       setWideViewport(window.innerWidth >= 1440 || window.innerHeight >= 1100);
       setLowPowerBends(detectLowPowerColorBendsDevice());
+      setDisableColorBends(detectAndroidMobileColorBendsDisable());
     };
     compute();
     const attach = media => {
@@ -207,13 +216,17 @@ const BackgroundContent = memo(function BackgroundContent({
           />
         </div>
 
-        {prefsHydrated && colorBendsReady && allowColorBends && (
+        {prefsHydrated && colorBendsReady ? (
           <div className="bg-bends-layer" aria-hidden="true">
+            {allowColorBends ? (
             <Suspense fallback={null}>
               <ColorBends {...colorBendsProps} freeze={reduceMotion} />
             </Suspense>
+            ) : (
+              <div className="bg-bends-fallback" />
+            )}
           </div>
-        )}
+        ) : null}
 
         {}
         {particlesReady && allowParticles && <div className="bg-particles-layer">

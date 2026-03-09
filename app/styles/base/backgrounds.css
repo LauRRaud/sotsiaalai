@@ -118,6 +118,14 @@
   backface-visibility: hidden;
   opacity: var(--bg-bends-opacity, 0.9);
 }
+[data-bg-layer] .bg-bends-fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(78% 68% at 20% 82%, rgba(197, 113, 113, 0.18), transparent 64%),
+    radial-gradient(70% 60% at 82% 18%, rgba(197, 113, 113, 0.14), transparent 62%),
+    linear-gradient(135deg, rgba(197, 113, 113, 0.06), rgba(255, 255, 255, 0));
+}
 [data-bg-layer] .space-backdrop {
   position: absolute;
   left: 0;

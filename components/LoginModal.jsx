@@ -267,12 +267,12 @@ export default function LoginModal({
     "z-[100]",
     "flex",
     "flex-col",
-    isPhoneViewport ? `w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] items-center ${isCompactPhoneLayout ? "justify-start" : "justify-center"}` : "w-auto h-auto min-h-0 max-h-[calc(100dvh-2rem)]",
+    isPhoneViewport ? `w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] items-center justify-center` : "w-auto h-auto min-h-0 max-h-[calc(100dvh-2rem)]",
     isPhoneViewport ? "overflow-y-auto" : "max-md:max-h-[calc(100dvh-0.9rem)]",
     "overflow-x-hidden",
     "gap-0",
     "!rounded-[2.2rem]",
-    isCompactPhoneLayout ? "pt-0 pb-[0.12em] max-md:pt-0" : "pt-[0.1em] pb-[0.7em] max-md:pt-[0.02em]",
+    isCompactPhoneLayout ? "pt-[clamp(2rem,7vh,3.5rem)] pb-[0.12em] max-md:pt-[clamp(1.8rem,6vh,3rem)]" : "pt-[0.1em] pb-[0.7em] max-md:pt-[0.02em]",
     isOtpStep ? (isCompactPhoneLayout ? "max-md:pb-[0.08em]" : "max-md:pb-[0.28em]") : (isCompactPhoneLayout ? "max-md:pb-0" : "max-md:pb-[0.12em]"),
     "px-[var(--login-modal-inner-side-pad,var(--login-modal-side-pad))]"
   ].filter(Boolean).join(" ");

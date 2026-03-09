@@ -12,7 +12,7 @@ import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu
 import HelpListingsPanel from "@/components/chat/HelpListingsPanel";
 import { getHelpUiText } from "@/components/chat/helpUiText";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition, runWithTransition, triggerRouteTransition } from "@/lib/routeTransition";
+import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
@@ -72,7 +72,8 @@ const rolePillMultiLineClassName =
   "max-[48em]:max-w-[min(84vw,16.2rem)] " +
   "min-[48.0625em]:-translate-y-[0.34rem] max-[48em]:-translate-y-[0.14rem]";
 const orbitLayerClassName =
-  "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
+  "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none " +
+  "max-[48em]:translate-y-[clamp(1.2rem,5vw,2rem)]";
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
   "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
@@ -82,8 +83,8 @@ const orbitWrapperClassName =
   "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,max(15vw,calc(var(--profile-diameter,34rem)*0.26)),10.4rem)] " +
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
-  "max-[48em]:[--orbit-item-size:clamp(3.7rem,15.2vw,4.6rem)] max-[48em]:[--orbit-item-size-open:clamp(4rem,16.2vw,4.9rem)] " +
-  "max-[48em]:[--orbit-size:clamp(13.8rem,64vw,17.2rem)] max-[48em]:[--orbit-center-size:clamp(6.9rem,32vw,8.6rem)] " +
+  "max-[48em]:[--orbit-item-size:clamp(3.45rem,14vw,4.25rem)] max-[48em]:[--orbit-item-size-open:clamp(3.72rem,15vw,4.55rem)] " +
+  "max-[48em]:[--orbit-size:clamp(12.8rem,60vw,16rem)] max-[48em]:[--orbit-center-size:clamp(6.1rem,29vw,7.7rem)] " +
   "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.43)] max-[48em]:mt-[clamp(0.45rem,2.4vw,0.82rem)] max-[48em]:mb-[clamp(0.1rem,0.7vw,0.24rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
   "cursor-[var(--cursor-default)] " +
@@ -101,7 +102,7 @@ const orbitRoleToggleLinkClassName =
   "focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!no-underline " +
   "active:!border-transparent active:!shadow-none active:!no-underline";
 const profileMobileActionStackClassName =
-  "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+clamp(1.1rem,4vw,1.55rem))] z-[95] flex w-full flex-col items-center justify-center " +
+  "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+clamp(2.1rem,7vw,3.05rem))] z-[95] flex w-full flex-col items-center justify-center " +
   "gap-[clamp(0.28rem,1.8vw,0.58rem)] px-[1rem] pointer-events-auto min-[48.0625em]:hidden";
 const profileMobileRoleToggleLinkClassName =
   "profile-mobile-role-toggle-link !inline-flex w-auto items-center justify-center gap-[0.34rem] self-center max-[48em]:!self-center " +
@@ -306,15 +307,6 @@ function SubscriptionDockIcon({
       <rect x="4.3" y="4.8" width="15.4" height="14.4" rx="2.6" />
       <path d="M6.7 9.5h10.6" />
       <path d="M9 14.2l2.1 2.4 4.1-4.6" />
-    </svg>;
-}
-function DeleteDockIcon({
-  isHovered: _isHovered,
-  ...props
-}) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
-      <path d="M4 6h16M10 10v6M14 10v6" />
-      <path d="M9 6l.6-1.4A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.4.6L15 6m3 0-.8 11.6a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 6" />
     </svg>;
 }
 function AccountSettingsDockIcon({
@@ -736,13 +728,6 @@ export default function ProfiilBody({
       colorTheme: "default"
     });
   }, [nextMode, setPrefs]);
-  const triggerLeftTilt = useCallback(() => {
-    triggerRouteTransition({
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  }, []);
   const shouldReduceMotion = useCallback(() => {
     if (typeof window === "undefined") return false;
     try {
