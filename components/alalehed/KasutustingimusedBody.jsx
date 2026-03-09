@@ -177,10 +177,12 @@ export default function KasutustingimusedBody() {
             titleClassName,
             glassPageTitleMobileHeaderClassName,
             glassPolicyTitleOffsetClassName,
-            "max-[768px]:[--subpage-title-inline-reserve:clamp(3.1rem,10.5vw,3.7rem)]",
+            "max-[768px]:[--fit-title-max-px:34]",
+            "max-[768px]:[--subpage-title-start-reserve:clamp(3.55rem,11.8vw,4rem)]",
+            "max-[768px]:[--subpage-title-end-reserve:clamp(0.35rem,1.8vw,0.72rem)]",
             isExpandedLayout ? glassPolicyTitleExpandedClassName : null
           )}
-          minFontPx={11}
+          minFontPx={9}
         >
           {termsTitle}
         </AutoFitPageTitle>
