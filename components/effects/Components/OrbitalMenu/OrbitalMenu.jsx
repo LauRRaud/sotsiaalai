@@ -403,6 +403,10 @@ export default function OrbitalMenu({
     if (!isOpen || !useMobileStack) return;
     const listEl = stackListRef.current;
     if (!listEl) return;
+    listEl.scrollTo?.({
+      top: 0,
+      behavior: "auto"
+    });
     const computePad = () => {
       const viewportHeight =
         typeof window !== "undefined" ? window.innerHeight || 0 : 0;

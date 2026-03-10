@@ -217,32 +217,6 @@
 }
 
 @media (max-width: 768px) {
-  html[data-platform="android"],
-  body[data-platform="android"] {
-    overscroll-behavior-x: none !important;
-    overflow-x: hidden !important;
-    touch-action: pan-y !important;
-  }
-
-  html[data-platform="android"] body.homepage,
-  body[data-platform="android"].homepage {
-    overscroll-behavior-y: auto !important;
-    overscroll-behavior-x: none !important;
-    overflow-x: hidden !important;
-    touch-action: pan-y !important;
-  }
-
-  html[data-platform="android"] body.homepage .homepage-root,
-  body[data-platform="android"].homepage .homepage-root,
-  html[data-platform="android"] body.homepage .home-hero-shell,
-  body[data-platform="android"].homepage .home-hero-shell {
-    overflow-x: clip !important;
-    overscroll-behavior-x: none !important;
-    touch-action: pan-y !important;
-  }
-}
-
-@media (max-width: 768px) {
   html[data-display-mode="standalone"] .homepage-root > section,
   body[data-display-mode="standalone"] .homepage-root > section {
     min-height: calc(100dvh + clamp(2.2rem, 5.5vh, 3.4rem));
@@ -372,16 +346,22 @@
 @media (max-width: 768px) {
   @keyframes profile-orbit-hub-mobile-pulse {
     0% {
-      transform: translateY(var(--profile-orbit-center-offset-y))
-        translateZ(0) scale(1);
+      -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+        scale3d(1, 1, 1);
+      transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+        scale3d(1, 1, 1);
     }
     50% {
-      transform: translateY(var(--profile-orbit-center-offset-y))
-        translateZ(0) scale(0.95);
+      -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+        scale3d(0.95, 0.95, 1);
+      transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+        scale3d(0.95, 0.95, 1);
     }
     100% {
-      transform: translateY(var(--profile-orbit-center-offset-y))
-        translateZ(0) scale(1);
+      -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+        scale3d(1, 1, 1);
+      transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+        scale3d(1, 1, 1);
     }
   }
 
@@ -396,9 +376,18 @@
     .profile-orbit-menu:not(.is-open)
     .profile-orbit-menu__center-shell {
     --profile-orbit-center-offset-y: clamp(-1.08rem, -4.2vw, -0.62rem);
-    transform: translateY(var(--profile-orbit-center-offset-y)) translateZ(0) scale(1) !important;
+    -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+      scale3d(1, 1, 1) !important;
+    transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+      scale3d(1, 1, 1) !important;
     transform-origin: center center !important;
+    -webkit-transform-origin: center center !important;
+    -webkit-animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
     animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    -webkit-transform-style: preserve-3d !important;
+    transform-style: preserve-3d !important;
     will-change: transform !important;
   }
 
@@ -990,9 +979,18 @@
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell {
     --profile-orbit-center-offset-y: clamp(-1.08rem, -4.2vw, -0.62rem);
-    transform: translateY(var(--profile-orbit-center-offset-y)) translateZ(0) scale(1) !important;
+    -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+      scale3d(1, 1, 1) !important;
+    transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+      scale3d(1, 1, 1) !important;
     transform-origin: center center !important;
+    -webkit-transform-origin: center center !important;
+    -webkit-animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
     animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    -webkit-transform-style: preserve-3d !important;
+    transform-style: preserve-3d !important;
     will-change: transform !important;
   }
 
@@ -1061,9 +1059,18 @@
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell {
     --profile-orbit-center-offset-y: clamp(-1.18rem, -4.6vw, -0.72rem);
-    transform: translateY(var(--profile-orbit-center-offset-y)) translateZ(0) scale(1) !important;
+    -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+      scale3d(1, 1, 1) !important;
+    transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+      scale3d(1, 1, 1) !important;
     transform-origin: center center !important;
+    -webkit-transform-origin: center center !important;
+    -webkit-animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
     animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    -webkit-transform-style: preserve-3d !important;
+    transform-style: preserve-3d !important;
     will-change: transform !important;
   }
 
