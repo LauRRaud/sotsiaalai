@@ -394,10 +394,8 @@
   .profile-container.glass-ring
     .profile-orbit-menu:not(.is-open)
     .profile-orbit-menu__center-pulse {
-    -webkit-animation: none !important;
-    animation: none !important;
-    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+    -webkit-animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
+    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
     -webkit-transform-origin: center center !important;
     transform-origin: center center !important;
     -webkit-backface-visibility: hidden !important;
@@ -410,9 +408,8 @@
   .profile-container.glass-ring
     .profile-orbit-menu:not(.is-open)
     .profile-orbit-menu__center {
-    transform: translateZ(0) scale(1) !important;
-    -webkit-animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
-    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
+    -webkit-animation: none !important;
+    animation: none !important;
     will-change: transform !important;
   }
 
@@ -1015,10 +1012,8 @@
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse,
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse {
-    -webkit-animation: none !important;
-    animation: none !important;
-    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+    -webkit-animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
+    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
     -webkit-transform-origin: center center !important;
     transform-origin: center center !important;
     -webkit-backface-visibility: hidden !important;
@@ -1032,9 +1027,8 @@
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center {
-    transform: translateZ(0) scale(1) !important;
-    -webkit-animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
-    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
+    -webkit-animation: none !important;
+    animation: none !important;
     will-change: transform !important;
   }
 
@@ -1111,10 +1105,8 @@
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse {
-    -webkit-animation: none !important;
-    animation: none !important;
-    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+    -webkit-animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
+    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
     -webkit-transform-origin: center center !important;
     transform-origin: center center !important;
     -webkit-backface-visibility: hidden !important;
@@ -1126,9 +1118,8 @@
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center {
-    transform: translateZ(0) scale(1) !important;
-    -webkit-animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
-    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
+    -webkit-animation: none !important;
+    animation: none !important;
     will-change: transform !important;
   }
 

@@ -230,7 +230,7 @@ export default function ChatMobileTopNav({
     ? {
         left: "calc(env(safe-area-inset-left,0px) + 3.26rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.16rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.08rem)"
+        top: "calc(env(safe-area-inset-top,0px) + 0.2rem)"
       }
     : {
         left: "calc(env(safe-area-inset-left,0px) + 3.68rem)",
