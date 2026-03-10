@@ -1575,3 +1575,9 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   width: 0;
   height: 0;
 }
+
+.invite-modal-overlay.person-invite-modal-overlay {
+  background: rgba(6, 10, 18, 0.94) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}

@@ -111,7 +111,7 @@ export default function HelpListingsPanel({
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
-            {!loading && !error && !items.length ? <div className="px-2 py-4 text-[0.98rem] opacity-78">{emptyText}</div> : null}
+            {!loading && !error && !items.length ? <div className="px-2 py-4 text-[0.98rem] opacity-78 hc:text-[color:var(--hc-accent)] hc:opacity-100">{emptyText}</div> : null}
 
             <div className="grid gap-[0.7rem]">
               {items.map((item) => (

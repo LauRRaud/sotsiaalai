@@ -375,7 +375,7 @@ export default function ChatComposer({
 
       <div className={inputBarClassName} ref={inputBarRef}>
         <div className={inputFieldWrapClassName}>
-          <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText || t("chat.input.placeholder")} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={onFocusInput} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
+          <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={onFocusInput} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
         </div>
         <Button type="button" variant="linkBrand" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} disabled={!canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
           <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] translate-y-[0.06rem] text-[#c57171] light:text-[#7a3a38]">

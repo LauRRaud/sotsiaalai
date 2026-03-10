@@ -152,6 +152,17 @@ html[data-contrast="hc"] .space-backdrop[data-mode="dark"] {
   background: radial-gradient(ellipse at top, #1b2735 0%, #090a0f 100%);
 }
 
+html[data-contrast="hc"] body.homepage {
+  --home-prose-color: var(--hc-accent);
+  --home-title-color: var(--hc-accent);
+  --home-link-color: var(--hc-accent);
+  --home-scroll-cue-color: var(--hc-accent);
+}
+
+html[data-contrast="hc"] .homepage-root :is(.home-about-scrollbox, .home-about-scrollbox *) {
+  color: var(--hc-accent) !important;
+}
+
 html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-accent: var(--hc-accent);
   --orbit-mobile-accent: var(--hc-accent);

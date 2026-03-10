@@ -606,19 +606,19 @@ export default function ChatSidebar() {
                         </svg>
                       </span>
                     </label> : null}
-                <button className="flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none" onClick={() => selectMode ? null : onPick(c)} title={c.preview || c.title || t("chat.sidebar.item.fallback_title")} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
+                <button className="cs-open flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none" onClick={() => selectMode ? null : onPick(c)} title={c.preview || c.title || t("chat.sidebar.item.fallback_title")} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
                   <div className="flex flex-wrap items-center justify-start gap-2">
-                    <span className="text-[1.2rem] max-[768px]:text-[1.38rem] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
+                    <span className="cs-title-text text-[1.2rem] max-[768px]:text-[1.38rem] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
                       {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
                     </span>
                     {c.kind === "room" ? <span className="rounded-full border border-[rgba(255,255,255,0.4)] px-2 py-[0.15rem] text-[0.65rem] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.85)] light:border-[rgba(148,163,184,0.4)] light:text-[rgba(55,65,81,0.8)]">
                         {t("chat.sidebar.group_badge")}
                       </span> : null}
                   </div>
-                  {c.preview ? <div className={previewTextClassName}>
+                  {c.preview ? <div className={`cs-preview ${previewTextClassName}`}>
                       {c.preview}
                     </div> : null}
-                  <div className={timeTextClassName}>
+                  <div className={`cs-time ${timeTextClassName}`}>
                     {formatDateTime(c.lastActivityAt)}
                   </div>
                 </button>

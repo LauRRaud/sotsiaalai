@@ -1265,8 +1265,8 @@
     font-size: 2.62rem !important;
   }
 
-  .invite-modal-overlay {
-    background: transparent !important;
+  .invite-modal-overlay.person-invite-modal-overlay {
+    background: rgba(6, 10, 18, 0.94) !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
