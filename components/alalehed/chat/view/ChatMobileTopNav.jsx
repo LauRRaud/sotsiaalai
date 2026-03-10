@@ -230,12 +230,12 @@ export default function ChatMobileTopNav({
     ? {
         left: "calc(env(safe-area-inset-left,0px) + 3.26rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.16rem)",
-        top: "calc(env(safe-area-inset-top,0px) - 0.08rem)"
+        top: "calc(env(safe-area-inset-top,0px) + 0.16rem)"
       }
     : {
         left: "calc(env(safe-area-inset-left,0px) + 3.68rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.34rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.06rem)"
+        top: "calc(env(safe-area-inset-top,0px) + 0.32rem)"
       };
 
   const sourcesLabel = t("chat.sources.button").replace(

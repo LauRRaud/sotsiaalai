@@ -138,6 +138,23 @@ const Label = styled.label`
     outline: none;
     box-shadow: none;
   }
+
+  @media (max-width: 768px) {
+    &.fancy-checkbox--otp {
+      width: 100%;
+      max-width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+      padding-inline: clamp(0.75rem, 4vw, 1.15rem);
+    }
+
+    &.fancy-checkbox--otp .text {
+      max-width: min(100%, 16rem);
+      white-space: normal;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+  }
 `;
 const FancyCheckbox = forwardRef(function FancyCheckbox({
   id,

@@ -50,7 +50,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     homeCircleLinkClassName,
     "max-[768px]:max-w-[min(72vw,19.5rem)] max-[768px]:whitespace-nowrap",
     isRussianLocale &&
-      "max-[768px]:max-w-[min(80vw,23rem)] max-[768px]:text-[clamp(0.96rem,3.9vw,1.18rem)] max-[768px]:leading-[1.08] max-[768px]:tracking-[0.004em]"
+      "max-[768px]:max-w-[min(80vw,23rem)] max-[768px]:text-[clamp(1.04rem,4.15vw,1.24rem)] max-[768px]:leading-[1.1] max-[768px]:tracking-[0.005em]"
   );
 
   useEffect(() => {
