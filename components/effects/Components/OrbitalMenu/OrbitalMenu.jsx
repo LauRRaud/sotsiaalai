@@ -404,6 +404,7 @@ export default function OrbitalMenu({
     const listEl = stackListRef.current;
     if (!listEl) return;
     const resetStackScroll = () => {
+      listEl.scrollTop = 0;
       listEl.scrollTo?.({
         top: 0,
         behavior: "auto"
@@ -420,6 +421,10 @@ export default function OrbitalMenu({
     const openRaf = window.requestAnimationFrame(() => {
       resetStackScroll();
     });
+    const settleTimers = [40, 140, 280].map(delay => window.setTimeout(resetStackScroll, delay));
+    if (document?.fonts?.ready && typeof document.fonts.ready.then === "function") {
+      document.fonts.ready.then(resetStackScroll).catch(() => {});
+    }
     const onResize = () => {
       computePad();
       resetStackScroll();
@@ -432,6 +437,7 @@ export default function OrbitalMenu({
     ro?.observe(listEl);
     return () => {
       window.cancelAnimationFrame(openRaf);
+      settleTimers.forEach(timer => window.clearTimeout(timer));
       window.removeEventListener("resize", onResize);
       if (stackSettleTimerRef.current) {
         window.clearTimeout(stackSettleTimerRef.current);
