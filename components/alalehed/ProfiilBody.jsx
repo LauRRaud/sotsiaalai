@@ -1234,7 +1234,13 @@ export default function ProfiilBody({
               aria-pressed={mobileLogoutArmed ? "true" : "false"}
             >
               <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
-              <span className={cn(logoutLabelClassName, mobileLogoutArmed ? "!opacity-100 !translate-y-0" : null)}>
+              <span
+                className={cn(
+                  logoutLabelClassName,
+                  "!top-[calc(100%+0.12rem)] !text-[1.26rem] !leading-[1.02]",
+                  mobileLogoutArmed ? "!opacity-100 !translate-y-0" : null
+                )}
+              >
                 {t("profile.logout")}
               </span>
               <span className="sr-only">{t("profile.logout")}</span>
