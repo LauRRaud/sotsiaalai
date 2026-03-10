@@ -130,12 +130,12 @@ const ConversationView = memo(function ConversationView({
       const onVisible = () => {
         if (document.visibilityState !== "visible") return;
         document.removeEventListener("visibilitychange", onVisible);
-        setTimeout(() => setEmptyIntroReady(true), 420);
+        setTimeout(() => setEmptyIntroReady(true), 560);
       };
       document.addEventListener("visibilitychange", onVisible);
       return () => document.removeEventListener("visibilitychange", onVisible);
     }
-    const timer = setTimeout(() => setEmptyIntroReady(true), 420);
+    const timer = setTimeout(() => setEmptyIntroReady(true), 560);
     return () => clearTimeout(timer);
   }, [showEmptyIntro]);
   useEffect(() => {

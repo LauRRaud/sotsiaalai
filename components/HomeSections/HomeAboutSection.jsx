@@ -51,7 +51,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     "w-auto max-w-full whitespace-normal break-words [text-wrap:balance] px-[0.28em] py-[0.08em]",
     "max-[768px]:max-w-[min(72vw,19.5rem)]",
     isRussianLocale &&
-      "max-[768px]:max-w-[min(80vw,23rem)] max-[768px]:text-[clamp(1.04rem,4.15vw,1.24rem)] max-[768px]:leading-[1.1] max-[768px]:tracking-[0.005em]"
+      "max-[768px]:max-w-[min(80vw,23rem)] max-[768px]:text-[clamp(1.12rem,4.45vw,1.32rem)] max-[768px]:leading-[1.12] max-[768px]:tracking-[0.005em]"
   );
 
   useEffect(() => {

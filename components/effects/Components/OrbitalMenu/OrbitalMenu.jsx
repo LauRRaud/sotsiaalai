@@ -403,10 +403,12 @@ export default function OrbitalMenu({
     if (!isOpen || !useMobileStack) return;
     const listEl = stackListRef.current;
     if (!listEl) return;
-    listEl.scrollTo?.({
-      top: 0,
-      behavior: "auto"
-    });
+    const resetStackScroll = () => {
+      listEl.scrollTo?.({
+        top: 0,
+        behavior: "auto"
+      });
+    };
     const computePad = () => {
       const viewportHeight =
         typeof window !== "undefined" ? window.innerHeight || 0 : 0;
@@ -414,15 +416,22 @@ export default function OrbitalMenu({
       setStackPad(fadeClearance);
     };
     computePad();
+    resetStackScroll();
+    const openRaf = window.requestAnimationFrame(() => {
+      resetStackScroll();
+    });
     const onResize = () => {
       computePad();
+      resetStackScroll();
     };
     window.addEventListener("resize", onResize);
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
       computePad();
+      resetStackScroll();
     }) : null;
     ro?.observe(listEl);
     return () => {
+      window.cancelAnimationFrame(openRaf);
       window.removeEventListener("resize", onResize);
       if (stackSettleTimerRef.current) {
         window.clearTimeout(stackSettleTimerRef.current);
@@ -507,11 +516,13 @@ export default function OrbitalMenu({
 
       {}
       <div className="profile-orbit-menu__center-shell relative grid place-items-center w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full overflow-visible z-[5]">
-        <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [animation:profile-orbit-hub-pulse_4.4s_ease-in-out_infinite] [will-change:transform]" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
-          <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
-            <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
-          </span>
-        </button>
+        <div className="profile-orbit-menu__center-pulse relative grid place-items-center w-full h-full rounded-full overflow-visible">
+          <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [animation:profile-orbit-hub-pulse_4.4s_ease-in-out_infinite] [will-change:transform]" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
+            <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
+              <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
+            </span>
+          </button>
+        </div>
       </div>
 
       {}

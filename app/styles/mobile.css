@@ -382,8 +382,24 @@
       scale3d(1, 1, 1) !important;
     transform-origin: center center !important;
     -webkit-transform-origin: center center !important;
+    -webkit-animation: none !important;
+    animation: none !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    -webkit-transform-style: preserve-3d !important;
+    transform-style: preserve-3d !important;
+    will-change: transform !important;
+  }
+
+  .profile-container.glass-ring
+    .profile-orbit-menu:not(.is-open)
+    .profile-orbit-menu__center-pulse {
     -webkit-animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
     animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+    -webkit-transform-origin: center center !important;
+    transform-origin: center center !important;
     -webkit-backface-visibility: hidden !important;
     backface-visibility: hidden !important;
     -webkit-transform-style: preserve-3d !important;
@@ -985,8 +1001,25 @@
       scale3d(1, 1, 1) !important;
     transform-origin: center center !important;
     -webkit-transform-origin: center center !important;
+    -webkit-animation: none !important;
+    animation: none !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    -webkit-transform-style: preserve-3d !important;
+    transform-style: preserve-3d !important;
+    will-change: transform !important;
+  }
+
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse,
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse,
+  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse,
+  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse {
     -webkit-animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
     animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+    -webkit-transform-origin: center center !important;
+    transform-origin: center center !important;
     -webkit-backface-visibility: hidden !important;
     backface-visibility: hidden !important;
     -webkit-transform-style: preserve-3d !important;
@@ -1065,8 +1098,23 @@
       scale3d(1, 1, 1) !important;
     transform-origin: center center !important;
     -webkit-transform-origin: center center !important;
+    -webkit-animation: none !important;
+    animation: none !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    -webkit-transform-style: preserve-3d !important;
+    transform-style: preserve-3d !important;
+    will-change: transform !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-pulse {
     -webkit-animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
     animation: profile-orbit-hub-mobile-pulse 4.4s ease-in-out infinite !important;
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+    -webkit-transform-origin: center center !important;
+    transform-origin: center center !important;
     -webkit-backface-visibility: hidden !important;
     backface-visibility: hidden !important;
     -webkit-transform-style: preserve-3d !important;
@@ -2025,17 +2073,17 @@
 
   html[data-platform="android"] .subpage-mobile-title,
   body[data-platform="android"] .subpage-mobile-title {
-    --fit-title-max-px: 33 !important;
+    --fit-title-max-px: 31 !important;
     --fit-title-min-scale-x: 0.92 !important;
     --subpage-title-start-reserve: clamp(2.95rem, 9.8vw, 3.45rem) !important;
     --subpage-title-end-reserve: var(--subpage-title-start-reserve) !important;
-    font-size: var(--subpage-title-font, clamp(1.56rem, 5.45vw, 1.92rem)) !important;
+    font-size: var(--subpage-title-font, clamp(1.44rem, 4.95vw, 1.78rem)) !important;
     letter-spacing: var(--subpage-title-tracking, 0.004em) !important;
   }
 
   html[data-platform="android"] .subpage-mobile-title--static,
   body[data-platform="android"] .subpage-mobile-title--static {
-    font-size: clamp(1.48rem, 5.2vw, 1.76rem) !important;
+    font-size: clamp(1.38rem, 4.7vw, 1.64rem) !important;
     line-height: 1.07 !important;
   }
 
@@ -2122,7 +2170,7 @@
 
   html[data-platform="android"] .policy-mobile-title--static,
   body[data-platform="android"] .policy-mobile-title--static {
-    font-size: clamp(1.48rem, 5.2vw, 1.76rem) !important;
+    font-size: clamp(1.38rem, 4.7vw, 1.64rem) !important;
     line-height: 1.07 !important;
   }
 
@@ -2133,23 +2181,23 @@
   .login-modal-root.login-modal--otp .login-modal-close,
   .login-modal-root.login-modal--otp > button[aria-label] {
     position: absolute !important;
-    top: calc(env(safe-area-inset-top, 0px) + 0.82rem) !important;
-    right: max(0.72rem, calc(env(safe-area-inset-right, 0px) + 0.22rem)) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 1.02rem) !important;
+    right: max(0.92rem, calc(env(safe-area-inset-right, 0px) + 0.42rem)) !important;
     left: auto !important;
     margin: 0 !important;
     transform: none !important;
-    width: 2.48rem !important;
-    height: 2.48rem !important;
-    min-width: 2.48rem !important;
-    min-height: 2.48rem !important;
-    border-radius: 0.68rem !important;
+    width: 2.36rem !important;
+    height: 2.36rem !important;
+    min-width: 2.36rem !important;
+    min-height: 2.36rem !important;
+    border-radius: 0.62rem !important;
     z-index: 12 !important;
   }
 
   .login-modal-root.login-modal--otp .modal-close-btn::before,
   .login-modal-root.login-modal--otp .login-modal-close::before,
   .login-modal-root.login-modal--otp > button[aria-label]::before {
-    font-size: 2.18rem !important;
+    font-size: 2.02rem !important;
   }
 }
 
