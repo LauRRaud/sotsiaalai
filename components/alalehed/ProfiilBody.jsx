@@ -1237,14 +1237,15 @@ export default function ProfiilBody({
               <span
                 className={cn(
                   logoutLabelClassName,
-                  mobileLogoutArmed ? "!opacity-100 !translate-y-0" : null
+                  mobileLogoutArmed ? "!opacity-100" : null
                 )}
                 style={{
-                  top: "calc(100% - 0.2rem)",
+                  top: "calc(100% - 0.12rem)",
                   fontSize: "1.42rem",
                   lineHeight: 1,
                   fontWeight: 500,
-                  letterSpacing: "0.03em"
+                  letterSpacing: "0.03em",
+                  transform: "translateX(-50%) translateY(-0.22rem)"
                 }}
               >
                 {t("profile.logout")}
