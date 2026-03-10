@@ -353,7 +353,7 @@ export default function ChatComposer({
         right: 0,
         top: "auto",
         bottom: isStandaloneDisplay
-          ? "calc(env(safe-area-inset-bottom,0px) + 1.5rem + var(--chat-vk-offset,0px))"
+          ? "calc(env(safe-area-inset-bottom,0px) + 1rem + var(--chat-vk-offset,0px))"
           : "calc(env(safe-area-inset-bottom,0px) + 2.5rem + var(--chat-vk-offset,0px))",
         marginTop: 0
       }

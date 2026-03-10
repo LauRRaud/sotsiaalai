@@ -98,7 +98,7 @@ const logoutButtonClassName =
 const logoutIconClassName = "profile-logout-icon h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
-  "text-[1.2rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
+  "text-[1.2rem] max-[48em]:text-[1.18rem] font-[500] tracking-[0.06em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] hc:text-[color:var(--hc-accent)] opacity-0 -translate-y-[0.38rem] scale-100 pointer-events-none transform-gpu will-change-transform " +
   "transition-all duration-[520ms] ease-out " +
   "group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-[1.13] group-focus-visible:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:scale-[1.13]";

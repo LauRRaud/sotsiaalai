@@ -1161,6 +1161,27 @@
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(5.35rem, 12.6vw, 6.45rem)) !important;
     transform: none !important;
   }
+
+  html[data-display-mode="standalone"].profile-orbit-open .profile-orbit-stack-backdrop,
+  body[data-display-mode="standalone"].profile-orbit-open .profile-orbit-stack-backdrop,
+  html[data-display-mode="fullscreen"].profile-orbit-open .profile-orbit-stack-backdrop,
+  body[data-display-mode="fullscreen"].profile-orbit-open .profile-orbit-stack-backdrop {
+    align-items: flex-start !important;
+    padding-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    padding-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
+    padding-right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
+  }
+
+  html[data-display-mode="standalone"].profile-orbit-open .profile-orbit-stack-panel,
+  body[data-display-mode="standalone"].profile-orbit-open .profile-orbit-stack-panel,
+  html[data-display-mode="fullscreen"].profile-orbit-open .profile-orbit-stack-panel,
+  body[data-display-mode="fullscreen"].profile-orbit-open .profile-orbit-stack-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+  }
 }
 
 @media (max-width: 768px) and (display-mode: standalone),
@@ -1495,12 +1516,12 @@
 
   html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-attach-btn {
