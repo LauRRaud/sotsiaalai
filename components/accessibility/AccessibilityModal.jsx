@@ -388,7 +388,8 @@ export default function AccessibilityModal({
       uiScale,
       uiProfile,
       contrast,
-      reduceMotion
+      reduceMotion,
+      theme: prefs?.theme || "dark"
     });
     if (typeof window !== "undefined" && lang && lang !== locale) {
       setLocale(lang);
@@ -417,9 +418,10 @@ export default function AccessibilityModal({
       uiScale,
       uiProfile,
       contrast,
-      reduceMotion
+      reduceMotion,
+      theme: prefs?.theme || "dark"
     });
-  }, [uiScale, uiProfile, contrast, reduceMotion, onPreview]);
+  }, [uiScale, uiProfile, contrast, reduceMotion, prefs?.theme, onPreview]);
   useEffect(() => () => {
     onPreviewEnd?.();
   }, [onPreviewEnd]);

@@ -305,7 +305,7 @@
   background: transparent !important;
 }
 
-/* Orbital menu bubbles: keep the light-theme material logic, but tint it for mid. */
+/* Orbital menu bubbles: keep them glassy in mid instead of near-white light bubbles. */
 :root.theme-mid
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(
@@ -331,31 +331,11 @@
       rgba(246, 236, 233, 0.24) 56%,
       rgba(241, 229, 226, 0.16) 100%
     ) !important;
-  border: 0 !important;
+  border: 1px solid transparent !important;
   box-shadow:
-    0 10px 18px rgba(20, 12, 10, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.58),
-    inset 0 -1px 0 rgba(126, 95, 88, 0.1) !important;
-  --pin-gloss-bg:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.42) 0%,
-      rgba(255, 255, 255, 0.18) 32%,
-      rgba(255, 255, 255, 0) 58%,
-      rgba(255, 255, 255, 0.12) 74%,
-      rgba(126, 95, 88, 0.08) 100%
-    ),
-    radial-gradient(
-      120% 110% at 18% 16%,
-      rgba(255, 255, 255, 0.28) 0%,
-      rgba(255, 255, 255, 0) 64%
-    ),
-    radial-gradient(
-      120% 120% at 84% 90%,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0) 56%
-    );
-  --pin-gloss-op: 0.28;
+    0 7px 14px rgba(20, 12, 10, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
+  --pin-gloss-op: 0.16;
 }
 
 :root.theme-mid
@@ -364,9 +344,24 @@
   filter: none;
 }
 
+/* Mid/dim mode: avoid mask-composite seam artifact on circular orbit button edges. */
 :root.theme-mid
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::before {
+  content: none !important;
+}
+
+/* Mid/dim mode: avoid top/bottom edge clipping artifacts from layered glass overlays. */
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::after {
   content: none !important;
 }
 

@@ -36,6 +36,7 @@ const MOBILE_KEYBOARD_CLOSE_THRESHOLD = 56;
 const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
 const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
 const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
+const PANEL_TILT_CLOSE_MS = 540;
 const DEEP_RESEARCH_ARMED_TEXT =
   "S\u00fcvauuring on valitud ja ootel. Kirjuta oma uurimisk\u00fcsimus ning soovi korral t\u00e4psusta piirkond (KOV/linnaosa) v\u00f5i tasand (riiklik/kohalik). Seej\u00e4rel vajuta Enter v\u00f5i Saada. T\u00fchistamiseks vajuta s\u00fcvauuringu ikooni.";
 const DEEP_RESEARCH_EMPTY_QUERY_HINT = "Kirjuta uurimisk\u00fcsimus.";
@@ -86,6 +87,7 @@ export default function ChatBody({
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
   const helpUi = useMemo(() => getHelpUiText(t), [t]);
   const [activeListingsPanel, setActiveListingsPanel] = useState(null);
+  const [listingsPanelClosing, setListingsPanelClosing] = useState(false);
   const [listingsPanelState, setListingsPanelState] = useState({
     items: [],
     nextOffset: null,
@@ -107,6 +109,7 @@ export default function ChatBody({
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
   const [hasHydrated, setHasHydrated] = useState(false);
   const [layoutTransitionsReady, setLayoutTransitionsReady] = useState(false);
+  const listingsPanelCloseTimerRef = useRef(null);
   const deepResearchHintMessageIdRef = useRef(null);
   const {
     isRoomMode,
@@ -138,6 +141,14 @@ export default function ChatBody({
       setLayoutTransitionsReady(true);
     });
     return () => window.cancelAnimationFrame(rafId);
+  }, []);
+  useEffect(() => {
+    return () => {
+      if (listingsPanelCloseTimerRef.current && typeof window !== "undefined") {
+        window.clearTimeout(listingsPanelCloseTimerRef.current);
+        listingsPanelCloseTimerRef.current = null;
+      }
+    };
   }, []);
   useEffect(() => {
     const node = chatContainerRef.current;
@@ -296,6 +307,66 @@ export default function ChatBody({
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
   const maskRefreshRef = useRef(null);
+  const waitForComposerCollapse = useCallback(async () => {
+    if (blurTimerRef.current && typeof window !== "undefined") {
+      window.clearTimeout(blurTimerRef.current);
+      blurTimerRef.current = 0;
+    }
+    const shouldWait =
+      typeof window !== "undefined" &&
+      !isMobile &&
+      inputFocused;
+    setInputFocused(false);
+    try {
+      inputRef.current?.blur?.();
+    } catch {}
+    if (!shouldWait) return;
+    await new Promise(resolve => {
+      const row = inputRowRef.current;
+      const container = chatContainerRef.current;
+      let settled = false;
+      let timeoutId = 0;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        row?.removeEventListener("transitionend", onTransitionEnd);
+        container?.removeEventListener("transitionend", onTransitionEnd);
+        if (timeoutId) window.clearTimeout(timeoutId);
+        resolve();
+      };
+      const onTransitionEnd = event => {
+        if (
+          event.target === row &&
+          (event.propertyName === "top" ||
+            event.propertyName === "margin-top" ||
+            event.propertyName === "transform")
+        ) {
+          finish();
+          return;
+        }
+        if (event.target !== container) return;
+        if (
+          event.propertyName === "border-bottom-left-radius" ||
+          event.propertyName === "border-bottom-right-radius" ||
+          event.propertyName === "width" ||
+          event.propertyName === "min-width" ||
+          event.propertyName === "max-width" ||
+          event.propertyName === "height" ||
+          event.propertyName === "min-height" ||
+          event.propertyName === "max-height" ||
+          event.propertyName === "inline-size" ||
+          event.propertyName === "block-size" ||
+          event.propertyName === "transform"
+        ) {
+          finish();
+        }
+      };
+      row?.addEventListener("transitionend", onTransitionEnd);
+      container?.addEventListener("transitionend", onTransitionEnd);
+      timeoutId = window.setTimeout(finish, 460);
+    });
+    maskRefreshRef.current?.();
+  }, [inputFocused, isMobile]);
   const {
     profileOpen,
     openProfileDirect,
@@ -308,7 +379,8 @@ export default function ChatBody({
     showSourcesPanel,
     setShowSourcesPanel,
     setInputFocused,
-    inputRef
+    inputRef,
+    waitForComposerCollapse
   });
   useChatInputHoleMask({
     containerRef: chatContainerRef,
@@ -514,20 +586,56 @@ export default function ChatBody({
   }, [helpUi.loadFailed, listingsPanelState.nextOffset, locale]);
   const openListingsPanel = useCallback((panelConfig) => {
     setShowSourcesPanel(false);
+    if (listingsPanelCloseTimerRef.current && typeof window !== "undefined") {
+      window.clearTimeout(listingsPanelCloseTimerRef.current);
+      listingsPanelCloseTimerRef.current = null;
+    }
+    setListingsPanelClosing(false);
     setActiveListingsPanel(panelConfig);
   }, []);
-  const closeListingsPanel = useCallback(() => {
-    setActiveListingsPanel(null);
-    setListingsPanelState({
-      items: [],
-      nextOffset: null,
-      loading: false,
-      error: ""
-    });
+  const shouldReducePanelMotion = useCallback(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      if (document?.documentElement?.dataset?.reduceMotion === "1") return true;
+      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches);
+    } catch {
+      return false;
+    }
   }, []);
+  const closeListingsPanel = useCallback((options = {}) => {
+    const afterClose = typeof options.afterClose === "function" ? options.afterClose : null;
+    if (listingsPanelClosing) return;
+    if (listingsPanelCloseTimerRef.current && typeof window !== "undefined") {
+      window.clearTimeout(listingsPanelCloseTimerRef.current);
+      listingsPanelCloseTimerRef.current = null;
+    }
+    const finishClose = () => {
+      setListingsPanelClosing(false);
+      setActiveListingsPanel(null);
+      setListingsPanelState({
+        items: [],
+        nextOffset: null,
+        loading: false,
+        error: ""
+      });
+      afterClose?.();
+    };
+    if (shouldReducePanelMotion()) {
+      finishClose();
+      return;
+    }
+    setListingsPanelClosing(true);
+    listingsPanelCloseTimerRef.current = window.setTimeout(() => {
+      finishClose();
+      listingsPanelCloseTimerRef.current = null;
+    }, PANEL_TILT_CLOSE_MS);
+  }, [listingsPanelClosing, shouldReducePanelMotion]);
   const backToProfileFromListingsPanel = useCallback(() => {
-    openProfileDirect();
-    closeListingsPanel();
+    closeListingsPanel({
+      afterClose: () => {
+        void openProfileDirect();
+      }
+    });
   }, [closeListingsPanel, openProfileDirect]);
   const openSelectedListing = useCallback(async (item) => {
     const kind = String(item?.kind || "").trim().toLowerCase();
@@ -1021,6 +1129,7 @@ export default function ChatBody({
       error={listingsPanelState.error}
       nextOffset={listingsPanelState.nextOffset}
       emptyText={activeListingsPanel.emptyText}
+      isClosing={listingsPanelClosing}
       onClose={closeListingsPanel}
       onBackToProfile={activeListingsPanel?.returnToProfile ? backToProfileFromListingsPanel : undefined}
       onLoadMore={() => loadListingsPanel(activeListingsPanel, { append: true })}
@@ -1148,15 +1257,12 @@ export default function ChatBody({
       behavior: "smooth"
     });
   }, []);
-  const handleBackHome = useCallback(() => {
+  const handleBackHome = useCallback(async () => {
     const now = Date.now();
     if (now - backTapGuardRef.current < 320) return;
     backTapGuardRef.current = now;
     setShowSourcesPanel(false);
-    setInputFocused(false);
-    try {
-      inputRef.current?.blur?.();
-    } catch {}
+    await waitForComposerCollapse();
     if (typeof onBackHome === "function") {
       onBackHome();
       return;
@@ -1176,7 +1282,7 @@ export default function ChatBody({
         }
       }, 760);
     }
-  }, [locale, onBackHome, router, setShowSourcesPanel]);
+  }, [locale, onBackHome, router, setShowSourcesPanel, waitForComposerCollapse]);
   const handleComposerFocus = useCallback(() => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);

@@ -12,7 +12,8 @@ export function useChatProfileRoll({
   showSourcesPanel,
   setShowSourcesPanel,
   setInputFocused,
-  inputRef
+  inputRef,
+  waitForComposerCollapse
 }) {
   const searchParams = useSearchParams();
   const initialProfileOpen = embedded && searchParams?.get("profile") === "1";
@@ -21,14 +22,19 @@ export function useChatProfileRoll({
   const [isRolling, setIsRolling] = useState(false);
   const rollTimerRef = useRef(null);
   const rollSwapTimerRef = useRef(null);
+  const pendingTransitionRef = useRef(false);
 
-  const prepareForProfileTransition = useCallback(() => {
+  const prepareForProfileTransition = useCallback(async () => {
     if (showSourcesPanel) setShowSourcesPanel(false);
+    if (typeof waitForComposerCollapse === "function") {
+      await waitForComposerCollapse();
+      return;
+    }
     setInputFocused(false);
     try {
       inputRef.current?.blur?.();
     } catch {}
-  }, [inputRef, setInputFocused, setShowSourcesPanel, showSourcesPanel]);
+  }, [inputRef, setInputFocused, setShowSourcesPanel, showSourcesPanel, waitForComposerCollapse]);
 
   const syncProfileUrl = useCallback(open => {
     if (!embedded || typeof window === "undefined") return;
@@ -43,11 +49,16 @@ export function useChatProfileRoll({
     }, "", `${url.pathname}${url.search}${url.hash}`);
   }, [embedded]);
 
-  const triggerRoll = useCallback((direction, open) => {
-    if (isRolling) return;
-    setRollDirection(direction);
-    setIsRolling(true);
-    prepareForProfileTransition();
+  const triggerRoll = useCallback(async (direction, open) => {
+    if (isRolling || pendingTransitionRef.current) return;
+    pendingTransitionRef.current = true;
+    try {
+      await prepareForProfileTransition();
+      setRollDirection(direction);
+      setIsRolling(true);
+    } finally {
+      pendingTransitionRef.current = false;
+    }
     if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
     const swapDelay = Math.round(ROLL_MS * 0.35);
     rollSwapTimerRef.current = window.setTimeout(() => {
@@ -58,48 +69,60 @@ export function useChatProfileRoll({
     rollTimerRef.current = window.setTimeout(() => setIsRolling(false), ROLL_MS);
   }, [isRolling, prepareForProfileTransition, syncProfileUrl]);
 
-  const openProfile = useCallback(() => {
-    if (!embedded) {
-      prepareForProfileTransition();
-      window.requestAnimationFrame(() => {
-        pushWithTransition(router, localizePath("/profiil", locale), {
-          glassRingTilt: "right",
-          waitForGlassRingTilt: true,
-          persistGlassRingTilt: false
+  const openProfile = useCallback(async () => {
+    if (pendingTransitionRef.current) return;
+    pendingTransitionRef.current = true;
+    try {
+      if (!embedded) {
+        await prepareForProfileTransition();
+        window.requestAnimationFrame(() => {
+          pushWithTransition(router, localizePath("/profiil", locale), {
+            glassRingTilt: "right",
+            waitForGlassRingTilt: true,
+            persistGlassRingTilt: false
+          });
         });
-      });
-      return;
+        return;
+      }
+    } finally {
+      pendingTransitionRef.current = false;
     }
-    triggerRoll("right", true);
+    void triggerRoll("right", true);
   }, [embedded, locale, prepareForProfileTransition, router, triggerRoll]);
 
-  const openProfileDirect = useCallback((options = {}) => {
+  const openProfileDirect = useCallback(async (options = {}) => {
     const { withTilt = true } = options;
-    if (!embedded) {
-      prepareForProfileTransition();
-      if (withTilt) {
-        pushWithTransition(router, localizePath("/profiil", locale), {
-          glassRingTilt: "right",
-          waitForGlassRingTilt: true,
-          persistGlassRingTilt: false
-        });
-      } else {
-        pushWithTransition(router, localizePath("/profiil", locale));
+    if (pendingTransitionRef.current) return;
+    pendingTransitionRef.current = true;
+    try {
+      if (!embedded) {
+        await prepareForProfileTransition();
+        if (withTilt) {
+          pushWithTransition(router, localizePath("/profiil", locale), {
+            glassRingTilt: "right",
+            waitForGlassRingTilt: true,
+            persistGlassRingTilt: false
+          });
+        } else {
+          pushWithTransition(router, localizePath("/profiil", locale));
+        }
+        return;
       }
-      return;
+      await prepareForProfileTransition();
+      if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
+      if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
+      setIsRolling(false);
+      setRollDirection("right");
+      setProfileOpen(true);
+      syncProfileUrl(true);
+    } finally {
+      pendingTransitionRef.current = false;
     }
-    prepareForProfileTransition();
-    if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
-    if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
-    setIsRolling(false);
-    setRollDirection("right");
-    setProfileOpen(true);
-    syncProfileUrl(true);
   }, [embedded, locale, prepareForProfileTransition, router, syncProfileUrl]);
 
   const closeProfile = useCallback(() => {
     if (!embedded) return;
-    triggerRoll("left", false);
+    void triggerRoll("left", false);
   }, [embedded, triggerRoll]);
 
   const toggleProfile = useCallback(() => {
@@ -127,6 +150,7 @@ export function useChatProfileRoll({
     return () => {
       if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
       if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
+      pendingTransitionRef.current = false;
     };
   }, []);
 

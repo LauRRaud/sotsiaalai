@@ -285,6 +285,41 @@ body .chat-inputbar .chat-send-btn .chat-mic-glyph {
   height: var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))) !important;
 }
 
+.chat-container--input-focus .chat-inputbar {
+  isolation: isolate;
+}
+
+.chat-container--input-focus .chat-inputbar > .chat-listen-btn,
+.chat-container--input-focus .chat-inputbar > .chat-send-btn {
+  position: relative !important;
+  inset: auto !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  z-index: 3 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  justify-self: center !important;
+  align-self: center !important;
+  line-height: 0 !important;
+}
+
+.chat-container--input-focus .chat-inputbar > .chat-listen-btn svg {
+  top: 0 !important;
+  transform: none !important;
+}
+
+.chat-container--input-focus .chat-inputbar > .chat-listen-btn:hover svg,
+.chat-container--input-focus .chat-inputbar > .chat-listen-btn:focus-visible svg {
+  transform: scale(1.08) !important;
+  transform-origin: center;
+}
+
 html:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn,
 html:not([data-contrast="hc"]) body .chat-inputbar:focus-within .chat-send-btn,
 html:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn:hover,

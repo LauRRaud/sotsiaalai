@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
@@ -17,6 +17,7 @@ function parseEmails(raw) {
   const list = String(raw).split(/[,;\n\r]/).map(s => s.trim().toLowerCase()).filter(Boolean);
   return [...new Set(list)];
 }
+const INVITE_TILT_CLOSE_MS = 540;
 export default function InviteModal() {
   const {
     data: session
@@ -32,12 +33,14 @@ export default function InviteModal() {
   const [emails, setEmails] = useState("");
   const [paymentMode, setPaymentMode] = useState("");
   const [busy, setBusy] = useState(false);
+  const [closing, setClosing] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [sponsoredStep, setSponsoredStep] = useState(false);
   const [targetRole, setTargetRole] = useState("CLIENT");
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
+  const closeTimerRef = useRef(null);
   const paymentOptions = [{
     value: "self_paid",
     label: t("invite.pay.self")
@@ -56,7 +59,8 @@ export default function InviteModal() {
   const inviteModalContentClassName =
     `invite-modal-content person-invite-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
-    `[--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
+    `[--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName} ` +
+    `${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const inviteModalTitleClassName =
     `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
@@ -99,6 +103,11 @@ export default function InviteModal() {
   useEffect(() => {
     const handler = e => {
       setRoomId(e?.detail?.roomId || null);
+      if (closeTimerRef.current && typeof window !== "undefined") {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+      setClosing(false);
       setOpen(true);
     };
     window.addEventListener("sotsiaalai:open-invite", handler);
@@ -148,6 +157,40 @@ export default function InviteModal() {
       root.classList.remove("invite-modal-open");
     };
   }, [open]);
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current && typeof window !== "undefined") {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+    };
+  }, []);
+  const shouldReduceMotion = useCallback(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      if (document?.documentElement?.dataset?.reduceMotion === "1") return true;
+      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches);
+    } catch {
+      return false;
+    }
+  }, []);
+  const handleClose = useCallback(() => {
+    if (closeTimerRef.current && typeof window !== "undefined") {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    if (shouldReduceMotion()) {
+      setClosing(false);
+      setOpen(false);
+      return;
+    }
+    setClosing(true);
+    closeTimerRef.current = window.setTimeout(() => {
+      setClosing(false);
+      setOpen(false);
+      closeTimerRef.current = null;
+    }, INVITE_TILT_CLOSE_MS);
+  }, [shouldReduceMotion]);
   const loadInvites = useCallback(async () => {
     if (!roomId) {
       setInvites([]);
@@ -305,8 +348,8 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay person-invite-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName={inviteModalContentClassName}>
-      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className={`${glassPageBackTopLeftClassName} !z-[145] pointer-events-auto`} />
+  return <Modal open={open} variant="glass" onClose={handleClose} closeOnOverlayClick={!closing} aria-label={t("invite.title")} className={open ? "invite-modal-overlay person-invite-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName={inviteModalContentClassName}>
+      <BackButton onClick={handleClose} ariaLabel={t("buttons.back")} className={`${glassPageBackTopLeftClassName} !z-[145] pointer-events-auto`} />
       <header className="invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
         <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
           <h2 className={inviteModalTitleClassName}>
@@ -376,7 +419,7 @@ export default function InviteModal() {
           padding="sm"
           className={`invite-list-panel ${inviteListCardClassName} ${
             invites.length === 0
-              ? "min-h-[9.4rem] max-h-none max-[768px]:min-h-[9.8rem] max-[768px]:max-h-none overflow-visible"
+              ? "min-h-[7.2rem] max-h-none max-[768px]:min-h-[7.6rem] max-[768px]:max-h-none overflow-visible"
               : "min-h-[7.8rem] max-h-[min(38dvh,18rem)] max-[768px]:min-h-[6.9rem] max-[768px]:max-h-[min(24dvh,13.5rem)] overflow-y-auto"
           } [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}
         >

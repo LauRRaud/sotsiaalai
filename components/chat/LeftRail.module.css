@@ -108,9 +108,9 @@
 }
 
 .iconBtn:hover img:not(.iconBack),
-.iconBtn:hover svg:not(.iconBack),
+.iconBtn:hover svg:not(.iconBack):not(.iconSvgSources),
 .iconBtn:focus-visible img:not(.iconBack),
-.iconBtn:focus-visible svg:not(.iconBack) {
+.iconBtn:focus-visible svg:not(.iconBack):not(.iconSvgSources) {
   transform: none !important;
   filter: none !important;
 }

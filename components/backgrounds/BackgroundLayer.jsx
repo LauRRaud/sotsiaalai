@@ -120,11 +120,15 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted]);
   useEffect(() => {
     if (!mounted) return;
-    if (!prefsHydrated) {
-      setColorBendsReady(false);
+    if (prefsHydrated) {
+      setColorBendsReady(true);
       return;
     }
-    setColorBendsReady(true);
+    setColorBendsReady(false);
+    const fallbackTimer = window.setTimeout(() => {
+      setColorBendsReady(true);
+    }, 1200);
+    return () => window.clearTimeout(fallbackTimer);
   }, [mounted, prefsHydrated]);
   useEffect(() => {
     if (!mounted) return;
@@ -181,7 +185,7 @@ const BackgroundContent = memo(function BackgroundContent({
           />
         </div>
 
-        {prefsHydrated && colorBendsReady && allowColorBends && (
+        {colorBendsReady && allowColorBends && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
               <ColorBends {...colorBendsProps} freeze={reduceMotion || mobileLike} />
@@ -194,10 +198,6 @@ const BackgroundContent = memo(function BackgroundContent({
             <Particles freeze={reduceMotion} />
           </div>}
 
-        {}
-        <div className="bg-dim-overlay" style={{
-        background: "transparent"
-      }} />
       </div>
 
       {}

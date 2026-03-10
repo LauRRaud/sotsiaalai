@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
-import Button from "@/components/ui/Button";
 import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { localizePath } from "@/lib/localizePath";
 export default function ChatComposer({
@@ -53,6 +53,7 @@ export default function ChatComposer({
   const isClientRole = effectiveRole === "CLIENT";
   const [draft, setDraft] = useState("");
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [toolsMenuPosition, setToolsMenuPosition] = useState(null);
   const [composerMode, setComposerMode] = useState("chat");
   const submitInFlightRef = useRef(false);
   const primaryActionHandledAtRef = useRef(0);
@@ -60,6 +61,9 @@ export default function ChatComposer({
   const toolsMenuRef = useRef(null);
   const deepResearchDisabled = Boolean(isRoomMode);
   const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
+  const toolsMenuBackdropFilter = isLightTheme
+    ? "blur(18px) saturate(140%)"
+    : "blur(12px) saturate(128%)";
 
   useEffect(() => {
     if (!hideTools) return;
@@ -92,6 +96,33 @@ export default function ChatComposer({
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [toolsOpen]);
+
+  const updateToolsMenuPosition = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const button = toolsButtonRef.current;
+    if (!button) return;
+    const rect = button.getBoundingClientRect();
+    setToolsMenuPosition({
+      left: Math.max(8, rect.left),
+      bottom: Math.max(8, window.innerHeight - rect.top + 7)
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!toolsOpen) {
+      setToolsMenuPosition(null);
+      return;
+    }
+    updateToolsMenuPosition();
+    if (typeof window === "undefined") return;
+    const sync = () => updateToolsMenuPosition();
+    window.addEventListener("resize", sync);
+    window.addEventListener("scroll", sync, true);
+    return () => {
+      window.removeEventListener("resize", sync);
+      window.removeEventListener("scroll", sync, true);
+    };
+  }, [toolsOpen, updateToolsMenuPosition]);
 
   useEffect(() => {
     if (!isRoomMode) return;
@@ -269,7 +300,7 @@ export default function ChatComposer({
   const inputRowClassName =
     `${embedded ? "chat-input-row--embedded " : ""}` +
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
-    "transition-[transform,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform max-[768px]:transition-none";
+    "transition-[top,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top] max-[768px]:transition-none";
   const inputRowModeClassName = embedded
     ? "relative mt-0 w-full max-w-full gap-[0.4rem] pl-0 pr-0 [--chat-input-max-w:100%]"
     : "relative mt-[clamp(0.6rem,1.8vh,1.1rem)] " +
@@ -307,8 +338,8 @@ export default function ChatComposer({
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonLoaderClassName = `${sendButtonClassName} !grid !place-items-center !p-0`;
   const inputRowTransformClassName = embedded
-    ? "[transform:none]"
-    : `${inputFocused ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]" : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]"} max-[768px]:[transform:none]`;
+    ? "top-0"
+    : `${inputFocused ? "top-[calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem))]" : "top-[calc(-1*var(--chat-input-shift,0rem))]"} max-[768px]:top-0`;
   const toolItemBaseClassName =
     "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
     "text-[1.12rem] leading-[1.2] tracking-[0.01em] transition-colors duration-150 " +
@@ -322,6 +353,59 @@ export default function ChatComposer({
   const toolIconStrokeWidth = 1.8;
   const agentToolStrokeWidth = 1.6;
   const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
+  const toolsMenuClassName =
+    "chat-tools-menu fixed z-[160] isolate overflow-hidden w-max min-w-[11.4rem] max-w-[calc(100vw-1rem)] rounded-[0.88rem] " +
+    "border border-[rgba(255,255,255,0.12)] bg-[rgba(24,26,32,0.72)] [.theme-night_&]:bg-[rgba(9,14,24,0.76)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.28)] " +
+    "light:border-[rgba(122,58,56,0.12)] light:bg-[rgba(255,250,248,0.58)] light:shadow-[0_12px_28px_rgba(82,50,46,0.14)] " +
+    "[.theme-mid_&]:bg-[rgba(252,246,244,0.62)] hc:border-[rgba(255,234,0,0.56)] hc:bg-[rgba(9,14,24,0.84)] hc:shadow-[0_12px_28px_rgba(0,0,0,0.28)]";
+  const toolsMenuPanel = toolsOpen && toolsMenuPosition && typeof document !== "undefined"
+    ? createPortal(<div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className={toolsMenuClassName} style={{
+      left: `${toolsMenuPosition.left}px`,
+      bottom: `${toolsMenuPosition.bottom}px`,
+      backdropFilter: toolsMenuBackdropFilter,
+      WebkitBackdropFilter: toolsMenuBackdropFilter
+    }}>
+          <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
+            <span aria-hidden="true" className={toolIconSlotClassName}>
+              <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
+                <path d="M8 3h8l5 5v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M16 3v5h5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <span>{t("chat.tools.document_analysis")}</span>
+          </button>
+          <button type="button" role="menuitem" className={`${toolItemBaseClassName} ${!canRunDeepResearch ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`} onClick={handleDeepResearchSelect} disabled={!canRunDeepResearch} title={!canRunDeepResearch ? t("chat.tools.deep_research_room_only") : undefined}>
+            <span aria-hidden="true" className={toolIconSlotClassName}>
+              <svg aria-hidden="true" width={deepResearchToolIconSize} height={deepResearchToolIconSize} viewBox="0 0 24 24" fill="none" className={`shrink-0 ${!canRunDeepResearch ? "opacity-55" : "opacity-95"}`}>
+                <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} />
+                <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
+              </svg>
+            </span>
+            <span>{t("chat.tools.deep_research")}</span>
+          </button>
+          {!isClientRole ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDocumentsSelect}>
+              <span aria-hidden="true" className={toolIconSlotClassName}>
+                <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
+                  <path d="M6 4.8h9.4L19 8.4v10.8a1.8 1.8 0 0 1-1.8 1.8H6.8A1.8 1.8 0 0 1 5 19.2V6.6A1.8 1.8 0 0 1 6.8 4.8Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M14.8 4.8v3.8H19" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M8.3 11.2h7.4M8.3 15.1h5.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
+                </svg>
+              </span>
+              <span>{t("chat.tools.documents")}</span>
+            </button> : null}
+          <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleAgentModeSelect}>
+            <span aria-hidden="true" className={toolIconSlotClassName}>
+              <svg aria-hidden="true" width={agentToolIconSize} height={agentToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-95">
+                <rect x="6.1" y="7.2" width="11.8" height="9.6" rx="2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} />
+                <path d="M12 4.3v2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} strokeLinecap="round" />
+                <circle cx="10" cy="12" r="0.9" fill={iconStroke} />
+                <circle cx="14" cy="12" r="0.9" fill={iconStroke} />
+              </svg>
+            </span>
+            <span>{t("chat.tools.agent_mode")}</span>
+          </button>
+        </div>, document.body)
+    : null;
   const sideControlsClassName =
     "relative z-[85] pointer-events-auto flex items-center gap-[0.18rem] max-[768px]:gap-[0.12rem] " +
     "left-[var(--chat-attach-left-pull,0rem)] max-[768px]:left-0 " +
@@ -344,49 +428,7 @@ export default function ChatComposer({
                   <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth="3.1" strokeLinecap="round" />
                 </svg>}
               </button>
-              {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="chat-tools-menu absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] border border-[rgba(255,255,255,0.12)] bg-[rgba(24,26,32,0.72)] [.theme-night_&]:bg-[rgba(9,14,24,0.76)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.28)] backdrop-blur-[12px] backdrop-saturate-[128%] [-webkit-backdrop-filter:blur(12px)_saturate(128%)] light:border-[rgba(122,58,56,0.12)] light:bg-[rgba(255,250,248,0.74)] [.theme-mid_&]:bg-[rgba(252,246,244,0.62)] hc:border-[rgba(255,234,0,0.56)] hc:bg-[rgba(9,14,24,0.84)] hc:shadow-[0_12px_28px_rgba(0,0,0,0.28)] hc:[-webkit-backdrop-filter:blur(12px)_saturate(128%)] hc:[backdrop-filter:blur(12px)_saturate(128%)]">
-                <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
-                  <span aria-hidden="true" className={toolIconSlotClassName}>
-                    <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
-                      <path d="M8 3h8l5 5v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M16 3v5h5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  <span>{t("chat.tools.document_analysis")}</span>
-                </button>
-                <button type="button" role="menuitem" className={`${toolItemBaseClassName} ${!canRunDeepResearch ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`} onClick={handleDeepResearchSelect} disabled={!canRunDeepResearch} title={!canRunDeepResearch ? t("chat.tools.deep_research_room_only") : undefined}>
-                  <span aria-hidden="true" className={toolIconSlotClassName}>
-                    <svg aria-hidden="true" width={deepResearchToolIconSize} height={deepResearchToolIconSize} viewBox="0 0 24 24" fill="none" className={`shrink-0 ${!canRunDeepResearch ? "opacity-55" : "opacity-95"}`}>
-                      <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} />
-                      <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
-                    </svg>
-                  </span>
-                  <span>{t("chat.tools.deep_research")}</span>
-                </button>
-                {!isClientRole ? (
-                  <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDocumentsSelect}>
-                    <span aria-hidden="true" className={toolIconSlotClassName}>
-                      <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
-                        <path d="M6 4.8h9.4L19 8.4v10.8a1.8 1.8 0 0 1-1.8 1.8H6.8A1.8 1.8 0 0 1 5 19.2V6.6A1.8 1.8 0 0 1 6.8 4.8Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M14.8 4.8v3.8H19" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M8.3 11.2h7.4M8.3 15.1h5.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
-                      </svg>
-                    </span>
-                    <span>{t("chat.tools.documents")}</span>
-                  </button>
-                ) : null}
-                <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleAgentModeSelect}>
-                  <span aria-hidden="true" className={toolIconSlotClassName}>
-                    <svg aria-hidden="true" width={agentToolIconSize} height={agentToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-95">
-                      <rect x="6.1" y="7.2" width="11.8" height="9.6" rx="2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} />
-                      <path d="M12 4.3v2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} strokeLinecap="round" />
-                      <circle cx="10" cy="12" r="0.9" fill={iconStroke} />
-                      <circle cx="14" cy="12" r="0.9" fill={iconStroke} />
-                    </svg>
-                  </span>
-                  <span>{t("chat.tools.agent_mode")}</span>
-                </button>
-              </div> : null}
+              {toolsMenuPanel}
             </div>
             {showDocumentAttachButton ? <button type="button" className={`chat-attach-btn ${sideControlButtonClassName}`} aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={onPickDocumentFile} disabled={documentAttachDisabled}>
                 <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
@@ -406,30 +448,30 @@ export default function ChatComposer({
         <div className={inputFieldWrapClassName}>
           <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={onFocusInput} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
         </div>
-        <Button type="button" variant="linkBrand" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
-          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] translate-y-[0.06rem] text-[#c57171] light:text-[#7a3a38]">
+        <button type="button" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] text-[#c57171] light:text-[#7a3a38]">
             <path d="M11 5L6 9H2v6h4l5 4z" />
             <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
           </svg>
-        </Button>
-        {isGenerating || isStreamingAny ? <Button type="submit" variant="primary" className={sendButtonLoaderClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+        </button>
+        {isGenerating || isStreamingAny ? <button type="submit" className={sendButtonLoaderClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
             <SotsiaalAILoader size="1.34rem" animated={isGenerating || isStreamingAny} ariaHidden className="chat-send-loader h-[1.34rem] w-[1.34rem] [--send-loader-shift-y:-0.24rem] [&_svg]:translate-y-[var(--send-loader-shift-y)]" style={{
           "--glow-opacity-base": 0,
           "--glow-opacity-peak": 0
         }} />
-          </Button> : hasInput ? <Button type="submit" variant="primary" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+          </button> : hasInput ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
             <SubmitArrowIcon
               useCurrentColor
               className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[#c57171] light:text-[#7a3a38]"
             />
-          </Button> : <Button type="button" variant="primary" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handlePrimaryActionClick} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
+          </button> : <button type="button" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handlePrimaryActionClick} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
             <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.82" strokeLinecap="round" strokeLinejoin="round" shapeRendering="geometricPrecision" className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[#c57171] light:text-[#7a3a38]">
               <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
               <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
               <line x1="12" y1="19" x2="12" y2="23" />
               <line x1="8" y1="23" x2="16" y2="23" />
             </svg>
-          </Button>}
+          </button>}
       </div>
     </form>;
 }

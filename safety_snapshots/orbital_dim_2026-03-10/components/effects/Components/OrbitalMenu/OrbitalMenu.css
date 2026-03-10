@@ -366,12 +366,6 @@ html[data-contrast="hc"].profile-orbit-open
   }
 }
 
-.profile-orbit-menu__center-pulse {
-  animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite;
-  transform-origin: center;
-  will-change: transform;
-}
-
 .profile-orbit-mobile-backdrop.invite-modal-backdrop {
   background: rgba(6, 8, 12, 0.38);
   -webkit-backdrop-filter: blur(16px) saturate(118%);
@@ -527,11 +521,6 @@ html[data-reduce-motion="1"]
   animation: none !important;
   transition: none !important;
 }
-html[data-reduce-motion="1"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center-pulse {
-  animation: none !important;
-}
 @media (prefers-reduced-motion: reduce) {
   .profile-orbit-mobile-visual,
   .profile-orbit-mobile-scrim,
@@ -544,10 +533,6 @@ html[data-reduce-motion="1"]
   .profile-orbit-mobile-chevron {
     opacity: 0.55;
     filter: none;
-  }
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__center-pulse {
-    animation: none !important;
   }
 }
 
