@@ -723,6 +723,97 @@
   html[data-platform="android"] .profile-orbit-stack-fade,
   body[data-platform="android"] .profile-orbit-stack-fade {
     display: block !important;
+    opacity: 1 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-fade--top,
+  body[data-platform="android"] .profile-orbit-stack-fade--top {
+    background: linear-gradient(
+      180deg,
+      rgba(8, 12, 20, 0.86) 0%,
+      rgba(8, 12, 20, 0.54) 34%,
+      rgba(8, 12, 20, 0.2) 66%,
+      rgba(8, 12, 20, 0) 100%
+    ) !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-fade--bottom,
+  body[data-platform="android"] .profile-orbit-stack-fade--bottom {
+    background: linear-gradient(
+      0deg,
+      rgba(8, 12, 20, 0.86) 0%,
+      rgba(8, 12, 20, 0.54) 34%,
+      rgba(8, 12, 20, 0.2) 66%,
+      rgba(8, 12, 20, 0) 100%
+    ) !important;
+  }
+
+  html[data-platform="android"].theme-light .profile-orbit-stack-fade--top,
+  body[data-platform="android"].theme-light .profile-orbit-stack-fade--top {
+    background: linear-gradient(
+      180deg,
+      rgba(247, 247, 246, 0.94) 0%,
+      rgba(247, 247, 246, 0.62) 34%,
+      rgba(247, 247, 246, 0.22) 66%,
+      rgba(247, 247, 246, 0) 100%
+    ) !important;
+  }
+
+  html[data-platform="android"].theme-light .profile-orbit-stack-fade--bottom,
+  body[data-platform="android"].theme-light .profile-orbit-stack-fade--bottom {
+    background: linear-gradient(
+      0deg,
+      rgba(247, 247, 246, 0.94) 0%,
+      rgba(247, 247, 246, 0.62) 34%,
+      rgba(247, 247, 246, 0.22) 66%,
+      rgba(247, 247, 246, 0) 100%
+    ) !important;
+  }
+
+  html[data-platform="android"].theme-mid .profile-orbit-stack-fade--top,
+  body[data-platform="android"].theme-mid .profile-orbit-stack-fade--top {
+    background: linear-gradient(
+      180deg,
+      rgba(252, 248, 247, 0.9) 0%,
+      rgba(252, 248, 247, 0.58) 34%,
+      rgba(252, 248, 247, 0.2) 66%,
+      rgba(252, 248, 247, 0) 100%
+    ) !important;
+  }
+
+  html[data-platform="android"].theme-mid .profile-orbit-stack-fade--bottom,
+  body[data-platform="android"].theme-mid .profile-orbit-stack-fade--bottom {
+    background: linear-gradient(
+      0deg,
+      rgba(252, 248, 247, 0.9) 0%,
+      rgba(252, 248, 247, 0.58) 34%,
+      rgba(252, 248, 247, 0.2) 66%,
+      rgba(252, 248, 247, 0) 100%
+    ) !important;
+  }
+
+  html[data-platform="android"].theme-night .profile-orbit-stack-fade--top,
+  body[data-platform="android"].theme-night .profile-orbit-stack-fade--top {
+    background: linear-gradient(
+      180deg,
+      rgba(13, 20, 34, 0.92) 0%,
+      rgba(13, 20, 34, 0.6) 34%,
+      rgba(13, 20, 34, 0.22) 66%,
+      rgba(13, 20, 34, 0) 100%
+    ) !important;
+  }
+
+  html[data-platform="android"].theme-night .profile-orbit-stack-fade--bottom,
+  body[data-platform="android"].theme-night .profile-orbit-stack-fade--bottom {
+    background: linear-gradient(
+      0deg,
+      rgba(13, 20, 34, 0.92) 0%,
+      rgba(13, 20, 34, 0.6) 34%,
+      rgba(13, 20, 34, 0.22) 66%,
+      rgba(13, 20, 34, 0) 100%
+    ) !important;
   }
 
   html[data-platform="android"] .profile-orbit-stack-item,

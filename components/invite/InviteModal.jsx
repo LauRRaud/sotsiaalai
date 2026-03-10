@@ -371,7 +371,15 @@ export default function InviteModal() {
             </div>
           </form>}
 
-        <Panel variant="secondary" padding="sm" className={`invite-list-panel ${inviteListCardClassName} min-h-[7.8rem] max-h-[min(38dvh,18rem)] max-[768px]:min-h-[6.9rem] max-[768px]:max-h-[min(24dvh,13.5rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
+        <Panel
+          variant="secondary"
+          padding="sm"
+          className={`invite-list-panel ${inviteListCardClassName} ${
+            invites.length === 0
+              ? "min-h-[9.4rem] max-h-none max-[768px]:min-h-[9.8rem] max-[768px]:max-h-none overflow-visible"
+              : "min-h-[7.8rem] max-h-[min(38dvh,18rem)] max-[768px]:min-h-[6.9rem] max-[768px]:max-h-[min(24dvh,13.5rem)] overflow-y-auto"
+          } [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}
+        >
           <div className="flex items-center justify-between gap-[0.75rem] max-[768px]:flex-col max-[768px]:items-start">
             <span className="text-[1.18rem] font-[650] tracking-[0.03em] max-[768px]:text-[1.24rem] max-[768px]:tracking-[0.034em]">
               {t("invite.list")}
