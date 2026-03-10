@@ -197,12 +197,12 @@
   font-size: 1.42rem;
   letter-spacing: 0.05em;
   color: var(--chat-icon-dark, #c57171);
-  background: rgb(28, 31, 38);
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  background: rgba(28, 31, 38, 0.62);
+  -webkit-backdrop-filter: blur(14px) saturate(124%);
+  backdrop-filter: blur(14px) saturate(124%);
   filter: none !important;
-  border: 0;
-  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
   pointer-events: none;
   z-index: 80;
   isolation: isolate;
@@ -232,24 +232,34 @@
 }
 
 :global(:root.theme-night) .tooltip {
-  background: rgb(16, 19, 26);
-  box-shadow: none;
+  background: rgba(16, 19, 26, 0.66);
 }
 
 :global(:root.theme-light) .tooltip {
   color: #7a3a38;
   font-size: 1.42rem;
   font-weight: 450;
-  background: rgb(253, 253, 253);
-  box-shadow: none;
+  background: rgba(253, 253, 253, 0.72);
+  border-color: rgba(122, 58, 56, 0.14);
+  box-shadow: 0 10px 24px rgba(82, 50, 46, 0.12);
 }
 
 :global(:root.theme-mid) .tooltip {
   color: #7a3a38;
   font-size: 1.42rem;
   font-weight: 450;
-  background: rgba(253, 250, 249, 0.54);
-  box-shadow: none;
+  background: rgba(253, 250, 249, 0.62);
+  border-color: rgba(122, 58, 56, 0.12);
+  box-shadow: 0 10px 24px rgba(82, 50, 46, 0.12);
+}
+
+:global(html[data-contrast="hc"]) .tooltip {
+  color: var(--hc-accent, #ffea00);
+  background: rgba(9, 14, 24, 0.82);
+  -webkit-backdrop-filter: blur(14px) saturate(124%);
+  backdrop-filter: blur(14px) saturate(124%);
+  border-color: rgba(255, 234, 0, 0.56);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -267,6 +277,10 @@
 
   :global(:root.theme-mid) .tooltip {
     background: rgba(253, 250, 249, 0.54);
+  }
+
+  :global(html[data-contrast="hc"]) .tooltip {
+    background: rgba(9, 14, 24, 0.88);
   }
 }
 

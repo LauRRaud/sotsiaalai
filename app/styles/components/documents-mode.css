@@ -1917,7 +1917,7 @@ html[data-contrast="hc"] .documents-workspace {
   --documents-agent-thread-shadow: none;
   --documents-agent-composer-shadow: none;
   --documents-agent-composer-shadow-hover: none;
-  --input-border: 1.5px solid rgba(255, 234, 0, 0.68);
+  --input-border: 2px solid rgba(255, 234, 0, 0.68);
   --input-text: var(--hc-accent);
   --input-placeholder: rgba(255, 234, 0, 0.72);
   --input-caret: var(--hc-accent);
@@ -1926,9 +1926,9 @@ html[data-contrast="hc"] .documents-workspace {
   --input-bg-focus: rgba(14, 20, 32, 0.56);
   --input-shadow: none;
   --input-shadow-hover: none;
-  --btn-primary-border: 1.5px solid rgba(255, 234, 0, 0.66);
-  --btn-primary-border-hover: 1.5px solid rgba(255, 234, 0, 0.9);
-  --btn-primary-border-active: 1.5px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
   --btn-primary-text: var(--hc-accent);
   --btn-primary-bg: rgba(14, 20, 32, 0.42);
   --btn-primary-bg-hover: rgba(255, 234, 0, 0.12);
@@ -2076,7 +2076,7 @@ html[data-contrast="hc"] .documents-workspace .documents-agent-conversation-wind
 }
 
 html[data-contrast="hc"] .documents-workspace .documents-agent-composer-slot .chat-inputbar {
-  border: 1.5px solid rgba(255, 234, 0, 0.72) !important;
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
   background: rgba(14, 20, 32, 0.42) !important;
   box-shadow: none !important;
 }

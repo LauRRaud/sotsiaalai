@@ -244,7 +244,8 @@
       "light": "Light",
       "mid": "Dim",
       "dark": "Dark",
-      "night": "Night"
+      "night": "Night",
+      "hc": "KKR"
     },
     "preferences": {
       "title": "Language & accessibility",
@@ -304,7 +305,7 @@
     "text_scale": "Text size",
     "contrast": "Contrast",
     "motion": "Motion",
-    "theme": "Theme",
+    "theme": "Themes",
     "options": {
       "language": {
         "et": "Estonian",

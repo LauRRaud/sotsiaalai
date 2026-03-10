@@ -151,7 +151,6 @@
   border: var(--btn-primary-border-hover);
   background: var(--btn-primary-bg-hover);
   box-shadow: var(--btn-primary-shadow-hover);
-  transform: scale(1.04);
 }
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn:hover,
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn:focus-visible {

@@ -92,16 +92,16 @@ const orbitWrapperClassName =
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const profileMobileActionStackClassName =
   "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+4.7rem)] z-[95] flex w-full flex-col items-center justify-center " +
-  "gap-[clamp(0.28rem,1.8vw,0.58rem)] px-[1rem] pointer-events-auto min-[48.0625em]:hidden";
+  "gap-[clamp(0.28rem,1.8vw,0.58rem)] px-[1rem] pointer-events-auto min-[48em]:hidden";
 const logoutButtonClassName =
   "profile-logout-button group relative grid place-items-center self-center max-[48em]:!self-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
 const logoutIconClassName = "profile-logout-icon h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
   "text-[1.2rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
-  "text-[#c57171] light:text-[#7A3A38] opacity-0 -translate-y-[0.38rem] pointer-events-none transform-gpu will-change-transform " +
+  "text-[#c57171] light:text-[#7A3A38] hc:text-[color:var(--hc-accent)] opacity-0 -translate-y-[0.38rem] scale-100 pointer-events-none transform-gpu will-change-transform " +
   "transition-all duration-[520ms] ease-out " +
-  "group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0";
+  "group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-[1.13] group-focus-visible:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:scale-[1.13]";
 const profileBackButtonClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
   "max-[48em]:!z-[95]";
@@ -175,6 +175,18 @@ const PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT = {
   dual:
     "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.56) 33%, rgba(0,0,0,0) 44%, rgba(56,36,28,0.92) 50%, rgba(0,0,0,0) 56%, rgba(72,46,36,0.56) 67%, rgba(0,0,0,0) 100%)"
 };
+const PROFILE_FOOTER_SHINE_GRADIENTS_HC = {
+  soft:
+    "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0) 40%, rgba(255,224,44,0.92) 50%, rgba(255,224,44,0) 60%, rgba(255,224,44,0) 100%)",
+  narrow:
+    "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0) 45%, rgba(255,224,44,1) 50%, rgba(255,224,44,0) 55%, rgba(255,224,44,0) 100%)",
+  medium:
+    "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0) 42%, rgba(255,224,44,0.98) 50%, rgba(255,224,44,0) 58%, rgba(255,224,44,0) 100%)",
+  wide:
+    "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0.18) 32%, rgba(255,224,44,0.98) 50%, rgba(255,224,44,0.18) 68%, rgba(255,224,44,0) 100%)",
+  dual:
+    "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0.62) 33%, rgba(255,224,44,0) 44%, rgba(255,224,44,0.98) 50%, rgba(255,224,44,0) 56%, rgba(255,224,44,0.62) 67%, rgba(255,224,44,0) 100%)"
+};
 function ProfileShell({
   locale,
   children,
@@ -184,16 +196,23 @@ function ProfileShell({
   innerRef,
   embedded = false,
   theme = "dark",
+  isHighContrast = false,
   orbitOpen = false,
   hidden = false,
   maskLayerRef,
   footerNote
 }) {
   const footerShineBackgroundImage =
-    (theme === "light"
-      ? PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT[PROFILE_FOOTER_SHINE_VARIANT]
-      : PROFILE_FOOTER_SHINE_GRADIENTS[PROFILE_FOOTER_SHINE_VARIANT]) ||
-    (theme === "light" ? PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT.soft : PROFILE_FOOTER_SHINE_GRADIENTS.soft);
+    (isHighContrast
+      ? PROFILE_FOOTER_SHINE_GRADIENTS_HC[PROFILE_FOOTER_SHINE_VARIANT]
+      : theme === "light"
+        ? PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT[PROFILE_FOOTER_SHINE_VARIANT]
+        : PROFILE_FOOTER_SHINE_GRADIENTS[PROFILE_FOOTER_SHINE_VARIANT]) ||
+    (isHighContrast
+      ? PROFILE_FOOTER_SHINE_GRADIENTS_HC.soft
+      : theme === "light"
+        ? PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT.soft
+        : PROFILE_FOOTER_SHINE_GRADIENTS.soft);
   const containerClass = cn(
     containerBaseClassName,
     embedded ? "profile-container glass-ring glass-ring--desktop-stable" : "profile-container glass-ring glass-ring--desktop-stable",
@@ -365,6 +384,16 @@ function ThemeMidDockIcon({
       <path d="M12 2.6v2.1M4.7 12h2.1M17.2 12h2.1M5.8 5.8l1.5 1.5M18.2 5.8l-1.5 1.5" />
     </svg>;
 }
+function ThemeHighContrastDockIcon({
+  isHovered: _isHovered,
+  ...props
+}) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <circle cx="12" cy="12" r="7.2" />
+      <path d="M12 4.8v14.4" />
+      <path d="M12 7.1a4.9 4.9 0 0 1 0 9.8" />
+    </svg>;
+}
 export default function ProfiilBody({
   initialProfile = null,
   embedded = false,
@@ -449,6 +478,8 @@ export default function ProfiilBody({
       : "dark";
   const isLightTheme =
     currentTheme === "light" || currentTheme === "mid";
+  const isHighContrast = prefs?.contrast === "hc";
+  const currentMode = isHighContrast ? "hc" : currentTheme;
   const profileShellTheme = isLightTheme ? "light" : "dark";
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
@@ -703,19 +734,22 @@ export default function ProfiilBody({
   useEffect(() => {
     if (embedded && !isActive) setLoginOpen(false);
   }, [embedded, isActive]);
-  const modeSequence = ["light", "mid", "dark", "night"];
-  const currentModeIndex = modeSequence.indexOf(currentTheme);
+  const modeSequence = ["light", "mid", "dark", "night", "hc"];
+  const currentModeIndex = modeSequence.indexOf(currentMode);
   const nextMode = modeSequence[(currentModeIndex + 1 + modeSequence.length) % modeSequence.length];
   const nextModeLabel = t(`profile.theme_mode.${nextMode}`);
   const nextModeIcon = useMemo(() =>
     nextMode === "mid"
       ? <ThemeMidDockIcon width={30} height={30} className="scale-[1.12]" />
+      : nextMode === "hc"
+        ? <ThemeHighContrastDockIcon width={27} height={27} />
       : nextMode === "light"
         ? <ThemeSunDockIcon width={26} height={26} />
         : <ThemeMoonDockIcon width={26} height={26} showStars={nextMode === "night"} />, [nextMode]);
   const handleModeSwitch = useCallback(() => {
     setPrefs?.({
-      theme: nextMode,
+      theme: nextMode === "hc" ? "dark" : nextMode,
+      contrast: nextMode === "hc" ? "hc" : "normal",
       colorTheme: "default"
     });
   }, [nextMode, setPrefs]);
@@ -1112,14 +1146,14 @@ export default function ProfiilBody({
     })();
   }, [embedded, initialProfile, initialProfileUser, isActive, status, t]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
-    return <ProfileShell locale={locale} embedded={embedded} ariaLabel={t("profile.title")} theme={profileShellTheme} footerNote={footerNote}>
+    return <ProfileShell locale={locale} embedded={embedded} ariaLabel={t("profile.title")} theme={profileShellTheme} isHighContrast={isHighContrast} footerNote={footerNote}>
       </ProfileShell>;
   }
   if (!isAuthed) {
     const reason = registrationReason || "not-logged-in";
     const reasonText = reason === "no-sub" ? t("profile.login_to_manage_sub") : t("profile.login_to_view");
     return <>
-        <ProfileShell locale={locale} embedded={embedded} ariaLabel={t("profile.title")} theme={profileShellTheme} footerNote={footerNote}>
+        <ProfileShell locale={locale} embedded={embedded} ariaLabel={t("profile.title")} theme={profileShellTheme} isHighContrast={isHighContrast} footerNote={footerNote}>
           <p className={noteClassName}>{reasonText}</p>
           <div className={profileNavOverlayClassName}>
             <BackButton
@@ -1134,7 +1168,7 @@ export default function ProfiilBody({
       </>;
   }
   if (loadFailed) {
-    return <ProfileShell locale={locale} ariaLabel={t("profile.title")} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
+    return <ProfileShell locale={locale} ariaLabel={t("profile.title")} embedded={embedded} theme={profileShellTheme} isHighContrast={isHighContrast} footerNote={footerNote}>
         <div className={errorStateClassName}>
           <div role="alert" className={cn(noteClassName, noteCenterClassName)}>
             {error || t("profile.load_failed")}
@@ -1142,7 +1176,7 @@ export default function ProfiilBody({
         </div>
       </ProfileShell>;
   }
-  return <ProfileShell locale={locale} ariaLabel={t("profile.title")} innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} orbitOpen={orbitOpen} hidden={showAccountSettings || Boolean(profileHelpPanel)} maskLayerRef={maskLayerRef} footerNote={footerNote}>
+  return <ProfileShell locale={locale} ariaLabel={t("profile.title")} innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} isHighContrast={isHighContrast} orbitOpen={orbitOpen} hidden={showAccountSettings || Boolean(profileHelpPanel)} maskLayerRef={maskLayerRef} footerNote={footerNote}>
       <div className={cn(headerCenterClassName, "profile-role-row")}>
         <span
           ref={rolePillRef}

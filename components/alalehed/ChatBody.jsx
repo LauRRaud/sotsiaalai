@@ -263,13 +263,18 @@ export default function ChatBody({
     const node = chatContainerRef.current;
     const next = event?.relatedTarget || document.activeElement;
     if (next && node?.contains(next)) return;
-    if (!isMobile) {
-      setInputFocused(false);
-      return;
-    }
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
       blurTimerRef.current = 0;
+    }
+    if (!isMobile) {
+      blurTimerRef.current = window.setTimeout(() => {
+        const active = document.activeElement;
+        if (node?.contains(active)) return;
+        setInputFocused(false);
+        blurTimerRef.current = 0;
+      }, 0);
+      return;
     }
     blurTimerRef.current = window.setTimeout(() => {
       const active = document.activeElement;
@@ -285,6 +290,7 @@ export default function ChatBody({
   }, [isMobile]);
   const inputRef = useRef(null);
   const composerDraftApiRef = useRef(null);
+  const inputRowRef = useRef(null);
   const inputBarRef = useRef(null);
   const maskLayerRef = useRef(null);
   const sourcesButtonRef = useRef(null);
@@ -306,6 +312,7 @@ export default function ChatBody({
   });
   useChatInputHoleMask({
     containerRef: chatContainerRef,
+    inputRowRef,
     inputBarRef: inputBarRef,
     maskLayerRef,
     enabled: !isLightTheme && !profileOpen,
@@ -1372,6 +1379,7 @@ export default function ChatBody({
     emptyIntroText={!isRoomMode ? t("chat.empty_intro") : ""}
     onWindowDoubleClick={handleChatWindowDoubleClick}
     chatAnalysisPanelProps={chatAnalysisPanelProps}
+    inputRowRef={inputRowRef}
     inputBarRef={inputBarRef}
     inputRef={inputRef}
     onFocusComposer={handleComposerFocus}

@@ -8,6 +8,7 @@ const MOBILE_MASK_UPDATE_INTERVAL_MS = 48;
 
 export function useChatInputHoleMask({
   containerRef,
+  inputRowRef,
   inputBarRef,
   maskLayerRef,
   enabled,
@@ -15,6 +16,7 @@ export function useChatInputHoleMask({
 }) {
   useLayoutEffect(() => {
     const box = containerRef?.current;
+    const inputRow = inputRowRef?.current;
     const inputBar = inputBarRef?.current;
     const maskLayer = maskLayerRef?.current;
     const clearHoleGeometryVars = () => {
@@ -232,16 +234,20 @@ export function useChatInputHoleMask({
     }
     box.addEventListener("transitionend", scheduleUpdate);
     inputBar.addEventListener("transitionend", scheduleUpdate);
+    inputRow?.addEventListener("transitionend", scheduleUpdate);
     box.addEventListener("transitionrun", scheduleUpdate);
     inputBar.addEventListener("transitionrun", scheduleUpdate);
+    inputRow?.addEventListener("transitionrun", scheduleUpdate);
     box.addEventListener("transitionstart", scheduleUpdate);
     inputBar.addEventListener("transitionstart", scheduleUpdate);
+    inputRow?.addEventListener("transitionstart", scheduleUpdate);
     let ro;
     let mo;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(scheduleUpdate);
       ro.observe(box);
       ro.observe(inputBar);
+      if (inputRow) ro.observe(inputRow);
     }
     if (!isMobileViewport && typeof MutationObserver !== "undefined") {
       mo = new MutationObserver(scheduleUpdate);
@@ -269,10 +275,13 @@ export function useChatInputHoleMask({
       }
       box.removeEventListener("transitionend", scheduleUpdate);
       inputBar.removeEventListener("transitionend", scheduleUpdate);
+      inputRow?.removeEventListener("transitionend", scheduleUpdate);
       box.removeEventListener("transitionrun", scheduleUpdate);
       inputBar.removeEventListener("transitionrun", scheduleUpdate);
+      inputRow?.removeEventListener("transitionrun", scheduleUpdate);
       box.removeEventListener("transitionstart", scheduleUpdate);
       inputBar.removeEventListener("transitionstart", scheduleUpdate);
+      inputRow?.removeEventListener("transitionstart", scheduleUpdate);
       ro?.disconnect?.();
       mo?.disconnect?.();
       if (maskLayer) {
@@ -283,5 +292,5 @@ export function useChatInputHoleMask({
         refreshRef.current = null;
       }
     };
-  }, [containerRef, inputBarRef, maskLayerRef, enabled, refreshRef]);
+  }, [containerRef, inputRowRef, inputBarRef, maskLayerRef, enabled, refreshRef]);
 }

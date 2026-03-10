@@ -274,13 +274,26 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
 
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item {
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.16) !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
   box-shadow:
-    var(--orbit-item-glow-strong),
-    var(--orbit-ring-glow),
-    0 10px 18px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.46) !important;
+    0 0 18px rgba(255, 234, 0, 0.46),
+    0 0 34px rgba(255, 234, 0, 0.28),
+    0 10px 18px rgba(0, 0, 0, 0.16) !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:not(:hover):not(:focus-visible):not(:active) {
+  box-shadow:
+    0 0 22px rgba(255, 234, 0, 0.34),
+    0 0 42px rgba(255, 234, 0, 0.2),
+    0 12px 20px rgba(0, 0, 0, 0.16);
 }
 
 html[data-contrast="hc"].profile-orbit-open

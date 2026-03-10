@@ -19,6 +19,7 @@ export default function ChatComposer({
   ensureAnalysisPanelVisible,
   fileInputRef,
   onFileChange,
+  inputRowRef,
   inputBarRef,
   inputRef,
   onFocusInput,
@@ -54,6 +55,7 @@ export default function ChatComposer({
   const [toolsOpen, setToolsOpen] = useState(false);
   const [composerMode, setComposerMode] = useState("chat");
   const submitInFlightRef = useRef(false);
+  const primaryActionHandledAtRef = useRef(0);
   const toolsButtonRef = useRef(null);
   const toolsMenuRef = useRef(null);
   const deepResearchDisabled = Boolean(isRoomMode);
@@ -194,6 +196,11 @@ export default function ChatComposer({
     setToolsOpen(prev => !prev);
   }, [closeToolsMenu, exitDeepResearchMode, isDeepResearchMode]);
   const handleSubmit = useCallback(e => {
+    if (Date.now() - primaryActionHandledAtRef.current < 400) {
+      primaryActionHandledAtRef.current = 0;
+      e.preventDefault();
+      return;
+    }
     e.preventDefault();
     closeToolsMenu();
     if (isGenerating) {
@@ -225,18 +232,40 @@ export default function ChatComposer({
       }
     }
   }, [closeToolsMenu, composerMode, draft, exitDeepResearchMode, isGenerating, submitDeepResearch, submitSend]);
-  const handleSendPointerDown = useCallback(e => {
-    if (!isMobile) return;
-    if (isGenerating) return;
-    if (!draft.trim()) return;
-    e.preventDefault();
-    e.stopPropagation();
+  const runPrimaryAction = useCallback(event => {
+    closeToolsMenu();
+    if (isGenerating || isStreamingAny) {
+      onStop?.(event);
+      return;
+    }
     if (composerMode === "deep_research") {
       void submitDeepResearch();
       return;
     }
-    void submitSend();
-  }, [composerMode, draft, isGenerating, isMobile, submitDeepResearch, submitSend]);
+    if (draft.trim()) {
+      void submitSend();
+      return;
+    }
+    handleMic?.(event);
+  }, [closeToolsMenu, composerMode, draft, handleMic, isGenerating, isStreamingAny, onStop, submitDeepResearch, submitSend]);
+  const handlePrimaryActionPointerDown = useCallback(e => {
+    e.preventDefault();
+    e.stopPropagation();
+    primaryActionHandledAtRef.current = Date.now();
+    runPrimaryAction(e);
+  }, [runPrimaryAction]);
+  const handlePrimaryActionClick = useCallback(e => {
+    if (Date.now() - primaryActionHandledAtRef.current < 400) {
+      primaryActionHandledAtRef.current = 0;
+      e.preventDefault();
+      return;
+    }
+    runPrimaryAction(e);
+  }, [runPrimaryAction]);
+  const preserveDesktopInputFocusOnMouseDown = useCallback(e => {
+    if (isMobile) return;
+    e.preventDefault();
+  }, [isMobile]);
   const inputRowClassName =
     `${embedded ? "chat-input-row--embedded " : ""}` +
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
@@ -254,7 +283,7 @@ export default function ChatComposer({
     "flex-[1_1_auto] grid-cols-[1fr_auto_auto] items-center gap-x-[0.28rem] " +
     "min-h-[var(--inputbar-h)] rounded-full " +
     "transition-[border-color,box-shadow,background,max-width] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    "px-[0.625rem] pr-[0.1rem] pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
+    "px-[0.625rem] pr-[0.1rem] pointer-events-auto z-[65] left-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:left-0 max-[768px]:transition-none";
   const inputFieldWrapClassName = "min-w-0 w-full pr-[0.2rem]";
   const inputFieldClassName =
     "chat-input-field w-full resize-none appearance-none bg-transparent text-[1.1rem] leading-[1.25] pt-[0.28rem] pb-0 " +
@@ -264,7 +293,7 @@ export default function ChatComposer({
   const actionButtonClassName =
     "chat-listen-btn relative z-[2] !h-[calc(var(--inputbar-h)*0.96)] !w-[calc(var(--inputbar-h)*0.96)] !min-h-[calc(var(--inputbar-h)*0.96)] !min-w-[calc(var(--inputbar-h)*0.96)] !flex-[0_0_calc(var(--inputbar-h)*0.96)] !p-0 rounded-full " +
     "flex items-center justify-center " +
-    "mr-[-0.56rem] " +
+    "mr-0 " +
     "pointer-events-auto !translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
     "!bg-transparent !border-0 !shadow-none " +
     "hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent " +
@@ -273,7 +302,6 @@ export default function ChatComposer({
   const sendButtonClassName =
     "chat-send-btn relative z-[2] !h-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !w-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !min-h-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !min-w-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !flex-[0_0_calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !p-0 rounded-full border-0 " +
     "flex items-center justify-center overflow-hidden leading-none " +
-    "!translate-y-[var(--chat-send-btn-shift-y,0rem)] !translate-x-[var(--chat-send-btn-shift-x,-0.01rem)] hover:!translate-y-[var(--chat-send-btn-shift-y,0rem)] hover:!translate-x-[var(--chat-send-btn-shift-x,-0.01rem)] active:!translate-y-[var(--chat-send-btn-shift-y,0rem)] active:!translate-x-[var(--chat-send-btn-shift-x,-0.01rem)] " +
     "px-[6px] py-[1px] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
@@ -295,15 +323,16 @@ export default function ChatComposer({
   const agentToolStrokeWidth = 1.6;
   const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
   const sideControlsClassName =
-    "relative flex items-center gap-[0.18rem] max-[768px]:gap-[0.12rem] " +
-    "translate-x-[var(--chat-attach-left-pull,0rem)] max-[768px]:translate-x-0 " +
+    "relative z-[85] pointer-events-auto flex items-center gap-[0.18rem] max-[768px]:gap-[0.12rem] " +
+    "left-[var(--chat-attach-left-pull,0rem)] max-[768px]:left-0 " +
     "max-[768px]:ml-[clamp(-0.52rem,-1.6vw,-0.3rem)] max-[768px]:mr-[clamp(0.02rem,0.4vw,0.12rem)]";
   const sideControlButtonClassName =
     "group h-[var(--chat-composer-side-control-size)] w-[var(--chat-composer-side-control-size)] " +
     "min-h-[var(--chat-composer-side-control-size)] min-w-[var(--chat-composer-side-control-size)] " +
-    "flex-[0_0_var(--chat-composer-side-control-size)] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none";
+    "flex-[0_0_var(--chat-composer-side-control-size)] inline-flex items-center justify-center leading-none " +
+    "appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none";
   const documentAttachDisabled = isGenerating || isRoomMode && (roomBlocked || roomAuthRequired);
-  return <form className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
+  return <form ref={inputRowRef} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {!embedded || !hideTools ? <div className={sideControlsClassName}>
         {hideTools ? <div aria-hidden="true" className="h-[var(--chat-composer-side-control-size)] w-[var(--chat-composer-side-control-size)] min-h-[var(--chat-composer-side-control-size)] min-w-[var(--chat-composer-side-control-size)]" /> : <>
             <div className="relative">
@@ -315,7 +344,7 @@ export default function ChatComposer({
                   <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth="3.1" strokeLinecap="round" />
                 </svg>}
               </button>
-              {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="chat-tools-menu absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] bg-[rgba(24,26,32,0.96)] [.theme-night_&]:bg-[rgba(9,14,24,0.88)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.34)] backdrop-blur-[10px] light:bg-[rgba(255,250,248,0.94)] [.theme-mid_&]:bg-[rgba(252,246,244,0.9)]">
+              {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="chat-tools-menu absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] border border-[rgba(255,255,255,0.12)] bg-[rgba(24,26,32,0.72)] [.theme-night_&]:bg-[rgba(9,14,24,0.76)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.28)] backdrop-blur-[12px] backdrop-saturate-[128%] [-webkit-backdrop-filter:blur(12px)_saturate(128%)] light:border-[rgba(122,58,56,0.12)] light:bg-[rgba(255,250,248,0.74)] [.theme-mid_&]:bg-[rgba(252,246,244,0.62)] hc:border-[rgba(255,234,0,0.56)] hc:bg-[rgba(9,14,24,0.84)] hc:shadow-[0_12px_28px_rgba(0,0,0,0.28)] hc:[-webkit-backdrop-filter:blur(12px)_saturate(128%)] hc:[backdrop-filter:blur(12px)_saturate(128%)]">
                 <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
                   <span aria-hidden="true" className={toolIconSlotClassName}>
                     <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
@@ -377,23 +406,23 @@ export default function ChatComposer({
         <div className={inputFieldWrapClassName}>
           <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={onFocusInput} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
         </div>
-        <Button type="button" variant="linkBrand" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} disabled={!canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
+        <Button type="button" variant="linkBrand" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
           <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] translate-y-[0.06rem] text-[#c57171] light:text-[#7a3a38]">
             <path d="M11 5L6 9H2v6h4l5 4z" />
             <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
           </svg>
         </Button>
-        {isGenerating || isStreamingAny ? <Button type="submit" variant="primary" className={sendButtonLoaderClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handleSendPointerDown}>
+        {isGenerating || isStreamingAny ? <Button type="submit" variant="primary" className={sendButtonLoaderClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
             <SotsiaalAILoader size="1.34rem" animated={isGenerating || isStreamingAny} ariaHidden className="chat-send-loader h-[1.34rem] w-[1.34rem] [--send-loader-shift-y:-0.24rem] [&_svg]:translate-y-[var(--send-loader-shift-y)]" style={{
           "--glow-opacity-base": 0,
           "--glow-opacity-peak": 0
         }} />
-          </Button> : hasInput ? <Button type="submit" variant="primary" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handleSendPointerDown}>
+          </Button> : hasInput ? <Button type="submit" variant="primary" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
             <SubmitArrowIcon
               useCurrentColor
               className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[#c57171] light:text-[#7a3a38]"
             />
-          </Button> : <Button type="button" variant="primary" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handleMic} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
+          </Button> : <Button type="button" variant="primary" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handlePrimaryActionClick} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
             <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.82" strokeLinecap="round" strokeLinejoin="round" shapeRendering="geometricPrecision" className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[#c57171] light:text-[#7a3a38]">
               <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
               <path d="M19 10v2a7 7 0 0 1-14 0v-2" />

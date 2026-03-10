@@ -1489,7 +1489,7 @@
     padding-right: clamp(0.7rem, 3vw, 1rem) !important;
   }
 
-  .chat-input-row:not(.chat-input-row--embedded) > .chat-attach-btn {
+  .chat-input-row:not(.chat-input-row--embedded) .chat-attach-btn {
     flex: 0 0 auto !important;
     transform: none !important;
     margin-left: clamp(-0.52rem, -1.6vw, -0.3rem) !important;
@@ -1528,8 +1528,8 @@
     ) !important;
   }
 
-  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) > .chat-attach-btn,
-  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) > .chat-attach-btn {
+  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-attach-btn,
+  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-attach-btn {
     margin-left: clamp(-0.18rem, -0.55vw, -0.08rem) !important;
     margin-right: 0 !important;
   }

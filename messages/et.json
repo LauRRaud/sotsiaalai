@@ -294,7 +294,8 @@
       "light": "Hele",
       "mid": "Hämar",
       "dark": "Tume",
-      "night": "Öö"
+      "night": "Öö",
+      "hc": "KKR"
     }
   },
   "accessibility": {
@@ -304,7 +305,7 @@
     "text_scale": "Teksti suurus",
     "contrast": "Kontrast",
     "motion": "Animatsioonid",
-    "theme": "Teema",
+    "theme": "Teemad",
     "options": {
       "language": {
         "et": "Eesti",

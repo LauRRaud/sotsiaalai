@@ -294,7 +294,8 @@
       "light": "Свет",
       "mid": "Сумрак",
       "dark": "Тьма",
-      "night": "Ночь"
+      "night": "Ночь",
+      "hc": "KKR"
     }
   },
   "accessibility": {

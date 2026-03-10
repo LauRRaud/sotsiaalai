@@ -37,8 +37,8 @@ export const glassPageBackMobileBottomCenterClassName =
 export const glassPageBackTopLeftClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
   "min-[769px]:top-[0.55rem] min-[769px]:left-[0.55rem] min-[769px]:bottom-auto " +
-  "min-[769px]:ml-0 min-[769px]:!h-[6.4rem] min-[769px]:!w-[6.4rem] " +
-  "min-[769px]:[&>svg]:!h-[6.4rem] min-[769px]:[&>svg]:!w-[6.4rem]";
+  "min-[769px]:ml-0 min-[769px]:!h-[5rem] min-[769px]:!w-[5rem] " +
+  "min-[769px]:[&>svg]:!h-[5rem] min-[769px]:[&>svg]:!w-[5rem]";
 
 export const glassPageBackRightClassName =
   "absolute z-[8] right-[max(0px,calc(var(--glass-edge-right)-clamp(0.35rem,0.9vw,0.7rem)))] top-[calc(50%+var(--glass-center-offset,0px)-3.2rem)]";

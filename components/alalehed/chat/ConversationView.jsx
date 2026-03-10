@@ -102,12 +102,12 @@ const ConversationView = memo(function ConversationView({
     "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] max-[768px]:transition-none";
   const mergedWindowClassName = windowClassNameProp ? `${windowClassName} ${windowClassNameProp}` : windowClassName;
   const scrollButtonClassName =
-    "absolute left-1/2 -translate-x-1/2 bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +
+    "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
     "flex items-center justify-center transition-[transform,bottom] duration-[400ms] " +
     "hover:scale-[1.15] focus-visible:scale-[1.15]";
   const scrollIconClassName =
-    "h-[2.25rem] w-[2.25rem] fill-none stroke-[#c57171] " +
+    "chat-scroll-down-icon h-[2.25rem] w-[2.25rem] fill-none stroke-[#c57171] " +
     "transition-[stroke] duration-200 light:stroke-[#7a3a38]";
   const buttonClassName =
     "mx-auto rounded-full border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] " +
