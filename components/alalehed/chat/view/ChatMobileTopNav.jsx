@@ -45,6 +45,8 @@ const ANDROID_SLOT_PROFILE = Object.freeze({
   centerOffsetRem: -0.18
 });
 
+const clampNumber = (value, min, max) => Math.min(max, Math.max(min, value));
+
 function getSlotOffsetRem(slot, profile = DEFAULT_SLOT_PROFILE) {
   const direction = Math.sign(slot);
   const distance = Math.abs(slot);
@@ -434,24 +436,27 @@ export default function ChatMobileTopNav({
 
   const handleTrackPointerEnd = useCallback(() => {
     const deltaX = dragStateRef.current.currentX - dragStateRef.current.startX;
-    if (Math.abs(deltaX) >= swipeThresholdPx) {
-      const steps = Math.min(
-        maxSwipeSteps,
-        Math.max(1, Math.floor((Math.abs(deltaX) - swipeThresholdPx) / slotStepPx) + 1)
+    const absDeltaX = Math.abs(deltaX);
+    if (absDeltaX >= swipeThresholdPx) {
+      const baseIndex = focusedIndexRef.current;
+      const rawStepDelta = Math.round((-deltaX * dragDamping) / slotStepPx);
+      const fallbackStepDelta = rawStepDelta === 0 ? (deltaX < 0 ? 1 : -1) : rawStepDelta;
+      const limitedStepDelta = Number.isFinite(maxSwipeSteps)
+        ? clampNumber(fallbackStepDelta, -maxSwipeSteps, maxSwipeSteps)
+        : fallbackStepDelta;
+      const nextIndex = clampNumber(
+        baseIndex + limitedStepDelta,
+        0,
+        MOBILE_NAV_ITEMS.length - 1
       );
-      setFocusedIndexImmediate(current => {
-        if (deltaX < 0) {
-          return Math.min(MOBILE_NAV_ITEMS.length - 1, current + steps);
-        }
-        return Math.max(0, current - steps);
-      });
+      setFocusedIndexImmediate(nextIndex);
     }
     dragStateRef.current.pointerId = null;
     dragStateRef.current.touchId = null;
     dragStateRef.current.moved = false;
     setDragOffsetPx(0);
     setIsDragging(false);
-  }, [maxSwipeSteps, setFocusedIndexImmediate, slotStepPx, swipeThresholdPx]);
+  }, [dragDamping, maxSwipeSteps, setFocusedIndexImmediate, slotStepPx, swipeThresholdPx]);
 
   const resetSwipeState = useCallback(() => {
     dragStateRef.current.pointerId = null;
