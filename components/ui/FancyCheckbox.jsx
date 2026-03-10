@@ -127,7 +127,7 @@ const Label = styled.label`
 
   &.fancy-checkbox--otp {
     align-items: center;
-    gap: 0.42rem;
+    gap: 0.58rem;
   }
 
   &.fancy-checkbox--otp .box {
