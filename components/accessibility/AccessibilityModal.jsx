@@ -46,6 +46,8 @@ const textScaleAfterSingleLanguageClassName = "max-[768px]:!pt-[1.42rem]";
 const textScaleLegendClassName = "";
 const textScaleOptionsClassName = "a11y-textscale-options mt-0 flex-nowrap max-[768px]:flex-wrap max-[768px]:mb-[0rem]";
 const textScaleOptionsDesktopTightClassName = "min-[769px]:gap-[0.55rem] min-[769px]:justify-center";
+const themeFieldsetClassName = "a11y-theme-fieldset max-[768px]:!pt-[1.42rem]";
+const themeOptionsClassName = "a11y-theme-options mt-0 flex-nowrap max-[768px]:flex-wrap max-[768px]:mb-[0rem]";
 const contrastFieldsetClassName = "a11y-contrast-fieldset max-[768px]:!pt-[0rem]";
 const contrastLegendClassName = "";
 const contrastOptionsClassName = "";
@@ -72,6 +74,7 @@ export default function AccessibilityModal({
   const scrollRef = useRef(null);
   const languageOptionsRef = useRef(null);
   const contrastOptionsRef = useRef(null);
+  const themeOptionsRef = useRef(null);
   const {
     t,
     locale,
@@ -87,12 +90,14 @@ export default function AccessibilityModal({
   const [uiProfile, setUiProfile] = useState(prefs.uiProfile || normalizeUiProfile(prefs.uiScale));
   const [contrast, setContrast] = useState(prefs.contrast || "normal");
   const [reduceMotion, setReduceMotion] = useState(!!prefs.reduceMotion);
+  const [theme, setTheme] = useState(prefs.theme || "dark");
   const [lang, setLang] = useState(locale || "et");
   const [scrollPad, setScrollPad] = useState(0);
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
   const [languageWraps, setLanguageWraps] = useState(false);
   const [contrastWraps, setContrastWraps] = useState(false);
+  const [themeWraps, setThemeWraps] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasUserStartedScroll, setHasUserStartedScroll] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
@@ -108,6 +113,7 @@ export default function AccessibilityModal({
     setUiProfile(prefs.uiProfile || normalizeUiProfile(prefs.uiScale));
     setContrast(prefs.contrast || "normal");
     setReduceMotion(!!prefs.reduceMotion);
+    setTheme(prefs.theme || "dark");
   }, [prefs]);
   useEffect(() => {
     let canceled = false;
@@ -382,6 +388,29 @@ export default function AccessibilityModal({
       window.removeEventListener("resize", detectWrap);
     };
   }, [lang, locale]);
+  useEffect(() => {
+    const host = themeOptionsRef.current;
+    if (!host || typeof window === "undefined") return;
+    const detectWrap = () => {
+      const options = Array.from(host.querySelectorAll("label,button")).filter(Boolean);
+      if (options.length < 2) {
+        setThemeWraps(false);
+        return;
+      }
+      const tops = options.map(node => node.offsetTop || 0);
+      const firstTop = Math.min(...tops);
+      const wraps = tops.some(top => top > firstTop + 6);
+      setThemeWraps(prev => prev === wraps ? prev : wraps);
+    };
+    detectWrap();
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(detectWrap) : null;
+    ro?.observe(host);
+    window.addEventListener("resize", detectWrap);
+    return () => {
+      ro?.disconnect?.();
+      window.removeEventListener("resize", detectWrap);
+    };
+  }, [lang, locale, theme]);
   const stopInside = e => e.stopPropagation();
   const save = async () => {
     onSave?.({
@@ -389,7 +418,7 @@ export default function AccessibilityModal({
       uiProfile,
       contrast,
       reduceMotion,
-      theme: prefs?.theme || "dark"
+      theme
     });
     if (typeof window !== "undefined" && lang && lang !== locale) {
       setLocale(lang);
@@ -419,9 +448,9 @@ export default function AccessibilityModal({
       uiProfile,
       contrast,
       reduceMotion,
-      theme: prefs?.theme || "dark"
+      theme
     });
-  }, [uiScale, uiProfile, contrast, reduceMotion, prefs?.theme, onPreview]);
+  }, [uiScale, uiProfile, contrast, reduceMotion, theme, onPreview]);
   useEffect(() => () => {
     onPreviewEnd?.();
   }, [onPreviewEnd]);
@@ -542,7 +571,27 @@ export default function AccessibilityModal({
             </div>
           </fieldset>
 
-          <fieldset className={`${fieldsetClassName} ${screenProfileFieldsetClassName} ${languageWraps ? "" : textScaleAfterSingleLanguageClassName} ${getA11yStepClassName(3)}`}>
+          <fieldset className={`${fieldsetClassName} ${themeFieldsetClassName} ${themeWraps ? "max-[768px]:!pb-[2.4rem] max-[768px]:!min-h-[11.5rem]" : ""} ${getA11yStepClassName(3)}`}>
+            <legend className={`${legendClassName}`.trim()}>
+              {t("accessibility.theme")}
+            </legend>
+            <div ref={themeOptionsRef} className={`${optionsRowClassName} ${themeOptionsClassName} ${textScaleOptionsDesktopTightClassName}`.trim()}>
+              <OptionCard type="radio" name="theme" value="light" checked={theme === "light"} onChange={() => setTheme("light")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.theme.light")}</span>
+              </OptionCard>
+              <OptionCard type="radio" name="theme" value="mid" checked={theme === "mid"} onChange={() => setTheme("mid")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.theme.mid")}</span>
+              </OptionCard>
+              <OptionCard type="radio" name="theme" value="dark" checked={theme === "dark"} onChange={() => setTheme("dark")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.theme.dark")}</span>
+              </OptionCard>
+              <OptionCard type="radio" name="theme" value="night" checked={theme === "night"} onChange={() => setTheme("night")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.theme.night")}</span>
+              </OptionCard>
+            </div>
+          </fieldset>
+
+          <fieldset className={`${fieldsetClassName} ${screenProfileFieldsetClassName} ${languageWraps ? "" : textScaleAfterSingleLanguageClassName} ${getA11yStepClassName(4)}`}>
             <legend className={`${legendClassName} ${screenProfileLegendClassName}`.trim()}>
               {t("accessibility.screen_profile")}
             </legend>
@@ -556,7 +605,7 @@ export default function AccessibilityModal({
             </div>
           </fieldset>
 
-          <fieldset className={`${fieldsetClassName} ${motionFieldsetClassName} ${getA11yStepClassName(4)}`}>
+          <fieldset className={`${fieldsetClassName} ${motionFieldsetClassName} ${getA11yStepClassName(5)}`}>
             <legend className={`${legendClassName} ${motionLegendClassName} ${motionShiftClassName}`.trim()}>{t("accessibility.motion")}</legend>
             <OptionCard
               type="checkbox"
@@ -568,7 +617,7 @@ export default function AccessibilityModal({
             </OptionCard>
           </fieldset>
 
-          <div className={`csp-step a11y-save-step ${getA11yStepClassName(5)} flex justify-center mt-[1.6rem] min-[769px]:mt-[0.7rem] min-[769px]:translate-y-[-0.7rem] max-[768px]:mt-[1.1rem] max-[768px]:translate-y-0`}>
+          <div className={`csp-step a11y-save-step ${getA11yStepClassName(6)} flex justify-center mt-[1.6rem] min-[769px]:mt-[0.7rem] min-[769px]:translate-y-[-0.7rem] max-[768px]:mt-[1.1rem] max-[768px]:translate-y-0`}>
               <Button
               type="button"
               variant="primary"

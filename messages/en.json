@@ -305,7 +305,7 @@
     "text_scale": "Text size",
     "contrast": "Contrast",
     "motion": "Motion",
-    "theme": "Themes",
+    "theme": "Theme",
     "options": {
       "language": {
         "et": "Estonian",
@@ -326,8 +326,10 @@
         "reduce": "Reduce motion"
       },
       "theme": {
-        "dark": "Dark mode",
-        "light": "Light mode"
+        "light": "Light",
+        "mid": "Dim",
+        "dark": "Dark",
+        "night": "Night"
       },
       "screen_profile": {
         "sm": "Laptop screen",

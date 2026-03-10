@@ -1410,11 +1410,11 @@ export default function LoginModal({
             </div>
           </form>}
 
-        {isOtpStep && <form className="login-otp-content w-full max-w-full mx-auto flex flex-col items-center" onSubmit={e => {
+        {isOtpStep && <form className="login-otp-content w-full max-w-full mx-auto flex flex-col items-center px-[0.15rem] max-[768px]:px-[0.35rem]" onSubmit={e => {
         e.preventDefault();
         submitOtpStep();
       }}>
-            <div className={`login-otp-copy w-full max-w-[23.6rem] flex flex-col gap-[0.48rem] ${otpTextClassName}`}>
+            <div className={`login-otp-copy w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] flex flex-col gap-[0.48rem] ${otpTextClassName}`}>
                 {info && <p role="status" className={`m-0 font-semibold text-[1.04rem] ${otpInfoTextClassName}`}>
                     {info}
                   </p>}
@@ -1431,7 +1431,7 @@ export default function LoginModal({
             </div>
 
             <div className="w-full mt-[0.96rem] flex justify-center">
-              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] text-left placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] px-[1.5rem] py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.01em] rounded-[0.88rem]" />
+              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] text-left placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] px-[1.5rem] py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.01em] rounded-[0.88rem]" />
             </div>
             {otpInlineError ? <p id="otp-inline-error" role="alert" className="mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
                 {otpInlineError}
@@ -1444,11 +1444,11 @@ export default function LoginModal({
                 checked={rememberDevice}
                 onChange={next => setRememberDevice(next)}
                 label={t("auth.login.remember_device")}
-                className="login-otp-remember fancy-checkbox--otp w-full max-w-[23.6rem] justify-center [--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-150)] light:[--otp-check-shape:#1f2937] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:#1f2937]"
+                className="login-otp-remember fancy-checkbox--otp w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] justify-center [--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-150)] light:[--otp-check-shape:#1f2937] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:#1f2937]"
               />
             </div>
 
-            <div className="w-full max-w-[23.6rem] flex flex-col items-center mt-[1.28rem]">
+            <div className="w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] flex flex-col items-center mt-[1.28rem]">
               <Button type="submit" variant="primary" className="w-auto min-w-[11.2rem] whitespace-normal text-center leading-[1.16] px-[1.45rem] py-[0.86rem] text-[1.28rem] min-h-[3.1rem] max-[768px]:!min-h-[3.14rem] max-[768px]:!px-[1.56rem] max-[768px]:!py-[0.86rem] max-[768px]:!text-[1.36rem] rounded-[0.88rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
                 {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
               </Button>

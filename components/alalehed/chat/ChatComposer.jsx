@@ -340,6 +340,16 @@ export default function ChatComposer({
   const inputRowTransformClassName = embedded
     ? "top-0"
     : `${inputFocused ? "top-[calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem))]" : "top-[calc(-1*var(--chat-input-shift,0rem))]"} max-[768px]:top-0`;
+  const inputRowMobileStyle = !embedded && isMobile
+    ? {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top: "auto",
+        bottom: "calc(env(safe-area-inset-bottom,0px) + 2.75rem + var(--chat-vk-offset,0px))",
+        marginTop: 0
+      }
+    : undefined;
   const toolItemBaseClassName =
     "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
     "text-[1.12rem] leading-[1.2] tracking-[0.01em] transition-colors duration-150 " +
@@ -416,7 +426,7 @@ export default function ChatComposer({
     "flex-[0_0_var(--chat-composer-side-control-size)] inline-flex items-center justify-center leading-none " +
     "appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none";
   const documentAttachDisabled = isGenerating || isRoomMode && (roomBlocked || roomAuthRequired);
-  return <form ref={inputRowRef} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
+  return <form ref={inputRowRef} style={inputRowMobileStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {!embedded || !hideTools ? <div className={sideControlsClassName}>
         {hideTools ? <div aria-hidden="true" className="h-[var(--chat-composer-side-control-size)] w-[var(--chat-composer-side-control-size)] min-h-[var(--chat-composer-side-control-size)] min-w-[var(--chat-composer-side-control-size)]" /> : <>
             <div className="relative">

@@ -305,7 +305,7 @@
     "text_scale": "Teksti suurus",
     "contrast": "Kontrast",
     "motion": "Animatsioonid",
-    "theme": "Teemad",
+    "theme": "Teema",
     "options": {
       "language": {
         "et": "Eesti",
@@ -326,8 +326,10 @@
         "reduce": "Vähenda liikumist"
       },
       "theme": {
-        "dark": "Tume režiim",
-        "light": "Hele režiim"
+        "light": "Hele",
+        "mid": "Hämar",
+        "dark": "Tume",
+        "night": "Öö"
       },
       "screen_profile": {
         "sm": "Mobiil / sülearvuti",

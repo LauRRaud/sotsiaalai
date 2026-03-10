@@ -52,6 +52,16 @@ function whenVisible(cb) {
   document.addEventListener("visibilitychange", onVis);
   return () => document.removeEventListener("visibilitychange", onVis);
 }
+function resolveThemeFromDom() {
+  if (typeof document === "undefined") return null;
+  const html = document.documentElement;
+  if (!html) return null;
+  if (html.getAttribute("data-contrast") === "hc") return "dark";
+  if (html.classList.contains("theme-mid")) return "mid";
+  if (html.classList.contains("theme-night")) return "night";
+  if (html.classList.contains("theme-light")) return "light";
+  return "dark";
+}
 const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
   isLightTheme = false,
@@ -211,11 +221,25 @@ function BackgroundLayer() {
     prefs,
     hydrated
   } = useAccessibility();
+  const [domTheme, setDomTheme] = useState(null);
   const reduceMotion = !!prefs?.reduceMotion;
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const html = document.documentElement;
+    const apply = () => setDomTheme(resolveThemeFromDom());
+    apply();
+    const observer = new MutationObserver(apply);
+    observer.observe(html, {
+      attributes: true,
+      attributeFilter: ["class", "data-contrast"]
+    });
+    return () => observer.disconnect();
+  }, []);
+  const effectiveTheme = domTheme || prefs?.theme;
   const isLightTheme =
-    prefs?.theme === "light" ||
-    prefs?.theme === "light-mono" ||
-    prefs?.theme === "mid";
+    effectiveTheme === "light" ||
+    effectiveTheme === "light-mono" ||
+    effectiveTheme === "mid";
   return <BackgroundContent reduceMotion={reduceMotion} isLightTheme={isLightTheme} prefsHydrated={!!hydrated} />;
 }
 export default memo(BackgroundLayer);
