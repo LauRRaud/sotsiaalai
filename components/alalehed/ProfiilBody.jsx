@@ -1114,7 +1114,13 @@ export default function ProfiilBody({
     return <>
         <ProfileShell locale={locale} embedded={embedded} ariaLabel={t("profile.title")} theme={profileShellTheme} footerNote={footerNote}>
           <p className={noteClassName}>{reasonText}</p>
-          <BackButton onClick={embedded ? handleBack : () => setLoginOpen(true)} ariaLabel={embedded ? t("profile.back_to_chat") : t("auth.login.title")} className={profileBackButtonClassName} />
+          <div className={profileNavOverlayClassName}>
+            <BackButton
+              onClick={embedded ? handleBack : () => setLoginOpen(true)}
+              ariaLabel={embedded ? t("profile.back_to_chat") : t("auth.login.title")}
+              className={cn(profileBackButtonClassName, "pointer-events-auto")}
+            />
+          </div>
         </ProfileShell>
 
         <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />

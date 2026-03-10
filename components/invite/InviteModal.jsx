@@ -401,7 +401,7 @@ export default function InviteModal() {
                 <span></span>
               </div>
               {invites.map(inv => (
-                <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:border max-[768px]:border-[rgba(248,253,255,0.12)] max-[768px]:bg-[rgba(255,255,255,0.08)] max-[768px]:p-[0.78rem] [.theme-light_&]:max-[768px]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:max-[768px]:bg-[rgba(255,255,255,0.38)]" key={inv.id}>
+                <div className="invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:border max-[768px]:border-[rgba(248,253,255,0.12)] max-[768px]:bg-[rgba(255,255,255,0.08)] max-[768px]:p-[0.78rem] [.theme-light_&]:max-[768px]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:max-[768px]:bg-[rgba(255,255,255,0.38)]" key={inv.id}>
                   <div className="min-w-0">
                     <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">{t("invite.table.email")}</span>
                     <span className="break-words">{inv.inviteeEmail}</span>

@@ -188,9 +188,8 @@
     transform: none;
   }
   .homepage-root .three-d-card.float-card {
-    animation: float-vertical 6.7s ease-in-out infinite;
-    animation-delay: 0s;
-    transform: translateY(0);
+    animation: none;
+    transform: none;
   }
   html[data-reduce-motion="1"] .homepage-root .three-d-card.float-card {
     animation: none !important;

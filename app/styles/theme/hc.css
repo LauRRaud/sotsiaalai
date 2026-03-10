@@ -154,13 +154,37 @@ html[data-contrast="hc"] .space-backdrop[data-mode="dark"] {
 
 html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-accent: var(--hc-accent);
+  --orbit-mobile-accent: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .profile-orbit-mobile-chevron,
+html[data-contrast="hc"] .profile-orbit-item-label,
+html[data-contrast="hc"] .profile-orbit-item-icon,
 html[data-contrast="hc"] .profile-orbit-mobile-action__label,
 html[data-contrast="hc"] .profile-orbit-stack-label,
 html[data-contrast="hc"] .profile-orbit-stack-back-label {
   color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-mobile-action .dock-icon, .profile-orbit-stack-bubble .dock-icon) {
+  color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-item-icon, .profile-orbit-mobile-action .dock-icon, .profile-orbit-stack-bubble .dock-icon)
+  svg {
+  stroke: currentColor !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-item-icon, .profile-orbit-mobile-action .dock-icon, .profile-orbit-stack-bubble .dock-icon)
+  svg
+  [fill]:not([fill="none"]) {
+  fill: currentColor !important;
 }
 
 html[data-contrast="hc"] :is(
@@ -178,10 +202,40 @@ html[data-contrast="hc"] :is(
   color: var(--hc-accent) !important;
 }
 
-html[data-contrast="hc"] :is(h1, h2, .glass-title, .glass-h2) {
+html[data-contrast="hc"] .chat-mobile-topnav span {
   color: var(--hc-accent) !important;
 }
 
-html[data-contrast="hc"] .chat-mobile-topnav span {
+html[data-contrast="hc"] .back-icon-arrow {
+  stroke: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] .back-icon-dot {
+  fill: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] .profile-logout-icon path {
+  stroke: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] :is(
+    .policy-section-body,
+    .policy-page-scroll,
+    .guide-policy-scroll,
+    .policy-page-footer,
+    .guide-rich-text,
+    .guide-quickstart-rich-text
+  ) {
   color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"]
+  :is(.policy-section-body, .policy-page-scroll, .guide-policy-scroll)
+  :is(p, li, ul, ol, div, span, strong, em, b, i, small) {
+  color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] :is(.policy-page-scroll a, .guide-policy-scroll a) {
+  color: var(--hc-accent) !important;
+  border-color: var(--hc-accent) !important;
 }

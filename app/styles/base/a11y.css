@@ -89,6 +89,32 @@ html[data-contrast="hc"]
   border-color: var(--hc-border-soft, rgba(188, 220, 255, 0.4));
   color: var(--hc-text);
 }
+html[data-contrast="hc"] body :is(
+    button:has(.back-icon-arrow),
+    .glass-policy-back,
+    .chat-back-button,
+    .profile-logout-button,
+    .profile-orbit-stack-item[data-key="back"] .profile-orbit-stack-bubble.dock-item,
+    .profile-orbit-mobile-row[data-key="back"] .profile-orbit-mobile-action.dock-item
+  ) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+html[data-contrast="hc"] body :is(
+    button:has(.back-icon-arrow),
+    .glass-policy-back,
+    .chat-back-button,
+    .profile-logout-button,
+    .profile-orbit-stack-item[data-key="back"] .profile-orbit-stack-bubble.dock-item,
+    .profile-orbit-mobile-row[data-key="back"] .profile-orbit-mobile-action.dock-item
+  ):is(:hover, :focus-visible, :active) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 html[data-contrast="hc"]
   body
   :is(
@@ -127,11 +153,54 @@ html[data-contrast="hc"] body .chat-inputbar .chat-input-field {
   background: transparent;
   border: none;
   outline: none;
-  color: var(--hc-text);
-  caret-color: var(--hc-text);
+  color: var(--hc-accent) !important;
+  caret-color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] body :is(.chat-msg-user, .chat-msg-ai) {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] body .chat-inputbar .chat-input-field::placeholder {
+  color: var(--hc-accent) !important;
+  opacity: 0.72;
 }
 html[data-contrast="hc"] body .chat-inputbar .chat-input-field:focus-visible {
   outline: none;
+}
+html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn svg,
+html[data-contrast="hc"] body .chat-inputbar .chat-send-btn .chat-send-glyph,
+html[data-contrast="hc"] body .chat-inputbar .chat-send-btn .chat-mic-glyph {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] body .chat-input-row > .chat-attach-btn svg :is(path, circle, line, rect, ellipse, polyline, polygon) {
+  stroke: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item {
+  color: var(--hc-accent) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:hover,
+html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:focus-visible {
+  color: var(--hc-accent) !important;
+  background: rgba(255, 234, 0, 0.12) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item.chat-tools-item-disabled {
+  color: rgba(255, 234, 0, 0.52) !important;
+}
+html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item.chat-tools-item-disabled:hover,
+html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item.chat-tools-item-disabled:focus-visible {
+  background: transparent !important;
+}
+html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item svg :is(path, circle, line, rect, ellipse, polyline, polygon) {
+  stroke: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item svg [fill]:not([fill="none"]) {
+  fill: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn,
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn,
@@ -182,6 +251,177 @@ html[data-contrast="hc"]
 
 html[data-contrast="hc"] :is(.chat-left-actions, .chat-right-actions, .chat-mobile-topnav) {
   color: var(--hc-accent);
+}
+html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content) {
+  --input-border: 1.5px solid rgba(255, 234, 0, 0.68);
+  --input-text: var(--hc-accent);
+  --input-placeholder: rgba(255, 234, 0, 0.72);
+  --input-caret: var(--hc-accent);
+  --input-bg: rgba(14, 20, 32, 0.36);
+  --input-bg-hover: rgba(14, 20, 32, 0.44);
+  --input-bg-focus: rgba(14, 20, 32, 0.5);
+  --seg-card-border: rgba(255, 234, 0, 0.62);
+  --seg-card-text: var(--hc-accent);
+  --seg-card-text-hover: var(--hc-accent);
+  --seg-card-text-selected: #fff7b0;
+  --seg-card-bg: rgba(14, 20, 32, 0.34);
+  --seg-card-bg-hover: rgba(255, 234, 0, 0.1);
+  --seg-card-bg-selected: rgba(255, 234, 0, 0.2);
+  --seg-card-shadow: none;
+  --seg-card-shadow-hover: 0 0 0 1px rgba(255, 234, 0, 0.36);
+  --seg-card-shadow-selected: 0 0 0 1px rgba(255, 234, 0, 0.7);
+  --seg-radio-bg: rgba(14, 20, 32, 0.46);
+  --seg-radio-border: rgba(255, 234, 0, 0.7);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(255, 234, 0, 0.28);
+  --seg-radio-dot-bg: var(--hc-accent);
+  --seg-radio-dot-shadow: 0 0 8px rgba(255, 234, 0, 0.34);
+  --panel-secondary-bg: rgba(14, 20, 32, 0.38);
+  --panel-secondary-border: rgba(255, 234, 0, 0.52);
+  --panel-secondary-shadow: none;
+  --chat-invite-list-border: rgba(255, 234, 0, 0.48);
+  --chat-invite-shadow: none;
+  --btn-primary-border: 1.5px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border-hover: 1.5px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-active: 1.5px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-bg: rgba(14, 20, 32, 0.36);
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12);
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.2);
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+}
+html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+  :is(h1, h2, h3, h4, p, span, label, legend, li, a, button, strong, em) {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+  :is(input, textarea, select, .register-input) {
+  color: var(--hc-accent) !important;
+  caret-color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.68) !important;
+}
+html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+  :is(input, textarea, select, .register-input)::placeholder {
+  color: rgba(255, 234, 0, 0.72) !important;
+}
+html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+  :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.66) !important;
+  box-shadow: none !important;
+}
+html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+  :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn):is(:hover, :focus-visible) {
+  border-color: rgba(255, 234, 0, 0.9) !important;
+}
+html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+  [data-control-type][data-checked="true"] {
+  color: #fff7b0 !important;
+  background: rgba(255, 234, 0, 0.2) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.78) !important;
+}
+html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+  [data-control-type][data-checked="false"] {
+  border-color: rgba(255, 234, 0, 0.62) !important;
+}
+html[data-contrast="hc"] .invite-modal-content .invite-list-panel {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.52) !important;
+}
+html[data-contrast="hc"] .invite-modal-content .invite-list-row {
+  border-color: rgba(255, 234, 0, 0.4) !important;
+  background: rgba(14, 20, 32, 0.34) !important;
+}
+html[data-contrast="hc"] .a11y-modal-shell {
+  --csp-surface: rgba(9, 12, 20, 0.95);
+}
+html[data-contrast="hc"] .a11y-modal-shell .csp-chevron-icon {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll {
+  --hc-focus-ring: rgba(255, 234, 0, 0.58);
+  --input-border: 1.5px solid rgba(255, 234, 0, 0.68);
+  --input-text: var(--hc-accent);
+  --input-placeholder: rgba(255, 234, 0, 0.72);
+  --input-caret: var(--hc-accent);
+  --input-bg: rgba(14, 20, 32, 0.36);
+  --input-bg-hover: rgba(14, 20, 32, 0.44);
+  --input-bg-focus: rgba(14, 20, 32, 0.5);
+  --seg-card-border: rgba(255, 234, 0, 0.62);
+  --seg-card-text: var(--hc-accent);
+  --seg-card-text-hover: var(--hc-accent);
+  --seg-card-text-selected: #fff7b0;
+  --seg-card-bg: rgba(14, 20, 32, 0.34);
+  --seg-card-bg-hover: rgba(255, 234, 0, 0.1);
+  --seg-card-bg-selected: rgba(255, 234, 0, 0.2);
+  --seg-card-shadow: none;
+  --seg-card-shadow-hover: 0 0 0 1px rgba(255, 234, 0, 0.36);
+  --seg-card-shadow-selected: 0 0 0 1px rgba(255, 234, 0, 0.7);
+  --seg-radio-bg: rgba(14, 20, 32, 0.46);
+  --seg-radio-border: rgba(255, 234, 0, 0.7);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(255, 234, 0, 0.28);
+  --seg-radio-dot-bg: var(--hc-accent);
+  --seg-radio-dot-shadow: 0 0 8px rgba(255, 234, 0, 0.34);
+  --btn-primary-border: 1.5px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border-hover: 1.5px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-active: 1.5px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-bg: rgba(14, 20, 32, 0.36);
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12);
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.2);
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+  --btn-primary-shadow-focus: 0 0 0 2px rgba(255, 234, 0, 0.52);
+}
+html[data-contrast="hc"] .a11y-modal-shell :is(.a11y-csp-scroll, .csp-overlayTitle)
+  :is(h1, h2, h3, h4, p, span, label, legend, li, a, button, strong, em) {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll :is(button, .button, .btn) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.66) !important;
+  box-shadow: none !important;
+}
+html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll :is(button, .button, .btn):is(:hover, :focus-visible) {
+  border-color: rgba(255, 234, 0, 0.9) !important;
+}
+html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"] {
+  color: #fff7b0 !important;
+  background: rgba(255, 234, 0, 0.2) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.78) !important;
+}
+html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="false"] {
+  border-color: rgba(255, 234, 0, 0.62) !important;
+}
+html[data-contrast="hc"]
+  body
+  :is(.profile-orbit-stack-item, .profile-orbit-mobile-action.dock-item) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+html[data-contrast="hc"]
+  body
+  :is(.profile-orbit-stack-item, .profile-orbit-mobile-action.dock-item):is(
+    :hover,
+    :focus-visible,
+    :active
+  ) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-orbit-mobile-row.is-active
+  .profile-orbit-mobile-action.dock-item {
+  box-shadow: none !important;
 }
 html[data-reduce-motion="1"] *,
 html[data-reduce-motion="1"] *::before,
