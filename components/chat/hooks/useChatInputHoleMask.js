@@ -71,6 +71,11 @@ export function useChatInputHoleMask({
     let retryCount = 0;
     let lastMaskRunAt = 0;
     let lastGeometry = "";
+    const setTiltVisualState = active => {
+      const value = active ? "true" : "false";
+      if (box?.dataset) box.dataset.routeTilting = value;
+      if (maskLayer?.dataset) maskLayer.dataset.routeTilting = value;
+    };
     const isTiltActive = () =>
       typeof window !== "undefined" && Boolean(window[TILT_ACTIVE_FLAG_KEY]);
     const nowMs = () =>
@@ -203,7 +208,9 @@ export function useChatInputHoleMask({
       });
     };
     const onTiltState = event => {
-      if (event?.detail?.active) return;
+      const active = Boolean(event?.detail?.active);
+      setTiltVisualState(active);
+      if (active) return;
       if (pendingAfterTilt) {
         scheduleUpdate({
           force: true
@@ -220,6 +227,7 @@ export function useChatInputHoleMask({
       refreshRef.current = refreshHandler;
     }
     const vv = window.visualViewport;
+    setTiltVisualState(isTiltActive());
     updateMask({ force: true });
     scheduleUpdate();
     window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
@@ -284,6 +292,8 @@ export function useChatInputHoleMask({
       inputRow?.removeEventListener("transitionstart", scheduleUpdate);
       ro?.disconnect?.();
       mo?.disconnect?.();
+      if (box?.dataset) delete box.dataset.routeTilting;
+      if (maskLayer?.dataset) delete maskLayer.dataset.routeTilting;
       if (maskLayer) {
         maskLayer.style.removeProperty("--chat-input-hole-mask");
       }
