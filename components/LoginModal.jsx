@@ -226,7 +226,7 @@ export default function LoginModal({
   const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-0 max-md:min-h-[0.38em] leading-[1.2]", "mt-[-0.08rem] max-md:mt-[0rem]", "mb-[-0.08rem] max-md:mb-[0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
   const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.02em]", "mt-[-0.04rem]", "max-md:mt-[0.08rem]", "mb-0"].join(" ");
   const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.52rem]", "max-md:mt-[-0.3rem]", "mb-[-0.18rem]", "max-md:mb-[-0.04rem]"].join(" ");
-  const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
+  const emailIconClass = "login-email-icon-btn inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
   const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -1205,7 +1205,7 @@ export default function LoginModal({
             width: "var(--login-envelope-hit)",
             height: "var(--login-envelope-hit)"
           }} aria-describedby={emailHintIdRef.current} aria-label={t("auth.email_placeholder")} onClick={revealEmailInput}>
-                  <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
+                  <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="login-email-icon pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button> : <label className="block w-full">
                   <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !my-0 !w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))] text-[1.16rem]" onMouseDown={e => {
@@ -1323,7 +1323,7 @@ export default function LoginModal({
                               max={PIN_MAX}
                               isLightTheme={isLightTheme}
                               isError={submitError}
-                              className="absolute inset-0 pointer-events-none"
+                              className="login-submit-dots absolute inset-0 pointer-events-none"
                             />
                             {submitError ? <LockErrorIcon className="login-submit-icon h-[clamp(1.42rem,3.8vw,1.7rem)] w-[clamp(1.42rem,3.8vw,1.7rem)]" /> : <SubmitArrowIcon isLightTheme={isLightTheme} className="login-submit-icon h-[clamp(1.14rem,3.15vw,1.35rem)] w-[clamp(1.14rem,3.15vw,1.35rem)] max-md:h-[clamp(1.56rem,5.7vw,1.95rem)] max-md:w-[clamp(1.56rem,5.7vw,1.95rem)] translate-x-[0.08rem] max-md:translate-x-[0.11rem] transition-transform duration-200 ease-out" style={{
                             transform: `scale(${arrowScale.toFixed(3)})`
@@ -1377,7 +1377,7 @@ export default function LoginModal({
                   width: isMobile ? "min(19.4rem, calc(100vw - 2.2rem))" : "19.2rem",
                   maxWidth: "calc(100vw - 1.6rem)"
                 }}>
-                    <button type="button" className="absolute right-[0.12rem] top-[0.04rem] w-[2.05rem] h-[2.05rem] rounded-full border-0 bg-transparent text-[1.56rem] leading-none cursor-pointer text-[#c57171] light:text-[#7a3a38]" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
+                    <button type="button" className="login-help-close-btn absolute right-[0.12rem] top-[0.04rem] w-[2.05rem] h-[2.05rem] rounded-full border-0 bg-transparent text-[1.56rem] leading-none cursor-pointer text-[#c57171] light:text-[#7a3a38]" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
                       {t("symbols.times")}
                     </button>
 

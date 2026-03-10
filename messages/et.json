@@ -329,7 +329,7 @@
         "light": "Hele režiim"
       },
       "screen_profile": {
-        "sm": "Sülearvuti ekraan",
+        "sm": "Mobiil / sülearvuti",
         "lg": "Väline ekraan"
       }
     },
@@ -1296,7 +1296,7 @@
       "sections_v2": {
         "accessibility": {
           "title": "1. Keel ja ligipääsetavus",
-          "body": "<p>Esimesel külastusel avaneb automaatselt <a href=\"#\" data-a11y-open=\"1\">Keel ja ligipääsetavus</a> aken. Sama vaate saad hiljem uuesti avada lehel <a href=\"/profiil\">Profiil</a>.</p><ul><li><strong>Keel.</strong> Vali kasutajaliidese keel: eesti, vene või inglise.</li><li><strong>Ekraani profiil.</strong> Vali sülearvuti või välise ekraani profiil, et kuva sobituks paremini sinu seadmega.</li><li><strong>Teksti suurus.</strong> Kohanda kirjasuurust endale mugavaks.</li><li><strong>Kontrast.</strong> Lülita vajadusel sisse kõrgem kontrast.</li><li><strong>Animatsioonid.</strong> Märgi \"Vähenda liikumist\", kui soovid rahulikumat ja stabiilsemat kasutuskogemust.</li><li><strong>Teema.</strong> Profiili kaudu saad vahetada ka heleda, hämarama, tumeda ja öise kujunduse vahel.</li><li><strong>Salvestamine ja lähtestamine.</strong> Muudatused rakenduvad kohe, kuid vajadusel saad eelistused lähtestada ja uuesti salvestada.</li></ul>"
+          "body": "<p>Esimesel külastusel avaneb automaatselt <a href=\"#\" data-a11y-open=\"1\">Keel ja ligipääsetavus</a> aken. Sama vaate saad hiljem uuesti avada lehel <a href=\"/profiil\">Profiil</a>.</p><ul><li><strong>Keel.</strong> Vali kasutajaliidese keel: eesti, vene või inglise.</li><li><strong>Ekraani profiil.</strong> Vali \"Mobiil / sülearvuti\" või \"Väline ekraan\", et kuva sobituks paremini sinu seadmega.</li><li><strong>Teksti suurus.</strong> Kohanda kirjasuurust endale mugavaks.</li><li><strong>Kontrast.</strong> Lülita vajadusel sisse kõrgem kontrast.</li><li><strong>Animatsioonid.</strong> Märgi \"Vähenda liikumist\", kui soovid rahulikumat ja stabiilsemat kasutuskogemust.</li><li><strong>Teema.</strong> Profiili kaudu saad vahetada ka heleda, hämarama, tumeda ja öise kujunduse vahel.</li><li><strong>Salvestamine ja lähtestamine.</strong> Muudatused rakenduvad kohe, kuid vajadusel saad eelistused lähtestada ja uuesti salvestada.</li></ul>"
         },
         "home": {
           "title": "2. Avaleht",

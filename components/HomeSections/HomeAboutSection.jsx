@@ -170,7 +170,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         >
           <h2
             className={cn(
-              "text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[768px]:mb-[0.3rem] text-[color:var(--home-title-color)]"
+              "home-about-title text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[768px]:mb-[0.3rem] text-[color:var(--home-title-color)]"
             )}
           >
             {t("about.title")}
@@ -217,7 +217,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             ref={beforeContentRef}
             className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.55rem,1.1vw,0.8rem)] max-w-[min(74vw,24.5rem)] items-center"
           >
-            <p className="m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
+            <p className="home-before-title m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
             </p>
             <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem] max-[768px]:gap-y-[0.54rem]">
