@@ -1240,10 +1240,10 @@ export default function ProfiilBody({
                   mobileLogoutArmed ? "!opacity-100 !translate-y-0" : null
                 )}
                 style={{
-                  top: "calc(100% - 0.08rem)",
+                  top: "calc(100% - 0.2rem)",
                   fontSize: "1.42rem",
                   lineHeight: 1,
-                  fontWeight: 600,
+                  fontWeight: 500,
                   letterSpacing: "0.03em"
                 }}
               >
