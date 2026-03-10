@@ -340,13 +340,21 @@ export default function ChatComposer({
   const inputRowTransformClassName = embedded
     ? "top-0"
     : `${inputFocused ? "top-[calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem))]" : "top-[calc(-1*var(--chat-input-shift,0rem))]"} max-[768px]:top-0`;
+  const isStandaloneDisplay = typeof window !== "undefined" && (
+    document?.documentElement?.dataset?.displayMode === "standalone" ||
+    window.matchMedia?.("(display-mode: standalone)")?.matches ||
+    window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
+    window.navigator?.standalone === true
+  );
   const inputRowMobileStyle = !embedded && isMobile
     ? {
         position: "absolute",
         left: 0,
         right: 0,
         top: "auto",
-        bottom: "calc(env(safe-area-inset-bottom,0px) + 2.75rem + var(--chat-vk-offset,0px))",
+        bottom: isStandaloneDisplay
+          ? "calc(env(safe-area-inset-bottom,0px) + 1.5rem + var(--chat-vk-offset,0px))"
+          : "calc(env(safe-area-inset-bottom,0px) + 2.5rem + var(--chat-vk-offset,0px))",
         marginTop: 0
       }
     : undefined;

@@ -1170,6 +1170,10 @@
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
     transform: translateX(-50%) !important;
   }
+
+  .a11y-language-options-shift {
+    margin-top: clamp(0.5rem, 1.8vw, 0.8rem) !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1479,7 +1483,7 @@
     left: 0 !important;
     right: 0 !important;
     --chat-input-max-w: min(100%, calc(100vw - 6.45rem)) !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 2.75rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 2.5rem + var(--chat-vk-offset, 0px)) !important;
     margin-top: 0 !important;
     transform: none !important;
     align-items: center !important;
@@ -1487,6 +1491,16 @@
     gap: clamp(0.22rem, 1.4vw, 0.42rem) !important;
     padding-left: clamp(0.36rem, 1.8vw, 0.62rem) !important;
     padding-right: clamp(0.7rem, 3vw, 1rem) !important;
+  }
+
+  html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded),
+  body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded) {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem + var(--chat-vk-offset, 0px)) !important;
+  }
+
+  html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded),
+  body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded) {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-attach-btn {

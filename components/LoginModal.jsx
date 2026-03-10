@@ -1430,14 +1430,14 @@ export default function LoginModal({
                   </p>}
             </div>
 
-            <div className="w-full mt-[0.96rem] flex justify-center">
+            <div className="w-full mt-[0.96rem] max-[768px]:mt-[0.62rem] flex justify-center">
               <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] text-left placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] px-[1.5rem] py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.01em] rounded-[0.88rem]" />
             </div>
             {otpInlineError ? <p id="otp-inline-error" role="alert" className="mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
                 {otpInlineError}
               </p> : null}
 
-            <div className="w-full mt-[1rem] flex justify-center">
+            <div className="w-full mt-[1rem] max-[768px]:mt-[0.48rem] flex justify-center">
               <FancyCheckbox
                 id="remember-device"
                 name="remember-device"
@@ -1448,12 +1448,12 @@ export default function LoginModal({
               />
             </div>
 
-            <div className="w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] flex flex-col items-center mt-[1.28rem]">
+            <div className="w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] flex flex-col items-center mt-[1.28rem] max-[768px]:mt-[0.88rem]">
               <Button type="submit" variant="primary" className="w-auto min-w-[11.2rem] whitespace-normal text-center leading-[1.16] px-[1.45rem] py-[0.86rem] text-[1.28rem] min-h-[3.1rem] max-[768px]:!min-h-[3.14rem] max-[768px]:!px-[1.56rem] max-[768px]:!py-[0.86rem] max-[768px]:!text-[1.36rem] rounded-[0.88rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
                 {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
               </Button>
 
-              <div className="w-full flex flex-col items-center gap-[0.74rem] mt-[1.9rem]">
+              <div className="w-full flex flex-col items-center gap-[0.74rem] max-[768px]:gap-[0.62rem] mt-[1.9rem] max-[768px]:mt-[1.45rem]">
                 <button type="button" className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName}`} onClick={handleResendOtp} disabled={resendLoading}>
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
                 </button>

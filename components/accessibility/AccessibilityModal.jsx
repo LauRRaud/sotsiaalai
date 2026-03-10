@@ -31,7 +31,7 @@ const languageLegendClassName = "";
 const languageFieldsetClassName = "a11y-language-fieldset max-[768px]:!pt-[1.42rem]";
 const languageFieldsetSingleRowSpacingClassName = "max-[768px]:!pb-[4.9rem]";
 const languageFieldsetWrappedSpacingClassName = "max-[768px]:!pb-[1.45rem] max-[768px]:!min-h-[12.1rem]";
-const languageShiftClassName = "";
+const languageOptionsShiftClassName = "a11y-language-options-shift";
 const languageOptionsClassName = "flex-nowrap max-[768px]:flex-wrap";
 const languageOptionLabelClassName =
   "text-[clamp(1.04rem,2.55vw,1.16rem)] max-[768px]:text-[clamp(1.14rem,4.6vw,1.36rem)]";
@@ -499,10 +499,10 @@ export default function AccessibilityModal({
         "--csp-center-offset": `${isMobileViewport ? -5 : -11}px`
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
           <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${languageWraps ? `a11y-language-fieldset--wrap ${languageFieldsetWrappedSpacingClassName}` : `a11y-language-fieldset--single ${languageFieldsetSingleRowSpacingClassName}`} ${getA11yStepClassName(0)}`}>
-            <legend className={`${legendClassName} ${languageLegendClassName} ${languageShiftClassName}`.trim()}>
+            <legend className={`${legendClassName} ${languageLegendClassName}`.trim()}>
               {t("accessibility.language")}
             </legend>
-            <div ref={languageOptionsRef} className={`${optionsRowClassName} ${languageOptionsClassName} ${languageShiftClassName}`.trim()}>
+            <div ref={languageOptionsRef} className={`${optionsRowClassName} ${languageOptionsClassName} ${languageOptionsShiftClassName}`.trim()}>
               <OptionCard
                 inputRef={firstFocusRef}
                 type="radio"

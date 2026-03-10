@@ -143,15 +143,15 @@ const Label = styled.label`
     &.fancy-checkbox--otp {
       width: 100%;
       max-width: 100%;
-      justify-content: center;
+      justify-content: flex-start;
       box-sizing: border-box;
-      padding-inline: clamp(0.75rem, 4vw, 1.15rem);
+      padding-inline: 0;
     }
 
     &.fancy-checkbox--otp .text {
-      max-width: min(100%, 16rem);
+      max-width: min(100%, 18rem);
       white-space: normal;
-      text-align: center;
+      text-align: left;
       overflow-wrap: anywhere;
     }
   }
