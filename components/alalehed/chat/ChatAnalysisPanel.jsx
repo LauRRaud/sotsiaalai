@@ -128,7 +128,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "text-[rgba(226,232,240,0.96)] " +
     "light:text-[#111827]";
   const closeClassName =
-    "absolute top-[0.18rem] right-[0.18rem] grid place-items-center z-[220] rounded-[0.75rem] border-0 bg-transparent " +
+    "chat-analysis-close-btn absolute top-[0.18rem] right-[0.18rem] grid place-items-center z-[220] rounded-none border-0 bg-transparent " +
     "h-[2.1rem] w-[2.1rem] text-[2.2rem] leading-none text-[#c57171] light:text-[#7a3a38] " +
     "pointer-events-auto max-[768px]:h-[2.45rem] max-[768px]:w-[2.45rem] max-[768px]:text-[2.35rem]";
   const bodyClassName =

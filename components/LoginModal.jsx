@@ -29,7 +29,7 @@ const helpPopoverClassName =
   "[.theme-dark_&]:bg-[#13151b] [.theme-dark_&]:text-[#f3eee8] [.theme-dark_&]:border-[rgba(255,255,255,0.12)] " +
   "[.theme-mid_&]:bg-[#f3ece8] [.theme-mid_&]:text-[#4a3833] [.theme-mid_&]:border-[rgba(122,58,56,0.14)] [.theme-mid_&]:shadow-[0_12px_24px_rgba(80,58,52,0.12)] " +
   "[.theme-light:not(.theme-mid)_&]:bg-[#fffaf8] [.theme-light:not(.theme-mid)_&]:text-[#111827] [.theme-light:not(.theme-mid)_&]:border-[rgba(122,58,56,0.12)] [.theme-light:not(.theme-mid)_&]:shadow-[0_12px_24px_rgba(15,23,42,0.12)]";
-const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const otpTextClassName = "text-[#ece8e2] [.theme-night_&]:text-[#e8eef9] [.theme-mid_&]:text-[#4a3833] [.theme-light:not(.theme-mid)_&]:text-[#1f2937]";
 const otpInfoTextClassName = "text-[#f2eee8] [.theme-night_&]:text-[#f3f7ff] [.theme-mid_&]:text-[#3f2f2b] [.theme-light:not(.theme-mid)_&]:text-[#111827]";
 const MODAL_FOCUSABLE_SELECTOR = [
@@ -1410,11 +1410,11 @@ export default function LoginModal({
             </div>
           </form>}
 
-        {isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center" onSubmit={e => {
+        {isOtpStep && <form className="login-otp-content w-full max-w-full mx-auto flex flex-col items-center" onSubmit={e => {
         e.preventDefault();
         submitOtpStep();
       }}>
-            <div className={`w-full max-w-[23.6rem] flex flex-col gap-[0.48rem] ${otpTextClassName}`}>
+            <div className={`login-otp-copy w-full max-w-[23.6rem] flex flex-col gap-[0.48rem] ${otpTextClassName}`}>
                 {info && <p role="status" className={`m-0 font-semibold text-[1.04rem] ${otpInfoTextClassName}`}>
                     {info}
                   </p>}
@@ -1444,7 +1444,7 @@ export default function LoginModal({
                 checked={rememberDevice}
                 onChange={next => setRememberDevice(next)}
                 label={t("auth.login.remember_device")}
-                className="fancy-checkbox--otp w-full max-w-[23.6rem] justify-center [--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-150)] light:[--otp-check-shape:#1f2937] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:#1f2937]"
+                className="login-otp-remember fancy-checkbox--otp w-full max-w-[23.6rem] justify-center [--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-150)] light:[--otp-check-shape:#1f2937] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:#1f2937]"
               />
             </div>
 

@@ -12,7 +12,7 @@ html[data-contrast="hc"] {
       4 4,
     pointer;
   --hc-bg: #090a0f;
-  --hc-surface: rgba(16, 22, 34, 0.46);
+  --hc-surface: rgba(10, 12, 18, 0.46);
   --hc-text: #eef4ff;
   --hc-muted: #d7e2f5;
   --hc-accent: #ffea00;
@@ -43,10 +43,13 @@ html[data-contrast="hc"] {
   --page-bg-top-fallback: #1b2735;
   --page-bg-bottom-fallback: #090a0f;
   --glass-blur-radius: 1rem;
-  --glass-surface-bg: var(--hc-surface);
+  --glass-surface-bg: rgba(0, 0, 0, 0.25);
+  --glass-ring-surface-bg: var(--glass-surface-bg);
+  --glass-modal-bg: var(--glass-surface-bg);
   --glass-surface-text: var(--hc-text);
-  --glass-border-color: var(--hc-border);
+  --glass-border-color: transparent;
   --glass-border-width: 1px;
+  --glass-shell-shadow: var(--glass-ring-glow-dark);
   --glass-input-bg-idle: var(--hc-bg);
   --glass-input-bg-active: var(--hc-surface);
   --text-strong: var(--hc-text);

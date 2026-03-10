@@ -18,30 +18,30 @@ export const glassPageShellCenteredClassName =
   "max-[768px]:flex max-[768px]:flex-col max-[768px]:items-center max-[768px]:justify-start";
 
 export const glassPageBackClassName =
-  "absolute left-[max(0px,calc(var(--glass-edge-left)-clamp(0.72rem,1.35vw,1.12rem)))] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2 min-[768px]:-translate-x-[0.42rem] max-[768px]:hidden min-[768px]:opacity-[0.85] light:min-[768px]:opacity-100";
+  "absolute z-[8] left-[max(0px,calc(var(--glass-edge-left)-clamp(0.72rem,1.35vw,1.12rem)))] top-[calc(50%+var(--glass-center-offset,0px)-3.2rem)] min-[768px]:ml-[-0.42rem] max-[768px]:hidden min-[768px]:opacity-[0.85] light:min-[768px]:opacity-100";
 
 export const glassPageBackMobileCornerClassName =
   `${glassPageBackClassName} ` +
   "max-[768px]:!inline-flex max-[768px]:top-auto max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.2rem)] " +
-  "max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+0.2rem)] max-[768px]:translate-y-0 " +
+  "max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+0.2rem)] max-[768px]:transform-none " +
   "max-[768px]:h-[3.35rem] max-[768px]:w-[3.35rem] max-[768px]:z-[92] " +
   "max-[768px]:[&>svg]:h-[3.35rem] max-[768px]:[&>svg]:w-[3.35rem]";
 
 export const glassPageBackMobileBottomCenterClassName =
   `${glassPageBackClassName} ` +
   "max-[768px]:!inline-flex max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] " +
-  "max-[768px]:translate-x-0 max-[768px]:translate-y-0 max-[768px]:bottom-auto " +
+  "max-[768px]:transform-none max-[768px]:bottom-auto " +
   "max-[768px]:h-[4.2rem] max-[768px]:w-[4.2rem] max-[768px]:z-[92] " +
   "max-[768px]:[&>svg]:h-[4.2rem] max-[768px]:[&>svg]:w-[4.2rem]";
 
 export const glassPageBackTopLeftClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
   "min-[769px]:top-[0.55rem] min-[769px]:left-[0.55rem] min-[769px]:bottom-auto " +
-  "min-[769px]:translate-x-0 min-[769px]:translate-y-0 min-[769px]:!h-[4rem] min-[769px]:!w-[4rem] " +
-  "min-[769px]:[&>svg]:!h-[4rem] min-[769px]:[&>svg]:!w-[4rem]";
+  "min-[769px]:ml-0 min-[769px]:!h-[6.4rem] min-[769px]:!w-[6.4rem] " +
+  "min-[769px]:[&>svg]:!h-[6.4rem] min-[769px]:[&>svg]:!w-[6.4rem]";
 
 export const glassPageBackRightClassName =
-  "absolute right-[max(0px,calc(var(--glass-edge-right)-clamp(0.35rem,0.9vw,0.7rem)))] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";
+  "absolute z-[8] right-[max(0px,calc(var(--glass-edge-right)-clamp(0.35rem,0.9vw,0.7rem)))] top-[calc(50%+var(--glass-center-offset,0px)-3.2rem)]";
 
 export const glassPageCloseClassName =
   "glass-mobile-only-close text-[#c57171] opacity-90 light:text-[#7a3a38]";

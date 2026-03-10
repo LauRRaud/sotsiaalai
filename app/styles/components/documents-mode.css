@@ -1873,3 +1873,220 @@
     width: 100%;
   }
 }
+
+/* High-contrast overrides for Documents + Agent workspace content. */
+html[data-contrast="hc"] .documents-workspace {
+  --documents-page-text: var(--hc-accent);
+  --documents-page-muted: rgba(255, 234, 0, 0.82);
+  --documents-page-strong: var(--hc-accent);
+  --documents-heading-color: var(--hc-accent);
+  --documents-accent: var(--hc-accent);
+  --documents-accent-soft: rgba(255, 234, 0, 0.1);
+  --documents-accent-border: rgba(255, 234, 0, 0.66);
+  --documents-chip-bg: rgba(14, 20, 32, 0.42);
+  --documents-chip-border: rgba(255, 234, 0, 0.62);
+  --documents-chip-text: var(--hc-accent);
+  --documents-chip-text-active: #fff59a;
+  --documents-card-bg: rgba(9, 14, 24, 0.62);
+  --documents-card-border: rgba(255, 234, 0, 0.54);
+  --documents-subpanel-bg: rgba(9, 14, 24, 0.58);
+  --documents-subpanel-border: rgba(255, 234, 0, 0.5);
+  --documents-soft-shadow: none;
+  --documents-strong-shadow: none;
+  --documents-content-bg: rgba(9, 14, 24, 0.6);
+  --documents-content-border: rgba(255, 234, 0, 0.54);
+  --documents-muted-bg: rgba(9, 14, 24, 0.5);
+  --documents-muted-border: rgba(255, 234, 0, 0.46);
+  --documents-muted-text: var(--hc-accent);
+  --documents-info-bg: rgba(14, 20, 32, 0.5);
+  --documents-info-border: rgba(255, 234, 0, 0.6);
+  --documents-info-text: var(--hc-accent);
+  --documents-success-bg: rgba(14, 20, 32, 0.5);
+  --documents-success-border: rgba(255, 234, 0, 0.6);
+  --documents-success-text: var(--hc-accent);
+  --documents-warning-bg: rgba(14, 20, 32, 0.5);
+  --documents-warning-border: rgba(255, 234, 0, 0.6);
+  --documents-warning-text: var(--hc-accent);
+  --documents-error-bg: rgba(14, 20, 32, 0.5);
+  --documents-error-border: rgba(255, 234, 0, 0.6);
+  --documents-error-text: var(--hc-accent);
+  --documents-agent-stage-bg: rgba(9, 14, 24, 0.56);
+  --documents-agent-stage-border: rgba(255, 234, 0, 0.48);
+  --documents-agent-thread-bg: rgba(8, 14, 24, 0.72);
+  --documents-agent-thread-border: rgba(255, 234, 0, 0.5);
+  --documents-agent-thread-shadow: none;
+  --documents-agent-composer-shadow: none;
+  --documents-agent-composer-shadow-hover: none;
+  --input-border: 1.5px solid rgba(255, 234, 0, 0.68);
+  --input-text: var(--hc-accent);
+  --input-placeholder: rgba(255, 234, 0, 0.72);
+  --input-caret: var(--hc-accent);
+  --input-bg: rgba(14, 20, 32, 0.42);
+  --input-bg-hover: rgba(14, 20, 32, 0.5);
+  --input-bg-focus: rgba(14, 20, 32, 0.56);
+  --input-shadow: none;
+  --input-shadow-hover: none;
+  --btn-primary-border: 1.5px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border-hover: 1.5px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-active: 1.5px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-bg: rgba(14, 20, 32, 0.42);
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12);
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.14);
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  span,
+  label,
+  legend,
+  li,
+  a,
+  strong,
+  em
+) {
+  color: var(--hc-accent);
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-workspace-card,
+  .documents-panel,
+  .documents-subpanel,
+  .documents-card,
+  .documents-agent-goal-group--template,
+  .documents-agent-refine,
+  .documents-agent-quick-actions,
+  .documents-select-card,
+  .documents-content
+) {
+  border-color: rgba(255, 234, 0, 0.54) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-field,
+  .documents-dropdown-trigger,
+  .documents-dropdown-menu,
+  .documents-agent-select,
+  .documents-form-input,
+  .documents-agent-textarea
+) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.68) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-field,
+  .documents-dropdown-trigger,
+  .documents-agent-select,
+  .documents-form-input,
+  .documents-agent-textarea
+) {
+  background: rgba(14, 20, 32, 0.42) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-field,
+  .documents-dropdown-trigger,
+  .documents-agent-select,
+  .documents-form-input,
+  .documents-agent-textarea
+)::placeholder {
+  color: rgba(255, 234, 0, 0.72) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace .documents-dropdown-menu {
+  background: rgba(9, 14, 24, 0.94) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace .documents-dropdown-item {
+  color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace .documents-dropdown-item:hover,
+html[data-contrast="hc"] .documents-workspace .documents-dropdown-item:focus-visible {
+  background: rgba(255, 234, 0, 0.12) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-chip,
+  .documents-source-pill
+) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.62) !important;
+  background: rgba(14, 20, 32, 0.42) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-chip.is-active,
+  .documents-agent-version-card.is-active
+) {
+  background: rgba(255, 234, 0, 0.14) !important;
+  border-color: rgba(255, 234, 0, 0.86) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-primary-button,
+  .documents-secondary-button,
+  .documents-danger-button,
+  .documents-upload-choose-button
+) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.66) !important;
+  background: rgba(14, 20, 32, 0.42) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-primary-button,
+  .documents-secondary-button,
+  .documents-danger-button,
+  .documents-upload-choose-button
+):is(:hover, :focus-visible, :active) {
+  border-color: rgba(255, 234, 0, 0.92) !important;
+  background: rgba(255, 234, 0, 0.14) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-notice--info,
+  .documents-notice--success,
+  .documents-notice--warning,
+  .documents-notice--error,
+  .documents-notice--muted,
+  .documents-empty-state
+) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.58) !important;
+  background: rgba(14, 20, 32, 0.48) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace .documents-agent-conversation-window {
+  border-color: rgba(255, 234, 0, 0.58) !important;
+  background: rgba(8, 14, 24, 0.72) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .documents-workspace .documents-agent-composer-slot .chat-inputbar {
+  border: 1.5px solid rgba(255, 234, 0, 0.72) !important;
+  background: rgba(14, 20, 32, 0.42) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .documents-workspace .documents-agent-composer-slot .chat-input-field {
+  color: var(--hc-accent) !important;
+  caret-color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace .documents-agent-composer-slot .chat-input-field::placeholder {
+  color: rgba(255, 234, 0, 0.72) !important;
+}
+

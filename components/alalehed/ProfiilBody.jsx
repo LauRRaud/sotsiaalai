@@ -409,6 +409,7 @@ export default function ProfiilBody({
   const [orbitOpen, setOrbitOpen] = useState(false);
   const [orbitMenuRenderKey, setOrbitMenuRenderKey] = useState(0);
   const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(false);
+  const [mobileLogoutArmed, setMobileLogoutArmed] = useState(false);
   const [profileHelpPanel, setProfileHelpPanel] = useState(null);
   const [profileHelpPanelClosing, setProfileHelpPanelClosing] = useState(false);
   const [profileHelpPanelState, setProfileHelpPanelState] = useState({
@@ -833,6 +834,11 @@ export default function ProfiilBody({
     }
     setOrbitMenuRenderKey(prev => prev + 1);
   }, [profileHelpPanel, showAccountSettings]);
+  useEffect(() => {
+    if (!isMobileProfileMenu || orbitOpen || showAccountSettings || profileHelpPanel || loggingOut) {
+      setMobileLogoutArmed(false);
+    }
+  }, [isMobileProfileMenu, loggingOut, orbitOpen, profileHelpPanel, showAccountSettings]);
   const openProfileHelpPanel = useCallback((panelKey) => {
     const key = String(panelKey || "");
     if (key === "my_help_requests") {
@@ -1000,6 +1006,7 @@ export default function ProfiilBody({
   };
   const handleLogout = async () => {
     if (loggingOut) return;
+    setMobileLogoutArmed(false);
     setError("");
     setLoggingOut(true);
     try {
@@ -1177,9 +1184,25 @@ export default function ProfiilBody({
             </div>
           </div>
           <div className={profileMobileActionStackClassName}>
-            <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
+            <button
+              type="button"
+              className={logoutButtonClassName}
+              onClick={() => {
+                if (loggingOut) return;
+                if (!mobileLogoutArmed) {
+                  setMobileLogoutArmed(true);
+                  return;
+                }
+                void handleLogout();
+              }}
+              disabled={loggingOut}
+              aria-label={t("profile.logout")}
+              aria-pressed={mobileLogoutArmed ? "true" : "false"}
+            >
               <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
-              <span className={logoutLabelClassName}>{t("profile.logout_short")}</span>
+              <span className={cn(logoutLabelClassName, mobileLogoutArmed ? "!opacity-100 !translate-y-0" : null)}>
+                {t("profile.logout")}
+              </span>
               <span className="sr-only">{t("profile.logout")}</span>
             </button>
           </div>

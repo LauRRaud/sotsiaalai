@@ -40,7 +40,7 @@ html[data-contrast="hc"]
     [tabindex]:not([tabindex="-1"])
   ):not(.chat-send-btn):not(
     .chat-attach-btn
-  ):not(.chat-listen-btn):not(.chat-input-field):not(
+  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.chat-input-field):not(
     .three-d-card
   ):not(.glass-card):not(
     .card-face
@@ -62,7 +62,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-send-btn):not(
     .chat-attach-btn
-  ):not(.chat-listen-btn):not(.card-face) {
+  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face) {
   background: var(--form-surface, var(--hc-surface));
   color: var(--hc-text);
   border: 1px solid var(--hc-border, rgba(170, 204, 245, 0.3));
@@ -75,7 +75,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-send-btn):not(
     .chat-attach-btn
-  ):not(.chat-listen-btn):not(.card-face):hover:not(
+  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):hover:not(
     :disabled
   ),
 html[data-contrast="hc"]
@@ -84,10 +84,18 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-send-btn):not(
     .chat-attach-btn
-  ):not(.chat-listen-btn):not(.card-face):focus-visible {
+  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):focus-visible {
   background: var(--form-surface-hover, var(--hc-surface));
   border-color: var(--hc-border-soft, rgba(188, 220, 255, 0.4));
   color: var(--hc-text);
+}
+body .chat-analysis-close-btn,
+body .chat-analysis-close-btn:is(:hover, :focus-visible, :active) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
 }
 html[data-contrast="hc"] body :is(
     button:has(.back-icon-arrow),
@@ -115,6 +123,30 @@ html[data-contrast="hc"] body :is(
   box-shadow: none !important;
   outline: none !important;
 }
+html[data-contrast="hc"] .glass-ring-expand-toggle,
+html[data-contrast="hc"] .glass-ring-expand-toggle:is(:hover, :focus-visible, :active) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+html[data-contrast="hc"] .glass-ring-expand-toggle .glass-ring-expand-icon {
+  color: var(--hc-accent) !important;
+  opacity: 1 !important;
+}
+html[data-contrast="hc"] .glass-ring-expand-toggle .glass-ring-expand-icon :is(path, circle, line, rect, ellipse, polyline, polygon) {
+  stroke: currentColor !important;
+}
+html[data-contrast="hc"] .invite-modal-overlay.person-invite-modal-overlay {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html[data-contrast="hc"] body.invite-modal-open .chat-page-shell {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
 html[data-contrast="hc"]
   body
   :is(
@@ -125,8 +157,17 @@ html[data-contrast="hc"]
   background: var(--form-surface, var(--hc-surface));
   color: var(--hc-text);
   border: 1px solid var(--hc-border-soft, rgba(188, 220, 255, 0.4));
-  box-shadow: var(--input-shadow, none);
+  box-shadow: none !important;
   outline: none;
+}
+html[data-contrast="hc"]
+  body
+  :is(
+    input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(.chat-input-field),
+    textarea:not(.chat-input-field),
+    select
+  ):is(:hover, :focus, :focus-visible, :active) {
+  box-shadow: none !important;
 }
 html[data-contrast="hc"]
   body
@@ -161,7 +202,7 @@ html[data-contrast="hc"] body :is(.chat-msg-user, .chat-msg-ai) {
 }
 html[data-contrast="hc"] body .chat-inputbar .chat-input-field::placeholder {
   color: var(--hc-accent) !important;
-  opacity: 0.72;
+  opacity: 0.92;
 }
 html[data-contrast="hc"] body .chat-inputbar .chat-input-field:focus-visible {
   outline: none;
@@ -204,6 +245,38 @@ html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item svg :is(path, ci
 }
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item svg [fill]:not([fill="none"]) {
   fill: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card {
+  color: var(--hc-accent) !important;
+  --btn-primary-border: 1.5px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border-hover: 1.5px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-active: 1.5px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-bg: var(--form-surface, rgba(14, 20, 32, 0.36));
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12);
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.14);
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+  --btn-primary-shadow-focus: 0 0 0 2px rgba(255, 234, 0, 0.44);
+}
+html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(p, span, div, strong, em) {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(.button, .btn) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.68) !important;
+  background: var(--form-surface, rgba(14, 20, 32, 0.36)) !important;
+  box-shadow: none !important;
+}
+html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(.button, .btn):is(:hover, :focus-visible, :active) {
+  border-color: rgba(255, 234, 0, 0.92) !important;
+  background: rgba(255, 234, 0, 0.14) !important;
+  box-shadow: none !important;
+}
+html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-close-btn,
+html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-close-btn:is(:hover, :focus-visible, :active) {
+  color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn {
   --btn-border-idle: rgba(255, 234, 0, 0.72);
@@ -336,34 +409,9 @@ html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar :is(.but
 html[data-contrast="hc"] .homepage-root :is(.home-about-title, .home-before-title) {
   color: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content) {
-  --input-border: 1.5px solid rgba(255, 234, 0, 0.68);
-  --input-text: var(--hc-accent);
-  --input-placeholder: rgba(255, 234, 0, 0.72);
-  --input-caret: var(--hc-accent);
-  --input-bg: rgba(14, 20, 32, 0.36);
-  --input-bg-hover: rgba(14, 20, 32, 0.44);
-  --input-bg-focus: rgba(14, 20, 32, 0.5);
-  --seg-card-border: rgba(255, 234, 0, 0.62);
-  --seg-card-text: var(--hc-accent);
-  --seg-card-text-hover: var(--hc-accent);
-  --seg-card-text-selected: var(--hc-accent);
-  --seg-card-bg: rgba(14, 20, 32, 0.34);
-  --seg-card-bg-hover: rgba(255, 234, 0, 0.1);
-  --seg-card-bg-selected: rgba(255, 234, 0, 0.1);
-  --seg-card-shadow: none;
-  --seg-card-shadow-hover: 0 0 0 1px rgba(255, 234, 0, 0.36);
-  --seg-card-shadow-selected: 0 0 0 1px rgba(255, 234, 0, 0.7);
-  --seg-radio-bg: rgba(14, 20, 32, 0.46);
-  --seg-radio-border: rgba(255, 234, 0, 0.7);
-  --seg-radio-inner-ring: inset 0 0 0 1px rgba(255, 234, 0, 0.28);
-  --seg-radio-dot-bg: var(--hc-accent);
-  --seg-radio-dot-shadow: 0 0 8px rgba(255, 234, 0, 0.34);
-  --panel-secondary-bg: rgba(14, 20, 32, 0.38);
-  --panel-secondary-border: rgba(255, 234, 0, 0.52);
-  --panel-secondary-shadow: none;
-  --chat-invite-list-border: rgba(255, 234, 0, 0.48);
-  --chat-invite-shadow: none;
+html[data-contrast="hc"] .subscription-content {
+  --hc-focus-ring: rgba(255, 234, 0, 0.58);
+  --focus-ring: rgba(255, 234, 0, 0.5);
   --btn-primary-border: 1.5px solid rgba(255, 234, 0, 0.66);
   --btn-primary-border-hover: 1.5px solid rgba(255, 234, 0, 0.9);
   --btn-primary-border-active: 1.5px solid rgba(255, 234, 0, 0.95);
@@ -374,39 +422,176 @@ html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-i
   --btn-primary-shadow: none;
   --btn-primary-shadow-hover: none;
   --btn-primary-shadow-active: none;
+  --btn-primary-shadow-focus: 0 0 0 2px rgba(255, 234, 0, 0.44);
 }
-html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+html[data-contrast="hc"] .subscription-content :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    span,
+    label,
+    legend,
+    li,
+    a,
+    button,
+    strong,
+    em
+  ) {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] .subscription-content :is(button, .button, .btn) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.66) !important;
+  box-shadow: none !important;
+}
+html[data-contrast="hc"] .subscription-content :is(button, .button, .btn):is(:hover, :focus-visible) {
+  border-color: rgba(255, 234, 0, 0.9) !important;
+}
+html[data-contrast="hc"] .subscription-content .subscription-active-panel {
+  border-color: rgba(255, 234, 0, 0.58) !important;
+  background: rgba(14, 20, 32, 0.38) !important;
+  box-shadow: none !important;
+}
+html[data-contrast="hc"] .subscription-content :is(
+    .subscription-copy-text,
+    .subscription-info-text,
+    .subscription-status-text,
+    .subscription-active-summary,
+    .subscription-active-note
+  ) {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] :is(
+    .register-content,
+    .invite-modal-content,
+    .person-invite-modal-content,
+    .update-pin-content,
+    .update-email-content,
+    .reset-password-content
+  ) {
+  --hc-focus-ring: rgba(255, 234, 0, 0.58);
+  --focus-ring: rgba(255, 234, 0, 0.5);
+  --input-border: 1.5px solid rgba(255, 234, 0, 0.68);
+  --input-text: var(--hc-accent);
+  --input-placeholder: rgba(255, 234, 0, 0.92);
+  --input-caret: var(--hc-accent);
+  --input-bg: var(--form-surface);
+  --input-bg-hover: var(--form-surface-hover);
+  --input-bg-focus: var(--form-surface-active);
+  --seg-card-border: rgba(255, 234, 0, 0.62);
+  --seg-card-text: var(--hc-accent);
+  --seg-card-text-hover: var(--hc-accent);
+  --seg-card-text-selected: var(--hc-accent);
+  --seg-card-bg: var(--form-surface);
+  --seg-card-bg-hover: rgba(255, 234, 0, 0.1);
+  --seg-card-bg-selected: rgba(255, 234, 0, 0.1);
+  --seg-card-shadow: none;
+  --seg-card-shadow-hover: 0 0 0 1px rgba(255, 234, 0, 0.36);
+  --seg-card-shadow-selected: 0 0 0 1px rgba(255, 234, 0, 0.7);
+  --seg-radio-bg: var(--form-surface);
+  --seg-radio-border: rgba(255, 234, 0, 0.7);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(255, 234, 0, 0.28);
+  --seg-radio-dot-bg: var(--hc-accent);
+  --seg-radio-dot-shadow: 0 0 8px rgba(255, 234, 0, 0.34);
+  --panel-secondary-bg: color-mix(in srgb, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) 88%, transparent);
+  --panel-secondary-border: rgba(255, 234, 0, 0.52);
+  --panel-secondary-shadow: none;
+  --chat-invite-list-border: rgba(255, 234, 0, 0.48);
+  --chat-invite-shadow: none;
+  --btn-primary-border: 1.5px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border-hover: 1.5px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-active: 1.5px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-bg: var(--form-surface);
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12);
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.12);
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+}
+html[data-contrast="hc"] :is(
+    .register-content,
+    .invite-modal-content,
+    .person-invite-modal-content,
+    .update-pin-content,
+    .update-email-content,
+    .reset-password-content
+  )
   :is(h1, h2, h3, h4, p, span, label, legend, li, a, button, strong, em) {
   color: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+html[data-contrast="hc"] :is(
+    .register-content,
+    .invite-modal-content,
+    .person-invite-modal-content,
+    .update-pin-content,
+    .update-email-content,
+    .reset-password-content
+  )
   :is(input, textarea, select, .register-input) {
   color: var(--hc-accent) !important;
   caret-color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.68) !important;
 }
-html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+html[data-contrast="hc"] :is(
+    .register-content,
+    .invite-modal-content,
+    .person-invite-modal-content,
+    .update-pin-content,
+    .update-email-content,
+    .reset-password-content
+  )
   :is(input, textarea, select, .register-input)::placeholder {
-  color: rgba(255, 234, 0, 0.72) !important;
+  color: rgba(255, 234, 0, 0.92) !important;
 }
-html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+html[data-contrast="hc"] :is(
+    .register-content,
+    .invite-modal-content,
+    .person-invite-modal-content,
+    .update-pin-content,
+    .update-email-content,
+    .reset-password-content
+  )
   :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn) {
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.66) !important;
   box-shadow: none !important;
 }
-html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+html[data-contrast="hc"] :is(
+    .register-content,
+    .invite-modal-content,
+    .person-invite-modal-content,
+    .update-pin-content,
+    .update-email-content,
+    .reset-password-content
+  )
   :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn):is(:hover, :focus-visible) {
   border-color: rgba(255, 234, 0, 0.9) !important;
 }
-html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+html[data-contrast="hc"] :is(
+    .register-content,
+    .invite-modal-content,
+    .person-invite-modal-content,
+    .update-pin-content,
+    .update-email-content,
+    .reset-password-content
+  )
   [data-control-type][data-checked="true"] {
   color: var(--hc-accent) !important;
   background: rgba(255, 234, 0, 0.1) !important;
   border-color: rgba(255, 234, 0, 0.94) !important;
   box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
 }
-html[data-contrast="hc"] :is(.register-content, .invite-modal-content, .person-invite-modal-content)
+html[data-contrast="hc"] :is(
+    .register-content,
+    .invite-modal-content,
+    .person-invite-modal-content,
+    .update-pin-content,
+    .update-email-content,
+    .reset-password-content
+  )
   [data-control-type][data-checked="false"] {
   border-color: rgba(255, 234, 0, 0.62) !important;
 }
@@ -416,7 +601,7 @@ html[data-contrast="hc"] .invite-modal-content .invite-list-panel {
 }
 html[data-contrast="hc"] .invite-modal-content .invite-list-row {
   border-color: rgba(255, 234, 0, 0.4) !important;
-  background: rgba(14, 20, 32, 0.34) !important;
+  background: var(--form-surface) !important;
 }
 html[data-contrast="hc"] #login-modal {
   --hc-border: rgba(255, 234, 0, 0.64);
@@ -430,7 +615,7 @@ html[data-contrast="hc"] #login-modal {
   --home-link-color: var(--hc-accent);
   --input-border: 1.5px solid rgba(255, 234, 0, 0.68);
   --input-text: var(--hc-accent);
-  --input-placeholder: rgba(255, 234, 0, 0.72);
+  --input-placeholder: rgba(255, 234, 0, 0.92);
   --input-caret: var(--hc-accent);
   --input-bg: rgba(14, 20, 32, 0.36);
   --input-bg-hover: rgba(14, 20, 32, 0.44);
@@ -449,9 +634,24 @@ html[data-contrast="hc"] #login-modal {
   --btn-primary-shadow-active: none;
   --btn-primary-shadow-focus: 0 0 0 2px rgba(255, 234, 0, 0.44);
 }
+html[data-contrast="hc"] #login-modal.login-modal--otp {
+  --otp-panel-bg: rgba(14, 20, 32, 0.42);
+  --otp-panel-border: rgba(255, 234, 0, 0.62);
+  --otp-panel-shadow: none;
+  --otp-input-bg: rgba(14, 20, 32, 0.36);
+  --otp-input-border: rgba(255, 234, 0, 0.68);
+  --otp-accent: var(--hc-accent);
+}
 html[data-contrast="hc"] #login-modal .login-modal-shell {
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.56) !important;
+}
+html[data-contrast="hc"] #login-modal.login-modal--otp .login-modal-shell {
+  background: rgba(9, 14, 24, 0.74) !important;
+  box-shadow: none !important;
+}
+html[data-contrast="hc"] #login-modal .login-modal-title {
+  color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] #login-modal :is(h1, h2, h3, h4, p, span, label, legend, li, a, button, strong, em) {
   color: var(--hc-accent) !important;
@@ -460,32 +660,45 @@ html[data-contrast="hc"] #login-modal :is(input:not([type="hidden"]):not([aria-h
   color: var(--hc-accent) !important;
   caret-color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.68) !important;
+  background: rgba(14, 20, 32, 0.36) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] #login-modal :is(input:not([type="hidden"]):not([aria-hidden="true"]), textarea, select)::placeholder {
-  color: rgba(255, 234, 0, 0.72) !important;
+  color: rgba(255, 234, 0, 0.92) !important;
 }
-html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"]) {
+html[data-contrast="hc"] #login-modal.login-modal--otp #otp-code-input {
+  background: rgba(14, 20, 32, 0.36) !important;
+  border-color: rgba(255, 234, 0, 0.68) !important;
+  color: var(--hc-accent) !important;
+  box-shadow: none !important;
+}
+html[data-contrast="hc"] #login-modal.login-modal--otp #otp-code-input::placeholder {
+  color: rgba(255, 234, 0, 0.92) !important;
+}
+html[data-contrast="hc"] #login-modal.login-modal--otp .login-otp-content :is(p, span, label, strong, em, a, button) {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] #login-modal.login-modal--otp .login-otp-remember {
+  --otp-check-shape: var(--hc-accent);
+  --otp-check-tick: var(--hc-accent);
+  --otp-check-text: var(--hc-accent);
+}
+html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse, .home-link, .pin-layout-toggle) {
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.66) !important;
+  background: rgba(14, 20, 32, 0.34) !important;
+  border-width: 1.5px !important;
+  border-style: solid !important;
+  border-radius: 999px !important;
   box-shadow: none !important;
 }
-html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"]):is(:hover, :focus-visible, :active) {
+html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse, .home-link, .pin-layout-toggle):is(:hover, :focus-visible, :active) {
   border-color: rgba(255, 234, 0, 0.92) !important;
-  box-shadow: none !important;
-}
-html[data-contrast="hc"] #login-modal :is(.home-link, .pin-layout-toggle) {
-  color: var(--hc-accent) !important;
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-}
-html[data-contrast="hc"] #login-modal :is(.home-link, .pin-layout-toggle):is(:hover, :focus-visible, :active) {
-  border-color: rgba(255, 234, 0, 0.88) !important;
+  background: rgba(255, 234, 0, 0.14) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] #login-modal .no-click-pulse {
-  border: 0 !important;
+  border-color: rgba(255, 234, 0, 0.66) !important;
 }
 html[data-contrast="hc"] #login-modal :is(.login-modal-close.modal-close-btn, .login-help-close-btn, .login-email-icon-btn) {
   background: transparent !important;
@@ -530,31 +743,34 @@ html[data-contrast="hc"] #login-modal :is(.fancy-checkbox--otp .text, #otp-deadl
   color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] .a11y-modal-shell {
-  --csp-surface: rgba(9, 12, 20, 0.95);
+  --csp-surface: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
 }
 html[data-contrast="hc"] .a11y-modal-shell .csp-chevron-icon {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] .register-mobile-ring .csp-chevron-icon {
   color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll {
   --hc-focus-ring: rgba(255, 234, 0, 0.58);
   --input-border: 1.5px solid rgba(255, 234, 0, 0.68);
   --input-text: var(--hc-accent);
-  --input-placeholder: rgba(255, 234, 0, 0.72);
+  --input-placeholder: rgba(255, 234, 0, 0.92);
   --input-caret: var(--hc-accent);
-  --input-bg: rgba(14, 20, 32, 0.36);
-  --input-bg-hover: rgba(14, 20, 32, 0.44);
-  --input-bg-focus: rgba(14, 20, 32, 0.5);
+  --input-bg: var(--form-surface);
+  --input-bg-hover: var(--form-surface-hover);
+  --input-bg-focus: var(--form-surface-active);
   --seg-card-border: rgba(255, 234, 0, 0.62);
   --seg-card-text: var(--hc-accent);
   --seg-card-text-hover: var(--hc-accent);
   --seg-card-text-selected: var(--hc-accent);
-  --seg-card-bg: rgba(14, 20, 32, 0.34);
+  --seg-card-bg: var(--form-surface);
   --seg-card-bg-hover: rgba(255, 234, 0, 0.1);
   --seg-card-bg-selected: rgba(255, 234, 0, 0.1);
   --seg-card-shadow: none;
   --seg-card-shadow-hover: 0 0 0 1px rgba(255, 234, 0, 0.36);
   --seg-card-shadow-selected: 0 0 0 1px rgba(255, 234, 0, 0.7);
-  --seg-radio-bg: rgba(14, 20, 32, 0.46);
+  --seg-radio-bg: var(--form-surface);
   --seg-radio-border: rgba(255, 234, 0, 0.7);
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(255, 234, 0, 0.28);
   --seg-radio-dot-bg: var(--hc-accent);
@@ -563,7 +779,7 @@ html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll {
   --btn-primary-border-hover: 1.5px solid rgba(255, 234, 0, 0.9);
   --btn-primary-border-active: 1.5px solid rgba(255, 234, 0, 0.95);
   --btn-primary-text: var(--hc-accent);
-  --btn-primary-bg: rgba(14, 20, 32, 0.36);
+  --btn-primary-bg: var(--form-surface);
   --btn-primary-bg-hover: rgba(255, 234, 0, 0.12);
   --btn-primary-bg-active: rgba(255, 234, 0, 0.12);
   --btn-primary-shadow: none;
@@ -608,25 +824,37 @@ html[data-contrast="hc"]
   --orbit-accent: var(--hc-accent);
   --orbit-mobile-accent: var(--hc-accent);
   --orbit-item-glow:
-    0 0 0 1px rgba(255, 234, 0, 0.56),
-    0 0 12px rgba(255, 234, 0, 0.26),
-    0 0 24px rgba(255, 234, 0, 0.16);
+    0 0 14px rgba(255, 234, 0, 0.3),
+    0 0 30px rgba(255, 234, 0, 0.18);
   --orbit-item-glow-strong:
-    0 0 0 1px rgba(255, 234, 0, 0.84),
-    0 0 16px rgba(255, 234, 0, 0.34),
-    0 0 30px rgba(255, 234, 0, 0.22);
+    0 0 20px rgba(255, 234, 0, 0.46),
+    0 0 40px rgba(255, 234, 0, 0.28);
 }
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item {
   color: var(--hc-accent) !important;
-  background: rgba(9, 14, 24, 0.62) !important;
-  border: 1px solid rgba(255, 234, 0, 0.62) !important;
+  background: var(--btn-primary-bg) !important;
+  border: 1px solid transparent !important;
   box-shadow: var(--orbit-item-glow) !important;
   outline: none !important;
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(115%) !important;
   backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(115%) !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item {
+  border-color: transparent !important;
+  border-width: 1px !important;
+  box-shadow:
+    0 0 22px rgba(255, 234, 0, 0.62),
+    0 0 48px rgba(255, 234, 0, 0.42),
+    0 0 82px rgba(255, 234, 0, 0.28),
+    0 12px 20px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.46) !important;
 }
 html[data-contrast="hc"]
   body
@@ -636,8 +864,37 @@ html[data-contrast="hc"]
     :focus-visible,
     :active
   ) {
-  border-color: rgba(255, 234, 0, 0.92) !important;
+  border-color: transparent !important;
   box-shadow: var(--orbit-item-glow-strong) !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(
+    :hover,
+    :focus-visible,
+    :active
+  ) {
+  animation:
+    orbit-item-pulse 0.95s ease-in-out infinite,
+    hc-orbit-glow-pulse 0.95s ease-in-out infinite !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:is(
+    :hover,
+    :focus-visible,
+    :active
+  ) {
+  border-color: transparent !important;
+  box-shadow:
+    0 0 26px rgba(255, 234, 0, 0.72),
+    0 0 58px rgba(255, 234, 0, 0.5),
+    0 0 94px rgba(255, 234, 0, 0.34),
+    0 12px 20px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.46) !important;
 }
 html[data-contrast="hc"]
   body
@@ -654,8 +911,9 @@ html[data-contrast="hc"]
   body
   .profile-orbit-mobile-row.is-active
   .profile-orbit-mobile-action.dock-item {
-  border-color: rgba(255, 234, 0, 0.94) !important;
+  border-color: transparent !important;
   box-shadow: var(--orbit-item-glow-strong) !important;
+  animation: hc-orbit-glow-pulse 1.15s ease-in-out infinite !important;
 }
 html[data-contrast="hc"]
   body
@@ -663,10 +921,14 @@ html[data-contrast="hc"]
   .profile-orbit-menu.is-mobile
   .profile-orbit-menu__center.dock-item {
   border: 1px solid transparent !important;
+  background: var(--btn-primary-bg) !important;
   box-shadow:
-    0 0 14px rgba(255, 234, 0, 0.34),
-    0 0 28px rgba(255, 234, 0, 0.2),
-    0 12px 20px rgba(0, 0, 0, 0.16) !important;
+    0 0 22px rgba(255, 234, 0, 0.62),
+    0 0 48px rgba(255, 234, 0, 0.42),
+    0 0 82px rgba(255, 234, 0, 0.28),
+    0 12px 20px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.46) !important;
 }
 html[data-contrast="hc"]
   body
@@ -678,10 +940,14 @@ html[data-contrast="hc"]
     :active
   ) {
   border: 1px solid transparent !important;
+  background: var(--btn-primary-bg-hover) !important;
   box-shadow:
-    0 0 16px rgba(255, 234, 0, 0.4),
-    0 0 30px rgba(255, 234, 0, 0.24),
-    0 12px 20px rgba(0, 0, 0, 0.16) !important;
+    0 0 26px rgba(255, 234, 0, 0.72),
+    0 0 58px rgba(255, 234, 0, 0.5),
+    0 0 94px rgba(255, 234, 0, 0.34),
+    0 12px 20px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.46) !important;
 }
 html[data-contrast="hc"].profile-orbit-open
   body
@@ -689,15 +955,24 @@ html[data-contrast="hc"].profile-orbit-open
     .profile-orbit-stack-backdrop .profile-orbit-stack-bubble.dock-item,
     .profile-orbit-mobile-backdrop .profile-orbit-mobile-action.dock-item
   ) {
-  box-shadow: none !important;
-  border: 1px solid rgba(255, 234, 0, 0.86) !important;
+  box-shadow: var(--orbit-item-glow) !important;
+  border: 1px solid transparent !important;
 }
 html[data-contrast="hc"].profile-orbit-open
   body
   .profile-orbit-mobile-row.is-active
   .profile-orbit-mobile-action.dock-item {
-  box-shadow: none !important;
-  border: 1px solid rgba(255, 234, 0, 0.94) !important;
+  box-shadow: var(--orbit-item-glow-strong) !important;
+  border: 1px solid transparent !important;
+}
+@keyframes hc-orbit-glow-pulse {
+  0%,
+  100% {
+    box-shadow: var(--orbit-item-glow);
+  }
+  50% {
+    box-shadow: var(--orbit-item-glow-strong);
+  }
 }
 html[data-contrast="hc"]
   body
@@ -752,7 +1027,7 @@ body[data-a11y-scroll-lock="1"] #main {
   pointer-events: none;
 }
 html[data-contrast="hc"] .desc-ring-left .circular-text-line {
-  color: #222;
+  color: #222 !important;
   fill: currentColor;
   stroke: rgba(0, 0, 0, 0.35);
   stroke-width: 1px;
@@ -760,7 +1035,7 @@ html[data-contrast="hc"] .desc-ring-left .circular-text-line {
   text-shadow: none;
 }
 html[data-contrast="hc"] .desc-ring-right .circular-text-line {
-  color: var(--hc-accent);
+  color: var(--hc-accent) !important;
   fill: currentColor;
   stroke: rgba(0, 0, 0, 0.4);
   stroke-width: 1px;
