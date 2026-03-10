@@ -1240,12 +1240,12 @@ export default function ProfiilBody({
                   mobileLogoutArmed ? "!opacity-100 !translate-y-0" : null
                 )}
                 style={{
-                  top: "calc(100% - 0.02rem)",
+                  top: "calc(100% - 0.16rem)",
                   fontSize: "1.42rem",
                   lineHeight: 1,
                   fontWeight: 500,
                   letterSpacing: "0.03em",
-                  marginTop: "-0.08rem"
+                  marginTop: "-0.12rem"
                 }}
               >
                 {t("profile.logout")}
