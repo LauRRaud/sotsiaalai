@@ -670,7 +670,7 @@
 
   html[data-platform="android"] .profile-orbit-stack-fade,
   body[data-platform="android"] .profile-orbit-stack-fade {
-    display: none !important;
+    display: block !important;
   }
 
   html[data-platform="android"] .profile-orbit-stack-item,
@@ -1942,12 +1942,23 @@
   .login-modal-root.login-modal--otp .login-modal-close,
   .login-modal-root.login-modal--otp > button[aria-label] {
     position: absolute !important;
-    top: calc(env(safe-area-inset-top, 0px) + 0.55rem) !important;
-    right: max(0.38rem, env(safe-area-inset-right, 0px)) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.82rem) !important;
+    right: max(0.72rem, calc(env(safe-area-inset-right, 0px) + 0.22rem)) !important;
     left: auto !important;
     margin: 0 !important;
     transform: none !important;
+    width: 2.48rem !important;
+    height: 2.48rem !important;
+    min-width: 2.48rem !important;
+    min-height: 2.48rem !important;
+    border-radius: 0.68rem !important;
     z-index: 12 !important;
+  }
+
+  .login-modal-root.login-modal--otp .modal-close-btn::before,
+  .login-modal-root.login-modal--otp .login-modal-close::before,
+  .login-modal-root.login-modal--otp > button[aria-label]::before {
+    font-size: 2.18rem !important;
   }
 }
 
