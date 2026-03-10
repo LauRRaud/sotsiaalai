@@ -381,7 +381,9 @@ export default function InviteModal() {
             </Button>
           </div>
           {invites.length === 0 ? (
-            <p className="mt-[0.5rem] text-[1.16rem] tracking-[0.02em] opacity-80 max-[768px]:text-[1.22rem] max-[768px]:tracking-[0.024em]">{t("invite.empty")}</p>
+            <p className="mt-[0.5rem] block text-[1.16rem] tracking-[0.02em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-80 light:text-[#1f2937] max-[768px]:text-[1.22rem] max-[768px]:tracking-[0.024em]">
+              {t("invite.empty")}
+            </p>
           ) : (
             <div className="mt-[0.5rem] grid gap-[0.6rem] text-[1.08rem] tracking-[0.016em] max-[768px]:text-[1.14rem] max-[768px]:tracking-[0.02em]">
               <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] text-[0.98rem] uppercase tracking-[0.09em] opacity-70 max-[768px]:hidden">

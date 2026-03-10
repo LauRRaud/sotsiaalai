@@ -415,7 +415,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    height: clamp(3.6rem, 9.5vh, 5.8rem);
+    height: clamp(2.6rem, 6.8vh, 4.1rem);
     z-index: 4;
     pointer-events: none;
     opacity: 0.5;
@@ -460,8 +460,62 @@
       rgba(252, 253, 255, 0) 100%
     );
   }
+  :root.theme-mid .profile-orbit-stack-fade--top {
+    background: linear-gradient(
+      180deg,
+      rgba(252, 248, 247, 0.74) 0%,
+      rgba(252, 248, 247, 0.44) 38%,
+      rgba(252, 248, 247, 0.16) 72%,
+      rgba(252, 248, 247, 0) 100%
+    );
+  }
+  :root.theme-mid .profile-orbit-stack-fade--bottom {
+    background: linear-gradient(
+      0deg,
+      rgba(252, 248, 247, 0.74) 0%,
+      rgba(252, 248, 247, 0.44) 38%,
+      rgba(252, 248, 247, 0.16) 72%,
+      rgba(252, 248, 247, 0) 100%
+    );
+  }
+  :root.theme-night .profile-orbit-stack-fade--top {
+    background: linear-gradient(
+      180deg,
+      rgba(13, 20, 34, 0.76) 0%,
+      rgba(13, 20, 34, 0.46) 38%,
+      rgba(13, 20, 34, 0.18) 72%,
+      rgba(13, 20, 34, 0) 100%
+    );
+  }
+  :root.theme-night .profile-orbit-stack-fade--bottom {
+    background: linear-gradient(
+      0deg,
+      rgba(13, 20, 34, 0.76) 0%,
+      rgba(13, 20, 34, 0.46) 38%,
+      rgba(13, 20, 34, 0.18) 72%,
+      rgba(13, 20, 34, 0) 100%
+    );
+  }
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night) .profile-orbit-stack-fade--top {
+    background: linear-gradient(
+      180deg,
+      rgba(8, 12, 20, 0.68) 0%,
+      rgba(8, 12, 20, 0.38) 38%,
+      rgba(8, 12, 20, 0.14) 72%,
+      rgba(8, 12, 20, 0) 100%
+    );
+  }
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night) .profile-orbit-stack-fade--bottom {
+    background: linear-gradient(
+      0deg,
+      rgba(8, 12, 20, 0.68) 0%,
+      rgba(8, 12, 20, 0.38) 38%,
+      rgba(8, 12, 20, 0.14) 72%,
+      rgba(8, 12, 20, 0) 100%
+    );
+  }
   .profile-orbit-stack-list {
-    --stack-edge-fade: clamp(2.1rem, 7.5vh, 4.1rem);
+    --stack-edge-fade: clamp(1.45rem, 5.2vh, 2.9rem);
     --stack-safe-pad-top: calc(
       var(--stack-edge-fade) + clamp(0.7rem, 2vh, 1.15rem)
     );
