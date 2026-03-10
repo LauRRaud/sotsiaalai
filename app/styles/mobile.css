@@ -54,6 +54,20 @@
   .sb-grain {
     display: none !important;
   }
+  [data-bg-layer] {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    width: 100vw;
+    height: 100lvh;
+    overflow: hidden;
+  }
+  [data-bg-layer] .bg-bends-layer {
+    inset: 0 auto auto 0 !important;
+    width: 100%;
+    height: 100%;
+  }
   [data-bg-layer] .bg-space-layer,
   [data-bg-layer] .bg-bends-layer,
   [data-bg-layer] .bg-particles-layer {
@@ -343,7 +357,7 @@
     --profile-orbit-center-offset-y: clamp(-1.08rem, -4.2vw, -0.62rem);
     transform: translateY(var(--profile-orbit-center-offset-y)) translateZ(0) scale(1) !important;
     transform-origin: center center !important;
-    animation: profile-orbit-mobile-hub-pulse 4.4s ease-in-out infinite !important;
+    animation: none !important;
     will-change: transform !important;
   }
 
@@ -351,7 +365,7 @@
     .profile-orbit-menu:not(.is-open)
     .profile-orbit-menu__center {
     transform: translateZ(0) scale(1) !important;
-    animation: none !important;
+    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
     will-change: transform !important;
   }
 
@@ -448,6 +462,12 @@
   }
   .profile-orbit-stack-list {
     --stack-edge-fade: clamp(2.1rem, 7.5vh, 4.1rem);
+    --stack-safe-pad-top: calc(
+      var(--stack-edge-fade) + clamp(0.7rem, 2vh, 1.15rem)
+    );
+    --stack-safe-pad-bottom: calc(
+      var(--stack-edge-fade) + clamp(0.7rem, 2vh, 1.15rem)
+    );
     position: relative;
     z-index: 2;
     flex: 1;
@@ -456,14 +476,14 @@
     overflow-y: auto;
     overscroll-behavior-y: contain;
     scroll-behavior: auto;
-    padding-bottom: clamp(0.3rem, 1.6vh, 0.75rem);
-    padding-top: clamp(0.3rem, 1.6vh, 0.75rem);
+    padding-top: var(--stack-safe-pad-top);
+    padding-bottom: var(--stack-safe-pad-bottom);
     gap: clamp(1.75rem, 4vh, 2.8rem) !important;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: none;
-    scroll-padding-top: var(--stack-pad, 0px);
-    scroll-padding-bottom: var(--stack-pad, 0px);
+    scroll-padding-top: var(--stack-safe-pad-top);
+    scroll-padding-bottom: var(--stack-safe-pad-bottom);
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0%,
@@ -788,7 +808,7 @@
     --profile-orbit-center-offset-y: clamp(-1.08rem, -4.2vw, -0.62rem);
     transform: translateY(var(--profile-orbit-center-offset-y)) translateZ(0) scale(1) !important;
     transform-origin: center center !important;
-    animation: profile-orbit-mobile-hub-pulse 4.4s ease-in-out infinite !important;
+    animation: none !important;
     will-change: transform !important;
   }
 
@@ -797,7 +817,7 @@
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center {
     transform: translateZ(0) scale(1) !important;
-    animation: none !important;
+    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
     will-change: transform !important;
   }
 
@@ -859,14 +879,14 @@
     --profile-orbit-center-offset-y: clamp(-1.18rem, -4.6vw, -0.72rem);
     transform: translateY(var(--profile-orbit-center-offset-y)) translateZ(0) scale(1) !important;
     transform-origin: center center !important;
-    animation: profile-orbit-mobile-hub-pulse 4.4s ease-in-out infinite !important;
+    animation: none !important;
     will-change: transform !important;
   }
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center {
     transform: translateZ(0) scale(1) !important;
-    animation: none !important;
+    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
     will-change: transform !important;
   }
 

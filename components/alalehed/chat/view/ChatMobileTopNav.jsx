@@ -230,12 +230,12 @@ export default function ChatMobileTopNav({
     ? {
         left: "calc(env(safe-area-inset-left,0px) + 3.26rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.16rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.16rem)"
+        top: "calc(env(safe-area-inset-top,0px) - 0.08rem)"
       }
     : {
         left: "calc(env(safe-area-inset-left,0px) + 3.68rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.34rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.32rem)"
+        top: "calc(env(safe-area-inset-top,0px) + 0.08rem)"
       };
 
   const sourcesLabel = t("chat.sources.button").replace(
@@ -700,10 +700,11 @@ export default function ChatMobileTopNav({
         <div
           ref={swipeSurfaceRef}
           className="relative h-[8.6rem] overflow-visible"
+          style={{ touchAction: "pan-x" }}
         >
           <div
             className="absolute inset-x-[-0.8rem] top-0 bottom-0 z-[20]"
-            style={{ touchAction: "pan-y" }}
+            style={{ touchAction: "pan-x" }}
             onPointerDown={event => {
               if (event.pointerType === "touch") {
                 return;
