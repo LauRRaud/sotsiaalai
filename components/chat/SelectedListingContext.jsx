@@ -2,13 +2,12 @@
 
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
-import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
 
@@ -132,14 +131,13 @@ export default function SelectedListingContext({
           <div className="mt-[0.7rem] text-[0.82rem] uppercase tracking-[0.12em] text-[color:var(--title-color,var(--brand-primary))] opacity-76 max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)]">
             {isOwn ? ui.ownListing : ui.selectedListing}
           </div>
-          <AutoFitPageTitle
-            as="h2"
-            className={`selected-listing-title subpage-mobile-title subpage-mobile-title--static ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} !mb-0 min-[769px]:!mt-[0.5rem]`}
-            minFontPx={18}
-            disableFit
-          >
-            {loading ? ui.loading : listing?.title || ui.selectedListing}
-          </AutoFitPageTitle>
+          <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+            <h2
+              className={`selected-listing-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} max-[768px]:!mt-0 max-[768px]:!mb-0 min-[769px]:!mt-[0.5rem]`}
+            >
+              {loading ? ui.loading : listing?.title || ui.selectedListing}
+            </h2>
+          </div>
           {listing?.municipalityLabel || listing?.statusLabel ? (
             <p className="mt-[0.82rem] text-[1.08rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:text-[1.12rem]">
               {[listing?.municipalityLabel, listing?.statusLabel].filter(Boolean).join(" | ")}

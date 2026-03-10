@@ -179,7 +179,7 @@ export default async function RootLayout({
   try {
     messages = (await MESSAGES[locale]()).default ?? {};
   } catch {}
-  const session = await getServerSession(authConfig);
+  const session = await getServerSession(authConfig).catch(() => null);
   const initialA11yPrefs = parseA11yPrefs(jar);
   const initialUiProfile = normalizeUiProfile(initialA11yPrefs?.uiProfile);
   const initialTextScale = normalizeTextScale(initialA11yPrefs?.uiScale);

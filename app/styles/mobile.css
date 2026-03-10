@@ -336,6 +336,34 @@
     pointer-events: none;
     transform: scale(0.7);
   }
+
+  .profile-container.glass-ring
+    .profile-orbit-menu:not(.is-open)
+    .profile-orbit-menu__center-shell {
+    --profile-orbit-center-offset-y: clamp(-1.08rem, -4.2vw, -0.62rem);
+    transform: translateY(var(--profile-orbit-center-offset-y)) translateZ(0) !important;
+    transform-origin: center center !important;
+    animation: none !important;
+    will-change: transform !important;
+  }
+
+  .profile-container.glass-ring
+    .profile-orbit-menu:not(.is-open)
+    .profile-orbit-menu__center {
+    transform: translateZ(0) scale(1) !important;
+    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
+    will-change: transform !important;
+  }
+
+  .profile-container.glass-ring
+    .profile-orbit-menu:not(.is-open)
+    .profile-orbit-menu__center::before,
+  .profile-container.glass-ring
+    .profile-orbit-menu:not(.is-open)
+    .profile-orbit-menu__hub-icon {
+    animation: none !important;
+  }
+
   .profile-orbit-stack-backdrop {
     background: transparent;
     align-items: center;
@@ -433,7 +461,7 @@
     gap: clamp(1.75rem, 4vh, 2.8rem) !important;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: y proximity;
+    scroll-snap-type: none;
     scroll-padding-top: var(--stack-pad, 0px);
     scroll-padding-bottom: var(--stack-pad, 0px);
     -webkit-mask-image: linear-gradient(
@@ -472,11 +500,6 @@
   .profile-orbit-stack-item {
     opacity: 0.9;
     transition: opacity 120ms ease;
-    scroll-snap-align: center;
-    scroll-snap-stop: normal;
-  }
-  .profile-orbit-stack-item.is-focus {
-    opacity: 1;
   }
   .profile-orbit-stack-bubble.dock-item {
     width: clamp(6.6rem, 27.5vw, 8.6rem);
@@ -485,9 +508,6 @@
     display: grid;
     place-items: center;
     transition: transform 180ms ease;
-  }
-  .profile-orbit-stack-item.is-focus .profile-orbit-stack-bubble {
-    transform: scale(1.03);
   }
   .profile-orbit-stack-bubble .dock-icon {
     width: 100%;
@@ -761,38 +781,40 @@
     transform: none !important;
   }
 
-  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
-  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
-  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
-  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center {
-    transform: translateY(clamp(-1.08rem, -4.2vw, -0.62rem)) translateZ(0) scale(1) !important;
-  }
-
-  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before,
-  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before,
-  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before,
-  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before {
-    content: "" !important;
-    position: absolute !important;
-    inset: 0 !important;
-    border-radius: inherit !important;
-    background: inherit !important;
-    box-shadow: inherit !important;
-    opacity: 0.96 !important;
-    pointer-events: none !important;
-    z-index: 0 !important;
-    transform-origin: center !important;
-    will-change: transform, opacity !important;
-    animation: profile-orbit-mobile-button-breathe 4.4s ease-in-out infinite !important;
-  }
-
-  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon,
-  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon,
-  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon,
-  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon {
-    animation: profile-orbit-mobile-hub-breathe 4.4s ease-in-out infinite !important;
-    transform-origin: center !important;
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
+  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
+  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell {
+    --profile-orbit-center-offset-y: clamp(-1.08rem, -4.2vw, -0.62rem);
+    transform: translateY(var(--profile-orbit-center-offset-y)) translateZ(0) !important;
+    transform-origin: center center !important;
+    animation: none !important;
     will-change: transform !important;
+  }
+
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
+  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
+  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center {
+    transform: translateZ(0) scale(1) !important;
+    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
+    will-change: transform !important;
+  }
+
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center::before,
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center::before,
+  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center::before,
+  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center::before {
+    animation: none !important;
+  }
+
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__hub-icon,
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__hub-icon,
+  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__hub-icon,
+  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__hub-icon {
+    animation: none !important;
+    transform-origin: center !important;
+    will-change: auto !important;
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
@@ -832,32 +854,32 @@
     transform: none !important;
   }
 
-  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
-  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center {
-    transform: translateY(clamp(-1.18rem, -4.6vw, -0.72rem)) translateZ(0) scale(1) !important;
-  }
-
-  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before,
-  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center::before {
-    content: "" !important;
-    position: absolute !important;
-    inset: 0 !important;
-    border-radius: inherit !important;
-    background: inherit !important;
-    box-shadow: inherit !important;
-    opacity: 0.96 !important;
-    pointer-events: none !important;
-    z-index: 0 !important;
-    transform-origin: center !important;
-    will-change: transform, opacity !important;
-    animation: profile-orbit-mobile-button-breathe 4.4s ease-in-out infinite !important;
-  }
-
-  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon,
-  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__hub-icon {
-    animation: profile-orbit-mobile-hub-breathe 4.4s ease-in-out infinite !important;
-    transform-origin: center !important;
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell {
+    --profile-orbit-center-offset-y: clamp(-1.18rem, -4.6vw, -0.72rem);
+    transform: translateY(var(--profile-orbit-center-offset-y)) translateZ(0) !important;
+    transform-origin: center center !important;
+    animation: none !important;
     will-change: transform !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center {
+    transform: translateZ(0) scale(1) !important;
+    animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
+    will-change: transform !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center::before,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center::before {
+    animation: none !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__hub-icon,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__hub-icon {
+    animation: none !important;
+    transform-origin: center !important;
+    will-change: auto !important;
   }
 
   html[data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
@@ -1880,37 +1902,12 @@
 
 }
 
-@keyframes profile-orbit-mobile-hub-breathe {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.93);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes profile-orbit-mobile-button-breathe {
-  0% {
-    transform: scale(1);
-    opacity: 0.96;
-  }
-  50% {
-    transform: scale(0.955);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.96;
-  }
-}
-
-html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu.is-mobile .profile-orbit-menu__hub-icon,
-body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu.is-mobile .profile-orbit-menu__hub-icon,
-html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu.is-mobile .profile-orbit-menu__center::before,
-body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu.is-mobile .profile-orbit-menu__center::before {
+html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
+body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
+html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center,
+body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center,
+html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center::before,
+body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center::before {
   animation: none !important;
 }
 

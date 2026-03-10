@@ -146,8 +146,12 @@ export default function ChatMobileTopNav({
     pointerId: null,
     touchId: null,
     startX: 0,
+    startY: 0,
     currentX: 0,
-    moved: false
+    currentY: 0,
+    moved: false,
+    gestureAxis: null,
+    cancelTap: false
   });
 
   const [focusedIndex, setFocusedIndex] = useState(getItemIndex(DEFAULT_FOCUSED_KEY));
@@ -226,12 +230,12 @@ export default function ChatMobileTopNav({
     ? {
         left: "calc(env(safe-area-inset-left,0px) + 3.26rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.16rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.18rem)"
+        top: "calc(env(safe-area-inset-top,0px) - 0.08rem)"
       }
     : {
         left: "calc(env(safe-area-inset-left,0px) + 3.68rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.34rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.3rem)"
+        top: "calc(env(safe-area-inset-top,0px) + 0.06rem)"
       };
 
   const sourcesLabel = t("chat.sources.button").replace(
@@ -449,29 +453,67 @@ export default function ChatMobileTopNav({
     setIsDragging(false);
   }, [maxSwipeSteps, setFocusedIndexImmediate, slotStepPx, swipeThresholdPx]);
 
-  const beginSwipe = useCallback(clientX => {
-    dragStateRef.current.startX = clientX;
-    dragStateRef.current.currentX = clientX;
+  const resetSwipeState = useCallback(() => {
+    dragStateRef.current.pointerId = null;
+    dragStateRef.current.touchId = null;
     dragStateRef.current.moved = false;
+    dragStateRef.current.gestureAxis = null;
+    dragStateRef.current.cancelTap = false;
     setDragOffsetPx(0);
     setIsDragging(false);
   }, []);
 
-  const moveSwipe = useCallback((clientX, event) => {
-    const deltaX = clientX - dragStateRef.current.startX;
+  const beginSwipe = useCallback((clientX, clientY) => {
+    dragStateRef.current.startX = clientX;
+    dragStateRef.current.startY = clientY;
     dragStateRef.current.currentX = clientX;
-    if (Math.abs(deltaX) > dragEngageThreshold) {
-      dragStateRef.current.moved = true;
-      setIsDragging(true);
+    dragStateRef.current.currentY = clientY;
+    dragStateRef.current.moved = false;
+    dragStateRef.current.gestureAxis = null;
+    dragStateRef.current.cancelTap = false;
+    setDragOffsetPx(0);
+    setIsDragging(false);
+  }, []);
+
+  const moveSwipe = useCallback((clientX, clientY, event) => {
+    const deltaX = clientX - dragStateRef.current.startX;
+    const deltaY = clientY - dragStateRef.current.startY;
+    dragStateRef.current.currentX = clientX;
+    dragStateRef.current.currentY = clientY;
+
+    const absDeltaX = Math.abs(deltaX);
+    const absDeltaY = Math.abs(deltaY);
+
+    if (!dragStateRef.current.gestureAxis) {
+      const crossedX = absDeltaX > dragEngageThreshold;
+      const crossedY = absDeltaY > dragEngageThreshold;
+
+      if (!crossedX && !crossedY) {
+        return;
+      }
+
+      if (crossedY && absDeltaY > absDeltaX * 1.12) {
+        dragStateRef.current.gestureAxis = "y";
+        dragStateRef.current.cancelTap = true;
+        setDragOffsetPx(0);
+        setIsDragging(false);
+        return;
+      }
+
+      dragStateRef.current.gestureAxis = "x";
     }
+
+    if (dragStateRef.current.gestureAxis !== "x") {
+      return;
+    }
+
+    dragStateRef.current.moved = true;
+    setIsDragging(true);
     setDragOffsetPx(
       Math.max(-dragClampPx, Math.min(dragClampPx, deltaX * dragDamping))
     );
-    if (
-      dragStateRef.current.moved &&
-      event?.cancelable &&
-      !String(event?.type || "").startsWith("touch")
-    ) {
+
+    if (event?.cancelable) {
       event.preventDefault();
     }
   }, [dragClampPx, dragDamping, dragEngageThreshold]);
@@ -479,19 +521,20 @@ export default function ChatMobileTopNav({
   const finishSwipe = useCallback(
     (clientX, event) => {
       dragStateRef.current.currentX = clientX;
+      if (dragStateRef.current.cancelTap || dragStateRef.current.gestureAxis === "y") {
+        resetSwipeState();
+        return;
+      }
       if (dragStateRef.current.moved) {
         suppressClickUntilRef.current =
           typeof performance !== "undefined" ? performance.now() + 260 : Date.now() + 260;
         handleTrackPointerEnd();
         return;
       }
-      dragStateRef.current.pointerId = null;
-      dragStateRef.current.touchId = null;
-      setDragOffsetPx(0);
-      setIsDragging(false);
+      resetSwipeState();
       activateIndex(getClosestVisibleIndex(clientX), event);
     },
-    [activateIndex, getClosestVisibleIndex, handleTrackPointerEnd]
+    [activateIndex, getClosestVisibleIndex, handleTrackPointerEnd, resetSwipeState]
   );
 
   const focusedItem = MOBILE_NAV_ITEMS[focusedIndex] || MOBILE_NAV_ITEMS[0];
@@ -660,48 +703,56 @@ export default function ChatMobileTopNav({
         >
           <div
             className="absolute inset-x-[-0.8rem] top-0 bottom-0 z-[20]"
-            style={{ touchAction: "none" }}
+            style={{ touchAction: "pan-y" }}
             onPointerDown={event => {
+              if (event.pointerType === "touch") {
+                return;
+              }
               if (event.pointerType === "mouse" && event.button !== 0) {
                 return;
               }
               swipeSurfaceRef.current?.setPointerCapture?.(event.pointerId);
               dragStateRef.current.pointerId = event.pointerId;
-              beginSwipe(event.clientX);
+              beginSwipe(event.clientX, event.clientY);
             }}
             onPointerMove={event => {
+              if (event.pointerType === "touch") {
+                return;
+              }
               const pointerId = dragStateRef.current.pointerId;
               if (pointerId == null || event.pointerId !== pointerId) return;
-              moveSwipe(event.clientX, event);
+              moveSwipe(event.clientX, event.clientY, event);
             }}
             onPointerUp={event => {
+              if (event.pointerType === "touch") {
+                return;
+              }
               const pointerId = dragStateRef.current.pointerId;
               if (pointerId == null || event.pointerId !== pointerId) return;
               swipeSurfaceRef.current?.releasePointerCapture?.(event.pointerId);
               finishSwipe(event.clientX, event);
             }}
             onPointerCancel={event => {
+              if (event.pointerType === "touch") {
+                return;
+              }
               const pointerId = dragStateRef.current.pointerId;
               if (pointerId == null || event.pointerId !== pointerId) return;
               swipeSurfaceRef.current?.releasePointerCapture?.(event.pointerId);
-              dragStateRef.current.pointerId = null;
-              dragStateRef.current.touchId = null;
-              dragStateRef.current.moved = false;
-              setDragOffsetPx(0);
-              setIsDragging(false);
+              resetSwipeState();
             }}
             onTouchStart={event => {
               const touch = event.changedTouches?.[0];
               if (!touch) return;
               dragStateRef.current.touchId = touch.identifier;
-              beginSwipe(touch.clientX);
+              beginSwipe(touch.clientX, touch.clientY);
             }}
             onTouchMove={event => {
               const touchId = dragStateRef.current.touchId;
               if (touchId == null) return;
               const touch = Array.from(event.touches).find(currentTouch => currentTouch.identifier === touchId);
               if (!touch) return;
-              moveSwipe(touch.clientX, event);
+              moveSwipe(touch.clientX, touch.clientY, event);
             }}
             onTouchEnd={event => {
               const touchId = dragStateRef.current.touchId;
@@ -713,15 +764,11 @@ export default function ChatMobileTopNav({
               finishSwipe(touch.clientX, event);
             }}
             onTouchCancel={() => {
-              dragStateRef.current.pointerId = null;
-              dragStateRef.current.touchId = null;
-              dragStateRef.current.moved = false;
-              setDragOffsetPx(0);
-              setIsDragging(false);
+              resetSwipeState();
             }}
           />
 
-          <div className="relative h-[5.18rem] overflow-hidden">
+          <div className="relative h-[4.86rem] overflow-hidden">
             {visibleItems.map(({ item, index, slot }) => {
               const visualSlot = slot + dragProgress;
               const visualDistance = Math.abs(visualSlot);
@@ -732,7 +779,7 @@ export default function ChatMobileTopNav({
                 <div
                   key={item.key}
                   className={cn(
-                    "absolute left-1/2 top-[0.98rem] z-[1] -translate-x-1/2 transition-[transform,opacity] duration-200 ease-out",
+                    "absolute left-1/2 top-[0.72rem] z-[1] -translate-x-1/2 transition-[transform,opacity] duration-200 ease-out",
                     isDragging ? "duration-0" : null
                   )}
                   style={{
@@ -748,7 +795,7 @@ export default function ChatMobileTopNav({
           </div>
 
           <div
-            className="pointer-events-none absolute inset-x-0 top-[4.92rem] flex justify-center px-[0.45rem] text-center"
+            className="pointer-events-none absolute inset-x-0 top-[4.16rem] flex justify-center px-[0.45rem] text-center"
             style={{ transform: `translateX(${centerOffsetRem}rem)` }}
           >
             <span className="max-w-[14rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.42rem,5.9vw,1.68rem)] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38]">

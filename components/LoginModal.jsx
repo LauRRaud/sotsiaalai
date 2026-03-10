@@ -315,10 +315,28 @@ export default function LoginModal({
     if (typeof document === "undefined" || !open) return;
     const main = document.getElementById("main");
     const bg = document.querySelector("[data-bg-layer]");
+    const modal = boxRef.current;
     const prevMainAriaHidden = main?.getAttribute("aria-hidden") ?? null;
     const prevMainInert = main ? Boolean(main.inert) : false;
     const prevBgAriaHidden = bg?.getAttribute("aria-hidden") ?? null;
     if (main) {
+      const active = document.activeElement;
+      if (active instanceof HTMLElement && main.contains(active) && modal instanceof HTMLElement) {
+        try {
+          modal.focus({
+            preventScroll: true
+          });
+        } catch {
+          try {
+            modal.focus();
+          } catch {}
+        }
+        if (document.activeElement === active) {
+          try {
+            active.blur();
+          } catch {}
+        }
+      }
       main.setAttribute("aria-hidden", "true");
       main.inert = true;
     }

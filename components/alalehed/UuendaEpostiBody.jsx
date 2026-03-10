@@ -11,13 +11,14 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
-import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} subpage-mobile-title subpage-mobile-title--static`;
+  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0`;
+const mobileTitleWrapClassName =
+  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName = "mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-4";
 const inputClassName = "w-full max-w-[22rem]";
@@ -162,9 +163,11 @@ export default function UuendaEpostiBody() {
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
-        <AutoFitPageTitle className={titleClassName} minFontPx={18} disableFit>
-          {t("profile.email_update.title")}
-        </AutoFitPageTitle>
+        <div className={mobileTitleWrapClassName}>
+          <h1 className={titleClassName}>
+            {t("profile.email_update.title")}
+          </h1>
+        </div>
         <div className={contentClassName}>
           {unauthenticated ? <div className="flex w-full flex-col items-center gap-6 text-center">
               <p className="text-[color:#fca5a5]">

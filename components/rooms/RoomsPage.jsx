@@ -10,7 +10,6 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import InviteModal from "@/components/invite/InviteModal";
-import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
@@ -30,7 +29,9 @@ const ringClassName =
   `max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] ` +
   `max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]`;
 const titleClassName =
-  `rooms-page-title subpage-mobile-title subpage-mobile-title--static ${glassPageTitleClassName} w-full max-w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
+  `rooms-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
+const mobileTitleWrapClassName =
+  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(0.95rem,2.8vh,1.55rem)]";
 const scrollAreaClassName =
   "rooms-scroll relative flex-1 w-full max-w-[clamp(18.2rem,37vw,23.2rem)] min-[769px]:max-w-[clamp(18rem,35vw,22.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.62rem] min-[769px]:px-[0.95rem] text-left csp-container mx-auto";
@@ -465,13 +466,23 @@ export default function RoomsPage() {
             className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`}
           />
 
+          <div className="max-[768px]:w-full min-[769px]:hidden">
+            <div className={mobileTitleWrapClassName}>
+              <h1 className={titleClassName}>
+                {t("rooms.title")}
+              </h1>
+            </div>
+          </div>
+
           <div
-            className="csp-overlayTitle rooms-page-title-wrap [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
+            className="csp-overlayTitle rooms-page-title-wrap hidden min-[769px]:block [--csp-title-top:2.35rem]"
             aria-hidden="true"
           >
-            <AutoFitPageTitle className={titleClassName} minFontPx={18} disableFit>
-              {t("rooms.title")}
-            </AutoFitPageTitle>
+            <div className={mobileTitleWrapClassName}>
+              <h1 className={titleClassName}>
+                {t("rooms.title")}
+              </h1>
+            </div>
           </div>
 
           <div

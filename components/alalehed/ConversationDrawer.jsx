@@ -237,7 +237,8 @@ export default function ConversationDrawer({
     open ? "open" : null
   );
   const headerClassName =
-    "drawer-header relative flex items-center justify-center px-[1.2rem] pt-[0.66rem] pb-[0.42rem] border-b-0";
+    "drawer-header relative flex items-center justify-center px-[1.2rem] pt-[0.66rem] pb-[0.42rem] border-b-0 " +
+    "max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+1.85rem)]";
   const closeButtonClassName =
     "drawer-close drawer-close-btn--chat absolute top-[0.08rem] right-[0.18rem] z-[6] " +
     "!p-0 !w-[2.7rem] !h-[2.7rem] !rounded-full !border-0 !bg-transparent !shadow-none " +

@@ -64,7 +64,6 @@ export default function OrbitalMenu({
   const [stackPad, setStackPad] = useState(0);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
-  const [stackFocusIndex, setStackFocusIndex] = useState(null);
   const closeMenu = useCallback(() => {
     setIsPinnedOpen(false);
     requestAnimationFrame(() => {
@@ -214,11 +213,7 @@ export default function OrbitalMenu({
     const hubEl = hubBtnRef.current;
     const closeEl = overlayCloseBtnRef.current;
     const raf = requestAnimationFrame(() => {
-      if (useMobileStack) {
-        stackItemRefs.current?.[0]?.focus?.();
-      } else {
-        closeEl?.focus?.();
-      }
+      closeEl?.focus?.();
     });
     return () => {
       cancelAnimationFrame(raf);
@@ -408,78 +403,19 @@ export default function OrbitalMenu({
     if (!isOpen || !useMobileStack) return;
     const listEl = stackListRef.current;
     if (!listEl) return;
-    const snapToStackIndex = (idx, smooth = true) => {
-      const refs = stackItemRefs.current || [];
-      const maxIdx = Math.max(0, refs.length - 1);
-      const clampedIdx = clamp(idx, 0, maxIdx);
-      const target = refs[clampedIdx];
-      if (!target) return;
-      target.scrollIntoView?.({
-        block: "center",
-        behavior: smooth && !prefersReducedMotion ? "smooth" : "auto"
-      });
-    };
-    const computeActive = () => {
-      const listRect = listEl.getBoundingClientRect();
-      const centerY = listRect.top + listRect.height / 2;
-      const refs = stackItemRefs.current || [];
-      let bestIdx = null;
-      let bestDist = Number.POSITIVE_INFINITY;
-      for (let i = 0; i < refs.length; i += 1) {
-        const el = refs[i];
-        if (!el) continue;
-        const r = el.getBoundingClientRect();
-        const cy = r.top + r.height / 2;
-        const dist = Math.abs(cy - centerY);
-        if (dist < bestDist) {
-          bestDist = dist;
-          bestIdx = i;
-        }
-      }
-      setStackFocusIndex(bestIdx);
-      return bestIdx;
-    };
-    const scheduleStackSettle = () => {
-      if (stackSettleTimerRef.current) {
-        window.clearTimeout(stackSettleTimerRef.current);
-      }
-      stackSettleTimerRef.current = window.setTimeout(() => {
-        const idx = computeActive();
-        if (idx == null) return;
-        snapToStackIndex(idx, true);
-      }, prefersReducedMotion ? 0 : 140);
-    };
     const computePad = () => {
-      const first = stackItemRefs.current?.[0];
-      if (!first) return;
-      const listH = listEl.clientHeight || 0;
-      const itemH = first.offsetHeight || 0;
-      if (!listH || !itemH) return;
-      const pad = Math.max(0, Math.floor((listH - itemH) / 2) + 8);
-      setStackPad(pad);
+      setStackPad(0);
     };
     computePad();
-    setStackFocusIndex(0);
-    snapToStackIndex(0, false);
-    const onScroll = () => {
-      computeActive();
-      scheduleStackSettle();
-    };
-    listEl.addEventListener("scroll", onScroll, { passive: true });
     const onResize = () => {
-      computeActive();
-      scheduleStackSettle();
+      computePad();
     };
     window.addEventListener("resize", onResize);
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
-      computeActive();
       computePad();
-      scheduleStackSettle();
     }) : null;
     ro?.observe(listEl);
-    scheduleStackSettle();
     return () => {
-      listEl.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       if (stackSettleTimerRef.current) {
         window.clearTimeout(stackSettleTimerRef.current);
@@ -487,7 +423,7 @@ export default function OrbitalMenu({
       }
       ro?.disconnect?.();
     };
-  }, [isOpen, prefersReducedMotion, useMobileStack]);
+  }, [isOpen, useMobileStack]);
   useEffect(() => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -563,11 +499,13 @@ export default function OrbitalMenu({
         </div>}
 
       {}
-      <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[5] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [animation:profile-orbit-hub-pulse_4.4s_ease-in-out_infinite] [will-change:transform]" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
-        <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
-          <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
-        </span>
-      </button>
+      <div className="profile-orbit-menu__center-shell relative grid place-items-center w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full overflow-visible z-[5]">
+        <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [animation:profile-orbit-hub-pulse_4.4s_ease-in-out_infinite] [will-change:transform]" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
+          <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
+            <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
+          </span>
+        </button>
+      </div>
 
       {}
       {useMobileOverlay && isOpen && <div className="invite-modal-backdrop profile-orbit-mobile-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
@@ -638,10 +576,9 @@ export default function OrbitalMenu({
           "--stack-pad": `${stackPad}px`
         }}>
               {stackItems.map((item, index) => {
-            const isFocus = stackFocusIndex === index;
             return <button key={item.key || index} ref={el => {
               stackItemRefs.current[index] = el;
-            }} type="button" data-key={item.key || undefined} className={`profile-orbit-stack-item${isFocus ? " is-focus" : ""}`} onClick={() => onMobileAction(item)} aria-label={item.label}>
+            }} type="button" data-key={item.key || undefined} className="profile-orbit-stack-item" onClick={() => onMobileAction(item)} aria-label={item.label}>
                   <span className="profile-orbit-stack-bubble dock-item" aria-hidden="true">
                     <span className="dock-icon">
                       {item.icon}

@@ -29,6 +29,17 @@ function computeBaseUrl() {
 }
 const APP_BASE_URL = computeBaseUrl();
 const ALLOW_DIRECT_PIN_LOGIN = isDirectPinLoginAllowed();
+function isIgnorableJwtDecryptError(code, metadata) {
+  if (code !== "JWT_SESSION_ERROR") return false;
+  const candidates = [
+    metadata?.error?.message,
+    metadata?.error?.cause?.message,
+    metadata?.message
+  ];
+  return candidates.some(value =>
+    /decryption operation failed/i.test(String(value || ""))
+  );
+}
 function toInternalDestination(targetUrl, runtimeBaseUrl = APP_BASE_URL) {
   const effectiveBaseUrl = normalizeBaseUrl(runtimeBaseUrl) || APP_BASE_URL;
   try {
@@ -46,6 +57,12 @@ export const authConfig = {
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt"
+  },
+  logger: {
+    error(code, metadata) {
+      if (isIgnorableJwtDecryptError(code, metadata)) return;
+      console.error(`[next-auth][error][${code}]`, metadata ?? {});
+    }
   },
   providers: [CredentialsProvider({
     id: "credentials",

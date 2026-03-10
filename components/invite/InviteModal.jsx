@@ -4,13 +4,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
-import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
-import { glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageTitleClassName, glassPageTitleMobileHeaderClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 function parseEmails(raw) {
@@ -59,7 +58,7 @@ export default function InviteModal() {
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
   const inviteModalTitleClassName =
-    `invite-modal-title subpage-mobile-title subpage-mobile-title--static ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} w-full`;
+    `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
     "invite-modal-scroll mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]";
   const inviteFormClassName = "grid gap-[1rem] max-[768px]:gap-[0.95rem]";
@@ -309,9 +308,11 @@ export default function InviteModal() {
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay person-invite-modal-overlay max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName={inviteModalContentClassName}>
       <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className={glassPageBackTopLeftClassName} />
       <header className="invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
-        <AutoFitPageTitle as="h2" className={inviteModalTitleClassName} minFontPx={18} disableFit>
-          {t("invite.eyebrow")}
-        </AutoFitPageTitle>
+        <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+          <h2 className={inviteModalTitleClassName}>
+            {t("invite.eyebrow")}
+          </h2>
+        </div>
       </header>
 
       <div className={inviteModalBodyClassName}>

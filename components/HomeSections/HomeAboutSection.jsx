@@ -13,7 +13,7 @@ import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 
 const homeCircleLinkClassName =
-  "home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.28rem,1.95vw,1.5rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]";
+  "home-link inline-flex w-fit max-w-full items-center justify-center text-[clamp(1.28rem,1.95vw,1.5rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]";
 
 export default function HomeAboutSection({ id = "meist", className, showAdminLinks = false }) {
   const router = useRouter();
@@ -42,6 +42,16 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     "home-link inline-flex items-center justify-center text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
     linkBrandInlineClass
   );
+  const isRussianLocale = locale === "ru";
+  const homeCircleItemClassName = cn(
+    "w-fit flex-none"
+  );
+  const homeCircleLinkResponsiveClassName = cn(
+    homeCircleLinkClassName,
+    "max-[768px]:max-w-[min(72vw,19.5rem)] max-[768px]:whitespace-nowrap",
+    isRussianLocale &&
+      "max-[768px]:max-w-[min(80vw,23rem)] max-[768px]:text-[clamp(0.96rem,3.9vw,1.18rem)] max-[768px]:leading-[1.08] max-[768px]:tracking-[0.004em]"
+  );
 
   useEffect(() => {
     const cardEl = beforeCardRef.current;
@@ -64,7 +74,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       const neededHeight = contentRect.height + padY;
       const neededSize = Math.ceil(Math.max(neededWidth, neededHeight));
       const minSize = 300;
-      const maxSize = Math.floor(window.innerWidth * 0.9);
+      const maxSize = Math.floor(
+        window.innerWidth * (isRussianLocale ? 0.96 : 0.9)
+      );
       const nextSize = Math.max(minSize, Math.min(maxSize, neededSize));
       setBeforeDiameter((prev) => (prev === nextSize ? prev : nextSize));
     };
@@ -79,7 +91,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       ro?.disconnect?.();
       window.removeEventListener("resize", updateSize);
     };
-  }, [showAdminLinks]);
+  }, [isRussianLocale, showAdminLinks]);
 
   useEffect(() => {
     const scrollEl = aboutScrollRef.current;
@@ -207,72 +219,54 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             <p className="m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
             </p>
-            <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem]">
-              <li className="w-fit flex-none">
+            <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem] max-[768px]:gap-y-[0.54rem]">
+              <li className={homeCircleItemClassName}>
                 <AppLink
                   href="/kasutusjuhend"
                   onClick={(event) => openGlassPage(event, "/kasutusjuhend")}
-                  className={cn(
-                    homeCircleLinkClassName,
-                    linkBrandInlineClass
-                  )}
+                  className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
                 >
                   {t("about.guide.jump_link")}
                 </AppLink>
               </li>
-              <li className="w-fit flex-none">
+              <li className={homeCircleItemClassName}>
                 <AppLink
                   href="/kasutustingimused"
                   onClick={(event) => openGlassPage(event, "/kasutustingimused")}
-                  className={cn(
-                    homeCircleLinkClassName,
-                    linkBrandInlineClass
-                  )}
+                  className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
                 >
                   {t("about.links.terms")}
                 </AppLink>
               </li>
-              <li className="w-fit flex-none">
+              <li className={homeCircleItemClassName}>
                 <AppLink
                   href="/privaatsustingimused"
                   onClick={(event) => openGlassPage(event, "/privaatsustingimused")}
-                  className={cn(
-                    homeCircleLinkClassName,
-                    linkBrandInlineClass
-                  )}
+                  className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
                 >
                   {t("about.links.privacy")}
                 </AppLink>
               </li>
-              <li className="w-fit flex-none">
+              <li className={homeCircleItemClassName}>
                 <InstallAppLink
                   variant="row"
-                  className={cn(
-                    homeCircleLinkClassName,
-                    linkBrandInlineClass
-                  )}
+                  className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
                 />
               </li>
               {showAdminLinks ? (
                 <>
-                  <li className="w-fit flex-none">
+                  <li className={homeCircleItemClassName}>
                     <AppLink
                       href="/admin/analytics"
-                      className={cn(
-                        homeCircleLinkClassName,
-                        linkBrandInlineClass
-                      )}
+                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
                     >
                       {t("about.links.analytics")}
                     </AppLink>
                   </li>
-                  <li className="w-fit flex-none">
+                  <li className={homeCircleItemClassName}>
                     <AppLink
                       href="/admin/rag"
-                      className={cn(
-                        homeCircleLinkClassName,
-                        linkBrandInlineClass
-                      )}
+                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
                     >
                       {t("about.links.admin")}
                     </AppLink>
@@ -283,10 +277,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             <p className="m-0">
               <AppLink
                 href="mailto:info@sotsiaal.ai"
-                className={cn(
-                  homeCircleLinkClassName,
-                  linkBrandInlineClass
-                )}
+                className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
               >
                 info@sotsiaal.ai
               </AppLink>
