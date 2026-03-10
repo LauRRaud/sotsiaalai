@@ -407,6 +407,7 @@ export default function ProfiilBody({
   const [roleSwitching, setRoleSwitching] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
+  const [orbitMenuRenderKey, setOrbitMenuRenderKey] = useState(0);
   const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(false);
   const [profileHelpPanel, setProfileHelpPanel] = useState(null);
   const [profileHelpPanelClosing, setProfileHelpPanelClosing] = useState(false);
@@ -825,6 +826,13 @@ export default function ProfiilBody({
     if (!profileHelpPanel) return;
     void loadProfileHelpPanel(profileHelpPanel);
   }, [loadProfileHelpPanel, profileHelpPanel]);
+  useEffect(() => {
+    if (showAccountSettings || profileHelpPanel) {
+      setOrbitOpen(false);
+      return;
+    }
+    setOrbitMenuRenderKey(prev => prev + 1);
+  }, [profileHelpPanel, showAccountSettings]);
   const openProfileHelpPanel = useCallback((panelKey) => {
     const key = String(panelKey || "");
     if (key === "my_help_requests") {
@@ -1132,20 +1140,23 @@ export default function ProfiilBody({
         </span>
       </div>
 
+      {!showAccountSettings && !profileHelpPanel ? (
         <div className={orbitLayerClassName}>
           <div className={orbitWrapperClassName} style={{ marginTop: 0, marginBottom: 0 }}>
             <OrbitalMenu
-            items={orbitItems}
-            ariaLabel={t("profile.actions_label")}
-            toggleLabelOpen={t("profile.actions_label")}
-            toggleLabelClose={t("buttons.close")}
-            mobileVariant="stack"
-            mobileBackItem={mobileBackItem}
-            className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem]"
+              key={orbitMenuRenderKey}
+              items={orbitItems}
+              ariaLabel={t("profile.actions_label")}
+              toggleLabelOpen={t("profile.actions_label")}
+              toggleLabelClose={t("buttons.close")}
+              mobileVariant="stack"
+              mobileBackItem={mobileBackItem}
+              className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem]"
               onOpenChange={setOrbitOpen}
             />
           </div>
         </div>
+      ) : null}
 
       {!orbitOpen && (
         <>
