@@ -640,8 +640,6 @@
   body[data-platform="android"] .profile-orbit-stack-list {
     justify-content: flex-start !important;
     overscroll-behavior-y: auto !important;
-    -webkit-mask-image: none !important;
-    mask-image: none !important;
   }
 
   html[data-platform="android"] .profile-orbit-stack-backdrop,

@@ -404,7 +404,10 @@ export default function OrbitalMenu({
     const listEl = stackListRef.current;
     if (!listEl) return;
     const computePad = () => {
-      setStackPad(0);
+      const viewportHeight =
+        typeof window !== "undefined" ? window.innerHeight || 0 : 0;
+      const fadeClearance = Math.max(72, Math.round(viewportHeight * 0.12));
+      setStackPad(fadeClearance);
     };
     computePad();
     const onResize = () => {
