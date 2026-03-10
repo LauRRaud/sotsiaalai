@@ -45,7 +45,7 @@ html[data-contrast="hc"]
   ):not(.glass-card):not(
     .card-face
   ):focus-visible {
-  outline: 3px solid var(--hc-accent, #ffea00);
+  outline: 2px solid var(--hc-focus-ring, rgba(188, 220, 255, 0.5));
   outline-offset: 2px;
 }
 html[data-contrast="hc"] body {
@@ -63,10 +63,10 @@ html[data-contrast="hc"]
   ):not(.chat-send-btn):not(
     .chat-attach-btn
   ):not(.chat-listen-btn):not(.card-face) {
-  background: var(--hc-surface);
+  background: var(--form-surface, var(--hc-surface));
   color: var(--hc-text);
-  border: 2px solid var(--hc-accent);
-  box-shadow: none;
+  border: 1px solid var(--hc-border, rgba(170, 204, 245, 0.3));
+  box-shadow: var(--input-shadow, none);
   text-shadow: none;
 }
 html[data-contrast="hc"]
@@ -85,8 +85,8 @@ html[data-contrast="hc"]
   ):not(.chat-send-btn):not(
     .chat-attach-btn
   ):not(.chat-listen-btn):not(.card-face):focus-visible {
-  background: #1a1a1a;
-  border-color: var(--hc-accent-soft);
+  background: var(--form-surface-hover, var(--hc-surface));
+  border-color: var(--hc-border-soft, rgba(188, 220, 255, 0.4));
   color: var(--hc-text);
 }
 html[data-contrast="hc"]
@@ -96,10 +96,10 @@ html[data-contrast="hc"]
         .chat-input-field
       ), textarea:not(.chat-input-field), select
   ) {
-  background: var(--hc-surface);
+  background: var(--form-surface, var(--hc-surface));
   color: var(--hc-text);
-  border: 2px solid var(--hc-accent-soft);
-  box-shadow: none;
+  border: 1px solid var(--hc-border-soft, rgba(188, 220, 255, 0.4));
+  box-shadow: var(--input-shadow, none);
   outline: none;
 }
 html[data-contrast="hc"]
@@ -111,17 +111,17 @@ html[data-contrast="hc"]
   opacity: 1;
 }
 html[data-contrast="hc"] body .chat-inputbar {
-  background: var(--hc-bg);
-  border: 2px solid var(--hc-accent);
+  background: transparent;
+  border: 1px solid transparent;
   box-shadow: none;
 }
 html[data-contrast="hc"] body .chat-inputbar:hover:not(:focus-within) {
-  border-color: var(--hc-accent);
-  background: var(--hc-bg);
+  border-color: transparent;
+  background: transparent;
 }
 html[data-contrast="hc"] body .chat-inputbar:focus-within {
-  border-color: var(--hc-accent-soft);
-  background: var(--hc-bg);
+  border-color: transparent;
+  background: transparent;
 }
 html[data-contrast="hc"] body .chat-inputbar .chat-input-field {
   background: transparent;
@@ -137,9 +137,9 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn,
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn,
 html[data-contrast="hc"] body .chat-inputbar .chat-attach-btn,
 html[data-contrast="hc"] body .chat-input-row > .chat-attach-btn {
-  --btn-border-idle: var(--hc-accent);
-  --btn-border-glow: var(--hc-accent);
-  border-color: var(--hc-accent);
+  --btn-border-idle: transparent;
+  --btn-border-glow: transparent;
+  border-color: transparent;
   box-shadow: none;
 }
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn:hover,
@@ -148,7 +148,7 @@ html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn:hover,
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn:focus-visible,
 html[data-contrast="hc"] body .chat-inputbar .chat-attach-btn:hover,
 html[data-contrast="hc"] body .chat-inputbar .chat-attach-btn:focus-visible {
-  border-color: var(--hc-accent);
+  border-color: transparent;
 }
 html[data-contrast="hc"]
   body
@@ -156,15 +156,32 @@ html[data-contrast="hc"]
   outline: none;
 }
 html[data-contrast="hc"] #nav-meist {
-  border: 2px solid #ffea00;
+  border: 1px solid var(--hc-border, rgba(170, 204, 245, 0.3));
   border-radius: 62.4375rem;
-  color: var(--pt-150);
+  color: var(--hc-accent);
   background: inherit;
   box-shadow: inherit;
 }
 html[data-contrast="hc"] #nav-meist:hover,
 html[data-contrast="hc"] #nav-meist:focus-visible {
-  color: var(--pt-light);
+  color: var(--hc-accent-soft);
+}
+
+html[data-contrast="hc"]
+  :is(
+    .chat-left-actions button,
+    .chat-right-actions button,
+    .chat-mobile-topnav button,
+    .profile-email-dock-wrapper .dock-item,
+    .profile-orbit-mobile-action.dock-item,
+    .profile-orbit-stack-bubble.dock-item
+  ):focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] :is(.chat-left-actions, .chat-right-actions, .chat-mobile-topnav) {
+  color: var(--hc-accent);
 }
 html[data-reduce-motion="1"] *,
 html[data-reduce-motion="1"] *::before,

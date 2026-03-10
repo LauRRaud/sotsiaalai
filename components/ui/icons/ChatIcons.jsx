@@ -1,7 +1,7 @@
 import { cn } from "@/components/ui/cn";
 
-const DARK_THEME_COLOR = "#c57171";
-const LIGHT_THEME_COLOR = "#7A3A38";
+const DARK_THEME_COLOR = "var(--chat-icon-dark, #c57171)";
+const LIGHT_THEME_COLOR = "var(--chat-icon-light, #7A3A38)";
 
 function resolveThemeColor(isLightTheme) {
   return isLightTheme ? LIGHT_THEME_COLOR : DARK_THEME_COLOR;

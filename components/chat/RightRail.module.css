@@ -239,7 +239,7 @@
   font-weight: 450;
   font-size: 1.42rem;
   letter-spacing: 0.05em;
-  color: #c57171;
+  color: var(--chat-icon-dark, #c57171);
   background: rgb(28, 31, 38);
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;

@@ -537,7 +537,7 @@ export default function RightRail({
     "max-[768px]:grid max-[768px]:place-items-center max-[768px]:leading-none";
 
   const mobileLabelClassName =
-    "max-[768px]:block max-[768px]:tracking-[0.035em] max-[768px]:text-[#c57171] light:max-[768px]:text-[#7a3a38] max-[768px]:text-center max-[768px]:[text-wrap:balance] max-[768px]:opacity-0 max-[768px]:overflow-visible max-[768px]:transition-[opacity,transform] max-[768px]:duration-160 max-[768px]:ease-out";
+    "max-[768px]:block max-[768px]:tracking-[0.035em] max-[768px]:text-[#c57171] light:max-[768px]:text-[#7a3a38] hc:max-[768px]:text-[color:var(--hc-accent)] max-[768px]:text-center max-[768px]:[text-wrap:balance] max-[768px]:opacity-0 max-[768px]:overflow-visible max-[768px]:transition-[opacity,transform] max-[768px]:duration-160 max-[768px]:ease-out";
   const showDesktopTooltip = !viewportIsMobile &&
     !suspendPointerEvents &&
     !suppressTooltip &&

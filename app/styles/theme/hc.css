@@ -11,43 +11,126 @@ html[data-contrast="hc"] {
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E")
       4 4,
     pointer;
-  --hc-bg: #0b0b0b;
-  --hc-surface: rgba(17, 17, 17, 0.78);
-  --hc-text: #ffffff;
-  --hc-muted: #d6d6d6;
+  --hc-bg: #090a0f;
+  --hc-surface: rgba(16, 22, 34, 0.46);
+  --hc-text: #eef4ff;
+  --hc-muted: #d7e2f5;
   --hc-accent: #ffea00;
-  --hc-accent-soft: #fff066;
-  --pt-50: #ffffff;
-  --pt-100: #f2f2f2;
-  --pt-150: #e8e8e8;
-  --pt-200: #dfdeda;
-  --pt-300: #ffffff;
-  --pt-400: #e6e6e6;
-  --pt-500: #111111;
-  --pt-600: #000000;
-  --pt-light: #efefef;
-  --pt: #ffffff;
-  --pt-mid: #e6e6e6;
-  --pt-dark: #000000;
-  --brand-primary: #c57171;
-  --brand-accent: var(--brand-primary);
+  --hc-accent-soft: #fff48a;
+  --hc-border: rgba(170, 204, 245, 0.3);
+  --hc-border-soft: rgba(188, 220, 255, 0.4);
+  --hc-focus-ring: rgba(188, 220, 255, 0.5);
+  --pt-50: #f8fbff;
+  --pt-100: #eef4ff;
+  --pt-150: #e5eefc;
+  --pt-200: #d7e2f5;
+  --pt-300: #f3f8ff;
+  --pt-400: #e5eefc;
+  --pt-500: #10192a;
+  --pt-600: #090f1b;
+  --pt-light: #f2f7ff;
+  --pt: #eef4ff;
+  --pt-mid: #d7e2f5;
+  --pt-dark: #090f1b;
+  --brand-primary: var(--hc-accent);
+  --brand-accent: var(--hc-accent);
   --link-gold: var(--hc-accent);
   --link-gold-hover: var(--hc-accent-soft);
   --page-bg: var(--hc-bg);
-  --page-bg-top: var(--hc-bg);
-  --page-bg-bottom: var(--hc-bg);
+  --page-bg-top: #1b2735;
+  --page-bg-bottom: #090a0f;
   --page-bg-fallback: var(--hc-bg);
-  --page-bg-top-fallback: var(--hc-bg);
-  --page-bg-bottom-fallback: var(--hc-bg);
+  --page-bg-top-fallback: #1b2735;
+  --page-bg-bottom-fallback: #090a0f;
   --glass-blur-radius: 1rem;
   --glass-surface-bg: var(--hc-surface);
   --glass-surface-text: var(--hc-text);
-  --glass-border-color: var(--hc-accent);
-  --glass-border-width: 2px;
+  --glass-border-color: var(--hc-border);
+  --glass-border-width: 1px;
   --glass-input-bg-idle: var(--hc-bg);
   --glass-input-bg-active: var(--hc-surface);
   --text-strong: var(--hc-text);
-  --focus-ring: var(--hc-accent);
+  --focus-ring: var(--hc-focus-ring);
+  --chat-icon-dark: var(--hc-accent);
+  --chat-icon-light: #7a3a38;
+  --orbit-accent: var(--hc-accent);
+
+  /* Reuse night-surface token feel, while HC colors stay stronger for text/icons. */
+  --btn-base-bg-dark: linear-gradient(
+    180deg,
+    rgba(34, 48, 68, 0.94) 0%,
+    rgba(15, 24, 38, 0.94) 100%
+  );
+  --btn-primary-bg: radial-gradient(
+      84% 72% at 50% -6%,
+      rgba(222, 236, 255, 0.124) 0%,
+      rgba(222, 236, 255, 0.05) 44%,
+      rgba(222, 236, 255, 0.014) 58%,
+      rgba(222, 236, 255, 0) 74%
+    ),
+    rgba(15, 27, 46, 0.58);
+  --btn-primary-bg-hover: radial-gradient(
+      84% 72% at 50% -6%,
+      rgba(222, 236, 255, 0.148) 0%,
+      rgba(222, 236, 255, 0.06) 44%,
+      rgba(222, 236, 255, 0.017) 58%,
+      rgba(222, 236, 255, 0) 74%
+    ),
+    rgba(18, 31, 52, 0.64);
+  --btn-primary-bg-active: radial-gradient(
+      84% 72% at 50% -6%,
+      rgba(222, 236, 255, 0.125) 0%,
+      rgba(222, 236, 255, 0.05) 44%,
+      rgba(222, 236, 255, 0.015) 58%,
+      rgba(222, 236, 255, 0) 74%
+    ),
+    rgba(12, 24, 42, 0.54);
+  --btn-primary-border: 1px solid var(--hc-border);
+  --btn-primary-border-hover: 1px solid var(--hc-border-soft);
+  --btn-primary-border-active: 1px solid rgba(150, 190, 236, 0.15);
+  --btn-primary-shadow:
+    inset 0 1px 0 rgba(220, 236, 255, 0.09),
+    0 5px 12px rgba(2, 6, 16, 0.24);
+  --btn-primary-shadow-hover:
+    inset 0 1px 0 rgba(220, 236, 255, 0.12),
+    0 7px 14px rgba(2, 6, 16, 0.28);
+  --btn-primary-shadow-active:
+    inset 0 1px 0 rgba(220, 236, 255, 0.09),
+    0 4px 10px rgba(2, 6, 16, 0.22);
+  --btn-primary-focus-ring-color: var(--hc-focus-ring);
+
+  --form-surface: radial-gradient(
+      65% 60% at 50% -12%,
+      rgba(248, 253, 255, 0.38) 0%,
+      rgba(248, 253, 255, 0.22) 22%,
+      rgba(248, 253, 255, 0.11) 36%,
+      rgba(248, 253, 255, 0.04) 48%,
+      rgba(248, 253, 255, 0.018) 56%,
+      rgba(248, 253, 255, 0.006) 66%,
+      rgba(248, 253, 255, 0) 74%
+    ),
+    rgba(20, 28, 42, 0.72);
+  --form-surface-hover: radial-gradient(
+      65% 60% at 50% -12%,
+      rgba(248, 253, 255, 0.44) 0%,
+      rgba(248, 253, 255, 0.26) 22%,
+      rgba(248, 253, 255, 0.13) 36%,
+      rgba(248, 253, 255, 0.05) 48%,
+      rgba(248, 253, 255, 0.022) 56%,
+      rgba(248, 253, 255, 0.008) 66%,
+      rgba(248, 253, 255, 0) 74%
+    ),
+    rgba(24, 34, 50, 0.76);
+  --form-surface-active: var(--form-surface-hover);
+
+  --input-shadow:
+    0 5.5px 15px rgba(0, 0, 0, 0.22),
+    0 10px 18px -14px rgba(248, 253, 255, 0.5),
+    0 21px 32px -22px rgba(248, 253, 255, 0.3);
+  --input-shadow-hover:
+    0 6px 16px rgba(0, 0, 0, 0.22),
+    0 11px 20px -14px rgba(248, 253, 255, 0.62),
+    0 23px 34px -22px rgba(248, 253, 255, 0.4);
 }
 
 html[data-ui-scale="lg"][data-contrast="hc"] {
@@ -63,4 +146,42 @@ html[data-ui-scale="lg"][data-contrast="hc"] {
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E")
       5 5,
     pointer;
+}
+
+html[data-contrast="hc"] .space-backdrop[data-mode="dark"] {
+  background: radial-gradient(ellipse at top, #1b2735 0%, #090a0f 100%);
+}
+
+html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  --orbit-accent: var(--hc-accent);
+}
+
+html[data-contrast="hc"] .profile-orbit-mobile-chevron,
+html[data-contrast="hc"] .profile-orbit-mobile-action__label,
+html[data-contrast="hc"] .profile-orbit-stack-label,
+html[data-contrast="hc"] .profile-orbit-stack-back-label {
+  color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] :is(
+    .glass-page-title,
+    .subpage-mobile-title,
+    .policy-mobile-title,
+    .chat-room-title,
+    .invite-modal-title,
+    .rooms-page-title,
+    .selected-listing-title,
+    .help-listings-title,
+    .drawer-title,
+    .documents-section-title
+  ) {
+  color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] :is(h1, h2, .glass-title, .glass-h2) {
+  color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] .chat-mobile-topnav span {
+  color: var(--hc-accent) !important;
 }

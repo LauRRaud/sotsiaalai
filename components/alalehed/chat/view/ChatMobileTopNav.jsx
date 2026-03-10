@@ -224,7 +224,6 @@ export default function ChatMobileTopNav({
   const slotStepPx = Math.max(1, slotProfile.step1 * rootRemPx);
   const centerOffsetRem = slotProfile.centerOffsetRem ?? FOCUS_CENTER_OFFSET_REM;
   const dragEngageThreshold = isAndroidPlatform ? 12 : 8;
-  const swipeThresholdPx = isAndroidPlatform ? 44 : 24;
   const maxSwipeSteps = isAndroidPlatform ? 1 : Number.POSITIVE_INFINITY;
   const dragDamping = isAndroidPlatform ? 0.72 : 1;
   const dragClampPx = isAndroidPlatform ? 156 : 192;
@@ -437,18 +436,26 @@ export default function ChatMobileTopNav({
   const handleTrackPointerEnd = useCallback(() => {
     const deltaX = dragStateRef.current.currentX - dragStateRef.current.startX;
     const absDeltaX = Math.abs(deltaX);
-    if (absDeltaX >= swipeThresholdPx) {
+    if (absDeltaX >= dragEngageThreshold) {
       const baseIndex = focusedIndexRef.current;
-      const rawStepDelta = Math.round((-deltaX * dragDamping) / slotStepPx);
-      const fallbackStepDelta = rawStepDelta === 0 ? (deltaX < 0 ? 1 : -1) : rawStepDelta;
-      const limitedStepDelta = Number.isFinite(maxSwipeSteps)
-        ? clampNumber(fallbackStepDelta, -maxSwipeSteps, maxSwipeSteps)
-        : fallbackStepDelta;
-      const nextIndex = clampNumber(
-        baseIndex + limitedStepDelta,
-        0,
-        MOBILE_NAV_ITEMS.length - 1
-      );
+      const effectiveDeltaX = clampNumber(deltaX * dragDamping, -dragClampPx, dragClampPx);
+      const dragProgressAtRelease = effectiveDeltaX / slotStepPx;
+      const minAllowedIndex = Number.isFinite(maxSwipeSteps)
+        ? Math.max(0, baseIndex - maxSwipeSteps)
+        : 0;
+      const maxAllowedIndex = Number.isFinite(maxSwipeSteps)
+        ? Math.min(MOBILE_NAV_ITEMS.length - 1, baseIndex + maxSwipeSteps)
+        : MOBILE_NAV_ITEMS.length - 1;
+      let nextIndex = baseIndex;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+      for (let index = minAllowedIndex; index <= maxAllowedIndex; index += 1) {
+        const slot = index - baseIndex;
+        const distance = Math.abs(slot + dragProgressAtRelease);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nextIndex = index;
+        }
+      }
       setFocusedIndexImmediate(nextIndex);
     }
     dragStateRef.current.pointerId = null;
@@ -456,7 +463,7 @@ export default function ChatMobileTopNav({
     dragStateRef.current.moved = false;
     setDragOffsetPx(0);
     setIsDragging(false);
-  }, [dragDamping, maxSwipeSteps, setFocusedIndexImmediate, slotStepPx, swipeThresholdPx]);
+  }, [dragClampPx, dragDamping, dragEngageThreshold, maxSwipeSteps, setFocusedIndexImmediate, slotStepPx]);
 
   const resetSwipeState = useCallback(() => {
     dragStateRef.current.pointerId = null;
@@ -666,7 +673,7 @@ export default function ChatMobileTopNav({
           color: isFocused
             ? isLightTheme
               ? "#9d4e49"
-              : "#e6a4a3"
+              : "var(--chat-icon-dark, #e6a4a3)"
             : undefined
         }}
       >
@@ -785,7 +792,7 @@ export default function ChatMobileTopNav({
                 <div
                   key={item.key}
                   className={cn(
-                    "absolute left-1/2 top-[0.72rem] z-[1] -translate-x-1/2 transition-[transform,opacity] duration-200 ease-out",
+                    "absolute left-1/2 top-[0.72rem] z-[1] -translate-x-1/2 transition-[transform,opacity] duration-260 ease-[cubic-bezier(0.22,0.61,0.36,1)]",
                     isDragging ? "duration-0" : null
                   )}
                   style={{
@@ -804,7 +811,7 @@ export default function ChatMobileTopNav({
             className="pointer-events-none absolute inset-x-0 top-[4.16rem] flex justify-center px-[0.45rem] text-center"
             style={{ transform: `translateX(${centerOffsetRem}rem)` }}
           >
-            <span className="max-w-[14rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.42rem,5.9vw,1.68rem)] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38]">
+            <span className="max-w-[14rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.42rem,5.9vw,1.68rem)] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]">
               {labels[previewFocusedItem.key]}
             </span>
           </div>
