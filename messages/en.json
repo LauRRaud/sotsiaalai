@@ -173,11 +173,11 @@
     "card": {
       "specialist": {
         "aria": "Open specialist sign-in",
-        "title": "FOR SOCIAL WORKERS"
+        "title": "SPECIALIST"
       },
       "client": {
         "aria": "Open help-seeker sign-in",
-        "title": "FOR PEOPLE SEEKING HELP"
+        "title": "SEEKER"
       }
     },
     "footer": {

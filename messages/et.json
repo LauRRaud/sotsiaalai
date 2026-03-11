@@ -173,11 +173,11 @@
     "card": {
       "specialist": {
         "aria": "Ava spetsialisti sisselogimine",
-        "title": "SOTSIAALTÖÖ SPETSIALISTILE"
+        "title": "SPETSIALIST"
       },
       "client": {
         "aria": "Ava eluküsimusega pöörduja sisselogimine",
-        "title": "ELUKÜSIMUSEGA PÖÖRDUJALE"
+        "title": "PÖÖRDUJA"
       }
     },
     "footer": {
