@@ -270,6 +270,14 @@ body .chat-input-row .chat-side-control-btn svg {
   height: var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) !important;
 }
 
+.chat-container--input-focus .chat-input-row .chat-tools-btn {
+  width: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
+  min-width: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
+  flex: 0 0 calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
+  height: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
+  min-height: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
+}
+
 body .chat-inputbar .chat-listen-btn svg {
   width: var(--chat-composer-listen-icon-size, calc(2.02 * var(--base-rem))) !important;
   height: var(--chat-composer-listen-icon-size, calc(2.02 * var(--base-rem))) !important;

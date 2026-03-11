@@ -65,6 +65,7 @@ export default function HomePage() {
   const [scrollCueEntered, setScrollCueEntered] = useState(false);
   const [isHomeOverlayOpen, setIsHomeOverlayOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [homeA11yReady, setHomeA11yReady] = useState(() => initialSkipIntro);
   const [showHomeBottomSections, setShowHomeBottomSections] = useState(() => initialSkipIntro);
   const [showHomeFooter, setShowHomeFooter] = useState(() => initialSkipIntro);
   const [_leftCardEl, setLeftCardEl] = useState(null);
@@ -139,6 +140,36 @@ export default function HomePage() {
     });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isMobile]);
+  useEffect(() => {
+    if (homeA11yReady || typeof window === "undefined") return;
+    const activate = () => setHomeA11yReady(true);
+    const onScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      if (y > 24) activate();
+    };
+    const onKeyDown = event => {
+      if (event.defaultPrevented) return;
+      if (["Tab", "ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
+        activate();
+      }
+    };
+    window.addEventListener("scroll", onScroll, {
+      passive: true
+    });
+    window.addEventListener("wheel", activate, {
+      passive: true
+    });
+    window.addEventListener("touchmove", activate, {
+      passive: true
+    });
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("wheel", activate);
+      window.removeEventListener("touchmove", activate);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [homeA11yReady]);
   useEffect(() => {
     homeIntroSeen = true;
   }, []);
@@ -444,6 +475,7 @@ export default function HomePage() {
   const handleScrollCueClick = useCallback(event => {
     event.preventDefault();
     if (typeof document === "undefined") return;
+    setHomeA11yReady(true);
     const target = document.getElementById("meist");
     if (!target) return;
     target.scrollIntoView({
@@ -516,6 +548,7 @@ export default function HomePage() {
       <div className={cn("relative flex min-h-[100dvh] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>
         <section onClick={handleBackgroundTap} className="relative touch-pan-y">
           <h1
+            aria-hidden="true"
             className={cn(
               "pointer-events-none absolute left-1/2 top-[max(env(safe-area-inset-top,0px),0.08rem)] z-[30] -translate-x-1/2",
               "w-[min(94vw,56rem)] px-4 text-center font-bold uppercase tracking-[0.04em]",
@@ -651,7 +684,7 @@ export default function HomePage() {
               </a>
             </div> : null}
         </section>
-        {showHomeBottomSections ? <div>
+        {showHomeBottomSections ? <div aria-hidden={!homeA11yReady ? "true" : undefined} inert={!homeA11yReady ? true : undefined}>
             <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} />
             {showHomeFooter ? <HomeFooter /> : null}
           </div> : null}
