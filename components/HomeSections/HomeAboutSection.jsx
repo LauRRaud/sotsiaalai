@@ -33,6 +33,19 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       value: t(`about.intro.${key}`)
     }))
     .filter(({ key, value }) => value && value !== `about.intro.${key}`);
+  const aboutA11yText = aboutParagraphs
+    .map(({ value }) =>
+      String(value || "")
+        .replace(/<br\s*\/?>/gi, " ")
+        .replace(/<\/p>\s*<p>/gi, " ")
+        .replace(/<li>/gi, " ")
+        .replace(/<\/li>/gi, " ")
+        .replace(/<[^>]+>/g, "")
+        .replace(/\s+/g, " ")
+        .trim()
+    )
+    .filter(Boolean)
+    .join(" ");
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
   const aboutScrollRef = useRef(null);
@@ -178,6 +191,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           <div className="relative mx-auto w-full max-w-[52rem]">
             <div
               ref={aboutScrollRef}
+              aria-label={aboutA11yText || undefined}
               className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.2rem,0.7vw,0.55rem)] pt-[0.05rem] pb-[0.5rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
               style={{
                 maxHeight: "min(72vh, 42rem)",
@@ -187,6 +201,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                 maskImage: aboutMaskImage
               }}
             >
+              <p className="sr-only">{aboutA11yText}</p>
               {aboutParagraphs.map(({ key, value }) => (
                 <RichText
                   key={key}
