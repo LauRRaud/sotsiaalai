@@ -433,7 +433,7 @@ export default function ChatComposer({
     "appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none";
   const documentAttachDisabled = isGenerating || isRoomMode && (roomBlocked || roomAuthRequired);
   return <form ref={inputRowRef} style={inputRowMobileStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
-      {!embedded || !hideTools ? <div className={sideControlsClassName}>
+      {!embedded || !hideTools ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? <div aria-hidden="true" className="h-[var(--chat-composer-side-control-size)] w-[var(--chat-composer-side-control-size)] min-h-[var(--chat-composer-side-control-size)] min-w-[var(--chat-composer-side-control-size)]" /> : <>
             <div className="relative">
               <button ref={toolsButtonRef} type="button" className={`chat-attach-btn ${sideControlButtonClassName}`} aria-label={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.aria")} title={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={isDeepResearchMode ? undefined : "menu"} aria-expanded={isDeepResearchMode ? undefined : toolsOpen ? "true" : "false"} onClick={handleToolsButtonClick}>

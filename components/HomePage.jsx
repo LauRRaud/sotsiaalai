@@ -43,7 +43,6 @@ export default function HomePage() {
     hydrated: prefsHydrated
   } = useAccessibility();
   const { t, locale } = useI18n();
-  const homeA11yTitle = t("meta.home.title", "SotsiaalAI");
   const [hasSeenIntro] = useState(() => homeIntroSeen);
   const initialSkipIntro = hasSeenIntro;
   const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
@@ -509,7 +508,6 @@ export default function HomePage() {
           >
             AVAME 17.03, SOTSIAALTÖÖ PÄEVAL!
           </p>
-          <h1 className="sr-only">{homeA11yTitle}</h1>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[768px]:flex-col max-[768px]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[768px]:px-[clamp(1rem,4vw,1.5rem)] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[768px]:pb-[clamp(5rem,12vw,7rem)] max-[768px]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
               <div ref={leftCardWrapRef} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="button" aria-label={t("home.card.specialist.aria")} aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
