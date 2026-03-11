@@ -940,17 +940,6 @@ html[data-contrast="hc"]
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot:is(:hover, :focus-within)
-  .dock-label {
-  background: rgba(7, 10, 18, 0.92) !important;
-  border: 0 !important;
-  border-radius: 0.9rem !important;
-  padding: 0.28rem 0.72rem !important;
-  box-shadow: inset 0 0 0 2px rgba(255, 234, 0, 0.92) !important;
-}
-html[data-contrast="hc"]
-  body
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item:is(
     :hover,
     :focus-visible,

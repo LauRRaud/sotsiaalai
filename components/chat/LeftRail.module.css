@@ -258,7 +258,7 @@
   background: rgba(9, 14, 24, 0.82);
   -webkit-backdrop-filter: blur(14px) saturate(124%);
   backdrop-filter: blur(14px) saturate(124%);
-  border-color: rgba(255, 234, 0, 0.56);
+  border: 2px solid rgba(255, 234, 0, 0.92);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
