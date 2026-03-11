@@ -91,7 +91,7 @@ const orbitWrapperClassName =
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const profileMobileActionStackClassName =
-  "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+5.7rem)] z-[95] flex w-full flex-col items-center justify-center " +
+  "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+5.9rem)] z-[95] flex w-full flex-col items-center justify-center " +
   "gap-[clamp(0.28rem,1.8vw,0.58rem)] px-[1rem] pointer-events-auto min-[48em]:hidden";
 const logoutButtonClassName =
   "profile-logout-button group relative grid place-items-center self-center max-[48em]:!self-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";

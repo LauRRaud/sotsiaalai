@@ -1158,7 +1158,7 @@
     left: 0 !important;
     right: 0 !important;
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(5.35rem, 12.6vw, 6.45rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(5.05rem, 11.8vw, 6.1rem)) !important;
     transform: none !important;
   }
 
