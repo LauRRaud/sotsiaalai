@@ -606,7 +606,12 @@ export default function ChatSidebar() {
                         </svg>
                       </span>
                     </label> : null}
-                <button className="cs-open flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none" onClick={() => selectMode ? null : onPick(c)} title={c.preview || c.title || t("chat.sidebar.item.fallback_title")} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
+                <div className="cs-open flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none cursor-pointer" onClick={() => selectMode ? null : onPick(c)} onKeyDown={event => {
+                if (selectMode) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+                event.preventDefault();
+                onPick(c);
+              }} title={c.preview || c.title || t("chat.sidebar.item.fallback_title")} role="button" tabIndex={selectMode ? -1 : 0} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
                   <div className="flex flex-wrap items-center justify-start gap-2">
                     <span className="cs-title-text text-[1.2rem] max-[768px]:text-[1.38rem] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
                       {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
@@ -618,22 +623,26 @@ export default function ChatSidebar() {
                   {c.preview ? <div className={`cs-preview ${previewTextClassName}`}>
                       {c.preview}
                     </div> : null}
-                  <div className={`cs-time ${timeTextClassName}`}>
-                    {formatDateTime(c.lastActivityAt)}
+                  <div className="flex items-center justify-between gap-3">
+                    <div className={`cs-time ${timeTextClassName}`}>
+                      {formatDateTime(c.lastActivityAt)}
+                    </div>
+                    {c.kind !== "room" && !selectMode ? <button className={`${deleteBtnClassName} cs-delete shrink-0`} onClick={event => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  onDelete(c.id);
+                }} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
+                        <svg className="cs-trash-icon h-[1.15rem] w-[1.15rem] max-[768px]:h-[1.35rem] max-[768px]:w-[1.35rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                          <path d="M10 11v6" />
+                          <path d="M14 11v6" />
+                          <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+                        </svg>
+                      </button> : null}
                   </div>
-                </button>
+                </div>
               </div>
-              {c.kind !== "room" && !selectMode ? <div className="flex justify-end">
-                  <button className={`${deleteBtnClassName} cs-delete`} onClick={() => onDelete(c.id)} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
-                    <svg className="cs-trash-icon h-[1.15rem] w-[1.15rem] max-[768px]:h-[1.35rem] max-[768px]:w-[1.35rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polyline points="3 6 5 6 21 6" />
-                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                      <path d="M10 11v6" />
-                      <path d="M14 11v6" />
-                      <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
-                    </svg>
-                  </button>
-                </div> : null}
             </li>
         })}
       </ul>
