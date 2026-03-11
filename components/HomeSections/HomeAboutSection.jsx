@@ -215,9 +215,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         >
           <div
             ref={beforeContentRef}
-            className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.55rem,1.1vw,0.8rem)] max-w-[min(74vw,24.5rem)] max-[768px]:max-w-[min(78vw,24.4rem)] items-center"
+            className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.55rem,1.1vw,0.8rem)] max-[768px]:gap-[clamp(0.38rem,0.95vw,0.58rem)] max-w-[min(74vw,24.5rem)] max-[768px]:max-w-[min(78vw,24.4rem)] items-center"
           >
-            <p className="home-before-title m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
+            <p className="home-before-title m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] max-[768px]:mb-[0.06rem] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
             </p>
             <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem] max-[768px]:gap-x-[0.92rem] max-[768px]:gap-y-[0.52rem]">

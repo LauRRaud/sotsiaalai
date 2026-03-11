@@ -91,7 +91,7 @@ const orbitWrapperClassName =
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const profileMobileActionStackClassName =
-  "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+4.7rem)] z-[95] flex w-full flex-col items-center justify-center " +
+  "profile-mobile-action-stack absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+5.7rem)] z-[95] flex w-full flex-col items-center justify-center " +
   "gap-[clamp(0.28rem,1.8vw,0.58rem)] px-[1rem] pointer-events-auto min-[48em]:hidden";
 const logoutButtonClassName =
   "profile-logout-button group relative grid place-items-center self-center max-[48em]:!self-center h-[4.9rem] w-[4.9rem] max-[48em]:h-[6rem] max-[48em]:w-[6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
@@ -102,6 +102,8 @@ const logoutLabelClassName =
   "text-[#c57171] light:text-[#7A3A38] hc:text-[color:var(--hc-accent)] opacity-0 -translate-y-[0.38rem] scale-100 pointer-events-none transform-gpu will-change-transform " +
   "transition-all duration-[520ms] ease-out " +
   "group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-[1.13] group-focus-visible:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:scale-[1.13]";
+const mobileLogoutLabelClassName =
+  "absolute left-1/2 text-center -translate-x-1/2 text-[#c57171] light:text-[#7A3A38] hc:text-[color:var(--hc-accent)] pointer-events-none whitespace-nowrap transition-opacity duration-[220ms] ease-out";
 const profileBackButtonClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
   "max-[48em]:!z-[95]";
@@ -1257,17 +1259,15 @@ export default function ProfiilBody({
             >
               <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
               <span
-                className={cn(
-                  logoutLabelClassName,
-                  mobileLogoutArmed ? "!opacity-100 !translate-y-0" : null
-                )}
+                className={mobileLogoutLabelClassName}
                 style={{
-                  top: "calc(100% - 0.28rem)",
+                  top: "calc(100% + 0.04rem)",
                   fontSize: "1.42rem",
                   lineHeight: 1,
                   fontWeight: 500,
                   letterSpacing: "0.03em",
-                  marginTop: "-0.16rem"
+                  marginTop: "-0.04rem",
+                  opacity: mobileLogoutArmed ? 1 : 0
                 }}
               >
                 {t("profile.logout")}
