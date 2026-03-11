@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -31,10 +31,10 @@ const CHAT_BACK_HOVER_ARM_KEY = "sotsiaalai:chat:back-hover-arm-on-move";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const ACCOUNT_SETTINGS_TILT_MS = 540;
-const ROLE_KEYS = {
-  ADMIN: "role.admin",
-  SOCIAL_WORKER: "role.worker",
-  CLIENT: "role.client"
+const ROLE_SHORT_KEYS = {
+  ADMIN: "profile.role_short.admin",
+  SOCIAL_WORKER: "profile.role_short.worker",
+  CLIENT: "profile.role_short.client"
 };
 function normalizeProfileRole(value, fallback = "CLIENT") {
   const normalized = String(value || "").trim().toUpperCase();
@@ -503,14 +503,8 @@ export default function ProfiilBody({
   );
   const nextPreviewRole = activePreviewRole === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER";
   const nextPreviewRoleLabel = t(nextPreviewRole === "SOCIAL_WORKER" ? "profile.view_mode.worker" : "profile.view_mode.client");
-  const isLongRoleLabel = actualRole === "SOCIAL_WORKER" || actualRole === "CLIENT";
-  const roleLabel = t(ROLE_KEYS[actualRole] || "role.unknown");
-  const roleLabelNode =
-    actualRole === "SOCIAL_WORKER"
-      ? <><span>Sotsiaaltöö</span><br /><span>spetsialist</span></>
-      : actualRole === "CLIENT"
-        ? <><span>Eluküsimusega</span><br /><span>pöörduja</span></>
-        : roleLabel;
+  const isLongRoleLabel = false;
+  const roleLabelNode = t(ROLE_SHORT_KEYS[actualRole] || "profile.role_short.unknown");
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -1489,3 +1483,4 @@ export default function ProfiilBody({
       ) : null}
     </ProfileShell>;
 }
+

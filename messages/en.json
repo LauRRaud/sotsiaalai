@@ -218,7 +218,7 @@
     "logout_hint": "Ends the active session on this device.",
     "logout_all_hint": "Signs you out on all devices and removes remembered devices.",
     "back_to_chat": "Back to chat",
-    "actions_label": "Profile actions",
+    "actions_label": "Profile settings",
     "delete_confirm": "Are you sure you want to permanently delete your account? This cannot be undone.",
     "deleting": "Deleting",
     "delete_account": "Delete account",
@@ -654,7 +654,7 @@
       "error_generic": "Document analysis failed."
     },
     "tools": {
-      "aria": "Open tools",
+      "aria": "Tools",
       "tooltip": "Tools",
       "menu_aria": "Chat tools",
       "document_analysis": "Document analysis",

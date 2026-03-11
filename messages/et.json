@@ -218,7 +218,7 @@
     "logout_hint": "Lõpetab aktiivse seansi selles seadmes.",
     "logout_all_hint": "Logib sind välja kõigist seadmetest ja eemaldab meelde jäetud seadmed.",
     "back_to_chat": "Tagasi vestlusesse",
-    "actions_label": "Profiili toimingud",
+    "actions_label": "Profiili seaded",
     "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
     "deleting": "Kustutan…",
     "delete_account": "Kustuta konto",
@@ -654,7 +654,7 @@
       "jump_to_chat": "Küsi"
     },
     "tools": {
-      "aria": "Ava tööriistad",
+      "aria": "Tööriistad",
       "tooltip": "Tööriistad",
       "menu_aria": "Vestluse tööriistad",
       "document_analysis": "Dokumendi analüüs",

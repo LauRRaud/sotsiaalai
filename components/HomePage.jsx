@@ -32,39 +32,6 @@ const LEFT_CARD_FADE_DELAY_MS = 500;
 const RIGHT_CARD_STAGGER_MS = 300;
 const RIGHT_CARD_FADE_DELAY_MS = LEFT_CARD_FADE_DELAY_MS + RIGHT_CARD_STAGGER_MS;
 const HOME_FOOTER_STAGGER_MS = 220;
-const HOME_THEME_ORDER = ["light", "mid", "dark", "night", "hc"];
-function HomeThemeIcon({ mode = "dark", className }) {
-  if (mode === "light") {
-    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" className={className}>
-        <circle cx="12" cy="12" r="3.7" />
-        <path d="M12 2.6v2.1M12 19.3v2.1M4.7 12h2.1M17.2 12h2.1M5.8 5.8l1.5 1.5M16.7 16.7l1.5 1.5M18.2 5.8l-1.5 1.5M7.3 16.7l-1.5 1.5" />
-      </svg>;
-  }
-  if (mode === "mid") {
-    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" className={className}>
-        <circle cx="12" cy="12" r="3.7" />
-        <path d="M12 2.6v2.1M4.7 12h2.1M17.2 12h2.1M5.8 5.8l1.5 1.5M18.2 5.8l-1.5 1.5" />
-        <path d="M8.6 13.2h6.8" />
-      </svg>;
-  }
-  if (mode === "night") {
-    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" className={className}>
-        <path d="M15.8 3.7a8.7 8.7 0 1 0 4.5 14.6A7.9 7.9 0 0 1 15.8 3.7z" />
-        <circle cx="18.2" cy="7.3" r="0.9" fill="currentColor" stroke="none" />
-        <circle cx="20.8" cy="10.1" r="0.65" fill="currentColor" stroke="none" opacity="0.88" />
-      </svg>;
-  }
-  if (mode === "hc") {
-    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" className={className}>
-        <circle cx="12" cy="12" r="7.2" />
-        <path d="M12 4.8v14.4" />
-        <path d="M12 7.1a4.9 4.9 0 0 1 0 9.8" />
-      </svg>;
-  }
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" className={className}>
-      <path d="M15.8 3.7a8.7 8.7 0 1 0 4.5 14.6A7.9 7.9 0 0 1 15.8 3.7z" />
-    </svg>;
-}
 export default function HomePage() {
   const {
     data: session,
@@ -73,7 +40,6 @@ export default function HomePage() {
   const router = useRouter();
   const {
     prefs,
-    setPrefs,
     hydrated: prefsHydrated
   } = useAccessibility();
   const { t, locale } = useI18n();
@@ -128,13 +94,6 @@ export default function HomePage() {
     timeoutIdsRef.current.delete(timeoutId);
   }, []);
   const isAuthed = status === "authenticated" && !!session;
-  const currentMode = prefs?.contrast === "hc"
-    ? "hc"
-    : HOME_THEME_ORDER.includes(prefs?.theme)
-      ? prefs.theme
-      : "dark";
-  const nextTheme = HOME_THEME_ORDER[(HOME_THEME_ORDER.indexOf(currentMode) + 1) % HOME_THEME_ORDER.length];
-  const isHighContrast = prefs?.contrast === "hc";
   const isAdmin = useMemo(() => {
     const u = session?.user;
     const role = typeof u?.role === "string" ? u.role.toLowerCase() : "";
@@ -475,18 +434,6 @@ export default function HomePage() {
       block: "start"
     });
   }, [prefs.reduceMotion]);
-  const handleThemeCycle = useCallback(() => {
-    setPrefs({
-      ...prefs,
-      theme: nextTheme === "hc" ? "dark" : nextTheme,
-      contrast: nextTheme === "hc" ? "hc" : "normal",
-      colorTheme: prefs?.colorTheme || "default"
-    });
-  }, [nextTheme, prefs, setPrefs]);
-  const homeThemeButtonLabel = t("home.theme_toggle.title", {
-    current: t(`profile.theme_mode.${currentMode}`),
-    next: t(`profile.theme_mode.${nextTheme}`)
-  });
   const onLeftTransitionEnd = e => {
     if (e?.propertyName !== "transform") return;
     setLeftPhase(p => p === "flippingToBack" ? "back" : p === "flippingToFront" ? "front" : p);
@@ -551,32 +498,15 @@ export default function HomePage() {
   return <>
       <div className={cn("relative flex min-h-[100dvh] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>
         <section onClick={handleBackgroundTap} className="relative touch-pan-y">
-          <button
-              type="button"
-              className={cn(
-                "absolute left-1/2 z-[35] -translate-x-1/2",
-                "top-[clamp(1.1rem,2.4vh,1.9rem)] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.12rem)]",
-                "profile-email-dock-wrapper profile-orbit-menu-wrapper",
-                "dock-item inline-flex h-[3.3rem] w-[3.3rem] items-center justify-center rounded-full p-0",
-                "border-0 bg-[rgba(18,22,30,0.34)] text-[rgba(255,244,236,0.94)]",
-                "shadow-[0_0_10px_rgba(248,253,255,0.16),0_0_18px_rgba(248,253,255,0.08),0_10px_24px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-[0.8rem]",
-                "transition-[background,box-shadow] duration-200 ease-out",
-                "hover:-translate-x-1/2 hover:bg-[rgba(26,30,40,0.44)] hover:shadow-[0_0_10px_rgba(248,253,255,0.16),0_0_18px_rgba(248,253,255,0.08),0_10px_24px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] hover:animate-none",
-                "focus-visible:-translate-x-1/2 focus-visible:bg-[rgba(26,30,40,0.44)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.2),0_12px_28px_rgba(0,0,0,0.24)]",
-                "active:-translate-x-1/2",
-                "max-[768px]:h-[2.34rem] max-[768px]:w-[2.34rem]",
-                "[.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#7a3a38] [.theme-light_&]:shadow-[0_10px_24px_rgba(15,23,42,0.12),inset_0_1px_0_rgba(255,255,255,0.62)]",
-                "[.theme-light_&:hover]:bg-[rgba(255,255,255,0.74)] [.theme-light_&:hover]:shadow-[0_10px_24px_rgba(15,23,42,0.12),inset_0_1px_0_rgba(255,255,255,0.62)]",
-                "[.theme-light_&:focus-visible]:bg-[rgba(255,255,255,0.76)] [.theme-light_&:focus-visible]:shadow-[0_0_0_3px_rgba(122,58,56,0.16),0_12px_28px_rgba(15,23,42,0.18)]"
-              )}
-              onClick={handleThemeCycle}
-              aria-label={homeThemeButtonLabel}
-              title={homeThemeButtonLabel}
-            >
-              <span className="dock-icon relative z-[1] inline-flex h-[2.24rem] w-[2.24rem] items-center justify-center max-[768px]:h-[1.38rem] max-[768px]:w-[1.38rem]">
-                <HomeThemeIcon mode={nextTheme} className="h-full w-full" />
-              </span>
-            </button>
+          <p
+            className={cn(
+              "pointer-events-none absolute left-1/2 top-[clamp(0.3rem,0.9vh,0.7rem)] z-[30] -translate-x-1/2",
+              "w-[min(94vw,56rem)] px-4 text-center font-bold uppercase tracking-[0.04em]",
+              "text-[clamp(0.95rem,1.3vw,1.9rem)] text-[color:color-mix(in_srgb,var(--home-scroll-cue-color,var(--home-title-color,var(--brand-primary)))_68%,white_32%)]"
+            )}
+          >
+            AVAME 17.03, SOTSIAALTÖÖ PÄEVAL!
+          </p>
           <div className="sr-only">
             <h1>{homeA11yTitle}</h1>
             <p>{homeA11yIntro}</p>

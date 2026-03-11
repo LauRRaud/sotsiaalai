@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
-import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { localizePath } from "@/lib/localizePath";
 export default function ChatComposer({
@@ -336,7 +335,6 @@ export default function ChatComposer({
     "px-[6px] py-[1px] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
-  const sendButtonLoaderClassName = `${sendButtonClassName} !grid !place-items-center !p-0`;
   const inputRowTransformClassName = embedded
     ? "top-0"
     : `${inputFocused ? "top-[calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem))]" : "top-[calc(-1*var(--chat-input-shift,0rem))]"} max-[768px]:top-0`;
@@ -472,11 +470,10 @@ export default function ChatComposer({
             <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
           </svg>
         </button>
-        {isGenerating || isStreamingAny ? <button type="submit" className={sendButtonLoaderClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
-            <SotsiaalAILoader size="1.34rem" animated={isGenerating || isStreamingAny} ariaHidden className="chat-send-loader h-[1.34rem] w-[1.34rem] [--send-loader-shift-y:-0.24rem] [&_svg]:translate-y-[var(--send-loader-shift-y)]" style={{
-          "--glow-opacity-base": 0,
-          "--glow-opacity-peak": 0
-        }} />
+        {isGenerating || isStreamingAny ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="chat-send-stop-glyph h-[0.98rem] w-[0.98rem] text-[#c57171] light:text-[#7a3a38]">
+              <rect x="6.5" y="6.5" width="11" height="11" rx="2.2" />
+            </svg>
           </button> : hasInput ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
             <SubmitArrowIcon
               useCurrentColor
