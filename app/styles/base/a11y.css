@@ -754,7 +754,7 @@ html[data-contrast="hc"] #login-modal.login-modal--otp .login-otp-remember {
   --otp-check-tick: var(--hc-accent);
   --otp-check-text: var(--hc-accent);
 }
-html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse, .home-link, .pin-layout-toggle) {
+html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse) {
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.66) !important;
   background: rgba(14, 20, 32, 0.34) !important;
@@ -763,7 +763,21 @@ html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], 
   border-radius: 999px !important;
   box-shadow: none !important;
 }
-html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse, .home-link, .pin-layout-toggle):is(:hover, :focus-visible) {
+@media (hover: hover) {
+  html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse):hover {
+    border-color: rgba(255, 234, 0, 0.92) !important;
+    background: rgba(255, 234, 0, 0.14) !important;
+    box-shadow: none !important;
+  }
+}
+html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse):focus-visible {
+  border-color: rgba(255, 234, 0, 0.66) !important;
+  background: rgba(14, 20, 32, 0.34) !important;
+  box-shadow: none !important;
+  outline: 2px solid rgba(255, 234, 0, 0.82) !important;
+  outline-offset: 3px !important;
+}
+html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse):active {
   border-color: rgba(255, 234, 0, 0.92) !important;
   background: rgba(255, 234, 0, 0.14) !important;
   box-shadow: none !important;
@@ -777,6 +791,7 @@ html[data-contrast="hc"] #login-modal :is(a, .home-link, .pin-layout-toggle):is(
   border: 0 !important;
   box-shadow: none !important;
   border-radius: 0 !important;
+  outline: none !important;
 }
 html[data-contrast="hc"] #login-modal .pin-layout-toggle,
 html[data-contrast="hc"] #login-modal .pin-layout-toggle:is(:hover, :focus-visible, :active) {
@@ -784,8 +799,14 @@ html[data-contrast="hc"] #login-modal .pin-layout-toggle:is(:hover, :focus-visib
   border: 0 !important;
   box-shadow: none !important;
   border-radius: 0 !important;
+  outline: none !important;
 }
 @media (hover: none) {
+  html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse):hover {
+    border-color: rgba(255, 234, 0, 0.66) !important;
+    background: rgba(14, 20, 32, 0.34) !important;
+    box-shadow: none !important;
+  }
   html[data-contrast="hc"] #login-modal .no-click-pulse:hover {
     border-color: rgba(255, 234, 0, 0.66) !important;
     background: rgba(14, 20, 32, 0.34) !important;

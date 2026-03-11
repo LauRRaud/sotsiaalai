@@ -1479,10 +1479,29 @@ export default function LoginModal({
               </Button>
 
               <div className="w-full flex flex-col items-center gap-[0.74rem] max-[768px]:gap-[0.62rem] mt-[1.9rem] max-[768px]:mt-[1.45rem]">
-                <button type="button" className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName}`} onClick={handleResendOtp} disabled={resendLoading}>
+                <button
+                  type="button"
+                  className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName}`}
+                  onPointerUp={clearPointerKeyFocus}
+                  onPointerCancel={clearPointerKeyFocus}
+                  onClick={e => {
+                    handleResendOtp();
+                    if (e.detail !== 0) clearButtonFocus(e.currentTarget);
+                  }}
+                  disabled={resendLoading}
+                >
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
                 </button>
-                <button type="button" className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName}`} onClick={resetToPinStep}>
+                <button
+                  type="button"
+                  className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName}`}
+                  onPointerUp={clearPointerKeyFocus}
+                  onPointerCancel={clearPointerKeyFocus}
+                  onClick={e => {
+                    resetToPinStep();
+                    if (e.detail !== 0) clearButtonFocus(e.currentTarget);
+                  }}
+                >
                   {t("auth.login.otp_back")}
                 </button>
               </div>
