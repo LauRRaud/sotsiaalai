@@ -173,12 +173,15 @@
     "card": {
       "specialist": {
         "aria": "Open specialist sign-in",
-        "title": "SPECIALIST"
+        "title": "Social work specialist"
       },
       "client": {
         "aria": "Open help-seeker sign-in",
-        "title": "SEEKER"
+        "title": "Person seeking help"
       }
+    },
+    "theme_toggle": {
+      "title": "Theme: {current}. Switch to: {next}."
     },
     "footer": {
       "logo_alt": "SotsiaalAI logo"

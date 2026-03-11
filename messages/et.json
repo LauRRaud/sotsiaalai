@@ -173,12 +173,15 @@
     "card": {
       "specialist": {
         "aria": "Ava spetsialisti sisselogimine",
-        "title": "SPETSIALIST"
+        "title": "Sotsiaaltöö spetsialist"
       },
       "client": {
         "aria": "Ava eluküsimusega pöörduja sisselogimine",
-        "title": "PÖÖRDUJA"
+        "title": "Eluküsimusega pöörduja"
       }
+    },
+    "theme_toggle": {
+      "title": "Teema: {current}. Vaheta teemaks: {next}."
     },
     "footer": {
       "logo_alt": "SotsiaalAI logo"
