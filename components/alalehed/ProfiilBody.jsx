@@ -510,6 +510,7 @@ export default function ProfiilBody({
   const maskRefreshRef = useRef(null);
   const accountSettingsCloseTimerRef = useRef(null);
   const profileHelpPanelCloseTimerRef = useRef(null);
+  const mobileLogoutArmedTimerRef = useRef(null);
   useEffect(() => () => {
     if (accountSettingsCloseTimerRef.current) {
       window.clearTimeout(accountSettingsCloseTimerRef.current);
@@ -519,7 +520,28 @@ export default function ProfiilBody({
       window.clearTimeout(profileHelpPanelCloseTimerRef.current);
       profileHelpPanelCloseTimerRef.current = null;
     }
+    if (mobileLogoutArmedTimerRef.current) {
+      window.clearTimeout(mobileLogoutArmedTimerRef.current);
+      mobileLogoutArmedTimerRef.current = null;
+    }
   }, []);
+  useEffect(() => {
+    if (mobileLogoutArmedTimerRef.current) {
+      window.clearTimeout(mobileLogoutArmedTimerRef.current);
+      mobileLogoutArmedTimerRef.current = null;
+    }
+    if (!mobileLogoutArmed) return;
+    mobileLogoutArmedTimerRef.current = window.setTimeout(() => {
+      setMobileLogoutArmed(false);
+      mobileLogoutArmedTimerRef.current = null;
+    }, 2000);
+    return () => {
+      if (mobileLogoutArmedTimerRef.current) {
+        window.clearTimeout(mobileLogoutArmedTimerRef.current);
+        mobileLogoutArmedTimerRef.current = null;
+      }
+    };
+  }, [mobileLogoutArmed]);
   useLayoutEffect(() => {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
@@ -1240,12 +1262,12 @@ export default function ProfiilBody({
                   mobileLogoutArmed ? "!opacity-100 !translate-y-0" : null
                 )}
                 style={{
-                  top: "calc(100% - 0.16rem)",
+                  top: "calc(100% - 0.28rem)",
                   fontSize: "1.42rem",
                   lineHeight: 1,
                   fontWeight: 500,
                   letterSpacing: "0.03em",
-                  marginTop: "-0.12rem"
+                  marginTop: "-0.16rem"
                 }}
               >
                 {t("profile.logout")}
