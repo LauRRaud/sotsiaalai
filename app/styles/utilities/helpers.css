@@ -1528,6 +1528,15 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   margin-bottom: 0 !important;
 }
 
+.guide-policy-ring--layout-init,
+.guide-policy-ring--layout-init::before,
+.guide-policy-title--layout-init,
+.guide-policy-content--layout-init,
+.guide-policy-scroll--layout-init {
+  transition: none !important;
+  animation: none !important;
+}
+
 .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
   > footer,
 .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)

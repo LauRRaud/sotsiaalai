@@ -67,7 +67,8 @@ export default function AccessibilityModal({
   prefs,
   onSave,
   onPreview,
-  onPreviewEnd
+  onPreviewEnd,
+  requireInitialSelection = false
 }) {
   const boxRef = useRef(null);
   const firstFocusRef = useRef(null);
@@ -86,12 +87,17 @@ export default function AccessibilityModal({
   const router = useRouter();
   const normalizeUiProfile = value =>
     value === "lg" || value === "xl" ? "lg" : "sm";
-  const [uiScale, setUiScale] = useState(prefs.uiScale || "md");
-  const [uiProfile, setUiProfile] = useState(prefs.uiProfile || normalizeUiProfile(prefs.uiScale));
-  const [contrast, setContrast] = useState(prefs.contrast || "normal");
+  const initialUiScale = requireInitialSelection ? null : prefs.uiScale || "md";
+  const initialUiProfile = requireInitialSelection ? null : prefs.uiProfile || normalizeUiProfile(prefs.uiScale);
+  const initialLang = requireInitialSelection ? null : locale || "et";
+  const initialContrast = requireInitialSelection ? null : prefs.contrast || "normal";
+  const initialTheme = requireInitialSelection ? null : prefs.theme || "dark";
+  const [uiScale, setUiScale] = useState(initialUiScale);
+  const [uiProfile, setUiProfile] = useState(initialUiProfile);
+  const [contrast, setContrast] = useState(initialContrast);
   const [reduceMotion, setReduceMotion] = useState(!!prefs.reduceMotion);
-  const [theme, setTheme] = useState(prefs.theme || "dark");
-  const [lang, setLang] = useState(locale || "et");
+  const [theme, setTheme] = useState(initialTheme);
+  const [lang, setLang] = useState(initialLang);
   const [scrollPad, setScrollPad] = useState(0);
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
@@ -108,13 +114,16 @@ export default function AccessibilityModal({
   const padOffset = 36;
   const originalLocaleRef = useRef(locale);
   const previewedLangRef = useRef(null);
+  const saveDisabled =
+    requireInitialSelection &&
+    (!lang || !contrast || !uiScale || !uiProfile || !theme);
   useEffect(() => {
-    setUiScale(prefs.uiScale || "md");
-    setUiProfile(prefs.uiProfile || normalizeUiProfile(prefs.uiScale));
-    setContrast(prefs.contrast || "normal");
+    setUiScale(current => current ?? initialUiScale);
+    setUiProfile(current => current ?? initialUiProfile);
+    setContrast(current => current ?? initialContrast);
     setReduceMotion(!!prefs.reduceMotion);
-    setTheme(prefs.theme || "dark");
-  }, [prefs]);
+    setTheme(current => current ?? initialTheme);
+  }, [initialContrast, initialTheme, initialUiProfile, initialUiScale, prefs]);
   useEffect(() => {
     let canceled = false;
     async function applyLanguageMessages(targetLocale) {
@@ -413,12 +422,13 @@ export default function AccessibilityModal({
   }, [lang, locale, theme]);
   const stopInside = e => e.stopPropagation();
   const save = async () => {
+    if (saveDisabled) return;
     onSave?.({
-      uiScale,
-      uiProfile,
-      contrast,
+      uiScale: uiScale || prefs.uiScale || "md",
+      uiProfile: uiProfile || prefs.uiProfile || normalizeUiProfile(prefs.uiScale),
+      contrast: contrast || prefs.contrast || "normal",
       reduceMotion,
-      theme
+      theme: theme || prefs.theme || "dark"
     });
     if (typeof window !== "undefined" && lang && lang !== locale) {
       setLocale(lang);
@@ -444,13 +454,13 @@ export default function AccessibilityModal({
   };
   useEffect(() => {
     onPreview?.({
-      uiScale,
-      uiProfile,
-      contrast,
+      uiScale: uiScale || prefs.uiScale || "md",
+      uiProfile: uiProfile || prefs.uiProfile || normalizeUiProfile(prefs.uiScale),
+      contrast: contrast || prefs.contrast || "normal",
       reduceMotion,
-      theme
+      theme: theme || prefs.theme || "dark"
     });
-  }, [uiScale, uiProfile, contrast, reduceMotion, theme, onPreview]);
+  }, [contrast, onPreview, prefs.contrast, prefs.theme, prefs.uiProfile, prefs.uiScale, reduceMotion, theme, uiProfile, uiScale]);
   useEffect(() => () => {
     onPreviewEnd?.();
   }, [onPreviewEnd]);
@@ -624,10 +634,14 @@ export default function AccessibilityModal({
               className="min-w-[9.5rem] text-[1.12rem] px-[1.1em] py-[0.6em] max-[768px]:min-w-[10.8rem] max-[768px]:text-[1.25rem] max-[768px]:px-[1.28em] max-[768px]:py-[0.72em] max-[480px]:min-w-[9rem] max-[480px]:text-[1.14rem]"
               onClick={save}
               aria-label={t("accessibility.save")}
+              disabled={saveDisabled}
             >
               {t("accessibility.save")}
             </Button>
           </div>
+          {saveDisabled ? <p className={`csp-step ${getA11yStepClassName(6)} mt-[-0.6rem] mb-0 px-[1rem] text-center text-[0.98rem] leading-[1.35] text-[color:var(--glass-surface-text-soft,var(--pt-120))] max-[768px]:mt-[-0.25rem] max-[768px]:text-[1.04rem]`}>
+              {t("accessibility.complete_required")}
+            </p> : null}
         </div>
       </div>
     </>;

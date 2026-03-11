@@ -261,6 +261,7 @@ function AccessibilityProvider({
   const [prefs, setPrefsState] = useState(() => buildInitialPrefs(initialPrefs));
   const [prefsHydrated, setPrefsHydrated] = useState(false);
   const [open, setOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("standard");
   const hydratedRef = useRef(false);
   const applyingRef = useRef(false);
   const prefsRef = useRef(prefs);
@@ -336,6 +337,7 @@ function AccessibilityProvider({
         reason,
         pathname: pathnameRef.current
       });
+      setModalMode("first-visit");
       setOpen(true);
     };
     if ("requestIdleCallback" in window) {
@@ -554,11 +556,13 @@ function AccessibilityProvider({
     try {
       lastOpenerRef.current = document.activeElement;
     } catch {}
+    setModalMode("standard");
     setOpen(true);
   }, []);
   const closeModal = useCallback(() => {
     setOpen(false);
     resetPreview();
+    setModalMode("standard");
     setTimeout(() => {
       const el = lastOpenerRef.current;
       if (el && typeof el.focus === "function") {
@@ -653,7 +657,7 @@ function AccessibilityProvider({
       {}
       {children}
       {}
-      {open && <AccessibilityModal onClose={closeModal} prefs={prefs} onSave={setPrefs} onPreview={previewPrefs} onPreviewEnd={resetPreview} />}
+      {open && <AccessibilityModal onClose={closeModal} prefs={prefs} onSave={setPrefs} onPreview={previewPrefs} onPreviewEnd={resetPreview} requireInitialSelection={modalMode === "first-visit"} />}
     </A11yContext.Provider>;
 }
 export default AccessibilityProvider;

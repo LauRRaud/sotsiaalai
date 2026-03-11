@@ -29,6 +29,11 @@
   outline: none;
   outline-offset: 0;
 }
+body.homepage .home-card-a11y-button:focus-visible {
+  outline: 3px solid var(--focus-ring, rgba(96, 165, 250, 0.95));
+  outline-offset: 0.55rem;
+  border-radius: 999px;
+}
 html[data-contrast="hc"]
   :is(
     a,
@@ -90,7 +95,7 @@ html[data-contrast="hc"]
   color: var(--hc-text);
 }
 html[data-contrast="hc"] body .home-card-a11y-button,
-html[data-contrast="hc"] body .home-card-a11y-button:is(:hover, :focus, :focus-visible, :active) {
+html[data-contrast="hc"] body .home-card-a11y-button:is(:hover, :focus, :active) {
   forced-color-adjust: none !important;
   background: transparent !important;
   border: 0 !important;
@@ -758,12 +763,26 @@ html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], 
 html[data-contrast="hc"] #login-modal .no-click-pulse {
   border-color: rgba(255, 234, 0, 0.66) !important;
 }
+html[data-contrast="hc"] #login-modal :is(a, .home-link, .pin-layout-toggle),
+html[data-contrast="hc"] #login-modal :is(a, .home-link, .pin-layout-toggle):is(:hover, :focus-visible, :active) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
 html[data-contrast="hc"] #login-modal .pin-layout-toggle,
 html[data-contrast="hc"] #login-modal .pin-layout-toggle:is(:hover, :focus-visible, :active) {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
   border-radius: 0 !important;
+}
+@media (hover: none) {
+  html[data-contrast="hc"] #login-modal .no-click-pulse:hover {
+    border-color: rgba(255, 234, 0, 0.66) !important;
+    background: rgba(14, 20, 32, 0.34) !important;
+    box-shadow: none !important;
+  }
 }
 html[data-contrast="hc"] #login-modal :is(.login-modal-close.modal-close-btn, .login-help-close-btn, .login-email-icon-btn) {
   background: transparent !important;

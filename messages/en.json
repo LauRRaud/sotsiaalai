@@ -340,6 +340,7 @@
       }
     },
     "save": "Save",
+    "complete_required": "Choose language, contrast, text size, theme, and screen profile before saving.",
     "screen_profile": "Screen profile"
   },
   "privacy": {

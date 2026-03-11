@@ -45,6 +45,37 @@ html[data-contrast="hc"]:not(.theme-light) .homepage-root
   --home-card-blur-scale: 1;
 }
 
+.homepage-root .home-card-a11y-button {
+  position: relative;
+  outline: none;
+}
+
+.homepage-root .home-card-a11y-button:focus-visible {
+  outline: 3px solid var(--focus-ring, rgba(96, 165, 250, 0.95));
+  outline-offset: 0.55rem;
+  border-radius: 999px;
+}
+
+.homepage-root .home-card-a11y-button:focus-visible::after {
+  content: "";
+  position: absolute;
+  inset: -0.45rem;
+  border-radius: inherit;
+  border: 2px solid rgba(191, 219, 254, 0.92);
+  box-shadow: 0 0 0 0.18rem rgba(59, 130, 246, 0.22);
+  pointer-events: none;
+}
+
+html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible {
+  outline: 2px solid var(--hc-focus-ring, rgba(188, 220, 255, 0.5)) !important;
+  outline-offset: 0.45rem !important;
+}
+
+html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::after {
+  border-color: var(--hc-accent) !important;
+  box-shadow: none !important;
+}
+
 :root:not(.theme-light) .homepage-root .three-d-card.right .card-blur-layer {
   --home-card-blur: 0.28rem;
   --home-card-blur-inset: 2px;

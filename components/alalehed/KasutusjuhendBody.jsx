@@ -25,7 +25,8 @@ const scrollClassName = glassPolicyScrollClassName;
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "before_use", "quickstart"];
 export default function KasutusjuhendBody() {
   const [expanded, setExpanded] = useState(false);
-  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(true);
+  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(false);
+  const [layoutReady, setLayoutReady] = useState(false);
   const router = useRouter();
   const {
     t,
@@ -47,12 +48,19 @@ export default function KasutusjuhendBody() {
     const media = window.matchMedia("(max-width: 768px), (pointer: coarse)");
     const updateLayout = () => setIsMobilePolicyLayout(media.matches);
     updateLayout();
+    const readyFrame = window.requestAnimationFrame(() => setLayoutReady(true));
     if (typeof media.addEventListener === "function") {
       media.addEventListener("change", updateLayout);
-      return () => media.removeEventListener("change", updateLayout);
+      return () => {
+        window.cancelAnimationFrame(readyFrame);
+        media.removeEventListener("change", updateLayout);
+      };
     }
     media.addListener(updateLayout);
-    return () => media.removeListener(updateLayout);
+    return () => {
+      window.cancelAnimationFrame(readyFrame);
+      media.removeListener(updateLayout);
+    };
   }, []);
   const handleA11yClick = e => {
     let node = e.target;
@@ -94,7 +102,7 @@ export default function KasutusjuhendBody() {
   };
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", glassPolicyRingClassName, "policy-mobile-lower", "guide-policy-ring", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
+        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", glassPolicyRingClassName, "policy-mobile-lower", "guide-policy-ring", !layoutReady ? "guide-policy-ring--layout-init" : null, isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
         <CloseButton
           onClick={handleBack}
           ariaLabel={t("buttons.close")}
@@ -113,18 +121,20 @@ export default function KasutusjuhendBody() {
               "subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0",
               titleClassName,
               glassPolicyTitleOffsetClassName,
+              !layoutReady ? "guide-policy-title--layout-init" : null,
               isExpandedLayout ? glassPolicyTitleExpandedClassName : null
             )}
           >
             {t("about.guide.short_title")}
           </h1>
         </div>
-        <div className={cn(contentClassName, "relative", "glass-ring-content", "guide-policy-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
+        <div className={cn(contentClassName, "relative", "glass-ring-content", "guide-policy-content", !layoutReady ? "guide-policy-content--layout-init" : null, isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           {showDesktopBottomFade ? <div aria-hidden className={policyDesktopBottomFadeOverlayClassName} style={policyDesktopBottomFadeOverlayStyle} /> : null}
           <div
             className={cn(
               scrollClassName,
               "guide-policy-scroll",
+              !layoutReady ? "guide-policy-scroll--layout-init" : null,
               !isExpandedLayout ? "pb-[4.2rem] max-[768px]:pb-[4.8rem]" : null,
               isExpandedLayout ? "glass-ring-scroll--open" : null,
               isExpandedLayout ? glassPolicyScrollExpandedClassName : null
