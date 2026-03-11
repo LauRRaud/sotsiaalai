@@ -1036,8 +1036,17 @@ export default function LoginModal({
         duration: 920,
         easing: "cubic-bezier(0.25, 0.9, 0.35, 1)"
       });
-    } catch {}
+      } catch {}
   }, [prefs?.reduceMotion]);
+  const clearPointerKeyFocus = useCallback(e => {
+    const el = e?.currentTarget;
+    if (!(el instanceof HTMLElement)) return;
+    requestAnimationFrame(() => {
+      try {
+        el.blur();
+      } catch {}
+    });
+  }, []);
   if (!open) return null;
   const isMidTheme = prefs?.theme === "mid";
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
@@ -1283,7 +1292,7 @@ export default function LoginModal({
               }
               if (key === "help") {
                 const label = t("auth.login.forgot");
-                return <button key={"help-" + String(idx)} type="button" className="no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.85rem] max-md:text-[2.06rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-[320ms] ease-[cubic-bezier(0.25,0.9,0.35,1)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] text-[#c57171] light:text-[#7a3a38] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
+                return <button key={"help-" + String(idx)} type="button" className="login-keypad-btn no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.85rem] max-md:text-[2.06rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-[320ms] ease-[cubic-bezier(0.25,0.9,0.35,1)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] text-[#c57171] light:text-[#7a3a38] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
                   background: pinKeyBackground,
                   boxShadow: pinKeyBoxShadow,
                   "--pin-gloss-op": pinGlossOpacityButton
@@ -1293,7 +1302,7 @@ export default function LoginModal({
                 }} onKeyDown={e => handleKeypadKeyDown(e, idx)} onPointerDown={e => {
                   const el = e.currentTarget;
                   bounceKey(el);
-                }} onClick={() => setHelpOpen(p => !p)} disabled={pinLoading} aria-label={label} aria-haspopup="dialog" aria-expanded={helpOpen}>
+                }} onPointerUp={clearPointerKeyFocus} onPointerCancel={clearPointerKeyFocus} onClick={() => setHelpOpen(p => !p)} disabled={pinLoading} aria-label={label} aria-haspopup="dialog" aria-expanded={helpOpen}>
                           {t("symbols.question")}
                         </button>;
               }
@@ -1302,7 +1311,7 @@ export default function LoginModal({
                 const submitFilled = Math.max(0, Math.min(PIN_MAX, pinValue.length));
                 const submitError = submitIconState === "error";
                 const arrowScale = 1 + submitFilled / PIN_MAX * 0.08;
-                return <button key={"submit-" + String(idx)} type="button" className="no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.6rem] max-md:text-[1.85rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-[320ms] ease-[cubic-bezier(0.25,0.9,0.35,1)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
+                return <button key={"submit-" + String(idx)} type="button" className="login-keypad-btn no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.6rem] max-md:text-[1.85rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-[320ms] ease-[cubic-bezier(0.25,0.9,0.35,1)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
                   background: pinKeyBackground,
                   boxShadow: pinKeyBoxShadow,
                   "--pin-gloss-op": pinGlossOpacityButton,
@@ -1316,7 +1325,7 @@ export default function LoginModal({
                 }} onPointerDown={e => {
                   const el = e.currentTarget;
                   bounceKey(el);
-                }} onClick={() => submitPinStep()} disabled={pinLoading} aria-label={label}>
+                }} onPointerUp={clearPointerKeyFocus} onPointerCancel={clearPointerKeyFocus} onClick={() => submitPinStep()} disabled={pinLoading} aria-label={label}>
                           <span className="absolute inset-0 grid place-items-center" aria-hidden="true">
                             <SubmitInnerEdgeDotsProgress
                               filled={submitFilled}
@@ -1338,7 +1347,7 @@ export default function LoginModal({
               }) : t("auth.login.key", {
                 digit: key
               });
-              return <button key={key + String(idx)} type="button" className={["no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "text-[1.6rem]", "max-md:text-[2.02rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-[320ms]", "ease-[cubic-bezier(0.25,0.9,0.35,1)]", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
+              return <button key={key + String(idx)} type="button" className={["login-keypad-btn", "no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "text-[1.6rem]", "max-md:text-[2.02rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-[320ms]", "ease-[cubic-bezier(0.25,0.9,0.35,1)]", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
                 color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : "rgba(255, 255, 255, 0.92)",
                 background: pinKeyBackground,
                 boxShadow: pinKeyBoxShadow
@@ -1346,9 +1355,11 @@ export default function LoginModal({
                 const el = e.currentTarget;
                 bounceKey(el);
                 if (isZeroKey) startZeroLongPress();
-              }} onPointerUp={() => {
+              }} onPointerUp={e => {
+                clearPointerKeyFocus(e);
                 if (isZeroKey) cancelZeroLongPress();
-              }} onPointerCancel={() => {
+              }} onPointerCancel={e => {
+                clearPointerKeyFocus(e);
                 if (isZeroKey) cancelZeroLongPress();
               }} onPointerLeave={() => {
                 if (isZeroKey) cancelZeroLongPress();
