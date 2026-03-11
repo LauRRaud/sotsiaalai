@@ -255,6 +255,7 @@ html[data-contrast="hc"] body .chat-inputbar .chat-input-field:focus-visible {
 }
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn svg,
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn .chat-send-glyph,
+html[data-contrast="hc"] body .chat-inputbar .chat-send-btn .chat-send-stop-glyph,
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn .chat-mic-glyph {
   color: var(--hc-accent) !important;
 }
