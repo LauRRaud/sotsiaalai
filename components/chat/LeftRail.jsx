@@ -459,12 +459,12 @@ export default function LeftRail({
   if (isMobile) {
     return (
       <div className={slotClassName}>
-        <nav
-          ref={railRef}
-          className={styles.leftRail}
-          tabIndex={0}
-          aria-label={t("chat.page_label")}
-        >
+      <nav
+        ref={railRef}
+        className={cn(styles.leftRail, inputFocused ? styles.leftRailInputFocused : null)}
+        tabIndex={0}
+        aria-label={t("chat.page_label")}
+      >
           {mobileItems.map((item, itemIndex) => {
             const setMobileRailRef = el => {
               if (item.key !== "sources") return;
@@ -569,7 +569,7 @@ export default function LeftRail({
     <div className={slotClassName}>
       <nav
         ref={railRef}
-        className={styles.leftRail}
+        className={cn(styles.leftRail, inputFocused ? styles.leftRailInputFocused : null)}
         tabIndex={0}
         aria-label={t("chat.page_label")}
         onKeyDown={onKeyDown}

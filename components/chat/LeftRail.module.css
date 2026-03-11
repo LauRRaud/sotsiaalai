@@ -49,6 +49,14 @@
   mask-image: none;
 }
 
+.leftRailInputFocused {
+  pointer-events: none;
+}
+
+.leftRailInputFocused .item {
+  pointer-events: auto;
+}
+
 :global(html[data-ui-profile="lg"]) .leftRail {
   --rail-profile-scale: 1.25;
 }

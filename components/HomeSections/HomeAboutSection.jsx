@@ -170,6 +170,8 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   return (
     <section
       id={id}
+      aria-labelledby={aboutHeadingId}
+      aria-describedby={aboutTextId}
       className={cn(
         "home-section",
         "relative z-30 w-full overflow-visible py-[clamp(2.8rem,7vw,5rem)] pb-[clamp(0.6rem,1.6vw,1rem)] max-[768px]:pt-[clamp(1.2rem,4.2vw,2rem)] max-[768px]:pb-[clamp(0.4rem,1.2vw,0.8rem)] touch-pan-y",
@@ -192,7 +194,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           >
             {t("about.title")}
           </h2>
-          <p id={aboutTextId} hidden>
+          <p id={aboutTextId} className="sr-only">
             {aboutA11yText}
           </p>
           <div className="relative mx-auto w-full max-w-[52rem]">
@@ -208,7 +210,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               }}
             >
               {aboutParagraphs.map(({ key, value }) => (
-                <div key={key} aria-hidden="true">
+                <div key={key}>
                   <RichText
                     as="div"
                     className="[&>p]:m-0"
