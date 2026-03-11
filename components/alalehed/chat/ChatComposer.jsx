@@ -435,10 +435,10 @@ export default function ChatComposer({
     "appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none";
   const toolsButtonClassName =
     `chat-side-control-btn chat-tools-btn ${sideControlButtonBaseClassName} ` +
-    "h-[var(--chat-composer-side-control-size)] " +
-    "w-[var(--chat-composer-side-control-size)] " +
+    "absolute left-0 top-0 h-[var(--chat-composer-side-control-size)] " +
+    "w-[var(--chat-tools-control-hit-width,var(--chat-composer-side-control-size))] " +
     "min-h-[var(--chat-composer-side-control-size)] " +
-    "min-w-[var(--chat-composer-side-control-size)]";
+    "min-w-[var(--chat-tools-control-hit-width,var(--chat-composer-side-control-size))]";
   const documentAttachButtonClassName =
     `chat-side-control-btn chat-document-attach-btn ${sideControlButtonBaseClassName} ` +
     "h-[var(--chat-document-control-hit-size,var(--chat-composer-side-control-size))] " +

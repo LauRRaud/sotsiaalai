@@ -186,13 +186,14 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         >
           <h2
             id={aboutHeadingId}
+            aria-describedby={aboutTextId}
             className={cn(
               "home-about-title text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[768px]:mb-[0.3rem] text-[color:var(--home-title-color)]"
             )}
           >
             {t("about.title")}
           </h2>
-          <p id={aboutTextId} className="sr-only" role="text">
+          <p id={aboutTextId} hidden>
             {aboutA11yText}
           </p>
           <div className="relative mx-auto w-full max-w-[52rem]">
