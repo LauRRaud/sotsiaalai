@@ -14,7 +14,7 @@
   --chat-input-focus-shift: -2.35rem;
   --chat-attach-left-pull: -1.7rem;
   --chat-inputbar-left-pull: -1.65rem;
-  --chat-attach-icon-shift-x: 0.42rem;
+  --chat-tools-hit-shift-x: -0.42rem;
   --chat-hpad-right: clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem);
   --chat-window-focus-shift: 0rem;
 }
@@ -241,12 +241,20 @@ body.selected-listing-modal-open .chat-page-shell {
 }
 
 /* Keep chat send/dictate controls borderless in normal contrast modes. */
-body .chat-input-row .chat-attach-btn {
+body .chat-input-row .chat-tools-btn {
   width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
   height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
   min-width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
   min-height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
   flex: 0 0 var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
+}
+
+body .chat-input-row .chat-document-attach-btn {
+  width: var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
+  height: var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
+  min-width: var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
+  min-height: var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
+  flex: 0 0 var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
 }
 
 body .chat-inputbar .chat-listen-btn,
@@ -266,14 +274,19 @@ body .chat-inputbar .chat-send-btn {
   flex: 0 0 calc(var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
 }
 
-body .chat-input-row .chat-attach-btn svg {
+body .chat-input-row .chat-side-control-btn svg {
   width: var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) !important;
   height: var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) !important;
 }
 
-.chat-container--input-focus .chat-input-row .chat-attach-btn svg {
-  transform: translateX(var(--chat-attach-icon-shift-x, 0rem)) !important;
-  transform-origin: center !important;
+.chat-container--input-focus .chat-input-row .chat-tools-btn {
+  position: relative !important;
+  left: var(--chat-tools-hit-shift-x, 0rem) !important;
+}
+
+.chat-container--input-focus .chat-input-row .chat-tools-btn svg {
+  position: relative !important;
+  left: calc(-1 * var(--chat-tools-hit-shift-x, 0rem)) !important;
 }
 
 body .chat-inputbar .chat-listen-btn svg {

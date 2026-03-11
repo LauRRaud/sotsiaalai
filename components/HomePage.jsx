@@ -43,11 +43,6 @@ export default function HomePage() {
     hydrated: prefsHydrated
   } = useAccessibility();
   const { t, locale } = useI18n();
-  const homeA11yTitle = t("meta.home.title", "SotsiaalAI");
-  const homeA11yIntro = t(
-    "meta.home.description",
-    "SotsiaalAI pakub rollipohist tehisintellekti tuge spetsialistidele ja abi otsijatele."
-  );
   const [hasSeenIntro] = useState(() => homeIntroSeen);
   const initialSkipIntro = hasSeenIntro;
   const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
@@ -234,6 +229,21 @@ export default function HomePage() {
       document.body.classList.remove("homeCursorScope");
     };
   }, []);
+  useEffect(() => {
+    if (!isMobile || typeof document === "undefined") return;
+    const skipLink = document.querySelector(".skip-link");
+    if (!(skipLink instanceof HTMLAnchorElement)) return;
+    const prevAriaHidden = skipLink.getAttribute("aria-hidden");
+    const prevTabIndex = skipLink.getAttribute("tabindex");
+    skipLink.setAttribute("aria-hidden", "true");
+    skipLink.setAttribute("tabindex", "-1");
+    return () => {
+      if (prevAriaHidden == null) skipLink.removeAttribute("aria-hidden");
+      else skipLink.setAttribute("aria-hidden", prevAriaHidden);
+      if (prevTabIndex == null) skipLink.removeAttribute("tabindex");
+      else skipLink.setAttribute("tabindex", prevTabIndex);
+    };
+  }, [isMobile]);
   useEffect(() => {
     if (!isLoginOpen) return;
     setMobileFlipReady({
@@ -505,7 +515,7 @@ export default function HomePage() {
   return <>
       <div className={cn("relative flex min-h-[100dvh] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>
         <section onClick={handleBackgroundTap} className="relative touch-pan-y">
-          <p
+          <h1
             className={cn(
               "pointer-events-none absolute left-1/2 top-[max(env(safe-area-inset-top,0px),0.08rem)] z-[30] -translate-x-1/2",
               "w-[min(94vw,56rem)] px-4 text-center font-bold uppercase tracking-[0.04em]",
@@ -513,11 +523,7 @@ export default function HomePage() {
             )}
           >
             AVAME 17.03, SOTSIAALTÖÖ PÄEVAL!
-          </p>
-          <div className="sr-only">
-            <h1>{homeA11yTitle}</h1>
-            <p>{homeA11yIntro}</p>
-          </div>
+          </h1>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[768px]:flex-col max-[768px]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[768px]:px-[clamp(1rem,4vw,1.5rem)] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[768px]:pb-[clamp(5rem,12vw,7rem)] max-[768px]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
               <div ref={leftCardWrapRef} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="button" aria-labelledby="home-card-specialist-title home-card-specialist-action" aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>

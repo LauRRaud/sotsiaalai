@@ -20,6 +20,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   const t = useT();
   const { locale } = useI18n();
   const aboutHeadingId = `${id}-title`;
+  const aboutTextId = `${id}-text`;
   const beforeHeadingId = `${id}-before-title`;
   const ctaTitle = t("about.cta.title");
   const aboutParagraphKeys = [
@@ -35,6 +36,19 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       value: t(`about.intro.${key}`)
     }))
     .filter(({ key, value }) => value && value !== `about.intro.${key}`);
+  const aboutA11yText = aboutParagraphs
+    .map(({ value }) =>
+      String(value || "")
+        .replace(/<br\s*\/?>/gi, " ")
+        .replace(/<\/p>\s*<p>/gi, " ")
+        .replace(/<li>/gi, " ")
+        .replace(/<\/li>/gi, " ")
+        .replace(/<[^>]+>/g, "")
+        .replace(/\s+/g, " ")
+        .trim()
+    )
+    .filter(Boolean)
+    .join(" ");
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
   const aboutScrollRef = useRef(null);
@@ -178,6 +192,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           >
             {t("about.title")}
           </h2>
+          <p id={aboutTextId} className="sr-only" role="text">
+            {aboutA11yText}
+          </p>
           <div className="relative mx-auto w-full max-w-[52rem]">
             <div
               ref={aboutScrollRef}
@@ -191,18 +208,19 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               }}
             >
               {aboutParagraphs.map(({ key, value }) => (
-                <RichText
-                  key={key}
-                  as="div"
-                  className="[&>p]:m-0"
-                  value={value}
-                  replacements={{
-                    oska: {
-                      open: `<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" target="_blank" rel="noreferrer" class="${oskaLinkClassName}">`,
-                      close: "</a>"
-                    }
-                  }}
-                />
+                <div key={key} aria-hidden="true">
+                  <RichText
+                    as="div"
+                    className="[&>p]:m-0"
+                    value={value}
+                    replacements={{
+                      oska: {
+                        open: `<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" target="_blank" rel="noreferrer" class="${oskaLinkClassName}">`,
+                        close: "</a>"
+                      }
+                    }}
+                  />
+                </div>
               ))}
             </div>
           </div>
