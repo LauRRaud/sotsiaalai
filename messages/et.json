@@ -230,7 +230,7 @@
     "role_short": {
       "admin": "Administraator",
       "worker": "Spetsialist",
-      "client": "Eluküsimusega pöörduja",
+      "client": "Pöörduja",
       "unknown": ""
     },
     "view_mode": {

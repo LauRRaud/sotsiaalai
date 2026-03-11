@@ -505,6 +505,12 @@ export default function ProfiilBody({
   const nextPreviewRoleLabel = t(nextPreviewRole === "SOCIAL_WORKER" ? "profile.view_mode.worker" : "profile.view_mode.client");
   const isLongRoleLabel = actualRole === "SOCIAL_WORKER" || actualRole === "CLIENT";
   const roleLabel = t(ROLE_KEYS[actualRole] || "role.unknown");
+  const roleLabelNode =
+    actualRole === "SOCIAL_WORKER"
+      ? <><span>Sotsiaaltöö</span><br /><span>spetsialist</span></>
+      : actualRole === "CLIENT"
+        ? <><span>Eluküsimusega</span><br /><span>pöörduja</span></>
+        : roleLabel;
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -1207,7 +1213,7 @@ export default function ProfiilBody({
           className={cn(rolePillClassName, isLongRoleLabel ? rolePillMultiLineClassName : null, "shadow-[var(--profile-role-hole-shadow,none)]", orbitOpen ? "opacity-0 pointer-events-none" : null)}
           aria-hidden={orbitOpen ? "true" : undefined}
         >
-          {roleLabel}
+          {roleLabelNode}
         </span>
       </div>
 
@@ -1270,7 +1276,7 @@ export default function ProfiilBody({
                   opacity: mobileLogoutArmed ? 1 : 0
                 }}
               >
-                {t("profile.logout")}
+                {t("profile.logout_short")}
               </span>
               <span className="sr-only">{t("profile.logout")}</span>
             </button>

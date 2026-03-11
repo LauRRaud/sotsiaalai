@@ -76,7 +76,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       const neededSize = Math.ceil(Math.max(neededWidth, neededHeight));
       const minSize = 300;
       const maxSize = Math.floor(
-        window.innerWidth * (isRussianLocale ? 0.95 : 0.91)
+        window.innerWidth * (isRussianLocale ? 0.92 : 0.88)
       );
       const nextSize = Math.max(minSize, Math.min(maxSize, neededSize));
       setBeforeDiameter((prev) => (prev === nextSize ? prev : nextSize));
@@ -210,7 +210,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           style={
             beforeDiameter
               ? { width: `${beforeDiameter}px`, height: `${beforeDiameter}px` }
-              : { width: "min(90vw, 30rem)", height: "min(90vw, 30rem)" }
+              : { width: "min(90vw, 28.5rem)", height: "min(90vw, 28.5rem)" }
           }
         >
           <div

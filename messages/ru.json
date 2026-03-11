@@ -220,7 +220,7 @@
     "role_short": {
       "admin": "Администратор",
       "worker": "Специалист",
-      "client": "Ищущих помощи",
+      "client": "Обратившийся",
       "unknown": "—"
     },
     "view_mode": {

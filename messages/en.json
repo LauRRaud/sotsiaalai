@@ -230,7 +230,7 @@
     "role_short": {
       "admin": "Administrator",
       "worker": "Specialist",
-      "client": "Life-question seeker",
+      "client": "Seeker",
       "unknown": ""
     },
     "view_mode": {

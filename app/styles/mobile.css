@@ -1543,7 +1543,7 @@
     --chat-input-available-inline: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
     ) !important;
-    --chat-input-row-edge-pad: clamp(0.24rem, 1.1vw, 0.48rem) !important;
+    --chat-input-row-edge-pad: clamp(0.72rem, 3.2vw, 1rem) !important;
     --chat-input-side-controls-inline: calc(
       var(--chat-composer-side-control-size) + clamp(0.14rem, 0.7vw, 0.26rem)
     ) !important;
@@ -1559,7 +1559,7 @@
     gap: clamp(0.14rem, 0.8vw, 0.26rem) !important;
     padding-left: var(--chat-input-row-edge-pad) !important;
     padding-right: calc(
-      var(--chat-input-row-edge-pad) + clamp(0.08rem, 0.35vw, 0.14rem)
+      var(--chat-input-row-edge-pad) + clamp(0.12rem, 0.55vw, 0.22rem)
     ) !important;
   }
 
@@ -1876,6 +1876,37 @@
   .register-copy {
     font-size: clamp(1.24rem, 4.95vw, 1.42rem);
     line-height: 1.34;
+  }
+
+  html[data-platform="android"] .register-option-card,
+  body[data-platform="android"] .register-option-card {
+    padding-left: clamp(0.96rem, 3.9vw, 1.18rem) !important;
+    padding-right: clamp(0.96rem, 3.9vw, 1.18rem) !important;
+    padding-top: 0.94rem !important;
+    padding-bottom: 0.94rem !important;
+    font-size: clamp(1.08rem, 4.25vw, 1.22rem) !important;
+    line-height: 1.26 !important;
+    letter-spacing: 0.012em !important;
+  }
+
+  html[data-platform="android"] .register-checkbox-card,
+  body[data-platform="android"] .register-checkbox-card {
+    padding-left: clamp(0.96rem, 3.9vw, 1.2rem) !important;
+    padding-right: clamp(0.96rem, 3.9vw, 1.2rem) !important;
+    gap: clamp(0.56rem, 2vw, 0.72rem) !important;
+    min-height: clamp(3.72rem, 13.2vw, 4.35rem) !important;
+    font-size: clamp(1rem, 4vw, 1.14rem) !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.01em !important;
+    --seg-control-size: clamp(1.18rem, 4.5vw, 1.34rem) !important;
+    --seg-check-size: clamp(0.9rem, 3.45vw, 1rem) !important;
+  }
+
+  html[data-platform="android"] .register-copy,
+  body[data-platform="android"] .register-copy {
+    font-size: clamp(1.08rem, 4.25vw, 1.22rem) !important;
+    line-height: 1.26 !important;
+    letter-spacing: 0.012em !important;
   }
 
   .register-submit {

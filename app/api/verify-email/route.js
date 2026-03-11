@@ -25,6 +25,32 @@ const NO_STORE_HEADERS = {
 };
 
 const mailer = getMailer("email-verify");
+const VERIFY_PAGE_COPY = {
+  et: {
+    title: "Kinnita e-posti aadress",
+    intro: "Konto aktiveerimiseks kinnita oma e-posti aadress alloleva nupuga.",
+    confirm: "Kinnita e-post",
+    successTitle: "E-post on kinnitatud",
+    successBody: "Võid nüüd jätkata tellimuse aktiveerimise või sisselogimisega.",
+    continueLabel: "Jätka"
+  },
+  en: {
+    title: "Confirm your email address",
+    intro: "To activate your account, confirm your email address using the button below.",
+    confirm: "Confirm email",
+    successTitle: "Email confirmed",
+    successBody: "You can now continue to subscription activation or sign in.",
+    continueLabel: "Continue"
+  },
+  ru: {
+    title: "Подтвердите email",
+    intro: "Чтобы активировать аккаунт, подтвердите email кнопкой ниже.",
+    confirm: "Подтвердить email",
+    successTitle: "Email подтверждён",
+    successBody: "Теперь можно продолжить активацию подписки или войти.",
+    continueLabel: "Продолжить"
+  }
+};
 
 function json(payload = {}, status = 200) {
   return NextResponse.json(
@@ -49,6 +75,110 @@ function errorJson(messageKey, status = 400, locale = "en", extras = {}) {
       ...extras
     },
     status
+  );
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function getVerifyCopy(locale) {
+  return VERIFY_PAGE_COPY[locale] || VERIFY_PAGE_COPY.en;
+}
+
+function renderVerifyPage({
+  locale,
+  title,
+  body,
+  actionLabel,
+  actionUrl,
+  isError = false
+}) {
+  const safeTitle = escapeHtml(title);
+  const safeBody = escapeHtml(body);
+  const safeActionLabel = escapeHtml(actionLabel);
+  const safeActionUrl = escapeHtml(actionUrl);
+
+  return new NextResponse(
+    `<!doctype html>
+<html lang="${escapeHtml(locale)}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>${safeTitle}</title>
+    <style>
+      :root { color-scheme: dark light; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        font-family: Arial, sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(197,113,113,0.18), transparent 36%),
+          linear-gradient(180deg, #0b1220 0%, #121a2b 100%);
+        color: #f5f7fb;
+      }
+      .card {
+        width: min(100%, 460px);
+        border-radius: 20px;
+        padding: 28px;
+        background: rgba(12, 18, 30, 0.78);
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 32px;
+        line-height: 1.05;
+      }
+      p {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.5;
+        color: ${isError ? "#fecaca" : "#e5e7eb"};
+      }
+      .actions {
+        margin-top: 22px;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 20px;
+        border-radius: 999px;
+        border: 0;
+        text-decoration: none;
+        background: ${isError ? "#b45309" : "#c57171"};
+        color: white;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>${safeTitle}</h1>
+      <p>${safeBody}</p>
+      <div class="actions">
+        <a class="button" href="${safeActionUrl}">${safeActionLabel}</a>
+      </div>
+    </main>
+  </body>
+</html>`,
+    {
+      status: isError ? 400 : 200,
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+        ...NO_STORE_HEADERS
+      }
+    }
   );
 }
 
@@ -86,6 +216,98 @@ function buildVerifyUrl(email, token, locale) {
   return `${baseUrl.replace(/\/$/, "")}/api/verify-email?${params.toString()}`;
 }
 
+function buildVerifyConfirmUrl({ requestUrl, email, token, locale }) {
+  const confirmUrl = new URL(requestUrl);
+  confirmUrl.searchParams.set("email", email);
+  confirmUrl.searchParams.set("token", token);
+  confirmUrl.searchParams.set("confirm", "1");
+  if (locale) {
+    confirmUrl.searchParams.set("locale", locale);
+  } else {
+    confirmUrl.searchParams.delete("locale");
+  }
+  return confirmUrl.toString();
+}
+
+function buildSubscriptionUrl({ requestUrl, locale }) {
+  const redirectBase = resolveBaseUrl() || new URL(requestUrl).origin;
+  const subscriptionPath = localizePath("/tellimus", locale);
+  return new URL(`${subscriptionPath}?reason=email-verified`, redirectBase);
+}
+
+async function confirmVerification({ email, token }) {
+  if (!email || !token) {
+    return {
+      ok: false,
+      status: 400,
+      messageKey: "api.auth.verify.invalid_link",
+      code: "INVALID_LINK"
+    };
+  }
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (user?.emailVerified) {
+    await prisma.verificationToken.deleteMany({
+      where: { identifier: email }
+    });
+    return { ok: true, alreadyVerified: true };
+  }
+
+  const verificationToken = await prisma.verificationToken.findUnique({
+    where: {
+      identifier_token: {
+        identifier: email,
+        token
+      }
+    }
+  });
+
+  if (!verificationToken) {
+    return {
+      ok: false,
+      status: 400,
+      messageKey: "api.auth.verify.link_invalid_or_used",
+      code: "INVALID_LINK"
+    };
+  }
+
+  if (verificationToken.expires < new Date()) {
+    await prisma.verificationToken.deleteMany({
+      where: { identifier: email }
+    });
+    return {
+      ok: false,
+      status: 410,
+      messageKey: "api.auth.verify.link_expired",
+      code: "LINK_EXPIRED"
+    };
+  }
+
+  if (!user) {
+    await prisma.verificationToken.deleteMany({
+      where: { identifier: email }
+    });
+    return {
+      ok: false,
+      status: 404,
+      messageKey: "api.auth.verify.user_not_found",
+      code: "USER_NOT_FOUND"
+    };
+  }
+
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({
+      where: { id: user.id },
+      data: { emailVerified: new Date() }
+    });
+    await tx.verificationToken.deleteMany({
+      where: { identifier: email }
+    });
+  });
+
+  return { ok: true, alreadyVerified: false };
+}
+
 async function sendVerificationEmail(to, verifyUrl, locale) {
   const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
   if (!from) {
@@ -108,74 +330,70 @@ async function sendVerificationEmail(to, verifyUrl, locale) {
 export async function GET(request) {
   const url = new URL(request.url);
   const locale = localeFromRequest(request, url.searchParams.get("locale"));
+  const copy = getVerifyCopy(locale);
+  const email = normalizeEmail(url.searchParams.get("email"));
+  const token = String(url.searchParams.get("token") || "").trim();
+  const wantsConfirm = url.searchParams.get("confirm") === "1";
 
   try {
-    const email = normalizeEmail(url.searchParams.get("email"));
-    const token = String(url.searchParams.get("token") || "").trim();
-
-    if (!email || !token) {
-      return errorJson("api.auth.verify.invalid_link", 400, locale, {
-        code: "INVALID_LINK"
-      });
-    }
-
-    const verificationToken = await prisma.verificationToken.findUnique({
-      where: {
-        identifier_token: {
-          identifier: email,
-          token
-        }
+    if (!wantsConfirm) {
+      if (!email || !token) {
+        return renderVerifyPage({
+          locale,
+          title: copy.title,
+          body: serverT(locale, "api.auth.verify.invalid_link", undefined, copy.intro),
+          actionLabel: copy.continueLabel,
+          actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale }).toString(),
+          isError: true
+        });
       }
-    });
 
-    if (!verificationToken) {
-      return errorJson("api.auth.verify.link_invalid_or_used", 400, locale, {
-        code: "INVALID_LINK"
+      const existingUser = await prisma.user.findUnique({ where: { email } });
+      if (existingUser?.emailVerified) {
+        return NextResponse.redirect(buildSubscriptionUrl({ requestUrl: request.url, locale }));
+      }
+
+      return renderVerifyPage({
+        locale,
+        title: copy.title,
+        body: copy.intro,
+        actionLabel: copy.confirm,
+        actionUrl: buildVerifyConfirmUrl({
+          requestUrl: request.url,
+          email,
+          token,
+          locale
+        })
       });
     }
 
-    if (verificationToken.expires < new Date()) {
-      await prisma.verificationToken.deleteMany({
-        where: { identifier: email }
-      });
-      return errorJson("api.auth.verify.link_expired", 410, locale, {
-        code: "LINK_EXPIRED"
-      });
-    }
-
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-      await prisma.verificationToken.deleteMany({
-        where: { identifier: email }
-      });
-      return errorJson("api.auth.verify.user_not_found", 404, locale, {
-        code: "USER_NOT_FOUND"
+    const result = await confirmVerification({ email, token });
+    if (!result.ok) {
+      return renderVerifyPage({
+        locale,
+        title: copy.title,
+        body: serverT(locale, result.messageKey, undefined, copy.intro),
+        actionLabel: copy.continueLabel,
+        actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale }).toString(),
+        isError: true
       });
     }
 
-    await prisma.$transaction(async (tx) => {
-      await tx.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() }
-      });
-      await tx.verificationToken.deleteMany({
-        where: { identifier: email }
-      });
-    });
-
-    try {
-      const redirectBase = resolveBaseUrl() || url.origin;
-      const subscriptionPath = localizePath("/tellimus", locale);
-      return NextResponse.redirect(
-        new URL(`${subscriptionPath}?reason=email-verified`, redirectBase)
-      );
-    } catch {
-      return json({ verified: true });
-    }
+    return NextResponse.redirect(buildSubscriptionUrl({ requestUrl: request.url, locale }));
   } catch (error) {
     console.error("verify-email GET error", error);
-    return errorJson("api.auth.verify.confirm_failed", 500, locale, {
-      code: "VERIFY_FAILED"
+    return renderVerifyPage({
+      locale,
+      title: copy.successTitle,
+      body: serverT(
+        locale,
+        "api.auth.verify.confirm_failed",
+        undefined,
+        copy.successBody
+      ),
+      actionLabel: copy.continueLabel,
+      actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale }).toString(),
+      isError: true
     });
   }
 }
