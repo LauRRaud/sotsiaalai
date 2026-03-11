@@ -14,7 +14,6 @@
   --chat-input-focus-shift: -2.35rem;
   --chat-attach-left-pull: -1.7rem;
   --chat-inputbar-left-pull: -1.65rem;
-  --chat-tools-control-hit-width: calc(var(--chat-composer-plus-icon-size) + 0.34rem);
   --chat-hpad-right: clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem);
   --chat-window-focus-shift: 0rem;
 }
@@ -241,20 +240,12 @@ body.selected-listing-modal-open .chat-page-shell {
 }
 
 /* Keep chat send/dictate controls borderless in normal contrast modes. */
-body .chat-input-row .chat-tools-btn {
-  width: var(--chat-tools-control-hit-width, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
+body .chat-input-row .chat-side-control-btn {
+  width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
   height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
-  min-width: var(--chat-tools-control-hit-width, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
+  min-width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
   min-height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
-  flex: 0 0 var(--chat-tools-control-hit-width, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
-}
-
-body .chat-input-row .chat-document-attach-btn {
-  width: var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
-  height: var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
-  min-width: var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
-  min-height: var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
-  flex: 0 0 var(--chat-document-control-hit-size, var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)))) !important;
+  flex: 0 0 var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
 }
 
 body .chat-inputbar .chat-listen-btn,
