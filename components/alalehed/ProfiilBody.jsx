@@ -43,6 +43,25 @@ function normalizeProfileRole(value, fallback = "CLIENT") {
   if (normalized === "CLIENT") return "CLIENT";
   return fallback;
 }
+function splitRoleLabelToTwoLines(label) {
+  if (typeof label !== "string" || !label.trim()) return label;
+  if (label.includes("\n")) return label;
+  const words = label.trim().split(/\s+/).filter(Boolean);
+  if (words.length <= 1) return label;
+  if (words.length === 2) return `${words[0]}\n${words[1]}`;
+  let bestIndex = 1;
+  let bestDelta = Number.POSITIVE_INFINITY;
+  for (let index = 1; index < words.length; index += 1) {
+    const left = words.slice(0, index).join(" ");
+    const right = words.slice(index).join(" ");
+    const delta = Math.abs(left.length - right.length);
+    if (delta < bestDelta) {
+      bestDelta = delta;
+      bestIndex = index;
+    }
+  }
+  return `${words.slice(0, bestIndex).join(" ")}\n${words.slice(bestIndex).join(" ")}`;
+}
 const pageShellClassName =
   `${glassPageShellCenteredClassName} max-md:py-0`;
 const containerBaseClassName =
@@ -60,17 +79,19 @@ const headerCenterBaseClassName =
 const headerCenterPageClassName =
   "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(2.4rem,5.6vh,4.2rem)] " +
   "max-[48em]:mt-[clamp(1.75rem,7.2vw,2.35rem)] max-[48em]:translate-y-[clamp(0.82rem,3.6vw,1.25rem)]";
-const rolePillClassName =
-  "inline-flex items-center justify-center rounded-full px-[0.75em] " +
+const rolePillBaseClassName =
+  "inline-flex items-center justify-center rounded-full " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
   "text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] " +
-  "bg-transparent border-none " +
-  "leading-[3.2rem] h-[3.2rem] whitespace-nowrap";
+  "bg-transparent border-none";
+const rolePillSingleLineClassName =
+  "px-[0.75em] h-[3.2rem] leading-[3.2rem] whitespace-nowrap";
 const rolePillMultiLineClassName =
-  "h-auto min-h-[4.5rem] max-w-[19.5rem] px-[1.05em] py-[0.5rem] " +
-  "leading-[1.24] whitespace-normal text-center [text-wrap:balance] " +
-  "max-[48em]:max-w-[min(84vw,16.2rem)] " +
-  "min-[48.0625em]:-translate-y-[0.34rem] max-[48em]:-translate-y-[0.14rem]";
+  "h-auto min-h-[4.1rem] px-[1.15em] py-[0.56rem] " +
+  "text-center [text-wrap:initial] " +
+  "max-w-[19.5rem] max-[48em]:max-w-[min(84vw,16.2rem)]";
+const rolePillMultiLineTextClassName =
+  "flex flex-col items-center justify-center gap-[0.28rem] leading-[1.06] text-inherit";
 const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
@@ -503,8 +524,13 @@ export default function ProfiilBody({
   );
   const nextPreviewRole = activePreviewRole === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER";
   const nextPreviewRoleLabel = t(nextPreviewRole === "SOCIAL_WORKER" ? "profile.view_mode.worker" : "profile.view_mode.client");
-  const isLongRoleLabel = false;
-  const roleLabelNode = t(ROLE_SHORT_KEYS[actualRole] || "profile.role_short.unknown");
+  const roleLabel = t(ROLE_SHORT_KEYS[actualRole] || "profile.role_short.unknown");
+  const roleLabelDisplay = splitRoleLabelToTwoLines(roleLabel);
+  const roleLabelIsMultiLine =
+    typeof roleLabelDisplay === "string" && roleLabelDisplay.includes("\n");
+  const roleLabelLines = roleLabelIsMultiLine
+    ? roleLabelDisplay.split("\n").map(line => line.trim()).filter(Boolean)
+    : [];
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -712,14 +738,14 @@ export default function ProfiilBody({
         maskRefreshRef.current = null;
       }
     };
-  }, [embedded, isActive, prefs?.theme, roleLabelNode, loading, loadFailed, isAuthed]);
+  }, [embedded, isActive, prefs?.theme, roleLabelDisplay, loading, loadFailed, isAuthed]);
   useEffect(() => {
     const refresh = () => maskRefreshRef.current?.();
     const timers = [0, 60, 140, 260, 420, 700, 1100].map(delay =>
       window.setTimeout(refresh, delay)
     );
     return () => timers.forEach(timer => window.clearTimeout(timer));
-  }, [prefs?.theme, roleLabelNode, orbitOpen, isActive, embedded]);
+  }, [prefs?.theme, roleLabelDisplay, orbitOpen, isActive, embedded]);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const maskLayer = maskLayerRef.current;
@@ -1204,10 +1230,25 @@ export default function ProfiilBody({
       <div className={cn(headerCenterClassName, "profile-role-row")}>
         <span
           ref={rolePillRef}
-          className={cn(rolePillClassName, isLongRoleLabel ? rolePillMultiLineClassName : null, "shadow-[var(--profile-role-hole-shadow,none)]", orbitOpen ? "opacity-0 pointer-events-none" : null)}
+          className={cn(
+            rolePillBaseClassName,
+            roleLabelIsMultiLine ? rolePillMultiLineClassName : rolePillSingleLineClassName,
+            "shadow-[var(--profile-role-hole-shadow,none)]",
+            orbitOpen ? "opacity-0 pointer-events-none" : null
+          )}
           aria-hidden={orbitOpen ? "true" : undefined}
         >
-          {roleLabelNode}
+          {roleLabelIsMultiLine ? (
+            <span className={rolePillMultiLineTextClassName}>
+              {roleLabelLines.map((line, index) => (
+                <span key={`profile-role-line-${index}`} className="block">
+                  {line}
+                </span>
+              ))}
+            </span>
+          ) : (
+            roleLabelDisplay
+          )}
         </span>
       </div>
 

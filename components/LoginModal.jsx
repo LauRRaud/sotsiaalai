@@ -1038,15 +1038,17 @@ export default function LoginModal({
       });
       } catch {}
   }, [prefs?.reduceMotion]);
-  const clearPointerKeyFocus = useCallback(e => {
-    const el = e?.currentTarget;
-    if (!(el instanceof HTMLElement)) return;
+  const clearButtonFocus = useCallback(target => {
+    if (!(target instanceof HTMLElement)) return;
     requestAnimationFrame(() => {
       try {
-        el.blur();
+        target.blur();
       } catch {}
     });
   }, []);
+  const clearPointerKeyFocus = useCallback(e => {
+    clearButtonFocus(e?.currentTarget);
+  }, [clearButtonFocus]);
   if (!open) return null;
   const isMidTheme = prefs?.theme === "mid";
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
@@ -1302,7 +1304,10 @@ export default function LoginModal({
                 }} onKeyDown={e => handleKeypadKeyDown(e, idx)} onPointerDown={e => {
                   const el = e.currentTarget;
                   bounceKey(el);
-                }} onPointerUp={clearPointerKeyFocus} onPointerCancel={clearPointerKeyFocus} onClick={() => setHelpOpen(p => !p)} disabled={pinLoading} aria-label={label} aria-haspopup="dialog" aria-expanded={helpOpen}>
+                }} onPointerUp={clearPointerKeyFocus} onPointerCancel={clearPointerKeyFocus} onClick={e => {
+                  setHelpOpen(p => !p);
+                  if (e.detail !== 0) clearButtonFocus(e.currentTarget);
+                }} disabled={pinLoading} aria-label={label} aria-haspopup="dialog" aria-expanded={helpOpen}>
                           {t("symbols.question")}
                         </button>;
               }
@@ -1325,7 +1330,10 @@ export default function LoginModal({
                 }} onPointerDown={e => {
                   const el = e.currentTarget;
                   bounceKey(el);
-                }} onPointerUp={clearPointerKeyFocus} onPointerCancel={clearPointerKeyFocus} onClick={() => submitPinStep()} disabled={pinLoading} aria-label={label}>
+                }} onPointerUp={clearPointerKeyFocus} onPointerCancel={clearPointerKeyFocus} onClick={e => {
+                  submitPinStep();
+                  if (e.detail !== 0) clearButtonFocus(e.currentTarget);
+                }} disabled={pinLoading} aria-label={label}>
                           <span className="absolute inset-0 grid place-items-center" aria-hidden="true">
                             <SubmitInnerEdgeDotsProgress
                               filled={submitFilled}
@@ -1363,17 +1371,20 @@ export default function LoginModal({
                 if (isZeroKey) cancelZeroLongPress();
               }} onPointerLeave={() => {
                 if (isZeroKey) cancelZeroLongPress();
-              }} onClick={() => {
+              }} onClick={e => {
                 if (isZeroKey && zeroLongPressFiredRef.current) {
                   zeroLongPressFiredRef.current = false;
                   setZeroKeyMode("digit");
+                  if (e.detail !== 0) clearButtonFocus(e.currentTarget);
                   return;
                 }
                 if (isZeroKey) {
                   appendDigit(digitToAppend);
+                  if (e.detail !== 0) clearButtonFocus(e.currentTarget);
                   return;
                 }
                 appendDigit(digitToAppend);
+                if (e.detail !== 0) clearButtonFocus(e.currentTarget);
               }} disabled={pinLoading} aria-label={digitLabel}>
                         {isZeroKey ? zeroKeyMode === "backspace" ? <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" className="block h-[1.24em] w-[1.24em]">
                             <path d="M13.2 7.35H5.35l2.8-2.35L7.2 4.05 3.1 8l4.1 3.95L8.15 11l-2.8-2.35h7.85z" fill="currentColor" />
@@ -1415,7 +1426,10 @@ export default function LoginModal({
             </div>
 
             <div className="text-center mt-[-0.2rem] mb-[0.08rem]">
-              <button type="button" className={`${inlineLinkClassName} ${androidPinToggleClassName} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
+              <button type="button" className={`${inlineLinkClassName} ${androidPinToggleClassName} pin-layout-toggle`} onClick={e => {
+                toggleKeypad();
+                if (e.detail !== 0) clearButtonFocus(e.currentTarget);
+              }} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
                 {t("auth.login.toggle_keypad")}
               </button>
             </div>

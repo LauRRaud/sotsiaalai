@@ -750,13 +750,20 @@ html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], 
   border-radius: 999px !important;
   box-shadow: none !important;
 }
-html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse, .home-link, .pin-layout-toggle):is(:hover, :focus-visible, :active) {
+html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse, .home-link, .pin-layout-toggle):is(:hover, :focus-visible) {
   border-color: rgba(255, 234, 0, 0.92) !important;
   background: rgba(255, 234, 0, 0.14) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] #login-modal .no-click-pulse {
   border-color: rgba(255, 234, 0, 0.66) !important;
+}
+html[data-contrast="hc"] #login-modal .pin-layout-toggle,
+html[data-contrast="hc"] #login-modal .pin-layout-toggle:is(:hover, :focus-visible, :active) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
 }
 html[data-contrast="hc"] #login-modal :is(.login-modal-close.modal-close-btn, .login-help-close-btn, .login-email-icon-btn) {
   background: transparent !important;
