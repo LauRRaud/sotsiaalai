@@ -74,8 +74,6 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(
-    .chat-tools-btn
   ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item) {
   background: var(--form-surface, var(--hc-surface));
   color: var(--hc-text);
@@ -89,8 +87,6 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(
-    .chat-tools-btn
   ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):hover:not(
     :disabled
   ),
@@ -100,8 +96,6 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(
-    .chat-tools-btn
   ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):focus-visible {
   background: var(--form-surface-hover, var(--hc-surface));
   border-color: var(--hc-border-soft, rgba(188, 220, 255, 0.4));
@@ -264,10 +258,10 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn .chat-send-glyph,
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn .chat-mic-glyph {
   color: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] body :is(.chat-input-row .chat-side-control-btn, .chat-input-row .chat-tools-btn) svg :is(path, circle, line, rect, ellipse, polyline, polygon) {
+html[data-contrast="hc"] body .chat-input-row .chat-side-control-btn svg :is(path, circle, line, rect, ellipse, polyline, polygon) {
   stroke: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] body :is(.chat-input-row .chat-side-control-btn, .chat-input-row .chat-tools-btn) svg [fill]:not([fill="none"]) {
+html[data-contrast="hc"] body .chat-input-row .chat-side-control-btn svg [fill]:not([fill="none"]) {
   fill: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item {
@@ -344,13 +338,13 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn:active {
   border-color: transparent !important;
   box-shadow: none !important;
 }
-html[data-contrast="hc"] body :is(.chat-inputbar .chat-listen-btn, .chat-inputbar .chat-side-control-btn, .chat-input-row .chat-side-control-btn, .chat-input-row .chat-tools-btn) {
+html[data-contrast="hc"] body :is(.chat-inputbar .chat-listen-btn, .chat-inputbar .chat-side-control-btn, .chat-input-row .chat-side-control-btn) {
   --btn-border-idle: transparent;
   --btn-border-glow: transparent;
   border-color: transparent;
   box-shadow: none;
 }
-html[data-contrast="hc"] body :is(.chat-inputbar .chat-listen-btn, .chat-inputbar .chat-side-control-btn, .chat-input-row .chat-tools-btn):is(:hover, :focus-visible) {
+html[data-contrast="hc"] body :is(.chat-inputbar .chat-listen-btn, .chat-inputbar .chat-side-control-btn):is(:hover, :focus-visible) {
   border-color: transparent;
 }
 html[data-contrast="hc"]
