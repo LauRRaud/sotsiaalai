@@ -12,8 +12,8 @@
     calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-diameter) * 0.026), calc(2.25 * var(--base-rem))))
   );
   --chat-input-focus-shift: -2.35rem;
-  --chat-attach-left-pull: -1.7rem;
-  --chat-inputbar-left-pull: -1.65rem;
+  --chat-attach-left-pull: 0rem;
+  --chat-inputbar-left-pull: 0rem;
   --chat-hpad-right: clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem);
   --chat-window-focus-shift: 0rem;
 }
@@ -271,11 +271,11 @@ body .chat-input-row .chat-side-control-btn svg {
 }
 
 .chat-container--input-focus .chat-input-row .chat-tools-btn {
-  width: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
-  min-width: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
-  flex: 0 0 calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
-  height: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
-  min-height: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.38rem) !important;
+  width: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.5rem) !important;
+  min-width: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.5rem) !important;
+  flex: 0 0 calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.5rem) !important;
+  height: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.5rem) !important;
+  min-height: calc(var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.5rem) !important;
 }
 
 body .chat-inputbar .chat-listen-btn svg {

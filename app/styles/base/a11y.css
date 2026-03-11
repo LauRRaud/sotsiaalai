@@ -17,6 +17,11 @@
   border-radius: 0.25rem;
   z-index: 10000;
 }
+@media (max-width: 768px) {
+  .skip-link {
+    display: none;
+  }
+}
 :where(
   a,
   button,
