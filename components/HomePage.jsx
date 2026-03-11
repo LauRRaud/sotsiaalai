@@ -43,6 +43,11 @@ export default function HomePage() {
     hydrated: prefsHydrated
   } = useAccessibility();
   const { t, locale } = useI18n();
+  const homeA11yTitle = t("meta.home.title", "SotsiaalAI");
+  const homeA11yIntro = t(
+    "meta.home.description",
+    "SotsiaalAI pakub rollipohist tehisintellekti tuge spetsialistidele ja abi otsijatele."
+  );
   const [hasSeenIntro] = useState(() => homeIntroSeen);
   const initialSkipIntro = hasSeenIntro;
   const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
@@ -89,6 +94,7 @@ export default function HomePage() {
     timeoutIdsRef.current.delete(timeoutId);
   }, []);
   const isAuthed = status === "authenticated" && !!session;
+  const homeCardActionText = isAuthed ? t("buttons.open_chat") : t("auth.login.title");
   const isAdmin = useMemo(() => {
     const u = session?.user;
     const role = typeof u?.role === "string" ? u.role.toLowerCase() : "";
@@ -508,9 +514,19 @@ export default function HomePage() {
           >
             AVAME 17.03, SOTSIAALTÖÖ PÄEVAL!
           </p>
+          <div className="sr-only">
+            <h1>{homeA11yTitle}</h1>
+            <p>{homeA11yIntro}</p>
+          </div>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[768px]:flex-col max-[768px]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[768px]:px-[clamp(1rem,4vw,1.5rem)] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[768px]:pb-[clamp(5rem,12vw,7rem)] max-[768px]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
-              <div ref={leftCardWrapRef} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="button" aria-label={t("home.card.specialist.aria")} aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
+              <div ref={leftCardWrapRef} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="button" aria-labelledby="home-card-specialist-title home-card-specialist-action" aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
+                <span id="home-card-specialist-title" className="sr-only">
+                  {t("home.card.specialist.title")}
+                </span>
+                <span id="home-card-specialist-action" className="sr-only">
+                  {homeCardActionText}
+                </span>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}>
                     {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
                       <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", leftBlurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
@@ -555,7 +571,13 @@ export default function HomePage() {
             </div>
 
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
-              <div ref={rightCardWrapRef} className={cn(rightCardClassName, "home-card-a11y-button")} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")} role="button" aria-label={t("home.card.client.aria")} aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("right")}>
+              <div ref={rightCardWrapRef} className={cn(rightCardClassName, "home-card-a11y-button")} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")} role="button" aria-labelledby="home-card-client-title home-card-client-action" aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("right")}>
+                <span id="home-card-client-title" className="sr-only">
+                  {t("home.card.client.title")}
+                </span>
+                <span id="home-card-client-action" className="sr-only">
+                  {homeCardActionText}
+                </span>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}>
                     {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
                       <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", rightBlurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
@@ -600,8 +622,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          {scrollCueReady ? <div className={cn("home-scroll-cue", "absolute left-1/2 bottom-[clamp(-0.6rem,1.2vh,0.3rem)] max-[768px]:bottom-[clamp(1rem,4.4vh,2.2rem)] -translate-x-1/2 translate-y-2 z-[20] pointer-events-none opacity-0 transition-[opacity,transform] duration-[350ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none", showScrollCueNow ? "opacity-100 translate-y-0" : null)} aria-hidden={!showScrollCueNow}>
-              <a className={cn("home-scroll-cue-link", "inline-flex flex-col items-center gap-0 px-[0.35rem] py-[0.4rem] max-[768px]:px-[0.35rem] max-[768px]:py-[0.2rem] max-[768px]:p-0 max-[768px]:tracking-[0.06em] rounded-full border-0 bg-transparent leading-[1] no-underline pointer-events-auto backdrop-filter-none [-webkit-backdrop-filter:none] text-[color:var(--home-scroll-cue-color)] hover:text-[color:var(--home-scroll-cue-color)] focus-visible:text-[color:var(--home-scroll-cue-color)]")} href="#meist" onClick={handleScrollCueClick} aria-label={t("home.nav.about")}>
+          {scrollCueReady ? <div className={cn("home-scroll-cue", "absolute left-1/2 bottom-[clamp(-0.6rem,1.2vh,0.3rem)] max-[768px]:bottom-[clamp(1rem,4.4vh,2.2rem)] -translate-x-1/2 translate-y-2 z-[20] pointer-events-none opacity-0 transition-[opacity,transform] duration-[350ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none", showScrollCueNow ? "opacity-100 translate-y-0" : null)} aria-hidden="true">
+              <a className={cn("home-scroll-cue-link", "inline-flex flex-col items-center gap-0 px-[0.35rem] py-[0.4rem] max-[768px]:px-[0.35rem] max-[768px]:py-[0.2rem] max-[768px]:p-0 max-[768px]:tracking-[0.06em] rounded-full border-0 bg-transparent leading-[1] no-underline pointer-events-auto backdrop-filter-none [-webkit-backdrop-filter:none] text-[color:var(--home-scroll-cue-color)] hover:text-[color:var(--home-scroll-cue-color)] focus-visible:text-[color:var(--home-scroll-cue-color)]")} href="#meist" onClick={handleScrollCueClick} aria-label={t("home.nav.about")} tabIndex={-1}>
                 <span className="sr-only">{t("home.nav.about")}</span>
                 <span className={cn("home-scroll-cue-mouse", "inline-flex w-[2.6rem] h-[2.5rem] text-[color:inherit] opacity-80 max-[768px]:hidden max-[768px]:opacity-0 max-[768px]:invisible")} aria-hidden="true">
                   <svg viewBox="0 0 24 36" role="presentation" className="w-full h-full fill-none stroke-current [stroke-width:2] [stroke-linecap:round] [stroke-linejoin:round] [transform:scaleX(1.2)] [transform-origin:center]">

@@ -19,6 +19,8 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   const router = useRouter();
   const t = useT();
   const { locale } = useI18n();
+  const aboutHeadingId = `${id}-title`;
+  const beforeHeadingId = `${id}-before-title`;
   const ctaTitle = t("about.cta.title");
   const aboutParagraphKeys = [
     "paragraph1",
@@ -33,19 +35,6 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       value: t(`about.intro.${key}`)
     }))
     .filter(({ key, value }) => value && value !== `about.intro.${key}`);
-  const aboutA11yText = aboutParagraphs
-    .map(({ value }) =>
-      String(value || "")
-        .replace(/<br\s*\/?>/gi, " ")
-        .replace(/<\/p>\s*<p>/gi, " ")
-        .replace(/<li>/gi, " ")
-        .replace(/<\/li>/gi, " ")
-        .replace(/<[^>]+>/g, "")
-        .replace(/\s+/g, " ")
-        .trim()
-    )
-    .filter(Boolean)
-    .join(" ");
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
   const aboutScrollRef = useRef(null);
@@ -182,6 +171,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--home-panel-shadow)] border-0 px-[clamp(1rem,2.6vw,2.25rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.35rem,0.8vw,0.65rem)] isolation-isolate"
         >
           <h2
+            id={aboutHeadingId}
             className={cn(
               "home-about-title text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[768px]:mb-[0.3rem] text-[color:var(--home-title-color)]"
             )}
@@ -191,7 +181,6 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           <div className="relative mx-auto w-full max-w-[52rem]">
             <div
               ref={aboutScrollRef}
-              aria-label={aboutA11yText || undefined}
               className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.2rem,0.7vw,0.55rem)] pt-[0.05rem] pb-[0.5rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
               style={{
                 maxHeight: "min(72vh, 42rem)",
@@ -201,7 +190,6 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                 maskImage: aboutMaskImage
               }}
             >
-              <p className="sr-only">{aboutA11yText}</p>
               {aboutParagraphs.map(({ key, value }) => (
                 <RichText
                   key={key}
@@ -219,7 +207,8 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             </div>
           </div>
         </div>
-        <div
+        <section
+          aria-labelledby={beforeHeadingId}
           ref={beforeCardRef}
           className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-full shadow-[var(--home-before-shadow)] border-0 mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center p-[clamp(0.9rem,2.2vw,1.75rem)] box-border"
           style={
@@ -232,9 +221,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             ref={beforeContentRef}
             className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.55rem,1.1vw,0.8rem)] max-[768px]:gap-[clamp(0.38rem,0.95vw,0.58rem)] max-w-[min(74vw,24.5rem)] max-[768px]:max-w-[min(78vw,24.4rem)] items-center"
           >
-            <p className="home-before-title m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] max-[768px]:mb-[0.06rem] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
+            <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] max-[768px]:mb-[0.06rem] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
-            </p>
+            </h3>
             <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem] max-[768px]:gap-x-[0.92rem] max-[768px]:gap-y-[0.52rem]">
               <li className={homeCircleItemClassName}>
                 <AppLink
@@ -299,7 +288,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               </AppLink>
             </p>
           </div>
-        </div>
+        </section>
       </div>
     </section>
   );
