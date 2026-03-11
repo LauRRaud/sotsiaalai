@@ -44,10 +44,6 @@ export default function HomePage() {
   } = useAccessibility();
   const { t, locale } = useI18n();
   const homeA11yTitle = t("meta.home.title", "SotsiaalAI");
-  const homeA11yIntro = t(
-    "meta.home.description",
-    "SotsiaalAI pakub rollipohist tehisintellekti tuge spetsialistidele ja abi otsijatele."
-  );
   const [hasSeenIntro] = useState(() => homeIntroSeen);
   const initialSkipIntro = hasSeenIntro;
   const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
@@ -412,6 +408,12 @@ export default function HomePage() {
     event?.stopPropagation?.();
     startExitToChat(side);
   };
+  const handleCardAccessibilityKeyDown = side => event => {
+    if (!flipAllowed) return;
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    handleCardTap(side)(event);
+  };
   const resetMobileCards = useCallback(() => {
     setMobileFlipReady({
       left: false,
@@ -500,20 +502,17 @@ export default function HomePage() {
         <section onClick={handleBackgroundTap} className="relative touch-pan-y">
           <p
             className={cn(
-              "pointer-events-none absolute left-1/2 top-[clamp(0.3rem,0.9vh,0.7rem)] z-[30] -translate-x-1/2",
+              "pointer-events-none absolute left-1/2 top-[max(env(safe-area-inset-top,0px),0.08rem)] z-[30] -translate-x-1/2",
               "w-[min(94vw,56rem)] px-4 text-center font-bold uppercase tracking-[0.04em]",
               "text-[clamp(0.95rem,1.3vw,1.9rem)] text-[color:color-mix(in_srgb,var(--home-scroll-cue-color,var(--home-title-color,var(--brand-primary)))_68%,white_32%)]"
             )}
           >
             AVAME 17.03, SOTSIAALTÖÖ PÄEVAL!
           </p>
-          <div className="sr-only">
-            <h1>{homeA11yTitle}</h1>
-            <p>{homeA11yIntro}</p>
-          </div>
+          <h1 className="sr-only">{homeA11yTitle}</h1>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[768px]:flex-col max-[768px]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[768px]:px-[clamp(1rem,4vw,1.5rem)] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[768px]:pb-[clamp(5rem,12vw,7rem)] max-[768px]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
-              <div ref={leftCardWrapRef} className={leftCardClassName} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")}>
+              <div ref={leftCardWrapRef} className={leftCardClassName} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="button" aria-label={t("home.card.specialist.aria")} aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}>
                     {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
                       <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", leftBlurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
@@ -530,7 +529,7 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} role="button" aria-label={t("home.card.specialist.aria")} aria-disabled={!leftBackInteractive} aria-busy={!leftBackInteractive} tabIndex={leftBackInteractive ? 0 : -1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
+                      <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} aria-hidden="true" tabIndex={-1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
                     if (!leftBackInteractive) return;
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
@@ -558,7 +557,7 @@ export default function HomePage() {
             </div>
 
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
-              <div ref={rightCardWrapRef} className={rightCardClassName} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")}>
+              <div ref={rightCardWrapRef} className={rightCardClassName} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")} role="button" aria-label={t("home.card.client.aria")} aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("right")}>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}>
                     {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
                       <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", rightBlurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
@@ -575,7 +574,7 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} role="button" aria-label={t("home.card.client.aria")} aria-disabled={!rightBackInteractive} aria-busy={!rightBackInteractive} tabIndex={rightBackInteractive ? 0 : -1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
+                      <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} aria-hidden="true" tabIndex={-1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
                     if (!rightBackInteractive) return;
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
