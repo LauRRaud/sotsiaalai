@@ -261,21 +261,6 @@ export default function HomePage() {
     };
   }, []);
   useEffect(() => {
-    if (!isMobile || typeof document === "undefined") return;
-    const skipLink = document.querySelector(".skip-link");
-    if (!(skipLink instanceof HTMLAnchorElement)) return;
-    const prevAriaHidden = skipLink.getAttribute("aria-hidden");
-    const prevTabIndex = skipLink.getAttribute("tabindex");
-    skipLink.setAttribute("aria-hidden", "true");
-    skipLink.setAttribute("tabindex", "-1");
-    return () => {
-      if (prevAriaHidden == null) skipLink.removeAttribute("aria-hidden");
-      else skipLink.setAttribute("aria-hidden", prevAriaHidden);
-      if (prevTabIndex == null) skipLink.removeAttribute("tabindex");
-      else skipLink.setAttribute("tabindex", prevTabIndex);
-    };
-  }, [isMobile]);
-  useEffect(() => {
     if (!isLoginOpen) return;
     setMobileFlipReady({
       left: false,

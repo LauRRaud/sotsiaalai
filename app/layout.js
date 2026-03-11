@@ -183,7 +183,6 @@ export default async function RootLayout({
   const initialA11yPrefs = parseA11yPrefs(jar);
   const initialUiProfile = normalizeUiProfile(initialA11yPrefs?.uiProfile);
   const initialTextScale = normalizeTextScale(initialA11yPrefs?.uiScale);
-  const skipText = messages?.common?.skip_to_content ?? (locale === "ru" ? "Перейти к содержимому" : locale === "en" ? "Skip to content" : "Jätka sisuni");
   return <html lang={locale} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale={initialUiProfile} data-ui-profile={initialUiProfile} data-text-scale={initialTextScale} data-ui-scale-auto="0" className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" || initialA11yPrefs?.theme === "mid" ? "theme-light" : ""} ${initialA11yPrefs?.theme === "mid" ? "theme-mid" : ""} ${initialA11yPrefs?.theme === "night" ? "theme-night" : ""}`.trim()} suppressHydrationWarning>
       <head>
         <Script id="ui-scale-init" strategy="beforeInteractive">
@@ -192,10 +191,6 @@ export default async function RootLayout({
       </head>
       <body className="app-root">
         <Providers initialLocale={locale} messages={messages} session={session} initialA11yPrefs={initialA11yPrefs}>
-          {}
-          <a href="#main" className="skip-link">
-            {skipText}
-          </a>
           <ViewportLayoutSetter />
           {}
           <BackgroundLayer />
