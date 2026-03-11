@@ -712,14 +712,14 @@ export default function ProfiilBody({
         maskRefreshRef.current = null;
       }
     };
-  }, [embedded, isActive, prefs?.theme, roleLabel, loading, loadFailed, isAuthed]);
+  }, [embedded, isActive, prefs?.theme, roleLabelNode, loading, loadFailed, isAuthed]);
   useEffect(() => {
     const refresh = () => maskRefreshRef.current?.();
     const timers = [0, 60, 140, 260, 420, 700, 1100].map(delay =>
       window.setTimeout(refresh, delay)
     );
     return () => timers.forEach(timer => window.clearTimeout(timer));
-  }, [prefs?.theme, roleLabel, orbitOpen, isActive, embedded]);
+  }, [prefs?.theme, roleLabelNode, orbitOpen, isActive, embedded]);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const maskLayer = maskLayerRef.current;

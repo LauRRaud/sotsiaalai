@@ -89,6 +89,13 @@ html[data-contrast="hc"]
   border-color: var(--hc-border-soft, rgba(188, 220, 255, 0.4));
   color: var(--hc-text);
 }
+html[data-contrast="hc"] body .home-card-a11y-button:focus-visible {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 html[data-contrast="hc"] body .chat-scroll-down-btn,
 html[data-contrast="hc"] body .chat-scroll-down-btn:is(:hover, :focus-visible, :active) {
   background: transparent !important;
