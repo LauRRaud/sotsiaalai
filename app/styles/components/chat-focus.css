@@ -287,22 +287,6 @@ body .chat-input-row .chat-tools-btn > svg {
   justify-content: flex-start !important;
 }
 
-.chat-container--input-focus
-  .chat-input-row
-  .chat-side-control-slot
-  > .chat-tools-btn {
-  --chat-tools-hit-size: calc(
-    var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) + 0.18rem
-  );
-  width: var(--chat-tools-hit-size) !important;
-  min-width: var(--chat-tools-hit-size) !important;
-  max-width: var(--chat-tools-hit-size) !important;
-  height: var(--chat-tools-hit-size) !important;
-  min-height: var(--chat-tools-hit-size) !important;
-  max-height: var(--chat-tools-hit-size) !important;
-  flex: 0 0 var(--chat-tools-hit-size) !important;
-}
-
 body .chat-inputbar .chat-listen-btn svg {
   width: var(--chat-composer-listen-icon-size, calc(2.02 * var(--base-rem))) !important;
   height: var(--chat-composer-listen-icon-size, calc(2.02 * var(--base-rem))) !important;
