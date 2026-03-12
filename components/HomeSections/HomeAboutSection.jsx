@@ -205,7 +205,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         )}
       >
         <div
-          className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--home-panel-shadow)] border-0 px-[clamp(1rem,2.6vw,2.25rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.35rem,0.8vw,0.65rem)] isolation-isolate"
+          className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--home-panel-shadow)] border-0 px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.35rem,0.8vw,0.65rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)] isolation-isolate"
         >
           <h2
             id={aboutHeadingId}
@@ -218,10 +218,10 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           <p id={aboutTextId} className="sr-only">
             {aboutA11yText}
           </p>
-          <div className="relative mx-auto w-full max-w-[52rem]">
+          <div className="relative mx-auto w-full max-w-[54.5rem] max-[768px]:max-w-[52rem]">
             <div
               ref={aboutScrollRef}
-              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.2rem,0.7vw,0.55rem)] pt-[0.05rem] pb-[0.5rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
+              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.5rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
               style={{
                 maxHeight: "min(72vh, 42rem)",
                 scrollbarWidth: "none",
