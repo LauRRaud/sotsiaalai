@@ -1534,7 +1534,7 @@
     },
     "pay": {
       "label": "Payment",
-      "self": "They have their own subscription",
+      "self": "They have subscription",
       "host": "I'll pay for them"
     },
     "sponsored": {
@@ -1564,7 +1564,7 @@
     },
     "payer": {
       "host": "I'll pay for them",
-      "self": "They have their own subscription"
+      "self": "They have subscription"
     },
     "resend": "Resend",
     "room_title": "Room name",

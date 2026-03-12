@@ -117,6 +117,14 @@
   opacity: 1 !important;
 }
 
+/* In mid mode the right homepage card should keep a darker surface layer. */
+:root.theme-mid .homepage-root :is(.right-card-primary, .centered-back-right) {
+  --home-card-surface-bg: rgba(24, 18, 19, 0.08);
+  --home-card-surface-blur: 0.55rem;
+  --home-card-surface-saturate: 108%;
+  --home-card-dark-opacity: 0.72;
+}
+
 /* Home/footer brand marks in mid: keep softer presence over warm backdrop. */
 :root.theme-mid .site-footer-logo,
 :root.theme-mid .home-footer-logo {

@@ -64,7 +64,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   );
   const homeCircleLinkResponsiveClassName = cn(
     homeCircleLinkClassName,
-    "w-auto max-w-full whitespace-normal break-words [text-wrap:balance] px-[0.28em] py-[0.08em]",
+    "w-auto max-w-full whitespace-normal break-words [text-wrap:balance] px-[0.16em] py-[0.03em]",
     "max-[768px]:max-w-[min(72vw,19.5rem)]",
     isRussianLocale &&
       "max-[768px]:max-w-[min(80vw,23rem)] max-[768px]:text-[clamp(1.12rem,4.45vw,1.32rem)] max-[768px]:leading-[1.12] max-[768px]:tracking-[0.005em]"
@@ -97,16 +97,22 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         contentEl.scrollHeight,
         contentEl.offsetHeight
       );
-      const extraBuffer = window.innerWidth <= 768 ? 32 : 40;
+      const isMobileViewport = window.innerWidth <= 768;
+      const extraBuffer = isMobileViewport ? 12 : 20;
       const neededWidth = contentWidth + padX + extraBuffer;
       const neededHeight = contentHeight + padY + extraBuffer;
       const neededSize = Math.ceil(Math.max(neededWidth, neededHeight));
-      const minSize = window.innerWidth <= 768 ? 300 : 320;
+      const minSize = isMobileViewport ? 252 : 288;
       const maxSize = Math.floor(
-        Math.min(
-          window.innerWidth * (isRussianLocale ? 0.94 : 0.9),
-          window.innerHeight * 0.86
-        )
+        isMobileViewport
+          ? Math.min(
+              window.innerWidth * (isRussianLocale ? 0.9 : 0.86),
+              window.innerHeight * 0.82
+            )
+          : Math.min(
+              window.innerWidth * (isRussianLocale ? 0.94 : 0.9),
+              window.innerHeight * 0.86
+            )
       );
       const nextSize = Math.max(minSize, Math.min(maxSize, neededSize));
       setBeforeDiameter((prev) => (prev === nextSize ? prev : nextSize));
@@ -245,7 +251,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         <section
           aria-labelledby={beforeHeadingId}
           ref={beforeCardRef}
-          className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-full shadow-[var(--home-before-shadow)] border-0 mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center p-[clamp(0.9rem,2.2vw,1.75rem)] box-border"
+          className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-full shadow-[var(--home-before-shadow)] border-0 mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center px-[clamp(0.4rem,1.05vw,0.78rem)] py-[clamp(0.34rem,0.92vw,0.66rem)] max-[768px]:px-[clamp(0.24rem,0.85vw,0.42rem)] max-[768px]:py-[clamp(0.18rem,0.65vw,0.34rem)] box-border"
           style={
             beforeDiameter
               ? { width: `${beforeDiameter}px`, height: `${beforeDiameter}px` }
@@ -254,7 +260,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         >
           <div
             ref={beforeContentRef}
-            className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.55rem,1.1vw,0.8rem)] max-[768px]:gap-[clamp(0.38rem,0.95vw,0.58rem)] max-w-[min(74vw,24.5rem)] max-[768px]:max-w-[min(78vw,24.4rem)] items-center"
+            className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.55rem,1.1vw,0.8rem)] max-[768px]:gap-[clamp(0.34rem,0.82vw,0.5rem)] max-w-[min(81vw,26.8rem)] max-[768px]:max-w-[min(78vw,23.6rem)] items-center"
           >
             <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] max-[768px]:mb-[0.06rem] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
