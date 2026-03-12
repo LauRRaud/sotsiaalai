@@ -307,7 +307,7 @@
     "language": "Language",
     "text_scale": "Text size",
     "contrast": "Contrast",
-    "motion": "Motion",
+    "motion": "Animations",
     "theme": "Theme",
     "options": {
       "language": {
@@ -335,8 +335,8 @@
         "night": "Night"
       },
       "screen_profile": {
-        "sm": "Laptop screen",
-        "lg": "External or desktop monitor"
+        "sm": "Mobile / laptop",
+        "lg": "External screen"
       }
     },
     "save": "Save",

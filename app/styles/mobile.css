@@ -277,7 +277,7 @@
     --orbit-size: min(92vw, 22.5rem);
     --orbit-item-size: clamp(5.6rem, 23vw, 7.2rem);
     --orbit-item-size-open: clamp(6rem, 24.5vw, 7.6rem);
-    --orbit-center-size: clamp(10.4rem, 45vw, 12.4rem);
+    --orbit-center-size: clamp(10.9rem, 47vw, 12.9rem);
     --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.45);
     margin-top: 0;
     margin-bottom: 0;
@@ -721,7 +721,7 @@
     --orbit-size: min(88vw, 20.1rem) !important;
     --orbit-item-size: clamp(4.7rem, 19.8vw, 5.75rem) !important;
     --orbit-item-size-open: clamp(4.95rem, 21vw, 6.05rem) !important;
-    --orbit-center-size: clamp(9.8rem, 40vw, 11.3rem) !important;
+    --orbit-center-size: clamp(10.2rem, 42vw, 11.7rem) !important;
     --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.435) !important;
     margin-top: clamp(1.1rem, 4.8vw, 1.7rem) !important;
     transform: translateY(clamp(0.16rem, 0.7vw, 0.3rem)) !important;
@@ -959,7 +959,7 @@
     left: 50% !important;
     right: auto !important;
     top: auto !important;
-    bottom: clamp(6.6rem, 30vw, 8.2rem) !important;
+    bottom: clamp(6rem, 27vw, 7.45rem) !important;
     transform: translateX(-50%) !important;
     z-index: 95 !important;
   }
@@ -1049,7 +1049,7 @@
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.75rem, 3.8vw, 1.35rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.45rem, 2.8vw, 0.95rem)) !important;
   }
 
   html[data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
@@ -1149,7 +1149,7 @@
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(3.15rem, 15.2vw, 4.55rem)) !important;
     transform: translateX(-50%) !important;
   }
 
@@ -1188,7 +1188,7 @@
   (max-width: 768px) and (display-mode: fullscreen) {
   .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(3.15rem, 15.2vw, 4.55rem)) !important;
     transform: translateX(-50%) !important;
   }
 
@@ -1291,7 +1291,7 @@
   }
 
   .invite-modal-overlay.person-invite-modal-overlay {
-    background: rgba(6, 10, 18, 0.94) !important;
+    background: transparent !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }

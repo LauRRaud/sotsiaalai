@@ -87,12 +87,26 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         (parseFloat(computed.paddingTop) || 0) +
         (parseFloat(computed.paddingBottom) || 0);
 
-      const neededWidth = contentRect.width + padX;
-      const neededHeight = contentRect.height + padY;
+      const contentWidth = Math.max(
+        contentRect.width,
+        contentEl.scrollWidth,
+        contentEl.offsetWidth
+      );
+      const contentHeight = Math.max(
+        contentRect.height,
+        contentEl.scrollHeight,
+        contentEl.offsetHeight
+      );
+      const extraBuffer = window.innerWidth <= 768 ? 32 : 40;
+      const neededWidth = contentWidth + padX + extraBuffer;
+      const neededHeight = contentHeight + padY + extraBuffer;
       const neededSize = Math.ceil(Math.max(neededWidth, neededHeight));
-      const minSize = 300;
+      const minSize = window.innerWidth <= 768 ? 300 : 320;
       const maxSize = Math.floor(
-        window.innerWidth * (isRussianLocale ? 0.92 : 0.88)
+        Math.min(
+          window.innerWidth * (isRussianLocale ? 0.94 : 0.9),
+          window.innerHeight * 0.86
+        )
       );
       const nextSize = Math.max(minSize, Math.min(maxSize, neededSize));
       setBeforeDiameter((prev) => (prev === nextSize ? prev : nextSize));
@@ -103,6 +117,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       typeof ResizeObserver !== "undefined" ? new ResizeObserver(updateSize) : null;
     ro?.observe(contentEl);
     window.addEventListener("resize", updateSize);
+    window.document?.fonts?.ready?.then?.(updateSize).catch?.(() => {});
 
     return () => {
       ro?.disconnect?.();
