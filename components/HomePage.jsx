@@ -28,9 +28,7 @@ let homeIntroSeen = false;
 const INTRO_ANIMATION_DELAY_MS = 1500;
 const BLUR_REVEAL_DELAY_MS = 1850;
 const CARD_FADE_DURATION_MS = 2400;
-const LEFT_CARD_FADE_DELAY_MS = 500;
-const RIGHT_CARD_STAGGER_MS = 300;
-const RIGHT_CARD_FADE_DELAY_MS = LEFT_CARD_FADE_DELAY_MS + RIGHT_CARD_STAGGER_MS;
+const CARD_FADE_DELAY_MS = 500;
 const HOME_FOOTER_STAGGER_MS = 220;
 export default function HomePage() {
   const {
@@ -189,15 +187,15 @@ export default function HomePage() {
     }, BLUR_REVEAL_DELAY_MS);
     const rightBlurTimer = registerTimeout(
       () => setRightBlurRevealReady(true),
-      BLUR_REVEAL_DELAY_MS + RIGHT_CARD_STAGGER_MS
+      BLUR_REVEAL_DELAY_MS
     );
     const leftDoneTimer = registerTimeout(
       () => setLeftFadeDone(true),
-      LEFT_CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS
+      CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS
     );
     const rightDoneTimer = registerTimeout(
       () => setRightFadeDone(true),
-      RIGHT_CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS
+      CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS
     );
     return () => {
       clearRegisteredTimeout(leftBlurTimer);
@@ -559,7 +557,7 @@ export default function HomePage() {
                     animationName: "cardFadeIn",
                     animationDuration: "2.4s",
                     animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
-                    animationDelay: `${LEFT_CARD_FADE_DELAY_MS}ms`,
+                    animationDelay: `${CARD_FADE_DELAY_MS}ms`,
                     animationFillMode: "forwards"
                   } : undefined}>
                           <CircularRingLeft className={cn(isMobile || leftFadeDone ? "is-visible" : "", "relative z-[2]")} />
@@ -580,7 +578,7 @@ export default function HomePage() {
                     animationName: "cardFadeIn",
                     animationDuration: "2.4s",
                     animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
-                    animationDelay: `${LEFT_CARD_FADE_DELAY_MS}ms`,
+                    animationDelay: `${CARD_FADE_DELAY_MS}ms`,
                     animationFillMode: "forwards"
                   } : undefined}>
                           <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[4] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-[#323232] [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
@@ -610,7 +608,7 @@ export default function HomePage() {
                     animationName: "cardFadeIn",
                     animationDuration: "2.4s",
                     animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
-                    animationDelay: `${RIGHT_CARD_FADE_DELAY_MS}ms`,
+                    animationDelay: `${CARD_FADE_DELAY_MS}ms`,
                     animationFillMode: "forwards"
                   } : undefined}>
                           <CircularRingRight className={cn(isMobile || rightFadeDone ? "is-visible" : "", "relative z-[2]")} />
@@ -631,7 +629,7 @@ export default function HomePage() {
                     animationName: "cardFadeIn",
                     animationDuration: "2.4s",
                     animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
-                    animationDelay: `${RIGHT_CARD_FADE_DELAY_MS}ms`,
+                    animationDelay: `${CARD_FADE_DELAY_MS}ms`,
                     animationFillMode: "forwards"
                   } : undefined}>
                           <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[4] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.94rem,calc(var(--card-size)*0.065),1.7rem)] text-[#c57171] opacity-80 [text-shadow:0_0.5rem_0.3rem_rgba(0,0,0,0.6)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
