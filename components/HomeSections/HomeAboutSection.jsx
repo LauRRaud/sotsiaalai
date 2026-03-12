@@ -70,9 +70,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       "max-[768px]:max-w-[min(80vw,23rem)] max-[768px]:text-[clamp(1.12rem,4.45vw,1.32rem)] max-[768px]:leading-[1.12] max-[768px]:tracking-[0.005em]"
   );
   const beforeListClassName = cn(
-    "flex w-fit max-w-[min(78vw,21.5rem)] flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem] max-[768px]:gap-x-[0.92rem] max-[768px]:gap-y-[0.52rem]",
+    "flex w-fit max-w-full flex-col items-center justify-center list-none p-0 m-0 gap-y-[0.45rem] max-[768px]:gap-y-[0.52rem]",
     isRussianLocale &&
-      "max-w-[min(82vw,23rem)] max-[768px]:max-w-[min(84vw,22rem)]"
+      "max-w-full"
   );
 
   useEffect(() => {
@@ -103,20 +103,20 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         contentEl.offsetHeight
       );
       const isMobileViewport = window.innerWidth <= 768;
-      const extraBuffer = isMobileViewport ? 8 : 14;
+      const extraBuffer = isMobileViewport ? 48 : 66;
       const neededWidth = contentWidth + padX + extraBuffer;
       const neededHeight = contentHeight + padY + extraBuffer;
       const neededSize = Math.ceil(Math.max(neededWidth, neededHeight));
-      const minSize = isMobileViewport ? 236 : 264;
+      const minSize = isMobileViewport ? 292 : 350;
       const maxSize = Math.floor(
         isMobileViewport
           ? Math.min(
-              window.innerWidth * (isRussianLocale ? 0.9 : 0.86),
-              window.innerHeight * 0.82
+              window.innerWidth * (isRussianLocale ? 0.96 : 0.93),
+              window.innerHeight * 0.88
             )
           : Math.min(
-              window.innerWidth * (isRussianLocale ? 0.94 : 0.9),
-              window.innerHeight * 0.86
+              window.innerWidth * (isRussianLocale ? 0.99 : 0.97),
+              window.innerHeight * 0.94
             )
       );
       const nextSize = Math.max(minSize, Math.min(maxSize, neededSize));
@@ -265,9 +265,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         >
           <div
             ref={beforeContentRef}
-            className="relative z-[1] w-fit max-w-[min(81vw,24rem)] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.44rem,0.92vw,0.68rem)] max-[768px]:gap-[clamp(0.3rem,0.74vw,0.44rem)] max-[768px]:max-w-[min(78vw,22rem)] items-center"
+            className="relative z-[1] w-fit max-w-[min(88vw,26rem)] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.44rem,0.92vw,0.68rem)] max-[768px]:gap-[clamp(0.3rem,0.74vw,0.44rem)] max-[768px]:max-w-[min(88vw,24rem)] items-center"
           >
-            <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.24rem,0.62vw,0.46rem)] max-[768px]:mb-[clamp(0.14rem,0.44vw,0.28rem)] -translate-y-[clamp(0.52rem,1.18vw,0.8rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.16] text-[color:var(--home-prose-color)]">
+            <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.42rem,0.9vw,0.68rem)] max-[768px]:mb-[clamp(0.26rem,0.6vw,0.38rem)] mt-[clamp(-0.52rem,-1.18vw,-0.8rem)] max-[768px]:mt-[clamp(-0.34rem,-0.82vw,-0.56rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.16] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
             </h3>
             <ul className={beforeListClassName}>

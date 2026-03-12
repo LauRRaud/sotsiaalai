@@ -12,7 +12,7 @@ import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu
 import HelpListingsPanel from "@/components/chat/HelpListingsPanel";
 import { getHelpUiText } from "@/components/chat/helpUiText";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition, runWithTransition, triggerRouteTransition } from "@/lib/routeTransition";
+import { pushWithTransition, triggerRouteTransition } from "@/lib/routeTransition";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
@@ -1095,28 +1095,9 @@ export default function ProfiilBody({
     setError("");
     setLoggingOut(true);
     try {
-      if (isMobileProfileMenu) {
-        await signOut({
-          callbackUrl: localizePath("/", locale)
-        });
-      } else {
-        await new Promise((resolve, reject) => {
-          runWithTransition(
-            () => {
-              signOut({
-                callbackUrl: localizePath("/", locale)
-              })
-                .then(resolve)
-                .catch(reject);
-            },
-            {
-              glassRingTilt: "right",
-              waitForGlassRingTilt: true,
-              persistGlassRingTilt: false
-            }
-          );
-        });
-      }
+      await signOut({
+        callbackUrl: localizePath("/", locale)
+      });
     } catch (err) {
       console.error("profile logout", err);
       setError(t("profile.server_unreachable"));
