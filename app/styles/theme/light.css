@@ -191,6 +191,7 @@
   --admin-success: #15803d;
   --admin-shadow: 0 18px 30px rgba(15, 23, 42, 0.12);
   --admin-shadow-soft: 0 8px 18px rgba(15, 23, 42, 0.08);
+  --subscription-error-color: #c57171;
 }
 
 :root.theme-light body.homepage {

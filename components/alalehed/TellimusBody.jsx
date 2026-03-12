@@ -24,22 +24,24 @@ const emailReplacement = {
 };
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} subscription-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0`;
+  `${glassPageTitleClassName} subscription-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
+  `!text-[#c57171] light:!text-[color:var(--glass-modal-title-color,var(--title-color,var(--brand-primary)))] ` +
+  `max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName =
-  "subscription-content mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] max-[768px]:max-w-none flex-col gap-4 text-center max-[768px]:text-left";
+  "subscription-content mt-[clamp(0.62rem,1.9vh,1.12rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] max-[768px]:max-w-none flex-col gap-[clamp(0.88rem,1.9vh,1.14rem)] text-center max-[768px]:text-left";
 const subscriptionCopyClassName =
   "subscription-copy-text text-center max-[768px]:text-left text-[0.98rem] leading-[1.45] opacity-80 max-[768px]:text-[1.08rem]";
 const subscriptionInfoTextClassName =
   "subscription-info-text text-center max-[768px]:text-left text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
-  "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.68] opacity-80";
+  "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.68] opacity-80 [&_p]:m-0";
 const subscriptionActionClassName =
   "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
   "max-[768px]:w-full max-[768px]:min-w-0 max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";
 const subscriptionStatusClassName =
-  "subscription-status-text text-center max-[768px]:text-left text-[clamp(1.08rem,1.55vw,1.24rem)] leading-[1.36] font-[500]";
+  "subscription-status-text m-0 text-center max-[768px]:text-left text-[clamp(1.08rem,1.55vw,1.24rem)] leading-[1.36] font-[500]";
 const subscriptionActivePanelClassName =
   "subscription-active-panel mx-auto w-full max-w-[min(30rem,100%)] rounded-[1.1rem] border border-[rgba(125,211,252,0.22)] " +
   "bg-[linear-gradient(170deg,rgba(16,30,56,0.7),rgba(6,12,26,0.56))] " +
@@ -319,10 +321,10 @@ export default function TellimusBody() {
               {info && <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#a7f3d0]")}>
                   {info}
                 </p>}
-              {error && <p role="alert" aria-live="assertive" className={cn(subscriptionStatusClassName, "text-[color:#fca5a5]")}>
+              {error && <p role="alert" aria-live="assertive" className={cn(subscriptionStatusClassName, "text-[color:var(--subscription-error-color,#fca5a5)]")}>
                   {error}
                 </p>}
-              <div className={cn("flex justify-center max-[768px]:w-full", hasPaymentNotice ? "mt-[clamp(0.9rem,2.2vh,1.4rem)]" : "mt-[clamp(1.6rem,4vh,2.6rem)]")}>
+              <div className={cn("flex justify-center max-[768px]:w-full", hasPaymentNotice ? "mt-[clamp(0.58rem,1.25vh,0.96rem)]" : "mt-[clamp(1.1rem,2.9vh,1.85rem)]")}>
                 <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
                   {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
                 </Button>

@@ -93,6 +93,7 @@
   --seg-radio-bg: rgba(253, 250, 249, 0.62);
   --seg-radio-border: rgba(255, 255, 255, 0.56);
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(122, 58, 56, 0.2);
+  --subscription-error-color: rgba(78, 57, 52, 0.92);
   --panel-secondary-bg: rgba(252, 248, 247, 0.44);
   --panel-secondary-border: rgba(255, 255, 255, 0.34);
   --panel-secondary-shadow: 0 6px 16px rgba(20, 12, 10, 0.12);

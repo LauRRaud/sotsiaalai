@@ -1,6 +1,7 @@
 :root:not(.theme-light) {
   --glass-shell-shadow: var(--glass-ring-glow-dark);
   --drawer-overlay-bg: rgba(0, 0, 0, 0.36);
+  --subscription-error-color: rgba(232, 219, 217, 0.9);
   --drawer-glass-bg:
     linear-gradient(
       135deg,

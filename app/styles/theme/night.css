@@ -12,6 +12,7 @@
 }
 
 :root.theme-night {
+  --subscription-error-color: rgba(214, 226, 245, 0.9);
   --btn-base-bg-dark: linear-gradient(
     180deg,
     rgba(34, 48, 68, 0.94) 0%,
