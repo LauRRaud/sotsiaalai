@@ -69,6 +69,11 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     isRussianLocale &&
       "max-[768px]:max-w-[min(80vw,23rem)] max-[768px]:text-[clamp(1.12rem,4.45vw,1.32rem)] max-[768px]:leading-[1.12] max-[768px]:tracking-[0.005em]"
   );
+  const beforeListClassName = cn(
+    "flex w-fit max-w-[min(78vw,21.5rem)] flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem] max-[768px]:gap-x-[0.92rem] max-[768px]:gap-y-[0.52rem]",
+    isRussianLocale &&
+      "max-w-[min(82vw,23rem)] max-[768px]:max-w-[min(84vw,22rem)]"
+  );
 
   useEffect(() => {
     const cardEl = beforeCardRef.current;
@@ -98,11 +103,11 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         contentEl.offsetHeight
       );
       const isMobileViewport = window.innerWidth <= 768;
-      const extraBuffer = isMobileViewport ? 12 : 20;
+      const extraBuffer = isMobileViewport ? 8 : 14;
       const neededWidth = contentWidth + padX + extraBuffer;
       const neededHeight = contentHeight + padY + extraBuffer;
       const neededSize = Math.ceil(Math.max(neededWidth, neededHeight));
-      const minSize = isMobileViewport ? 252 : 288;
+      const minSize = isMobileViewport ? 236 : 264;
       const maxSize = Math.floor(
         isMobileViewport
           ? Math.min(
@@ -255,17 +260,17 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           style={
             beforeDiameter
               ? { width: `${beforeDiameter}px`, height: `${beforeDiameter}px` }
-              : { width: "min(90vw, 28.5rem)", height: "min(90vw, 28.5rem)" }
+              : { width: "min(82vw, 22rem)", height: "min(82vw, 22rem)" }
           }
         >
           <div
             ref={beforeContentRef}
-            className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.55rem,1.1vw,0.8rem)] max-[768px]:gap-[clamp(0.34rem,0.82vw,0.5rem)] max-w-[min(81vw,26.8rem)] max-[768px]:max-w-[min(78vw,23.6rem)] items-center"
+            className="relative z-[1] w-fit max-w-[min(81vw,24rem)] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.44rem,0.92vw,0.68rem)] max-[768px]:gap-[clamp(0.3rem,0.74vw,0.44rem)] max-[768px]:max-w-[min(78vw,22rem)] items-center"
           >
-            <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] max-[768px]:mb-[0.06rem] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
+            <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.1rem,0.3vw,0.22rem)] max-[768px]:mb-[0.04rem] -translate-y-[clamp(0.3rem,0.9vw,0.56rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.16] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
             </h3>
-            <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem] max-[768px]:gap-x-[0.92rem] max-[768px]:gap-y-[0.52rem]">
+            <ul className={beforeListClassName}>
               <li className={homeCircleItemClassName}>
                 <AppLink
                   href="/kasutusjuhend"
