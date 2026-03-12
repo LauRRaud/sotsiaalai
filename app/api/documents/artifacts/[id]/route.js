@@ -75,8 +75,11 @@ function buildRetrievalAuditFields(debugMeta) {
 export async function GET(request, { params }) {
   const locale = localeFromRequest(request)
   const auth = await requireDocumentUser()
-  if (!auth) {
-    return errorJson("api.common.unauthorized", 401, locale)
+  if (!auth?.ok) {
+    return errorJson(auth?.message || "api.common.unauthorized", auth?.status || 401, locale, {
+      redirect: auth?.redirect,
+      requireSubscription: auth?.requireSubscription
+    })
   }
 
   const id = await resolveRouteId(params)
@@ -106,8 +109,11 @@ export async function GET(request, { params }) {
 export async function PATCH(request, { params }) {
   const locale = localeFromRequest(request)
   const auth = await requireDocumentUser()
-  if (!auth) {
-    return errorJson("api.common.unauthorized", 401, locale)
+  if (!auth?.ok) {
+    return errorJson(auth?.message || "api.common.unauthorized", auth?.status || 401, locale, {
+      redirect: auth?.redirect,
+      requireSubscription: auth?.requireSubscription
+    })
   }
 
   const rateLimitResponse = enforceDocumentsRateLimit(request, {
@@ -215,8 +221,11 @@ export async function PATCH(request, { params }) {
 export async function DELETE(request, { params }) {
   const locale = localeFromRequest(request)
   const auth = await requireDocumentUser()
-  if (!auth) {
-    return errorJson("api.common.unauthorized", 401, locale)
+  if (!auth?.ok) {
+    return errorJson(auth?.message || "api.common.unauthorized", auth?.status || 401, locale, {
+      redirect: auth?.redirect,
+      requireSubscription: auth?.requireSubscription
+    })
   }
 
   const rateLimitResponse = enforceDocumentsRateLimit(request, {

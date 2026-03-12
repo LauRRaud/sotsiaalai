@@ -27,8 +27,11 @@ const ARTIFACTS_GENERATE_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.ART
 export async function POST(request) {
   const locale = localeFromRequest(request)
   const auth = await requireDocumentUser()
-  if (!auth) {
-    return errorJson("api.common.unauthorized", 401, locale)
+  if (!auth?.ok) {
+    return errorJson(auth?.message || "api.common.unauthorized", auth?.status || 401, locale, {
+      redirect: auth?.redirect,
+      requireSubscription: auth?.requireSubscription
+    })
   }
 
   const rateLimitResponse = enforceDocumentsRateLimit(request, {

@@ -415,7 +415,7 @@
       "heading": "5. Subscription, Payments and Cancellation",
       "paragraph1": "<p>Paid platform features are provided through a role-based monthly subscription. The monthly fee is 7.99 EUR for a person seeking help and 14.99 EUR for a social work professional, unless a different price is shown on the platform at the time of checkout. Payments are processed by Maksekeskus AS or another payment provider shown on the platform.</p>",
       "paragraph2": "<p>Access may be self-paid or sponsored by the person who invited you. Under the current product rules, sponsored access lasts for one month and does not automatically convert into the invitee's own paid subscription. If the invited user already has an active subscription, sponsored checkout may be blocked.</p>",
-      "paragraph3": "<p>Subscriptions can be managed from the <a href=\"/tellimus\">Subscription</a> page and from Profile. When cancelled, the next automatic billing cycle stops, but the already paid period remains active until its end unless the law requires otherwise. SotsiaalAI may change pricing or package terms with reasonable advance notice.</p>"
+      "paragraph3": "<p>Subscriptions can be managed from the <a href=\"/tellimus\">Subscription</a> page and from Profile. After payment is started, the user is redirected to the Maksekeskus checkout page, and access is activated after payment-provider confirmation. When cancelled, the next automatic billing cycle stops, but the already paid period remains active until its end unless the law requires otherwise. SotsiaalAI may change pricing or package terms with reasonable advance notice.</p>"
     },
     "section6": {
       "heading": "6. Availability and Maintenance",
@@ -1311,7 +1311,7 @@
         },
         "register": {
           "title": "3. Registration and access activation",
-          "body": "<p>You need an account to use SotsiaalAI. To actively use chat, the account also needs an active subscription or sponsored access.</p><p><strong>3.1 Registration</strong></p><ol><li>Choose the relevant role card on the home page and open <a href=\"/registreerimine\">Register</a>.</li><li>Fill in the form with your email address and PIN code (4-8 digits).</li><li>Accept the terms of use and privacy policy, and confirm that you have read the platform guide.</li><li>After submitting the form, open the verification email and confirm your address.</li></ol><p><strong>3.2 Subscription or sponsored access</strong></p><ul><li>After verification you can sign in with your email and PIN.</li><li>If you do not have active access, the platform directs you to the <a href=\"/tellimus\">Subscription</a> page.</li><li><strong>Monthly pricing is role-based:</strong> 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li>If your access comes from a sponsored invite, it stays active for the sponsored period without a separate payment.</li></ul>"
+          "body": "<p>You need an account to use SotsiaalAI. To actively use chat, the account also needs an active subscription or sponsored access.</p><p><strong>3.1 Registration</strong></p><ol><li>Choose the relevant role card on the home page and open <a href=\"/registreerimine\">Register</a>.</li><li>Fill in the form with your email address and PIN code (4-8 digits).</li><li>Accept the terms of use and privacy policy, and confirm that you have read the platform guide.</li><li>After submitting the form, open the verification email and confirm your address.</li></ol><p><strong>3.2 Subscription or sponsored access</strong></p><ul><li>After verification you can sign in with your email and PIN.</li><li>If you do not have active access, the platform directs you to the <a href=\"/tellimus\">Subscription</a> page.</li><li>When you start the subscription, you are redirected to the Maksekeskus checkout page. Access is activated after payment-provider confirmation.</li><li><strong>Monthly pricing is role-based:</strong> 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li>If your access comes from a sponsored invite, it stays active for the sponsored period without a separate payment.</li></ul>"
         },
         "signin": {
           "title": "4. Sign-in and role-based navigation",
@@ -1362,7 +1362,7 @@
       "confirmation_pending": "Payment was started. Access is activated after provider confirmation."
     },
     "active": {
-      "summary": "Your subscription is active. Monthly price: 7.99.",
+      "summary": "Your subscription is active. Monthly pricing depends on the plan: 14.99 EUR/month for a social work professional and 7.99 EUR/month for a person seeking help.",
       "summary_priced": "Your subscription is active. Plan: {role}. Fee: {amount} per month.",
       "cancel_note": "You can cancel your subscription at any time on the profile page.",
       "sponsored_note": "Your access is currently sponsored and is valid until {date}. After that, you need to activate your own subscription to continue using the platform.",
@@ -1374,7 +1374,7 @@
       "activate": "Pay and activate subscription",
       "processing": "Redirecting to payment..."
     },
-    "info": "To use SotsiaalAI you need a monthly subscription priced at 7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period.",
+    "info": "To use SotsiaalAI you need a monthly subscription. The monthly price is 14.99 EUR for a social work professional and 7.99 EUR for a person seeking help. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period.",
     "info_priced": "To use SotsiaalAI you need a monthly subscription. For the \"{role}\" role, the fee is {amount} per month. Payments are processed via Maksekeskus, the subscription renews automatically, and you can cancel it at any time from your profile."
   },
   "pwa": {
@@ -2101,7 +2101,7 @@
           "paid_30d": "Paid (30d)",
           "empty": "No users found."
         },
-        "note": "Estimate model (EUR): chat/request {chat}, rag/search {rag}, stt/MB {stt}, tts/1k chars {tts}, base monthly budget {budget}. Daily analyze limits and monthly budget scale by role and current monthly fee. STT/TTS historical cost appears from event logging onwards.",
+        "note": "Estimate model (EUR): chat/request {chat}, rag/search {rag}, stt/MB {stt}, tts/1k chars {tts}, base monthly budget {budget}, client monthly budget {budgetClient}, social work professional monthly budget {budgetWorker}. Daily analyze limits and monthly budget scale by role and current monthly fee. STT/TTS historical cost appears from event logging onwards.",
         "actions": {
           "selected_count": "Selected: {count}",
           "selected_visible": "Selected from visible: {count}",

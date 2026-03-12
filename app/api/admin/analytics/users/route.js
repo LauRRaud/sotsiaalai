@@ -231,6 +231,8 @@ export async function GET(req) {
           sttPerAudioMbEur: COST_STT_PER_AUDIO_MB_EUR,
           ttsPer1kCharsEur: COST_TTS_PER_1K_CHARS_EUR,
           monthlyBudgetEur: round2(MONTHLY_COST_BUDGET_EUR_PER_USER),
+          monthlyBudgetClientEur: round2(getMonthlyCostBudgetForRole("CLIENT", false)),
+          monthlyBudgetWorkerEur: round2(getMonthlyCostBudgetForRole("SOCIAL_WORKER", false)),
           currency: "EUR"
         }
       });
@@ -471,6 +473,8 @@ export async function GET(req) {
         sttPerAudioMbEur: COST_STT_PER_AUDIO_MB_EUR,
         ttsPer1kCharsEur: COST_TTS_PER_1K_CHARS_EUR,
         monthlyBudgetEur: round2(MONTHLY_COST_BUDGET_EUR_PER_USER),
+        monthlyBudgetClientEur: round2(getMonthlyCostBudgetForRole("CLIENT", false)),
+        monthlyBudgetWorkerEur: round2(getMonthlyCostBudgetForRole("SOCIAL_WORKER", false)),
         currency: "EUR"
       }
     });

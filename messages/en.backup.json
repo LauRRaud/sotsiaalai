@@ -14,6 +14,9 @@
     "back": "Back",
     "back_to_previous": "Back to previous page"
   },
+  "routes": {
+    "password_reset_path": "/taasta-parool"
+  },
   "buttons": {
     "save": "Save",
     "save_changes": "Save changes",
@@ -38,7 +41,7 @@
   },
   "symbols": {
     "question": "?",
-    "times": "Ć—"
+    "times": "×"
   },
   "errors": {
     "title": "Something went wrong",
@@ -87,6 +90,7 @@
       "otp_description": "We sent a verification code to {email}. Enter it within 10 minutes.",
       "otp_expires": "Code expires at {time}.",
       "otp_placeholder": "Verification code (6 digits)",
+      "otp_short_placeholder": "Verification code",
       "remember_device": "Remember this device for 30 days",
       "otp_submit": "Confirm",
       "otp_submitting": "Verifying",
@@ -94,6 +98,7 @@
       "resending": "Sending",
       "otp_back": "Use a different email",
       "otp_invalid": "The code is invalid or has expired.",
+      "otp_trusted_device_expired": "Your trusted device period (30 days) has ended. Confirm sign-in with a code.",
       "otp_info_sent": "Verification code sent to {email}.",
       "otp_resent": "A new code was sent to {email}.",
       "clear": "Clear PIN",
@@ -106,7 +111,7 @@
       "toggle_keypad_desktop_aria": "Switch the keypad layout.",
       "zero_key_aria": "0 / clear",
       "help_hold_zero_before": "Hold",
-      "help_hold_zero_after": "for ~0.5 s to clear PIN entry",
+      "help_hold_zero_after": "for ~0.5 s to clear the whole PIN",
       "help_wrong_pin_note": "If the PIN is incorrect, the PIN code is cleared automatically."
     },
     "register": {
@@ -114,9 +119,9 @@
       "pin_placeholder": "PIN (4-8 digits)",
       "role_label_question": "Who are you?",
       "role_label": "Role:",
-      "role_hint": "Choose a role with arrow keys. Options: Social work professional or Person seeking help.",
-      "agreement": "I agree to the <terms>Terms of Use</terms> and the <privacy>Privacy Policy</privacy>.",
-      "guide_ack": "I have read the <guide1>platform</guide1> <guide2>guide</guide2>.",
+      "role_hint": "Choose a role with arrow keys. Options: Social Work Specialist or Person seeking help.",
+      "agreement": "I agree to <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>.",
+      "guide_ack": "I have read the <guide>platform guide</guide>.",
       "error": {
         "role_required": "Please choose a role.",
         "agree_required": "You must agree to the terms of use and privacy policy.",
@@ -125,7 +130,8 @@
       },
       "submit": "Create account",
       "submitting": "Creating account",
-      "success_message": "Account created! Please confirm your email and log in with your PIN."
+      "success_message": "Account created! Please confirm your email and log in with your PIN. The confirmation email may be in your Spam folder.",
+      "closed_notice": "Registration is temporarily paused. Please try again soon."
     },
     "reset": {
       "title": "Update PIN",
@@ -166,13 +172,16 @@
     },
     "card": {
       "specialist": {
-        "aria": "Sign in as specialist",
-        "title": "FOR SOCIAL WORKERS"
+        "aria": "Open specialist sign-in",
+        "title": "Social work specialist"
       },
       "client": {
-        "aria": "Sign in as citizen",
-        "title": "FOR PEOPLE SEEKING HELP"
+        "aria": "Open help-seeker sign-in",
+        "title": "Person seeking help"
       }
+    },
+    "theme_toggle": {
+      "title": "Theme: {current}. Switch to: {next}."
     },
     "footer": {
       "logo_alt": "SotsiaalAI logo"
@@ -200,17 +209,47 @@
     "save": "Save",
     "logout": "Sign out",
     "logout_short": "Out",
+    "account_settings": "Account settings",
+    "account_settings_hint": "Manage sign-in, security, and account closure here.",
+    "logout_all_devices": "Sign out everywhere",
+    "logout_all_confirm": "Sign out on all devices and browsers and remove trusted devices?",
+    "logging_out_all": "Signing out everywhere",
+    "logout_all_failed": "Failed to sign out on all devices.",
+    "logout_hint": "Ends the active session on this device.",
+    "logout_all_hint": "Signs you out on all devices and removes remembered devices.",
     "back_to_chat": "Back to chat",
-    "actions_label": "Profile actions",
+    "actions_label": "Profile settings",
     "delete_confirm": "Are you sure you want to permanently delete your account? This cannot be undone.",
     "deleting": "Deleting",
     "delete_account": "Delete account",
+    "delete_account_hint": "Permanently deletes your account and related access. This cannot be undone.",
+    "delete_loading_status": "Deleting account",
     "load_failed": "Failed to load profile.",
     "update_failed": "Failed to update profile.",
     "delete_failed": "Failed to delete account.",
     "saved_ok": "Changes saved.",
     "server_unreachable": "Server is not responding. Please try again.",
-    "footer_brand": "SotsiaalAI Ā©",
+    "footer_brand": "SotsiaalAI ©",
+    "role_short": {
+      "admin": "Administrator",
+      "worker": "Specialist",
+      "client": "Seeker",
+      "unknown": ""
+    },
+    "view_mode": {
+      "worker": "Specialist",
+      "client": "Help seeker",
+      "current": "Current preview: {role}.",
+      "saved": "Preview switched to: {role}.",
+      "save_failed": "Failed to switch preview."
+    },
+    "theme_mode": {
+      "light": "Light",
+      "mid": "Dim",
+      "dark": "Dark",
+      "night": "Night",
+      "hc": "KKR"
+    },
     "preferences": {
       "title": "Language & accessibility",
       "title_line1": "Language &",
@@ -242,7 +281,8 @@
       "error_email_invalid": "Please enter a valid email address.",
       "error_pin_required": "Please enter your PIN.",
       "error_pin_length": "PIN must be between 4 and 8 digits.",
-      "error_failed": "Email update failed."
+      "error_failed": "Email update failed.",
+      "error_email_in_use": "This email is already in use."
     },
     "pin_help": "Enter your current PIN to confirm email or PIN changes. PIN must be between 4 and 8 digits.",
     "current_pin_label": "Current PIN",
@@ -256,16 +296,18 @@
       "pin_required": "Please enter and confirm the new PIN.",
       "pin_invalid": "PIN must be between 4 and 8 digits.",
       "pin_mismatch": "PIN entries do not match.",
-      "no_changes": "Nothing to update."
+      "no_changes": "Nothing to update.",
+      "current_pin_invalid": "Current PIN is invalid.",
+      "user_not_found": "User not found."
     }
   },
   "accessibility": {
     "title": "Accessibility preferences",
-    "description": "Adjust text size, contrast, motion, and theme.",
+    "description": "Adjust screen profile, text size, contrast, motion, and theme.",
     "language": "Language",
     "text_scale": "Text size",
     "contrast": "Contrast",
-    "motion": "Motion",
+    "motion": "Animations",
     "theme": "Theme",
     "options": {
       "language": {
@@ -287,120 +329,128 @@
         "reduce": "Reduce motion"
       },
       "theme": {
-        "dark": "Dark mode",
-        "light": "Light mode"
+        "light": "Light",
+        "mid": "Dim",
+        "dark": "Dark",
+        "night": "Night"
+      },
+      "screen_profile": {
+        "sm": "Mobile / laptop",
+        "lg": "External screen"
       }
     },
-    "save": "Save"
+    "save": "Save",
+    "complete_required": "Choose language, contrast, text size, theme, and screen profile before saving.",
+    "screen_profile": "Screen profile"
   },
   "privacy": {
     "title": "Privacy Policy",
     "section1": {
       "heading": "1. General Provisions",
-      "paragraph1": "<p>These Privacy Terms apply when using the web platform operated by <strong>SotsiaalAI OĆ</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). The policy explains how SotsiaalAI collects, uses and protects personal data in line with Estonian and EU law.</p>",
-      "paragraph2": "<p>SotsiaalAI processes personal data in accordance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>.</p>"
+      "paragraph1": "<p>This Privacy Policy explains how <strong>SotsiaalAI OÜ</strong> processes personal data when you use the <strong>SotsiaalAI</strong> web platform. It covers account creation, sign-in, subscriptions, chats, rooms, help requests and offers, documents, and other platform workflows.</p>",
+      "paragraph2": "<p>SotsiaalAI processes personal data in accordance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>. If you have questions about data processing, contact us before continuing to use the service.</p>"
     },
     "section2": {
       "heading": "2. Data We Collect",
-      "paragraph1": "<p><strong>2.1 Account data.</strong> Email address, role (social worker or client), and authentication method (two-step sign-in: email + one-time verification code). The one-time code is used only to confirm sign-in and is not stored permanently.</p>",
-      "paragraph2": "<p><strong>2.2 Subscription and payment data.</strong> Subscription type and status, payment ID and payment transaction metadata. Payments are processed by Maksekeskus AS; SotsiaalAI does not store card or bank account details.</p>",
-      "paragraph3": "<p><strong>2.3 Technical metadata.</strong> IP address, browser and device type, access times and log information for security, troubleshooting and service reliability purposes.</p>"
+      "paragraph1": "<p><strong>2.1 Account and authentication data.</strong> We process your email address, user role, password/PIN hash, email verification state, temporary sign-in tokens, one-time code records, trusted-device data, and any profile data you choose to add or update.</p>",
+      "paragraph2": "<p><strong>2.2 Service usage data.</strong> We process conversations and conversation messages, room messages and membership data, help requests, help offers, help matches, invites, subscription and sponsored-access status, payment metadata, files uploaded to the Documents library, agent drafts and final outputs, and audit records needed to run those workflows.</p>",
+      "paragraph3": "<p><strong>2.3 Technical and local data.</strong> We process IP address, browser and device information, usage and error logs, and security events. The platform also uses essential cookies and browser storage to keep language, accessibility settings, active conversation state, PIN keypad preferences, and other usability settings.</p>"
     },
     "section3": {
       "heading": "3. Purposes and Legal Bases",
-      "items": "<li>Service delivery (providing conversations, account access) - performance of a contract (GDPR Art. 6(1)(b)).</li><li>Payment processing - performance of a contract and legitimate interest in preventing fraud (Art. 6(1)(b),(f)).</li><li>Implementation of two-step authentication and account protection - performance of a contract and legitimate interest in keeping accounts secure (Art. 6(1)(b),(f)).</li><li>Security, error detection and reliability - legitimate interest (Art. 6(1)(f)).</li><li>Legal compliance, handling of claims and reporting - legal obligation and legitimate interest (Art. 6(1)(c),(f)).</li>"
+      "items": "<li>Account creation, sign-in, role handling, subscription management, and core platform features are processed for the performance of a contract (GDPR Art. 6(1)(b)).</li><li>Payments, fraud prevention, security checks, logging, and service reliability are processed for the performance of a contract and for legitimate interests (Art. 6(1)(b),(f)).</li><li>Compliance with legal obligations, accounting, and claim defense are processed on the basis of legal obligation and legitimate interest (Art. 6(1)(c),(f)).</li><li>Microphone access, browser speech, and device-local storage are used only when the user triggers or allows the relevant feature.</li><li>Help listings, rooms, and invite flows are processed to operate the service and to mediate communication initiated by the user.</li>"
     },
     "section4": {
-      "heading": "4. Conversation Privacy",
-      "body": "<p><strong>4.1 Conversation content.</strong> Conversation content (user questions, assistant replies and any other text entered) is used only to provide the service - to generate responses, mediate the conversation and show the conversation history to the user. Conversation content is not stored indefinitely, is not used for marketing, profiling or training third-party models, and is retained only for a limited time as described in section 7.</p><p><strong>4.2 Document analysis.</strong> When using the document analysis feature, uploaded files are not stored permanently. A document is used only in the current chat window and in the context of the specific conversation. The document is removed from the system when the chat window or page is closed and is not later used for marketing, profiling or model training.</p><p><strong>4.3 Dictation (speech recognition).</strong> Dictation mode is provided via an authorised third-party service (processor). Audio from the microphone is sent over a secure connection to the service provider, who processes it only to create text, in line with SotsiaalAI's instructions and data protection requirements. SotsiaalAI does not collect or store users' voice data permanently; audio is used only temporarily to create text and is not used for marketing or model training.</p>"
+      "heading": "4. How Platform Content Is Used",
+      "body": "<p><strong>4.1 Chats and rooms.</strong> Chat and room messages are used to generate responses, show history, and enable collaboration. A conversation can also contain workflow state, such as whether it is locked into document drafting, a help request, or a help offer flow.</p><p><strong>4.2 Help requests, help offers, and matching.</strong> When you save a help request or help offer, it becomes visible to other users in the relevant listing views according to the platform workflow. When you connect a request and an offer, the platform creates or reopens a room and shares the necessary details with the involved parties.</p><p><strong>4.3 Documents and agent outputs.</strong> Files uploaded to <strong>Documents</strong> and the drafts or final outputs created from them are stored in the user's workspace until deleted by the user or removed with the account. They are not made public to other users unless the user explicitly shares them through platform actions.</p><p><strong>4.4 Temporary chat files.</strong> Files added in the chat document workflow or analysis flow are meant only for that specific conversation or session. They are not automatically added to the persistent Documents library unless the user separately uses the document-library workflow.</p><p><strong>4.5 Voice features.</strong> Dictation audio is processed only to create text. Read-aloud uses chat text to produce audio playback. These features are not used for marketing or user profiling.</p>"
     },
     "section5": {
       "heading": "5. Processors",
-      "body": "<p>SotsiaalAI may use processors who handle data under SotsiaalAI's instructions, including the payment service provider (Maksekeskus AS) and the AI service provider. Contracts are in place with processors to ensure the level of data protection and confidentiality.</p>"
+      "body": "<p>SotsiaalAI uses processors where needed to provide the service, for example payment processing, email delivery, AI and speech services, hosting, and logging infrastructure. Processors handle data only under SotsiaalAI's instructions and subject to contractual and technical safeguards.</p>"
     },
     "section6": {
       "heading": "6. Data Disclosure and Sharing",
-      "body": "<p>Personal data is not shared with third parties unless required to provide the service, mandated by law or based on user consent. Payment data is processed by Maksekeskus AS under its own terms.</p>"
+      "body": "<p>SotsiaalAI does not sell personal data. Data is shared only to the extent needed to run the service: with processors, with the payment provider, with users you invite or are matched with in rooms and help-mediation workflows, and with competent authorities where required by law. If you create an invite or save a visible help listing, the relevant information is shared inside the platform with the users for whom that workflow is intended.</p>"
     },
     "section7": {
       "heading": "7. Retention",
-      "body": "<p><strong>7.1 Account data.</strong> Account data is retained until the account is deleted or upon the user's request, unless a longer retention period is required by law.</p><p><strong>7.2 Conversation history.</strong> Conversation history shown under the ā€Conversationsā€¯ button is generally kept for up to 90 days from the last activity in the respective conversation. After that, the conversation is no longer shown to the user and is marked internally for deletion. The user can delete their conversations at any time.</p><p><strong>7.3 Billing data.</strong> Billing and payment data are retained to the extent and for the periods required by accounting and other applicable laws.</p><p><strong>7.4 Technical logs.</strong> Technical logs are stored for a short period for security, troubleshooting and service reliability purposes, after which they are deleted or anonymised.</p>"
+      "body": "<p><strong>7.1 Account and profile data.</strong> Account data is stored until the account is deleted, except where the law requires longer retention.</p><p><strong>7.2 Conversation history.</strong> Conversations are generally shown to the user for up to 90 days from the last activity unless deleted earlier by the user. After that, a conversation may be removed from the user view and marked for internal cleanup or deletion.</p><p><strong>7.3 Rooms, invites, and help data.</strong> Room data, invites, help requests, help offers, and matches are retained while active or otherwise needed for service operation, dispute handling, or security review.</p><p><strong>7.4 Documents and agent outputs.</strong> Files stored in the Documents library, drafts, and final outputs remain available until the user deletes them or the account is deleted, unless the law requires otherwise.</p><p><strong>7.5 Billing, audit, and technical logs.</strong> Payment data, audit records, and technical logs are retained according to applicable legal, security, and reliability needs and then deleted or anonymised within a reasonable time.</p>"
     },
     "section8": {
       "heading": "8. Your Rights",
-      "items": "<li>Right to access your data and obtain a copy.</li><li>Right to rectify inaccurate or incomplete data.</li><li>Right to request erasure (\"right to be forgotten\").</li><li>Right to restrict processing or object to it.</li><li>Right to lodge a complaint with the <aDpa>Data Protection Inspectorate</aDpa>.</li>"
+      "items": "<li>Right to access your personal data and obtain a copy.</li><li>Right to correct inaccurate or incomplete data.</li><li>Right to request erasure where there is a legal basis for it.</li><li>Right to restrict processing or object to processing based on legitimate interest.</li><li>Right to lodge a complaint with the <aDpa>Data Protection Inspectorate</aDpa>.</li>"
     },
     "section9": {
-      "heading": "9. Cookies",
-      "body": "<p>We only use essential cookies (login, session, language preference and accessibility settings, such as text size, contrast and animations). No advertising, tracking or analytics cookies are used.</p>"
+      "heading": "9. Cookies and Browser Storage",
+      "body": "<p>SotsiaalAI uses essential cookies and browser storage for sign-in, session handling, language, accessibility, trusted-device state, active conversation state, and other usability preferences. We do not use advertising cookies or third-party marketing trackers. The public product UI also does not currently use advertising trackers.</p>"
     },
     "section10": {
       "heading": "10. Security",
-      "body": "<p>We implement technical and organisational measures (HTTPS, two-step authentication: email + one-time verification code, access controls, logging and backups) and regularly update the software and service and apply security patches to protect data against unauthorised access, alteration or destruction.</p>"
+      "body": "<p>We apply reasonable technical and organisational safeguards, including HTTPS, two-step sign-in, permission checks, logging, dependency updates, and other protective measures. No web service is entirely risk-free, so we recommend entering only the data that is necessary for the workflow at hand.</p>"
     },
     "section11": {
       "heading": "11. Changes",
-      "body": "<p>This privacy policy may be updated. Significant changes will be communicated within the product or via email.</p>"
+      "body": "<p>This Privacy Policy may be updated if platform features, data flows, or legal requirements change. Significant changes will be communicated in the product or by email.</p>"
     }
   },
   "terms": {
     "title": "Terms of Use",
     "section1": {
       "heading": "1. General Provisions",
-      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operator: <strong>SotsiaalAI OĆ</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have read these Terms and agree with them.</p>"
+      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform operated by <strong>SotsiaalAI OÜ</strong>. By using the platform, you confirm that you have read and accepted these Terms.</p><p>If you do not agree with these Terms, you must not use the platform. The Privacy Policy and these Terms complement each other and together define the basis for using the service.</p>"
     },
     "section2": {
       "heading": "2. Service Description",
-      "body": "<p>The platform provides AI-powered information support in the social sector. Responses are generated based on the SotsiaalAI knowledge base hosted in Estonia, which brings together reliable sources (for example laws, guidelines, service descriptions and other sector-specific information).</p>"
+      "body": "<p>SotsiaalAI is a role-based web platform where a user can ask questions in chat, continue in guidance mode, describe help requests and help offers, use document workflows, manage documents, open rooms, send invites, and use profile, subscription, and accessibility settings.</p><p>The platform combines AI, retrieval-based knowledge access, and user-selected workflows to support both social work professionals and people seeking help. It is not an emergency channel and does not replace binding official decisions, professional advice, or urgent assistance.</p>"
     },
     "section3": {
       "heading": "3. Account and Access",
-      "items": "<li>Keep your account secure and your PIN private.</li><li>Do not share your account or login credentials with third parties.</li><li>Keep your contact and payment details up to date.</li>"
+      "items": "<li>You must create an account and choose an appropriate role to use the core platform features.</li><li>You must keep your email, PIN, and other sign-in information confidential and are responsible for actions taken through your account.</li><li>Sign-in may require an extra verification code sent by email, and you may choose to trust a device for future sign-ins.</li><li>Many workflows require an active subscription or valid sponsored access.</li><li>Administrator preview mode does not grant the right to impersonate another user or modify another user's data without proper authority.</li>"
     },
     "section4": {
       "heading": "4. Permitted Use",
-      "items": "<li>It is prohibited to breach security, distribute malware or send mass requests.</li><li>It is prohibited to transmit unlawful content or violate the rights of others.</li>"
+      "items": "<li>You must use the platform in compliance with law, good practice, and these Terms.</li><li>Unlawful, threatening, deceptive, defamatory, hateful, or rights-infringing content is prohibited, including help listings or invites that mislead other users.</li><li>It is prohibited to bypass security controls, send automated mass requests, spread malware, disrupt the service, or knowingly evade subscription limits.</li><li>It is prohibited to use another person's account without permission, create a false identity, or use the platform in a way that harms other users or SotsiaalAI.</li><li>It is prohibited to systematically copy platform data or outputs, or use them to build a competing service, without SotsiaalAI's permission.</li>"
     },
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
-      "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee ā‚¬7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
-      "paragraph2": "<p>The subscription can be managed at any time on the profile page (\"Manage subscription\") or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>",
-      "paragraph3": "<p>SotsiaalAI may change pricing and subscription terms by publishing the information on the Platform and notifying active subscribers with reasonable prior notice.</p>"
+      "paragraph1": "<p>Paid platform features are provided through a role-based monthly subscription. The monthly fee is 7.99 EUR for a person seeking help and 14.99 EUR for a social work professional, unless a different price is shown on the platform at the time of checkout. Payments are processed by Maksekeskus AS or another payment provider shown on the platform.</p>",
+      "paragraph2": "<p>Access may be self-paid or sponsored by the person who invited you. Under the current product rules, sponsored access lasts for one month and does not automatically convert into the invitee's own paid subscription. If the invited user already has an active subscription, sponsored checkout may be blocked.</p>",
+      "paragraph3": "<p>Subscriptions can be managed from the <a href=\"/tellimus\">Subscription</a> page and from Profile. When cancelled, the next automatic billing cycle stops, but the already paid period remains active until its end unless the law requires otherwise. SotsiaalAI may change pricing or package terms with reasonable advance notice.</p>"
     },
     "section6": {
       "heading": "6. Availability and Maintenance",
-      "body": "<p>We make reasonable efforts to ensure reliability and continuous availability. Maintenance and updates may temporarily limit the service, but we aim to keep interruptions as short as possible.</p>"
+      "body": "<p>SotsiaalAI makes reasonable efforts to keep the service available, but uninterrupted operation is not guaranteed. Maintenance, updates, security fixes, failures of external providers, or usage limits may temporarily restrict the platform. SotsiaalAI may apply technical limits and abuse-prevention controls to protect service operation.</p>"
     },
     "section7": {
-      "heading": "7. Reliability and Accuracy",
-      "body": "<p>SotsiaalAI aims to provide accurate and up-to-date information. If an error or inaccuracy occurs, we will correct it as soon as possible.</p>"
+      "heading": "7. Platform Workflows and Results",
+      "body": "<p>SotsiaalAI supports users through the platform's chat, document, help, and room workflows as described on the platform.</p>"
     },
     "section8": {
       "heading": "8. Changes to the Terms",
-      "body": "<p>The Terms of Use may be updated by publishing a new version on the platform. Users will be informed of significant changes via email or in-product notifications.</p>"
+      "body": "<p>SotsiaalAI may update these Terms if the service, pricing, workflows, or legal requirements change. A new version will be published on the platform, and material changes will be communicated with reasonable prior notice.</p><p>Continuing to use the platform after the changes take effect means you accept the updated Terms unless applicable law requires a different process.</p>"
     },
     "section9": {
-      "heading": "9. Use of AI and Data Processing",
-      "paragraph1": "<p><strong>SotsiaalAI</strong> uses language technology developed by <strong>OpenAI</strong> (GPT model) to generate answers in the language provided by the user, relying on the SotsiaalAI knowledge base hosted in Estonia.</p>",
-      "paragraph2": "<p>The OpenAI service is used exclusively for text processing. Conversation content is not used for model training or improvement, and data stored permanently (user account, subscription and conversation summaries) is kept securely on servers operated by SotsiaalAI in Estonia.</p>"
+      "heading": "9. Use of AI",
+      "paragraph1": "<p>SotsiaalAI uses AI, retrieval-backed knowledge access, and other technical services to answer questions, provide guidance, help draft documents, and support help-request and help-offer workflows. The platform may ask the user to confirm in chat which work mode the current conversation should continue in.</p>",
+      "paragraph2": "<p>The AI may suggest the most likely workflow, but the final decision to continue in that workflow remains with the user. AI output must not be treated as automatically binding truth, an official position, or a professional decision.</p>"
     },
     "section10": {
       "heading": "10. Data Processing in Chats and Uploaded Materials",
-      "paragraph1": "<p>When using the Platform, the user may provide information in several ways ā€” by typing, speaking (dictation) or uploading documents. All data provided in this way is processed solely for the purpose of providing the Platform's service, generating responses and ensuring the functioning of the chat, in accordance with the privacy policy.</p>",
-      "paragraph2": "<p>A more detailed description of data processing and the user's rights is provided in the privacy policy.</p>",
-      "items": "<li><strong>Text entered in the chat.</strong> Text entered by the user is transmitted via a secure connection to SotsiaalAI servers to generate a response. The content of the chat is not stored permanently and is not used for marketing, profiling or training models outside the operation of the Platform's service.</li><li><strong>Dictation (microphone, speech recognition).</strong> When using the dictation feature, a short audio clip is recorded, indicated by a red outline around the microphone button. The audio clip is securely transmitted to the speech recognition service and converted into text, which is shown to the user before sending. Audio files are not stored permanently and are used only to create text and to operate the service.</li><li><strong>Reading responses aloud.</strong> The read-aloud feature uses the text displayed in the chat window to present it to the user as audio output. The technology does not permanently store user-related data and does not process it for any other purpose than enabling the read-aloud functionality.</li><li><strong>Uploaded documents.</strong> The user may upload documents to the Platform (for example PDF, DOC/DOCX, TXT, MD or HTML files) so that the assistant can analyse them within the ongoing chat. Documents are not stored permanently, are used only in the context of the given conversation and are removed from the system when the chat window or page is closed. Content derived from the documents is not used for marketing, profiling or training third-party models.</li><li><strong>Special categories of data.</strong> The user may provide sensitive information in the chat or in documents (for example, information about health, family, violence or socio-economic situation). SotsiaalAI processes such data only for the purpose of generating a response and does not process it for other purposes. To ensure security, SotsiaalAI recommends avoiding entering a personal identification code, exact address and full names of third parties, unless this is strictly necessary for using the service.</li><li><strong>Processors.</strong> Technical processing for dictation, read-aloud and response generation may be carried out via authorised service providers. Such providers process data only in accordance with SotsiaalAI's instructions, under concluded agreements and in compliance with applicable data protection requirements. Where processing involves transferring data outside the European Economic Area, appropriate legal safeguards are used.</li>"
+      "paragraph1": "<p>When using the platform, a user may enter text, send room messages, save help data, invite other people, upload documents, or use voice features. That data is processed to operate the service in accordance with the Privacy Policy.</p>",
+      "paragraph2": "<p>More detailed rules on retention, visibility, and user rights are described in the Privacy Policy.</p>",
+      "items": "<li><strong>Chat and room content.</strong> Conversations, rooms, and their related workflow state are stored to operate the platform, show history, and continue the features chosen by the user.</li><li><strong>Help listings and invites.</strong> The user is responsible for sharing only the data needed to connect with another person or mediate help.</li><li><strong>Temporary chat files.</strong> Files added in the chat document workflow or analysis flow are intended for that session or workflow and are not automatically added to the persistent Documents library.</li><li><strong>Documents library and agent outputs.</strong> If the user uploads a file into the persistent Documents library or approves an agent result, it is stored in the user's workspace until deleted.</li><li><strong>Dictation and read-aloud.</strong> Voice features are used only to provide that feature. The user must ensure they have the right to transmit another person's data through a microphone or file.</li><li><strong>Sensitive data.</strong> If the user enters sensitive information or data about third parties, the user is responsible for having a lawful basis and for sharing only the minimum necessary information.</li>"
     },
     "section11": {
       "heading": "11. Intellectual Property",
-      "body": "<p>The Platform's trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OĆ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI's written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
+      "body": "<p>The platform software, design, data structures, trademarks, and other content created by SotsiaalAI belong to SotsiaalAI or its partners unless stated otherwise. The user retains rights to their own submitted data to the extent provided by law and by their rights in that data.</p><p>Without SotsiaalAI's written permission, you may not systematically copy, distribute, repackage, or reuse parts of the platform, its outputs, or its technical solution to create a competing service.</p>"
     },
     "section12": {
       "heading": "12. Termination of the Agreement",
-      "body": "<p>You may stop using the Platform at any time, including by deleting your account or cancelling your subscription in accordance with these Terms.</p><p>SotsiaalAI may suspend or terminate your access to the Platform if you materially breach the Terms, abuse the service, or jeopardise the Platform's security.</p>"
+      "body": "<p>The user may stop using the platform at any time, including by deleting the account or cancelling the subscription. Account deletion may result in loss of access to related documents, conversations, drafts, and other workspace content.</p><p>SotsiaalAI may suspend or terminate access if the user materially breaches the Terms, abuses the service, threatens the safety of other users, or harms the operation of the platform.</p>"
     },
     "section13": {
       "heading": "13. Governing Law and Dispute Resolution",
-      "body": "<p>These Terms are governed by the laws of the Republic of Estonia.</p><p>Disputes will first be attempted to be resolved by negotiation. If no agreement is reached, the dispute will be resolved by the courts of the Republic of Estonia in accordance with applicable law.</p>"
+      "body": "<p>These Terms are governed by the laws of the Republic of Estonia.</p><p>The parties will first try to resolve disputes by negotiation. If no agreement is reached, the dispute will be resolved by the courts of the Republic of Estonia or through another competent dispute resolution process under applicable law.</p>"
     }
   },
   "chat": {
@@ -423,7 +473,12 @@
       "interrupted": "Answer generation was stopped.",
       "interrupted_suffix": "(Answer generation was stopped.)",
       "generic": "Sorry, something went wrong while getting the answer.",
-      "with_detail": "Error: {message}"
+      "subscription_required_profile": "No active subscription. To continue, open the Profile page and complete a subscription.",
+      "with_detail": "Error: {message}",
+      "invalid_json": "Invalid JSON body.",
+      "message_required": "Message is required.",
+      "invalid_conv_id": "Conversation id is invalid.",
+      "openai_request_failed": "OpenAI request failed."
     },
     "menu": {
       "open": "Open conversations",
@@ -503,7 +558,7 @@
     },
     "listen": {
       "last_reply": "Listen to last reply",
-      "title": "Listen to the assistantā€™s last reply"
+      "title": "Listen to the assistant's last reply"
     },
     "history": {
       "load_more": "Load earlier messages",
@@ -511,6 +566,60 @@
       "initial_loading": "Loading conversation..."
     },
     "back_to_home": "Back to homepage",
+    "mobile": {
+      "show_navigation": "Show navigation"
+    },
+    "help": {
+      "helpRequests": "Help requests",
+      "helpOffers": "Help offers",
+      "myHelpRequests": "My help requests",
+      "myHelpOffers": "My help offers",
+      "loadMore": "Load more",
+      "loading": "Loading listings...",
+      "emptyGlobalRequests": "No active help requests yet.",
+      "emptyGlobalOffers": "No active help offers yet.",
+      "emptyMyRequests": "You do not have any help requests yet.",
+      "emptyMyOffers": "You do not have any help offers yet.",
+      "openListing": "Open listing",
+      "listingSingular": "listing",
+      "listingPlural": "listings",
+      "close": "Close",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleteConfirm": "Delete this listing?",
+      "closeListing": "Close listing",
+      "askAi": "Ask AI for guidance",
+      "contact": "Contact",
+      "offerHelp": "Offer help",
+      "startChat": "Open conversation",
+      "selectOwnListing": "Choose your own listing to connect",
+      "selectedListing": "Selected listing",
+      "ownListing": "My listing",
+      "updateFailed": "Failed to update the listing.",
+      "deleteFailed": "Failed to delete the listing.",
+      "loadFailed": "Failed to load listings.",
+      "detailLoadFailed": "Failed to open the listing.",
+      "connectFailed": "Failed to create the connection.",
+      "title": "Title",
+      "description": "Description",
+      "roleLabel": "Role / service label",
+      "helpType": "Help type",
+      "timeType": "Time type",
+      "targetGroups": "Target groups",
+      "emptyOption": "-",
+      "voluntaryLabel": "Voluntary help",
+      "paidLabel": "Paid help",
+      "mixedLabel": "Voluntary or paid",
+      "oneTimeLabel": "One-time",
+      "recurringLabel": "Recurring",
+      "flexibleLabel": "Flexible",
+      "statusClosed": "This listing is closed.",
+      "noOwnOptions": "You do not have a suitable open opposite listing.",
+      "targetGroupsHint": "For example older person, adult, disability",
+      "aiPromptPrefix": "Help me understand and respond to this listing:"
+    },
     "sources": {
       "button": "Sources ({count})",
       "dialog_label": "Conversation sources",
@@ -533,7 +642,9 @@
       "summary_show": "Show text",
       "summary_hide": "Hide preview",
       "privacy": "For analysis only, not stored permanently.",
-      "context_hint": "If the \"Analyse in chat\" toggle is on, the assistant can use this document in answers ā€” summarise, explain, compare, translate, and help draft letters and applications. If the toggle is off, the answer relies only on the SotsiaalAI knowledge base. The document is never stored regardless of the toggle.",
+      "context_hint": "If the \"Analyse in chat\" toggle is on, the assistant can use this document in answers — summarise, explain, compare, translate, and help draft letters and applications. If the toggle is off, the answer relies only on the SotsiaalAI knowledge base. The document is never stored regardless of the toggle.",
+      "files_selected": "Added files: {count}/{limit}",
+      "limit_reached": "You can add up to {limit} files in this conversation.",
       "ask_more": "Please explain this document briefly and highlight 5 key points.",
       "ask_more_btn": "Start your question",
       "use_as_context": "Analyse in chat",
@@ -543,8 +654,45 @@
       "error_status": "Document analysis failed ({status}).",
       "error_generic": "Document analysis failed."
     },
+    "tools": {
+      "aria": "Tools",
+      "tooltip": "Tools",
+      "menu_aria": "Chat tools",
+      "document_analysis": "Document analysis",
+      "deep_research": "Deep research",
+      "deep_research_room_only": "Deep research is available only in 1:1 chat.",
+      "documents": "Documents",
+      "agent_mode": "Agent mode"
+    },
     "analysis": {
       "extended_label": "Extended analysis"
+    },
+    "deep_research": {
+      "mode_label": "Deep research",
+      "exit_mode_aria": "Exit deep research mode",
+      "running": "Deep research in progress…",
+      "stage_planning": "Planning subquestions…",
+      "stage_retrieving": "Searching evidence in the database…",
+      "stage_synthesizing": "Composing report…",
+      "cancelled": "Deep research was stopped.",
+      "error_generic": "Deep research failed.",
+      "scope_title": "Deep research",
+      "scope_topic_label": "Topic",
+      "scope_topic_missing": "Topic is missing. Type your question and open Deep research again.",
+      "scope_output_label": "Response format",
+      "scope_output_worker": "For specialist",
+      "scope_output_client": "For help-seeker",
+      "scope_geo_label": "Region",
+      "scope_geo_all": "All",
+      "scope_geo_national": "National",
+      "scope_geo_municipality": "Municipality",
+      "scope_geo_district": "District",
+      "scope_geo_kov_optional": "Municipality (optional)",
+      "scope_geo_district_optional": "District (optional)",
+      "scope_start": "Start",
+      "scope_cancel": "Cancel",
+      "scope_started": "Deep research started.",
+      "scope_cancelled": "Deep research cancelled."
     },
     "ai_toggle": {
       "label": "Send to assistant",
@@ -553,22 +701,581 @@
     "page_label": "Chat content",
     "room": {
       "blocked": "Chat participation is currently unavailable. Please contact your specialist.",
-      "auth_required": "Session expired. Please sign in again."
+      "auth_required": "Session expired. Please sign in again.",
+      "send_error": "Message could not be sent."
     },
     "show_recent": "Show fewer",
     "mic": {
       "start": "Start dictation",
-      "stop": "Stop recording"
+      "stop": "Stop recording",
+      "unsupported": "Microphone is not supported in this browser.",
+      "silence": "Dictation: no audio detected.",
+      "error": "Dictation failed.",
+      "cannot_start": "Could not open microphone."
+    },
+    "empty_intro": "Hello! Briefly describe your question or request - I can provide information, help draft documents, and connect people with each other.",
+    "modeSelection": {
+      "confirm": {
+        "rag": "I understood that you want information and guidance. Shall we continue with that?",
+        "document": "I understood that you want to draft a document or report. Shall we continue with that?",
+        "documentClient": "I understood that you want to draft a document. Shall we continue with that?",
+        "help_request": "I understood that you want to structure a help request. Shall we continue with that?",
+        "help_offer": "I understood that you want to structure a help offer. Shall we continue with that?"
+      },
+      "alternativesLead": "If you want something else instead, choose:",
+      "options": {
+        "rag": "Ask for information and guidance",
+        "document": "Draft a document or report",
+        "documentClient": "Draft a document",
+        "help_request": "Structure a help request",
+        "help_offer": "Structure a help offer"
+      },
+      "reprompt": "Reply “yes” to continue. To choose another option, enter its number."
+    },
+    "documentWorkflow": {
+      "questions": {
+        "describe": "Please describe what kind of document or report you want to prepare and for what purpose.",
+        "describeClient": "Please describe what kind of document you want to prepare and for what purpose.",
+        "purpose": "I understood that you want to prepare a {documentType}. Please add what the purpose is.",
+        "purposeClient": "I understood that you want to prepare a {documentType}. Please add why you need this document.",
+        "recipient": "Who is it meant for or where should it be submitted?",
+        "sourceBasis": "Do you want me to prepare a new text from your description, or do you already have a text, note, document, form, or template I should use as a basis? If you have a file, add it with the paperclip.",
+        "sourceMaterial": "Please add the text, notes, or file that the document should be based on. If you have a file, add it with the paperclip.",
+        "background": "Is there any important background or circumstance that should definitely be taken into account?",
+        "languageTone": "What language and tone should it use?",
+        "optionalPreferences": "If you want, you can also add whether the text should be shorter or more detailed, whether it should follow a form or template, and whether there is any deadline or reporting period to consider.",
+        "optionalPreferencesClient": "If you want, you can also add whether the text should be shorter or more detailed, whether it should follow a form or template, and whether there is any deadline to consider."
+      },
+      "reflections": {
+        "sourceDescription": "I noted that this should be drafted from your description.",
+        "sourceExisting": "I noted that I can use existing material as the basis.",
+        "background": "I noted the important background.",
+        "languageTone": "I noted the language as {language} and the tone as {tone}.",
+        "preferences": "I noted the extra preferences."
+      },
+      "preview": {
+        "title": "Please review the summary.",
+        "confirm": "If this looks right, reply \"yes\" and I will prepare the draft. If you want to change something, write the change directly here."
+      },
+      "generated": {
+        "worker": "Draft ready. Open it on the Documents page.",
+        "client": "Draft ready. Open it on the Agent mode page."
+      },
+      "labels": {
+        "documentType": "Document type",
+        "purpose": "Purpose",
+        "recipient": "For / submit to",
+        "sourceBasis": "Basis",
+        "sourceDetails": "Source material",
+        "background": "Important background",
+        "subjectLabel": "About / for whom",
+        "language": "Language",
+        "tone": "Tone",
+        "length": "Length",
+        "templatePreference": "Template or form",
+        "deadline": "Deadline",
+        "reportPeriod": "Report period",
+        "recipientDetail": "Recipient detail",
+        "sourceModeValues": {
+          "description": "From your description",
+          "existingMaterial": "From existing material"
+        },
+        "languageValues": {
+          "estonian": "Estonian",
+          "english": "English",
+          "russian": "Russian"
+        },
+        "toneValues": {
+          "professional": "professional",
+          "plain": "plain and clear",
+          "supportive": "supportive"
+        },
+        "lengthValues": {
+          "short": "short",
+          "standard": "standard",
+          "detailed": "more detailed"
+        }
+      },
+      "cancelled": "Understood. I stopped the document or report drafting flow.",
+      "cancelledClient": "Understood. I stopped the document drafting flow.",
+      "restarted": "Understood. Let us start the document or report drafting flow again from the beginning.",
+      "restartedClient": "Understood. Let us start the document drafting flow again from the beginning.",
+      "switchToInfo": "Understood. I stopped the document drafting flow. Write your question now and I will provide information or guidance."
+    },
+    "helpWorkflow": {
+      "entry": {
+        "helpOffer": "I understood that you want to structure a help offer. Shall we continue with that?",
+        "helpRequest": "I understood that you want to structure a help request. Shall we continue with that?",
+        "reprompt": "Reply \"yes\" to continue, or choose another option by number or keyword."
+      },
+      "questions": {
+        "offer": {
+          "describe": "Please describe briefly what you want to offer, for whom, and where.",
+          "rawPlace": "Please write where you want to offer help.",
+          "helpType": "Is this help voluntary, paid, or are you open to both?",
+          "compensationDetails": "Please briefly describe the payment terms.",
+          "timeType": "Is this help one-time, regular, or flexible?",
+          "availability": "When can you start or when is this help available?",
+          "scope": "Would you like to add any conditions or details, for example when or to what extent you can help?"
+        },
+        "request": {
+          "describe": "Please describe briefly what help you need, for whom, and where.",
+          "rawPlace": "Please write where the help is needed.",
+          "beneficiary": "Is this help request for you or for someone else?",
+          "urgency": "How quickly is the help needed: immediately, soon, or flexibly?",
+          "helpType": "Are you looking for voluntary help, a paid service, or are you open to both?",
+          "compensationDetails": "Please briefly describe the payment or compensation preference.",
+          "timeType": "Do you need this help one-time, regularly, or flexibly?",
+          "availability": "When is the help needed or when could it start?"
+        },
+        "shared": {
+          "contactPreference": "How would you like to be contacted: via chat, by phone, by email, or by agreement?",
+          "targetGroup": "Who is this help meant for?",
+          "category": "Which kind of help does this fit best under?",
+          "title": "I set a title. If you want a different one, write it now."
+        },
+        "location": {
+          "confirmSingle": "Did you mean the municipality {municipality}?",
+          "detectedPlace": "Detected place",
+          "confirmSingleRetry": "Reply \"yes\" or write the correct municipality or place again.",
+          "confirmMany": "I found several possible municipalities. Which one do you mean?",
+          "confirmManyHint": "Reply with the name or the number.",
+          "askMunicipality": "Do you mean a specific municipality or area?"
+        }
+      },
+      "reflections": {
+        "offerSummary": "I understood that you want to offer {category}{target}{place}.",
+        "requestSummary": "I understood that you need {category}{target}{place}.",
+        "locationWithMunicipality": "I marked the location as {rawPlace} and the municipality as {municipality}.",
+        "locationOnly": "I marked the location as {rawPlace}.",
+        "helpType": "I marked this as {helpType} help.",
+        "timeType": "I marked the timing as {timeType}.",
+        "contactPreference": "I marked the contact preference as {contactPreference}.",
+        "beneficiary": "I marked that the help is needed for {beneficiary}.",
+        "urgency": "I marked the urgency as {urgency}.",
+        "conditions": "I marked the conditions.",
+        "title": "I set the title to \"{title}\"."
+      },
+      "preview": {
+        "offerTitle": "Please review the help offer.",
+        "requestTitle": "Please review the help request.",
+        "offerTypeValue": "Help offer",
+        "requestTypeValue": "Help request",
+        "savePrompt": "If this looks right, reply “yes” or “save”. If you want to change something, write the change directly here."
+      },
+      "labels": {
+        "type": "Type",
+        "title": "Title",
+        "description": "Description",
+        "primaryCategory": "Primary category",
+        "secondaryCategories": "Secondary categories",
+        "municipality": "Municipality",
+        "rawPlace": "Detailed location",
+        "targetGroups": "Target group",
+        "helpForm": "Help form",
+        "compensationInfo": "Payment details",
+        "compensationPreference": "Payment preference",
+        "timeType": "Timing",
+        "availabilityOrStart": "Availability / start",
+        "availabilityForRequest": "Needed time / start",
+        "conditions": "Conditions",
+        "skillsOrBackground": "Skills or background",
+        "contactPreference": "Contact preference",
+        "beneficiaryLabel": "Who needs the help",
+        "urgency": "Urgency",
+        "status": "Status"
+      },
+      "saved": {
+        "offer": "Thank you! The help offer has been saved.",
+        "request": "Thank you! The help request has been saved."
+      },
+      "create": {
+        "cancelled": "Understood, I stopped creating this help listing."
+      },
+      "browse": {
+        "nextOffers": "Next you can write: \"show matching offers\".",
+        "nextRequests": "Next you can write: \"show matching requests\".",
+        "emptyOffers": "No active matching help offers found yet.",
+        "emptyRequests": "No active matching help requests found yet.",
+        "foundOffers": "I found {count} possible offers.",
+        "foundRequests": "I found {count} possible requests.",
+        "connectHintOffers": "If you want to connect, write for example: \"connect to the first offer\".",
+        "connectHintRequests": "If you want to connect, write for example: \"connect to the first request\".",
+        "sourceMissingOffers": "First I need to know which request to browse offers for.",
+        "sourceMissingRequests": "First I need to know which offer to browse requests for.",
+        "cardHintOffer": "Write: “connect to offer {index}”",
+        "cardHintRequest": "Write: \"connect to request {index}\""
+      },
+      "connect": {
+        "needBrowse": "Before connecting, I need to show matching results first.",
+        "askWhich": "Please tell me which result to connect to, for example \"connect 1\".",
+        "created": "The connection has been created. I linked an existing Room chat for this match.",
+        "openRoom": "Open Room chat",
+        "alreadyActive": "There is already an active match for this listing.",
+        "failed": "Failed to create the connection."
+      }
+    }
+  },
+  "documents": {
+    "meta": {
+      "title": "Documents",
+      "description": "Manage private templates, materials, draft artifacts, and approved agent outputs.",
+      "artifactTitle": "Agent result",
+      "artifactDescription": "View and manage a saved agent result."
+    },
+    "page_title": "Documents",
+    "page_description": "Private templates and materials for future work mode, plus draft and approved agent results.",
+    "privacy_notice": "Please do not upload personal data; use this area for templates and anonymized forms.",
+    "back_to_chat": "Back to chat",
+    "back_to_documents": "Back to documents",
+    "inputs_title": "My documents",
+    "inputs_description": "Store templates, materials, and other files here. This is where you decide which documents the agent may use for the work.",
+    "view_mode": {
+      "admin_notice": "Admin preview: {role}",
+      "intro_worker": "Keep case materials, templates, and other files here so the agent can prepare specialist-facing drafts.",
+      "intro_client": "Keep your letters, forms, and background documents here so the agent can help turn them into a clear reply or application."
+    },
+    "outputs_title": "Agent results",
+    "outputs_description": "Recent draft and approved text results created by the agent workflow.",
+    "library_sections": {
+      "upload_title": "Upload document",
+      "upload_description": "Add a new file here and set the right type before saving it.",
+      "list_title": "Document list",
+      "list_description": "Browse existing documents, filter by type, and mark the ones you want to bring to the agent."
+    },
+    "loading": "Loading...",
+    "empty_documents": "No documents yet.",
+    "empty_artifacts": "No agent results yet.",
+    "updated_at": "Updated",
+    "approved_at": "Approved",
+    "artifact_detail_title": "Agent result",
+    "draft_notice": "This draft is editable. Download becomes available after approval.",
+    "template_label": "Selected template",
+    "sources_section_title": "Sources",
+    "sources_label": "Sources: {count}",
+    "empty_sources": "No source documents linked.",
+    "filters": {
+      "all": "All"
+    },
+    "kinds": {
+      "template": "Template",
+      "material": "Material",
+      "other": "Other"
+    },
+    "template_for": {
+      "report_draft": "Report",
+      "case_brief": "Case brief",
+      "meeting_summary": "Meeting summary",
+      "checklist": "Checklist",
+      "letter_draft": "Letter draft",
+      "other": "Other"
+    },
+    "artifact_types": {
+      "meeting_summary": "Meeting summary",
+      "case_brief": "Case brief",
+      "report_draft": "Report draft",
+      "checklist": "Checklist",
+      "letter_draft": "Letter draft",
+      "other": "Other"
+    },
+    "status": {
+      "draft": "Draft",
+      "final": "Approved"
+    },
+    "form": {
+      "kind_label": "Document kind",
+      "title_placeholder": "Title (optional)",
+      "template_for_placeholder": "What is this template for?",
+      "template_optional": "Standard SotsiaalAI DOCX template",
+      "format_label": "Format",
+      "file_label": "Add file",
+      "choose_file": "Choose file",
+      "no_file_selected": "No file selected",
+      "file_help": "Allowed: PDF, DOCX, TXT. Maximum size 25 MB.",
+      "uploading": "Uploading...",
+      "artifact_title_placeholder": "Result title (optional)"
+    },
+    "actions": {
+      "upload": "Upload",
+      "download": "Download",
+      "download_docx": "Download DOCX",
+      "download_pdf": "Download PDF",
+      "rename": "Rename",
+      "delete": "Delete",
+      "open": "Open",
+      "copy": "Copy",
+      "open_all_results": "All results",
+      "show_latest": "Show latest",
+      "agent_allowed": "Use in work mode",
+      "open_agent_mode": "Open in agent mode",
+      "saving": "Saving...",
+      "create_report": "Create report",
+      "creating_report": "Creating draft...",
+      "save": "Save",
+      "save_draft": "Save draft",
+      "refine_stub": "Ask agent to refine",
+      "approving": "Approving...",
+      "approve": "Approve",
+      "select_document": "Select document: {title}",
+      "select_for_agent": "Select"
+    },
+    "feedback": {
+      "uploaded": "Document uploaded.",
+      "saved": "Changes saved.",
+      "deleted": "Document deleted.",
+      "artifact_deleted": "Agent result deleted.",
+      "copied": "Copied to clipboard.",
+      "draft_created": "Draft created from selected documents.",
+      "approved": "Approved. Your professional DOCX and PDF files are ready to download.",
+      "refine_stub": "Agent refinement will be added in work mode. You can continue editing manually."
+    },
+    "confirm": {
+      "delete_document": "Delete this document permanently? This cannot be undone.",
+      "delete_artifact": "Delete this agent result permanently? This cannot be undone."
+    },
+    "multi_doc": {
+      "title": "Create result",
+      "description": "Select documents allowed for work mode and create a new draft.",
+      "selected_count": "Selected: {count}",
+      "help": "Only documents with \"Use in work mode\" enabled can be selected. The selected template affects DOCX export after approval.",
+      "enable_agent_allowed": "Enable \"Use in work mode\" before selecting this document."
+    },
+    "agent_handoff": {
+      "title": "Agent mode",
+      "description": "Choose documents here and open them in agent mode for the actual work.",
+      "selected_count": "Selected: {count}",
+      "empty_help": "Allow documents for work mode and select the ones you want to take into agent mode.",
+      "ready_help": "Your selected documents are ready. Continue in agent mode to choose the task and start working.",
+      "empty_help_worker": "Allow documents for work mode and select the ones you want to bring into agent mode for a specialist-facing draft.",
+      "empty_help_client": "Allow documents for work mode and select the ones you want to bring into agent mode for a help-seeker text or form-filling task.",
+      "ready_help_worker": "Your selected documents are ready. Continue in agent mode to prepare a specialist-facing draft.",
+      "ready_help_client": "Your selected documents are ready. Continue in agent mode to prepare the needed text or form-filling result for the help seeker.",
+      "agent_page_title": "Agent mode workspace",
+      "agent_page_empty": "Give the agent a task and instructions. It prepares a draft from the selected documents.",
+      "agent_page_with_docs": "Your selected documents are ready. Give the task and instructions, and the agent will prepare a draft.",
+      "agent_page_empty_worker": "Give the agent a task and instructions. It will prepare a specialist-facing draft from the selected documents.",
+      "agent_page_empty_client": "Give the agent a task and instructions. It will help prepare the needed text or form-filling result from the selected documents.",
+      "agent_page_with_docs_worker": "Your selected documents are ready. Give the task and instructions, and the agent will prepare a specialist-facing draft.",
+      "agent_page_with_docs_client": "Your selected documents are ready. Give the task and instructions, and the agent will prepare the needed text or form-filling result."
+    },
+    "agent_workspace": {
+      "selected_documents_title": "Selected documents",
+      "selected_documents_description": "These are the files currently included in this agent session. You can change the selection from Documents.",
+      "empty_documents": "No documents have been brought into agent mode yet.",
+      "unavailable_documents": "The selected documents are no longer available here. Go back to Documents and choose the files again.",
+      "select_documents": "Choose documents",
+      "missing_documents": "{count} previously selected document(s) could not be loaded.",
+      "goal_title": "Work goal",
+      "goal_description": "Choose what the agent should prepare, who it is for, and what tone the result should use.",
+      "template_label": "Template",
+      "template_description": "Upload the template in Documents. Choose here whether the agent should use it for the draft.",
+      "template_none": "No template",
+      "template_loading": "Loading compatible templates...",
+      "template_help": "Choose a template if you want to guide the draft structure.",
+      "template_empty": "No suitable template was found. Upload one first in Documents.",
+      "template_selected": "Selected template: {title}",
+      "output_type_label": "Output type",
+      "tone_label": "Tone",
+      "language_label": "Language",
+      "length_label": "Length",
+      "admin_notice": "Admin preview: {role}",
+      "conversation_title": "Conversation with the agent",
+      "conversation_description": "Send the first instruction or refine the current draft in the conversation. The agent uses the selected documents and your chosen work goal.",
+      "conversation_intro_empty": "Hello! First bring documents into agent mode and then describe what you want me to create.",
+      "conversation_intro_with_docs": "Hello! Describe what I should create based on the {count} selected document(s).",
+      "conversation_intro_empty_worker": "Hello! First bring documents into agent mode and then describe which specialist-facing draft I should create.",
+      "conversation_intro_empty_client": "Hello! First bring documents into agent mode and then describe which text or form-filling result I should create.",
+      "conversation_intro_with_docs_worker": "Hello! Describe what specialist-facing draft I should create based on the {count} selected document(s).",
+      "conversation_intro_with_docs_client": "Hello! Describe which text, reply, or form-filling result I should create based on the {count} selected document(s).",
+      "conversation_ready_help": "Send the first instruction in the conversation. The agent will use the selected documents and the chosen work goal.",
+      "conversation_refine_help": "Send another message to refine the current draft or change direction.",
+      "conversation_generating": "Creating a draft from the selected documents...",
+      "conversation_refining": "Refining the current draft based on your instruction...",
+      "instructions_title": "Instruction for the agent",
+      "instructions_description": "Describe what the agent should produce from the selected documents and what it should emphasize or avoid.",
+      "instructions_placeholder": "For example: create a concise case summary for a specialist, highlight service needs and risks, and keep the wording neutral and professional.",
+      "start": "Start agent",
+      "starting": "Starting agent...",
+      "start_stub": "Workspace v1 is ready. Agent execution will be connected in the next step.",
+      "needs_documents": "Bring at least one document from Documents to start the agent.",
+      "needs_instruction": "Add an instruction before starting the agent.",
+      "ready_help": "The workspace is ready. The next step will connect generation and draft handling.",
+      "result_title": "Current draft",
+      "result_description": "The latest generated draft appears here in the same workspace, so you can review it before moving on.",
+      "result_results_link_intro": "Previously saved and approved results are under",
+      "result_results_link_label": "Agent results",
+      "result_empty": "When you start the agent, the generated draft will appear here.",
+      "result_ready": "Draft is ready in the workspace. Save or approve it to add it under Documents.",
+      "result_unsaved": "This draft exists only in the current workspace. It moves to Documents after Save or Approve.",
+      "result_dirty": "This draft has unsaved changes. The version under Documents has not been updated yet.",
+      "result_removed": "The active result was removed from the workspace. If it was saved earlier, it remains available under Documents.",
+      "clear_result": "Remove from workspace",
+      "restore_saved": "Restore saved version",
+      "saved_version_restored": "The saved version was restored in the workspace.",
+      "version_history_title": "Version history",
+      "version_history_description": "These are the latest agent-generated versions in this workspace. You can restore an earlier variant without leaving agent mode.",
+      "version_current": "Current",
+      "restore_version": "Restore version",
+      "version_restored": "The selected version was restored in the workspace.",
+      "quick_actions_title": "Try another output",
+      "quick_actions_description": "Use the same documents and instruction, but run the agent again for a different output type.",
+      "quick_action_button": "Create as {type}",
+      "quick_result_ready": "A new draft was created in the same workspace using a different output type.",
+      "refine_title": "Refine the draft",
+      "refine_description": "Add one follow-up instruction and the agent will revise the current draft in this workspace.",
+      "refine_placeholder": "For example: make this shorter, remove repetition, and list the risks as separate bullet points.",
+      "refine_in_chat": "Refinements now happen in the agent conversation. Edit the content here manually only when you want to adjust the draft yourself.",
+      "refine": "Refine draft",
+      "refining": "Refining draft...",
+      "refine_help": "Add a follow-up instruction to refine the current draft.",
+      "refine_ready_help": "The agent will use the current draft together with the selected documents.",
+      "refine_ready": "The draft was refined in the workspace. Save or approve this version if it should move to Documents.",
+      "saved_to_documents": "Draft saved under Documents.",
+      "open_detail": "Open full draft",
+      "summary_documents": "Documents: {count}",
+      "summary_output": "Output: {type}",
+      "summary_template": "Template: {title}",
+      "back_to_chat": "Back to chat",
+      "client_selected_documents_description": "Add the file or files needed for this task here. You can use up to 2 files in this task.",
+      "client_selected_documents_fill_form_description": "Add the form or application you want to fill in, and if needed a second file with the information that should go into it. You can use up to 2 files in this task.",
+      "client_empty_documents": "No files have been added yet.",
+      "client_upload_button": "Add file",
+      "client_uploading": "Uploading file...",
+      "client_documents_limit": "You can use up to {count} files in this task.",
+      "client_fill_form_hint": "For Fill in form or blank, upload the form itself when possible and optionally a second file with the information that should go into it.",
+      "client_file_limit_reached": "You can use up to {count} files in this task.",
+      "client_file_added": "File added to this task: {title}",
+      "client_file_removed": "File removed from this task.",
+      "client_remove_document": "Remove",
+      "client_task_title": "What do you want to draft",
+      "client_task_description": "Choose the specific result you want the agent to create from these files.",
+      "client_task_label": "Result",
+      "client_needs_documents": "Add at least one file before you start.",
+      "client_result_description": "The agent's result appears here. You can review it, edit it, save it, and download it.",
+      "client_conversation_description": "Write what you want to get done. Before creating the result, the agent may ask a few short follow-up questions.",
+      "client_result_ready": "The result is ready. Review it, then save it or mark it as ready.",
+      "client_result_unsaved": "This result currently exists only in the workspace. Save it if you want to reopen it later.",
+      "client_result_dirty": "This result has unsaved changes.",
+      "client_result_removed": "The active result was removed from the workspace.",
+      "client_saved": "Result saved.",
+      "client_finish": "Mark as ready",
+      "client_finished": "Result marked as ready and available for download.",
+      "client_status_draft": "In progress",
+      "client_status_final": "Ready",
+      "client_results_title": "My results",
+      "client_results_description": "Here are your latest saved or finished results that you can reopen, copy, or download.",
+      "client_recent_results_loading": "Loading recent results...",
+      "client_recent_results_empty": "There are no saved results here yet.",
+      "client_open_result": "Open",
+      "client_tasks": {
+        "letter_request": "Letter or application draft",
+        "letter_reply": "Reply to a letter",
+        "fill_form": "Fill a form or blank"
+      },
+      "tones": {
+        "professional": "Professional",
+        "supportive": "Supportive",
+        "plain": "Plain language"
+      },
+      "lengths": {
+        "short": "Short",
+        "standard": "Standard",
+        "detailed": "Detailed"
+      },
+      "version_kinds": {
+        "loaded": "Opened",
+        "generated": "Generated",
+        "refined": "Refined",
+        "rerun": "Re-run"
+      }
+    },
+    "errors": {
+      "load_documents": "Failed to load documents.",
+      "read_failed": "Failed to open document.",
+      "load_artifacts": "Failed to load agent results.",
+      "upload_failed": "Failed to upload document.",
+      "save_failed": "Failed to save document changes.",
+      "delete_failed": "Failed to delete document.",
+      "delete_artifact_failed": "Failed to delete agent result.",
+      "copy_failed": "Failed to copy content.",
+      "load_artifact": "Failed to load agent result.",
+      "rename_artifact_failed": "Failed to rename agent result.",
+      "create_artifact_failed": "Failed to create draft artifact.",
+      "file_required": "Select a file to upload.",
+      "file_too_large": "File is too large. Maximum size is 25 MB.",
+      "mime_not_allowed": "Only PDF, DOCX, and TXT files are allowed.",
+      "file_signature_invalid": "Uploaded file content does not match the declared file type.",
+      "multipart_required": "Upload must use multipart form data.",
+      "missing_id": "Document id is missing.",
+      "invalid_payload": "Invalid request payload.",
+      "not_found": "Document not found.",
+      "list_failed": "Failed to list documents.",
+      "update_failed": "Failed to update document.",
+      "download_failed": "Failed to download document.",
+      "storage_path_invalid": "Invalid document storage path.",
+      "storage_dir_missing": "Document storage directory is not configured.",
+      "agent_storage_dir_missing": "Agent storage directory is not configured."
+    },
+    "artifacts": {
+      "search_placeholder": "Search by title, text, type, or source document",
+      "search_help": "Use search and sorting to review all saved draft and approved results.",
+      "final_search_hint": "Filter to Approved and search finalized outputs by title, content, or source document.",
+      "sort_label": "Sort results",
+      "sort_updated_desc": "Newest updated first",
+      "sort_updated_asc": "Oldest updated first",
+      "sort_approved_desc": "Newest approved first",
+      "sort_title_asc": "Title A-Z",
+      "results_count": "Showing {shown} of {total}",
+      "no_matches": "No agent results match the current search and filters.",
+      "source_preview_more": "+{count} more",
+      "errors": {
+        "list_failed": "Failed to list agent results.",
+        "not_found": "Agent result not found.",
+        "read_failed": "Failed to read agent result.",
+        "update_failed": "Failed to update agent result.",
+        "delete_failed": "Failed to delete agent result.",
+        "create_failed": "Failed to create draft artifact.",
+        "instruction_too_long": "Instruction is too long.",
+        "refinement_required": "Refinement instruction is required.",
+        "analysis_unavailable": "Document analysis service is currently unavailable.",
+        "analysis_failed": "Failed to extract enough text from the selected documents.",
+        "ai_unavailable": "AI draft generation is currently unavailable.",
+        "ai_empty": "AI draft generation returned an empty result.",
+        "approve_failed": "Failed to approve artifact.",
+        "format_not_supported": "Only DOCX download is available right now.",
+        "download_failed": "Failed to download approved artifact.",
+        "download_requires_approval": "Approve the draft before downloading.",
+        "content_required": "Artifact content cannot be empty.",
+        "content_too_large": "Artifact content is too large.",
+        "sources_required": "Select at least one source document.",
+        "too_many_sources": "Too many source documents selected.",
+        "sources_not_found": "One or more selected source documents were not found.",
+        "source_not_allowed": "Selected documents must be allowed for work mode.",
+        "template_not_found": "Selected template was not found.",
+        "template_not_allowed": "Selected template must be allowed for work mode.",
+        "final_read_only": "Approved artifacts are read-only."
+      }
+    }
+  },
+  "research": {
+    "error": {
+      "failed": "Deep research failed.",
+      "cancelled": "Deep research was stopped.",
+      "timeout": "Deep research exceeded the time budget.",
+      "not_found": "Research job was not found.",
+      "room_not_supported": "Deep research is available only in 1:1 chat.",
+      "query_too_long": "Research query is too long.",
+      "openai_key_missing": "Research service is not configured."
     }
   },
   "about": {
     "title": "About",
     "intro": {
-      "paragraph1": "<p><strong>SotsiaalAI</strong> is an AI-powered platform designed to provide reliable and easy-to-understand support for both social-sector professionals and people seeking help with everyday social questions.</p>",
-      "paragraph2": "<p>The platform offers two role-based AI assistants: one for professionals and one for people reaching out with personal matters. Both are built to deliver needs-based assistance - whether it concerns legislation, benefits, services, or work-related situations. The answers draw on trusted sources, simplified explanations, and practical guidance.</p>",
-      "paragraph3": "<p>The social sector is characterised by heavy workloads, fragmented information, and a complex system landscape - something also confirmed by <oska>the OSKA report (2025)</oska>. Our aim is to bring clarity, simplify daily work, and support both professionals and people seeking help.</p>",
-      "paragraph4": "<p>The platform is developed and operated by SotsiaalAI OĆ. We are a social enterprise whose goal is not to maximise profit, but to solve a societal challenge and create positive impact. Social entrepreneurship combines business activity with a social mission: we generate revenue, but reinvest it into improving the service, expanding access, and strengthening the social sector.</p>",
-      "paragraph5": "<p>We continuously enhance the service to ensure a timely and practical experience for everyone.</p>"
+      "paragraph1": "<p><strong>SotsiaalAI</strong> is an AI-powered web platform that supports both social-sector professionals and people looking for clarity in life-related questions. The social sector is characterised by <strong>heavy workloads, fragmented information, and complex system navigation</strong> – as also confirmed by <oska>the OSKA report (2025)</oska>. SotsiaalAI aims to make essential knowledge more accessible and support both professional work and the search for help.</p>",
+      "paragraph2": "<p>At the centre of the platform is a single chat window through which users can ask for information, receive guidance, draft documents and reports, and shape practical next steps. Through the chat, users can also describe requests for help and offers of help, have them structured, view matching listings, and, when needed, move on to person-to-person communication. The platform also includes <strong>document analysis, deep research, group chat, dictation, and read-aloud responses</strong>, which improve accessibility and ease of use.</p>",
+      "paragraph3": "<p>The platform includes two role-based, agent-capable AI assistants: one for <strong>social work professionals</strong> and one for <strong>people approaching with life-related questions</strong>. For professionals, SotsiaalAI is a working tool for interpreting legal frameworks, methodologies, and practices, drafting documents, managing materials, and supporting co-vision and collaboration. For people seeking help, it helps explain benefits, services, and rights and, when needed, also assists in drafting letters, applications, and other necessary texts.</p>",
+      "paragraph4": "<p>SotsiaalAI's vision is to become a <strong>next-generation platform for the social sector</strong>, centred around a single chat window. Here, artificial intelligence, a trusted knowledge base, and practical solutions come together to help both professionals and people move from a question or need to clarity, next steps, and a working solution - whether that means a service, support, a document, a job opportunity, or an assistive aid.</p>",
+      "paragraph5": "<p>SotsiaalAI is being developed as a <strong>social enterprise</strong> and a <strong>social innovation initiative</strong>. We combine technology and social-sector practice to reduce information barriers and make workflows, collaboration, and finding help clearer, faster, and more accessible.</p>"
     },
     "contact": {
       "title": "Contact",
@@ -586,45 +1293,57 @@
       "back_home": "Back to homepage"
     },
     "footer": {
-      "note": "SotsiaalAI Ā© 2025"
+      "note": "SotsiaalAI © 2025"
     },
     "guide": {
       "jump_link": "Platform guide",
       "short_title": "Guide",
       "title": "How to use the SotsiaalAI platform?",
-      "intro": "This guide provides a step-by-step overview for getting started on the SotsiaalAI platform: choose a role, create an account, activate a subscription, sign in, use the chat assistant, and configure language and accessibility.",
+      "intro": "This guide explains how to choose a role in SotsiaalAI, create an account, activate access, and use chat, language and accessibility settings, help and document workflows, Agent mode, rooms, and role-based pages.",
       "sections_v2": {
         "accessibility": {
           "title": "1. Language and accessibility",
-          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens so you can decide how SotsiaalAI should look and behave. You can open the same window later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose the interface language: Estonian, Russian or English.</li><li><strong>Text size.</strong> Pick the size that is easiest to read (small, standard, large or extra large).</li><li><strong>Contrast.</strong> Enable high contrast whenever you need clearer buttons and text.</li><li><strong>Animations.</strong> Select \"Reduce motion\" if movement distracts you or if your computer is slower ā€” this can make the experience more stable.</li></ul>"
+          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens automatically. You can reopen the same view later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose Estonian, Russian, or English.</li><li><strong>Screen profile.</strong> Choose a laptop or external-screen profile so the display fits your device better.</li><li><strong>Text size.</strong> Adjust the text size to what feels most comfortable.</li><li><strong>Contrast.</strong> Enable stronger contrast when needed.</li><li><strong>Animations.</strong> Turn on \"Reduce motion\" for a calmer and more stable experience.</li><li><strong>Theme.</strong> From Profile you can also switch between light, dim, dark, and night themes.</li><li><strong>Save and reset.</strong> Changes apply immediately, but you can also reset and save your preferences again when needed.</li></ul>"
         },
         "home": {
           "title": "2. Home page",
-          "body": "<p>The home page shows two role cards ā€” \"For social work professionals\" and \"For people seeking help\" ā€” and an <a href=\"/meist\">ABOUT</a> link in the header that leads to the background page.</p><ul><li>If you are not signed in, clicking a role card opens the sign-in / registration view.</li><li>If you are already signed in, the system checks whether you have an active subscription, then opens the chat window for the selected role.</li></ul>"
+          "body": "<p>The home page shows two role cards: \"For social work professionals\" and \"For people seeking help\".</p><ul><li>If you are not signed in, clicking a role card opens the sign-in flow, where you can also move to registration.</li><li>If you are already signed in, clicking a role card opens the chat view for that role.</li><li>The home page also shows the option to install SotsiaalAI on your device as a standalone app, so it is easier to open on a phone or computer.</li><li>The <a href=\"/#meist\">ABOUT</a> section sits below the role cards and includes platform information, policy links, and the guide link.</li></ul>"
         },
         "register": {
-          "title": "3. Registration and subscription activation",
-          "body": "<p>To use the SotsiaalAI chat assistant you need an account and an active subscription.</p>\n<p><strong>3.1 Registration</strong></p>\n<ol>\n<li>On the home page choose the relevant role card and click <a href=\"/registreerimine\">Register</a>.</li>\n<li>Fill in the registration form:\n  <ul>\n    <li>email address</li>\n    <li>PIN code (4-8 digit numeric access code)</li>\n  </ul>\n</li>\n<li>Accept the terms of use and the privacy policy.</li>\n<li>After submitting the form we send a verification email - open the message and confirm your email address.</li>\n</ol>\n<p><strong>3.2 After confirming your email and activating your subscription</strong></p>\n<p>After email confirmation you can sign in with your email address and PIN (see chapter \"4. Sign-in and navigation by role\").</p>\n<p>If you do not yet have an active subscription, after the first sign-in you will be redirected automatically to the subscription page to activate access.</p>\n<p>If a subscription is already active, the chat view for your role opens immediately.</p>"
+          "title": "3. Registration and access activation",
+          "body": "<p>You need an account to use SotsiaalAI. To actively use chat, the account also needs an active subscription or sponsored access.</p><p><strong>3.1 Registration</strong></p><ol><li>Choose the relevant role card on the home page and open <a href=\"/registreerimine\">Register</a>.</li><li>Fill in the form with your email address and PIN code (4-8 digits).</li><li>Accept the terms of use and privacy policy, and confirm that you have read the platform guide.</li><li>After submitting the form, open the verification email and confirm your address.</li></ol><p><strong>3.2 Subscription or sponsored access</strong></p><ul><li>After verification you can sign in with your email and PIN.</li><li>If you do not have active access, the platform directs you to the <a href=\"/tellimus\">Subscription</a> page.</li><li><strong>Monthly pricing is role-based:</strong> 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li>If your access comes from a sponsored invite, it stays active for the sponsored period without a separate payment.</li></ul>"
         },
         "signin": {
-          "title": "4. Sign-in and navigation by role",
-          "body": "<p>Sign-in starts on the home page, which shows two role cards: \"For social work professionals\" and \"For people seeking help\".</p>\n<ul>\n<li>Click the relevant role card to open the sign-in dialog.</li>\n<li>Enter your email address and PIN (4-8 digit numeric access code).</li>\n<li>On the same previously trusted device/browser, the PIN is usually sufficient.</li>\n<li>If you sign in from a new or unusual environment, we send a 6-digit verification code to your email. Enter the code in the input field.</li>\n<li>Optionally select \"Remember this device for 30 days\" so that on this device you will usually only need your PIN next time.</li>\n<li>If you forgot your PIN, use the <a href=\"/uuenda-pin\">Forgot PIN</a> link to set a new PIN by following the instructions.</li>\n<li>After a successful sign-in the chat view for your role opens. If access is limited (e.g. subscription is missing or expired), a notice and next steps are shown.</li>\n</ul>"
+          "title": "4. Sign-in and role-based navigation",
+          "body": "<p>Sign-in starts by choosing the relevant role card on the home page.</p><ul><li>Enter your email address and PIN.</li><li>On a previously trusted device, the PIN is usually enough.</li><li>If you sign in from a new or unusual environment, we send a 6-digit verification code to your email.</li><li>You can optionally select \"Remember this device for 30 days\".</li><li>If you forgot your PIN, use <a href=\"/taasta-parool\">Forgot PIN</a>.</li><li>After a successful sign-in, the chat view for your role opens. If access is limited, the platform shows the next steps.</li></ul>"
         },
         "chat": {
           "title": "5. Chat page",
-          "body": "<p><strong>Chat page</strong> opens after you sign in only if your account has an active subscription. The assistant is role-based ā€” answers and recommendations may differ depending on your role (for example, specialist or help-seeker). Role-specific functions on the chat page may differ slightly, but the core workflow ā€” sending messages, adding documents, and managing chats ā€” is similar for everyone.</p><p><strong>Sending a message</strong></p>\n<ul>\n  <li>Type your question in the input field below the chat window and send it with the button or Enter.</li>\n  <li>While the answer is being generated, the button shows an animation and the text \"Stop answer\", which lets you stop streaming and keep typing.</li>\n</ul>\n<p><strong>Viewing messages and scrolling</strong></p>\n<ul>\n  <li>If you scroll up, an arrow icon appears near the input field so you can jump to the bottom with one click.</li>\n</ul>\n<p><strong>Add a person to a group chat</strong></p>\n<p>If you want to include another person in the chat, you can send them an invite. After they accept, you will have a shared room (group chat) where you can chat together.</p>\n<ul>\n  <li>Open the chat page and select \"Add person\" from the top bar (or open \"Rooms\" and click \"Invite\" for a room).</li>\n  <li>If you are creating a new room, enter a room name.</li>\n  <li>Enter the invitee email address.</li>\n  <li>If you enter multiple addresses, separate them with commas.</li>\n  <li>Choose the subscription option: they have their own subscription or I will pay for them.</li>\n  <li>Click \"Send invite\".</li>\n  <li>The invite appears in the \"Invites\" list, where you can track its status.</li>\n  <li>Once the person accepts, you can open the group chat from the \"Rooms\" view or from the same chat page.</li>\n</ul>\n<p><strong>Room management</strong></p>\n<ul>\n  <li>In the \"Rooms\" view you can invite people, leave a room, or delete a room (delete is only available to the room owner).</li>\n</ul>\n\n<p><strong>Document analysis</strong></p>\n<ul>\n  <li>Uploading a document helps the assistant work with your text ā€” for example a longer letter, contract, guide, or application.</li>\n  <li>The assistant can use the document to create a brief summary, clarify complex or legal parts, compare terms against laws or guidelines, help draft replies and applications, and highlight important dates, requirements, and risks.</li>\n  <li>The document is used only within the current conversation and is not stored permanently.</li>\n</ul>\n<p><strong>Adding a document</strong></p>\n<ul>\n  <li>The paperclip button opens a file picker and lets you upload documents (up to 50 MB), e.g. PDF, DOC/DOCX, TXT, MD, or HTML.</li>\n  <li>Documents are not stored permanently ā€” they are used only for the current conversation.</li>\n</ul>\n<p>After a successful upload, a document window opens where you see:</p>\n<ul>\n  <li>the file name,</li>\n  <li>the \"Analyse in chat\" toggle to choose whether the assistant may rely on the uploaded document or only on the SotsiaalAI knowledge base when answering,</li>\n  <li>a clarification that opens when you click the question-mark icon,</li>\n  <li>the \"Show document\" / \"Hide document\" button to open or hide the document text in the window,</li>\n  <li>the document text (scrollable in the same window) when \"Show document\" is selected,</li>\n  <li>the \"Back to chat\" button to jump back to the chat window and input field to continue with questions.</li>\n</ul>\n<p>Under the \"Upload document\" button you see how many document analyses you still have available today.</p>\n<p><strong>Sources</strong></p>\n<ul>\n  <li>If an answer uses documents, a \"Sources\" button appears in the footer to open the list of materials used.</li>\n</ul>\n<p><strong>Chat sidebar</strong></p>\n<ul>\n  <li>The \"Conversations\" button in the top corner opens a side panel where you can:</li>\n  <li>load previous conversations,</li>\n  <li>start a new conversation,</li>\n  <li>refresh the list,</li>\n  <li>delete conversations you no longer need,</li>\n  <li>use \"Load more\" to view older conversations.</li>\n</ul>\n<p>The active conversation is highlighted in the list and the panel closes automatically when you switch to another conversation.</p>\n<p><strong>Profile and accessibility</strong></p>\n<ul>\n  <li>From the chat pageā€™s top-right profile icon you can open the profile page and accessibility settings (see the \"Profile and accessibility\" chapter).</li>\n</ul>\n<p><strong>Warnings</strong></p>\n<ul>\n  <li>If the conversation touches a possible crisis, a red info box appears with instructions for getting urgent help.</li>\n</ul>"
+          "body": "<p><strong>The chat page</strong> opens after sign-in and is split into three areas: the left scroll menu, the main chat area, and the right scroll menu.</p><p><strong>Left scroll menu</strong></p><ul><li><strong>Conversations.</strong> Open older conversations, start a new one, and load more history.</li><li><strong>Help requests.</strong> Browse global help-request listings.</li><li><strong>Help offers.</strong> Browse global help-offer listings.</li><li><strong>Sources.</strong> Open the list of materials used in the current answer when sources are available.</li></ul><p><strong>Main chat area</strong></p><ul><li>Type your message and send it with the button or Enter.</li><li>While the assistant is responding, the send button becomes a stop button.</li><li><strong>Plus button (+).</strong> The <strong>+</strong> next to the message field opens chat tools. Depending on your role and context, you can open document analysis, deep research, <strong>Documents</strong>, or <strong>Agent mode</strong> from there.</li><li>When you open an existing room, the same main area switches into room conversation mode, where you see shared messages and continue the real discussion with invited people.</li></ul><p><strong>Assistant workflows in chat</strong></p><ul><li><strong>Assistant mode.</strong> This is the normal chat mode for asking questions, getting explanations, next steps, and source-based answers.</li><li><strong>Document drafting mode.</strong> If your message suggests creating a document, letter, reply, or form, the assistant first asks for plain-language confirmation before entering the workflow.</li><li><strong>Help request mode.</strong> If you want to ask for help, the assistant guides you through creating a help-request listing.</li><li><strong>Help offer mode.</strong> If you want to offer help, the assistant guides you through creating a help-offer listing.</li><li>If you answer <strong>yes</strong> to the workflow question, that workflow stays locked to the conversation. If you answer <strong>no</strong>, the assistant offers alternatives.</li></ul><p><strong>Help requests and help offers</strong></p><ul><li>Help requests and help offers are created step by step inside the chat.</li><li>A listing is saved only after you confirm it in plain chat text, such as <strong>yes</strong> or <strong>save</strong>.</li><li>The left scroll menu shows global listings; the right scroll menu shows your own listings.</li><li>When you open a listing, the chat area shows a detail context where you can contact the other side, offer help, ask AI about the listing, edit your own listing, close it, or delete it.</li><li>Connecting a help request and a help offer creates or reopens a room where the actual person-to-person conversation can continue.</li></ul><p><strong>Document mode and role-based results</strong></p><ul><li>Document drafting starts only after you confirm the document workflow proposed by the assistant.</li><li>The assistant asks for missing details one at a time and shows a short summary before generation.</li><li>In an active document workflow, a paperclip appears next to the <strong>+</strong>. Files added there are used only for that conversation and that document task.</li><li>File limits depend on role: up to 2 files for a person seeking help and up to 10 files for a social work professional.</li><li>If you confirm the summary with <strong>yes</strong>, the platform creates a draft.</li><li>For a <strong>social work professional</strong>, the result opens on the <strong>Documents</strong> page.</li><li>For a <strong>person seeking help</strong>, the result opens on the <strong>Agent mode</strong> page, where you can continue refining, saving, and marking the result as finished.</li><li>DOCX and PDF downloads become available only after the draft is approved as final.</li></ul><p><strong>Right scroll menu</strong></p><ul><li><strong>Profile.</strong> Open account, subscription, and accessibility settings.</li><li><strong>Rooms.</strong> Open existing group conversations.</li><li><strong>Add person.</strong> Send an invite. In the invite flow you can choose whether the invited person uses their own subscription or receives one month of sponsored access paid by you.</li><li><strong>My help requests</strong> and <strong>My help offers.</strong> Open your own listings directly from chat.</li></ul><p><strong>Voice, scrolling, and warnings</strong></p><ul><li>Use the microphone for dictation and the listen action for reading the latest reply aloud.</li><li>If you scroll up in the conversation, a quick button appears to jump back to the bottom.</li><li>If the conversation touches a possible crisis, the platform shows a red urgent-help notice.</li></ul>"
+        },
+        "documents": {
+          "title": "6. Documents",
+          "body": "<p>The <strong>Documents</strong> page is meant for a <strong>social work professional</strong>. It is the place for managing persistent work files and results created from chat or agent workflows.</p><ul><li>You can upload documents, open their detail views, and download original files.</li><li>Documents can be marked for use in a workflow so they are included in agent work or other document tasks.</li><li>The page also shows drafts and approved results created from those documents.</li><li>Results can be opened in detail view, saved, approved, and after approval downloaded as DOCX or PDF files.</li><li>If a chat-created draft is meant for the specialist's work, it appears on this page.</li></ul>"
+        },
+        "agent_mode": {
+          "title": "7. Agent mode",
+          "body": "<p>The <strong>Agent mode</strong> page is a workspace where the agent helps create texts and drafts from selected files. For a person seeking help, this is the main place to continue documents that started in chat.</p><ul><li>You can choose the task type, tone, language, length, and, when needed, a template.</li><li>A help seeker can add files needed for their work directly in Agent mode and use the role-based file limit there.</li><li>The conversation with the agent happens on the same page: you can give the first instruction, ask for refinements, and generate new versions.</li><li>The page shows the current draft, version history, and previously saved or finished results.</li><li>If a chat-created result is meant for the help seeker's work, it opens here for further editing.</li></ul>"
         },
         "profile": {
-          "title": "6. Profile",
-          "body": "<p>The \"Profile\" page contains your account, subscription and accessibility settings.</p><ul><li>See your user role.</li><li>Show subscription: plan, monthly price and validity.</li><li><strong>To change email</strong> enter your current PIN; we send a verification email to the new address.</li><li><strong>To update PIN</strong> enter your current PIN and a new PIN (4-8 digits).</li><li>Adjust language, text size, contrast and motion preferences.</li><li>In the top-right corner of the Profile page there is a theme toggle that shows a sun (light mode) or moon (dark mode) icon depending on the selected theme. Click the icon to switch between light and dark layouts.</li></ul>"
+          "title": "8. Profile",
+          "body": "<p>The <a href=\"/profiil\">Profile</a> page gathers your account, subscription, and personal preferences.</p><ul><li>The main actions open from the orbital menu in the center of the page.</li><li><strong>Update PIN.</strong> Opens a separate page where you enter the current PIN, the new PIN, and confirmation.</li><li><strong>Update email.</strong> Opens a separate page where you enter the new email address and confirm the change with your current PIN.</li><li><strong>Manage subscription.</strong> Opens the subscription page, where you can see the active plan, sponsored-access end date, and role-based monthly pricing: 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li><strong>Language and accessibility.</strong> Open language, screen profile, text size, contrast, and motion settings; changes apply immediately.</li><li><strong>Theme.</strong> Switch between light, dim, dark, and night views.</li><li><strong>Account settings.</strong> Open the account-settings view, where you can sign out on this device, sign out everywhere, or start account deletion.</li><li>On mobile, the profile menu can also include shortcuts to your own help requests and help offers.</li></ul>"
         },
         "about": {
-          "title": "7. ABOUT",
-          "body": "<p>The <a href=\"/meist\">ABOUT</a> page contains background information about the SotsiaalAI platform. It includes:</p>\n<ul>\n  <li>a short explanation of who the platform is for and how it helps;</li>\n  <li>contact by email: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>;</li>\n  <li><a href=\"/kasutustingimused\">Terms of Use</a> and <a href=\"/privaatsustingimused\">Privacy Policy</a>;</li>\n  <li>a link to the <a href=\"/kasutusjuhend\">Platform guide</a> (this guide).</li>\n</ul>"
+          "title": "9. ABOUT",
+          "body": "<p>The <a href=\"/#meist\">ABOUT</a> section is below the role cards on the home page. It includes:</p><ul><li>a short explanation of what the platform is for;</li><li>contact email: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>;</li><li>links to the <a href=\"/kasutustingimused\">Terms of Use</a> and <a href=\"/privaatsustingimused\">Privacy Policy</a>;</li><li>a link to the <a href=\"/kasutusjuhend\">platform guide</a>.</li></ul>"
+        },
+        "before_use": {
+          "title": "10. Before using",
+          "body": "<p>At the end of the guide page there is a separate <strong>Before using</strong> block. It gives quick access to the most important links before you begin.</p><ul><li><strong>Platform guide.</strong> Opens this guide page again.</li><li><strong>Terms of Use</strong> and <strong>Privacy Policy.</strong> Open the platform's terms and data-use pages.</li><li><strong>Install on mobile or desktop.</strong> Starts the install action or shows instructions for adding SotsiaalAI as a separate app on your phone or computer.</li></ul>"
         },
         "quickstart": {
-          "title": "8. Quick overview",
-          "body": "<p>This is a short guide to using SotsiaalAI.</p>\n<p><strong>First time</strong></p>\n<ol>\n  <li><strong>Open sotsiaal.ai</strong><br/>On your first visit choose language and accessibility (text size, contrast, animations).</li>\n  <li><strong>Choose a role and create an account</strong>\n    <ul>\n      <li>On the home page pick the role card (\"For social work professionals\" or \"For people seeking help\") and click <a href=\"/registreerimine\">Register</a>.</li>\n      <li>Enter your email address and a PIN (4-8 digits) and accept the terms and privacy policy.</li>\n    </ul>\n  </li>\n  <li><strong>Confirm email and sign in</strong>\n    <ul>\n      <li>Open the verification email and confirm your address.</li>\n      <li>Then sign in with email + PIN. If needed, confirm with the 6-digit code sent to your email and optionally select \"Remember this device for 30 days\" on devices you trust.</li>\n    </ul>\n  </li>\n  <li><strong>Activate subscription</strong>\n    <ul>\n      <li>If you do not yet have an active subscription, after the first sign-in you will be redirected to the Subscription page.</li>\n      <li>Choose the plan and confirm payment (monthly fee ā‚¬7.99).</li>\n    </ul>\n  </li>\n  <li><strong>Start using the chat assistant</strong>\n    <ul>\n      <li>On the chat page type your question in the input field and press Enter or click \"Send\".</li>\n      <li>Use documents and sources as described in section 5 of this guide.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>Next visits</strong></p>\n<ol>\n  <li>Open <a href=\"https://sotsiaal.ai\">sotsiaal.ai</a>.</li>\n  <li>If your device is remembered and you have an active subscription, you can usually sign in with just your PIN.</li>\n  <li>If something seems off or access is limited, check your subscription status on the Profile page.</li>\n</ol>"
+          "title": "11. Quick overview",
+          "body": "<p>If you want to get started quickly, follow these steps:</p><ol><li><strong>Choose your role</strong> on the home page and create an account.</li><li><strong>Accept the policies</strong>, confirm that you have read the platform guide, and then verify your email.</li><li><strong>Activate a subscription or sponsored access.</strong> Monthly pricing is 7.99 EUR for a person seeking help and 14.99 EUR for a social work professional.</li><li><strong>Sign in</strong> and open the chat page.</li><li><strong>Write your question</strong> or describe your situation.</li><li>If the assistant asks about the workflow, answer <strong>yes</strong> or <strong>no</strong> to move into assistant, help, or document workflows.</li><li>Use the left and right scroll menus for conversations, rooms, sources, and your own help listings.</li><li>Manage settings, account, and subscription on the <a href=\"/profiil\">Profile</a> page.</li></ol>"
         }
       }
     }
@@ -634,21 +1353,29 @@
     "loading": "Loading subscription details...",
     "error": {
       "load_failed": "Failed to load subscription status.",
-      "payment_start": "Could not start the payment."
+      "payment_start": "Could not start the payment.",
+      "payment_failed": "Payment failed or was canceled."
     },
     "payment": {
-      "redirect_demo": "Redirecting to Maksekeskus payment page (demo)..."
+      "redirect_demo": "Redirecting to Maksekeskus payment page...",
+      "pending": "Payment confirmation is in progress.",
+      "confirmation_pending": "Payment was started. Access is activated after provider confirmation."
     },
     "active": {
       "summary": "Your subscription is active. Monthly price: 7.99.",
-      "cancel_note": "You can cancel your subscription any time on the profile page or by emailing <email>info@sotsiaal.ai</email>."
+      "summary_priced": "Your subscription is active. Plan: {role}. Fee: {amount} per month.",
+      "cancel_note": "You can cancel your subscription at any time on the profile page.",
+      "sponsored_note": "Your access is currently sponsored and is valid until {date}. After that, you need to activate your own subscription to continue using the platform.",
+      "sponsored_ending_soon": "Your sponsored access ends in {days} days, on {date}. Activate your own subscription to continue using the platform.",
+      "sponsored_expired": "Your sponsored month has ended. Activate your own subscription to continue."
     },
     "button": {
       "open_profile": "Open profile",
       "activate": "Pay and activate subscription",
       "processing": "Redirecting to payment..."
     },
-    "info": "To use SotsiaalAI you need a monthly subscription priced at 7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period."
+    "info": "To use SotsiaalAI you need a monthly subscription priced at 7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period.",
+    "info_priced": "To use SotsiaalAI you need a monthly subscription. For the \"{role}\" role, the fee is {amount} per month. Payments are processed via Maksekeskus, the subscription renews automatically, and you can cancel it at any time from your profile."
   },
   "pwa": {
     "heading": "Want the platform as an app?",
@@ -686,7 +1413,7 @@
   },
   "role": {
     "admin": "Administrator",
-    "worker": "Specialist",
+    "worker": "Social work specialist",
     "client": "Citizen seeking help",
     "unknown": ""
   },
@@ -730,6 +1457,18 @@
     "start": {
       "title": "Next step - SotsiaalAI",
       "description": "Choose where to continue after signing in."
+    },
+    "guide": {
+      "title": "Platform guide - SotsiaalAI",
+      "description": "Read how to use SotsiaalAI step by step."
+    },
+    "rooms": {
+      "title": "Rooms - SotsiaalAI",
+      "description": "Open and manage your group chat rooms."
+    },
+    "email_update": {
+      "title": "Update email - SotsiaalAI",
+      "description": "Change the email address linked to your SotsiaalAI account."
     }
   },
   "join": {
@@ -795,8 +1534,21 @@
     },
     "pay": {
       "label": "Payment",
-      "self": "They have their own subscription",
+      "self": "They have subscription",
       "host": "I'll pay for them"
+    },
+    "sponsored": {
+      "title": "Choose the sponsored subscription role",
+      "description": "Choose whether you are buying a one-month subscription for a social work specialist or a person seeking help.",
+      "one_month_note": "After payment is confirmed, the invite is sent out. The sponsored subscription is valid for one month; after that the invited person must continue with their own subscription.",
+      "confirm_and_pay": "Confirm and pay",
+      "payment_success": "Payment succeeded. The invite will be sent once the payment is confirmed.",
+      "payment_canceled": "Payment was canceled. The invite was not sent.",
+      "payment_failed": "Payment failed. Please try again.",
+      "role": {
+        "worker": "Social work specialist subscription",
+        "client": "Person seeking help subscription"
+      }
     },
     "sending": "Sending...",
     "send": "SEND INVITE",
@@ -812,13 +1564,13 @@
     },
     "payer": {
       "host": "I'll pay for them",
-      "self": "They have their own subscription"
+      "self": "They have subscription"
     },
     "resend": "Resend",
     "room_title": "Room name",
     "room_title_required": "Add a room name before sending invites.",
     "host_name": "Your name in the chat",
-    "host_name_ph": "e.g. Kert",
+    "host_name_ph": "Your name",
     "host_name_required": "Add your name before sending invites.",
     "send_failed": "Invite sending failed.",
     "action_failed": "Action failed.",
@@ -826,7 +1578,769 @@
     "status": {
       "accepted_self": "Joined (own plan)",
       "accepted_sponsored": "Joined (sponsored)"
+    },
+    "error": {
+      "rate_limited": "Too many requests. Please try again later.",
+      "emails_required": "Add at least one email address.",
+      "sponsored_single_email_required": "Sponsored invites can only be sent to one person at a time.",
+      "sponsor_plan_required": "Choose the sponsored subscription role before starting payment.",
+      "invitee_active_subscription": "This email already has an active subscription. A sponsored month cannot be purchased for them again.",
+      "sponsored_checkout_required": "If you choose \"I'll pay for them\", the invite must be sent through the sponsored checkout flow.",
+      "sponsor_plan_unavailable": "Sponsored invites cannot be created: plan is unavailable.",
+      "sponsor_capacity_full": "Sponsored seats limit is full."
+    }
+  },
+  "email": {
+    "auth": {
+      "reset": {
+        "subject": "SotsiaalAI PIN reset",
+        "text": "Hello!\n\nYou can reset your PIN using this link:\n{resetUrl}\n\nIf you did not request this, you can ignore this email.",
+        "html": "<p>Hello!</p><p>You can reset your PIN using this link:</p><p><a href=\"{resetUrl}\">{resetUrl}</a></p><p>If you did not request this, you can ignore this email.</p>"
+      },
+      "login_otp": {
+        "subject": "SotsiaalAI sign-in verification code",
+        "text": "Hello!\n\nYour verification code is: {code}\nThe code is valid for {minutes} minutes.\n\nIf you did not try to sign in, please ignore this email.",
+        "html": "<p>Hello!</p><p>Your verification code is: <strong>{code}</strong></p><p>The code is valid for {minutes} minutes.</p><p>If you did not try to sign in, please ignore this email.</p>"
+      },
+      "login_otp_resend": {
+        "subject": "SotsiaalAI new verification code",
+        "text": "Hello!\n\nYour new verification code is: {code}\nThe code is valid for {minutes} minutes.\n\nIf you did not try to sign in, please ignore this email.",
+        "html": "<p>Hello!</p><p>Your new verification code is: <strong>{code}</strong></p><p>The code is valid for {minutes} minutes.</p><p>If you did not try to sign in, please ignore this email.</p>"
+      },
+      "login_device_alert": {
+        "subject": "SotsiaalAI sign-in from a new or unrecognized device",
+        "text": "Hello!\n\nWe noticed a sign-in attempt from a new or unrecognized device.\n\nTime: {time}\nDevice: {device}\nIP address: {ip}\n\nIf this was you, you can continue signing in with the verification code. If this was not you, please change your PIN immediately.",
+        "html": "<p>Hello!</p><p>We noticed a sign-in attempt from a new or unrecognized device.</p><ul><li><strong>Time:</strong> {time}</li><li><strong>Device:</strong> {device}</li><li><strong>IP address:</strong> {ip}</li></ul><p>If this was you, you can continue signing in with the verification code. If this was not you, please change your PIN immediately.</p>"
+      },
+      "verify": {
+        "subject": "Confirm your email address",
+        "text": "Hello!\n\nPlease confirm your email address using the link below:\n{verifyUrl}\n\nIf you did not create an account, you can ignore this email.",
+        "html": "<p>Hello!</p><p>Please confirm your email address using the link below:</p><p><a href=\"{verifyUrl}\">{verifyUrl}</a></p><p>If you did not create an account, you can ignore this email.</p>"
+      },
+      "account_deleted": {
+        "subject": "Your SotsiaalAI account was deleted",
+        "text": "Hello!\n\nYour SotsiaalAI account was deleted.\n\nIf this was not you, please contact us immediately at info@sotsiaal.ai.",
+        "html": "<p>Hello!</p><p>Your SotsiaalAI account was deleted.</p><p>If this was not you, please contact us immediately at <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>.</p>"
+      }
+    },
+    "invite": {
+      "create": {
+        "subject": "Invitation: {roomTitle}",
+        "text": "Hello!\n\n{inviterName} invited you to the room \"{roomTitle}\".\n\nJoin: {joinLink}\n\nIf you did not expect this email, you can ignore it.",
+        "html": "<p>Hello!</p><p>{inviterName} invited you to the room <strong>{roomTitle}</strong>.</p><p><a href=\"{joinLink}\">Join the room</a></p><p>If you did not expect this email, you can ignore it.</p>"
+      },
+      "sponsored": {
+        "subject": "Sponsored invite: {roomTitle}",
+        "text": "Hello!\n\n{inviterName} invited you to the room \"{roomTitle}\" and paid for one month of access.\nSelected role: {roleLabel}\n\nJoin: {joinLink}\n\nAfter the first month ends, you need to activate your own subscription from the Subscription page to continue using the platform.\n\nIf you did not expect this email, you can ignore it.",
+        "html": "<p>Hello!</p><p>{inviterName} invited you to the room <strong>{roomTitle}</strong> and paid for one month of access.</p><p><strong>Selected role:</strong> {roleLabel}</p><p><a href=\"{joinLink}\">Join the room</a></p><p>After the first month ends, you need to activate your own subscription from the Subscription page to continue using the platform.</p><p>If you did not expect this email, you can ignore it.</p>"
+      },
+      "resend": {
+        "subject": "Invitation reminder: {roomTitle}",
+        "text": "Hello!\n\n{inviterName} sent you a new invite link for the room \"{roomTitle}\".\n\nJoin: {joinLink}\n\nIf you did not expect this email, you can ignore it.",
+        "html": "<p>Hello!</p><p>{inviterName} sent you a new invite link for the room <strong>{roomTitle}</strong>.</p><p><a href=\"{joinLink}\">Join the room</a></p><p>If you did not expect this email, you can ignore it.</p>"
+      }
+    },
+    "payment": {
+      "owner_webhook": {
+        "subject": "[SotsiaalAI] Payment webhook: {status} ({providerPaymentId})",
+        "text": "Payment webhook was processed.\n\nStatus: {status}\nProvider payment ID: {providerPaymentId}\nPayment ID: {paymentId}\nAmount: {amount} {currency}\nPaid at: {paidAt}\nCreated at: {createdAt}\nUser email: {userEmail}\nUser ID: {userId}\nSubscription ID: {subscriptionId}\nSubscription plan: {subscriptionPlan}\nSubscription status: {subscriptionStatus}\nSubscription valid until: {subscriptionValidUntil}\nSubscription canceled at: {subscriptionCanceledAt}\nSubscription action: {subscriptionAction}\nEvent time: {eventTime}\n\nAdmin analytics: {adminUrl}",
+        "html": "<p>Payment webhook was processed.</p><ul><li><strong>Status:</strong> {status}</li><li><strong>Provider payment ID:</strong> {providerPaymentId}</li><li><strong>Payment ID:</strong> {paymentId}</li><li><strong>Amount:</strong> {amount} {currency}</li><li><strong>Paid at:</strong> {paidAt}</li><li><strong>Created at:</strong> {createdAt}</li><li><strong>User email:</strong> {userEmail}</li><li><strong>User ID:</strong> {userId}</li><li><strong>Subscription ID:</strong> {subscriptionId}</li><li><strong>Subscription plan:</strong> {subscriptionPlan}</li><li><strong>Subscription status:</strong> {subscriptionStatus}</li><li><strong>Subscription valid until:</strong> {subscriptionValidUntil}</li><li><strong>Subscription canceled at:</strong> {subscriptionCanceledAt}</li><li><strong>Subscription action:</strong> {subscriptionAction}</li><li><strong>Event time:</strong> {eventTime}</li></ul><p><a href=\"{adminUrl}\">Open admin analytics</a></p>"
+      }
+    }
+  },
+  "api": {
+    "common": {
+      "unauthorized": "Please sign in to continue.",
+      "forbidden": "You do not have permission for this action.",
+      "invalid_request": "Invalid request.",
+      "invalid_json": "Invalid JSON payload.",
+      "missing_room_id": "Room ID is missing.",
+      "rate_limited": "Too many requests. Please try again later.",
+      "subscription_required": "An active subscription is required.",
+      "monthly_budget_exceeded": "Monthly usage budget is reached. Please continue next month or upgrade your plan."
+    },
+    "chat": {
+      "invalid_conv_id": "Invalid conversation ID.",
+      "invalid_id": "Invalid ID.",
+      "not_found": "Conversation not found.",
+      "conversation_exists": "Conversation already exists.",
+      "db_unavailable": "Database is temporarily unavailable.",
+      "db_error_run_read": "Could not load conversation context.",
+      "db_error_analyze_usage": "Could not load analysis usage.",
+      "db_error_conversations_list": "Could not load conversations.",
+      "db_error_conversation_create": "Could not create conversation.",
+      "db_error_conversation_read": "Could not load conversation.",
+      "db_error_conversation_delete": "Could not delete conversation.",
+      "db_error_conversation_restore": "Could not restore conversation.",
+      "db_error_conversation_messages": "Could not load conversation messages.",
+      "analyze": {
+        "multipart_required": "Request must be multipart/form-data.",
+        "file_required": "Please attach a file.",
+        "file_too_large": "File is too large.",
+        "mime_not_allowed": "This file format is not supported.",
+        "quota_exceeded": "Analysis quota exceeded.",
+        "quota_check_failed": "Could not verify analysis quota.",
+        "rag_key_missing": "Analysis service is not configured.",
+        "rag_host_external_denied": "External analysis host is not allowed.",
+        "rag_service_failed": "Analysis service request failed.",
+        "service_unavailable": "Analysis service is currently unavailable.",
+        "privacy_ephemeral": "File is processed ephemerally and not stored."
+      }
+    },
+    "rooms": {
+      "not_found": "Room not found.",
+      "not_member": "You are not a member of this room.",
+      "owner_cannot_leave": "Room owner cannot leave the room.",
+      "missing_room_id_or_msg_id": "Room ID or message ID is missing.",
+      "message_not_found": "Message not found.",
+      "message_required": "Message content is required.",
+      "access_denied": "Access denied.",
+      "join_unavailable": "Joining is currently unavailable.",
+      "send_failed": "Failed to send message.",
+      "read_update_failed": "Failed to update read state.",
+      "leave_failed": "Failed to leave room.",
+      "delete_failed": "Failed to delete room.",
+      "delete_message_failed": "Failed to delete message."
+    },
+    "stt": {
+      "not_configured": "Speech-to-text service is not configured.",
+      "rate_limited": "Too many dictation requests. Please try again later.",
+      "audio_missing": "Audio input is missing.",
+      "audio_too_large": "Audio file is too large.",
+      "audio_format_unsupported": "Audio format is not supported.",
+      "transcription_failed": "Dictation failed.",
+      "service_error": "Speech-to-text service error."
+    },
+    "tts": {
+      "not_configured": "Text-to-speech service is not configured.",
+      "rate_limited": "Too many speech requests. Please try again later.",
+      "text_missing": "Text input is missing.",
+      "text_too_long": "Text is too long.",
+      "synthesis_failed": "Speech synthesis failed.",
+      "service_error": "Text-to-speech service error."
+    },
+    "auth": {
+      "reset": {
+        "rate_limited_request": "Too many reset requests. Please try again later.",
+        "rate_limited_update": "Too many PIN update attempts. Please try again later.",
+        "invalid_email": "Please enter a valid email address.",
+        "missing_token_or_pin": "Reset token or PIN is missing.",
+        "pin_invalid": "PIN must be between 4 and 8 digits.",
+        "token_invalid": "Reset token is invalid or already used.",
+        "token_expired": "Reset link has expired. Please request a new link.",
+        "user_not_found": "User not found.",
+        "request_failed": "Failed to send reset link. Please try again later.",
+        "update_failed": "Failed to update PIN.",
+        "base_url_missing": "Reset base URL is not configured.",
+        "email_from_missing": "Sender email is not configured."
+      },
+      "login": {
+        "rate_limited": "Too many sign-in attempts. Please try again later.",
+        "invalid_credentials": "Incorrect email or PIN.",
+        "missing_fields": "Missing required information.",
+        "token_invalid": "Sign-in token is invalid.",
+        "token_expired": "Sign-in token has expired.",
+        "otp_invalid": "The code is invalid or has expired.",
+        "step1_failed": "Sign-in failed. Please try again.",
+        "verify_failed": "Code verification failed. Please try again.",
+        "resend_missing_token": "Missing temporary sign-in token.",
+        "resend_token_invalid": "This code cannot be resent.",
+        "user_missing": "User not found.",
+        "resend_failed": "Failed to resend the code.",
+        "email_from_missing": "Sender email is not configured."
+      },
+      "register": {
+        "rate_limited": "Too many registration attempts. Please try again later.",
+        "invalid_email": "Please enter a valid email address.",
+        "pin_invalid": "PIN must be between 4 and 8 digits.",
+        "email_in_use": "This email address is already in use.",
+        "failed": "Registration failed. Please try again.",
+        "closed": "Registration is temporarily closed."
+      },
+      "verify": {
+        "invalid_link": "The verification link is invalid or incomplete.",
+        "link_invalid_or_used": "This verification link is invalid or has already been used.",
+        "link_expired": "This verification link has expired.",
+        "user_not_found": "User not found.",
+        "confirm_failed": "Email verification failed.",
+        "rate_limited": "Too many verification requests. Please try again later.",
+        "invalid_email": "Please enter a valid email address.",
+        "send_failed": "Failed to send verification email.",
+        "base_url_missing": "Verification base URL is not configured.",
+        "email_from_missing": "Sender email is not configured."
+      }
+    },
+    "subscription": {
+      "user_not_found": "User not found.",
+      "load_failed": "Failed to load subscription.",
+      "activate_failed": "Failed to activate subscription.",
+      "cancel_failed": "Failed to cancel subscription.",
+      "already_active": "Subscription is already active.",
+      "provider_unavailable": "Payment provider is not configured.",
+      "checkout_create_failed": "Could not create payment checkout.",
+      "payment_not_found": "Payment reference was not found.",
+      "webhook_signature_unconfigured": "Webhook signature verification is not configured.",
+      "webhook_signature_invalid": "Webhook signature is invalid.",
+      "webhook_invalid_payload": "Webhook payload is invalid.",
+      "webhook_process_failed": "Could not process payment webhook.",
+      "direct_activation_disabled": "Direct activation is disabled. Start checkout first."
+    },
+    "invites": {
+      "email_from_missing": "Sender email is not configured.",
+      "load_failed": "Failed to load invites.",
+      "create_failed": "Failed to create invites.",
+      "missing_id": "Invite ID is missing.",
+      "missing_token": "Invite token is missing.",
+      "invite_not_found": "Invite not found.",
+      "invite_expired": "Invite has expired.",
+      "invite_used": "Invite has already been used.",
+      "invite_email_mismatch": "This invite is for a different email address.",
+      "invite_payment_pending": "Payment for this invite is still pending. Open the invite again after the payment is confirmed.",
+      "invite_role_mismatch": "This invite was created for a different user role. Use an account with the matching role.",
+      "only_pending_resend": "Only pending invites can be resent.",
+      "subscription_required": "Subscription is required to join this room.",
+      "accept_failed": "Failed to accept invite.",
+      "resend_failed": "Failed to resend invite.",
+      "revoke_failed": "Failed to revoke invite."
+    },
+    "admin": {
+      "analytics": {
+        "events_load_failed": "Failed to load analytics events.",
+        "events_delete_invalid_payload": "Choose a filter or confirm deleting all logs.",
+        "events_delete_failed": "Failed to delete analytics logs.",
+        "reset_invalid_action": "Invalid reset action.",
+        "reset_failed": "Failed to run reset action.",
+        "summary_load_failed": "Failed to load analytics summary.",
+        "users_load_failed": "Failed to load users analytics.",
+        "payment_alerts_not_configured": "Payment alert webhook is not configured.",
+        "payment_alerts_dispatch_failed": "Failed to dispatch payment alerts.",
+        "payment_alerts_dispatched": "Payment alerts were dispatched.",
+        "payment_alerts_no_critical": "No critical payment alerts to dispatch.",
+        "payment_alerts_deduped": "Critical payment alerts were already dispatched recently.",
+        "payment_alerts_dry_run": "Payment alerts dry-run completed.",
+        "users_delete_invalid_payload": "No valid users were selected for deletion.",
+        "users_delete_not_found": "Selected users were not found.",
+        "users_delete_forbidden_targets": "Selected users cannot be deleted (self/admin restriction).",
+        "users_delete_failed": "Failed to delete selected users.",
+        "users_email_invalid_payload": "Email subject and message are required.",
+        "users_email_too_large": "Email subject or body is too long.",
+        "users_email_no_recipients": "No recipients found for the selected target.",
+        "users_email_send_failed": "Failed to send bulk email.",
+        "email_from_missing": "Email sender is not configured."
+      }
+    },
+    "rag": {
+      "rate_limited": "Too many RAG requests. Please try again later.",
+      "service_key_missing": "RAG service API key is not configured.",
+      "external_host_not_allowed": "External RAG host is not allowed.",
+      "proxy_timeout": "RAG proxy request timed out.",
+      "proxy_error": "RAG proxy request failed.",
+      "selftest": {
+        "step_connection": "Checking RAG connection",
+        "step_search": "Running RAG search",
+        "step_openai": "Checking OpenAI response",
+        "step_ok": "OK",
+        "sample_query": "hello",
+        "openai_prompt": "Reply briefly: OK",
+        "openai_key_missing": "OPENAI_API_KEY is not configured.",
+        "openai_empty_response": "OpenAI did not return a response.",
+        "backend_error": "RAG service returned an error.",
+        "unknown_error": "Unknown error."
+      }
+    }
+  },
+  "admin": {
+    "common": {
+      "loading": "Loading...",
+      "loading_data": "Loading data...",
+      "loading_panel": "Loading panel...",
+      "refresh": "Refresh",
+      "back": "Back",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "pages": {
+      "analytics": {
+        "meta_title": "Analytics - SotsiaalAI"
+      },
+      "rag": {
+        "meta_title": "RAG Admin - SotsiaalAI",
+        "meta_description": "Upload and manage RAG materials.",
+        "heading": "RAG Admin"
+      }
+    },
+    "analytics": {
+      "title": "Analytics",
+      "errors": {
+        "summary_fetch_failed": "Summary fetch failed.",
+        "events_fetch_failed": "Events fetch failed.",
+        "logs_delete_failed": "Failed to delete logs.",
+        "reset_failed": "Failed to run reset action.",
+        "users_fetch_failed": "Users analytics fetch failed.",
+        "users_delete_failed": "Failed to delete selected users.",
+        "users_email_send_failed": "Failed to send bulk email.",
+        "users_email_invalid_payload": "Email subject and message are required."
+      },
+      "events": {
+        "chat_request": "Chat request",
+        "rag_search": "RAG search",
+        "no_context": "No context",
+        "crisis_detected": "Crisis detected",
+        "stt_request": "STT request",
+        "tts_request": "TTS request",
+        "rag_error": "RAG error",
+        "openai_error": "OpenAI error",
+        "subscription_init_started": "Subscription init started",
+        "subscription_init_checkout_created": "Subscription checkout created",
+        "subscription_init_failed": "Subscription init failed",
+        "subscription_callback_redirect": "Subscription callback redirect",
+        "subscription_webhook_processed": "Subscription webhook processed",
+        "subscription_webhook_failed": "Subscription webhook failed",
+        "subscription_webhook_owner_email_sent": "Subscription webhook owner email sent",
+        "subscription_webhook_owner_email_failed": "Subscription webhook owner email failed",
+        "subscription_webhook_owner_email_skipped": "Subscription webhook owner email skipped",
+        "payment_alert_dispatch_dry_run": "Payment alert dispatch dry run",
+        "payment_alert_dispatched": "Payment alert dispatched",
+        "payment_alert_dispatch_failed": "Payment alert dispatch failed"
+      },
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "audience": {
+        "social_worker": "Social worker specialist",
+        "client": "Help seeker",
+        "both": "Both"
+      },
+      "meta": {
+        "hits": "hits",
+        "groups": "groups",
+        "grounding": "grounding",
+        "chosen": "chosen",
+        "crisis": "crisis",
+        "history": "history",
+        "payment_state": "payment state",
+        "result_status": "result status",
+        "subscription_action": "subscription action",
+        "alert_code": "alert code"
+      },
+      "kpis": {
+        "requests_30d": {
+          "title": "Requests (30d)",
+          "meta": "Total chat requests"
+        },
+        "rag_searches": {
+          "title": "RAG searches"
+        },
+        "no_context": {
+          "title": "No context"
+        },
+        "share": "Share {percent}%",
+        "share_missing": "Share unavailable",
+        "crisis": {
+          "title": "Crisis",
+          "meta": "Crisis severity detected"
+        },
+        "stt_requests": {
+          "title": "STT requests",
+          "meta": "Voice input share {percent}%"
+        },
+        "tts_requests": {
+          "title": "TTS requests",
+          "meta": "Voice output share {percent}%"
+        },
+        "rag_averages": {
+          "title": "Averages (RAG)",
+          "meta": "Hits {hits}, groups {groups}, chosen {chosen}"
+        },
+        "grounding": {
+          "title": "Grounding",
+          "meta": "Strong {strong}% | OK {ok}% | Weak {weak}%"
+        }
+      },
+      "platform": {
+        "title": "Platform overview",
+        "subtitle": "Combined view of chat, help, collaboration and document workflows.",
+        "chat": {
+          "title": "Chat and voice",
+          "conversations_total": "Conversations total",
+          "active_conversations_30d": "Active conversations (30d)",
+          "ai_errors_30d": "AI errors (30d)"
+        },
+        "help": {
+          "title": "Help flow",
+          "open_requests": "Open requests",
+          "open_offers": "Open offers",
+          "matches_30d": "Matches (30d)",
+          "match_statuses_30d": "Match statuses (30d)"
+        },
+        "collaboration": {
+          "title": "Rooms and invites",
+          "rooms_total": "Rooms total",
+          "active_rooms_30d": "Active rooms (30d)",
+          "room_messages_30d": "Room messages (30d)",
+          "pending_invites": "Pending invites",
+          "sponsored_invites_30d": "Sponsored invites (30d)",
+          "active_sponsored_members": "Active sponsored members"
+        },
+        "documents": {
+          "title": "Documents and agent",
+          "total": "Documents total",
+          "uploaded_30d": "Uploaded (30d)",
+          "draft_artifacts": "Draft artifacts",
+          "final_artifacts": "Final artifacts",
+          "created_30d": "Created (30d)",
+          "approved_30d": "Approved (30d)",
+          "downloads_30d": "Document downloads (30d)",
+          "artifact_downloads_30d": "Artifact downloads (30d)"
+        }
+      },
+      "rag_docs": {
+        "title": "RAG document base",
+        "subtitle": "Overview of indexing and recent additions.",
+        "total": "Total documents",
+        "failed": "Failed",
+        "error_30d": "With error (30d)",
+        "statuses": "Statuses",
+        "audience": "Audience",
+        "type": "Type"
+      },
+      "table": {
+        "time": "Time",
+        "title": "Title",
+        "status": "Status",
+        "type": "Type",
+        "audience": "Audience",
+        "source": "Source",
+        "untitled": "(untitled)",
+        "empty": "No records found."
+      },
+      "billing": {
+        "title": "Subscriptions and payments",
+        "subtitle": "Payment flows and subscription activity over the last 30 days.",
+        "alerts": {
+          "none": "No billing alerts in the last 30 days.",
+          "severity": {
+            "info": "Info",
+            "warning": "Warning",
+            "critical": "Critical"
+          },
+          "items": {
+            "checkout_create_rate_low": "Checkout creation rate is low ({value}% vs threshold {threshold}%).",
+            "paid_conversion_low": "Paid conversion from checkout is low ({value}% vs threshold {threshold}%).",
+            "webhook_missing_after_checkout": "Checkout events exist but no webhook processing events were recorded.",
+            "callback_pending_high": "Callback pending share is high ({value}% vs threshold {threshold}%).",
+            "webhook_error_spike": "Webhook technical error count is high ({value}, threshold {threshold}).",
+            "webhook_error_rate_high": "Webhook technical error rate is high ({value}% vs threshold {threshold}%).",
+            "unknown": "Unclassified billing alert."
+          }
+        },
+        "active_subscriptions": "Active subscriptions",
+        "new_subscriptions_30d": "New subscriptions (30d)",
+        "cancellations_30d": "Cancellations (30d)",
+        "payment_statuses_30d": "Payment statuses (30d)",
+        "paid_amount_30d": "Collected (PAID 30d)",
+        "pipeline": {
+          "checkout_ready": "Checkout ready (30d)",
+          "webhook_paid": "Webhook paid (30d)",
+          "callback_success": "Callback success (30d)",
+          "webhook_errors": "Webhook errors (30d)",
+          "from_init": "{percent}% from init",
+          "from_checkout": "{percent}% from checkout",
+          "callback_share": "{percent}% callback success",
+          "breakdown": "Failed {failed} | Canceled {canceled} | Refunded {refunded}"
+        },
+        "table": {
+          "time": "Time",
+          "status": "Status",
+          "amount": "Amount",
+          "provider": "Provider",
+          "paid_at": "PaidAt",
+          "empty": "No records found."
+        }
+      },
+      "users": {
+        "title": "Users, costs and limits",
+        "subtitle": "Per-user 30 day usage, estimated cost and current limits.",
+        "summary": {
+          "users": "Users in table",
+          "estimated_cost": "Estimated cost (30d)",
+          "paid_amount": "Paid amount (30d)",
+          "budget_capacity": "Total budget capacity",
+          "near_limits": "Near limits"
+        },
+        "active": "Active",
+        "inactive": "Inactive",
+        "usage": {
+          "chat": "Chat",
+          "rag": "RAG",
+          "stt": "STT",
+          "tts": "TTS",
+          "analyze": "Analyses (30d)",
+          "analyze_today": "Analyses today"
+        },
+        "limits": {
+          "analyze_daily": "Analyze/day",
+          "analyze_usage_today": "Used today",
+          "analyze_remaining": "Remaining today",
+          "plan_amount": "Monthly fee",
+          "monthly_budget": "Monthly budget",
+          "remaining_budget": "Remaining budget",
+          "utilization": "Budget use"
+        },
+        "table": {
+          "user": "User",
+          "role": "Role",
+          "admin": "Admin",
+          "subscription": "Subscription",
+          "usage_30d": "Usage (30d)",
+          "cost_30d": "Cost estimate (30d)",
+          "limits": "Limits",
+          "paid_30d": "Paid (30d)",
+          "empty": "No users found."
+        },
+        "note": "Estimate model (EUR): chat/request {chat}, rag/search {rag}, stt/MB {stt}, tts/1k chars {tts}, base monthly budget {budget}. Daily analyze limits and monthly budget scale by role and current monthly fee. STT/TTS historical cost appears from event logging onwards.",
+        "actions": {
+          "selected_count": "Selected: {count}",
+          "selected_visible": "Selected from visible: {count}",
+          "select_visible": "Select visible",
+          "clear_visible": "Clear visible",
+          "delete_selected": "Delete selected",
+          "deleting": "Deleting...",
+          "delete_confirm": "Delete {count} selected users? This cannot be undone.",
+          "delete_done": "Deleted {deleted} users. Blocked: {blocked}.",
+          "select_users_first": "Select at least one user first.",
+          "email_target": "Email target",
+          "email_selected": "Selected users",
+          "email_all": "All users",
+          "email_subject": "Email subject",
+          "email_subject_ph": "Enter subject",
+          "email_text": "Email text",
+          "email_text_ph": "Write message...",
+          "email_target_hint": "Current target: {mode}",
+          "send_email": "Send email",
+          "sending": "Sending...",
+          "email_done": "Email sent: {sent}. Failed: {failed}.",
+          "select_user": "Select user {user}"
+        }
+      },
+      "logs": {
+        "title": "Logs",
+        "subtitle": "Latest 100 events with filters.",
+        "actions": {
+          "delete_filtered": "Delete filtered logs",
+          "delete_all": "Delete all logs",
+          "deleting": "Deleting...",
+          "delete_filtered_confirm": "Delete logs matching current filters? This cannot be undone.",
+          "delete_all_confirm": "Delete ALL analytics logs? This cannot be undone.",
+          "delete_done": "Deleted logs: {count}."
+        },
+        "filter": {
+          "all_events": "All events",
+          "crisis_all": "Crisis: all",
+          "crisis_yes": "Crisis: yes",
+          "crisis_no": "Crisis: no"
+        },
+        "table": {
+          "time": "Time",
+          "event": "Event",
+          "role": "Role",
+          "crisis": "Crisis",
+          "meta": "Meta",
+          "empty": "No records found."
+        }
+      },
+      "reset": {
+        "title": "Pre-launch reset",
+        "subtitle": "Run targeted cleanup actions before launch. Each action asks for two confirmations.",
+        "running": "Running...",
+        "confirm": "Run reset action: {action}?",
+        "confirm_with_count": "Action \"{action}\" will delete about {count} rows. Continue?",
+        "cancelled": "Reset action was cancelled.",
+        "done": "Done: {action}. Deleted rows: {count}.",
+        "actions": {
+          "clear_logs": "Clear analytics logs",
+          "clear_conversations": "Clear conversations",
+          "clear_rooms": "Clear rooms data",
+          "clear_auth_tokens": "Clear auth tokens",
+          "clear_usage_metrics": "Clear usage metrics",
+          "clear_billing": "Clear billing data"
+        }
+      }
+    },
+    "rag": {
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "audience": {
+        "social_worker": "Social worker specialist",
+        "client": "Help seeker",
+        "both": "Both"
+      },
+      "common": {
+        "ok": "OK",
+        "failed": "Failed",
+        "saved": "Saved"
+      },
+      "errors": {
+        "invalid_documents_json": "Server returned invalid JSON for document list.",
+        "documents_load_failed": "Document loading failed.",
+        "pdf_required": "Select a PDF file.",
+        "meta_required": "Add metadata JSON file or paste JSON into the field.",
+        "pdf_ingest_failed": "PDF ingest failed.",
+        "meta_json_invalid": "Metadata JSON is invalid.",
+        "meta_json_must_be_object": "Metadata JSON must be an object.",
+        "url_required": "Enter URL.",
+        "url_ingest_failed": "URL ingest failed.",
+        "articles_json_required": "Add articles JSON (file or text).",
+        "articles_json_invalid": "Articles JSON is invalid.",
+        "doc_id_required": "docId is missing. Add docId in the field or JSON file.",
+        "articles_array_required": "Articles array is missing or empty.",
+        "article_item_invalid": "Each article must have title and pageRange or startPage/endPage.",
+        "articles_ingest_failed": "Articles ingest failed.",
+        "reindex_failed": "Reindex failed.",
+        "delete_failed": "Delete failed.",
+        "meta_update_failed": "Metadata update failed.",
+        "selftest_failed": "Self-test failed.",
+        "selftest_aborted": "Self-test aborted."
+      },
+      "success": {
+        "added_with_ref": "Added: {ref}",
+        "pdf_ingest_with_doc_id": "PDF ingest succeeded (docId {docId}).",
+        "pdf_ingest": "PDF ingest succeeded.",
+        "meta_looks_valid": "Metadata looks valid. Search and filtering should be fast.",
+        "url_sent": "URL was sent to RAG database.",
+        "articles_added_with_doc_id": "Articles added (docId {docId}).",
+        "reindex_started": "Reindex started.",
+        "document_deleted": "Document deleted.",
+        "meta_saved": "Metadata saved.",
+        "selftest_finished": "Self-test completed."
+      },
+      "confirm": {
+        "delete_doc": "Do you want to delete this entry? This cannot be undone."
+      },
+      "selftest": {
+        "results_title": "Self-test results",
+        "run": "Run self-test",
+        "running": "Checking..."
+      },
+      "ingest": {
+        "title": "Ingest: URL or PDF + metadata",
+        "subtitle": "Add sources and verify metadata JSON consistency.",
+        "url_section_title": "Ingest URL",
+        "url_title_placeholder": "Title (optional)",
+        "url_description_placeholder": "Description",
+        "url_tags_placeholder": "Tags (comma-separated)",
+        "sending": "Sending...",
+        "send_url": "Send URL",
+        "pdf_section_title": "PDF + metadata (JSON)",
+        "pdf_section_note": "Metadata JSON: docId, title, section, year, audience, tags.",
+        "pdf_meta_text_placeholder": "Or paste metadata JSON",
+        "send_pdf_with_meta": "Send PDF with metadata"
+      },
+      "meta": {
+        "open_templates": "Open metadata templates",
+        "hide_templates": "Hide metadata templates",
+        "check_json": "Validate metadata JSON",
+        "templates_title": "Metadata JSON templates",
+        "templates_note": "Platform expects one JSON object per ingest. Use separate JSON files for different materials. For multi-article PDFs use /ingest/articles.",
+        "open_json": "Open .json",
+        "important": "Important",
+        "recommended": "Recommended",
+        "page_range_or_pdf_pages": "pageRange or pdf_start_page/pdf_end_page",
+        "missing_required": "Missing: {fields}",
+        "missing_recommended": "Recommended: {fields}",
+        "templates": {
+          "base": "Base (general document)",
+          "periodical": "Periodical article",
+          "regulation": "Law or regulation",
+          "report": "Report or guide",
+          "web": "Web page"
+        },
+        "important_line_1": "docId, title, section",
+        "important_line_2": "year, audience, tags",
+        "recommended_line_1": "description, authors, issueLabel/issueId",
+        "recommended_line_2": "articleId, journalTitle, language",
+        "recommended_line_4": "source_type, source_url"
+      },
+      "articles": {
+        "title": "Articles ingest (same PDF)",
+        "subtitle": "Use docId returned from PDF ingest. JSON must contain articles array.",
+        "open_template": "Open articles template",
+        "doc_id_placeholder": "docId (e.g. DOC-2024-014)",
+        "send": "Send articles",
+        "added": "Articles added.",
+        "added_count": "Added {count} chunks.",
+        "default_article": "Article",
+        "page_range": " (pp {start}-{end})",
+        "json_placeholder": "{\"docId\":\"DOC-2024-014\",\"articles\":[{\"title\":\"Title\",\"pageRange\":\"12-15\"}]}"
+      },
+      "documents": {
+        "title": "Document list",
+        "summary": "Total {total} | Filtered {filtered} | Pending {pending} | Processing {processing} | Completed {completed} | Failed {failed}",
+        "quick_find_title": "Quick find",
+        "quick_find_body": "Search uses title, description, authors, tags, section, issue, year, docId, articleId, journalTitle, language.",
+        "quick_tags": "Quick tags:",
+        "search_placeholder": "Search title, author, description, docId or tag",
+        "filters": {
+          "all_sections": "All sections",
+          "all_audiences": "All audiences",
+          "all_years": "All years",
+          "all_issues": "All issues"
+        },
+        "sort": {
+          "recent": "Newest first",
+          "title": "Title A-Z",
+          "section": "Section",
+          "year": "Year",
+          "issue": "Issue"
+        },
+        "reindex_selected": "Reindex selected ({count})",
+        "select_visible": "Select visible",
+        "total": "Total {total}",
+        "filtered": "Filtered {count}",
+        "showing": "Showing {count}",
+        "selected": "Selected {count}",
+        "untitled": "(untitled)",
+        "issue_label": "issue {issue}",
+        "no_results": "No results found.",
+        "load_more": "Load more"
+      },
+      "details": {
+        "section": "Section",
+        "authors": "Authors",
+        "year_issue": "Year / issue",
+        "audience": "Audience",
+        "page": "Page",
+        "issue": "Issue",
+        "language": "Language",
+        "type": "Type",
+        "tags": "Tags",
+        "source": "Source",
+        "select_material": "Select a material to view details."
+      },
+      "actions": {
+        "edit": "Edit",
+        "reindex": "Reindex",
+        "reindexing": "Reindexing...",
+        "delete": "Delete",
+        "deleting": "Deleting...",
+        "view": "View",
+        "close": "Close",
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "modal": {
+        "edit_meta": "Edit metadata",
+        "doc_id": "docId",
+        "type": "type",
+        "language": "language"
+      }
     }
   }
 }
-

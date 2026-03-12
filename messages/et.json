@@ -415,7 +415,7 @@
       "heading": "5. Tellimus, maksed ja tühistamine",
       "paragraph1": "<p>Platvormi tasulised funktsioonid põhinevad rollipõhisel kuutellimusel. Eluküsimusega pöörduja kuutasu on 7,99 eurot kuus ja sotsiaaltöö spetsialisti kuutasu on 14,99 eurot kuus, kui platvormil ei ole tellimuse vormistamise hetkel näidatud teisiti. Makseid vahendab Maksekeskus AS või muu platvormil näidatud makseteenuse pakkuja.</p>",
       "paragraph2": "<p>Ligipääs võib olla kas kasutaja enda tasutud või kutsuja poolt sponsoreeritud. Sponsoreeritud ligipääs kehtib praeguse lahenduse järgi ühe kuu ning ei muutu automaatselt kasutaja enda tasuliseks tellimuseks. Kui kutsutud kasutajal on juba aktiivne oma tellimus, võib sponsoreeritud checkout olla blokeeritud.</p>",
-      "paragraph3": "<p>Tellimust saab hallata lehtedel <a href=\"/tellimus\">Tellimus</a> ja Profiil. Tühistamisel lõpeb järgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood jääb kehtima selle lõpuni, kui seadus ei näe ette teisiti. SotsiaalAI võib hinnastust või pakette muuta mõistliku etteteatamisega.</p>"
+      "paragraph3": "<p>Tellimust saab hallata lehtedel <a href=\"/tellimus\">Tellimus</a> ja Profiil. Pärast makse algatamist suunatakse kasutaja Maksekeskuse makselehele ning ligipääs aktiveeritakse pärast makseteenuse kinnitust. Tühistamisel lõpeb järgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood jääb kehtima selle lõpuni, kui seadus ei näe ette teisiti. SotsiaalAI võib hinnastust või pakette muuta mõistliku etteteatamisega.</p>"
     },
     "section6": {
       "heading": "6. Kättesaadavus ja hooldus",
@@ -1311,7 +1311,7 @@
         },
         "register": {
           "title": "3. Registreerimine ja ligipääsu aktiveerimine",
-          "body": "<p>SotsiaalAI kasutamiseks on vaja kontot. Vestluse aktiivseks kasutamiseks peab kontol olema ka aktiivne tellimus või sponsoreeritud ligipääs.</p><p><strong>3.1 Registreerimine</strong></p><ol><li>Vali avalehel sobiv rollikaart ja ava <a href=\"/registreerimine\">Registreerimine</a>.</li><li>Täida vorm: sisesta e-posti aadress ja PIN-kood (4–8 numbrit).</li><li>Nõustu kasutustingimuste ja privaatsuspoliitikaga ning kinnita, et oled tutvunud platvormi kasutusjuhendiga.</li><li>Pärast vormi saatmist saadame kinnituskirja. Ava kiri ja kinnita oma e-post.</li></ol><p><strong>3.2 Tellimus või sponsoreeritud ligipääs</strong></p><ul><li>Pärast kinnitamist saad sisse logida e-posti ja PIN-koodiga.</li><li>Kui sul puudub aktiivne ligipääs, suunab platvorm sind lehele <a href=\"/tellimus\">Tellimus</a>.</li><li><strong>Kuutasu on rollipõhine:</strong> eluküsimusega pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus.</li><li>Kui sinu ligipääs on sponsoreeritud kutse kaudu, kehtib see sponsori valitud perioodi jooksul ilma eraldi makseta.</li></ul>"
+          "body": "<p>SotsiaalAI kasutamiseks on vaja kontot. Vestluse aktiivseks kasutamiseks peab kontol olema ka aktiivne tellimus või sponsoreeritud ligipääs.</p><p><strong>3.1 Registreerimine</strong></p><ol><li>Vali avalehel sobiv rollikaart ja ava <a href=\"/registreerimine\">Registreerimine</a>.</li><li>Täida vorm: sisesta e-posti aadress ja PIN-kood (4–8 numbrit).</li><li>Nõustu kasutustingimuste ja privaatsuspoliitikaga ning kinnita, et oled tutvunud platvormi kasutusjuhendiga.</li><li>Pärast vormi saatmist saadame kinnituskirja. Ava kiri ja kinnita oma e-post.</li></ol><p><strong>3.2 Tellimus või sponsoreeritud ligipääs</strong></p><ul><li>Pärast kinnitamist saad sisse logida e-posti ja PIN-koodiga.</li><li>Kui sul puudub aktiivne ligipääs, suunab platvorm sind lehele <a href=\"/tellimus\">Tellimus</a>.</li><li>Tellimuse algatamisel suunatakse sind Maksekeskuse makselehele. Ligipääs aktiveeritakse pärast makseteenuse kinnitust.</li><li><strong>Kuutasu on rollipõhine:</strong> eluküsimusega pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus.</li><li>Kui sinu ligipääs on sponsoreeritud kutse kaudu, kehtib see sponsori valitud perioodi jooksul ilma eraldi makseta.</li></ul>"
         },
         "signin": {
           "title": "4. Sisselogimine ja rolli alusel liikumine",
@@ -2101,7 +2101,7 @@
           "paid_30d": "Laekunud (30p)",
           "empty": "Kasutajaid ei leitud."
         },
-        "note": "Hinnangumudel (EUR): vestlus/päring {chat}, rag/otsing {rag}, dikteerimine/MB {stt}, kõne/1k tähemärki {tts}, baaskuueelarve {budget}. Päevane analüüsilimiit ja kuueelarve skaleeruvad rolli ning kuutasu järgi. STT/TTS ajalooline kulu kuvatakse alates event-logimise kasutuselevõtust.",
+        "note": "Hinnangumudel (EUR): vestlus/päring {chat}, rag/otsing {rag}, dikteerimine/MB {stt}, kõne/1k tähemärki {tts}, baaskuueelarve {budget}, pöörduja kuueelarve {budgetClient}, spetsialisti kuueelarve {budgetWorker}. Päevane analüüsilimiit ja kuueelarve skaleeruvad rolli ning kuutasu järgi. STT/TTS ajalooline kulu kuvatakse alates event-logimise kasutuselevõtust.",
         "actions": {
           "selected_count": "Valitud: {count}",
           "selected_visible": "Nähtavatest valitud: {count}",

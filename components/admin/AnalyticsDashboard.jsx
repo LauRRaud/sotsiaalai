@@ -2020,7 +2020,9 @@ export default function AnalyticsDashboard() {
                 rag: toNumber(usersAnalytics?.costModel?.ragSearchEur || 0).toFixed(4),
                 stt: toNumber(usersAnalytics?.costModel?.sttPerAudioMbEur || 0).toFixed(4),
                 tts: toNumber(usersAnalytics?.costModel?.ttsPer1kCharsEur || 0).toFixed(4),
-                budget: toNumber(usersAnalytics?.costModel?.monthlyBudgetEur || 0).toFixed(2)
+                budget: toNumber(usersAnalytics?.costModel?.monthlyBudgetEur || 0).toFixed(2),
+                budgetClient: toNumber(usersAnalytics?.costModel?.monthlyBudgetClientEur || 0).toFixed(2),
+                budgetWorker: toNumber(usersAnalytics?.costModel?.monthlyBudgetWorkerEur || 0).toFixed(2)
               },
               "Cost model note."
             )}

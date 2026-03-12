@@ -83,8 +83,11 @@ function buildRetrievalAuditFields(debugMeta) {
 export async function GET(request) {
   const locale = localeFromRequest(request)
   const auth = await requireDocumentUser()
-  if (!auth) {
-    return errorJson("api.common.unauthorized", 401, locale)
+  if (!auth?.ok) {
+    return errorJson(auth?.message || "api.common.unauthorized", auth?.status || 401, locale, {
+      redirect: auth?.redirect,
+      requireSubscription: auth?.requireSubscription
+    })
   }
 
   const requestUrl = new URL(request.url)
@@ -116,8 +119,11 @@ export async function GET(request) {
 export async function POST(request) {
   const locale = localeFromRequest(request)
   const auth = await requireDocumentUser()
-  if (!auth) {
-    return errorJson("api.common.unauthorized", 401, locale)
+  if (!auth?.ok) {
+    return errorJson(auth?.message || "api.common.unauthorized", auth?.status || 401, locale, {
+      redirect: auth?.redirect,
+      requireSubscription: auth?.requireSubscription
+    })
   }
 
   const rateLimitResponse = enforceDocumentsRateLimit(request, {

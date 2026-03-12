@@ -75,6 +75,7 @@ export default function ChatBody({
   const sessionUserId = session?.user?.id;
   const sessionUserRole = effectiveRole;
   const userRole = effectiveRole;
+  const voiceEnabled = Boolean(session?.user?.isAdmin || session?.subActive);
   const [inputFocused, setInputFocused] = useState(false);
   const {
     isMobile,
@@ -460,8 +461,8 @@ export default function ChatBody({
     t
   });
   const canSpeakLatest = useMemo(() => {
-    return Boolean(speechReady && latestAiText);
-  }, [speechReady, latestAiText]);
+    return Boolean(voiceEnabled && speechReady && latestAiText);
+  }, [voiceEnabled, speechReady, latestAiText]);
   const revealOlder = useCallback(() => {
     const el = chatWindowRef.current;
     const prevScrollHeight = el ? el.scrollHeight : 0;
@@ -1502,10 +1503,11 @@ export default function ChatBody({
     onPickDocumentFile={analysis.onPickFile}
     speakLatestReply={speakLatestReply}
     canSpeakLatest={canSpeakLatest}
+    voiceEnabled={voiceEnabled}
     isSpeaking={isSpeaking}
     recording={recording}
     recordingPulse={recordingPulse}
-    handleMic={handleMic}
+    handleMic={voiceEnabled ? handleMic : undefined}
     composerDraftApiRef={composerDraftApiRef}
     sendToAssistant={sendToAssistant}
     setSendToAssistant={setSendToAssistant}
