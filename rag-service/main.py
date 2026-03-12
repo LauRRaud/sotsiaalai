@@ -153,13 +153,73 @@ async def handle_request_validation_error(request: Request, exc: RequestValidati
 # Utils
 # --------------------
 AUDIENCE_VALUES = {"SOCIAL_WORKER", "CLIENT", "BOTH"}
+AUDIENCE_ITEM_VALUES = {"SOCIAL_WORKER", "CLIENT"}
 JURISDICTION_VALUES = {"NATIONAL", "MUNICIPALITY", "CITY_GOVERNMENT", "UNKNOWN"}
 
-def normalize_audience(value: Optional[str]) -> Optional[str]:
+def normalize_string_list(value, limit: int = 50) -> List[str]:
     if not value:
-        return "BOTH"
-    v = str(value).strip().upper()
-    return v if v in AUDIENCE_VALUES else "BOTH"
+        return []
+    if isinstance(value, str):
+        s = value.strip()
+        if not s:
+            return []
+        try:
+            arr = json.loads(s)
+            if isinstance(arr, list):
+                out = []
+                for item in arr:
+                    cleaned = str(item).strip()
+                    if cleaned:
+                        out.append(cleaned)
+                return out[:limit]
+        except Exception:
+            pass
+        return [x.strip() for x in re.split(r"[,;\n]+", s) if x.strip()][:limit]
+    out: List[str] = []
+    if isinstance(value, (list, tuple, set)):
+        for item in value:
+            if item is None:
+                continue
+            cleaned = str(item).strip()
+            if cleaned:
+                out.append(cleaned)
+    else:
+        cleaned = str(value).strip()
+        if cleaned:
+            out.append(cleaned)
+    return out[:limit]
+
+def normalize_audience_list(value) -> List[str]:
+    raw_values = normalize_string_list(value, limit=8)
+    if not raw_values:
+        return ["CLIENT", "SOCIAL_WORKER"]
+    out: List[str] = []
+    for item in raw_values:
+        v = str(item or "").strip().upper()
+        if not v:
+            continue
+        if v == "BOTH":
+            for each in ["CLIENT", "SOCIAL_WORKER"]:
+                if each not in out:
+                    out.append(each)
+            continue
+        if v in AUDIENCE_ITEM_VALUES and v not in out:
+            out.append(v)
+    return out or ["CLIENT", "SOCIAL_WORKER"]
+
+def normalize_audience(value) -> Optional[str]:
+    audiences = normalize_audience_list(value)
+    if len(audiences) == 1:
+        return audiences[0]
+    return "BOTH"
+
+def audience_filter_values(value) -> List[str]:
+    normalized = normalize_audience(value)
+    if normalized == "CLIENT":
+        return ["CLIENT", "BOTH"]
+    if normalized == "SOCIAL_WORKER":
+        return ["SOCIAL_WORKER", "BOTH"]
+    return ["CLIENT", "SOCIAL_WORKER", "BOTH"]
 
 def normalize_authors(value) -> List[str]:
     if not value:
@@ -759,6 +819,7 @@ class RagMetadata(BaseModel):
     issueId: Optional[str] = None
     section: Optional[str] = None
     audience: Optional[str] = "BOTH"
+    audiences: List[str] = Field(default_factory=list)
     source_type: Optional[str] = None
     source_path: Optional[str] = None
     source_url: Optional[str] = None
@@ -777,11 +838,21 @@ class RagMetadata(BaseModel):
     importance: Optional[str] = None
     collection_id: Optional[str] = None
     country: Optional[str] = None
+    county: Optional[str] = None
     jurisdiction_level: Optional[str] = "UNKNOWN"
     municipality_name: Optional[str] = None
     municipality_id: Optional[str] = None
     district_name: Optional[str] = None
     district_id: Optional[str] = None
+    checked_at: Optional[str] = None
+    item_type: Optional[str] = None
+    content_status: Optional[str] = None
+    resource_type: Optional[str] = None
+    source_keys: List[str] = Field(default_factory=list)
+    source_urls: List[str] = Field(default_factory=list)
+    source_register_file: Optional[str] = None
+    source_count: Optional[int] = None
+    administering_body: Optional[str] = None
     geo_detection_method: Optional[str] = None
     geo_detection_confidence: Optional[str] = None
 
@@ -800,6 +871,11 @@ class RagMetadata(BaseModel):
     def _validate_pages(cls, value):
         return normalize_pages(value)
 
+    @field_validator("audiences", mode="before")
+    @classmethod
+    def _validate_audiences(cls, value):
+        return normalize_audience_list(value)
+
     @field_validator("audience", mode="before")
     @classmethod
     def _validate_audience(cls, value):
@@ -814,6 +890,11 @@ class RagMetadata(BaseModel):
     @classmethod
     def _validate_country(cls, value):
         return normalize_country(value)
+
+    @field_validator("source_keys", "source_urls", mode="before")
+    @classmethod
+    def _validate_string_lists(cls, value):
+        return normalize_string_list(value)
 
     @field_validator("jurisdiction_level", mode="before")
     @classmethod
@@ -846,11 +927,18 @@ class RagMetadata(BaseModel):
         "importance",
         "collection_id",
         "country",
+        "county",
         "jurisdiction_level",
         "municipality_name",
         "municipality_id",
         "district_name",
         "district_id",
+        "checked_at",
+        "item_type",
+        "content_status",
+        "resource_type",
+        "source_register_file",
+        "administering_body",
         "geo_detection_method",
         "geo_detection_confidence",
         mode="before",
@@ -875,6 +963,7 @@ def build_rag_metadata(meta_common: Dict, doc_id: Optional[str] = None) -> RagMe
         issueId=meta.get("issueId") or meta.get("issue_id"),
         section=meta.get("section"),
         audience=meta.get("audience"),
+        audiences=meta.get("audiences") or meta.get("audience"),
         source_type=meta.get("source_type"),
         source_path=meta.get("source_path"),
         source_url=meta.get("source_url") or meta.get("url"),
@@ -893,11 +982,21 @@ def build_rag_metadata(meta_common: Dict, doc_id: Optional[str] = None) -> RagMe
         importance=meta.get("importance"),
         collection_id=meta.get("collection_id") or meta.get("collectionId"),
         country=meta.get("country"),
+        county=meta.get("county"),
         jurisdiction_level=meta.get("jurisdiction_level") or meta.get("jurisdictionLevel"),
         municipality_name=meta.get("municipality_name") or meta.get("municipalityName"),
         municipality_id=meta.get("municipality_id") or meta.get("municipalityId"),
         district_name=meta.get("district_name") or meta.get("districtName"),
         district_id=meta.get("district_id") or meta.get("districtId"),
+        checked_at=meta.get("checked_at") or meta.get("checkedAt"),
+        item_type=meta.get("item_type") or meta.get("itemType"),
+        content_status=meta.get("content_status") or meta.get("contentStatus") or meta.get("status"),
+        resource_type=meta.get("resource_type") or meta.get("resourceType"),
+        source_keys=meta.get("source_keys") or meta.get("sourceKeys") or [],
+        source_urls=meta.get("source_urls") or meta.get("sourceUrls") or [],
+        source_register_file=meta.get("source_register_file") or meta.get("sourceRegisterFile"),
+        source_count=meta.get("source_count") or meta.get("sourceCount"),
+        administering_body=meta.get("administering_body") or meta.get("administeringBody"),
         geo_detection_method=meta.get("geo_detection_method") or meta.get("geoDetectionMethod"),
         geo_detection_confidence=meta.get("geo_detection_confidence") or meta.get("geoDetectionConfidence"),
     )
@@ -1073,13 +1172,24 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
     journal_title = (meta.journalTitle or "").strip() or None
     language = (meta.language or "et").strip() or "et"
     audience = normalize_audience(meta.audience)
+    audiences = normalize_audience_list(meta.audiences or meta.audience)
     collection_id = (meta.collection_id or "").strip() or None
     country = normalize_country(meta.country)
+    county = (meta.county or "").strip() or None
     jurisdiction_level = normalize_jurisdiction(meta.jurisdiction_level)
     municipality_name = (meta.municipality_name or "").strip() or None
     municipality_id = (meta.municipality_id or "").strip() or None
     district_name = (meta.district_name or "").strip() or None
     district_id = (meta.district_id or "").strip() or None
+    checked_at = (meta.checked_at or "").strip() or None
+    item_type = (meta.item_type or "").strip() or None
+    content_status = (meta.content_status or "").strip() or None
+    resource_type = (meta.resource_type or "").strip() or None
+    source_keys = meta.source_keys or []
+    source_urls = meta.source_urls or []
+    source_register_file = (meta.source_register_file or "").strip() or None
+    source_count = meta.source_count
+    administering_body = (meta.administering_body or "").strip() or None
     geo_detection_method = (meta.geo_detection_method or "").strip() or None
     geo_detection_confidence = (meta.geo_detection_confidence or "").strip() or None
 
@@ -1093,6 +1203,12 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
     elif issue_id:    prefix_lines.append(f"[ISSUE] {issue_id}")
     if section:       prefix_lines.append(f"[SECTION] {section}")
     if year:          prefix_lines.append(f"[YEAR] {year}")
+    if item_type:     prefix_lines.append(f"[ITEM_TYPE] {item_type}")
+    if content_status: prefix_lines.append(f"[STATUS] {content_status}")
+    if resource_type: prefix_lines.append(f"[RESOURCE_TYPE] {resource_type}")
+    if administering_body: prefix_lines.append(f"[ADMIN_BODY] {administering_body}")
+    if county:        prefix_lines.append(f"[COUNTY] {county}")
+    if municipality_name: prefix_lines.append(f"[MUNICIPALITY] {municipality_name}")
     if page_range:    prefix_lines.append(f"[PAGES] {page_range}")
     prefix = ("\n".join(prefix_lines) + "\n") if prefix_lines else ""
 
@@ -1190,17 +1306,28 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
             "url": meta.url or meta_common.get("source_url"),
             "mimeType": meta_common.get("mimeType") or meta_common.get("mime_type") or meta_common.get("mime"),
             "audience": audience,
+            "audiences": audiences,
             "language": language,
             "pdf_start_page": meta.pdf_start_page,
             "pdf_end_page": meta.pdf_end_page,
             "page": page_nums[i],
             "collection_id": collection_id,
             "country": country,
+            "county": county,
             "jurisdiction_level": jurisdiction_level,
             "municipality_name": municipality_name,
             "municipality_id": municipality_id,
             "district_name": district_name,
             "district_id": district_id,
+            "checked_at": checked_at,
+            "item_type": item_type,
+            "content_status": content_status,
+            "resource_type": resource_type,
+            "source_keys": source_keys,
+            "source_urls": source_urls,
+            "source_register_file": source_register_file,
+            "source_count": source_count,
+            "administering_body": administering_body,
             "geo_detection_method": geo_detection_method,
             "geo_detection_confidence": geo_detection_confidence,
             "createdAt": now_iso(),
@@ -1556,11 +1683,24 @@ def ingest_text(payload: IngestText):
         "title": meta.get("title"),
         "description": meta.get("description"),
         "audience": normalize_audience(meta.get("audience")),
+        "audiences": normalize_audience_list(meta.get("audiences") or meta.get("audience")),
         "authors": normalize_authors(meta.get("authors")),
         "tags": normalize_tags(meta.get("tags")),
         "language": (meta.get("language") or "et"),
         "collection_id": (meta.get("collection_id") or meta.get("collectionId") or None),
+        "county": (meta.get("county") or None),
+        "checked_at": (meta.get("checked_at") or meta.get("checkedAt") or None),
+        "item_type": (meta.get("item_type") or meta.get("itemType") or None),
+        "content_status": (meta.get("content_status") or meta.get("contentStatus") or meta.get("status") or None),
+        "resource_type": (meta.get("resource_type") or meta.get("resourceType") or None),
+        "source_keys": normalize_string_list(meta.get("source_keys") or meta.get("sourceKeys")),
+        "source_urls": normalize_string_list(meta.get("source_urls") or meta.get("sourceUrls")),
+        "source_register_file": (meta.get("source_register_file") or meta.get("sourceRegisterFile") or None),
+        "source_count": meta.get("source_count") or meta.get("sourceCount"),
+        "administering_body": (meta.get("administering_body") or meta.get("administeringBody") or None),
         "source_type": meta.get("source_type") or "agent_document",
+        "path": meta.get("source_path"),
+        "url": meta.get("source_url") or meta.get("url"),
         "source_sha256": meta.get("source_sha256"),
         "source_updated_at": meta.get("source_updated_at"),
         "original_doc_id": meta.get("original_doc_id"),
@@ -2030,6 +2170,18 @@ def get_document_source(doc_id: str):
         raise HTTPException(404, "Document not in registry")
 
     entry_type = (entry.get("type") or "").upper()
+    if entry_type == "TEXT":
+        target_url = str(entry.get("url") or "").strip()
+        if target_url:
+            return RedirectResponse(target_url, status_code=307)
+
+        text_path = Path(entry.get("path") or "")
+        if not text_path.exists():
+            raise HTTPException(404, "Stored text source is missing")
+        media_type = entry.get("mimeType") or "text/markdown; charset=utf-8"
+        filename = _sanitize_filename(entry.get("fileName") or text_path.name or f"{doc_id}.md", text_path.name or "source.md")
+        return FileResponse(text_path, media_type=media_type, filename=filename)
+
     if entry_type == "URL":
         target_url = str(entry.get("url") or "").strip()
         if target_url:
@@ -2146,6 +2298,16 @@ def reindex(doc_id: str):
         _register(doc_id, entry)
         return {"ok": True, "inserted": inserted, "doc": entry}
 
+    if entry.get("type") == "TEXT":
+        text_path = Path(entry.get("path") or "")
+        if not text_path.exists():
+            raise HTTPException(404, "Stored text source is missing")
+        text = text_path.read_text(encoding="utf-8")
+        inserted = _replace_document_vectors(doc_id, text, meta_common=dict(entry))
+        entry["lastIngested"] = now_iso()
+        _register(doc_id, entry)
+        return {"ok": True, "inserted": inserted, "doc": entry}
+
     raise HTTPException(400, "Unsupported registry entry type")
 
 @app.post("/documents/{doc_id}/update-meta", dependencies=[Depends(_require_key)])
@@ -2252,9 +2414,12 @@ def search(payload: SearchIn):
     if isinstance(payload.where, dict):
         aud = payload.where.get("audience")
         if isinstance(aud, dict) and "$in" in aud:
-            md_where["audience"] = {"$in": [normalize_audience(a) for a in list(aud["$in"])]}
+            expanded = []
+            for a in list(aud["$in"]):
+                expanded.extend(audience_filter_values(a))
+            md_where["audience"] = {"$in": sorted(set(expanded))}
         elif isinstance(aud, str):
-            md_where["audience"] = normalize_audience(aud)
+            md_where["audience"] = {"$in": audience_filter_values(aud)}
         if "doc_id" in payload.where:
             doc_id_filter = payload.where["doc_id"]
             if isinstance(doc_id_filter, dict) and "$in" in doc_id_filter:
@@ -2273,6 +2438,8 @@ def search(payload: SearchIn):
             normalized_country = normalize_country(payload.where["country"])
             if normalized_country:
                 md_where["country"] = normalized_country
+        if "county" in payload.where and isinstance(payload.where["county"], str):
+            md_where["county"] = payload.where["county"].strip()
         jurisdiction = payload.where.get("jurisdiction_level")
         if isinstance(jurisdiction, dict) and "$in" in jurisdiction:
             md_where["jurisdiction_level"] = {"$in": [normalize_jurisdiction(v) for v in list(jurisdiction["$in"])]}
@@ -2286,6 +2453,14 @@ def search(payload: SearchIn):
             md_where["district_name"] = payload.where["district_name"].strip()
         if "district_id" in payload.where and isinstance(payload.where["district_id"], str):
             md_where["district_id"] = payload.where["district_id"].strip()
+        if "item_type" in payload.where and isinstance(payload.where["item_type"], str):
+            md_where["item_type"] = payload.where["item_type"].strip()
+        if "content_status" in payload.where and isinstance(payload.where["content_status"], str):
+            md_where["content_status"] = payload.where["content_status"].strip()
+        if "resource_type" in payload.where and isinstance(payload.where["resource_type"], str):
+            md_where["resource_type"] = payload.where["resource_type"].strip()
+        if "checked_at" in payload.where and isinstance(payload.where["checked_at"], str):
+            md_where["checked_at"] = payload.where["checked_at"].strip()
 
     q_embeds = _embed_batch([payload.query])
     if not q_embeds:
@@ -2336,6 +2511,7 @@ def search(payload: SearchIn):
             "title": md.get("title"),
             "description": md.get("description"),
             "audience": md.get("audience"),
+            "audiences": md.get("audiences"),
             "authors": authors_val,
             "issue": issue_val,
             "issueLabel": md.get("issue_label") or md.get("issueLabel"),
@@ -2343,16 +2519,26 @@ def search(payload: SearchIn):
             "year": md.get("year"),
             "articleId": md.get("article_id") or md.get("articleId"),
             "section": md.get("section"),
+            "item_type": md.get("item_type"),
+            "content_status": md.get("content_status"),
+            "resource_type": md.get("resource_type"),
+            "checked_at": md.get("checked_at"),
             "pages": md.get("pages"),
             "pageRange": md.get("pageRange"),
             "journalTitle": md.get("journal_title") or md.get("journalTitle"),
             "collection_id": md.get("collection_id"),
             "country": md.get("country"),
+            "county": md.get("county"),
             "jurisdiction_level": md.get("jurisdiction_level"),
             "municipality_name": md.get("municipality_name"),
             "municipality_id": md.get("municipality_id"),
             "district_name": md.get("district_name"),
             "district_id": md.get("district_id"),
+            "source_keys": md.get("source_keys"),
+            "source_urls": md.get("source_urls"),
+            "source_register_file": md.get("source_register_file"),
+            "source_count": md.get("source_count"),
+            "administering_body": md.get("administering_body"),
             "tags": tags_val,
             "language": md.get("language"),
             "chunk": ch,
@@ -2379,6 +2565,7 @@ def search(payload: SearchIn):
                 "year": r.get("year"),
                 "issue": r.get("issue"),
                 "audience": r.get("audience"),
+                "audiences": r.get("audiences"),
                 "url": r.get("url"),
                 "source_type": r.get("source_type"),
                 "fileName": r.get("fileName"),
@@ -2387,11 +2574,21 @@ def search(payload: SearchIn):
                 "journalTitle": r.get("journalTitle"),
                 "collection_id": r.get("collection_id"),
                 "country": r.get("country"),
+                "county": r.get("county"),
                 "jurisdiction_level": r.get("jurisdiction_level"),
                 "municipality_name": r.get("municipality_name"),
                 "municipality_id": r.get("municipality_id"),
                 "district_name": r.get("district_name"),
                 "district_id": r.get("district_id"),
+                "item_type": r.get("item_type"),
+                "content_status": r.get("content_status"),
+                "resource_type": r.get("resource_type"),
+                "checked_at": r.get("checked_at"),
+                "source_keys": r.get("source_keys"),
+                "source_urls": r.get("source_urls"),
+                "source_register_file": r.get("source_register_file"),
+                "source_count": r.get("source_count"),
+                "administering_body": r.get("administering_body"),
                 "tags": r.get("tags"),
                 "language": r.get("language"),
                 "pages_all": [],
@@ -2453,6 +2650,7 @@ def search(payload: SearchIn):
             "year": g["year"],
             "issue": g["issue"],
             "audience": g["audience"],
+            "audiences": g.get("audiences"),
             "url": g["url"],
             "source_type": g["source_type"],
             "fileName": g["fileName"],
@@ -2461,11 +2659,21 @@ def search(payload: SearchIn):
             "journalTitle": g["journalTitle"],
             "collection_id": g.get("collection_id"),
             "country": g.get("country"),
+            "county": g.get("county"),
             "jurisdiction_level": g.get("jurisdiction_level"),
             "municipality_name": g.get("municipality_name"),
             "municipality_id": g.get("municipality_id"),
             "district_name": g.get("district_name"),
             "district_id": g.get("district_id"),
+            "item_type": g.get("item_type"),
+            "content_status": g.get("content_status"),
+            "resource_type": g.get("resource_type"),
+            "checked_at": g.get("checked_at"),
+            "source_keys": g.get("source_keys"),
+            "source_urls": g.get("source_urls"),
+            "source_register_file": g.get("source_register_file"),
+            "source_count": g.get("source_count"),
+            "administering_body": g.get("administering_body"),
             "tags": g.get("tags"),
             "language": g.get("language"),
             "pages": pages_compact,

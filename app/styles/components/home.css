@@ -1,4 +1,13 @@
 @supports (box-shadow: 0 0 6px rgba(0, 0, 0, 0.1)) {
+  .homepage-root
+    :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
+    box-shadow: var(--home-card-glow-idle, none);
+  }
+
+  .homepage-root .card-wrapper.magnet-active :is(.glass-card, .glass-card-dark) {
+    box-shadow: var(--home-card-glow-active, var(--home-card-glow-idle, none));
+  }
+
   html[data-contrast="hc"]:not(.theme-light) .homepage-root
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
     --card-edge-opacity: 0;
@@ -81,6 +90,22 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   --home-card-blur: 0.28rem;
   --home-card-blur-inset: 2px;
   --home-card-blur-radius: 48.9%;
+}
+
+.homepage-root
+  :is(
+    .three-d-card.flip-allowed.left:hover,
+    .three-d-card.flip-allowed.left:focus-within,
+    .three-d-card.flip-allowed.left.is-flipping,
+    .three-d-card.flip-allowed.right:hover,
+    .three-d-card.flip-allowed.right:focus-within,
+    .three-d-card.flip-allowed.right.is-flipping,
+    .three-d-card.mobile-flipped-left,
+    .three-d-card.mobile-flipped-right
+  )
+  .card-face.back
+  :is(.centered-back-left, .centered-back-right) {
+  box-shadow: var(--home-card-glow-active, var(--home-card-glow-idle, none));
 }
 
 .homepage-root .home-card-pattern-layer {

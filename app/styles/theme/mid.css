@@ -111,6 +111,12 @@
 /* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
 :root.theme-mid body.homepage {
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
+  --home-card-glow-idle:
+    0 0 10px rgba(255, 244, 240, 0.1),
+    0 0 22px rgba(255, 244, 240, 0.06);
+  --home-card-glow-active:
+    0 0 14px rgba(255, 244, 240, 0.16),
+    0 0 28px rgba(255, 244, 240, 0.09);
 }
 
 :root.theme-mid .home-scroll-cue .home-scroll-cue-mouse,

@@ -45,7 +45,9 @@
     "encoding:fix": "node scripts/encoding/fix.mjs",
     "test:e2e": "playwright test",
     "payments:maksekeskus:e2e": "node scripts/maksekeskus-sandbox-e2e.mjs",
-    "payments:alerts:dispatch": "node scripts/payment-alert-dispatch.mjs"
+    "payments:alerts:dispatch": "node scripts/payment-alert-dispatch.mjs",
+    "rag:validate:kov": "node scripts/validate-kov-rag.mjs",
+    "rag:ingest:kov": "node scripts/ingest-kov-rag.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",

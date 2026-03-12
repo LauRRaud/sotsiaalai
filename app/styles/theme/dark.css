@@ -55,6 +55,12 @@
   --home-card-surface-saturate: 122%;
   --home-card-light-opacity: 0.65;
   --home-card-dark-opacity: 0.6;
+  --home-card-glow-idle:
+    0 0 10px rgba(248, 253, 255, 0.12),
+    0 0 22px rgba(248, 253, 255, 0.06);
+  --home-card-glow-active:
+    0 0 14px rgba(248, 253, 255, 0.18),
+    0 0 30px rgba(248, 253, 255, 0.1);
   --home-scroll-cue-color: #c57171;
   --home-panel-bg: color-mix(
     in srgb,
