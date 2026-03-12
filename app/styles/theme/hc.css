@@ -130,6 +130,7 @@ html[data-contrast="hc"] {
   --form-surface-active: var(--form-surface-hover);
   --input-border: 2px solid rgba(255, 234, 0, 0.68);
   --seg-card-border: rgba(255, 234, 0, 0.66);
+  --seg-card-border-hover: rgba(255, 234, 0, 0.9);
   --seg-card-border-width: 2px;
   --seg-radio-border: rgba(255, 234, 0, 0.78);
   --seg-radio-dot-bg: var(--hc-accent);

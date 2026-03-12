@@ -87,6 +87,7 @@
   --seg-card-text-hover: #81504b;
   --seg-card-text-selected: #7a3a38;
   --seg-card-border: rgba(255, 255, 255, 0.34);
+  --seg-card-border-hover: rgba(122, 58, 56, 0.24);
   --seg-card-shadow: 0 5px 12px rgba(20, 12, 10, 0.14);
   --seg-card-shadow-hover: 0 6px 13px rgba(20, 12, 10, 0.15);
   --seg-card-shadow-selected: 0 6px 13px rgba(20, 12, 10, 0.15);
