@@ -24,6 +24,12 @@
     );
 }
 
+:root:not(.theme-light):not(.theme-mid):not(.theme-night) {
+  --seg-card-bg-hover: var(--form-surface-hover);
+  --seg-card-shadow-hover: var(--input-shadow-hover);
+  --seg-card-text-hover: var(--pt-100);
+}
+
 :root:not(.theme-light):not(.theme-mid) .drawer-panel--chat-glass {
   --drawer-glass-bg: var(--glass-modal-bg, rgba(0, 0, 0, 0.25));
   --drawer-card-border: var(--chat-invite-list-border, rgba(248, 253, 255, 0.11));

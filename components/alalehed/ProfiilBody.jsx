@@ -1110,7 +1110,7 @@ export default function ProfiilBody({
                 .catch(reject);
             },
             {
-              glassRingTilt: "left",
+              glassRingTilt: "right",
               waitForGlassRingTilt: true,
               persistGlassRingTilt: false
             }

@@ -42,9 +42,9 @@
       rgba(222, 236, 255, 0) 74%
     ),
     rgba(12, 24, 42, 0.54);
-  --btn-primary-border: 1px solid rgba(170, 204, 245, 0.17);
-  --btn-primary-border-hover: 1px solid rgba(188, 220, 255, 0.24);
-  --btn-primary-border-active: 1px solid rgba(150, 190, 236, 0.15);
+  --btn-primary-border: 1px solid transparent;
+  --btn-primary-border-hover: 1px solid transparent;
+  --btn-primary-border-active: 1px solid transparent;
   --btn-primary-shadow:
     inset 0 1px 0 rgba(220, 236, 255, 0.09),
     0 5px 12px rgba(2, 6, 16, 0.24);

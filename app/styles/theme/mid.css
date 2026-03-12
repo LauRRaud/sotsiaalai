@@ -64,9 +64,9 @@
       rgba(239, 230, 227, 0.4) 100%
     );
   --btn-primary-text: #2f3a4a;
-  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.4);
-  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.48);
-  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.34);
+  --btn-primary-border: 1px solid transparent;
+  --btn-primary-border-hover: 1px solid transparent;
+  --btn-primary-border-active: 1px solid transparent;
   --btn-primary-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.32),
     0 5px 12px rgba(20, 12, 10, 0.14);
