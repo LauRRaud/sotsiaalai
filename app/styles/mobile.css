@@ -1856,6 +1856,21 @@
     margin-top: clamp(0.42rem, 1.2vh, 0.78rem) !important;
   }
 
+  .register-alert {
+    background: rgba(255, 237, 237, 0.88) !important;
+    border-color: rgba(220, 38, 38, 0.3) !important;
+    color: #8f2f2f !important;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(143, 47, 47, 0.08);
+  }
+
+  :root:not(.theme-light) .register-alert {
+    background: rgba(76, 16, 24, 0.48) !important;
+    border-color: rgba(252, 165, 165, 0.34) !important;
+    color: #ffe2e2 !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  }
+
   .register-input {
     min-height: 3.62rem;
     font-size: clamp(1.2rem, 4.9vw, 1.36rem);

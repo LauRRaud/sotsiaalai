@@ -417,7 +417,7 @@ export default function RegistreerimineBody({
                 {!isRegistrationOpen && <div role="status" className="w-full rounded-[0.95rem] border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fde68a] light:text-[color:#92400e] text-[1.08rem] leading-[1.4]">
                     {t("auth.register.closed_notice")}
                   </div>}
-                {error && <div role="alert" className="w-full rounded-[0.95rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fca5a5] text-[1.12rem] leading-[1.4]">
+                {error && <div role="alert" className="register-alert w-full rounded-[0.95rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fca5a5] text-[1.12rem] leading-[1.4]">
                     {error}
                   </div>}
                 {successMessage && <div role="status" className="auth-success-panel w-full rounded-[1.02rem] px-[1rem] py-[0.9rem] text-[1.2rem] max-[768px]:text-[1.34rem] leading-[1.38] font-medium">
