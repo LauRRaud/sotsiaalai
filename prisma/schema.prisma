@@ -207,6 +207,7 @@ model User {
   documents      UserDocument[]
   agentArtifacts AgentArtifact[]
   documentAudits DocumentAudit[]
+  materialSubmissions MaterialSubmission[]
 
   // Chat / runs
   conversationRuns     ConversationRun[]
@@ -887,4 +888,23 @@ model DocumentAudit {
   @@index([documentId, createdAt])
   @@index([artifactId, createdAt])
   @@index([action, createdAt])
+}
+
+model MaterialSubmission {
+  id                String    @id @default(cuid())
+  submittedByUserId String?
+  comment           String    @db.Text
+  originalName      String
+  mime              String
+  size              Int
+  sha256            String
+  storagePath       String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  submittedByUser User? @relation(fields: [submittedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([submittedByUserId, createdAt])
+  @@index([createdAt])
+  @@index([sha256])
 }

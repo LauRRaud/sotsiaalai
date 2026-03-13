@@ -269,6 +269,7 @@
     },
     "change_password_cta": "Update PIN",
     "update_email_cta": "Update email",
+    "materials_cta": "Materials",
     "email_update": {
       "title": "Update email",
       "current_placeholder": "Your email",
@@ -299,6 +300,34 @@
       "no_changes": "Nothing to update.",
       "current_pin_invalid": "Current PIN is invalid.",
       "user_not_found": "User not found."
+    }
+  },
+  "materials_page": {
+    "title": "Materials",
+    "back_to_profile": "Back to profile",
+    "description": "Upload study material, a guide, or another document that could improve the SotsiaalAI knowledge base. Before adding it to the database, an administrator reviews the material. Supported file formats: PDF, DOCX, and TXT. The maximum size per file is 25 MB.",
+    "choose_file": "Choose file",
+    "files_selected": "{count} files selected",
+    "comment_placeholder": "Add a short description: what this file is and why it could be useful.",
+    "comment_placeholder_multiple": "Add a short note for each file (for example: filename + why it is useful).",
+    "submit": "Send material",
+    "submitting": "Sending...",
+    "submit_success": "Material has been sent. Thank you for contributing.",
+    "errors": {
+      "load_failed": "Failed to load materials.",
+      "upload_failed": "Failed to upload material.",
+      "delete_failed": "Failed to delete material."
+    },
+    "admin": {
+      "title": "Submitted materials",
+      "subtitle": "Visible to admins only.",
+      "refresh": "Refresh",
+      "loading": "Loading materials...",
+      "empty": "No materials have been sent yet.",
+      "comment_missing": "No comment was added.",
+      "download": "Download",
+      "delete": "Delete",
+      "delete_confirm": "Delete this material?"
     }
   },
   "accessibility": {

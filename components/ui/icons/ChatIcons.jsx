@@ -121,6 +121,49 @@ export function AddPersonIcon({ isLightTheme = false, className, ...props }) {
   );
 }
 
+export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
+  const stroke = resolveThemeColor(isLightTheme);
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+      {...props}
+    >
+      <path
+        d="M8 3.8h6.6l4 4V19a1.8 1.8 0 0 1-1.8 1.8H8A1.8 1.8 0 0 1 6.2 19V5.6A1.8 1.8 0 0 1 8 3.8Z"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14.6 3.8v4h4"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 9.4v6.3"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m9.6 13.2 2.4 2.5 2.4-2.5"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function ProfileIcon({ isLightTheme = false, className, ...props }) {
   const stroke = resolveThemeColor(isLightTheme);
   return (

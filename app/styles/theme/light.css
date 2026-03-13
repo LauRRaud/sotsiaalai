@@ -65,55 +65,55 @@
   --btn-primary-bg:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 255, 255, 0.99) 0%,
-      rgba(255, 255, 255, 0.94) 40%,
-      rgba(248, 247, 246, 0.92) 100%
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.88) 40%,
+      rgba(248, 247, 246, 0.82) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.82) 0%,
-      rgba(245, 244, 243, 0.78) 100%
+      rgba(255, 255, 255, 0.68) 0%,
+      rgba(245, 244, 243, 0.62) 100%
     );
   --btn-primary-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0.97) 42%,
-      rgba(250, 249, 248, 0.95) 100%
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(255, 255, 255, 0.92) 42%,
+      rgba(250, 249, 248, 0.86) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.88) 0%,
-      rgba(247, 246, 245, 0.84) 100%
+      rgba(255, 255, 255, 0.74) 0%,
+      rgba(247, 246, 245, 0.68) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(250, 249, 248, 0.9) 42%,
-      rgba(242, 241, 240, 0.88) 100%
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(250, 249, 248, 0.84) 42%,
+      rgba(242, 241, 240, 0.76) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(249, 248, 247, 0.82) 0%,
-      rgba(240, 239, 238, 0.78) 100%
+      rgba(249, 248, 247, 0.66) 0%,
+      rgba(240, 239, 238, 0.6) 100%
     );
   --btn-primary-text: rgba(31, 41, 55, 0.92);
   --btn-primary-border: 1px solid transparent;
   --btn-primary-border-hover: 1px solid transparent;
   --btn-primary-border-active: 1px solid transparent;
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
     0 4px 10px rgba(15, 23, 42, 0.08);
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.99),
+    inset 0 1px 0 rgba(255, 255, 255, 0.46),
     0 7px 14px rgba(15, 23, 42, 0.08);
   --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(255, 255, 255, 0.84),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
     0 3px 8px rgba(15, 23, 42, 0.07);
   --btn-primary-focus-ring-color: rgba(197, 113, 113, 0.24);
   --btn-primary-shadow-focus:
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
     0 8px 16px rgba(15, 23, 42, 0.12),
     0 0 0 3px var(--btn-primary-focus-ring-color),
     0 0 0 1px rgba(255, 255, 255, 0.18);
@@ -442,4 +442,34 @@ html[data-ui-scale="lg"].theme-light {
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23f2f1ee' stroke='%23888888' stroke-width='0.75' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E")
       5 2,
     pointer;
+}
+
+/* Materials page primary buttons in light: remove bright bottom stripe artifact. */
+:root.theme-light:not(.theme-mid)
+  .materials-page-shell
+  :is(.materials-upload-choose-button, .materials-upload-submit-button) {
+  --btn-primary-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(249, 247, 246, 0.84) 100%
+  );
+  --btn-primary-bg-hover: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(250, 248, 247, 0.88) 100%
+  );
+  --btn-primary-bg-active: linear-gradient(
+    180deg,
+    rgba(252, 250, 249, 0.84) 0%,
+    rgba(246, 244, 243, 0.8) 100%
+  );
+  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.36);
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.48);
+  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.4);
+  --btn-primary-shadow: 0 6px 14px rgba(15, 23, 42, 0.1);
+  --btn-primary-shadow-hover: 0 7px 15px rgba(15, 23, 42, 0.11);
+  --btn-primary-shadow-active: 0 4px 10px rgba(15, 23, 42, 0.09);
+  --btn-primary-shadow-focus:
+    0 8px 16px rgba(15, 23, 42, 0.12),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
 }

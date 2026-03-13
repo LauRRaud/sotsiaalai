@@ -262,6 +262,7 @@
     },
     "change_password_cta": "Uuenda PIN",
     "update_email_cta": "Uuenda e-post",
+    "materials_cta": "Materjalid",
     "email_update": {
       "title": "Uuenda e-post",
       "current_placeholder": "Sinu e-post",
@@ -299,6 +300,34 @@
       "dark": "Tume",
       "night": "Öö",
       "hc": "KKR"
+    }
+  },
+  "materials_page": {
+    "title": "Materjalid",
+    "back_to_profile": "Tagasi profiili",
+    "description": "Laadi siia õppematerjal, juhend või muu dokument, mis võiks täiendada SotsiaalAI teadmuspõhja. Enne andmebaasi lisamist vaatab materjali üle administraator. Toetatud failivormingud: PDF, DOCX ja TXT. Ühe faili maksimaalne failisuurus on 25 MB.",
+    "choose_file": "Vali fail",
+    "files_selected": "{count} faili valitud",
+    "comment_placeholder": "Lisa lühike kirjeldus: mis fail see on ja milleks see võiks kasulik olla.",
+    "comment_placeholder_multiple": "Lisa lühike selgitus iga faili kohta (nt failinimi + milleks see kasulik on).",
+    "submit": "Saada materjal",
+    "submitting": "Saadan...",
+    "submit_success": "Materjal on saadetud. Aitäh panuse eest.",
+    "errors": {
+      "load_failed": "Materjalide laadimine ebaõnnestus.",
+      "upload_failed": "Materjali üleslaadimine ebaõnnestus.",
+      "delete_failed": "Materjali kustutamine ebaõnnestus."
+    },
+    "admin": {
+      "title": "Laekunud materjalid",
+      "subtitle": "Nähtav ainult adminile.",
+      "refresh": "Värskenda",
+      "loading": "Laen materjale...",
+      "empty": "Ühtegi materjali ei ole veel saadetud.",
+      "comment_missing": "Kommentaari ei lisatud.",
+      "download": "Laadi alla",
+      "delete": "Kustuta",
+      "delete_confirm": "Kas kustutan selle materjali?"
     }
   },
   "accessibility": {

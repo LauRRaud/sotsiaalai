@@ -77,9 +77,9 @@ const titleBaseClassName =
 const headerCenterBaseClassName =
   "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[48em]:mb-[clamp(0.4rem,2vw,0.72rem)]";
 const headerCenterPageClassName =
-  "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(2.4rem,5.6vh,4.2rem)] " +
-  "min-[48.0625em]:translate-y-[calc(clamp(2.4rem,5.6vh,4.2rem)+clamp(0.48rem,0.9vh,0.78rem))] " +
-  "max-[48em]:mt-[clamp(1.75rem,7.2vw,2.35rem)] max-[48em]:translate-y-[clamp(0.82rem,3.6vw,1.25rem)]";
+  "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(2.9rem,6.2vh,4.8rem)] " +
+  "min-[48.0625em]:translate-y-[calc(clamp(2.9rem,6.2vh,4.8rem)+clamp(0.48rem,0.9vh,0.78rem))] " +
+  "max-[48em]:mt-[clamp(1.75rem,7.2vw,2.35rem)] max-[48em]:translate-y-[clamp(1.12rem,4.2vw,1.55rem)]";
 const rolePillBaseClassName =
   "inline-flex items-center justify-center rounded-full " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +

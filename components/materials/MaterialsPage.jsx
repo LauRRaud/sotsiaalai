@@ -1,0 +1,337 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import { useRouter } from "next/navigation"
+
+import { useI18n } from "@/components/i18n/I18nProvider"
+import BackButton from "@/components/ui/BackButton"
+import Button from "@/components/ui/Button"
+import Textarea from "@/components/ui/Textarea"
+import {
+  glassPageBackTopLeftClassName,
+  glassPageMobileCardClassName,
+  glassPageTitleClassName
+} from "@/components/ui/glassPageStyles"
+import { localizePath } from "@/lib/localizePath"
+
+function formatFileSize(size) {
+  const value = Number(size || 0)
+  if (value < 1024) return `${value} B`
+  if (value < 1024 * 1024) return `${(value / 1024).toFixed(1)} KB`
+  return `${(value / (1024 * 1024)).toFixed(1)} MB`
+}
+
+function formatDate(value, locale) {
+  const dateLocale =
+    locale === "ru"
+      ? "ru-RU"
+      : locale === "en"
+        ? "en-GB"
+        : "et-EE"
+
+  try {
+    return new Intl.DateTimeFormat(dateLocale, {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }).format(new Date(value))
+  } catch {
+    return ""
+  }
+}
+
+export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
+  const router = useRouter()
+  const { t, locale: activeLocale } = useI18n()
+  const resolvedLocale = activeLocale || locale
+
+  const fileInputRef = useRef(null)
+  const [comment, setComment] = useState("")
+  const [files, setFiles] = useState([])
+  const [submitting, setSubmitting] = useState(false)
+  const [notice, setNotice] = useState("")
+  const [error, setError] = useState("")
+  const [items, setItems] = useState([])
+  const [loadingItems, setLoadingItems] = useState(isAdmin)
+  const [adminError, setAdminError] = useState("")
+
+  useEffect(() => {
+    if (!notice) return undefined
+    const timer = window.setTimeout(() => setNotice(""), 5000)
+    return () => window.clearTimeout(timer)
+  }, [notice])
+
+  useEffect(() => {
+    if (!isAdmin) return undefined
+
+    let cancelled = false
+
+    async function loadItems() {
+      setLoadingItems(true)
+      setAdminError("")
+      try {
+        const response = await fetch("/api/materials?limit=100", { cache: "no-store" })
+        const payload = await response.json().catch(() => ({}))
+        if (!response.ok) {
+          throw new Error(payload?.message || t("materials_page.errors.load_failed"))
+        }
+        if (!cancelled) setItems(Array.isArray(payload?.submissions) ? payload.submissions : [])
+      } catch (loadError) {
+        if (!cancelled) {
+          setItems([])
+          setAdminError(loadError?.message || t("materials_page.errors.load_failed"))
+        }
+      } finally {
+        if (!cancelled) setLoadingItems(false)
+      }
+    }
+
+    void loadItems()
+
+    return () => {
+      cancelled = true
+    }
+  }, [isAdmin, t])
+
+  async function refreshItems() {
+    if (!isAdmin) return
+    setLoadingItems(true)
+    setAdminError("")
+    try {
+      const response = await fetch("/api/materials?limit=100", { cache: "no-store" })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(payload?.message || t("materials_page.errors.load_failed"))
+      }
+      setItems(Array.isArray(payload?.submissions) ? payload.submissions : [])
+    } catch (loadError) {
+      setItems([])
+      setAdminError(loadError?.message || t("materials_page.errors.load_failed"))
+    } finally {
+      setLoadingItems(false)
+    }
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    if (!files.length || submitting) return
+
+    setSubmitting(true)
+    setError("")
+    setNotice("")
+
+    try {
+      const formData = new FormData()
+      for (const selectedFile of files) {
+        formData.append("file", selectedFile)
+      }
+      formData.append("comment", comment)
+
+      const response = await fetch("/api/materials", {
+        method: "POST",
+        body: formData
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(payload?.message || t("materials_page.errors.upload_failed"))
+      }
+
+      setComment("")
+      setFiles([])
+      if (fileInputRef.current) fileInputRef.current.value = ""
+      setNotice(t("materials_page.submit_success"))
+      if (isAdmin) await refreshItems()
+    } catch (submitError) {
+      setError(submitError?.message || t("materials_page.errors.upload_failed"))
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  async function handleDelete(id) {
+    if (!window.confirm(t("materials_page.admin.delete_confirm"))) return
+
+    setAdminError("")
+    try {
+      const response = await fetch(`/api/materials/${encodeURIComponent(id)}`, {
+        method: "DELETE"
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(payload?.message || t("materials_page.errors.delete_failed"))
+      }
+      setItems((current) => current.filter((item) => item.id !== id))
+    } catch (deleteError) {
+      setAdminError(deleteError?.message || t("materials_page.errors.delete_failed"))
+    }
+  }
+
+  return (
+    <div className="materials-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:justify-start max-[768px]:px-[0.5rem] max-[768px]:py-[0.5rem]">
+      <div
+        className={`materials-page-content relative z-[21] w-full max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[1.8rem] border border-[color:var(--glass-border-color,rgba(248,253,255,0.16))] bg-[var(--glass-modal-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-modal-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] [--input-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [--input-caret:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ${glassPageMobileCardClassName}`}
+      >
+        <BackButton
+          onClick={() => router.push(localizePath("/profiil", resolvedLocale))}
+          ariaLabel={t("materials_page.back_to_profile")}
+          className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`}
+        />
+
+        <header className="mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
+          <div className="grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]">
+            <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+              <h1 className={`${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`}>
+                {t("materials_page.title")}
+              </h1>
+            </div>
+          </div>
+        </header>
+
+        <div className="mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem]">
+          <div className="grid gap-[0.35rem] text-left">
+            <p className="text-[1rem] leading-[1.5] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
+              {t("materials_page.description")}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="grid gap-[0.95rem]">
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+              className="hidden"
+              onChange={(event) => setFiles(Array.from(event.target.files || []))}
+            />
+
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="materials-upload-choose-button mx-auto !inline-flex !h-[2.9rem] !w-fit !min-w-0 !max-w-none shrink-0 self-center items-center justify-center rounded-full appearance-none [border:var(--btn-primary-border)] [background:var(--btn-primary-bg)] !px-[1rem] !py-0 text-center !text-[1.1rem] font-[500] leading-none tracking-[0.02em] text-[color:var(--btn-primary-text,#243140)] shadow-[var(--btn-primary-shadow)] transition-[background,box-shadow,border-color] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:[background:var(--btn-primary-bg-hover)] hover:shadow-[var(--btn-primary-shadow-hover)] focus-visible:[background:var(--btn-primary-bg-hover)] focus-visible:shadow-[var(--btn-primary-shadow-focus)]"
+            >
+              {files.length === 1 ? (
+                <span className="block max-w-full truncate text-[0.94rem] leading-none">{files[0].name}</span>
+              ) : files.length > 1 ? (
+                <span className="block leading-none">{t("materials_page.files_selected", { count: files.length })}</span>
+              ) : (
+                <span className="block leading-none">{t("materials_page.choose_file")}</span>
+              )}
+            </button>
+
+            {files.length > 1 ? (
+              <p className="text-center text-[0.9rem] leading-[1.45] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">
+                {files.map((selectedFile) => selectedFile.name).join(", ")}
+              </p>
+            ) : null}
+
+            <Textarea
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+              rows={5}
+              placeholder={t("materials_page.comment_placeholder_multiple")}
+              className="min-h-[7.4rem] rounded-[1.05rem]"
+            />
+
+            {error ? (
+              <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[1rem] py-[0.54rem] text-center text-[0.98rem] leading-[1.3] text-[rgba(255,223,218,0.96)]">
+                {error}
+              </p>
+            ) : null}
+
+            {notice ? (
+              <p className="rounded-[1rem] border border-[rgba(88,148,118,0.22)] bg-[rgba(18,44,34,0.82)] px-[1rem] py-[0.54rem] text-center text-[0.98rem] leading-[1.3] text-[rgba(223,246,236,0.96)]">
+                {notice}
+              </p>
+            ) : null}
+
+            <div className="flex w-full justify-center pt-[0.1rem]">
+              <Button
+                type="submit"
+                disabled={!files.length || submitting}
+                className="materials-upload-submit-button !mx-auto !min-h-[3.05rem] !min-w-[9.6rem] !px-[1rem] !py-[0.76rem] !text-[1.02rem] !tracking-[0.03rem]"
+              >
+                {submitting ? t("materials_page.submitting") : t("materials_page.submit")}
+              </Button>
+            </div>
+          </form>
+
+          {isAdmin ? (
+            <div className="materials-admin-panel grid gap-[0.85rem] rounded-[1rem] border border-[color:var(--panel-secondary-border,rgba(248,253,255,0.16))] bg-[color:var(--panel-secondary-bg,rgba(30,32,38,0.42))] px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--panel-secondary-shadow,var(--input-shadow))]">
+              <div className="flex items-start justify-between gap-[0.8rem]">
+                <div className="grid gap-[0.22rem]">
+                  <h2 className="text-[1.2rem] font-[650] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">{t("materials_page.admin.title")}</h2>
+                  <p className="text-[0.96rem] leading-[1.45] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">{t("materials_page.admin.subtitle")}</p>
+                </div>
+                <Button
+                  variant="secondary"
+                  onClick={() => void refreshItems()}
+                  disabled={loadingItems}
+                  className="!min-h-[2.3rem] !px-[0.98rem] !py-[0.28rem] !text-[1rem] !tracking-[0.026em]"
+                >
+                  {t("materials_page.admin.refresh")}
+                </Button>
+              </div>
+
+              {adminError ? (
+                <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[1rem] py-[0.54rem] text-center text-[0.98rem] leading-[1.3] text-[rgba(255,223,218,0.96)]">
+                  {adminError}
+                </p>
+              ) : null}
+
+              {loadingItems ? (
+                <p className="text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">{t("materials_page.admin.loading")}</p>
+              ) : items.length ? (
+                <div className="grid gap-[0.72rem]">
+                  {items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="grid gap-[0.62rem] rounded-[0.95rem] border border-[color:var(--panel-secondary-border,rgba(248,253,255,0.16))] bg-[color:var(--panel-secondary-bg,rgba(30,32,38,0.42))] px-[0.88rem] py-[0.82rem]"
+                    >
+                      <div className="flex flex-wrap items-center gap-[0.45rem] text-[0.86rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.76]">
+                        <span>{formatDate(item.createdAt, resolvedLocale)}</span>
+                        <span>•</span>
+                        <span>{formatFileSize(item.size)}</span>
+                        {item.submittedByUser?.email ? (
+                          <>
+                            <span>•</span>
+                            <span>{item.submittedByUser.email}</span>
+                          </>
+                        ) : null}
+                      </div>
+                      <div className="grid gap-[0.36rem]">
+                        <h3 className="text-[1rem] font-[620] leading-[1.3] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">{item.originalName}</h3>
+                        <p className="whitespace-pre-wrap text-[0.95rem] leading-[1.55] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.9]">
+                          {item.comment || t("materials_page.admin.comment_missing")}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-[0.5rem]">
+                        <Button
+                          as="a"
+                          href={`/api/materials/${encodeURIComponent(item.id)}/download`}
+                          className="!min-h-[2.3rem] !px-[0.9rem] !py-[0.4rem] !text-[0.96rem]"
+                        >
+                          {t("materials_page.admin.download")}
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => void handleDelete(item.id)}
+                          className="!min-h-[2.3rem] !px-[0.9rem] !py-[0.4rem] !text-[0.96rem]"
+                        >
+                          {t("materials_page.admin.delete")}
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">{t("materials_page.admin.empty")}</p>
+              )}
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  )
+}

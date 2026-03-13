@@ -31,7 +31,7 @@ const emailReplacement = {
 };
 export default function KasutustingimusedBody() {
   const [expanded, setExpanded] = useState(false);
-  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(true);
+  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(false);
   const router = useRouter();
   const {
     t,

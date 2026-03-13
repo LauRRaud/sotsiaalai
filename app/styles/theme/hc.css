@@ -64,45 +64,66 @@ html[data-contrast="hc"] {
   /* Reuse night-surface token feel, while HC colors stay stronger for text/icons. */
   --btn-base-bg-dark: linear-gradient(
     180deg,
-    rgba(34, 48, 68, 0.94) 0%,
-    rgba(15, 24, 38, 0.94) 100%
+    rgba(42, 45, 52, 0.94) 0%,
+    rgba(20, 23, 29, 0.96) 100%
   );
   --btn-primary-bg: radial-gradient(
       84% 72% at 50% -6%,
-      rgba(222, 236, 255, 0.124) 0%,
-      rgba(222, 236, 255, 0.05) 44%,
-      rgba(222, 236, 255, 0.014) 58%,
-      rgba(222, 236, 255, 0) 74%
+      rgba(255, 255, 255, 0.045) 0%,
+      rgba(255, 255, 255, 0.02) 40%,
+      rgba(255, 255, 255, 0.007) 56%,
+      rgba(255, 255, 255, 0.002) 70%,
+      rgba(255, 255, 255, 0.001) 82%,
+      rgba(255, 255, 255, 0) 92%
     ),
-    rgba(15, 27, 46, 0.58);
+    linear-gradient(
+      180deg,
+      rgba(30, 32, 37, 0.9) 0%,
+      rgba(16, 18, 22, 0.94) 100%
+    );
   --btn-primary-bg-hover: radial-gradient(
       84% 72% at 50% -6%,
-      rgba(222, 236, 255, 0.148) 0%,
-      rgba(222, 236, 255, 0.06) 44%,
-      rgba(222, 236, 255, 0.017) 58%,
-      rgba(222, 236, 255, 0) 74%
+      rgba(255, 255, 255, 0.058) 0%,
+      rgba(255, 255, 255, 0.025) 40%,
+      rgba(255, 255, 255, 0.009) 56%,
+      rgba(255, 255, 255, 0.003) 70%,
+      rgba(255, 255, 255, 0.001) 82%,
+      rgba(255, 255, 255, 0) 92%
     ),
-    rgba(18, 31, 52, 0.64);
+    linear-gradient(
+      180deg,
+      rgba(34, 36, 42, 0.92) 0%,
+      rgba(19, 21, 26, 0.96) 100%
+    );
   --btn-primary-bg-active: radial-gradient(
       84% 72% at 50% -6%,
-      rgba(222, 236, 255, 0.125) 0%,
-      rgba(222, 236, 255, 0.05) 44%,
-      rgba(222, 236, 255, 0.015) 58%,
-      rgba(222, 236, 255, 0) 74%
+      rgba(255, 255, 255, 0.036) 0%,
+      rgba(255, 255, 255, 0.015) 40%,
+      rgba(255, 255, 255, 0.006) 56%,
+      rgba(255, 255, 255, 0.002) 70%,
+      rgba(255, 255, 255, 0.001) 82%,
+      rgba(255, 255, 255, 0) 92%
     ),
-    rgba(12, 24, 42, 0.54);
+    linear-gradient(
+      180deg,
+      rgba(26, 28, 33, 0.9) 0%,
+      rgba(14, 16, 20, 0.95) 100%
+    );
   --btn-primary-border: 2px solid var(--hc-border);
   --btn-primary-border-hover: 2px solid var(--hc-border-soft);
   --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(220, 236, 255, 0.09),
-    0 5px 12px rgba(2, 6, 16, 0.24);
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(5, 6, 9, 0.58),
+    0 5px 12px rgba(0, 0, 0, 0.2);
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(220, 236, 255, 0.12),
-    0 7px 14px rgba(2, 6, 16, 0.28);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(5, 6, 9, 0.64),
+    0 7px 14px rgba(0, 0, 0, 0.24);
   --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(220, 236, 255, 0.09),
-    0 4px 10px rgba(2, 6, 16, 0.22);
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(5, 6, 9, 0.56),
+    0 4px 10px rgba(0, 0, 0, 0.18);
   --btn-primary-focus-ring-color: var(--hc-focus-ring);
 
   --form-surface: radial-gradient(

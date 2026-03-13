@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { createPortal } from "react-dom";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { AddPersonIcon, ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
+import { AddPersonIcon, ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, MaterialsIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
@@ -300,6 +300,14 @@ export default function RightRail({
     } catch {}
   };
 
+  const openMaterials = () => {
+    pushWithTransition(router, localizePath("/materjalid", locale), {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  };
+
   const sourcesLabel = t("chat.sources.button").replace("{count}", String(conversationSources.length));
   const desktopItems = useMemo(() => {
     return [{
@@ -317,11 +325,17 @@ export default function RightRail({
     }, {
       key: "my_help_offers",
       label: t("chat.help.myHelpOffers") || localizedHelpLabels.myOffers
+    }, {
+      key: "materials",
+      label: t("profile.materials_cta")
     }];
   }, [localizedHelpLabels.myOffers, localizedHelpLabels.myRequests, t]);
 
   const mobileItems = useMemo(() => {
     return [{
+      key: "materials",
+      label: t("profile.materials_cta")
+    }, {
       key: "profile",
       label: t("nav.profile")
     }, {
@@ -335,7 +349,7 @@ export default function RightRail({
   const items = viewportIsMobile ? mobileItems : desktopItems;
 
   const mobileSlots = useMemo(() => {
-    const order = ["profile", "rooms", "invite"];
+    const order = ["materials", "profile", "rooms", "invite"];
     return order.map(key => {
       const itemIndex = mobileItems.findIndex(item => item.key === key);
       if (itemIndex < 0) return null;
@@ -363,7 +377,7 @@ export default function RightRail({
         return 0;
       }
       if (!normalizedPathname) return 1;
-      if (normalizedPathname.startsWith("/profiil")) return 0;
+      if (normalizedPathname.startsWith("/profiil")) return 1;
       if (normalizedPathname.startsWith("/ruum")) return 2;
       if (normalizedPathname.startsWith("/vestlus")) return 1;
       return 1;
@@ -649,6 +663,10 @@ export default function RightRail({
             openInvite();
             return;
           }
+          if (it.key === "materials") {
+            openMaterials();
+            return;
+          }
           if (it.key === "my_help_requests") {
             onShowMyHelpRequests?.();
             return;
@@ -690,7 +708,7 @@ export default function RightRail({
         clearArmed();
         performActivate(event);
       } : undefined} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
-              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "my_help_requests" ? <HelpRequestIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : it?.key === "my_help_offers" ? <HelpOfferIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : null}
+              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "materials" ? <MaterialsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconMaterials)} /> : it?.key === "my_help_requests" ? <HelpRequestIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : it?.key === "my_help_offers" ? <HelpOfferIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {displayLabel}
               </span>

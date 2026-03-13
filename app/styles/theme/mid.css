@@ -30,51 +30,51 @@
   --btn-primary-bg:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 252, 251, 0.74) 0%,
-      rgba(252, 246, 244, 0.62) 42%,
-      rgba(246, 237, 234, 0.56) 100%
+      rgba(255, 252, 251, 0.62) 0%,
+      rgba(252, 246, 244, 0.52) 42%,
+      rgba(246, 237, 234, 0.44) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(252, 246, 244, 0.48) 0%,
-      rgba(245, 236, 233, 0.42) 100%
+      rgba(252, 246, 244, 0.4) 0%,
+      rgba(245, 236, 233, 0.34) 100%
     );
   --btn-primary-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 253, 252, 0.82) 0%,
-      rgba(253, 248, 246, 0.7) 44%,
-      rgba(247, 239, 236, 0.62) 100%
+      rgba(255, 253, 252, 0.7) 0%,
+      rgba(253, 248, 246, 0.6) 44%,
+      rgba(247, 239, 236, 0.5) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(253, 248, 246, 0.56) 0%,
-      rgba(246, 238, 235, 0.48) 100%
+      rgba(253, 248, 246, 0.46) 0%,
+      rgba(246, 238, 235, 0.4) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(252, 248, 247, 0.68) 0%,
-      rgba(247, 239, 237, 0.56) 42%,
-      rgba(240, 230, 227, 0.5) 100%
+      rgba(252, 248, 247, 0.58) 0%,
+      rgba(247, 239, 237, 0.48) 42%,
+      rgba(240, 230, 227, 0.4) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(247, 239, 237, 0.46) 0%,
-      rgba(239, 230, 227, 0.4) 100%
+      rgba(247, 239, 237, 0.38) 0%,
+      rgba(239, 230, 227, 0.32) 100%
     );
   --btn-primary-text: #2f3a4a;
   --btn-primary-border: 1px solid transparent;
   --btn-primary-border-hover: 1px solid transparent;
   --btn-primary-border-active: 1px solid transparent;
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
     0 5px 12px rgba(20, 12, 10, 0.14);
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
     0 7px 14px rgba(20, 12, 10, 0.14);
   --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 4px 10px rgba(20, 12, 10, 0.13);
   --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
   --btn-primary-shadow-focus:
@@ -557,4 +557,37 @@
     ),
     rgba(249, 241, 239, 0.36) !important;
   border: 1px solid rgba(255, 255, 255, 0.56) !important;
+}
+
+/* Materials page primary buttons in mid: avoid bright bottom stripe artifact. */
+:root.theme-mid
+  .materials-page-shell
+  :is(.materials-upload-choose-button, .materials-upload-submit-button),
+:root.theme-light.theme-mid
+  .materials-page-shell
+  :is(.materials-upload-choose-button, .materials-upload-submit-button) {
+  --btn-primary-bg: linear-gradient(
+    180deg,
+    rgba(252, 248, 247, 0.58) 0%,
+    rgba(246, 238, 235, 0.54) 100%
+  );
+  --btn-primary-bg-hover: linear-gradient(
+    180deg,
+    rgba(253, 250, 249, 0.64) 0%,
+    rgba(248, 240, 237, 0.6) 100%
+  );
+  --btn-primary-bg-active: linear-gradient(
+    180deg,
+    rgba(248, 241, 239, 0.54) 0%,
+    rgba(242, 234, 231, 0.5) 100%
+  );
+  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.42);
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.54);
+  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.46);
+  --btn-primary-shadow: 0 6px 14px rgba(20, 12, 10, 0.15);
+  --btn-primary-shadow-hover: 0 7px 16px rgba(20, 12, 10, 0.16);
+  --btn-primary-shadow-active: 0 4px 10px rgba(20, 12, 10, 0.14);
+  --btn-primary-shadow-focus:
+    0 8px 16px rgba(20, 12, 10, 0.18),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
 }

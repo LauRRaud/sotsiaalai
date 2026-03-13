@@ -49,6 +49,19 @@ export default function HelpListingsPanel({
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static help-listings-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const mobileTitleWrapClassName =
     "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+  const listingsPanelClassName =
+    "mt-[0.25rem] max-[768px]:mt-[0.2rem] min-h-[min(56dvh,28rem)] max-h-[min(62dvh,30rem)] " +
+    "max-[768px]:min-h-[min(60dvh,32rem)] max-[768px]:max-h-[min(66dvh,34rem)] overflow-y-auto " +
+    "[--help-listings-panel-bg:rgba(22,24,28,0.72)] [--help-listings-panel-border:rgba(226,232,240,0.12)] border-[var(--help-listings-panel-border)] shadow-[var(--input-shadow)] " +
+    "[scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 " +
+    "[.theme-night_&]:[--help-listings-panel-bg:rgba(10,18,32,0.74)] [.theme-night_&]:[--help-listings-panel-border:rgba(170,204,245,0.16)] " +
+    "[.theme-dark_&]:[--help-listings-panel-bg:rgba(22,24,28,0.72)] [.theme-dark_&]:[--help-listings-panel-border:rgba(226,232,240,0.12)] " +
+    "[.theme-mid_&]:[--help-listings-panel-bg:rgba(255,255,255,0.1)] [.theme-mid_&]:[--help-listings-panel-border:rgba(255,255,255,0.34)] " +
+    "[.theme-light_&]:[--help-listings-panel-bg:rgba(255,255,255,0.2)] [.theme-light_&]:[--help-listings-panel-border:rgba(122,58,56,0.07)] " +
+    "hc:[--help-listings-panel-bg:rgba(8,16,30,0.84)] hc:[--help-listings-panel-border:rgba(255,234,0,0.56)]";
+  const listingsPanelStyle = {
+    background: "var(--help-listings-panel-bg, var(--form-surface))"
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -107,7 +120,8 @@ export default function HelpListingsPanel({
           <Panel
             variant="secondary"
             padding="sm"
-            className="mt-[0.25rem] max-[768px]:mt-[0.2rem] min-h-[min(56dvh,28rem)] max-h-[min(62dvh,30rem)] max-[768px]:min-h-[min(60dvh,32rem)] max-[768px]:max-h-[min(66dvh,34rem)] overflow-y-auto border-[rgba(248,253,255,0.1)] bg-[rgba(255,255,255,0.12)] shadow-[0_16px_34px_rgba(15,23,42,0.06)] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 [.theme-night_&]:bg-[rgba(10,14,24,0.34)] [.theme-dark_&]:bg-[rgba(12,16,24,0.38)] [.theme-mid_&]:bg-[rgba(255,255,255,0.1)] [.theme-light_&]:border-[rgba(122,58,56,0.07)] [.theme-light_&]:bg-[rgba(255,255,255,0.2)]"
+            className={listingsPanelClassName}
+            style={listingsPanelStyle}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
