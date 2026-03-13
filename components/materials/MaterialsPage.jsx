@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 
 import { useI18n } from "@/components/i18n/I18nProvider"
@@ -13,6 +13,7 @@ import {
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles"
 import { localizePath } from "@/lib/localizePath"
+import { pushWithTransition } from "@/lib/routeTransition"
 
 const materialsPanelSurfaceClassName =
   "border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
@@ -55,6 +56,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   const resolvedLocale = activeLocale || locale
 
   const fileInputRef = useRef(null)
+  const [closing, setClosing] = useState(false)
   const [comment, setComment] = useState("")
   const [files, setFiles] = useState([])
   const [submitting, setSubmitting] = useState(false)
@@ -175,13 +177,35 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
     }
   }
 
+  const shouldReduceMotion = useCallback(() => {
+    if (typeof window === "undefined") return false
+    try {
+      if (document?.documentElement?.dataset?.reduceMotion === "1") return true
+      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)
+    } catch {
+      return false
+    }
+  }, [])
+
+  const handleBack = useCallback(() => {
+    if (closing) return
+    if (!shouldReduceMotion()) {
+      setClosing(true)
+    }
+    pushWithTransition(router, localizePath("/profiil", resolvedLocale), {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    })
+  }, [closing, resolvedLocale, router, shouldReduceMotion])
+
   return (
     <div className="materials-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:justify-start max-[768px]:px-[0.5rem] max-[768px]:py-[0.5rem]">
       <div
-        className={`materials-page-content invite-modal-content person-invite-modal-content relative z-[21] w-full !max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] [border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] [--input-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [--input-caret:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ${glassPageMobileCardClassName}`}
+        className={`materials-page-content invite-modal-content person-invite-modal-content relative z-[21] w-full !max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] [border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] [--input-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [--input-caret:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ${glassPageMobileCardClassName} ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
       >
         <BackButton
-          onClick={() => router.push(localizePath("/profiil", resolvedLocale))}
+          onClick={handleBack}
           ariaLabel={t("materials_page.back_to_profile")}
           className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`}
         />

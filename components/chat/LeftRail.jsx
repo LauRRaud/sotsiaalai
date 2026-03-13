@@ -5,7 +5,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { usePathname, useRouter } from "next/navigation";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
-import { pushWithTransition } from "@/lib/routeTransition";
+import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
 import styles from "./LeftRail.module.css";
@@ -431,6 +431,26 @@ export default function LeftRail({
     [embedded, locale, normalizedPathname, router]
   );
 
+  const openHelpRequestsPanel = useCallback(() => {
+    runWithTransition(() => {
+      onShowHelpRequests?.();
+    }, {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  }, [onShowHelpRequests]);
+
+  const openHelpOffersPanel = useCallback(() => {
+    runWithTransition(() => {
+      onShowHelpOffers?.();
+    }, {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  }, [onShowHelpOffers]);
+
   const onKeyDown = event => {
     if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
     event.preventDefault();
@@ -489,11 +509,12 @@ export default function LeftRail({
                 return;
               }
               if (item.key === "help_requests") {
-                onShowHelpRequests?.();
+                openHelpRequestsPanel();
                 return;
               }
               if (item.key === "help_offers") {
-                onShowHelpOffers?.();
+                openHelpOffersPanel();
+                return;
               }
             };
 
@@ -658,11 +679,12 @@ export default function LeftRail({
                 return;
               }
               if (item.key === "help_requests") {
-                onShowHelpRequests?.();
+                openHelpRequestsPanel();
                 return;
               }
               if (item.key === "help_offers") {
-                onShowHelpOffers?.();
+                openHelpOffersPanel();
+                return;
               }
             };
 

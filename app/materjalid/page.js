@@ -15,7 +15,7 @@ export async function generateMetadata() {
     locale,
     pathname: "/materjalid",
     title: "Materjalide jagamine",
-    description: "Leht, kuhu saab üles laadida õppematerjale ja dokumente koos kommentaariga."
+    description: "Saada õppematerjale ja dokumente, et täiendada SotsiaalAI teadmuspõhist andmebaasi."
   })
 }
 

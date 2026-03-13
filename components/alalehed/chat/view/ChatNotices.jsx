@@ -3,11 +3,11 @@ import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 const chatAlertClassName =
   "mt-[0.5rem] mb-[0.75rem] self-center mx-auto text-center " +
   "w-fit max-w-[min(30rem,calc(100%-2.2rem))] whitespace-normal " +
-  "rounded-[999px] border px-[1.05rem] py-[0.62rem] text-[0.92rem] leading-[1.32] " +
+  "rounded-[999px] border px-[1.05rem] py-[0.62rem] text-[0.92rem] font-[600] leading-[1.38] " +
   "shadow-[0_10px_18px_rgba(0,0,0,0.18)] backdrop-blur-[8px] [-webkit-backdrop-filter:blur(8px)] " +
-  "border-[rgba(231,112,100,0.24)] bg-[linear-gradient(135deg,rgba(52,19,21,0.74)_0%,rgba(33,15,20,0.68)_100%)] text-[rgba(255,230,225,0.96)] " +
-  "light:border-[rgba(122,58,56,0.14)] light:bg-[linear-gradient(180deg,rgba(255,252,251,0.96)_0%,rgba(246,241,239,0.94)_100%)] light:text-[#6f3b38] " +
-  "[.theme-mid_&]:border-[rgba(122,58,56,0.16)] [.theme-mid_&]:bg-[linear-gradient(180deg,rgba(253,248,246,0.92)_0%,rgba(244,234,231,0.88)_100%)] [.theme-mid_&]:text-[#71413d]";
+  "border-[rgba(231,112,100,0.3)] bg-[linear-gradient(135deg,rgba(52,19,21,0.82)_0%,rgba(33,15,20,0.76)_100%)] text-[#fff3ef] " +
+  "light:border-[rgba(122,58,56,0.22)] light:bg-[linear-gradient(180deg,rgba(255,248,246,0.98)_0%,rgba(244,234,231,0.96)_100%)] light:text-[#4e201e] " +
+  "[.theme-mid_&]:border-[rgba(122,58,56,0.22)] [.theme-mid_&]:bg-[linear-gradient(180deg,rgba(255,246,243,0.96)_0%,rgba(241,227,223,0.93)_100%)] [.theme-mid_&]:text-[#562826]";
 
 const floatingRecordingAlertClassName =
   "pointer-events-none absolute left-1/2 z-[86] -translate-x-1/2 " +

@@ -21,7 +21,7 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 const MOBILE_NAV_ITEMS = [
   { key: "chats", scale: 0.96 },
   { key: "sources", scale: 0.94 },
-  { key: "materials", scale: 1.14 },
+  { key: "materials", scale: 1.24 },
   { key: "help_requests", scale: 1.28 },
   { key: "help_offers", scale: 1.28 },
   { key: "profile", scale: 1.08 },
@@ -71,10 +71,10 @@ function getSlotOffsetRem(slot, profile = DEFAULT_SLOT_PROFILE) {
   return direction * (step3 + (distance - 3) * tailStep);
 }
 
-function MobileIconFrame({ scale = 1, xNudge = 0, children }) {
+function MobileIconFrame({ scale = 1, xNudge = 0, className, children }) {
   return (
     <span
-      className="flex h-[92%] w-[92%] items-center justify-center"
+      className={cn("flex h-[92%] w-[92%] items-center justify-center", className)}
       style={{ transform: `translateX(${xNudge}rem) scale(${scale})` }}
       aria-hidden="true"
     >
@@ -433,8 +433,8 @@ export default function ChatMobileTopNav({
     }
     if (item.key === "materials") {
       return (
-        <MobileIconFrame scale={item.scale}>
-          <MaterialsIcon isLightTheme={isLightTheme} className="h-full w-[118%]" />
+        <MobileIconFrame scale={item.scale} className="h-[102%] w-[102%]">
+          <MaterialsIcon isLightTheme={isLightTheme} className="h-full w-auto aspect-[28/24]" />
         </MobileIconFrame>
       );
     }

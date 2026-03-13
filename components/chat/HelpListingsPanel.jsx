@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
@@ -39,12 +39,18 @@ export default function HelpListingsPanel({
   const { t } = useI18n();
   const ui = getHelpUiText(t);
   const [isMounted, setIsMounted] = useState(false);
+  const [closeTiltOverride, setCloseTiltOverride] = useState(null);
+  const tiltAnimationClassName = useMemo(() => {
+    const effectiveSide = closeTiltOverride || _side;
+    const keyframe = effectiveSide === "right" ? "glassRingTiltFromRight" : "glassRingTiltFromLeft";
+    return `motion-safe:animate-[${keyframe}_540ms_cubic-bezier(0.42,0,0.58,1)_both]`;
+  }, [_side, closeTiltOverride]);
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
   const helpListingsContentClassName =
     `help-listings-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] ` +
     `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `leading-[1.35] tracking-[0.024rem] ${glassPageMobileCardClassName} ` +
-    `${isClosing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
+    `${isClosing ? `${tiltAnimationClassName} pointer-events-none` : ""}`;
   const helpListingsTitleClassName =
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static help-listings-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const mobileTitleWrapClassName =
@@ -68,6 +74,13 @@ export default function HelpListingsPanel({
   }, []);
 
   useEffect(() => {
+    if (isClosing) return;
+    if (closeTiltOverride !== null) {
+      setCloseTiltOverride(null);
+    }
+  }, [closeTiltOverride, isClosing]);
+
+  useEffect(() => {
     if (!isMounted) return undefined;
     const root = document.documentElement;
     document.body.classList.toggle("modal-open", true);
@@ -86,6 +99,11 @@ export default function HelpListingsPanel({
     return null;
   }
 
+  const handleBackClick = () => {
+    setCloseTiltOverride("left");
+    (onBackToProfile || onClose)?.();
+  };
+
   return createPortal(
     <Modal
       open
@@ -97,7 +115,7 @@ export default function HelpListingsPanel({
       contentClassName={helpListingsContentClassName}
     >
       <BackButton
-        onClick={onBackToProfile || onClose}
+        onClick={handleBackClick}
         ariaLabel={onBackToProfile ? t("buttons.back") : ui.close}
         className={glassPageBackTopLeftClassName}
       />

@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { AddPersonIcon, ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, MaterialsIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
-import { pushWithTransition } from "@/lib/routeTransition";
+import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
 
@@ -293,11 +293,37 @@ export default function RightRail({
   };
 
   const openInvite = () => {
-    try {
-      window.dispatchEvent(new CustomEvent("sotsiaalai:open-invite", {
-        detail: { roomId }
-      }));
-    } catch {}
+    runWithTransition(() => {
+      try {
+        window.dispatchEvent(new CustomEvent("sotsiaalai:open-invite", {
+          detail: { roomId }
+        }));
+      } catch {}
+    }, {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  };
+
+  const openMyHelpRequestsPanel = () => {
+    runWithTransition(() => {
+      onShowMyHelpRequests?.();
+    }, {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  };
+
+  const openMyHelpOffersPanel = () => {
+    runWithTransition(() => {
+      onShowMyHelpOffers?.();
+    }, {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
   };
 
   const openMaterials = () => {
@@ -668,11 +694,11 @@ export default function RightRail({
             return;
           }
           if (it.key === "my_help_requests") {
-            onShowMyHelpRequests?.();
+            openMyHelpRequestsPanel();
             return;
           }
           if (it.key === "my_help_offers") {
-            onShowMyHelpOffers?.();
+            openMyHelpOffersPanel();
             return;
           }
           if (it.key === "sources") {

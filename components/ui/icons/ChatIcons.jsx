@@ -125,7 +125,7 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
   const stroke = resolveThemeColor(isLightTheme);
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 0 28 24"
       fill="none"
       aria-hidden="true"
       focusable="false"
@@ -134,7 +134,7 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
       {...props}
     >
       <path
-        d="M7.55 3.9h7.15l4.15 4.15V18.9a1.65 1.65 0 0 1-1.65 1.65H7.55A1.65 1.65 0 0 1 5.9 18.9V5.55A1.65 1.65 0 0 1 7.55 3.9Z"
+        d="M6.9 3.9h8.35l4.85 4.85V18.9a1.65 1.65 0 0 1-1.65 1.65H6.9A1.65 1.65 0 0 1 5.25 18.9V5.55A1.65 1.65 0 0 1 6.9 3.9Z"
         stroke={stroke}
         strokeWidth="2.4"
         strokeLinecap="round"
@@ -142,7 +142,7 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
         vectorEffect="non-scaling-stroke"
       />
       <path
-        d="M14.7 3.9v4.15h4.15"
+        d="M15.25 3.9v4.85h4.85"
         stroke={stroke}
         strokeWidth="2.4"
         strokeLinecap="round"
@@ -150,7 +150,7 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
         vectorEffect="non-scaling-stroke"
       />
       <path
-        d="M12.05 9.55v6.1"
+        d="M12.7 9.55v6.1"
         stroke={stroke}
         strokeWidth="2.4"
         strokeLinecap="round"
@@ -158,7 +158,7 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
         vectorEffect="non-scaling-stroke"
       />
       <path
-        d="m9.7 13.15 2.35 2.45 2.35-2.45"
+        d="m10.1 13.15 2.6 2.7 2.6-2.7"
         stroke={stroke}
         strokeWidth="2.4"
         strokeLinecap="round"

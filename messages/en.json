@@ -490,7 +490,7 @@
       "cta": "Write to me!"
     },
     "crisis": {
-      "notice": "CRISIS: If you are in immediate danger, call 112. For children and families, the free 24/7 helpline is 116111 (Child Helpline)."
+      "notice": "If you are in immediate danger, call 112. For concerns related to children and families, free 24/7 help is available on 116 111."
     },
     "error": {
       "rate_limit_retry": "Too many requests. Try again in about {seconds}s.",

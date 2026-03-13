@@ -160,8 +160,9 @@
 }
 
 .iconMaterials {
-  width: calc(100% * (var(--rail-icon-scale) + 0.14));
+  width: auto;
   height: calc(100% * (var(--rail-icon-scale) + 0.14));
+  aspect-ratio: 28 / 24;
 }
 
 .iconRooms {
