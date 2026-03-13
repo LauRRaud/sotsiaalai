@@ -9,6 +9,7 @@ import {
   ChatBubbleIcon,
   HelpOfferIcon,
   HelpRequestIcon,
+  MaterialsIcon,
   ProfileIcon,
   RoomsIcon,
   SourcesIcon
@@ -20,6 +21,7 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 const MOBILE_NAV_ITEMS = [
   { key: "chats", scale: 0.96 },
   { key: "sources", scale: 0.94 },
+  { key: "materials", scale: 1.14 },
   { key: "help_requests", scale: 1.28 },
   { key: "help_offers", scale: 1.28 },
   { key: "profile", scale: 1.08 },
@@ -251,6 +253,7 @@ export default function ChatMobileTopNav({
       sources: sourcesLabel,
       help_requests: t("chat.help.helpRequests"),
       help_offers: t("chat.help.helpOffers"),
+      materials: t("profile.materials_cta"),
       profile: t("nav.profile"),
       rooms: t("nav.rooms"),
       invite: t("nav.add_person")
@@ -304,6 +307,10 @@ export default function ChatMobileTopNav({
     } catch {}
   }, [roomId]);
 
+  const openMaterials = useCallback(() => {
+    pushWithTransition(router, localizePath("/materjalid", locale));
+  }, [locale, router]);
+
   const handleActivate = useCallback(
     (key, event) => {
       if (key === "chats") {
@@ -335,6 +342,10 @@ export default function ChatMobileTopNav({
         pushWithTransition(router, localizePath("/profiil", locale));
         return;
       }
+      if (key === "materials") {
+        openMaterials();
+        return;
+      }
       if (key === "rooms") {
         openRooms();
         return;
@@ -350,6 +361,7 @@ export default function ChatMobileTopNav({
       onShowHelpRequests,
       openChatsDrawer,
       openInvite,
+      openMaterials,
       openProfileDirect,
       openRooms,
       router,
@@ -416,6 +428,13 @@ export default function ChatMobileTopNav({
       return (
         <MobileIconFrame scale={item.scale}>
           <ProfileIcon isLightTheme={isLightTheme} className={iconClassName} />
+        </MobileIconFrame>
+      );
+    }
+    if (item.key === "materials") {
+      return (
+        <MobileIconFrame scale={item.scale}>
+          <MaterialsIcon isLightTheme={isLightTheme} className="h-full w-[118%]" />
         </MobileIconFrame>
       );
     }
