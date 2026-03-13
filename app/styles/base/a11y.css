@@ -1139,3 +1139,16 @@ html[data-contrast="hc"] .desc-ring-right * {
 .three-d-card .card-face.back:focus {
   outline: none;
 }
+
+/* Keep dark/night/HC primary buttons edge-free (no visible outline stripe). */
+:root:not(.theme-light):not(.theme-mid) {
+  --btn-primary-border: 1px solid transparent;
+  --btn-primary-border-hover: 1px solid transparent;
+  --btn-primary-border-active: 1px solid transparent;
+}
+
+html[data-contrast="hc"] {
+  --btn-primary-border: 1px solid transparent;
+  --btn-primary-border-hover: 1px solid transparent;
+  --btn-primary-border-active: 1px solid transparent;
+}

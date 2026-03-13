@@ -45,12 +45,21 @@ test("dark, night and hc themes provide primary button tokens for materials page
 
   assert.match(darkCss, /var\(--btn-primary-bg\)/, "dark.css must consume --btn-primary-bg")
   assert.match(darkCss, /var\(--btn-primary-shadow\)/, "dark.css must consume --btn-primary-shadow")
+  assert.match(darkCss, /\.materials-page-shell/, "dark.css must define materials-page-shell overrides")
+  assert.match(darkCss, /materials-upload-submit-button/, "dark.css must define materials button overrides")
+  assert.doesNotMatch(darkCss, /inset 0 -1px 0 rgba\(5, 6, 9,/, "dark.css should not add bottom inset stripe")
 
   assert.match(nightCss, /--btn-primary-bg:/, "night.css must define --btn-primary-bg")
   assert.match(nightCss, /--btn-primary-shadow:/, "night.css must define --btn-primary-shadow")
   assert.match(nightCss, /--btn-primary-border:/, "night.css must define --btn-primary-border")
+  assert.match(nightCss, /\.materials-page-shell/, "night.css must define materials-page-shell overrides")
+  assert.match(nightCss, /materials-upload-submit-button/, "night.css must define materials button overrides")
+  assert.doesNotMatch(nightCss, /inset 0 -1px 0 rgba\(5, 6, 9,/, "night.css should not add bottom inset stripe")
 
   assert.match(hcCss, /--btn-primary-bg:/, "hc.css must define --btn-primary-bg")
   assert.match(hcCss, /--btn-primary-shadow:/, "hc.css must define --btn-primary-shadow")
   assert.match(hcCss, /--btn-primary-border:/, "hc.css must define --btn-primary-border")
+  assert.match(hcCss, /\.materials-page-shell/, "hc.css must define materials-page-shell overrides")
+  assert.match(hcCss, /materials-upload-submit-button/, "hc.css must define materials button overrides")
+  assert.doesNotMatch(hcCss, /inset 0 -1px 0 rgba\(5, 6, 9,/, "hc.css should not add bottom inset stripe")
 })

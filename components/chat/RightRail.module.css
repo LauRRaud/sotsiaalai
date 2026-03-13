@@ -160,8 +160,8 @@
 }
 
 .iconMaterials {
-  width: calc(100% * (var(--rail-icon-scale) + 0.01));
-  height: calc(100% * (var(--rail-icon-scale) + 0.01));
+  width: calc(100% * (var(--rail-icon-scale) + 0.3));
+  height: calc(100% * (var(--rail-icon-scale) + 0.03));
 }
 
 .iconRooms {

@@ -11,10 +11,13 @@ export const glassPageTitleProminentClassName =
   "min-[769px]:!text-[2.6rem] max-[768px]:!text-[clamp(2.28rem,9.25vw,3.08rem)]";
 
 const subpagePrimaryButtonToneClassName =
-  "[--btn-primary-shadow:inset_0_1px_0_rgba(255,255,255,0.05),0_5px_12px_rgba(0,0,0,0.16)] " +
-  "[--btn-primary-shadow-hover:inset_0_1px_0_rgba(255,255,255,0.07),0_7px_14px_rgba(0,0,0,0.18)] " +
-  "[--btn-primary-shadow-active:inset_0_1px_0_rgba(255,255,255,0.05),0_4px_10px_rgba(0,0,0,0.14)] " +
-  "[--btn-primary-shadow-focus:inset_0_1px_0_rgba(255,255,255,0.12),0_8px_18px_rgba(0,0,0,0.22),0_0_0_3px_var(--btn-primary-focus-ring-color)] " +
+  "[--btn-primary-border:1px_solid_transparent] " +
+  "[--btn-primary-border-hover:1px_solid_transparent] " +
+  "[--btn-primary-border-active:1px_solid_transparent] " +
+  "[--btn-primary-shadow:0_5px_12px_rgba(0,0,0,0.16)] " +
+  "[--btn-primary-shadow-hover:0_7px_14px_rgba(0,0,0,0.18)] " +
+  "[--btn-primary-shadow-active:0_4px_10px_rgba(0,0,0,0.14)] " +
+  "[--btn-primary-shadow-focus:0_8px_18px_rgba(0,0,0,0.22),0_0_0_3px_var(--btn-primary-focus-ring-color)] " +
   "light:[--btn-primary-shadow:inset_0_1px_0_rgba(255,255,255,0.22),0_4px_10px_rgba(15,23,42,0.08)] " +
   "light:[--btn-primary-shadow-hover:inset_0_1px_0_rgba(255,255,255,0.28),0_7px_14px_rgba(15,23,42,0.08)] " +
   "light:[--btn-primary-shadow-active:inset_0_1px_0_rgba(255,255,255,0.18),0_3px_8px_rgba(15,23,42,0.07)] " +

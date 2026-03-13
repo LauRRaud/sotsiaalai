@@ -28,6 +28,63 @@
   --seg-card-bg-hover: var(--form-surface-hover);
   --seg-card-shadow-hover: var(--input-shadow-hover);
   --seg-card-text-hover: var(--pt-100);
+  --btn-primary-border: 1px solid transparent;
+  --btn-primary-border-hover: 1px solid transparent;
+  --btn-primary-border-active: 1px solid transparent;
+  --btn-primary-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.2);
+  --btn-primary-shadow-hover:
+    0 7px 14px rgba(0, 0, 0, 0.24);
+  --btn-primary-shadow-active:
+    0 4px 10px rgba(0, 0, 0, 0.18);
+  --btn-primary-shadow-focus:
+    0 8px 18px rgba(0, 0, 0, 0.26),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
+}
+
+/* Materials page in dark mode: keep surfaces matte and remove glow artifacts. */
+:root:not(.theme-light):not(.theme-mid):not(.theme-night) .materials-page-shell {
+  --input-bg: rgba(14, 16, 22, 0.78);
+  --input-bg-hover: rgba(16, 18, 24, 0.84);
+  --input-bg-focus: rgba(16, 18, 24, 0.88);
+  --input-border: 1px solid rgba(148, 163, 184, 0.22);
+  --input-shadow: none;
+  --input-shadow-hover: none;
+  --panel-secondary-bg: rgba(20, 22, 28, 0.62);
+  --panel-secondary-border: rgba(148, 163, 184, 0.2);
+  --panel-secondary-shadow: none;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+  .materials-page-shell
+  :is(.materials-upload-choose-button, .materials-upload-submit-button) {
+  --btn-primary-bg: linear-gradient(
+    180deg,
+    rgba(28, 31, 38, 0.9) 0%,
+    rgba(16, 18, 24, 0.92) 100%
+  );
+  --btn-primary-bg-hover: linear-gradient(
+    180deg,
+    rgba(33, 36, 44, 0.92) 0%,
+    rgba(19, 21, 28, 0.94) 100%
+  );
+  --btn-primary-bg-active: linear-gradient(
+    180deg,
+    rgba(24, 27, 33, 0.9) 0%,
+    rgba(14, 16, 21, 0.92) 100%
+  );
+  --btn-primary-border: 1px solid transparent;
+  --btn-primary-border-hover: 1px solid transparent;
+  --btn-primary-border-active: 1px solid transparent;
+  --btn-primary-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.22);
+  --btn-primary-shadow-hover:
+    0 7px 14px rgba(0, 0, 0, 0.24);
+  --btn-primary-shadow-active:
+    0 4px 10px rgba(0, 0, 0, 0.2);
+  --btn-primary-shadow-focus:
+    0 8px 18px rgba(0, 0, 0, 0.26),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
 }
 
 :root:not(.theme-light):not(.theme-mid) .drawer-panel--chat-glass {
