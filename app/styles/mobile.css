@@ -372,7 +372,7 @@
   }
 
   .profile-container.glass-ring
-    .profile-orbit-menu:not(.is-open)
+    .profile-orbit-menu
     .profile-orbit-menu__center-shell {
     --profile-orbit-center-offset-y: clamp(-1.08rem, -4.2vw, -0.62rem);
     -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
@@ -987,10 +987,10 @@
     transform: none !important;
   }
 
-  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
-  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
-  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
-  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell {
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
+  html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
+  body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell {
     --profile-orbit-center-offset-y: clamp(-1.08rem, -4.2vw, -0.62rem);
     -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
       scale3d(1, 1, 1) !important;
@@ -1084,8 +1084,8 @@
     transform: none !important;
   }
 
-  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell,
-  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center-shell {
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell {
     --profile-orbit-center-offset-y: clamp(-1.18rem, -4.6vw, -0.72rem);
     -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
       scale3d(1, 1, 1) !important;

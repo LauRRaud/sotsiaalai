@@ -594,43 +594,25 @@ html[data-reduce-motion="1"]
   }
 
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
+    .profile-orbit-stack-bubble.dock-item,
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow:
+      0 10px 18px rgba(0, 0, 0, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.18) !important;
     animation: none !important;
   }
 
   :root.theme-light
     .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item:is(
-      :hover,
-      :focus-visible,
-      :active
-    ),
+    .profile-orbit-stack-bubble.dock-item,
   :root.theme-light
     .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__center.dock-item:not(:hover):not(:focus-visible):not(
-      :active
-    ) {
+    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
     box-shadow:
       0 10px 18px rgba(0, 0, 0, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.78),
       inset 0 -1px 0 rgba(0, 0, 0, 0.12) !important;
-  }
-
-  :root:not(.theme-light)
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item:is(
-      :hover,
-      :focus-visible,
-      :active
-    ),
-  :root:not(.theme-light)
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__center.dock-item:not(:hover):not(:focus-visible):not(
-      :active
-    ) {
-    box-shadow:
-      0 10px 18px rgba(0, 0, 0, var(--pin-shadow, 0.11)),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.46) !important;
   }
 }
