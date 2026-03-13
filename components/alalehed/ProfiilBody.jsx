@@ -19,7 +19,6 @@ import { clearStaleScrollLock } from "@/lib/scrollLock";
 import { getFooterNote } from "@/lib/footerNote";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
-import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
@@ -1080,15 +1079,6 @@ export default function ProfiilBody({
       persistGlassRingTilt: false
     });
   }, [locale, onBack, router]);
-  const handleMobileOrbitBack = useCallback(() => {
-    pushWithTransition(router, localizePath("/profiil", locale));
-  }, [locale, router]);
-  const mobileBackItem = {
-    key: "back",
-    icon: <BackIcon className="profile-orbit-back-icon h-full w-full" />,
-    label: t("buttons.back"),
-    onClick: handleMobileOrbitBack
-  };
   const handleLogout = async () => {
     if (loggingOut) return;
     setMobileLogoutArmed(false);
@@ -1243,8 +1233,7 @@ export default function ProfiilBody({
               ariaLabel={t("profile.actions_label")}
               toggleLabelOpen={t("profile.actions_label")}
               toggleLabelClose={t("buttons.close")}
-              mobileVariant="stack"
-              mobileBackItem={mobileBackItem}
+              mobileVariant="orbit"
               className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem]"
               onOpenChange={setOrbitOpen}
             />

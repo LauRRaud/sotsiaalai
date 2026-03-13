@@ -130,35 +130,40 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
       aria-hidden="true"
       focusable="false"
       className={cn(className)}
+      shapeRendering="geometricPrecision"
       {...props}
     >
       <path
-        d="M8 3.8h6.6l4 4V19a1.8 1.8 0 0 1-1.8 1.8H8A1.8 1.8 0 0 1 6.2 19V5.6A1.8 1.8 0 0 1 8 3.8Z"
+        d="M7.55 3.9h7.15l4.15 4.15V18.9a1.65 1.65 0 0 1-1.65 1.65H7.55A1.65 1.65 0 0 1 5.9 18.9V5.55A1.65 1.65 0 0 1 7.55 3.9Z"
         stroke={stroke}
-        strokeWidth="1.5"
+        strokeWidth="2.4"
         strokeLinecap="round"
         strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
       />
       <path
-        d="M14.6 3.8v4h4"
+        d="M14.7 3.9v4.15h4.15"
         stroke={stroke}
-        strokeWidth="1.5"
+        strokeWidth="2.4"
         strokeLinecap="round"
         strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
       />
       <path
-        d="M12 9.4v6.3"
+        d="M12.05 9.55v6.1"
         stroke={stroke}
-        strokeWidth="1.5"
+        strokeWidth="2.4"
         strokeLinecap="round"
         strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
       />
       <path
-        d="m9.6 13.2 2.4 2.5 2.4-2.5"
+        d="m9.7 13.15 2.35 2.45 2.35-2.45"
         stroke={stroke}
-        strokeWidth="1.5"
+        strokeWidth="2.4"
         strokeLinecap="round"
         strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
       />
     </svg>
   );

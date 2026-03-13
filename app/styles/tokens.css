@@ -118,6 +118,8 @@
     inset 0 -1px 0 rgba(5, 6, 9, 0.68),
     0 8px 18px rgba(0, 0, 0, 0.26),
     0 0 0 3px var(--btn-primary-focus-ring-color);
+  --btn-primary-hover-brightness: 1.015;
+  --btn-primary-active-brightness: 0.99;
   --btn-primary-radius: 0.95rem;
 
   --form-surface: radial-gradient(

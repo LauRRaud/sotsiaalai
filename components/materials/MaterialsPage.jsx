@@ -171,7 +171,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   return (
     <div className="materials-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:justify-start max-[768px]:px-[0.5rem] max-[768px]:py-[0.5rem]">
       <div
-        className={`materials-page-content relative z-[21] w-full max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[1.8rem] border border-[color:var(--glass-border-color,rgba(248,253,255,0.16))] bg-[var(--glass-modal-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-modal-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] [--input-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [--input-caret:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ${glassPageMobileCardClassName}`}
+        className={`materials-page-content relative z-[21] w-full max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[1.8rem] border-0 bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--chat-invite-shadow,var(--glass-modal-shadow,none))] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] [--input-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [--input-caret:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:shadow-[var(--input-shadow)] ${glassPageMobileCardClassName}`}
       >
         <BackButton
           onClick={() => router.push(localizePath("/profiil", resolvedLocale))}
@@ -206,10 +206,10 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               onChange={(event) => setFiles(Array.from(event.target.files || []))}
             />
 
-            <button
+            <Button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="materials-upload-choose-button mx-auto !inline-flex !h-[2.9rem] !w-fit !min-w-0 !max-w-none shrink-0 self-center items-center justify-center rounded-full appearance-none [border:var(--btn-primary-border)] [background:var(--btn-primary-bg)] !px-[1rem] !py-0 text-center !text-[1.1rem] font-[500] leading-none tracking-[0.02em] text-[color:var(--btn-primary-text,#243140)] shadow-[var(--btn-primary-shadow)] transition-[background,box-shadow,border-color] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:[background:var(--btn-primary-bg-hover)] hover:shadow-[var(--btn-primary-shadow-hover)] focus-visible:[background:var(--btn-primary-bg-hover)] focus-visible:shadow-[var(--btn-primary-shadow-focus)]"
+              className="materials-upload-choose-button !mx-auto !inline-flex !h-[2.9rem] !w-fit !min-w-0 !max-w-none shrink-0 self-center [background:var(--btn-primary-bg)] shadow-[var(--btn-primary-shadow)] !px-[1rem] !py-0 !text-[1.1rem] !leading-none"
             >
               {files.length === 1 ? (
                 <span className="block max-w-full truncate text-[0.94rem] leading-none">{files[0].name}</span>
@@ -218,7 +218,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               ) : (
                 <span className="block leading-none">{t("materials_page.choose_file")}</span>
               )}
-            </button>
+            </Button>
 
             {files.length > 1 ? (
               <p className="text-center text-[0.9rem] leading-[1.45] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">
@@ -231,7 +231,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               onChange={(event) => setComment(event.target.value)}
               rows={5}
               placeholder={t("materials_page.comment_placeholder_multiple")}
-              className="min-h-[7.4rem] rounded-[1.05rem]"
+              className="min-h-[7.4rem] rounded-[1.05rem] [border:1px_solid_var(--chat-invite-list-border,rgba(248,253,255,0.16))] [background:rgba(30,32,38,0.42)] [.theme-night_&]:[background:rgba(16,22,34,0.4)] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] hover:[background:rgba(30,32,38,0.42)] [.theme-night_&:hover]:[background:rgba(16,22,34,0.4)] focus-visible:[background:rgba(30,32,38,0.42)] [.theme-night_&:focus-visible]:[background:rgba(16,22,34,0.4)] focus-visible:shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]"
             />
 
             {error ? (
@@ -258,7 +258,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </form>
 
           {isAdmin ? (
-            <div className="materials-admin-panel grid gap-[0.85rem] rounded-[1rem] border border-[color:var(--panel-secondary-border,rgba(248,253,255,0.16))] bg-[color:var(--panel-secondary-bg,rgba(30,32,38,0.42))] px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--panel-secondary-shadow,var(--input-shadow))]">
+            <div className="materials-admin-panel grid gap-[0.85rem] rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] px-[1rem] py-[1rem] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]">
               <div className="flex items-start justify-between gap-[0.8rem]">
                 <div className="grid gap-[0.22rem]">
                   <h2 className="text-[1.2rem] font-[650] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">{t("materials_page.admin.title")}</h2>
@@ -287,7 +287,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                   {items.map((item) => (
                     <div
                       key={item.id}
-                      className="grid gap-[0.62rem] rounded-[0.95rem] border border-[color:var(--panel-secondary-border,rgba(248,253,255,0.16))] bg-[color:var(--panel-secondary-bg,rgba(30,32,38,0.42))] px-[0.88rem] py-[0.82rem]"
+                      className="grid gap-[0.62rem] rounded-[0.95rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] px-[0.88rem] py-[0.82rem] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]"
                     >
                       <div className="flex flex-wrap items-center gap-[0.45rem] text-[0.86rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.76]">
                         <span>{formatDate(item.createdAt, resolvedLocale)}</span>

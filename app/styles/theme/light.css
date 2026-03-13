@@ -77,14 +77,14 @@
   --btn-primary-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(255, 255, 255, 0.92) 42%,
-      rgba(250, 249, 248, 0.86) 100%
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.89) 42%,
+      rgba(249, 248, 247, 0.84) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.74) 0%,
-      rgba(247, 246, 245, 0.68) 100%
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(246, 245, 244, 0.65) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
@@ -455,8 +455,8 @@ html[data-ui-scale="lg"].theme-light {
   );
   --btn-primary-bg-hover: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.92) 0%,
-    rgba(250, 248, 247, 0.88) 100%
+    rgba(255, 255, 255, 0.89) 0%,
+    rgba(249, 247, 246, 0.85) 100%
   );
   --btn-primary-bg-active: linear-gradient(
     180deg,

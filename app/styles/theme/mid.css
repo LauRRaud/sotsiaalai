@@ -27,41 +27,42 @@
   --input-placeholder: rgba(55, 65, 81, 0.82);
   --input-shadow: 0 6px 14px rgba(20, 12, 10, 0.16);
   --input-shadow-hover: 0 7px 16px rgba(20, 12, 10, 0.18);
+  --btn-primary-hover-brightness: 1.03;
   --btn-primary-bg:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 252, 251, 0.62) 0%,
-      rgba(252, 246, 244, 0.52) 42%,
-      rgba(246, 237, 234, 0.44) 100%
+      rgba(255, 252, 251, 0.5) 0%,
+      rgba(250, 242, 239, 0.4) 42%,
+      rgba(242, 232, 228, 0.32) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(252, 246, 244, 0.4) 0%,
-      rgba(245, 236, 233, 0.34) 100%
+      rgba(248, 240, 237, 0.32) 0%,
+      rgba(240, 231, 227, 0.28) 100%
     );
   --btn-primary-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 253, 252, 0.7) 0%,
-      rgba(253, 248, 246, 0.6) 44%,
-      rgba(247, 239, 236, 0.5) 100%
+      rgba(255, 253, 252, 0.54) 0%,
+      rgba(251, 244, 241, 0.44) 44%,
+      rgba(243, 234, 230, 0.36) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(253, 248, 246, 0.46) 0%,
-      rgba(246, 238, 235, 0.4) 100%
+      rgba(249, 241, 238, 0.35) 0%,
+      rgba(241, 232, 228, 0.3) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(252, 248, 247, 0.58) 0%,
-      rgba(247, 239, 237, 0.48) 42%,
-      rgba(240, 230, 227, 0.4) 100%
+      rgba(250, 245, 243, 0.46) 0%,
+      rgba(243, 233, 230, 0.38) 42%,
+      rgba(236, 225, 221, 0.3) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(247, 239, 237, 0.38) 0%,
-      rgba(239, 230, 227, 0.32) 100%
+      rgba(243, 234, 231, 0.3) 0%,
+      rgba(235, 225, 221, 0.26) 100%
     );
   --btn-primary-text: #2f3a4a;
   --btn-primary-border: 1px solid transparent;
@@ -568,18 +569,18 @@
   :is(.materials-upload-choose-button, .materials-upload-submit-button) {
   --btn-primary-bg: linear-gradient(
     180deg,
-    rgba(252, 248, 247, 0.58) 0%,
-    rgba(246, 238, 235, 0.54) 100%
+    rgba(248, 240, 237, 0.42) 0%,
+    rgba(240, 231, 227, 0.38) 100%
   );
   --btn-primary-bg-hover: linear-gradient(
     180deg,
-    rgba(253, 250, 249, 0.64) 0%,
-    rgba(248, 240, 237, 0.6) 100%
+    rgba(249, 242, 239, 0.46) 0%,
+    rgba(241, 233, 229, 0.42) 100%
   );
   --btn-primary-bg-active: linear-gradient(
     180deg,
-    rgba(248, 241, 239, 0.54) 0%,
-    rgba(242, 234, 231, 0.5) 100%
+    rgba(243, 234, 231, 0.4) 0%,
+    rgba(236, 226, 223, 0.36) 100%
   );
   --btn-primary-border: 1px solid rgba(255, 255, 255, 0.42);
   --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.54);

@@ -646,6 +646,8 @@ html[data-contrast="hc"] :is(
   )
   :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn):is(:hover, :focus-visible) {
   border-color: rgba(255, 234, 0, 0.9) !important;
+  background: rgba(255, 234, 0, 0.22) !important;
+  box-shadow: none !important;
 }
 html[data-contrast="hc"] :is(
     .register-content,
@@ -1142,13 +1144,13 @@ html[data-contrast="hc"] .desc-ring-right * {
 
 /* Keep dark/night/HC primary buttons edge-free (no visible outline stripe). */
 :root:not(.theme-light):not(.theme-mid) {
-  --btn-primary-border: 1px solid transparent;
-  --btn-primary-border-hover: 1px solid transparent;
-  --btn-primary-border-active: 1px solid transparent;
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-active: 0 solid transparent;
 }
 
 html[data-contrast="hc"] {
-  --btn-primary-border: 1px solid transparent;
-  --btn-primary-border-hover: 1px solid transparent;
-  --btn-primary-border-active: 1px solid transparent;
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-active: 0 solid transparent;
 }

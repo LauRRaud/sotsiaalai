@@ -57,6 +57,12 @@ const contrastShiftClassName = "";
 const motionShiftClassName = "";
 const optionCardClassName =
   "w-fit !min-h-[3.05rem] !py-[0.78rem] !px-[0.96rem] !text-[1.12rem] !leading-[1.2] tracking-[0.03em] max-[768px]:!min-h-[3.45rem] max-[768px]:!py-[0.9rem] max-[768px]:!px-[1.1rem] max-[768px]:!text-[1.24rem]";
+const optionCardButtonClassName =
+  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg-hover)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
+  "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
+  "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
+  "[--seg-card-border:transparent] [--seg-card-border-width:0px] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
 const optionCardTextScaleDesktopClassName =
   "whitespace-nowrap";
 const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";
@@ -520,7 +526,7 @@ export default function AccessibilityModal({
                 value="et"
                 checked={lang === "et"}
                 onChange={() => setLang("et")}
-                className={`${optionCardClassName} ${languageOptionLabelClassName}`}
+                className={`${optionCardClassName} ${optionCardButtonClassName} ${languageOptionLabelClassName}`}
               >
                 <span>{t("accessibility.options.language.et")}</span>
               </OptionCard>
@@ -530,7 +536,7 @@ export default function AccessibilityModal({
                 value="ru"
                 checked={lang === "ru"}
                 onChange={() => setLang("ru")}
-                className={`${optionCardClassName} ${languageOptionLabelClassName}`}
+                className={`${optionCardClassName} ${optionCardButtonClassName} ${languageOptionLabelClassName}`}
               >
                 <span>{t("accessibility.options.language.ru")}</span>
               </OptionCard>
@@ -540,7 +546,7 @@ export default function AccessibilityModal({
                 value="en"
                 checked={lang === "en"}
                 onChange={() => setLang("en")}
-                className={`${optionCardClassName} ${languageOptionLabelClassName}`}
+                className={`${optionCardClassName} ${optionCardButtonClassName} ${languageOptionLabelClassName}`}
               >
                 <span>{t("accessibility.options.language.en")}</span>
               </OptionCard>
@@ -552,10 +558,10 @@ export default function AccessibilityModal({
               {t("accessibility.contrast")}
             </legend>
             <div ref={contrastOptionsRef} className={`${optionsRowClassName} ${contrastOptionsClassName} ${contrastShiftClassName}`.trim()}>
-              <OptionCard type="radio" name="ct" value="normal" checked={contrast === "normal"} onChange={() => setContrast("normal")} className={optionCardClassName}>
+              <OptionCard type="radio" name="ct" value="normal" checked={contrast === "normal"} onChange={() => setContrast("normal")} className={`${optionCardClassName} ${optionCardButtonClassName}`}>
                 <span>{t("accessibility.options.contrast.normal")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="ct" value="hc" checked={contrast === "hc"} onChange={() => setContrast("hc")} className={optionCardClassName}>
+              <OptionCard type="radio" name="ct" value="hc" checked={contrast === "hc"} onChange={() => setContrast("hc")} className={`${optionCardClassName} ${optionCardButtonClassName}`}>
                 <span>{t("accessibility.options.contrast.hc")}</span>
               </OptionCard>
             </div>
@@ -566,16 +572,16 @@ export default function AccessibilityModal({
               {t("accessibility.text_scale")}
             </legend>
             <div className={`${optionsRowClassName} ${textScaleOptionsClassName} ${textScaleOptionsDesktopTightClassName}`.trim()}>
-              <OptionCard type="radio" name="ts" value="sm" checked={uiScale === "sm"} onChange={() => setUiScale("sm")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="ts" value="sm" checked={uiScale === "sm"} onChange={() => setUiScale("sm")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.text_scale.sm")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="ts" value="md" checked={uiScale === "md"} onChange={() => setUiScale("md")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="ts" value="md" checked={uiScale === "md"} onChange={() => setUiScale("md")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.text_scale.md")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="ts" value="lg" checked={uiScale === "lg"} onChange={() => setUiScale("lg")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="ts" value="lg" checked={uiScale === "lg"} onChange={() => setUiScale("lg")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.text_scale.lg")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="ts" value="xl" checked={uiScale === "xl"} onChange={() => setUiScale("xl")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="ts" value="xl" checked={uiScale === "xl"} onChange={() => setUiScale("xl")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.text_scale.xl")}</span>
               </OptionCard>
             </div>
@@ -586,16 +592,16 @@ export default function AccessibilityModal({
               {t("accessibility.theme")}
             </legend>
             <div ref={themeOptionsRef} className={`${optionsRowClassName} ${themeOptionsClassName} ${textScaleOptionsDesktopTightClassName}`.trim()}>
-              <OptionCard type="radio" name="theme" value="light" checked={theme === "light"} onChange={() => setTheme("light")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="theme" value="light" checked={theme === "light"} onChange={() => setTheme("light")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.theme.light")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="theme" value="mid" checked={theme === "mid"} onChange={() => setTheme("mid")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="theme" value="mid" checked={theme === "mid"} onChange={() => setTheme("mid")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.theme.mid")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="theme" value="dark" checked={theme === "dark"} onChange={() => setTheme("dark")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="theme" value="dark" checked={theme === "dark"} onChange={() => setTheme("dark")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.theme.dark")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="theme" value="night" checked={theme === "night"} onChange={() => setTheme("night")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="theme" value="night" checked={theme === "night"} onChange={() => setTheme("night")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.theme.night")}</span>
               </OptionCard>
             </div>
@@ -606,10 +612,10 @@ export default function AccessibilityModal({
               {t("accessibility.screen_profile")}
             </legend>
             <div className={`${optionsRowClassName} ${screenProfileOptionsClassName} ${screenProfileOptionsDesktopClassName}`.trim()}>
-              <OptionCard type="radio" name="sp" value="sm" checked={uiProfile === "sm"} onChange={() => setUiProfile("sm")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="sp" value="sm" checked={uiProfile === "sm"} onChange={() => setUiProfile("sm")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.screen_profile.sm")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="sp" value="lg" checked={uiProfile === "lg"} onChange={() => setUiProfile("lg")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="sp" value="lg" checked={uiProfile === "lg"} onChange={() => setUiProfile("lg")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.screen_profile.lg")}</span>
               </OptionCard>
             </div>
@@ -621,7 +627,7 @@ export default function AccessibilityModal({
               type="checkbox"
               checked={reduceMotion}
               onChange={e => setReduceMotion(e.target.checked)}
-              className={`${optionCardClassName} ${optionCardCenteredClassName} ${motionShiftClassName}`}
+              className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardCenteredClassName} ${motionShiftClassName}`}
             >
               <span>{t("accessibility.options.motion.reduce")}</span>
             </OptionCard>
