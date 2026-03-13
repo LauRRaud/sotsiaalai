@@ -58,10 +58,11 @@ const motionShiftClassName = "";
 const optionCardClassName =
   "w-fit !min-h-[3.05rem] !py-[0.78rem] !px-[0.96rem] !text-[1.12rem] !leading-[1.2] tracking-[0.03em] max-[768px]:!min-h-[3.45rem] max-[768px]:!py-[0.9rem] max-[768px]:!px-[1.1rem] max-[768px]:!text-[1.24rem]";
 const optionCardButtonClassName =
-  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg-hover)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
+  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
   "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
   "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-  "[--seg-card-border:transparent] [--seg-card-border-width:0px] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "[--seg-card-border:transparent] [--seg-card-border-width:0px] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 focus-visible:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] " +
   "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
 const optionCardTextScaleDesktopClassName =
   "whitespace-nowrap";
