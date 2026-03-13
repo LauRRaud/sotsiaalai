@@ -38,6 +38,7 @@ export default function Button({
   className,
   disabled = false,
   onClick,
+  children,
   ...props
 }) {
   const Component = as === "a" ? "a" : "button";
@@ -52,5 +53,7 @@ export default function Button({
     }
     onClick?.(event);
   };
-  return <Component href={as === "a" ? href : undefined} type={as === "button" ? props.type ?? "button" : undefined} aria-disabled={isDisabled ? "true" : undefined} tabIndex={as === "a" && isDisabled ? -1 : props.tabIndex} disabled={as === "button" ? isDisabled : undefined} className={cn(useBaseStyles ? baseStyles : null, useBaseStyles ? sizeStyles[size] ?? sizeStyles.md : null, useBaseStyles && fullWidth ? "w-full" : null, variantClass, className)} onClick={handleClick} {...props} />;
+  return <Component href={as === "a" ? href : undefined} type={as === "button" ? props.type ?? "button" : undefined} aria-disabled={isDisabled ? "true" : undefined} tabIndex={as === "a" && isDisabled ? -1 : props.tabIndex} disabled={as === "button" ? isDisabled : undefined} className={cn(useBaseStyles ? baseStyles : null, useBaseStyles ? sizeStyles[size] ?? sizeStyles.md : null, useBaseStyles && fullWidth ? "w-full" : null, variantClass, className)} onClick={handleClick} {...props}>{useBaseStyles ? <span className="relative z-[1] inline-flex items-center justify-center gap-[inherit]">
+        {children}
+      </span> : children}</Component>;
 }
