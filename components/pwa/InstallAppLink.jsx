@@ -24,9 +24,9 @@ function ShareIcon() {
   return (
     <InstallHintIcon className="mx-[0.14em]">
       <svg viewBox="0 0 24 24" className="h-full w-full" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 16V4" />
-        <path d="M7.5 8.5 12 4l4.5 4.5" />
-        <path d="M6.5 10.5h-1A2.5 2.5 0 0 0 3 13v5.5A2.5 2.5 0 0 0 5.5 21h13a2.5 2.5 0 0 0 2.5-2.5V13a2.5 2.5 0 0 0-2.5-2.5h-1" />
+        <path d="M12 14.8V3.7" />
+        <path d="M8.15 7.55 12 3.7l3.85 3.85" />
+        <path d="M5.25 8.95v9.25a2.2 2.2 0 0 0 2.2 2.2h9.1a2.2 2.2 0 0 0 2.2-2.2V8.95" />
       </svg>
     </InstallHintIcon>
   );
@@ -84,21 +84,18 @@ export default function InstallAppLink({
   const desktopHint = t("pwa.instructions.desktop");
   const helpPopoverClassName =
     "absolute left-1/2 top-[calc(100%+0.62rem)] z-[40] w-[min(19.6rem,calc(100vw-1.6rem))] -translate-x-1/2 rounded-[16px] " +
-    "border px-[0.95rem] pt-[0.72rem] pb-[0.68rem] shadow-[0_14px_28px_rgba(0,0,0,0.3)] " +
-    "bg-[#13151b] text-[#f3eee8] border-[rgba(255,255,255,0.12)] " +
-    "[.theme-night_&]:bg-[#0d1422] [.theme-night_&]:text-[#eef4ff] [.theme-night_&]:border-[rgba(148,163,184,0.24)] " +
-    "[.theme-dark_&]:bg-[#13151b] [.theme-dark_&]:text-[#f3eee8] [.theme-dark_&]:border-[rgba(255,255,255,0.12)] " +
-    "[.theme-mid_&]:bg-[#f3ece8] [.theme-mid_&]:text-[#4a3833] [.theme-mid_&]:border-[rgba(122,58,56,0.14)] [.theme-mid_&]:shadow-[0_12px_24px_rgba(80,58,52,0.12)] " +
-    "[.theme-light:not(.theme-mid)_&]:bg-[#fffaf8] [.theme-light:not(.theme-mid)_&]:text-[#111827] [.theme-light:not(.theme-mid)_&]:border-[rgba(122,58,56,0.12)] [.theme-light:not(.theme-mid)_&]:shadow-[0_12px_24px_rgba(15,23,42,0.12)]";
-  const mutedHintClass =
-    "text-[color:var(--pt-300)] font-medium text-[1em] whitespace-normal";
-  const inlineMessageClass =
-    "mt-[0.42rem] text-[0.96em] leading-[1.35] text-[color:var(--pt-200)]";
+    "border-0 px-[1rem] pt-[0.78rem] pb-[0.74rem] shadow-[var(--home-panel-shadow)] " +
+    "bg-[rgba(10,14,24,0.72)] text-[#f3eee8] backdrop-blur-0 [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
+    "[.theme-night_&]:bg-[rgba(10,14,24,0.72)] [.theme-night_&]:text-[#eef4ff] " +
+    "[.theme-dark_&]:bg-[rgba(10,14,24,0.72)] [.theme-dark_&]:text-[#f3eee8] " +
+    "[.theme-mid_&]:bg-[rgba(252,248,247,0.8)] [.theme-mid_&]:text-[#4a3833] [.theme-mid_&]:shadow-[var(--home-panel-shadow)] " +
+    "[.theme-light:not(.theme-mid)_&]:bg-[rgba(247,247,246,0.82)] [.theme-light:not(.theme-mid)_&]:text-[#111827] [.theme-light:not(.theme-mid)_&]:shadow-[var(--home-panel-shadow)]";
+  const desktopHintNode = <span>{isMacSafari ? macHint : desktopHint}</span>;
 
   const mobileHintNodeEt = (
     <span>
-      Vajuta &quot;Jaga&quot; <ShareIcon /> ja seejärel &quot;Vaata veel&quot; <MoreIcon />.
-      {" "}Ekraanile lisamiseks vajuta <AddToHomeIcon />.
+      Vajuta &quot;Jaga <ShareIcon />&quot;, siis &quot;Vaata veel <MoreIcon />&quot;, ja lõpuks
+      {" "}&quot;Ekraanile lisamiseks <AddToHomeIcon />&quot;.
     </span>
   );
   const mobileHintNode = locale === "et" ? mobileHintNodeEt : iosHint;
@@ -223,7 +220,10 @@ export default function InstallAppLink({
           ? macHint
           : desktopHint;
 
-      if (message) setInlineMessage(message);
+      if (message) {
+        setHelpOpen((current) => !current);
+        setInlineMessage("");
+      }
     },
     [
       androidHint,
@@ -247,20 +247,20 @@ export default function InstallAppLink({
       ref={helpPopoverRef}
       role="dialog"
       aria-modal="false"
-      aria-label={t("pwa.cta_mobile")}
+      aria-label={isMobileViewport || isIOS ? t("pwa.cta_mobile") : t("pwa.cta_desktop")}
       className={helpPopoverClassName}
     >
       <button
         type="button"
-        className="absolute right-[0.12rem] top-[0.04rem] h-[2.05rem] w-[2.05rem] rounded-full border-0 bg-transparent text-[1.56rem] leading-none text-[#c57171] light:text-[#7a3a38]"
+        className="absolute right-[0.14rem] top-[0.08rem] h-[2.05rem] w-[2.05rem] rounded-full border-0 bg-transparent text-[1.56rem] leading-none text-[#c57171] light:text-[#7a3a38]"
         aria-label={t("buttons.close")}
         onClick={() => setHelpOpen(false)}
       >
         {t("symbols.times")}
       </button>
       <div className="flex flex-col pr-[1.28rem] max-w-[inherit]">
-        <div className="mt-[0.06rem] text-[1.04rem] leading-[1.38] text-inherit opacity-95">
-          {mobileHintNode}
+        <div className="mt-[0.06rem] text-[1.04rem] leading-[1.45] text-inherit opacity-95">
+          {isMobileViewport || isIOS ? mobileHintNode : desktopHintNode}
         </div>
       </div>
     </div>
@@ -278,14 +278,6 @@ export default function InstallAppLink({
           </a>
           {helpPopover}
         </p>
-        {!isMobileViewport && !isIOS && !canInstall && isMacSafari ? (
-          <p className={mutedHintClass}>{macHint}</p>
-        ) : null}
-        {inlineMessage ? (
-          <p className={inlineMessageClass} role="status" aria-live="polite">
-            {inlineMessage}
-          </p>
-        ) : null}
       </section>
     );
   }
@@ -302,11 +294,6 @@ export default function InstallAppLink({
           {installCta}
         </a>
         {helpPopover}
-        {inlineMessage ? (
-          <span className={inlineMessageClass} role="status" aria-live="polite">
-            {inlineMessage}
-          </span>
-        ) : null}
       </span>
     );
   }
@@ -317,11 +304,6 @@ export default function InstallAppLink({
         {installCta}
       </a>
       {helpPopover}
-      {inlineMessage ? (
-        <p className={inlineMessageClass} role="status" aria-live="polite">
-          {inlineMessage}
-        </p>
-      ) : null}
     </li>
   );
 }

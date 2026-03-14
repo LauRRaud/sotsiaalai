@@ -328,11 +328,15 @@ function SubscriptionDockIcon({
   isHovered: _isHovered,
   ...props
 }) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props} shapeRendering="geometricPrecision">
-      <rect x="4.3" y="4.8" width="15.4" height="14.4" rx="2.6" />
-      <path d="M6.7 9.5h10.6" />
-      <path d="M9 14.2l2.1 2.4 4.1-4.6" />
-    </svg>;
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props} shapeRendering="geometricPrecision">
+        <rect x="3.85" y="4.8" width="16.3" height="14.4" rx="2.6" strokeWidth="1.5" />
+        <path
+          d="M14.7 9.28a3.46 3.46 0 0 0-1.7-.43c-1.8 0-3.16 1.19-3.53 2.99a5.2 5.2 0 0 0-.1 1.03c0 .35.03.69.1 1.03.37 1.8 1.73 2.99 3.53 2.99.64 0 1.22-.15 1.7-.43"
+          strokeWidth="1.34"
+        />
+        <path d="M8.8 11.98h5.1" strokeWidth="1.34" />
+        <path d="M8.8 14.02h4.72" strokeWidth="1.34" />
+      </svg>;
 }
 function DeleteDockIcon({
   isHovered: _isHovered,

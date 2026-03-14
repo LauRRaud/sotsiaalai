@@ -15,13 +15,13 @@ import {
 import RagAdminClient from "./RagAdminClient";
 const shellClassName =
   "documents-panel documents-panel--primary mx-auto my-[clamp(1.1rem,3vw,2.2rem)] flex w-full max-w-[60rem] flex-col gap-2 rounded-[1.5rem] border px-[clamp(1rem,2.1vw,1.7rem)] pt-[clamp(0.75rem,2vw,1.1rem)] pb-[clamp(0.6rem,1.8vw,1rem)] text-[1.05rem] text-[color:var(--admin-text)] max-md:w-full max-md:max-w-none max-md:my-0 max-md:rounded-none max-md:border-x-0 max-md:px-[clamp(0.85rem,3.8vw,1.3rem)] max-md:pt-[calc(env(safe-area-inset-top,0px)+2.3rem)] max-md:pb-[calc(env(safe-area-inset-bottom,0px)+1rem)]";
-const pageHeaderClassName = "relative flex min-h-[5rem] items-start justify-center pt-[0.1rem] text-center max-[768px]:min-h-0 max-[768px]:pt-0";
+const pageHeaderClassName =
+  "invite-modal-title-wrap relative mb-[0.35rem] flex min-h-[5rem] items-start justify-center gap-[0.75rem] text-center max-[768px]:min-h-0";
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const headingClassName =
-  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
-  `!mt-0 !mb-0 !px-0 !text-center !whitespace-normal !text-[clamp(1.72rem,2.9vw,2.35rem)] !tracking-[0.03em] ` +
-  `max-[768px]:!text-[clamp(1.92rem,8vw,2.6rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
+  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
+  `${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const guideCardClassName = "documents-subpanel relative overflow-hidden rounded-[1rem] p-[clamp(0.85rem,2.2vw,1.05rem)] text-[color:var(--admin-text)]";
 const guideTitleClassName = "m-0 text-[1.06rem] font-[650] tracking-[0.01em]";
 const guideListClassName = "m-[0.45rem_0_0] grid gap-[0.35rem] pl-[1.1rem] text-[0.94rem] text-[color:var(--admin-muted)] leading-[1.35]";

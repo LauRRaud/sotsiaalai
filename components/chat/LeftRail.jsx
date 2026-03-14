@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import BackIcon from "@/components/ui/icons/BackIcon";
-import { ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
+import { ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
@@ -100,6 +100,7 @@ export default function LeftRail({
   const mobileItems = useMemo(
     () => [
       { key: "chats", label: t("nav.chats") },
+      { key: "rooms", label: t("nav.rooms") },
       { key: "sources", label: sourcesLabel },
       {
         key: "help_requests",
@@ -116,6 +117,7 @@ export default function LeftRail({
     () => [
       { key: "back", label: t("chat.back_to_home") },
       { key: "chats", label: t("nav.chats") },
+      { key: "rooms", label: t("nav.rooms") },
       { key: "help_requests", label: t("chat.help.helpRequests") },
       { key: "help_offers", label: t("chat.help.helpOffers") },
       { key: "sources", label: t("nav.sources") }
@@ -431,6 +433,10 @@ export default function LeftRail({
     [embedded, locale, normalizedPathname, router]
   );
 
+  const openRooms = useCallback(() => {
+    pushWithTransition(router, localizePath("/ruum", locale));
+  }, [locale, router]);
+
   const openHelpRequestsPanel = useCallback(() => {
     runWithTransition(() => {
       onShowHelpRequests?.();
@@ -508,6 +514,10 @@ export default function LeftRail({
                 toggleSourcesPanel();
                 return;
               }
+              if (item.key === "rooms") {
+                openRooms();
+                return;
+              }
               if (item.key === "help_requests") {
                 openHelpRequestsPanel();
                 return;
@@ -564,6 +574,12 @@ export default function LeftRail({
                   <SourcesIcon
                     isLightTheme={isLightTheme}
                     className={cn(styles.iconSvg, styles.iconSvgSources)}
+                  />
+                ) : null}
+                {item.key === "rooms" ? (
+                  <RoomsIcon
+                    isLightTheme={isLightTheme}
+                    className={cn(styles.iconSvg, styles.iconRooms)}
                   />
                 ) : null}
                 {item.key === "help_requests" ? (
@@ -642,6 +658,7 @@ export default function LeftRail({
                 (activeIndex === items.length - 1 && slotOffset === -2))
                 ? 2.2 * railProfileScale
                 : 0;
+            const outerSlotDistanceFactor = Math.abs(slotOffset) === 2 ? 0.94 : 1;
             const offsetX =
               baseCurvePx * curveNorm * curveNorm +
               edgeSafetyPx *
@@ -653,11 +670,6 @@ export default function LeftRail({
               centerOutwardPx -
               adjacentEdgeOutwardPx -
               farEdgeOutwardPx;
-            const edgeOuterYFactor = (() => {
-              const atTopEdge = activeIndex === 0 && slotOffset === 2;
-              const atBottomEdge = activeIndex === items.length - 1 && slotOffset === -2;
-              return atTopEdge || atBottomEdge ? 0.9 : 1;
-            })();
             const norm = Math.min(Math.abs(slotOffset) / 2, 1);
             const scale = 0.88 + (1 - norm) * 0.36;
             const opacity = slotOffset === 0 ? 1 : 0.32 + (1 - norm) * 0.48;
@@ -676,6 +688,10 @@ export default function LeftRail({
               if (item.key === "sources") {
                 if (!hasConversationSources) return;
                 toggleSourcesPanel();
+                return;
+              }
+              if (item.key === "rooms") {
+                openRooms();
                 return;
               }
               if (item.key === "help_requests") {
@@ -725,7 +741,7 @@ export default function LeftRail({
                 style={{
                   transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(
                     2
-                  )}px) translateY(${(offsetY * edgeOuterYFactor).toFixed(2)}px) scale(${scale.toFixed(3)})`,
+                  )}px) translateY(${(offsetY * outerSlotDistanceFactor).toFixed(2)}px) scale(${scale.toFixed(3)})`,
                   opacity: opacity.toFixed(3),
                   zIndex
                 }}
@@ -765,6 +781,12 @@ export default function LeftRail({
                   <SourcesIcon
                     isLightTheme={isLightTheme}
                     className={cn(styles.iconSvg, styles.iconSvgSources)}
+                  />
+                ) : null}
+                {item.key === "rooms" ? (
+                  <RoomsIcon
+                    isLightTheme={isLightTheme}
+                    className={cn(styles.iconSvg, styles.iconRooms)}
                   />
                 ) : null}
                 {item.key === "help_requests" ? (

@@ -24,20 +24,17 @@ const pageClassName =
   "[--admin-success:var(--documents-success-text)] [--admin-danger:var(--documents-error-text)] [--rag-text:var(--documents-page-text)]";
 const pageHeaderClassName =
   "relative w-full min-w-0 max-w-full overflow-visible rounded-[1.1rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
-  "bg-[radial-gradient(circle_at_top,rgba(244,179,107,0.16),transparent_38%),linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] " +
-  "px-[clamp(0.9rem,2.2vw,1.15rem)] py-[clamp(0.9rem,2vw,1.05rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
-  "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_85%_18%,rgba(58,182,167,0.12),transparent_28%)] before:opacity-95";
+  "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
+  "px-[clamp(0.9rem,2.2vw,1.15rem)] py-[clamp(0.9rem,2vw,1.05rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))]";
 const pageHeaderSurfaceClassName = "relative z-[1] grid gap-3 min-w-0";
 const pageHeaderMainClassName =
-  "relative flex w-full min-w-0 items-start justify-center pt-[0.05rem] text-center";
-const pageHeaderTitleWrapClassName = "grid min-w-0 flex-1 justify-items-center gap-[0.45rem] text-center";
+  "invite-modal-title-wrap relative flex w-full min-w-0 items-start justify-center gap-[0.75rem] text-center";
+const pageHeaderTitleWrapClassName = "grid min-w-0 w-full justify-items-center gap-[0.45rem] text-center";
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const pageTitleClassName =
-  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
-  `!mt-0 !mb-0 !px-0 !text-center !whitespace-normal !text-[clamp(1.72rem,2.9vw,2.35rem)] ` +
-  `!tracking-[0.03em] !leading-[1.08] !break-words [text-wrap:balance] ` +
-  `max-[768px]:!text-[clamp(1.92rem,8vw,2.6rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
+  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
+  `${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const pageHeaderSubtitleClassName = "max-w-[68ch] text-[0.92rem] leading-[1.5] text-[color:var(--admin-muted)] [text-wrap:pretty] max-[768px]:text-[0.92rem]";
 const pageHeaderMetaRowClassName = "flex w-full min-w-0 flex-col items-center gap-3";
 const pageHeaderMetaClassName = "flex min-w-0 max-w-full flex-wrap items-center justify-center gap-2";
@@ -156,7 +153,7 @@ const mobileFieldGridClassName = "grid gap-2 sm:grid-cols-2";
 const mobileFieldClassName = "grid gap-[0.35rem]";
 const mobileFieldLabelClassName = "text-[0.68rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
 const mobileFieldValueClassName = "text-[0.92rem] leading-[1.45] break-words text-[color:var(--admin-text)]";
-const checkboxClassName = "h-4 w-4 accent-[color:var(--admin-accent)]";
+const checkboxClassName = "ui-checkbox-glass";
 
 const EVENT_OPTIONS = [
   { value: "chat_request", labelKey: "admin.analytics.events.chat_request" },

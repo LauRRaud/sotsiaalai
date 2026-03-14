@@ -687,10 +687,7 @@
 }
 
 .documents-checkbox {
-  width: 1.02rem;
-  height: 1.02rem;
   margin: 0;
-  accent-color: var(--documents-accent);
 }
 
 .documents-row-help {

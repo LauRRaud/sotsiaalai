@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { createPortal } from "react-dom";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { AddPersonIcon, ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, MaterialsIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
+import { AddPersonIcon, ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, MaterialsIcon, ProfileIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
@@ -284,14 +284,6 @@ export default function RightRail({
     pushWithTransition(router, localizePath("/vestlus", locale));
   };
 
-  const openRooms = () => {
-    pushWithTransition(router, localizePath("/ruum", locale), {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  };
-
   const openInvite = () => {
     runWithTransition(() => {
       try {
@@ -340,9 +332,6 @@ export default function RightRail({
       key: "profile",
       label: t("nav.profile")
     }, {
-      key: "rooms",
-      label: t("nav.rooms")
-    }, {
       key: "invite",
       label: t("nav.add_person")
     }, {
@@ -365,9 +354,6 @@ export default function RightRail({
       key: "profile",
       label: t("nav.profile")
     }, {
-      key: "rooms",
-      label: t("nav.rooms")
-    }, {
       key: "invite",
       label: t("nav.add_person")
     }];
@@ -375,7 +361,7 @@ export default function RightRail({
   const items = viewportIsMobile ? mobileItems : desktopItems;
 
   const mobileSlots = useMemo(() => {
-    const order = ["materials", "profile", "rooms", "invite"];
+    const order = ["materials", "profile", "invite"];
     return order.map(key => {
       const itemIndex = mobileItems.findIndex(item => item.key === key);
       if (itemIndex < 0) return null;
@@ -399,12 +385,10 @@ export default function RightRail({
     const idx = (() => {
       if (!viewportIsMobile) {
         if (normalizedPathname.startsWith("/profiil")) return 0;
-        if (normalizedPathname.startsWith("/ruum")) return 1;
         return 0;
       }
       if (!normalizedPathname) return 1;
       if (normalizedPathname.startsWith("/profiil")) return 1;
-      if (normalizedPathname.startsWith("/ruum")) return 2;
       if (normalizedPathname.startsWith("/vestlus")) return 1;
       return 1;
     })();
@@ -614,14 +598,9 @@ export default function RightRail({
         const centerOutwardPx = !viewportIsMobile && !inputFocused && slotOffset === 0 ? 7.4 * railProfileScale : 0;
         const adjacentEdgeOutwardPx = !viewportIsMobile && !inputFocused && ((activeIndex === 0 && slotOffset === 1) || (activeIndex === items.length - 1 && slotOffset === -1)) ? 3.2 * railProfileScale : 0;
         const farEdgeOutwardPx = !viewportIsMobile && !inputFocused && ((activeIndex === 0 && slotOffset === 2) || (activeIndex === items.length - 1 && slotOffset === -2)) ? 2.2 * railProfileScale : 0;
+        const outerSlotDistanceFactor = Math.abs(slotOffset) === 2 ? 0.94 : 1;
         const offsetX = -baseCurvePx * curveNorm * curveNorm - edgeSafetyPx * curveNorm * curveNorm * curveNorm * curveNorm - inwardSkewPx + centerOutwardPx + adjacentEdgeOutwardPx + farEdgeOutwardPx;
-        const edgeOuterYFactor = (() => {
-          if (viewportIsMobile) return 1;
-          const atTopEdge = activeIndex === 0 && slotOffset === 2;
-          const atBottomEdge = activeIndex === items.length - 1 && slotOffset === -2;
-          return atTopEdge || atBottomEdge ? 0.9 : 1;
-        })();
-        const offsetY = slotOffset * stepPx * edgeOuterYFactor;
+        const offsetY = slotOffset * stepPx * outerSlotDistanceFactor;
         const norm = Math.min(Math.abs(slotOffset) / 2, 1);
         const scale = 0.88 + (1 - norm) * 0.36;
         const opacity = slotOffset === 0 ? 1 : 0.32 + (1 - norm) * 0.48;
@@ -681,10 +660,6 @@ export default function RightRail({
             openChatsDrawer(event);
             return;
           }
-          if (it.key === "rooms") {
-            openRooms();
-            return;
-          }
           if (it.key === "invite") {
             openInvite();
             return;
@@ -734,7 +709,7 @@ export default function RightRail({
         clearArmed();
         performActivate(event);
       } : undefined} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
-              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "materials" ? <MaterialsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconMaterials)} /> : it?.key === "my_help_requests" ? <HelpRequestIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : it?.key === "my_help_offers" ? <HelpOfferIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : null}
+              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "materials" ? <MaterialsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconMaterials)} /> : it?.key === "my_help_requests" ? <HelpRequestIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : it?.key === "my_help_offers" ? <HelpOfferIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {displayLabel}
               </span>

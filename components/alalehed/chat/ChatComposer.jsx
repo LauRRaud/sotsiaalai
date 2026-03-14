@@ -389,6 +389,8 @@ export default function ChatComposer({
               <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
                 <path d="M8 3h8l5 5v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M16 3v5h5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M10.1 10.15a2.05 2.05 0 1 1 3 .98c-.95.48-1.48 1.08-1.48 1.98v.42" stroke={iconStroke} strokeWidth={1.65} strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M11.62 16.32h.01" stroke={iconStroke} strokeWidth={2.05} strokeLinecap="round" />
               </svg>
             </span>
             <span>{t("chat.tools.document_analysis")}</span>

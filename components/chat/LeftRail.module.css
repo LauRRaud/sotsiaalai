@@ -116,9 +116,9 @@
 }
 
 .iconBtn:hover img:not(.iconBack),
-.iconBtn:hover svg:not(.iconBack):not(.iconSvgSources),
+.iconBtn:hover svg:not(.iconBack):not(.iconSvgSources):not(.iconRooms),
 .iconBtn:focus-visible img:not(.iconBack),
-.iconBtn:focus-visible svg:not(.iconBack):not(.iconSvgSources) {
+.iconBtn:focus-visible svg:not(.iconBack):not(.iconSvgSources):not(.iconRooms) {
   transform: none !important;
   filter: none !important;
 }
@@ -134,9 +134,15 @@
   height: calc(100% * (var(--rail-icon-scale) - 0.04));
 }
 
+.iconRooms {
+  width: calc(100% * (var(--rail-icon-scale) - 0.03));
+  height: calc(100% * (var(--rail-icon-scale) - 0.03));
+  transform: translateY(-0.04rem);
+}
+
 .iconHelp {
-  width: calc(100% * (var(--rail-icon-scale) + 0.09));
-  height: calc(100% * (var(--rail-icon-scale) + 0.09));
+  width: calc(100% * (var(--rail-icon-scale) + 0.03));
+  height: calc(100% * (var(--rail-icon-scale) + 0.03));
 }
 
 .iconSvgSources {
@@ -152,6 +158,11 @@
 .iconBtn:active .iconSvgSources {
   transform: translateY(-0.12rem) !important;
   transition: none !important;
+}
+
+.iconBtn:hover .iconRooms,
+.iconBtn:focus-visible .iconRooms {
+  transform: translateY(-0.04rem) !important;
 }
 
 .iconBack {
@@ -334,6 +345,7 @@
     --chat-mobile-icon-box: calc(var(--rail-item-size) * 0.82);
     --chat-mobile-icon-scale-default: 0.92;
     --chat-mobile-icon-scale-chat: 0.88;
+    --chat-mobile-icon-scale-rooms: 0.94;
     --chat-mobile-icon-scale-sources: 0.8;
     --chat-mobile-icon-scale-help: 0.96;
     position: relative !important;
@@ -380,6 +392,7 @@
 
   .iconSvg,
   .iconChats,
+  .iconRooms,
   .iconHelp,
   .iconSvgSources {
     width: var(--chat-mobile-icon-box) !important;
@@ -391,6 +404,10 @@
 
   .iconChats {
     transform: scale(var(--chat-mobile-icon-scale-chat)) translateY(0) !important;
+  }
+
+  .iconRooms {
+    transform: scale(var(--chat-mobile-icon-scale-rooms)) translateY(0) !important;
   }
 
   .iconSvgSources {
