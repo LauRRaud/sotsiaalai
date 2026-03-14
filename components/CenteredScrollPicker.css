@@ -55,6 +55,37 @@
   scroll-behavior: auto;
 }
 
+.register-scroll.csp-container {
+  --register-scroll-fade-top: clamp(2.15rem, 5.5vh, 3.35rem);
+  --register-scroll-fade-bottom: clamp(2.45rem, 6.2vh, 3.8rem);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.22) calc(var(--register-scroll-fade-top) * 0.34),
+    rgba(0, 0, 0, 0.76) calc(var(--register-scroll-fade-top) * 0.72),
+    #000 var(--register-scroll-fade-top),
+    #000 calc(100% - var(--register-scroll-fade-bottom)),
+    rgba(0, 0, 0, 0.82) calc(100% - (var(--register-scroll-fade-bottom) * 0.62)),
+    rgba(0, 0, 0, 0.38) calc(100% - (var(--register-scroll-fade-bottom) * 0.2)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.22) calc(var(--register-scroll-fade-top) * 0.34),
+    rgba(0, 0, 0, 0.76) calc(var(--register-scroll-fade-top) * 0.72),
+    #000 var(--register-scroll-fade-top),
+    #000 calc(100% - var(--register-scroll-fade-bottom)),
+    rgba(0, 0, 0, 0.82) calc(100% - (var(--register-scroll-fade-bottom) * 0.62)),
+    rgba(0, 0, 0, 0.38) calc(100% - (var(--register-scroll-fade-bottom) * 0.2)),
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
 .register-scroll.csp-container .csp-item,
 .rooms-scroll.csp-container .csp-item {
   scroll-snap-align: center;
@@ -222,5 +253,12 @@
   .csp-chevron-icon {
     animation: none !important;
     opacity: 0.6;
+  }
+}
+
+@media (max-width: 768px) {
+  .register-scroll.csp-container {
+    --register-scroll-fade-top: clamp(2.6rem, 7.2vh, 3.85rem);
+    --register-scroll-fade-bottom: clamp(2.95rem, 8vh, 4.2rem);
   }
 }
