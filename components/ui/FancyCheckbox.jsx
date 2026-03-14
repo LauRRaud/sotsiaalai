@@ -139,6 +139,12 @@ const Label = styled.label`
     box-shadow: none;
   }
 
+  &.login-otp-remember .box {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+
   @media (max-width: 768px) {
     &.fancy-checkbox--otp {
       width: 100%;
