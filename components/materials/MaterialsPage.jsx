@@ -21,6 +21,12 @@ const materialsPanelSurfaceClassName =
   "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937]"
 const materialsPanelShadowClassName =
   "shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:shadow-[var(--input-shadow)]"
+const materialsPrimaryButtonClassName =
+  "whitespace-normal text-center leading-[1.2] !px-[1.6rem] !py-[1.05rem] !text-[1.18rem] " +
+  "!min-h-[3.2rem] max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]"
+const materialsSecondaryButtonClassName =
+  "whitespace-normal text-center leading-[1.2] !px-[1.2rem] !py-[0.72rem] !text-[1rem] !min-h-[2.7rem] " +
+  "max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.35rem] max-[768px]:!text-[1.08rem]"
 
 function formatFileSize(size) {
   const value = Number(size || 0)
@@ -240,7 +246,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
             <Button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="materials-upload-choose-button !mx-auto !inline-flex !h-[2.9rem] !w-fit !min-w-0 !max-w-none shrink-0 self-center [background:var(--btn-primary-bg)] shadow-[var(--btn-primary-shadow)] !px-[1rem] !py-0 !text-[1.1rem] !leading-none"
+              className={`materials-upload-choose-button !mx-auto !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center ${materialsPrimaryButtonClassName}`}
             >
               {files.length === 1 ? (
                 <span className="block max-w-full truncate text-[0.94rem] leading-none">{files[0].name}</span>
@@ -281,7 +287,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               <Button
                 type="submit"
                 disabled={!files.length || submitting}
-                className="materials-upload-submit-button !mx-auto !min-h-[3.05rem] !min-w-[9.6rem] !px-[1rem] !py-[0.76rem] !text-[1.02rem] !tracking-[0.03rem]"
+                className={`materials-upload-submit-button !mx-auto !min-w-[10.2rem] ${materialsPrimaryButtonClassName}`}
               >
                 {submitting ? t("materials_page.submitting") : t("materials_page.submit")}
               </Button>
@@ -299,7 +305,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                   variant="primary"
                   onClick={() => void refreshItems()}
                   disabled={loadingItems}
-                  className="!min-h-[2.3rem] !px-[0.98rem] !py-[0.28rem] !text-[1rem] !tracking-[0.026em]"
+                  className={materialsSecondaryButtonClassName}
                 >
                   {t("materials_page.admin.refresh")}
                 </Button>
@@ -341,14 +347,14 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                         <Button
                           as="a"
                           href={`/api/materials/${encodeURIComponent(item.id)}/download`}
-                          className="!min-h-[2.3rem] !px-[0.9rem] !py-[0.4rem] !text-[0.96rem]"
+                          className={materialsSecondaryButtonClassName}
                         >
                           {t("materials_page.admin.download")}
                         </Button>
                         <Button
                           variant="danger"
                           onClick={() => void handleDelete(item.id)}
-                          className="!min-h-[2.3rem] !px-[0.9rem] !py-[0.4rem] !text-[0.96rem]"
+                          className={materialsSecondaryButtonClassName}
                         >
                           {t("materials_page.admin.delete")}
                         </Button>

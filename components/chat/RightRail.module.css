@@ -172,8 +172,8 @@
 }
 
 .iconHelp {
-  width: calc(100% * (var(--rail-icon-scale) + 0.17));
-  height: calc(100% * (var(--rail-icon-scale) + 0.17));
+  width: calc(100% * (var(--rail-icon-scale) + 0.03));
+  height: calc(100% * (var(--rail-icon-scale) + 0.03));
 }
 
 .iconSvgSources {
@@ -398,7 +398,7 @@
     --chat-mobile-icon-scale-profile: 0.92;
     --chat-mobile-icon-scale-rooms: 0.94;
     --chat-mobile-icon-scale-invite: 0.94;
-    --chat-mobile-icon-scale-help: 1.1;
+    --chat-mobile-icon-scale-help: 0.94;
   }
 
   .avatar {

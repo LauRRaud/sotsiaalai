@@ -150,7 +150,7 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
         vectorEffect="non-scaling-stroke"
       />
       <path
-        d="M12.7 9.55v6.1"
+        d="M12.7 15.65V9.7"
         stroke={stroke}
         strokeWidth="2.4"
         strokeLinecap="round"
@@ -158,7 +158,7 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
         vectorEffect="non-scaling-stroke"
       />
       <path
-        d="m10.1 12.25 2.6-2.7 2.6 2.7"
+        d="M10.15 12.2l2.55-2.55 2.55 2.55"
         stroke={stroke}
         strokeWidth="2.4"
         strokeLinecap="round"
@@ -245,40 +245,28 @@ export function HelpRequestIcon({ isLightTheme = false, className, ...props }) {
   const stroke = resolveThemeColor(isLightTheme);
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 0 24 25.2"
       fill="none"
       aria-hidden="true"
       focusable="false"
       className={cn(className)}
       {...props}
     >
-      <rect
-        x="4.75"
-        y="4.5"
-        width="14.5"
-        height="15"
-        rx="3.2"
-        stroke={stroke}
-        strokeWidth="1.5"
-      />
       <path
-        d="M8.15 8.95H15.85"
+        d="M12 23.45c-1.05 0-2.17-.56-2.92-1.45C5.4 17.63 3 13.13 3 10c0-4.96 4.04-9 9-9s9 4.04 9 9c0 3.13-2.4 7.63-6.08 12-.75.89-1.87 1.45-2.92 1.45Z"
         stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
-        d="M8.15 12.05H14.25"
+        d="M10.25 8.55a2.25 2.25 0 1 1 3.3 1.98c-1.03.54-1.55 1.18-1.55 2.22v.48"
         stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <path
-        d="M8.15 15.15H12.95"
-        stroke={stroke}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
+      <path d="M12 16.45h.01" stroke={stroke} strokeWidth="2.1" strokeLinecap="round" />
     </svg>
   );
 }
@@ -287,30 +275,28 @@ export function HelpOfferIcon({ isLightTheme = false, className, ...props }) {
   const stroke = resolveThemeColor(isLightTheme);
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 0 24 25.2"
       fill="none"
       aria-hidden="true"
       focusable="false"
       className={cn(className)}
       {...props}
     >
-      <rect
-        x="4.75"
-        y="4.5"
-        width="14.5"
-        height="15"
-        rx="3.2"
+      <path
+        d="M12 23.45c-1.05 0-2.17-.56-2.92-1.45C5.4 17.63 3 13.13 3 10c0-4.96 4.04-9 9-9s9 4.04 9 9c0 3.13-2.4 7.63-6.08 12-.75.89-1.87 1.45-2.92 1.45Z"
         stroke={stroke}
         strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
-        d="M8.1 12H15.9"
+        d="M12 6.95v6.7"
         stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
       />
       <path
-        d="M12 8.1V15.9"
+        d="M8.65 10.3h6.7"
         stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
