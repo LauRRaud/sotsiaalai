@@ -362,13 +362,13 @@ export default function ChatComposer({
   const toolItemBaseClassName =
     "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
     "text-[1.12rem] leading-[1.2] tracking-[0.01em] transition-colors duration-150 " +
-    "rounded-[0.5rem] flex items-center gap-[0.54rem] " +
+    "rounded-[0.5rem] flex items-center gap-[0.28rem] " +
     "hover:bg-[rgba(255,255,255,0.08)] focus-visible:bg-[rgba(255,255,255,0.08)] " +
     "light:hover:bg-[rgba(122,58,56,0.1)] light:focus-visible:bg-[rgba(122,58,56,0.1)]";
-  const toolIconSlotClassName = "inline-flex h-[1.9rem] w-[1.9rem] shrink-0 items-center justify-center";
-  const baseToolIconSize = 23;
-  const deepResearchToolIconSize = 26;
-  const agentToolIconSize = 27;
+  const toolIconSlotClassName = "inline-flex h-[2.2rem] w-[1.85rem] shrink-0 items-center justify-center";
+  const baseToolIconSize = 27;
+  const deepResearchToolIconSize = 30;
+  const agentToolIconSize = 31;
   const toolIconStrokeWidth = 1.8;
   const agentToolStrokeWidth = 1.6;
   const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";

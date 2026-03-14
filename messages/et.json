@@ -1413,7 +1413,21 @@
     "cta_desktop": "Paigalda arvutisse",
     "instructions": {
       "ios": "Vajuta \"Jaga\" ja seejärel \"Vaata veel\". Ekraanile lisamiseks vajuta.",
-      "android": "Android: Ava brauseri menüü ja vali \"Add to Home screen\".",
+      "ios_steps": {
+        "step_1_prefix": "Vajuta",
+        "step_2_prefix": "Vali",
+        "step_3_prefix": "Vajuta",
+        "share_label": "Jaga",
+        "more_label": "Vaata veel",
+        "add_home_label": "Lisa avakuvale"
+      },
+      "android": "Vajuta brauseri menüüd ja vali \"Lisa avakuvale\".",
+      "android_steps": {
+        "step_1_prefix": "Vajuta",
+        "step_2_prefix": "Vali",
+        "menu_label": "Brauseri menüü",
+        "add_home_label": "Lisa avakuvale"
+      },
       "desktop": "Ava brauseri menüü ja vali paigaldamine.",
       "mac": "Mac: Ava Safari ja vali menüüst File → Add to Dock…"
     }

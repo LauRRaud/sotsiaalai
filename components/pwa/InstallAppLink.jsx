@@ -76,29 +76,43 @@ export default function InstallAppLink({
   const installCtaMobile = t("pwa.cta_mobile");
   const installCtaDesktop = t("pwa.cta_desktop");
   const iosHint = t("pwa.instructions.ios");
-  const androidHint = t(
-    "pwa.instructions.android",
-    'Android: ava brauseri menyy ja vali "Add to Home screen".'
-  );
+  const androidHint = t("pwa.instructions.android");
   const macHint = t("pwa.instructions.mac");
   const desktopHint = t("pwa.instructions.desktop");
   const helpPopoverClassName =
     "absolute left-1/2 top-[calc(100%+0.62rem)] z-[40] w-[min(19.6rem,calc(100vw-1.6rem))] -translate-x-1/2 rounded-[16px] " +
     "border-0 px-[1rem] pt-[0.78rem] pb-[0.74rem] shadow-[var(--home-panel-shadow)] " +
-    "bg-[rgba(10,14,24,0.72)] text-[#f3eee8] backdrop-blur-0 [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
-    "[.theme-night_&]:bg-[rgba(10,14,24,0.72)] [.theme-night_&]:text-[#eef4ff] " +
-    "[.theme-dark_&]:bg-[rgba(10,14,24,0.72)] [.theme-dark_&]:text-[#f3eee8] " +
-    "[.theme-mid_&]:bg-[rgba(252,248,247,0.8)] [.theme-mid_&]:text-[#4a3833] [.theme-mid_&]:shadow-[var(--home-panel-shadow)] " +
-    "[.theme-light:not(.theme-mid)_&]:bg-[rgba(247,247,246,0.82)] [.theme-light:not(.theme-mid)_&]:text-[#111827] [.theme-light:not(.theme-mid)_&]:shadow-[var(--home-panel-shadow)]";
+    "bg-[rgba(10,14,24,0.84)] text-[#f3eee8] backdrop-blur-0 [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
+    "[.theme-night_&]:bg-[rgba(10,14,24,0.86)] [.theme-night_&]:text-[#eef4ff] " +
+    "[.theme-dark_&]:bg-[rgba(10,14,24,0.84)] [.theme-dark_&]:text-[#f3eee8] " +
+    "[.theme-mid_&]:bg-[rgba(252,248,247,0.92)] [.theme-mid_&]:text-[#4a3833] [.theme-mid_&]:shadow-[var(--home-panel-shadow)] " +
+    "[.theme-light:not(.theme-mid)_&]:bg-[rgba(247,247,246,0.94)] [.theme-light:not(.theme-mid)_&]:text-[#111827] [.theme-light:not(.theme-mid)_&]:shadow-[var(--home-panel-shadow)]";
   const desktopHintNode = <span>{isMacSafari ? macHint : desktopHint}</span>;
 
-  const mobileHintNodeEt = (
-    <span>
-      Vajuta &quot;Jaga <ShareIcon />&quot;, siis &quot;Vaata veel <MoreIcon />&quot;, ja lõpuks
-      {" "}&quot;Ekraanile lisamiseks <AddToHomeIcon />&quot;.
-    </span>
-  );
-  const mobileHintNode = locale === "et" ? mobileHintNodeEt : iosHint;
+  const iosHintNode = locale === "et" ? (
+    <ol className="m-0 list-decimal pl-[1.15rem] space-y-[0.2rem]">
+      <li>
+        {t("pwa.instructions.ios_steps.step_1_prefix")} &quot;{t("pwa.instructions.ios_steps.share_label")} {" "}<ShareIcon />&quot;
+      </li>
+      <li>
+        {t("pwa.instructions.ios_steps.step_2_prefix")} &quot;{t("pwa.instructions.ios_steps.more_label")} {" "}<MoreIcon />&quot;
+      </li>
+      <li>
+        {t("pwa.instructions.ios_steps.step_3_prefix")} &quot;{t("pwa.instructions.ios_steps.add_home_label")} {" "}<AddToHomeIcon />&quot;
+      </li>
+    </ol>
+  ) : iosHint;
+  const androidHintNode = locale === "et" ? (
+    <ol className="m-0 list-decimal pl-[1.15rem] space-y-[0.2rem]">
+      <li>
+        {t("pwa.instructions.android_steps.step_1_prefix")} &quot;{t("pwa.instructions.android_steps.menu_label")}&quot;
+      </li>
+      <li>
+        {t("pwa.instructions.android_steps.step_2_prefix")} &quot;{t("pwa.instructions.android_steps.add_home_label")} {" "}<AddToHomeIcon />&quot;
+      </li>
+    </ol>
+  ) : androidHint;
+  const mobileHintNode = isIOS ? iosHintNode : androidHintNode;
 
   useEffect(() => {
     if (!inlineMessage) return;
@@ -238,6 +252,9 @@ export default function InstallAppLink({
   );
 
   if (isStandalone) return null;
+
+  const shouldHideDesktopInstall = !isMobileViewport && !isIOS && !canInstall;
+  if (shouldHideDesktopInstall) return null;
 
   const installCta =
     isMobileViewport || isIOS ? installCtaMobile : installCtaDesktop;

@@ -1412,8 +1412,22 @@
     "cta_mobile": "Install on mobile",
     "cta_desktop": "Install on desktop",
     "instructions": {
-      "ios": "iPhone/iPad: open Safari, tap Share and Add to Home Screen.",
+      "ios": "1. Tap \"Share\". 2. Choose \"More\". 3. Tap \"Add to Home Screen\".",
+      "ios_steps": {
+        "step_1_prefix": "Tap",
+        "step_2_prefix": "Choose",
+        "step_3_prefix": "Tap",
+        "share_label": "Share",
+        "more_label": "More",
+        "add_home_label": "Add to Home Screen"
+      },
       "android": "Android: open the browser menu and choose \"Add to Home screen\".",
+      "android_steps": {
+        "step_1_prefix": "Open",
+        "step_2_prefix": "Choose",
+        "menu_label": "browser menu",
+        "add_home_label": "Add to Home screen"
+      },
       "desktop": "Open the browser menu and choose install.",
       "mac": "Mac: open Safari and choose File and Add to Dock."
     }

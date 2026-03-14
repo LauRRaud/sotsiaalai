@@ -22,6 +22,7 @@ import Button from "@/components/ui/Button";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
+import EuroIcon from "@/components/ui/icons/EuroIcon";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
@@ -329,13 +330,16 @@ function SubscriptionDockIcon({
   ...props
 }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props} shapeRendering="geometricPrecision">
-        <rect x="3.85" y="4.8" width="16.3" height="14.4" rx="2.6" strokeWidth="1.5" />
-        <path
-          d="M14.7 9.28a3.46 3.46 0 0 0-1.7-.43c-1.8 0-3.16 1.19-3.53 2.99a5.2 5.2 0 0 0-.1 1.03c0 .35.03.69.1 1.03.37 1.8 1.73 2.99 3.53 2.99.64 0 1.22-.15 1.7-.43"
-          strokeWidth="1.34"
+        <rect x="3.15" y="4.8" width="17.7" height="14.4" rx="2.6" strokeWidth="1.46" />
+        <EuroIcon
+          x="6.95"
+          y="6.8"
+          width="10.2"
+          height="10.2"
+          className="text-current"
+          aria-hidden="true"
+          focusable="false"
         />
-        <path d="M8.8 11.98h5.1" strokeWidth="1.34" />
-        <path d="M8.8 14.02h4.72" strokeWidth="1.34" />
       </svg>;
 }
 function DeleteDockIcon({
