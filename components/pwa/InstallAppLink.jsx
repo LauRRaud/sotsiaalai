@@ -95,8 +95,8 @@ export default function InstallAppLink({
   const macHint = t("pwa.instructions.mac");
   const desktopHint = t("pwa.instructions.desktop");
   const helpPopoverClassName =
-    "absolute left-1/2 top-[calc(100%+0.62rem)] z-[40] w-[min(16.8rem,calc(100vw-2.4rem))] max-[480px]:w-[min(15.5rem,calc(100vw-2.8rem))] -translate-x-1/2 rounded-[16px] " +
-    "border-0 px-[0.86rem] pt-[0.78rem] pb-[0.7rem] shadow-[var(--home-panel-shadow)] " +
+    "absolute left-1/2 top-[calc(100%+0.62rem)] z-[40] w-[min(17.4rem,calc(100vw-2rem))] max-[480px]:w-[min(16.7rem,calc(100vw-2rem))] -translate-x-1/2 rounded-[16px] " +
+    "border-0 px-[0.82rem] pt-[0.78rem] pb-[0.7rem] shadow-[var(--home-panel-shadow)] " +
     "bg-[rgba(10,14,24,0.84)] text-[#f3eee8] backdrop-blur-0 [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
     "[.theme-night_&]:bg-[rgba(10,14,24,0.86)] [.theme-night_&]:text-[#eef4ff] " +
     "[.theme-dark_&]:bg-[rgba(10,14,24,0.84)] [.theme-dark_&]:text-[#f3eee8] " +
@@ -294,7 +294,7 @@ export default function InstallAppLink({
       >
         {t("symbols.times")}
       </button>
-      <div className="flex max-w-[inherit] flex-col pr-[1.55rem]">
+      <div className="flex max-w-[inherit] flex-col pr-[1.38rem]">
         <div className="mt-[0.02rem] text-left text-[0.98rem] leading-[1.34] text-inherit opacity-95">
           {isMobileViewport || isIOS ? mobileHintNode : desktopHintNode}
         </div>
