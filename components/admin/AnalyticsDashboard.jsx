@@ -10,7 +10,10 @@ import { localizePath } from "@/lib/localizePath";
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
-import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import {
+  glassPageBackTopLeftClassName,
+  glassPageTitleClassName
+} from "@/components/ui/glassPageStyles";
 
 const pageClassName =
   "flex w-full min-w-0 max-w-full flex-col gap-[clamp(1rem,2.2vw,1.45rem)] overflow-x-clip text-[color:var(--admin-text)] " +
@@ -20,15 +23,21 @@ const pageClassName =
   "[--admin-accent:var(--documents-accent)] [--admin-accent-soft:var(--documents-accent-soft)] [--admin-accent-cool:var(--documents-accent)] " +
   "[--admin-success:var(--documents-success-text)] [--admin-danger:var(--documents-error-text)] [--rag-text:var(--documents-page-text)]";
 const pageHeaderClassName =
-  "relative w-full min-w-0 max-w-full overflow-hidden rounded-[1.1rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
+  "relative w-full min-w-0 max-w-full overflow-visible rounded-[1.1rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
   "bg-[radial-gradient(circle_at_top,rgba(244,179,107,0.16),transparent_38%),linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] " +
   "px-[clamp(0.9rem,2.2vw,1.15rem)] py-[clamp(0.9rem,2vw,1.05rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
   "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_85%_18%,rgba(58,182,167,0.12),transparent_28%)] before:opacity-95";
 const pageHeaderSurfaceClassName = "relative z-[1] grid gap-3 min-w-0";
 const pageHeaderMainClassName =
-  "relative flex w-full min-w-0 items-start justify-center px-[clamp(4.8rem,9vw,6.1rem)] pt-[0.05rem] text-center max-[768px]:px-0";
+  "relative flex w-full min-w-0 items-start justify-center pt-[0.05rem] text-center";
 const pageHeaderTitleWrapClassName = "grid min-w-0 flex-1 justify-items-center gap-[0.45rem] text-center";
-const pageTitleClassName = `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal !text-[clamp(1.72rem,2.9vw,2.35rem)] !tracking-[0.03em] !leading-[1.08] !break-words [text-wrap:balance] max-[768px]:!text-[clamp(1.92rem,8vw,2.6rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
+const mobileTitleWrapClassName =
+  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+const pageTitleClassName =
+  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
+  `!mt-0 !mb-0 !px-0 !text-center !whitespace-normal !text-[clamp(1.72rem,2.9vw,2.35rem)] ` +
+  `!tracking-[0.03em] !leading-[1.08] !break-words [text-wrap:balance] ` +
+  `max-[768px]:!text-[clamp(1.92rem,8vw,2.6rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const pageHeaderSubtitleClassName = "max-w-[68ch] text-[0.92rem] leading-[1.5] text-[color:var(--admin-muted)] [text-wrap:pretty] max-[768px]:text-[0.92rem]";
 const pageHeaderMetaRowClassName = "flex w-full min-w-0 flex-col items-center gap-3";
 const pageHeaderMetaClassName = "flex min-w-0 max-w-full flex-wrap items-center justify-center gap-2";
@@ -44,7 +53,7 @@ const headerPillClassName =
 const headerPillLabelClassName = "text-[color:var(--admin-muted)]";
 const headerPillValueClassName = "text-[color:var(--admin-text)]";
 const cardClassName =
-  "relative w-full min-w-0 self-start overflow-hidden rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
+  "relative w-full min-w-0 self-start overflow-visible rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
   "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
   "p-[clamp(0.62rem,1.4vw,0.82rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
   "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
@@ -127,12 +136,12 @@ const resetActionGridClassName = "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 x
 const resetActionButtonClassName =
   `${actionButtonClassName} !w-full !justify-start !min-h-[2.38rem] !px-[1.1rem] !py-[0.56rem] !text-[0.97rem] !leading-[1.15]`;
 const backButtonClassName =
-  "absolute left-0 top-[-0.12rem] z-[2] !h-[3.6rem] !w-[3.6rem] min-[769px]:!h-[3.8rem] min-[769px]:!w-[3.8rem] [&>svg]:!h-[3.1rem] [&>svg]:!w-[3.1rem] min-[769px]:[&>svg]:!h-[3.25rem] min-[769px]:[&>svg]:!w-[3.25rem] max-[768px]:top-0 max-[768px]:left-[0.02rem]";
+  `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`;
 const metricListClassName = "grid gap-1";
 const metricRowClassName = "grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2 text-[0.86rem]";
 const summaryDeckClassName = "grid w-full items-start gap-3 2xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)]";
 const summaryPanelClassName =
-  "relative w-full min-w-0 overflow-hidden rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
+  "relative w-full min-w-0 overflow-visible rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
   "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
   "p-[clamp(0.62rem,1.4vw,0.82rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
   "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
@@ -1102,7 +1111,9 @@ export default function AnalyticsDashboard() {
               className={backButtonClassName}
             />
             <div className={pageHeaderTitleWrapClassName}>
-              <h1 className={pageTitleClassName}>{t("admin.analytics.title", "Analytics")}</h1>
+              <div className={mobileTitleWrapClassName}>
+                <h1 className={pageTitleClassName}>{t("admin.analytics.title", "Analytics")}</h1>
+              </div>
               <div className={pageHeaderSubtitleClassName}>
                 {t(
                   "admin.analytics.platform.subtitle",

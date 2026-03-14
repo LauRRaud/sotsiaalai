@@ -200,9 +200,9 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   }, [closing, resolvedLocale, router, shouldReduceMotion])
 
   return (
-    <div className="materials-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:justify-start max-[768px]:px-[0.5rem] max-[768px]:py-[0.5rem]">
+    <div className="materials-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:justify-start max-[768px]:px-[0.25rem] max-[768px]:py-[0.5rem]">
       <div
-        className={`materials-page-content invite-modal-content person-invite-modal-content relative z-[21] w-full !max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] [border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] [--input-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [--input-caret:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ${glassPageMobileCardClassName} ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
+        className={`materials-page-content invite-modal-content person-invite-modal-content relative z-[21] w-full !max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] [border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] [--input-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [--input-caret:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ${glassPageMobileCardClassName} ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
       >
         <BackButton
           onClick={handleBack}
@@ -220,7 +220,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className="mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem]">
+        <div className="mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:px-[0.2rem]">
           <div className="grid gap-[0.35rem] text-left">
             <p className="text-[1rem] leading-[1.5] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
               {t("materials_page.description")}

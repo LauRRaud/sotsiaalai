@@ -305,7 +305,7 @@
   "materials_page": {
     "title": "Materjalid",
     "back_to_profile": "Tagasi profiili",
-    "description": "Siin saad saata õppematerjale, juhendeid ja muid dokumente, mis võiksid täiendada SotsiaalAI teadmuspõhist andmebaasi. Lisa lühike selgitus, et administraator saaks materjali enne lisamist üle vaadata. Toetatud failivormingud on PDF, DOCX ja TXT ning ühe faili maksimaalne suurus on 25 MB.",
+    "description": "Siin saad saata õppematerjale, juhendeid ja muid dokumente, mis võiksid täiendada SotsiaalAI teadmuspõhist andmebaasi. Kõik saadetud failid vaadatakse enne andmebaasi lisamist üle. Toetatud failivormingud on PDF, DOCX ja TXT ning ühe faili maksimaalne suurus on 25 MB.",
     "choose_file": "Vali fail",
     "files_selected": "{count} faili valitud",
     "comment_placeholder": "Lisa lühike kirjeldus: mis fail see on ja milleks see võiks kasulik olla.",
@@ -1412,7 +1412,7 @@
     "cta_mobile": "Paigalda mobiili",
     "cta_desktop": "Paigalda arvutisse",
     "instructions": {
-      "ios": "iPhone/iPad: Ava Safari, vali Jaga (ekraani ülaservas) → Lisa avalehele.",
+      "ios": "Vajuta \"Jaga\" ja seejärel \"Vaata veel\". Ekraanile lisamiseks vajuta.",
       "android": "Android: Ava brauseri menüü ja vali \"Add to Home screen\".",
       "desktop": "Ava brauseri menüü ja vali paigaldamine.",
       "mac": "Mac: Ava Safari ja vali menüüst File → Add to Dock…"

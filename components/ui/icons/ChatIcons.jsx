@@ -158,7 +158,7 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
         vectorEffect="non-scaling-stroke"
       />
       <path
-        d="m10.1 13.15 2.6 2.7 2.6-2.7"
+        d="m10.1 12.25 2.6-2.7 2.6 2.7"
         stroke={stroke}
         strokeWidth="2.4"
         strokeLinecap="round"
