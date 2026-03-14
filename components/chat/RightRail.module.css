@@ -160,8 +160,8 @@
 }
 
 .iconMaterials {
-  width: auto;
-  height: calc(100% * (var(--rail-icon-scale) + 0.14));
+  width: calc(100% * (var(--rail-icon-scale) + 0.18));
+  height: calc(100% * (var(--rail-icon-scale) + 0.18));
   aspect-ratio: 28 / 24;
 }
 
@@ -466,6 +466,11 @@
 
   .iconInvite {
     transform: scale(var(--chat-mobile-icon-scale-invite)) translateY(0) !important;
+  }
+
+  .iconMaterials {
+    width: calc(var(--chat-mobile-icon-box) * 0.94) !important;
+    height: var(--chat-mobile-icon-box) !important;
   }
 
   .iconHelp {

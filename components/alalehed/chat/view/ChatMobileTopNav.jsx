@@ -20,12 +20,12 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 
 const MOBILE_NAV_ITEMS = [
   { key: "chats", scale: 0.96 },
-  { key: "rooms", scale: 1.02 },
   { key: "sources", scale: 0.94 },
   { key: "materials", scale: 1.24 },
   { key: "help_requests", scale: 1.0 },
   { key: "help_offers", scale: 1.0 },
   { key: "profile", scale: 1.08 },
+  { key: "rooms", scale: 1.02 },
   { key: "invite", scale: 1.1 }
 ];
 

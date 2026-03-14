@@ -189,10 +189,6 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       persistGlassRingTilt: false
     });
   };
-  const aboutTopFade = aboutFade.top ? "2.2rem" : "0px";
-  const aboutBottomFade = aboutFade.bottom ? "4.4rem" : "0px";
-  const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.14), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.34), rgba(0,0,0,0.56) calc(${aboutTopFade} * 0.58), rgba(0,0,0,0.82) calc(${aboutTopFade} * 0.82), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,0.96) calc(100% - calc(${aboutBottomFade} * 0.86)), rgba(0,0,0,0.84) calc(100% - calc(${aboutBottomFade} * 0.68)), rgba(0,0,0,0.62) calc(100% - calc(${aboutBottomFade} * 0.48)), rgba(0,0,0,0.36) calc(100% - calc(${aboutBottomFade} * 0.28)), rgba(0,0,0,0.14) calc(100% - calc(${aboutBottomFade} * 0.1)), rgba(0,0,0,0) 100%)`;
-
   return (
     <section
       id={id}
@@ -223,16 +219,14 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           <p id={aboutTextId} className="sr-only">
             {aboutA11yText}
           </p>
-          <div className="relative mx-auto w-full max-w-[54.5rem] max-[768px]:max-w-[52rem]">
+          <div className="relative mx-auto w-full max-w-[54.5rem] overflow-hidden max-[768px]:max-w-[52rem]">
             <div
               ref={aboutScrollRef}
               className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.5rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
               style={{
                 maxHeight: "min(72vh, 42rem)",
                 scrollbarWidth: "none",
-                msOverflowStyle: "none",
-                WebkitMaskImage: aboutMaskImage,
-                maskImage: aboutMaskImage
+                msOverflowStyle: "none"
               }}
             >
               {aboutParagraphs.map(({ key, value }) => (
@@ -251,6 +245,28 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                 </div>
               ))}
             </div>
+            <div
+              aria-hidden="true"
+              className={cn(
+                "pointer-events-none absolute inset-x-0 top-0 h-[2.35rem] transition-opacity duration-200",
+                aboutFade.top ? "opacity-100" : "opacity-0"
+              )}
+              style={{
+                background:
+                  "linear-gradient(to bottom, var(--home-panel-bg) 0%, color-mix(in srgb, var(--home-panel-bg) 78%, transparent 22%) 42%, transparent 100%)"
+              }}
+            />
+            <div
+              aria-hidden="true"
+              className={cn(
+                "pointer-events-none absolute inset-x-0 bottom-0 h-[4.6rem] transition-opacity duration-200",
+                aboutFade.bottom ? "opacity-100" : "opacity-0"
+              )}
+              style={{
+                background:
+                  "linear-gradient(to top, var(--home-panel-bg) 0%, color-mix(in srgb, var(--home-panel-bg) 82%, transparent 18%) 42%, transparent 100%)"
+              }}
+            />
           </div>
         </div>
         <section

@@ -351,17 +351,17 @@ export default function RightRail({
       key: "materials",
       label: t("profile.materials_cta")
     }, {
-      key: "profile",
-      label: t("nav.profile")
-    }, {
       key: "invite",
       label: t("nav.add_person")
+    }, {
+      key: "profile",
+      label: t("nav.profile")
     }];
   }, [t]);
   const items = viewportIsMobile ? mobileItems : desktopItems;
 
   const mobileSlots = useMemo(() => {
-    const order = ["materials", "profile", "invite"];
+    const order = ["materials", "invite", "profile"];
     return order.map(key => {
       const itemIndex = mobileItems.findIndex(item => item.key === key);
       if (itemIndex < 0) return null;
