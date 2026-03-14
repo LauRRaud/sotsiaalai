@@ -143,6 +143,10 @@ const Label = styled.label`
     background: transparent !important;
     border-color: transparent !important;
     box-shadow: none !important;
+    width: 1.46rem !important;
+    height: 1.46rem !important;
+    border-radius: 0 !important;
+    transform: none !important;
   }
 
   @media (max-width: 768px) {
