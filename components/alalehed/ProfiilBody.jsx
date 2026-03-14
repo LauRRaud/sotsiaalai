@@ -333,9 +333,9 @@ function SubscriptionDockIcon({
         <rect x="3.15" y="4.8" width="17.7" height="14.4" rx="2.6" strokeWidth="1.46" />
         <EuroIcon
           x="6.95"
-          y="6.8"
-          width="10.2"
-          height="10.2"
+          y="7.65"
+          width="8.7"
+          height="8.7"
           className="text-current"
           aria-hidden="true"
           focusable="false"

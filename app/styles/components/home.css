@@ -237,6 +237,21 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
 .homepage-root .home-about-scrollbox {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  background: transparent;
+  isolation: isolate;
+  contain: paint;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+.homepage-root .home-about-scrollbox > * {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .homepage-root .home-about-scrollbox::-webkit-scrollbar {

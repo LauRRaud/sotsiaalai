@@ -84,14 +84,14 @@ const tableHeadCellClassName =
 const tableCellClassName = "border-b border-[color:var(--admin-border)] px-2 py-1.75 text-left text-[0.86rem] align-top";
 const cellSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
 const toolbarPrimaryClassName =
-  "grid min-w-0 grid-cols-1 items-center gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.72rem] shadow-[var(--admin-shadow-soft)] xl:grid-cols-[minmax(0,1fr)_auto_auto]";
+  "grid min-w-0 grid-cols-1 items-center gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.72rem] shadow-[var(--admin-shadow-soft)] 2xl:grid-cols-[minmax(0,1fr)_auto_auto]";
 const logsToolbarClassName =
-  "grid min-w-0 grid-cols-1 items-center gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.72rem] shadow-[var(--admin-shadow-soft)] xl:grid-cols-[minmax(12rem,15rem)_minmax(7.5rem,8.5rem)_auto_auto] xl:justify-start";
+  "grid min-w-0 grid-cols-1 items-center gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.72rem] shadow-[var(--admin-shadow-soft)] 2xl:grid-cols-[minmax(12rem,15rem)_minmax(7.5rem,8.5rem)_auto_auto] 2xl:justify-start";
 const usersSelectBarClassName =
   "grid min-w-0 gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.8rem]";
 const usersSelectActionsClassName = "flex min-w-0 flex-wrap items-center gap-2";
 const usersSelectCountClassName =
-  "inline-flex items-center rounded-full border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] px-2.5 py-1 text-[0.82rem] text-[color:var(--admin-muted)]";
+  "inline-flex max-w-full shrink-0 items-center rounded-full border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] px-2.5 py-1 text-[0.82rem] text-[color:var(--admin-muted)]";
 const emailSendBarClassName =
   "grid gap-2 rounded-[16px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_90%,transparent),color-mix(in_srgb,var(--admin-surface-3)_92%,transparent))] p-[0.8rem]";
 const emailSendHeadClassName = "flex min-w-0 flex-wrap items-start justify-between gap-2";
@@ -143,16 +143,21 @@ const summaryPanelClassName =
   "p-[clamp(0.62rem,1.4vw,0.82rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
   "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
 const summaryPanelBodyClassName = "relative z-[1] grid min-w-0 gap-2.5";
-const mobileListClassName = "hidden max-[1180px]:grid gap-2";
+const mobileListClassName = "hidden min-w-0 max-[1180px]:grid gap-2";
 const mobileRowCardClassName =
-  "grid gap-3 rounded-[1rem] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_92%,transparent),color-mix(in_srgb,var(--admin-surface-3)_94%,transparent))] p-3 shadow-[var(--admin-shadow-soft)]";
-const mobileRowHeadClassName = "flex items-start justify-between gap-3";
-const mobileRowTitleClassName = "text-[1rem] font-semibold leading-[1.25] text-[color:var(--admin-text)]";
-const mobileRowSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
+  "grid min-w-0 max-w-full gap-3 rounded-[1rem] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_92%,transparent),color-mix(in_srgb,var(--admin-surface-3)_94%,transparent))] p-3 shadow-[var(--admin-shadow-soft)]";
+const mobileRowHeadClassName = "flex min-w-0 items-start justify-between gap-3";
+const mobileRowTitleClassName = "min-w-0 break-words text-[1rem] font-semibold leading-[1.25] text-[color:var(--admin-text)]";
+const mobileRowSubClassName = "min-w-0 break-all text-[0.82rem] text-[color:var(--admin-muted)]";
 const mobileFieldGridClassName = "grid gap-2 sm:grid-cols-2";
-const mobileFieldClassName = "grid gap-[0.35rem]";
+const mobileFieldClassName = "grid min-w-0 gap-[0.35rem]";
 const mobileFieldLabelClassName = "text-[0.68rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
-const mobileFieldValueClassName = "text-[0.92rem] leading-[1.45] break-words text-[color:var(--admin-text)]";
+const mobileFieldValueClassName = "min-w-0 max-w-full break-words text-[0.92rem] leading-[1.45] text-[color:var(--admin-text)]";
+const compactMetricGridClassName = "grid min-w-0 gap-x-3 gap-y-1.5 sm:grid-cols-2";
+const compactMetricRowClassName = "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-2";
+const compactMetricLabelClassName = "min-w-0 text-[0.82rem] leading-[1.3] text-[color:var(--admin-muted)]";
+const compactMetricValueClassName = "min-w-0 text-right text-[0.92rem] leading-[1.25] text-[color:var(--admin-text)]";
+const compactMetricLeadValueClassName = "text-[1rem] font-semibold leading-[1.15] text-[color:var(--admin-text)]";
 const checkboxClassName = "ui-checkbox-glass";
 
 const EVENT_OPTIONS = [
@@ -326,6 +331,19 @@ function MobileInfoField({ label, value, className = "", valueClassName = "" }) 
     <div className={`${mobileFieldClassName} ${className}`.trim()}>
       <div className={mobileFieldLabelClassName}>{label}</div>
       <div className={`${mobileFieldValueClassName} ${valueClassName}`.trim()}>{value}</div>
+    </div>
+  );
+}
+
+function CompactMetricGrid({ items, className = "" }) {
+  return (
+    <div className={`${compactMetricGridClassName} ${className}`.trim()}>
+      {items.map(item => (
+        <div key={item.label} className={compactMetricRowClassName}>
+          <span className={compactMetricLabelClassName}>{item.label}</span>
+          <span className={compactMetricValueClassName}>{item.value}</span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -1651,8 +1669,8 @@ export default function AnalyticsDashboard() {
           </form>
 
           <div className={usersSelectBarClassName}>
-            <div className="grid min-w-0 gap-2 xl:grid-cols-[minmax(14rem,18rem)_auto] xl:items-end">
-              <div className="grid min-w-0 gap-2 xl:max-w-[18rem]">
+            <div className="grid min-w-0 gap-2 2xl:grid-cols-[minmax(14rem,18rem)_minmax(0,1fr)] 2xl:items-end">
+              <div className="grid min-w-0 gap-2 2xl:max-w-[18rem]">
                 <label className={cellSubClassName} htmlFor="analytics-bulk-email-target">
                   {t("admin.analytics.users.actions.email_target", "Email target")}
                 </label>
@@ -1666,7 +1684,7 @@ export default function AnalyticsDashboard() {
                   disabled={sendingUsersEmail || deletingUsers}
                 />
               </div>
-              <div className={`${usersSelectActionsClassName} xl:justify-end`}>
+              <div className={`${usersSelectActionsClassName} 2xl:justify-end`}>
                 <Button
                   size="sm"
                   variant="ghost"
@@ -1923,7 +1941,7 @@ export default function AnalyticsDashboard() {
               visibleUserRows.map(row => (
                 <div key={row.userId} className={mobileRowCardClassName}>
                   <div className={mobileRowHeadClassName}>
-                    <div className="flex items-start gap-3">
+                    <div className="flex min-w-0 flex-1 items-start gap-3">
                       <input
                         type="checkbox"
                         className={checkboxClassName}
@@ -1935,7 +1953,7 @@ export default function AnalyticsDashboard() {
                           "Select user {user}"
                         )}
                       />
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <div className={mobileRowTitleClassName}>{row.email || row.userId}</div>
                         <div className={mobileRowSubClassName}>{row.userId}</div>
                       </div>
@@ -1943,11 +1961,11 @@ export default function AnalyticsDashboard() {
                     <span className={usersSelectCountClassName}>{getRoleLabel(row.role, row.isAdmin)}</span>
                   </div>
                   <div className={mobileFieldGridClassName}>
-                    <MobileInfoField
-                      label={t("admin.analytics.users.table.subscription", "Subscription")}
-                      value={
+                  <MobileInfoField
+                    label={t("admin.analytics.users.table.subscription", "Subscription")}
+                    value={
                         <>
-                          <div>{row?.subscription?.status || "-"}</div>
+                          <div className={compactMetricLeadValueClassName}>{row?.subscription?.status || "-"}</div>
                           <div className={cellSubClassName}>
                             {row?.subscription?.isActive
                               ? t("admin.analytics.users.active", "Active")
@@ -1965,51 +1983,107 @@ export default function AnalyticsDashboard() {
                   <MobileInfoField
                     label={t("admin.analytics.users.table.usage_30d", "Usage (30d)")}
                     value={
-                      <div className="grid gap-0.5">
-                        <div>{t("admin.analytics.users.usage.chat", "Chat")}: {formatCount(row?.usage?.chatRequests || 0, localeTag)}</div>
-                        <div>{t("admin.analytics.users.usage.rag", "RAG")}: {formatCount(row?.usage?.ragSearches || 0, localeTag)}</div>
-                        <div>
-                          {t("admin.analytics.users.usage.stt", "STT")}: {formatCount(row?.usage?.sttRequests || 0, localeTag)} /{" "}
-                          {formatPercent(row?.usage?.sttAudioMb || 0, localeTag, 3)} MB
-                        </div>
-                        <div>
-                          {t("admin.analytics.users.usage.tts", "TTS")}: {formatCount(row?.usage?.ttsRequests || 0, localeTag)} /{" "}
-                          {formatCount(row?.usage?.ttsChars || 0, localeTag)}
-                        </div>
-                        <div>
-                          {t("admin.analytics.users.usage.analyze", "Analyses (30d)")}: {formatCount(row?.usage?.analyses30d || 0, localeTag)}
-                        </div>
-                        <div>
-                          {t("admin.analytics.users.usage.analyze_today", "Analyses today")}: {formatCount(row?.usage?.analysesToday || 0, localeTag)}
-                        </div>
-                      </div>
+                      <CompactMetricGrid
+                        items={[
+                          {
+                            label: t("admin.analytics.users.usage.chat", "Chat"),
+                            value: formatCount(row?.usage?.chatRequests || 0, localeTag)
+                          },
+                          {
+                            label: t("admin.analytics.users.usage.rag", "RAG"),
+                            value: formatCount(row?.usage?.ragSearches || 0, localeTag)
+                          },
+                          {
+                            label: t("admin.analytics.users.usage.stt", "STT"),
+                            value: `${formatCount(row?.usage?.sttRequests || 0, localeTag)} / ${formatPercent(row?.usage?.sttAudioMb || 0, localeTag, 3)} MB`
+                          },
+                          {
+                            label: t("admin.analytics.users.usage.tts", "TTS"),
+                            value: `${formatCount(row?.usage?.ttsRequests || 0, localeTag)} / ${formatCount(row?.usage?.ttsChars || 0, localeTag)}`
+                          },
+                          {
+                            label: t("admin.analytics.users.usage.analyze", "Analyses (30d)"),
+                            value: formatCount(row?.usage?.analyses30d || 0, localeTag)
+                          },
+                          {
+                            label: t("admin.analytics.users.usage.analyze_today", "Analyses today"),
+                            value: formatCount(row?.usage?.analysesToday || 0, localeTag)
+                          }
+                        ]}
+                      />
                     }
                   />
                   <MobileInfoField
                     label={t("admin.analytics.users.table.cost_30d", "Cost estimate (30d)")}
                     value={
-                      <div className="grid gap-0.5">
-                        <div>{formatMoney(row?.costs?.totalEur || 0, "EUR", localeTag)}</div>
-                        <div>{t("admin.analytics.users.usage.chat", "Chat")}: {formatMoney(row?.costs?.chatEur || 0, "EUR", localeTag)}</div>
-                        <div>{t("admin.analytics.users.usage.rag", "RAG")}: {formatMoney(row?.costs?.ragEur || 0, "EUR", localeTag)}</div>
-                        <div>{t("admin.analytics.users.usage.stt", "STT")}: {formatMoney(row?.costs?.sttEur || 0, "EUR", localeTag)}</div>
-                        <div>{t("admin.analytics.users.usage.tts", "TTS")}: {formatMoney(row?.costs?.ttsEur || 0, "EUR", localeTag)}</div>
-                      </div>
+                      <>
+                        <div className={compactMetricLeadValueClassName}>{formatMoney(row?.costs?.totalEur || 0, "EUR", localeTag)}</div>
+                        <CompactMetricGrid
+                          className="mt-1"
+                          items={[
+                            {
+                              label: t("admin.analytics.users.usage.chat", "Chat"),
+                              value: formatMoney(row?.costs?.chatEur || 0, "EUR", localeTag)
+                            },
+                            {
+                              label: t("admin.analytics.users.usage.rag", "RAG"),
+                              value: formatMoney(row?.costs?.ragEur || 0, "EUR", localeTag)
+                            },
+                            {
+                              label: t("admin.analytics.users.usage.stt", "STT"),
+                              value: formatMoney(row?.costs?.sttEur || 0, "EUR", localeTag)
+                            },
+                            {
+                              label: t("admin.analytics.users.usage.tts", "TTS"),
+                              value: formatMoney(row?.costs?.ttsEur || 0, "EUR", localeTag)
+                            }
+                          ]}
+                        />
+                      </>
                     }
                   />
                   <MobileInfoField
                     label={t("admin.analytics.users.table.limits", "Limits")}
                     value={
-                      <div className="grid gap-1.5">
-                        <div>{t("admin.analytics.users.limits.plan_amount", "Monthly fee")}: {row.isAdmin ? "-" : formatMoney(row?.limits?.planAmountEur || 0, "EUR", localeTag)}</div>
-                        <div>{t("admin.analytics.users.limits.analyze_daily", "Analyze/day")}: {formatCount(row?.limits?.analyzeDaily || 0, localeTag)}</div>
-                        <div>{t("admin.analytics.users.limits.analyze_usage_today", "Used today")}: {formatCount(row?.limits?.analyzeToday || 0, localeTag)}</div>
-                        <div>{t("admin.analytics.users.limits.analyze_remaining", "Remaining today")}: {formatCount(row?.limits?.analyzeRemainingToday || 0, localeTag)}</div>
+                      <div className="grid gap-2">
+                        <CompactMetricGrid
+                          items={[
+                            {
+                              label: t("admin.analytics.users.limits.plan_amount", "Monthly fee"),
+                              value: row.isAdmin ? "-" : formatMoney(row?.limits?.planAmountEur || 0, "EUR", localeTag)
+                            },
+                            {
+                              label: t("admin.analytics.users.limits.analyze_daily", "Analyze/day"),
+                              value: formatCount(row?.limits?.analyzeDaily || 0, localeTag)
+                            },
+                            {
+                              label: t("admin.analytics.users.limits.analyze_usage_today", "Used today"),
+                              value: formatCount(row?.limits?.analyzeToday || 0, localeTag)
+                            },
+                            {
+                              label: t("admin.analytics.users.limits.analyze_remaining", "Remaining today"),
+                              value: formatCount(row?.limits?.analyzeRemainingToday || 0, localeTag)
+                            }
+                          ]}
+                        />
                         <UsageBar value={row?.limits?.analyzeUtilizationPct || 0} />
-                        <div>{t("admin.analytics.users.limits.monthly_budget", "Monthly budget")}: {formatMoney(row?.budget?.monthlyEur || 0, "EUR", localeTag)}</div>
-                        <div>{t("admin.analytics.users.limits.remaining_budget", "Remaining budget")}: {formatMoney(row?.budget?.remainingEur || 0, "EUR", localeTag)}</div>
+                        <CompactMetricGrid
+                          items={[
+                            {
+                              label: t("admin.analytics.users.limits.monthly_budget", "Monthly budget"),
+                              value: formatMoney(row?.budget?.monthlyEur || 0, "EUR", localeTag)
+                            },
+                            {
+                              label: t("admin.analytics.users.limits.remaining_budget", "Remaining budget"),
+                              value: formatMoney(row?.budget?.remainingEur || 0, "EUR", localeTag)
+                            },
+                            {
+                              label: t("admin.analytics.users.limits.utilization", "Utilization"),
+                              value: `${formatPercent(row?.budget?.utilizationPct || 0, localeTag, 1)}%`
+                            }
+                          ]}
+                        />
                         <UsageBar value={row?.budget?.utilizationPct || 0} />
-                        <div>{t("admin.analytics.users.limits.utilization", "Utilization")}: {formatPercent(row?.budget?.utilizationPct || 0, localeTag, 1)}%</div>
                       </div>
                     }
                   />
@@ -2144,7 +2218,7 @@ export default function AnalyticsDashboard() {
               events.map(row => (
                 <div key={row.id} className={mobileRowCardClassName}>
                   <div className={mobileRowHeadClassName}>
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <div className={mobileRowTitleClassName}>{eventLabels[row.event] || row.event || "-"}</div>
                       <div className={mobileRowSubClassName}>{formatDate(row.createdAt, localeTag)}</div>
                     </div>

@@ -362,14 +362,15 @@ export default function ChatComposer({
   const toolItemBaseClassName =
     "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
     "text-[1.12rem] leading-[1.14] tracking-[0.01em] transition-colors duration-150 " +
-    "rounded-[0.5rem] flex min-h-[2.52rem] items-center gap-[0.42rem] " +
+    "rounded-[0.5rem] grid min-h-[2.52rem] grid-cols-[1.68rem_minmax(0,1fr)] items-center gap-[0.5rem] " +
     "hover:bg-[rgba(255,255,255,0.08)] focus-visible:bg-[rgba(255,255,255,0.08)] " +
     "light:hover:bg-[rgba(122,58,56,0.1)] light:focus-visible:bg-[rgba(122,58,56,0.1)]";
-  const toolIconSlotClassName = "inline-flex h-[1.72rem] w-[1.72rem] shrink-0 items-center justify-center self-center";
-  const toolLabelClassName = "block translate-y-[0.01rem]";
+  const toolIconSlotClassName = "inline-flex h-[1.68rem] w-[1.68rem] shrink-0 items-center justify-center self-center";
+  const agentToolIconSlotClassName = `${toolIconSlotClassName} translate-y-[0.06rem]`;
+  const toolLabelClassName = "inline-flex min-w-0 items-center self-center leading-[1.08]";
   const baseToolIconSize = 26;
   const deepResearchToolIconSize = 26;
-  const agentToolIconSize = 26;
+  const agentToolIconSize = 30;
   const toolIconStrokeWidth = 1.8;
   const agentToolStrokeWidth = 1.6;
   const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
@@ -390,7 +391,7 @@ export default function ChatComposer({
               <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 opacity-90">
                 <path d="M6 4.8h9.4L19 8.4v10.8a1.8 1.8 0 0 1-1.8 1.8H6.8A1.8 1.8 0 0 1 5 19.2V6.6A1.8 1.8 0 0 1 6.8 4.8Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M14.8 4.8v3.8H19" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M8.3 11.2h7.4M8.3 15.1h5.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
+                <path d="M8.3 11.2h5.5M8.3 15.1h5.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
               </svg>
             </span>
             <span className={toolLabelClassName}>{t("chat.tools.document_analysis")}</span>
@@ -408,14 +409,14 @@ export default function ChatComposer({
               <span aria-hidden="true" className={toolIconSlotClassName}>
                 <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 opacity-90">
                   <path d="M4.85 7.4a1.75 1.75 0 0 1 1.75-1.75h4.1l1.55 1.55h5.15a1.75 1.75 0 0 1 1.75 1.75v8.45a1.75 1.75 0 0 1-1.75 1.75H6.6a1.75 1.75 0 0 1-1.75-1.75V7.4Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M4.85 9.35h14.3" stroke={iconStroke} strokeWidth={1.65} strokeLinecap="round" />
+                  <path d="M4.85 10.8h14.3" stroke={iconStroke} strokeWidth={1.65} strokeLinecap="round" />
                 </svg>
               </span>
               <span className={toolLabelClassName}>{t("chat.tools.documents")}</span>
             </button> : null}
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleAgentModeSelect}>
-            <span aria-hidden="true" className={toolIconSlotClassName}>
-              <svg aria-hidden="true" width={agentToolIconSize} height={agentToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 opacity-95">
+            <span aria-hidden="true" className={agentToolIconSlotClassName}>
+              <svg aria-hidden="true" width={agentToolIconSize} height={agentToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 scale-[1.08] opacity-95">
                 <rect x="6.1" y="7.2" width="11.8" height="9.6" rx="2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} />
                 <path d="M12 4.3v2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} strokeLinecap="round" />
                 <circle cx="10" cy="12" r="0.9" fill={iconStroke} />

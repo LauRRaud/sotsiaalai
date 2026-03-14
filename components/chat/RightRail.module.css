@@ -161,7 +161,7 @@
 
 .iconMaterials {
   width: calc(100% * (var(--rail-icon-scale) + 0.18));
-  height: calc(100% * (var(--rail-icon-scale) + 0.18));
+  height: calc(100% * (var(--rail-icon-scale) + 0.24));
   aspect-ratio: 28 / 24;
 }
 
@@ -470,7 +470,7 @@
 
   .iconMaterials {
     width: calc(var(--chat-mobile-icon-box) * 0.94) !important;
-    height: var(--chat-mobile-icon-box) !important;
+    height: calc(var(--chat-mobile-icon-box) * 1.04) !important;
   }
 
   .iconHelp {
