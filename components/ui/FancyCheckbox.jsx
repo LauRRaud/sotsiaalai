@@ -143,16 +143,6 @@ const Label = styled.label`
     background: transparent !important;
     border-color: transparent !important;
     box-shadow: none !important;
-    width: 1.82rem !important;
-    height: 1.82rem !important;
-    border-radius: 0.44rem !important;
-    transform: translate(0.08rem, -0.08rem) !important;
-    overflow: hidden !important;
-  }
-
-  &.login-otp-remember .shape {
-    fill: rgba(24, 28, 36, 0.82);
-    stroke: var(--otp-check-shape, #8d4d4a);
   }
 
   @media (max-width: 768px) {

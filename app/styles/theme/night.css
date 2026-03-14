@@ -201,6 +201,12 @@
   border-color: rgba(170, 204, 245, 0.32) !important;
 }
 
+:root.theme-night .login-modal-box.login-modal--otp .login-otp-remember.fancy-checkbox--otp .box {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
 :root.theme-night .login-modal-box.login-modal--otp .button,
 :root.theme-night .login-modal-box.login-modal--otp .button:hover,
 :root.theme-night .login-modal-box.login-modal--otp .button:focus-visible {
