@@ -102,9 +102,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const { prefs } = useAccessibility()
   const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
   const isClientRole = effectiveRole === "CLIENT"
-  const documentsHref = localizePath("/documents", locale)
   const chatHref = localizePath("/vestlus", locale)
-  const backHref = isClientRole ? chatHref : documentsHref
+  const backHref = chatHref
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid"
   const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
   const roleViewLabel = t(effectiveRole === "SOCIAL_WORKER" ? "profile.role_short.worker" : "profile.role_short.client")
@@ -1299,7 +1298,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
         <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-panel--primary rounded-[1.3rem]">
           <BackButton
             onClick={() => router.push(backHref)}
-            ariaLabel={isClientRole ? t("documents.agent_workspace.back_to_chat") : t("documents.back_to_documents")}
+            ariaLabel={t("documents.agent_workspace.back_to_chat")}
             className={glassPageBackTopLeftClassName}
           />
           <header className="documents-page-header documents-page-header--panel">
