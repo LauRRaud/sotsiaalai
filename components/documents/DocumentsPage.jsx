@@ -24,9 +24,13 @@ import {
 import { localizePath } from "@/lib/localizePath"
 
 const documentsTitleClassName =
-  `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
+  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
+  `!mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
   `!text-[clamp(1.9rem,3.6vw,2.6rem)] !leading-[1.06] !tracking-[0.02em] ` +
-  `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08] max-[768px]:!mt-0`
+  `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08]`
+const mobileTitleWrapClassName =
+  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
+const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
 
 function normalizeSearchValue(value) {
   return String(value || "").trim().toLowerCase()
@@ -297,12 +301,14 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             <BackButton
               onClick={() => router.push(localizePath("/vestlus", locale))}
               ariaLabel={t("buttons.back")}
-              className={glassPageBackTopLeftClassName}
+              className={backButtonClassName}
             />
             <header className="documents-page-header documents-page-header--panel">
               <div className="documents-page-header-row">
                 <div className="documents-page-heading">
-                  <h1 className={documentsTitleClassName}>{t("documents.page_title")}</h1>
+                  <div className={mobileTitleWrapClassName}>
+                    <h1 className={documentsTitleClassName}>{t("documents.page_title")}</h1>
+                  </div>
                 </div>
               </div>
             </header>

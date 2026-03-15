@@ -39,6 +39,7 @@ const agentTitleClassName =
   `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08]`
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
+const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
 
 const chipBaseClassName =
   "documents-chip inline-flex min-h-[2.6rem] items-center justify-center rounded-full px-[0.9rem] py-[0.38rem] text-[1.02rem] leading-none"
@@ -1299,7 +1300,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           <BackButton
             onClick={() => router.push(backHref)}
             ariaLabel={t("documents.agent_workspace.back_to_chat")}
-            className={glassPageBackTopLeftClassName}
+            className={backButtonClassName}
           />
           <header className="documents-page-header documents-page-header--panel">
             <div className="documents-page-header-row">
