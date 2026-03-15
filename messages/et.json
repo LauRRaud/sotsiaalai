@@ -115,18 +115,26 @@
       "help_wrong_pin_note": "Vale PIN-i korral kustub PIN-kood automaatselt."
     },
     "register": {
-      "title": "Registreeru",
-      "pin_placeholder": "PIN (4-8 numbrit)",
-      "role_label_question": "Kes oled?",
-      "role_label": "Roll:",
-      "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
-      "agreement": "Nõustun <terms>kasutustingimustega</terms>, kinnitan, et olen tutvunud <privacy>privaatsuspoliitikaga</privacy>, ning annan vajalikud nõusolekud nende töötluste jaoks, mis põhinevad nõusolekul.",
-      "guide_ack": "Olen tutvunud <guide1>platvormi</guide1> <guide2>kasutusjuhendiga</guide2>.",
-      "error": {
-        "role_required": "Vali roll.",
-        "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
-        "failed": "Registreerimine ebaõnnestus.",
-        "auto_login": "Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida."
+    "title": "Registreeru",
+    "pin_placeholder": "PIN (4-8 numbrit)",
+    "role_label_question": "Kes oled?",
+    "role_label": "Roll:",
+    "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
+    "worker_use_org": "Kasutan tööandja nimel isikuandmetega",
+    "worker_framework_title": "Tööalase kasutuse raamistik",
+    "worker_framework_note": "Kui kasutad platvormi organisatsiooni nimel tuvastatavate andmetega, laadi enne jätkamist alla SotsiaalAI tööalase kasutuse ja andmetöötluse raamistik.",
+    "worker_framework_open": "Ava raamistik",
+    "worker_framework_ack": "Kinnitan, et olen tutvunud <framework>tööalase kasutuse ja andmetöötluse raamistikuga</framework>.",
+    "worker_framework_download_signed": "Laadi alla allkirjastatud raamistik",
+    "worker_framework_download_docx": "Laadi alla DOCX versioon",
+    "agreement": "Nõustun <terms>kasutustingimuste</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
+    "guide_ack": "Olen tutvunud <guide1>platvormi</guide1> <guide2>kasutusjuhendiga</guide2>.",
+    "error": {
+      "role_required": "Vali roll.",
+      "framework_ack_required": "Organisatsiooni nimel tuvastatavate andmetega kasutuse puhul pead kinnitama, et oled raamistikuga tutvunud.",
+      "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
+      "failed": "Registreerimine ebaõnnestus.",
+      "auto_login": "Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida."
       },
       "submit": "Registreeru",
       "submitting": "Loome kontot…",
@@ -1344,7 +1352,7 @@
         },
         "register": {
           "title": "3. Registreerimine ja ligipääsu aktiveerimine",
-          "body": "<p>SotsiaalAI kasutamiseks on vaja kontot. Vestluse aktiivseks kasutamiseks peab kontol olema ka aktiivne tellimus või sponsoreeritud ligipääs.</p><p><strong>3.1 Registreerimine</strong></p><ol><li>Vali avalehel sobiv rollikaart ja ava <a href=\"/registreerimine\">Registreerimine</a>.</li><li>Täida vorm: sisesta e-posti aadress ja PIN-kood (4–8 numbrit).</li><li>Nõustu kasutustingimustega, kinnita, et oled tutvunud privaatsuspoliitikaga, anna vajalikud nõusolekud nende töötluste jaoks, mis põhinevad nõusolekul, ning kinnita, et oled tutvunud platvormi kasutusjuhendiga.</li><li>Pärast vormi saatmist saadame kinnituskirja. Ava kiri ja kinnita oma e-post.</li></ol><p><strong>3.2 Tellimus või sponsoreeritud ligipääs</strong></p><ul><li>Pärast kinnitamist saad sisse logida e-posti ja PIN-koodiga.</li><li>Kui sul puudub aktiivne ligipääs, suunab platvorm sind lehele <a href=\"/tellimus\">Tellimus</a>.</li><li>Tellimuse algatamisel suunatakse sind Maksekeskuse makselehele. Ligipääs aktiveeritakse pärast makseteenuse kinnitust.</li><li><strong>Kuutasu on rollipõhine:</strong> eluküsimusega pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus.</li><li>Kui sinu ligipääs on sponsoreeritud kutse kaudu, kehtib see sponsori valitud perioodi jooksul ilma eraldi makseta.</li></ul>"
+        "body": "<p>SotsiaalAI kasutamiseks on vaja kontot. Vestluse aktiivseks kasutamiseks peab kontol olema ka aktiivne tellimus või sponsoreeritud ligipääs.</p><p><strong>3.1 Registreerimine</strong></p><ol><li>Vali avalehel sobiv rollikaart ja ava <a href=\"/registreerimine\">Registreerimine</a>.</li><li>Täida vorm: sisesta e-posti aadress ja PIN-kood (4–8 numbrit).</li><li>Nõustu kasutustingimustega, kinnita, et oled tutvunud privaatsuspoliitikaga, anna vajalikud nõusolekud nende töötluste jaoks, mis põhinevad nõusolekul, ning kinnita, et oled tutvunud platvormi kasutusjuhendiga.</li><li>Kui valid rolli <strong>Sotsiaaltöö spetsialist</strong> ja soovid kasutada platvormi tööandja või organisatsiooni nimel kliendi või muu isiku tuvastatavate andmetega, võivad lisaks kohalduda tööalase kasutuse ja andmetöötluse eritingimused.</li><li>Pärast registreerumist saadame sulle kinnituskirja. Konto aktiveerimiseks ava kiri ja kinnita oma e-posti aadress.</li></ol><p><strong>3.2 Tellimus või sponsoreeritud ligipääs</strong></p><ul><li>Pärast kinnitamist saad sisse logida e-posti ja PIN-koodiga.</li><li>Kui sul puudub aktiivne ligipääs, suunab platvorm sind lehele <a href=\"/tellimus\">Tellimus</a>.</li><li>Tellimuse algatamisel suunatakse sind Maksekeskuse makselehele. Ligipääs aktiveeritakse pärast makseteenuse kinnitust.</li><li><strong>Kuutasu on rollipõhine:</strong> eluküsimusega pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus.</li><li>Kui sinu ligipääs on sponsoreeritud kutse kaudu, kehtib see sponsori valitud perioodi jooksul ilma eraldi makseta.</li></ul>"
         },
         "signin": {
           "title": "4. Sisselogimine ja rolli alusel liikumine",

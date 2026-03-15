@@ -120,10 +120,18 @@
       "role_label_question": "Who are you?",
       "role_label": "Role:",
       "role_hint": "Choose a role with arrow keys. Options: Social Work Specialist or Person seeking help.",
+      "worker_use_org": "I use it for work with personal data",
+      "worker_framework_title": "Professional-use framework",
+      "worker_framework_note": "If you use the platform on behalf of an organisation with identifiable data, download the SotsiaalAI professional-use and data-processing framework before continuing.",
+      "worker_framework_open": "Open framework",
+      "worker_framework_ack": "I confirm that I have reviewed the <framework>professional-use and data-processing framework</framework>.",
+      "worker_framework_download_signed": "Download signed framework",
+      "worker_framework_download_docx": "Download DOCX version",
       "agreement": "I agree to <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>.",
       "guide_ack": "I have read the <guide>platform guide</guide>.",
       "error": {
         "role_required": "Please choose a role.",
+        "framework_ack_required": "If you use the platform on behalf of an organisation with identifiable data, you must confirm that you have reviewed the framework.",
         "agree_required": "You must agree to the terms of use and privacy policy.",
         "failed": "Registration failed.",
         "auto_login": "Automatic sign-in failed. Please sign in manually."
@@ -1344,7 +1352,7 @@
         },
         "register": {
           "title": "3. Registration and access activation",
-          "body": "<p>You need an account to use SotsiaalAI. To actively use chat, the account also needs an active subscription or sponsored access.</p><p><strong>3.1 Registration</strong></p><ol><li>Choose the relevant role card on the home page and open <a href=\"/registreerimine\">Register</a>.</li><li>Fill in the form with your email address and PIN code (4-8 digits).</li><li>Accept the terms of use and privacy policy, and confirm that you have read the platform guide.</li><li>After submitting the form, open the verification email and confirm your address.</li></ol><p><strong>3.2 Subscription or sponsored access</strong></p><ul><li>After verification you can sign in with your email and PIN.</li><li>If you do not have active access, the platform directs you to the <a href=\"/tellimus\">Subscription</a> page.</li><li>When you start the subscription, you are redirected to the Maksekeskus checkout page. Access is activated after payment-provider confirmation.</li><li><strong>Monthly pricing is role-based:</strong> 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li>If your access comes from a sponsored invite, it stays active for the sponsored period without a separate payment.</li></ul>"
+          "body": "<p>You need an account to use SotsiaalAI. To actively use chat, the account also needs an active subscription or sponsored access.</p><p><strong>3.1 Registration</strong></p><ol><li>Choose the relevant role card on the home page and open <a href=\"/registreerimine\">Register</a>.</li><li>Fill in the form with your email address and PIN code (4-8 digits).</li><li>Accept the terms of use and privacy policy, and confirm that you have read the platform guide.</li><li>If you choose the role <strong>Social work professional</strong> and want to use the platform on behalf of an employer or organisation with identifiable data about a client or another person, additional professional-use and data-processing conditions may apply.</li><li>After registration, we send you a verification email. To activate your account, open the message and confirm your email address.</li></ol><p><strong>3.2 Subscription or sponsored access</strong></p><ul><li>After verification you can sign in with your email and PIN.</li><li>If you do not have active access, the platform directs you to the <a href=\"/tellimus\">Subscription</a> page.</li><li>When you start the subscription, you are redirected to the Maksekeskus checkout page. Access is activated after payment-provider confirmation.</li><li><strong>Monthly pricing is role-based:</strong> 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li>If your access comes from a sponsored invite, it stays active for the sponsored period without a separate payment.</li></ul>"
         },
         "signin": {
           "title": "4. Sign-in and role-based navigation",

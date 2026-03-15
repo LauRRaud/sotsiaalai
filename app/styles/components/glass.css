@@ -290,7 +290,14 @@
   text-decoration: none;
 }
 
-.register-checkbox-card,
+.register-checkbox-card {
+  color: var(--pt-50) !important;
+}
+
+:root.theme-light .register-checkbox-card {
+  color: var(--input-text) !important;
+}
+
 .register-checkbox-card:hover,
 .register-checkbox-card:focus-within,
 .register-checkbox-card[data-checked="true"],
@@ -299,7 +306,6 @@
   color: var(--pt-50) !important;
 }
 
-:root.theme-light .register-checkbox-card,
 :root.theme-light .register-checkbox-card:hover,
 :root.theme-light .register-checkbox-card:focus-within,
 :root.theme-light .register-checkbox-card[data-checked="true"],
@@ -308,7 +314,34 @@
   color: var(--input-text) !important;
 }
 
+.register-option-card,
+.register-framework-card,
+.register-checkbox-card {
+  transition:
+    background-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+}
+
+.register-option-card[data-checked="true"],
+.register-framework-card[data-checked="true"],
+.register-checkbox-card[data-checked="true"] {
+  background: var(--btn-primary-bg-hover) !important;
+  border-color: transparent !important;
+  box-shadow: var(--btn-primary-shadow-hover) !important;
+}
+
+.register-option-card[data-checked="true"],
+.register-option-card[data-checked="true"] > span:last-child,
+.register-framework-card[data-checked="true"],
+.register-framework-card[data-checked="true"] > span:last-child,
+.register-framework-card[data-checked="true"] .register-policy-link {
+  color: var(--title-color, var(--brand-primary)) !important;
+}
+
 .register-checkbox-card .register-policy-link {
+  display: inline !important;
   padding-left: 0;
   padding-right: 0;
   font-size: 1em !important;
@@ -320,6 +353,14 @@
   word-break: normal;
   overflow-wrap: normal;
   hyphens: none;
+  transform: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+  transition: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  vertical-align: baseline !important;
+  position: static !important;
 }
 
 .register-agree-card > span:last-child,
@@ -367,8 +408,8 @@ section[lang="en"] .register-checkbox-card {
 }
 
 section[lang="et"] .register-checkbox-card {
-  font-size: 1.16rem;
-  line-height: 1.34;
+  font-size: 1.04rem;
+  line-height: 1.32;
 }
 
 section[lang="en"] .register-guide-card {
@@ -398,7 +439,7 @@ section[lang="en"] .register-guide-card {
   }
 
   section[lang="et"] .register-checkbox-card {
-    font-size: 1.24rem;
+    font-size: 1.04rem;
   }
 }
 

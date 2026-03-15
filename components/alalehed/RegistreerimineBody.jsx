@@ -5,11 +5,11 @@ import { useEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OptionCard from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
-import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageBackTopLeftClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
@@ -23,23 +23,31 @@ const titleClassName =
 const contentClassName = "register-content mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
 const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[769px]:max-w-[clamp(18.2rem,calc(var(--ring-diameter,52rem)/2.2),23.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.6rem] min-[769px]:px-[1.02rem] text-left csp-container mx-auto";
 const registerTextClassName = "register-copy text-[1.25rem] leading-[1.45] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
-const registerPolicyLinkClassName = `${linkBrandInlineClass} register-policy-link`;
+const registerPolicyLinkClassName = "register-policy-link inline p-0 m-0 border-0 bg-transparent align-baseline no-underline transition-none";
 const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:var(--pt-200)]`;
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
-const checkboxCardClassName = "register-checkbox-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto gap-[0.72rem] text-[1rem] leading-[1.34] px-[1.05rem] py-[0.86rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
+const checkboxCardClassName = "register-checkbox-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto gap-[0.72rem] text-[1.04rem] leading-[1.28] px-[1.05rem] py-[0.72rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName = "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
 const registerOptionButtonClassName =
-  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
+  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg-hover)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
   "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
   "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-  "[--seg-card-border:transparent] [--seg-card-border-width:0px] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-  "relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 focus-visible:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] " +
-  "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
+  "[--seg-card-border:transparent] [--seg-card-border-width:0px] [--seg-card-duration:560ms] [--seg-card-ease:cubic-bezier(0.22,0.61,0.36,1)] " +
+  "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
 const registerButtonClassName = "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName = "register-input w-full min-[769px]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[769px]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+const frameworkDownloadClassName = "inline-flex items-center justify-center rounded-full border border-[color:rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.06)] px-[0.95rem] py-[0.52rem] text-[0.95rem] leading-[1.2] no-underline transition-[background,border-color,color,box-shadow] duration-150 ease-out text-[color:var(--brand-primary)] hover:text-[color:var(--brand-primary)] hover:border-[color:rgba(255,255,255,0.32)] hover:bg-[rgba(255,255,255,0.12)] focus-visible:outline-none focus-visible:text-[color:var(--brand-primary)] focus-visible:border-[color:rgba(255,255,255,0.32)] focus-visible:bg-[rgba(255,255,255,0.12)] light:border-[rgba(148,163,184,0.26)] light:bg-[rgba(255,255,255,0.72)] light:text-[color:var(--link-color,#7a3a38)] light:hover:text-[color:var(--link-color,#7a3a38)] light:hover:border-[rgba(122,58,56,0.28)] light:hover:bg-[rgba(255,255,255,0.9)] light:focus-visible:text-[color:var(--link-color,#7a3a38)] light:focus-visible:border-[rgba(122,58,56,0.28)] light:focus-visible:bg-[rgba(255,255,255,0.9)]";
+const frameworkModalClassName = "relative w-[min(100%,32rem)] max-w-[32rem] rounded-[1.4rem] border border-[rgba(255,255,255,0.16)] bg-[rgba(18,24,36,0.68)] p-[1.35rem_1.15rem_1.1rem] text-[color:var(--pt-50)] shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px] backdrop-saturate-[125%] light:border-[rgba(148,163,184,0.28)] light:bg-[rgba(255,255,255,0.92)] light:text-[color:var(--input-text)]";
+const registerSelectedOptionClassName =
+  "border border-transparent " +
+  "[background:var(--btn-primary-bg-hover)] text-[color:var(--title-color,var(--brand-primary))] " +
+  "shadow-[var(--btn-primary-shadow-hover)]";
+const FRAMEWORK_SIGNED_HREF = "/legal/SotsiaalAI_raamdokument_uuendatud_v2.asice";
+const FRAMEWORK_DOCX_HREF = "/legal/SotsiaalAI_raamdokument_uuendatud_v2.docx";
 const isRegistrationOpen = !["false", "0", "off"].includes(
   String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true").trim().toLowerCase()
 );
@@ -61,6 +69,8 @@ export default function RegistreerimineBody({
     email: "",
     pin: "",
     role: "",
+    workerUse: "",
+    frameworkAck: false,
     agree: false,
     guideAck: false
   };
@@ -68,6 +78,7 @@ export default function RegistreerimineBody({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isFrameworkModalOpen, setIsFrameworkModalOpen] = useState(false);
   const [scrollPad, setScrollPad] = useState(0);
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
@@ -80,6 +91,11 @@ export default function RegistreerimineBody({
   const roleLabelId = useId();
   const roleHintId = useId();
   const roleLabelText = t("auth.register.role_label_question");
+  const isSocialWorker = form.role === "SOCIAL_WORKER";
+  const requiresFramework = isSocialWorker && form.workerUse === "ORG_IDENTIFIABLE";
+  const workerStepIndex = 3;
+  const agreementStepIndex = isSocialWorker ? 4 : 3;
+  const guideStepIndex = isSocialWorker ? 5 : 4;
   function handleChange(e) {
     const {
       name,
@@ -87,9 +103,17 @@ export default function RegistreerimineBody({
       type,
       checked
     } = e.target;
+    const nextValue = name === "pin" ? value.replace(/\D/g, "").slice(0, PIN_MAX) : type === "checkbox" ? checked : value;
     setForm(prev => ({
       ...prev,
-      [name]: name === "pin" ? value.replace(/\D/g, "").slice(0, PIN_MAX) : type === "checkbox" ? checked : value
+      [name]: nextValue,
+      ...(name === "role" && nextValue !== "SOCIAL_WORKER" ? {
+        workerUse: "",
+        frameworkAck: false
+      } : null),
+      ...(name === "workerUse" && nextValue !== "ORG_IDENTIFIABLE" ? {
+        frameworkAck: false
+      } : null)
     }));
   }
   async function handleSubmit(e) {
@@ -134,9 +158,14 @@ export default function RegistreerimineBody({
       jumpToStep(2);
       return;
     }
+    if (requiresFramework && !form.frameworkAck) {
+      setError(t("auth.register.error.framework_ack_required"));
+      jumpToStep(workerStepIndex);
+      return;
+    }
     if (!form.agree || !form.guideAck) {
       setError(t("auth.register.error.agree_required"));
-      jumpToStep(!form.agree ? 3 : 4);
+      jumpToStep(!form.agree ? agreementStepIndex : guideStepIndex);
       return;
     }
     setSubmitting(true);
@@ -326,6 +355,14 @@ export default function RegistreerimineBody({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
+  const handleWorkerUseToggle = checked => {
+    setForm(prev => ({
+      ...prev,
+      workerUse: checked ? "ORG_IDENTIFIABLE" : "",
+      frameworkAck: checked ? prev.frameworkAck : false
+    }));
+    setIsFrameworkModalOpen(checked);
+  };
   return <section className={pageShellClassName} lang={locale}>
       <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
@@ -370,16 +407,25 @@ export default function RegistreerimineBody({
                   <div id={roleHintId} className="sr-only">
                     {t("auth.register.role_hint")}
                   </div>
-                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
+                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName} ${form.role === "SOCIAL_WORKER" ? registerSelectedOptionClassName : ""}`}>
                   {t("role.worker")}
                 </OptionCard>
-                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
+                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName} ${form.role === "CLIENT" ? registerSelectedOptionClassName : ""}`}>
                   {t("role.client")}
                 </OptionCard>
                 </div>
               </section>
 
-              <section className={`${registerStepClassName} ${getRegisterStepClassName(3)}`}>
+              {isSocialWorker ? <section className={`${registerStepClassName} ${getRegisterStepClassName(workerStepIndex)}`}>
+                  <div className="flex flex-col gap-[0.95rem]">
+                    <OptionCard type="checkbox" name="workerUseOrg" checked={requiresFramework} onChange={e => handleWorkerUseToggle(e.target.checked)} className={`w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${checkboxCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
+                      {t("auth.register.worker_use_org")}
+                    </OptionCard>
+                  </div>
+              </section>
+               : null}
+
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(agreementStepIndex)}`}>
                 <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-agree-card ${checkboxCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
                     <RichText value={t("auth.register.agreement")} replacements={{
                     terms: {
@@ -394,7 +440,7 @@ export default function RegistreerimineBody({
                 </OptionCard>
               </section>
 
-              <section className={`${registerStepClassName} ${getRegisterStepClassName(4)}`}>
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(guideStepIndex)}`}>
                 <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-guide-card ${checkboxCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
                     <RichText value={t("auth.register.guide_ack")} replacements={{
                     guide: {
@@ -413,7 +459,7 @@ export default function RegistreerimineBody({
                 </OptionCard>
               </section>
 
-              <section className={`${registerStepClassName} ${getRegisterStepClassName(5)}`}>
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(isSocialWorker ? 6 : 5)}`}>
                 {!isRegistrationOpen && <div role="status" className="w-full rounded-[0.95rem] border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fde68a] light:text-[color:#92400e] text-[1.08rem] leading-[1.4]">
                     {t("auth.register.closed_notice")}
                   </div>}
@@ -447,5 +493,34 @@ export default function RegistreerimineBody({
           </div>
         </div>
       </GlassRing>
+      <Modal open={isFrameworkModalOpen} onClose={() => setIsFrameworkModalOpen(false)} variant="glass" contentClassName={frameworkModalClassName} aria-label={t("auth.register.worker_framework_title")}>
+        <BackButton onClick={() => setIsFrameworkModalOpen(false)} ariaLabel={t("buttons.back_previous")} className={`${glassPageBackTopLeftClassName} !inline-flex !absolute !left-[0.35rem] !top-[0.35rem] !z-[2] !h-[3.2rem] !w-[3.2rem] min-[769px]:![&>svg]:!h-[3.2rem] min-[769px]:![&>svg]:!w-[3.2rem] max-[768px]:![&>svg]:!h-[3.2rem] max-[768px]:![&>svg]:!w-[3.2rem]`} />
+        <div className="pt-[2.3rem]">
+          <div className="mb-[0.45rem] text-[1.05rem] font-medium text-[color:var(--title-color,var(--brand-primary))]">
+            {t("auth.register.worker_framework_title")}
+          </div>
+          <p className="m-0 text-[0.98rem] leading-[1.42]">
+            {t("auth.register.worker_framework_note")}
+          </p>
+          <div className="mt-[0.8rem] flex flex-wrap gap-[0.55rem]">
+            <a className={frameworkDownloadClassName} href={FRAMEWORK_SIGNED_HREF} download>
+              {t("auth.register.worker_framework_download_signed")}
+            </a>
+            <a className={frameworkDownloadClassName} href={FRAMEWORK_DOCX_HREF} download>
+              {t("auth.register.worker_framework_download_docx")}
+            </a>
+          </div>
+          <div className="mt-[0.85rem]">
+            <OptionCard type="checkbox" name="frameworkAck" checked={form.frameworkAck} onChange={handleChange} className={`register-framework-card !w-full gap-[0.72rem] text-[0.98rem] leading-[1.34] px-[0.95rem] py-[0.82rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
+              <RichText value={t("auth.register.worker_framework_ack")} replacements={{
+                framework: {
+                  open: `<a class="${registerPolicyLinkClassName}" href="${FRAMEWORK_SIGNED_HREF}" download>`,
+                  close: "</a>"
+                }
+              }} />
+            </OptionCard>
+          </div>
+        </div>
+      </Modal>
     </section>;
 }
