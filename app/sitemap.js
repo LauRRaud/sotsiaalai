@@ -8,6 +8,7 @@ export default function sitemap() {
     "/registreerimine",
     "/taasta-parool",
     "/kasutusjuhend",
+    "/tooalase-kasutuse-raamistik",
     "/kasutustingimused",
     "/privaatsustingimused"
   ];

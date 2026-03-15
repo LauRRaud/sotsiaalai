@@ -1,6 +1,5 @@
 "use client";
 
-import { createPortal } from "react-dom";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import BackIcon from "@/components/ui/icons/BackIcon";
@@ -13,6 +12,8 @@ import styles from "./LeftRail.module.css";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const CHAT_BACK_HOVER_ARM_KEY = "sotsiaalai:chat:back-hover-arm-on-move";
+const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
+const RAIL_TOOLTIP_DISMISS_EVENT = "sotsiaalai:chat-rail-tooltip-dismiss";
 const DEFAULT_RAIL_ITEM_SIZE_PX = 48;
 const DEFAULT_RAIL_STEP_FACTOR = 1.12;
 const useIsomorphicLayoutEffect =
@@ -66,8 +67,6 @@ export default function LeftRail({
   const router = useRouter();
   const pathname = usePathname();
   const railRef = useRef(null);
-  const tooltipRafRef = useRef(0);
-  const tooltipTrackUntilRef = useRef(0);
   const tooltipHideTimerRef = useRef(0);
   const tooltipSwitchTimerRef = useRef(0);
   const tooltipRevealRafRef = useRef(0);
@@ -79,10 +78,10 @@ export default function LeftRail({
   const activeIndexRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [tooltipLabelIndex, setTooltipLabelIndex] = useState(1);
-  const [tooltipRect, setTooltipRect] = useState(null);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [backHoverReady, setBackHoverReady] = useState(true);
+  const [isRouteTilting, setIsRouteTilting] = useState(false);
   const [railProfileScale, setRailProfileScale] = useState(() => detectRailProfileScale());
   const [stepPx, setStepPx] = useState(() =>
     Math.round(DEFAULT_RAIL_ITEM_SIZE_PX * DEFAULT_RAIL_STEP_FACTOR * detectRailProfileScale())
@@ -125,24 +124,6 @@ export default function LeftRail({
     [t]
   );
 
-  const setTooltipFromRail = useCallback(() => {
-    const rail = railRef.current;
-    if (!rail) return;
-    const railRect = rail.getBoundingClientRect();
-    if (!railRect.width || !railRect.height) return;
-    const itemEl = rail.querySelector("[data-item-index]");
-    const itemSize = itemEl instanceof HTMLElement ? itemEl.offsetHeight : 48;
-    const edgeOffset = itemSize * 0.5;
-    const anchorLeft = railRect.left + edgeOffset - itemSize * 0.5;
-    const anchorTop = railRect.top + railRect.height * 0.5;
-    setTooltipRect({
-      top: anchorTop - itemSize * 0.5,
-      left: anchorLeft,
-      width: itemSize,
-      height: itemSize
-    });
-  }, []);
-
   useIsomorphicLayoutEffect(() => {
     setIsMounted(true);
   }, []);
@@ -182,6 +163,7 @@ export default function LeftRail({
         cancelAnimationFrame(tooltipRevealRafRef.current);
         tooltipRevealRafRef.current = 0;
       }
+      tooltipVisibleRef.current = false;
     };
   }, []);
 
@@ -260,15 +242,22 @@ export default function LeftRail({
     setIsTooltipVisible(false);
   }, []);
 
+  const dismissAllRailTooltips = useCallback(() => {
+    hideTooltipImmediately();
+    if (typeof window === "undefined") return;
+    try {
+      window.dispatchEvent(new CustomEvent(RAIL_TOOLTIP_DISMISS_EVENT));
+    } catch {}
+  }, [hideTooltipImmediately]);
+
   const showTooltipTemporarily = useCallback(
-    (index, durationMs = 1300) => {
-      if (isMobile || suspendPointerEvents) return;
+    (index, durationMs = 1300, revealDelayMs = 0) => {
+      if (isMobile || suspendPointerEvents || isRouteTilting) return;
       if (!Number.isFinite(index)) return;
       if (items[index]?.key === "back") {
         hideTooltipImmediately();
         return;
       }
-      setTooltipFromRail();
       if (tooltipSwitchTimerRef.current) {
         window.clearTimeout(tooltipSwitchTimerRef.current);
         tooltipSwitchTimerRef.current = 0;
@@ -278,20 +267,57 @@ export default function LeftRail({
         tooltipRevealRafRef.current = 0;
       }
       tooltipLabelIndexRef.current = index;
-      tooltipVisibleRef.current = true;
       setTooltipLabelIndex(index);
-      setIsTooltipVisible(true);
       if (tooltipHideTimerRef.current) {
         window.clearTimeout(tooltipHideTimerRef.current);
+        tooltipHideTimerRef.current = 0;
       }
-      tooltipHideTimerRef.current = window.setTimeout(() => {
+      const revealTooltip = () => {
+        tooltipVisibleRef.current = true;
+        setIsTooltipVisible(true);
+        tooltipHideTimerRef.current = window.setTimeout(() => {
+          tooltipVisibleRef.current = false;
+          setIsTooltipVisible(false);
+          tooltipHideTimerRef.current = 0;
+        }, durationMs);
+      };
+      if (revealDelayMs > 0) {
+        if (tooltipVisibleRef.current) {
+          revealTooltip();
+          return;
+        }
         tooltipVisibleRef.current = false;
         setIsTooltipVisible(false);
-        tooltipHideTimerRef.current = 0;
-      }, durationMs);
+        tooltipSwitchTimerRef.current = window.setTimeout(() => {
+          tooltipSwitchTimerRef.current = 0;
+          revealTooltip();
+        }, revealDelayMs);
+        return;
+      }
+      revealTooltip();
     },
-    [hideTooltipImmediately, isMobile, items, setTooltipFromRail, suspendPointerEvents]
+    [hideTooltipImmediately, isMobile, isRouteTilting, items, suspendPointerEvents]
   );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onDismiss = () => hideTooltipImmediately();
+    window.addEventListener(RAIL_TOOLTIP_DISMISS_EVENT, onDismiss);
+    return () => window.removeEventListener(RAIL_TOOLTIP_DISMISS_EVENT, onDismiss);
+  }, [hideTooltipImmediately]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onTiltState = event => {
+      const active = Boolean(event?.detail?.active);
+      setIsRouteTilting(active);
+      if (active) {
+        hideTooltipImmediately();
+      }
+    };
+    window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
+    return () => window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
+  }, [hideTooltipImmediately]);
 
   useEffect(() => {
     if (activeHelpPanelKey) {
@@ -308,43 +334,6 @@ export default function LeftRail({
     }
     setActiveIndex(0);
   }, [activeHelpPanelKey, items, showSourcesPanel]);
-
-  useEffect(() => {
-    const shouldTrackTooltip = !isMobile;
-    if (!shouldTrackTooltip) {
-      setTooltipRect(null);
-      if (tooltipRafRef.current) {
-        cancelAnimationFrame(tooltipRafRef.current);
-        tooltipRafRef.current = 0;
-      }
-      return;
-    }
-    const update = () => {
-      setTooltipFromRail();
-    };
-    const tick = () => {
-      update();
-      if (isTooltipVisible || performance.now() < tooltipTrackUntilRef.current) {
-        tooltipRafRef.current = requestAnimationFrame(tick);
-      } else {
-        tooltipRafRef.current = 0;
-      }
-    };
-    tooltipTrackUntilRef.current = performance.now() + 320;
-    update();
-    if (tooltipRafRef.current) cancelAnimationFrame(tooltipRafRef.current);
-    tooltipRafRef.current = requestAnimationFrame(tick);
-    window.addEventListener("resize", update);
-    window.addEventListener("scroll", update, true);
-    return () => {
-      window.removeEventListener("resize", update);
-      window.removeEventListener("scroll", update, true);
-      if (tooltipRafRef.current) {
-        cancelAnimationFrame(tooltipRafRef.current);
-        tooltipRafRef.current = 0;
-      }
-    };
-  }, [isMobile, isTooltipVisible, setTooltipFromRail]);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -373,7 +362,7 @@ export default function LeftRail({
         activeIndexRef.current = next;
         setActiveIndex(next);
       }
-      showTooltipTemporarily(next, 1300);
+      showTooltipTemporarily(next, 1300, 180);
     };
     rail.addEventListener("wheel", onWheel, {
       passive: false,
@@ -412,8 +401,8 @@ export default function LeftRail({
       hideTooltipImmediately();
       return;
     }
-    showTooltipTemporarily(activeIndex, 1300);
-  }, [activeIndex, hideTooltipImmediately, isMobile, items, showTooltipTemporarily, suspendPointerEvents]);
+    showTooltipTemporarily(activeIndex, 1300, 180);
+  }, [activeIndex, hideTooltipImmediately, isMobile, isRouteTilting, items, showTooltipTemporarily, suspendPointerEvents]);
 
   const openChatsDrawer = useCallback(
     event => {
@@ -477,10 +466,16 @@ export default function LeftRail({
   const showDesktopTooltip =
     !isMobile &&
     !suspendPointerEvents &&
-    !!tooltipRect &&
+    !isRouteTilting &&
     isTooltipVisible &&
     tooltipLabelIndex >= 0 &&
     tooltipLabelIndex < items.length;
+  const tooltipAnchorShiftX = inputFocused ? 0 : -(7.4 * railProfileScale);
+  const tooltipAnchorStyle = {
+    transform: `translate(-50%, -50%) translateX(${tooltipAnchorShiftX.toFixed(2)}px) translateY(0px) scale(1.240)`,
+    opacity: "1",
+    zIndex: 10
+  };
 
   if (isMobile) {
     return (
@@ -503,6 +498,7 @@ export default function LeftRail({
             };
 
             const onActivate = event => {
+              dismissAllRailTooltips();
               event.preventDefault();
               event.stopPropagation();
               if (item.key === "chats") {
@@ -676,6 +672,7 @@ export default function LeftRail({
             const zIndex = 10 - Math.abs(slotOffset);
 
             const onActivate = event => {
+              dismissAllRailTooltips();
               setActiveIndex(itemIndex);
               if (item.key === "chats") {
                 openChatsDrawer(event);
@@ -807,26 +804,21 @@ export default function LeftRail({
               </button>
             );
           })}
-      </nav>
-      {isMounted && showDesktopTooltip && typeof document !== "undefined"
-        ? createPortal(
-            <div
+        {showDesktopTooltip ? (
+          <span className={cn(styles.item, styles.tooltipAnchor)} style={tooltipAnchorStyle} aria-hidden="true">
+            <span
               className={cn(
                 styles.tooltip,
                 isTooltipVisible ? styles.tooltipVisible : styles.tooltipHidden
               )}
-              style={{
-                position: "fixed",
-                top: tooltipRect.top + tooltipRect.height / 2,
-                left: tooltipRect.left + tooltipRect.width
-              }}
               role="tooltip"
+              aria-hidden={isTooltipVisible ? undefined : "true"}
             >
               {items[tooltipLabelIndex]?.label || ""}
-            </div>,
-            document.body
-          )
-        : null}
+            </span>
+          </span>
+        ) : null}
+      </nav>
     </div>
   );
 }

@@ -1,21 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, useId } from "react";
+import { useCallback, useEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OptionCard from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
-import Modal from "@/components/ui/Modal";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageBackTopLeftClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { cn } from "@/components/ui/cn";
+import FancyCheckbox from "@/components/ui/FancyCheckbox";
+import { glassPageBackClassName, glassPageBackMobileBottomCenterClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
-import { pushWithTransition } from "@/lib/routeTransition";
+import { WORKER_FRAMEWORK_REVIEW_STORAGE_KEY, WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY, WORKER_FRAMEWORK_VERSION } from "@/lib/frameworkAcceptances";
+import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
@@ -40,14 +42,23 @@ const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName = "register-input w-full min-[769px]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[769px]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
-const frameworkDownloadClassName = "inline-flex items-center justify-center rounded-full border border-[color:rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.06)] px-[0.95rem] py-[0.52rem] text-[0.95rem] leading-[1.2] no-underline transition-[background,border-color,color,box-shadow] duration-150 ease-out text-[color:var(--brand-primary)] hover:text-[color:var(--brand-primary)] hover:border-[color:rgba(255,255,255,0.32)] hover:bg-[rgba(255,255,255,0.12)] focus-visible:outline-none focus-visible:text-[color:var(--brand-primary)] focus-visible:border-[color:rgba(255,255,255,0.32)] focus-visible:bg-[rgba(255,255,255,0.12)] light:border-[rgba(148,163,184,0.26)] light:bg-[rgba(255,255,255,0.72)] light:text-[color:var(--link-color,#7a3a38)] light:hover:text-[color:var(--link-color,#7a3a38)] light:hover:border-[rgba(122,58,56,0.28)] light:hover:bg-[rgba(255,255,255,0.9)] light:focus-visible:text-[color:var(--link-color,#7a3a38)] light:focus-visible:border-[rgba(122,58,56,0.28)] light:focus-visible:bg-[rgba(255,255,255,0.9)]";
-const frameworkModalClassName = "relative w-[min(100%,32rem)] max-w-[32rem] rounded-[1.4rem] border border-[rgba(255,255,255,0.16)] bg-[rgba(18,24,36,0.68)] p-[1.35rem_1.15rem_1.1rem] text-[color:var(--pt-50)] shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px] backdrop-saturate-[125%] light:border-[rgba(148,163,184,0.28)] light:bg-[rgba(255,255,255,0.92)] light:text-[color:var(--input-text)]";
+const frameworkDownloadClassName = "w-full min-[769px]:flex-1 min-[769px]:max-w-[10.6rem] whitespace-normal text-center leading-[1.12] px-[0.95rem] py-[0.64rem] text-[0.98rem] no-underline min-h-[2.6rem] max-[768px]:max-w-[16.5rem] max-[768px]:!min-h-[2.85rem] max-[768px]:!px-[1.15rem] max-[768px]:!py-[0.68rem] max-[768px]:!text-[1.08rem]";
+const frameworkRingClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
+const frameworkOverlayClassName = "fixed inset-0 z-[60] flex items-center justify-center bg-transparent p-[1.25rem]";
+const frameworkInnerClassName = "flex h-full w-full min-h-0 flex-col items-center";
 const registerSelectedOptionClassName =
   "border border-transparent " +
   "[background:var(--btn-primary-bg-hover)] text-[color:var(--title-color,var(--brand-primary))] " +
   "shadow-[var(--btn-primary-shadow-hover)]";
-const FRAMEWORK_SIGNED_HREF = "/legal/SotsiaalAI_raamdokument_uuendatud_v2.asice";
-const FRAMEWORK_DOCX_HREF = "/legal/SotsiaalAI_raamdokument_uuendatud_v2.docx";
+const frameworkCheckboxRowClassName =
+  "fancy-checkbox--otp fancy-checkbox--multiline w-full max-w-[24rem] justify-start " +
+  "[--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-120)] " +
+  "[--otp-check-font-size:1.08rem] [--otp-check-line-height:1.3] [--otp-check-text-max-width:24rem] [--otp-check-box-offset:0rem] " +
+  "light:[--otp-check-shape:#1f2937] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:#1f2937]";
+const frameworkTitleClassName = `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static max-w-[14ch] text-balance max-[768px]:!mt-0 max-[768px]:!mb-0`;
+const frameworkTitleWrapClassName = "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center pt-[0.72rem] pb-[0rem] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+1.25rem)] max-[768px]:pb-[0.02rem]";
+const frameworkContentClassName = "mx-auto mt-[clamp(1.35rem,3.4vh,2rem)] flex w-full max-w-[clamp(19rem,46vw,24.5rem)] flex-col items-center gap-[0.9rem] px-[0.2rem] pb-[calc(env(safe-area-inset-bottom,0px)+1.2rem)]";
+const FRAMEWORK_SIGNED_HREF = "/legal/SotsiaalAI_raamdokument.asice";
 const isRegistrationOpen = !["false", "0", "off"].includes(
   String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true").trim().toLowerCase()
 );
@@ -61,7 +72,36 @@ export default function RegistreerimineBody({
   const localizedTitleClassName = `${titleClassName}${locale === "ru" ? " glass-title-register-ru" : ""}`;
   const scrollRef = useRef(null);
   const handleClose = () => {
-    pushWithTransition(router, localizePath("/", locale));
+    pushWithTransition(router, localizePath("/", locale), {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  };
+  const closeFrameworkModal = useCallback(() => {
+    runWithTransition(() => setIsFrameworkModalOpen(false), {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  }, []);
+  const openFrameworkPage = () => {
+    if (typeof window !== "undefined") {
+      const timestamp = window.sessionStorage.getItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY) || new Date().toISOString();
+      window.sessionStorage.setItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY, timestamp);
+      setFrameworkReviewOpenedAt(timestamp);
+    }
+    pushWithTransition(router, localizePath("/tooalase-kasutuse-raamistik", locale), {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  };
+  const handleSignedFrameworkDownload = () => {
+    if (typeof window === "undefined") return;
+    const timestamp = window.sessionStorage.getItem(WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY) || new Date().toISOString();
+    window.sessionStorage.setItem(WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY, timestamp);
+    setFrameworkSignedDownloadedAt(timestamp);
   };
   const PIN_MIN = 4;
   const PIN_MAX = 8;
@@ -79,6 +119,8 @@ export default function RegistreerimineBody({
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isFrameworkModalOpen, setIsFrameworkModalOpen] = useState(false);
+  const [frameworkReviewOpenedAt, setFrameworkReviewOpenedAt] = useState("");
+  const [frameworkSignedDownloadedAt, setFrameworkSignedDownloadedAt] = useState("");
   const [scrollPad, setScrollPad] = useState(0);
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
@@ -91,11 +133,22 @@ export default function RegistreerimineBody({
   const roleLabelId = useId();
   const roleHintId = useId();
   const roleLabelText = t("auth.register.role_label_question");
+  const frameworkTitleLines = locale === "et"
+    ? ["Tööalase kasutuse", "raamistik"]
+    : locale === "ru"
+      ? ["Рамка рабочего", "использования"]
+      : ["Professional-use", "framework"];
   const isSocialWorker = form.role === "SOCIAL_WORKER";
   const requiresFramework = isSocialWorker && form.workerUse === "ORG_IDENTIFIABLE";
-  const workerStepIndex = 3;
-  const agreementStepIndex = isSocialWorker ? 4 : 3;
-  const guideStepIndex = isSocialWorker ? 5 : 4;
+  const hasConfirmedFramework = requiresFramework && form.frameworkAck;
+  const registerRingClassName = cn(
+    "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]",
+    isFrameworkModalOpen ? "pointer-events-none opacity-0" : null
+  );
+  const agreementStepIndex = 3;
+  const guideStepIndex = 4;
+  const workerStepIndex = 5;
+  const submitStepIndex = isSocialWorker ? 6 : 5;
   function handleChange(e) {
     const {
       name,
@@ -179,6 +232,11 @@ export default function RegistreerimineBody({
           email,
           pin,
           role: form.role,
+          workerUse: form.workerUse,
+          frameworkAck: form.frameworkAck,
+          frameworkVersion: WORKER_FRAMEWORK_VERSION,
+          frameworkReviewOpenedAt: frameworkReviewOpenedAt || null,
+          frameworkSignedDownloadedAt: frameworkSignedDownloadedAt || null,
           locale
         })
       });
@@ -194,6 +252,12 @@ export default function RegistreerimineBody({
       setSuccessMessage(t("auth.register.success_message", {
         email
       }));
+      if (typeof window !== "undefined") {
+        window.sessionStorage.removeItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY);
+        window.sessionStorage.removeItem(WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY);
+      }
+      setFrameworkReviewOpenedAt("");
+      setFrameworkSignedDownloadedAt("");
       setForm(prev => ({
         ...initialForm,
         role: prev.role
@@ -231,6 +295,11 @@ export default function RegistreerimineBody({
   });
   const getRegisterStepClassName = index =>
     getItemClassName(index);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setFrameworkReviewOpenedAt(window.sessionStorage.getItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY) || "");
+    setFrameworkSignedDownloadedAt(window.sessionStorage.getItem(WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY) || "");
+  }, []);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const query = window.matchMedia("(max-width: 768px)");
@@ -350,21 +419,40 @@ export default function RegistreerimineBody({
     const onKey = e => {
       if (e.key !== "Escape") return;
       e.preventDefault();
+      if (isFrameworkModalOpen) {
+        closeFrameworkModal();
+        return;
+      }
       pushWithTransition(router, localizePath("/", locale));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [router, locale]);
+  }, [closeFrameworkModal, isFrameworkModalOpen, router, locale]);
   const handleWorkerUseToggle = checked => {
+    if (checked) {
+      setForm(prev => ({
+        ...prev,
+        workerUse: "ORG_IDENTIFIABLE"
+      }));
+      setIsFrameworkModalOpen(true);
+      return;
+    }
+
+    if (typeof window !== "undefined") {
+      window.sessionStorage.removeItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY);
+      window.sessionStorage.removeItem(WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY);
+    }
+    setFrameworkReviewOpenedAt("");
+    setFrameworkSignedDownloadedAt("");
     setForm(prev => ({
       ...prev,
-      workerUse: checked ? "ORG_IDENTIFIABLE" : "",
-      frameworkAck: checked ? prev.frameworkAck : false
+      workerUse: "",
+      frameworkAck: false
     }));
-    setIsFrameworkModalOpen(checked);
+    setIsFrameworkModalOpen(false);
   };
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
+      <GlassRing className={registerRingClassName} data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
         <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]" aria-hidden="true">
           <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>
@@ -416,15 +504,6 @@ export default function RegistreerimineBody({
                 </div>
               </section>
 
-              {isSocialWorker ? <section className={`${registerStepClassName} ${getRegisterStepClassName(workerStepIndex)}`}>
-                  <div className="flex flex-col gap-[0.95rem]">
-                    <OptionCard type="checkbox" name="workerUseOrg" checked={requiresFramework} onChange={e => handleWorkerUseToggle(e.target.checked)} className={`w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${checkboxCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
-                      {t("auth.register.worker_use_org")}
-                    </OptionCard>
-                  </div>
-              </section>
-               : null}
-
               <section className={`${registerStepClassName} ${getRegisterStepClassName(agreementStepIndex)}`}>
                 <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} fitTextLines={2} fitTextMinPx={15} className={`register-agree-card ${checkboxCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
                     <RichText value={t("auth.register.agreement")} replacements={{
@@ -459,7 +538,16 @@ export default function RegistreerimineBody({
                 </OptionCard>
               </section>
 
-              <section className={`${registerStepClassName} ${getRegisterStepClassName(isSocialWorker ? 6 : 5)}`}>
+              {isSocialWorker ? <section className={`${registerStepClassName} ${getRegisterStepClassName(workerStepIndex)}`}>
+                  <div className="flex flex-col gap-[0.95rem]">
+                    <OptionCard type="checkbox" name="workerUseOrg" checked={hasConfirmedFramework} onChange={e => handleWorkerUseToggle(e.target.checked)} className={`w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${checkboxCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
+                      {t("auth.register.worker_use_org")}
+                    </OptionCard>
+                  </div>
+              </section>
+               : null}
+
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(submitStepIndex)}`}>
                 {!isRegistrationOpen && <div role="status" className="w-full rounded-[0.95rem] border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fde68a] light:text-[color:#92400e] text-[1.08rem] leading-[1.4]">
                     {t("auth.register.closed_notice")}
                   </div>}
@@ -493,34 +581,52 @@ export default function RegistreerimineBody({
           </div>
         </div>
       </GlassRing>
-      <Modal open={isFrameworkModalOpen} onClose={() => setIsFrameworkModalOpen(false)} variant="glass" contentClassName={frameworkModalClassName} aria-label={t("auth.register.worker_framework_title")}>
-        <BackButton onClick={() => setIsFrameworkModalOpen(false)} ariaLabel={t("buttons.back_previous")} className={`${glassPageBackTopLeftClassName} !inline-flex !absolute !left-[0.35rem] !top-[0.35rem] !z-[2] !h-[3.2rem] !w-[3.2rem] min-[769px]:![&>svg]:!h-[3.2rem] min-[769px]:![&>svg]:!w-[3.2rem] max-[768px]:![&>svg]:!h-[3.2rem] max-[768px]:![&>svg]:!w-[3.2rem]`} />
-        <div className="pt-[2.3rem]">
-          <div className="mb-[0.45rem] text-[1.05rem] font-medium text-[color:var(--title-color,var(--brand-primary))]">
-            {t("auth.register.worker_framework_title")}
-          </div>
-          <p className="m-0 text-[0.98rem] leading-[1.42]">
-            {t("auth.register.worker_framework_note")}
-          </p>
-          <div className="mt-[0.8rem] flex flex-wrap gap-[0.55rem]">
-            <a className={frameworkDownloadClassName} href={FRAMEWORK_SIGNED_HREF} download>
-              {t("auth.register.worker_framework_download_signed")}
-            </a>
-            <a className={frameworkDownloadClassName} href={FRAMEWORK_DOCX_HREF} download>
-              {t("auth.register.worker_framework_download_docx")}
-            </a>
-          </div>
-          <div className="mt-[0.85rem]">
-            <OptionCard type="checkbox" name="frameworkAck" checked={form.frameworkAck} onChange={handleChange} className={`register-framework-card !w-full gap-[0.72rem] text-[0.98rem] leading-[1.34] px-[0.95rem] py-[0.82rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}>
-              <RichText value={t("auth.register.worker_framework_ack")} replacements={{
-                framework: {
-                  open: `<a class="${registerPolicyLinkClassName}" href="${FRAMEWORK_SIGNED_HREF}" download>`,
-                  close: "</a>"
-                }
-              }} />
-            </OptionCard>
-          </div>
-        </div>
-      </Modal>
+      {isFrameworkModalOpen ? <div className={frameworkOverlayClassName} role="presentation" onClick={event => {
+      if (event.target === event.currentTarget) closeFrameworkModal();
+    }}>
+          <GlassRing className={frameworkRingClassName} role="dialog" aria-modal="true" aria-label={t("auth.register.worker_framework_title")}>
+            <div className={frameworkInnerClassName}>
+              <BackButton onClick={closeFrameworkModal} ariaLabel={t("buttons.back_previous")} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
+              <div className={frameworkTitleWrapClassName}>
+                <h2 className={frameworkTitleClassName}>
+                  <span className="block">{frameworkTitleLines[0]}</span>
+                  <span className="block">{frameworkTitleLines[1]}</span>
+                </h2>
+              </div>
+              <div className={frameworkContentClassName}>
+                <p className="m-0 text-center text-[1.14rem] leading-[1.52] max-[768px]:text-[1.18rem]">
+                  {t("auth.register.worker_framework_note")}
+                </p>
+                <div className="mt-[0.6rem] flex w-full max-w-[24.5rem] flex-col items-center gap-[0.8rem]">
+                  <div className="flex w-full flex-col items-center gap-[0.8rem] min-[769px]:flex-row min-[769px]:items-stretch min-[769px]:justify-center min-[769px]:gap-[0.7rem]">
+                    <Button type="button" onClick={openFrameworkPage} variant="primary" className={frameworkDownloadClassName}>
+                      {t("auth.register.worker_framework_open")}
+                    </Button>
+                    <Button as="a" href={FRAMEWORK_SIGNED_HREF} download onClick={handleSignedFrameworkDownload} variant="primary" className={frameworkDownloadClassName}>
+                      {t("auth.register.worker_framework_download_signed")}
+                    </Button>
+                  </div>
+                </div>
+                <div className="mt-[0.55rem]">
+                  <div className="flex w-full max-w-[24rem] flex-col gap-[0.45rem]">
+                    <FancyCheckbox
+                      id="framework-ack"
+                      name="frameworkAck"
+                      checked={form.frameworkAck}
+                      onChange={next => {
+                        setForm(prev => ({
+                          ...prev,
+                          frameworkAck: next
+                        }));
+                      }}
+                      label={t("auth.register.worker_framework_ack")}
+                      className={frameworkCheckboxRowClassName}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </GlassRing>
+      </div> : null}
     </section>;
 }

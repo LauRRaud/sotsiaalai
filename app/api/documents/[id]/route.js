@@ -35,6 +35,17 @@ function serializeDocument(document) {
     agentAllowed: Boolean(document.agentAllowed),
     mime: document.mime,
     size: document.size,
+    readOnly: Boolean(document.frameworkAcceptanceId),
+    frameworkAcceptance: document.frameworkAcceptance
+      ? {
+          id: document.frameworkAcceptance.id,
+          frameworkKey: document.frameworkAcceptance.frameworkKey,
+          frameworkVersion: document.frameworkAcceptance.frameworkVersion,
+          acceptanceType: document.frameworkAcceptance.acceptanceType,
+          acceptedAt: document.frameworkAcceptance.acceptedAt,
+          signedDocumentDownloadedAt: document.frameworkAcceptance.signedDocumentDownloadedAt
+        }
+      : null,
     createdAt: document.createdAt,
     updatedAt: document.updatedAt
   }
@@ -57,7 +68,19 @@ export async function GET(request, { params }) {
 
   try {
     const document = await prisma.userDocument.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        frameworkAcceptance: {
+          select: {
+            id: true,
+            frameworkKey: true,
+            frameworkVersion: true,
+            acceptanceType: true,
+            acceptedAt: true,
+            signedDocumentDownloadedAt: true
+          }
+        }
+      }
     })
     if (!document) {
       return errorJson("documents.errors.not_found", 404, locale)
@@ -115,6 +138,9 @@ export async function PATCH(request, { params }) {
       return errorJson("documents.errors.not_found", 404, locale)
     }
     assertOwnedByUser(existing, auth.userId)
+    if (existing.frameworkAcceptanceId) {
+      return errorJson("documents.errors.read_only_document", 403, locale)
+    }
 
     const kind = body?.kind == null ? existing.kind : normalizeDocumentKind(body.kind)
     const templateFor =
@@ -193,6 +219,9 @@ export async function DELETE(request, { params }) {
       return errorJson("documents.errors.not_found", 404, locale)
     }
     assertOwnedByUser(existing, auth.userId)
+    if (existing.frameworkAcceptanceId) {
+      return errorJson("documents.errors.read_only_document", 403, locale)
+    }
 
     await deleteStoredDocument(existing.storagePath)
     await prisma.userDocument.delete({

@@ -119,10 +119,27 @@ const Label = styled.label`
 
   &.fancy-checkbox--otp .text {
     color: var(--otp-check-text, var(--pt-150, #c9c7c2));
-    font-size: 1.3rem;
+    font-size: var(--otp-check-font-size, 1.3rem);
     font-weight: 500;
-    line-height: 1.24;
+    line-height: var(--otp-check-line-height, 1.24);
     white-space: nowrap;
+  }
+
+  &.fancy-checkbox--multiline {
+    align-items: flex-start;
+  }
+
+  &.fancy-checkbox--multiline .box {
+    margin-top: var(--otp-check-box-offset, 0.08rem);
+    flex-shrink: 0;
+  }
+
+  &.fancy-checkbox--multiline .text {
+    max-width: var(--otp-check-text-max-width, 100%);
+    white-space: normal;
+    text-align: left;
+    line-height: var(--otp-check-line-height, 1.36);
+    overflow-wrap: anywhere;
   }
 
   &.fancy-checkbox--otp {

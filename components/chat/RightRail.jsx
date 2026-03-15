@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { AddPersonIcon, ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, MaterialsIcon, ProfileIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
@@ -13,6 +12,7 @@ const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
+const RAIL_TOOLTIP_DISMISS_EVENT = "sotsiaalai:chat-rail-tooltip-dismiss";
 const DEFAULT_RAIL_ITEM_SIZE_PX = 48;
 const DEFAULT_RAIL_STEP_FACTOR = 1.12;
 const useIsomorphicLayoutEffect =
@@ -69,9 +69,6 @@ export default function RightRail({
   const pathname = usePathname();
   const slotRef = useRef(null);
   const railRef = useRef(null);
-  const itemRefs = useRef([]);
-  const tooltipRafRef = useRef(0);
-  const tooltipTrackUntilRef = useRef(0);
   const tooltipHideTimerRef = useRef(0);
   const tooltipSwitchTimerRef = useRef(0);
   const tooltipRevealRafRef = useRef(0);
@@ -85,7 +82,6 @@ export default function RightRail({
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [tooltipLabelIndex, setTooltipLabelIndex] = useState(1);
-  const [tooltipRect, setTooltipRect] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
   const [railProfileScale, setRailProfileScale] = useState(() => detectRailProfileScale());
   const [stepPx, setStepPx] = useState(() =>
@@ -101,24 +97,6 @@ export default function RightRail({
     [pathname]
   );
   const viewportIsMobile = isMounted ? isMobile : false;
-  const setTooltipFromRail = useCallback(() => {
-    const rail = railRef.current;
-    if (!rail) return;
-    const railRect = rail.getBoundingClientRect();
-    if (!railRect.width || !railRect.height) return;
-    const itemEl = rail.querySelector("[data-item-index]");
-    const itemSize = itemEl instanceof HTMLElement ? itemEl.offsetHeight : 48;
-    const edgeOffset = itemSize * 0.5;
-    const anchorLeft = railRect.left + railRect.width - edgeOffset - itemSize * 0.5;
-    const anchorTop = railRect.top + railRect.height * 0.5;
-    setTooltipRect({
-      top: anchorTop - itemSize * 0.5,
-      left: anchorLeft,
-      width: itemSize,
-      height: itemSize
-    });
-  }, []);
-
   useIsomorphicLayoutEffect(() => {
     setIsMounted(true);
   }, []);
@@ -140,6 +118,7 @@ export default function RightRail({
         window.clearTimeout(armClearTimerRef.current);
         armClearTimerRef.current = 0;
       }
+      tooltipVisibleRef.current = false;
     };
   }, []);
 
@@ -220,10 +199,17 @@ export default function RightRail({
     setIsTooltipVisible(false);
   }, []);
 
-  const showTooltipTemporarily = useCallback((index, durationMs = 1300) => {
+  const dismissAllRailTooltips = useCallback(() => {
+    hideTooltipImmediately();
+    if (typeof window === "undefined") return;
+    try {
+      window.dispatchEvent(new CustomEvent(RAIL_TOOLTIP_DISMISS_EVENT));
+    } catch {}
+  }, [hideTooltipImmediately]);
+
+  const showTooltipTemporarily = useCallback((index, durationMs = 1300, revealDelayMs = 0) => {
     if (viewportIsMobile || suspendPointerEvents || suppressTooltip || isRouteTilting) return;
     if (!Number.isFinite(index)) return;
-    setTooltipFromRail();
     if (tooltipSwitchTimerRef.current) {
       window.clearTimeout(tooltipSwitchTimerRef.current);
       tooltipSwitchTimerRef.current = 0;
@@ -233,18 +219,42 @@ export default function RightRail({
       tooltipRevealRafRef.current = 0;
     }
     tooltipLabelIndexRef.current = index;
-    tooltipVisibleRef.current = true;
     setTooltipLabelIndex(index);
-    setIsTooltipVisible(true);
     if (tooltipHideTimerRef.current) {
       window.clearTimeout(tooltipHideTimerRef.current);
+      tooltipHideTimerRef.current = 0;
     }
-    tooltipHideTimerRef.current = window.setTimeout(() => {
+    const revealTooltip = () => {
+      tooltipVisibleRef.current = true;
+      setIsTooltipVisible(true);
+      tooltipHideTimerRef.current = window.setTimeout(() => {
+        tooltipVisibleRef.current = false;
+        setIsTooltipVisible(false);
+        tooltipHideTimerRef.current = 0;
+      }, durationMs);
+    };
+    if (revealDelayMs > 0) {
+      if (tooltipVisibleRef.current) {
+        revealTooltip();
+        return;
+      }
       tooltipVisibleRef.current = false;
       setIsTooltipVisible(false);
-      tooltipHideTimerRef.current = 0;
-    }, durationMs);
-  }, [viewportIsMobile, suspendPointerEvents, suppressTooltip, isRouteTilting, setTooltipFromRail]);
+      tooltipSwitchTimerRef.current = window.setTimeout(() => {
+        tooltipSwitchTimerRef.current = 0;
+        revealTooltip();
+      }, revealDelayMs);
+      return;
+    }
+    revealTooltip();
+  }, [viewportIsMobile, suspendPointerEvents, suppressTooltip, isRouteTilting]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onDismiss = () => hideTooltipImmediately();
+    window.addEventListener(RAIL_TOOLTIP_DISMISS_EVENT, onDismiss);
+    return () => window.removeEventListener(RAIL_TOOLTIP_DISMISS_EVENT, onDismiss);
+  }, [hideTooltipImmediately]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -397,43 +407,6 @@ export default function RightRail({
   }, [activeWorkspaceKey, clearArmed, items, normalizedPathname, viewportIsMobile]);
 
   useEffect(() => {
-    const shouldTrackTooltip = !isMobile;
-    if (!shouldTrackTooltip) {
-      setTooltipRect(null);
-      if (tooltipRafRef.current) {
-        cancelAnimationFrame(tooltipRafRef.current);
-        tooltipRafRef.current = 0;
-      }
-      return;
-    }
-    const update = () => {
-      setTooltipFromRail();
-    };
-    const tick = () => {
-      update();
-      if (isTooltipVisible || performance.now() < tooltipTrackUntilRef.current) {
-        tooltipRafRef.current = requestAnimationFrame(tick);
-      } else {
-        tooltipRafRef.current = 0;
-      }
-    };
-    tooltipTrackUntilRef.current = performance.now() + 320;
-    update();
-    if (tooltipRafRef.current) cancelAnimationFrame(tooltipRafRef.current);
-    tooltipRafRef.current = requestAnimationFrame(tick);
-    window.addEventListener("resize", update);
-    window.addEventListener("scroll", update, true);
-    return () => {
-      window.removeEventListener("resize", update);
-      window.removeEventListener("scroll", update, true);
-      if (tooltipRafRef.current) {
-        cancelAnimationFrame(tooltipRafRef.current);
-        tooltipRafRef.current = 0;
-      }
-    };
-  }, [isMobile, isTooltipVisible, setTooltipFromRail]);
-
-  useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
   useEffect(() => {
@@ -460,7 +433,7 @@ export default function RightRail({
         activeIndexRef.current = next;
         setActiveIndex(next);
       }
-      showTooltipTemporarily(next, 1300);
+      showTooltipTemporarily(next, 1300, 180);
     };
     rail.addEventListener("wheel", onWheel, {
       passive: false,
@@ -512,7 +485,7 @@ export default function RightRail({
       cancelAnimationFrame(tooltipRevealRafRef.current);
       tooltipRevealRafRef.current = 0;
     }
-    showTooltipTemporarily(activeIndex, 1300);
+    showTooltipTemporarily(activeIndex, 1300, 180);
   }, [activeIndex, isMobile, mobileVisible, showTooltipTemporarily, suppressTooltip, suspendPointerEvents, isRouteTilting]);
 
   useEffect(() => {
@@ -566,9 +539,14 @@ export default function RightRail({
     !suspendPointerEvents &&
     !suppressTooltip &&
     !isRouteTilting &&
-    !!tooltipRect &&
     tooltipLabelIndex >= 0 &&
     tooltipLabelIndex < items.length;
+  const tooltipAnchorShiftX = inputFocused ? 0 : 7.4 * railProfileScale;
+  const tooltipAnchorStyle = {
+    transform: `translate(-50%, -50%) translateX(${tooltipAnchorShiftX.toFixed(2)}px) translateY(0px) scale(1.240)`,
+    opacity: "1",
+    zIndex: 10
+  };
 
   return <div ref={slotRef} className={slotClassName}>
       <nav className={cn(railClassName, !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={viewportIsMobile && !mobileVisible ? -1 : 0} inert={viewportIsMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail")} onKeyDown={onKeyDown}>
@@ -607,7 +585,6 @@ export default function RightRail({
         const zIndex = 10 - Math.abs(slotOffset);
 
         const setRailRef = el => {
-          itemRefs.current[itemIndex] = el;
           if (it?.key !== "sources") return;
           if (!sourcesButtonRef) return;
           if (typeof sourcesButtonRef === "function") {
@@ -640,6 +617,7 @@ export default function RightRail({
 
         const performActivate = event => {
           if (!it) return;
+          dismissAllRailTooltips();
           if (!viewportIsMobile) {
             setActiveIndex(itemIndex);
           }
@@ -715,23 +693,12 @@ export default function RightRail({
               </span>
             </button>;
       })}
+      {showDesktopTooltip ? <span className={cn(styles.item, styles.tooltipAnchor)} style={tooltipAnchorStyle} aria-hidden="true">
+          <span className={cn(styles.tooltip, isTooltipVisible ? styles.tooltipVisible : styles.tooltipHidden)} role="tooltip" aria-hidden={isTooltipVisible ? undefined : "true"}>
+            {items[tooltipLabelIndex]?.label || ""}
+          </span>
+        </span> : null}
 
       </nav>
-      {isMounted && showDesktopTooltip && typeof document !== "undefined"
-        ? createPortal(
-            <div
-              className={cn(styles.tooltip, isTooltipVisible ? styles.tooltipVisible : styles.tooltipHidden)}
-              style={{
-                position: "fixed",
-                top: tooltipRect.top + tooltipRect.height / 2,
-                left: tooltipRect.left
-              }}
-              role="tooltip"
-            >
-              {items[tooltipLabelIndex]?.label || ""}
-            </div>,
-            document.body
-          )
-        : null}
     </div>;
 }

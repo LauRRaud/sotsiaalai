@@ -4,6 +4,14 @@ import crypto from "node:crypto";
 import { hash } from "bcrypt";
 import { NextResponse } from "next/server";
 import { Role } from "@/generated/prisma/client";
+import {
+  WORKER_FRAMEWORK_ACCEPTANCE_SOURCE,
+  WORKER_FRAMEWORK_ACCEPTANCE_TYPE,
+  WORKER_FRAMEWORK_KEY,
+  WORKER_FRAMEWORK_VERSION,
+  normalizeOptionalTimestamp
+} from "@/lib/frameworkAcceptances";
+import { createFrameworkAcceptanceDocument } from "@/lib/frameworkAcceptances/server";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
@@ -153,7 +161,16 @@ export async function POST(request) {
     const email = normalizeEmail(body?.email);
     const pin = normalizePin(body?.pin ?? body?.password);
     const role = normalizeRole(body?.role);
+    const workerUse = String(body?.workerUse || "").trim().toUpperCase();
+    const frameworkAck = body?.frameworkAck === true;
+    const frameworkVersion =
+      String(body?.frameworkVersion || "").trim() || WORKER_FRAMEWORK_VERSION;
+    const frameworkReviewOpenedAt = normalizeOptionalTimestamp(body?.frameworkReviewOpenedAt);
+    const frameworkSignedDownloadedAt = normalizeOptionalTimestamp(body?.frameworkSignedDownloadedAt);
     const ip = getRequestIpFromRequest(request);
+    const userAgent = String(request.headers.get("user-agent") || "").trim() || null;
+    const requiresFramework =
+      role === Role.SOCIAL_WORKER && workerUse === "ORG_IDENTIFIABLE";
 
     const ipLimit = consumeRateLimit(
       `register:ip:${ip}`,
@@ -191,17 +208,46 @@ export async function POST(request) {
       });
     }
 
+    if (requiresFramework && !frameworkAck) {
+      return errorJson("auth.register.error.framework_ack_required", 400, locale, {
+        code: "FRAMEWORK_ACK_REQUIRED"
+      });
+    }
+
     const passwordHash = await hash(pin, 12);
+    let createdUser = null;
+    let frameworkAcceptance = null;
 
     try {
-      await prisma.user.create({
-        data: {
-          email,
-          passwordHash,
-          role,
-          subscriptions: {
-            create: {}
+      await prisma.$transaction(async (tx) => {
+        createdUser = await tx.user.create({
+          data: {
+            email,
+            passwordHash,
+            role,
+            subscriptions: {
+              create: {}
+            }
           }
+        });
+
+        if (requiresFramework) {
+          frameworkAcceptance = await tx.frameworkAcceptance.create({
+            data: {
+              userId: createdUser.id,
+              frameworkKey: WORKER_FRAMEWORK_KEY,
+              frameworkVersion,
+              acceptanceType: WORKER_FRAMEWORK_ACCEPTANCE_TYPE,
+              acceptanceSource: WORKER_FRAMEWORK_ACCEPTANCE_SOURCE,
+              roleAtAcceptance: role,
+              locale,
+              ipAddress: ip || null,
+              userAgent,
+              acceptedAt: new Date(),
+              reviewDocumentOpenedAt: frameworkReviewOpenedAt,
+              signedDocumentDownloadedAt: frameworkSignedDownloadedAt
+            }
+          });
         }
       });
     } catch (error) {
@@ -211,6 +257,18 @@ export async function POST(request) {
         });
       }
       throw error;
+    }
+
+    if (createdUser && frameworkAcceptance) {
+      try {
+        await createFrameworkAcceptanceDocument({
+          acceptance: frameworkAcceptance,
+          user: createdUser,
+          locale
+        });
+      } catch (documentError) {
+        console.error("[register] framework acceptance document creation failed", documentError);
+      }
     }
 
     try {

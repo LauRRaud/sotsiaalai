@@ -792,6 +792,14 @@ export default function AnalyticsDashboard() {
           {
             label: t("admin.analytics.platform.documents.artifact_downloads_30d", "Artifact downloads (30d)"),
             value: formatCount(artifactDownloadCount, localeTag)
+          },
+          {
+            label: t("admin.analytics.platform.documents.framework_acceptances_30d", "Framework acceptances (30d)"),
+            value: formatCount(summary?.documents?.frameworkAcceptances?.accepted30d || 0, localeTag)
+          },
+          {
+            label: t("admin.analytics.platform.documents.framework_signed_30d", "Signed downloads (30d)"),
+            value: formatCount(summary?.documents?.frameworkAcceptances?.signedDownloaded30d || 0, localeTag)
           }
         ]
       }
@@ -1277,6 +1285,104 @@ export default function AnalyticsDashboard() {
             {platformCards.map(card => (
               <MetricListCard key={card.title} title={card.title} items={card.items} />
             ))}
+          </div>
+        </div>
+      </div>
+
+      <div className={cardClassName} id="analytics-framework-acceptances">
+        <div className={cardBodyClassName}>
+          <div className={sectionHeadClassName}>
+            <div>
+              <CardTitle>{t("admin.analytics.framework_acceptances.title", "Framework acceptances")}</CardTitle>
+              <div className={sectionSubClassName}>
+                {t("admin.analytics.framework_acceptances.subtitle", "Recent professional-use acceptance records saved during registration.")}
+              </div>
+            </div>
+          </div>
+          <div className={docsGridClassName}>
+            <KpiCard
+              title={t("admin.analytics.framework_acceptances.total", "Total")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.documents?.frameworkAcceptances?.total || 0, localeTag)}
+            />
+            <KpiCard
+              title={t("admin.analytics.framework_acceptances.accepted_30d", "Accepted (30d)")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.documents?.frameworkAcceptances?.accepted30d || 0, localeTag)}
+            />
+            <KpiCard
+              title={t("admin.analytics.framework_acceptances.signed_30d", "Signed download recorded (30d)")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.documents?.frameworkAcceptances?.signedDownloaded30d || 0, localeTag)}
+            />
+          </div>
+          <div className={tableHeaderClassName}>
+            <div className={tableScrollHintClassName}>
+              {t("admin.common.table_scroll_hint", "Scroll sideways on smaller screens to see all columns.")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
+                  <tr>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.time", "Time")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.user", "User")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.role", "Role")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.framework_acceptances.version", "Version")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.framework_acceptances.signed", "Signed download")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.framework_acceptances.document", "Document")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loadingSummary ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={6}>
+                        {t("admin.common.loading_data", "Loading...")}
+                      </td>
+                    </tr>
+                  ) : (summary?.documents?.frameworkAcceptances?.recent || []).length ? (
+                    summary.documents.frameworkAcceptances.recent.map((row) => (
+                      <tr key={row.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>{formatDate(row.acceptedAt, localeTag)}</td>
+                        <td className={tableCellClassName}>{row.user?.email || "-"}</td>
+                        <td className={tableCellClassName}>{getRoleLabel(row.roleAtAcceptance, false)}</td>
+                        <td className={tableCellClassName}>{row.frameworkVersion || "-"}</td>
+                        <td className={tableCellClassName}>{row.signedDocumentDownloadedAt ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")}</td>
+                        <td className={tableCellClassName}>{row.document?.title || "-"}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={6}>
+                        {t("admin.analytics.table.empty", "No records found.")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingSummary ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : (summary?.documents?.frameworkAcceptances?.recent || []).length ? (
+              summary.documents.frameworkAcceptances.recent.map((row) => (
+                <div key={row.id} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div>
+                      <div className={mobileRowTitleClassName}>{row.user?.email || "-"}</div>
+                      <div className={mobileRowSubClassName}>{formatDate(row.acceptedAt, localeTag)}</div>
+                    </div>
+                    <span className={usersSelectCountClassName}>{row.frameworkVersion || "-"}</span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField label={t("admin.analytics.users.table.role", "Role")} value={getRoleLabel(row.roleAtAcceptance, false)} />
+                    <MobileInfoField label={t("admin.analytics.framework_acceptances.signed", "Signed download")} value={row.signedDocumentDownloadedAt ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")} />
+                  </div>
+                  <MobileInfoField label={t("admin.analytics.framework_acceptances.document", "Document")} value={row.document?.title || "-"} />
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>{t("admin.analytics.table.empty", "No records found.")}</div>
+            )}
           </div>
         </div>
       </div>

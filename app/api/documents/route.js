@@ -40,6 +40,17 @@ function serializeDocument(document) {
     agentAllowed: Boolean(document.agentAllowed),
     mime: document.mime,
     size: document.size,
+    readOnly: Boolean(document.frameworkAcceptanceId),
+    frameworkAcceptance: document.frameworkAcceptance
+      ? {
+          id: document.frameworkAcceptance.id,
+          frameworkKey: document.frameworkAcceptance.frameworkKey,
+          frameworkVersion: document.frameworkAcceptance.frameworkVersion,
+          acceptanceType: document.frameworkAcceptance.acceptanceType,
+          acceptedAt: document.frameworkAcceptance.acceptedAt,
+          signedDocumentDownloadedAt: document.frameworkAcceptance.signedDocumentDownloadedAt
+        }
+      : null,
     createdAt: document.createdAt,
     updatedAt: document.updatedAt
   }
@@ -65,6 +76,18 @@ export async function GET(request) {
       where: {
         ownerId: auth.userId,
         ...(kind ? { kind } : {})
+      },
+      include: {
+        frameworkAcceptance: {
+          select: {
+            id: true,
+            frameworkKey: true,
+            frameworkVersion: true,
+            acceptanceType: true,
+            acceptedAt: true,
+            signedDocumentDownloadedAt: true
+          }
+        }
       },
       orderBy: {
         updatedAt: "desc"

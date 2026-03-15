@@ -258,16 +258,14 @@
   font: inherit !important;
   letter-spacing: inherit !important;
   text-transform: none !important;
-  --link-brand-text: var(--brand-primary);
-  --link-brand-border-hover: transparent;
-  --link-brand-shadow-hover: transparent;
   display: inline !important;
   padding: 0 !important;
   border: 0 !important;
   box-shadow: none !important;
   border-radius: 0 !important;
   background: transparent !important;
-  text-decoration: none;
+  text-decoration: none !important;
+  cursor: pointer !important;
 }
 
 :root.theme-light .register-checkbox-card .register-policy-link,
@@ -278,16 +276,14 @@
   font: inherit !important;
   letter-spacing: inherit !important;
   text-transform: none !important;
-  --link-brand-text: var(--link-color, #7a3a38);
-  --link-brand-border-hover: transparent;
-  --link-brand-shadow-hover: transparent;
   display: inline !important;
   padding: 0 !important;
   border: 0 !important;
   box-shadow: none !important;
   border-radius: 0 !important;
   background: transparent !important;
-  text-decoration: none;
+  text-decoration: none !important;
+  cursor: pointer !important;
 }
 
 .register-checkbox-card {
@@ -361,6 +357,12 @@
   outline: none !important;
   vertical-align: baseline !important;
   position: static !important;
+}
+
+.register-checkbox-card .register-policy-link:hover,
+.register-checkbox-card .register-policy-link:focus-visible {
+  text-decoration: underline !important;
+  text-underline-offset: 0.1em;
 }
 
 .register-agree-card > span:last-child,
@@ -457,12 +459,6 @@ section[lang="en"] .register-guide-card {
   section[lang="en"] .register-guide-card > span:last-child {
     text-wrap: balance;
   }
-}
-
-.register-checkbox-card > span:last-child::before {
-  content: "";
-  display: inline-block;
-  width: 0.16em;
 }
 
 @media (min-width: 769px) {

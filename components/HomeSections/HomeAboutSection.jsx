@@ -59,6 +59,8 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     linkBrandInlineClass
   );
   const isRussianLocale = locale === "ru";
+  const adminFrameworkLinkLabel =
+    locale === "et" ? "Kinnitused" : locale === "ru" ? "Подтверждения" : "Acceptances";
   const homeCircleItemClassName = cn(
     "max-w-full"
   );
@@ -319,6 +321,14 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                       className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
                     >
                       {t("about.links.admin")}
+                    </AppLink>
+                  </li>
+                  <li className={homeCircleItemClassName}>
+                    <AppLink
+                      href="/admin/framework-acceptances"
+                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
+                    >
+                      {adminFrameworkLinkLabel}
                     </AppLink>
                   </li>
                 </>

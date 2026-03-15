@@ -133,7 +133,11 @@ export async function GET(req) {
       artifactsFinal,
       artifactCreates30d,
       artifactApprovals30d,
-      documentAuditActions30d
+      documentAuditActions30d,
+      frameworkAcceptancesTotal,
+      frameworkAcceptances30d,
+      frameworkAcceptancesSigned30d,
+      recentFrameworkAcceptances
     ] = await Promise.all([
       prisma.chatLog.count({
         where: {
@@ -475,6 +479,46 @@ export async function GET(req) {
           createdAt: { gte: since }
         },
         _count: { _all: true }
+      }),
+      prisma.frameworkAcceptance.count(),
+      prisma.frameworkAcceptance.count({
+        where: {
+          acceptedAt: { gte: since }
+        }
+      }),
+      prisma.frameworkAcceptance.count({
+        where: {
+          acceptedAt: { gte: since },
+          signedDocumentDownloadedAt: { not: null }
+        }
+      }),
+      prisma.frameworkAcceptance.findMany({
+        orderBy: { acceptedAt: "desc" },
+        take: 20,
+        select: {
+          id: true,
+          frameworkKey: true,
+          frameworkVersion: true,
+          acceptanceType: true,
+          acceptanceSource: true,
+          roleAtAcceptance: true,
+          locale: true,
+          acceptedAt: true,
+          reviewDocumentOpenedAt: true,
+          signedDocumentDownloadedAt: true,
+          document: {
+            select: {
+              id: true,
+              title: true
+            }
+          },
+          user: {
+            select: {
+              id: true,
+              email: true
+            }
+          }
+        }
       })
     ]);
 
@@ -596,7 +640,13 @@ export async function GET(req) {
         finalArtifacts: artifactsFinal,
         created30d: artifactCreates30d,
         approved30d: artifactApprovals30d,
-        actions30d: toCountMap(documentAuditActions30d, "action")
+        actions30d: toCountMap(documentAuditActions30d, "action"),
+        frameworkAcceptances: {
+          total: frameworkAcceptancesTotal,
+          accepted30d: frameworkAcceptances30d,
+          signedDownloaded30d: frameworkAcceptancesSigned30d,
+          recent: recentFrameworkAcceptances
+        }
       },
       averages: {
         avgRagMatchCount,

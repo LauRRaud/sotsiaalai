@@ -207,6 +207,7 @@ model User {
   documents      UserDocument[]
   agentArtifacts AgentArtifact[]
   documentAudits DocumentAudit[]
+  frameworkAcceptances FrameworkAcceptance[]
   materialSubmissions MaterialSubmission[]
 
   // Chat / runs
@@ -822,10 +823,12 @@ model UserDocument {
   size         Int
   sha256       String
   storagePath  String
+  frameworkAcceptanceId String? @unique
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
   owner               User                          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  frameworkAcceptance FrameworkAcceptance?          @relation(fields: [frameworkAcceptanceId], references: [id], onDelete: SetNull)
   templateArtifacts   AgentArtifact[]               @relation("AgentArtifactTemplate")
   sourceArtifactLinks AgentArtifactSourceDocument[]
   audits              DocumentAudit[]
@@ -834,6 +837,31 @@ model UserDocument {
   @@index([ownerId, kind, updatedAt])
   @@index([ownerId, agentAllowed, updatedAt])
   @@index([sha256])
+}
+
+model FrameworkAcceptance {
+  id                        String   @id @default(cuid())
+  userId                    String
+  frameworkKey              String
+  frameworkVersion          String
+  acceptanceType            String
+  acceptanceSource          String
+  roleAtAcceptance          Role
+  locale                    String?
+  ipAddress                 String?
+  userAgent                 String?
+  acceptedAt                DateTime @default(now())
+  reviewDocumentOpenedAt    DateTime?
+  signedDocumentDownloadedAt DateTime?
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  document UserDocument?
+
+  @@index([userId, acceptedAt])
+  @@index([frameworkKey, frameworkVersion, acceptedAt])
+  @@index([acceptanceType, acceptedAt])
 }
 
 model AgentArtifact {

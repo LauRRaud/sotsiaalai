@@ -384,12 +384,14 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 <div className="documents-library-list flex flex-col gap-[0.72rem]">
               {documentsLoading ? <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">{t("documents.loading")}</div> : null}
               {!documentsLoading && documents.length === 0 ? <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">{t("documents.empty_documents")}</div> : null}
-              {documents.map((document) => (
-                <article key={document.id} className="documents-card documents-document-row rounded-[1rem] border px-[0.85rem] py-[0.8rem]">
+              {documents.map((document) => {
+                const isReadOnly = Boolean(document.readOnly)
+                const frameworkAcceptance = document.frameworkAcceptance || null
+                return <article key={document.id} className="documents-card documents-document-row rounded-[1rem] border px-[0.85rem] py-[0.8rem]">
                   <div className="documents-document-row-top">
                     <div className="documents-document-row-main">
                       <div className="min-w-0 flex-1">
-                        {editingId === document.id ? (
+                        {editingId === document.id && !isReadOnly ? (
                           <div className="flex flex-wrap gap-[0.45rem]">
                             <Input value={editingTitle} onChange={(event) => setEditingTitle(event.target.value)} className="documents-form-input min-w-[15rem] flex-1" />
                             <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void saveRename(document.id)}>{t("buttons.save")}</Button>
@@ -400,22 +402,24 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                             <div className="documents-document-row-title">
                               <h3 className="documents-strong-text text-[1rem] font-semibold">{document.title}</h3>
                               <span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{kindLabel(document.kind, t)}</span>
+                              {isReadOnly ? <span className="documents-chip is-active rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{t("documents.framework_acceptance.system_chip", "Acceptance")}</span> : null}
                               {document.templateFor ? <span className="documents-chip is-active rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{templateForLabel(document.templateFor, t)}</span> : null}
                             </div>
                             <p className="documents-meta-text mt-[0.25rem] text-[0.9rem]">{document.originalName} · {formatFileSize(document.size)} · {formatDate(document.updatedAt, locale)}</p>
+                            {frameworkAcceptance ? <p className="documents-meta-text mt-[0.25rem] text-[0.84rem]">{t("documents.framework_acceptance.accepted_at", "Accepted")}: {formatDate(frameworkAcceptance.acceptedAt, locale)} · {t("documents.framework_acceptance.framework_version", "Version")}: {frameworkAcceptance.frameworkVersion} · {t("documents.framework_acceptance.status_confirmed", "Confirmed")}</p> : null}
                           </>
                         )}
                       </div>
                     </div>
                     <div className="documents-document-row-side">
-                      <label className="documents-inline-check documents-inline-check--allow">
+                      {!isReadOnly ? <label className="documents-inline-check documents-inline-check--allow">
                         <input type="checkbox" className="documents-checkbox" checked={document.agentAllowed} onChange={(event) => { void patchDocument(document.id, { agentAllowed: event.target.checked }) }} />
                         <span>{t("documents.actions.agent_allowed")}</span>
-                      </label>
+                      </label> : <p className="documents-meta-text documents-row-help documents-row-help--inline">{t("documents.framework_acceptance.read_only_note", "This record was created by the system and cannot be changed or deleted.")}</p>}
                     </div>
                   </div>
                   <div className="documents-document-row-selection">
-                    {document.agentAllowed ? (
+                    {!isReadOnly && document.agentAllowed ? (
                       <label className="documents-select-card">
                         <input type="checkbox" className="documents-checkbox" checked={selectedDocumentIds.includes(document.id)} onChange={(event) => toggleDocumentSelection(document.id, event.target.checked)} aria-label={t("documents.actions.select_document", { title: document.title })} />
                         <span className="documents-select-card-copy">
@@ -423,22 +427,22 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                         </span>
                       </label>
                     ) : (
-                      <p className="documents-meta-text documents-row-help documents-row-help--inline">{t("documents.multi_doc.enable_agent_allowed")}</p>
+                      <p className="documents-meta-text documents-row-help documents-row-help--inline">{isReadOnly ? t("documents.framework_acceptance.read_only_note", "This record was created by the system and cannot be changed or deleted.") : t("documents.multi_doc.enable_agent_allowed")}</p>
                     )}
                   </div>
                   <div className="documents-document-row-bottom">
-                    <div className="documents-controls-grid documents-controls-grid--row">
+                    {!isReadOnly ? <div className="documents-controls-grid documents-controls-grid--row">
                       <DocumentsDropdown ariaLabel={t("documents.form.kind_label")} value={document.kind} onChange={(nextKind) => { void patchDocument(document.id, { kind: nextKind, templateFor: nextKind === "TEMPLATE" ? document.templateFor : null }) }} options={kindOptions} />
                       {document.kind === "TEMPLATE" ? <DocumentsDropdown ariaLabel={t("documents.form.template_for_placeholder")} value={document.templateFor || ""} onChange={(nextValue) => { void patchDocument(document.id, { templateFor: nextValue || null }) }} options={templateForOptions} placeholder={t("documents.form.template_for_placeholder")} align="end" /> : <div className="documents-row-spacer" aria-hidden="true" />}
-                    </div>
+                    </div> : <div className="documents-row-spacer" aria-hidden="true" />}
                     <div className="documents-row-actions">
                       <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="ghost" className="documents-secondary-button">{t("documents.actions.download")}</Button>
-                      <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => { setEditingId(document.id); setEditingTitle(document.title || "") }}>{t("documents.actions.rename")}</Button>
-                      <Button type="button" size="sm" variant="danger" className="documents-danger-button" onClick={() => void deleteDocument(document.id)}>{t("documents.actions.delete")}</Button>
+                      {!isReadOnly ? <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => { setEditingId(document.id); setEditingTitle(document.title || "") }}>{t("documents.actions.rename")}</Button> : null}
+                      {!isReadOnly ? <Button type="button" size="sm" variant="danger" className="documents-danger-button" onClick={() => void deleteDocument(document.id)}>{t("documents.actions.delete")}</Button> : null}
                     </div>
                   </div>
                 </article>
-              ))}
+              })}
                 </div>
                 </div>
                 </div>
