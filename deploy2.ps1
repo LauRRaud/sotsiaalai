@@ -1,5 +1,6 @@
 param(
-    [string]$Message = ""
+    [string]$Message = "",
+    [string]$SshTarget = "sotsiaalai"
 )
 
 if (-not $Message -or $Message -eq "") {
@@ -19,6 +20,6 @@ git push origin main
 
 Write-Host "Täis deploy serverisse (backend + frontend + Prisma)..." 
 
-ssh ubuntu@uvn-72-147.tll01.zonevs.eu 'cd /home/ubuntu/apps/sotsiaalai; git pull; npm ci; npx prisma migrate deploy; npx prisma generate; npm run build; sudo systemctl restart sotsiaalai-rag.service; sudo systemctl status sotsiaalai-rag.service --no-pager; sudo systemctl restart sotsiaalai-frontend.service; sudo systemctl status sotsiaalai-frontend.service --no-pager'
+ssh $SshTarget 'cd /home/ubuntu/apps/sotsiaalai; git pull; npm ci; npx prisma migrate deploy; npx prisma generate; npm run build; sudo systemctl restart sotsiaalai-rag.service; sudo systemctl status sotsiaalai-rag.service --no-pager; sudo systemctl restart sotsiaalai-frontend.service; sudo systemctl status sotsiaalai-frontend.service --no-pager'
 
 Write-Host "Valmis."

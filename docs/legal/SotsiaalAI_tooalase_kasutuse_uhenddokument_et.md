@@ -1,0 +1,376 @@
+# SotsiaalAI tööalase kasutuse ühenddokument
+
+Versioon: 1.0  
+Kuupäev: 2026-03-15  
+Kasutus: täidetav ühenddokument organisatsioonile või tööandjale, kes soovib lubada töötajal kasutada SotsiaalAI platvormi töövahendina ning dokumenteerida tööalase kasutuse tingimused, vastutuse, andmekaitsekontrollid ja vajaduse korral volitatud töötleja tingimused ühes failis.
+
+## Oluline märkus
+
+Käesolev dokument on mõeldud vähendama bürokraatiat, koondades ühte faili:
+
+- organisatsiooni tööalase kasutuse loa ja sisemised kasutusreeglid;
+- töötaja kasutuskinnituse;
+- kontrollpunktid õigusliku aluse, eriliigiliste andmete, DPIA ja lepingulise raamistiku hindamiseks;
+- SotsiaalAI volitatud töötleja tingimused ulatuses, milles SotsiaalAI töötleb andmeid organisatsiooni nimel;
+- tehniliste ja korralduslike turvameetmete kirjelduse;
+- lühikese kasutuselevõtu kontroll-lehe.
+
+Käesolev dokument ei loo iseenesest õiguslikku alust isikuandmete töötlemiseks. Organisatsioon peab enne tööalase kasutuse lubamist eraldi kontrollima töötlemise eesmärki, õiguslikku alust, minimaalsust, eriliigiliste andmete töötlemise lubatavust, vajadust mõjuhinnanguks ning vajaduse korral kinnitama, et dokumendi lepinguline osa on SotsiaalAI poolt allkirjastatud või muul siduval viisil aktsepteeritud.
+
+## 1. Dokumendi eesmärk ja kasutusala
+
+Käesoleva ühenddokumendi eesmärk on anda organisatsioonile või tööandjale ühes kohas:
+
+- tööalase kasutuse otsus;
+- kasutusreeglid ja piirangud;
+- rollide ja vastutuse jaotus;
+- töötaja juhised ja kasutuskinnitus;
+- andmekaitse kontrollid;
+- volitatud töötleja tingimused;
+- tehniliste ja korralduslike turvameetmete kirjeldus.
+
+Dokument on mõeldud kasutamiseks muu hulgas sotsiaaltöö, lastekaitse, kriminaalhoolduse, rehabilitatsiooni, kogukonnatöö, nõustamise ja muude sarnaste töövaldkondade puhul, kus töötaja võib kasutada SotsiaalAI platvormi näiteks:
+
+- dokumentide, kirjade, vastuste, taotluste ja töömustandite koostamiseks;
+- kokkuvõtete loomiseks;
+- tööprotsessi juhendamiseks;
+- info struktureerimiseks;
+- lubatud töövoogudes dokumentide analüüsimiseks või praktiliste järgmiste sammude vormistamiseks.
+
+Dokumendi loogika eeldab, et töötaja kasutab platvormi oma tööalaseks tegevuseks organisatsiooni loal. Kui SotsiaalAI töötleb andmeid organisatsiooni nimel, kohaldub lisaks käesoleva dokumendi lepinguline osa ainult juhul, kui see on SotsiaalAI poolt allkirjastatud või muul siduval viisil aktsepteeritud.
+
+## 2. Mõisted
+
+Käesolevas dokumendis kasutatakse järgmisi mõisteid:
+
+- `Organisatsioon` tähendab tööandjat, asutust, KOV-i või muud üksust, kes otsustab tööalase kasutuse lubamise üle ja määrab töötlemise eesmärgid oma tööprotsessides.
+- `Töötaja` tähendab füüsilist isikut, kellele organisatsioon annab õiguse kasutada SotsiaalAI platvormi töövahendina.
+- `SotsiaalAI` tähendab SotsiaalAI OÜ hallatavat veebiplatvormi ning selle teenuse osutajat.
+- `Isikuandmed` tähendab kõiki andmeid, mis on seotud tuvastatud või tuvastatava füüsilise isikuga.
+- `Eriliigilised andmed` tähendab eelkõige terviseandmeid, sotsiaalhoolekande andmeid ja muid GDPR artikli 9 alla kuuluvaid andmeid.
+- `Tööalane kasutus` tähendab platvormi kasutamist tööülesannete täitmiseks organisatsiooni loal ning käesolevas dokumendis lubatud kasutusjuhtude piires.
+
+## 3. Tööalase kasutuse lubamise otsus
+
+Organisatsioon kinnitab käesoleva dokumendiga, et töötaja võib kasutada SotsiaalAI platvormi töövahendina ainult allpool kirjeldatud tingimustel, kontrollide olemasolul ja määratud kasutusjuhtude piires.
+
+| Väli | Sisu |
+|---|---|
+| Organisatsiooni nimi | `[täida]` |
+| Valdkond / üksus | `[täida]` |
+| Lubatud kasutajarollid | `[täida, nt sotsiaaltöötaja, lastekaitsespetsialist, nõustaja]` |
+| Lubatud kasutusjuhtumid | `[täida, nt mustandite koostamine, kokkuvõtete loomine, juhendamise tugi]` |
+| Keelatud kasutus | `[täida, nt autonoomne otsustamine, põhjendamata profileerimine, liigne andmesisestus]` |
+| Jõustumise kuupäev | `[täida]` |
+| Vastutav kontaktisik | `[täida]` |
+| Andmekaitse / infoturbe kontakt | `[täida]` |
+
+## 4. Kasutuse üldtingimused
+
+- SotsiaalAI on töövahend, mitte autonoomne otsustaja.
+- Platvormi väljund on abistav tööversioon, mustand, kokkuvõte või juhendav sisend.
+- Lõplik professionaalne hinnang, haldusotsus, soovitus või muu sisuline otsus jääb inimesele ning vajaduse korral organisatsioonile.
+- Platvormi ei tohi kasutada ainsa alusena otsusele, millel on inimese õigustele, kohustustele või olukorrale õiguslik või samaväärselt oluline mõju.
+- Kasutada tohib ainult neid andmeid, mis on konkreetse tööülesande täitmiseks vajalikud, proportsionaalsed ja minimaalsed.
+- Kui organisatsioon ei ole andnud selget luba tuvastatavate kliendiandmete kasutamiseks, tuleb eelistada anonümiseeritud või pseudonümiseeritud sisendit.
+- Kui töödeldakse eriliigilisi andmeid, seaduses eraldi reguleeritud andmeid või muul viisil kõrgema riskiga andmeid, peab organisatsioon enne kasutamist kontrollima vastava õigusliku aluse ja vajalike lisakontrollide olemasolu.
+
+## 5. Rollid ja vastutus
+
+### 5.1 Organisatsioon
+
+Organisatsioon vastutab selle eest, et SotsiaalAI kasutamine oleks kooskõlas:
+
+- tööülesannete ja sisekorrareeglitega;
+- kohaldatava õigusega;
+- andmekaitse nõuetega;
+- infoturbe reeglitega;
+- organisatsiooni sisemiste juhiste ja piirangutega.
+
+Organisatsioon hindab, millistes töövoogudes võib platvormi kasutada, milliseid andmekategooriaid võib sisestada, millal on vajalik täiendav kooskõlastus, mõjuhinnang, kirjalik lepinguline raamistik või täiendav kontroll.
+
+### 5.2 Töötaja
+
+Töötaja tohib SotsiaalAI-d kasutada ainult:
+
+- organisatsiooni lubatud kasutusjuhtude piires;
+- tööalase vajaduse olemasolul;
+- organisatsiooni juhiste kohaselt;
+- minimaalsuse põhimõtet järgides.
+
+Töötaja vastutab selle eest, et ta ei sisesta rohkem andmeid kui tööülesande täitmiseks hädavajalik ning et ta ei kasuta platvormi viisil, mis oleks vastuolus organisatsiooni juhiste, kutse-eetika, saladuse hoidmise kohustuse või kohaldatava õigusega.
+
+### 5.3 SotsiaalAI
+
+Kui SotsiaalAI töötleb andmeid organisatsiooni nimel, toimub see käesoleva dokumendi lepingulise osa alusel üksnes juhul, kui:
+
+- SotsiaalAI on dokumendi allkirjastanud;
+- või on selle samaväärselt kirjalikult või elektrooniliselt aktsepteerinud.
+
+SotsiaalAI rakendab riskipõhiseid tehnilisi ja korralduslikke turvameetmeid, mis on kirjeldatud käesoleva dokumendi lisas.
+
+## 6. Õigusliku aluse ja tööalase kasutuse lubatavuse kontroll
+
+Enne tuvastatavate kliendiandmete või muude tööalaste isikuandmete sisestamist peab organisatsioon kinnitama, et allpool toodud kontrollid on tehtud.
+
+| Kontrollpunkt | Staatus | Märkused / viide |
+|---|---|---|
+| Töötlemise eesmärk on selgelt määratletud. | `☐ tehtud ☐ ei kohaldu ☐ pooleli` | `[täida]` |
+| GDPR artikli 6 alune õiguslik alus on tuvastatud. | `☐ tehtud ☐ ei kohaldu ☐ pooleli` | `[täida]` |
+| Kui tegemist on avaliku sektori ülesandega, on kontrollitud sobivat avaliku sektori õiguslikku alust. | `☐ tehtud ☐ ei kohaldu ☐ pooleli` | `[täida]` |
+| Kui kasutatakse eriliigilisi andmeid, on hinnatud ka GDPR artikli 9 erand. | `☐ tehtud ☐ ei kohaldu ☐ pooleli` | `[täida]` |
+| Kui töödeldakse süüteoandmeid või nendega seotud teavet, on kontrollitud vastavat seaduslikku alust ja piiranguid. | `☐ tehtud ☐ ei kohaldu ☐ pooleli` | `[täida]` |
+| On hinnatud, kas vajalik on DPIA või muu mõjuhinnang. | `☐ tehtud ☐ ei kohaldu ☐ pooleli` | `[täida]` |
+| On hinnatud, kas SotsiaalAI töötleb andmeid organisatsiooni nimel ning kas käesoleva dokumendi lepinguline osa on vaja siduvalt jõustada. | `☐ tehtud ☐ ei kohaldu ☐ pooleli` | `[täida]` |
+| Töötajatele on antud juhised minimaalsuse, lubatud andmekategooriate ja keelatud kasutuse kohta. | `☐ tehtud ☐ ei kohaldu ☐ pooleli` | `[täida]` |
+
+## 7. Lubatud kasutusjuhtumid ja keelatud kasutus
+
+### 7.1 Lubatud kasutusjuhtumid
+
+Organisatsioon võib lubada muu hulgas järgmisi kasutusjuhtumeid:
+
+- mustandite koostamine;
+- kokkuvõtete loomine;
+- struktuuri või sõnastuse abi;
+- õiguste, toetuste, teenuste või menetlusetappide selgitav kaardistus;
+- organisatsiooni sisemiselt lubatud dokumentide ettevalmistamine;
+- dokumendi koostamise töövoog organisatsiooni määratud tingimustel.
+
+### 7.2 Keelatud kasutus
+
+Platvormi ei tohi kasutada vähemalt järgmistel viisidel:
+
+- autonoomse otsustamise vahendina;
+- ainsa alusena haldus- või sisulise otsuse tegemiseks;
+- põhjendamata profileerimiseks või järjestamiseks;
+- põhjendamatu tuvastatava või liigse isikuinfo sisestamiseks;
+- paroolide, autentimiskoodide, maksekaartide, API võtmete või muude saladuste sisestamiseks;
+- kasutuseks, mille organisatsioon on sõnaselgelt keelanud.
+
+## 8. Lubatud andmekategooriad ja piirangud
+
+Allolev maatriks on organisatsioonile soovituslik töövahend. Organisatsioon võib seda täpsustada vastavalt oma õiguslikule alusele, tööprotsessidele ja riskitasemele.
+
+| Andmekategooria | Vaikimisi reegel | Näide / märkus |
+|---|---|---|
+| Anonümiseeritud või pseudonümiseeritud juhtumikirjeldus | Lubatud | Eelistatud sisend mustandi või kokkuvõtte loomiseks |
+| Põhilised tööandmed ilma otseste tunnusteta | Lubatud, kui vajalik | Vanusevahemik, omavalitsus, tööjuhtumi üldkirjeldus |
+| Täisnimi, isikukood, täpne aadress, kontaktandmed | Ainult põhjendatud vajadusel | Kasuta ainult siis, kui tööülesanne seda päriselt nõuab ja organisatsioon on selle lubanud |
+| Terviseandmed, puude või sotsiaalhoolekande andmed | Ainult selge õigusliku aluse korral | Vajalik lisakontroll artikli 9 erandi osas |
+| Süüteoandmed või kriminaalmenetlusega seotud info | Piiratud / ainult seaduslikul alusel | Nõuab eraldi ettevaatust ja õiguskontrolli |
+| Paroolid, autentimiskoodid, pangakaardiandmed, API võtmed | Keelatud | Neid ei sisestata platvormi |
+
+## 9. Töötaja kasutuskinnitus
+
+Soovi korral võib organisatsioon kasutada allolevat kinnitust töötaja teadlikkuse ja kasutusreeglite dokumenteerimiseks.
+
+`☐ Mina, [nimi], kinnitan, et kasutan SotsiaalAI platvormi ainult tööalase vajaduse olemasolul ja organisatsiooni lubatud kasutusjuhtude piires.`
+
+`☐ Kinnitan, et ei sisesta platvormi rohkem isikuandmeid kui on vajalik ning ei kasuta SotsiaalAI-d autonoomse otsustamise vahendina.`
+
+`☐ Kinnitan, et järgin organisatsiooni juhiseid minimaalsuse, lubatud andmekategooriate ja keelatud kasutuse osas.`
+
+`☐ Kinnitan, et küsin vajaduse korral nõu oma juhilt, andmekaitse eest vastutavalt isikult või infoturbe kontaktilt.`
+
+## 10. Rikkumiste, vigade ja kahtluste käsitlus
+
+- Kui töötaja kahtlustab, et platvormi on sisestatud liigne, vale või loata teave, peab ta sellest viivitamata teavitama organisatsiooni määratud kontaktisikut.
+- Kui tekib kahtlus isikuandmete rikkumisele, tuleb järgida organisatsiooni rikkumiste käsitluse korda.
+- Kui SotsiaalAI tegutseb volitatud töötlejana, tuleb lähtuda ka käesoleva dokumendi lepingulises osas määratud teavituse ja koostöö korrast.
+
+## 11. Volitatud töötleja tingimused
+
+Käesolev peatükk kohaldub üksnes juhul, kui:
+
+- organisatsioon on hinnanud, et SotsiaalAI töötleb andmeid organisatsiooni nimel;
+- ning SotsiaalAI on selle peatüki allkirjastanud või muul kirjalikul või elektroonilisel viisil aktsepteerinud.
+
+### 11.1 Töötlemise ese, laad ja eesmärk
+
+SotsiaalAI töötleb isikuandmeid organisatsiooni nimel ulatuses, mis on vajalik SotsiaalAI platvormi tööalase kasutuse võimaldamiseks, sealhulgas:
+
+- dokumentide koostamine;
+- kokkuvõtete loomine;
+- info struktureerimine;
+- lubatud töövoogude tehniline käitamine;
+- autentimine, tehniline tugi, turve ja töökindlus.
+
+### 11.2 Töötlemise kestus
+
+Töötlemine kestab nii kaua, kui:
+
+- organisatsioon kasutab teenust;
+- töötlemine on vajalik teenuse osutamiseks;
+- või seni, kuni kohaldatavad säilitamisreeglid nõuavad konkreetse andmekategooria säilitamist.
+
+### 11.3 Isikuandmete liigid ja andmesubjektide kategooriad
+
+Võimalikud andmeliigid võivad hõlmata:
+
+- kliendi- või juhtumipõhiseid tööandmeid;
+- dokumentide sisu;
+- vestluse sisendeid;
+- kontaktandmeid;
+- sotsiaalhoolekande või tervisega seotud andmeid, kui organisatsioon on nende kasutuse eraldi lubanud ja õiguslikult hinnanud;
+- kasutaja konto- ja autentimisandmeid.
+
+Andmesubjektide kategooriad võivad hõlmata:
+
+- organisatsiooni kliente;
+- töötajaid;
+- koostööpartnereid;
+- teisi isikuid, kelle andmeid organisatsioon seaduslikult töötleb.
+
+### 11.4 Dokumenteeritud juhised
+
+SotsiaalAI töötleb isikuandmeid üksnes organisatsiooni dokumenteeritud juhiste alusel, välja arvatud juhul, kui kohaldatav liidu või liikmesriigi õigus nõuab teisiti.
+
+Organisatsiooni juhised tulenevad käesolevast dokumendist, teenuse kasutusreeglitest ja võimalikest täiendavatest kirjalikest juhistest.
+
+### 11.5 Konfidentsiaalsus
+
+SotsiaalAI tagab, et isikuandmete töötlemiseks volitatud isikud on seotud asjakohase konfidentsiaalsuskohustusega või nende suhtes kehtib vastav seadusest tulenev kohustus.
+
+### 11.6 Turvameetmed
+
+SotsiaalAI rakendab isikuandmete kaitseks riskipõhiseid tehnilisi ja korralduslikke meetmeid vastavalt käesoleva dokumendi peatükile 12.
+
+### 11.7 Alamvolitatud töötlejad
+
+SotsiaalAI võib kasutada alamvolitatud töötlejaid või teenusepakkujaid ainult teenuse osutamiseks vajalikus ulatuses.
+
+Olulised teenusepakkujate kategooriad hõlmavad muu hulgas:
+
+- tehnilise majutuse ja serveriinfrastruktuuri teenuseid;
+- makseteenuseid;
+- tehisintellekti- ja kõneteenuseid;
+- e-posti teenuseid;
+- logimise ja monitooringu teenuseid.
+
+Kui organisatsioon nõuab konkreetsemat loetelu või eelnevat teavitust, märgitakse see allpool:
+
+`[täida: eritingimused alamvolitatud töötlejate osas]`
+
+### 11.8 Abi organisatsioonile
+
+SotsiaalAI aitab mõistlikus ulatuses organisatsiooni:
+
+- andmesubjekti õiguste taotluste käsitlemisel;
+- turbeintsidentide ja rikkumiste hindamisel;
+- asjakohaste turvameetmete rakendamisel;
+- vajaduse korral andmekaitsealaste hindamiste ja konsultatsioonidega seotud koostöös ulatuses, mis on protsessori rolliga kooskõlas.
+
+### 11.9 Rikkumiste teavitus
+
+Kui SotsiaalAI tegutseb volitatud töötlejana ja saab teada isikuandmete rikkumisest, mis puudutab organisatsiooni andmeid, teavitab ta organisatsiooni põhjendamatu viivituseta, välja arvatud juhul, kui kohaldatav õigus nõuab teisiti.
+
+### 11.10 Audit, info andmine ning lepingu lõpp
+
+SotsiaalAI annab organisatsioonile mõistliku taotluse korral infot, mis on vajalik käesolevas dokumendis kirjeldatud kohustuste täitmise tõendamiseks, ulatuses, mis ei ohusta turvalisust ega riku teiste isikute õigusi või lepingulisi piiranguid.
+
+Töötlemise lõppemisel kustutab või tagastab SotsiaalAI organisatsiooni juhiste kohaselt isikuandmed, välja arvatud juhul, kui kohaldatav õigus nõuab nende säilitamist.
+
+## 12. Tehnilised ja korralduslikud turvameetmed
+
+### 12.1 Eesmärk
+
+Käesolev peatükk kirjeldab SotsiaalAI tehnilisi ja korralduslikke turvameetmeid, mida rakendatakse isikuandmete töötlemisel.
+
+### 12.2 Üldpõhimõtted
+
+SotsiaalAI rakendab riskipõhiseid tehnilisi ja korralduslikke meetmeid, mille eesmärk on tagada isikuandmete konfidentsiaalsus, terviklus, käideldavus ja taastatavus ning vähendada loata ligipääsu, andmekao, väärkasutuse, muutmise või avalikustamise riski.
+
+Turvameetmeid rakendatakse proportsionaalselt, arvestades töödeldavate andmete laadi, töötlemise eesmärki, tehnoloogia taset, rakendamise kulu ning võimalikke riske andmesubjektide õigustele ja vabadustele.
+
+### 12.3 Krüpteeritud ühendused ja andmekaitse
+
+- SotsiaalAI kasutab avaliku veebiliikluse kaitseks krüpteeritud ühendusi.
+- Ühendusturbe seaded vaadatakse perioodiliselt üle ning ajakohastatakse vastavalt teenuse, tehnoloogia ja riskide muutumisele.
+- Saladused, autentimisvõtmed ja muud tundlikud süsteemiparameetrid hoitakse eraldi rakenduse lähtekoodist ning piiratud ligipääsuga keskkonnas.
+- Autentimis- ja kinnituskirjeid kaitstakse asjakohaste tehniliste meetmetega, sealhulgas räsimise, pseudonüümimise või muu samaväärse kaitsega, kui see on vastava andmeliigi ja funktsiooni puhul kohane.
+
+### 12.4 Ligipääsukontroll ja rollipõhisus
+
+- Ligipääs isikuandmetele on piiratud rolli, tööfunktsiooni ja süsteemivajaduse põhimõttel.
+- Platvorm rakendab kasutajarollidest ja töövoogudest lähtuvaid õiguskontrolle, et piirata andmete nähtavust ja tegevusi vastavalt konkreetsele kasutusjuhule.
+- Kõrgendatud õigusi kasutatakse piiratud ulatuses ning ainult põhjendatud vajaduse korral.
+- Haldusligipääs on piiratud kontrollitud ja turvatud ligipääsukanalitega.
+- Rakenduse ja tugiteenuste võrgutasandi ligipääsud on piiratud selliselt, et avalikust võrgust oleksid kättesaadavad üksnes teenuse toimimiseks vajalikud liidesed ja teenused.
+
+### 12.5 Logimine ja audit
+
+- SotsiaalAI rakendab tehnilisi, turbe- ja töökindlusloge vigade, kuritarvituste, töökindluse probleemide ning turbesündmuste tuvastamiseks ja analüüsimiseks.
+- Vajaduse korral säilitatakse auditikirjeid toimingute, dokumentide või maksetöötluse kontrollimiseks ja tõendamiseks.
+- Ligipääs logidele on piiratud ning logisid ei kasutata turunduslikuks profileerimiseks.
+
+### 12.6 Varundus ja taastamine
+
+- SotsiaalAI rakendab varundus- ja taastamismeetmeid, et vähendada andmekao ja teenuse katkemise riski.
+- Taastamisprotseduure vaadatakse perioodiliselt üle ning vajaduse korral testitakse nende toimivust.
+- Varunduse täpsem ulatus, sagedus ja muud teenusespetsiifilised parameetrid võidakse täpsustada põhilepingus, teenuse lisas, SLA-s või operatiivses dokumentatsioonis.
+
+### 12.7 Haavatavuste haldus ja uuendused
+
+- SotsiaalAI rakendab tarkvara, sõltuvuste, konfiguratsioonide ja infrastruktuuri ajakohastamise protsessi, et vähendada teadaolevate haavatavuste riski.
+- Turvaparandused, kriitilised uuendused ja asjakohased konfiguratsioonimuudatused rakendatakse mõistliku aja jooksul vastavalt riski tasemele ja teenuse mõjule.
+- Avalikku rünnepinda piiratakse tulemüüri-, ligipääsu- ja võrgutasandi kontrollidega ning avalikust võrgust lubatakse üksnes vajalikud teenused.
+
+### 12.8 Intsidentide käsitlus ja rikkumiste teavitus
+
+- SotsiaalAI hoiab protsessi turbeintsidentide tuvastamiseks, haldamiseks, mõju hindamiseks, ohjamiseks ja kõrvaldamiseks.
+- Isikuandmetega seotud rikkumise kahtluse või kinnituse korral hinnatakse rikkumise olemust, ulatust, mõjutatud andmekategooriaid, võimalikke tagajärgi ning vajalikke kaitse- ja leevendusmeetmeid.
+- Kui SotsiaalAI tegutseb volitatud töötlejana, teavitab ta vastutavat töötlejat isikuandmete rikkumisest põhjendamatu viivituseta pärast rikkumisest teada saamist, välja arvatud juhul, kui kohaldatav õigus nõuab teisiti.
+
+### 12.9 Alamvolitatud töötlejad ja teenusepakkujad
+
+- SotsiaalAI kasutab teenuse osutamiseks ainult selliseid alamvolitatud töötlejaid või teenusepakkujaid, kelle kasutamine on vajalik teenuse osutamiseks või tugifunktsioonide tagamiseks.
+- Peamised teenusepakkujate kategooriad võivad hõlmata muu hulgas tehnilise majutuse ja serveriinfrastruktuuri teenuseid, makseteenuseid, tehisintellekti- ja kõneteenuseid, e-posti teenuseid, logimist, monitooringut ning muid teenuse toimimiseks vajalikke tugiteenuseid.
+
+### 12.10 Andmete säilitamine ja kustutus
+
+- SotsiaalAI rakendab säilitamis- ja kustutusreegleid, et andmeid ei hoitaks kauem, kui see on vajalik töötlemise eesmärgi, teenuse töövoo, turvalisuse või õigusliku kohustuse täitmiseks.
+- Erinevatele andmekategooriatele võivad kehtida erinevad säilitustähtajad, sealhulgas kontoga seotud andmetele, vestlusajaloole, ruumide andmetele, dokumentidele, auditikirjetele ja maksetega seotud kirjetele.
+- Platvormi tööandmete puhul kasutatakse üldjuhul lühikest säilitamisloogikat, mille kohaselt vestlused, ruumid, dokumendid, auditikirjed ja muud ajutisemad tööandmed säilivad üldjuhul kuni 90 päeva, kui seadus või konkreetne andmekategooria ei nõua teistsugust tähtaega.
+
+### 12.11 Hostingupiirkond ja serveri piirkond
+
+- SotsiaalAI põhihosting toimub VPS-põhises serverikeskkonnas.
+- SotsiaalAI kasutab tehnilise majutuse ja serveriinfrastruktuuri teenusepakkujana Zone Media OÜ VPS-teenust, mille kaudu toimub platvormi majutamine Euroopa Majanduspiirkonnas, sealhulgas Eestis.
+- Turvatundlikke üksikasju, nagu sisevõrgu skeemid, konkreetsed IP-aadressid, täielikud konfiguratsioonid või detailne rünnepinna kirjeldus, ei pea käesolevas dokumendis avaldama.
+
+### 12.12 Võimalikud välisülekanded
+
+- Kui isikuandmeid töödeldakse või tehakse kättesaadavaks väljaspool EL-i või EMP-d, tugineb SotsiaalAI sobivale õiguslikule ülekandemehhanismile, näiteks Euroopa Komisjoni piisavusotsusele või standardsetele lepingutingimustele.
+- Teatud AI- või kõneteenuste kasutamisel võib sõltuvalt valitud teenusepakkujast toimuda töötlemine või andmete edastus väljaspool EL-i või EMP-d; sellisel juhul rakendatakse sobivat ülekandemehhanismi ja vajaduse korral täiendavaid kaitsemeetmeid.
+
+### 12.13 Regulaarne ülevaatus ja testimine
+
+- SotsiaalAI vaatab turvameetmed perioodiliselt üle ning ajakohastab neid vastavalt tehnoloogia, riskide, teenuse funktsioonide ja õigusnõuete muutumisele.
+- Vajaduse korral testitakse meetmete toimivust, sealhulgas taastatavust, õiguskontrollide toimimist ja muude asjakohaste kaitsemeetmete piisavust.
+- Turvameetmete ülevaatus võib toimuda sisemiste kontrollide, tehniliste auditite, sündmuste analüüsi või muude asjakohaste hindamiste kaudu.
+
+## 13. Kinnitused ja jõustumine
+
+| Osapool | Nimi / ametikoht | Kuupäev | Allkiri / nõustumine |
+|---|---|---|---|
+| Organisatsiooni esindaja | `[täida]` | `[täida]` | `[täida]` |
+| Andmekaitse / infoturbe kooskõlastus | `[täida]` | `[täida]` | `[täida]` |
+| Töötaja teadmiseks võtmine | `[täida]` | `[täida]` | `[täida]` |
+| SotsiaalAI OÜ kinnitus (vajaduse korral) | `[täida]` | `[täida]` | `[täida]` |
+
+Käesolev dokument jõustub organisatsiooni sisemise tööalase kasutuse alusena allkirjastamise või kinnitamise hetkest. Peatükk 11 kohaldub SotsiaalAI suhtes ainult juhul, kui SotsiaalAI on selle siduvalt aktsepteerinud.
+
+## 14. Organisatsiooni lühike kasutuselevõtu kontroll-leht
+
+`☐ Organisatsioon on otsustanud, millistes töövoogudes SotsiaalAI-d tohib kasutada.`
+
+`☐ Organisatsioon on otsustanud, milliseid andmekategooriaid võib platvormi sisestada.`
+
+`☐ Organisatsioon on andnud töötajatele kirjalikud juhised minimaalsuse ja lubatud kasutuse kohta.`
+
+`☐ Vajaduse korral on hinnatud DPIA, välisülekannete, teenusepakkujate kasutamise ja volitatud töötleja tingimuste küsimused.`
+
+`☐ Töötajaid on teavitatud, et SotsiaalAI väljund on abistav ega asenda professionaalset otsust.`
+
+`☐ Organisatsioon on määranud kontaktisiku andmekaitse ja turbe küsimuste jaoks.`
