@@ -42,23 +42,27 @@ const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName = "register-input w-full min-[769px]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[769px]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
-const frameworkDownloadClassName = "w-full min-[769px]:flex-1 min-[769px]:max-w-[10.6rem] whitespace-normal text-center leading-[1.12] px-[0.95rem] py-[0.64rem] text-[0.98rem] no-underline min-h-[2.6rem] max-[768px]:max-w-[16.5rem] max-[768px]:!min-h-[2.85rem] max-[768px]:!px-[1.15rem] max-[768px]:!py-[0.68rem] max-[768px]:!text-[1.08rem]";
+const frameworkDownloadClassName = "w-auto whitespace-normal text-center leading-[1.08] !px-[1.45rem] !py-[0.7rem] !text-[1.1rem] no-underline !min-h-[2.95rem] min-[769px]:min-w-[10.9rem] max-[768px]:min-w-[11.6rem] max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.25rem] max-[768px]:!py-[0.72rem] max-[768px]:!text-[1.08rem]";
 const frameworkRingClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const frameworkOverlayClassName = "fixed inset-0 z-[60] flex items-center justify-center bg-transparent p-[1.25rem]";
-const frameworkInnerClassName = "flex h-full w-full min-h-0 flex-col items-center";
+const frameworkInnerClassName = "flex h-full w-full min-h-0 flex-col items-center text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const registerSelectedOptionClassName =
   "border border-transparent " +
   "[background:var(--btn-primary-bg-hover)] text-[color:var(--title-color,var(--brand-primary))] " +
   "shadow-[var(--btn-primary-shadow-hover)]";
 const frameworkCheckboxRowClassName =
-  "fancy-checkbox--otp fancy-checkbox--multiline w-full max-w-[24rem] justify-start " +
+  "fancy-checkbox--otp fancy-checkbox--multiline w-full max-w-[27rem] justify-start " +
   "[--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-120)] " +
-  "[--otp-check-font-size:1.08rem] [--otp-check-line-height:1.3] [--otp-check-text-max-width:24rem] [--otp-check-box-offset:0rem] " +
+  "[--otp-check-box-size:1.6rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:26.8rem] [--otp-check-box-offset:-0.06rem] " +
   "light:[--otp-check-shape:#1f2937] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:#1f2937]";
-const frameworkTitleClassName = `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static max-w-[14ch] text-balance max-[768px]:!mt-0 max-[768px]:!mb-0`;
-const frameworkTitleWrapClassName = "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center pt-[0.72rem] pb-[0rem] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+1.25rem)] max-[768px]:pb-[0.02rem]";
-const frameworkContentClassName = "mx-auto mt-[clamp(1.35rem,3.4vh,2rem)] flex w-full max-w-[clamp(19rem,46vw,24.5rem)] flex-col items-center gap-[0.9rem] px-[0.2rem] pb-[calc(env(safe-area-inset-bottom,0px)+1.2rem)]";
-const FRAMEWORK_SIGNED_HREF = "/legal/SotsiaalAI_raamdokument.asice";
+const frameworkTitleClassName = `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static max-w-[12ch] text-balance min-[769px]:!text-[2.28rem] min-[769px]:!leading-[1.06] min-[769px]:!mt-[2.1rem] min-[769px]:!mb-[0.1rem] max-[768px]:!mt-0 max-[768px]:!mb-0`;
+const frameworkTitleWrapClassName = "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center pt-[1rem] pb-[0.42rem] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+1.45rem)] max-[768px]:pb-[0.36rem]";
+const frameworkContentClassName = "mx-auto mt-[clamp(1.35rem,3.2vh,1.75rem)] flex w-full max-w-[clamp(19rem,48vw,26rem)] flex-col items-start gap-[1.05rem] px-[0.35rem] pb-[calc(env(safe-area-inset-bottom,0px)+1.35rem)]";
+const frameworkPanelClassName =
+  "w-full max-w-[24.8rem] self-center rounded-[1.15rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.28)] px-[1.15rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.42)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)] max-[768px]:max-w-[21rem] max-[768px]:px-[1rem] max-[768px]:py-[0.92rem]";
+const frameworkLeadClassName = "m-0 w-full max-w-[24.8rem] self-center text-left text-[1.04rem] leading-[1.46] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:max-w-[21rem] max-[768px]:text-[1.04rem]";
+const frameworkActionsClassName = "mt-[0.55rem] flex w-full items-stretch justify-center";
+const frameworkCheckboxWrapClassName = "mt-[0.7rem] flex w-full max-w-[27rem] self-center justify-center max-[768px]:max-w-[21rem]";
 const isRegistrationOpen = !["false", "0", "off"].includes(
   String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true").trim().toLowerCase()
 );
@@ -91,17 +95,7 @@ export default function RegistreerimineBody({
       window.sessionStorage.setItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY, timestamp);
       setFrameworkReviewOpenedAt(timestamp);
     }
-    pushWithTransition(router, localizePath("/tooalase-kasutuse-raamistik", locale), {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  };
-  const handleSignedFrameworkDownload = () => {
-    if (typeof window === "undefined") return;
-    const timestamp = window.sessionStorage.getItem(WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY) || new Date().toISOString();
-    window.sessionStorage.setItem(WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY, timestamp);
-    setFrameworkSignedDownloadedAt(timestamp);
+    router.push(localizePath("/tooalase-kasutuse-raamistik", locale));
   };
   const PIN_MIN = 4;
   const PIN_MAX = 8;
@@ -594,21 +588,18 @@ export default function RegistreerimineBody({
                 </h2>
               </div>
               <div className={frameworkContentClassName}>
-                <p className="m-0 text-center text-[1.14rem] leading-[1.52] max-[768px]:text-[1.18rem]">
-                  {t("auth.register.worker_framework_note")}
-                </p>
-                <div className="mt-[0.6rem] flex w-full max-w-[24.5rem] flex-col items-center gap-[0.8rem]">
-                  <div className="flex w-full flex-col items-center gap-[0.8rem] min-[769px]:flex-row min-[769px]:items-stretch min-[769px]:justify-center min-[769px]:gap-[0.7rem]">
+                <div className={frameworkPanelClassName}>
+                  <p className={frameworkLeadClassName}>
+                    {t("auth.register.worker_framework_note")}
+                  </p>
+                  <div className={frameworkActionsClassName}>
                     <Button type="button" onClick={openFrameworkPage} variant="primary" className={frameworkDownloadClassName}>
                       {t("auth.register.worker_framework_open")}
                     </Button>
-                    <Button as="a" href={FRAMEWORK_SIGNED_HREF} download onClick={handleSignedFrameworkDownload} variant="primary" className={frameworkDownloadClassName}>
-                      {t("auth.register.worker_framework_download_signed")}
-                    </Button>
                   </div>
                 </div>
-                <div className="mt-[0.55rem]">
-                  <div className="flex w-full max-w-[24rem] flex-col gap-[0.45rem]">
+                <div className={frameworkCheckboxWrapClassName}>
+                  <div className="flex w-full flex-col gap-[0.45rem]">
                     <FancyCheckbox
                       id="framework-ack"
                       name="frameworkAck"

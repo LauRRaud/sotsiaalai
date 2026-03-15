@@ -94,15 +94,15 @@ const Label = styled.label`
   &.fancy-checkbox--otp .box {
     background: transparent;
     border: 0;
-    width: 1.82rem;
-    height: 1.82rem;
+    width: var(--otp-check-box-size, 1.82rem);
+    height: var(--otp-check-box-size, 1.82rem);
     border-radius: 0.44rem;
     flex-shrink: 0;
   }
 
   &.fancy-checkbox--otp .svg {
-    width: 1.46rem;
-    height: 1.46rem;
+    width: calc(var(--otp-check-box-size, 1.82rem) * 0.8);
+    height: calc(var(--otp-check-box-size, 1.82rem) * 0.8);
   }
 
   &.fancy-checkbox--otp .shape {
@@ -149,6 +149,15 @@ const Label = styled.label`
 
   &.fancy-checkbox--otp .box {
     transform: translate(0.08rem, -0.08rem);
+  }
+
+  &.fancy-checkbox--otp.fancy-checkbox--multiline {
+    align-items: flex-start;
+  }
+
+  &.fancy-checkbox--otp.fancy-checkbox--multiline .box {
+    margin-top: var(--otp-check-box-offset, 0.08rem);
+    transform: translate(0.08rem, 0);
   }
 
   &.fancy-checkbox--otp:focus-within .box {
