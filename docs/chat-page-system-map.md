@@ -262,7 +262,7 @@ Result: no extra click is required after pressing "new conversation".
     - `SOCIAL_WORKER`: larger context budget by default
   - in extended mode (`combineSources=true`) document budget is reduced to leave room for RAG context
   - uses only chat-session uploaded material for chat document flow, not
-    `agentAllowed` selections from `/documents` or `/agendireziim`
+    `agentAllowed` selections from `/documents` or `/dokreziim`
 
 ## Storage and State
 

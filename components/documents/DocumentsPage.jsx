@@ -165,7 +165,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     { value: "title_asc", label: t("documents.artifacts.sort_title_asc") }
   ]), [t])
   const agentModeHref = useMemo(() => {
-    const basePath = localizePath("/agendireziim", locale)
+    const basePath = localizePath("/dokreziim", locale)
     if (!selectedDocumentIds.length) return basePath
     const params = new URLSearchParams({ documents: selectedDocumentIds.join(",") })
     return `${basePath}?${params.toString()}`

@@ -33,9 +33,12 @@ import {
 import { localizePath } from "@/lib/localizePath"
 
 const agentTitleClassName =
-  `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
+  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
+  `!mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
   `!text-[clamp(1.9rem,3.6vw,2.6rem)] !leading-[1.06] !tracking-[0.02em] ` +
-  `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08] max-[768px]:!mt-0`
+  `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08]`
+const mobileTitleWrapClassName =
+  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
 
 const chipBaseClassName =
   "documents-chip inline-flex min-h-[2.6rem] items-center justify-center rounded-full px-[0.9rem] py-[0.38rem] text-[1.02rem] leading-none"
@@ -223,7 +226,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   }
 
   function buildWorkspaceHref(nextArtifactId = "") {
-    const basePath = localizePath("/agendireziim", locale)
+    const basePath = localizePath("/dokreziim", locale)
     const params = new URLSearchParams()
     if (selectedDocumentIds.length) params.set("documents", selectedDocumentIds.join(","))
     if (nextArtifactId) params.set("artifact", nextArtifactId)
@@ -1302,7 +1305,9 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           <header className="documents-page-header documents-page-header--panel">
             <div className="documents-page-header-row">
               <div className="documents-page-heading">
-                <h1 className={agentTitleClassName}>{t("chat.tools.agent_mode")}</h1>
+                <div className={mobileTitleWrapClassName}>
+                  <h1 className={agentTitleClassName}>{t("chat.tools.agent_mode")}</h1>
+                </div>
                 <p className="documents-page-description documents-agent-page-description">{introText}</p>
                 {isAdmin && isRoleViewActive ? (
                   <div className="documents-notice documents-notice--muted mt-[0.8rem] rounded-[1rem] px-[1rem] py-[0.95rem] text-[0.95rem]">

@@ -4,10 +4,26 @@ import { getServerSession } from "next-auth"
 import { authConfig } from "@/auth"
 import AgentModePage from "@/components/agent/AgentModePage"
 import { requireSubscription, roleFromSession } from "@/lib/authz"
-import { getLocaleFromCookies } from "@/lib/i18n"
+import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n"
 import { localizePath } from "@/lib/localizePath"
+import { buildLocalizedMetadata } from "@/lib/metadata"
 
-export default async function AgentModeRoute({ searchParams }) {
+export async function generateMetadata() {
+  const cookieStore = await cookies()
+  const locale = getLocaleFromCookies(cookieStore)
+  const messages = getMessagesSync(locale)
+  const title = messages?.chat?.tools?.agent_mode || messages?.documents?.agent_handoff?.title || "Dokumendi koostamine"
+  const description = messages?.documents?.agent_handoff?.description || ""
+
+  return buildLocalizedMetadata({
+    locale,
+    pathname: "/dokreziim",
+    title,
+    description
+  })
+}
+
+export default async function DocumentWorkspaceRoute({ searchParams }) {
   const cookieStore = await cookies()
   const locale = getLocaleFromCookies(cookieStore)
   const session = await getServerSession(authConfig).catch(() => null)

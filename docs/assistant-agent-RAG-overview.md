@@ -23,7 +23,7 @@ structuring, or help-offer structuring.
 The current runtime split is:
 
 1. Main chat orchestrator at `/vestlus`
-2. Document workspace at `/agendireziim`
+2. Document workspace at `/dokreziim`
 
 They share:
 
@@ -237,7 +237,7 @@ The agent creates and refines drafts from user-selected documents, such as:
 - `lib/chat/documentWorkflowState.js`
 - `lib/chat/documentWorkflowText.js`
 - `app/api/chat/route.js`
-- `app/agendireziim/page.js`
+- `app/dokreziim/page.js`
 - `components/agent/AgentModePage.jsx`
 - `app/api/documents/artifacts/generate/route.js`
 - `app/api/documents/artifacts/refine/route.js`
@@ -285,7 +285,7 @@ surface is role-dependent:
   - chat-generated draft appears in Documents results
   - chat response links point to the Documents page and artifact detail
 - `CLIENT`
-  - chat-generated draft appears in `/agendireziim`
+  - chat-generated draft appears in `/dokreziim`
   - recent results are listed there and the active draft opens there
 
 Download behavior remains approval-gated:

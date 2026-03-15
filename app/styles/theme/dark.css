@@ -191,11 +191,7 @@
     0 0 14px rgba(248, 253, 255, 0.18),
     0 0 30px rgba(248, 253, 255, 0.1);
   --home-scroll-cue-color: #c57171;
-  --home-panel-bg: color-mix(
-    in srgb,
-    var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) 82%,
-    rgba(6, 8, 16, 0.85) 18%
-  );
+  --home-panel-bg: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
   --home-panel-shadow:
     0 0 16px rgba(248, 253, 255, 0.2);
   --home-before-shadow:

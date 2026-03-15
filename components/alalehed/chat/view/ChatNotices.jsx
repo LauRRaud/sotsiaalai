@@ -14,6 +14,13 @@ const floatingRecordingAlertClassName =
   "bottom-[clamp(1.15rem,3.2vh,1.9rem)] max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+5rem)] " +
   "mb-0 mt-0";
 
+const recordingNoticeClassName =
+  "mt-[0.5rem] mb-[0.75rem] self-center mx-auto text-center " +
+  "w-fit max-w-[min(30rem,calc(100%-2.2rem))] whitespace-normal " +
+  "px-[0.15rem] py-0 text-[0.98rem] font-[600] leading-[1.38] " +
+  "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:none] " +
+  "border-0 bg-transparent shadow-none backdrop-blur-0 [-webkit-backdrop-filter:none]";
+
 export function ChatTopNotices({
   t,
   isRoomMode,
@@ -53,7 +60,7 @@ export function ChatRecordingNotice({
   floating = false
 }) {
   if (!recordingError) return null;
-  return <div role="alert" className={`${chatAlertClassName} ${floating ? floatingRecordingAlertClassName : ""}`.trim()}>
+  return <div role="alert" className={`${recordingNoticeClassName} ${floating ? floatingRecordingAlertClassName : ""}`.trim()}>
     {recordingError}
   </div>;
 }

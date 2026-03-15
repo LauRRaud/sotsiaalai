@@ -76,7 +76,7 @@ test("document task attachments route workers to documents results and draft det
   assert.deepEqual(attachments, [
     { label: "Ava Dokumentide lehel", url: "/documents?artifacts=all#artifacts" },
     { label: "Ava mustand", url: "/documents/artifacts/artifact-123" },
-    { label: "Ava agendireziimis", url: "/agendireziim?artifact=artifact-123" }
+    { label: "Ava dokumendi koostamise vaates", url: "/dokreziim?artifact=artifact-123" }
   ]);
 });
 
@@ -88,8 +88,8 @@ test("document task attachments route clients only to agent mode results", () =>
   });
 
   assert.deepEqual(attachments, [
-    { label: "Ava tulemus", url: "/agendireziim?artifact=artifact-123" },
-    { label: "Ava Agendireziimi lehel", url: "/agendireziim" }
+    { label: "Ava tulemus", url: "/dokreziim?artifact=artifact-123" },
+    { label: "Ava dokumendi koostamise lehel", url: "/dokreziim" }
   ]);
 });
 
@@ -106,7 +106,7 @@ test("document task attachments can include direct download links when artifact 
     { label: "Ava mustand", url: "/documents/artifacts/artifact-123" },
     { label: "Laadi DOCX alla", url: "/api/documents/artifacts/artifact-123/download?format=docx" },
     { label: "Laadi PDF alla", url: "/api/documents/artifacts/artifact-123/download?format=pdf" },
-    { label: "Ava agendireziimis", url: "/agendireziim?artifact=artifact-123" }
+    { label: "Ava dokumendi koostamise vaates", url: "/dokreziim?artifact=artifact-123" }
   ]);
 });
 
@@ -117,6 +117,6 @@ test("generated intro tells each role where the draft appears", () => {
   );
   assert.match(
     buildDocumentGeneratedIntro({ replyLang: "et", role: "CLIENT" }),
-    /Agendireziimi lehel/i
+    /dokumendi koostamise lehel/i
   );
 });

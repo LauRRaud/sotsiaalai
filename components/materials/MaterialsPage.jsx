@@ -198,7 +198,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
     if (!shouldReduceMotion()) {
       setClosing(true)
     }
-    pushWithTransition(router, localizePath("/profiil", resolvedLocale), {
+    pushWithTransition(router, localizePath("/vestlus", resolvedLocale), {
       glassRingTilt: "left",
       waitForGlassRingTilt: true,
       persistGlassRingTilt: false
@@ -212,7 +212,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
       >
         <BackButton
           onClick={handleBack}
-          ariaLabel={t("materials_page.back_to_profile")}
+          ariaLabel={t("profile.back_to_chat")}
           className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`}
         />
 

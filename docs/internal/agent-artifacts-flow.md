@@ -21,7 +21,7 @@ artifact model:
 - chat-session file uploads are attached through the composer paperclip and are
   scoped only to the active chat document flow
 - chat document flow does not inherit `agentAllowed` selections from
-  `/documents` or `/agendireziim`
+  `/documents` or `/dokreziim`
 - role-based file limits in chat:
   - `CLIENT`: `2`
   - `SOCIAL_WORKER`: `10`
@@ -33,7 +33,7 @@ Current result surfaces are role-based even though persistence stays in the same
   - sees chat-generated drafts under `/documents` results and artifact detail
     pages
 - `CLIENT`
-  - sees chat-generated drafts in `/agendireziim`
+  - sees chat-generated drafts in `/dokreziim`
 
 Current download rule:
 
@@ -48,7 +48,7 @@ Current list/detail payload rule:
 - artifact list endpoints return lightweight rows by default
 - full `content` is fetched on demand from the artifact detail route when the UI
   needs copy or full-detail actions
-- this keeps `/documents` and `/agendireziim` result lists lighter while keeping
+- this keeps `/documents` and `/dokreziim` result lists lighter while keeping
   detail behavior unchanged
 
 ## Assumptions

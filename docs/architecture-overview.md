@@ -14,7 +14,7 @@ project.
   - `/` -> landing page
   - `/vestlus` -> chat
   - `/documents` -> documents and artifacts
-  - `/agendireziim` -> document workspace and client results surface
+  - `/dokreziim` -> document workspace and client results surface
   - `/rooms` and `/room/[roomId]` -> rooms
   - `/admin/*` -> admin pages
 - Backend endpoints are implemented as route handlers under `app/api/*`.
@@ -203,7 +203,7 @@ The current intended shell is:
   - my help requests
   - my help offers
 
-`/agendireziim` still exists as the dedicated document workspace and also acts
+`/dokreziim` is the dedicated document workspace and also acts
 as the primary results surface for the client role.
 
 `/tellimus` is also the user-facing status surface for sponsored access:
@@ -220,7 +220,7 @@ Current role-based document result behavior:
     views
 - `CLIENT`
   - chat-generated drafts are stored as `AgentArtifact` records
-  - the user is directed to `/agendireziim`, where recent results and the
+  - the user is directed to `/dokreziim`, where recent results and the
     active draft are shown
 - DOCX/PDF download remains available only after approval (`FINAL`), not while
   the artifact is still a draft

@@ -35,7 +35,7 @@ export default async function Page({ searchParams }) {
   }
 
   if (session?.user?.id && roleState.effectiveRole === "CLIENT") {
-    redirect(localizePath("/agendireziim", locale))
+    redirect(localizePath("/dokreziim", locale))
   }
 
   const resolvedSearchParams = await searchParams

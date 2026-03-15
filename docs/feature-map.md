@@ -145,7 +145,7 @@ entrypoints, and primary data models.
   - download DOCX or PDF
   - show chat-generated drafts in different result surfaces by role
 - Frontend surfaces:
-  - `/agendireziim`
+  - `/dokreziim`
   - `components/agent/AgentModePage.jsx`
   - `/documents`
   - document artifact detail views
@@ -173,7 +173,7 @@ Current role split:
   - primary results surface: `/documents` -> results list and artifact detail
   - chat-generated drafts link back to Documents
 - `CLIENT`
-  - primary results surface: `/agendireziim`
+  - primary results surface: `/dokreziim`
   - recent chat-generated drafts appear there and open in the same workspace
 - draft download is blocked until approval; only `FINAL` artifacts expose DOCX
   and PDF download URLs

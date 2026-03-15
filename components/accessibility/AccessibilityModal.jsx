@@ -67,6 +67,9 @@ const optionCardButtonClassName =
 const optionCardTextScaleDesktopClassName =
   "whitespace-nowrap";
 const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";
+const saveButtonClassName =
+  "max-w-[22rem] whitespace-normal text-center leading-[1.2] px-[1.6rem] py-[1.05rem] text-[1.18rem] " +
+  "max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]";
 const accessibilityChevronStrokeWidthDesktop = 0.72;
 const accessibilityChevronStrokeWidthMobile = 1.04;
 export default function AccessibilityModal({
@@ -638,12 +641,12 @@ export default function AccessibilityModal({
               <Button
               type="button"
               variant="primary"
-              className="min-w-[9.5rem] text-[1.12rem] px-[1.1em] py-[0.6em] max-[768px]:min-w-[10.8rem] max-[768px]:text-[1.25rem] max-[768px]:px-[1.28em] max-[768px]:py-[0.72em] max-[480px]:min-w-[9rem] max-[480px]:text-[1.14rem]"
+              className={saveButtonClassName}
               onClick={save}
               aria-label={t("accessibility.save")}
               disabled={saveDisabled}
             >
-              {t("accessibility.save")}
+              <span>{t("accessibility.save")}</span>
             </Button>
           </div>
           {saveDisabled ? <p className={`csp-step ${getA11yStepClassName(6)} mt-[-0.6rem] mb-0 px-[1rem] text-center text-[0.98rem] leading-[1.35] text-[color:var(--glass-surface-text-soft,var(--pt-120))] max-[768px]:mt-[-0.25rem] max-[768px]:text-[1.04rem]`}>

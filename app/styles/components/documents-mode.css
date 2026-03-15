@@ -1502,11 +1502,18 @@
 }
 
 .documents-dropdown-icon {
-  height: 1rem;
-  width: 1rem;
+  height: 1.22rem;
+  width: 1.22rem;
   flex-shrink: 0;
   color: var(--documents-page-muted);
   transition: transform 150ms ease;
+}
+
+@media (max-width: 768px) {
+  .documents-dropdown-icon {
+    height: 1.34rem;
+    width: 1.34rem;
+  }
 }
 
 .documents-dropdown-icon.is-open {

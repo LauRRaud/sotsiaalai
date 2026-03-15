@@ -266,7 +266,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             ref={beforeContentRef}
             className="relative z-[1] w-fit max-w-[min(88vw,26rem)] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.44rem,0.92vw,0.68rem)] max-[768px]:gap-[clamp(0.3rem,0.74vw,0.44rem)] max-[768px]:max-w-[min(88vw,24rem)] items-center"
           >
-            <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.66rem,1.15vw,0.9rem)] max-[768px]:mb-[clamp(0.42rem,0.95vw,0.58rem)] mt-[clamp(-0.52rem,-1.18vw,-0.8rem)] max-[768px]:mt-[clamp(-0.34rem,-0.82vw,-0.56rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.16] text-[color:var(--home-prose-color)]">
+            <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.66rem,1.15vw,0.9rem)] max-[768px]:mb-[clamp(0.78rem,1.8vw,1rem)] mt-[clamp(-0.52rem,-1.18vw,-0.8rem)] max-[768px]:mt-[clamp(-0.34rem,-0.82vw,-0.56rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.16] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
             </h3>
             <ul className={beforeListClassName}>

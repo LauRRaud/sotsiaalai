@@ -691,7 +691,7 @@
       "deep_research": "Süvauuring",
       "deep_research_room_only": "Süvauuring on saadaval ainult 1:1 vestluses.",
       "documents": "Dokumendid",
-      "agent_mode": "Agendirežiim"
+      "agent_mode": "Dokumendi koostamine"
     },
     "analysis": {
       "extended_label": "Laiendatud analüüs"
@@ -788,7 +788,7 @@
       },
       "generated": {
         "worker": "Mustand valmis. Ava see Dokumentide lehel.",
-        "client": "Mustand valmis. Ava see Agendireziimi lehel."
+        "client": "Mustand valmis. Ava see dokumendi koostamise lehel."
       },
       "labels": {
         "documentType": "Dokumendi liik",
@@ -1036,7 +1036,7 @@
       "open_all_results": "Kõik tulemused",
       "show_latest": "Näita viimaseid",
       "agent_allowed": "Kasuta töörežiimis",
-      "open_agent_mode": "Ava agendirežiimis",
+      "open_agent_mode": "Ava dokumendi koostamisse",
       "saving": "Salvestan...",
       "create_report": "Koosta aruanne",
       "creating_report": "Loon mustandit...",
@@ -1070,16 +1070,16 @@
       "enable_agent_allowed": "Lülita esmalt sisse \"Kasuta töörežiimis\", et seda dokumenti valida."
     },
     "agent_handoff": {
-      "title": "Agendirežiim",
-      "description": "Vali dokumendid siin ja ava need agendirežiimis, kus toimub tegelik töö.",
+      "title": "Dokumendi koostamine",
+      "description": "Vali dokumendid siin ja ava need dokumendi koostamise lehel, kus toimub tegelik töö.",
       "selected_count": "Valitud: {count}",
-      "empty_help": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need agendirežiimi kaasa.",
-      "ready_help": "Valitud dokumendid on valmis. Jätka agendirežiimis, et valida ülesanne ja alustada tööga.",
-      "empty_help_worker": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need agendirežiimi kaasa spetsialisti töömustandi jaoks.",
-      "empty_help_client": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need agendirežiimi kaasa pöörduja teksti või vormi koostamiseks.",
-      "ready_help_worker": "Valitud dokumendid on valmis. Jätka agendirežiimis, et koostada spetsialisti töömustand.",
-      "ready_help_client": "Valitud dokumendid on valmis. Jätka agendirežiimis, et koostada pöördujale vajalik tekst või vormi täitmise tulemus.",
-      "agent_page_title": "Agendirežiimi töölaud",
+      "empty_help": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need dokumendi koostamisse kaasa.",
+      "ready_help": "Valitud dokumendid on valmis. Jätka dokumendi koostamise lehel, et valida ülesanne ja alustada tööga.",
+      "empty_help_worker": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need dokumendi koostamisse kaasa spetsialisti töömustandi jaoks.",
+      "empty_help_client": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need dokumendi koostamisse kaasa pöörduja teksti või vormi koostamiseks.",
+      "ready_help_worker": "Valitud dokumendid on valmis. Jätka dokumendi koostamise lehel, et koostada spetsialisti töömustand.",
+      "ready_help_client": "Valitud dokumendid on valmis. Jätka dokumendi koostamise lehel, et koostada pöördujale vajalik tekst või vormi täitmise tulemus.",
+      "agent_page_title": "Dokumendi koostamise töölaud",
       "agent_page_empty": "Kirjelda, mida on vaja koostada. Agent teeb valitud dokumentide põhjal esimese mustandi.",
       "agent_page_with_docs": "Valitud dokumendid on kaasas. Kirjelda ülesanne ja agent teeb nende põhjal esimese mustandi.",
       "agent_page_empty_worker": "Anna agendile ülesanne ja juhis. Agent koostab valitud dokumentide põhjal spetsialisti töömustandi.",
@@ -1090,7 +1090,7 @@
     "agent_workspace": {
       "selected_documents_title": "Valitud dokumendid",
       "selected_documents_description": "Need failid on praegu selles agenditöö sessioonis kaasas. Valikut saad muuta Dokumentides.",
-      "empty_documents": "Ühtegi dokumenti ei ole veel agendirežiimi kaasa toodud.",
+      "empty_documents": "Ühtegi dokumenti ei ole veel dokumendi koostamisse kaasa toodud.",
       "unavailable_documents": "Valitud dokumendid ei ole siin enam saadaval. Mine tagasi Dokumentidesse ja vali failid uuesti.",
       "select_documents": "Vali dokumendid",
       "missing_documents": "{count} varem valitud dokumenti ei õnnestunud laadida.",
@@ -1328,7 +1328,7 @@
       "jump_link": "Platvormi kasutusjuhend",
       "short_title": "Kasutusjuhend",
       "title": "Kuidas kasutada platvormi?",
-      "intro": "See juhend annab ülevaate, kuidas SotsiaalAI-s valida rolli, luua konto, aktiveerida ligipääsu ning kasutada vestlust, keele ja ligipääsetavuse seadeid, abi- ja dokumenditöövooge, agendirežiimi, ruume ja rollipõhiseid lehti.",
+      "intro": "See juhend annab ülevaate, kuidas SotsiaalAI-s valida rolli, luua konto, aktiveerida ligipääsu ning kasutada vestlust, keele ja ligipääsetavuse seadeid, abi- ja dokumenditöövooge, dokumendi koostamist, ruume ja rollipõhiseid lehti.",
       "sections_v2": {
         "accessibility": {
           "title": "1. Keel ja ligipääsetavus",
@@ -1348,15 +1348,15 @@
         },
         "chat": {
           "title": "5. Vestlusleht",
-        "body": "<p><strong>Vestlusleht</strong> avaneb pärast sisselogimist. Leht jaguneb kolmeks: vasak kerimismenüü, keskmine vestlusala ja parem kerimismenüü.</p><p><strong>Keskmine vestlusala</strong></p><ul><li>Kirjuta sõnum sisestusväljale ja saada see nupu või Enteriga.</li><li>Vastuse loomise ajal muutub saatenupp peatamise nupuks.</li></ul><p><strong>Hääl, kerimine ja hoiatused</strong></p><ul><li>Mikrofoni nupuga saad kasutada dikteerimist; assistendi viimast vastust saab lasta ette lugeda.</li><li>Kui kerid vestluses üles, ilmub kiire nupp vestluse lõppu naasmiseks.</li><li>Võimaliku kriisiolukorra korral kuvatakse punane teavituskast kiire abi juhistega.</li></ul><p><strong>Keskmine vestlusala</strong></p><ul><li><strong>Plussmärk (+).</strong> Sisestuslahtri kõrval olev <strong>+</strong> avab vestluse tööriistad. Sealt saad sõltuvalt rollist ja olukorrast avada näiteks dokumendi analüüsi, süvauuringu, <strong>Dokumendid</strong> või <strong>Agendirežiimi</strong>.</li><li>Kui avad olemasoleva ruumi, muutub sama ala ruumivestluseks, kus näed ühiseid sõnumeid ja saad jätkata suhtlust kutsutud inimestega.</li></ul><p><strong>Assistendi töörežiimid vestluses</strong></p><ul><li><strong>Assistendirežiim.</strong> See on tavaline vestlusrežiim, kus saad küsida infot, selgitusi, järgmisi samme ja allikatega vastuseid.</li><li><strong>Dokumendi koostamise režiim.</strong> Kui sinu sõnum viitab dokumendi, kirja, vastuse või vormi koostamisele, küsib assistent enne töövoo alustamist loomulikus keeles kinnitust.</li><li><strong>Abisoovi režiim.</strong> Kui soovid abi otsida, juhib assistent sind abisoovi kirje koostamiseni.</li><li><strong>Abipakkumise režiim.</strong> Kui soovid abi pakkuda, juhib assistent sind abipakkumise kirje koostamiseni.</li><li>Kui vastad assistendi töörežiimi küsimusele <strong>jah</strong>, lukustub valitud töövoog sellesse vestlusesse; kui vastad <strong>ei</strong>, pakub assistent teisi variante.</li></ul><p><strong>Abisoovid ja abipakkumised</strong></p><ul><li>Abisoov või abipakkumine luuakse vestluses samm-sammult.</li><li>Kirje salvestatakse alles siis, kui kinnitad selle vestluses tekstiga nagu <strong>jah</strong> või <strong>salvesta</strong>.</li><li>Vasakust kerimismenüüst näed kõigi kasutajate kirjeid, paremast kerimismenüüst oma kirjeid.</li><li>Kirje avamisel kuvatakse vestlusalas detailvaade, kust saad võtta ühendust, pakkuda abi, küsida AI-lt selgitusi, muuta oma kirjet, sulgeda selle või kustutada selle.</li><li>Abisoovi ja abipakkumise sidumine loob või avab olemasoleva ruumi, kus päris vestlus saab jätkuda.</li></ul><p><strong>Dokumendirežiim ja rollipõhised tulemused</strong></p><ul><li>Dokumendi koostamine algab alles pärast seda, kui kinnitad assistendi pakutud dokumenditöövoo.</li><li>Assistent küsib puuduvaid andmeid ükshaaval ja näitab enne genereerimist lühikest kokkuvõtet.</li><li>Aktiivses dokumendirežiimis ilmub kirjaklamber <strong>+</strong>-märgi kõrvale. Sellega lisatud failid kehtivad ainult selle vestluse ja selle dokumenditöö jaoks.</li><li>Failide piirmäär on rollipõhine: eluküsimusega pöördujal kuni 2 faili, sotsiaaltöö spetsialistil kuni 10 faili.</li><li>Kui kinnitad kokkuvõtte vastusega <strong>jah</strong>, luuakse mustand.</li><li><strong>Sotsiaaltöö spetsialistil</strong> avaneb vestlusest loodud tulemus lehel <strong>Dokumendid</strong>.</li><li><strong>Eluküsimusega pöördujal</strong> avaneb vestlusest loodud tulemus lehel <strong>Agendirežiim</strong>, kus saad mustandit edasi täpsustada, salvestada ja märkida valmis.</li><li>DOCX- ja PDF-allalaadimine muutub kättesaadavaks alles pärast mustandi kinnitamist lõplikuks versiooniks.</li></ul><p><strong>Vasak kerimismenüü</strong></p><ul><li><strong>Vestlused.</strong> Ava varasemad vestlused, loo uus vestlus ja laadi vanemaid vestlusi.</li><li><strong>Abisoovid.</strong> Ava üleplatvormiline abisoovide nimekiri.</li><li><strong>Abipakkumised.</strong> Ava üleplatvormiline abipakkumiste nimekiri.</li><li><strong>Allikad.</strong> Kui vastus kasutab materjale, saad avada kasutatud allikate loendi.</li></ul><p><strong>Parem kerimismenüü</strong></p><ul><li><strong>Profiil.</strong> Ava konto-, tellimuse- ja ligipääsetavuse seaded.</li><li><strong>Ruumid.</strong> Ava olemasolevad grupivestlused.</li><li><strong>Lisa inimene.</strong> Saada kutse teisele inimesele. Kutsel saad valida, kas kutsutul on oma tellimus või tasud ühe kuu sponsoreeritud ligipääsu tema eest.</li><li><strong>Minu abisoovid</strong> ja <strong>Minu abipakkumised.</strong> Ava enda kirjed otse vestlusest.</li><li><strong>Materjalid.</strong> Laadi üles asjakohaseid materjale ja dokumente, et täiendada SotsiaalAI andmebaasi. Kõik saadetud failid vaadatakse enne andmebaasi lisamist üle.</li></ul>"
+        "body": "<p><strong>Vestlusleht</strong> avaneb pärast sisselogimist. Leht jaguneb kolmeks: vasak kerimismenüü, keskmine vestlusala ja parem kerimismenüü.</p><p><strong>Keskmine vestlusala</strong></p><ul><li>Kirjuta sõnum sisestusväljale ja saada see nupu või Enteriga.</li><li>Vastuse loomise ajal muutub saatenupp peatamise nupuks.</li></ul><p><strong>Hääl, kerimine ja hoiatused</strong></p><ul><li>Mikrofoni nupuga saad kasutada dikteerimist; assistendi viimast vastust saab lasta ette lugeda.</li><li>Kui kerid vestluses üles, ilmub kiire nupp vestluse lõppu naasmiseks.</li><li>Võimaliku kriisiolukorra korral kuvatakse punane teavituskast kiire abi juhistega.</li></ul><p><strong>Keskmine vestlusala</strong></p><ul><li><strong>Plussmärk (+).</strong> Sisestuslahtri kõrval olev <strong>+</strong> avab vestluse tööriistad. Sealt saad sõltuvalt rollist ja olukorrast avada näiteks dokumendi analüüsi, süvauuringu, <strong>Dokumendid</strong> või <strong>Dokumendi koostamise</strong>.</li><li>Kui avad olemasoleva ruumi, muutub sama ala ruumivestluseks, kus näed ühiseid sõnumeid ja saad jätkata suhtlust kutsutud inimestega.</li></ul><p><strong>Assistendi töörežiimid vestluses</strong></p><ul><li><strong>Assistendirežiim.</strong> See on tavaline vestlusrežiim, kus saad küsida infot, selgitusi, järgmisi samme ja allikatega vastuseid.</li><li><strong>Dokumendi koostamise režiim.</strong> Kui sinu sõnum viitab dokumendi, kirja, vastuse või vormi koostamisele, küsib assistent enne töövoo alustamist loomulikus keeles kinnitust.</li><li><strong>Abisoovi režiim.</strong> Kui soovid abi otsida, juhib assistent sind abisoovi kirje koostamiseni.</li><li><strong>Abipakkumise režiim.</strong> Kui soovid abi pakkuda, juhib assistent sind abipakkumise kirje koostamiseni.</li><li>Kui vastad assistendi töörežiimi küsimusele <strong>jah</strong>, lukustub valitud töövoog sellesse vestlusesse; kui vastad <strong>ei</strong>, pakub assistent teisi variante.</li></ul><p><strong>Abisoovid ja abipakkumised</strong></p><ul><li>Abisoov või abipakkumine luuakse vestluses samm-sammult.</li><li>Kirje salvestatakse alles siis, kui kinnitad selle vestluses tekstiga nagu <strong>jah</strong> või <strong>salvesta</strong>.</li><li>Vasakust kerimismenüüst näed kõigi kasutajate kirjeid, paremast kerimismenüüst oma kirjeid.</li><li>Kirje avamisel kuvatakse vestlusalas detailvaade, kust saad võtta ühendust, pakkuda abi, küsida AI-lt selgitusi, muuta oma kirjet, sulgeda selle või kustutada selle.</li><li>Abisoovi ja abipakkumise sidumine loob või avab olemasoleva ruumi, kus päris vestlus saab jätkuda.</li></ul><p><strong>Dokumendirežiim ja rollipõhised tulemused</strong></p><ul><li>Dokumendi koostamine algab alles pärast seda, kui kinnitad assistendi pakutud dokumenditöövoo.</li><li>Assistent küsib puuduvaid andmeid ükshaaval ja näitab enne genereerimist lühikest kokkuvõtet.</li><li>Aktiivses dokumendirežiimis ilmub kirjaklamber <strong>+</strong>-märgi kõrvale. Sellega lisatud failid kehtivad ainult selle vestluse ja selle dokumenditöö jaoks.</li><li>Failide piirmäär on rollipõhine: eluküsimusega pöördujal kuni 2 faili, sotsiaaltöö spetsialistil kuni 10 faili.</li><li>Kui kinnitad kokkuvõtte vastusega <strong>jah</strong>, luuakse mustand.</li><li><strong>Sotsiaaltöö spetsialistil</strong> avaneb vestlusest loodud tulemus lehel <strong>Dokumendid</strong>.</li><li><strong>Eluküsimusega pöördujal</strong> avaneb vestlusest loodud tulemus lehel <strong>Dokumendi koostamine</strong>, kus saad mustandit edasi täpsustada, salvestada ja märkida valmis.</li><li>DOCX- ja PDF-allalaadimine muutub kättesaadavaks alles pärast mustandi kinnitamist lõplikuks versiooniks.</li></ul><p><strong>Vasak kerimismenüü</strong></p><ul><li><strong>Vestlused.</strong> Ava varasemad vestlused, loo uus vestlus ja laadi vanemaid vestlusi.</li><li><strong>Abisoovid.</strong> Ava üleplatvormiline abisoovide nimekiri.</li><li><strong>Abipakkumised.</strong> Ava üleplatvormiline abipakkumiste nimekiri.</li><li><strong>Allikad.</strong> Kui vastus kasutab materjale, saad avada kasutatud allikate loendi.</li></ul><p><strong>Parem kerimismenüü</strong></p><ul><li><strong>Profiil.</strong> Ava konto-, tellimuse- ja ligipääsetavuse seaded.</li><li><strong>Ruumid.</strong> Ava olemasolevad grupivestlused.</li><li><strong>Lisa inimene.</strong> Saada kutse teisele inimesele. Kutsel saad valida, kas kutsutul on oma tellimus või tasud ühe kuu sponsoreeritud ligipääsu tema eest.</li><li><strong>Minu abisoovid</strong> ja <strong>Minu abipakkumised.</strong> Ava enda kirjed otse vestlusest.</li><li><strong>Materjalid.</strong> Laadi üles asjakohaseid materjale ja dokumente, et täiendada SotsiaalAI andmebaasi. Kõik saadetud failid vaadatakse enne andmebaasi lisamist üle.</li></ul>"
         },
         "documents": {
           "title": "6. Dokumendid",
           "body": "<p>Leht <strong>Dokumendid</strong> on mõeldud <strong>sotsiaaltöö spetsialistile</strong>. See on koht, kus hallata oma püsivaid tööfaile ja vestlusest või agendist tekkinud tulemusi.</p><ul><li>Saad üles laadida dokumente, avada nende detailvaateid ja alla laadida originaalfaile.</li><li>Dokumente saab märkida töörežiimis kasutatavaks, et võtta need kaasa agendi või muu dokumenditöö jaoks.</li><li>Lehel kuvatakse ka mustandid ja kinnitatud tulemused, mis on loodud dokumentide põhjal.</li><li>Tulemusi saab avada detailvaates, salvestada, kinnitada ja pärast kinnitamist alla laadida DOCX- või PDF-failina.</li><li>Kui vestluses loodud mustand on spetsialisti töö jaoks, jõuab see siia samale lehele.</li></ul>"
         },
         "agent_mode": {
-          "title": "7. Agendirežiim",
-          "body": "<p>Leht <strong>Agendirežiim</strong> on töölaud, kus agent aitab valitud failide põhjal tekste ja mustandeid koostada. Eluküsimusega pöördujale on see peamine koht vestlusest loodud dokumentide jätkamiseks.</p><ul><li>Saad valida ülesande tüübi, tooni, keele, pikkuse ja vajadusel malli.</li><li>Pöörduja saab lisada oma töö jaoks vajalikud failid otse agendirežiimis ning kasutada seal rollile kehtivat failipiiri.</li><li>Vestlus agendiga käib samal lehel: saad anda esimese juhise, paluda täpsustusi ja luua uusi versioone.</li><li>Lehel kuvatakse praegune mustand, versiooniajalugu ning varasemad salvestatud või valmis märgitud tulemused.</li><li>Kui vestluses loodud tulemus on pöörduja töö jaoks, avaneb see siin edasi töötamiseks.</li></ul>"
+          "title": "7. Dokumendi koostamine",
+          "body": "<p>Leht <strong>Dokumendi koostamine</strong> on töölaud, kus agent aitab valitud failide põhjal tekste ja mustandeid koostada. Eluküsimusega pöördujale on see peamine koht vestlusest loodud dokumentide jätkamiseks.</p><ul><li>Saad valida ülesande tüübi, tooni, keele, pikkuse ja vajadusel malli.</li><li>Pöörduja saab lisada oma töö jaoks vajalikud failid otse dokumendi koostamises ning kasutada seal rollile kehtivat failipiiri.</li><li>Vestlus agendiga käib samal lehel: saad anda esimese juhise, paluda täpsustusi ja luua uusi versioone.</li><li>Lehel kuvatakse praegune mustand, versiooniajalugu ning varasemad salvestatud või valmis märgitud tulemused.</li><li>Kui vestluses loodud tulemus on pöörduja töö jaoks, avaneb see siin edasi töötamiseks.</li></ul>"
         },
         "profile": {
           "title": "8. Profiil",

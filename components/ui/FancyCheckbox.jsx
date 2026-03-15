@@ -143,6 +143,17 @@ const Label = styled.label`
     background: transparent !important;
     border-color: transparent !important;
     box-shadow: none !important;
+    width: 1.98rem !important;
+    height: 1.98rem !important;
+  }
+
+  &.login-otp-remember .svg {
+    width: 1.58rem !important;
+    height: 1.58rem !important;
+  }
+
+  &.login-otp-remember .tick {
+    transform: scale(0.9);
   }
 
   @media (max-width: 768px) {

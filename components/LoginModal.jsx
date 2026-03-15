@@ -1474,7 +1474,7 @@ export default function LoginModal({
             </div>
 
             <div className="w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] flex flex-col items-center mt-[1.28rem] max-[768px]:mt-[0.88rem]">
-              <Button type="submit" variant="primary" className="w-auto min-w-[11.2rem] whitespace-normal text-center leading-[1.16] px-[1.45rem] py-[0.86rem] text-[1.28rem] min-h-[3.1rem] max-[768px]:!min-h-[3.14rem] max-[768px]:!px-[1.56rem] max-[768px]:!py-[0.86rem] max-[768px]:!text-[1.36rem] rounded-[0.88rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
+              <Button type="submit" variant="primary" disabled={otpLoading}>
                 {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
               </Button>
 

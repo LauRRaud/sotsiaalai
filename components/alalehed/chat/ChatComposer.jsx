@@ -170,7 +170,7 @@ export default function ChatComposer({
   }, [canRunDeepResearch, closeToolsMenu, inputRef, onArmDeepResearch]);
   const handleAgentModeSelect = useCallback(() => {
     closeToolsMenu();
-    router.push(localizePath("/agendireziim", locale));
+    router.push(localizePath("/dokreziim", locale));
   }, [closeToolsMenu, locale, router]);
   const handleDocumentsSelect = useCallback(() => {
     closeToolsMenu();
