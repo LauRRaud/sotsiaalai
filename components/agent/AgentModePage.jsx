@@ -103,6 +103,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const { prefs } = useAccessibility()
   const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
   const isClientRole = effectiveRole === "CLIENT"
+  const documentsHref = localizePath("/documents", locale)
   const chatHref = localizePath("/vestlus", locale)
   const backHref = chatHref
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid"

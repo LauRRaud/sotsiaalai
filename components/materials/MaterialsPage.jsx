@@ -226,14 +226,14 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className="mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:px-[0.2rem]">
+        <div className="mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[0.72rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.62rem] max-[768px]:px-[0.2rem]">
           <div className="grid gap-[0.35rem] text-left">
             <p className="text-[1rem] leading-[1.5] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
               {t("materials_page.description")}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="grid gap-[0.95rem]">
+          <form onSubmit={handleSubmit} className="mt-[-0.18rem] grid gap-[0.95rem] max-[768px]:mt-[-0.08rem]">
             <input
               ref={fileInputRef}
               type="file"
@@ -246,7 +246,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
             <Button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className={`materials-upload-choose-button !mx-auto !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center ${materialsPrimaryButtonClassName}`}
+              className={`materials-upload-choose-button !mx-auto !mt-[-0.45rem] !mb-[0.2rem] !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center max-[768px]:!mt-[-0.35rem] ${materialsPrimaryButtonClassName}`}
             >
               {files.length === 1 ? (
                 <span className="block max-w-full truncate text-[0.94rem] leading-none">{files[0].name}</span>
@@ -283,7 +283,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               </p>
             ) : null}
 
-            <div className="flex w-full justify-center pt-[0.1rem]">
+            <div className="flex w-full justify-center pt-[0.42rem] max-[768px]:pt-[0.5rem]">
               <Button
                 type="submit"
                 disabled={!files.length || submitting}

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { maybeRunRetentionCleanup } from "@/lib/retention";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
 export const runtime = "nodejs";
@@ -81,6 +82,7 @@ async function getAuthOptions() {
 
 async function requireUser() {
   try {
+    await maybeRunRetentionCleanup();
     const { getServerSession } = await import("next-auth/next");
     const authOptions = await getAuthOptions();
     const session = await getServerSession(authOptions);

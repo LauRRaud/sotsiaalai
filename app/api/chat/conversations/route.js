@@ -9,6 +9,7 @@ import {
   resolveConversationWriteRole
 } from "@/lib/chat/conversationRoles";
 import { prisma } from "@/lib/prisma";
+import { maybeRunRetentionCleanup } from "@/lib/retention";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
 export const runtime = "nodejs";
@@ -103,6 +104,7 @@ function conversationExpiryDate() {
 
 async function requireUser() {
   try {
+    await maybeRunRetentionCleanup();
     const session = await getServerSession(authConfig);
     if (!session?.user?.id) {
       return {
