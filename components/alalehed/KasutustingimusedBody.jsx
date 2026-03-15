@@ -139,6 +139,11 @@ export default function KasutustingimusedBody() {
     content: [{
       value: t("terms.section13.body")
     }]
+  }, {
+    heading: t("terms.section14.heading"),
+    content: [{
+      value: t("terms.section14.body")
+    }]
   }];
   const handleBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) {
