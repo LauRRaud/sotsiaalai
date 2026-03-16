@@ -560,7 +560,7 @@ export default function ChatSidebar() {
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
   const listViewportClassName = "flex min-h-0 flex-1 flex-col";
   const listClassName =
-    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-0 pt-[0.6rem] pb-[0.65rem] [scrollbar-width:none] " +
+    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-0 pt-[1.05rem] pb-[0.65rem] [scrollbar-width:none] " +
     "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.28)_3%,#000_9%,#000_91%,rgba(0,0,0,0.82)_94%,rgba(0,0,0,0.56)_96.5%,rgba(0,0,0,0.3)_98.5%,transparent_100%)] " +
     "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.28)_3%,#000_9%,#000_91%,rgba(0,0,0,0.82)_94%,rgba(0,0,0,0.56)_96.5%,rgba(0,0,0,0.3)_98.5%,transparent_100%)] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] [-webkit-mask-size:100%_100%] [mask-size:100%_100%] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
