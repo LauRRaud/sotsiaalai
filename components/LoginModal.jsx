@@ -21,6 +21,10 @@ const noteInfoClassName = "text-[color:var(--pt-120)]";
 const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-[1.55rem] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38] [--link-brand-shadow-hover:transparent]`;
 const homeLikeOtpLinkClassName = `${linkBrandInlineClass} home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.12rem,1.55vw,1.28rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]`;
 const helpPopoverLinkClassName = `${linkBrandInlineClass} mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap [--link-brand-shadow-hover:transparent]`;
+const otpSubmitButtonClassName =
+  "documents-primary-button !min-w-[clamp(10.8rem,26vw,12.4rem)] !min-h-[3.2rem] !px-[1.5rem] !py-[0.8rem] !text-[1.22rem] !leading-[1.08] " +
+  "max-[768px]:!min-w-[clamp(9.8rem,42vw,11.6rem)] max-[768px]:!min-h-[3.48rem] max-[768px]:!px-[1.25rem] max-[768px]:!py-[0.9rem] max-[768px]:!text-[1.5rem]";
+const otpSubmitLabelClassName = "inline-flex items-center justify-center text-center leading-[1.06] tracking-[0.01em]";
 const helpPopoverClassName =
   "login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] " +
   "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border shadow-[0_14px_28px_rgba(0,0,0,0.3)] " +
@@ -1474,8 +1478,10 @@ export default function LoginModal({
             </div>
 
             <div className="w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] flex flex-col items-center mt-[1.28rem] max-[768px]:mt-[0.88rem]">
-              <Button type="submit" variant="primary" disabled={otpLoading}>
-                {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
+              <Button type="submit" variant="primary" className={otpSubmitButtonClassName} disabled={otpLoading}>
+                <span className={otpSubmitLabelClassName}>
+                  {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
+                </span>
               </Button>
 
               <div className="w-full flex flex-col items-center gap-[0.74rem] max-[768px]:gap-[0.62rem] mt-[1.9rem] max-[768px]:mt-[1.45rem]">

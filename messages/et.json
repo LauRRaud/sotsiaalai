@@ -551,6 +551,10 @@
       },
       "empty": "Vestlusi pole.",
       "empty_cta": "Loo esimene",
+      "sections": {
+        "conversations": "Vestlused",
+        "groups": "Grupivestlused"
+      },
       "item": {
         "fallback_title": "Vestlus",
         "delete": "Kustuta vestlus",
@@ -1440,7 +1444,8 @@
       "processing": "Suunan maksele…"
     },
     "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Sotsiaaltöö spetsialisti kuutasu on 14,99 € ja eluküsimusega pöörduja kuutasu on 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni.",
-    "info_priced": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Rolli \"{role}\" kuutasu on {amount}. Makse tehakse Maksekeskuse kaudu, tellimus pikeneb automaatselt ning seda saad igal ajal profiililehel lõpetada."
+    "info_priced": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Rolli \"{role}\" kuutasu on {amount}. Makse tehakse Maksekeskuse kaudu, tellimus pikeneb automaatselt ning seda saad igal ajal profiililehel lõpetada.",
+    "sponsored_info": "Kui sinu ligipääs tuleb sponsoreeritud kutse kaudu, ei pea sa selle perioodi eest eraldi maksma. Sponsoreeritud ligipääs kehtib ühe kuu ning pärast selle lõppu saad kasutamise jätkamiseks aktiveerida oma tellimuse."
   },
   "pwa": {
     "heading": "Soovid platvormi eraldi rakendusena?",
@@ -1942,10 +1947,45 @@
       "analytics": {
         "meta_title": "Analytics - SotsiaalAI"
       },
+      "framework_acceptances": {
+        "meta_title": "Tööalase kasutuse kinnitused - SotsiaalAI"
+      },
       "rag": {
         "meta_title": "RAG Admin - SotsiaalAI",
         "meta_description": "Lae üles ja halda RAG-materjale.",
         "heading": "RAG haldus"
+      }
+    },
+    "framework_acceptances": {
+      "title": "Tööalase kasutuse kinnitused",
+      "subtitle": "Admini auditivaade kasutajate tööalase kasutuse ja andmetöötluse kinnitustele.",
+      "search_placeholder": "Otsi e-posti, kasutaja ID, versiooni või raamistiku võtme järgi",
+      "period": "Periood",
+      "period_all": "Kõik saadaolevad",
+      "period_days": "{days} päeva",
+      "refreshing": "Värskendan...",
+      "load_failed": "Tööalase kasutuse kinnitusi ei saanud laadida.",
+      "table_title": "Kinnituste kirjed",
+      "results_count": "{count} kirjet",
+      "empty": "Tööalase kasutuse kinnitusi ei leitud.",
+      "stats": {
+        "total": "Vasteid kokku",
+        "period": "Valitud perioodis",
+        "shown": "Nimekirjas näha",
+        "current_page": "Praegune päringutulemus",
+        "signed_downloads": "Allkirjastatud allalaadimine kirjas",
+        "shown_signed": "Praegu näha: {count}"
+      },
+      "columns": {
+        "time": "Aeg",
+        "user": "Kasutaja",
+        "role": "Roll",
+        "framework": "Raamistik",
+        "downloads": "Avatud / allalaaditud",
+        "document": "Dokumendi kirje",
+        "opened": "Avatud",
+        "signed": "Allkirjastatud allalaadimine",
+        "id": "Kinnituse ID"
       }
     },
     "analytics": {

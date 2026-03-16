@@ -37,6 +37,8 @@ const subscriptionCopyClassName =
 const subscriptionInfoTextClassName =
   "subscription-info-text text-center max-[768px]:text-left text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
   "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.68] opacity-80 [&_p]:m-0";
+const subscriptionSupplementTextClassName =
+  "subscription-copy-text text-center max-[768px]:text-left text-[0.94rem] leading-[1.52] opacity-75 max-[768px]:text-[1.02rem]";
 const subscriptionActionClassName =
   "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
   "max-[768px]:w-full max-[768px]:min-w-0 max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";
@@ -84,6 +86,7 @@ export default function TellimusBody() {
         amount: monthlyAmountLabel
       })
     : t("subscription.info");
+  const sponsoredInfoText = t("subscription.sponsored_info");
   const subscriptionActiveSummary = monthlyAmountLabel
     ? t("subscription.active.summary_priced", {
         role: planRoleLabel,
@@ -314,6 +317,9 @@ export default function TellimusBody() {
             </> : <>
               <div id="billing-info">
                 <RichText as="div" className={subscriptionInfoTextClassName} value={subscriptionInfoText} replacements={emailReplacement} />
+                <p className={cn(subscriptionSupplementTextClassName, "mt-[0.72rem]")}>
+                  {sponsoredInfoText}
+                </p>
               </div>
               {sponsoredExpired ? <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#fde68a]")}>
                   {t("subscription.active.sponsored_expired")}

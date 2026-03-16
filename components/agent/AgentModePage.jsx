@@ -31,15 +31,14 @@ import {
   templateForLabel
 } from "@/lib/documents/presentation"
 import { localizePath } from "@/lib/localizePath"
+import { pushWithTransition } from "@/lib/routeTransition"
 
 const agentTitleClassName =
-  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
-  `!mt-0 !mb-0 !px-0 !text-center !whitespace-normal ` +
-  `!text-[clamp(1.9rem,3.6vw,2.6rem)] !leading-[1.06] !tracking-[0.02em] ` +
-  `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08]`
+  `rooms-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
+  `${glassPageTitleClassName} w-full max-w-full max-[768px]:!mt-0 max-[768px]:!mb-0`
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
-const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
+const backButtonClassName = `${glassPageBackTopLeftClassName} scroll-reactive-back !z-[30] pointer-events-auto`
 
 const chipBaseClassName =
   "documents-chip inline-flex min-h-[2.6rem] items-center justify-center rounded-full px-[0.9rem] py-[0.38rem] text-[1.02rem] leading-none"
@@ -1299,7 +1298,13 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       <div className="documents-workspace-shell documents-workspace-shell--agent">
         <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-panel--primary rounded-[1.3rem]">
           <BackButton
-            onClick={() => router.push(backHref)}
+            onClick={() =>
+              pushWithTransition(router, backHref, {
+                glassRingTilt: "left",
+                waitForGlassRingTilt: true,
+                persistGlassRingTilt: false
+              })
+            }
             ariaLabel={t("documents.agent_workspace.back_to_chat")}
             className={backButtonClassName}
           />

@@ -494,18 +494,16 @@ export default function ChatSidebar() {
     if (confirmState.kind === "selected") return t("chat.sidebar.confirm.delete_selected");
     return t("chat.sidebar.confirm.delete_all");
   }, [confirmState, t]);
+  const activeRoomId = String(searchParams?.get("roomId") || "").trim();
   const safeDate = v => {
     const t = new Date(v).getTime();
     return Number.isFinite(t) ? t : 0;
   };
-  const combinedItems = useMemo(() => {
-    const convItems = items.map(item => ({
-      ...item,
-      kind: "conversation"
-    }));
-    return [...convItems, ...roomItems];
-  }, [items, roomItems]);
-  const sorted = useMemo(() => [...combinedItems].sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)), [combinedItems]);
+  const sortedConversations = useMemo(() => [...items].map(item => ({
+    ...item,
+    kind: "conversation"
+  })).sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)), [items]);
+  const sortedRooms = useMemo(() => [...roomItems].sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)), [roomItems]);
   const isLoading = busy || roomsBusy;
   const selectedCount = selectedIds.size;
   const messageCardClassNameCommon =
@@ -534,6 +532,78 @@ export default function ChatSidebar() {
   const compactRefreshBtnClassName =
     "px-[0.82rem] max-[768px]:!px-[1.18rem] max-[768px]:!min-h-[3.36rem]";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
+  const sectionCardClassName =
+    "flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.35rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(12,14,20,0.42)] px-[0.8rem] py-[0.85rem] shadow-[0_0.7rem_1.8rem_rgba(0,0,0,0.28)] [.theme-light_&]:border-[rgba(148,163,184,0.32)] [.theme-light_&]:bg-[rgba(255,255,255,0.82)] [.theme-light_&]:shadow-[0_0.6rem_1.4rem_rgba(15,23,42,0.12)]";
+  const sectionHeadingClassName =
+    "px-[0.2rem] text-[0.8rem] font-semibold uppercase tracking-[0.2em] text-[rgba(203,213,225,0.78)] [.theme-light_&]:text-[rgba(71,85,105,0.78)]";
+  const listClassName =
+    "drawer-chat-sidebar__list list-none m-0 mt-[0.7rem] flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-[0.1rem] pb-[0.2rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
+  const renderLoadingSkeleton = (prefix, count = 3) => Array.from({ length: count }).map((_, i) => <div key={`${prefix}-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
+        <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
+        <div className="h-2 w-1/3 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
+      </div>);
+  const renderListItem = item => {
+    const isRoom = item.kind === "room";
+    const isActive = (() => {
+      if (isRoom) {
+        return activeRoomId === String(item.id || "");
+      }
+      try {
+        const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
+        return current === item.id;
+      } catch {
+        return false;
+      }
+    })();
+    return <li key={`${item.kind}:${item.id}`} className={`${messageCardClassNameCommon} ${isActive ? messageActiveVariant : ""}`}>
+        <div className="flex items-start gap-3">
+          {selectMode && !isRoom ? <label className="mt-[0.1rem] flex h-6 w-6 max-[768px]:h-7 max-[768px]:w-7 items-center justify-center">
+              <input type="checkbox" className="peer sr-only" checked={selectedIds.has(item.id)} onChange={() => toggleSelected(item.id)} disabled={isActionBusy} />
+              <span aria-hidden="true" className="relative flex h-[20px] w-[20px] max-[768px]:h-[26px] max-[768px]:w-[26px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100">
+                <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] max-[768px]:h-[21px] max-[768px]:w-[21px] scale-90 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 12.5l4 4 8-8" />
+                </svg>
+              </span>
+            </label> : null}
+          <div className="cs-open flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none cursor-pointer" onClick={() => selectMode ? null : onPick(item)} onKeyDown={event => {
+          if (selectMode) return;
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          onPick(item);
+        }} title={item.preview || item.title || t("chat.sidebar.item.fallback_title")} role="button" tabIndex={selectMode ? -1 : 0} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
+            <div className="flex flex-wrap items-center justify-start gap-2">
+              <span className="cs-title-text text-[1.2rem] max-[768px]:text-[1.38rem] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
+                {item.title || item.preview || t("chat.sidebar.item.fallback_title")}
+              </span>
+              {isRoom ? <span className="rounded-full border border-[rgba(255,255,255,0.4)] px-2 py-[0.15rem] text-[0.65rem] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.85)] light:border-[rgba(148,163,184,0.4)] light:text-[rgba(55,65,81,0.8)]">
+                  {t("chat.sidebar.group_badge")}
+                </span> : null}
+            </div>
+            {item.preview ? <div className={`cs-preview ${previewTextClassName}`}>
+                {item.preview}
+              </div> : null}
+            <div className="flex items-center justify-between gap-3">
+              <div className={`cs-time ${timeTextClassName}`}>
+                {formatDateTime(item.lastActivityAt)}
+              </div>
+              {!isRoom && !selectMode ? <button className={`${deleteBtnClassName} cs-delete shrink-0`} onClick={event => {
+            event.preventDefault();
+            event.stopPropagation();
+            onDelete(item.id);
+          }} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
+                  <svg className="cs-trash-icon h-[1.15rem] w-[1.15rem] max-[768px]:h-[1.35rem] max-[768px]:w-[1.35rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                    <path d="M10 11v6" />
+                    <path d="M14 11v6" />
+                    <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+                  </svg>
+                </button> : null}
+            </div>
+          </div>
+        </div>
+      </li>;
+  };
   return <>
     <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-3 px-[0.35rem] pb-[0.4rem] pt-[0.7rem] max-[768px]:pt-[0.9rem] text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
       <div className={`${sidebarContentWidthClassName} flex flex-nowrap items-center justify-center gap-2 max-[768px]:gap-[0.72rem]`}>
@@ -574,83 +644,40 @@ export default function ChatSidebar() {
       {error ? <div className={`${sidebarContentWidthClassName} rounded-[0.85rem] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-3 py-2 text-sm text-[#ff9c9c] light:border-[rgba(231,76,60,0.4)] light:bg-[rgba(255,255,255,0.75)] light:text-[#7a2323]`} role="alert" aria-live="assertive">
           {error}
         </div> : null}
-      {isLoading && combinedItems.length === 0 ? <div className={`${sidebarContentWidthClassName} flex flex-col gap-2 py-2`}>
-          {Array.from({ length: 4 }).map((_, i) => <div key={`s-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
-                <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
-                <div className="h-2 w-1/3 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
-              </div>)}
-        </div> : null}
-      <ul className={`${sidebarContentWidthClassName} drawer-chat-sidebar__list list-none m-0 pl-0 flex flex-1 flex-col items-stretch gap-3 max-[768px]:gap-[0.95rem] overflow-y-auto pr-0 mt-[0.12rem] max-[768px]:mt-[0.38rem] pt-[1.38rem] max-[768px]:pt-[2.05rem] pb-[0.8rem] [scrollbar-width:none] [scroll-padding-top:clamp(1.35rem,4.2vw,2.1rem)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.6)_3.2%,#000_8.4%,#000_90.8%,rgba(0,0,0,0.82)_94.9%,rgba(0,0,0,0.45)_98.2%,transparent_100%)] [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.6)_3.2%,#000_8.4%,#000_90.8%,rgba(0,0,0,0.82)_94.9%,rgba(0,0,0,0.45)_98.2%,transparent_100%)] [-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] [-webkit-mask-size:100%_100%] [mask-size:100%_100%] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
-        {!isLoading && sorted.length === 0 ? <li className="flex w-full items-center justify-between gap-3 rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] [background:var(--drawer-card-bg,rgba(20,20,24,0.38))] px-3 py-4 [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)]">
-            <span>{t("chat.sidebar.empty")}</span>
-            <Button variant="primary" size="sm" onClick={onNew} disabled={creating}>
-              {t("chat.sidebar.empty_cta")}
-            </Button>
-          </li> : sorted.map(c => {
-          const isActive = (() => {
-            try {
-              if (c.kind === "room") return false;
-              const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
-              return current === c.id;
-            } catch {
-              return false;
-            }
-          })();
-          return <li key={`${c.kind}:${c.id}`} className={`${messageCardClassNameCommon} ${isActive ? messageActiveVariant : ""}`}>
-              <div className="flex items-start gap-3">
-                {selectMode && c.kind !== "room" ? <label className="mt-[0.1rem] flex h-6 w-6 max-[768px]:h-7 max-[768px]:w-7 items-center justify-center">
-                      <input type="checkbox" className="peer sr-only" checked={selectedIds.has(c.id)} onChange={() => toggleSelected(c.id)} disabled={isActionBusy} />
-                      <span aria-hidden="true" className="relative flex h-[20px] w-[20px] max-[768px]:h-[26px] max-[768px]:w-[26px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] max-[768px]:h-[21px] max-[768px]:w-[21px] scale-90 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M6 12.5l4 4 8-8" />
-                        </svg>
-                      </span>
-                    </label> : null}
-                <div className="cs-open flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none cursor-pointer" onClick={() => selectMode ? null : onPick(c)} onKeyDown={event => {
-                if (selectMode) return;
-                if (event.key !== "Enter" && event.key !== " ") return;
-                event.preventDefault();
-                onPick(c);
-              }} title={c.preview || c.title || t("chat.sidebar.item.fallback_title")} role="button" tabIndex={selectMode ? -1 : 0} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
-                  <div className="flex flex-wrap items-center justify-start gap-2">
-                    <span className="cs-title-text text-[1.2rem] max-[768px]:text-[1.38rem] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
-                      {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
-                    </span>
-                    {c.kind === "room" ? <span className="rounded-full border border-[rgba(255,255,255,0.4)] px-2 py-[0.15rem] text-[0.65rem] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.85)] light:border-[rgba(148,163,184,0.4)] light:text-[rgba(55,65,81,0.8)]">
-                        {t("chat.sidebar.group_badge")}
-                      </span> : null}
-                  </div>
-                  {c.preview ? <div className={`cs-preview ${previewTextClassName}`}>
-                      {c.preview}
-                    </div> : null}
-                  <div className="flex items-center justify-between gap-3">
-                    <div className={`cs-time ${timeTextClassName}`}>
-                      {formatDateTime(c.lastActivityAt)}
-                    </div>
-                    {c.kind !== "room" && !selectMode ? <button className={`${deleteBtnClassName} cs-delete shrink-0`} onClick={event => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  onDelete(c.id);
-                }} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
-                        <svg className="cs-trash-icon h-[1.15rem] w-[1.15rem] max-[768px]:h-[1.35rem] max-[768px]:w-[1.35rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                          <polyline points="3 6 5 6 21 6" />
-                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                          <path d="M10 11v6" />
-                          <path d="M14 11v6" />
-                          <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
-                        </svg>
-                      </button> : null}
-                  </div>
-                </div>
-              </div>
-            </li>
-        })}
-      </ul>
-      {hasMore ? <div className={`${sidebarContentWidthClassName} flex w-full justify-center pt-[0.08rem]`}>
-          <button type="button" className={loadMoreBtnClassName} onClick={fetchMore} disabled={busy || creating} aria-label={t("chat.sidebar.button.more")} title={t("chat.sidebar.button.more")}>
-            <ChevronIcon direction="down" className="h-[1rem] w-[1.68rem]" />
-          </button>
-        </div> : null}
+      <div className={`${sidebarContentWidthClassName} flex min-h-0 w-full flex-1 flex-col gap-3`}>
+        <section className={sectionCardClassName} aria-labelledby="chat-sidebar-conversations-heading">
+          <h2 id="chat-sidebar-conversations-heading" className={sectionHeadingClassName}>
+            {t("chat.sidebar.sections.conversations")}
+          </h2>
+          {busy && sortedConversations.length === 0 ? <div className={`${listClassName} mt-[0.7rem]`}>
+              {renderLoadingSkeleton("conv")}
+            </div> : <ul className={listClassName}>
+              {!busy && sortedConversations.length === 0 ? <li className="flex w-full items-center justify-between gap-3 rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] [background:var(--drawer-card-bg,rgba(20,20,24,0.38))] px-3 py-4 [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)]">
+                  <span>{t("chat.sidebar.empty")}</span>
+                  <Button variant="primary" size="sm" onClick={onNew} disabled={creating}>
+                    {t("chat.sidebar.empty_cta")}
+                  </Button>
+                </li> : sortedConversations.map(renderListItem)}
+            </ul>}
+          {hasMore ? <div className="flex w-full justify-center pt-[0.5rem]">
+              <button type="button" className={loadMoreBtnClassName} onClick={fetchMore} disabled={busy || creating} aria-label={t("chat.sidebar.button.more")} title={t("chat.sidebar.button.more")}>
+                <ChevronIcon direction="down" className="h-[1rem] w-[1.68rem]" />
+              </button>
+            </div> : null}
+        </section>
+        <section className={sectionCardClassName} aria-labelledby="chat-sidebar-groups-heading">
+          <h2 id="chat-sidebar-groups-heading" className={sectionHeadingClassName}>
+            {t("chat.sidebar.sections.groups")}
+          </h2>
+          {roomsBusy && sortedRooms.length === 0 ? <div className={`${listClassName} mt-[0.7rem]`}>
+              {renderLoadingSkeleton("room", 2)}
+            </div> : <ul className={listClassName}>
+              {!roomsBusy && sortedRooms.length === 0 ? <li className="rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] [background:var(--drawer-card-bg,rgba(20,20,24,0.38))] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)]">
+                  {t("rooms.empty")}
+                </li> : sortedRooms.map(renderListItem)}
+            </ul>}
+        </section>
+      </div>
     </nav>
     {confirmState ? <ModalConfirm message={confirmMessage} confirmLabel={t("buttons.delete")} cancelLabel={t("buttons.cancel")} busy={confirmBusy} busyLabel={t("chat.sidebar.deleting_status", "Kustutamine")} onConfirm={handleConfirmDelete} onCancel={handleConfirmCancel} disabled={confirmBusy} /> : null}
   </>;

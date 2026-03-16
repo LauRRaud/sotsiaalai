@@ -38,7 +38,7 @@ const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
 const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
 const PANEL_TILT_CLOSE_MS = 540;
 const DEEP_RESEARCH_ARMED_TEXT =
-  "S\u00fcvauuring on valitud ja ootel. Kirjuta oma uurimisk\u00fcsimus ning soovi korral t\u00e4psusta piirkond (KOV/linnaosa) v\u00f5i tasand (riiklik/kohalik). Seej\u00e4rel vajuta Enter v\u00f5i Saada. T\u00fchistamiseks vajuta s\u00fcvauuringu ikooni.";
+  "S\u00fcvauuring on valitud ja ootel. Kirjuta oma uurimisk\u00fcsimus ning soovi korral t\u00e4psusta piirkond v\u00f5i tasand. Seej\u00e4rel vajuta Enter v\u00f5i Saada. T\u00fchistamiseks vajuta s\u00fcvauuringu ikooni.";
 const DEEP_RESEARCH_EMPTY_QUERY_HINT = "Kirjuta uurimisk\u00fcsimus.";
 const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petatud.";
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";

@@ -551,6 +551,10 @@
       },
       "empty": "No conversations yet.",
       "empty_cta": "Create the first one",
+      "sections": {
+        "conversations": "Conversations",
+        "groups": "Group conversations"
+      },
       "item": {
         "fallback_title": "Conversation",
         "delete": "Delete conversation",
@@ -1440,7 +1444,8 @@
       "processing": "Redirecting to payment..."
     },
     "info": "To use SotsiaalAI you need a monthly subscription. The monthly price is 14.99 EUR for a social work professional and 7.99 EUR for a person seeking help. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period.",
-    "info_priced": "To use SotsiaalAI you need a monthly subscription. For the \"{role}\" role, the fee is {amount} per month. Payments are processed via Maksekeskus, the subscription renews automatically, and you can cancel it at any time from your profile."
+    "info_priced": "To use SotsiaalAI you need a monthly subscription. For the \"{role}\" role, the fee is {amount} per month. Payments are processed via Maksekeskus, the subscription renews automatically, and you can cancel it at any time from your profile.",
+    "sponsored_info": "If your access comes through a sponsored invite, you do not need to pay separately for that period. Sponsored access is valid for one month, and after that you can activate your own subscription to continue."
   },
   "pwa": {
     "heading": "Want the platform as an app?",
@@ -1942,10 +1947,45 @@
       "analytics": {
         "meta_title": "Analytics - SotsiaalAI"
       },
+      "framework_acceptances": {
+        "meta_title": "Framework acceptances - SotsiaalAI"
+      },
       "rag": {
         "meta_title": "RAG Admin - SotsiaalAI",
         "meta_description": "Upload and manage RAG materials.",
         "heading": "RAG Admin"
+      }
+    },
+    "framework_acceptances": {
+      "title": "Framework acceptances",
+      "subtitle": "Admin audit view for worker-use framework confirmations created during registration.",
+      "search_placeholder": "Search by email, user ID, version or framework key",
+      "period": "Period",
+      "period_all": "All available",
+      "period_days": "{days} days",
+      "refreshing": "Refreshing...",
+      "load_failed": "Failed to load framework acceptances.",
+      "table_title": "Acceptance records",
+      "results_count": "{count} records",
+      "empty": "No framework acceptances found.",
+      "stats": {
+        "total": "Total matches",
+        "period": "Within selected period",
+        "shown": "Shown in list",
+        "current_page": "Current query result",
+        "signed_downloads": "Signed download recorded",
+        "shown_signed": "Shown now: {count}"
+      },
+      "columns": {
+        "time": "Time",
+        "user": "User",
+        "role": "Role",
+        "framework": "Framework",
+        "downloads": "Open / signed",
+        "document": "Document record",
+        "opened": "Opened",
+        "signed": "Signed download",
+        "id": "Acceptance ID"
       }
     },
     "analytics": {

@@ -32,11 +32,11 @@ const headerInnerClassName =
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const headingClassName =
-  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
+  `rooms-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
   `${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const subtitleClassName =
   "m-0 text-left text-[1.02rem] leading-[1.68] text-[color:var(--documents-page-text)]/85 max-[768px]:text-[1.02rem]";
-const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`;
+const backButtonClassName = `${glassPageBackTopLeftClassName} scroll-reactive-back !z-[30] pointer-events-auto`;
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -90,8 +90,6 @@ export default async function AdminFrameworkAcceptancesPage() {
     redirect(localizePath("/", locale));
   }
 
-  const copy = getPageCopy(locale);
-
   return (
     <section className="documents-workspace documents-workspace-page">
       <div className={shellClassName}>
@@ -108,9 +106,18 @@ export default async function AdminFrameworkAcceptancesPage() {
           <header className={pageHeaderClassName}>
             <div className={headerInnerClassName}>
               <div className={mobileTitleWrapClassName}>
-                <h1 className={headingClassName}>{copy.heading}</h1>
+                <h1 className={headingClassName}>
+                  {serverT(locale, "admin.framework_acceptances.title", undefined, "Framework acceptances")}
+                </h1>
               </div>
-              <p className={subtitleClassName}>{copy.subtitle}</p>
+              <p className={subtitleClassName}>
+                {serverT(
+                  locale,
+                  "admin.framework_acceptances.subtitle",
+                  undefined,
+                  "Admin audit view for professional-use and data-processing confirmations."
+                )}
+              </p>
             </div>
           </header>
 

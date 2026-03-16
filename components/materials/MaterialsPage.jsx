@@ -27,6 +27,13 @@ const materialsPrimaryButtonClassName =
 const materialsSecondaryButtonClassName =
   "whitespace-normal text-center leading-[1.2] !px-[1.2rem] !py-[0.72rem] !text-[1rem] !min-h-[2.7rem] " +
   "max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.35rem] max-[768px]:!text-[1.08rem]"
+const materialsSectionClassName =
+  `grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] ${materialsPanelSurfaceClassName} ${materialsPanelShadowClassName} ` +
+  "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.95rem] max-[768px]:py-[0.95rem]"
+const materialsSectionTitleClassName =
+  "text-[1.22rem] font-[650] leading-[1.18] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]"
+const materialsSectionCopyClassName =
+  "text-[0.98rem] leading-[1.52] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]"
 
 function formatFileSize(size) {
   const value = Number(size || 0)
@@ -226,80 +233,82 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className="mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[0.72rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.62rem] max-[768px]:px-[0.2rem]">
-          <div className="grid gap-[0.35rem] text-left">
-            <p className="text-[1rem] leading-[1.5] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
-              {t("materials_page.description")}
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="mt-[-0.18rem] grid gap-[0.95rem] max-[768px]:mt-[-0.08rem]">
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
-              className="hidden"
-              onChange={(event) => setFiles(Array.from(event.target.files || []))}
-            />
-
-            <Button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className={`materials-upload-choose-button !mx-auto !mt-[-0.45rem] !mb-[0.2rem] !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center max-[768px]:!mt-[-0.35rem] ${materialsPrimaryButtonClassName}`}
-            >
-              {files.length === 1 ? (
-                <span className="block max-w-full truncate text-[0.94rem] leading-none">{files[0].name}</span>
-              ) : files.length > 1 ? (
-                <span className="block leading-none">{t("materials_page.files_selected", { count: files.length })}</span>
-              ) : (
-                <span className="block leading-none">{t("materials_page.choose_file")}</span>
-              )}
-            </Button>
-
-            {files.length > 1 ? (
-              <p className="text-center text-[0.9rem] leading-[1.45] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">
-                {files.map((selectedFile) => selectedFile.name).join(", ")}
+        <div className="mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[0.9rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.78rem] max-[768px]:px-[0.2rem]">
+          <section className={materialsSectionClassName}>
+            <div className="grid gap-[0.35rem] text-left">
+              <p className="text-[1rem] leading-[1.5] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
+                {t("materials_page.description")}
               </p>
-            ) : null}
-
-            <Textarea
-              value={comment}
-              onChange={(event) => setComment(event.target.value)}
-              rows={5}
-              placeholder={t("materials_page.comment_placeholder_multiple")}
-              className={`min-h-[7.4rem] rounded-[1.05rem] ![background:rgba(30,32,38,0.42)] [.theme-night_&]:![background:rgba(16,22,34,0.4)] [.theme-light_&]:![background:rgba(255,255,255,0.58)] ${materialsPanelSurfaceClassName} ${materialsPanelShadowClassName} hover:![background:rgba(30,32,38,0.42)] [.theme-night_&:hover]:![background:rgba(16,22,34,0.4)] [.theme-light_&:hover]:![background:rgba(255,255,255,0.58)] focus-visible:![background:rgba(30,32,38,0.42)] [.theme-night_&:focus-visible]:![background:rgba(16,22,34,0.4)] [.theme-light_&:focus-visible]:![background:rgba(255,255,255,0.58)] focus-visible:shadow-[var(--chat-invite-shadow,var(--input-shadow))]`}
-            />
-
-            {error ? (
-              <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[1rem] py-[0.54rem] text-center text-[0.98rem] leading-[1.3] text-[rgba(255,223,218,0.96)]">
-                {error}
-              </p>
-            ) : null}
-
-            {notice ? (
-              <p className="rounded-[1rem] border border-[rgba(88,148,118,0.22)] bg-[rgba(18,44,34,0.82)] px-[1rem] py-[0.54rem] text-center text-[0.98rem] leading-[1.3] text-[rgba(223,246,236,0.96)]">
-                {notice}
-              </p>
-            ) : null}
-
-            <div className="flex w-full justify-center pt-[0.42rem] max-[768px]:pt-[0.5rem]">
-              <Button
-                type="submit"
-                disabled={!files.length || submitting}
-                className={`materials-upload-submit-button !mx-auto !min-w-[10.2rem] ${materialsPrimaryButtonClassName}`}
-              >
-                {submitting ? t("materials_page.submitting") : t("materials_page.submit")}
-              </Button>
             </div>
-          </form>
+
+            <form onSubmit={handleSubmit} className="mt-[-0.08rem] grid gap-[0.95rem]">
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+                className="hidden"
+                onChange={(event) => setFiles(Array.from(event.target.files || []))}
+              />
+
+              <Button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className={`materials-upload-choose-button !mx-auto !mt-[-0.18rem] !mb-[0.08rem] !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center max-[768px]:!mt-[-0.08rem] ${materialsPrimaryButtonClassName}`}
+              >
+                {files.length === 1 ? (
+                  <span className="block max-w-full truncate text-[0.94rem] leading-none">{files[0].name}</span>
+                ) : files.length > 1 ? (
+                  <span className="block leading-none">{t("materials_page.files_selected", { count: files.length })}</span>
+                ) : (
+                  <span className="block leading-none">{t("materials_page.choose_file")}</span>
+                )}
+              </Button>
+
+              {files.length > 1 ? (
+                <p className="text-center text-[0.9rem] leading-[1.45] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">
+                  {files.map((selectedFile) => selectedFile.name).join(", ")}
+                </p>
+              ) : null}
+
+              <Textarea
+                value={comment}
+                onChange={(event) => setComment(event.target.value)}
+                rows={5}
+                placeholder={t("materials_page.comment_placeholder_multiple")}
+                className={`min-h-[7.4rem] rounded-[1.05rem] ![background:rgba(30,32,38,0.42)] [.theme-night_&]:![background:rgba(16,22,34,0.4)] [.theme-light_&]:![background:rgba(255,255,255,0.58)] ${materialsPanelSurfaceClassName} ${materialsPanelShadowClassName} hover:![background:rgba(30,32,38,0.42)] [.theme-night_&:hover]:![background:rgba(16,22,34,0.4)] [.theme-light_&:hover]:![background:rgba(255,255,255,0.58)] focus-visible:![background:rgba(30,32,38,0.42)] [.theme-night_&:focus-visible]:![background:rgba(16,22,34,0.4)] [.theme-light_&:focus-visible]:![background:rgba(255,255,255,0.58)] focus-visible:shadow-[var(--chat-invite-shadow,var(--input-shadow))]`}
+              />
+
+              {error ? (
+                <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[1rem] py-[0.54rem] text-center text-[0.98rem] leading-[1.3] text-[rgba(255,223,218,0.96)]">
+                  {error}
+                </p>
+              ) : null}
+
+              {notice ? (
+                <p className="rounded-[1rem] border border-[rgba(88,148,118,0.22)] bg-[rgba(18,44,34,0.82)] px-[1rem] py-[0.54rem] text-center text-[0.98rem] leading-[1.3] text-[rgba(223,246,236,0.96)]">
+                  {notice}
+                </p>
+              ) : null}
+
+              <div className="flex w-full justify-center pt-[0.42rem] max-[768px]:pt-[0.5rem]">
+                <Button
+                  type="submit"
+                  disabled={!files.length || submitting}
+                  className={`materials-upload-submit-button !mx-auto !min-w-[10.2rem] ${materialsPrimaryButtonClassName}`}
+                >
+                  {submitting ? t("materials_page.submitting") : t("materials_page.submit")}
+                </Button>
+              </div>
+            </form>
+          </section>
 
           {isAdmin ? (
-            <div className={`materials-admin-panel grid gap-[0.85rem] rounded-[1rem] px-[1rem] py-[1rem] ${materialsPanelSurfaceClassName}`}>
+            <section className={`materials-admin-panel ${materialsSectionClassName}`}>
               <div className="flex items-start justify-between gap-[0.8rem]">
                 <div className="grid gap-[0.22rem]">
-                  <h2 className="text-[1.2rem] font-[650] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">{t("materials_page.admin.title")}</h2>
-                  <p className="text-[0.96rem] leading-[1.45] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">{t("materials_page.admin.subtitle")}</p>
+                  <h2 className={materialsSectionTitleClassName}>{t("materials_page.admin.title")}</h2>
+                  <p className={materialsSectionCopyClassName}>{t("materials_page.admin.subtitle")}</p>
                 </div>
                 <Button
                   variant="primary"
@@ -365,7 +374,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               ) : (
                 <p className="text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">{t("materials_page.admin.empty")}</p>
               )}
-            </div>
+            </section>
           ) : null}
         </div>
       </div>
