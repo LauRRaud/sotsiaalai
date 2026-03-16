@@ -32,6 +32,7 @@
     "check": "prisma generate && npm run i18n:check && npm run lint",
     "prisma:generate": "prisma generate",
     "prisma:migrate:deploy": "dotenv -e .env.production -- prisma migrate deploy",
+    "prisma:prepare:prod": "dotenv -e .env.production -- prisma migrate deploy && dotenv -e .env.production -- prisma generate",
     "migrate:prod": "dotenv -e .env.production -- prisma migrate deploy",
     "db:push:prod": "dotenv -e .env.production -- prisma db push",
     "prisma:studio:prod": "dotenv -e .env.production -- prisma studio",

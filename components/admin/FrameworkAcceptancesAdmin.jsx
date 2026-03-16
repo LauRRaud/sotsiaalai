@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
 import Panel from "@/components/ui/Panel";
+import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
@@ -18,11 +19,9 @@ const cardClassName =
   "documents-subpanel relative w-full min-w-0 overflow-visible rounded-[1rem]";
 const cardBodyClassName = "relative z-[1] grid gap-[0.9rem]";
 const toolbarClassName =
-  "documents-soft-subpanel grid min-w-0 grid-cols-1 items-center gap-2 rounded-[1rem] p-[0.72rem] xl:grid-cols-[minmax(14rem,1fr)_12rem_auto]";
+  "documents-soft-subpanel grid min-w-0 grid-cols-1 items-center gap-2 rounded-[1rem] p-[0.72rem] xl:grid-cols-[minmax(14rem,1fr)_minmax(11rem,12rem)_auto]";
 const inputClassName =
   "documents-field documents-form-input min-w-0 w-full max-w-full rounded-[12px] border px-3 py-[0.6rem] text-[0.98rem] text-[color:var(--admin-text)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none";
-const selectClassName =
-  "documents-field documents-form-input min-w-0 w-full rounded-[12px] border px-3 py-[0.6rem] text-[0.98rem] text-[color:var(--admin-text)]";
 const actionButtonClassName =
   "documents-primary-button !justify-self-start !self-start !w-auto !min-h-[2.5rem] !rounded-full !px-[1rem] !py-[0.5rem] !text-[0.96rem] max-[768px]:!w-full max-[768px]:!justify-center";
 const statsGridClassName = "grid gap-3 md:grid-cols-3";
@@ -32,7 +31,7 @@ const statLabelClassName = "text-[0.76rem] uppercase tracking-[0.08em] text-[col
 const statValueClassName = "text-[1.9rem] font-[700] leading-[1.02] text-[color:var(--admin-text)]";
 const statMetaClassName = "text-[0.92rem] text-[color:var(--admin-muted)]";
 const tableWrapClassName =
-  "documents-soft-subpanel overflow-auto rounded-[1rem]";
+  "documents-soft-subpanel w-full min-w-0 overflow-x-auto overflow-y-hidden rounded-[1rem] pr-[0.15rem] [scrollbar-width:thin]";
 const tableClassName = "min-w-[60rem] w-full border-collapse text-[color:var(--admin-text)]";
 const tableHeadCellClassName =
   "sticky top-0 z-[1] border-b border-[color:var(--admin-border)] bg-[color:color-mix(in_srgb,var(--admin-surface-3)_92%,transparent)] px-3 py-2 text-left text-[0.74rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
@@ -92,6 +91,17 @@ function MobileField({ label, value }) {
 export default function FrameworkAcceptancesAdmin() {
   const { locale, t } = useI18n();
   const localeTag = useMemo(() => toLocaleTag(locale), [locale]);
+  const dayOptions = useMemo(
+    () =>
+      DAY_OPTIONS.map(value => ({
+        value: String(value),
+        label:
+          value === 3650
+            ? t("admin.framework_acceptances.period_all", "All available")
+            : t("admin.framework_acceptances.period_days", "{days} days").replace("{days}", String(value))
+      })),
+    [t]
+  );
   const [query, setQuery] = useState("");
   const [days, setDays] = useState(365);
   const [items, setItems] = useState([]);
@@ -179,20 +189,13 @@ export default function FrameworkAcceptancesAdmin() {
               )}
               className={inputClassName}
             />
-            <select
+            <DocumentsDropdown
+              ariaLabel={t("admin.framework_acceptances.period", "Period")}
               value={String(days)}
-              onChange={event => setDays(Number(event.target.value) || 365)}
-              className={selectClassName}
-              aria-label={t("admin.framework_acceptances.period", "Period")}
-            >
-              {DAY_OPTIONS.map(value => (
-                <option key={value} value={value}>
-                  {value === 3650
-                    ? t("admin.framework_acceptances.period_all", "All available")
-                    : t("admin.framework_acceptances.period_days", "{days} days").replace("{days}", String(value))}
-                </option>
-              ))}
-            </select>
+              onChange={nextValue => setDays(Number(nextValue) || 365)}
+              options={dayOptions}
+              className="w-full"
+            />
             <Button
               type="button"
               className={actionButtonClassName}
@@ -251,7 +254,7 @@ export default function FrameworkAcceptancesAdmin() {
             </div>
           </div>
 
-          <div className="max-[1180px]:hidden">
+          <div className="min-w-0 max-[1180px]:hidden">
             <div className={tableWrapClassName}>
               <table className={tableClassName}>
                 <thead>

@@ -1618,8 +1618,10 @@
     },
     "pay": {
       "label": "Maksmine",
-      "self": "Tal on oma tellimus",
-      "host": "Tasun tema eest"
+      "self": "Kutsutu teeb tellimuse ise",
+      "host": "Tasun tema eest",
+      "default_note": "Vaikimisi saadad lihtsalt kutse. Kutsutud inimene saab registreeruda ning vajadusel tellimuse ise aktiveerida, enne kui ta ruumiga liitub.",
+      "multiple_hint": "Sponsoreeritud kutse jaoks saad korraga kasutada ainult ühte e-posti aadressi."
     },
     "sponsored": {
       "title": "Vali sponsoreeritud tellimuse roll",
@@ -1648,7 +1650,7 @@
     },
     "payer": {
       "host": "Tasun tema eest",
-      "self": "Tal on oma tellimus"
+      "self": "Kutsutu teeb tellimuse ise"
     },
     "resend": "Saada uuesti",
     "room_title": "Ruumi nimi",

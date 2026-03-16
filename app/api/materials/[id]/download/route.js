@@ -4,6 +4,7 @@ import { authConfig } from "@/auth"
 import { assertAdmin } from "@/lib/authz"
 import { prisma } from "@/lib/prisma"
 import { errorJson, localeFromRequest } from "@/lib/documents/server"
+import { getMaterialSubmissionSchemaMessage, isMaterialSubmissionSchemaError } from "@/lib/materials/compat"
 import { buildDownloadHeaders, readStoredMaterial } from "@/lib/materials/server"
 
 export const runtime = "nodejs"
@@ -44,6 +45,9 @@ export async function GET(request, { params }) {
     })
   } catch (error) {
     console.error("[materials] download failed", error)
+    if (isMaterialSubmissionSchemaError(error)) {
+      return errorJson(getMaterialSubmissionSchemaMessage(locale), 503, locale)
+    }
     return errorJson("Materjali allalaadimine ebaõnnestus.", 500, locale)
   }
 }

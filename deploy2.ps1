@@ -20,6 +20,6 @@ git push origin main
 
 Write-Host "Täis deploy serverisse (backend + frontend + Prisma)..." 
 
-ssh $SshTarget 'cd /home/ubuntu/apps/sotsiaalai; git pull; npm ci; npx prisma migrate deploy; npx prisma generate; npm run build; sudo systemctl restart sotsiaalai-rag.service; sudo systemctl status sotsiaalai-rag.service --no-pager; sudo systemctl restart sotsiaalai-frontend.service; sudo systemctl status sotsiaalai-frontend.service --no-pager'
+ssh $SshTarget 'cd /home/ubuntu/apps/sotsiaalai; git pull; npm ci; npm run prisma:prepare:prod; npm run build; sudo systemctl restart sotsiaalai-rag.service; sudo systemctl status sotsiaalai-rag.service --no-pager; sudo systemctl restart sotsiaalai-frontend.service; sudo systemctl status sotsiaalai-frontend.service --no-pager'
 
 Write-Host "Valmis."

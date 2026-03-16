@@ -5,6 +5,7 @@ import { assertAdmin } from "@/lib/authz"
 import { prisma } from "@/lib/prisma"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server"
+import { getMaterialSubmissionSchemaMessage, isMaterialSubmissionSchemaError } from "@/lib/materials/compat"
 import {
   deleteStoredMaterial,
   ensureAllowedUpload,
@@ -81,6 +82,9 @@ export async function GET(request) {
     })
   } catch (error) {
     console.error("[materials] list failed", error)
+    if (isMaterialSubmissionSchemaError(error)) {
+      return errorJson(getMaterialSubmissionSchemaMessage(locale), 503, locale)
+    }
     return errorJson("Materjalide nimekirja laadimine ebaõnnestus.", 500, locale)
   }
 }
@@ -171,6 +175,10 @@ export async function POST(request) {
       } catch (cleanupError) {
         console.error("[materials] upload cleanup failed", cleanupError)
       }
+    }
+
+    if (isMaterialSubmissionSchemaError(error)) {
+      return errorJson(getMaterialSubmissionSchemaMessage(locale), 503, locale)
     }
 
     const status = Number(error?.status) || 500

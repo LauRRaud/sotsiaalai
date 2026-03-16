@@ -4,6 +4,7 @@ import { authConfig } from "@/auth"
 import { assertAdmin } from "@/lib/authz"
 import { prisma } from "@/lib/prisma"
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server"
+import { getMaterialSubmissionSchemaMessage, isMaterialSubmissionSchemaError } from "@/lib/materials/compat"
 import { deleteStoredMaterial } from "@/lib/materials/server"
 
 export const runtime = "nodejs"
@@ -45,6 +46,9 @@ export async function DELETE(request, { params }) {
     return json({ ok: true })
   } catch (error) {
     console.error("[materials] delete failed", error)
+    if (isMaterialSubmissionSchemaError(error)) {
+      return errorJson(getMaterialSubmissionSchemaMessage(locale), 503, locale)
+    }
     return errorJson("Materjali kustutamine ebaõnnestus.", 500, locale)
   }
 }

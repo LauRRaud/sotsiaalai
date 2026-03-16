@@ -41,13 +41,6 @@ export default function InviteModal() {
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const closeTimerRef = useRef(null);
-  const paymentOptions = [{
-    value: "self_paid",
-    label: t("invite.pay.self")
-  }, {
-    value: "sponsored_by_host",
-    label: t("invite.pay.host")
-  }];
   const formatSentenceCase = text => {
     const raw = typeof text === "string" ? text.trim() : "";
     if (!raw) return text;
@@ -79,6 +72,8 @@ export default function InviteModal() {
   }];
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[9rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
+  const inviteSecondaryButtonClassName =
+    "!min-h-[2.9rem] !px-[1rem] !py-[0.68rem] !text-[1.02rem] !tracking-[0.025em] max-[768px]:!min-h-[3rem] max-[768px]:!text-[1.08rem]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -216,6 +211,17 @@ export default function InviteModal() {
     if (open) loadInvites();
   }, [open, roomId, loadInvites]);
   const emailsParsed = useMemo(() => parseEmails(emails), [emails]);
+  const multipleEmailsForSponsored = emailsParsed.length > 1;
+  const startSponsoredFlow = useCallback(() => {
+    setError("");
+    setMessage("");
+    if (multipleEmailsForSponsored) {
+      setError(t("invite.error.sponsored_single_email_required"));
+      return;
+    }
+    setPaymentMode("sponsored_by_host");
+    setSponsoredStep(true);
+  }, [multipleEmailsForSponsored, t]);
   async function submit(e) {
     e.preventDefault();
     setError("");
@@ -237,10 +243,6 @@ export default function InviteModal() {
     }
     if (paymentMode === "sponsored_by_host" && parsed.length !== 1) {
       setError(t("invite.error.sponsored_single_email_required"));
-      return;
-    }
-    if (paymentMode === "sponsored_by_host" && !sponsoredStep) {
-      setSponsoredStep(true);
       return;
     }
     setBusy(true);
@@ -367,13 +369,19 @@ export default function InviteModal() {
                 <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name_ph")} aria-label={t("invite.host_name")} className={mobileInviteInputClassName} />
               </> : null}
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} className={mobileInviteInputClassName} />
-            <div className="mt-[0.6rem] grid grid-cols-2 gap-[0.6rem] max-[768px]:grid-cols-1" role="radiogroup" aria-label={t("invite.pay.label")}>
-            {paymentOptions.map(option => (
-                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[768px]:max-w-none max-[768px]:w-full !min-h-[3.05rem] !py-[0.78rem] !text-[1.08rem] !leading-[1.2] !tracking-[0.025em] text-center justify-center max-[768px]:!text-[1.18rem] max-[768px]:!tracking-[0.03em] max-[768px]:!min-h-[3rem] max-[768px]:!pt-[0.68rem] max-[768px]:!pb-[0.46rem]">
-                  <span className="text-center tracking-[0.025em] max-[768px]:tracking-[0.03em] [text-wrap:balance]">{option.label}</span>
-                </OptionCard>
-              ))}
-            </div>
+            {!sponsoredStep ? <Panel variant="secondary" padding="sm" className="grid gap-[0.8rem] rounded-[1.05rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(255,255,255,0.16)] [.theme-night_&]:bg-[rgba(16,22,34,0.3)]">
+                <p className="m-0 text-center text-[0.98rem] opacity-82 max-[768px]:text-[1.05rem]">
+                  {t("invite.pay.default_note")}
+                </p>
+                {multipleEmailsForSponsored ? <p className="m-0 text-center text-[0.93rem] opacity-70 max-[768px]:text-[1rem]">
+                    {t("invite.pay.multiple_hint")}
+                  </p> : null}
+                <div className="flex justify-center">
+                  <Button type="button" variant="primary" onClick={startSponsoredFlow} disabled={busy} className={inviteSecondaryButtonClassName}>
+                    {t("invite.pay.host")}
+                  </Button>
+                </div>
+              </Panel> : null}
 
             {paymentMode === "sponsored_by_host" && sponsoredStep ? <Panel variant="secondary" padding="sm" className="grid gap-[0.9rem] rounded-[1.05rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(255,255,255,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.38)]">
                 <div className="grid gap-[0.35rem] text-center">
@@ -382,6 +390,9 @@ export default function InviteModal() {
                   </p>
                   <p className="text-[0.98rem] opacity-80 max-[768px]:text-[1.05rem]">
                     {t("invite.sponsored.description")}
+                  </p>
+                  <p className="text-[0.9rem] opacity-70 max-[768px]:text-[0.98rem]">
+                    {t("invite.pay.multiple_hint")}
                   </p>
                 </div>
                 <div className="grid grid-cols-1 gap-[0.6rem]">
@@ -395,7 +406,10 @@ export default function InviteModal() {
                   {t("invite.sponsored.one_month_note")}
                 </p>
                 <div className="flex justify-center">
-                  <Button type="button" variant="primary" onClick={() => setSponsoredStep(false)}>
+                  <Button type="button" variant="primary" onClick={() => {
+                setPaymentMode("");
+                setSponsoredStep(false);
+              }}>
                     {t("buttons.back")}
                   </Button>
                 </div>

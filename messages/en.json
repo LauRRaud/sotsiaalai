@@ -1618,8 +1618,10 @@
     },
     "pay": {
       "label": "Payment",
-      "self": "They have subscription",
-      "host": "I'll pay for them"
+      "self": "Invitee activates their own subscription",
+      "host": "I'll pay for them",
+      "default_note": "By default you are just sending an invite. The invited person can register and activate their own subscription if needed before joining the room.",
+      "multiple_hint": "A sponsored invite can only be used for one email address at a time."
     },
     "sponsored": {
       "title": "Choose the sponsored subscription role",
@@ -1648,7 +1650,7 @@
     },
     "payer": {
       "host": "I'll pay for them",
-      "self": "They have subscription"
+      "self": "Invitee activates their own subscription"
     },
     "resend": "Resend",
     "room_title": "Room name",

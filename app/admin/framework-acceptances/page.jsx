@@ -20,7 +20,7 @@ import AdminFrameworkAcceptancesClient from "./AdminFrameworkAcceptancesClient";
 const shellClassName =
   "framework-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--documents-page-text)] max-[768px]:justify-start max-[768px]:px-[0.25rem] max-[768px]:py-[0.5rem]";
 const panelClassName =
-  `relative z-[21] w-full !max-w-[clamp(52rem,78vw,78rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `relative z-[21] w-full !max-w-[clamp(52rem,78vw,78rem)] max-h-[calc(100dvh-2rem)] overflow-x-visible overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--documents-page-text)] ` +
   `shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
