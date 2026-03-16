@@ -1,6 +1,7 @@
 import { assertOwnedByUser } from "@/lib/documents/access"
 import { logDocumentsAudit } from "@/lib/documents/audit"
 import { prisma } from "@/lib/prisma"
+import { isFrameworkAcceptanceSchemaError } from "@/lib/frameworkAcceptanceCompat"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import {
   deleteStoredDocument,
@@ -26,6 +27,7 @@ async function resolveRouteId(paramsLike) {
 }
 
 function serializeDocument(document) {
+  const frameworkAcceptance = document.frameworkAcceptance || null
   return {
     id: document.id,
     title: document.title,
@@ -35,19 +37,86 @@ function serializeDocument(document) {
     agentAllowed: Boolean(document.agentAllowed),
     mime: document.mime,
     size: document.size,
-    readOnly: Boolean(document.frameworkAcceptanceId),
-    frameworkAcceptance: document.frameworkAcceptance
+    readOnly: Boolean(frameworkAcceptance),
+    frameworkAcceptance: frameworkAcceptance
       ? {
-          id: document.frameworkAcceptance.id,
-          frameworkKey: document.frameworkAcceptance.frameworkKey,
-          frameworkVersion: document.frameworkAcceptance.frameworkVersion,
-          acceptanceType: document.frameworkAcceptance.acceptanceType,
-          acceptedAt: document.frameworkAcceptance.acceptedAt,
-          signedDocumentDownloadedAt: document.frameworkAcceptance.signedDocumentDownloadedAt
+          id: frameworkAcceptance.id,
+          frameworkKey: frameworkAcceptance.frameworkKey,
+          frameworkVersion: frameworkAcceptance.frameworkVersion,
+          acceptanceType: frameworkAcceptance.acceptanceType,
+          acceptedAt: frameworkAcceptance.acceptedAt,
+          signedDocumentDownloadedAt: frameworkAcceptance.signedDocumentDownloadedAt
         }
       : null,
     createdAt: document.createdAt,
     updatedAt: document.updatedAt
+  }
+}
+
+async function findDocumentWithFrameworkState(id) {
+  try {
+    const document = await prisma.userDocument.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        ownerId: true,
+        title: true,
+        originalName: true,
+        kind: true,
+        templateFor: true,
+        agentAllowed: true,
+        mime: true,
+        size: true,
+        storagePath: true,
+        createdAt: true,
+        updatedAt: true,
+        frameworkAcceptance: {
+          select: {
+            id: true,
+            frameworkKey: true,
+            frameworkVersion: true,
+            acceptanceType: true,
+            acceptedAt: true,
+            signedDocumentDownloadedAt: true
+          }
+        }
+      }
+    })
+
+    return {
+      document,
+      frameworkSchemaAvailable: true
+    }
+  } catch (error) {
+    if (!isFrameworkAcceptanceSchemaError(error)) throw error
+
+    const document = await prisma.userDocument.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        ownerId: true,
+        title: true,
+        originalName: true,
+        kind: true,
+        templateFor: true,
+        agentAllowed: true,
+        mime: true,
+        size: true,
+        storagePath: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    })
+
+    return {
+      document: document
+        ? {
+            ...document,
+            frameworkAcceptance: null
+          }
+        : null,
+      frameworkSchemaAvailable: false
+    }
   }
 }
 
@@ -67,21 +136,7 @@ export async function GET(request, { params }) {
   }
 
   try {
-    const document = await prisma.userDocument.findUnique({
-      where: { id },
-      include: {
-        frameworkAcceptance: {
-          select: {
-            id: true,
-            frameworkKey: true,
-            frameworkVersion: true,
-            acceptanceType: true,
-            acceptedAt: true,
-            signedDocumentDownloadedAt: true
-          }
-        }
-      }
-    })
+    const { document } = await findDocumentWithFrameworkState(id)
     if (!document) {
       return errorJson("documents.errors.not_found", 404, locale)
     }
@@ -131,14 +186,12 @@ export async function PATCH(request, { params }) {
   }
 
   try {
-    const existing = await prisma.userDocument.findUnique({
-      where: { id }
-    })
+    const { document: existing, frameworkSchemaAvailable } = await findDocumentWithFrameworkState(id)
     if (!existing) {
       return errorJson("documents.errors.not_found", 404, locale)
     }
     assertOwnedByUser(existing, auth.userId)
-    if (existing.frameworkAcceptanceId) {
+    if (frameworkSchemaAvailable && existing.frameworkAcceptance) {
       return errorJson("documents.errors.read_only_document", 403, locale)
     }
 
@@ -163,6 +216,20 @@ export async function PATCH(request, { params }) {
         kind,
         templateFor,
         agentAllowed
+      },
+      select: {
+        id: true,
+        ownerId: true,
+        title: true,
+        originalName: true,
+        kind: true,
+        templateFor: true,
+        agentAllowed: true,
+        mime: true,
+        size: true,
+        storagePath: true,
+        createdAt: true,
+        updatedAt: true
       }
     })
 
@@ -177,7 +244,10 @@ export async function PATCH(request, { params }) {
 
     return json({
       ok: true,
-      document: serializeDocument(document)
+      document: serializeDocument({
+        ...document,
+        frameworkAcceptance: null
+      })
     })
   } catch (error) {
     if (error?.status === 403) {
@@ -212,14 +282,12 @@ export async function DELETE(request, { params }) {
   }
 
   try {
-    const existing = await prisma.userDocument.findUnique({
-      where: { id }
-    })
+    const { document: existing, frameworkSchemaAvailable } = await findDocumentWithFrameworkState(id)
     if (!existing) {
       return errorJson("documents.errors.not_found", 404, locale)
     }
     assertOwnedByUser(existing, auth.userId)
-    if (existing.frameworkAcceptanceId) {
+    if (frameworkSchemaAvailable && existing.frameworkAcceptance) {
       return errorJson("documents.errors.read_only_document", 403, locale)
     }
 

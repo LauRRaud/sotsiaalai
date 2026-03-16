@@ -60,7 +60,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   );
   const isRussianLocale = locale === "ru";
   const adminFrameworkLinkLabel =
-    locale === "et" ? "Kinnitused" : locale === "ru" ? "Подтверждения" : "Acceptances";
+    locale === "et" ? "Kinnituste audit" : locale === "ru" ? "Аудит подтверждений" : "Acceptances audit";
   const homeCircleItemClassName = cn(
     "max-w-full"
   );

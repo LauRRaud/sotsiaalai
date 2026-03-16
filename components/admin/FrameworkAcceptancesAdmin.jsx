@@ -4,72 +4,52 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
+import Panel from "@/components/ui/Panel";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 const pageClassName =
-  "flex w-full min-w-0 max-w-full flex-col gap-[clamp(1rem,2.2vw,1.45rem)] overflow-x-clip text-[color:var(--admin-text)] " +
+  "flex w-full min-w-0 max-w-full flex-col gap-[1rem] overflow-x-clip text-[color:var(--admin-text)] " +
   "[--admin-text:var(--documents-page-text)] [--admin-muted:var(--documents-page-muted)] [--admin-surface:var(--documents-card-bg)] " +
   "[--admin-surface-2:var(--documents-subpanel-bg)] [--admin-surface-3:var(--documents-content-bg)] [--admin-border:var(--documents-card-border)] " +
   "[--admin-border-strong:var(--documents-subpanel-border)] [--admin-shadow-soft:var(--documents-soft-shadow)] [--admin-shadow:var(--documents-strong-shadow)] " +
   "[--admin-accent:var(--documents-accent)] [--admin-accent-soft:var(--documents-accent-soft)] [--admin-success:var(--documents-success-text)]";
 const cardClassName =
-  "relative w-full min-w-0 overflow-visible rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
-  "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
-  "p-[clamp(0.72rem,1.6vw,0.92rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
-  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
-const cardBodyClassName = "relative z-[1] grid gap-[0.8rem]";
+  "documents-subpanel relative w-full min-w-0 overflow-visible rounded-[1rem]";
+const cardBodyClassName = "relative z-[1] grid gap-[0.9rem]";
 const toolbarClassName =
-  "grid min-w-0 grid-cols-1 items-center gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-[0.72rem] shadow-[var(--admin-shadow-soft)] xl:grid-cols-[minmax(14rem,1fr)_12rem_auto]";
+  "documents-soft-subpanel grid min-w-0 grid-cols-1 items-center gap-2 rounded-[1rem] p-[0.72rem] xl:grid-cols-[minmax(14rem,1fr)_12rem_auto]";
 const inputClassName =
-  "documents-field documents-form-input min-w-0 w-full max-w-full rounded-[12px] border px-3 py-[0.6rem] text-[0.95rem] text-[color:var(--admin-text)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none";
+  "documents-field documents-form-input min-w-0 w-full max-w-full rounded-[12px] border px-3 py-[0.6rem] text-[0.98rem] text-[color:var(--admin-text)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none";
 const selectClassName =
-  "documents-field documents-form-input min-w-0 w-full rounded-[12px] border px-3 py-[0.6rem] text-[0.95rem] text-[color:var(--admin-text)]";
-const actionButtonStyle = {
-  "--btn-primary-bg":
-    "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_35%,var(--admin-surface)_65%),var(--admin-surface-2))",
-  "--btn-primary-bg-hover":
-    "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_42%,var(--admin-surface)_58%),var(--admin-surface-2))",
-  "--btn-primary-bg-active":
-    "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_28%,var(--admin-surface)_72%),var(--admin-surface-2))",
-  "--btn-primary-border": "1px solid color-mix(in_srgb,var(--admin-accent)_65%,var(--admin-border)_35%)",
-  "--btn-primary-border-hover": "1px solid var(--admin-accent)",
-  "--btn-primary-border-active": "1px solid color-mix(in_srgb,var(--admin-accent)_75%,var(--admin-border)_25%)",
-  "--btn-primary-text": "var(--admin-text)",
-  "--btn-primary-shadow": "var(--admin-shadow-soft)",
-  "--btn-primary-shadow-hover": "0 0 0 3px var(--admin-accent-soft), var(--admin-shadow)",
-  "--btn-primary-shadow-active": "var(--admin-shadow-soft)",
-  "--btn-primary-focus-ring-color": "var(--admin-accent-soft)"
-};
+  "documents-field documents-form-input min-w-0 w-full rounded-[12px] border px-3 py-[0.6rem] text-[0.98rem] text-[color:var(--admin-text)]";
 const actionButtonClassName =
-  "!justify-self-start !self-start !w-auto !min-h-[2.06rem] !rounded-[0.8rem] !px-[0.9rem] !py-[0.34rem] !text-[0.9rem] !leading-[1.05] !font-semibold !tracking-[0.01em] max-[768px]:!w-full max-[768px]:!justify-center";
+  "documents-primary-button !justify-self-start !self-start !w-auto !min-h-[2.5rem] !rounded-full !px-[1rem] !py-[0.5rem] !text-[0.96rem] max-[768px]:!w-full max-[768px]:!justify-center";
 const statsGridClassName = "grid gap-3 md:grid-cols-3";
 const statCardClassName =
-  "grid gap-1 rounded-[14px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3 shadow-[var(--admin-shadow-soft)]";
-const statLabelClassName = "text-[0.78rem] uppercase tracking-[0.06em] text-[color:var(--admin-muted)]";
-const statValueClassName = "text-[1.2rem] font-[700] leading-[1.05] text-[color:var(--admin-text)]";
-const statMetaClassName = "text-[0.85rem] text-[color:var(--admin-muted)]";
-const alertErrorClassName =
-  "rounded-[12px] border border-[color:#ef4444] bg-[color-mix(in_srgb,#ef4444_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)]";
+  "documents-soft-subpanel grid gap-1 rounded-[1rem] p-3";
+const statLabelClassName = "text-[0.76rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
+const statValueClassName = "text-[1.9rem] font-[700] leading-[1.02] text-[color:var(--admin-text)]";
+const statMetaClassName = "text-[0.92rem] text-[color:var(--admin-muted)]";
 const tableWrapClassName =
-  "overflow-auto rounded-[1rem] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]";
+  "documents-soft-subpanel overflow-auto rounded-[1rem]";
 const tableClassName = "min-w-[60rem] w-full border-collapse text-[color:var(--admin-text)]";
 const tableHeadCellClassName =
-  "sticky top-0 z-[1] border-b border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2 py-1.5 text-left text-[0.76rem] uppercase tracking-[0.04em] text-[color:var(--admin-muted)]";
-const tableCellClassName = "border-b border-[color:var(--admin-border)] px-2 py-2 text-left text-[0.9rem] align-top";
+  "sticky top-0 z-[1] border-b border-[color:var(--admin-border)] bg-[color:color-mix(in_srgb,var(--admin-surface-3)_92%,transparent)] px-3 py-2 text-left text-[0.74rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
+const tableCellClassName = "border-b border-[color:var(--admin-border)] px-3 py-3 text-left text-[0.96rem] align-top";
 const cellSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
 const badgeClassName =
-  "inline-flex items-center rounded-full border border-[color:var(--admin-border-strong)] bg-[color-mix(in_srgb,var(--admin-surface-2)_80%,transparent)] px-2 py-0.5 text-[0.78rem] font-semibold text-[color:var(--admin-text)]";
+  "documents-chip inline-flex items-center rounded-full px-[0.65rem] py-[0.18rem] text-[0.78rem] font-semibold";
 const mobileListClassName = "hidden gap-2 max-[1180px]:grid";
 const mobileRowCardClassName =
-  "grid gap-3 rounded-[1rem] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_92%,transparent),color-mix(in_srgb,var(--admin-surface-3)_94%,transparent))] p-3 shadow-[var(--admin-shadow-soft)]";
+  "documents-soft-subpanel grid gap-3 rounded-[1rem] p-3";
 const mobileRowTitleClassName = "text-[1rem] font-semibold leading-[1.25] text-[color:var(--admin-text)]";
 const mobileFieldGridClassName = "grid gap-2 sm:grid-cols-2";
 const mobileFieldClassName = "grid gap-[0.35rem]";
 const mobileFieldLabelClassName = "text-[0.68rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
 const mobileFieldValueClassName = "break-words text-[0.92rem] leading-[1.45] text-[color:var(--admin-text)]";
 const emptyClassName =
-  "rounded-[14px] border border-dashed border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-4 py-5 text-center text-[color:var(--admin-muted)]";
+  "documents-empty-state rounded-[1rem] border border-dashed px-4 py-5 text-center text-[color:var(--admin-muted)]";
 
 const DAY_OPTIONS = [30, 90, 365, 3650];
 
@@ -174,13 +154,13 @@ export default function FrameworkAcceptancesAdmin() {
 
   return (
     <div className={pageClassName}>
-      <section className={cardClassName}>
+      <Panel as="section" variant="secondary" padding="sm" className={cardClassName}>
         <div className={cardBodyClassName}>
-          <div className="grid gap-1">
-            <CardTitle as="h2" className="m-0 text-[1.08rem]">
+          <div className="grid gap-[0.35rem]">
+            <CardTitle as="h2" className="documents-subsection-title m-0 text-[1.45rem] max-[768px]:text-[1.7rem]">
               {t("admin.framework_acceptances.title", "Framework acceptances")}
             </CardTitle>
-            <p className="m-0 max-w-[72ch] text-[0.92rem] leading-[1.5] text-[color:var(--admin-muted)]">
+            <p className="documents-section-description m-0 max-w-[72ch] text-[0.98rem] leading-[1.6] text-[color:var(--admin-muted)]">
               {t(
                 "admin.framework_acceptances.subtitle",
                 "Admin audit view for worker-use framework confirmations created during registration."
@@ -215,9 +195,7 @@ export default function FrameworkAcceptancesAdmin() {
             </select>
             <Button
               type="button"
-              variant="primary"
               className={actionButtonClassName}
-              style={actionButtonStyle}
               onClick={() => fetchItems(undefined, query, days)}
             >
               {loading
@@ -226,7 +204,7 @@ export default function FrameworkAcceptancesAdmin() {
             </Button>
           </div>
 
-          {error ? <div className={alertErrorClassName}>{error}</div> : null}
+          {error ? <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">{error}</div> : null}
 
           <div className={statsGridClassName}>
             <div className={statCardClassName}>
@@ -255,15 +233,15 @@ export default function FrameworkAcceptancesAdmin() {
             </div>
           </div>
         </div>
-      </section>
+      </Panel>
 
-      <section className={cardClassName}>
+      <Panel as="section" variant="secondary" padding="sm" className={cardClassName}>
         <div className={cardBodyClassName}>
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <CardTitle as="h2" className="m-0 text-[1.02rem]">
+            <CardTitle as="h2" className="documents-subsection-title m-0 text-[1.38rem] max-[768px]:text-[1.6rem]">
               {t("admin.framework_acceptances.table_title", "Acceptance records")}
             </CardTitle>
-            <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
+            <div className="documents-meta-text text-[0.9rem]">
               {loading
                 ? t("admin.common.loading_data", "Loading...")
                 : t("admin.framework_acceptances.results_count", "{count} records").replace(
@@ -387,7 +365,7 @@ export default function FrameworkAcceptancesAdmin() {
             )}
           </div>
         </div>
-      </section>
+      </Panel>
     </div>
   );
 }

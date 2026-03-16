@@ -47,7 +47,16 @@ export async function GET(request, { params }) {
 
   try {
     const document = await prisma.userDocument.findUnique({
-      where: { id }
+      where: { id },
+      select: {
+        id: true,
+        ownerId: true,
+        title: true,
+        originalName: true,
+        mime: true,
+        size: true,
+        storagePath: true
+      }
     })
     if (!document) {
       return errorJson("documents.errors.not_found", 404, locale)

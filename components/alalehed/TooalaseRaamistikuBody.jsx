@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
@@ -11,14 +11,13 @@ import {
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles";
 import {
+  WORKER_FRAMEWORK_DOCX_HREF,
   WORKER_FRAMEWORK_REVIEW_STORAGE_KEY,
+  WORKER_FRAMEWORK_SIGNED_HREF,
   WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY
 } from "@/lib/frameworkAcceptances";
 import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
-
-const FRAMEWORK_SIGNED_HREF = "/legal/SotsiaalAI_raamdokument.asice";
-const FRAMEWORK_DOCX_HREF = "/legal/SotsiaalAI_raamdokument.docx";
 
 const shellClassName =
   "framework-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:justify-start max-[768px]:px-[0.25rem] max-[768px]:py-[0.5rem]";
@@ -198,6 +197,53 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
   const router = useRouter();
   const { t, locale } = useI18n();
   const introCopy = getIntroCopy(locale);
+  const [frameworkStatus, setFrameworkStatus] = useState({
+    loading: true,
+    authenticated: false,
+    eligible: false,
+    acceptance: null
+  });
+  const [confirmChecked, setConfirmChecked] = useState(false);
+  const [savePending, setSavePending] = useState(false);
+  const [saveError, setSaveError] = useState("");
+  const [saveNotice, setSaveNotice] = useState("");
+
+  const loadFrameworkStatus = useCallback(async () => {
+    setFrameworkStatus((current) => ({
+      ...current,
+      loading: true
+    }));
+
+    try {
+      const response = await fetch("/api/framework-acceptances/worker", {
+        cache: "no-store",
+        headers: {
+          "x-ui-locale": locale
+        }
+      });
+      const payload = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(payload?.message || t("documents.framework_acceptance.load_failed"));
+      }
+
+      setFrameworkStatus({
+        loading: false,
+        authenticated: payload?.authenticated === true,
+        eligible: payload?.eligible === true,
+        acceptance: payload?.acceptance || null
+      });
+      setSaveError("");
+    } catch (error) {
+      setFrameworkStatus({
+        loading: false,
+        authenticated: false,
+        eligible: false,
+        acceptance: null
+      });
+      setSaveError(error?.message || t("documents.framework_acceptance.load_failed"));
+    }
+  }, [locale, t]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -205,6 +251,10 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
       window.sessionStorage.getItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY) || new Date().toISOString();
     window.sessionStorage.setItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY, timestamp);
   }, []);
+
+  useEffect(() => {
+    void loadFrameworkStatus();
+  }, [loadFrameworkStatus]);
 
   const handleBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) {
@@ -230,6 +280,63 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
       new Date().toISOString();
     window.sessionStorage.setItem(WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY, timestamp);
   };
+
+  const handleSaveAcceptance = async () => {
+    if (savePending) return;
+
+    setSavePending(true);
+    setSaveError("");
+    setSaveNotice("");
+
+    try {
+      const frameworkReviewOpenedAt =
+        typeof window !== "undefined"
+          ? window.sessionStorage.getItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY) || null
+          : null;
+      const frameworkSignedDownloadedAt =
+        typeof window !== "undefined"
+          ? window.sessionStorage.getItem(WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY) || null
+          : null;
+
+      const response = await fetch("/api/framework-acceptances/worker", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          locale,
+          frameworkReviewOpenedAt,
+          frameworkSignedDownloadedAt
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(payload?.message || t("documents.framework_acceptance.save_failed"));
+      }
+
+      setFrameworkStatus({
+        loading: false,
+        authenticated: true,
+        eligible: true,
+        acceptance: payload?.acceptance || null
+      });
+      setConfirmChecked(false);
+      setSaveNotice(
+        payload?.created
+          ? t("documents.framework_acceptance.saved_notice")
+          : t("documents.framework_acceptance.already_confirmed")
+      );
+    } catch (error) {
+      setSaveError(error?.message || t("documents.framework_acceptance.save_failed"));
+    } finally {
+      setSavePending(false);
+    }
+  };
+
+  const acceptance = frameworkStatus.acceptance || null;
+  const isAccepted = acceptance?.accepted === true;
+  const acceptedAtText = acceptance?.acceptedAt ? new Date(acceptance.acceptedAt).toLocaleString(locale || "et") : "";
 
   return (
     <section className={shellClassName} lang={locale}>
@@ -275,6 +382,74 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
               >
                 {t("auth.register.worker_framework_download_signed")}
               </Button>
+            </div>
+            <div className={`${surfaceClassName} grid gap-[0.85rem] px-[1rem] py-[0.95rem]`}>
+              <h3 className={sectionTitleClassName}>{t("documents.framework_acceptance.manage_title")}</h3>
+              {frameworkStatus.loading ? (
+                <p className={introTextClassName}>{t("documents.loading")}</p>
+              ) : null}
+              {!frameworkStatus.loading && saveError ? (
+                <p className={introTextClassName}>{saveError}</p>
+              ) : null}
+              {!frameworkStatus.loading && !saveError && !frameworkStatus.authenticated ? (
+                <p className={introTextClassName}>{t("documents.framework_acceptance.auth_required")}</p>
+              ) : null}
+              {!frameworkStatus.loading && !saveError && frameworkStatus.authenticated && !frameworkStatus.eligible ? (
+                <p className={introTextClassName}>{t("documents.framework_acceptance.worker_only")}</p>
+              ) : null}
+              {!frameworkStatus.loading && frameworkStatus.eligible && isAccepted ? (
+                <>
+                  <p className={introTextClassName}>
+                    {t("documents.framework_acceptance.manage_confirmed", { date: acceptedAtText })}
+                  </p>
+                  <div className={actionRowClassName}>
+                    {acceptance?.documentDownloadUrl ? (
+                      <Button as="a" href={acceptance.documentDownloadUrl} variant="primary" className={actionButtonClassName}>
+                        {t("documents.framework_acceptance.download_record")}
+                      </Button>
+                    ) : null}
+                    <Button
+                      as="a"
+                      href={WORKER_FRAMEWORK_SIGNED_HREF}
+                      download
+                      onClick={handleSignedDownload}
+                      variant="primary"
+                      className={actionButtonClassName}
+                    >
+                      {t("auth.register.worker_framework_download_signed")}
+                    </Button>
+                  </div>
+                </>
+              ) : null}
+              {!frameworkStatus.loading && frameworkStatus.eligible && !isAccepted ? (
+                <>
+                  <p className={introTextClassName}>{t("documents.framework_acceptance.manage_pending")}</p>
+                  <label className={docChecklistItemClassName}>
+                    <input
+                      type="checkbox"
+                      className="documents-checkbox mt-[0.2rem] shrink-0"
+                      checked={confirmChecked}
+                      onChange={(event) => setConfirmChecked(event.target.checked)}
+                    />
+                    <span>{t("auth.register.worker_framework_ack")}</span>
+                  </label>
+                  <p className={docParagraphClassName}>{t("auth.register.worker_framework_digital_mark_note")}</p>
+                  <div className={actionRowClassName}>
+                    <Button
+                      type="button"
+                      onClick={handleSaveAcceptance}
+                      disabled={!confirmChecked || savePending}
+                      variant="primary"
+                      className={actionButtonClassName}
+                    >
+                      {savePending
+                        ? t("documents.framework_acceptance.confirm_saving")
+                        : t("documents.framework_acceptance.confirm_now")}
+                    </Button>
+                  </div>
+                </>
+              ) : null}
+              {saveNotice ? <p className={introTextClassName}>{saveNotice}</p> : null}
             </div>
           </section>
 

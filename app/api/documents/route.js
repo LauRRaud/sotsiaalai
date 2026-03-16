@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { isFrameworkAcceptanceSchemaError } from "@/lib/frameworkAcceptanceCompat"
 import { DOCUMENT_LIST_LIMIT } from "@/lib/documents/constants"
 import { logDocumentsAudit } from "@/lib/documents/audit"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
@@ -31,6 +32,7 @@ function clampLimit(value, fallback = DOCUMENT_LIST_LIMIT) {
 }
 
 function serializeDocument(document) {
+  const frameworkAcceptance = document.frameworkAcceptance || null
   return {
     id: document.id,
     title: document.title,
@@ -40,15 +42,15 @@ function serializeDocument(document) {
     agentAllowed: Boolean(document.agentAllowed),
     mime: document.mime,
     size: document.size,
-    readOnly: Boolean(document.frameworkAcceptanceId),
-    frameworkAcceptance: document.frameworkAcceptance
+    readOnly: Boolean(frameworkAcceptance),
+    frameworkAcceptance: frameworkAcceptance
       ? {
-          id: document.frameworkAcceptance.id,
-          frameworkKey: document.frameworkAcceptance.frameworkKey,
-          frameworkVersion: document.frameworkAcceptance.frameworkVersion,
-          acceptanceType: document.frameworkAcceptance.acceptanceType,
-          acceptedAt: document.frameworkAcceptance.acceptedAt,
-          signedDocumentDownloadedAt: document.frameworkAcceptance.signedDocumentDownloadedAt
+          id: frameworkAcceptance.id,
+          frameworkKey: frameworkAcceptance.frameworkKey,
+          frameworkVersion: frameworkAcceptance.frameworkVersion,
+          acceptanceType: frameworkAcceptance.acceptanceType,
+          acceptedAt: frameworkAcceptance.acceptedAt,
+          signedDocumentDownloadedAt: frameworkAcceptance.signedDocumentDownloadedAt
         }
       : null,
     createdAt: document.createdAt,
@@ -77,7 +79,17 @@ export async function GET(request) {
         ownerId: auth.userId,
         ...(kind ? { kind } : {})
       },
-      include: {
+      select: {
+        id: true,
+        title: true,
+        originalName: true,
+        kind: true,
+        templateFor: true,
+        agentAllowed: true,
+        mime: true,
+        size: true,
+        createdAt: true,
+        updatedAt: true,
         frameworkAcceptance: {
           select: {
             id: true,
@@ -100,6 +112,42 @@ export async function GET(request) {
       documents: documents.map(serializeDocument)
     })
   } catch (error) {
+    if (isFrameworkAcceptanceSchemaError(error)) {
+      try {
+        const documents = await prisma.userDocument.findMany({
+          where: {
+            ownerId: auth.userId,
+            ...(kind ? { kind } : {})
+          },
+          select: {
+            id: true,
+            title: true,
+            originalName: true,
+            kind: true,
+            templateFor: true,
+            agentAllowed: true,
+            mime: true,
+            size: true,
+            createdAt: true,
+            updatedAt: true
+          },
+          orderBy: {
+            updatedAt: "desc"
+          },
+          take: limit
+        })
+
+        return json({
+          ok: true,
+          documents: documents.map((document) => serializeDocument({
+            ...document,
+            frameworkAcceptance: null
+          }))
+        })
+      } catch (fallbackError) {
+        console.error("[documents] legacy list fallback failed", fallbackError)
+      }
+    }
     console.error("[documents] list failed", error)
     return errorJson("documents.errors.list_failed", 500, locale)
   }
@@ -156,6 +204,18 @@ export async function POST(request) {
         size: stored.size,
         sha256: stored.sha256,
         storagePath
+      },
+      select: {
+        id: true,
+        title: true,
+        originalName: true,
+        kind: true,
+        templateFor: true,
+        agentAllowed: true,
+        mime: true,
+        size: true,
+        createdAt: true,
+        updatedAt: true
       }
     })
     createdDocument = document
@@ -172,7 +232,10 @@ export async function POST(request) {
     return json(
       {
         ok: true,
-        document: serializeDocument(document)
+        document: serializeDocument({
+          ...document,
+          frameworkAcceptance: null
+        })
       },
       201
     )

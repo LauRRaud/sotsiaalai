@@ -21,6 +21,7 @@ import {
   kindLabel,
   templateForLabel
 } from "@/lib/documents/presentation"
+import { WORKER_FRAMEWORK_SIGNED_HREF, WORKER_FRAMEWORK_VERSION } from "@/lib/frameworkAcceptances"
 import { localizePath } from "@/lib/localizePath"
 
 const documentsTitleClassName =
@@ -103,6 +104,10 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const [uploadTemplateFor, setUploadTemplateFor] = useState("")
   const [uploadFile, setUploadFile] = useState(null)
   const [selectedDocumentIds, setSelectedDocumentIds] = useState([])
+  const [frameworkStatus, setFrameworkStatus] = useState({
+    loading: false,
+    acceptance: null
+  })
   const uploadInputRef = useRef(null)
   const deferredArtifactSearch = useDeferredValue(artifactSearch)
   const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
@@ -150,6 +155,50 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   useEffect(() => { void loadArtifacts(initialArtifactLimit) }, [initialArtifactLimit, loadArtifacts])
 
   useEffect(() => {
+    let cancelled = false
+
+    async function loadFrameworkStatus() {
+      if (isClientRole) {
+        setFrameworkStatus({
+          loading: false,
+          acceptance: null
+        })
+        return
+      }
+
+      setFrameworkStatus((current) => ({
+        ...current,
+        loading: true
+      }))
+
+      try {
+        const response = await fetch("/api/framework-acceptances/worker", {
+          cache: "no-store"
+        })
+        const payload = await response.json().catch(() => ({}))
+        if (!response.ok) throw new Error(payload?.message || t("documents.framework_acceptance.load_failed"))
+        if (cancelled) return
+        setFrameworkStatus({
+          loading: false,
+          acceptance: payload?.acceptance || null
+        })
+      } catch {
+        if (cancelled) return
+        setFrameworkStatus({
+          loading: false,
+          acceptance: null
+        })
+      }
+    }
+
+    void loadFrameworkStatus()
+
+    return () => {
+      cancelled = true
+    }
+  }, [isClientRole, t])
+
+  useEffect(() => {
     if (!successNotice) return undefined
     const timer = window.setTimeout(() => setSuccessNotice(null), 6000)
     return () => window.clearTimeout(timer)
@@ -188,6 +237,12 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   }), [artifacts])
   const artifactFilteredTotal = useMemo(() => (artifactFilter === "ALL" ? artifacts.length : artifacts.filter((artifact) => artifact.status === artifactFilter).length), [artifactFilter, artifacts])
   const artifactHasSearch = normalizeSearchValue(artifactSearch).length > 0
+  const frameworkAcceptance = frameworkStatus.acceptance
+  const hasFrameworkAcceptance = frameworkAcceptance?.accepted === true
+  const frameworkAcceptedAtLabel = frameworkAcceptance?.acceptedAt
+    ? formatDate(frameworkAcceptance.acceptedAt, locale)
+    : ""
+  const frameworkPageHref = localizePath("/tooalase-kasutuse-raamistik", locale)
 
   async function submitUpload(event) {
     event.preventDefault()
@@ -338,6 +393,43 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     <p className="documents-section-description documents-library-description">{roleIntroText} <span className="documents-library-help-inline">{t("documents.form.file_help")}</span></p>
                   </div>
                 </div>
+
+                <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
+                  <div className="documents-subsection-stack">
+                    <div className="documents-subsection-copy">
+                      <h3 className="documents-subsection-title">{t("documents.framework_acceptance.manage_title")}</h3>
+                      <p className="documents-section-description documents-subsection-description">
+                        {frameworkStatus.loading
+                          ? t("documents.loading")
+                          : hasFrameworkAcceptance
+                          ? t("documents.framework_acceptance.manage_confirmed_short", {
+                              date: frameworkAcceptedAtLabel,
+                              version: frameworkAcceptance.frameworkVersion || WORKER_FRAMEWORK_VERSION
+                            })
+                          : t("documents.framework_acceptance.manage_pending")}
+                      </p>
+                    </div>
+                    <div className="documents-row-actions">
+                      <Button as="a" href={frameworkPageHref} size="sm" className="documents-primary-button">
+                        {t("auth.register.worker_framework_open")}
+                      </Button>
+                      <Button as="a" href={WORKER_FRAMEWORK_SIGNED_HREF} size="sm" variant="ghost" className="documents-secondary-button">
+                        {t("auth.register.worker_framework_download_signed")}
+                      </Button>
+                      {hasFrameworkAcceptance && frameworkAcceptance?.documentDownloadUrl ? (
+                        <Button
+                          as="a"
+                          href={frameworkAcceptance.documentDownloadUrl}
+                          size="sm"
+                          variant="ghost"
+                          className="documents-secondary-button"
+                        >
+                          {t("documents.framework_acceptance.download_record")}
+                        </Button>
+                      ) : null}
+                    </div>
+                  </div>
+                </Panel>
 
                 <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
                 <div className="documents-subsection-stack">

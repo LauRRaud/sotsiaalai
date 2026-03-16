@@ -8,6 +8,7 @@ import { authConfig } from "@/auth";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import {
   glassPageBackTopLeftClassName,
+  glassPageMobileCardClassName,
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles";
 import { getLocaleFromCookies } from "@/lib/i18n";
@@ -17,16 +18,24 @@ import { localizePath } from "@/lib/localizePath";
 import AdminFrameworkAcceptancesClient from "./AdminFrameworkAcceptancesClient";
 
 const shellClassName =
-  "mx-auto my-[clamp(1.1rem,3vw,2.2rem)] flex w-full max-w-[60rem] flex-col gap-2 px-[clamp(1rem,2.1vw,1.7rem)] pt-[clamp(0.75rem,2vw,1.1rem)] pb-[clamp(0.6rem,1.8vw,1rem)] text-[1.05rem] text-[color:var(--admin-text)] max-md:w-full max-md:max-w-none max-md:my-0 max-md:px-[clamp(0.85rem,3.8vw,1.3rem)] max-md:pt-[calc(env(safe-area-inset-top,0px)+2.3rem)] max-md:pb-[calc(env(safe-area-inset-bottom,0px)+1rem)]";
+  "framework-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--documents-page-text)] max-[768px]:justify-start max-[768px]:px-[0.25rem] max-[768px]:py-[0.5rem]";
+const panelClassName =
+  `relative z-[21] w-full !max-w-[clamp(52rem,78vw,78rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--documents-page-text)] ` +
+  `shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
+  `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
+  `max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] ${glassPageMobileCardClassName}`;
 const pageHeaderClassName =
-  "invite-modal-title-wrap relative mb-[0.35rem] flex min-h-[5rem] items-start justify-center gap-[0.75rem] text-center max-[768px]:min-h-0";
+  "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
+const headerInnerClassName =
+  "grid w-full max-w-[clamp(31rem,52vw,58rem)] gap-[0.75rem] px-[0.15rem] max-[768px]:max-w-none max-[768px]:px-[0.1rem]";
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const headingClassName =
   `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
   `${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const subtitleClassName =
-  "mx-auto mt-[0.2rem] max-w-[62ch] text-center text-[0.94rem] leading-[1.5] text-[color:var(--admin-muted)]";
+  "m-0 text-left text-[1.02rem] leading-[1.68] text-[color:var(--documents-page-text)]/85 max-[768px]:text-[1.02rem]";
 const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`;
 
 export const dynamic = "force-dynamic";
@@ -84,9 +93,9 @@ export default async function AdminFrameworkAcceptancesPage() {
   const copy = getPageCopy(locale);
 
   return (
-    <section className="documents-workspace mx-auto w-full px-[clamp(0.4rem,1.4vw,0.9rem)] py-[clamp(0.5rem,1.6vw,1rem)]">
+    <section className="documents-workspace documents-workspace-page">
       <div className={shellClassName}>
-        <header className={pageHeaderClassName}>
+        <div className={panelClassName}>
           <Link
             prefetch={false}
             href={localizePath("/#meist", locale)}
@@ -95,14 +104,20 @@ export default async function AdminFrameworkAcceptancesPage() {
           >
             <BackIcon className="h-[4.35rem] w-[4.35rem] min-[769px]:h-[4.75rem] min-[769px]:w-[4.75rem]" />
           </Link>
-          <div className={mobileTitleWrapClassName}>
-            <div className="grid w-full justify-items-center">
-              <h1 className={headingClassName}>{copy.heading}</h1>
+
+          <header className={pageHeaderClassName}>
+            <div className={headerInnerClassName}>
+              <div className={mobileTitleWrapClassName}>
+                <h1 className={headingClassName}>{copy.heading}</h1>
+              </div>
               <p className={subtitleClassName}>{copy.subtitle}</p>
             </div>
+          </header>
+
+          <div className="mx-auto grid w-full max-w-[clamp(31rem,52vw,58rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-[0.1rem] max-[768px]:pb-[1rem]">
+            <AdminFrameworkAcceptancesClient />
           </div>
-        </header>
-        <AdminFrameworkAcceptancesClient />
+        </div>
       </div>
     </section>
   );

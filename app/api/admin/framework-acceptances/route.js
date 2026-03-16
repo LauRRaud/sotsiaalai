@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 
 import { authConfig } from "@/auth";
 import { assertAdmin } from "@/lib/authz";
+import { isFrameworkAcceptanceSchemaError } from "@/lib/frameworkAcceptanceCompat";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
 
@@ -177,6 +178,19 @@ export async function GET(req) {
       items: items.map(serializeAcceptance)
     });
   } catch (error) {
+    if (isFrameworkAcceptanceSchemaError(error)) {
+      return json({
+        ok: true,
+        total: 0,
+        signedDownloads: 0,
+        offset: 0,
+        limit: DEFAULT_LIMIT,
+        periodDays: DEFAULT_PERIOD_DAYS,
+        hasMore: false,
+        items: [],
+        schemaMissing: true
+      });
+    }
     console.error("admin framework acceptances GET failed", error);
     return errorJson("api.admin.analytics.summary_load_failed", 500, locale, {
       debug: process.env.NODE_ENV !== "production" ? String(error?.message || error) : undefined
