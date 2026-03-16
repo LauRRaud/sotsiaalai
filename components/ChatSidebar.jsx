@@ -42,6 +42,7 @@ export default function ChatSidebar() {
   const [hasMore, setHasMore] = useState(false);
   const [selectMode, setSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(() => new Set());
+  const [activeView, setActiveView] = useState(() => String(searchParams?.get("roomId") || "").trim() ? "groups" : "conversations");
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [confirmState, setConfirmState] = useState(null);
   const [confirmBusy, setConfirmBusy] = useState(false);
@@ -223,6 +224,21 @@ export default function ChatSidebar() {
       return next;
     });
   }, [items, selectMode]);
+  useEffect(() => {
+    if (activeView === "conversations") return;
+    if (!selectMode) return;
+    setSelectMode(false);
+    setSelectedIds(new Set());
+  }, [activeView, selectMode]);
+  useEffect(() => {
+    try {
+      window.dispatchEvent(new CustomEvent("sotsiaalai:conversation-drawer-title", {
+        detail: {
+          title: activeView === "conversations" ? t("chat.menu.label") : t("chat.sidebar.sections.groups")
+        }
+      }));
+    } catch {}
+  }, [activeView, t]);
   const fetchMore = useCallback(() => {
     if (busy || creating || !hasMore) return;
     fetchList({
@@ -495,6 +511,10 @@ export default function ChatSidebar() {
     return t("chat.sidebar.confirm.delete_all");
   }, [confirmState, t]);
   const activeRoomId = String(searchParams?.get("roomId") || "").trim();
+  useEffect(() => {
+    if (!activeRoomId) return;
+    setActiveView("groups");
+  }, [activeRoomId]);
   const safeDate = v => {
     const t = new Date(v).getTime();
     return Number.isFinite(t) ? t : 0;
@@ -504,6 +524,9 @@ export default function ChatSidebar() {
     kind: "conversation"
   })).sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)), [items]);
   const sortedRooms = useMemo(() => [...roomItems].sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)), [roomItems]);
+  const isConversationView = activeView === "conversations";
+  const currentItems = isConversationView ? sortedConversations : sortedRooms;
+  const currentBusy = isConversationView ? busy : roomsBusy;
   const isLoading = busy || roomsBusy;
   const selectedCount = selectedIds.size;
   const messageCardClassNameCommon =
@@ -531,13 +554,16 @@ export default function ChatSidebar() {
     "max-[416px]:!text-[1.2rem] max-[416px]:!px-[1.02rem]";
   const compactRefreshBtnClassName =
     "px-[0.82rem] max-[768px]:!px-[1.18rem] max-[768px]:!min-h-[3.36rem]";
+  const compactSwitchBtnClassName =
+    "!text-[1.04rem] !tracking-[0.01em] !whitespace-nowrap !px-[1rem] " +
+    "max-[768px]:!text-[1.2rem] max-[768px]:!leading-[1.08] max-[768px]:!px-[1.18rem] max-[768px]:!min-h-[3.36rem]";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
-  const sectionCardClassName =
-    "flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.35rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(12,14,20,0.42)] px-[0.8rem] py-[0.85rem] shadow-[0_0.7rem_1.8rem_rgba(0,0,0,0.28)] [.theme-light_&]:border-[rgba(148,163,184,0.32)] [.theme-light_&]:bg-[rgba(255,255,255,0.82)] [.theme-light_&]:shadow-[0_0.6rem_1.4rem_rgba(15,23,42,0.12)]";
-  const sectionHeadingClassName =
-    "px-[0.2rem] text-[0.8rem] font-semibold uppercase tracking-[0.2em] text-[rgba(203,213,225,0.78)] [.theme-light_&]:text-[rgba(71,85,105,0.78)]";
+  const listViewportClassName = "flex min-h-0 flex-1 flex-col";
   const listClassName =
-    "drawer-chat-sidebar__list list-none m-0 mt-[0.7rem] flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-[0.1rem] pb-[0.2rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
+    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-0 pt-[0.6rem] pb-[0.65rem] [scrollbar-width:none] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.28)_3%,#000_9%,#000_91%,rgba(0,0,0,0.82)_94%,rgba(0,0,0,0.56)_96.5%,rgba(0,0,0,0.3)_98.5%,transparent_100%)] " +
+    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.28)_3%,#000_9%,#000_91%,rgba(0,0,0,0.82)_94%,rgba(0,0,0,0.56)_96.5%,rgba(0,0,0,0.3)_98.5%,transparent_100%)] " +
+    "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] [-webkit-mask-size:100%_100%] [mask-size:100%_100%] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
   const renderLoadingSkeleton = (prefix, count = 3) => Array.from({ length: count }).map((_, i) => <div key={`${prefix}-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
         <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
         <div className="h-2 w-1/3 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
@@ -575,9 +601,6 @@ export default function ChatSidebar() {
               <span className="cs-title-text text-[1.2rem] max-[768px]:text-[1.38rem] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
                 {item.title || item.preview || t("chat.sidebar.item.fallback_title")}
               </span>
-              {isRoom ? <span className="rounded-full border border-[rgba(255,255,255,0.4)] px-2 py-[0.15rem] text-[0.65rem] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.85)] light:border-[rgba(148,163,184,0.4)] light:text-[rgba(55,65,81,0.8)]">
-                  {t("chat.sidebar.group_badge")}
-                </span> : null}
             </div>
             {item.preview ? <div className={`cs-preview ${previewTextClassName}`}>
                 {item.preview}
@@ -606,21 +629,24 @@ export default function ChatSidebar() {
   };
   return <>
     <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-3 px-[0.35rem] pb-[0.4rem] pt-[0.7rem] max-[768px]:pt-[0.9rem] text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
-      <div className={`${sidebarContentWidthClassName} flex flex-nowrap items-center justify-center gap-2 max-[768px]:gap-[0.72rem]`}>
-        <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
-          {creating ? t("chat.sidebar.button.creating") : <>
-              <span className="max-[416px]:hidden">{t("chat.sidebar.button.new")}</span>
-              <span className="hidden max-[416px]:inline">{t("chat.sidebar.button.new_short")}</span>
-            </>}
-        </Button>
-        <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={toggleSelectMode} disabled={isActionBusy}>
-          {selectMode ? <>
-              <span className="max-[416px]:hidden">{t("chat.sidebar.selection.cancel")}</span>
-              <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.cancel_short")}</span>
-            </> : <>
-              <span className="max-[416px]:hidden">{t("chat.sidebar.selection.select")}</span>
-              <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.select_short")}</span>
-            </>}
+      <div className={`${sidebarContentWidthClassName} flex flex-wrap items-center justify-center gap-2 max-[768px]:gap-[0.72rem]`}>
+        {isConversationView ? <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
+            {creating ? t("chat.sidebar.button.creating") : <>
+                <span className="max-[416px]:hidden">{t("chat.sidebar.button.new")}</span>
+                <span className="hidden max-[416px]:inline">{t("chat.sidebar.button.new_short")}</span>
+              </>}
+          </Button> : null}
+        {isConversationView ? <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={toggleSelectMode} disabled={isActionBusy}>
+            {selectMode ? <>
+                <span className="max-[416px]:hidden">{t("chat.sidebar.selection.cancel")}</span>
+                <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.cancel_short")}</span>
+              </> : <>
+                <span className="max-[416px]:hidden">{t("chat.sidebar.selection.select")}</span>
+                <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.select_short")}</span>
+              </>}
+          </Button> : null}
+        <Button variant="primary" size="sm" className={compactSwitchBtnClassName} onClick={() => setActiveView(prev => prev === "conversations" ? "groups" : "conversations")} disabled={isLoading}>
+          {isConversationView ? t("chat.sidebar.sections.groups") : t("chat.sidebar.sections.conversations")}
         </Button>
         <Button variant="primary" size="sm" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh")} title={t("chat.sidebar.button.refresh")} className={compactRefreshBtnClassName}>
           <svg className="h-5 w-5 max-[768px]:h-[1.74rem] max-[768px]:w-[1.74rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.05" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -631,7 +657,7 @@ export default function ChatSidebar() {
           </svg>
         </Button>
       </div>
-      {selectMode ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>
+      {selectMode && isConversationView ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>
           <Button variant="primary" size="sm" className={`px-[0.7rem] ${compactActionBtnClassName}`} onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
             <span className="max-[416px]:hidden">{t("chat.sidebar.selection.delete_selected")}</span>
             <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.delete_selected_short")}</span>
@@ -644,39 +670,24 @@ export default function ChatSidebar() {
       {error ? <div className={`${sidebarContentWidthClassName} rounded-[0.85rem] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-3 py-2 text-sm text-[#ff9c9c] light:border-[rgba(231,76,60,0.4)] light:bg-[rgba(255,255,255,0.75)] light:text-[#7a2323]`} role="alert" aria-live="assertive">
           {error}
         </div> : null}
-      <div className={`${sidebarContentWidthClassName} flex min-h-0 w-full flex-1 flex-col gap-3`}>
-        <section className={sectionCardClassName} aria-labelledby="chat-sidebar-conversations-heading">
-          <h2 id="chat-sidebar-conversations-heading" className={sectionHeadingClassName}>
-            {t("chat.sidebar.sections.conversations")}
-          </h2>
-          {busy && sortedConversations.length === 0 ? <div className={`${listClassName} mt-[0.7rem]`}>
-              {renderLoadingSkeleton("conv")}
+      <div className={`${sidebarContentWidthClassName} flex min-h-0 w-full flex-1 flex-col`}>
+        <div className={listViewportClassName} aria-label={isConversationView ? t("chat.sidebar.sections.conversations") : t("chat.sidebar.sections.groups")}>
+          {currentBusy && currentItems.length === 0 ? <div className={`${listClassName} py-2`}>
+              {renderLoadingSkeleton(isConversationView ? "conv" : "room", isConversationView ? 3 : 2)}
             </div> : <ul className={listClassName}>
-              {!busy && sortedConversations.length === 0 ? <li className="flex w-full items-center justify-between gap-3 rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] [background:var(--drawer-card-bg,rgba(20,20,24,0.38))] px-3 py-4 [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)]">
-                  <span>{t("chat.sidebar.empty")}</span>
-                  <Button variant="primary" size="sm" onClick={onNew} disabled={creating}>
-                    {t("chat.sidebar.empty_cta")}
-                  </Button>
-                </li> : sortedConversations.map(renderListItem)}
+              {!currentBusy && currentItems.length === 0 ? <li className="flex w-full items-center justify-between gap-3 rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] [background:var(--drawer-card-bg,rgba(20,20,24,0.38))] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)]">
+                  <span>{isConversationView ? t("chat.sidebar.empty") : t("rooms.empty")}</span>
+                  {isConversationView ? <Button variant="primary" size="sm" onClick={onNew} disabled={creating}>
+                      {t("chat.sidebar.empty_cta")}
+                    </Button> : null}
+                </li> : currentItems.map(renderListItem)}
             </ul>}
-          {hasMore ? <div className="flex w-full justify-center pt-[0.5rem]">
+          {isConversationView && hasMore ? <div className="flex w-full justify-center pt-[0.5rem]">
               <button type="button" className={loadMoreBtnClassName} onClick={fetchMore} disabled={busy || creating} aria-label={t("chat.sidebar.button.more")} title={t("chat.sidebar.button.more")}>
                 <ChevronIcon direction="down" className="h-[1rem] w-[1.68rem]" />
               </button>
             </div> : null}
-        </section>
-        <section className={sectionCardClassName} aria-labelledby="chat-sidebar-groups-heading">
-          <h2 id="chat-sidebar-groups-heading" className={sectionHeadingClassName}>
-            {t("chat.sidebar.sections.groups")}
-          </h2>
-          {roomsBusy && sortedRooms.length === 0 ? <div className={`${listClassName} mt-[0.7rem]`}>
-              {renderLoadingSkeleton("room", 2)}
-            </div> : <ul className={listClassName}>
-              {!roomsBusy && sortedRooms.length === 0 ? <li className="rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] [background:var(--drawer-card-bg,rgba(20,20,24,0.38))] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)]">
-                  {t("rooms.empty")}
-                </li> : sortedRooms.map(renderListItem)}
-            </ul>}
-        </section>
+        </div>
       </div>
     </nav>
     {confirmState ? <ModalConfirm message={confirmMessage} confirmLabel={t("buttons.delete")} cancelLabel={t("buttons.cancel")} busy={confirmBusy} busyLabel={t("chat.sidebar.deleting_status", "Kustutamine")} onConfirm={handleConfirmDelete} onCancel={handleConfirmCancel} disabled={confirmBusy} /> : null}

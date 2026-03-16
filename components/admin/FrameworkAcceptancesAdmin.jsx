@@ -14,7 +14,13 @@ const pageClassName =
   "[--admin-text:var(--documents-page-text)] [--admin-muted:var(--documents-page-muted)] [--admin-surface:var(--documents-card-bg)] " +
   "[--admin-surface-2:var(--documents-subpanel-bg)] [--admin-surface-3:var(--documents-content-bg)] [--admin-border:var(--documents-card-border)] " +
   "[--admin-border-strong:var(--documents-subpanel-border)] [--admin-shadow-soft:var(--documents-soft-shadow)] [--admin-shadow:var(--documents-strong-shadow)] " +
-  "[--admin-accent:var(--documents-accent)] [--admin-accent-soft:var(--documents-accent-soft)] [--admin-success:var(--documents-success-text)]";
+  "[--admin-accent:var(--documents-accent)] [--admin-accent-soft:var(--documents-accent-soft)] [--admin-success:var(--documents-success-text)] " +
+  "[--admin-surface:rgba(255,255,255,0.22)] [--admin-surface-2:rgba(255,255,255,0.18)] [--admin-surface-3:rgba(255,255,255,0.14)] " +
+  "[--admin-border:rgba(248,253,255,0.16)] [--admin-border-strong:rgba(248,253,255,0.12)] " +
+  "[.theme-night_&]:[--admin-surface:rgba(16,22,34,0.34)] [.theme-night_&]:[--admin-surface-2:rgba(16,22,34,0.32)] [.theme-night_&]:[--admin-surface-3:rgba(16,22,34,0.28)] " +
+  "[.theme-night_&]:[--admin-border:rgba(248,253,255,0.16)] [.theme-night_&]:[--admin-border-strong:rgba(248,253,255,0.12)] " +
+  "[.theme-light_&]:[--admin-surface:rgba(255,255,255,0.22)] [.theme-light_&]:[--admin-surface-2:rgba(255,255,255,0.18)] [.theme-light_&]:[--admin-surface-3:rgba(255,255,255,0.14)] " +
+  "[.theme-light_&]:[--admin-border:rgba(148,163,184,0.18)] [.theme-light_&]:[--admin-border-strong:rgba(148,163,184,0.16)]";
 const cardClassName =
   "documents-subpanel relative w-full min-w-0 overflow-visible rounded-[1rem]";
 const cardBodyClassName = "relative z-[1] grid gap-[0.9rem]";

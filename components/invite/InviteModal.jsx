@@ -31,12 +31,11 @@ export default function InviteModal() {
   const [roomTitle, setRoomTitle] = useState("");
   const [hostDisplayName, setHostDisplayName] = useState("");
   const [emails, setEmails] = useState("");
-  const [paymentMode, setPaymentMode] = useState("");
+  const [paymentMode, setPaymentMode] = useState("SELF_PAID");
   const [busy, setBusy] = useState(false);
   const [closing, setClosing] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [sponsoredStep, setSponsoredStep] = useState(false);
   const [targetRole, setTargetRole] = useState("CLIENT");
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
@@ -72,8 +71,10 @@ export default function InviteModal() {
   }];
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[9rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
-  const inviteSecondaryButtonClassName =
-    "!min-h-[2.9rem] !px-[1rem] !py-[0.68rem] !text-[1.02rem] !tracking-[0.025em] max-[768px]:!min-h-[3rem] max-[768px]:!text-[1.08rem]";
+  const inviteSponsorToggleClassName =
+    "!w-auto max-w-full !self-start !min-h-[2.72rem] !rounded-[1rem] !px-[0.95rem] !py-[0.58rem] !text-[0.98rem] !leading-[1.2] max-[768px]:!min-h-[2.9rem] max-[768px]:!text-[1.04rem]";
+  const inviteRoleCardClassName =
+    "w-full !min-h-[2.88rem] !justify-center !rounded-[0.98rem] !px-[0.9rem] !py-[0.66rem] !text-[0.96rem] !leading-[1.2] text-center max-[768px]:!text-[1.03rem]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -92,9 +93,9 @@ export default function InviteModal() {
     "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
-    "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
+    "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(255,255,255,0.22)] [.theme-night_&]:bg-[rgba(16,22,34,0.34)] " +
     "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
-    "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+    "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   useEffect(() => {
     const handler = e => {
       setRoomId(e?.detail?.roomId || null);
@@ -115,7 +116,6 @@ export default function InviteModal() {
     if (!invitePayment) return;
     setOpen(true);
     setRoomId(params.get("roomId") || null);
-    setSponsoredStep(false);
     if (invitePayment === "success") {
       setMessage(t("invite.sponsored.payment_success"));
       setError("");
@@ -134,8 +134,7 @@ export default function InviteModal() {
     }
   }, [open, roomId]);
   useEffect(() => {
-    if (paymentMode !== "sponsored_by_host") {
-      setSponsoredStep(false);
+    if (paymentMode !== "SPONSORED_BY_HOST") {
       setTargetRole("CLIENT");
     }
   }, [paymentMode]);
@@ -212,6 +211,7 @@ export default function InviteModal() {
   }, [open, roomId, loadInvites]);
   const emailsParsed = useMemo(() => parseEmails(emails), [emails]);
   const multipleEmailsForSponsored = emailsParsed.length > 1;
+  const sponsoredSelected = paymentMode === "SPONSORED_BY_HOST";
   const startSponsoredFlow = useCallback(() => {
     setError("");
     setMessage("");
@@ -219,8 +219,7 @@ export default function InviteModal() {
       setError(t("invite.error.sponsored_single_email_required"));
       return;
     }
-    setPaymentMode("sponsored_by_host");
-    setSponsoredStep(true);
+    setPaymentMode("SPONSORED_BY_HOST");
   }, [multipleEmailsForSponsored, t]);
   async function submit(e) {
     e.preventDefault();
@@ -241,13 +240,13 @@ export default function InviteModal() {
       setError(t("invite.host_name_required"));
       return;
     }
-    if (paymentMode === "sponsored_by_host" && parsed.length !== 1) {
+    if (paymentMode === "SPONSORED_BY_HOST" && parsed.length !== 1) {
       setError(t("invite.error.sponsored_single_email_required"));
       return;
     }
     setBusy(true);
     try {
-      if (paymentMode === "sponsored_by_host") {
+      if (paymentMode === "SPONSORED_BY_HOST") {
         const res = await fetch("/api/invites/sponsored/init", {
           method: "POST",
           headers: {
@@ -256,6 +255,7 @@ export default function InviteModal() {
           body: JSON.stringify({
             emails: parsed,
             lang: locale,
+            payment_mode: paymentMode,
             room_id: roomId || undefined,
             room_title: trimmedRoomTitle || undefined,
             host_display_name: !roomId ? trimmedHostName || undefined : undefined,
@@ -369,51 +369,38 @@ export default function InviteModal() {
                 <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name_ph")} aria-label={t("invite.host_name")} className={mobileInviteInputClassName} />
               </> : null}
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} className={mobileInviteInputClassName} />
-            {!sponsoredStep ? <Panel variant="secondary" padding="sm" className="grid gap-[0.8rem] rounded-[1.05rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(255,255,255,0.16)] [.theme-night_&]:bg-[rgba(16,22,34,0.3)]">
-                <p className="m-0 text-center text-[0.98rem] opacity-82 max-[768px]:text-[1.05rem]">
-                  {t("invite.pay.default_note")}
-                </p>
-                {multipleEmailsForSponsored ? <p className="m-0 text-center text-[0.93rem] opacity-70 max-[768px]:text-[1rem]">
-                    {t("invite.pay.multiple_hint")}
-                  </p> : null}
-                <div className="flex justify-center">
-                  <Button type="button" variant="primary" onClick={startSponsoredFlow} disabled={busy} className={inviteSecondaryButtonClassName}>
-                    {t("invite.pay.host")}
-                  </Button>
-                </div>
-              </Panel> : null}
+            <div className="grid gap-[0.7rem]">
+              <OptionCard
+                type="checkbox"
+                name="sponsoredInvite"
+                value="SPONSORED_BY_HOST"
+                checked={sponsoredSelected}
+                onChange={e => {
+                  if (e.target.checked) {
+                    startSponsoredFlow();
+                    return;
+                  }
+                  setError("");
+                  setMessage("");
+                  setPaymentMode("SELF_PAID");
+                }}
+                disabled={busy}
+                className={inviteSponsorToggleClassName}
+                fitTextLines={2}
+              >
+                <span className="[text-wrap:balance]">{t("invite.pay.host")}</span>
+              </OptionCard>
 
-            {paymentMode === "sponsored_by_host" && sponsoredStep ? <Panel variant="secondary" padding="sm" className="grid gap-[0.9rem] rounded-[1.05rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(255,255,255,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.38)]">
-                <div className="grid gap-[0.35rem] text-center">
-                  <p className="text-[1.04rem] font-[650] tracking-[0.02em] max-[768px]:text-[1.12rem]">
-                    {t("invite.sponsored.title")}
-                  </p>
-                  <p className="text-[0.98rem] opacity-80 max-[768px]:text-[1.05rem]">
-                    {t("invite.sponsored.description")}
-                  </p>
-                  <p className="text-[0.9rem] opacity-70 max-[768px]:text-[0.98rem]">
-                    {t("invite.pay.multiple_hint")}
-                  </p>
-                </div>
-                <div className="grid grid-cols-1 gap-[0.6rem]">
-                  {sponsoredRoleOptions.map(option => (
-                    <OptionCard key={option.value} type="radio" name="targetRole" value={option.value} checked={targetRole === option.value} onChange={e => setTargetRole(e.target.value)} disabled={busy} className="w-full !min-h-[3rem] !py-[0.72rem] !text-[1.02rem] justify-center text-center max-[768px]:!text-[1.1rem]">
-                      <span className="text-center [text-wrap:balance]">{option.label}</span>
-                    </OptionCard>
-                  ))}
-                </div>
-                <p className="text-center text-[0.95rem] opacity-80 max-[768px]:text-[1.02rem]">
-                  {t("invite.sponsored.one_month_note")}
-                </p>
-                <div className="flex justify-center">
-                  <Button type="button" variant="primary" onClick={() => {
-                setPaymentMode("");
-                setSponsoredStep(false);
-              }}>
-                    {t("buttons.back")}
-                  </Button>
-                </div>
-              </Panel> : null}
+              {sponsoredSelected ? <Panel variant="secondary" padding="sm" className="grid gap-[0.5rem] rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.14))] bg-[rgba(255,255,255,0.18)] [.theme-night_&]:bg-[rgba(16,22,34,0.32)]">
+                  <div className="grid gap-[0.45rem]">
+                    {sponsoredRoleOptions.map(option => (
+                      <OptionCard key={option.value} type="radio" name="targetRole" value={option.value} checked={targetRole === option.value} onChange={e => setTargetRole(e.target.value)} disabled={busy} className={inviteRoleCardClassName} fitTextLines={2}>
+                        <span className="text-center [text-wrap:balance]">{option.label}</span>
+                      </OptionCard>
+                    ))}
+                  </div>
+                </Panel> : null}
+            </div>
 
             <div className="relative mt-[1.25rem] mb-[1rem] flex justify-center">
               {error ? <p className={inviteErrorNoticeClassName} role="alert">
@@ -423,7 +410,7 @@ export default function InviteModal() {
                   {message}
                 </p> : null}
               <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy}>
-                {busy ? t("invite.sending") : paymentMode === "sponsored_by_host" && sponsoredStep ? t("invite.sponsored.confirm_and_pay") : sendLabel}
+                {busy ? t("invite.sending") : sponsoredSelected ? t("invite.sponsored.confirm_and_pay") : sendLabel}
               </Button>
             </div>
           </form>}

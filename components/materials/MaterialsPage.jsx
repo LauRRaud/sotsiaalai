@@ -16,9 +16,9 @@ import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
 
 const materialsPanelSurfaceClassName =
-  "border-0 bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
+  "border-0 bg-[rgba(255,255,255,0.22)] [.theme-night_&]:bg-[rgba(16,22,34,0.34)] " +
   "text-[color:var(--pt-120)] " +
-  "[.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937]"
+  "[.theme-light_&]:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:text-[#1f2937]"
 const materialsPanelShadowClassName =
   "shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:shadow-[var(--input-shadow)]"
 const materialsPrimaryButtonClassName =
@@ -276,7 +276,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                 onChange={(event) => setComment(event.target.value)}
                 rows={5}
                 placeholder={t("materials_page.comment_placeholder_multiple")}
-                className={`min-h-[7.4rem] rounded-[1.05rem] ![background:rgba(30,32,38,0.42)] [.theme-night_&]:![background:rgba(16,22,34,0.4)] [.theme-light_&]:![background:rgba(255,255,255,0.58)] ${materialsPanelSurfaceClassName} ${materialsPanelShadowClassName} hover:![background:rgba(30,32,38,0.42)] [.theme-night_&:hover]:![background:rgba(16,22,34,0.4)] [.theme-light_&:hover]:![background:rgba(255,255,255,0.58)] focus-visible:![background:rgba(30,32,38,0.42)] [.theme-night_&:focus-visible]:![background:rgba(16,22,34,0.4)] [.theme-light_&:focus-visible]:![background:rgba(255,255,255,0.58)] focus-visible:shadow-[var(--chat-invite-shadow,var(--input-shadow))]`}
+                className={`min-h-[7.4rem] rounded-[1.05rem] ![background:rgba(255,255,255,0.22)] [.theme-night_&]:![background:rgba(16,22,34,0.34)] [.theme-light_&]:![background:rgba(255,255,255,0.22)] ${materialsPanelSurfaceClassName} ${materialsPanelShadowClassName} hover:![background:rgba(255,255,255,0.22)] [.theme-night_&:hover]:![background:rgba(16,22,34,0.34)] [.theme-light_&:hover]:![background:rgba(255,255,255,0.22)] focus-visible:![background:rgba(255,255,255,0.22)] [.theme-night_&:focus-visible]:![background:rgba(16,22,34,0.34)] [.theme-light_&:focus-visible]:![background:rgba(255,255,255,0.22)] focus-visible:shadow-[var(--chat-invite-shadow,var(--input-shadow))]`}
               />
 
               {error ? (

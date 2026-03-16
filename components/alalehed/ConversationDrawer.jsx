@@ -9,6 +9,7 @@ export default function ConversationDrawer({
   children
 }) {
   const [open, setOpen] = useState(false);
+  const [titleOverride, setTitleOverride] = useState("");
   const [drawerRoot, setDrawerRoot] = useState(null);
   const panelRef = useRef(null);
   const closeBtnRef = useRef(null);
@@ -61,6 +62,14 @@ export default function ConversationDrawer({
     }
     window.addEventListener("sotsiaalai:toggle-conversations", onToggle);
     return () => window.removeEventListener("sotsiaalai:toggle-conversations", onToggle);
+  }, []);
+  useEffect(() => {
+    const handleTitleChange = e => {
+      const nextTitle = typeof e?.detail?.title === "string" ? e.detail.title.trim() : "";
+      setTitleOverride(nextTitle);
+    };
+    window.addEventListener("sotsiaalai:conversation-drawer-title", handleTitleChange);
+    return () => window.removeEventListener("sotsiaalai:conversation-drawer-title", handleTitleChange);
   }, []);
   useEffect(() => {
     if (open) return;
@@ -246,12 +255,13 @@ export default function ConversationDrawer({
     "max-[768px]:!w-[3.2rem] max-[768px]:!h-[3.2rem] max-[768px]:[&>span]:text-[2.35rem]";
   const contentClassName =
     "drawer-content px-[1rem] pt-[0.65rem] pb-[1rem] h-[calc(100%-3.2rem)] overflow-hidden";
+  const drawerTitle = titleOverride || t("chat.menu.label");
   return createPortal(<>
       {open && <div ref={overlayRef} className={overlayClassName} onClick={close} aria-hidden="true" />}
       <aside ref={panelRef} role="dialog" aria-labelledby={headerId} aria-modal={open ? "true" : undefined} aria-hidden={open ? undefined : "true"} inert={open ? undefined : true} tabIndex={open ? undefined : -1} className={panelClassName}>
         <header className={headerClassName}>
           <h1 id={headerId} className="drawer-title w-full text-center text-[clamp(1.62rem,1.28rem+1.2vw,2.08rem)] max-[768px]:text-[clamp(2rem,8.1vw,2.45rem)] leading-[1.1] tracking-[0.018em] mt-[clamp(0.72rem,1.5vh,1rem)] mb-[clamp(0.08rem,0.35vh,0.22rem)] text-[#d18484] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[500] opacity-100 [text-shadow:0_0.2rem_0.65rem_rgba(0,0,0,0.28)] light:[text-shadow:0_0.1rem_0.35rem_rgba(255,255,255,0.22)]">
-            {t("chat.menu.label")}
+            {drawerTitle}
           </h1>
           <IconButton ref={closeBtnRef} onClick={close} className={closeButtonClassName} label={t("buttons.close")} />
         </header>
