@@ -28,7 +28,7 @@ const panelClassName =
 const pageHeaderClassName =
   "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
 const headerInnerClassName =
-  "grid w-full max-w-[clamp(31rem,52vw,58rem)] gap-[0.75rem] px-[0.15rem] max-[768px]:max-w-none max-[768px]:px-[0.1rem]";
+  "grid w-full max-w-[clamp(52rem,78vw,78rem)] gap-[0.75rem] px-[0.15rem] max-[768px]:max-w-none max-[768px]:px-[0.1rem]";
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const headingClassName =
@@ -121,7 +121,7 @@ export default async function AdminFrameworkAcceptancesPage() {
             </div>
           </header>
 
-          <div className="mx-auto grid w-full max-w-[clamp(31rem,52vw,58rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-[0.1rem] max-[768px]:pb-[1rem]">
+          <div className="mx-auto grid w-full max-w-[clamp(52rem,78vw,78rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-[0.1rem] max-[768px]:pb-[1rem]">
             <AdminFrameworkAcceptancesClient />
           </div>
         </div>

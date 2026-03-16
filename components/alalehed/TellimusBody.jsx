@@ -31,14 +31,14 @@ const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName =
-  "subscription-content mt-[clamp(0.62rem,1.9vh,1.12rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] max-[768px]:max-w-none flex-col gap-[clamp(0.88rem,1.9vh,1.14rem)] text-center max-[768px]:text-left";
+  "subscription-content mt-[clamp(0.62rem,1.9vh,1.12rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] max-[768px]:max-w-none flex-col gap-[clamp(0.6rem,1.4vh,0.95rem)] text-center max-[768px]:text-left";
 const subscriptionCopyClassName =
-  "subscription-copy-text text-center max-[768px]:text-left text-[0.98rem] leading-[1.45] opacity-80 max-[768px]:text-[1.08rem]";
+  "subscription-copy-text text-center max-[768px]:text-left text-[0.98rem] leading-[1.45] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:text-[1.08rem]";
 const subscriptionInfoTextClassName =
-  "subscription-info-text text-center max-[768px]:text-left text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
-  "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.68] opacity-80 [&_p]:m-0";
+  "subscription-info-text text-left text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
+  "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.68] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] [&_p]:m-0";
 const subscriptionSupplementTextClassName =
-  "subscription-copy-text text-center max-[768px]:text-left text-[1rem] leading-[1.54] opacity-78 max-[768px]:text-[1.08rem]";
+  "subscription-copy-text text-left text-[clamp(1.02rem,1.25vw,1.14rem)] leading-[1.6] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:text-[clamp(1.18rem,4.2vw,1.34rem)]";
 const subscriptionActionClassName =
   "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
   "max-[768px]:w-full max-[768px]:min-w-0 max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";
@@ -52,6 +52,8 @@ const subscriptionActiveSummaryClassName =
   "subscription-active-summary text-center max-[768px]:text-left text-[clamp(1.08rem,1.48vw,1.2rem)] leading-[1.42] font-[600] text-[color:#d7f8ea]";
 const subscriptionActiveNoteClassName =
   "subscription-active-note mt-[0.52rem] text-center max-[768px]:text-left text-[clamp(0.96rem,1.2vw,1.06rem)] leading-[1.4] opacity-85";
+const subscriptionInfoBlockClassName = "grid gap-[0.3rem]";
+const subscriptionStatusStackClassName = "grid gap-[0.2rem] -mt-[0.15rem]";
 const authModalBackdropClassName =
   "fixed inset-0 z-[94] bg-[rgba(6,10,18,0.74)] backdrop-blur-[2px] pointer-events-auto";
 export default function TellimusBody() {
@@ -77,7 +79,11 @@ export default function TellimusBody() {
   const reason = String(searchParams?.get("reason") || "").toLowerCase();
   const isVerifiedEntry = reason === "email-verified";
   const isAuthed = status === "authenticated" || !!session?.user;
-  const hasPaymentNotice = Boolean(info || error);
+  const errorText = String(error || "");
+  const suppressError = /makseteenuse\\s+pakk/i.test(errorText);
+  const visibleError = errorText && !suppressError ? errorText : "";
+  const hasPaymentNotice = Boolean(info || visibleError);
+  const hasStatusNotice = Boolean(sponsoredExpired || info || visibleError);
   const planRoleLabel =
     planRole === "SOCIAL_WORKER" ? t("role.worker") : t("role.client");
   const subscriptionInfoText = monthlyAmountLabel
@@ -315,22 +321,26 @@ export default function TellimusBody() {
                 </Button>
               </div>
             </> : <>
-              <div id="billing-info">
+              <div id="billing-info" className={subscriptionInfoBlockClassName}>
                 <RichText as="div" className={subscriptionInfoTextClassName} value={subscriptionInfoText} replacements={emailReplacement} />
-                <p className={cn(subscriptionSupplementTextClassName, "mt-[0.48rem]")}>
+                <p className={subscriptionSupplementTextClassName}>
                   {sponsoredInfoText}
                 </p>
+                {hasStatusNotice ? (
+                  <div className={subscriptionStatusStackClassName}>
+                    {sponsoredExpired ? <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#fde68a]")}>
+                        {t("subscription.active.sponsored_expired")}
+                      </p> : null}
+                    {info && <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#a7f3d0]")}>
+                        {info}
+                      </p>}
+                    {visibleError && <p role="alert" aria-live="assertive" className={cn(subscriptionStatusClassName, "text-[color:var(--subscription-error-color,#fca5a5)]")}>
+                        {visibleError}
+                      </p>}
+                  </div>
+                ) : null}
               </div>
-              {sponsoredExpired ? <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#fde68a]")}>
-                  {t("subscription.active.sponsored_expired")}
-                </p> : null}
-              {info && <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#a7f3d0]")}>
-                  {info}
-                </p>}
-              {error && <p role="alert" aria-live="assertive" className={cn(subscriptionStatusClassName, "text-[color:var(--subscription-error-color,#fca5a5)]")}>
-                  {error}
-                </p>}
-              <div className={cn("flex justify-center max-[768px]:w-full", hasPaymentNotice ? "mt-[clamp(0.52rem,1.15vh,0.82rem)]" : "mt-[clamp(0.78rem,2vh,1.2rem)]")}>
+              <div className={cn("flex justify-center max-[768px]:w-full -translate-y-[0.3rem]", hasPaymentNotice ? "mt-[clamp(0.1rem,0.5vh,0.3rem)]" : "mt-[clamp(0.25rem,1vh,0.6rem)]")}>
                 <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
                   {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
                 </Button>

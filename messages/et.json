@@ -1440,7 +1440,7 @@
     },
     "button": {
       "open_profile": "Ava profiil",
-      "activate": "Maksa ja aktiveeri tellimus",
+      "activate": "Aktiveeri tellimus",
       "processing": "Suunan maksele…"
     },
     "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Sotsiaaltöö spetsialisti kuutasu on 14,99 € ja eluküsimusega pöörduja kuutasu on 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni.",

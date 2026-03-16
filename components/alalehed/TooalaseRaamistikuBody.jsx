@@ -46,7 +46,7 @@ const introCardClassName =
 const sectionTitleClassName =
   "m-0 text-[1.14rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const introTextClassName =
-  "m-0 text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
+  "m-0 text-[1.14rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
 const documentCardClassName =
   `${surfaceClassName} grid gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:gap-[0.84rem] max-[768px]:px-[1rem] max-[768px]:py-[0.96rem]`;
 const documentStackClassName = "grid gap-[0.82rem]";
@@ -369,12 +369,12 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
               </p>
             ))}
             <div className={actionRowClassName}>
-              <Button as="a" href={FRAMEWORK_DOCX_HREF} download variant="primary" className={actionButtonClassName}>
+              <Button as="a" href={WORKER_FRAMEWORK_DOCX_HREF} download variant="primary" className={actionButtonClassName}>
                 {t("auth.register.worker_framework_download_docx")}
               </Button>
               <Button
                 as="a"
-                href={FRAMEWORK_SIGNED_HREF}
+                href={WORKER_FRAMEWORK_SIGNED_HREF}
                 download
                 onClick={handleSignedDownload}
                 variant="primary"
