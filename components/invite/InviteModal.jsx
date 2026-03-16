@@ -72,9 +72,9 @@ export default function InviteModal() {
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[9rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
   const inviteSponsorToggleClassName =
-    "!w-auto max-w-full !self-start !min-h-[2.72rem] !rounded-[1rem] !px-[0.95rem] !py-[0.58rem] !text-[0.98rem] !leading-[1.2] max-[768px]:!min-h-[2.9rem] max-[768px]:!text-[1.04rem]";
+    "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1rem] !px-[1.05rem] !py-[0.64rem] !text-[0.98rem] !leading-[1.2] max-[768px]:!min-h-[2.9rem] max-[768px]:!text-[1.04rem]";
   const inviteRoleCardClassName =
-    "w-full !min-h-[2.88rem] !justify-center !rounded-[0.98rem] !px-[0.9rem] !py-[0.66rem] !text-[0.96rem] !leading-[1.2] text-center max-[768px]:!text-[1.03rem]";
+    "!w-full !min-h-[2.88rem] !justify-center !rounded-[0.98rem] !px-[1.2rem] !py-[0.66rem] !text-[1.04rem] !leading-[1.2] text-center max-[768px]:!text-[1.08rem]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -386,12 +386,14 @@ export default function InviteModal() {
                 }}
                 disabled={busy}
                 className={inviteSponsorToggleClassName}
-                fitTextLines={2}
+                fitTextLines={3}
               >
-                <span className="[text-wrap:balance]">{t("invite.pay.host")}</span>
+                <span className="text-center [text-wrap:balance]">
+                  {t("invite.pay.host")}
+                </span>
               </OptionCard>
 
-              {sponsoredSelected ? <Panel variant="secondary" padding="sm" className="grid gap-[0.5rem] rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.14))] bg-[rgba(255,255,255,0.18)] [.theme-night_&]:bg-[rgba(16,22,34,0.32)]">
+              {sponsoredSelected ? <Panel variant="secondary" padding="sm" className="grid w-fit max-w-full mx-auto gap-[0.5rem] rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.14))] bg-[rgba(255,255,255,0.18)] [.theme-night_&]:bg-[rgba(16,22,34,0.32)]">
                   <div className="grid gap-[0.45rem]">
                     {sponsoredRoleOptions.map(option => (
                       <OptionCard key={option.value} type="radio" name="targetRole" value={option.value} checked={targetRole === option.value} onChange={e => setTargetRole(e.target.value)} disabled={busy} className={inviteRoleCardClassName} fitTextLines={2}>

@@ -1619,7 +1619,7 @@
     "pay": {
       "label": "Maksmine",
       "self": "Kutsutu teeb tellimuse ise",
-      "host": "Tasun tema eest",
+      "host": "Tasun tema eest 1 kuu tellimuse",
       "default_note": "Vaikimisi saadad lihtsalt kutse. Kutsutud inimene saab registreeruda ning vajadusel tellimuse ise aktiveerida, enne kui ta ruumiga liitub.",
       "multiple_hint": "Sponsoreeritud kutse jaoks saad korraga kasutada ainult ühte e-posti aadressi."
     },
@@ -1632,8 +1632,8 @@
       "payment_canceled": "Makse katkestati. Kutset ei saadetud välja.",
       "payment_failed": "Makse ebaõnnestus. Proovi uuesti.",
       "role": {
-        "worker": "Sotsiaaltöö spetsialisti tellimus",
-        "client": "Eluküsimusega pöörduja tellimus"
+        "worker": "Sotsiaaltöö spetsialist",
+        "client": "Eluküsimusega pöörduja"
       }
     },
     "sending": "Saadan...",
