@@ -213,7 +213,7 @@
       rgba(248, 240, 238, 0.46) 100%
     ),
     rgba(249, 241, 239, 0.42) !important;
-  border: 1px solid rgba(255, 255, 255, 0.52) !important;
+  border: 0 !important;
   color: #4a3833 !important;
   box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
 }

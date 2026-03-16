@@ -437,7 +437,7 @@
       rgba(255, 255, 255, 0) 74%
     ),
     rgba(22, 22, 30, 0.66) !important;
-  border: 1px solid rgba(196, 192, 186, 0.28) !important;
+  border: 0 !important;
   color: rgba(242, 239, 234, 0.94) !important;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.34) !important;
 }

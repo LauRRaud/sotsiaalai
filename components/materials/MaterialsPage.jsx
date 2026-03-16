@@ -233,15 +233,15 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className="mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[0.9rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.78rem] max-[768px]:px-[0.2rem]">
+        <div className="mx-auto grid w-full max-w-[clamp(20rem,52vw,35rem)] gap-[0.9rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.78rem] max-[768px]:px-[0.2rem]">
           <section className={materialsSectionClassName}>
-            <div className="grid gap-[0.35rem] text-left">
-              <p className="text-[1rem] leading-[1.5] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
+            <div className="grid gap-[0.35rem] pb-[0.35rem] text-left">
+              <p className="text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">
                 {t("materials_page.description")}
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-[-0.08rem] grid gap-[0.95rem]">
+            <form onSubmit={handleSubmit} className="mt-[-0.2rem] grid gap-[0.95rem]">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -254,7 +254,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               <Button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className={`materials-upload-choose-button !mx-auto !mt-[-0.18rem] !mb-[0.08rem] !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center max-[768px]:!mt-[-0.08rem] ${materialsPrimaryButtonClassName}`}
+                className={`materials-upload-choose-button !mx-auto !mt-[-0.55rem] !mb-[0.18rem] !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center max-[768px]:!mt-[-0.38rem] -translate-y-[0.4rem] max-[768px]:-translate-y-[0.3rem] ${materialsPrimaryButtonClassName}`}
               >
                 {files.length === 1 ? (
                   <span className="block max-w-full truncate text-[0.94rem] leading-none">{files[0].name}</span>
@@ -291,7 +291,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                 </p>
               ) : null}
 
-              <div className="flex w-full justify-center pt-[0.42rem] max-[768px]:pt-[0.5rem]">
+                <div className="flex w-full justify-center pt-[0.42rem] pb-[0.35rem] max-[768px]:pt-[0.5rem] max-[768px]:pb-[0.5rem]">
                 <Button
                   type="submit"
                   disabled={!files.length || submitting}
@@ -304,7 +304,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </section>
 
           {isAdmin ? (
-            <section className={`materials-admin-panel ${materialsSectionClassName}`}>
+            <section className={`materials-admin-panel ${materialsSectionClassName} -mx-[0.28rem] max-[768px]:-mx-[0.14rem]`}>
               <div className="flex items-start justify-between gap-[0.8rem]">
                 <div className="grid gap-[0.22rem]">
                   <h2 className={materialsSectionTitleClassName}>{t("materials_page.admin.title")}</h2>

@@ -37,8 +37,7 @@ const subscriptionCopyClassName =
 const subscriptionInfoTextClassName =
   "subscription-info-text text-left text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
   "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.68] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] [&_p]:m-0";
-const subscriptionSupplementTextClassName =
-  "subscription-copy-text text-left text-[clamp(1.02rem,1.25vw,1.14rem)] leading-[1.6] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:text-[clamp(1.18rem,4.2vw,1.34rem)]";
+const subscriptionSupplementTextClassName = subscriptionInfoTextClassName;
 const subscriptionActionClassName =
   "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
   "max-[768px]:w-full max-[768px]:min-w-0 max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";

@@ -22,8 +22,8 @@ const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-
 const homeLikeOtpLinkClassName = `${linkBrandInlineClass} home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.12rem,1.55vw,1.28rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]`;
 const helpPopoverLinkClassName = `${linkBrandInlineClass} mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap [--link-brand-shadow-hover:transparent]`;
 const otpSubmitButtonClassName =
-  "documents-primary-button !min-w-[clamp(10.8rem,26vw,12.4rem)] !min-h-[3.2rem] !px-[1.5rem] !py-[0.8rem] !text-[1.22rem] !leading-[1.08] " +
-  "max-[768px]:!min-w-[clamp(9.8rem,42vw,11.6rem)] max-[768px]:!min-h-[3.48rem] max-[768px]:!px-[1.25rem] max-[768px]:!py-[0.9rem] max-[768px]:!text-[1.5rem]";
+  "documents-primary-button !min-w-[clamp(8.6rem,20vw,10.6rem)] !min-h-[3.2rem] !px-[1.35rem] !py-[0.8rem] !text-[1.22rem] !leading-[1.08] " +
+  "max-[768px]:!min-w-[clamp(8.4rem,36vw,10.2rem)] max-[768px]:!min-h-[3.48rem] max-[768px]:!px-[1.15rem] max-[768px]:!py-[0.9rem] max-[768px]:!text-[1.5rem]";
 const otpSubmitLabelClassName = "inline-flex items-center justify-center text-center leading-[1.06] tracking-[0.01em]";
 const helpPopoverClassName =
   "login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] " +
