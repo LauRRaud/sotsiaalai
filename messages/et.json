@@ -453,7 +453,7 @@
     "section5": {
       "heading": "5. Tellimus, maksed ja tühistamine",
       "paragraph1": "<p>Platvormi tasulised funktsioonid põhinevad rollipõhisel kuutellimusel. Eluküsimusega pöörduja kuutasu on 7,99 eurot kuus ja sotsiaaltöö spetsialisti kuutasu on 14,99 eurot kuus, kui platvormil ei ole tellimuse vormistamise hetkel näidatud teisiti. Makseid vahendab Maksekeskus AS või muu platvormil näidatud makseteenuse pakkuja.</p>",
-      "paragraph2": "<p>Ligipääs võib olla kas kasutaja enda tasutud või kutsuja poolt sponsoreeritud. Sponsoreeritud ligipääs kehtib praeguse lahenduse järgi ühe kuu ning ei muutu automaatselt kasutaja enda tasuliseks tellimuseks. Kui kutsutud kasutajal on juba aktiivne oma tellimus, võib sponsoreeritud checkout olla blokeeritud.</p>",
+      "paragraph2": "<p>Ligipääs võib olla kas kasutaja enda tasutud või kutsuja poolt sponsoreeritud. Sponsoreeritud ligipääs kehtib praeguse lahenduse järgi ühe kuu ning ei muutu automaatselt kasutaja enda tasuliseks tellimuseks. Kui kutsutud kasutajal on juba aktiivne oma tellimus, võib sponsoreeritud makse algatamine olla blokeeritud.</p>",
       "paragraph3": "<p>Tellimust saab hallata lehtedel <a href=\"/tellimus\">Tellimus</a> ja Profiil. Pärast makse algatamist suunatakse kasutaja makseteenuse pakkuja makselehele ning ligipääs aktiveeritakse pärast makseteenuse kinnitust. Tühistamisel lõpeb järgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood jääb kehtima selle lõpuni, kui seadus ei näe ette teisiti. SotsiaalAI võib hinnastust, pakette või tasuliste funktsioonide ulatust muuta mõistliku etteteatamisega.</p><p>Kui kasutaja on tarbija ja sõlmib lepingu veebis, võivad talle kohalduda seadusest tulenevad taganemisõiguse reeglid. Kui kasutaja palub tasulise digiteenuse osutamist alustada enne taganemistähtaja lõppu, võib SotsiaalAI küsida selleks eelnevat selgesõnalist nõusolekut ja kinnitust, et kasutaja mõistab taganemisõiguse võimalikku lõppemist või piirenemist kohaldatava õiguse järgi.</p>"
     },
     "section6": {
@@ -1651,9 +1651,9 @@
       "sponsored_single_email_required": "Sponsoreeritud kutse puhul saad korraga kutsuda ühe inimese.",
       "sponsor_plan_required": "Vali sponsoreeritud tellimuse roll enne makse alustamist.",
       "invitee_active_subscription": "Selle e-posti aadressiga kasutajal on juba aktiivne tellimus. Sponsoreeritud kuud ei saa talle uuesti osta.",
-      "sponsored_checkout_required": "Kui valid \"Tasun tema eest\", tuleb kutse saata sponsoreeritud tellimuse checkout'i kaudu.",
-      "sponsor_plan_unavailable": "Sponsored invites cannot be created: plan is unavailable.",
-      "sponsor_capacity_full": "Sponsored seats limit is full."
+      "sponsored_checkout_required": "Kui valid \"Tasun tema eest\", tuleb kutse saata sponsoreeritud tellimuse maksevoo kaudu.",
+      "sponsor_plan_unavailable": "Sponsoreeritud kutset ei saa luua, sest sobiv pakett pole saadaval.",
+      "sponsor_capacity_full": "Sponsoreeritud kohtade limiit on täis."
     }
   },
   "email": {
@@ -1843,13 +1843,13 @@
       "cancel_failed": "Tellimuse tühistamine ebaõnnestus.",
       "already_active": "Tellimus on juba aktiivne.",
       "provider_unavailable": "Maksepakkuja ei ole seadistatud.",
-      "checkout_create_failed": "Makse checkouti loomine ebaõnnestus.",
+      "checkout_create_failed": "Makse algatamine ebaõnnestus.",
       "payment_not_found": "Makset ei leitud antud viitega.",
       "webhook_signature_unconfigured": "Webhooki allkirja kontroll ei ole seadistatud.",
       "webhook_signature_invalid": "Webhooki allkiri on vigane.",
       "webhook_invalid_payload": "Webhooki payload on vigane.",
       "webhook_process_failed": "Maksete webhooki töötlemine ebaõnnestus.",
-      "direct_activation_disabled": "Otse aktiveerimine on keelatud. Alusta kõigepealt makse checkoutiga."
+      "direct_activation_disabled": "Otse aktiveerimine on keelatud. Alusta kõigepealt makse algatamisest."
     },
     "invites": {
       "email_from_missing": "Saatja e-posti aadress ei ole seadistatud.",
@@ -1957,7 +1957,7 @@
         "rag_error": "RAG error",
         "openai_error": "OpenAI error",
         "subscription_init_started": "Subscription init started",
-        "subscription_init_checkout_created": "Subscription checkout created",
+        "subscription_init_checkout_created": "Tellimuse makse algatati",
         "subscription_init_failed": "Subscription init failed",
         "subscription_callback_redirect": "Subscription callback redirect",
         "subscription_webhook_processed": "Subscription webhook processed",
@@ -2094,9 +2094,9 @@
             "critical": "Kriitiline"
           },
           "items": {
-            "checkout_create_rate_low": "Checkouti loomise määr on madal ({value}% vs lävi {threshold}%).",
-            "paid_conversion_low": "Tasuliste maksete konversioon checkoutist on madal ({value}% vs lävi {threshold}%).",
-            "webhook_missing_after_checkout": "Checkout sündmused on olemas, kuid webhooki töötlemise sündmusi ei leitud.",
+            "checkout_create_rate_low": "Makse algatamise määr on madal ({value}% vs lävi {threshold}%).",
+            "paid_conversion_low": "Tasuliste maksete konversioon makse algatamisest on madal ({value}% vs lävi {threshold}%).",
+            "webhook_missing_after_checkout": "Makse algatamise sündmused on olemas, kuid webhooki töötlemise sündmusi ei leitud.",
             "callback_pending_high": "Tagasisuunamise ootel osakaal on kõrge ({value}% vs lävi {threshold}%).",
             "webhook_error_spike": "Webhooki tehniliste vigade arv on kõrge ({value}, lävi {threshold}).",
             "webhook_error_rate_high": "Webhooki tehniliste vigade määr on kõrge ({value}% vs lävi {threshold}%).",
@@ -2109,12 +2109,12 @@
         "payment_statuses_30d": "Maksete olekud (30p)",
         "paid_amount_30d": "Laekunud summa (PAID, 30p)",
         "pipeline": {
-          "checkout_ready": "Checkout valmis (30p)",
+          "checkout_ready": "Makse algatatud (30p)",
           "webhook_paid": "Webhookiga kinnitatud maksed (30p)",
           "callback_success": "Tagasisuunamine õnnestus (30p)",
           "webhook_errors": "Webhooki vead (30p)",
           "from_init": "{percent}% initsialiseeritud maksetest",
-          "from_checkout": "{percent}% checkoutidest",
+          "from_checkout": "{percent}% makse algatamistest",
           "callback_share": "{percent}% õnnestunud tagasisuunamisi",
           "breakdown": "Ebaõnnestunud {failed} | Tühistatud {canceled} | Tagastatud {refunded}"
         },
