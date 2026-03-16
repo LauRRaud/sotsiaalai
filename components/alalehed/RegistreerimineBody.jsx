@@ -9,7 +9,6 @@ import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import { cn } from "@/components/ui/cn";
-import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import { glassPageBackClassName, glassPageBackMobileBottomCenterClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
@@ -25,7 +24,8 @@ const titleClassName =
 const contentClassName = "register-content mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
 const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[769px]:max-w-[clamp(18.2rem,calc(var(--ring-diameter,52rem)/2.2),23.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.6rem] min-[769px]:px-[1.02rem] text-left csp-container mx-auto";
 const registerTextClassName = "register-copy text-[1.25rem] leading-[1.45] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
-const registerPolicyLinkClassName = "register-policy-link inline p-0 m-0 border-0 bg-transparent align-baseline no-underline transition-none";
+const registerPolicyLinkClassName =
+  "register-policy-link inline p-0 m-0 border-0 bg-transparent align-baseline font-medium !text-[color:var(--home-link-color,var(--brand-primary))] no-underline hover:no-underline focus:no-underline active:no-underline !decoration-transparent hover:!decoration-transparent focus:!decoration-transparent active:!decoration-transparent hover:border-transparent focus:border-transparent active:border-transparent hover:shadow-none focus:shadow-none active:shadow-none transition-[color] duration-150 light:!text-[color:var(--home-link-color,var(--link-color,#7a3a38))] hc:!text-[color:var(--home-link-color,var(--hc-accent))]";
 const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:var(--pt-200)]`;
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
 const checkboxCardClassName = "register-checkbox-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto gap-[0.72rem] text-[1.04rem] leading-[1.28] px-[1.05rem] py-[0.72rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
@@ -50,19 +50,19 @@ const registerSelectedOptionClassName =
   "border border-transparent " +
   "[background:var(--btn-primary-bg-hover)] text-[color:var(--title-color,var(--brand-primary))] " +
   "shadow-[var(--btn-primary-shadow-hover)]";
-const frameworkCheckboxRowClassName =
-  "fancy-checkbox--otp fancy-checkbox--multiline w-full max-w-[27rem] justify-start " +
-  "[--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-120)] " +
-  "[--otp-check-box-size:1.6rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:26.8rem] [--otp-check-box-offset:-0.06rem] " +
-  "light:[--otp-check-shape:#1f2937] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:#1f2937]";
 const frameworkTitleClassName = `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static max-w-[12ch] text-balance min-[769px]:!text-[2.28rem] min-[769px]:!leading-[1.06] min-[769px]:!mt-[2.1rem] min-[769px]:!mb-[0.1rem] max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const frameworkTitleWrapClassName = "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center pt-[1rem] pb-[0.42rem] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+1.45rem)] max-[768px]:pb-[0.36rem]";
 const frameworkContentClassName = "mx-auto mt-[clamp(1.35rem,3.2vh,1.75rem)] flex w-full max-w-[clamp(20rem,52vw,28rem)] flex-col items-start gap-[1.05rem] px-[0.35rem] pb-[calc(env(safe-area-inset-bottom,0px)+1.35rem)]";
+const frameworkPanelSurfaceClassName =
+  "border-0 bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
+  "text-[color:var(--pt-120)] [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937]";
+const frameworkPanelShadowClassName =
+  "shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:shadow-[var(--input-shadow)]";
 const frameworkPanelClassName =
-  "w-full max-w-[28rem] self-center rounded-[1.15rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.28)] px-[1.15rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.42)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)] max-[768px]:max-w-[23rem] max-[768px]:px-[1rem] max-[768px]:py-[0.92rem]";
+  `w-full max-w-[28rem] self-center rounded-[1.15rem] px-[1.15rem] pt-[1rem] pb-[1.28rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
+  `${frameworkPanelSurfaceClassName} ${frameworkPanelShadowClassName} max-[768px]:max-w-[23rem] max-[768px]:px-[1rem] max-[768px]:pt-[0.92rem] max-[768px]:pb-[1.18rem]`;
 const frameworkLeadClassName = "m-0 w-full max-w-[28rem] self-center text-left text-[1.14rem] leading-[1.52] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:max-w-[23rem] max-[768px]:text-[1.18rem]";
-const frameworkActionsClassName = "mt-[0.55rem] flex w-full items-stretch justify-center";
-const frameworkCheckboxWrapClassName = "mt-[0.7rem] flex w-full max-w-[27rem] self-center justify-center max-[768px]:max-w-[21rem]";
+const frameworkActionsClassName = "mt-[0.95rem] flex w-full items-stretch justify-center";
 const isRegistrationOpen = !["false", "0", "off"].includes(
   String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true").trim().toLowerCase()
 );
@@ -586,38 +586,21 @@ export default function RegistreerimineBody({
                   <span className="block">{frameworkTitleLines[0]}</span>
                   <span className="block">{frameworkTitleLines[1]}</span>
                 </h2>
-              </div>
-              <div className={frameworkContentClassName}>
-                <div className={frameworkPanelClassName}>
-                  <p className={frameworkLeadClassName}>
-                    {t("auth.register.worker_framework_note")}
-                  </p>
-                  <div className={frameworkActionsClassName}>
-                    <Button type="button" onClick={openFrameworkPage} variant="primary" className={frameworkDownloadClassName}>
-                      {t("auth.register.worker_framework_open")}
-                    </Button>
-                  </div>
                 </div>
-                <div className={frameworkCheckboxWrapClassName}>
-                  <div className="flex w-full flex-col gap-[0.45rem]">
-                    <FancyCheckbox
-                      id="framework-ack"
-                      name="frameworkAck"
-                      checked={form.frameworkAck}
-                      onChange={next => {
-                        setForm(prev => ({
-                          ...prev,
-                          frameworkAck: next
-                        }));
-                      }}
-                      label={t("auth.register.worker_framework_ack")}
-                      className={frameworkCheckboxRowClassName}
-                    />
+                <div className={frameworkContentClassName}>
+                  <div className={frameworkPanelClassName}>
+                    <p className={frameworkLeadClassName}>
+                      {t("auth.register.worker_framework_note")}
+                    </p>
+                    <div className={frameworkActionsClassName}>
+                      <Button type="button" onClick={openFrameworkPage} variant="primary" className={frameworkDownloadClassName}>
+                        {t("auth.register.worker_framework_open")}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </GlassRing>
+            </GlassRing>
       </div> : null}
     </section>;
 }

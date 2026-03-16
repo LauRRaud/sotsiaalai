@@ -16,9 +16,9 @@ import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
 
 const materialsPanelSurfaceClassName =
-  "border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
+  "border-0 bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
   "text-[color:var(--pt-120)] " +
-  "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937]"
+  "[.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937]"
 const materialsPanelShadowClassName =
   "shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:shadow-[var(--input-shadow)]"
 const materialsPrimaryButtonClassName =

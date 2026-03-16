@@ -1,24 +1,40 @@
+import { cookies } from "next/headers";
 import TooalaseRaamistikuBody from "@/components/alalehed/TooalaseRaamistikuBody";
-import { buildLocalizedMetadata } from "@/lib/metadata";
 import { loadFrameworkDocument } from "@/lib/frameworkDocument";
+import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
+import { buildLocalizedMetadata } from "@/lib/metadata";
 
-export const metadata = buildLocalizedMetadata({
-  locale: "et",
-  pathname: "/tooalase-kasutuse-raamistik",
-  title: "Tööalase kasutuse raamistik",
-  description:
-    "SotsiaalAI tööalase kasutuse ja andmetöötluse raamistik spetsialistile ülevaatamiseks ja allalaadimiseks."
-});
+const DEFAULT_DESCRIPTION = "SotsiaalAI professional-use and data-processing framework for review and download.";
 
-export default async function TooalaseRaamistikuPage() {
-  let frameworkDocument = {
-    title: "Tööalase kasutuse raamistik",
+function getEmptyFrameworkDocument(messages) {
+  return {
+    title: messages?.auth?.register?.worker_framework_title || "SotsiaalAI framework",
     prefaceBlocks: [],
     documentBlocks: []
   };
+}
+
+export async function generateMetadata() {
+  const cookieStore = await cookies();
+  const locale = getLocaleFromCookies(cookieStore);
+  const messages = getMessagesSync(locale);
+
+  return buildLocalizedMetadata({
+    locale,
+    pathname: "/tooalase-kasutuse-raamistik",
+    title: messages?.auth?.register?.worker_framework_title || "",
+    description: DEFAULT_DESCRIPTION
+  });
+}
+
+export default async function TooalaseRaamistikuPage() {
+  const cookieStore = await cookies();
+  const locale = getLocaleFromCookies(cookieStore);
+  const messages = getMessagesSync(locale);
+  let frameworkDocument = getEmptyFrameworkDocument(messages);
 
   try {
-    frameworkDocument = await loadFrameworkDocument();
+    frameworkDocument = await loadFrameworkDocument(locale);
   } catch (error) {
     console.error("[framework-page] document load failed", error);
   }

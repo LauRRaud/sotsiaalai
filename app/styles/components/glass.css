@@ -361,8 +361,10 @@
 
 .register-checkbox-card .register-policy-link:hover,
 .register-checkbox-card .register-policy-link:focus-visible {
-  text-decoration: underline !important;
-  text-underline-offset: 0.1em;
+  text-decoration: none !important;
+  text-underline-offset: 0;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
 .register-agree-card > span:last-child,

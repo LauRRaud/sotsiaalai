@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
+import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
@@ -22,14 +23,14 @@ import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 const shellClassName =
   "framework-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:justify-start max-[768px]:px-[0.25rem] max-[768px]:py-[0.5rem]";
 const panelClassName =
-  `relative z-[21] w-full !max-w-[clamp(36rem,58vw,52rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `relative z-[21] w-full !max-w-[clamp(35rem,57vw,50rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
-  `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
+  `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
   `max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] ${glassPageMobileCardClassName}`;
 const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
 const headerInnerClassName =
-  "grid w-full max-w-[clamp(31rem,52vw,44rem)] gap-[0.75rem] px-[0.15rem] max-[768px]:max-w-none max-[768px]:px-[0.1rem]";
+  "grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[0.75rem] px-[0.15rem] max-[768px]:max-w-none max-[768px]:px-[0.1rem]";
 const titleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const titleClassName =
@@ -38,7 +39,7 @@ const titleClassName =
 const leadClassName =
   "m-0 text-left text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
 const bodyClassName =
-  "mx-auto grid w-full max-w-[clamp(31rem,52vw,44rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-[0.1rem] max-[768px]:pb-[1rem]";
+  "mx-auto grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-[0.1rem] max-[768px]:pb-[1rem]";
 const surfaceClassName =
   "rounded-[1.15rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
 const introCardClassName =
@@ -48,7 +49,7 @@ const sectionTitleClassName =
 const introTextClassName =
   "m-0 text-[1.14rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
 const documentCardClassName =
-  `${surfaceClassName} grid gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:gap-[0.84rem] max-[768px]:px-[1rem] max-[768px]:py-[0.96rem]`;
+  `${surfaceClassName} mx-auto grid w-full max-w-[clamp(33rem,56vw,47rem)] gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:max-w-none max-[768px]:gap-[0.84rem] max-[768px]:px-[1rem] max-[768px]:py-[0.96rem]`;
 const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.26rem] font-[680] leading-[1.3] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
@@ -71,9 +72,13 @@ const docChecklistClassName = "grid gap-[0.6rem]";
 const docChecklistItemClassName =
   "flex items-start gap-[0.55rem] text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const actionRowClassName =
-  "mx-auto flex w-full max-w-[26rem] flex-wrap items-center justify-center gap-[0.7rem] pt-[0.25rem] max-[768px]:grid max-[768px]:max-w-[17rem] max-[768px]:grid-cols-1";
+  "mx-auto flex w-full max-w-[26rem] flex-wrap items-center justify-center gap-[0.7rem] pt-[0.25rem] pb-[0.55rem] max-[768px]:grid max-[768px]:max-w-[17rem] max-[768px]:grid-cols-1 max-[768px]:pb-[0.7rem]";
 const actionButtonClassName =
-  "!min-h-[2.82rem] !px-[1.15rem] !py-[0.72rem] !text-[1rem] !leading-[1.12] max-[768px]:!w-full max-[768px]:!text-[1.08rem]";
+  "!min-h-[2.82rem] !px-[1.15rem] !py-[0.72rem] !text-[1.08rem] !leading-[1.12] max-[768px]:!w-full max-[768px]:!text-[1.1rem]";
+const frameworkCheckboxRowClassName =
+  "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
+  "[--otp-check-shape:#1f2937] [--otp-check-tick:#7A3A38] [--otp-check-text:#1f2937] " +
+  "[--otp-check-box-size:1.45rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:100%] [--otp-check-box-offset:0.08rem]";
 
 function FrameworkBlocks({ blocks = [] }) {
   return (
@@ -158,14 +163,18 @@ function FrameworkBlocks({ blocks = [] }) {
 }
 
 function getIntroCopy(locale) {
+  return getNormalizedIntroCopy(locale);
+}
+
+function getNormalizedIntroCopy(locale) {
   if (locale === "ru") {
     return {
       introTitle: "Для чего нужен этот документ?",
       lead:
-        "Этот документ объясняет условия профессионального использования SotsiaalAI и основные принципы защиты данных.",
+        "Документ описывает условия профессионального использования SotsiaalAI и основные принципы защиты данных. Прокрутите вниз, чтобы прочитать документ на сайте.",
       paragraphs: [
-        "Если SotsiaalAI используется в рабочих задачах с данными клиента или другого лица, до начала работы нужно ознакомиться с рамкой и подписать подписанный SotsiaalAI рамочный документ вместе со своим работодателем или учреждением.",
-        "Подтверждение в платформе является отдельным подтверждением на уровне пользователя. Оно сохраняется в системе вместе с учетной записью, ролью, датой и временем, но не заменяет рамочный документ, который оформляется с работодателем или учреждением."
+        "Если SotsiaalAI используется в рабочих задачах с персональными данными клиента или другого лица, до начала работы необходимо ознакомиться с рамочным документом и подписать подписанный SotsiaalAI рамочный документ вместе со своим работодателем или организацией.",
+        "Подтверждение, данное на платформе, является отдельным подтверждением на уровне пользователя. Оно сохраняется в системе вместе с учетной записью, ролью, датой и временем, позже видно пользователю в разделе Documents, но не заменяет рамочный документ, который должен быть оформлен с работодателем или организацией."
       ]
     };
   }
@@ -174,7 +183,7 @@ function getIntroCopy(locale) {
     return {
       introTitle: "What is this document for?",
       lead:
-        "This document explains SotsiaalAI professional-use terms and the main data protection principles.",
+        "This document explains SotsiaalAI professional-use terms and the main data protection principles. Scroll down to read the document on the web.",
       paragraphs: [
         "If SotsiaalAI is used in work tasks with client or other personal data, the framework must be reviewed before starting and the SotsiaalAI-signed framework document must be signed together with the employer or organisation.",
         "The confirmation given in the platform is a separate user-level confirmation. It is stored in the system together with the account, role, date and time, is later visible to the user in Documents, but does not replace the framework document that must be completed with the employer or organisation."
@@ -185,7 +194,7 @@ function getIntroCopy(locale) {
   return {
     introTitle: "Milleks see dokument on?",
     lead:
-      "See dokument selgitab SotsiaalAI tööalase kasutuse tingimusi ja peamisi andmekaitse põhimõtteid.",
+      "Dokument selgitab SotsiaalAI tööalase kasutuse tingimusi ja peamisi andmekaitse põhimõtteid. Keri alla, et dokumenti veebis lugeda.",
     paragraphs: [
       "Kui SotsiaalAI-d kasutatakse tööülesannetes kliendi või muu isiku andmetega, tuleb enne alustamist tutvuda raamistikuga ning allkirjastada SotsiaalAI allkirjastatud raamdokument koos oma tööandja või asutusega.",
       "Platvormis antav kinnitus on sellest eraldi kasutaja tasandi kinnitus. See salvestatakse süsteemis koos konto, rolli, kuupäeva ja kellaajaga, on hiljem kasutajale nähtav ka Dokumentides, kuid ei asenda tööandja või asutusega vormistatavat raamdokumenti."
@@ -354,7 +363,6 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
                 {t("auth.register.worker_framework_title")}
               </h1>
             </div>
-            <p className={leadClassName}>{introCopy.lead}</p>
           </div>
         </header>
 
@@ -363,6 +371,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
             <h2 id="framework-intro-title" className={sectionTitleClassName}>
               {introCopy.introTitle}
             </h2>
+            <p className={leadClassName}>{introCopy.lead}</p>
             {introCopy.paragraphs.map((paragraph, index) => (
               <p key={index} className={introTextClassName}>
                 {paragraph}
@@ -384,18 +393,11 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
               </Button>
             </div>
             <div className={`${surfaceClassName} grid gap-[0.85rem] px-[1rem] py-[0.95rem]`}>
-              <h3 className={sectionTitleClassName}>{t("documents.framework_acceptance.manage_title")}</h3>
               {frameworkStatus.loading ? (
                 <p className={introTextClassName}>{t("documents.loading")}</p>
               ) : null}
               {!frameworkStatus.loading && saveError ? (
                 <p className={introTextClassName}>{saveError}</p>
-              ) : null}
-              {!frameworkStatus.loading && !saveError && !frameworkStatus.authenticated ? (
-                <p className={introTextClassName}>{t("documents.framework_acceptance.auth_required")}</p>
-              ) : null}
-              {!frameworkStatus.loading && !saveError && frameworkStatus.authenticated && !frameworkStatus.eligible ? (
-                <p className={introTextClassName}>{t("documents.framework_acceptance.worker_only")}</p>
               ) : null}
               {!frameworkStatus.loading && frameworkStatus.eligible && isAccepted ? (
                 <>
@@ -421,32 +423,32 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
                   </div>
                 </>
               ) : null}
-              {!frameworkStatus.loading && frameworkStatus.eligible && !isAccepted ? (
+              {!frameworkStatus.loading && !isAccepted ? (
                 <>
-                  <p className={introTextClassName}>{t("documents.framework_acceptance.manage_pending")}</p>
-                  <label className={docChecklistItemClassName}>
-                    <input
-                      type="checkbox"
-                      className="documents-checkbox mt-[0.2rem] shrink-0"
-                      checked={confirmChecked}
-                      onChange={(event) => setConfirmChecked(event.target.checked)}
-                    />
-                    <span>{t("auth.register.worker_framework_ack")}</span>
-                  </label>
-                  <p className={docParagraphClassName}>{t("auth.register.worker_framework_digital_mark_note")}</p>
-                  <div className={actionRowClassName}>
-                    <Button
-                      type="button"
-                      onClick={handleSaveAcceptance}
-                      disabled={!confirmChecked || savePending}
-                      variant="primary"
-                      className={actionButtonClassName}
-                    >
-                      {savePending
-                        ? t("documents.framework_acceptance.confirm_saving")
-                        : t("documents.framework_acceptance.confirm_now")}
-                    </Button>
-                  </div>
+                  <FancyCheckbox
+                    id="framework-page-ack"
+                    name="frameworkAck"
+                    checked={confirmChecked}
+                    disabled={!frameworkStatus.eligible || savePending}
+                    onChange={(next) => setConfirmChecked(next)}
+                    label={t("auth.register.worker_framework_ack")}
+                    className={frameworkCheckboxRowClassName}
+                  />
+                  {frameworkStatus.eligible ? (
+                    <div className={actionRowClassName}>
+                      <Button
+                        type="button"
+                        onClick={handleSaveAcceptance}
+                        disabled={!confirmChecked || savePending}
+                        variant="primary"
+                        className={actionButtonClassName}
+                      >
+                        {savePending
+                          ? t("documents.framework_acceptance.confirm_saving")
+                          : t("documents.framework_acceptance.confirm_now")}
+                      </Button>
+                    </div>
+                  ) : null}
                 </>
               ) : null}
               {saveNotice ? <p className={introTextClassName}>{saveNotice}</p> : null}
