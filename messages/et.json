@@ -1646,7 +1646,7 @@
       "payment_failed": "Makse ebaõnnestus. Proovi uuesti.",
       "checkout": {
         "title": "Enne sponsormakse algatamist",
-        "agreement": "Nõustun <terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et ostan kutsutule ühe kuu sponsoreeritud ligipääsu ja soovin makse algatada Maksekeskuse kaudu.",
+        "agreement": "Nõustun <terms>kasutus-</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et ostan kutsutule ühe kuu sponsoreeritud ligipääsu ja soovin makse algatada Maksekeskuse kaudu.",
         "details": "Makseviisi valid Maksekeskuse makselehel. Sponsoreeritud kuu on ühekordne ega uuene automaatselt."
       },
       "role": {

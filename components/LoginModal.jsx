@@ -19,10 +19,10 @@ const noteBaseClassName = "flex items-center justify-center text-center text-[1.
 const noteErrorClassName = "text-[#fca5a5] light:text-[#b44a4a]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
 const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-[1.55rem] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38] [--link-brand-shadow-hover:transparent]`;
-const homeLikeOtpLinkClassName = `${linkBrandInlineClass} home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.12rem,1.55vw,1.28rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]`;
+const homeLikeOtpLinkClassName = `${linkBrandInlineClass} home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.2rem,1.72vw,1.42rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]`;
 const helpPopoverLinkClassName = `${linkBrandInlineClass} mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap [--link-brand-shadow-hover:transparent]`;
 const otpSubmitButtonClassName =
-  "documents-primary-button !min-w-[clamp(8.6rem,20vw,10.6rem)] !min-h-[3.2rem] !px-[1.35rem] !py-[0.8rem] !text-[1.22rem] !leading-[1.08] " +
+  "login-otp-submit !min-w-[clamp(8.6rem,20vw,10.6rem)] !min-h-[3.2rem] !px-[1.35rem] !py-[0.8rem] !text-[1.22rem] !leading-[1.08] " +
   "max-[768px]:!min-w-[clamp(8.4rem,36vw,10.2rem)] max-[768px]:!min-h-[3.48rem] max-[768px]:!px-[1.15rem] max-[768px]:!py-[0.9rem] max-[768px]:!text-[1.5rem]";
 const otpSubmitLabelClassName = "inline-flex items-center justify-center text-center leading-[1.06] tracking-[0.01em]";
 const helpPopoverClassName =
@@ -1098,7 +1098,7 @@ export default function LoginModal({
     ? "!text-[1.46rem] max-md:!text-[clamp(1.46rem,4.95vw,1.95rem)] leading-[1.14] whitespace-normal [text-wrap:balance]"
     : "";
   const androidOtpActionClassName = isAndroidPlatform
-    ? "!text-[clamp(1rem,4vw,1.14rem)] whitespace-normal [text-wrap:balance]"
+    ? "!text-[clamp(1.08rem,4.25vw,1.22rem)] whitespace-normal [text-wrap:balance]"
     : "";
   const androidHelpPopoverLinkClassName = isAndroidPlatform
     ? "whitespace-normal [text-wrap:balance] leading-[1.2]"

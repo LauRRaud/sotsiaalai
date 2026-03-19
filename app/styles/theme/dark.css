@@ -429,26 +429,3 @@
   border-color: transparent !important;
   box-shadow: none !important;
 }
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
-  .login-modal-box.login-modal--otp
-  .button,
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
-  .login-modal-box.login-modal--otp
-  .button:hover,
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
-  .login-modal-box.login-modal--otp
-  .button:focus-visible {
-  background:
-    radial-gradient(
-      74% 66% at 50% -16%,
-      rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0.04) 44%,
-      rgba(255, 255, 255, 0.01) 58%,
-      rgba(255, 255, 255, 0) 74%
-    ),
-    rgba(22, 22, 30, 0.66) !important;
-  border: 0 !important;
-  color: rgba(242, 239, 234, 0.94) !important;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.34) !important;
-}

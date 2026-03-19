@@ -235,19 +235,3 @@
   box-shadow: none !important;
 }
 
-:root.theme-night .login-modal-box.login-modal--otp .button,
-:root.theme-night .login-modal-box.login-modal--otp .button:hover,
-:root.theme-night .login-modal-box.login-modal--otp .button:focus-visible {
-  background:
-    radial-gradient(
-      74% 66% at 50% -16%,
-      rgba(222, 236, 255, 0.17) 0%,
-      rgba(222, 236, 255, 0.055) 44%,
-      rgba(222, 236, 255, 0.014) 58%,
-      rgba(222, 236, 255, 0) 74%
-    ),
-    rgba(15, 27, 46, 0.62) !important;
-  border: 0 !important;
-  color: rgba(232, 240, 252, 0.95) !important;
-  box-shadow: 0 8px 18px rgba(2, 6, 16, 0.34) !important;
-}

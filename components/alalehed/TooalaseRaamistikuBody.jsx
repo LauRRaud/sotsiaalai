@@ -25,7 +25,7 @@ const shellClassName =
 const panelClassName =
   `relative z-[21] w-full !max-w-[clamp(35rem,57vw,50rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
-  `shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
+  `shadow-[var(--framework-panel-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.46rem,1.8vw,0.62rem)] max-[768px]:rounded-[1.2rem] max-[768px]:px-[0.46rem] max-[768px]:pb-[0.76rem] ${glassPageMobileCardClassName}`;
 const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
@@ -34,22 +34,22 @@ const headerInnerClassName =
 const titleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const titleClassName =
-  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
+  `framework-title invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
   `w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const leadClassName =
   "m-0 text-left text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
 const bodyClassName =
-  "mx-auto grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-0 max-[768px]:pb-[0.92rem]";
+  "framework-body mx-auto grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-[0.12rem] max-[768px]:pb-[0.92rem]";
 const surfaceClassName =
   "rounded-[1.15rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] text-[color:var(--pt-120)] shadow-[var(--framework-panel-shadow,var(--chat-invite-shadow,var(--input-shadow)))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
 const introCardClassName =
-  `${surfaceClassName} grid gap-[0.9rem] px-[1.25rem] py-[1.15rem] max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`;
+  `framework-intro-card ${surfaceClassName} grid gap-[0.9rem] px-[1.25rem] py-[1.15rem] max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`;
 const sectionTitleClassName =
   "m-0 text-[1.14rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const introTextClassName =
   "m-0 text-[1.14rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
 const documentCardClassName =
-  `${surfaceClassName} mx-auto grid w-full max-w-[clamp(33rem,56vw,47rem)] gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:max-w-none max-[768px]:gap-[0.78rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`;
+  `framework-document-card ${surfaceClassName} mx-auto grid w-full max-w-[clamp(33rem,56vw,47rem)] gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:w-full max-[768px]:max-w-[min(100%,27.5rem)] max-[768px]:gap-[0.78rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`;
 const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.26rem] font-[680] leading-[1.3] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
@@ -206,6 +206,18 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
   const router = useRouter();
   const { t, locale } = useI18n();
   const introCopy = getIntroCopy(locale);
+  const frameworkTitle = t("auth.register.worker_framework_title");
+  const frameworkTitleMobileLines =
+    locale === "et"
+      ? (() => {
+          const lastSpaceIndex = frameworkTitle.lastIndexOf(" ");
+          if (lastSpaceIndex <= 0) return [frameworkTitle];
+          return [
+            frameworkTitle.slice(0, lastSpaceIndex),
+            frameworkTitle.slice(lastSpaceIndex + 1)
+          ];
+        })()
+      : null;
   const [frameworkStatus, setFrameworkStatus] = useState({
     loading: true,
     authenticated: false,
@@ -360,7 +372,17 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
           <div className={headerInnerClassName}>
             <div className={titleWrapClassName}>
               <h1 id="worker-framework-title" className={titleClassName}>
-                {t("auth.register.worker_framework_title")}
+                {locale === "et" ? (
+                  <>
+                    <span className="max-[768px]:hidden">{frameworkTitle}</span>
+                    <span className="hidden max-[768px]:block">
+                      <span className="block">{frameworkTitleMobileLines?.[0] || frameworkTitle}</span>
+                      {frameworkTitleMobileLines?.[1] ? <span className="block">{frameworkTitleMobileLines[1]}</span> : null}
+                    </span>
+                  </>
+                ) : (
+                  frameworkTitle
+                )}
               </h1>
             </div>
           </div>

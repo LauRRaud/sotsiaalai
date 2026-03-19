@@ -29,7 +29,7 @@ const titleClassName =
   `max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
-const subscriptionCardClassName =
+const subscriptionCardBaseClassName =
   `subscription-modal-content relative z-[21] flex w-full max-w-[clamp(32rem,54vw,42rem)] max-h-[calc(100dvh-2rem)] flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
   `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text)] shadow-[var(--glass-modal-shadow)] ` +
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
@@ -90,6 +90,7 @@ export default function TellimusBody() {
   const [processing, setProcessing] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [checkoutAgreed, setCheckoutAgreed] = useState(false);
+  const [closing, setClosing] = useState(false);
   const {
     t,
     locale
@@ -141,28 +142,37 @@ export default function TellimusBody() {
       })
     : t("subscription.active.summary");
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
-  const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {
+  const transitionOptions = {
     glassRingTilt: "left",
     waitForGlassRingTilt: true,
     persistGlassRingTilt: false
-  }) : typeof window !== "undefined" && window.history.length > 1 ? backWithTransition(router, {
-    glassRingTilt: "left",
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  }) : pushWithTransition(router, localizePath("/", locale), {
-    glassRingTilt: "left",
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  });
-  const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {
-    glassRingTilt: "left",
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  }) : pushWithTransition(router, localizePath("/profiil", locale), {
-    glassRingTilt: "left",
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  });
+  };
+  const handleBack = () => {
+    if (closing) return;
+    setClosing(true);
+    if (returnToProfile) {
+      pushWithTransition(router, profileReturnPath, transitionOptions);
+      return;
+    }
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      backWithTransition(router, transitionOptions);
+      return;
+    }
+    pushWithTransition(router, localizePath("/", locale), transitionOptions);
+  };
+  const handleClose = () => {
+    if (closing) return;
+    setClosing(true);
+    if (returnToProfile) {
+      pushWithTransition(router, profileReturnPath, transitionOptions);
+      return;
+    }
+    pushWithTransition(router, localizePath("/profiil", locale), transitionOptions);
+  };
+  const subscriptionCardClassName = cn(
+    subscriptionCardBaseClassName,
+    closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : null
+  );
   useEffect(() => {
     if (status !== "unauthenticated") return;
     if (!isVerifiedEntry) return;

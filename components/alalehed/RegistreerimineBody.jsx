@@ -63,32 +63,24 @@ const frameworkDownloadClassName =
   "w-auto whitespace-normal text-center leading-[1.08] !px-[1.45rem] !py-[0.7rem] !text-[1.1rem] no-underline !min-h-[2.95rem] min-[769px]:min-w-[10.9rem] max-[768px]:min-w-[11.6rem] max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.25rem] max-[768px]:!py-[0.72rem] max-[768px]:!text-[1.08rem]";
 const frameworkRingClassName = cn(
   glassPageRingCenteredClassName,
-  "glass-ring--desktop-stable",
+  "glass-ring--desktop-stable [--glass-shell-shadow:none] max-[768px]:[--mobile-glass-card-gap:0rem] max-[768px]:[--glass-ring-pad-x:clamp(0.28rem,1vw,0.45rem)] max-[768px]:[--glass-ring-pad-top:clamp(0.26rem,1vh,0.5rem)]",
 );
 const frameworkOverlayClassName =
-  "fixed inset-0 z-[60] flex items-center justify-center bg-transparent p-[1.25rem]";
+  "fixed inset-0 z-[60] flex items-center justify-center bg-transparent p-[1.25rem] max-[768px]:p-0";
 const frameworkInnerClassName =
   "flex h-full w-full min-h-0 flex-col items-center text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const registerSelectedOptionClassName =
   "border border-transparent " +
   "[background:var(--btn-primary-bg-hover)] text-[color:var(--title-color,var(--brand-primary))] " +
   "shadow-[var(--btn-primary-shadow-hover)]";
-const frameworkTitleClassName = `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static max-w-[12ch] text-balance min-[769px]:!text-[2.28rem] min-[769px]:!leading-[1.06] min-[769px]:!mt-[2.1rem] min-[769px]:!mb-[0.1rem] max-[768px]:!mt-0 max-[768px]:!mb-0`;
+const frameworkTitleClassName = `${glassPageTitleClassName} framework-title subpage-mobile-title policy-mobile-title policy-mobile-title--static w-full min-[769px]:!text-[2.28rem] min-[769px]:!leading-[1.06] min-[769px]:!mt-[2.1rem] min-[769px]:!mb-[0.1rem] max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const frameworkTitleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center pt-[1rem] pb-[0.42rem] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+1.45rem)] max-[768px]:pb-[0.36rem]";
+  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center pt-[1rem] pb-[0.42rem] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const frameworkContentClassName =
-  "mx-auto mt-[clamp(1.35rem,3.2vh,1.75rem)] flex w-full max-w-[clamp(20rem,52vw,28rem)] flex-col items-start gap-[1.05rem] px-[0.35rem] pb-[calc(env(safe-area-inset-bottom,0px)+1.35rem)] " +
-  "max-[768px]:max-w-none max-[768px]:px-[clamp(0.75rem,3.8vw,1.1rem)]";
-const frameworkPanelSurfaceClassName =
-  "border-0 bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
-  "text-[color:var(--pt-120)] [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937]";
-const frameworkPanelShadowClassName =
-  "shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:shadow-[var(--input-shadow)]";
-const frameworkPanelClassName =
-  `w-full max-w-[28rem] self-center rounded-[1.15rem] px-[1.15rem] pt-[1rem] pb-[1.28rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
-  `${frameworkPanelSurfaceClassName} ${frameworkPanelShadowClassName} max-[768px]:max-w-none max-[768px]:px-[1rem] max-[768px]:pt-[0.92rem] max-[768px]:pb-[1.18rem]`;
+  "framework-content-shell mx-auto mt-[clamp(1.35rem,3.2vh,1.75rem)] flex w-full max-w-[clamp(19rem,44vw,26.5rem)] flex-col items-center gap-[1.05rem] px-[0.35rem] pb-[calc(env(safe-area-inset-bottom,0px)+1.35rem)] text-center " +
+  "max-[768px]:w-full max-[768px]:max-w-[min(100%,28rem)] max-[768px]:px-0";
 const frameworkLeadClassName =
-  "m-0 w-full max-w-[28rem] self-center text-left text-[1.14rem] leading-[1.52] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:max-w-none max-[768px]:text-[1.18rem]";
+  "m-0 w-full max-w-none text-center text-[1.14rem] leading-[1.52] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.18rem]";
 const frameworkActionsClassName =
   "mt-[0.95rem] flex w-full items-stretch justify-center";
 const isRegistrationOpen = !["false", "0", "off"].includes(
@@ -827,25 +819,23 @@ export default function RegistreerimineBody({}) {
               />
               <div className={frameworkTitleWrapClassName}>
                 <h2 className={frameworkTitleClassName}>
-                  <span className="block">{frameworkTitleLines[0]}</span>
-                  <span className="block">{frameworkTitleLines[1]}</span>
+                  <span className="block max-[768px]:whitespace-nowrap">{frameworkTitleLines[0]}</span>
+                  <span className="block max-[768px]:whitespace-nowrap">{frameworkTitleLines[1]}</span>
                 </h2>
               </div>
               <div className={frameworkContentClassName}>
-                <div className={frameworkPanelClassName}>
-                  <p className={frameworkLeadClassName}>
-                    {t("auth.register.worker_framework_note")}
-                  </p>
-                  <div className={frameworkActionsClassName}>
-                    <Button
-                      type="button"
-                      onClick={openFrameworkPage}
-                      variant="primary"
-                      className={frameworkDownloadClassName}
-                    >
-                      {t("auth.register.worker_framework_open")}
-                    </Button>
-                  </div>
+                <p className={frameworkLeadClassName}>
+                  {t("auth.register.worker_framework_note")}
+                </p>
+                <div className={frameworkActionsClassName}>
+                  <Button
+                    type="button"
+                    onClick={openFrameworkPage}
+                    variant="primary"
+                    className={frameworkDownloadClassName}
+                  >
+                    {t("auth.register.worker_framework_open")}
+                  </Button>
                 </div>
               </div>
             </div>

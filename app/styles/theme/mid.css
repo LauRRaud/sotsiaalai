@@ -223,21 +223,6 @@
   box-shadow: none !important;
 }
 
-:root.theme-mid .login-modal-box.login-modal--otp .button,
-:root.theme-mid .login-modal-box.login-modal--otp .button:hover,
-:root.theme-mid .login-modal-box.login-modal--otp .button:focus-visible {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(253, 250, 249, 0.6) 0%,
-      rgba(248, 240, 238, 0.46) 100%
-    ),
-    rgba(249, 241, 239, 0.42) !important;
-  border: 0 !important;
-  color: #4a3833 !important;
-  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
-}
-
 :root.theme-mid .login-modal-box.login-modal--otp .home-link {
   --link-brand-text: #7a3a38;
   --link-brand-border-hover: #7a3a38;

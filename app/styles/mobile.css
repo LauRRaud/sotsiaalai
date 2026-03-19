@@ -1421,6 +1421,44 @@
     padding-right: clamp(0.18rem, 1.2vw, 0.42rem) !important;
   }
 
+  .register-mobile-ring .framework-content-shell {
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    ) !important;
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .register-mobile-ring .framework-panel-shell {
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: clamp(0.5rem, 2vw, 0.8rem) !important;
+    padding-right: clamp(0.5rem, 2vw, 0.8rem) !important;
+    box-shadow: none !important;
+  }
+
+  .register-mobile-ring .framework-title {
+    max-width: none !important;
+    white-space: normal !important;
+  }
+
+  .framework-page-shell .framework-body {
+    width: min(100%, 27.8rem) !important;
+    max-width: 27.8rem !important;
+  }
+
+  .framework-page-shell .framework-title {
+    max-width: none !important;
+    text-wrap: balance;
+  }
+
+  .framework-page-shell .framework-intro-card,
+  .framework-page-shell .framework-document-card {
+    box-shadow: none !important;
+  }
+
   .drawer-overlay {
     background: transparent !important;
     -webkit-backdrop-filter: none !important;
