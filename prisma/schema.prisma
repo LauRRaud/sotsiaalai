@@ -418,6 +418,7 @@ model Conversation {
   userId         String
   title          String?
   summary        String?   @db.Text
+  metadata       Json?
   role           Role
   lastActivityAt DateTime  @default(now())
   expiresAt      DateTime?

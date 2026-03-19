@@ -413,7 +413,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                       <Button as="a" href={frameworkPageHref} size="sm" className="documents-primary-button">
                         {t("auth.register.worker_framework_open")}
                       </Button>
-                      <Button as="a" href={WORKER_FRAMEWORK_SIGNED_HREF} size="sm" variant="ghost" className="documents-secondary-button">
+                      <Button as="a" href={WORKER_FRAMEWORK_SIGNED_HREF} size="sm" className="documents-primary-button">
                         {t("auth.register.worker_framework_download_signed")}
                       </Button>
                       {hasFrameworkAcceptance && frameworkAcceptance?.documentDownloadUrl ? (

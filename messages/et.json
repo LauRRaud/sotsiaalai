@@ -454,7 +454,7 @@
       "heading": "5. Tellimus, maksed ja tühistamine",
       "paragraph1": "<p>Platvormi tasulised funktsioonid põhinevad rollipõhisel kuutellimusel. Eluküsimusega pöörduja kuutasu on 7,99 eurot kuus ja sotsiaaltöö spetsialisti kuutasu on 14,99 eurot kuus, kui platvormil ei ole tellimuse vormistamise hetkel näidatud teisiti. Makseid vahendab Maksekeskus AS.</p>",
       "paragraph2": "<p>Ligipääs võib olla kas kasutaja enda tasutud või kutsuja poolt sponsoreeritud. Sponsoreeritud ligipääs kehtib praeguse lahenduse järgi ühe kuu ning ei muutu automaatselt kasutaja enda tasuliseks tellimuseks. Kui kutsutud kasutajal on juba aktiivne oma tellimus, võib sponsoreeritud makse algatamine olla blokeeritud.</p>",
-      "paragraph3": "<p>Tellimust saad hallata lehel <a href=\"/tellimus\">Tellimus</a>, kus näed aktiivset paketti, sponsoreeritud ligipääsu lõppkuupäeva ja tühistamise võimalust, ning lehel <a href=\"/profiil\">Profiil</a>, kust saad tellimuse ülevaate avada ja konto seadeid muuta. Pärast makse algatamist suunatakse kasutaja Maksekeskuse makselehele ning ligipääs aktiveeritakse pärast makseteenuse kinnitust. Makselehel kuvatavad makseviisid on need, mida Maksekeskus selle tehingu jaoks pakub. Kui kasutaja tühistab tellimuse, lõpeb järgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood jääb kehtima oma lõpuni, kui seadus ei näe ette teisiti. Kui konto ei ole veel aktiveeritud või teenust ei ole kasutama hakatud, võib kasutaja küsida makse ülevaatamist ja võimalikku tagastust, kirjutades aadressile info@sotsiaal.ai; pärast teenuse aktiveerimist ja kasutamise algust tagastusi üldjuhul ei tehta, kui seadus ei nõua teisiti. SotsiaalAI võib hinnastust, pakette või tasuliste funktsioonide ulatust muuta mõistliku etteteatamisega.</p>"
+      "paragraph3": "<p>Tellimust saad hallata lehel <a href=\"/tellimus\">Tellimus</a>, kus näed aktiivset paketti, sponsoreeritud ligipääsu lõppkuupäeva ja tühistamise võimalust, ning lehel <a href=\"/profiil\">Profiil</a>, kust saad tellimuse ülevaate avada ja konto seadeid muuta. Pärast makse algatamist suunatakse kasutaja Maksekeskuse makselehele ning ligipääs aktiveeritakse kohe pärast makseteenuse kinnitust. Makselehel kuvatavad makseviisid on need, mida Maksekeskus selle tehingu jaoks pakub. Kui kasutaja tühistab tellimuse, lõpeb järgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood jääb kehtima oma lõpuni, kui seadus ei näe ette teisiti. Pärast teenuse aktiveerimist ja kasutamise algust tagastusi üldjuhul ei tehta, kui seadus ei nõua teisiti. SotsiaalAI võib hinnastust, pakette või tasuliste funktsioonide ulatust muuta mõistliku etteteatamisega.</p>"
     },
     "section6": {
       "heading": "6. Kättesaadavus ja hooldus",
@@ -1351,7 +1351,12 @@
       "title": "Kontakt",
       "email_label": "E-post",
       "email_value": "info@sotsiaal.ai",
-      "modal_body": "<p><strong>SotsiaalAI OÜ</strong><br />Registrikood 14206225<br />Aadress: Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti<br />E-post: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a></p>"
+      "company": "SotsiaalAI OÜ",
+      "registry_label": "Registrikood",
+      "registry_value": "14206225",
+      "address_label": "Aadress",
+      "address_value": "Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti",
+      "modal_body": "<p><strong>SotsiaalAI OÜ</strong><br />Registrikood 14206225<br />Aadress: Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti<br /><a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a></p>"
     },
     "cta": {
       "title": "Enne kasutamist"
@@ -1445,13 +1450,13 @@
       "activate": "Aktiveeri tellimus",
       "processing": "Suunan maksele…"
     },
-    "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Sotsiaaltöö spetsialisti kuutasu on 14,99 € ja eluküsimusega pöörduja kuutasu on 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni.",
-    "info_priced": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Rolli \"{role}\" kuutasu on {amount}. Makse tehakse Maksekeskuse kaudu, tellimus pikeneb automaatselt ning seda saad igal ajal profiililehel lõpetada.",
-    "sponsored_info": "Kui sinu ligipääs tuleb sponsoreeritud kutse kaudu, ei pea sa selle perioodi eest eraldi maksma. Sponsoreeritud ligipääs kehtib ühe kuu ning pärast selle lõppu saad kasutamise jätkamiseks aktiveerida oma tellimuse.",
+    "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Kuutasu sõltub paketist. Tellimus pikeneb automaatselt ja seda saad igal ajal profiililehel tühistada.",
+    "info_priced": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Rolli \"{role}\" kuutasu on {amount}. Tellimus pikeneb automaatselt ja seda saad igal ajal profiililehel tühistada.",
+    "sponsored_info": "Kui sinu ligipääs tuleb sponsoreeritud kutse kaudu, kehtib see ühe kuu. Pärast seda aktiveeri oma tellimus.",
     "checkout": {
       "title": "Enne maksmist",
       "agreement": "Nõustun <terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et liitun kuutasulise teenusega ja soovin makse algatada Maksekeskuse kaudu.",
-      "details": "Makseviisi valid Maksekeskuse makselehel. Ligipääs aktiveerub pärast makseteenuse kinnitust. Kui soovid enne kasutamist makse tühistada või küsida tagastust, kirjuta info@sotsiaal.ai.",
+      "details": "Makseviisi valid Maksekeskuse makselehel. Ligipääs aktiveerub kohe pärast kinnitust. Kui maksega on probleem, lähtutakse Maksekeskuse tingimustest ja kohaldatavatest õigusnormidest.",
       "error_required": "Enne maksmist peab linnuke olema nõusolekul märgitud."
     }
   },

@@ -59,6 +59,14 @@ function isPlausibleId(id) {
   return /^[A-Za-z0-9._\-:+]+$/.test(id);
 }
 
+function isPlainObject(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function sanitizeConversationMetadata(value) {
+  return isPlainObject(value) ? value : null;
+}
+
 function ensureOwnedOrAdmin(row, auth) {
   if (!row) return { ok: false, status: 404, message: "api.chat.not_found" };
   if (auth.isAdmin) return { ok: true };
@@ -129,6 +137,7 @@ export async function GET(req, { params }) {
         role: true,
         title: true,
         summary: true,
+        metadata: true,
         lastActivityAt: true,
         archivedAt: true
       }
@@ -148,7 +157,8 @@ export async function GET(req, { params }) {
         role: row.role,
         lastActivityAt: row.lastActivityAt,
         title: row.title || null,
-        preview: previewSource?.slice?.(0, 160) ?? ""
+        preview: previewSource?.slice?.(0, 160) ?? "",
+        metadata: sanitizeConversationMetadata(row.metadata)
       }
     });
   } catch (err) {
@@ -238,7 +248,8 @@ export async function PUT(req, { params }) {
         userId: true,
         archivedAt: true,
         role: true,
-        lastActivityAt: true
+        lastActivityAt: true,
+        metadata: true
       }
     });
     const gate = ensureOwnedOrAdmin(existing, auth);
@@ -250,7 +261,8 @@ export async function PUT(req, { params }) {
         conversation: {
           id: existing.id,
           role: existing.role,
-          lastActivityAt: existing.lastActivityAt
+          lastActivityAt: existing.lastActivityAt,
+          metadata: sanitizeConversationMetadata(existing.metadata)
         }
       });
     }
@@ -264,12 +276,16 @@ export async function PUT(req, { params }) {
       select: {
         id: true,
         role: true,
-        lastActivityAt: true
+        lastActivityAt: true,
+        metadata: true
       }
     });
     return json({
       ok: true,
-      conversation: row
+      conversation: {
+        ...row,
+        metadata: sanitizeConversationMetadata(row.metadata)
+      }
     });
   } catch (err) {
     if (isDbOffline(err)) {

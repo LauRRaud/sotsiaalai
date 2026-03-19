@@ -1,6 +1,27 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
+
+function hasMeaningfulMessageContent(message) {
+  if (!message || typeof message !== "object") return false;
+  if (typeof message.text === "string" && message.text.trim().length > 0) {
+    return true;
+  }
+  if (Array.isArray(message.attachments) && message.attachments.length > 0) {
+    return true;
+  }
+  if (Array.isArray(message.cards) && message.cards.length > 0) {
+    return true;
+  }
+  if (message.careerResponse || message.careerSecondaryResponse) {
+    return true;
+  }
+  if (message.careerDocumentStep || message.careerGeneratedDocument) {
+    return true;
+  }
+  return false;
+}
+
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;
   function load() {
@@ -108,7 +129,7 @@ export function useChatConversationState({
     const stored = chatStore.load();
     if (stored && stored.length) {
       let nextId = 1;
-      const hydrated = stored.filter(m => typeof m?.text === "string" && m.text.trim().length > 0).map(m => ({
+      const hydrated = stored.filter(hasMeaningfulMessageContent).map(m => ({
         ...m,
         id: nextId++
       }));
@@ -282,7 +303,17 @@ export function useChatConversationState({
           const hasLocalStreaming = prevList.some(m => !!m?.isStreaming);
           const prevUserCount = prevList.reduce((count, msg) => count + (msg?.role === "user" && String(msg?.text || "").trim() ? 1 : 0), 0);
           const mappedUserCount = mapped.reduce((count, msg) => count + (msg?.role === "user" && String(msg?.text || "").trim() ? 1 : 0), 0);
-          const shouldPreserveLocal = (isGeneratingRef.current || hasLocalStreaming || localRecentlyMutated) && (mappedLen < prevLen || mappedUserCount < prevUserCount);
+          const localHasStructuredOnlyMessages = prevList.some(
+            (msg) =>
+              hasMeaningfulMessageContent(msg) &&
+              !(typeof msg?.text === "string" && msg.text.trim().length > 0)
+          );
+          const serverDroppedMessages =
+            mappedLen < prevLen || mappedUserCount < prevUserCount;
+          const shouldPreserveLocal =
+            ((isGeneratingRef.current || hasLocalStreaming || localRecentlyMutated) &&
+              serverDroppedMessages) ||
+            (localHasStructuredOnlyMessages && serverDroppedMessages);
           if (shouldPreserveLocal) {
             return prevList;
           }

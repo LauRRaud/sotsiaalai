@@ -7,34 +7,41 @@
   .homepage-root .card-wrapper.magnet-active :is(.glass-card, .glass-card-dark) {
     box-shadow: var(--home-card-glow-active, var(--home-card-glow-idle, none));
   }
-
-  html[data-contrast="hc"]:not(.theme-light) .homepage-root
-    :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
-    --card-edge-opacity: 0;
-    box-shadow:
-      0 0 24px rgb(255 232 64 / calc(var(--card-edge-opacity) * 1.08)),
-      0 0 42px rgb(255 214 0 / calc(var(--card-edge-opacity) * 0.68));
-  }
-  html[data-contrast="hc"]:not(.theme-light) .homepage-root .card-wrapper.magnet-active
-    :is(.glass-card, .glass-card-dark) {
-    --card-edge-opacity: 0.22;
-  }
 }
 
-html[data-contrast="hc"]:not(.theme-light) .homepage-root
-  :is(
-    .three-d-card.flip-allowed.left:hover,
-    .three-d-card.flip-allowed.left:focus-within,
-    .three-d-card.flip-allowed.left.is-flipping,
-    .three-d-card.flip-allowed.right:hover,
-    .three-d-card.flip-allowed.right:focus-within,
-    .three-d-card.flip-allowed.right.is-flipping,
-    .three-d-card.mobile-flipped-left,
-    .three-d-card.mobile-flipped-right
-  )
-  .card-face.back
-  :is(.centered-back-left, .centered-back-right) {
-  --card-edge-opacity: 0.22;
+ .homepage-root .home-about-panel,
+ .homepage-root .home-before-panel {
+  border: none !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+}
+
+.homepage-root .home-about-panel {
+  background: var(
+    --home-about-surface-bg,
+    var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+  ) !important;
+  box-shadow: var(
+    --home-about-surface-shadow,
+    var(--glass-shell-shadow, none)
+  ) !important;
+}
+
+.homepage-root .home-before-panel {
+  background: var(
+    --home-before-surface-bg,
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+  ) !important;
+  box-shadow: var(
+    --home-before-surface-shadow,
+    var(--glass-shell-shadow, none)
+  ) !important;
+}
+
+.homepage-root .home-before-contact-button {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
 }
 
 @media (max-width: 768px) {

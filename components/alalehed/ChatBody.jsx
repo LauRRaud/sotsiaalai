@@ -44,6 +44,19 @@ const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petat
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 
+function getCareerSessionStorageKey({
+  convId,
+  userId,
+  userRole,
+  locale
+}) {
+  if (!convId) return null;
+  const uid = userId || "anon";
+  const role = (userRole || "CLIENT").toLowerCase();
+  const loc = locale || "et";
+  return `sotsiaalai:career-session:${uid}:${role}:${loc}:${convId}`;
+}
+
 function isEditableElement(node) {
   if (!(node instanceof Element)) return false;
   const tag = node.tagName;
@@ -467,6 +480,62 @@ export default function ChatBody({
     getVisibleMessages
   });
   const visibleMessages = useMemo(() => getVisibleMessages(messages), [getVisibleMessages, messages]);
+  const careerSessionHydratedRef = useRef(false);
+  const careerSessionStorageKey = useMemo(() => getCareerSessionStorageKey({
+    convId,
+    userId: sessionUserId,
+    userRole: sessionUserRole,
+    locale
+  }), [convId, locale, sessionUserId, sessionUserRole]);
+  const resetCareerSession = useCallback(() => {
+    setActiveWorkflow("default");
+    setCareerProfile(null);
+    setCareerRuntime(null);
+    setCareerLastResult(null);
+    setCareerCurrentState(null);
+  }, []);
+  useEffect(() => {
+    if (!careerSessionStorageKey || typeof window === "undefined") return;
+    careerSessionHydratedRef.current = false;
+    try {
+      const raw = window.sessionStorage.getItem(careerSessionStorageKey);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (parsed?.activeWorkflow === "career") {
+        setActiveWorkflow("career");
+      }
+      setCareerProfile(parsed?.careerProfile || null);
+      setCareerRuntime(parsed?.careerRuntime || null);
+      setCareerLastResult(parsed?.careerLastResult || null);
+      setCareerCurrentState(parsed?.careerCurrentState || null);
+    } catch {}
+    finally {
+      careerSessionHydratedRef.current = true;
+    }
+  }, [careerSessionStorageKey]);
+  useEffect(() => {
+    if (!careerSessionStorageKey || typeof window === "undefined") return;
+    if (!careerSessionHydratedRef.current) return;
+    try {
+      if (
+        activeWorkflow !== "career" &&
+        !careerProfile &&
+        !careerRuntime &&
+        !careerLastResult &&
+        !careerCurrentState
+      ) {
+        window.sessionStorage.removeItem(careerSessionStorageKey);
+        return;
+      }
+      window.sessionStorage.setItem(careerSessionStorageKey, JSON.stringify({
+        activeWorkflow,
+        careerProfile,
+        careerRuntime,
+        careerLastResult,
+        careerCurrentState
+      }));
+    } catch {}
+  }, [activeWorkflow, careerCurrentState, careerLastResult, careerProfile, careerRuntime, careerSessionStorageKey]);
   const renderedMessages = useMemo(() => {
     const n = visibleMessages.length;
     if (n <= renderLimit) return visibleMessages;
@@ -1199,7 +1268,7 @@ export default function ChatBody({
       const body = await response.json().catch(() => ({}));
 
       if (!response.ok || body?.ok === false || !body?.result) {
-        throw new Error(body?.error || "Karjäärinõustamise käivitamine ebaõnnestus.");
+        throw new Error(body?.error || "Karj??rin?ustamise k?ivitamine eba?nnestus.");
       }
 
       const result = body.result;
@@ -1232,11 +1301,11 @@ export default function ChatBody({
       return true;
     } catch (error) {
       const message =
-        error?.message || "Karjäärinõustamise käivitamine ebaõnnestus.";
+        error?.message || "Karj??rin?ustamise k?ivitamine eba?nnestus.";
       setErrorBanner(message);
       appendMessage({
         role: "ai",
-        text: `Karjäärinõustamise käivitamine ebaõnnestus.\n\n${message}`,
+        text: `Karj??rin?ustamise k?ivitamine eba?nnestus.\n\n${message}`,
         aiVisible: true,
       });
       return false;
@@ -1272,7 +1341,7 @@ export default function ChatBody({
   const activateCareerMode = useCallback(() => {
     void runCareerTurn(
       {
-        userMessage: "Soovin karjäärinõustamist",
+        userMessage: "Soovin karj??rin?ustamist",
         profile: careerProfile || {},
         runtime: {
           ...(careerRuntime || {}),
@@ -1328,6 +1397,7 @@ export default function ChatBody({
   const messageItems = useMemo(() => {
     return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} careerResponse={msg.careerResponse} careerSecondaryResponse={msg.careerSecondaryResponse} careerDocumentStep={msg.careerDocumentStep} careerGeneratedDocument={msg.careerGeneratedDocument} onCareerQuestionAnswer={handleCareerQuestionAnswer} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
   }, [handleCareerQuestionAnswer, isRoomMode, renderedMessages, t]);
+  const modeNotice = activeWorkflow === "career" ? "Aktiivne režiim: karjäärinõustamine" : null;
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
       const message = visibleMessages[i];
@@ -1393,13 +1463,14 @@ export default function ChatBody({
       setMessages([]);
       saveMessages([]);
       setIsCrisis(false);
+      resetCareerSession();
       try {
         window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations"));
       } catch {}
     }
     window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
-  }, [saveMessages, setConvId, setIsCrisis, setMessages]);
+  }, [resetCareerSession, saveMessages, setConvId, setIsCrisis, setMessages]);
   useEffect(() => {
     return () => {
       stop();
@@ -1690,6 +1761,9 @@ export default function ChatBody({
     errorBanner={errorBanner}
     roomBlocked={roomBlocked}
     roomAuthRequired={roomAuthRequired}
+    modeNotice={modeNotice}
+    activeModeLabel={modeNotice}
+    activeModeKey={activeWorkflow === "career" ? "career" : "default"}
     chatWindowRef={chatWindowRef}
     isStreamingAny={isStreamingAny}
     hiddenCount={hiddenCount}

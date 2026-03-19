@@ -91,6 +91,7 @@
   --input-border: 1px solid rgba(148, 163, 184, 0.22);
   --input-shadow: none;
   --input-shadow-hover: none;
+  --materials-panel-shadow: none;
   --panel-secondary-bg: rgba(20, 22, 28, 0.62);
   --panel-secondary-border: rgba(148, 163, 184, 0.2);
   --panel-secondary-shadow: none;
@@ -191,12 +192,18 @@
     0 0 14px rgba(248, 253, 255, 0.18),
     0 0 30px rgba(248, 253, 255, 0.1);
   --home-scroll-cue-color: #c57171;
-  /* Keep homepage glass cards neutral-dark in both dark and night themes. */
-  --home-panel-bg: rgba(18, 20, 26, 0.72);
-  --home-panel-shadow:
-    0 0 16px rgba(248, 253, 255, 0.2);
-  --home-before-shadow:
-    0 0 18px rgba(248, 253, 255, 0.22);
+  --home-about-surface-bg: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  --home-about-surface-mobile-bg: rgba(0, 0, 0, 0.3);
+  --home-about-surface-shadow: 0 0 16px rgba(248, 253, 255, 0.2);
+  --home-before-surface-bg: var(
+    --glass-ring-surface-bg,
+    var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+  );
+  --home-before-surface-mobile-bg: rgba(0, 0, 0, 0.3);
+  --home-before-surface-shadow: 0 0 18px rgba(248, 253, 255, 0.22);
+  --home-panel-bg: var(--glass-ring-surface-bg, rgba(22, 24, 30, 0.84));
+  --home-panel-shadow: 0 0 16px rgba(248, 253, 255, 0.2);
+  --home-before-shadow: 0 0 18px rgba(248, 253, 255, 0.22);
   --home-title-color: #c57171;
   --home-link-color: var(--brand-primary);
 }
@@ -375,18 +382,18 @@
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
   .login-modal-box.login-modal--otp
   #otp-code-input {
-  background: rgba(16, 16, 22, 0.84) !important;
-  border: 1px solid rgba(214, 208, 200, 0.28) !important;
-  color: rgba(247, 244, 239, 0.97) !important;
+  background: rgba(13, 16, 24, 0.84) !important;
+  border: 1px solid rgba(148, 163, 184, 0.3) !important;
+  color: #e5e7eb !important;
   box-shadow:
-    0 8px 18px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    0 8px 18px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
   .login-modal-box.login-modal--otp
   #otp-code-input::placeholder {
-  color: rgba(201, 195, 187, 0.88) !important;
+  color: rgba(229, 231, 235, 0.62) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
@@ -395,11 +402,11 @@
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
   .login-modal-box.login-modal--otp
   #otp-code-input:focus-visible {
-  border-color: rgba(236, 229, 220, 0.44) !important;
+  border-color: rgba(148, 163, 184, 0.46) !important;
   box-shadow:
-    0 10px 20px rgba(0, 0, 0, 0.34),
-    0 0 0 2px rgba(236, 229, 220, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    0 10px 20px rgba(0, 0, 0, 0.3),
+    0 0 0 2px rgba(148, 163, 184, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)

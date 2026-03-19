@@ -49,6 +49,14 @@ function isPlausibleConversationId(id) {
   return /^[A-Za-z0-9._\-:+]+$/.test(id);
 }
 
+function isPlainObject(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function sanitizeConversationMetadata(value) {
+  return isPlainObject(value) ? value : null;
+}
+
 function encodeCursor(row) {
   try {
     const pin = row.isPinned ? 1 : 0;
@@ -212,6 +220,7 @@ export async function GET(req) {
         id: true,
         title: true,
         summary: true,
+        metadata: true,
         lastActivityAt: true,
         isPinned: true,
         role: true,
@@ -235,6 +244,7 @@ export async function GET(req) {
         id: row.id,
         title,
         preview,
+        metadata: sanitizeConversationMetadata(row.metadata),
         lastActivityAt: row.lastActivityAt,
         isPinned: row.isPinned,
         role: row.role
@@ -307,6 +317,7 @@ export async function POST(req) {
     sessionRole: auth.role
   });
   const title = typeof body?.title === "string" && body.title.trim() ? body.title.trim().slice(0, 160) : null;
+  const metadata = sanitizeConversationMetadata(body?.metadata);
 
   try {
     const existing = await prisma.conversation.findUnique({
@@ -329,11 +340,13 @@ export async function POST(req) {
             archivedAt: null,
             lastActivityAt: now,
             expiresAt: expiry,
+            ...(metadata ? { metadata } : {}),
             ...(title ? { title } : {})
           },
           select: {
             id: true,
             title: true,
+            metadata: true,
             lastActivityAt: true,
             role: true
           }
@@ -344,12 +357,14 @@ export async function POST(req) {
             userId: auth.userId,
             role,
             title,
+            metadata,
             lastActivityAt: now,
             expiresAt: expiry
           },
           select: {
             id: true,
             title: true,
+            metadata: true,
             lastActivityAt: true,
             role: true
           }
@@ -360,6 +375,7 @@ export async function POST(req) {
       conversation: {
         id: row.id,
         title: row.title || null,
+        metadata: sanitizeConversationMetadata(row.metadata),
         lastActivityAt: row.lastActivityAt,
         role: row.role
       }

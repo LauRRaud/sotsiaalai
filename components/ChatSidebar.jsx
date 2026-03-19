@@ -675,11 +675,8 @@ export default function ChatSidebar() {
           {currentBusy && currentItems.length === 0 ? <div className={`${listClassName} py-2`}>
               {renderLoadingSkeleton(isConversationView ? "conv" : "room", isConversationView ? 3 : 2)}
             </div> : <ul className={listClassName}>
-              {!currentBusy && currentItems.length === 0 ? <li className="flex w-full items-center justify-between gap-3 rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] [background:var(--drawer-card-bg,rgba(20,20,24,0.38))] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)]">
+              {!currentBusy && currentItems.length === 0 ? <li className="flex w-full items-center gap-3 rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] [background:var(--drawer-card-bg,rgba(20,20,24,0.38))] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)]">
                   <span>{isConversationView ? t("chat.sidebar.empty") : t("rooms.empty")}</span>
-                  {isConversationView ? <Button variant="primary" size="sm" onClick={onNew} disabled={creating}>
-                      {t("chat.sidebar.empty_cta")}
-                    </Button> : null}
                 </li> : currentItems.map(renderListItem)}
             </ul>}
           {isConversationView && hasMore ? <div className="flex w-full justify-center pt-[0.5rem]">

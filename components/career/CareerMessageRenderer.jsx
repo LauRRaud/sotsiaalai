@@ -18,17 +18,7 @@ function SectionTitle({ children }) {
   if (!hasText(children)) return null;
 
   return (
-    <div className="text-[1rem] font-semibold leading-[1.35]">
-      {children}
-    </div>
-  );
-}
-
-function SectionMessage({ children }) {
-  if (!hasText(children)) return null;
-
-  return (
-    <div className="mt-[0.35rem] whitespace-pre-wrap text-[0.98rem] leading-[1.5]">
+    <div className="text-[1em] font-inherit leading-inherit tracking-inherit">
       {children}
     </div>
   );
@@ -39,7 +29,7 @@ function BulletList({ items = [] }) {
   if (!safeItems.length) return null;
 
   return (
-    <ul className="mt-[0.55rem] grid gap-[0.35rem] list-disc pl-[1.1rem] text-[0.95rem] leading-[1.5]">
+    <ul className="mt-[0.55rem] grid gap-[0.35rem] list-disc pl-[1.1rem] text-[1em] leading-inherit tracking-inherit">
       {safeItems.map((item, index) => (
         <li key={`${item}-${index}`}>{item}</li>
       ))}
@@ -79,7 +69,7 @@ function ProfileSummaryBlock({ profileSummary, uiText }) {
   if (!rows.length) return null;
 
   return (
-    <div className="mt-[0.65rem] rounded-[1rem] border border-[rgba(240,240,240,0.18)] bg-[rgba(14,20,32,0.22)] px-[0.95rem] py-[0.85rem] light:border-[rgba(15,23,42,0.12)] light:bg-[rgba(255,255,255,0.82)]">
+    <div className="mt-[0.5rem]">
       <BulletList items={rows} />
     </div>
   );
@@ -366,15 +356,39 @@ function CareerResponseCard({
 }) {
   if (!response || typeof response !== "object") return null;
 
+  const isQuestionLike =
+    response.kind === CAREER_RESPONSE_KINDS.QUESTION_SET ||
+    response.kind === CAREER_RESPONSE_KINDS.PROFILE_CONFIRMATION;
+  const isPlainTextLike =
+    isQuestionLike ||
+    response.kind === CAREER_RESPONSE_KINDS.WARNING;
+  const showTitle =
+    hasText(response.title) &&
+    !isQuestionLike &&
+    response.kind !== CAREER_RESPONSE_KINDS.WARNING;
+  const showMessage = hasText(response.message) && !isQuestionLike;
+
   return (
-    <section className="w-full rounded-[1.1rem] border border-[rgba(240,240,240,0.18)] bg-[rgba(14,20,32,0.16)] px-[1rem] py-[0.9rem] light:border-[rgba(15,23,42,0.12)] light:bg-[rgba(255,255,255,0.78)]">
+    <section className="w-full">
       {hasText(label) ? (
-        <div className="mb-[0.3rem] text-[0.78rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)]">
+        <div className="mb-[0.26rem] text-[0.78rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)]">
           {label}
         </div>
       ) : null}
-      <SectionTitle>{response.title}</SectionTitle>
-      <SectionMessage>{response.message}</SectionMessage>
+      {showTitle ? <SectionTitle>{response.title}</SectionTitle> : null}
+      {showMessage ? (
+        <div
+          className={
+            isPlainTextLike
+              ? "whitespace-pre-wrap text-[1em] leading-inherit tracking-inherit opacity-95"
+              : showTitle
+              ? "mt-[0.35rem] whitespace-pre-wrap text-[1em] leading-inherit tracking-inherit opacity-95"
+              : "whitespace-pre-wrap text-[1em] leading-inherit tracking-inherit opacity-95"
+          }
+        >
+          {response.message}
+        </div>
+      ) : null}
       {renderBody(response, onQuestionAnswer, uiText)}
       {!response.documentStep && documentStep ? renderDocumentStep(documentStep, uiText) : null}
       {generatedDocument ? renderGeneratedDocument(generatedDocument, uiText) : null}

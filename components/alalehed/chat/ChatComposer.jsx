@@ -6,6 +6,37 @@ import { useRouter } from "next/navigation";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { localizePath } from "@/lib/localizePath";
+
+const CHAT_MODE_SHINE_GRADIENTS_DARK = {
+  soft:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.92) 50%, rgba(255,255,255,0) 60%, rgba(255,255,255,0) 100%)",
+  medium:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0) 58%, rgba(255,255,255,0) 100%)",
+  wide:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 32%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.2) 68%, rgba(255,255,255,0) 100%)",
+  dual:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.68) 33%, rgba(255,255,255,0) 44%, rgba(255,255,255,0.96) 50%, rgba(255,255,255,0) 56%, rgba(255,255,255,0.68) 67%, rgba(255,255,255,0) 100%)"
+};
+
+const CHAT_MODE_SHINE_GRADIENTS_LIGHT = {
+  soft:
+    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(58,38,30,0.9) 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%)",
+  medium:
+    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 42%, rgba(56,36,28,0.94) 50%, rgba(0,0,0,0) 58%, rgba(0,0,0,0) 100%)",
+  wide:
+    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)",
+  dual:
+    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.56) 33%, rgba(0,0,0,0) 44%, rgba(56,36,28,0.92) 50%, rgba(0,0,0,0) 56%, rgba(72,46,36,0.56) 67%, rgba(0,0,0,0) 100%)"
+};
+
+function normalizeModeLabel(value, locale = "et") {
+  return String(value || "")
+    .trim()
+    .toLocaleLowerCase(locale)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
 export default function ChatComposer({
   t,
   locale = "et",
@@ -47,7 +78,9 @@ export default function ChatComposer({
   handleMic,
   draftApiRef,
   inputFocused = false,
-  isMobile = false
+  isMobile = false,
+  activeModeLabel = "",
+  activeModeKey = ""
 }) {
   const router = useRouter();
   const { effectiveRole } = useEffectiveRole();
@@ -66,10 +99,29 @@ export default function ChatComposer({
   const careerModeLabel =
     careerModeLabelRaw && careerModeLabelRaw !== "chat.tools.career_mode"
       ? careerModeLabelRaw
-      : "Karjäärinõustamine";
+      : "Karj\u00E4\u00E4rin\u00F5ustamine";
+  const subtleModeLabel =
+    composerMode === "deep_research"
+      ? t("chat.tools.deep_research")
+      : String(activeModeLabel || "")
+          .trim()
+          .replace(/^[^:]+:\s*/, "");
+  const displayModeLabel = subtleModeLabel
+    ? subtleModeLabel.charAt(0).toLocaleUpperCase(locale) + subtleModeLabel.slice(1)
+    : "";
+  const normalizedDisplayModeLabel = normalizeModeLabel(displayModeLabel, locale);
+  const resolvedModeShineKey =
+    composerMode === "deep_research"
+      ? "wide"
+      : activeModeKey === "career" || normalizedDisplayModeLabel.includes("karjaar")
+      ? "wide"
+      : "soft";
   const toolsMenuBackdropFilter = isLightTheme
     ? "blur(18px) saturate(140%)"
     : "blur(12px) saturate(128%)";
+  const subtleModeShineBackgroundImage = isLightTheme
+    ? CHAT_MODE_SHINE_GRADIENTS_LIGHT[resolvedModeShineKey] || CHAT_MODE_SHINE_GRADIENTS_LIGHT.soft
+    : CHAT_MODE_SHINE_GRADIENTS_DARK[resolvedModeShineKey] || CHAT_MODE_SHINE_GRADIENTS_DARK.soft;
 
   useEffect(() => {
     if (!hideTools) return;
@@ -520,5 +572,17 @@ export default function ChatComposer({
             </svg>
           </button>}
       </div>
+      {displayModeLabel ? <div className="pointer-events-none absolute left-1/2 top-[calc(100%+1.46rem)] -translate-x-1/2 text-center max-[768px]:top-[calc(100%+1.08rem)]">
+          <span
+            aria-hidden="true"
+            className="inline-block whitespace-nowrap text-[1.24rem] leading-[1.25] tracking-[0.012em] text-transparent opacity-[0.65] [background-repeat:no-repeat] [background-size:220%_100%] [background-position:200%_center] [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:100ms] [animation-fill-mode:both] max-[768px]:text-[1.08rem]"
+            style={{
+              backgroundImage: subtleModeShineBackgroundImage
+            }}
+          >
+            {displayModeLabel}
+          </span>
+          <span className="sr-only">{displayModeLabel}</span>
+        </div> : null}
     </form>;
 }

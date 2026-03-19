@@ -746,12 +746,12 @@ export default function LeftRail({
                 onMouseEnter={() => {
                   if (item.key === "back") return;
                   if (itemIndex !== activeIndex) return;
-                  showTooltipTemporarily(activeIndex, 1800);
+                  showTooltipTemporarily(activeIndex, 1200);
                 }}
                 onFocus={() => {
                   if (item.key === "back") return;
                   if (itemIndex !== activeIndex) return;
-                  showTooltipTemporarily(activeIndex, 1800);
+                  showTooltipTemporarily(activeIndex, 1200);
                 }}
                 aria-label={ariaLabel}
                 aria-haspopup={item.key === "sources" ? "dialog" : undefined}

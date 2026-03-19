@@ -677,10 +677,10 @@ export default function RightRail({
 
         return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!viewportIsMobile ? () => {
         if (itemIndex !== activeIndex) return;
-        showTooltipTemporarily(activeIndex, 1800);
+        showTooltipTemporarily(activeIndex, 1200);
       } : undefined} onFocus={!viewportIsMobile ? () => {
         if (itemIndex !== activeIndex) return;
-        showTooltipTemporarily(activeIndex, 1800);
+        showTooltipTemporarily(activeIndex, 1200);
       } : undefined} onDoubleClick={viewportIsMobile ? event => {
         event.preventDefault();
         event.stopPropagation();

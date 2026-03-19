@@ -241,15 +241,53 @@ html[data-contrast="hc"] .space-backdrop[data-mode="dark"] {
   background: radial-gradient(ellipse at top, #1b2735 0%, #090a0f 100%);
 }
 
-html[data-contrast="hc"] body.homepage {
+html[data-contrast="hc"]:not(.theme-light) body.homepage {
   --home-prose-color: var(--hc-accent);
   --home-title-color: var(--hc-accent);
   --home-link-color: var(--hc-accent);
   --home-scroll-cue-color: var(--hc-accent);
+  --home-card-glow-idle:
+    0 0 10px rgba(255, 234, 0, 0.12),
+    0 0 22px rgba(255, 234, 0, 0.06);
+  --home-card-glow-active:
+    0 0 14px rgba(255, 234, 0, 0.18),
+    0 0 30px rgba(255, 234, 0, 0.1);
+}
+
+html[data-contrast="hc"] .homepage-root .home-about-panel {
+  box-shadow:
+    0 0 16px rgba(255, 234, 0, 0.28),
+    0 0 32px rgba(255, 234, 0, 0.16) !important;
+}
+
+html[data-contrast="hc"] .homepage-root .home-before-panel {
+  box-shadow:
+    0 0 18px rgba(255, 234, 0, 0.3),
+    0 0 36px rgba(255, 234, 0, 0.18) !important;
 }
 
 html[data-contrast="hc"] .homepage-root :is(.home-about-scrollbox, .home-about-scrollbox *) {
   color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] .homepage-root .home-before-contact-copy,
+html[data-contrast="hc"] .homepage-root .home-before-contact-copy * {
+  color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] .homepage-root .home-before-contact-button,
+html[data-contrast="hc"] .homepage-root .home-before-contact-button:is(:hover, :focus-visible, :active) {
+  background: transparent !important;
+  color: var(--hc-accent) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .homepage-root .home-before-contact-button {
+  border: 2px solid transparent !important;
+}
+
+html[data-contrast="hc"] .homepage-root .home-before-contact-button:is(:hover, :focus-visible, :active) {
+  border-color: var(--hc-accent) !important;
 }
 
 html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper {

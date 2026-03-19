@@ -40,6 +40,7 @@ const NO_STORE_HEADERS = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
   Pragma: "no-cache"
 };
+const LOCAL_HOST_RE = /^(localhost|127\.0\.0\.1|\[?::1\]?)(:\d+)?$/i;
 
 function json(payload, status = 200) {
   return NextResponse.json(
@@ -87,6 +88,37 @@ function localeFromRequest(request, bodyLocale) {
 function sanitizeEmail(email) {
   const normalized = normalizeEmail(email);
   return normalized || "";
+}
+
+function parseHostFromHeaderValue(value) {
+  const raw = String(value || "")
+    .split(",")[0]
+    .trim();
+  if (!raw) return "";
+
+  try {
+    return new URL(raw).host || "";
+  } catch {
+    return raw;
+  }
+}
+
+function isLocalDevelopmentRequest(request) {
+  if (process.env.NODE_ENV !== "development") return false;
+
+  const hostCandidates = [
+    request?.headers?.get("x-forwarded-host"),
+    request?.headers?.get("host"),
+    request?.headers?.get("origin"),
+    request?.headers?.get("referer"),
+    process.env.NEXTAUTH_URL,
+    process.env.AUTH_URL,
+    process.env.APP_URL
+  ];
+
+  return hostCandidates.some((value) =>
+    LOCAL_HOST_RE.test(parseHostFromHeaderValue(value))
+  );
 }
 
 async function createTempLoginToken({
@@ -293,7 +325,11 @@ export async function POST(request) {
       .map((value) => value.trim().toLowerCase())
       .filter(Boolean);
     const isBypassEmail = bypassEmails.includes((user.email || "").toLowerCase());
-    const allowBypass = (bypassForAdmins && Boolean(user.isAdmin)) || isBypassEmail;
+    const isLocalAdminBypass = isLocalDevelopmentRequest(request) && Boolean(user.isAdmin);
+    const allowBypass =
+      isLocalAdminBypass ||
+      (bypassForAdmins && Boolean(user.isAdmin)) ||
+      isBypassEmail;
 
     const requiresOtp = !trustedDevice && !allowBypass;
     const otpReason =

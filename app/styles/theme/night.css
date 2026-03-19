@@ -21,15 +21,15 @@
   );
   --btn-primary-bg: radial-gradient(
       82% 66% at 50% -14%,
-      rgba(222, 236, 255, 0.116) 0%,
-      rgba(222, 236, 255, 0.052) 42%,
-      rgba(222, 236, 255, 0.017) 58%,
+      rgba(222, 236, 255, 0.108) 0%,
+      rgba(222, 236, 255, 0.048) 42%,
+      rgba(222, 236, 255, 0.016) 58%,
       rgba(222, 236, 255, 0) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(28, 38, 53, 0.92) 0%,
-      rgba(18, 28, 43, 0.94) 100%
+      rgba(26, 35, 49, 0.92) 0%,
+      rgba(16, 25, 39, 0.94) 100%
     );
   --btn-primary-bg-hover: radial-gradient(
       82% 66% at 50% -14%,
@@ -72,6 +72,18 @@
     0 8px 18px rgba(2, 6, 16, 0.32),
     0 0 0 3px var(--btn-primary-focus-ring-color);
   --btn-primary-focus-ring-color: rgba(140, 180, 235, 0.35);
+  --home-about-surface-bg: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  --home-about-surface-mobile-bg: rgba(0, 0, 0, 0.3);
+  --home-about-surface-shadow: 0 0 16px rgba(248, 253, 255, 0.2);
+  --home-before-surface-bg: var(
+    --glass-ring-surface-bg,
+    var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+  );
+  --home-before-surface-mobile-bg: rgba(0, 0, 0, 0.3);
+  --home-before-surface-shadow: 0 0 18px rgba(248, 253, 255, 0.22);
+  --home-panel-bg: var(--glass-ring-surface-bg, rgba(22, 24, 30, 0.84));
+  --home-panel-shadow: 0 0 16px rgba(248, 253, 255, 0.2);
+  --home-before-shadow: 0 0 18px rgba(248, 253, 255, 0.22);
 
   --form-surface: radial-gradient(
       65% 60% at 50% -12%,
@@ -115,6 +127,7 @@
   --input-border: 1px solid rgba(170, 204, 245, 0.24);
   --input-shadow: none;
   --input-shadow-hover: none;
+  --materials-panel-shadow: none;
   --panel-secondary-bg: rgba(12, 24, 42, 0.58);
   --panel-secondary-border: rgba(170, 204, 245, 0.22);
   --panel-secondary-shadow: none;
@@ -186,14 +199,25 @@
 }
 
 :root.theme-night .login-modal-box.login-modal--otp #otp-code-input {
-  background: rgba(12, 20, 34, 0.68) !important;
-  border: 1px solid rgba(170, 204, 245, 0.34) !important;
-  color: rgba(232, 240, 252, 0.94) !important;
-  box-shadow: 0 8px 18px rgba(2, 6, 16, 0.32) !important;
+  background: rgba(11, 18, 30, 0.72) !important;
+  border: 1px solid rgba(148, 163, 184, 0.34) !important;
+  color: #e6eefb !important;
+  box-shadow:
+    0 8px 18px rgba(2, 6, 16, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
 }
 
 :root.theme-night .login-modal-box.login-modal--otp #otp-code-input::placeholder {
-  color: rgba(196, 214, 238, 0.78) !important;
+  color: rgba(208, 223, 243, 0.74) !important;
+}
+
+:root.theme-night .login-modal-box.login-modal--otp #otp-code-input:focus,
+:root.theme-night .login-modal-box.login-modal--otp #otp-code-input:focus-visible {
+  border-color: rgba(148, 163, 184, 0.46) !important;
+  box-shadow:
+    0 10px 20px rgba(2, 6, 16, 0.32),
+    0 0 0 2px rgba(148, 163, 184, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
 }
 
 :root.theme-night .login-modal-box.login-modal--otp .fancy-checkbox--otp .box {

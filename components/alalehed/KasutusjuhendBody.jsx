@@ -194,7 +194,7 @@ export default function KasutusjuhendBody() {
         variant="glass"
         onClose={() => setIsContactOpen(false)}
         className="z-[140] max-[768px]:p-[1rem]"
-        contentClassName="!w-[min(100%,26rem)] !max-w-[26rem] !p-[1.2rem_1.15rem_1rem] text-center"
+        contentClassName="!w-[min(100%,26rem)] !max-w-[26rem] !rounded-[1.45rem] !border !border-[rgba(248,253,255,0.14)] !bg-[rgba(10,14,22,0.98)] !p-[1.2rem_1.15rem_1rem] text-center !shadow-[0_22px_52px_-28px_rgba(4,6,12,0.82)] !backdrop-blur-0 !backdrop-saturate-100 light:!border-[rgba(148,163,184,0.24)] light:!bg-[rgba(255,255,255,0.98)] light:!text-[#1f2937] hc:!border-[color:var(--hc-accent)] hc:!bg-[color:var(--hc-bg)] hc:!text-[color:var(--hc-text)]"
       >
         <div className="relative">
           <CloseButton

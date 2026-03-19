@@ -149,7 +149,7 @@ const accountModalOverlayClassName =
 const accountModalContentClassName =
   `invite-modal-content account-settings-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
   `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] ` +
-  `max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] [--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
+  `max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] [--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
 const accountModalHeadClassName =
   "mb-[0.35rem] flex items-start justify-center gap-[0.75rem]";
 const accountModalBackButtonClassName = glassPageBackTopLeftClassName;
@@ -161,10 +161,10 @@ const accountModalTitleClassName =
 const accountModalDescriptionClassName =
   "mx-auto max-w-[28rem] text-[1.04rem] leading-[1.4] tracking-[0.02em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:max-w-none max-[768px]:px-[0.15rem] max-[768px]:text-[1.08rem]";
 const accountModalActionStackClassName =
-  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.52rem] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:px-[0.08rem]";
+  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.52rem] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:px-0";
 const accountModalCardClassName =
   "rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] " +
-  "p-[0.94rem_0.92rem_0.72rem] min-h-[8.9rem] text-[color:var(--glass-modal-text)] shadow-none max-[768px]:p-[0.98rem_0.92rem_0.76rem] " +
+  "p-[0.94rem_0.92rem_0.72rem] min-h-[8.9rem] text-[color:var(--glass-modal-text)] shadow-none max-[768px]:p-[0.92rem_0.84rem_0.72rem] " +
   "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] " +
   "[.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
   "[.theme-mid_&]:border-[rgba(132,72,68,0.16)] [.theme-mid_&]:bg-[rgba(251,242,239,0.72)] [.theme-mid_&]:text-[#3f4756] " +
@@ -174,7 +174,7 @@ const accountModalNoteClassName =
   "m-0 mx-auto max-w-[24rem] text-center text-[0.99rem] leading-[1.26] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
 const accountModalButtonClassName =
   "!min-h-[2.8rem] !px-[1.28rem] !py-[0.56rem] !text-[1.06rem] !tracking-[0.02em] !self-center shrink-0 " +
-  "!min-w-[12.5rem] max-[768px]:!w-auto max-[768px]:!min-w-[12rem] max-[768px]:!max-w-full max-[768px]:!justify-center";
+  "!min-w-[12.5rem] max-[768px]:!w-full max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {
   soft:

@@ -454,7 +454,7 @@
       "heading": "5. Subscription, Payments and Cancellation",
       "paragraph1": "<p>Paid platform features are provided through a role-based monthly subscription. The monthly fee is 7.99 EUR for a person seeking help and 14.99 EUR for a social work professional, unless a different price is shown on the platform at the time of checkout. Payments are processed by Maksekeskus AS.</p>",
       "paragraph2": "<p>Access may be self-paid or sponsored by the person who invited you. Under the current product rules, sponsored access lasts for one month and does not automatically convert into the invitee's own paid subscription. If the invited user already has an active subscription, sponsored checkout may be blocked.</p>",
-      "paragraph3": "<p>You can manage your subscription on the <a href=\"/tellimus\">Subscription</a> page, where you see the active plan, sponsored access end date, and cancellation option, and on the <a href=\"/profiil\">Profile</a> page, where you can open the subscription overview and change account settings. After payment is started, the user is redirected to the Maksekeskus checkout page, and access is activated after payment-provider confirmation. The payment methods shown in checkout are the methods available for that transaction. When cancelled, the next automatic billing cycle stops, but the already paid period remains active until its end unless the law requires otherwise. If the account has not yet been activated or the service has not been used, the user may contact info@sotsiaal.ai to request a review of the payment and any possible refund in accordance with applicable law and payment-provider rules. After the service has been activated and used, refunds are generally not provided unless required by law. SotsiaalAI may change pricing or package terms with reasonable advance notice.</p>"
+      "paragraph3": "<p>You can manage your subscription on the <a href=\"/tellimus\">Subscription</a> page, where you see the active plan, sponsored access end date, and cancellation option, and on the <a href=\"/profiil\">Profile</a> page, where you can open the subscription overview and change account settings. After payment is started, the user is redirected to the Maksekeskus checkout page, and access is activated immediately after payment-provider confirmation. The payment methods shown in checkout are the methods available for that transaction. When cancelled, the next automatic billing cycle stops, but the already paid period remains active until its end unless the law requires otherwise. After the service has been activated and used, refunds are generally not provided unless required by law. SotsiaalAI may change pricing or package terms with reasonable advance notice.</p>"
     },
     "section6": {
       "heading": "6. Availability and Maintenance",
@@ -1351,7 +1351,12 @@
       "title": "Contact",
       "email_label": "Email",
       "email_value": "info@sotsiaal.ai",
-      "modal_body": "<p><strong>SotsiaalAI OÜ</strong><br />Registry code 14206225<br />Address: Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Estonia<br />Email: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a></p>"
+      "company": "SotsiaalAI OÜ",
+      "registry_label": "Registry code",
+      "registry_value": "14206225",
+      "address_label": "Address",
+      "address_value": "Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Estonia",
+      "modal_body": "<p><strong>SotsiaalAI OÜ</strong><br />Registry code 14206225<br />Address: Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Estonia<br /><a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a></p>"
     },
     "cta": {
       "title": "Before using"
@@ -1445,13 +1450,13 @@
       "activate": "Pay and activate subscription",
       "processing": "Redirecting to payment..."
     },
-    "info": "To use SotsiaalAI you need a monthly subscription. The monthly price is 14.99 EUR for a social work professional and 7.99 EUR for a person seeking help. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period.",
-    "info_priced": "To use SotsiaalAI you need a monthly subscription. For the \"{role}\" role, the fee is {amount} per month. Payments are processed via Maksekeskus, the subscription renews automatically, and you can cancel it at any time from your profile.",
-    "sponsored_info": "If your access comes through a sponsored invite, you do not need to pay separately for that period. Sponsored access is valid for one month, and after that you can activate your own subscription to continue.",
+    "info": "To use SotsiaalAI you need a monthly subscription. The fee depends on the plan. The subscription renews automatically and you can cancel it at any time from your profile.",
+    "info_priced": "To use SotsiaalAI you need a monthly subscription. For the \"{role}\" role, the fee is {amount} per month. The subscription renews automatically and you can cancel it at any time from your profile.",
+    "sponsored_info": "If your access comes through a sponsored invite, it lasts one month. After that, activate your own subscription to continue.",
     "checkout": {
       "title": "Before payment",
       "agreement": "I agree to the <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>. I understand that I am joining a monthly subscription and want to start payment through Maksekeskus.",
-      "details": "You choose the payment method on the Maksekeskus checkout page. Access is activated after payment confirmation. If you want to cancel or request a refund before using the service, write to info@sotsiaal.ai.",
+      "details": "You choose the payment method on the Maksekeskus checkout page. Access is activated immediately after confirmation. If there is a payment issue, Maksekeskus terms and applicable legal requirements govern the handling.",
       "error_required": "Please check the consent box before continuing to payment."
     }
   },

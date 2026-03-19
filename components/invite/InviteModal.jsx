@@ -81,18 +81,22 @@ export default function InviteModal() {
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] [--seg-radio-border:rgba(255,255,255,0.7)] [--seg-radio-bg:rgba(255,255,255,0.08)] [--seg-radio-dot-bg:#f0b0aa] " +
       "max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.04rem]";
   const inviteRoleCardClassName =
-    "!w-[min(100%,18.5rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.2rem] !py-[0.66rem] !text-[1.04rem] !leading-[1.2] text-center max-[768px]:!w-[min(100%,16.5rem)] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.08rem]";
-  const inviteSponsoredPanelClassName =
-    "grid w-full max-w-[min(34rem,100%)] mx-auto mt-[0.48rem] gap-[0.18rem] rounded-[1rem] border-0 bg-[rgba(10,14,22,0.48)] px-[0.95rem] py-[0.82rem] [.theme-night_&]:bg-[rgba(10,16,26,0.52)] " +
-    "[.theme-light_&]:bg-[rgba(255,255,255,0.22)]";
-  const inviteSponsoredCheckoutSectionClassName =
-    "grid gap-[0.28rem] pt-[1.18rem]";
-  const inviteSponsoredCheckoutTitleClassName =
-    "m-0 text-center text-[1rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--pt-120))] light:text-[#1f2937]";
+    "!w-[min(100%,15.8rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.04rem] !leading-[1.2] text-center max-[768px]:!w-[min(100%,14rem)] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.08rem]";
+  const inviteSponsoredUnifiedPanelClassName =
+    "mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem] " +
+    "text-[color:var(--pt-120)] max-[768px]:max-w-[min(31rem,100%)] max-[768px]:px-0 max-[768px]:py-0";
+  const inviteSponsoredCardBodyClassName =
+    "grid gap-[0.68rem] pt-[0.95rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";
+  const inviteSponsoredSectionTitleClassName =
+    "m-0 mb-[0.58rem] text-center text-[1.16rem] font-[500] tracking-[0.006em] leading-[1.34] text-[color:var(--glass-modal-text)] max-[768px]:mb-[0.68rem] max-[768px]:text-[1.12rem]";
+  const inviteSponsoredDividerClassName =
+    "mt-[0.9rem] mb-[0.15rem] h-px w-full bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.16)_12%,rgba(255,255,255,0.16)_88%,rgba(255,255,255,0)_100%)] [.theme-light_&]:bg-[linear-gradient(90deg,rgba(122,58,56,0)_0%,rgba(122,58,56,0.12)_12%,rgba(122,58,56,0.12)_88%,rgba(122,58,56,0)_100%)]";
   const inviteSponsoredCheckboxClassName =
-    "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-center " +
+    "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
     "[--otp-check-shape:rgba(255,255,255,0.92)] [--otp-check-tick:#f0b0aa] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
     "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.02rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem]";
+  const inviteSponsoredCheckoutFooterClassName =
+    "mt-[1.6rem] pt-[0.2rem] flex justify-center max-[768px]:mt-[1.35rem]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -111,8 +115,8 @@ export default function InviteModal() {
     "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
-    "rounded-[1rem] bg-[rgba(10,14,22,0.52)] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
-    "[.theme-night_&]:bg-[rgba(10,16,26,0.54)] [.theme-light_&]:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+    "mt-[-1.05rem] rounded-[1rem] bg-[rgba(36,36,40,0.44)] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
+    "[.theme-night_&]:bg-[rgba(34,34,40,0.48)] [.theme-light_&]:bg-[rgba(248,246,245,0.32)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   const inviteCheckoutAgreementReplacements = useMemo(() => ({
     terms: {
       open: `<a href="${localizePath("/kasutustingimused", locale)}" class="${inviteLinkClassName}">`,
@@ -427,31 +431,39 @@ export default function InviteModal() {
                 </span>
               </OptionCard>
 
-              {sponsoredSelected ? <Panel variant="secondary" padding="sm" className={inviteSponsoredPanelClassName}>
-                  <div className="grid gap-[1.04rem]">
-                    {sponsoredRoleOptions.map(option => (
-                      <OptionCard key={option.value} type="radio" name="targetRole" value={option.value} checked={targetRole === option.value} onChange={e => setTargetRole(e.target.value)} disabled={busy} className={inviteRoleCardClassName} fitTextLines={2}>
-                        <span className="text-center [text-wrap:balance]">{option.label}</span>
-                      </OptionCard>
-                    ))}
-                  </div>
-                  <div className={inviteSponsoredCheckoutSectionClassName}>
-                    <p className={inviteSponsoredCheckoutTitleClassName}>
-                      {t("invite.sponsored.checkout.title")}
-                    </p>
-                    <div className="mt-[0.5rem] flex justify-center">
-                      <FancyCheckbox
-                        id="invite-sponsored-consent"
-                        name="inviteSponsoredConsent"
-                        checked={sponsoredCheckoutAgreed}
-                        disabled={busy}
-                        onChange={(next) => setSponsoredCheckoutAgreed(next)}
-                        label={<RichText as="span" value={t("invite.sponsored.checkout.agreement")} replacements={inviteCheckoutAgreementReplacements} className="block" />}
-                        className={inviteSponsoredCheckboxClassName}
-                      />
+              {sponsoredSelected ? <div id="invite-sponsored-panel" className={inviteSponsoredUnifiedPanelClassName}>
+                  <div className={inviteSponsoredCardBodyClassName}>
+                    <div className="grid gap-[1.04rem] mt-[0.2rem]">
+                      {sponsoredRoleOptions.map(option => (
+                        <OptionCard key={option.value} type="radio" name="targetRole" value={option.value} checked={targetRole === option.value} onChange={e => setTargetRole(e.target.value)} disabled={busy} className={inviteRoleCardClassName} fitTextLines={2}>
+                          <span className="text-center [text-wrap:balance]">{option.label}</span>
+                        </OptionCard>
+                      ))}
+                    </div>
+                    <div className={inviteSponsoredDividerClassName} />
+                    <div className="grid gap-[0.28rem] pt-[0.08rem]">
+                      <p className={inviteSponsoredSectionTitleClassName}>
+                        {t("invite.sponsored.checkout.title")}
+                      </p>
+                      <div className="flex">
+                        <FancyCheckbox
+                          id="invite-sponsored-consent"
+                          name="inviteSponsoredConsent"
+                          checked={sponsoredCheckoutAgreed}
+                          disabled={busy}
+                          onChange={(next) => setSponsoredCheckoutAgreed(next)}
+                          label={<RichText as="span" value={t("invite.sponsored.checkout.agreement")} replacements={inviteCheckoutAgreementReplacements} className="block" />}
+                          className={inviteSponsoredCheckboxClassName}
+                        />
+                      </div>
+                      <div className={inviteSponsoredCheckoutFooterClassName}>
+                        <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy || !sponsoredCheckoutAgreed}>
+                          {busy ? t("invite.sending") : t("invite.sponsored.confirm_and_pay")}
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </Panel> : null}
+                </div> : null}
             </div>
 
             <div className="relative mt-[0.7rem] mb-[0.85rem] flex justify-center">
@@ -461,19 +473,19 @@ export default function InviteModal() {
               {message ? <p className={inviteSuccessNoticeClassName} role="status">
                   {message}
                 </p> : null}
-              <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy || (sponsoredSelected && !sponsoredCheckoutAgreed)}>
-                {busy ? t("invite.sending") : sponsoredSelected ? t("invite.sponsored.confirm_and_pay") : sendLabel}
-              </Button>
+              {!sponsoredSelected ? <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy}>
+                  {busy ? t("invite.sending") : sendLabel}
+                </Button> : null}
             </div>
           </form>}
 
         <Panel
           variant="secondary"
           padding="sm"
-          className={`invite-list-panel ${inviteListCardClassName} ${
+          className={`invite-list-panel border-0 shadow-none ${inviteListCardClassName} ${
             invites.length === 0
-              ? "min-h-[7.2rem] max-h-none max-[768px]:min-h-[7.6rem] max-[768px]:max-h-none overflow-visible"
-              : "min-h-[7.8rem] max-h-[min(38dvh,18rem)] max-[768px]:min-h-[6.9rem] max-[768px]:max-h-[min(24dvh,13.5rem)] overflow-y-auto"
+              ? "min-h-[9rem] max-h-none max-[768px]:min-h-[8.6rem] max-[768px]:max-h-none overflow-visible"
+              : "min-h-[9.6rem] max-h-[min(40dvh,19rem)] max-[768px]:min-h-[8.2rem] max-[768px]:max-h-[min(26dvh,14.5rem)] overflow-y-auto"
           } [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}
         >
           <div className="flex items-center justify-between gap-[0.75rem] max-[768px]:flex-col max-[768px]:items-start">

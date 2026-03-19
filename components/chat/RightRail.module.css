@@ -257,7 +257,7 @@
   line-height: 1.1;
   letter-spacing: 0.02em;
   color: var(--chat-icon-dark, #c57171);
-  background: rgba(28, 31, 38, 0.62);
+  background: rgba(28, 31, 38, 0.97);
   -webkit-backdrop-filter: blur(14px) saturate(124%);
   backdrop-filter: blur(14px) saturate(124%);
   filter: none !important;
@@ -304,7 +304,7 @@
   color: #7a3a38;
   font-size: 1.12rem;
   font-weight: 450;
-  background: rgba(253, 253, 253, 0.72);
+  background: rgba(253, 253, 253, 0.98);
   border-color: rgba(122, 58, 56, 0.14);
   box-shadow: 0 10px 24px rgba(82, 50, 46, 0.12);
 }
@@ -313,18 +313,18 @@
   color: #7a3a38;
   font-size: 1.12rem;
   font-weight: 450;
-  background: rgba(253, 250, 249, 0.62);
+  background: rgba(253, 250, 249, 0.96);
   border-color: rgba(122, 58, 56, 0.12);
   box-shadow: 0 10px 24px rgba(82, 50, 46, 0.12);
 }
 
 :global(:root.theme-night) .tooltip {
-  background: rgba(16, 19, 26, 0.66);
+  background: rgba(16, 19, 26, 0.98);
 }
 
 :global(html[data-contrast="hc"]) .tooltip {
   color: var(--hc-accent, #ffea00);
-  background: rgba(9, 14, 24, 0.82);
+  background: rgba(9, 14, 24, 0.99);
   -webkit-backdrop-filter: blur(14px) saturate(124%);
   backdrop-filter: blur(14px) saturate(124%);
   border: 2px solid rgba(255, 234, 0, 0.92);
@@ -349,7 +349,7 @@
   }
 
   :global(:root.theme-mid) .tooltip {
-    background: rgba(253, 250, 249, 0.54);
+    background: rgb(253, 250, 249);
   }
 
   :global(html[data-contrast="hc"]) .tooltip {

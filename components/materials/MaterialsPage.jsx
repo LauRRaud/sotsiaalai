@@ -20,7 +20,7 @@ const materialsPanelSurfaceClassName =
   "text-[color:var(--pt-120)] " +
   "[.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:text-[#1f2937]"
 const materialsPanelShadowClassName =
-  "shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:shadow-[var(--input-shadow)]"
+  "shadow-[var(--materials-panel-shadow,var(--chat-invite-shadow,var(--input-shadow)))] [.theme-light_&]:shadow-[var(--input-shadow)]"
 const materialsPrimaryButtonClassName =
   "whitespace-normal text-center leading-[1.2] !px-[1.6rem] !py-[1.05rem] !text-[1.18rem] " +
   "!min-h-[3.2rem] max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]"
@@ -29,7 +29,7 @@ const materialsSecondaryButtonClassName =
   "max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.35rem] max-[768px]:!text-[1.08rem]"
 const materialsSectionClassName =
   `grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] ${materialsPanelSurfaceClassName} ${materialsPanelShadowClassName} ` +
-  "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.95rem] max-[768px]:py-[0.95rem]"
+  "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]"
 const materialsUploadSectionClassName =
   "grid gap-[0.82rem] px-[0.05rem] py-[0.05rem] max-[768px]:gap-[0.72rem]"
 const materialsSectionTitleClassName =
@@ -217,7 +217,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   return (
     <div className="materials-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:justify-start max-[768px]:px-[0.25rem] max-[768px]:py-[0.5rem]">
       <div
-        className={`materials-page-content invite-modal-content person-invite-modal-content relative z-[21] w-full !max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] [border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] [--input-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [--input-caret:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ${glassPageMobileCardClassName} ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
+        className={`materials-page-content invite-modal-content person-invite-modal-content relative z-[21] w-full !max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] [border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] [--input-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] [--input-caret:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ${glassPageMobileCardClassName} ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
       >
         <BackButton
           onClick={handleBack}
@@ -235,7 +235,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className="mx-auto grid w-full max-w-[clamp(20rem,52vw,35rem)] gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.2rem]">
+        <div className="mx-auto grid w-full max-w-[clamp(20rem,52vw,35rem)] gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]">
           <section className={materialsUploadSectionClassName}>
             <div className="grid gap-[0.12rem] pb-[0.12rem] text-left">
               <p className="text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">
@@ -278,7 +278,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                 onChange={(event) => setComment(event.target.value)}
                 rows={5}
                 placeholder={t("materials_page.comment_placeholder_multiple")}
-                className={`min-h-[7.4rem] rounded-[1.05rem] !border-[rgba(248,253,255,0.1)] ![background:rgba(10,14,22,0.52)] [.theme-night_&]:!border-[rgba(166,190,230,0.1)] [.theme-night_&]:![background:rgba(10,16,26,0.54)] [.theme-light_&]:!border-[rgba(122,58,56,0.08)] [.theme-light_&]:![background:rgba(255,255,255,0.22)] ${materialsPanelShadowClassName} hover:![background:rgba(10,14,22,0.52)] [.theme-night_&:hover]:![background:rgba(10,16,26,0.54)] [.theme-light_&:hover]:![background:rgba(255,255,255,0.22)] focus-visible:![background:rgba(10,14,22,0.52)] [.theme-night_&:focus-visible]:![background:rgba(10,16,26,0.54)] [.theme-light_&:focus-visible]:![background:rgba(255,255,255,0.22)] focus-visible:shadow-[var(--chat-invite-shadow,var(--input-shadow))]`}
+                className={`min-h-[7.4rem] rounded-[1.05rem] !border-[rgba(248,253,255,0.1)] ![background:rgba(10,14,22,0.52)] [.theme-night_&]:!border-[rgba(166,190,230,0.1)] [.theme-night_&]:![background:rgba(10,16,26,0.54)] [.theme-light_&]:!border-[rgba(122,58,56,0.08)] [.theme-light_&]:![background:rgba(255,255,255,0.22)] ${materialsPanelShadowClassName} hover:![background:rgba(10,14,22,0.52)] [.theme-night_&:hover]:![background:rgba(10,16,26,0.54)] [.theme-light_&:hover]:![background:rgba(255,255,255,0.22)] focus-visible:![background:rgba(10,14,22,0.52)] [.theme-night_&:focus-visible]:![background:rgba(10,16,26,0.54)] [.theme-light_&:focus-visible]:![background:rgba(255,255,255,0.22)] focus-visible:shadow-[var(--materials-panel-shadow,var(--chat-invite-shadow,var(--input-shadow)))]`}
               />
 
               {error ? (

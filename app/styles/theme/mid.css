@@ -118,6 +118,29 @@
   --home-card-glow-active:
     0 0 14px rgba(255, 244, 240, 0.16),
     0 0 28px rgba(255, 244, 240, 0.09);
+  --home-about-surface-bg: var(--glass-surface-bg, rgba(253, 250, 249, 0.5));
+  --home-about-surface-mobile-bg: rgba(252, 248, 247, 0.74);
+  --home-about-surface-shadow:
+    0 12px 22px rgba(20, 12, 10, 0.16),
+    0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 0 16px rgba(255, 244, 240, 0.12);
+  --home-before-surface-bg: var(
+    --glass-ring-surface-bg,
+    rgba(252, 248, 247, 0.53)
+  );
+  --home-before-surface-mobile-bg: rgba(252, 248, 247, 0.8);
+  --home-before-surface-shadow:
+    0 10px 20px rgba(20, 12, 10, 0.14),
+    0 0 0 1px rgba(255, 255, 255, 0.24),
+    0 0 14px rgba(255, 244, 240, 0.1);
+  --home-panel-shadow:
+    0 12px 22px rgba(20, 12, 10, 0.16),
+    0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 0 16px rgba(255, 244, 240, 0.12);
+  --home-before-shadow:
+    0 10px 20px rgba(20, 12, 10, 0.14),
+    0 0 0 1px rgba(255, 255, 255, 0.24),
+    0 0 14px rgba(255, 244, 240, 0.1);
 }
 
 :root.theme-mid .home-scroll-cue .home-scroll-cue-mouse,

@@ -27,10 +27,10 @@ const panelClassName =
   `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
-  `max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] ${glassPageMobileCardClassName}`;
+  `max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.92rem] ${glassPageMobileCardClassName}`;
 const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
 const headerInnerClassName =
-  "grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[0.75rem] px-[0.15rem] max-[768px]:max-w-none max-[768px]:px-[0.1rem]";
+  "grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[0.75rem] px-[0.15rem] max-[768px]:max-w-none max-[768px]:px-0";
 const titleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const titleClassName =
@@ -39,17 +39,17 @@ const titleClassName =
 const leadClassName =
   "m-0 text-left text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
 const bodyClassName =
-  "mx-auto grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-[0.1rem] max-[768px]:pb-[1rem]";
+  "mx-auto grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-0 max-[768px]:pb-[0.92rem]";
 const surfaceClassName =
   "rounded-[1.15rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
 const introCardClassName =
-  `${surfaceClassName} grid gap-[0.9rem] px-[1.25rem] py-[1.15rem] max-[768px]:gap-[0.75rem] max-[768px]:px-[1rem] max-[768px]:py-[0.95rem]`;
+  `${surfaceClassName} grid gap-[0.9rem] px-[1.25rem] py-[1.15rem] max-[768px]:gap-[0.75rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]`;
 const sectionTitleClassName =
   "m-0 text-[1.14rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const introTextClassName =
   "m-0 text-[1.14rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
 const documentCardClassName =
-  `${surfaceClassName} mx-auto grid w-full max-w-[clamp(33rem,56vw,47rem)] gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:max-w-none max-[768px]:gap-[0.84rem] max-[768px]:px-[1rem] max-[768px]:py-[0.96rem]`;
+  `${surfaceClassName} mx-auto grid w-full max-w-[clamp(33rem,56vw,47rem)] gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:max-w-none max-[768px]:gap-[0.84rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]`;
 const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.26rem] font-[680] leading-[1.3] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
@@ -72,7 +72,7 @@ const docChecklistClassName = "grid gap-[0.6rem]";
 const docChecklistItemClassName =
   "flex items-start gap-[0.55rem] text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const actionRowClassName =
-  "mx-auto flex w-full max-w-[26rem] flex-wrap items-center justify-center gap-[0.7rem] pt-[0.25rem] pb-[0.55rem] max-[768px]:grid max-[768px]:max-w-[17rem] max-[768px]:grid-cols-1 max-[768px]:pb-[0.7rem]";
+  "mx-auto flex w-full max-w-[26rem] flex-wrap items-center justify-center gap-[0.7rem] pt-[0.25rem] pb-[0.55rem] max-[768px]:grid max-[768px]:w-full max-[768px]:max-w-none max-[768px]:grid-cols-1 max-[768px]:pb-[0.7rem]";
 const actionButtonClassName =
   "!min-h-[2.82rem] !px-[1.15rem] !py-[0.72rem] !text-[1.08rem] !leading-[1.12] max-[768px]:!w-full max-[768px]:!text-[1.1rem]";
 const frameworkCheckboxRowClassName =

@@ -34,8 +34,8 @@ const helpPopoverClassName =
   "[.theme-mid_&]:bg-[#f3ece8] [.theme-mid_&]:text-[#4a3833] [.theme-mid_&]:border-[rgba(122,58,56,0.14)] [.theme-mid_&]:shadow-[0_12px_24px_rgba(80,58,52,0.12)] " +
   "[.theme-light:not(.theme-mid)_&]:bg-[#fffaf8] [.theme-light:not(.theme-mid)_&]:text-[#111827] [.theme-light:not(.theme-mid)_&]:border-[rgba(122,58,56,0.12)] [.theme-light:not(.theme-mid)_&]:shadow-[0_12px_24px_rgba(15,23,42,0.12)]";
 const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-const otpTextClassName = "text-[#ece8e2] [.theme-night_&]:text-[#e8eef9] [.theme-mid_&]:text-[#4a3833] [.theme-light:not(.theme-mid)_&]:text-[#1f2937]";
-const otpInfoTextClassName = "text-[#f2eee8] [.theme-night_&]:text-[#f3f7ff] [.theme-mid_&]:text-[#3f2f2b] [.theme-light:not(.theme-mid)_&]:text-[#111827]";
+const otpTextClassName = "text-[color:var(--otp-copy-text)]";
+const otpInfoTextClassName = "text-[color:var(--otp-copy-strong)]";
 const MODAL_FOCUSABLE_SELECTOR = [
   "a[href]",
   "button:not([disabled])",
@@ -1055,6 +1055,7 @@ export default function LoginModal({
   }, [clearButtonFocus]);
   if (!open) return null;
   const isMidTheme = prefs?.theme === "mid";
+  const isNightTheme = prefs?.theme === "night";
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
   const helpPopoverLinkStyle = isMidTheme
     ? {
@@ -1166,6 +1167,66 @@ export default function LoginModal({
           ? "clamp(4.72rem, 13.8vw, 5.8rem)"
           : "clamp(5.6rem, 15.8vw, 7.1rem)"
         : "clamp(4.4rem, 7vw, 5.2rem)"
+      ,
+      "--otp-copy-text": isMidTheme
+        ? "#4a3833"
+        : isNightTheme
+          ? "#e6eefb"
+        : isLightTheme
+          ? "#1f2937"
+          : "#e5e7eb",
+      "--otp-copy-strong": isMidTheme
+        ? "#3f2f2b"
+        : isNightTheme
+          ? "#f3f7ff"
+        : isLightTheme
+          ? "#111827"
+          : "#f3f4f6",
+      "--otp-input-text": isMidTheme
+        ? "#4a3833"
+        : isNightTheme
+          ? "#e6eefb"
+        : isLightTheme
+          ? "#1f2937"
+          : "#e5e7eb",
+      "--otp-input-placeholder": isMidTheme
+        ? "rgba(82,58,51,0.78)"
+        : isNightTheme
+          ? "rgba(208,223,243,0.74)"
+        : isLightTheme
+          ? "rgba(31,41,55,0.62)"
+          : "rgba(229,231,235,0.62)",
+      "--otp-input-caret": isMidTheme
+        ? "#4a3833"
+        : isNightTheme
+          ? "#e6eefb"
+        : isLightTheme
+          ? "#1f2937"
+          : "#e5e7eb",
+      "--otp-check-shape": isMidTheme
+        ? "#4a3833"
+        : isNightTheme
+          ? "#e6eefb"
+        : isLightTheme
+          ? "#1f2937"
+          : "#e5e7eb",
+      "--otp-check-tick": isLightTheme ? "#7A3A38" : "#c57171",
+      "--otp-check-text": isMidTheme
+        ? "#4a3833"
+        : isNightTheme
+          ? "#e6eefb"
+        : isLightTheme
+          ? "#1f2937"
+          : "#e5e7eb",
+      "--input-text": isOtpStep
+        ? "var(--otp-input-text)"
+        : undefined,
+      "--input-placeholder": isOtpStep
+        ? "var(--otp-input-placeholder)"
+        : undefined,
+      "--input-caret": isOtpStep
+        ? "var(--otp-input-caret)"
+        : undefined
       ,
         width: isPhoneViewport
           ? "100%"
@@ -1460,7 +1521,7 @@ export default function LoginModal({
             </div>
 
             <div className="w-full mt-[0.96rem] max-[768px]:mt-[0.62rem] flex justify-center">
-              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] text-left placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] px-[1.5rem] py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.01em] rounded-[0.88rem]" />
+              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] !text-[color:var(--otp-input-text)] !caret-[color:var(--otp-input-caret)] text-left placeholder:text-center placeholder:!text-[color:var(--otp-input-placeholder)] [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] px-[1.5rem] py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.01em] rounded-[0.88rem]" />
             </div>
             {otpInlineError ? <p id="otp-inline-error" role="alert" className="mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
                 {otpInlineError}
@@ -1473,7 +1534,7 @@ export default function LoginModal({
                 checked={rememberDevice}
                 onChange={next => setRememberDevice(next)}
                 label={t("auth.login.remember_device")}
-                className="login-otp-remember fancy-checkbox--otp w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] justify-center [--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-150)] light:[--otp-check-shape:#1f2937] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:#1f2937]"
+                className="login-otp-remember fancy-checkbox--otp w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] justify-center [--otp-check-shape:var(--otp-check-shape)] [--otp-check-tick:var(--otp-check-tick)] [--otp-check-text:var(--otp-check-text)]"
               />
             </div>
 
