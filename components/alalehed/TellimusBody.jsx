@@ -15,7 +15,7 @@ import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
-const linkClassName = "inline-flex items-center gap-[0.35rem] underline underline-offset-4 decoration-[color:currentColor] text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
+const linkClassName = "font-[inherit] no-underline text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
 const emailReplacement = {
   email: {
     open: `<a href="mailto:info@sotsiaal.ai" class="${linkClassName}">`,
@@ -30,47 +30,45 @@ const titleClassName =
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const subscriptionCardClassName =
-  `subscription-modal-content relative z-[21] flex w-full max-w-[clamp(33rem,60vw,46rem)] max-h-[calc(100dvh-2rem)] flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
+  `subscription-modal-content relative z-[21] flex w-full max-w-[clamp(32rem,54vw,42rem)] max-h-[calc(100dvh-2rem)] flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
   `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text)] shadow-[var(--glass-modal-shadow)] ` +
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
-  `px-[1.45rem] pt-[0.35rem] pb-[1.25rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] ${glassPageMobileCardClassName}`;
+  `px-[1.2rem] pt-[0.35rem] pb-[1rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[0.9rem] ${glassPageMobileCardClassName}`;
 const contentClassName =
   "subscription-content mx-auto mt-[1.2rem] flex w-full max-w-[clamp(27rem,54vw,37rem)] max-[768px]:mt-[1rem] max-[768px]:max-w-none flex-col gap-[1.05rem]";
 const subscriptionCopyClassName =
-  "subscription-copy-text text-center text-[1rem] leading-[1.52] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:text-[1.08rem]";
+  "subscription-copy-text text-center text-[1.06rem] leading-[1.56] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:text-[1.12rem]";
 const subscriptionInfoTextClassName =
-  "subscription-info-text text-left text-[1.02rem] max-[768px]:text-[1.06rem] " +
-  "tracking-[0.006em] leading-[1.56] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] [&_p]:m-0 [&_p:last-child]:mb-0";
+  "subscription-info-text text-left text-[1.08rem] max-[768px]:text-[1.12rem] " +
+  "tracking-[0.004em] leading-[1.58] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] [&_p]:m-0 [&_p:last-child]:mb-0";
 const subscriptionSupplementTextClassName = `${subscriptionInfoTextClassName} m-0`;
 const subscriptionUnifiedPanelClassName =
   "mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem] " +
   "text-[color:var(--pt-120)] max-[768px]:max-w-[min(31rem,100%)] max-[768px]:px-0 max-[768px]:py-0";
-const subscriptionPlanChipClassName =
-  "inline-flex items-center justify-center rounded-full border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.06)] px-[0.74rem] py-[0.24rem] text-[0.87rem] font-[650] tracking-[0.04em] text-[color:var(--glass-modal-text)] [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.6)] [.theme-light_&]:text-[#7a3a38]";
 const subscriptionCardBodyClassName =
-  "grid gap-[0.88rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";
+  "grid gap-[0.68rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";
 const subscriptionSectionTitleClassName =
-  "m-0 text-left text-[1.1rem] font-[650] tracking-[0.008em] leading-[1.36] text-[color:var(--glass-modal-text)] max-[768px]:text-[1.08rem]";
+  "m-0 text-left text-[1.16rem] font-[650] tracking-[0.006em] leading-[1.34] text-[color:var(--glass-modal-text)] max-[768px]:text-[1.12rem]";
 const subscriptionDividerClassName =
-  "my-[0.2rem] h-px w-full bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.16)_12%,rgba(255,255,255,0.16)_88%,rgba(255,255,255,0)_100%)] [.theme-light_&]:bg-[linear-gradient(90deg,rgba(122,58,56,0)_0%,rgba(122,58,56,0.12)_12%,rgba(122,58,56,0.12)_88%,rgba(122,58,56,0)_100%)]";
+  "my-[0.12rem] h-px w-full bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.16)_12%,rgba(255,255,255,0.16)_88%,rgba(255,255,255,0)_100%)] [.theme-light_&]:bg-[linear-gradient(90deg,rgba(122,58,56,0)_0%,rgba(122,58,56,0.12)_12%,rgba(122,58,56,0.12)_88%,rgba(122,58,56,0)_100%)]";
 const subscriptionConsentTextClassName =
-  "text-left text-[1rem] leading-[1.58] tracking-[0.004em] text-[color:var(--pt-130)] light:text-[color:var(--input-text)]";
+  "text-left text-[0.96rem] leading-[1.42] tracking-[0.003em] text-[color:var(--pt-130)] light:text-[color:var(--input-text)]";
 const subscriptionCheckboxRowClassName =
   "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
-  "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:#7A3A38] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-  "[--otp-check-box-size:1.42rem] [--otp-check-font-size:1.01rem] [--otp-check-line-height:1.54] [--otp-check-text-max-width:100%] [--otp-check-box-offset:0.14rem]";
-const subscriptionCheckoutFooterClassName = "mt-[0.3rem] flex justify-center";
+  "[--otp-check-shape:rgba(255,255,255,0.92)] [--otp-check-tick:#f0b0aa] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+  "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.02rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem]";
+const subscriptionCheckoutFooterClassName = "mt-[-0.1rem] flex justify-center";
 const subscriptionActionClassName =
   "min-w-[10.2rem] whitespace-nowrap px-[1.45rem] py-[0.82rem] text-[1.12rem] leading-[1.2] " +
   "max-[768px]:w-full max-[768px]:min-w-0 max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";
 const subscriptionStatusClassName =
-  "subscription-status-text m-0 text-left text-[1rem] leading-[1.5] font-[500]";
+  "subscription-status-text m-0 text-left text-[1.04rem] leading-[1.52] font-[500]";
 const subscriptionActivePanelClassName =
   "subscription-active-panel mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem]";
 const subscriptionActiveSummaryClassName =
-  "subscription-active-summary text-left text-[1.02rem] leading-[1.56] font-[600] tracking-[0.006em] text-[color:var(--glass-modal-text)]";
+  "subscription-active-summary text-left text-[1.08rem] leading-[1.56] font-[600] tracking-[0.004em] text-[color:var(--glass-modal-text)]";
 const subscriptionActiveNoteClassName =
-  "subscription-active-note mt-[0.52rem] text-left text-[1.02rem] leading-[1.56] tracking-[0.006em] text-[color:var(--pt-120)]";
+  "subscription-active-note mt-[0.52rem] text-left text-[1.05rem] leading-[1.58] tracking-[0.004em] text-[color:var(--pt-120)]";
 const subscriptionInfoBlockClassName = "grid gap-[0.7rem]";
 const subscriptionStatusStackClassName = "grid gap-[0.2rem] pt-[0.1rem]";
 const authModalBackdropClassName =
@@ -334,10 +332,6 @@ export default function TellimusBody() {
           {subActive ? <>
               <div className={subscriptionActivePanelClassName} id="cancel-note">
                 <div className={subscriptionCardBodyClassName}>
-                  <div className="flex flex-wrap items-center justify-center gap-[0.45rem]">
-                    <span className={subscriptionPlanChipClassName}>{planRoleLabel}</span>
-                    {monthlyAmountLabel ? <span className={subscriptionPlanChipClassName}>{monthlyAmountLabel}</span> : null}
-                  </div>
                   <p className={subscriptionActiveSummaryClassName}>
                     {subscriptionActiveSummary}
                   </p>
@@ -367,10 +361,6 @@ export default function TellimusBody() {
             </> : <>
               <div id="checkout-consent" className={subscriptionUnifiedPanelClassName}>
                 <div className={subscriptionCardBodyClassName}>
-                  <div className="flex flex-wrap items-center justify-center gap-[0.45rem]">
-                    <span className={subscriptionPlanChipClassName}>{planRoleLabel}</span>
-                    {monthlyAmountLabel ? <span className={subscriptionPlanChipClassName}>{monthlyAmountLabel}</span> : null}
-                  </div>
                   <div id="billing-info" className={subscriptionInfoBlockClassName}>
                     <RichText as="div" className={subscriptionInfoTextClassName} value={subscriptionInfoText} replacements={emailReplacement} />
                     <p className={subscriptionSupplementTextClassName}>

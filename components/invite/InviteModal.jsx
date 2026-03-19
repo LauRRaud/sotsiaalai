@@ -14,6 +14,7 @@ import Panel from "@/components/ui/Panel";
 import { glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
+const inviteLinkClassName = "font-[inherit] no-underline text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
 
 function parseEmails(raw) {
   if (!raw) return [];
@@ -76,27 +77,22 @@ export default function InviteModal() {
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[9rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
   const inviteSponsorToggleClassName =
-    "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1rem] !px-[1.05rem] !py-[0.64rem] !text-[0.98rem] !leading-[1.2] max-[768px]:!min-h-[2.9rem] max-[768px]:!text-[1.04rem]";
+      "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[0.98rem] !leading-[1.2] " +
+    "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] [--seg-radio-border:rgba(255,255,255,0.7)] [--seg-radio-bg:rgba(255,255,255,0.08)] [--seg-radio-dot-bg:#f0b0aa] " +
+      "max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.04rem]";
   const inviteRoleCardClassName =
-    "!w-full !min-h-[2.88rem] !justify-center !rounded-[0.98rem] !px-[1.2rem] !py-[0.66rem] !text-[1.04rem] !leading-[1.2] text-center max-[768px]:!text-[1.08rem]";
+    "!w-[min(100%,18.5rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.2rem] !py-[0.66rem] !text-[1.04rem] !leading-[1.2] text-center max-[768px]:!w-[min(100%,16.5rem)] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.08rem]";
   const inviteSponsoredPanelClassName =
-    "grid w-full max-w-[min(34rem,100%)] mx-auto gap-[0.8rem] rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.14))] " +
-    "bg-[rgba(10,14,22,0.48)] px-[0.95rem] py-[0.9rem] [.theme-night_&]:border-[rgba(166,190,230,0.12)] [.theme-night_&]:bg-[rgba(10,16,26,0.52)] " +
+    "grid w-full max-w-[min(34rem,100%)] mx-auto mt-[0.48rem] gap-[0.18rem] rounded-[1rem] border-0 bg-[rgba(10,14,22,0.48)] px-[0.95rem] py-[0.82rem] [.theme-night_&]:bg-[rgba(10,16,26,0.52)] " +
     "[.theme-light_&]:bg-[rgba(255,255,255,0.22)]";
-  const inviteSponsoredCopyClassName =
-    "mx-auto max-w-[31rem] text-center text-[0.98rem] leading-[1.52] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";
-  const inviteSponsoredNoteClassName =
-    "mx-auto max-w-[31rem] text-center text-[0.93rem] leading-[1.46] text-[color:var(--pt-130)] light:text-[#4b5563]";
-  const inviteSponsoredCheckoutCardClassName =
-    "rounded-[0.95rem] border border-[rgba(248,253,255,0.1)] bg-[rgba(10,14,22,0.44)] px-[1rem] py-[0.88rem] text-center " +
-    "[.theme-night_&]:border-[rgba(166,190,230,0.1)] [.theme-night_&]:bg-[rgba(8,14,24,0.48)] " +
-    "[.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.22)]";
+  const inviteSponsoredCheckoutSectionClassName =
+    "grid gap-[0.28rem] pt-[1.18rem]";
   const inviteSponsoredCheckoutTitleClassName =
     "m-0 text-center text-[1rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--pt-120))] light:text-[#1f2937]";
   const inviteSponsoredCheckboxClassName =
     "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-center " +
-    "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:#7A3A38] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-    "[--otp-check-box-size:1.38rem] [--otp-check-font-size:0.98rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:min(100%,28rem)] [--otp-check-box-offset:0.12rem]";
+    "[--otp-check-shape:rgba(255,255,255,0.92)] [--otp-check-tick:#f0b0aa] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+    "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.02rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -115,16 +111,15 @@ export default function InviteModal() {
     "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
-    "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(10,14,22,0.52)] [.theme-night_&]:border-[rgba(166,190,230,0.12)] [.theme-night_&]:bg-[rgba(10,16,26,0.54)] " +
-    "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
-    "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+    "rounded-[1rem] bg-[rgba(10,14,22,0.52)] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
+    "[.theme-night_&]:bg-[rgba(10,16,26,0.54)] [.theme-light_&]:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   const inviteCheckoutAgreementReplacements = useMemo(() => ({
     terms: {
-      open: `<a href="${localizePath("/kasutustingimused", locale)}" class="underline underline-offset-4 text-[color:var(--link-gold)] hover:opacity-85 light:text-[color:var(--link-color)]">`,
+      open: `<a href="${localizePath("/kasutustingimused", locale)}" class="${inviteLinkClassName}">`,
       close: "</a>"
     },
     privacy: {
-      open: `<a href="${localizePath("/privaatsustingimused", locale)}" class="underline underline-offset-4 text-[color:var(--link-gold)] hover:opacity-85 light:text-[color:var(--link-color)]">`,
+      open: `<a href="${localizePath("/privaatsustingimused", locale)}" class="${inviteLinkClassName}">`,
       close: "</a>"
     }
   }), [locale]);
@@ -433,20 +428,14 @@ export default function InviteModal() {
               </OptionCard>
 
               {sponsoredSelected ? <Panel variant="secondary" padding="sm" className={inviteSponsoredPanelClassName}>
-                  <p className={inviteSponsoredCopyClassName}>
-                    {t("invite.sponsored.description")}
-                  </p>
-                  <div className="grid gap-[0.45rem]">
+                  <div className="grid gap-[1.04rem]">
                     {sponsoredRoleOptions.map(option => (
                       <OptionCard key={option.value} type="radio" name="targetRole" value={option.value} checked={targetRole === option.value} onChange={e => setTargetRole(e.target.value)} disabled={busy} className={inviteRoleCardClassName} fitTextLines={2}>
                         <span className="text-center [text-wrap:balance]">{option.label}</span>
                       </OptionCard>
                     ))}
                   </div>
-                  <p className={inviteSponsoredNoteClassName}>
-                    {t("invite.sponsored.one_month_note")}
-                  </p>
-                  <div className={inviteSponsoredCheckoutCardClassName}>
+                  <div className={inviteSponsoredCheckoutSectionClassName}>
                     <p className={inviteSponsoredCheckoutTitleClassName}>
                       {t("invite.sponsored.checkout.title")}
                     </p>
@@ -461,14 +450,11 @@ export default function InviteModal() {
                         className={inviteSponsoredCheckboxClassName}
                       />
                     </div>
-                    <p className="mt-[0.45rem] mb-0 text-center text-[0.92rem] leading-[1.44] text-[color:var(--pt-130)] light:text-[#4b5563]">
-                      {t("invite.sponsored.checkout.details")}
-                    </p>
                   </div>
                 </Panel> : null}
             </div>
 
-            <div className="relative mt-[1.25rem] mb-[1rem] flex justify-center">
+            <div className="relative mt-[0.7rem] mb-[0.85rem] flex justify-center">
               {error ? <p className={inviteErrorNoticeClassName} role="alert">
                   {error}
                 </p> : null}

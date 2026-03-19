@@ -30,6 +30,8 @@ const materialsSecondaryButtonClassName =
 const materialsSectionClassName =
   `grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] ${materialsPanelSurfaceClassName} ${materialsPanelShadowClassName} ` +
   "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.95rem] max-[768px]:py-[0.95rem]"
+const materialsUploadSectionClassName =
+  "grid gap-[0.82rem] px-[0.05rem] py-[0.05rem] max-[768px]:gap-[0.72rem]"
 const materialsSectionTitleClassName =
   "text-[1.22rem] font-[650] leading-[1.18] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]"
 const materialsSectionCopyClassName =
@@ -233,15 +235,15 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className="mx-auto grid w-full max-w-[clamp(20rem,52vw,35rem)] gap-[0.9rem] px-[0.05rem] pt-[0.55rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.78rem] max-[768px]:px-[0.2rem]">
-          <section className={materialsSectionClassName}>
-            <div className="grid gap-[0.35rem] pb-[0.35rem] text-left">
+        <div className="mx-auto grid w-full max-w-[clamp(20rem,52vw,35rem)] gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.2rem]">
+          <section className={materialsUploadSectionClassName}>
+            <div className="grid gap-[0.12rem] pb-[0.12rem] text-left">
               <p className="text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">
                 {t("materials_page.description")}
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-[-0.2rem] grid gap-[0.95rem]">
+            <form onSubmit={handleSubmit} className="mt-[-0.36rem] grid gap-[0.54rem]">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -254,7 +256,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               <Button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className={`materials-upload-choose-button !mx-auto !mt-[-0.55rem] !mb-[0.18rem] !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center max-[768px]:!mt-[-0.38rem] -translate-y-[0.4rem] max-[768px]:-translate-y-[0.3rem] ${materialsPrimaryButtonClassName}`}
+                className={`materials-upload-choose-button !mx-auto !mt-[-0.6rem] !mb-[0.02rem] !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center max-[768px]:!mt-[-0.42rem] -translate-y-[0.28rem] max-[768px]:-translate-y-[0.2rem] ${materialsPrimaryButtonClassName}`}
               >
                 {files.length === 1 ? (
                   <span className="block max-w-full truncate text-[0.94rem] leading-none">{files[0].name}</span>
@@ -291,7 +293,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                 </p>
               ) : null}
 
-                <div className="flex w-full justify-center pt-[0.42rem] pb-[0.35rem] max-[768px]:pt-[0.5rem] max-[768px]:pb-[0.5rem]">
+                <div className="flex w-full justify-center pt-[0.12rem] pb-[0.08rem] max-[768px]:pt-[0.16rem] max-[768px]:pb-[0.1rem]">
                 <Button
                   type="submit"
                   disabled={!files.length || submitting}
