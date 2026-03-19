@@ -185,6 +185,10 @@ export default async function RootLayout({
   const initialTextScale = normalizeTextScale(initialA11yPrefs?.uiScale);
   return <html lang={locale} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale={initialUiProfile} data-ui-profile={initialUiProfile} data-text-scale={initialTextScale} data-ui-scale-auto="0" className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" || initialA11yPrefs?.theme === "mid" ? "theme-light" : ""} ${initialA11yPrefs?.theme === "mid" ? "theme-mid" : ""} ${initialA11yPrefs?.theme === "night" ? "theme-night" : ""}`.trim()} suppressHydrationWarning>
       <head>
+        <meta
+          name="format-detection"
+          content="telephone=no, email=no, address=no, date=no"
+        />
         <Script id="ui-scale-init" strategy="beforeInteractive">
           {UI_SCALE_INIT_SCRIPT}
         </Script>

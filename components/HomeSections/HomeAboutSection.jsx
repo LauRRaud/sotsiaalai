@@ -100,6 +100,8 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     const contentEl = beforeContentRef.current;
     if (!cardEl || !contentEl || typeof window === "undefined") return;
     const isContactView = beforeView === "contact";
+    let rafId = 0;
+    let rafId2 = 0;
 
     const updateSize = () => {
       const contentRect = contentEl.getBoundingClientRect();
@@ -148,20 +150,32 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       setBeforeDiameter((prev) => (prev === nextSize ? prev : nextSize));
     };
 
-    updateSize();
+    const scheduleUpdate = () => {
+      window.cancelAnimationFrame(rafId);
+      window.cancelAnimationFrame(rafId2);
+      rafId = window.requestAnimationFrame(() => {
+        rafId2 = window.requestAnimationFrame(updateSize);
+      });
+    };
+
+    scheduleUpdate();
     // When the contact ring animates, observing its content creates a feedback loop:
     // the ring resizes, the content reflows, and the observer fires again.
     const ro =
       !isContactView && typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(updateSize)
+        ? new ResizeObserver(scheduleUpdate)
         : null;
     ro?.observe(contentEl);
-    window.addEventListener("resize", updateSize);
-    window.document?.fonts?.ready?.then?.(updateSize).catch?.(() => {});
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("pageshow", scheduleUpdate);
+    window.document?.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
 
     return () => {
+      window.cancelAnimationFrame(rafId);
+      window.cancelAnimationFrame(rafId2);
       ro?.disconnect?.();
-      window.removeEventListener("resize", updateSize);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("pageshow", scheduleUpdate);
     };
   }, [beforeView, isRussianLocale, showAdminLinks]);
 
@@ -245,7 +259,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         )}
       >
         <div
-          className="home-about-panel relative [background:var(--home-about-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--home-about-surface-shadow,var(--glass-shell-shadow))] [border:none] px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.35rem,0.8vw,0.65rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)] isolation-isolate"
+          className="home-about-panel relative [background:var(--home-about-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--home-about-surface-shadow,var(--glass-shell-shadow))] [border:none] px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.2rem,0.5vw,0.5rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)] isolation-isolate"
         >
           <h2
             id={aboutHeadingId}
@@ -261,7 +275,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           <div className="relative mx-auto w-full max-w-[54.5rem] max-[768px]:max-w-[52rem]">
             <div
               ref={aboutScrollRef}
-              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.5rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
+              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.3rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.45rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
               style={{
                 maxHeight: "min(72vh, 42rem)",
                 scrollbarWidth: "none",
@@ -406,7 +420,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                     </>
                   ) : null}
                 </ul>
-                <p className="m-0">
+                <p className="m-0 max-[768px]:mt-[clamp(0.35rem,1.1vw,0.6rem)]">
                   <button
                     type="button"
                     onClick={openBeforeContact}

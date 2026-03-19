@@ -44,6 +44,16 @@
   background: transparent;
 }
 
+/* iOS Safari can still auto-link phone numbers / emails; keep the contact ring clean. */
+.homepage-root .home-before-contact-copy :is(a[x-apple-data-detectors], a[href^="tel:"], a[href^="mailto:"]) {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.homepage-root .home-before-contact-copy :is(a[x-apple-data-detectors], a[href^="tel:"], a[href^="mailto:"]) * {
+  text-decoration: none !important;
+}
+
 @media (max-width: 768px) {
   body.homepage:is(.modal-open, .login-modal-open, .home-profile-open)
     .homepage-root

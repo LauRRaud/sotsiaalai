@@ -560,7 +560,7 @@ export default function ChatSidebar() {
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
   const listViewportClassName = "flex min-h-0 flex-1 flex-col";
   const listClassName =
-    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-0 pt-[1.05rem] pb-[0.65rem] [scrollbar-width:none] " +
+    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-0 pt-[1.45rem] max-[768px]:pt-[1.2rem] pb-[0.65rem] [scrollbar-width:none] " +
     "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.28)_3%,#000_9%,#000_91%,rgba(0,0,0,0.82)_94%,rgba(0,0,0,0.56)_96.5%,rgba(0,0,0,0.3)_98.5%,transparent_100%)] " +
     "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.28)_3%,#000_9%,#000_91%,rgba(0,0,0,0.82)_94%,rgba(0,0,0,0.56)_96.5%,rgba(0,0,0,0.3)_98.5%,transparent_100%)] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] [-webkit-mask-size:100%_100%] [mask-size:100%_100%] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
@@ -645,9 +645,6 @@ export default function ChatSidebar() {
                 <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.select_short")}</span>
               </>}
           </Button> : null}
-        <Button variant="primary" size="sm" className={compactSwitchBtnClassName} onClick={() => setActiveView(prev => prev === "conversations" ? "groups" : "conversations")} disabled={isLoading}>
-          {isConversationView ? t("chat.sidebar.sections.groups") : t("chat.sidebar.sections.conversations")}
-        </Button>
         <Button variant="primary" size="sm" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh")} title={t("chat.sidebar.button.refresh")} className={compactRefreshBtnClassName}>
           <svg className="h-5 w-5 max-[768px]:h-[1.74rem] max-[768px]:w-[1.74rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.05" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M3 12a9 9 0 0 1 15-6.2" />
@@ -655,6 +652,9 @@ export default function ChatSidebar() {
             <path d="M21 12a9 9 0 0 1-15 6.2" />
             <polyline points="6 21 6 15 12 15" />
           </svg>
+        </Button>
+        <Button variant="primary" size="sm" className={compactSwitchBtnClassName} onClick={() => setActiveView(prev => prev === "conversations" ? "groups" : "conversations")} disabled={isLoading}>
+          {isConversationView ? t("chat.sidebar.sections.groups") : t("chat.sidebar.sections.conversations")}
         </Button>
       </div>
       {selectMode && isConversationView ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>

@@ -91,6 +91,10 @@ export default function InviteModal() {
   const inviteSponsorToggleClassName =
     "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[0.98rem] !leading-[1.2] " +
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] [--seg-radio-border:rgba(255,255,255,0.7)] [--seg-radio-bg:rgba(255,255,255,0.08)] [--seg-radio-dot-bg:#f0b0aa] " +
+    "min-[769px]:[--seg-card-bg:linear-gradient(180deg,rgba(24,29,41,0.96)_0%,rgba(14,18,26,0.98)_100%)] " +
+    "min-[769px]:[--seg-card-bg-hover:linear-gradient(180deg,rgba(35,41,56,0.98)_0%,rgba(18,23,33,1)_100%)] " +
+    "min-[769px]:[--seg-card-text:#eef3fb] min-[769px]:[--seg-card-text-hover:var(--title-color,var(--brand-primary))] " +
+    "min-[769px]:[--seg-card-shadow:0_5px_12px_rgba(0,0,0,0.22)] min-[769px]:[--seg-card-shadow-hover:0_7px_16px_rgba(0,0,0,0.28)] " +
     "max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.04rem] " +
     inviteOptionButtonClassName;
   const inviteRoleCardClassName =
@@ -108,7 +112,8 @@ export default function InviteModal() {
   const inviteSponsoredCheckboxClassName =
     "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
     "[--otp-check-shape:rgba(255,255,255,0.92)] [--otp-check-tick:#f0b0aa] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-    "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.02rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem]";
+    "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.02rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem] " +
+    "min-[769px]:[--otp-check-text-max-width:min(100%,24rem)]";
   const inviteSponsoredCheckoutFooterClassName =
     "mt-[1.6rem] pt-[0.2rem] flex justify-center max-[768px]:mt-[1.35rem]";
   const inviteNoticeBaseClassName =
@@ -129,8 +134,8 @@ export default function InviteModal() {
     "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
-    "mt-[-1.05rem] rounded-[1rem] bg-[rgba(36,36,40,0.44)] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
-    "[.theme-night_&]:bg-[rgba(34,34,40,0.48)] [.theme-light_&]:bg-[rgba(248,246,245,0.32)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+    "mt-[-1.05rem] rounded-[1rem] text-[color:var(--pt-120)] " +
+    "[.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   const inviteCheckoutAgreementReplacements = useMemo(
     () => ({
       terms: {
@@ -606,7 +611,7 @@ export default function InviteModal() {
         <Panel
           variant="secondary"
           padding="sm"
-          className={`invite-list-panel border-0 shadow-none ${inviteListCardClassName} ${
+          className={`invite-list-panel ${inviteListCardClassName} ${
             invites.length === 0
               ? "min-h-[9rem] max-h-none max-[768px]:min-h-[8.6rem] max-[768px]:max-h-none overflow-visible"
               : "min-h-[9.6rem] max-h-[min(40dvh,19rem)] max-[768px]:min-h-[8.2rem] max-[768px]:max-h-[min(26dvh,14.5rem)] overflow-y-auto"
