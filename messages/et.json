@@ -454,7 +454,7 @@
       "heading": "5. Tellimus, maksed ja tühistamine",
       "paragraph1": "<p>Platvormi tasulised funktsioonid põhinevad rollipõhisel kuutellimusel. Eluküsimusega pöörduja kuutasu on 7,99 eurot kuus ja sotsiaaltöö spetsialisti kuutasu on 14,99 eurot kuus, kui platvormil ei ole tellimuse vormistamise hetkel näidatud teisiti. Makseid vahendab Maksekeskus AS või muu platvormil näidatud makseteenuse pakkuja.</p>",
       "paragraph2": "<p>Ligipääs võib olla kas kasutaja enda tasutud või kutsuja poolt sponsoreeritud. Sponsoreeritud ligipääs kehtib praeguse lahenduse järgi ühe kuu ning ei muutu automaatselt kasutaja enda tasuliseks tellimuseks. Kui kutsutud kasutajal on juba aktiivne oma tellimus, võib sponsoreeritud makse algatamine olla blokeeritud.</p>",
-      "paragraph3": "<p>Tellimust saab hallata lehtedel <a href=\"/tellimus\">Tellimus</a> ja Profiil. P?rast makse algatamist suunatakse kasutaja Maksekeskuse makselehele ning ligip??s aktiveeritakse p?rast makseteenuse kinnitust. Makselehel kuvatavad makseviisid on need, mida Maksekeskus selle tehingu jaoks pakub. Kui kasutaja t?histab tellimuse, l?peb j?rgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood j??b kehtima oma l?puni, kui seadus ei n?e ette teisiti. Kui konto ei ole veel aktiveeritud v?i teenust ei ole kasutama hakatud, v?ib kasutaja k?sida makse ?levaatamist ja v?imalikku tagastust, kirjutades aadressile info@sotsiaal.ai; p?rast teenuse aktiveerimist ja kasutamise algust tagastusi ?ldjuhul ei tehta, kui seadus ei n?ua teisiti. SotsiaalAI v?ib hinnastust, pakette v?i tasuliste funktsioonide ulatust muuta m?istliku etteteatamisega.</p>"
+      "paragraph3": "<p>Tellimust saab hallata lehtedel <a href=\"/tellimus\">Tellimus</a> ja Profiil. Pärast makse algatamist suunatakse kasutaja Maksekeskuse makselehele ning ligipääs aktiveeritakse pärast makseteenuse kinnitust. Makselehel kuvatavad makseviisid on need, mida Maksekeskus selle tehingu jaoks pakub. Kui kasutaja tühistab tellimuse, lõpeb järgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood jääb kehtima oma lõpuni, kui seadus ei näe ette teisiti. Kui konto ei ole veel aktiveeritud või teenust ei ole kasutama hakatud, võib kasutaja küsida makse ülevaatamist ja võimalikku tagastust, kirjutades aadressile info@sotsiaal.ai; pärast teenuse aktiveerimist ja kasutamise algust tagastusi üldjuhul ei tehta, kui seadus ei nõua teisiti. SotsiaalAI võib hinnastust, pakette või tasuliste funktsioonide ulatust muuta mõistliku etteteatamisega.</p>"
     },
     "section6": {
       "heading": "6. Kättesaadavus ja hooldus",
@@ -1345,7 +1345,7 @@
       "paragraph3": "<p>Platvormil on kaks rollipõhist, agendivõimekusega tehisintellekti assistenti: üks <strong>sotsiaaltöö spetsialistidele</strong> ja teine <strong>eluküsimustega pöördujatele</strong>. Spetsialistile on SotsiaalAI töövahend õigusraamistiku, metoodikate ja praktikate mõtestamisel, dokumentide koostamisel, materjalide haldamisel ning kovisiooni ja koostöö toetamisel. Pöördujale aitab see mõista toetusi, teenuseid ja õigusi ning vajadusel koostada ka kirju, taotlusi ja muid vajalikke tekste.</p>",
       "paragraph4": "<p>SotsiaalAI visioon on kujuneda <strong>järgmise põlvkonna sotsiaalvaldkonna platvormiks</strong>, mille keskmes on üks vestlusaken. Selles kohtuvad tehisintellekt, usaldusväärne teadmuspõhi ja praktilised lahendused, et aidata nii spetsialistidel kui ka inimestel jõuda küsimusest või vajadusest selguse, järgmiste sammude ja toimiva lahenduseni - olgu selleks teenus, toetus, dokument, töövõimalus või abivahend.</p>",
       "paragraph5": "<p>SotsiaalAI-d arendatakse <strong>sotsiaalse ettevõttena</strong> ja <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta töövood, koostöö ja abi leidmine selgemaks, kiiremaks ja ligipääsetavamaks. Seejuures peame oluliseks turvalist ja vastutustundlikku kasutuskogemust, mistõttu pöörame tähelepanu andmekaitsele, selgetele kasutusreeglitele ning vajalike turva- ja kaitsemeetmete rakendamisele.</p>",
-      "paragraph6": "<p>SotsiaalAI O?, registrikood 14206225, aadressiga Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti. Kontakt: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>.</p>"
+      "paragraph6": "<p>SotsiaalAI OÜ, registrikood 14206225, aadressiga Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti. Kontakt: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>.</p>"
     },
     "contact": {
       "title": "Kontakt",
@@ -1449,9 +1449,9 @@
     "sponsored_info": "Kui sinu ligipääs tuleb sponsoreeritud kutse kaudu, ei pea sa selle perioodi eest eraldi maksma. Sponsoreeritud ligipääs kehtib ühe kuu ning pärast selle lõppu saad kasutamise jätkamiseks aktiveerida oma tellimuse.",
     "checkout": {
       "title": "Enne maksmist",
-      "agreement": "<terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. M?istan, et liitun kuutasulise teenusega ning kinnitan, et soovin makse algatada Maksekeskuse kaudu.",
-      "details": "Vali makseviis Maksekeskuse makselehel. Ligip??s aktiveerub p?rast makseteenuse kinnitust. Kui soovid makse t?histada v?i k?sida tagastust enne kasutamist, kirjuta info@sotsiaal.ai; p?rast teenuse aktiveerimist kehtivad tagastused seaduse ja makseteenuse reeglite j?rgi.",
-      "error_required": "Enne maksmist peab linnuke olema n?usolekul m?rgitud."
+      "agreement": "<terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et liitun kuutasulise teenusega ning kinnitan, et soovin makse algatada Maksekeskuse kaudu.",
+      "details": "Vali makseviis Maksekeskuse makselehel. Ligipääs aktiveerub pärast makseteenuse kinnitust. Kui soovid makse tühistada või küsida tagastust enne kasutamist, kirjuta info@sotsiaal.ai; pärast teenuse aktiveerimist kehtivad tagastused seaduse ja makseteenuse reeglite järgi.",
+      "error_required": "Enne maksmist peab linnuke olema nõusolekul märgitud."
     }
   },
   "pwa": {
@@ -1681,7 +1681,7 @@
       "sponsored_checkout_required": "Kui valid \"Tasun tema eest\", tuleb kutse saata sponsoreeritud tellimuse maksevoo kaudu.",
       "sponsor_plan_unavailable": "Sponsoreeritud kutset ei saa luua, sest sobiv pakett pole saadaval.",
       "sponsor_capacity_full": "Sponsoreeritud kohtade limiit on täis.",
-      "checkout_terms_required": "Enne sponsoreeritud makse algatamist peab tingimustega n?ustuma."
+      "checkout_terms_required": "Enne sponsoreeritud makse algatamist peab tingimustega nõustuma."
     }
   },
   "email": {
@@ -1878,7 +1878,7 @@
       "webhook_invalid_payload": "Webhooki payload on vigane.",
       "webhook_process_failed": "Maksete webhooki töötlemine ebaõnnestus.",
       "direct_activation_disabled": "Otse aktiveerimine on keelatud. Alusta kõigepealt makse algatamisest.",
-      "checkout_terms_required": "Enne maksmist peab tingimustega n?ustuma."
+      "checkout_terms_required": "Enne maksmist peab tingimustega nõustuma."
     },
     "invites": {
       "email_from_missing": "Saatja e-posti aadress ei ole seadistatud.",
@@ -2474,6 +2474,6 @@
     }
   },
   "footer": {
-    "legal": "SotsiaalAI O?, registrikood 14206225, aadress Kolde tn 6/1, Tabasalu alevik, Harku vald, Harjumaa. Kontakt: info@sotsiaal.ai."
+    "legal": "SotsiaalAI OÜ, registrikood 14206225, aadress Kolde tn 6/1, Tabasalu alevik, Harku vald, Harjumaa. Kontakt: info@sotsiaal.ai."
   }
 }

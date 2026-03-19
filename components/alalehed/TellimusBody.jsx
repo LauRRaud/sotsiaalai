@@ -9,8 +9,7 @@ import LoginModal from "@/components/LoginModal";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
-import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackTopLeftClassName, glassPageCloseClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
@@ -29,7 +28,11 @@ const titleClassName =
   `max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
-const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
+const subscriptionCardClassName =
+  `subscription-modal-content relative z-[21] flex w-full max-w-[clamp(30rem,54vw,38rem)] max-h-[calc(100dvh-2rem)] flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
+  `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text)] shadow-[var(--glass-modal-shadow)] ` +
+  `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
+  `px-[1.45rem] pt-[0.35rem] pb-[1.25rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] ${glassPageMobileCardClassName}`;
 const contentClassName =
   "subscription-content mt-0 flex w-full max-w-[clamp(18.5rem,42vw,28rem)] max-[768px]:max-w-none flex-col gap-[clamp(0.6rem,1.4vh,0.95rem)] text-center max-[768px]:text-left";
 const subscriptionCopyClassName =
@@ -249,9 +252,9 @@ export default function TellimusBody() {
   }
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
-        <GlassRing className={ringClassName}>
-          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
-          <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
+        <div className={subscriptionCardClassName}>
+          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "absolute right-[0.4rem] top-[0.35rem] z-[3] max-[768px]:hidden")} />
+          <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={cn(glassPageBackTopLeftClassName, "z-[3]")} />
           <div className={mobileTitleWrapClassName}>
             <h1 className={titleClassName}>
               {t("subscription.title")}
@@ -262,7 +265,7 @@ export default function TellimusBody() {
               {t("subscription.loading")}
             </p>
           </div>
-        </GlassRing>
+        </div>
       </section>;
   }
   if (!isAuthed) {
@@ -273,9 +276,9 @@ export default function TellimusBody() {
         )
       : t("profile.login_to_manage_sub");
     return <section lang={locale} className={pageShellClassName}>
-        <GlassRing className={cn(ringClassName, loginOpen ? "opacity-0 pointer-events-none" : "opacity-100", "transition-opacity duration-200 ease-out")} aria-hidden={loginOpen ? "true" : undefined}>
-          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
-          <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
+        <div className={cn(subscriptionCardClassName, loginOpen ? "opacity-0 pointer-events-none" : "opacity-100", "transition-opacity duration-200 ease-out")} aria-hidden={loginOpen ? "true" : undefined}>
+          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "absolute right-[0.4rem] top-[0.35rem] z-[3] max-[768px]:hidden")} />
+          <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={cn(glassPageBackTopLeftClassName, "z-[3]")} />
           <div className={mobileTitleWrapClassName}>
             <h1 className={titleClassName}>
               {t("subscription.title")}
@@ -291,7 +294,7 @@ export default function TellimusBody() {
               </Button>
             </div>
           </div>
-        </GlassRing>
+        </div>
         {loginOpen ? <div className={authModalBackdropClassName} aria-hidden="true" /> : null}
 
         <LoginModal
@@ -307,9 +310,9 @@ export default function TellimusBody() {
       </section>;
   }
   return <section lang={locale} className={pageShellClassName}>
-      <GlassRing className={ringClassName}>
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
-        <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
+      <div className={subscriptionCardClassName}>
+        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "absolute right-[0.4rem] top-[0.35rem] z-[3] max-[768px]:hidden")} />
+        <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={cn(glassPageBackTopLeftClassName, "z-[3]")} />
         <div className={mobileTitleWrapClassName}>
           <h1 className={titleClassName}>
             {t("subscription.title")}
@@ -398,6 +401,6 @@ export default function TellimusBody() {
               </div>
             </>}
         </div>
-      </GlassRing>
+      </div>
     </section>;
 }
