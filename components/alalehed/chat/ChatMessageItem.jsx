@@ -2,11 +2,15 @@
 
 import { memo } from "react";
 import { cn } from "@/components/ui/cn";
+import CareerMessageRenderer from "@/components/career/CareerMessageRenderer";
 const ChatMessageItem = memo(function ChatMessageItem({
   role,
   text,
   attachments,
   cards,
+  careerResponse,
+  careerSecondaryResponse,
+  onCareerQuestionAnswer,
   aiVisible: _aiVisible,
   authorName,
   authorRole: _authorRole,
@@ -51,6 +55,8 @@ const ChatMessageItem = memo(function ChatMessageItem({
         .filter(item => !!item.url)
     : [];
   const showAttachments = isAssistant && normalizedAttachments.length > 0;
+  const showCareerResponse =
+    isAssistant && (careerResponse || careerSecondaryResponse);
   const normalizedCards = Array.isArray(cards)
     ? cards
         .filter((item) => item && typeof item === "object")
@@ -94,7 +100,14 @@ const ChatMessageItem = memo(function ChatMessageItem({
         {": "}
       </span>
 
-      <div className="whitespace-pre-wrap">{text}</div>
+      {text ? <div className="whitespace-pre-wrap">{text}</div> : null}
+      {showCareerResponse ? (
+        <CareerMessageRenderer
+          response={careerResponse}
+          secondaryResponse={careerSecondaryResponse}
+          onQuestionAnswer={onCareerQuestionAnswer}
+        />
+      ) : null}
       {showCards ? (
         <div className={cardsWrapClassName}>
           {normalizedCards.map((item, idx) => (

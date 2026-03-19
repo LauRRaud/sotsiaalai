@@ -35,6 +35,7 @@ export default function ChatComposer({
   onCancelDeepResearchMode,
   onConsumeDeepResearchMode,
   onDeepResearchEmptySubmit,
+  onActivateCareerMode,
   showDocumentAttachButton = false,
   onPickDocumentFile,
   speakLatestReply,
@@ -61,6 +62,11 @@ export default function ChatComposer({
   const toolsMenuRef = useRef(null);
   const deepResearchDisabled = Boolean(isRoomMode);
   const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
+  const careerModeLabelRaw = t("chat.tools.career_mode");
+  const careerModeLabel =
+    careerModeLabelRaw && careerModeLabelRaw !== "chat.tools.career_mode"
+      ? careerModeLabelRaw
+      : "Karjäärinõustamine";
   const toolsMenuBackdropFilter = isLightTheme
     ? "blur(18px) saturate(140%)"
     : "blur(12px) saturate(128%)";
@@ -176,6 +182,10 @@ export default function ChatComposer({
     closeToolsMenu();
     router.push(localizePath("/documents", locale));
   }, [closeToolsMenu, locale, router]);
+  const handleCareerModeSelect = useCallback(() => {
+    closeToolsMenu();
+    onActivateCareerMode?.();
+  }, [closeToolsMenu, onActivateCareerMode]);
   const submitSend = useCallback(async () => {
     if (submitInFlightRef.current) return false;
     const trimmed = draft.trim();
@@ -404,6 +414,15 @@ export default function ChatComposer({
               </span>
               <span className={toolLabelClassName}>{t("chat.tools.documents")}</span>
             </button> : null}
+          <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleCareerModeSelect}>
+            <span aria-hidden="true" className={toolIconSlotClassName}>
+              <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 opacity-90">
+                <path d="M6 17.6V8.1A1.7 1.7 0 0 1 7.7 6.4h8.1l2.2 2.2v9a1.7 1.7 0 0 1-1.7 1.7H7.7A1.7 1.7 0 0 1 6 17.6Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M9 11.1h6M9 14.3h4.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
+              </svg>
+            </span>
+            <span className={toolLabelClassName}>{careerModeLabel}</span>
+          </button>
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
             <span aria-hidden="true" className={toolIconSlotClassName}>
               <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 opacity-90">

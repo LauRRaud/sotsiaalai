@@ -1,0 +1,913 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Oskuste süsteem OpenAPI",
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/api/occupations": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "get occupations",
+        "parameters": [
+          {
+            "name": "_start",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The index of the first item to return (default 0)",
+            "example": "0"
+          },
+          {
+            "name": "_end",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The index of the last item to return (default 25)",
+            "example": "1"
+          },
+          {
+            "name": "_sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The field to sort by (default id)",
+            "example": "name"
+          },
+          {
+            "name": "_order",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The direction of sorting, either asc (ascending) or desc (descending) (default desc)",
+            "example": "asc"
+          },
+          {
+            "name": "_relations",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Set to true to include related objects in the response (default false)",
+            "example": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-fly-region": {
+                "schema": {
+                  "type": "string",
+                  "example": "unknown"
+                }
+              },
+              "Strict-Transport-Security": {
+                "schema": {
+                  "type": "string",
+                  "example": "max-age=3153600000"
+                }
+              },
+              "content-type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "x-total-count": {
+                "schema": {
+                  "type": "integer",
+                  "example": "127"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 23 Feb 2024 13:31:50 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": [
+                  {
+                    "id": 46,
+                    "code": "A23.1",
+                    "name": "Abikokk",
+                    "description": "Abikokk töötab meeskonnas juhendamisel. Abikokk käitleb toiduaineid, kasutades mitmesuguseid külm- ja kuumtöötlemise võtteid, abistab kokka toitude valmistamisel ja serveerimisel.;Abikokk teeb puhastus- ja koristustöid ja järgib ettevõtte enesekontrolliplaani.; Abikokk abistab kokka toitude valmistamisel ja portsjonite serveerimisel, eeltöötleb toiduaineid ning abistab puhastus- ja koristustöödel. Abikokk töötab hotellides sageli hommikusöögikokana, kus tema ülesandeks on ette valmistada hommikusöögilaud ning täiendada väljapanekut.",
+                    "alternativeNames": [
+                      "koka abi"
+                    ],
+                    "workConditions": "Kokk töötab tavapäraselt restoranis, koolis, lasteaias, haiglas, kiirsöögikohas või mujal.;Koka töökeskkond on köök, mis peab olema väga puhas ning hea valgustuse ja ventilatsiooniga. Koka välimus ja töökeskkond peavad vastama rangetele hügieeninõuetele. Kokk kannab ametirõivastusena kitlit või jakki, pükse ja põlle, mis enamasti on valget värvi. Tähtis rõivalisand on müts, et toidu sisse ei satuks juuksekarvu.;Enne tööle asumist peab kokal olema kehtiv tervisetõend ning läbitud hügieenikoolitus.;Töö ahjude ja grillide vahetus läheduses nõuab head kuumustaluvust. Väga oluline on oskus terariistade ja kuumade pottide-pannidega ümber käia. Hea tervis ja vastupidavus on vajalikud, sest suurem osa tööpäevast möödub püstijalu. ;Koka tööaeg oleneb toitlustusasutuse lahtiolekuaegadest. Restoranides ja pubides tuleb sageli töötada graafiku alusel ka hilistel õhtutundidel, nädalavahetustel ja riiklikel pühadel.",
+                    "goodToKnow": [],
+                    "akCodes": [
+                      {
+                        "akCode": "75150002"
+                      }
+                    ],
+                    "iscedfCode": "1013",
+                    "emtakCode": "C1391",
+                    "parentOccupationId": 45,
+                    "parentOccupation": {
+                      "id": 45,
+                      "name": "Kokk",
+                      "parentOccupation": null
+                    },
+                    "keySkills": [
+                      {
+                        "skill": {
+                          "id": 89,
+                          "name": "Ohutusnõuete järgimine",
+                          "slug": "ohutusnouete-jargimine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 91,
+                          "name": "Tuleohutusnõuete järgimine",
+                          "slug": "tuleohutusnouete-jargimine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 94,
+                          "name": "Hügieeninõuete järgimine",
+                          "slug": "hugieeninouete-jargimine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 95,
+                          "name": "Toiduohutuse nõuete järgimine",
+                          "slug": "toiduohutuse-nouete-jargimine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 120,
+                          "name": "Enda emotsioonide kontrollimine",
+                          "slug": "enda-emotsioonide-kontrollimine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 123,
+                          "name": "Pinge talumine",
+                          "slug": "pinge-talumine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 144,
+                          "name": "Kohusetundlik töötamine",
+                          "slug": "kohusetundlik-tootamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 155,
+                          "name": "Isikliku töökeskkonna ettevalmistamine",
+                          "slug": "isikliku-tookeskkonna-ettevalmistamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 162,
+                          "name": "Keskkonnahoidlik käitumine",
+                          "slug": "keskkonnahoidlik-kaitumine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 181,
+                          "name": "Suhtlemisoskus",
+                          "slug": "suhtlemisoskus"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 220,
+                          "name": "Meeskonnatöö tegemine",
+                          "slug": "meeskonnatoo-tegemine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 310,
+                          "name": "Töö kavandamine",
+                          "slug": "too-kavandamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 419,
+                          "name": "Kvaliteedi jälgimine",
+                          "slug": "kvaliteedi-jalgimine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 617,
+                          "name": "Varude ringluse juhtimine",
+                          "slug": "varude-ringluse-juhtimine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 671,
+                          "name": "Ajakavas püsimise jälgimine",
+                          "slug": "ajakavas-pusimise-jalgimine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1341,
+                          "name": "Laua katmine",
+                          "slug": "laua-katmine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1377,
+                          "name": "Isikute turvalisuse tagamine",
+                          "slug": "isikute-turvalisuse-tagamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1411,
+                          "name": "Koristamine",
+                          "slug": "koristamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1413,
+                          "name": "Laudade koristamine",
+                          "slug": "laudade-koristamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1414,
+                          "name": "Nõude pesemine",
+                          "slug": "noude-pesemine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1419,
+                          "name": "Töökeskkonna korrashoidmine",
+                          "slug": "tookeskkonna-korrashoidmine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1421,
+                          "name": "Seadmete puhastamine",
+                          "slug": "seadmete-puhastamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1665,
+                          "name": "Mõõteseadmete kasutamine",
+                          "slug": "mooteseadmete-kasutamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1876,
+                          "name": "Toiduainete külmtöötlemine",
+                          "slug": "toiduainete-kulmtootlemine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1877,
+                          "name": "Toiduainete kuumtöötlemine",
+                          "slug": "toiduainete-kuumtootlemine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 1884,
+                          "name": "Portsjonite valmistamine",
+                          "slug": "portsjonite-valmistamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 2052,
+                          "name": "Toidukaupade ladustamine",
+                          "slug": "toidukaupade-ladustamine"
+                        }
+                      },
+                      {
+                        "skill": {
+                          "id": 2056,
+                          "name": "Jäätmete sorteerimine",
+                          "slug": "jaatmete-sorteerimine"
+                        }
+                      }
+                    ],
+                    "miscSkills": [],
+                    "oskaProfessions": [],
+                    "oskaFieldOfActivity": {
+                      "id": 27,
+                      "name": "Toitlustus",
+                      "slug": "toitlustus"
+                    },
+                    "workplace": null,
+                    "physicalActivity": null,
+                    "persona": null,
+                    "educationalThreshold": null,
+                    "fieldsOfActivity": [],
+                    "occQualificationCouncil": "Teenindus",
+                    "languageSkills": null,
+                    "digitalLiteracy": null,
+                    "knowledgeRequired": [
+                      {
+                        "knowledge": {
+                          "name": "Tööohutus"
+                        }
+                      },
+                      {
+                        "knowledge": {
+                          "name": "Toidutoorained"
+                        }
+                      },
+                      {
+                        "knowledge": {
+                          "name": "Toidutoorainete eeltöötlus-, valmistus- ja säilitusviisid"
+                        }
+                      },
+                      {
+                        "knowledge": {
+                          "name": "Meeskonnatöö"
+                        }
+                      },
+                      {
+                        "knowledge": {
+                          "name": "Hügieen"
+                        }
+                      },
+                      {
+                        "knowledge": {
+                          "name": "Toitlustuse tehnoloogilised seadmed"
+                        }
+                      }
+                    ],
+                    "careerOpportunities": "Kokk",
+                    "educationLevels": [
+                      {
+                        "level": {
+                          "name": "Erialane kutseharidus"
+                        }
+                      },
+                      {
+                        "level": {
+                          "name": "Eralane täienduskoolitus"
+                        }
+                      },
+                      {
+                        "level": {
+                          "name": "Väljaõpe töökohal"
+                        }
+                      }
+                    ],
+                    "toolsRequired": [
+                      {
+                        "tool": {
+                          "name": "Nuga jm vajalikud terariistad"
+                        }
+                      },
+                      {
+                        "tool": {
+                          "name": "elektri- või gaasipliit"
+                        }
+                      },
+                      {
+                        "tool": {
+                          "name": "prae-, küpsetus- ja grillahi"
+                        }
+                      },
+                      {
+                        "tool": {
+                          "name": "aurutus-, keedu- ja külmutusseadmed"
+                        }
+                      },
+                      {
+                        "tool": {
+                          "name": "nõudepesumasin"
+                        }
+                      },
+                      {
+                        "tool": {
+                          "name": "väikevahendid"
+                        }
+                      },
+                      {
+                        "tool": {
+                          "name": "serveerimisvahendid"
+                        }
+                      }
+                    ],
+                    "linksToStudies": [],
+                    "qualificationStandards": [],
+                    "marketDemand": null,
+                    "numOfWorkers": null,
+                    "jobPositionsAndGraduates": null,
+                    "jobPosChanges": null,
+                    "salary": null,
+                    "learningOpportunities": [],
+                    "regulations": [],
+                    "references": [],
+                    "slug": "abikokk"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/skills": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "get skills",
+        "parameters": [
+          {
+            "name": "_start",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The index of the first item to return (default 0)",
+            "example": "0"
+          },
+          {
+            "name": "_end",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The index of the last item to return (default 25)",
+            "example": "1"
+          },
+          {
+            "name": "_sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The field to sort by (default id)",
+            "example": "name"
+          },
+          {
+            "name": "_order",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The direction of sorting, either asc (ascending) or desc (descending) (default desc)",
+            "example": "asc"
+          },
+          {
+            "name": "_relations",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Set to true to include related objects in the response (default false)",
+            "example": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-fly-region": {
+                "schema": {
+                  "type": "string",
+                  "example": "unknown"
+                }
+              },
+              "Strict-Transport-Security": {
+                "schema": {
+                  "type": "string",
+                  "example": "max-age=3153600000"
+                }
+              },
+              "content-type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "x-total-count": {
+                "schema": {
+                  "type": "integer",
+                  "example": "2197"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 23 Feb 2024 13:33:41 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": [
+                  {
+                    "id": 549,
+                    "code": "5.3.3.1.",
+                    "name": "2D-plaani tõlgendamine",
+                    "description": "Loeb ja tõlgendab kahemõõtmelist plaani või joonist, et saada sealt vajalikku teavet.",
+                    "alternativeNames": [
+                      "2D-joonise tõlgendamine",
+                      "2D-joonise lugemine",
+                      "2D-plaani lugemine",
+                      "CAD-joonise lugemine"
+                    ],
+                    "escoCode": null,
+                    "escoLink": null,
+                    "learningOpportunities": [],
+                    "linksToStudies": [],
+                    "qualificationStandards": [],
+                    "inDemand": false,
+                    "toolsRequired": [],
+                    "relatedSkills": [],
+                    "additionalInfo": null,
+                    "topics": [],
+                    "parentSkillId": 548,
+                    "parentSkill": {
+                      "id": 548,
+                      "name": "Projekti lugemine",
+                      "parentSkill": {
+                        "id": 536,
+                        "name": "Teabe kasutamine",
+                        "parentSkill": {
+                          "id": 476,
+                          "name": "Haldamisoskused",
+                          "parentSkill": null
+                        }
+                      }
+                    },
+                    "keyOccupations": [
+                      {
+                        "occupation": {
+                          "id": 17,
+                          "name": "Ehitusinsener",
+                          "slug": "ehitusinsener"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 18,
+                          "name": "Ehitusviimistleja",
+                          "slug": "ehitusviimistleja"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 19,
+                          "name": "Ehituskonstruktsioonide ehitaja",
+                          "slug": "ehituskonstruktsioonide-ehitaja"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 20,
+                          "name": "Maastikuarhitekt",
+                          "slug": "maastikuarhitekt"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 35,
+                          "name": "Ehitusmasinate juht",
+                          "slug": "ehitusmasinate-juht"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 44,
+                          "name": "Kinnisvarahaldur",
+                          "slug": "kinnisvarahaldur"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 70,
+                          "name": "Keevitaja",
+                          "slug": "keevitaja"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 71,
+                          "name": "Mootorsõiduki diagnostik",
+                          "slug": "mootorsoiduki-diagnostik"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 97,
+                          "name": "Elektroonikatehnik",
+                          "slug": "elektroonikatehnik"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 99,
+                          "name": "Hooneautomaatika tehnik",
+                          "slug": "hooneautomaatika-tehnik"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 100,
+                          "name": "Turvasüsteemide tehnik",
+                          "slug": "turvasusteemide-tehnik"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 116,
+                          "name": "CNC-puidutöötlemiskeskuse operaator",
+                          "slug": "cnc-puidutootlemiskeskuse-operaator"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 119,
+                          "name": "Rõiva-, tekstiili- ja nahatööstuse tehnik",
+                          "slug": "roiva-tekstiili-ja-nahatoostuse-tehnik"
+                        }
+                      },
+                      {
+                        "occupation": {
+                          "id": 121,
+                          "name": "Tootedisainer",
+                          "slug": "tootedisainer"
+                        }
+                      }
+                    ],
+                    "miscOccupations": [],
+                    "slug": "2d-plaani-tolgendamine"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/fields-of-activity": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "get field of activities",
+        "parameters": [
+          {
+            "name": "_start",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The index of the first item to return (default 0)",
+            "example": "0"
+          },
+          {
+            "name": "_end",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The index of the last item to return (default 25)",
+            "example": "1"
+          },
+          {
+            "name": "_sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The field to sort by (default id)",
+            "example": "name"
+          },
+          {
+            "name": "_order",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The direction of sorting, either asc (ascending) or desc (descending) (default desc)",
+            "example": "asc"
+          },
+          {
+            "name": "_relations",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Set to true to include related objects in the response (default false)",
+            "example": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-fly-region": {
+                "schema": {
+                  "type": "string",
+                  "example": "unknown"
+                }
+              },
+              "Strict-Transport-Security": {
+                "schema": {
+                  "type": "string",
+                  "example": "max-age=3153600000"
+                }
+              },
+              "content-type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "x-total-count": {
+                "schema": {
+                  "type": "integer",
+                  "example": "32"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 21 Feb 2024 12:24:24 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": [
+                  {
+                    "id": 32,
+                    "code": "T32",
+                    "name": "Ärindusharidus",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    "additionalInfo": [
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    ],
+                    "linksToStudies": [],
+                    "qualificationStandards": [
+                      {
+                        "qualificationStandard": {
+                          "name": "Elektroonikaseadmete tehnik",
+                          "link": "https://www.kutseregister.ee/ctrl/et/Standardid/vaata/11116027"
+                        }
+                      },
+                      {
+                        "qualificationStandard": {
+                          "name": "Hankejuht, tase 6",
+                          "link": "https://www.kutseregister.ee/ctrl/et/Standardid/vaata/11094117"
+                        }
+                      },
+                      {
+                        "qualificationStandard": {
+                          "name": "IT juht, tase 7",
+                          "link": "https://www.kutseregister.ee/ctrl/et/Standardid/vaata/11138360"
+                        }
+                      }
+                    ],
+                    "oskaOccupations": [],
+                    "slug": "arindusharidus"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}

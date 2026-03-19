@@ -50,6 +50,50 @@ function isEditableElement(node) {
   return tag === "TEXTAREA" || tag === "INPUT" || node.isContentEditable;
 }
 
+function isCareerIntent(value) {
+  const normalized = String(value || "").trim().toLowerCase();
+  if (!normalized) return false;
+
+  return (
+    normalized.includes("karjäärinõust") ||
+    normalized.includes("karjäärinoust") ||
+    normalized.includes("cv abi") ||
+    normalized.includes("cv üle") ||
+    normalized.includes("cv ule") ||
+    normalized.includes("töösuund") ||
+    normalized.includes("toosuund") ||
+    normalized.includes("õpisuund") ||
+    normalized.includes("opisuund")
+  );
+}
+
+function formatCareerAnswerForDisplay(question, answer, answerLabel = null) {
+  if (typeof answerLabel === "string" && answerLabel.trim()) {
+    return answerLabel.trim();
+  }
+
+  if (question?.type === "boolean") {
+    return answer === true ? "Jah" : answer === false ? "Ei" : "";
+  }
+
+  if (Array.isArray(answer)) {
+    return answer
+      .map((item) => String(item || "").trim())
+      .filter(Boolean)
+      .join(", ");
+  }
+
+  if (typeof answer === "string") {
+    return answer.trim();
+  }
+
+  if (typeof answer === "number") {
+    return String(answer);
+  }
+
+  return "";
+}
+
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
@@ -85,6 +129,12 @@ export default function ChatBody({
   } = useChatMobileRail();
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
+  const [activeWorkflow, setActiveWorkflow] = useState("default");
+  const [careerProfile, setCareerProfile] = useState(null);
+  const [careerRuntime, setCareerRuntime] = useState(null);
+  const [careerLastResult, setCareerLastResult] = useState(null);
+  const [careerCurrentState, setCareerCurrentState] = useState(null);
+  const [careerLoading, setCareerLoading] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
   const helpUi = useMemo(() => getHelpUiText(t), [t]);
   const [activeListingsPanel, setActiveListingsPanel] = useState(null);
@@ -1049,7 +1099,7 @@ export default function ChatBody({
     setErrorBanner,
     requestConversationsRefresh
   });
-  const isGenerating = isChatGenerating || isResearching;
+  const isGenerating = isChatGenerating || isResearching || careerLoading;
   const stop = useCallback(() => {
     stopChatStream();
     void stopResearch();
@@ -1107,9 +1157,175 @@ export default function ChatBody({
   const handleSendDeepResearchFromComposer = useCallback((query) => {
     return runDeepResearch(query);
   }, [runDeepResearch]);
+  const runCareerTurn = useCallback(async (payload = {}, options = {}) => {
+    const {
+      echoUserText = false,
+      userEchoText = null,
+      activateWorkflow = true,
+    } = options;
+
+    const rawText =
+      payload?.userMessage ||
+      payload?.message ||
+      payload?.text ||
+      null;
+
+    const trimmedText = typeof rawText === "string" ? rawText.trim() : "";
+    const echoText =
+      typeof userEchoText === "string" && userEchoText.trim()
+        ? userEchoText.trim()
+        : trimmedText;
+
+    if (echoUserText && echoText) {
+      appendMessage({
+        role: "user",
+        text: echoText,
+        aiVisible: true,
+      });
+    }
+
+    setCareerLoading(true);
+    setErrorBanner(null);
+
+    try {
+      const response = await fetch("/api/career-agent/run", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const body = await response.json().catch(() => ({}));
+
+      if (!response.ok || body?.ok === false || !body?.result) {
+        throw new Error(body?.error || "Karjäärinõustamise käivitamine ebaõnnestus.");
+      }
+
+      const result = body.result;
+
+      if (activateWorkflow) {
+        setActiveWorkflow("career");
+      }
+
+      setCareerProfile(result.profile || null);
+      setCareerRuntime(result.runtime || null);
+      setCareerLastResult(result);
+      setCareerCurrentState(result.currentState || null);
+
+      appendMessage({
+        role: "ai",
+        text: "",
+        aiVisible: true,
+        careerResponse: result.response || null,
+        careerSecondaryResponse: result.secondaryResponse || null,
+        workflow: {
+          career: {
+            state: result.currentState || null,
+            mode: result.modeDecision?.mode || null,
+          },
+        },
+      });
+
+      return true;
+    } catch (error) {
+      const message =
+        error?.message || "Karjäärinõustamise käivitamine ebaõnnestus.";
+      setErrorBanner(message);
+      appendMessage({
+        role: "ai",
+        text: `Karjäärinõustamise käivitamine ebaõnnestus.\n\n${message}`,
+        aiVisible: true,
+      });
+      return false;
+    } finally {
+      setCareerLoading(false);
+    }
+  }, [appendMessage]);
+  const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
+    const questionId = question?.id;
+    if (!questionId) return false;
+
+    const echoText = formatCareerAnswerForDisplay(question, answer, answerLabel);
+
+    void runCareerTurn(
+      {
+        questionId,
+        answer,
+        profile: careerProfile || {},
+        runtime: {
+          ...(careerRuntime || {}),
+          ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
+        },
+      },
+      {
+        echoUserText: Boolean(echoText),
+        userEchoText: echoText,
+        activateWorkflow: true,
+      }
+    );
+
+    return true;
+  }, [careerCurrentState, careerProfile, careerRuntime, runCareerTurn]);
+  const activateCareerMode = useCallback(() => {
+    void runCareerTurn(
+      {
+        userMessage: "Soovin karjäärinõustamist",
+        profile: careerProfile || {},
+        runtime: {
+          ...(careerRuntime || {}),
+          ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
+        },
+      },
+      {
+        echoUserText: false,
+        activateWorkflow: true,
+      }
+    );
+  }, [careerCurrentState, careerProfile, careerRuntime, runCareerTurn]);
+  const handleSendMessage = useCallback(async (rawText) => {
+    const text = String(rawText || "").trim();
+    if (!text) return false;
+
+    const shouldUseCareerWorkflow =
+      activeWorkflow === "career" || isCareerIntent(text);
+
+    if (!shouldUseCareerWorkflow) {
+      return sendMessage(text);
+    }
+
+    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
+      ? careerLastResult.response.questions
+      : [];
+
+    const payload =
+      activeWorkflow === "career" && pendingQuestions.length === 1
+        ? {
+            questionId: pendingQuestions[0]?.id,
+            answer: text,
+            profile: careerProfile || {},
+            runtime: {
+              ...(careerRuntime || {}),
+              ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
+            },
+          }
+        : {
+            userMessage: text,
+            profile: careerProfile || {},
+            runtime: {
+              ...(careerRuntime || {}),
+              ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
+            },
+          };
+
+    return runCareerTurn(payload, {
+      echoUserText: true,
+      activateWorkflow: true,
+    });
+  }, [activeWorkflow, careerCurrentState, careerLastResult, careerProfile, careerRuntime, runCareerTurn, sendMessage]);
   const messageItems = useMemo(() => {
-    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
-  }, [isRoomMode, renderedMessages, t]);
+    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} careerResponse={msg.careerResponse} careerSecondaryResponse={msg.careerSecondaryResponse} onCareerQuestionAnswer={handleCareerQuestionAnswer} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
+  }, [handleCareerQuestionAnswer, isRoomMode, renderedMessages, t]);
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
       const message = visibleMessages[i];
@@ -1493,12 +1709,13 @@ export default function ChatBody({
     onBlurInput={handleInputBlur}
     isGenerating={isGenerating}
     onStop={stop}
-    onSend={sendMessage}
+    onSend={handleSendMessage}
     onSendDeepResearch={handleSendDeepResearchFromComposer}
     onArmDeepResearch={handleArmDeepResearch}
     onCancelDeepResearchMode={handleCancelDeepResearchMode}
     onConsumeDeepResearchMode={handleConsumeDeepResearchMode}
     onDeepResearchEmptySubmit={handleDeepResearchEmptySubmit}
+    onActivateCareerMode={activateCareerMode}
     documentFlowActive={documentFlowActive}
     onPickDocumentFile={analysis.onPickFile}
     speakLatestReply={speakLatestReply}
