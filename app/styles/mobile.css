@@ -75,6 +75,16 @@
   }
 }
 
+@media (max-width: 768px) {
+  /* On touch devices, dark-theme primary buttons should press to the lighter hover state. */
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night),
+  :root.theme-night {
+    --btn-primary-border-active: var(--btn-primary-border-hover);
+    --btn-primary-bg-active: var(--btn-primary-bg-hover);
+    --btn-primary-shadow-active: var(--btn-primary-shadow-hover);
+  }
+}
+
 @media (max-width: 480px) {
   :root {
     --card-size: clamp(11.875rem, 76vw, 16.625rem);
