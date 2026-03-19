@@ -192,7 +192,10 @@ const Label = styled.label`
     }
 
     &.fancy-checkbox--otp .text {
-      max-width: min(100%, 18rem);
+      max-width: var(
+        --otp-check-text-max-width-mobile,
+        var(--otp-check-text-max-width, min(100%, 18rem))
+      );
       white-space: normal;
       text-align: left;
       overflow-wrap: anywhere;

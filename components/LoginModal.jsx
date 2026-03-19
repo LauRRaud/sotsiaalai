@@ -1226,6 +1226,24 @@ export default function LoginModal({
         : undefined,
       "--input-caret": isOtpStep
         ? "var(--otp-input-caret)"
+        : undefined,
+      "--input-bg": isOtpStep
+        ? "var(--otp-input-bg)"
+        : undefined,
+      "--input-bg-hover": isOtpStep
+        ? "var(--otp-input-bg)"
+        : undefined,
+      "--input-bg-focus": isOtpStep
+        ? "var(--otp-input-bg)"
+        : undefined,
+      "--input-border": isOtpStep
+        ? "1px solid var(--otp-input-border)"
+        : undefined,
+      "--input-shadow": isOtpStep
+        ? "0 8px 18px rgba(0,0,0,0.3)"
+        : undefined,
+      "--input-shadow-hover": isOtpStep
+        ? "0 10px 20px rgba(0,0,0,0.34)"
         : undefined
       ,
         width: isPhoneViewport

@@ -133,6 +133,10 @@
   --panel-secondary-shadow: none;
 }
 
+:root.theme-night .framework-page-shell {
+  --framework-panel-shadow: none;
+}
+
 :root.theme-night
   .materials-page-shell
   :is(.materials-upload-choose-button, .materials-upload-submit-button) {

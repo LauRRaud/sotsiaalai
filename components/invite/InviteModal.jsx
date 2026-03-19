@@ -11,25 +11,28 @@ import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
-import { glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import {
+  glassPageBackTopLeftClassName,
+  glassPageMobileCardClassName,
+  glassPageTitleClassName,
+} from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
-const inviteLinkClassName = "font-[inherit] no-underline text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
+const inviteLinkClassName =
+  "font-[inherit] no-underline text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
 
 function parseEmails(raw) {
   if (!raw) return [];
-  const list = String(raw).split(/[,;\n\r]/).map(s => s.trim().toLowerCase()).filter(Boolean);
+  const list = String(raw)
+    .split(/[,;\n\r]/)
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
   return [...new Set(list)];
 }
 const INVITE_TILT_CLOSE_MS = 540;
 export default function InviteModal() {
-  const {
-    data: session
-  } = useSession();
-  const {
-    t,
-    locale
-  } = useI18n();
+  const { data: session } = useSession();
+  const { t, locale } = useI18n();
   const [open, setOpen] = useState(false);
   const [roomId, setRoomId] = useState(null);
   const [roomTitle, setRoomTitle] = useState("");
@@ -45,7 +48,7 @@ export default function InviteModal() {
   const [loadingList, setLoadingList] = useState(false);
   const [sponsoredCheckoutAgreed, setSponsoredCheckoutAgreed] = useState(false);
   const closeTimerRef = useRef(null);
-  const formatSentenceCase = text => {
+  const formatSentenceCase = (text) => {
     const raw = typeof text === "string" ? text.trim() : "";
     if (!raw) return text;
     if (raw !== raw.toUpperCase()) return text;
@@ -58,8 +61,7 @@ export default function InviteModal() {
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName} ` +
     `${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
-  const inviteModalTitleClassName =
-    `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
+  const inviteModalTitleClassName = `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
     "invite-modal-scroll mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]";
   const inviteFormClassName = "grid gap-[1rem] max-[768px]:gap-[0.95rem]";
@@ -67,21 +69,33 @@ export default function InviteModal() {
     "!text-[1.28rem] !tracking-[0.02em] placeholder:!text-[1.12rem] placeholder:!tracking-[0.02em] max-[768px]:!text-[1.34rem] max-[768px]:!tracking-[0.024em] max-[768px]:placeholder:!text-[1.2rem] max-[768px]:placeholder:!tracking-[0.022em] max-[768px]:!min-h-[3.2rem] max-[768px]:!py-[0.84rem]";
   const invitePrimaryButtonClassName =
     "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
-  const sponsoredRoleOptions = [{
-    value: "SOCIAL_WORKER",
-    label: t("invite.sponsored.role.worker")
-  }, {
-    value: "CLIENT",
-    label: t("invite.sponsored.role.client")
-  }];
+  const sponsoredRoleOptions = [
+    {
+      value: "SOCIAL_WORKER",
+      label: t("invite.sponsored.role.worker"),
+    },
+    {
+      value: "CLIENT",
+      label: t("invite.sponsored.role.client"),
+    },
+  ];
+  const inviteOptionButtonClassName =
+    "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg-hover)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
+    "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
+    "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
+    "[--seg-card-border:transparent] [--seg-card-border-width:0px] [--seg-card-duration:560ms] [--seg-card-ease:cubic-bezier(0.22,0.61,0.36,1)] " +
+    "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[9rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
   const inviteSponsorToggleClassName =
-      "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[0.98rem] !leading-[1.2] " +
+    "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[0.98rem] !leading-[1.2] " +
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] [--seg-radio-border:rgba(255,255,255,0.7)] [--seg-radio-bg:rgba(255,255,255,0.08)] [--seg-radio-dot-bg:#f0b0aa] " +
-      "max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.04rem]";
+    "max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.04rem] " +
+    inviteOptionButtonClassName;
   const inviteRoleCardClassName =
-    "!w-[min(100%,15.8rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.04rem] !leading-[1.2] text-center max-[768px]:!w-[min(100%,14rem)] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.08rem]";
+    "!w-[min(100%,15.8rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.04rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.08rem] max-[768px]:!px-[1rem] " +
+    inviteOptionButtonClassName;
   const inviteSponsoredUnifiedPanelClassName =
     "mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem] " +
     "text-[color:var(--pt-120)] max-[768px]:max-w-[min(31rem,100%)] max-[768px]:px-0 max-[768px]:py-0";
@@ -117,18 +131,21 @@ export default function InviteModal() {
   const inviteListCardClassName =
     "mt-[-1.05rem] rounded-[1rem] bg-[rgba(36,36,40,0.44)] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
     "[.theme-night_&]:bg-[rgba(34,34,40,0.48)] [.theme-light_&]:bg-[rgba(248,246,245,0.32)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
-  const inviteCheckoutAgreementReplacements = useMemo(() => ({
-    terms: {
-      open: `<a href="${localizePath("/kasutustingimused", locale)}" class="${inviteLinkClassName}">`,
-      close: "</a>"
-    },
-    privacy: {
-      open: `<a href="${localizePath("/privaatsustingimused", locale)}" class="${inviteLinkClassName}">`,
-      close: "</a>"
-    }
-  }), [locale]);
+  const inviteCheckoutAgreementReplacements = useMemo(
+    () => ({
+      terms: {
+        open: `<a href="${localizePath("/kasutustingimused", locale)}" class="${inviteLinkClassName}">`,
+        close: "</a>",
+      },
+      privacy: {
+        open: `<a href="${localizePath("/privaatsustingimused", locale)}" class="${inviteLinkClassName}">`,
+        close: "</a>",
+      },
+    }),
+    [locale],
+  );
   useEffect(() => {
-    const handler = e => {
+    const handler = (e) => {
       setRoomId(e?.detail?.roomId || null);
       if (closeTimerRef.current && typeof window !== "undefined") {
         window.clearTimeout(closeTimerRef.current);
@@ -143,7 +160,9 @@ export default function InviteModal() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
-    const invitePayment = String(params.get("invitePayment") || "").trim().toLowerCase();
+    const invitePayment = String(params.get("invitePayment") || "")
+      .trim()
+      .toLowerCase();
     if (!invitePayment) return;
     setOpen(true);
     setRoomId(params.get("roomId") || null);
@@ -195,7 +214,9 @@ export default function InviteModal() {
     if (typeof window === "undefined") return false;
     try {
       if (document?.documentElement?.dataset?.reduceMotion === "1") return true;
-      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches);
+      return Boolean(
+        window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches,
+      );
     } catch {
       return false;
     }
@@ -287,7 +308,7 @@ export default function InviteModal() {
         const res = await fetch("/api/invites/sponsored/init", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             emails: parsed,
@@ -295,20 +316,25 @@ export default function InviteModal() {
             payment_mode: paymentMode,
             room_id: roomId || undefined,
             room_title: trimmedRoomTitle || undefined,
-            host_display_name: !roomId ? trimmedHostName || undefined : undefined,
+            host_display_name: !roomId
+              ? trimmedHostName || undefined
+              : undefined,
             targetRole,
-            acceptedTerms: sponsoredCheckoutAgreed
-          })
+            acceptedTerms: sponsoredCheckoutAgreed,
+          }),
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data?.ok === false) {
-          throw new Error(resolveApiMessage({
-            payload: data,
-            t,
-            fallbackKey: "invite.send_failed"
-          }));
+          throw new Error(
+            resolveApiMessage({
+              payload: data,
+              t,
+              fallbackKey: "invite.send_failed",
+            }),
+          );
         }
-        const checkoutUrl = typeof data?.checkoutUrl === "string" ? data.checkoutUrl.trim() : "";
+        const checkoutUrl =
+          typeof data?.checkoutUrl === "string" ? data.checkoutUrl.trim() : "";
         if (!checkoutUrl) {
           throw new Error(t("subscription.error.payment_start"));
         }
@@ -325,7 +351,7 @@ export default function InviteModal() {
       const res = await fetch("/api/invites", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           emails: parsed,
@@ -333,16 +359,18 @@ export default function InviteModal() {
           payment_mode: paymentMode || undefined,
           room_id: roomId || undefined,
           room_title: trimmedRoomTitle || undefined,
-          host_display_name: !roomId ? trimmedHostName || undefined : undefined
-        })
+          host_display_name: !roomId ? trimmedHostName || undefined : undefined,
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {
-        throw new Error(resolveApiMessage({
-          payload: data,
-          t,
-          fallbackKey: "invite.send_failed"
-        }));
+        throw new Error(
+          resolveApiMessage({
+            payload: data,
+            t,
+            fallbackKey: "invite.send_failed",
+          }),
+        );
       }
       setMessage(t("invite.success"));
       setEmails("");
@@ -358,23 +386,28 @@ export default function InviteModal() {
   }
   async function action(id, kind) {
     try {
-      const url = kind === "resend" ? `/api/invites/${id}/resend` : `/api/invites/${id}/revoke`;
+      const url =
+        kind === "resend"
+          ? `/api/invites/${id}/resend`
+          : `/api/invites/${id}/revoke`;
       const res = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          locale
-        })
+          locale,
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {
-        throw new Error(resolveApiMessage({
-          payload: data,
-          t,
-          fallbackKey: "invite.error_generic"
-        }));
+        throw new Error(
+          resolveApiMessage({
+            payload: data,
+            t,
+            fallbackKey: "invite.error_generic",
+          }),
+        );
       }
       await loadInvites();
     } catch (err) {
@@ -383,37 +416,83 @@ export default function InviteModal() {
   }
   function formatStatus(inv) {
     if (inv.status === "ACCEPTED" && inv.acceptedBillingSource) {
-      return inv.acceptedBillingSource === "SELF" ? t("invite.status.accepted_self") : t("invite.status.accepted_sponsored");
+      return inv.acceptedBillingSource === "SELF"
+        ? t("invite.status.accepted_self")
+        : t("invite.status.accepted_sponsored");
     }
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={handleClose} closeOnOverlayClick={!closing} aria-label={t("invite.title")} className={open ? "invite-modal-overlay person-invite-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch" : undefined} contentClassName={inviteModalContentClassName}>
-      <BackButton onClick={handleClose} ariaLabel={t("buttons.back")} className={`${glassPageBackTopLeftClassName} !z-[145] pointer-events-auto`} />
+  return (
+    <Modal
+      open={open}
+      variant="glass"
+      onClose={handleClose}
+      closeOnOverlayClick={!closing}
+      aria-label={t("invite.title")}
+      className={
+        open
+          ? "invite-modal-overlay person-invite-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch"
+          : undefined
+      }
+      contentClassName={inviteModalContentClassName}
+    >
+      <BackButton
+        onClick={handleClose}
+        ariaLabel={t("buttons.back")}
+        className={`${glassPageBackTopLeftClassName} !z-[145] pointer-events-auto`}
+      />
       <header className="invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
         <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-          <h2 className={inviteModalTitleClassName}>
-            {t("invite.eyebrow")}
-          </h2>
+          <h2 className={inviteModalTitleClassName}>{t("invite.eyebrow")}</h2>
         </div>
       </header>
 
       <div className={inviteModalBodyClassName}>
-        {!session?.user?.id ? <div className="grid gap-[1rem]">
+        {!session?.user?.id ? (
+          <div className="grid gap-[1rem]">
             <p>{t("invite.login_required")}</p>
-          </div> : <form className={inviteFormClassName} onSubmit={submit}>
-            {!roomId ? <>
-                <Input id="invite-room-title" value={roomTitle} onChange={e => setRoomTitle(e.target.value)} disabled={busy} placeholder={t("invite.room_title")} aria-label={t("invite.room_title")} className={mobileInviteInputClassName} />
-                <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name_ph")} aria-label={t("invite.host_name")} className={mobileInviteInputClassName} />
-              </> : null}
-            <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} className={mobileInviteInputClassName} />
+          </div>
+        ) : (
+          <form className={inviteFormClassName} onSubmit={submit}>
+            {!roomId ? (
+              <>
+                <Input
+                  id="invite-room-title"
+                  value={roomTitle}
+                  onChange={(e) => setRoomTitle(e.target.value)}
+                  disabled={busy}
+                  placeholder={t("invite.room_title")}
+                  aria-label={t("invite.room_title")}
+                  className={mobileInviteInputClassName}
+                />
+                <Input
+                  id="invite-host-name"
+                  value={hostDisplayName}
+                  onChange={(e) => setHostDisplayName(e.target.value)}
+                  disabled={busy}
+                  placeholder={t("invite.host_name_ph")}
+                  aria-label={t("invite.host_name")}
+                  className={mobileInviteInputClassName}
+                />
+              </>
+            ) : null}
+            <Input
+              id="invite-emails"
+              value={emails}
+              onChange={(e) => setEmails(e.target.value)}
+              placeholder={t("invite.classic.emails_ph")}
+              aria-label={t("invite.classic.emails")}
+              disabled={busy}
+              className={mobileInviteInputClassName}
+            />
             <div className="grid gap-[0.7rem]">
               <OptionCard
                 type="checkbox"
                 name="sponsoredInvite"
                 value="SPONSORED_BY_HOST"
                 checked={sponsoredSelected}
-                onChange={e => {
+                onChange={(e) => {
                   if (e.target.checked) {
                     startSponsoredFlow();
                     return;
@@ -431,12 +510,28 @@ export default function InviteModal() {
                 </span>
               </OptionCard>
 
-              {sponsoredSelected ? <div id="invite-sponsored-panel" className={inviteSponsoredUnifiedPanelClassName}>
+              {sponsoredSelected ? (
+                <div
+                  id="invite-sponsored-panel"
+                  className={inviteSponsoredUnifiedPanelClassName}
+                >
                   <div className={inviteSponsoredCardBodyClassName}>
                     <div className="grid gap-[1.04rem] mt-[0.2rem]">
-                      {sponsoredRoleOptions.map(option => (
-                        <OptionCard key={option.value} type="radio" name="targetRole" value={option.value} checked={targetRole === option.value} onChange={e => setTargetRole(e.target.value)} disabled={busy} className={inviteRoleCardClassName} fitTextLines={2}>
-                          <span className="text-center [text-wrap:balance]">{option.label}</span>
+                      {sponsoredRoleOptions.map((option) => (
+                        <OptionCard
+                          key={option.value}
+                          type="radio"
+                          name="targetRole"
+                          value={option.value}
+                          checked={targetRole === option.value}
+                          onChange={(e) => setTargetRole(e.target.value)}
+                          disabled={busy}
+                          className={inviteRoleCardClassName}
+                          fitTextLines={2}
+                        >
+                          <span className="text-center [text-wrap:balance]">
+                            {option.label}
+                          </span>
                         </OptionCard>
                       ))}
                     </div>
@@ -452,32 +547,61 @@ export default function InviteModal() {
                           checked={sponsoredCheckoutAgreed}
                           disabled={busy}
                           onChange={(next) => setSponsoredCheckoutAgreed(next)}
-                          label={<RichText as="span" value={t("invite.sponsored.checkout.agreement")} replacements={inviteCheckoutAgreementReplacements} className="block" />}
+                          label={
+                            <RichText
+                              as="span"
+                              value={t("invite.sponsored.checkout.agreement")}
+                              replacements={inviteCheckoutAgreementReplacements}
+                              className="block"
+                            />
+                          }
                           className={inviteSponsoredCheckboxClassName}
                         />
                       </div>
                       <div className={inviteSponsoredCheckoutFooterClassName}>
-                        <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy || !sponsoredCheckoutAgreed}>
-                          {busy ? t("invite.sending") : t("invite.sponsored.confirm_and_pay")}
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          size="md"
+                          className={`${invitePrimaryButtonClassName} invite-primary-btn`}
+                          disabled={busy || !sponsoredCheckoutAgreed}
+                        >
+                          {busy
+                            ? t("invite.sending")
+                            : t("invite.sponsored.confirm_and_pay")}
                         </Button>
                       </div>
                     </div>
                   </div>
-                </div> : null}
+                </div>
+              ) : null}
             </div>
 
             <div className="relative mt-[0.7rem] mb-[0.85rem] flex justify-center">
-              {error ? <p className={inviteErrorNoticeClassName} role="alert">
+              {error ? (
+                <p className={inviteErrorNoticeClassName} role="alert">
                   {error}
-                </p> : null}
-              {message ? <p className={inviteSuccessNoticeClassName} role="status">
+                </p>
+              ) : null}
+              {message ? (
+                <p className={inviteSuccessNoticeClassName} role="status">
                   {message}
-                </p> : null}
-              {!sponsoredSelected ? <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy}>
+                </p>
+              ) : null}
+              {!sponsoredSelected ? (
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                  className={`${invitePrimaryButtonClassName} invite-primary-btn`}
+                  disabled={busy}
+                >
                   {busy ? t("invite.sending") : sendLabel}
-                </Button> : null}
+                </Button>
+              ) : null}
             </div>
-          </form>}
+          </form>
+        )}
 
         <Panel
           variant="secondary"
@@ -492,7 +616,14 @@ export default function InviteModal() {
             <span className="text-[1.18rem] font-[650] tracking-[0.03em] max-[768px]:text-[1.24rem] max-[768px]:tracking-[0.034em]">
               {t("invite.list")}
             </span>
-            <Button type="button" variant="primary" size="sm" className={`${inviteRefreshButtonClassName} invite-refresh-btn`} onClick={loadInvites} disabled={loadingList}>
+            <Button
+              type="button"
+              variant="primary"
+              size="sm"
+              className={`${inviteRefreshButtonClassName} invite-refresh-btn`}
+              onClick={loadInvites}
+              disabled={loadingList}
+            >
               {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>
@@ -508,29 +639,48 @@ export default function InviteModal() {
                 <span>{t("invite.table.status")}</span>
                 <span></span>
               </div>
-              {invites.map(inv => (
-                <div className="invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:border max-[768px]:border-[rgba(248,253,255,0.1)] max-[768px]:bg-[rgba(10,14,22,0.4)] max-[768px]:p-[0.78rem] [.theme-night_&]:max-[768px]:border-[rgba(166,190,230,0.1)] [.theme-night_&]:max-[768px]:bg-[rgba(10,16,26,0.44)] [.theme-light_&]:max-[768px]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:max-[768px]:bg-[rgba(255,255,255,0.38)]" key={inv.id}>
+              {invites.map((inv) => (
+                <div
+                  className="invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:border max-[768px]:border-[rgba(248,253,255,0.1)] max-[768px]:bg-[rgba(10,14,22,0.4)] max-[768px]:p-[0.78rem] [.theme-night_&]:max-[768px]:border-[rgba(166,190,230,0.1)] [.theme-night_&]:max-[768px]:bg-[rgba(10,16,26,0.44)] [.theme-light_&]:max-[768px]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:max-[768px]:bg-[rgba(255,255,255,0.38)]"
+                  key={inv.id}
+                >
                   <div className="min-w-0">
-                    <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">{t("invite.table.email")}</span>
+                    <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">
+                      {t("invite.table.email")}
+                    </span>
                     <span className="break-words">{inv.inviteeEmail}</span>
                   </div>
                   <div>
-                    <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">{t("invite.table.payer")}</span>
+                    <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">
+                      {t("invite.table.payer")}
+                    </span>
                     <span>
-                    {inv.paymentMode === "SPONSORED_BY_HOST" ? t("invite.payer.host") : t("invite.payer.self")}
+                      {inv.paymentMode === "SPONSORED_BY_HOST"
+                        ? t("invite.payer.host")
+                        : t("invite.payer.self")}
                     </span>
                   </div>
                   <div>
-                    <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">{t("invite.table.status")}</span>
+                    <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">
+                      {t("invite.table.status")}
+                    </span>
                     <span>{formatStatus(inv)}</span>
                   </div>
                   <span className="flex items-center justify-end gap-[0.5rem] max-[768px]:justify-start max-[768px]:pt-[0.1rem]">
                     {inv.status === "SENT" ? (
                       <>
-                        <Button type="button" variant="primary" onClick={() => action(inv.id, "resend")}>
+                        <Button
+                          type="button"
+                          variant="primary"
+                          onClick={() => action(inv.id, "resend")}
+                        >
                           {t("invite.resend")}
                         </Button>
-                        <Button type="button" variant="primary" onClick={() => action(inv.id, "revoke")}>
+                        <Button
+                          type="button"
+                          variant="primary"
+                          onClick={() => action(inv.id, "revoke")}
+                        >
                           {t("buttons.cancel")}
                         </Button>
                       </>
@@ -542,5 +692,6 @@ export default function InviteModal() {
           )}
         </Panel>
       </div>
-    </Modal>;
+    </Modal>
+  );
 }

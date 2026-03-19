@@ -21,13 +21,13 @@ import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 
 const shellClassName =
-  "framework-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:justify-start max-[768px]:px-[0.25rem] max-[768px]:py-[0.5rem]";
+  "framework-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.14rem]";
 const panelClassName =
   `relative z-[21] w-full !max-w-[clamp(35rem,57vw,50rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-modal-shadow)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
-  `max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.92rem] ${glassPageMobileCardClassName}`;
+  `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.46rem,1.8vw,0.62rem)] max-[768px]:rounded-[1.2rem] max-[768px]:px-[0.46rem] max-[768px]:pb-[0.76rem] ${glassPageMobileCardClassName}`;
 const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
 const headerInnerClassName =
   "grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[0.75rem] px-[0.15rem] max-[768px]:max-w-none max-[768px]:px-0";
@@ -41,15 +41,15 @@ const leadClassName =
 const bodyClassName =
   "mx-auto grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-0 max-[768px]:pb-[0.92rem]";
 const surfaceClassName =
-  "rounded-[1.15rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+  "rounded-[1.15rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] text-[color:var(--pt-120)] shadow-[var(--framework-panel-shadow,var(--chat-invite-shadow,var(--input-shadow)))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
 const introCardClassName =
-  `${surfaceClassName} grid gap-[0.9rem] px-[1.25rem] py-[1.15rem] max-[768px]:gap-[0.75rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]`;
+  `${surfaceClassName} grid gap-[0.9rem] px-[1.25rem] py-[1.15rem] max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`;
 const sectionTitleClassName =
   "m-0 text-[1.14rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const introTextClassName =
   "m-0 text-[1.14rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
 const documentCardClassName =
-  `${surfaceClassName} mx-auto grid w-full max-w-[clamp(33rem,56vw,47rem)] gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:max-w-none max-[768px]:gap-[0.84rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]`;
+  `${surfaceClassName} mx-auto grid w-full max-w-[clamp(33rem,56vw,47rem)] gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:max-w-none max-[768px]:gap-[0.78rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`;
 const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.26rem] font-[680] leading-[1.3] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
@@ -78,7 +78,7 @@ const actionButtonClassName =
 const frameworkCheckboxRowClassName =
   "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
   "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:#7A3A38] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-  "[--otp-check-box-size:1.45rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:100%] [--otp-check-box-offset:0.08rem]";
+  "[--otp-check-box-size:1.45rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:100%] [--otp-check-text-max-width-mobile:100%] [--otp-check-box-offset:0.08rem]";
 
 function FrameworkBlocks({ blocks = [] }) {
   return (
@@ -392,7 +392,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
                 {t("auth.register.worker_framework_download_signed")}
               </Button>
             </div>
-            <div className={`${surfaceClassName} grid gap-[0.85rem] px-[1rem] py-[0.95rem]`}>
+            <div className={`${surfaceClassName} grid gap-[0.85rem] px-[1rem] py-[0.95rem] max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`}>
               {frameworkStatus.loading ? (
                 <p className={introTextClassName}>{t("documents.loading")}</p>
               ) : null}

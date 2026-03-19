@@ -97,6 +97,10 @@
   --panel-secondary-shadow: none;
 }
 
+:root:not(.theme-light):not(.theme-mid):not(.theme-night) .framework-page-shell {
+  --framework-panel-shadow: none;
+}
+
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
   .materials-page-shell
   :is(.materials-upload-choose-button, .materials-upload-submit-button) {

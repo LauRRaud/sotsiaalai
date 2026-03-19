@@ -69,14 +69,11 @@
   --btn-primary-border-hover: 1px solid transparent;
   --btn-primary-border-active: 1px solid transparent;
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 5px 12px rgba(20, 12, 10, 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 5px 12px rgba(20, 12, 10, 0.14);
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 7px 14px rgba(20, 12, 10, 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 7px 14px rgba(20, 12, 10, 0.14);
   --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 4px 10px rgba(20, 12, 10, 0.13);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 10px rgba(20, 12, 10, 0.13);
   --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
   --btn-primary-shadow-focus:
     0 8px 16px rgba(20, 12, 10, 0.16),
@@ -113,16 +110,13 @@
 :root.theme-mid body.homepage {
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
   --home-card-glow-idle:
-    0 0 10px rgba(255, 244, 240, 0.1),
-    0 0 22px rgba(255, 244, 240, 0.06);
+    0 0 10px rgba(255, 244, 240, 0.1), 0 0 22px rgba(255, 244, 240, 0.06);
   --home-card-glow-active:
-    0 0 14px rgba(255, 244, 240, 0.16),
-    0 0 28px rgba(255, 244, 240, 0.09);
+    0 0 14px rgba(255, 244, 240, 0.16), 0 0 28px rgba(255, 244, 240, 0.09);
   --home-about-surface-bg: var(--glass-surface-bg, rgba(253, 250, 249, 0.5));
   --home-about-surface-mobile-bg: rgba(252, 248, 247, 0.74);
   --home-about-surface-shadow:
-    0 12px 22px rgba(20, 12, 10, 0.16),
-    0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 12px 22px rgba(20, 12, 10, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.28),
     0 0 16px rgba(255, 244, 240, 0.12);
   --home-before-surface-bg: var(
     --glass-ring-surface-bg,
@@ -130,16 +124,13 @@
   );
   --home-before-surface-mobile-bg: rgba(252, 248, 247, 0.8);
   --home-before-surface-shadow:
-    0 10px 20px rgba(20, 12, 10, 0.14),
-    0 0 0 1px rgba(255, 255, 255, 0.24),
+    0 10px 20px rgba(20, 12, 10, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.24),
     0 0 14px rgba(255, 244, 240, 0.1);
   --home-panel-shadow:
-    0 12px 22px rgba(20, 12, 10, 0.16),
-    0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 12px 22px rgba(20, 12, 10, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.28),
     0 0 16px rgba(255, 244, 240, 0.12);
   --home-before-shadow:
-    0 10px 20px rgba(20, 12, 10, 0.14),
-    0 0 0 1px rgba(255, 255, 255, 0.24),
+    0 10px 20px rgba(20, 12, 10, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.24),
     0 0 14px rgba(255, 244, 240, 0.1);
 }
 
@@ -193,7 +184,10 @@
 
 /* OTP step in mid: keep shell, input and controls on same glass material. */
 :root.theme-mid .login-modal-box.login-modal--otp .login-modal-shell {
-  background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(252, 248, 247, 0.58))) !important;
+  background: var(
+    --glass-modal-bg,
+    var(--glass-surface-bg, rgba(252, 248, 247, 0.58))
+  ) !important;
   color: var(--glass-modal-text, var(--glass-surface-text, #2c3340)) !important;
   border: var(--glass-modal-border, none) !important;
   box-shadow: var(--glass-modal-shadow, none) !important;
@@ -220,7 +214,10 @@
   border-color: rgba(255, 255, 255, 0.48) !important;
 }
 
-:root.theme-mid .login-modal-box.login-modal--otp .login-otp-remember.fancy-checkbox--otp .box {
+:root.theme-mid
+  .login-modal-box.login-modal--otp
+  .login-otp-remember.fancy-checkbox--otp
+  .box {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
@@ -251,7 +248,10 @@
 :root.theme-mid .chat-inputbar,
 :root.theme-mid .chat-inputbar .chat-listen-btn,
 :root.theme-mid .chat-inputbar .chat-send-btn {
-  --chat-action-size: var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)));
+  --chat-action-size: var(
+    --chat-composer-main-control-size,
+    calc(3.2 * var(--base-rem))
+  );
   color: #2f3a4a;
   background: rgba(252, 248, 247, 0.44);
   border: 0;
@@ -345,8 +345,12 @@
   color: rgba(63, 36, 31, 0.52) !important;
 }
 
-:root.theme-mid .chat-tools-menu .chat-tools-item.chat-tools-item-disabled:hover,
-:root.theme-mid .chat-tools-menu .chat-tools-item.chat-tools-item-disabled:focus-visible {
+:root.theme-mid
+  .chat-tools-menu
+  .chat-tools-item.chat-tools-item-disabled:hover,
+:root.theme-mid
+  .chat-tools-menu
+  .chat-tools-item.chat-tools-item-disabled:focus-visible {
   background: transparent !important;
 }
 
@@ -411,7 +415,11 @@
 
 :root.theme-mid
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::before {
+  :is(
+    .profile-orbit-menu__item,
+    .profile-orbit-menu__center,
+    .profile-orbit-stack-bubble
+  ).dock-item::before {
   content: none !important;
 }
 
@@ -436,49 +444,6 @@
   border-color: rgba(255, 255, 255, 0.44) !important;
   background: rgba(252, 248, 247, 0.56) !important;
   color: #2f3a4a !important;
-}
-
-/* Invite modal primary actions in mid: keep same material, less white. */
-:root.theme-light.theme-mid .invite-modal-content .invite-primary-btn {
-  background: rgba(252, 248, 247, 0.56) !important;
-  border: 1px solid rgba(255, 255, 255, 0.52) !important;
-  color: #2f3a4a !important;
-  box-shadow: 0 5px 12px rgba(20, 12, 10, 0.15) !important;
-}
-
-:root.theme-light.theme-mid .invite-modal-content .invite-primary-btn:hover,
-:root.theme-light.theme-mid .invite-modal-content .invite-primary-btn:focus-visible {
-  background: rgba(253, 250, 249, 0.62) !important;
-  border: 1px solid rgba(255, 255, 255, 0.62) !important;
-  color: #2f3a4a !important;
-  box-shadow: 0 7px 14px rgba(20, 12, 10, 0.17) !important;
-}
-
-:root.theme-light.theme-mid .invite-modal-content .invite-refresh-btn {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(250, 242, 240, 0.54) 0%,
-      rgba(243, 231, 228, 0.44) 100%
-    ),
-    rgba(244, 233, 230, 0.42) !important;
-  border: 1px solid rgba(255, 255, 255, 0.48) !important;
-  color: #3a4658 !important;
-  box-shadow: 0 4px 10px rgba(20, 12, 10, 0.13) !important;
-}
-
-:root.theme-light.theme-mid .invite-modal-content .invite-refresh-btn:hover,
-:root.theme-light.theme-mid .invite-modal-content .invite-refresh-btn:focus-visible {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(251, 244, 242, 0.6) 0%,
-      rgba(245, 234, 231, 0.5) 100%
-    ),
-    rgba(246, 236, 233, 0.46) !important;
-  border: 1px solid rgba(255, 255, 255, 0.56) !important;
-  color: #2f3a4a !important;
-  box-shadow: 0 6px 12px rgba(20, 12, 10, 0.16) !important;
 }
 
 /* Conversation drawer trash button: avoid bright white chip in mid mode. */
