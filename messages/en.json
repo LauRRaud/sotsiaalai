@@ -1450,8 +1450,8 @@
     "sponsored_info": "If your access comes through a sponsored invite, you do not need to pay separately for that period. Sponsored access is valid for one month, and after that you can activate your own subscription to continue.",
     "checkout": {
       "title": "Before payment",
-      "agreement": "<terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>. I understand that I am joining a monthly subscription and confirm that I want to start payment through Maksekeskus.",
-      "details": "Choose the payment method shown in the Maksekeskus checkout. Access is activated after provider confirmation. If you need to cancel or request a refund before using the service, write to info@sotsiaal.ai; after activation, refunds are handled according to the law and provider rules.",
+      "agreement": "I agree to the <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>. I understand that I am joining a monthly subscription and want to start payment through Maksekeskus.",
+      "details": "You choose the payment method on the Maksekeskus checkout page. Access is activated after payment confirmation. If you want to cancel or request a refund before using the service, write to info@sotsiaal.ai.",
       "error_required": "Please check the consent box before continuing to payment."
     }
   },
@@ -1639,6 +1639,11 @@
       "payment_success": "Payment succeeded. The invite will be sent once the payment is confirmed.",
       "payment_canceled": "Payment was canceled. The invite was not sent.",
       "payment_failed": "Payment failed. Please try again.",
+      "checkout": {
+        "title": "Before starting the sponsored payment",
+        "agreement": "I agree to the <terms>terms of use</terms> and <privacy>privacy terms</privacy>. I understand that I am buying one month of sponsored access for the invited person and want to start payment through Maksekeskus.",
+        "details": "You choose the payment method on the Maksekeskus checkout page. The sponsored month is one-time and does not renew automatically."
+      },
       "role": {
         "worker": "Social work specialist subscription",
         "client": "Person seeking help subscription"

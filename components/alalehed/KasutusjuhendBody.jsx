@@ -83,7 +83,7 @@ export default function KasutusjuhendBody() {
     let node = e.target;
     let anchor = null;
     while (node && node !== e.currentTarget) {
-      if (node.matches && node.matches("a[data-contact-open]")) {
+      if (node.matches && node.matches("a[data-contact-open], button[data-contact-open]")) {
         anchor = node;
         break;
       }

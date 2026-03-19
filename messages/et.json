@@ -1450,8 +1450,8 @@
     "sponsored_info": "Kui sinu ligipääs tuleb sponsoreeritud kutse kaudu, ei pea sa selle perioodi eest eraldi maksma. Sponsoreeritud ligipääs kehtib ühe kuu ning pärast selle lõppu saad kasutamise jätkamiseks aktiveerida oma tellimuse.",
     "checkout": {
       "title": "Enne maksmist",
-      "agreement": "<terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et liitun kuutasulise teenusega ning kinnitan, et soovin makse algatada Maksekeskuse kaudu.",
-      "details": "Vali makseviis Maksekeskuse makselehel. Ligipääs aktiveerub pärast makseteenuse kinnitust. Kui soovid makse tühistada või küsida tagastust enne kasutamist, kirjuta info@sotsiaal.ai; pärast teenuse aktiveerimist kehtivad tagastused seaduse ja makseteenuse reeglite järgi.",
+      "agreement": "Nõustun <terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et liitun kuutasulise teenusega ja soovin makse algatada Maksekeskuse kaudu.",
+      "details": "Makseviisi valid Maksekeskuse makselehel. Ligipääs aktiveerub pärast makseteenuse kinnitust. Kui soovid enne kasutamist makse tühistada või küsida tagastust, kirjuta info@sotsiaal.ai.",
       "error_required": "Enne maksmist peab linnuke olema nõusolekul märgitud."
     }
   },
@@ -1639,6 +1639,11 @@
       "payment_success": "Makse õnnestus. Kutse saadetakse välja pärast makse kinnitust.",
       "payment_canceled": "Makse katkestati. Kutset ei saadetud välja.",
       "payment_failed": "Makse ebaõnnestus. Proovi uuesti.",
+      "checkout": {
+        "title": "Enne sponsormakse algatamist",
+        "agreement": "Nõustun <terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et ostan kutsutule ühe kuu sponsoreeritud ligipääsu ja soovin makse algatada Maksekeskuse kaudu.",
+        "details": "Makseviisi valid Maksekeskuse makselehel. Sponsoreeritud kuu on ühekordne ega uuene automaatselt."
+      },
       "role": {
         "worker": "Sotsiaaltöö spetsialist",
         "client": "Eluküsimusega pöörduja"

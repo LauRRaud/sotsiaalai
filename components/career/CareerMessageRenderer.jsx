@@ -207,6 +207,88 @@ function renderDocumentStep(documentStep, uiText) {
   return <BulletList items={rows} />;
 }
 
+function renderGeneratedDocument(generatedDocument, uiText) {
+  if (!generatedDocument || typeof generatedDocument !== "object") return null;
+
+  const document = generatedDocument.document;
+  if (!document || typeof document !== "object") return null;
+  const persistedArtifact =
+    generatedDocument.persistedArtifact &&
+    typeof generatedDocument.persistedArtifact === "object"
+      ? generatedDocument.persistedArtifact
+      : null;
+  const isDownloadReady = Boolean(
+    persistedArtifact?.canDownload && persistedArtifact?.downloadUrl
+  );
+
+  const title = hasText(document.title) ? document.title : null;
+  const documentType = hasText(document.documentType) ? document.documentType : null;
+  const subject = hasText(document.subject) ? document.subject : null;
+  const body = hasText(document.body) ? document.body : null;
+  const excerpt =
+    body && body.length > 1200 ? `${body.slice(0, 1200).trim()}\n\n...` : body;
+
+  if (!title && !documentType && !excerpt) return null;
+
+  return (
+    <article className="mt-[0.7rem] rounded-[1rem] border border-[rgba(240,240,240,0.18)] bg-[rgba(14,20,32,0.26)] px-[0.95rem] py-[0.85rem] light:border-[rgba(15,23,42,0.12)] light:bg-[rgba(255,255,255,0.82)]">
+      {title ? (
+        <div className="text-[0.98rem] font-semibold leading-[1.35]">{title}</div>
+      ) : null}
+      {documentType ? (
+        <div className="mt-[0.12rem] text-[0.82rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)]">
+          {documentType}
+        </div>
+      ) : null}
+      {subject ? (
+        <div className="mt-[0.35rem] text-[0.92rem] font-medium leading-[1.45]">
+          {uiText.document.subject}: {subject}
+        </div>
+      ) : null}
+      {excerpt ? (
+        <div className="mt-[0.45rem] whitespace-pre-wrap text-[0.94rem] leading-[1.5]">
+          {excerpt}
+        </div>
+      ) : null}
+      {persistedArtifact?.openUrl ? (
+        <div className="mt-[0.65rem] flex flex-wrap items-center gap-[0.5rem]">
+          <div className="grid gap-[0.18rem] text-[0.86rem] opacity-80">
+            <div>
+              {isDownloadReady
+                ? uiText.document.finalReady
+                : uiText.document.draftReady}
+            </div>
+            <div>
+              {persistedArtifact.destination === "documents"
+                ? uiText.document.savedToDocuments
+                : uiText.document.savedToBuilder}
+            </div>
+            {!isDownloadReady ? (
+              <div>{uiText.document.reviewAndConfirm}</div>
+            ) : null}
+          </div>
+          <a
+            href={persistedArtifact.openUrl}
+            className="inline-flex items-center justify-center rounded-full border border-[rgba(240,240,240,0.35)] bg-[rgba(14,20,32,0.3)] px-[0.72rem] py-[0.34rem] text-[0.88rem] font-medium leading-[1.2] text-[color:var(--pt-150)] no-underline transition-colors duration-150 hover:bg-[rgba(14,20,32,0.42)] focus-visible:bg-[rgba(14,20,32,0.42)] light:border-[rgba(15,23,42,0.16)] light:bg-[rgba(255,255,255,0.8)] light:text-[color:var(--input-text)]"
+          >
+            {persistedArtifact.destination === "documents"
+              ? uiText.document.openDocuments
+              : uiText.document.openBuilder}
+          </a>
+          {isDownloadReady ? (
+            <a
+              href={persistedArtifact.downloadUrl}
+              className="inline-flex items-center justify-center rounded-full border border-[rgba(240,240,240,0.35)] bg-[rgba(14,20,32,0.18)] px-[0.72rem] py-[0.34rem] text-[0.88rem] font-medium leading-[1.2] text-[color:var(--pt-150)] no-underline transition-colors duration-150 hover:bg-[rgba(14,20,32,0.3)] focus-visible:bg-[rgba(14,20,32,0.3)] light:border-[rgba(15,23,42,0.16)] light:bg-[rgba(255,255,255,0.72)] light:text-[color:var(--input-text)]"
+            >
+              {uiText.document.download}
+            </a>
+          ) : null}
+        </div>
+      ) : null}
+    </article>
+  );
+}
+
 function renderBody(response, onQuestionAnswer, uiText) {
   switch (response?.kind) {
     case CAREER_RESPONSE_KINDS.QUESTION_SET:
@@ -277,6 +359,8 @@ function renderBody(response, onQuestionAnswer, uiText) {
 function CareerResponseCard({
   response,
   label = null,
+  documentStep = null,
+  generatedDocument = null,
   onQuestionAnswer = null,
   uiText,
 }) {
@@ -292,6 +376,8 @@ function CareerResponseCard({
       <SectionTitle>{response.title}</SectionTitle>
       <SectionMessage>{response.message}</SectionMessage>
       {renderBody(response, onQuestionAnswer, uiText)}
+      {!response.documentStep && documentStep ? renderDocumentStep(documentStep, uiText) : null}
+      {generatedDocument ? renderGeneratedDocument(generatedDocument, uiText) : null}
     </section>
   );
 }
@@ -299,18 +385,24 @@ function CareerResponseCard({
 export default function CareerMessageRenderer({
   response = null,
   secondaryResponse = null,
+  documentStep = null,
+  generatedDocument = null,
   onQuestionAnswer = null,
 }) {
   const { locale } = useI18n();
   const uiText = useMemo(() => getCareerUiText(locale), [locale]);
 
-  if (!response && !secondaryResponse) return null;
+  if (!response && !secondaryResponse && !documentStep && !generatedDocument) {
+    return null;
+  }
 
   return (
     <div className="mt-[0.55rem] grid gap-[0.65rem]">
-      {response ? (
+      {response || documentStep || generatedDocument ? (
         <CareerResponseCard
-          response={response}
+          response={response || {}}
+          documentStep={documentStep}
+          generatedDocument={generatedDocument}
           onQuestionAnswer={onQuestionAnswer}
           uiText={uiText}
         />

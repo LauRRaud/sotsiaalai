@@ -1219,6 +1219,8 @@ export default function ChatBody({
         aiVisible: true,
         careerResponse: result.response || null,
         careerSecondaryResponse: result.secondaryResponse || null,
+        careerDocumentStep: result.documentStep || null,
+        careerGeneratedDocument: result.generatedDocument || null,
         workflow: {
           career: {
             state: result.currentState || null,
@@ -1324,7 +1326,7 @@ export default function ChatBody({
     });
   }, [activeWorkflow, careerCurrentState, careerLastResult, careerProfile, careerRuntime, runCareerTurn, sendMessage]);
   const messageItems = useMemo(() => {
-    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} careerResponse={msg.careerResponse} careerSecondaryResponse={msg.careerSecondaryResponse} onCareerQuestionAnswer={handleCareerQuestionAnswer} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
+    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} careerResponse={msg.careerResponse} careerSecondaryResponse={msg.careerSecondaryResponse} careerDocumentStep={msg.careerDocumentStep} careerGeneratedDocument={msg.careerGeneratedDocument} onCareerQuestionAnswer={handleCareerQuestionAnswer} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
   }, [handleCareerQuestionAnswer, isRoomMode, renderedMessages, t]);
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {

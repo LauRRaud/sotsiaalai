@@ -9,6 +9,7 @@ import LoginModal from "@/components/LoginModal";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
+import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import { glassPageBackTopLeftClassName, glassPageCloseClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
@@ -29,38 +30,49 @@ const titleClassName =
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const subscriptionCardClassName =
-  `subscription-modal-content relative z-[21] flex w-full max-w-[clamp(30rem,54vw,38rem)] max-h-[calc(100dvh-2rem)] flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
+  `subscription-modal-content relative z-[21] flex w-full max-w-[clamp(33rem,60vw,46rem)] max-h-[calc(100dvh-2rem)] flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
   `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text)] shadow-[var(--glass-modal-shadow)] ` +
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[1.45rem] pt-[0.35rem] pb-[1.25rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[1rem] max-[768px]:pb-[1rem] ${glassPageMobileCardClassName}`;
 const contentClassName =
-  "subscription-content mt-0 flex w-full max-w-[clamp(18.5rem,42vw,28rem)] max-[768px]:max-w-none flex-col gap-[clamp(0.6rem,1.4vh,0.95rem)] text-center max-[768px]:text-left";
+  "subscription-content mx-auto mt-[1.2rem] flex w-full max-w-[clamp(27rem,54vw,37rem)] max-[768px]:mt-[1rem] max-[768px]:max-w-none flex-col gap-[1.05rem]";
 const subscriptionCopyClassName =
-  "subscription-copy-text text-center max-[768px]:text-left text-[0.98rem] leading-[1.45] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:text-[1.08rem]";
+  "subscription-copy-text text-center text-[1rem] leading-[1.52] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:text-[1.08rem]";
 const subscriptionInfoTextClassName =
-  "subscription-info-text text-left text-[clamp(1.06rem,1.45vw,1.18rem)] max-[768px]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
-  "tracking-[0.013em] max-[768px]:tracking-[0.018em] leading-[1.68] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] [&_p]:m-0 [&_p:last-child]:mb-0";
+  "subscription-info-text text-left text-[1.02rem] max-[768px]:text-[1.06rem] " +
+  "tracking-[0.006em] leading-[1.56] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] [&_p]:m-0 [&_p:last-child]:mb-0";
 const subscriptionSupplementTextClassName = `${subscriptionInfoTextClassName} m-0`;
-const subscriptionInfoPanelClassName =
-  "mx-auto w-full max-w-[min(28rem,100%)] rounded-[1.15rem] border-0 bg-[rgba(30,32,38,0.3)] px-[1rem] pt-[0.72rem] pb-[0.42rem] " +
-  "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
-  "[.theme-night_&]:bg-[rgba(16,22,34,0.3)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)] [.theme-light_&]:text-[#1f2937] " +
-  "max-[768px]:max-w-[min(27rem,100%)] max-[768px]:px-[0.92rem] max-[768px]:pt-[0.68rem] max-[768px]:pb-[0.42rem]";
+const subscriptionUnifiedPanelClassName =
+  "mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem] " +
+  "text-[color:var(--pt-120)] max-[768px]:max-w-[min(31rem,100%)] max-[768px]:px-0 max-[768px]:py-0";
+const subscriptionPlanChipClassName =
+  "inline-flex items-center justify-center rounded-full border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.06)] px-[0.74rem] py-[0.24rem] text-[0.87rem] font-[650] tracking-[0.04em] text-[color:var(--glass-modal-text)] [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.6)] [.theme-light_&]:text-[#7a3a38]";
+const subscriptionCardBodyClassName =
+  "grid gap-[0.88rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";
+const subscriptionSectionTitleClassName =
+  "m-0 text-left text-[1.1rem] font-[650] tracking-[0.008em] leading-[1.36] text-[color:var(--glass-modal-text)] max-[768px]:text-[1.08rem]";
+const subscriptionDividerClassName =
+  "my-[0.2rem] h-px w-full bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.16)_12%,rgba(255,255,255,0.16)_88%,rgba(255,255,255,0)_100%)] [.theme-light_&]:bg-[linear-gradient(90deg,rgba(122,58,56,0)_0%,rgba(122,58,56,0.12)_12%,rgba(122,58,56,0.12)_88%,rgba(122,58,56,0)_100%)]";
+const subscriptionConsentTextClassName =
+  "text-left text-[1rem] leading-[1.58] tracking-[0.004em] text-[color:var(--pt-130)] light:text-[color:var(--input-text)]";
+const subscriptionCheckboxRowClassName =
+  "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
+  "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:#7A3A38] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+  "[--otp-check-box-size:1.42rem] [--otp-check-font-size:1.01rem] [--otp-check-line-height:1.54] [--otp-check-text-max-width:100%] [--otp-check-box-offset:0.14rem]";
+const subscriptionCheckoutFooterClassName = "mt-[0.3rem] flex justify-center";
 const subscriptionActionClassName =
-  "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
+  "min-w-[10.2rem] whitespace-nowrap px-[1.45rem] py-[0.82rem] text-[1.12rem] leading-[1.2] " +
   "max-[768px]:w-full max-[768px]:min-w-0 max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";
 const subscriptionStatusClassName =
-  "subscription-status-text m-0 text-center max-[768px]:text-left text-[clamp(1.08rem,1.55vw,1.24rem)] leading-[1.36] font-[500]";
+  "subscription-status-text m-0 text-left text-[1rem] leading-[1.5] font-[500]";
 const subscriptionActivePanelClassName =
-  "subscription-active-panel mx-auto w-full max-w-[min(30rem,100%)] rounded-[1.1rem] border border-[rgba(125,211,252,0.22)] " +
-  "bg-[linear-gradient(170deg,rgba(16,30,56,0.7),rgba(6,12,26,0.56))] " +
-  "px-[1.05rem] py-[0.95rem] shadow-[0_10px_30px_rgba(7,15,35,0.35)]";
+  "subscription-active-panel mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem]";
 const subscriptionActiveSummaryClassName =
-  "subscription-active-summary text-center max-[768px]:text-left text-[clamp(1.08rem,1.48vw,1.2rem)] leading-[1.42] font-[600] text-[color:#d7f8ea]";
+  "subscription-active-summary text-left text-[1.02rem] leading-[1.56] font-[600] tracking-[0.006em] text-[color:var(--glass-modal-text)]";
 const subscriptionActiveNoteClassName =
-  "subscription-active-note mt-[0.52rem] text-center max-[768px]:text-left text-[clamp(0.96rem,1.2vw,1.06rem)] leading-[1.4] opacity-85";
-const subscriptionInfoBlockClassName = "grid gap-[0.18rem]";
-const subscriptionStatusStackClassName = "grid gap-[0.2rem] -mt-[0.15rem]";
+  "subscription-active-note mt-[0.52rem] text-left text-[1.02rem] leading-[1.56] tracking-[0.006em] text-[color:var(--pt-120)]";
+const subscriptionInfoBlockClassName = "grid gap-[0.7rem]";
+const subscriptionStatusStackClassName = "grid gap-[0.2rem] pt-[0.1rem]";
 const authModalBackdropClassName =
   "fixed inset-0 z-[94] bg-[rgba(6,10,18,0.74)] backdrop-blur-[2px] pointer-events-auto";
 export default function TellimusBody() {
@@ -272,7 +284,7 @@ export default function TellimusBody() {
     const reasonText = isVerifiedEntry
       ? t(
           "subscription.login_after_email_verify",
-          "E-post on kinnitatud. Logi sisse, et jatkata tellimuse aktiveerimisega."
+          "E-post on kinnitatud. Logi sisse, et jätkata tellimuse aktiveerimisega."
         )
       : t("profile.login_to_manage_sub");
     return <section lang={locale} className={pageShellClassName}>
@@ -321,83 +333,89 @@ export default function TellimusBody() {
         <div className={contentClassName}>
           {subActive ? <>
               <div className={subscriptionActivePanelClassName} id="cancel-note">
-                <p className={subscriptionActiveSummaryClassName}>
-                  {subscriptionActiveSummary}
-                </p>
-                <p className={subscriptionActiveNoteClassName}>
-                  {sponsoredEndsSoon
-                    ? t("subscription.active.sponsored_ending_soon", {
-                        days: sponsorDaysLeft,
-                        date: sponsorValidUntil
-                      })
-                    : subscriptionMeta?.isSponsored
-                      ? t("subscription.active.sponsored_note", {
+                <div className={subscriptionCardBodyClassName}>
+                  <div className="flex flex-wrap items-center justify-center gap-[0.45rem]">
+                    <span className={subscriptionPlanChipClassName}>{planRoleLabel}</span>
+                    {monthlyAmountLabel ? <span className={subscriptionPlanChipClassName}>{monthlyAmountLabel}</span> : null}
+                  </div>
+                  <p className={subscriptionActiveSummaryClassName}>
+                    {subscriptionActiveSummary}
+                  </p>
+                  <p className={subscriptionActiveNoteClassName}>
+                    {sponsoredEndsSoon
+                      ? t("subscription.active.sponsored_ending_soon", {
+                          days: sponsorDaysLeft,
                           date: sponsorValidUntil
                         })
-                      : t("subscription.active.cancel_note")}
-                </p>
-              </div>
-              <div className="mt-[clamp(1rem,2.5vh,1.6rem)] flex justify-center max-[768px]:w-full">
-                <Button type="button" variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note" onClick={() => pushWithTransition(router, localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale), {
+                      : subscriptionMeta?.isSponsored
+                        ? t("subscription.active.sponsored_note", {
+                            date: sponsorValidUntil
+                          })
+                        : t("subscription.active.cancel_note")}
+                  </p>
+                </div>
+                <div className={subscriptionCheckoutFooterClassName}>
+                  <Button type="button" variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note" onClick={() => pushWithTransition(router, localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale), {
                 glassRingTilt: "left",
                 waitForGlassRingTilt: true,
                 persistGlassRingTilt: false
-              })}>
-                  {t("subscription.button.open_profile")}
-                </Button>
-              </div>
-            </> : <>
-              <div className={subscriptionInfoPanelClassName}>
-                <div id="billing-info" className={subscriptionInfoBlockClassName}>
-                  <RichText as="div" className={subscriptionInfoTextClassName} value={subscriptionInfoText} replacements={emailReplacement} />
-                  <p className={subscriptionSupplementTextClassName}>
-                    {sponsoredInfoText}
-                  </p>
-                  {hasStatusNotice ? (
-                    <div className={subscriptionStatusStackClassName}>
-                      {sponsoredExpired ? <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#fde68a]")}>
-                          {t("subscription.active.sponsored_expired")}
-                        </p> : null}
-                      {info && <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#a7f3d0]")}>
-                          {info}
-                        </p>}
-                      {visibleError && <p role="alert" aria-live="assertive" className={cn(subscriptionStatusClassName, "text-[color:var(--subscription-error-color,#fca5a5)]")}>
-                          {visibleError}
-                        </p>}
-                    </div>
-                  ) : null}
+                  })}>
+                    {t("subscription.button.open_profile")}
+                  </Button>
                 </div>
               </div>
-              <div
-                id="checkout-consent"
-                className="mx-auto w-full max-w-[min(30rem,100%)] rounded-[1rem] border border-[rgba(255,255,255,0.12)] bg-[rgba(12,16,26,0.22)] px-[1rem] py-[0.9rem] text-left shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:bg-[rgba(255,255,255,0.38)]"
-              >
-                <p className="m-0 mb-[0.5rem] text-[1rem] font-[650] tracking-[0.02em] text-[color:var(--pt-120)] light:text-[#1f2937]">
-                  {t("subscription.checkout.title")}
-                </p>
-                <label className="flex cursor-pointer items-start gap-[0.7rem] text-[0.98rem] leading-[1.45] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]">
-                  <input
-                    type="checkbox"
-                    checked={checkoutAgreed}
-                    onChange={(event) => setCheckoutAgreed(event.target.checked)}
-                    disabled={processing}
-                    className="mt-[0.2rem] h-[1.05rem] w-[1.05rem] rounded-[0.3rem] border-[rgba(148,163,184,0.4)] bg-transparent text-[color:var(--brand-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-primary)]"
-                  />
-                  <RichText
-                    as="span"
-                    value={t("subscription.checkout.agreement")}
-                    replacements={checkoutAgreementReplacements}
-                    className="block"
-                  />
-                </label>
-                <p className="mt-[0.5rem] m-0 text-[0.92rem] leading-[1.42] text-[color:var(--pt-130)] light:text-[color:#4b5563]">
-                  {t("subscription.checkout.details")}
-                </p>
-              </div>
-              <div className={cn("flex justify-center max-[768px]:w-full -translate-y-[0.3rem]", hasPaymentNotice ? "mt-[clamp(1rem,2.4vh,1.4rem)]" : "mt-[clamp(1.15rem,2.8vh,1.65rem)]")}>
-                <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing || !checkoutAgreed} aria-disabled={processing || !checkoutAgreed} aria-busy={processing} aria-describedby="billing-info checkout-consent" onClick={handleActivate}>
-                  {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
-                </Button>
+            </> : <>
+              <div id="checkout-consent" className={subscriptionUnifiedPanelClassName}>
+                <div className={subscriptionCardBodyClassName}>
+                  <div className="flex flex-wrap items-center justify-center gap-[0.45rem]">
+                    <span className={subscriptionPlanChipClassName}>{planRoleLabel}</span>
+                    {monthlyAmountLabel ? <span className={subscriptionPlanChipClassName}>{monthlyAmountLabel}</span> : null}
+                  </div>
+                  <div id="billing-info" className={subscriptionInfoBlockClassName}>
+                    <RichText as="div" className={subscriptionInfoTextClassName} value={subscriptionInfoText} replacements={emailReplacement} />
+                    <p className={subscriptionSupplementTextClassName}>
+                      {sponsoredInfoText}
+                    </p>
+                    {hasStatusNotice ? (
+                      <div className={subscriptionStatusStackClassName}>
+                        {sponsoredExpired ? <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#fde68a]")}>
+                            {t("subscription.active.sponsored_expired")}
+                          </p> : null}
+                        {info && <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#a7f3d0]")}>
+                            {info}
+                          </p>}
+                        {visibleError && <p role="alert" aria-live="assertive" className={cn(subscriptionStatusClassName, "text-[color:var(--subscription-error-color,#fca5a5)]")}>
+                            {visibleError}
+                          </p>}
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className={subscriptionDividerClassName} />
+                  <div className={subscriptionCardBodyClassName}>
+                    <p className={subscriptionSectionTitleClassName}>
+                      {t("subscription.checkout.title")}
+                    </p>
+                    <div className="flex">
+                      <FancyCheckbox
+                        id="subscription-consent"
+                        name="subscriptionConsent"
+                        checked={checkoutAgreed}
+                        disabled={processing}
+                        onChange={(next) => setCheckoutAgreed(next)}
+                        label={<RichText as="span" value={t("subscription.checkout.agreement")} replacements={checkoutAgreementReplacements} className="block" />}
+                        className={subscriptionCheckboxRowClassName}
+                      />
+                    </div>
+                    <p className={subscriptionConsentTextClassName}>
+                      {t("subscription.checkout.details")}
+                    </p>
+                    <div className={cn(subscriptionCheckoutFooterClassName, hasPaymentNotice ? "pt-[0.15rem]" : null)}>
+                      <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing || !checkoutAgreed} aria-disabled={processing || !checkoutAgreed} aria-busy={processing} aria-describedby="billing-info checkout-consent" onClick={handleActivate}>
+                        {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </>}
         </div>

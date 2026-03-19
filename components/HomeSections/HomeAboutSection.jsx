@@ -199,7 +199,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     let node = event.target;
     let anchor = null;
     while (node && node !== event.currentTarget) {
-      if (node.matches && node.matches("a[data-contact-open]")) {
+      if (node.matches && node.matches("a[data-contact-open], button[data-contact-open]")) {
         anchor = node;
         break;
       }
@@ -379,13 +379,14 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               ) : null}
             </ul>
             <p className="m-0">
-              <a
-                href="#"
+              <button
+                type="button"
                 data-contact-open="1"
+                onClick={() => setIsContactOpen(true)}
                 className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
               >
                 {t("about.contact.title")}
-              </a>
+              </button>
             </p>
           </div>
         </section>

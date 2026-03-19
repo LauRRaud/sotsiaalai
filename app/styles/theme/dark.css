@@ -31,15 +31,15 @@
   --btn-primary-hover-brightness: 1.04;
   --btn-primary-bg: radial-gradient(
       82% 66% at 50% -14%,
-      rgba(255, 255, 255, 0.125) 0%,
-      rgba(255, 255, 255, 0.052) 42%,
-      rgba(255, 255, 255, 0.017) 58%,
+      rgba(255, 255, 255, 0.118) 0%,
+      rgba(255, 255, 255, 0.048) 42%,
+      rgba(255, 255, 255, 0.015) 58%,
       rgba(255, 255, 255, 0) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(42, 46, 55, 0.92) 0%,
-      rgba(27, 31, 40, 0.94) 100%
+      rgba(40, 44, 53, 0.92) 0%,
+      rgba(25, 29, 37, 0.94) 100%
     );
   --btn-primary-bg-hover: radial-gradient(
       82% 66% at 50% -14%,

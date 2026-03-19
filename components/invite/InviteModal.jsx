@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
+import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
@@ -78,6 +79,24 @@ export default function InviteModal() {
     "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1rem] !px-[1.05rem] !py-[0.64rem] !text-[0.98rem] !leading-[1.2] max-[768px]:!min-h-[2.9rem] max-[768px]:!text-[1.04rem]";
   const inviteRoleCardClassName =
     "!w-full !min-h-[2.88rem] !justify-center !rounded-[0.98rem] !px-[1.2rem] !py-[0.66rem] !text-[1.04rem] !leading-[1.2] text-center max-[768px]:!text-[1.08rem]";
+  const inviteSponsoredPanelClassName =
+    "grid w-full max-w-[min(34rem,100%)] mx-auto gap-[0.8rem] rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.14))] " +
+    "bg-[rgba(10,14,22,0.48)] px-[0.95rem] py-[0.9rem] [.theme-night_&]:border-[rgba(166,190,230,0.12)] [.theme-night_&]:bg-[rgba(10,16,26,0.52)] " +
+    "[.theme-light_&]:bg-[rgba(255,255,255,0.22)]";
+  const inviteSponsoredCopyClassName =
+    "mx-auto max-w-[31rem] text-center text-[0.98rem] leading-[1.52] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";
+  const inviteSponsoredNoteClassName =
+    "mx-auto max-w-[31rem] text-center text-[0.93rem] leading-[1.46] text-[color:var(--pt-130)] light:text-[#4b5563]";
+  const inviteSponsoredCheckoutCardClassName =
+    "rounded-[0.95rem] border border-[rgba(248,253,255,0.1)] bg-[rgba(10,14,22,0.44)] px-[1rem] py-[0.88rem] text-center " +
+    "[.theme-night_&]:border-[rgba(166,190,230,0.1)] [.theme-night_&]:bg-[rgba(8,14,24,0.48)] " +
+    "[.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.22)]";
+  const inviteSponsoredCheckoutTitleClassName =
+    "m-0 text-center text-[1rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--pt-120))] light:text-[#1f2937]";
+  const inviteSponsoredCheckboxClassName =
+    "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-center " +
+    "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:#7A3A38] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+    "[--otp-check-box-size:1.38rem] [--otp-check-font-size:0.98rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:min(100%,28rem)] [--otp-check-box-offset:0.12rem]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -96,7 +115,7 @@ export default function InviteModal() {
     "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
-    "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(255,255,255,0.22)] [.theme-night_&]:bg-[rgba(16,22,34,0.34)] " +
+    "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(10,14,22,0.52)] [.theme-night_&]:border-[rgba(166,190,230,0.12)] [.theme-night_&]:bg-[rgba(10,16,26,0.54)] " +
     "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
     "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   const inviteCheckoutAgreementReplacements = useMemo(() => ({
@@ -413,7 +432,10 @@ export default function InviteModal() {
                 </span>
               </OptionCard>
 
-              {sponsoredSelected ? <Panel variant="secondary" padding="sm" className="grid w-fit max-w-full mx-auto gap-[0.5rem] rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.14))] bg-[rgba(255,255,255,0.18)] [.theme-night_&]:bg-[rgba(16,22,34,0.32)]">
+              {sponsoredSelected ? <Panel variant="secondary" padding="sm" className={inviteSponsoredPanelClassName}>
+                  <p className={inviteSponsoredCopyClassName}>
+                    {t("invite.sponsored.description")}
+                  </p>
                   <div className="grid gap-[0.45rem]">
                     {sponsoredRoleOptions.map(option => (
                       <OptionCard key={option.value} type="radio" name="targetRole" value={option.value} checked={targetRole === option.value} onChange={e => setTargetRole(e.target.value)} disabled={busy} className={inviteRoleCardClassName} fitTextLines={2}>
@@ -421,27 +443,26 @@ export default function InviteModal() {
                       </OptionCard>
                     ))}
                   </div>
-                  <div className="mt-[0.3rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.14)] px-[0.9rem] py-[0.72rem] text-left [.theme-night_&]:bg-[rgba(8,16,28,0.28)]">
-                    <p className="m-0 mb-[0.45rem] text-[0.96rem] font-[650] tracking-[0.02em] text-[color:var(--pt-120)] light:text-[#1f2937]">
-                      {t("subscription.checkout.title")}
+                  <p className={inviteSponsoredNoteClassName}>
+                    {t("invite.sponsored.one_month_note")}
+                  </p>
+                  <div className={inviteSponsoredCheckoutCardClassName}>
+                    <p className={inviteSponsoredCheckoutTitleClassName}>
+                      {t("invite.sponsored.checkout.title")}
                     </p>
-                    <label className="flex cursor-pointer items-start gap-[0.68rem] text-[0.95rem] leading-[1.42] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]">
-                      <input
-                        type="checkbox"
+                    <div className="mt-[0.5rem] flex justify-center">
+                      <FancyCheckbox
+                        id="invite-sponsored-consent"
+                        name="inviteSponsoredConsent"
                         checked={sponsoredCheckoutAgreed}
-                        onChange={(event) => setSponsoredCheckoutAgreed(event.target.checked)}
                         disabled={busy}
-                        className="mt-[0.2rem] h-[1.02rem] w-[1.02rem] rounded-[0.28rem] border-[rgba(148,163,184,0.4)] bg-transparent text-[color:var(--brand-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-primary)]"
+                        onChange={(next) => setSponsoredCheckoutAgreed(next)}
+                        label={<RichText as="span" value={t("invite.sponsored.checkout.agreement")} replacements={inviteCheckoutAgreementReplacements} className="block" />}
+                        className={inviteSponsoredCheckboxClassName}
                       />
-                      <RichText
-                        as="span"
-                        value={t("subscription.checkout.agreement")}
-                        replacements={inviteCheckoutAgreementReplacements}
-                        className="block"
-                      />
-                    </label>
-                    <p className="mt-[0.45rem] m-0 text-[0.9rem] leading-[1.4] text-[color:var(--pt-130)] light:text-[color:#4b5563]">
-                      {t("subscription.checkout.details")}
+                    </div>
+                    <p className="mt-[0.45rem] mb-0 text-center text-[0.92rem] leading-[1.44] text-[color:var(--pt-130)] light:text-[#4b5563]">
+                      {t("invite.sponsored.checkout.details")}
                     </p>
                   </div>
                 </Panel> : null}
@@ -490,7 +511,7 @@ export default function InviteModal() {
                 <span></span>
               </div>
               {invites.map(inv => (
-                <div className="invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:border max-[768px]:border-[rgba(248,253,255,0.12)] max-[768px]:bg-[rgba(255,255,255,0.08)] max-[768px]:p-[0.78rem] [.theme-light_&]:max-[768px]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:max-[768px]:bg-[rgba(255,255,255,0.38)]" key={inv.id}>
+                <div className="invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:border max-[768px]:border-[rgba(248,253,255,0.1)] max-[768px]:bg-[rgba(10,14,22,0.4)] max-[768px]:p-[0.78rem] [.theme-night_&]:max-[768px]:border-[rgba(166,190,230,0.1)] [.theme-night_&]:max-[768px]:bg-[rgba(10,16,26,0.44)] [.theme-light_&]:max-[768px]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:max-[768px]:bg-[rgba(255,255,255,0.38)]" key={inv.id}>
                   <div className="min-w-0">
                     <span className="hidden text-[0.82rem] uppercase tracking-[0.08em] opacity-65 max-[768px]:block">{t("invite.table.email")}</span>
                     <span className="break-words">{inv.inviteeEmail}</span>

@@ -10,6 +10,8 @@ const ChatMessageItem = memo(function ChatMessageItem({
   cards,
   careerResponse,
   careerSecondaryResponse,
+  careerDocumentStep,
+  careerGeneratedDocument,
   onCareerQuestionAnswer,
   aiVisible: _aiVisible,
   authorName,
@@ -56,7 +58,8 @@ const ChatMessageItem = memo(function ChatMessageItem({
     : [];
   const showAttachments = isAssistant && normalizedAttachments.length > 0;
   const showCareerResponse =
-    isAssistant && (careerResponse || careerSecondaryResponse);
+    isAssistant &&
+    (careerResponse || careerSecondaryResponse || careerDocumentStep || careerGeneratedDocument);
   const normalizedCards = Array.isArray(cards)
     ? cards
         .filter((item) => item && typeof item === "object")
@@ -105,6 +108,8 @@ const ChatMessageItem = memo(function ChatMessageItem({
         <CareerMessageRenderer
           response={careerResponse}
           secondaryResponse={careerSecondaryResponse}
+          documentStep={careerDocumentStep}
+          generatedDocument={careerGeneratedDocument}
           onQuestionAnswer={onCareerQuestionAnswer}
         />
       ) : null}
