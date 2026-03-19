@@ -72,6 +72,7 @@ export default function TellimusBody() {
   const [subscriptionMeta, setSubscriptionMeta] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [checkoutAgreed, setCheckoutAgreed] = useState(false);
   const {
     t,
     locale
@@ -97,6 +98,16 @@ export default function TellimusBody() {
     ? new Date(subscriptionMeta.validUntil).toLocaleDateString(locale === "ru" ? "ru-RU" : locale === "en" ? "en-GB" : "et-EE")
     : "";
   const hasStatusNotice = Boolean(sponsoredExpired || info || visibleError);
+  const checkoutAgreementReplacements = {
+    terms: {
+      open: `<a href="${localizePath("/kasutustingimused", locale)}" class="${linkClassName}">`,
+      close: "</a>"
+    },
+    privacy: {
+      open: `<a href="${localizePath("/privaatsustingimused", locale)}" class="${linkClassName}">`,
+      close: "</a>"
+    }
+  };
   const planRoleLabel =
     planRole === "SOCIAL_WORKER" ? t("role.worker") : t("role.client");
   const subscriptionInfoText = monthlyAmountLabel
@@ -193,6 +204,10 @@ export default function TellimusBody() {
     })();
   }, [isAuthed, status, t]);
   async function handleActivate() {
+    if (!checkoutAgreed) {
+      setError(t("subscription.checkout.error_required"));
+      return;
+    }
     try {
       setProcessing(true);
       setError("");
@@ -203,7 +218,8 @@ export default function TellimusBody() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          locale
+          locale,
+          acceptedTerms: checkoutAgreed
         })
       });
       const payload = await res.json().catch(() => ({}));
@@ -349,8 +365,34 @@ export default function TellimusBody() {
                   ) : null}
                 </div>
               </div>
+              <div
+                id="checkout-consent"
+                className="mx-auto w-full max-w-[min(30rem,100%)] rounded-[1rem] border border-[rgba(255,255,255,0.12)] bg-[rgba(12,16,26,0.22)] px-[1rem] py-[0.9rem] text-left shadow-[var(--chat-invite-shadow,var(--input-shadow))] [.theme-light_&]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:bg-[rgba(255,255,255,0.38)]"
+              >
+                <p className="m-0 mb-[0.5rem] text-[1rem] font-[650] tracking-[0.02em] text-[color:var(--pt-120)] light:text-[#1f2937]">
+                  {t("subscription.checkout.title")}
+                </p>
+                <label className="flex cursor-pointer items-start gap-[0.7rem] text-[0.98rem] leading-[1.45] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]">
+                  <input
+                    type="checkbox"
+                    checked={checkoutAgreed}
+                    onChange={(event) => setCheckoutAgreed(event.target.checked)}
+                    disabled={processing}
+                    className="mt-[0.2rem] h-[1.05rem] w-[1.05rem] rounded-[0.3rem] border-[rgba(148,163,184,0.4)] bg-transparent text-[color:var(--brand-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-primary)]"
+                  />
+                  <RichText
+                    as="span"
+                    value={t("subscription.checkout.agreement")}
+                    replacements={checkoutAgreementReplacements}
+                    className="block"
+                  />
+                </label>
+                <p className="mt-[0.5rem] m-0 text-[0.92rem] leading-[1.42] text-[color:var(--pt-130)] light:text-[color:#4b5563]">
+                  {t("subscription.checkout.details")}
+                </p>
+              </div>
               <div className={cn("flex justify-center max-[768px]:w-full -translate-y-[0.3rem]", hasPaymentNotice ? "mt-[clamp(1rem,2.4vh,1.4rem)]" : "mt-[clamp(1.15rem,2.8vh,1.65rem)]")}>
-                <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
+                <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing || !checkoutAgreed} aria-disabled={processing || !checkoutAgreed} aria-busy={processing} aria-describedby="billing-info checkout-consent" onClick={handleActivate}>
                   {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
                 </Button>
               </div>

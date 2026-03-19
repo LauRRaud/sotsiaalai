@@ -137,6 +137,13 @@ function normalizeDisplayName(value) {
   return trimmed.slice(0, 80);
 }
 
+function isTruthyFlag(value) {
+  const normalized = String(value ?? "")
+    .trim()
+    .toLowerCase();
+  return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
+}
+
 async function ensureOwnerMembership(roomId, ownerId, ownerDisplayName) {
   try {
     await prisma.roomMember.upsert({
@@ -378,6 +385,12 @@ export async function POST(request) {
     });
   }
 
+  if (!isTruthyFlag(payload?.acceptedTerms)) {
+    return errorJson("invite.error.checkout_terms_required", 400, locale, {
+      code: "CHECKOUT_TERMS_REQUIRED"
+    });
+  }
+
   try {
     const sponsorHasPlan = auth.isAdmin ? true : await hasActiveSubscription(auth.userId);
     if (!sponsorHasPlan) {
@@ -486,7 +499,8 @@ export async function POST(request) {
             targetRole,
             amount,
             oneMonthOnly: true,
-            locale
+            locale,
+            checkoutConsent: true
           }
         },
         select: {
@@ -538,6 +552,7 @@ export async function POST(request) {
             amount,
             oneMonthOnly: true,
             locale,
+            checkoutConsent: true,
             checkout: checkout.raw || null
           }
         }

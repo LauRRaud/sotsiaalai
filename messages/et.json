@@ -115,28 +115,28 @@
       "help_wrong_pin_note": "Vale PIN-i korral kustub PIN-kood automaatselt."
     },
     "register": {
-    "title": "Registreeru",
-    "pin_placeholder": "PIN (4-8 numbrit)",
-    "role_label_question": "Kes oled?",
-    "role_label": "Roll:",
-    "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
-    "worker_use_org": "Kasutan platvormi tööks kliendi isikuandmetega",
-    "worker_framework_title": "Tööalase kasutuse raamistik",
-    "worker_framework_note": "Kui kasutad SotsiaalAI-d tööülesannetes kliendi või muu isiku andmetega, pead enne jätkamist tutvuma tööalase kasutuse ja andmetöötluse raamistikuga ning alla laadima allkirjastatud raamdokumendi.",
-    "worker_framework_open": "Ava raamistik",
-    "worker_framework_ack": "Kinnitan, et olen alla laadinud SotsiaalAI allkirjastatud raamdokumendi ja allkirjastanud selle koos oma tööandja või asutusega.",
-    "worker_framework_digital_mark_note": "See linnuke on digitaalne märge, mis sobib SotsiaalAI-le digiallkirja asemel.",
-    "worker_framework_download_signed": "Allkirjastatud dokument",
-    "worker_framework_download_docx": "Lae alla",
-    "worker_framework_signed_note": "Kui soovid meiepoolset allkirjastatud versiooni, lae see siit alla.",
-    "agreement": "Nõustun <terms>kasutustingimuste</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
-    "guide_ack": "Olen tutvunud <guide1>platvormi</guide1> <guide2>kasutusjuhendiga</guide2>.",
-    "error": {
-      "role_required": "Vali roll.",
-      "framework_ack_required": "Organisatsiooni nimel tuvastatavate andmetega kasutuse puhul pead kinnitama, et oled raamistikuga tutvunud.",
-      "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
-      "failed": "Registreerimine ebaõnnestus.",
-      "auto_login": "Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida."
+      "title": "Registreeru",
+      "pin_placeholder": "PIN (4-8 numbrit)",
+      "role_label_question": "Kes oled?",
+      "role_label": "Roll:",
+      "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
+      "worker_use_org": "Kasutan platvormi tööks kliendi isikuandmetega",
+      "worker_framework_title": "Tööalase kasutuse raamistik",
+      "worker_framework_note": "Kui kasutad SotsiaalAI-d tööülesannetes kliendi või muu isiku andmetega, pead enne jätkamist tutvuma tööalase kasutuse ja andmetöötluse raamistikuga ning alla laadima allkirjastatud raamdokumendi.",
+      "worker_framework_open": "Ava raamistik",
+      "worker_framework_ack": "Kinnitan, et olen alla laadinud SotsiaalAI allkirjastatud raamdokumendi ja allkirjastanud selle koos oma tööandja või asutusega.",
+      "worker_framework_digital_mark_note": "See linnuke on digitaalne märge, mis sobib SotsiaalAI-le digiallkirja asemel.",
+      "worker_framework_download_signed": "Allkirjastatud dokument",
+      "worker_framework_download_docx": "Lae alla",
+      "worker_framework_signed_note": "Kui soovid meiepoolset allkirjastatud versiooni, lae see siit alla.",
+      "agreement": "Nõustun <terms>kasutustingimuste</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
+      "guide_ack": "Olen tutvunud <guide1>platvormi</guide1> <guide2>kasutusjuhendiga</guide2>.",
+      "error": {
+        "role_required": "Vali roll.",
+        "framework_ack_required": "Organisatsiooni nimel tuvastatavate andmetega kasutuse puhul pead kinnitama, et oled raamistikuga tutvunud.",
+        "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
+        "failed": "Registreerimine ebaõnnestus.",
+        "auto_login": "Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida."
       },
       "submit": "Registreeru",
       "submitting": "Loome kontot…",
@@ -454,7 +454,7 @@
       "heading": "5. Tellimus, maksed ja tühistamine",
       "paragraph1": "<p>Platvormi tasulised funktsioonid põhinevad rollipõhisel kuutellimusel. Eluküsimusega pöörduja kuutasu on 7,99 eurot kuus ja sotsiaaltöö spetsialisti kuutasu on 14,99 eurot kuus, kui platvormil ei ole tellimuse vormistamise hetkel näidatud teisiti. Makseid vahendab Maksekeskus AS või muu platvormil näidatud makseteenuse pakkuja.</p>",
       "paragraph2": "<p>Ligipääs võib olla kas kasutaja enda tasutud või kutsuja poolt sponsoreeritud. Sponsoreeritud ligipääs kehtib praeguse lahenduse järgi ühe kuu ning ei muutu automaatselt kasutaja enda tasuliseks tellimuseks. Kui kutsutud kasutajal on juba aktiivne oma tellimus, võib sponsoreeritud makse algatamine olla blokeeritud.</p>",
-      "paragraph3": "<p>Tellimust saab hallata lehtedel <a href=\"/tellimus\">Tellimus</a> ja Profiil. Pärast makse algatamist suunatakse kasutaja makseteenuse pakkuja makselehele ning ligipääs aktiveeritakse pärast makseteenuse kinnitust. Tühistamisel lõpeb järgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood jääb kehtima selle lõpuni, kui seadus ei näe ette teisiti. SotsiaalAI võib hinnastust, pakette või tasuliste funktsioonide ulatust muuta mõistliku etteteatamisega.</p><p>Kui kasutaja on tarbija ja sõlmib lepingu veebis, võivad talle kohalduda seadusest tulenevad taganemisõiguse reeglid. Kui kasutaja palub tasulise digiteenuse osutamist alustada enne taganemistähtaja lõppu, võib SotsiaalAI küsida selleks eelnevat selgesõnalist nõusolekut ja kinnitust, et kasutaja mõistab taganemisõiguse võimalikku lõppemist või piirenemist kohaldatava õiguse järgi.</p>"
+      "paragraph3": "<p>Tellimust saab hallata lehtedel <a href=\"/tellimus\">Tellimus</a> ja Profiil. P?rast makse algatamist suunatakse kasutaja Maksekeskuse makselehele ning ligip??s aktiveeritakse p?rast makseteenuse kinnitust. Makselehel kuvatavad makseviisid on need, mida Maksekeskus selle tehingu jaoks pakub. Kui kasutaja t?histab tellimuse, l?peb j?rgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood j??b kehtima oma l?puni, kui seadus ei n?e ette teisiti. Kui konto ei ole veel aktiveeritud v?i teenust ei ole kasutama hakatud, v?ib kasutaja k?sida makse ?levaatamist ja v?imalikku tagastust, kirjutades aadressile info@sotsiaal.ai; p?rast teenuse aktiveerimist ja kasutamise algust tagastusi ?ldjuhul ei tehta, kui seadus ei n?ua teisiti. SotsiaalAI v?ib hinnastust, pakette v?i tasuliste funktsioonide ulatust muuta m?istliku etteteatamisega.</p>"
     },
     "section6": {
       "heading": "6. Kättesaadavus ja hooldus",
@@ -1344,7 +1344,8 @@
       "paragraph2": "<p>Platvormi keskmes on üks vestlusaken, mille kaudu saab küsida infot, saada juhendamist, koostada dokumente ja aruandeid ning vormistada praktilisi järgmisi samme. Vestluse kaudu saab kirjeldada ka abisoove ja abipakkumisi, lasta need struktureerida, vaadata sobivaid kuulutusi ning vajadusel liikuda edasi inimestevahelise suhtluseni. Lisaks saab kasutada <strong>dokumendi analüüsi, süvauuringut, grupivestlust, dikteerimist ja vastuste ettelugemist</strong>, mis parandavad ligipääsetavust ja kasutusmugavust.</p>",
       "paragraph3": "<p>Platvormil on kaks rollipõhist, agendivõimekusega tehisintellekti assistenti: üks <strong>sotsiaaltöö spetsialistidele</strong> ja teine <strong>eluküsimustega pöördujatele</strong>. Spetsialistile on SotsiaalAI töövahend õigusraamistiku, metoodikate ja praktikate mõtestamisel, dokumentide koostamisel, materjalide haldamisel ning kovisiooni ja koostöö toetamisel. Pöördujale aitab see mõista toetusi, teenuseid ja õigusi ning vajadusel koostada ka kirju, taotlusi ja muid vajalikke tekste.</p>",
       "paragraph4": "<p>SotsiaalAI visioon on kujuneda <strong>järgmise põlvkonna sotsiaalvaldkonna platvormiks</strong>, mille keskmes on üks vestlusaken. Selles kohtuvad tehisintellekt, usaldusväärne teadmuspõhi ja praktilised lahendused, et aidata nii spetsialistidel kui ka inimestel jõuda küsimusest või vajadusest selguse, järgmiste sammude ja toimiva lahenduseni - olgu selleks teenus, toetus, dokument, töövõimalus või abivahend.</p>",
-      "paragraph5": "<p>SotsiaalAI-d arendatakse <strong>sotsiaalse ettevõttena</strong> ja <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta töövood, koostöö ja abi leidmine selgemaks, kiiremaks ja ligipääsetavamaks. Seejuures peame oluliseks turvalist ja vastutustundlikku kasutuskogemust, mistõttu pöörame tähelepanu andmekaitsele, selgetele kasutusreeglitele ning vajalike turva- ja kaitsemeetmete rakendamisele.</p>"
+      "paragraph5": "<p>SotsiaalAI-d arendatakse <strong>sotsiaalse ettevõttena</strong> ja <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta töövood, koostöö ja abi leidmine selgemaks, kiiremaks ja ligipääsetavamaks. Seejuures peame oluliseks turvalist ja vastutustundlikku kasutuskogemust, mistõttu pöörame tähelepanu andmekaitsele, selgetele kasutusreeglitele ning vajalike turva- ja kaitsemeetmete rakendamisele.</p>",
+      "paragraph6": "<p>SotsiaalAI O?, registrikood 14206225, aadressiga Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti. Kontakt: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>.</p>"
     },
     "contact": {
       "title": "Kontakt",
@@ -1380,7 +1381,7 @@
         },
         "register": {
           "title": "3. Registreerimine ja ligipääsu aktiveerimine",
-        "body": "<p>SotsiaalAI kasutamiseks on vaja kontot. Vestluse aktiivseks kasutamiseks peab kontol olema ka aktiivne tellimus või sponsoreeritud ligipääs.</p><p><strong>3.1 Registreerimine</strong></p><ol><li>Vali avalehel sobiv rollikaart ja ava <a href=\"/registreerimine\">Registreerimine</a>.</li><li>Täida vorm: sisesta e-posti aadress ja PIN-kood (4–8 numbrit).</li><li>Nõustu kasutustingimustega, kinnita, et oled tutvunud privaatsuspoliitikaga, anna vajalikud nõusolekud nende töötluste jaoks, mis põhinevad nõusolekul, ning kinnita, et oled tutvunud platvormi kasutusjuhendiga.</li><li>Kui valid rolli <strong>Sotsiaaltöö spetsialist</strong> ja soovid kasutada platvormi tööandja või organisatsiooni nimel kliendi või muu isiku tuvastatavate andmetega, võivad lisaks kohalduda tööalase kasutuse ja andmetöötluse eritingimused.</li><li>Pärast registreerumist saadame sulle kinnituskirja. Konto aktiveerimiseks ava kiri ja kinnita oma e-posti aadress.</li></ol><p><strong>3.2 Tellimus või sponsoreeritud ligipääs</strong></p><ul><li>Pärast kinnitamist saad sisse logida e-posti ja PIN-koodiga.</li><li>Kui sul puudub aktiivne ligipääs, suunab platvorm sind lehele <a href=\"/tellimus\">Tellimus</a>.</li><li>Tellimuse algatamisel suunatakse sind Maksekeskuse makselehele. Ligipääs aktiveeritakse pärast makseteenuse kinnitust.</li><li><strong>Kuutasu on rollipõhine:</strong> eluküsimusega pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus.</li><li>Kui sinu ligipääs on sponsoreeritud kutse kaudu, kehtib see sponsori valitud perioodi jooksul ilma eraldi makseta.</li></ul>"
+          "body": "<p>SotsiaalAI kasutamiseks on vaja kontot. Vestluse aktiivseks kasutamiseks peab kontol olema ka aktiivne tellimus või sponsoreeritud ligipääs.</p><p><strong>3.1 Registreerimine</strong></p><ol><li>Vali avalehel sobiv rollikaart ja ava <a href=\"/registreerimine\">Registreerimine</a>.</li><li>Täida vorm: sisesta e-posti aadress ja PIN-kood (4–8 numbrit).</li><li>Nõustu kasutustingimustega, kinnita, et oled tutvunud privaatsuspoliitikaga, anna vajalikud nõusolekud nende töötluste jaoks, mis põhinevad nõusolekul, ning kinnita, et oled tutvunud platvormi kasutusjuhendiga.</li><li>Kui valid rolli <strong>Sotsiaaltöö spetsialist</strong> ja soovid kasutada platvormi tööandja või organisatsiooni nimel kliendi või muu isiku tuvastatavate andmetega, võivad lisaks kohalduda tööalase kasutuse ja andmetöötluse eritingimused.</li><li>Pärast registreerumist saadame sulle kinnituskirja. Konto aktiveerimiseks ava kiri ja kinnita oma e-posti aadress.</li></ol><p><strong>3.2 Tellimus või sponsoreeritud ligipääs</strong></p><ul><li>Pärast kinnitamist saad sisse logida e-posti ja PIN-koodiga.</li><li>Kui sul puudub aktiivne ligipääs, suunab platvorm sind lehele <a href=\"/tellimus\">Tellimus</a>.</li><li>Tellimuse algatamisel suunatakse sind Maksekeskuse makselehele. Ligipääs aktiveeritakse pärast makseteenuse kinnitust.</li><li><strong>Kuutasu on rollipõhine:</strong> eluküsimusega pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus.</li><li>Kui sinu ligipääs on sponsoreeritud kutse kaudu, kehtib see sponsori valitud perioodi jooksul ilma eraldi makseta.</li></ul>"
         },
         "signin": {
           "title": "4. Sisselogimine ja rolli alusel liikumine",
@@ -1388,7 +1389,7 @@
         },
         "chat": {
           "title": "5. Vestlusleht",
-        "body": "<p><strong>Vestlusleht</strong> avaneb pärast sisselogimist. Leht jaguneb kolmeks: vasak kerimismenüü, keskmine vestlusala ja parem kerimismenüü.</p><p><strong>Keskmine vestlusala</strong></p><ul><li>Kirjuta sõnum sisestusväljale ja saada see nupu või Enteriga.</li><li>Vastuse loomise ajal muutub saatenupp peatamise nupuks.</li></ul><p><strong>Hääl, kerimine ja hoiatused</strong></p><ul><li>Mikrofoni nupuga saad kasutada dikteerimist; assistendi viimast vastust saab lasta ette lugeda.</li><li>Kui kerid vestluses üles, ilmub kiire nupp vestluse lõppu naasmiseks.</li><li>Võimaliku kriisiolukorra korral kuvatakse punane teavituskast kiire abi juhistega.</li></ul><p><strong>Keskmine vestlusala</strong></p><ul><li><strong>Plussmärk (+).</strong> Sisestuslahtri kõrval olev <strong>+</strong> avab vestluse tööriistad. Sealt saad sõltuvalt rollist ja olukorrast avada näiteks dokumendi analüüsi, süvauuringu, <strong>Dokumendid</strong> või <strong>Dokumendi koostamise</strong>.</li><li>Kui avad olemasoleva ruumi, muutub sama ala ruumivestluseks, kus näed ühiseid sõnumeid ja saad jätkata suhtlust kutsutud inimestega.</li></ul><p><strong>Assistendi töörežiimid vestluses</strong></p><ul><li><strong>Assistendirežiim.</strong> See on tavaline vestlusrežiim, kus saad küsida infot, selgitusi, järgmisi samme ja allikatega vastuseid.</li><li><strong>Dokumendi koostamise režiim.</strong> Kui sinu sõnum viitab dokumendi, kirja, vastuse või vormi koostamisele, küsib assistent enne töövoo alustamist loomulikus keeles kinnitust.</li><li><strong>Abisoovi režiim.</strong> Kui soovid abi otsida, juhib assistent sind abisoovi kirje koostamiseni.</li><li><strong>Abipakkumise režiim.</strong> Kui soovid abi pakkuda, juhib assistent sind abipakkumise kirje koostamiseni.</li><li>Kui vastad assistendi töörežiimi küsimusele <strong>jah</strong>, lukustub valitud töövoog sellesse vestlusesse; kui vastad <strong>ei</strong>, pakub assistent teisi variante.</li></ul><p><strong>Abisoovid ja abipakkumised</strong></p><ul><li>Abisoov või abipakkumine luuakse vestluses samm-sammult.</li><li>Kirje salvestatakse alles siis, kui kinnitad selle vestluses tekstiga nagu <strong>jah</strong> või <strong>salvesta</strong>.</li><li>Vasakust kerimismenüüst näed kõigi kasutajate kirjeid, paremast kerimismenüüst oma kirjeid.</li><li>Kirje avamisel kuvatakse vestlusalas detailvaade, kust saad võtta ühendust, pakkuda abi, küsida AI-lt selgitusi, muuta oma kirjet, sulgeda selle või kustutada selle.</li><li>Abisoovi ja abipakkumise sidumine loob või avab olemasoleva ruumi, kus päris vestlus saab jätkuda.</li></ul><p><strong>Dokumendirežiim ja rollipõhised tulemused</strong></p><ul><li>Dokumendi koostamine algab alles pärast seda, kui kinnitad assistendi pakutud dokumenditöövoo.</li><li>Assistent küsib puuduvaid andmeid ükshaaval ja näitab enne genereerimist lühikest kokkuvõtet.</li><li>Aktiivses dokumendirežiimis ilmub kirjaklamber <strong>+</strong>-märgi kõrvale. Sellega lisatud failid kehtivad ainult selle vestluse ja selle dokumenditöö jaoks.</li><li>Failide piirmäär on rollipõhine: eluküsimusega pöördujal kuni 2 faili, sotsiaaltöö spetsialistil kuni 10 faili.</li><li>Kui kinnitad kokkuvõtte vastusega <strong>jah</strong>, luuakse mustand.</li><li><strong>Sotsiaaltöö spetsialistil</strong> avaneb vestlusest loodud tulemus lehel <strong>Dokumendid</strong>.</li><li><strong>Eluküsimusega pöördujal</strong> avaneb vestlusest loodud tulemus lehel <strong>Dokumendi koostamine</strong>, kus saad mustandit edasi täpsustada, salvestada ja märkida valmis.</li><li>DOCX- ja PDF-allalaadimine muutub kättesaadavaks alles pärast mustandi kinnitamist lõplikuks versiooniks.</li></ul><p><strong>Vasak kerimismenüü</strong></p><ul><li><strong>Vestlused.</strong> Ava varasemad vestlused, loo uus vestlus ja laadi vanemaid vestlusi.</li><li><strong>Abisoovid.</strong> Ava üleplatvormiline abisoovide nimekiri.</li><li><strong>Abipakkumised.</strong> Ava üleplatvormiline abipakkumiste nimekiri.</li><li><strong>Allikad.</strong> Kui vastus kasutab materjale, saad avada kasutatud allikate loendi.</li></ul><p><strong>Parem kerimismenüü</strong></p><ul><li><strong>Profiil.</strong> Ava konto-, tellimuse- ja ligipääsetavuse seaded.</li><li><strong>Ruumid.</strong> Ava olemasolevad grupivestlused.</li><li><strong>Lisa inimene.</strong> Saada kutse teisele inimesele. Kutsel saad valida, kas kutsutul on oma tellimus või tasud ühe kuu sponsoreeritud ligipääsu tema eest.</li><li><strong>Minu abisoovid</strong> ja <strong>Minu abipakkumised.</strong> Ava enda kirjed otse vestlusest.</li><li><strong>Materjalid.</strong> Laadi üles asjakohaseid materjale ja dokumente, et täiendada SotsiaalAI andmebaasi. Kõik saadetud failid vaadatakse enne andmebaasi lisamist üle.</li></ul>"
+          "body": "<p><strong>Vestlusleht</strong> avaneb pärast sisselogimist. Leht jaguneb kolmeks: vasak kerimismenüü, keskmine vestlusala ja parem kerimismenüü.</p><p><strong>Keskmine vestlusala</strong></p><ul><li>Kirjuta sõnum sisestusväljale ja saada see nupu või Enteriga.</li><li>Vastuse loomise ajal muutub saatenupp peatamise nupuks.</li></ul><p><strong>Hääl, kerimine ja hoiatused</strong></p><ul><li>Mikrofoni nupuga saad kasutada dikteerimist; assistendi viimast vastust saab lasta ette lugeda.</li><li>Kui kerid vestluses üles, ilmub kiire nupp vestluse lõppu naasmiseks.</li><li>Võimaliku kriisiolukorra korral kuvatakse punane teavituskast kiire abi juhistega.</li></ul><p><strong>Keskmine vestlusala</strong></p><ul><li><strong>Plussmärk (+).</strong> Sisestuslahtri kõrval olev <strong>+</strong> avab vestluse tööriistad. Sealt saad sõltuvalt rollist ja olukorrast avada näiteks dokumendi analüüsi, süvauuringu, <strong>Dokumendid</strong> või <strong>Dokumendi koostamise</strong>.</li><li>Kui avad olemasoleva ruumi, muutub sama ala ruumivestluseks, kus näed ühiseid sõnumeid ja saad jätkata suhtlust kutsutud inimestega.</li></ul><p><strong>Assistendi töörežiimid vestluses</strong></p><ul><li><strong>Assistendirežiim.</strong> See on tavaline vestlusrežiim, kus saad küsida infot, selgitusi, järgmisi samme ja allikatega vastuseid.</li><li><strong>Dokumendi koostamise režiim.</strong> Kui sinu sõnum viitab dokumendi, kirja, vastuse või vormi koostamisele, küsib assistent enne töövoo alustamist loomulikus keeles kinnitust.</li><li><strong>Abisoovi režiim.</strong> Kui soovid abi otsida, juhib assistent sind abisoovi kirje koostamiseni.</li><li><strong>Abipakkumise režiim.</strong> Kui soovid abi pakkuda, juhib assistent sind abipakkumise kirje koostamiseni.</li><li>Kui vastad assistendi töörežiimi küsimusele <strong>jah</strong>, lukustub valitud töövoog sellesse vestlusesse; kui vastad <strong>ei</strong>, pakub assistent teisi variante.</li></ul><p><strong>Abisoovid ja abipakkumised</strong></p><ul><li>Abisoov või abipakkumine luuakse vestluses samm-sammult.</li><li>Kirje salvestatakse alles siis, kui kinnitad selle vestluses tekstiga nagu <strong>jah</strong> või <strong>salvesta</strong>.</li><li>Vasakust kerimismenüüst näed kõigi kasutajate kirjeid, paremast kerimismenüüst oma kirjeid.</li><li>Kirje avamisel kuvatakse vestlusalas detailvaade, kust saad võtta ühendust, pakkuda abi, küsida AI-lt selgitusi, muuta oma kirjet, sulgeda selle või kustutada selle.</li><li>Abisoovi ja abipakkumise sidumine loob või avab olemasoleva ruumi, kus päris vestlus saab jätkuda.</li></ul><p><strong>Dokumendirežiim ja rollipõhised tulemused</strong></p><ul><li>Dokumendi koostamine algab alles pärast seda, kui kinnitad assistendi pakutud dokumenditöövoo.</li><li>Assistent küsib puuduvaid andmeid ükshaaval ja näitab enne genereerimist lühikest kokkuvõtet.</li><li>Aktiivses dokumendirežiimis ilmub kirjaklamber <strong>+</strong>-märgi kõrvale. Sellega lisatud failid kehtivad ainult selle vestluse ja selle dokumenditöö jaoks.</li><li>Failide piirmäär on rollipõhine: eluküsimusega pöördujal kuni 2 faili, sotsiaaltöö spetsialistil kuni 10 faili.</li><li>Kui kinnitad kokkuvõtte vastusega <strong>jah</strong>, luuakse mustand.</li><li><strong>Sotsiaaltöö spetsialistil</strong> avaneb vestlusest loodud tulemus lehel <strong>Dokumendid</strong>.</li><li><strong>Eluküsimusega pöördujal</strong> avaneb vestlusest loodud tulemus lehel <strong>Dokumendi koostamine</strong>, kus saad mustandit edasi täpsustada, salvestada ja märkida valmis.</li><li>DOCX- ja PDF-allalaadimine muutub kättesaadavaks alles pärast mustandi kinnitamist lõplikuks versiooniks.</li></ul><p><strong>Vasak kerimismenüü</strong></p><ul><li><strong>Vestlused.</strong> Ava varasemad vestlused, loo uus vestlus ja laadi vanemaid vestlusi.</li><li><strong>Abisoovid.</strong> Ava üleplatvormiline abisoovide nimekiri.</li><li><strong>Abipakkumised.</strong> Ava üleplatvormiline abipakkumiste nimekiri.</li><li><strong>Allikad.</strong> Kui vastus kasutab materjale, saad avada kasutatud allikate loendi.</li></ul><p><strong>Parem kerimismenüü</strong></p><ul><li><strong>Profiil.</strong> Ava konto-, tellimuse- ja ligipääsetavuse seaded.</li><li><strong>Ruumid.</strong> Ava olemasolevad grupivestlused.</li><li><strong>Lisa inimene.</strong> Saada kutse teisele inimesele. Kutsel saad valida, kas kutsutul on oma tellimus või tasud ühe kuu sponsoreeritud ligipääsu tema eest.</li><li><strong>Minu abisoovid</strong> ja <strong>Minu abipakkumised.</strong> Ava enda kirjed otse vestlusest.</li><li><strong>Materjalid.</strong> Laadi üles asjakohaseid materjale ja dokumente, et täiendada SotsiaalAI andmebaasi. Kõik saadetud failid vaadatakse enne andmebaasi lisamist üle.</li></ul>"
         },
         "documents": {
           "title": "6. Dokumendid",
@@ -1445,7 +1446,13 @@
     },
     "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Sotsiaaltöö spetsialisti kuutasu on 14,99 € ja eluküsimusega pöörduja kuutasu on 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni.",
     "info_priced": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Rolli \"{role}\" kuutasu on {amount}. Makse tehakse Maksekeskuse kaudu, tellimus pikeneb automaatselt ning seda saad igal ajal profiililehel lõpetada.",
-    "sponsored_info": "Kui sinu ligipääs tuleb sponsoreeritud kutse kaudu, ei pea sa selle perioodi eest eraldi maksma. Sponsoreeritud ligipääs kehtib ühe kuu ning pärast selle lõppu saad kasutamise jätkamiseks aktiveerida oma tellimuse."
+    "sponsored_info": "Kui sinu ligipääs tuleb sponsoreeritud kutse kaudu, ei pea sa selle perioodi eest eraldi maksma. Sponsoreeritud ligipääs kehtib ühe kuu ning pärast selle lõppu saad kasutamise jätkamiseks aktiveerida oma tellimuse.",
+    "checkout": {
+      "title": "Enne maksmist",
+      "agreement": "<terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. M?istan, et liitun kuutasulise teenusega ning kinnitan, et soovin makse algatada Maksekeskuse kaudu.",
+      "details": "Vali makseviis Maksekeskuse makselehel. Ligip??s aktiveerub p?rast makseteenuse kinnitust. Kui soovid makse t?histada v?i k?sida tagastust enne kasutamist, kirjuta info@sotsiaal.ai; p?rast teenuse aktiveerimist kehtivad tagastused seaduse ja makseteenuse reeglite j?rgi.",
+      "error_required": "Enne maksmist peab linnuke olema n?usolekul m?rgitud."
+    }
   },
   "pwa": {
     "heading": "Soovid platvormi eraldi rakendusena?",
@@ -1673,7 +1680,8 @@
       "invitee_active_subscription": "Selle e-posti aadressiga kasutajal on juba aktiivne tellimus. Sponsoreeritud kuud ei saa talle uuesti osta.",
       "sponsored_checkout_required": "Kui valid \"Tasun tema eest\", tuleb kutse saata sponsoreeritud tellimuse maksevoo kaudu.",
       "sponsor_plan_unavailable": "Sponsoreeritud kutset ei saa luua, sest sobiv pakett pole saadaval.",
-      "sponsor_capacity_full": "Sponsoreeritud kohtade limiit on täis."
+      "sponsor_capacity_full": "Sponsoreeritud kohtade limiit on täis.",
+      "checkout_terms_required": "Enne sponsoreeritud makse algatamist peab tingimustega n?ustuma."
     }
   },
   "email": {
@@ -1869,7 +1877,8 @@
       "webhook_signature_invalid": "Webhooki allkiri on vigane.",
       "webhook_invalid_payload": "Webhooki payload on vigane.",
       "webhook_process_failed": "Maksete webhooki töötlemine ebaõnnestus.",
-      "direct_activation_disabled": "Otse aktiveerimine on keelatud. Alusta kõigepealt makse algatamisest."
+      "direct_activation_disabled": "Otse aktiveerimine on keelatud. Alusta kõigepealt makse algatamisest.",
+      "checkout_terms_required": "Enne maksmist peab tingimustega n?ustuma."
     },
     "invites": {
       "email_from_missing": "Saatja e-posti aadress ei ole seadistatud.",
@@ -2463,5 +2472,8 @@
         "language": "Keel"
       }
     }
+  },
+  "footer": {
+    "legal": "SotsiaalAI O?, registrikood 14206225, aadress Kolde tn 6/1, Tabasalu alevik, Harku vald, Harjumaa. Kontakt: info@sotsiaal.ai."
   }
 }

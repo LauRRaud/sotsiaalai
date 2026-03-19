@@ -454,7 +454,7 @@
       "heading": "5. Subscription, Payments and Cancellation",
       "paragraph1": "<p>Paid platform features are provided through a role-based monthly subscription. The monthly fee is 7.99 EUR for a person seeking help and 14.99 EUR for a social work professional, unless a different price is shown on the platform at the time of checkout. Payments are processed by Maksekeskus AS or another payment provider shown on the platform.</p>",
       "paragraph2": "<p>Access may be self-paid or sponsored by the person who invited you. Under the current product rules, sponsored access lasts for one month and does not automatically convert into the invitee's own paid subscription. If the invited user already has an active subscription, sponsored checkout may be blocked.</p>",
-      "paragraph3": "<p>Subscriptions can be managed from the <a href=\"/tellimus\">Subscription</a> page and from Profile. After payment is started, the user is redirected to the Maksekeskus checkout page, and access is activated after payment-provider confirmation. When cancelled, the next automatic billing cycle stops, but the already paid period remains active until its end unless the law requires otherwise. SotsiaalAI may change pricing or package terms with reasonable advance notice.</p>"
+      "paragraph3": "<p>Subscriptions can be managed from the <a href=\"/tellimus\">Subscription</a> page and from Profile. After payment is started, the user is redirected to the Maksekeskus checkout page, and access is activated after payment-provider confirmation. The payment methods shown in checkout are the methods available for that transaction. When cancelled, the next automatic billing cycle stops, but the already paid period remains active until its end unless the law requires otherwise. If the account has not yet been activated or the service has not been used, the user may contact info@sotsiaal.ai to request a review of the payment and any possible refund in accordance with applicable law and payment-provider rules. After the service has been activated and used, refunds are generally not provided unless required by law. SotsiaalAI may change pricing or package terms with reasonable advance notice.</p>"
     },
     "section6": {
       "heading": "6. Availability and Maintenance",
@@ -1344,7 +1344,8 @@
       "paragraph2": "<p>At the centre of the platform is a single chat window through which users can ask for information, receive guidance, draft documents and reports, and shape practical next steps. Through the chat, users can also describe requests for help and offers of help, have them structured, view matching listings, and, when needed, move on to person-to-person communication. The platform also includes <strong>document analysis, deep research, group chat, dictation, and read-aloud responses</strong>, which improve accessibility and ease of use.</p>",
       "paragraph3": "<p>The platform includes two role-based, agent-capable AI assistants: one for <strong>social work professionals</strong> and one for <strong>people approaching with life-related questions</strong>. For professionals, SotsiaalAI is a working tool for interpreting legal frameworks, methodologies, and practices, drafting documents, managing materials, and supporting co-vision and collaboration. For people seeking help, it helps explain benefits, services, and rights and, when needed, also assists in drafting letters, applications, and other necessary texts.</p>",
       "paragraph4": "<p>SotsiaalAI's vision is to become a <strong>next-generation platform for the social sector</strong>, centred around a single chat window. Here, artificial intelligence, a trusted knowledge base, and practical solutions come together to help both professionals and people move from a question or need to clarity, next steps, and a working solution - whether that means a service, support, a document, a job opportunity, or an assistive aid.</p>",
-      "paragraph5": "<p>SotsiaalAI is being developed as a <strong>social enterprise</strong> and a <strong>social innovation initiative</strong>. We combine technology and social-sector practice to reduce information barriers and make workflows, collaboration, and finding help clearer, faster, and more accessible. We also consider a safe and responsible user experience essential, which is why we focus on data protection, clear usage rules, and implementing the necessary security and protection measures.</p>"
+      "paragraph5": "<p>SotsiaalAI is being developed as a <strong>social enterprise</strong> and a <strong>social innovation initiative</strong>. We combine technology and social-sector practice to reduce information barriers and make workflows, collaboration, and finding help clearer, faster, and more accessible. We also consider a safe and responsible user experience essential, which is why we focus on data protection, clear usage rules, and implementing the necessary security and protection measures.</p>",
+      "paragraph6": "<p>SotsiaalAI O?, registry code 14206225, address Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Estonia. Contact: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>.</p>"
     },
     "contact": {
       "title": "Contact",
@@ -1445,7 +1446,13 @@
     },
     "info": "To use SotsiaalAI you need a monthly subscription. The monthly price is 14.99 EUR for a social work professional and 7.99 EUR for a person seeking help. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period.",
     "info_priced": "To use SotsiaalAI you need a monthly subscription. For the \"{role}\" role, the fee is {amount} per month. Payments are processed via Maksekeskus, the subscription renews automatically, and you can cancel it at any time from your profile.",
-    "sponsored_info": "If your access comes through a sponsored invite, you do not need to pay separately for that period. Sponsored access is valid for one month, and after that you can activate your own subscription to continue."
+    "sponsored_info": "If your access comes through a sponsored invite, you do not need to pay separately for that period. Sponsored access is valid for one month, and after that you can activate your own subscription to continue.",
+    "checkout": {
+      "title": "Before payment",
+      "agreement": "<terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>. I understand that I am joining a monthly subscription and confirm that I want to start payment through Maksekeskus.",
+      "details": "Choose the payment method shown in the Maksekeskus checkout. Access is activated after provider confirmation. If you need to cancel or request a refund before using the service, write to info@sotsiaal.ai; after activation, refunds are handled according to the law and provider rules.",
+      "error_required": "Please check the consent box before continuing to payment."
+    }
   },
   "pwa": {
     "heading": "Want the platform as an app?",
@@ -1673,7 +1680,8 @@
       "invitee_active_subscription": "This email already has an active subscription. A sponsored month cannot be purchased for them again.",
       "sponsored_checkout_required": "If you choose \"I'll pay for them\", the invite must be sent through the sponsored checkout flow.",
       "sponsor_plan_unavailable": "Sponsored invites cannot be created: plan is unavailable.",
-      "sponsor_capacity_full": "Sponsored seats limit is full."
+      "sponsor_capacity_full": "Sponsored seats limit is full.",
+      "checkout_terms_required": "Please agree to the terms before starting sponsored payment."
     }
   },
   "email": {
@@ -1869,7 +1877,8 @@
       "webhook_signature_invalid": "Webhook signature is invalid.",
       "webhook_invalid_payload": "Webhook payload is invalid.",
       "webhook_process_failed": "Could not process payment webhook.",
-      "direct_activation_disabled": "Direct activation is disabled. Start checkout first."
+      "direct_activation_disabled": "Direct activation is disabled. Start checkout first.",
+      "checkout_terms_required": "Please agree to the terms before starting payment."
     },
     "invites": {
       "email_from_missing": "Sender email is not configured.",
@@ -2463,5 +2472,8 @@
         "language": "language"
       }
     }
+  },
+  "footer": {
+    "legal": "SotsiaalAI O?, registry code 14206225, address Kolde tn 6/1, Tabasalu alevik, Harku vald, Harjumaa, Estonia. Contact: info@sotsiaal.ai."
   }
 }

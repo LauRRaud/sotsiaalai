@@ -108,6 +108,13 @@ function normalizeCurrency(value) {
   return /^[A-Z]{3}$/.test(normalized) ? normalized : "EUR";
 }
 
+function isTruthyFlag(value) {
+  const normalized = String(value ?? "")
+    .trim()
+    .toLowerCase();
+  return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
+}
+
 function resolveUrl(request, envValue, fallbackPath) {
   const direct = String(envValue || "").trim();
   if (direct) {
@@ -175,6 +182,9 @@ export async function POST(request) {
   const plan = normalizePlan(body?.plan, getRolePlanKey(planRole));
   const amount = getRoleMonthlyAmount(planRole).toFixed(2);
   const currency = normalizeCurrency(process.env.SUBSCRIPTION_CURRENCY || "EUR");
+  if (!isTruthyFlag(body?.acceptedTerms)) {
+    return errorJson("api.subscription.checkout_terms_required", 400, locale);
+  }
 
   let paymentRecord = null;
   try {
@@ -231,7 +241,8 @@ export async function POST(request) {
           flow: "subscription_init",
           plan,
           planRole,
-          locale
+          locale,
+          checkoutConsent: true
         }
       },
       select: {
@@ -267,6 +278,7 @@ export async function POST(request) {
           plan,
           planRole,
           locale,
+          checkoutConsent: true,
           checkout: checkout.raw || null
         }
       }

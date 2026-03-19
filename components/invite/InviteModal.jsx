@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -10,6 +11,7 @@ import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
 import { glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { localizePath } from "@/lib/localizePath";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 function parseEmails(raw) {
@@ -39,6 +41,7 @@ export default function InviteModal() {
   const [targetRole, setTargetRole] = useState("CLIENT");
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
+  const [sponsoredCheckoutAgreed, setSponsoredCheckoutAgreed] = useState(false);
   const closeTimerRef = useRef(null);
   const formatSentenceCase = text => {
     const raw = typeof text === "string" ? text.trim() : "";
@@ -96,6 +99,16 @@ export default function InviteModal() {
     "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(255,255,255,0.22)] [.theme-night_&]:bg-[rgba(16,22,34,0.34)] " +
     "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
     "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+  const inviteCheckoutAgreementReplacements = useMemo(() => ({
+    terms: {
+      open: `<a href="${localizePath("/kasutustingimused", locale)}" class="underline underline-offset-4 text-[color:var(--link-gold)] hover:opacity-85 light:text-[color:var(--link-color)]">`,
+      close: "</a>"
+    },
+    privacy: {
+      open: `<a href="${localizePath("/privaatsustingimused", locale)}" class="underline underline-offset-4 text-[color:var(--link-gold)] hover:opacity-85 light:text-[color:var(--link-color)]">`,
+      close: "</a>"
+    }
+  }), [locale]);
   useEffect(() => {
     const handler = e => {
       setRoomId(e?.detail?.roomId || null);
@@ -136,6 +149,7 @@ export default function InviteModal() {
   useEffect(() => {
     if (paymentMode !== "SPONSORED_BY_HOST") {
       setTargetRole("CLIENT");
+      setSponsoredCheckoutAgreed(false);
     }
   }, [paymentMode]);
   useEffect(() => {
@@ -219,6 +233,7 @@ export default function InviteModal() {
       setError(t("invite.error.sponsored_single_email_required"));
       return;
     }
+    setSponsoredCheckoutAgreed(false);
     setPaymentMode("SPONSORED_BY_HOST");
   }, [multipleEmailsForSponsored, t]);
   async function submit(e) {
@@ -244,6 +259,10 @@ export default function InviteModal() {
       setError(t("invite.error.sponsored_single_email_required"));
       return;
     }
+    if (paymentMode === "SPONSORED_BY_HOST" && !sponsoredCheckoutAgreed) {
+      setError(t("invite.error.checkout_terms_required"));
+      return;
+    }
     setBusy(true);
     try {
       if (paymentMode === "SPONSORED_BY_HOST") {
@@ -259,7 +278,8 @@ export default function InviteModal() {
             room_id: roomId || undefined,
             room_title: trimmedRoomTitle || undefined,
             host_display_name: !roomId ? trimmedHostName || undefined : undefined,
-            targetRole
+            targetRole,
+            acceptedTerms: sponsoredCheckoutAgreed
           })
         });
         const data = await res.json().catch(() => ({}));
@@ -401,6 +421,29 @@ export default function InviteModal() {
                       </OptionCard>
                     ))}
                   </div>
+                  <div className="mt-[0.3rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.14)] px-[0.9rem] py-[0.72rem] text-left [.theme-night_&]:bg-[rgba(8,16,28,0.28)]">
+                    <p className="m-0 mb-[0.45rem] text-[0.96rem] font-[650] tracking-[0.02em] text-[color:var(--pt-120)] light:text-[#1f2937]">
+                      {t("subscription.checkout.title")}
+                    </p>
+                    <label className="flex cursor-pointer items-start gap-[0.68rem] text-[0.95rem] leading-[1.42] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]">
+                      <input
+                        type="checkbox"
+                        checked={sponsoredCheckoutAgreed}
+                        onChange={(event) => setSponsoredCheckoutAgreed(event.target.checked)}
+                        disabled={busy}
+                        className="mt-[0.2rem] h-[1.02rem] w-[1.02rem] rounded-[0.28rem] border-[rgba(148,163,184,0.4)] bg-transparent text-[color:var(--brand-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-primary)]"
+                      />
+                      <RichText
+                        as="span"
+                        value={t("subscription.checkout.agreement")}
+                        replacements={inviteCheckoutAgreementReplacements}
+                        className="block"
+                      />
+                    </label>
+                    <p className="mt-[0.45rem] m-0 text-[0.9rem] leading-[1.4] text-[color:var(--pt-130)] light:text-[color:#4b5563]">
+                      {t("subscription.checkout.details")}
+                    </p>
+                  </div>
                 </Panel> : null}
             </div>
 
@@ -411,7 +454,7 @@ export default function InviteModal() {
               {message ? <p className={inviteSuccessNoticeClassName} role="status">
                   {message}
                 </p> : null}
-              <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy}>
+              <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy || (sponsoredSelected && !sponsoredCheckoutAgreed)}>
                 {busy ? t("invite.sending") : sponsoredSelected ? t("invite.sponsored.confirm_and_pay") : sendLabel}
               </Button>
             </div>
