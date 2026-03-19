@@ -31,6 +31,7 @@ const OWNER_NOTIFICATION_EMAIL = String(process.env.PAYMENT_OWNER_EMAIL || "info
   .toLowerCase();
 const OWNER_NOTIFICATION_LOCALE = normalizeServerLocale(process.env.PAYMENT_OWNER_EMAIL_LOCALE) || "en";
 const ownerMailer = getMailer("payment-owner-webhook");
+const customerMailer = getMailer("payment-customer-webhook");
 const inviteMailer = getMailer("invite");
 
 function shouldAllowUnsignedWebhook() {
@@ -236,6 +237,110 @@ async function sendOwnerPaymentWebhookNotification({ providerPaymentId, status, 
   });
 }
 
+async function sendCustomerPaymentConfirmationEmail({ paymentId, providerPaymentId, locale }) {
+  const from = String(process.env.EMAIL_FROM || process.env.SMTP_FROM || "").trim();
+  if (!from) {
+    logPaymentEvent("subscription_webhook_customer_email_skipped", {
+      paymentId,
+      providerPaymentId,
+      reason: "email_from_missing"
+    });
+    return;
+  }
+
+  const payment = await prisma.payment.findUnique({
+    where: { id: paymentId },
+    select: {
+      id: true,
+      amount: true,
+      currency: true,
+      status: true,
+      paidAt: true,
+      user: {
+        select: {
+          email: true
+        }
+      },
+      subscription: {
+        select: {
+          id: true,
+          plan: true,
+          status: true,
+          validUntil: true,
+          canceledAt: true
+        }
+      },
+      invite: {
+        select: {
+          id: true,
+          sponsoredRole: true,
+          inviteeEmail: true,
+          room: {
+            select: {
+              title: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  const to = String(payment?.user?.email || "").trim().toLowerCase();
+  if (!to || !to.includes("@")) {
+    logPaymentEvent("subscription_webhook_customer_email_skipped", {
+      paymentId,
+      providerPaymentId,
+      reason: "recipient_missing"
+    });
+    return;
+  }
+
+  const baseUrl = (resolveBaseUrl() || "http://localhost:3000").replace(/\/+$/, "");
+  const profileUrl = `${baseUrl}/profiil`;
+  const sharedValues = {
+    amount: String(payment?.amount ?? ""),
+    currency: String(payment?.currency || ""),
+    paidAt: asIso(payment?.paidAt),
+    profileUrl,
+    supportEmail: "info@sotsiaal.ai"
+  };
+  const hasInvite = Boolean(payment?.invite);
+  const roleLabel =
+    String(payment?.invite?.sponsoredRole || payment?.subscription?.plan || "").toUpperCase() === "SOCIAL_WORKER"
+      ? serverT(locale, "role.worker")
+      : serverT(locale, "role.client");
+  const subscriptionValues = {
+    ...sharedValues,
+    subscriptionPlan: roleLabel,
+    subscriptionValidUntil: asIso(payment?.subscription?.validUntil)
+  };
+  const sponsoredValues = {
+    ...sharedValues,
+    roomTitle: String(payment?.invite?.room?.title || ""),
+    roleLabel,
+    inviteeEmail: String(payment?.invite?.inviteeEmail || "")
+  };
+
+  const keyRoot = hasInvite
+    ? "email.payment.customer_confirmation.sponsored"
+    : "email.payment.customer_confirmation.subscription";
+
+  await customerMailer.sendMail({
+    to,
+    from,
+    subject: serverT(locale, `${keyRoot}.subject`, hasInvite ? sponsoredValues : subscriptionValues),
+    text: serverT(locale, `${keyRoot}.text`, hasInvite ? sponsoredValues : subscriptionValues),
+    html: serverT(locale, `${keyRoot}.html`, hasInvite ? sponsoredValues : subscriptionValues)
+  });
+
+  logPaymentEvent("subscription_webhook_customer_email_sent", {
+    paymentId,
+    providerPaymentId,
+    to,
+    hasInvite
+  });
+}
+
 async function activateSubscriptionFromPayment(tx, payment) {
   const existing = await tx.subscription.findUnique({
     where: { id: payment.subscriptionId },
@@ -421,6 +526,10 @@ export async function POST(request) {
           raw: true
         }
       });
+      const paymentLocale =
+        normalizeServerLocale(payment?.raw?.locale) ||
+        normalizeServerLocale(payment?.raw?.lang) ||
+        "en";
 
       if (!payment) {
         return {
@@ -442,7 +551,8 @@ export async function POST(request) {
         return {
           idempotent: true,
           paymentId: payment.id,
-          status: payment.status
+          status: payment.status,
+          paymentLocale
         };
       }
 
@@ -450,7 +560,8 @@ export async function POST(request) {
         return {
           ignored: true,
           paymentId: payment.id,
-          status: payment.status
+          status: payment.status,
+          paymentLocale
         };
       }
 
@@ -544,7 +655,8 @@ export async function POST(request) {
         status: updatedPayment.status,
         subscription,
         subscriptionAction,
-        inviteEmail
+        inviteEmail,
+        paymentLocale
       };
     });
 
@@ -580,6 +692,22 @@ export async function POST(request) {
           paymentId: result?.paymentId || "",
           providerPaymentId,
           error: inviteError
+        });
+      }
+    }
+
+    if (result?.updated && result?.status === PaymentStatus.PAID && result?.paymentId) {
+      try {
+        await sendCustomerPaymentConfirmationEmail({
+          paymentId: result.paymentId,
+          providerPaymentId,
+          locale: result.paymentLocale || "en"
+        });
+      } catch (customerEmailError) {
+        logPaymentEvent("subscription_webhook_customer_email_failed", {
+          paymentId: result?.paymentId || "",
+          providerPaymentId,
+          error: customerEmailError
         });
       }
     }

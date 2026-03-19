@@ -713,7 +713,7 @@
       "error": "Dictation failed.",
       "cannot_start": "Could not open microphone."
     },
-    "empty_intro": "Hello! Briefly describe your question or request - I can provide information, help draft documents, and connect people with each other.",
+    "empty_intro": "Hello! Briefly describe your question or request. I can provide information, help draft documents, support career counseling, and connect people with each other.",
     "modeSelection": {
       "confirm": {
         "rag": "I understood that you want information and guidance. Shall we continue with that?",

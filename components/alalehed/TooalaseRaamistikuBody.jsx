@@ -77,7 +77,7 @@ const actionButtonClassName =
   "!min-h-[2.82rem] !px-[1.15rem] !py-[0.72rem] !text-[1.08rem] !leading-[1.12] max-[768px]:!w-full max-[768px]:!text-[1.1rem]";
 const frameworkCheckboxRowClassName =
   "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
-  "[--otp-check-shape:#1f2937] [--otp-check-tick:#7A3A38] [--otp-check-text:#1f2937] " +
+  "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:#7A3A38] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
   "[--otp-check-box-size:1.45rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:100%] [--otp-check-box-offset:0.08rem]";
 
 function FrameworkBlocks({ blocks = [] }) {

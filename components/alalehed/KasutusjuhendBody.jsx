@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
+import Modal from "@/components/ui/Modal";
 import GlassRing from "@/components/ui/GlassRing";
 import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
@@ -27,6 +28,7 @@ export default function KasutusjuhendBody() {
   const [expanded, setExpanded] = useState(false);
   const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(false);
   const [layoutReady, setLayoutReady] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const router = useRouter();
   const {
     t,
@@ -75,6 +77,21 @@ export default function KasutusjuhendBody() {
     if (anchor) {
       e.preventDefault();
       openA11y();
+    }
+  };
+  const handleContactClick = e => {
+    let node = e.target;
+    let anchor = null;
+    while (node && node !== e.currentTarget) {
+      if (node.matches && node.matches("a[data-contact-open]")) {
+        anchor = node;
+        break;
+      }
+      node = node.parentElement;
+    }
+    if (anchor) {
+      e.preventDefault();
+      setIsContactOpen(true);
     }
   };
   const guideContent = {
@@ -144,6 +161,7 @@ export default function KasutusjuhendBody() {
             aria-labelledby="kasutusjuhend-title"
             onKeyDown={handlePolicyScrollKeyDown}
             onMouseDown={focusPolicyScrollArea}
+            onClick={handleContactClick}
           >
             <p className={cn(policySectionBodyClassName, "mb-[0.58rem] max-[768px]:mb-[0.54rem]")}>
               {guideContent.intro}
@@ -171,6 +189,30 @@ export default function KasutusjuhendBody() {
           </div>
         </div>
       </GlassRing>
+      <Modal
+        open={isContactOpen}
+        variant="glass"
+        onClose={() => setIsContactOpen(false)}
+        className="z-[140] max-[768px]:p-[1rem]"
+        contentClassName="!w-[min(100%,26rem)] !max-w-[26rem] !p-[1.2rem_1.15rem_1rem] text-center"
+      >
+        <div className="relative">
+          <CloseButton
+            onClick={() => setIsContactOpen(false)}
+            ariaLabel={t("buttons.close")}
+            className="absolute right-[-0.2rem] top-[-0.15rem] !h-[2.2rem] !w-[2.2rem] text-[1.8rem]"
+          />
+          <h2 className="mb-[0.9rem] pr-[2rem] text-[1.4rem] font-headline tracking-[0.02em] text-[color:var(--glass-modal-text)] max-[768px]:text-[1.28rem]">
+            {t("about.contact.title")}
+          </h2>
+          <div
+            className="mx-auto max-w-[20rem] text-[1rem] leading-[1.55] tracking-[0.01em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:max-w-none"
+            dangerouslySetInnerHTML={{
+              __html: t("about.contact.modal_body")
+            }}
+          />
+        </div>
+      </Modal>
       {!isMobilePolicyLayout ? <button type="button" className={cn(glassPolicyExpandToggleClassName, expanded ? "is-expanded" : null)} onClick={() => setExpanded(prev => !prev)} aria-pressed={expanded} aria-label={toggleLabel} title={toggleLabel}>
           <FocusModeToggleIcon expanded={expanded} isLightTheme={isLightTheme} className="glass-ring-expand-icon glass-ring-expand-icon--lg" />
         </button> : null}

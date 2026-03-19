@@ -713,7 +713,7 @@
       "error": "Dikteerimine ebaõnnestus.",
       "cannot_start": "Mikrofoni ei saanud avada."
     },
-    "empty_intro": "Tere! Kirjelda lühidalt oma küsimust või soovi – saan anda infot, aidata koostada dokumente ning viia inimesi omavahel kokku.",
+    "empty_intro": "Tere! Kirjelda lühidalt oma küsimust või soovi. Saan anda infot, aidata koostada dokumente, toetada karjäärinõustamisel ning viia inimesi omavahel kokku.",
     "modeSelection": {
       "confirm": {
         "rag": "Sain aru, et soovid saada infot või juhendamist. Kas jätkame sellega?",

@@ -1,11 +1,9 @@
 "use client";
 
 import Logomust from "@/public/logo/logomust.svg";
-import useT from "@/components/i18n/useT";
 import { cn } from "@/components/ui/cn";
 
 export default function HomeFooter({ className, logoClassName }) {
-  const t = useT();
   return (
     <footer
       className={cn(
@@ -27,9 +25,6 @@ export default function HomeFooter({ className, logoClassName }) {
           focusable="false"
           style={{ "--end-op": "0.8" }}
         />
-        <p className="m-0 max-w-[min(92vw,58rem)] text-center text-[0.82rem] leading-[1.35] tracking-[0.01em] text-[color:var(--footer-text-muted,#aeb7c5)] opacity-80 max-[768px]:text-[0.78rem]">
-          {t("footer.legal")}
-        </p>
       </div>
     </footer>
   );

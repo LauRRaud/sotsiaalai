@@ -9,6 +9,8 @@ import { cn } from "@/components/ui/cn";
 import useT from "@/components/i18n/useT";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
+import Modal from "@/components/ui/Modal";
+import CloseButton from "@/components/ui/CloseButton";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 
@@ -55,6 +57,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   const aboutScrollRef = useRef(null);
   const [beforeDiameter, setBeforeDiameter] = useState(null);
   const [aboutFade, setAboutFade] = useState({ top: false, bottom: false });
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const oskaLinkClassName = cn(
     "home-link inline-block align-top text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
     linkBrandInlineClass
@@ -192,6 +195,21 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       persistGlassRingTilt: false
     });
   };
+  const handleContactClick = (event) => {
+    let node = event.target;
+    let anchor = null;
+    while (node && node !== event.currentTarget) {
+      if (node.matches && node.matches("a[data-contact-open]")) {
+        anchor = node;
+        break;
+      }
+      node = node.parentElement;
+    }
+    if (anchor) {
+      event.preventDefault();
+      setIsContactOpen(true);
+    }
+  };
   const aboutTopFade = aboutFade.top ? "2.2rem" : "0px";
   const aboutBottomFade = aboutFade.bottom ? "4.4rem" : "0px";
   const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.14), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.34), rgba(0,0,0,0.56) calc(${aboutTopFade} * 0.58), rgba(0,0,0,0.82) calc(${aboutTopFade} * 0.82), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,0.96) calc(100% - calc(${aboutBottomFade} * 0.86)), rgba(0,0,0,0.84) calc(100% - calc(${aboutBottomFade} * 0.68)), rgba(0,0,0,0.62) calc(100% - calc(${aboutBottomFade} * 0.48)), rgba(0,0,0,0.36) calc(100% - calc(${aboutBottomFade} * 0.28)), rgba(0,0,0,0.14) calc(100% - calc(${aboutBottomFade} * 0.1)), rgba(0,0,0,0) 100%)`;
@@ -228,6 +246,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           <div className="relative mx-auto w-full max-w-[54.5rem] max-[768px]:max-w-[52rem]">
             <div
               ref={aboutScrollRef}
+              onClick={handleContactClick}
               className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.5rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.5rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
               style={{
                 maxHeight: "min(72vh, 42rem)",
@@ -255,6 +274,30 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             </div>
           </div>
         </div>
+        <Modal
+          open={isContactOpen}
+          variant="glass"
+          onClose={() => setIsContactOpen(false)}
+          className="z-[140] max-[768px]:p-[1rem]"
+          contentClassName="!w-[min(100%,26rem)] !max-w-[26rem] !p-[1.2rem_1.15rem_1rem] text-center"
+        >
+          <div className="relative">
+            <CloseButton
+              onClick={() => setIsContactOpen(false)}
+              ariaLabel={t("buttons.close")}
+              className="absolute right-[-0.2rem] top-[-0.15rem] !h-[2.2rem] !w-[2.2rem] text-[1.8rem]"
+            />
+            <h2 className="mb-[0.9rem] pr-[2rem] text-[1.4rem] font-headline tracking-[0.02em] text-[color:var(--glass-modal-text)] max-[768px]:text-[1.28rem]">
+              {t("about.contact.title")}
+            </h2>
+            <div
+              className="mx-auto max-w-[20rem] text-[1rem] leading-[1.55] tracking-[0.01em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:max-w-none"
+              dangerouslySetInnerHTML={{
+                __html: t("about.contact.modal_body")
+              }}
+            />
+          </div>
+        </Modal>
         <section
           aria-labelledby={beforeHeadingId}
           ref={beforeCardRef}
@@ -336,12 +379,13 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               ) : null}
             </ul>
             <p className="m-0">
-              <AppLink
-                href="mailto:info@sotsiaal.ai"
+              <a
+                href="#"
+                data-contact-open="1"
                 className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
               >
-                info@sotsiaal.ai
-              </AppLink>
+                {t("about.contact.title")}
+              </a>
             </p>
           </div>
         </section>
