@@ -290,9 +290,9 @@
   color: var(--rail-tooltip-text, #7a3a38);
   font-size: 1.12rem;
   font-weight: 450;
-  background: var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995));
-  border-color: transparent;
-  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));
+  background: rgba(255, 250, 248, 0.92);
+  border-color: rgba(122, 58, 56, 0.1);
+  box-shadow: 0 10px 24px rgba(82, 50, 46, 0.18);
 }
 
 :global(:root.theme-mid) .tooltip {
