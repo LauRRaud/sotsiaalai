@@ -2,12 +2,13 @@ export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { PaymentProvider, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/client";
+import { BillingInterval, PaymentProvider, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/client";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { createMaksekeskusCheckout, makeProviderPaymentId } from "@/lib/payments/maksekeskus";
+import { getInitialSubscriptionPaymentKind, getSubscriptionBillingMode, isRecurringBillingEnabled } from "@/lib/payments/recurring";
 import { logPaymentEvent } from "@/lib/payments/observability";
 import {
   getRoleMonthlyAmount,
@@ -182,6 +183,8 @@ export async function POST(request) {
   const plan = normalizePlan(body?.plan, getRolePlanKey(planRole));
   const amount = getRoleMonthlyAmount(planRole).toFixed(2);
   const currency = normalizeCurrency(process.env.SUBSCRIPTION_CURRENCY || "EUR");
+  const billingMode = getSubscriptionBillingMode();
+  const recurringEnabled = isRecurringBillingEnabled();
   if (!isTruthyFlag(body?.acceptedTerms)) {
     return errorJson("api.subscription.checkout_terms_required", 400, locale);
   }
@@ -217,7 +220,10 @@ export async function POST(request) {
         data: {
           userId: session.userId,
           status: SubscriptionStatus.NONE,
-          plan
+          plan,
+          billingMode,
+          billingInterval: recurringEnabled ? BillingInterval.MONTHLY : null,
+          billingRetryCount: 0
         },
         select: {
           id: true,
@@ -233,6 +239,7 @@ export async function POST(request) {
         subscriptionId: subscription.id,
         userId: session.userId,
         provider: PaymentProvider.MAKSEKESKUS,
+        kind: getInitialSubscriptionPaymentKind(),
         providerPaymentId,
         amount,
         currency,
@@ -242,6 +249,8 @@ export async function POST(request) {
           plan,
           planRole,
           locale,
+          billingMode,
+          recurringEnabled,
           checkoutConsent: true
         }
       },
@@ -278,6 +287,8 @@ export async function POST(request) {
           plan,
           planRole,
           locale,
+          billingMode,
+          recurringEnabled,
           checkoutConsent: true,
           checkout: checkout.raw || null
         }

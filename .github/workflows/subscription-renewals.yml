@@ -1,0 +1,50 @@
+name: Subscription Renewals
+
+on:
+  schedule:
+    - cron: "15 3 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run in dry-run mode"
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  renewals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required secrets
+        env:
+          SUBSCRIPTION_RENEWAL_BASE_URL: ${{ secrets.SUBSCRIPTION_RENEWAL_BASE_URL }}
+          SUBSCRIPTION_RENEWAL_JOB_KEY: ${{ secrets.SUBSCRIPTION_RENEWAL_JOB_KEY }}
+        run: |
+          if [ -z "${SUBSCRIPTION_RENEWAL_BASE_URL}" ]; then
+            echo "Missing repository secret: SUBSCRIPTION_RENEWAL_BASE_URL"
+            exit 1
+          fi
+          if [ -z "${SUBSCRIPTION_RENEWAL_JOB_KEY}" ]; then
+            echo "Missing repository secret: SUBSCRIPTION_RENEWAL_JOB_KEY"
+            exit 1
+          fi
+
+      - name: Run renewals (scheduled)
+        if: github.event_name == 'schedule'
+        env:
+          SUBSCRIPTION_RENEWAL_BASE_URL: ${{ secrets.SUBSCRIPTION_RENEWAL_BASE_URL }}
+          SUBSCRIPTION_RENEWAL_JOB_KEY: ${{ secrets.SUBSCRIPTION_RENEWAL_JOB_KEY }}
+          SUBSCRIPTION_RENEWAL_DRY_RUN: "0"
+        run: node scripts/subscription-renewals.mjs
+
+      - name: Run renewals (manual)
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          SUBSCRIPTION_RENEWAL_BASE_URL: ${{ secrets.SUBSCRIPTION_RENEWAL_BASE_URL }}
+          SUBSCRIPTION_RENEWAL_JOB_KEY: ${{ secrets.SUBSCRIPTION_RENEWAL_JOB_KEY }}
+          SUBSCRIPTION_RENEWAL_DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+        run: node scripts/subscription-renewals.mjs

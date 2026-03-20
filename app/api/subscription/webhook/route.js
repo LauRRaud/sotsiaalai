@@ -2,13 +2,27 @@ export const runtime = "nodejs";
 
 import crypto from "node:crypto";
 import { NextResponse } from "next/server";
-import { PaymentProvider, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/client";
+import {
+  BillingInterval,
+  BillingMethodStatus,
+  BillingMode,
+  PaymentKind,
+  PaymentProvider,
+  PaymentStatus,
+  SubscriptionStatus
+} from "@/generated/prisma/client";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { extractProviderPaymentId, mapProviderPaymentStatus, verifyWebhookSignature } from "@/lib/payments/maksekeskus";
+import {
+  buildBillingMethodLabel,
+  extractProviderCustomerId,
+  extractRecurringMandateId,
+  extractRecurringToken
+} from "@/lib/payments/recurring";
 import { logPaymentEvent } from "@/lib/payments/observability";
 
 const NO_STORE_HEADERS = {
@@ -346,7 +360,10 @@ async function activateSubscriptionFromPayment(tx, payment) {
     where: { id: payment.subscriptionId },
     select: {
       id: true,
-      validUntil: true
+      validUntil: true,
+      billingMode: true,
+      billingInterval: true,
+      billingMethodId: true
     }
   });
   if (!existing) return null;
@@ -361,7 +378,10 @@ async function activateSubscriptionFromPayment(tx, payment) {
     data: {
       status: SubscriptionStatus.ACTIVE,
       validUntil,
-      nextBilling: validUntil,
+      nextBilling: existing.billingMode === BillingMode.RECURRING ? validUntil : null,
+      lastBilledAt: paidAtOrNow(payment.paidAt),
+      pastDueSince: null,
+      billingRetryCount: 0,
       canceledAt: null
     },
     select: {
@@ -369,6 +389,75 @@ async function activateSubscriptionFromPayment(tx, payment) {
       status: true,
       validUntil: true,
       nextBilling: true
+    }
+  });
+}
+
+function paidAtOrNow(value) {
+  const parsed = value ? new Date(value) : null;
+  if (parsed && !Number.isNaN(parsed.getTime())) return parsed;
+  return new Date();
+}
+
+async function upsertRecurringBillingMethod(tx, payment, payload, paidAt) {
+  if (!payment?.subscriptionId) return null;
+  const recurringToken = extractRecurringToken(payload);
+  if (!recurringToken) return null;
+
+  const existingSubscription = await tx.subscription.findUnique({
+    where: { id: payment.subscriptionId },
+    select: {
+      id: true,
+      userId: true,
+      billingMethodId: true
+    }
+  });
+  if (!existingSubscription) return null;
+
+  const providerMandateId = extractRecurringMandateId(payload) || null;
+  const providerCustomerId = extractProviderCustomerId(payload) || null;
+  const label = buildBillingMethodLabel(payload) || null;
+  const billingMethod =
+    (existingSubscription.billingMethodId
+      ? await tx.billingMethod.findUnique({
+          where: { id: existingSubscription.billingMethodId },
+          select: { id: true }
+        })
+      : null) ||
+    (providerMandateId
+      ? await tx.billingMethod.findFirst({
+          where: {
+            userId: existingSubscription.userId,
+            provider: PaymentProvider.MAKSEKESKUS,
+            providerMandateId
+          },
+          select: { id: true }
+        })
+      : null);
+
+  const data = {
+    status: BillingMethodStatus.ACTIVE,
+    provider: PaymentProvider.MAKSEKESKUS,
+    providerToken: recurringToken,
+    providerMandateId,
+    providerCustomerId,
+    label,
+    activatedAt: paidAt,
+    lastUsedAt: paidAt,
+    revokedAt: null
+  };
+
+  if (billingMethod?.id) {
+    return tx.billingMethod.update({
+      where: { id: billingMethod.id },
+      data
+    });
+  }
+
+  return tx.billingMethod.create({
+    data: {
+      userId: existingSubscription.userId,
+      ...data
     }
   });
 }
@@ -523,6 +612,9 @@ export async function POST(request) {
           status: true,
           subscriptionId: true,
           inviteId: true,
+          userId: true,
+          kind: true,
+          billingMethodId: true,
           raw: true
         }
       });
@@ -572,6 +664,8 @@ export async function POST(request) {
         data: {
           status: nextStatus,
           ...(paidAt ? { paidAt } : {}),
+          ...(nextStatus === PaymentStatus.FAILED || nextStatus === PaymentStatus.CANCELED ? { failedAt: new Date() } : {}),
+          ...(nextStatus === PaymentStatus.REFUNDED ? { refundedAt: new Date() } : {}),
           raw: {
             source: "maksekeskus_webhook",
             payload,
@@ -582,12 +676,16 @@ export async function POST(request) {
           id: true,
           status: true,
           subscriptionId: true,
-          inviteId: true
+          inviteId: true,
+          kind: true,
+          userId: true,
+          billingMethodId: true
         }
       });
 
       let subscription = null;
       let inviteEmail = null;
+      let billingMethod = null;
 
       if (updatedPayment.inviteId) {
         if (nextStatus === PaymentStatus.PAID) {
@@ -644,9 +742,59 @@ export async function POST(request) {
           });
         }
       } else if (nextStatus === PaymentStatus.PAID) {
+        if (payment.kind === PaymentKind.SUBSCRIPTION_INITIAL) {
+          billingMethod = await upsertRecurringBillingMethod(tx, payment, payload, paidAt || new Date());
+
+          if (billingMethod?.id) {
+            await tx.payment.update({
+              where: { id: updatedPayment.id },
+              data: {
+                billingMethodId: billingMethod.id
+              }
+            });
+            await tx.subscription.update({
+              where: { id: updatedPayment.subscriptionId },
+              data: {
+                billingMode: BillingMode.RECURRING,
+                billingInterval: BillingInterval.MONTHLY,
+                billingMethodId: billingMethod.id
+              }
+            });
+          }
+        } else if (payment.kind === PaymentKind.SUBSCRIPTION_RENEWAL && payment.billingMethodId) {
+          await tx.billingMethod.update({
+            where: { id: payment.billingMethodId },
+            data: {
+              status: BillingMethodStatus.ACTIVE,
+              lastUsedAt: paidAt || new Date()
+            }
+          });
+        }
+
         subscription = await activateSubscriptionFromPayment(tx, updatedPayment);
       } else if (subscriptionAction === "cancel") {
         subscription = await cancelSubscriptionFromPayment(tx, updatedPayment);
+      } else if (
+        payment.kind === PaymentKind.SUBSCRIPTION_RENEWAL &&
+        (nextStatus === PaymentStatus.FAILED || nextStatus === PaymentStatus.CANCELED) &&
+        payment.subscriptionId
+      ) {
+        subscription = await tx.subscription.update({
+          where: { id: payment.subscriptionId },
+          data: {
+            status: SubscriptionStatus.PAST_DUE,
+            pastDueSince: new Date(),
+            billingRetryCount: {
+              increment: 1
+            }
+          },
+          select: {
+            id: true,
+            status: true,
+            validUntil: true,
+            nextBilling: true
+          }
+        });
       }
 
       return {
@@ -654,6 +802,7 @@ export async function POST(request) {
         paymentId: updatedPayment.id,
         status: updatedPayment.status,
         subscription,
+        billingMethodId: billingMethod?.id || payment.billingMethodId || null,
         subscriptionAction,
         inviteEmail,
         paymentLocale

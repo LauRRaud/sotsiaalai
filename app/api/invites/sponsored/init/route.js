@@ -11,6 +11,7 @@ import {
   createMaksekeskusCheckout,
   makeProviderPaymentId
 } from "@/lib/payments/maksekeskus";
+import { getInviteSponsoredPaymentKind } from "@/lib/payments/recurring";
 import {
   formatEuroAmount,
   getRoleMonthlyAmount,
@@ -488,6 +489,7 @@ export async function POST(request) {
           inviteId: invite.id,
           userId: auth.userId,
           provider: PaymentProvider.MAKSEKESKUS,
+          kind: getInviteSponsoredPaymentKind(),
           providerPaymentId,
           amount,
           currency,

@@ -34,6 +34,30 @@ enum PaymentStatus {
   REFUNDED
 }
 
+enum PaymentKind {
+  SUBSCRIPTION_INITIAL
+  SUBSCRIPTION_RENEWAL
+  INVITE_SPONSORED
+  OTHER
+}
+
+enum BillingMode {
+  ONE_OFF
+  RECURRING
+}
+
+enum BillingInterval {
+  MONTHLY
+}
+
+enum BillingMethodStatus {
+  PENDING
+  ACTIVE
+  REVOKED
+  FAILED
+  EXPIRED
+}
+
 enum RagSourceType {
   FILE
   URL
@@ -202,6 +226,7 @@ model User {
   profile        Profile?
   subscriptions  Subscription[]
   payments       Payment[]
+  billingMethods BillingMethod[]
   sponsoredSubscriptions Subscription[] @relation("SubscriptionSponsorUser")
   ragDocuments   RagDocument[]
   documents      UserDocument[]
@@ -287,16 +312,23 @@ model Subscription {
   userId      String
   status      SubscriptionStatus @default(NONE)
   plan        String             @default("kuutellimus")
+  billingMode BillingMode        @default(ONE_OFF)
+  billingInterval BillingInterval?
+  billingMethodId String?
   billingSource BillingSource    @default(SELF)
   sponsorUserId String?
   inviteId      String?
   validUntil  DateTime?
   nextBilling DateTime?
+  lastBilledAt DateTime?
+  pastDueSince DateTime?
+  billingRetryCount Int          @default(0)
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
   canceledAt  DateTime?
 
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  billingMethod BillingMethod? @relation(fields: [billingMethodId], references: [id], onDelete: SetNull)
   sponsorUser User?     @relation("SubscriptionSponsorUser", fields: [sponsorUserId], references: [id], onDelete: SetNull)
   invite      Invite?   @relation("InviteGrantedSubscription", fields: [inviteId], references: [id], onDelete: SetNull)
   payments    Payment[]
@@ -304,6 +336,8 @@ model Subscription {
   @@index([userId])
   @@index([status])
   @@index([validUntil])
+  @@index([billingMode])
+  @@index([billingMethodId])
   @@index([billingSource])
   @@index([sponsorUserId])
   @@index([inviteId])
@@ -315,22 +349,57 @@ model Payment {
   inviteId          String?
   userId            String
   provider          PaymentProvider @default(MAKSEKESKUS)
+  kind              PaymentKind     @default(OTHER)
+  billingMethodId   String?
   providerPaymentId String
   amount            Decimal         @db.Decimal(10, 2)
   currency          String          @default("EUR")
   status            PaymentStatus
   paidAt            DateTime?
+  failedAt          DateTime?
+  refundedAt        DateTime?
+  attemptNumber     Int             @default(1)
   raw               Json?
   createdAt         DateTime        @default(now())
 
   subscription Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  billingMethod BillingMethod? @relation(fields: [billingMethodId], references: [id], onDelete: SetNull)
   invite       Invite?       @relation(fields: [inviteId], references: [id], onDelete: SetNull)
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerPaymentId])
   @@index([subscriptionId])
+  @@index([billingMethodId])
   @@index([inviteId])
   @@index([userId])
+  @@index([kind])
+}
+
+model BillingMethod {
+  id                 String              @id @default(cuid())
+  userId             String
+  provider           PaymentProvider     @default(MAKSEKESKUS)
+  status             BillingMethodStatus @default(PENDING)
+  providerCustomerId String?
+  providerToken      String?
+  providerMandateId  String?
+  label              String?
+  expiresAt          DateTime?
+  activatedAt        DateTime?
+  revokedAt          DateTime?
+  lastUsedAt         DateTime?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscriptions Subscription[]
+  payments      Payment[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([provider])
+  @@index([providerCustomerId])
+  @@index([providerMandateId])
 }
 
 model RagDocument {
