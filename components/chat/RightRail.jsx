@@ -539,6 +539,7 @@ export default function RightRail({
     !suspendPointerEvents &&
     !suppressTooltip &&
     !isRouteTilting &&
+    isTooltipVisible &&
     tooltipLabelIndex >= 0 &&
     tooltipLabelIndex < items.length;
   const tooltipAnchorShiftX = inputFocused ? 0 : 7.4 * railProfileScale;

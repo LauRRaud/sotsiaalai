@@ -447,27 +447,29 @@ body.login-modal-open {
     mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.08) 1.3%,
-      rgba(0, 0, 0, 0.18) 3.1%,
-      rgba(0, 0, 0, 0.32) 5.6%,
+      rgba(0, 0, 0, 0.12) 1.3%,
+      rgba(0, 0, 0, 0.28) 3.1%,
+      rgba(0, 0, 0, 0.48) 5.6%,
       #000 8.6%,
-      #000 87.8%,
-      rgba(0, 0, 0, 0.42) 92.8%,
-      rgba(0, 0, 0, 0.12) 96.6%,
-      rgba(0, 0, 0, 0.01) 98.7%,
+      #000 83.8%,
+      rgba(0, 0, 0, 0.84) 88.8%,
+      rgba(0, 0, 0, 0.42) 93.2%,
+      rgba(0, 0, 0, 0.1) 96.8%,
+      rgba(0, 0, 0, 0.01) 98.8%,
       transparent 100%
     );
     -webkit-mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.08) 1.3%,
-      rgba(0, 0, 0, 0.18) 3.1%,
-      rgba(0, 0, 0, 0.32) 5.6%,
+      rgba(0, 0, 0, 0.12) 1.3%,
+      rgba(0, 0, 0, 0.28) 3.1%,
+      rgba(0, 0, 0, 0.48) 5.6%,
       #000 8.6%,
-      #000 87.8%,
-      rgba(0, 0, 0, 0.42) 92.8%,
-      rgba(0, 0, 0, 0.12) 96.6%,
-      rgba(0, 0, 0, 0.01) 98.7%,
+      #000 83.8%,
+      rgba(0, 0, 0, 0.84) 88.8%,
+      rgba(0, 0, 0, 0.42) 93.2%,
+      rgba(0, 0, 0, 0.1) 96.8%,
+      rgba(0, 0, 0, 0.01) 98.8%,
       transparent 100%
     );
     mask-repeat: no-repeat;
@@ -1013,16 +1015,17 @@ html[data-contrast="hc"] {
     left: 0;
     right: 0;
     bottom: clamp(-0.56rem, -0.94vh, -0.28rem);
-    height: clamp(5.1rem, 8.9vh, 6.9rem);
+    height: clamp(5.9rem, 10.1vh, 7.8rem);
     pointer-events: none;
     z-index: 14;
     background: linear-gradient(
       to top,
       rgba(var(--policy-bottom-fade-rgb), 1) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 1) 72%,
-      rgba(var(--policy-bottom-fade-rgb), 0.985) 84%,
-      rgba(var(--policy-bottom-fade-rgb), 0.84) 91%,
-      rgba(var(--policy-bottom-fade-rgb), 0.46) 96.3%,
+      rgba(var(--policy-bottom-fade-rgb), 1) 64%,
+      rgba(var(--policy-bottom-fade-rgb), 0.995) 78%,
+      rgba(var(--policy-bottom-fade-rgb), 0.92) 86%,
+      rgba(var(--policy-bottom-fade-rgb), 0.62) 93.2%,
+      rgba(var(--policy-bottom-fade-rgb), 0.18) 97.2%,
       rgba(var(--policy-bottom-fade-rgb), 0) 100%
     );
   }
@@ -1157,29 +1160,29 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.08) 1.1%,
-      rgba(0, 0, 0, 0.18) 2.8%,
-      rgba(0, 0, 0, 0.34) 5.2%,
+      rgba(0, 0, 0, 0.14) 1.1%,
+      rgba(0, 0, 0, 0.3) 2.8%,
+      rgba(0, 0, 0, 0.54) 5.2%,
       #000 8.2%,
-      #000 79.8%,
-      rgba(0, 0, 0, 0.99) 84.5%,
-      rgba(0, 0, 0, 0.88) 89.2%,
-      rgba(0, 0, 0, 0.56) 93.6%,
-      rgba(0, 0, 0, 0.18) 97.4%,
+      #000 74.8%,
+      rgba(0, 0, 0, 0.98) 81.2%,
+      rgba(0, 0, 0, 0.82) 86.6%,
+      rgba(0, 0, 0, 0.46) 92.4%,
+      rgba(0, 0, 0, 0.14) 97%,
       rgba(0, 0, 0, 0) 100%
     ) !important;
     -webkit-mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.08) 1.1%,
-      rgba(0, 0, 0, 0.18) 2.8%,
-      rgba(0, 0, 0, 0.34) 5.2%,
+      rgba(0, 0, 0, 0.14) 1.1%,
+      rgba(0, 0, 0, 0.3) 2.8%,
+      rgba(0, 0, 0, 0.54) 5.2%,
       #000 8.2%,
-      #000 79.8%,
-      rgba(0, 0, 0, 0.99) 84.5%,
-      rgba(0, 0, 0, 0.88) 89.2%,
-      rgba(0, 0, 0, 0.56) 93.6%,
-      rgba(0, 0, 0, 0.18) 97.4%,
+      #000 74.8%,
+      rgba(0, 0, 0, 0.98) 81.2%,
+      rgba(0, 0, 0, 0.82) 86.6%,
+      rgba(0, 0, 0, 0.46) 92.4%,
+      rgba(0, 0, 0, 0.14) 97%,
       rgba(0, 0, 0, 0) 100%
     ) !important;
   }
@@ -1188,16 +1191,16 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
     content: "" !important;
     display: block !important;
-    height: clamp(5.4rem, 9.4vh, 7rem) !important;
+    height: clamp(6rem, 10.3vh, 8rem) !important;
     z-index: 12 !important;
     background: linear-gradient(
       to bottom,
       rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 0.05) 14%,
-      rgba(var(--policy-bottom-fade-rgb), 0.18) 30%,
-      rgba(var(--policy-bottom-fade-rgb), 0.38) 48%,
-      rgba(var(--policy-bottom-fade-rgb), 0.62) 66%,
-      rgba(var(--policy-bottom-fade-rgb), 0.84) 84%,
+      rgba(var(--policy-bottom-fade-rgb), 0.06) 14%,
+      rgba(var(--policy-bottom-fade-rgb), 0.22) 30%,
+      rgba(var(--policy-bottom-fade-rgb), 0.46) 48%,
+      rgba(var(--policy-bottom-fade-rgb), 0.72) 66%,
+      rgba(var(--policy-bottom-fade-rgb), 0.92) 84%,
       rgba(var(--policy-bottom-fade-rgb), 1) 100%
     ) !important;
   }

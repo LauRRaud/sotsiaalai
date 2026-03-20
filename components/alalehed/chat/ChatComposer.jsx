@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
+import { DictateWaveIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 
 const CHAT_MODE_SHINE_GRADIENTS_DARK = {
@@ -397,6 +398,7 @@ export default function ChatComposer({
   const sendButtonClassName =
     "chat-send-btn relative z-[2] !h-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !w-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !min-h-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !min-w-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !flex-[0_0_calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !p-0 rounded-full border-0 " +
     "flex items-center justify-center overflow-hidden leading-none " +
+    "translate-x-[var(--chat-send-btn-shift-x,0rem)] translate-y-[var(--chat-send-btn-shift-y,0rem)] " +
     "px-[6px] py-[1px] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
@@ -564,12 +566,7 @@ export default function ChatComposer({
               className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[#c57171] light:text-[#7a3a38]"
             />
           </button> : <button type="button" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handlePrimaryActionClick} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
-            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.82" strokeLinecap="round" strokeLinejoin="round" shapeRendering="geometricPrecision" className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[#c57171] light:text-[#7a3a38]">
-              <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-              <line x1="12" y1="19" x2="12" y2="23" />
-              <line x1="8" y1="23" x2="16" y2="23" />
-            </svg>
+            <DictateWaveIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[#c57171] light:text-[#7a3a38]" />
           </button>}
       </div>
       {displayModeLabel ? <div className="pointer-events-none absolute left-1/2 top-[calc(100%+1.46rem)] -translate-x-1/2 text-center max-[768px]:top-[calc(100%+1.08rem)]">

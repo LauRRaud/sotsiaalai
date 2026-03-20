@@ -8,11 +8,6 @@
   --glass-modal-bg: rgba(252, 248, 247, 0.58);
   --glass-surface-text: #2c3340;
   --glass-modal-text: #2c3340;
-  --rail-tooltip-bg: rgba(252, 248, 247, 0.97);
-  --rail-tooltip-border: rgba(255, 255, 255, 0.28);
-  --rail-tooltip-shadow: 0 10px 20px rgba(20, 12, 10, 0.14);
-  --rail-tooltip-text: #7a3a38;
-  --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
   --home-panel-bg: rgba(252, 248, 247, 0.53);
   --home-panel-shadow: 0 12px 22px rgba(20, 12, 10, 0.2);
   --home-before-shadow: 0 10px 20px rgba(20, 12, 10, 0.18);
@@ -23,15 +18,19 @@
     rgba(251, 246, 245, 0.56) 58%,
     rgba(249, 241, 239, 0.54)
   );
-  --input-bg: rgba(252, 248, 247, 0.48);
-  --input-bg-hover: rgba(253, 250, 249, 0.54);
-  --input-bg-focus: rgba(253, 250, 249, 0.56);
+  --input-bg: rgba(251, 246, 245, 0.46);
+  --input-bg-hover: rgba(252, 249, 248, 0.5);
+  --input-bg-focus: rgba(253, 250, 249, 0.52);
   --input-text: #2f3a4a;
   --input-caret: #2f3a4a;
   --input-border: 1px solid rgba(255, 255, 255, 0.34);
   --input-placeholder: rgba(55, 65, 81, 0.82);
-  --input-shadow: 0 6px 14px rgba(20, 12, 10, 0.16);
-  --input-shadow-hover: 0 7px 16px rgba(20, 12, 10, 0.18);
+  --input-shadow:
+    0 0.42rem 1.05rem rgba(20, 12, 10, 0.16),
+    0 0.16rem 0.4rem rgba(20, 12, 10, 0.07);
+  --input-shadow-hover:
+    0 0.24rem 0.68rem rgba(20, 12, 10, 0.1),
+    0 0.08rem 0.22rem rgba(20, 12, 10, 0.035);
   --btn-primary-hover-brightness: 1.03;
   --btn-primary-bg:
     radial-gradient(
@@ -100,9 +99,9 @@
   --panel-secondary-bg: rgba(252, 248, 247, 0.44);
   --panel-secondary-border: rgba(255, 255, 255, 0.34);
   --panel-secondary-shadow: 0 6px 16px rgba(20, 12, 10, 0.12);
-  --rail-tooltip-bg: rgba(252, 248, 247, 0.97);
-  --rail-tooltip-border: rgba(255, 255, 255, 0.28);
-  --rail-tooltip-shadow: 0 10px 20px rgba(20, 12, 10, 0.14);
+  --rail-tooltip-bg: var(--input-bg);
+  --rail-tooltip-border: rgba(255, 255, 255, 0.34);
+  --rail-tooltip-shadow: var(--input-shadow);
   --rail-tooltip-text: #7a3a38;
   --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
 }
@@ -248,9 +247,9 @@
     calc(3.2 * var(--base-rem))
   );
   color: var(--rail-tooltip-text, #2f3a4a);
-  background: var(--rail-tooltip-bg, rgba(252, 248, 247, 0.97));
+  background: var(--input-bg, rgba(251, 246, 245, 0.46));
   border: 0;
-  box-shadow: var(--rail-tooltip-shadow, 0 5px 14px rgba(20, 12, 10, 0.16));
+  box-shadow: var(--input-shadow, 0 0.42rem 1.05rem rgba(20, 12, 10, 0.16));
 }
 
 :root.theme-mid .chat-inputbar {
@@ -259,9 +258,9 @@
 
 :root.theme-mid .chat-inputbar:hover:not(:focus-within),
 :root.theme-mid .chat-inputbar:focus-within {
-  background: var(--rail-tooltip-bg, rgba(252, 248, 247, 0.97));
+  background: var(--input-bg-hover, rgba(253, 250, 249, 0.54));
   border-color: transparent;
-  box-shadow: var(--rail-tooltip-shadow, 0 7px 16px rgba(20, 12, 10, 0.18));
+  box-shadow: var(--input-shadow-hover, var(--input-shadow, 0 0.42rem 1.05rem rgba(20, 12, 10, 0.16)));
 }
 
 :root.theme-mid .chat-inputbar .chat-listen-btn {
@@ -272,39 +271,28 @@
 }
 
 :root.theme-mid .chat-inputbar .chat-send-btn {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(251, 245, 243, 0.34) 0%,
-      rgba(244, 234, 232, 0.24) 100%
-    ),
-    rgba(244, 234, 232, 0.2) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  box-shadow: 0 4px 10px rgba(20, 12, 10, 0.12) !important;
+  background: var(--btn-primary-bg) !important;
+  border: var(--btn-primary-border) !important;
+  box-shadow:
+    0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
+    0 0.16rem 0.4rem rgba(20, 12, 10, 0.06) !important;
 }
 
 :root.theme-mid .chat-inputbar:focus-within .chat-send-btn {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(252, 247, 245, 0.4) 0%,
-      rgba(246, 237, 234, 0.3) 100%
-    ),
-    rgba(246, 237, 234, 0.24) !important;
-  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  background: var(--btn-primary-bg-hover) !important;
+  border: var(--btn-primary-border-hover) !important;
+  box-shadow:
+    0 0.24rem 0.68rem rgba(20, 12, 10, 0.08),
+    0 0.08rem 0.22rem rgba(20, 12, 10, 0.03) !important;
 }
 
 :root.theme-mid .chat-inputbar .chat-send-btn:hover,
 :root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(252, 247, 245, 0.42) 0%,
-      rgba(246, 237, 234, 0.32) 100%
-    ),
-    rgba(246, 237, 234, 0.26) !important;
-  border: 1px solid rgba(255, 255, 255, 0.42) !important;
-  box-shadow: 0 6px 12px rgba(20, 12, 10, 0.14) !important;
+  background: var(--btn-primary-bg-hover) !important;
+  border: var(--btn-primary-border-hover) !important;
+  box-shadow:
+    0 0.24rem 0.68rem rgba(20, 12, 10, 0.08),
+    0 0.08rem 0.22rem rgba(20, 12, 10, 0.03) !important;
   color: #2f3a4a;
 }
 
@@ -323,7 +311,7 @@
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
 :root.theme-mid .chat-tools-menu {
-  background: rgba(252, 246, 244, 0.96) !important;
+  background: rgba(252, 246, 244, 0.62) !important;
   box-shadow: 0 12px 28px rgba(46, 24, 21, 0.18) !important;
 }
 

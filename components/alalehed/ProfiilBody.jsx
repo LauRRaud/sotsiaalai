@@ -173,9 +173,9 @@ const accountModalCardClassName =
   "[.theme-mid_&]:text-[#3f4756] [.theme-light_&]:text-[#1f2937]";
 const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[0.7rem] pt-0 text-center";
 const accountModalNoteClassName =
-  "m-0 mb-[clamp(0.75rem,1.9vh,1.15rem)] mx-auto max-w-[24rem] text-center text-[1.12rem] leading-[1.35] tracking-[0.03rem] text-[color:var(--glass-modal-text)] max-[768px]:mb-[clamp(0.62rem,1.7vh,1rem)] max-[768px]:max-w-none max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4]";
+  "m-0 mb-[clamp(0.75rem,1.9vh,1.15rem)] mx-auto max-w-[24rem] text-center text-[1.24rem] leading-[1.35] tracking-[0.01rem] text-[color:var(--glass-modal-text)] max-[768px]:mb-[clamp(0.62rem,1.7vh,1rem)] max-[768px]:max-w-none max-[768px]:text-[1.3rem] max-[768px]:leading-[1.4]";
 const accountModalButtonClassName =
-  "!min-h-[2.8rem] !px-[1.28rem] !py-[0.56rem] !text-[1.06rem] !tracking-[0.02em] !self-center shrink-0 " +
+  "!min-h-[2.8rem] !px-[1.18rem] !py-[0.48rem] !text-[1.22rem] !tracking-[0.01em] !self-center shrink-0 " +
   "!min-w-[12.5rem] max-[768px]:!w-full max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {

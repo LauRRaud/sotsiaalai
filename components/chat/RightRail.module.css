@@ -244,10 +244,11 @@
 .tooltip {
   position: absolute;
   top: 50%;
-  left: 0;
+  right: 100%;
+  left: auto;
   --rail-profile-scale: 1;
   --rail-tooltip-gap: calc(0.18rem * var(--rail-profile-scale));
-  transform: translate(calc(-100% - var(--rail-tooltip-gap)), -50%);
+  transform: translate(calc(-1 * var(--rail-tooltip-gap)), -50%);
   opacity: 0;
   padding: 0.24rem 0.6rem;
   border-radius: 0.7rem;
@@ -283,12 +284,12 @@
 
 .tooltipVisible {
   opacity: 1;
-  transform: translate(calc(-100% - var(--rail-tooltip-gap)), -50%);
+  transform: translate(calc(-1 * var(--rail-tooltip-gap)), -50%);
 }
 
 .tooltipHidden {
   opacity: 0;
-  transform: translate(calc(-100% - var(--rail-tooltip-gap)), -50%);
+  transform: translate(calc(-1 * var(--rail-tooltip-gap)), -50%);
 }
 .tooltip::before {
   content: none;

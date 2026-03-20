@@ -305,6 +305,21 @@ export function HelpOfferIcon({ isLightTheme = false, className, ...props }) {
   );
 }
 
+export function DictateWaveIcon({ className, ...props }) {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+      {...props}
+    >
+      <path d="M507.1 81.3h8.8c19.5 0 35.3 16.4 35.3 36.5v790.8c0 20.1-15.8 36.5-35.3 36.5h-8.8c-19.5 0-35.3-16.4-35.3-36.5V117.8c0-20.1 15.8-36.5 35.3-36.5zM737.2 213h8.8c19.5 0 35.3 16.4 35.3 36.5v527.4c0 20.1-15.8 36.5-35.3 36.5h-8.8c-19.5 0-35.3-16.4-35.3-36.5V249.5c0-20.1 15.8-36.5 35.3-36.5zM277.1 213h8.8c19.5 0 35.3 16.4 35.3 36.5v527.4c0 20.1-15.8 36.5-35.3 36.5h-8.8c-19.5 0-35.3-16.4-35.3-36.5V249.5c-0.1-20.1 15.8-36.5 35.3-36.5zM967.2 365.5h8.8c19.5 0 35.3 16.4 35.3 36.5v222.3c0 20.1-15.8 36.5-35.3 36.5h-8.8c-19.5 0-35.3-16.4-35.3-36.5V402c0-20.1 15.8-36.5 35.3-36.5zM47 365.5h8.8c19.5 0 35.3 16.4 35.3 36.5v222.3c0 20.1-15.8 36.5-35.3 36.5H47c-19.5 0-35.3-16.4-35.3-36.5V402c0-20.1 15.8-36.5 35.3-36.5z" />
+    </svg>
+  );
+}
+
 export function ShowRailIcon({ isLightTheme = false, className, ...props }) {
   const color = resolveThemeColor(isLightTheme);
   return (
