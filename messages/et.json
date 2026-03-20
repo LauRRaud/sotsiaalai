@@ -1632,7 +1632,7 @@
     "pay": {
       "label": "Maksmine",
       "self": "Kutsutu teeb tellimuse ise",
-      "host": "Tasun tema eest 1 kuu tellimuse",
+      "host": "Tasun tema eest",
       "default_note": "Vaikimisi saadad lihtsalt kutse. Kutsutud inimene saab registreeruda ning vajadusel tellimuse ise aktiveerida, enne kui ta ruumiga liitub.",
       "multiple_hint": "Sponsoreeritud kutse jaoks saad korraga kasutada ainult ühte e-posti aadressi."
     },
@@ -1640,12 +1640,12 @@
       "title": "Vali sponsoreeritud tellimuse roll",
       "description": "Vali, kas ostad kutsutule üheks kuuks sotsiaaltöö spetsialisti või eluküsimusega pöörduja tellimuse.",
       "one_month_note": "Pärast makse kinnitamist saadetakse kutse välja. Sponsoreeritud tellimus kehtib ühe kuu; seejärel peab kutsutud inimene ise tellimust jätkama.",
-      "confirm_and_pay": "Kinnita ja mine maksma",
+      "confirm_and_pay": "Alusta makset",
       "payment_success": "Makse õnnestus. Kutse saadetakse välja pärast makse kinnitust.",
       "payment_canceled": "Makse katkestati. Kutset ei saadetud välja.",
       "payment_failed": "Makse ebaõnnestus. Proovi uuesti.",
       "checkout": {
-        "title": "Enne sponsormakse algatamist",
+        "title": "Enne makset",
         "agreement": "Nõustun <terms>kasutus-</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et ostan kutsutule ühe kuu sponsoreeritud ligipääsu ja soovin makse algatada Maksekeskuse kaudu.",
         "details": "Makseviisi valid Maksekeskuse makselehel. Sponsoreeritud kuu on ühekordne ega uuene automaatselt."
       },
@@ -1685,7 +1685,7 @@
     },
     "error": {
       "rate_limited": "Too many requests. Please try again later.",
-      "emails_required": "Add at least one email address.",
+      "emails_required": "Lisa vähemalt üks e-posti aadress.",
       "sponsored_single_email_required": "Sponsoreeritud kutse puhul saad korraga kutsuda ühe inimese.",
       "sponsor_plan_required": "Vali sponsoreeritud tellimuse roll enne makse alustamist.",
       "invitee_active_subscription": "Selle e-posti aadressiga kasutajal on juba aktiivne tellimus. Sponsoreeritud kuud ei saa talle uuesti osta.",

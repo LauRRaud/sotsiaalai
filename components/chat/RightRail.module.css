@@ -257,12 +257,12 @@
   line-height: 1.1;
   letter-spacing: 0.02em;
   color: var(--chat-icon-dark, #c57171);
-  background: rgba(28, 31, 38, 0.97);
+  background: var(--rail-tooltip-bg, rgba(28, 31, 38, 0.97));
   -webkit-backdrop-filter: blur(14px) saturate(124%);
   backdrop-filter: blur(14px) saturate(124%);
   filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--rail-tooltip-border, rgba(255, 255, 255, 0.12));
+  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(0, 0, 0, 0.18));
   pointer-events: none;
   z-index: 80;
   isolation: isolate;
@@ -313,13 +313,13 @@
   color: #7a3a38;
   font-size: 1.12rem;
   font-weight: 450;
-  background: rgba(253, 250, 249, 0.96);
-  border-color: rgba(122, 58, 56, 0.12);
-  box-shadow: 0 10px 24px rgba(82, 50, 46, 0.12);
+  background: var(--rail-tooltip-bg, rgba(253, 250, 249, 0.96));
+  border-color: var(--rail-tooltip-border, rgba(122, 58, 56, 0.12));
+  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));
 }
 
 :global(:root.theme-night) .tooltip {
-  background: rgba(16, 19, 26, 0.98);
+  background: var(--rail-tooltip-bg, rgba(16, 19, 26, 0.98));
 }
 
 :global(html[data-contrast="hc"]) .tooltip {
@@ -337,11 +337,11 @@
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .tooltip {
-    background: rgb(28, 31, 38);
+    background: var(--rail-tooltip-bg, rgb(28, 31, 38));
   }
 
   :global(:root.theme-night) .tooltip {
-    background: rgb(16, 19, 26);
+    background: var(--rail-tooltip-bg, rgb(16, 19, 26));
   }
 
   :global(:root.theme-light) .tooltip {

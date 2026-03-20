@@ -1640,12 +1640,12 @@
       "title": "Choose the sponsored subscription role",
       "description": "Choose whether you are buying a one-month subscription for a social work specialist or a person seeking help.",
       "one_month_note": "After payment is confirmed, the invite is sent out. The sponsored subscription is valid for one month; after that the invited person must continue with their own subscription.",
-      "confirm_and_pay": "Confirm and pay",
+      "confirm_and_pay": "Start payment",
       "payment_success": "Payment succeeded. The invite will be sent once the payment is confirmed.",
       "payment_canceled": "Payment was canceled. The invite was not sent.",
       "payment_failed": "Payment failed. Please try again.",
       "checkout": {
-        "title": "Before starting the sponsored payment",
+        "title": "Before payment",
         "agreement": "I agree to the <terms>terms of use</terms> and <privacy>privacy terms</privacy>. I understand that I am buying one month of sponsored access for the invited person and want to start payment through Maksekeskus.",
         "details": "You choose the payment method on the Maksekeskus checkout page. The sponsored month is one-time and does not renew automatically."
       },

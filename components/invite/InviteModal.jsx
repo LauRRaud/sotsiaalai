@@ -43,7 +43,7 @@ export default function InviteModal() {
   const [closing, setClosing] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [targetRole, setTargetRole] = useState("CLIENT");
+  const [targetRole, setTargetRole] = useState(null);
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [sponsoredCheckoutAgreed, setSponsoredCheckoutAgreed] = useState(false);
@@ -64,7 +64,9 @@ export default function InviteModal() {
   const inviteModalTitleClassName = `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
     "invite-modal-scroll mx-auto grid w-full max-w-[clamp(18rem,44vw,31rem)] gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:max-w-none max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]";
-  const inviteFormClassName = "grid gap-[1rem] max-[768px]:gap-[0.95rem]";
+  const inviteFormClassName = `grid gap-[1rem] max-[768px]:gap-[0.95rem] ${
+    sponsoredSelected ? "pb-[1.6rem] max-[768px]:pb-[1.25rem]" : ""
+  }`;
   const mobileInviteInputClassName =
     "!text-[1.28rem] !tracking-[0.02em] placeholder:!text-[1.12rem] placeholder:!tracking-[0.02em] max-[768px]:!text-[1.34rem] max-[768px]:!tracking-[0.024em] max-[768px]:placeholder:!text-[1.2rem] max-[768px]:placeholder:!tracking-[0.022em] max-[768px]:!min-h-[3.2rem] max-[768px]:!py-[0.84rem]";
   const invitePrimaryButtonClassName =
@@ -84,21 +86,20 @@ export default function InviteModal() {
     "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
     "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
     "[--seg-card-border:transparent] [--seg-card-border-width:0px] [--seg-card-duration:560ms] [--seg-card-ease:cubic-bezier(0.22,0.61,0.36,1)] " +
+    "[border:var(--btn-primary-border)] hover:[border:var(--btn-primary-border-hover)] focus-visible:[border:var(--btn-primary-border-hover)] data-[checked=true]:[border:var(--btn-primary-border-hover)] " +
+    "backdrop-blur-[10px] backdrop-saturate-[120%] " +
     "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[9rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
   const inviteSponsorToggleClassName =
-    "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[0.98rem] !leading-[1.2] " +
-    "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] [--seg-radio-border:rgba(255,255,255,0.7)] [--seg-radio-bg:rgba(255,255,255,0.08)] [--seg-radio-dot-bg:#f0b0aa] " +
-    "min-[769px]:[--seg-card-bg:linear-gradient(180deg,rgba(24,29,41,0.96)_0%,rgba(14,18,26,0.98)_100%)] " +
-    "min-[769px]:[--seg-card-bg-hover:linear-gradient(180deg,rgba(35,41,56,0.98)_0%,rgba(18,23,33,1)_100%)] " +
-    "min-[769px]:[--seg-card-text:#eef3fb] min-[769px]:[--seg-card-text-hover:var(--title-color,var(--brand-primary))] " +
-    "min-[769px]:[--seg-card-shadow:0_5px_12px_rgba(0,0,0,0.22)] min-[769px]:[--seg-card-shadow-hover:0_7px_16px_rgba(0,0,0,0.28)] " +
-    "max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.04rem] " +
+    "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
+    "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
+    "[&>span.shrink-0]:-translate-y-[0.08rem] " +
+    "max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem] " +
     inviteOptionButtonClassName;
   const inviteRoleCardClassName =
-    "!w-[min(100%,15.8rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.04rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.08rem] max-[768px]:!px-[1rem] " +
+    "!w-[min(100%,18.2rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
     inviteOptionButtonClassName;
   const inviteSponsoredUnifiedPanelClassName =
     "mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem] " +
@@ -111,11 +112,11 @@ export default function InviteModal() {
     "mt-[0.9rem] mb-[0.15rem] h-px w-full bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.16)_12%,rgba(255,255,255,0.16)_88%,rgba(255,255,255,0)_100%)] [.theme-light_&]:bg-[linear-gradient(90deg,rgba(122,58,56,0)_0%,rgba(122,58,56,0.12)_12%,rgba(122,58,56,0.12)_88%,rgba(122,58,56,0)_100%)]";
   const inviteSponsoredCheckboxClassName =
     "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
-    "[--otp-check-shape:rgba(255,255,255,0.92)] [--otp-check-tick:#f0b0aa] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-    "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.02rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem] " +
-    "min-[769px]:[--otp-check-text-max-width:min(100%,24rem)]";
+    "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:var(--title-color,var(--brand-primary))] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+    "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem] " +
+    "[&_.box]:translate-y-[-0.08rem] min-[769px]:ml-[0.9rem] min-[769px]:[--otp-check-text-max-width:min(100%,24rem)]";
   const inviteSponsoredCheckoutFooterClassName =
-    "mt-[1.6rem] pt-[0.2rem] flex justify-center max-[768px]:mt-[1.35rem]";
+    "mt-[0.95rem] pt-[0.05rem] flex justify-center max-[768px]:mt-[0.88rem]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -134,7 +135,7 @@ export default function InviteModal() {
     "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
-    "mt-[-1.05rem] rounded-[1rem] text-[color:var(--pt-120)] " +
+    `${sponsoredSelected ? "mt-[0.55rem] max-[768px]:mt-[0.45rem]" : "mt-[0.55rem]"} rounded-[1rem] text-[color:var(--pt-120)] ` +
     "[.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   const inviteCheckoutAgreementReplacements = useMemo(
     () => ({
@@ -190,7 +191,7 @@ export default function InviteModal() {
   }, [open, roomId]);
   useEffect(() => {
     if (paymentMode !== "SPONSORED_BY_HOST") {
-      setTargetRole("CLIENT");
+      setTargetRole(null);
       setSponsoredCheckoutAgreed(false);
     }
   }, [paymentMode]);
@@ -277,6 +278,7 @@ export default function InviteModal() {
       setError(t("invite.error.sponsored_single_email_required"));
       return;
     }
+    setTargetRole(null);
     setSponsoredCheckoutAgreed(false);
     setPaymentMode("SPONSORED_BY_HOST");
   }, [multipleEmailsForSponsored, t]);
@@ -301,6 +303,10 @@ export default function InviteModal() {
     }
     if (paymentMode === "SPONSORED_BY_HOST" && parsed.length !== 1) {
       setError(t("invite.error.sponsored_single_email_required"));
+      return;
+    }
+    if (paymentMode === "SPONSORED_BY_HOST" && !targetRole) {
+      setError(t("invite.error.sponsor_plan_required"));
       return;
     }
     if (paymentMode === "SPONSORED_BY_HOST" && !sponsoredCheckoutAgreed) {
@@ -569,7 +575,7 @@ export default function InviteModal() {
                           variant="primary"
                           size="md"
                           className={`${invitePrimaryButtonClassName} invite-primary-btn`}
-                          disabled={busy || !sponsoredCheckoutAgreed}
+                          disabled={busy || !targetRole || !sponsoredCheckoutAgreed}
                         >
                           {busy
                             ? t("invite.sending")
@@ -582,29 +588,31 @@ export default function InviteModal() {
               ) : null}
             </div>
 
-            <div className="relative mt-[0.7rem] mb-[0.85rem] flex justify-center">
-              {error ? (
-                <p className={inviteErrorNoticeClassName} role="alert">
-                  {error}
-                </p>
-              ) : null}
-              {message ? (
-                <p className={inviteSuccessNoticeClassName} role="status">
-                  {message}
-                </p>
-              ) : null}
-              {!sponsoredSelected ? (
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="md"
-                  className={`${invitePrimaryButtonClassName} invite-primary-btn`}
-                  disabled={busy}
-                >
-                  {busy ? t("invite.sending") : sendLabel}
-                </Button>
-              ) : null}
-            </div>
+            {error || message || !sponsoredSelected ? (
+              <div className="relative mt-[0.95rem] mb-[0.85rem] flex justify-center max-[768px]:mt-[0.82rem]">
+                {error ? (
+                  <p className={inviteErrorNoticeClassName} role="alert">
+                    {error}
+                  </p>
+                ) : null}
+                {message ? (
+                  <p className={inviteSuccessNoticeClassName} role="status">
+                    {message}
+                  </p>
+                ) : null}
+                {!sponsoredSelected ? (
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="md"
+                    className={`${invitePrimaryButtonClassName} invite-primary-btn`}
+                    disabled={busy}
+                  >
+                    {busy ? t("invite.sending") : sendLabel}
+                  </Button>
+                ) : null}
+              </div>
+            ) : null}
           </form>
         )}
 

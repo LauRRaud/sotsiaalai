@@ -95,6 +95,9 @@
   --panel-secondary-bg: rgba(252, 248, 247, 0.44);
   --panel-secondary-border: rgba(255, 255, 255, 0.34);
   --panel-secondary-shadow: 0 6px 16px rgba(20, 12, 10, 0.12);
+  --rail-tooltip-bg: var(--input-bg);
+  --rail-tooltip-border: rgba(255, 255, 255, 0.34);
+  --rail-tooltip-shadow: var(--input-shadow);
 }
 
 :root.theme-mid .space-backdrop[data-mode="light"] {

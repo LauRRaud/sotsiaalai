@@ -59,8 +59,9 @@ const subscriptionAgreementLabelClassName =
   "block [&_a]:text-[1.08em] max-[768px]:[&_a]:text-[1.1em]";
 const subscriptionCheckboxRowClassName =
   "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
-  "[--otp-check-shape:rgba(255,255,255,0.92)] [--otp-check-tick:#f0b0aa] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-  "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.06rem] [--otp-check-line-height:1.52] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem]";
+  "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:var(--title-color,var(--brand-primary))] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+  "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.06rem] [--otp-check-line-height:1.52] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem] " +
+  "[&_.box]:translate-y-[-0.08rem]";
 const subscriptionCheckoutFooterClassName = "mt-[-0.1rem] flex justify-center";
 const subscriptionActionClassName =
   "min-w-[10.2rem] whitespace-nowrap px-[1.45rem] py-[0.82rem] text-[1.12rem] leading-[1.2] " +
@@ -107,6 +108,7 @@ export default function TellimusBody() {
     /(makseteenuse\\s+pakk|maksepakkuja\\s+ei\\s+ole\\s+seadistatud|payment provider\\s+is\\s+not\\s+configured|платежн.*не\\s+настро)/i.test(
       errorText
     );
+  const providerConfigError = suppressError ? errorText : "";
   const visibleError = errorText && !suppressError ? errorText : "";
   const hasPaymentNotice = Boolean(info || visibleError);
   const sponsoredEndsSoon = Boolean(subscriptionMeta?.isSponsored && subscriptionMeta?.sponsorEndsSoon);
@@ -413,6 +415,9 @@ export default function TellimusBody() {
                     <p className={subscriptionConsentTextClassName}>
                       {t("subscription.checkout.details")}
                     </p>
+                    {providerConfigError ? <p role="alert" aria-live="assertive" className={cn(subscriptionStatusClassName, "text-center text-[color:var(--title-color,var(--brand-primary)))]")}>
+                        {providerConfigError}
+                      </p> : null}
                     <div className={cn(subscriptionCheckoutFooterClassName, hasPaymentNotice ? "pt-[0.15rem]" : null)}>
                       <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing || !checkoutAgreed} aria-disabled={processing || !checkoutAgreed} aria-busy={processing} aria-describedby="billing-info checkout-consent" onClick={handleActivate}>
                         {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
