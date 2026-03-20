@@ -213,6 +213,32 @@ body.login-modal-open {
   box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.94) inset !important;
 }
 
+#login-modal .login-help-popover {
+  background: rgba(255, 250, 248, 0.9);
+  border-color: rgba(190, 196, 208, 0.5);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+  -webkit-backdrop-filter: blur(12px) saturate(112%);
+  backdrop-filter: blur(12px) saturate(112%);
+}
+
+:root.theme-light #login-modal .login-help-popover {
+  background: rgba(255, 250, 248, 0.96);
+  border-color: rgba(190, 196, 208, 0.58);
+  box-shadow: 0 12px 24px rgba(82, 50, 46, 0.12);
+}
+
+:root.theme-mid #login-modal .login-help-popover {
+  background: rgba(252, 248, 247, 0.94);
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 10px 22px rgba(20, 12, 10, 0.12);
+}
+
+:root:not(.theme-light):not(.theme-mid) #login-modal .login-help-popover {
+  background: rgba(24, 28, 36, 0.88);
+  border-color: rgba(248, 253, 255, 0.11);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+}
+
 .glass-ring {
   position: relative;
   display: flex;

@@ -27,6 +27,21 @@
   color: var(--orbit-accent, #c57171);
 }
 
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-label,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .dock-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.22rem 0.58rem;
+  border-radius: 0.72rem;
+  border: 1px solid transparent;
+  background: rgba(24, 28, 36, 0.94);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-clip: padding-box;
+}
+
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item {
@@ -91,6 +106,29 @@
     );
   --pin-gloss-op: 0.48;
 }
+
+:root.theme-light
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-item-label,
+:root.theme-light
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .dock-label {
+  background: rgba(255, 250, 248, 0.97);
+  border-color: rgba(122, 58, 56, 0.1);
+  box-shadow: 0 10px 24px rgba(82, 50, 46, 0.14);
+}
+
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-item-label,
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .dock-label {
+  background: rgba(252, 248, 247, 0.96);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow: 0 10px 22px rgba(20, 12, 10, 0.12);
+}
+
 :root.theme-light
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {

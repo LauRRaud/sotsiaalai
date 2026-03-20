@@ -31,6 +31,23 @@
   --input-shadow-hover:
     0 0.24rem 0.68rem rgba(20, 12, 10, 0.1),
     0 0.08rem 0.22rem rgba(20, 12, 10, 0.035);
+  --chat-inputbar-bg: rgba(247, 241, 239, 0.42);
+  --chat-inputbar-bg-hover: rgba(251, 246, 245, 0.5);
+  --chat-inputbar-bg-focus: rgba(251, 246, 245, 0.5);
+  --chat-inputbar-btn-bg:
+    linear-gradient(
+      145deg,
+      rgba(247, 240, 238, 0.3) 0%,
+      rgba(241, 232, 228, 0.22) 100%
+    ),
+    rgba(242, 234, 230, 0.18);
+  --chat-inputbar-btn-bg-hover:
+    linear-gradient(
+      145deg,
+      rgba(250, 244, 242, 0.32) 0%,
+      rgba(243, 235, 231, 0.24) 100%
+    ),
+    rgba(244, 236, 232, 0.2);
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
   --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.05);
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.07);
@@ -264,11 +281,12 @@
 
 :root.theme-mid .chat-inputbar {
   border: 0;
+  background: var(--chat-inputbar-bg);
 }
 
 :root.theme-mid .chat-inputbar:hover:not(:focus-within),
 :root.theme-mid .chat-inputbar:focus-within {
-  background: var(--input-bg-hover, rgba(253, 250, 249, 0.54));
+  background: var(--chat-inputbar-bg-hover);
   border-color: transparent;
   box-shadow: var(--input-shadow-hover, var(--input-shadow, 0 0.42rem 1.05rem rgba(20, 12, 10, 0.16)));
 }
@@ -281,7 +299,7 @@
 }
 
 :root.theme-mid .chat-inputbar .chat-send-btn {
-  background: var(--btn-primary-bg) !important;
+  background: var(--chat-inputbar-btn-bg, var(--btn-primary-bg)) !important;
   border: var(--btn-primary-border) !important;
   box-shadow:
     0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
@@ -289,7 +307,7 @@
 }
 
 :root.theme-mid .chat-inputbar:focus-within .chat-send-btn {
-  background: var(--btn-primary-bg-hover) !important;
+  background: var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg, var(--btn-primary-bg-hover))) !important;
   border: var(--btn-primary-border-hover) !important;
   box-shadow:
     0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
@@ -298,7 +316,7 @@
 
 :root.theme-mid .chat-inputbar .chat-send-btn:hover,
 :root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
-  background: var(--btn-primary-bg-hover) !important;
+  background: var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg, var(--btn-primary-bg-hover))) !important;
   border: var(--btn-primary-border-hover) !important;
   box-shadow:
     0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
@@ -421,14 +439,8 @@
 :root.theme-mid .chat-inputbar:focus-within .chat-send-btn,
 :root.theme-mid .chat-inputbar .chat-send-btn:hover,
 :root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(251, 245, 243, 0.34) 0%,
-      rgba(244, 234, 232, 0.24) 100%
-    ),
-    rgba(244, 234, 232, 0.2) !important;
-  border: 1px solid rgba(255, 255, 255, 0.32) !important;
+  background: var(--chat-inputbar-btn-bg, var(--btn-primary-bg)) !important;
+  border: 0 !important;
   box-shadow:
     0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
     0 0.16rem 0.4rem rgba(20, 12, 10, 0.06) !important;
@@ -520,7 +532,7 @@
 :root.theme-mid .modal-confirm-content .button {
   background:
     linear-gradient(145deg, rgba(255, 252, 251, 0.96) 0%, rgba(247, 239, 237, 0.92) 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.56) !important;
+  border: 0 !important;
   color: #2f3a4a !important;
   box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
 }
@@ -529,7 +541,7 @@
 :root.theme-mid .modal-confirm-content .button:focus-visible {
   background:
     linear-gradient(145deg, rgba(255, 253, 252, 0.98) 0%, rgba(248, 241, 239, 0.94) 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.56) !important;
+  border: 0 !important;
 }
 
 /* Materials page primary buttons in mid: avoid bright bottom stripe artifact. */

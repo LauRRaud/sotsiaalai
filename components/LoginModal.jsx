@@ -1547,7 +1547,7 @@ export default function LoginModal({
                 checked={rememberDevice}
                 onChange={next => setRememberDevice(next)}
                 label={t("auth.login.remember_device")}
-                className="login-otp-remember fancy-checkbox--otp w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] justify-center [--otp-check-shape:var(--otp-check-shape)] [--otp-check-tick:var(--otp-check-tick)] [--otp-check-text:var(--otp-check-text)]"
+                className="login-otp-remember fancy-checkbox--otp w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] justify-center"
               />
             </div>
 
