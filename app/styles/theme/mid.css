@@ -18,36 +18,15 @@
     rgba(251, 246, 245, 0.56) 58%,
     rgba(249, 241, 239, 0.54)
   );
-  --input-bg: rgba(251, 246, 245, 0.46);
-  --input-bg-hover: rgba(252, 249, 248, 0.5);
-  --input-bg-focus: rgba(253, 250, 249, 0.52);
+  --input-bg: rgba(252, 248, 247, 0.48);
+  --input-bg-hover: rgba(253, 250, 249, 0.54);
+  --input-bg-focus: rgba(253, 250, 249, 0.56);
   --input-text: #2f3a4a;
   --input-caret: #2f3a4a;
   --input-border: 1px solid rgba(255, 255, 255, 0.34);
   --input-placeholder: rgba(55, 65, 81, 0.82);
-  --input-shadow:
-    0 0.42rem 1.05rem rgba(20, 12, 10, 0.16),
-    0 0.16rem 0.4rem rgba(20, 12, 10, 0.07);
-  --input-shadow-hover:
-    0 0.24rem 0.68rem rgba(20, 12, 10, 0.1),
-    0 0.08rem 0.22rem rgba(20, 12, 10, 0.035);
-  --chat-inputbar-bg: rgba(247, 240, 237, 0.46);
-  --chat-inputbar-bg-hover: rgba(250, 245, 243, 0.56);
-  --chat-inputbar-bg-focus: rgba(250, 245, 243, 0.56);
-  --chat-inputbar-btn-bg:
-    linear-gradient(
-      145deg,
-      rgba(247, 240, 238, 0.3) 0%,
-      rgba(241, 232, 228, 0.22) 100%
-    ),
-    rgba(242, 234, 230, 0.18);
-  --chat-inputbar-btn-bg-hover:
-    linear-gradient(
-      145deg,
-      rgba(250, 244, 242, 0.32) 0%,
-      rgba(243, 235, 231, 0.24) 100%
-    ),
-    rgba(244, 236, 232, 0.2);
+  --input-shadow: 0 6px 14px rgba(20, 12, 10, 0.16);
+  --input-shadow-hover: 0 7px 16px rgba(20, 12, 10, 0.18);
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
   --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.05);
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.07);
@@ -55,49 +34,52 @@
   --btn-primary-bg:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 252, 251, 0.5) 0%,
-      rgba(250, 242, 239, 0.4) 42%,
-      rgba(242, 232, 228, 0.32) 100%
+      rgba(255, 252, 251, 0.74) 0%,
+      rgba(252, 246, 244, 0.62) 42%,
+      rgba(246, 237, 234, 0.56) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(248, 240, 237, 0.32) 0%,
-      rgba(240, 231, 227, 0.28) 100%
+      rgba(252, 246, 244, 0.48) 0%,
+      rgba(245, 236, 233, 0.42) 100%
     );
   --btn-primary-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 253, 252, 0.54) 0%,
-      rgba(251, 244, 241, 0.44) 44%,
-      rgba(243, 234, 230, 0.36) 100%
+      rgba(255, 253, 252, 0.82) 0%,
+      rgba(253, 248, 246, 0.7) 44%,
+      rgba(247, 239, 236, 0.62) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(249, 241, 238, 0.35) 0%,
-      rgba(241, 232, 228, 0.3) 100%
+      rgba(253, 248, 246, 0.56) 0%,
+      rgba(246, 238, 235, 0.48) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(250, 245, 243, 0.46) 0%,
-      rgba(243, 233, 230, 0.38) 42%,
-      rgba(236, 225, 221, 0.3) 100%
+      rgba(252, 248, 247, 0.68) 0%,
+      rgba(247, 239, 237, 0.56) 42%,
+      rgba(240, 230, 227, 0.5) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(243, 234, 231, 0.3) 0%,
-      rgba(235, 225, 221, 0.26) 100%
+      rgba(247, 239, 237, 0.46) 0%,
+      rgba(239, 230, 227, 0.4) 100%
     );
   --btn-primary-text: #2f3a4a;
-  --btn-primary-border: 1px solid transparent;
-  --btn-primary-border-hover: 1px solid transparent;
-  --btn-primary-border-active: 1px solid transparent;
+  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.4);
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.48);
+  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.34);
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 5px 12px rgba(20, 12, 10, 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    0 5px 12px rgba(20, 12, 10, 0.14);
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 7px 14px rgba(20, 12, 10, 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 7px 14px rgba(20, 12, 10, 0.14);
   --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 10px rgba(20, 12, 10, 0.13);
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 4px 10px rgba(20, 12, 10, 0.13);
   --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
   --btn-primary-shadow-focus:
     0 8px 16px rgba(20, 12, 10, 0.16),
@@ -265,7 +247,7 @@
   --link-brand-shadow-hover: rgba(122, 58, 56, 0.26);
 }
 
-/* Keep light-mode hardcoded chat surfaces from becoming fully white in mid mode. */
+/* Mid mode composer follows the tools menu surface and only brightens slightly on hover. */
 :root.theme-mid .chat-inputbar,
 :root.theme-mid .chat-inputbar .chat-listen-btn,
 :root.theme-mid .chat-inputbar .chat-send-btn {
@@ -273,27 +255,37 @@
     --chat-composer-main-control-size,
     calc(3.2 * var(--base-rem))
   );
-  color: var(--rail-tooltip-text, #2f3a4a);
-  background: var(--input-bg, rgba(251, 246, 245, 0.46));
-  border: 0;
-  box-shadow: var(--input-shadow, 0 0.42rem 1.05rem rgba(20, 12, 10, 0.16));
+  color: var(--rail-tooltip-text, #3f241f);
+  --chat-inputbar-bg: rgba(252, 246, 244, 0.62);
+  --chat-inputbar-bg-hover: rgba(253, 250, 248, 0.68);
+  --chat-inputbar-bg-focus: rgba(253, 250, 248, 0.68);
+  --chat-inputbar-btn-bg: var(--btn-primary-bg);
+  --chat-inputbar-btn-bg-hover: var(--btn-primary-bg-hover);
 }
 
 :root.theme-mid .chat-inputbar {
   border: 0;
   background: var(--chat-inputbar-bg) !important;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    var(--chat-under-glow);
 }
 
 :root.theme-mid .chat-inputbar:hover:not(:focus-within),
 :root.theme-mid .chat-inputbar:focus-within {
   background: var(--chat-inputbar-bg-hover) !important;
   border-color: transparent;
-  box-shadow: var(--input-shadow-hover, var(--input-shadow, 0 0.42rem 1.05rem rgba(20, 12, 10, 0.16)));
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    var(--chat-under-glow-strong);
 }
 
 :root.theme-mid .chat-container--input-focus .chat-inputbar,
 :root.theme-mid .chat-container--input-focus .chat-inputbar:focus-within {
   background: var(--chat-inputbar-bg-hover) !important;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    var(--chat-under-glow-strong);
 }
 
 :root.theme-mid .chat-inputbar .chat-listen-btn {
@@ -536,8 +528,13 @@
 
 :root.theme-mid .modal-confirm-content .button {
   background:
-    linear-gradient(145deg, rgba(255, 252, 251, 0.96) 0%, rgba(247, 239, 237, 0.92) 100%) !important;
-  border: 0 !important;
+    linear-gradient(
+      145deg,
+      rgba(252, 247, 246, 0.5) 0%,
+      rgba(246, 237, 235, 0.36) 100%
+    ),
+    rgba(247, 238, 236, 0.32) !important;
+  border: 1px solid rgba(255, 255, 255, 0.46) !important;
   color: #2f3a4a !important;
   box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
 }
@@ -545,8 +542,13 @@
 :root.theme-mid .modal-confirm-content .button:hover,
 :root.theme-mid .modal-confirm-content .button:focus-visible {
   background:
-    linear-gradient(145deg, rgba(255, 253, 252, 0.98) 0%, rgba(248, 241, 239, 0.94) 100%) !important;
-  border: 0 !important;
+    linear-gradient(
+      145deg,
+      rgba(253, 250, 249, 0.58) 0%,
+      rgba(247, 239, 237, 0.42) 100%
+    ),
+    rgba(249, 241, 239, 0.36) !important;
+  border: 1px solid rgba(255, 255, 255, 0.56) !important;
 }
 
 /* Materials page primary buttons in mid: avoid bright bottom stripe artifact. */

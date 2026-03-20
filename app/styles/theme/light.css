@@ -77,40 +77,61 @@
   --link-gold: #7a3a38;
   --link-gold-hover: #7a3a38;
   --btn-primary-bg:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.94) 0%,
-      rgba(249, 248, 247, 0.92) 100%
-    );
-  --btn-primary-bg-hover:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.92) 42%,
+      rgba(249, 247, 246, 0.88) 58%,
+      rgba(244, 242, 240, 0.84) 74%
+    ),
     linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.96) 0%,
-      rgba(248, 247, 246, 0.94) 100%
+      rgba(247, 245, 243, 0.9) 100%
     );
-  --btn-primary-bg-active:
+  --btn-primary-bg-hover:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.95) 42%,
+      rgba(250, 248, 247, 0.9) 58%,
+      rgba(245, 243, 241, 0.86) 74%
+    ),
     linear-gradient(
       180deg,
-      rgba(249, 248, 247, 0.94) 0%,
-      rgba(242, 241, 240, 0.92) 100%
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(248, 246, 244, 0.92) 100%
+    );
+  --btn-primary-bg-active:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(250, 248, 247, 0.9) 42%,
+      rgba(244, 242, 240, 0.84) 58%,
+      rgba(239, 237, 235, 0.8) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(251, 249, 248, 0.94) 0%,
+      rgba(243, 241, 239, 0.9) 100%
     );
   --btn-primary-text: rgba(31, 41, 55, 0.92);
-  --btn-primary-border: 1px solid transparent;
-  --btn-primary-border-hover: 1px solid transparent;
-  --btn-primary-border-active: 1px solid transparent;
+  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.36);
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.48);
+  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.4);
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.38),
-    0 4px 10px rgba(15, 23, 42, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 5px 12px rgba(15, 23, 42, 0.08);
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.46),
-    0 7px 14px rgba(15, 23, 42, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 7px 14px rgba(15, 23, 42, 0.09);
   --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(255, 255, 255, 0.32),
-    0 3px 8px rgba(15, 23, 42, 0.07);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 4px 10px rgba(15, 23, 42, 0.08);
   --btn-primary-focus-ring-color: rgba(197, 113, 113, 0.24);
   --btn-primary-shadow-focus:
-    inset 0 1px 0 rgba(255, 255, 255, 0.42),
-    0 8px 16px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 8px 16px rgba(15, 23, 42, 0.11),
     0 0 0 3px var(--btn-primary-focus-ring-color),
     0 0 0 1px rgba(255, 255, 255, 0.18);
   --btn-primary-radius: 0.95rem;
@@ -351,7 +372,8 @@
 :root.theme-light .chat-inputbar .chat-send-btn {
   --chat-action-size: var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)));
   --chat-inputbar-bg: rgba(252, 251, 249, 0.9);
-  --chat-inputbar-bg-focus: color-mix(in srgb, var(--chat-inputbar-bg) 92%, white 8%);
+  --chat-inputbar-bg-hover: color-mix(in srgb, var(--chat-inputbar-bg) 88%, white 12%);
+  --chat-inputbar-bg-focus: color-mix(in srgb, var(--chat-inputbar-bg) 88%, white 12%);
   background: var(--chat-inputbar-bg);
   border: 0;
   box-shadow:
@@ -386,7 +408,7 @@
     0 0.08rem 0.22rem rgba(15, 23, 42, 0.02);
 }
 :root.theme-light .chat-inputbar:hover:not(:focus-within) {
-  background: color-mix(in srgb, var(--chat-inputbar-bg) 92%, white 8%);
+  background: var(--chat-inputbar-bg-hover);
 }
 :root.theme-light .chat-inputbar:focus-within {
   background: var(--chat-inputbar-bg-focus);
@@ -438,7 +460,7 @@
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:hover,
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:focus-visible,
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:active {
-  background: color-mix(in srgb, var(--chat-inputbar-bg) 90%, white 10%);
+  background: color-mix(in srgb, var(--chat-inputbar-bg) 84%, white 16%);
   box-shadow:
     0 0.42rem 1.05rem rgba(15, 23, 42, 0.1),
     0 0.16rem 0.4rem rgba(15, 23, 42, 0.045);
