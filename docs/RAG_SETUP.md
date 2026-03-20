@@ -22,7 +22,7 @@ Web app:
 - `NEXT_PUBLIC_RAG_MAX_UPLOAD_MB`: same limit for UI hints
 - `NEXT_PUBLIC_RAG_ALLOWED_MIME`: allowed MIME types in the UI
 - `OPENAI_API_KEY`: OpenAI key used by the web app chat and agent flows
-- `OPENAI_MODEL`: response model, currently `gpt-5-mini`
+- `OPENAI_MODEL`: response model, currently `gpt-5.4-mini`
 
 RAG service:
 

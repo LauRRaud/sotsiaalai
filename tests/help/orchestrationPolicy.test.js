@@ -34,19 +34,19 @@ test("help workflow refinement uses medium reasoning", () => {
   assert.equal(plan.step, "refine");
 });
 
-test("report drafting escalates to high reasoning", () => {
+test("report drafting stays at medium reasoning", () => {
   const plan = chooseOrchestrationPlan({
     intent: WORK_MODES.REPORT_DRAFTING,
     message: "Aita mul koostada aruanne kliendijuhtumist"
   });
 
-  assert.equal(plan.reasoning, REASONING_DEPTH.HIGH);
+  assert.equal(plan.reasoning, REASONING_DEPTH.MEDIUM);
   assert.equal(plan.capability, "document_workflow");
 });
 
 test("OpenAI payload uses orchestration reasoning override", () => {
   const payload = buildResponsesPayload({
-    model: "gpt-5-mini",
+    model: "gpt-5.4-mini",
     input: [],
     max_output_tokens: 600
   }, {

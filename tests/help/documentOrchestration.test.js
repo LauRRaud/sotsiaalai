@@ -24,7 +24,7 @@ test("resolveDocumentTaskDecision detects document workflow and builds task conf
   assert.equal(decision.taskConfig.language, "et");
 });
 
-test("resolveDocumentTaskDecision escalates reports to high reasoning", () => {
+test("resolveDocumentTaskDecision keeps reports at medium reasoning", () => {
   const decision = resolveDocumentTaskDecision({
     message: "Aita mul koostada aruanne kliendijuhtumist ja tee pohjalik kokkuvote.",
     history: [],
@@ -36,7 +36,7 @@ test("resolveDocumentTaskDecision escalates reports to high reasoning", () => {
 
   assert.equal(decision.isDocumentTask, true);
   assert.equal(decision.plan.mode, WORK_MODES.REPORT_DRAFTING);
-  assert.equal(decision.plan.reasoning, REASONING_DEPTH.HIGH);
+  assert.equal(decision.plan.reasoning, REASONING_DEPTH.MEDIUM);
   assert.equal(decision.taskConfig.artifactType, "REPORT_DRAFT");
 });
 
