@@ -568,8 +568,8 @@
         "cancel": "Cancel",
         "cancel_short": "Cancel",
         "count": "Selected",
-        "delete_selected": "Delete selected",
-        "delete_selected_short": "Selected",
+        "delete_selected": "Delete",
+        "delete_selected_short": "Delete",
         "delete_all": "Delete all",
         "delete_all_short": "All",
         "item": "Select chat"

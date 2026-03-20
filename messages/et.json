@@ -538,8 +538,8 @@
       },
       "confirm": {
         "delete": "Kas kustutada see vestlus?",
-        "delete_selected": "Kustutada valitud vestlused?",
-        "delete_all": "Kustutada kõik vestlused?"
+        "delete_selected": "Kas kustutada valitud vestlused?",
+        "delete_all": "Kas kustutada kõik vestlused?"
       },
       "aria_list": "Vestluste loend",
       "button": {
@@ -568,8 +568,8 @@
         "cancel": "Tühista",
         "cancel_short": "Tüh.",
         "count": "Valitud",
-        "delete_selected": "Kustuta valitud",
-        "delete_selected_short": "Valitud",
+        "delete_selected": "Kustuta",
+        "delete_selected_short": "Kustuta",
         "delete_all": "Kustuta kõik",
         "delete_all_short": "Kõik",
         "item": "Vali vestlus"

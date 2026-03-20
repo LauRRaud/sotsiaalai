@@ -50,7 +50,7 @@ const subscriptionCardBodyClassName =
 const subscriptionCheckoutCardBodyClassName =
   "grid gap-[0.48rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";
 const subscriptionSectionTitleClassName =
-  "m-0 text-left text-[1.24rem] font-[500] tracking-[0.004em] leading-[1.28] text-[color:var(--glass-modal-text)] max-[768px]:text-[1.18rem]";
+  "m-0 text-center text-[1.24rem] font-[500] tracking-[0.004em] leading-[1.28] text-[color:var(--glass-modal-text)] max-[768px]:text-[1.18rem]";
 const subscriptionDividerClassName =
   "my-[0.12rem] h-px w-full bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.16)_12%,rgba(255,255,255,0.16)_88%,rgba(255,255,255,0)_100%)] [.theme-light_&]:bg-[linear-gradient(90deg,rgba(122,58,56,0)_0%,rgba(122,58,56,0.12)_12%,rgba(122,58,56,0.12)_88%,rgba(122,58,56,0)_100%)]";
 const subscriptionConsentTextClassName =

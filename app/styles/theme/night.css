@@ -12,6 +12,11 @@
 }
 
 :root.theme-night {
+  --rail-tooltip-bg: rgba(18, 23, 32, 0.99);
+  --rail-tooltip-border: rgba(255, 255, 255, 0.08);
+  --rail-tooltip-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+  --rail-tooltip-text: rgba(245, 245, 244, 0.96);
+  --chat-tools-item-hover-bg: rgba(25, 30, 40, 0.98);
   --subscription-error-color: rgba(214, 226, 245, 0.9);
   --btn-primary-hover-brightness: 1.038;
   --btn-base-bg-dark: linear-gradient(

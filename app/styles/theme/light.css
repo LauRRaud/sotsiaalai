@@ -37,6 +37,11 @@
   --glass-surface-bg: rgba(253, 253, 253, 0.52);
   --glass-ring-surface-bg: rgba(247, 247, 246, 0.74);
   --glass-surface-text: #2b2620;
+  --rail-tooltip-bg: rgba(255, 250, 248, 0.995);
+  --rail-tooltip-border: rgba(122, 58, 56, 0.08);
+  --rail-tooltip-shadow: 0 10px 24px rgba(82, 50, 46, 0.14);
+  --rail-tooltip-text: #7a3a38;
+  --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
   --glass-analysis-bg: rgba(255, 255, 255, 0.18);
   --glass-analysis-border: rgba(255, 255, 255, 0.28);
   --glass-analysis-shadow:

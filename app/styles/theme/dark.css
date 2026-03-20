@@ -22,12 +22,11 @@
       0 10px 18px -14px rgba(248, 253, 255, 0.72),
       0 22px 32px -22px rgba(248, 253, 255, 0.44)
     );
-  --rail-tooltip-bg: var(
-    --chat-invite-surface,
-    var(--form-surface, rgba(30, 24, 22, 0.86))
-  );
-  --rail-tooltip-border: rgba(255, 255, 255, 0.1);
-  --rail-tooltip-shadow: var(--chat-invite-shadow);
+  --rail-tooltip-bg: rgba(24, 27, 34, 0.99);
+  --rail-tooltip-border: rgba(255, 255, 255, 0.08);
+  --rail-tooltip-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
+  --rail-tooltip-text: rgba(245, 245, 244, 0.96);
+  --chat-tools-item-hover-bg: rgba(33, 37, 46, 0.98);
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night) {

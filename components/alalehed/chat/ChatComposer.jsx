@@ -425,8 +425,8 @@ export default function ChatComposer({
     "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
     "text-[1.12rem] leading-[1.14] tracking-[0.01em] transition-colors duration-150 " +
     "rounded-[0.5rem] grid min-h-[2.52rem] grid-cols-[1.68rem_minmax(0,1fr)] items-center gap-[0.5rem] " +
-    "hover:bg-[rgba(255,255,255,0.08)] focus-visible:bg-[rgba(255,255,255,0.08)] " +
-    "light:hover:bg-[rgba(122,58,56,0.1)] light:focus-visible:bg-[rgba(122,58,56,0.1)]";
+    "hover:bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.2))] " +
+    "focus-visible:bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.2))]";
   const toolIconSlotClassName = "inline-flex h-[1.68rem] w-[1.68rem] shrink-0 items-center justify-center self-center";
   const agentToolIconSlotClassName = `${toolIconSlotClassName} translate-y-[0.06rem]`;
   const toolLabelClassName = "inline-flex min-w-0 items-center self-center leading-[1.08]";
@@ -438,9 +438,9 @@ export default function ChatComposer({
   const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
   const toolsMenuClassName =
     "chat-tools-menu fixed z-[160] isolate overflow-hidden w-max min-w-[11.4rem] max-w-[calc(100vw-1rem)] rounded-[0.88rem] " +
-    "border border-[rgba(255,255,255,0.12)] bg-[rgba(24,26,32,0.96)] [.theme-night_&]:bg-[rgba(9,14,24,0.96)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.28)] " +
-    "light:border-[rgba(122,58,56,0.12)] light:bg-[rgba(255,250,248,0.96)] light:shadow-[0_12px_28px_rgba(82,50,46,0.14)] " +
-    "[.theme-mid_&]:bg-[rgba(252,246,244,0.96)] hc:border-[2px] hc:border-[rgba(255,234,0,0.56)] hc:bg-[rgba(9,14,24,0.96)] hc:shadow-[0_12px_28px_rgba(0,0,0,0.28)]";
+    "border-0 bg-[color:var(--rail-tooltip-bg)] text-[color:var(--rail-tooltip-text,var(--pt-100))] " +
+    "p-[0.25rem] shadow-[var(--rail-tooltip-shadow)] " +
+    "hc:border-0 hc:bg-[rgba(9,14,24,0.96)] hc:shadow-[0_12px_28px_rgba(0,0,0,0.28)]";
   const toolsMenuPanel = toolsOpen && toolsMenuPosition && typeof document !== "undefined"
     ? createPortal(<div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className={toolsMenuClassName} style={{
       left: `${toolsMenuPosition.left}px`,

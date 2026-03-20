@@ -225,7 +225,7 @@
   line-height: 1.1;
   letter-spacing: 0.02em;
   color: var(--chat-icon-dark, #c57171);
-  background: var(--rail-tooltip-bg, rgba(28, 31, 38, 0.97));
+  background: var(--rail-tooltip-bg, rgba(28, 31, 38, 0.99));
   -webkit-backdrop-filter: blur(14px) saturate(124%);
   backdrop-filter: blur(14px) saturate(124%);
   filter: none !important;
@@ -260,27 +260,31 @@
 }
 
 :global(:root.theme-night) .tooltip {
-  background: var(--rail-tooltip-bg, rgba(16, 19, 26, 0.98));
+  background: var(--rail-tooltip-bg, rgba(16, 19, 26, 0.99));
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--rail-tooltip-shadow, 0 8px 18px rgba(0, 0, 0, 0.24));
+}
+
+:global(:root:not(.theme-light):not(.theme-mid):not(.theme-night)) .tooltip {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :global(:root.theme-light) .tooltip {
-  color: #7a3a38;
+  color: var(--rail-tooltip-text, #7a3a38);
   font-size: 1.12rem;
   font-weight: 450;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.96) 0%,
-    rgba(248, 248, 247, 0.98) 100%
-  );
+  background: var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995));
   border-color: transparent;
-  box-shadow: 0 10px 24px rgba(82, 50, 46, 0.12);
+  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));
 }
 
 :global(:root.theme-mid) .tooltip {
   color: #7a3a38;
   font-size: 1.12rem;
   font-weight: 450;
-  background: var(--rail-tooltip-bg, rgba(253, 250, 249, 0.96));
+  background: var(--rail-tooltip-bg, rgba(253, 250, 249, 0.99));
   border-color: transparent;
   box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));
 }
@@ -297,18 +301,18 @@
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .tooltip {
     background: var(--rail-tooltip-bg, rgb(28, 31, 38));
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   :global(:root.theme-night) .tooltip {
     background: var(--rail-tooltip-bg, rgb(16, 19, 26));
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   :global(:root.theme-light) .tooltip {
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(248, 248, 247, 0.98) 100%
-    );
+    background: var(--rail-tooltip-bg, rgb(255, 250, 248));
   }
 
   :global(:root.theme-mid) .tooltip {

@@ -8,7 +8,10 @@ import { cn } from "@/components/ui/cn";
 
 const docToggleCardClassName =
   "w-auto min-w-0 !min-h-[3.2rem] !px-[1rem] !py-[0.8rem] !text-[1.2rem] !leading-[1.2] " +
-  "[--seg-card-radius:999px] [--seg-control-size:24px] [--seg-check-size:20px]";
+  "[--seg-card-radius:999px] [--seg-control-size:24px] [--seg-check-size:20px] " +
+  "[--seg-card-bg:var(--rail-tooltip-bg)] [--seg-card-bg-hover:var(--rail-tooltip-bg)] [--seg-card-bg-selected:var(--rail-tooltip-bg)] " +
+  "[--seg-card-text:var(--rail-tooltip-text,var(--glass-modal-text))] [--seg-card-text-hover:var(--rail-tooltip-text,var(--glass-modal-text))] [--seg-card-text-selected:var(--rail-tooltip-text,var(--glass-modal-text))] " +
+  "[--seg-card-border:var(--rail-tooltip-border)] [--seg-card-shadow:var(--rail-tooltip-shadow)] [--seg-card-shadow-hover:var(--rail-tooltip-shadow)] [--seg-card-shadow-selected:var(--rail-tooltip-shadow)]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
   analysisPanelRef,
@@ -108,14 +111,13 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "chat-analysis-overlay-card !isolation-auto !border-0";
   const cardClassName =
     "w-full max-w-none rounded-[1.5em] border-0 " +
-    "bg-[rgba(12,16,24,0.96)] text-[color:var(--glass-surface-text,#f2f2f2)] " +
+    "bg-[color:var(--rail-tooltip-bg)] text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2))] " +
     "[--analysis-card-pad-y:clamp(0.65rem,2vw,1rem)] " +
     "[--analysis-card-pad-x:clamp(0.8rem,2.6vw,1.6rem)] " +
     "[--analysis-card-pad-b:clamp(0.9rem,2.6vw,1.4rem)] " +
     "p-[var(--analysis-card-pad-y)_var(--analysis-card-pad-x)_var(--analysis-card-pad-b)] " +
     "tracking-[0.035em] text-rendering-geometricPrecision isolate " +
-    "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto " +
-    "light:bg-[rgba(255,250,248,0.98)] light:text-[color:var(--glass-surface-text,#0f172a)]";
+    "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto";
   const headerClassName =
     "flex flex-col items-center justify-center gap-[0.6rem] flex-wrap relative z-[60] " +
     "pt-[0.15rem] mb-[0.6rem]";
@@ -186,17 +188,14 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const tooltipClassName =
     "absolute left-1/2 bottom-[calc(100%+0.35rem)] -translate-x-1/2 " +
     "min-w-[14rem] max-w-[90vw] rounded-[0.9rem] px-[0.5rem] py-[0.75rem] " +
-    "bg-[rgba(7,10,18,0.96)] text-[rgba(248,252,255,0.96)] text-[1.02rem] " +
-    "leading-[1.4] tracking-[0.02em] text-center shadow-[0_0.2rem_0.6rem_rgba(0,0,0,0.45)] " +
+    "bg-[color:var(--rail-tooltip-bg)] text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2))] text-[1.02rem] " +
+    "leading-[1.4] tracking-[0.02em] text-center shadow-[var(--rail-tooltip-shadow)] " +
     "opacity-0 pointer-events-none transition-[opacity,transform] duration-200 z-[9999] " +
     "group-hover:opacity-100 group-hover:-translate-y-[0.15rem] " +
-    "group-focus-within:opacity-100 group-focus-within:-translate-y-[0.15rem] " +
-    "light:bg-[rgba(255,255,255,0.96)] light:text-[#1f2937] light:border light:border-[rgba(148,163,184,0.45)] " +
-    "light:shadow-[0_12px_26px_rgba(0,0,0,0.12)]";
+    "group-focus-within:opacity-100 group-focus-within:-translate-y-[0.15rem]";
   const tooltipArrowClassName =
     "absolute left-1/2 -translate-x-1/2 bottom-[-0.25rem] h-[0.55rem] w-[0.55rem] " +
-    "rotate-45 bg-[rgba(7,10,18,0.54)] " +
-    "light:bg-[rgba(255,255,255,0.96)] light:border light:border-[rgba(148,163,184,0.45)] light:border-l-0 light:border-t-0";
+    "rotate-45 bg-[color:var(--rail-tooltip-bg)]";
   const handleClose = () => {
     setUploadPreview(null);
     setUploadError(null);

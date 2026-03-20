@@ -70,16 +70,17 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
     "flex items-center justify-center p-[1rem]";
   const dialogClassName =
     "w-full max-w-[34rem] max-h-[80vh] overflow-y-auto rounded-[1.5rem] " +
-    "bg-[rgba(10,14,24,0.96)] border border-[rgba(255,255,255,0.1)] " +
-    "p-[1.15rem_1.25rem] text-[#f8fafc] " +
-    "shadow-[0_10px_28px_rgba(0,0,0,0.35),0_24px_40px_-24px_rgba(248,253,255,0.24)]";
+    "bg-[color:var(--rail-tooltip-bg)] border border-[color:var(--rail-tooltip-border)] " +
+    "p-[1.15rem_1.25rem] text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f8fafc))] " +
+    "shadow-[var(--rail-tooltip-shadow)]";
   const headerClassName =
     "flex items-center justify-between gap-[0.75rem] mb-[0.85rem]";
   const titleClassName = "m-0 text-[1.05rem] font-[600]";
   const closeClassName =
-    "rounded-full border-0 bg-[rgba(148,163,184,0.15)] text-[#f1f5f9] " +
-    "px-[0.75rem] py-[0.3rem] text-[0.8rem] font-[500] " +
-    "hover:bg-[rgba(148,163,184,0.25)] transition-colors";
+    "rounded-full border border-[color:var(--rail-tooltip-border)] bg-[color:var(--rail-tooltip-bg)] " +
+    "text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f1f5f9))] px-[0.75rem] py-[0.3rem] " +
+    "text-[0.8rem] font-[500] shadow-[var(--rail-tooltip-shadow)] " +
+    "hover:bg-[color:var(--rail-tooltip-bg)] transition-colors";
   const emptyClassName = "m-0 text-[0.92rem] opacity-80";
   const listClassName = "m-0 pl-[1.2rem]";
   const itemClassName = "mb-[1rem] leading-[1.6]";

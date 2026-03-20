@@ -212,19 +212,19 @@ body.selected-listing-modal-open .chat-page-shell {
   overflow: hidden;
   isolation: auto !important;
   border: 0 !important;
-  color: var(--glass-surface-text, #f2f2f2) !important;
-  background: rgba(12, 16, 24, 0.96) !important;
+  color: var(--rail-tooltip-text, var(--glass-surface-text, #f2f2f2)) !important;
+  background: var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995)) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-  box-shadow: var(--glass-shell-shadow, none) !important;
+  box-shadow: var(--rail-tooltip-shadow, var(--glass-shell-shadow, none)) !important;
 }
 
 :root.theme-light .chat-analysis-overlay .chat-analysis-overlay-card {
-  color: var(--glass-surface-text, #2b2620) !important;
-  background: rgba(255, 250, 248, 0.98) !important;
+  color: var(--rail-tooltip-text, var(--glass-surface-text, #2b2620)) !important;
+  background: var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995)) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-  box-shadow: var(--glass-shell-shadow, none) !important;
+  box-shadow: var(--rail-tooltip-shadow, var(--glass-shell-shadow, none)) !important;
 }
 
 /* Keep chat send/dictate controls borderless in normal contrast modes. */

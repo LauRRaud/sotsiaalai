@@ -8,6 +8,11 @@
   --glass-modal-bg: rgba(252, 248, 247, 0.58);
   --glass-surface-text: #2c3340;
   --glass-modal-text: #2c3340;
+  --rail-tooltip-bg: rgba(252, 248, 247, 0.97);
+  --rail-tooltip-border: rgba(255, 255, 255, 0.28);
+  --rail-tooltip-shadow: 0 10px 20px rgba(20, 12, 10, 0.14);
+  --rail-tooltip-text: #7a3a38;
+  --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
   --home-panel-bg: rgba(252, 248, 247, 0.53);
   --home-panel-shadow: 0 12px 22px rgba(20, 12, 10, 0.2);
   --home-before-shadow: 0 10px 20px rgba(20, 12, 10, 0.18);
@@ -95,9 +100,11 @@
   --panel-secondary-bg: rgba(252, 248, 247, 0.44);
   --panel-secondary-border: rgba(255, 255, 255, 0.34);
   --panel-secondary-shadow: 0 6px 16px rgba(20, 12, 10, 0.12);
-  --rail-tooltip-bg: var(--input-bg);
-  --rail-tooltip-border: rgba(255, 255, 255, 0.34);
-  --rail-tooltip-shadow: var(--input-shadow);
+  --rail-tooltip-bg: rgba(252, 248, 247, 0.97);
+  --rail-tooltip-border: rgba(255, 255, 255, 0.28);
+  --rail-tooltip-shadow: 0 10px 20px rgba(20, 12, 10, 0.14);
+  --rail-tooltip-text: #7a3a38;
+  --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
 }
 
 :root.theme-mid .space-backdrop[data-mode="light"] {
@@ -240,10 +247,10 @@
     --chat-composer-main-control-size,
     calc(3.2 * var(--base-rem))
   );
-  color: #2f3a4a;
-  background: rgba(252, 248, 247, 0.44);
+  color: var(--rail-tooltip-text, #2f3a4a);
+  background: var(--rail-tooltip-bg, rgba(252, 248, 247, 0.97));
   border: 0;
-  box-shadow: 0 5px 14px rgba(20, 12, 10, 0.16);
+  box-shadow: var(--rail-tooltip-shadow, 0 5px 14px rgba(20, 12, 10, 0.16));
 }
 
 :root.theme-mid .chat-inputbar {
@@ -252,9 +259,9 @@
 
 :root.theme-mid .chat-inputbar:hover:not(:focus-within),
 :root.theme-mid .chat-inputbar:focus-within {
-  background: rgba(253, 250, 249, 0.5);
+  background: var(--rail-tooltip-bg, rgba(252, 248, 247, 0.97));
   border-color: transparent;
-  box-shadow: 0 7px 16px rgba(20, 12, 10, 0.18);
+  box-shadow: var(--rail-tooltip-shadow, 0 7px 16px rgba(20, 12, 10, 0.18));
 }
 
 :root.theme-mid .chat-inputbar .chat-listen-btn {
@@ -492,25 +499,18 @@
 
 /* Confirm dialog in mid: avoid plain white card, keep same glass language. */
 :root.theme-mid .modal-confirm-overlay {
-  background: rgba(60, 36, 34, 0.34) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(108%);
-  backdrop-filter: blur(8px) saturate(108%);
+  background: rgba(42, 24, 22, 0.62) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 :root.theme-mid .modal-confirm-content {
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(252, 248, 247, 0.56) 0%,
-      rgba(245, 236, 234, 0.42) 58%,
-      rgba(239, 228, 225, 0.34) 100%
-    ),
-    rgba(249, 243, 241, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.52) !important;
+  background: rgba(250, 246, 243, 0.98) !important;
   color: #2f3a4a !important;
-  box-shadow:
-    0 14px 28px rgba(20, 12, 10, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.52) !important;
+  box-shadow: 0 16px 32px rgba(20, 12, 10, 0.18) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 :root.theme-mid .modal-confirm-content p {
@@ -519,13 +519,8 @@
 
 :root.theme-mid .modal-confirm-content .button {
   background:
-    linear-gradient(
-      145deg,
-      rgba(252, 247, 246, 0.5) 0%,
-      rgba(246, 237, 235, 0.36) 100%
-    ),
-    rgba(247, 238, 236, 0.32) !important;
-  border: 1px solid rgba(255, 255, 255, 0.46) !important;
+    linear-gradient(145deg, rgba(255, 252, 251, 0.96) 0%, rgba(247, 239, 237, 0.92) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.56) !important;
   color: #2f3a4a !important;
   box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
 }
@@ -533,12 +528,7 @@
 :root.theme-mid .modal-confirm-content .button:hover,
 :root.theme-mid .modal-confirm-content .button:focus-visible {
   background:
-    linear-gradient(
-      145deg,
-      rgba(253, 250, 249, 0.58) 0%,
-      rgba(247, 239, 237, 0.42) 100%
-    ),
-    rgba(249, 241, 239, 0.36) !important;
+    linear-gradient(145deg, rgba(255, 253, 252, 0.98) 0%, rgba(248, 241, 239, 0.94) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.56) !important;
 }
 

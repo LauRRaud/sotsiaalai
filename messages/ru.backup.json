@@ -624,8 +624,8 @@
         "cancel": "Отмена",
         "cancel_short": "Отм.",
         "count": "Выбрано",
-        "delete_selected": "Удалить выбранные",
-        "delete_selected_short": "Выбранные",
+        "delete_selected": "Удалить",
+        "delete_selected_short": "Удалить",
         "delete_all": "Удалить все",
         "delete_all_short": "Все",
         "item": "Выбрать чат"
