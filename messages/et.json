@@ -232,7 +232,7 @@
     "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
     "deleting": "Kustutan…",
     "delete_account": "Kustuta konto",
-    "delete_account_hint": "Kustutab konto ja sellega seotud ligipääsu püsivalt. Seda ei saa tagasi võtta.",
+  "delete_account_hint": "Kustutab konto ja eemaldab ligipääsu püsivalt – seda ei saa tagasi võtta.",
     "delete_loading_status": "Konto kustutamine",
     "load_failed": "Profiili laadimine ebaõnnestus.",
     "update_failed": "Profiili uuendamine ebaõnnestus.",

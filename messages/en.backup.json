@@ -222,7 +222,7 @@
     "delete_confirm": "Are you sure you want to permanently delete your account? This cannot be undone.",
     "deleting": "Deleting",
     "delete_account": "Delete account",
-    "delete_account_hint": "Permanently deletes your account and related access. This cannot be undone.",
+    "delete_account_hint": "Deletes your account and removes access permanently - this cannot be undone.",
     "delete_loading_status": "Deleting account",
     "load_failed": "Failed to load profile.",
     "update_failed": "Failed to update profile.",

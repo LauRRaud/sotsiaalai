@@ -24,7 +24,7 @@ import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
 import EuroIcon from "@/components/ui/icons/EuroIcon";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
-import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
@@ -147,31 +147,33 @@ const modalInputClassName =
 const accountModalOverlayClassName =
   "invite-modal-overlay account-settings-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
 const accountModalContentClassName =
-  `invite-modal-content account-settings-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
-  `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] ` +
-  `max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] [--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName}`;
+  `invite-modal-content account-settings-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
+  `!w-[min(100%,calc(100dvh-2.5rem))] !max-w-[min(38rem,calc(100dvh-2.5rem))] !aspect-square !rounded-full ` +
+  `!bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
+  `pt-[clamp(2.8rem,5.5vh,4rem)] !px-[clamp(2rem,4vw,3rem)] !pb-[clamp(2rem,4vh,2.8rem)] ` +
+  `text-[1.12rem] leading-[1.35] tracking-[0.03rem] ` +
+  `max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
+  `[--glass-ring-radius:9999px] [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] ` +
+  `[--glass-edge-left:calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] ` +
+  `[--glass-edge-right:calc(var(--hud-edge-right,0px)+clamp(0.1rem,1.2vw,0.8rem))] ` +
+  `[--glass-center-offset:0px] [--input-text:var(--glass-modal-text)]`;
 const accountModalHeadClassName =
-  "mb-[0.35rem] flex items-start justify-center gap-[0.75rem]";
-const accountModalBackButtonClassName = glassPageBackTopLeftClassName;
+  "mb-[0.2rem] flex items-start justify-center gap-[0.75rem] max-[768px]:mb-[0.15rem]";
+const accountModalBackButtonClassName =
+  `${glassPageBackMobileBottomCenterClassName} account-settings-back-button !z-[145]`;
 const accountModalTitleWrapClassName =
   "account-modal-title-wrap grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]";
 const accountModalTitleClassName =
   `account-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} max-[768px]:!mt-0 max-[768px]:!mb-0 ` +
   "";
-const accountModalDescriptionClassName =
-  "mx-auto max-w-[28rem] text-[1.04rem] leading-[1.4] tracking-[0.02em] text-[color:var(--glass-modal-text-soft,var(--pt-120))] max-[768px]:max-w-none max-[768px]:px-[0.15rem] max-[768px]:text-[1.08rem]";
 const accountModalActionStackClassName =
-  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.52rem] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:px-0";
+  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.95rem] mt-[clamp(2.8rem,6.2vh,3.8rem)] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:gap-[0.8rem] max-[768px]:mt-[clamp(2.3rem,5.4vh,3rem)] max-[768px]:px-0";
 const accountModalCardClassName =
-  "rounded-[1rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] " +
-  "p-[0.94rem_0.92rem_0.72rem] min-h-[8.9rem] text-[color:var(--glass-modal-text)] shadow-none max-[768px]:p-[0.92rem_0.84rem_0.72rem] " +
-  "[.theme-dark_&]:bg-[rgba(30,32,38,0.42)] " +
-  "[.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
-  "[.theme-mid_&]:border-[rgba(132,72,68,0.16)] [.theme-mid_&]:bg-[rgba(251,242,239,0.72)] [.theme-mid_&]:text-[#3f4756] " +
-  "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
-const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[1rem] pt-[0.6rem] text-center";
+  "rounded-none border-0 bg-transparent p-0 min-h-0 text-[color:var(--glass-modal-text)] shadow-none " +
+  "[.theme-mid_&]:text-[#3f4756] [.theme-light_&]:text-[#1f2937]";
+const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[0.7rem] pt-0 text-center";
 const accountModalNoteClassName =
-  "m-0 mx-auto max-w-[24rem] text-center text-[0.99rem] leading-[1.26] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
+  "m-0 mb-[clamp(0.75rem,1.9vh,1.15rem)] mx-auto max-w-[24rem] text-center text-[1.12rem] leading-[1.35] tracking-[0.03rem] text-[color:var(--glass-modal-text)] max-[768px]:mb-[clamp(0.62rem,1.7vh,1rem)] max-[768px]:max-w-none max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4]";
 const accountModalButtonClassName =
   "!min-h-[2.8rem] !px-[1.28rem] !py-[0.56rem] !text-[1.06rem] !tracking-[0.02em] !self-center shrink-0 " +
   "!min-w-[12.5rem] max-[768px]:!w-full max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
@@ -1326,8 +1328,9 @@ export default function ProfiilBody({
           className={accountModalOverlayClassName}
           contentClassName={cn(
             accountModalContentClassName,
+            glassPageMobileCardClassName,
             accountSettingsClosing
-              ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
+              ? "motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
               : null
           )}
         >
@@ -1342,7 +1345,6 @@ export default function ProfiilBody({
                 <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
                   <h2 className={accountModalTitleClassName}>{t("profile.account_settings")}</h2>
                 </div>
-                <p className={accountModalDescriptionClassName}>{t("profile.account_settings_hint")}</p>
               </div>
             </div>
           <div className={accountModalActionStackClassName}>
@@ -1358,7 +1360,7 @@ export default function ProfiilBody({
                       setShowAccountSettings(false);
                       await handleLogout();
                     }}
-                    disabled={loggingOut || loggingOutEverywhere || deleting || accountSettingsClosing}
+                    disabled={loggingOut || loggingOutEverywhere || deleting}
                   >
                     {t("profile.logout")}
                   </Button>
@@ -1378,7 +1380,7 @@ export default function ProfiilBody({
                       setError("");
                       setShowLogoutAll(true);
                     }}
-                    disabled={loggingOut || loggingOutEverywhere || deleting || accountSettingsClosing}
+                    disabled={loggingOut || loggingOutEverywhere || deleting}
                   >
                     {t("profile.logout_all_devices")}
                   </Button>
@@ -1400,7 +1402,7 @@ export default function ProfiilBody({
                       setDeletePin("");
                       setShowDelete(true);
                     }}
-                    disabled={loggingOut || loggingOutEverywhere || deleting || accountSettingsClosing}
+                    disabled={loggingOut || loggingOutEverywhere || deleting}
                   >
                     <span>{t("profile.delete_account")}</span>
                   </Button>
