@@ -66,13 +66,12 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
   }, [open, getFocusables, onClose, returnFocusRef]);
   if (!open) return null;
   const overlayClassName =
-    "fixed inset-0 z-[40] bg-[rgba(9,14,25,0.55)] backdrop-blur-[2px] " +
+    "fixed inset-0 z-[40] bg-[rgba(9,14,25,0.72)] " +
     "flex items-center justify-center p-[1rem]";
   const dialogClassName =
     "w-full max-w-[34rem] max-h-[80vh] overflow-y-auto rounded-[1.5rem] " +
-    "bg-[rgba(10,14,24,0.68)] border border-[rgba(255,255,255,0.1)] " +
+    "bg-[rgba(10,14,24,0.96)] border border-[rgba(255,255,255,0.1)] " +
     "p-[1.15rem_1.25rem] text-[#f8fafc] " +
-    "backdrop-blur-[16px] backdrop-saturate-[120%] " +
     "shadow-[0_10px_28px_rgba(0,0,0,0.35),0_24px_40px_-24px_rgba(248,253,255,0.24)]";
   const headerClassName =
     "flex items-center justify-between gap-[0.75rem] mb-[0.85rem]";

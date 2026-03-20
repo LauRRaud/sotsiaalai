@@ -632,8 +632,7 @@ export default function ChatSidebar() {
       <div className={`${sidebarContentWidthClassName} flex flex-wrap items-center justify-center gap-2 max-[768px]:gap-[0.72rem]`}>
         {isConversationView ? <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
             {creating ? t("chat.sidebar.button.creating") : <>
-                <span className="max-[416px]:hidden">{t("chat.sidebar.button.new")}</span>
-                <span className="hidden max-[416px]:inline">{t("chat.sidebar.button.new_short")}</span>
+                <span>{t("chat.sidebar.button.new_short")}</span>
               </>}
           </Button> : null}
         {isConversationView ? <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={toggleSelectMode} disabled={isActionBusy}>

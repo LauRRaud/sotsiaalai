@@ -15,6 +15,30 @@ import { pushWithTransition } from "@/lib/routeTransition";
 
 const homeCircleLinkClassName =
   "home-link inline-block align-top w-auto max-w-full text-[clamp(1.28rem,1.95vw,1.5rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]";
+const HOME_BEFORE_DIAMETER_KEY_PREFIX = "sotsiaalai:home-before-diameter";
+
+function getHomeBeforeDiameterKey(locale, showAdminLinks, view) {
+  return `${HOME_BEFORE_DIAMETER_KEY_PREFIX}:${locale || "et"}:${showAdminLinks ? "1" : "0"}:${view}`;
+}
+
+function readHomeBeforeDiameter(key) {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(key);
+    const value = Number(raw);
+    return Number.isFinite(value) && value > 0 ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeHomeBeforeDiameter(key, value) {
+  if (typeof window === "undefined") return;
+  if (!Number.isFinite(value) || value <= 0) return;
+  try {
+    window.sessionStorage.setItem(key, String(Math.round(value)));
+  } catch {}
+}
 
 export default function HomeAboutSection({ id = "meist", className, showAdminLinks = false }) {
   const router = useRouter();
@@ -53,7 +77,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
   const aboutScrollRef = useRef(null);
-  const [beforeDiameter, setBeforeDiameter] = useState(null);
+  const [beforeDiameter, setBeforeDiameter] = useState(() =>
+    readHomeBeforeDiameter(getHomeBeforeDiameterKey(locale, showAdminLinks, "links"))
+  );
   const [aboutFade, setAboutFade] = useState({ top: false, bottom: false });
   const [beforeView, setBeforeView] = useState("links");
   const oskaLinkClassName = cn(
@@ -100,6 +126,11 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     const contentEl = beforeContentRef.current;
     if (!cardEl || !contentEl || typeof window === "undefined") return;
     const isContactView = beforeView === "contact";
+    const diameterKey = getHomeBeforeDiameterKey(
+      locale,
+      showAdminLinks,
+      isContactView ? "contact" : "links"
+    );
     let rafId = 0;
     let rafId2 = 0;
 
@@ -147,6 +178,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             )
       );
       const nextSize = Math.max(minSize, Math.min(maxSize, neededSize));
+      writeHomeBeforeDiameter(diameterKey, nextSize);
       setBeforeDiameter((prev) => (prev === nextSize ? prev : nextSize));
     };
 
@@ -177,7 +209,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       window.removeEventListener("resize", scheduleUpdate);
       window.removeEventListener("pageshow", scheduleUpdate);
     };
-  }, [beforeView, isRussianLocale, showAdminLinks]);
+  }, [beforeView, isRussianLocale, locale, showAdminLinks]);
 
   useEffect(() => {
     const scrollEl = aboutScrollRef.current;
@@ -234,7 +266,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   };
   const aboutTopFade = aboutFade.top ? "2.2rem" : "0px";
   const aboutBottomFade = aboutFade.bottom ? "5rem" : "0px";
-  const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.14), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.34), rgba(0,0,0,0.56) calc(${aboutTopFade} * 0.58), rgba(0,0,0,0.82) calc(${aboutTopFade} * 0.82), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,0.98) calc(100% - calc(${aboutBottomFade} * 0.88)), rgba(0,0,0,0.9) calc(100% - calc(${aboutBottomFade} * 0.68)), rgba(0,0,0,0.72) calc(100% - calc(${aboutBottomFade} * 0.48)), rgba(0,0,0,0.46) calc(100% - calc(${aboutBottomFade} * 0.3)), rgba(0,0,0,0.2) calc(100% - calc(${aboutBottomFade} * 0.14)), rgba(0,0,0,0) 100%)`;
+  const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.14), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.34), rgba(0,0,0,0.56) calc(${aboutTopFade} * 0.58), rgba(0,0,0,0.82) calc(${aboutTopFade} * 0.82), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,1) calc(100% - calc(${aboutBottomFade} * 0.9)), rgba(0,0,0,0.96) calc(100% - calc(${aboutBottomFade} * 0.72)), rgba(0,0,0,0.82) calc(100% - calc(${aboutBottomFade} * 0.5)), rgba(0,0,0,0.58) calc(100% - calc(${aboutBottomFade} * 0.32)), rgba(0,0,0,0.3) calc(100% - calc(${aboutBottomFade} * 0.16)), rgba(0,0,0,0) 100%)`;
   const openBeforeContact = (event) => {
     event.preventDefault();
     setBeforeView("contact");
@@ -277,7 +309,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               ref={aboutScrollRef}
               className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.3rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.45rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
               style={{
-                maxHeight: "min(72vh, 42rem)",
+                maxHeight: "min(71vh, 41rem)",
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
                 WebkitMaskImage: aboutMaskImage,
@@ -330,7 +362,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                   className="absolute left-[clamp(-1.25rem,-1.95vw,-0.85rem)] top-[50%] z-[2] !h-[5.1rem] !w-[5.1rem] -translate-y-1/2 min-[769px]:!h-[5.6rem] min-[769px]:!w-[5.6rem] max-[768px]:left-[clamp(-0.9rem,-2.2vw,-0.4rem)] max-[768px]:!h-[4.75rem] max-[768px]:!w-[4.75rem]"
                   iconClassName="!h-[5.1rem] !w-[5.1rem] min-[769px]:!h-[5.6rem] min-[769px]:!w-[5.6rem] max-[768px]:!h-[4.75rem] max-[768px]:!w-[4.75rem]"
                 />
-                <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.82rem,1.3vw,1.05rem)] max-[768px]:mb-[clamp(0.72rem,1.8vw,0.92rem)] text-[clamp(1.62rem,2.55vw,2.06rem)] max-[768px]:text-[clamp(1.54rem,6vw,1.88rem)] font-headline tracking-[0.02em] leading-[1.14] text-[color:var(--home-prose-color)]">
+                <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.82rem,1.3vw,1.05rem)] max-[768px]:mb-[clamp(0.72rem,1.8vw,0.92rem)] max-[768px]:-mt-[clamp(0.18rem,0.7vw,0.3rem)] text-[clamp(1.62rem,2.55vw,2.06rem)] max-[768px]:text-[clamp(1.54rem,6vw,1.88rem)] font-headline tracking-[0.02em] leading-[1.14] text-[color:var(--home-prose-color)]">
                   {t("about.contact.title")}
                 </h3>
                 <div className="home-before-contact-copy mx-auto flex w-full max-w-[min(78vw,23rem)] flex-col items-center gap-[clamp(0.55rem,0.9vw,0.72rem)] text-center max-[768px]:max-w-[min(78vw,18rem)]">

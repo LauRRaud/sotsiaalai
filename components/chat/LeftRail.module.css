@@ -229,7 +229,7 @@
   -webkit-backdrop-filter: blur(14px) saturate(124%);
   backdrop-filter: blur(14px) saturate(124%);
   filter: none !important;
-  border: 1px solid var(--rail-tooltip-border, rgba(255, 255, 255, 0.12));
+  border: 1px solid transparent;
   box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(0, 0, 0, 0.18));
   pointer-events: none;
   z-index: 80;
@@ -267,8 +267,12 @@
   color: #7a3a38;
   font-size: 1.12rem;
   font-weight: 450;
-  background: rgba(253, 253, 253, 0.98);
-  border-color: rgba(122, 58, 56, 0.14);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(248, 248, 247, 0.98) 100%
+  );
+  border-color: transparent;
   box-shadow: 0 10px 24px rgba(82, 50, 46, 0.12);
 }
 
@@ -277,7 +281,7 @@
   font-size: 1.12rem;
   font-weight: 450;
   background: var(--rail-tooltip-bg, rgba(253, 250, 249, 0.96));
-  border-color: var(--rail-tooltip-border, rgba(122, 58, 56, 0.12));
+  border-color: transparent;
   box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));
 }
 
@@ -286,7 +290,7 @@
   background: rgba(9, 14, 24, 0.99);
   -webkit-backdrop-filter: blur(14px) saturate(124%);
   backdrop-filter: blur(14px) saturate(124%);
-  border: 2px solid rgba(255, 234, 0, 0.92);
+  border: 2px solid transparent;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
@@ -300,7 +304,11 @@
   }
 
   :global(:root.theme-light) .tooltip {
-    background: rgb(253, 253, 253);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(248, 248, 247, 0.98) 100%
+    );
   }
 
   :global(:root.theme-mid) .tooltip {

@@ -341,7 +341,7 @@
 :root.theme-light .drawer-panel .cs-delete:focus-visible {
   color: rgba(35, 38, 46, 0.95);
   border-color: rgba(52, 56, 64, 0.45);
-  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.18);
+  box-shadow: none;
 }
 :root.theme-light .drawer-panel .cs-trash-icon {
   stroke: currentColor;

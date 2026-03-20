@@ -108,16 +108,14 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "chat-analysis-overlay-card !isolation-auto !border-0";
   const cardClassName =
     "w-full max-w-none rounded-[1.5em] border-0 " +
-    "bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
-    "backdrop-blur-[var(--glass-blur-radius,1rem)] " +
+    "bg-[rgba(12,16,24,0.96)] text-[color:var(--glass-surface-text,#f2f2f2)] " +
     "[--analysis-card-pad-y:clamp(0.65rem,2vw,1rem)] " +
     "[--analysis-card-pad-x:clamp(0.8rem,2.6vw,1.6rem)] " +
     "[--analysis-card-pad-b:clamp(0.9rem,2.6vw,1.4rem)] " +
     "p-[var(--analysis-card-pad-y)_var(--analysis-card-pad-x)_var(--analysis-card-pad-b)] " +
     "tracking-[0.035em] text-rendering-geometricPrecision isolate " +
     "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto " +
-    "light:bg-[color:var(--glass-surface-bg,rgba(255,255,255,0.65))] light:text-[color:var(--glass-surface-text,#0f172a)] " +
-    "light:backdrop-blur-[var(--glass-blur-radius,1rem)]";
+    "light:bg-[rgba(255,250,248,0.98)] light:text-[color:var(--glass-surface-text,#0f172a)]";
   const headerClassName =
     "flex flex-col items-center justify-center gap-[0.6rem] flex-wrap relative z-[60] " +
     "pt-[0.15rem] mb-[0.6rem]";

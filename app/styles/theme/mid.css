@@ -316,7 +316,7 @@
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
 :root.theme-mid .chat-tools-menu {
-  background: rgba(252, 246, 244, 0.62) !important;
+  background: rgba(252, 246, 244, 0.96) !important;
   box-shadow: 0 12px 28px rgba(46, 24, 21, 0.18) !important;
 }
 
