@@ -22,10 +22,10 @@
       0 10px 18px -14px rgba(248, 253, 255, 0.72),
       0 22px 32px -22px rgba(248, 253, 255, 0.44)
     );
-  --rail-tooltip-bg: rgba(24, 27, 34, 0.99);
-  --rail-tooltip-border: rgba(255, 255, 255, 0.08);
-  --rail-tooltip-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
-  --rail-tooltip-text: rgba(245, 245, 244, 0.96);
+  --rail-tooltip-bg: var(--subpage-card-bg);
+  --rail-tooltip-border: var(--subpage-card-border);
+  --rail-tooltip-shadow: var(--subpage-card-shadow);
+  --rail-tooltip-text: var(--subpage-card-text);
   --chat-tools-item-hover-bg: rgba(33, 37, 46, 0.98);
 }
 
@@ -33,6 +33,24 @@
   --seg-card-bg-hover: var(--form-surface-hover);
   --seg-card-shadow-hover: var(--input-shadow-hover);
   --seg-card-text-hover: var(--pt-100);
+  --input-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.22),
+    0 10px 18px -15px rgba(255, 255, 255, 0.28),
+    0 20px 30px -24px rgba(255, 255, 255, 0.16);
+  --input-shadow-hover:
+    0 6px 14px rgba(0, 0, 0, 0.24),
+    0 11px 20px -15px rgba(255, 255, 255, 0.38),
+    0 22px 32px -24px rgba(255, 255, 255, 0.22);
+  --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.035);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.05);
+  --subpage-card-bg: rgba(30, 32, 38, 0.42);
+  --subpage-card-bg-hover: rgba(34, 36, 42, 0.5);
+  --subpage-card-border: rgba(248, 253, 255, 0.09);
+  --subpage-card-border-hover: rgba(248, 253, 255, 0.13);
+  --subpage-card-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  --subpage-card-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --subpage-card-text: var(--pt-120);
   --btn-primary-hover-brightness: 1.04;
   --btn-primary-bg: radial-gradient(
       82% 66% at 50% -14%,

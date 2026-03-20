@@ -27,12 +27,7 @@ const otpSubmitButtonClassName =
 const otpSubmitLabelClassName = "inline-flex items-center justify-center text-center leading-[1.06] tracking-[0.01em]";
 const helpPopoverClassName =
   "login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] " +
-  "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border shadow-[0_14px_28px_rgba(0,0,0,0.3)] " +
-  "bg-[#13151b] text-[#f3eee8] border-[rgba(255,255,255,0.12)] " +
-  "[.theme-night_&]:bg-[#0d1422] [.theme-night_&]:text-[#eef4ff] [.theme-night_&]:border-[rgba(148,163,184,0.24)] " +
-  "[.theme-dark_&]:bg-[#13151b] [.theme-dark_&]:text-[#f3eee8] [.theme-dark_&]:border-[rgba(255,255,255,0.12)] " +
-  "[.theme-mid_&]:bg-[#f3ece8] [.theme-mid_&]:text-[#4a3833] [.theme-mid_&]:border-[rgba(122,58,56,0.14)] [.theme-mid_&]:shadow-[0_12px_24px_rgba(80,58,52,0.12)] " +
-  "[.theme-light:not(.theme-mid)_&]:bg-[#fffaf8] [.theme-light:not(.theme-mid)_&]:text-[#111827] [.theme-light:not(.theme-mid)_&]:border-[rgba(122,58,56,0.12)] [.theme-light:not(.theme-mid)_&]:shadow-[0_12px_24px_rgba(15,23,42,0.12)]";
+  "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border border-[color:var(--subpage-card-border)] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] backdrop-saturate-[120%]";
 const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const otpTextClassName = "text-[color:var(--otp-copy-text)]";
 const otpInfoTextClassName = "text-[color:var(--otp-copy-strong)]";

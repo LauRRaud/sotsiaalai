@@ -17,6 +17,8 @@ import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import "@/components/CenteredScrollPicker.css";
 import {
   glassPageBackMobileBottomCenterClassName,
+  glassSubpageCardClassName,
+  glassSubpageCardInteractiveClassName,
   glassPageRingCenteredClassName,
   glassPageShellCenteredClassName,
   glassPageTitleClassName
@@ -37,13 +39,9 @@ const scrollAreaClassName =
   "rooms-scroll relative flex-1 w-full max-w-[clamp(18.2rem,37vw,23.2rem)] min-[769px]:max-w-[clamp(18rem,35vw,22.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.62rem] min-[769px]:px-[0.95rem] text-left csp-container mx-auto";
 const roomStepClassName = "rooms-step csp-step !min-h-0 !py-[0.48rem]";
 const roomCardClassName =
-  "w-full rounded-[1rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(22,24,30,0.38)] [.theme-night_&]:bg-[rgba(10,14,24,0.32)] px-[1.14rem] py-[1.02rem] text-[color:var(--pt-120)] shadow-[var(--input-shadow)] " +
-  "transition-[background,border-color,box-shadow,transform] duration-200 ease-out " +
-  "hover:-translate-y-[1px] hover:border-[rgba(148,163,184,0.4)] hover:bg-[rgba(30,32,38,0.44)] [.theme-night_&:hover]:bg-[rgba(16,22,34,0.4)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
-  "focus-within:-translate-y-[1px] focus-within:border-[rgba(148,163,184,0.4)] focus-within:bg-[rgba(30,32,38,0.44)] [.theme-night_&:focus-within]:bg-[rgba(16,22,34,0.4)] focus-within:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
-  "[.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)] " +
-  "[.theme-light_&:hover]:border-[rgba(148,163,184,0.55)] [.theme-light_&:hover]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:hover]:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
-  "[.theme-light_&:focus-within]:border-[rgba(148,163,184,0.55)] [.theme-light_&:focus-within]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:focus-within]:shadow-[var(--input-shadow-hover,var(--input-shadow))]";
+  `w-full rounded-[1rem] px-[1.14rem] py-[1.02rem] ${glassSubpageCardInteractiveClassName}`;
+const roomEmptyCardClassName =
+  `mx-auto w-full rounded-[1rem] px-[1.14rem] py-[1.12rem] text-center ${glassSubpageCardClassName}`;
 const roomMetaRowClassName =
   "mt-[0.24rem] flex flex-wrap items-center gap-x-[0.22rem] gap-y-[0.2rem] text-[0.98rem] text-[color:var(--pt-200)] [.theme-light_&]:text-[#334155]";
 const roomMetaItemClassName =
@@ -544,18 +542,22 @@ export default function RoomsPage() {
             >
               {loading ? (
                 <div className={`${roomStepClassName} csp-item csp-active`}>
-                  <p
-                    className="mx-auto text-center text-[1.2rem] leading-[1.45] text-[color:var(--pt-120)]"
+                  <div
+                    className={roomEmptyCardClassName}
                     aria-busy="true"
                   >
-                    {t("rooms.loading")}
-                  </p>
+                    <p className="m-0 text-[1.2rem] leading-[1.45] text-[color:var(--pt-120)] [.theme-light_&]:text-[#334155]">
+                      {t("rooms.loading")}
+                    </p>
+                  </div>
                 </div>
               ) : effectiveRooms.length === 0 ? (
                 <div className={`${roomStepClassName} csp-item csp-active`}>
-                  <p className="mx-auto text-center text-[1.2rem] leading-[1.45] text-[color:var(--pt-120)]">
-                    {t("rooms.empty")}
-                  </p>
+                  <div className={roomEmptyCardClassName}>
+                    <p className="m-0 text-[1.2rem] leading-[1.45] text-[color:var(--pt-120)] [.theme-light_&]:text-[#334155]">
+                      {t("rooms.empty")}
+                    </p>
+                  </div>
                 </div>
               ) : (
                 <ul className="m-0 list-none p-0">

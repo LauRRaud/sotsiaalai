@@ -6,7 +6,12 @@ import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import { glassPageBackTopLeftClassName, glassPageMobileCardClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import {
+  glassPageBackTopLeftClassName,
+  glassPageMobileCardClassName,
+  glassSubpageCardInteractiveClassName,
+  glassPageTitleClassName
+} from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
 
@@ -58,16 +63,7 @@ export default function HelpListingsPanel({
   const listingsPanelClassName =
     "mt-[0.25rem] max-[768px]:mt-[0.2rem] min-h-[min(56dvh,28rem)] max-h-[min(62dvh,30rem)] " +
     "max-[768px]:min-h-[min(60dvh,32rem)] max-[768px]:max-h-[min(66dvh,34rem)] overflow-y-auto " +
-    "[--help-listings-panel-bg:rgba(22,24,28,0.72)] [--help-listings-panel-border:rgba(226,232,240,0.12)] border-[var(--help-listings-panel-border)] shadow-[var(--input-shadow)] " +
-    "[scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 " +
-    "[.theme-night_&]:[--help-listings-panel-bg:rgba(10,18,32,0.74)] [.theme-night_&]:[--help-listings-panel-border:rgba(170,204,245,0.16)] " +
-    "[.theme-dark_&]:[--help-listings-panel-bg:rgba(22,24,28,0.72)] [.theme-dark_&]:[--help-listings-panel-border:rgba(226,232,240,0.12)] " +
-    "[.theme-mid_&]:[--help-listings-panel-bg:rgba(255,255,255,0.1)] [.theme-mid_&]:[--help-listings-panel-border:rgba(255,255,255,0.34)] " +
-    "[.theme-light_&]:[--help-listings-panel-bg:rgba(255,255,255,0.2)] [.theme-light_&]:[--help-listings-panel-border:rgba(122,58,56,0.07)] " +
-    "hc:[--help-listings-panel-bg:rgba(8,16,30,0.84)] hc:[--help-listings-panel-border:rgba(255,234,0,0.56)]";
-  const listingsPanelStyle = {
-    background: "var(--help-listings-panel-bg, var(--form-surface))"
-  };
+    "[scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
 
   useEffect(() => {
     setIsMounted(true);
@@ -136,10 +132,9 @@ export default function HelpListingsPanel({
 
         <div className="grid gap-[0.7rem] px-[1.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.12rem]">
           <Panel
-            variant="secondary"
+            variant="subpage"
             padding="sm"
             className={listingsPanelClassName}
-            style={listingsPanelStyle}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
@@ -151,7 +146,7 @@ export default function HelpListingsPanel({
                   key={`${item.kind}-${item.id}`}
                   type="button"
                   onClick={() => onSelectItem?.(item)}
-                  className="rounded-[1.12rem] border border-[rgba(248,253,255,0.1)] bg-[rgba(255,255,255,0.16)] px-[1rem] py-[0.95rem] text-left text-[color:var(--glass-modal-text)] shadow-[0_10px_24px_rgba(15,23,42,0.05)] transition-[transform,background,border-color] duration-150 hover:-translate-y-[1px] hover:bg-[rgba(255,255,255,0.22)] [.theme-night_&]:bg-[rgba(16,22,34,0.24)] [.theme-night_&]:hover:bg-[rgba(18,26,40,0.32)] [.theme-dark_&]:bg-[rgba(20,24,31,0.28)] [.theme-dark_&]:hover:bg-[rgba(25,31,40,0.36)] [.theme-mid_&]:bg-[rgba(255,255,255,0.16)] [.theme-mid_&]:hover:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:border-[rgba(122,58,56,0.07)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)] [.theme-light_&]:hover:bg-[rgba(255,255,255,0.38)]"
+                  className={`${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.1rem]">

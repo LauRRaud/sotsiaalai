@@ -8,6 +8,10 @@ import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import Button from "@/components/ui/Button";
 import ModalConfirm from "@/components/ui/ModalConfirm";
+import {
+  glassSubpageCardClassName,
+  glassSubpageCardInteractiveClassName
+} from "@/components/ui/glassPageStyles";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 function uuid() {
   const rnd = typeof window !== "undefined" && window.crypto?.randomUUID?.() || null;
@@ -530,14 +534,9 @@ export default function ChatSidebar() {
   const isLoading = busy || roomsBusy;
   const selectedCount = selectedIds.size;
   const messageCardClassNameCommon =
-    "drawer-chat-card flex w-full flex-col gap-[0.6rem] rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] " +
-    "[background:var(--drawer-card-bg,rgba(20,20,24,0.38))] p-[0.75rem_0.85rem] max-[768px]:p-[0.9rem_0.95rem] text-[color:var(--pt-120)] " +
-    "[box-shadow:var(--drawer-card-shadow,0_0.4rem_1rem_rgba(0,0,0,0.25))] transition-[border-color,background,box-shadow] duration-150 " +
-    "hover:border-[color:var(--drawer-card-border-hover,rgba(148,163,184,0.35))] hover:[background:var(--drawer-card-bg-hover,rgba(28,28,34,0.44))] hover:[box-shadow:var(--drawer-card-shadow-hover,0_0.55rem_1.35rem_rgba(0,0,0,0.32))] " +
-    "focus-within:border-[color:var(--drawer-card-border-hover,rgba(148,163,184,0.35))] focus-within:[background:var(--drawer-card-bg-hover,rgba(28,28,34,0.44))] focus-within:[box-shadow:var(--drawer-card-shadow-hover,0_0.55rem_1.35rem_rgba(0,0,0,0.32))] " +
-    "[.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[0_0.35rem_0.9rem_rgba(15,23,42,0.12)] [.theme-light_&:hover]:border-[rgba(148,163,184,0.55)] [.theme-light_&:hover]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:hover]:shadow-[0_0.5rem_1.1rem_rgba(15,23,42,0.16)] [.theme-light_&:focus-within]:border-[rgba(148,163,184,0.55)] [.theme-light_&:focus-within]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:focus-within]:shadow-[0_0.5rem_1.1rem_rgba(15,23,42,0.16)]";
+    `drawer-chat-card flex w-full flex-col gap-[0.6rem] rounded-[1rem] p-[0.75rem_0.85rem] max-[768px]:p-[0.9rem_0.95rem] ${glassSubpageCardInteractiveClassName}`;
   const messageActiveVariant =
-    "drawer-chat-card--active border-[color:var(--drawer-card-border-active,rgba(148,163,184,0.42))] [background:var(--drawer-card-bg-active,rgba(30,30,36,0.52))] [box-shadow:var(--drawer-card-shadow-active,0_0.6rem_1.45rem_rgba(0,0,0,0.36))] [.theme-light_&]:border-[rgba(148,163,184,0.62)] [.theme-light_&]:bg-[rgba(255,255,255,0.98)]";
+    "drawer-chat-card--active border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] [background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] [box-shadow:var(--subpage-card-shadow-hover,var(--subpage-card-shadow))]";
   const previewTextClassName =
     "text-[1rem] max-[768px]:text-[1.12rem] leading-[1.5] text-[color:var(--drawer-preview-text,var(--text-strong))]";
   const timeTextClassName =
@@ -674,7 +673,7 @@ export default function ChatSidebar() {
           {currentBusy && currentItems.length === 0 ? <div className={`${listClassName} py-2`}>
               {renderLoadingSkeleton(isConversationView ? "conv" : "room", isConversationView ? 3 : 2)}
             </div> : <ul className={listClassName}>
-              {!currentBusy && currentItems.length === 0 ? <li className="flex w-full items-center gap-3 rounded-[1rem] border border-[color:var(--drawer-card-border,rgba(255,255,255,0.08))] [background:var(--drawer-card-bg,rgba(20,20,24,0.38))] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)]">
+              {!currentBusy && currentItems.length === 0 ? <li className={`flex w-full items-center gap-3 rounded-[1rem] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] ${glassSubpageCardClassName}`}>
                   <span>{isConversationView ? t("chat.sidebar.empty") : t("rooms.empty")}</span>
                 </li> : currentItems.map(renderListItem)}
             </ul>}

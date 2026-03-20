@@ -1,6 +1,6 @@
 import { cn } from "@/components/ui/cn";
 import { useLayoutEffect, useRef } from "react";
-const baseCard = "relative overflow-hidden flex items-center gap-[0.45rem] rounded-[var(--seg-card-radius)] [border-width:var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[0.85rem] py-[0.65rem] text-[1.18rem] font-normal tracking-[0.03em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,box-shadow,transform] duration-150 ease-out before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--seg-card-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[var(--seg-card-duration,560ms)] before:ease-[var(--seg-card-ease,cubic-bezier(0.22,0.61,0.36,1))] hover:before:opacity-100 hover:text-[color:var(--seg-card-text-hover)] hover:shadow-[var(--seg-card-shadow-hover)] focus-within:before:opacity-100 focus-within:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1]";
+const baseCard = "relative overflow-hidden flex items-center gap-[0.45rem] rounded-[var(--seg-card-radius)] [border-width:var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[0.85rem] py-[0.65rem] text-[1.18rem] font-normal tracking-[0.03em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,box-shadow,background] duration-150 ease-out select-none [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [-webkit-font-smoothing:antialiased] [text-rendering:geometricPrecision] before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit] before:[background:var(--seg-card-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[var(--seg-card-duration,560ms)] before:ease-[var(--seg-card-ease,cubic-bezier(0.22,0.61,0.36,1))] [@media(hover:hover)]:hover:before:opacity-100 [@media(hover:hover)]:hover:text-[color:var(--seg-card-text-hover)] [@media(hover:hover)]:hover:shadow-[var(--seg-card-shadow-hover)] focus-within:before:opacity-100 focus-within:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] [&>*:not(input)]:min-w-0";
 const selectedCard = "text-[color:var(--seg-card-text-selected)]";
 const checkboxIndicator = "relative flex h-[var(--seg-control-size,20px)] w-[var(--seg-control-size,20px)] items-center justify-center rounded-[var(--seg-control-radius,0.4rem)] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100";
 const visuallyHiddenInputStyle = {
@@ -60,7 +60,6 @@ export default function OptionCard({
     if (!(node instanceof HTMLElement)) return undefined;
 
     let rafId = 0;
-    let resizeObserver = null;
 
     const fit = () => {
       const style = window.getComputedStyle(node);
@@ -101,26 +100,19 @@ export default function OptionCard({
 
     scheduleFit();
 
-    if (typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(scheduleFit);
-      resizeObserver.observe(node);
-      if (resolvedRef.current?.parentElement instanceof HTMLElement) {
-        resizeObserver.observe(resolvedRef.current.parentElement);
-      }
-    }
-
     window.addEventListener("resize", scheduleFit);
     document.fonts?.ready?.then?.(scheduleFit).catch?.(() => {});
 
     return () => {
       window.cancelAnimationFrame(rafId);
-      resizeObserver?.disconnect?.();
       window.removeEventListener("resize", scheduleFit);
     };
   }, [children, fitTextLines, fitTextMinPx, resolvedRef]);
   return <label data-checked={checked ? "true" : "false"} data-control-type={type} className={cn(baseCard, disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer", className, checked ? selectedCard : null)}>
       <input ref={resolvedRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} disabled={disabled} className="peer sr-only" style={visuallyHiddenInputStyle} tabIndex={0} />
       {indicator}
-      <span ref={textRef} className="flex-1">{children}</span>
+      <span ref={textRef} className="flex min-w-0 flex-1 items-center leading-[inherit] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [-webkit-font-smoothing:antialiased] [text-rendering:geometricPrecision] [transform:translateZ(0)]">
+        {children}
+      </span>
     </label>;
 }

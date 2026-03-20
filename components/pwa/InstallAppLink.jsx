@@ -96,12 +96,7 @@ export default function InstallAppLink({
   const desktopHint = t("pwa.instructions.desktop");
   const helpPopoverClassName =
     "absolute left-1/2 top-[calc(100%+0.62rem)] z-[40] w-[min(17.4rem,calc(100vw-2rem))] max-[480px]:w-[min(16.7rem,calc(100vw-2rem))] -translate-x-1/2 rounded-[16px] " +
-    "border-0 px-[0.82rem] pt-[0.78rem] pb-[0.7rem] shadow-[var(--home-panel-shadow)] " +
-    "bg-[rgba(10,14,24,0.84)] text-[#f3eee8] backdrop-blur-0 [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
-    "[.theme-night_&]:bg-[rgba(10,14,24,0.86)] [.theme-night_&]:text-[#eef4ff] " +
-    "[.theme-dark_&]:bg-[rgba(10,14,24,0.84)] [.theme-dark_&]:text-[#f3eee8] " +
-    "[.theme-mid_&]:bg-[rgba(252,248,247,0.92)] [.theme-mid_&]:text-[#4a3833] [.theme-mid_&]:shadow-[var(--home-panel-shadow)] " +
-    "[.theme-light:not(.theme-mid)_&]:bg-[rgba(247,247,246,0.94)] [.theme-light:not(.theme-mid)_&]:text-[#111827] [.theme-light:not(.theme-mid)_&]:shadow-[var(--home-panel-shadow)]";
+    "border border-[color:var(--subpage-card-border)] px-[0.82rem] pt-[0.78rem] pb-[0.7rem] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] [-webkit-backdrop-filter:blur(16px)] [backdrop-filter:blur(16px)]";
   const desktopHintNode = <span>{isMacSafari ? macHint : desktopHint}</span>;
 
   const iosHintNode = locale === "et" ? (

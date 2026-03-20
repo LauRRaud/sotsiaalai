@@ -315,11 +315,11 @@ export function DictateWaveIcon({ className, ...props }) {
       className={cn(className)}
       {...props}
     >
-      <rect x="134" y="402" width="68" height="220" rx="34" />
-      <rect x="306" y="272" width="68" height="480" rx="34" />
-      <rect x="478" y="132" width="68" height="760" rx="34" />
-      <rect x="650" y="308" width="68" height="408" rx="34" />
-      <rect x="822" y="430" width="68" height="164" rx="34" />
+      <rect x="107" y="402" width="80" height="220" rx="40" />
+      <rect x="283" y="272" width="80" height="480" rx="40" />
+      <rect x="475" y="132" width="80" height="760" rx="40" />
+      <rect x="667" y="308" width="80" height="408" rx="40" />
+      <rect x="849" y="430" width="80" height="164" rx="40" />
     </svg>
   );
 }

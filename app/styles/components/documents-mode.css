@@ -378,11 +378,11 @@
 
 .documents-agent-handoff-panel {
   padding: 0.9rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--documents-subpanel-border) 74%, transparent);
-  background: color-mix(in srgb, var(--documents-subpanel-bg) 94%, transparent);
+  border: 1px solid var(--subpage-card-border);
+  background: var(--subpage-card-bg);
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
-  box-shadow: var(--documents-soft-shadow);
+  box-shadow: var(--subpage-card-shadow);
 }
 
 .documents-section-body > .documents-agent-section {
@@ -880,9 +880,10 @@
 .documents-agent-goal-group--template {
   gap: 0.6rem;
   padding: 0.8rem 0.9rem;
-  border: 1px solid var(--documents-agent-stage-border);
+  border: 1px solid var(--subpage-card-border);
   border-radius: 1rem;
-  background: var(--documents-agent-stage-bg);
+  background: var(--subpage-card-bg);
+  box-shadow: var(--subpage-card-shadow);
 }
 
 .documents-agent-template-row {
@@ -991,10 +992,10 @@
   max-width: min(100%, 38rem);
   margin-inline: auto;
   min-height: clamp(17.5rem, 37vh, 22.5rem);
-  border: var(--input-border);
+  border: 1px solid var(--subpage-card-border);
   border-radius: 1rem !important;
-  background: var(--input-bg);
-  box-shadow: var(--documents-agent-thread-shadow);
+  background: var(--subpage-card-bg);
+  box-shadow: var(--subpage-card-shadow);
   transform: none !important;
   mask-image: none !important;
   -webkit-mask-image: none !important;
@@ -1003,13 +1004,13 @@
 
 :root:not(.theme-light):not(.theme-mid)
   .documents-agent-conversation-window {
-  background: var(--documents-agent-thread-bg) !important;
-  border-color: var(--documents-agent-thread-border) !important;
+  background: var(--subpage-card-bg) !important;
+  border-color: var(--subpage-card-border) !important;
 }
 
 :root.theme-night .documents-agent-conversation-window {
-  background: var(--documents-agent-thread-bg) !important;
-  border-color: var(--documents-agent-thread-border) !important;
+  background: var(--subpage-card-bg) !important;
+  border-color: var(--subpage-card-border) !important;
 }
 
 .documents-agent-conversation-window .chat-window__scroll {
@@ -1046,9 +1047,11 @@
 }
 
 .documents-agent-composer-slot .chat-inputbar {
-  border: 1px solid var(--documents-agent-composer-border) !important;
-  background: var(--documents-agent-composer-bg) !important;
-  box-shadow: var(--documents-agent-composer-shadow) !important;
+  --chat-send-btn-shift-x: 0rem;
+  --chat-send-btn-shift-y: 0rem;
+  border: 1px solid var(--subpage-card-border) !important;
+  background: var(--subpage-card-bg) !important;
+  box-shadow: var(--subpage-card-shadow) !important;
   backdrop-filter: blur(10px) saturate(112%) !important;
   -webkit-backdrop-filter: blur(10px) saturate(112%) !important;
   max-width: 100%;
@@ -1056,9 +1059,9 @@
 
 .documents-agent-composer-slot .chat-inputbar:hover:not(:focus-within),
 .documents-agent-composer-slot .chat-inputbar:focus-within {
-  border: 1px solid var(--documents-agent-composer-border) !important;
-  background: var(--documents-agent-composer-bg-hover) !important;
-  box-shadow: var(--documents-agent-composer-shadow-hover, var(--documents-agent-composer-shadow)) !important;
+  border: 1px solid var(--subpage-card-border-hover, var(--subpage-card-border)) !important;
+  background: var(--subpage-card-bg-hover, var(--subpage-card-bg)) !important;
+  box-shadow: var(--subpage-card-shadow-hover, var(--subpage-card-shadow)) !important;
 }
 
 .documents-agent-composer-slot .chat-input-field {
@@ -1113,10 +1116,10 @@
   display: grid;
   gap: 0.75rem;
   padding: 0.9rem;
-  border: 1px solid color-mix(in srgb, var(--documents-subpanel-border) 74%, transparent);
+  border: 1px solid var(--subpage-card-border);
   border-radius: 1rem;
-  background: color-mix(in srgb, var(--documents-subpanel-bg) 96%, transparent);
-  box-shadow: var(--documents-soft-shadow);
+  background: var(--subpage-card-bg);
+  box-shadow: var(--subpage-card-shadow);
 }
 
 .documents-agent-refine-copy {
@@ -1136,10 +1139,10 @@
   display: grid;
   gap: 0.75rem;
   padding: 0.9rem;
-  border: 1px solid color-mix(in srgb, var(--documents-card-border) 72%, transparent);
+  border: 1px solid var(--subpage-card-border);
   border-radius: 1rem;
-  background: color-mix(in srgb, var(--documents-card-bg) 96%, transparent);
-  box-shadow: var(--documents-soft-shadow);
+  background: var(--subpage-card-bg);
+  box-shadow: var(--subpage-card-shadow);
 }
 
 .documents-agent-version-list {
@@ -1291,28 +1294,28 @@
 .documents-panel {
   position: relative;
   overflow: visible;
-  background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
-  border-color: transparent;
-  color: var(--documents-page-text);
+  background: var(--subpage-card-bg);
+  border-color: var(--subpage-card-border);
+  color: var(--subpage-card-text, var(--documents-page-text));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
-  box-shadow: var(--glass-shell-shadow, var(--documents-strong-shadow));
+  box-shadow: var(--subpage-card-shadow);
 }
 
 .documents-card {
-  background: color-mix(in srgb, var(--documents-card-bg) 94%, transparent);
-  border-color: color-mix(in srgb, var(--documents-card-border) 72%, transparent);
+  background: var(--subpage-card-bg);
+  border-color: var(--subpage-card-border);
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
-  box-shadow: var(--documents-soft-shadow);
+  box-shadow: var(--subpage-card-shadow);
 }
 
 .documents-subpanel {
-  background: color-mix(in srgb, var(--documents-subpanel-bg) 94%, transparent);
-  border-color: color-mix(in srgb, var(--documents-subpanel-border) 74%, transparent);
+  background: var(--subpage-card-bg);
+  border-color: var(--subpage-card-border);
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
-  box-shadow: var(--documents-soft-shadow);
+  box-shadow: var(--subpage-card-shadow);
 }
 
 .documents-inline-section {
@@ -1325,9 +1328,9 @@
 }
 
 .documents-content {
-  background: var(--documents-content-bg);
-  border-color: var(--documents-content-border);
-  color: var(--documents-page-text);
+  background: var(--subpage-card-bg);
+  border-color: var(--subpage-card-border);
+  color: var(--subpage-card-text, var(--documents-page-text));
 }
 
 .documents-field {
@@ -1533,25 +1536,12 @@
   max-width: min(18rem, calc(100vw - 2rem));
   overflow: hidden;
   padding: 0.25rem;
-  border: 1px solid color-mix(in srgb, var(--documents-accent-border) 45%, rgba(148, 163, 184, 0.22));
+  border: 1px solid var(--subpage-card-border);
   border-radius: 0.88rem;
-  background: var(--documents-dropdown-bg, rgba(24, 26, 32, 0.98));
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-}
-
-:root.theme-light .documents-dropdown-menu {
-  --documents-dropdown-bg: rgba(255, 255, 255, 0.98);
-  border-color: rgba(190, 196, 208, 0.55);
-}
-
-:root.theme-mid .documents-dropdown-menu {
-  --documents-dropdown-bg: rgba(252, 248, 247, 0.98);
-  border-color: rgba(255, 255, 255, 0.38);
-}
-
-:root.theme-night .documents-dropdown-menu {
-  --documents-dropdown-bg: rgba(11, 18, 34, 0.98);
-  border-color: rgba(120, 156, 231, 0.2);
+  background: var(--subpage-card-bg);
+  box-shadow: var(--subpage-card-shadow);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
 }
 
 .documents-dropdown-item {
@@ -1575,12 +1565,7 @@
 
 .documents-dropdown-item:hover,
 .documents-dropdown-item:focus-visible {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-:root.theme-light .documents-dropdown-item:hover,
-:root.theme-light .documents-dropdown-item:focus-visible {
-  background: rgba(122, 58, 56, 0.08);
+  background: var(--subpage-card-bg-hover, rgba(255, 255, 255, 0.08));
 }
 
 .documents-dropdown-item.is-active {
@@ -1686,44 +1671,48 @@
 }
 
 .documents-notice {
-  border: 1px solid transparent;
+  border: 1px solid var(--subpage-card-border);
+  background: var(--subpage-card-bg);
+  box-shadow: var(--subpage-card-shadow);
   font-size: 1.02rem;
   line-height: 1.58;
 }
 
 .documents-notice--info {
-  background: var(--documents-info-bg);
-  border-color: var(--documents-info-border);
+  background: color-mix(in srgb, var(--subpage-card-bg) 88%, var(--documents-info-bg) 12%);
+  border-color: color-mix(in srgb, var(--subpage-card-border) 76%, var(--documents-info-border) 24%);
   color: var(--documents-info-text);
 }
 
 .documents-notice--success {
-  background: var(--documents-success-bg);
-  border-color: var(--documents-success-border);
+  background: color-mix(in srgb, var(--subpage-card-bg) 88%, var(--documents-success-bg) 12%);
+  border-color: color-mix(in srgb, var(--subpage-card-border) 76%, var(--documents-success-border) 24%);
   color: var(--documents-success-text);
 }
 
 .documents-notice--muted {
-  background: var(--documents-muted-bg);
-  border-color: var(--documents-muted-border);
+  background: color-mix(in srgb, var(--subpage-card-bg) 94%, var(--documents-muted-bg) 6%);
+  border-color: color-mix(in srgb, var(--subpage-card-border) 82%, var(--documents-muted-border) 18%);
   color: var(--documents-muted-text);
 }
 
 .documents-notice--warning {
-  background: var(--documents-warning-bg);
-  border-color: var(--documents-warning-border);
+  background: color-mix(in srgb, var(--subpage-card-bg) 88%, var(--documents-warning-bg) 12%);
+  border-color: color-mix(in srgb, var(--subpage-card-border) 76%, var(--documents-warning-border) 24%);
   color: var(--documents-warning-text);
 }
 
 .documents-notice--error {
-  background: var(--documents-error-bg);
-  border-color: var(--documents-error-border);
+  background: color-mix(in srgb, var(--subpage-card-bg) 88%, var(--documents-error-bg) 12%);
+  border-color: color-mix(in srgb, var(--subpage-card-border) 76%, var(--documents-error-border) 24%);
   color: var(--documents-error-text);
 }
 
 .documents-empty-state {
-  border-color: color-mix(in srgb, var(--documents-muted-border) 88%, transparent);
-  color: var(--documents-page-text);
+  background: var(--subpage-card-bg);
+  border-color: color-mix(in srgb, var(--subpage-card-border) 84%, transparent);
+  box-shadow: var(--subpage-card-shadow);
+  color: var(--subpage-card-text, var(--documents-page-text));
   font-size: 1.12rem;
   line-height: 1.62;
 }

@@ -9,6 +9,7 @@ import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
+  glassSubpageCardClassName,
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles";
 import {
@@ -40,8 +41,7 @@ const leadClassName =
   "m-0 text-left text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
 const bodyClassName =
   "framework-body mx-auto grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-[0.12rem] max-[768px]:pb-[0.92rem]";
-const surfaceClassName =
-  "rounded-[1.15rem] border border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] text-[color:var(--pt-120)] shadow-[var(--framework-panel-shadow,var(--chat-invite-shadow,var(--input-shadow)))] [.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+const surfaceClassName = glassSubpageCardClassName;
 const introCardClassName =
   `framework-intro-card ${surfaceClassName} grid gap-[0.9rem] px-[1.25rem] py-[1.15rem] max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`;
 const sectionTitleClassName =
@@ -62,7 +62,7 @@ const docParagraphClassName =
 const docListClassName =
   "m-0 grid gap-[0.55rem] pl-[1.45rem] text-[1.08rem] leading-[1.68] max-[768px]:pl-[1.15rem]";
 const docCheckRowClassName =
-  "grid gap-[0.5rem] rounded-[0.95rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-[0.9rem] py-[0.75rem] [.theme-light_&]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:bg-[rgba(255,255,255,0.5)]";
+  `grid gap-[0.5rem] rounded-[0.95rem] px-[0.9rem] py-[0.75rem] ${glassSubpageCardClassName}`;
 const docCheckRowOptionsClassName = "flex flex-wrap items-center gap-x-[1rem] gap-y-[0.45rem]";
 const docCheckOptionClassName =
   "inline-flex items-center gap-[0.42rem] text-[1rem] leading-[1.35] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";

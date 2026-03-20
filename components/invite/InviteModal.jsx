@@ -14,6 +14,7 @@ import Panel from "@/components/ui/Panel";
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
+  glassSubpageCardClassName,
   glassPageTitleClassName,
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
@@ -94,10 +95,10 @@ export default function InviteModal() {
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[9rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
   const inviteSponsorToggleClassName =
-    "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
+    "!inline-flex !w-fit !justify-self-center !self-center !mt-[0.28rem] !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
     "[&>span.shrink-0]:-translate-y-[0.08rem] " +
-    "max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem] " +
+    "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem] " +
     inviteOptionButtonClassName;
   const inviteRoleCardClassName =
     "!w-[min(100%,18.2rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
@@ -138,6 +139,9 @@ export default function InviteModal() {
   const inviteListCardClassName =
     `${sponsoredSelected ? "mt-[0.55rem] max-[768px]:mt-[0.45rem]" : "mt-[0.55rem]"} rounded-[1rem] text-[color:var(--pt-120)] ` +
     "[.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+  const inviteListRowClassName =
+    `invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] ` +
+    `max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:p-[0.78rem] ${glassSubpageCardClassName}`;
   const inviteCheckoutAgreementReplacements = useMemo(
     () => ({
       terms: {
@@ -617,7 +621,7 @@ export default function InviteModal() {
         )}
 
         <Panel
-          variant="secondary"
+          variant="subpage"
           padding="sm"
           className={`invite-list-panel ${inviteListCardClassName} ${
             invites.length === 0
@@ -654,7 +658,7 @@ export default function InviteModal() {
               </div>
               {invites.map((inv) => (
                 <div
-                  className="invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:border max-[768px]:border-[rgba(248,253,255,0.1)] max-[768px]:bg-[rgba(10,14,22,0.4)] max-[768px]:p-[0.78rem] [.theme-night_&]:max-[768px]:border-[rgba(166,190,230,0.1)] [.theme-night_&]:max-[768px]:bg-[rgba(10,16,26,0.44)] [.theme-light_&]:max-[768px]:border-[rgba(148,163,184,0.18)] [.theme-light_&]:max-[768px]:bg-[rgba(255,255,255,0.38)]"
+                  className={inviteListRowClassName}
                   key={inv.id}
                 >
                   <div className="min-w-0">

@@ -31,6 +31,9 @@
   --input-shadow-hover:
     0 0.24rem 0.68rem rgba(20, 12, 10, 0.1),
     0 0.08rem 0.22rem rgba(20, 12, 10, 0.035);
+  --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.05);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.07);
   --btn-primary-hover-brightness: 1.03;
   --btn-primary-bg:
     radial-gradient(
@@ -99,10 +102,17 @@
   --panel-secondary-bg: rgba(252, 248, 247, 0.44);
   --panel-secondary-border: rgba(255, 255, 255, 0.34);
   --panel-secondary-shadow: 0 6px 16px rgba(20, 12, 10, 0.12);
-  --rail-tooltip-bg: var(--input-bg);
-  --rail-tooltip-border: rgba(255, 255, 255, 0.34);
-  --rail-tooltip-shadow: var(--input-shadow);
-  --rail-tooltip-text: #7a3a38;
+  --subpage-card-bg: rgba(252, 248, 247, 0.52);
+  --subpage-card-bg-hover: rgba(253, 249, 248, 0.58);
+  --subpage-card-border: rgba(255, 255, 255, 0.22);
+  --subpage-card-border-hover: rgba(255, 255, 255, 0.3);
+  --subpage-card-shadow: 0 8px 20px rgba(20, 12, 10, 0.12);
+  --subpage-card-shadow-hover: 0 10px 24px rgba(20, 12, 10, 0.15);
+  --subpage-card-text: #2f3a4a;
+  --rail-tooltip-bg: var(--subpage-card-bg);
+  --rail-tooltip-border: var(--subpage-card-border);
+  --rail-tooltip-shadow: var(--subpage-card-shadow);
+  --rail-tooltip-text: var(--subpage-card-text);
   --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
 }
 
@@ -282,8 +292,8 @@
   background: var(--btn-primary-bg-hover) !important;
   border: var(--btn-primary-border-hover) !important;
   box-shadow:
-    0 0.24rem 0.68rem rgba(20, 12, 10, 0.08),
-    0 0.08rem 0.22rem rgba(20, 12, 10, 0.03) !important;
+    0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
+    0 0.16rem 0.4rem rgba(20, 12, 10, 0.06) !important;
 }
 
 :root.theme-mid .chat-inputbar .chat-send-btn:hover,
@@ -291,8 +301,8 @@
   background: var(--btn-primary-bg-hover) !important;
   border: var(--btn-primary-border-hover) !important;
   box-shadow:
-    0 0.24rem 0.68rem rgba(20, 12, 10, 0.08),
-    0 0.08rem 0.22rem rgba(20, 12, 10, 0.03) !important;
+    0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
+    0 0.16rem 0.4rem rgba(20, 12, 10, 0.06) !important;
   color: #2f3a4a;
 }
 
@@ -419,7 +429,9 @@
     ),
     rgba(244, 234, 232, 0.2) !important;
   border: 1px solid rgba(255, 255, 255, 0.32) !important;
-  box-shadow: 0 5px 11px rgba(20, 12, 10, 0.13) !important;
+  box-shadow:
+    0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
+    0 0.16rem 0.4rem rgba(20, 12, 10, 0.06) !important;
 }
 
 /* Invite list card in mid should not jump to bright white due light modifiers. */

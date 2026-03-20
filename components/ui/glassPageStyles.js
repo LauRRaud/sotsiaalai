@@ -74,3 +74,15 @@ export const glassPageMobileCardClassName =
   "max-[768px]:!px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] " +
   "max-[768px]:!pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] " +
   "max-[768px]:!pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]";
+
+export const glassSubpageCardClassName =
+  "rounded-[var(--subpage-card-radius)] border border-[color:var(--subpage-card-border)] " +
+  "[background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
+  "shadow-[var(--subpage-card-shadow)]";
+
+export const glassSubpageCardInteractiveClassName =
+  `${glassSubpageCardClassName} ` +
+  "transition-[background,border-color,box-shadow,transform] duration-200 ease-out " +
+  "hover:-translate-y-[1px] hover:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] hover:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] hover:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))] " +
+  "focus-visible:-translate-y-[1px] focus-visible:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] focus-visible:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] focus-visible:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))] " +
+  "focus-within:-translate-y-[1px] focus-within:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] focus-within:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] focus-within:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))]";

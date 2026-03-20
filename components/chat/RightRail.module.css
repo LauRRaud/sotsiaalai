@@ -321,14 +321,9 @@
 
 :global(:root.theme-night) .tooltip {
   background: var(--rail-tooltip-bg, rgba(16, 19, 26, 0.99));
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+  -webkit-backdrop-filter: blur(14px) saturate(124%);
+  backdrop-filter: blur(14px) saturate(124%);
   box-shadow: var(--rail-tooltip-shadow, 0 8px 18px rgba(0, 0, 0, 0.24));
-}
-
-:global(:root:not(.theme-light):not(.theme-mid):not(.theme-night)) .tooltip {
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
 }
 
 :global(html[data-contrast="hc"]) .tooltip {
@@ -347,14 +342,10 @@
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .tooltip {
     background: var(--rail-tooltip-bg, rgb(28, 31, 38));
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
   }
 
   :global(:root.theme-night) .tooltip {
     background: var(--rail-tooltip-bg, rgb(16, 19, 26));
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
   }
 
   :global(:root.theme-light) .tooltip {

@@ -214,17 +214,39 @@ body.selected-listing-modal-open .chat-page-shell {
   border: 0 !important;
   color: var(--rail-tooltip-text, var(--glass-surface-text, #f2f2f2)) !important;
   background: var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995)) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+  backdrop-filter: blur(16px) saturate(120%) !important;
   box-shadow: var(--rail-tooltip-shadow, var(--glass-shell-shadow, none)) !important;
 }
 
 :root.theme-light .chat-analysis-overlay .chat-analysis-overlay-card {
   color: var(--rail-tooltip-text, var(--glass-surface-text, #2b2620)) !important;
   background: var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995)) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+  backdrop-filter: blur(16px) saturate(120%) !important;
   box-shadow: var(--rail-tooltip-shadow, var(--glass-shell-shadow, none)) !important;
+}
+
+:root.theme-light .chat-page-shell {
+  --rail-tooltip-bg: var(--chat-invite-surface, rgba(255, 250, 248, 0.48));
+  --rail-tooltip-border: var(--chat-invite-list-border, transparent);
+  --rail-tooltip-shadow: var(--chat-invite-shadow, 0 12px 24px rgba(82, 50, 46, 0.08));
+  --chat-tools-item-hover-bg: var(--chat-invite-surface-hover, rgba(255, 250, 248, 0.58));
+}
+
+:root.theme-mid .chat-page-shell {
+  --rail-tooltip-bg: rgba(252, 246, 244, 0.62);
+  --rail-tooltip-border: rgba(255, 255, 255, 0.34);
+  --rail-tooltip-shadow: 0 12px 28px rgba(46, 24, 21, 0.18);
+  --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night) .chat-page-shell,
+:root.theme-night .chat-page-shell {
+  --rail-tooltip-bg: rgba(30, 32, 38, 0.92);
+  --rail-tooltip-border: rgba(248, 253, 255, 0.14);
+  --rail-tooltip-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
+  --chat-tools-item-hover-bg: rgba(42, 46, 56, 0.92);
 }
 
 /* Keep chat send/dictate controls borderless in normal contrast modes. */

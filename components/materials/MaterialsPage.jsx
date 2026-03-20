@@ -6,21 +6,17 @@ import { useRouter } from "next/navigation"
 import { useI18n } from "@/components/i18n/I18nProvider"
 import BackButton from "@/components/ui/BackButton"
 import Button from "@/components/ui/Button"
+import Panel from "@/components/ui/Panel"
 import Textarea from "@/components/ui/Textarea"
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
+  glassSubpageCardClassName,
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles"
 import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
 
-const materialsPanelSurfaceClassName =
-  "border border-[rgba(248,253,255,0.1)] bg-[rgba(10,14,22,0.52)] [.theme-night_&]:border-[rgba(166,190,230,0.1)] [.theme-night_&]:bg-[rgba(10,16,26,0.54)] " +
-  "text-[color:var(--pt-120)] " +
-  "[.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.22)] [.theme-light_&]:text-[#1f2937]"
-const materialsPanelShadowClassName =
-  "shadow-[var(--materials-panel-shadow,var(--chat-invite-shadow,var(--input-shadow)))] [.theme-light_&]:shadow-[var(--input-shadow)]"
 const materialsPrimaryButtonClassName =
   "whitespace-normal text-center leading-[1.2] !px-[1.6rem] !py-[1.05rem] !text-[1.18rem] " +
   "!min-h-[3.2rem] max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]"
@@ -28,10 +24,14 @@ const materialsSecondaryButtonClassName =
   "whitespace-normal text-center leading-[1.2] !px-[1.2rem] !py-[0.72rem] !text-[1rem] !min-h-[2.7rem] " +
   "max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.35rem] max-[768px]:!text-[1.08rem]"
 const materialsSectionClassName =
-  `grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] ${materialsPanelSurfaceClassName} ${materialsPanelShadowClassName} ` +
+  "grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] " +
   "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]"
 const materialsUploadSectionClassName =
   "grid gap-[0.82rem] px-[0.05rem] py-[0.05rem] max-[768px]:gap-[0.72rem]"
+const materialsTextareaClassName =
+  `min-h-[7.4rem] rounded-[1.05rem] ${glassSubpageCardClassName} ` +
+  "hover:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] hover:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] hover:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))] " +
+  "focus-visible:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] focus-visible:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] focus-visible:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))]"
 const materialsSectionTitleClassName =
   "text-[1.22rem] font-[650] leading-[1.18] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]"
 const materialsSectionCopyClassName =
@@ -278,7 +278,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                 onChange={(event) => setComment(event.target.value)}
                 rows={5}
                 placeholder={t("materials_page.comment_placeholder_multiple")}
-                className={`min-h-[7.4rem] rounded-[1.05rem] !border-[rgba(248,253,255,0.1)] ![background:rgba(10,14,22,0.52)] [.theme-night_&]:!border-[rgba(166,190,230,0.1)] [.theme-night_&]:![background:rgba(10,16,26,0.54)] [.theme-light_&]:!border-[rgba(122,58,56,0.08)] [.theme-light_&]:![background:rgba(255,255,255,0.22)] ${materialsPanelShadowClassName} hover:![background:rgba(10,14,22,0.52)] [.theme-night_&:hover]:![background:rgba(10,16,26,0.54)] [.theme-light_&:hover]:![background:rgba(255,255,255,0.22)] focus-visible:![background:rgba(10,14,22,0.52)] [.theme-night_&:focus-visible]:![background:rgba(10,16,26,0.54)] [.theme-light_&:focus-visible]:![background:rgba(255,255,255,0.22)] focus-visible:shadow-[var(--materials-panel-shadow,var(--chat-invite-shadow,var(--input-shadow)))]`}
+                className={materialsTextareaClassName}
               />
 
               {error ? (
@@ -306,7 +306,12 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </section>
 
           {isAdmin ? (
-            <section className={`materials-admin-panel ${materialsSectionClassName} -mx-[0.28rem] max-[768px]:-mx-[0.14rem]`}>
+            <Panel
+              as="section"
+              variant="subpage"
+              padding="sm"
+              className={`materials-admin-panel ${materialsSectionClassName} -mx-[0.28rem] max-[768px]:-mx-[0.14rem]`}
+            >
               <div className="flex items-start justify-between gap-[0.8rem]">
                 <div className="grid gap-[0.22rem]">
                   <h2 className={materialsSectionTitleClassName}>{t("materials_page.admin.title")}</h2>
@@ -335,7 +340,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                   {items.map((item) => (
                     <div
                       key={item.id}
-                      className={`grid gap-[0.62rem] rounded-[0.95rem] px-[0.88rem] py-[0.82rem] ${materialsPanelSurfaceClassName} ${materialsPanelShadowClassName}`}
+                      className={`grid gap-[0.62rem] rounded-[0.95rem] px-[0.88rem] py-[0.82rem] ${glassSubpageCardClassName}`}
                     >
                       <div className="flex flex-wrap items-center gap-[0.45rem] text-[0.86rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.76]">
                         <span>{formatDate(item.createdAt, resolvedLocale)}</span>
@@ -376,7 +381,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               ) : (
                 <p className="text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">{t("materials_page.admin.empty")}</p>
               )}
-            </section>
+            </Panel>
           ) : null}
         </div>
       </div>
