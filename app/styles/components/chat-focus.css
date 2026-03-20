@@ -235,16 +235,16 @@ body.selected-listing-modal-open .chat-page-shell {
 }
 
 :root.theme-mid .chat-page-shell {
-  --rail-tooltip-bg: rgba(252, 246, 244, 0.62);
-  --rail-tooltip-border: rgba(255, 255, 255, 0.34);
+  --rail-tooltip-bg: rgba(252, 246, 244, 0.995);
+  --rail-tooltip-border: rgba(255, 255, 255, 0.16);
   --rail-tooltip-shadow: 0 12px 28px rgba(46, 24, 21, 0.18);
   --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night) .chat-page-shell,
 :root.theme-night .chat-page-shell {
-  --rail-tooltip-bg: rgba(30, 32, 38, 0.92);
-  --rail-tooltip-border: rgba(248, 253, 255, 0.14);
+  --rail-tooltip-bg: rgba(30, 32, 38, 0.995);
+  --rail-tooltip-border: rgba(248, 253, 255, 0.08);
   --rail-tooltip-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
   --chat-tools-item-hover-bg: rgba(42, 46, 56, 0.92);
 }

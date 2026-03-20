@@ -261,7 +261,7 @@
     0 12px 18px -14px rgba(248, 253, 255, 0.74),
     0 24px 30px -24px rgba(248, 253, 255, 0.4);
 }
-:root:not(.theme-light) .chat-inputbar {
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar {
   --chat-action-size: var(--chat-composer-main-control-size, calc(var(--inputbar-h, 3.2rem) - 0.2rem));
   border: 0;
   background: transparent;
@@ -269,15 +269,15 @@
     0 6px 16px rgba(0, 0, 0, 0.26),
     var(--chat-under-glow);
 }
-:root:not(.theme-light) .chat-inputbar:hover:not(:focus-within),
-:root:not(.theme-light) .chat-inputbar:focus-within {
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar:hover:not(:focus-within),
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar:focus-within {
   border-color: transparent;
   background: transparent;
   box-shadow:
     0 6px 16px rgba(0, 0, 0, 0.26),
     var(--chat-under-glow-strong);
 }
-:root:not(.theme-light) .chat-inputbar .chat-listen-btn {
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn {
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -294,7 +294,7 @@
   transition: transform 220ms ease-out, box-shadow 220ms ease-out,
     background 220ms ease-out, border-color 220ms ease-out;
 }
-:root:not(.theme-light) .chat-inputbar .chat-send-btn {
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn {
   border: var(--btn-primary-border);
   background: var(--btn-primary-bg);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));
@@ -313,30 +313,30 @@
   transition: transform 220ms ease-out, box-shadow 220ms ease-out,
     background 220ms ease-out, border-color 220ms ease-out;
 }
-:root:not(.theme-light) .chat-inputbar .chat-send-btn:hover,
-:root:not(.theme-light) .chat-inputbar .chat-send-btn:focus-visible {
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn:hover,
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn:focus-visible {
   border: var(--btn-primary-border-hover);
   background: var(--btn-primary-bg-hover);
   box-shadow: var(--btn-primary-shadow-hover);
 }
-:root:not(.theme-light) .chat-inputbar .chat-listen-btn:hover,
-:root:not(.theme-light) .chat-inputbar .chat-listen-btn:focus-visible {
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn:hover,
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn:focus-visible {
   border-color: transparent;
   background: transparent;
   box-shadow: none;
   transform: scale(1.04);
 }
-:root:not(.theme-light) .chat-inputbar .chat-listen-btn svg {
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn svg {
   color: var(--brand-primary);
   opacity: 0.95;
   transition: transform 220ms ease-out, opacity 220ms ease-out;
   will-change: transform, opacity;
 }
-:root:not(.theme-light)
+:root:not(.theme-light):not(.theme-mid)
   .chat-inputbar
   .chat-listen-btn:hover
   svg,
-:root:not(.theme-light)
+:root:not(.theme-light):not(.theme-mid)
   .chat-inputbar
   .chat-listen-btn:focus-visible
   svg {
@@ -344,14 +344,14 @@
   transform: scale(1.08);
   transform-origin: center;
 }
-:root:not(.theme-light) .chat-listen-btn[data-speaking="true"] {
+:root:not(.theme-light):not(.theme-mid) .chat-listen-btn[data-speaking="true"] {
   box-shadow: none;
 }
-:root:not(.theme-light)
+:root:not(.theme-light):not(.theme-mid)
   .chat-inputbar
   .chat-send-btn.chat-send-btn--active[data-recording="true"],
-:root:not(.theme-light) .chat-inputbar .chat-send-btn[data-recording="true"],
-:root:not(.theme-light)
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording="true"],
+:root:not(.theme-light):not(.theme-mid)
   .chat-inputbar
   .chat-send-btn[data-recording-complete="true"] {
   box-shadow: none;
@@ -385,11 +385,11 @@
   background-origin: padding-box;
   box-shadow: none;
 }
-:root:not(.theme-light) .chat-inputbar .chat-send-btn[data-recording="true"] {
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording="true"] {
   border-color: #ff3b30;
   box-shadow: none;
 }
-:root:not(.theme-light)
+:root:not(.theme-light):not(.theme-mid)
   .chat-inputbar
   .chat-send-btn[data-recording-complete="true"] {
   border-color: #2bdc6d;
