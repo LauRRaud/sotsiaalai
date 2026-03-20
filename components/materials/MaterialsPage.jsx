@@ -256,7 +256,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               <Button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className={`materials-upload-choose-button !mx-auto !mt-[-0.6rem] !mb-[0.02rem] !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center max-[768px]:!mt-[-0.42rem] -translate-y-[0.28rem] max-[768px]:-translate-y-[0.2rem] ${materialsPrimaryButtonClassName}`}
+                className={`materials-upload-choose-button !mx-auto !mt-[-0.6rem] !mb-[0.34rem] !inline-flex !w-fit !min-w-0 !max-w-none shrink-0 self-center max-[768px]:!mt-[-0.42rem] max-[768px]:!mb-[0.42rem] -translate-y-[0.28rem] max-[768px]:-translate-y-[0.2rem] ${materialsPrimaryButtonClassName}`}
               >
                 {files.length === 1 ? (
                   <span className="block max-w-full truncate text-[0.94rem] leading-none">{files[0].name}</span>
@@ -293,7 +293,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                 </p>
               ) : null}
 
-                <div className="flex w-full justify-center pt-[0.12rem] pb-[0.08rem] max-[768px]:pt-[0.16rem] max-[768px]:pb-[0.1rem]">
+              <div className="mt-[1.05rem] flex w-full justify-center pt-[0.12rem] pb-[0.08rem] max-[768px]:mt-[1.2rem] max-[768px]:pt-[0.16rem] max-[768px]:pb-[0.1rem]">
                 <Button
                   type="submit"
                   disabled={!files.length || submitting}

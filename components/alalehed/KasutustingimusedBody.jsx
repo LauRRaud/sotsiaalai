@@ -15,7 +15,6 @@ import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { getFooterNote } from "@/lib/footerNote";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
-import { policyDesktopBottomFadeOverlayClassName, policyDesktopBottomFadeOverlayStyle, shouldShowPolicyDesktopBottomFade } from "@/components/alalehed/policyBottomFadeOverlay";
 import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionListClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
 import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
@@ -44,10 +43,6 @@ export default function KasutustingimusedBody() {
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
   const toggleLabel = expanded ? t("buttons.collapse") : t("buttons.expand");
   const isExpandedLayout = expanded || isMobilePolicyLayout;
-  const showDesktopBottomFade = shouldShowPolicyDesktopBottomFade({
-    isExpandedLayout,
-    isMobilePolicyLayout
-  });
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     const media = window.matchMedia("(max-width: 768px), (pointer: coarse)");
@@ -188,7 +183,6 @@ export default function KasutustingimusedBody() {
           </h1>
         </div>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
-          {showDesktopBottomFade ? <div aria-hidden className={policyDesktopBottomFadeOverlayClassName} style={policyDesktopBottomFadeOverlayStyle} /> : null}
           <div
             className={cn(scrollClassName, "policy-page-scroll", isExpandedLayout ? "glass-ring-scroll--open" : null, isExpandedLayout ? glassPolicyScrollExpandedClassName : null)}
             style={{ zIndex: 0 }}

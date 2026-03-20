@@ -13,6 +13,12 @@
   pointer-events: none;
 }
 
+.slotInputFocused {
+  z-index: 240;
+  pointer-events: none;
+  isolation: isolate;
+}
+
 .mobileRailTransition {
   will-change: opacity, transform;
   transition:
@@ -33,7 +39,7 @@
   transform: translateY(-50%);
   width: var(--left-rail-width, clamp(4.6rem, 8vw, 5.8rem));
   height: min(78vh, calc(var(--chat-diameter, 100vmin) * 0.8));
-  pointer-events: auto;
+  pointer-events: none;
   outline: none;
   z-index: 70;
   --rail-profile-scale: 1;
@@ -50,11 +56,18 @@
 }
 
 .leftRailInputFocused {
+  z-index: 240;
   pointer-events: none;
+  isolation: isolate;
 }
 
-.leftRailInputFocused .item {
+.leftRailInputFocused .iconBtn,
+.leftRailInputFocused button.item {
   pointer-events: auto;
+}
+
+.leftRailInputFocused .tooltipAnchor {
+  pointer-events: none;
 }
 
 :global(html[data-ui-profile="lg"]) .leftRail {
@@ -87,6 +100,7 @@
     box-shadow 180ms ease;
   will-change: transform, opacity;
   transform-origin: center;
+  pointer-events: auto;
 }
 
 .tooltipAnchor {
@@ -119,6 +133,7 @@
   color: inherit;
   cursor: var(--cursor-pointer);
   line-height: 0;
+  pointer-events: auto;
 }
 
 .iconBtn:hover img:not(.iconBack),

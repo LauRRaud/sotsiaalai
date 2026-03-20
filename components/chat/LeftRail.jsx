@@ -456,6 +456,7 @@ export default function LeftRail({
 
   const slotClassName = cn(
     styles.slot,
+    inputFocused ? styles.slotInputFocused : null,
     "chat-left-actions",
     styles.mobileRailTransition,
     !mobileVisible ? styles.mobileRailHidden : null,
