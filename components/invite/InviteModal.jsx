@@ -93,7 +93,7 @@ export default function InviteModal() {
     "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
   const inviteRefreshButtonClassName =
-    "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[9rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.94rem] max-[768px]:!py-[0.24rem] max-[768px]:!text-[1.14rem] max-[768px]:!tracking-[0.03em]";
+    "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[7rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.78rem] max-[768px]:!py-[0.2rem] max-[768px]:!text-[1.03rem] max-[768px]:!tracking-[0.024em]";
   const inviteSponsorToggleClassName =
     "!inline-flex !w-fit !justify-self-center !self-center !mt-[0.28rem] !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
@@ -102,6 +102,7 @@ export default function InviteModal() {
     inviteOptionButtonClassName;
   const inviteRoleCardClassName =
     "!w-[min(100%,18.2rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
+    `[&>span:last-child]:justify-center [&>span:last-child]:text-center [&>span:last-child]:[text-wrap:balance] ` +
     inviteOptionButtonClassName;
   const inviteSponsoredUnifiedPanelClassName =
     "mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem] " +
@@ -115,10 +116,20 @@ export default function InviteModal() {
   const inviteSponsoredCheckboxClassName =
     "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
     "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:var(--title-color,var(--brand-primary))] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-    "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem] " +
+    "[--otp-check-box-size:1.78rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem] " +
     "[&_.box]:translate-y-[-0.08rem] min-[769px]:ml-[0.9rem] min-[769px]:[--otp-check-text-max-width:min(100%,24rem)]";
   const inviteSponsoredCheckoutFooterClassName =
     "mt-[0.95rem] pt-[0.05rem] flex justify-center max-[768px]:mt-[0.88rem]";
+  const inviteSponsoredToggleColorClassName =
+    "[--seg-card-text:var(--btn-primary-text,rgba(248,252,255,0.92))] " +
+    "[--seg-card-text-hover:var(--btn-primary-text,rgba(248,252,255,0.92))] " +
+    "[--seg-card-text-selected:var(--btn-primary-text,rgba(248,252,255,0.92))] " +
+    "[--seg-card-shadow-selected:var(--btn-primary-shadow)]";
+  const inviteSponsoredToggleCardClassName =
+    `${inviteSponsorToggleClassName} ${inviteSponsoredToggleColorClassName}`;
+  const inviteEmailsRequiredError = error === t("invite.error.emails_required");
+  const inviteEmailsHintClassName =
+    "pointer-events-none absolute inset-y-0 left-[1rem] flex items-center text-[1.02rem] leading-[1.15] tracking-[0.01em] text-[color:var(--subscription-error-color,#fca5a5)] opacity-95 max-[768px]:text-[0.98rem]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -492,15 +503,24 @@ export default function InviteModal() {
                 />
               </>
             ) : null}
-            <Input
-              id="invite-emails"
-              value={emails}
-              onChange={(e) => setEmails(e.target.value)}
-              placeholder={t("invite.classic.emails_ph")}
-              aria-label={t("invite.classic.emails")}
-              disabled={busy}
-              className={mobileInviteInputClassName}
-            />
+            <div className="relative">
+              <Input
+                id="invite-emails"
+                value={emails}
+                onChange={(e) => setEmails(e.target.value)}
+                placeholder={inviteEmailsRequiredError ? "" : t("invite.classic.emails_ph")}
+                aria-label={t("invite.classic.emails")}
+                aria-invalid={inviteEmailsRequiredError ? "true" : undefined}
+                aria-describedby={inviteEmailsRequiredError ? "invite-emails-error" : undefined}
+                disabled={busy}
+                className={mobileInviteInputClassName}
+              />
+              {inviteEmailsRequiredError ? (
+                <span id="invite-emails-error" className={inviteEmailsHintClassName}>
+                  {t("invite.error.emails_required")}
+                </span>
+              ) : null}
+            </div>
             <div className="grid gap-[0.7rem]">
               <OptionCard
                 type="checkbox"
@@ -515,11 +535,11 @@ export default function InviteModal() {
                   setError("");
                   setMessage("");
                   setPaymentMode("SELF_PAID");
-                }}
-                disabled={busy}
-                className={inviteSponsorToggleClassName}
-                fitTextLines={3}
-              >
+                  }}
+                  disabled={busy}
+                  className={inviteSponsoredToggleCardClassName}
+                  fitTextLines={3}
+                >
                 <span className="text-center [text-wrap:balance]">
                   {t("invite.pay.host")}
                 </span>
@@ -592,9 +612,9 @@ export default function InviteModal() {
               ) : null}
             </div>
 
-            {error || message || !sponsoredSelected ? (
+            {((error && !inviteEmailsRequiredError) || message || !sponsoredSelected) ? (
               <div className="relative mt-[0.95rem] mb-[0.85rem] flex justify-center max-[768px]:mt-[0.82rem]">
-                {error ? (
+                {error && !inviteEmailsRequiredError ? (
                   <p className={inviteErrorNoticeClassName} role="alert">
                     {error}
                   </p>
@@ -629,8 +649,8 @@ export default function InviteModal() {
               : "min-h-[9.6rem] max-h-[min(40dvh,19rem)] max-[768px]:min-h-[8.2rem] max-[768px]:max-h-[min(26dvh,14.5rem)] overflow-y-auto"
           } [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}
         >
-          <div className="flex items-center justify-between gap-[0.75rem] max-[768px]:flex-col max-[768px]:items-start">
-            <span className="text-[1.18rem] font-[650] tracking-[0.03em] max-[768px]:text-[1.24rem] max-[768px]:tracking-[0.034em]">
+          <div className="flex items-center justify-between gap-[0.75rem] max-[768px]:grid max-[768px]:grid-cols-[minmax(0,1fr)_auto] max-[768px]:items-center max-[768px]:gap-[0.5rem]">
+            <span className="text-[1.18rem] font-[650] tracking-[0.03em] max-[768px]:text-[1.18rem] max-[768px]:tracking-[0.03em]">
               {t("invite.list")}
             </span>
             <Button

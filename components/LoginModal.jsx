@@ -1093,7 +1093,7 @@ export default function LoginModal({
     ? "!text-[1.46rem] max-md:!text-[clamp(1.46rem,4.95vw,1.95rem)] leading-[1.14] whitespace-normal [text-wrap:balance]"
     : "";
   const androidOtpActionClassName = isAndroidPlatform
-    ? "!text-[clamp(1.08rem,4.25vw,1.22rem)] whitespace-normal [text-wrap:balance]"
+    ? "!text-[clamp(1.2rem,4.8vw,1.42rem)] max-md:!text-[clamp(1.24rem,5.1vw,1.5rem)] leading-[1.16] whitespace-normal [text-wrap:balance]"
     : "";
   const androidHelpPopoverLinkClassName = isAndroidPlatform
     ? "whitespace-normal [text-wrap:balance] leading-[1.2]"

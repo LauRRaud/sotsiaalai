@@ -60,7 +60,7 @@ const subscriptionAgreementLabelClassName =
 const subscriptionCheckboxRowClassName =
   "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
   "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:var(--title-color,var(--brand-primary))] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-  "[--otp-check-box-size:1.66rem] [--otp-check-font-size:1.06rem] [--otp-check-line-height:1.52] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem] " +
+  "[--otp-check-box-size:1.78rem] [--otp-check-font-size:1.06rem] [--otp-check-line-height:1.52] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem] " +
   "[&_.box]:translate-y-[-0.08rem]";
 const subscriptionCheckoutFooterClassName = "mt-[-0.1rem] flex justify-center";
 const subscriptionActionClassName =
