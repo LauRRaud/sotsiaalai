@@ -114,7 +114,8 @@ export default function ChatBody({
 }) {
   const router = useRouter();
   const {
-    data: session
+    data: session,
+    status
   } = useSession();
   const { effectiveRole } = useEffectiveRole();
   const {
@@ -133,6 +134,9 @@ export default function ChatBody({
   const sessionUserRole = effectiveRole;
   const userRole = effectiveRole;
   const voiceEnabled = Boolean(session?.user?.isAdmin || session?.subActive);
+  const careerAccessReady = status !== "loading";
+  const hasCareerAccess = Boolean(session?.user?.isAdmin || session?.subActive);
+  const careerModeLocked = careerAccessReady && !hasCareerAccess;
   const [inputFocused, setInputFocused] = useState(false);
   const {
     isMobile,
@@ -494,6 +498,9 @@ export default function ChatBody({
     setCareerLastResult(null);
     setCareerCurrentState(null);
   }, []);
+  const goToSubscription = useCallback(() => {
+    pushWithTransition(router, localizePath("/tellimus", locale));
+  }, [locale, router]);
   useEffect(() => {
     if (!careerSessionStorageKey || typeof window === "undefined") return;
     careerSessionHydratedRef.current = false;
@@ -513,6 +520,28 @@ export default function ChatBody({
       careerSessionHydratedRef.current = true;
     }
   }, [careerSessionStorageKey]);
+  useEffect(() => {
+    if (!careerAccessReady || hasCareerAccess) return;
+    if (
+      activeWorkflow !== "career" &&
+      !careerProfile &&
+      !careerRuntime &&
+      !careerLastResult &&
+      !careerCurrentState
+    ) {
+      return;
+    }
+    resetCareerSession();
+  }, [
+    activeWorkflow,
+    careerAccessReady,
+    careerCurrentState,
+    careerLastResult,
+    careerProfile,
+    careerRuntime,
+    hasCareerAccess,
+    resetCareerSession
+  ]);
   useEffect(() => {
     if (!careerSessionStorageKey || typeof window === "undefined") return;
     if (!careerSessionHydratedRef.current) return;
@@ -1267,6 +1296,21 @@ export default function ChatBody({
 
       const body = await response.json().catch(() => ({}));
 
+      const isSubscriptionRequired =
+        body?.messageKey === "api.common.subscription_required" ||
+        body?.requireSubscription === true;
+      if (isSubscriptionRequired) {
+        goToSubscription();
+        return false;
+      }
+
+      const redirectTarget =
+        typeof body?.redirect === "string" ? body.redirect.trim() : "";
+      if (body?.messageKey === "api.common.unauthorized" && redirectTarget) {
+        pushWithTransition(router, redirectTarget);
+        return false;
+      }
+
       if (!response.ok || body?.ok === false || !body?.result) {
         throw new Error(body?.error || "Karj??rin?ustamise k?ivitamine eba?nnestus.");
       }
@@ -1312,7 +1356,7 @@ export default function ChatBody({
     } finally {
       setCareerLoading(false);
     }
-  }, [appendMessage]);
+  }, [appendMessage, goToSubscription, router]);
   const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
     const questionId = question?.id;
     if (!questionId) return false;
@@ -1339,6 +1383,11 @@ export default function ChatBody({
     return true;
   }, [careerCurrentState, careerProfile, careerRuntime, runCareerTurn]);
   const activateCareerMode = useCallback(() => {
+    if (!careerAccessReady) return false;
+    if (careerModeLocked) {
+      goToSubscription();
+      return false;
+    }
     void runCareerTurn(
       {
         userMessage: "Soovin karj??rin?ustamist",
@@ -1353,13 +1402,22 @@ export default function ChatBody({
         activateWorkflow: true,
       }
     );
-  }, [careerCurrentState, careerProfile, careerRuntime, runCareerTurn]);
+    return true;
+  }, [careerAccessReady, careerCurrentState, careerModeLocked, careerProfile, careerRuntime, goToSubscription, runCareerTurn]);
   const handleSendMessage = useCallback(async (rawText) => {
     const text = String(rawText || "").trim();
     if (!text) return false;
 
     const shouldUseCareerWorkflow =
       activeWorkflow === "career" || isCareerIntent(text);
+
+    if (shouldUseCareerWorkflow) {
+      if (!careerAccessReady) return false;
+      if (careerModeLocked) {
+        goToSubscription();
+        return false;
+      }
+    }
 
     if (!shouldUseCareerWorkflow) {
       return sendMessage(text);
@@ -1393,7 +1451,7 @@ export default function ChatBody({
       echoUserText: true,
       activateWorkflow: true,
     });
-  }, [activeWorkflow, careerCurrentState, careerLastResult, careerProfile, careerRuntime, runCareerTurn, sendMessage]);
+  }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, runCareerTurn, sendMessage]);
   const messageItems = useMemo(() => {
     return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} careerResponse={msg.careerResponse} careerSecondaryResponse={msg.careerSecondaryResponse} careerDocumentStep={msg.careerDocumentStep} careerGeneratedDocument={msg.careerGeneratedDocument} onCareerQuestionAnswer={handleCareerQuestionAnswer} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
   }, [handleCareerQuestionAnswer, isRoomMode, renderedMessages, t]);
@@ -1793,6 +1851,7 @@ export default function ChatBody({
     onConsumeDeepResearchMode={handleConsumeDeepResearchMode}
     onDeepResearchEmptySubmit={handleDeepResearchEmptySubmit}
     onActivateCareerMode={activateCareerMode}
+    careerModeLocked={careerModeLocked}
     documentFlowActive={documentFlowActive}
     onPickDocumentFile={analysis.onPickFile}
     speakLatestReply={speakLatestReply}

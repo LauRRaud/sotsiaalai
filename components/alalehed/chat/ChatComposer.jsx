@@ -68,6 +68,7 @@ export default function ChatComposer({
   onConsumeDeepResearchMode,
   onDeepResearchEmptySubmit,
   onActivateCareerMode,
+  careerModeLocked = false,
   showDocumentAttachButton = false,
   onPickDocumentFile,
   speakLatestReply,
@@ -237,6 +238,10 @@ export default function ChatComposer({
     closeToolsMenu();
     onActivateCareerMode?.();
   }, [closeToolsMenu, onActivateCareerMode]);
+  const handleCareerModeLockedSelect = useCallback(() => {
+    closeToolsMenu();
+    router.push(localizePath("/tellimus", locale));
+  }, [closeToolsMenu, locale, router]);
   const submitSend = useCallback(async () => {
     if (submitInFlightRef.current) return false;
     const trimmed = draft.trim();
@@ -466,14 +471,35 @@ export default function ChatComposer({
               </span>
               <span className={toolLabelClassName}>{t("chat.tools.documents")}</span>
             </button> : null}
-          <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleCareerModeSelect}>
+          <button
+            type="button"
+            role="menuitem"
+            className={`${toolItemBaseClassName} ${careerModeLocked ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`}
+            onClick={careerModeLocked ? handleCareerModeLockedSelect : handleCareerModeSelect}
+            aria-disabled={careerModeLocked ? "true" : undefined}
+            title={careerModeLocked ? t("chat.error.subscription_required_profile", "Tellimus vajalik") : undefined}
+          >
             <span aria-hidden="true" className={toolIconSlotClassName}>
               <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 opacity-90">
                 <path d="M6 17.6V8.1A1.7 1.7 0 0 1 7.7 6.4h8.1l2.2 2.2v9a1.7 1.7 0 0 1-1.7 1.7H7.7A1.7 1.7 0 0 1 6 17.6Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M9 11.1h6M9 14.3h4.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
               </svg>
             </span>
-            <span className={toolLabelClassName}>{careerModeLabel}</span>
+            <span className={toolLabelClassName}>
+              <span>{careerModeLabel}</span>
+              {careerModeLocked ? (
+                <span
+                  aria-hidden="true"
+                  className="ml-[0.48rem] inline-flex items-center justify-center rounded-full border border-[rgba(203,213,225,0.26)] bg-[rgba(255,255,255,0.06)] px-[0.38rem] py-[0.18rem] text-[0.72rem] text-[rgba(203,213,225,0.76)] light:border-[rgba(122,58,56,0.18)] light:bg-[rgba(122,58,56,0.05)] light:text-[rgba(122,58,56,0.82)]"
+                >
+                  <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" className="block shrink-0">
+                    <path d="M8.5 10.2V8.1a3.5 3.5 0 1 1 7 0v2.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M7.4 10.2h9.2c.66 0 1.2.54 1.2 1.2v5.2c0 .66-.54 1.2-1.2 1.2H7.4c-.66 0-1.2-.54-1.2-1.2v-5.2c0-.66.54-1.2 1.2-1.2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+                    <path d="M12 12.3v2.4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                </span>
+              ) : null}
+            </span>
           </button>
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
             <span aria-hidden="true" className={toolIconSlotClassName}>
