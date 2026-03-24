@@ -35,7 +35,8 @@ export default function KasutusjuhendBody() {
   } = useI18n();
   const {
     prefs,
-    openModal: openA11y
+    openModal: openA11y,
+    isModalOpen
   } = useAccessibility();
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
   const toggleLabel = expanded ? t("buttons.collapse") : t("buttons.expand");
@@ -97,6 +98,7 @@ export default function KasutusjuhendBody() {
       body: localizeInternalHtmlLinks(t(`about.guide.sections_v2.${key}.body`), locale)
     }))
   };
+  const hideGuideBackButton = isModalOpen;
   const handleBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) {
       backWithTransition(router, {
@@ -120,12 +122,18 @@ export default function KasutusjuhendBody() {
           ariaLabel={t("buttons.close")}
           className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
         />
-        <BackButton
-          onClick={handleBack}
-          ariaLabel={t("buttons.back_home")}
-          className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
-          iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-        />
+        {!hideGuideBackButton ? (
+          <BackButton
+            onClick={handleBack}
+            ariaLabel={t("buttons.back_home")}
+            className={cn(
+              glassPolicyBackButtonClassName,
+              glassPageBackMobileBottomCenterClassName,
+              "guide-policy-back"
+            )}
+            iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
+          />
+        ) : null}
         <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
           <h1
             id="kasutusjuhend-title"

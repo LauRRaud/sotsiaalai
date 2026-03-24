@@ -33,6 +33,8 @@ import { buildHelpWorkflowMetadata, getHelpWorkflowState, runHelpChatWorkflow } 
 import { detectHelpChatIntent } from "@/lib/help/intents";
 import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
 import { buildModeSelectionMetadata, resolveModeSelection } from "@/lib/chat/modeSelection";
+import { getChatSessionTurnLimit } from "@/lib/chat/guardrails";
+import { logOpenAIUsage } from "@/lib/openaiUsage";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -80,7 +82,7 @@ function buildOrchestrationMetadata(plan, extra = null) {
         mode: plan.mode || WORK_MODES.GENERAL_QUESTION,
         step: plan.step || "detect",
         complexity: plan.complexity || "normal",
-        reasoning: plan.reasoning || "medium",
+        reasoning: plan.reasoning || "low",
         capability: plan.capability || "assistant",
         userVisibleMode: plan.userVisibleMode || "assistant"
       }
@@ -563,7 +565,9 @@ async function callOpenAI({
   includeSources,
   replyLang,
   isCrisis,
-  reasoningEffort
+  reasoningEffort,
+  userId,
+  role
 }) {
   const {
     default: OpenAI
@@ -587,7 +591,17 @@ async function callOpenAI({
     stream: false,
     reasoningEffort
   });
+  const startedAt = Date.now();
   const resp = await client.responses.create(payload);
+  await logOpenAIUsage({
+    response: resp,
+    model: payload.model,
+    route: "api/chat",
+    stage: "chat",
+    latencyMs: Date.now() - startedAt,
+    userId,
+    role
+  });
   const reply = resp.output_text && resp.output_text.trim() || "Sorry, I couldn't generate an answer right now.";
   return {
     reply
@@ -602,7 +616,9 @@ async function streamOpenAI({
   includeSources,
   replyLang,
   isCrisis,
-  reasoningEffort
+  reasoningEffort,
+  userId,
+  role
 }) {
   const {
     default: OpenAI
@@ -626,21 +642,35 @@ async function streamOpenAI({
     stream: true,
     reasoningEffort
   });
+  const startedAt = Date.now();
   const stream = await client.responses.stream(payload);
   async function* iterator() {
-    for await (const event of stream) {
-      if (event.type === "response.output_text.delta") {
-        yield {
-          type: "delta",
-          text: event.delta || ""
-        };
-      } else if (event.type === "response.error") {
-        throw new Error(event.error?.message || "OpenAI stream error");
-      } else if (event.type === "response.completed") {
-        yield {
-          type: "done"
-        };
+    try {
+      for await (const event of stream) {
+        if (event.type === "response.output_text.delta") {
+          yield {
+            type: "delta",
+            text: event.delta || ""
+          };
+        } else if (event.type === "response.error") {
+          throw new Error(event.error?.message || "OpenAI stream error");
+        } else if (event.type === "response.completed") {
+          yield {
+            type: "done"
+          };
+        }
       }
+    } finally {
+      const finalResponse = await stream.finalResponse().catch(() => null);
+      await logOpenAIUsage({
+        response: finalResponse,
+        model: payload.model,
+        route: "api/chat",
+        stage: "chat",
+        latencyMs: Date.now() - startedAt,
+        userId,
+        role
+      });
     }
   }
   return iterator();
@@ -836,6 +866,25 @@ export async function POST(req) {
         budgetEur: budgetCheck.budgetEur,
         usedEur: budgetCheck.usedEur,
         remainingEur: budgetCheck.remainingEur
+      });
+    }
+  }
+  if (persist && convId && userId && !roomId) {
+    const sessionTurnLimit = getChatSessionTurnLimit(normalizedRole);
+    const sessionTurnCount = await prisma.conversationMessage.count({
+      where: {
+        conversationId: convId,
+        role: "USER",
+        conversation: {
+          userId
+        }
+      }
+    });
+    if (sessionTurnCount >= sessionTurnLimit) {
+      return makeError("api.common.rate_limited", 429, {
+        scope: "chat_session_turns",
+        limit: sessionTurnLimit,
+        used: sessionTurnCount
       });
     }
   }
@@ -1211,7 +1260,10 @@ export async function POST(req) {
           tone: taskConfig.tone,
           language: taskConfig.language,
           length: taskConfig.length,
-          reasoningEffort: workflowPlan?.reasoning || documentPlan?.reasoning
+          reasoningEffort: workflowPlan?.reasoning || documentPlan?.reasoning,
+          observabilityRoute: "api/chat",
+          observabilityStage: "document_generate",
+          userId
         });
         const content = String(generated?.content || "").trim();
         if (!content) throw new Error("documents.artifacts.errors.ai_empty");
@@ -1839,7 +1891,9 @@ export async function POST(req) {
         includeSources,
         replyLang,
         isCrisis,
-        reasoningEffort: mainOrchestrationPlan.reasoning
+        reasoningEffort: mainOrchestrationPlan.reasoning,
+        userId,
+        role: normalizedRole
       });
       let attachments = [];
       if (persist && convId && userId) {
@@ -1960,7 +2014,9 @@ export async function POST(req) {
           includeSources,
           replyLang,
           isCrisis,
-          reasoningEffort: mainOrchestrationPlan.reasoning
+          reasoningEffort: mainOrchestrationPlan.reasoning,
+          userId,
+          role: normalizedRole
         });
         for await (const ev of iter) {
           if (ev.type === "delta" && ev.text) {

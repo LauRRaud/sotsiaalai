@@ -1,11 +1,13 @@
 import { getServerSession } from "next-auth"
 
 import { authConfig } from "@/auth"
-import { assertAdmin } from "@/lib/authz"
+import { assertAdmin, effectiveRoleFromSession } from "@/lib/authz"
 import { prisma } from "@/lib/prisma"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server"
 import { getMaterialSubmissionSchemaMessage, isMaterialSubmissionSchemaError } from "@/lib/materials/compat"
+import { getDailyUploadQuotaBytes, getMaterialsFileCountLimit, getStorageQuotaBytes, getUtcDayStart, sumFileBytes } from "@/lib/storageGuardrails"
+import { getUserDailyUploadBytes, getUserStorageUsageBytes } from "@/lib/storageUsage"
 import {
   deleteStoredMaterial,
   ensureAllowedUpload,
@@ -120,9 +122,50 @@ export async function POST(request) {
       return errorJson("documents.errors.file_required", 400, locale)
     }
 
+    const maxFiles = getMaterialsFileCountLimit()
+    if (files.length > maxFiles) {
+      return errorJson("materials_page.errors.file_count_exceeded", 400, locale, {
+        scope: "materials_files",
+        limit: maxFiles,
+        used: files.length
+      })
+    }
+
+    const validatedFiles = files.map((file) => ({
+      file,
+      mime: ensureAllowedUpload(file),
+      size: Number(file?.size || 0)
+    }))
+    const totalBytes = sumFileBytes(validatedFiles)
+
+    if (userId) {
+      const role = effectiveRoleFromSession(session)
+      const storageQuotaBytes = getStorageQuotaBytes(role)
+      const [storageUsageBytes, dailyUploadBytes] = await Promise.all([
+        getUserStorageUsageBytes(userId),
+        getUserDailyUploadBytes(userId, getUtcDayStart())
+      ])
+
+      if (storageUsageBytes.totalBytes + totalBytes > storageQuotaBytes) {
+        return errorJson("materials_page.errors.storage_quota_exceeded", 413, locale, {
+          scope: "storage_quota",
+          limit: storageQuotaBytes,
+          used: storageUsageBytes.totalBytes
+        })
+      }
+
+      if (dailyUploadBytes + totalBytes > getDailyUploadQuotaBytes()) {
+        return errorJson("materials_page.errors.daily_upload_quota_exceeded", 429, locale, {
+          scope: "daily_upload",
+          limit: getDailyUploadQuotaBytes(),
+          used: dailyUploadBytes
+        })
+      }
+    }
+
     await ensureMaterialsStorage()
-    for (const file of files) {
-      const mime = ensureAllowedUpload(file)
+    for (const entry of validatedFiles) {
+      const { file, mime } = entry
       const storagePath = getStoredMaterialPath(file.name)
       const stored = await writeUploadedMaterial(file, storagePath, mime)
       storedEntries.push({

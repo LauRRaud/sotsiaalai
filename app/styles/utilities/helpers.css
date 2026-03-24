@@ -589,6 +589,12 @@ body.login-modal-open {
     width: 4.2rem !important;
     height: 4.2rem !important;
   }
+
+  .guide-policy-back {
+    left: calc(env(safe-area-inset-left, 0px) + 0.52rem) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.52rem) !important;
+    z-index: 94 !important;
+  }
 }
 
 .glass-ring-content {

@@ -1,5 +1,6 @@
 import { assertOwnedByUser } from "@/lib/documents/access"
 import { logDocumentsAudit } from "@/lib/documents/audit"
+import { effectiveRoleFromSession } from "@/lib/authz"
 import {
   assertDraftArtifactEditable,
   normalizeArtifactContent,
@@ -10,6 +11,8 @@ import { getCachedRetrievalDebugMeta } from "@/lib/documents/retrievalObservabil
 import { prisma } from "@/lib/prisma"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
+import { getStorageQuotaBytes, getUtf8ByteLength } from "@/lib/storageGuardrails"
+import { getUserStorageUsageBytes } from "@/lib/storageUsage"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -178,6 +181,21 @@ export async function PATCH(request, { params }) {
 
         nextTemplateId = template.id
       }
+    }
+
+    const role = effectiveRoleFromSession(auth.session)
+    const storageQuotaBytes = getStorageQuotaBytes(role)
+    const storageUsageBytes = await getUserStorageUsageBytes(auth.userId)
+    const currentArtifactBytes = getUtf8ByteLength(artifact.content)
+    const nextArtifactBytes = getUtf8ByteLength(nextContent)
+    const projectedBytes = storageUsageBytes.totalBytes - currentArtifactBytes + nextArtifactBytes
+
+    if (projectedBytes > storageQuotaBytes) {
+      return errorJson("documents.errors.storage_quota_exceeded", 413, locale, {
+        scope: "storage_quota",
+        limit: storageQuotaBytes,
+        used: storageUsageBytes.totalBytes
+      })
     }
 
     const updated = await prisma.agentArtifact.update({

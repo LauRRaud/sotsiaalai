@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 
 import { authConfig } from "@/auth";
 import { assertAdmin } from "@/lib/authz";
+import { DEFAULT_MODEL } from "@/lib/chat/settings";
+import { logOpenAIUsage } from "@/lib/openaiUsage";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 
 export const runtime = "nodejs";
@@ -13,7 +15,6 @@ const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
 const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
-const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-5.4-mini";
 const LOCAL_HOST_RE = /^(127\.0\.0\.1|localhost|\[?::1\]?)(:\d+)?$/i;
 
 function normalizeBaseFromHost(host) {
@@ -186,9 +187,23 @@ export async function POST(req) {
     const { default: OpenAI } = await import("openai");
     const client = new OpenAI({ apiKey });
 
+    const startedAt = Date.now();
     const response = await client.responses.create({
-      model: OPENAI_MODEL,
+      model: DEFAULT_MODEL,
+      text: {
+        verbosity: "low"
+      },
+      reasoning: {
+        effort: "low"
+      },
       input: serverT(locale, "api.rag.selftest.openai_prompt", undefined, "Reply briefly: OK")
+    });
+    await logOpenAIUsage({
+      response,
+      model: DEFAULT_MODEL,
+      route: "api/rag/selftest",
+      stage: "rag_selftest",
+      latencyMs: Date.now() - startedAt
     });
 
     const text = response?.output_text ? response.output_text.trim() : "";

@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
+import { utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
 import { requireResearchAuth } from "@/lib/research/auth";
-import { createResearchJob } from "@/lib/research/jobStore";
+import { createResearchJob, getActiveResearchJobCount } from "@/lib/research/jobStore";
+import { getResearchDailyLimit } from "@/lib/research/guardrails";
 import { runDeepResearchJob } from "@/lib/research/pipeline";
 
 export const runtime = "nodejs";
@@ -133,6 +136,14 @@ export async function POST(req) {
         .filter(Boolean)
         .slice(0, 3)
     : [];
+  const activeJobCount = getActiveResearchJobCount(auth.userId);
+  if (activeJobCount > 0) {
+    return errorJson("api.common.rate_limited", 429, {
+      scope: "research_active_job",
+      limit: 1,
+      used: activeJobCount
+    });
+  }
 
   const normalizedPayload = {
     mode: "deep_research",
@@ -150,10 +161,74 @@ export async function POST(req) {
     userRole: auth.role,
   };
 
-  const job = createResearchJob({
-    userId: auth.userId,
-    payload: normalizedPayload,
-  });
+  const dailyLimit = getResearchDailyLimit(auth.role);
+  const dayStart = utcDayStart();
+  try {
+    await prisma.$transaction(async (tx) => {
+      const usedToday = await tx.chatLog.count({
+        where: {
+          event: "research_request",
+          userId: auth.userId,
+          role: auth.role,
+          createdAt: {
+            gte: dayStart
+          }
+        }
+      });
+
+      if (usedToday >= dailyLimit) {
+        const quotaError = new Error("research.error.daily_quota_exceeded");
+        quotaError.code = "DAILY_QUOTA";
+        quotaError.used = usedToday;
+        throw quotaError;
+      }
+
+      await tx.chatLog.create({
+        data: {
+          event: "research_request",
+          userId: auth.userId,
+          role: auth.role,
+          data: {
+            queryLength: query.length,
+            profile,
+            outputStyle,
+            collectionCount: collectionIds.length,
+            focusCount: normalizedPayload.focus.length,
+            convId
+          }
+        }
+      });
+    });
+  } catch (error) {
+    if (error?.code === "DAILY_QUOTA") {
+      return errorJson("api.common.rate_limited", 429, {
+        scope: "research_daily_quota",
+        limit: dailyLimit,
+        used: error.used,
+        retryAfter: secondsUntilUtcMidnight()
+      });
+    }
+    console.error("[research] quota log failed", error);
+    return errorJson("research.error.failed", 503);
+  }
+
+  let job;
+  try {
+    job = createResearchJob({
+      userId: auth.userId,
+      payload: normalizedPayload,
+    });
+  } catch (error) {
+    if (error?.code === "ACTIVE_JOB_LIMIT") {
+      return errorJson("api.common.rate_limited", 429, {
+        scope: "research_active_job",
+        limit: 1,
+        used: getActiveResearchJobCount(auth.userId)
+      });
+    }
+    console.error("[research] job create failed", error);
+    return errorJson("research.error.failed", 503);
+  }
 
   queueMicrotask(() => {
     runDeepResearchJob(job).catch(err => {

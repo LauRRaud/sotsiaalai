@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { effectiveRoleFromSession } from "@/lib/authz"
 import {
   ARTIFACT_LIST_LIMIT,
   ARTIFACT_LIST_LIMIT_ALL,
@@ -23,6 +24,8 @@ import {
 import { getCachedRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
+import { getStorageQuotaBytes, getUtf8ByteLength } from "@/lib/storageGuardrails"
+import { getUserStorageUsageBytes } from "@/lib/storageUsage"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -239,7 +242,10 @@ export async function POST(request) {
             audience,
             tone,
             language,
-            length
+            length,
+            observabilityRoute: "api/documents/artifacts",
+            observabilityStage: "document_generate",
+            userId: auth.userId
           })
           generatedDebugMeta = generated?.debugMeta || null
           return generated?.content || ""
@@ -249,6 +255,18 @@ export async function POST(request) {
       ? getCachedRetrievalDebugMeta(auth.userId, finalContent)
       : null
     const debugMeta = generatedDebugMeta || cachedDebugMeta || null
+    const role = effectiveRoleFromSession(auth.session)
+    const storageQuotaBytes = getStorageQuotaBytes(role)
+    const storageUsageBytes = await getUserStorageUsageBytes(auth.userId)
+    const finalContentBytes = getUtf8ByteLength(finalContent)
+
+    if (storageUsageBytes.totalBytes >= storageQuotaBytes || storageUsageBytes.totalBytes + finalContentBytes > storageQuotaBytes) {
+      return errorJson("documents.errors.storage_quota_exceeded", 413, locale, {
+        scope: "storage_quota",
+        limit: storageQuotaBytes,
+        used: storageUsageBytes.totalBytes
+      })
+    }
 
     const artifact = await prisma.agentArtifact.create({
       data: {

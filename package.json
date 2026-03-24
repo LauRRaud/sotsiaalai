@@ -14,7 +14,6 @@
     "dev:no-turbo": "cross-env NODE_ENV=development next dev --webpack -p 3000",
     "portaal": "npm run dev",
     "test": "npm run i18n:check && npm run lint",
-    "test:help": "node --import tsx --test tests/help/*.test.js",
     "db:push:local": "dotenv -e .env.local -- prisma db push",
     "db:seed:local": "dotenv -e .env.local -- prisma db seed",
     "prisma:generate:local": "dotenv -e .env.local -- prisma generate",

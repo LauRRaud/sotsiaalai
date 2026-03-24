@@ -232,7 +232,7 @@
     "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
     "deleting": "Kustutan…",
     "delete_account": "Kustuta konto",
-  "delete_account_hint": "Kustutab konto ja eemaldab ligipääsu püsivalt – seda ei saa tagasi võtta.",
+    "delete_account_hint": "Kustutab konto ja eemaldab ligipääsu püsivalt – seda ei saa tagasi võtta.",
     "delete_loading_status": "Konto kustutamine",
     "load_failed": "Profiili laadimine ebaõnnestus.",
     "update_failed": "Profiili uuendamine ebaõnnestus.",
@@ -326,7 +326,10 @@
     "errors": {
       "load_failed": "Materjalide laadimine ebaõnnestus.",
       "upload_failed": "Materjali üleslaadimine ebaõnnestus.",
-      "delete_failed": "Materjali kustutamine ebaõnnestus."
+      "delete_failed": "Materjali kustutamine ebaõnnestus.",
+      "file_count_exceeded": "Saad korraga saata kuni 10 faili.",
+      "daily_upload_quota_exceeded": "P?evane ?leslaadimise limiit on t?itunud. Proovi homme uuesti.",
+      "storage_quota_exceeded": "Salvestusmaht on t?is. Kustuta m?ni fail ja proovi uuesti."
     },
     "admin": {
       "title": "Laekunud materjalid",
@@ -386,14 +389,14 @@
     "title": "Privaatsuspoliitika",
     "section1": {
       "heading": "1. Vastutav töötleja ja ulatus",
-      "paragraph1": "<p><strong>SotsiaalAI OÜ</strong> on veebiplatvormi <strong>SotsiaalAI</strong> vastutav töötleja nende töötluste osas, mille eesmärgid ja vahendid määrab SotsiaalAI ise. Meie üldine kontakt e-posti aadress on <strong>info@sotsiaal.ai</strong>. Sama aadressi kaudu saad esitada andmekaitsealaseid küsimusi ja kasutada oma andmesubjekti õigusi.</p>",
+      "paragraph1": "<p><strong>SotsiaalAI OÜ</strong> on veebiplatvormi <strong>SotsiaalAI</strong> vastutav töötleja nende töötluste osas, mille eesmärgid ja vahendid määrab SotsiaalAI ise. Meie üldine kontakt e-posti aadress on <strong>info@sotsiaal.ai</strong>. Sama aadressi kaudu saad esitada andmekaitsealaseid küsimusi ja kasutada oma andmesubjekti õigusi.</p><p>See privaatsuspoliitika selgitab, milliseid andmeid kogume, milleks neid kasutame, kui kaua neid säilitame, kuidas kasutus- ja salvestuspiirid võivad säilitamist mõjutada ning milliseid automatiseeritud süsteeme kasutame vastuste, mustandite, liigituste või otsingutulemuste loomiseks.</p>",
       "paragraph2": "<p>Käesolev privaatsuspoliitika selgitab, kuidas töötleme isikuandmeid konto loomisel, sisselogimisel, tellimuste haldamisel, vestlustes, ruumides, abiandmete töövoogudes, dokumentide halduses, dokumendi koostamises, dokumendi analüüsis, süvauuringus ning häälfunktsioonides. Töötleme andmeid kooskõlas Eesti isikuandmete kaitse <aLawEst>seadusega</aLawEst> ja Euroopa Liidu isikuandmete kaitse <aGdpr>üldmäärusega</aGdpr>. Õiguste kasutamise taotlustele vastame üldjuhul ühe kuu jooksul.</p><p>Käesolev poliitika kirjeldab eelkõige SotsiaalAI tavapärast kasutust, kus platvormi kasutatakse isikliku konto alt. Kui kasutaja kasutab SotsiaalAI-d tööalases rollis või organisatsiooni nimel, võivad teatud töövoogude suhtes lisaks kohalduda tööandja või organisatsiooni sisereeglid ning eraldi tööalase kasutuse või andmetöötluse raamistik.</p>"
     },
     "section2": {
       "heading": "2. Milliseid andmeid töötleme",
       "paragraph1": "<p><strong>2.1 Konto-, profiili- ja autentimisandmed.</strong> Töötleme e-posti aadressi, kasutajarolli, PIN-i räsi, e-posti kinnituse olekut, seansiandmeid, ajutisi sisselogimise tokeneid, ühekordseid e-posti koode, usaldatud seadme infot ning profiiliandmeid, mille kasutaja ise lisab või muudab.</p>",
-      "paragraph2": "<p><strong>2.2 Platvormi tööandmed.</strong> Töötleme vestlusi ja vestlussõnumeid, ruumide sõnumeid ja liikmesust, abisoove, abipakkumisi, sobitusi, kutseid, tellimuse ja sponsoreeritud ligipääsu olekut, maksete minimaalseid metaandmeid, dokumentide teeki laaditud faile, dokumendi koostamise tööruumi mustandeid ja kinnitatud tulemusi, dokumentide auditikirjeid ning muid andmeid, mis on vajalikud vastava töövoo toimimiseks.</p><p>Kui kasutaja aktiveerib tööalase kasutuse või kinnitab vastava raamistikuga tutvumist, võime töödelda ka selle aktsepteerimise või kinnitusega seotud andmeid, näiteks kinnituse aega, versiooni, rolli ja muid tõendamiseks vajalikke tehnilisi kirjeid.</p>",
-      "paragraph3": "<p><strong>2.3 Tehnilised, turbe- ja lokaalsed andmed.</strong> Töötleme IP-aadressi, brauseri ja seadme metaandmeid, kasutus- ja vealogisid, turbesündmusi, kõne- ja tehisintellekti päringute tehnilisi sündmusi ning hädavajalikke küpsiseid ja brauseri lokaalseid salvestusi. Lokaalsed salvestused hoiavad näiteks keelt, ligipääsetavuse seadeid, aktiivset vestlust, PIN-klaviatuuri eelistusi ja muid kasutusmugavuse valikuid.</p>"
+      "paragraph2": "<p><strong>2.2 Platvormi tööandmed.</strong> Töötleme vestlusi ja vestlussõnumeid, ruumide sõnumeid ja liikmesust, abisoove, abipakkumisi, sobitusi, süvauuringu päringuid ja töö metaandmeid, kutseid, tellimuse ja sponsoreeritud ligipääsu olekut, maksete minimaalseid metaandmeid, dokumentide teeki laaditud faile, ajutisi vestlusfaile, dokumendi koostamise tööruumi mustandeid ja kinnitatud tulemusi, dokumentide auditikirjeid ning muid andmeid, mis on vajalikud vastava töövoo toimimiseks.</p><p>Kui kasutaja aktiveerib tööalase kasutuse või kinnitab vastava raamistikuga tutvumist, võime töödelda ka selle aktsepteerimise või kinnitusega seotud andmeid, näiteks kinnituse aega, versiooni, rolli ja muid tõendamiseks vajalikke tehnilisi kirjeid.</p>",
+      "paragraph3": "<p><strong>2.3 Tehnilised, turbe- ja lokaalsed andmed.</strong> Töötleme IP-aadressi, brauseri ja seadme metaandmeid, kasutus-, määr- ja vealogisid, turbesündmusi, AI-, otsingu- ja kõnefunktsioonide tehnilisi sündmusi ning hädavajalikke küpsiseid ja brauseri lokaalseid salvestusi. Lokaalsed salvestused hoiavad näiteks keelt, ligipääsetavuse seadeid, aktiivset vestlust, PIN-klaviatuuri eelistusi ja muid kasutusmugavuse valikuid.</p>"
     },
     "section3": {
       "heading": "3. Eesmärgid ja õiguslikud alused",
@@ -413,7 +416,7 @@
     },
     "section7": {
       "heading": "7. Säilitamine",
-      "body": "<p><strong>7.1 Konto- ja profiiliandmed.</strong> Konto- ja profiiliandmeid säilitame üldjuhul kuni konto kustutamiseni, välja arvatud ulatuses, mida seadus nõuab pikemaks säilitamiseks.</p><p><strong>7.2 Autentimise ajutised andmed.</strong> E-posti kinnituse link säilib üldjuhul kuni 24 tundi, PIN-i lähtestamise token kuni 60 minutit, ühekordne sisselogimise kood kuni 10 minutit, ajutine sisselogimistoken kuni 15 minutit ja usaldatud seadme kirje kuni 30 päeva. Aegunud autentimiskirjed eemaldatakse regulaarselt.</p><p><strong>7.3 Vestlused ja jooksvad tööandmed.</strong> Vestlused, vestlussõnumid, vestluse jooksvad olekukirjed ja üldised kasutuslogid säilivad üldjuhul kuni 90 päeva alates viimasest aktiivsusest või vastava kirje loomise või uuendamise ajast.</p><p><strong>7.4 Ruumid ja abiandmed.</strong> Mitteaktiivsed ruumid ja nendega seotud sõnumid säilivad üldjuhul kuni 90 päeva pärast viimast sisulist aktiivsust. Suletud, tühistatud või arhiveeritud abisoovid ja abipakkumised ning lõpetatud või tagasi lükatud sobitused säilivad üldjuhul kuni 90 päeva pärast viimast uuendust.</p><p><strong>7.5 Dokumendid ja agendi tulemused.</strong> Dokumentide teeki laaditud failid, mallid, dokumendi koostamise tööruumi mustandid ning kinnitatud agendi tulemused säilivad üldjuhul kuni 90 päeva alates viimasest muutmisest. Kui vana dokument on tehniliselt seotud uuema tulemusega, võib seda säilitada lühiajaliselt seni, kuni uuem seos lõpeb.</p><p><strong>7.6 Auditid, aktsepteerimised ja maksed.</strong> Üldised dokumentide auditikirjed, tehnilised töötluslogid ning tööalase kasutuse või andmetöötluse raamistikuga seotud tõendikirjed säilitatakse üldjuhul kuni 90 päeva, välja arvatud juhul, kui konkreetse aktsepteerimise, lepingulise suhte või õigusliku kohustuse tõendamiseks on mõistlikult vaja pikemat säilitamist. Makse teenusepakkujalt saadud detailne toores vastus või payload kärbitakse või eemaldatakse üldjuhul pärast 90 päeva. Minimaalne makse- ja raamatupidamisalune kirje säilib kuni 7 aastat või kauem, kui kohaldatav seadus seda nõuab.</p>"
+      "body": "<p><strong>7.1 Konto- ja profiiliandmed.</strong> Konto- ja profiiliandmeid säilitame üldjuhul kuni konto kustutamiseni, välja arvatud ulatuses, mida seadus nõuab pikemaks säilitamiseks.</p><p><strong>7.2 Autentimise ajutised andmed.</strong> E-posti kinnituse link säilib üldjuhul kuni 24 tundi, PIN-i lähtestamise token kuni 60 minutit, ühekordne sisselogimise kood kuni 10 minutit, ajutine sisselogimistoken kuni 15 minutit ja usaldatud seadme kirje kuni 30 päeva. Aegunud autentimiskirjed eemaldatakse regulaarselt.</p><p><strong>7.3 Vestlused ja jooksvad tööandmed.</strong> Vestlused, vestlussõnumid, vestluse jooksvad olekukirjed ja üldised kasutuslogid säilivad üldjuhul kuni 90 päeva alates viimasest aktiivsusest või vastava kirje loomise või uuendamise ajast.</p><p><strong>7.4 Ruumid ja abiandmed.</strong> Mitteaktiivsed ruumid ja nendega seotud sõnumid säilivad üldjuhul kuni 90 päeva pärast viimast sisulist aktiivsust. Suletud, tühistatud või arhiveeritud abisoovid ja abipakkumised ning lõpetatud või tagasi lükatud sobitused säilivad üldjuhul kuni 90 päeva pärast viimast uuendust.</p><p><strong>7.5 Dokumendid ja agendi tulemused.</strong> Dokumentide teeki laaditud failid, mallid, dokumendi koostamise tööruumi mustandid ning kinnitatud agendi tulemused säilivad üldjuhul kuni 90 päeva alates viimasest muutmisest. Kui vana dokument on tehniliselt seotud uuema tulemusega, võib seda säilitada lühiajaliselt seni, kuni uuem seos lõpeb.</p><p><strong>7.6 Kvoodi- ja kustutusreeglid.</strong> Kui kasutaja kustutab sisu, konto kustutatakse või kirje eemaldatakse kvoodi- või puhastusreeglite tõttu, võib see lühiajaliselt jääda varukoopiasse või töölogidesse taastamise, turvalisuse või õigusliku kohustuse tõttu ning seejärel eemaldatakse või muudetakse anonüümseks.</p><p><strong>7.7 Auditid, aktsepteerimised ja maksed.</strong> Üldised dokumentide auditikirjed, tehnilised töötluslogid ning tööalase kasutuse või andmetöötluse raamistikuga seotud tõendikirjed säilitatakse üldjuhul kuni 90 päeva, välja arvatud juhul, kui konkreetse aktsepteerimise, lepingulise suhte või õigusliku kohustuse tõendamiseks on mõistlikult vaja pikemat säilitamist. Makse teenusepakkujalt saadud detailne toores vastus või payload kärbitakse või eemaldatakse üldjuhul pärast 90 päeva. Minimaalne makse- ja raamatupidamisalune kirje säilib kuni 7 aastat või kauem, kui kohaldatav seadus seda nõuab.</p>"
     },
     "section8": {
       "heading": "8. Kasutaja õigused",
@@ -436,7 +439,7 @@
     "title": "Kasutustingimused",
     "section1": {
       "heading": "1. Üldsätted",
-      "body": "<p>Käesolevad kasutustingimused reguleerivad <strong>SotsiaalAI OÜ</strong> hallatava platvormi <strong>SotsiaalAI</strong> kasutamist. Registreerudes või platvormi kasutades kinnitad, et oled tingimustega tutvunud ja nõustud nendega ning et need moodustavad teenuse kasutamise lepingu aluse.</p><p>Kui sa tingimustega ei nõustu, ei tohi sa platvormi kasutada. Privaatsuspoliitika ja kasutustingimused täiendavad teineteist ning moodustavad koos teenuse kasutamise aluse.</p>"
+      "body": "<p>Käesolevad kasutustingimused reguleerivad <strong>SotsiaalAI OÜ</strong> hallatava platvormi <strong>SotsiaalAI</strong> kasutamist. Registreerudes või platvormi kasutades kinnitad, et oled tingimustega tutvunud ja nõustud nendega.</p><p>Platvormi stabiilse, turvalise ja mõistliku kasutamise tagamiseks võivad teenuses kehtida teatud tehnilised piirangud ja kasutusreeglid. Need võivad puudutada näiteks vestluste mahtu, süvauuringu kasutamist, dokumentide korduvalt täiendamist või parandamist ning failide arvu, mahtu ja säilitamist. Piirangud võivad sõltuda kasutatavast funktsioonist või paketist ning need on kirjeldatud käesolevates tingimustes või kuvatud vajaduse korral kasutajaliideses.</p><p>Platvormi kasutamine eeldab nende tingimustega nõustumist. Kui sa nendega ei nõustu, palume platvormi mitte kasutada. Kasutustingimused ja privaatsuspoliitika moodustavad koos teenuse kasutamise aluse.</p>"
     },
     "section2": {
       "heading": "2. Teenuse kirjeldus",
@@ -448,7 +451,7 @@
     },
     "section4": {
       "heading": "4. Lubatud kasutus",
-      "items": "<li>Platvormi tuleb kasutada kooskõlas seaduse, heade tavade ja käesolevate tingimustega.</li><li>Keelatud on ebaseaduslik, ähvardav, petlik, laimav, vaenu õhutav või teiste õigusi rikkuv sisu, sealhulgas selliste abisoovide, abipakkumiste või kutsete loomine, mis eksitavad teisi kasutajaid.</li><li>Keelatud on turvapiirangute ületamine, automatiseeritud masspäringud, pahavara levitamine, teenuse töö takistamine või tellimuspiirangute teadlik vältimine.</li><li>Keelatud on teise isiku konto kasutamine ilma loata, valeidentiteedi loomine või platvormi kasutamine viisil, mis kahjustab teisi kasutajaid või SotsiaalAI-d.</li><li>Keelatud on platvormi, selle tehnilise lahenduse, andmestruktuuride või muude teenuse osade süstemaatiline kopeerimine, levitamine, ümberpakkumine või kasutamine konkureeriva teenuse loomiseks ilma SotsiaalAI kirjaliku loata.</li>"
+      "items": "<li>Platvormi tuleb kasutada kooskõlas seaduse, heade tavade ja käesolevate tingimustega.</li><li>Keelatud on ebaseaduslik, ähvardav, petlik, laimav, vaenu õhutav või teiste õigusi rikkuv sisu, sealhulgas selliste abisoovide, abipakkumiste või kutsete loomine, mis eksitavad teisi kasutajaid.</li><li>Keelatud on turvapiirangute ületamine, automatiseeritud masspäringud, funktsioonipõhistest kasutus-, salvestus- või tellimuspiiridest möödahiilimine või nende teadlik vältimine, pahavara levitamine või teenuse töö takistamine.</li><li>Keelatud on teise isiku konto kasutamine ilma loata, valeidentiteedi loomine või platvormi kasutamine viisil, mis kahjustab teisi kasutajaid või SotsiaalAI-d.</li><li>Keelatud on platvormi, selle tehnilise lahenduse, andmestruktuuride või muude teenuse osade süstemaatiline kopeerimine, levitamine, ümberpakkumine või kasutamine konkureeriva teenuse loomiseks ilma SotsiaalAI kirjaliku loata.</li>"
     },
     "section5": {
       "heading": "5. Tellimus, maksed ja tühistamine",
@@ -458,7 +461,7 @@
     },
     "section6": {
       "heading": "6. Kättesaadavus ja hooldus",
-      "body": "<p>SotsiaalAI teeb mõistlikke pingutusi teenuse kättesaadavuse tagamiseks, kuid ei taga katkestusteta ega veatut tööd.</p><p>Hooldustööd, uuendused, turvaparandused, väliste teenuste häired või kasutuspiirangud võivad platvormi ajutiselt piirata. SotsiaalAI võib rakendada tehnilisi limiite, kuritarvituse vastaseid piiranguid ja muid kaitsemeetmeid, et tagada teenuse turvaline toimimine.</p>"
+      "body": "<p>SotsiaalAI teeb mõistlikke pingutusi teenuse kättesaadavuse tagamiseks, kuid ei taga katkestusteta tööd. Hooldustööd, uuendused, turvaparandused, väliste teenuste häired või kasutuspiirangud võivad platvormi ajutiselt piirata.</p><p>Praegu kehtivad teenuses järgmised tehnilised piirangud: ühes vestluses kuni 50 kasutajapööret; süvauuringus korraga kuni 1 aktiivne töö kasutaja kohta ning kehtib ka päevane kasutuspiirang; sama dokumenti saab järjest kuni 3 korda täiendada või parandada; materjale saab üles laadida kuni 10 faili korraga ja kokku kuni 100 MB päevas.</p><p>SotsiaalAI võib rakendada tehnilisi limiite, mõistliku kasutuse kontrolle ja kuritarvituse vastaseid meetmeid teenuse töö, turvalisuse ja ausa ligipääsu kaitsmiseks. Kui kasutus on ebatavaliselt mahukas, korduv või näib piiridest möödahiilimisena, võib SotsiaalAI mõjutatud funktsioone ajutiselt aeglustada, piirata, peatada või ümber seadistada, isegi kui konto ise jääb aktiivseks.</p>"
     },
     "section7": {
       "heading": "7. Platvormi töövood ja tulemused",
@@ -485,7 +488,7 @@
     },
     "section12": {
       "heading": "12. Lepingu lõpetamine",
-      "body": "<p>Kasutaja võib platvormi kasutamise igal ajal lõpetada, sealhulgas konto kustutamise või tellimuse tühistamise kaudu. Konto kustutamine võib kaasa tuua ligipääsu kaotuse seotud dokumentidele, vestlustele, mustanditele ja muule tööruumi sisule vastavalt privaatsuspoliitikas kirjeldatud säilitamisreeglitele.</p><p>SotsiaalAI võib kasutaja ligipääsu peatada või lõpetada, kui kasutaja rikub oluliselt tingimusi, kuritarvitab teenust, seab ohtu teiste kasutajate turvalisuse või kahjustab platvormi toimimist.</p>"
+      "body": "<p>Kasutaja võib platvormi kasutamise igal ajal lõpetada, sealhulgas konto kustutamise või tellimuse tühistamise kaudu. Konto kustutamine võib kaasa tuua ligipääsu kaotuse seotud dokumentidele, vestlustele, mustanditele ja muule tööruumi sisule vastavalt privaatsuspoliitikas kirjeldatud säilitamisreeglitele.</p><p>SotsiaalAI võib kasutaja ligipääsu peatada või lõpetada, kui kasutaja rikub oluliselt tingimusi, kuritarvitab teenust, ületab korduvalt või üritab mööda hiilida funktsioonipõhistest piiridest, seab ohtu teiste kasutajate turvalisuse või kahjustab platvormi toimimist. SotsiaalAI võib ka ajutiselt piirata konkreetseid funktsioone, et kaitsta teenuse stabiilsust, turvalisust või mõistlikku kasutust.</p>"
     },
     "section13": {
       "heading": "13. Tingimuste muutmine",
@@ -709,6 +712,7 @@
       "deep_research": "Süvauuring",
       "deep_research_room_only": "Süvauuring on saadaval ainult 1:1 vestluses.",
       "documents": "Dokumendid",
+      "career_mode": "Karjäärinõustamine",
       "agent_mode": "Dokumendi koostamine"
     },
     "analysis": {
@@ -1283,7 +1287,9 @@
       "download_failed": "Dokumendi allalaadimine ebaõnnestus.",
       "storage_path_invalid": "Dokumendi salvestustee on vigane.",
       "storage_dir_missing": "Dokumentide salvestuskataloog pole seadistatud.",
-      "agent_storage_dir_missing": "Agendi salvestuskataloog pole seadistatud."
+      "agent_storage_dir_missing": "Agendi salvestuskataloog pole seadistatud.",
+      "daily_upload_quota_exceeded": "P?evane ?leslaadimise limiit on t?itunud. Proovi homme uuesti.",
+      "storage_quota_exceeded": "Salvestusmaht on t?is. Kustuta m?ni fail ja proovi uuesti."
     },
     "artifacts": {
       "search_placeholder": "Otsi pealkirja, sisu, liigi või allikdokumendi järgi",

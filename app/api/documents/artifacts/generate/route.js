@@ -139,7 +139,10 @@ export async function POST(request) {
       audience,
       tone,
       language,
-      length
+      length,
+      observabilityRoute: "api/documents/artifacts/generate",
+      observabilityStage: "document_generate",
+      userId: auth.userId
     })
     const content = result?.content || ""
     if (content && result?.debugMeta) {

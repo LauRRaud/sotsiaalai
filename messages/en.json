@@ -326,7 +326,10 @@
     "errors": {
       "load_failed": "Failed to load materials.",
       "upload_failed": "Failed to upload material.",
-      "delete_failed": "Failed to delete material."
+      "delete_failed": "Failed to delete material.",
+      "file_count_exceeded": "You can send at most 10 files per request.",
+      "daily_upload_quota_exceeded": "Daily upload limit reached. Please try again tomorrow.",
+      "storage_quota_exceeded": "Storage quota reached. Delete some files and try again."
     },
     "admin": {
       "title": "Submitted materials",
@@ -386,14 +389,14 @@
     "title": "Privacy Policy",
     "section1": {
       "heading": "1. General Provisions",
-      "paragraph1": "<p>This Privacy Policy explains how <strong>SotsiaalAI OÜ</strong> processes personal data when you use the <strong>SotsiaalAI</strong> web platform. It covers account creation, sign-in, subscriptions, chats, rooms, help requests and offers, documents, and other platform workflows.</p>",
+      "paragraph1": "<p>This Privacy Policy explains how <strong>SotsiaalAI OÜ</strong> processes personal data when you use the <strong>SotsiaalAI</strong> web platform. It covers account creation, sign-in, subscriptions, chats, rooms, help requests and offers, documents, deep research, file uploads, logs, and other platform workflows. It also explains what data is stored, for how long, how feature limits and storage quotas can affect retention, and which automated systems are used to generate responses, drafts, classifications, or search results.</p>",
       "paragraph2": "<p>SotsiaalAI processes personal data in accordance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>. If you have questions about data processing, contact us before continuing to use the service.</p>"
     },
     "section2": {
       "heading": "2. Data We Collect",
       "paragraph1": "<p><strong>2.1 Account and authentication data.</strong> We process your email address, user role, password/PIN hash, email verification state, temporary sign-in tokens, one-time code records, trusted-device data, and any profile data you choose to add or update.</p>",
-      "paragraph2": "<p><strong>2.2 Service usage data.</strong> We process conversations and conversation messages, room messages and membership data, help requests, help offers, help matches, invites, subscription and sponsored-access status, payment metadata, files uploaded to the Documents library, agent drafts and final outputs, and audit records needed to run those workflows.</p>",
-      "paragraph3": "<p><strong>2.3 Technical and local data.</strong> We process IP address, browser and device information, usage and error logs, and security events. The platform also uses essential cookies and browser storage to keep language, accessibility settings, active conversation state, PIN keypad preferences, and other usability settings.</p>"
+      "paragraph2": "<p><strong>2.2 Service usage data.</strong> We process conversations and conversation messages, room messages and membership data, help requests, help offers, help matches, research requests and job metadata, document uploads, temporary chat files, agent drafts and final outputs, invites, subscription and sponsored-access status, payment metadata, audit records, and storage- or quota-related metadata needed to run those workflows.</p>",
+      "paragraph3": "<p><strong>2.3 Technical and local data.</strong> We process IP address, browser and device information, usage, rate-limit, and error logs, security events, and technical events related to AI, search, and speech features. The platform also uses essential cookies and browser storage to keep language, accessibility settings, active conversation state, PIN keypad preferences, and other usability settings.</p>"
     },
     "section3": {
       "heading": "3. Purposes and Legal Bases",
@@ -401,7 +404,7 @@
     },
     "section4": {
       "heading": "4. How Platform Content Is Used",
-      "body": "<p><strong>4.1 Chats and rooms.</strong> Chat and room messages are used to generate responses, show history, and enable collaboration. A conversation can also contain workflow state, such as whether it is locked into document drafting, a help request, or a help offer flow.</p><p><strong>4.2 Help requests, help offers, and matching.</strong> When you save a help request or help offer, it becomes visible to other users in the relevant listing views according to the platform workflow. When you connect a request and an offer, the platform creates or reopens a room and shares the necessary details with the involved parties.</p><p><strong>4.3 Documents and agent outputs.</strong> Files uploaded to <strong>Documents</strong> and the drafts or final outputs created from them are stored in the user's workspace until deleted by the user or removed with the account. They are not made public to other users unless the user explicitly shares them through platform actions.</p><p><strong>4.4 Temporary chat files.</strong> Files added in the chat document workflow or analysis flow are meant only for that specific conversation or session. They are not automatically added to the persistent Documents library unless the user separately uses the document-library workflow.</p><p><strong>4.5 Voice features.</strong> Dictation audio is processed only to create text. Read-aloud uses chat text to produce audio playback. These features are not used for marketing or user profiling.</p>"
+      "body": "<p><strong>4.1 Chats and rooms.</strong> Chat and room messages are used to generate responses, show history, and enable collaboration. A conversation can also contain workflow state, such as whether it is locked into document drafting, a help request, a help offer flow, or a deep research task.</p><p><strong>4.2 Help requests, help offers, and matching.</strong> When you save a help request or help offer, it becomes visible to other users in the relevant listing views according to the platform workflow. When you connect a request and an offer, the platform creates or reopens a room and shares the necessary details with the involved parties.</p><p><strong>4.3 Documents and agent outputs.</strong> Files uploaded to <strong>Documents</strong> and the drafts or final outputs created from them are stored in the user's workspace until deleted by the user, removed with the account, or cleaned up under retention or storage-quota rules. They are not made public to other users unless the user explicitly shares them through platform actions.</p><p><strong>4.4 Temporary chat files.</strong> Files added in the chat document workflow or analysis flow are meant only for that specific conversation or session. They are not automatically added to the persistent Documents library unless the user separately uses the document-library workflow.</p><p><strong>4.5 Voice features.</strong> Dictation audio is processed only to create text. Read-aloud uses chat text to produce audio playback. These features are not used for marketing or user profiling.</p><p><strong>4.6 Automated processing.</strong> Some workflows use automated systems to route conversations, classify requests, retrieve documents, rank results, and generate responses or drafts. These systems support the service but do not replace the user's own judgment or create solely automated decisions with legal or similarly significant effects.</p>"
     },
     "section5": {
       "heading": "5. Processors",
@@ -413,11 +416,11 @@
     },
     "section7": {
       "heading": "7. Retention",
-      "body": "<p><strong>7.1 Account and profile data.</strong> Account data is stored until the account is deleted, except where the law requires longer retention.</p><p><strong>7.2 Conversation history.</strong> Conversations are generally shown to the user for up to 90 days from the last activity unless deleted earlier by the user. After that, a conversation may be removed from the user view and marked for internal cleanup or deletion.</p><p><strong>7.3 Rooms, invites, and help data.</strong> Room data, invites, help requests, help offers, and matches are retained while active or otherwise needed for service operation, dispute handling, or security review.</p><p><strong>7.4 Documents and agent outputs.</strong> Files stored in the Documents library, drafts, and final outputs remain available until the user deletes them or the account is deleted, unless the law requires otherwise.</p><p><strong>7.5 Billing, audit, and technical logs.</strong> Payment data, audit records, and technical logs are retained according to applicable legal, security, and reliability needs and then deleted or anonymised within a reasonable time.</p>"
+      "body": "<p><strong>7.1 Account and profile data.</strong> Account data is stored until the account is deleted, except where the law requires longer retention.</p><p><strong>7.2 Conversation history.</strong> Conversations are generally shown to the user for up to 90 days from the last activity unless deleted earlier by the user. After that, a conversation may be removed from the user view and marked for internal cleanup or deletion.</p><p><strong>7.3 Rooms, invites, and help data.</strong> Room data, invites, help requests, help offers, and matches are retained while active or otherwise needed for service operation, dispute handling, or security review.</p><p><strong>7.4 Documents and agent outputs.</strong> Files stored in the Documents library, drafts, and final outputs remain available until the user deletes them or the account is deleted, unless the law requires otherwise.</p><p><strong>7.5 Billing, audit, and technical logs.</strong> Payment data, audit records, and technical logs are retained according to applicable legal, security, and reliability needs and then deleted or anonymised within a reasonable time.</p><p><strong>7.6 Quota and cleanup.</strong> If content is deleted by the user, removed as part of account deletion, or cleared because of quota or cleanup rules, it may remain in backups or operational logs for a limited period needed for recovery, security, or legal compliance, after which it is removed or anonymised.</p>"
     },
     "section8": {
       "heading": "8. Your Rights",
-      "items": "<li>Right to access your personal data and obtain a copy.</li><li>Right to correct inaccurate or incomplete data.</li><li>Right to request erasure where there is a legal basis for it.</li><li>Right to restrict processing or object to processing based on legitimate interest.</li><li>Right to lodge a complaint with the <aDpa>Data Protection Inspectorate</aDpa>.</li>"
+      "items": "<li>Right to access your personal data and obtain a copy.</li><li>Right to correct inaccurate or incomplete data.</li><li>Right to request erasure where there is a legal basis for it.</li><li>Right to restrict processing or object to processing based on legitimate interest.</li><li>Right to data portability, where the GDPR conditions for portability are met.</li><li>Right to withdraw consent, where processing is based on consent.</li><li>Right to request human review where automated processing or AI output requires it.</li><li>Right to lodge a complaint with the <aDpa>Data Protection Inspectorate</aDpa>.</li>"
     },
     "section9": {
       "heading": "9. Cookies and Browser Storage",
@@ -436,7 +439,7 @@
     "title": "Terms of Use",
     "section1": {
       "heading": "1. General Provisions",
-      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform operated by <strong>SotsiaalAI OÜ</strong>. By using the platform, you confirm that you have read and accepted these Terms.</p><p>If you do not agree with these Terms, you must not use the platform. The Privacy Policy and these Terms complement each other and together define the basis for using the service.</p>"
+      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform operated by <strong>SotsiaalAI OÜ</strong>. By using the platform, you confirm that you have read and accepted these Terms.</p><p>To keep the service stable, secure, and reasonably usable, the platform may apply technical limits and usage rules. These may cover chat volume, deep research usage, repeated document refinement, and limits on file count, file size, and storage. The applicable limits may depend on the feature or package and are described in these Terms or shown in the product UI where needed.</p><p>If you do not agree with these Terms, you must not use the platform. The Privacy Policy and these Terms together form the basis for using the service.</p>"
     },
     "section2": {
       "heading": "2. Service Description",
@@ -448,7 +451,7 @@
     },
     "section4": {
       "heading": "4. Permitted Use",
-      "items": "<li>You must use the platform in compliance with law, good practice, and these Terms.</li><li>Unlawful, threatening, deceptive, defamatory, hateful, or rights-infringing content is prohibited, including help listings or invites that mislead other users.</li><li>It is prohibited to bypass security controls, send automated mass requests, spread malware, disrupt the service, or knowingly evade subscription limits.</li><li>It is prohibited to use another person's account without permission, create a false identity, or use the platform in a way that harms other users or SotsiaalAI.</li><li>It is prohibited to systematically copy platform data or outputs, or use them to build a competing service, without SotsiaalAI's permission.</li>"
+      "items": "<li>You must use the platform in compliance with law, good practice, and these Terms.</li><li>Unlawful, threatening, deceptive, defamatory, hateful, or rights-infringing content is prohibited, including help listings or invites that mislead other users.</li><li>It is prohibited to bypass security controls, send automated mass requests, exceed or attempt to evade feature-specific usage limits, storage limits, or subscription limits, spread malware, or disrupt the service.</li><li>It is prohibited to use another person's account without permission, create a false identity, or use the platform in a way that harms other users or SotsiaalAI.</li><li>It is prohibited to systematically copy platform data or outputs, or use them to build a competing service, without SotsiaalAI's permission.</li>"
     },
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
@@ -458,7 +461,7 @@
     },
     "section6": {
       "heading": "6. Availability and Maintenance",
-      "body": "<p>SotsiaalAI makes reasonable efforts to keep the service available, but uninterrupted operation is not guaranteed. Maintenance, updates, security fixes, failures of external providers, or usage limits may temporarily restrict the platform. SotsiaalAI may apply technical limits and abuse-prevention controls to protect service operation.</p>"
+      "body": "<p>SotsiaalAI makes reasonable efforts to keep the service available, but uninterrupted operation is not guaranteed. Maintenance, updates, security fixes, failures of external providers, or usage limits may temporarily restrict the platform.</p><p>At present, the service applies the following technical limits: up to 50 user turns in one chat; deep research limited to one active job per user and a daily usage limit; the same document may be refined or corrected up to 3 times in a row; and materials may be uploaded up to 10 files at a time and up to 100 MB per day.</p><p>SotsiaalAI may apply technical limits, reasonable-use controls, and abuse-prevention measures to protect service operation, security, and fair access. If usage is unusually heavy, repetitive, or appears to bypass limits, SotsiaalAI may temporarily slow, restrict, pause, or reconfigure affected features even if the account itself remains active.</p>"
     },
     "section7": {
       "heading": "7. Platform Workflows and Results",
@@ -485,7 +488,7 @@
     },
     "section12": {
       "heading": "12. Termination of the Agreement",
-      "body": "<p>The user may stop using the platform at any time, including by deleting the account or cancelling the subscription. Account deletion may result in loss of access to related documents, conversations, drafts, and other workspace content in accordance with the retention rules described in the Privacy Policy.</p><p>SotsiaalAI may suspend or terminate access if the user materially breaches the Terms, abuses the service, threatens the safety of other users, or harms the operation of the platform.</p>"
+      "body": "<p>The user may stop using the platform at any time, including by deleting the account or cancelling the subscription. Account deletion may result in loss of access to related documents, conversations, drafts, and other workspace content in accordance with the retention rules described in the Privacy Policy.</p><p>SotsiaalAI may suspend or terminate access if the user materially breaches the Terms, abuses the service, repeatedly exceeds or attempts to bypass feature limits, threatens the safety of other users, or harms the operation of the platform. SotsiaalAI may also temporarily limit specific features to protect service stability, security, or reasonable use.</p>"
     },
     "section13": {
       "heading": "13. Changes to the Terms",
@@ -709,6 +712,7 @@
       "deep_research": "Deep research",
       "deep_research_room_only": "Deep research is available only in 1:1 chat.",
       "documents": "Documents",
+      "career_mode": "Career guidance",
       "agent_mode": "Document drafting"
     },
     "analysis": {
@@ -1283,7 +1287,9 @@
       "download_failed": "Failed to download document.",
       "storage_path_invalid": "Invalid document storage path.",
       "storage_dir_missing": "Document storage directory is not configured.",
-      "agent_storage_dir_missing": "Agent storage directory is not configured."
+      "agent_storage_dir_missing": "Agent storage directory is not configured.",
+      "daily_upload_quota_exceeded": "Daily upload limit reached. Please try again tomorrow.",
+      "storage_quota_exceeded": "Storage quota reached. Delete some files and try again."
     },
     "artifacts": {
       "search_placeholder": "Search by title, text, type, or source document",

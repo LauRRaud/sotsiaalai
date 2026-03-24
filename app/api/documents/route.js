@@ -1,8 +1,11 @@
 import { prisma } from "@/lib/prisma"
 import { isFrameworkAcceptanceSchemaError } from "@/lib/frameworkAcceptanceCompat"
+import { effectiveRoleFromSession } from "@/lib/authz"
 import { DOCUMENT_LIST_LIMIT } from "@/lib/documents/constants"
 import { logDocumentsAudit } from "@/lib/documents/audit"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
+import { getDailyUploadQuotaBytes, getStorageQuotaBytes, getUtcDayStart } from "@/lib/storageGuardrails"
+import { getUserDailyUploadBytes, getUserStorageUsageBytes } from "@/lib/storageUsage"
 import {
   deleteStoredDocument,
   ensureAllowedUpload,
@@ -188,6 +191,30 @@ export async function POST(request) {
 
   try {
     const mime = ensureAllowedUpload(file)
+    const fileBytes = Number(file?.size || 0)
+    const role = effectiveRoleFromSession(auth.session)
+    const storageQuotaBytes = getStorageQuotaBytes(role)
+    const [storageUsageBytes, dailyUploadBytes] = await Promise.all([
+      getUserStorageUsageBytes(auth.userId),
+      getUserDailyUploadBytes(auth.userId, getUtcDayStart())
+    ])
+
+    if (storageUsageBytes.totalBytes + fileBytes > storageQuotaBytes) {
+      return errorJson("documents.errors.storage_quota_exceeded", 413, locale, {
+        scope: "storage_quota",
+        limit: storageQuotaBytes,
+        used: storageUsageBytes.totalBytes
+      })
+    }
+
+    if (dailyUploadBytes + fileBytes > getDailyUploadQuotaBytes()) {
+      return errorJson("documents.errors.daily_upload_quota_exceeded", 429, locale, {
+        scope: "daily_upload",
+        limit: getDailyUploadQuotaBytes(),
+        used: dailyUploadBytes
+      })
+    }
+
     await ensureDocumentsStorage()
     storagePath = getStoredDocumentPath(file.name)
     const stored = await writeUploadedFile(file, storagePath, mime)

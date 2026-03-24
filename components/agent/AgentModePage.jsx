@@ -976,6 +976,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
         body: JSON.stringify({
           documentIds: documents.map((document) => document.id),
           type: effectiveType,
+          artifactId: workspaceResult.id || undefined,
           templateId: isClientRole ? undefined : selectedTemplateId || undefined,
           currentContent: resultContent,
           refinementInstruction: effectiveRefinement,

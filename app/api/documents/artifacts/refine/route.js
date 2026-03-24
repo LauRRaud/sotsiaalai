@@ -1,4 +1,5 @@
-import { prisma } from "@/lib/prisma"
+import { assertOwnedByUser } from "@/lib/documents/access"
+import { buildDocumentAuditRecord } from "@/lib/documents/auditShared"
 import { normalizeArtifactContent, normalizeArtifactType, normalizeSelectedDocumentIds } from "@/lib/documents/artifacts"
 import {
   normalizeAgentAudience,
@@ -10,6 +11,7 @@ import {
 } from "@/lib/documents/generation"
 import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
+import { prisma } from "@/lib/prisma"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
 
 export const runtime = "nodejs"
@@ -18,6 +20,7 @@ export const revalidate = 0
 
 const DOCUMENTS_RATE_LIMIT_WINDOW_MS = readDocumentsRateLimit(process.env.DOCUMENTS_RATE_LIMIT_WINDOW_MS, 60_000, 1000)
 const ARTIFACTS_REFINE_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.ARTIFACTS_CREATE_RATE_LIMIT_MAX, 20)
+const ARTIFACT_REFINEMENT_LIMIT = 3
 
 export async function POST(request) {
   const locale = localeFromRequest(request)
@@ -47,10 +50,12 @@ export async function POST(request) {
   let selectedDocumentIds
   let currentContent = ""
   let refinementInstruction = ""
+  let artifactId = ""
   try {
     selectedDocumentIds = normalizeSelectedDocumentIds(body?.documentIds)
     currentContent = normalizeArtifactContent(body?.currentContent)
     refinementInstruction = normalizeRefinementInstruction(body?.refinementInstruction)
+    artifactId = String(body?.artifactId || "").trim()
   } catch (error) {
     return errorJson(error?.message || "documents.errors.invalid_payload", Number(error?.status) || 400, locale)
   }
@@ -63,6 +68,40 @@ export async function POST(request) {
   const length = normalizeAgentLength(body?.length)
 
   try {
+    if (artifactId) {
+      const artifact = await prisma.agentArtifact.findUnique({
+        where: {
+          id: artifactId
+        },
+        select: {
+          id: true,
+          ownerId: true
+        }
+      })
+
+      if (!artifact) {
+        return errorJson("documents.artifacts.errors.not_found", 404, locale)
+      }
+
+      assertOwnedByUser(artifact, auth.userId)
+
+      const usedRefinements = await prisma.documentAudit.count({
+        where: {
+          ownerId: auth.userId,
+          artifactId: artifact.id,
+          action: "ARTIFACT_REFINE"
+        }
+      })
+
+      if (usedRefinements >= ARTIFACT_REFINEMENT_LIMIT) {
+        return errorJson("api.common.rate_limited", 429, locale, {
+          scope: "artifact_refine",
+          limit: ARTIFACT_REFINEMENT_LIMIT,
+          used: usedRefinements
+        })
+      }
+    }
+
     const documents = await prisma.userDocument.findMany({
       where: {
         ownerId: auth.userId,
@@ -127,11 +166,26 @@ export async function POST(request) {
       audience,
       tone,
       language,
-      length
+      length,
+      observabilityRoute: "api/documents/artifacts/refine",
+      observabilityStage: "document_refine",
+      userId: auth.userId
     })
     const content = result?.content || ""
     if (content && result?.debugMeta) {
       cacheRetrievalDebugMeta(auth.userId, content, result.debugMeta)
+    }
+
+    if (artifactId && content) {
+      const auditRecord = buildDocumentAuditRecord("artifact.refined", {
+        userId: auth.userId,
+        artifactId
+      })
+      if (auditRecord) {
+        await prisma.documentAudit.create({
+          data: auditRecord
+        })
+      }
     }
 
     return json({

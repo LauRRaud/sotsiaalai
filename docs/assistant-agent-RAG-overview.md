@@ -94,18 +94,18 @@ The main chat route answers user questions and starts structured workflows using
 
 ### Current orchestration rule
 
-`GPT-5 mini` is treated as the main orchestration model behind the conversation
-page, but reasoning depth is chosen by server policy, not by the user.
+`gpt-5.4-mini` is the standard model for the main conversation page, document
+workflow, research workflow, and RAG selftest.
 
 Current policy shape:
 
-- low
-  - browse, retrieval, connect, short RAG answers
-- medium
-  - help workflow refinement, structured guidance, confirmation summaries,
-    ordinary document drafting
-- high
-  - reports, formal drafting, deeper synthesis
+- low only
+  - all standard text Responses flows
+
+The standard text payloads explicitly set:
+
+- `text.verbosity: "low"`
+- `reasoning.effort: "low"`
 
 ### Current prompt structure
 
