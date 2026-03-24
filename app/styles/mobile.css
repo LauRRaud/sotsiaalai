@@ -2159,6 +2159,12 @@
     ) !important;
   }
 
+  .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) > footer,
+  .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) > footer.policy-page-footer {
+    margin-top: clamp(2.95rem, 6.2vh, 4.05rem) !important;
+    margin-bottom: clamp(1.55rem, 3.4vh, 2.25rem) !important;
+  }
+
 }
 
 @media (max-width: 768px) {

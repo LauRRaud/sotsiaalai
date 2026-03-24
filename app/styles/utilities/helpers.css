@@ -459,17 +459,18 @@ body.login-modal-open {
       var(--glass-policy-scroll-curve-y-left);
   }
 
-  .glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
-    max-height: calc(
-      100% - clamp(1.45rem, 3vh, 2rem) + var(--policy-scroll-rise, 0rem)
-    );
-    margin-top: calc(var(--policy-scroll-rise, 0rem) * -1);
-    padding-top: calc(
-      clamp(0.38rem, 0.95vh, 0.72rem) + var(--policy-first-line-drop, 0rem)
-    );
-    margin-left: auto;
-    margin-right: auto;
-    transform: translateX(0);
+.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+  max-height: calc(
+    100% - clamp(1.45rem, 3vh, 2rem) + var(--policy-scroll-rise, 0rem)
+  );
+  margin-top: calc(var(--policy-scroll-rise, 0rem) * -1);
+  padding-top: calc(
+    clamp(0.38rem, 0.95vh, 0.72rem) + var(--policy-first-line-drop, 0rem)
+  );
+  padding-bottom: clamp(2.8rem, 5.2vh, 4rem);
+  margin-left: auto;
+  margin-right: auto;
+  transform: translateX(0);
     mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
@@ -1223,7 +1224,7 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
     content: "" !important;
     display: block !important;
-    height: clamp(6rem, 10.3vh, 8rem) !important;
+    height: clamp(7.2rem, 12.2vh, 9.4rem) !important;
     z-index: 12 !important;
     background: linear-gradient(
       to bottom,
@@ -1241,7 +1242,7 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
   :root.theme-light:not(.theme-mid)
     .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-    height: clamp(5.8rem, 9.8vh, 7.2rem) !important;
+    height: clamp(6.8rem, 11.4vh, 8.8rem) !important;
     background: linear-gradient(
       to bottom,
       rgba(var(--policy-bottom-fade-rgb), 0) 0%,
@@ -1259,7 +1260,7 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
   :root.theme-mid
     .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-    height: clamp(5.8rem, 9.8vh, 7.2rem) !important;
+    height: clamp(6.8rem, 11.4vh, 8.8rem) !important;
     background: linear-gradient(
       to bottom,
       rgba(var(--policy-bottom-fade-rgb), 0) 0%,
@@ -1454,8 +1455,24 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   > footer,
 .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
   > footer.policy-page-footer {
-  margin-top: clamp(2.55rem, 4.8vh, 3.2rem) !important;
+  margin-top: clamp(0.55rem, 1.2vh, 0.95rem) !important;
+  margin-bottom: clamp(1.15rem, 2.4vh, 1.85rem) !important;
   transform: translateY(0);
+}
+
+@media (min-width: 769px) {
+  .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
+  .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    padding-bottom: clamp(5rem, 8.8vh, 6.8rem) !important;
+  }
+
+  .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
+    > footer,
+  .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
+    > footer.policy-page-footer {
+    margin-top: clamp(3.45rem, 6.4vh, 4.25rem) !important;
+    margin-bottom: clamp(0.85rem, 1.8vh, 1.25rem) !important;
+  }
 }
 
 @media (min-width: 769px) {

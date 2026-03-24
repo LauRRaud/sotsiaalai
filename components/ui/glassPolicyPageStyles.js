@@ -1,6 +1,6 @@
 export const glassPolicyRingClassName =
   "glass-ring-expandable glass-policy-expand-shape [--glass-ring-pad-top:clamp(calc(0.2*var(--base-rem)),1.1vh,calc(0.8*var(--base-rem)))] min-[768px]:[--ring-scale:1] min-[768px]:[--ring-fit-pad:calc(1.3*var(--base-rem))] min-[768px]:[--ring-ui-reserve-page:calc(2*var(--base-rem))] min-[768px]:[--ring-base-min:calc(36*var(--base-rem))] min-[768px]:[--ring-base-max:calc(54*var(--base-rem))] min-[768px]:[--ring-desktop-max:calc(58*var(--base-rem))] min-[768px]:[--ring-pad-x:clamp(calc(1.8*var(--base-rem)),calc(var(--ring-diameter,var(--ring-diameter-default))*0.05),calc(3.2*var(--base-rem)))] min-[768px]:[--ring-pad-top:clamp(calc(1.6*var(--base-rem)),4.2vw,calc(2.6*var(--base-rem)))] min-[768px]:[--ring-pad-top-half:clamp(calc(0.8*var(--base-rem)),2.1vw,calc(1.3*var(--base-rem)))] [--glass-ring-scroll-offset:clamp(1.45rem,3vh,2rem)] " +
-  "[--policy-scroll-rise:clamp(0.55rem,1.25vh,0.9rem)] [--policy-first-line-drop:clamp(0.55rem,1.2vh,0.88rem)] " +
+  "[--policy-scroll-rise:clamp(1.08rem,2vh,1.45rem)] [--policy-first-line-drop:clamp(0.55rem,1.2vh,0.88rem)] " +
   "max-[768px]:[--ring-pad-x:clamp(0.62rem,2.4vw,0.92rem)] " +
   "max-[768px]:[--glass-ring-scroll-offset:clamp(1.9rem,4.6vh,2.9rem)] " +
   "max-[768px]:[--glass-ring-scroll-offset-open:clamp(0.95rem,2.4vh,1.6rem)]";
