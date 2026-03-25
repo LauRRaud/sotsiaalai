@@ -684,7 +684,17 @@ export default function ChatSidebar() {
         </div>
       </div>
     </nav>
-    {confirmState ? <ModalConfirm message={confirmMessage} confirmLabel={t("buttons.delete")} cancelLabel={t("buttons.cancel")} onConfirm={handleConfirmDelete} onCancel={handleConfirmCancel} overlayClassName="!z-[140] !bg-transparent !backdrop-blur-0 !backdrop-saturate-100" /> : null}
+    {confirmState ? <ModalConfirm
+      message={confirmMessage}
+      confirmLabel={t("buttons.delete")}
+      cancelLabel={t("buttons.cancel")}
+      confirmVariant="danger"
+      cancelVariant="primary"
+      onConfirm={handleConfirmDelete}
+      onCancel={handleConfirmCancel}
+      overlayClassName="!z-[140] !bg-transparent !backdrop-blur-0 !backdrop-saturate-100"
+      contentClassName="!w-[min(100%,20.5rem)] !max-w-[20.5rem]"
+    /> : null}
   </>;
 
 }

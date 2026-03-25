@@ -158,7 +158,7 @@ const accountModalContentClassName =
   `[--glass-edge-right:calc(var(--hud-edge-right,0px)+clamp(0.1rem,1.2vw,0.8rem))] ` +
   `[--glass-center-offset:0px] [--input-text:var(--glass-modal-text)]`;
 const accountModalHeadClassName =
-  "mb-[0.2rem] flex items-start justify-center gap-[0.75rem] max-[768px]:mb-[0.15rem]";
+  "mb-[0.12rem] flex items-start justify-center gap-[0.75rem] max-[768px]:mb-[0.1rem]";
 const accountModalBackButtonClassName =
   `${glassPageBackMobileBottomCenterClassName} account-settings-back-button !z-[145]`;
 const accountModalTitleWrapClassName =
@@ -167,7 +167,7 @@ const accountModalTitleClassName =
   `account-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} max-[768px]:!mt-0 max-[768px]:!mb-0 ` +
   "";
 const accountModalActionStackClassName =
-  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.95rem] mt-[clamp(2.8rem,6.2vh,3.8rem)] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:gap-[0.8rem] max-[768px]:mt-[clamp(2.3rem,5.4vh,3rem)] max-[768px]:px-0";
+  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.95rem] mt-[clamp(2.15rem,4.8vh,3.05rem)] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:gap-[0.8rem] max-[768px]:mt-[clamp(1.85rem,4.2vh,2.45rem)] max-[768px]:px-0";
 const accountModalCardClassName =
   "rounded-none border-0 bg-transparent p-0 min-h-0 text-[color:var(--glass-modal-text)] shadow-none " +
   "[.theme-mid_&]:text-[#3f4756] [.theme-light_&]:text-[#1f2937]";

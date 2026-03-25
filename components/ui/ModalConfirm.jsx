@@ -9,23 +9,25 @@ import { cn } from "@/components/ui/cn";
 const modalOverlayClassName =
   "modal-confirm-overlay !bg-[rgba(8,10,16,0.66)] !backdrop-blur-0 !backdrop-saturate-100";
 const modalContentClassName =
-  "modal-confirm-content flex w-full max-w-[28rem] flex-col gap-4 rounded-[1.35rem] !border-[color:var(--rail-tooltip-border)] " +
-  "!bg-[color:var(--rail-tooltip-bg)] px-[1.45rem] py-[1.35rem] !text-[color:var(--rail-tooltip-text,var(--glass-modal-text))] !shadow-[var(--rail-tooltip-shadow)] " +
+  "modal-confirm-content flex w-full max-w-[22rem] flex-col gap-3 rounded-[0.95rem] !border-[color:var(--opaque-panel-border,var(--rail-tooltip-border))] " +
+  "!bg-[color:var(--opaque-panel-bg,var(--chat-tools-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] px-[1rem] py-[0.95rem] " +
+  "!text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-modal-text)))] !shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow))] " +
   "!backdrop-blur-0 !backdrop-saturate-100 light:text-[#2f3a4a]";
-const modalMessageClassName = "text-[1.05rem] leading-[1.5] !text-[color:var(--rail-tooltip-text,var(--glass-modal-text))]";
-const modalActionsClassName = "flex flex-wrap justify-center gap-3";
+const modalMessageClassName = "text-center text-[1.03rem] leading-[1.45] !text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-modal-text)))]";
+const modalActionsClassName = "flex flex-wrap justify-center gap-2";
 const modalBusyWrapClassName = "flex justify-center py-[0.2rem]";
 const modalBusyCardClassName =
-  "relative flex min-h-[8.8rem] w-fit min-w-[clamp(9.6rem,18vw,11.8rem)] flex-col items-center justify-center gap-[0.95rem] rounded-[1.35rem] " +
-  "border border-[color:var(--rail-tooltip-border)] bg-[color:var(--rail-tooltip-bg)] px-[1.1rem] py-[1rem] " +
-  "shadow-[var(--rail-tooltip-shadow)]";
-const modalBusyTextClassName = "text-center text-[1.02rem] leading-[1.25] font-medium tracking-[0.01em] !text-[color:var(--rail-tooltip-text,var(--glass-modal-text))]";
+  "relative flex min-h-[8.4rem] w-fit min-w-[clamp(9.2rem,17vw,11rem)] flex-col items-center justify-center gap-[0.85rem] rounded-[1.05rem] " +
+  "border border-[color:var(--opaque-panel-border,var(--rail-tooltip-border))] bg-[color:var(--opaque-panel-bg,var(--chat-tools-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] px-[1rem] py-[0.95rem] " +
+  "shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow))]";
+const modalBusyTextClassName = "text-center text-[1rem] leading-[1.25] font-medium tracking-[0.01em] !text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-modal-text)))]";
 export default function ModalConfirm({
   message,
   children = null,
   confirmLabel = "Jah",
   confirmVariant = "primary",
   cancelLabel = "Katkesta",
+  cancelVariant = "secondary",
   onConfirm,
   onCancel,
   disabled = false,
@@ -60,10 +62,10 @@ export default function ModalConfirm({
             </div>
           </div>
         </div> : <div className={cn(modalActionsClassName, actionsClassName)}>
-          <Button type="button" variant={confirmVariant} onClick={onConfirm} disabled={disabled}>
+          <Button type="button" size="sm" variant={confirmVariant} onClick={onConfirm} disabled={disabled} className="min-w-[6.6rem]">
             <span>{confirmLabel}</span>
           </Button>
-          {cancelLabel ? <Button type="button" variant="secondary" onClick={onCancel} disabled={disabled}>
+          {cancelLabel ? <Button type="button" size="sm" variant={cancelVariant} onClick={onCancel} disabled={disabled} className="min-w-[6.6rem]">
               <span>{cancelLabel}</span>
             </Button> : null}
         </div>}
