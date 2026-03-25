@@ -68,6 +68,8 @@ export default function HomePage() {
   const [_rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
   const rightCardWrapRef = useRef(null);
+  const leftFlipTimeoutRef = useRef(null);
+  const rightFlipTimeoutRef = useRef(null);
   const suppressFlipRef = useRef(false);
   const lastClickSideRef = useRef(null);
   const timeoutIdsRef = useRef(new Set());
@@ -85,6 +87,14 @@ export default function HomePage() {
     window.clearTimeout(timeoutId);
     timeoutIdsRef.current.delete(timeoutId);
   }, []);
+  const clearLeftFlipTimeout = useCallback(() => {
+    clearRegisteredTimeout(leftFlipTimeoutRef.current);
+    leftFlipTimeoutRef.current = null;
+  }, [clearRegisteredTimeout]);
+  const clearRightFlipTimeout = useCallback(() => {
+    clearRegisteredTimeout(rightFlipTimeoutRef.current);
+    rightFlipTimeoutRef.current = null;
+  }, [clearRegisteredTimeout]);
   const isAuthed = status === "authenticated" && !!session;
   const homeCardActionText = isAuthed ? t("buttons.open_chat") : t("auth.login.title");
   const isAdmin = useMemo(() => {
@@ -313,11 +323,8 @@ export default function HomePage() {
     return () => clearRegisteredTimeout(footerTimer);
   }, [cardsIntroDone, clearRegisteredTimeout, isLoginOpen, registerTimeout]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
-  const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
-  const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
-  const leftBackInteractive = isMobile ? flipAllowed : leftInteractive;
-  const rightBackInteractive = isMobile ? flipAllowed : rightInteractive;
-  const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
+  const leftBackInteractive = isMobile ? flipAllowed : flipAllowed && !leftFlipping;
+  const rightBackInteractive = isMobile ? flipAllowed : flipAllowed && !rightFlipping;
   const suppressCardHoverFxClassName = isHomeOverlayOpen ?
     "[&:hover_.card-face.front>.glass-card]:[animation:none] " +
       "[&:focus-within_.card-face.front>.glass-card]:[animation:none] " +
@@ -335,36 +342,52 @@ export default function HomePage() {
     if (suppressFlipRef.current) return;
     if (!flipAllowed) return;
     if (!isMobile) {
+      clearLeftFlipTimeout();
       setLeftFlipping(true);
       setLeftPhase("flippingToBack");
-      registerTimeout(() => setLeftFlipping(false), flipToBackMs);
+      leftFlipTimeoutRef.current = registerTimeout(() => {
+        setLeftFlipping(false);
+        leftFlipTimeoutRef.current = null;
+      }, flipToBackMs);
     }
   };
   const onLeftLeave = () => {
     if (suppressFlipRef.current) return;
     if (!flipAllowed) return;
     if (!isMobile) {
+      clearLeftFlipTimeout();
       setLeftFlipping(true);
       setLeftPhase("flippingToFront");
-      registerTimeout(() => setLeftFlipping(false), flipToFrontMs);
+      leftFlipTimeoutRef.current = registerTimeout(() => {
+        setLeftFlipping(false);
+        leftFlipTimeoutRef.current = null;
+      }, flipToFrontMs);
     }
   };
   const onRightEnter = () => {
     if (suppressFlipRef.current) return;
     if (!flipAllowed) return;
     if (!isMobile) {
+      clearRightFlipTimeout();
       setRightFlipping(true);
       setRightPhase("flippingToBack");
-      registerTimeout(() => setRightFlipping(false), flipToBackMs);
+      rightFlipTimeoutRef.current = registerTimeout(() => {
+        setRightFlipping(false);
+        rightFlipTimeoutRef.current = null;
+      }, flipToBackMs);
     }
   };
   const onRightLeave = () => {
     if (suppressFlipRef.current) return;
     if (!flipAllowed) return;
     if (!isMobile) {
+      clearRightFlipTimeout();
       setRightFlipping(true);
       setRightPhase("flippingToFront");
-      registerTimeout(() => setRightFlipping(false), flipToFrontMs);
+      rightFlipTimeoutRef.current = registerTimeout(() => {
+        setRightFlipping(false);
+        rightFlipTimeoutRef.current = null;
+      }, flipToFrontMs);
     }
   };
   const handleCardBackClick = side => e => {
@@ -458,10 +481,14 @@ export default function HomePage() {
   }, [prefs.reduceMotion]);
   const onLeftTransitionEnd = e => {
     if (e?.propertyName !== "transform") return;
+    clearLeftFlipTimeout();
+    setLeftFlipping(false);
     setLeftPhase(p => p === "flippingToBack" ? "back" : p === "flippingToFront" ? "front" : p);
   };
   const onRightTransitionEnd = e => {
     if (e?.propertyName !== "transform") return;
+    clearRightFlipTimeout();
+    setRightFlipping(false);
     setRightPhase(p => p === "flippingToBack" ? "back" : p === "flippingToFront" ? "front" : p);
   };
   const cardWrapClassName =
@@ -469,42 +496,34 @@ export default function HomePage() {
     "[transition-property:transform] [transition-duration:var(--flip-ms)] " +
     "[transition-timing-function:var(--flip-ease)] [will-change:auto] [border-radius:inherit] " +
     "data-[phase=flippingToFront]:[transition-duration:var(--flip-front-ms,var(--flip-ms))]";
+  const leftCardWrapClassName =
+    cardWrapClassName +
+    " data-[phase=back]:[transform:rotateY(180deg)]" +
+    " data-[phase=flippingToBack]:[transform:rotateY(180deg)]";
+  const rightCardWrapClassName =
+    cardWrapClassName +
+    " data-[phase=back]:[transform:rotateY(-180deg)]" +
+    " data-[phase=flippingToBack]:[transform:rotateY(-180deg)]";
   const leftCardClassName = cn(
     "three-d-card left relative mx-auto grid place-items-center rounded-full aspect-square " +
-      "w-[calc(var(--card-size)*0.94)] [perspective:62.5rem] overflow-visible",
+      "w-[calc(var(--card-size)*0.94)] [perspective:78rem] overflow-visible",
     "float-card animate-[float-vertical_6.7s_ease-in-out_infinite] [will-change:transform]",
     flipAllowed ? "cursor-[var(--cursor-pointer)]" : "cursor-[var(--cursor-default)]",
-    "[&.flip-allowed:hover_.card-wrapper]:[will-change:transform] " +
-      "[&.flip-allowed:focus-within_.card-wrapper]:[will-change:transform] " +
-      "[&.flip-allowed.is-flipping_.card-wrapper]:[will-change:transform] " +
-      "[&.flip-allowed:hover_.card-wrapper]:[transform:rotateY(180deg)] " +
-      "[&.flip-allowed:focus-within_.card-wrapper]:[transform:rotateY(180deg)] " +
-      "[&.flip-allowed.is-flipping_.card-wrapper]:[transform:rotateY(180deg)] " +
-      "[&.flip-allowed:hover_.card-face.back]:pointer-events-auto " +
-      "[&.flip-allowed:focus-within_.card-face.back]:pointer-events-auto " +
-      "[&.flip-allowed.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
+    "[&.is-flipping_.card-wrapper]:[will-change:transform] " +
+      "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
     suppressCardHoverFxClassName,
-    flipClass,
     isHomeOverlayOpen ? "opacity-0 invisible pointer-events-none" : null,
     leftFlipping ? "is-flipping" : null,
     mobileFlipReady.left ? "mobile-flipped-left" : null
   );
   const rightCardClassName = cn(
     "three-d-card right relative mx-auto grid place-items-center rounded-full aspect-square " +
-      "w-[calc(var(--card-size)*0.94)] [perspective:62.5rem] overflow-visible",
+      "w-[calc(var(--card-size)*0.94)] [perspective:78rem] overflow-visible",
     "float-card animate-[float-vertical_6.7s_ease-in-out_infinite] [will-change:transform]",
     flipAllowed ? "cursor-[var(--cursor-pointer)]" : "cursor-[var(--cursor-default)]",
-    "[&.flip-allowed:hover_.card-wrapper]:[will-change:transform] " +
-      "[&.flip-allowed:focus-within_.card-wrapper]:[will-change:transform] " +
-      "[&.flip-allowed.is-flipping_.card-wrapper]:[will-change:transform] " +
-      "[&.flip-allowed:hover_.card-wrapper]:[transform:rotateY(-180deg)] " +
-      "[&.flip-allowed:focus-within_.card-wrapper]:[transform:rotateY(-180deg)] " +
-      "[&.flip-allowed.is-flipping_.card-wrapper]:[transform:rotateY(-180deg)] " +
-      "[&.flip-allowed:hover_.card-face.back]:pointer-events-auto " +
-      "[&.flip-allowed:focus-within_.card-face.back]:pointer-events-auto " +
-      "[&.flip-allowed.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
+    "[&.is-flipping_.card-wrapper]:[will-change:transform] " +
+      "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
     suppressCardHoverFxClassName,
-    flipClass,
     isHomeOverlayOpen ? "opacity-0 invisible pointer-events-none" : null,
     rightFlipping ? "is-flipping" : null,
     mobileFlipReady.right ? "mobile-flipped-right" : null
@@ -539,7 +558,7 @@ export default function HomePage() {
                 <span id="home-card-specialist-action" className="sr-only">
                   {homeCardActionText}
                 </span>
-                <div className={cn(cardWrapClassName)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
+                <div className={cn(leftCardWrapClassName)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
                   <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", leftBlurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
                     <div ref={setLeftCardEl} className={cn("glass-card", "glass-card-light", "left-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/kerahele.svg')] dark:before:bg-[url('/logo/kerahele-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in opacity-0" : null, leftFadeDone ? "fade-in-done" : null)} style={shouldFadeLeft ? {
@@ -554,7 +573,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} aria-hidden="true" tabIndex={-1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
+                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", leftPhase === "front" || leftPhase === "flippingToFront" ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" tabIndex={-1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
                   if (!leftBackInteractive) return;
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
@@ -588,7 +607,7 @@ export default function HomePage() {
                 <span id="home-card-client-action" className="sr-only">
                   {homeCardActionText}
                 </span>
-                <div className={cn(cardWrapClassName)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
+                <div className={cn(rightCardWrapClassName)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
                   <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", rightBlurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
                     <div ref={setRightCardEl} className={cn("glass-card", "glass-card-dark", "right-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/keratume.svg')] dark:before:bg-[url('/logo/keratume-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in opacity-0" : null, rightFadeDone ? "fade-in-done" : null)} style={shouldFadeRight ? {
@@ -603,7 +622,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} aria-hidden="true" tabIndex={-1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
+                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", rightPhase === "front" || rightPhase === "flippingToFront" ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" tabIndex={-1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
                   if (!rightBackInteractive) return;
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();

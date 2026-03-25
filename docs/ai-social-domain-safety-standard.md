@@ -67,7 +67,7 @@ When source support is missing, incomplete, unclear, or conflicting, the system 
 
 - say that clearly
 - keep the uncertainty visible in the answer
-- prefer “not confirmed” or “needs checking” over confident speculation
+- prefer "not confirmed" or "needs checking" over confident speculation
 
 Unknown or weakly supported information should not be rewritten into confident final wording.
 
@@ -77,7 +77,7 @@ The system should aim to be useful and practical.
 
 That means:
 
-- answer the user’s main need directly
+- answer the user's main need directly
 - keep the main conclusion near the top
 - provide next steps when possible
 

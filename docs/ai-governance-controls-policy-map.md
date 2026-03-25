@@ -8,6 +8,8 @@ This document classifies the current implemented AI controls in SotsiaalAI into 
 
 The point of this document is not to restate every implementation detail. The point is to show which controls belong to which policy layer, where the current repo is already clear, and where a product decision is still needed.
 
+For the platform-wide rule set behind the social-domain safety layer, see [AI Social-Domain Safety Standard](./ai-social-domain-safety-standard.md).
+
 ## 1. How to read this map
 
 Use these meanings consistently:

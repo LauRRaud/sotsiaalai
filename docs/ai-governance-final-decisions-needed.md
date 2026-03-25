@@ -7,6 +7,7 @@ Related documents:
 - [AI Cost And Guardrails Status](./ai-cost-and-guardrails-status.md)
 - [SotsiaalAI AI Governance: Current State, Gaps, Next Decisions](./sotsiaalai-ai-governance-current-state-gaps-next-decisions.md)
 - [AI Governance Controls Policy Map](./ai-governance-controls-policy-map.md)
+- [AI Social-Domain Safety Standard](./ai-social-domain-safety-standard.md)
 
 ## 1. What is already decided in practice
 
