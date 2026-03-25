@@ -146,7 +146,7 @@ export default function ChatSidebar() {
         rooms: []
       }));
       if (!r.ok || !data?.ok) {
-        throw new Error(resolveErrorMessage(data, "chat.sidebar.error.load"));
+        throw new Error(resolveErrorMessage(data, "rooms.error"));
       }
       const normalized = Array.isArray(data.rooms) ? data.rooms.map(room => ({
         id: room.id,

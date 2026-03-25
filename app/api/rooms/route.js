@@ -76,161 +76,139 @@ async function hasActiveSubscription(userId) {
 export async function GET() {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
-
-  const isAdmin = auth.userRole === "ADMIN";
-  const userActiveSubscription = isAdmin ? true : await hasActiveSubscription(auth.userId);
-  const memberships = isAdmin
-    ? await prisma.room.findMany({
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          messages: {
-            orderBy: { createdAt: "desc" },
-            take: 1,
-            select: {
-              id: true,
-              content: true,
-              createdAt: true
+  try {
+    const isAdmin = auth.userRole === "ADMIN";
+    const userActiveSubscription = isAdmin ? true : await hasActiveSubscription(auth.userId);
+    const memberships = isAdmin
+      ? await prisma.room.findMany({
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            messages: {
+              orderBy: { createdAt: "desc" },
+              take: 1,
+              select: {
+                id: true,
+                content: true,
+                createdAt: true
+              }
             }
-          }
-        },
-        orderBy: { createdAt: "asc" }
-      })
-    : await prisma.roomMember.findMany({
-        where: {
-          userId: auth.userId,
-          leftAt: null
-        },
-        select: {
-          roomId: true,
-          role: true,
-          lastReadAt: true,
-          room: {
-            select: {
-              title: true,
-              description: true,
-              messages: {
-                orderBy: { createdAt: "desc" },
-                take: 1,
-                select: {
-                  id: true,
-                  content: true,
-                  createdAt: true
+          },
+          orderBy: { createdAt: "asc" }
+        })
+      : await prisma.roomMember.findMany({
+          where: {
+            userId: auth.userId,
+            leftAt: null
+          },
+          select: {
+            roomId: true,
+            role: true,
+            billingSource: true,
+            lastReadAt: true,
+            room: {
+              select: {
+                id: true,
+                title: true,
+                description: true,
+                messages: {
+                  orderBy: { createdAt: "desc" },
+                  take: 1,
+                  select: {
+                    id: true,
+                    content: true,
+                    createdAt: true
+                  }
                 }
               }
             }
-          }
-        },
-        orderBy: { joinedAt: "asc" }
+          },
+          orderBy: { joinedAt: "asc" }
+        });
+
+    const rawMemberships = isAdmin
+      ? memberships.map(r => ({
+          roomId: r.id,
+          room: r,
+          role: "ADMIN",
+          billingSource: "ADMIN",
+          lastReadAt: new Date(0)
+        }))
+      : memberships;
+
+    const normalizedMemberships = rawMemberships
+      .map(m => ({
+        ...m,
+        roomId: String(m?.roomId || "").trim()
+      }))
+      .filter(m => {
+        if (!m.roomId || !m?.room) return false;
+        if (isAdmin) return true;
+        return hasRoomBillingAccess({
+          userRole: auth.userRole,
+          membership: m,
+          hasActiveSubscription: userActiveSubscription
+        }).ok;
       });
 
-  const rawMemberships = isAdmin
-    ? memberships.map(r => ({
-        roomId: r.id,
-        room: r,
-        role: "ADMIN",
-        lastReadAt: new Date(0)
-      }))
-    : memberships;
-  const normalizedMemberships = rawMemberships
-    .map(m => ({
-      ...m,
-      roomId: String(m?.roomId || "").trim()
-    }))
-    .filter(m => {
-      if (!m.roomId) return false;
-      if (isAdmin) return true;
-      return hasRoomBillingAccess({
-        userRole: auth.userRole,
-        membership: m,
-        hasActiveSubscription: userActiveSubscription
-      }).ok;
-    });
-
-  if (!normalizedMemberships.length) {
-    return json({
-      ok: true,
-      rooms: []
-    });
-  }
-
-  const roomIds = [...new Set(normalizedMemberships.map(m => m.roomId).filter(Boolean))];
-  const memberCounts = await prisma.roomMember.groupBy({
-    by: ["roomId"],
-    where: {
-      roomId: { in: roomIds },
-      leftAt: null
-    },
-    _count: {
-      _all: true
+    if (!normalizedMemberships.length) {
+      return json({
+        ok: true,
+        rooms: []
+      });
     }
-  });
-  const memberCountMap = new Map(memberCounts.map(row => [row.roomId, row._count?._all || 0]));
 
-  let unreadCountMap = new Map();
-  if (isAdmin) {
-    const unreadCounts = await prisma.roomMessage.groupBy({
-      by: ["roomId"],
-      where: {
-        roomId: { in: roomIds },
-        deletedAt: null
-      },
-      _count: {
-        _all: true
-      }
-    });
-    unreadCountMap = new Map(unreadCounts.map(row => [row.roomId, row._count?._all || 0]));
-  } else {
-    const unreadWhere = normalizedMemberships
-      .map(m => {
-        if (!m?.roomId) return null;
+    const rooms = await Promise.all(
+      normalizedMemberships.map(async m => {
+        const [memberCount, unreadCount] = await Promise.all([
+          prisma.roomMember.count({
+            where: {
+              roomId: m.roomId,
+              leftAt: null
+            }
+          }),
+          prisma.roomMessage.count({
+            where: isAdmin
+              ? {
+                  roomId: m.roomId,
+                  deletedAt: null
+                }
+              : {
+                  roomId: m.roomId,
+                  deletedAt: null,
+                  createdAt: {
+                    gt: m.lastReadAt || new Date(0)
+                  }
+                }
+          })
+        ]);
+
+        const last = m.room.messages?.[0];
         return {
-          roomId: m.roomId,
-          deletedAt: null,
-          createdAt: {
-            gt: m.lastReadAt || new Date(0)
-          }
+          id: m.roomId,
+          title: m.room.title || null,
+          description: m.room.description || "",
+          role: m.role,
+          memberCount,
+          lastMessage: last
+            ? {
+                id: last.id,
+                content: last.content,
+                createdAt: last.createdAt
+              }
+            : null,
+          unreadCount
         };
       })
-      .filter(Boolean);
-    if (unreadWhere.length) {
-      const unreadCounts = await prisma.roomMessage.groupBy({
-        by: ["roomId"],
-        where: {
-          OR: unreadWhere
-        },
-        _count: {
-          _all: true
-        }
-      });
-      unreadCountMap = new Map(unreadCounts.map(row => [row.roomId, row._count?._all || 0]));
-    }
+    );
+
+    return json({
+      ok: true,
+      rooms
+    });
+  } catch (err) {
+    console.error("[rooms GET] failed", err);
+    return errorJson("rooms.error", 500);
   }
-
-  const rooms = normalizedMemberships.map(m => {
-    const last = m.room.messages?.[0];
-    const memberCount = memberCountMap.get(m.roomId) || 0;
-    const unreadCount = unreadCountMap.get(m.roomId) || 0;
-    return {
-      id: m.roomId,
-      title: m.room.title || null,
-      description: m.room.description || "",
-      role: m.role,
-      memberCount,
-      lastMessage: last
-        ? {
-            id: last.id,
-            content: last.content,
-            createdAt: last.createdAt
-          }
-        : null,
-      unreadCount
-    };
-  });
-
-  return json({
-    ok: true,
-    rooms
-  });
 }

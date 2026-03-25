@@ -1570,6 +1570,7 @@
       "description": "Loe samm-sammult, kuidas SotsiaalAI platvormi kasutada."
     },
     "rooms": {
+      "load_failed": "Ruumide laadimine ebaonnestus.",
       "title": "Rooms - SotsiaalAI",
       "description": "Ava ja halda oma grupivestluse ruume."
     },

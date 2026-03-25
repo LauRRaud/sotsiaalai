@@ -1570,6 +1570,7 @@
       "description": "Read how to use SotsiaalAI step by step."
     },
     "rooms": {
+      "load_failed": "Failed to load rooms.",
       "title": "Rooms - SotsiaalAI",
       "description": "Open and manage your group chat rooms."
     },
