@@ -181,6 +181,11 @@
   --subpage-card-shadow: 0 12px 24px rgba(82, 50, 46, 0.08);
   --subpage-card-shadow-hover: 0 14px 28px rgba(82, 50, 46, 0.1);
   --subpage-card-text: #334155;
+  --opaque-panel-bg: rgba(252, 248, 247, 1);
+  --opaque-panel-bg-hover: rgba(255, 251, 250, 1);
+  --opaque-panel-border: rgba(255, 255, 255, 0.5);
+  --opaque-panel-shadow: 0 10px 24px rgba(82, 50, 46, 0.1);
+  --opaque-panel-text: #334155;
   --chat-btn-idle-light: color-mix(
     in srgb,
     var(--glass-surface-bg) 52%,

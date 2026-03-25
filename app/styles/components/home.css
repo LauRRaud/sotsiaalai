@@ -4,7 +4,16 @@
     box-shadow: var(--home-card-glow-idle, none);
   }
 
-  .homepage-root .card-wrapper.magnet-active :is(.glass-card, .glass-card-dark) {
+  .homepage-root
+    :is(
+      .three-d-card.flip-allowed:hover,
+      .three-d-card.flip-allowed:focus-within,
+      .three-d-card.flip-allowed.is-flipping,
+      .three-d-card.mobile-flipped-left,
+      .three-d-card.mobile-flipped-right
+    )
+    .card-face.front
+    :is(.glass-card, .glass-card-dark) {
     box-shadow: var(--home-card-glow-active, var(--home-card-glow-idle, none));
   }
 }

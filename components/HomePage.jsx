@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import { cn } from "@/components/ui/cn";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
@@ -49,7 +48,6 @@ export default function HomePage() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
-  const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({
     left: false,
     right: false
@@ -210,17 +208,9 @@ export default function HomePage() {
       setRightFadeDone(true);
       setLeftBlurRevealReady(true);
       setRightBlurRevealReady(true);
-      setMagnetReady(false);
       setIntroStart(true);
     }
   }, [prefs.reduceMotion]);
-  useEffect(() => {
-    if (leftFadeDone && rightFadeDone) {
-      const tt = registerTimeout(() => setMagnetReady(true), 150);
-      return () => clearRegisteredTimeout(tt);
-    }
-    setMagnetReady(false);
-  }, [clearRegisteredTimeout, leftFadeDone, registerTimeout, rightFadeDone]);
   useEffect(() => {
     const root = document.documentElement;
     document.body.classList.toggle("modal-open", isLoginOpen);
@@ -549,46 +539,44 @@ export default function HomePage() {
                 <span id="home-card-specialist-action" className="sr-only">
                   {homeCardActionText}
                 </span>
-                <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}>
-                    {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
-                      <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", leftBlurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
-                      <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
-                        <div ref={setLeftCardEl} className={cn("glass-card", "glass-card-light", "left-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/kerahele.svg')] dark:before:bg-[url('/logo/kerahele-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in opacity-0" : null, leftFadeDone ? "fade-in-done" : null)} style={shouldFadeLeft ? {
-                    animationName: "cardFadeIn",
-                    animationDuration: "2.4s",
-                    animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
-                    animationDelay: `${CARD_FADE_DELAY_MS}ms`,
-                    animationFillMode: "forwards"
-                  } : undefined}>
-                          <CircularRingLeft className={cn(isMobile || leftFadeDone ? "is-visible" : "", "relative z-[2]")} />
-                          <AivalgeLogo className={cn("absolute left-[48%] top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-left),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu transition-none z-[3] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
-                        </div>
-                      </div>
+                <div className={cn(cardWrapClassName)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
+                  <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", leftBlurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
+                  <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
+                    <div ref={setLeftCardEl} className={cn("glass-card", "glass-card-light", "left-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/kerahele.svg')] dark:before:bg-[url('/logo/kerahele-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in opacity-0" : null, leftFadeDone ? "fade-in-done" : null)} style={shouldFadeLeft ? {
+                      animationName: "cardFadeIn",
+                      animationDuration: "2.4s",
+                      animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
+                      animationDelay: `${CARD_FADE_DELAY_MS}ms`,
+                      animationFillMode: "forwards"
+                    } : undefined}>
+                      <CircularRingLeft className={cn(isMobile || leftFadeDone ? "is-visible" : "", "relative z-[2]")} />
+                      <AivalgeLogo className={cn("absolute left-[48%] top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-left),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu transition-none z-[3] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
+                    </div>
+                  </div>
 
-                      <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} aria-hidden="true" tabIndex={-1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
-                    if (!leftBackInteractive) return;
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      startExitToChat("left");
-                    }
-                  }} style={!leftBackInteractive ? {
-                    pointerEvents: "none"
-                  } : {}} data-interactive={leftBackInteractive ? "true" : "false"}>
-                        <div className={cn("centered-back-left", "relative w-full h-full aspect-square rounded-full mx-auto flex items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] transition-[box-shadow] duration-[280ms] ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/kerahele.svg')] dark:before:bg-[url('/logo/kerahele-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in" : null)} style={shouldFadeLeft ? {
-                    animationName: "cardFadeIn",
-                    animationDuration: "2.4s",
-                    animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
-                    animationDelay: `${CARD_FADE_DELAY_MS}ms`,
-                    animationFillMode: "forwards"
-                  } : undefined}>
-                          <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[4] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-[#323232] [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
-                            {t("home.card.specialist.title")}
-                          </h2>
-                          <SaimustLogo className={cn("absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu z-[3]")} aria-hidden="true" />
-                        </div>
-                      </div>
-                    </div>}
-                </Magnet>
+                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} aria-hidden="true" tabIndex={-1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
+                  if (!leftBackInteractive) return;
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    startExitToChat("left");
+                  }
+                }} style={!leftBackInteractive ? {
+                  pointerEvents: "none"
+                } : {}} data-interactive={leftBackInteractive ? "true" : "false"}>
+                    <div className={cn("centered-back-left", "relative w-full h-full aspect-square rounded-full mx-auto flex items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] transition-[box-shadow] duration-[280ms] ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/kerahele.svg')] dark:before:bg-[url('/logo/kerahele-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in" : null)} style={shouldFadeLeft ? {
+                      animationName: "cardFadeIn",
+                      animationDuration: "2.4s",
+                      animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
+                      animationDelay: `${CARD_FADE_DELAY_MS}ms`,
+                      animationFillMode: "forwards"
+                    } : undefined}>
+                      <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[4] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-[#323232] [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
+                        {t("home.card.specialist.title")}
+                      </h2>
+                      <SaimustLogo className={cn("absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu z-[3]")} aria-hidden="true" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -600,46 +588,44 @@ export default function HomePage() {
                 <span id="home-card-client-action" className="sr-only">
                   {homeCardActionText}
                 </span>
-                <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}>
-                    {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
-                      <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", rightBlurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
-                      <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
-                        <div ref={setRightCardEl} className={cn("glass-card", "glass-card-dark", "right-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/keratume.svg')] dark:before:bg-[url('/logo/keratume-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in opacity-0" : null, rightFadeDone ? "fade-in-done" : null)} style={shouldFadeRight ? {
-                    animationName: "cardFadeIn",
-                    animationDuration: "2.4s",
-                    animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
-                    animationDelay: `${CARD_FADE_DELAY_MS}ms`,
-                    animationFillMode: "forwards"
-                  } : undefined}>
-                          <CircularRingRight className={cn(isMobile || rightFadeDone ? "is-visible" : "", "relative z-[2]")} />
-                          <SmustLogo className={cn("absolute left-1/2 top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-right),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu transition-none z-[3] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
-                        </div>
-                      </div>
+                <div className={cn(cardWrapClassName)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
+                  <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", rightBlurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
+                  <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
+                    <div ref={setRightCardEl} className={cn("glass-card", "glass-card-dark", "right-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/keratume.svg')] dark:before:bg-[url('/logo/keratume-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in opacity-0" : null, rightFadeDone ? "fade-in-done" : null)} style={shouldFadeRight ? {
+                      animationName: "cardFadeIn",
+                      animationDuration: "2.4s",
+                      animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
+                      animationDelay: `${CARD_FADE_DELAY_MS}ms`,
+                      animationFillMode: "forwards"
+                    } : undefined}>
+                      <CircularRingRight className={cn(isMobile || rightFadeDone ? "is-visible" : "", "relative z-[2]")} />
+                      <SmustLogo className={cn("absolute left-1/2 top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-right),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu transition-none z-[3] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
+                    </div>
+                  </div>
 
-                      <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} aria-hidden="true" tabIndex={-1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
-                    if (!rightBackInteractive) return;
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      startExitToChat("right");
-                    }
-                  }} style={!rightBackInteractive ? {
-                    pointerEvents: "none"
-                  } : {}} data-interactive={rightBackInteractive ? "true" : "false"}>
-                        <div className={cn("centered-back-right", "relative w-full h-full aspect-square rounded-full mx-auto flex items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] transition-[box-shadow] duration-[280ms] ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/keratume.svg')] dark:before:bg-[url('/logo/keratume-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in" : null)} style={shouldFadeRight ? {
-                    animationName: "cardFadeIn",
-                    animationDuration: "2.4s",
-                    animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
-                    animationDelay: `${CARD_FADE_DELAY_MS}ms`,
-                    animationFillMode: "forwards"
-                  } : undefined}>
-                          <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[4] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.94rem,calc(var(--card-size)*0.065),1.7rem)] text-[#c57171] opacity-80 [text-shadow:0_0.5rem_0.3rem_rgba(0,0,0,0.6)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
-                            {t("home.card.client.title")}
-                          </h2>
-                          <SaivalgeLogo className={cn("absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu z-[3]")} aria-hidden="true" />
-                        </div>
-                      </div>
-                    </div>}
-                </Magnet>
+                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} aria-hidden="true" tabIndex={-1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
+                  if (!rightBackInteractive) return;
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    startExitToChat("right");
+                  }
+                }} style={!rightBackInteractive ? {
+                  pointerEvents: "none"
+                } : {}} data-interactive={rightBackInteractive ? "true" : "false"}>
+                    <div className={cn("centered-back-right", "relative w-full h-full aspect-square rounded-full mx-auto flex items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] transition-[box-shadow] duration-[280ms] ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[1] before:bg-[url('/logo/keratume.svg')] dark:before:bg-[url('/logo/keratume-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform] after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:z-0 after:[background:var(--home-card-surface-bg,rgba(255,255,255,0.08))] after:[backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))] after:[-webkit-backdrop-filter:blur(var(--home-card-surface-blur,1.1rem))_saturate(var(--home-card-surface-saturate,115%))]", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in" : null)} style={shouldFadeRight ? {
+                      animationName: "cardFadeIn",
+                      animationDuration: "2.4s",
+                      animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
+                      animationDelay: `${CARD_FADE_DELAY_MS}ms`,
+                      animationFillMode: "forwards"
+                    } : undefined}>
+                      <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[4] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.94rem,calc(var(--card-size)*0.065),1.7rem)] text-[#c57171] opacity-80 [text-shadow:0_0.5rem_0.3rem_rgba(0,0,0,0.6)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
+                        {t("home.card.client.title")}
+                      </h2>
+                      <SaivalgeLogo className={cn("absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu z-[3]")} aria-hidden="true" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

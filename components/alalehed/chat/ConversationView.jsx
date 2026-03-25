@@ -28,8 +28,6 @@ const ConversationView = memo(function ConversationView({
   emptyIntroText = ""
 }) {
   const [showScrollDown, setShowScrollDown] = useState(false);
-  const [emptyIntroReady, setEmptyIntroReady] = useState(false);
-  const [emptyIntroVisibleText, setEmptyIntroVisibleText] = useState("");
   const isUserAtBottom = useRef(true);
   const mountedRef = useRef(false);
   useEffect(() => {
@@ -114,64 +112,12 @@ const ConversationView = memo(function ConversationView({
     "px-[1rem] py-[0.4rem] text-[0.85rem] font-semibold text-[color:var(--pt-120)] " +
     "transition-[border-color,background,transform] duration-150 hover:-translate-y-[1px] " +
     "light:border-[rgba(148,163,184,0.5)] light:bg-[rgba(255,255,255,0.9)] light:text-[#1f2937]";
-  const showEmptyIntro = !isStreamingAny && messageItems.length === 0 && String(emptyIntroText || "").trim().length > 0;
   const emptyIntroTargetText = String(emptyIntroText || "").trim();
+  const showEmptyIntro = !isStreamingAny && messageItems.length === 0 && emptyIntroTargetText.length > 0;
+  const emptyIntroRenderText = emptyIntroTargetText;
   const emptyIntroClassName =
     "chat-msg-ai chat-empty-intro w-full bg-transparent border-0 shadow-none py-[0.25em] " +
     "text-[color:var(--input-text)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500]";
-  useEffect(() => {
-    if (!showEmptyIntro) {
-      setEmptyIntroReady(false);
-      setEmptyIntroVisibleText("");
-      return;
-    }
-    if (typeof document !== "undefined" && document.visibilityState !== "visible") {
-      const onVisible = () => {
-        if (document.visibilityState !== "visible") return;
-        document.removeEventListener("visibilitychange", onVisible);
-        setTimeout(() => setEmptyIntroReady(true), 560);
-      };
-      document.addEventListener("visibilitychange", onVisible);
-      return () => document.removeEventListener("visibilitychange", onVisible);
-    }
-    const timer = setTimeout(() => setEmptyIntroReady(true), 560);
-    return () => clearTimeout(timer);
-  }, [showEmptyIntro]);
-  useEffect(() => {
-    if (!showEmptyIntro || !emptyIntroReady) {
-      setEmptyIntroVisibleText("");
-      return;
-    }
-    if (!emptyIntroTargetText.length) {
-      setEmptyIntroVisibleText("");
-      return;
-    }
-    let cancelled = false;
-    let timerId = 0;
-    let index = 0;
-    const step = () => {
-      if (cancelled) return;
-      index += 1;
-      const next = emptyIntroTargetText.slice(0, index);
-      setEmptyIntroVisibleText(next);
-      if (index >= emptyIntroTargetText.length) return;
-      const prevChar = emptyIntroTargetText.charAt(index - 1);
-      const delay =
-        /[.!?]/.test(prevChar)
-          ? 85
-          : /[,;:]/.test(prevChar)
-            ? 52
-            : /\s/.test(prevChar)
-              ? 18
-              : 14;
-      timerId = window.setTimeout(step, delay);
-    };
-    step();
-    return () => {
-      cancelled = true;
-      if (timerId) window.clearTimeout(timerId);
-    };
-  }, [showEmptyIntro, emptyIntroReady, emptyIntroTargetText]);
   return <main className={mergedMainClassName}>
       <div id="chat-window" className={mergedWindowClassName} onDoubleClick={onWindowDoubleClick}>
         <div id="chat-window-scroll" className={scrollClassName} ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"}>
@@ -184,9 +130,9 @@ const ConversationView = memo(function ConversationView({
               </button>
             </div> : null}
 
-          {showEmptyIntro && emptyIntroReady ? (
+          {showEmptyIntro ? (
             <div className={emptyIntroClassName}>
-              {emptyIntroVisibleText}
+              {emptyIntroRenderText}
             </div>
           ) : null}
 

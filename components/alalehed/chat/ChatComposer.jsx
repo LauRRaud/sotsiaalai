@@ -118,7 +118,7 @@ export default function ChatComposer({
       : activeModeKey === "career" || normalizedDisplayModeLabel.includes("karjaar")
       ? "wide"
       : "soft";
-  const toolsMenuBackdropFilter = "blur(16px) saturate(120%)";
+  const toolsMenuBackdropFilter = "none";
   const subtleModeShineBackgroundImage = isLightTheme
     ? CHAT_MODE_SHINE_GRADIENTS_LIGHT[resolvedModeShineKey] || CHAT_MODE_SHINE_GRADIENTS_LIGHT.soft
     : CHAT_MODE_SHINE_GRADIENTS_DARK[resolvedModeShineKey] || CHAT_MODE_SHINE_GRADIENTS_DARK.soft;
@@ -443,8 +443,8 @@ export default function ChatComposer({
   const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
   const toolsMenuClassName =
     "chat-tools-menu fixed z-[160] isolate overflow-hidden w-max min-w-[11.4rem] max-w-[calc(100vw-1rem)] rounded-[0.88rem] " +
-    "border border-[color:var(--rail-tooltip-border,var(--subpage-card-border))] [background:var(--rail-tooltip-bg,var(--subpage-card-bg))] text-[color:var(--rail-tooltip-text,var(--pt-100))] " +
-    "p-[0.25rem] shadow-[var(--rail-tooltip-shadow,var(--subpage-card-shadow))] backdrop-blur-[16px] backdrop-saturate-[120%] " +
+    "border border-[color:var(--opaque-panel-border,var(--rail-tooltip-border,var(--subpage-card-border)))] [background:var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg)))] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--pt-100)))] " +
+    "p-[0.25rem] shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow,var(--subpage-card-shadow)))] backdrop-blur-0 backdrop-saturate-100 " +
     "hc:border-0 hc:bg-[rgba(9,14,24,0.96)] hc:shadow-[0_12px_28px_rgba(0,0,0,0.28)]";
   const toolsMenuPanel = toolsOpen && toolsMenuPosition && typeof document !== "undefined"
     ? createPortal(<div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className={toolsMenuClassName} style={{

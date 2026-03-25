@@ -212,19 +212,19 @@ body.selected-listing-modal-open .chat-page-shell {
   overflow: hidden;
   isolation: auto !important;
   border: 0 !important;
-  color: var(--rail-tooltip-text, var(--glass-surface-text, #f2f2f2)) !important;
-  background: var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995)) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
-  backdrop-filter: blur(16px) saturate(120%) !important;
-  box-shadow: var(--rail-tooltip-shadow, var(--glass-shell-shadow, none)) !important;
+  color: var(--opaque-panel-text, var(--rail-tooltip-text, var(--glass-surface-text, #f2f2f2))) !important;
+  background: var(--opaque-panel-bg, var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995))) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: var(--opaque-panel-shadow, var(--rail-tooltip-shadow, var(--glass-shell-shadow, none))) !important;
 }
 
 :root.theme-light .chat-analysis-overlay .chat-analysis-overlay-card {
-  color: var(--rail-tooltip-text, var(--glass-surface-text, #2b2620)) !important;
-  background: var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995)) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
-  backdrop-filter: blur(16px) saturate(120%) !important;
-  box-shadow: var(--rail-tooltip-shadow, var(--glass-shell-shadow, none)) !important;
+  color: var(--opaque-panel-text, var(--rail-tooltip-text, var(--glass-surface-text, #2b2620))) !important;
+  background: var(--opaque-panel-bg, var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995))) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: var(--opaque-panel-shadow, var(--rail-tooltip-shadow, var(--glass-shell-shadow, none))) !important;
 }
 
 :root.theme-light .chat-page-shell {

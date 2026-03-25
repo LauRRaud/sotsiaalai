@@ -33,3 +33,23 @@ export const linkBrandBase =
 export const linkBrandInline = "text-[0.95em] tracking-[0.02em] px-[0.18em]";
 
 export const linkBrandInlineClass = `${linkBrandBase} ${linkBrandInline}`;
+
+export const linkRichTextBase =
+  "inline appearance-none bg-transparent cursor-pointer " +
+  "font-[500] tracking-[0.01em] align-baseline " +
+  "border-0 p-0 m-0 rounded-none no-underline shadow-none " +
+  "!text-[color:var(--link-brand-text,var(--brand-primary))] " +
+  "transition-[color] duration-150 " +
+  "hover:!text-[color:var(--link-brand-text,var(--brand-primary))] " +
+  "hover:border-transparent hover:shadow-none " +
+  "active:!text-[color:var(--link-brand-text,var(--brand-primary))] " +
+  "active:border-transparent active:shadow-none " +
+  "focus-visible:outline-none " +
+  "focus-visible:!text-[color:var(--link-brand-text,var(--brand-primary))] " +
+  "focus-visible:border-transparent focus-visible:shadow-none " +
+  "light:!text-[color:var(--link-color,#7a3a38)] " +
+  "light:hover:!text-[color:var(--link-color,#7a3a38)] " +
+  "light:active:!text-[color:var(--link-color,#7a3a38)] " +
+  "light:focus-visible:!text-[color:var(--link-color,#7a3a38)] " +
+  "hc:!text-[color:var(--hc-accent)] hc:hover:!text-[color:var(--hc-accent)] " +
+  "hc:active:!text-[color:var(--hc-accent)] hc:focus-visible:!text-[color:var(--hc-accent)]";

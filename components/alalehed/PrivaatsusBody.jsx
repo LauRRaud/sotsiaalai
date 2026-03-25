@@ -12,6 +12,7 @@ import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
+import { linkRichTextBase } from "@/components/ui/linkStyles";
 import { localizePath } from "@/lib/localizePath";
 import { getFooterNote } from "@/lib/footerNote";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
@@ -21,7 +22,7 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const richLinkClassName = "inline-block text-[1.1em] font-[500] tracking-[0.03em] px-[0.2em] py-[0.02em] rounded-[0.32em] border-2 border-transparent no-underline transition-[border,box-shadow,color] duration-150 text-[#c57171] hover:border-[#c57171] hover:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] focus-visible:border-[#c57171] focus-visible:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] light:text-[#7A3A38] light:hover:border-[#7A3A38] light:focus-visible:border-[#7A3A38]";
+const richLinkClassName = `${linkRichTextBase} privacy-rich-link`;
 const lawLinkReplacements = {
   aLawEst: {
     open: `<a href="https://www.riigiteataja.ee/akt/112072025014" target="_blank" rel="noopener noreferrer" class="${richLinkClassName}">`,

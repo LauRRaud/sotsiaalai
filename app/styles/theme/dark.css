@@ -51,6 +51,11 @@
   --subpage-card-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
   --subpage-card-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.18);
   --subpage-card-text: var(--pt-120);
+  --opaque-panel-bg: rgba(30, 32, 38, 1);
+  --opaque-panel-bg-hover: rgba(34, 36, 42, 1);
+  --opaque-panel-border: rgba(248, 253, 255, 0.12);
+  --opaque-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  --opaque-panel-text: var(--pt-120);
   --btn-primary-hover-brightness: 1.04;
   --btn-primary-bg: radial-gradient(
       82% 66% at 50% -14%,

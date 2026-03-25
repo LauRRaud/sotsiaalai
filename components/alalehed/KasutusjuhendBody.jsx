@@ -12,6 +12,7 @@ import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
+import { linkRichTextBase } from "@/components/ui/linkStyles";
 import { localizePath } from "@/lib/localizePath";
 import { localizeInternalHtmlLinks } from "@/lib/localizeHtmlLinks";
 import { getFooterNote } from "@/lib/footerNote";
@@ -22,6 +23,19 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
+const guideLinkClassName = `${linkRichTextBase} guide-rich-link`;
+function applyGuideLinkClass(html) {
+  if (typeof html !== "string" || !html) return html;
+  return html.replace(/<a\b([^>]*?)>/gi, (full, attrs = "") => {
+    const classMatch = attrs.match(/\bclass=(["'])(.*?)\1/i);
+    if (classMatch) {
+      const classes = String(classMatch[2] || "").trim();
+      if (!classes || classes.includes("guide-rich-link")) return full;
+      return full.replace(classMatch[0], `class=${classMatch[1]}${classes} ${guideLinkClassName}${classMatch[1]}`);
+    }
+    return `<a${attrs} class="${guideLinkClassName}">`;
+  });
+}
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "before_use", "quickstart"];
 export default function KasutusjuhendBody() {
   const [expanded, setExpanded] = useState(false);
@@ -95,7 +109,7 @@ export default function KasutusjuhendBody() {
     sections: SECTION_KEYS.map(key => ({
       key,
       title: t(`about.guide.sections_v2.${key}.title`),
-      body: localizeInternalHtmlLinks(t(`about.guide.sections_v2.${key}.body`), locale)
+      body: applyGuideLinkClass(localizeInternalHtmlLinks(t(`about.guide.sections_v2.${key}.body`), locale))
     }))
   };
   const hideGuideBackButton = isModalOpen;

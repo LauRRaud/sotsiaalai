@@ -111,7 +111,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "chat-analysis-overlay-card !isolation-auto !border-0";
   const cardClassName =
     "w-full max-w-none rounded-[1.5em] border-0 " +
-    "bg-[color:var(--rail-tooltip-bg)] text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2))] " +
+    "bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg))] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] " +
     "[--analysis-card-pad-y:clamp(0.65rem,2vw,1rem)] " +
     "[--analysis-card-pad-x:clamp(0.8rem,2.6vw,1.6rem)] " +
     "[--analysis-card-pad-b:clamp(0.9rem,2.6vw,1.4rem)] " +
@@ -157,19 +157,17 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "ml-[calc(-1*var(--analysis-card-pad-x))] mr-[calc(-1*var(--analysis-card-pad-x))]";
   const previewClassName =
     "relative flex-1 min-h-[260px] max-h-[clamp(38rem,80vh,70rem)] " +
-    "rounded-[1.2rem] border-0 bg-[rgba(7,12,20,0.38)] " +
+    "rounded-[1.2rem] border-0 bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg))] " +
     "pl-[var(--analysis-preview-pad-x)] pr-[var(--analysis-preview-pad-right)] " +
     "py-[clamp(0.28rem,1vw,0.6rem)] " +
     "[--analysis-preview-pad-x:clamp(0.75rem,2.2vw,1.35rem)] " +
     "[--analysis-preview-pad-right:clamp(0.2rem,0.9vw,0.6rem)] " +
     "overflow-y-auto overflow-x-hidden [overscroll-behavior-x:none] [touch-action:pan-y] " +
     "text-[1.18rem] leading-[1.92] tracking-[0.02em] " +
-    "text-[rgba(226,232,240,0.92)] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
-    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] " +
-    "[mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] " +
+    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
     "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
-    "light:bg-[rgba(248,250,252,0.9)] light:text-[#1f2937]";
+    "light:bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg))] light:text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))]";
   const scrollTrackClassName =
     "absolute top-[0.6rem] bottom-[0.6rem] right-0 w-[1.7rem] " +
     "bg-transparent border-0 cursor-[var(--cursor-pointer)] " +

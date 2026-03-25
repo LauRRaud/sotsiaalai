@@ -108,6 +108,11 @@
   --subpage-card-shadow: 0 8px 20px rgba(20, 12, 10, 0.12);
   --subpage-card-shadow-hover: 0 10px 24px rgba(20, 12, 10, 0.15);
   --subpage-card-text: #2f3a4a;
+  --opaque-panel-bg: rgba(252, 248, 247, 1);
+  --opaque-panel-bg-hover: rgba(253, 249, 248, 1);
+  --opaque-panel-border: rgba(255, 255, 255, 0.42);
+  --opaque-panel-shadow: 0 10px 24px rgba(20, 12, 10, 0.14);
+  --opaque-panel-text: #2f3a4a;
   --rail-tooltip-bg: var(--subpage-card-bg);
   --rail-tooltip-border: var(--subpage-card-border);
   --rail-tooltip-shadow: var(--subpage-card-shadow);
