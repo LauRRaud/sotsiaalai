@@ -49,7 +49,6 @@ export default function ChatSidebar() {
   const [activeView, setActiveView] = useState(() => String(searchParams?.get("roomId") || "").trim() ? "groups" : "conversations");
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [confirmState, setConfirmState] = useState(null);
-  const [confirmBusy, setConfirmBusy] = useState(false);
   const isActionBusy = busy || creating || bulkDeleting;
   const abortRef = useRef(null);
   const cursorRef = useRef(null);
@@ -462,7 +461,8 @@ export default function ChatSidebar() {
   const handleDeleteSelected = useCallback(() => {
     if (!selectedIds.size || isActionBusy) return;
     setConfirmState({
-      kind: "selected"
+      kind: "selected",
+      ids: Array.from(selectedIds)
     });
   }, [isActionBusy, selectedIds]);
   const handleDeleteAll = useCallback(() => {
@@ -471,43 +471,42 @@ export default function ChatSidebar() {
       kind: "all"
     });
   }, [isActionBusy]);
-  const handleConfirmDelete = useCallback(async () => {
-    if (!confirmState || confirmBusy) return;
-    setConfirmBusy(true);
-    try {
-      if (confirmState.kind === "single") {
-        await deleteConversationById(confirmState.id);
-        return;
-      }
-      if (confirmState.kind === "selected") {
-        const ids = Array.from(selectedIds);
-        const result = await deleteConversationIds(ids);
-        if (result.failed === 0) {
-          setSelectedIds(new Set());
-        }
-        return;
-      }
-      let ids = [];
-      try {
-        ids = await fetchAllConversationIds();
-      } catch (e) {
-        setError(e?.message || t("chat.sidebar.error.delete"));
-        return;
-      }
+  const performDelete = useCallback(async state => {
+    if (!state) return;
+    if (state.kind === "single") {
+      await deleteConversationById(state.id);
+      return;
+    }
+    if (state.kind === "selected") {
+      const ids = Array.isArray(state.ids) ? state.ids : [];
       const result = await deleteConversationIds(ids);
       if (result.failed === 0) {
         setSelectedIds(new Set());
-        setSelectMode(false);
       }
-    } finally {
-      setConfirmBusy(false);
-      setConfirmState(null);
+      return;
     }
-  }, [confirmBusy, confirmState, deleteConversationById, deleteConversationIds, fetchAllConversationIds, selectedIds, t]);
-  const handleConfirmCancel = useCallback(() => {
-    if (confirmBusy) return;
+    let ids = [];
+    try {
+      ids = await fetchAllConversationIds();
+    } catch (e) {
+      setError(e?.message || t("chat.sidebar.error.delete"));
+      return;
+    }
+    const result = await deleteConversationIds(ids);
+    if (result.failed === 0) {
+      setSelectedIds(new Set());
+      setSelectMode(false);
+    }
+  }, [deleteConversationById, deleteConversationIds, fetchAllConversationIds, t]);
+  const handleConfirmDelete = useCallback(() => {
+    if (!confirmState) return;
+    const state = confirmState;
     setConfirmState(null);
-  }, [confirmBusy]);
+    void performDelete(state);
+  }, [confirmState, performDelete]);
+  const handleConfirmCancel = useCallback(() => {
+    setConfirmState(null);
+  }, []);
   const confirmMessage = useMemo(() => {
     if (!confirmState) return "";
     if (confirmState.kind === "single") return t("chat.sidebar.confirm.delete");
@@ -685,7 +684,7 @@ export default function ChatSidebar() {
         </div>
       </div>
     </nav>
-    {confirmState ? <ModalConfirm message={confirmMessage} confirmLabel={t("buttons.delete")} cancelLabel={t("buttons.cancel")} busy={confirmBusy} busyLabel={t("chat.sidebar.deleting_status", "Kustutamine")} onConfirm={handleConfirmDelete} onCancel={handleConfirmCancel} disabled={confirmBusy} /> : null}
+    {confirmState ? <ModalConfirm message={confirmMessage} confirmLabel={t("buttons.delete")} cancelLabel={t("buttons.cancel")} onConfirm={handleConfirmDelete} onCancel={handleConfirmCancel} overlayClassName="!z-[140] !bg-transparent !backdrop-blur-0 !backdrop-saturate-100" /> : null}
   </>;
 
 }
