@@ -375,6 +375,10 @@ export default function ChatBody({
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
   const maskRefreshRef = useRef(null);
+  const emptyIntroSeenRef = useRef(false);
+  const markEmptyIntroSeen = useCallback(() => {
+    emptyIntroSeenRef.current = true;
+  }, []);
   const waitForComposerCollapse = useCallback(async () => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
@@ -1835,6 +1839,8 @@ export default function ChatBody({
     listingsPanelNode={listingsPanelNode}
     selectedListingContextNode={selectedListingContextNode}
     emptyIntroText={!isRoomMode ? t("chat.empty_intro") : ""}
+    emptyIntroAnimate={!emptyIntroSeenRef.current}
+    onEmptyIntroSeen={markEmptyIntroSeen}
     onWindowDoubleClick={handleChatWindowDoubleClick}
     chatAnalysisPanelProps={chatAnalysisPanelProps}
     inputRowRef={inputRowRef}

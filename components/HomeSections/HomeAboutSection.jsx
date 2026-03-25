@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import AppLink from "@/components/ui/Link";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
-import { linkBrandInlineClass } from "@/components/ui/linkStyles";
+import { linkBrandInlineClass, linkRichTextBase } from "@/components/ui/linkStyles";
 import { cn } from "@/components/ui/cn";
 import useT from "@/components/i18n/useT";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -83,8 +83,8 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   const [aboutFade, setAboutFade] = useState({ top: false, bottom: false });
   const [beforeView, setBeforeView] = useState("links");
   const oskaLinkClassName = cn(
-    "home-link inline-block align-top text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
-    linkBrandInlineClass
+    linkRichTextBase,
+    "home-link text-[clamp(1.08rem,1.5vw,1.25rem)] leading-[1.1] text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-color:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:transparent] [--link-brand-shadow-hover:transparent] hover:border-transparent hover:shadow-none active:border-transparent active:shadow-none focus-visible:border-transparent focus-visible:shadow-none"
   );
   const isRussianLocale = locale === "ru";
   const adminFrameworkLinkLabel =

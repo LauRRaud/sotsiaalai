@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import Button from "@/components/ui/Button";
-import { getCareerUiText } from "@/lib/career-agent/i18n/careerUi.js";
+import { getCareerUiText } from "@/lib/career-agent/careerText.js";
 
 const careerChoiceButtonClassName =
   "max-w-[22rem] whitespace-normal text-center leading-[1.2] px-[1.6rem] py-[1.05rem] text-[1.18rem] " +

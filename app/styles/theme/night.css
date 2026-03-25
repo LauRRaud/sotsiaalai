@@ -12,6 +12,10 @@
 }
 
 :root.theme-night {
+  --chat-ui-solid-surface: rgb(14, 20, 32);
+  --chat-rail-tooltip-bg: var(--chat-ui-solid-surface);
+  --chat-tools-panel-bg: var(--chat-ui-solid-surface);
+  --chat-upload-picker-bg: var(--chat-ui-solid-surface);
   --rail-tooltip-bg: var(--subpage-card-bg);
   --rail-tooltip-border: var(--subpage-card-border);
   --rail-tooltip-shadow: var(--subpage-card-shadow);

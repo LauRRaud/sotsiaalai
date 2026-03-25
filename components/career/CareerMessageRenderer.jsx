@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import CareerQuestionsCard from "@/components/career/CareerQuestionsCard";
-import { getCareerUiText } from "@/lib/career-agent/i18n/careerUi.js";
+import { getCareerUiText } from "@/lib/career-agent/careerText.js";
 import { CAREER_RESPONSE_KINDS } from "@/lib/career-agent/core/careerResponseTemplates.js";
 
 function toSafeArray(value) {

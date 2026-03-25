@@ -44,7 +44,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "self-start text-left bg-[rgba(14,20,32,0.2)] " +
     "border-[rgba(240,240,240,0.35)] rounded-bl-[0.55em]";
   const aiBubbleClassName =
-    "chat-msg-ai w-full bg-transparent border-0 shadow-none py-[0.25em] " +
+    "chat-msg-ai w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
     "text-[color:var(--input-text)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500]";
   const normalizedAttachments = Array.isArray(attachments)
     ? attachments

@@ -8,6 +8,10 @@
   --glass-modal-bg: rgba(252, 248, 247, 0.58);
   --glass-surface-text: #2c3340;
   --glass-modal-text: #2c3340;
+  --chat-ui-solid-surface: rgb(236, 227, 223);
+  --chat-rail-tooltip-bg: var(--chat-ui-solid-surface);
+  --chat-tools-panel-bg: var(--chat-ui-solid-surface);
+  --chat-upload-picker-bg: var(--chat-ui-solid-surface);
   --home-panel-bg: rgba(252, 248, 247, 0.53);
   --home-panel-shadow: 0 12px 22px rgba(20, 12, 10, 0.2);
   --home-before-shadow: 0 10px 20px rgba(20, 12, 10, 0.18);
@@ -341,7 +345,7 @@
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
 :root.theme-mid .chat-tools-menu {
-  background: rgba(252, 246, 244, 0.62) !important;
+  background: var(--chat-tools-panel-bg, rgb(252, 246, 244)) !important;
   box-shadow: 0 12px 28px rgba(46, 24, 21, 0.18) !important;
 }
 

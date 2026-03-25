@@ -111,7 +111,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "chat-analysis-overlay-card !isolation-auto !border-0";
   const cardClassName =
     "w-full max-w-none rounded-[1.5em] border-0 " +
-    "bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg))] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] " +
+    "bg-[color:var(--analysis-card-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg)))] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] " +
     "[--analysis-card-pad-y:clamp(0.65rem,2vw,1rem)] " +
     "[--analysis-card-pad-x:clamp(0.8rem,2.6vw,1.6rem)] " +
     "[--analysis-card-pad-b:clamp(0.9rem,2.6vw,1.4rem)] " +
@@ -217,6 +217,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       <div
         className={cn(
           cardClassName,
+          !uploadPreview ? "[--analysis-card-bg:var(--chat-upload-picker-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg)))] [--opaque-panel-bg:var(--chat-upload-picker-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg)))]" : null,
           analysisPanelMode === "overlay" ? cardOverlayClassName : null
         )}
       >

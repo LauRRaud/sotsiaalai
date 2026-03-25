@@ -275,7 +275,7 @@
 }
 
 :global(:root.theme-night) .tooltip {
-  background: var(--rail-tooltip-bg, rgba(16, 19, 26, 0.99));
+  background: var(--chat-tools-panel-bg, var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgba(16, 19, 26, 0.99))));
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   box-shadow: var(--rail-tooltip-shadow, 0 8px 18px rgba(0, 0, 0, 0.24));
@@ -290,16 +290,16 @@
   color: var(--rail-tooltip-text, #7a3a38);
   font-size: 1.12rem;
   font-weight: 450;
-  background: rgba(255, 250, 248, 0.92);
+  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgba(255, 250, 248, 0.92)));
   border: 0;
-  box-shadow: 0 10px 24px rgba(82, 50, 46, 0.18);
+  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.18));
 }
 
 :global(:root.theme-mid) .tooltip {
   color: #7a3a38;
   font-size: 1.12rem;
   font-weight: 450;
-  background: var(--rail-tooltip-bg, rgba(253, 250, 249, 0.99));
+  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgba(253, 250, 249, 0.99)));
   border: 0;
   box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));
 }
@@ -321,17 +321,17 @@
   }
 
   :global(:root.theme-night) .tooltip {
-    background: var(--rail-tooltip-bg, rgb(16, 19, 26));
+    background: var(--chat-tools-panel-bg, var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(16, 19, 26))));
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 
   :global(:root.theme-light) .tooltip {
-    background: var(--rail-tooltip-bg, rgb(255, 250, 248));
+    background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(255, 250, 248)));
   }
 
   :global(:root.theme-mid) .tooltip {
-    background: rgb(253, 250, 249);
+    background: var(--chat-rail-tooltip-bg, rgb(253, 250, 249));
   }
 
   :global(html[data-contrast="hc"]) .tooltip {

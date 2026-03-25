@@ -565,7 +565,6 @@ async function callOpenAI({
   includeSources,
   replyLang,
   isCrisis,
-  reasoningEffort,
   userId,
   role
 }) {
@@ -588,8 +587,7 @@ async function callOpenAI({
     isCrisis
   });
   const payload = buildResponsesPayload(input, {
-    stream: false,
-    reasoningEffort
+    stream: false
   });
   const startedAt = Date.now();
   const resp = await client.responses.create(payload);
@@ -616,7 +614,6 @@ async function streamOpenAI({
   includeSources,
   replyLang,
   isCrisis,
-  reasoningEffort,
   userId,
   role
 }) {
@@ -639,8 +636,7 @@ async function streamOpenAI({
     isCrisis
   });
   const payload = buildResponsesPayload(input, {
-    stream: true,
-    reasoningEffort
+    stream: true
   });
   const startedAt = Date.now();
   const stream = await client.responses.stream(payload);
@@ -1260,7 +1256,6 @@ export async function POST(req) {
           tone: taskConfig.tone,
           language: taskConfig.language,
           length: taskConfig.length,
-          reasoningEffort: workflowPlan?.reasoning || documentPlan?.reasoning,
           observabilityRoute: "api/chat",
           observabilityStage: "document_generate",
           userId
@@ -1891,7 +1886,6 @@ export async function POST(req) {
         includeSources,
         replyLang,
         isCrisis,
-        reasoningEffort: mainOrchestrationPlan.reasoning,
         userId,
         role: normalizedRole
       });
@@ -2014,7 +2008,6 @@ export async function POST(req) {
           includeSources,
           replyLang,
           isCrisis,
-          reasoningEffort: mainOrchestrationPlan.reasoning,
           userId,
           role: normalizedRole
         });

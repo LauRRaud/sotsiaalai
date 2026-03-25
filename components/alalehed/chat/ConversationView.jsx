@@ -25,11 +25,23 @@ const ConversationView = memo(function ConversationView({
   showSourcesPanel = false,
   sourcesPulse = false,
   sourcesButtonRef,
-  emptyIntroText = ""
+  emptyIntroText = "",
+  emptyIntroAnimate = false,
+  onEmptyIntroSeen
 }) {
   const [showScrollDown, setShowScrollDown] = useState(false);
+  const [emptyIntroVisibleText, setEmptyIntroVisibleText] = useState("");
   const isUserAtBottom = useRef(true);
   const mountedRef = useRef(false);
+  const emptyIntroTimerRef = useRef(0);
+  const emptyIntroTypingStartedRef = useRef(false);
+  const clearEmptyIntroTimer = () => {
+    if (!emptyIntroTimerRef.current || typeof window === "undefined") return;
+    window.clearInterval(emptyIntroTimerRef.current);
+    emptyIntroTimerRef.current = 0;
+  };
+  const emptyIntroTargetText = String(emptyIntroText || "").trim();
+  const showEmptyIntro = !isStreamingAny && messageItems.length === 0 && emptyIntroTargetText.length > 0;
   useEffect(() => {
     const node = chatWindowRef?.current;
     if (!node) return;
@@ -56,6 +68,47 @@ const ConversationView = memo(function ConversationView({
     return () => {
       mountedRef.current = false;
     };
+  }, []);
+  useEffect(() => {
+    if (!showEmptyIntro) {
+      clearEmptyIntroTimer();
+      emptyIntroTypingStartedRef.current = false;
+      setEmptyIntroVisibleText("");
+      return;
+    }
+    if (emptyIntroTypingStartedRef.current) return;
+    clearEmptyIntroTimer();
+    if (!emptyIntroAnimate) {
+      setEmptyIntroVisibleText(emptyIntroTargetText);
+      emptyIntroTypingStartedRef.current = true;
+      return;
+    }
+    emptyIntroTypingStartedRef.current = true;
+    onEmptyIntroSeen?.();
+    const words = emptyIntroTargetText.split(/\s+/).filter(Boolean);
+    if (!words.length) {
+      setEmptyIntroVisibleText("");
+      return;
+    }
+    if (words.length === 1) {
+      setEmptyIntroVisibleText(words[0]);
+      return;
+    }
+    const wordDelayMs = 105;
+    let index = 1;
+    setEmptyIntroVisibleText(words[0]);
+    emptyIntroTimerRef.current = window.setInterval(() => {
+      if (index >= words.length) {
+        clearEmptyIntroTimer();
+        setEmptyIntroVisibleText(emptyIntroTargetText);
+        return;
+      }
+      setEmptyIntroVisibleText(words.slice(0, index + 1).join(" "));
+      index += 1;
+    }, wordDelayMs);
+  }, [emptyIntroAnimate, emptyIntroTargetText, onEmptyIntroSeen, showEmptyIntro]);
+  useEffect(() => () => {
+    clearEmptyIntroTimer();
   }, []);
   const mainClassName =
     "conversation-view relative flex flex-1 flex-col min-h-0 w-full " +
@@ -112,9 +165,6 @@ const ConversationView = memo(function ConversationView({
     "px-[1rem] py-[0.4rem] text-[0.85rem] font-semibold text-[color:var(--pt-120)] " +
     "transition-[border-color,background,transform] duration-150 hover:-translate-y-[1px] " +
     "light:border-[rgba(148,163,184,0.5)] light:bg-[rgba(255,255,255,0.9)] light:text-[#1f2937]";
-  const emptyIntroTargetText = String(emptyIntroText || "").trim();
-  const showEmptyIntro = !isStreamingAny && messageItems.length === 0 && emptyIntroTargetText.length > 0;
-  const emptyIntroRenderText = emptyIntroTargetText;
   const emptyIntroClassName =
     "chat-msg-ai chat-empty-intro w-full bg-transparent border-0 shadow-none py-[0.25em] " +
     "text-[color:var(--input-text)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500]";
@@ -132,7 +182,7 @@ const ConversationView = memo(function ConversationView({
 
           {showEmptyIntro ? (
             <div className={emptyIntroClassName}>
-              {emptyIntroRenderText}
+              {emptyIntroVisibleText || emptyIntroTargetText}
             </div>
           ) : null}
 

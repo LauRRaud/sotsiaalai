@@ -37,6 +37,10 @@
   --glass-surface-bg: rgba(251, 250, 248, 0.52);
   --glass-ring-surface-bg: rgba(245, 244, 242, 0.74);
   --glass-surface-text: #2b2620;
+  --chat-ui-solid-surface: rgb(252, 250, 248);
+  --chat-rail-tooltip-bg: var(--chat-ui-solid-surface);
+  --chat-tools-panel-bg: var(--chat-ui-solid-surface);
+  --chat-upload-picker-bg: var(--chat-ui-solid-surface);
   --chat-invite-surface: var(--subpage-card-bg);
   --chat-invite-surface-hover: var(--subpage-card-bg-hover);
   --chat-invite-list-border: var(--subpage-card-border);
@@ -376,9 +380,10 @@
 :root.theme-light .chat-inputbar .chat-listen-btn,
 :root.theme-light .chat-inputbar .chat-send-btn {
   --chat-action-size: var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)));
-  --chat-inputbar-bg: rgba(252, 251, 249, 0.9);
-  --chat-inputbar-bg-hover: color-mix(in srgb, var(--chat-inputbar-bg) 88%, white 12%);
-  --chat-inputbar-bg-focus: color-mix(in srgb, var(--chat-inputbar-bg) 88%, white 12%);
+  --chat-inputbar-bg: rgba(252, 250, 248, 0.89);
+  --chat-inputbar-bg-hover: rgba(254, 253, 252, 0.92);
+  --chat-inputbar-bg-focus: rgba(254, 253, 252, 0.95);
+  --chat-user-bubble-bg: var(--chat-inputbar-bg);
   background: var(--chat-inputbar-bg);
   border: 0;
   box-shadow:
@@ -412,8 +417,11 @@
     0 0.24rem 0.68rem rgba(15, 23, 42, 0.055),
     0 0.08rem 0.22rem rgba(15, 23, 42, 0.02);
 }
-:root.theme-light .chat-inputbar:hover:not(:focus-within) {
+:root.theme-light .chat-inputbar:hover {
   background: var(--chat-inputbar-bg-hover);
+  box-shadow:
+    0 0.5rem 1.08rem rgba(15, 23, 42, 0.08),
+    0 0.18rem 0.42rem rgba(15, 23, 42, 0.035);
 }
 :root.theme-light .chat-inputbar:focus-within {
   background: var(--chat-inputbar-bg-focus);
@@ -453,6 +461,9 @@
 :root.theme-light .chat-container--input-focus .chat-inputbar {
   background: var(--chat-inputbar-bg-focus);
 }
+:root.theme-light .chat-container--input-focus .chat-inputbar:hover {
+  background: var(--chat-inputbar-bg-hover);
+}
 :root.theme-light .chat-container--input-focus .chat-inputbar:focus-within {
   background: var(--chat-inputbar-bg-focus);
 }
@@ -474,7 +485,7 @@
   opacity: 0.95;
 }
 :root.theme-light .chat-msg-user {
-  background: #fdfdfd;
+  background: var(--chat-user-bubble-bg, #fdfdfd);
   border: 0;
   color: #111827;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
