@@ -47,6 +47,15 @@ function errorJson(messageKey, status, locale = "en", extras = {}) {
   });
 }
 
+function toNullableNumber(value) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function readRequestSize(req) {
+  return toNullableNumber(req.headers.get("content-length"));
+}
+
 async function synthGoogle({ text, locale }) {
   const [resp] = await gcpTtsClient.synthesizeSpeech({
     input: { text },
@@ -77,6 +86,7 @@ async function synthOpenAI({ text }) {
   const client = new OpenAI({
     apiKey: OPENAI_API_KEY
   });
+  const startedAt = Date.now();
   const speech = await client.audio.speech.create({
     model: OPENAI_TTS_MODEL,
     voice: OPENAI_TTS_VOICE,
@@ -89,7 +99,9 @@ async function synthOpenAI({ text }) {
     ok: true,
     audioContent: buf.toString("base64"),
     contentType: "audio/mpeg",
-    provider: "openai"
+    provider: "openai",
+    latencyMs: Date.now() - startedAt,
+    audioBytes: buf.length
   };
 }
 
@@ -170,6 +182,30 @@ export async function POST(req) {
     const result = googleEnabled ? await synthGoogle({ text, locale }) : await synthOpenAI({ text });
     if (!result.ok) {
       return errorJson(result.messageKey || "api.tts.synthesis_failed", 502, localeFromRequest(req, locale));
+    }
+    if (result.provider === "openai") {
+      await logEvent("tts_cost_usage", {
+        userId: session.user.id,
+        role,
+        provider: "openai",
+        model: OPENAI_TTS_MODEL,
+        route: "api/tts",
+        stage: "tts_synthesize",
+        latency_ms: toNullableNumber(result.latencyMs),
+        request_size_bytes: readRequestSize(req),
+        file_size_bytes: null,
+        duration_seconds: null,
+        text_chars: text.length,
+        input_tokens: null,
+        output_tokens: null,
+        total_tokens: null,
+        audio_tokens: null,
+        text_tokens: null,
+        audio_bytes: toNullableNumber(result.audioBytes),
+        voice: OPENAI_TTS_VOICE,
+        cost_read_directly: false,
+        cost_estimation_basis: "text_chars"
+      });
     }
     await logEvent("tts_request", {
       userId: session.user.id,

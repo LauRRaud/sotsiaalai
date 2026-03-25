@@ -253,7 +253,9 @@ async function ingestText(baseUrl, payload) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-API-Key": RAG_KEY
+      "X-API-Key": RAG_KEY,
+      "X-Observability-Route": "script/ingest-kov-rag",
+      "X-Observability-Stage": "rag_ingest"
     },
     body: JSON.stringify(payload)
   });

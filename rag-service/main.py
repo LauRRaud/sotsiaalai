@@ -14,6 +14,7 @@ import mimetypes
 from datetime import datetime, timezone
 from pathlib import Path
 from threading import Lock
+from time import perf_counter
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import urljoin, urlparse
 
@@ -107,6 +108,16 @@ collection = client.get_or_create_collection(name=COLLECTION_NAME)
 oa = OpenAI(api_key=OPENAI_API_KEY)
 logger = logging.getLogger("rag-service")
 REGISTRY_LOCK = Lock()
+OBSERVABILITY_ROUTE_HEADER = "X-Observability-Route"
+OBSERVABILITY_STAGE_HEADER = "X-Observability-Stage"
+OBSERVABILITY_USER_ID_HEADER = "X-Observability-User-Id"
+OBSERVABILITY_ROLE_HEADER = "X-Observability-Role"
+OBSERVABILITY_CONVERSATION_ID_HEADER = "X-Observability-Conversation-Id"
+OBSERVABILITY_ARTIFACT_ID_HEADER = "X-Observability-Artifact-Id"
+OBSERVABILITY_RESEARCH_JOB_ID_HEADER = "X-Observability-Research-Job-Id"
+RAG_COST_MIRROR_URL = os.getenv("RAG_COST_MIRROR_URL", "").strip()
+RAG_COST_MIRROR_SECRET = os.getenv("RAG_COST_MIRROR_SECRET", "").strip()
+RAG_COST_MIRROR_TIMEOUT_SEC = float(os.getenv("RAG_COST_MIRROR_TIMEOUT_SEC", "1.5"))
 
 app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.9")
 
@@ -483,6 +494,151 @@ def _require_key(x_api_key: Optional[str] = Header(default=None, alias="X-API-Ke
 def _bytes_mb(b: bytes) -> float:
     return len(b) / (1024 * 1024)
 
+def _to_int(value) -> Optional[int]:
+    try:
+        if value is None or value == "":
+            return None
+        return int(value)
+    except Exception:
+        return None
+
+def _clean_observability_value(value: Optional[str], max_len: int = 200) -> Optional[str]:
+    if value is None:
+        return None
+    cleaned = str(value).strip()
+    if not cleaned:
+        return None
+    return cleaned[:max_len]
+
+def _request_content_length(request: Optional[Request]) -> Optional[int]:
+    if request is None:
+        return None
+    return _to_int(request.headers.get("content-length"))
+
+def _build_observability_context(
+    request: Optional[Request],
+    service_stage: str,
+    **extra,
+) -> Dict[str, object]:
+    service_route = request.url.path if request is not None else None
+    upstream_route = _clean_observability_value(
+        request.headers.get(OBSERVABILITY_ROUTE_HEADER) if request is not None else None
+    )
+    upstream_stage = _clean_observability_value(
+        request.headers.get(OBSERVABILITY_STAGE_HEADER) if request is not None else None
+    )
+    user_id = _clean_observability_value(
+        request.headers.get(OBSERVABILITY_USER_ID_HEADER) if request is not None else None
+    )
+    role = _clean_observability_value(
+        request.headers.get(OBSERVABILITY_ROLE_HEADER) if request is not None else None
+    )
+    conversation_id = _clean_observability_value(
+        request.headers.get(OBSERVABILITY_CONVERSATION_ID_HEADER) if request is not None else None
+    )
+    artifact_id = _clean_observability_value(
+        request.headers.get(OBSERVABILITY_ARTIFACT_ID_HEADER) if request is not None else None
+    )
+    research_job_id = _clean_observability_value(
+        request.headers.get(OBSERVABILITY_RESEARCH_JOB_ID_HEADER) if request is not None else None
+    )
+    context: Dict[str, object] = {
+        "route": upstream_route or service_route,
+        "stage": upstream_stage or service_stage,
+        "upstream_route": upstream_route,
+        "upstream_stage": upstream_stage,
+        "service_route": service_route,
+        "service_stage": service_stage,
+        "request_size_bytes": _request_content_length(request),
+        "userId": user_id,
+        "role": role,
+        "conversation_id": conversation_id,
+        "artifact_id": artifact_id,
+        "research_job_id": research_job_id,
+    }
+    for key, value in extra.items():
+        if value is not None:
+            context[key] = value
+    return context
+
+def _mirror_rag_cost_usage(payload: Dict[str, object]) -> None:
+    if not RAG_COST_MIRROR_URL or not RAG_COST_MIRROR_SECRET:
+        return
+    try:
+        response = requests.post(
+            RAG_COST_MIRROR_URL,
+            json=payload,
+            headers={
+                "Authorization": f"Bearer {RAG_COST_MIRROR_SECRET}",
+                "Content-Type": "application/json",
+            },
+            timeout=max(0.2, float(RAG_COST_MIRROR_TIMEOUT_SEC)),
+        )
+        if response.status_code < 200 or response.status_code >= 300:
+            logger.warning(
+                "[rag][cost][mirror] failed status=%s event_id=%s",
+                response.status_code,
+                payload.get("event_id"),
+            )
+    except Exception as exc:
+        logger.warning(
+            "[rag][cost][mirror] failed event_id=%s error=%s",
+            payload.get("event_id"),
+            exc.__class__.__name__,
+        )
+
+def _log_rag_cost_usage(
+    *,
+    model: Optional[str],
+    latency_ms: Optional[float],
+    prompt_tokens: Optional[int],
+    total_tokens: Optional[int],
+    embedding_input_count: int,
+    text_chars: Optional[int],
+    chunk_count: Optional[int],
+    result_count: Optional[int] = None,
+    top_k: Optional[int] = None,
+    embedding_calls: int = 1,
+    cost_read_directly: bool = True,
+    **context,
+) -> None:
+    payload = {
+        "event": "rag_cost_usage",
+        "event_id": str(uuid.uuid4()),
+        "provider": "openai",
+        "model": model or EMBED_MODEL,
+        "userId": context.get("userId"),
+        "role": context.get("role"),
+        "route": context.get("route"),
+        "stage": context.get("stage"),
+        "upstream_route": context.get("upstream_route"),
+        "upstream_stage": context.get("upstream_stage"),
+        "service_route": context.get("service_route"),
+        "service_stage": context.get("service_stage"),
+        "conversation_id": context.get("conversation_id"),
+        "artifact_id": context.get("artifact_id"),
+        "research_job_id": context.get("research_job_id"),
+        "latency_ms": round(float(latency_ms), 2) if latency_ms is not None else None,
+        "request_size_bytes": context.get("request_size_bytes"),
+        "file_size_bytes": context.get("file_size_bytes"),
+        "text_chars": text_chars,
+        "prompt_tokens": prompt_tokens,
+        "total_tokens": total_tokens,
+        "embedding_calls": embedding_calls,
+        "embedding_input_count": embedding_input_count,
+        "chunk_count": chunk_count,
+        "result_count": result_count,
+        "top_k": top_k,
+        "doc_id": context.get("doc_id"),
+        "article_count": context.get("article_count"),
+        "cost_read_directly": cost_read_directly,
+    }
+    try:
+        logger.info("[rag][cost] %s", json.dumps(payload, ensure_ascii=False, sort_keys=True))
+    except Exception:
+        logger.info("[rag][cost] %s", payload)
+    _mirror_rag_cost_usage(payload)
+
 def _detect_mime(name: str, data: bytes, declared: Optional[str]) -> str:
     if declared:
         return declared
@@ -796,11 +952,35 @@ def _sanitize_filename(name: str, fallback: str = "document.pdf") -> str:
     return base
 
 # --- OpenAI embedding helpers ---
-def _embed_batch(texts: List[str]) -> List[List[float]]:
+def _embed_batch_with_usage(texts: List[str]) -> Dict[str, object]:
     if not texts:
-        return []
+        return {
+            "embeddings": [],
+            "model": EMBED_MODEL,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "latency_ms": 0.0,
+            "embedding_input_count": 0,
+            "text_chars": 0,
+            "cost_read_directly": False,
+        }
+    started = perf_counter()
     resp = oa.embeddings.create(model=EMBED_MODEL, input=texts)
-    return [d.embedding for d in resp.data]
+    latency_ms = (perf_counter() - started) * 1000
+    usage = getattr(resp, "usage", None)
+    return {
+        "embeddings": [d.embedding for d in resp.data],
+        "model": getattr(resp, "model", EMBED_MODEL) or EMBED_MODEL,
+        "prompt_tokens": getattr(usage, "prompt_tokens", None),
+        "total_tokens": getattr(usage, "total_tokens", None),
+        "latency_ms": latency_ms,
+        "embedding_input_count": len(texts),
+        "text_chars": sum(len(str(text or "")) for text in texts),
+        "cost_read_directly": usage is not None,
+    }
+
+def _embed_batch(texts: List[str]) -> List[List[float]]:
+    return list(_embed_batch_with_usage(texts).get("embeddings") or [])
 
 # --------------------
 # Schemas
@@ -1339,19 +1519,38 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
                 cleaned[k] = v2
         metadatas.append(cleaned)
 
-    embeddings = _embed_batch(final_texts)
+    embed_result = _embed_batch_with_usage(final_texts)
+    embeddings = list(embed_result.get("embeddings") or [])
     return {
         "count": len(final_texts),
         "documents": final_texts,
         "metadatas": metadatas,
         "ids": ids,
         "embeddings": embeddings,
+        "embedding_model": embed_result.get("model"),
+        "prompt_tokens": embed_result.get("prompt_tokens"),
+        "total_tokens": embed_result.get("total_tokens"),
+        "embedding_latency_ms": embed_result.get("latency_ms"),
+        "embedding_input_count": embed_result.get("embedding_input_count"),
+        "text_chars": embed_result.get("text_chars"),
+        "cost_read_directly": embed_result.get("cost_read_directly"),
     }
 
-def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
+def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict, observability: Optional[Dict[str, object]] = None) -> int:
     payload = _build_ingest_payload(doc_id, text_or_pages, meta_common)
     if not payload["count"]:
         return 0
+    _log_rag_cost_usage(
+        model=payload.get("embedding_model"),
+        latency_ms=payload.get("embedding_latency_ms"),
+        prompt_tokens=payload.get("prompt_tokens"),
+        total_tokens=payload.get("total_tokens"),
+        embedding_input_count=int(payload.get("embedding_input_count") or 0),
+        text_chars=_to_int(payload.get("text_chars")),
+        chunk_count=int(payload.get("count") or 0),
+        cost_read_directly=bool(payload.get("cost_read_directly")),
+        **(observability or {}),
+    )
     collection.upsert(
         documents=payload["documents"],
         metadatas=payload["metadatas"],
@@ -1360,7 +1559,12 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
     )
     return int(payload["count"])
 
-def _replace_document_vectors(doc_id: str, text_or_pages, meta_common: Dict) -> int:
+def _replace_document_vectors(
+    doc_id: str,
+    text_or_pages,
+    meta_common: Dict,
+    observability: Optional[Dict[str, object]] = None,
+) -> int:
     payload = _build_ingest_payload(doc_id, text_or_pages, meta_common)
 
     existing = None
@@ -1375,6 +1579,18 @@ def _replace_document_vectors(doc_id: str, text_or_pages, meta_common: Dict) -> 
     existing_embeddings = list((existing or {}).get("embeddings") or [])
 
     try:
+        if payload["count"]:
+            _log_rag_cost_usage(
+                model=payload.get("embedding_model"),
+                latency_ms=payload.get("embedding_latency_ms"),
+                prompt_tokens=payload.get("prompt_tokens"),
+                total_tokens=payload.get("total_tokens"),
+                embedding_input_count=int(payload.get("embedding_input_count") or 0),
+                text_chars=_to_int(payload.get("text_chars")),
+                chunk_count=int(payload.get("count") or 0),
+                cost_read_directly=bool(payload.get("cost_read_directly")),
+                **(observability or {}),
+            )
         collection.delete(where={"doc_id": doc_id})
         if payload["count"]:
             collection.upsert(
@@ -1498,6 +1714,7 @@ def _process_ingest_file(
     meta: Dict,
     page_start: Optional[int] = None,
     page_end: Optional[int] = None,
+    observability: Optional[Dict[str, object]] = None,
 ) -> Dict:
     size_mb = _bytes_mb(raw)
     if size_mb > MAX_MB:
@@ -1554,6 +1771,7 @@ def _process_ingest_file(
                 "mimeType": mime,
                 "audience": normalize_audience(meta.get("audience")),
             },
+            observability=observability,
         )
     except Exception:
         if not existing_doc_known:
@@ -1619,8 +1837,14 @@ def _process_ingest_file(
 class _IngestFileModel(IngestFile): pass
 
 @app.post("/ingest/file", dependencies=[Depends(_require_key)])
-def ingest_file(payload: _IngestFileModel):
+def ingest_file(payload: _IngestFileModel, request: Request):
     raw = base64.b64decode(payload.data)
+    observability = _build_observability_context(
+        request,
+        "rag_ingest",
+        doc_id=payload.docId,
+        file_size_bytes=len(raw),
+    )
     return _process_ingest_file(
         doc_id=payload.docId,
         file_name=payload.fileName,
@@ -1653,10 +1877,11 @@ def ingest_file(payload: _IngestFileModel):
             "district_name": payload.district_name,
             "district_id": payload.district_id,
         },
+        observability=observability,
     )
 
 @app.post("/ingest/text", dependencies=[Depends(_require_key)])
-def ingest_text(payload: IngestText):
+def ingest_text(payload: IngestText, request: Request):
     doc_id = str(payload.doc_id or "").strip()
     text = str(payload.text or "")
     if not doc_id:
@@ -1675,6 +1900,11 @@ def ingest_text(payload: IngestText):
             "source_url": meta.get("source_url"),
             "audience": normalize_audience(meta.get("audience")),
         },
+        observability=_build_observability_context(
+            request,
+            "rag_ingest",
+            doc_id=doc_id,
+        ),
     )
 
     reg_entry = {
@@ -1714,6 +1944,7 @@ def ingest_text(payload: IngestText):
 # --- Multipart ingest (compat with older UI / direct browser forms) ---
 @app.post("/upload", dependencies=[Depends(_require_key)])
 async def upload(
+    request: Request,
     file: UploadFile = File(...),
     title: Optional[str] = Form(None),
     description: Optional[str] = Form(None),
@@ -1784,6 +2015,12 @@ async def upload(
             "district_name": district_name,
             "district_id": district_id,
         },
+        observability=_build_observability_context(
+            request,
+            "rag_ingest",
+            doc_id=_doc_id,
+            file_size_bytes=len(raw),
+        ),
     )
 
 @app.post("/ingest/pdf-with-metadata", dependencies=[Depends(_require_key)])
@@ -1856,6 +2093,12 @@ async def ingest_pdf_with_metadata(
             meta=meta_dict,
             page_start=start_page,
             page_end=end_page,
+            observability=_build_observability_context(
+                request,
+                "rag_ingest",
+                doc_id=doc_id,
+                file_size_bytes=len(raw),
+            ),
         )
     except ValidationError as e:
         raise HTTPException(400, f"Invalid metadata: {e}") from e
@@ -1870,7 +2113,7 @@ async def ingest_pdf_with_metadata(
     }
 
 @app.post("/ingest/url", dependencies=[Depends(_require_key)])
-def ingest_url(payload: IngestURL):
+def ingest_url(payload: IngestURL, request: Request):
     try:
         html = _fetch_remote_html(payload.url)
     except HTTPException:
@@ -1927,6 +2170,11 @@ def ingest_url(payload: IngestURL):
             "geo_detection_method": detected_geo.get("geo_detection_method"),
             "geo_detection_confidence": detected_geo.get("geo_detection_confidence"),
         },
+        observability=_build_observability_context(
+            request,
+            "rag_ingest",
+            doc_id=doc_id,
+        ),
     )
 
     reg_entry = {
@@ -2032,7 +2280,7 @@ def _article_meta_common(entry: Dict, a: IngestArticle) -> Dict:
     }
 
 @app.post("/ingest/articles", dependencies=[Depends(_require_key)])
-def ingest_articles(payload: IngestArticlesIn):
+def ingest_articles(payload: IngestArticlesIn, request: Request):
     if not payload.docId:
         raise HTTPException(400, "docId is required.")
     if not payload.articles:
@@ -2043,6 +2291,11 @@ def ingest_articles(payload: IngestArticlesIn):
     _require_pdf_registry(entry)
 
     pdf_pages = _load_pdf_pages(entry)
+    file_size_bytes = None
+    try:
+        file_size_bytes = Path(entry["path"]).stat().st_size
+    except Exception:
+        file_size_bytes = None
     total_inserted = 0
     inserted_per_article: List[Dict] = []
 
@@ -2075,7 +2328,18 @@ def ingest_articles(payload: IngestArticlesIn):
             # prefer original declared range if any
             meta["pageRange"] = f"{sp}–{ep}"
 
-        inserted = _ingest_text(payload.docId, subset, meta)
+        inserted = _ingest_text(
+            payload.docId,
+            subset,
+            meta,
+            observability=_build_observability_context(
+                request,
+                "rag_ingest_articles",
+                doc_id=payload.docId,
+                article_count=len(payload.articles or []),
+                file_size_bytes=file_size_bytes,
+            ),
+        )
         total_inserted += inserted
         inserted_per_article.append({"title": art.title, "inserted": inserted, "startPage": sp, "endPage": ep})
 
@@ -2086,12 +2350,12 @@ def ingest_articles(payload: IngestArticlesIn):
     return {"ok": True, "count": total_inserted, "inserted": inserted_per_article, "docId": payload.docId}
 
 @app.post("/ingest/articles/{doc_id}", dependencies=[Depends(_require_key)])
-def ingest_articles_path(doc_id: str = FastPath(...), payload: IngestArticlesIn = None):
+def ingest_articles_path(request: Request, doc_id: str = FastPath(...), payload: IngestArticlesIn = None):
     # support :docId in path (Next.js config)
     if payload is None:
         raise HTTPException(400, "Body is required.")
     payload.docId = payload.docId or doc_id
-    return ingest_articles(payload)
+    return ingest_articles(payload, request)
 
 # ---------------- Documents -----------------
 @app.get("/documents", dependencies=[Depends(_require_key)])
@@ -2405,7 +2669,7 @@ def delete_doc(doc_id: str):
     return {"ok": True, "deleted": doc_id, "hadEntry": had}
 
 @app.post("/search", dependencies=[Depends(_require_key)])
-def search(payload: SearchIn):
+def search(payload: SearchIn, request: Request):
     md_where: Dict[str, object] = {}
 
     if payload.filterDocId:
@@ -2462,10 +2726,17 @@ def search(payload: SearchIn):
         if "checked_at" in payload.where and isinstance(payload.where["checked_at"], str):
             md_where["checked_at"] = payload.where["checked_at"].strip()
 
-    q_embeds = _embed_batch([payload.query])
+    embed_result = _embed_batch_with_usage([payload.query])
+    q_embeds = list(embed_result.get("embeddings") or [])
     if not q_embeds:
         return {"results": [], "groups": []}
     q_emb = q_embeds[0]
+    observability = _build_observability_context(
+        request,
+        "rag_search",
+        top_k=max(1, min(50, payload.top_k or 5)),
+    )
+    result_count = 0
 
     try:
         include_items = payload.include or ["documents", "metadatas", "distances"]
@@ -2477,6 +2748,19 @@ def search(payload: SearchIn):
             include=include_items,
         )
     except Exception as e:
+        _log_rag_cost_usage(
+            model=embed_result.get("model"),
+            latency_ms=embed_result.get("latency_ms"),
+            prompt_tokens=_to_int(embed_result.get("prompt_tokens")),
+            total_tokens=_to_int(embed_result.get("total_tokens")),
+            embedding_input_count=int(embed_result.get("embedding_input_count") or 0),
+            text_chars=_to_int(embed_result.get("text_chars")),
+            chunk_count=1,
+            result_count=result_count,
+            top_k=_to_int(observability.get("top_k")),
+            cost_read_directly=bool(embed_result.get("cost_read_directly")),
+            **observability,
+        )
         return {"results": [], "groups": [], "error": f"query_failed: {e.__class__.__name__}: {e}"}
 
     ids = (res.get("ids") or [[]])[0] if res.get("ids") else []
@@ -2548,6 +2832,20 @@ def search(payload: SearchIn):
             "page": md.get("page"),
             "distance": dists[i] if i < len(dists) else None,
         })
+    result_count = len(flat)
+    _log_rag_cost_usage(
+        model=embed_result.get("model"),
+        latency_ms=embed_result.get("latency_ms"),
+        prompt_tokens=_to_int(embed_result.get("prompt_tokens")),
+        total_tokens=_to_int(embed_result.get("total_tokens")),
+        embedding_input_count=int(embed_result.get("embedding_input_count") or 0),
+        text_chars=_to_int(embed_result.get("text_chars")),
+        chunk_count=1,
+        result_count=result_count,
+        top_k=_to_int(observability.get("top_k")),
+        cost_read_directly=bool(embed_result.get("cost_read_directly")),
+        **observability,
+    )
 
     groups_map: Dict[Tuple[str, str, str], Dict] = {}
     for r in flat:

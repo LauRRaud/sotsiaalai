@@ -55,6 +55,15 @@ function errorJson(messageKey, status, locale = "en", extras = {}) {
   });
 }
 
+function toNullableNumber(value) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function readRequestSize(req) {
+  return toNullableNumber(req.headers.get("content-length"));
+}
+
 export async function POST(req) {
   const uiLocale = localeFromRequest(req);
   const session = await getServerSession(authConfig).catch(() => null);
@@ -179,6 +188,7 @@ export async function POST(req) {
       apiKey: OPENAI_API_KEY
     });
     const language = normalizeLanguage(locale);
+    const startedAt = Date.now();
     const transcription = await client.audio.transcriptions.create({
       file,
       model: OPENAI_STT_MODEL,
@@ -187,6 +197,33 @@ export async function POST(req) {
     });
     const text = String(transcription?.text || "").trim();
     if (!text) throw new Error("api.stt.transcription_failed");
+    const usage = transcription?.usage;
+    const usageType = String(usage?.type || "").trim() || null;
+    const isTokenUsage = usageType === "tokens";
+    const isDurationUsage = usageType === "duration";
+    await logEvent("stt_cost_usage", {
+      userId: session.user.id,
+      role,
+      provider: "openai",
+      model: OPENAI_STT_MODEL,
+      route: "api/stt",
+      stage: "stt_transcribe",
+      latency_ms: Date.now() - startedAt,
+      request_size_bytes: readRequestSize(req),
+      file_size_bytes: fileSize,
+      duration_seconds: isDurationUsage ? toNullableNumber(usage?.seconds) : null,
+      text_chars: text.length,
+      input_tokens: isTokenUsage ? toNullableNumber(usage?.input_tokens) : null,
+      output_tokens: isTokenUsage ? toNullableNumber(usage?.output_tokens) : null,
+      total_tokens: isTokenUsage ? toNullableNumber(usage?.total_tokens) : null,
+      audio_tokens: isTokenUsage ? toNullableNumber(usage?.input_token_details?.audio_tokens) : null,
+      text_tokens: isTokenUsage ? toNullableNumber(usage?.input_token_details?.text_tokens) : null,
+      mime_type: file.type || null,
+      language: String(language || locale || "auto"),
+      usage_type: usageType,
+      cost_read_directly: Boolean(usageType),
+      cost_estimation_basis: usageType ? null : "file_size_bytes"
+    });
     await logEvent("stt_request", {
       userId: session.user.id,
       role,

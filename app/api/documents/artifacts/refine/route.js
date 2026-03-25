@@ -12,6 +12,7 @@ import {
 import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { prisma } from "@/lib/prisma"
+import { effectiveRoleFromSession } from "@/lib/authz"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
 
 export const runtime = "nodejs"
@@ -169,7 +170,9 @@ export async function POST(request) {
       length,
       observabilityRoute: "api/documents/artifacts/refine",
       observabilityStage: "document_refine",
-      userId: auth.userId
+      userId: auth.userId,
+      userRole: effectiveRoleFromSession(auth.session),
+      artifactId: artifactId || null
     })
     const content = result?.content || ""
     if (content && result?.debugMeta) {

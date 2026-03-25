@@ -245,7 +245,8 @@ export async function POST(request) {
             length,
             observabilityRoute: "api/documents/artifacts",
             observabilityStage: "document_generate",
-            userId: auth.userId
+            userId: auth.userId,
+            userRole: effectiveRoleFromSession(auth.session)
           })
           generatedDebugMeta = generated?.debugMeta || null
           return generated?.content || ""

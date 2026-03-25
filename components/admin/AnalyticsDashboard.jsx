@@ -169,6 +169,10 @@ const EVENT_OPTIONS = [
   { value: "tts_request", labelKey: "admin.analytics.events.tts_request" },
   { value: "rag_error", labelKey: "admin.analytics.events.rag_error" },
   { value: "openai_error", labelKey: "admin.analytics.events.openai_error" },
+  { value: "openai_usage", labelKey: "admin.analytics.events.openai_usage", fallbackLabel: "OpenAI usage" },
+  { value: "rag_cost_usage", labelKey: "admin.analytics.events.rag_cost_usage", fallbackLabel: "RAG cost usage" },
+  { value: "tts_cost_usage", labelKey: "admin.analytics.events.tts_cost_usage", fallbackLabel: "TTS cost usage" },
+  { value: "stt_cost_usage", labelKey: "admin.analytics.events.stt_cost_usage", fallbackLabel: "STT cost usage" },
   { value: "subscription_init_started", labelKey: "admin.analytics.events.subscription_init_started" },
   { value: "subscription_init_checkout_created", labelKey: "admin.analytics.events.subscription_init_checkout_created" },
   { value: "subscription_init_failed", labelKey: "admin.analytics.events.subscription_init_failed" },
@@ -230,6 +234,17 @@ function formatCount(value, localeTag) {
 }
 
 function formatPercent(value, localeTag, digits = 0) {
+  try {
+    return new Intl.NumberFormat(localeTag, {
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits
+    }).format(toNumber(value));
+  } catch {
+    return String(toNumber(value));
+  }
+}
+
+function formatDecimal(value, localeTag, digits = 2) {
   try {
     return new Intl.NumberFormat(localeTag, {
       minimumFractionDigits: digits,
@@ -382,7 +397,7 @@ export default function AnalyticsDashboard() {
   const eventLabels = useMemo(() => {
     const out = {};
     for (const entry of EVENT_OPTIONS) {
-      out[entry.value] = t(entry.labelKey, entry.value);
+      out[entry.value] = t(entry.labelKey, entry.fallbackLabel || entry.value);
     }
     return out;
   }, [t]);
@@ -412,6 +427,7 @@ export default function AnalyticsDashboard() {
       { href: "#analytics-rag-docs", label: t("admin.analytics.rag_docs.title", "RAG documents") },
       { href: "#analytics-billing", label: t("admin.analytics.billing.title", "Subscriptions and payments") },
       { href: "#analytics-users", label: t("admin.analytics.users.title", "Users, costs and limits") },
+      { href: "#analytics-ai-costs", label: t("admin.analytics.ai_costs.title", "AI Cost Activity") },
       { href: "#analytics-logs", label: t("admin.analytics.logs.title", "Logs") }
     ],
     [t]
@@ -442,9 +458,11 @@ export default function AnalyticsDashboard() {
   const [summary, setSummary] = useState(null);
   const [events, setEvents] = useState([]);
   const [usersAnalytics, setUsersAnalytics] = useState(null);
+  const [aiCosts, setAiCosts] = useState(null);
   const [loadingSummary, setLoadingSummary] = useState(false);
   const [loadingEvents, setLoadingEvents] = useState(false);
   const [loadingUsers, setLoadingUsers] = useState(false);
+  const [loadingAiCosts, setLoadingAiCosts] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [eventFilter, setEventFilter] = useState("all");
   const [isCrisisFilter, setIsCrisisFilter] = useState("all");
@@ -508,6 +526,22 @@ export default function AnalyticsDashboard() {
     [t]
   );
 
+  const getThresholdLabel = useCallback(
+    value => {
+      const normalized = String(value || "").trim().toLowerCase();
+      if (normalized === "exceeded") return t("admin.analytics.ai_costs.threshold.exceeded", "Exceeded");
+      if (normalized === "high") return t("admin.analytics.ai_costs.threshold.high", "High");
+      if (normalized === "warning") return t("admin.analytics.ai_costs.threshold.warning", "Warning");
+      return t("admin.analytics.ai_costs.threshold.normal", "Normal");
+    },
+    [t]
+  );
+
+  const getCoverageLabel = useCallback(
+    value => (value ? t("admin.analytics.ai_costs.coverage.complete", "Complete") : t("admin.analytics.ai_costs.coverage.partial", "Partial")),
+    [t]
+  );
+
   const summarizeEventMeta = useCallback(
     data => {
       const meta = data && typeof data === "object" ? data : {};
@@ -551,6 +585,81 @@ export default function AnalyticsDashboard() {
       }
       if (typeof meta.textLength === "number") {
         parts.push(`chars: ${formatCount(meta.textLength, localeTag)}`);
+      }
+      if (typeof meta.route === "string" && meta.route) {
+        parts.push(`route: ${meta.route}`);
+      }
+      if (typeof meta.stage === "string" && meta.stage) {
+        parts.push(`stage: ${meta.stage}`);
+      }
+      if (typeof meta.model === "string" && meta.model) {
+        parts.push(`model: ${meta.model}`);
+      }
+      if (typeof meta.upstream_route === "string" && meta.upstream_route) {
+        parts.push(`upstream route: ${meta.upstream_route}`);
+      }
+      if (typeof meta.upstream_stage === "string" && meta.upstream_stage) {
+        parts.push(`upstream stage: ${meta.upstream_stage}`);
+      }
+      if (typeof meta.userId === "string" && meta.userId) {
+        parts.push(`userId: ${meta.userId}`);
+      }
+      if (typeof meta.role === "string" && meta.role) {
+        parts.push(`role: ${meta.role}`);
+      }
+      if (typeof meta.input_tokens === "number") {
+        parts.push(`in: ${formatCount(meta.input_tokens, localeTag)}`);
+      }
+      if (typeof meta.cached_tokens === "number") {
+        parts.push(`cached: ${formatCount(meta.cached_tokens, localeTag)}`);
+      }
+      if (typeof meta.output_tokens === "number") {
+        parts.push(`out: ${formatCount(meta.output_tokens, localeTag)}`);
+      }
+      if (typeof meta.reasoning_tokens === "number") {
+        parts.push(`reasoning: ${formatCount(meta.reasoning_tokens, localeTag)}`);
+      }
+      if (typeof meta.prompt_tokens === "number") {
+        parts.push(`prompt: ${formatCount(meta.prompt_tokens, localeTag)}`);
+      }
+      if (typeof meta.total_tokens === "number") {
+        parts.push(`total: ${formatCount(meta.total_tokens, localeTag)}`);
+      }
+      if (typeof meta.text_chars === "number") {
+        parts.push(`chars: ${formatCount(meta.text_chars, localeTag)}`);
+      }
+      if (typeof meta.embedding_calls === "number") {
+        parts.push(`embedding calls: ${formatCount(meta.embedding_calls, localeTag)}`);
+      }
+      if (typeof meta.embedding_input_count === "number") {
+        parts.push(`embedding inputs: ${formatCount(meta.embedding_input_count, localeTag)}`);
+      }
+      if (typeof meta.chunk_count === "number") {
+        parts.push(`chunks: ${formatCount(meta.chunk_count, localeTag)}`);
+      }
+      if (typeof meta.result_count === "number") {
+        parts.push(`results: ${formatCount(meta.result_count, localeTag)}`);
+      }
+      if (typeof meta.top_k === "number") {
+        parts.push(`top_k: ${formatCount(meta.top_k, localeTag)}`);
+      }
+      if (typeof meta.duration_seconds === "number") {
+        parts.push(`sec: ${formatPercent(meta.duration_seconds, localeTag, 2)}`);
+      }
+      if (typeof meta.latency_ms === "number") {
+        parts.push(`latency: ${formatDecimal(meta.latency_ms, localeTag, 2)} ms`);
+      }
+      if (typeof meta.conversation_id === "string" && meta.conversation_id) {
+        parts.push(`conversation: ${meta.conversation_id}`);
+      }
+      if (typeof meta.artifact_id === "string" && meta.artifact_id) {
+        parts.push(`artifact: ${meta.artifact_id}`);
+      }
+      if (typeof meta.research_job_id === "string" && meta.research_job_id) {
+        parts.push(`research job: ${meta.research_job_id}`);
+      }
+      if (typeof meta.cost_estimation_basis === "string" && meta.cost_estimation_basis) {
+        parts.push(`estimated: ${meta.cost_estimation_basis}`);
       }
       if (parts.length) return parts.join(" | ");
       const fallback = JSON.stringify(meta);
@@ -620,11 +729,31 @@ export default function AnalyticsDashboard() {
     }
   }, [locale, requestJson, t, usersQuery]);
 
+  const loadAiCosts = useCallback(async () => {
+    setLoadingAiCosts(true);
+    try {
+      const params = new URLSearchParams();
+      params.set("days", "30");
+      params.set("locale", locale || "en");
+      const data = await requestJson(
+        `/api/admin/analytics/ai-costs?${params.toString()}`,
+        undefined,
+        "admin.analytics.errors.summary_fetch_failed"
+      );
+      setAiCosts(data);
+      setPageError("");
+    } catch (error) {
+      setPageError(error?.message || t("admin.analytics.errors.summary_fetch_failed", "AI cost analytics fetch failed."));
+    } finally {
+      setLoadingAiCosts(false);
+    }
+  }, [locale, requestJson, t]);
+
   const refreshAll = useCallback(async () => {
     setRefreshing(true);
-    await Promise.all([loadSummary(), loadEvents(), loadUsers()]);
+    await Promise.all([loadSummary(), loadEvents(), loadUsers(), loadAiCosts()]);
     setRefreshing(false);
-  }, [loadEvents, loadSummary, loadUsers]);
+  }, [loadAiCosts, loadEvents, loadSummary, loadUsers]);
 
   useEffect(() => {
     void loadSummary();
@@ -637,6 +766,10 @@ export default function AnalyticsDashboard() {
   useEffect(() => {
     void loadUsers();
   }, [loadUsers]);
+
+  useEffect(() => {
+    void loadAiCosts();
+  }, [loadAiCosts]);
 
   const visibleUserRows = useMemo(() => usersAnalytics?.items || [], [usersAnalytics]);
   const visibleUserIds = useMemo(() => visibleUserRows.map(row => row.userId), [visibleUserRows]);
@@ -859,6 +992,178 @@ export default function AnalyticsDashboard() {
       }
     ];
   }, [loadingSummary, localeTag, summary, t]);
+
+  const aiCostCards = useMemo(
+    () => [
+      {
+        title: t("admin.analytics.ai_costs.cards.total", "AI cost events"),
+        value: loadingAiCosts ? t("admin.common.loading", "Loading...") : formatCount(aiCosts?.summary?.total_events || 0, localeTag),
+        meta: t("admin.analytics.ai_costs.cards.total_meta", "ChatLog-based observability events")
+      },
+      {
+        title: t("admin.analytics.ai_costs.cards.direct", "Direct-usage events"),
+        value: loadingAiCosts ? t("admin.common.loading", "Loading...") : formatCount(aiCosts?.summary?.direct_usage_events || 0, localeTag),
+        meta: t("admin.analytics.ai_costs.cards.direct_meta", "Usage returned directly by provider APIs")
+      },
+      {
+        title: t("admin.analytics.ai_costs.cards.estimated", "Estimated-usage events"),
+        value: loadingAiCosts ? t("admin.common.loading", "Loading...") : formatCount(aiCosts?.summary?.estimated_usage_events || 0, localeTag),
+        meta: t("admin.analytics.ai_costs.cards.estimated_meta", "Events where cost must be estimated from request size or text length")
+      },
+      {
+        title: t("admin.analytics.ai_costs.cards.users", "Users with AI activity"),
+        value: loadingAiCosts ? t("admin.common.loading", "Loading...") : formatCount(aiCosts?.summary?.unique_users || 0, localeTag),
+        meta: t("admin.analytics.ai_costs.cards.users_meta", "Users seen in current AI observability window")
+      }
+    ],
+    [aiCosts, loadingAiCosts, localeTag, t]
+  );
+
+  const aiCostAverageItems = useMemo(
+    () => [
+      {
+        label: t("admin.analytics.ai_costs.avg.openai_input", "OpenAI input tokens / response"),
+        value:
+          loadingAiCosts || aiCosts?.summary?.averages?.openai_per_response?.input_tokens == null
+            ? loadingAiCosts
+              ? t("admin.common.loading", "Loading...")
+              : "-"
+            : formatPercent(aiCosts.summary.averages.openai_per_response.input_tokens, localeTag, 1)
+      },
+      {
+        label: t("admin.analytics.ai_costs.avg.openai_output", "OpenAI output tokens / response"),
+        value:
+          loadingAiCosts || aiCosts?.summary?.averages?.openai_per_response?.output_tokens == null
+            ? loadingAiCosts
+              ? t("admin.common.loading", "Loading...")
+              : "-"
+            : formatPercent(aiCosts.summary.averages.openai_per_response.output_tokens, localeTag, 1)
+      },
+      {
+        label: t("admin.analytics.ai_costs.avg.tts_chars", "TTS characters / job"),
+        value:
+          loadingAiCosts || aiCosts?.summary?.averages?.tts_per_job?.text_chars == null
+            ? loadingAiCosts
+              ? t("admin.common.loading", "Loading...")
+              : "-"
+            : formatPercent(aiCosts.summary.averages.tts_per_job.text_chars, localeTag, 1)
+      },
+      {
+        label: t("admin.analytics.ai_costs.avg.stt_tokens", "STT total tokens / job"),
+        value:
+          loadingAiCosts || aiCosts?.summary?.averages?.stt_per_job?.total_tokens == null
+            ? loadingAiCosts
+              ? t("admin.common.loading", "Loading...")
+              : "-"
+            : formatPercent(aiCosts.summary.averages.stt_per_job.total_tokens, localeTag, 1)
+      },
+      {
+        label: t("admin.analytics.ai_costs.avg.stt_duration", "STT seconds / job"),
+        value:
+          loadingAiCosts || aiCosts?.summary?.averages?.stt_per_job?.duration_seconds == null
+            ? loadingAiCosts
+              ? t("admin.common.loading", "Loading...")
+              : "-"
+            : formatPercent(aiCosts.summary.averages.stt_per_job.duration_seconds, localeTag, 2)
+      }
+    ],
+    [aiCosts, loadingAiCosts, localeTag, t]
+  );
+
+  const aiCostBreakdownCards = useMemo(
+    () => [
+      {
+        title: t("admin.analytics.ai_costs.breakdown.role", "By role"),
+        items: (aiCosts?.breakdowns?.by_role || []).slice(0, 5).map(row => ({
+          label: row.label || row.key || "-",
+          value: formatCount(row.events || 0, localeTag)
+        }))
+      },
+      {
+        title: t("admin.analytics.ai_costs.breakdown.package", "By package"),
+        items: (aiCosts?.breakdowns?.by_package || []).slice(0, 5).map(row => ({
+          label: row.label || row.key || "-",
+          value: formatCount(row.events || 0, localeTag)
+        }))
+      },
+      {
+        title: t("admin.analytics.ai_costs.breakdown.model", "By model"),
+        items: (aiCosts?.breakdowns?.by_model || []).slice(0, 5).map(row => ({
+          label: row.label || row.key || "-",
+          value: formatCount(row.events || 0, localeTag)
+        }))
+      }
+    ],
+    [aiCosts, localeTag, t]
+  );
+
+  const aiThresholdCards = useMemo(
+    () => [
+      {
+        title: t("admin.analytics.ai_costs.threshold.users_70", "Users >= 70%"),
+        value:
+          loadingAiCosts
+            ? t("admin.common.loading", "Loading...")
+            : formatCount(aiCosts?.summary?.threshold_counts?.users_at_or_above_70_pct || 0, localeTag)
+      },
+      {
+        title: t("admin.analytics.ai_costs.threshold.users_85", "Users >= 85%"),
+        value:
+          loadingAiCosts
+            ? t("admin.common.loading", "Loading...")
+            : formatCount(aiCosts?.summary?.threshold_counts?.users_at_or_above_85_pct || 0, localeTag)
+      },
+      {
+        title: t("admin.analytics.ai_costs.threshold.users_100", "Users >= 100%"),
+        value:
+          loadingAiCosts
+            ? t("admin.common.loading", "Loading...")
+            : formatCount(aiCosts?.summary?.threshold_counts?.users_at_or_above_100_pct || 0, localeTag)
+      },
+      {
+        title: t("admin.analytics.ai_costs.threshold.packages_85", "Packages >= 85%"),
+        value:
+          loadingAiCosts
+            ? t("admin.common.loading", "Loading...")
+            : formatCount(aiCosts?.summary?.threshold_counts?.packages_at_or_above_85_pct || 0, localeTag)
+      }
+    ],
+    [aiCosts, loadingAiCosts, localeTag, t]
+  );
+
+  const aiAdminGuideItems = useMemo(
+    () => [
+      {
+        label: t("admin.analytics.ai_costs.guide.includes", "Included now"),
+        value: "openai_usage, rag_cost_usage, tts_cost_usage, stt_cost_usage"
+      },
+      {
+        label: t("admin.analytics.ai_costs.guide.units", "internal_usage_units"),
+        value: "Normalized internal usage units for comparison and thresholding, not exact provider billing."
+      },
+      {
+        label: t("admin.analytics.ai_costs.guide.thresholds", "Thresholds"),
+        value: "Normal <70%, warning >=70%, high >=85%, exceeded >=100%."
+      },
+      {
+        label: t("admin.analytics.ai_costs.guide.breakdowns", "Breakdowns"),
+        value: "Route/stage shows where usage happens, role/package shows who carries it, model shows which model family drives it."
+      },
+      {
+        label: t("admin.analytics.ai_costs.guide.top", "Top users and features"),
+        value: "Look for concentration, repeated heavy stages, and sharp differences between direct and estimated usage."
+      },
+      {
+        label: t("admin.analytics.ai_costs.guide.coverage", "Coverage"),
+        value: "Some usage is direct from provider responses, some is estimated. Treat this as an operational dashboard, not an invoice."
+      },
+      {
+        label: t("admin.analytics.ai_costs.guide.actions", "Operational use"),
+        value: "Before changing pricing or limits, check coverage, route/stage concentration, user/package threshold status, and whether heavy usage is expected."
+      }
+    ],
+    [t]
+  );
 
   const toggleUserSelection = useCallback(userId => {
     setSelectedUserIds(prev => (prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]));
@@ -1157,7 +1462,7 @@ export default function AnalyticsDashboard() {
                 className={refreshButtonClassName}
                 style={refreshButtonStyle}
                 onClick={refreshAll}
-                disabled={refreshing || loadingSummary || loadingEvents || loadingUsers}
+                disabled={refreshing || loadingSummary || loadingEvents || loadingUsers || loadingAiCosts}
               >
                 {refreshing ? t("admin.common.loading_data", "Loading...") : t("admin.common.refresh", "Refresh")}
               </Button>
@@ -2213,6 +2518,361 @@ export default function AnalyticsDashboard() {
                 budgetWorker: toNumber(usersAnalytics?.costModel?.monthlyBudgetWorkerEur || 0).toFixed(2)
               },
               "Cost model note."
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className={cardClassName} id="analytics-ai-costs">
+        <div className={cardBodyClassName}>
+          <div className={sectionHeadClassName}>
+            <div>
+              <CardTitle>{t("admin.analytics.ai_costs.title", "AI Cost Activity")}</CardTitle>
+              <div className={sectionSubClassName}>
+                {t(
+                  "admin.analytics.ai_costs.subtitle",
+                  "ChatLog-based OpenAI, RAG, TTS and STT observability."
+                )}
+              </div>
+            </div>
+          </div>
+
+          <SectionAlert
+            tone="info"
+            message={
+              aiCosts?.coverage?.note ||
+              "RAG/embedding cost is not yet included because rag_cost_usage has not been mirrored into ChatLog yet."
+            }
+          />
+
+          <SectionAlert
+            tone="info"
+            message={
+              aiCosts?.unit_model
+                ? `${aiCosts.unit_model.version}: ${aiCosts.unit_model.note}`
+                : "v2: internal_usage_units are normalized internal analytics units for budget tracking. They are not exact provider billing."
+            }
+          />
+
+          <MetricListCard title={t("admin.analytics.ai_costs.guide.title", "How to read this")} items={aiAdminGuideItems} />
+
+          <div className={usersSummaryGridClassName}>
+            {aiCostCards.map(card => (
+              <KpiCard key={card.title} title={card.title} value={card.value} meta={card.meta} />
+            ))}
+          </div>
+
+          <div className={usersSummaryGridClassName}>
+            {aiThresholdCards.map(card => (
+              <KpiCard key={card.title} title={card.title} value={card.value} />
+            ))}
+          </div>
+
+          <div className={platformGridClassName}>
+            <MetricListCard title={t("admin.analytics.ai_costs.average_usage", "Average usage")} items={aiCostAverageItems} />
+            {aiCostBreakdownCards.map(card => (
+              <MetricListCard
+                key={card.title}
+                title={card.title}
+                items={
+                  card.items.length
+                    ? card.items
+                    : [
+                        {
+                          label: t("admin.analytics.table.empty", "No records found."),
+                          value: "-"
+                        }
+                      ]
+                }
+              />
+            ))}
+          </div>
+
+          <div className={tableHeaderClassName}>
+            <div className={tableScrollHintClassName}>
+              {t("admin.common.table_scroll_hint", "Scroll sideways on smaller screens to see all columns.")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
+                  <tr>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.route", "Route")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.stage", "Stage")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.units", "Internal usage units")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.events", "Events")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.direct", "Direct")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.estimated", "Estimated")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.coverage.label", "Coverage")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loadingAiCosts ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={7}>
+                        {t("admin.common.loading_data", "Loading...")}
+                      </td>
+                    </tr>
+                  ) : (aiCosts?.top_features || []).length ? (
+                    aiCosts.top_features.map(row => (
+                      <tr key={`${row.route}-${row.stage}`} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>{row.route || "-"}</td>
+                        <td className={tableCellClassName}>{row.stage || "-"}</td>
+                        <td className={tableCellClassName}>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</td>
+                        <td className={tableCellClassName}>{formatCount(row.events || 0, localeTag)}</td>
+                        <td className={tableCellClassName}>{formatCount(row.direct_usage_events || 0, localeTag)}</td>
+                        <td className={tableCellClassName}>{formatCount(row.estimated_usage_events || 0, localeTag)}</td>
+                        <td className={`${tableCellClassName} ${cellSubClassName}`}>
+                          {getCoverageLabel(row.coverage_complete)}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={7}>
+                        {t("admin.analytics.table.empty", "No records found.")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingAiCosts ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : (aiCosts?.top_features || []).length ? (
+              aiCosts.top_features.map(row => (
+                <div key={`${row.route}-${row.stage}`} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div>
+                      <div className={mobileRowTitleClassName}>{row.route || "-"}</div>
+                      <div className={mobileRowSubClassName}>{row.stage || "-"}</div>
+                    </div>
+                    <span className={usersSelectCountClassName}>{formatCount(row.events || 0, localeTag)}</span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField
+                      label={t("admin.analytics.ai_costs.units", "Internal usage units")}
+                      value={formatPercent(row.internal_usage_units || 0, localeTag, 1)}
+                    />
+                    <MobileInfoField
+                      label={t("admin.analytics.ai_costs.features.direct", "Direct")}
+                      value={formatCount(row.direct_usage_events || 0, localeTag)}
+                    />
+                    <MobileInfoField
+                      label={t("admin.analytics.ai_costs.features.estimated", "Estimated")}
+                      value={formatCount(row.estimated_usage_events || 0, localeTag)}
+                    />
+                  </div>
+                  <MobileInfoField
+                    label={t("admin.analytics.ai_costs.coverage.label", "Coverage")}
+                    value={getCoverageLabel(row.coverage_complete)}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>{t("admin.analytics.table.empty", "No records found.")}</div>
+            )}
+          </div>
+
+          <div className={tableHeaderClassName}>
+            <div className={sectionSubClassName}>
+              {t("admin.analytics.ai_costs.users_title", "User budget tracking")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
+                  <tr>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.user", "User")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.role", "Role")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.package", "Package")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.units", "Internal usage units")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.budget_units", "Budget units / month")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.utilization", "Utilization")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.threshold.label", "Threshold")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.coverage.label", "Coverage")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loadingAiCosts ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={8}>
+                        {t("admin.common.loading_data", "Loading...")}
+                      </td>
+                    </tr>
+                  ) : (aiCosts?.top_users || []).length ? (
+                    aiCosts.top_users.map(row => (
+                      <tr key={row.user_id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>
+                          <div>{row.email || row.user_id || "-"}</div>
+                          <div className={cellSubClassName}>{row.user_id || "-"}</div>
+                        </td>
+                        <td className={tableCellClassName}>{getRoleLabel(row.role, false)}</td>
+                        <td className={tableCellClassName}>{row.package || "-"}</td>
+                        <td className={tableCellClassName}>
+                          <div>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.ai_costs.features.direct", "Direct")}:{" "}
+                            {formatPercent(row.internal_usage_units_direct || 0, localeTag, 1)}
+                          </div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.ai_costs.features.estimated", "Estimated")}:{" "}
+                            {formatPercent(row.internal_usage_units_estimated || 0, localeTag, 1)}
+                          </div>
+                        </td>
+                        <td className={tableCellClassName}>{formatPercent(row.budget_units_monthly || 0, localeTag, 1)}</td>
+                        <td className={tableCellClassName}>{`${formatPercent(row.utilization_pct || 0, localeTag, 1)}%`}</td>
+                        <td className={tableCellClassName}>{getThresholdLabel(row.threshold_state)}</td>
+                        <td className={`${tableCellClassName} ${cellSubClassName}`}>
+                          <div>{getCoverageLabel(row.coverage_complete)}</div>
+                          <div className={cellSubClassName}>{row.coverage_note || "-"}</div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={8}>
+                        {t("admin.analytics.table.empty", "No records found.")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingAiCosts ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : (aiCosts?.top_users || []).length ? (
+              aiCosts.top_users.map(row => (
+                <div key={row.user_id} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div>
+                      <div className={mobileRowTitleClassName}>{row.email || row.user_id || "-"}</div>
+                      <div className={mobileRowSubClassName}>{row.user_id || "-"}</div>
+                    </div>
+                    <span className={usersSelectCountClassName}>{getThresholdLabel(row.threshold_state)}</span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField label={t("admin.analytics.users.table.role", "Role")} value={getRoleLabel(row.role, false)} />
+                    <MobileInfoField label={t("admin.analytics.ai_costs.package", "Package")} value={row.package || "-"} />
+                    <MobileInfoField
+                      label={t("admin.analytics.ai_costs.units", "Internal usage units")}
+                      value={formatPercent(row.internal_usage_units || 0, localeTag, 1)}
+                    />
+                    <MobileInfoField
+                      label={t("admin.analytics.ai_costs.budget_units", "Budget units / month")}
+                      value={formatPercent(row.budget_units_monthly || 0, localeTag, 1)}
+                    />
+                  </div>
+                  <MobileInfoField
+                    label={t("admin.analytics.ai_costs.utilization", "Utilization")}
+                    value={`${formatPercent(row.utilization_pct || 0, localeTag, 1)}%`}
+                  />
+                  <MobileInfoField
+                    label={t("admin.analytics.ai_costs.coverage.label", "Coverage")}
+                    value={`${getCoverageLabel(row.coverage_complete)}${row.coverage_note ? ` | ${row.coverage_note}` : ""}`}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>{t("admin.analytics.table.empty", "No records found.")}</div>
+            )}
+          </div>
+
+          <div className={tableHeaderClassName}>
+            <div className={sectionSubClassName}>
+              {t("admin.analytics.ai_costs.packages_title", "Package budget tracking")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
+                  <tr>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.package", "Package")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.package_users", "Users")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.units", "Internal usage units")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.budget_units", "Budget units / month")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.utilization", "Utilization")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.threshold.label", "Threshold")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.coverage.label", "Coverage")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loadingAiCosts ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={7}>
+                        {t("admin.common.loading_data", "Loading...")}
+                      </td>
+                    </tr>
+                  ) : (aiCosts?.package_budget_tracking || []).length ? (
+                    aiCosts.package_budget_tracking.map(row => (
+                      <tr key={row.package} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>{row.package || "-"}</td>
+                        <td className={tableCellClassName}>{formatCount(row.users || 0, localeTag)}</td>
+                        <td className={tableCellClassName}>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</td>
+                        <td className={tableCellClassName}>{formatPercent(row.budget_units_monthly || 0, localeTag, 1)}</td>
+                        <td className={tableCellClassName}>{`${formatPercent(row.utilization_pct || 0, localeTag, 1)}%`}</td>
+                        <td className={tableCellClassName}>{getThresholdLabel(row.threshold_state)}</td>
+                        <td className={`${tableCellClassName} ${cellSubClassName}`}>
+                          <div>{getCoverageLabel(row.coverage_complete)}</div>
+                          <div className={cellSubClassName}>{row.coverage_note || "-"}</div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={7}>
+                        {t("admin.analytics.table.empty", "No records found.")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingAiCosts ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : (aiCosts?.package_budget_tracking || []).length ? (
+              aiCosts.package_budget_tracking.map(row => (
+                <div key={row.package} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div>
+                      <div className={mobileRowTitleClassName}>{row.package || "-"}</div>
+                      <div className={mobileRowSubClassName}>
+                        {t("admin.analytics.ai_costs.package_users", "Users")}: {formatCount(row.users || 0, localeTag)}
+                      </div>
+                    </div>
+                    <span className={usersSelectCountClassName}>{getThresholdLabel(row.threshold_state)}</span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField
+                      label={t("admin.analytics.ai_costs.units", "Internal usage units")}
+                      value={formatPercent(row.internal_usage_units || 0, localeTag, 1)}
+                    />
+                    <MobileInfoField
+                      label={t("admin.analytics.ai_costs.budget_units", "Budget units / month")}
+                      value={formatPercent(row.budget_units_monthly || 0, localeTag, 1)}
+                    />
+                  </div>
+                  <MobileInfoField
+                    label={t("admin.analytics.ai_costs.utilization", "Utilization")}
+                    value={`${formatPercent(row.utilization_pct || 0, localeTag, 1)}%`}
+                  />
+                  <MobileInfoField
+                    label={t("admin.analytics.ai_costs.coverage.label", "Coverage")}
+                    value={`${getCoverageLabel(row.coverage_complete)}${row.coverage_note ? ` | ${row.coverage_note}` : ""}`}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>{t("admin.analytics.table.empty", "No records found.")}</div>
             )}
           </div>
         </div>

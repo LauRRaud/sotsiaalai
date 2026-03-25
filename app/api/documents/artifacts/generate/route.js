@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { effectiveRoleFromSession } from "@/lib/authz"
 import {
   normalizeArtifactTitle,
   normalizeArtifactType,
@@ -142,7 +143,8 @@ export async function POST(request) {
       length,
       observabilityRoute: "api/documents/artifacts/generate",
       observabilityStage: "document_generate",
-      userId: auth.userId
+      userId: auth.userId,
+      userRole: effectiveRoleFromSession(auth.session)
     })
     const content = result?.content || ""
     if (content && result?.debugMeta) {

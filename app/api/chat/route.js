@@ -522,7 +522,12 @@ function buildSseImmediateResponse({ sources = [], isCrisis = false, reply = "",
 async function searchRagDirect({
   query,
   topK = RAG_TOP_K,
-  filters
+  filters,
+  observabilityRoute = "api/chat",
+  observabilityStage = "rag_search",
+  userId = null,
+  role = null,
+  conversationId = null
 }) {
   const body = {
     query,
@@ -535,6 +540,21 @@ async function searchRagDirect({
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...(observabilityRoute ? {
+        "X-Observability-Route": observabilityRoute
+      } : {}),
+      ...(observabilityStage ? {
+        "X-Observability-Stage": observabilityStage
+      } : {}),
+      ...(userId ? {
+        "X-Observability-User-Id": String(userId)
+      } : {}),
+      ...(role ? {
+        "X-Observability-Role": String(role)
+      } : {}),
+      ...(conversationId ? {
+        "X-Observability-Conversation-Id": String(conversationId)
+      } : {}),
       ...(RAG_KEY ? {
         "X-API-Key": RAG_KEY
       } : {})
@@ -1258,7 +1278,9 @@ export async function POST(req) {
           length: taskConfig.length,
           observabilityRoute: "api/chat",
           observabilityStage: "document_generate",
-          userId
+          userId,
+          userRole: normalizedRole,
+          conversationId: convId
         });
         const content = String(generated?.content || "").trim();
         if (!content) throw new Error("documents.artifacts.errors.ai_empty");
@@ -1624,7 +1646,10 @@ export async function POST(req) {
       matches = await searchRagDirect({
         query: effectiveMessage,
         topK: RAG_TOP_K,
-        filters: audienceFilter
+        filters: audienceFilter,
+        userId,
+        role: normalizedRole,
+        conversationId: convId
       });
     } catch (err) {
       logError("rag.search.error", {
