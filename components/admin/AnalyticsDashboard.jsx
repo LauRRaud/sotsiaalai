@@ -1014,6 +1014,17 @@ export default function AnalyticsDashboard() {
         title: t("admin.analytics.ai_costs.cards.users", "Users with AI activity"),
         value: loadingAiCosts ? t("admin.common.loading", "Loading...") : formatCount(aiCosts?.summary?.unique_users || 0, localeTag),
         meta: t("admin.analytics.ai_costs.cards.users_meta", "Users seen in current AI observability window")
+      },
+      {
+        title: t("admin.analytics.ai_costs.cards.approx_eur", "Approx. AI cost"),
+        value:
+          loadingAiCosts
+            ? t("admin.common.loading", "Loading...")
+            : formatMoney(aiCosts?.summary?.approximate_cost_eur?.total || 0, "EUR", localeTag),
+        meta: t(
+          "admin.analytics.ai_costs.cards.approx_eur_meta",
+          `Approximate provider-cost-equivalent over ${formatCount(aiCosts?.periodDays || 0, localeTag)} days`
+        )
       }
     ],
     [aiCosts, loadingAiCosts, localeTag, t]
@@ -1070,6 +1081,40 @@ export default function AnalyticsDashboard() {
     [aiCosts, loadingAiCosts, localeTag, t]
   );
 
+  const aiApproxCostItems = useMemo(
+    () => {
+      const approx = aiCosts?.summary?.approximate_cost_eur;
+      const loadingLabel = t("admin.common.loading", "Loading...");
+      return [
+        {
+          label: t("admin.analytics.ai_costs.approx.total", "Total"),
+          value: loadingAiCosts ? loadingLabel : formatMoney(approx?.total || 0, "EUR", localeTag)
+        },
+        {
+          label: t("admin.analytics.ai_costs.approx.direct", "Direct"),
+          value: loadingAiCosts ? loadingLabel : formatMoney(approx?.direct || 0, "EUR", localeTag)
+        },
+        {
+          label: t("admin.analytics.ai_costs.approx.estimated", "Estimated"),
+          value: loadingAiCosts ? loadingLabel : formatMoney(approx?.estimated || 0, "EUR", localeTag)
+        },
+        {
+          label: t("admin.analytics.ai_costs.approx.openai", "Text"),
+          value: loadingAiCosts ? loadingLabel : formatMoney(approx?.openai || 0, "EUR", localeTag)
+        },
+        {
+          label: t("admin.analytics.ai_costs.approx.rag", "RAG"),
+          value: loadingAiCosts ? loadingLabel : formatMoney(approx?.rag || 0, "EUR", localeTag)
+        },
+        {
+          label: t("admin.analytics.ai_costs.approx.tts_stt", "TTS + STT"),
+          value: loadingAiCosts ? loadingLabel : formatMoney((approx?.tts || 0) + (approx?.stt || 0), "EUR", localeTag)
+        }
+      ];
+    },
+    [aiCosts, loadingAiCosts, localeTag, t]
+  );
+
   const aiCostBreakdownCards = useMemo(
     () => [
       {
@@ -1095,6 +1140,56 @@ export default function AnalyticsDashboard() {
       }
     ],
     [aiCosts, localeTag, t]
+  );
+
+  const aiAttributionItems = useMemo(
+    () => {
+      const completeness = aiCosts?.summary?.attribution_completeness;
+      const loadingLabel = t("admin.common.loading", "Loading...");
+      const totalEvents = completeness?.openai_usage_events || 0;
+      const userIdPct = completeness?.pct_with_userId;
+      const rolePct = completeness?.pct_with_role;
+      const excludedRoutes = Array.isArray(completeness?.excluded_internal_routes)
+        ? completeness.excluded_internal_routes.filter(Boolean).join(", ")
+        : "";
+
+      return [
+        {
+          label: t("admin.analytics.ai_costs.attribution.scope", "Scope"),
+          value:
+            loadingAiCosts
+              ? loadingLabel
+              : t("admin.analytics.ai_costs.attribution.scope_value", "User-facing standard text openai_usage")
+        },
+        {
+          label: t("admin.analytics.ai_costs.attribution.events", "Included events"),
+          value: loadingAiCosts ? loadingLabel : formatCount(totalEvents, localeTag)
+        },
+        {
+          label: t("admin.analytics.ai_costs.attribution.user_id", "Rows with userId"),
+          value:
+            loadingAiCosts
+              ? loadingLabel
+              : userIdPct == null
+                ? "-"
+                : `${formatPercent(userIdPct, localeTag, 1)}% (${formatCount(completeness?.with_userId || 0, localeTag)})`
+        },
+        {
+          label: t("admin.analytics.ai_costs.attribution.role", "Rows with role"),
+          value:
+            loadingAiCosts
+              ? loadingLabel
+              : rolePct == null
+                ? "-"
+                : `${formatPercent(rolePct, localeTag, 1)}% (${formatCount(completeness?.with_role || 0, localeTag)})`
+        },
+        {
+          label: t("admin.analytics.ai_costs.attribution.excluded", "Excluded internal routes"),
+          value: loadingAiCosts ? loadingLabel : excludedRoutes || "-"
+        }
+      ];
+    },
+    [aiCosts, loadingAiCosts, localeTag, t]
   );
 
   const aiThresholdCards = useMemo(
@@ -1140,6 +1235,10 @@ export default function AnalyticsDashboard() {
       {
         label: t("admin.analytics.ai_costs.guide.units", "internal_usage_units"),
         value: "Normalized internal usage units for comparison and thresholding, not exact provider billing."
+      },
+      {
+        label: t("admin.analytics.ai_costs.guide.approx_eur", "Approximate EUR"),
+        value: "Approximate EUR is a provider-cost-equivalent management view. It helps product and pricing decisions, but it is still not invoice-grade billing."
       },
       {
         label: t("admin.analytics.ai_costs.guide.thresholds", "Thresholds"),
@@ -2570,6 +2669,8 @@ export default function AnalyticsDashboard() {
 
           <div className={platformGridClassName}>
             <MetricListCard title={t("admin.analytics.ai_costs.average_usage", "Average usage")} items={aiCostAverageItems} />
+            <MetricListCard title={t("admin.analytics.ai_costs.approx.title", "Approximate EUR view")} items={aiApproxCostItems} />
+            <MetricListCard title={t("admin.analytics.ai_costs.attribution.title", "Attribution completeness")} items={aiAttributionItems} />
             {aiCostBreakdownCards.map(card => (
               <MetricListCard
                 key={card.title}
@@ -2716,6 +2817,10 @@ export default function AnalyticsDashboard() {
                         <td className={tableCellClassName}>
                           <div>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</div>
                           <div className={cellSubClassName}>
+                            {t("admin.analytics.ai_costs.approx.short", "Approx.")}:{" "}
+                            {formatMoney(row.approximate_cost_eur || 0, "EUR", localeTag)}
+                          </div>
+                          <div className={cellSubClassName}>
                             {t("admin.analytics.ai_costs.features.direct", "Direct")}:{" "}
                             {formatPercent(row.internal_usage_units_direct || 0, localeTag, 1)}
                           </div>
@@ -2762,7 +2867,15 @@ export default function AnalyticsDashboard() {
                     <MobileInfoField label={t("admin.analytics.ai_costs.package", "Package")} value={row.package || "-"} />
                     <MobileInfoField
                       label={t("admin.analytics.ai_costs.units", "Internal usage units")}
-                      value={formatPercent(row.internal_usage_units || 0, localeTag, 1)}
+                      value={
+                        <>
+                          <div>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.ai_costs.approx.short", "Approx.")}:{" "}
+                            {formatMoney(row.approximate_cost_eur || 0, "EUR", localeTag)}
+                          </div>
+                        </>
+                      }
                     />
                     <MobileInfoField
                       label={t("admin.analytics.ai_costs.budget_units", "Budget units / month")}
@@ -2815,7 +2928,13 @@ export default function AnalyticsDashboard() {
                       <tr key={row.package} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
                         <td className={tableCellClassName}>{row.package || "-"}</td>
                         <td className={tableCellClassName}>{formatCount(row.users || 0, localeTag)}</td>
-                        <td className={tableCellClassName}>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</td>
+                        <td className={tableCellClassName}>
+                          <div>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.ai_costs.approx.short", "Approx.")}:{" "}
+                            {formatMoney(row.approximate_cost_eur || 0, "EUR", localeTag)}
+                          </div>
+                        </td>
                         <td className={tableCellClassName}>{formatPercent(row.budget_units_monthly || 0, localeTag, 1)}</td>
                         <td className={tableCellClassName}>{`${formatPercent(row.utilization_pct || 0, localeTag, 1)}%`}</td>
                         <td className={tableCellClassName}>{getThresholdLabel(row.threshold_state)}</td>
@@ -2854,7 +2973,15 @@ export default function AnalyticsDashboard() {
                   <div className={mobileFieldGridClassName}>
                     <MobileInfoField
                       label={t("admin.analytics.ai_costs.units", "Internal usage units")}
-                      value={formatPercent(row.internal_usage_units || 0, localeTag, 1)}
+                      value={
+                        <>
+                          <div>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</div>
+                          <div className={cellSubClassName}>
+                            {t("admin.analytics.ai_costs.approx.short", "Approx.")}:{" "}
+                            {formatMoney(row.approximate_cost_eur || 0, "EUR", localeTag)}
+                          </div>
+                        </>
+                      }
                     />
                     <MobileInfoField
                       label={t("admin.analytics.ai_costs.budget_units", "Budget units / month")}

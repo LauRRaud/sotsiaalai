@@ -22,6 +22,12 @@ This means the section covers standard text Responses usage, mirrored RAG/embedd
 
 Use them as an operational comparison metric, not as a finance-grade invoice number.
 
+The current admin view also shows an approximate-EUR view alongside units.
+
+- Use `internal_usage_units` for normalized comparison and thresholding.
+- Use approximate EUR for management interpretation of likely provider-cost pressure.
+- Do not treat the approximate EUR view as exact billing either.
+
 ## 3. How to read thresholds
 
 The current threshold states are:
@@ -67,6 +73,11 @@ Caveats:
 - Estimated events should not be read too precisely.
 - Thresholds are operational signals, not final pricing policy.
 - Do not conclude too quickly that a user or package is "unprofitable" from this view alone.
+
+Attribution completeness:
+- The AI Cost Activity section also includes an attribution completeness view for user-facing standard text `openai_usage`.
+- It shows whether `userId` and `role` coverage remain complete enough for reliable role/package analysis.
+- Internal selftest routes are excluded from that completeness check on purpose.
 
 ## 7. Operational guidance
 

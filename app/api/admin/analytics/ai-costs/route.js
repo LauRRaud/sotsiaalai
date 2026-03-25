@@ -30,6 +30,7 @@ const PARTIAL_COVERAGE_ROUTES = [
   "api/documents/artifacts/refine",
   "api/research/jobs"
 ];
+const INTERNAL_OPENAI_USAGE_ROUTES = ["api/rag/selftest"];
 const THRESHOLDS = {
   warning_pct: 70,
   high_pct: 85,
@@ -150,6 +151,13 @@ function createUsageAccumulator() {
     internal_usage_units: 0,
     internal_usage_units_direct: 0,
     internal_usage_units_estimated: 0,
+    approximate_cost_eur: 0,
+    approximate_cost_eur_direct: 0,
+    approximate_cost_eur_estimated: 0,
+    openai_approximate_cost_eur: 0,
+    rag_approximate_cost_eur: 0,
+    tts_approximate_cost_eur: 0,
+    stt_approximate_cost_eur: 0,
     samples: {
       openai_input_tokens: 0,
       openai_cached_tokens: 0,
@@ -229,23 +237,67 @@ function computeInternalUsageUnits(row) {
   return 0;
 }
 
+function computeApproximateCostEur(row) {
+  const data = isObject(row?.data) ? row.data : {};
+  const event = String(row?.event || "");
+
+  if (event === "openai_usage") {
+    return round6(
+      toCount(data?.input_tokens) * OPENAI_INPUT_TOKEN_EUR_EQ +
+        toCount(data?.cached_tokens) * OPENAI_CACHED_TOKEN_EUR_EQ +
+        toCount(data?.output_tokens) * OPENAI_OUTPUT_TOKEN_EUR_EQ +
+        toCount(data?.reasoning_tokens) * OPENAI_REASONING_TOKEN_EUR_EQ
+    );
+  }
+
+  if (event === "tts_cost_usage") {
+    return round6((toCount(data?.text_chars) / 1000) * COST_TTS_PER_1K_CHARS_EUR);
+  }
+
+  if (event === "stt_cost_usage") {
+    const totalTokens = toNumber(data?.total_tokens);
+    if (data?.cost_read_directly === true && totalTokens != null) {
+      return round6(totalTokens * STT_DIRECT_TOTAL_TOKEN_EUR_EQ);
+    }
+
+    const durationSeconds = toNumber(data?.duration_seconds);
+    if (data?.cost_read_directly === true && durationSeconds != null) {
+      return round6(durationSeconds * STT_DIRECT_DURATION_SECOND_EUR_EQ);
+    }
+
+    const fileSizeBytes = toNumber(data?.file_size_bytes);
+    const audioMb = fileSizeBytes != null && fileSizeBytes > 0 ? fileSizeBytes / (1024 * 1024) : 0;
+    return round6(audioMb * COST_STT_PER_AUDIO_MB_EUR);
+  }
+
+  if (event === "rag_cost_usage") {
+    return round6(toCount(data?.prompt_tokens) * RAG_PROMPT_TOKEN_EUR_EQ);
+  }
+
+  return 0;
+}
+
 function addRowToAccumulator(target, row) {
   const data = isObject(row?.data) ? row.data : {};
   const event = String(row?.event || "");
   const route = toText(data?.route, "unknown");
   const stage = toText(data?.stage, "unknown");
   const units = computeInternalUsageUnits(row);
+  const approximateCostEur = computeApproximateCostEur(row);
   const directUsage = isDirectUsageEvent(event, data);
 
   target.events += 1;
   if (directUsage) {
     target.direct_usage_events += 1;
     target.internal_usage_units_direct += units;
+    target.approximate_cost_eur_direct += approximateCostEur;
   } else {
     target.estimated_usage_events += 1;
     target.internal_usage_units_estimated += units;
+    target.approximate_cost_eur_estimated += approximateCostEur;
   }
   target.internal_usage_units += units;
+  target.approximate_cost_eur += approximateCostEur;
 
   if (row?.userId) target.user_ids.add(row.userId);
   if (data?.model) target.models.add(String(data.model));
@@ -254,6 +306,7 @@ function addRowToAccumulator(target, row) {
 
   if (event === "openai_usage") {
     target.openai_responses += 1;
+    target.openai_approximate_cost_eur += approximateCostEur;
     addMetric(target, "openai_input_tokens", data?.input_tokens);
     addMetric(target, "openai_cached_tokens", data?.cached_tokens);
     addMetric(target, "openai_output_tokens", data?.output_tokens);
@@ -263,6 +316,7 @@ function addRowToAccumulator(target, row) {
 
   if (event === "rag_cost_usage") {
     target.rag_jobs += 1;
+    target.rag_approximate_cost_eur += approximateCostEur;
     addMetric(target, "rag_prompt_tokens", data?.prompt_tokens);
     addMetric(target, "rag_total_tokens", data?.total_tokens);
     return;
@@ -270,12 +324,14 @@ function addRowToAccumulator(target, row) {
 
   if (event === "tts_cost_usage") {
     target.tts_jobs += 1;
+    target.tts_approximate_cost_eur += approximateCostEur;
     addMetric(target, "tts_text_chars", data?.text_chars);
     return;
   }
 
   if (event === "stt_cost_usage") {
     target.stt_jobs += 1;
+    target.stt_approximate_cost_eur += approximateCostEur;
     addMetric(target, "stt_total_tokens", data?.total_tokens);
     addMetric(target, "stt_duration_seconds", data?.duration_seconds);
     addMetric(target, "stt_file_size_bytes", data?.file_size_bytes);
@@ -299,6 +355,35 @@ function buildCoverage(routeSet, options = {}) {
     coverage_note: coverageComplete ? null : COVERAGE_NOTE_EXCLUDED,
     included_routes: includedRoutes,
     partial_routes: partialRoutes
+  };
+}
+
+function isInternalOpenAIUsageRow(row) {
+  const data = isObject(row?.data) ? row.data : {};
+  const route = toText(data?.route, "");
+  return INTERNAL_OPENAI_USAGE_ROUTES.includes(route);
+}
+
+function buildAttributionCompleteness(rows = []) {
+  const relevantRows = (Array.isArray(rows) ? rows : []).filter(row => {
+    if (String(row?.event || "") !== "openai_usage") return false;
+    return !isInternalOpenAIUsageRow(row);
+  });
+
+  const total = relevantRows.length;
+  const withUserId = relevantRows.filter(row => Boolean(String(row?.userId || "").trim())).length;
+  const withRole = relevantRows.filter(row => Boolean(String(row?.role || "").trim())).length;
+
+  return {
+    scope: "standard_text_user_facing",
+    excluded_internal_routes: INTERNAL_OPENAI_USAGE_ROUTES,
+    openai_usage_events: total,
+    with_userId: withUserId,
+    with_role: withRole,
+    missing_userId: Math.max(0, total - withUserId),
+    missing_role: Math.max(0, total - withRole),
+    pct_with_userId: total > 0 ? round2((withUserId / total) * 100) : null,
+    pct_with_role: total > 0 ? round2((withRole / total) * 100) : null
   };
 }
 
@@ -348,6 +433,13 @@ function bucketToJson(bucket, extras = {}, coverageOptions = {}) {
     internal_usage_units: round2(bucket.internal_usage_units),
     internal_usage_units_direct: round2(bucket.internal_usage_units_direct),
     internal_usage_units_estimated: round2(bucket.internal_usage_units_estimated),
+    approximate_cost_eur: round2(bucket.approximate_cost_eur),
+    approximate_cost_eur_direct: round2(bucket.approximate_cost_eur_direct),
+    approximate_cost_eur_estimated: round2(bucket.approximate_cost_eur_estimated),
+    openai_approximate_cost_eur: round2(bucket.openai_approximate_cost_eur),
+    rag_approximate_cost_eur: round2(bucket.rag_approximate_cost_eur),
+    tts_approximate_cost_eur: round2(bucket.tts_approximate_cost_eur),
+    stt_approximate_cost_eur: round2(bucket.stt_approximate_cost_eur),
     model_count: bucket.models.size,
     models: Array.from(bucket.models).sort(),
     unique_users: bucket.user_ids.size,
@@ -451,6 +543,7 @@ export async function GET(req) {
       stt_cost_usage: 0,
       rag_cost_usage: 0
     };
+    const attributionCompleteness = buildAttributionCompleteness(rows);
 
     const userIds = Array.from(new Set(rows.map(row => String(row?.userId || "").trim()).filter(Boolean)));
 
@@ -591,6 +684,9 @@ export async function GET(req) {
           internal_usage_units: 0,
           internal_usage_units_direct: 0,
           internal_usage_units_estimated: 0,
+          approximate_cost_eur: 0,
+          approximate_cost_eur_direct: 0,
+          approximate_cost_eur_estimated: 0,
           budget_units_monthly: 0,
           coverage_complete: true,
           coverage_note: null,
@@ -606,6 +702,9 @@ export async function GET(req) {
       bucket.internal_usage_units += toCount(row?.internal_usage_units);
       bucket.internal_usage_units_direct += toCount(row?.internal_usage_units_direct);
       bucket.internal_usage_units_estimated += toCount(row?.internal_usage_units_estimated);
+      bucket.approximate_cost_eur += toNumber(row?.approximate_cost_eur) || 0;
+      bucket.approximate_cost_eur_direct += toNumber(row?.approximate_cost_eur_direct) || 0;
+      bucket.approximate_cost_eur_estimated += toNumber(row?.approximate_cost_eur_estimated) || 0;
       bucket.budget_units_monthly += toCount(row?.budget_units_monthly);
       bucket.coverage_complete = bucket.coverage_complete && row?.coverage_complete === true;
       if (!row?.coverage_complete) {
@@ -630,6 +729,9 @@ export async function GET(req) {
           internal_usage_units: round2(bucket.internal_usage_units),
           internal_usage_units_direct: round2(bucket.internal_usage_units_direct),
           internal_usage_units_estimated: round2(bucket.internal_usage_units_estimated),
+          approximate_cost_eur: round2(bucket.approximate_cost_eur),
+          approximate_cost_eur_direct: round2(bucket.approximate_cost_eur_direct),
+          approximate_cost_eur_estimated: round2(bucket.approximate_cost_eur_estimated),
           budget_units_monthly: round2(bucket.budget_units_monthly),
           utilization_pct: utilizationPct,
           coverage_complete: bucket.coverage_complete,
@@ -710,6 +812,16 @@ export async function GET(req) {
           direct: round2(summary.internal_usage_units_direct),
           estimated: round2(summary.internal_usage_units_estimated)
         },
+        approximate_cost_eur: {
+          total: round2(summary.approximate_cost_eur),
+          direct: round2(summary.approximate_cost_eur_direct),
+          estimated: round2(summary.approximate_cost_eur_estimated),
+          openai: round2(summary.openai_approximate_cost_eur),
+          rag: round2(summary.rag_approximate_cost_eur),
+          tts: round2(summary.tts_approximate_cost_eur),
+          stt: round2(summary.stt_approximate_cost_eur)
+        },
+        attribution_completeness: attributionCompleteness,
         threshold_counts: thresholdCounts,
         coverage_complete: ragCostIncluded,
         coverage_note: coverageNote

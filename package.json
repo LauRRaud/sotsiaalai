@@ -40,6 +40,7 @@
     "uuenda": "git add -A && git commit -m \"uuendus\" || echo \"(pole midagi commitida)\"; git push origin main",
     "i18n:types": "node scripts/generate-message-types.mjs",
     "i18n:check": "node scripts/check-messages.mjs",
+    "ai:check-attribution": "node scripts/check-openai-attribution-symmetry.mjs",
     "env:check": "node scripts/check-env.mjs",
     "encoding:check": "node scripts/encoding/check.mjs",
     "encoding:fix": "node scripts/encoding/fix.mjs",

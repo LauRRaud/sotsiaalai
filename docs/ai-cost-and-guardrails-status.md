@@ -3,6 +3,7 @@
 This document captures the current implemented AI/OpenAI policy and guardrail state in this repository as of the current codebase. It describes actual behavior, not a future plan.
 
 For a shorter management-level summary of current state, main gaps, and next decisions, see [SotsiaalAI AI Governance: Current State, Gaps, Next Decisions](./sotsiaalai-ai-governance-current-state-gaps-next-decisions.md).
+For a three-layer classification of controls into internal technical controls, customer-facing policy, and social-domain safety, see [AI Governance Controls Policy Map](./ai-governance-controls-policy-map.md).
 
 ## 1. Current model and parameter policy
 
@@ -273,10 +274,17 @@ Relevant files:
 
 Package attribution is derived by joining users to their latest subscription plan in analytics.
 
+### Attribution completeness visibility
+
+- AI cost analytics now also reports attribution completeness for user-facing standard text `openai_usage`.
+- The completeness view is scoped to user-facing standard text rows and excludes internal selftest traffic such as `api/rag/selftest`.
+- It is intended as an operational quality check for whether `userId` and `role` coverage remain symmetric across standard text flows.
+
 ### `internal_usage_units` and threshold logic
 
 - AI analytics v2 uses `internal_usage_units`, not exact provider billing.
 - `unit_model` is returned by the endpoint and documents the weighting constants.
+- The admin view now also shows an additional approximate-EUR view alongside units for management interpretation.
 - Thresholds are:
   - warning: `70%`
   - high: `85%`
@@ -309,8 +317,9 @@ Relevant files:
 
 - `openai_usage` uses `ChatLog.userId` and `ChatLog.role` when the caller passes them.
 - Chat explicitly logs both `userId` and `role`.
-- Document generate/refine logs `userId`; current `openai_usage` calls there do not also pass `role`.
-- Research text usage logging is route/stage aware; package grouping is still resolved from `userId` through subscription joins.
+- Document generate/refine now log both `userId` and `role`.
+- Research planner/synthesizer text usage now also logs both `userId` and `role`.
+- Internal/admin diagnostics such as `api/rag/selftest` remain intentionally separate from normal user-facing attribution analysis.
 
 Relevant files:
 - `app/api/chat/route.js`
@@ -389,9 +398,9 @@ Relevant files:
   - direct when usage is returned
   - estimated when usage is absent
 - RAG inclusion in AI analytics depends on mirrored `rag_cost_usage` rows actually existing in `ChatLog`. The endpoint handles this explicitly, but a fresh environment with no mirrored rows will still show RAG as not yet included.
-- Text-flow attribution is not fully symmetrical:
-  - chat text usage logs both `userId` and `role`
-  - document text usage currently logs `userId` but not always `role`
+- Standard text attribution is now more symmetric across chat, documents, and research, but it still depends on maintaining that contract over time.
+- Attribution completeness should still be monitored operationally so future refactors do not silently drop `userId` or `role`.
+- Internal flows such as `api/rag/selftest` are intentionally excluded from user-facing attribution completeness checks.
 - Current budgets, quotas, and thresholds are implemented operational guardrails. They should not yet be treated as finalized pricing or customer-facing policy.
 - The repo contains operational and business-adjacent controls in multiple places:
   - rate limits
@@ -404,11 +413,11 @@ Relevant files:
 
 ### Nearest technical next step
 
-- Tighten attribution consistency for standard text `openai_usage`, especially in document/research flows, so `role` coverage matches chat/audio/RAG more consistently.
+- Add regression coverage for standard text attribution completeness so `userId`/`role` symmetry remains stable across future changes.
 
 ### Nearest analytics/product step
 
-- Decide whether `internal_usage_units` should remain the main admin budget metric or whether the admin view should start showing an additional approximate-EUR view alongside it.
+- Decide how the approximate-EUR view should be used operationally relative to `internal_usage_units`, since the admin view now shows both.
 
 ### Nearest business/policy step
 

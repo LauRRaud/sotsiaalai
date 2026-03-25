@@ -4,6 +4,8 @@ This is a short internal management document. It summarizes the current AI gover
 
 It is based on the current codebase and on the repository documents about AI cost, guardrails, analytics, and model policy.
 
+For a more explicit three-layer control classification, see [AI Governance Controls Policy Map](./ai-governance-controls-policy-map.md).
+
 ## 1. Executive summary
 
 SotsiaalAI is no longer an experimental AI feature set. It already has a strong operational base:
@@ -71,25 +73,7 @@ social-domain safety exists, but it is still more prompt-centered than platform-
 
 ## 3. Main gaps
 
-### A. Attribution is not yet fully symmetric across standard text flows
-
-This is the clearest immediate technical gap.
-
-Current state:
-
-- chat text usage logs both `userId` and `role`
-- audio flows log both `userId` and `role`
-- RAG observability carries attribution metadata well
-- document and research text usage are not yet equally consistent on `role`
-
-Why this matters:
-
-- role-level cost analysis becomes weaker
-- package analysis becomes less reliable
-- feature profitability is harder to judge
-- client vs social worker usage patterns stay partially blurred
-
-### B. Policy layers are not yet clearly separated
+### A. Policy layers are not yet clearly separated
 
 Today the repository contains a mix of:
 
@@ -105,7 +89,7 @@ That creates future risk when SotsiaalAI needs to explain:
 - what is a customer-facing package entitlement
 - what is a domain-level AI safety rule
 
-### C. Social safety is not yet platform-wide and auditable
+### B. Social safety is not yet platform-wide and auditable
 
 The current safety logic is strongest in chat behavior and prompts.
 
@@ -116,17 +100,17 @@ The next gap is not inventing new principles from zero. The gap is that the exis
 - admin/audit expectations
 - QA or compliance checks
 
-### D. Units are useful, but business visibility still needs an approximate EUR view
+### C. Approximate EUR now exists, but management usage still needs a rule
 
-`internal_usage_units` are useful and should remain.
+`internal_usage_units` are useful and should remain, and the admin view now also shows approximate EUR.
 
-But management and pricing decisions also need a second lens:
+The remaining question is not whether to show approximate EUR anymore. The remaining question is how to use the two views together in management and pricing decisions:
 
-- approximate provider-cost view
-- margin pressure visibility
-- package sustainability visibility
+- normalized operational units
+- approximate provider-cost pressure
+- package sustainability interpretation
 
-This should sit alongside units, not replace them.
+The right model is still “alongside”, not “instead of”.
 
 ## 4. Governance framing SotsiaalAI should adopt
 
@@ -212,35 +196,7 @@ Examples:
 
 ## 6. Priority decisions
 
-### 1. Fix attribution symmetry across standard text flows
-
-Decision:
-
-Make `openai_usage` logging consistently carry:
-
-- `userId`
-- `role`
-- `route`
-- `stage`
-
-across chat, documents, research, and related standard text flows.
-
-Why first:
-
-Everything else depends on clean measurement.
-
-### 2. Show units and approximate EUR together in admin analytics
-
-Decision:
-
-Keep `internal_usage_units` as the operational comparison metric, and add an approximate EUR view beside it.
-
-Why:
-
-- units help operational control
-- EUR helps pricing, margin, and business decisions
-
-### 3. Publish a three-layer governance map
+### 1. Publish a three-layer governance map
 
 Decision:
 
@@ -250,11 +206,22 @@ For every limit, quota, or guardrail, classify it explicitly as:
 - customer-facing policy
 - social-domain safety rule
 
-Why:
+Why first:
 
 This removes ambiguity before scaling packages, governance, and external communication.
 
-### 4. Lift chat safety into a platform-wide standard
+### 2. Show units and approximate EUR together in admin analytics
+
+Decision:
+
+Keep `internal_usage_units` as the operational comparison metric, and keep approximate EUR beside it.
+
+Why:
+
+- units help operational control
+- EUR helps pricing, margin, and business decisions
+
+### 3. Lift chat safety into a platform-wide standard
 
 Decision:
 
@@ -270,7 +237,7 @@ Why:
 
 Good prompts are not yet the same thing as platform governance.
 
-### 5. Consider targeted escalation for heavy specialist workflows
+### 4. Consider targeted escalation for heavy specialist workflows
 
 Decision:
 
@@ -288,11 +255,10 @@ This preserves simplicity while allowing better quality where it produces real p
 
 ## 7. Recommended immediate sequence
 
-1. Complete attribution symmetry in standard text observability.
-2. Add approximate EUR beside units in admin analytics.
-3. Write the three-layer governance classification.
-4. Define the platform-wide social-domain safety standard.
-5. Evaluate targeted escalation only for high-value specialist workflows.
+1. Write the three-layer governance classification.
+2. Define the platform-wide social-domain safety standard.
+3. Decide how approximate EUR and units should be used together in management reviews.
+4. Evaluate targeted escalation only for high-value specialist workflows.
 
 ## 8. Bottom line
 

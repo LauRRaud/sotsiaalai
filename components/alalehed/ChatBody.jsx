@@ -43,6 +43,7 @@ const DEEP_RESEARCH_EMPTY_QUERY_HINT = "Kirjuta uurimisk\u00fcsimus.";
 const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petatud.";
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
+const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
 
 function getCareerSessionStorageKey({
   convId,
@@ -375,10 +376,22 @@ export default function ChatBody({
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
   const maskRefreshRef = useRef(null);
-  const emptyIntroSeenRef = useRef(false);
+  const emptyIntroSeenRef = useRef(
+    typeof window !== "undefined" &&
+      window.sessionStorage.getItem(
+        `${CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX}:${locale || "et"}`
+      ) === "1"
+  );
   const markEmptyIntroSeen = useCallback(() => {
     emptyIntroSeenRef.current = true;
-  }, []);
+    if (typeof window === "undefined") return;
+    try {
+      window.sessionStorage.setItem(
+        `${CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX}:${locale || "et"}`,
+        "1"
+      );
+    } catch {}
+  }, [locale]);
   const waitForComposerCollapse = useCallback(async () => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
