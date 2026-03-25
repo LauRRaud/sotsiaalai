@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback, useReducer } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -44,6 +44,7 @@ const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petat
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
+const seenEmptyIntroKeys = new Set();
 
 function getCareerSessionStorageKey({
   convId,
@@ -56,6 +57,17 @@ function getCareerSessionStorageKey({
   const role = (userRole || "CLIENT").toLowerCase();
   const loc = locale || "et";
   return `sotsiaalai:career-session:${uid}:${role}:${loc}:${convId}`;
+}
+
+function getEmptyIntroSeenStorageKey({
+  userId,
+  userRole,
+  locale
+}) {
+  const uid = userId || "anon";
+  const role = (userRole || "CLIENT").toLowerCase();
+  const loc = locale || "et";
+  return `${CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX}:${uid}:${role}:${loc}`;
 }
 
 function isEditableElement(node) {
@@ -376,22 +388,6 @@ export default function ChatBody({
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
   const maskRefreshRef = useRef(null);
-  const emptyIntroSeenRef = useRef(
-    typeof window !== "undefined" &&
-      window.sessionStorage.getItem(
-        `${CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX}:${locale || "et"}`
-      ) === "1"
-  );
-  const markEmptyIntroSeen = useCallback(() => {
-    emptyIntroSeenRef.current = true;
-    if (typeof window === "undefined") return;
-    try {
-      window.sessionStorage.setItem(
-        `${CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX}:${locale || "et"}`,
-        "1"
-      );
-    } catch {}
-  }, [locale]);
   const waitForComposerCollapse = useCallback(async () => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
@@ -484,7 +480,7 @@ export default function ChatBody({
     setConvId,
     messages,
     setMessages,
-    saveMessages,
+    conversationStateReady,
     appendMessage,
     mutateMessage,
     historyPayload
@@ -508,6 +504,20 @@ export default function ChatBody({
     userRole: sessionUserRole,
     locale
   }), [convId, locale, sessionUserId, sessionUserRole]);
+  const emptyIntroSeenStorageKey = useMemo(() => getEmptyIntroSeenStorageKey({
+    userId: sessionUserId,
+    userRole: sessionUserRole,
+    locale
+  }), [locale, sessionUserId, sessionUserRole]);
+  const [, bumpEmptyIntroSeenVersion] = useReducer(version => version + 1, 0);
+  const hasSeenEmptyIntro = emptyIntroSeenStorageKey
+    ? seenEmptyIntroKeys.has(emptyIntroSeenStorageKey)
+    : false;
+  const markEmptyIntroSeen = useCallback(() => {
+    if (!emptyIntroSeenStorageKey) return;
+    seenEmptyIntroKeys.add(emptyIntroSeenStorageKey);
+    bumpEmptyIntroSeenVersion();
+  }, [emptyIntroSeenStorageKey]);
   const resetCareerSession = useCallback(() => {
     setActiveWorkflow("default");
     setCareerProfile(null);
@@ -587,6 +597,7 @@ export default function ChatBody({
     if (n <= renderLimit) return visibleMessages;
     return visibleMessages.slice(n - renderLimit);
   }, [visibleMessages, renderLimit]);
+  const emptyIntroText = !isRoomMode && conversationStateReady ? t("chat.empty_intro") : "";
   const hiddenCount = useMemo(() => {
     const n = visibleMessages.length;
     return n > renderLimit ? n - renderLimit : 0;
@@ -1536,7 +1547,6 @@ export default function ChatBody({
       if (!newId) return;
       setConvId(newId);
       setMessages([]);
-      saveMessages([]);
       setIsCrisis(false);
       resetCareerSession();
       try {
@@ -1545,7 +1555,7 @@ export default function ChatBody({
     }
     window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
-  }, [resetCareerSession, saveMessages, setConvId, setIsCrisis, setMessages]);
+  }, [resetCareerSession, setConvId, setIsCrisis, setMessages]);
   useEffect(() => {
     return () => {
       stop();
@@ -1851,8 +1861,8 @@ export default function ChatBody({
     messageItems={messageItems}
     listingsPanelNode={listingsPanelNode}
     selectedListingContextNode={selectedListingContextNode}
-    emptyIntroText={!isRoomMode ? t("chat.empty_intro") : ""}
-    emptyIntroAnimate={!emptyIntroSeenRef.current}
+    emptyIntroText={emptyIntroText}
+    emptyIntroAnimate={!isRoomMode && !hasSeenEmptyIntro}
     onEmptyIntroSeen={markEmptyIntroSeen}
     onWindowDoubleClick={handleChatWindowDoubleClick}
     chatAnalysisPanelProps={chatAnalysisPanelProps}

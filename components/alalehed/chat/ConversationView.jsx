@@ -14,6 +14,80 @@ function splitGraphemes(text) {
   return Array.from(text);
 }
 
+const EMPTY_INTRO_GRAPHEME_DELAY_MS = 18;
+
+const EmptyIntroMessage = memo(function EmptyIntroMessage({
+  className,
+  targetText,
+  animate,
+  onSeen
+}) {
+  const animationFrameRef = useRef(0);
+  const [visibleCount, setVisibleCount] = useState(0);
+  const targetSegments = useMemo(
+    () => splitGraphemes(String(targetText || "").trim()),
+    [targetText]
+  );
+
+  const clearAnimation = () => {
+    if (!animationFrameRef.current || typeof window === "undefined") return;
+    window.cancelAnimationFrame(animationFrameRef.current);
+    animationFrameRef.current = 0;
+  };
+
+  useEffect(() => {
+    clearAnimation();
+    setVisibleCount(0);
+
+    if (!targetSegments.length) {
+      onSeen?.();
+      return;
+    }
+
+    if (!animate) {
+      setVisibleCount(targetSegments.length);
+      onSeen?.();
+      return;
+    }
+
+    let startTs = 0;
+    const step = timestamp => {
+      if (!startTs) startTs = timestamp;
+      const elapsed = timestamp - startTs;
+      const nextCount = Math.min(
+        targetSegments.length,
+        Math.max(1, Math.floor(elapsed / EMPTY_INTRO_GRAPHEME_DELAY_MS) + 1)
+      );
+      setVisibleCount(prev => (prev === nextCount ? prev : nextCount));
+      if (nextCount >= targetSegments.length) {
+        animationFrameRef.current = 0;
+        onSeen?.();
+        return;
+      }
+      animationFrameRef.current = window.requestAnimationFrame(step);
+    };
+
+    animationFrameRef.current = window.requestAnimationFrame(step);
+    return () => {
+      clearAnimation();
+    };
+  }, [animate, onSeen, targetSegments]);
+
+  useEffect(() => () => {
+    clearAnimation();
+  }, []);
+
+  const visibleText = animate
+    ? targetSegments.slice(0, visibleCount).join("")
+    : targetSegments.join("");
+
+  return (
+    <div className={className} aria-label={targetSegments.join("")}>
+      <span aria-hidden="true">{visibleText}</span>
+    </div>
+  );
+});
+
 const ConversationView = memo(function ConversationView({
   t,
   chatWindowRef,
@@ -42,21 +116,9 @@ const ConversationView = memo(function ConversationView({
   onEmptyIntroSeen
 }) {
   const [showScrollDown, setShowScrollDown] = useState(false);
-  const [emptyIntroVisibleCount, setEmptyIntroVisibleCount] = useState(0);
   const isUserAtBottom = useRef(true);
   const mountedRef = useRef(false);
-  const emptyIntroAnimationFrameRef = useRef(0);
-  const emptyIntroTypingStartedRef = useRef(false);
-  const clearEmptyIntroAnimation = () => {
-    if (!emptyIntroAnimationFrameRef.current || typeof window === "undefined") return;
-    window.cancelAnimationFrame(emptyIntroAnimationFrameRef.current);
-    emptyIntroAnimationFrameRef.current = 0;
-  };
   const emptyIntroTargetText = String(emptyIntroText || "").trim();
-  const emptyIntroSegments = useMemo(
-    () => splitGraphemes(emptyIntroTargetText),
-    [emptyIntroTargetText]
-  );
   const showEmptyIntro = !isStreamingAny && messageItems.length === 0 && emptyIntroTargetText.length > 0;
   useEffect(() => {
     const node = chatWindowRef?.current;
@@ -85,51 +147,9 @@ const ConversationView = memo(function ConversationView({
       mountedRef.current = false;
     };
   }, []);
-  useEffect(() => {
-    if (!showEmptyIntro) {
-      clearEmptyIntroAnimation();
-      emptyIntroTypingStartedRef.current = false;
-      setEmptyIntroVisibleCount(0);
-      return;
-    }
-    if (emptyIntroTypingStartedRef.current) return;
-    clearEmptyIntroAnimation();
-    if (!emptyIntroAnimate) {
-      setEmptyIntroVisibleCount(emptyIntroSegments.length);
-      emptyIntroTypingStartedRef.current = true;
-      return;
-    }
-    emptyIntroTypingStartedRef.current = true;
-    onEmptyIntroSeen?.();
-    if (!emptyIntroSegments.length) {
-      setEmptyIntroVisibleCount(0);
-      return;
-    }
-    setEmptyIntroVisibleCount(0);
-    const graphemeDelayMs = 18;
-    let startTs = 0;
-    const animate = timestamp => {
-      if (!startTs) startTs = timestamp;
-      const elapsed = timestamp - startTs;
-      const nextCount = Math.min(
-        emptyIntroSegments.length,
-        Math.max(1, Math.floor(elapsed / graphemeDelayMs) + 1)
-      );
-      setEmptyIntroVisibleCount(prev => prev === nextCount ? prev : nextCount);
-      if (nextCount >= emptyIntroSegments.length) {
-        emptyIntroAnimationFrameRef.current = 0;
-        return;
-      }
-      emptyIntroAnimationFrameRef.current = window.requestAnimationFrame(animate);
-    };
-    emptyIntroAnimationFrameRef.current = window.requestAnimationFrame(animate);
-  }, [emptyIntroAnimate, emptyIntroSegments, onEmptyIntroSeen, showEmptyIntro]);
-  useEffect(() => () => {
-    clearEmptyIntroAnimation();
-  }, []);
   const mainClassName =
     "conversation-view relative flex flex-1 flex-col min-h-0 w-full " +
-    "transition-[transform] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
+    "transition-[transform,margin-bottom] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
   const mergedMainClassName = mainClassNameProp ? `${mainClassName} ${mainClassNameProp}` : mainClassName;
   const windowClassName =
     "chat-window relative flex flex-1 min-h-0 flex-col items-stretch gap-[0.75rem] " +
@@ -185,13 +205,10 @@ const ConversationView = memo(function ConversationView({
   const emptyIntroClassName =
     "chat-msg-ai chat-empty-intro w-full bg-transparent border-0 shadow-none py-[0.25em] " +
     "text-[color:var(--input-text)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500]";
-  const emptyIntroVisibleText = emptyIntroAnimate
-    ? emptyIntroSegments.slice(0, emptyIntroVisibleCount).join("")
-    : emptyIntroTargetText;
   return <main className={mergedMainClassName}>
       <div id="chat-window" className={mergedWindowClassName} onDoubleClick={onWindowDoubleClick}>
         <div id="chat-window-scroll" className={scrollClassName} ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"}>
-          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-spacer,0.55rem)]" : "shrink-0 h-[calc(var(--chat-content-spacer,1.6rem)+0.8rem)]"} />
+          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-spacer,0.55rem)] transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none" : "shrink-0 h-[calc(var(--chat-content-spacer,1.6rem)+0.8rem)] transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none"} />
 
           {hiddenCount > 0 ? <div className="flex justify-center">
               <button type="button" onClick={onRevealOlder} className={buttonClassName}>
@@ -201,9 +218,18 @@ const ConversationView = memo(function ConversationView({
             </div> : null}
 
           {showEmptyIntro ? (
-            <div className={emptyIntroClassName} aria-label={emptyIntroTargetText}>
-              {emptyIntroVisibleText}
-            </div>
+            emptyIntroAnimate ? (
+              <EmptyIntroMessage
+                className={emptyIntroClassName}
+                targetText={emptyIntroTargetText}
+                animate={true}
+                onSeen={onEmptyIntroSeen}
+              />
+            ) : (
+              <div className={emptyIntroClassName} aria-label={emptyIntroTargetText}>
+                <span aria-hidden="true">{emptyIntroTargetText}</span>
+              </div>
+            )
           ) : null}
 
           {contextNode}
@@ -216,7 +242,7 @@ const ConversationView = memo(function ConversationView({
               </button>
             </div> : null}
 
-          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-bottom-spacer,0.85rem)]" : "shrink-0 h-[var(--chat-content-bottom-spacer,0rem)]"} />
+          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-bottom-spacer,0.85rem)] transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none" : "shrink-0 h-[var(--chat-content-bottom-spacer,0rem)] transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none"} />
         </div>
         {isMobile && hasConversationSources ? <button
             ref={sourcesButtonRef}

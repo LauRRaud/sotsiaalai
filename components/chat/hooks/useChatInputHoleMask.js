@@ -5,6 +5,7 @@ const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const MOBILE_MASK_UPDATE_INTERVAL_MS = 48;
+const DESKTOP_MASK_TRACK_MS = 760;
 
 export function useChatInputHoleMask({
   containerRef,
@@ -19,16 +20,9 @@ export function useChatInputHoleMask({
     const inputRow = inputRowRef?.current;
     const inputBar = inputBarRef?.current;
     const maskLayer = maskLayerRef?.current;
-    const clearHoleGeometryVars = () => {
-      box?.style?.removeProperty("--chat-hole-x");
-      box?.style?.removeProperty("--chat-hole-y");
-      box?.style?.removeProperty("--chat-hole-w");
-      box?.style?.removeProperty("--chat-hole-h");
-    };
     if (!box || !inputBar) return;
     if (!enabled) {
       box.style.removeProperty("--chat-input-hole-mask");
-      clearHoleGeometryVars();
       if (maskLayer) {
         maskLayer.style.removeProperty("--chat-input-hole-mask");
         maskLayer.style.setProperty("-webkit-mask-image", "none");
@@ -40,7 +34,7 @@ export function useChatInputHoleMask({
       Boolean(window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches) ||
       Boolean(window.matchMedia?.(COARSE_POINTER_QUERY)?.matches) ||
       window.innerWidth <= 768;
-    const snapStep = isMobileViewport ? 1 : 0.5;
+    const snapStep = isMobileViewport ? 1 : 0.25;
     const snap = value => Math.round(value / snapStep) * snapStep;
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = svg => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
@@ -153,10 +147,6 @@ export function useChatInputHoleMask({
         scheduleGeometryRetry();
         return;
       }
-      box.style.setProperty("--chat-hole-x", `${inputLocal.x}px`);
-      box.style.setProperty("--chat-hole-y", `${inputLocal.y}px`);
-      box.style.setProperty("--chat-hole-w", `${inputLocal.w}px`);
-      box.style.setProperty("--chat-hole-h", `${inputLocal.h}px`);
       retryCount = 0;
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);
       const radius = snap(Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2);
@@ -188,7 +178,7 @@ export function useChatInputHoleMask({
     };
     const startLoop = () => {
       if (isMobileViewport) return;
-      const until = nowMs() + 760;
+      const until = nowMs() + DESKTOP_MASK_TRACK_MS;
       loopUntil = Math.max(loopUntil, until);
       if (!rafLoop) {
         rafLoop = window.requestAnimationFrame(tick);
@@ -297,7 +287,6 @@ export function useChatInputHoleMask({
       if (maskLayer) {
         maskLayer.style.removeProperty("--chat-input-hole-mask");
       }
-      clearHoleGeometryVars();
       if (refreshRef?.current === refreshHandler) {
         refreshRef.current = null;
       }

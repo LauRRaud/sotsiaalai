@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
+const EMPTY_CONVERSATION_READY_KEY = "__empty__";
 
 function hasMeaningfulMessageContent(message) {
   if (!message || typeof message !== "object") return false;
@@ -25,7 +26,7 @@ function hasMeaningfulMessageContent(message) {
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;
   function load() {
-    if (!storage) return null;
+    if (!storage || !key) return null;
     try {
       const raw = storage.getItem(key);
       if (!raw) return null;
@@ -36,7 +37,7 @@ function makeChatStorage(key = "sotsiaalai:chat:v1") {
     }
   }
   function save(messages) {
-    if (!storage) return;
+    if (!storage || !key) return;
     try {
       const maxMsgs = 30;
       const maxChars = 10000;
@@ -61,7 +62,8 @@ function makeChatStorage(key = "sotsiaalai:chat:v1") {
     } catch {}
   }
   function clear() {
-    storage?.removeItem(key);
+    if (!storage || !key) return;
+    storage.removeItem(key);
   }
   return {
     load,
@@ -106,9 +108,14 @@ export function useChatConversationState({
     const loc = locale || "et";
     return `sotsiaalai:chat:${uid}:${(userRole || "CLIENT").toLowerCase()}:${loc}:v1`;
   }, [userId, userRole, locale]);
-  const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
   const [convId, setConvId] = useState(null);
+  const conversationStorageKey = useMemo(() => {
+    if (!convId) return null;
+    return `${storageKey}:messages:${convId}`;
+  }, [convId, storageKey]);
+  const chatStore = useMemo(() => makeChatStorage(conversationStorageKey), [conversationStorageKey]);
   const [messages, setMessages] = useState([]);
+  const [hydratedConversationId, setHydratedConversationId] = useState(null);
   const mountedRef = useRef(false);
   const messageIdRef = useRef(1);
   const isGeneratingRef = useRef(isGenerating);
@@ -126,16 +133,6 @@ export function useChatConversationState({
   }, [convId]);
   useEffect(() => {
     mountedRef.current = true;
-    const stored = chatStore.load();
-    if (stored && stored.length) {
-      let nextId = 1;
-      const hydrated = stored.filter(hasMeaningfulMessageContent).map(m => ({
-        ...m,
-        id: nextId++
-      }));
-      messageIdRef.current = nextId;
-      setMessages(hydrated);
-    }
     const idFromGlobal = typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : null;
     const idFromPerUser = typeof window !== "undefined" ? window.sessionStorage.getItem(`${storageKey}:convId`) : null;
     const initialConvId = idFromGlobal || idFromPerUser || (typeof window !== "undefined" && window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now()));
@@ -147,7 +144,7 @@ export function useChatConversationState({
     return () => {
       mountedRef.current = false;
     };
-  }, [chatStore, storageKey]);
+  }, [storageKey]);
   useEffect(() => {
     if (!convId) return;
     if (typeof window === "undefined") return;
@@ -156,6 +153,33 @@ export function useChatConversationState({
       window.sessionStorage.setItem(`${storageKey}:convId`, convId);
     } catch {}
   }, [convId, storageKey]);
+  useEffect(() => {
+    if (!mountedRef.current) return;
+    if (!convId) {
+      messageIdRef.current = 1;
+      setMessages([]);
+      setHydratedConversationId(EMPTY_CONVERSATION_READY_KEY);
+      return;
+    }
+    const stored = chatStore.load();
+    if (stored && stored.length) {
+      let nextId = 1;
+      const hydrated = stored.filter(hasMeaningfulMessageContent).map(m => ({
+        ...m,
+        id: nextId++
+      }));
+      messageIdRef.current = nextId;
+      setMessages(hydrated);
+      setHydratedConversationId(convId);
+      return;
+    }
+    messageIdRef.current = 1;
+    setMessages([]);
+    setHydratedConversationId(convId);
+  }, [chatStore, convId]);
+  const conversationStateReady = convId
+    ? hydratedConversationId === convId
+    : hydratedConversationId === EMPTY_CONVERSATION_READY_KEY;
   const appendMessage = useCallback(msg => {
     const id = messageIdRef.current++;
     const createdAt = msg?.createdAt || Date.now();
@@ -172,6 +196,28 @@ export function useChatConversationState({
       chatStore.save(nextMessages);
     } catch {}
   }, [chatStore]);
+  const shouldPreserveLocalMessages = useCallback((prevMessages, nextMessages) => {
+    const prevList = Array.isArray(prevMessages) ? prevMessages : [];
+    const nextList = Array.isArray(nextMessages) ? nextMessages : [];
+    const recentLocalMutationMs = Date.now() - lastLocalMutationAtRef.current;
+    const localRecentlyMutated = recentLocalMutationMs >= 0 && recentLocalMutationMs < 8000;
+    const hasLocalStreaming = prevList.some(m => !!m?.isStreaming);
+    const prevUserCount = prevList.reduce((count, msg) => count + (msg?.role === "user" && String(msg?.text || "").trim() ? 1 : 0), 0);
+    const nextUserCount = nextList.reduce((count, msg) => count + (msg?.role === "user" && String(msg?.text || "").trim() ? 1 : 0), 0);
+    const localHasStructuredOnlyMessages = prevList.some(
+      (msg) =>
+        hasMeaningfulMessageContent(msg) &&
+        !(typeof msg?.text === "string" && msg.text.trim().length > 0)
+    );
+    const serverDroppedMessages =
+      nextList.length < prevList.length || nextUserCount < prevUserCount;
+
+    return (
+      ((isGeneratingRef.current || hasLocalStreaming || localRecentlyMutated) &&
+        serverDroppedMessages) ||
+      (localHasStructuredOnlyMessages && serverDroppedMessages)
+    );
+  }, []);
   const mutateMessage = useCallback((id, updater) => {
     setMessages(prev => {
       const idx = prev.findIndex(m => m.id === id);
@@ -296,25 +342,7 @@ export function useChatConversationState({
             };
           }).filter(Boolean);
           const prevList = Array.isArray(prev) ? prev : [];
-          const mappedLen = mapped.length;
-          const prevLen = prevList.length;
-          const recentLocalMutationMs = Date.now() - lastLocalMutationAtRef.current;
-          const localRecentlyMutated = recentLocalMutationMs >= 0 && recentLocalMutationMs < 8000;
-          const hasLocalStreaming = prevList.some(m => !!m?.isStreaming);
-          const prevUserCount = prevList.reduce((count, msg) => count + (msg?.role === "user" && String(msg?.text || "").trim() ? 1 : 0), 0);
-          const mappedUserCount = mapped.reduce((count, msg) => count + (msg?.role === "user" && String(msg?.text || "").trim() ? 1 : 0), 0);
-          const localHasStructuredOnlyMessages = prevList.some(
-            (msg) =>
-              hasMeaningfulMessageContent(msg) &&
-              !(typeof msg?.text === "string" && msg.text.trim().length > 0)
-          );
-          const serverDroppedMessages =
-            mappedLen < prevLen || mappedUserCount < prevUserCount;
-          const shouldPreserveLocal =
-            ((isGeneratingRef.current || hasLocalStreaming || localRecentlyMutated) &&
-              serverDroppedMessages) ||
-            (localHasStructuredOnlyMessages && serverDroppedMessages);
-          if (shouldPreserveLocal) {
+          if (shouldPreserveLocalMessages(prevList, mapped)) {
             return prevList;
           }
           messageIdRef.current = nextId;
@@ -322,7 +350,18 @@ export function useChatConversationState({
         });
         return;
       }
-      if (!serverTextTrim) return;
+      if (!serverTextTrim) {
+        setMessages(prev => {
+          const prevList = Array.isArray(prev) ? prev : [];
+          if (!prevList.length) return prevList;
+          if (shouldPreserveLocalMessages(prevList, [])) {
+            return prevList;
+          }
+          messageIdRef.current = 1;
+          return [];
+        });
+        return;
+      }
       setMessages(prev => {
         const next = [...prev];
         let aiIdx = -1;
@@ -360,7 +399,7 @@ export function useChatConversationState({
         return next;
       });
     } catch {}
-  }, [normalizeSources, setIsCrisis]);
+  }, [normalizeSources, setIsCrisis, shouldPreserveLocalMessages]);
   useEffect(() => {
     if (!convId) return;
     const cancelledRef = {
@@ -383,6 +422,7 @@ export function useChatConversationState({
     setConvId,
     messages,
     setMessages,
+    conversationStateReady,
     saveMessages,
     appendMessage,
     mutateMessage,

@@ -220,6 +220,15 @@
   --home-card-glow-idle:
     0 0 10px rgba(248, 253, 255, 0.12),
     0 0 22px rgba(248, 253, 255, 0.06);
+  --home-card-glow-entry:
+    0 0 13px rgba(248, 253, 255, 0.165),
+    0 0 28px rgba(248, 253, 255, 0.09);
+  --home-card-glow-transition:
+    0 0 12px rgba(248, 253, 255, 0.15),
+    0 0 26px rgba(248, 253, 255, 0.08);
+  --home-card-glow-exit:
+    0 0 11px rgba(248, 253, 255, 0.135),
+    0 0 23px rgba(248, 253, 255, 0.07);
   --home-card-glow-active:
     0 0 14px rgba(248, 253, 255, 0.18),
     0 0 30px rgba(248, 253, 255, 0.1);

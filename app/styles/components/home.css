@@ -6,9 +6,7 @@
 
   .homepage-root
     :is(
-      .three-d-card.flip-allowed:hover,
-      .three-d-card.flip-allowed:focus-within,
-      .three-d-card.flip-allowed.is-flipping,
+      .three-d-card[data-phase="flippingToBack"],
       .three-d-card.mobile-flipped-left,
       .three-d-card.mobile-flipped-right
     )
@@ -78,6 +76,22 @@
   --home-card-blur-inset: 0px;
   --home-card-blur-radius: 50%;
   --home-card-blur-scale: 1;
+  --home-card-glow-feather:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(0, 0, 0, 1) 58%,
+      rgba(0, 0, 0, 0.92) 70%,
+      rgba(0, 0, 0, 0.52) 84%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  -webkit-mask-image: var(--home-card-glow-feather);
+  mask-image: var(--home-card-glow-feather);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .homepage-root .home-card-a11y-button {
@@ -120,18 +134,40 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
 
 .homepage-root
   :is(
-    .three-d-card.flip-allowed.left:hover,
-    .three-d-card.flip-allowed.left:focus-within,
-    .three-d-card.flip-allowed.left.is-flipping,
-    .three-d-card.flip-allowed.right:hover,
-    .three-d-card.flip-allowed.right:focus-within,
-    .three-d-card.flip-allowed.right.is-flipping,
+    .three-d-card[data-phase="flippingToBack"],
     .three-d-card.mobile-flipped-left,
     .three-d-card.mobile-flipped-right
   )
   .card-face.back
   :is(.centered-back-left, .centered-back-right) {
   box-shadow: var(--home-card-glow-active, var(--home-card-glow-idle, none));
+}
+
+.homepage-root
+  :is(
+    .three-d-card[data-phase="back"],
+    .three-d-card.mobile-flipped-left,
+    .three-d-card.mobile-flipped-right
+  )
+  .card-face.back
+  :is(.centered-back-left, .centered-back-right) {
+  box-shadow: var(--home-card-glow-active, var(--home-card-glow-idle, none));
+}
+
+.homepage-root .three-d-card[data-phase="flippingToFront"] .card-face.back
+  :is(.centered-back-left, .centered-back-right) {
+  box-shadow: var(
+    --home-card-glow-exit,
+    var(--home-card-glow-idle, none)
+  );
+}
+
+.homepage-root .three-d-card[data-phase="flippingToFront"] .card-face.front
+  :is(.glass-card, .glass-card-dark) {
+  box-shadow: var(
+    --home-card-glow-exit,
+    var(--home-card-glow-idle, none)
+  );
 }
 
 .homepage-root .home-card-pattern-layer {

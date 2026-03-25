@@ -138,6 +138,12 @@
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
   --home-card-glow-idle:
     0 0 10px rgba(255, 244, 240, 0.1), 0 0 22px rgba(255, 244, 240, 0.06);
+  --home-card-glow-entry:
+    0 0 13px rgba(255, 244, 240, 0.145), 0 0 27px rgba(255, 244, 240, 0.082);
+  --home-card-glow-transition:
+    0 0 12px rgba(255, 244, 240, 0.13), 0 0 25px rgba(255, 244, 240, 0.075);
+  --home-card-glow-exit:
+    0 0 11px rgba(255, 244, 240, 0.115), 0 0 23px rgba(255, 244, 240, 0.068);
   --home-card-glow-active:
     0 0 14px rgba(255, 244, 240, 0.16), 0 0 28px rgba(255, 244, 240, 0.09);
   --home-about-surface-bg: var(--glass-surface-bg, rgba(253, 250, 249, 0.5));
