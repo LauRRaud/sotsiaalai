@@ -41,7 +41,7 @@ const roomStepClassName = "rooms-step csp-step !min-h-0 !py-[0.48rem]";
 const roomCardClassName =
   `w-full rounded-[1rem] px-[1.14rem] py-[1.02rem] ${glassSubpageCardInteractiveClassName}`;
 const roomEmptyCardClassName =
-  `mx-auto w-full rounded-[1rem] px-[1.14rem] py-[1.12rem] text-center ${glassSubpageCardClassName}`;
+  `mx-auto w-[min(100%,calc(100%-1rem))] min-[769px]:w-[min(100%,calc(100%-1.4rem))] rounded-[1rem] px-[1.14rem] py-[1.12rem] text-center ${glassSubpageCardClassName}`;
 const roomMetaRowClassName =
   "mt-[0.24rem] flex flex-wrap items-center gap-x-[0.22rem] gap-y-[0.2rem] text-[0.98rem] text-[color:var(--pt-200)] [.theme-light_&]:text-[#334155]";
 const roomMetaItemClassName =
