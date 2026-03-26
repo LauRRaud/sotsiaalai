@@ -569,6 +569,7 @@
     },
     "back_to_home": "Назад на главную",
     "mobile": {
+      "new_conversation": "Новый чат",
       "show_navigation": "Показать навигацию"
     },
     "help": {
@@ -679,6 +680,11 @@
         "delete_all": "Удалить все",
         "delete_all_short": "Все",
         "item": "Выбрать чат"
+      },
+      "search": {
+        "placeholder": "Поиск бесед...",
+        "label": "Поиск бесед",
+        "no_matches": "Совпадений не найдено."
       }
     },
     "upload": {

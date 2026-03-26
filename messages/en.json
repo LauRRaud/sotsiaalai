@@ -576,6 +576,11 @@
         "delete_all": "Delete all",
         "delete_all_short": "All",
         "item": "Select chat"
+      },
+      "search": {
+        "placeholder": "Search conversations...",
+        "label": "Search conversations",
+        "no_matches": "No conversations matched your search."
       }
     },
     "profile": {
@@ -617,6 +622,7 @@
     },
     "back_to_home": "Back to homepage",
     "mobile": {
+      "new_conversation": "New conversation",
       "show_navigation": "Show navigation"
     },
     "help": {

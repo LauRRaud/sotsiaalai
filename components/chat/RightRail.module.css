@@ -569,7 +569,7 @@
   }
 
   .chatIconMobile {
-    transform: none;
+    transform: none !important;
     transform-origin: center;
     animation: none !important;
     transition: transform 160ms ease, opacity 160ms ease !important;

@@ -7,6 +7,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import {
   glassSubpageCardClassName,
@@ -46,6 +47,7 @@ export default function ChatSidebar() {
   const [hasMore, setHasMore] = useState(false);
   const [selectMode, setSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(() => new Set());
+  const [searchQuery, setSearchQuery] = useState("");
   const [activeView, setActiveView] = useState(() => String(searchParams?.get("roomId") || "").trim() ? "groups" : "conversations");
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [confirmState, setConfirmState] = useState(null);
@@ -234,6 +236,11 @@ export default function ChatSidebar() {
     setSelectedIds(new Set());
   }, [activeView, selectMode]);
   useEffect(() => {
+    if (activeView === "conversations") return;
+    if (!searchQuery) return;
+    setSearchQuery("");
+  }, [activeView, searchQuery]);
+  useEffect(() => {
     try {
       window.dispatchEvent(new CustomEvent("sotsiaalai:conversation-drawer-title", {
         detail: {
@@ -356,6 +363,15 @@ export default function ChatSidebar() {
       setCreating(false);
     }
   }, [activateConversation, busy, conversationRole, creating, refreshAll, resolveErrorMessage, t]);
+
+  useEffect(() => {
+    const onCreateConversation = () => {
+      void onNew();
+    };
+    window.addEventListener("sotsiaalai:create-conversation", onCreateConversation);
+    return () => window.removeEventListener("sotsiaalai:create-conversation", onCreateConversation);
+  }, [onNew]);
+
   const deleteConversationById = useCallback(async id => {
     if (!id) return;
     setBusy(true);
@@ -522,13 +538,22 @@ export default function ChatSidebar() {
     const t = new Date(v).getTime();
     return Number.isFinite(t) ? t : 0;
   };
+  const normalizedSearchQuery = searchQuery.trim().toLowerCase();
   const sortedConversations = useMemo(() => [...items].map(item => ({
     ...item,
     kind: "conversation"
   })).sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)), [items]);
   const sortedRooms = useMemo(() => [...roomItems].sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)), [roomItems]);
   const isConversationView = activeView === "conversations";
-  const currentItems = isConversationView ? sortedConversations : sortedRooms;
+  const filteredConversations = useMemo(() => {
+    if (!normalizedSearchQuery) return sortedConversations;
+    return sortedConversations.filter(item => {
+      const haystack = [item?.title, item?.preview, item?.id].filter(Boolean).join(" ").toLowerCase();
+      return haystack.includes(normalizedSearchQuery);
+    });
+  }, [normalizedSearchQuery, sortedConversations]);
+  const hasConversationSearch = isConversationView && Boolean(normalizedSearchQuery);
+  const currentItems = isConversationView ? filteredConversations : sortedRooms;
   const currentBusy = isConversationView ? busy : roomsBusy;
   const isLoading = busy || roomsBusy;
   const selectedCount = selectedIds.size;
@@ -558,9 +583,9 @@ export default function ChatSidebar() {
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
   const listViewportClassName = "flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.1rem]";
   const listClassName =
-    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-0 pt-[1.45rem] max-[768px]:pt-[1.2rem] pb-[0.9rem] max-[768px]:pb-[0.78rem] [scrollbar-width:none] " +
-    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.28)_3%,#000_9%,#000_91%,rgba(0,0,0,0.82)_94%,rgba(0,0,0,0.56)_96.5%,rgba(0,0,0,0.3)_98.5%,transparent_100%)] " +
-    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.28)_3%,#000_9%,#000_91%,rgba(0,0,0,0.82)_94%,rgba(0,0,0,0.56)_96.5%,rgba(0,0,0,0.3)_98.5%,transparent_100%)] " +
+    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-0 pt-[1.05rem] max-[768px]:pt-[0.9rem] pb-[0.9rem] max-[768px]:pb-[0.78rem] [scrollbar-width:none] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.18)_1.5%,#000_4%,#000_96%,rgba(0,0,0,0.18)_98.5%,transparent_100%)] " +
+    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.18)_1.5%,#000_4%,#000_96%,rgba(0,0,0,0.18)_98.5%,transparent_100%)] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] [-webkit-mask-size:100%_100%] [mask-size:100%_100%] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
   const renderLoadingSkeleton = (prefix, count = 3) => Array.from({ length: count }).map((_, i) => <div key={`${prefix}-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
         <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
@@ -654,6 +679,9 @@ export default function ChatSidebar() {
           {isConversationView ? t("chat.sidebar.sections.groups") : t("chat.sidebar.sections.conversations")}
         </Button>
       </div>
+      {isConversationView ? <div className={`${sidebarContentWidthClassName} mt-[0.35rem] max-[768px]:mt-[0.45rem]`}>
+          <Input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} size="sm" className="!rounded-full !px-[1rem] !py-[0.78rem] !min-h-[3.05rem]" />
+        </div> : null}
       {selectMode && isConversationView ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>
           <Button variant="primary" size="sm" className={`px-[0.7rem] ${compactActionBtnClassName}`} onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
             <span className="max-[416px]:hidden">{t("chat.sidebar.selection.delete_selected")}</span>
@@ -673,7 +701,7 @@ export default function ChatSidebar() {
               {renderLoadingSkeleton(isConversationView ? "conv" : "room", isConversationView ? 3 : 2)}
             </div> : <ul className={listClassName}>
               {!currentBusy && currentItems.length === 0 ? <li className={`flex w-full items-center gap-3 rounded-[1rem] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] ${glassSubpageCardClassName}`}>
-                  <span>{isConversationView ? t("chat.sidebar.empty") : t("rooms.empty")}</span>
+                  <span>{hasConversationSearch ? t("chat.sidebar.search.no_matches", "Otsingule vastavaid vestlusi ei leitud.") : isConversationView ? t("chat.sidebar.empty") : t("rooms.empty")}</span>
                 </li> : currentItems.map(renderListItem)}
             </ul>}
           {isConversationView && hasMore ? <div className="flex w-full justify-center pt-[0.5rem]">

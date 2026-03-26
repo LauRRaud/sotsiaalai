@@ -21,28 +21,29 @@
   border: none !important;
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  overflow: hidden;
+  isolation: isolate;
+  contain: paint;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .homepage-root .home-about-panel {
   background: var(
-    --home-about-surface-bg,
+    --glass-ring-surface-bg,
     var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
   ) !important;
-  box-shadow: var(
-    --home-about-surface-shadow,
-    var(--glass-shell-shadow, none)
-  ) !important;
+  box-shadow: var(--glass-shell-shadow, none) !important;
 }
 
 .homepage-root .home-before-panel {
   background: var(
-    --home-before-surface-bg,
-    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+    --glass-ring-surface-bg,
+    var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
   ) !important;
-  box-shadow: var(
-    --home-before-surface-shadow,
-    var(--glass-shell-shadow, none)
-  ) !important;
+  box-shadow: var(--glass-shell-shadow, none) !important;
 }
 
 .homepage-root .home-before-contact-button {

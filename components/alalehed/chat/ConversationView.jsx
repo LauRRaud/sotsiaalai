@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SourcesIcon } from "@/components/ui/icons/ChatIcons";
 
 function splitGraphemes(text) {
@@ -15,6 +15,7 @@ function splitGraphemes(text) {
 }
 
 const EMPTY_INTRO_GRAPHEME_DELAY_MS = 18;
+const EMPTY_INTRO_TRAILING_INLINE_RE = /^[\s!?,.;:)]$/;
 
 const EmptyIntroMessage = memo(function EmptyIntroMessage({
   className,
@@ -22,17 +23,27 @@ const EmptyIntroMessage = memo(function EmptyIntroMessage({
   animate,
   onSeen
 }) {
-  const animationFrameRef = useRef(0);
+  const typingTimerRef = useRef(0);
   const [visibleCount, setVisibleCount] = useState(0);
   const targetSegments = useMemo(
     () => splitGraphemes(String(targetText || "").trim()),
     [targetText]
   );
+  const getNextVisibleCount = useCallback((currentCount) => {
+    let nextCount = Math.min(targetSegments.length, currentCount + 1);
+    while (
+      nextCount < targetSegments.length &&
+      EMPTY_INTRO_TRAILING_INLINE_RE.test(targetSegments[nextCount])
+    ) {
+      nextCount += 1;
+    }
+    return nextCount;
+  }, [targetSegments]);
 
   const clearAnimation = () => {
-    if (!animationFrameRef.current || typeof window === "undefined") return;
-    window.cancelAnimationFrame(animationFrameRef.current);
-    animationFrameRef.current = 0;
+    if (!typingTimerRef.current || typeof window === "undefined") return;
+    window.clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = 0;
   };
 
   useEffect(() => {
@@ -50,28 +61,25 @@ const EmptyIntroMessage = memo(function EmptyIntroMessage({
       return;
     }
 
-    let startTs = 0;
-    const step = timestamp => {
-      if (!startTs) startTs = timestamp;
-      const elapsed = timestamp - startTs;
-      const nextCount = Math.min(
-        targetSegments.length,
-        Math.max(1, Math.floor(elapsed / EMPTY_INTRO_GRAPHEME_DELAY_MS) + 1)
-      );
-      setVisibleCount(prev => (prev === nextCount ? prev : nextCount));
+    let nextCount = getNextVisibleCount(0);
+    setVisibleCount(nextCount);
+
+    const step = () => {
+      nextCount = getNextVisibleCount(nextCount);
+      setVisibleCount(nextCount);
       if (nextCount >= targetSegments.length) {
-        animationFrameRef.current = 0;
+        typingTimerRef.current = 0;
         onSeen?.();
         return;
       }
-      animationFrameRef.current = window.requestAnimationFrame(step);
+      typingTimerRef.current = window.setTimeout(step, EMPTY_INTRO_GRAPHEME_DELAY_MS);
     };
 
-    animationFrameRef.current = window.requestAnimationFrame(step);
+    typingTimerRef.current = window.setTimeout(step, EMPTY_INTRO_GRAPHEME_DELAY_MS);
     return () => {
       clearAnimation();
     };
-  }, [animate, onSeen, targetSegments]);
+  }, [animate, getNextVisibleCount, onSeen, targetSegments]);
 
   useEffect(() => () => {
     clearAnimation();

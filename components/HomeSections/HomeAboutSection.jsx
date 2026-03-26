@@ -291,7 +291,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         )}
       >
         <div
-          className="home-about-panel relative [background:var(--home-about-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--home-about-surface-shadow,var(--glass-shell-shadow))] [border:none] px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.2rem,0.5vw,0.5rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)] isolation-isolate"
+          className="home-about-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--glass-shell-shadow,none)] [border:none] px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.2rem,0.5vw,0.5rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)]"
         >
           <h2
             id={aboutHeadingId}
@@ -337,7 +337,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         <section
           aria-labelledby={beforeHeadingId}
           ref={beforeCardRef}
-          className="home-before-panel relative [background:var(--home-before-surface-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-full shadow-[var(--home-before-surface-shadow,var(--glass-shell-shadow))] [border:none] mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center px-[clamp(0.4rem,1.05vw,0.78rem)] py-[clamp(0.34rem,0.92vw,0.66rem)] max-[768px]:px-[clamp(0.24rem,0.85vw,0.42rem)] max-[768px]:py-[clamp(0.18rem,0.65vw,0.34rem)] box-border transition-[width,height,box-shadow,background-color] duration-[320ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none will-change-[width,height]"
+          className="home-before-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-full shadow-[var(--glass-shell-shadow,none)] [border:none] mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center px-[clamp(0.4rem,1.05vw,0.78rem)] py-[clamp(0.34rem,0.92vw,0.66rem)] max-[768px]:px-[clamp(0.24rem,0.85vw,0.42rem)] max-[768px]:py-[clamp(0.18rem,0.65vw,0.34rem)] box-border transition-[width,height,box-shadow,background-color] duration-[320ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none will-change-[width,height]"
           style={
             beforeDiameter
               ? { width: `${beforeDiameter}px`, height: `${beforeDiameter}px` }

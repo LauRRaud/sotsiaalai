@@ -93,18 +93,6 @@
     0 8px 18px rgba(2, 6, 16, 0.32),
     0 0 0 3px var(--btn-primary-focus-ring-color);
   --btn-primary-focus-ring-color: rgba(140, 180, 235, 0.35);
-  --home-about-surface-bg: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
-  --home-about-surface-mobile-bg: rgba(0, 0, 0, 0.3);
-  --home-about-surface-shadow: 0 0 16px rgba(248, 253, 255, 0.2);
-  --home-before-surface-bg: var(
-    --glass-ring-surface-bg,
-    var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
-  );
-  --home-before-surface-mobile-bg: rgba(0, 0, 0, 0.3);
-  --home-before-surface-shadow: 0 0 18px rgba(248, 253, 255, 0.22);
-  --home-panel-bg: var(--glass-ring-surface-bg, rgba(22, 24, 30, 0.84));
-  --home-panel-shadow: 0 0 16px rgba(248, 253, 255, 0.2);
-  --home-before-shadow: 0 0 18px rgba(248, 253, 255, 0.22);
 
   --form-surface: radial-gradient(
       65% 60% at 50% -12%,

@@ -576,6 +576,11 @@
         "delete_all": "Kustuta kõik",
         "delete_all_short": "Kõik",
         "item": "Vali vestlus"
+      },
+      "search": {
+        "placeholder": "Otsi vestlusi...",
+        "label": "Otsi vestlusi",
+        "no_matches": "Otsingule vastavaid vestlusi ei leitud."
       }
     },
     "profile": {
@@ -617,6 +622,7 @@
     },
     "back_to_home": "Tagasi avalehele",
     "mobile": {
+      "new_conversation": "Uus vestlus",
       "show_navigation": "Näita navigeerimist"
     },
     "help": {

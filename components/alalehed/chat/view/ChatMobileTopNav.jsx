@@ -18,15 +18,17 @@ import { cn } from "@/components/ui/cn";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 
+const CHAT_CREATE_CONVERSATION_EVENT = "sotsiaalai:create-conversation";
 const MOBILE_NAV_ITEMS = [
-  { key: "chats", scale: 0.96 },
   { key: "sources", scale: 0.94 },
   { key: "materials", scale: 1.24 },
   { key: "help_requests", scale: 1.0 },
   { key: "help_offers", scale: 1.0 },
+  { key: "new_chat", scale: 0.98 },
   { key: "profile", scale: 1.08 },
   { key: "rooms", scale: 1.02 },
-  { key: "invite", scale: 1.1 }
+  { key: "invite", scale: 1.1 },
+  { key: "chats", scale: 0.96 }
 ];
 
 const DEFAULT_FOCUSED_KEY = "profile";
@@ -250,6 +252,7 @@ export default function ChatMobileTopNav({
     () => ({
       back: t("chat.back_to_home"),
       chats: t("nav.chats"),
+      new_chat: t("chat.mobile.new_conversation"),
       rooms: t("nav.rooms"),
       sources: sourcesLabel,
       help_requests: t("chat.help.helpRequests"),
@@ -294,6 +297,12 @@ export default function ChatMobileTopNav({
     [embedded, locale, normalizedPathname, router]
   );
 
+  const openNewConversation = useCallback(() => {
+    try {
+      window.dispatchEvent(new CustomEvent(CHAT_CREATE_CONVERSATION_EVENT));
+    } catch {}
+  }, []);
+
   const openRooms = useCallback(() => {
     pushWithTransition(router, localizePath("/ruum", locale));
   }, [locale, router]);
@@ -316,6 +325,10 @@ export default function ChatMobileTopNav({
     (key, event) => {
       if (key === "chats") {
         openChatsDrawer(event);
+        return;
+      }
+      if (key === "new_chat") {
+        openNewConversation();
         return;
       }
       if (key === "sources") {
@@ -363,6 +376,7 @@ export default function ChatMobileTopNav({
       openChatsDrawer,
       openInvite,
       openMaterials,
+      openNewConversation,
       openProfileDirect,
       openRooms,
       router,
@@ -394,16 +408,45 @@ export default function ChatMobileTopNav({
 
   const renderIcon = item => {
     const iconClassName = "h-full w-full";
+    const focusBoost =
+      visualFocusedKey === item.key &&
+      (item.key === "chats" || item.key === "new_chat")
+        ? 1.12
+        : 1;
     if (item.key === "chats") {
       return (
-        <MobileIconFrame scale={item.scale} xNudge={-0.34}>
+        <MobileIconFrame scale={item.scale * focusBoost} xNudge={0.18}>
           <ChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
+        </MobileIconFrame>
+      );
+    }
+    if (item.key === "new_chat") {
+      return (
+        <MobileIconFrame scale={item.scale * focusBoost} xNudge={0.04}>
+          <span className="relative flex h-full w-full items-center justify-center">
+            <ChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              focusable="false"
+              className="absolute left-1/2 top-[39%] h-[58%] w-[58%] -translate-x-1/2 -translate-y-1/2 text-[color:var(--chat-icon-dark,#c57171)] light:text-[color:var(--chat-icon-light,#7A3A38)]"
+              fill="none"
+            >
+              <path
+                d="M12 7.25v9.5M7.25 12h9.5"
+                stroke="currentColor"
+                strokeWidth="2.9"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
         </MobileIconFrame>
       );
     }
     if (item.key === "sources") {
       return (
-        <MobileIconFrame scale={item.scale}>
+        <MobileIconFrame scale={item.scale} xNudge={-0.18}>
           <SourcesIcon
             isLightTheme={isLightTheme}
             className={cn(iconClassName, sourcesPulse ? "animate-[chat-sources-pulse_1s_ease]" : null)}
