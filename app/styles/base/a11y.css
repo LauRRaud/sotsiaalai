@@ -142,9 +142,7 @@ html[data-contrast="hc"] body :is(
     button:has(.back-icon-arrow),
     .glass-policy-back,
     .chat-back-button,
-    .profile-logout-button,
-    .profile-orbit-stack-item[data-key="back"] .profile-orbit-stack-bubble.dock-item,
-    .profile-orbit-mobile-row[data-key="back"] .profile-orbit-mobile-action.dock-item
+    .profile-logout-button
   ) {
   background: transparent !important;
   border: 0 !important;
@@ -155,9 +153,7 @@ html[data-contrast="hc"] body :is(
     button:has(.back-icon-arrow),
     .glass-policy-back,
     .chat-back-button,
-    .profile-logout-button,
-    .profile-orbit-stack-item[data-key="back"] .profile-orbit-stack-bubble.dock-item,
-    .profile-orbit-mobile-row[data-key="back"] .profile-orbit-mobile-action.dock-item
+    .profile-logout-button
   ):is(:hover, :focus-visible, :active) {
   background: transparent !important;
   border: 0 !important;
@@ -964,7 +960,7 @@ html[data-contrast="hc"]
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item:is(
+  :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item:is(
     :hover,
     :focus-visible,
     :active

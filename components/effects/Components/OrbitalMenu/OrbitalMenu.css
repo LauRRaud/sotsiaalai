@@ -318,13 +318,6 @@ html[data-contrast="hc"]
     0 12px 20px rgba(0, 0, 0, 0.16);
 }
 
-html[data-contrast="hc"].profile-orbit-open
-  .profile-orbit-stack-backdrop
-  .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
-  border-color: transparent !important;
-  box-shadow: var(--orbit-item-glow-strong) !important;
-}
-
 @keyframes orbit-item-pulse {
   0% {
     transform: scale(var(--item-scale));
@@ -627,6 +620,21 @@ html[data-reduce-motion="1"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
     .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
     box-shadow:
+      0 10px 18px rgba(0, 0, 0, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.18) !important;
+    animation: none !important;
+  }
+
+  html[data-contrast="hc"]
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item,
+  html[data-contrast="hc"]
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow:
+      0 0 18px rgba(255, 234, 0, 0.3),
+      0 0 34px rgba(255, 234, 0, 0.18),
       0 10px 18px rgba(0, 0, 0, 0.16),
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
       inset 0 -1px 0 rgba(0, 0, 0, 0.18) !important;

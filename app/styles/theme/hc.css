@@ -49,6 +49,8 @@ html[data-contrast="hc"] {
   --glass-surface-text: var(--hc-text);
   --glass-border-color: transparent;
   --glass-border-width: 1px;
+  --opaque-panel-bg: rgba(14, 20, 32, 1);
+  --opaque-panel-bg-hover: rgba(17, 24, 38, 1);
   --glass-shell-shadow: var(--glass-ring-glow-dark);
   --glass-ring-glow-dark:
     0 10px 20px -16px rgba(255, 234, 0, 0.42),
