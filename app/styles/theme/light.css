@@ -34,10 +34,10 @@
   --glass-input-bg-idle: rgba(18, 20, 32, 0.18);
   --glass-input-bg-active: rgba(18, 20, 32, 0.24);
   --glass-blur-radius: 1rem;
-  --glass-surface-bg: rgba(251, 250, 248, 0.52);
-  --glass-ring-surface-bg: rgba(245, 244, 242, 0.74);
+  --glass-surface-bg: rgba(253, 253, 252, 0.52);
+  --glass-ring-surface-bg: rgba(249, 249, 248, 0.74);
   --glass-surface-text: #2b2620;
-  --chat-ui-solid-surface: rgb(252, 250, 248);
+  --chat-ui-solid-surface: rgb(253, 253, 252);
   --chat-rail-tooltip-bg: var(--chat-ui-solid-surface);
   --chat-tools-panel-bg: var(--chat-ui-solid-surface);
   --chat-upload-picker-bg: var(--chat-ui-solid-surface);
@@ -97,14 +97,14 @@
     radial-gradient(
       82% 66% at 50% 16%,
       rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0.95) 42%,
-      rgba(250, 248, 247, 0.9) 58%,
-      rgba(245, 243, 241, 0.86) 74%
+      rgba(255, 255, 255, 0.995) 42%,
+      rgba(254, 252, 251, 0.97) 58%,
+      rgba(250, 248, 246, 0.94) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.98) 0%,
-      rgba(248, 246, 244, 0.92) 100%
+      rgba(255, 255, 255, 1) 0%,
+      rgba(252, 250, 248, 0.97) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
@@ -139,9 +139,9 @@
     0 0 0 3px var(--btn-primary-focus-ring-color),
     0 0 0 1px rgba(255, 255, 255, 0.18);
   --btn-primary-radius: 0.95rem;
-  --input-bg: rgba(252, 251, 249, 0.84);
-  --input-bg-hover: rgba(255, 255, 255, 0.93);
-  --input-bg-focus: rgba(255, 255, 255, 0.95);
+  --input-bg: rgba(254, 253, 252, 0.89);
+  --input-bg-hover: rgba(255, 255, 255, 0.94);
+  --input-bg-focus: rgba(255, 255, 255, 0.96);
   --input-text: #1f2937;
   --input-caret: #1f2937;
   --input-border: 1px solid transparent;
@@ -276,13 +276,13 @@
 :root.theme-light .drawer-panel .drawer-chat-card,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li {
   border-color: transparent !important;
-  background: rgba(255, 255, 255, 0.78) !important;
+  background: rgba(255, 253, 252, 0.8) !important;
   box-shadow: none;
 }
 :root.theme-light .drawer-panel .drawer-chat-card.drawer-chat-card--active,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li.drawer-chat-card--active {
   border-color: transparent !important;
-  background: rgba(255, 255, 255, 0.86) !important;
+  background: rgba(255, 253, 252, 0.8) !important;
   box-shadow: none;
 }
 :root.theme-light .drawer-close {
@@ -362,9 +362,9 @@
 :root.theme-light .chat-inputbar .chat-listen-btn,
 :root.theme-light .chat-inputbar .chat-send-btn {
   --chat-action-size: var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)));
-  --chat-inputbar-bg: rgba(252, 250, 248, 0.89);
-  --chat-inputbar-bg-hover: rgba(254, 253, 252, 0.92);
-  --chat-inputbar-bg-focus: rgba(254, 253, 252, 0.95);
+  --chat-inputbar-bg: rgba(254, 253, 252, 0.92);
+  --chat-inputbar-bg-hover: rgba(255, 255, 255, 0.95);
+  --chat-inputbar-bg-focus: rgba(255, 255, 255, 0.97);
   --chat-user-bubble-bg: var(--chat-inputbar-bg);
   background: var(--chat-inputbar-bg);
   border: 0;
@@ -433,7 +433,7 @@
 :root.theme-light .chat-inputbar .chat-send-btn:hover,
 :root.theme-light .chat-inputbar .chat-send-btn:focus-visible,
 :root.theme-light .chat-inputbar .chat-send-btn:active {
-  background: color-mix(in srgb, var(--chat-inputbar-bg) 90%, white 10%);
+  background: color-mix(in srgb, var(--chat-inputbar-bg) 82%, white 18%);
   border-color: rgba(15, 23, 42, 0.08);
   box-shadow:
     0 0.22rem 0.62rem rgba(15, 23, 42, 0.05),
@@ -458,7 +458,7 @@
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:hover,
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:focus-visible,
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:active {
-  background: color-mix(in srgb, var(--chat-inputbar-bg) 84%, white 16%);
+  background: color-mix(in srgb, var(--chat-inputbar-bg) 78%, white 22%);
   box-shadow:
     0 0.42rem 1.05rem rgba(15, 23, 42, 0.1),
     0 0.16rem 0.4rem rgba(15, 23, 42, 0.045);

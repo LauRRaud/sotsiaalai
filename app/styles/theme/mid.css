@@ -507,19 +507,29 @@
 }
 
 :root.theme-mid .modal-confirm-content {
-  border: 1px solid rgba(255, 255, 255, 0.52) !important;
-  background: rgba(250, 246, 243, 0.98) !important;
-  color: #2f3a4a !important;
-  box-shadow: 0 16px 32px rgba(20, 12, 10, 0.18) !important;
+  border: 1px solid var(--rail-tooltip-border, rgba(255, 255, 255, 0.16)) !important;
+  background: var(--chat-tools-panel-bg, var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(252, 246, 244)))) !important;
+  color: var(--opaque-panel-text, var(--rail-tooltip-text, #2f3a4a)) !important;
+  box-shadow: var(--opaque-panel-shadow, var(--rail-tooltip-shadow, 0 12px 28px rgba(46, 24, 21, 0.18))) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
 
 :root.theme-mid .modal-confirm-content p {
-  color: #2f3a4a !important;
+  color: var(--opaque-panel-text, var(--rail-tooltip-text, #2f3a4a)) !important;
 }
 
-:root.theme-mid .modal-confirm-content .button {
+:root.theme-mid .modal-confirm-content .button[data-variant="danger"] {
+  color: var(--btn-danger-text-light, #fff6f6) !important;
+}
+
+:root.theme-mid .modal-confirm-content .button[data-variant="danger"]:hover,
+:root.theme-mid .modal-confirm-content .button[data-variant="danger"]:focus-visible,
+:root.theme-mid .modal-confirm-content .button[data-variant="danger"]:active {
+  color: var(--btn-danger-text-light, #fff6f6) !important;
+}
+
+:root.theme-mid .modal-confirm-content .button:not([data-variant="danger"]) {
   background:
     linear-gradient(
       145deg,
@@ -532,8 +542,8 @@
   box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
 }
 
-:root.theme-mid .modal-confirm-content .button:hover,
-:root.theme-mid .modal-confirm-content .button:focus-visible {
+:root.theme-mid .modal-confirm-content .button:not([data-variant="danger"]):hover,
+:root.theme-mid .modal-confirm-content .button:not([data-variant="danger"]):focus-visible {
   background:
     linear-gradient(
       145deg,

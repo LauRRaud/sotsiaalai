@@ -382,10 +382,8 @@ export default function ChatBody({
     }, MOBILE_KEYBOARD_BLUR_SETTLE_MS);
   }, [isMobile]);
   const inputRef = useRef(null);
-  const [composerDraftReady, setComposerDraftReady] = useState(false);
   const [composerHasDraft, setComposerHasDraft] = useState(false);
-  const [emptyIntroReady, setEmptyIntroReady] = useState(false);
-  const [emptyIntroSeen, setEmptyIntroSeen] = useState(false);
+  const [emptyIntroSeenOverride, setEmptyIntroSeenOverride] = useState(false);
   const composerDraftApiRef = useRef(null);
   const inputRowRef = useRef(null);
   const inputBarRef = useRef(null);
@@ -515,21 +513,20 @@ export default function ChatBody({
     userRole: sessionUserRole,
     locale
   }), [convId, locale, sessionUserId, sessionUserRole]);
+  const emptyIntroSeenStored = useMemo(() => {
+    if (!emptyIntroSeenStorageKey || typeof window === "undefined") return false;
+    try {
+      return window.sessionStorage.getItem(emptyIntroSeenStorageKey) === "1";
+    } catch {
+      return false;
+    }
+  }, [emptyIntroSeenStorageKey]);
+  const emptyIntroSeen = emptyIntroSeenStored || emptyIntroSeenOverride;
   useEffect(() => {
-    setComposerDraftReady(false);
     setComposerHasDraft(false);
   }, [convId, locale, roomId, sessionUserId, sessionUserRole]);
   useEffect(() => {
-    setEmptyIntroReady(false);
-    setEmptyIntroSeen(false);
-    if (!emptyIntroSeenStorageKey || typeof window === "undefined") {
-      setEmptyIntroReady(true);
-      return;
-    }
-    try {
-      setEmptyIntroSeen(window.sessionStorage.getItem(emptyIntroSeenStorageKey) === "1");
-    } catch {}
-    setEmptyIntroReady(true);
+    setEmptyIntroSeenOverride(false);
   }, [emptyIntroSeenStorageKey]);
   const resetCareerSession = useCallback(() => {
     setActiveWorkflow("default");
@@ -609,11 +606,10 @@ export default function ChatBody({
     const canShowIntroImmediately = emptyIntroSeen;
     const draftAllowsIntro = canShowIntroImmediately
       ? !composerHasDraft
-      : composerDraftReady && !composerHasDraft;
+      : !composerHasDraft;
     const hasEmptyIntro =
       !isRoomMode &&
       conversationStateReady &&
-      emptyIntroReady &&
       draftAllowsIntro &&
       visibleMessages.length === 0;
     const displayMessages = hasEmptyIntro
@@ -629,7 +625,7 @@ export default function ChatBody({
     const n = displayMessages.length;
     if (n <= renderLimit) return displayMessages;
     return displayMessages.slice(n - renderLimit);
-  }, [composerHasDraft, composerDraftReady, conversationStateReady, emptyIntroReady, emptyIntroSeen, isRoomMode, renderLimit, t, visibleMessages]);
+  }, [composerHasDraft, conversationStateReady, emptyIntroSeen, isRoomMode, renderLimit, t, visibleMessages]);
   const hiddenCount = useMemo(() => {
     const n = visibleMessages.length;
     return n > renderLimit ? n - renderLimit : 0;
@@ -1513,12 +1509,11 @@ export default function ChatBody({
     });
   }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, runCareerTurn, sendMessage]);
   const handleDraftStateChange = useCallback(({ ready, hasDraft }) => {
-    setComposerDraftReady(Boolean(ready));
     setComposerHasDraft(Boolean(hasDraft));
   }, []);
   const handleEmptyIntroTyped = useCallback(() => {
     if (!emptyIntroSeenStorageKey) return;
-    setEmptyIntroSeen(true);
+    setEmptyIntroSeenOverride(true);
     try {
       window.sessionStorage.setItem(emptyIntroSeenStorageKey, "1");
     } catch {}

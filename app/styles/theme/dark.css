@@ -14,6 +14,10 @@
     --form-surface-hover,
     var(--btn-base-bg-dark)
   );
+  --chat-ui-solid-surface: rgb(30, 32, 38);
+  --chat-rail-tooltip-bg: var(--chat-ui-solid-surface);
+  --chat-tools-panel-bg: var(--chat-ui-solid-surface);
+  --chat-upload-picker-bg: var(--chat-ui-solid-surface);
   --chat-invite-list-border: rgba(248, 253, 255, 0.11);
   --chat-invite-shadow:
     0 6px 16px rgba(0, 0, 0, 0.22),
@@ -26,6 +30,9 @@
   --rail-tooltip-border: var(--subpage-card-border);
   --rail-tooltip-shadow: var(--subpage-card-shadow);
   --rail-tooltip-text: var(--subpage-card-text);
+  --chat-tools-panel-border: var(--rail-tooltip-border);
+  --chat-tools-panel-shadow: var(--rail-tooltip-shadow);
+  --chat-tools-panel-text: var(--rail-tooltip-text);
   --chat-tools-item-hover-bg: rgba(33, 37, 46, 0.98);
 }
 
