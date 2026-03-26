@@ -20,8 +20,8 @@
     rgba(249, 241, 239, 0.54)
   );
   --input-bg: rgba(252, 248, 247, 0.48);
-  --input-bg-hover: rgba(253, 250, 249, 0.54);
-  --input-bg-focus: rgba(253, 250, 249, 0.56);
+  --input-bg-hover: rgba(253, 250, 249, 0.6);
+  --input-bg-focus: rgba(253, 250, 249, 0.62);
   --input-text: #2f3a4a;
   --input-caret: #2f3a4a;
   --input-border: 1px solid rgba(255, 255, 255, 0.34);
@@ -31,70 +31,70 @@
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
   --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.05);
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.07);
-  --btn-primary-hover-brightness: 1.03;
+  --btn-primary-hover-brightness: 1;
   --btn-primary-bg:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 252, 251, 0.74) 0%,
-      rgba(252, 246, 244, 0.62) 42%,
-      rgba(246, 237, 234, 0.56) 100%
+      rgba(249, 241, 238, 0.62) 0%,
+      rgba(242, 232, 228, 0.54) 42%,
+      rgba(233, 221, 216, 0.48) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(252, 246, 244, 0.48) 0%,
-      rgba(245, 236, 233, 0.42) 100%
+      rgba(244, 235, 231, 0.42) 0%,
+      rgba(236, 226, 222, 0.36) 100%
     );
   --btn-primary-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(255, 253, 252, 0.82) 0%,
-      rgba(253, 248, 246, 0.7) 44%,
-      rgba(247, 239, 236, 0.62) 100%
+      rgba(250, 243, 240, 0.72) 0%,
+      rgba(243, 234, 230, 0.62) 44%,
+      rgba(235, 225, 220, 0.54) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(253, 248, 246, 0.56) 0%,
-      rgba(246, 238, 235, 0.48) 100%
+      rgba(246, 237, 233, 0.48) 0%,
+      rgba(238, 229, 225, 0.42) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(252, 248, 247, 0.68) 0%,
-      rgba(247, 239, 237, 0.56) 42%,
-      rgba(240, 230, 227, 0.5) 100%
+      rgba(247, 238, 235, 0.58) 0%,
+      rgba(239, 229, 226, 0.48) 42%,
+      rgba(231, 220, 215, 0.42) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(247, 239, 237, 0.46) 0%,
-      rgba(239, 230, 227, 0.4) 100%
+      rgba(240, 230, 227, 0.38) 0%,
+      rgba(232, 222, 218, 0.34) 100%
     );
   --btn-primary-text: #2f3a4a;
   --btn-primary-border: 1px solid rgba(255, 255, 255, 0.4);
-  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.48);
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.56);
   --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.34);
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.32),
-    0 5px 12px rgba(20, 12, 10, 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 5px 12px rgba(20, 12, 10, 0.18);
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.42),
-    0 7px 14px rgba(20, 12, 10, 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 7px 14px rgba(20, 12, 10, 0.18);
   --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
     0 4px 10px rgba(20, 12, 10, 0.13);
   --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
   --btn-primary-shadow-focus:
     0 8px 16px rgba(20, 12, 10, 0.16),
     0 0 0 3px var(--btn-primary-focus-ring-color);
   --seg-card-bg: rgba(252, 248, 247, 0.46);
-  --seg-card-bg-hover: rgba(252, 248, 247, 0.5);
-  --seg-card-bg-selected: rgba(250, 244, 242, 0.54);
+  --seg-card-bg-hover: rgba(247, 239, 236, 0.46);
+  --seg-card-bg-selected: rgba(242, 233, 229, 0.5);
   --seg-card-text: #2f3a4a;
   --seg-card-text-hover: #81504b;
   --seg-card-text-selected: #7a3a38;
   --seg-card-border: rgba(255, 255, 255, 0.34);
   --seg-card-shadow: 0 5px 12px rgba(20, 12, 10, 0.14);
-  --seg-card-shadow-hover: 0 6px 13px rgba(20, 12, 10, 0.15);
-  --seg-card-shadow-selected: 0 6px 13px rgba(20, 12, 10, 0.15);
+  --seg-card-shadow-hover: 0 6px 13px rgba(20, 12, 10, 0.17);
+  --seg-card-shadow-selected: 0 6px 13px rgba(20, 12, 10, 0.17);
   --seg-radio-bg: rgba(253, 250, 249, 0.62);
   --seg-radio-border: rgba(255, 255, 255, 0.56);
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(122, 58, 56, 0.2);
@@ -169,13 +169,6 @@
 :root.theme-mid .drawer-panel .drawer-chat-sidebar__list > li,
 :root.theme-mid .drawer-chat-card {
   background: rgba(252, 248, 247, 0.56) !important;
-}
-
-:root.theme-mid .drawer-panel .drawer-chat-card:hover,
-:root.theme-mid .drawer-panel .drawer-chat-sidebar__list > li:hover,
-:root.theme-mid .drawer-chat-card:hover,
-:root.theme-mid .drawer-chat-card:focus-within {
-  background: rgba(253, 250, 249, 0.62) !important;
 }
 
 :root.theme-mid .drawer-panel .drawer-chat-card.drawer-chat-card--active,

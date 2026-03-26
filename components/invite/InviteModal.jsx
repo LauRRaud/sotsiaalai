@@ -61,7 +61,12 @@ export default function InviteModal() {
   const inviteModalContentClassName =
     `invite-modal-content person-invite-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
-    `[--input-text:var(--glass-modal-text)] ${glassPageMobileCardClassName} ` +
+    `[--input-text:var(--glass-modal-text)] ` +
+    `[.theme-light_&]:[--input-bg:rgba(254,253,252,0.89)] [.theme-light_&]:[--input-bg-hover:rgba(255,255,255,0.94)] [.theme-light_&]:[--input-bg-focus:rgba(255,255,255,0.96)] ` +
+    `[.theme-light_&]:[--input-shadow:0_6px_16px_rgba(15,23,42,0.12)] [.theme-light_&]:[--input-shadow-composite:var(--input-shadow)] [.theme-light_&]:[--input-shadow-hover-composite:var(--input-shadow-hover,var(--input-shadow))] [.theme-light_&]:[--input-shadow-focus-composite:var(--input-shadow-hover,var(--input-shadow))] ` +
+    `[.theme-mid_&]:[--input-bg:rgba(252,248,247,0.48)] [.theme-mid_&]:[--input-bg-hover:rgba(253,250,249,0.54)] [.theme-mid_&]:[--input-bg-focus:rgba(253,250,249,0.56)] ` +
+    `[.theme-mid_&]:[--input-text:#2f3a4a] [.theme-mid_&]:[--input-caret:#2f3a4a] [.theme-mid_&]:[--input-shadow:0_6px_14px_rgba(20,12,10,0.16)] [.theme-mid_&]:[--input-shadow-hover:0_7px_16px_rgba(20,12,10,0.18)] ` +
+    `${glassPageMobileCardClassName} ` +
     `${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const inviteModalTitleClassName = `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
@@ -72,7 +77,8 @@ export default function InviteModal() {
   const mobileInviteInputClassName =
     "!text-[1.28rem] !tracking-[0.02em] placeholder:!text-[1.12rem] placeholder:!tracking-[0.02em] max-[768px]:!text-[1.34rem] max-[768px]:!tracking-[0.024em] max-[768px]:placeholder:!text-[1.2rem] max-[768px]:placeholder:!tracking-[0.022em] max-[768px]:!min-h-[3.2rem] max-[768px]:!py-[0.84rem]";
   const invitePrimaryButtonClassName =
-    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
+    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
+    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
   const sponsoredRoleOptions = [
     {
       value: "SOCIAL_WORKER",
@@ -84,11 +90,14 @@ export default function InviteModal() {
     },
   ];
   const inviteOptionButtonClassName =
-    "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg-hover)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
     "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
-    "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
     "[--seg-card-border:transparent] [--seg-card-border-width:0px] [--seg-card-duration:560ms] [--seg-card-ease:cubic-bezier(0.22,0.61,0.36,1)] " +
+    "[.theme-mid_&]:[--seg-card-bg:linear-gradient(180deg,rgba(244,235,231,0.42)_0%,rgba(236,227,223,0.36)_100%)] " +
+    "[.theme-mid_&]:[--seg-card-bg-hover:linear-gradient(180deg,rgba(246,237,233,0.48)_0%,rgba(238,229,225,0.4)_100%)] " +
+    "[.theme-mid_&]:[--seg-card-bg-selected:linear-gradient(180deg,rgba(245,236,232,0.46)_0%,rgba(237,228,224,0.38)_100%)] " +
+    "[.theme-mid_&]:[--seg-card-shadow:0_5px_12px_rgba(20,12,10,0.14)] [.theme-mid_&]:[--seg-card-shadow-hover:0_6px_13px_rgba(20,12,10,0.16)] [.theme-mid_&]:[--seg-card-shadow-selected:0_6px_13px_rgba(20,12,10,0.16)] " +
     "[border:var(--btn-primary-border)] hover:[border:var(--btn-primary-border-hover)] focus-visible:[border:var(--btn-primary-border-hover)] data-[checked=true]:[border:var(--btn-primary-border-hover)] " +
+    "light:[--seg-card-bg-hover:linear-gradient(180deg,rgba(255,255,255,1),rgba(251,249,247,0.97))] light:[--seg-card-bg-selected:linear-gradient(180deg,rgba(255,255,255,1),rgba(251,249,247,0.97))] " +
     "backdrop-blur-[10px] backdrop-saturate-[120%] " +
     "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
@@ -98,8 +107,17 @@ export default function InviteModal() {
     "!inline-flex !w-fit !justify-self-center !self-center !mt-[0.28rem] !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
     "[&>span.shrink-0]:-translate-y-[0.08rem] " +
-    "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem] " +
-    inviteOptionButtonClassName;
+    "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--btn-primary-text,var(--input-text))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
+    "[--seg-card-border:transparent] [--seg-card-border-width:0px] [--seg-card-duration:560ms] [--seg-card-ease:cubic-bezier(0.22,0.61,0.36,1)] " +
+    "[.theme-mid_&]:[--seg-card-bg:linear-gradient(180deg,rgba(244,235,231,0.42)_0%,rgba(236,227,223,0.36)_100%)] " +
+    "[.theme-mid_&]:[--seg-card-bg-hover:linear-gradient(180deg,rgba(246,237,233,0.48)_0%,rgba(238,229,225,0.4)_100%)] " +
+    "[.theme-mid_&]:[--seg-card-bg-selected:linear-gradient(180deg,rgba(245,236,232,0.46)_0%,rgba(237,228,224,0.38)_100%)] " +
+    "[.theme-mid_&]:[--seg-card-shadow:0_5px_12px_rgba(20,12,10,0.14)] [.theme-mid_&]:[--seg-card-shadow-hover:0_6px_13px_rgba(20,12,10,0.16)] [.theme-mid_&]:[--seg-card-shadow-selected:0_5px_12px_rgba(20,12,10,0.14)] " +
+    "[border:var(--btn-primary-border)] hover:[border:var(--btn-primary-border-hover)] focus-visible:[border:var(--btn-primary-border-hover)] data-[checked=true]:[border:var(--btn-primary-border-active,var(--btn-primary-border-hover))] " +
+    "backdrop-blur-[10px] backdrop-saturate-[120%] " +
+    "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)] " +
+    "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
   const inviteRoleCardClassName =
     "!w-[min(100%,18.2rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
     `[&>span:last-child]:justify-center [&>span:last-child]:text-center [&>span:last-child]:[text-wrap:balance] ` +
@@ -122,9 +140,9 @@ export default function InviteModal() {
     "mt-[0.95rem] pt-[0.05rem] flex justify-center max-[768px]:mt-[0.88rem]";
   const inviteSponsoredToggleColorClassName =
     "[--seg-card-text:var(--btn-primary-text,rgba(248,252,255,0.92))] " +
-    "[--seg-card-text-hover:var(--btn-primary-text,rgba(248,252,255,0.92))] " +
-    "[--seg-card-text-selected:var(--btn-primary-text,rgba(248,252,255,0.92))] " +
-    "[--seg-card-shadow-selected:var(--btn-primary-shadow)]";
+    "[--seg-card-text-hover:var(--title-color,var(--brand-primary))] " +
+    "[--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
+    "[--seg-card-shadow-selected:var(--seg-card-shadow)]";
   const inviteSponsoredToggleCardClassName =
     `${inviteSponsorToggleClassName} ${inviteSponsoredToggleColorClassName}`;
   const inviteEmailsRequiredError = error === t("invite.error.emails_required");

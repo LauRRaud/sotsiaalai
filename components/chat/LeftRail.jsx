@@ -72,6 +72,7 @@ export default function LeftRail({
   const tooltipRevealRafRef = useRef(0);
   const tooltipVisibleRef = useRef(false);
   const tooltipLabelIndexRef = useRef(1);
+  const hoverTooltipIndexRef = useRef(null);
   const didInitDesktopActiveRef = useRef(false);
   const wheelAccumRef = useRef(0);
   const lastStepRef = useRef(0);
@@ -238,9 +239,44 @@ export default function LeftRail({
       cancelAnimationFrame(tooltipRevealRafRef.current);
       tooltipRevealRafRef.current = 0;
     }
+    hoverTooltipIndexRef.current = null;
     tooltipVisibleRef.current = false;
     setIsTooltipVisible(false);
   }, []);
+
+  const showTooltipPersistently = useCallback(
+    index => {
+      if (isMobile || suspendPointerEvents || isRouteTilting) return;
+      if (!Number.isFinite(index)) return;
+      hoverTooltipIndexRef.current = index;
+      if (tooltipHideTimerRef.current) {
+        window.clearTimeout(tooltipHideTimerRef.current);
+        tooltipHideTimerRef.current = 0;
+      }
+      if (tooltipSwitchTimerRef.current) {
+        window.clearTimeout(tooltipSwitchTimerRef.current);
+        tooltipSwitchTimerRef.current = 0;
+      }
+      if (tooltipRevealRafRef.current) {
+        cancelAnimationFrame(tooltipRevealRafRef.current);
+        tooltipRevealRafRef.current = 0;
+      }
+      tooltipLabelIndexRef.current = index;
+      setTooltipLabelIndex(index);
+      tooltipVisibleRef.current = true;
+      setIsTooltipVisible(true);
+    },
+    [isMobile, isRouteTilting, suspendPointerEvents]
+  );
+
+  const hideHoverTooltip = useCallback(
+    index => {
+      if (hoverTooltipIndexRef.current !== index) return;
+      hoverTooltipIndexRef.current = null;
+      hideTooltipImmediately();
+    },
+    [hideTooltipImmediately]
+  );
 
   const dismissAllRailTooltips = useCallback(() => {
     hideTooltipImmediately();
@@ -254,6 +290,13 @@ export default function LeftRail({
     (index, durationMs = 1300, revealDelayMs = 0) => {
       if (isMobile || suspendPointerEvents || isRouteTilting) return;
       if (!Number.isFinite(index)) return;
+      if (
+        tooltipVisibleRef.current &&
+        tooltipLabelIndexRef.current === index &&
+        tooltipHideTimerRef.current
+      ) {
+        return;
+      }
       if (items[index]?.key === "back") {
         hideTooltipImmediately();
         return;
@@ -374,6 +417,7 @@ export default function LeftRail({
   useEffect(() => {
     if (isMobile || suspendPointerEvents) {
       didInitDesktopActiveRef.current = false;
+      hoverTooltipIndexRef.current = null;
       hideTooltipImmediately();
       return;
     }
@@ -747,12 +791,22 @@ export default function LeftRail({
                 onMouseEnter={() => {
                   if (item.key === "back") return;
                   if (itemIndex !== activeIndex) return;
-                  showTooltipTemporarily(activeIndex, 1200);
+                  showTooltipPersistently(activeIndex);
+                }}
+                onMouseLeave={() => {
+                  if (item.key === "back") return;
+                  if (itemIndex !== activeIndex) return;
+                  hideHoverTooltip(activeIndex);
                 }}
                 onFocus={() => {
                   if (item.key === "back") return;
                   if (itemIndex !== activeIndex) return;
-                  showTooltipTemporarily(activeIndex, 1200);
+                  showTooltipPersistently(activeIndex);
+                }}
+                onBlur={() => {
+                  if (item.key === "back") return;
+                  if (itemIndex !== activeIndex) return;
+                  hideHoverTooltip(activeIndex);
                 }}
                 aria-label={ariaLabel}
                 aria-haspopup={item.key === "sources" ? "dialog" : undefined}

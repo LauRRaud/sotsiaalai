@@ -314,13 +314,13 @@
   color: #7a3a38;
   font-size: 1.12rem;
   font-weight: 450;
-  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgba(253, 250, 249, 0.99)));
+  background: rgba(240, 234, 229, 0.97);
   border: 0;
   box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));
 }
 
 :global(:root.theme-night) .tooltip {
-  background: var(--chat-tools-panel-bg, var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgba(16, 19, 26, 0.99))));
+  background: rgba(18, 21, 28, 0.98);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   box-shadow: var(--rail-tooltip-shadow, 0 8px 18px rgba(0, 0, 0, 0.24));
@@ -352,7 +352,7 @@
   }
 
   :global(:root.theme-night) .tooltip {
-    background: var(--chat-tools-panel-bg, var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(16, 19, 26))));
+    background: rgba(18, 21, 28, 0.98);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -362,7 +362,7 @@
   }
 
   :global(:root.theme-mid) .tooltip {
-    background: var(--chat-rail-tooltip-bg, rgb(253, 250, 249));
+    background: rgba(240, 234, 229, 0.97);
   }
 
   :global(html[data-contrast="hc"]) .tooltip {

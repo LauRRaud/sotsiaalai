@@ -74,6 +74,7 @@ export default function RightRail({
   const tooltipRevealRafRef = useRef(0);
   const tooltipVisibleRef = useRef(false);
   const tooltipLabelIndexRef = useRef(1);
+  const hoverTooltipIndexRef = useRef(null);
   const didInitDesktopActiveRef = useRef(false);
   const wheelAccumRef = useRef(0);
   const lastStepRef = useRef(0);
@@ -195,9 +196,44 @@ export default function RightRail({
       cancelAnimationFrame(tooltipRevealRafRef.current);
       tooltipRevealRafRef.current = 0;
     }
+    hoverTooltipIndexRef.current = null;
     tooltipVisibleRef.current = false;
     setIsTooltipVisible(false);
   }, []);
+
+  const showTooltipPersistently = useCallback(
+    index => {
+      if (viewportIsMobile || suspendPointerEvents || suppressTooltip || isRouteTilting) return;
+      if (!Number.isFinite(index)) return;
+      hoverTooltipIndexRef.current = index;
+      if (tooltipHideTimerRef.current) {
+        window.clearTimeout(tooltipHideTimerRef.current);
+        tooltipHideTimerRef.current = 0;
+      }
+      if (tooltipSwitchTimerRef.current) {
+        window.clearTimeout(tooltipSwitchTimerRef.current);
+        tooltipSwitchTimerRef.current = 0;
+      }
+      if (tooltipRevealRafRef.current) {
+        cancelAnimationFrame(tooltipRevealRafRef.current);
+        tooltipRevealRafRef.current = 0;
+      }
+      tooltipLabelIndexRef.current = index;
+      setTooltipLabelIndex(index);
+      tooltipVisibleRef.current = true;
+      setIsTooltipVisible(true);
+    },
+    [viewportIsMobile, suspendPointerEvents, suppressTooltip, isRouteTilting]
+  );
+
+  const hideHoverTooltip = useCallback(
+    index => {
+      if (hoverTooltipIndexRef.current !== index) return;
+      hoverTooltipIndexRef.current = null;
+      hideTooltipImmediately();
+    },
+    [hideTooltipImmediately]
+  );
 
   const dismissAllRailTooltips = useCallback(() => {
     hideTooltipImmediately();
@@ -210,6 +246,13 @@ export default function RightRail({
   const showTooltipTemporarily = useCallback((index, durationMs = 1300, revealDelayMs = 0) => {
     if (viewportIsMobile || suspendPointerEvents || suppressTooltip || isRouteTilting) return;
     if (!Number.isFinite(index)) return;
+    if (
+      tooltipVisibleRef.current &&
+      tooltipLabelIndexRef.current === index &&
+      tooltipHideTimerRef.current
+    ) {
+      return;
+    }
     if (tooltipSwitchTimerRef.current) {
       window.clearTimeout(tooltipSwitchTimerRef.current);
       tooltipSwitchTimerRef.current = 0;
@@ -465,6 +508,7 @@ export default function RightRail({
   useEffect(() => {
     if (isMobile || suspendPointerEvents || suppressTooltip || !mobileVisible || isRouteTilting) {
       didInitDesktopActiveRef.current = false;
+      hoverTooltipIndexRef.current = null;
       return;
     }
     tooltipLabelIndexRef.current = activeIndex;
@@ -678,10 +722,16 @@ export default function RightRail({
 
         return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!viewportIsMobile ? () => {
         if (itemIndex !== activeIndex) return;
-        showTooltipTemporarily(activeIndex, 1200);
+        showTooltipPersistently(activeIndex);
+      } : undefined} onMouseLeave={!viewportIsMobile ? () => {
+        if (itemIndex !== activeIndex) return;
+        hideHoverTooltip(activeIndex);
       } : undefined} onFocus={!viewportIsMobile ? () => {
         if (itemIndex !== activeIndex) return;
-        showTooltipTemporarily(activeIndex, 1200);
+        showTooltipPersistently(activeIndex);
+      } : undefined} onBlur={!viewportIsMobile ? () => {
+        if (itemIndex !== activeIndex) return;
+        hideHoverTooltip(activeIndex);
       } : undefined} onDoubleClick={viewportIsMobile ? event => {
         event.preventDefault();
         event.stopPropagation();
