@@ -90,14 +90,11 @@ export default function InviteModal() {
     },
   ];
   const inviteOptionButtonClassName =
+    "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg-hover)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
     "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
+    "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
     "[--seg-card-border:transparent] [--seg-card-border-width:0px] [--seg-card-duration:560ms] [--seg-card-ease:cubic-bezier(0.22,0.61,0.36,1)] " +
-    "[.theme-mid_&]:[--seg-card-bg:linear-gradient(180deg,rgba(244,235,231,0.42)_0%,rgba(236,227,223,0.36)_100%)] " +
-    "[.theme-mid_&]:[--seg-card-bg-hover:linear-gradient(180deg,rgba(246,237,233,0.48)_0%,rgba(238,229,225,0.4)_100%)] " +
-    "[.theme-mid_&]:[--seg-card-bg-selected:linear-gradient(180deg,rgba(245,236,232,0.46)_0%,rgba(237,228,224,0.38)_100%)] " +
-    "[.theme-mid_&]:[--seg-card-shadow:0_5px_12px_rgba(20,12,10,0.14)] [.theme-mid_&]:[--seg-card-shadow-hover:0_6px_13px_rgba(20,12,10,0.16)] [.theme-mid_&]:[--seg-card-shadow-selected:0_6px_13px_rgba(20,12,10,0.16)] " +
     "[border:var(--btn-primary-border)] hover:[border:var(--btn-primary-border-hover)] focus-visible:[border:var(--btn-primary-border-hover)] data-[checked=true]:[border:var(--btn-primary-border-hover)] " +
-    "light:[--seg-card-bg-hover:linear-gradient(180deg,rgba(255,255,255,1),rgba(251,249,247,0.97))] light:[--seg-card-bg-selected:linear-gradient(180deg,rgba(255,255,255,1),rgba(251,249,247,0.97))] " +
     "backdrop-blur-[10px] backdrop-saturate-[120%] " +
     "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
@@ -107,16 +104,7 @@ export default function InviteModal() {
     "!inline-flex !w-fit !justify-self-center !self-center !mt-[0.28rem] !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
     "[&>span.shrink-0]:-translate-y-[0.08rem] " +
-    "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--btn-primary-text,var(--input-text))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
-    "[--seg-card-border:transparent] [--seg-card-border-width:0px] [--seg-card-duration:560ms] [--seg-card-ease:cubic-bezier(0.22,0.61,0.36,1)] " +
-    "[.theme-mid_&]:[--seg-card-bg:linear-gradient(180deg,rgba(244,235,231,0.42)_0%,rgba(236,227,223,0.36)_100%)] " +
-    "[.theme-mid_&]:[--seg-card-bg-hover:linear-gradient(180deg,rgba(246,237,233,0.48)_0%,rgba(238,229,225,0.4)_100%)] " +
-    "[.theme-mid_&]:[--seg-card-bg-selected:linear-gradient(180deg,rgba(245,236,232,0.46)_0%,rgba(237,228,224,0.38)_100%)] " +
-    "[.theme-mid_&]:[--seg-card-shadow:0_5px_12px_rgba(20,12,10,0.14)] [.theme-mid_&]:[--seg-card-shadow-hover:0_6px_13px_rgba(20,12,10,0.16)] [.theme-mid_&]:[--seg-card-shadow-selected:0_5px_12px_rgba(20,12,10,0.14)] " +
-    "[border:var(--btn-primary-border)] hover:[border:var(--btn-primary-border-hover)] focus-visible:[border:var(--btn-primary-border-hover)] data-[checked=true]:[border:var(--btn-primary-border-active,var(--btn-primary-border-hover))] " +
-    "backdrop-blur-[10px] backdrop-saturate-[120%] " +
-    "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)] " +
+    `${inviteOptionButtonClassName} ` +
     "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
   const inviteRoleCardClassName =
     "!w-[min(100%,18.2rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
@@ -139,10 +127,8 @@ export default function InviteModal() {
   const inviteSponsoredCheckoutFooterClassName =
     "mt-[0.95rem] pt-[0.05rem] flex justify-center max-[768px]:mt-[0.88rem]";
   const inviteSponsoredToggleColorClassName =
-    "[--seg-card-text:var(--btn-primary-text,rgba(248,252,255,0.92))] " +
-    "[--seg-card-text-hover:var(--title-color,var(--brand-primary))] " +
-    "[--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
-    "[--seg-card-shadow-selected:var(--seg-card-shadow)]";
+    "[--seg-card-shadow-selected:var(--seg-card-shadow)] " +
+    "data-[checked=true]:[border:var(--btn-primary-border-active,var(--btn-primary-border-hover))]";
   const inviteSponsoredToggleCardClassName =
     `${inviteSponsorToggleClassName} ${inviteSponsoredToggleColorClassName}`;
   const inviteEmailsRequiredError = error === t("invite.error.emails_required");

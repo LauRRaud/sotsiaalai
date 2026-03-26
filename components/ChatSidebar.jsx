@@ -678,15 +678,15 @@ export default function ChatSidebar() {
         </Button>
       </div>
       {isConversationView ? <div className={`${sidebarContentWidthClassName} mt-[0.35rem] max-[768px]:mt-[0.45rem]`}>
-          <Input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} size="sm" className="!rounded-full !px-[1rem] !py-[0.78rem] !min-h-[3.05rem] [.theme-light_&]:[--input-bg:rgba(255,255,255,0.82)] [.theme-light_&]:[--input-bg-hover:rgba(255,255,255,0.84)] [.theme-light_&]:[--input-bg-focus:rgba(255,255,255,0.86)] [.theme-light_&]:[--input-border:1px_solid_rgba(255,255,255,0.0)] [.theme-light_&]:[--input-shadow:0_12px_24px_rgba(82,50,46,0.08)] [.theme-light_&]:[--input-shadow-composite:0_12px_24px_rgba(82,50,46,0.08)] [.theme-light_&]:[--input-shadow-hover-composite:0_12px_24px_rgba(82,50,46,0.08)] [.theme-light_&]:[--input-shadow-focus-composite:0_12px_24px_rgba(82,50,46,0.08)] [.theme-mid_&]:[--input-bg:rgba(252,248,247,0.6)] [.theme-mid_&]:[--input-bg-hover:rgba(253,249,248,0.64)] [.theme-mid_&]:[--input-bg-focus:rgba(253,249,248,0.66)]" style={{
-          "--input-bg": "rgba(252, 248, 247, 0.6)",
-          "--input-bg-hover": "rgba(253, 249, 248, 0.64)",
-          "--input-bg-focus": "rgba(253, 249, 248, 0.66)",
+          <Input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} size="sm" className="!rounded-full !px-[1rem] !py-[0.78rem] !min-h-[3.05rem]" style={{
+          "--input-bg": "var(--subpage-card-bg)",
+          "--input-bg-hover": "var(--subpage-card-bg-hover, var(--subpage-card-bg))",
+          "--input-bg-focus": "var(--subpage-card-bg-hover, var(--subpage-card-bg))",
           "--input-border": "1px solid var(--subpage-card-border)",
           "--input-shadow": "var(--subpage-card-shadow)",
           "--input-shadow-composite": "var(--subpage-card-shadow)",
-          "--input-shadow-hover-composite": "var(--subpage-card-shadow)",
-          "--input-shadow-focus-composite": "var(--subpage-card-shadow)"
+          "--input-shadow-hover-composite": "var(--subpage-card-shadow-hover, var(--subpage-card-shadow))",
+          "--input-shadow-focus-composite": "var(--subpage-card-shadow-hover, var(--subpage-card-shadow))"
         }} />
         </div> : null}
       {selectMode && isConversationView ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>
