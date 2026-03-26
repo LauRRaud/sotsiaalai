@@ -35,7 +35,10 @@
     --glass-ring-surface-bg,
     var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
   ) !important;
-  box-shadow: var(--glass-shell-shadow, none) !important;
+  box-shadow: var(
+    --home-about-panel-shadow,
+    var(--home-card-glow-idle, var(--glass-shell-shadow, none))
+  ) !important;
 }
 
 .homepage-root .home-before-panel {
@@ -43,7 +46,13 @@
     --glass-ring-surface-bg,
     var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
   ) !important;
-  box-shadow: var(--glass-shell-shadow, none) !important;
+  box-shadow: var(
+    --home-before-panel-shadow,
+    var(
+      --home-card-glow-active,
+      var(--home-card-glow-idle, var(--glass-shell-shadow, none))
+    )
+  ) !important;
 }
 
 .homepage-root .home-before-contact-button {
