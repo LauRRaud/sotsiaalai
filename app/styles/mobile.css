@@ -30,8 +30,8 @@
         80%,
       transparent
     ) !important;
-    -webkit-backdrop-filter: blur(0.1rem) !important;
-    backdrop-filter: blur(0.1rem) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
   .homepage-root .home-before-panel {
@@ -44,8 +44,8 @@
         80%,
       transparent
     ) !important;
-    -webkit-backdrop-filter: blur(0.1rem) !important;
-    backdrop-filter: blur(0.1rem) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
   .glass-mobile-only-close {
@@ -268,16 +268,14 @@
   .homepage-root
     .three-d-card
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right)::after {
-    -webkit-backdrop-filter: blur(0.1rem) !important;
-    backdrop-filter: blur(0.1rem) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
   .homepage-root
     .three-d-card
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right).fade-in::after {
-    -webkit-backdrop-filter: blur(var(--home-card-surface-blur, 1.1rem))
-      saturate(var(--home-card-surface-saturate, 115%)) !important;
-    backdrop-filter: blur(var(--home-card-surface-blur, 1.1rem))
-      saturate(var(--home-card-surface-saturate, 115%)) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
   html[data-reduce-motion="1"] .homepage-root .three-d-card.float-card {
     animation: none !important;

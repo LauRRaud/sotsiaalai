@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback, useReducer } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -44,7 +44,19 @@ const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petat
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
-const seenEmptyIntroKeys = new Set();
+
+function getEmptyIntroSeenStorageKey({
+  convId,
+  userId,
+  userRole,
+  locale
+}) {
+  if (!convId) return null;
+  const uid = userId || "anon";
+  const role = (userRole || "CLIENT").toLowerCase();
+  const loc = locale || "et";
+  return `${CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX}:${uid}:${role}:${loc}:${convId}`;
+}
 
 function getCareerSessionStorageKey({
   convId,
@@ -57,17 +69,6 @@ function getCareerSessionStorageKey({
   const role = (userRole || "CLIENT").toLowerCase();
   const loc = locale || "et";
   return `sotsiaalai:career-session:${uid}:${role}:${loc}:${convId}`;
-}
-
-function getEmptyIntroSeenStorageKey({
-  userId,
-  userRole,
-  locale
-}) {
-  const uid = userId || "anon";
-  const role = (userRole || "CLIENT").toLowerCase();
-  const loc = locale || "et";
-  return `${CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX}:${uid}:${role}:${loc}`;
 }
 
 function isEditableElement(node) {
@@ -381,6 +382,10 @@ export default function ChatBody({
     }, MOBILE_KEYBOARD_BLUR_SETTLE_MS);
   }, [isMobile]);
   const inputRef = useRef(null);
+  const [composerDraftReady, setComposerDraftReady] = useState(false);
+  const [composerHasDraft, setComposerHasDraft] = useState(false);
+  const [emptyIntroReady, setEmptyIntroReady] = useState(false);
+  const [emptyIntroSeen, setEmptyIntroSeen] = useState(false);
   const composerDraftApiRef = useRef(null);
   const inputRowRef = useRef(null);
   const inputBarRef = useRef(null);
@@ -505,18 +510,26 @@ export default function ChatBody({
     locale
   }), [convId, locale, sessionUserId, sessionUserRole]);
   const emptyIntroSeenStorageKey = useMemo(() => getEmptyIntroSeenStorageKey({
+    convId,
     userId: sessionUserId,
     userRole: sessionUserRole,
     locale
-  }), [locale, sessionUserId, sessionUserRole]);
-  const [, bumpEmptyIntroSeenVersion] = useReducer(version => version + 1, 0);
-  const hasSeenEmptyIntro = emptyIntroSeenStorageKey
-    ? seenEmptyIntroKeys.has(emptyIntroSeenStorageKey)
-    : false;
-  const markEmptyIntroSeen = useCallback(() => {
-    if (!emptyIntroSeenStorageKey) return;
-    seenEmptyIntroKeys.add(emptyIntroSeenStorageKey);
-    bumpEmptyIntroSeenVersion();
+  }), [convId, locale, sessionUserId, sessionUserRole]);
+  useEffect(() => {
+    setComposerDraftReady(false);
+    setComposerHasDraft(false);
+  }, [convId, locale, roomId, sessionUserId, sessionUserRole]);
+  useEffect(() => {
+    setEmptyIntroReady(false);
+    setEmptyIntroSeen(false);
+    if (!emptyIntroSeenStorageKey || typeof window === "undefined") {
+      setEmptyIntroReady(true);
+      return;
+    }
+    try {
+      setEmptyIntroSeen(window.sessionStorage.getItem(emptyIntroSeenStorageKey) === "1");
+    } catch {}
+    setEmptyIntroReady(true);
   }, [emptyIntroSeenStorageKey]);
   const resetCareerSession = useCallback(() => {
     setActiveWorkflow("default");
@@ -593,11 +606,30 @@ export default function ChatBody({
     } catch {}
   }, [activeWorkflow, careerCurrentState, careerLastResult, careerProfile, careerRuntime, careerSessionStorageKey]);
   const renderedMessages = useMemo(() => {
-    const n = visibleMessages.length;
-    if (n <= renderLimit) return visibleMessages;
-    return visibleMessages.slice(n - renderLimit);
-  }, [visibleMessages, renderLimit]);
-  const emptyIntroText = !isRoomMode && conversationStateReady ? t("chat.empty_intro") : "";
+    const canShowIntroImmediately = emptyIntroSeen;
+    const draftAllowsIntro = canShowIntroImmediately
+      ? !composerHasDraft
+      : composerDraftReady && !composerHasDraft;
+    const hasEmptyIntro =
+      !isRoomMode &&
+      conversationStateReady &&
+      emptyIntroReady &&
+      draftAllowsIntro &&
+      visibleMessages.length === 0;
+    const displayMessages = hasEmptyIntro
+      ? [{
+          id: "__chat-empty-intro__",
+          role: "ai",
+          text: t("chat.empty_intro"),
+          aiVisible: true,
+          typingEffect: !emptyIntroSeen,
+          onTypingComplete: !emptyIntroSeen ? "emptyIntro" : null
+        }]
+      : visibleMessages;
+    const n = displayMessages.length;
+    if (n <= renderLimit) return displayMessages;
+    return displayMessages.slice(n - renderLimit);
+  }, [composerHasDraft, composerDraftReady, conversationStateReady, emptyIntroReady, emptyIntroSeen, isRoomMode, renderLimit, t, visibleMessages]);
   const hiddenCount = useMemo(() => {
     const n = visibleMessages.length;
     return n > renderLimit ? n - renderLimit : 0;
@@ -1480,9 +1512,20 @@ export default function ChatBody({
       activateWorkflow: true,
     });
   }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, runCareerTurn, sendMessage]);
+  const handleDraftStateChange = useCallback(({ ready, hasDraft }) => {
+    setComposerDraftReady(Boolean(ready));
+    setComposerHasDraft(Boolean(hasDraft));
+  }, []);
+  const handleEmptyIntroTyped = useCallback(() => {
+    if (!emptyIntroSeenStorageKey) return;
+    setEmptyIntroSeen(true);
+    try {
+      window.sessionStorage.setItem(emptyIntroSeenStorageKey, "1");
+    } catch {}
+  }, [emptyIntroSeenStorageKey]);
   const messageItems = useMemo(() => {
-    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} careerResponse={msg.careerResponse} careerSecondaryResponse={msg.careerSecondaryResponse} careerDocumentStep={msg.careerDocumentStep} careerGeneratedDocument={msg.careerGeneratedDocument} onCareerQuestionAnswer={handleCareerQuestionAnswer} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
-  }, [handleCareerQuestionAnswer, isRoomMode, renderedMessages, t]);
+    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} careerResponse={msg.careerResponse} careerSecondaryResponse={msg.careerSecondaryResponse} careerDocumentStep={msg.careerDocumentStep} careerGeneratedDocument={msg.careerGeneratedDocument} onCareerQuestionAnswer={handleCareerQuestionAnswer} aiVisible={!!msg.aiVisible} typingEffect={!!msg.typingEffect} onTypingComplete={msg.onTypingComplete === "emptyIntro" ? handleEmptyIntroTyped : undefined} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
+  }, [handleCareerQuestionAnswer, handleEmptyIntroTyped, isRoomMode, renderedMessages, t]);
   const modeNotice = activeWorkflow === "career" ? "Aktiivne režiim: karjäärinõustamine" : null;
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
@@ -1861,9 +1904,6 @@ export default function ChatBody({
     messageItems={messageItems}
     listingsPanelNode={listingsPanelNode}
     selectedListingContextNode={selectedListingContextNode}
-    emptyIntroText={emptyIntroText}
-    emptyIntroAnimate={!isRoomMode && !hasSeenEmptyIntro}
-    onEmptyIntroSeen={markEmptyIntroSeen}
     onWindowDoubleClick={handleChatWindowDoubleClick}
     chatAnalysisPanelProps={chatAnalysisPanelProps}
     inputRowRef={inputRowRef}
@@ -1891,6 +1931,7 @@ export default function ChatBody({
     recordingPulse={recordingPulse}
     handleMic={voiceEnabled ? handleMic : undefined}
     composerDraftApiRef={composerDraftApiRef}
+    onDraftStateChange={handleDraftStateChange}
     sendToAssistant={sendToAssistant}
     setSendToAssistant={setSendToAssistant}
     aiNote={aiNote}

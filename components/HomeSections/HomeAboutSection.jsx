@@ -16,6 +16,9 @@ import { pushWithTransition } from "@/lib/routeTransition";
 const homeCircleLinkClassName =
   "home-link inline-block align-top w-auto max-w-full text-[clamp(1.28rem,1.95vw,1.5rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]";
 const HOME_BEFORE_DIAMETER_KEY_PREFIX = "sotsiaalai:home-before-diameter";
+const HOME_PANEL_FADE_DURATION_MS = 900;
+const HOME_PANEL_BLUR_REVEAL_MS = 780;
+const HOME_PANEL_STAGGER_MS = 120;
 
 function getHomeBeforeDiameterKey(locale, showAdminLinks, view) {
   return `${HOME_BEFORE_DIAMETER_KEY_PREFIX}:${locale || "et"}:${showAdminLinks ? "1" : "0"}:${view}`;
@@ -40,7 +43,12 @@ function writeHomeBeforeDiameter(key, value) {
   } catch {}
 }
 
-export default function HomeAboutSection({ id = "meist", className, showAdminLinks = false }) {
+export default function HomeAboutSection({
+  id = "meist",
+  className,
+  showAdminLinks = false,
+  animateIntro = true
+}) {
   const router = useRouter();
   const t = useT();
   const { locale } = useI18n();
@@ -82,6 +90,10 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   );
   const [aboutFade, setAboutFade] = useState({ top: false, bottom: false });
   const [beforeView, setBeforeView] = useState("links");
+  const [aboutIntroDone, setAboutIntroDone] = useState(() => !animateIntro);
+  const [beforeIntroDone, setBeforeIntroDone] = useState(() => !animateIntro);
+  const [aboutBlurReady, setAboutBlurReady] = useState(() => !animateIntro);
+  const [beforeBlurReady, setBeforeBlurReady] = useState(() => !animateIntro);
   const oskaLinkClassName = cn(
     linkRichTextBase,
     "home-link text-[clamp(1.08rem,1.5vw,1.25rem)] leading-[1.1] text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-color:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:transparent] [--link-brand-shadow-hover:transparent] hover:border-transparent hover:shadow-none active:border-transparent active:shadow-none focus-visible:border-transparent focus-visible:shadow-none"
@@ -120,6 +132,46 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     "light:!text-[color:var(--home-link-color,var(--brand-primary))]",
     "hc:!text-[color:var(--hc-accent)]"
   );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const prefersReducedMotion =
+      window.document?.documentElement?.dataset?.reduceMotion === "1" ||
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    if (!animateIntro || prefersReducedMotion) {
+      setAboutIntroDone(true);
+      setBeforeIntroDone(true);
+      setAboutBlurReady(true);
+      setBeforeBlurReady(true);
+      return undefined;
+    }
+
+    setAboutIntroDone(false);
+    setBeforeIntroDone(false);
+    setAboutBlurReady(false);
+    setBeforeBlurReady(false);
+
+    const aboutBlurTimer = window.setTimeout(() => {
+      setAboutBlurReady(true);
+    }, HOME_PANEL_BLUR_REVEAL_MS);
+    const beforeBlurTimer = window.setTimeout(() => {
+      setBeforeBlurReady(true);
+    }, HOME_PANEL_BLUR_REVEAL_MS + HOME_PANEL_STAGGER_MS);
+    const aboutDoneTimer = window.setTimeout(() => {
+      setAboutIntroDone(true);
+    }, HOME_PANEL_FADE_DURATION_MS);
+    const beforeDoneTimer = window.setTimeout(() => {
+      setBeforeIntroDone(true);
+    }, HOME_PANEL_FADE_DURATION_MS + HOME_PANEL_STAGGER_MS);
+
+    return () => {
+      window.clearTimeout(aboutBlurTimer);
+      window.clearTimeout(beforeBlurTimer);
+      window.clearTimeout(aboutDoneTimer);
+      window.clearTimeout(beforeDoneTimer);
+    };
+  }, [animateIntro]);
 
   useLayoutEffect(() => {
     const cardEl = beforeCardRef.current;
@@ -266,6 +318,8 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
   };
   const aboutTopFade = aboutFade.top ? "2.2rem" : "0px";
   const aboutBottomFade = aboutFade.bottom ? "5rem" : "0px";
+  const shouldFadeAbout = animateIntro && !aboutIntroDone;
+  const shouldFadeBefore = animateIntro && !beforeIntroDone;
   const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.14), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.34), rgba(0,0,0,0.56) calc(${aboutTopFade} * 0.58), rgba(0,0,0,0.82) calc(${aboutTopFade} * 0.82), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,1) calc(100% - calc(${aboutBottomFade} * 0.9)), rgba(0,0,0,0.96) calc(100% - calc(${aboutBottomFade} * 0.72)), rgba(0,0,0,0.82) calc(100% - calc(${aboutBottomFade} * 0.5)), rgba(0,0,0,0.58) calc(100% - calc(${aboutBottomFade} * 0.32)), rgba(0,0,0,0.3) calc(100% - calc(${aboutBottomFade} * 0.16)), rgba(0,0,0,0) 100%)`;
   const openBeforeContact = (event) => {
     event.preventDefault();
@@ -291,7 +345,20 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         )}
       >
         <div
-          className="home-about-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--glass-shell-shadow,none)] [border:none] px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.2rem,0.5vw,0.5rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)]"
+          data-blur-ready={aboutBlurReady ? "true" : "false"}
+          className={cn(
+            "home-glass-panel home-about-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--glass-shell-shadow,none)] [border:none] px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.2rem,0.5vw,0.5rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)]",
+            shouldFadeAbout ? "is-intro-fading" : null
+          )}
+          style={
+            shouldFadeAbout
+              ? {
+                  animationDuration: `${HOME_PANEL_FADE_DURATION_MS}ms`,
+                  animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
+                  animationFillMode: "forwards"
+                }
+              : undefined
+          }
         >
           <h2
             id={aboutHeadingId}
@@ -337,11 +404,25 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         <section
           aria-labelledby={beforeHeadingId}
           ref={beforeCardRef}
-          className="home-before-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-full shadow-[var(--glass-shell-shadow,none)] [border:none] mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center px-[clamp(0.4rem,1.05vw,0.78rem)] py-[clamp(0.34rem,0.92vw,0.66rem)] max-[768px]:px-[clamp(0.24rem,0.85vw,0.42rem)] max-[768px]:py-[clamp(0.18rem,0.65vw,0.34rem)] box-border transition-[width,height,box-shadow,background-color] duration-[320ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none will-change-[width,height]"
+          data-blur-ready={beforeBlurReady ? "true" : "false"}
+          className={cn(
+            "home-glass-panel home-before-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-full shadow-[var(--glass-shell-shadow,none)] [border:none] mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center px-[clamp(0.4rem,1.05vw,0.78rem)] py-[clamp(0.34rem,0.92vw,0.66rem)] max-[768px]:px-[clamp(0.24rem,0.85vw,0.42rem)] max-[768px]:py-[clamp(0.18rem,0.65vw,0.34rem)] box-border transition-[width,height,box-shadow,background-color] duration-[320ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none will-change-[width,height]",
+            shouldFadeBefore ? "is-intro-fading" : null
+          )}
           style={
-            beforeDiameter
-              ? { width: `${beforeDiameter}px`, height: `${beforeDiameter}px` }
-              : { width: "min(82vw, 22rem)", height: "min(82vw, 22rem)" }
+            {
+              ...(beforeDiameter
+                ? { width: `${beforeDiameter}px`, height: `${beforeDiameter}px` }
+                : { width: "min(82vw, 22rem)", height: "min(82vw, 22rem)" }),
+              ...(shouldFadeBefore
+                ? {
+                    animationDuration: `${HOME_PANEL_FADE_DURATION_MS}ms`,
+                    animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
+                    animationDelay: `${HOME_PANEL_STAGGER_MS}ms`,
+                    animationFillMode: "forwards"
+                  }
+                : null)
+            }
           }
         >
           <div

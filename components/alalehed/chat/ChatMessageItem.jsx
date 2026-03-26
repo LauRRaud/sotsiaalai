@@ -1,8 +1,23 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/components/ui/cn";
 import CareerMessageRenderer from "@/components/career/CareerMessageRenderer";
+
+function splitGraphemes(text) {
+  if (!text) return [];
+  if (typeof Intl !== "undefined" && Intl.Segmenter) {
+    const segmenter = new Intl.Segmenter(undefined, {
+      granularity: "grapheme"
+    });
+    return Array.from(segmenter.segment(text), segment => segment.segment);
+  }
+  return Array.from(text);
+}
+
+const TYPING_STEP_MS = 18;
+const TYPING_TRAILING_INLINE_RE = /^[\s!?,.;:)]$/;
+
 const ChatMessageItem = memo(function ChatMessageItem({
   role,
   text,
@@ -14,6 +29,8 @@ const ChatMessageItem = memo(function ChatMessageItem({
   careerGeneratedDocument,
   onCareerQuestionAnswer,
   aiVisible: _aiVisible,
+  typingEffect = false,
+  onTypingComplete,
   authorName,
   authorRole: _authorRole,
   isRoomMode: _isRoomMode,
@@ -60,6 +77,67 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const showCareerResponse =
     isAssistant &&
     (careerResponse || careerSecondaryResponse || careerDocumentStep || careerGeneratedDocument);
+  const typingTimerRef = useRef(0);
+  const typingCompleteNotifiedRef = useRef(false);
+  const [visibleCount, setVisibleCount] = useState(0);
+  const textSegments = useMemo(
+    () => splitGraphemes(String(text || "").trim()),
+    [text]
+  );
+  const clearTypingTimer = () => {
+    if (!typingTimerRef.current || typeof window === "undefined") return;
+    window.clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = 0;
+  };
+  useEffect(() => {
+    clearTypingTimer();
+    setVisibleCount(0);
+    typingCompleteNotifiedRef.current = false;
+
+    if (!typingEffect || !textSegments.length) {
+      setVisibleCount(textSegments.length);
+      if (typingEffect && textSegments.length === 0 && !typingCompleteNotifiedRef.current) {
+        typingCompleteNotifiedRef.current = true;
+        onTypingComplete?.();
+      }
+      return;
+    }
+
+    let nextCount = Math.min(textSegments.length, 1);
+    while (nextCount < textSegments.length && TYPING_TRAILING_INLINE_RE.test(textSegments[nextCount])) {
+      nextCount += 1;
+    }
+    setVisibleCount(nextCount);
+
+    const step = () => {
+      let followingCount = Math.min(textSegments.length, nextCount + 1);
+      while (followingCount < textSegments.length && TYPING_TRAILING_INLINE_RE.test(textSegments[followingCount])) {
+        followingCount += 1;
+      }
+      nextCount = followingCount;
+      setVisibleCount(followingCount);
+      if (followingCount >= textSegments.length) {
+        typingTimerRef.current = 0;
+        if (!typingCompleteNotifiedRef.current) {
+          typingCompleteNotifiedRef.current = true;
+          onTypingComplete?.();
+        }
+        return;
+      }
+      typingTimerRef.current = window.setTimeout(step, TYPING_STEP_MS);
+    };
+
+    typingTimerRef.current = window.setTimeout(step, TYPING_STEP_MS);
+    return () => {
+      clearTypingTimer();
+    };
+  }, [onTypingComplete, textSegments, typingEffect]);
+  useEffect(() => () => {
+    clearTypingTimer();
+  }, []);
+  const visibleText = typingEffect
+    ? textSegments.slice(0, visibleCount).join("")
+    : textSegments.join("");
   const normalizedCards = Array.isArray(cards)
     ? cards
         .filter((item) => item && typeof item === "object")
@@ -103,7 +181,11 @@ const ChatMessageItem = memo(function ChatMessageItem({
         {": "}
       </span>
 
-      {text ? <div className="whitespace-pre-wrap">{text}</div> : null}
+      {text ? (
+        <div className="whitespace-pre-wrap">
+          <span>{visibleText}</span>
+        </div>
+      ) : null}
       {showCareerResponse ? (
         <CareerMessageRenderer
           response={careerResponse}

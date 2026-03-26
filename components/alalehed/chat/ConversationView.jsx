@@ -1,100 +1,7 @@
 "use client";
 
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { SourcesIcon } from "@/components/ui/icons/ChatIcons";
-
-function splitGraphemes(text) {
-  if (!text) return [];
-  if (typeof Intl !== "undefined" && Intl.Segmenter) {
-    const segmenter = new Intl.Segmenter(undefined, {
-      granularity: "grapheme"
-    });
-    return Array.from(segmenter.segment(text), segment => segment.segment);
-  }
-  return Array.from(text);
-}
-
-const EMPTY_INTRO_GRAPHEME_DELAY_MS = 18;
-const EMPTY_INTRO_TRAILING_INLINE_RE = /^[\s!?,.;:)]$/;
-
-const EmptyIntroMessage = memo(function EmptyIntroMessage({
-  className,
-  targetText,
-  animate,
-  onSeen
-}) {
-  const typingTimerRef = useRef(0);
-  const [visibleCount, setVisibleCount] = useState(0);
-  const targetSegments = useMemo(
-    () => splitGraphemes(String(targetText || "").trim()),
-    [targetText]
-  );
-  const getNextVisibleCount = useCallback((currentCount) => {
-    let nextCount = Math.min(targetSegments.length, currentCount + 1);
-    while (
-      nextCount < targetSegments.length &&
-      EMPTY_INTRO_TRAILING_INLINE_RE.test(targetSegments[nextCount])
-    ) {
-      nextCount += 1;
-    }
-    return nextCount;
-  }, [targetSegments]);
-
-  const clearAnimation = () => {
-    if (!typingTimerRef.current || typeof window === "undefined") return;
-    window.clearTimeout(typingTimerRef.current);
-    typingTimerRef.current = 0;
-  };
-
-  useEffect(() => {
-    clearAnimation();
-    setVisibleCount(0);
-
-    if (!targetSegments.length) {
-      onSeen?.();
-      return;
-    }
-
-    if (!animate) {
-      setVisibleCount(targetSegments.length);
-      onSeen?.();
-      return;
-    }
-
-    let nextCount = getNextVisibleCount(0);
-    setVisibleCount(nextCount);
-
-    const step = () => {
-      nextCount = getNextVisibleCount(nextCount);
-      setVisibleCount(nextCount);
-      if (nextCount >= targetSegments.length) {
-        typingTimerRef.current = 0;
-        onSeen?.();
-        return;
-      }
-      typingTimerRef.current = window.setTimeout(step, EMPTY_INTRO_GRAPHEME_DELAY_MS);
-    };
-
-    typingTimerRef.current = window.setTimeout(step, EMPTY_INTRO_GRAPHEME_DELAY_MS);
-    return () => {
-      clearAnimation();
-    };
-  }, [animate, getNextVisibleCount, onSeen, targetSegments]);
-
-  useEffect(() => () => {
-    clearAnimation();
-  }, []);
-
-  const visibleText = animate
-    ? targetSegments.slice(0, visibleCount).join("")
-    : targetSegments.join("");
-
-  return (
-    <div className={className} aria-label={targetSegments.join("")}>
-      <span aria-hidden="true">{visibleText}</span>
-    </div>
-  );
-});
 
 const ConversationView = memo(function ConversationView({
   t,
@@ -107,7 +14,6 @@ const ConversationView = memo(function ConversationView({
   onHideOlder,
   onJumpToBottom,
   messageItems,
-  contextNode,
   windowClassName: windowClassNameProp,
   mainClassName: mainClassNameProp,
   onWindowDoubleClick,
@@ -118,16 +24,11 @@ const ConversationView = memo(function ConversationView({
   toggleSourcesPanel,
   showSourcesPanel = false,
   sourcesPulse = false,
-  sourcesButtonRef,
-  emptyIntroText = "",
-  emptyIntroAnimate = false,
-  onEmptyIntroSeen
+  sourcesButtonRef
 }) {
   const [showScrollDown, setShowScrollDown] = useState(false);
   const isUserAtBottom = useRef(true);
   const mountedRef = useRef(false);
-  const emptyIntroTargetText = String(emptyIntroText || "").trim();
-  const showEmptyIntro = !isStreamingAny && messageItems.length === 0 && emptyIntroTargetText.length > 0;
   useEffect(() => {
     const node = chatWindowRef?.current;
     if (!node) return;
@@ -210,9 +111,6 @@ const ConversationView = memo(function ConversationView({
     "px-[1rem] py-[0.4rem] text-[0.85rem] font-semibold text-[color:var(--pt-120)] " +
     "transition-[border-color,background,transform] duration-150 hover:-translate-y-[1px] " +
     "light:border-[rgba(148,163,184,0.5)] light:bg-[rgba(255,255,255,0.9)] light:text-[#1f2937]";
-  const emptyIntroClassName =
-    "chat-msg-ai chat-empty-intro w-full bg-transparent border-0 shadow-none py-[0.25em] " +
-    "text-[color:var(--input-text)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500]";
   return <main className={mergedMainClassName}>
       <div id="chat-window" className={mergedWindowClassName} onDoubleClick={onWindowDoubleClick}>
         <div id="chat-window-scroll" className={scrollClassName} ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"}>
@@ -224,23 +122,6 @@ const ConversationView = memo(function ConversationView({
                 {hiddenCount} {t("chat.left")}
               </button>
             </div> : null}
-
-          {showEmptyIntro ? (
-            emptyIntroAnimate ? (
-              <EmptyIntroMessage
-                className={emptyIntroClassName}
-                targetText={emptyIntroTargetText}
-                animate={true}
-                onSeen={onEmptyIntroSeen}
-              />
-            ) : (
-              <div className={emptyIntroClassName} aria-label={emptyIntroTargetText}>
-                <span aria-hidden="true">{emptyIntroTargetText}</span>
-              </div>
-            )
-          ) : null}
-
-          {contextNode}
 
           {messageItems}
 

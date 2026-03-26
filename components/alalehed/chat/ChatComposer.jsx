@@ -79,6 +79,7 @@ export default function ChatComposer({
   recordingPulse,
   handleMic,
   draftApiRef,
+  onDraftStateChange,
   inputFocused = false,
   isMobile = false,
   activeModeLabel = "",
@@ -95,6 +96,7 @@ export default function ChatComposer({
   const primaryActionHandledAtRef = useRef(0);
   const toolsButtonRef = useRef(null);
   const toolsMenuRef = useRef(null);
+  const initialDraftProbeCompleteRef = useRef(false);
   const deepResearchDisabled = Boolean(isRoomMode);
   const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
   const careerModeLabelRaw = t("chat.tools.career_mode");
@@ -205,6 +207,57 @@ export default function ChatComposer({
       if (draftApiRef.current) draftApiRef.current = null;
     };
   }, [draftApiRef]);
+  useEffect(() => {
+    if (!initialDraftProbeCompleteRef.current) return;
+    onDraftStateChange?.({
+      ready: true,
+      hasDraft: Boolean(draft.trim())
+    });
+  }, [draft, onDraftStateChange]);
+  useEffect(() => {
+    if (!inputRef) return;
+    let cancelled = false;
+    let rafId = 0;
+    let timeoutId = 0;
+    const startedAt = typeof performance !== "undefined" ? performance.now() : Date.now();
+    const finish = () => {
+      if (cancelled) return;
+      cancelled = true;
+      if (rafId) window.cancelAnimationFrame(rafId);
+      if (timeoutId) window.clearTimeout(timeoutId);
+      initialDraftProbeCompleteRef.current = true;
+      onDraftStateChange?.({
+        ready: true,
+        hasDraft: Boolean(String(inputRef.current?.value || "").trim())
+      });
+    };
+    const poll = () => {
+      if (cancelled) return;
+      const currentInput = inputRef.current;
+      if (!currentInput) {
+        rafId = window.requestAnimationFrame(poll);
+        return;
+      }
+      const value = String(currentInput.value || "");
+      if (value.trim()) {
+        finish();
+        return;
+      }
+      const elapsed = (typeof performance !== "undefined" ? performance.now() : Date.now()) - startedAt;
+      if (elapsed >= 1200) {
+        finish();
+        return;
+      }
+      rafId = window.requestAnimationFrame(poll);
+    };
+    rafId = window.requestAnimationFrame(poll);
+    timeoutId = window.setTimeout(finish, 1250);
+    return () => {
+      cancelled = true;
+      if (rafId) window.cancelAnimationFrame(rafId);
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, [inputRef, onDraftStateChange]);
   const hasInput = Boolean(draft.trim());
   const isDeepResearchMode = composerMode === "deep_research";
   const closeToolsMenu = useCallback(() => {

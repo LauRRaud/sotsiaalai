@@ -502,7 +502,7 @@ export default function ChatMobileTopNav({
     const iconClassName = "h-full w-full";
     const sizeBoost =
       item.key === "chats" || item.key === "new_chat"
-        ? 1.08
+        ? 1.16
         : 1;
     if (item.key === "chats") {
       return (

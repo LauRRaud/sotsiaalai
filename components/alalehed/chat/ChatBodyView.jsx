@@ -65,9 +65,6 @@ export default function ChatBodyView({
   messageItems,
   listingsPanelNode,
   selectedListingContextNode,
-  emptyIntroText,
-  emptyIntroAnimate,
-  onEmptyIntroSeen,
   onWindowDoubleClick,
   chatAnalysisPanelProps,
   inputRowRef,
@@ -97,6 +94,7 @@ export default function ChatBodyView({
   recordingPulse,
   handleMic,
   composerDraftApiRef,
+  onDraftStateChange,
   sendToAssistant,
   setSendToAssistant,
   aiNote,
@@ -163,11 +161,11 @@ export default function ChatBodyView({
 
               <ChatTopNotices t={t} isRoomMode={isRoomMode} roomTitle={roomTitle} isCrisis={isCrisis} crisisText={crisisText} errorBanner={errorBanner} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} />
 
-              <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={pageSize} onRevealOlder={onRevealOlder} canHideOlder={canHideOlder} onHideOlder={onHideOlder} onJumpToBottom={onJumpToBottom} messageItems={messageItems} emptyIntroText={emptyIntroText} emptyIntroAnimate={emptyIntroAnimate} onEmptyIntroSeen={onEmptyIntroSeen} onWindowDoubleClick={onWindowDoubleClick} mainClassName={focusActive ? "mb-[clamp(0.6rem,1.6vh,1.3rem)] [transform:translateY(var(--chat-window-focus-shift,0rem))]" : "mb-[clamp(0.5rem,1.4vh,1.1rem)] [transform:translateY(0)]"} isMobile={isMobile} isLightTheme={isLightTheme} hasConversationSources={hasConversationSources} conversationSourcesCount={conversationSources.length} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} sourcesButtonRef={sourcesButtonRef} />
+              <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={pageSize} onRevealOlder={onRevealOlder} canHideOlder={canHideOlder} onHideOlder={onHideOlder} onJumpToBottom={onJumpToBottom} messageItems={messageItems} onWindowDoubleClick={onWindowDoubleClick} mainClassName={focusActive ? "mb-[clamp(0.6rem,1.6vh,1.3rem)] [transform:translateY(var(--chat-window-focus-shift,0rem))]" : "mb-[clamp(0.5rem,1.4vh,1.1rem)] [transform:translateY(0)]"} isMobile={isMobile} isLightTheme={isLightTheme} hasConversationSources={hasConversationSources} conversationSourcesCount={conversationSources.length} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} sourcesButtonRef={sourcesButtonRef} />
 
               {analysis.showAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel {...chatAnalysisPanelProps} /> : null}
 
-              <ChatComposer t={t} locale={locale} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputRowRef={inputRowRef} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={onFocusComposer} onBlurInput={onBlurInput} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={onStop} onSend={onSend} onSendDeepResearch={onSendDeepResearch} onArmDeepResearch={onArmDeepResearch} onCancelDeepResearchMode={onCancelDeepResearchMode} onConsumeDeepResearchMode={onConsumeDeepResearchMode} onDeepResearchEmptySubmit={onDeepResearchEmptySubmit} onActivateCareerMode={onActivateCareerMode} careerModeLocked={careerModeLocked} showDocumentAttachButton={documentFlowActive} onPickDocumentFile={onPickDocumentFile} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} voiceEnabled={voiceEnabled} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={focusActive} isMobile={isMobile} activeModeLabel={activeModeLabel} activeModeKey={activeModeKey} />
+              <ChatComposer t={t} locale={locale} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputRowRef={inputRowRef} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={onFocusComposer} onBlurInput={onBlurInput} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={onStop} onSend={onSend} onSendDeepResearch={onSendDeepResearch} onArmDeepResearch={onArmDeepResearch} onCancelDeepResearchMode={onCancelDeepResearchMode} onConsumeDeepResearchMode={onConsumeDeepResearchMode} onDeepResearchEmptySubmit={onDeepResearchEmptySubmit} onActivateCareerMode={onActivateCareerMode} careerModeLocked={careerModeLocked} showDocumentAttachButton={documentFlowActive} onPickDocumentFile={onPickDocumentFile} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} voiceEnabled={voiceEnabled} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} onDraftStateChange={onDraftStateChange} inputFocused={focusActive} isMobile={isMobile} activeModeLabel={activeModeLabel} activeModeKey={activeModeKey} />
 
               <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} />
               <ChatRecordingNotice recordingError={recordingError} floating />
