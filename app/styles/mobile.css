@@ -21,21 +21,31 @@
   }
 
   .homepage-root .home-about-panel {
-    background: var(
-      --glass-ring-surface-bg,
-      var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+    background: color-mix(
+      in srgb,
+      var(
+          --opaque-panel-bg,
+          var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 1)))
+        )
+        80%,
+      transparent
     ) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    -webkit-backdrop-filter: blur(0.1rem) !important;
+    backdrop-filter: blur(0.1rem) !important;
   }
 
   .homepage-root .home-before-panel {
-    background: var(
-      --glass-ring-surface-bg,
-      var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+    background: color-mix(
+      in srgb,
+      var(
+          --opaque-panel-bg,
+          var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 1)))
+        )
+        80%,
+      transparent
     ) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    -webkit-backdrop-filter: blur(0.1rem) !important;
+    backdrop-filter: blur(0.1rem) !important;
   }
 
   .glass-mobile-only-close {
@@ -258,8 +268,8 @@
   .homepage-root
     .three-d-card
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right)::after {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    -webkit-backdrop-filter: blur(0.1rem) !important;
+    backdrop-filter: blur(0.1rem) !important;
   }
   .homepage-root
     .three-d-card

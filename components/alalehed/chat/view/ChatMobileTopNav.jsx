@@ -85,6 +85,98 @@ function MobileIconFrame({ scale = 1, xNudge = 0, className, children }) {
   );
 }
 
+function MobileChatBubbleIcon({ isLightTheme = false, className }) {
+  const stroke = isLightTheme
+    ? "var(--chat-icon-light, #7A3A38)"
+    : "var(--chat-icon-dark, #c57171)";
+
+  return (
+    <svg
+      viewBox="-3 -3 132.15 119.8"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+    >
+      <path
+        d="M24.36 5h77.43c10.69 0 19.36 9.29 19.36 20.76v34.6c0 11.46-8.67 20.76-19.36 20.76H69.53l-25.81 27.68V81.12H24.36C13.67 81.12 5 71.83 5 60.36V25.76C5 14.29 13.67 5 24.36 5Z"
+        stroke={stroke}
+        strokeWidth="8.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function MobileHelpRequestIcon({ isLightTheme = false, className }) {
+  const stroke = isLightTheme
+    ? "var(--chat-icon-light, #7A3A38)"
+    : "var(--chat-icon-dark, #c57171)";
+
+  return (
+    <svg
+      viewBox="0 0 24 25.2"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+    >
+      <path
+        d="M12 23.45c-1.05 0-2.17-.56-2.92-1.45C5.4 17.63 3 13.13 3 10c0-4.96 4.04-9 9-9s9 4.04 9 9c0 3.13-2.4 7.63-6.08 12-.75.89-1.87 1.45-2.92 1.45Z"
+        stroke={stroke}
+        strokeWidth="1.68"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M10.25 8.55a2.25 2.25 0 1 1 3.3 1.98c-1.03.54-1.55 1.18-1.55 2.22v.48"
+        stroke={stroke}
+        strokeWidth="1.68"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M12 16.45h.01" stroke={stroke} strokeWidth="2.28" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function MobileHelpOfferIcon({ isLightTheme = false, className }) {
+  const stroke = isLightTheme
+    ? "var(--chat-icon-light, #7A3A38)"
+    : "var(--chat-icon-dark, #c57171)";
+
+  return (
+    <svg
+      viewBox="0 0 24 25.2"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+    >
+      <path
+        d="M12 23.45c-1.05 0-2.17-.56-2.92-1.45C5.4 17.63 3 13.13 3 10c0-4.96 4.04-9 9-9s9 4.04 9 9c0 3.13-2.4 7.63-6.08 12-.75.89-1.87 1.45-2.92 1.45Z"
+        stroke={stroke}
+        strokeWidth="1.68"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 6.95v6.7"
+        stroke={stroke}
+        strokeWidth="1.68"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8.65 10.3h6.7"
+        stroke={stroke}
+        strokeWidth="1.68"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 function getItemIndex(key) {
   const index = MOBILE_NAV_ITEMS.findIndex(item => item.key === key);
   return index >= 0 ? index : 0;
@@ -408,23 +500,22 @@ export default function ChatMobileTopNav({
 
   const renderIcon = item => {
     const iconClassName = "h-full w-full";
-    const focusBoost =
-      visualFocusedKey === item.key &&
-      (item.key === "chats" || item.key === "new_chat")
-        ? 1.12
+    const sizeBoost =
+      item.key === "chats" || item.key === "new_chat"
+        ? 1.08
         : 1;
     if (item.key === "chats") {
       return (
-        <MobileIconFrame scale={item.scale * focusBoost} xNudge={0.18}>
-          <ChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
+        <MobileIconFrame scale={item.scale * sizeBoost} xNudge={0.18}>
+          <MobileChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
         </MobileIconFrame>
       );
     }
     if (item.key === "new_chat") {
       return (
-        <MobileIconFrame scale={item.scale * focusBoost} xNudge={0.04}>
+        <MobileIconFrame scale={item.scale * sizeBoost} xNudge={0.04}>
           <span className="relative flex h-full w-full items-center justify-center">
-            <ChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
+            <MobileChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
             <svg
               aria-hidden="true"
               viewBox="0 0 24 24"
@@ -435,7 +526,7 @@ export default function ChatMobileTopNav({
               <path
                 d="M12 7.25v9.5M7.25 12h9.5"
                 stroke="currentColor"
-                strokeWidth="2.9"
+                strokeWidth="2.35"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -457,14 +548,14 @@ export default function ChatMobileTopNav({
     if (item.key === "help_requests") {
       return (
         <MobileIconFrame scale={item.scale}>
-          <HelpRequestIcon isLightTheme={isLightTheme} className={iconClassName} />
+          <MobileHelpRequestIcon isLightTheme={isLightTheme} className={iconClassName} />
         </MobileIconFrame>
       );
     }
     if (item.key === "help_offers") {
       return (
         <MobileIconFrame scale={item.scale}>
-          <HelpOfferIcon isLightTheme={isLightTheme} className={iconClassName} />
+          <MobileHelpOfferIcon isLightTheme={isLightTheme} className={iconClassName} />
         </MobileIconFrame>
       );
     }
