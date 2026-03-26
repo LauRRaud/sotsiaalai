@@ -964,7 +964,7 @@ html[data-contrast="hc"]
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item:is(
+  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item:is(
     :hover,
     :focus-visible,
     :active
@@ -974,17 +974,11 @@ html[data-contrast="hc"]
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item:is(
-    :hover,
-    :focus-visible,
-    :active
-  ) {
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
   animation:
     orbit-item-pulse 0.95s ease-in-out infinite,
     hc-orbit-glow-pulse 0.95s ease-in-out infinite !important;
 }
-
-/* HC: edge orbit buttons should have no light idle glow; yellow glow only on interaction. */
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -1015,39 +1009,6 @@ html[data-contrast="hc"]
 }
 html[data-contrast="hc"]
   body
-  .profile-orbit-mobile-row.is-active
-  .profile-orbit-mobile-action.dock-item {
-  box-shadow: var(--orbit-item-glow-strong) !important;
-  animation: hc-orbit-glow-pulse 1.15s ease-in-out infinite !important;
-}
-html[data-contrast="hc"].profile-orbit-open
-  body
-  :is(
-    .profile-orbit-stack-backdrop .profile-orbit-stack-bubble.dock-item,
-    .profile-orbit-mobile-backdrop .profile-orbit-mobile-action.dock-item
-  ) {
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.16) !important;
-}
-html[data-contrast="hc"].profile-orbit-open
-  body
-  .profile-orbit-mobile-row.is-active
-  .profile-orbit-mobile-action.dock-item {
-  box-shadow:
-    0 0 18px rgba(255, 234, 0, 0.46),
-    0 0 34px rgba(255, 234, 0, 0.28),
-    0 10px 18px rgba(0, 0, 0, 0.16) !important;
-}
-@keyframes hc-orbit-glow-pulse {
-  0%,
-  100% {
-    box-shadow: var(--orbit-item-glow);
-  }
-  50% {
-    box-shadow: var(--orbit-item-glow-strong);
-  }
-}
-html[data-contrast="hc"]
-  body
   .profile-orbit-stack-item {
   background: transparent !important;
   border: 0 !important;
@@ -1065,6 +1026,15 @@ html[data-contrast="hc"]
   border: 0 !important;
   box-shadow: none !important;
   outline: none !important;
+}
+@keyframes hc-orbit-glow-pulse {
+  0%,
+  100% {
+    box-shadow: var(--orbit-item-glow);
+  }
+  50% {
+    box-shadow: var(--orbit-item-glow-strong);
+  }
 }
 html[data-reduce-motion="1"] *,
 html[data-reduce-motion="1"] *::before,

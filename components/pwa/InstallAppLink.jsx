@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
+import { useEffect, useLayoutEffect, useState, useCallback, useRef } from "react";
 import useT from "@/components/i18n/useT";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { cn } from "@/components/ui/cn";
@@ -82,6 +83,7 @@ export default function InstallAppLink({
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [inlineMessage, setInlineMessage] = useState("");
   const [helpOpen, setHelpOpen] = useState(false);
+  const [helpPopoverPlacement, setHelpPopoverPlacement] = useState(null);
   const triggerRef = useRef(null);
   const helpPopoverRef = useRef(null);
 
@@ -95,7 +97,7 @@ export default function InstallAppLink({
   const macHint = t("pwa.instructions.mac");
   const desktopHint = t("pwa.instructions.desktop");
   const helpPopoverClassName =
-    "absolute left-1/2 top-[calc(100%+0.62rem)] z-[40] w-[min(17.4rem,calc(100vw-2rem))] max-[480px]:w-[min(16.7rem,calc(100vw-2rem))] -translate-x-1/2 rounded-[16px] " +
+    "fixed z-[9999] w-[min(17.4rem,calc(100vw-2rem))] max-[480px]:w-[min(16.7rem,calc(100vw-2rem))] rounded-[16px] " +
     "border border-[color:var(--subpage-card-border)] px-[0.82rem] pt-[0.78rem] pb-[0.7rem] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] [-webkit-backdrop-filter:blur(16px)] [backdrop-filter:blur(16px)]";
   const desktopHintNode = <span>{isMacSafari ? macHint : desktopHint}</span>;
 
@@ -154,6 +156,68 @@ export default function InstallAppLink({
     return () => {
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [helpOpen]);
+
+  useLayoutEffect(() => {
+    if (!helpOpen || typeof window === "undefined") {
+      setHelpPopoverPlacement(null);
+      return undefined;
+    }
+
+    const updatePlacement = () => {
+      const trigger = triggerRef.current;
+      const popover = helpPopoverRef.current;
+      if (!trigger || !popover) return;
+
+      const margin = 12;
+      const gap = 10;
+      const rect = trigger.getBoundingClientRect();
+      const popRect = popover.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const width = Math.min(popRect.width || 0, viewportWidth - margin * 2);
+      const centerX = rect.left + rect.width / 2;
+      const left = Math.min(
+        Math.max(centerX, margin + width / 2),
+        viewportWidth - margin - width / 2
+      );
+      const spaceBelow = viewportHeight - rect.bottom - gap - margin;
+      const spaceAbove = rect.top - gap - margin;
+      const fitsBelow = spaceBelow >= popRect.height;
+      const fitsAbove = spaceAbove >= popRect.height;
+      const placeAbove = !fitsBelow && (fitsAbove || spaceAbove > spaceBelow);
+      const top = placeAbove
+        ? Math.max(rect.top - gap - popRect.height, margin)
+        : Math.min(rect.bottom + gap, viewportHeight - margin - popRect.height);
+
+      setHelpPopoverPlacement({
+        top,
+        left,
+        width
+      });
+    };
+
+    let raf2 = 0;
+    const raf1 = window.requestAnimationFrame(() => {
+      raf2 = window.requestAnimationFrame(updatePlacement);
+    });
+
+    const onScroll = () => {
+      window.requestAnimationFrame(updatePlacement);
+    };
+    const onResize = () => {
+      window.requestAnimationFrame(updatePlacement);
+    };
+
+    window.addEventListener("scroll", onScroll, true);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.cancelAnimationFrame(raf1);
+      window.cancelAnimationFrame(raf2);
+      window.removeEventListener("scroll", onScroll, true);
+      window.removeEventListener("resize", onResize);
     };
   }, [helpOpen]);
 
@@ -273,29 +337,48 @@ export default function InstallAppLink({
   const installCta =
     isMobileViewport || isIOS ? installCtaMobile : installCtaDesktop;
 
-  const helpPopover = helpOpen ? (
-    <div
-      ref={helpPopoverRef}
-      role="dialog"
-      aria-modal="false"
-      aria-label={isMobileViewport || isIOS ? t("pwa.cta_mobile") : t("pwa.cta_desktop")}
-      className={helpPopoverClassName}
-    >
-      <button
-        type="button"
-        className="absolute right-[0.14rem] top-[0.08rem] h-[2.05rem] w-[2.05rem] rounded-full border-0 bg-transparent text-[1.56rem] leading-none text-[#c57171] light:text-[#7a3a38]"
-        aria-label={t("buttons.close")}
-        onClick={() => setHelpOpen(false)}
-      >
-        {t("symbols.times")}
-      </button>
-      <div className="flex max-w-[inherit] flex-col pr-[1.38rem]">
-        <div className="mt-[0.02rem] text-left text-[0.98rem] leading-[1.34] text-inherit opacity-95">
-          {isMobileViewport || isIOS ? mobileHintNode : desktopHintNode}
-        </div>
-      </div>
-    </div>
-  ) : null;
+  const helpPopover =
+    helpOpen && typeof document !== "undefined"
+      ? createPortal(
+          <div
+            ref={helpPopoverRef}
+            role="dialog"
+            aria-modal="false"
+            aria-label={isMobileViewport || isIOS ? t("pwa.cta_mobile") : t("pwa.cta_desktop")}
+            className={helpPopoverClassName}
+            style={
+              helpPopoverPlacement
+                ? {
+                    top: `${helpPopoverPlacement.top}px`,
+                    left: `${helpPopoverPlacement.left}px`,
+                    width: `${helpPopoverPlacement.width}px`,
+                    transform: "translateX(-50%)"
+                  }
+                : {
+                    top: "-10000px",
+                    left: "-10000px",
+                    width: "min(17.4rem, calc(100vw - 2rem))",
+                    transform: "translateX(-50%)"
+                  }
+            }
+          >
+            <button
+              type="button"
+              className="absolute right-[0.14rem] top-[0.08rem] h-[2.05rem] w-[2.05rem] rounded-full border-0 bg-transparent text-[1.56rem] leading-none text-[#c57171] light:text-[#7a3a38]"
+              aria-label={t("buttons.close")}
+              onClick={() => setHelpOpen(false)}
+            >
+              {t("symbols.times")}
+            </button>
+            <div className="flex max-w-[inherit] flex-col pr-[1.38rem]">
+              <div className="mt-[0.02rem] text-left text-[0.98rem] leading-[1.34] text-inherit opacity-95">
+                {isMobileViewport || isIOS ? mobileHintNode : desktopHintNode}
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+      : null;
 
   if (variant === "section") {
     return (
