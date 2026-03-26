@@ -18,10 +18,12 @@ const subpagePrimaryButtonToneClassName =
   "[--btn-primary-shadow-hover:0_7px_14px_rgba(0,0,0,0.18)] " +
   "[--btn-primary-shadow-active:0_4px_10px_rgba(0,0,0,0.14)] " +
   "[--btn-primary-shadow-focus:0_8px_18px_rgba(0,0,0,0.22),0_0_0_3px_var(--btn-primary-focus-ring-color)] " +
+  "light:[--btn-primary-bg-hover:radial-gradient(82%_66%_at_50%_16%,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_42%,rgba(255,255,255,0.99)_58%,rgba(253,251,250,0.97)_74%),linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(254,252,251,0.985)_100%)] " +
   "light:[--btn-primary-shadow:inset_0_1px_0_rgba(255,255,255,0.22),0_4px_10px_rgba(15,23,42,0.08)] " +
-  "light:[--btn-primary-shadow-hover:inset_0_1px_0_rgba(255,255,255,0.28),0_7px_14px_rgba(15,23,42,0.08)] " +
+  "light:[--btn-primary-border-hover:1px_solid_rgba(255,255,255,0.62)] " +
+  "light:[--btn-primary-shadow-hover:inset_0_1px_0_rgba(255,255,255,0.34),0_9px_18px_rgba(15,23,42,0.11)] " +
   "light:[--btn-primary-shadow-active:inset_0_1px_0_rgba(255,255,255,0.18),0_3px_8px_rgba(15,23,42,0.07)] " +
-  "light:[--btn-primary-shadow-focus:inset_0_1px_0_rgba(255,255,255,0.26),0_8px_16px_rgba(15,23,42,0.12),0_0_0_3px_var(--btn-primary-focus-ring-color),0_0_0_1px_rgba(255,255,255,0.12)]";
+  "light:[--btn-primary-shadow-focus:inset_0_1px_0_rgba(255,255,255,0.3),0_10px_20px_rgba(15,23,42,0.13),0_0_0_3px_var(--btn-primary-focus-ring-color),0_0_0_1px_rgba(255,255,255,0.22)]";
 
 export const glassPageShellClassName =
   `mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start box-border ${subpagePrimaryButtonToneClassName}`;
@@ -63,6 +65,7 @@ export const glassPageRingCenteredClassName =
   "glass-ring md:mt-0 md:mb-0 [--ring-ui-reserve:var(--ring-ui-reserve-page)]";
 
 export const glassPageMobileCardClassName =
+  `${subpagePrimaryButtonToneClassName} ` +
   "max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
   "max-[768px]:!max-w-none max-[768px]:!h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
   "max-[768px]:!max-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +

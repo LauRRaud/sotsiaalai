@@ -116,6 +116,8 @@ export function useChatConversationState({
   const chatStore = useMemo(() => makeChatStorage(conversationStorageKey), [conversationStorageKey]);
   const [messages, setMessages] = useState([]);
   const [hydratedConversationId, setHydratedConversationId] = useState(null);
+  const [storedConversationHasMessages, setStoredConversationHasMessages] = useState(false);
+  const [serverHydratedConversationId, setServerHydratedConversationId] = useState(null);
   const mountedRef = useRef(false);
   const messageIdRef = useRef(1);
   const isGeneratingRef = useRef(isGenerating);
@@ -158,6 +160,8 @@ export function useChatConversationState({
     if (!convId) {
       messageIdRef.current = 1;
       setMessages([]);
+      setStoredConversationHasMessages(false);
+      setServerHydratedConversationId(EMPTY_CONVERSATION_READY_KEY);
       setHydratedConversationId(EMPTY_CONVERSATION_READY_KEY);
       return;
     }
@@ -169,17 +173,23 @@ export function useChatConversationState({
         id: nextId++
       }));
       messageIdRef.current = nextId;
+      setStoredConversationHasMessages(hydrated.length > 0);
+      setServerHydratedConversationId(null);
       setMessages(hydrated);
       setHydratedConversationId(convId);
       return;
     }
     messageIdRef.current = 1;
+    setStoredConversationHasMessages(false);
+    setServerHydratedConversationId(null);
     setMessages([]);
     setHydratedConversationId(convId);
   }, [chatStore, convId]);
   const conversationStateReady = convId
-    ? hydratedConversationId === convId
-    : hydratedConversationId === EMPTY_CONVERSATION_READY_KEY;
+    ? hydratedConversationId === convId &&
+      (storedConversationHasMessages || serverHydratedConversationId === convId)
+    : hydratedConversationId === EMPTY_CONVERSATION_READY_KEY &&
+      serverHydratedConversationId === EMPTY_CONVERSATION_READY_KEY;
   const appendMessage = useCallback(msg => {
     const id = messageIdRef.current++;
     const createdAt = msg?.createdAt || Date.now();
@@ -288,7 +298,10 @@ export function useChatConversationState({
   }, [chatStore, isGenerating, messages]);
   const hydrateFromServer = useCallback(async cancelledRef => {
     const id = convIdRef.current;
-    if (!id) return;
+    if (!id) {
+      setServerHydratedConversationId(EMPTY_CONVERSATION_READY_KEY);
+      return;
+    }
     try {
       const r = await fetch(`/api/chat/run?convId=${encodeURIComponent(id)}`, {
         cache: "no-store"
@@ -399,6 +412,16 @@ export function useChatConversationState({
         return next;
       });
     } catch {}
+    finally {
+      if (cancelledRef?.current) return;
+      const currentGlobalId =
+        typeof window !== "undefined"
+          ? window.sessionStorage.getItem(GLOBAL_CONV_KEY)
+          : id;
+      if (id !== currentGlobalId) return;
+      if (convIdRef.current !== id) return;
+      setServerHydratedConversationId(id);
+    }
   }, [normalizeSources, setIsCrisis, shouldPreserveLocalMessages]);
   useEffect(() => {
     if (!convId) return;
