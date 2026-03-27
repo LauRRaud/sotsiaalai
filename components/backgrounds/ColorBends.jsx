@@ -229,7 +229,6 @@ export default function ColorBends({
     const container = containerRef.current;
     if (!container) return;
     const isMobileLike = window.matchMedia?.("(max-width: 768px)")?.matches || window.matchMedia?.("(pointer: coarse)")?.matches || window.matchMedia?.("(hover: none)")?.matches || document.body?.getAttribute("data-layout") === "mobile";
-    const MOBILE_RESIZE_HEIGHT_THRESHOLD = 120;
     let lastSize = null;
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -337,8 +336,8 @@ export default function ColorBends({
       if (isMobileLike && lastSize) {
         const widthDelta = Math.abs(w - lastSize.width);
         const heightDelta = Math.abs(h - lastSize.height);
-        const ignoreMinorViewportJitter = widthDelta < 2 && heightDelta < MOBILE_RESIZE_HEIGHT_THRESHOLD;
-        if (ignoreMinorViewportJitter) return;
+        const ignoreViewportChromeResize = widthDelta < 2 && heightDelta > 0;
+        if (ignoreViewportChromeResize) return;
       }
       lastSize = {
         width: w,
