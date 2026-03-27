@@ -664,7 +664,10 @@ export default function HomePage() {
               </a>
             </div> : null}
         </section>
-        {showHomeBottomSections ? <div>
+        {showHomeBottomSections ? <div
+            aria-hidden={!homeA11yReady}
+            inert={!homeA11yReady ? "" : undefined}
+          >
             <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} />
             {showHomeFooter ? <HomeFooter /> : null}
           </div> : null}
