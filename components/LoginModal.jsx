@@ -1071,22 +1071,22 @@ export default function LoginModal({
   const pinKeyBackground = isLightTheme
     ? isMidTheme
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
-      : "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.32) 26%, rgba(255, 255, 255, 0.11) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 34%, rgba(255, 255, 255, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.24) 42%, rgba(255, 255, 255, 0.14) 100%), rgba(255, 255, 255, 0.2)"
+      : "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.42) 26%, rgba(255, 255, 255, 0.16) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 34%, rgba(255, 255, 255, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.32) 42%, rgba(255, 255, 255, 0.2) 100%), rgba(255, 255, 255, 0.28)"
     : isNightTheme
       ? "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.008) 0%, rgba(255, 255, 255, 0.006) 42%, rgba(0, 0, 0, 0.34) 100%)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.004) 0%, rgba(255, 255, 255, 0.003) 42%, rgba(0, 0, 0, 0.28) 100%)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
       ? "0 11px 19px rgba(0, 0, 0, 0.11), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 0 rgba(0, 0, 0, 0.11)"
-      : "0 10px 18px rgba(0, 0, 0, 0.085), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.64), inset 0 -1px 0 rgba(0, 0, 0, 0.085)"
+      : "0 10px 18px rgba(0, 0, 0, 0.06), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.82), inset 0 -1px 0 rgba(0, 0, 0, 0.05)"
     : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
       ? "linear-gradient(138deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 22%, rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0) 66%, rgba(122, 58, 56, 0.045) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 72%)"
-      : "linear-gradient(138deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.14) 22%, rgba(255, 255, 255, 0.04) 44%, rgba(255, 255, 255, 0) 66%, rgba(255, 255, 255, 0.02) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.06) 36%, rgba(255, 255, 255, 0) 72%)"
+      : "linear-gradient(138deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.2) 22%, rgba(255, 255, 255, 0.07) 44%, rgba(255, 255, 255, 0) 66%, rgba(255, 255, 255, 0.04) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.1) 36%, rgba(255, 255, 255, 0) 72%)"
     : "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.16) 100%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.14" : "0.12" : "0.2";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.1" : "0.09" : isNightTheme ? "0.28" : "0.24";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.14" : "0.15" : "0.2";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.1" : "0.12" : isNightTheme ? "0.28" : "0.24";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
   const androidPinToggleClassName = isAndroidPlatform
     ? "!text-[1.22rem] max-md:!text-[clamp(1.22rem,4.45vw,1.54rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"

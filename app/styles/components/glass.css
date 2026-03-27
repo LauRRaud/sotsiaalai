@@ -323,9 +323,12 @@
 .register-option-card[data-checked="true"],
 .register-framework-card[data-checked="true"],
 .register-checkbox-card[data-checked="true"] {
-  background: var(--btn-primary-bg-hover) !important;
-  border-color: transparent !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
+  background: var(--seg-card-bg-selected, var(--btn-primary-bg-hover)) !important;
+  border-color: var(--seg-card-border-selected, transparent) !important;
+  box-shadow: var(
+    --seg-card-shadow-selected,
+    var(--btn-primary-shadow-hover)
+  ) !important;
 }
 
 .register-option-card[data-checked="true"],

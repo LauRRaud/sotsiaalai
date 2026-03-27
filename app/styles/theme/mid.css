@@ -72,15 +72,9 @@
   --btn-primary-border: 1px solid rgba(255, 255, 255, 0.4);
   --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.56);
   --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.34);
-  --btn-primary-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 5px 12px rgba(20, 12, 10, 0.18);
-  --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 7px 14px rgba(20, 12, 10, 0.18);
-  --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 4px 10px rgba(20, 12, 10, 0.13);
+  --btn-primary-shadow: 0 5px 12px rgba(20, 12, 10, 0.18);
+  --btn-primary-shadow-hover: 0 7px 14px rgba(20, 12, 10, 0.18);
+  --btn-primary-shadow-active: 0 4px 10px rgba(20, 12, 10, 0.13);
   --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
   --btn-primary-shadow-focus:
     0 8px 16px rgba(20, 12, 10, 0.16),
@@ -348,7 +342,29 @@
   background: transparent !important;
 }
 
+/* Mid theme primary buttons should not brighten more than the option-card hover tone. */
+:root.theme-mid .button[data-variant="primary"] {
+  --btn-primary-bg-hover:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(248, 240, 236, 0.66) 0%,
+      rgba(241, 231, 227, 0.58) 44%,
+      rgba(233, 223, 218, 0.5) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(244, 235, 231, 0.44) 0%,
+      rgba(236, 226, 222, 0.4) 100%
+    );
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.48);
+  --btn-primary-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 6px 13px rgba(20, 12, 10, 0.17);
+}
+
 :root.theme-mid .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  --orbit-accent: #7a3a38;
+  --orbit-mobile-accent: #7a3a38;
   --orbit-button-shadow:
     0 12px 22px rgba(20, 12, 10, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.58),
@@ -365,7 +381,8 @@
   :is(
     .profile-orbit-menu__item,
     .profile-orbit-menu__center,
-    .profile-orbit-stack-bubble
+    .profile-orbit-stack-bubble,
+    .profile-orbit-mobile-action
   ).dock-item {
   color: rgba(47, 58, 74, 0.92);
   background:
@@ -423,9 +440,24 @@
   :is(
     .profile-orbit-menu__item,
     .profile-orbit-menu__center,
-    .profile-orbit-stack-bubble
+    .profile-orbit-stack-bubble,
+    .profile-orbit-mobile-action
   ).dock-item::before {
   content: none !important;
+}
+
+@media (max-width: 768px) {
+  :root.theme-mid
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-mobile-action.dock-item {
+    box-shadow: 0 12px 22px rgba(20, 12, 10, 0.12) !important;
+  }
+
+  :root.theme-mid
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-mobile-action.dock-item::after {
+    content: none !important;
+  }
 }
 
 /* Keep dictate/send stable in mid mode across focus/hydration class toggles. */
@@ -461,6 +493,20 @@
   border-color: rgba(122, 58, 56, 0.5) !important;
   color: #7a3a38 !important;
   box-shadow: 0 4px 10px rgba(20, 12, 10, 0.14) !important;
+}
+
+:root.theme-mid .drawer-panel .drawer-pill-btn.button[data-variant="primary"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: var(--btn-primary-bg) !important;
+  border: var(--btn-primary-border) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+}
+
+:root.theme-mid
+  .drawer-panel
+  .drawer-pill-btn.button[data-variant="primary"]::before {
+  background: var(--btn-primary-bg-hover) !important;
 }
 
 /* Rooms page cards and controls in mid: same glass tone, less white. */

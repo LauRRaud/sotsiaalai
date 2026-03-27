@@ -4,7 +4,8 @@
   --orbit-button-shadow-center: 0 12px 20px rgba(0, 0, 0, 0.16);
 }
 
-:root.theme-light .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+:root.theme-light:not(.theme-mid)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-accent: #7a3a38;
   --orbit-button-shadow:
     0 12px 22px rgba(0, 0, 0, 0.14),
@@ -72,12 +73,13 @@
   backdrop-filter: blur(0.9rem) saturate(120%);
   box-shadow: var(--orbit-button-shadow);
 }
-:root.theme-light
+:root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(
     .profile-orbit-menu__item,
     .profile-orbit-menu__center,
-    .profile-orbit-stack-bubble
+    .profile-orbit-stack-bubble,
+    .profile-orbit-mobile-action
   ).dock-item {
   color: rgba(31, 41, 55, 0.92);
   background:
@@ -133,10 +135,10 @@
   --pin-gloss-op: 0.32;
 }
 
-:root.theme-light
+:root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-item-label,
-:root.theme-light
+:root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .dock-label {
   background: transparent;
@@ -155,7 +157,7 @@
   box-shadow: none;
 }
 
-:root.theme-light
+:root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
   filter: brightness(0.97);
@@ -225,7 +227,7 @@
   .profile-orbit-menu__center.dock-item {
   box-shadow: var(--orbit-button-shadow-center);
 }
-:root.theme-light
+:root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
   box-shadow:
@@ -235,7 +237,7 @@
     inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::after {
+  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -266,7 +268,7 @@
     mask-composite: exclude;
   }
 }
-:root.theme-light
+:root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::before {
   content: none;
@@ -443,7 +445,10 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
   --orbit-ring-glow:
     0 0 18px rgba(255, 234, 0, 0.28),
     0 0 36px rgba(255, 234, 0, 0.18);
-  --orbit-button-shadow: 0 16px 30px rgba(0, 0, 0, 0.32);
+  --orbit-button-shadow:
+    0 0 18px rgba(255, 234, 0, 0.34),
+    0 0 34px rgba(255, 234, 0, 0.2),
+    0 16px 30px rgba(0, 0, 0, 0.32);
   --orbit-button-shadow-center:
     0 0 22px rgba(255, 234, 0, 0.34),
     0 0 42px rgba(255, 234, 0, 0.2),
@@ -572,16 +577,23 @@ html[data-contrast="hc"]
   transform: scale(0.985) !important;
 }
 
+.profile-orbit-mobile-action.dock-item {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0 !important;
+  outline: none !important;
+  overflow: hidden;
+  isolation: isolate;
+  background-clip: padding-box;
+}
+
 .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item {
-  box-shadow:
-    0 18px 46px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--orbit-button-shadow) !important;
 }
 :root:not(.theme-light)
   .profile-orbit-mobile-row.is-active
   .profile-orbit-mobile-action.dock-item {
-  box-shadow:
-    0 18px 46px rgba(0, 0, 0, 0.28),
-    var(--orbit-item-glow-strong, var(--orbit-item-glow));
+  box-shadow: var(--orbit-button-shadow) !important;
 }
 .profile-orbit-mobile-action.dock-item .dock-icon svg {
   width: 68%;
@@ -622,13 +634,16 @@ html[data-contrast="hc"]
   transform: none;
   opacity: 1;
 }
+html[data-contrast="hc"]
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item,
 :root[data-contrast="hc"]
   .profile-orbit-mobile-row.is-active
   .profile-orbit-mobile-action.dock-item,
 :root[data-contrast="hc"].profile-orbit-open
   .profile-orbit-mobile-backdrop
   .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active) {
-  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: var(--orbit-button-shadow) !important;
   animation: none !important;
 }
 :root:not(.theme-light) .profile-orbit-mobile-scrim--top {
@@ -793,10 +808,10 @@ html[data-reduce-motion="1"]
       0 10px 18px rgba(0, 0, 0, 0.16) !important;
   }
 
-:root.theme-light
+:root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-stack-bubble.dock-item,
-:root.theme-light
+:root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
   box-shadow:

@@ -62,7 +62,7 @@ export default function InviteModal() {
     `invite-modal-content person-invite-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--input-text:var(--glass-modal-text)] ` +
-    `[.theme-light_&]:[--input-bg:rgba(254,253,252,0.89)] [.theme-light_&]:[--input-bg-hover:rgba(255,255,255,0.94)] [.theme-light_&]:[--input-bg-focus:rgba(255,255,255,0.96)] ` +
+    `[.theme-light_&]:[--input-bg:rgba(252,253,255,0.89)] [.theme-light_&]:[--input-bg-hover:rgba(255,255,255,0.94)] [.theme-light_&]:[--input-bg-focus:rgba(255,255,255,0.96)] ` +
     `[.theme-light_&]:[--input-shadow:0_6px_16px_rgba(15,23,42,0.12)] [.theme-light_&]:[--input-shadow-composite:var(--input-shadow)] [.theme-light_&]:[--input-shadow-hover-composite:var(--input-shadow-hover,var(--input-shadow))] [.theme-light_&]:[--input-shadow-focus-composite:var(--input-shadow-hover,var(--input-shadow))] ` +
     `[.theme-mid_&]:[--input-bg:rgba(252,248,247,0.48)] [.theme-mid_&]:[--input-bg-hover:rgba(253,250,249,0.54)] [.theme-mid_&]:[--input-bg-focus:rgba(253,250,249,0.56)] ` +
     `[.theme-mid_&]:[--input-text:#2f3a4a] [.theme-mid_&]:[--input-caret:#2f3a4a] [.theme-mid_&]:[--input-shadow:0_6px_14px_rgba(20,12,10,0.16)] [.theme-mid_&]:[--input-shadow-hover:0_7px_16px_rgba(20,12,10,0.18)] ` +
@@ -74,8 +74,10 @@ export default function InviteModal() {
   const inviteFormClassName = `grid gap-[1rem] max-[768px]:gap-[0.95rem] ${
     sponsoredSelected ? "pb-[1.6rem] max-[768px]:pb-[1.25rem]" : ""
   }`;
+  const inviteFieldWrapClassName =
+    "mx-auto w-full max-w-[28.5rem] max-[768px]:max-w-[min(100%,28.5rem)]";
   const mobileInviteInputClassName =
-    "!w-full !max-w-[28.5rem] !text-[1.28rem] !tracking-[0.02em] placeholder:!text-[1.12rem] placeholder:!tracking-[0.02em] max-[768px]:!max-w-[min(100%,28.5rem)] max-[768px]:!text-[1.34rem] max-[768px]:!tracking-[0.024em] max-[768px]:placeholder:!text-[1.2rem] max-[768px]:placeholder:!tracking-[0.022em] max-[768px]:!min-h-[3.2rem] max-[768px]:!py-[0.84rem]";
+    "!block !w-full !text-[1.28rem] !tracking-[0.02em] placeholder:!text-[1.12rem] placeholder:!tracking-[0.02em] max-[768px]:!text-[1.34rem] max-[768px]:!tracking-[0.024em] max-[768px]:placeholder:!text-[1.2rem] max-[768px]:placeholder:!tracking-[0.022em] max-[768px]:!min-h-[3.2rem] max-[768px]:!py-[0.84rem]";
   const invitePrimaryButtonClassName =
     "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
     "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
@@ -90,14 +92,13 @@ export default function InviteModal() {
     },
   ];
   const inviteOptionButtonClassName =
-    "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg-hover)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
+    "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
     "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
     "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-    "[--seg-card-border:transparent] [--seg-card-border-width:0px] [--seg-card-duration:560ms] [--seg-card-ease:cubic-bezier(0.22,0.61,0.36,1)] " +
-    "[border:var(--btn-primary-border)] hover:[border:var(--btn-primary-border-hover)] focus-visible:[border:var(--btn-primary-border-hover)] data-[checked=true]:[border:var(--btn-primary-border-hover)] " +
-    "backdrop-blur-[10px] backdrop-saturate-[120%] " +
-    "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
+    "[.theme-mid_&]:[--seg-card-bg-selected:radial-gradient(92%_88%_at_50%_16%,rgba(246,238,234,0.62)_0%,rgba(239,229,225,0.56)_44%,rgba(231,221,216,0.48)_100%),linear-gradient(180deg,rgba(242,233,229,0.42)_0%,rgba(234,224,220,0.38)_100%)] [.theme-mid_&]:[--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
+    "[--seg-card-border:transparent] [--seg-card-border-width:0px] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 focus-visible:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] " +
+    "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[7rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.78rem] max-[768px]:!py-[0.2rem] max-[768px]:!text-[1.03rem] max-[768px]:!tracking-[0.024em]";
   const inviteSponsorToggleClassName =
@@ -126,11 +127,8 @@ export default function InviteModal() {
     "[&_.box]:translate-y-[-0.08rem] min-[769px]:ml-[0.9rem] min-[769px]:[--otp-check-text-max-width:min(100%,24rem)]";
   const inviteSponsoredCheckoutFooterClassName =
     "mt-[0.95rem] pt-[0.05rem] flex justify-center max-[768px]:mt-[0.88rem]";
-  const inviteSponsoredToggleColorClassName =
-    "[--seg-card-shadow-selected:var(--seg-card-shadow)] " +
-    "data-[checked=true]:[border:var(--btn-primary-border-active,var(--btn-primary-border-hover))]";
   const inviteSponsoredToggleCardClassName =
-    `${inviteSponsorToggleClassName} ${inviteSponsoredToggleColorClassName}`;
+    `${inviteSponsorToggleClassName} invite-sponsor-toggle-card`;
   const inviteEmailsRequiredError = error === t("invite.error.emails_required");
   const inviteEmailsHintClassName =
     "pointer-events-none absolute inset-y-0 left-[1rem] flex items-center text-[1.02rem] leading-[1.15] tracking-[0.01em] text-[color:var(--subscription-error-color,#fca5a5)] opacity-95 max-[768px]:text-[0.98rem]";
@@ -487,27 +485,31 @@ export default function InviteModal() {
           <form className={inviteFormClassName} onSubmit={submit}>
             {!roomId ? (
               <>
-                <Input
-                  id="invite-room-title"
-                  value={roomTitle}
-                  onChange={(e) => setRoomTitle(e.target.value)}
-                  disabled={busy}
-                  placeholder={t("invite.room_title")}
-                  aria-label={t("invite.room_title")}
-                  className={mobileInviteInputClassName}
-                />
-                <Input
-                  id="invite-host-name"
-                  value={hostDisplayName}
-                  onChange={(e) => setHostDisplayName(e.target.value)}
-                  disabled={busy}
-                  placeholder={t("invite.host_name_ph")}
-                  aria-label={t("invite.host_name")}
-                  className={mobileInviteInputClassName}
-                />
+                <div className={inviteFieldWrapClassName}>
+                  <Input
+                    id="invite-room-title"
+                    value={roomTitle}
+                    onChange={(e) => setRoomTitle(e.target.value)}
+                    disabled={busy}
+                    placeholder={t("invite.room_title")}
+                    aria-label={t("invite.room_title")}
+                    className={mobileInviteInputClassName}
+                  />
+                </div>
+                <div className={inviteFieldWrapClassName}>
+                  <Input
+                    id="invite-host-name"
+                    value={hostDisplayName}
+                    onChange={(e) => setHostDisplayName(e.target.value)}
+                    disabled={busy}
+                    placeholder={t("invite.host_name_ph")}
+                    aria-label={t("invite.host_name")}
+                    className={mobileInviteInputClassName}
+                  />
+                </div>
               </>
             ) : null}
-            <div className="relative">
+            <div className={`${inviteFieldWrapClassName} relative`}>
               <Input
                 id="invite-emails"
                 value={emails}

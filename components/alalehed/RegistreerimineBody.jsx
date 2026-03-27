@@ -46,12 +46,13 @@ const checkboxCardClassName =
 const registerControlVarsClassName =
   "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
 const registerOptionButtonClassName =
-  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg-hover)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
+  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
   "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
   "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-  "[--seg-card-border:transparent] [--seg-card-border-width:0px] [--seg-card-duration:560ms] [--seg-card-ease:cubic-bezier(0.22,0.61,0.36,1)] " +
-  "!transition-[border-color,box-shadow,color] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-  "hover:shadow-[var(--seg-card-shadow-hover)] focus-visible:shadow-[var(--seg-card-shadow-hover)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
+  "[.theme-mid_&]:[--seg-card-bg-selected:radial-gradient(92%_88%_at_50%_16%,rgba(246,238,234,0.62)_0%,rgba(239,229,225,0.56)_44%,rgba(231,221,216,0.48)_100%),linear-gradient(180deg,rgba(242,233,229,0.42)_0%,rgba(234,224,220,0.38)_100%)] [.theme-mid_&]:[--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
+  "[--seg-card-border:transparent] [--seg-card-border-width:0px] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 focus-visible:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] " +
+  "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
 const registerButtonClassName =
   "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
@@ -69,10 +70,6 @@ const frameworkOverlayClassName =
   "fixed inset-0 z-[60] flex items-center justify-center bg-transparent p-[1.25rem] max-[768px]:p-0";
 const frameworkInnerClassName =
   "flex h-full w-full min-h-0 flex-col items-center text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
-const registerSelectedOptionClassName =
-  "border border-transparent " +
-  "[background:var(--btn-primary-bg-hover)] text-[color:var(--title-color,var(--brand-primary))] " +
-  "shadow-[var(--btn-primary-shadow-hover)]";
 const frameworkTitleClassName = `${glassPageTitleClassName} framework-title subpage-mobile-title policy-mobile-title policy-mobile-title--static w-full min-[769px]:!text-[2.28rem] min-[769px]:!leading-[1.06] min-[769px]:!mt-[2.1rem] min-[769px]:!mb-[0.1rem] max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const frameworkTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center pt-[1rem] pb-[0.42rem] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
@@ -631,7 +628,7 @@ export default function RegistreerimineBody({}) {
                     onChange={handleChange}
                     fitTextLines={2}
                     fitTextMinPx={15}
-                    className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName} ${form.role === "SOCIAL_WORKER" ? registerSelectedOptionClassName : ""}`}
+                    className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                   >
                     {t("role.worker")}
                   </OptionCard>
@@ -643,7 +640,7 @@ export default function RegistreerimineBody({}) {
                     onChange={handleChange}
                     fitTextLines={2}
                     fitTextMinPx={15}
-                    className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName} ${form.role === "CLIENT" ? registerSelectedOptionClassName : ""}`}
+                    className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                   >
                     {t("role.client")}
                   </OptionCard>

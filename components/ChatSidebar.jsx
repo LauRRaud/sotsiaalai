@@ -569,14 +569,28 @@ export default function ChatSidebar() {
     "inline-flex h-[1.8rem] w-[2rem] items-center justify-center border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] " +
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
     "disabled:cursor-not-allowed disabled:opacity-45";
+  const drawerPrimaryButtonToneClassName =
+    "[--btn-primary-border:0_solid_transparent] " +
+    "[--btn-primary-border-hover:0_solid_transparent] " +
+    "[--btn-primary-border-active:0_solid_transparent] " +
+    "[--btn-primary-shadow:0_5px_12px_rgba(0,0,0,0.16)] " +
+    "[--btn-primary-shadow-hover:0_7px_14px_rgba(0,0,0,0.18)] " +
+    "[--btn-primary-shadow-active:0_4px_10px_rgba(0,0,0,0.14)] " +
+    "[--btn-primary-shadow-focus:0_8px_18px_rgba(0,0,0,0.22),0_0_0_3px_var(--btn-primary-focus-ring-color)] " +
+    "light:[--btn-primary-bg-hover:radial-gradient(82%_66%_at_50%_16%,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_42%,rgba(255,255,255,0.99)_58%,rgba(253,251,250,0.97)_74%),linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(254,252,251,0.985)_100%)] " +
+    "light:[--btn-primary-shadow:inset_0_1px_0_rgba(255,255,255,0.22),0_4px_10px_rgba(15,23,42,0.08)] " +
+    "light:[--btn-primary-border-hover:1px_solid_rgba(255,255,255,0.62)] " +
+    "light:[--btn-primary-shadow-hover:inset_0_1px_0_rgba(255,255,255,0.34),0_9px_18px_rgba(15,23,42,0.11)] " +
+    "light:[--btn-primary-shadow-active:inset_0_1px_0_rgba(255,255,255,0.18),0_3px_8px_rgba(15,23,42,0.07)] " +
+    "light:[--btn-primary-shadow-focus:inset_0_1px_0_rgba(255,255,255,0.3),0_10px_20px_rgba(15,23,42,0.13),0_0_0_3px_var(--btn-primary-focus-ring-color),0_0_0_1px_rgba(255,255,255,0.22)]";
   const compactActionBtnClassName =
-    "!text-[1.04rem] !tracking-[0.01em] !whitespace-nowrap " +
+    `drawer-pill-btn ${drawerPrimaryButtonToneClassName} !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.08rem] !tracking-[0.02em] !whitespace-nowrap ` +
     "max-[768px]:!text-[1.34rem] max-[768px]:!leading-[1.08] max-[768px]:!px-[1.28rem] max-[768px]:!min-h-[3.36rem] " +
     "max-[416px]:!text-[1.2rem] max-[416px]:!px-[1.02rem]";
   const compactRefreshBtnClassName =
-    "px-[0.82rem] max-[768px]:!px-[1.18rem] max-[768px]:!min-h-[3.36rem]";
+    `drawer-pill-btn ${drawerPrimaryButtonToneClassName} !min-h-[3.05rem] !px-[0.98rem] !py-[0.78rem] max-[768px]:!px-[1.18rem] max-[768px]:!min-h-[3.36rem]`;
   const compactSwitchBtnClassName =
-    "!text-[1.04rem] !tracking-[0.01em] !whitespace-nowrap !px-[1rem] " +
+    `drawer-pill-btn ${drawerPrimaryButtonToneClassName} !min-h-[3.05rem] !px-[1.08rem] !py-[0.78rem] !text-[1.08rem] !tracking-[0.02em] !whitespace-nowrap ` +
     "max-[768px]:!text-[1.2rem] max-[768px]:!leading-[1.08] max-[768px]:!px-[1.18rem] max-[768px]:!min-h-[3.36rem]";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
   const listViewportClassName = "flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.1rem]";

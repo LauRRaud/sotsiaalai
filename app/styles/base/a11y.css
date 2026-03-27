@@ -1126,6 +1126,24 @@ html[data-contrast="hc"]
 }
 html[data-contrast="hc"]
   body
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item,
+html[data-contrast="hc"]
+  body
+  .profile-orbit-mobile-row.is-active
+  .profile-orbit-mobile-action.dock-item,
+html[data-contrast="hc"]
+  body
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active) {
+  box-shadow:
+    0 0 18px rgba(255, 234, 0, 0.3),
+    0 0 34px rgba(255, 234, 0, 0.18),
+    0 18px 46px rgba(0, 0, 0, 0.3) !important;
+  animation: none !important;
+}
+html[data-contrast="hc"]
+  body
   .profile-orbit-stack-item {
   background: transparent !important;
   border: 0 !important;
