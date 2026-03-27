@@ -306,12 +306,16 @@ export async function POST(request) {
         const fingerprintMatch =
           !candidate.userAgentFingerprint ||
           candidate.userAgentFingerprint === fingerprint;
-        const ipMatch = !candidate.ipRange || !ipRange || candidate.ipRange === ipRange;
-        if (fingerprintMatch && ipMatch) {
+        // Mobile carriers rotate IP ranges often, so do not treat IP drift
+        // alone as a reason to invalidate an otherwise valid trusted device.
+        if (fingerprintMatch) {
           trustedDevice = candidate;
           await prisma.trustedDevice.update({
             where: { id: candidate.id },
-            data: { lastUsedAt: now }
+            data: {
+              lastUsedAt: now,
+              ...(ipRange && candidate.ipRange !== ipRange ? { ipRange } : {})
+            }
           });
         }
       }

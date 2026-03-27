@@ -65,9 +65,12 @@
 
   html[data-contrast="hc"] .homepage-root .home-about-panel,
   html[data-contrast="hc"] .homepage-root .home-before-panel {
-    background: color-mix(in srgb, rgba(14, 20, 32, 1) 85%, transparent) !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    background: var(
+      --glass-ring-surface-bg,
+      var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+    ) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
 
   .glass-mobile-only-close {
