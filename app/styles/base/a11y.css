@@ -1055,6 +1055,27 @@ html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item {
   color: var(--hc-accent) !important;
+  background:
+    radial-gradient(
+      126% 126% at 18% 14%,
+      rgba(202, 225, 255, 0.085) 0%,
+      rgba(202, 225, 255, 0.03) 32%,
+      rgba(202, 225, 255, 0) 60%
+    ),
+    radial-gradient(
+      120% 120% at 84% 88%,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0) 66%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(24, 34, 50, 0.62) 0%,
+      rgba(10, 18, 31, 0.6) 58%,
+      rgba(5, 10, 18, 0.68) 100%
+    ) !important;
+  -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
+  backdrop-filter: blur(0.9rem) saturate(120%) !important;
+  --pin-gloss-op: 0.2 !important;
   outline: none !important;
 }
 html[data-contrast="hc"]
@@ -1079,7 +1100,7 @@ html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item {
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.16) !important;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.32) !important;
 }
 html[data-contrast="hc"]
   body
@@ -1088,7 +1109,7 @@ html[data-contrast="hc"]
   box-shadow:
     0 0 12px rgba(255, 234, 0, 0.34),
     0 0 22px rgba(255, 234, 0, 0.2),
-    0 10px 18px rgba(0, 0, 0, 0.16) !important;
+    0 16px 30px rgba(0, 0, 0, 0.32) !important;
 }
 html[data-contrast="hc"]
   body
@@ -1101,7 +1122,7 @@ html[data-contrast="hc"]
   box-shadow:
     0 0 18px rgba(255, 234, 0, 0.44),
     0 0 34px rgba(255, 234, 0, 0.28),
-    0 10px 18px rgba(0, 0, 0, 0.14) !important;
+    0 16px 30px rgba(0, 0, 0, 0.32) !important;
 }
 html[data-contrast="hc"]
   body

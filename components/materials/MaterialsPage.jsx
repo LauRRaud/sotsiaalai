@@ -222,7 +222,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
         <BackButton
           onClick={handleBack}
           ariaLabel={t("profile.back_to_chat")}
-          className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`}
+          className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto !bg-transparent hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent !border-0 hover:!border-0 focus-visible:!border-0 active:!border-0 !shadow-none hover:!shadow-none focus-visible:!shadow-none active:!shadow-none`}
         />
 
         <header className="mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">

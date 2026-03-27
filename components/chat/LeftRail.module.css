@@ -310,7 +310,7 @@
   background: rgba(9, 14, 24, 0.99);
   -webkit-backdrop-filter: blur(14px) saturate(124%);
   backdrop-filter: blur(14px) saturate(124%);
-  border: 0;
+  border: 1.5px solid var(--hc-accent, #ffea00);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
