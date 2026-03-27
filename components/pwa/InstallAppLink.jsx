@@ -99,7 +99,7 @@ export default function InstallAppLink({
   const desktopHint = t("pwa.instructions.desktop");
   const helpPopoverClassName =
     "fixed z-[9999] w-[min(17.4rem,calc(100vw-2rem))] max-[480px]:w-[min(16.7rem,calc(100vw-2rem))] rounded-[16px] " +
-    "border border-[color:var(--subpage-card-border)] px-[0.82rem] pt-[0.78rem] pb-[0.7rem] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] [-webkit-backdrop-filter:blur(16px)] [backdrop-filter:blur(16px)]";
+    "border border-[color:var(--opaque-panel-border,var(--subpage-card-border))] px-[0.82rem] pt-[0.78rem] pb-[0.7rem] [background:var(--opaque-panel-bg,var(--subpage-card-bg))] text-[color:var(--opaque-panel-text,var(--subpage-card-text))] shadow-[var(--opaque-panel-shadow,var(--subpage-card-shadow))] backdrop-blur-0 backdrop-saturate-100 [-webkit-backdrop-filter:none] [backdrop-filter:none]";
   const desktopHintNode = <span>{isMacSafari ? macHint : desktopHint}</span>;
 
   const iosHintNode = locale === "et" ? (

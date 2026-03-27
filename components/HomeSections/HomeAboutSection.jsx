@@ -331,8 +331,9 @@ export default function HomeAboutSection({
   return (
     <section
       id={id}
+      role="region"
+      tabIndex={0}
       aria-labelledby={aboutHeadingId}
-      aria-describedby={aboutTextId}
       className={cn(
         "home-section",
         "relative z-30 w-full overflow-visible py-[clamp(2.8rem,7vw,5rem)] pb-[clamp(0.6rem,1.6vw,1rem)] max-[768px]:pt-[clamp(1.2rem,4.2vw,2rem)] max-[768px]:pb-[clamp(0.4rem,1.2vw,0.8rem)] touch-pan-y",
