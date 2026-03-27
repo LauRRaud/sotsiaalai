@@ -318,6 +318,12 @@
     --home-card-light-opacity: 0.74;
     --home-card-dark-opacity: 0.74;
   }
+  :root.theme-mid
+    .homepage-root
+    :is(.right-card-primary, .centered-back-right) {
+    --home-card-surface-bg: rgba(24, 18, 19, 0.2);
+    --home-card-dark-opacity: 0.72;
+  }
   .homepage-root .three-d-card .card-blur-layer {
     opacity: 0 !important;
     -webkit-backdrop-filter: none !important;
