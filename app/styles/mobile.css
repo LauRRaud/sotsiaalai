@@ -300,17 +300,23 @@
   :root:not(.theme-light)
     .homepage-root
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
-    --home-card-surface-bg: rgba(10, 14, 24, 0.44);
+    --home-card-surface-bg: rgba(10, 14, 24, 0.4);
+    --home-card-light-opacity: 0.74;
+    --home-card-dark-opacity: 0.74;
   }
   :root.theme-light
     .homepage-root
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
-    --home-card-surface-bg: rgba(255, 255, 255, 0.64);
+    --home-card-surface-bg: rgba(255, 255, 255, 0.4);
+    --home-card-light-opacity: 0.74;
+    --home-card-dark-opacity: 0.82;
   }
   :root.theme-mid
     .homepage-root
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
-    --home-card-surface-bg: rgba(24, 18, 19, 0.3);
+    --home-card-surface-bg: rgba(252, 248, 247, 0.4);
+    --home-card-light-opacity: 0.74;
+    --home-card-dark-opacity: 0.74;
   }
   .homepage-root .three-d-card .card-blur-layer {
     opacity: 0 !important;

@@ -34,8 +34,8 @@
   --glass-input-bg-idle: rgba(18, 20, 32, 0.18);
   --glass-input-bg-active: rgba(18, 20, 32, 0.24);
   --glass-blur-radius: 1rem;
-  --glass-surface-bg: rgba(253, 253, 252, 0.52);
-  --glass-ring-surface-bg: rgba(249, 249, 248, 0.74);
+  --glass-surface-bg: rgba(251, 252, 253, 0.52);
+  --glass-ring-surface-bg: rgba(247, 248, 250, 0.74);
   --glass-surface-text: #2b2620;
   --chat-ui-solid-surface: rgb(253, 253, 252);
   --chat-rail-tooltip-bg: var(--chat-ui-solid-surface);
@@ -139,7 +139,7 @@
     0 0 0 3px var(--btn-primary-focus-ring-color),
     0 0 0 1px rgba(255, 255, 255, 0.18);
   --btn-primary-radius: 0.95rem;
-  --input-bg: rgba(254, 253, 252, 0.89);
+  --input-bg: rgba(252, 253, 255, 0.89);
   --input-bg-hover: rgba(255, 255, 255, 0.94);
   --input-bg-focus: rgba(255, 255, 255, 0.96);
   --input-text: #1f2937;
@@ -178,15 +178,15 @@
   --panel-secondary-border: rgba(190, 196, 208, 0.55);
   --panel-secondary-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
   --panel-secondary-radius: 1.1rem;
-  --subpage-card-bg: rgba(255, 251, 250, 0.62);
-  --subpage-card-bg-hover: rgba(255, 252, 251, 0.72);
+  --subpage-card-bg: rgba(251, 252, 255, 0.62);
+  --subpage-card-bg-hover: rgba(253, 254, 255, 0.72);
   --subpage-card-border: transparent;
   --subpage-card-border-hover: transparent;
   --subpage-card-shadow: 0 12px 24px rgba(82, 50, 46, 0.08);
   --subpage-card-shadow-hover: 0 14px 28px rgba(82, 50, 46, 0.1);
   --subpage-card-text: #334155;
-  --opaque-panel-bg: rgba(252, 248, 247, 1);
-  --opaque-panel-bg-hover: rgba(255, 251, 250, 1);
+  --opaque-panel-bg: rgba(248, 250, 252, 1);
+  --opaque-panel-bg-hover: rgba(251, 253, 255, 1);
   --opaque-panel-border: rgba(255, 255, 255, 0.5);
   --opaque-panel-shadow: 0 10px 24px rgba(82, 50, 46, 0.1);
   --opaque-panel-text: #334155;
@@ -362,9 +362,9 @@
 :root.theme-light .chat-inputbar .chat-listen-btn,
 :root.theme-light .chat-inputbar .chat-send-btn {
   --chat-action-size: var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)));
-  --chat-inputbar-bg: rgba(255, 254, 253, 0.93);
+  --chat-inputbar-bg: rgba(251, 252, 255, 0.93);
   --chat-inputbar-bg-hover: rgba(255, 255, 255, 0.95);
-  --chat-inputbar-bg-focus: rgba(255, 254, 253, 0.955);
+  --chat-inputbar-bg-focus: rgba(252, 253, 255, 0.955);
   --chat-user-bubble-bg: var(--chat-inputbar-bg);
   background: var(--chat-inputbar-bg);
   border: 0;
