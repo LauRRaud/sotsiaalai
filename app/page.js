@@ -12,7 +12,9 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/",
-    title: meta.title || "",
+    // Keep the home document title short because some screen readers
+    // announce repeated title updates during the initial page load.
+    title: "SotsiaalAI",
     description: meta.description || ""
   });
 }
