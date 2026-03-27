@@ -74,7 +74,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item) {
+  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button) {
   background: var(--form-surface, var(--hc-surface));
   color: var(--hc-text);
   border: 2px solid var(--hc-border, rgba(255, 234, 0, 0.66));
@@ -87,7 +87,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):hover:not(
+  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):hover:not(
     :disabled
   ),
 html[data-contrast="hc"]
@@ -96,7 +96,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):focus-visible {
+  ):not(.chat-listen-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):focus-visible {
   background: var(--form-surface-hover, var(--hc-surface));
   border-color: var(--hc-border-soft, rgba(188, 220, 255, 0.4));
   color: var(--hc-text);
