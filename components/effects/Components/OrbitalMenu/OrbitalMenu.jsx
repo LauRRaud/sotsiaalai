@@ -511,9 +511,18 @@ export default function OrbitalMenu({
           "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
           "--label-gap-side": item.key === "theme" ? "0.86rem" : item.key === "delete" ? "-0.02rem" : undefined
         }}>
-                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease]" onClick={() => {
+                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease]" onClick={event => {
             item.onClick?.();
-            if (!item.keepOpen) closeMenu();
+            if (!item.keepOpen) {
+              closeMenu();
+              return;
+            }
+            if (event.detail > 0 && !useMobileDialog) {
+              const target = event.currentTarget;
+              window.requestAnimationFrame(() => {
+                target?.blur?.();
+              });
+            }
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>
                   <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[var(--orbit-item-icon-size)] [&>svg]:h-[var(--orbit-item-icon-size)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
                     {item.icon}
@@ -573,7 +582,9 @@ export default function OrbitalMenu({
                 opacity: v.opacity,
                 filter: v.blur ? `blur(${v.blur}px)` : "none"
               }}>
-                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
+                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" onPointerDown={() => {
+                    applyActive(index);
+                  }} onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
                         <span className="dock-icon w-full h-auto flex-shrink-0 grid place-items-center leading-none min-h-[clamp(2.6rem,14vw,3.8rem)]" aria-hidden="true">
                           {item.icon}
                         </span>

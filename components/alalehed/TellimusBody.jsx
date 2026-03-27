@@ -25,7 +25,6 @@ const emailReplacement = {
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
   `${glassPageTitleClassName} subscription-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
-  `!text-[#c57171] light:!text-[color:var(--glass-modal-title-color,var(--title-color,var(--brand-primary)))] ` +
   `max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";

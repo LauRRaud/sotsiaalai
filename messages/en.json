@@ -182,11 +182,13 @@
     },
     "card": {
       "specialist": {
-        "aria": "Open specialist sign-in",
+        "login_aria": "Open social work specialist sign-in",
+        "chat_aria": "Open social work specialist chat",
         "title": "Social work specialist"
       },
       "client": {
-        "aria": "Open help-seeker sign-in",
+        "login_aria": "Open help-seeker sign-in",
+        "chat_aria": "Open help-seeker chat",
         "title": "Person seeking help"
       }
     },

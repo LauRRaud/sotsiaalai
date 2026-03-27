@@ -134,7 +134,7 @@ export default function HelpListingsPanel({
           <Panel
             variant="subpage"
             padding="sm"
-            className={listingsPanelClassName}
+            className={`help-listings-panel ${listingsPanelClassName}`}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
@@ -146,7 +146,7 @@ export default function HelpListingsPanel({
                   key={`${item.kind}-${item.id}`}
                   type="button"
                   onClick={() => onSelectItem?.(item)}
-                  className={`${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left`}
+                  className={`help-listings-item-card ${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.1rem]">

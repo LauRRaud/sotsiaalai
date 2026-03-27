@@ -96,7 +96,12 @@ export default function HomePage() {
     rightFlipTimeoutRef.current = null;
   }, [clearRegisteredTimeout]);
   const isAuthed = status === "authenticated" && !!session;
-  const homeCardActionText = isAuthed ? t("buttons.open_chat") : t("auth.login.title");
+  const leftCardAriaLabel = isAuthed
+    ? t("home.card.specialist.chat_aria")
+    : t("home.card.specialist.login_aria");
+  const rightCardAriaLabel = isAuthed
+    ? t("home.card.client.chat_aria")
+    : t("home.card.client.login_aria");
   const isAdmin = useMemo(() => {
     const u = session?.user;
     const role = typeof u?.role === "string" ? u.role.toLowerCase() : "";
@@ -456,9 +461,6 @@ export default function HomePage() {
     event.preventDefault();
     handleCardTap(side)(event);
   };
-  const handleCardFocus = useCallback(() => {
-    setHomeA11yReady(true);
-  }, []);
   const resetMobileCards = useCallback(() => {
     setMobileFlipReady({
       left: false,
@@ -554,13 +556,7 @@ export default function HomePage() {
           </h1>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[768px]:flex-col max-[768px]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[768px]:px-[clamp(1rem,4vw,1.5rem)] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[768px]:pb-[clamp(5rem,12vw,7rem)] max-[768px]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
-              <div ref={leftCardWrapRef} data-phase={leftPhase} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} onFocus={handleCardFocus} role="button" aria-labelledby="home-card-specialist-title home-card-specialist-action" aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
-                <span id="home-card-specialist-title" className="sr-only">
-                  {t("home.card.specialist.title")}
-                </span>
-                <span id="home-card-specialist-action" className="sr-only">
-                  {homeCardActionText}
-                </span>
+              <div ref={leftCardWrapRef} data-phase={leftPhase} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="link" aria-label={leftCardAriaLabel} aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
                 <div className={cn(leftCardWrapClassName)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
                   <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", leftBlurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
@@ -603,13 +599,7 @@ export default function HomePage() {
             </div>
 
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
-              <div ref={rightCardWrapRef} data-phase={rightPhase} className={cn(rightCardClassName, "home-card-a11y-button")} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")} onFocus={handleCardFocus} role="button" aria-labelledby="home-card-client-title home-card-client-action" aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("right")}>
-                <span id="home-card-client-title" className="sr-only">
-                  {t("home.card.client.title")}
-                </span>
-                <span id="home-card-client-action" className="sr-only">
-                  {homeCardActionText}
-                </span>
+              <div ref={rightCardWrapRef} data-phase={rightPhase} className={cn(rightCardClassName, "home-card-a11y-button")} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")} role="link" aria-label={rightCardAriaLabel} aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("right")}>
                 <div className={cn(rightCardWrapClassName)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
                   <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", rightBlurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
@@ -667,10 +657,7 @@ export default function HomePage() {
               </a>
             </div> : null}
         </section>
-        {showHomeBottomSections ? <div
-            aria-hidden={!homeA11yReady}
-            inert={!homeA11yReady ? "" : undefined}
-          >
+        {showHomeBottomSections ? <div>
             <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} />
             {showHomeFooter ? <HomeFooter /> : null}
           </div> : null}

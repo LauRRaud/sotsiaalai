@@ -53,7 +53,6 @@ export default function HomeAboutSection({
   const t = useT();
   const { locale } = useI18n();
   const aboutHeadingId = `${id}-title`;
-  const aboutTextId = `${id}-text`;
   const beforeHeadingId = `${id}-before-title`;
   const ctaTitle = t("about.cta.title");
   const aboutParagraphKeys = [
@@ -69,19 +68,6 @@ export default function HomeAboutSection({
       value: t(`about.intro.${key}`)
     }))
     .filter(({ key, value }) => value && value !== `about.intro.${key}`);
-  const aboutA11yText = aboutParagraphs
-    .map(({ value }) =>
-      String(value || "")
-        .replace(/<br\s*\/?>/gi, " ")
-        .replace(/<\/p>\s*<p>/gi, " ")
-        .replace(/<li>/gi, " ")
-        .replace(/<\/li>/gi, " ")
-        .replace(/<[^>]+>/g, "")
-        .replace(/\s+/g, " ")
-        .trim()
-    )
-    .filter(Boolean)
-    .join(" ");
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
   const aboutScrollRef = useRef(null);
@@ -332,7 +318,6 @@ export default function HomeAboutSection({
     <section
       id={id}
       role="region"
-      tabIndex={0}
       aria-labelledby={aboutHeadingId}
       className={cn(
         "home-section",
@@ -363,15 +348,13 @@ export default function HomeAboutSection({
         >
           <h2
             id={aboutHeadingId}
+            tabIndex={0}
             className={cn(
               "home-about-title text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[768px]:mb-[0.3rem] text-[color:var(--home-title-color)]"
             )}
           >
             {t("about.title")}
           </h2>
-          <p id={aboutTextId} className="sr-only">
-            {aboutA11yText}
-          </p>
           <div className="relative mx-auto w-full max-w-[54.5rem] max-[768px]:max-w-[52rem]">
             <div
               ref={aboutScrollRef}

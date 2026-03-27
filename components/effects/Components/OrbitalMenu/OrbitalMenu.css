@@ -636,14 +636,29 @@ html[data-contrast="hc"]
 }
 html[data-contrast="hc"]
   .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item {
+  box-shadow:
+    0 0 18px rgba(255, 234, 0, 0.3),
+    0 0 34px rgba(255, 234, 0, 0.18),
+    0 18px 46px rgba(0, 0, 0, 0.3) !important;
+  animation: none !important;
+}
+html[data-contrast="hc"]
+  .profile-orbit-mobile-row.is-active
   .profile-orbit-mobile-action.dock-item,
+html[data-contrast="hc"].profile-orbit-open
+  .profile-orbit-mobile-backdrop
+  .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active),
 :root[data-contrast="hc"]
   .profile-orbit-mobile-row.is-active
   .profile-orbit-mobile-action.dock-item,
 :root[data-contrast="hc"].profile-orbit-open
   .profile-orbit-mobile-backdrop
   .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active) {
-  box-shadow: var(--orbit-button-shadow) !important;
+  box-shadow:
+    0 0 22px rgba(255, 234, 0, 0.38),
+    0 0 40px rgba(255, 234, 0, 0.24),
+    0 18px 46px rgba(0, 0, 0, 0.3) !important;
   animation: none !important;
 }
 :root:not(.theme-light) .profile-orbit-mobile-scrim--top {

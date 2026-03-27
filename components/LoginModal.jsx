@@ -1071,14 +1071,14 @@ export default function LoginModal({
   const pinKeyBackground = isLightTheme
     ? isMidTheme
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
-      : "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.42) 26%, rgba(255, 255, 255, 0.16) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 34%, rgba(255, 255, 255, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.32) 42%, rgba(255, 255, 255, 0.2) 100%), rgba(255, 255, 255, 0.28)"
+      : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.995) 0%, rgba(255, 255, 255, 0.28) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.045) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.34) 100%)"
     : isNightTheme
       ? "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.008) 0%, rgba(255, 255, 255, 0.006) 42%, rgba(0, 0, 0, 0.34) 100%)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.004) 0%, rgba(255, 255, 255, 0.003) 42%, rgba(0, 0, 0, 0.28) 100%)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
       ? "0 11px 19px rgba(0, 0, 0, 0.11), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 0 rgba(0, 0, 0, 0.11)"
-      : "0 10px 18px rgba(0, 0, 0, 0.06), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.82), inset 0 -1px 0 rgba(0, 0, 0, 0.05)"
+      : "0 12px 22px rgba(0, 0, 0, 0.14), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
     : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme

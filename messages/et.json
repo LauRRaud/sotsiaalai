@@ -182,11 +182,13 @@
     },
     "card": {
       "specialist": {
-        "aria": "Ava spetsialisti sisselogimine",
+        "login_aria": "Ava sotsiaaltöö spetsialisti sisselogimine",
+        "chat_aria": "Ava sotsiaaltöö spetsialisti vestlus",
         "title": "Sotsiaaltöö spetsialist"
       },
       "client": {
-        "aria": "Ava eluküsimusega pöörduja sisselogimine",
+        "login_aria": "Ava eluküsimusega pöörduja sisselogimine",
+        "chat_aria": "Ava eluküsimusega pöörduja vestlus",
         "title": "Eluküsimusega pöörduja"
       }
     },
