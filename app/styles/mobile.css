@@ -5,19 +5,19 @@
 
 @media (max-width: 768px) {
   :root.theme-light body.homepage {
-    --home-panel-mobile-bg: rgba(247, 247, 246, 0.82);
+    --home-panel-mobile-bg: rgba(249, 247, 244, 0.84);
     --home-page-mobile-fallback-bg:
       radial-gradient(
         circle at 50% -12%,
-        rgba(251, 251, 250, 0.86) 0%,
+        rgba(251, 250, 248, 0.92) 0%,
         rgba(255, 255, 255, 0) 55%
       ),
       radial-gradient(
         circle at 50% 24%,
-        rgba(232, 230, 226, 0.26) 0%,
-        rgba(236, 235, 233, 0) 62%
+        rgba(236, 236, 233, 0.14) 0%,
+        rgba(244, 244, 242, 0) 62%
       ),
-      linear-gradient(180deg, #f4f4f3 0%, #edeae5 56%, #e1ddd7 100%);
+      linear-gradient(180deg, #f7f5f2 0%, #efede9 56%, #e7e5e1 100%);
   }
 
   :root.theme-mid body.homepage {
@@ -56,7 +56,7 @@
           var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 1)))
         )
         90%,
-      rgba(245, 240, 232, 0.3)
+      rgba(244, 242, 238, 0.14)
     ) !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;

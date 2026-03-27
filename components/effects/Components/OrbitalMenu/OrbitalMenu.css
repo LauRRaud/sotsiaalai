@@ -57,24 +57,25 @@
   background:
     radial-gradient(
       120% 120% at 18% 16%,
-      rgba(255, 255, 255, 0.98) 0%,
-      rgba(255, 255, 255, 0.2) 62%
+      rgba(255, 255, 255, 0.995) 0%,
+      rgba(255, 255, 255, 0.28) 62%
     ),
     radial-gradient(
       120% 120% at 86% 90%,
-      rgba(0, 0, 0, 0.06) 0%,
+      rgba(0, 0, 0, 0.045) 0%,
       rgba(0, 0, 0, 0) 64%
     ),
     linear-gradient(
       145deg,
-      rgba(255, 255, 255, 0.58) 0%,
-      rgba(255, 255, 255, 0.36) 55%,
-      rgba(255, 255, 255, 0.24) 100%
+      rgba(255, 255, 255, 0.76) 0%,
+      rgba(255, 255, 255, 0.5) 55%,
+      rgba(255, 255, 255, 0.34) 100%
     );
   box-shadow:
-    0 10px 18px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.78),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+    0 10px 18px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.72),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   border: 0;
   --pin-ring-grad: linear-gradient(
     135deg,
@@ -87,23 +88,23 @@
   --pin-gloss-bg:
     linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(255, 255, 255, 0.22) 32%,
+      rgba(255, 255, 255, 0.36) 0%,
+      rgba(255, 255, 255, 0.15) 32%,
       rgba(255, 255, 255, 0) 58%,
-      rgba(255, 255, 255, 0.14) 74%,
-      rgba(0, 0, 0, 0.1) 100%
+      rgba(255, 255, 255, 0.08) 74%,
+      rgba(0, 0, 0, 0.06) 100%
     ),
     radial-gradient(
       120% 110% at 18% 16%,
-      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.22) 0%,
       rgba(255, 255, 255, 0) 64%
     ),
     radial-gradient(
       120% 120% at 84% 90%,
-      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.08) 0%,
       rgba(255, 255, 255, 0) 56%
     );
-  --pin-gloss-op: 0.48;
+  --pin-gloss-op: 0.32;
 }
 
 :root.theme-light
@@ -177,7 +178,11 @@
 :root.theme-light
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.14),
+    inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.72),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::after {
@@ -641,15 +646,16 @@ html[data-reduce-motion="1"]
     animation: none !important;
   }
 
-  :root.theme-light
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-stack-bubble.dock-item,
-  :root.theme-light
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
-    box-shadow:
-      0 10px 18px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.78),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.12) !important;
-  }
+:root.theme-light
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-stack-bubble.dock-item,
+:root.theme-light
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.72),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+}
 }
