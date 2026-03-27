@@ -1357,12 +1357,27 @@ html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-accent: var(--hc-accent);
   --orbit-mobile-accent: var(--hc-accent);
+  --orbit-ring-glow:
+    0 0 12px rgba(255, 234, 0, 0.24),
+    0 0 24px rgba(255, 234, 0, 0.12);
   --orbit-item-glow:
-    0 0 14px rgba(255, 234, 0, 0.3),
-    0 0 30px rgba(255, 234, 0, 0.18);
+    0 0 5px rgba(255, 234, 0, 0.16),
+    0 0 8px rgba(255, 234, 0, 0.075);
   --orbit-item-glow-strong:
-    0 0 14px rgba(255, 234, 0, 0.34),
-    0 0 26px rgba(255, 234, 0, 0.2);
+    0 0 6px rgba(255, 234, 0, 0.2),
+    0 0 10px rgba(255, 234, 0, 0.1);
+  --orbit-button-shadow:
+    0 0 9px rgba(255, 234, 0, 0.16),
+    0 0 18px rgba(255, 234, 0, 0.075),
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.065),
+    inset 0 1px 0 rgba(255, 250, 180, 0.035);
+  --orbit-button-shadow-center:
+    var(--orbit-ring-glow),
+    0 0 20px rgba(255, 234, 0, 0.26),
+    0 16px 32px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.17),
+    inset 0 1px 0 rgba(255, 250, 180, 0.06);
 }
 html[data-contrast="hc"]
   body
@@ -1371,59 +1386,87 @@ html[data-contrast="hc"]
   color: var(--hc-accent) !important;
   background:
     radial-gradient(
-      126% 126% at 18% 14%,
-      rgba(202, 225, 255, 0.085) 0%,
-      rgba(202, 225, 255, 0.03) 32%,
-      rgba(202, 225, 255, 0) 60%
+      158% 114% at 50% -18%,
+      rgba(202, 225, 255, 0.055) 0%,
+      rgba(202, 225, 255, 0.02) 38%,
+      rgba(202, 225, 255, 0) 70%
     ),
     radial-gradient(
-      120% 120% at 84% 88%,
-      rgba(0, 0, 0, 0.3) 0%,
-      rgba(0, 0, 0, 0) 66%
+      144% 124% at 50% 118%,
+      rgba(0, 0, 0, 0.14) 0%,
+      rgba(0, 0, 0, 0) 52%
     ),
     linear-gradient(
       145deg,
-      rgba(24, 34, 50, 0.62) 0%,
-      rgba(10, 18, 31, 0.6) 58%,
-      rgba(5, 10, 18, 0.68) 100%
+      rgba(22, 31, 45, 0.68) 0%,
+      rgba(16, 25, 38, 0.71) 54%,
+      rgba(11, 18, 28, 0.74) 100%
     ) !important;
   -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
   backdrop-filter: blur(0.9rem) saturate(120%) !important;
-  --pin-gloss-op: 0.2 !important;
+  --pin-gloss-op: 0.1 !important;
   outline: none !important;
 }
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item:is(
+  .profile-orbit-menu__item.dock-item:is(
     :hover,
     :focus-visible,
     :active
   ) {
-  box-shadow: var(--orbit-item-glow-strong) !important;
-}
-html[data-contrast="hc"]
-  body
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
-  animation:
-    orbit-item-pulse 0.95s ease-in-out infinite,
-    hc-orbit-glow-pulse 0.95s ease-in-out infinite !important;
+  animation: none !important;
 }
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item {
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.32) !important;
+  box-shadow: var(--orbit-button-shadow) !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center-shell {
+  filter: none !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item {
+  background: linear-gradient(
+    145deg,
+    rgba(22, 31, 45, 0.72) 0%,
+    rgba(16, 25, 38, 0.74) 54%,
+    rgba(11, 18, 28, 0.76) 100%
+  ) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  --pin-gloss-op: 0 !important;
+  box-shadow: var(--orbit-button-shadow-center) !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item::before,
+html[data-contrast="hc"]
+  body
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item::after {
+  content: none !important;
+  background: none !important;
+  opacity: 0 !important;
 }
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
   box-shadow:
-    0 0 12px rgba(255, 234, 0, 0.34),
-    0 0 22px rgba(255, 234, 0, 0.2),
-    0 16px 30px rgba(0, 0, 0, 0.32) !important;
+    var(--orbit-item-glow-strong, var(--orbit-item-glow)),
+    0 0 10px rgba(255, 234, 0, 0.16),
+    0 0 20px rgba(255, 234, 0, 0.08),
+    0 18px 34px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.11),
+    inset 0 1px 0 rgba(255, 250, 180, 0.04) !important;
 }
 html[data-contrast="hc"]
   body
@@ -1433,28 +1476,52 @@ html[data-contrast="hc"]
     :focus-visible,
     :active
   ) {
-  box-shadow:
-    0 0 18px rgba(255, 234, 0, 0.44),
-    0 0 34px rgba(255, 234, 0, 0.28),
-    0 16px 30px rgba(0, 0, 0, 0.32) !important;
+  box-shadow: var(--orbit-button-shadow-center) !important;
 }
 html[data-contrast="hc"]
   body
-  .profile-orbit-mobile-panel
-  .profile-orbit-mobile-action.dock-item,
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center-shell:hover,
 html[data-contrast="hc"]
   body
-  .profile-orbit-mobile-row.is-active
-  .profile-orbit-mobile-action.dock-item,
-html[data-contrast="hc"]
-  body
-  .profile-orbit-mobile-panel
-  .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active) {
-  box-shadow:
-    0 0 18px rgba(255, 234, 0, 0.3),
-    0 0 34px rgba(255, 234, 0, 0.18),
-    0 18px 46px rgba(0, 0, 0, 0.3) !important;
-  animation: none !important;
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center-shell:focus-within {
+  filter: none !important;
+}
+
+@media (min-width: 48.001em) {
+  html[data-contrast="hc"]
+    body
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible) {
+    box-shadow:
+      var(--orbit-item-glow-strong, var(--orbit-item-glow)),
+      0 0 10px rgba(255, 234, 0, 0.16),
+      0 0 20px rgba(255, 234, 0, 0.08),
+      0 18px 34px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  html[data-contrast="hc"]
+    body
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item {
+    box-shadow: var(--orbit-button-shadow-center) !important;
+  }
+
+  html[data-contrast="hc"]
+    body
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow:
+      0 0 10px rgba(255, 234, 0, 0.28),
+      0 0 18px rgba(255, 234, 0, 0.14),
+      0 12px 24px rgba(0, 0, 0, 0.26),
+      inset 0 0 0 1px rgba(255, 234, 0, 0.16),
+      inset 0 1px 0 rgba(255, 250, 180, 0.05) !important;
+  }
 }
 html[data-contrast="hc"]
   body
@@ -1476,13 +1543,50 @@ html[data-contrast="hc"]
   box-shadow: none !important;
   outline: none !important;
 }
+html[data-contrast="hc"]
+  body
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item,
+html[data-contrast="hc"]
+  body
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active),
+html[data-contrast="hc"]
+  body
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-row.is-active
+  .profile-orbit-mobile-action.dock-item,
+html[data-contrast="hc"]
+  body
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item[data-orbit-mobile-active="true"] {
+  box-shadow:
+    0 0 12px rgba(255, 234, 0, 0.22),
+    0 0 24px rgba(255, 234, 0, 0.12),
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.1),
+    inset 0 1px 0 rgba(255, 250, 180, 0.035) !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-orbit-stack-bubble.dock-item,
+html[data-contrast="hc"]
+  body
+  .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
+  box-shadow:
+    0 0 12px rgba(255, 234, 0, 0.22),
+    0 0 24px rgba(255, 234, 0, 0.12),
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.1),
+    inset 0 1px 0 rgba(255, 250, 180, 0.035) !important;
+}
 @keyframes hc-orbit-glow-pulse {
   0%,
   100% {
-    box-shadow: var(--orbit-item-glow);
+    box-shadow: var(--orbit-button-shadow);
   }
   50% {
-    box-shadow: var(--orbit-item-glow-strong);
+    box-shadow: var(--orbit-button-shadow);
   }
 }
 html[data-reduce-motion="1"] *,
@@ -1572,4 +1676,13 @@ html[data-contrast="hc"] {
   --btn-primary-border: 0 solid transparent;
   --btn-primary-border-hover: 0 solid transparent;
   --btn-primary-border-active: 0 solid transparent;
+}
+
+html[data-contrast="hc"]
+  body
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-visual {
+  opacity: 1 !important;
+  filter: var(--orbit-mobile-visual-filter, none) !important;
+  transform: scale(1) !important;
 }

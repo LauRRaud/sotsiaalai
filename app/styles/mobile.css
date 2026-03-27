@@ -522,11 +522,10 @@
     hyphens: auto;
   }
   .profile-orbit-menu.is-mobile
-    :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item::before,
+    .profile-orbit-menu__item.dock-item::before,
   .profile-orbit-menu.is-mobile
     :is(
       .profile-orbit-menu__item,
-      .profile-orbit-menu__center,
       .profile-orbit-mobile-action
     ).dock-item::after {
     content: none;
@@ -535,6 +534,14 @@
   .profile-orbit-menu.is-mobile
     .profile-orbit-mobile-action.dock-item::before {
     content: none;
+  }
+
+  html[data-contrast="hc"]
+    .profile-orbit-menu.is-mobile
+    .profile-orbit-mobile-action.dock-item::after {
+    content: none !important;
+    background: none !important;
+    opacity: 0 !important;
   }
 
   :root.theme-light

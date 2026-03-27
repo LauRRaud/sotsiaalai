@@ -64,6 +64,7 @@ export default function OrbitalMenu({
   const [stackPad, setStackPad] = useState(0);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
+  const [isHcContrast, setIsHcContrast] = useState(false);
   const closeMenu = useCallback(() => {
     setIsPinnedOpen(false);
     requestAnimationFrame(() => {
@@ -178,6 +179,20 @@ export default function OrbitalMenu({
       body?.classList.remove("profile-orbit-open");
     };
   }, [isOpen]);
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const html = document.documentElement;
+    const applyContrast = () => {
+      setIsHcContrast(html.getAttribute("data-contrast") === "hc");
+    };
+    applyContrast();
+    const observer = new MutationObserver(applyContrast);
+    observer.observe(html, {
+      attributes: true,
+      attributeFilter: ["data-contrast"]
+    });
+    return () => observer.disconnect();
+  }, []);
   useEffect(() => {
     if (!isOpen || !useMobileDialog) return;
     if (typeof window === "undefined" || typeof document === "undefined") return;
@@ -511,7 +526,7 @@ export default function OrbitalMenu({
           "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
           "--label-gap-side": item.key === "theme" ? "0.86rem" : item.key === "delete" ? "-0.02rem" : undefined
         }}>
-                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease]" onClick={event => {
+                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center]" onClick={event => {
             item.onClick?.();
             if (!item.keepOpen) {
               closeMenu();
@@ -574,17 +589,26 @@ export default function OrbitalMenu({
               hide: true
             };
             const isActive = index === activeIndex;
+            const mobileVisualStyle = isHcContrast ? {
+              transform: "scale(1)",
+              opacity: 1,
+              "--orbit-mobile-visual-filter": "none"
+            } : {
+              transform: `scale(${v.scale})`,
+              opacity: v.opacity,
+              filter: v.blur ? `blur(${v.blur}px)` : "none"
+            };
             return <div key={item.key || index} ref={el => {
               slotRefs.current[index] = el;
-            }} data-key={item.key || undefined} className={cn("profile-orbit-mobile-row grid place-items-center snap-center h-[clamp(15.5rem,30vh,19rem)] py-[0.95rem]", isActive && "is-active", v.hide && "is-hidden pointer-events-none")}>
-                    <div className="profile-orbit-mobile-visual w-full grid place-items-center transition-[opacity,filter] duration-[180ms] ease-out [will-change:opacity,filter]" style={{
-                transform: `scale(${v.scale})`,
-                opacity: v.opacity,
-                filter: v.blur ? `blur(${v.blur}px)` : "none"
+            }} data-key={item.key || undefined} data-orbit-mobile-active={isActive ? "true" : "false"} className={cn("profile-orbit-mobile-row grid place-items-center snap-center h-[clamp(15.5rem,30vh,19rem)] py-[0.95rem]", isActive && "is-active", v.hide && "is-hidden pointer-events-none")}>
+                    <div className="profile-orbit-mobile-visual w-full grid place-items-center transition-[opacity,filter] duration-[180ms] ease-out [will-change:opacity,filter]" data-orbit-mobile-active={isActive ? "true" : "false"} style={{
+                ...mobileVisualStyle
               }}>
-                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" onPointerDown={() => {
+                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" data-orbit-mobile-active={isActive ? "true" : "false"} onPointerDown={() => {
                     applyActive(index);
-                  }} onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
+                  }} onClick={() => {
+                    onMobileAction(item);
+                  }} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
                         <span className="dock-icon w-full h-auto flex-shrink-0 grid place-items-center leading-none min-h-[clamp(2.6rem,14vw,3.8rem)]" aria-hidden="true">
                           {item.icon}
                         </span>

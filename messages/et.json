@@ -776,7 +776,7 @@
       "no_context_client": "Ma ei leidnud praegu materjalidest sellele täpset vastust. Kirjelda palun oma olukorda veidi täpsemalt ja lisa vähemalt vald või linn.",
       "no_context_worker": "Ma ei leidnud praegu materjalidest sellele täpset vastust. Palun täpsusta KOV või omavalitsus ning teenuse või olukorra tüüp."
     },
-    "empty_intro": "Tere! Kirjelda lühidalt oma küsimust või soovi. Saan anda infot, aidata koostada dokumente, toetada karjäärinõustamisel ning viia inimesi omavahel kokku.",
+    "empty_intro": "Tere! Kirjelda lühidalt oma küsimust või soovi. Saan anda infot, aidata koostada dokumente ja viia inimesi kokku.",
     "modeSelection": {
       "confirm": {
         "rag": "Sain aru, et soovid saada infot või juhendamist. Kas jätkame sellega?",

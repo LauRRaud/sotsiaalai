@@ -776,7 +776,7 @@
       "no_context_client": "I could not find an exact answer in the materials right now. Please describe your situation in a bit more detail and include at least your municipality or city.",
       "no_context_worker": "I could not find an exact answer in the materials right now. Please specify the municipality and the type of service or situation."
     },
-    "empty_intro": "Hello! Briefly describe your question or request. I can provide information, help draft documents, support career counseling, and connect people with each other.",
+    "empty_intro": "Hello! Briefly describe your question or request. I can provide information, help draft documents, and connect people.",
     "modeSelection": {
       "confirm": {
         "rag": "I understood that you want information and guidance. Shall we continue with that?",

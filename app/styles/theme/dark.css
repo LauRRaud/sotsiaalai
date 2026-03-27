@@ -243,12 +243,20 @@
   --home-title-color: #c57171;
   --home-link-color: var(--brand-primary);
 }
-:root:not(.theme-light) .profile-email-dock-wrapper .dock-item,
-:root:not(.theme-light) .profile-email-dock-wrapper .dock-item:hover,
-:root:not(.theme-light) .profile-email-dock-wrapper .dock-item:focus-visible {
+:root:not(.theme-light)
+  .profile-email-dock-wrapper:not(.profile-orbit-menu-wrapper)
+  .dock-item,
+:root:not(.theme-light)
+  .profile-email-dock-wrapper:not(.profile-orbit-menu-wrapper)
+  .dock-item:hover,
+:root:not(.theme-light)
+  .profile-email-dock-wrapper:not(.profile-orbit-menu-wrapper)
+  .dock-item:focus-visible {
   box-shadow: none;
 }
-:root:not(.theme-light) .profile-email-dock-wrapper .dock-item {
+:root:not(.theme-light)
+  .profile-email-dock-wrapper:not(.profile-orbit-menu-wrapper)
+  .dock-item {
   background: linear-gradient(
     130deg,
     rgba(12, 16, 26, 0.78),
