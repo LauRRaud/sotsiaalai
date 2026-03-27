@@ -73,7 +73,8 @@ function InstallHintSteps({ items }) {
 export default function InstallAppLink({
   variant = "list",
   heading,
-  className
+  className,
+  mobilePopoverPreferAbove = false
 }) {
   const [canInstall, setCanInstall] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -186,7 +187,11 @@ export default function InstallAppLink({
       const spaceAbove = rect.top - gap - margin;
       const fitsBelow = spaceBelow >= popRect.height;
       const fitsAbove = spaceAbove >= popRect.height;
-      const placeAbove = !fitsBelow && (fitsAbove || spaceAbove > spaceBelow);
+      const shouldPreferAbove =
+        mobilePopoverPreferAbove &&
+        (window.matchMedia?.("(max-width: 768px)")?.matches || isIOS);
+      const placeAbove =
+        shouldPreferAbove ? (fitsAbove || spaceAbove > 0) : (!fitsBelow && (fitsAbove || spaceAbove > spaceBelow));
       const top = placeAbove
         ? Math.max(rect.top - gap - popRect.height, margin)
         : Math.min(rect.bottom + gap, viewportHeight - margin - popRect.height);
@@ -219,7 +224,7 @@ export default function InstallAppLink({
       window.removeEventListener("scroll", onScroll, true);
       window.removeEventListener("resize", onResize);
     };
-  }, [helpOpen]);
+  }, [helpOpen, isIOS, mobilePopoverPreferAbove]);
 
   useEffect(() => {
     const standalone =

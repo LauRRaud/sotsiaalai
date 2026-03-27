@@ -75,11 +75,11 @@
       rgba(255, 255, 255, 0.5) 58%,
       rgba(255, 255, 255, 0.42)
     );
-  --title-color: #7a3a38;
+  --title-color: #675c57;
   --chat-icon-color: #3b3329;
-  --link-color: #7a3a38;
-  --link-gold: #7a3a38;
-  --link-gold-hover: #7a3a38;
+  --link-color: #675c57;
+  --link-gold: #675c57;
+  --link-gold-hover: #675c57;
   --btn-primary-bg:
     radial-gradient(
       82% 66% at 50% 16%,
@@ -154,15 +154,15 @@
   --input-disabled-opacity: 0.6;
   --glass-modal-title-color: var(--title-color);
   --glass-modal-title-shadow: 0 0.28rem 0.38rem rgba(0, 0, 0, 0.24);
-  --icon-btn-close-color: #7a3a38;
+  --icon-btn-close-color: #675c57;
   --icon-btn-close-size: 2.65rem;
   --seg-card-bg: rgba(255, 255, 255, 0.74);
   --seg-card-bg-hover: rgba(252, 251, 250, 0.8);
   --seg-card-bg-selected: rgba(248, 246, 245, 0.84);
 
   --seg-card-text: var(--text-strong);
-  --seg-card-text-hover: #8f5550;
-  --seg-card-text-selected: #9a5a55;
+  --seg-card-text-hover: #776762;
+  --seg-card-text-selected: #6e605b;
   --seg-card-border: transparent;
   --seg-card-border-width: 1px;
   --seg-card-radius: 999px;
@@ -170,25 +170,25 @@
   --seg-card-shadow-hover: 0 6px 13px rgba(15, 23, 42, 0.09);
   --seg-card-shadow-selected: 0 6px 13px rgba(15, 23, 42, 0.09);
   --seg-radio-bg: rgba(255, 255, 255, 0.46);
-  --seg-radio-border: rgba(122, 58, 56, 0.24);
+  --seg-radio-border: rgba(103, 92, 87, 0.24);
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
-  --seg-radio-dot-bg: #7a3a38;
+  --seg-radio-dot-bg: #675c57;
   --seg-radio-dot-shadow: none;
   --panel-secondary-bg: rgba(255, 255, 255, 0.78);
   --panel-secondary-border: rgba(190, 196, 208, 0.55);
   --panel-secondary-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
   --panel-secondary-radius: 1.1rem;
-  --subpage-card-bg: rgba(255, 251, 250, 0.62);
-  --subpage-card-bg-hover: rgba(255, 252, 251, 0.72);
+  --subpage-card-bg: rgba(253, 252, 250, 0.62);
+  --subpage-card-bg-hover: rgba(255, 254, 252, 0.72);
   --subpage-card-border: transparent;
   --subpage-card-border-hover: transparent;
-  --subpage-card-shadow: 0 12px 24px rgba(82, 50, 46, 0.08);
-  --subpage-card-shadow-hover: 0 14px 28px rgba(82, 50, 46, 0.1);
+  --subpage-card-shadow: 0 12px 24px rgba(71, 85, 105, 0.08);
+  --subpage-card-shadow-hover: 0 14px 28px rgba(71, 85, 105, 0.1);
   --subpage-card-text: #334155;
-  --opaque-panel-bg: rgba(252, 248, 247, 1);
-  --opaque-panel-bg-hover: rgba(255, 251, 250, 1);
+  --opaque-panel-bg: rgba(250, 249, 247, 1);
+  --opaque-panel-bg-hover: rgba(253, 252, 250, 1);
   --opaque-panel-border: rgba(255, 255, 255, 0.5);
-  --opaque-panel-shadow: 0 10px 24px rgba(82, 50, 46, 0.1);
+  --opaque-panel-shadow: 0 10px 24px rgba(71, 85, 105, 0.1);
   --opaque-panel-text: #334155;
   --chat-btn-idle-light: color-mix(
     in srgb,
@@ -247,9 +247,9 @@
   --home-card-surface-saturate: 104%;
   --home-card-light-opacity: 0.6;
   --home-card-dark-opacity: 0.8;
-  --home-scroll-cue-color: #7a3a38;
-  --home-title-color: #7a3a38;
-  --home-link-color: var(--link-color, #7a3a38);
+  --home-scroll-cue-color: #675c57;
+  --home-title-color: #675c57;
+  --home-link-color: var(--link-color, #675c57);
 }
 
 :root.theme-light:not(.theme-mid) .homepage-root .right-card-primary .desc-ring-right .circular-text-line,

@@ -501,6 +501,7 @@ export default function HomeAboutSection({
                   <li className={homeCircleItemClassName}>
                     <InstallAppLink
                       variant="row"
+                      mobilePopoverPreferAbove
                       className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
                     />
                   </li>
