@@ -121,7 +121,7 @@
   }
 
   :root.theme-light .glass-mobile-only-close {
-    color: var(--title-color, #675c57) !important;
+    color: #7a3a38 !important;
     opacity: 0.95 !important;
   }
 }
@@ -300,17 +300,17 @@
   :root:not(.theme-light)
     .homepage-root
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
-    --home-card-surface-bg: rgba(10, 14, 24, 0.8);
+    --home-card-surface-bg: rgba(10, 14, 24, 0.44);
   }
   :root.theme-light
     .homepage-root
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
-    --home-card-surface-bg: rgba(255, 255, 255, 0.8);
+    --home-card-surface-bg: rgba(255, 255, 255, 0.64);
   }
   :root.theme-mid
     .homepage-root
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
-    --home-card-surface-bg: rgba(24, 18, 19, 0.8);
+    --home-card-surface-bg: rgba(24, 18, 19, 0.3);
   }
   .homepage-root .three-d-card .card-blur-layer {
     opacity: 0 !important;
@@ -1248,7 +1248,7 @@
   }
 
   :root.theme-light .chat-mobile-close.chat-mobile-close--top-right {
-    color: var(--title-color, #675c57) !important;
+    color: #7a3a38 !important;
     opacity: 0.95 !important;
   }
 
@@ -1455,7 +1455,7 @@
   }
 
   :root.theme-light .drawer-panel--chat-glass .drawer-close-btn--chat {
-    color: var(--title-color, #675c57) !important;
+    color: #7a3a38 !important;
   }
 
   :root.theme-light .drawer-panel--chat-glass {

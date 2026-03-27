@@ -3,7 +3,7 @@
 }
 
 :root.theme-light .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-  --orbit-accent: var(--title-color, #675c57);
+  --orbit-accent: #7a3a38;
 }
 
 :root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
