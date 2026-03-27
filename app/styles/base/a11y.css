@@ -424,6 +424,14 @@ html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-close-btn--chat {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
+  outline: none !important;
+}
+html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-close-btn--chat:is(:hover, :focus-visible, :active) {
+  color: var(--hc-accent) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass :is(.drawer-title, .drawer-chat-sidebar, .cs-title-text, .cs-preview) {
   color: var(--hc-accent) !important;
@@ -574,11 +582,19 @@ html[data-contrast="hc"] .materials-page-shell :is(
     legend,
     li,
     a,
-    button,
+    button:not(.back-button),
     strong,
     em
   ) {
   color: var(--hc-accent) !important;
+}
+html[data-contrast="hc"] .materials-page-shell .back-button,
+html[data-contrast="hc"] .materials-page-shell .back-button:is(:hover, :focus-visible, :active) {
+  color: inherit !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 html[data-contrast="hc"] .materials-page-shell :is(textarea, input:not([type="hidden"])) {
   color: var(--hc-accent) !important;
