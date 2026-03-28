@@ -606,14 +606,19 @@ html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card .cs-open:is
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn) {
   color: var(--hc-accent) !important;
-  border: var(--btn-primary-border) !important;
+  border: 2px solid rgba(255, 234, 0, 0.66) !important;
   background: var(--btn-primary-bg) !important;
   box-shadow: var(--btn-primary-shadow) !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn):is(:hover, :focus-visible) {
-  border: var(--btn-primary-border-hover) !important;
+  border: 2px solid rgba(255, 234, 0, 0.9) !important;
   background: var(--btn-primary-bg-hover) !important;
   box-shadow: var(--btn-primary-shadow-hover) !important;
+}
+html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn):active {
+  border: 2px solid rgba(255, 234, 0, 0.95) !important;
+  background: var(--btn-primary-bg-active) !important;
+  box-shadow: var(--btn-primary-shadow-active) !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar {
   --input-border: 2px solid rgba(255, 234, 0, 0.68);
@@ -679,11 +684,12 @@ html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar .cs-dele
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar input {
   color: var(--input-text) !important;
   caret-color: var(--input-caret) !important;
-  border: var(--input-border) !important;
+  border: 2px solid rgba(255, 234, 0, 0.68) !important;
   background: var(--input-bg) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar input:is(:hover, :focus, :focus-visible, :active) {
+  border: 2px solid rgba(255, 234, 0, 0.9) !important;
   background: var(--input-bg-focus) !important;
   box-shadow: none !important;
   outline: none !important;
@@ -792,12 +798,28 @@ html[data-contrast="hc"] .subscription-content :is(button, .button, .btn):not(.b
   border-color: rgba(255, 234, 0, 0.66) !important;
   box-shadow: var(--btn-primary-shadow) !important;
 }
+html[data-contrast="hc"] .materials-page-content :is(button, .button, .btn)[data-variant="primary"]:not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button) {
+  color: var(--hc-accent) !important;
+  border: 2px solid rgba(255, 234, 0, 0.66) !important;
+  background: var(--btn-primary-bg) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+}
 html[data-contrast="hc"] .subscription-content :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):is(:hover, :focus-visible) {
   border-color: rgba(255, 234, 0, 0.9) !important;
   box-shadow: var(--btn-primary-shadow-hover) !important;
 }
+html[data-contrast="hc"] .materials-page-content :is(button, .button, .btn)[data-variant="primary"]:not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):is(:hover, :focus-visible) {
+  border: 2px solid rgba(255, 234, 0, 0.9) !important;
+  background: var(--btn-primary-bg-hover) !important;
+  box-shadow: var(--btn-primary-shadow-hover) !important;
+}
 html[data-contrast="hc"] .subscription-content :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):active {
   border-color: rgba(255, 234, 0, 0.95) !important;
+  box-shadow: var(--btn-primary-shadow-active) !important;
+}
+html[data-contrast="hc"] .materials-page-content :is(button, .button, .btn)[data-variant="primary"]:not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):active {
+  border: 2px solid rgba(255, 234, 0, 0.95) !important;
+  background: var(--btn-primary-bg-active) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }
 html[data-contrast="hc"] :is(.subscription-modal-content, .invite-modal-content, .account-settings-modal-content) :is(.back-button, .account-settings-back-button, .chat-back-button, .glass-policy-back),

@@ -4,6 +4,9 @@ import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useSta
 import SmustCenterLogo from "@/public/logo/smust-center.svg";
 import { cn } from "@/components/ui/cn";
 import "./OrbitalMenu.css";
+
+const HUB_PULSE_CYCLE_MS = 4400;
+
 function useMatchMedia(query, defaultValue = false) {
   const [matches, setMatches] = useState(defaultValue);
   useEffect(() => {
@@ -42,6 +45,7 @@ export default function OrbitalMenu({
   const useMobileStack = useMobileUi && mobileVariant === "stack";
   const useMobileDialog = useMobileOverlay || useMobileStack;
   const useOrbitLayout = !useMobileDialog;
+  const hubPulseDelayRef = useRef(-(Date.now() % HUB_PULSE_CYCLE_MS));
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const isOpen = isPinnedOpen;
@@ -486,6 +490,10 @@ export default function OrbitalMenu({
   const desktopAngleStep = useMemo(() => items.length ? 360 / items.length : 0, [items.length]);
   const desktopStartAngle = -90;
   const orbitRadiusBoost = isExpanded ? 1.14 : 1;
+  const hubPulseStyle = prefersReducedMotion ? undefined : {
+    animationDelay: `${hubPulseDelayRef.current}ms`,
+    WebkitAnimationDelay: `${hubPulseDelayRef.current}ms`
+  };
   return <div
       ref={rootRef}
       data-mobile-variant={useMobileStack ? "stack" : useMobileOverlay ? "list" : "orbit"}
@@ -554,7 +562,7 @@ export default function OrbitalMenu({
 
       {}
       <div className="profile-orbit-menu__center-shell relative grid place-items-center w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full overflow-visible z-[5]">
-        <div className="profile-orbit-menu__center-pulse relative grid place-items-center w-full h-full rounded-full overflow-visible">
+        <div className="profile-orbit-menu__center-pulse relative grid place-items-center w-full h-full rounded-full overflow-visible" style={hubPulseStyle}>
           <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [will-change:transform]" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
             <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
               <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />

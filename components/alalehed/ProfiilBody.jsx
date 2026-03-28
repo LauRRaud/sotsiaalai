@@ -1091,8 +1091,8 @@ export default function ProfiilBody({
     });
   }, [locale, onBack, router]);
   const handleMobileOrbitBack = useCallback(() => {
-    pushWithTransition(router, localizePath("/profiil", locale));
-  }, [locale, router]);
+    setOrbitOpen(false);
+  }, []);
   const mobileBackItem = {
     key: "back",
     icon: <BackIcon className="profile-orbit-back-icon h-full w-full" />,

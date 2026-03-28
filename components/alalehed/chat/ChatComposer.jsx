@@ -8,6 +8,13 @@ import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { DictateWaveIcon, HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 
+const MODE_LABEL_SHINE_BACKGROUND_DARK =
+  "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 32%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.2) 68%, rgba(255,255,255,0) 100%)";
+const MODE_LABEL_SHINE_BACKGROUND_LIGHT =
+  "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)";
+const MODE_LABEL_SHINE_BACKGROUND_HC =
+  "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0.18) 32%, rgba(255,224,44,0.98) 50%, rgba(255,224,44,0.18) 68%, rgba(255,224,44,0) 100%)";
+
 function CareerModeIcon({
   stroke,
   className,
@@ -118,6 +125,7 @@ export default function ChatComposer({
   const [toolsOpen, setToolsOpen] = useState(false);
   const [toolsMenuPosition, setToolsMenuPosition] = useState(null);
   const [composerMode, setComposerMode] = useState("chat");
+  const [isHighContrast, setIsHighContrast] = useState(false);
   const submitInFlightRef = useRef(false);
   const primaryActionHandledAtRef = useRef(0);
   const toolsButtonRef = useRef(null);
@@ -141,9 +149,11 @@ export default function ChatComposer({
     careerModeLabelRaw && careerModeLabelRaw !== "chat.tools.career_mode"
       ? careerModeLabelRaw
       : "Karj\u00E4\u00E4rin\u00F5ustamine";
-  const modeLabelShineBackground = isLightTheme
-    ? "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)"
-    : "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 32%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.2) 68%, rgba(255,255,255,0) 100%)";
+  const modeLabelShineBackground = isHighContrast
+    ? MODE_LABEL_SHINE_BACKGROUND_HC
+    : isLightTheme
+      ? MODE_LABEL_SHINE_BACKGROUND_LIGHT
+      : MODE_LABEL_SHINE_BACKGROUND_DARK;
   const subtleModeLabel =
     composerMode === "deep_research"
       ? t("chat.tools.deep_research")
@@ -175,6 +185,21 @@ export default function ChatComposer({
       onCancelDeepResearchMode?.();
     }
   }, [composerMode, hideTools, onCancelDeepResearchMode]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const html = document.documentElement;
+    const applyContrast = () => {
+      setIsHighContrast(html.getAttribute("data-contrast") === "hc");
+    };
+    applyContrast();
+    const observer = new MutationObserver(applyContrast);
+    observer.observe(html, {
+      attributes: true,
+      attributeFilter: ["data-contrast"]
+    });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!toolsOpen) return;
