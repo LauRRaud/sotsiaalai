@@ -12,28 +12,41 @@
 }
 
 :root.theme-night {
-  --chat-ui-solid-surface: rgb(14, 20, 32);
-  --chat-rail-tooltip-bg: var(--chat-ui-solid-surface);
-  --chat-tools-panel-bg: var(--chat-ui-solid-surface);
-  --chat-upload-picker-bg: var(--chat-ui-solid-surface);
-  --rail-tooltip-bg: var(--subpage-card-bg);
+  --chat-ui-solid-surface: rgb(18, 26, 40);
+  --chat-rail-tooltip-bg: rgb(18, 26, 40);
+  --chat-tools-panel-bg: rgb(18, 26, 40);
+  --chat-upload-picker-bg: rgb(18, 26, 40);
+  --rail-tooltip-bg: rgb(18, 26, 40);
   --rail-tooltip-border: var(--subpage-card-border);
   --rail-tooltip-shadow: var(--subpage-card-shadow);
   --rail-tooltip-text: var(--subpage-card-text);
-  --chat-tools-item-hover-bg: rgba(25, 30, 40, 0.98);
+  --chat-tools-item-hover-bg: rgba(197, 113, 113, 0.1);
+  --glass-analysis-bg: rgb(18, 26, 40);
   --subscription-error-color: rgba(214, 226, 245, 0.9);
-  --subpage-card-bg: rgba(14, 20, 32, 0.54);
-  --subpage-card-bg-hover: rgba(17, 24, 38, 0.6);
-  --subpage-card-border: rgba(150, 180, 218, 0.09);
-  --subpage-card-border-hover: rgba(150, 180, 218, 0.13);
-  --subpage-card-shadow: 0 10px 22px rgba(2, 6, 16, 0.18);
-  --subpage-card-shadow-hover: 0 12px 26px rgba(2, 6, 16, 0.24);
+  --subpage-card-bg: var(--input-flat-bg);
+  --subpage-card-bg-hover: var(--input-flat-bg-hover);
+  --subpage-card-border: transparent;
+  --subpage-card-border-hover: transparent;
+  --subpage-card-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --subpage-card-shadow-hover: 0 12px 26px rgba(0, 0, 0, 0.24);
   --subpage-card-text: rgba(234, 238, 245, 0.94);
-  --opaque-panel-bg: rgba(14, 20, 32, 1);
-  --opaque-panel-bg-hover: rgba(17, 24, 38, 1);
-  --opaque-panel-border: rgba(150, 180, 218, 0.13);
-  --opaque-panel-shadow: 0 12px 26px rgba(2, 6, 16, 0.24);
+  --opaque-panel-bg: rgb(18, 26, 40);
+  --opaque-panel-bg-hover: rgb(22, 32, 48);
+  --opaque-panel-border: rgba(126, 154, 196, 0.13);
+  --opaque-panel-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
   --opaque-panel-text: rgba(234, 238, 245, 0.94);
+  --drawer-card-border: transparent;
+  --drawer-card-border-hover: transparent;
+  --drawer-card-border-active: transparent;
+  --drawer-card-bg: var(--subpage-card-bg);
+  --drawer-card-bg-hover: var(--subpage-card-bg-hover);
+  --drawer-card-bg-active: var(--subpage-card-bg-hover);
+  --drawer-card-shadow: var(--subpage-card-shadow);
+  --drawer-card-shadow-hover: var(--subpage-card-shadow-hover);
+  --drawer-card-shadow-active: var(--subpage-card-shadow-hover);
+  --drawer-delete-border: var(--opaque-panel-border);
+  --drawer-delete-bg: var(--opaque-panel-bg);
+  --drawer-delete-text: var(--opaque-panel-text);
   --btn-primary-hover-brightness: 1.038;
   --btn-base-bg-dark: linear-gradient(
     180deg,
@@ -117,6 +130,8 @@
     ),
     rgba(24, 34, 50, 0.76);
   --form-surface-active: var(--form-surface-hover);
+  --input-flat-bg: rgba(18, 26, 40, 0.64);
+  --input-flat-bg-hover: rgba(22, 32, 48, 0.74);
 
   --input-shadow:
     0 5.5px 15px rgba(0, 0, 0, 0.22),
@@ -140,7 +155,7 @@
   --input-shadow: none;
   --input-shadow-hover: none;
   --materials-panel-shadow: none;
-  --panel-secondary-bg: rgba(12, 24, 42, 0.58);
+  --panel-secondary-bg: var(--input-flat-bg);
   --panel-secondary-border: rgba(170, 204, 245, 0.22);
   --panel-secondary-shadow: none;
 }

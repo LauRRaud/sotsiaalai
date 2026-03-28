@@ -29,6 +29,8 @@ const helpPopoverClassName =
   "login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] " +
   "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border border-[color:var(--subpage-card-border)] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] backdrop-saturate-[120%]";
 const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const otpModalTitleClassName =
+  "!text-[clamp(1.8rem,1.2rem+1.08vw,2.2rem)] max-md:!text-[clamp(1.78rem,6.6vw,2.18rem)] max-md:!leading-[1.06]";
 const otpTextClassName = "text-[color:var(--otp-copy-text)]";
 const otpInfoTextClassName = "text-[color:var(--otp-copy-strong)]";
 const MODAL_FOCUSABLE_SELECTOR = [
@@ -1271,7 +1273,7 @@ export default function LoginModal({
             <div
               className={`${modalTitleClassName} ${
                 isOtpStep
-                  ? "!text-[clamp(1.86rem,1.36rem+1.25vw,2.3rem)] max-md:!text-[clamp(2.1rem,8.8vw,2.9rem)]"
+                  ? otpModalTitleClassName
                   : ""
               } ${androidModalTitleClassName}`}
             >
@@ -1505,7 +1507,7 @@ export default function LoginModal({
               {showPinMessage ? messageText : null}
             </div>
 
-            <div className="text-center mt-[-0.2rem] mb-[0.08rem]">
+            <div className="text-center mt-[0.08rem] max-md:mt-[0.02rem] mb-[0.08rem]">
               <button type="button" className={`${inlineLinkClassName} ${androidPinToggleClassName} pin-layout-toggle`} onClick={e => {
                 toggleKeypad();
                 if (e.detail !== 0) clearButtonFocus(e.currentTarget);
@@ -1556,7 +1558,7 @@ export default function LoginModal({
             <div className="w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] flex flex-col items-center mt-[1.28rem] max-[768px]:mt-[0.88rem]">
               <Button type="submit" variant="primary" className={otpSubmitButtonClassName} disabled={otpLoading}>
                 <span className={otpSubmitLabelClassName}>
-                  {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
+                  {t("auth.login.otp_submit")}
                 </span>
               </Button>
 
@@ -1591,7 +1593,7 @@ export default function LoginModal({
           </form>}
 
         {!isOtpStep && <>
-            <div className="text-center mt-[-0.2rem] max-md:mt-[-0.08rem] mb-[0.04rem] max-md:mb-[0.04rem]">
+            <div className="text-center mt-[-0.32rem] max-md:mt-[-0.16rem] mb-[0.04rem] max-md:mb-[0.04rem]">
               <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)] ${androidRegisterLinkClassName}`}>
                 {t("auth.login.register_link")}
               </AppLink>

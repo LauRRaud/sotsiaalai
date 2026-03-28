@@ -37,29 +37,27 @@
   --glass-surface-bg: rgba(251, 252, 253, 0.52);
   --glass-ring-surface-bg: rgba(247, 248, 250, 0.74);
   --glass-surface-text: #2b2620;
-  --chat-ui-solid-surface: rgb(253, 253, 252);
-  --chat-rail-tooltip-bg: var(--chat-ui-solid-surface);
-  --chat-tools-panel-bg: var(--chat-ui-solid-surface);
-  --chat-upload-picker-bg: var(--chat-ui-solid-surface);
+  --chat-ui-solid-surface: rgb(247, 248, 248);
+  --chat-rail-tooltip-bg: rgb(247, 248, 248);
+  --chat-tools-panel-bg: rgb(247, 248, 248);
+  --chat-upload-picker-bg: rgb(247, 248, 248);
   --chat-invite-surface: var(--subpage-card-bg);
   --chat-invite-surface-hover: var(--subpage-card-bg-hover);
   --chat-invite-list-border: var(--subpage-card-border);
   --chat-invite-shadow: var(--subpage-card-shadow);
   --chat-invite-text: var(--subpage-card-text);
-  --glass-modal-bg: var(--chat-invite-surface);
+  --glass-modal-bg: var(--glass-ring-surface-bg);
   --glass-modal-text: var(--chat-invite-text);
   --glass-modal-border: none;
   --glass-modal-shadow: var(--chat-invite-shadow);
-  --rail-tooltip-bg: var(--chat-invite-surface);
+  --rail-tooltip-bg: rgb(247, 248, 248);
   --rail-tooltip-border: var(--chat-invite-list-border);
   --rail-tooltip-shadow: var(--chat-invite-shadow);
   --rail-tooltip-text: var(--chat-invite-text);
-  --chat-tools-item-hover-bg: rgba(15, 23, 42, 0.06);
-  --glass-analysis-bg: rgba(255, 255, 255, 0.18);
-  --glass-analysis-border: rgba(255, 255, 255, 0.28);
-  --glass-analysis-shadow:
-    0 18px 34px rgba(5, 8, 15, 0.26),
-    0 8px 18px rgba(255, 255, 255, 0.08);
+  --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.08);
+  --glass-analysis-bg: rgb(247, 248, 248);
+  --glass-analysis-border: var(--opaque-panel-border);
+  --glass-analysis-shadow: var(--opaque-panel-shadow);
   --glass-analysis-text: #1f1b16;
   --text-strong: #222222;
   --footer-text-muted: #d3d3d3;
@@ -134,6 +132,8 @@
   --input-bg: rgba(252, 253, 255, 0.89);
   --input-bg-hover: rgba(255, 255, 255, 0.94);
   --input-bg-focus: rgba(255, 255, 255, 0.96);
+  --input-flat-bg: rgb(252, 253, 255);
+  --input-flat-bg-hover: rgb(255, 255, 255);
   --input-text: #1f2937;
   --input-caret: #1f2937;
   --input-border: 1px solid transparent;
@@ -166,19 +166,19 @@
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
   --seg-radio-dot-bg: #7a3a38;
   --seg-radio-dot-shadow: none;
-  --panel-secondary-bg: rgba(255, 255, 255, 0.78);
+  --panel-secondary-bg: rgba(251, 252, 254, 0.87);
   --panel-secondary-border: rgba(190, 196, 208, 0.55);
   --panel-secondary-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
   --panel-secondary-radius: 1.1rem;
-  --subpage-card-bg: rgba(251, 252, 255, 0.62);
-  --subpage-card-bg-hover: rgba(253, 254, 255, 0.72);
+  --subpage-card-bg: rgba(251, 252, 254, 0.87);
+  --subpage-card-bg-hover: rgba(252, 253, 255, 0.92);
   --subpage-card-border: transparent;
   --subpage-card-border-hover: transparent;
   --subpage-card-shadow: 0 12px 24px rgba(82, 50, 46, 0.08);
   --subpage-card-shadow-hover: 0 14px 28px rgba(82, 50, 46, 0.1);
   --subpage-card-text: #334155;
-  --opaque-panel-bg: rgba(248, 250, 252, 1);
-  --opaque-panel-bg-hover: rgba(251, 253, 255, 1);
+  --opaque-panel-bg: rgb(247, 248, 248);
+  --opaque-panel-bg-hover: rgb(250, 251, 251);
   --opaque-panel-border: rgba(255, 255, 255, 0.5);
   --opaque-panel-shadow: 0 10px 24px rgba(82, 50, 46, 0.1);
   --opaque-panel-text: #334155;
@@ -297,14 +297,14 @@
 :root.theme-light .drawer-panel .drawer-chat-card,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li {
   border-color: transparent !important;
-  background: rgba(255, 253, 252, 0.8) !important;
-  box-shadow: none;
+  background: var(--subpage-card-bg) !important;
+  box-shadow: var(--subpage-card-shadow) !important;
 }
 :root.theme-light .drawer-panel .drawer-chat-card.drawer-chat-card--active,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li.drawer-chat-card--active {
   border-color: transparent !important;
-  background: rgba(255, 253, 252, 0.8) !important;
-  box-shadow: none;
+  background: var(--subpage-card-bg-hover, var(--subpage-card-bg)) !important;
+  box-shadow: var(--subpage-card-shadow-hover, var(--subpage-card-shadow)) !important;
 }
 :root.theme-light .drawer-close {
   color: var(--title-color);
@@ -378,14 +378,17 @@
   background: rgba(255, 255, 255, 0.65);
 }
 :root.theme-light .drawer-panel .cs-delete {
-  color: rgba(52, 56, 64, 0.8);
-  border-color: rgba(52, 56, 64, 0.35);
+  color: var(--opaque-panel-text);
+  border-color: var(--opaque-panel-border);
+  background: var(--opaque-panel-bg);
+  box-shadow: var(--opaque-panel-shadow);
 }
 :root.theme-light .drawer-panel .cs-delete:hover,
 :root.theme-light .drawer-panel .cs-delete:focus-visible {
-  color: rgba(35, 38, 46, 0.95);
+  color: #6b1d1d;
   border-color: rgba(52, 56, 64, 0.45);
-  box-shadow: none;
+  background: rgba(255, 235, 235, 1);
+  box-shadow: var(--opaque-panel-shadow);
 }
 :root.theme-light .drawer-panel .cs-trash-icon {
   stroke: currentColor;

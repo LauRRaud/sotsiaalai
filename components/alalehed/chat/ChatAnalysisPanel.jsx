@@ -7,11 +7,16 @@ import OptionCard from "@/components/ui/OptionCard";
 import { cn } from "@/components/ui/cn";
 
 const docToggleCardClassName =
-  "w-auto min-w-0 !min-h-[3.2rem] !px-[1rem] !py-[0.8rem] !text-[1.2rem] !leading-[1.2] " +
-  "[--seg-card-radius:999px] [--seg-control-size:24px] [--seg-check-size:20px] " +
-  "[--seg-card-bg:var(--rail-tooltip-bg)] [--seg-card-bg-hover:var(--rail-tooltip-bg)] [--seg-card-bg-selected:var(--rail-tooltip-bg)] " +
-  "[--seg-card-text:var(--rail-tooltip-text,var(--glass-modal-text))] [--seg-card-text-hover:var(--rail-tooltip-text,var(--glass-modal-text))] [--seg-card-text-selected:var(--rail-tooltip-text,var(--glass-modal-text))] " +
-  "[--seg-card-border:var(--rail-tooltip-border)] [--seg-card-shadow:var(--rail-tooltip-shadow)] [--seg-card-shadow-hover:var(--rail-tooltip-shadow)] [--seg-card-shadow-selected:var(--rail-tooltip-shadow)]";
+  "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
+  "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
+  "[&>span.shrink-0]:-translate-y-[0.08rem] " +
+  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
+  "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
+  "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
+  "[--seg-card-border:transparent] [--seg-card-border-width:0px] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 focus-visible:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] " +
+  "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)] " +
+  "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
   analysisPanelRef,
@@ -31,6 +36,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   extendedLabel,
   contextHint,
   inputRef,
+  chatWindowRef,
   onPickFile,
   setUploadPreview,
   setUploadError,
@@ -41,8 +47,11 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
 }) {
   const previewRef = useRef(null);
   const scrollTrackRef = useRef(null);
+  const contextHintWrapRef = useRef(null);
   const isDraggingScroll = useRef(false);
+  const touchStartYRef = useRef(null);
   const [previewScroll, setPreviewScroll] = useState(0);
+  const [contextHintOpen, setContextHintOpen] = useState(false);
   useEffect(() => {
     function updateScrollFromClientY(clientY) {
       const track = scrollTrackRef.current;
@@ -93,6 +102,43 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       window.removeEventListener("touchcancel", handleTouchEnd);
     };
   }, []);
+  useEffect(() => {
+    if (!contextHintOpen) return undefined;
+    function handlePointerDown(event) {
+      const node = contextHintWrapRef.current;
+      if (!node || node.contains(event.target)) return;
+      setContextHintOpen(false);
+    }
+    function handleKeyDown(event) {
+      if (event.key === "Escape") setContextHintOpen(false);
+    }
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [contextHintOpen]);
+  const handlePreviewTouchStart = event => {
+    const touch = event.touches?.[0];
+    touchStartYRef.current = touch?.clientY ?? null;
+  };
+  const handlePreviewTouchMove = event => {
+    const touch = event.touches?.[0];
+    const startY = touchStartYRef.current;
+    const node = previewRef.current;
+    const chatNode = chatWindowRef?.current;
+    if (!touch || startY == null || !node || !chatNode) return;
+    const deltaY = touch.clientY - startY;
+    const atTop = node.scrollTop <= 0;
+    if (!atTop || deltaY <= 0) return;
+    event.preventDefault();
+    chatNode.scrollTop = Math.max(0, chatNode.scrollTop - deltaY);
+    touchStartYRef.current = touch.clientY;
+  };
+  const handlePreviewTouchEnd = () => {
+    touchStartYRef.current = null;
+  };
   const panelBaseClassName =
     "w-full max-w-[min(90vw,24rem)] px-0 mx-auto " +
     "mt-[clamp(0.3rem,0.8vw,0.5rem)] mb-[clamp(1.2rem,3vw,2rem)] " +
@@ -108,13 +154,15 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+7.15rem+var(--chat-vk-offset,0px))] " +
     "max-[768px]:w-[min(88vw,24rem)]";
   const cardOverlayClassName =
-    "chat-analysis-overlay-card !isolation-auto !border-0";
+    "chat-analysis-overlay-card !isolation-auto";
   const cardClassName =
-    "w-full max-w-none rounded-[1.5em] border-0 " +
-    "bg-[color:var(--analysis-card-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg)))] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] " +
-    "[--analysis-card-pad-y:clamp(0.65rem,2vw,1rem)] " +
-    "[--analysis-card-pad-x:clamp(0.8rem,2.6vw,1.6rem)] " +
-    "[--analysis-card-pad-b:clamp(0.9rem,2.6vw,1.4rem)] " +
+    "w-full max-w-none rounded-[1.55rem] border border-[color:var(--subpage-card-border,var(--chat-tools-panel-border,var(--glass-modal-border,rgba(255,255,255,0.14))))] " +
+    "bg-[color:var(--glass-analysis-bg,var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))))))] text-[color:var(--glass-analysis-text,var(--chat-tools-panel-text,var(--opaque-panel-text,var(--subpage-card-text,var(--glass-surface-text,#f2f2f2)))))] " +
+    "shadow-[var(--glass-analysis-shadow,var(--chat-tools-panel-shadow,var(--opaque-panel-shadow,var(--subpage-card-shadow,var(--glass-shell-shadow,none)))))] backdrop-blur-0 " +
+    "[-webkit-backdrop-filter:none] " +
+    "[--analysis-card-pad-y:clamp(0.7rem,1.95vw,1.05rem)] " +
+    "[--analysis-card-pad-x:clamp(0.85rem,2.5vw,1.65rem)] " +
+    "[--analysis-card-pad-b:clamp(0.95rem,2.7vw,1.45rem)] " +
     "p-[var(--analysis-card-pad-y)_var(--analysis-card-pad-x)_var(--analysis-card-pad-b)] " +
     "tracking-[0.035em] text-rendering-geometricPrecision isolate " +
     "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto";
@@ -125,19 +173,16 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "w-full min-w-0 text-center pt-[0.1rem] px-[0.2rem] pr-[3rem]";
   const fileNameClassName =
     "text-[1.25rem] font-[600] leading-[1.28] tracking-[0.04em] [overflow-wrap:anywhere] break-words " +
-    "text-[rgba(226,232,240,0.96)] " +
-    "light:text-[#111827]";
+    "text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
   const closeClassName =
     "chat-analysis-close-btn absolute top-[0.18rem] right-[0.18rem] grid place-items-center z-[220] rounded-none border-0 bg-transparent " +
-    "h-[2.1rem] w-[2.1rem] text-[2.2rem] leading-none text-[#c57171] light:text-[#7a3a38] " +
+    "h-[2.1rem] w-[2.1rem] text-[2.2rem] leading-none text-[color:var(--title-color,var(--brand-primary))] " +
     "pointer-events-auto max-[768px]:h-[2.45rem] max-[768px]:w-[2.45rem] max-[768px]:text-[2.35rem]";
   const bodyClassName =
     "relative z-[120] flex flex-col gap-[0.95rem] text-[1.08rem] leading-[1.85] " +
-    "tracking-[0.02em] text-[rgba(226,232,240,0.92)] " +
-    "light:text-[#1f2937]";
+    "tracking-[0.02em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
   const statusClassName =
-    "text-[1.02rem] opacity-95 tracking-[0.02em] text-center text-[rgba(226,232,240,0.92)] " +
-    "light:text-[#1f2937]";
+    "text-[1.02rem] opacity-95 tracking-[0.02em] text-center text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
   const errorClassName =
     "text-[1.02rem] tracking-[0.02em] text-center text-[#fecaca] " +
     "light:text-[#b91c1c]";
@@ -151,20 +196,24 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex items-center justify-center gap-[0.5rem] flex-nowrap max-[480px]:flex-wrap";
   const actionsInlineClassName =
     "w-full flex justify-center gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
-  const jumpClassName = "whitespace-nowrap";
+  const uploadButtonClassName =
+    "documents-primary-button documents-primary-button--compact documents-upload-choose-button";
+  const actionPrimaryButtonClassName =
+    "documents-primary-button documents-primary-button--compact";
+  const actionSecondaryButtonClassName = "documents-secondary-button";
   const previewWrapClassName =
     "relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
     "ml-[calc(-1*var(--analysis-card-pad-x))] mr-[calc(-1*var(--analysis-card-pad-x))]";
   const previewClassName =
     "relative flex-1 min-h-[260px] max-h-[clamp(38rem,80vh,70rem)] " +
-    "rounded-[1.2rem] border-0 bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg))] " +
+    "rounded-[1.2rem] border border-[color:var(--opaque-panel-border,var(--rail-tooltip-border,var(--subpage-card-border,transparent)))] bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))))] " +
     "pl-[var(--analysis-preview-pad-x)] pr-[var(--analysis-preview-pad-right)] " +
     "py-[clamp(0.28rem,1vw,0.6rem)] " +
     "[--analysis-preview-pad-x:clamp(0.75rem,2.2vw,1.35rem)] " +
     "[--analysis-preview-pad-right:clamp(0.2rem,0.9vw,0.6rem)] " +
-    "overflow-y-auto overflow-x-hidden [overscroll-behavior-x:none] [touch-action:pan-y] " +
+    "overflow-y-auto overflow-x-hidden overscroll-contain [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:none] [overscroll-behavior-y:contain] [touch-action:pan-y] " +
     "text-[1.18rem] leading-[1.92] tracking-[0.02em] " +
-    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
+    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--subpage-card-text,var(--glass-surface-text,#f2f2f2))))] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
     "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
     "light:bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg))] light:text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))]";
@@ -184,13 +233,11 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "!min-h-[2.5rem] !h-[2.5rem] !w-[2.5rem] !px-0 !py-0 !rounded-full " +
     "!text-[1.15rem] !leading-[1] !tracking-[-0.02em]";
   const tooltipClassName =
-    "absolute left-1/2 bottom-[calc(100%+0.35rem)] -translate-x-1/2 " +
-    "min-w-[14rem] max-w-[90vw] rounded-[0.9rem] px-[0.5rem] py-[0.75rem] " +
-    "bg-[color:var(--rail-tooltip-bg)] text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2))] text-[1.02rem] " +
-    "leading-[1.4] tracking-[0.02em] text-center shadow-[var(--rail-tooltip-shadow)] " +
-    "opacity-0 pointer-events-none transition-[opacity,transform] duration-200 z-[9999] " +
-    "group-hover:opacity-100 group-hover:-translate-y-[0.15rem] " +
-    "group-focus-within:opacity-100 group-focus-within:-translate-y-[0.15rem]";
+    "absolute left-1/2 bottom-[calc(100%+0.45rem)] -translate-x-1/2 " +
+    "min-w-[14rem] max-w-[min(18rem,90vw)] rounded-[0.95rem] px-[0.7rem] py-[0.75rem] " +
+    "bg-[color:var(--rail-tooltip-bg)] text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2))] text-[0.98rem] " +
+    "leading-[1.42] tracking-[0.01em] text-center shadow-[var(--rail-tooltip-shadow)] border border-[color:var(--rail-tooltip-border,transparent)] " +
+    "z-[9999]";
   const tooltipArrowClassName =
     "absolute left-1/2 -translate-x-1/2 bottom-[-0.25rem] h-[0.55rem] w-[0.55rem] " +
     "rotate-45 bg-[color:var(--rail-tooltip-bg)]";
@@ -217,7 +264,6 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       <div
         className={cn(
           cardClassName,
-          !uploadPreview ? "[--analysis-card-bg:var(--chat-upload-picker-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg)))] [--opaque-panel-bg:var(--chat-upload-picker-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg)))]" : null,
           analysisPanelMode === "overlay" ? cardOverlayClassName : null
         )}
       >
@@ -230,25 +276,13 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
           x
         </button>
         <header className={headerClassName}>
-          {uploadPreview ? (
-            <div className={titleBlockClassName}>
-              <div className={fileNameClassName}>
-                {prettifyFileName(uploadPreview.fileName)}
-              </div>
-              {uploadedFilesCount ? (
-                <div className={metaClassName}>
-                  {t("chat.upload.files_selected")
-                    .replace("{count}", String(uploadedFilesCount))
-                    .replace("{limit}", String(uploadFileLimit || uploadedFilesCount))}
+              {uploadPreview ? (
+                <div className={titleBlockClassName}>
+                  <div className={fileNameClassName}>
+                    {prettifyFileName(uploadPreview.fileName)}
+                  </div>
                 </div>
               ) : null}
-              {uploadedFilesCount > 1 && uploadedFileNames?.length ? (
-                <div className={metaClassName}>
-                  {uploadedFileNames.map(name => prettifyFileName(name)).join(", ")}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
         </header>
         <div className={bodyClassName}>
           {uploadBusy ? (
@@ -276,26 +310,31 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                   >
                     {extendedLabel}
                   </OptionCard>
-                  <div className="group relative z-[999]">
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="primary"
-                      className={contextButtonClassName}
-                      aria-label={contextHint}
-                      onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
-                    >
-                      ?
-                    </Button>
-                    <span className={tooltipClassName}>
+                <div ref={contextHintWrapRef} className="relative z-[999]">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="primary"
+                    className={contextButtonClassName}
+                    aria-label={contextHint}
+                    aria-expanded={contextHintOpen ? "true" : "false"}
+                    aria-describedby={contextHintOpen ? "chat-upload-context-hint" : undefined}
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setContextHintOpen(prev => !prev);
+                    }}
+                  >
+                    ?
+                  </Button>
+                  {contextHintOpen ? (
+                    <div className={tooltipClassName} role="status" aria-live="polite">
                       {contextHint}
                       <span className={tooltipArrowClassName} aria-hidden="true" />
-                    </span>
-                  </div>
+                    </div>
+                  ) : null}
                 </div>
+              </div>
               </div>
               <p id="chat-upload-context-hint" className="sr-only">
                 {contextHint}
@@ -306,7 +345,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                     type="button"
                     size="sm"
                     variant="primary"
-                    className={jumpClassName}
+                    className={actionPrimaryButtonClassName}
                     onClick={() => {
                       inputRef.current?.focus();
                       inputRef.current?.scrollIntoView({
@@ -322,8 +361,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                   <Button
                     type="button"
                     size="sm"
-                    variant="primary"
-                    className={jumpClassName}
+                    variant="ghost"
+                    className={actionSecondaryButtonClassName}
                     onClick={toggleAnalysisCollapse}
                   >
                     {analysisCollapsed
@@ -343,6 +382,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                     style={{
                       paddingTop: "clamp(2rem,4.2vh,2.9rem)"
                     }}
+                    onTouchStart={handlePreviewTouchStart}
+                    onTouchMove={handlePreviewTouchMove}
+                    onTouchEnd={handlePreviewTouchEnd}
+                    onTouchCancel={handlePreviewTouchEnd}
                     onScroll={() => {
                       const node = previewRef.current;
                       if (!node) return;
@@ -463,7 +506,19 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                         event.preventDefault();
                       }}
                     >
-                      <SotsiaalAILoader size="1rem" animated={false} ariaHidden />
+                      <SotsiaalAILoader
+                        size="1rem"
+                        color="#d09a9a"
+                        redStops={{
+                          s0: "#ddbbb5",
+                          s25: "#b77f78",
+                          s50: "#7a403c",
+                          s75: "#512725",
+                          s100: "#2f1515"
+                        }}
+                        animated={false}
+                        ariaHidden
+                      />
                     </div>
                   </div>
                 </div>
@@ -475,29 +530,19 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                 type="button"
                 size="sm"
                 variant="primary"
+                className={uploadButtonClassName}
                 onClick={onPickFile}
                 disabled={uploadBusy || isGenerating}
               >
                 {t("chat.upload.aria")}
               </Button>
-              <p className={metaClassName}>
-                {uploadUsage?.limit
-                  ? t("chat.upload.usage")
-                      .replace(
-                        "{used}",
-                        String(
-                          Math.max(
-                            0,
-                            Math.min(
-                              uploadUsage.used ?? 0,
-                              uploadUsage.limit ?? Infinity
-                            )
-                          )
-                        )
-                      )
-                      .replace("{limit}", String(uploadUsage.limit ?? 0))
-                  : ""}
-              </p>
+              {uploadUsage || uploadFileLimit ? (
+                <div className={metaClassName}>
+                  {t("chat.upload.usage")
+                    .replace("{used}", String(uploadUsage?.used ?? 0))
+                    .replace("{limit}", String(uploadUsage?.limit ?? uploadFileLimit ?? 0))}
+                </div>
+              ) : null}
             </div>
           )}
         </div>

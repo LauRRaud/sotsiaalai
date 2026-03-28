@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
-import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import { cn } from "@/components/ui/cn";
 const modalOverlayClassName =
   "modal-confirm-overlay !bg-[rgba(8,10,16,0.66)] !backdrop-blur-0 !backdrop-saturate-100";
@@ -16,11 +15,8 @@ const modalContentClassName =
 const modalMessageClassName = "text-center text-[1.14rem] leading-[1.42] tracking-[0.012em] !text-[color:var(--chat-tools-panel-text,var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-modal-text))))]";
 const modalActionsClassName = "flex flex-wrap justify-center gap-2";
 const modalBusyWrapClassName = "flex justify-center py-[0.2rem]";
-const modalBusyCardClassName =
-  "relative flex min-h-[8.4rem] w-fit min-w-[clamp(9.2rem,17vw,11rem)] flex-col items-center justify-center gap-[0.85rem] rounded-[1.05rem] " +
-  "border border-[color:var(--chat-tools-panel-border,var(--opaque-panel-border,var(--rail-tooltip-border)))] bg-[color:var(--chat-tools-panel-bg,var(--chat-rail-tooltip-bg,var(--rail-tooltip-bg,var(--opaque-panel-bg,var(--subpage-card-bg)))))] px-[1rem] py-[0.95rem] " +
-  "shadow-[var(--chat-tools-panel-shadow,var(--opaque-panel-shadow,var(--rail-tooltip-shadow)))]";
-const modalBusyTextClassName = "text-center text-[1rem] leading-[1.25] font-medium tracking-[0.01em] !text-[color:var(--chat-tools-panel-text,var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-modal-text))))]";
+const modalBusyTextClassName =
+  "text-center text-[1rem] leading-[1.35] font-medium tracking-[0.01em] !text-[color:var(--chat-tools-panel-text,var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-modal-text))))]";
 export default function ModalConfirm({
   message,
   children = null,
@@ -55,12 +51,7 @@ export default function ModalConfirm({
       {!busy ? <p className={modalMessageClassName}>{message}</p> : null}
       {!busy && children ? children : null}
       {busy ? <div className={modalBusyWrapClassName} role="status" aria-live="polite" aria-atomic="true">
-          <div className={modalBusyCardClassName}>
-            <div className="flex flex-col items-center gap-[0.7rem]">
-              <SotsiaalAILoader size="clamp(2.95rem,5.7vw,3.35rem)" showBottomBall={false} ariaHidden />
-              {busyLabel ? <span className={modalBusyTextClassName}>{busyLabel}</span> : null}
-            </div>
-          </div>
+          {busyLabel ? <span className={modalBusyTextClassName}>{busyLabel}</span> : null}
         </div> : <div className={cn(modalActionsClassName, actionsClassName)}>
           <Button type="button" size="sm" variant={confirmVariant} onClick={onConfirm} disabled={disabled} className="min-w-[6.6rem]">
             <span>{confirmLabel}</span>

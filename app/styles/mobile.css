@@ -8,18 +8,18 @@
     --glass-surface-bg: rgba(251, 252, 253, 0.44);
     --glass-ring-surface-bg: rgba(247, 248, 250, 0.62);
     --glass-modal-bg: rgba(250, 251, 253, 0.48);
-    --panel-secondary-bg: rgba(255, 255, 255, 0.68);
-    --subpage-card-bg: rgba(251, 252, 255, 0.5);
-    --subpage-card-bg-hover: rgba(253, 254, 255, 0.58);
+    --panel-secondary-bg: rgba(255, 255, 255, 0.78);
+    --subpage-card-bg: var(--input-flat-bg, var(--input-bg));
+    --subpage-card-bg-hover: var(--input-flat-bg-hover, var(--input-bg-hover));
   }
 
   :root.theme-mid {
     --glass-surface-bg: rgba(253, 250, 249, 0.42);
     --glass-ring-surface-bg: rgba(252, 248, 247, 0.48);
     --glass-modal-bg: rgba(252, 248, 247, 0.46);
-    --panel-secondary-bg: rgba(252, 248, 247, 0.38);
-    --subpage-card-bg: rgba(252, 248, 247, 0.42);
-    --subpage-card-bg-hover: rgba(253, 249, 248, 0.48);
+    --panel-secondary-bg: rgba(252, 248, 247, 0.44);
+    --subpage-card-bg: var(--input-flat-bg, var(--input-bg));
+    --subpage-card-bg-hover: var(--input-flat-bg-hover, var(--input-bg-hover));
   }
 
   :root.theme-light body.homepage {
@@ -1418,7 +1418,7 @@
     margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
     border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;
     border: 0 !important;
-    background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) !important;
+    background: var(--input-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
     box-shadow: none !important;
     -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
     backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;

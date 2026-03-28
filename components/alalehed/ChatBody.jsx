@@ -1794,6 +1794,7 @@ export default function ChatBody({
     extendedLabel,
     contextHint,
     inputRef,
+    chatWindowRef,
     onPickFile: analysis.onPickFile,
     setUploadPreview: analysis.setUploadPreview,
     setUploadError: analysis.setUploadError,
@@ -1820,6 +1821,7 @@ export default function ChatBody({
       "main-content glass-ring chat-container chat-container--round " +
         "glass-ring--desktop-stable " +
         "relative z-[21] min-h-0 [overflow-anchor:none] light:text-[#1f2937] " +
+        "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] " +
         "[scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
         "[&::-webkit-scrollbar-track]:bg-transparent " +
         "[&>:not(.chat-mask-layer):not(.chat-mask-tilt-fallback):not(.top-nav--chat):not(.chat-mobile-topnav):not(.chat-left-actions):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button):not(.chat-analysis-overlay)]:z-[1] " +

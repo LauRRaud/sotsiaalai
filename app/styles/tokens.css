@@ -206,14 +206,16 @@
   --seg-radio-dot-bg: var(--form-accent, rgba(248, 253, 255, 0.9));
   --seg-radio-dot-shadow: 0 0 8px rgba(248, 253, 255, 0.28);
 
-  --panel-secondary-bg: rgba(255, 255, 255, 0.05);
+  --input-flat-bg: var(--input-bg);
+  --input-flat-bg-hover: var(--input-bg-hover);
+  --panel-secondary-bg: var(--input-flat-bg);
   --panel-secondary-border: rgba(148, 163, 184, 0.18);
   --panel-secondary-shadow: none;
   --panel-secondary-radius: 1.1rem;
-  --subpage-card-bg: rgba(24, 28, 36, 0.46);
-  --subpage-card-bg-hover: rgba(28, 32, 40, 0.52);
-  --subpage-card-border: rgba(248, 253, 255, 0.08);
-  --subpage-card-border-hover: rgba(248, 253, 255, 0.12);
+  --subpage-card-bg: var(--input-flat-bg);
+  --subpage-card-bg-hover: var(--input-flat-bg-hover);
+  --subpage-card-border: transparent;
+  --subpage-card-border-hover: transparent;
   --subpage-card-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   --subpage-card-shadow-hover: 0 14px 28px rgba(0, 0, 0, 0.2);
   --subpage-card-radius: 1.1rem;
@@ -222,6 +224,11 @@
     var(--glass-surface-text, #f2f2f2)
   );
   /* Bottom-only ring glow (starts around mid edge, fades downward). */
+  --opaque-panel-bg: var(--input-flat-bg);
+  --opaque-panel-bg-hover: var(--input-flat-bg-hover);
+  --opaque-panel-border: rgba(255, 253, 255, 0.18);
+  --opaque-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  --opaque-panel-text: var(--subpage-card-text);
   --glass-ring-glow-dark:
     0 10px 20px -16px rgba(248, 253, 255, 0.16);
 

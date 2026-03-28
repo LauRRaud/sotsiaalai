@@ -215,48 +215,40 @@ body.selected-listing-modal-open .chat-page-shell {
   position: relative;
   overflow: hidden;
   isolation: auto !important;
-  border: 0 !important;
-  color: var(--opaque-panel-text, var(--rail-tooltip-text, var(--glass-surface-text, #f2f2f2))) !important;
-  background: var(--opaque-panel-bg, var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995))) !important;
+  border: 1px solid var(--opaque-panel-border, var(--subpage-card-border, transparent)) !important;
+  color: var(--opaque-panel-text, var(--subpage-card-text, var(--glass-modal-text, var(--glass-surface-text, #f2f2f2)))) !important;
+  background: var(--opaque-panel-bg, var(--subpage-card-bg, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))))) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-  box-shadow: var(--opaque-panel-shadow, var(--rail-tooltip-shadow, var(--glass-shell-shadow, none))) !important;
-}
-
-:root.theme-light .chat-analysis-overlay .chat-analysis-overlay-card {
-  color: var(--opaque-panel-text, var(--rail-tooltip-text, var(--glass-surface-text, #2b2620))) !important;
-  background: var(--opaque-panel-bg, var(--rail-tooltip-bg, rgba(255, 250, 248, 0.995))) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  box-shadow: var(--opaque-panel-shadow, var(--rail-tooltip-shadow, var(--glass-shell-shadow, none))) !important;
+  box-shadow: var(--opaque-panel-shadow, var(--subpage-card-shadow, var(--glass-shell-shadow, none))) !important;
 }
 
 :root.theme-light .chat-page-shell {
-  --rail-tooltip-bg: var(--chat-invite-surface, rgba(255, 250, 248, 0.48));
+  --rail-tooltip-bg: var(--chat-rail-tooltip-bg, var(--opaque-panel-bg, rgba(255, 250, 248, 1)));
   --rail-tooltip-border: var(--chat-invite-list-border, transparent);
   --rail-tooltip-shadow: var(--chat-invite-shadow, 0 12px 24px rgba(82, 50, 46, 0.08));
-  --chat-tools-item-hover-bg: var(--chat-invite-surface-hover, rgba(255, 250, 248, 0.58));
+  --chat-tools-item-hover-bg: var(--opaque-panel-bg-hover, rgba(255, 255, 255, 1));
 }
 
 :root.theme-mid .chat-page-shell {
-  --rail-tooltip-bg: var(--chat-rail-tooltip-bg, rgb(252, 246, 244));
+  --rail-tooltip-bg: var(--chat-rail-tooltip-bg, var(--opaque-panel-bg, rgb(252, 246, 244)));
   --rail-tooltip-border: rgba(255, 255, 255, 0.16);
   --rail-tooltip-shadow: 0 12px 28px rgba(46, 24, 21, 0.18);
-  --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
+  --chat-tools-item-hover-bg: var(--opaque-panel-bg-hover, var(--input-bg-hover));
 }
 
 :root.theme-night .chat-page-shell {
-  --rail-tooltip-bg: var(--chat-rail-tooltip-bg, rgb(14, 20, 32));
+  --rail-tooltip-bg: var(--chat-rail-tooltip-bg, var(--opaque-panel-bg, rgb(14, 20, 32)));
   --rail-tooltip-border: rgba(150, 180, 218, 0.13);
   --rail-tooltip-shadow: 0 12px 26px rgba(2, 6, 16, 0.24);
-  --chat-tools-item-hover-bg: rgba(25, 30, 40, 0.98);
+  --chat-tools-item-hover-bg: var(--opaque-panel-bg-hover, var(--input-bg-hover));
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night) .chat-page-shell {
   --rail-tooltip-bg: rgba(30, 32, 38, 0.995);
   --rail-tooltip-border: rgba(248, 253, 255, 0.08);
   --rail-tooltip-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
-  --chat-tools-item-hover-bg: rgba(42, 46, 56, 0.92);
+  --chat-tools-item-hover-bg: var(--opaque-panel-bg-hover, var(--input-bg-hover));
 }
 
 /* Keep chat send/dictate controls borderless in normal contrast modes. */

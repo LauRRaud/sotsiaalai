@@ -20,7 +20,6 @@ import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
-import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import {
   WORKER_FRAMEWORK_REVIEW_STORAGE_KEY,
   WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY,
@@ -759,18 +758,10 @@ export default function RegistreerimineBody({}) {
                     aria-live="polite"
                     aria-atomic="true"
                   >
-                    <div className="relative w-fit min-w-[clamp(9.5rem,17vw,11.1rem)] rounded-[1.34rem] border border-[rgba(255,255,255,0.18)] bg-[linear-gradient(153deg,rgba(255,255,255,0.14)_0%,rgba(30,41,59,0.36)_55%,rgba(8,14,24,0.46)_100%)] px-[1rem] pt-[0.95rem] pb-[0.92rem] shadow-[0_15px_30px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[var(--glass-modal-blur,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] light:border-[rgba(148,163,184,0.36)] light:bg-[linear-gradient(150deg,rgba(255,255,255,0.98)_0%,rgba(241,245,249,0.92)_58%,rgba(226,232,240,0.84)_100%)] light:shadow-[0_12px_24px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.82)]">
-                      <div className="flex flex-col items-center gap-[0.82rem]">
-                        <div className="grid min-h-[clamp(4.8rem,9.4vw,5.7rem)] place-items-center">
-                          <SotsiaalAILoader
-                            size="clamp(3.35rem,6.4vw,3.95rem)"
-                            ariaHidden
-                          />
-                        </div>
-                        <span className="block text-center text-[1.16rem] leading-[1.16] font-medium tracking-[0.01em] text-[color:#e2e8f0] light:text-[color:#334155]">
-                          {t("auth.register.loading_status", "Konto loomine")}
-                        </span>
-                      </div>
+                    <div className="rounded-[1.05rem] border border-[rgba(255,255,255,0.18)] bg-[linear-gradient(153deg,rgba(255,255,255,0.14)_0%,rgba(30,41,59,0.36)_55%,rgba(8,14,24,0.46)_100%)] px-[1rem] py-[0.88rem] shadow-[0_15px_30px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[var(--glass-modal-blur,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] light:border-[rgba(148,163,184,0.36)] light:bg-[linear-gradient(150deg,rgba(255,255,255,0.98)_0%,rgba(241,245,249,0.92)_58%,rgba(226,232,240,0.84)_100%)] light:shadow-[0_12px_24px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.82)]">
+                      <span className="block text-center text-[1.16rem] leading-[1.16] font-medium tracking-[0.01em] text-[color:#e2e8f0] light:text-[color:#334155]">
+                        {t("auth.register.loading_status", "Konto loomine")}
+                      </span>
                     </div>
                   </div>
                 ) : null}

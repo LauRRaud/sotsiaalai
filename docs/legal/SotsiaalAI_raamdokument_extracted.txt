@@ -235,7 +235,7 @@ Turvameetmeid rakendatakse proportsionaalselt, arvestades töödeldavate andmete
 12.7 Haavatavuste haldus ja uuendused
 • SotsiaalAI rakendab tarkvara, sõltuvuste, konfiguratsioonide ja infrastruktuuri ajakohastamise protsessi, et vähendada teadaolevate haavatavuste riski.
 • Turvaparandused, kriitilised uuendused ja asjakohased konfiguratsioonimuudatused rakendatakse mõistliku aja jooksul vastavalt riski tasemele ja teenuse mõjule.
-• Avalikku rünnepinda piiratakse tulemüüri-, ligipääsu- ja võrgutasandi kontrollidega ning avalikust võrgust lubatakse üksnes vajalikud teenused.
+• Avalikku ründeala piiratakse tulemüüri-, ligipääsu- ja võrgutasandi kontrollidega ning avalikust võrgust lubatakse üksnes vajalikud teenused.
 12.8 Intsidentide käsitlus ja rikkumiste teavitus
 • SotsiaalAI hoiab protsessi turbeintsidentide tuvastamiseks, haldamiseks, mõju hindamiseks, ohjamiseks ja kõrvaldamiseks.
 • Isikuandmetega seotud rikkumise kahtluse või kinnituse korral hinnatakse rikkumise olemust, ulatust, mõjutatud andmekategooriaid, võimalikke tagajärgi ning vajalikke kaitse- ja leevendusmeetmeid.
@@ -250,7 +250,7 @@ Turvameetmeid rakendatakse proportsionaalselt, arvestades töödeldavate andmete
 12.11 Hostingupiirkond ja serveri piirkond
 • SotsiaalAI põhihosting toimub VPS-põhises serverikeskkonnas.
 • SotsiaalAI kasutab tehnilise majutuse ja serveriinfrastruktuuri teenusepakkujana Zone Media OÜ VPS-teenust, mille kaudu toimub platvormi majutamine Euroopa Majanduspiirkonnas, sealhulgas Eestis.
-• Turvatundlikke üksikasju, nagu sisevõrgu skeemid, konkreetsed IP-aadressid, täielikud konfiguratsioonid või detailne rünnepinna kirjeldus, ei pea käesolevas dokumendis avaldama.
+• Turvatundlikke üksikasju, nagu sisevõrgu skeemid, konkreetsed IP-aadressid, täielikud konfiguratsioonid või detailne ründeala kirjeldus, ei pea käesolevas dokumendis avaldama.
 12.12 Võimalikud välisülekanded
 • Kui isikuandmeid töödeldakse või tehakse kättesaadavaks väljaspool EL-i või EMP-d, tugineb SotsiaalAI sobivale õiguslikule ülekandemehhanismile, näiteks Euroopa Komisjoni piisavusotsusele või standardsetele lepingutingimustele.
 • Teatud AI- või kõneteenuste kasutamisel võib sõltuvalt valitud teenusepakkujast toimuda töötlemine või andmete edastus väljaspool EL-i või EMP-d; sellisel juhul rakendatakse sobivat ülekandemehhanismi ja vajaduse korral täiendavaid kaitsemeetmeid.

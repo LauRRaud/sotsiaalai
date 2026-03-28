@@ -564,7 +564,7 @@ export default function ChatSidebar() {
   const timeTextClassName =
     "text-[0.9rem] max-[768px]:text-[1.02rem] text-[color:var(--drawer-time-text,rgba(148,163,184,0.8))] [.theme-light_&]:text-[rgba(71,85,105,0.8)]";
   const deleteBtnClassName =
-    "inline-flex h-[2.3rem] w-[2.3rem] max-[768px]:h-[2.55rem] max-[768px]:w-[2.55rem] items-center justify-center rounded-[0.72rem] border-[1.6px] border-[color:var(--drawer-delete-border,rgba(148,163,184,0.42))] [background:var(--drawer-delete-bg,rgba(32,34,42,0.22))] p-0 text-[color:var(--drawer-delete-text,rgba(203,213,225,0.9))] transition-[border-color,background,color,transform] duration-150 hover:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] hover:[background:var(--drawer-delete-bg-hover,rgba(48,16,20,0.5))] hover:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] focus-visible:[background:var(--drawer-delete-bg-hover,rgba(48,16,20,0.5))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:outline-none active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-55 [.theme-light_&]:border-[rgba(148,163,184,0.42)] [.theme-light_&]:bg-[rgba(255,255,255,0.8)] [.theme-light_&]:text-[rgba(71,85,105,0.9)] [.theme-light_&:hover]:border-[rgba(192,72,72,0.62)] [.theme-light_&:hover]:bg-[rgba(255,235,235,1)] [.theme-light_&:hover]:text-[#6b1d1d] [.theme-light_&:focus-visible]:border-[rgba(192,72,72,0.62)] [.theme-light_&:focus-visible]:bg-[rgba(255,235,235,1)] [.theme-light_&:focus-visible]:text-[#6b1d1d]";
+    "inline-flex h-[2.3rem] w-[2.3rem] max-[768px]:h-[2.55rem] max-[768px]:w-[2.55rem] items-center justify-center rounded-[0.72rem] border-[1.6px] border-[color:var(--drawer-delete-border,rgba(148,163,184,0.42))] [background:var(--drawer-delete-bg,rgba(32,34,42,0.22))] p-0 text-[color:var(--drawer-delete-text,rgba(203,213,225,0.9))] transition-[border-color,background,color,transform] duration-150 hover:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] hover:[background:var(--drawer-delete-bg-hover,rgba(48,16,20,0.5))] hover:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] focus-visible:[background:var(--drawer-delete-bg-hover,rgba(48,16,20,0.5))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:outline-none active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-55";
   const loadMoreBtnClassName =
     "inline-flex h-[1.8rem] w-[2rem] items-center justify-center border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] " +
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
@@ -692,16 +692,7 @@ export default function ChatSidebar() {
         </Button>
       </div>
       {isConversationView ? <div className={`${sidebarContentWidthClassName} mt-[0.35rem] max-[768px]:mt-[0.45rem]`}>
-          <Input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} size="sm" className="!rounded-full !px-[1rem] !py-[0.78rem] !min-h-[3.05rem]" style={{
-          "--input-bg": "var(--subpage-card-bg)",
-          "--input-bg-hover": "var(--subpage-card-bg-hover, var(--subpage-card-bg))",
-          "--input-bg-focus": "var(--subpage-card-bg-hover, var(--subpage-card-bg))",
-          "--input-border": "1px solid var(--subpage-card-border)",
-          "--input-shadow": "var(--subpage-card-shadow)",
-          "--input-shadow-composite": "var(--subpage-card-shadow)",
-          "--input-shadow-hover-composite": "var(--subpage-card-shadow-hover, var(--subpage-card-shadow))",
-          "--input-shadow-focus-composite": "var(--subpage-card-shadow-hover, var(--subpage-card-shadow))"
-        }} />
+          <Input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} size="sm" className="!rounded-full !px-[1rem] !py-[0.78rem] !min-h-[3.05rem]" />
         </div> : null}
       {selectMode && isConversationView ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>
           <Button variant="primary" size="sm" className={`px-[0.7rem] ${compactActionBtnClassName}`} onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>

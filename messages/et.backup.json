@@ -642,7 +642,7 @@
       "summary_hide": "Peida",
       "privacy": "Analüüsiks, ei salvestata püsivalt.",
       "context_hint": "Valitud analüüsiviis määrab, kas assistent kasutab ainult üleslaetud dokumenti või ka SotsiaalAI andmebaasi lisateadmisi.",
-      "files_selected": "Lisatud failid: {count}/{limit}",
+      "files_selected": "Lisatud dokument: {count}/{limit}",
       "limit_reached": "Selles vestluses saad lisada kuni {limit} faili.",
       "ask_more": "Palun selgita seda dokumenti lühidalt ja too välja 3-5 olulisemat punkti.",
       "ask_more_btn": "Alusta küsimust",

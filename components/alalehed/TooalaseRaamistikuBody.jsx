@@ -65,9 +65,9 @@ const docCheckRowClassName =
   `grid gap-[0.5rem] rounded-[0.95rem] px-[0.9rem] py-[0.75rem] ${glassSubpageCardClassName}`;
 const docCheckRowOptionsClassName = "flex flex-wrap items-center gap-x-[1rem] gap-y-[0.45rem]";
 const docCheckOptionClassName =
-  "inline-flex items-center gap-[0.42rem] text-[1rem] leading-[1.35] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
+  "inline-flex items-center text-[1rem] leading-[1.35] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
 const docCheckBoxClassName =
-  "inline-flex h-[1.05rem] w-[1.05rem] items-center justify-center rounded-[0.24rem] border border-current text-[0.76rem] leading-none opacity-90";
+  "hidden inline-flex h-[1.05rem] w-[1.05rem] items-center justify-center rounded-[0.24rem] border border-current text-[0.76rem] leading-none opacity-90";
 const docChecklistClassName = "grid gap-[0.6rem]";
 const docChecklistItemClassName =
   "flex items-start gap-[0.55rem] text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";

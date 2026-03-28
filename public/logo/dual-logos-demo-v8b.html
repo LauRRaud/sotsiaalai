@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="et">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dual Logos Demo (v7)</title>
+  <style>
+    :root {
+      --fg: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.65);
+      --border: rgba(255,255,255,0.18);
+      --card: rgba(255,255,255,0.08);
+
+      /* Shared timing (same for BOTH logos) */
+      --breathe: 6700ms;
+      --shine: 9200ms;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--fg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 700px at 20% 20%, rgba(197,113,113,0.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, rgba(120,170,255,0.14), transparent 60%),
+        linear-gradient(180deg, #070a13, #04050a 70%);
+      overflow-x: hidden;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 18px 70px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
+
+    p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 22px;
+      padding: 18px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+    }
+
+    .logoBox {
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.18);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .logo-breathe, .logo-breathe * { animation: none !important; transition: none !important; }
+    }
+
+    /* ===== Breathe + shadow distance (v13 feel, slightly faster) ===== */
+
+    .logo-breathe {
+      animation: breathe var(--breathe) ease-in-out infinite;
+      transform-origin: 50% 50%;
+    }
+
+    @keyframes breathe {
+      0%   { transform: translate3d(0,0,0) scale(1); opacity: 0.96; }
+      50%  { transform: translate3d(0,-7px,0) scale(1.045); opacity: 1; }
+      100% { transform: translate3d(0,0,0) scale(1); opacity: 0.96; }
+    }
+
+    .logo-shadow.shadow-hard {
+      animation: hardShadow var(--breathe) ease-in-out infinite;
+      transform-origin: 50% 50%;
+    }
+
+    .logo-shadow.shadow-soft {
+      animation: softShadow var(--breathe) ease-in-out infinite;
+      transform-origin: 50% 50%;
+      opacity: 0.05;
+    }
+
+    @keyframes hardShadow {
+      0%, 100% { opacity: 0.98; transform: translate3d(0,0,0) scale(1); }
+      50%      { opacity: 0.12; transform: translate3d(0,6px,0) scale(1.02); }
+    }
+
+    @keyframes softShadow {
+      0%, 100% { opacity: 0.10; transform: translate3d(0,1px,0) scale(1.02); }
+      50%      { opacity: 0.92; transform: translate3d(0,12px,0) scale(1.14); }
+    }
+
+    /* ===== Shine: constant-speed diagonal + very soft fade tail ===== */
+
+    .shine-rect {
+      animation: shineMove var(--shine) linear infinite, shineFade var(--shine) ease-in-out infinite;
+      will-change: transform, opacity;
+      opacity: 0;
+    }
+
+    @keyframes shineMove {
+      0%   { transform: translate3d(var(--x0), var(--y0), 0) rotate(var(--rot)); }
+      70%  { transform: translate3d(var(--x1), var(--y1), 0) rotate(var(--rot)); }
+      99%  { transform: translate3d(var(--x1), var(--y1), 0) rotate(var(--rot)); }
+      100% { transform: translate3d(var(--x0), var(--y0), 0) rotate(var(--rot)); }
+    }
+
+    @keyframes shineFade {
+      /* Visible early, then long gentle fade; last ~25–30% is almost transparent */
+      0%   { opacity: 0; }
+      7%   { opacity: 0.38; }
+      32%  { opacity: 0.28; }
+      56%  { opacity: 0.14; }
+      70%  { opacity: 0.06; }
+      78%  { opacity: 0.028; }
+      86%  { opacity: 0.012; }
+      92%  { opacity: 0.006; }
+      96%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    /* Sizing */
+    .smust svg { width: 150px; height: auto; display: block; }
+    .ai svg { width: 190px; height: auto; display: block; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>Kaks suurt logo – sünkroonitud hingamine, varjud ja õrn diagonaalne läige</h1>
+    <p>Kui läige on liiga tugev / liiga nõrk, muudan ainult <code>@keyframes shineFade</code> (opacity väärtused) – liikumiskiirus jääb ühtlaseks, sest <code>shineMove</code> on linear.</p>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="logoBox smust">
+          <svg class="logo-breathe" id="sm-Layer_1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 111.12 170.15"
+     overflow="visible">
+  <defs>
+    <style>
+      .st0 { fill: url(#sm-linear-gradient2); }
+      .st1 { fill: url(#sm-red-vertical); }
+      .st2 { fill: url(#sm-linear-gradient); }
+
+      /* põhiline stroke – suurele punasele kujule */
+      .stroke-main {
+        fill: none;
+        stroke: #8A4A46;
+        stroke-width: 1.6;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-opacity: 0.38;
+      }
+
+      /* nõrgem stroke – alumisele mustale / tumedale pallile */
+      .stroke-main-dot {
+        fill: none;
+        stroke: #8A4A46;
+        stroke-width: 1.0;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-opacity: 0.25;
+      }
+    </style>
+
+    <!-- Alumine tume täpp -->
+    <linearGradient id="sm-linear-gradient"
+                    x1="24.12" y1="74.54"
+                    x2="24.12" y2="35.3"
+                    gradientTransform="translate(0 194.78) scale(1 -1)"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#303030"/>
+      <stop offset=".47" stop-color="#111111"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+
+    <!-- (Võid jätta varuks, kui kuskil mujal kasutad) -->
+    <linearGradient id="sm-linear-gradient1"
+                    x1="-3468.39" y1="8.78"
+                    x2="-3468.39" y2="9.78"
+                    gradientTransform="translate(384977.26 -1494.4) scale(110.98 170.15)"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fbe5df"/>
+      <stop offset=".2" stop-color="#f3c6b5"/>
+      <stop offset=".45" stop-color="#e09780"/>
+      <stop offset=".7" stop-color="#c66a4e"/>
+      <stop offset="1" stop-color="#843722"/>
+    </linearGradient>
+
+    <!-- Ülemine hele pall -->
+    <linearGradient id="sm-linear-gradient2"
+                    x1="79.28" y1="2682.15"
+                    x2="79.28" y2="2717.33"
+                    gradientTransform="translate(0 -2672)"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5f5f4"/>
+      <stop offset=".22" stop-color="#eeedec"/>
+      <stop offset=".48" stop-color="#dad9d6"/>
+      <stop offset=".72" stop-color="#c7c5c1"/>
+      <stop offset="1" stop-color="#a8a59e"/>
+    </linearGradient>
+
+    <!-- Punane vertikaalne suur kujule – UUED SAMADE TOONIDEGA -->
+    <linearGradient id="sm-red-vertical"
+                    x1="0" y1="0"
+                    x2="0" y2="1"
+                    gradientUnits="objectBoundingBox">
+      <stop offset="0"    stop-color="#cfa099"/>
+      <stop offset="0.35" stop-color="#a4615c"/>
+      <stop offset="0.7"  stop-color="#6a302f"/>
+      <stop offset="1"    stop-color="#301413"/>
+    </linearGradient>
+
+    <!-- Ühine terav, kerge udususega vari kõigile mustadele koopiatele -->
+    <filter id="sm-shadow-all"
+            x="-40" y="-40"
+            width="260" height="260"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.25" result="blur" />
+      <feOffset in="blur" dx="5" dy="6" result="offsetBlur" />
+      <feColorMatrix in="offsetBlur" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.80 0"
+        result="shadow" />
+      <feMerge>
+        <feMergeNode in="shadow" />
+      </feMerge>
+    </filter>
+
+    <!-- alumise stroki vertikaalne fade (ülalt peidus, alt nähtav) -->
+    <linearGradient id="sm-stroke-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="black"/>
+      <stop offset="0.50" stop-color="black"/>
+      <stop offset="0.90" stop-color="white"/>
+      <stop offset="1"    stop-color="white"/>
+    </linearGradient>
+
+    <mask id="sm-stroke-mask"
+          maskUnits="objectBoundingBox"
+          maskContentUnits="objectBoundingBox">
+      <rect x="0" y="0" width="1" height="1" fill="url(#sm-stroke-fade)"/>
+    </mask>
+
+    <!-- kuju-mask: ainult suur punane kuju + alumine pall (ülemine hele pall jääb välja) -->
+    <mask id="sm-clip-shape" maskUnits="userSpaceOnUse"
+          x="0" y="0" width="111.12" height="170.15">
+      <!-- alumine pall -->
+      <path
+        d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
+        fill="white"/>
+      <!-- suur keskne kuju -->
+      <path
+        d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
+        fill="white"/>
+    </mask>
+
+    <!-- stroke’i pehmendus -->
+    <filter id="sm-stroke-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.2"/>
+    </filter>
+  
+    <!-- Soft shadow for "lift away from plane" -->
+    <filter id="sm-shadow-soft"
+            x="-60" y="-60"
+            width="231.12" height="330.15"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4.6" result="blur" />
+      <feOffset in="blur" dx="2.2" dy="3.8" result="offsetBlur" />
+      <feColorMatrix in="offsetBlur" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.26 0"
+        result="shadow" />
+      <feMerge>
+        <feMergeNode in="shadow" />
+      </feMerge>
+    </filter>
+
+    <!-- Highlight gradient (vertical), the diagonal feel comes from motion -->
+    <linearGradient id="sm-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.30" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.48" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="0.52" stop-color="#ffffff" stop-opacity="0.72"/>
+      <stop offset="0.56" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.76" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="sm-shineBlur" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="6" />
+    </filter>
+
+    <mask id="sm-shape-mask"
+          maskUnits="userSpaceOnUse"
+          maskContentUnits="userSpaceOnUse"
+          x="0.00" y="0.00" width="111.12" height="170.15">
+      <rect x="0.00" y="0.00" width="111.12" height="170.15" fill="black"/>
+      <path d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z" fill="white"/><path d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17" fill="white"/><path d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z" fill="white"/>
+    </mask>
+  </defs>
+
+  <!-- VARJU: mustad koopiad (all) -->
+  <g class="logo-shadow shadow-hard" filter="url(#sm-shadow-all)" aria-hidden="true">
+    <!-- alumine pall -->
+    <path
+      d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
+      fill="#000000"/>
+    <!-- suur keskne kuju -->
+    <path
+      d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
+      fill="#000000"/>
+    <!-- ülemine pall -->
+    <path
+      d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"
+      fill="#000000"/>
+  </g>
+  <g class="logo-shadow shadow-soft" filter="url(#sm-shadow-soft)" aria-hidden="true">
+    <!-- alumine pall -->
+    <path
+      d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
+      fill="#000000"/>
+    <!-- suur keskne kuju -->
+    <path
+      d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
+      fill="#000000"/>
+    <!-- ülemine pall -->
+    <path
+      d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"
+      fill="#000000"/>
+  </g>
+
+  <!-- ORIGINAAL KUJUD PEAL (puhtad, ilma kumata) -->
+  <!-- alumine pall -->
+  <path class="st2"
+        d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+  <!-- suur punane kuju -->
+  <path class="st1"
+        d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
+  <!-- ülemine hele pall (ILMA stroke’ita) -->
+  <path class="st0"
+        d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
+
+  <!-- PEHME SISENEV ALUMINE STROKE – ainult alumine pall + punane kuju -->
+  <g mask="url(#sm-stroke-mask)">
+    <g mask="url(#sm-clip-shape)" filter="url(#sm-stroke-soft)">
+      <!-- tume pehme stroke: pallil nõrgem, kujul sama mis enne -->
+      <path class="stroke-main-dot"
+            d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+      <path class="stroke-main"
+            d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
+
+      <!-- hele lisaläige sees: pallil nõrgem, kujul tugevam -->
+      <path
+        d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
+        fill="none"
+        stroke="#ECCBC9"
+        stroke-width="0.6"
+        stroke-opacity="0.12"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+      <path
+        d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
+        fill="none"
+        stroke="#ECCBC9"
+        stroke-width="1.8"
+        stroke-opacity="0.35"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </g>
+  </g>
+
+
+  <g class="shine-sweep" mask="url(#sm-shape-mask)" style="mix-blend-mode: screen; pointer-events:none;">
+    <rect class="shine-rect"
+          x="-154.84" y="-376.03"
+          width="442.39" height="442.39"
+          rx="60.00"
+          fill="url(#sm-shine)" filter="url(#sm-shineBlur)"
+          style="--x0:-22px; --y0:-240px; --x1:56px; --y1:520px; --rot:-12deg"/>
+  </g>
+</svg>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="logoBox ai">
+          <svg class="logo-breathe" id="ai-Layer_1" data-name="Layer 1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 175.09 195.01"
+     overflow="visible">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#ai-linear-gradient-2);
+      }
+
+      .cls-2 {
+        fill: url(#ai-linear-gradient);
+      }
+
+      /* õhuke, pehme alumine stroke */
+      .stroke-main {
+        fill: none;
+        stroke: #8A4A46;
+        stroke-width: 1.6;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-opacity: 0.38;
+      }
+    </style>
+
+    <!-- Vari -->
+    <filter id="ai-shadow-all"
+            x="-40" y="-40"
+            width="260" height="260"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
+      <feOffset in="blur" dx="8" dy="9" result="offsetBlur" />
+      <feColorMatrix in="offsetBlur" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.85 0"
+        result="shadow" />
+      <feMerge>
+        <feMergeNode in="shadow" />
+      </feMerge>
+    </filter>
+
+    <!-- sama palett, alt veidi tumedam -->
+    <linearGradient id="ai-linear-gradient" x1="113.34" y1="182.08" x2="198.56" y2="-2.62"
+                    gradientTransform="translate(0 194.82) scale(1 -1)"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0"    stop-color="#cfa099"/>
+      <stop offset="0.35" stop-color="#a4615c"/>
+      <stop offset="0.7"  stop-color="#6a302f"/>
+      <stop offset="1"    stop-color="#301413"/>
+    </linearGradient>
+
+    <linearGradient id="ai-linear-gradient-2" x1="-20.73" y1="-3260.46" x2="74.41" y2="-3466.66"
+                    gradientTransform="translate(20 -3248.97) scale(1 -1)"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0"    stop-color="#cfa099"/>
+      <stop offset="0.35" stop-color="#a4615c"/>
+      <stop offset="0.7"  stop-color="#6a302f"/>
+      <stop offset="1"    stop-color="#301413"/>
+    </linearGradient>
+
+    <!-- alumise stroki vertikaalne fade (ülalt peidus, alt nähtav) -->
+    <linearGradient id="ai-stroke-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="black"/>
+      <stop offset="0.50" stop-color="black"/>
+      <stop offset="0.90" stop-color="white"/>
+      <stop offset="1"    stop-color="white"/>
+    </linearGradient>
+
+    <mask id="ai-stroke-mask"
+          maskUnits="objectBoundingBox"
+          maskContentUnits="objectBoundingBox">
+      <rect x="0" y="0" width="1" height="1" fill="url(#ai-stroke-fade)"/>
+    </mask>
+
+    <!-- kuju-mask, et stroke ei ulatuks logost väljapoole -->
+    <mask id="ai-clip-shape" maskUnits="userSpaceOnUse"
+          x="0" y="0" width="175.09" height="195.01">
+      <path
+        d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z"
+        fill="white"/>
+      <path
+        d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z"
+        fill="white"/>
+    </mask>
+
+    <!-- pehme blur stroke'ile (inner, pärast klippi) -->
+    <filter id="ai-stroke-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.2"/>
+    </filter>
+  
+    <!-- Soft shadow for "lift away from plane" -->
+    <filter id="ai-shadow-soft"
+            x="-60" y="-60"
+            width="295.09" height="355.01"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4.6" result="blur" />
+      <feOffset in="blur" dx="2.2" dy="3.8" result="offsetBlur" />
+      <feColorMatrix in="offsetBlur" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.26 0"
+        result="shadow" />
+      <feMerge>
+        <feMergeNode in="shadow" />
+      </feMerge>
+    </filter>
+
+    <!-- Highlight gradient (vertical), the diagonal feel comes from motion -->
+    <linearGradient id="ai-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.30" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.48" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="0.52" stop-color="#ffffff" stop-opacity="0.72"/>
+      <stop offset="0.56" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.76" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="ai-shineBlur" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="6" />
+    </filter>
+
+    <mask id="ai-shape-mask"
+          maskUnits="userSpaceOnUse"
+          maskContentUnits="userSpaceOnUse"
+          x="0.00" y="0.00" width="175.09" height="195.01">
+      <rect x="0.00" y="0.00" width="175.09" height="195.01" fill="black"/>
+      <path d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z" fill="white"/><path d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z" fill="white"/>
+    </mask>
+  </defs>
+
+  <!-- VARJU: mustad koopiad all -->
+  <g class="logo-shadow shadow-hard" filter="url(#ai-shadow-all)" aria-hidden="true">
+    <path d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z"
+          fill="#000000"/>
+    <path d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z"
+          fill="#000000"/>
+  </g>
+  <g class="logo-shadow shadow-soft" filter="url(#ai-shadow-soft)" aria-hidden="true">
+    <path d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z"
+          fill="#000000"/>
+    <path d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z"
+          fill="#000000"/>
+  </g>
+
+  <!-- ORIGINAAL LOGO PEAL -->
+  <path class="cls-2"
+        d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z"/>
+  <path class="cls-1"
+        d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z"/>
+
+  <!-- ÕHEM ALUMINE SISENEM STROKE + HELE LÄIGE -->
+  <g mask="url(#ai-stroke-mask)">
+    <g mask="url(#ai-clip-shape)" filter="url(#ai-stroke-soft)">
+      <!-- tume pehme stroke -->
+      <path class="stroke-main"
+            d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z"/>
+      <path class="stroke-main"
+            d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z"/>
+
+      <!-- õrn hele lisaläige sees -->
+      <path
+        d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z"
+        fill="none"
+        stroke="#ECCBC9"
+        stroke-width="1.8"
+        stroke-opacity="0.35"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+      <path
+        d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z"
+        fill="none"
+        stroke="#ECCBC9"
+        stroke-width="1.8"
+        stroke-opacity="0.35"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </g>
+  </g>
+
+
+  <g class="shine-sweep" mask="url(#ai-shape-mask)" style="mix-blend-mode: screen; pointer-events:none;">
+    <rect class="shine-rect"
+          x="-177.46" y="-430.97"
+          width="507.03" height="507.03"
+          rx="60.00"
+          fill="url(#ai-shine)" filter="url(#ai-shineBlur)"
+          style="--x0:-28px; --y0:-260px; --x1:82px; --y1:600px; --rot:-12deg"/>
+  </g>
+</svg>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

@@ -643,7 +643,7 @@
       "summary_hide": "Hide preview",
       "privacy": "For analysis only, not stored permanently.",
       "context_hint": "If the \"Analyse in chat\" toggle is on, the assistant can use this document in answers — summarise, explain, compare, translate, and help draft letters and applications. If the toggle is off, the answer relies only on the SotsiaalAI knowledge base. The document is never stored regardless of the toggle.",
-      "files_selected": "Added files: {count}/{limit}",
+      "files_selected": "Added document: {count}/{limit}",
       "limit_reached": "You can add up to {limit} files in this conversation.",
       "ask_more": "Please explain this document briefly and highlight 5 key points.",
       "ask_more_btn": "Start your question",

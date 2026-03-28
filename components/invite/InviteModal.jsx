@@ -61,6 +61,7 @@ export default function InviteModal() {
   const inviteModalContentClassName =
     `invite-modal-content person-invite-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
+    `[--glass-modal-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] ` +
     `[--input-text:var(--glass-modal-text)] ` +
     `[.theme-light_&]:[--input-bg:rgba(252,253,255,0.89)] [.theme-light_&]:[--input-bg-hover:rgba(255,255,255,0.94)] [.theme-light_&]:[--input-bg-focus:rgba(255,255,255,0.96)] ` +
     `[.theme-light_&]:[--input-shadow:0_6px_16px_rgba(15,23,42,0.12)] [.theme-light_&]:[--input-shadow-composite:var(--input-shadow)] [.theme-light_&]:[--input-shadow-hover-composite:var(--input-shadow-hover,var(--input-shadow))] [.theme-light_&]:[--input-shadow-focus-composite:var(--input-shadow-hover,var(--input-shadow))] ` +
@@ -123,6 +124,7 @@ export default function InviteModal() {
   const inviteSponsoredCheckboxClassName =
     "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
     "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:var(--title-color,var(--brand-primary))] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+    "hc:[--otp-check-shape:var(--hc-accent)] hc:[--otp-check-tick:var(--hc-accent)] hc:[--otp-check-text:var(--hc-accent)] " +
     "[--otp-check-box-size:1.78rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.5] [--otp-check-text-max-width:min(100%,30rem)] [--otp-check-box-offset:0.08rem] " +
     "[&_.box]:translate-y-[-0.08rem] min-[769px]:ml-[0.9rem] min-[769px]:[--otp-check-text-max-width:min(100%,24rem)]";
   const inviteSponsoredCheckoutFooterClassName =
