@@ -658,8 +658,8 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
     inset 0 0 0 1px rgba(255, 234, 0, 0.08),
     inset 0 1px 0 rgba(255, 250, 180, 0.035);
   --orbit-button-shadow-center:
-    var(--orbit-ring-glow),
-    0 0 16px rgba(255, 234, 0, 0.18),
+    0 0 18px rgba(255, 234, 0, 0.34),
+    0 0 32px rgba(255, 234, 0, 0.17),
     0 13px 26px rgba(0, 0, 0, 0.25),
     inset 0 0 0 1px rgba(255, 234, 0, 0.12),
     inset 0 1px 0 rgba(255, 250, 180, 0.04);
