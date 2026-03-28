@@ -5,37 +5,60 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
-import { DictateWaveIcon } from "@/components/ui/icons/ChatIcons";
+import { DictateWaveIcon, HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 
-const CHAT_MODE_SHINE_GRADIENTS_DARK = {
-  soft:
-    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.92) 50%, rgba(255,255,255,0) 60%, rgba(255,255,255,0) 100%)",
-  medium:
-    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0) 58%, rgba(255,255,255,0) 100%)",
-  wide:
-    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 32%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.2) 68%, rgba(255,255,255,0) 100%)",
-  dual:
-    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.68) 33%, rgba(255,255,255,0) 44%, rgba(255,255,255,0.96) 50%, rgba(255,255,255,0) 56%, rgba(255,255,255,0.68) 67%, rgba(255,255,255,0) 100%)"
-};
+function CareerModeIcon({
+  stroke,
+  className,
+  strokeWidth = 1.8,
+  ...props
+}) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      {...props}
+    >
+      <path d="M6.15 9.05A1.65 1.65 0 0 1 7.8 7.4h8.4a1.65 1.65 0 0 1 1.65 1.65v8.1a1.65 1.65 0 0 1-1.65 1.65H7.8a1.65 1.65 0 0 1-1.65-1.65v-8.1Z" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.15 7.35v-.9a2.15 2.15 0 0 1 2.15-2.15h1.4a2.15 2.15 0 0 1 2.15 2.15v.9" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6.15 11.25h11.7" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" />
+    </svg>
+  );
+}
 
-const CHAT_MODE_SHINE_GRADIENTS_LIGHT = {
-  soft:
-    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(58,38,30,0.9) 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%)",
-  medium:
-    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 42%, rgba(56,36,28,0.94) 50%, rgba(0,0,0,0) 58%, rgba(0,0,0,0) 100%)",
-  wide:
-    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)",
-  dual:
-    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.56) 33%, rgba(0,0,0,0) 44%, rgba(56,36,28,0.92) 50%, rgba(0,0,0,0) 56%, rgba(72,46,36,0.56) 67%, rgba(0,0,0,0) 100%)"
-};
-
-function normalizeModeLabel(value, locale = "et") {
-  return String(value || "")
-    .trim()
-    .toLocaleLowerCase(locale)
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+function DocumentModeIcon({
+  stroke,
+  className,
+  strokeWidth = 1.8,
+  plus = false,
+  ...props
+}) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      {...props}
+    >
+      <path d="M6.2 4.7h8.95l3.25 3.25V18.1a1.7 1.7 0 0 1-1.7 1.7H7.9a1.7 1.7 0 0 1-1.7-1.7V6.4a1.7 1.7 0 0 1 1.7-1.7Z" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M15.15 4.7v3.25h3.25" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+      {plus ? (
+        <>
+          <path d="M12.3 10.7v5.1" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" />
+          <path d="M9.75 13.25h5.1" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" />
+        </>
+      ) : (
+        <>
+          <path d="M9.25 11.05h5.75" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" />
+          <path d="M9.25 14.85h5.75" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" />
+        </>
+      )}
+    </svg>
+  );
 }
 
 export default function ChatComposer({
@@ -67,7 +90,10 @@ export default function ChatComposer({
   onCancelDeepResearchMode,
   onConsumeDeepResearchMode,
   onDeepResearchEmptySubmit,
+  onActivateInfoMode,
   onActivateCareerMode,
+  onActivateHelpRequestMode,
+  onActivateHelpOfferMode,
   careerModeLocked = false,
   showDocumentAttachButton = false,
   onPickDocumentFile,
@@ -99,11 +125,25 @@ export default function ChatComposer({
   const initialDraftProbeCompleteRef = useRef(false);
   const deepResearchDisabled = Boolean(isRoomMode);
   const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
+  const isDeepResearchMode = composerMode === "deep_research";
+  const helpRequestModeLabelRaw = t("chat.tools.help_request_mode");
+  const helpRequestModeLabel =
+    helpRequestModeLabelRaw && helpRequestModeLabelRaw !== "chat.tools.help_request_mode"
+      ? helpRequestModeLabelRaw
+      : "Abisoov";
+  const helpOfferModeLabelRaw = t("chat.tools.help_offer_mode");
+  const helpOfferModeLabel =
+    helpOfferModeLabelRaw && helpOfferModeLabelRaw !== "chat.tools.help_offer_mode"
+      ? helpOfferModeLabelRaw
+      : "Abipakkumine";
   const careerModeLabelRaw = t("chat.tools.career_mode");
   const careerModeLabel =
     careerModeLabelRaw && careerModeLabelRaw !== "chat.tools.career_mode"
       ? careerModeLabelRaw
       : "Karj\u00E4\u00E4rin\u00F5ustamine";
+  const modeLabelShineBackground = isLightTheme
+    ? "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)"
+    : "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 32%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.2) 68%, rgba(255,255,255,0) 100%)";
   const subtleModeLabel =
     composerMode === "deep_research"
       ? t("chat.tools.deep_research")
@@ -113,17 +153,19 @@ export default function ChatComposer({
   const displayModeLabel = subtleModeLabel
     ? subtleModeLabel.charAt(0).toLocaleUpperCase(locale) + subtleModeLabel.slice(1)
     : "";
-  const normalizedDisplayModeLabel = normalizeModeLabel(displayModeLabel, locale);
-  const resolvedModeShineKey =
-    composerMode === "deep_research"
-      ? "wide"
-      : activeModeKey === "career" || normalizedDisplayModeLabel.includes("karjaar")
-      ? "wide"
-      : "soft";
+  const hasActiveWorkflowMode = activeModeKey && activeModeKey !== "default";
+  const modeToggleShowsActiveState = isDeepResearchMode || hasActiveWorkflowMode;
   const toolsMenuBackdropFilter = "none";
-  const subtleModeShineBackgroundImage = isLightTheme
-    ? CHAT_MODE_SHINE_GRADIENTS_LIGHT[resolvedModeShineKey] || CHAT_MODE_SHINE_GRADIENTS_LIGHT.soft
-    : CHAT_MODE_SHINE_GRADIENTS_DARK[resolvedModeShineKey] || CHAT_MODE_SHINE_GRADIENTS_DARK.soft;
+  const modeLabelClassName =
+    "inline-block max-w-[min(76vw,24rem)] whitespace-pre text-center " +
+    "text-[1.42rem] font-[400] leading-[1.06] tracking-[0.012em] text-transparent " +
+    "[background-repeat:no-repeat] [background-size:220%_100%] [background-position:200%_center] " +
+    "[-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] " +
+    "[animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:100ms] [animation-fill-mode:both] " +
+    "max-[768px]:max-w-[min(84vw,21rem)] max-[768px]:text-[1.28rem]";
+  const modeLabelStyle = {
+    backgroundImage: modeLabelShineBackground
+  };
 
   useEffect(() => {
     if (!hideTools) return;
@@ -259,7 +301,6 @@ export default function ChatComposer({
     };
   }, [inputRef, onDraftStateChange]);
   const hasInput = Boolean(draft.trim());
-  const isDeepResearchMode = composerMode === "deep_research";
   const closeToolsMenu = useCallback(() => {
     setToolsOpen(false);
   }, []);
@@ -291,6 +332,14 @@ export default function ChatComposer({
     closeToolsMenu();
     onActivateCareerMode?.();
   }, [closeToolsMenu, onActivateCareerMode]);
+  const handleHelpRequestModeSelect = useCallback(() => {
+    closeToolsMenu();
+    onActivateHelpRequestMode?.();
+  }, [closeToolsMenu, onActivateHelpRequestMode]);
+  const handleHelpOfferModeSelect = useCallback(() => {
+    closeToolsMenu();
+    onActivateHelpOfferMode?.();
+  }, [closeToolsMenu, onActivateHelpOfferMode]);
   const handleCareerModeLockedSelect = useCallback(() => {
     closeToolsMenu();
     router.push(localizePath("/tellimus", locale));
@@ -338,13 +387,14 @@ export default function ChatComposer({
     }
   }, [canRunDeepResearch, draft, isGenerating, onConsumeDeepResearchMode, onDeepResearchEmptySubmit, onSendDeepResearch]);
   const handleToolsButtonClick = useCallback(() => {
-    if (isDeepResearchMode) {
+    if (isDeepResearchMode || hasActiveWorkflowMode) {
+      onActivateInfoMode?.();
       exitDeepResearchMode();
       closeToolsMenu();
       return;
     }
     setToolsOpen(prev => !prev);
-  }, [closeToolsMenu, exitDeepResearchMode, isDeepResearchMode]);
+  }, [closeToolsMenu, exitDeepResearchMode, hasActiveWorkflowMode, isDeepResearchMode, onActivateInfoMode]);
   const handleSubmit = useCallback(e => {
     if (Date.now() - primaryActionHandledAtRef.current < 400) {
       primaryActionHandledAtRef.current = 0;
@@ -486,14 +536,15 @@ export default function ChatComposer({
     "hover:bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.2))] " +
     "focus-visible:bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.2))]";
   const toolIconSlotClassName = "inline-flex h-[1.68rem] w-[1.68rem] shrink-0 items-center justify-center self-center";
-  const agentToolIconSlotClassName = `${toolIconSlotClassName} translate-y-[0.06rem]`;
   const toolLabelClassName = "inline-flex min-w-0 items-center self-center leading-[1.08]";
-  const baseToolIconSize = 26;
-  const deepResearchToolIconSize = 26;
-  const agentToolIconSize = 30;
-  const toolIconStrokeWidth = 1.8;
-  const agentToolStrokeWidth = 1.6;
+  const toolIconStrokeWidth = 1.55;
   const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
+  const menuModeIconClassName = "block h-[1.64rem] w-[1.64rem] shrink-0 opacity-95";
+  const menuLargeModeIconClassName = "block h-[1.82rem] w-[1.82rem] shrink-0 opacity-95";
+  const activeModeIconClassName = "opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110";
+  const activeModeIconStrokeWidth = 1.45;
+  const activeDeepResearchIconStrokeWidth = 2.35;
+  const plusIconStrokeWidth = 3.5;
   const toolsMenuClassName =
     "chat-tools-menu fixed z-[160] isolate overflow-hidden w-max min-w-[11.4rem] max-w-[calc(100vw-1rem)] rounded-[0.88rem] " +
     "border-0 [background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--pt-100)))] " +
@@ -508,7 +559,7 @@ export default function ChatComposer({
     }}>
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} ${!canRunDeepResearch ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`} onClick={handleDeepResearchSelect} disabled={!canRunDeepResearch} title={!canRunDeepResearch ? t("chat.tools.deep_research_room_only") : undefined}>
             <span aria-hidden="true" className={toolIconSlotClassName}>
-              <svg aria-hidden="true" width={deepResearchToolIconSize} height={deepResearchToolIconSize} viewBox="0 0 24 24" fill="none" className={`block shrink-0 ${!canRunDeepResearch ? "opacity-55" : "opacity-95"}`}>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className={`${menuLargeModeIconClassName} ${!canRunDeepResearch ? "opacity-55" : "opacity-95"}`}>
                 <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} />
                 <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
               </svg>
@@ -517,7 +568,7 @@ export default function ChatComposer({
           </button>
           {!isClientRole ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDocumentsSelect}>
               <span aria-hidden="true" className={toolIconSlotClassName}>
-                <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 opacity-90">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className={menuLargeModeIconClassName}>
                   <path d="M4.85 7.4a1.75 1.75 0 0 1 1.75-1.75h4.1l1.55 1.55h5.15a1.75 1.75 0 0 1 1.75 1.75v8.45a1.75 1.75 0 0 1-1.75 1.75H6.6a1.75 1.75 0 0 1-1.75-1.75V7.4Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M4.85 10.8h14.3" stroke={iconStroke} strokeWidth={1.65} strokeLinecap="round" />
                 </svg>
@@ -533,10 +584,7 @@ export default function ChatComposer({
             title={careerModeLocked ? t("chat.error.subscription_required_profile", "Tellimus vajalik") : undefined}
           >
             <span aria-hidden="true" className={toolIconSlotClassName}>
-              <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 opacity-90">
-                <path d="M6 17.6V8.1A1.7 1.7 0 0 1 7.7 6.4h8.1l2.2 2.2v9a1.7 1.7 0 0 1-1.7 1.7H7.7A1.7 1.7 0 0 1 6 17.6Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M9 11.1h6M9 14.3h4.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
-              </svg>
+              <CareerModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />
             </span>
             <span className={toolLabelClassName}>
               <span>{careerModeLabel}</span>
@@ -554,24 +602,27 @@ export default function ChatComposer({
               ) : null}
             </span>
           </button>
+          <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleHelpRequestModeSelect}>
+            <span aria-hidden="true" className={toolIconSlotClassName}>
+              <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={1.92} className={menuModeIconClassName} />
+            </span>
+            <span className={toolLabelClassName}>{helpRequestModeLabel}</span>
+          </button>
+          <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleHelpOfferModeSelect}>
+            <span aria-hidden="true" className={toolIconSlotClassName}>
+              <HelpOfferIcon isLightTheme={isLightTheme} strokeWidth={1.92} className={menuModeIconClassName} />
+            </span>
+            <span className={toolLabelClassName}>{helpOfferModeLabel}</span>
+          </button>
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
             <span aria-hidden="true" className={toolIconSlotClassName}>
-              <svg aria-hidden="true" width={baseToolIconSize} height={baseToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 opacity-90">
-                <path d="M6 4.8h9.4L19 8.4v10.8a1.8 1.8 0 0 1-1.8 1.8H6.8A1.8 1.8 0 0 1 5 19.2V6.6A1.8 1.8 0 0 1 6.8 4.8Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M14.8 4.8v3.8H19" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M8.3 11.2h5.5M8.3 15.1h5.5" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
-              </svg>
+              <DocumentModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />
             </span>
             <span className={toolLabelClassName}>{t("chat.tools.document_analysis")}</span>
           </button>
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleAgentModeSelect}>
-            <span aria-hidden="true" className={agentToolIconSlotClassName}>
-              <svg aria-hidden="true" width={agentToolIconSize} height={agentToolIconSize} viewBox="0 0 24 24" fill="none" className="block shrink-0 scale-[1.08] opacity-95">
-                <rect x="6.1" y="7.2" width="11.8" height="9.6" rx="2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} />
-                <path d="M12 4.3v2.6" stroke={iconStroke} strokeWidth={agentToolStrokeWidth} strokeLinecap="round" />
-                <circle cx="10" cy="12" r="0.9" fill={iconStroke} />
-                <circle cx="14" cy="12" r="0.9" fill={iconStroke} />
-              </svg>
+            <span aria-hidden="true" className={toolIconSlotClassName}>
+              <DocumentModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} plus className={menuLargeModeIconClassName} />
             </span>
             <span className={toolLabelClassName}>{t("chat.tools.agent_mode")}</span>
           </button>
@@ -600,12 +651,15 @@ export default function ChatComposer({
   return <form ref={inputRowRef} style={inputRowMobileStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {!embedded || !hideTools ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? <div aria-hidden="true" className={sideControlPlaceholderClassName} /> : <>
-            <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.aria")} title={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={isDeepResearchMode ? undefined : "menu"} aria-expanded={isDeepResearchMode ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
-              {isDeepResearchMode ? <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
-                  <circle cx="17.8" cy="17.8" r="8.8" stroke={iconStroke} strokeWidth="2.8" />
-                  <path d="M24.2 24.2L31.5 31.5" stroke={iconStroke} strokeWidth="2.8" strokeLinecap="round" />
-                </svg> : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
-                  <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth="3.1" strokeLinecap="round" />
+            <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? (isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.exit_mode_aria")) : t("chat.tools.aria")} title={modeToggleShowsActiveState ? (isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.exit_mode_aria")) : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
+              {isDeepResearchMode ? <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className={activeModeIconClassName}>
+                  <circle cx="17.8" cy="17.8" r="8.8" stroke={iconStroke} strokeWidth={activeDeepResearchIconStrokeWidth} />
+                  <path d="M24.2 24.2L31.5 31.5" stroke={iconStroke} strokeWidth={activeDeepResearchIconStrokeWidth} strokeLinecap="round" />
+                </svg> : activeModeKey === "career" ? <CareerModeIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+                : activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+                : activeModeKey === "help_offer" ? <HelpOfferIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+                : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className={activeModeIconClassName}>
+                  <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth={plusIconStrokeWidth} strokeLinecap="round" />
                 </svg>}
             </button>
             {toolsMenuPanel}
@@ -646,13 +700,11 @@ export default function ChatComposer({
             <DictateWaveIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[#c57171] light:text-[#7a3a38]" />
           </button>}
       </div>
-      {displayModeLabel ? <div className="pointer-events-none absolute left-1/2 top-[calc(100%+1.46rem)] -translate-x-1/2 text-center max-[768px]:top-[calc(100%+1.08rem)]">
+      {displayModeLabel ? <div className="pointer-events-none absolute left-1/2 top-[calc(100%+1.18rem)] -translate-x-1/2 text-center max-[768px]:top-[calc(100%+0.98rem)]">
           <span
             aria-hidden="true"
-            className="inline-block whitespace-nowrap text-[1.24rem] leading-[1.25] tracking-[0.012em] text-transparent opacity-[0.65] [background-repeat:no-repeat] [background-size:220%_100%] [background-position:200%_center] [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:100ms] [animation-fill-mode:both] max-[768px]:text-[1.08rem]"
-            style={{
-              backgroundImage: subtleModeShineBackgroundImage
-            }}
+            className={modeLabelClassName}
+            style={modeLabelStyle}
           >
             {displayModeLabel}
           </span>

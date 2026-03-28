@@ -45,9 +45,7 @@ const checkboxCardClassName =
   "register-checkbox-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto gap-[0.72rem] text-[1.04rem] leading-[1.28] px-[1.05rem] py-[0.72rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName =
   "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
-const registerOptionButtonClassName =
-  `${primarySegmentedButtonClassName} ` +
-  "[.theme-mid_&]:[--seg-card-bg-selected:radial-gradient(92%_88%_at_50%_16%,rgba(246,238,234,0.62)_0%,rgba(239,229,225,0.56)_44%,rgba(231,221,216,0.48)_100%),linear-gradient(180deg,rgba(242,233,229,0.42)_0%,rgba(234,224,220,0.38)_100%)] [.theme-mid_&]:[--seg-card-shadow-selected:var(--btn-primary-shadow-hover)]";
+const registerOptionButtonClassName = primarySegmentedButtonClassName;
 const registerButtonClassName =
   "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";

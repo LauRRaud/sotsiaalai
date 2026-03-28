@@ -79,7 +79,6 @@ const BackgroundContent = memo(function BackgroundContent({
   const allowParticles = true;
   const allowColorBends = true;
   const parallaxActive = !reduceMotion && !mobileLike;
-  const isMidTheme = themeMode === "mid";
   const baseColorBendsProps = mobileLike
     ? {
         performanceMode: "performance",
@@ -94,16 +93,12 @@ const BackgroundContent = memo(function BackgroundContent({
           performanceMode: "balanced",
           maxDpr: 1.35
         };
-  const themeColorBendsProps = isMidTheme
-    ? {
-        speed: 0.11,
-        scale: 1.08,
-        frequency: 0.92,
-        warpStrength: 0.84,
-        thicknessBias: 0.06,
-        edgeTightness: 1.24
-      }
-    : null;
+  const themeColorBendsProps =
+    themeMode === "mid"
+      ? {
+          colors: ["#7a4a47"]
+        }
+      : null;
   const colorBendsProps = {
     ...baseColorBendsProps,
     ...(themeColorBendsProps || {})

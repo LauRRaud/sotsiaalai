@@ -10,7 +10,7 @@ export const glassPageTitleMobileHeaderClassName =
 export const glassPageTitleProminentClassName =
   "min-[769px]:!text-[2.6rem] max-[768px]:!text-[clamp(2.28rem,9.25vw,3.08rem)]";
 
-const subpagePrimaryButtonToneClassName =
+export const glassPrimaryButtonToneClassName =
   "[--btn-primary-border:0_solid_transparent] " +
   "[--btn-primary-border-hover:0_solid_transparent] " +
   "[--btn-primary-border-active:0_solid_transparent] " +
@@ -26,10 +26,10 @@ const subpagePrimaryButtonToneClassName =
   "light:[--btn-primary-shadow-focus:inset_0_1px_0_rgba(255,255,255,0.3),0_10px_20px_rgba(15,23,42,0.13),0_0_0_3px_var(--btn-primary-focus-ring-color),0_0_0_1px_rgba(255,255,255,0.22)]";
 
 export const glassPageShellClassName =
-  `mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start box-border ${subpagePrimaryButtonToneClassName}`;
+  `mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start box-border ${glassPrimaryButtonToneClassName}`;
 
 export const glassPageShellCenteredClassName =
-  `mx-auto grid w-full min-h-[100dvh] place-items-center box-border ${subpagePrimaryButtonToneClassName} ` +
+  `mx-auto grid w-full min-h-[100dvh] place-items-center box-border ${glassPrimaryButtonToneClassName} ` +
   "max-[768px]:flex max-[768px]:flex-col max-[768px]:items-center max-[768px]:justify-start";
 
 export const glassPageBackClassName =
@@ -65,7 +65,7 @@ export const glassPageRingCenteredClassName =
   "glass-ring md:mt-0 md:mb-0 [--ring-ui-reserve:var(--ring-ui-reserve-page)]";
 
 export const glassPageMobileCardClassName =
-  `${subpagePrimaryButtonToneClassName} ` +
+  `${glassPrimaryButtonToneClassName} ` +
   "max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
   "max-[768px]:!max-w-none max-[768px]:!h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
   "max-[768px]:!max-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +

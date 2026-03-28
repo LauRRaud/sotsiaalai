@@ -241,7 +241,7 @@ export function SourcesIcon({ isLightTheme = false, className, ...props }) {
   );
 }
 
-export function HelpRequestIcon({ isLightTheme = false, className, ...props }) {
+export function HelpRequestIcon({ isLightTheme = false, className, strokeWidth = 1.5, ...props }) {
   const stroke = resolveThemeColor(isLightTheme);
   return (
     <svg
@@ -255,23 +255,23 @@ export function HelpRequestIcon({ isLightTheme = false, className, ...props }) {
       <path
         d="M12 23.45c-1.05 0-2.17-.56-2.92-1.45C5.4 17.63 3 13.13 3 10c0-4.96 4.04-9 9-9s9 4.04 9 9c0 3.13-2.4 7.63-6.08 12-.75.89-1.87 1.45-2.92 1.45Z"
         stroke={stroke}
-        strokeWidth="1.5"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10.25 8.55a2.25 2.25 0 1 1 3.3 1.98c-1.03.54-1.55 1.18-1.55 2.22v.48"
         stroke={stroke}
-        strokeWidth="1.5"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M12 16.45h.01" stroke={stroke} strokeWidth="2.1" strokeLinecap="round" />
+      <path d="M12 16.45h.01" stroke={stroke} strokeWidth={Math.max(Number(strokeWidth) + 0.6, 2.1)} strokeLinecap="round" />
     </svg>
   );
 }
 
-export function HelpOfferIcon({ isLightTheme = false, className, ...props }) {
+export function HelpOfferIcon({ isLightTheme = false, className, strokeWidth = 1.5, ...props }) {
   const stroke = resolveThemeColor(isLightTheme);
   return (
     <svg
@@ -285,20 +285,20 @@ export function HelpOfferIcon({ isLightTheme = false, className, ...props }) {
       <path
         d="M12 23.45c-1.05 0-2.17-.56-2.92-1.45C5.4 17.63 3 13.13 3 10c0-4.96 4.04-9 9-9s9 4.04 9 9c0 3.13-2.4 7.63-6.08 12-.75.89-1.87 1.45-2.92 1.45Z"
         stroke={stroke}
-        strokeWidth="1.5"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12 6.95v6.7"
         stroke={stroke}
-        strokeWidth="1.5"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
       />
       <path
         d="M8.65 10.3h6.7"
         stroke={stroke}
-        strokeWidth="1.5"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
       />
     </svg>

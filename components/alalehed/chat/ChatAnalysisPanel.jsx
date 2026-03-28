@@ -5,6 +5,7 @@ import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 import OptionCard from "@/components/ui/OptionCard";
 import { cn } from "@/components/ui/cn";
+import { glassPrimaryButtonToneClassName } from "@/components/ui/glassPageStyles";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 
 const docToggleCardClassName =
@@ -193,9 +194,9 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const actionsInlineClassName =
     "w-full flex justify-center gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
   const uploadButtonClassName =
-    "documents-primary-button documents-primary-button--compact documents-upload-choose-button";
+    `documents-primary-button documents-primary-button--compact documents-upload-choose-button ${glassPrimaryButtonToneClassName}`;
   const actionPrimaryButtonClassName =
-    "documents-primary-button documents-primary-button--compact";
+    `documents-primary-button documents-primary-button--compact ${glassPrimaryButtonToneClassName}`;
   const actionSecondaryButtonClassName = "documents-secondary-button";
   const previewWrapClassName =
     "relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +

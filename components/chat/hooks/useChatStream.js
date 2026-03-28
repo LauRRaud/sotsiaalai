@@ -160,6 +160,10 @@ export function useChatStream(config) {
     }
 
     const shouldSendToAssistant = cfg.isRoomMode ? cfg.sendToAssistant : true;
+    const selectedChatMode =
+      cfg.activeWorkflow === "help_request" || cfg.activeWorkflow === "help_offer"
+        ? cfg.activeWorkflow
+        : "rag";
 
     cfg.appendMessage?.({
       role: "user",
@@ -271,6 +275,7 @@ export function useChatStream(config) {
             persist: true,
             convId: cfg.convId,
             uiLocale: cfg.locale || "et",
+            chatMode: selectedChatMode,
             roomId: cfg.isRoomMode ? cfg.roomId : undefined,
             ...(cfg.ephemeralChunks?.length
               ? {

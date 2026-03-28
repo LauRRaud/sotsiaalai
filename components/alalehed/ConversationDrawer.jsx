@@ -237,6 +237,7 @@ export default function ConversationDrawer({
       "[&::-webkit-scrollbar-track]:bg-transparent " +
       "[backdrop-filter:blur(var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
       "before:content-[''] before:absolute before:inset-0 before:pointer-events-none " +
+      "before:rounded-[inherit] " +
       "before:[background:var(--drawer-glass-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] before:opacity-100 " +
       "before:[filter:none] before:[-webkit-filter:none] " +
       "before:[backdrop-filter:blur(var(--glass-blur-radius,1rem))] before:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
@@ -256,7 +257,7 @@ export default function ConversationDrawer({
     "text-[#c57171] light:text-[#7a3a38] [&>span]:text-[2rem] " +
     "max-[768px]:!w-[3.2rem] max-[768px]:!h-[3.2rem] max-[768px]:[&>span]:text-[2.35rem]";
   const contentClassName =
-    "drawer-content px-[1rem] pt-[0.65rem] pb-[1rem] h-[calc(100%-3.2rem)] overflow-hidden";
+    "drawer-content px-[0.72rem] pt-[0.65rem] pb-[1rem] h-[calc(100%-3.2rem)] overflow-hidden";
   const drawerTitle = titleOverride || t("chat.menu.label");
   return createPortal(<>
       {open && <div ref={overlayRef} className={overlayClassName} onClick={close} aria-hidden="true" />}

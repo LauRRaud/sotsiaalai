@@ -715,11 +715,15 @@
     "tools": {
       "aria": "Tööriistad",
       "tooltip": "Tööriistad",
+      "exit_mode_aria": "Lõpeta aktiivne režiim",
       "menu_aria": "Vestluse tööriistad",
       "document_analysis": "Dokumendi analüüs",
       "deep_research": "Süvauuring",
       "deep_research_room_only": "Süvauuring on saadaval ainult 1:1 vestluses.",
+      "info_mode": "Info assistent",
       "documents": "Dokumendid",
+      "help_request_mode": "Abisoov",
+      "help_offer_mode": "Abipakkumine",
       "career_mode": "Karjäärinõustamine",
       "agent_mode": "Dokumendi koostamine"
     },
@@ -776,7 +780,9 @@
       "no_context_client": "Ma ei leidnud praegu materjalidest sellele täpset vastust. Kirjelda palun oma olukorda veidi täpsemalt ja lisa vähemalt vald või linn.",
       "no_context_worker": "Ma ei leidnud praegu materjalidest sellele täpset vastust. Palun täpsusta KOV või omavalitsus ning teenuse või olukorra tüüp."
     },
-    "empty_intro": "Tere! Kirjelda lühidalt oma küsimust või soovi. Saan anda infot, aidata koostada dokumente ja viia inimesi kokku.",
+    "empty_intro": "Tere! Kirjelda lühidalt, mida soovid teada või milles juhendamist vajad. Kui soovid teist režiimi, vali see + märgi alt.",
+    "empty_intro_help_request": "Tere! Kirjelda lühidalt, millist abi vajad. Soovi korral lisa, kellele abi on mõeldud, kus seda vaja on ja kui kiiresti.",
+    "empty_intro_help_offer": "Tere! Kirjelda lühidalt, millist abi saad pakkuda. Soovi korral lisa, kellele, kus ja mis tingimustel abi on saadaval.",
     "modeSelection": {
       "confirm": {
         "rag": "Sain aru, et soovid saada infot või juhendamist. Kas jätkame sellega?",

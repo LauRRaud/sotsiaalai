@@ -93,9 +93,7 @@ export default function InviteModal() {
       label: t("invite.sponsored.role.client"),
     },
   ];
-  const inviteOptionButtonClassName =
-    `${primarySegmentedButtonClassName} ` +
-    "[.theme-mid_&]:[--seg-card-bg-selected:radial-gradient(92%_88%_at_50%_16%,rgba(246,238,234,0.62)_0%,rgba(239,229,225,0.56)_44%,rgba(231,221,216,0.48)_100%),linear-gradient(180deg,rgba(242,233,229,0.42)_0%,rgba(234,224,220,0.38)_100%)] [.theme-mid_&]:[--seg-card-shadow-selected:var(--btn-primary-shadow-hover)]";
+  const inviteOptionButtonClassName = primarySegmentedButtonClassName;
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[7rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.78rem] max-[768px]:!py-[0.2rem] max-[768px]:!text-[1.03rem] max-[768px]:!tracking-[0.024em]";
   const inviteSponsorToggleClassName =

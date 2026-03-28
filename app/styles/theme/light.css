@@ -37,10 +37,10 @@
   --glass-surface-bg: rgba(251, 252, 253, 0.52);
   --glass-ring-surface-bg: rgba(247, 248, 250, 0.74);
   --glass-surface-text: #2b2620;
-  --chat-ui-solid-surface: rgb(247, 248, 248);
-  --chat-rail-tooltip-bg: rgb(247, 248, 248);
-  --chat-tools-panel-bg: rgb(247, 248, 248);
-  --chat-upload-picker-bg: rgb(247, 248, 248);
+  --chat-ui-solid-surface: rgb(249, 249, 248);
+  --chat-rail-tooltip-bg: rgb(249, 249, 248);
+  --chat-tools-panel-bg: rgb(249, 249, 248);
+  --chat-upload-picker-bg: rgb(249, 249, 248);
   --chat-invite-surface: var(--subpage-card-bg);
   --chat-invite-surface-hover: var(--subpage-card-bg-hover);
   --chat-invite-list-border: var(--subpage-card-border);
@@ -50,12 +50,12 @@
   --glass-modal-text: var(--chat-invite-text);
   --glass-modal-border: none;
   --glass-modal-shadow: var(--chat-invite-shadow);
-  --rail-tooltip-bg: rgb(247, 248, 248);
+  --rail-tooltip-bg: rgb(249, 249, 248);
   --rail-tooltip-border: var(--chat-invite-list-border);
   --rail-tooltip-shadow: var(--chat-invite-shadow);
   --rail-tooltip-text: var(--chat-invite-text);
   --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.08);
-  --glass-analysis-bg: rgb(247, 248, 248);
+  --glass-analysis-bg: rgb(249, 249, 248);
   --glass-analysis-border: var(--opaque-panel-border);
   --glass-analysis-shadow: var(--opaque-panel-shadow);
   --glass-analysis-text: #1f1b16;
@@ -66,13 +66,13 @@
   --drawer-text-preview: rgba(245, 245, 244, 0.88);
   --drawer-text-time: rgba(245, 245, 244, 0.72);
   --drawer-overlay-bg: rgba(15, 23, 42, 0.08);
-  --drawer-glass-bg:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.75),
-      rgba(255, 255, 255, 0.5) 58%,
-      rgba(255, 255, 255, 0.42)
-    );
+  --drawer-glass-bg: var(--glass-ring-surface-bg);
+  --drawer-card-shadow:
+    0 0 0.55rem rgba(82, 50, 46, 0.03),
+    0 0.48rem 0.95rem rgba(82, 50, 46, 0.072);
+  --drawer-card-shadow-hover:
+    0 0 0.68rem rgba(82, 50, 46, 0.038),
+    0 0.58rem 1.08rem rgba(82, 50, 46, 0.084);
   --title-color: #7a3a38;
   --chat-icon-color: #3b3329;
   --link-color: #7a3a38;
@@ -166,21 +166,21 @@
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
   --seg-radio-dot-bg: #7a3a38;
   --seg-radio-dot-shadow: none;
-  --panel-secondary-bg: rgba(251, 252, 254, 0.87);
+  --panel-secondary-bg: rgba(252, 251, 250, 0.88);
   --panel-secondary-border: rgba(190, 196, 208, 0.55);
   --panel-secondary-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
   --panel-secondary-radius: 1.1rem;
-  --subpage-card-bg: rgba(251, 252, 254, 0.87);
-  --subpage-card-bg-hover: rgba(252, 253, 255, 0.92);
+  --subpage-card-bg: rgba(252, 251, 250, 0.88);
+  --subpage-card-bg-hover: rgba(253, 252, 251, 0.93);
   --subpage-card-border: transparent;
   --subpage-card-border-hover: transparent;
-  --subpage-card-shadow: 0 12px 24px rgba(82, 50, 46, 0.08);
-  --subpage-card-shadow-hover: 0 14px 28px rgba(82, 50, 46, 0.1);
+  --subpage-card-shadow: 0 12px 24px rgba(82, 50, 46, 0.09);
+  --subpage-card-shadow-hover: 0 14px 28px rgba(82, 50, 46, 0.11);
   --subpage-card-text: #334155;
-  --opaque-panel-bg: rgb(247, 248, 248);
-  --opaque-panel-bg-hover: rgb(250, 251, 251);
+  --opaque-panel-bg: rgb(249, 249, 248);
+  --opaque-panel-bg-hover: rgb(250, 250, 249);
   --opaque-panel-border: rgba(255, 255, 255, 0.5);
-  --opaque-panel-shadow: 0 10px 24px rgba(82, 50, 46, 0.1);
+  --opaque-panel-shadow: 0 10px 24px rgba(82, 50, 46, 0.11);
   --opaque-panel-text: #334155;
   --chat-btn-idle-light: color-mix(
     in srgb,
@@ -219,6 +219,8 @@
   --home-prose-color: var(--text-strong, #1f2937);
   --home-card-blur: 0.75rem;
   --home-card-saturate: 100%;
+  --home-panel-shadow-idle: 0 18px 40px rgba(0, 0, 0, 0.16);
+  --home-panel-shadow-active: 0 22px 46px rgba(0, 0, 0, 0.18);
   --home-card-glow-idle:
     0 0 10px rgba(255, 255, 255, 0.12),
     0 0 22px rgba(255, 255, 255, 0.07);
@@ -294,17 +296,15 @@
 :root.theme-light .drawer-panel .drawer-header strong {
   color: var(--title-color);
 }
-:root.theme-light .drawer-panel .drawer-chat-card,
-:root.theme-light .drawer-panel .drawer-chat-sidebar__list > li {
+:root.theme-light .drawer-panel .drawer-chat-card {
   border-color: transparent !important;
   background: var(--subpage-card-bg) !important;
-  box-shadow: var(--subpage-card-shadow) !important;
+  box-shadow: var(--drawer-card-shadow, var(--subpage-card-shadow)) !important;
 }
-:root.theme-light .drawer-panel .drawer-chat-card.drawer-chat-card--active,
-:root.theme-light .drawer-panel .drawer-chat-sidebar__list > li.drawer-chat-card--active {
+:root.theme-light .drawer-panel .drawer-chat-card.drawer-chat-card--active {
   border-color: transparent !important;
   background: var(--subpage-card-bg-hover, var(--subpage-card-bg)) !important;
-  box-shadow: var(--subpage-card-shadow-hover, var(--subpage-card-shadow)) !important;
+  box-shadow: var(--drawer-card-shadow-hover, var(--subpage-card-shadow-hover, var(--subpage-card-shadow))) !important;
 }
 :root.theme-light .drawer-close {
   color: var(--title-color);
@@ -398,15 +398,16 @@
 :root.theme-light .chat-inputbar .chat-listen-btn,
 :root.theme-light .chat-inputbar .chat-send-btn {
   --chat-action-size: var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)));
-  --chat-inputbar-bg: rgba(251, 252, 255, 0.93);
-  --chat-inputbar-bg-hover: rgba(255, 255, 255, 0.95);
-  --chat-inputbar-bg-focus: rgba(252, 253, 255, 0.955);
+  --chat-inputbar-bg: rgba(252, 250, 248, 0.93);
+  --chat-inputbar-bg-hover: rgba(255, 252, 249, 0.965);
+  --chat-inputbar-bg-focus: rgba(255, 252, 249, 0.965);
+  --chat-inputbar-shadow: 0 0.42rem 1.05rem rgba(15, 23, 42, 0.1), 0 0.16rem 0.4rem rgba(15, 23, 42, 0.045);
+  --chat-inputbar-shadow-hover: 0 0.58rem 1.18rem rgba(15, 23, 42, 0.105), 0 0.2rem 0.46rem rgba(15, 23, 42, 0.04);
+  --chat-inputbar-shadow-focus: 0 0.58rem 1.18rem rgba(15, 23, 42, 0.105), 0 0.2rem 0.46rem rgba(15, 23, 42, 0.04);
   --chat-user-bubble-bg: var(--chat-inputbar-bg);
   background: var(--chat-inputbar-bg);
   border: 0;
-  box-shadow:
-    0 0.42rem 1.05rem rgba(15, 23, 42, 0.1),
-    0 0.16rem 0.4rem rgba(15, 23, 42, 0.045);
+  box-shadow: var(--chat-inputbar-shadow);
   color: #1f2937;
 }
 :root.theme-light .chat-inputbar .chat-listen-btn,
@@ -431,18 +432,15 @@
 :root.theme-light .chat-inputbar:hover:not(:focus-within),
 :root.theme-light .chat-inputbar:focus-within {
   border-color: rgba(15, 23, 42, 0.06);
-  box-shadow:
-    0 0.24rem 0.68rem rgba(15, 23, 42, 0.055),
-    0 0.08rem 0.22rem rgba(15, 23, 42, 0.02);
+  box-shadow: var(--chat-inputbar-shadow-hover);
 }
 :root.theme-light .chat-inputbar:hover {
   background: var(--chat-inputbar-bg-hover);
-  box-shadow:
-    0 0.5rem 1.08rem rgba(15, 23, 42, 0.08),
-    0 0.18rem 0.42rem rgba(15, 23, 42, 0.035);
+  box-shadow: var(--chat-inputbar-shadow-hover);
 }
 :root.theme-light .chat-inputbar:focus-within {
   background: var(--chat-inputbar-bg-focus);
+  box-shadow: var(--chat-inputbar-shadow-focus);
 }
 :root.theme-light .chat-inputbar .chat-input-field {
   color: color-mix(in srgb, #111827 72%, #4b5563 28%);
@@ -456,9 +454,7 @@
 :root.theme-light .chat-inputbar:focus-within .chat-send-btn {
   background: var(--chat-inputbar-bg-focus);
   border-color: rgba(15, 23, 42, 0.07);
-  box-shadow:
-    0 0.42rem 1.05rem rgba(15, 23, 42, 0.1),
-    0 0.16rem 0.4rem rgba(15, 23, 42, 0.045);
+  box-shadow: var(--chat-inputbar-shadow-focus);
 }
 :root.theme-light .chat-inputbar:focus-within .chat-listen-btn {
   background: transparent;
@@ -477,27 +473,25 @@
   color: #1f2937;
 }
 :root.theme-light .chat-container--input-focus .chat-inputbar {
-  background: var(--chat-inputbar-bg-focus);
+  background: var(--chat-inputbar-bg-hover);
+  box-shadow: var(--chat-inputbar-shadow-hover);
 }
 :root.theme-light .chat-container--input-focus .chat-inputbar:hover {
   background: var(--chat-inputbar-bg-hover);
 }
 :root.theme-light .chat-container--input-focus .chat-inputbar:focus-within {
-  background: var(--chat-inputbar-bg-focus);
+  background: var(--chat-inputbar-bg-hover);
+  box-shadow: var(--chat-inputbar-shadow-hover);
 }
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn {
-  background: var(--chat-inputbar-bg-focus);
-  box-shadow:
-    0 0.42rem 1.05rem rgba(15, 23, 42, 0.1),
-    0 0.16rem 0.4rem rgba(15, 23, 42, 0.045);
+  background: var(--chat-inputbar-bg-hover);
+  box-shadow: var(--chat-inputbar-shadow-focus);
 }
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:hover,
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:focus-visible,
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:active {
-  background: color-mix(in srgb, var(--chat-inputbar-bg) 78%, white 22%);
-  box-shadow:
-    0 0.42rem 1.05rem rgba(15, 23, 42, 0.1),
-    0 0.16rem 0.4rem rgba(15, 23, 42, 0.045);
+  background: color-mix(in srgb, var(--chat-inputbar-bg-hover) 82%, white 18%);
+  box-shadow: var(--chat-inputbar-shadow-focus);
 }
 :root.theme-light .chat-inputbar .chat-send-btn .chat-send-loader {
   opacity: 0.95;
@@ -545,28 +539,28 @@ html[data-ui-scale="lg"].theme-light {
 :root.theme-light:not(.theme-mid)
   .materials-page-shell
   :is(.materials-upload-choose-button, .materials-upload-submit-button) {
-  --btn-primary-bg: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.88) 0%,
-    rgba(249, 247, 246, 0.84) 100%
-  );
-  --btn-primary-bg-hover: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.89) 0%,
-    rgba(249, 247, 246, 0.85) 100%
-  );
-  --btn-primary-bg-active: linear-gradient(
-    180deg,
-    rgba(252, 250, 249, 0.84) 0%,
-    rgba(246, 244, 243, 0.8) 100%
-  );
-  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.36);
-  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.48);
-  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.4);
-  --btn-primary-shadow: 0 6px 14px rgba(15, 23, 42, 0.1);
-  --btn-primary-shadow-hover: 0 7px 15px rgba(15, 23, 42, 0.11);
-  --btn-primary-shadow-active: 0 4px 10px rgba(15, 23, 42, 0.09);
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.62);
+  --btn-primary-border-active: 0 solid transparent;
+  --btn-primary-bg-hover:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 42%,
+      rgba(255, 255, 255, 0.99) 58%,
+      rgba(253, 251, 250, 0.97) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(254, 252, 251, 0.985) 100%
+    );
+  --btn-primary-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 4px 10px rgba(15, 23, 42, 0.08);
+  --btn-primary-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.34), 0 9px 18px rgba(15, 23, 42, 0.11);
+  --btn-primary-shadow-active: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 3px 8px rgba(15, 23, 42, 0.07);
   --btn-primary-shadow-focus:
-    0 8px 16px rgba(15, 23, 42, 0.12),
-    0 0 0 3px var(--btn-primary-focus-ring-color);
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 10px 20px rgba(15, 23, 42, 0.13),
+    0 0 0 3px var(--btn-primary-focus-ring-color),
+    0 0 0 1px rgba(255, 255, 255, 0.22);
 }

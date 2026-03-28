@@ -44,6 +44,52 @@ const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petat
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
+const ACTIVE_CHAT_WORKFLOW_VALUES = Object.freeze([
+  "default",
+  "career",
+  "help_request",
+  "help_offer"
+]);
+
+function createConversationId() {
+  if (typeof window !== "undefined" && window.crypto?.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+  return String(Date.now());
+}
+
+function createEmptyListingsPanelState() {
+  return {
+    items: [],
+    nextOffset: null,
+    loading: false,
+    error: ""
+  };
+}
+
+function createEmptySelectedListingState() {
+  return {
+    loading: false,
+    error: "",
+    listing: null,
+    isOwn: false,
+    connectOptions: [],
+    selectedConnectListingId: "",
+    edit: null,
+    busyAction: ""
+  };
+}
+
+function normalizeActiveWorkflow(value) {
+  const normalized = String(value || "").trim().toLowerCase();
+  return ACTIVE_CHAT_WORKFLOW_VALUES.includes(normalized) ? normalized : "default";
+}
+
+function getEmptyIntroMessage(t, workflow) {
+  if (workflow === "help_request") return t("chat.empty_intro_help_request");
+  if (workflow === "help_offer") return t("chat.empty_intro_help_offer");
+  return t("chat.empty_intro");
+}
 
 function getEmptyIntroSeenStorageKey({
   convId,
@@ -170,22 +216,8 @@ export default function ChatBody({
   const helpUi = useMemo(() => getHelpUiText(t), [t]);
   const [activeListingsPanel, setActiveListingsPanel] = useState(null);
   const [listingsPanelClosing, setListingsPanelClosing] = useState(false);
-  const [listingsPanelState, setListingsPanelState] = useState({
-    items: [],
-    nextOffset: null,
-    loading: false,
-    error: ""
-  });
-  const [selectedListingState, setSelectedListingState] = useState({
-    loading: false,
-    error: "",
-    listing: null,
-    isOwn: false,
-    connectOptions: [],
-    selectedConnectListingId: "",
-    edit: null,
-    busyAction: ""
-  });
+  const [listingsPanelState, setListingsPanelState] = useState(() => createEmptyListingsPanelState());
+  const [selectedListingState, setSelectedListingState] = useState(() => createEmptySelectedListingState());
   const [isEntering, setIsEntering] = useState(false);
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
@@ -193,6 +225,7 @@ export default function ChatBody({
   const [layoutTransitionsReady, setLayoutTransitionsReady] = useState(false);
   const listingsPanelCloseTimerRef = useRef(null);
   const deepResearchHintMessageIdRef = useRef(null);
+  const careerTurnRequestRef = useRef(0);
   const {
     isRoomMode,
     roomMessages,
@@ -545,9 +578,7 @@ export default function ChatBody({
       const raw = window.sessionStorage.getItem(careerSessionStorageKey);
       if (!raw) return;
       const parsed = JSON.parse(raw);
-      if (parsed?.activeWorkflow === "career") {
-        setActiveWorkflow("career");
-      }
+      setActiveWorkflow(normalizeActiveWorkflow(parsed?.activeWorkflow));
       setCareerProfile(parsed?.careerProfile || null);
       setCareerRuntime(parsed?.careerRuntime || null);
       setCareerLastResult(parsed?.careerLastResult || null);
@@ -584,7 +615,7 @@ export default function ChatBody({
     if (!careerSessionHydratedRef.current) return;
     try {
       if (
-        activeWorkflow !== "career" &&
+        activeWorkflow === "default" &&
         !careerProfile &&
         !careerRuntime &&
         !careerLastResult &&
@@ -612,11 +643,12 @@ export default function ChatBody({
       conversationStateReady &&
       draftAllowsIntro &&
       visibleMessages.length === 0;
+    const emptyIntroText = getEmptyIntroMessage(t, activeWorkflow);
     const displayMessages = hasEmptyIntro
       ? [{
           id: "__chat-empty-intro__",
           role: "ai",
-          text: t("chat.empty_intro"),
+          text: emptyIntroText,
           aiVisible: true,
           typingEffect: !emptyIntroSeen,
           onTypingComplete: !emptyIntroSeen ? "emptyIntro" : null
@@ -625,7 +657,7 @@ export default function ChatBody({
     const n = displayMessages.length;
     if (n <= renderLimit) return displayMessages;
     return displayMessages.slice(n - renderLimit);
-  }, [composerHasDraft, conversationStateReady, emptyIntroSeen, isRoomMode, renderLimit, t, visibleMessages]);
+  }, [activeWorkflow, composerHasDraft, conversationStateReady, emptyIntroSeen, isRoomMode, renderLimit, t, visibleMessages]);
   const hiddenCount = useMemo(() => {
     const n = visibleMessages.length;
     return n > renderLimit ? n - renderLimit : 0;
@@ -1218,6 +1250,7 @@ export default function ChatBody({
     historyPayload,
     userRole,
     locale,
+    activeWorkflow,
     docOnlyMode: analysis.docOnlyMode,
     ephemeralChunks: analysis.ephemeralChunks,
     ephemeralSource: analysis.ephemeralSource,
@@ -1258,6 +1291,40 @@ export default function ChatBody({
     stopChatStream();
     void stopResearch();
   }, [stopChatStream, stopResearch]);
+  const startFreshConversation = useCallback((nextWorkflow = "default", options = {}) => {
+    const {
+      convId: requestedConvId = null,
+      closeAnalysis = true
+    } = options;
+    const nextConvId = String(requestedConvId || "").trim() || createConversationId();
+
+    stop();
+    careerTurnRequestRef.current += 1;
+    deepResearchHintMessageIdRef.current = null;
+    setCareerLoading(false);
+    setErrorBanner(null);
+    setIsCrisis(false);
+    setShowSourcesPanel(false);
+    setActiveListingsPanel(null);
+    setListingsPanelClosing(false);
+    setListingsPanelState(createEmptyListingsPanelState());
+    setSelectedListingState(createEmptySelectedListingState());
+    if (closeAnalysis) {
+      analysis.closeAnalysisPanel?.();
+    }
+    resetCareerSession();
+    setMessages([]);
+    setConvId(nextConvId);
+    setActiveWorkflow(normalizeActiveWorkflow(nextWorkflow));
+
+    if (typeof window !== "undefined") {
+      try {
+        window.sessionStorage.setItem("sotsiaalai:chat:convId", nextConvId);
+      } catch {}
+    }
+
+    return nextConvId;
+  }, [analysis, resetCareerSession, setConvId, setIsCrisis, setMessages, stop]);
   const handleArmDeepResearch = useCallback(() => {
     const activeMessageId = deepResearchHintMessageIdRef.current;
     if (activeMessageId != null) {
@@ -1338,6 +1405,8 @@ export default function ChatBody({
       });
     }
 
+    const requestId = careerTurnRequestRef.current + 1;
+    careerTurnRequestRef.current = requestId;
     setCareerLoading(true);
     setErrorBanner(null);
 
@@ -1372,6 +1441,9 @@ export default function ChatBody({
       }
 
       const result = body.result;
+      if (careerTurnRequestRef.current !== requestId) {
+        return false;
+      }
 
       if (activateWorkflow) {
         setActiveWorkflow("career");
@@ -1400,6 +1472,9 @@ export default function ChatBody({
 
       return true;
     } catch (error) {
+      if (careerTurnRequestRef.current !== requestId) {
+        return false;
+      }
       const message =
         error?.message || "Karj??rin?ustamise k?ivitamine eba?nnestus.";
       setErrorBanner(message);
@@ -1410,7 +1485,9 @@ export default function ChatBody({
       });
       return false;
     } finally {
-      setCareerLoading(false);
+      if (careerTurnRequestRef.current === requestId) {
+        setCareerLoading(false);
+      }
     }
   }, [appendMessage, goToSubscription, router]);
   const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
@@ -1444,14 +1521,12 @@ export default function ChatBody({
       goToSubscription();
       return false;
     }
+    startFreshConversation("career");
     void runCareerTurn(
       {
         userMessage: "Soovin karj??rin?ustamist",
-        profile: careerProfile || {},
-        runtime: {
-          ...(careerRuntime || {}),
-          ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
-        },
+        profile: {},
+        runtime: {},
       },
       {
         echoUserText: false,
@@ -1459,13 +1534,24 @@ export default function ChatBody({
       }
     );
     return true;
-  }, [careerAccessReady, careerCurrentState, careerModeLocked, careerProfile, careerRuntime, goToSubscription, runCareerTurn]);
+  }, [careerAccessReady, careerModeLocked, goToSubscription, runCareerTurn, startFreshConversation]);
+  const activateInfoMode = useCallback(() => {
+    startFreshConversation("default");
+    return true;
+  }, [startFreshConversation]);
+  const activateHelpRequestMode = useCallback(() => {
+    startFreshConversation("help_request");
+    return true;
+  }, [startFreshConversation]);
+  const activateHelpOfferMode = useCallback(() => {
+    startFreshConversation("help_offer");
+    return true;
+  }, [startFreshConversation]);
   const handleSendMessage = useCallback(async (rawText) => {
     const text = String(rawText || "").trim();
     if (!text) return false;
-
-    const shouldUseCareerWorkflow =
-      activeWorkflow === "career" || isCareerIntent(text);
+    void isCareerIntent(text);
+    const shouldUseCareerWorkflow = activeWorkflow === "career";
 
     if (shouldUseCareerWorkflow) {
       if (!careerAccessReady) return false;
@@ -1508,7 +1594,7 @@ export default function ChatBody({
       activateWorkflow: true,
     });
   }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, runCareerTurn, sendMessage]);
-  const handleDraftStateChange = useCallback(({ ready, hasDraft }) => {
+  const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));
   }, []);
   const handleEmptyIntroTyped = useCallback(() => {
@@ -1522,6 +1608,13 @@ export default function ChatBody({
     return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} careerResponse={msg.careerResponse} careerSecondaryResponse={msg.careerSecondaryResponse} careerDocumentStep={msg.careerDocumentStep} careerGeneratedDocument={msg.careerGeneratedDocument} onCareerQuestionAnswer={handleCareerQuestionAnswer} aiVisible={!!msg.aiVisible} typingEffect={!!msg.typingEffect} onTypingComplete={msg.onTypingComplete === "emptyIntro" ? handleEmptyIntroTyped : undefined} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
   }, [handleCareerQuestionAnswer, handleEmptyIntroTyped, isRoomMode, renderedMessages, t]);
   const modeNotice = activeWorkflow === "career" ? "Aktiivne režiim: karjäärinõustamine" : null;
+  const activeModeLabel = useMemo(() => {
+    if (activeWorkflow === "default") return t("chat.tools.info_mode");
+    if (activeWorkflow === "career") return t("chat.tools.career_mode");
+    if (activeWorkflow === "help_request") return t("chat.tools.help_request_mode");
+    if (activeWorkflow === "help_offer") return t("chat.tools.help_offer_mode");
+    return t("chat.tools.info_mode");
+  }, [activeWorkflow, t]);
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
       const message = visibleMessages[i];
@@ -1583,17 +1676,17 @@ export default function ChatBody({
     function onSwitch(e) {
       const newId = e?.detail?.convId;
       if (!newId) return;
-      setConvId(newId);
-      setMessages([]);
-      setIsCrisis(false);
-      resetCareerSession();
+      startFreshConversation(e?.detail?.workflow, {
+        convId: newId,
+        closeAnalysis: false
+      });
       try {
         window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations"));
       } catch {}
     }
     window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
-  }, [resetCareerSession, setConvId, setIsCrisis, setMessages]);
+  }, [startFreshConversation]);
   useEffect(() => {
     return () => {
       stop();
@@ -1888,8 +1981,8 @@ export default function ChatBody({
     roomBlocked={roomBlocked}
     roomAuthRequired={roomAuthRequired}
     modeNotice={modeNotice}
-    activeModeLabel={modeNotice}
-    activeModeKey={activeWorkflow === "career" ? "career" : "default"}
+    activeModeLabel={activeModeLabel}
+    activeModeKey={activeWorkflow}
     chatWindowRef={chatWindowRef}
     isStreamingAny={isStreamingAny}
     hiddenCount={hiddenCount}
@@ -1916,7 +2009,10 @@ export default function ChatBody({
     onCancelDeepResearchMode={handleCancelDeepResearchMode}
     onConsumeDeepResearchMode={handleConsumeDeepResearchMode}
     onDeepResearchEmptySubmit={handleDeepResearchEmptySubmit}
+    onActivateInfoMode={activateInfoMode}
     onActivateCareerMode={activateCareerMode}
+    onActivateHelpRequestMode={activateHelpRequestMode}
+    onActivateHelpOfferMode={activateHelpOfferMode}
     careerModeLocked={careerModeLocked}
     documentFlowActive={documentFlowActive}
     onPickDocumentFile={analysis.onPickFile}

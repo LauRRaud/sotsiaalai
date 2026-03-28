@@ -715,11 +715,15 @@
     "tools": {
       "aria": "Tools",
       "tooltip": "Tools",
+      "exit_mode_aria": "End active mode",
       "menu_aria": "Chat tools",
       "document_analysis": "Document analysis",
       "deep_research": "Deep research",
       "deep_research_room_only": "Deep research is available only in 1:1 chat.",
+      "info_mode": "Info assistant",
       "documents": "Documents",
+      "help_request_mode": "Help request",
+      "help_offer_mode": "Help offer",
       "career_mode": "Career guidance",
       "agent_mode": "Document drafting"
     },
@@ -776,7 +780,9 @@
       "no_context_client": "I could not find an exact answer in the materials right now. Please describe your situation in a bit more detail and include at least your municipality or city.",
       "no_context_worker": "I could not find an exact answer in the materials right now. Please specify the municipality and the type of service or situation."
     },
-    "empty_intro": "Hello! Briefly describe your question or request. I can provide information, help draft documents, and connect people.",
+    "empty_intro": "Hello! Briefly describe what you want to know or what guidance you need. If you want another mode, choose it from the + menu.",
+    "empty_intro_help_request": "Hello! Briefly describe what kind of help you need. If you want, add who the help is for, where it is needed, and how urgent it is.",
+    "empty_intro_help_offer": "Hello! Briefly describe what kind of help you can offer. If you want, add who it is for, where it is available, and under what conditions.",
     "modeSelection": {
       "confirm": {
         "rag": "I understood that you want information and guidance. Shall we continue with that?",

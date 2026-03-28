@@ -10,6 +10,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import {
+  glassPrimaryButtonToneClassName,
   glassSubpageCardClassName,
 } from "@/components/ui/glassPageStyles";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
@@ -556,6 +557,8 @@ export default function ChatSidebar() {
   const currentBusy = isConversationView ? busy : roomsBusy;
   const isLoading = busy || roomsBusy;
   const selectedCount = selectedIds.size;
+  const messageCardShellClassName =
+    "w-full overflow-visible px-[0.42rem] max-[768px]:px-[0.4rem] py-[0.08rem]";
   const messageCardClassNameCommon =
     `drawer-chat-card flex w-full flex-col gap-[0.6rem] rounded-[1rem] p-[0.75rem_0.85rem] max-[768px]:p-[0.9rem_0.95rem] ${glassSubpageCardClassName}`;
   const messageActiveVariant = "";
@@ -569,22 +572,30 @@ export default function ChatSidebar() {
     "inline-flex h-[1.8rem] w-[2rem] items-center justify-center border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] " +
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
     "disabled:cursor-not-allowed disabled:opacity-45";
-  const compactActionBtnClassName =
-    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.08rem] !tracking-[0.02em] !whitespace-nowrap " +
-    "max-[768px]:!text-[1.34rem] max-[768px]:!leading-[1.08] max-[768px]:!px-[1.28rem] max-[768px]:!min-h-[3.36rem] " +
-    "max-[416px]:!text-[1.2rem] max-[416px]:!px-[1.02rem]";
-  const compactRefreshBtnClassName =
-    "!min-h-[3.05rem] !px-[0.98rem] !py-[0.78rem] max-[768px]:!px-[1.18rem] max-[768px]:!min-h-[3.36rem]";
-  const compactSwitchBtnClassName =
-    "!min-h-[3.05rem] !px-[1.08rem] !py-[0.78rem] !text-[1.08rem] !tracking-[0.02em] !whitespace-nowrap " +
-    "max-[768px]:!text-[1.2rem] max-[768px]:!leading-[1.08] max-[768px]:!px-[1.18rem] max-[768px]:!min-h-[3.36rem]";
+  const sidebarPrimaryButtonClassName =
+    "drawer-pill-btn invite-primary-btn !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
+    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem] " +
+    glassPrimaryButtonToneClassName;
+  const sidebarIconButtonClassName =
+    "drawer-pill-btn invite-primary-btn !min-h-[3.05rem] !px-[0.95rem] !py-[0.78rem] max-[768px]:!min-h-[3.2rem] max-[768px]:!px-[0.9rem] " +
+    glassPrimaryButtonToneClassName;
+  const searchInputClassName =
+    "!rounded-full !px-[1rem] !py-[0.78rem] !min-h-[3.05rem] !border-0 " +
+    "!bg-[color:var(--chat-inputbar-bg,var(--input-bg))] " +
+    "!text-[color:var(--input-text)] !caret-[color:var(--input-caret)] " +
+    "!shadow-[var(--chat-inputbar-shadow,var(--input-shadow))] " +
+    "transition-[background,box-shadow,color] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "placeholder:text-[color:var(--input-placeholder)] " +
+    "hover:!bg-[color:var(--chat-inputbar-bg-hover,var(--input-bg-hover))] " +
+    "hover:!shadow-[var(--chat-inputbar-shadow-hover,var(--input-shadow-hover))] " +
+    "focus-visible:!bg-[color:var(--chat-inputbar-bg-focus,var(--input-bg-focus))] " +
+    "focus-visible:!shadow-[var(--chat-inputbar-shadow-focus,var(--input-shadow-hover))] " +
+    "focus-visible:!outline-none";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
-  const listViewportClassName = "flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.1rem]";
+  const sidebarInsetWidthClassName = `${sidebarContentWidthClassName} px-[0.42rem] max-[768px]:px-[0.4rem]`;
+  const listViewportClassName = "flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
   const listClassName =
-    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto pl-0 pr-0 pt-[1.05rem] max-[768px]:pt-[0.9rem] pb-[0.9rem] max-[768px]:pb-[0.78rem] [scrollbar-width:none] " +
-    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.18)_1.5%,#000_4%,#000_96%,rgba(0,0,0,0.18)_98.5%,transparent_100%)] " +
-    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.18)_1.5%,#000_4%,#000_96%,rgba(0,0,0,0.18)_98.5%,transparent_100%)] " +
-    "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] [-webkit-mask-size:100%_100%] [mask-size:100%_100%] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
+    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto px-0 pt-[1.05rem] max-[768px]:pt-[0.9rem] pb-[1.45rem] max-[768px]:pb-[1.15rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
   const renderLoadingSkeleton = (prefix, count = 3) => Array.from({ length: count }).map((_, i) => <div key={`${prefix}-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
         <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
         <div className="h-2 w-1/3 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
@@ -602,61 +613,63 @@ export default function ChatSidebar() {
         return false;
       }
     })();
-    return <li key={`${item.kind}:${item.id}`} className={`${messageCardClassNameCommon} ${isActive ? messageActiveVariant : ""}`}>
-        <div className="flex items-start gap-3">
-          {selectMode && !isRoom ? <label className="mt-[0.1rem] flex h-6 w-6 max-[768px]:h-7 max-[768px]:w-7 items-center justify-center">
-              <input type="checkbox" className="peer sr-only" checked={selectedIds.has(item.id)} onChange={() => toggleSelected(item.id)} disabled={isActionBusy} />
-              <span aria-hidden="true" className="relative flex h-[20px] w-[20px] max-[768px]:h-[26px] max-[768px]:w-[26px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100">
-                <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] max-[768px]:h-[21px] max-[768px]:w-[21px] scale-90 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 12.5l4 4 8-8" />
-                </svg>
-              </span>
-            </label> : null}
-          <div className="cs-open flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none cursor-pointer" onClick={() => selectMode ? null : onPick(item)} onKeyDown={event => {
-          if (selectMode) return;
-          if (event.key !== "Enter" && event.key !== " ") return;
-          event.preventDefault();
-          onPick(item);
-        }} title={item.preview || item.title || t("chat.sidebar.item.fallback_title")} role="button" tabIndex={selectMode ? -1 : 0} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
-            <div className="flex flex-wrap items-center justify-start gap-2">
-              <span className="cs-title-text text-[1.2rem] max-[768px]:text-[1.38rem] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
-                {item.title || item.preview || t("chat.sidebar.item.fallback_title")}
-              </span>
-            </div>
-            {item.preview ? <div className={`cs-preview ${previewTextClassName}`}>
-                {item.preview}
-              </div> : null}
-            <div className="flex items-center justify-between gap-3">
-              <div className={`cs-time ${timeTextClassName}`}>
-                {formatDateTime(item.lastActivityAt)}
-              </div>
-              {!isRoom && !selectMode ? <button className={`${deleteBtnClassName} cs-delete shrink-0`} onClick={event => {
-            event.preventDefault();
-            event.stopPropagation();
-            onDelete(item.id);
-          }} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
-                  <svg className="cs-trash-icon h-[1.15rem] w-[1.15rem] max-[768px]:h-[1.35rem] max-[768px]:w-[1.35rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <polyline points="3 6 5 6 21 6" />
-                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                    <path d="M10 11v6" />
-                    <path d="M14 11v6" />
-                    <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+    return <li key={`${item.kind}:${item.id}`} className={messageCardShellClassName}>
+        <div className={`${messageCardClassNameCommon} ${isActive ? messageActiveVariant : ""}`}>
+          <div className="flex items-start gap-3">
+            {selectMode && !isRoom ? <label className="mt-[0.1rem] flex h-6 w-6 max-[768px]:h-7 max-[768px]:w-7 items-center justify-center">
+                <input type="checkbox" className="peer sr-only" checked={selectedIds.has(item.id)} onChange={() => toggleSelected(item.id)} disabled={isActionBusy} />
+                <span aria-hidden="true" className="relative flex h-[20px] w-[20px] max-[768px]:h-[26px] max-[768px]:w-[26px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] max-[768px]:h-[21px] max-[768px]:w-[21px] scale-90 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6 12.5l4 4 8-8" />
                   </svg>
-                </button> : null}
+                </span>
+              </label> : null}
+            <div className="cs-open flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none cursor-pointer" onClick={() => selectMode ? null : onPick(item)} onKeyDown={event => {
+            if (selectMode) return;
+            if (event.key !== "Enter" && event.key !== " ") return;
+            event.preventDefault();
+            onPick(item);
+          }} title={item.preview || item.title || t("chat.sidebar.item.fallback_title")} role="button" tabIndex={selectMode ? -1 : 0} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
+              <div className="flex flex-wrap items-center justify-start gap-2">
+                <span className="cs-title-text text-[1.2rem] max-[768px]:text-[1.38rem] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
+                  {item.title || item.preview || t("chat.sidebar.item.fallback_title")}
+                </span>
+              </div>
+              {item.preview ? <div className={`cs-preview ${previewTextClassName}`}>
+                  {item.preview}
+                </div> : null}
+              <div className="flex items-center justify-between gap-3">
+                <div className={`cs-time ${timeTextClassName}`}>
+                  {formatDateTime(item.lastActivityAt)}
+                </div>
+                {!isRoom && !selectMode ? <button className={`${deleteBtnClassName} cs-delete shrink-0`} onClick={event => {
+              event.preventDefault();
+              event.stopPropagation();
+              onDelete(item.id);
+            }} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
+                    <svg className="cs-trash-icon h-[1.15rem] w-[1.15rem] max-[768px]:h-[1.35rem] max-[768px]:w-[1.35rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <polyline points="3 6 5 6 21 6" />
+                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                      <path d="M10 11v6" />
+                      <path d="M14 11v6" />
+                      <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+                    </svg>
+                  </button> : null}
+              </div>
             </div>
           </div>
         </div>
       </li>;
   };
   return <>
-    <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-3 px-[0.35rem] pb-[0.4rem] pt-[0.7rem] max-[768px]:pt-[0.9rem] text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
+    <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-3 px-[0.15rem] max-[768px]:px-[0.1rem] pb-[0.4rem] pt-[0.7rem] max-[768px]:pt-[0.9rem] text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
       <div className={`${sidebarContentWidthClassName} flex flex-wrap items-center justify-center gap-2 max-[768px]:gap-[0.72rem]`}>
-        {isConversationView ? <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
+        {isConversationView ? <Button variant="primary" size="md" className={sidebarPrimaryButtonClassName} onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
             {creating ? t("chat.sidebar.button.creating") : <>
                 <span>{t("chat.sidebar.button.new_short")}</span>
               </>}
           </Button> : null}
-        {isConversationView ? <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={toggleSelectMode} disabled={isActionBusy}>
+        {isConversationView ? <Button variant="primary" size="md" className={sidebarPrimaryButtonClassName} onClick={toggleSelectMode} disabled={isActionBusy}>
             {selectMode ? <>
                 <span className="max-[416px]:hidden">{t("chat.sidebar.selection.cancel")}</span>
                 <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.cancel_short")}</span>
@@ -665,7 +678,7 @@ export default function ChatSidebar() {
                 <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.select_short")}</span>
               </>}
           </Button> : null}
-        <Button variant="primary" size="sm" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh")} title={t("chat.sidebar.button.refresh")} className={compactRefreshBtnClassName}>
+        <Button variant="primary" size="md" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh")} title={t("chat.sidebar.button.refresh")} className={sidebarIconButtonClassName}>
           <svg className="h-5 w-5 max-[768px]:h-[1.74rem] max-[768px]:w-[1.74rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.05" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M3 12a9 9 0 0 1 15-6.2" />
             <polyline points="18 3 18 9 12 9" />
@@ -673,19 +686,19 @@ export default function ChatSidebar() {
             <polyline points="6 21 6 15 12 15" />
           </svg>
         </Button>
-        <Button variant="primary" size="sm" className={compactSwitchBtnClassName} onClick={() => setActiveView(prev => prev === "conversations" ? "groups" : "conversations")} disabled={isLoading}>
+        <Button variant="primary" size="md" className={sidebarPrimaryButtonClassName} onClick={() => setActiveView(prev => prev === "conversations" ? "groups" : "conversations")} disabled={isLoading}>
           {isConversationView ? t("chat.sidebar.sections.groups") : t("chat.sidebar.sections.conversations")}
         </Button>
       </div>
-      {isConversationView ? <div className={`${sidebarContentWidthClassName} mt-[0.35rem] max-[768px]:mt-[0.45rem]`}>
-          <Input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} size="sm" className="!rounded-full !px-[1rem] !py-[0.78rem] !min-h-[3.05rem]" />
+      {isConversationView ? <div className={`${sidebarInsetWidthClassName} mt-[0.35rem] max-[768px]:mt-[0.45rem]`}>
+          <Input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} size="sm" className={searchInputClassName} />
         </div> : null}
       {selectMode && isConversationView ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>
-          <Button variant="primary" size="sm" className={`px-[0.7rem] ${compactActionBtnClassName}`} onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
+          <Button variant="primary" size="md" className={sidebarPrimaryButtonClassName} onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
             <span className="max-[416px]:hidden">{t("chat.sidebar.selection.delete_selected")}</span>
             <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.delete_selected_short")}</span>
           </Button>
-          <Button variant="primary" size="sm" className={`px-[0.7rem] ${compactActionBtnClassName}`} onClick={handleDeleteAll} disabled={isActionBusy}>
+          <Button variant="primary" size="md" className={sidebarPrimaryButtonClassName} onClick={handleDeleteAll} disabled={isActionBusy}>
             <span className="max-[416px]:hidden">{t("chat.sidebar.selection.delete_all")}</span>
             <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.delete_all_short")}</span>
           </Button>

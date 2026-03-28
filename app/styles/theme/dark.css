@@ -2,13 +2,7 @@
   --glass-shell-shadow: var(--glass-ring-glow-dark);
   --drawer-overlay-bg: rgba(0, 0, 0, 0.36);
   --subscription-error-color: rgba(232, 219, 217, 0.9);
-  --drawer-glass-bg:
-    linear-gradient(
-      135deg,
-      rgba(14, 16, 20, 0.42),
-      rgba(18, 20, 24, 0.32) 60%,
-      rgba(10, 12, 15, 0.38)
-    );
+  --drawer-glass-bg: var(--glass-ring-surface-bg);
   --chat-invite-surface: var(--subpage-card-bg);
   --chat-invite-surface-hover: var(--subpage-card-bg-hover);
   --chat-ui-solid-surface: rgb(26, 29, 34);
@@ -195,7 +189,7 @@
 }
 
 :root:not(.theme-light):not(.theme-mid) .drawer-panel--chat-glass {
-  --drawer-glass-bg: var(--glass-modal-bg, rgba(0, 0, 0, 0.25));
+  --drawer-glass-bg: var(--glass-ring-surface-bg, var(--glass-modal-bg, rgba(0, 0, 0, 0.25)));
   --drawer-card-border: transparent;
   --drawer-card-border-hover: transparent;
   --drawer-card-border-active: transparent;
@@ -225,6 +219,12 @@
   --home-card-surface-saturate: 122%;
   --home-card-light-opacity: 0.65;
   --home-card-dark-opacity: 0.6;
+  --home-panel-shadow-idle:
+    0 0 10px rgba(248, 253, 255, 0.12),
+    0 0 22px rgba(248, 253, 255, 0.06);
+  --home-panel-shadow-active:
+    0 0 14px rgba(248, 253, 255, 0.18),
+    0 0 30px rgba(248, 253, 255, 0.1);
   --home-card-glow-idle:
     0 0 10px rgba(248, 253, 255, 0.12),
     0 0 22px rgba(248, 253, 255, 0.06);

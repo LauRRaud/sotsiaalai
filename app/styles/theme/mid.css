@@ -12,13 +12,14 @@
   --chat-rail-tooltip-bg: rgb(231, 223, 219);
   --chat-tools-panel-bg: rgb(231, 223, 219);
   --chat-upload-picker-bg: rgb(231, 223, 219);
-  --bg-bends-opacity: 0.68;
-  --drawer-glass-bg: linear-gradient(
-    135deg,
-    rgba(253, 250, 249, 0.58),
-    rgba(251, 246, 245, 0.56) 58%,
-    rgba(249, 241, 239, 0.54)
-  );
+  --bg-bends-opacity: 0.76;
+  --drawer-glass-bg: var(--glass-ring-surface-bg);
+  --drawer-card-shadow:
+    0 0 0.55rem rgba(82, 50, 46, 0.032),
+    0 0.48rem 0.95rem rgba(20, 12, 10, 0.088);
+  --drawer-card-shadow-hover:
+    0 0 0.68rem rgba(82, 50, 46, 0.04),
+    0 0.58rem 1.08rem rgba(20, 12, 10, 0.1);
   --input-bg: rgba(252, 248, 247, 0.48);
   --input-bg-hover: rgba(253, 250, 249, 0.6);
   --input-bg-focus: rgba(253, 250, 249, 0.62);
@@ -130,6 +131,8 @@
 /* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
 :root.theme-mid body.homepage {
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
+  --home-panel-shadow-idle: 0 14px 30px rgba(20, 12, 10, 0.18);
+  --home-panel-shadow-active: 0 18px 36px rgba(20, 12, 10, 0.22);
   --home-card-glow-idle:
     0 0 10px rgba(255, 244, 240, 0.1), 0 0 22px rgba(255, 244, 240, 0.06);
   --home-card-glow-entry:
@@ -163,22 +166,17 @@
 
 /* Keep conversation drawer cards in mid transparent, including hover/active states. */
 :root.theme-mid .drawer-panel .drawer-chat-card,
-:root.theme-mid .drawer-panel .drawer-chat-sidebar__list > li,
 :root.theme-mid .drawer-chat-card {
   background: var(--subpage-card-bg) !important;
   border-color: var(--subpage-card-border) !important;
-  box-shadow: var(--subpage-card-shadow) !important;
+  box-shadow: var(--drawer-card-shadow, var(--subpage-card-shadow)) !important;
 }
 
 :root.theme-mid .drawer-panel .drawer-chat-card.drawer-chat-card--active,
-:root.theme-mid
-  .drawer-panel
-  .drawer-chat-sidebar__list
-  > li.drawer-chat-card--active,
 :root.theme-mid .drawer-chat-card.drawer-chat-card--active {
   background: var(--subpage-card-bg-hover, var(--subpage-card-bg)) !important;
   border-color: var(--subpage-card-border-hover, var(--subpage-card-border)) !important;
-  box-shadow: var(--subpage-card-shadow-hover, var(--subpage-card-shadow)) !important;
+  box-shadow: var(--drawer-card-shadow-hover, var(--subpage-card-shadow-hover, var(--subpage-card-shadow))) !important;
 }
 
 /* Login modal and OTP panel in mid use the same transparent glass level. */
@@ -619,28 +617,13 @@
 :root.theme-light.theme-mid
   .materials-page-shell
   :is(.materials-upload-choose-button, .materials-upload-submit-button) {
-  --btn-primary-bg: linear-gradient(
-    180deg,
-    rgba(248, 240, 237, 0.42) 0%,
-    rgba(240, 231, 227, 0.38) 100%
-  );
-  --btn-primary-bg-hover: linear-gradient(
-    180deg,
-    rgba(249, 242, 239, 0.46) 0%,
-    rgba(241, 233, 229, 0.42) 100%
-  );
-  --btn-primary-bg-active: linear-gradient(
-    180deg,
-    rgba(243, 234, 231, 0.4) 0%,
-    rgba(236, 226, 223, 0.36) 100%
-  );
-  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.42);
-  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.54);
-  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.46);
-  --btn-primary-shadow: 0 6px 14px rgba(20, 12, 10, 0.15);
-  --btn-primary-shadow-hover: 0 7px 16px rgba(20, 12, 10, 0.16);
-  --btn-primary-shadow-active: 0 4px 10px rgba(20, 12, 10, 0.14);
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-active: 0 solid transparent;
+  --btn-primary-shadow: 0 5px 12px rgba(0, 0, 0, 0.16);
+  --btn-primary-shadow-hover: 0 7px 14px rgba(0, 0, 0, 0.18);
+  --btn-primary-shadow-active: 0 4px 10px rgba(0, 0, 0, 0.14);
   --btn-primary-shadow-focus:
-    0 8px 16px rgba(20, 12, 10, 0.18),
+    0 8px 18px rgba(0, 0, 0, 0.22),
     0 0 0 3px var(--btn-primary-focus-ring-color);
 }

@@ -37,7 +37,7 @@
   ) !important;
   box-shadow: var(
     --home-about-panel-shadow,
-    var(--home-card-glow-idle, var(--glass-shell-shadow, none))
+    var(--home-panel-shadow-idle, var(--glass-shell-shadow, none))
   ) !important;
 }
 
@@ -49,8 +49,8 @@
   box-shadow: var(
     --home-before-panel-shadow,
     var(
-      --home-card-glow-active,
-      var(--home-card-glow-idle, var(--glass-shell-shadow, none))
+      --home-panel-shadow-active,
+      var(--home-panel-shadow-idle, var(--glass-shell-shadow, none))
     )
   ) !important;
 }

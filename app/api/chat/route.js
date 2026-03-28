@@ -16,8 +16,8 @@ import { logEvent } from "@/lib/chat/logger";
 import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
-import { AGENT_ARTIFACT_TYPE_VALUES, MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib/documents/constants";
-import { generateArtifactDraftContent, normalizeAgentLanguage } from "@/lib/documents/generation";
+import { MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib/documents/constants";
+import { generateArtifactDraftContent } from "@/lib/documents/generation";
 import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability";
 import {
   buildDocumentGeneratedIntro,
@@ -30,9 +30,7 @@ import {
 } from "@/lib/chat/documentOrchestration";
 import { runDocumentChatWorkflow } from "@/lib/chat/documentOrchestration";
 import { buildHelpWorkflowMetadata, getHelpWorkflowState, runHelpChatWorkflow } from "@/lib/help/chatWorkflow";
-import { detectHelpChatIntent } from "@/lib/help/intents";
 import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
-import { buildModeSelectionMetadata, resolveModeSelection } from "@/lib/chat/modeSelection";
 import { getChatSessionTurnLimit } from "@/lib/chat/guardrails";
 import { logOpenAIUsage } from "@/lib/openaiUsage";
 export const runtime = "nodejs";
@@ -54,6 +52,7 @@ const CHAT_DOC_CONTEXT_WORKER_CHARS = readChatRateLimit(process.env.CHAT_DOC_CON
 const CHAT_DOC_CONTEXT_WORKER_COMBINED_CHARS = readChatRateLimit(process.env.CHAT_DOC_CONTEXT_WORKER_COMBINED_CHARS, 1600, 300);
 const CHAT_DOC_CONTEXT_CLIENT_MAX_CHUNKS = readChatRateLimit(process.env.CHAT_DOC_CONTEXT_CLIENT_MAX_CHUNKS, 4, 1);
 const CHAT_DOC_CONTEXT_WORKER_MAX_CHUNKS = readChatRateLimit(process.env.CHAT_DOC_CONTEXT_WORKER_MAX_CHUNKS, 6, 1);
+const EXPLICIT_CHAT_MODE_VALUES = new Set(["rag", "document", "help_request", "help_offer"]);
 const MAX_USER_MESSAGE_CHARS = 1500;
 const CLIENT_AGENT_DOCUMENT_LIMIT = 2;
 function makeError(messageKey, status = 400, extras = {}) {
@@ -495,30 +494,6 @@ function buildDownloadAttachments({
     };
   });
 }
-function buildSseImmediateResponse({ sources = [], isCrisis = false, reply = "", attachments = [], cards = [] }) {
-  const enc = new TextEncoder();
-  const sse = new ReadableStream({
-    async start(controller) {
-      try {
-        controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources, isCrisis })}\n\n`));
-        controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({ t: reply })}\n\n`));
-        controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({ attachments, cards })}\n\n`));
-      } finally {
-        try {
-          controller.close();
-        } catch {}
-      }
-    }
-  });
-  return new Response(sse, {
-    headers: {
-      "Content-Type": "text/event-stream; charset=utf-8",
-      "Cache-Control": "no-cache, no-transform",
-      Connection: "keep-alive",
-      "X-Accel-Buffering": "no"
-    }
-  });
-}
 async function searchRagDirect({
   query,
   topK = RAG_TOP_K,
@@ -838,6 +813,8 @@ export async function POST(req) {
   }
   const uiLocale = typeof payload?.uiLocale === "string" ? payload.uiLocale : undefined;
   const roomId = normalizeRoomId(payload?.roomId ?? payload?.room_id);
+  const requestedChatModeRaw = typeof payload?.chatMode === "string" ? payload.chatMode.trim().toLowerCase() : "";
+  const requestedChatMode = !roomId && EXPLICIT_CHAT_MODE_VALUES.has(requestedChatModeRaw) ? requestedChatModeRaw : null;
   const ephemeralChunks = Array.isArray(payload?.ephemeralChunks)
     ? payload.ephemeralChunks.filter(s => typeof s === "string" && s.trim()).slice(0, CHAT_EPHEMERAL_CHUNKS_MAX).map(s => normalizeEphemeralChunk(s, CHAT_EPHEMERAL_CHUNK_CHARS_MAX)).filter(Boolean)
     : [];
@@ -909,7 +886,13 @@ export async function POST(req) {
     uiLocale
   });
   const greeting = isGreeting(message);
-  const explicitHelpIntent = !roomId ? detectHelpChatIntent(message) : null;
+  const explicitHelpIntent = !roomId
+    ? requestedChatMode === "help_request"
+      ? "create_help_request"
+      : requestedChatMode === "help_offer"
+        ? "create_help_offer"
+        : null
+    : null;
   const clarifyingTurns = countClarifyingTurns(rawHistory);
   const requestedThoroughness = inferRequestedThoroughness(message);
   const L = langStrings(replyLang, normalizedRole);
@@ -943,85 +926,21 @@ export async function POST(req) {
     ? await getDocumentWorkflowState(convId, userId, prisma)
     : null;
   const documentWorkflowActive = isActiveDocumentWorkflowState(documentWorkflowState);
-  const initialDocumentDecision = resolveDocumentTaskDecision({
-    message,
-    history: rawHistory,
-    role: normalizedRole,
-    replyLang,
-    sourceCount: ephemeralChunks.length,
-    clarifyingTurns,
-    requestedThoroughness
-  });
-  const modeSelection = !roomId
-    ? resolveModeSelection({
-        message,
+  const effectiveMessage = message;
+  const forcedMode = requestedChatMode;
+  const effectiveExplicitHelpIntent = explicitHelpIntent;
+  const documentDecision = forcedMode === "document"
+    ? resolveDocumentTaskDecision({
+        message: effectiveMessage,
         history: rawHistory,
+        role: normalizedRole,
         replyLang,
-        role: normalizedRole,
-        helpIntent: explicitHelpIntent,
-        documentTaskIntent: initialDocumentDecision.isDocumentTask,
-        skipSelection:
-          greeting ||
-          isCrisis ||
-          helpWorkflowActive ||
-          documentWorkflowActive
+        sourceCount: ephemeralChunks.length,
+        clarifyingTurns,
+        requestedThoroughness,
+        forceDocumentTask: true
       })
-    : {
-        handled: false,
-        resolvedMode: null,
-        routedMessage: message,
-        suggestedMode: "rag"
-      };
-  if (userId && !roomId && modeSelection?.handled) {
-    const reply = String(modeSelection.reply || "").trim();
-    const metadataExtra = buildModeSelectionMetadata(modeSelection.suggestedMode);
-    if (persist && convId && userId) {
-      await persistInit({
-        convId,
-        userId,
-        role: normalizedRole,
-        userMessage: message
-      });
-      await persistAppend({
-        convId,
-        userId,
-        fullText: reply
-      });
-      await persistDone({
-        convId,
-        userId,
-        status: "COMPLETED",
-        finalText: reply,
-        sources: [],
-        attachments: [],
-        cards: [],
-        metadataExtra,
-        isCrisis: false
-      });
-    }
-    return buildImmediateChatResponse({
-      wantStream,
-      reply,
-      sources: [],
-      attachments: [],
-      cards: [],
-      isCrisis: false,
-      convId
-    });
-  }
-  const effectiveMessage = String(modeSelection?.routedMessage || message).trim() || message;
-  const forcedMode = modeSelection?.resolvedMode || null;
-  const effectiveExplicitHelpIntent =
-    forcedMode === "help_request"
-      ? "create_help_request"
-      : forcedMode === "help_offer"
-        ? "create_help_offer"
-        : forcedMode === "rag"
-          ? null
-          : !roomId
-            ? detectHelpChatIntent(effectiveMessage)
-            : null;
-  const documentDecision = forcedMode === "rag"
+    : forcedMode === "rag"
     ? {
         isDocumentTask: false,
         historyHasDocumentTask: false,
@@ -1030,18 +949,25 @@ export async function POST(req) {
         taskConfig: null,
         taskDefaults: null
       }
-    : resolveDocumentTaskDecision({
-        message: effectiveMessage,
-        history: rawHistory,
-        role: normalizedRole,
-        replyLang,
-        sourceCount: ephemeralChunks.length,
-        clarifyingTurns,
-        requestedThoroughness,
-        forceDocumentTask: forcedMode === "document"
-      });
-  const documentTaskIntent = documentDecision.isDocumentTask;
+    : {
+        isDocumentTask: false,
+        historyHasDocumentTask: false,
+        documentTaskStart: false,
+        plan: null,
+        taskConfig: null,
+        taskDefaults: null
+      };
   const documentPlan = documentDecision.plan;
+  const shouldUseDocumentWorkflow = Boolean(
+    userId &&
+    !roomId &&
+    (forcedMode === "document" || (!forcedMode && documentWorkflowActive))
+  );
+  const shouldUseHelpWorkflow = Boolean(
+    userId &&
+    !roomId &&
+    (effectiveExplicitHelpIntent || (!forcedMode && helpWorkflowActive))
+  );
   if (documentPlan) {
     logInfo("orchestration.plan", {
       mode: documentPlan.mode,
@@ -1051,7 +977,7 @@ export async function POST(req) {
       capability: documentPlan.capability
     });
   }
-  if (userId && !roomId && (forcedMode === "document" || documentWorkflowActive)) {
+  if (shouldUseDocumentWorkflow) {
     const documentResult = await runDocumentChatWorkflow({
       message: effectiveMessage,
       convId,
@@ -1452,7 +1378,7 @@ export async function POST(req) {
       }
     }
   }
-  if (userId && !roomId) {
+  if (shouldUseHelpWorkflow) {
     const helpResult = await runHelpChatWorkflow({
       message: effectiveMessage,
       convId,
@@ -1484,6 +1410,7 @@ export async function POST(req) {
         helpPlan,
         buildHelpWorkflowMetadata(helpResult.workflowState)
       );
+      const helpWorkflowMeta = buildHelpWorkflowMetadata(helpResult.workflowState).workflow;
 
       if (persist && convId && userId) {
         await persistInit({
@@ -1512,25 +1439,15 @@ export async function POST(req) {
         });
       }
 
-      if (!wantStream) {
-        return NextResponse.json({
-          ok: true,
-          reply,
-          answer: reply,
-          sources,
-          attachments,
-          cards,
-          isCrisis: false,
-          convId: convId || undefined
-        });
-      }
-
-      return buildSseImmediateResponse({
-        sources,
-        isCrisis: false,
+      return buildImmediateChatResponse({
+        wantStream,
         reply,
+        sources,
         attachments,
-        cards
+        cards,
+        workflow: helpWorkflowMeta,
+        isCrisis: false,
+        convId
       });
     }
   }
