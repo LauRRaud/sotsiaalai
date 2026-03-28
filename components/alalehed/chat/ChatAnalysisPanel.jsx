@@ -5,17 +5,13 @@ import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 import OptionCard from "@/components/ui/OptionCard";
 import { cn } from "@/components/ui/cn";
+import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 
 const docToggleCardClassName =
   "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
   "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
   "[&>span.shrink-0]:-translate-y-[0.08rem] " +
-  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
-  "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
-  "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-  "[--seg-card-border:transparent] [--seg-card-border-width:0px] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-  "relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 focus-visible:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] " +
-  "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)] " +
+  `${primarySegmentedButtonClassName} ` +
   "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,

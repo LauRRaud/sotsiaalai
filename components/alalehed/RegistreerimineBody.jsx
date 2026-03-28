@@ -20,6 +20,7 @@ import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
+import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import {
   WORKER_FRAMEWORK_REVIEW_STORAGE_KEY,
   WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY,
@@ -45,13 +46,8 @@ const checkboxCardClassName =
 const registerControlVarsClassName =
   "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
 const registerOptionButtonClassName =
-  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
-  "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
-  "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-  "[.theme-mid_&]:[--seg-card-bg-selected:radial-gradient(92%_88%_at_50%_16%,rgba(246,238,234,0.62)_0%,rgba(239,229,225,0.56)_44%,rgba(231,221,216,0.48)_100%),linear-gradient(180deg,rgba(242,233,229,0.42)_0%,rgba(234,224,220,0.38)_100%)] [.theme-mid_&]:[--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-  "[--seg-card-border:transparent] [--seg-card-border-width:0px] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-  "relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 focus-visible:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] " +
-  "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
+  `${primarySegmentedButtonClassName} ` +
+  "[.theme-mid_&]:[--seg-card-bg-selected:radial-gradient(92%_88%_at_50%_16%,rgba(246,238,234,0.62)_0%,rgba(239,229,225,0.56)_44%,rgba(231,221,216,0.48)_100%),linear-gradient(180deg,rgba(242,233,229,0.42)_0%,rgba(234,224,220,0.38)_100%)] [.theme-mid_&]:[--seg-card-shadow-selected:var(--btn-primary-shadow-hover)]";
 const registerButtonClassName =
   "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";

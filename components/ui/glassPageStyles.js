@@ -79,7 +79,7 @@ export const glassPageMobileCardClassName =
   "max-[768px]:!pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]";
 
 export const glassSubpageCardClassName =
-  "rounded-[var(--subpage-card-radius)] border border-[color:var(--subpage-card-border)] " +
+  "rounded-[var(--subpage-card-radius)] [border-width:var(--subpage-card-border-width,1px)] border-solid border-[color:var(--subpage-card-border)] " +
   "[background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
   "shadow-[var(--subpage-card-shadow)]";
 

@@ -65,7 +65,8 @@ function resolveThemeFromDom() {
 const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
   isLightTheme = false,
-  prefsHydrated = false
+  prefsHydrated = false,
+  themeMode = "dark"
 }) {
   const layerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
@@ -78,7 +79,8 @@ const BackgroundContent = memo(function BackgroundContent({
   const allowParticles = true;
   const allowColorBends = true;
   const parallaxActive = !reduceMotion && !mobileLike;
-  const colorBendsProps = mobileLike
+  const isMidTheme = themeMode === "mid";
+  const baseColorBendsProps = mobileLike
     ? {
         performanceMode: "performance",
         maxDpr: 1.1
@@ -92,6 +94,20 @@ const BackgroundContent = memo(function BackgroundContent({
           performanceMode: "balanced",
           maxDpr: 1.35
         };
+  const themeColorBendsProps = isMidTheme
+    ? {
+        speed: 0.11,
+        scale: 1.08,
+        frequency: 0.92,
+        warpStrength: 0.84,
+        thicknessBias: 0.06,
+        edgeTightness: 1.24
+      }
+    : null;
+  const colorBendsProps = {
+    ...baseColorBendsProps,
+    ...(themeColorBendsProps || {})
+  };
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -240,6 +256,11 @@ function BackgroundLayer() {
     effectiveTheme === "light" ||
     effectiveTheme === "light-mono" ||
     effectiveTheme === "mid";
-  return <BackgroundContent reduceMotion={reduceMotion} isLightTheme={isLightTheme} prefsHydrated={!!hydrated} />;
+  return <BackgroundContent
+    reduceMotion={reduceMotion}
+    isLightTheme={isLightTheme}
+    prefsHydrated={!!hydrated}
+    themeMode={effectiveTheme || "dark"}
+  />;
 }
 export default memo(BackgroundLayer);

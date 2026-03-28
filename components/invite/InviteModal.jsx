@@ -11,6 +11,7 @@ import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
+import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
@@ -93,13 +94,8 @@ export default function InviteModal() {
     },
   ];
   const inviteOptionButtonClassName =
-    "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
-    "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
-    "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-    "[.theme-mid_&]:[--seg-card-bg-selected:radial-gradient(92%_88%_at_50%_16%,rgba(246,238,234,0.62)_0%,rgba(239,229,225,0.56)_44%,rgba(231,221,216,0.48)_100%),linear-gradient(180deg,rgba(242,233,229,0.42)_0%,rgba(234,224,220,0.38)_100%)] [.theme-mid_&]:[--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-    "[--seg-card-border:transparent] [--seg-card-border-width:0px] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    "relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 focus-visible:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] " +
-    "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
+    `${primarySegmentedButtonClassName} ` +
+    "[.theme-mid_&]:[--seg-card-bg-selected:radial-gradient(92%_88%_at_50%_16%,rgba(246,238,234,0.62)_0%,rgba(239,229,225,0.56)_44%,rgba(231,221,216,0.48)_100%),linear-gradient(180deg,rgba(242,233,229,0.42)_0%,rgba(234,224,220,0.38)_100%)] [.theme-mid_&]:[--seg-card-shadow-selected:var(--btn-primary-shadow-hover)]";
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[7rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.78rem] max-[768px]:!py-[0.2rem] max-[768px]:!text-[1.03rem] max-[768px]:!tracking-[0.024em]";
   const inviteSponsorToggleClassName =

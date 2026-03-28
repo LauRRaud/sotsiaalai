@@ -9,6 +9,7 @@ import "@/components/CenteredScrollPicker.css";
 import OptionCard from "@/components/ui/OptionCard";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 const titleClassName =
   `${glassPageTitleClassName} glass-title-register !text-[clamp(1.58rem,calc(var(--ring-diameter,52rem)/24.5),2.12rem)] min-[769px]:!mt-0 min-[769px]:!mb-0 max-[768px]:!text-[clamp(2rem,7.9vw,2.75rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0 max-[768px]:!px-0 max-[768px]:!whitespace-normal`;
 const modalBackdropClassName =
@@ -57,13 +58,7 @@ const contrastShiftClassName = "";
 const motionShiftClassName = "";
 const optionCardClassName =
   "w-fit !min-h-[3.05rem] !py-[0.78rem] !px-[0.96rem] !text-[1.12rem] !leading-[1.2] tracking-[0.03em] max-[768px]:!min-h-[3.45rem] max-[768px]:!py-[0.9rem] max-[768px]:!px-[1.1rem] max-[768px]:!text-[1.24rem]";
-const optionCardButtonClassName =
-  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
-  "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
-  "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
-  "[--seg-card-border:transparent] [--seg-card-border-width:0px] !duration-[560ms] !ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-  "relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 focus-visible:before:opacity-100 [&>*:not(input)]:relative [&>*:not(input)]:z-[1] " +
-  "data-[checked=true]:[background:var(--seg-card-bg-selected)] data-[checked=true]:shadow-[var(--seg-card-shadow-selected)]";
+const optionCardButtonClassName = primarySegmentedButtonClassName;
 const optionCardTextScaleDesktopClassName =
   "whitespace-nowrap";
 const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";

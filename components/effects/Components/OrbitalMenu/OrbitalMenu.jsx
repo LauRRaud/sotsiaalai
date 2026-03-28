@@ -526,7 +526,7 @@ export default function OrbitalMenu({
           "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
           "--label-gap-side": item.key === "theme" ? "0.86rem" : item.key === "delete" ? "-0.02rem" : undefined
         }}>
-                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center]" onClick={event => {
+                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:box-shadow_0.55s_cubic-bezier(0.16,1,0.3,1),transform_0.22s_ease] [will-change:transform,box-shadow]" onClick={event => {
             item.onClick?.();
             if (!item.keepOpen) {
               closeMenu();
@@ -555,7 +555,7 @@ export default function OrbitalMenu({
       {}
       <div className="profile-orbit-menu__center-shell relative grid place-items-center w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full overflow-visible z-[5]">
         <div className="profile-orbit-menu__center-pulse relative grid place-items-center w-full h-full rounded-full overflow-visible">
-          <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [will-change:transform]" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
+          <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [will-change:transform]" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
             <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
               <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
             </span>
@@ -604,7 +604,7 @@ export default function OrbitalMenu({
                     <div className="profile-orbit-mobile-visual w-full grid place-items-center transition-[opacity,filter] duration-[180ms] ease-out [will-change:opacity,filter]" data-orbit-mobile-active={isActive ? "true" : "false"} style={{
                 ...mobileVisualStyle
               }}>
-                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" data-orbit-mobile-active={isActive ? "true" : "false"} onPointerDown={() => {
+                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] [transition:box-shadow_0.55s_cubic-bezier(0.16,1,0.3,1),transform_0.22s_ease] [will-change:transform,box-shadow] text-[var(--orbit-mobile-accent,#c57171)]" data-orbit-mobile-active={isActive ? "true" : "false"} onPointerDown={() => {
                     applyActive(index);
                   }} onClick={() => {
                     onMobileAction(item);

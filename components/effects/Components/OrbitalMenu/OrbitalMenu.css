@@ -22,24 +22,38 @@
 :root:not(.theme-light):not([data-contrast="hc"])
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-ring-glow:
-    0 0 9px rgba(248, 253, 255, 0.14),
-    0 0 18px rgba(248, 253, 255, 0.065);
+    0 0 10px rgba(255, 255, 255, 0.16),
+    0 0 20px rgba(255, 252, 248, 0.07);
   --orbit-item-glow:
-    0 0 4px rgba(248, 253, 255, 0.11),
-    0 0 8px rgba(248, 253, 255, 0.05);
+    0 0 5px rgba(255, 255, 255, 0.12),
+    0 0 10px rgba(255, 252, 248, 0.055);
   --orbit-item-glow-strong:
-    0 0 5px rgba(248, 253, 255, 0.14),
-    0 0 10px rgba(248, 253, 255, 0.065);
+    0 0 6px rgba(255, 255, 255, 0.18),
+    0 0 12px rgba(255, 252, 248, 0.085);
   --orbit-button-shadow:
+    0 0 4px rgba(255, 255, 255, 0.05),
+    0 0 10px rgba(255, 252, 248, 0.02),
     0 10px 22px rgba(0, 0, 0, 0.24),
     inset 0 0 0 1px rgba(255, 255, 255, 0.035),
     inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  --orbit-button-shadow-hover:
+    0 0 12px rgba(255, 255, 255, 0.24),
+    0 0 24px rgba(255, 252, 248, 0.12),
+    0 16px 30px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.034);
   --orbit-button-shadow-center:
-    0 0 12px rgba(248, 253, 255, 0.18),
-    0 0 24px rgba(248, 253, 255, 0.085),
-    0 16px 32px rgba(0, 0, 0, 0.3),
+    0 0 18px rgba(255, 255, 255, 0.36),
+    0 0 34px rgba(255, 252, 248, 0.18),
+    0 16px 30px rgba(0, 0, 0, 0.22),
     inset 0 0 0 1px rgba(255, 255, 255, 0.06),
     inset 0 1px 0 rgba(255, 255, 255, 0.045);
+  --orbit-button-shadow-center-hover:
+    0 0 22px rgba(255, 255, 255, 0.42),
+    0 0 40px rgba(255, 252, 248, 0.22),
+    0 16px 30px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-icon,
@@ -81,9 +95,13 @@
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item {
   transition-property: transform, box-shadow !important;
-  transition-duration: 0.22s, 0.34s !important;
-  transition-timing-function: ease, ease-out !important;
-  transition-delay: 0s, 0.08s !important;
+  transition-duration: 0.22s, 0.55s !important;
+  transition-timing-function: ease, cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition-delay: 0s, 0s !important;
+}
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-menu__item.dock-item, .profile-orbit-mobile-action.dock-item) {
+  transition: box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s ease !important;
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-mobile-action.dock-item {
@@ -209,10 +227,7 @@
 :root:not(.theme-light):not([data-contrast="hc"])
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:focus-visible {
-  box-shadow:
-    var(--orbit-item-glow-strong, var(--orbit-item-glow)),
-    var(--orbit-ring-glow),
-    0 16px 30px rgba(0, 0, 0, 0.24);
+  box-shadow: var(--orbit-button-shadow-hover);
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
@@ -221,10 +236,7 @@
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:focus-visible {
-  box-shadow:
-    var(--orbit-item-glow-strong, var(--orbit-item-glow)),
-    var(--orbit-ring-glow),
-    0 16px 30px rgba(0, 0, 0, 0.27);
+  box-shadow: var(--orbit-button-shadow-hover);
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -239,6 +251,7 @@
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
   box-shadow: none;
+  transition: box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 :root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -341,6 +354,40 @@
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item::before {
   content: none;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item::before,
+:root.theme-night
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  padding: 0;
+  background: none;
+  -webkit-mask: none;
+  mask: none;
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.22),
+    0 0 24px rgba(255, 252, 248, 0.11);
+  opacity: 0;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible)::before,
+:root.theme-night
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible)::before {
+  opacity: 1;
 }
 
 :root:not(.theme-light)
@@ -455,11 +502,11 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.03),
     inset 0 1px 0 rgba(255, 255, 255, 0.022);
   --orbit-button-shadow-center:
-    0 0 14px rgba(248, 253, 255, 0.2),
-    0 0 26px rgba(248, 253, 255, 0.09),
-    0 14px 28px rgba(0, 0, 0, 0.29),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.045),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    0 0 18px rgba(255, 255, 255, 0.36),
+    0 0 34px rgba(255, 252, 248, 0.18),
+    0 16px 30px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
@@ -573,6 +620,37 @@ html[data-contrast="hc"]
     );
 }
 
+:root.theme-night .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  --orbit-ring-glow:
+    0 0 10px rgba(255, 255, 255, 0.18),
+    0 0 20px rgba(255, 252, 248, 0.08);
+  --orbit-item-glow:
+    0 0 5px rgba(255, 255, 255, 0.13),
+    0 0 10px rgba(255, 252, 248, 0.06);
+  --orbit-item-glow-strong:
+    0 0 6px rgba(255, 255, 255, 0.18),
+    0 0 12px rgba(255, 252, 248, 0.085);
+  --orbit-button-shadow:
+    0 0 4px rgba(255, 255, 255, 0.055),
+    0 0 10px rgba(255, 252, 248, 0.025),
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  --orbit-button-shadow-hover:
+    0 0 12px rgba(255, 255, 255, 0.24),
+    0 0 24px rgba(255, 252, 248, 0.12),
+    0 16px 30px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.034);
+  --orbit-button-shadow-center: var(--orbit-button-shadow-hover);
+  --orbit-button-shadow-center-hover:
+    0 0 22px rgba(255, 255, 255, 0.42),
+    0 0 40px rgba(255, 252, 248, 0.22),
+    0 16px 30px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
 :root[data-theme-switching="1"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item {
@@ -632,12 +710,7 @@ html[data-contrast="hc"]
     .profile-container.glass-ring
     .profile-email-dock-wrapper.profile-orbit-menu-wrapper
     .profile-orbit-menu__center.dock-item:focus-visible {
-    box-shadow:
-      0 0 10px rgba(248, 253, 255, 0.24),
-      0 0 18px rgba(248, 253, 255, 0.12),
-      0 12px 24px rgba(0, 0, 0, 0.26),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.045);
+    box-shadow: var(--orbit-button-shadow-center-hover);
   }
 }
 
@@ -658,11 +731,39 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
     inset 0 0 0 1px rgba(255, 234, 0, 0.08),
     inset 0 1px 0 rgba(255, 250, 180, 0.035);
   --orbit-button-shadow-center:
-    0 0 18px rgba(255, 234, 0, 0.34),
-    0 0 32px rgba(255, 234, 0, 0.17),
-    0 13px 26px rgba(0, 0, 0, 0.25),
-    inset 0 0 0 1px rgba(255, 234, 0, 0.12),
-    inset 0 1px 0 rgba(255, 250, 180, 0.04);
+    0 0 18px rgba(255, 234, 0, 0.38),
+    0 0 34px rgba(255, 234, 0, 0.2),
+    0 0 56px rgba(255, 234, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.16),
+    inset 0 1px 0 rgba(255, 250, 180, 0.07);
+  --orbit-button-shadow-center-hover:
+    0 0 22px rgba(255, 234, 0, 0.48),
+    0 0 42px rgba(255, 234, 0, 0.26),
+    0 0 64px rgba(255, 234, 0, 0.14),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.2),
+    inset 0 1px 0 rgba(255, 250, 180, 0.09);
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item {
+  box-shadow:
+    0 0 18px rgba(255, 234, 0, 0.38),
+    0 0 34px rgba(255, 234, 0, 0.2),
+    0 0 56px rgba(255, 234, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.16),
+    inset 0 1px 0 rgba(255, 250, 180, 0.07) !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active) {
+  box-shadow:
+    0 0 22px rgba(255, 234, 0, 0.48),
+    0 0 42px rgba(255, 234, 0, 0.26),
+    0 0 64px rgba(255, 234, 0, 0.14),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.2),
+    inset 0 1px 0 rgba(255, 250, 180, 0.09) !important;
 }
 
 html[data-contrast="hc"]
