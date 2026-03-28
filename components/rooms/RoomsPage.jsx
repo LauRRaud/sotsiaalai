@@ -24,7 +24,7 @@ import {
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles";
 
-const pageShellClassName = `${glassPageShellCenteredClassName} max-md:py-0`;
+const pageShellClassName = `${glassPageShellCenteredClassName} mobile-keep-desktop-glass-cards max-md:py-0`;
 const ringClassName =
   `${glassPageRingCenteredClassName} glass-ring--desktop-stable scroll-reactive-shell flex-col gap-0 overflow-hidden md:mt-0 md:mb-0 ` +
   `[--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,4.2vw,3.25rem)] ` +

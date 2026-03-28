@@ -147,7 +147,7 @@ const modalInputClassName =
 const accountModalOverlayClassName =
   "invite-modal-overlay account-settings-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
 const accountModalContentClassName =
-  `invite-modal-content account-settings-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
+  `invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
   `!w-[min(100%,calc(100dvh-2.5rem))] !max-w-[min(38rem,calc(100dvh-2.5rem))] !aspect-square !rounded-full ` +
   `!bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
   `pt-[clamp(2.8rem,5.5vh,4rem)] !px-[clamp(2rem,4vw,3rem)] !pb-[clamp(2rem,4vh,2.8rem)] ` +
@@ -471,6 +471,7 @@ export default function ProfiilBody({
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
   const [orbitMenuRenderKey, setOrbitMenuRenderKey] = useState(0);
+  const orbitMenuResetReadyRef = useRef(false);
   const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(false);
   const [mobileLogoutArmed, setMobileLogoutArmed] = useState(false);
   const [profileHelpPanel, setProfileHelpPanel] = useState(null);
@@ -925,6 +926,10 @@ export default function ProfiilBody({
   useEffect(() => {
     if (showAccountSettings || profileHelpPanel) {
       setOrbitOpen(false);
+      return;
+    }
+    if (!orbitMenuResetReadyRef.current) {
+      orbitMenuResetReadyRef.current = true;
       return;
     }
     setOrbitMenuRenderKey(prev => prev + 1);

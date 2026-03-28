@@ -1418,7 +1418,10 @@
     margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
     border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;
     border: 0 !important;
-    background: var(--input-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    background: var(
+      --glass-modal-bg,
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+    ) !important;
     box-shadow: none !important;
     -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
     backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
@@ -1442,6 +1445,15 @@
 
   :root.theme-light .invite-modal-content {
     color: var(--text-strong, #1f2937) !important;
+  }
+
+  :root.theme-light .mobile-keep-desktop-glass-cards {
+    --subpage-card-bg: rgba(252, 251, 250, 0.88);
+    --subpage-card-bg-hover: rgba(253, 252, 251, 0.93);
+    --subpage-card-border: transparent;
+    --subpage-card-border-hover: transparent;
+    --subpage-card-shadow: 0 12px 24px rgba(82, 50, 46, 0.09);
+    --subpage-card-shadow-hover: 0 14px 28px rgba(82, 50, 46, 0.11);
   }
 
   .invite-modal-content .invite-modal-scroll {
