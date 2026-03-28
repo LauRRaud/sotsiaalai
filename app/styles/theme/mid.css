@@ -27,6 +27,7 @@
   --input-flat-bg-hover: rgb(235, 228, 224);
   --input-text: #2f3a4a;
   --input-caret: #2f3a4a;
+  --chat-composer-action-icon-color: #7a3a38;
   --input-border: 1px solid rgba(255, 255, 255, 0.34);
   --input-placeholder: rgba(55, 65, 81, 0.82);
   --input-shadow: 0 6px 14px rgba(20, 12, 10, 0.16);
@@ -241,36 +242,83 @@
     calc(3.2 * var(--base-rem))
   );
   color: var(--rail-tooltip-text, #3f241f);
-  --chat-inputbar-bg: rgba(252, 246, 244, 0.62);
-  --chat-inputbar-bg-hover: rgba(253, 250, 248, 0.68);
-  --chat-inputbar-bg-focus: rgba(253, 250, 248, 0.68);
-  --chat-inputbar-btn-bg: var(--btn-primary-bg);
-  --chat-inputbar-btn-bg-hover: var(--btn-primary-bg-hover);
+  --chat-inputbar-bg: rgba(238, 232, 228, 0.84);
+  --chat-inputbar-bg-hover: rgba(241, 235, 231, 0.88);
+  --chat-inputbar-bg-focus: rgba(242, 236, 232, 0.9);
+  --chat-inputbar-shadow:
+    0 0.42rem 1.05rem rgba(15, 23, 42, 0.11),
+    0 0.16rem 0.4rem rgba(15, 23, 42, 0.05),
+    0 0.8rem 1.55rem rgba(82, 50, 46, 0.08);
+  --chat-inputbar-shadow-hover:
+    0 0.58rem 1.18rem rgba(15, 23, 42, 0.12),
+    0 0.2rem 0.46rem rgba(15, 23, 42, 0.05),
+    0 0.95rem 1.8rem rgba(82, 50, 46, 0.1);
+  --chat-inputbar-shadow-focus:
+    0 0.58rem 1.18rem rgba(15, 23, 42, 0.12),
+    0 0.2rem 0.46rem rgba(15, 23, 42, 0.05),
+    0 0.95rem 1.8rem rgba(82, 50, 46, 0.1);
+  --chat-inputbar-btn-bg:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(236, 232, 229, 0.95) 0%,
+      rgba(231, 226, 223, 0.93) 56%,
+      rgba(224, 218, 214, 0.9) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(233, 228, 225, 0.94) 0%,
+      rgba(225, 219, 215, 0.92) 100%
+    );
+  --chat-inputbar-btn-bg-hover:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(239, 235, 232, 0.97) 0%,
+      rgba(234, 229, 226, 0.95) 56%,
+      rgba(227, 221, 217, 0.92) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(236, 231, 228, 0.95) 0%,
+      rgba(228, 222, 218, 0.92) 100%
+    );
+  --chat-inputbar-btn-bg-focus: var(
+    --chat-inputbar-btn-bg-hover,
+    var(--btn-primary-bg-hover)
+  );
+  --chat-inputbar-btn-shadow:
+    0 0.62rem 1.32rem rgba(15, 23, 42, 0.14),
+    0 0.24rem 0.56rem rgba(15, 23, 42, 0.08);
+  --chat-inputbar-btn-shadow-hover:
+    0 0.76rem 1.52rem rgba(15, 23, 42, 0.16),
+    0 0.3rem 0.66rem rgba(15, 23, 42, 0.09);
+  --chat-inputbar-btn-shadow-focus:
+    0 0.8rem 1.58rem rgba(15, 23, 42, 0.17),
+    0 0.32rem 0.7rem rgba(15, 23, 42, 0.1);
 }
 
 :root.theme-mid .chat-inputbar {
   border: 0;
   background: var(--chat-inputbar-bg) !important;
-  box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow);
+  box-shadow: var(--chat-inputbar-shadow);
 }
 
 :root.theme-mid .chat-inputbar:hover:not(:focus-within),
-:root.theme-mid .chat-inputbar:focus-within {
+:root.theme-mid .chat-inputbar:hover {
   background: var(--chat-inputbar-bg-hover) !important;
   border-color: transparent;
-  box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow-strong);
+  box-shadow: var(--chat-inputbar-shadow-hover);
+}
+
+:root.theme-mid .chat-inputbar:focus-within {
+  background: var(--chat-inputbar-bg-focus) !important;
+  border-color: transparent;
+  box-shadow: var(--chat-inputbar-shadow-focus);
 }
 
 :root.theme-mid .chat-container--input-focus .chat-inputbar,
 :root.theme-mid .chat-container--input-focus .chat-inputbar:focus-within {
-  background: var(--chat-inputbar-bg-hover) !important;
-  box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow-strong);
+  background: var(--chat-inputbar-bg-focus) !important;
+  box-shadow: var(--chat-inputbar-shadow-focus);
 }
 
 :root.theme-mid .chat-inputbar .chat-listen-btn {
@@ -283,26 +331,20 @@
 :root.theme-mid .chat-inputbar .chat-send-btn {
   background: var(--chat-inputbar-btn-bg, var(--btn-primary-bg)) !important;
   border: var(--btn-primary-border) !important;
-  box-shadow:
-    0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
-    0 0.16rem 0.4rem rgba(20, 12, 10, 0.06) !important;
+  box-shadow: var(--chat-inputbar-btn-shadow) !important;
 }
 
 :root.theme-mid .chat-inputbar:focus-within .chat-send-btn {
-  background: var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg, var(--btn-primary-bg-hover))) !important;
+  background: var(--chat-inputbar-btn-bg-focus, var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg, var(--btn-primary-bg-hover)))) !important;
   border: var(--btn-primary-border-hover) !important;
-  box-shadow:
-    0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
-    0 0.16rem 0.4rem rgba(20, 12, 10, 0.06) !important;
+  box-shadow: var(--chat-inputbar-btn-shadow-focus) !important;
 }
 
 :root.theme-mid .chat-inputbar .chat-send-btn:hover,
 :root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
   background: var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg, var(--btn-primary-bg-hover))) !important;
   border: var(--btn-primary-border-hover) !important;
-  box-shadow:
-    0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
-    0 0.16rem 0.4rem rgba(20, 12, 10, 0.06) !important;
+  box-shadow: var(--chat-inputbar-btn-shadow-hover) !important;
   color: #2f3a4a;
 }
 
@@ -465,16 +507,12 @@
   }
 }
 
-/* Keep dictate/send stable in mid mode across focus/hydration class toggles. */
+/* Keep dictate/send borderless in mid without flattening idle/hover/focus states. */
 :root.theme-mid .chat-inputbar .chat-send-btn,
 :root.theme-mid .chat-inputbar:focus-within .chat-send-btn,
 :root.theme-mid .chat-inputbar .chat-send-btn:hover,
 :root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
-  background: var(--chat-inputbar-btn-bg, var(--btn-primary-bg)) !important;
   border: 0 !important;
-  box-shadow:
-    0 0.42rem 1.05rem rgba(20, 12, 10, 0.15),
-    0 0.16rem 0.4rem rgba(20, 12, 10, 0.06) !important;
 }
 
 /* Invite list card in mid should not jump to bright white due light modifiers. */
