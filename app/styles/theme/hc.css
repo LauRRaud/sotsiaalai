@@ -85,9 +85,9 @@ html[data-contrast="hc"] {
   --chat-icon-light: #7a3a38;
   --orbit-accent: var(--hc-accent);
 
-  --chat-ui-solid-surface: rgb(8, 9, 12);
-  --chat-tools-panel-bg: var(--chat-card-surface-night-flat-bg);
-  --chat-upload-picker-bg: var(--chat-card-surface-night-flat-bg);
+  --chat-ui-solid-surface: rgb(18, 26, 40);
+  --chat-tools-panel-bg: rgb(18, 26, 40);
+  --chat-upload-picker-bg: rgb(18, 26, 40);
   --chat-rail-tooltip-bg: var(--chat-tools-panel-bg);
   --subpage-card-bg: var(--chat-card-surface-night-standard-bg);
   --subpage-card-bg-hover: var(--input-flat-bg-hover);

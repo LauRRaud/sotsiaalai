@@ -610,7 +610,14 @@
     .profile-orbit-menu__center {
     opacity: 0;
     pointer-events: none;
-    transform: scale(0.7);
+    -webkit-transform: translateZ(0) scale(1);
+    transform: translateZ(0) scale(1);
+  }
+
+  .profile-orbit-menu[data-mobile-variant="stack"].is-open
+    .profile-orbit-menu__center-pulse {
+    -webkit-animation: none !important;
+    animation: none !important;
   }
 
   /* Avoid the visible 0.7 -> 1 grow animation when the stack menu closes. */

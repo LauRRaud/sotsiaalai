@@ -33,6 +33,16 @@ const CHAT_BACK_HOVER_ARM_KEY = "sotsiaalai:chat:back-hover-arm-on-move";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const ACCOUNT_SETTINGS_TILT_MS = 540;
+function detectMobileProfileMenu() {
+  if (typeof window === "undefined") return false;
+  const ua = typeof navigator !== "undefined" ? navigator.userAgent || "" : "";
+  const uaMobile =
+    Boolean(typeof navigator !== "undefined" && "userAgentData" in navigator && navigator.userAgentData?.mobile) ||
+    /Android|iPhone|iPad|iPod|Windows Phone|IEMobile|Opera Mini|Mobile/i.test(ua);
+  const matchWidth = window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches;
+  const matchCoarse = window.matchMedia?.(COARSE_POINTER_QUERY)?.matches;
+  return Boolean(uaMobile || matchWidth || matchCoarse || window.innerWidth <= 768);
+}
 const ROLE_SHORT_KEYS = {
   ADMIN: "profile.role_short.admin",
   SOCIAL_WORKER: "profile.role_short.worker",
@@ -431,6 +441,8 @@ function ThemeHighContrastDockIcon({
 }
 export default function ProfiilBody({
   initialProfile = null,
+  initialOrbitRequested = false,
+  initialIsMobileProfileMenu = false,
   embedded = false,
   isActive = true,
   onBack
@@ -471,14 +483,15 @@ export default function ProfiilBody({
   const [showLogoutAll, setShowLogoutAll] = useState(false);
   const [roleSwitching, setRoleSwitching] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
-  const [orbitOpen, setOrbitOpen] = useState(false);
-  const orbitQueryConsumedRef = useRef(false);
+  const initialOrbitRequestedRef = useRef(Boolean(initialOrbitRequested && initialIsMobileProfileMenu));
+  const [orbitOpen, setOrbitOpen] = useState(initialOrbitRequestedRef.current);
+  const orbitQueryConsumedRef = useRef(initialOrbitRequestedRef.current);
   const accountSettingsReturnToOrbitRef = useRef(false);
   const a11yReturnToOrbitRef = useRef(false);
   const prevA11yModalOpenRef = useRef(false);
   const [orbitMenuRenderKey, setOrbitMenuRenderKey] = useState(0);
   const orbitMenuResetReadyRef = useRef(false);
-  const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(false);
+  const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(() => initialIsMobileProfileMenu || detectMobileProfileMenu());
   const [mobileLogoutArmed, setMobileLogoutArmed] = useState(false);
   const [profileHelpPanel, setProfileHelpPanel] = useState(null);
   const [profileHelpPanelClosing, setProfileHelpPanelClosing] = useState(false);
@@ -495,13 +508,7 @@ export default function ProfiilBody({
   useEffect(() => {
     if (typeof window === "undefined") return;
     const updateViewport = () => {
-      const ua = typeof navigator !== "undefined" ? navigator.userAgent || "" : "";
-      const uaMobile =
-        Boolean(typeof navigator !== "undefined" && "userAgentData" in navigator && navigator.userAgentData?.mobile) ||
-        /Android|iPhone|iPad|iPod|Windows Phone|IEMobile|Opera Mini|Mobile/i.test(ua);
-      const matchWidth = window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches;
-      const matchCoarse = window.matchMedia?.(COARSE_POINTER_QUERY)?.matches;
-      setIsMobileProfileMenu(Boolean(uaMobile || matchWidth || matchCoarse || window.innerWidth <= 768));
+      setIsMobileProfileMenu(detectMobileProfileMenu());
     };
     updateViewport();
     window.addEventListener("resize", updateViewport);
@@ -796,6 +803,12 @@ export default function ProfiilBody({
     return () => window.cancelAnimationFrame(raf1);
   }, [isActive]);
   useEffect(() => {
+    if (orbitQueryConsumedRef.current) return;
+    if (!isMobileProfileMenu || !orbitRequested || orbitOpen || showAccountSettings || profileHelpPanel || loggingOut) return;
+    orbitQueryConsumedRef.current = true;
+    setOrbitOpen(true);
+  }, [isMobileProfileMenu, loggingOut, orbitOpen, orbitRequested, profileHelpPanel, showAccountSettings]);
+  useEffect(() => {
     if (status !== "unauthenticated") return;
     if (embedded && !isActive) return;
     setLoginOpen(true);
@@ -968,12 +981,6 @@ export default function ProfiilBody({
     a11yReturnToOrbitRef.current = false;
   }, [isA11yModalOpen, isMobileProfileMenu]);
   useEffect(() => {
-    if (orbitQueryConsumedRef.current) return;
-    if (!isMobileProfileMenu || !orbitRequested || orbitOpen || showAccountSettings || profileHelpPanel || loggingOut) return;
-    orbitQueryConsumedRef.current = true;
-    setOrbitOpen(true);
-  }, [isMobileProfileMenu, loggingOut, orbitOpen, orbitRequested, profileHelpPanel, showAccountSettings]);
-  useEffect(() => {
     if (embedded || orbitOpen || !orbitQueryConsumedRef.current || typeof window === "undefined") return;
     const url = new URL(window.location.href);
     if (!url.searchParams.has("orbit")) {
@@ -1075,12 +1082,14 @@ export default function ProfiilBody({
     icon: <PinDockIcon />,
     label: t("profile.change_password_cta"),
     labelPos: "up",
+    closeOnMobileAction: false,
     onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/uuenda-pin?return=profile&orbit=1" : `/uuenda-pin${embedded ? "?return=profile" : ""}`, locale))
   }, {
     key: "email",
     icon: <EmailDockIcon />,
     label: t("profile.update_email_cta"),
     labelPos: "up",
+    closeOnMobileAction: false,
     onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/uuenda-epost?return=profile&orbit=1" : `/uuenda-epost${embedded ? "?return=profile" : ""}`, locale))
   }, {
     key: "account",
@@ -1098,6 +1107,7 @@ export default function ProfiilBody({
     icon: <SubscriptionDockIcon />,
     label: t("profile.manage_subscription"),
     labelPos: "down",
+    closeOnMobileAction: false,
     onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/tellimus?return=profile&orbit=1" : `/tellimus${embedded ? "?return=profile" : ""}`, locale))
   }, ...(isMobileProfileMenu ? [{
     key: "my_help_requests",
@@ -1145,6 +1155,14 @@ export default function ProfiilBody({
     });
   }, [locale, onBack, router]);
   const handleMobileOrbitBack = useCallback(() => {
+    orbitQueryConsumedRef.current = true;
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (url.searchParams.has("orbit")) {
+        url.searchParams.delete("orbit");
+        window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+      }
+    }
     setOrbitOpen(false);
   }, []);
   const mobileBackItem = {
@@ -1307,6 +1325,8 @@ export default function ProfiilBody({
               ariaLabel={t("profile.actions_label")}
               toggleLabelOpen={t("profile.actions_label")}
               toggleLabelClose={t("buttons.close")}
+              open={orbitOpen}
+              initialMobileUi={isMobileProfileMenu}
               mobileVariant="stack"
               mobileBackItem={mobileBackItem}
               className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem]"

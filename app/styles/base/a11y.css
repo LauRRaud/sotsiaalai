@@ -286,7 +286,10 @@ html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item {
   outline: none !important;
 }
 html[data-contrast="hc"] body .chat-tools-menu {
-  background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23)) !important;
+  background: var(
+    --chat-card-surface-night-strong-bg,
+    radial-gradient(ellipse at top, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
+  ) !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
@@ -411,7 +414,10 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card
     0 0 0 2px rgba(255, 234, 0, 0.44);
 }
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-upload-modal-card {
-  background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23)) !important;
+  background: var(
+    --chat-card-surface-night-strong-bg,
+    radial-gradient(ellipse at top, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
+  ) !important;
   border-color: rgba(255, 234, 0, 0.72) !important;
   box-shadow: none !important;
   filter: none !important;
@@ -419,7 +425,10 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-upload-modal
   -webkit-backdrop-filter: none !important;
 }
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card.chat-analysis-upload-modal-card {
-  background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23)) !important;
+  background: var(
+    --chat-card-surface-night-strong-bg,
+    radial-gradient(ellipse at top, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
+  ) !important;
   box-shadow: none !important;
   filter: none !important;
   backdrop-filter: none !important;

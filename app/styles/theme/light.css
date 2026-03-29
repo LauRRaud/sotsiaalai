@@ -230,14 +230,14 @@
   --opaque-panel-border: rgba(148, 163, 184, 0.08);
   --opaque-panel-shadow: var(--btn-primary-shadow);
   --opaque-panel-text: #334155;
-  --drawer-delete-border: rgba(255, 255, 255, 0.54);
-  --drawer-delete-bg: rgba(255, 255, 255, 0.62);
+  --drawer-delete-border: rgba(255, 255, 255, 0.42);
+  --drawer-delete-bg: rgba(255, 255, 255, 0.48);
   --drawer-delete-text: #334155;
-  --drawer-delete-border-hover: rgba(197, 113, 113, 0.42);
-  --drawer-delete-bg-hover: rgba(255, 252, 251, 0.76);
-  --drawer-delete-text-hover: #8a4f4a;
-  --drawer-delete-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
-  --drawer-delete-shadow-hover: 0 5px 12px rgba(15, 23, 42, 0.09);
+  --drawer-delete-border-hover: rgba(197, 113, 113, 0.48);
+  --drawer-delete-bg-hover: rgba(255, 250, 248, 0.62);
+  --drawer-delete-text-hover: #9a534d;
+  --drawer-delete-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+  --drawer-delete-shadow-hover: 0 12px 26px rgba(15, 23, 42, 0.12);
   --chat-btn-idle-light: color-mix(
     in srgb,
     var(--glass-surface-bg) 52%,

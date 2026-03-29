@@ -323,9 +323,11 @@
   --drawer-delete-border: var(--opaque-panel-border);
   --drawer-delete-bg: var(--opaque-panel-bg);
   --drawer-delete-text: var(--opaque-panel-text);
+  --drawer-delete-shadow: 0 10px 24px rgba(2, 6, 23, 0.22);
   --drawer-delete-border-hover: rgba(255, 120, 120, 0.56);
   --drawer-delete-bg-hover: rgba(48, 16, 20, 0.42);
   --drawer-delete-text-hover: rgba(255, 230, 230, 0.98);
+  --drawer-delete-shadow-hover: 0 12px 28px rgba(2, 6, 23, 0.3);
 }
 
 :root:not(.theme-light) body.homepage {

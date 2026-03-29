@@ -67,6 +67,11 @@
   --drawer-delete-border: var(--opaque-panel-border);
   --drawer-delete-bg: var(--opaque-panel-bg);
   --drawer-delete-text: var(--opaque-panel-text);
+  --drawer-delete-shadow: 0 10px 24px rgba(4, 10, 18, 0.22);
+  --drawer-delete-border-hover: rgba(255, 120, 120, 0.52);
+  --drawer-delete-bg-hover: rgba(44, 18, 24, 0.4);
+  --drawer-delete-text-hover: rgba(255, 232, 232, 0.98);
+  --drawer-delete-shadow-hover: 0 12px 28px rgba(4, 10, 18, 0.28);
   --btn-primary-hover-brightness: 1.038;
   --btn-base-bg-dark: linear-gradient(
     180deg,

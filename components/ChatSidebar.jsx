@@ -567,7 +567,7 @@ export default function ChatSidebar() {
   const timeTextClassName =
     "text-[0.9rem] max-[768px]:text-[1.02rem] text-[color:var(--drawer-time-text,rgba(148,163,184,0.8))] [.theme-light_&]:text-[rgba(71,85,105,0.8)]";
   const deleteBtnClassName =
-    "inline-flex h-[2.3rem] w-[2.3rem] max-[768px]:h-[2.55rem] max-[768px]:w-[2.55rem] items-center justify-center rounded-[0.72rem] border-[1.6px] border-[color:var(--drawer-delete-border,rgba(148,163,184,0.42))] [background:var(--drawer-delete-bg,rgba(32,34,42,0.22))] p-0 text-[color:var(--drawer-delete-text,rgba(203,213,225,0.9))] transition-[border-color,background,color,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:border-[color:var(--drawer-delete-border-hover,var(--drawer-delete-border,rgba(255,120,120,0.72)))] hover:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] hover:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:border-[color:var(--drawer-delete-border-hover,var(--drawer-delete-border,rgba(255,120,120,0.72)))] focus-visible:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:outline-none active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-55";
+    "group inline-flex h-[2.18rem] w-[2.18rem] max-[768px]:h-[2.42rem] max-[768px]:w-[2.42rem] items-center justify-center rounded-[0.82rem] border-[1.7px] border-[color:var(--drawer-delete-border,rgba(148,163,184,0.42))] [background:var(--drawer-delete-bg,rgba(32,34,42,0.22))] p-0 text-[color:var(--drawer-delete-text,rgba(203,213,225,0.9))] shadow-[var(--drawer-delete-shadow,0_8px_20px_rgba(15,23,42,0.12))] supports-[backdrop-filter:blur(0px)]:backdrop-blur-[14px] transition-[border-color,background,color,box-shadow] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] hover:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] hover:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] hover:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,0_10px_22px_rgba(15,23,42,0.16)))] focus-visible:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] focus-visible:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,0_10px_22px_rgba(15,23,42,0.16)))] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-55";
   const loadMoreBtnClassName =
     "inline-flex h-[1.8rem] w-[2rem] items-center justify-center border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] " +
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
@@ -638,12 +638,12 @@ export default function ChatSidebar() {
                 <div className={`cs-time ${timeTextClassName}`}>
                   {formatDateTime(item.lastActivityAt)}
                 </div>
-                {!isRoom && !selectMode ? <button className={`${deleteBtnClassName} cs-delete shrink-0`} onClick={event => {
+                {!isRoom && !selectMode ? <button type="button" className={`${deleteBtnClassName} cs-delete shrink-0`} onClick={event => {
               event.preventDefault();
               event.stopPropagation();
               onDelete(item.id);
             }} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
-                    <svg className="cs-trash-icon h-[1.15rem] w-[1.15rem] max-[768px]:h-[1.35rem] max-[768px]:w-[1.35rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <svg className="cs-trash-icon h-[1.22rem] w-[1.22rem] max-[768px]:h-[1.34rem] max-[768px]:w-[1.34rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.82" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <polyline points="3 6 5 6 21 6" />
                       <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
                       <path d="M10 11v6" />

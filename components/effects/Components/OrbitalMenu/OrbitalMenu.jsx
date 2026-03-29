@@ -6,6 +6,16 @@ import { cn } from "@/components/ui/cn";
 import "./OrbitalMenu.css";
 
 const HUB_PULSE_CYCLE_MS = 4400;
+function focusWithoutScroll(element) {
+  if (!element?.focus) return;
+  try {
+    element.focus({
+      preventScroll: true
+    });
+  } catch {
+    element.focus();
+  }
+}
 
 function useMatchMedia(query, defaultValue = false) {
   const [matches, setMatches] = useState(defaultValue);
@@ -30,6 +40,8 @@ export default function OrbitalMenu({
   toggleLabelOpen = "Open menu",
   toggleLabelClose = "Close menu",
   mobileBackItem,
+  open,
+  initialMobileUi = false,
   className = "",
   mobileVariant = "list",
   onOpenChange
@@ -37,8 +49,8 @@ export default function OrbitalMenu({
   const menuId = useId();
   const rootRef = useRef(null);
   const hubBtnRef = useRef(null);
-  const isCoarsePointer = useMatchMedia("(hover: none) and (pointer: coarse)", false);
-  const isNarrowViewport = useMatchMedia("(max-width: 768px)", false);
+  const isCoarsePointer = useMatchMedia("(hover: none) and (pointer: coarse)", initialMobileUi);
+  const isNarrowViewport = useMatchMedia("(max-width: 768px)", initialMobileUi);
   const prefersReducedMotion = useMatchMedia("(prefers-reduced-motion: reduce)", false);
   const useMobileUi = isCoarsePointer || isNarrowViewport;
   const useMobileOverlay = useMobileUi && mobileVariant === "list";
@@ -46,9 +58,10 @@ export default function OrbitalMenu({
   const useMobileDialog = useMobileOverlay || useMobileStack;
   const useOrbitLayout = !useMobileDialog;
   const hubPulseDelayRef = useRef(-(Date.now() % HUB_PULSE_CYCLE_MS));
+  const isControlled = typeof open === "boolean";
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const isOpen = isPinnedOpen;
+  const isOpen = isControlled ? open : isPinnedOpen;
   const isExpanded = isOpen || isClosing;
   const closeTimerRef = useRef(0);
   const prevOpenRef = useRef(false);
@@ -69,12 +82,19 @@ export default function OrbitalMenu({
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
   const [isHcContrast, setIsHcContrast] = useState(false);
+  const setMenuOpen = useCallback(nextOpen => {
+    if (isControlled) {
+      onOpenChange?.(nextOpen);
+      return;
+    }
+    setIsPinnedOpen(nextOpen);
+  }, [isControlled, onOpenChange]);
   const closeMenu = useCallback(() => {
-    setIsPinnedOpen(false);
+    setMenuOpen(false);
     requestAnimationFrame(() => {
-      hubBtnRef.current?.focus?.();
+      focusWithoutScroll(hubBtnRef.current);
     });
-  }, []);
+  }, [setMenuOpen]);
   const stackItems = useMemo(() => {
     if (!useMobileStack) return items;
     if (!mobileBackItem) return items;
@@ -89,8 +109,9 @@ export default function OrbitalMenu({
     hide: true
   })));
   useEffect(() => {
+    if (isControlled) return;
     onOpenChange?.(isOpen);
-  }, [isOpen, onOpenChange]);
+  }, [isControlled, isOpen, onOpenChange]);
   useEffect(() => {
     const wasOpen = prevOpenRef.current;
     prevOpenRef.current = isOpen;
@@ -103,6 +124,14 @@ export default function OrbitalMenu({
       return;
     }
     if (wasOpen) {
+      if (useMobileStack) {
+        if (closeTimerRef.current) {
+          window.clearTimeout(closeTimerRef.current);
+          closeTimerRef.current = 0;
+        }
+        if (isClosing) setIsClosing(false);
+        return;
+      }
       setIsClosing(true);
       if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
       const delay = prefersReducedMotion ? 0 : 380;
@@ -111,7 +140,7 @@ export default function OrbitalMenu({
         closeTimerRef.current = 0;
       }, delay);
     }
-  }, [isOpen, prefersReducedMotion, isClosing]);
+  }, [isOpen, prefersReducedMotion, isClosing, useMobileStack]);
   useEffect(() => {
     return () => {
       if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
@@ -237,10 +266,10 @@ export default function OrbitalMenu({
     return () => {
       cancelAnimationFrame(raf);
       if (hubEl?.focus) {
-        hubEl.focus();
+        focusWithoutScroll(hubEl);
         return;
       }
-      if (prevActive && prevActive instanceof HTMLElement) prevActive.focus();
+      if (prevActive && prevActive instanceof HTMLElement) focusWithoutScroll(prevActive);
     };
   }, [isOpen, useMobileDialog, useMobileStack]);
   useLayoutEffect(() => {
@@ -281,7 +310,7 @@ export default function OrbitalMenu({
       window.removeEventListener("resize", schedule);
     };
   }, [items.length, useOrbitLayout]);
-  const handleToggle = () => setIsPinnedOpen(prev => !prev);
+  const handleToggle = () => setMenuOpen(!isOpen);
   const buildVisualsFromActive = useCallback(activeIdx => {
     const next = new Array(items.length);
     for (let i = 0; i < items.length; i += 1) {
@@ -485,12 +514,14 @@ export default function OrbitalMenu({
   }, []);
   const onMobileAction = item => {
     item?.onClick?.();
-    if (!item?.keepOpen) closeMenu();
+    if (item?.keepOpen) return;
+    if (useMobileStack && item?.closeOnMobileAction === false) return;
+    closeMenu();
   };
   const desktopAngleStep = useMemo(() => items.length ? 360 / items.length : 0, [items.length]);
   const desktopStartAngle = -90;
   const orbitRadiusBoost = isExpanded ? 1.14 : 1;
-  const hubPulseStyle = prefersReducedMotion ? undefined : {
+  const hubPulseStyle = prefersReducedMotion || useMobileStack ? undefined : {
     animationDelay: `${hubPulseDelayRef.current}ms`,
     WebkitAnimationDelay: `${hubPulseDelayRef.current}ms`
   };
