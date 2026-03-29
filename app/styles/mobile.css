@@ -1733,7 +1733,6 @@
       --chat-user-bubble-shadow,
       var(--subpage-card-shadow, var(--input-shadow, none))
     ) !important;
-    background-image: none !important;
     opacity: 1 !important;
   }
 
@@ -1754,7 +1753,6 @@
         var(--chat-user-bubble-shadow, var(--subpage-card-shadow, var(--input-shadow-hover, var(--input-shadow, none))))
       )
     ) !important;
-    background-image: none !important;
   }
 
   .chat-right-actions > nav {
