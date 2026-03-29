@@ -358,7 +358,7 @@
 
 :root.theme-mid .chat-inputbar:hover:not(:focus-within),
 :root.theme-mid .chat-inputbar:hover {
-  background: var(--chat-inputbar-bg-hover) !important;
+  background: var(--chat-inputbar-bg) !important;
   border-color: transparent;
   box-shadow: var(--chat-inputbar-shadow-hover);
 }
@@ -370,14 +370,14 @@
 }
 
 :root.theme-mid .chat-inputbar:focus-within {
-  background: var(--chat-inputbar-bg-focus) !important;
+  background: var(--chat-inputbar-bg) !important;
   border-color: transparent;
   box-shadow: var(--chat-inputbar-shadow-focus);
 }
 
 :root.theme-mid .chat-container--input-focus .chat-inputbar,
 :root.theme-mid .chat-container--input-focus .chat-inputbar:focus-within {
-  background: var(--chat-inputbar-bg-focus) !important;
+  background: var(--chat-inputbar-bg) !important;
   box-shadow: var(--chat-inputbar-shadow-focus);
 }
 
