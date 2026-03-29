@@ -509,7 +509,7 @@ export default function ChatComposer({
     "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] " +
     "flex-[1_1_auto] grid-cols-[1fr_auto_auto] items-center gap-x-[0.28rem] " +
     "min-h-[var(--inputbar-h)] rounded-full " +
-    "transition-[border-color,box-shadow,background,max-width] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "transition-[border-color,box-shadow,background,max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "px-[0.625rem] pr-[0.1rem] pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
   const inputFieldWrapClassName = "min-w-0 w-full pr-[0.2rem]";
   const inputFieldClassName =
@@ -522,8 +522,7 @@ export default function ChatComposer({
     "flex items-center justify-center " +
     "mr-0 " +
     "pointer-events-auto !translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
-    "!bg-transparent !border-0 !shadow-none " +
-    "hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent " +
+    "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "data-[speaking=true]:shadow-[0_0_0_1px_rgba(148,163,184,0.22),0_0_6px_rgba(84,95,115,0.45)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonClassName =
@@ -531,6 +530,7 @@ export default function ChatComposer({
     "flex items-center justify-center overflow-hidden leading-none " +
     "translate-x-[var(--chat-send-btn-shift-x,0rem)] translate-y-[var(--chat-send-btn-shift-y,0rem)] " +
     "px-[6px] py-[1px] " +
+    "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const inputRowTransformClassName = embedded
@@ -725,7 +725,7 @@ export default function ChatComposer({
             <DictateWaveIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]" />
           </button>}
       </div>
-      {displayModeLabel ? <div className="pointer-events-none absolute left-1/2 top-[calc(100%+1.18rem)] -translate-x-1/2 text-center max-[768px]:top-[calc(100%+0.98rem)]">
+      {modeToggleShowsActiveState && displayModeLabel ? <div className="pointer-events-none absolute left-1/2 top-[calc(100%+1.18rem)] -translate-x-1/2 text-center max-[768px]:top-[calc(100%+0.98rem)]">
           <span
             aria-hidden="true"
             className={modeLabelClassName}

@@ -7,15 +7,16 @@ import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
-import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import {
+  glassFormInputBaseClassName,
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
   glassSubpageCardClassName,
+  glassSubpageSurfaceScopeClassName,
   glassPageTitleClassName,
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
@@ -62,12 +63,8 @@ export default function InviteModal() {
   const inviteModalContentClassName =
     `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
-    `[--glass-modal-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] ` +
-    `[--input-text:var(--glass-modal-text)] ` +
-    `[.theme-light_&]:[--input-bg:rgba(252,253,255,0.89)] [.theme-light_&]:[--input-bg-hover:rgba(255,255,255,0.94)] [.theme-light_&]:[--input-bg-focus:rgba(255,255,255,0.96)] ` +
-    `[.theme-light_&]:[--input-shadow:0_6px_16px_rgba(15,23,42,0.12)] [.theme-light_&]:[--input-shadow-composite:var(--input-shadow)] [.theme-light_&]:[--input-shadow-hover-composite:var(--input-shadow-hover,var(--input-shadow))] [.theme-light_&]:[--input-shadow-focus-composite:var(--input-shadow-hover,var(--input-shadow))] ` +
-    `[.theme-mid_&]:[--input-bg:rgba(252,248,247,0.48)] [.theme-mid_&]:[--input-bg-hover:rgba(253,250,249,0.54)] [.theme-mid_&]:[--input-bg-focus:rgba(253,250,249,0.56)] ` +
-    `[.theme-mid_&]:[--input-text:#2f3a4a] [.theme-mid_&]:[--input-caret:#2f3a4a] [.theme-mid_&]:[--input-shadow:0_6px_14px_rgba(20,12,10,0.16)] [.theme-mid_&]:[--input-shadow-hover:0_7px_16px_rgba(20,12,10,0.18)] ` +
+    `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
+    `${glassSubpageSurfaceScopeClassName} ` +
     `${glassPageMobileCardClassName} ` +
     `${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const inviteModalTitleClassName = `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
@@ -79,7 +76,8 @@ export default function InviteModal() {
   const inviteFieldWrapClassName =
     "mx-auto w-full max-w-[28.5rem] max-[768px]:max-w-[min(100%,28.5rem)]";
   const mobileInviteInputClassName =
-    "!block !w-full !text-[1.28rem] !tracking-[0.02em] placeholder:!text-[1.12rem] placeholder:!tracking-[0.02em] max-[768px]:!text-[1.34rem] max-[768px]:!tracking-[0.024em] max-[768px]:placeholder:!text-[1.2rem] max-[768px]:placeholder:!tracking-[0.022em] max-[768px]:!min-h-[3.2rem] max-[768px]:!py-[0.84rem]";
+    `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
+    "max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";
   const invitePrimaryButtonClassName =
     "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
     "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
@@ -147,7 +145,7 @@ export default function InviteModal() {
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
     `${sponsoredSelected ? "mt-[0.55rem] max-[768px]:mt-[0.45rem]" : "mt-[0.55rem]"} rounded-[1rem] text-[color:var(--pt-120)] ` +
-    "[.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+    "[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)]";
   const inviteListRowClassName =
     `invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] ` +
     `max-[768px]:grid-cols-1 max-[768px]:gap-[0.52rem] max-[768px]:rounded-[0.92rem] max-[768px]:p-[0.78rem] ${glassSubpageCardClassName}`;
@@ -482,7 +480,7 @@ export default function InviteModal() {
             {!roomId ? (
               <>
                 <div className={inviteFieldWrapClassName}>
-                  <Input
+                  <input
                     id="invite-room-title"
                     value={roomTitle}
                     onChange={(e) => setRoomTitle(e.target.value)}
@@ -493,7 +491,7 @@ export default function InviteModal() {
                   />
                 </div>
                 <div className={inviteFieldWrapClassName}>
-                  <Input
+                  <input
                     id="invite-host-name"
                     value={hostDisplayName}
                     onChange={(e) => setHostDisplayName(e.target.value)}
@@ -506,7 +504,7 @@ export default function InviteModal() {
               </>
             ) : null}
             <div className={`${inviteFieldWrapClassName} relative`}>
-              <Input
+              <input
                 id="invite-emails"
                 value={emails}
                 onChange={(e) => setEmails(e.target.value)}

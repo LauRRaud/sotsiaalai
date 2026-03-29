@@ -581,15 +581,17 @@ export default function ChatSidebar() {
     glassPrimaryButtonToneClassName;
   const searchInputClassName =
     "!rounded-full !px-[1rem] !py-[0.78rem] !min-h-[3.05rem] !border-0 " +
-    "!bg-[color:var(--chat-inputbar-bg,var(--input-bg))] " +
+    "[--input-bg:var(--subpage-card-bg)] [--input-bg-hover:var(--subpage-card-bg-hover)] [--input-bg-focus:var(--subpage-card-bg-hover)] " +
+    "[--input-shadow:var(--subpage-card-shadow)] [--input-shadow-hover:var(--subpage-card-shadow-hover)] [--input-shadow-composite:var(--subpage-card-shadow)] [--input-shadow-hover-composite:var(--subpage-card-shadow-hover)] [--input-shadow-focus-composite:var(--subpage-card-shadow-hover)] " +
+    "!bg-[color:var(--subpage-card-bg)] " +
     "!text-[color:var(--input-text)] !caret-[color:var(--input-caret)] " +
-    "!shadow-[var(--chat-inputbar-shadow,var(--input-shadow))] " +
+    "!shadow-[var(--subpage-card-shadow)] " +
     "transition-[background,box-shadow,color] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "placeholder:text-[color:var(--input-placeholder)] " +
-    "hover:!bg-[color:var(--chat-inputbar-bg-hover,var(--input-bg-hover))] " +
-    "hover:!shadow-[var(--chat-inputbar-shadow-hover,var(--input-shadow-hover))] " +
-    "focus-visible:!bg-[color:var(--chat-inputbar-bg-focus,var(--input-bg-focus))] " +
-    "focus-visible:!shadow-[var(--chat-inputbar-shadow-focus,var(--input-shadow-hover))] " +
+    "hover:!bg-[color:var(--subpage-card-bg-hover)] " +
+    "hover:!shadow-[var(--subpage-card-shadow-hover)] " +
+    "focus-visible:!bg-[color:var(--subpage-card-bg-hover)] " +
+    "focus-visible:!shadow-[var(--subpage-card-shadow-hover)] " +
     "focus-visible:!outline-none";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
   const sidebarInsetWidthClassName = `${sidebarContentWidthClassName} px-[0.42rem] max-[768px]:px-[0.4rem]`;

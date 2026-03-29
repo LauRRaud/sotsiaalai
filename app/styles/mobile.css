@@ -6,11 +6,11 @@
 @media (max-width: 768px) {
   :root.theme-light {
     --glass-surface-bg: rgba(251, 252, 253, 0.44);
-    --glass-ring-surface-bg: rgba(247, 248, 250, 0.62);
-    --glass-modal-bg: rgba(250, 251, 253, 0.48);
-    --panel-secondary-bg: rgba(255, 255, 255, 0.78);
-    --subpage-card-bg: var(--input-flat-bg, var(--input-bg));
-    --subpage-card-bg-hover: var(--input-flat-bg-hover, var(--input-bg-hover));
+    --glass-ring-surface-bg: var(--glass-surface-bg);
+    --glass-modal-bg: var(--glass-surface-bg);
+    --panel-secondary-bg: var(--btn-primary-bg);
+    --subpage-card-bg: var(--btn-primary-bg);
+    --subpage-card-bg-hover: var(--btn-primary-bg-hover);
   }
 
   :root.theme-mid {
@@ -1443,17 +1443,17 @@
     ) !important;
   }
 
-  :root.theme-light .invite-modal-content {
+  :root.theme-light:not(.theme-mid) .invite-modal-content {
     color: var(--text-strong, #1f2937) !important;
   }
 
-  :root.theme-light .mobile-keep-desktop-glass-cards {
-    --subpage-card-bg: rgba(252, 251, 250, 0.88);
-    --subpage-card-bg-hover: rgba(253, 252, 251, 0.93);
-    --subpage-card-border: transparent;
-    --subpage-card-border-hover: transparent;
-    --subpage-card-shadow: 0 12px 24px rgba(82, 50, 46, 0.09);
-    --subpage-card-shadow-hover: 0 14px 28px rgba(82, 50, 46, 0.11);
+  :root.theme-light:not(.theme-mid) .mobile-keep-desktop-glass-cards {
+    --subpage-card-bg: var(--btn-primary-bg);
+    --subpage-card-bg-hover: var(--btn-primary-bg-hover);
+    --subpage-card-border: rgba(255, 255, 255, 0.5);
+    --subpage-card-border-hover: rgba(255, 255, 255, 0.58);
+    --subpage-card-shadow: var(--btn-primary-shadow);
+    --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
   }
 
   .invite-modal-content .invite-modal-scroll {
@@ -1817,7 +1817,7 @@
   }
 
   .policy-mobile-lower {
-    --policy-mobile-content-drop: clamp(0.78rem, 2.1vh, 1.32rem);
+    --policy-mobile-content-drop: clamp(1.16rem, 3.05vh, 1.9rem);
     --glass-ring-scroll-offset: clamp(2.05rem, 4.4vh, 2.8rem);
     --glass-ring-scroll-offset-open: clamp(1.18rem, 2.3vh, 1.7rem);
   }

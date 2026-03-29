@@ -12,7 +12,7 @@ function InstallHintIcon({ children, className }) {
     <span
       aria-hidden="true"
       className={cn(
-        "inline-flex h-[1.15em] w-[1.15em] align-[-0.18em] items-center justify-center text-current",
+        "inline-flex h-[1.2em] w-[1.2em] align-[-0.18em] items-center justify-center text-current",
         className
       )}
     >
@@ -57,13 +57,13 @@ function AddToHomeIcon() {
 
 function InstallHintSteps({ items }) {
   return (
-    <ol className="m-0 list-none p-0 space-y-[0.12rem] text-left">
+    <ol className="m-0 list-none p-0 space-y-[0.16rem] text-left text-[1.06rem] leading-[1.42] max-[480px]:text-[1.1rem] max-[480px]:leading-[1.46]">
       {items.map((item, index) => (
-        <li key={index} className="flex items-start gap-[0.08rem]">
-          <span className="w-[0.92rem] shrink-0 text-right leading-[1.34] tabular-nums">
+        <li key={index} className="flex items-start gap-[0.14rem]">
+          <span className="w-[0.98rem] shrink-0 text-right leading-[1.38] tabular-nums">
             {index + 1}.
           </span>
-          <span className="min-w-0 flex-1 leading-[1.34]">{item}</span>
+          <span className="min-w-0 flex-1 leading-[1.42]">{item}</span>
         </li>
       ))}
     </ol>
@@ -98,8 +98,11 @@ export default function InstallAppLink({
   const macHint = t("pwa.instructions.mac");
   const desktopHint = t("pwa.instructions.desktop");
   const helpPopoverClassName =
-    "fixed z-[9999] w-[min(17.4rem,calc(100vw-2rem))] max-[480px]:w-[min(16.7rem,calc(100vw-2rem))] rounded-[16px] " +
-    "border border-[color:var(--opaque-panel-border,var(--subpage-card-border))] px-[0.82rem] pt-[0.78rem] pb-[0.7rem] [background:var(--opaque-panel-bg,var(--subpage-card-bg))] text-[color:var(--opaque-panel-text,var(--subpage-card-text))] shadow-[var(--opaque-panel-shadow,var(--subpage-card-shadow))] backdrop-blur-0 backdrop-saturate-100 [-webkit-backdrop-filter:none] [backdrop-filter:none]";
+    "fixed z-[9999] w-[min(18rem,calc(100vw-1.5rem))] max-[480px]:w-[min(19rem,calc(100vw-1rem))] rounded-[16px] " +
+    "border border-[color:var(--opaque-panel-border,var(--subpage-card-border))] px-[0.95rem] pt-[0.92rem] pb-[0.84rem] " +
+    "[background:var(--opaque-panel-bg,var(--subpage-card-bg))] text-[color:var(--opaque-panel-text,var(--subpage-card-text))] " +
+    "text-[1.02rem] leading-[1.42] shadow-[var(--opaque-panel-shadow,var(--subpage-card-shadow))] backdrop-blur-0 backdrop-saturate-100 " +
+    "[-webkit-backdrop-filter:none] [backdrop-filter:none] max-[480px]:px-[1rem] max-[480px]:pt-[1rem] max-[480px]:pb-[0.9rem] max-[480px]:text-[1.08rem] max-[480px]:leading-[1.48]";
   const desktopHintNode = <span>{isMacSafari ? macHint : desktopHint}</span>;
 
   const iosHintNode = locale === "et" ? (
@@ -362,21 +365,21 @@ export default function InstallAppLink({
                 : {
                     top: "-10000px",
                     left: "-10000px",
-                    width: "min(17.4rem, calc(100vw - 2rem))",
+                    width: "min(18rem, calc(100vw - 1.5rem))",
                     transform: "translateX(-50%)"
                   }
             }
           >
             <button
               type="button"
-              className="absolute right-[0.14rem] top-[0.08rem] h-[2.05rem] w-[2.05rem] rounded-full border-0 bg-transparent text-[1.56rem] leading-none text-[#c57171] light:text-[#7a3a38]"
+              className="absolute right-[0.12rem] top-[0.08rem] h-[2.2rem] w-[2.2rem] rounded-full border-0 bg-transparent text-[1.7rem] leading-none text-[#c57171] light:text-[#7a3a38]"
               aria-label={t("buttons.close")}
               onClick={() => setHelpOpen(false)}
             >
               {t("symbols.times")}
             </button>
             <div className="flex max-w-[inherit] flex-col pr-[1.38rem]">
-              <div className="mt-[0.02rem] text-left text-[0.98rem] leading-[1.34] text-inherit opacity-95">
+              <div className="mt-[0.02rem] text-left text-[1.02rem] leading-[1.42] text-inherit opacity-95 max-[480px]:text-[1.08rem] max-[480px]:leading-[1.48]">
                 {isMobileViewport || isIOS ? mobileHintNode : desktopHintNode}
               </div>
             </div>

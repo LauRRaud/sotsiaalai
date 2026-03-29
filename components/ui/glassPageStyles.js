@@ -14,16 +14,12 @@ export const glassPrimaryButtonToneClassName =
   "[--btn-primary-border:0_solid_transparent] " +
   "[--btn-primary-border-hover:0_solid_transparent] " +
   "[--btn-primary-border-active:0_solid_transparent] " +
-  "[--btn-primary-shadow:0_5px_12px_rgba(0,0,0,0.16)] " +
-  "[--btn-primary-shadow-hover:0_7px_14px_rgba(0,0,0,0.18)] " +
-  "[--btn-primary-shadow-active:0_4px_10px_rgba(0,0,0,0.14)] " +
-  "[--btn-primary-shadow-focus:0_8px_18px_rgba(0,0,0,0.22),0_0_0_3px_var(--btn-primary-focus-ring-color)] " +
-  "light:[--btn-primary-bg-hover:radial-gradient(82%_66%_at_50%_16%,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_42%,rgba(255,255,255,0.99)_58%,rgba(253,251,250,0.97)_74%),linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(254,252,251,0.985)_100%)] " +
-  "light:[--btn-primary-shadow:inset_0_1px_0_rgba(255,255,255,0.22),0_4px_10px_rgba(15,23,42,0.08)] " +
-  "light:[--btn-primary-border-hover:1px_solid_rgba(255,255,255,0.62)] " +
-  "light:[--btn-primary-shadow-hover:inset_0_1px_0_rgba(255,255,255,0.34),0_9px_18px_rgba(15,23,42,0.11)] " +
-  "light:[--btn-primary-shadow-active:inset_0_1px_0_rgba(255,255,255,0.18),0_3px_8px_rgba(15,23,42,0.07)] " +
-  "light:[--btn-primary-shadow-focus:inset_0_1px_0_rgba(255,255,255,0.3),0_10px_20px_rgba(15,23,42,0.13),0_0_0_3px_var(--btn-primary-focus-ring-color),0_0_0_1px_rgba(255,255,255,0.22)]";
+  "[--btn-primary-shadow:0_4px_10px_rgba(0,0,0,0.13)] " +
+  "[--btn-primary-shadow-hover:0_6px_13px_rgba(0,0,0,0.11)] " +
+  "[--btn-primary-shadow-active:0_1px_4px_rgba(0,0,0,0.12)] " +
+  "[--btn-primary-shadow-focus:0_4px_9px_rgba(0,0,0,0.14),0_0_0_3px_var(--btn-primary-focus-ring-color)] " +
+  "[.theme-light:not(.theme-mid)_&]:[--btn-primary-bg-hover:radial-gradient(82%_66%_at_50%_16%,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_42%,rgba(255,255,255,0.99)_58%,rgba(253,251,250,0.97)_74%),linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(254,252,251,0.985)_100%)] " +
+  "[.theme-light:not(.theme-mid)_&]:[--btn-primary-border-hover:1px_solid_rgba(255,255,255,0.62)]";
 
 export const glassPageShellClassName =
   `mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start box-border ${glassPrimaryButtonToneClassName}`;
@@ -89,3 +85,19 @@ export const glassSubpageCardInteractiveClassName =
   "hover:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] hover:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] hover:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))] " +
   "focus-visible:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] focus-visible:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] focus-visible:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))] " +
   "focus-within:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] focus-within:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] focus-within:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))]";
+
+export const glassSubpageSurfaceScopeClassName =
+  "[--glass-modal-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
+  "[.theme-light:not(.theme-mid)_&]:[--input-bg:var(--btn-primary-bg,var(--subpage-card-bg))] [.theme-light:not(.theme-mid)_&]:[--input-bg-hover:var(--btn-primary-bg-hover,var(--subpage-card-bg-hover,var(--subpage-card-bg)))] [.theme-light:not(.theme-mid)_&]:[--input-bg-focus:var(--btn-primary-bg-hover,var(--subpage-card-bg-hover,var(--subpage-card-bg)))] " +
+  "[.theme-light:not(.theme-mid)_&]:[--input-shadow:var(--btn-primary-shadow,var(--subpage-card-shadow))] [.theme-light:not(.theme-mid)_&]:[--input-shadow-hover:var(--btn-primary-shadow-hover,var(--subpage-card-shadow-hover,var(--subpage-card-shadow)))] " +
+  "[.theme-light:not(.theme-mid)_&]:[--input-shadow-composite:var(--btn-primary-shadow,var(--subpage-card-shadow))] [.theme-light:not(.theme-mid)_&]:[--input-shadow-hover-composite:var(--btn-primary-shadow-hover,var(--subpage-card-shadow-hover,var(--subpage-card-shadow)))] [.theme-light:not(.theme-mid)_&]:[--input-shadow-focus-composite:var(--btn-primary-shadow-hover,var(--subpage-card-shadow-hover,var(--subpage-card-shadow)))] " +
+  "[.theme-light:not(.theme-mid)_&]:[--input-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
+  "[.theme-light:not(.theme-mid)_&]:[--input-caret:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))]";
+
+export const glassFormInputBaseClassName =
+  "w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] " +
+  "transition-[background,border-color,box-shadow,color] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 " +
+  "focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
+  "hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
+  "disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed";

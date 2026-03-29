@@ -1,6 +1,6 @@
 export const primarySegmentedButtonClassName =
-  "[--seg-card-bg:var(--btn-primary-bg)] [--seg-card-bg-hover:var(--btn-primary-bg-hover)] [--seg-card-bg-selected:var(--btn-primary-bg-hover)] [--seg-card-bg-active:var(--btn-primary-bg-active,var(--seg-card-bg-selected))] " +
-  "[--seg-card-text:var(--btn-primary-text,var(--input-text))] [--seg-card-text-hover:var(--title-color,var(--brand-primary))] [--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
+  "[--seg-card-bg:var(--seg-button-bg,var(--btn-primary-bg))] [--seg-card-bg-hover:var(--seg-button-bg-hover,var(--btn-primary-bg-hover))] [--seg-card-bg-selected:var(--seg-button-bg-selected,var(--seg-button-bg-hover,var(--btn-primary-bg-hover)))] [--seg-card-bg-active:var(--seg-button-bg-active,var(--btn-primary-bg-active,var(--seg-card-bg-selected)))] " +
+  "[--seg-card-text:var(--seg-button-text,var(--btn-primary-text,var(--input-text)))] [--seg-card-text-hover:var(--seg-button-text-hover,var(--title-color,var(--brand-primary)))] [--seg-card-text-selected:var(--seg-button-text-selected,var(--title-color,var(--brand-primary)))] " +
   "[--seg-card-shadow:var(--btn-primary-shadow)] [--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] [--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] [--seg-card-shadow-active:var(--btn-primary-shadow-active,var(--seg-card-shadow-selected))] " +
   "[--seg-card-border:transparent] [--seg-card-border-hover:transparent] [--seg-card-border-selected:transparent] [--seg-card-border-active:transparent] [--seg-card-border-width:0px] " +
   "hc:[--seg-card-text:var(--hc-accent)] hc:[--seg-card-text-hover:var(--hc-accent)] hc:[--seg-card-text-selected:var(--hc-accent)] " +

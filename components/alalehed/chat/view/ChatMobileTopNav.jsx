@@ -6,9 +6,6 @@ import BackButton from "@/components/ui/BackButton";
 import { glassPageBackMobileBottomCenterClassName } from "@/components/ui/glassPageStyles";
 import {
   AddPersonIcon,
-  ChatBubbleIcon,
-  HelpOfferIcon,
-  HelpRequestIcon,
   MaterialsIcon,
   ProfileIcon,
   RoomsIcon,

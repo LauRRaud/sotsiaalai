@@ -113,10 +113,20 @@
   z-index: 2;
   position: absolute;
   inset: 0;
+  overflow: hidden;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
   opacity: var(--bg-bends-opacity, 0.9);
+}
+[data-bg-layer] .bg-bends-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--bg-bends-overlay, none);
+  mix-blend-mode: screen;
+  opacity: var(--bg-bends-overlay-opacity, 0);
 }
 [data-bg-layer] .space-backdrop {
   position: absolute;
