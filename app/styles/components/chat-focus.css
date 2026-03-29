@@ -231,9 +231,9 @@ body.selected-listing-modal-open .chat-page-shell {
 }
 
 :root.theme-mid .chat-page-shell {
-  --rail-tooltip-bg: var(--chat-rail-tooltip-bg, var(--opaque-panel-bg, rgb(252, 246, 244)));
+  --rail-tooltip-bg: var(--chat-rail-tooltip-bg, var(--btn-primary-bg));
   --rail-tooltip-border: rgba(255, 255, 255, 0.16);
-  --rail-tooltip-shadow: 0 12px 28px rgba(46, 24, 21, 0.18);
+  --rail-tooltip-shadow: var(--btn-primary-shadow);
   --chat-tools-item-hover-bg: var(--opaque-panel-bg-hover, var(--input-bg-hover));
 }
 

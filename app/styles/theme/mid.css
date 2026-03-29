@@ -30,9 +30,33 @@
   --glass-surface-text: #2c3340;
   --glass-modal-text: #2c3340;
   --chat-ui-solid-surface: rgb(231, 223, 219);
-  --chat-rail-tooltip-bg: rgb(231, 223, 219);
-  --chat-tools-panel-bg: rgb(231, 223, 219);
-  --chat-upload-picker-bg: rgb(231, 223, 219);
+  --mid-utility-panel-bg:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgb(246, 238, 235) 0%,
+      rgb(239, 229, 225) 42%,
+      rgb(231, 220, 215) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(239, 230, 226) 0%,
+      rgb(231, 221, 217) 100%
+    );
+  --mid-utility-panel-bg-hover:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgb(249, 242, 239) 0%,
+      rgb(242, 233, 229) 42%,
+      rgb(234, 224, 219) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(242, 234, 230) 0%,
+      rgb(234, 225, 221) 100%
+    );
+  --chat-rail-tooltip-bg: var(--mid-utility-panel-bg);
+  --chat-tools-panel-bg: var(--mid-utility-panel-bg);
+  --chat-upload-picker-bg: var(--mid-utility-panel-bg);
   --bg-bends-opacity: 0.72;
   --drawer-glass-bg: var(--glass-ring-surface-bg);
   --drawer-card-shadow:
@@ -60,32 +84,32 @@
     var(--btn-primary-shadow-hover)
   );
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
-  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.072);
-  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.084);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.15);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.16);
   --btn-primary-hover-brightness: 1;
   --btn-primary-bg:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(249, 241, 238, 0.62) 0%,
-      rgba(242, 232, 228, 0.54) 42%,
-      rgba(233, 221, 216, 0.48) 100%
+      rgba(244, 235, 231, 0.5) 0%,
+      rgba(236, 226, 222, 0.44) 42%,
+      rgba(229, 218, 214, 0.38) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(244, 235, 231, 0.42) 0%,
-      rgba(236, 226, 222, 0.36) 100%
+      rgba(236, 226, 223, 0.3) 0%,
+      rgba(228, 218, 214, 0.26) 100%
     );
   --btn-primary-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(247, 239, 236, 0.58) 0%,
-      rgba(240, 230, 226, 0.5) 44%,
-      rgba(232, 221, 216, 0.44) 100%
+      rgba(239, 230, 226, 0.46) 0%,
+      rgba(231, 220, 216, 0.4) 42%,
+      rgba(223, 211, 206, 0.34) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(241, 232, 228, 0.38) 0%,
-      rgba(233, 223, 219, 0.34) 100%
+      rgba(231, 220, 216, 0.27) 0%,
+      rgba(223, 212, 207, 0.23) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
@@ -104,7 +128,7 @@
   --btn-primary-border-hover: 0 solid transparent;
   --btn-primary-border-active: 0 solid transparent;
   --btn-primary-shadow: 0 4px 10px rgba(0, 0, 0, 0.13);
-  --btn-primary-shadow-hover: 0 6px 13px rgba(0, 0, 0, 0.11);
+  --btn-primary-shadow-hover: 0 5px 11px rgba(0, 0, 0, 0.12);
   --btn-primary-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.12);
   --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
   --btn-primary-shadow-focus:
@@ -122,19 +146,20 @@
   --seg-button-text: var(--btn-primary-text);
   --seg-button-text-hover: var(--title-color);
   --seg-button-text-selected: var(--title-color);
-  --seg-button-bg-hover: var(--btn-primary-bg-hover);
-  --seg-button-bg-selected: var(--btn-primary-bg-hover);
-  --seg-button-bg-active: var(--btn-primary-bg-active);
+  --seg-button-bg: var(--seg-card-bg);
+  --seg-button-bg-hover: var(--seg-card-bg-hover);
+  --seg-button-bg-selected: var(--seg-card-bg-selected);
+  --seg-button-bg-active: var(--seg-card-bg-selected);
   --seg-card-bg: rgba(252, 248, 247, 0.46);
-  --seg-card-bg-hover: rgba(247, 239, 236, 0.46);
+  --seg-card-bg-hover: rgba(236, 226, 222, 0.36);
   --seg-card-bg-selected: rgba(242, 233, 229, 0.5);
   --seg-card-text: #2f3a4a;
   --seg-card-text-hover: #81504b;
   --seg-card-text-selected: #7a3a38;
   --seg-card-border: rgba(255, 255, 255, 0.34);
   --seg-card-shadow: 0 5px 12px rgba(20, 12, 10, 0.14);
-  --seg-card-shadow-hover: 0 6px 13px rgba(20, 12, 10, 0.17);
-  --seg-card-shadow-selected: 0 6px 13px rgba(20, 12, 10, 0.17);
+  --seg-card-shadow-hover: 0 4px 10px rgba(20, 12, 10, 0.14);
+  --seg-card-shadow-selected: 0 4px 10px rgba(20, 12, 10, 0.14);
   --seg-radio-bg: rgba(253, 250, 249, 0.62);
   --seg-radio-border: rgba(255, 255, 255, 0.56);
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(122, 58, 56, 0.2);
@@ -146,26 +171,26 @@
   --subpage-card-bg:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(249, 241, 238, 0.56) 0%,
-      rgba(242, 232, 228, 0.48) 42%,
-      rgba(233, 221, 216, 0.42) 100%
+      rgba(249, 241, 238, 0.48) 0%,
+      rgba(242, 232, 228, 0.4) 42%,
+      rgba(233, 221, 216, 0.34) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(244, 235, 231, 0.36) 0%,
-      rgba(236, 226, 222, 0.3) 100%
+      rgba(244, 235, 231, 0.28) 0%,
+      rgba(236, 226, 222, 0.22) 100%
     );
   --subpage-card-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(247, 239, 236, 0.54) 0%,
-      rgba(240, 230, 226, 0.46) 44%,
-      rgba(232, 221, 216, 0.4) 100%
+      rgba(247, 239, 236, 0.46) 0%,
+      rgba(240, 230, 226, 0.38) 44%,
+      rgba(232, 221, 216, 0.32) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(241, 232, 228, 0.34) 0%,
-      rgba(233, 223, 219, 0.3) 100%
+      rgba(241, 232, 228, 0.26) 0%,
+      rgba(233, 223, 219, 0.22) 100%
     );
   --subpage-card-border: transparent;
   --subpage-card-border-width: 0px;
@@ -186,10 +211,10 @@
   --drawer-delete-text-hover: #9a534d;
   --drawer-delete-shadow: 0 9px 20px rgba(31, 23, 22, 0.08);
   --drawer-delete-shadow-hover: 0 12px 24px rgba(31, 23, 22, 0.12);
-  --rail-tooltip-bg: rgb(231, 223, 219);
+  --rail-tooltip-bg: var(--mid-utility-panel-bg);
   --glass-analysis-bg: rgb(231, 223, 219);
   --rail-tooltip-border: var(--subpage-card-border);
-  --rail-tooltip-shadow: var(--subpage-card-shadow);
+  --rail-tooltip-shadow: var(--btn-primary-shadow);
   --rail-tooltip-text: var(--subpage-card-text);
   --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
 }
@@ -332,6 +357,36 @@
   --chat-inputbar-btn-shadow-focus: var(--mid-pill-surface-shadow-hover);
 }
 
+:root.theme-mid .chat-page-shell {
+  --chat-user-bubble-bg:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(240, 228, 223, 0.42) 0%,
+      rgba(231, 218, 212, 0.36) 42%,
+      rgba(222, 210, 204, 0.3) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(230, 218, 213, 0.24) 0%,
+      rgba(221, 210, 204, 0.2) 100%
+    );
+  --chat-user-bubble-bg-hover:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(243, 232, 227, 0.44) 0%,
+      rgba(234, 223, 217, 0.38) 42%,
+      rgba(225, 214, 208, 0.32) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(233, 221, 216, 0.26) 0%,
+      rgba(224, 213, 208, 0.22) 100%
+    );
+  --chat-user-bubble-border: transparent;
+  --chat-user-bubble-shadow: var(--subpage-card-shadow);
+  --chat-user-bubble-shadow-hover: var(--subpage-card-shadow-hover);
+}
+
 :root.theme-mid .chat-inputbar {
   isolation: isolate;
   border: 0;
@@ -451,28 +506,33 @@
 }
 
 :root.theme-mid .chat-msg-user {
-  background: var(--subpage-card-bg) !important;
-  background-color: rgba(249, 241, 238, 0.84) !important;
+  background: var(--chat-user-bubble-bg, var(--subpage-card-bg)) !important;
+  background-color: rgba(230, 218, 212, 0.82) !important;
   border: var(--subpage-card-border, 0 solid transparent) !important;
   color: #2f3a4a;
-  box-shadow: var(--subpage-card-shadow, var(--chat-inputbar-shadow)) !important;
+  box-shadow: var(--chat-user-bubble-shadow, var(--subpage-card-shadow, var(--chat-inputbar-shadow))) !important;
 }
 
 :root.theme-mid .chat-msg-user:hover,
 :root.theme-mid .chat-msg-user:focus-within {
-  background: var(--subpage-card-bg) !important;
-  background-color: rgba(249, 241, 238, 0.84) !important;
+  background: var(--chat-user-bubble-bg-hover, var(--chat-user-bubble-bg, var(--subpage-card-bg))) !important;
+  background-color: rgba(233, 221, 215, 0.84) !important;
   border-color: var(--subpage-card-border, transparent) !important;
   box-shadow: var(
-    --subpage-card-shadow,
+    --chat-user-bubble-shadow-hover,
+    var(--subpage-card-shadow-hover,
     var(--chat-inputbar-shadow)
-  ) !important;
+  )) !important;
 }
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
 :root.theme-mid .chat-tools-menu {
   background: var(--chat-tools-panel-bg, rgb(252, 246, 244)) !important;
-  box-shadow: 0 12px 28px rgba(46, 24, 21, 0.18) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 :root.theme-mid .chat-tools-menu .chat-tools-item {
@@ -497,6 +557,15 @@
   background: transparent !important;
 }
 
+:root.theme-mid .chat-analysis-upload-modal-card {
+  background: var(--chat-upload-picker-bg, var(--btn-primary-bg)) !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
 /* Mid theme primary buttons should not brighten more than the option-card hover tone. */
 :root.theme-mid .button[data-variant="primary"] {
   -webkit-backdrop-filter: none !important;
@@ -512,14 +581,14 @@
   --btn-primary-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(247, 239, 236, 0.58) 0%,
-      rgba(240, 230, 226, 0.5) 44%,
-      rgba(232, 221, 216, 0.44) 100%
+      rgba(239, 230, 226, 0.46) 0%,
+      rgba(231, 220, 216, 0.4) 44%,
+      rgba(223, 211, 206, 0.34) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(241, 232, 228, 0.38) 0%,
-      rgba(233, 223, 219, 0.34) 100%
+      rgba(231, 220, 216, 0.27) 0%,
+      rgba(223, 212, 207, 0.23) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
@@ -534,12 +603,41 @@
       rgba(228, 218, 214, 0.26) 100%
     );
   --btn-primary-border-hover: var(--mid-pill-surface-border-hover);
-  --btn-primary-shadow-hover: 0 6px 13px rgba(0, 0, 0, 0.11);
+  --btn-primary-shadow-hover: 0 5px 11px rgba(0, 0, 0, 0.12);
 }
 
 :root.theme-mid .button[data-variant="primary"]::before {
   background: var(--btn-primary-bg-hover) !important;
   transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+}
+
+:root.theme-mid .invite-sponsor-toggle-card {
+  --seg-card-bg: var(--btn-primary-bg);
+  --seg-card-bg-hover:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(239, 230, 226, 0.46) 0%,
+      rgba(231, 220, 216, 0.4) 44%,
+      rgba(223, 211, 206, 0.34) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(231, 220, 216, 0.27) 0%,
+      rgba(223, 212, 207, 0.23) 100%
+    );
+  --seg-card-bg-selected: var(--btn-primary-bg);
+  --seg-card-bg-active: var(--btn-primary-bg-active);
+  --seg-card-shadow: var(--btn-primary-shadow);
+  --seg-card-shadow-hover: 0 5px 11px rgba(0, 0, 0, 0.12);
+  --seg-card-shadow-selected: var(--btn-primary-shadow);
+  --seg-card-shadow-active: var(--btn-primary-shadow-active);
+  --seg-card-text: var(--btn-primary-text);
+  --seg-card-text-hover: var(--btn-primary-text);
+  --seg-card-text-selected: var(--btn-primary-text);
+  --seg-card-border: transparent;
+  --seg-card-border-hover: transparent;
+  --seg-card-border-selected: transparent;
+  --seg-card-border-active: transparent;
 }
 
 :root.theme-mid .profile-email-dock-wrapper.profile-orbit-menu-wrapper {

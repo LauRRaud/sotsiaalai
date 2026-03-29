@@ -197,28 +197,28 @@
   --subpage-card-bg:
     radial-gradient(
       82% 66% at 50% 16%,
-      rgba(253, 252, 251, 0.936) 0%,
-      rgba(252, 251, 250, 0.934) 42%,
-      rgba(251, 250, 249, 0.916) 58%,
-      rgba(249, 247, 246, 0.878) 74%
+      rgba(253, 252, 251, 0.872) 0%,
+      rgba(252, 251, 250, 0.866) 42%,
+      rgba(251, 250, 249, 0.848) 58%,
+      rgba(249, 247, 246, 0.81) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(252, 251, 250, 0.936) 0%,
-      rgba(249, 248, 247, 0.9) 100%
+      rgba(252, 251, 250, 0.872) 0%,
+      rgba(249, 248, 247, 0.836) 100%
     );
   --subpage-card-bg-hover:
     radial-gradient(
       82% 66% at 50% 16%,
-      rgba(254, 253, 252, 0.956) 0%,
-      rgba(253, 252, 251, 0.954) 42%,
-      rgba(252, 251, 250, 0.928) 58%,
-      rgba(250, 248, 247, 0.896) 74%
+      rgba(254, 253, 252, 0.894) 0%,
+      rgba(253, 252, 251, 0.888) 42%,
+      rgba(252, 251, 250, 0.864) 58%,
+      rgba(250, 248, 247, 0.828) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(253, 252, 251, 0.956) 0%,
-      rgba(250, 249, 248, 0.918) 100%
+      rgba(253, 252, 251, 0.894) 0%,
+      rgba(250, 249, 248, 0.856) 100%
     );
   --subpage-card-border: rgba(148, 163, 184, 0.08);
   --subpage-card-border-hover: rgba(148, 163, 184, 0.1);
@@ -449,6 +449,24 @@
 :root.theme-light .drawer-panel .cs-trash-icon {
   stroke: currentColor;
   fill: none;
+}
+
+:root.theme-light .chat-tools-menu {
+  background: var(--chat-tools-panel-bg, rgb(249, 249, 248)) !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-light .chat-analysis-upload-modal-card {
+  background: var(--chat-upload-picker-bg, rgb(249, 249, 248)) !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 :root.theme-light .chat-inputbar,

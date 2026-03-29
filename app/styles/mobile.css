@@ -1725,7 +1725,7 @@
       --chat-user-bubble-bg,
       var(--subpage-card-bg, var(--input-bg))
     ) !important;
-    background-color: rgba(249, 241, 238, 0.84) !important;
+    background-color: rgba(238, 226, 220, 0.8) !important;
     border: var(
       --chat-user-bubble-border,
       var(--subpage-card-border, var(--input-border, 0 solid transparent))
@@ -1740,10 +1740,10 @@
   :root.theme-mid .chat-page-shell .chat-msg-user:hover,
   :root.theme-mid .chat-page-shell .chat-msg-user:focus-within {
     background: var(
-      --chat-user-bubble-bg,
-      var(--subpage-card-bg, var(--input-bg))
+      --chat-user-bubble-bg-hover,
+      var(--chat-user-bubble-bg, var(--subpage-card-bg, var(--input-bg)))
     ) !important;
-    background-color: rgba(249, 241, 238, 0.84) !important;
+    background-color: rgba(233, 221, 215, 0.84) !important;
     border-color: var(
       --chat-user-bubble-border,
       var(--subpage-card-border, var(--input-border, transparent))
