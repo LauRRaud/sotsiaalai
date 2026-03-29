@@ -151,7 +151,7 @@ export default function HelpListingsPanel({
                   key={`${item.kind}-${item.id}`}
                   type="button"
                   onClick={() => onSelectItem?.(item)}
-                  className={`help-listings-item-card ${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left`}
+                  className={`${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.1rem]">

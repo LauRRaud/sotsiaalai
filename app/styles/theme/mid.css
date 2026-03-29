@@ -181,7 +181,7 @@
   --drawer-delete-border: rgba(255, 255, 255, 0.5);
   --drawer-delete-bg: rgba(252, 248, 247, 0.22);
   --drawer-delete-text: var(--opaque-panel-text);
-  --drawer-delete-border-hover: rgba(255, 255, 255, 0.62);
+  --drawer-delete-border-hover: rgba(197, 113, 113, 0.4);
   --drawer-delete-bg-hover: rgba(250, 244, 242, 0.3);
   --drawer-delete-text-hover: #8a4f4a;
   --drawer-delete-shadow: 0 3px 8px rgba(20, 12, 10, 0.1);

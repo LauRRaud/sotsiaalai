@@ -30,6 +30,16 @@
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night) {
+  --chat-card-surface-strong-bg: radial-gradient(
+    ellipse at top,
+    rgb(36, 41, 48) 0%,
+    rgb(16, 19, 23) 100%
+  );
+  --chat-card-surface-flat-bg: linear-gradient(
+    180deg,
+    rgb(31, 35, 42) 0%,
+    rgb(19, 22, 27) 100%
+  );
   --seg-card-bg-hover: var(--form-surface-hover);
   --seg-card-shadow-hover: var(--input-shadow-hover);
   --seg-card-text-hover: var(--pt-100);
@@ -111,6 +121,109 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 8px 18px rgba(0, 0, 0, 0.26),
     0 0 0 3px var(--btn-primary-focus-ring-color);
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night) .help-listings-panel {
+  background: var(--chat-card-surface-strong-bg) !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night) .chat-tools-menu {
+  background: var(--chat-card-surface-strong-bg) !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+  .chat-analysis-upload-modal-card {
+  background: var(--chat-card-surface-strong-bg) !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+  :is(
+    .invite-list-panel,
+    .invite-list-row,
+    .materials-admin-panel,
+    .materials-admin-row,
+    .materials-comment-box
+  ) {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(36, 41, 48, 0.6) 0%,
+    rgba(16, 19, 23, 0.7) 100%
+  ) !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+  .drawer-chat-sidebar
+  :is(.drawer-chat-card, .drawer-search-shell) {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(36, 41, 48, 0.6) 0%,
+    rgba(16, 19, 23, 0.7) 100%
+  ) !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+  :is(.invite-refresh-btn, .materials-surface-button) {
+  --btn-primary-bg: radial-gradient(
+      ellipse at top,
+      rgba(46, 52, 62, 0.64) 0%,
+      rgba(23, 27, 34, 0.76) 100%
+    );
+  --btn-primary-bg-hover: radial-gradient(
+      ellipse at top,
+      rgba(50, 56, 67, 0.7) 0%,
+      rgba(25, 30, 37, 0.8) 100%
+    );
+  --btn-primary-bg-active: radial-gradient(
+      ellipse at top,
+      rgba(42, 48, 58, 0.66) 0%,
+      rgba(20, 24, 31, 0.78) 100%
+    );
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-active: 0 solid transparent;
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+  --btn-primary-shadow-focus: 0 0 0 3px rgba(148, 163, 184, 0.14);
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+  .drawer-chat-sidebar
+  .drawer-pill-btn {
+  --btn-primary-bg: radial-gradient(
+      ellipse at top,
+      rgba(46, 52, 62, 0.64) 0%,
+      rgba(23, 27, 34, 0.76) 100%
+    );
+  --btn-primary-bg-hover: radial-gradient(
+      ellipse at top,
+      rgba(50, 56, 67, 0.7) 0%,
+      rgba(25, 30, 37, 0.8) 100%
+    );
+  --btn-primary-bg-active: radial-gradient(
+      ellipse at top,
+      rgba(42, 48, 58, 0.66) 0%,
+      rgba(20, 24, 31, 0.78) 100%
+    );
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-active: 0 solid transparent;
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+  --btn-primary-shadow-focus: 0 0 0 3px rgba(148, 163, 184, 0.14);
 }
 
 /* Materials page in dark mode: keep surfaces matte and remove glow artifacts. */

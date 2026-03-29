@@ -19,10 +19,10 @@ import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
 
 const materialsPrimaryButtonClassName =
-  "whitespace-normal text-center leading-[1.2] !px-[1.6rem] !py-[1.05rem] !text-[1.18rem] " +
+  "materials-surface-button whitespace-normal text-center leading-[1.2] !px-[1.6rem] !py-[1.05rem] !text-[1.18rem] " +
   "!min-h-[3.2rem] max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]"
 const materialsSecondaryButtonClassName =
-  "whitespace-normal text-center leading-[1.2] !px-[1.2rem] !py-[0.72rem] !text-[1rem] !min-h-[2.7rem] " +
+  "materials-surface-button whitespace-normal text-center leading-[1.2] !px-[1.2rem] !py-[0.72rem] !text-[1rem] !min-h-[2.7rem] " +
   "max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.35rem] max-[768px]:!text-[1.08rem]"
 const materialsSectionClassName =
   "grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] " +
@@ -30,7 +30,7 @@ const materialsSectionClassName =
 const materialsUploadSectionClassName =
   "grid gap-[0.82rem] px-[0.05rem] py-[0.05rem] max-[768px]:gap-[0.72rem]"
 const materialsTextareaClassName =
-  `min-h-[7.4rem] rounded-[1.05rem] ${glassSubpageCardClassName} ` +
+  `materials-comment-box min-h-[7.4rem] rounded-[1.05rem] ${glassSubpageCardClassName} ` +
   "hover:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] hover:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] hover:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))] " +
   "focus-visible:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] focus-visible:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] focus-visible:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))]"
 const materialsSectionTitleClassName =
@@ -341,7 +341,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                   {items.map((item) => (
                     <div
                       key={item.id}
-                      className={`grid gap-[0.62rem] rounded-[0.95rem] px-[0.88rem] py-[0.82rem] ${glassSubpageCardClassName}`}
+                      className={`materials-admin-row grid gap-[0.62rem] rounded-[0.95rem] px-[0.88rem] py-[0.82rem] ${glassSubpageCardClassName}`}
                     >
                       <div className="flex flex-wrap items-center gap-[0.45rem] text-[0.86rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.76]">
                         <span>{formatDate(item.createdAt, resolvedLocale)}</span>

@@ -283,6 +283,10 @@
 }
 
 :global(:root:not(.theme-light):not(.theme-mid):not(.theme-night)) .tooltip {
+  background: var(
+    --chat-card-surface-flat-bg,
+    var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))
+  );
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }

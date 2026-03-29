@@ -261,7 +261,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       <div
         className={cn(
           cardClassName,
-          analysisPanelMode === "overlay" ? cardOverlayClassName : null
+          analysisPanelMode === "overlay" ? cardOverlayClassName : null,
+          analysisPanelMode === "overlay" && !uploadPreview
+            ? "chat-analysis-upload-modal-card"
+            : null
         )}
       >
         <button

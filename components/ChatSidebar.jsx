@@ -9,6 +9,7 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import Button from "@/components/ui/Button";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import {
+  glassFormInputBaseClassName,
   glassPrimaryButtonToneClassName,
   glassSubpageCardClassName,
 } from "@/components/ui/glassPageStyles";
@@ -578,10 +579,10 @@ export default function ChatSidebar() {
   const sidebarIconButtonClassName =
     "drawer-pill-btn invite-primary-btn !min-h-[3.05rem] !px-[0.95rem] !py-[0.78rem] max-[768px]:!min-h-[3.2rem] max-[768px]:!px-[0.9rem] " +
     glassPrimaryButtonToneClassName;
-  const searchInputShellClassName =
-    "relative isolate flex min-h-[3.05rem] items-center overflow-hidden rounded-full border-0 [background:var(--subpage-card-bg)] shadow-[var(--subpage-card-shadow)] transition-[box-shadow] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--subpage-card-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 hover:shadow-[var(--subpage-card-shadow-hover)] focus-within:before:opacity-100 focus-within:shadow-[var(--subpage-card-shadow-hover)]";
+  const searchInputShellClassName = "relative";
   const searchInputClassName =
-    "relative z-[1] w-full appearance-none border-0 bg-transparent px-[1rem] py-[0.78rem] text-[0.95rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] placeholder:text-[color:var(--input-placeholder)] outline-none focus:outline-none focus:ring-0";
+    `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
+    "duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
   const sidebarInsetWidthClassName = `${sidebarContentWidthClassName} px-[0.42rem] max-[768px]:px-[0.4rem]`;
   const listViewportClassName = "flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
