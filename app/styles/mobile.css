@@ -1483,6 +1483,43 @@
     --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
   }
 
+  :root.theme-mid .mobile-keep-desktop-glass-cards {
+    --glass-surface-bg: rgba(253, 250, 249, 0.5);
+    --glass-ring-surface-bg: rgba(252, 248, 247, 0.53);
+    --glass-modal-bg: var(--glass-ring-surface-bg);
+    --panel-secondary-bg: var(--btn-primary-bg);
+    --panel-secondary-border: transparent;
+    --panel-secondary-shadow: var(--btn-primary-shadow);
+    --subpage-card-bg:
+      radial-gradient(
+        92% 88% at 50% 16%,
+        rgba(249, 241, 238, 0.56) 0%,
+        rgba(242, 232, 228, 0.48) 42%,
+        rgba(233, 221, 216, 0.42) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(244, 235, 231, 0.36) 0%,
+        rgba(236, 226, 222, 0.3) 100%
+      );
+    --subpage-card-bg-hover:
+      radial-gradient(
+        92% 88% at 50% 16%,
+        rgba(247, 239, 236, 0.54) 0%,
+        rgba(240, 230, 226, 0.46) 44%,
+        rgba(232, 221, 216, 0.4) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(241, 232, 228, 0.34) 0%,
+        rgba(233, 223, 219, 0.3) 100%
+      );
+    --subpage-card-border: transparent;
+    --subpage-card-border-hover: transparent;
+    --subpage-card-shadow: var(--btn-primary-shadow);
+    --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
+  }
+
   .invite-modal-content .invite-modal-scroll {
     gap: clamp(1rem, 2.6vh, 1.4rem) !important;
     padding-top: 0.75rem !important;
