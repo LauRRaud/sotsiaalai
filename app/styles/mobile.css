@@ -94,60 +94,40 @@
 
   :root.theme-light .homepage-root .home-about-panel,
   :root.theme-light .homepage-root .home-before-panel {
-    background: color-mix(
-      in srgb,
-      var(
-          --opaque-panel-bg,
-          var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 1)))
-        )
-        90%,
-      rgba(244, 242, 238, 0.14)
+    background: var(
+      --glass-surface-bg,
+      var(--glass-ring-surface-bg, rgba(251, 252, 253, 0.52))
     ) !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
 
   :root.theme-mid .homepage-root .home-about-panel,
   :root.theme-mid .homepage-root .home-before-panel {
-    background: color-mix(
-      in srgb,
-      var(
-          --opaque-panel-bg,
-          var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 1)))
-        )
-        80%,
-      transparent
+    background: var(
+      --glass-surface-bg,
+      var(--glass-ring-surface-bg, rgba(253, 250, 249, 0.5))
     ) !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
 
   :root:not(.theme-light):not(.theme-mid) .homepage-root .home-about-panel {
-    background: color-mix(
-      in srgb,
-      var(
-          --opaque-panel-bg,
-          var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 1)))
-        )
-        80%,
-      transparent
+    background: var(
+      --glass-surface-bg,
+      var(--glass-ring-surface-bg, rgba(14, 16, 20, 0.42))
     ) !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
 
   :root:not(.theme-light):not(.theme-mid) .homepage-root .home-before-panel {
-    background: color-mix(
-      in srgb,
-      var(
-          --opaque-panel-bg,
-          var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 1)))
-        )
-        80%,
-      transparent
+    background: var(
+      --glass-surface-bg,
+      var(--glass-ring-surface-bg, rgba(14, 16, 20, 0.42))
     ) !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
 
   html[data-contrast="hc"] .homepage-root .home-about-panel,
@@ -1533,6 +1513,61 @@
     --subpage-card-border-hover: transparent;
     --subpage-card-shadow: var(--btn-primary-shadow);
     --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
+  }
+
+  :root.theme-mid
+    :is(
+      .invite-modal-content,
+      .person-invite-modal-content,
+      .update-pin-content,
+      .update-email-content,
+      .reset-password-content
+    )
+    :is(
+      input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
+          [type="checkbox"]
+        ):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+      select,
+      textarea
+    ) {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background: var(--input-bg, var(--subpage-card-bg)) !important;
+    border: var(--input-border, var(--subpage-card-border, 0 solid transparent)) !important;
+    box-shadow: var(
+      --input-shadow-composite,
+      var(--input-shadow, var(--subpage-card-shadow))
+    ) !important;
+    color: var(--input-text, var(--subpage-card-text)) !important;
+    opacity: 1 !important;
+  }
+
+  :root.theme-mid
+    :is(
+      .invite-modal-content,
+      .person-invite-modal-content,
+      .update-pin-content,
+      .update-email-content,
+      .reset-password-content
+    )
+    :is(
+      input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
+          [type="checkbox"]
+        ):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+      select,
+      textarea
+    ):is(:hover, :focus, :focus-visible, :active) {
+    background: var(
+      --input-bg-focus,
+      var(--input-bg-hover, var(--subpage-card-bg-hover, var(--subpage-card-bg)))
+    ) !important;
+    box-shadow: var(
+      --input-shadow-focus-composite,
+      var(
+        --input-shadow-hover-composite,
+        var(--input-shadow-hover, var(--subpage-card-shadow-hover, var(--subpage-card-shadow)))
+      )
+    ) !important;
   }
 
   .invite-modal-content .invite-modal-scroll {
