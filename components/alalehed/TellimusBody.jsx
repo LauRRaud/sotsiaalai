@@ -99,6 +99,7 @@ export default function TellimusBody() {
   const searchParams = useSearchParams();
   const paymentState = String(searchParams?.get("payment") || "").toLowerCase();
   const returnToProfile = searchParams?.get("return") === "profile";
+  const returnToOrbitMenu = returnToProfile && searchParams?.get("orbit") === "1";
   const reason = String(searchParams?.get("reason") || "").toLowerCase();
   const isVerifiedEntry = reason === "email-verified";
   const isAuthed = status === "authenticated" || !!session?.user;
@@ -142,7 +143,7 @@ export default function TellimusBody() {
         amount: monthlyAmountLabel
       })
     : t("subscription.active.summary");
-  const profileReturnPath = localizePath("/vestlus?profile=1", locale);
+  const profileReturnPath = localizePath(returnToOrbitMenu ? "/profiil?orbit=1" : "/vestlus?profile=1", locale);
   const transitionOptions = {
     glassRingTilt: "left",
     waitForGlassRingTilt: true,
@@ -364,7 +365,7 @@ export default function TellimusBody() {
                   </p>
                 </div>
                 <div className={subscriptionCheckoutFooterClassName}>
-                  <Button type="button" variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note" onClick={() => pushWithTransition(router, localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale), {
+                  <Button type="button" variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note" onClick={() => pushWithTransition(router, returnToProfile ? profileReturnPath : localizePath("/profiil", locale), {
                 glassRingTilt: "left",
                 waitForGlassRingTilt: true,
                 persistGlassRingTilt: false

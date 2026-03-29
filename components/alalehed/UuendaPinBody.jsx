@@ -57,7 +57,8 @@ export default function UuendaPinBody() {
 
   const backLabel = t("buttons.back_previous");
   const returnToProfile = searchParams?.get("return") === "profile";
-  const profileReturnPath = localizePath("/vestlus?profile=1", locale);
+  const returnToOrbitMenu = returnToProfile && searchParams?.get("orbit") === "1";
+  const profileReturnPath = localizePath(returnToOrbitMenu ? "/profiil?orbit=1" : "/vestlus?profile=1", locale);
   const handleBack = () =>
     returnToProfile
       ? pushWithTransition(router, profileReturnPath, {

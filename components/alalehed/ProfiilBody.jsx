@@ -443,7 +443,8 @@ export default function ProfiilBody({
   const {
     prefs,
     setPrefs,
-    openModal: openA11y
+    openModal: openA11y,
+    isModalOpen: isA11yModalOpen
   } = useAccessibility();
   const {
     t,
@@ -471,6 +472,10 @@ export default function ProfiilBody({
   const [roleSwitching, setRoleSwitching] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
+  const orbitQueryConsumedRef = useRef(false);
+  const accountSettingsReturnToOrbitRef = useRef(false);
+  const a11yReturnToOrbitRef = useRef(false);
+  const prevA11yModalOpenRef = useRef(false);
   const [orbitMenuRenderKey, setOrbitMenuRenderKey] = useState(0);
   const orbitMenuResetReadyRef = useRef(false);
   const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(false);
@@ -504,6 +509,7 @@ export default function ProfiilBody({
   }, []);
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
+  const orbitRequested = searchParams?.get("orbit") === "1";
   const isAuthed = status === "authenticated" || !!session?.user;
   const currentTheme =
     prefs?.theme === "light" ||
@@ -838,18 +844,28 @@ export default function ProfiilBody({
       window.clearTimeout(accountSettingsCloseTimerRef.current);
       accountSettingsCloseTimerRef.current = null;
     }
+    const reopenOrbit = () => {
+      if (accountSettingsReturnToOrbitRef.current && isMobileProfileMenu) {
+        accountSettingsReturnToOrbitRef.current = false;
+        setOrbitOpen(true);
+        return;
+      }
+      accountSettingsReturnToOrbitRef.current = false;
+    };
     if (shouldReduceMotion()) {
       setAccountSettingsClosing(false);
       setShowAccountSettings(false);
+      reopenOrbit();
       return;
     }
     setAccountSettingsClosing(true);
     accountSettingsCloseTimerRef.current = window.setTimeout(() => {
       setAccountSettingsClosing(false);
       setShowAccountSettings(false);
+      reopenOrbit();
       accountSettingsCloseTimerRef.current = null;
     }, ACCOUNT_SETTINGS_TILT_MS);
-  }, [accountSettingsClosing, deleting, loggingOut, loggingOutEverywhere, shouldReduceMotion]);
+  }, [accountSettingsClosing, deleting, isMobileProfileMenu, loggingOut, loggingOutEverywhere, shouldReduceMotion]);
   const closeProfileHelpPanel = useCallback(() => {
     if (profileHelpPanelClosing) return;
     if (profileHelpPanelCloseTimerRef.current) {
@@ -940,6 +956,34 @@ export default function ProfiilBody({
       setMobileLogoutArmed(false);
     }
   }, [isMobileProfileMenu, loggingOut, orbitOpen, profileHelpPanel, showAccountSettings]);
+  useEffect(() => {
+    const wasOpen = prevA11yModalOpenRef.current;
+    prevA11yModalOpenRef.current = isA11yModalOpen;
+    if (!wasOpen || isA11yModalOpen) return;
+    if (a11yReturnToOrbitRef.current && isMobileProfileMenu) {
+      a11yReturnToOrbitRef.current = false;
+      setOrbitOpen(true);
+      return;
+    }
+    a11yReturnToOrbitRef.current = false;
+  }, [isA11yModalOpen, isMobileProfileMenu]);
+  useEffect(() => {
+    if (orbitQueryConsumedRef.current) return;
+    if (!isMobileProfileMenu || !orbitRequested || orbitOpen || showAccountSettings || profileHelpPanel || loggingOut) return;
+    orbitQueryConsumedRef.current = true;
+    setOrbitOpen(true);
+  }, [isMobileProfileMenu, loggingOut, orbitOpen, orbitRequested, profileHelpPanel, showAccountSettings]);
+  useEffect(() => {
+    if (embedded || orbitOpen || !orbitQueryConsumedRef.current || typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has("orbit")) {
+      orbitQueryConsumedRef.current = false;
+      return;
+    }
+    url.searchParams.delete("orbit");
+    window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    orbitQueryConsumedRef.current = false;
+  }, [embedded, orbitOpen]);
   const openProfileHelpPanel = useCallback((panelKey) => {
     const key = String(panelKey || "");
     if (key === "my_help_requests") {
@@ -1031,19 +1075,20 @@ export default function ProfiilBody({
     icon: <PinDockIcon />,
     label: t("profile.change_password_cta"),
     labelPos: "up",
-    onClick: () => pushWithTransition(router, localizePath(`/uuenda-pin${embedded ? "?return=profile" : ""}`, locale))
+    onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/uuenda-pin?return=profile&orbit=1" : `/uuenda-pin${embedded ? "?return=profile" : ""}`, locale))
   }, {
     key: "email",
     icon: <EmailDockIcon />,
     label: t("profile.update_email_cta"),
     labelPos: "up",
-    onClick: () => pushWithTransition(router, localizePath(`/uuenda-epost${embedded ? "?return=profile" : ""}`, locale))
+    onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/uuenda-epost?return=profile&orbit=1" : `/uuenda-epost${embedded ? "?return=profile" : ""}`, locale))
   }, {
     key: "account",
     icon: <AccountSettingsDockIcon />,
     label: t("profile.account_settings"),
     labelPos: "right",
     onClick: () => {
+      accountSettingsReturnToOrbitRef.current = isMobileProfileMenu;
       setError("");
       setAccountSettingsClosing(false);
       setShowAccountSettings(true);
@@ -1053,7 +1098,7 @@ export default function ProfiilBody({
     icon: <SubscriptionDockIcon />,
     label: t("profile.manage_subscription"),
     labelPos: "down",
-    onClick: () => pushWithTransition(router, localizePath(`/tellimus${embedded ? "?return=profile" : ""}`, locale))
+    onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/tellimus?return=profile&orbit=1" : `/tellimus${embedded ? "?return=profile" : ""}`, locale))
   }, ...(isMobileProfileMenu ? [{
     key: "my_help_requests",
     icon: <HelpRequestIcon isLightTheme={isLightTheme} />,
@@ -1079,7 +1124,10 @@ export default function ProfiilBody({
     icon: <PreferencesDockIcon />,
     label: t("profile.preferences.title"),
     labelPos: "down",
-    onClick: () => openA11y?.()
+    onClick: () => {
+      a11yReturnToOrbitRef.current = isMobileProfileMenu;
+      openA11y?.();
+    }
   }], [embedded, handleAdminViewRoleChange, handleModeSwitch, isAdminUser, isLightTheme, isMobileProfileMenu, locale, nextModeIcon, nextModeLabel, nextPreviewRole, nextPreviewRoleLabel, openA11y, openChatHelpPanel, router, t]);
   const handleBack = useCallback(() => {
     if (typeof onBack === "function") {
@@ -1362,6 +1410,7 @@ export default function ProfiilBody({
                     size="sm"
                     className={accountModalButtonClassName}
                     onClick={async () => {
+                      accountSettingsReturnToOrbitRef.current = false;
                       setAccountSettingsClosing(false);
                       setShowAccountSettings(false);
                       await handleLogout();
@@ -1381,6 +1430,7 @@ export default function ProfiilBody({
                     size="sm"
                     className={accountModalButtonClassName}
                     onClick={() => {
+                      accountSettingsReturnToOrbitRef.current = false;
                       setAccountSettingsClosing(false);
                       setShowAccountSettings(false);
                       setError("");
@@ -1401,6 +1451,7 @@ export default function ProfiilBody({
                     size="sm"
                     className={accountModalButtonClassName}
                     onClick={() => {
+                      accountSettingsReturnToOrbitRef.current = false;
                       setAccountSettingsClosing(false);
                       setShowAccountSettings(false);
                       setError("");

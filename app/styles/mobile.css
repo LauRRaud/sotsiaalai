@@ -613,6 +613,14 @@
     transform: scale(0.7);
   }
 
+  /* Avoid the visible 0.7 -> 1 grow animation when the stack menu closes. */
+  .profile-orbit-menu[data-mobile-variant="stack"]
+    .profile-orbit-menu__center.dock-item {
+    transition-property: box-shadow !important;
+    transition-duration: 0.72s !important;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
   .profile-container.glass-ring
     .profile-orbit-menu
     .profile-orbit-menu__center-shell {
