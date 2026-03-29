@@ -1720,11 +1720,12 @@
     margin-right: -0.04rem !important;
   }
 
-  .chat-page-shell .chat-msg-user {
+  :root.theme-mid .chat-page-shell .chat-msg-user {
     background: var(
       --chat-user-bubble-bg,
       var(--subpage-card-bg, var(--input-bg))
     ) !important;
+    background-color: rgba(242, 232, 228, 0.46) !important;
     border: var(
       --chat-user-bubble-border,
       var(--subpage-card-border, var(--input-border, 0 solid transparent))
@@ -1736,12 +1737,13 @@
     opacity: 1 !important;
   }
 
-  .chat-page-shell .chat-msg-user:hover,
-  .chat-page-shell .chat-msg-user:focus-within {
+  :root.theme-mid .chat-page-shell .chat-msg-user:hover,
+  :root.theme-mid .chat-page-shell .chat-msg-user:focus-within {
     background: var(
       --chat-user-bubble-bg-hover,
       var(--subpage-card-bg-hover, var(--chat-user-bubble-bg, var(--input-bg-hover, var(--input-bg))))
     ) !important;
+    background-color: rgba(240, 230, 226, 0.44) !important;
     border-color: var(
       --chat-user-bubble-border-hover,
       var(--subpage-card-border-hover, var(--subpage-card-border, var(--input-border, transparent)))
