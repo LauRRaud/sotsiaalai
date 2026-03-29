@@ -41,21 +41,27 @@
   --drawer-card-shadow-hover:
     0 0 0.68rem rgba(82, 50, 46, 0.04),
     0 0.58rem 1.08rem rgba(20, 12, 10, 0.1);
-  --input-bg: rgba(252, 248, 247, 0.48);
-  --input-bg-hover: rgba(253, 250, 249, 0.6);
-  --input-bg-focus: rgba(253, 250, 249, 0.62);
-  --input-flat-bg: rgb(231, 223, 219);
-  --input-flat-bg-hover: rgb(235, 228, 224);
+  --input-bg: var(--subpage-card-bg);
+  --input-bg-hover: var(--subpage-card-bg-hover);
+  --input-bg-focus: var(--subpage-card-bg-hover);
+  --input-flat-bg: var(--mid-pill-surface-bg, var(--btn-primary-bg));
+  --input-flat-bg-hover: var(
+    --mid-pill-surface-bg-hover,
+    var(--btn-primary-bg-hover)
+  );
   --input-text: #2f3a4a;
   --input-caret: #2f3a4a;
   --chat-composer-action-icon-color: #7a3a38;
-  --input-border: 1px solid rgba(255, 255, 255, 0.34);
+  --input-border: var(--subpage-card-border, 0 solid transparent);
   --input-placeholder: rgba(55, 65, 81, 0.82);
-  --input-shadow: 0 7px 15px rgba(20, 12, 10, 0.17);
-  --input-shadow-hover: 0 8px 17px rgba(20, 12, 10, 0.19);
+  --input-shadow: var(--subpage-card-shadow, var(--btn-primary-shadow));
+  --input-shadow-hover: var(
+    --subpage-card-shadow-hover,
+    var(--btn-primary-shadow-hover)
+  );
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
-  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.05);
-  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.07);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.072);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.084);
   --btn-primary-hover-brightness: 1;
   --btn-primary-bg:
     radial-gradient(
@@ -94,16 +100,25 @@
       rgba(228, 218, 214, 0.26) 100%
     );
   --btn-primary-text: #2f3a4a;
-  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.4);
-  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.46);
-  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.34);
-  --btn-primary-shadow: 0 4px 9px rgba(20, 12, 10, 0.25);
-  --btn-primary-shadow-hover: 0 5px 11px rgba(20, 12, 10, 0.27);
-  --btn-primary-shadow-active: 0 2px 6px rgba(20, 12, 10, 0.2);
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-active: 0 solid transparent;
+  --btn-primary-shadow: 0 4px 10px rgba(0, 0, 0, 0.13);
+  --btn-primary-shadow-hover: 0 6px 13px rgba(0, 0, 0, 0.11);
+  --btn-primary-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.12);
   --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
   --btn-primary-shadow-focus:
-    0 5px 12px rgba(20, 12, 10, 0.22),
+    0 4px 9px rgba(0, 0, 0, 0.14),
     0 0 0 3px var(--btn-primary-focus-ring-color);
+  --mid-pill-surface-bg: var(--btn-primary-bg);
+  --mid-pill-surface-bg-hover: var(--btn-primary-bg-hover);
+  --mid-pill-surface-bg-active: var(--btn-primary-bg-active);
+  --mid-pill-surface-border: transparent;
+  --mid-pill-surface-border-hover: transparent;
+  --mid-pill-surface-border-shorthand: 0 solid transparent;
+  --mid-pill-surface-shadow: var(--btn-primary-shadow);
+  --mid-pill-surface-shadow-hover: var(--btn-primary-shadow-hover);
+  --mid-pill-surface-shadow-focus: var(--btn-primary-shadow-focus);
   --seg-button-text: var(--btn-primary-text);
   --seg-button-text-hover: var(--title-color);
   --seg-button-text-selected: var(--title-color);
@@ -124,21 +139,53 @@
   --seg-radio-border: rgba(255, 255, 255, 0.56);
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(122, 58, 56, 0.2);
   --subscription-error-color: rgba(78, 57, 52, 0.92);
-  --panel-secondary-bg: var(--input-flat-bg);
-  --panel-secondary-border: rgba(255, 255, 255, 0.34);
-  --panel-secondary-shadow: 0 6px 16px rgba(20, 12, 10, 0.12);
-  --subpage-card-bg: rgba(231, 223, 219, 0.84);
-  --subpage-card-bg-hover: rgba(235, 228, 224, 0.9);
+  --panel-secondary-bg: var(--btn-primary-bg);
+  --panel-secondary-border: transparent;
+  --panel-secondary-border-width: 0px;
+  --panel-secondary-shadow: var(--btn-primary-shadow);
+  --subpage-card-bg:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(249, 241, 238, 0.56) 0%,
+      rgba(242, 232, 228, 0.48) 42%,
+      rgba(233, 221, 216, 0.42) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(244, 235, 231, 0.36) 0%,
+      rgba(236, 226, 222, 0.3) 100%
+    );
+  --subpage-card-bg-hover:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(247, 239, 236, 0.54) 0%,
+      rgba(240, 230, 226, 0.46) 44%,
+      rgba(232, 221, 216, 0.4) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(241, 232, 228, 0.34) 0%,
+      rgba(233, 223, 219, 0.3) 100%
+    );
   --subpage-card-border: transparent;
+  --subpage-card-border-width: 0px;
   --subpage-card-border-hover: transparent;
-  --subpage-card-shadow: 0 8px 20px rgba(20, 12, 10, 0.12);
-  --subpage-card-shadow-hover: 0 10px 24px rgba(20, 12, 10, 0.15);
+  --subpage-card-shadow: var(--btn-primary-shadow);
+  --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
   --subpage-card-text: #2f3a4a;
-  --opaque-panel-bg: rgba(231, 223, 219, 0.86);
-  --opaque-panel-bg-hover: rgba(235, 228, 224, 0.92);
-  --opaque-panel-border: rgba(255, 255, 255, 0.42);
-  --opaque-panel-shadow: 0 10px 24px rgba(20, 12, 10, 0.14);
+  --opaque-panel-bg: var(--subpage-card-bg);
+  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);
+  --opaque-panel-border: transparent;
+  --opaque-panel-shadow: var(--btn-primary-shadow);
   --opaque-panel-text: #2f3a4a;
+  --drawer-delete-border: rgba(255, 255, 255, 0.5);
+  --drawer-delete-bg: rgba(252, 248, 247, 0.22);
+  --drawer-delete-text: var(--opaque-panel-text);
+  --drawer-delete-border-hover: rgba(255, 255, 255, 0.62);
+  --drawer-delete-bg-hover: rgba(250, 244, 242, 0.3);
+  --drawer-delete-text-hover: #8a4f4a;
+  --drawer-delete-shadow: 0 3px 8px rgba(20, 12, 10, 0.1);
+  --drawer-delete-shadow-hover: 0 4px 10px rgba(20, 12, 10, 0.12);
   --rail-tooltip-bg: rgb(231, 223, 219);
   --glass-analysis-bg: rgb(231, 223, 219);
   --rail-tooltip-border: var(--subpage-card-border);
@@ -269,64 +316,44 @@
     calc(3.2 * var(--base-rem))
   );
   color: var(--rail-tooltip-text, #3f241f);
-  --chat-inputbar-bg: rgba(238, 232, 228, 0.84);
-  --chat-inputbar-bg-hover: rgba(241, 235, 231, 0.88);
-  --chat-inputbar-bg-focus: rgba(242, 236, 232, 0.9);
-  --chat-inputbar-shadow:
-    0 0.42rem 1.05rem rgba(15, 23, 42, 0.11),
-    0 0.16rem 0.4rem rgba(15, 23, 42, 0.05),
-    0 0.8rem 1.55rem rgba(82, 50, 46, 0.08);
-  --chat-inputbar-shadow-hover:
-    0 0.58rem 1.18rem rgba(15, 23, 42, 0.12),
-    0 0.2rem 0.46rem rgba(15, 23, 42, 0.05),
-    0 0.95rem 1.8rem rgba(82, 50, 46, 0.1);
-  --chat-inputbar-shadow-focus:
-    0 0.58rem 1.18rem rgba(15, 23, 42, 0.12),
-    0 0.2rem 0.46rem rgba(15, 23, 42, 0.05),
-    0 0.95rem 1.8rem rgba(82, 50, 46, 0.1);
-  --chat-inputbar-btn-bg:
-    radial-gradient(
-      82% 66% at 50% 16%,
-      rgba(236, 232, 229, 0.95) 0%,
-      rgba(231, 226, 223, 0.93) 56%,
-      rgba(224, 218, 214, 0.9) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(233, 228, 225, 0.94) 0%,
-      rgba(225, 219, 215, 0.92) 100%
-    );
-  --chat-inputbar-btn-bg-hover:
-    radial-gradient(
-      82% 66% at 50% 16%,
-      rgba(239, 235, 232, 0.97) 0%,
-      rgba(234, 229, 226, 0.95) 56%,
-      rgba(227, 221, 217, 0.92) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(236, 231, 228, 0.95) 0%,
-      rgba(228, 222, 218, 0.92) 100%
-    );
-  --chat-inputbar-btn-bg-focus: var(
-    --chat-inputbar-btn-bg-hover,
-    var(--btn-primary-bg-hover)
-  );
-  --chat-inputbar-btn-shadow:
-    0 0.62rem 1.32rem rgba(15, 23, 42, 0.14),
-    0 0.24rem 0.56rem rgba(15, 23, 42, 0.08);
-  --chat-inputbar-btn-shadow-hover:
-    0 0.76rem 1.52rem rgba(15, 23, 42, 0.16),
-    0 0.3rem 0.66rem rgba(15, 23, 42, 0.09);
-  --chat-inputbar-btn-shadow-focus:
-    0 0.8rem 1.58rem rgba(15, 23, 42, 0.17),
-    0 0.32rem 0.7rem rgba(15, 23, 42, 0.1);
+  --chat-inputbar-bg: var(--mid-pill-surface-bg);
+  --chat-inputbar-bg-hover: var(--mid-pill-surface-bg-hover);
+  --chat-inputbar-bg-focus: var(--mid-pill-surface-bg-hover);
+  --chat-inputbar-overlay-bg: var(--mid-pill-surface-bg-hover);
+  --chat-inputbar-shadow: var(--mid-pill-surface-shadow);
+  --chat-inputbar-shadow-hover: var(--mid-pill-surface-shadow-hover);
+  --chat-inputbar-shadow-focus: var(--mid-pill-surface-shadow-hover);
+  --chat-inputbar-btn-bg: var(--mid-pill-surface-bg);
+  --chat-inputbar-btn-bg-hover: var(--mid-pill-surface-bg);
+  --chat-inputbar-btn-bg-focus: var(--mid-pill-surface-bg);
+  --chat-inputbar-btn-overlay-bg: var(--mid-pill-surface-bg-hover);
+  --chat-inputbar-btn-shadow: var(--mid-pill-surface-shadow);
+  --chat-inputbar-btn-shadow-hover: var(--mid-pill-surface-shadow-hover);
+  --chat-inputbar-btn-shadow-focus: var(--mid-pill-surface-shadow-hover);
 }
 
 :root.theme-mid .chat-inputbar {
+  isolation: isolate;
   border: 0;
   background: var(--chat-inputbar-bg) !important;
   box-shadow: var(--chat-inputbar-shadow);
+}
+
+:root.theme-mid .chat-inputbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--chat-inputbar-overlay-bg, var(--chat-inputbar-bg));
+  opacity: 0;
+  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root.theme-mid .chat-inputbar > * {
+  position: relative;
+  z-index: 1;
 }
 
 :root.theme-mid .chat-inputbar:hover:not(:focus-within),
@@ -334,6 +361,12 @@
   background: var(--chat-inputbar-bg-hover) !important;
   border-color: transparent;
   box-shadow: var(--chat-inputbar-shadow-hover);
+}
+
+:root.theme-mid .chat-inputbar:hover::before,
+:root.theme-mid .chat-inputbar:focus-within::before,
+:root.theme-mid .chat-container--input-focus .chat-inputbar::before {
+  opacity: 1;
 }
 
 :root.theme-mid .chat-inputbar:focus-within {
@@ -350,42 +383,88 @@
 
 :root.theme-mid .chat-inputbar .chat-listen-btn {
   background: transparent !important;
-  border: none !important;
+  border: 0 !important;
   box-shadow: none !important;
   padding: 0;
 }
 
+:root.theme-mid .chat-inputbar:focus-within .chat-listen-btn {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+:root.theme-mid .chat-inputbar .chat-listen-btn:hover,
+:root.theme-mid .chat-inputbar .chat-listen-btn:focus-visible {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: #2f3a4a;
+}
+
 :root.theme-mid .chat-inputbar .chat-send-btn {
   background: var(--chat-inputbar-btn-bg, var(--btn-primary-bg)) !important;
-  border: var(--btn-primary-border) !important;
+  border: 0 !important;
   box-shadow: var(--chat-inputbar-btn-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mid .chat-inputbar .chat-send-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(
+    --chat-inputbar-btn-overlay-bg,
+    var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg))
+  ) !important;
+  opacity: 0;
+  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root.theme-mid .chat-inputbar .chat-send-btn > * {
+  position: relative;
+  z-index: 1;
 }
 
 :root.theme-mid .chat-inputbar:focus-within .chat-send-btn {
-  background: var(--chat-inputbar-btn-bg-focus, var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg, var(--btn-primary-bg-hover)))) !important;
-  border: var(--btn-primary-border-hover) !important;
+  background: var(--chat-inputbar-btn-bg-focus, var(--chat-inputbar-btn-bg)) !important;
+  border: 0 !important;
   box-shadow: var(--chat-inputbar-btn-shadow-focus) !important;
 }
 
 :root.theme-mid .chat-inputbar .chat-send-btn:hover,
 :root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
-  background: var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg, var(--btn-primary-bg-hover))) !important;
-  border: var(--btn-primary-border-hover) !important;
+  background: var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg)) !important;
+  border: 0 !important;
   box-shadow: var(--chat-inputbar-btn-shadow-hover) !important;
   color: #2f3a4a;
 }
 
+:root.theme-mid .chat-inputbar:focus-within .chat-send-btn::before,
+:root.theme-mid .chat-inputbar .chat-send-btn:hover::before,
+:root.theme-mid .chat-inputbar .chat-send-btn:focus-visible::before {
+  opacity: 1;
+}
+
 :root.theme-mid .chat-msg-user {
-  background: rgba(253, 250, 249, 0.54);
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: var(--subpage-card-bg) !important;
+  border: var(--subpage-card-border, 0 solid transparent) !important;
   color: #2f3a4a;
-  box-shadow: 0 5px 12px rgba(20, 12, 10, 0.13);
+  box-shadow: var(--subpage-card-shadow, var(--chat-inputbar-shadow)) !important;
 }
 
 :root.theme-mid .chat-msg-user:hover,
 :root.theme-mid .chat-msg-user:focus-within {
-  background: rgba(254, 251, 250, 0.58);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--subpage-card-bg-hover, var(--subpage-card-bg)) !important;
+  border-color: var(--subpage-card-border-hover, var(--subpage-card-border, transparent)) !important;
+  box-shadow: var(
+    --subpage-card-shadow-hover,
+    var(--subpage-card-shadow, var(--chat-inputbar-shadow-hover))
+  ) !important;
 }
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
@@ -418,6 +497,11 @@
 
 /* Mid theme primary buttons should not brighten more than the option-card hover tone. */
 :root.theme-mid .button[data-variant="primary"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: var(--btn-primary-bg) !important;
+  border: var(--btn-primary-border) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
   transition:
     filter 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
@@ -447,13 +531,12 @@
       rgba(236, 226, 223, 0.3) 0%,
       rgba(228, 218, 214, 0.26) 100%
     );
-  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.48);
-  --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    0 4px 10px rgba(20, 12, 10, 0.24);
+  --btn-primary-border-hover: var(--mid-pill-surface-border-hover);
+  --btn-primary-shadow-hover: 0 6px 13px rgba(0, 0, 0, 0.11);
 }
 
 :root.theme-mid .button[data-variant="primary"]::before {
+  background: var(--btn-primary-bg-hover) !important;
   transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
 }
 
@@ -565,18 +648,25 @@
 
 /* Conversation drawer trash button: avoid bright white chip in mid mode. */
 :root.theme-light.theme-mid .drawer-panel .cs-delete {
-  background: var(--opaque-panel-bg) !important;
-  border-color: var(--opaque-panel-border) !important;
-  color: var(--opaque-panel-text) !important;
-  box-shadow: var(--opaque-panel-shadow) !important;
+  background: var(--drawer-delete-bg) !important;
+  border-color: var(--drawer-delete-border) !important;
+  color: var(--drawer-delete-text) !important;
+  box-shadow: var(--drawer-delete-shadow) !important;
 }
 
 :root.theme-light.theme-mid .drawer-panel .cs-delete:hover,
 :root.theme-light.theme-mid .drawer-panel .cs-delete:focus-visible {
-  background: var(--opaque-panel-bg-hover, var(--opaque-panel-bg)) !important;
-  border-color: rgba(122, 58, 56, 0.5) !important;
-  color: #7a3a38 !important;
-  box-shadow: var(--opaque-panel-shadow) !important;
+  background: var(--drawer-delete-bg-hover, var(--drawer-delete-bg)) !important;
+  border-color: var(--drawer-delete-border-hover, var(--drawer-delete-border))
+    !important;
+  color: var(--drawer-delete-text-hover, #7a3a38) !important;
+  box-shadow: var(--drawer-delete-shadow-hover, var(--drawer-delete-shadow))
+    !important;
+}
+
+:root.theme-light.theme-mid .drawer-panel .cs-trash-icon {
+  stroke: currentColor;
+  fill: none;
 }
 
 :root.theme-mid .drawer-panel .drawer-pill-btn.button[data-variant="primary"] {
@@ -595,29 +685,29 @@
 
 /* Rooms page cards and controls in mid: same glass tone, less white. */
 :root.theme-light.theme-mid .rooms-card {
-  border-color: rgba(255, 255, 255, 0.36) !important;
-  background: rgba(252, 248, 247, 0.44) !important;
+  border-color: var(--mid-pill-surface-border) !important;
+  background: var(--mid-pill-surface-bg) !important;
   color: #2f3a4a !important;
-  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.14) !important;
+  box-shadow: var(--mid-pill-surface-shadow) !important;
 }
 
 :root.theme-light.theme-mid .rooms-card:hover,
 :root.theme-light.theme-mid .rooms-card:focus-within {
-  border-color: rgba(255, 255, 255, 0.48) !important;
-  background: rgba(253, 250, 249, 0.5) !important;
-  box-shadow: 0 8px 16px rgba(20, 12, 10, 0.16) !important;
+  border-color: var(--mid-pill-surface-border-hover) !important;
+  background: var(--mid-pill-surface-bg-hover) !important;
+  box-shadow: var(--mid-pill-surface-shadow-hover) !important;
 }
 
 :root.theme-light.theme-mid .rooms-action-btn {
-  border-color: rgba(255, 255, 255, 0.42) !important;
-  background: rgba(252, 248, 247, 0.42) !important;
+  border-color: var(--mid-pill-surface-border) !important;
+  background: var(--mid-pill-surface-bg) !important;
   color: #2f3a4a !important;
 }
 
 :root.theme-light.theme-mid .rooms-action-btn:hover,
 :root.theme-light.theme-mid .rooms-action-btn:focus-visible {
-  border-color: rgba(255, 255, 255, 0.54) !important;
-  background: rgba(253, 250, 249, 0.5) !important;
+  border-color: var(--mid-pill-surface-border-hover) !important;
+  background: var(--mid-pill-surface-bg-hover) !important;
   color: #2f3a4a !important;
 }
 

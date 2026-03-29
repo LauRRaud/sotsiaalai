@@ -1079,16 +1079,36 @@ export default function LoginModal({
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.004) 0%, rgba(255, 255, 255, 0.003) 42%, rgba(0, 0, 0, 0.28) 100%)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
-      ? "0 11px 19px rgba(0, 0, 0, 0.11), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 0 rgba(0, 0, 0, 0.11)"
-      : "0 12px 22px rgba(0, 0, 0, 0.14), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
-    : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)";
+      ? "0 7px 13px rgba(0, 0, 0, 0.11), 0 1px 2px rgba(20, 12, 10, 0.08), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 0 rgba(0, 0, 0, 0.11)"
+      : "0 8px 15px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(15, 23, 42, 0.08), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
+    : isNightTheme
+      ? "0 7px 14px rgba(2, 6, 16, 0.28), 0 1px 2px rgba(2, 6, 16, 0.22), inset 0 0 0 var(--pin-border-w) rgba(214, 228, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.52)"
+      : "0 7px 13px rgba(0, 0, 0, var(--pin-shadow)), 0 1px 2px rgba(0, 0, 0, 0.24), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.5)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
       ? "linear-gradient(138deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 22%, rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0) 66%, rgba(122, 58, 56, 0.045) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 72%)"
       : "linear-gradient(138deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.2) 22%, rgba(255, 255, 255, 0.07) 44%, rgba(255, 255, 255, 0) 66%, rgba(255, 255, 255, 0.04) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.1) 36%, rgba(255, 255, 255, 0) 72%)"
     : "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.16) 100%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.14" : "0.15" : "0.2";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.1" : "0.12" : isNightTheme ? "0.28" : "0.24";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.14" : "0.15" : isNightTheme ? "0.15" : "0.14";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.1" : "0.12" : isNightTheme ? "0.18" : "0.16";
+  const loginShellBorder = isOtpStep
+    ? undefined
+    : isMidTheme
+      ? "1px solid rgba(255, 255, 255, 0.22)"
+      : isLightTheme
+        ? "1px solid rgba(255, 255, 255, 0.68)"
+        : isNightTheme
+          ? "1px solid rgba(176, 198, 230, 0.14)"
+          : "1px solid rgba(248, 253, 255, 0.08)";
+  const loginShellShadow = isOtpStep
+    ? undefined
+    : isMidTheme
+      ? "0 12px 22px rgba(20, 12, 10, 0.12), 0 1px 2px rgba(20, 12, 10, 0.06)"
+      : isLightTheme
+        ? "0 14px 24px rgba(15, 23, 42, 0.1), 0 1px 2px rgba(15, 23, 42, 0.06)"
+        : isNightTheme
+          ? "0 14px 26px rgba(2, 6, 16, 0.28), 0 1px 0 rgba(220, 236, 255, 0.05)"
+          : "0 14px 24px rgba(0, 0, 0, 0.28), 0 1px 0 rgba(248, 253, 255, 0.04)";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
   const androidPinToggleClassName = isAndroidPlatform
     ? "!text-[1.22rem] max-md:!text-[clamp(1.22rem,4.45vw,1.54rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"
@@ -1165,8 +1185,7 @@ export default function LoginModal({
         ? isAndroidPlatform
           ? "clamp(4.72rem, 13.8vw, 5.8rem)"
           : "clamp(5.6rem, 15.8vw, 7.1rem)"
-        : "clamp(4.4rem, 7vw, 5.2rem)"
-      ,
+        : "clamp(4.4rem, 7vw, 5.2rem)",
       "--otp-copy-text": isMidTheme
         ? "#4a3833"
         : isNightTheme
@@ -1243,9 +1262,10 @@ export default function LoginModal({
         : undefined,
       "--input-shadow-hover": isOtpStep
         ? "0 10px 20px rgba(0,0,0,0.34)"
-        : undefined
-      ,
-        width: isPhoneViewport
+        : undefined,
+      "--login-shell-border": loginShellBorder,
+      "--login-shell-shadow": loginShellShadow,
+      width: isPhoneViewport
           ? "100%"
           : isOtpStep
             ? "min(92vw, 30rem)"
@@ -1262,7 +1282,7 @@ export default function LoginModal({
             : "var(--login-pin-modal-w)",
         boxSizing: "border-box"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside}>
-        <div className={`login-modal-shell glass-box border-0 shadow-none w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] ${
+        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] [border:var(--login-shell-border,none)] [box-shadow:var(--login-shell-shadow,none)] ${
         isOtpStep
           ? "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
           : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"

@@ -153,10 +153,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const cardOverlayClassName =
     "chat-analysis-overlay-card !isolation-auto";
   const cardClassName =
-    "w-full max-w-none rounded-[1.55rem] border border-[color:var(--subpage-card-border,var(--chat-tools-panel-border,var(--glass-modal-border,rgba(255,255,255,0.14))))] " +
-    "bg-[color:var(--glass-analysis-bg,var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))))))] text-[color:var(--glass-analysis-text,var(--chat-tools-panel-text,var(--opaque-panel-text,var(--subpage-card-text,var(--glass-surface-text,#f2f2f2)))))] " +
-    "shadow-[var(--glass-analysis-shadow,var(--chat-tools-panel-shadow,var(--opaque-panel-shadow,var(--subpage-card-shadow,var(--glass-shell-shadow,none)))))] backdrop-blur-0 " +
-    "[-webkit-backdrop-filter:none] " +
+    "w-full max-w-none rounded-[1.55rem] border border-[color:color-mix(in_srgb,var(--glass-surface-text,#f2f2f2)_10%,transparent)] " +
+    "bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
+    "shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-blur-radius,1rem)] " +
+    "[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
     "[--analysis-card-pad-y:clamp(0.7rem,1.95vw,1.05rem)] " +
     "[--analysis-card-pad-x:clamp(0.85rem,2.5vw,1.65rem)] " +
     "[--analysis-card-pad-b:clamp(0.95rem,2.7vw,1.45rem)] " +
@@ -203,17 +203,17 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "ml-[calc(-1*var(--analysis-card-pad-x))] mr-[calc(-1*var(--analysis-card-pad-x))]";
   const previewClassName =
     "relative flex-1 min-h-[260px] max-h-[clamp(38rem,80vh,70rem)] " +
-    "rounded-[1.2rem] border border-[color:var(--opaque-panel-border,var(--rail-tooltip-border,var(--subpage-card-border,transparent)))] bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))))] " +
+    "rounded-[1.2rem] border border-[color:color-mix(in_srgb,var(--glass-surface-text,#f2f2f2)_10%,transparent)] bg-[color:color-mix(in_srgb,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))_96%,transparent)] " +
     "pl-[var(--analysis-preview-pad-x)] pr-[var(--analysis-preview-pad-right)] " +
     "py-[clamp(0.28rem,1vw,0.6rem)] " +
     "[--analysis-preview-pad-x:clamp(0.75rem,2.2vw,1.35rem)] " +
     "[--analysis-preview-pad-right:clamp(0.2rem,0.9vw,0.6rem)] " +
     "overflow-y-auto overflow-x-hidden overscroll-contain [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:none] [overscroll-behavior-y:contain] [touch-action:pan-y] " +
     "text-[1.18rem] leading-[1.92] tracking-[0.02em] " +
-    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--subpage-card-text,var(--glass-surface-text,#f2f2f2))))] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
+    "text-[color:var(--glass-surface-text,#f2f2f2)] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
     "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
-    "light:bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg))] light:text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))]";
+    "backdrop-blur-[calc(var(--glass-blur-radius,1rem)*0.72)] [-webkit-backdrop-filter:blur(calc(var(--glass-blur-radius,1rem)*0.72))]";
   const scrollTrackClassName =
     "absolute top-[0.6rem] bottom-[0.6rem] right-0 w-[1.7rem] " +
     "bg-transparent border-0 cursor-[var(--cursor-pointer)] " +

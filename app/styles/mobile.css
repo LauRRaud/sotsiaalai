@@ -17,9 +17,36 @@
     --glass-surface-bg: rgba(253, 250, 249, 0.42);
     --glass-ring-surface-bg: rgba(252, 248, 247, 0.48);
     --glass-modal-bg: rgba(252, 248, 247, 0.46);
-    --panel-secondary-bg: rgba(252, 248, 247, 0.44);
-    --subpage-card-bg: var(--input-flat-bg, var(--input-bg));
-    --subpage-card-bg-hover: var(--input-flat-bg-hover, var(--input-bg-hover));
+    --panel-secondary-bg: var(
+      --mid-pill-surface-bg,
+      var(--input-flat-bg, var(--input-bg))
+    );
+    --panel-secondary-border: var(--mid-pill-surface-border, transparent);
+    --panel-secondary-shadow: var(
+      --mid-pill-surface-shadow,
+      var(--input-shadow)
+    );
+    --subpage-card-bg: var(
+      --mid-pill-surface-bg,
+      var(--input-flat-bg, var(--input-bg))
+    );
+    --subpage-card-bg-hover: var(
+      --mid-pill-surface-bg-hover,
+      var(--input-flat-bg-hover, var(--input-bg-hover))
+    );
+    --subpage-card-border: var(--mid-pill-surface-border, transparent);
+    --subpage-card-border-hover: var(
+      --mid-pill-surface-border-hover,
+      transparent
+    );
+    --subpage-card-shadow: var(
+      --mid-pill-surface-shadow,
+      var(--input-shadow)
+    );
+    --subpage-card-shadow-hover: var(
+      --mid-pill-surface-shadow-hover,
+      var(--input-shadow-hover)
+    );
   }
 
   :root.theme-light body.homepage {

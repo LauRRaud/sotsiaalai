@@ -104,46 +104,46 @@
   --btn-primary-bg:
     radial-gradient(
       82% 66% at 50% 16%,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 1) 42%,
-      rgba(254, 253, 252, 0.982) 58%,
-      rgba(251, 249, 247, 0.952) 74%
+      rgba(253, 252, 251, 0.992) 0%,
+      rgba(252, 251, 250, 0.99) 42%,
+      rgba(251, 250, 249, 0.976) 58%,
+      rgba(249, 247, 246, 0.948) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(253, 251, 249, 0.986) 100%
+      rgba(252, 251, 250, 0.992) 0%,
+      rgba(249, 248, 247, 0.978) 100%
     );
   --btn-primary-bg-hover:
     radial-gradient(
       82% 66% at 50% 16%,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 1) 42%,
-      rgba(255, 254, 253, 0.988) 58%,
-      rgba(252, 250, 248, 0.962) 74%
+      rgba(254, 253, 252, 0.996) 0%,
+      rgba(253, 252, 251, 0.994) 42%,
+      rgba(252, 251, 250, 0.982) 58%,
+      rgba(250, 248, 247, 0.956) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(254, 252, 250, 0.988) 100%
+      rgba(253, 252, 251, 0.994) 0%,
+      rgba(250, 249, 248, 0.982) 100%
     );
   --btn-primary-bg-active:
     radial-gradient(
       82% 66% at 50% 16%,
-      rgba(255, 255, 255, 0.975) 0%,
-      rgba(252, 250, 249, 0.94) 42%,
-      rgba(247, 245, 243, 0.89) 58%,
-      rgba(242, 240, 238, 0.85) 74%
+      rgba(252, 251, 250, 0.968) 0%,
+      rgba(250, 249, 248, 0.934) 42%,
+      rgba(247, 246, 245, 0.892) 58%,
+      rgba(243, 242, 241, 0.854) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(253, 251, 250, 0.965) 0%,
-      rgba(246, 244, 242, 0.93) 100%
+      rgba(251, 250, 249, 0.96) 0%,
+      rgba(246, 245, 244, 0.932) 100%
     );
   --btn-primary-text: rgba(31, 41, 55, 0.92);
-  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.5);
-  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.58);
-  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.46);
+  --btn-primary-border: 1px solid rgba(148, 163, 184, 0.08);
+  --btn-primary-border-hover: 1px solid rgba(148, 163, 184, 0.1);
+  --btn-primary-border-active: 1px solid rgba(148, 163, 184, 0.07);
   --btn-primary-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
   --btn-primary-shadow-hover: 0 6px 13px rgba(15, 23, 42, 0.102);
   --btn-primary-shadow-active: 0 1px 4px rgba(15, 23, 42, 0.08);
@@ -152,20 +152,20 @@
     0 4px 10px rgba(15, 23, 42, 0.11),
     0 0 0 3px var(--btn-primary-focus-ring-color);
   --btn-primary-radius: 0.95rem;
-  --input-bg: var(--btn-primary-bg);
-  --input-bg-hover: var(--btn-primary-bg-hover);
-  --input-bg-focus: var(--btn-primary-bg-hover);
+  --input-bg: var(--subpage-card-bg);
+  --input-bg-hover: var(--subpage-card-bg-hover);
+  --input-bg-focus: var(--subpage-card-bg-hover);
   --input-flat-bg: var(--btn-primary-bg);
   --input-flat-bg-hover: var(--btn-primary-bg-hover);
   --input-text: #1f2937;
   --input-caret: #1f2937;
-  --input-border: var(--btn-primary-border);
+  --input-border: 1px solid rgba(148, 163, 184, 0.08);
   --input-placeholder: #374151;
-  --input-shadow: var(--btn-primary-shadow);
-  --input-shadow-hover: var(--btn-primary-shadow-hover);
+  --input-shadow: var(--subpage-card-shadow);
+  --input-shadow-hover: var(--subpage-card-shadow-hover);
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
-  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0);
-  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.065);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.078);
   --input-radius: 0.95rem;
   --input-disabled-opacity: 0.6;
   --glass-modal-title-color: var(--title-color);
@@ -191,21 +191,53 @@
   --seg-radio-dot-bg: #7a3a38;
   --seg-radio-dot-shadow: none;
   --panel-secondary-bg: var(--btn-primary-bg);
-  --panel-secondary-border: rgba(255, 255, 255, 0.5);
+  --panel-secondary-border: rgba(148, 163, 184, 0.08);
   --panel-secondary-shadow: var(--btn-primary-shadow);
   --panel-secondary-radius: 1.1rem;
-  --subpage-card-bg: var(--btn-primary-bg);
-  --subpage-card-bg-hover: var(--btn-primary-bg-hover);
-  --subpage-card-border: rgba(255, 255, 255, 0.5);
-  --subpage-card-border-hover: rgba(255, 255, 255, 0.58);
+  --subpage-card-bg:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(253, 252, 251, 0.936) 0%,
+      rgba(252, 251, 250, 0.934) 42%,
+      rgba(251, 250, 249, 0.916) 58%,
+      rgba(249, 247, 246, 0.878) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(252, 251, 250, 0.936) 0%,
+      rgba(249, 248, 247, 0.9) 100%
+    );
+  --subpage-card-bg-hover:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(254, 253, 252, 0.956) 0%,
+      rgba(253, 252, 251, 0.954) 42%,
+      rgba(252, 251, 250, 0.928) 58%,
+      rgba(250, 248, 247, 0.896) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(253, 252, 251, 0.956) 0%,
+      rgba(250, 249, 248, 0.918) 100%
+    );
+  --subpage-card-border: rgba(148, 163, 184, 0.08);
+  --subpage-card-border-hover: rgba(148, 163, 184, 0.1);
   --subpage-card-shadow: var(--btn-primary-shadow);
   --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
   --subpage-card-text: #334155;
-  --opaque-panel-bg: var(--btn-primary-bg);
-  --opaque-panel-bg-hover: var(--btn-primary-bg-hover);
-  --opaque-panel-border: rgba(255, 255, 255, 0.5);
+  --opaque-panel-bg: var(--subpage-card-bg);
+  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);
+  --opaque-panel-border: rgba(148, 163, 184, 0.08);
   --opaque-panel-shadow: var(--btn-primary-shadow);
   --opaque-panel-text: #334155;
+  --drawer-delete-border: rgba(255, 255, 255, 0.54);
+  --drawer-delete-bg: rgba(255, 255, 255, 0.62);
+  --drawer-delete-text: #334155;
+  --drawer-delete-border-hover: rgba(255, 255, 255, 0.68);
+  --drawer-delete-bg-hover: rgba(255, 252, 251, 0.76);
+  --drawer-delete-text-hover: #8a4f4a;
+  --drawer-delete-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+  --drawer-delete-shadow-hover: 0 5px 12px rgba(15, 23, 42, 0.09);
   --chat-btn-idle-light: color-mix(
     in srgb,
     var(--glass-surface-bg) 52%,
@@ -402,17 +434,17 @@
   background: rgba(255, 255, 255, 0.65);
 }
 :root.theme-light .drawer-panel .cs-delete {
-  color: var(--opaque-panel-text);
-  border-color: var(--opaque-panel-border);
-  background: var(--opaque-panel-bg);
-  box-shadow: var(--opaque-panel-shadow);
+  color: var(--drawer-delete-text);
+  border-color: var(--drawer-delete-border);
+  background: var(--drawer-delete-bg);
+  box-shadow: var(--drawer-delete-shadow);
 }
 :root.theme-light .drawer-panel .cs-delete:hover,
 :root.theme-light .drawer-panel .cs-delete:focus-visible {
-  color: #6b1d1d;
-  border-color: rgba(52, 56, 64, 0.45);
-  background: rgba(255, 235, 235, 1);
-  box-shadow: var(--opaque-panel-shadow);
+  color: var(--drawer-delete-text-hover);
+  border-color: var(--drawer-delete-border-hover);
+  background: var(--drawer-delete-bg-hover);
+  box-shadow: var(--drawer-delete-shadow-hover);
 }
 :root.theme-light .drawer-panel .cs-trash-icon {
   stroke: currentColor;
@@ -438,7 +470,17 @@
   --chat-action-btn-shadow-hover: var(--btn-primary-shadow-hover);
   --chat-action-btn-shadow-focus: 0 5px 12px rgba(15, 23, 42, 0.1);
   --chat-action-btn-shadow-active: var(--btn-primary-shadow-active);
-  --chat-user-bubble-bg: var(--chat-inputbar-bg);
+  --chat-user-bubble-bg: var(--input-bg);
+  --chat-user-bubble-bg-hover: var(--input-bg-hover);
+  --chat-user-bubble-border: var(--input-border);
+  --chat-user-bubble-shadow: var(
+    --input-shadow-composite,
+    var(--input-shadow)
+  );
+  --chat-user-bubble-shadow-hover: var(
+    --input-shadow-hover-composite,
+    var(--input-shadow-hover)
+  );
   background: var(--chat-inputbar-bg);
   border: var(--input-border);
   box-shadow: var(--chat-inputbar-shadow);
@@ -554,10 +596,24 @@
   opacity: 0.95;
 }
 :root.theme-light .chat-msg-user {
-  background: var(--chat-user-bubble-bg, #fdfdfd);
-  border: 0;
+  background: var(--chat-user-bubble-bg, var(--chat-inputbar-bg));
+  border: var(--chat-user-bubble-border, var(--input-border));
   color: #111827;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: var(
+    --chat-user-bubble-shadow,
+    var(--chat-inputbar-shadow, 0 4px 10px rgba(0, 0, 0, 0.08))
+  );
+}
+:root.theme-light .chat-msg-user:hover,
+:root.theme-light .chat-msg-user:focus-within {
+  background: var(
+    --chat-user-bubble-bg-hover,
+    var(--chat-user-bubble-bg, var(--chat-inputbar-bg-hover))
+  );
+  box-shadow: var(
+    --chat-user-bubble-shadow-hover,
+    var(--chat-user-bubble-shadow, var(--chat-inputbar-shadow-hover))
+  );
 }
 :root.theme-light .chat-msg-ai {
   color: #111827;

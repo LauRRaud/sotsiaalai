@@ -8,6 +8,7 @@ import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
+import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
 import { cn } from "@/components/ui/cn";
 import {
   glassPageBackClassName,
@@ -52,7 +53,8 @@ const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName =
-  "register-input w-full min-[769px]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[769px]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+  `register-input ${pillInputBaseClassName} ` +
+  "min-[769px]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[769px]:mx-auto py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 const frameworkDownloadClassName =
   "w-auto whitespace-normal text-center leading-[1.08] !px-[1.45rem] !py-[0.7rem] !text-[1.1rem] no-underline !min-h-[2.95rem] min-[769px]:min-w-[10.9rem] max-[768px]:min-w-[11.6rem] max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.25rem] max-[768px]:!py-[0.72rem] max-[768px]:!text-[1.08rem]";
 const frameworkRingClassName = cn(

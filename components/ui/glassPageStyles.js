@@ -1,3 +1,5 @@
+import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
+
 export const glassPageTitleClassName =
   "glass-page-title mt-[clamp(2.15rem,5.4vh,3.25rem)] mb-[clamp(0.35rem,1.4vh,0.8rem)] text-center text-[2.15em] max-[768px]:text-[clamp(1.78rem,6.6vw,2.18rem)] leading-[1.12] tracking-[0.03em] " +
   "w-full max-w-full max-[768px]:mx-auto max-[768px]:tracking-[0.012em] max-[768px]:leading-[1.06] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+4.05rem)] max-[768px]:mb-[clamp(0.2rem,0.9vh,0.55rem)] " +
@@ -19,7 +21,7 @@ export const glassPrimaryButtonToneClassName =
   "[--btn-primary-shadow-active:0_1px_4px_rgba(0,0,0,0.12)] " +
   "[--btn-primary-shadow-focus:0_4px_9px_rgba(0,0,0,0.14),0_0_0_3px_var(--btn-primary-focus-ring-color)] " +
   "[.theme-light:not(.theme-mid)_&]:[--btn-primary-bg-hover:radial-gradient(82%_66%_at_50%_16%,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_42%,rgba(255,255,255,0.99)_58%,rgba(253,251,250,0.97)_74%),linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(254,252,251,0.985)_100%)] " +
-  "[.theme-light:not(.theme-mid)_&]:[--btn-primary-border-hover:1px_solid_rgba(255,255,255,0.62)]";
+  "[.theme-light:not(.theme-mid)_&]:[--btn-primary-border-hover:1px_solid_rgba(148,163,184,0.1)]";
 
 export const glassPageShellClassName =
   `mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start box-border ${glassPrimaryButtonToneClassName}`;
@@ -87,17 +89,6 @@ export const glassSubpageCardInteractiveClassName =
   "focus-within:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] focus-within:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] focus-within:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))]";
 
 export const glassSubpageSurfaceScopeClassName =
-  "[--glass-modal-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
-  "[.theme-light:not(.theme-mid)_&]:[--input-bg:var(--btn-primary-bg,var(--subpage-card-bg))] [.theme-light:not(.theme-mid)_&]:[--input-bg-hover:var(--btn-primary-bg-hover,var(--subpage-card-bg-hover,var(--subpage-card-bg)))] [.theme-light:not(.theme-mid)_&]:[--input-bg-focus:var(--btn-primary-bg-hover,var(--subpage-card-bg-hover,var(--subpage-card-bg)))] " +
-  "[.theme-light:not(.theme-mid)_&]:[--input-shadow:var(--btn-primary-shadow,var(--subpage-card-shadow))] [.theme-light:not(.theme-mid)_&]:[--input-shadow-hover:var(--btn-primary-shadow-hover,var(--subpage-card-shadow-hover,var(--subpage-card-shadow)))] " +
-  "[.theme-light:not(.theme-mid)_&]:[--input-shadow-composite:var(--btn-primary-shadow,var(--subpage-card-shadow))] [.theme-light:not(.theme-mid)_&]:[--input-shadow-hover-composite:var(--btn-primary-shadow-hover,var(--subpage-card-shadow-hover,var(--subpage-card-shadow)))] [.theme-light:not(.theme-mid)_&]:[--input-shadow-focus-composite:var(--btn-primary-shadow-hover,var(--subpage-card-shadow-hover,var(--subpage-card-shadow)))] " +
-  "[.theme-light:not(.theme-mid)_&]:[--input-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
-  "[.theme-light:not(.theme-mid)_&]:[--input-caret:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))]";
+  "[--glass-modal-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))]";
 
-export const glassFormInputBaseClassName =
-  "w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] " +
-  "transition-[background,border-color,box-shadow,color] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-  "placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 " +
-  "focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
-  "hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
-  "disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed";
+export const glassFormInputBaseClassName = pillInputBaseClassName;

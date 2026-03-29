@@ -7,7 +7,6 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import {
   glassPrimaryButtonToneClassName,
@@ -567,7 +566,7 @@ export default function ChatSidebar() {
   const timeTextClassName =
     "text-[0.9rem] max-[768px]:text-[1.02rem] text-[color:var(--drawer-time-text,rgba(148,163,184,0.8))] [.theme-light_&]:text-[rgba(71,85,105,0.8)]";
   const deleteBtnClassName =
-    "inline-flex h-[2.3rem] w-[2.3rem] max-[768px]:h-[2.55rem] max-[768px]:w-[2.55rem] items-center justify-center rounded-[0.72rem] border-[1.6px] border-[color:var(--drawer-delete-border,rgba(148,163,184,0.42))] [background:var(--drawer-delete-bg,rgba(32,34,42,0.22))] p-0 text-[color:var(--drawer-delete-text,rgba(203,213,225,0.9))] transition-[border-color,background,color,transform] duration-150 hover:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] hover:[background:var(--drawer-delete-bg-hover,rgba(48,16,20,0.5))] hover:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] focus-visible:[background:var(--drawer-delete-bg-hover,rgba(48,16,20,0.5))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:outline-none active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-55";
+    "inline-flex h-[2.3rem] w-[2.3rem] max-[768px]:h-[2.55rem] max-[768px]:w-[2.55rem] items-center justify-center rounded-[0.72rem] border-[1.6px] border-[color:var(--drawer-delete-border,rgba(148,163,184,0.42))] [background:var(--drawer-delete-bg,rgba(32,34,42,0.22))] p-0 text-[color:var(--drawer-delete-text,rgba(203,213,225,0.9))] transition-[border-color,background,color,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:border-[color:var(--drawer-delete-border-hover,var(--drawer-delete-border,rgba(255,120,120,0.72)))] hover:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] hover:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:border-[color:var(--drawer-delete-border-hover,var(--drawer-delete-border,rgba(255,120,120,0.72)))] focus-visible:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:outline-none active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-55";
   const loadMoreBtnClassName =
     "inline-flex h-[1.8rem] w-[2rem] items-center justify-center border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] " +
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
@@ -579,20 +578,10 @@ export default function ChatSidebar() {
   const sidebarIconButtonClassName =
     "drawer-pill-btn invite-primary-btn !min-h-[3.05rem] !px-[0.95rem] !py-[0.78rem] max-[768px]:!min-h-[3.2rem] max-[768px]:!px-[0.9rem] " +
     glassPrimaryButtonToneClassName;
+  const searchInputShellClassName =
+    "relative isolate flex min-h-[3.05rem] items-center overflow-hidden rounded-full border-0 [background:var(--subpage-card-bg)] shadow-[var(--subpage-card-shadow)] transition-[box-shadow] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--subpage-card-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:before:opacity-100 hover:shadow-[var(--subpage-card-shadow-hover)] focus-within:before:opacity-100 focus-within:shadow-[var(--subpage-card-shadow-hover)]";
   const searchInputClassName =
-    "!rounded-full !px-[1rem] !py-[0.78rem] !min-h-[3.05rem] !border-0 " +
-    "[--input-bg:var(--subpage-card-bg)] [--input-bg-hover:var(--subpage-card-bg-hover)] [--input-bg-focus:var(--subpage-card-bg-hover)] " +
-    "[--input-shadow:var(--subpage-card-shadow)] [--input-shadow-hover:var(--subpage-card-shadow-hover)] [--input-shadow-composite:var(--subpage-card-shadow)] [--input-shadow-hover-composite:var(--subpage-card-shadow-hover)] [--input-shadow-focus-composite:var(--subpage-card-shadow-hover)] " +
-    "!bg-[color:var(--subpage-card-bg)] " +
-    "!text-[color:var(--input-text)] !caret-[color:var(--input-caret)] " +
-    "!shadow-[var(--subpage-card-shadow)] " +
-    "transition-[background,box-shadow,color] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    "placeholder:text-[color:var(--input-placeholder)] " +
-    "hover:!bg-[color:var(--subpage-card-bg-hover)] " +
-    "hover:!shadow-[var(--subpage-card-shadow-hover)] " +
-    "focus-visible:!bg-[color:var(--subpage-card-bg-hover)] " +
-    "focus-visible:!shadow-[var(--subpage-card-shadow-hover)] " +
-    "focus-visible:!outline-none";
+    "relative z-[1] w-full appearance-none border-0 bg-transparent px-[1rem] py-[0.78rem] text-[0.95rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] placeholder:text-[color:var(--input-placeholder)] outline-none focus:outline-none focus:ring-0";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
   const sidebarInsetWidthClassName = `${sidebarContentWidthClassName} px-[0.42rem] max-[768px]:px-[0.4rem]`;
   const listViewportClassName = "flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
@@ -693,7 +682,9 @@ export default function ChatSidebar() {
         </Button>
       </div>
       {isConversationView ? <div className={`${sidebarInsetWidthClassName} mt-[0.35rem] max-[768px]:mt-[0.45rem]`}>
-          <Input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} size="sm" className={searchInputClassName} />
+          <div className={searchInputShellClassName}>
+            <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} className={searchInputClassName} />
+          </div>
         </div> : null}
       {selectMode && isConversationView ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>
           <Button variant="primary" size="md" className={sidebarPrimaryButtonClassName} onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>

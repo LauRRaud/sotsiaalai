@@ -18,8 +18,9 @@ import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
 import Textarea from "@/components/ui/Textarea"
 import { useSpeech } from "@/components/chat/hooks/useSpeech"
-import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles"
+import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPrimaryButtonToneClassName } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass } from "@/components/ui/linkStyles"
+import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName"
 import { AGENT_ARTIFACT_TYPE_VALUES } from "@/lib/documents/constants"
 import { clientTaskInstruction } from "@/lib/documents/agentTasks"
 import {
@@ -39,9 +40,12 @@ const agentTitleClassName =
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
 const backButtonClassName = `${glassPageBackTopLeftClassName} scroll-reactive-back !z-[30] pointer-events-auto`
-
-const chipBaseClassName =
-  "documents-chip inline-flex min-h-[2.6rem] items-center justify-center rounded-full px-[0.9rem] py-[0.38rem] text-[1.02rem] leading-none"
+const agentPrimaryButtonClassName =
+  "drawer-pill-btn invite-primary-btn documents-primary-button !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
+  "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem] " +
+  glassPrimaryButtonToneClassName
+const agentPrimaryButtonCompactClassName =
+  `${agentPrimaryButtonClassName} documents-primary-button--compact`
 const WORKSPACE_VERSION_LIMIT = 8
 const CLIENT_MAX_DOCUMENTS = 2
 const CLIENT_AGENT_TASK_OPTIONS = [
@@ -72,7 +76,11 @@ function templateOptionLabel(template, t) {
 }
 
 function segmentedChipClassName(isActive) {
-  return `${chipBaseClassName} ${isActive ? "is-active" : ""}`
+  return `${primarySegmentedButtonClassName} inline-flex min-h-[2.78rem] items-center justify-center rounded-full border-[var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[1rem] py-[0.58rem] text-[1.01rem] leading-[1.2] tracking-[0.018em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:[background:var(--seg-card-bg-hover,var(--seg-card-bg))] hover:border-[color:var(--seg-card-border-hover,var(--seg-card-border))] hover:text-[color:var(--seg-card-text-hover,var(--seg-card-text))] hover:shadow-[var(--seg-card-shadow-hover,var(--seg-card-shadow))] active:[background:var(--seg-card-bg-active,var(--seg-card-bg-selected,var(--seg-card-bg-hover,var(--seg-card-bg))))] active:border-[color:var(--seg-card-border-active,var(--seg-card-border-selected,var(--seg-card-border-hover,var(--seg-card-border))))] active:text-[color:var(--seg-card-text-selected,var(--seg-card-text-hover,var(--seg-card-text)))] active:shadow-[var(--seg-card-shadow-active,var(--seg-card-shadow-selected,var(--seg-card-shadow-hover,var(--seg-card-shadow))))] max-[768px]:min-h-[2.9rem] max-[768px]:text-[1.05rem] ${
+    isActive
+      ? "text-[color:var(--seg-card-text-selected,var(--seg-card-text-hover,var(--seg-card-text)))] [background:var(--seg-card-bg-selected,var(--seg-card-bg-hover,var(--seg-card-bg)))] border-[color:var(--seg-card-border-selected,var(--seg-card-border-hover,var(--seg-card-border)))] shadow-[var(--seg-card-shadow-selected,var(--seg-card-shadow-hover,var(--seg-card-shadow)))]"
+      : ""
+  }`
 }
 
 function formatArtifactMessage(artifact, t) {
@@ -1530,7 +1538,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                   <Button
                     type="button"
                     size="sm"
-                    className="documents-primary-button documents-primary-button--compact"
+                    className={agentPrimaryButtonCompactClassName}
                     onClick={() => clientUploadInputRef.current?.click?.()}
                     disabled={clientUploading || selectedCountLimitReached}
                   >
@@ -1559,7 +1567,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                       <p>{t(isClientRole ? "documents.agent_workspace.client_empty_documents" : "documents.agent_workspace.empty_documents")}</p>
                     </div>
                     {!isClientRole ? (
-                      <Button as="a" href={documentsHref} size="sm" className="documents-primary-button documents-primary-button--compact">
+                      <Button as="a" href={documentsHref} size="sm" className={agentPrimaryButtonCompactClassName}>
                         {t("documents.agent_workspace.select_documents")}
                       </Button>
                     ) : null}
@@ -1569,7 +1577,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                   <div className="documents-empty-state documents-agent-empty rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">
                     <p>{t("documents.agent_workspace.unavailable_documents")}</p>
                     {!isClientRole ? (
-                      <Button as="a" href={documentsHref} size="sm" className="documents-primary-button documents-primary-button--compact">
+                      <Button as="a" href={documentsHref} size="sm" className={agentPrimaryButtonCompactClassName}>
                         {t("documents.back_to_documents")}
                       </Button>
                     ) : null}
@@ -1825,7 +1833,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                         />
                       </div>
                       <div className="documents-row-actions">
-                        <Button type="button" size="sm" className="documents-primary-button" onClick={() => void handleApprove()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
+                        <Button type="button" size="sm" className={agentPrimaryButtonClassName} onClick={() => void handleApprove()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
                           {approvingResult ? t("documents.actions.approving") : t(isClientRole ? "documents.agent_workspace.client_finish" : "documents.actions.approve")}
                         </Button>
                         <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleSaveDraft()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
@@ -1893,7 +1901,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                         {workspaceResult.content}
                       </div>
                       <div className="documents-row-actions">
-                        {workspaceResult.downloadUrls?.docx ? <Button as="a" href={workspaceResult.downloadUrls.docx} size="sm" className="documents-primary-button">{t("documents.actions.download_docx")}</Button> : null}
+                        {workspaceResult.downloadUrls?.docx ? <Button as="a" href={workspaceResult.downloadUrls.docx} size="sm" className={agentPrimaryButtonClassName}>{t("documents.actions.download_docx")}</Button> : null}
                         {workspaceResult.downloadUrls?.pdf ? <Button as="a" href={workspaceResult.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">{t("documents.actions.download_pdf")}</Button> : null}
                         <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleCopyResult()}>
                           {t("documents.actions.copy")}

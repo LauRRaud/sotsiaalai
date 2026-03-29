@@ -216,11 +216,11 @@ body.selected-listing-modal-open .chat-page-shell {
   overflow: hidden;
   isolation: auto !important;
   border: 0 !important;
-  color: var(--opaque-panel-text, var(--subpage-card-text, var(--glass-modal-text, var(--glass-surface-text, #f2f2f2)))) !important;
-  background: var(--opaque-panel-bg, var(--subpage-card-bg, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))))) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  box-shadow: var(--opaque-panel-shadow, var(--subpage-card-shadow, var(--glass-shell-shadow, none))) !important;
+  color: var(--glass-surface-text, #f2f2f2) !important;
+  background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  box-shadow: var(--glass-shell-shadow, none) !important;
 }
 
 :root.theme-light .chat-page-shell {

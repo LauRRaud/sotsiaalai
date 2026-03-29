@@ -52,11 +52,11 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "rounded-[1.15em] rounded-br-[0.55em] " +
     "px-[1em] py-[0.62em] text-[1.16rem] leading-[1.32] tracking-[0.04em] font-[400] " +
     "shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_0.32rem_0.85rem_rgba(5,8,15,0.16)] " +
-    "transition-[border-color,box-shadow,background] duration-150 " +
+    "transition-[border-color,box-shadow,background] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "hover:border-[rgba(255,255,255,0.32)] hover:[background:var(--glass-input-bg-active)] " +
     "focus-within:border-[rgba(255,255,255,0.32)] focus-within:[background:var(--glass-input-bg-active)] " +
-    "light:bg-[var(--input-bg)] light:border-transparent light:shadow-[var(--input-shadow)] " +
-    "light:text-[color:var(--input-text)] light:hover:bg-[var(--input-bg)] light:focus-within:bg-[var(--input-bg)]";
+    "light:bg-[var(--chat-user-bubble-bg,var(--input-bg))] light:border-[var(--chat-user-bubble-border,var(--input-border))] light:shadow-[var(--chat-user-bubble-shadow,var(--input-shadow-composite,var(--input-shadow)))] " +
+    "light:text-[color:var(--input-text)] light:hover:bg-[var(--chat-user-bubble-bg-hover,var(--input-bg-hover))] light:focus-within:bg-[var(--chat-user-bubble-bg-hover,var(--input-bg-hover))] light:hover:shadow-[var(--chat-user-bubble-shadow-hover,var(--input-shadow-hover-composite,var(--input-shadow-hover)))] light:focus-within:shadow-[var(--chat-user-bubble-shadow-hover,var(--input-shadow-hover-composite,var(--input-shadow-hover)))]";
   const memberBubbleClassName =
     "self-start text-left bg-[rgba(14,20,32,0.2)] " +
     "border-[rgba(240,240,240,0.35)] rounded-bl-[0.55em]";

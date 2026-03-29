@@ -2,6 +2,8 @@
   --documents-page-text: var(--glass-modal-text);
   --documents-page-muted: color-mix(in srgb, var(--documents-page-text) 88%, transparent);
   --documents-page-strong: var(--documents-page-text);
+  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-glass-shadow: var(--glass-shell-shadow, 0 10px 24px rgba(0, 0, 0, 0.12));
   --documents-heading-color: #cd8585;
   --documents-accent: #c57171;
   --documents-accent-soft: rgba(197, 113, 113, 0.18);
@@ -10,14 +12,27 @@
   --documents-chip-border: color-mix(in srgb, var(--panel-secondary-border) 62%, transparent);
   --documents-chip-text: color-mix(in srgb, var(--glass-modal-text) 88%, transparent);
   --documents-chip-text-active: var(--documents-heading-color);
-  --documents-card-bg: color-mix(in srgb, var(--glass-ring-surface-bg, var(--glass-surface-bg)) 96%, transparent);
-  --documents-card-border: color-mix(in srgb, rgba(255, 255, 255, 0.28) 72%, transparent);
-  --documents-subpanel-bg: color-mix(in srgb, var(--glass-ring-surface-bg, var(--glass-surface-bg)) 92%, transparent);
-  --documents-subpanel-border: color-mix(in srgb, rgba(255, 255, 255, 0.22) 70%, transparent);
-  --documents-soft-shadow: 0 8px 18px rgba(20, 12, 10, 0.08);
-  --documents-strong-shadow: 0 14px 30px rgba(12, 16, 24, 0.18);
-  --documents-content-bg: color-mix(in srgb, var(--panel-secondary-bg) 84%, rgba(10, 12, 18, 0.24) 16%);
-  --documents-content-border: color-mix(in srgb, var(--panel-secondary-border) 90%, transparent);
+  --documents-panel-bg: var(--documents-glass-surface);
+  --documents-panel-border: color-mix(in srgb, rgba(255, 255, 255, 0.2) 70%, transparent);
+  --documents-panel-shadow: var(--documents-glass-shadow);
+  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 98%, transparent);
+  --documents-card-border: color-mix(in srgb, rgba(255, 255, 255, 0.24) 72%, transparent);
+  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 96%, transparent);
+  --documents-subpanel-border: color-mix(in srgb, rgba(255, 255, 255, 0.2) 70%, transparent);
+  --panel-secondary-bg: var(--documents-panel-bg);
+  --panel-secondary-border: var(--documents-panel-border);
+  --panel-secondary-shadow: var(--documents-panel-shadow);
+  --subpage-card-bg: var(--documents-card-bg);
+  --subpage-card-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 100%, transparent);
+  --subpage-card-border: var(--documents-card-border);
+  --subpage-card-border-hover: var(--documents-card-border);
+  --subpage-card-shadow: var(--documents-soft-shadow);
+  --subpage-card-shadow-hover: var(--documents-soft-shadow);
+  --subpage-card-text: var(--documents-page-text);
+  --documents-soft-shadow: var(--documents-glass-shadow);
+  --documents-strong-shadow: var(--documents-glass-shadow);
+  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 94%, transparent);
+  --documents-content-border: color-mix(in srgb, rgba(255, 255, 255, 0.22) 72%, transparent);
   --documents-muted-bg: color-mix(in srgb, var(--panel-secondary-bg) 94%, transparent);
   --documents-muted-border: color-mix(in srgb, var(--panel-secondary-border) 96%, transparent);
   --documents-muted-text: var(--documents-page-strong);
@@ -33,17 +48,17 @@
   --documents-error-bg: rgba(127, 29, 29, 0.18);
   --documents-error-border: rgba(248, 113, 113, 0.24);
   --documents-error-text: #ffd6d6;
-  --documents-agent-stage-bg: rgba(16, 18, 22, 0.18);
-  --documents-agent-stage-border: rgba(255, 255, 255, 0.1);
-  --documents-agent-thread-bg: rgba(15, 17, 21, 0.82);
-  --documents-agent-thread-border: rgba(255, 255, 255, 0.12);
-  --documents-agent-thread-shadow: 0 16px 34px rgba(5, 8, 16, 0.18);
-  --documents-agent-composer-bg: rgba(14, 16, 20, 0.9);
-  --documents-agent-composer-bg-hover: rgba(16, 18, 22, 0.94);
-  --documents-agent-composer-border: rgba(255, 255, 255, 0.12);
+  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
+  --documents-agent-stage-border: color-mix(in srgb, rgba(255, 255, 255, 0.16) 72%, transparent);
+  --documents-agent-thread-bg: color-mix(in srgb, var(--documents-glass-surface) 90%, transparent);
+  --documents-agent-thread-border: color-mix(in srgb, rgba(255, 255, 255, 0.18) 72%, transparent);
+  --documents-agent-thread-shadow: var(--documents-glass-shadow);
+  --documents-agent-composer-bg: color-mix(in srgb, var(--documents-glass-surface) 96%, transparent);
+  --documents-agent-composer-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 98%, transparent);
+  --documents-agent-composer-border: color-mix(in srgb, rgba(255, 255, 255, 0.18) 72%, transparent);
   --documents-agent-composer-field-bg: transparent;
-  --documents-agent-composer-shadow: 0 10px 22px rgba(5, 8, 16, 0.18);
-  --documents-agent-composer-shadow-hover: 0 12px 24px rgba(5, 8, 16, 0.22);
+  --documents-agent-composer-shadow: var(--documents-glass-shadow);
+  --documents-agent-composer-shadow-hover: var(--documents-glass-shadow);
   color: var(--documents-page-text);
 }
 
@@ -52,13 +67,14 @@
   --documents-accent: #7a3a38;
   --documents-accent-soft: rgba(255, 248, 246, 0.9);
   --documents-accent-border: rgba(122, 58, 56, 0.16);
-  --documents-card-border: rgba(190, 196, 208, 0.52);
-  --documents-subpanel-border: rgba(190, 196, 208, 0.46);
+  --documents-panel-border: rgba(190, 196, 208, 0.36);
+  --documents-card-border: rgba(190, 196, 208, 0.4);
+  --documents-subpanel-border: rgba(190, 196, 208, 0.38);
   --documents-page-text: var(--text-strong);
   --documents-chip-border: rgba(148, 163, 184, 0.24);
   --documents-chip-text: #465161;
-  --documents-soft-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-  --documents-strong-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  --documents-soft-shadow: var(--glass-shell-shadow, 0 18px 40px rgba(15, 23, 42, 0.12));
+  --documents-strong-shadow: var(--glass-shell-shadow, 0 18px 40px rgba(15, 23, 42, 0.12));
   --documents-muted-bg: rgba(255, 255, 255, 0.72);
   --documents-muted-border: rgba(148, 163, 184, 0.34);
   --documents-muted-text: #334155;
@@ -118,23 +134,24 @@
   --documents-accent-border: rgba(141, 77, 74, 0.34);
   --documents-page-text: var(--glass-modal-text);
   --documents-chip-text: #495465;
-  --documents-card-border: rgba(156, 138, 145, 0.44);
-  --documents-subpanel-border: rgba(156, 138, 145, 0.4);
-  --documents-soft-shadow: 0 10px 24px rgba(33, 24, 24, 0.1);
-  --documents-strong-shadow: 0 16px 36px rgba(26, 18, 18, 0.18);
-  --documents-content-border: rgba(156, 138, 145, 0.36);
+  --documents-panel-border: rgba(156, 138, 145, 0.32);
+  --documents-card-border: rgba(156, 138, 145, 0.34);
+  --documents-subpanel-border: rgba(156, 138, 145, 0.32);
+  --documents-soft-shadow: var(--glass-shell-shadow, 0 16px 36px rgba(26, 18, 18, 0.18));
+  --documents-strong-shadow: var(--glass-shell-shadow, 0 16px 36px rgba(26, 18, 18, 0.18));
+  --documents-content-border: rgba(156, 138, 145, 0.3);
   --documents-muted-border: rgba(156, 138, 145, 0.34);
-  --documents-agent-stage-bg: color-mix(in srgb, rgba(255, 252, 250, 0.72) 72%, rgba(255, 244, 241, 0.38) 28%);
-  --documents-agent-stage-border: rgba(255, 255, 255, 0.22);
-  --documents-agent-thread-bg: color-mix(in srgb, rgba(255, 250, 248, 0.84) 82%, rgba(255, 244, 241, 0.28) 18%);
-  --documents-agent-thread-border: rgba(255, 255, 255, 0.24);
-  --documents-agent-thread-shadow: 0 14px 30px rgba(18, 14, 16, 0.12);
-  --documents-agent-composer-bg: rgba(249, 242, 239, 0.8);
-  --documents-agent-composer-bg-hover: rgba(251, 245, 243, 0.9);
-  --documents-agent-composer-border: rgba(156, 138, 145, 0.32);
+  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 94%, transparent);
+  --documents-agent-stage-border: rgba(255, 255, 255, 0.18);
+  --documents-agent-thread-bg: color-mix(in srgb, var(--documents-glass-surface) 96%, transparent);
+  --documents-agent-thread-border: rgba(255, 255, 255, 0.2);
+  --documents-agent-thread-shadow: var(--glass-shell-shadow, 0 14px 30px rgba(18, 14, 16, 0.12));
+  --documents-agent-composer-bg: color-mix(in srgb, var(--documents-glass-surface) 98%, transparent);
+  --documents-agent-composer-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 100%, transparent);
+  --documents-agent-composer-border: rgba(156, 138, 145, 0.28);
   --documents-agent-composer-field-bg: transparent;
-  --documents-agent-composer-shadow: 0 8px 18px rgba(18, 14, 16, 0.12);
-  --documents-agent-composer-shadow-hover: 0 10px 20px rgba(18, 14, 16, 0.14);
+  --documents-agent-composer-shadow: var(--glass-shell-shadow, 0 14px 30px rgba(18, 14, 16, 0.12));
+  --documents-agent-composer-shadow-hover: var(--glass-shell-shadow, 0 14px 30px rgba(18, 14, 16, 0.12));
   --btn-primary-border: 0 solid transparent;
   --btn-primary-border-hover: 0 solid transparent;
   --btn-primary-border-active: 0 solid transparent;
@@ -155,28 +172,26 @@
   --documents-chip-bg: color-mix(in srgb, rgba(13, 19, 30, 0.8) 86%, rgba(20, 32, 54, 0.56) 14%);
   --documents-chip-border: rgba(148, 180, 255, 0.1);
   --documents-chip-text: rgba(238, 244, 255, 0.95);
-  --documents-card-bg: color-mix(in srgb, rgba(8, 12, 20, 0.82) 88%, rgba(18, 28, 46, 0.54) 12%);
-  --documents-card-border: rgba(120, 156, 231, 0.12);
-  --documents-subpanel-bg: color-mix(in srgb, rgba(9, 14, 24, 0.78) 88%, rgba(18, 29, 48, 0.48) 12%);
-  --documents-subpanel-border: rgba(118, 149, 219, 0.12);
-  --documents-soft-shadow: 0 10px 24px rgba(2, 6, 14, 0.22);
-  --documents-strong-shadow: 0 18px 38px rgba(2, 6, 14, 0.3);
-  --documents-content-bg: color-mix(in srgb, rgba(10, 16, 28, 0.8) 88%, rgba(18, 30, 50, 0.5) 12%);
-  --documents-content-border: rgba(118, 149, 219, 0.12);
+  --documents-panel-border: rgba(118, 149, 219, 0.1);
+  --documents-card-border: rgba(118, 149, 219, 0.1);
+  --documents-subpanel-border: rgba(118, 149, 219, 0.1);
+  --documents-soft-shadow: var(--glass-shell-shadow, 0 18px 38px rgba(2, 6, 14, 0.3));
+  --documents-strong-shadow: var(--glass-shell-shadow, 0 18px 38px rgba(2, 6, 14, 0.3));
+  --documents-content-border: rgba(118, 149, 219, 0.1);
   --documents-muted-bg: color-mix(in srgb, rgba(10, 16, 28, 0.72) 90%, rgba(18, 30, 50, 0.42) 10%);
   --documents-muted-border: rgba(120, 156, 231, 0.1);
   --documents-muted-text: rgba(228, 236, 255, 0.94);
-  --documents-agent-stage-bg: rgba(13, 20, 34, 0.26);
-  --documents-agent-stage-border: rgba(124, 156, 226, 0.1);
-  --documents-agent-thread-bg: rgba(8, 14, 25, 0.76);
+  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 94%, transparent);
+  --documents-agent-stage-border: rgba(118, 149, 219, 0.1);
+  --documents-agent-thread-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
   --documents-agent-thread-border: rgba(118, 149, 219, 0.1);
-  --documents-agent-thread-shadow: 0 18px 38px rgba(2, 6, 14, 0.24);
-  --documents-agent-composer-bg: rgba(9, 14, 24, 0.9);
-  --documents-agent-composer-bg-hover: rgba(11, 16, 28, 0.94);
-  --documents-agent-composer-border: rgba(118, 149, 219, 0.12);
+  --documents-agent-thread-shadow: var(--glass-shell-shadow, 0 18px 38px rgba(2, 6, 14, 0.24));
+  --documents-agent-composer-bg: color-mix(in srgb, var(--documents-glass-surface) 96%, transparent);
+  --documents-agent-composer-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 98%, transparent);
+  --documents-agent-composer-border: rgba(118, 149, 219, 0.1);
   --documents-agent-composer-field-bg: transparent;
-  --documents-agent-composer-shadow: 0 12px 24px rgba(2, 6, 14, 0.2);
-  --documents-agent-composer-shadow-hover: 0 14px 26px rgba(2, 6, 14, 0.24);
+  --documents-agent-composer-shadow: var(--glass-shell-shadow, 0 18px 38px rgba(2, 6, 14, 0.24));
+  --documents-agent-composer-shadow-hover: var(--glass-shell-shadow, 0 18px 38px rgba(2, 6, 14, 0.24));
 }
 
 .documents-workspace-shell {
@@ -1327,28 +1342,28 @@
 .documents-panel {
   position: relative;
   overflow: visible;
-  background: var(--subpage-card-bg);
-  border-color: var(--subpage-card-border);
-  color: var(--subpage-card-text, var(--documents-page-text));
+  background: var(--documents-panel-bg, var(--documents-subpanel-bg));
+  border-color: var(--documents-panel-border, var(--documents-subpanel-border));
+  color: var(--documents-page-text);
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
-  box-shadow: var(--subpage-card-shadow);
+  box-shadow: var(--documents-panel-shadow, var(--documents-strong-shadow));
 }
 
 .documents-card {
-  background: var(--subpage-card-bg);
-  border-color: var(--subpage-card-border);
+  background: var(--documents-card-bg);
+  border-color: var(--documents-card-border);
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
-  box-shadow: var(--subpage-card-shadow);
+  box-shadow: var(--documents-soft-shadow);
 }
 
 .documents-subpanel {
-  background: var(--subpage-card-bg);
-  border-color: var(--subpage-card-border);
+  background: var(--documents-subpanel-bg);
+  border-color: var(--documents-subpanel-border);
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
-  box-shadow: var(--subpage-card-shadow);
+  box-shadow: var(--documents-soft-shadow);
 }
 
 .documents-inline-section {
@@ -1361,9 +1376,9 @@
 }
 
 .documents-content {
-  background: var(--subpage-card-bg);
-  border-color: var(--subpage-card-border);
-  color: var(--subpage-card-text, var(--documents-page-text));
+  background: var(--documents-content-bg);
+  border-color: var(--documents-content-border);
+  color: var(--documents-page-text);
 }
 
 .documents-field {
