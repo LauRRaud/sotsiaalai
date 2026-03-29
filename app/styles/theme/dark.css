@@ -32,13 +32,13 @@
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {
   --chat-card-surface-standard-bg: radial-gradient(
     ellipse at top,
-    rgba(36, 41, 48, 0.5) 0%,
-    rgba(16, 19, 23, 0.6) 100%
+    rgba(36, 41, 48, 0.74) 0%,
+    rgba(16, 19, 23, 0.82) 100%
   );
   --chat-card-surface-standard-flat-bg: linear-gradient(
     180deg,
-    rgba(31, 35, 42, 0.52) 0%,
-    rgba(19, 22, 27, 0.62) 100%
+    rgba(31, 35, 42, 0.76) 0%,
+    rgba(19, 22, 27, 0.84) 100%
   );
   --chat-card-surface-strong-bg: radial-gradient(
     ellipse at top,
@@ -64,8 +64,8 @@
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
   --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.035);
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.05);
-  --input-flat-bg: rgba(28, 31, 36, 0.68);
-  --input-flat-bg-hover: rgba(34, 37, 42, 0.76);
+  --input-flat-bg: rgba(28, 31, 36, 0.84);
+  --input-flat-bg-hover: rgba(34, 37, 42, 0.9);
   --subpage-card-bg: var(--input-flat-bg);
   --subpage-card-bg-hover: var(--input-flat-bg-hover);
   --subpage-card-border: transparent;

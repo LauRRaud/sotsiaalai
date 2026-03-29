@@ -574,7 +574,7 @@ export default function ChatComposer({
     "chat-tools-menu fixed z-[160] isolate overflow-hidden w-max min-w-[11.4rem] max-w-[calc(100vw-1rem)] rounded-[0.88rem] " +
     "border-0 [background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--pt-100)))] " +
     "p-[0.25rem] shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow,var(--subpage-card-shadow)))] backdrop-blur-0 backdrop-saturate-100 " +
-    "hc:border-0 hc:bg-[rgba(14,20,32,0.98)] hc:shadow-[0_12px_26px_rgba(2,6,16,0.24)]";
+    "hc:border-0 hc:shadow-none";
   const toolsMenuPanel = toolsOpen && toolsMenuPosition && typeof document !== "undefined"
     ? createPortal(<div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className={toolsMenuClassName} style={{
       left: `${toolsMenuPosition.left}px`,

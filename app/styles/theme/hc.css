@@ -70,8 +70,8 @@ html[data-contrast="hc"] {
   --glass-surface-text: var(--hc-text);
   --glass-border-color: transparent;
   --glass-border-width: 2px;
-  --opaque-panel-bg: var(--chat-card-surface-night-strong-bg);
-  --opaque-panel-bg-hover: var(--chat-card-surface-night-flat-bg);
+  --opaque-panel-bg: var(--chat-card-surface-night-standard-bg);
+  --opaque-panel-bg-hover: var(--chat-card-surface-night-standard-flat-bg);
   --glass-modal-shadow: none;
   --glass-shell-shadow: var(--glass-ring-glow-dark);
   --glass-ring-glow-dark:
@@ -86,9 +86,14 @@ html[data-contrast="hc"] {
   --orbit-accent: var(--hc-accent);
 
   --chat-ui-solid-surface: rgb(8, 9, 12);
-  --chat-rail-tooltip-bg: var(--chat-card-surface-night-flat-bg);
-  --chat-tools-panel-bg: var(--chat-card-surface-night-strong-bg);
+  --chat-tools-panel-bg:
+    radial-gradient(
+      ellipse at top,
+      rgb(27, 39, 53) 0%,
+      rgb(9, 10, 15) 100%
+    );
   --chat-upload-picker-bg: var(--chat-card-surface-night-strong-bg);
+  --chat-rail-tooltip-bg: var(--chat-tools-panel-bg);
   --subpage-card-bg: var(--chat-card-surface-night-standard-bg);
   --subpage-card-bg-hover: var(--input-flat-bg-hover);
   --subpage-card-border: transparent;
@@ -96,7 +101,7 @@ html[data-contrast="hc"] {
   --subpage-card-shadow: none;
   --subpage-card-shadow-hover: none;
   --subpage-card-text: var(--hc-accent);
-  --rail-tooltip-bg: var(--chat-card-surface-night-flat-bg);
+  --rail-tooltip-bg: var(--chat-rail-tooltip-bg);
   --rail-tooltip-border: var(--subpage-card-border);
   --rail-tooltip-shadow: none;
   --rail-tooltip-text: var(--hc-accent);

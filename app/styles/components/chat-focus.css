@@ -252,7 +252,7 @@ body.selected-listing-modal-open .chat-page-shell {
 }
 
 html[data-contrast="hc"] .chat-page-shell {
-  --rail-tooltip-bg: var(--chat-card-surface-night-flat-bg);
+  --rail-tooltip-bg: var(--chat-rail-tooltip-bg, var(--chat-card-surface-night-strong-bg));
   --rail-tooltip-border: rgba(255, 234, 0, 0.72);
   --rail-tooltip-shadow: none;
   --chat-tools-item-hover-bg: rgba(255, 234, 0, 0.14);
