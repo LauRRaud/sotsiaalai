@@ -344,13 +344,13 @@
 :global(html[data-contrast="hc"]) .tooltip {
   color: var(--hc-accent, #ffea00);
   background: var(
-    --chat-card-surface-night-flat-bg,
-    rgba(14, 20, 32, 0.98)
+    --chat-rail-tooltip-bg,
+    var(--chat-card-surface-night-flat-bg, rgba(14, 20, 32, 0.98))
   );
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   border: 1.5px solid var(--hc-accent, #ffea00);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: none;
 }
 
 :global(:root.theme-light) .tooltip::before {
@@ -383,8 +383,8 @@
 
   :global(html[data-contrast="hc"]) .tooltip {
     background: var(
-      --chat-card-surface-night-flat-bg,
-      rgba(14, 20, 32, 0.98)
+      --chat-rail-tooltip-bg,
+      var(--chat-card-surface-night-flat-bg, rgba(14, 20, 32, 0.98))
     );
     -webkit-backdrop-filter: none;
     backdrop-filter: none;

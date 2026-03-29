@@ -28,7 +28,8 @@ const materialsSectionClassName =
   "grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] " +
   "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]"
 const materialsUploadSectionClassName =
-  "grid gap-[0.82rem] px-[0.05rem] py-[0.05rem] max-[768px]:gap-[0.72rem]"
+  "materials-upload-panel grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] " +
+  "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]"
 const materialsTextareaClassName =
   `materials-comment-box min-h-[7.4rem] rounded-[1.05rem] ${glassSubpageCardClassName} ` +
   "hover:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] hover:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] hover:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))] " +

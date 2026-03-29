@@ -251,6 +251,13 @@ body.selected-listing-modal-open .chat-page-shell {
   --chat-tools-item-hover-bg: var(--opaque-panel-bg-hover, var(--input-bg-hover));
 }
 
+html[data-contrast="hc"] .chat-page-shell {
+  --rail-tooltip-bg: var(--chat-card-surface-night-flat-bg);
+  --rail-tooltip-border: rgba(255, 234, 0, 0.72);
+  --rail-tooltip-shadow: none;
+  --chat-tools-item-hover-bg: rgba(255, 234, 0, 0.14);
+}
+
 /* Keep chat send/dictate controls borderless in normal contrast modes. */
 body .chat-input-row .chat-side-control-btn {
   width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;

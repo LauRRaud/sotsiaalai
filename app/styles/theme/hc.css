@@ -1,13 +1,13 @@
 html[data-contrast="hc"] {
   --chat-card-surface-night-standard-bg: radial-gradient(
     ellipse at top,
-    rgba(27, 39, 53, 0.8) 0%,
-    rgba(9, 10, 15, 0.84) 100%
+    rgba(27, 39, 53, 0.5) 0%,
+    rgba(9, 10, 15, 0.6) 100%
   );
   --chat-card-surface-night-standard-flat-bg: linear-gradient(
     180deg,
-    rgba(24, 35, 49, 0.78) 0%,
-    rgba(11, 15, 23, 0.84) 100%
+    rgba(24, 35, 49, 0.52) 0%,
+    rgba(11, 15, 23, 0.62) 100%
   );
   --chat-card-surface-night-strong-bg: radial-gradient(
     ellipse at top,

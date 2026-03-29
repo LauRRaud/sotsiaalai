@@ -292,7 +292,7 @@ html[data-contrast="hc"] body .chat-tools-menu {
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:hover,
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:focus-visible {
   color: var(--hc-accent) !important;
-  background: var(--chat-card-surface-night-flat-bg, rgba(25, 30, 40, 0.98)) !important;
+  background: transparent !important;
   border-color: rgba(255, 234, 0, 0.9) !important;
   box-shadow: none !important;
   outline: none !important;
@@ -311,6 +311,7 @@ html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item svg [fill]:not([
   fill: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] :is(
+  .materials-upload-panel,
   .help-listings-panel,
   .invite-list-panel,
   .materials-admin-panel,
@@ -318,6 +319,13 @@ html[data-contrast="hc"] :is(
   .materials-comment-box
 ) {
   background: var(--chat-card-surface-night-standard-bg, rgba(14, 20, 32, 0.9)) !important;
+}
+html[data-contrast="hc"] .materials-page-shell :is(
+  .materials-upload-panel,
+  .materials-admin-panel
+) {
+  border: 2px solid rgba(255, 234, 0, 0.68) !important;
+  box-shadow: none !important;
 }
 html[data-contrast="hc"] :is(
   .invite-list-row,
@@ -329,7 +337,8 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card
   color: var(--hc-accent) !important;
   background: var(--chat-card-surface-night-strong-bg, rgba(14, 20, 32, 0.98)) !important;
   border: 2px solid rgba(255, 234, 0, 0.72) !important;
-  box-shadow: var(--opaque-panel-shadow, var(--subpage-card-shadow, none)) !important;
+  box-shadow: none !important;
+  filter: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
@@ -399,6 +408,13 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card
     0 8px 18px rgba(2, 6, 16, 0.32),
     0 0 0 2px rgba(255, 234, 0, 0.44);
 }
+html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-upload-modal-card {
+  background: var(--chat-card-surface-night-strong-bg, rgba(14, 20, 32, 0.98)) !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(p, span, div, strong, em) {
   color: var(--hc-accent) !important;
 }
@@ -408,13 +424,32 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card
   background: var(--btn-primary-bg) !important;
   box-shadow: var(--btn-primary-shadow) !important;
 }
+html[data-contrast="hc"] body .chat-analysis-overlay .documents-upload-choose-button {
+  color: var(--hc-accent) !important;
+  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66) !important;
+  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9) !important;
+  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95) !important;
+  border: 2px solid rgba(255, 234, 0, 0.66) !important;
+  background: var(--btn-primary-bg) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+}
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(.button, .btn):is(:hover, :focus-visible) {
   border-color: rgba(255, 234, 0, 0.92) !important;
   background: var(--btn-primary-bg-hover) !important;
   box-shadow: var(--btn-primary-shadow-hover) !important;
 }
+html[data-contrast="hc"] body .chat-analysis-overlay .documents-upload-choose-button:is(:hover, :focus-visible) {
+  border: 2px solid rgba(255, 234, 0, 0.9) !important;
+  background: var(--btn-primary-bg-hover) !important;
+  box-shadow: var(--btn-primary-shadow-hover) !important;
+}
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(.button, .btn):active {
   border-color: rgba(255, 234, 0, 0.95) !important;
+  background: var(--btn-primary-bg-active) !important;
+  box-shadow: var(--btn-primary-shadow-active) !important;
+}
+html[data-contrast="hc"] body .chat-analysis-overlay .documents-upload-choose-button:active {
+  border: 2px solid rgba(255, 234, 0, 0.95) !important;
   background: var(--btn-primary-bg-active) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }
@@ -640,22 +675,22 @@ html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar {
   --input-text: var(--hc-accent);
   --input-placeholder: rgba(255, 234, 0, 0.92);
   --input-caret: var(--hc-accent);
-  --input-bg: var(--form-surface);
-  --input-bg-hover: var(--form-surface-hover);
-  --input-bg-focus: var(--form-surface-active);
+  --input-bg: var(--chat-card-surface-night-standard-bg);
+  --input-bg-hover: var(--chat-card-surface-night-standard-flat-bg);
+  --input-bg-focus: var(--chat-card-surface-night-standard-flat-bg);
   --input-shadow: none;
   --input-shadow-hover: none;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card {
   position: relative !important;
   isolation: isolate !important;
-  border: 1px solid rgba(255, 234, 0, 0.88) !important;
+  border: 2px solid rgba(255, 234, 0, 0.68) !important;
   outline: none !important;
-  background: var(--drawer-card-bg, rgba(14, 20, 32, 0.98)) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.46) !important;
+  background: var(--chat-card-surface-night-standard-bg, var(--drawer-card-bg, rgba(14, 20, 32, 0.98))) !important;
+  box-shadow: none !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .chat-sidebar-search-input {
-  background: transparent !important;
+  background: var(--chat-card-surface-night-standard-bg, rgba(14, 20, 32, 0.9)) !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card::before {
   content: none !important;
@@ -665,19 +700,19 @@ html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card > * {
   z-index: 2 !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card:is(:hover, :focus-within) {
-  border-color: rgba(255, 234, 0, 0.96) !important;
+  border: 2px solid rgba(255, 234, 0, 0.9) !important;
   outline: none !important;
-  background: var(--drawer-card-bg-hover, rgba(14, 20, 32, 0.98)) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.62) !important;
+  background: var(--chat-card-surface-night-standard-flat-bg, var(--drawer-card-bg-hover, rgba(14, 20, 32, 0.98))) !important;
+  box-shadow: none !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card:is(:hover, :focus-within)::before {
   content: none !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card.drawer-chat-card--active {
-  border-color: rgba(255, 234, 0, 0.98) !important;
+  border: 2px solid rgba(255, 234, 0, 0.95) !important;
   outline: none !important;
-  background: var(--drawer-card-bg-active, rgba(14, 20, 32, 0.98)) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.68) !important;
+  background: var(--chat-card-surface-night-standard-flat-bg, var(--drawer-card-bg-active, rgba(14, 20, 32, 0.98))) !important;
+  box-shadow: none !important;
 }
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card.drawer-chat-card--active::before {
   content: none !important;
