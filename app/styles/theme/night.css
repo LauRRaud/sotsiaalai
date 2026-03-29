@@ -14,23 +14,23 @@
 :root.theme-night {
   --chat-card-surface-night-standard-bg: radial-gradient(
     ellipse at top,
-    rgba(27, 39, 53, 0.8) 0%,
-    rgba(9, 10, 15, 0.84) 100%
+    rgba(31, 45, 63, 0.81) 0%,
+    rgba(12, 17, 26, 0.84) 100%
   );
   --chat-card-surface-night-standard-flat-bg: linear-gradient(
     180deg,
-    rgba(24, 35, 49, 0.78) 0%,
-    rgba(11, 15, 23, 0.84) 100%
+    rgba(27, 39, 55, 0.79) 0%,
+    rgba(14, 19, 29, 0.84) 100%
   );
   --chat-card-surface-night-strong-bg: radial-gradient(
     ellipse at top,
-    rgb(27, 39, 53) 0%,
-    rgb(9, 10, 15) 100%
+    rgb(29, 42, 59) 0%,
+    rgb(12, 17, 26) 100%
   );
   --chat-card-surface-night-flat-bg: linear-gradient(
     180deg,
-    rgb(24, 35, 49) 0%,
-    rgb(11, 15, 23) 100%
+    rgb(25, 36, 51) 0%,
+    rgb(13, 19, 28) 100%
   );
   --chat-ui-solid-surface: rgb(18, 26, 40);
   --chat-rail-tooltip-bg: rgb(18, 26, 40);
@@ -134,40 +134,39 @@
 
   --form-surface: radial-gradient(
       65% 60% at 50% -12%,
-      rgba(248, 253, 255, 0.38) 0%,
-      rgba(248, 253, 255, 0.22) 22%,
-      rgba(248, 253, 255, 0.11) 36%,
-      rgba(248, 253, 255, 0.04) 48%,
-      rgba(248, 253, 255, 0.018) 56%,
-      rgba(248, 253, 255, 0.006) 66%,
-      rgba(248, 253, 255, 0) 74%
+      rgba(220, 236, 255, 0.34) 0%,
+      rgba(220, 236, 255, 0.19) 22%,
+      rgba(220, 236, 255, 0.085) 38%,
+      rgba(220, 236, 255, 0.022) 54%,
+      rgba(220, 236, 255, 0) 72%
     ),
-    rgba(20, 28, 42, 0.72);
+    rgba(20, 30, 43, 0.88);
   --form-surface-hover: radial-gradient(
       65% 60% at 50% -12%,
-      rgba(248, 253, 255, 0.44) 0%,
-      rgba(248, 253, 255, 0.26) 22%,
-      rgba(248, 253, 255, 0.13) 36%,
-      rgba(248, 253, 255, 0.05) 48%,
-      rgba(248, 253, 255, 0.022) 56%,
-      rgba(248, 253, 255, 0.008) 66%,
-      rgba(248, 253, 255, 0) 74%
+      rgba(220, 236, 255, 0.35) 0%,
+      rgba(220, 236, 255, 0.195) 22%,
+      rgba(220, 236, 255, 0.088) 38%,
+      rgba(220, 236, 255, 0.022) 54%,
+      rgba(220, 236, 255, 0) 72%
     ),
-    rgba(24, 34, 50, 0.76);
+    rgba(24, 36, 50, 0.855);
   --form-surface-active: var(--form-surface-hover);
-  --input-flat-bg: rgba(18, 26, 40, 0.64);
-  --input-flat-bg-hover: rgba(22, 32, 48, 0.74);
-
+  --input-flat-bg: rgba(20, 30, 43, 0.86);
+  --input-flat-bg-hover: rgba(26, 38, 54, 0.88);
+  --input-bg: var(--form-surface);
+  --input-bg-hover: var(--form-surface-hover);
+  --input-bg-focus: var(--form-surface-active);
+  --input-border: 0 solid transparent;
   --input-shadow:
-    0 5.5px 15px rgba(0, 0, 0, 0.22),
-    0 10px 18px -15px rgba(248, 253, 255, 0.34),
-    0 21px 32px -24px rgba(248, 253, 255, 0.18);
+    0 5px 14px rgba(2, 6, 16, 0.2),
+    0 10px 18px -12px rgba(220, 236, 255, 0.22),
+    0 18px 28px -24px rgba(220, 236, 255, 0.09);
   --input-shadow-hover:
-    0 6px 16px rgba(0, 0, 0, 0.22),
-    0 11px 20px -15px rgba(248, 253, 255, 0.48),
-    0 23px 34px -24px rgba(248, 253, 255, 0.26);
+    0 5.5px 15px rgba(2, 6, 16, 0.2),
+    0 10px 18px -11px rgba(220, 236, 255, 0.23),
+    0 18px 28px -23px rgba(220, 236, 255, 0.1);
   --input-surface-overlay: inset 0 0 0 999px rgba(222, 236, 255, 0);
-  --input-surface-overlay-hover: inset 0 0 0 999px rgba(222, 236, 255, 0.04);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(222, 236, 255, 0.022);
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(222, 236, 255, 0.06);
 }
 
@@ -198,13 +197,22 @@
 
 :root.theme-night
   .drawer-chat-sidebar
-  .drawer-chat-card {
+  :is(.drawer-chat-card, .drawer-search-shell) {
   background: var(--chat-card-surface-night-standard-bg) !important;
   border: 0 !important;
   box-shadow: none !important;
   border-color: transparent !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
+}
+
+:root.theme-night
+  .drawer-chat-sidebar
+  .drawer-search-shell {
+  box-shadow:
+    inset 0 1px 0 rgba(220, 236, 255, 0.08),
+    0 0 22px -16px rgba(190, 220, 255, 0.2),
+    0 6px 14px rgba(2, 6, 16, 0.2) !important;
 }
 
 :root.theme-night .chat-tools-menu {
@@ -306,6 +314,34 @@
   color: var(--glass-modal-text, var(--glass-surface-text, #f2f2f2)) !important;
   border: var(--glass-modal-border, none) !important;
   box-shadow: var(--glass-modal-shadow, none) !important;
+}
+
+:root.theme-night .chat-msg-user {
+  background-color: rgba(24, 38, 58, 0.46) !important;
+  background-image: radial-gradient(
+    78% 34% at 50% 2%,
+    rgba(214, 232, 255, 0.22) 0%,
+    rgba(214, 232, 255, 0.115) 22%,
+    rgba(214, 232, 255, 0.038) 38%,
+    rgba(220, 236, 255, 0) 62%
+  ) !important;
+  border: 0 solid transparent !important;
+  color: var(--pt-150);
+  box-shadow: none !important;
+}
+
+:root.theme-night .chat-msg-user:hover,
+:root.theme-night .chat-msg-user:focus-within {
+  background-color: rgba(24, 38, 58, 0.46) !important;
+  background-image: radial-gradient(
+    78% 34% at 50% 2%,
+    rgba(214, 232, 255, 0.22) 0%,
+    rgba(214, 232, 255, 0.115) 22%,
+    rgba(214, 232, 255, 0.038) 38%,
+    rgba(220, 236, 255, 0) 62%
+  ) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
 :root.theme-night .login-modal-box.login-modal--otp #otp-code-input {

@@ -452,6 +452,7 @@
 
 :root.theme-mid .chat-msg-user {
   background: var(--subpage-card-bg) !important;
+  background-color: rgba(249, 241, 238, 0.84) !important;
   border: var(--subpage-card-border, 0 solid transparent) !important;
   color: #2f3a4a;
   box-shadow: var(--subpage-card-shadow, var(--chat-inputbar-shadow)) !important;
@@ -459,11 +460,12 @@
 
 :root.theme-mid .chat-msg-user:hover,
 :root.theme-mid .chat-msg-user:focus-within {
-  background: var(--subpage-card-bg-hover, var(--subpage-card-bg)) !important;
-  border-color: var(--subpage-card-border-hover, var(--subpage-card-border, transparent)) !important;
+  background: var(--subpage-card-bg) !important;
+  background-color: rgba(249, 241, 238, 0.84) !important;
+  border-color: var(--subpage-card-border, transparent) !important;
   box-shadow: var(
-    --subpage-card-shadow-hover,
-    var(--subpage-card-shadow, var(--chat-inputbar-shadow-hover))
+    --subpage-card-shadow,
+    var(--chat-inputbar-shadow)
   ) !important;
 }
 

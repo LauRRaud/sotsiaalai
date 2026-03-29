@@ -169,6 +169,28 @@ html[data-contrast="hc"] .materials-page-shell {
   --panel-secondary-shadow: none;
 }
 
+html[data-contrast="hc"] body .chat-msg-user {
+  background: var(--chat-card-surface-night-standard-flat-bg) !important;
+  background-color: rgba(20, 31, 48, 0.96) !important;
+  background-image: none !important;
+  border: 2px solid rgba(255, 234, 0, 0.66) !important;
+  color: var(--hc-text) !important;
+  box-shadow:
+    0 6px 16px rgba(2, 6, 16, 0.18),
+    inset 0 1px 0 rgba(255, 234, 0, 0.06) !important;
+}
+
+html[data-contrast="hc"] body .chat-msg-user:hover,
+html[data-contrast="hc"] body .chat-msg-user:focus-within {
+  background: var(--chat-card-surface-night-standard-bg) !important;
+  background-color: rgba(24, 36, 54, 0.98) !important;
+  background-image: none !important;
+  border-color: rgba(255, 234, 0, 0.9) !important;
+  box-shadow:
+    0 7px 18px rgba(2, 6, 16, 0.2),
+    inset 0 1px 0 rgba(255, 234, 0, 0.08) !important;
+}
+
 html[data-contrast="hc"]
   .materials-page-shell
   :is(.materials-upload-choose-button, .materials-upload-submit-button) {

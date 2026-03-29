@@ -94,40 +94,40 @@
 
   :root.theme-light .homepage-root .home-about-panel,
   :root.theme-light .homepage-root .home-before-panel {
-    background: var(
-      --glass-surface-bg,
-      var(--glass-ring-surface-bg, rgba(251, 252, 253, 0.52))
-    ) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    background-color: var(--home-panel-mobile-bg, rgba(251, 252, 253, 0.85)) !important;
+    background-image: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
   :root.theme-mid .homepage-root .home-about-panel,
   :root.theme-mid .homepage-root .home-before-panel {
-    background: var(
-      --glass-surface-bg,
-      var(--glass-ring-surface-bg, rgba(253, 250, 249, 0.5))
-    ) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    background-color: var(--home-panel-mobile-bg, rgba(253, 250, 249, 0.85)) !important;
+    background-image: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
-  :root:not(.theme-light):not(.theme-mid) .homepage-root .home-about-panel {
-    background: var(
-      --glass-surface-bg,
-      var(--glass-ring-surface-bg, rgba(14, 16, 20, 0.42))
-    ) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night) .homepage-root .home-about-panel {
+    background-color: var(--home-panel-mobile-bg, rgba(22, 24, 30, 0.84)) !important;
+    background-image: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
-  :root:not(.theme-light):not(.theme-mid) .homepage-root .home-before-panel {
-    background: var(
-      --glass-surface-bg,
-      var(--glass-ring-surface-bg, rgba(14, 16, 20, 0.42))
-    ) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night) .homepage-root .home-before-panel {
+    background-color: var(--home-panel-mobile-bg, rgba(22, 24, 30, 0.84)) !important;
+    background-image: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  :root.theme-night .homepage-root .home-about-panel,
+  :root.theme-night .homepage-root .home-before-panel {
+    background-color: var(--home-panel-mobile-bg, rgba(10, 14, 24, 0.88)) !important;
+    background-image: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
   html[data-contrast="hc"] .homepage-root .home-about-panel,
@@ -1725,7 +1725,7 @@
       --chat-user-bubble-bg,
       var(--subpage-card-bg, var(--input-bg))
     ) !important;
-    background-color: rgba(242, 232, 228, 0.46) !important;
+    background-color: rgba(249, 241, 238, 0.84) !important;
     border: var(
       --chat-user-bubble-border,
       var(--subpage-card-border, var(--input-border, 0 solid transparent))
@@ -1740,20 +1740,17 @@
   :root.theme-mid .chat-page-shell .chat-msg-user:hover,
   :root.theme-mid .chat-page-shell .chat-msg-user:focus-within {
     background: var(
-      --chat-user-bubble-bg-hover,
-      var(--subpage-card-bg-hover, var(--chat-user-bubble-bg, var(--input-bg-hover, var(--input-bg))))
+      --chat-user-bubble-bg,
+      var(--subpage-card-bg, var(--input-bg))
     ) !important;
-    background-color: rgba(240, 230, 226, 0.44) !important;
+    background-color: rgba(249, 241, 238, 0.84) !important;
     border-color: var(
-      --chat-user-bubble-border-hover,
-      var(--subpage-card-border-hover, var(--subpage-card-border, var(--input-border, transparent)))
+      --chat-user-bubble-border,
+      var(--subpage-card-border, var(--input-border, transparent))
     ) !important;
     box-shadow: var(
-      --chat-user-bubble-shadow-hover,
-      var(
-        --subpage-card-shadow-hover,
-        var(--chat-user-bubble-shadow, var(--subpage-card-shadow, var(--input-shadow-hover, var(--input-shadow, none))))
-      )
+      --chat-user-bubble-shadow,
+      var(--subpage-card-shadow, var(--input-shadow, none))
     ) !important;
   }
 
