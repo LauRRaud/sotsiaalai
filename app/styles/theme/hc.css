@@ -1,4 +1,24 @@
 html[data-contrast="hc"] {
+  --chat-card-surface-night-standard-bg: radial-gradient(
+    ellipse at top,
+    rgba(27, 39, 53, 0.8) 0%,
+    rgba(9, 10, 15, 0.84) 100%
+  );
+  --chat-card-surface-night-standard-flat-bg: linear-gradient(
+    180deg,
+    rgba(24, 35, 49, 0.78) 0%,
+    rgba(11, 15, 23, 0.84) 100%
+  );
+  --chat-card-surface-night-strong-bg: radial-gradient(
+    ellipse at top,
+    rgb(27, 39, 53) 0%,
+    rgb(9, 10, 15) 100%
+  );
+  --chat-card-surface-night-flat-bg: linear-gradient(
+    180deg,
+    rgb(24, 35, 49) 0%,
+    rgb(11, 15, 23) 100%
+  );
   --cursor-default-backup:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E")
       3 2,
@@ -50,8 +70,8 @@ html[data-contrast="hc"] {
   --glass-surface-text: var(--hc-text);
   --glass-border-color: transparent;
   --glass-border-width: 2px;
-  --opaque-panel-bg: rgb(8, 9, 12);
-  --opaque-panel-bg-hover: rgb(12, 13, 16);
+  --opaque-panel-bg: var(--chat-card-surface-night-strong-bg);
+  --opaque-panel-bg-hover: var(--chat-card-surface-night-flat-bg);
   --glass-modal-shadow: none;
   --glass-shell-shadow: var(--glass-ring-glow-dark);
   --glass-ring-glow-dark:
@@ -66,17 +86,17 @@ html[data-contrast="hc"] {
   --orbit-accent: var(--hc-accent);
 
   --chat-ui-solid-surface: rgb(8, 9, 12);
-  --chat-rail-tooltip-bg: rgb(8, 9, 12);
-  --chat-tools-panel-bg: rgb(8, 9, 12);
-  --chat-upload-picker-bg: rgb(8, 9, 12);
-  --subpage-card-bg: var(--input-flat-bg);
+  --chat-rail-tooltip-bg: var(--chat-card-surface-night-flat-bg);
+  --chat-tools-panel-bg: var(--chat-card-surface-night-strong-bg);
+  --chat-upload-picker-bg: var(--chat-card-surface-night-strong-bg);
+  --subpage-card-bg: var(--chat-card-surface-night-standard-bg);
   --subpage-card-bg-hover: var(--input-flat-bg-hover);
   --subpage-card-border: transparent;
   --subpage-card-border-hover: transparent;
   --subpage-card-shadow: none;
   --subpage-card-shadow-hover: none;
   --subpage-card-text: var(--hc-accent);
-  --rail-tooltip-bg: rgb(8, 9, 12);
+  --rail-tooltip-bg: var(--chat-card-surface-night-flat-bg);
   --rail-tooltip-border: var(--subpage-card-border);
   --rail-tooltip-shadow: none;
   --rail-tooltip-text: var(--hc-accent);
@@ -95,9 +115,9 @@ html[data-contrast="hc"] {
   --drawer-card-border: rgba(255, 234, 0, 0.56);
   --drawer-card-border-hover: rgba(255, 234, 0, 0.56);
   --drawer-card-border-active: rgba(255, 234, 0, 0.92);
-  --drawer-card-bg: var(--subpage-card-bg);
-  --drawer-card-bg-hover: var(--drawer-card-bg);
-  --drawer-card-bg-active: var(--subpage-card-bg-hover);
+  --drawer-card-bg: var(--chat-card-surface-night-standard-bg);
+  --drawer-card-bg-hover: var(--chat-card-surface-night-standard-flat-bg);
+  --drawer-card-bg-active: var(--chat-card-surface-night-standard-flat-bg);
   --drawer-card-shadow: none;
   --drawer-card-shadow-hover: none;
   --drawer-card-shadow-active: none;

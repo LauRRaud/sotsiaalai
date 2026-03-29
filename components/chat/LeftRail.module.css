@@ -276,7 +276,11 @@
 
 :global(:root.theme-night) .tooltip {
   color: var(--brand-primary, #c57171);
-  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)));
+  background: var(
+    --chat-card-surface-night-flat-bg,
+    var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))
+  );
+  border: 0;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   box-shadow: var(--rail-tooltip-shadow, 0 8px 18px rgba(0, 0, 0, 0.24));
@@ -287,6 +291,7 @@
     --chat-card-surface-flat-bg,
     var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))
   );
+  border: 0;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
@@ -311,9 +316,12 @@
 
 :global(html[data-contrast="hc"]) .tooltip {
   color: var(--hc-accent, #ffea00);
-  background: rgba(14, 20, 32, 0.98);
-  -webkit-backdrop-filter: blur(14px) saturate(124%);
-  backdrop-filter: blur(14px) saturate(124%);
+  background: var(
+    --chat-card-surface-night-flat-bg,
+    rgba(14, 20, 32, 0.98)
+  );
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   border: 1.5px solid var(--hc-accent, #ffea00);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
@@ -326,7 +334,10 @@
   }
 
   :global(:root.theme-night) .tooltip {
-    background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)));
+    background: var(
+      --chat-card-surface-night-flat-bg,
+      var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))
+    );
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -340,7 +351,10 @@
   }
 
   :global(html[data-contrast="hc"]) .tooltip {
-    background: rgba(14, 20, 32, 0.98);
+    background: var(
+      --chat-card-surface-night-flat-bg,
+      rgba(14, 20, 32, 0.98)
+    );
   }
 }
 

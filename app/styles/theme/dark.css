@@ -29,7 +29,7 @@
   --glass-analysis-bg: rgb(26, 29, 34);
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night) {
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {
   --chat-card-surface-strong-bg: radial-gradient(
     ellipse at top,
     rgb(36, 41, 48) 0%,
@@ -123,28 +123,31 @@
     0 0 0 3px var(--btn-primary-focus-ring-color);
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night) .help-listings-panel {
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .help-listings-panel {
   background: var(--chat-card-surface-strong-bg) !important;
+  border: 0 !important;
   box-shadow: none !important;
   border-color: transparent !important;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night) .chat-tools-menu {
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-tools-menu {
   background: var(--chat-card-surface-strong-bg) !important;
+  border: 0 !important;
   box-shadow: none !important;
   border-color: transparent !important;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .chat-analysis-upload-modal-card {
   background: var(--chat-card-surface-strong-bg) !important;
+  border: 0 !important;
   box-shadow: none !important;
   border-color: transparent !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   :is(
     .invite-list-panel,
     .invite-list-row,
@@ -161,7 +164,7 @@
   border-color: transparent !important;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .drawer-chat-sidebar
   :is(.drawer-chat-card, .drawer-search-shell) {
   background: radial-gradient(
@@ -173,7 +176,7 @@
   border-color: transparent !important;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   :is(.invite-refresh-btn, .materials-surface-button) {
   --btn-primary-bg: radial-gradient(
       ellipse at top,
@@ -199,7 +202,7 @@
   --btn-primary-shadow-focus: 0 0 0 3px rgba(148, 163, 184, 0.14);
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .drawer-chat-sidebar
   .drawer-pill-btn {
   --btn-primary-bg: radial-gradient(
