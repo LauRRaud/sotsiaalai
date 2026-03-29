@@ -55,7 +55,7 @@ export default function HelpListingsPanel({
     `help-listings-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] ` +
     `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] ` +
-    `leading-[1.35] tracking-[0.024rem] ${glassPageMobileCardClassName} ` +
+    `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards ${glassPageMobileCardClassName} ` +
     `${isClosing ? `${tiltAnimationClassName} pointer-events-none` : ""}`;
   const helpListingsTitleClassName =
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static help-listings-title max-[768px]:!mt-0 max-[768px]:!mb-0`;

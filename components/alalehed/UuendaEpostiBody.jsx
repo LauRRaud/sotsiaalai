@@ -21,7 +21,7 @@ const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const ringClassName = cn(
   glassPageRingCenteredClassName,
-  "glass-ring--desktop-stable [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]"
+  "glass-ring--desktop-stable mobile-keep-desktop-glass-cards [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]"
 );
 const contentClassName = "update-email-content mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(21rem,62vw,32rem)] flex-col gap-4";
 const inputClassName = "w-full max-w-[26.25rem] max-[768px]:max-w-[min(100%,26.25rem)]";
