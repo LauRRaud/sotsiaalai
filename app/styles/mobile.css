@@ -1720,6 +1720,43 @@
     margin-right: -0.04rem !important;
   }
 
+  .chat-page-shell .chat-msg-user {
+    background: var(
+      --chat-user-bubble-bg,
+      var(--subpage-card-bg, var(--input-bg))
+    ) !important;
+    border: var(
+      --chat-user-bubble-border,
+      var(--subpage-card-border, var(--input-border, 0 solid transparent))
+    ) !important;
+    box-shadow: var(
+      --chat-user-bubble-shadow,
+      var(--subpage-card-shadow, var(--input-shadow, none))
+    ) !important;
+    background-image: none !important;
+    opacity: 1 !important;
+  }
+
+  .chat-page-shell .chat-msg-user:hover,
+  .chat-page-shell .chat-msg-user:focus-within {
+    background: var(
+      --chat-user-bubble-bg-hover,
+      var(--subpage-card-bg-hover, var(--chat-user-bubble-bg, var(--input-bg-hover, var(--input-bg))))
+    ) !important;
+    border-color: var(
+      --chat-user-bubble-border-hover,
+      var(--subpage-card-border-hover, var(--subpage-card-border, var(--input-border, transparent)))
+    ) !important;
+    box-shadow: var(
+      --chat-user-bubble-shadow-hover,
+      var(
+        --subpage-card-shadow-hover,
+        var(--chat-user-bubble-shadow, var(--subpage-card-shadow, var(--input-shadow-hover, var(--input-shadow, none))))
+      )
+    ) !important;
+    background-image: none !important;
+  }
+
   .chat-right-actions > nav {
     width: auto !important;
     display: flex !important;
@@ -1795,6 +1832,10 @@
     transform: none !important;
     margin-left: clamp(-0.52rem, -1.6vw, -0.3rem) !important;
     margin-right: clamp(0.02rem, 0.4vw, 0.12rem) !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) .chat-tools-btn {
+    transform: translateX(0.18rem) !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
