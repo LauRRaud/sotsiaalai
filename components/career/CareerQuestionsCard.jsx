@@ -83,8 +83,8 @@ function QuestionItem({ question, uiText }) {
     uiText.question.defaultTitle;
   const inlineHint =
     question?.type === "boolean"
-      ? `${uiText.question.booleanAnswerInNextMessage} ${uiText.question.exitModeHint}`
-      : `${uiText.question.answerInNextMessage} ${uiText.question.exitModeHint}`;
+      ? uiText.question.booleanAnswerInNextMessage
+      : uiText.question.answerInNextMessage;
 
   return (
     <article className="py-[0.1rem]">

@@ -1616,6 +1616,7 @@ export default function ChatBody({
 
     return runCareerTurn(payload, {
       echoUserText: true,
+      userEchoText: text,
       activateWorkflow: true,
     });
   }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, runCareerTurn, sendMessage]);
