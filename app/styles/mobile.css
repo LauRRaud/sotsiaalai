@@ -51,26 +51,18 @@
 
   :root.theme-light body.homepage {
     --home-panel-mobile-bg: rgba(249, 247, 244, 0.84);
-    --home-mobile-layer-bg: #e7e5e1;
   }
 
   :root.theme-mid body.homepage {
     --home-panel-mobile-bg: rgba(252, 248, 247, 0.8);
-    --home-mobile-layer-bg: #7e5f58;
   }
 
   :root:not(.theme-light):not(.theme-mid):not(.theme-night) body.homepage {
     --home-panel-mobile-bg: rgba(22, 24, 30, 0.84);
-    --home-mobile-layer-bg: #1e2329;
   }
 
   :root.theme-night body.homepage {
     --home-panel-mobile-bg: rgba(10, 14, 24, 0.88);
-    --home-mobile-layer-bg: #121926;
-  }
-
-  html[data-contrast="hc"] body.homepage {
-    --home-mobile-layer-bg: #090a0f;
   }
 
   body.homepage {
@@ -191,7 +183,6 @@
     width: 100vw;
     min-height: 100dvh;
     overflow: hidden;
-    background: var(--home-mobile-layer-bg, transparent) !important;
   }
   body.homepage [data-bg-layer] .bg-bends-layer {
     inset: 0 !important;
@@ -211,14 +202,13 @@
   }
   body.homepage [data-bg-layer] .bg-space-layer,
   body.homepage [data-bg-layer] .space-backdrop {
-    display: none !important;
-  }
-  body.homepage [data-bg-layer] .bg-space-layer,
-  body.homepage [data-bg-layer] .space-backdrop {
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
     left: 0 !important;
+  }
+  body.homepage [data-bg-layer] .bg-particles-layer {
+    display: none !important;
   }
 }
 
@@ -2166,9 +2156,18 @@
     opacity: 1 !important;
   }
 
-  :root.theme-mid .register-step--field .register-input-mid-shell {
-    -webkit-appearance: none !important;
-    appearance: none !important;
+  .register-input-shell {
+    width: calc(100% - clamp(0.46rem, 2.6vw, 0.82rem));
+    max-width: calc(100% - clamp(0.46rem, 2.6vw, 0.82rem));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  :root.theme-mid .register-step--field .register-input-shell--mid {
+    min-height: 3.62rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
     background:
       radial-gradient(
         92% 88% at 50% 16%,
@@ -2185,21 +2184,12 @@
     box-shadow:
       0 10px 22px rgba(38, 24, 22, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.62) !important;
-    color: #2f3a4a !important;
-    -webkit-text-fill-color: #2f3a4a !important;
-    caret-color: #2f3a4a !important;
     backdrop-filter: blur(8px) saturate(112%) !important;
+    -webkit-backdrop-filter: blur(8px) saturate(112%) !important;
   }
 
-  :root.theme-mid .register-step--field .register-input-mid-shell::placeholder {
-    color: rgba(55, 65, 81, 0.62) !important;
-    -webkit-text-fill-color: rgba(55, 65, 81, 0.62) !important;
-    opacity: 1 !important;
-  }
-
-  :root.theme-mid .register-step--field .register-input-mid-shell:hover,
-  :root.theme-mid .register-step--field .register-input-mid-shell:focus,
-  :root.theme-mid .register-step--field .register-input-mid-shell:focus-visible {
+  :root.theme-mid .register-step--field .register-input-shell--mid:hover,
+  :root.theme-mid .register-step--field .register-input-shell--mid:focus-within {
     background:
       radial-gradient(
         92% 88% at 50% 16%,
@@ -2216,6 +2206,33 @@
     box-shadow:
       0 12px 24px rgba(38, 24, 22, 0.12),
       inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+  }
+
+  :root.theme-mid .register-step--field .register-input-mid-shell {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    color: #2f3a4a !important;
+    -webkit-text-fill-color: #2f3a4a !important;
+    caret-color: #2f3a4a !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  :root.theme-mid .register-step--field .register-input-mid-shell::placeholder {
+    color: rgba(55, 65, 81, 0.62) !important;
+    -webkit-text-fill-color: rgba(55, 65, 81, 0.62) !important;
+    opacity: 1 !important;
+  }
+
+  :root.theme-mid .register-step--field .register-input-mid-shell:hover,
+  :root.theme-mid .register-step--field .register-input-mid-shell:focus,
+  :root.theme-mid .register-step--field .register-input-mid-shell:focus-visible {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
   }
 
   .register-role-options {

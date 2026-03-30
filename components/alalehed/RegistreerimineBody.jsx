@@ -616,7 +616,7 @@ export default function RegistreerimineBody({}) {
               <section
                 className={`${registerStepClassName} register-step--field register-step--email ${getRegisterStepClassName(0)}`}
               >
-                <div className="relative">
+                <div className="register-input-shell register-input-shell--mid relative">
                   <input
                     type="text"
                     id="email"
@@ -648,7 +648,7 @@ export default function RegistreerimineBody({}) {
               <section
                 className={`${registerStepClassName} register-step--field register-step--pin ${getRegisterStepClassName(1)}`}
               >
-                <div className="relative">
+                <div className="register-input-shell register-input-shell--mid relative">
                   <input
                     type="text"
                     id="pin"
