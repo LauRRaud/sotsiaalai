@@ -338,12 +338,42 @@
 }
 
 :root:not(.theme-light):not(.theme-mid) .register-submit {
-  --btn-primary-bg-active: var(--btn-primary-bg-hover);
+  --btn-primary-bg-active: var(--btn-primary-bg);
   --btn-primary-shadow-active: var(--btn-primary-shadow-hover);
   --btn-primary-border-active: var(
     --btn-primary-border-hover,
     var(--btn-primary-border)
   );
+}
+
+:root:not(.theme-light):not(.theme-mid) .invite-primary-btn {
+  --btn-primary-bg-active: var(--btn-primary-bg);
+  --btn-primary-shadow-active: var(--btn-primary-shadow-hover);
+  --btn-primary-border-active: var(
+    --btn-primary-border-hover,
+    var(--btn-primary-border)
+  );
+}
+
+:root:not(.theme-light) .invite-sponsor-toggle-card {
+  --seg-card-bg-active: var(
+    --seg-card-bg-selected,
+    var(--seg-card-bg)
+  );
+  --seg-card-shadow-active: var(
+    --seg-card-shadow-hover,
+    var(--seg-card-shadow-selected, var(--seg-card-shadow))
+  );
+  --seg-card-border-active: var(
+    --seg-card-border-hover,
+    var(--seg-card-border-selected, var(--seg-card-border))
+  );
+}
+
+:root:not(.theme-light):not(.theme-mid) .register-submit:active::before,
+:root:not(.theme-light):not(.theme-mid) .invite-primary-btn:active::before,
+:root:not(.theme-light) .invite-sponsor-toggle-card:active::before {
+  opacity: 1 !important;
 }
 
 .register-option-card[data-checked="true"],
