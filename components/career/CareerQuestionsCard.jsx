@@ -51,8 +51,23 @@ function ChoiceButton({ selected = false, disabled = false, onClick, children })
   );
 }
 
+function shouldRenderBooleanButtons(question) {
+  return !(
+    question?.state === "agreements" ||
+    question?.state === "confirm_profile"
+  );
+}
+
 function BooleanQuestion({ question, onAnswer, uiText }) {
   if (typeof onAnswer !== "function") return null;
+
+  if (!shouldRenderBooleanButtons(question)) {
+    return (
+      <div className="mt-[0.48rem] text-[0.84rem] opacity-80">
+        {uiText.question.answerInNextMessage}
+      </div>
+    );
+  }
 
   return (
     <div className="mt-[0.55rem] ml-auto flex w-fit max-w-full flex-wrap justify-end gap-[0.45rem] pr-[clamp(0.8rem,1.6vw,1.25rem)]">

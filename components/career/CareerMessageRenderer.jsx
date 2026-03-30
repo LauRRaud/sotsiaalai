@@ -14,6 +14,18 @@ function hasText(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+function hasMeaningfulDocumentStep(documentStep) {
+  if (!documentStep || typeof documentStep !== "object") return false;
+  if (hasText(documentStep.flow) || hasText(documentStep.documentFlow)) return true;
+  if (hasText(documentStep.reason)) return true;
+  if (typeof documentStep.missingInputCount === "number" && documentStep.missingInputCount > 0) {
+    return true;
+  }
+
+  const status = String(documentStep.status || "").trim().toLowerCase();
+  return Boolean(status && status !== "not_suggested");
+}
+
 function SectionTitle({ children }) {
   if (!hasText(children)) return null;
 
@@ -184,7 +196,7 @@ function renderActionCard(card, uiText) {
 }
 
 function renderDocumentStep(documentStep, uiText) {
-  if (!documentStep || typeof documentStep !== "object") return null;
+  if (!hasMeaningfulDocumentStep(documentStep)) return null;
 
   const rows = [
     hasText(documentStep.flow) ? `${uiText.document.flow}: ${documentStep.flow}` : null,
@@ -390,7 +402,9 @@ function CareerResponseCard({
         </div>
       ) : null}
       {renderBody(response, onQuestionAnswer, uiText)}
-      {!response.documentStep && documentStep ? renderDocumentStep(documentStep, uiText) : null}
+      {!response.documentStep && hasMeaningfulDocumentStep(documentStep)
+        ? renderDocumentStep(documentStep, uiText)
+        : null}
       {generatedDocument ? renderGeneratedDocument(generatedDocument, uiText) : null}
     </section>
   );

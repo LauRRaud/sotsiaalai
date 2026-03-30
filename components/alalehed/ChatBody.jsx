@@ -167,6 +167,21 @@ function formatCareerAnswerForDisplay(question, answer, answerLabel = null) {
   return "";
 }
 
+function parseCareerBooleanAnswer(value) {
+  const normalized = String(value || "").trim().toLowerCase();
+  if (!normalized) return null;
+
+  if (["jah", "jaa", "ja", "yes", "y", "true", "1", "да", "ага"].includes(normalized)) {
+    return true;
+  }
+
+  if (["ei", "ei.", "eip", "no", "n", "false", "0", "нет", "не"].includes(normalized)) {
+    return false;
+  }
+
+  return null;
+}
+
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
@@ -1569,11 +1584,21 @@ export default function ChatBody({
       ? careerLastResult.response.questions
       : [];
 
-    const payload =
+    const singlePendingQuestion =
       activeWorkflow === "career" && pendingQuestions.length === 1
+        ? pendingQuestions[0]
+        : null;
+
+    const singleQuestionAnswer =
+      singlePendingQuestion?.type === "boolean"
+        ? parseCareerBooleanAnswer(text)
+        : text;
+
+    const payload =
+      singlePendingQuestion
         ? {
-            questionId: pendingQuestions[0]?.id,
-            answer: text,
+            questionId: singlePendingQuestion?.id,
+            answer: singleQuestionAnswer,
             profile: careerProfile || {},
             runtime: {
               ...(careerRuntime || {}),
