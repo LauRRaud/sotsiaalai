@@ -773,8 +773,7 @@ html[data-contrast="hc"]
   :is(
     .profile-orbit-menu__item,
     .profile-orbit-menu__center,
-    .profile-orbit-stack-bubble,
-    .profile-orbit-mobile-action
+    .profile-orbit-stack-bubble
   ).dock-item {
   background: var(--orbit-keypad-fill) !important;
   box-shadow: var(--orbit-keypad-shadow) !important;
@@ -1109,10 +1108,32 @@ html[data-contrast="hc"]
   transform: none;
   opacity: 1;
 }
+
+html[data-contrast="hc"]
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item,
+html[data-contrast="hc"]
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active),
+html[data-contrast="hc"]
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-row.is-active
+  .profile-orbit-mobile-action.dock-item,
+html[data-contrast="hc"]
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item[data-orbit-mobile-active="true"] {
+  box-shadow:
+    0 0 12px rgba(255, 234, 0, 0.22),
+    0 0 24px rgba(255, 234, 0, 0.12),
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.1),
+    inset 0 1px 0 rgba(255, 250, 180, 0.035) !important;
+}
+
 :root:not(.theme-light) .profile-orbit-mobile-scrim--top {
   background: linear-gradient(
-    to bottom,
-    rgba(10, 12, 18, 0.92),
+      to bottom,
+      rgba(10, 12, 18, 0.92),
     rgba(10, 12, 18, 0)
   );
 }
