@@ -268,8 +268,7 @@ export default function LoginModal({
     "flex",
     "flex-col",
     isPhoneViewport ? "w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] items-center justify-center" : "w-auto h-auto min-h-0 max-h-[calc(100dvh-2rem)]",
-    isPhoneViewport ? "overflow-y-auto" : "max-md:max-h-[calc(100dvh-0.9rem)]",
-    "overflow-x-hidden",
+    isPhoneViewport ? "overflow-y-auto overflow-x-hidden" : "overflow-visible max-md:max-h-[calc(100dvh-0.9rem)]",
     "gap-0",
     "!rounded-[2.2rem]",
     "pt-[0.1em]",
@@ -1068,48 +1067,40 @@ export default function LoginModal({
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.995) 0%, rgba(255, 255, 255, 0.28) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.045) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.34) 100%)"
     : isNightTheme
-      ? "linear-gradient(180deg, rgba(36, 40, 52, 0.965) 0%, rgba(20, 24, 33, 0.985) 100%)"
-      : "linear-gradient(180deg, rgba(28, 32, 41, 0.95) 0%, rgba(16, 19, 27, 0.98) 100%)";
+      ? "radial-gradient(124% 124% at 24% 18%, rgba(228, 239, 255, 0.07) 0%, rgba(228, 239, 255, 0.03) 24%, rgba(228, 239, 255, 0.008) 42%, rgba(228, 239, 255, 0) 60%), linear-gradient(160deg, rgba(46, 54, 70, 0.42) 0%, rgba(27, 34, 46, 0.36) 46%, rgba(14, 19, 28, 0.3) 100%), rgba(18, 24, 34, 0.22)"
+      : "radial-gradient(124% 124% at 24% 18%, rgba(244, 247, 255, 0.06) 0%, rgba(244, 247, 255, 0.024) 24%, rgba(244, 247, 255, 0.006) 42%, rgba(244, 247, 255, 0) 60%), linear-gradient(160deg, rgba(52, 58, 70, 0.39) 0%, rgba(28, 34, 43, 0.33) 46%, rgba(14, 19, 25, 0.28) 100%), rgba(18, 22, 28, 0.2)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
       ? "0 5px 10px rgba(0, 0, 0, 0.11), 0 1px 1px rgba(20, 12, 10, 0.07), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
       : "0 5px 9px rgba(0, 0, 0, 0.09), 0 1px 1px rgba(15, 23, 42, 0.06), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(0, 0, 0, 0.09)"
     : isNightTheme
-      ? "0 7px 11px rgba(2, 6, 16, 0.2), 0 1px 1px rgba(2, 6, 16, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.055)"
-      : "0 7px 11px rgba(0, 0, 0, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.04)";
+      ? "0 5px 11px rgba(2, 6, 16, 0.14), 0 1px 1px rgba(15, 23, 42, 0.065), inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.055), inset 0 -1px 0 rgba(2, 6, 16, 0.22)"
+      : "0 5px 11px rgba(0, 0, 0, 0.13), 0 1px 1px rgba(15, 23, 42, 0.065), inset 0 0 0 var(--pin-border-w) rgba(34, 42, 56, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.22)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
       ? "linear-gradient(138deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 22%, rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0) 66%, rgba(122, 58, 56, 0.045) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 72%)"
       : "linear-gradient(138deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.2) 22%, rgba(255, 255, 255, 0.07) 44%, rgba(255, 255, 255, 0) 66%, rgba(255, 255, 255, 0.04) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.1) 36%, rgba(255, 255, 255, 0) 72%)"
     : isNightTheme
-      ? "linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.06) 32%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.12) 100%), radial-gradient(120% 110% at 18% 16%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 64%), radial-gradient(120% 120% at 84% 90%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 56%)"
-      : "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.04) 74%, rgba(0, 0, 0, 0.12) 100%), radial-gradient(120% 110% at 18% 16%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 64%), radial-gradient(120% 120% at 84% 90%, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 56%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : isNightTheme ? "0.05" : "0.06";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : isNightTheme ? "0.07" : "0.06";
+      ? "linear-gradient(180deg, rgba(230, 240, 255, 0.12) 0%, rgba(230, 240, 255, 0.035) 18%, rgba(230, 240, 255, 0) 44%)"
+      : "linear-gradient(180deg, rgba(248, 253, 255, 0.1) 0%, rgba(248, 253, 255, 0.03) 18%, rgba(248, 253, 255, 0) 44%)";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : "0";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : "0";
   const pinBounceVars = {
-    "--pin-bounce-ms": "620ms",
-    "--pin-bounce-up": "1.055",
-    "--pin-bounce-down": "0.992",
-    "--pin-bounce-recover": "1.008"
+    "--pin-bounce-ms": "640ms",
+    "--pin-bounce-up": "1.059",
+    "--pin-bounce-down": "0.989",
+    "--pin-bounce-recover": "1.011"
   };
-  const loginShellBorder = isOtpStep
-    ? undefined
-    : isMidTheme
-      ? "1px solid rgba(255, 255, 255, 0.22)"
-      : isLightTheme
-        ? "1px solid rgba(255, 255, 255, 0.68)"
-        : isNightTheme
-          ? "1px solid rgba(176, 198, 230, 0.14)"
-          : "1px solid rgba(248, 253, 255, 0.08)";
   const loginShellShadow = isOtpStep
     ? undefined
     : isMidTheme
-      ? "0 9px 18px rgba(80, 58, 52, 0.1), 0 1px 2px rgba(80, 58, 52, 0.05)"
+      ? "0 14px 30px rgba(26, 18, 18, 0.15)"
       : isLightTheme
-        ? "0 8px 16px rgba(15, 23, 42, 0.07), 0 1px 2px rgba(15, 23, 42, 0.04)"
+        ? "0 16px 34px rgba(15, 23, 42, 0.1)"
         : isNightTheme
-          ? "0 10px 20px rgba(2, 6, 16, 0.2), 0 1px 0 rgba(255, 255, 255, 0.03)"
-          : "0 10px 20px rgba(0, 0, 0, 0.18), 0 1px 0 rgba(255, 255, 255, 0.03)";
+          ? "0 0 18px rgba(214, 232, 255, 0.12), 0 0 38px rgba(214, 232, 255, 0.06)"
+          : "0 0 14px rgba(248, 253, 255, 0.11), 0 0 32px rgba(248, 253, 255, 0.055)";
+  const loginShellFilter = "none";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
   const androidPinToggleClassName = isAndroidPlatform
     ? "!text-[1.22rem] max-md:!text-[clamp(1.22rem,4.45vw,1.54rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"
@@ -1264,8 +1255,8 @@ export default function LoginModal({
       "--input-shadow-hover": isOtpStep
         ? "0 10px 20px rgba(0,0,0,0.34)"
         : undefined,
-      "--login-shell-border": loginShellBorder,
       "--login-shell-shadow": loginShellShadow,
+      "--login-shell-filter": loginShellFilter,
       width: isPhoneViewport
           ? "100%"
           : isOtpStep
@@ -1283,7 +1274,7 @@ export default function LoginModal({
             : "var(--login-pin-modal-w)",
         boxSizing: "border-box"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside}>
-        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] [background:var(--glass-modal-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] [border:var(--login-shell-border,none)] [box-shadow:var(--login-shell-shadow,none)] ${
+        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] [border:none] [box-shadow:var(--login-shell-shadow,none)] [filter:var(--login-shell-filter,none)] ${
         isOtpStep
           ? "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
           : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"

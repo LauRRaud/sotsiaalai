@@ -222,13 +222,13 @@
   0% {
     transform: scale(1);
   }
-  26% {
+  22% {
     transform: scale(var(--pin-bounce-up));
   }
-  52% {
+  50% {
     transform: scale(var(--pin-bounce-down));
   }
-  78% {
+  76% {
     transform: scale(var(--pin-bounce-recover));
   }
   100% {
@@ -238,7 +238,7 @@
 
 .pin-keypad__button--bounce {
   animation: pinKeyBounce var(--pin-bounce-ms, 620ms)
-    cubic-bezier(0.2, 0.82, 0.2, 1) both;
+    cubic-bezier(0.22, 0.86, 0.24, 1) both;
   will-change: transform;
   transition: none;
 }
