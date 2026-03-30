@@ -174,6 +174,26 @@
   }
 }
 
+@media (hover: none) and (pointer: coarse) {
+  :is(.register-content, .invite-modal-content, .person-invite-modal-content) [data-control-type][data-checked="false"]:active {
+    background: var(--seg-card-bg) !important;
+    border-color: var(--seg-card-border) !important;
+    box-shadow: var(--seg-card-shadow) !important;
+    color: var(--seg-card-text) !important;
+  }
+
+  :is(.register-content, .invite-modal-content, .person-invite-modal-content) [data-control-type][data-checked="true"]:active {
+    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;
+    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
+    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
+    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
+  }
+
+  :is(.register-content, .invite-modal-content, .person-invite-modal-content) [data-control-type]:active::before {
+    opacity: 0 !important;
+  }
+}
+
 @media (max-width: 768px) {
   .sb-grain {
     display: none !important;
@@ -281,10 +301,7 @@
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .space-backdrop,
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer,
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .space-backdrop {
-    top: 0 !important;
-    bottom: auto !important;
-    height: 100% !important;
-    min-height: 100% !important;
+    display: none !important;
   }
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-bends-layer,
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-bends-layer {

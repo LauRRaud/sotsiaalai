@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { SourcesIcon } from "@/components/ui/icons/ChatIcons";
 
 const ConversationView = memo(function ConversationView({
@@ -29,20 +29,58 @@ const ConversationView = memo(function ConversationView({
   const [showScrollDown, setShowScrollDown] = useState(false);
   const isUserAtBottom = useRef(true);
   const mountedRef = useRef(false);
+  const contentEndRef = useRef(null);
+  const updateScrollState = useCallback(() => {
+    const node = chatWindowRef?.current;
+    if (!node) {
+      isUserAtBottom.current = true;
+      setShowScrollDown(false);
+      return;
+    }
+    const maxScrollable = Math.max(0, node.scrollHeight - node.clientHeight);
+    const hasOverflow = maxScrollable > 8;
+    let hasHiddenContentBelow = hasOverflow;
+    const contentEndNode = contentEndRef.current;
+    if (contentEndNode) {
+      const viewportBottom = node.getBoundingClientRect().bottom;
+      const contentBottom = contentEndNode.getBoundingClientRect().bottom;
+      hasHiddenContentBelow = contentBottom - viewportBottom > 12;
+    }
+    const atBottom = !hasOverflow || !hasHiddenContentBelow;
+    isUserAtBottom.current = atBottom;
+    setShowScrollDown(hasOverflow && hasHiddenContentBelow);
+  }, [chatWindowRef]);
   useEffect(() => {
     const node = chatWindowRef?.current;
     if (!node) return;
     function handleScroll() {
-      const atBottom = node.scrollHeight - node.scrollTop - node.clientHeight <= 50;
-      isUserAtBottom.current = atBottom;
-      setShowScrollDown(!atBottom);
+      updateScrollState();
     }
     node.addEventListener("scroll", handleScroll, {
       passive: true
     });
-    handleScroll();
-    return () => node.removeEventListener("scroll", handleScroll);
-  }, [chatWindowRef]);
+    const frame = window.requestAnimationFrame(updateScrollState);
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => {
+            updateScrollState();
+          })
+        : null;
+    resizeObserver?.observe(node);
+    if (contentEndRef.current) {
+      resizeObserver?.observe(contentEndRef.current);
+    }
+    window.addEventListener("resize", updateScrollState);
+    return () => {
+      node.removeEventListener("scroll", handleScroll);
+      window.cancelAnimationFrame(frame);
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", updateScrollState);
+    };
+  }, [chatWindowRef, updateScrollState]);
+  useEffect(() => {
+    updateScrollState();
+  }, [messageItems, hiddenCount, canHideOlder, updateScrollState]);
   useEffect(() => {
     if (!mountedRef.current) return;
     const node = chatWindowRef?.current;
@@ -131,6 +169,7 @@ const ConversationView = memo(function ConversationView({
               </button>
             </div> : null}
 
+          <div ref={contentEndRef} aria-hidden="true" className="h-0 w-full shrink-0" />
           <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-bottom-spacer,0.85rem)] transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none" : "shrink-0 h-[var(--chat-content-bottom-spacer,0rem)] transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none"} />
         </div>
         {isMobile && hasConversationSources ? <button

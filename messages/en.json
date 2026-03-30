@@ -781,8 +781,8 @@
       "no_context_worker": "I could not find an exact answer in the materials right now. Please specify the municipality and the type of service or situation."
     },
     "empty_intro": "Hello! Briefly describe what you want to know or what guidance you need. If you want another mode, choose it from the + menu.",
-    "empty_intro_help_request": "Hello! Briefly describe what kind of help you need. If you want, add who the help is for, where it is needed, and how urgent it is.",
-    "empty_intro_help_offer": "Hello! Briefly describe what kind of help you can offer. If you want, add who it is for, where it is available, and under what conditions.",
+    "empty_intro_help_request": "Hello! Briefly describe what kind of help you need. If you want, add who the help is for, where it is needed, and when it is needed. To cancel, press the help request icon.",
+    "empty_intro_help_offer": "Hello! Briefly describe what kind of help you can offer. If you want, add who it is for, where, when, and under what conditions it is available. To cancel, press the help offer icon.",
     "modeSelection": {
       "confirm": {
         "rag": "I understood that you want information and guidance. Shall we continue with that?",

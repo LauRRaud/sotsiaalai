@@ -101,7 +101,7 @@ export default function InviteModal() {
     `${inviteOptionButtonClassName} ` +
     "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
   const inviteRoleCardClassName =
-    "invite-role-option-card !w-[min(100%,18.2rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
+    "!w-[min(100%,18.2rem)] !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
     `[&>span:last-child]:justify-center [&>span:last-child]:text-center [&>span:last-child]:[text-wrap:balance] ` +
     inviteOptionButtonClassName;
   const inviteSponsoredUnifiedPanelClassName =

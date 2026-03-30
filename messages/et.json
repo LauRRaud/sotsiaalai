@@ -781,8 +781,8 @@
       "no_context_worker": "Ma ei leidnud praegu materjalidest sellele täpset vastust. Palun täpsusta KOV või omavalitsus ning teenuse või olukorra tüüp."
     },
     "empty_intro": "Tere! Kirjelda lühidalt, mida soovid teada või milles juhendamist vajad. Kui soovid teist režiimi, vali see + märgi alt.",
-    "empty_intro_help_request": "Tere! Kirjelda lühidalt, millist abi vajad. Soovi korral lisa, kellele abi on mõeldud, kus seda vaja on ja kui kiiresti.",
-    "empty_intro_help_offer": "Tere! Kirjelda lühidalt, millist abi saad pakkuda. Soovi korral lisa, kellele, kus ja mis tingimustel abi on saadaval.",
+    "empty_intro_help_request": "Tere! Kirjelda lühidalt, millist abi vajad. Soovi korral lisa, kellele abi on mõeldud, kus seda vaja on ja millal abi vaja on. Tühistamiseks vajuta abisoovi ikooni.",
+    "empty_intro_help_offer": "Tere! Kirjelda lühidalt, millist abi saad pakkuda. Soovi korral lisa, kellele, kus, millal ja mis tingimustel abi on saadaval. Tühistamiseks vajuta abipakkumise ikooni.",
     "modeSelection": {
       "confirm": {
         "rag": "Sain aru, et soovid saada infot või juhendamist. Kas jätkame sellega?",
