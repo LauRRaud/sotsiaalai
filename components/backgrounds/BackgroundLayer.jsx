@@ -62,6 +62,22 @@ function resolveThemeFromDom() {
   if (html.classList.contains("theme-light")) return "light";
   return "dark";
 }
+function resolveDisplayModeFromDom() {
+  if (typeof document === "undefined") return "browser";
+  return (
+    document.documentElement?.getAttribute("data-display-mode") ||
+    document.body?.getAttribute("data-display-mode") ||
+    "browser"
+  );
+}
+function resolvePlatformFromDom() {
+  if (typeof document === "undefined") return "";
+  return (
+    document.documentElement?.getAttribute("data-platform") ||
+    document.body?.getAttribute("data-platform") ||
+    ""
+  );
+}
 const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
   isLightTheme = false,
@@ -76,11 +92,16 @@ const BackgroundContent = memo(function BackgroundContent({
   // Keep initial server/client render identical; compute real value after mount.
   const [deviceProfileReady, setDeviceProfileReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
+  const [displayMode, setDisplayMode] = useState("browser");
+  const [platform, setPlatform] = useState("");
   const [wideViewport, setWideViewport] = useState(false);
+  const browserMobileMode =
+    displayMode === "browser" && (mobileLike || platform === "android" || platform === "ios");
+  const mobileBackgroundMode = mobileLike || browserMobileMode;
   const allowParticles = deviceProfileReady;
   const allowColorBends = deviceProfileReady;
-  const parallaxActive = deviceProfileReady && !reduceMotion && !mobileLike;
-  const baseColorBendsProps = mobileLike
+  const parallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
+  const baseColorBendsProps = mobileBackgroundMode
     ? {
         performanceMode: "performance",
         maxDpr: 1.1
@@ -115,6 +136,8 @@ const BackgroundContent = memo(function BackgroundContent({
     const body = document.body;
     const compute = () => {
       setMobileLike(detectMobileLikeDevice());
+      setDisplayMode(resolveDisplayModeFromDom());
+      setPlatform(resolvePlatformFromDom());
       setWideViewport(window.innerWidth >= 1440 || window.innerHeight >= 1100);
       setDeviceProfileReady(true);
     };
@@ -173,13 +196,13 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted, prefsHydrated]);
   useEffect(() => {
     if (!mounted) return;
-    if (!deviceProfileReady || reduceMotion || mobileLike) {
+    if (!deviceProfileReady || reduceMotion || mobileBackgroundMode) {
       setCursorReady(false);
       return;
     }
     const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
     return () => cancelCursor?.();
-  }, [mounted, deviceProfileReady, reduceMotion, mobileLike]);
+  }, [mounted, deviceProfileReady, reduceMotion, mobileBackgroundMode]);
   useEffect(() => {
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
@@ -229,7 +252,7 @@ const BackgroundContent = memo(function BackgroundContent({
         {deviceProfileReady && colorBendsReady && allowColorBends && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
-              <ColorBends {...colorBendsProps} freeze={reduceMotion || mobileLike} />
+              <ColorBends {...colorBendsProps} freeze={reduceMotion || mobileBackgroundMode} />
             </Suspense>
           </div>
         )}
@@ -242,7 +265,7 @@ const BackgroundContent = memo(function BackgroundContent({
       </div>
 
       {}
-      {mounted && deviceProfileReady && cursorReady && typeof document !== "undefined" && !reduceMotion && !mobileLike && createPortal(<div className="splash-cursor" aria-hidden="true">
+      {mounted && deviceProfileReady && cursorReady && typeof document !== "undefined" && !reduceMotion && !mobileBackgroundMode && createPortal(<div className="splash-cursor" aria-hidden="true">
             <MaybeSplash />
           </div>, document.body)}
     </>;

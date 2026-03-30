@@ -172,18 +172,8 @@
 }
 
 @media (max-width: 768px) {
-  html[data-display-mode="browser"] body.homepage,
-  body.homepage[data-display-mode="browser"] {
-    position: relative;
-  }
   .sb-grain {
     display: none !important;
-  }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer],
-  body.homepage[data-display-mode="browser"] [data-bg-layer] {
-    position: absolute !important;
-    min-height: 100% !important;
-    height: auto !important;
   }
   body.homepage [data-bg-layer] {
     top: 0 !important;
