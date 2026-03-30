@@ -67,7 +67,6 @@
 
   body.homepage {
     background: transparent;
-    position: relative;
   }
 
   :root.theme-light .homepage-root .home-about-panel,
@@ -166,7 +165,7 @@
   .sb-grain {
     display: none !important;
   }
-  body.homepage [data-bg-layer] {
+  [data-bg-layer][data-page="home"] {
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
@@ -175,44 +174,32 @@
     min-height: 100dvh;
     overflow: hidden;
   }
-  body.homepage [data-bg-layer],
-  body.homepage [data-bg-layer] .bg-space-layer,
-  body.homepage [data-bg-layer] .space-backdrop {
+  [data-bg-layer][data-page="home"],
+  [data-bg-layer][data-page="home"] .bg-space-layer,
+  [data-bg-layer][data-page="home"] .space-backdrop {
     will-change: auto !important;
     transform: none !important;
     -webkit-transform: none !important;
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
   }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"],
-  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] {
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
+  html[data-display-mode="browser"] [data-bg-layer][data-page="home"],
+  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] {
     bottom: auto !important;
-    left: 0 !important;
-    height: var(--saai-bg-doc-height, 100lvh) !important;
-    min-height: var(--saai-bg-doc-height, 100lvh) !important;
+    height: 100lvh !important;
+    min-height: 100lvh !important;
   }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"] .bg-space-layer,
-  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"] .space-backdrop,
-  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] .bg-space-layer,
-  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] .space-backdrop {
-    top: 0 !important;
+  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer,
+  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .space-backdrop,
+  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer,
+  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .space-backdrop {
     bottom: auto !important;
-    height: 100% !important;
-    min-height: 100% !important;
-    will-change: auto !important;
-    transform: none !important;
-    -webkit-transform: none !important;
-    backface-visibility: visible !important;
-    -webkit-backface-visibility: visible !important;
+    height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
+    min-height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
   }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"] .bg-bends-layer,
-  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] .bg-bends-layer {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
+  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-bends-layer,
+  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-bends-layer {
+    bottom: auto !important;
     height: 100lvh !important;
     min-height: 100lvh !important;
     max-height: 100lvh !important;
@@ -222,13 +209,14 @@
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
   }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"] .particles-container,
-  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] .particles-container {
-    height: auto !important;
-    min-height: 0 !important;
+  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .particles-container,
+  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .particles-container {
+    bottom: auto !important;
+    height: calc(100lvh + 640px) !important;
+    min-height: calc(100lvh + 640px) !important;
   }
-  body.homepage [data-bg-layer] .bg-space-layer,
-  body.homepage [data-bg-layer] .space-backdrop {
+  [data-bg-layer][data-page="home"] .bg-space-layer,
+  [data-bg-layer][data-page="home"] .space-backdrop {
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;

@@ -100,10 +100,10 @@ const BackgroundContent = memo(function BackgroundContent({
   const browserMobileMode =
     displayMode === "browser" && (mobileLike || platform === "android" || platform === "ios");
   const mobileBackgroundMode = mobileLike || browserMobileMode;
-  const documentAttachedBackground = browserMobileMode && isHomepage;
   const allowParticles = deviceProfileReady;
   const allowColorBends = deviceProfileReady;
   const parallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
+  const prioritizeBackgroundEffects = isHomepage && mobileBackgroundMode;
   const baseColorBendsProps = mobileBackgroundMode
     ? {
         performanceMode: "performance",
@@ -187,7 +187,7 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted]);
   useEffect(() => {
     if (!mounted) return;
-    if (prefsHydrated) {
+    if (prefsHydrated || prioritizeBackgroundEffects) {
       setColorBendsReady(true);
       return;
     }
@@ -196,7 +196,7 @@ const BackgroundContent = memo(function BackgroundContent({
       setColorBendsReady(true);
     }, 1200);
     return () => window.clearTimeout(fallbackTimer);
-  }, [mounted, prefsHydrated]);
+  }, [mounted, prefsHydrated, prioritizeBackgroundEffects]);
   useEffect(() => {
     if (!mounted) return;
     if (!deviceProfileReady || reduceMotion || mobileBackgroundMode) {
@@ -242,53 +242,9 @@ const BackgroundContent = memo(function BackgroundContent({
       if (raf) window.cancelAnimationFrame(raf);
     };
   }, [reduceMotion, parallaxActive]);
-  useEffect(() => {
-    const el = layerRef.current;
-    if (!el || typeof window === "undefined") return;
-    if (!documentAttachedBackground) {
-      el.style.removeProperty("--saai-bg-doc-height");
-      return;
-    }
-    const root = document.documentElement;
-    const body = document.body;
-    const main = document.getElementById("main");
-    const updateHeight = () => {
-      const docHeight = Math.max(
-        window.innerHeight || 0,
-        root?.scrollHeight || 0,
-        root?.offsetHeight || 0,
-        body?.scrollHeight || 0,
-        body?.offsetHeight || 0,
-        main?.scrollHeight || 0,
-        main?.offsetHeight || 0
-      );
-      el.style.setProperty("--saai-bg-doc-height", `${docHeight}px`);
-    };
-    updateHeight();
-    const rafId = window.requestAnimationFrame(updateHeight);
-    const resizeObserver =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(() => updateHeight())
-        : null;
-    if (resizeObserver) {
-      if (body) resizeObserver.observe(body);
-      if (main) resizeObserver.observe(main);
-    }
-    window.addEventListener("resize", updateHeight);
-    window.visualViewport?.addEventListener("resize", updateHeight);
-    window.addEventListener("pageshow", updateHeight);
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      resizeObserver?.disconnect();
-      window.removeEventListener("resize", updateHeight);
-      window.visualViewport?.removeEventListener("resize", updateHeight);
-      window.removeEventListener("pageshow", updateHeight);
-      el.style.removeProperty("--saai-bg-doc-height");
-    };
-  }, [documentAttachedBackground]);
   return <>
       {}
-      <div data-bg-layer ref={layerRef} data-parallax={parallaxActive ? "on" : "off"} data-attachment={documentAttachedBackground ? "document" : "viewport"} aria-hidden="true" suppressHydrationWarning>
+      <div data-bg-layer ref={layerRef} data-page={isHomepage ? "home" : "subpage"} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
         <div className="bg-space-layer" aria-hidden="true">
           <div
             className="space-backdrop"
