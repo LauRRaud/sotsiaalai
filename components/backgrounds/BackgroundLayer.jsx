@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, memo, Suspense } from "react";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import dynamic from "next/dynamic";
 const Particles = dynamic(() => import("./Particles"), {
@@ -78,15 +79,12 @@ function resolvePlatformFromDom() {
     ""
   );
 }
-function resolveHomepageFromDom() {
-  if (typeof document === "undefined") return false;
-  return document.body?.classList.contains("homepage") ?? false;
-}
 const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
   isLightTheme = false,
   prefsHydrated = false,
-  themeMode = "dark"
+  themeMode = "dark",
+  isHomepage = false
 }) {
   const layerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
@@ -98,7 +96,6 @@ const BackgroundContent = memo(function BackgroundContent({
   const [mobileLike, setMobileLike] = useState(false);
   const [displayMode, setDisplayMode] = useState("browser");
   const [platform, setPlatform] = useState("");
-  const [isHomepage, setIsHomepage] = useState(false);
   const [wideViewport, setWideViewport] = useState(false);
   const browserMobileMode =
     displayMode === "browser" && (mobileLike || platform === "android" || platform === "ios");
@@ -144,7 +141,6 @@ const BackgroundContent = memo(function BackgroundContent({
       setMobileLike(detectMobileLikeDevice());
       setDisplayMode(resolveDisplayModeFromDom());
       setPlatform(resolvePlatformFromDom());
-      setIsHomepage(resolveHomepageFromDom());
       setWideViewport(window.innerWidth >= 1440 || window.innerHeight >= 1100);
       setDeviceProfileReady(true);
     };
@@ -158,7 +154,7 @@ const BackgroundContent = memo(function BackgroundContent({
     if (body) {
       layoutObserver.observe(body, {
         attributes: true,
-        attributeFilter: ["class", "data-layout", "data-display-mode", "data-platform"]
+        attributeFilter: ["data-layout", "data-display-mode", "data-platform"]
       });
     }
     compute();
@@ -326,8 +322,10 @@ function BackgroundLayer() {
     prefs,
     hydrated
   } = useAccessibility();
+  const pathname = usePathname();
   const [domTheme, setDomTheme] = useState(null);
   const reduceMotion = !!prefs?.reduceMotion;
+  const isHomepage = pathname === "/";
   useEffect(() => {
     if (typeof document === "undefined") return;
     const html = document.documentElement;
@@ -350,6 +348,7 @@ function BackgroundLayer() {
     isLightTheme={isLightTheme}
     prefsHydrated={!!hydrated}
     themeMode={effectiveTheme || "dark"}
+    isHomepage={isHomepage}
   />;
 }
 export default memo(BackgroundLayer);
