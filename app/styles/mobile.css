@@ -1521,7 +1521,8 @@
       .person-invite-modal-content,
       .update-pin-content,
       .update-email-content,
-      .reset-password-content
+      .reset-password-content,
+      .register-content
     )
     :is(
       input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
@@ -1548,7 +1549,8 @@
       .person-invite-modal-content,
       .update-pin-content,
       .update-email-content,
-      .reset-password-content
+      .reset-password-content,
+      .register-content
     )
     :is(
       input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
