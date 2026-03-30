@@ -2158,9 +2158,16 @@
   }
 
   :root.theme-mid .register-content .register-input {
-    background: var(--btn-primary-bg) !important;
-    border: var(--btn-primary-border) !important;
-    box-shadow: var(--btn-primary-shadow) !important;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(252, 247, 245, 0.96) 0%,
+        rgba(245, 236, 232, 0.92) 100%
+      ) !important;
+    border: 1px solid rgba(132, 72, 68, 0.14) !important;
+    box-shadow:
+      0 4px 10px rgba(20, 12, 10, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
@@ -2168,8 +2175,16 @@
   :root.theme-mid .register-content .register-input:hover,
   :root.theme-mid .register-content .register-input:focus,
   :root.theme-mid .register-content .register-input:focus-visible {
-    background: var(--btn-primary-bg-hover) !important;
-    box-shadow: var(--btn-primary-shadow-hover) !important;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(253, 249, 247, 0.98) 0%,
+        rgba(247, 239, 235, 0.94) 100%
+      ) !important;
+    border-color: rgba(132, 72, 68, 0.18) !important;
+    box-shadow:
+      0 5px 12px rgba(20, 12, 10, 0.11),
+      inset 0 1px 0 rgba(255, 255, 255, 0.58) !important;
   }
 
   .register-role-options {

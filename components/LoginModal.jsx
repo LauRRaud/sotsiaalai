@@ -1022,23 +1022,6 @@ export default function LoginModal({
     }
     setKeypadLayout(p => p === "phone" ? "numpad" : "phone");
   };
-  const bounceKey = useCallback(el => {
-    if (!el || prefs?.reduceMotion) return;
-    try {
-      el.animate([{
-        transform: "scale(1)"
-      }, {
-        transform: "scale(1.075)"
-      }, {
-        transform: "scale(0.965)"
-      }, {
-        transform: "scale(1)"
-      }], {
-        duration: 920,
-        easing: "cubic-bezier(0.25, 0.9, 0.35, 1)"
-      });
-      } catch {}
-  }, [prefs?.reduceMotion]);
   const clearButtonFocus = useCallback(target => {
     if (!(target instanceof HTMLElement)) return;
     requestAnimationFrame(() => {
@@ -1050,6 +1033,16 @@ export default function LoginModal({
   const clearPointerKeyFocus = useCallback(e => {
     clearButtonFocus(e?.currentTarget);
   }, [clearButtonFocus]);
+  const triggerKeypadBounce = useCallback(target => {
+    if (!(target instanceof HTMLElement)) return;
+    target.classList.remove("pin-keypad__button--bounce");
+    // eslint-disable-next-line no-unused-expressions
+    target.offsetWidth;
+    target.classList.add("pin-keypad__button--bounce");
+    window.setTimeout(() => {
+      target.classList.remove("pin-keypad__button--bounce");
+    }, 650);
+  }, []);
   if (!open) return null;
   const isMidTheme = prefs?.theme === "mid";
   const isNightTheme = prefs?.theme === "night";
@@ -1075,22 +1068,30 @@ export default function LoginModal({
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.995) 0%, rgba(255, 255, 255, 0.28) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.045) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.34) 100%)"
     : isNightTheme
-      ? "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.008) 0%, rgba(255, 255, 255, 0.006) 42%, rgba(0, 0, 0, 0.34) 100%)"
-      : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.004) 0%, rgba(255, 255, 255, 0.003) 42%, rgba(0, 0, 0, 0.28) 100%)";
+      ? "linear-gradient(180deg, rgba(36, 40, 52, 0.965) 0%, rgba(20, 24, 33, 0.985) 100%)"
+      : "linear-gradient(180deg, rgba(28, 32, 41, 0.95) 0%, rgba(16, 19, 27, 0.98) 100%)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
-      ? "0 7px 13px rgba(0, 0, 0, 0.11), 0 1px 2px rgba(20, 12, 10, 0.08), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 0 rgba(0, 0, 0, 0.11)"
-      : "0 8px 15px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(15, 23, 42, 0.08), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
+      ? "0 5px 10px rgba(0, 0, 0, 0.11), 0 1px 1px rgba(20, 12, 10, 0.07), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
+      : "0 5px 9px rgba(0, 0, 0, 0.09), 0 1px 1px rgba(15, 23, 42, 0.06), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(0, 0, 0, 0.09)"
     : isNightTheme
-      ? "0 7px 14px rgba(2, 6, 16, 0.28), 0 1px 2px rgba(2, 6, 16, 0.22), inset 0 0 0 var(--pin-border-w) rgba(214, 228, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.52)"
-      : "0 7px 13px rgba(0, 0, 0, var(--pin-shadow)), 0 1px 2px rgba(0, 0, 0, 0.24), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.5)";
+      ? "0 7px 11px rgba(2, 6, 16, 0.2), 0 1px 1px rgba(2, 6, 16, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.055)"
+      : "0 7px 11px rgba(0, 0, 0, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.04)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
       ? "linear-gradient(138deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 22%, rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0) 66%, rgba(122, 58, 56, 0.045) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 72%)"
       : "linear-gradient(138deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.2) 22%, rgba(255, 255, 255, 0.07) 44%, rgba(255, 255, 255, 0) 66%, rgba(255, 255, 255, 0.04) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.1) 36%, rgba(255, 255, 255, 0) 72%)"
-    : "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.16) 100%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.14" : "0.15" : isNightTheme ? "0.15" : "0.14";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.1" : "0.12" : isNightTheme ? "0.18" : "0.16";
+    : isNightTheme
+      ? "linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.06) 32%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.12) 100%), radial-gradient(120% 110% at 18% 16%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 64%), radial-gradient(120% 120% at 84% 90%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 56%)"
+      : "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.04) 74%, rgba(0, 0, 0, 0.12) 100%), radial-gradient(120% 110% at 18% 16%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 64%), radial-gradient(120% 120% at 84% 90%, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 56%)";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : isNightTheme ? "0.05" : "0.06";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : isNightTheme ? "0.07" : "0.06";
+  const pinBounceVars = {
+    "--pin-bounce-ms": "620ms",
+    "--pin-bounce-up": "1.055",
+    "--pin-bounce-down": "0.992",
+    "--pin-bounce-recover": "1.008"
+  };
   const loginShellBorder = isOtpStep
     ? undefined
     : isMidTheme
@@ -1103,12 +1104,12 @@ export default function LoginModal({
   const loginShellShadow = isOtpStep
     ? undefined
     : isMidTheme
-      ? "0 12px 22px rgba(20, 12, 10, 0.12), 0 1px 2px rgba(20, 12, 10, 0.06)"
+      ? "0 9px 18px rgba(80, 58, 52, 0.1), 0 1px 2px rgba(80, 58, 52, 0.05)"
       : isLightTheme
-        ? "0 14px 24px rgba(15, 23, 42, 0.1), 0 1px 2px rgba(15, 23, 42, 0.06)"
+        ? "0 8px 16px rgba(15, 23, 42, 0.07), 0 1px 2px rgba(15, 23, 42, 0.04)"
         : isNightTheme
-          ? "0 14px 26px rgba(2, 6, 16, 0.28), 0 1px 0 rgba(220, 236, 255, 0.05)"
-          : "0 14px 24px rgba(0, 0, 0, 0.28), 0 1px 0 rgba(248, 253, 255, 0.04)";
+          ? "0 10px 20px rgba(2, 6, 16, 0.2), 0 1px 0 rgba(255, 255, 255, 0.03)"
+          : "0 10px 20px rgba(0, 0, 0, 0.18), 0 1px 0 rgba(255, 255, 255, 0.03)";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
   const androidPinToggleClassName = isAndroidPlatform
     ? "!text-[1.22rem] max-md:!text-[clamp(1.22rem,4.45vw,1.54rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"
@@ -1282,7 +1283,7 @@ export default function LoginModal({
             : "var(--login-pin-modal-w)",
         boxSizing: "border-box"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside}>
-        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] [border:var(--login-shell-border,none)] [box-shadow:var(--login-shell-shadow,none)] ${
+        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] [background:var(--glass-modal-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] [border:var(--login-shell-border,none)] [box-shadow:var(--login-shell-shadow,none)] ${
         isOtpStep
           ? "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
           : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"
@@ -1396,16 +1397,16 @@ export default function LoginModal({
               }
               if (key === "help") {
                 const label = t("auth.login.forgot");
-                return <button key={"help-" + String(idx)} type="button" className="login-keypad-btn no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.85rem] max-md:text-[2.06rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-[320ms] ease-[cubic-bezier(0.25,0.9,0.35,1)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] text-[#c57171] light:text-[#7a3a38] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
+                return <button key={"help-" + String(idx)} type="button" className="login-keypad-btn no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 appearance-none [-webkit-appearance:none] text-[1.85rem] max-md:text-[2.06rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-[140ms] ease-[cubic-bezier(0.2,1,0.3,1)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] text-[#c57171] light:text-[#7a3a38] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
                   background: pinKeyBackground,
                   boxShadow: pinKeyBoxShadow,
-                  "--pin-gloss-op": pinGlossOpacityButton
+                  "--pin-gloss-op": pinGlossOpacityButton,
+                  ...pinBounceVars
                 }} ref={el => {
                   keypadRefs.current[idx] = el;
                   helpButtonRef.current = el;
                 }} onKeyDown={e => handleKeypadKeyDown(e, idx)} onPointerDown={e => {
-                  const el = e.currentTarget;
-                  bounceKey(el);
+                  triggerKeypadBounce(e.currentTarget);
                 }} onPointerUp={clearPointerKeyFocus} onPointerCancel={clearPointerKeyFocus} onClick={e => {
                   setHelpOpen(p => !p);
                   if (e.detail !== 0) clearButtonFocus(e.currentTarget);
@@ -1418,10 +1419,11 @@ export default function LoginModal({
                 const submitFilled = Math.max(0, Math.min(PIN_MAX, pinValue.length));
                 const submitError = submitIconState === "error";
                 const arrowScale = 1 + submitFilled / PIN_MAX * 0.08;
-                return <button key={"submit-" + String(idx)} type="button" className="login-keypad-btn no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.6rem] max-md:text-[1.85rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-[320ms] ease-[cubic-bezier(0.25,0.9,0.35,1)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
+                return <button key={"submit-" + String(idx)} type="button" className="login-keypad-btn no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 appearance-none [-webkit-appearance:none] text-[1.6rem] max-md:text-[1.85rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-[140ms] ease-[cubic-bezier(0.2,1,0.3,1)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
                   background: pinKeyBackground,
                   boxShadow: pinKeyBoxShadow,
                   "--pin-gloss-op": pinGlossOpacityButton,
+                  ...pinBounceVars,
                   cursor: pinLoading ? "var(--cursor-default)" : undefined
                 }} ref={el => keypadRefs.current[idx] = el} onKeyDown={e => {
                   handleKeypadKeyDown(e, idx);
@@ -1430,8 +1432,7 @@ export default function LoginModal({
                     submitPinStep();
                   }
                 }} onPointerDown={e => {
-                  const el = e.currentTarget;
-                  bounceKey(el);
+                  triggerKeypadBounce(e.currentTarget);
                 }} onPointerUp={clearPointerKeyFocus} onPointerCancel={clearPointerKeyFocus} onClick={e => {
                   submitPinStep();
                   if (e.detail !== 0) clearButtonFocus(e.currentTarget);
@@ -1457,13 +1458,13 @@ export default function LoginModal({
               }) : t("auth.login.key", {
                 digit: key
               });
-              return <button key={key + String(idx)} type="button" className={["login-keypad-btn", "no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "text-[1.6rem]", "max-md:text-[2.02rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-[320ms]", "ease-[cubic-bezier(0.25,0.9,0.35,1)]", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
-                color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : "rgba(255, 255, 255, 0.92)",
+              return <button key={key + String(idx)} type="button" className={["login-keypad-btn", "no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "appearance-none", "[-webkit-appearance:none]", "text-[1.6rem]", "max-md:text-[2.02rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-[140ms]", "ease-[cubic-bezier(0.2,1,0.3,1)]", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
+                color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : "rgba(255, 255, 255, 0.95)",
                 background: pinKeyBackground,
-                boxShadow: pinKeyBoxShadow
+                boxShadow: pinKeyBoxShadow,
+                ...pinBounceVars
               }} ref={el => keypadRefs.current[idx] = el} onKeyDown={e => handleKeypadKeyDown(e, idx)} onPointerDown={e => {
-                const el = e.currentTarget;
-                bounceKey(el);
+                triggerKeypadBounce(e.currentTarget);
                 if (isZeroKey) startZeroLongPress();
               }} onPointerUp={e => {
                 clearPointerKeyFocus(e);
