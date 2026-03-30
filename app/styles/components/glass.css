@@ -370,10 +370,8 @@
   .register-option-card,
   .register-framework-card,
   .register-checkbox-card {
-    transition:
-      border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      color 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    transition: none !important;
+    --seg-card-duration: 0ms;
     --seg-card-bg-selected: var(--seg-card-bg);
     --seg-card-bg-active: var(--seg-card-bg);
     --seg-card-shadow-selected: var(
@@ -397,7 +395,7 @@
   :root .register-option-card:active::before,
   :root .register-framework-card:active::before,
   :root .register-checkbox-card:active::before {
-    opacity: 1 !important;
+    opacity: 0 !important;
   }
 }
 

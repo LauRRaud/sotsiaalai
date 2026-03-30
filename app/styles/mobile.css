@@ -162,6 +162,19 @@
 }
 
 @media (max-width: 768px) {
+  :is(button.button, a.button)[data-variant="primary"] {
+    transition: none !important;
+    --btn-primary-bg-active: var(--btn-primary-bg);
+    --btn-primary-shadow-active: var(--btn-primary-shadow);
+    --btn-primary-border-active: var(--btn-primary-border);
+  }
+
+  :is(button.button, a.button)[data-variant="primary"]:active::before {
+    opacity: 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
   .sb-grain {
     display: none !important;
   }
@@ -208,6 +221,60 @@
   html:not(.theme-light):not(.theme-mid)[data-display-mode="browser"]
     [data-bg-layer][data-page="home"] {
     background: radial-gradient(ellipse at top, #2b3037 0%, #111418 100%);
+  }
+  @supports selector(html:has([data-bg-layer][data-page="home"])) {
+    html.theme-light[data-display-mode="browser"]:has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html.theme-light[data-display-mode="browser"]:has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root {
+      background:
+        radial-gradient(
+          circle at 50% -12%,
+          rgba(251, 250, 248, 0.92) 0%,
+          rgba(255, 255, 255, 0) 55%
+        ),
+        radial-gradient(
+          circle at 50% 24%,
+          rgba(236, 236, 233, 0.14) 0%,
+          rgba(244, 244, 242, 0) 62%
+        ),
+        linear-gradient(180deg, #f7f5f2 0%, #efede9 56%, #e7e5e1 100%);
+    }
+    html.theme-mid[data-display-mode="browser"]:has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html.theme-mid[data-display-mode="browser"]:has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root {
+      background: linear-gradient(
+        180deg,
+        var(--mid-bg-top) 0%,
+        var(--mid-bg-mid) 58%,
+        var(--mid-bg-bottom) 100%
+      );
+    }
+    html.theme-night[data-display-mode="browser"]:has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html.theme-night[data-display-mode="browser"]:has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root {
+      background: radial-gradient(ellipse at top, #1b2735 0%, #090a0f 100%);
+    }
+    html:not(.theme-light):not(.theme-mid):not(.theme-night)[data-display-mode="browser"]:has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html:not(.theme-light):not(.theme-mid):not(.theme-night)[data-display-mode="browser"]:has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root {
+      background: radial-gradient(ellipse at top, #2b3037 0%, #111418 100%);
+    }
   }
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer,
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .space-backdrop,
