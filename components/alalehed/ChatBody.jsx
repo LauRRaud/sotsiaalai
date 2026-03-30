@@ -759,6 +759,17 @@ export default function ChatBody({
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
+  const scrollConversationToBottom = useCallback(() => {
+    const scrollToLatest = () => {
+      const node = chatWindowRef.current;
+      if (!node) return;
+      node.scrollTop = node.scrollHeight;
+    };
+
+    requestAnimationFrame(scrollToLatest);
+    window.setTimeout(scrollToLatest, 60);
+    window.setTimeout(scrollToLatest, 180);
+  }, []);
   const restoreComposerFocus = useCallback(() => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
@@ -1443,6 +1454,7 @@ export default function ChatBody({
         text: echoText,
         aiVisible: true,
       });
+      scrollConversationToBottom();
     }
 
     const requestId = careerTurnRequestRef.current + 1;
@@ -1509,6 +1521,7 @@ export default function ChatBody({
           },
         },
       });
+      scrollConversationToBottom();
 
       return true;
     } catch (error) {
@@ -1523,6 +1536,7 @@ export default function ChatBody({
         text: `Karj??rin?ustamise k?ivitamine eba?nnestus.\n\n${message}`,
         aiVisible: true,
       });
+      scrollConversationToBottom();
       return false;
     } finally {
       if (careerTurnRequestRef.current === requestId) {
@@ -1532,7 +1546,7 @@ export default function ChatBody({
         }
       }
     }
-  }, [analysis.showAnalysisPanel, appendMessage, goToSubscription, restoreComposerFocus, router]);
+  }, [analysis.showAnalysisPanel, appendMessage, goToSubscription, restoreComposerFocus, router, scrollConversationToBottom]);
   const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
     const questionId = question?.id;
     if (!questionId) return false;

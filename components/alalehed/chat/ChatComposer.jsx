@@ -122,6 +122,7 @@ export default function ChatComposer({
   const { effectiveRole } = useEffectiveRole();
   const isClientRole = effectiveRole === "CLIENT";
   const [draft, setDraft] = useState("");
+  const [composerExpanded, setComposerExpanded] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [toolsMenuPosition, setToolsMenuPosition] = useState(null);
   const [composerMode, setComposerMode] = useState("chat");
@@ -131,6 +132,7 @@ export default function ChatComposer({
   const toolsButtonRef = useRef(null);
   const toolsMenuRef = useRef(null);
   const initialDraftProbeCompleteRef = useRef(false);
+  const previousDraftLengthRef = useRef(0);
   const resizeComposerInput = useCallback(() => {
     const node = inputRef?.current;
     if (!node || typeof window === "undefined") return;
@@ -143,12 +145,45 @@ export default function ChatComposer({
     const borderBottom = Number.parseFloat(computed.borderBottomWidth) || 0;
     const minHeight = Math.ceil(lineHeight + paddingTop + paddingBottom + borderTop + borderBottom);
     const maxHeight = Math.ceil(lineHeight * 6 + paddingTop + paddingBottom + borderTop + borderBottom);
+    const currentDraftLength = draft.length;
+    const previousDraftLength = previousDraftLengthRef.current;
+    const draftIsGrowing = currentDraftLength >= previousDraftLength;
+
+    if (!inputFocused) {
+      node.style.height = `${minHeight}px`;
+      node.style.overflowY = "hidden";
+      if (!currentDraftLength) {
+        setComposerExpanded(false);
+      }
+      previousDraftLengthRef.current = currentDraftLength;
+      return;
+    }
 
     node.style.height = "auto";
     const nextHeight = Math.max(minHeight, Math.min(node.scrollHeight, maxHeight));
+    const contentHeight = Math.max(0, node.scrollHeight - paddingTop - paddingBottom);
+    const lineCount = Math.max(1, Math.round(contentHeight / lineHeight));
     node.style.height = `${nextHeight}px`;
     node.style.overflowY = node.scrollHeight > maxHeight ? "auto" : "hidden";
-  }, [inputRef]);
+    setComposerExpanded((previous) => {
+      let nextExpanded;
+
+      if (previous) {
+        nextExpanded = draftIsGrowing
+          ? true
+          : currentDraftLength > 0 && lineCount > 1;
+      } else {
+        nextExpanded = lineCount > 1;
+      }
+
+      if (!currentDraftLength) {
+        nextExpanded = false;
+      }
+
+      return previous === nextExpanded ? previous : nextExpanded;
+    });
+    previousDraftLengthRef.current = currentDraftLength;
+  }, [draft, inputFocused, inputRef]);
   const deepResearchDisabled = Boolean(isRoomMode);
   const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
   const isDeepResearchMode = composerMode === "deep_research";
@@ -294,7 +329,7 @@ export default function ChatComposer({
   }, [draftApiRef]);
   useEffect(() => {
     resizeComposerInput();
-  }, [draft, resizeComposerInput]);
+  }, [draft, composerExpanded, inputFocused, resizeComposerInput]);
   useEffect(() => {
     if (!initialDraftProbeCompleteRef.current) return;
     onDraftStateChange?.({
@@ -526,18 +561,25 @@ export default function ChatComposer({
       "max-[768px]:z-[90] max-[768px]:mt-0 max-[768px]:w-full max-[768px]:max-w-full " +
       "max-[768px]:gap-[clamp(0.22rem,1.4vw,0.42rem)] max-[768px]:pl-[clamp(0.36rem,1.8vw,0.62rem)] max-[768px]:pr-[clamp(0.7rem,3vw,1rem)] " +
       "max-[768px]:[--chat-input-max-w:min(100%,calc(100vw-6.45rem))]";
+  const displayExpanded = inputFocused && composerExpanded;
   const inputBarClassName =
-    "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] " +
-    "flex-[1_1_auto] grid-cols-[1fr_auto_auto] items-end gap-x-[0.28rem] " +
-    "min-h-[var(--inputbar-h)] rounded-full " +
+    "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] overflow-hidden " +
+    `flex-[1_1_auto] ${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.14rem]" : "grid-cols-[1fr_auto] items-center gap-x-[0.24rem]"} ` +
+    `min-h-[var(--inputbar-h)] ${displayExpanded ? "rounded-[1.35rem]" : "rounded-full"} ` +
     "transition-[border-color,box-shadow,background,max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    "px-[0.625rem] py-[0.42rem] pr-[0.1rem] pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
-  const inputFieldWrapClassName = "min-w-0 w-full self-end pr-[0.2rem]";
+    `${displayExpanded ? "px-[0.78rem] pt-[0.86rem] pb-[0.34rem] pr-[0.5rem]" : "px-[0.6rem] py-[0.14rem] pr-[0.08rem]"} ` +
+    "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
+  const inputFieldWrapClassName = displayExpanded
+    ? "min-w-0 w-full px-[0.3rem] pt-[0.26rem] pr-[0.36rem]"
+    : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem]";
   const inputFieldClassName =
-    "chat-input-field w-full min-h-[calc(var(--inputbar-h)-0.85rem)] max-h-[min(32dvh,10rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] leading-[1.25] pt-[0.22rem] pb-[0.08rem] " +
+    `chat-input-field block w-full min-h-[1.38rem] max-h-[min(30dvh,8.5rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] [overflow-wrap:anywhere] break-words ${displayExpanded ? "leading-[1.26] px-[0.12rem] pt-[0.14rem] pb-[0.05rem]" : "leading-[1.18] pt-[0.01rem] pb-0"} ` +
     "text-[color:var(--pt-150)] light:text-[color:var(--text-strong,#1f2937)] " +
     "outline-none border-0 shadow-none " +
     `${forcePlaceholderVisible ? "placeholder:opacity-100 placeholder:text-[color:var(--input-placeholder)] " : "placeholder:opacity-0 light:placeholder:opacity-100 light:placeholder:text-[color:var(--input-placeholder)]"}`;
+  const actionRowClassName = displayExpanded
+    ? "flex shrink-0 items-center justify-end gap-[0.24rem] px-[0.28rem] pb-0 pt-0"
+    : "flex items-center justify-end gap-[0.18rem]";
   const actionButtonClassName =
     "chat-listen-btn relative z-[2] !h-[calc(var(--inputbar-h)*0.96)] !w-[calc(var(--inputbar-h)*0.96)] !min-h-[calc(var(--inputbar-h)*0.96)] !min-w-[calc(var(--inputbar-h)*0.96)] !flex-[0_0_calc(var(--inputbar-h)*0.96)] !p-0 rounded-full " +
     "flex items-center justify-center " +
@@ -730,24 +772,26 @@ export default function ChatComposer({
           onFocusInput?.(e);
         }} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
         </div>
-        <button type="button" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || !canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
-          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
-            <path d="M11 5L6 9H2v6h4l5 4z" />
-            <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
-          </svg>
-        </button>
-        {isGenerating || isStreamingAny ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
-            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="chat-send-stop-glyph h-[calc(var(--chat-composer-send-icon-size)*1.18)] w-[calc(var(--chat-composer-send-icon-size)*1.18)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
-              <rect x="4.75" y="4.75" width="14.5" height="14.5" rx="3" />
+        <div className={actionRowClassName}>
+          <button type="button" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || !canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
+              <path d="M11 5L6 9H2v6h4l5 4z" />
+              <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
             </svg>
-          </button> : hasInput ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
-            <SubmitArrowIcon
-              useCurrentColor
-              className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
-            />
-          </button> : <button type="button" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handlePrimaryActionClick} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
-            <DictateWaveIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]" />
-          </button>}
+          </button>
+          {isGenerating || isStreamingAny ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="chat-send-stop-glyph h-[calc(var(--chat-composer-send-icon-size)*1.18)] w-[calc(var(--chat-composer-send-icon-size)*1.18)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
+                <rect x="4.75" y="4.75" width="14.5" height="14.5" rx="3" />
+              </svg>
+            </button> : hasInput ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+              <SubmitArrowIcon
+                useCurrentColor
+                className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
+              />
+            </button> : <button type="button" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handlePrimaryActionClick} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
+              <DictateWaveIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]" />
+            </button>}
+        </div>
       </div>
       {modeToggleShowsActiveState && displayModeLabel ? <div className="pointer-events-none absolute left-1/2 top-[calc(100%+1.18rem)] -translate-x-1/2 text-center max-[768px]:top-[calc(100%+0.98rem)]">
           <span

@@ -682,7 +682,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       "--chat-send-btn-scale": "0.965",
       "--chat-send-btn-shift-x": "0.1rem",
       "--chat-send-btn-shift-y": "0rem",
-      "--inputbar-h": "3.2rem",
+      "--inputbar-h": "3.08rem",
       "--chat-window-top-text-fade-extra": "0rem"
     }),
     [isMobile]

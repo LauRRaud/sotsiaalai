@@ -79,15 +79,22 @@ const ConversationView = memo(function ConversationView({
     };
   }, [chatWindowRef, updateScrollState]);
   useEffect(() => {
-    updateScrollState();
-  }, [messageItems, hiddenCount, canHideOlder, updateScrollState]);
-  useEffect(() => {
-    if (!mountedRef.current) return;
     const node = chatWindowRef?.current;
-    if (node && isUserAtBottom.current) {
-      node.scrollTop = node.scrollHeight;
+    if (!node) return;
+
+    const shouldStickToBottom = !mountedRef.current || isUserAtBottom.current;
+
+    if (shouldStickToBottom) {
+      const frame = window.requestAnimationFrame(() => {
+        node.scrollTop = node.scrollHeight;
+        isUserAtBottom.current = true;
+        updateScrollState();
+      });
+      return () => window.cancelAnimationFrame(frame);
     }
-  }, [chatWindowRef, messageItems]);
+
+    updateScrollState();
+  }, [chatWindowRef, messageItems, hiddenCount, canHideOlder, updateScrollState]);
   useEffect(() => {
     mountedRef.current = true;
     return () => {

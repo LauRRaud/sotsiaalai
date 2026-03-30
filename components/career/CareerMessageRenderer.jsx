@@ -78,11 +78,25 @@ function ProfileSummaryBlock({ profileSummary, uiText }) {
       : null,
   ].filter(hasText);
 
-  if (!rows.length) return null;
+  const draftText = hasText(profileSummary.draftText)
+    ? profileSummary.draftText
+    : null;
+
+  if (!rows.length && !draftText) return null;
 
   return (
     <div className="mt-[0.5rem]">
-      <BulletList items={rows} />
+      {rows.length > 0 ? <BulletList items={rows} /> : null}
+      {draftText ? (
+        <div className={rows.length > 0 ? "mt-[0.55rem]" : ""}>
+          <div className="text-[0.86rem] font-semibold uppercase tracking-[0.08em] opacity-80">
+            {uiText?.profile?.draft || "Current draft"}
+          </div>
+          <div className="mt-[0.28rem] whitespace-pre-wrap text-[0.96rem] leading-[1.55]">
+            {draftText}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

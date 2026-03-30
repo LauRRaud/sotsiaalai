@@ -58,7 +58,7 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
   "--chat-mobile-hud-center-y": "calc(var(--chat-mobile-back-top) + (var(--chat-mobile-back-size) / 2))",
   "--chat-mobile-show-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-show-size) / 2))",
   "--chat-mobile-rail-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-rail-size) / 2))",
-  "--inputbar-h": "3.2rem"
+  "--inputbar-h": "3.08rem"
 });
 
 const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({

@@ -56,42 +56,32 @@ function sanitizePrompt(prompt, uiText) {
   return rawPrompt.replace(stripPattern, " ").replace(/\s+/g, " ").trim();
 }
 
-function AnswerHint({ question }) {
-  const options = toSafeArray(question?.options).map(normalizeOption).filter(Boolean);
+function buildOptionsText(question, uiText) {
+  const labels = toSafeArray(question?.options)
+    .map(normalizeOption)
+    .filter(Boolean)
+    .map((option) => option.label)
+    .filter(hasText);
 
-  return (
-    <div className="mt-[0.48rem]">
-      {options.length > 0 ? (
-        <div className="flex flex-wrap gap-[0.35rem]">
-          {options.map((option) => (
-            <span
-              key={option.value}
-              className="rounded-full border border-[rgba(240,240,240,0.2)] px-[0.58rem] py-[0.16rem] text-[0.82rem] light:border-[rgba(15,23,42,0.14)]"
-            >
-              {option.label}
-            </span>
-          ))}
-        </div>
-      ) : null}
-    </div>
-  );
+  if (!labels.length) return "";
+  const prefix = hasText(uiText?.question?.optionsPrefix)
+    ? uiText.question.optionsPrefix
+    : "Valikud:";
+  return `${prefix} ${labels.join(", ")}.`;
 }
 
 function QuestionItem({ question, uiText }) {
   const prompt =
     sanitizePrompt(question?.prompt || uiText.question.defaultTitle, uiText) ||
     uiText.question.defaultTitle;
-  const inlineHint =
-    question?.type === "boolean"
-      ? uiText.question.booleanAnswerInNextMessage
-      : uiText.question.answerInNextMessage;
+  const optionsText = buildOptionsText(question, uiText);
+  const composedText = [prompt, optionsText].filter(hasText).join(" ");
 
   return (
     <article className="py-[0.1rem]">
       <div className="whitespace-pre-wrap text-[1em] font-inherit leading-inherit tracking-inherit">
-        {prompt} {inlineHint}
+        {composedText}
       </div>
-      <AnswerHint question={question} />
     </article>
   );
 }
