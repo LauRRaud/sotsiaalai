@@ -200,9 +200,6 @@
     bottom: 0 !important;
     left: 0 !important;
   }
-  body.homepage [data-bg-layer] .bg-particles-layer {
-    display: none !important;
-  }
 }
 
 @media (max-width: 768px) {
@@ -2173,7 +2170,7 @@
 
   :root.theme-mid .register-step--field .register-input-shell--mid:hover,
   :root.theme-mid .register-step--field .register-input-shell--mid:focus-within {
-    background: var(--input-bg-hover) !important;
+    background: var(--input-bg) !important;
     border: var(--btn-primary-border-hover, var(--input-border)) !important;
     box-shadow: var(
       --input-shadow-hover-composite,

@@ -74,11 +74,12 @@ const BackgroundContent = memo(function BackgroundContent({
   const [cursorReady, setCursorReady] = useState(false);
   const [colorBendsReady, setColorBendsReady] = useState(false);
   // Keep initial server/client render identical; compute real value after mount.
+  const [deviceProfileReady, setDeviceProfileReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
   const [wideViewport, setWideViewport] = useState(false);
-  const allowParticles = true;
-  const allowColorBends = true;
-  const parallaxActive = !reduceMotion && !mobileLike;
+  const allowParticles = deviceProfileReady;
+  const allowColorBends = deviceProfileReady;
+  const parallaxActive = deviceProfileReady && !reduceMotion && !mobileLike;
   const baseColorBendsProps = mobileLike
     ? {
         performanceMode: "performance",
@@ -113,6 +114,7 @@ const BackgroundContent = memo(function BackgroundContent({
     const compute = () => {
       setMobileLike(detectMobileLikeDevice());
       setWideViewport(window.innerWidth >= 1440 || window.innerHeight >= 1100);
+      setDeviceProfileReady(true);
     };
     compute();
     const attach = media => {
@@ -153,13 +155,13 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted, prefsHydrated]);
   useEffect(() => {
     if (!mounted) return;
-    if (reduceMotion || mobileLike) {
+    if (!deviceProfileReady || reduceMotion || mobileLike) {
       setCursorReady(false);
       return;
     }
     const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
     return () => cancelCursor?.();
-  }, [mounted, reduceMotion, mobileLike]);
+  }, [mounted, deviceProfileReady, reduceMotion, mobileLike]);
   useEffect(() => {
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
@@ -206,7 +208,7 @@ const BackgroundContent = memo(function BackgroundContent({
           />
         </div>
 
-        {colorBendsReady && allowColorBends && (
+        {deviceProfileReady && colorBendsReady && allowColorBends && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
               <ColorBends {...colorBendsProps} freeze={reduceMotion || mobileLike} />
@@ -215,14 +217,14 @@ const BackgroundContent = memo(function BackgroundContent({
         )}
 
         {}
-        {particlesReady && allowParticles && <div className="bg-particles-layer">
+        {deviceProfileReady && particlesReady && allowParticles && <div className="bg-particles-layer">
             <Particles freeze={reduceMotion} />
           </div>}
 
       </div>
 
       {}
-      {mounted && cursorReady && typeof document !== "undefined" && !reduceMotion && !mobileLike && createPortal(<div className="splash-cursor" aria-hidden="true">
+      {mounted && deviceProfileReady && cursorReady && typeof document !== "undefined" && !reduceMotion && !mobileLike && createPortal(<div className="splash-cursor" aria-hidden="true">
             <MaybeSplash />
           </div>, document.body)}
     </>;

@@ -333,7 +333,7 @@
 :root.theme-night
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item::before {
-  content: "";
+  content: "" !important;
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -341,11 +341,11 @@
   pointer-events: none;
   box-sizing: border-box;
   padding: 0;
-  background: none;
-  -webkit-mask: none;
-  mask: none;
-  box-shadow: 0 0 24px rgba(255, 255, 255, 0.3);
-  opacity: 0;
+  background: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.3) !important;
+  opacity: 0 !important;
   transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
   will-change: opacity;
 }
@@ -356,7 +356,7 @@
 :root.theme-night
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible)::before {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 :root:not(.theme-light)
@@ -670,8 +670,12 @@ html[data-contrast="hc"]
     inset 0 -1px 0 rgba(0, 0, 0, 0.18);
   --orbit-button-shadow: var(--orbit-keypad-shadow);
   --orbit-button-shadow-hover: var(--orbit-keypad-shadow);
-  --orbit-button-shadow-center: var(--orbit-keypad-shadow);
-  --orbit-button-shadow-center-hover: var(--orbit-keypad-shadow);
+  --orbit-button-shadow-center:
+    0 0 22px rgba(255, 255, 255, 0.3),
+    var(--orbit-keypad-shadow);
+  --orbit-button-shadow-center-hover:
+    0 0 28px rgba(255, 255, 255, 0.38),
+    var(--orbit-keypad-shadow);
 }
 
 :root.theme-night .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
@@ -698,8 +702,12 @@ html[data-contrast="hc"]
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
   --orbit-button-shadow: var(--orbit-keypad-shadow);
   --orbit-button-shadow-hover: var(--orbit-keypad-shadow);
-  --orbit-button-shadow-center: var(--orbit-keypad-shadow);
-  --orbit-button-shadow-center-hover: var(--orbit-keypad-shadow);
+  --orbit-button-shadow-center:
+    0 0 22px rgba(255, 255, 255, 0.3),
+    var(--orbit-keypad-shadow);
+  --orbit-button-shadow-center-hover:
+    0 0 28px rgba(255, 255, 255, 0.38),
+    var(--orbit-keypad-shadow);
 }
 
 html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
@@ -730,7 +738,6 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(
     .profile-orbit-menu__item,
-    .profile-orbit-menu__center,
     .profile-orbit-stack-bubble,
     .profile-orbit-mobile-action
   ).dock-item,
@@ -738,13 +745,25 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(
     .profile-orbit-menu__item,
-    .profile-orbit-menu__center,
     .profile-orbit-stack-bubble,
     .profile-orbit-mobile-action
   ).dock-item {
   color: rgba(255, 255, 255, 0.92);
   background: var(--orbit-keypad-fill) !important;
   box-shadow: var(--orbit-keypad-shadow) !important;
+  border: none !important;
+  outline: none !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item,
+:root.theme-night
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item {
+  color: rgba(255, 255, 255, 0.92);
+  background: var(--orbit-keypad-fill) !important;
+  box-shadow: var(--orbit-button-shadow-center) !important;
   border: none !important;
   outline: none !important;
 }
@@ -784,6 +803,38 @@ html[data-contrast="hc"]
   content: none !important;
   opacity: 0 !important;
   box-shadow: none !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item::before,
+:root.theme-night
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item::before {
+  content: "" !important;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  padding: 0;
+  background: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.3) !important;
+  opacity: 0 !important;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible)::before,
+:root.theme-night
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible)::before {
+  opacity: 1 !important;
 }
 
 :root[data-theme-switching="1"]
@@ -847,6 +898,15 @@ html[data-contrast="hc"]
     .profile-orbit-menu__center.dock-item:focus-visible {
     box-shadow: var(--orbit-button-shadow-center-hover);
   }
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active),
+:root.theme-night
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active) {
+  box-shadow: var(--orbit-button-shadow-center-hover) !important;
 }
 
 html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
