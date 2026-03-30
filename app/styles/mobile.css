@@ -2194,6 +2194,22 @@
     margin-right: auto !important;
   }
 
+  :root.theme-mid .register-mobile-ring .register-scroll.csp-container {
+    --csp-surface: rgba(251, 246, 244, 0.94);
+    --csp-neighbor-opacity: 0.72;
+    --csp-hidden-opacity: 0.46;
+    --register-scroll-fade-top: clamp(1.55rem, 4.8vh, 2.3rem);
+    --register-scroll-fade-bottom: clamp(1.9rem, 5.6vh, 2.7rem);
+  }
+
+  :root.theme-mid .register-mobile-ring .csp-neighbor {
+    filter: blur(0.12px);
+  }
+
+  :root.theme-mid .register-mobile-ring .csp-hidden {
+    filter: blur(0.3px);
+  }
+
   :root.theme-mid .register-content .register-input {
     color: var(--input-text) !important;
     caret-color: var(--input-caret) !important;
