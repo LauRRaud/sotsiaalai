@@ -531,7 +531,7 @@ export default function ChatBody({
     setConvId,
     messages,
     setMessages,
-    conversationStateReady,
+    conversationLocalReady,
     appendMessage,
     mutateMessage,
     historyPayload
@@ -655,7 +655,7 @@ export default function ChatBody({
       : !composerHasDraft;
     const hasEmptyIntro =
       !isRoomMode &&
-      conversationStateReady &&
+      conversationLocalReady &&
       draftAllowsIntro &&
       visibleMessages.length === 0;
     const emptyIntroText = getEmptyIntroMessage(t, activeWorkflow);
@@ -672,7 +672,7 @@ export default function ChatBody({
     const n = displayMessages.length;
     if (n <= renderLimit) return displayMessages;
     return displayMessages.slice(n - renderLimit);
-  }, [activeWorkflow, composerHasDraft, conversationStateReady, emptyIntroSeen, isRoomMode, renderLimit, t, visibleMessages]);
+  }, [activeWorkflow, composerHasDraft, conversationLocalReady, emptyIntroSeen, isRoomMode, renderLimit, t, visibleMessages]);
   const hiddenCount = useMemo(() => {
     const n = visibleMessages.length;
     return n > renderLimit ? n - renderLimit : 0;

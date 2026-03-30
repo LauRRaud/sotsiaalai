@@ -185,6 +185,9 @@ export function useChatConversationState({
     setMessages([]);
     setHydratedConversationId(convId);
   }, [chatStore, convId]);
+  const conversationLocalReady = convId
+    ? hydratedConversationId === convId
+    : hydratedConversationId === EMPTY_CONVERSATION_READY_KEY;
   const conversationStateReady = convId
     ? hydratedConversationId === convId &&
       (storedConversationHasMessages || serverHydratedConversationId === convId)
@@ -445,6 +448,7 @@ export function useChatConversationState({
     setConvId,
     messages,
     setMessages,
+    conversationLocalReady,
     conversationStateReady,
     saveMessages,
     appendMessage,
