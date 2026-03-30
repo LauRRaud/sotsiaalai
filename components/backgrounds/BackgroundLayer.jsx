@@ -78,6 +78,10 @@ function resolvePlatformFromDom() {
     ""
   );
 }
+function resolveHomepageFromDom() {
+  if (typeof document === "undefined") return false;
+  return document.body?.classList.contains("homepage") ?? false;
+}
 const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
   isLightTheme = false,
@@ -94,10 +98,12 @@ const BackgroundContent = memo(function BackgroundContent({
   const [mobileLike, setMobileLike] = useState(false);
   const [displayMode, setDisplayMode] = useState("browser");
   const [platform, setPlatform] = useState("");
+  const [isHomepage, setIsHomepage] = useState(false);
   const [wideViewport, setWideViewport] = useState(false);
   const browserMobileMode =
     displayMode === "browser" && (mobileLike || platform === "android" || platform === "ios");
   const mobileBackgroundMode = mobileLike || browserMobileMode;
+  const documentAttachedBackground = browserMobileMode && isHomepage;
   const allowParticles = deviceProfileReady;
   const allowColorBends = deviceProfileReady;
   const parallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
@@ -138,6 +144,7 @@ const BackgroundContent = memo(function BackgroundContent({
       setMobileLike(detectMobileLikeDevice());
       setDisplayMode(resolveDisplayModeFromDom());
       setPlatform(resolvePlatformFromDom());
+      setIsHomepage(resolveHomepageFromDom());
       setWideViewport(window.innerWidth >= 1440 || window.innerHeight >= 1100);
       setDeviceProfileReady(true);
     };
@@ -151,7 +158,7 @@ const BackgroundContent = memo(function BackgroundContent({
     if (body) {
       layoutObserver.observe(body, {
         attributes: true,
-        attributeFilter: ["data-layout", "data-display-mode", "data-platform"]
+        attributeFilter: ["class", "data-layout", "data-display-mode", "data-platform"]
       });
     }
     compute();
@@ -239,9 +246,53 @@ const BackgroundContent = memo(function BackgroundContent({
       if (raf) window.cancelAnimationFrame(raf);
     };
   }, [reduceMotion, parallaxActive]);
+  useEffect(() => {
+    const el = layerRef.current;
+    if (!el || typeof window === "undefined") return;
+    if (!documentAttachedBackground) {
+      el.style.removeProperty("--saai-bg-doc-height");
+      return;
+    }
+    const root = document.documentElement;
+    const body = document.body;
+    const main = document.getElementById("main");
+    const updateHeight = () => {
+      const docHeight = Math.max(
+        window.innerHeight || 0,
+        root?.scrollHeight || 0,
+        root?.offsetHeight || 0,
+        body?.scrollHeight || 0,
+        body?.offsetHeight || 0,
+        main?.scrollHeight || 0,
+        main?.offsetHeight || 0
+      );
+      el.style.setProperty("--saai-bg-doc-height", `${docHeight}px`);
+    };
+    updateHeight();
+    const rafId = window.requestAnimationFrame(updateHeight);
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => updateHeight())
+        : null;
+    if (resizeObserver) {
+      if (body) resizeObserver.observe(body);
+      if (main) resizeObserver.observe(main);
+    }
+    window.addEventListener("resize", updateHeight);
+    window.visualViewport?.addEventListener("resize", updateHeight);
+    window.addEventListener("pageshow", updateHeight);
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", updateHeight);
+      window.visualViewport?.removeEventListener("resize", updateHeight);
+      window.removeEventListener("pageshow", updateHeight);
+      el.style.removeProperty("--saai-bg-doc-height");
+    };
+  }, [documentAttachedBackground]);
   return <>
       {}
-      <div data-bg-layer ref={layerRef} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
+      <div data-bg-layer ref={layerRef} data-parallax={parallaxActive ? "on" : "off"} data-attachment={documentAttachedBackground ? "document" : "viewport"} aria-hidden="true" suppressHydrationWarning>
         <div className="bg-space-layer" aria-hidden="true">
           <div
             className="space-backdrop"

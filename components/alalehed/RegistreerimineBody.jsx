@@ -43,7 +43,7 @@ const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:
 const pinInputClassName =
   "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
 const registerFieldHintClassName =
-  "pointer-events-none absolute inset-y-0 left-[1.5rem] right-[1.5rem] flex items-center overflow-hidden whitespace-nowrap text-ellipsis text-[1.02rem] leading-[1.15] tracking-[0.01em] text-[color:var(--subscription-error-color,#fca5a5)] opacity-95 max-[768px]:text-[0.98rem]";
+  "pointer-events-none absolute inset-y-0 left-[1.5rem] right-[1.5rem] flex items-center overflow-hidden whitespace-nowrap text-ellipsis text-[1.25rem] leading-[1.45] tracking-[0.01em] text-[color:var(--subscription-error-color,#fca5a5)] opacity-95 max-[768px]:text-[clamp(1.24rem,4.95vw,1.42rem)] max-[768px]:leading-[1.34]";
 const checkboxCardClassName =
   "register-checkbox-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto gap-[0.72rem] text-[1.04rem] leading-[1.28] px-[1.05rem] py-[0.72rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName =

@@ -51,58 +51,23 @@
 
   :root.theme-light body.homepage {
     --home-panel-mobile-bg: rgba(249, 247, 244, 0.84);
-    --home-browser-space-bg:
-      radial-gradient(
-        circle at 50% -12%,
-        rgba(251, 250, 248, 0.92) 0%,
-        rgba(255, 255, 255, 0) 55%
-      ),
-      radial-gradient(
-        circle at 50% 24%,
-        rgba(236, 236, 233, 0.14) 0%,
-        rgba(244, 244, 242, 0) 62%
-      ),
-      linear-gradient(180deg, #f7f5f2 0%, #efede9 56%, #e7e5e1 100%);
   }
 
   :root.theme-mid body.homepage {
     --home-panel-mobile-bg: rgba(252, 248, 247, 0.8);
-    --home-browser-space-bg: linear-gradient(
-      180deg,
-      var(--mid-bg-top) 0%,
-      var(--mid-bg-mid) 58%,
-      var(--mid-bg-bottom) 100%
-    );
   }
 
   :root:not(.theme-light):not(.theme-mid):not(.theme-night) body.homepage {
     --home-panel-mobile-bg: rgba(22, 24, 30, 0.84);
-    --home-browser-space-bg: radial-gradient(
-      ellipse at top,
-      #2b3037 0%,
-      #111418 100%
-    );
   }
 
   :root.theme-night body.homepage {
     --home-panel-mobile-bg: rgba(10, 14, 24, 0.88);
-    --home-browser-space-bg: radial-gradient(
-      ellipse at top,
-      #1b2735 0%,
-      #090a0f 100%
-    );
-  }
-
-  html[data-contrast="hc"] body.homepage {
-    --home-browser-space-bg: radial-gradient(
-      ellipse at top,
-      #1b2735 0%,
-      #090a0f 100%
-    );
   }
 
   body.homepage {
     background: transparent;
+    position: relative;
   }
 
   :root.theme-light .homepage-root .home-about-panel,
@@ -185,16 +150,6 @@
   }
 }
 
-@media (max-width: 768px) {
-  /* On touch devices, dark-theme primary buttons should press to the lighter hover state. */
-  :root:not(.theme-light):not(.theme-mid):not(.theme-night),
-  :root.theme-night {
-    --btn-primary-border-active: var(--btn-primary-border-hover);
-    --btn-primary-bg-active: var(--btn-primary-bg-hover);
-    --btn-primary-shadow-active: var(--btn-primary-shadow-hover);
-  }
-}
-
 @media (max-width: 480px) {
   :root {
     --card-size: clamp(11.875rem, 76vw, 16.625rem);
@@ -210,13 +165,6 @@
 @media (max-width: 768px) {
   .sb-grain {
     display: none !important;
-  }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer],
-  body.homepage[data-display-mode="browser"] [data-bg-layer] {
-    bottom: auto !important;
-    height: 100lvh !important;
-    min-height: 100lvh !important;
-    background: var(--home-browser-space-bg, transparent) !important;
   }
   body.homepage [data-bg-layer] {
     top: 0 !important;
@@ -236,36 +184,48 @@
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
   }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer] .bg-bends-layer,
-  body.homepage[data-display-mode="browser"] [data-bg-layer] .bg-bends-layer {
+  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"],
+  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
     bottom: auto !important;
-    height: 100lvh !important;
-    min-height: 100lvh !important;
+    left: 0 !important;
+    height: var(--saai-bg-doc-height, 100lvh) !important;
+    min-height: var(--saai-bg-doc-height, 100lvh) !important;
+  }
+  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"] .bg-space-layer,
+  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"] .space-backdrop,
+  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] .bg-space-layer,
+  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] .space-backdrop {
+    top: 0 !important;
+    bottom: auto !important;
+    height: 100% !important;
+    min-height: 100% !important;
     will-change: auto !important;
     transform: none !important;
     -webkit-transform: none !important;
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
   }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer] .bg-space-layer,
-  html[data-display-mode="browser"] body.homepage [data-bg-layer] .space-backdrop,
-  body.homepage[data-display-mode="browser"] [data-bg-layer] .bg-space-layer,
-  body.homepage[data-display-mode="browser"] [data-bg-layer] .space-backdrop {
-    bottom: auto !important;
-    height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
-    min-height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
+  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"] .bg-bends-layer,
+  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] .bg-bends-layer {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100lvh !important;
+    min-height: 100lvh !important;
+    max-height: 100lvh !important;
+    will-change: auto !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    backface-visibility: visible !important;
+    -webkit-backface-visibility: visible !important;
   }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer] .particles-container,
-  body.homepage[data-display-mode="browser"] [data-bg-layer] .particles-container {
-    bottom: auto !important;
-    height: calc(100lvh + 640px) !important;
-    min-height: calc(100lvh + 640px) !important;
-  }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer] .bg-space-layer,
-  html[data-display-mode="browser"] body.homepage [data-bg-layer] .space-backdrop,
-  body.homepage[data-display-mode="browser"] [data-bg-layer] .bg-space-layer,
-  body.homepage[data-display-mode="browser"] [data-bg-layer] .space-backdrop {
-    display: none !important;
+  html[data-display-mode="browser"] body.homepage [data-bg-layer][data-attachment="document"] .particles-container,
+  body.homepage[data-display-mode="browser"] [data-bg-layer][data-attachment="document"] .particles-container {
+    height: auto !important;
+    min-height: 0 !important;
   }
   body.homepage [data-bg-layer] .bg-space-layer,
   body.homepage [data-bg-layer] .space-backdrop {
@@ -2297,12 +2257,6 @@
     padding-top: 1.04rem !important;
     padding-bottom: 1.04rem !important;
     font-size: clamp(1.24rem, 4.95vw, 1.42rem) !important;
-  }
-
-  .register-option-card[data-checked="true"] {
-    color: var(--seg-card-text-selected) !important;
-    background: var(--seg-card-bg-selected) !important;
-    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
   }
 
   .register-checkbox-card {
