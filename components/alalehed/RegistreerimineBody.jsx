@@ -55,7 +55,7 @@ const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName =
-  `register-input ${pillInputBaseClassName} ` +
+  `register-input register-input-mid-shell ${pillInputBaseClassName} ` +
   "min-[769px]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[769px]:mx-auto py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 const frameworkDownloadClassName =
   "w-auto whitespace-normal text-center leading-[1.08] !px-[1.45rem] !py-[0.7rem] !text-[1.1rem] no-underline !min-h-[2.95rem] min-[769px]:min-w-[10.9rem] max-[768px]:min-w-[11.6rem] max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.25rem] max-[768px]:!py-[0.72rem] max-[768px]:!text-[1.08rem]";

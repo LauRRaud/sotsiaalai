@@ -1067,15 +1067,15 @@ export default function LoginModal({
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.995) 0%, rgba(255, 255, 255, 0.28) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.045) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.34) 100%)"
     : isNightTheme
-      ? "radial-gradient(124% 124% at 24% 18%, rgba(228, 239, 255, 0.095) 0%, rgba(228, 239, 255, 0.044) 24%, rgba(228, 239, 255, 0.012) 42%, rgba(228, 239, 255, 0) 60%), linear-gradient(160deg, rgba(46, 54, 70, 0.54) 0%, rgba(27, 34, 46, 0.47) 46%, rgba(14, 19, 28, 0.4) 100%), rgba(18, 24, 34, 0.31)"
-      : "radial-gradient(124% 124% at 24% 18%, rgba(244, 247, 255, 0.085) 0%, rgba(244, 247, 255, 0.036) 24%, rgba(244, 247, 255, 0.01) 42%, rgba(244, 247, 255, 0) 60%), linear-gradient(160deg, rgba(52, 58, 70, 0.5) 0%, rgba(28, 34, 43, 0.43) 46%, rgba(14, 19, 25, 0.37) 100%), rgba(18, 22, 28, 0.29)";
+      ? "radial-gradient(124% 124% at 24% 18%, rgba(228, 239, 255, 0.07) 0%, rgba(228, 239, 255, 0.03) 22%, rgba(228, 239, 255, 0.008) 38%, rgba(228, 239, 255, 0) 54%), linear-gradient(160deg, rgba(45, 53, 68, 0.47) 0%, rgba(28, 35, 47, 0.43) 48%, rgba(16, 22, 31, 0.37) 100%), rgba(18, 24, 34, 0.33)"
+      : "radial-gradient(124% 124% at 24% 18%, rgba(244, 247, 255, 0.062) 0%, rgba(244, 247, 255, 0.026) 22%, rgba(244, 247, 255, 0.007) 38%, rgba(244, 247, 255, 0) 54%), linear-gradient(160deg, rgba(50, 56, 67, 0.44) 0%, rgba(29, 35, 44, 0.4) 48%, rgba(16, 21, 28, 0.35) 100%), rgba(18, 22, 28, 0.31)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
       ? "0 5px 10px rgba(0, 0, 0, 0.11), 0 1px 1px rgba(20, 12, 10, 0.07), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
       : "0 5px 9px rgba(0, 0, 0, 0.09), 0 1px 1px rgba(15, 23, 42, 0.06), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(0, 0, 0, 0.09)"
     : isNightTheme
-      ? "0 5px 11px rgba(2, 6, 16, 0.14), 0 1px 1px rgba(15, 23, 42, 0.065), inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.055), inset 0 -1px 0 rgba(2, 6, 16, 0.22)"
-      : "0 5px 11px rgba(0, 0, 0, 0.13), 0 1px 1px rgba(15, 23, 42, 0.065), inset 0 0 0 var(--pin-border-w) rgba(34, 42, 56, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.22)";
+      ? "0 4px 9px rgba(2, 6, 16, 0.13), 0 1px 1px rgba(15, 23, 42, 0.065), inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.04), inset 0 -1px 0 rgba(2, 6, 16, 0.19)"
+      : "0 4px 9px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(15, 23, 42, 0.065), inset 0 0 0 var(--pin-border-w) rgba(34, 42, 56, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.035), inset 0 -1px 0 rgba(0, 0, 0, 0.18)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
       ? "linear-gradient(138deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 22%, rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0) 66%, rgba(122, 58, 56, 0.045) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 72%)"

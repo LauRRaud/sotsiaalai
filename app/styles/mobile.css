@@ -51,18 +51,26 @@
 
   :root.theme-light body.homepage {
     --home-panel-mobile-bg: rgba(249, 247, 244, 0.84);
+    --home-mobile-layer-bg: #e7e5e1;
   }
 
   :root.theme-mid body.homepage {
     --home-panel-mobile-bg: rgba(252, 248, 247, 0.8);
+    --home-mobile-layer-bg: #7e5f58;
   }
 
   :root:not(.theme-light):not(.theme-mid):not(.theme-night) body.homepage {
     --home-panel-mobile-bg: rgba(22, 24, 30, 0.84);
+    --home-mobile-layer-bg: #1e2329;
   }
 
   :root.theme-night body.homepage {
     --home-panel-mobile-bg: rgba(10, 14, 24, 0.88);
+    --home-mobile-layer-bg: #121926;
+  }
+
+  html[data-contrast="hc"] body.homepage {
+    --home-mobile-layer-bg: #090a0f;
   }
 
   body.homepage {
@@ -175,7 +183,7 @@
   .sb-grain {
     display: none !important;
   }
-  [data-bg-layer] {
+  body.homepage [data-bg-layer] {
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
@@ -183,25 +191,30 @@
     width: 100vw;
     min-height: 100dvh;
     overflow: hidden;
+    background: var(--home-mobile-layer-bg, transparent) !important;
   }
-  [data-bg-layer] .bg-bends-layer {
+  body.homepage [data-bg-layer] .bg-bends-layer {
     inset: 0 !important;
     width: 100vw !important;
     height: 100dvh !important;
     min-height: 100dvh !important;
     max-height: none !important;
   }
-  [data-bg-layer],
-  [data-bg-layer] .bg-space-layer,
-  [data-bg-layer] .space-backdrop {
+  body.homepage [data-bg-layer],
+  body.homepage [data-bg-layer] .bg-space-layer,
+  body.homepage [data-bg-layer] .space-backdrop {
     will-change: auto !important;
     transform: none !important;
     -webkit-transform: none !important;
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
   }
-  [data-bg-layer] .bg-space-layer,
-  [data-bg-layer] .space-backdrop {
+  body.homepage [data-bg-layer] .bg-space-layer,
+  body.homepage [data-bg-layer] .space-backdrop {
+    display: none !important;
+  }
+  body.homepage [data-bg-layer] .bg-space-layer,
+  body.homepage [data-bg-layer] .space-backdrop {
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
@@ -2151,6 +2164,58 @@
   :root.theme-mid .register-step--field .register-input {
     visibility: visible !important;
     opacity: 1 !important;
+  }
+
+  :root.theme-mid .register-step--field .register-input-mid-shell {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background:
+      radial-gradient(
+        92% 88% at 50% 16%,
+        rgba(252, 245, 242, 0.94) 0%,
+        rgba(244, 235, 231, 0.92) 44%,
+        rgba(235, 224, 219, 0.9) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(247, 239, 236, 0.92) 0%,
+        rgba(238, 228, 224, 0.9) 100%
+      ) !important;
+    border: 1px solid rgba(126, 95, 88, 0.18) !important;
+    box-shadow:
+      0 10px 22px rgba(38, 24, 22, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.62) !important;
+    color: #2f3a4a !important;
+    -webkit-text-fill-color: #2f3a4a !important;
+    caret-color: #2f3a4a !important;
+    backdrop-filter: blur(8px) saturate(112%) !important;
+  }
+
+  :root.theme-mid .register-step--field .register-input-mid-shell::placeholder {
+    color: rgba(55, 65, 81, 0.62) !important;
+    -webkit-text-fill-color: rgba(55, 65, 81, 0.62) !important;
+    opacity: 1 !important;
+  }
+
+  :root.theme-mid .register-step--field .register-input-mid-shell:hover,
+  :root.theme-mid .register-step--field .register-input-mid-shell:focus,
+  :root.theme-mid .register-step--field .register-input-mid-shell:focus-visible {
+    background:
+      radial-gradient(
+        92% 88% at 50% 16%,
+        rgba(254, 248, 245, 0.96) 0%,
+        rgba(247, 239, 235, 0.94) 44%,
+        rgba(238, 228, 223, 0.92) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(249, 242, 239, 0.94) 0%,
+        rgba(240, 230, 225, 0.92) 100%
+      ) !important;
+    border-color: rgba(126, 95, 88, 0.24) !important;
+    box-shadow:
+      0 12px 24px rgba(38, 24, 22, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
   }
 
   .register-role-options {
