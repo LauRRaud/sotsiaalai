@@ -559,7 +559,7 @@ export default function RegistreerimineBody({}) {
               noValidate
             >
               <section
-                className={`${registerStepClassName} ${getRegisterStepClassName(0)}`}
+                className={`${registerStepClassName} register-step--persist-visible ${getRegisterStepClassName(0)}`}
               >
                 <input
                   type="email"
@@ -575,7 +575,7 @@ export default function RegistreerimineBody({}) {
               </section>
 
               <section
-                className={`${registerStepClassName} ${getRegisterStepClassName(1)}`}
+                className={`${registerStepClassName} register-step--persist-visible ${getRegisterStepClassName(1)}`}
               >
                 <input
                   type="password"

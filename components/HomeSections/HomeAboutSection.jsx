@@ -71,7 +71,6 @@ export default function HomeAboutSection({
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
   const aboutScrollRef = useRef(null);
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [beforeDiameter, setBeforeDiameter] = useState(() =>
     readHomeBeforeDiameter(getHomeBeforeDiameterKey(locale, showAdminLinks, "links"))
   );
@@ -122,24 +121,11 @@ export default function HomeAboutSection({
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
-    const media = window.matchMedia("(max-width: 768px)");
-    const update = () => setIsMobileViewport(media.matches);
-    update();
-    if (typeof media.addEventListener === "function") {
-      media.addEventListener("change", update);
-      return () => media.removeEventListener("change", update);
-    }
-    media.addListener?.(update);
-    return () => media.removeListener?.(update);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return undefined;
     const prefersReducedMotion =
       window.document?.documentElement?.dataset?.reduceMotion === "1" ||
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 
-    if (!animateIntro || prefersReducedMotion || isMobileViewport) {
+    if (!animateIntro || prefersReducedMotion) {
       setAboutIntroDone(true);
       setBeforeIntroDone(true);
       setAboutBlurReady(true);
@@ -171,7 +157,7 @@ export default function HomeAboutSection({
       window.clearTimeout(aboutDoneTimer);
       window.clearTimeout(beforeDoneTimer);
     };
-  }, [animateIntro, isMobileViewport]);
+  }, [animateIntro]);
 
   useLayoutEffect(() => {
     const cardEl = beforeCardRef.current;
@@ -318,8 +304,8 @@ export default function HomeAboutSection({
   };
   const aboutTopFade = aboutFade.top ? "2.2rem" : "0px";
   const aboutBottomFade = aboutFade.bottom ? "5rem" : "0px";
-  const shouldFadeAbout = animateIntro && !isMobileViewport && !aboutIntroDone;
-  const shouldFadeBefore = animateIntro && !isMobileViewport && !beforeIntroDone;
+  const shouldFadeAbout = animateIntro && !aboutIntroDone;
+  const shouldFadeBefore = animateIntro && !beforeIntroDone;
   const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.14), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.34), rgba(0,0,0,0.56) calc(${aboutTopFade} * 0.58), rgba(0,0,0,0.82) calc(${aboutTopFade} * 0.82), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,1) calc(100% - calc(${aboutBottomFade} * 0.9)), rgba(0,0,0,0.96) calc(100% - calc(${aboutBottomFade} * 0.72)), rgba(0,0,0,0.82) calc(100% - calc(${aboutBottomFade} * 0.5)), rgba(0,0,0,0.58) calc(100% - calc(${aboutBottomFade} * 0.32)), rgba(0,0,0,0.3) calc(100% - calc(${aboutBottomFade} * 0.16)), rgba(0,0,0,0) 100%)`;
   const openBeforeContact = (event) => {
     event.preventDefault();
@@ -348,7 +334,6 @@ export default function HomeAboutSection({
           data-blur-ready={aboutBlurReady ? "true" : "false"}
           className={cn(
             "home-glass-panel home-about-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--glass-shell-shadow,none)] [border:none] px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.2rem,0.5vw,0.5rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)]",
-            isMobileViewport ? "overflow-visible [isolation:auto] shadow-none" : null,
             shouldFadeAbout ? "is-intro-fading" : null
           )}
           style={
@@ -375,12 +360,11 @@ export default function HomeAboutSection({
               ref={aboutScrollRef}
               className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.3rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.45rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
               style={{
-                maxHeight: isMobileViewport ? "none" : "min(71vh, 41rem)",
-                overflowY: isMobileViewport ? "visible" : "auto",
+                maxHeight: "min(71vh, 41rem)",
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
-                WebkitMaskImage: isMobileViewport ? "none" : aboutMaskImage,
-                maskImage: isMobileViewport ? "none" : aboutMaskImage
+                WebkitMaskImage: aboutMaskImage,
+                maskImage: aboutMaskImage
               }}
             >
               {aboutParagraphs.map(({ key, value }) => (
@@ -407,7 +391,6 @@ export default function HomeAboutSection({
           data-blur-ready={beforeBlurReady ? "true" : "false"}
           className={cn(
             "home-glass-panel home-before-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-full shadow-[var(--glass-shell-shadow,none)] [border:none] mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center px-[clamp(0.4rem,1.05vw,0.78rem)] py-[clamp(0.34rem,0.92vw,0.66rem)] max-[768px]:px-[clamp(0.24rem,0.85vw,0.42rem)] max-[768px]:py-[clamp(0.18rem,0.65vw,0.34rem)] box-border transition-[width,height,box-shadow,background-color] duration-[320ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none will-change-[width,height]",
-            isMobileViewport ? "overflow-visible [isolation:auto] transition-none will-change-auto shadow-none" : null,
             shouldFadeBefore ? "is-intro-fading" : null
           )}
           style={

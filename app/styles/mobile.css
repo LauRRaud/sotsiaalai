@@ -54,15 +54,15 @@
     --home-page-mobile-fallback-bg:
       radial-gradient(
         circle at 50% -12%,
-        rgba(251, 251, 250, 0.86) 0%,
+        rgba(251, 250, 248, 0.92) 0%,
         rgba(255, 255, 255, 0) 55%
       ),
       radial-gradient(
         circle at 50% 24%,
-        rgba(232, 230, 226, 0.26) 0%,
-        rgba(236, 235, 233, 0) 62%
+        rgba(236, 236, 233, 0.14) 0%,
+        rgba(244, 244, 242, 0) 62%
       ),
-      linear-gradient(180deg, #f4f4f3 0%, #edeae5 56%, #e1ddd7 100%);
+      linear-gradient(180deg, #f7f5f2 0%, #efede9 56%, #e7e5e1 100%);
   }
 
   :root.theme-mid body.homepage {
@@ -138,38 +138,6 @@
     backdrop-filter: none !important;
   }
 
-  .homepage-root :is(.home-about-panel, .home-before-panel) {
-    contain: none !important;
-    transform: none !important;
-    -webkit-transform: none !important;
-    will-change: auto !important;
-    backface-visibility: visible !important;
-    -webkit-backface-visibility: visible !important;
-  }
-
-  .homepage-root .home-about-scrollbox,
-  .homepage-root .home-about-scrollbox > * {
-    contain: none !important;
-    transform: none !important;
-    -webkit-transform: none !important;
-    will-change: auto !important;
-    backface-visibility: visible !important;
-    -webkit-backface-visibility: visible !important;
-  }
-
-  .homepage-root .home-about-scrollbox {
-    -webkit-mask-image: none !important;
-    mask-image: none !important;
-  }
-
-  .homepage-root .home-footer-logo {
-    transform: none !important;
-    -webkit-transform: none !important;
-    will-change: auto !important;
-    backface-visibility: visible !important;
-    -webkit-backface-visibility: visible !important;
-  }
-
   .glass-mobile-only-close {
     display: none !important;
   }
@@ -228,11 +196,6 @@
 
 @media (max-width: 768px) {
   .sb-grain {
-    display: none !important;
-  }
-  /* Mobile homepage uses the document background directly to avoid fixed-layer
-     compositing artifacts during scroll on touch browsers. */
-  body.homepage [data-bg-layer] {
     display: none !important;
   }
   [data-bg-layer] {
@@ -2194,56 +2157,47 @@
     margin-right: auto !important;
   }
 
-  :root.theme-mid .register-mobile-ring .register-scroll.csp-container {
-    --csp-surface: rgba(251, 246, 244, 0.94);
-    --csp-neighbor-opacity: 0.72;
-    --csp-hidden-opacity: 0.46;
-    --register-scroll-fade-top: clamp(1.55rem, 4.8vh, 2.3rem);
-    --register-scroll-fade-bottom: clamp(1.9rem, 5.6vh, 2.7rem);
+  :root.theme-mid .register-scroll.csp-container {
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
   }
 
-  :root.theme-mid .register-mobile-ring .csp-neighbor {
-    filter: blur(0.12px);
-  }
-
-  :root.theme-mid .register-mobile-ring .csp-hidden {
-    filter: blur(0.3px);
+  :root.theme-mid .register-step--persist-visible.csp-neighbor,
+  :root.theme-mid .register-step--persist-visible.csp-hidden {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    pointer-events: auto !important;
   }
 
   :root.theme-mid .register-content .register-input {
-    color: var(--input-text) !important;
-    caret-color: var(--input-caret) !important;
-    -webkit-text-fill-color: var(--input-text) !important;
-    background: var(--input-bg) !important;
-    border: var(--input-border) !important;
-    box-shadow: var(
-      --input-shadow-composite,
-      var(--input-shadow)
-    ) !important;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(252, 247, 245, 0.96) 0%,
+        rgba(245, 236, 232, 0.92) 100%
+      ) !important;
+    border: 1px solid rgba(132, 72, 68, 0.14) !important;
+    box-shadow:
+      0 4px 10px rgba(20, 12, 10, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-  }
-
-  :root.theme-mid .register-content .register-input::placeholder {
-    color: var(--input-placeholder) !important;
-    opacity: 1 !important;
   }
 
   :root.theme-mid .register-content .register-input:hover,
   :root.theme-mid .register-content .register-input:focus,
   :root.theme-mid .register-content .register-input:focus-visible {
-    background: var(
-      --input-bg-focus,
-      var(--input-bg-hover, var(--input-bg))
-    ) !important;
-    border: var(--input-border) !important;
-    box-shadow: var(
-      --input-shadow-focus-composite,
-      var(
-        --input-shadow-hover-composite,
-        var(--input-shadow-hover, var(--input-shadow))
-      )
-    ) !important;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(253, 249, 247, 0.98) 0%,
+        rgba(247, 239, 235, 0.94) 100%
+      ) !important;
+    border-color: rgba(132, 72, 68, 0.18) !important;
+    box-shadow:
+      0 5px 12px rgba(20, 12, 10, 0.11),
+      inset 0 1px 0 rgba(255, 255, 255, 0.58) !important;
   }
 
   .register-role-options {

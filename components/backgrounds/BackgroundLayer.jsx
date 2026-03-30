@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, memo, Suspense } from "react";
 import { createPortal } from "react-dom";
-import { usePathname } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import dynamic from "next/dynamic";
 const Particles = dynamic(() => import("./Particles"), {
@@ -67,8 +66,7 @@ const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
   isLightTheme = false,
   prefsHydrated = false,
-  themeMode = "dark",
-  pathname = ""
+  themeMode = "dark"
 }) {
   const layerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
@@ -81,11 +79,6 @@ const BackgroundContent = memo(function BackgroundContent({
   const allowParticles = true;
   const allowColorBends = true;
   const parallaxActive = !reduceMotion && !mobileLike;
-  const domMarksMobile =
-    typeof document !== "undefined" &&
-    (document.documentElement?.getAttribute("data-layout") === "mobile" ||
-      document.body?.getAttribute("data-layout") === "mobile");
-  const suppressMobileHomeLayer = (mobileLike || domMarksMobile) && pathname === "/";
   const baseColorBendsProps = mobileLike
     ? {
         performanceMode: "performance",
@@ -203,11 +196,6 @@ const BackgroundContent = memo(function BackgroundContent({
       if (raf) window.cancelAnimationFrame(raf);
     };
   }, [reduceMotion, parallaxActive]);
-
-  if (suppressMobileHomeLayer) {
-    return null;
-  }
-
   return <>
       {}
       <div data-bg-layer ref={layerRef} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
@@ -244,7 +232,6 @@ function BackgroundLayer() {
     prefs,
     hydrated
   } = useAccessibility();
-  const pathname = usePathname();
   const [domTheme, setDomTheme] = useState(null);
   const reduceMotion = !!prefs?.reduceMotion;
   useEffect(() => {
@@ -269,7 +256,6 @@ function BackgroundLayer() {
     isLightTheme={isLightTheme}
     prefsHydrated={!!hydrated}
     themeMode={effectiveTheme || "dark"}
-    pathname={pathname || ""}
   />;
 }
 export default memo(BackgroundLayer);
