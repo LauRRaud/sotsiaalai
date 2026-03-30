@@ -374,13 +374,30 @@
     --seg-card-duration: 0ms;
     --seg-card-bg-selected: var(--seg-card-bg);
     --seg-card-bg-active: var(--seg-card-bg);
+    --seg-card-shadow-selected: var(--seg-card-shadow);
+    --seg-card-shadow-active: var(--seg-card-shadow);
+    --seg-card-border-selected: var(--seg-card-border);
+    --seg-card-border-active: var(--seg-card-border);
+  }
+
+  :root .register-option-card:active::before,
+  :root .register-framework-card:active::before,
+  :root .register-checkbox-card:active::before {
+    opacity: 0 !important;
+  }
+
+  .invite-role-option-card {
+    transition: none !important;
+    --seg-card-duration: 0ms;
+    --seg-card-bg-selected: var(--seg-card-bg);
+    --seg-card-bg-active: var(--seg-card-bg);
     --seg-card-shadow-selected: var(
       --seg-card-shadow-hover,
       var(--seg-card-shadow)
     );
     --seg-card-shadow-active: var(
       --seg-card-shadow-hover,
-      var(--seg-card-shadow-selected, var(--seg-card-shadow))
+      var(--seg-card-shadow)
     );
     --seg-card-border-selected: var(
       --seg-card-border-hover,
@@ -388,14 +405,12 @@
     );
     --seg-card-border-active: var(
       --seg-card-border-hover,
-      var(--seg-card-border-selected, var(--seg-card-border))
+      var(--seg-card-border)
     );
   }
 
-  :root .register-option-card:active::before,
-  :root .register-framework-card:active::before,
-  :root .register-checkbox-card:active::before {
-    opacity: 0 !important;
+  :root .invite-role-option-card:active::before {
+    opacity: 1 !important;
   }
 }
 

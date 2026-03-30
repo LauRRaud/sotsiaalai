@@ -202,7 +202,6 @@
     bottom: auto !important;
     height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
     min-height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
-    background: var(--home-browser-base-bg, transparent);
   }
   html.theme-light[data-display-mode="browser"] {
     --home-browser-base-bg:
