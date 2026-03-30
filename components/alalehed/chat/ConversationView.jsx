@@ -30,6 +30,16 @@ const ConversationView = memo(function ConversationView({
   const isUserAtBottom = useRef(true);
   const mountedRef = useRef(false);
   const contentEndRef = useRef(null);
+  const revealOlderLockRef = useRef(false);
+  const hiddenCountRef = useRef(hiddenCount);
+  const onRevealOlderRef = useRef(onRevealOlder);
+  useEffect(() => {
+    hiddenCountRef.current = hiddenCount;
+    revealOlderLockRef.current = false;
+  }, [hiddenCount]);
+  useEffect(() => {
+    onRevealOlderRef.current = onRevealOlder;
+  }, [onRevealOlder]);
   const updateScrollState = useCallback(() => {
     const node = chatWindowRef?.current;
     if (!node) {
@@ -49,6 +59,16 @@ const ConversationView = memo(function ConversationView({
     const atBottom = !hasOverflow || !hasHiddenContentBelow;
     isUserAtBottom.current = atBottom;
     setShowScrollDown(hasOverflow && hasHiddenContentBelow);
+
+    const nearTopThreshold = Math.max(48, node.clientHeight * 0.08);
+    if (
+      hiddenCountRef.current > 0 &&
+      node.scrollTop <= nearTopThreshold &&
+      !revealOlderLockRef.current
+    ) {
+      revealOlderLockRef.current = true;
+      onRevealOlderRef.current?.();
+    }
   }, [chatWindowRef]);
   useEffect(() => {
     const node = chatWindowRef?.current;

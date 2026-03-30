@@ -101,7 +101,7 @@ function ProfileSummaryBlock({ profileSummary, uiText }) {
   );
 }
 
-function CardGrid({ cards = [], renderCard }) {
+function CardGrid({ cards = [], renderCard, cardClassName = "" }) {
   const safeCards = toSafeArray(cards);
   if (!safeCards.length) return null;
 
@@ -110,7 +110,7 @@ function CardGrid({ cards = [], renderCard }) {
       {safeCards.map((card, index) => (
         <article
           key={card?.id || card?.title || index}
-          className="rounded-[1rem] border border-[rgba(240,240,240,0.18)] bg-[rgba(14,20,32,0.26)] px-[0.95rem] py-[0.8rem] light:border-[rgba(15,23,42,0.12)] light:bg-[rgba(255,255,255,0.82)]"
+          className={`rounded-[1rem] border border-[rgba(240,240,240,0.18)] bg-[rgba(14,20,32,0.26)] px-[0.95rem] py-[0.8rem] light:border-[rgba(15,23,42,0.12)] light:bg-[rgba(255,255,255,0.82)] ${cardClassName}`.trim()}
         >
           {renderCard(card)}
         </article>
@@ -330,6 +330,7 @@ function renderBody(response, onQuestionAnswer, uiText) {
       return (
         <CardGrid
           cards={response.cards}
+          cardClassName="border-[rgba(197,113,113,0.18)] bg-[rgba(14,20,32,0.12)] shadow-none light:border-[rgba(122,58,56,0.14)] light:bg-[rgba(255,248,244,0.56)]"
           renderCard={(card) => renderDirectionCard(card, uiText)}
         />
       );

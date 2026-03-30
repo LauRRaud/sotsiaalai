@@ -117,6 +117,39 @@ function getCareerSessionStorageKey({
   return `sotsiaalai:career-session:${uid}:${role}:${loc}:${convId}`;
 }
 
+function getConversationRenderLimitStorageKey({
+  convId,
+  userId,
+  userRole,
+  locale
+}) {
+  if (!convId) return null;
+  const uid = userId || "anon";
+  const role = (userRole || "CLIENT").toLowerCase();
+  const loc = locale || "et";
+  return `sotsiaalai:chat:render-limit:${uid}:${role}:${loc}:${convId}`;
+}
+
+function readStoredRenderLimit(storageKey) {
+  if (!storageKey || typeof window === "undefined") return null;
+  try {
+    const rawValue = window.sessionStorage.getItem(storageKey);
+    const parsed = Number.parseInt(String(rawValue || ""), 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStoredRenderLimit(storageKey, value) {
+  if (!storageKey || typeof window === "undefined") return;
+  const nextValue = Number.parseInt(String(value || ""), 10);
+  if (!Number.isFinite(nextValue) || nextValue <= 0) return;
+  try {
+    window.sessionStorage.setItem(storageKey, String(nextValue));
+  } catch {}
+}
+
 function isEditableElement(node) {
   if (!(node instanceof Element)) return false;
   const tag = node.tagName;
@@ -399,6 +432,7 @@ export default function ChatBody({
   const chatWindowRef = useRef(null);
   const chatContainerRef = useRef(null);
   const isGeneratingRef = useRef(false);
+  const renderLimitInitializedConvRef = useRef(null);
   const blurTimerRef = useRef(0);
   const handleInputBlur = useCallback(event => {
     const node = chatContainerRef.current;
@@ -548,6 +582,12 @@ export default function ChatBody({
     getVisibleMessages
   });
   const visibleMessages = useMemo(() => getVisibleMessages(messages), [getVisibleMessages, messages]);
+  const renderLimitStorageKey = useMemo(() => getConversationRenderLimitStorageKey({
+    convId,
+    userId: sessionUserId,
+    userRole: sessionUserRole,
+    locale
+  }), [convId, locale, sessionUserId, sessionUserRole]);
   const careerSessionHydratedRef = useRef(false);
   const careerSessionStorageKey = useMemo(() => getCareerSessionStorageKey({
     convId,
@@ -673,6 +713,23 @@ export default function ChatBody({
     if (n <= renderLimit) return displayMessages;
     return displayMessages.slice(n - renderLimit);
   }, [activeWorkflow, composerHasDraft, conversationLocalReady, emptyIntroSeen, isRoomMode, renderLimit, t, visibleMessages]);
+  useEffect(() => {
+    if (!convId || !conversationLocalReady) return;
+
+    const initKey = `${convId}:${renderLimitStorageKey || "none"}`;
+
+    if (renderLimitInitializedConvRef.current !== initKey) {
+      renderLimitInitializedConvRef.current = initKey;
+      const storedLimit = readStoredRenderLimit(renderLimitStorageKey);
+
+      if (storedLimit != null) {
+        setRenderLimit(Math.max(MAX_RENDERED_MESSAGES, storedLimit));
+        return;
+      }
+
+      setRenderLimit(MAX_RENDERED_MESSAGES);
+    }
+  }, [convId, conversationLocalReady, renderLimitStorageKey]);
   const hiddenCount = useMemo(() => {
     const n = visibleMessages.length;
     return n > renderLimit ? n - renderLimit : 0;
@@ -720,7 +777,9 @@ export default function ChatBody({
     const prevScrollTop = el ? el.scrollTop : 0;
     setRenderLimit(prev => {
       const total = visibleMessages.length;
-      return Math.min(total, prev + PAGE_SIZE);
+      const nextLimit = Math.min(total, prev + PAGE_SIZE);
+      writeStoredRenderLimit(renderLimitStorageKey, nextLimit);
+      return nextLimit;
     });
     requestAnimationFrame(() => {
       if (!el) return;
@@ -728,7 +787,7 @@ export default function ChatBody({
       const delta = newScrollHeight - prevScrollHeight;
       el.scrollTop = prevScrollTop + delta;
     });
-  }, [visibleMessages.length]);
+  }, [renderLimitStorageKey, visibleMessages.length]);
   const {
     conversationSources,
     hasConversationSources,
@@ -1364,6 +1423,8 @@ export default function ChatBody({
     }
     resetCareerSession();
     setMessages([]);
+    renderLimitInitializedConvRef.current = null;
+    setRenderLimit(MAX_RENDERED_MESSAGES);
     setConvId(nextConvId);
     setActiveWorkflow(normalizeActiveWorkflow(nextWorkflow));
 
@@ -1890,14 +1951,16 @@ export default function ChatBody({
   }, []);
   const handleJumpToBottom = useCallback(() => {
     if (renderLimit > MAX_RENDERED_MESSAGES) {
+      writeStoredRenderLimit(renderLimitStorageKey, MAX_RENDERED_MESSAGES);
       setRenderLimit(Math.min(visibleMessages.length, MAX_RENDERED_MESSAGES));
     }
     scrollToBottom();
-  }, [renderLimit, scrollToBottom, visibleMessages.length]);
+  }, [renderLimit, renderLimitStorageKey, scrollToBottom, visibleMessages.length]);
   const hideOlder = useCallback(() => {
     const el = chatWindowRef.current;
     const prevScrollHeight = el ? el.scrollHeight : 0;
     const prevScrollTop = el ? el.scrollTop : 0;
+    writeStoredRenderLimit(renderLimitStorageKey, MAX_RENDERED_MESSAGES);
     setRenderLimit(MAX_RENDERED_MESSAGES);
     requestAnimationFrame(() => {
       if (!el) return;
@@ -1905,7 +1968,7 @@ export default function ChatBody({
       const delta = newScrollHeight - prevScrollHeight;
       el.scrollTop = prevScrollTop + delta;
     });
-  }, []);
+  }, [renderLimitStorageKey]);
   useEffect(() => {
     if (prefs?.reduceMotion) {
       setIsEntering(false);

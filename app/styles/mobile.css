@@ -288,6 +288,54 @@
   .invite-modal-content [data-control-type][data-checked="true"]:active::before {
     opacity: 1 !important;
   }
+
+  .a11y-modal-shell .a11y-csp-scroll [data-control-type] {
+    --seg-card-bg-selected: var(--seg-card-bg);
+    --seg-card-bg-active: var(--seg-card-bg);
+    --seg-card-shadow-selected: var(
+      --seg-card-shadow-hover,
+      var(--seg-card-shadow)
+    );
+    --seg-card-shadow-active: var(--seg-card-shadow);
+    --seg-card-border-selected: var(
+      --seg-card-border-hover,
+      var(--seg-card-border)
+    );
+    --seg-card-border-active: var(--seg-card-border);
+  }
+
+  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"] {
+    background: var(--seg-card-bg) !important;
+    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
+    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
+    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
+  }
+
+  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"]::before {
+    opacity: 1 !important;
+  }
+
+  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="false"]:active {
+    background: var(--seg-card-bg) !important;
+    border-color: var(--seg-card-border) !important;
+    box-shadow: var(--seg-card-shadow) !important;
+    color: var(--seg-card-text) !important;
+  }
+
+  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="false"]:active::before {
+    opacity: 0 !important;
+  }
+
+  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"]:active {
+    background: var(--seg-card-bg) !important;
+    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
+    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
+    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
+  }
+
+  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"]:active::before {
+    opacity: 1 !important;
+  }
 }
 
 @media (max-width: 768px) {

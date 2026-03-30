@@ -39,8 +39,8 @@ function makeChatStorage(key = "sotsiaalai:chat:v1") {
   function save(messages) {
     if (!storage || !key) return;
     try {
-      const maxMsgs = 30;
-      const maxChars = 10000;
+      const maxMsgs = 160;
+      const maxChars = 80000;
       let total = 0;
       const trimmed = messages.slice(-maxMsgs).map(m => {
         const t = String(m.text || "");
