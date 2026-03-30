@@ -559,10 +559,10 @@ export default function RegistreerimineBody({}) {
               noValidate
             >
               <section
-                className={`${registerStepClassName} register-step--persist-visible ${getRegisterStepClassName(0)}`}
+                className={`${registerStepClassName} ${getRegisterStepClassName(0)}`}
               >
                 <input
-                  type="email"
+                  type="text"
                   id="email"
                   name="email"
                   className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()}
@@ -570,15 +570,19 @@ export default function RegistreerimineBody({}) {
                   value={form.email}
                   onChange={handleChange}
                   required
+                  inputMode="email"
                   autoComplete="username"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
                 />
               </section>
 
               <section
-                className={`${registerStepClassName} register-step--persist-visible ${getRegisterStepClassName(1)}`}
+                className={`${registerStepClassName} ${getRegisterStepClassName(1)}`}
               >
                 <input
-                  type="password"
+                  type="text"
                   id="pin"
                   name="pin"
                   className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()}
@@ -593,6 +597,9 @@ export default function RegistreerimineBody({}) {
                   maxLength={PIN_MAX}
                   autoComplete="new-password"
                   inputMode="numeric"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
                   pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
                 />
               </section>
