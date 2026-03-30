@@ -2157,6 +2157,21 @@
     margin-right: auto !important;
   }
 
+  :root.theme-mid .register-content .register-input {
+    background: var(--btn-primary-bg) !important;
+    border: var(--btn-primary-border) !important;
+    box-shadow: var(--btn-primary-shadow) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  :root.theme-mid .register-content .register-input:hover,
+  :root.theme-mid .register-content .register-input:focus,
+  :root.theme-mid .register-content .register-input:focus-visible {
+    background: var(--btn-primary-bg-hover) !important;
+    box-shadow: var(--btn-primary-shadow-hover) !important;
+  }
+
   .register-role-options {
     gap: clamp(0.82rem, 3.1vw, 1.08rem);
   }
