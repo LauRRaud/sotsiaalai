@@ -51,18 +51,54 @@
 
   :root.theme-light body.homepage {
     --home-panel-mobile-bg: rgba(249, 247, 244, 0.84);
+    --home-browser-space-bg:
+      radial-gradient(
+        circle at 50% -12%,
+        rgba(251, 250, 248, 0.92) 0%,
+        rgba(255, 255, 255, 0) 55%
+      ),
+      radial-gradient(
+        circle at 50% 24%,
+        rgba(236, 236, 233, 0.14) 0%,
+        rgba(244, 244, 242, 0) 62%
+      ),
+      linear-gradient(180deg, #f7f5f2 0%, #efede9 56%, #e7e5e1 100%);
   }
 
   :root.theme-mid body.homepage {
     --home-panel-mobile-bg: rgba(252, 248, 247, 0.8);
+    --home-browser-space-bg: linear-gradient(
+      180deg,
+      var(--mid-bg-top) 0%,
+      var(--mid-bg-mid) 58%,
+      var(--mid-bg-bottom) 100%
+    );
   }
 
   :root:not(.theme-light):not(.theme-mid):not(.theme-night) body.homepage {
     --home-panel-mobile-bg: rgba(22, 24, 30, 0.84);
+    --home-browser-space-bg: radial-gradient(
+      ellipse at top,
+      #2b3037 0%,
+      #111418 100%
+    );
   }
 
   :root.theme-night body.homepage {
     --home-panel-mobile-bg: rgba(10, 14, 24, 0.88);
+    --home-browser-space-bg: radial-gradient(
+      ellipse at top,
+      #1b2735 0%,
+      #090a0f 100%
+    );
+  }
+
+  html[data-contrast="hc"] body.homepage {
+    --home-browser-space-bg: radial-gradient(
+      ellipse at top,
+      #1b2735 0%,
+      #090a0f 100%
+    );
   }
 
   body.homepage {
@@ -180,6 +216,7 @@
     bottom: auto !important;
     height: 100lvh !important;
     min-height: 100lvh !important;
+    background: var(--home-browser-space-bg, transparent) !important;
   }
   body.homepage [data-bg-layer] {
     top: 0 !important;
@@ -224,8 +261,10 @@
     height: calc(100lvh + 640px) !important;
     min-height: calc(100lvh + 640px) !important;
   }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer] .bg-bends-layer,
-  body.homepage[data-display-mode="browser"] [data-bg-layer] .bg-bends-layer {
+  html[data-display-mode="browser"] body.homepage [data-bg-layer] .bg-space-layer,
+  html[data-display-mode="browser"] body.homepage [data-bg-layer] .space-backdrop,
+  body.homepage[data-display-mode="browser"] [data-bg-layer] .bg-space-layer,
+  body.homepage[data-display-mode="browser"] [data-bg-layer] .space-backdrop {
     display: none !important;
   }
   body.homepage [data-bg-layer] .bg-space-layer,
