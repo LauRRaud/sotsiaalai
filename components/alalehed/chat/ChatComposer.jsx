@@ -131,6 +131,24 @@ export default function ChatComposer({
   const toolsButtonRef = useRef(null);
   const toolsMenuRef = useRef(null);
   const initialDraftProbeCompleteRef = useRef(false);
+  const resizeComposerInput = useCallback(() => {
+    const node = inputRef?.current;
+    if (!node || typeof window === "undefined") return;
+
+    const computed = window.getComputedStyle(node);
+    const lineHeight = Number.parseFloat(computed.lineHeight) || 22;
+    const paddingTop = Number.parseFloat(computed.paddingTop) || 0;
+    const paddingBottom = Number.parseFloat(computed.paddingBottom) || 0;
+    const borderTop = Number.parseFloat(computed.borderTopWidth) || 0;
+    const borderBottom = Number.parseFloat(computed.borderBottomWidth) || 0;
+    const minHeight = Math.ceil(lineHeight + paddingTop + paddingBottom + borderTop + borderBottom);
+    const maxHeight = Math.ceil(lineHeight * 6 + paddingTop + paddingBottom + borderTop + borderBottom);
+
+    node.style.height = "auto";
+    const nextHeight = Math.max(minHeight, Math.min(node.scrollHeight, maxHeight));
+    node.style.height = `${nextHeight}px`;
+    node.style.overflowY = node.scrollHeight > maxHeight ? "auto" : "hidden";
+  }, [inputRef]);
   const deepResearchDisabled = Boolean(isRoomMode);
   const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
   const isDeepResearchMode = composerMode === "deep_research";
@@ -274,6 +292,9 @@ export default function ChatComposer({
       if (draftApiRef.current) draftApiRef.current = null;
     };
   }, [draftApiRef]);
+  useEffect(() => {
+    resizeComposerInput();
+  }, [draft, resizeComposerInput]);
   useEffect(() => {
     if (!initialDraftProbeCompleteRef.current) return;
     onDraftStateChange?.({
@@ -507,13 +528,13 @@ export default function ChatComposer({
       "max-[768px]:[--chat-input-max-w:min(100%,calc(100vw-6.45rem))]";
   const inputBarClassName =
     "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] " +
-    "flex-[1_1_auto] grid-cols-[1fr_auto_auto] items-center gap-x-[0.28rem] " +
+    "flex-[1_1_auto] grid-cols-[1fr_auto_auto] items-end gap-x-[0.28rem] " +
     "min-h-[var(--inputbar-h)] rounded-full " +
     "transition-[border-color,box-shadow,background,max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    "px-[0.625rem] pr-[0.1rem] pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
-  const inputFieldWrapClassName = "min-w-0 w-full pr-[0.2rem]";
+    "px-[0.625rem] py-[0.42rem] pr-[0.1rem] pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
+  const inputFieldWrapClassName = "min-w-0 w-full self-end pr-[0.2rem]";
   const inputFieldClassName =
-    "chat-input-field w-full resize-none appearance-none bg-transparent text-[1.1rem] leading-[1.25] pt-[0.28rem] pb-0 " +
+    "chat-input-field w-full min-h-[calc(var(--inputbar-h)-0.85rem)] max-h-[min(32dvh,10rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] leading-[1.25] pt-[0.22rem] pb-[0.08rem] " +
     "text-[color:var(--pt-150)] light:text-[color:var(--text-strong,#1f2937)] " +
     "outline-none border-0 shadow-none " +
     `${forcePlaceholderVisible ? "placeholder:opacity-100 placeholder:text-[color:var(--input-placeholder)] " : "placeholder:opacity-0 light:placeholder:opacity-100 light:placeholder:text-[color:var(--input-placeholder)]"}`;
@@ -704,7 +725,10 @@ export default function ChatComposer({
 
       <div className={inputBarClassName} ref={inputBarRef}>
         <div className={inputFieldWrapClassName}>
-          <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={onFocusInput} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
+          <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={e => {
+          resizeComposerInput();
+          onFocusInput?.(e);
+        }} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
         </div>
         <button type="button" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || !canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
           <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">

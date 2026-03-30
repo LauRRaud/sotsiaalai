@@ -759,6 +759,30 @@ export default function ChatBody({
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
+  const restoreComposerFocus = useCallback(() => {
+    if (blurTimerRef.current && typeof window !== "undefined") {
+      window.clearTimeout(blurTimerRef.current);
+      blurTimerRef.current = 0;
+    }
+
+    const focusField = () => {
+      const node = inputRef.current;
+      if (!node) return;
+      setInputFocused(true);
+      try {
+        if (!isMobile) {
+          node.focus({
+            preventScroll: true,
+          });
+          return;
+        }
+      } catch {}
+      node.focus?.();
+    };
+
+    requestAnimationFrame(focusField);
+    window.setTimeout(focusField, isMobile ? 140 : 0);
+  }, [isMobile]);
   const patchListingCollections = useCallback((kind, listing, mode = "replace") => {
     setListingsPanelState((prev) => {
       const nextItems = prev.items.filter((item) => !(item.kind === kind && item.id === listing.id));
@@ -1398,6 +1422,7 @@ export default function ChatBody({
       echoUserText = false,
       userEchoText = null,
       activateWorkflow = true,
+      restoreFocusAfterResponse = false,
     } = options;
 
     const rawText =
@@ -1502,14 +1527,19 @@ export default function ChatBody({
     } finally {
       if (careerTurnRequestRef.current === requestId) {
         setCareerLoading(false);
+        if (restoreFocusAfterResponse && !analysis.showAnalysisPanel) {
+          restoreComposerFocus();
+        }
       }
     }
-  }, [appendMessage, goToSubscription, router]);
+  }, [analysis.showAnalysisPanel, appendMessage, goToSubscription, restoreComposerFocus, router]);
   const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
     const questionId = question?.id;
     if (!questionId) return false;
 
     const echoText = formatCareerAnswerForDisplay(question, answer, answerLabel);
+    const shouldRestoreFocus =
+      document.activeElement === inputRef.current || inputFocused;
 
     void runCareerTurn(
       {
@@ -1525,11 +1555,12 @@ export default function ChatBody({
         echoUserText: Boolean(echoText),
         userEchoText: echoText,
         activateWorkflow: true,
+        restoreFocusAfterResponse: shouldRestoreFocus,
       }
     );
 
     return true;
-  }, [careerCurrentState, careerProfile, careerRuntime, runCareerTurn]);
+  }, [careerCurrentState, careerProfile, careerRuntime, inputFocused, runCareerTurn]);
   const activateCareerMode = useCallback(() => {
     if (!careerAccessReady) return false;
     if (careerModeLocked) {
@@ -1614,12 +1645,16 @@ export default function ChatBody({
             },
           };
 
+    const shouldRestoreFocus =
+      document.activeElement === inputRef.current || inputFocused;
+
     return runCareerTurn(payload, {
       echoUserText: true,
       userEchoText: text,
       activateWorkflow: true,
+      restoreFocusAfterResponse: shouldRestoreFocus,
     });
-  }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, runCareerTurn, sendMessage]);
+  }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, inputFocused, runCareerTurn, sendMessage]);
   const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));
   }, []);
