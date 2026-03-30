@@ -111,12 +111,28 @@ const BackgroundContent = memo(function BackgroundContent({
     const coarse = mql("(pointer: coarse)");
     const noHover = mql("(hover: none)");
     const small = mql("(max-width: 768px)");
+    const html = document.documentElement;
+    const body = document.body;
     const compute = () => {
       setMobileLike(detectMobileLikeDevice());
       setWideViewport(window.innerWidth >= 1440 || window.innerHeight >= 1100);
       setDeviceProfileReady(true);
     };
+    const layoutObserver = new MutationObserver(() => compute());
+    if (html) {
+      layoutObserver.observe(html, {
+        attributes: true,
+        attributeFilter: ["data-layout", "data-display-mode", "data-platform"]
+      });
+    }
+    if (body) {
+      layoutObserver.observe(body, {
+        attributes: true,
+        attributeFilter: ["data-layout", "data-display-mode", "data-platform"]
+      });
+    }
     compute();
+    const rafId = window.requestAnimationFrame(() => compute());
     const attach = media => {
       if (!media) return () => {};
       const handler = () => compute();
@@ -133,6 +149,8 @@ const BackgroundContent = memo(function BackgroundContent({
     const cleanups = [attach(coarse), attach(noHover), attach(small)];
     window.addEventListener("resize", compute);
     return () => {
+      layoutObserver.disconnect();
+      window.cancelAnimationFrame(rafId);
       window.removeEventListener("resize", compute);
       cleanups.forEach(fn => fn?.());
     };
