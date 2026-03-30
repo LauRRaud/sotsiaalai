@@ -175,6 +175,12 @@
   .sb-grain {
     display: none !important;
   }
+  html[data-display-mode="browser"] body.homepage [data-bg-layer],
+  body.homepage[data-display-mode="browser"] [data-bg-layer] {
+    bottom: auto !important;
+    height: 100lvh !important;
+    min-height: 100lvh !important;
+  }
   body.homepage [data-bg-layer] {
     top: 0 !important;
     right: 0 !important;
@@ -195,11 +201,28 @@
   }
   html[data-display-mode="browser"] body.homepage [data-bg-layer] .bg-bends-layer,
   body.homepage[data-display-mode="browser"] [data-bg-layer] .bg-bends-layer {
+    bottom: auto !important;
+    height: 100lvh !important;
+    min-height: 100lvh !important;
     will-change: auto !important;
     transform: none !important;
     -webkit-transform: none !important;
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
+  }
+  html[data-display-mode="browser"] body.homepage [data-bg-layer] .bg-space-layer,
+  html[data-display-mode="browser"] body.homepage [data-bg-layer] .space-backdrop,
+  body.homepage[data-display-mode="browser"] [data-bg-layer] .bg-space-layer,
+  body.homepage[data-display-mode="browser"] [data-bg-layer] .space-backdrop {
+    bottom: auto !important;
+    height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
+    min-height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
+  }
+  html[data-display-mode="browser"] body.homepage [data-bg-layer] .particles-container,
+  body.homepage[data-display-mode="browser"] [data-bg-layer] .particles-container {
+    bottom: auto !important;
+    height: calc(100lvh + 640px) !important;
+    min-height: calc(100lvh + 640px) !important;
   }
   body.homepage [data-bg-layer] .bg-space-layer,
   body.homepage [data-bg-layer] .space-backdrop {
