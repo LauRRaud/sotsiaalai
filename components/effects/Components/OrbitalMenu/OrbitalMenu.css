@@ -772,8 +772,7 @@ html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(
     .profile-orbit-menu__item,
-    .profile-orbit-menu__center,
-    .profile-orbit-stack-bubble
+    .profile-orbit-menu__center
   ).dock-item {
   background: var(--orbit-keypad-fill) !important;
   box-shadow: var(--orbit-keypad-shadow) !important;

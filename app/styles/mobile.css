@@ -224,8 +224,8 @@
     height: calc(100lvh + 640px) !important;
     min-height: calc(100lvh + 640px) !important;
   }
-  html[data-display-mode="browser"] body.homepage [data-bg-layer] .bg-particles-layer,
-  body.homepage[data-display-mode="browser"] [data-bg-layer] .bg-particles-layer {
+  html[data-display-mode="browser"] body.homepage [data-bg-layer] .bg-bends-layer,
+  body.homepage[data-display-mode="browser"] [data-bg-layer] .bg-bends-layer {
     display: none !important;
   }
   body.homepage [data-bg-layer] .bg-space-layer,

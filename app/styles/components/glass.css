@@ -314,18 +314,13 @@
 .register-framework-card,
 .register-checkbox-card {
   transition:
-    background-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     color 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
-}
-
-:root:not(.theme-light):not(.theme-mid) .register-option-card,
-:root:not(.theme-light):not(.theme-mid) .register-framework-card,
-:root:not(.theme-light):not(.theme-mid) .register-checkbox-card {
   --seg-card-bg-active: var(
-    --seg-card-bg-hover,
-    var(--seg-card-bg-selected, var(--seg-card-bg))
+    --seg-card-bg-selected,
+    var(--seg-card-bg)
   );
   --seg-card-shadow-active: var(
     --seg-card-shadow-hover,
@@ -337,13 +332,28 @@
   );
 }
 
-:root:not(.theme-light):not(.theme-mid) .register-submit {
+:root:not(.theme-light):not(.theme-mid) .register-option-card,
+:root:not(.theme-light):not(.theme-mid) .register-framework-card,
+:root:not(.theme-light):not(.theme-mid) .register-checkbox-card {
+  --seg-card-bg-active: var(
+    --seg-card-bg-selected,
+    var(--seg-card-bg)
+  );
+}
+
+:root .register-submit {
   --btn-primary-bg-active: var(--btn-primary-bg);
   --btn-primary-shadow-active: var(--btn-primary-shadow-hover);
   --btn-primary-border-active: var(
     --btn-primary-border-hover,
     var(--btn-primary-border)
   );
+  transition:
+    background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid) .invite-primary-btn {
@@ -370,7 +380,10 @@
   );
 }
 
-:root:not(.theme-light):not(.theme-mid) .register-submit:active::before,
+:root .register-option-card:active::before,
+:root .register-framework-card:active::before,
+:root .register-checkbox-card:active::before,
+:root .register-submit:active::before,
 :root:not(.theme-light):not(.theme-mid) .invite-primary-btn:active::before,
 :root:not(.theme-light) .invite-sponsor-toggle-card:active::before {
   opacity: 1 !important;
