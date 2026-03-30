@@ -185,24 +185,27 @@
   }
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"],
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] {
+    top: calc(var(--bg-overscan, 0px) * -1) !important;
     bottom: auto !important;
-    height: 100lvh !important;
-    min-height: 100lvh !important;
+    height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
+    min-height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
   }
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer,
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .space-backdrop,
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer,
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .space-backdrop {
+    top: 0 !important;
     bottom: auto !important;
-    height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
-    min-height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
+    height: 100% !important;
+    min-height: 100% !important;
   }
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-bends-layer,
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-bends-layer {
+    top: 0 !important;
     bottom: auto !important;
-    height: 100lvh !important;
-    min-height: 100lvh !important;
-    max-height: 100lvh !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: none !important;
     will-change: auto !important;
     transform: none !important;
     -webkit-transform: none !important;
@@ -211,9 +214,10 @@
   }
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .particles-container,
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .particles-container {
+    top: calc(var(--bg-overscan, 0px) * -1) !important;
     bottom: auto !important;
-    height: calc(100lvh + 640px) !important;
-    min-height: calc(100lvh + 640px) !important;
+    height: calc(100% + 640px) !important;
+    min-height: calc(100% + 640px) !important;
   }
   [data-bg-layer][data-page="home"] .bg-space-layer,
   [data-bg-layer][data-page="home"] .space-backdrop {
