@@ -184,13 +184,6 @@
     min-height: 100dvh;
     overflow: hidden;
   }
-  body.homepage [data-bg-layer] .bg-bends-layer {
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    max-height: none !important;
-  }
   body.homepage [data-bg-layer],
   body.homepage [data-bg-layer] .bg-space-layer,
   body.homepage [data-bg-layer] .space-backdrop {
@@ -2168,44 +2161,24 @@
     border-radius: 9999px;
     display: flex;
     align-items: center;
-    background:
-      radial-gradient(
-        92% 88% at 50% 16%,
-        rgba(252, 245, 242, 0.94) 0%,
-        rgba(244, 235, 231, 0.92) 44%,
-        rgba(235, 224, 219, 0.9) 100%
-      ),
-      linear-gradient(
-        180deg,
-        rgba(247, 239, 236, 0.92) 0%,
-        rgba(238, 228, 224, 0.9) 100%
-      ) !important;
-    border: 1px solid rgba(126, 95, 88, 0.18) !important;
-    box-shadow:
-      0 10px 22px rgba(38, 24, 22, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.62) !important;
-    backdrop-filter: blur(8px) saturate(112%) !important;
-    -webkit-backdrop-filter: blur(8px) saturate(112%) !important;
+    background: var(--input-bg) !important;
+    border: var(--input-border) !important;
+    box-shadow: var(
+      --input-shadow-composite,
+      var(--input-shadow)
+    ) !important;
+    backdrop-filter: blur(6px) saturate(108%) !important;
+    -webkit-backdrop-filter: blur(6px) saturate(108%) !important;
   }
 
   :root.theme-mid .register-step--field .register-input-shell--mid:hover,
   :root.theme-mid .register-step--field .register-input-shell--mid:focus-within {
-    background:
-      radial-gradient(
-        92% 88% at 50% 16%,
-        rgba(254, 248, 245, 0.96) 0%,
-        rgba(247, 239, 235, 0.94) 44%,
-        rgba(238, 228, 223, 0.92) 100%
-      ),
-      linear-gradient(
-        180deg,
-        rgba(249, 242, 239, 0.94) 0%,
-        rgba(240, 230, 225, 0.92) 100%
-      ) !important;
-    border-color: rgba(126, 95, 88, 0.24) !important;
-    box-shadow:
-      0 12px 24px rgba(38, 24, 22, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+    background: var(--input-bg-hover) !important;
+    border: var(--btn-primary-border-hover, var(--input-border)) !important;
+    box-shadow: var(
+      --input-shadow-hover-composite,
+      var(--input-shadow-hover, var(--input-shadow))
+    ) !important;
   }
 
   :root.theme-mid .register-step--field .register-input-mid-shell {
