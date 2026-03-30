@@ -42,6 +42,8 @@ const registerPolicyLinkClassName =
 const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:var(--pt-200)]`;
 const pinInputClassName =
   "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
+const registerFieldHintClassName =
+  "pointer-events-none absolute inset-y-0 left-[1.5rem] right-[1.5rem] flex items-center overflow-hidden whitespace-nowrap text-ellipsis text-[1.02rem] leading-[1.15] tracking-[0.01em] text-[color:var(--subscription-error-color,#fca5a5)] opacity-95 max-[768px]:text-[0.98rem]";
 const checkboxCardClassName =
   "register-checkbox-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto gap-[0.72rem] text-[1.04rem] leading-[1.28] px-[1.05rem] py-[0.72rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName =
@@ -126,6 +128,10 @@ export default function RegistreerimineBody({}) {
   const [form, setForm] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({
+    email: "",
+    pin: "",
+  });
   const [successMessage, setSuccessMessage] = useState("");
   const [isFrameworkModalOpen, setIsFrameworkModalOpen] = useState(false);
   const [frameworkReviewOpenedAt, setFrameworkReviewOpenedAt] = useState("");
@@ -142,6 +148,8 @@ export default function RegistreerimineBody({}) {
   const hasInitialScrollTopRef = useRef(false);
   const roleLabelId = useId();
   const roleHintId = useId();
+  const emailErrorId = useId();
+  const pinErrorId = useId();
   const roleLabelText = t("auth.register.role_label_question");
   const frameworkTitleLines =
     locale === "et"
@@ -184,10 +192,24 @@ export default function RegistreerimineBody({}) {
           }
         : null),
     }));
+    if (name === "email" || name === "pin") {
+      setFieldErrors((prev) =>
+        prev[name]
+          ? {
+              ...prev,
+              [name]: "",
+            }
+          : prev,
+      );
+    }
   }
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    setFieldErrors({
+      email: "",
+      pin: "",
+    });
     setSuccessMessage("");
     if (!isRegistrationOpen) {
       setError(t("auth.register.closed_notice"));
@@ -199,28 +221,38 @@ export default function RegistreerimineBody({}) {
       scrollToIndex(index);
     };
     if (!email) {
-      setError(t("profile.email_update.error_email_required"));
+      setFieldErrors((prev) => ({
+        ...prev,
+        email: t("profile.email_update.error_email_required"),
+      }));
       jumpToStep(0);
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError(t("profile.email_update.error_email_invalid"));
+      setFieldErrors((prev) => ({
+        ...prev,
+        email: t("profile.email_update.error_email_invalid"),
+      }));
       jumpToStep(0);
       return;
     }
     if (!pin) {
-      setError(t("profile.email_update.error_pin_required"));
+      setFieldErrors((prev) => ({
+        ...prev,
+        pin: t("profile.email_update.error_pin_required"),
+      }));
       jumpToStep(1);
       return;
     }
     if (pin.length < PIN_MIN || pin.length > PIN_MAX) {
-      setError(
-        t("profile.email_update.error_pin_length", {
+      setFieldErrors((prev) => ({
+        ...prev,
+        pin: t("profile.email_update.error_pin_length", {
           min: PIN_MIN,
           max: PIN_MAX,
         }),
-      );
+      }));
       jumpToStep(1);
       return;
     }
@@ -260,13 +292,36 @@ export default function RegistreerimineBody({}) {
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(
-          resolveApiMessage({
-            payload,
-            t,
-            fallbackKey: "auth.register.error.failed",
-          }),
-        );
+        const resolvedMessage = resolveApiMessage({
+          payload,
+          t,
+          fallbackKey: "auth.register.error.failed",
+        });
+        if (
+          payload?.code === "INVALID_EMAIL" ||
+          payload?.code === "EMAIL_IN_USE" ||
+          payload?.messageKey === "api.auth.register.invalid_email" ||
+          payload?.messageKey === "api.auth.register.email_in_use"
+        ) {
+          setFieldErrors((prev) => ({
+            ...prev,
+            email: resolvedMessage,
+          }));
+          jumpToStep(0);
+          return;
+        }
+        if (
+          payload?.code === "PIN_INVALID" ||
+          payload?.messageKey === "api.auth.register.pin_invalid"
+        ) {
+          setFieldErrors((prev) => ({
+            ...prev,
+            pin: resolvedMessage,
+          }));
+          jumpToStep(1);
+          return;
+        }
+        setError(resolvedMessage);
         return;
       }
       setSuccessMessage(
@@ -559,49 +614,74 @@ export default function RegistreerimineBody({}) {
               noValidate
             >
               <section
-                className={`${registerStepClassName} ${getRegisterStepClassName(0)}`}
+                className={`${registerStepClassName} register-step--field register-step--email ${getRegisterStepClassName(0)}`}
               >
-                <input
-                  type="text"
-                  id="email"
-                  name="email"
-                  className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()}
-                  placeholder={t("auth.email_placeholder")}
-                  value={form.email}
-                  onChange={handleChange}
-                  required
-                  inputMode="email"
-                  autoComplete="username"
-                  autoCapitalize="none"
-                  autoCorrect="off"
-                  spellCheck={false}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()}
+                    placeholder={fieldErrors.email ? "" : t("auth.email_placeholder")}
+                    value={form.email}
+                    onChange={handleChange}
+                    required
+                    inputMode="email"
+                    autoComplete="username"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    aria-invalid={fieldErrors.email ? "true" : "false"}
+                    aria-describedby={fieldErrors.email ? emailErrorId : undefined}
+                  />
+                  {fieldErrors.email ? (
+                    <span
+                      id={emailErrorId}
+                      className={registerFieldHintClassName}
+                    >
+                      {fieldErrors.email}
+                    </span>
+                  ) : null}
+                </div>
               </section>
 
               <section
-                className={`${registerStepClassName} ${getRegisterStepClassName(1)}`}
+                className={`${registerStepClassName} register-step--field register-step--pin ${getRegisterStepClassName(1)}`}
               >
-                <input
-                  type="text"
-                  id="pin"
-                  name="pin"
-                  className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()}
-                  placeholder={t("auth.register.pin_placeholder", {
-                    min: PIN_MIN,
-                    max: PIN_MAX,
-                  })}
-                  value={form.pin}
-                  onChange={handleChange}
-                  required
-                  minLength={PIN_MIN}
-                  maxLength={PIN_MAX}
-                  autoComplete="new-password"
-                  inputMode="numeric"
-                  autoCapitalize="none"
-                  autoCorrect="off"
-                  spellCheck={false}
-                  pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="pin"
+                    name="pin"
+                    className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()}
+                    placeholder={
+                      fieldErrors.pin
+                        ? ""
+                        : t("auth.register.pin_placeholder", {
+                            min: PIN_MIN,
+                            max: PIN_MAX,
+                          })
+                    }
+                    value={form.pin}
+                    onChange={handleChange}
+                    required
+                    minLength={PIN_MIN}
+                    maxLength={PIN_MAX}
+                    autoComplete="new-password"
+                    inputMode="numeric"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
+                    aria-invalid={fieldErrors.pin ? "true" : "false"}
+                    aria-describedby={fieldErrors.pin ? pinErrorId : undefined}
+                  />
+                  {fieldErrors.pin ? (
+                    <span id={pinErrorId} className={registerFieldHintClassName}>
+                      {fieldErrors.pin}
+                    </span>
+                  ) : null}
+                </div>
               </section>
 
               <section

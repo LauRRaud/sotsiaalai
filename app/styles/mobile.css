@@ -200,6 +200,13 @@
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
   }
+  [data-bg-layer] .bg-space-layer,
+  [data-bg-layer] .space-backdrop {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -2127,6 +2134,23 @@
     max-width: calc(100% - clamp(0.46rem, 2.6vw, 0.82rem)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+
+  :root.theme-mid .register-scroll {
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+
+  :root.theme-mid .register-step--field {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  :root.theme-mid .register-step--field .register-input {
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   .register-role-options {
