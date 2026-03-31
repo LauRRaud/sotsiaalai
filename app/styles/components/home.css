@@ -71,6 +71,20 @@
   text-decoration: none !important;
 }
 
+@media (min-width: 48.001em) {
+  .homepage-root .home-about-panel,
+  .homepage-root .home-before-panel {
+    background: var(
+      --glass-ring-surface-bg,
+      var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+    ) !important;
+    color: var(--glass-surface-text, #f2f2f2) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    box-shadow: var(--glass-shell-shadow, none) !important;
+  }
+}
+
 @media (max-width: 768px) {
   body.homepage:is(.modal-open, .login-modal-open, .home-profile-open)
     .homepage-root
