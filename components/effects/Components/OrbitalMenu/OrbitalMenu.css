@@ -791,12 +791,6 @@ html[data-contrast="hc"]
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::before,
 :root.theme-night
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::after,
-html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::before,
-html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::after {
   content: none !important;
   opacity: 0 !important;
@@ -928,6 +922,15 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
     0 0 22px rgba(255, 255, 255, 0.36),
     0 0 42px rgba(255, 255, 255, 0.18),
     0 0 64px rgba(255, 255, 255, 0.08);
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item {
+  background: var(--orbit-keypad-fill) !important;
+  box-shadow: var(--orbit-keypad-shadow) !important;
+  border: none !important;
+  outline: none !important;
 }
 
 html[data-contrast="hc"]

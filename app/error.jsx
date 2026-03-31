@@ -17,6 +17,9 @@ const titleClassName = glassPageTitleClassName;
 const descriptionClassName = "mt-[0.75rem] text-[clamp(1.05rem,2vw,1.2rem)] text-center max-w-[clamp(18rem,50vw,30rem)]";
 const actionCenterClassName = "flex w-full flex-1 items-center justify-center pb-[clamp(1.2rem,3vh,1.8rem)]";
 const textBlockClassName = "mt-[clamp(2.2rem,5.8vh,3.4rem)] flex w-full flex-col items-center";
+const retryButtonClassName =
+  "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
+  "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
 export default function Error({
   error,
   reset
@@ -48,7 +51,7 @@ export default function Error({
           </p>
         </div>
         <div className={actionCenterClassName}>
-          <Button type="button" variant="primary" onClick={() => reset()}>
+          <Button type="button" variant="primary" className={`${retryButtonClassName} invite-primary-btn`} onClick={() => reset()}>
             {t("errors.retry")}
           </Button>
         </div>

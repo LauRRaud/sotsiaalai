@@ -24,8 +24,8 @@
   --mid-bg-top: #9f807a;
   --mid-bg-mid: #7e5f58;
   --mid-bg-bottom: #644843;
-  --glass-surface-bg: rgba(253, 250, 249, 0.5);
-  --glass-ring-surface-bg: rgba(252, 248, 247, 0.53);
+  --glass-surface-bg: rgba(253, 250, 249, 0.34);
+  --glass-ring-surface-bg: rgba(252, 248, 247, 0.38);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --glass-surface-text: #2c3340;
   --glass-modal-text: #2c3340;
@@ -68,38 +68,38 @@
   --mid-unified-surface-bg:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(248, 240, 237, 0.72) 0%,
-      rgba(240, 230, 226, 0.64) 42%,
-      rgba(231, 219, 214, 0.58) 100%
+      rgba(248, 240, 237, 0.62) 0%,
+      rgba(240, 230, 226, 0.54) 42%,
+      rgba(231, 219, 214, 0.48) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(242, 233, 229, 0.5) 0%,
-      rgba(233, 223, 218, 0.44) 100%
+      rgba(242, 233, 229, 0.42) 0%,
+      rgba(233, 223, 218, 0.36) 100%
     );
   --mid-unified-surface-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(250, 243, 240, 0.78) 0%,
-      rgba(243, 234, 229, 0.7) 42%,
-      rgba(234, 223, 218, 0.64) 100%
+      rgba(250, 243, 240, 0.68) 0%,
+      rgba(243, 234, 229, 0.6) 42%,
+      rgba(234, 223, 218, 0.54) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(245, 237, 233, 0.56) 0%,
-      rgba(236, 226, 221, 0.48) 100%
+      rgba(245, 237, 233, 0.46) 0%,
+      rgba(236, 226, 221, 0.4) 100%
     );
   --mid-unified-surface-bg-active:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(246, 237, 233, 0.84) 0%,
-      rgba(239, 228, 224, 0.76) 42%,
-      rgba(231, 219, 214, 0.68) 100%
+      rgba(246, 237, 233, 0.74) 0%,
+      rgba(239, 228, 224, 0.66) 42%,
+      rgba(231, 219, 214, 0.58) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(241, 232, 228, 0.62) 0%,
-      rgba(233, 222, 217, 0.54) 100%
+      rgba(241, 232, 228, 0.52) 0%,
+      rgba(233, 222, 217, 0.44) 100%
     );
   --mid-unified-surface-border: 1px solid rgba(126, 95, 88, 0.16);
   --mid-unified-surface-border-hover: 1px solid rgba(126, 95, 88, 0.22);

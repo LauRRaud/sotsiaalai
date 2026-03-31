@@ -476,28 +476,18 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-close-btn,
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-close-btn:is(:hover, :focus-visible, :active) {
   color: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] body .chat-inputbar .chat-send-btn {
-  --btn-border-idle: transparent;
-  --btn-border-glow: transparent;
-  border: 0 !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-}
-html[data-contrast="hc"] body .chat-inputbar .chat-send-btn:hover,
-html[data-contrast="hc"] body .chat-inputbar .chat-send-btn:focus-visible,
-html[data-contrast="hc"] body .chat-inputbar .chat-send-btn:active {
-  border: 0 !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-}
 html[data-contrast="hc"] body :is(.chat-inputbar .chat-listen-btn, .chat-inputbar .chat-side-control-btn, .chat-input-row .chat-side-control-btn) {
   --btn-border-idle: transparent;
   --btn-border-glow: transparent;
   border-color: transparent;
+  background: transparent !important;
   box-shadow: none;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 html[data-contrast="hc"] body :is(.chat-inputbar .chat-listen-btn, .chat-inputbar .chat-side-control-btn):is(:hover, :focus-visible) {
   border-color: transparent;
+  background: transparent !important;
 }
 html[data-contrast="hc"]
   body
@@ -1603,24 +1593,7 @@ html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item {
   color: var(--hc-accent) !important;
-  background:
-    radial-gradient(
-      158% 114% at 50% -18%,
-      rgba(202, 225, 255, 0.055) 0%,
-      rgba(202, 225, 255, 0.02) 38%,
-      rgba(202, 225, 255, 0) 70%
-    ),
-    radial-gradient(
-      144% 124% at 50% 118%,
-      rgba(0, 0, 0, 0.14) 0%,
-      rgba(0, 0, 0, 0) 52%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(22, 31, 45, 0.68) 0%,
-      rgba(16, 25, 38, 0.71) 54%,
-      rgba(11, 18, 28, 0.74) 100%
-    ) !important;
+  background: var(--orbit-keypad-fill) !important;
   -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
   backdrop-filter: blur(0.9rem) saturate(120%) !important;
   --pin-gloss-op: 0.1 !important;
@@ -1629,40 +1602,9 @@ html[data-contrast="hc"]
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item:is(
-    :hover,
-    :focus-visible,
-    :active
-  ) {
-  animation: none !important;
-}
-html[data-contrast="hc"]
-  body
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item {
-  background:
-    radial-gradient(
-      158% 114% at 50% -18%,
-      rgba(202, 225, 255, 0.055) 0%,
-      rgba(202, 225, 255, 0.02) 38%,
-      rgba(202, 225, 255, 0) 70%
-    ),
-    radial-gradient(
-      144% 124% at 50% 118%,
-      rgba(0, 0, 0, 0.14) 0%,
-      rgba(0, 0, 0, 0) 52%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(22, 31, 45, 0.68) 0%,
-      rgba(16, 25, 38, 0.71) 54%,
-      rgba(11, 18, 28, 0.74) 100%
-    ) !important;
-  -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
-  backdrop-filter: blur(0.9rem) saturate(120%) !important;
-  --pin-gloss-op: 0.1 !important;
   box-shadow:
-    none !important;
+    var(--orbit-keypad-shadow) !important;
   transition: box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 html[data-contrast="hc"]
@@ -1675,27 +1617,6 @@ html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
-  background:
-    radial-gradient(
-      158% 114% at 50% -18%,
-      rgba(202, 225, 255, 0.055) 0%,
-      rgba(202, 225, 255, 0.02) 38%,
-      rgba(202, 225, 255, 0) 70%
-    ),
-    radial-gradient(
-      144% 124% at 50% 118%,
-      rgba(0, 0, 0, 0.14) 0%,
-      rgba(0, 0, 0, 0) 52%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(22, 31, 45, 0.68) 0%,
-      rgba(16, 25, 38, 0.71) 54%,
-      rgba(11, 18, 28, 0.74) 100%
-    ) !important;
-  -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
-  backdrop-filter: blur(0.9rem) saturate(120%) !important;
-  --pin-gloss-op: 0.1 !important;
   transition-property: box-shadow, transform !important;
   transition-duration: 0.62s, 0.22s !important;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1), ease !important;
@@ -1911,9 +1832,9 @@ html[data-contrast="hc"] .desc-ring-right * {
 }
 
 html[data-contrast="hc"] {
-  --btn-primary-border: 0 solid transparent;
-  --btn-primary-border-hover: 0 solid transparent;
-  --btn-primary-border-active: 0 solid transparent;
+  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
 }
 
 html[data-contrast="hc"]

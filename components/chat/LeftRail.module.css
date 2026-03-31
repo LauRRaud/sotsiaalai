@@ -259,6 +259,11 @@
   backface-visibility: hidden;
 }
 
+:global(html[data-contrast="hc"]) .tooltip {
+  border: 2px solid var(--rail-tooltip-border, rgba(255, 234, 0, 0.72));
+  background-clip: padding-box;
+}
+
 :global(html[data-ui-profile="lg"]) .tooltip,
 :global(html[data-ui-scale="lg"]) .tooltip {
   --rail-profile-scale: 1.25;
@@ -312,6 +317,11 @@
   background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)));
   border: 0;
   box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));
+}
+
+:global(html[data-contrast="hc"]) .tooltip {
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  background-clip: padding-box;
 }
 
 :global(html[data-contrast="hc"]) .tooltip {

@@ -238,10 +238,15 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "min-w-[14rem] max-w-[min(18rem,90vw)] rounded-[0.95rem] px-[0.7rem] py-[0.75rem] " +
     "bg-[color:var(--rail-tooltip-bg)] text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2))] text-[0.98rem] " +
     "leading-[1.42] tracking-[0.01em] text-center shadow-[var(--rail-tooltip-shadow)] border border-[color:var(--rail-tooltip-border,transparent)] " +
-    "z-[9999]";
+    "z-[9999] " +
+    "max-[768px]:fixed max-[768px]:left-1/2 max-[768px]:top-1/2 max-[768px]:bottom-auto " +
+    "max-[768px]:w-[min(20rem,calc(100vw-1.2rem))] max-[768px]:max-w-[calc(100vw-1.2rem)] " +
+    "max-[768px]:max-h-[calc(100dvh-8rem)] max-[768px]:overflow-y-auto " +
+    "max-[768px]:px-[0.85rem] max-[768px]:py-[0.85rem] max-[768px]:text-[0.95rem] " +
+    "max-[768px]:[transform:translate(-50%,-50%)]";
   const tooltipArrowClassName =
     "absolute left-1/2 -translate-x-1/2 bottom-[-0.25rem] h-[0.55rem] w-[0.55rem] " +
-    "rotate-45 bg-[color:var(--rail-tooltip-bg)]";
+    "rotate-45 bg-[color:var(--rail-tooltip-bg)] max-[768px]:hidden";
   const handleClose = () => {
     setUploadPreview(null);
     setUploadError(null);
