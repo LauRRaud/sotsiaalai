@@ -529,6 +529,22 @@ html[data-contrast="hc"]
 html[data-contrast="hc"] :is(.chat-left-actions, .chat-right-actions, .chat-mobile-topnav) {
   color: var(--hc-accent);
 }
+html[data-contrast="hc"] .chat-mobile-topnav button {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+html[data-contrast="hc"] .chat-mobile-topnav button:is(:hover, :focus-visible, :active) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 html[data-contrast="hc"] :is(.chat-left-actions, .chat-right-actions) button {
   background: transparent !important;
   border: 0 !important;

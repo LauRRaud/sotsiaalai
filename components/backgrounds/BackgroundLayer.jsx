@@ -102,7 +102,9 @@ const BackgroundContent = memo(function BackgroundContent({
   const mobileBackgroundMode = mobileLike || browserMobileMode;
   const allowParticles = deviceProfileReady;
   const allowColorBends = deviceProfileReady;
-  const parallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
+  const baseParallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
+  const particlesParallaxActive =
+    deviceProfileReady && !reduceMotion && isHomepage && browserMobileMode;
   const prioritizeBackgroundEffects = isHomepage && mobileBackgroundMode;
   const baseColorBendsProps = mobileBackgroundMode
     ? {
@@ -213,7 +215,7 @@ const BackgroundContent = memo(function BackgroundContent({
     el.style.setProperty("--saai-parallax-bends", "0px");
     el.style.setProperty("--saai-parallax-particles", "0px");
     el.style.setProperty("--saai-bg-dim", "0");
-    if (!parallaxActive) return;
+    if (!baseParallaxActive) return;
     let raf = 0;
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
     const update = () => {
@@ -241,10 +243,65 @@ const BackgroundContent = memo(function BackgroundContent({
       window.removeEventListener("resize", onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [reduceMotion, parallaxActive]);
+  }, [reduceMotion, baseParallaxActive]);
+  useEffect(() => {
+    const el = layerRef.current;
+    if (!el || typeof window === "undefined") return;
+    el.style.setProperty("--saai-parallax-particles", "0px");
+    if (!particlesParallaxActive) return;
+    let raf = 0;
+    let bindRetry = 0;
+    let scrollHost = null;
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const getScrollY = () => {
+      const hostY = scrollHost && typeof scrollHost.scrollTop === "number" ? scrollHost.scrollTop : 0;
+      const windowY = window.scrollY || document.documentElement.scrollTop || document.body?.scrollTop || 0;
+      return Math.max(hostY, windowY);
+    };
+    const update = () => {
+      raf = 0;
+      const y = getScrollY();
+      const particlesY = -clamp(y * 0.15, 0, 260);
+      el.style.setProperty("--saai-parallax-particles", `${particlesY.toFixed(2)}px`);
+    };
+    const onScroll = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(update);
+    };
+    const attach = () => {
+      scrollHost =
+        document.querySelector(".homepage-root") ||
+        document.scrollingElement ||
+        document.documentElement;
+      if (!scrollHost) {
+        bindRetry = window.requestAnimationFrame(attach);
+        return;
+      }
+      scrollHost.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.visualViewport?.addEventListener("scroll", onScroll, { passive: true });
+      update();
+    };
+    attach();
+    return () => {
+      if (bindRetry) window.cancelAnimationFrame(bindRetry);
+      if (scrollHost) scrollHost.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScroll);
+      window.visualViewport?.removeEventListener("scroll", onScroll);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
+  }, [particlesParallaxActive]);
   return <>
       {}
-      <div data-bg-layer ref={layerRef} data-page={isHomepage ? "home" : "subpage"} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
+      <div
+        data-bg-layer
+        ref={layerRef}
+        data-page={isHomepage ? "home" : "subpage"}
+        data-parallax={baseParallaxActive ? "on" : "off"}
+        data-particles-parallax={particlesParallaxActive ? "on" : "off"}
+        aria-hidden="true"
+        suppressHydrationWarning
+      >
         <div className="bg-space-layer" aria-hidden="true">
           <div
             className="space-backdrop"

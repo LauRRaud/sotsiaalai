@@ -136,3 +136,6 @@
 [data-bg-layer][data-parallax="on"] .bg-particles-layer {
   transform: translate3d(0, var(--saai-parallax-particles), 0);
 }
+[data-bg-layer][data-particles-parallax="on"] .bg-particles-layer {
+  transform: translate3d(0, var(--saai-parallax-particles), 0);
+}

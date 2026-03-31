@@ -63,7 +63,7 @@ html[data-contrast="hc"] {
   --page-bg-top-fallback: #1b2735;
   --page-bg-bottom-fallback: #090a0f;
   --glass-blur-radius: 1rem;
-  --glass-surface-bg: rgba(0, 0, 0, 0.25);
+  --glass-surface-bg: rgba(14, 16, 20, 0.42);
   --glass-ring-surface-bg: var(--glass-surface-bg);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --drawer-glass-bg: var(--glass-ring-surface-bg);
