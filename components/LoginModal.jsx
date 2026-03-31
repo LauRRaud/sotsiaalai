@@ -31,7 +31,7 @@ const helpPopoverClassName =
   "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border border-[color:var(--subpage-card-border)] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] backdrop-saturate-[120%]";
 const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const otpModalTitleClassName =
-  "!text-[clamp(1.8rem,1.2rem+1.08vw,2.2rem)] max-md:!text-[clamp(1.78rem,6.6vw,2.18rem)] max-md:!leading-[1.06]";
+  "!text-[clamp(1.68rem,1.1rem+0.98vw,2.05rem)] max-md:!text-[clamp(1.64rem,6.2vw,2.02rem)] max-md:!leading-[1.06]";
 const otpTextClassName = "text-[color:var(--otp-copy-text)]";
 const otpInfoTextClassName = "text-[color:var(--otp-copy-strong)]";
 const MODAL_FOCUSABLE_SELECTOR = [
@@ -1200,12 +1200,12 @@ export default function LoginModal({
           ? "#1f2937"
           : "#e5e7eb",
       "--otp-input-placeholder": isMidTheme
-        ? "rgba(82,58,51,0.78)"
+        ? "rgba(82,58,51,0.92)"
         : isNightTheme
-          ? "rgba(208,223,243,0.74)"
+          ? "rgba(208,223,243,0.9)"
         : isLightTheme
-          ? "rgba(31,41,55,0.62)"
-          : "rgba(229,231,235,0.62)",
+          ? "rgba(31,41,55,0.82)"
+          : "rgba(229,231,235,0.82)",
       "--otp-input-caret": isMidTheme
         ? "#4a3833"
         : isNightTheme
@@ -1550,7 +1550,7 @@ export default function LoginModal({
             </div>
 
             <div className="w-full mt-[0.96rem] max-[768px]:mt-[0.62rem] flex justify-center">
-              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] !text-[color:var(--otp-input-text)] !caret-[color:var(--otp-input-caret)] text-left placeholder:text-center placeholder:!text-[color:var(--otp-input-placeholder)] [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] px-[1.5rem] py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.01em] rounded-[0.88rem]" />
+              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] !text-[color:var(--otp-input-text)] !caret-[color:var(--otp-input-caret)] text-left placeholder:opacity-100 placeholder:text-center placeholder:!text-[color:var(--otp-input-placeholder)] [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] px-[1.5rem] py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.01em] rounded-[0.88rem]" />
             </div>
             {otpInlineError ? <p id="otp-inline-error" role="alert" className="mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
                 {otpInlineError}

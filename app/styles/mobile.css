@@ -1993,6 +1993,22 @@
     padding-right: calc(var(--chat-window-pad-x, 0.7rem) - 0.06rem) !important;
   }
 
+  .chat-container--analysis-scroll {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: auto !important;
+    overscroll-behavior-x: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+  }
+
+  .chat-container--analysis-scroll .chat-analysis-preview {
+    overscroll-behavior-y: auto !important;
+    overscroll-behavior-x: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+  }
+
   .chat-msg-user {
     margin-right: -0.04rem !important;
   }

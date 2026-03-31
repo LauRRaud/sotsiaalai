@@ -129,6 +129,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     const deltaY = touch.clientY - startY;
     const atTop = node.scrollTop <= 0;
     if (!atTop || deltaY <= 0) return;
+    if (chatNode.scrollTop <= 0) return;
     event.preventDefault();
     chatNode.scrollTop = Math.max(0, chatNode.scrollTop - deltaY);
     touchStartYRef.current = touch.clientY;
@@ -213,7 +214,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "text-[color:var(--glass-surface-text,#f2f2f2)] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
     "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
-    "backdrop-blur-0 [-webkit-backdrop-filter:none]";
+    "backdrop-blur-0 [-webkit-backdrop-filter:none] " +
+    "max-[768px]:[overscroll-behavior-y:auto]";
   const scrollTrackClassName =
     "absolute top-[0.6rem] bottom-[0.6rem] right-0 w-[1.7rem] " +
     "bg-transparent border-0 cursor-[var(--cursor-pointer)] " +
@@ -376,7 +378,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                 <div className={previewWrapClassName}>
                   <div
                     ref={previewRef}
-                    className={previewClassName}
+                    className={`${previewClassName} chat-analysis-preview`}
                     tabIndex={0}
                     aria-label={t("chat.upload.preview")}
                     style={{
