@@ -383,9 +383,9 @@
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"],
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] {
     top: calc(var(--bg-overscan, 0px) * -1) !important;
-    bottom: auto !important;
-    height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
-    min-height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
+    bottom: calc(var(--bg-overscan, 0px) * -1) !important;
+    height: auto !important;
+    min-height: 0 !important;
   }
   html.theme-light[data-display-mode="browser"] {
     --home-browser-base-bg:
