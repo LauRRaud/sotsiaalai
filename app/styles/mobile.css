@@ -1994,12 +1994,12 @@
   }
 
   .chat-page-shell--analysis-scroll {
-    height: auto !important;
-    min-height: 100dvh !important;
-    overflow-y: visible !important;
+    overflow-y: auto !important;
     overflow-x: hidden !important;
     overscroll-behavior-y: auto !important;
     overscroll-behavior-x: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
   }
 
   .chat-msg-user {

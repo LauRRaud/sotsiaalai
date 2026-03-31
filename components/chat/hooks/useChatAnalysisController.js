@@ -102,6 +102,19 @@ export function useChatAnalysisController({
       window.removeEventListener("focus", ensureOpen);
     };
   }, [uploadPreview]);
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const shouldLockPageScroll = isMobileViewport && showAnalysisPanel && !!uploadPreview;
+    if (!shouldLockPageScroll) return;
+    const root = document.documentElement;
+    const body = document.body;
+    root.classList.add("chat-analysis-scroll-open");
+    body.classList.add("chat-analysis-scroll-open");
+    return () => {
+      root.classList.remove("chat-analysis-scroll-open");
+      body.classList.remove("chat-analysis-scroll-open");
+    };
+  }, [isMobileViewport, showAnalysisPanel, uploadPreview]);
   const scrollAnalysisPanelIntoView = useCallback((options = {}) => {
     requestAnimationFrame(() => {
       try {

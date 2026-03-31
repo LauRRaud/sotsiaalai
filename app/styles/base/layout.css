@@ -3,6 +3,11 @@ body.modal-open {
   overflow: hidden;
   height: 100%;
 }
+html.chat-analysis-scroll-open,
+body.chat-analysis-scroll-open {
+  overflow: hidden;
+  height: 100%;
+}
 html.modal-open {
   overscroll-behavior: none;
 }
