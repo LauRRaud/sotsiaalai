@@ -336,8 +336,8 @@ export default function ColorBends({
       if (isMobileLike && lastSize) {
         const widthDelta = Math.abs(w - lastSize.width);
         const heightDelta = Math.abs(h - lastSize.height);
-        const ignoreViewportChromeResize = widthDelta < 2 && heightDelta > 0;
-        if (ignoreViewportChromeResize) return;
+        const ignoreMinorViewportJitter = widthDelta < 2 && heightDelta < 8;
+        if (ignoreMinorViewportJitter) return;
       }
       lastSize = {
         width: w,
@@ -352,6 +352,9 @@ export default function ColorBends({
       }
     };
     handleResize();
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", handleResize);
+    }
     if ("ResizeObserver" in window) {
       const ro = new ResizeObserver(handleResize);
       ro.observe(container);
@@ -452,6 +455,7 @@ export default function ColorBends({
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pagehide", onPageHide);
       window.removeEventListener("pageshow", onPageShow);
+      window.visualViewport?.removeEventListener("resize", handleResize);
       io.disconnect();
       stopLoop();
       if (resizeObserverRef.current) resizeObserverRef.current.disconnect();else window.removeEventListener("resize", handleResize);
