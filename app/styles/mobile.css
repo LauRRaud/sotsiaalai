@@ -94,6 +94,10 @@
     display: none !important;
   }
 
+  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] {
+    display: none !important;
+  }
+
   :root.theme-light .homepage-root .home-about-panel,
   :root.theme-light .homepage-root .home-before-panel {
     background-color: var(--home-panel-mobile-bg, rgba(251, 252, 253, 0.85)) !important;
