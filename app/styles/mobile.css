@@ -89,6 +89,11 @@
     background-size: 100% 100%;
   }
 
+  html[data-display-mode="browser"] body.homepage::before {
+    content: none !important;
+    display: none !important;
+  }
+
   :root.theme-light .homepage-root .home-about-panel,
   :root.theme-light .homepage-root .home-before-panel {
     background-color: var(--home-panel-mobile-bg, rgba(251, 252, 253, 0.85)) !important;
@@ -383,9 +388,9 @@
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"],
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] {
     top: calc(var(--bg-overscan, 0px) * -1) !important;
-    bottom: calc(var(--bg-overscan, 0px) * -1) !important;
-    height: auto !important;
-    min-height: 0 !important;
+    bottom: auto !important;
+    height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
+    min-height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
   }
   html.theme-light[data-display-mode="browser"] {
     --home-browser-base-bg:
