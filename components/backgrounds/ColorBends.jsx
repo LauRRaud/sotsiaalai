@@ -330,15 +330,9 @@ export default function ColorBends({
     let renderScale = prefersReduced ? Math.min(profile.initialScale, 0.75) : profile.initialScale;
     let baseDpr = Math.min(window.devicePixelRatio || 1, maxDpr);
     const applyDpr = () => renderer.setPixelRatio(Math.min(baseDpr * renderScale, 2));
-    const handleResize = () => {
+    const performResize = () => {
       const w = container.clientWidth || 1;
       const h = container.clientHeight || 1;
-      if (isMobileLike && lastSize) {
-        const widthDelta = Math.abs(w - lastSize.width);
-        const heightDelta = Math.abs(h - lastSize.height);
-        const ignoreMinorViewportJitter = widthDelta < 2 && heightDelta < 8;
-        if (ignoreMinorViewportJitter) return;
-      }
       lastSize = {
         width: w,
         height: h
@@ -351,7 +345,21 @@ export default function ColorBends({
         renderer.render(scene, camera);
       }
     };
-    handleResize();
+    let resizeTimer = 0;
+    const handleResize = () => {
+      if (!isMobileLike) {
+        performResize();
+        return;
+      }
+      if (resizeTimer) {
+        window.clearTimeout(resizeTimer);
+      }
+      resizeTimer = window.setTimeout(() => {
+        resizeTimer = 0;
+        performResize();
+      }, 140);
+    };
+    performResize();
     if (window.visualViewport) {
       window.visualViewport.addEventListener("resize", handleResize);
     }
@@ -458,6 +466,7 @@ export default function ColorBends({
       window.visualViewport?.removeEventListener("resize", handleResize);
       io.disconnect();
       stopLoop();
+      if (resizeTimer) window.clearTimeout(resizeTimer);
       if (resizeObserverRef.current) resizeObserverRef.current.disconnect();else window.removeEventListener("resize", handleResize);
       geometry.dispose();
       material.dispose();
