@@ -19,8 +19,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   analysisPanelRef,
   analysisPanelMode,
   uploadPreview,
-  uploadedFilesCount,
-  uploadedFileNames,
+  _uploadedFilesCount,
+  _uploadedFileNames,
   uploadFileLimit,
   uploadBusy,
   uploadError,
@@ -34,6 +34,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   contextHint,
   inputRef,
   chatWindowRef,
+  isMobileViewport,
   onPickFile,
   setUploadPreview,
   setUploadError,
@@ -121,6 +122,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     touchStartYRef.current = touch?.clientY ?? null;
   };
   const handlePreviewTouchMove = event => {
+    if (isMobileViewport) return;
     const touch = event.touches?.[0];
     const startY = touchStartYRef.current;
     const node = previewRef.current;

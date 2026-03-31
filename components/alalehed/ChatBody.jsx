@@ -2026,6 +2026,7 @@ export default function ChatBody({
     contextHint,
     inputRef,
     chatWindowRef,
+    isMobileViewport: viewportIsMobile,
     onPickFile: analysis.onPickFile,
     setUploadPreview: analysis.setUploadPreview,
     setUploadError: analysis.setUploadError,
@@ -2058,12 +2059,6 @@ export default function ChatBody({
         "[&>:not(.chat-mask-layer):not(.chat-mask-tilt-fallback):not(.top-nav--chat):not(.chat-mobile-topnav):not(.chat-left-actions):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button):not(.chat-analysis-overlay)]:z-[1] " +
         "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
         "overflow-hidden [--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
-        (viewportIsMobile && analysis.showAnalysisPanel
-          ? "chat-container--analysis-scroll "
-          : "") +
-        (viewportIsMobile && analysis.showAnalysisPanel
-          ? "max-[768px]:!overflow-y-auto max-[768px]:!overflow-x-hidden "
-          : "") +
         "max-[768px]:gap-[0.35rem] max-[768px]:flex-[1_1_auto] max-[768px]:min-h-0 max-[768px]:mx-auto " +
         "min-[768px]:w-[var(--chat-diameter)] min-[768px]:h-[var(--chat-diameter)] " +
         "min-[768px]:[inline-size:var(--chat-diameter)] min-[768px]:[block-size:var(--chat-diameter)] " +
