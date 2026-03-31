@@ -573,7 +573,7 @@ export default function ChatComposer({
     ? "min-w-0 w-full px-[0.3rem] pt-[0.26rem] pr-[0.36rem]"
     : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem]";
   const inputFieldClassName =
-    `chat-input-field block w-full min-h-[1.38rem] max-h-[min(30dvh,8.5rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] [overflow-wrap:anywhere] break-words ${displayExpanded ? "leading-[1.26] px-[0.12rem] pt-[0.14rem] pb-[0.05rem]" : "leading-[1.18] pt-[0.01rem] pb-0"} ` +
+    `chat-input-field block w-full min-h-[1.38rem] max-h-[min(30dvh,8.5rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] [overflow-wrap:anywhere] break-words ${displayExpanded ? "leading-[1.26] px-[0.12rem] pt-[0.14rem] pb-[0.05rem]" : "leading-[1.18] px-[0.12rem] pt-[0.28rem] pb-[0.12rem]"} ` +
     "text-[color:var(--pt-150)] light:text-[color:var(--text-strong,#1f2937)] " +
     "outline-none border-0 shadow-none " +
     `${forcePlaceholderVisible ? "placeholder:opacity-100 placeholder:text-[color:var(--input-placeholder)] " : "placeholder:opacity-0 light:placeholder:opacity-100 light:placeholder:text-[color:var(--input-placeholder)]"}`;

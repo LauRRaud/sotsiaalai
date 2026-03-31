@@ -13,6 +13,7 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AppLink from "@/components/ui/Link";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
+import { glassSubpageFieldInputClassName } from "@/components/ui/glassPageStyles";
 import { EmailEnvelopeStatusIcon, LockErrorIcon, SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
@@ -1035,8 +1036,7 @@ export default function LoginModal({
   const triggerKeypadBounce = useCallback(target => {
     if (!(target instanceof HTMLElement)) return;
     target.classList.remove("pin-keypad__button--bounce");
-    // eslint-disable-next-line no-unused-expressions
-    target.offsetWidth;
+    void target.offsetWidth;
     target.classList.add("pin-keypad__button--bounce");
     window.setTimeout(() => {
       target.classList.remove("pin-keypad__button--bounce");
@@ -1313,7 +1313,7 @@ export default function LoginModal({
                   <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="login-email-icon pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button> : <label className="block w-full">
-                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !my-0 !w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))] text-[1.16rem]" onMouseDown={e => {
+                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={`login-email-input ${glassSubpageFieldInputClassName} block mx-auto !my-0 !w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))]`} onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
                 e.preventDefault();

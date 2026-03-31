@@ -16,6 +16,7 @@ import BackButton from "@/components/ui/BackButton"
 import Button from "@/components/ui/Button"
 import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
+import OptionCard from "@/components/ui/OptionCard"
 import Textarea from "@/components/ui/Textarea"
 import { useSpeech } from "@/components/chat/hooks/useSpeech"
 import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPrimaryButtonToneClassName } from "@/components/ui/glassPageStyles"
@@ -82,6 +83,14 @@ function segmentedChipClassName(isActive) {
       : ""
   }`
 }
+
+const agentChoiceCardClassName =
+  `${primarySegmentedButtonClassName} inline-flex min-h-[2.78rem] items-center justify-center rounded-[1.45rem] border-[var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[1rem] py-[0.62rem] text-[1.01rem] leading-[1.2] tracking-[0.018em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:[background:var(--seg-card-bg-hover,var(--seg-card-bg))] hover:border-[color:var(--seg-card-border-hover,var(--seg-card-border))] hover:text-[color:var(--seg-card-text-hover,var(--seg-card-text))] hover:shadow-[var(--seg-card-shadow-hover,var(--seg-card-shadow))] active:[background:var(--seg-card-bg-active,var(--seg-card-bg-selected,var(--seg-card-bg-hover,var(--seg-card-bg))))] active:border-[color:var(--seg-card-border-active,var(--seg-card-border-selected,var(--seg-card-border-hover,var(--seg-card-border))))] active:text-[color:var(--seg-card-text-selected,var(--seg-card-text-hover,var(--seg-card-text)))] active:shadow-[var(--seg-card-shadow-active,var(--seg-card-shadow-selected,var(--seg-card-shadow-hover,var(--seg-card-shadow))))] text-center max-[768px]:min-h-[2.9rem] max-[768px]:rounded-[1.38rem] max-[768px]:px-[0.95rem] max-[768px]:py-[0.68rem] max-[768px]:text-[1.05rem]`
+const agentPanelLinkClassName =
+  `${linkBrandInlineClass} inline-block w-auto max-w-full whitespace-normal break-words [text-wrap:balance] ` +
+  "text-[clamp(1.06rem,1.42vw,1.24rem)] leading-[1.1] font-medium " +
+  "[--link-brand-text:var(--documents-accent)] [--link-brand-border-hover:var(--documents-accent)] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] " +
+  "max-[768px]:text-[clamp(1rem,4.1vw,1.15rem)] max-[768px]:leading-[1.12]"
 
 function formatArtifactMessage(artifact, t) {
   if (!artifact) return ""
@@ -1423,21 +1432,28 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                   </span>
                   <div className="documents-agent-chip-row">
                     {outputTypeOptions.map((option) => (
-                      <button
+                      <OptionCard
                         key={option.value}
-                        type="button"
-                        className={segmentedChipClassName((isClientRole ? clientTask : outputType) === option.value)}
-                        onClick={() => {
+                        type="radio"
+                        name="agent-output-type"
+                        value={option.value}
+                        checked={(isClientRole ? clientTask : outputType) === option.value}
+                        onChange={(event) => {
+                          const nextValue = event.target.value
                           if (isClientRole) {
-                            setClientTask(option.value)
+                            setClientTask(nextValue)
                           } else {
-                            setOutputType(option.value)
+                            setOutputType(nextValue)
                           }
                           clearResultMessages()
                         }}
+                        className={agentChoiceCardClassName}
+                        fitTextLines={2}
                       >
-                        {option.label}
-                      </button>
+                        <span className="text-center [text-wrap:balance]">
+                          {option.label}
+                        </span>
+                      </OptionCard>
                     ))}
                   </div>
                 </div>
@@ -1448,18 +1464,24 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                       <span className="documents-meta-text documents-agent-field-label">{t("chat.deep_research.scope_output_label")}</span>
                       <div className="documents-agent-chip-row">
                         {audienceOptions.map((option) => (
-                          <button
-                                key={option.value}
-                                type="button"
-                                className={segmentedChipClassName(audience === option.value)}
-                                onClick={() => {
-                                  setAudienceTouched(true)
-                                  setAudience(option.value)
-                                  clearResultMessages()
-                                }}
+                          <OptionCard
+                            key={option.value}
+                            type="radio"
+                            name="agent-audience"
+                            value={option.value}
+                            checked={audience === option.value}
+                            onChange={(event) => {
+                              setAudienceTouched(true)
+                              setAudience(event.target.value)
+                              clearResultMessages()
+                            }}
+                            className={agentChoiceCardClassName}
+                            fitTextLines={2}
                           >
-                            {option.label}
-                          </button>
+                            <span className="text-center [text-wrap:balance]">
+                              {option.label}
+                            </span>
+                          </OptionCard>
                         ))}
                       </div>
                     </div>
@@ -1716,7 +1738,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                   {!isClientRole ? (
                     <p className="documents-meta-text documents-agent-copy mt-[0.12rem] text-[1rem] leading-[1.45]">
                       {t("documents.agent_workspace.result_results_link_intro")}{" "}
-                      <Link href={artifactResultsHref} className={`${linkBrandInlineClass} documents-link-button documents-meta-text text-[1rem] leading-[1.45]`}>
+                      <Link href={artifactResultsHref} className={agentPanelLinkClassName}>
                         {t("documents.agent_workspace.result_results_link_label")}
                       </Link>
                       .
@@ -1726,7 +1748,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                 {hasWorkspaceResult ? (
                   <div className="documents-agent-card-actions">
                     {activeArtifactDetailHref ? (
-                      <Link href={activeArtifactDetailHref} className="documents-link-button documents-meta-text documents-agent-inline-link">
+                      <Link href={activeArtifactDetailHref} className={agentPanelLinkClassName}>
                         {t("documents.agent_workspace.open_detail")}
                       </Link>
                     ) : null}

@@ -192,25 +192,66 @@ body.login-modal-open {
   box-shadow: 0 10px 18px rgba(6, 95, 70, 0.14);
 }
 
-#login-modal input:-webkit-autofill,
-#login-modal input:-webkit-autofill:hover,
-#login-modal input:-webkit-autofill:focus,
-#login-modal input:-webkit-autofill:active {
-  -webkit-text-fill-color: var(--input-text) !important;
+#login-modal .login-email-input,
+#login-modal .login-email-input:hover,
+#login-modal .login-email-input:focus,
+#login-modal .login-email-input:focus-visible,
+#login-modal .login-email-input:active {
+  background: var(--input-bg) !important;
+  background-image: none !important;
+  background-clip: padding-box;
+  border: var(--input-border) !important;
+  color: var(--input-text) !important;
   caret-color: var(--input-caret) !important;
-  -webkit-box-shadow: 0 0 0 1000px rgba(12, 18, 30, 0.72) inset !important;
-  box-shadow: 0 0 0 1000px rgba(12, 18, 30, 0.72) inset !important;
+  -webkit-text-fill-color: var(--input-text) !important;
+  -webkit-box-shadow: var(--input-shadow-composite, var(--input-shadow)) !important;
+  box-shadow: var(--input-shadow-composite, var(--input-shadow)) !important;
+}
+
+#login-modal .login-email-input:is(:-webkit-autofill, :autofill),
+#login-modal .login-email-input:is(:-webkit-autofill, :autofill):hover,
+#login-modal .login-email-input:is(:-webkit-autofill, :autofill):focus,
+#login-modal .login-email-input:is(:-webkit-autofill, :autofill):focus-visible,
+#login-modal .login-email-input:is(:-webkit-autofill, :autofill):active {
+  background: var(--input-bg) !important;
+  background-image: none !important;
+  background-clip: padding-box;
+  border: var(--input-border) !important;
+  color: var(--input-text) !important;
+  caret-color: var(--input-caret) !important;
+  -webkit-text-fill-color: var(--input-text) !important;
   transition: background-color 99999s ease-out 0s, color 99999s ease-out 0s;
 }
 
-:root.theme-light #login-modal input:-webkit-autofill,
-:root.theme-light #login-modal input:-webkit-autofill:hover,
-:root.theme-light #login-modal input:-webkit-autofill:focus,
-:root.theme-light #login-modal input:-webkit-autofill:active {
-  -webkit-text-fill-color: var(--input-text) !important;
-  caret-color: var(--input-caret) !important;
-  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.94) inset !important;
-  box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.94) inset !important;
+:root:not(.theme-light) #login-modal .login-email-input:is(:-webkit-autofill, :autofill),
+:root:not(.theme-light) #login-modal .login-email-input:is(:-webkit-autofill, :autofill):hover,
+:root:not(.theme-light) #login-modal .login-email-input:is(:-webkit-autofill, :autofill):focus,
+:root:not(.theme-light) #login-modal .login-email-input:is(:-webkit-autofill, :autofill):focus-visible,
+:root:not(.theme-light) #login-modal .login-email-input:is(:-webkit-autofill, :autofill):active {
+  -webkit-box-shadow:
+    var(--input-shadow-composite, var(--input-shadow)),
+    inset 0 0 0 1000px rgba(12, 18, 30, 0.72) !important;
+  box-shadow:
+    var(--input-shadow-composite, var(--input-shadow)),
+    inset 0 0 0 1000px rgba(12, 18, 30, 0.72) !important;
+}
+
+:root.theme-light #login-modal .login-email-input:is(:-webkit-autofill, :autofill),
+:root.theme-light #login-modal .login-email-input:is(:-webkit-autofill, :autofill):hover,
+:root.theme-light #login-modal .login-email-input:is(:-webkit-autofill, :autofill):focus,
+:root.theme-light #login-modal .login-email-input:is(:-webkit-autofill, :autofill):focus-visible,
+:root.theme-light #login-modal .login-email-input:is(:-webkit-autofill, :autofill):active,
+:root.theme-mid #login-modal .login-email-input:is(:-webkit-autofill, :autofill),
+:root.theme-mid #login-modal .login-email-input:is(:-webkit-autofill, :autofill):hover,
+:root.theme-mid #login-modal .login-email-input:is(:-webkit-autofill, :autofill):focus,
+:root.theme-mid #login-modal .login-email-input:is(:-webkit-autofill, :autofill):focus-visible,
+:root.theme-mid #login-modal .login-email-input:is(:-webkit-autofill, :autofill):active {
+  -webkit-box-shadow:
+    var(--input-shadow-composite, var(--input-shadow)),
+    inset 0 0 0 1000px rgba(255, 255, 255, 0.94) !important;
+  box-shadow:
+    var(--input-shadow-composite, var(--input-shadow)),
+    inset 0 0 0 1000px rgba(255, 255, 255, 0.94) !important;
 }
 
 #login-modal .login-help-popover {

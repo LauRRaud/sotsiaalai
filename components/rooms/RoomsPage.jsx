@@ -9,6 +9,7 @@ import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
+import Panel from "@/components/ui/Panel";
 import InviteModal from "@/components/invite/InviteModal";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
@@ -17,7 +18,6 @@ import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import "@/components/CenteredScrollPicker.css";
 import {
   glassPageBackMobileBottomCenterClassName,
-  glassSubpageCardClassName,
   glassSubpageCardInteractiveClassName,
   glassPageRingCenteredClassName,
   glassPageShellCenteredClassName,
@@ -41,7 +41,7 @@ const roomStepClassName = "rooms-step csp-step !min-h-0 !py-[0.48rem]";
 const roomCardClassName =
   `w-full rounded-[1rem] px-[1.14rem] py-[1.02rem] ${glassSubpageCardInteractiveClassName}`;
 const roomEmptyCardClassName =
-  `mx-auto w-[min(100%,calc(100%-1rem))] min-[769px]:w-[min(100%,calc(100%-1.4rem))] rounded-[1rem] px-[1.14rem] py-[1.12rem] text-center ${glassSubpageCardClassName}`;
+  `mx-auto w-[min(100%,calc(100%-1rem))] min-[769px]:w-[min(100%,calc(100%-1.4rem))] text-center`;
 const roomMetaRowClassName =
   "mt-[0.24rem] flex flex-wrap items-center gap-x-[0.22rem] gap-y-[0.2rem] text-[0.98rem] text-[color:var(--pt-200)] [.theme-light_&]:text-[#334155]";
 const roomMetaItemClassName =
@@ -542,22 +542,19 @@ export default function RoomsPage() {
             >
               {loading ? (
                 <div className={`${roomStepClassName} csp-item csp-active`}>
-                  <div
-                    className={roomEmptyCardClassName}
-                    aria-busy="true"
-                  >
+                  <Panel variant="subpage" padding="sm" className={roomEmptyCardClassName} aria-busy="true">
                     <p className="m-0 text-[1.2rem] leading-[1.45] text-[color:var(--pt-120)] [.theme-light_&]:text-[#334155]">
                       {t("rooms.loading")}
                     </p>
-                  </div>
+                  </Panel>
                 </div>
               ) : effectiveRooms.length === 0 ? (
                 <div className={`${roomStepClassName} csp-item csp-active`}>
-                  <div className={roomEmptyCardClassName}>
+                  <Panel variant="subpage" padding="sm" className={roomEmptyCardClassName}>
                     <p className="m-0 text-[1.2rem] leading-[1.45] text-[color:var(--pt-120)] [.theme-light_&]:text-[#334155]">
                       {t("rooms.empty")}
                     </p>
-                  </div>
+                  </Panel>
                 </div>
               ) : (
                 <ul className="m-0 list-none p-0">

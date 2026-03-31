@@ -10,8 +10,10 @@ import Button from "@/components/ui/Button"
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
 import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
+import OptionCard from "@/components/ui/OptionCard"
 import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass } from "@/components/ui/linkStyles"
+import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName"
 import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
 import {
   artifactStatusLabel,
@@ -66,10 +68,6 @@ function compareArtifacts(left, right, sortKey, t, locale) {
   return artifactSortTimestamp(right?.updatedAt) - artifactSortTimestamp(left?.updatedAt)
 }
 
-function chipClassName(isActive) {
-  return `documents-chip inline-flex min-h-[2.6rem] items-center justify-center rounded-full px-[0.9rem] py-[0.38rem] text-[1.08rem] leading-none ${isActive ? "is-active" : ""}`
-}
-
 function ChipLabel({ label, count }) {
   return (
     <>
@@ -78,6 +76,14 @@ function ChipLabel({ label, count }) {
     </>
   )
 }
+
+const documentsChoiceCardClassName =
+  `${primarySegmentedButtonClassName} inline-flex min-h-[2.78rem] items-center justify-center rounded-[1.45rem] border-[var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[0.96rem] py-[0.62rem] text-[1.03rem] leading-[1.2] tracking-[0.018em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:[background:var(--seg-card-bg-hover,var(--seg-card-bg))] hover:border-[color:var(--seg-card-border-hover,var(--seg-card-border))] hover:text-[color:var(--seg-card-text-hover,var(--seg-card-text))] hover:shadow-[var(--seg-card-shadow-hover,var(--seg-card-shadow))] active:[background:var(--seg-card-bg-active,var(--seg-card-bg-selected,var(--seg-card-bg-hover,var(--seg-card-bg))))] active:border-[color:var(--seg-card-border-active,var(--seg-card-border-selected,var(--seg-card-border-hover,var(--seg-card-border))))] active:text-[color:var(--seg-card-text-selected,var(--seg-card-text-hover,var(--seg-card-text)))] active:shadow-[var(--seg-card-shadow-active,var(--seg-card-shadow-selected,var(--seg-card-shadow-hover,var(--seg-card-shadow))))] text-center max-[768px]:min-h-[2.9rem] max-[768px]:rounded-[1.38rem] max-[768px]:px-[0.92rem] max-[768px]:py-[0.66rem] max-[768px]:text-[1.05rem]`
+const documentsPanelLinkClassName =
+  `${linkBrandInlineClass} inline-block w-auto max-w-full whitespace-normal break-words [text-wrap:balance] ` +
+  "text-[clamp(1.08rem,1.45vw,1.28rem)] leading-[1.1] font-medium " +
+  "[--link-brand-text:var(--documents-accent)] [--link-brand-border-hover:var(--documents-accent)] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] " +
+  "max-[768px]:text-[clamp(1.02rem,4.2vw,1.18rem)] max-[768px]:leading-[1.12]"
 
 export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded = false }) {
   const router = useRouter()
@@ -467,9 +473,20 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 <div className="documents-library-list-header">
                   <div className="documents-filter-row documents-library-filters">
                     {["ALL", ...DOCUMENT_KIND_VALUES].map((kind) => (
-                      <button key={kind} type="button" className={chipClassName(kindFilter === kind)} onClick={() => setKindFilter(kind)}>
-                        {kind === "ALL" ? t("documents.filters.all") : kindLabel(kind, t)}
-                      </button>
+                      <OptionCard
+                        key={kind}
+                        type="radio"
+                        name="documents-kind-filter"
+                        value={kind}
+                        checked={kindFilter === kind}
+                        onChange={(event) => setKindFilter(event.target.value)}
+                        className={documentsChoiceCardClassName}
+                        fitTextLines={1}
+                      >
+                        <span className="text-center [text-wrap:balance]">
+                          {kind === "ALL" ? t("documents.filters.all") : kindLabel(kind, t)}
+                        </span>
+                      </OptionCard>
                     ))}
                   </div>
                 </div>
@@ -577,14 +594,25 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             <div className="mt-[0.42rem] flex flex-wrap items-center justify-between gap-[0.8rem]">
               <div className="flex flex-wrap gap-[0.4rem]">
                 {[{ key: "ALL", label: t("documents.filters.all"), count: artifactCounts.all }, { key: "DRAFT", label: artifactStatusLabel("draft", t), count: artifactCounts.draft }, { key: "FINAL", label: artifactStatusLabel("final", t), count: artifactCounts.final }].map((item) => (
-                  <button key={item.key} type="button" className={chipClassName(artifactFilter === item.key)} onClick={() => setArtifactFilter(item.key)}>
-                    <ChipLabel label={item.label} count={item.count} />
-                  </button>
+                  <OptionCard
+                    key={item.key}
+                    type="radio"
+                    name="documents-artifact-filter"
+                    value={item.key}
+                    checked={artifactFilter === item.key}
+                    onChange={(event) => setArtifactFilter(event.target.value)}
+                    className={documentsChoiceCardClassName}
+                    fitTextLines={1}
+                  >
+                    <span className="text-center [text-wrap:balance]">
+                      <ChipLabel label={item.label} count={item.count} />
+                    </span>
+                  </OptionCard>
                 ))}
               </div>
               <div className="flex flex-wrap items-center gap-[0.8rem] justify-end">
                 <span className="documents-meta-text documents-results-summary text-[1rem]">{t("documents.artifacts.results_count", { shown: filteredArtifacts.length, total: artifactFilteredTotal })}</span>
-                <Link href={localizePath(isArtifactsExpanded ? "/documents#artifacts" : "/documents?artifacts=all#artifacts", locale)} className={`${linkBrandInlineClass} documents-link-button documents-meta-text text-[1rem] leading-[1.64]`}>{isArtifactsExpanded ? t("documents.actions.show_latest") : t("documents.actions.open_all_results")}</Link>
+                <Link href={localizePath(isArtifactsExpanded ? "/documents#artifacts" : "/documents?artifacts=all#artifacts", locale)} className={documentsPanelLinkClassName}>{isArtifactsExpanded ? t("documents.actions.show_latest") : t("documents.actions.open_all_results")}</Link>
               </div>
             </div>
             {isArtifactsExpanded ? (

@@ -75,29 +75,6 @@
     background-color: var(--home-browser-base-bg, #0d111b);
   }
 
-  html[data-display-mode="browser"] body.homepage::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: var(
-      --home-browser-base-bg,
-      linear-gradient(180deg, var(--baseTop) 0%, var(--baseBottom) 100%)
-    );
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-  }
-
-  html[data-display-mode="browser"] body.homepage::before {
-    content: none !important;
-    display: none !important;
-  }
-
-  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] {
-    display: none !important;
-  }
-
   :root.theme-light .homepage-root .home-about-panel,
   :root.theme-light .homepage-root .home-before-panel {
     background-color: var(--home-panel-mobile-bg, rgba(251, 252, 253, 0.85)) !important;
@@ -372,12 +349,6 @@
     display: none !important;
   }
   [data-bg-layer][data-page="home"] {
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100vw;
-    min-height: 100dvh;
     overflow: hidden;
   }
   [data-bg-layer][data-page="home"],
@@ -391,10 +362,13 @@
   }
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"],
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] {
-    top: calc(var(--bg-overscan, 0px) * -1) !important;
-    bottom: auto !important;
-    height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
-    min-height: calc(100lvh + (2 * var(--bg-overscan, 0px))) !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
   }
   html.theme-light[data-display-mode="browser"] {
     --home-browser-base-bg:
@@ -411,12 +385,14 @@
       linear-gradient(180deg, #f7f5f2 0%, #efede9 56%, #e7e5e1 100%);
   }
   html.theme-mid[data-display-mode="browser"] {
-    --home-browser-base-bg: linear-gradient(
-      180deg,
-      var(--mid-bg-top) 0%,
-      var(--mid-bg-mid) 58%,
-      var(--mid-bg-bottom) 100%
-    );
+    --home-browser-base-bg:
+      var(--bg-bends-overlay),
+      linear-gradient(
+        180deg,
+        var(--mid-bg-top) 0%,
+        var(--mid-bg-mid) 58%,
+        var(--mid-bg-bottom) 100%
+      );
   }
   html.theme-night[data-display-mode="browser"] {
     --home-browser-base-bg: radial-gradient(
@@ -496,8 +472,8 @@
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .particles-container {
     top: calc(var(--bg-overscan, 0px) * -1) !important;
     bottom: auto !important;
-    height: calc(100% + 640px) !important;
-    min-height: calc(100% + 640px) !important;
+    height: 100% !important;
+    min-height: 100% !important;
   }
   [data-bg-layer][data-page="home"] .bg-space-layer,
   [data-bg-layer][data-page="home"] .space-backdrop {

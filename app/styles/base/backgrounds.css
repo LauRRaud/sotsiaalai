@@ -48,25 +48,6 @@
   opacity: 0;
   transition: opacity 0.6s ease;
 }
-.space-backdrop[data-mode="light"]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      circle at 50% 14%,
-      rgba(247, 246, 244, 0.68),
-      rgba(247, 246, 244, 0) 60%
-    ),
-    radial-gradient(
-      circle at 50% 66%,
-      rgba(255, 255, 255, 0.14),
-      rgba(255, 255, 255, 0) 55%
-    );
-  mix-blend-mode: screen;
-  opacity: 0.58;
-}
 .sb-grain {
   position: absolute;
   inset: 0;
