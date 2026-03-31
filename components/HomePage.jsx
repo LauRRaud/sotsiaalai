@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -29,6 +29,7 @@ const BLUR_REVEAL_DELAY_MS = 1850;
 const CARD_FADE_DURATION_MS = 2400;
 const CARD_FADE_DELAY_MS = 500;
 const HOME_FOOTER_STAGGER_MS = 220;
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 export default function HomePage() {
   const {
     data: session,
@@ -255,7 +256,7 @@ export default function HomePage() {
     });
     return () => observer.disconnect();
   }, [isMobile]);
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     document.body.classList.add("homepage");
     document.body.classList.add("homeCursorScope");
     return () => {
