@@ -69,6 +69,26 @@
     background: transparent;
   }
 
+  html[data-display-mode="browser"] body.homepage {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--home-browser-base-bg, #0d111b);
+  }
+
+  html[data-display-mode="browser"] body.homepage::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(
+      --home-browser-base-bg,
+      linear-gradient(180deg, var(--baseTop) 0%, var(--baseBottom) 100%)
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
   :root.theme-light .homepage-root .home-about-panel,
   :root.theme-light .homepage-root .home-before-panel {
     background-color: var(--home-panel-mobile-bg, rgba(251, 252, 253, 0.85)) !important;

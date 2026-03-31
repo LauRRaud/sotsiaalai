@@ -36,11 +36,11 @@ function applyLayoutFlag(matches) {
   }
 }
 
-function applyDisplayModeFlag({ isMobile = false, pathname = "" } = {}) {
+function applyDisplayModeFlag() {
   const root = document.documentElement;
   const body = document.body;
   if (!root || !body) return;
-  const mode = isMobile && pathname === "/" ? "standalone" : resolveDisplayMode();
+  const mode = resolveDisplayMode();
   root.setAttribute("data-display-mode", mode);
   body.setAttribute("data-display-mode", mode);
 }
@@ -84,13 +84,13 @@ export default function ViewportLayoutSetter() {
     const standaloneMql = window.matchMedia("(display-mode: standalone)");
     const fullscreenMql = window.matchMedia("(display-mode: fullscreen)");
     applyLayoutFlag(mql.matches);
-    applyDisplayModeFlag({ isMobile: mql.matches, pathname });
+    applyDisplayModeFlag();
     applyPlatformFlag();
     applyVhVar();
     const onMqChange = e => applyLayoutFlag(e.matches);
     const onResize = () => {
       window.requestAnimationFrame(() => {
-        applyDisplayModeFlag({ isMobile: mql.matches, pathname });
+        applyDisplayModeFlag();
         applyPlatformFlag();
         applyVhVar();
       });
@@ -100,12 +100,12 @@ export default function ViewportLayoutSetter() {
     };
     const onPageShow = () => {
       applyLayoutFlag(mql.matches);
-      applyDisplayModeFlag({ isMobile: mql.matches, pathname });
+      applyDisplayModeFlag();
       applyPlatformFlag();
       applyVhVar();
     };
     const onDisplayModeChange = () => {
-      applyDisplayModeFlag({ isMobile: mql.matches, pathname });
+      applyDisplayModeFlag();
       applyPlatformFlag();
     };
     mql.addEventListener?.("change", onMqChange);
@@ -133,7 +133,7 @@ export default function ViewportLayoutSetter() {
       document.documentElement.removeAttribute("data-platform");
       document.body.removeAttribute("data-platform");
     };
-  }, [pathname]);
+  }, []);
   useEffect(() => {
     if (typeof document === "undefined") return;
     const main = document.getElementById("main");

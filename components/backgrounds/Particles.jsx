@@ -88,7 +88,6 @@ const Particles = ({
     if (!container) return;
     const isMobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches || document.body?.getAttribute("data-layout") === "mobile";
     const isMobileLike = isMobile || window.matchMedia?.("(pointer: coarse)")?.matches || window.matchMedia?.("(hover: none)")?.matches;
-    const MOBILE_RESIZE_HEIGHT_THRESHOLD = 120;
     let lastSize = null;
     const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
     const isFrozen = freeze || prefersReducedMotion;
@@ -125,8 +124,8 @@ const Particles = ({
       if (isMobileLike && lastSize) {
         const widthDelta = Math.abs(width - lastSize.width);
         const heightDelta = Math.abs(height - lastSize.height);
-        const ignoreMinorViewportJitter = widthDelta < 2 && heightDelta < MOBILE_RESIZE_HEIGHT_THRESHOLD;
-        if (ignoreMinorViewportJitter) return;
+        const ignoreViewportChromeResize = widthDelta < 2 && heightDelta > 0;
+        if (ignoreViewportChromeResize) return;
       }
       lastSize = {
         width,
