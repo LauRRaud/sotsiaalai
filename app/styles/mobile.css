@@ -75,6 +75,26 @@
     background: var(--home-browser-base-bg, #0d111b);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    overflow: hidden;
+    height: 100dvh;
+    overscroll-behavior: none;
+  }
+
+  html[data-display-mode="browser"] .homepage-root {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    scrollbar-width: none;
+  }
+
+  html[data-display-mode="browser"] .homepage-root::-webkit-scrollbar {
+    width: 0;
+    height: 0;
   }
 
   :root.theme-light .homepage-root .home-about-panel,
@@ -456,10 +476,6 @@
     bottom: auto !important;
     height: 100% !important;
     min-height: 100% !important;
-  }
-  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer,
-  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer {
-    display: none !important;
   }
   html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-bends-layer,
   body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-bends-layer {
