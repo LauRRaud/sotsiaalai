@@ -1182,6 +1182,19 @@ html[data-contrast="hc"] :is(
   border-color: rgba(255, 234, 0, 0.95) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }
+html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card :is(.invite-primary-btn, .invite-refresh-btn) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.66) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+}
+html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card :is(.invite-primary-btn, .invite-refresh-btn):is(:hover, :focus-visible) {
+  border-color: rgba(255, 234, 0, 0.9) !important;
+  box-shadow: var(--btn-primary-shadow-hover) !important;
+}
+html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card :is(.invite-primary-btn, .invite-refresh-btn):active {
+  border-color: rgba(255, 234, 0, 0.95) !important;
+  box-shadow: var(--btn-primary-shadow-active) !important;
+}
 html[data-contrast="hc"] :is(
     .register-content,
     .invite-modal-content,
@@ -1191,6 +1204,9 @@ html[data-contrast="hc"] :is(
     .reset-password-content
   )
   [data-control-type] {
+  --seg-card-border-width: 2px;
+}
+html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card [data-control-type] {
   --seg-card-border-width: 2px;
 }
 html[data-contrast="hc"] :is(
@@ -1207,6 +1223,12 @@ html[data-contrast="hc"] :is(
   border-color: rgba(255, 234, 0, 0.94) !important;
   box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
 }
+html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card [data-control-type][data-checked="true"] {
+  color: var(--hc-accent) !important;
+  background: rgba(255, 234, 0, 0.1) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+}
 html[data-contrast="hc"] :is(
     .register-content,
     .invite-modal-content,
@@ -1216,6 +1238,9 @@ html[data-contrast="hc"] :is(
     .reset-password-content
   )
   [data-control-type][data-checked="false"] {
+  border-color: rgba(255, 234, 0, 0.62) !important;
+}
+html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card [data-control-type][data-checked="false"] {
   border-color: rgba(255, 234, 0, 0.62) !important;
 }
 html[data-contrast="hc"] .invite-modal-content .invite-list-panel {

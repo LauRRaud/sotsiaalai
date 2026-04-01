@@ -13,6 +13,7 @@ const docToggleCardClassName =
   "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
   "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
   "[&>span.shrink-0]:-translate-y-[0.08rem] " +
+  "invite-sponsor-toggle-card " +
   `${primarySegmentedButtonClassName} ` +
   "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
@@ -131,6 +132,15 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       const trigger = contextHintWrapRef.current;
       const popover = contextHintPopoverRef.current;
       if (!trigger || !popover) return;
+      const surfaceNode = trigger.closest(".chat-page-shell") || trigger;
+      const computedStyles = window.getComputedStyle(surfaceNode);
+      const readSurfaceVar = (...names) => {
+        for (const name of names) {
+          const value = computedStyles.getPropertyValue(name)?.trim();
+          if (value) return value;
+        }
+        return "";
+      };
 
       const margin = 12;
       const gap = 10;
@@ -159,7 +169,30 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       setContextHintPlacement({
         top,
         left,
-        width
+        width,
+        surfaceVars: {
+          "--chat-analysis-hint-bg": readSurfaceVar(
+            "--chat-tools-panel-bg",
+            "--opaque-panel-bg",
+            "--rail-tooltip-bg",
+            "--subpage-card-bg"
+          ),
+          "--chat-analysis-hint-text": readSurfaceVar(
+            "--opaque-panel-text",
+            "--rail-tooltip-text",
+            "--glass-surface-text"
+          ),
+          "--chat-analysis-hint-border": readSurfaceVar(
+            "--rail-tooltip-border",
+            "--chat-tools-panel-border",
+            "--opaque-panel-border"
+          ),
+          "--chat-analysis-hint-shadow": readSurfaceVar(
+            "--chat-tools-panel-shadow",
+            "--opaque-panel-shadow",
+            "--rail-tooltip-shadow"
+          )
+        }
       });
     };
 
@@ -301,15 +334,15 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex flex-col gap-[1.25rem] text-[1.05rem] items-center text-center";
   const metaClassName = "mt-[0.35rem] text-[1.08rem]";
   const contextButtonClassName =
-    `${docToggleCardClassName} [&>span.shrink-0]:hidden`;
+    `${docToggleCardClassName} !min-w-[2.72rem] !justify-center !rounded-full !px-0 [&>span.shrink-0]:hidden [&>span:last-child]:flex-none`;
   const tooltipClassName =
     "fixed z-[9999] rounded-[0.95rem] px-[0.9rem] py-[0.85rem] text-center " +
     "min-w-[14rem] max-w-[min(18rem,calc(100vw-1.2rem))] " +
-    "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
-    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] " +
+    "[background:var(--chat-analysis-hint-bg,var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg)))))] " +
+    "text-[color:var(--chat-analysis-hint-text,var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2))))] " +
     "text-[0.98rem] leading-[1.42] tracking-[0.01em] " +
-    "border border-[color:var(--opaque-panel-border,var(--rail-tooltip-border,rgba(255,255,255,0.12)))] " +
-    "shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow,0_12px_26px_rgba(0,0,0,0.22)))] " +
+    "border hc:border-2 border-[color:var(--chat-analysis-hint-border,var(--rail-tooltip-border,var(--chat-tools-panel-border,var(--opaque-panel-border,rgba(255,255,255,0.12)))))] " +
+    "shadow-[var(--chat-analysis-hint-shadow,var(--opaque-panel-shadow,var(--rail-tooltip-shadow,0_12px_26px_rgba(0,0,0,0.22))))] " +
     "backdrop-blur-0 backdrop-saturate-100 [backdrop-filter:none] [-webkit-backdrop-filter:none] " +
     "max-[768px]:min-w-[min(18rem,calc(100vw-1.2rem))] max-[768px]:max-w-[calc(100vw-1.2rem)] " +
     "max-[768px]:max-h-[calc(100dvh-8rem)] max-[768px]:overflow-y-auto max-[768px]:text-[0.95rem]";
@@ -328,7 +361,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                     top: `${contextHintPlacement.top}px`,
                     left: `${contextHintPlacement.left}px`,
                     width: `${contextHintPlacement.width}px`,
-                    transform: "translateX(-50%)"
+                    transform: "translateX(-50%)",
+                    ...contextHintPlacement.surfaceVars
                   }
                 : {
                     top: "-10000px",
