@@ -14,6 +14,21 @@ const docToggleCardClassName =
   "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
   "[&>span.shrink-0]:-translate-y-[0.08rem] " +
   "invite-sponsor-toggle-card " +
+  "[--seg-card-bg:var(--btn-primary-bg)] " +
+  "[--seg-card-bg-hover:var(--btn-primary-bg-hover)] " +
+  "[--seg-card-bg-selected:var(--btn-primary-bg)] " +
+  "[--seg-card-bg-active:var(--btn-primary-bg-active)] " +
+  "[--seg-card-shadow:var(--btn-primary-shadow)] " +
+  "[--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] " +
+  "[--seg-card-shadow-selected:var(--btn-primary-shadow)] " +
+  "[--seg-card-shadow-active:var(--btn-primary-shadow-active)] " +
+  "[--seg-card-border:transparent] " +
+  "[--seg-card-border-hover:transparent] " +
+  "[--seg-card-border-selected:transparent] " +
+  "[--seg-card-border-active:transparent] " +
+  "[--seg-card-text:var(--btn-primary-text)] " +
+  "[--seg-card-text-hover:var(--btn-primary-text)] " +
+  "[--seg-card-text-selected:var(--btn-primary-text)] " +
   `${primarySegmentedButtonClassName} ` +
   "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
@@ -300,10 +315,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const uploadButtonClassName =
     `documents-primary-button documents-primary-button--compact documents-upload-choose-button ${glassPrimaryButtonToneClassName}`;
   const invitePrimaryButtonClassName =
-    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
-    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
+    "drawer-pill-btn invite-primary-btn !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
+    `max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem] ${glassPrimaryButtonToneClassName}`;
   const actionPrimaryButtonClassName =
-    `${invitePrimaryButtonClassName} invite-primary-btn`;
+    invitePrimaryButtonClassName;
   const actionSecondaryButtonClassName = actionPrimaryButtonClassName;
   const previewWrapClassName =
     "relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
@@ -334,7 +349,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex flex-col gap-[1.25rem] text-[1.05rem] items-center text-center";
   const metaClassName = "mt-[0.35rem] text-[1.08rem]";
   const contextButtonClassName =
-    `${docToggleCardClassName} !min-w-[2.72rem] !justify-center !rounded-full !px-0 [&>span.shrink-0]:hidden [&>span:last-child]:flex-none`;
+    `${docToggleCardClassName} !min-w-[2.72rem] !justify-center !self-center !rounded-full !px-0 [&>span.shrink-0]:hidden [&>span:last-child]:flex-none [&>span:last-child]:justify-center`;
   const tooltipClassName =
     "fixed z-[9999] rounded-[0.95rem] px-[0.9rem] py-[0.85rem] text-center " +
     "min-w-[14rem] max-w-[min(18rem,calc(100vw-1.2rem))] " +
@@ -354,7 +369,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
             role="dialog"
             aria-modal="false"
             aria-label={contextHint}
-            className={tooltipClassName}
+            className={`${tooltipClassName} chat-analysis-overlay-hint`}
             style={
               contextHintPlacement
                 ? {
@@ -472,7 +487,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                 <div className={actionsInlineClassName}>
                   <Button
                     type="button"
-                    size="sm"
+                    size="md"
                     variant="primary"
                     className={actionPrimaryButtonClassName}
                     onClick={() => {
@@ -489,7 +504,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                   </Button>
                   <Button
                     type="button"
-                    size="sm"
+                    size="md"
                     variant="primary"
                     className={actionSecondaryButtonClassName}
                     onClick={toggleAnalysisCollapse}

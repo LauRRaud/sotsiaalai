@@ -467,6 +467,11 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card
   background: var(--btn-primary-bg-active) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }
+html[data-contrast="hc"] body .chat-analysis-overlay-hint {
+  color: var(--hc-accent) !important;
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+}
 html[data-contrast="hc"] body .chat-analysis-overlay .documents-upload-choose-button:active {
   border: 2px solid rgba(255, 234, 0, 0.95) !important;
   background: var(--btn-primary-bg-active) !important;
