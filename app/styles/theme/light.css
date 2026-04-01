@@ -1,26 +1,7 @@
 :root.theme-light {
   --bg-bends-opacity: 0.78;
-  --bg-bends-overlay:
-    radial-gradient(
-      circle at 86% 26%,
-      rgba(249, 247, 243, 0.72) 0%,
-      rgba(249, 247, 243, 0.34) 18%,
-      rgba(249, 247, 243, 0) 42%
-    ),
-    radial-gradient(
-      circle at 50% 6%,
-      rgba(252, 250, 247, 0.78) 0%,
-      rgba(252, 250, 247, 0.4) 30%,
-      rgba(252, 250, 247, 0) 64%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(247, 245, 242, 0.64) 0%,
-      rgba(247, 245, 242, 0.26) 24%,
-      rgba(247, 245, 242, 0.08) 42%,
-      rgba(247, 245, 242, 0) 58%
-    );
-  --bg-bends-overlay-opacity: 1;
+  --bg-bends-overlay: none;
+  --bg-bends-overlay-opacity: 0;
   --glass-shell-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
   --cursor-default-backup:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23f2f1ee' stroke='%23888888' stroke-width='0.75' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E")

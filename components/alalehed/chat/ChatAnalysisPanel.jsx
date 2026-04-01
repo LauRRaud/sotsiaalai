@@ -1,6 +1,7 @@
 "use client";
 
-import { memo, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 import OptionCard from "@/components/ui/OptionCard";
@@ -46,10 +47,13 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const previewRef = useRef(null);
   const scrollTrackRef = useRef(null);
   const contextHintWrapRef = useRef(null);
+  const contextHintButtonRef = useRef(null);
+  const contextHintPopoverRef = useRef(null);
   const isDraggingScroll = useRef(false);
   const touchStartYRef = useRef(null);
   const [previewScroll, setPreviewScroll] = useState(0);
   const [contextHintOpen, setContextHintOpen] = useState(false);
+  const [contextHintPlacement, setContextHintPlacement] = useState(null);
   useEffect(() => {
     function updateScrollFromClientY(clientY) {
       const track = scrollTrackRef.current;
@@ -104,7 +108,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     if (!contextHintOpen) return undefined;
     function handlePointerDown(event) {
       const node = contextHintWrapRef.current;
-      if (!node || node.contains(event.target)) return;
+      const popover = contextHintPopoverRef.current;
+      if (node?.contains(event.target) || popover?.contains(event.target)) return;
       setContextHintOpen(false);
     }
     function handleKeyDown(event) {
@@ -117,6 +122,72 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [contextHintOpen]);
+  useLayoutEffect(() => {
+    if (!contextHintOpen || typeof window === "undefined") {
+      setContextHintPlacement(null);
+      return undefined;
+    }
+
+    const updatePlacement = () => {
+      const trigger = contextHintButtonRef.current;
+      const popover = contextHintPopoverRef.current;
+      if (!trigger || !popover) return;
+
+      const margin = 12;
+      const gap = 10;
+      const rect = trigger.getBoundingClientRect();
+      const popRect = popover.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const width = Math.min(
+        popRect.width || 0,
+        Math.max(0, viewportWidth - margin * 2)
+      );
+      const centerX = rect.left + rect.width / 2;
+      const left = Math.min(
+        Math.max(centerX, margin + width / 2),
+        viewportWidth - margin - width / 2
+      );
+      const spaceBelow = viewportHeight - rect.bottom - gap - margin;
+      const spaceAbove = rect.top - gap - margin;
+      const fitsBelow = spaceBelow >= popRect.height;
+      const fitsAbove = spaceAbove >= popRect.height;
+      const placeAbove = isMobileViewport
+        ? (fitsAbove || spaceAbove > 0)
+        : (!fitsBelow && (fitsAbove || spaceAbove > spaceBelow));
+      const top = placeAbove
+        ? Math.max(rect.top - gap - popRect.height, margin)
+        : Math.min(rect.bottom + gap, viewportHeight - margin - popRect.height);
+
+      setContextHintPlacement({
+        top,
+        left,
+        width
+      });
+    };
+
+    let raf2 = 0;
+    const raf1 = window.requestAnimationFrame(() => {
+      raf2 = window.requestAnimationFrame(updatePlacement);
+    });
+
+    const onScroll = () => {
+      window.requestAnimationFrame(updatePlacement);
+    };
+    const onResize = () => {
+      window.requestAnimationFrame(updatePlacement);
+    };
+
+    window.addEventListener("scroll", onScroll, true);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.cancelAnimationFrame(raf1);
+      window.cancelAnimationFrame(raf2);
+      window.removeEventListener("scroll", onScroll, true);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [contextHintOpen, isMobileViewport]);
   const handlePreviewTouchStart = event => {
     const touch = event.touches?.[0];
     touchStartYRef.current = touch?.clientY ?? null;
@@ -234,19 +305,46 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "!min-h-[2.5rem] !h-[2.5rem] !w-[2.5rem] !px-0 !py-0 !rounded-full " +
     "!text-[1.15rem] !leading-[1] !tracking-[-0.02em]";
   const tooltipClassName =
-    "absolute left-1/2 bottom-[calc(100%+0.45rem)] -translate-x-1/2 " +
-    "min-w-[14rem] max-w-[min(18rem,90vw)] rounded-[0.95rem] px-[0.7rem] py-[0.75rem] " +
-    "bg-[color:var(--rail-tooltip-bg)] text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2))] text-[0.98rem] " +
-    "leading-[1.42] tracking-[0.01em] text-center shadow-[var(--rail-tooltip-shadow)] border border-[color:var(--rail-tooltip-border,transparent)] " +
-    "z-[9999] " +
-    "max-[768px]:fixed max-[768px]:left-1/2 max-[768px]:top-1/2 max-[768px]:bottom-auto " +
-    "max-[768px]:w-[min(20rem,calc(100vw-1.2rem))] max-[768px]:max-w-[calc(100vw-1.2rem)] " +
-    "max-[768px]:max-h-[calc(100dvh-8rem)] max-[768px]:overflow-y-auto " +
-    "max-[768px]:px-[0.85rem] max-[768px]:py-[0.85rem] max-[768px]:text-[0.95rem] " +
-    "max-[768px]:[transform:translate(-50%,-50%)]";
-  const tooltipArrowClassName =
-    "absolute left-1/2 -translate-x-1/2 bottom-[-0.25rem] h-[0.55rem] w-[0.55rem] " +
-    "rotate-45 bg-[color:var(--rail-tooltip-bg)] max-[768px]:hidden";
+    "fixed z-[9999] rounded-[0.95rem] px-[0.9rem] py-[0.85rem] text-center " +
+    "min-w-[14rem] max-w-[min(18rem,calc(100vw-1.2rem))] " +
+    "bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg,rgba(30,32,38,0.98)))] " +
+    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] " +
+    "text-[0.98rem] leading-[1.42] tracking-[0.01em] " +
+    "border border-[color:var(--opaque-panel-border,var(--rail-tooltip-border,rgba(255,255,255,0.12)))] " +
+    "shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow,0_12px_26px_rgba(0,0,0,0.22)))] " +
+    "backdrop-blur-0 backdrop-saturate-100 [backdrop-filter:none] [-webkit-backdrop-filter:none] " +
+    "max-[768px]:min-w-[min(18rem,calc(100vw-1.2rem))] max-[768px]:max-w-[calc(100vw-1.2rem)] " +
+    "max-[768px]:max-h-[calc(100dvh-8rem)] max-[768px]:overflow-y-auto max-[768px]:text-[0.95rem]";
+  const contextHintPopover =
+    contextHintOpen && typeof document !== "undefined"
+      ? createPortal(
+          <div
+            ref={contextHintPopoverRef}
+            role="dialog"
+            aria-modal="false"
+            aria-label={contextHint}
+            className={tooltipClassName}
+            style={
+              contextHintPlacement
+                ? {
+                    top: `${contextHintPlacement.top}px`,
+                    left: `${contextHintPlacement.left}px`,
+                    width: `${contextHintPlacement.width}px`,
+                    transform: "translateX(-50%)"
+                  }
+                : {
+                    top: "-10000px",
+                    left: "-10000px",
+                    width: "min(18rem, calc(100vw - 1.2rem))",
+                    transform: "translateX(-50%)"
+                  }
+            }
+          >
+            {contextHint}
+          </div>,
+          document.body
+        )
+      : null;
   const handleClose = () => {
     setUploadPreview(null);
     setUploadError(null);
@@ -321,6 +419,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                   </OptionCard>
                 <div ref={contextHintWrapRef} className="relative z-[999]">
                   <Button
+                    ref={contextHintButtonRef}
                     type="button"
                     size="sm"
                     variant="primary"
@@ -333,21 +432,16 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                       e.stopPropagation();
                       setContextHintOpen(prev => !prev);
                     }}
-                  >
-                    ?
-                  </Button>
-                  {contextHintOpen ? (
-                    <div className={tooltipClassName} role="status" aria-live="polite">
-                      {contextHint}
-                      <span className={tooltipArrowClassName} aria-hidden="true" />
-                    </div>
-                  ) : null}
+                    >
+                      ?
+                    </Button>
                 </div>
               </div>
               </div>
               <p id="chat-upload-context-hint" className="sr-only">
                 {contextHint}
               </p>
+              {contextHintPopover}
               {previewText ? (
                 <div className={actionsInlineClassName}>
                   <Button

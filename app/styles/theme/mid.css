@@ -24,8 +24,8 @@
   --mid-bg-top: #9f807a;
   --mid-bg-mid: #7e5f58;
   --mid-bg-bottom: #644843;
-  --glass-surface-bg: rgba(253, 250, 249, 0.34);
-  --glass-ring-surface-bg: rgba(252, 248, 247, 0.38);
+  --glass-surface-bg: rgba(253, 249, 247, 0.36);
+  --glass-ring-surface-bg: rgba(251, 245, 242, 0.4);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --glass-surface-text: #2c3340;
   --glass-modal-text: #2c3340;

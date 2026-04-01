@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { cn } from "@/components/ui/cn";
 import { linkBrandBase } from "@/components/ui/linkStyles";
 const baseStyles = "button inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative overflow-hidden transition-[filter,border-color,box-shadow,opacity] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] cursor-pointer appearance-none [-webkit-appearance:none] backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [-webkit-font-smoothing:antialiased] [text-rendering:geometricPrecision] [&>*]:relative [&>*]:z-[1]";
@@ -37,7 +38,7 @@ const sizeStyles = {
   md: "",
   lg: "text-[1.2rem] px-[1.35rem] py-[0.8rem] min-h-[2.85rem]"
 };
-export default function Button({
+const Button = forwardRef(function Button({
   as = "button",
   href,
   variant = "primary",
@@ -48,7 +49,7 @@ export default function Button({
   onClick,
   children,
   ...props
-}) {
+}, ref) {
   const Component = as === "a" ? "a" : "button";
   const isDisabled = Boolean(disabled);
   const variantClass = variantStyles[variant] ?? variantStyles.primary;
@@ -61,7 +62,9 @@ export default function Button({
     }
     onClick?.(event);
   };
-  return <Component href={as === "a" ? href : undefined} type={as === "button" ? props.type ?? "button" : undefined} aria-disabled={isDisabled ? "true" : undefined} tabIndex={as === "a" && isDisabled ? -1 : props.tabIndex} disabled={as === "button" ? isDisabled : undefined} data-variant={useBaseStyles ? variant : undefined} className={cn(useBaseStyles ? baseStyles : null, useBaseStyles ? sizeStyles[size] ?? sizeStyles.md : null, useBaseStyles && fullWidth ? "w-full" : null, variantClass, className)} onClick={handleClick} {...props}>{useBaseStyles ? <span className="relative z-[1] inline-flex items-center justify-center gap-[inherit]">
+  return <Component ref={ref} href={as === "a" ? href : undefined} type={as === "button" ? props.type ?? "button" : undefined} aria-disabled={isDisabled ? "true" : undefined} tabIndex={as === "a" && isDisabled ? -1 : props.tabIndex} disabled={as === "button" ? isDisabled : undefined} data-variant={useBaseStyles ? variant : undefined} className={cn(useBaseStyles ? baseStyles : null, useBaseStyles ? sizeStyles[size] ?? sizeStyles.md : null, useBaseStyles && fullWidth ? "w-full" : null, variantClass, className)} onClick={handleClick} {...props}>{useBaseStyles ? <span className="relative z-[1] inline-flex items-center justify-center gap-[inherit]">
         {children}
       </span> : children}</Component>;
-}
+});
+
+export default Button;

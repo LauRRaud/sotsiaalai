@@ -14,9 +14,9 @@
   }
 
   :root.theme-mid {
-    --glass-surface-bg: rgba(253, 250, 249, 0.34);
-    --glass-ring-surface-bg: rgba(252, 248, 247, 0.38);
-    --glass-modal-bg: rgba(252, 248, 247, 0.38);
+    --glass-surface-bg: rgba(253, 249, 247, 0.36);
+    --glass-ring-surface-bg: rgba(251, 245, 242, 0.4);
+    --glass-modal-bg: rgba(251, 245, 242, 0.4);
     --panel-secondary-bg: var(
       --mid-pill-surface-bg,
       var(--input-flat-bg, var(--input-bg))
@@ -54,7 +54,10 @@
   }
 
   :root.theme-mid body.homepage {
-    --home-panel-mobile-bg: rgba(252, 248, 247, 0.8);
+    --home-panel-mobile-bg: var(
+      --glass-ring-surface-bg,
+      rgba(251, 245, 242, 0.4)
+    );
   }
 
   :root:not(.theme-light):not(.theme-mid):not(.theme-night) body.homepage {
@@ -107,10 +110,12 @@
 
   :root.theme-mid .homepage-root .home-about-panel,
   :root.theme-mid .homepage-root .home-before-panel {
-    background-color: var(--home-panel-mobile-bg, rgba(253, 250, 249, 0.85)) !important;
-    background-image: none !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    background: var(
+      --home-panel-mobile-bg,
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+    ) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
 
   :root:not(.theme-light):not(.theme-mid):not(.theme-night) .homepage-root .home-about-panel {
@@ -1770,8 +1775,8 @@
   }
 
   :root.theme-mid .mobile-keep-desktop-glass-cards {
-    --glass-surface-bg: rgba(253, 250, 249, 0.34);
-    --glass-ring-surface-bg: rgba(252, 248, 247, 0.38);
+    --glass-surface-bg: rgba(253, 249, 247, 0.36);
+    --glass-ring-surface-bg: rgba(251, 245, 242, 0.4);
     --glass-modal-bg: var(--glass-ring-surface-bg);
     --panel-secondary-bg: var(--btn-primary-bg);
     --panel-secondary-border: transparent;
