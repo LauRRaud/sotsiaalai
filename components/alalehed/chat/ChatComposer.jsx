@@ -679,9 +679,9 @@ export default function ChatComposer({
               {careerModeLocked ? (
                 <span
                   aria-hidden="true"
-                  className="ml-[0.42rem] inline-flex items-center justify-center rounded-full border-0 bg-transparent p-0 text-[0.78rem] text-[rgba(203,213,225,0.76)] light:text-[rgba(122,58,56,0.82)]"
+                  className="ml-[0.42rem] inline-flex h-[1rem] w-[1rem] shrink-0 items-center justify-center rounded-full border-0 bg-transparent p-0 text-[rgba(203,213,225,0.76)] light:text-[rgba(122,58,56,0.82)]"
                 >
-                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" className="block shrink-0">
+                  <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" className="block h-[1rem] w-[1rem] shrink-0">
                     <path d="M8.5 10.2V8.1a3.5 3.5 0 1 1 7 0v2.1" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
                     <path d="M7.4 10.2h9.2c.66 0 1.2.54 1.2 1.2v5.2c0 .66-.54 1.2-1.2 1.2H7.4c-.66 0-1.2-.54-1.2-1.2v-5.2c0-.66.54-1.2 1.2-1.2Z" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" />
                     <path d="M12 12.3v2.4" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
