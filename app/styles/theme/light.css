@@ -1,5 +1,5 @@
 :root.theme-light {
-  --bg-bends-opacity: 0.78;
+  --bg-bends-opacity: 0.9;
   --bg-bends-overlay: none;
   --bg-bends-overlay-opacity: 0;
   --glass-shell-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
@@ -37,8 +37,8 @@
   --glass-input-bg-idle: rgba(18, 20, 32, 0.18);
   --glass-input-bg-active: rgba(18, 20, 32, 0.24);
   --glass-blur-radius: 1rem;
-  --glass-surface-bg: rgba(251, 252, 253, 0.52);
-  --glass-ring-surface-bg: var(--glass-surface-bg);
+  --glass-surface-bg: rgba(252, 251, 249, 0.64);
+  --glass-ring-surface-bg: rgba(251, 250, 248, 0.68);
   --glass-surface-text: #2b2620;
   --chat-ui-solid-surface: rgb(249, 249, 248);
   --chat-rail-tooltip-bg: rgb(249, 249, 248);
@@ -49,7 +49,7 @@
   --chat-invite-list-border: var(--subpage-card-border);
   --chat-invite-shadow: var(--subpage-card-shadow);
   --chat-invite-text: var(--subpage-card-text);
-  --glass-modal-bg: var(--glass-surface-bg);
+  --glass-modal-bg: var(--glass-ring-surface-bg);
   --glass-modal-text: var(--chat-invite-text);
   --glass-modal-border: none;
   --glass-modal-shadow: var(--chat-invite-shadow);

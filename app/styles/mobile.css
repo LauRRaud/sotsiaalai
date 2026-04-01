@@ -5,9 +5,9 @@
 
 @media (max-width: 768px) {
   :root.theme-light {
-    --glass-surface-bg: rgba(251, 252, 253, 0.44);
-    --glass-ring-surface-bg: var(--glass-surface-bg);
-    --glass-modal-bg: var(--glass-surface-bg);
+    --glass-surface-bg: rgba(252, 251, 249, 0.56);
+    --glass-ring-surface-bg: rgba(251, 250, 248, 0.6);
+    --glass-modal-bg: var(--glass-ring-surface-bg);
     --panel-secondary-bg: var(--btn-primary-bg);
     --subpage-card-bg: var(--btn-primary-bg);
     --subpage-card-bg-hover: var(--btn-primary-bg-hover);
