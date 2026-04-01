@@ -547,9 +547,13 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "py-[clamp(0.28rem,1vw,0.6rem)] " +
     "[--analysis-preview-pad-x:clamp(0.75rem,2.2vw,1.35rem)] " +
     "[--analysis-preview-pad-right:clamp(0.2rem,0.9vw,0.6rem)] " +
+    "[--analysis-preview-fade-top:clamp(1.45rem,3.2vh,2.25rem)] " +
+    "[--analysis-preview-fade-bottom:clamp(1.7rem,3.5vh,2.45rem)] " +
     "overflow-y-auto overflow-x-hidden overscroll-contain [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:none] [overscroll-behavior-y:contain] [touch-action:pan-y] " +
     "text-[1.18rem] leading-[1.92] tracking-[0.02em] " +
     "text-[color:var(--glass-surface-text,#f2f2f2)] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
+    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.32)_calc(var(--analysis-preview-fade-top)*0.34),rgba(0,0,0,0.82)_calc(var(--analysis-preview-fade-top)*0.72),#000_var(--analysis-preview-fade-top),#000_calc(100%-var(--analysis-preview-fade-bottom)),rgba(0,0,0,0.82)_calc(100%-(var(--analysis-preview-fade-bottom)*0.66)),rgba(0,0,0,0.3)_calc(100%-(var(--analysis-preview-fade-bottom)*0.28)),transparent_100%)] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.32)_calc(var(--analysis-preview-fade-top)*0.34),rgba(0,0,0,0.82)_calc(var(--analysis-preview-fade-top)*0.72),#000_var(--analysis-preview-fade-top),#000_calc(100%-var(--analysis-preview-fade-bottom)),rgba(0,0,0,0.82)_calc(100%-(var(--analysis-preview-fade-bottom)*0.66)),rgba(0,0,0,0.3)_calc(100%-(var(--analysis-preview-fade-bottom)*0.28)),transparent_100%)] " +
     "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
     "backdrop-blur-0 [-webkit-backdrop-filter:none] " +
