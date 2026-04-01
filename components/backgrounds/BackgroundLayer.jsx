@@ -108,8 +108,11 @@ const BackgroundContent = memo(function BackgroundContent({
   const prioritizeBackgroundEffects = isHomepage && mobileBackgroundMode;
   const baseColorBendsProps = mobileBackgroundMode
     ? {
-        performanceMode: "performance",
-        maxDpr: 1.1
+        performanceMode: "balanced",
+        maxDpr: 1.1,
+        rotation: -58,
+        edgeTightness: 1,
+        thicknessBias: 0
       }
     : wideViewport
       ? {

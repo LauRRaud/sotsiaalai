@@ -100,7 +100,10 @@ void main() {
   p += uPointer * uParallax * 0.1;
   vec2 rp = vec2(p.x * uRot.x - p.y * uRot.y, p.x * uRot.y + p.y * uRot.x);
 
-  vec2 q = vec2(rp.x * (uCanvas.x / uCanvas.y), rp.y);
+  float aspect = uCanvas.x / max(uCanvas.y, 0.0001);
+  float portraitBlend = 1.0 - smoothstep(0.55, 0.95, aspect);
+  float aspectScale = mix(aspect, max(aspect, 0.68), portraitBlend);
+  vec2 q = vec2(rp.x * aspectScale, rp.y);
   q /= max(uScale, 0.0001);
   q /= 0.5 + 0.2 * dot(q, q);
   q += 0.2 * cos(t) - 7.56;
