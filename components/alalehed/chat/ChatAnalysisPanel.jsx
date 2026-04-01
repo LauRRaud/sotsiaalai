@@ -502,7 +502,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex flex-col items-center justify-center gap-[0.6rem] flex-wrap relative z-[60] " +
     "pt-[0.15rem] mb-[0.6rem]";
   const titleBlockClassName =
-    "w-full min-w-0 text-center pt-[0.1rem] px-[0.2rem] pr-[3rem]";
+    "w-full min-w-0 text-center pt-[0.1rem] px-[0.2rem] pl-[3rem] pr-[3rem] " +
+    "max-[768px]:pl-[3.3rem] max-[768px]:pr-[3.3rem]";
   const fileNameClassName =
     "text-[1.25rem] font-[600] leading-[1.28] tracking-[0.04em] [overflow-wrap:anywhere] break-words " +
     "text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
