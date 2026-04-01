@@ -23,7 +23,6 @@ export default function HomeFooter({ className, logoClassName }) {
           )}
           aria-hidden="true"
           focusable="false"
-          style={{ "--end-op": "0.8" }}
         />
       </div>
     </footer>

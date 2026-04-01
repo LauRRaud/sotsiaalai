@@ -307,7 +307,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const tooltipClassName =
     "fixed z-[9999] rounded-[0.95rem] px-[0.9rem] py-[0.85rem] text-center " +
     "min-w-[14rem] max-w-[min(18rem,calc(100vw-1.2rem))] " +
-    "bg-[color:var(--opaque-panel-bg,var(--rail-tooltip-bg,rgba(30,32,38,0.98)))] " +
+    "bg-[color:var(--chat-upload-hint-bg,rgba(30,32,38,1))] [background-image:none] " +
     "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] " +
     "text-[0.98rem] leading-[1.42] tracking-[0.01em] " +
     "border border-[color:var(--opaque-panel-border,var(--rail-tooltip-border,rgba(255,255,255,0.12)))] " +
