@@ -10,7 +10,7 @@ import { glassPrimaryButtonToneClassName } from "@/components/ui/glassPageStyles
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 
 const docToggleCardClassName =
-  "!inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
+  "chat-analysis-toggle-btn !inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
   "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
   "[&>span.shrink-0]:-translate-y-[0.08rem] " +
   "invite-sponsor-toggle-card " +
@@ -315,10 +315,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const uploadButtonClassName =
     `documents-primary-button documents-primary-button--compact documents-upload-choose-button ${glassPrimaryButtonToneClassName}`;
   const invitePrimaryButtonClassName =
-    "drawer-pill-btn invite-primary-btn !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
-    `max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem] ${glassPrimaryButtonToneClassName}`;
+    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
+    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
   const actionPrimaryButtonClassName =
-    invitePrimaryButtonClassName;
+    `${invitePrimaryButtonClassName} invite-primary-btn chat-analysis-action-btn`;
   const actionSecondaryButtonClassName = actionPrimaryButtonClassName;
   const previewWrapClassName =
     "relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
@@ -349,7 +349,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex flex-col gap-[1.25rem] text-[1.05rem] items-center text-center";
   const metaClassName = "mt-[0.35rem] text-[1.08rem]";
   const contextButtonClassName =
-    `${docToggleCardClassName} !min-w-[2.72rem] !justify-center !self-center !rounded-full !px-0 [&>span.shrink-0]:hidden [&>span:last-child]:flex-none [&>span:last-child]:justify-center`;
+    `${docToggleCardClassName} chat-analysis-help-btn !min-w-[2.72rem] !justify-center !self-center !rounded-full !px-0 [&>span.shrink-0]:hidden [&>span:last-child]:flex-none [&>span:last-child]:justify-center`;
   const tooltipClassName =
     "fixed z-[9999] rounded-[0.95rem] px-[0.9rem] py-[0.85rem] text-center " +
     "min-w-[14rem] max-w-[min(18rem,calc(100vw-1.2rem))] " +
