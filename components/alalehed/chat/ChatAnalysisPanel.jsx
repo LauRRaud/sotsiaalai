@@ -47,7 +47,6 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const previewRef = useRef(null);
   const scrollTrackRef = useRef(null);
   const contextHintWrapRef = useRef(null);
-  const contextHintButtonRef = useRef(null);
   const contextHintPopoverRef = useRef(null);
   const isDraggingScroll = useRef(false);
   const touchStartYRef = useRef(null);
@@ -129,7 +128,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     }
 
     const updatePlacement = () => {
-      const trigger = contextHintButtonRef.current;
+      const trigger = contextHintWrapRef.current;
       const popover = contextHintPopoverRef.current;
       if (!trigger || !popover) return;
 
@@ -152,9 +151,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       const spaceAbove = rect.top - gap - margin;
       const fitsBelow = spaceBelow >= popRect.height;
       const fitsAbove = spaceAbove >= popRect.height;
-      const placeAbove = isMobileViewport
-        ? (fitsAbove || spaceAbove > 0)
-        : (!fitsBelow && (fitsAbove || spaceAbove > spaceBelow));
+      const placeAbove = fitsAbove || !fitsBelow;
       const top = placeAbove
         ? Math.max(rect.top - gap - popRect.height, margin)
         : Math.min(rect.bottom + gap, viewportHeight - margin - popRect.height);
@@ -269,8 +266,11 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "w-full flex justify-center gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
   const uploadButtonClassName =
     `documents-primary-button documents-primary-button--compact documents-upload-choose-button ${glassPrimaryButtonToneClassName}`;
+  const invitePrimaryButtonClassName =
+    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
+    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
   const actionPrimaryButtonClassName =
-    `documents-primary-button documents-primary-button--compact ${glassPrimaryButtonToneClassName}`;
+    `${invitePrimaryButtonClassName} invite-primary-btn`;
   const actionSecondaryButtonClassName = actionPrimaryButtonClassName;
   const previewWrapClassName =
     "relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
@@ -301,13 +301,11 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex flex-col gap-[1.25rem] text-[1.05rem] items-center text-center";
   const metaClassName = "mt-[0.35rem] text-[1.08rem]";
   const contextButtonClassName =
-    "relative inline-flex items-center justify-center " +
-    "!min-h-[2.5rem] !h-[2.5rem] !w-[2.5rem] !px-0 !py-0 !rounded-full " +
-    "!text-[1.15rem] !leading-[1] !tracking-[-0.02em]";
+    `${docToggleCardClassName} [&>span.shrink-0]:hidden`;
   const tooltipClassName =
     "fixed z-[9999] rounded-[0.95rem] px-[0.9rem] py-[0.85rem] text-center " +
     "min-w-[14rem] max-w-[min(18rem,calc(100vw-1.2rem))] " +
-    "bg-[color:var(--chat-upload-hint-bg,rgba(30,32,38,1))] [background-image:none] " +
+    "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
     "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--glass-surface-text,#f2f2f2)))] " +
     "text-[0.98rem] leading-[1.42] tracking-[0.01em] " +
     "border border-[color:var(--opaque-panel-border,var(--rail-tooltip-border,rgba(255,255,255,0.12)))] " +
@@ -417,24 +415,18 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                   >
                     {extendedLabel}
                   </OptionCard>
-                <div ref={contextHintWrapRef} className="relative z-[999]">
-                  <Button
-                    ref={contextHintButtonRef}
-                    type="button"
-                    size="sm"
-                    variant="primary"
+                <div ref={contextHintWrapRef} className="relative z-[999] inline-flex w-fit">
+                  <OptionCard
+                    type="checkbox"
+                    checked={contextHintOpen}
+                    onChange={() => setContextHintOpen(prev => !prev)}
                     className={contextButtonClassName}
                     aria-label={contextHint}
                     aria-expanded={contextHintOpen ? "true" : "false"}
                     aria-describedby={contextHintOpen ? "chat-upload-context-hint" : undefined}
-                    onClick={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setContextHintOpen(prev => !prev);
-                    }}
-                    >
-                      ?
-                    </Button>
+                  >
+                    ?
+                  </OptionCard>
                 </div>
               </div>
               </div>

@@ -29,7 +29,8 @@ export default function OptionCard({
   className,
   children,
   fitTextLines,
-  fitTextMinPx = 16
+  fitTextMinPx = 16,
+  ...props
 }) {
   const internalRef = useRef(null);
   const resolvedRef = inputRef || internalRef;
@@ -109,7 +110,7 @@ export default function OptionCard({
       window.removeEventListener("resize", scheduleFit);
     };
   }, [children, fitTextLines, fitTextMinPx, resolvedRef]);
-  return <label data-checked={checked ? "true" : "false"} data-control-type={type} data-focus-visible={isFocusVisible ? "true" : "false"} className={cn(baseCard, disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer", className, checked ? selectedCard : null)}>
+  return <label data-checked={checked ? "true" : "false"} data-control-type={type} data-focus-visible={isFocusVisible ? "true" : "false"} className={cn(baseCard, disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer", className, checked ? selectedCard : null)} {...props}>
       <input ref={resolvedRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} onFocus={e => setIsFocusVisible(e.target.matches(":focus-visible"))} onBlur={() => setIsFocusVisible(false)} disabled={disabled} className="peer sr-only" style={visuallyHiddenInputStyle} tabIndex={0} />
       {indicator}
       <span ref={textRef} className="flex min-w-0 flex-1 items-center leading-[inherit] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [-webkit-font-smoothing:antialiased] [text-rendering:geometricPrecision] [transform:translateZ(0)]">
