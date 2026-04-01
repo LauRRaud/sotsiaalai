@@ -78,7 +78,10 @@ body.selected-listing-modal-open .chat-page-shell {
 .chat-container--input-focus .chat-window {
   --chat-arc-fade-depth: 78%;
   --chat-arc-side-alpha: 0.34;
-  --chat-window-curve-y: 72%;
+  --chat-window-curve-x: 108%;
+  --chat-window-curve-y: 64%;
+  --chat-window-curve-y-left: calc(var(--chat-window-curve-y) - 1.35%);
+  --chat-window-curve-y-right: calc(var(--chat-window-curve-y) + 1.35%);
   --chat-window-fade-top-active: var(--chat-window-fade-top-focus);
   --chat-window-fade-bottom-active: var(--chat-window-fade-bottom-focus);
 }
@@ -183,10 +186,10 @@ body.selected-listing-modal-open .chat-page-shell {
 @media (min-width: 768px) and (max-width: 1440px) and (max-height: 840px) {
   .chat-page-shell .chat-container.chat-container--round,
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
-    --chat-window-top-offset: -1.9rem !important;
-    --chat-window-pad-top: 0.42rem !important;
-    --chat-window-top-safe: 1.25rem !important;
-    --chat-content-top-offset: 0rem !important;
+    --chat-window-top-offset: -0.48rem !important;
+    --chat-window-pad-top: 0.72rem !important;
+    --chat-window-top-safe: 2.55rem !important;
+    --chat-content-top-offset: 1.1rem !important;
     --chat-window-fade-top: clamp(1.55rem, 3vh, 2.1rem) !important;
     --chat-window-fade-top-focus: clamp(1.55rem, 3vh, 2.1rem) !important;
   }

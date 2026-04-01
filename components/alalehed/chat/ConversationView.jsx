@@ -128,7 +128,7 @@ const ConversationView = memo(function ConversationView({
   const windowClassName =
     "chat-window relative flex flex-1 min-h-0 flex-col items-stretch gap-[0.75rem] " +
     "mt-[var(--chat-window-top-offset,0rem)] max-[768px]:flex-none max-[768px]:h-[calc(100%-var(--chat-window-bottom-gap,0rem)-var(--chat-vk-offset,0px)+var(--chat-window-mobile-extra-height,0rem))] max-[768px]:mb-[calc(var(--chat-window-bottom-gap,0rem)+var(--chat-vk-offset,0px))] max-h-[calc(100%-var(--chat-window-top-offset,0rem)-var(--chat-window-bottom-gap,0rem))] " +
-    "[--chat-window-corner:clamp(0.9rem,2.2vw,1.4rem)] [--chat-window-curve-x:100%] [--chat-window-curve-y:72%] [--chat-window-curve-y-left:calc(var(--chat-window-curve-y)-2%)] [--chat-window-curve-y-right:calc(var(--chat-window-curve-y)+2%)] " +
+    "[--chat-window-corner:clamp(0.9rem,2.2vw,1.4rem)] [--chat-window-curve-x:var(--chat-window-curve-x,96%)] [--chat-window-curve-y:var(--chat-window-curve-y,78%)] [--chat-window-curve-y-left:var(--chat-window-curve-y-left,calc(var(--chat-window-curve-y)-1.55%))] [--chat-window-curve-y-right:var(--chat-window-curve-y-right,calc(var(--chat-window-curve-y)+1.55%))] " +
     "[--chat-window-pad-x:var(--chat-window-pad-x,clamp(0.6rem,1.8vw,1.35rem))] [--chat-window-pad-top:var(--chat-window-pad-top,clamp(1.8rem,4vh,3rem))] " +
     "[--chat-window-bottom-safe:clamp(1.2rem,2.8vh,2.4rem)] [--chat-window-fade-top-default:1.35rem] " +
     "[--chat-window-fade-top-focus-default:2.1rem] [--chat-window-fade-top-focus:var(--chat-window-fade-top-focus-default)] [--chat-window-fade-top-active:var(--chat-window-fade-top,var(--chat-window-fade-top-default))] " +
@@ -137,11 +137,7 @@ const ConversationView = memo(function ConversationView({
     "[--chat-window-side-fade-in:18%] [--chat-window-side-fade-band:clamp(3.2rem,11vh,7rem)] " +
     "[--chat-arc-fade-width:84%] [--chat-arc-fade-depth:74%] [--chat-arc-rgb:14_18_28] [--chat-arc-center-alpha:0.14] [--chat-arc-side-alpha:0.3] [--chat-arc-mid-alpha:0.11] " +
     "[--chat-window-scroll-top-fade-start:1.5rem] [--chat-window-scroll-top-fade-mid:2.9rem] [--chat-window-scroll-top-fade-end:4.5rem] " +
-    "[--chat-window-top-text-fade:calc(var(--chat-window-fade-top-active)+var(--chat-window-top-text-fade-extra,5.6rem))] " +
     "[border-radius:var(--chat-window-curve-x)_var(--chat-window-curve-x)_var(--chat-window-corner)_var(--chat-window-corner)_/_var(--chat-window-curve-y-left)_var(--chat-window-curve-y-right)_var(--chat-window-corner)_var(--chat-window-corner)] " +
-    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.34)_calc(var(--chat-window-top-text-fade)*0.52),rgba(0,0,0,0.84)_calc(var(--chat-window-top-text-fade)*0.86),#000_var(--chat-window-top-text-fade),#000_100%)] " +
-    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.34)_calc(var(--chat-window-top-text-fade)*0.52),rgba(0,0,0,0.84)_calc(var(--chat-window-top-text-fade)*0.86),#000_var(--chat-window-top-text-fade),#000_100%)] " +
-    "[mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] " +
     "bg-transparent border-0 shadow-none isolate overflow-hidden " +
     "w-full max-w-[var(--chat-window-max-w,calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))-clamp(1.4rem,3vw,2.2rem)))] mx-auto " +
     "[transform:translateX(var(--chat-window-shift-x,0rem))_translateY(var(--chat-window-shift-y,0rem))] " +
