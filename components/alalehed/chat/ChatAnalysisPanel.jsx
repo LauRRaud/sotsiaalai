@@ -488,7 +488,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const cardOverlayClassName =
     "chat-analysis-overlay-card !isolation-auto";
   const cardClassName =
-    "chat-analysis-panel-card w-full max-w-none rounded-[1.55rem] border border-[color:color-mix(in_srgb,var(--glass-surface-text,#f2f2f2)_10%,transparent)] " +
+    "chat-analysis-panel-card w-full max-w-none rounded-[1.55rem] border-0 " +
     "bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
     "shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-blur-radius,1rem)] " +
     "[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
@@ -526,7 +526,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const controlsContextClassName =
     "w-full pt-[0.25rem] flex-col gap-[0.55rem]";
   const modeRowClassName =
-    "flex items-center justify-center gap-[0.5rem] flex-nowrap max-[480px]:flex-wrap";
+    "mx-auto inline-flex w-fit items-center justify-center gap-[0.5rem] flex-nowrap self-center";
   const actionsInlineClassName =
     "w-full flex justify-center gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
   const uploadButtonClassName =
@@ -552,8 +552,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "overflow-y-auto overflow-x-hidden overscroll-contain [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:none] [overscroll-behavior-y:contain] [touch-action:pan-y] " +
     "text-[1.18rem] leading-[1.92] tracking-[0.02em] " +
     "text-[color:var(--glass-surface-text,#f2f2f2)] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
-    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.32)_calc(var(--analysis-preview-fade-top)*0.34),rgba(0,0,0,0.82)_calc(var(--analysis-preview-fade-top)*0.72),#000_var(--analysis-preview-fade-top),#000_calc(100%-var(--analysis-preview-fade-bottom)),rgba(0,0,0,0.82)_calc(100%-(var(--analysis-preview-fade-bottom)*0.66)),rgba(0,0,0,0.3)_calc(100%-(var(--analysis-preview-fade-bottom)*0.28)),transparent_100%)] " +
-    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.32)_calc(var(--analysis-preview-fade-top)*0.34),rgba(0,0,0,0.82)_calc(var(--analysis-preview-fade-top)*0.72),#000_var(--analysis-preview-fade-top),#000_calc(100%-var(--analysis-preview-fade-bottom)),rgba(0,0,0,0.82)_calc(100%-(var(--analysis-preview-fade-bottom)*0.66)),rgba(0,0,0,0.3)_calc(100%-(var(--analysis-preview-fade-bottom)*0.28)),transparent_100%)] " +
+    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.08)_calc(var(--analysis-preview-fade-top)*0.16),rgba(0,0,0,0.28)_calc(var(--analysis-preview-fade-top)*0.38),rgba(0,0,0,0.62)_calc(var(--analysis-preview-fade-top)*0.68),rgba(0,0,0,0.9)_calc(var(--analysis-preview-fade-top)*0.9),#000_var(--analysis-preview-fade-top),#000_calc(100%-var(--analysis-preview-fade-bottom)),rgba(0,0,0,0.92)_calc(100%-(var(--analysis-preview-fade-bottom)*0.86)),rgba(0,0,0,0.68)_calc(100%-(var(--analysis-preview-fade-bottom)*0.62)),rgba(0,0,0,0.34)_calc(100%-(var(--analysis-preview-fade-bottom)*0.34)),rgba(0,0,0,0.1)_calc(100%-(var(--analysis-preview-fade-bottom)*0.12)),transparent_100%)] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.08)_calc(var(--analysis-preview-fade-top)*0.16),rgba(0,0,0,0.28)_calc(var(--analysis-preview-fade-top)*0.38),rgba(0,0,0,0.62)_calc(var(--analysis-preview-fade-top)*0.68),rgba(0,0,0,0.9)_calc(var(--analysis-preview-fade-top)*0.9),#000_var(--analysis-preview-fade-top),#000_calc(100%-var(--analysis-preview-fade-bottom)),rgba(0,0,0,0.92)_calc(100%-(var(--analysis-preview-fade-bottom)*0.86)),rgba(0,0,0,0.68)_calc(100%-(var(--analysis-preview-fade-bottom)*0.62)),rgba(0,0,0,0.34)_calc(100%-(var(--analysis-preview-fade-bottom)*0.34)),rgba(0,0,0,0.1)_calc(100%-(var(--analysis-preview-fade-bottom)*0.12)),transparent_100%)] " +
     "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
     "backdrop-blur-0 [-webkit-backdrop-filter:none] " +
@@ -570,7 +570,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex flex-col gap-[1.25rem] text-[1.05rem] items-center text-center";
   const metaClassName = "mt-[0.35rem] text-[1.08rem]";
   const contextButtonClassName =
-    `${docToggleCardClassName} chat-analysis-help-btn !min-w-[2.72rem] !justify-center !self-center !rounded-full !px-0 [&>span.shrink-0]:hidden [&>span:last-child]:flex-none [&>span:last-child]:justify-center`;
+    `${docToggleCardClassName} chat-analysis-help-btn !my-0 !min-w-[2.72rem] !justify-center !self-center !rounded-full !px-0 [&>span.shrink-0]:hidden [&>span:last-child]:flex-none [&>span:last-child]:justify-center`;
   const tooltipClassName =
     "fixed z-[9999] rounded-[0.95rem] px-[0.9rem] py-[0.85rem] text-center " +
     "min-w-[14rem] max-w-[min(18rem,calc(100vw-1.2rem))] " +
@@ -685,7 +685,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                   >
                     {extendedLabel}
                   </OptionCard>
-                <div ref={contextHintWrapRef} className="relative z-[999] inline-flex w-fit">
+                <div
+                  ref={contextHintWrapRef}
+                  className="relative z-[999] inline-flex w-fit shrink-0 items-center self-center"
+                >
                   <OptionCard
                     type="checkbox"
                     checked={contextHintOpen}
