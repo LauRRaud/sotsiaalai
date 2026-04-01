@@ -1248,7 +1248,7 @@ html[data-contrast="hc"] :is(
 html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card [data-control-type][data-checked="false"] {
   border-color: rgba(255, 234, 0, 0.62) !important;
 }
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card .chat-analysis-action-btn.button[data-variant="primary"] {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"] {
   color: var(--hc-accent) !important;
   background: var(--btn-primary-bg) !important;
   border: 2px solid rgba(255, 234, 0, 0.66) !important;
@@ -1256,22 +1256,22 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card .chat-analysis-action-btn.button[data-variant="primary"]::before {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"]::before {
   background: var(--btn-primary-bg-hover) !important;
 }
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card .chat-analysis-action-btn.button[data-variant="primary"]:is(:hover, :focus-visible) {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"]:is(:hover, :focus-visible) {
   color: var(--hc-accent) !important;
   background: var(--btn-primary-bg-hover) !important;
   border: 2px solid rgba(255, 234, 0, 0.9) !important;
   box-shadow: var(--btn-primary-shadow-hover) !important;
 }
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card .chat-analysis-action-btn.button[data-variant="primary"]:active {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"]:active {
   color: var(--hc-accent) !important;
   background: var(--btn-primary-bg-active) !important;
   border: 2px solid rgba(255, 234, 0, 0.95) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card .chat-analysis-toggle-btn[data-control-type] {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-btn[data-control-type] {
   --seg-card-border-width: 2px !important;
   --seg-card-bg: var(--btn-primary-bg) !important;
   --seg-card-bg-hover: var(--btn-primary-bg-hover) !important;
@@ -1289,7 +1289,7 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card
   --seg-card-text-hover: var(--hc-accent) !important;
   --seg-card-text-selected: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card .chat-analysis-toggle-btn[data-control-type][data-checked="true"] {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-btn[data-control-type][data-checked="true"] {
   background: rgba(255, 234, 0, 0.1) !important;
   border-color: rgba(255, 234, 0, 0.94) !important;
   box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;

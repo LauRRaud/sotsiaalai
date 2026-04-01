@@ -69,6 +69,23 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const [previewScroll, setPreviewScroll] = useState(0);
   const [contextHintOpen, setContextHintOpen] = useState(false);
   const [contextHintPlacement, setContextHintPlacement] = useState(null);
+  const [isHighContrast, setIsHighContrast] = useState(false);
+  useEffect(() => {
+    if (typeof document === "undefined") return undefined;
+    const root = document.documentElement;
+    const syncContrast = () => {
+      setIsHighContrast(root.dataset.contrast === "hc");
+    };
+    syncContrast();
+    const observer = new MutationObserver(syncContrast);
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ["data-contrast"]
+    });
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
   useEffect(() => {
     function updateScrollFromClientY(clientY) {
       const track = scrollTrackRef.current;
@@ -233,6 +250,205 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       window.removeEventListener("resize", onResize);
     };
   }, [contextHintOpen, isMobileViewport]);
+  useLayoutEffect(() => {
+    if (typeof document === "undefined") return undefined;
+    const panelNode = analysisPanelRef?.current;
+    if (!panelNode) return undefined;
+    const actionButtons = Array.from(
+      panelNode.querySelectorAll(".chat-analysis-action-btn")
+    );
+    const toggleButtons = Array.from(
+      panelNode.querySelectorAll(".chat-analysis-toggle-btn")
+    );
+    const tooltipNodes = Array.from(
+      document.querySelectorAll(".chat-analysis-overlay-hint")
+    );
+    const clearNodeStyles = (node, properties) => {
+      properties.forEach(property => node.style.removeProperty(property));
+    };
+    const buttonProperties = [
+      "color",
+      "background",
+      "border",
+      "box-shadow",
+      "backdrop-filter",
+      "-webkit-backdrop-filter",
+      "--btn-primary-bg",
+      "--btn-primary-bg-hover",
+      "--btn-primary-bg-active",
+      "--btn-primary-border",
+      "--btn-primary-border-hover",
+      "--btn-primary-border-active",
+      "--btn-primary-shadow",
+      "--btn-primary-shadow-hover",
+      "--btn-primary-shadow-active",
+      "--btn-primary-shadow-focus",
+      "--btn-primary-text"
+    ];
+    const toggleProperties = [
+      "color",
+      "background",
+      "border",
+      "box-shadow",
+      "--seg-card-border-width",
+      "--seg-card-bg",
+      "--seg-card-bg-hover",
+      "--seg-card-bg-selected",
+      "--seg-card-bg-active",
+      "--seg-card-shadow",
+      "--seg-card-shadow-hover",
+      "--seg-card-shadow-selected",
+      "--seg-card-shadow-active",
+      "--seg-card-border",
+      "--seg-card-border-hover",
+      "--seg-card-border-selected",
+      "--seg-card-border-active",
+      "--seg-card-text",
+      "--seg-card-text-hover",
+      "--seg-card-text-selected"
+    ];
+    const tooltipProperties = ["color", "border", "box-shadow"];
+    if (!isHighContrast) {
+      actionButtons.forEach(node => clearNodeStyles(node, buttonProperties));
+      toggleButtons.forEach(node => clearNodeStyles(node, toggleProperties));
+      tooltipNodes.forEach(node => clearNodeStyles(node, tooltipProperties));
+      return undefined;
+    }
+
+    const hcButtonBg = `radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(222, 236, 255, 0.108) 0%,
+      rgba(222, 236, 255, 0.048) 42%,
+      rgba(222, 236, 255, 0.016) 58%,
+      rgba(222, 236, 255, 0) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(26, 35, 49, 0.92) 0%,
+      rgba(16, 25, 39, 0.94) 100%
+    )`;
+    const hcButtonBgHover = `linear-gradient(
+      0deg,
+      rgba(255, 234, 0, 0.045) 0%,
+      rgba(255, 234, 0, 0.045) 100%
+    ),
+    radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(222, 236, 255, 0.135) 0%,
+      rgba(222, 236, 255, 0.06) 42%,
+      rgba(222, 236, 255, 0.02) 58%,
+      rgba(222, 236, 255, 0) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(31, 42, 58, 0.93) 0%,
+      rgba(19, 30, 46, 0.95) 100%
+    )`;
+    const hcButtonBgActive = `linear-gradient(
+      0deg,
+      rgba(255, 234, 0, 0.07) 0%,
+      rgba(255, 234, 0, 0.07) 100%
+    ),
+    radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(222, 236, 255, 0.13) 0%,
+      rgba(222, 236, 255, 0.055) 42%,
+      rgba(222, 236, 255, 0.017) 58%,
+      rgba(222, 236, 255, 0) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(28, 38, 53, 0.91) 0%,
+      rgba(18, 27, 42, 0.93) 100%
+    )`;
+    const hcButtonShadow =
+      "inset 0 1px 0 rgba(220, 236, 255, 0.1), 0 5px 12px rgba(2, 6, 16, 0.24)";
+    const hcButtonShadowHover =
+      "inset 0 1px 0 rgba(220, 236, 255, 0.12), 0 7px 14px rgba(2, 6, 16, 0.28)";
+    const hcButtonShadowActive =
+      "inset 0 1px 0 rgba(220, 236, 255, 0.08), 0 4px 10px rgba(2, 6, 16, 0.22)";
+    const hcButtonShadowFocus =
+      "inset 0 1px 0 rgba(220, 236, 255, 0.16), 0 8px 18px rgba(2, 6, 16, 0.32), 0 0 0 2px rgba(255, 234, 0, 0.44)";
+    const setImportant = (node, property, value) => {
+      node.style.setProperty(property, value, "important");
+    };
+
+    actionButtons.forEach(node => {
+      setImportant(node, "color", "var(--hc-accent)");
+      setImportant(node, "background", hcButtonBg);
+      setImportant(node, "border", "2px solid rgba(255, 234, 0, 0.66)");
+      setImportant(node, "box-shadow", hcButtonShadow);
+      setImportant(node, "backdrop-filter", "none");
+      setImportant(node, "-webkit-backdrop-filter", "none");
+      setImportant(node, "--btn-primary-bg", hcButtonBg);
+      setImportant(node, "--btn-primary-bg-hover", hcButtonBgHover);
+      setImportant(node, "--btn-primary-bg-active", hcButtonBgActive);
+      setImportant(node, "--btn-primary-border", "2px solid rgba(255, 234, 0, 0.66)");
+      setImportant(node, "--btn-primary-border-hover", "2px solid rgba(255, 234, 0, 0.9)");
+      setImportant(node, "--btn-primary-border-active", "2px solid rgba(255, 234, 0, 0.95)");
+      setImportant(node, "--btn-primary-shadow", hcButtonShadow);
+      setImportant(node, "--btn-primary-shadow-hover", hcButtonShadowHover);
+      setImportant(node, "--btn-primary-shadow-active", hcButtonShadowActive);
+      setImportant(node, "--btn-primary-shadow-focus", hcButtonShadowFocus);
+      setImportant(node, "--btn-primary-text", "var(--hc-accent)");
+    });
+
+    toggleButtons.forEach(node => {
+      const checked = node.dataset.checked === "true";
+      setImportant(node, "--seg-card-border-width", "2px");
+      setImportant(node, "--seg-card-bg", hcButtonBg);
+      setImportant(node, "--seg-card-bg-hover", hcButtonBgHover);
+      setImportant(node, "--seg-card-bg-selected", "rgba(255, 234, 0, 0.1)");
+      setImportant(node, "--seg-card-bg-active", hcButtonBgActive);
+      setImportant(node, "--seg-card-shadow", hcButtonShadow);
+      setImportant(node, "--seg-card-shadow-hover", hcButtonShadowHover);
+      setImportant(node, "--seg-card-shadow-selected", "0 0 0 1px rgba(255, 234, 0, 0.64)");
+      setImportant(node, "--seg-card-shadow-active", hcButtonShadowActive);
+      setImportant(node, "--seg-card-border", "rgba(255, 234, 0, 0.62)");
+      setImportant(node, "--seg-card-border-hover", "rgba(255, 234, 0, 0.9)");
+      setImportant(node, "--seg-card-border-selected", "rgba(255, 234, 0, 0.94)");
+      setImportant(node, "--seg-card-border-active", "rgba(255, 234, 0, 0.95)");
+      setImportant(node, "--seg-card-text", "var(--hc-accent)");
+      setImportant(node, "--seg-card-text-hover", "var(--hc-accent)");
+      setImportant(node, "--seg-card-text-selected", "var(--hc-accent)");
+      setImportant(node, "color", "var(--hc-accent)");
+      setImportant(
+        node,
+        "background",
+        checked ? "rgba(255, 234, 0, 0.1)" : hcButtonBg
+      );
+      setImportant(
+        node,
+        "border",
+        checked
+          ? "2px solid rgba(255, 234, 0, 0.94)"
+          : "2px solid rgba(255, 234, 0, 0.62)"
+      );
+      setImportant(
+        node,
+        "box-shadow",
+        checked
+          ? "0 0 0 1px rgba(255, 234, 0, 0.64)"
+          : hcButtonShadow
+      );
+    });
+
+    tooltipNodes.forEach(node => {
+      setImportant(node, "color", "var(--hc-accent)");
+      setImportant(node, "border", "2px solid rgba(255, 234, 0, 0.72)");
+      setImportant(node, "box-shadow", "none");
+    });
+
+    return undefined;
+  }, [
+    analysisCollapsed,
+    analysisPanelRef,
+    contextHintOpen,
+    docOnlyMode,
+    isHighContrast,
+    previewText,
+    uploadPreview
+  ]);
   const handlePreviewTouchStart = event => {
     const touch = event.touches?.[0];
     touchStartYRef.current = touch?.clientY ?? null;
@@ -272,7 +488,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const cardOverlayClassName =
     "chat-analysis-overlay-card !isolation-auto";
   const cardClassName =
-    "w-full max-w-none rounded-[1.55rem] border border-[color:color-mix(in_srgb,var(--glass-surface-text,#f2f2f2)_10%,transparent)] " +
+    "chat-analysis-panel-card w-full max-w-none rounded-[1.55rem] border border-[color:color-mix(in_srgb,var(--glass-surface-text,#f2f2f2)_10%,transparent)] " +
     "bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
     "shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-blur-radius,1rem)] " +
     "[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +

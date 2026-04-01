@@ -468,7 +468,7 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn:a
   --btn-primary-shadow: var(--btn-primary-shadow-active);
 }
 
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-action-btn {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn {
   color: var(--hc-accent) !important;
   background: var(--btn-primary-bg) !important;
   border: 2px solid rgba(255, 234, 0, 0.66) !important;
@@ -477,25 +477,25 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-action-btn {
   backdrop-filter: none !important;
 }
 
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-action-btn::before {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn::before {
   background: var(--btn-primary-bg-hover) !important;
 }
 
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-action-btn:is(:hover, :focus-visible) {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn:is(:hover, :focus-visible) {
   color: var(--hc-accent) !important;
   background: var(--btn-primary-bg-hover) !important;
   border: 2px solid rgba(255, 234, 0, 0.9) !important;
   box-shadow: var(--btn-primary-shadow-hover) !important;
 }
 
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-action-btn:active {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn:active {
   color: var(--hc-accent) !important;
   background: var(--btn-primary-bg-active) !important;
   border: 2px solid rgba(255, 234, 0, 0.95) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }
 
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type] {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-btn[data-control-type] {
   --seg-card-border-width: 2px !important;
   --seg-card-bg: var(--btn-primary-bg) !important;
   --seg-card-bg-hover: var(--btn-primary-bg-hover) !important;
@@ -514,7 +514,7 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-toggle-btn[d
   --seg-card-text-selected: var(--hc-accent) !important;
 }
 
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type][data-checked="true"] {
+html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-btn[data-control-type][data-checked="true"] {
   background: rgba(255, 234, 0, 0.1) !important;
   border-color: rgba(255, 234, 0, 0.94) !important;
   box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
