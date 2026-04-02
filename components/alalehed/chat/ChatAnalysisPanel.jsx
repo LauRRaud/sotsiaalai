@@ -541,7 +541,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     `${invitePrimaryButtonClassName} invite-primary-btn chat-analysis-action-btn`;
   const actionSecondaryButtonClassName = actionPrimaryButtonClassName;
   const previewWrapClassName =
-    "relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
+    "chat-analysis-preview-wrap relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
     "ml-[calc(-1*var(--analysis-card-pad-x))] mr-[calc(-1*var(--analysis-card-pad-x))]";
   const previewClassName =
     "relative flex-1 min-h-[260px] max-h-[clamp(38rem,80vh,70rem)] " +
@@ -562,7 +562,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "backdrop-blur-0 [-webkit-backdrop-filter:none] " +
     "max-[768px]:[overscroll-behavior-y:auto]";
   const scrollTrackClassName =
-    "absolute top-[0.6rem] bottom-[0.6rem] right-0 w-[1.7rem] " +
+    "chat-analysis-scroll-track absolute top-[0.6rem] bottom-[0.6rem] right-0 w-[1.7rem] " +
     "bg-transparent border-0 cursor-[var(--cursor-pointer)] " +
     "flex items-center justify-center";
   const scrollThumbClassName =

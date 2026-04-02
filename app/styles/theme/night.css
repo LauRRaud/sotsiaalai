@@ -21,7 +21,7 @@
 :root.theme-night {
   --glass-surface-bg: rgba(15, 14, 17, 0.35);
   --glass-ring-surface-bg: rgba(18, 17, 20, 0.39);
-  --home-panel-bg: rgba(9, 18, 30, 0.86);
+  --home-panel-bg: rgba(13, 17, 24, 0.86);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --chat-card-surface-night-standard-bg: radial-gradient(
     ellipse at top,

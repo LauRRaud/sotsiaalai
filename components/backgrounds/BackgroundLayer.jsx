@@ -206,11 +206,36 @@ const BackgroundContent = memo(function BackgroundContent({
     let raf = 0;
     let bindRetry = 0;
     let scrollHost = null;
+    let useWindowScroll = false;
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const resolveScrollBinding = () => {
+      const homepageRoot = document.querySelector(".homepage-root");
+      if (
+        resolveDisplayModeFromDom() === "browser" &&
+        homepageRoot instanceof HTMLElement
+      ) {
+        return {
+          host: homepageRoot,
+          useWindow: false
+        };
+      }
+      return {
+        host: document.scrollingElement || document.documentElement,
+        useWindow: true
+      };
+    };
     const getScrollY = () => {
-      const hostY = scrollHost && typeof scrollHost.scrollTop === "number" ? scrollHost.scrollTop : 0;
-      const windowY = window.scrollY || document.documentElement.scrollTop || document.body?.scrollTop || 0;
-      return Math.max(hostY, windowY);
+      if (!useWindowScroll) {
+        return scrollHost && typeof scrollHost.scrollTop === "number"
+          ? scrollHost.scrollTop
+          : 0;
+      }
+      return (
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body?.scrollTop ||
+        0
+      );
     };
     const update = () => {
       raf = 0;
@@ -223,25 +248,31 @@ const BackgroundContent = memo(function BackgroundContent({
       raf = window.requestAnimationFrame(update);
     };
     const attach = () => {
-      scrollHost =
-        document.querySelector(".homepage-root") ||
-        document.scrollingElement ||
-        document.documentElement;
+      const binding = resolveScrollBinding();
+      scrollHost = binding.host;
+      useWindowScroll = binding.useWindow;
       if (!scrollHost) {
         bindRetry = window.requestAnimationFrame(attach);
         return;
       }
-      scrollHost.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.visualViewport?.addEventListener("scroll", onScroll, { passive: true });
+      if (useWindowScroll) {
+        window.addEventListener("scroll", onScroll, { passive: true });
+      } else {
+        scrollHost.addEventListener("scroll", onScroll, { passive: true });
+      }
+      window.addEventListener("resize", onScroll);
+      window.visualViewport?.addEventListener("resize", onScroll);
       update();
     };
     attach();
     return () => {
       if (bindRetry) window.cancelAnimationFrame(bindRetry);
-      if (scrollHost) scrollHost.removeEventListener("scroll", onScroll);
+      if (!useWindowScroll && scrollHost) {
+        scrollHost.removeEventListener("scroll", onScroll);
+      }
       window.removeEventListener("scroll", onScroll);
-      window.visualViewport?.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.visualViewport?.removeEventListener("resize", onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
   }, [particlesParallaxActive]);

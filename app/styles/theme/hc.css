@@ -1,24 +1,26 @@
 html[data-contrast="hc"] {
   --home-panel-bg: rgba(9, 18, 30, 0.86);
   --chat-card-surface-night-standard-bg: radial-gradient(
-    ellipse at top,
+    124% 96% at 50% 6%,
     rgba(27, 39, 53, 0.5) 0%,
-    rgba(9, 10, 15, 0.6) 100%
+    rgba(20, 29, 40, 0.55) 46%,
+    rgba(16, 20, 28, 0.6) 100%
   );
   --chat-card-surface-night-standard-flat-bg: linear-gradient(
     180deg,
     rgba(24, 35, 49, 0.52) 0%,
-    rgba(11, 15, 23, 0.62) 100%
+    rgba(18, 22, 30, 0.62) 100%
   );
   --chat-card-surface-night-strong-bg: radial-gradient(
-    ellipse at top,
+    124% 96% at 50% 6%,
     rgb(27, 39, 53) 0%,
-    rgb(9, 10, 15) 100%
+    rgb(20, 29, 40) 46%,
+    rgb(16, 20, 28) 100%
   );
   --chat-card-surface-night-flat-bg: linear-gradient(
     180deg,
     rgb(24, 35, 49) 0%,
-    rgb(11, 15, 23) 100%
+    rgb(18, 22, 30) 100%
   );
   --cursor-default-backup:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E")

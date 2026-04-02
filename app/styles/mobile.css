@@ -2143,6 +2143,20 @@
     padding-right: calc(var(--chat-window-pad-x, 0.7rem) - 0.06rem) !important;
   }
 
+  .chat-page-shell--analysis-scroll .chat-analysis-preview-wrap {
+    padding-right: clamp(0.72rem, 3.4vw, 1rem) !important;
+  }
+
+  .chat-page-shell--analysis-scroll .chat-analysis-preview {
+    padding-right: calc(
+      var(--analysis-preview-pad-right, 0.35rem) + clamp(0.3rem, 1.4vw, 0.5rem)
+    ) !important;
+  }
+
+  .chat-page-shell--analysis-scroll .chat-analysis-scroll-track {
+    right: clamp(0.08rem, 0.9vw, 0.24rem) !important;
+  }
+
   .chat-page-shell--analysis-scroll {
     overflow-y: auto !important;
     overflow-x: hidden !important;
