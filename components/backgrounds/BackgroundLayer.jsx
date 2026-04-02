@@ -205,11 +205,15 @@ const BackgroundContent = memo(function BackgroundContent({
     if (!particlesParallaxActive) return;
     let raf = 0;
     let bindRetry = 0;
-    let scrollHost = null;
+    let homepageRoot = null;
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
     const isUsableElement = value => value instanceof HTMLElement;
-    const resolveScrollBinding = () => {
-      const homepageRoot = document.querySelector(".homepage-root");
+    const getHomepageRoot = () => {
+      const root = document.querySelector(".homepage-root");
+      return isUsableElement(root) ? root : null;
+    };
+    const resolveScrollY = () => {
+      homepageRoot = getHomepageRoot();
       const rootIsScrollable =
         isUsableElement(homepageRoot) &&
         homepageRoot.scrollHeight > homepageRoot.clientHeight + 1;
@@ -217,15 +221,7 @@ const BackgroundContent = memo(function BackgroundContent({
         resolveDisplayModeFromDom() === "browser" &&
         rootIsScrollable
       ) {
-        return homepageRoot;
-      }
-      return document.scrollingElement || document.documentElement;
-    };
-    const getScrollY = () => {
-      const activeHost = resolveScrollBinding();
-      scrollHost = activeHost;
-      if (isUsableElement(activeHost) && typeof activeHost.scrollTop === "number") {
-        return activeHost.scrollTop;
+        return homepageRoot.scrollTop;
       }
       return (
         window.scrollY ||
@@ -236,7 +232,7 @@ const BackgroundContent = memo(function BackgroundContent({
     };
     const update = () => {
       raf = 0;
-      const y = getScrollY();
+      const y = resolveScrollY();
       const particlesY = -clamp(y * 0.15, 0, 260);
       el.style.setProperty("--saai-parallax-particles", `${particlesY.toFixed(2)}px`);
     };
@@ -245,14 +241,14 @@ const BackgroundContent = memo(function BackgroundContent({
       raf = window.requestAnimationFrame(update);
     };
     const attach = () => {
-      scrollHost = resolveScrollBinding();
-      if (!scrollHost) {
+      homepageRoot = getHomepageRoot();
+      if (!homepageRoot && !document.scrollingElement && !document.documentElement) {
         bindRetry = window.requestAnimationFrame(attach);
         return;
       }
       window.addEventListener("scroll", onScroll, { passive: true });
-      if (isUsableElement(scrollHost)) {
-        scrollHost.addEventListener("scroll", onScroll, { passive: true });
+      if (homepageRoot) {
+        homepageRoot.addEventListener("scroll", onScroll, { passive: true });
       }
       window.addEventListener("resize", onScroll);
       window.visualViewport?.addEventListener("resize", onScroll);
@@ -261,8 +257,8 @@ const BackgroundContent = memo(function BackgroundContent({
     attach();
     return () => {
       if (bindRetry) window.cancelAnimationFrame(bindRetry);
-      if (isUsableElement(scrollHost)) {
-        scrollHost.removeEventListener("scroll", onScroll);
+      if (homepageRoot) {
+        homepageRoot.removeEventListener("scroll", onScroll);
       }
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
