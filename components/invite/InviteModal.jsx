@@ -97,17 +97,17 @@ export default function InviteModal() {
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[7rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.78rem] max-[768px]:!py-[0.2rem] max-[768px]:!text-[1.03rem] max-[768px]:!tracking-[0.024em]";
   const inviteSponsorToggleClassName =
-    "!inline-flex !w-full !justify-center !justify-self-stretch !self-stretch !mt-[0.28rem] !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
+    "!inline-flex !w-fit !justify-center !justify-self-center !self-center !mt-[0.28rem] !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
     "[&>span.shrink-0]:-translate-y-[0.08rem] " +
     `${inviteOptionButtonClassName} ` +
     "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
   const inviteRoleCardClassName =
-    "!w-full !max-w-none !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
+    "!w-[min(100%,18.2rem)] !max-w-none !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-[min(100%,18.2rem)] max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
     `[&>span:last-child]:justify-center [&>span:last-child]:text-center [&>span:last-child]:[text-wrap:balance] ` +
     inviteOptionButtonClassName;
   const inviteSponsoredUnifiedPanelClassName =
-    `${glassSubpagePanelWideClassName} px-[0.05rem] py-[0.15rem] ` +
+    `${glassSubpagePanelWideClassName} px-[0.35rem] py-[0.15rem] ` +
     "text-[color:var(--pt-120)] max-[768px]:max-w-none max-[768px]:px-0 max-[768px]:py-0";
   const inviteSponsoredCardBodyClassName =
     "grid gap-[0.68rem] pt-[0.95rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";

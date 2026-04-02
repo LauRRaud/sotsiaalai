@@ -44,7 +44,7 @@ const subscriptionInfoTextClassName =
 const subscriptionSupplementTextClassName = `${subscriptionInfoTextClassName} m-0`;
 const subscriptionUnifiedPanelClassName =
   `${glassSubpagePanelWideClassName} px-[0.5rem] py-[0.15rem] ` +
-  "text-[color:var(--pt-120)] max-[768px]:max-w-none max-[768px]:px-[0.12rem] max-[768px]:py-0";
+  "text-[color:var(--pt-120)] max-[768px]:max-w-none max-[768px]:px-[0.34rem] max-[768px]:py-0";
 const subscriptionCardBodyClassName =
   "grid gap-[0.68rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";
 const subscriptionCheckoutCardBodyClassName =
@@ -65,11 +65,11 @@ const subscriptionCheckboxRowClassName =
 const subscriptionCheckoutFooterClassName = "mt-[-0.1rem] flex justify-center";
 const subscriptionActionClassName =
   "min-w-[10.2rem] whitespace-nowrap px-[1.45rem] py-[0.82rem] text-[1.12rem] leading-[1.2] " +
-  "max-[768px]:w-full max-[768px]:min-w-0 max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";
+  "max-[768px]:!w-fit max-[768px]:min-w-[10.2rem] max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";
 const subscriptionStatusClassName =
   "subscription-status-text m-0 text-left text-[1.04rem] leading-[1.52] font-[500]";
 const subscriptionActivePanelClassName =
-  `subscription-active-panel ${glassSubpagePanelWideClassName} px-[0.5rem] py-[0.15rem] max-[768px]:px-[0.12rem]`;
+  `subscription-active-panel ${glassSubpagePanelWideClassName} px-[0.5rem] py-[0.15rem] max-[768px]:px-[0.34rem]`;
 const subscriptionActiveSummaryClassName =
   "subscription-active-summary text-left text-[1.08rem] leading-[1.56] font-[600] tracking-[0.004em] text-[color:var(--glass-modal-text)]";
 const subscriptionActiveNoteClassName =
