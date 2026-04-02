@@ -1540,7 +1540,7 @@ export default function LoginModal({
             <div className="w-full mt-[0.96rem] max-[768px]:mt-[0.62rem] flex justify-center">
               <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className={`${glassSubpageFieldInputClassName} !w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] text-center !text-center placeholder:opacity-100 placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] !px-[1.2rem] !py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.12em]`} />
             </div>
-            {otpInlineError ? <p id="otp-inline-error" role="alert" className="mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
+            {otpInlineError ? <p id="otp-inline-error" role="alert" className="m-0 mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
                 {otpInlineError}
               </p> : null}
 

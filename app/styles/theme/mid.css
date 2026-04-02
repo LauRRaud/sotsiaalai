@@ -5,6 +5,16 @@
   --mid-bg-bottom: #644843;
   --glass-surface-bg: rgba(253, 249, 247, 0.36);
   --glass-ring-surface-bg: rgba(251, 245, 242, 0.4);
+  --mid-round-shell-shadow:
+    0 18px 34px rgba(12, 7, 6, 0.22),
+    0 9px 18px rgba(12, 7, 6, 0.12);
+  --mid-shell-soft-shadow:
+    0 16px 28px rgba(12, 7, 6, 0.15),
+    0 8px 14px rgba(12, 7, 6, 0.08);
+  --glass-shell-shadow:
+    var(--mid-round-shell-shadow);
+  --glass-ring-glow-dark:
+    0 14px 24px -12px rgba(44, 28, 25, 0.3);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --glass-surface-text: #2c3340;
   --glass-modal-text: #2c3340;
@@ -660,6 +670,26 @@
     0 16px 30px rgba(82, 50, 46, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.66),
     inset 0 -1px 0 rgba(126, 95, 88, 0.09);
+}
+
+:root.theme-mid :is(
+  .glass-ring.glass-ring--desktop-stable,
+  .policy-mobile-lower.glass-ring.glass-ring--desktop-stable,
+  .guide-policy-ring.glass-ring.glass-ring--desktop-stable
+) {
+  box-shadow: var(--mid-round-shell-shadow) !important;
+}
+
+:root.theme-mid :is(
+  .help-listings-modal-content,
+  .invite-modal-content,
+  .person-invite-modal-content,
+  .materials-page-content,
+  .chat-analysis-overlay .chat-analysis-overlay-card,
+  .account-settings-modal-content,
+  .subscription-modal-content
+) {
+  box-shadow: var(--mid-shell-soft-shadow) !important;
 }
 
 /* Orbital menu bubbles: keep the light-theme material logic, but tint it for mid. */
