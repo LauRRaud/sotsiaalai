@@ -934,16 +934,18 @@
 :root.theme-mid .materials-comment-box,
 :root.theme-light.theme-mid .materials-comment-box {
   --input-bg: var(--subpage-card-bg);
-  --input-bg-hover: var(--subpage-card-bg-hover);
-  --input-bg-focus: var(--subpage-card-bg-hover);
+  --input-bg-hover: var(--subpage-card-bg);
+  --input-bg-focus: var(--subpage-card-bg);
   --input-border: 0 solid transparent;
   --input-radius: var(--subpage-card-radius);
   --input-text: var(--subpage-card-text);
   --input-caret: var(--subpage-card-text);
   --input-placeholder: rgba(73, 84, 101, 0.72);
   --input-shadow: var(--subpage-card-shadow);
-  --input-shadow-hover: var(--subpage-card-shadow-hover);
-  --input-shadow-focus-composite: var(--subpage-card-shadow-hover);
+  --input-shadow-hover: var(--subpage-card-shadow);
+  --input-shadow-composite: var(--subpage-card-shadow);
+  --input-shadow-hover-composite: var(--subpage-card-shadow);
+  --input-shadow-focus-composite: var(--subpage-card-shadow);
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
   --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0);
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0);

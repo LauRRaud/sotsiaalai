@@ -30,12 +30,11 @@ const materialsSectionClassName =
 const materialsUploadSectionClassName =
   "materials-upload-panel grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] " +
   "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]"
-const materialsTextareaShellClassName =
-  `materials-comment-box min-h-[7.4rem] rounded-[1.05rem] ${glassSubpageCardClassName} ` +
-  "px-[1rem] py-[0.9rem] max-[768px]:px-[1.05rem] max-[768px]:py-[0.86rem]"
 const materialsTextareaClassName =
-  "w-full min-h-[5.4rem] resize-none overflow-hidden rounded-[0.92rem] border-0 bg-transparent px-0 py-0 text-[1.05rem] leading-[1.36] text-[color:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] shadow-none outline-none " +
-  "placeholder:text-[color:rgba(73,84,101,0.72)] placeholder:opacity-100 focus-visible:outline-none focus-visible:shadow-none focus:shadow-none hover:shadow-none"
+  `materials-comment-box min-h-[7.4rem] resize-y overflow-y-auto rounded-[1.05rem] ${glassSubpageCardClassName} ` +
+  "px-[1rem] py-[0.9rem] text-[1.05rem] leading-[1.36] text-[color:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
+  "placeholder:text-[color:rgba(73,84,101,0.72)] placeholder:opacity-100 " +
+  "focus-visible:[background:var(--subpage-card-bg)] focus-visible:border-[color:var(--subpage-card-border)] focus-visible:shadow-[var(--subpage-card-shadow)]"
 const materialsSectionTitleClassName =
   "text-[1.22rem] font-[650] leading-[1.18] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]"
 const materialsSectionCopyClassName =
@@ -277,20 +276,13 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                 </p>
               ) : null}
 
-              <Panel
-                as="div"
-                variant="subpage"
-                padding="sm"
-                className={materialsTextareaShellClassName}
-              >
-                <Textarea
-                  value={comment}
-                  onChange={(event) => setComment(event.target.value)}
-                  rows={5}
-                  placeholder={t("materials_page.comment_placeholder_multiple")}
-                  className={materialsTextareaClassName}
-                />
-              </Panel>
+              <Textarea
+                value={comment}
+                onChange={(event) => setComment(event.target.value)}
+                rows={5}
+                placeholder={t("materials_page.comment_placeholder_multiple")}
+                className={materialsTextareaClassName}
+              />
 
               {error ? (
                 <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[1rem] py-[0.54rem] text-center text-[0.98rem] leading-[1.3] text-[rgba(255,223,218,0.96)]">
