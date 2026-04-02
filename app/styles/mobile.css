@@ -2510,11 +2510,6 @@
     margin-right: auto !important;
   }
 
-  :root.theme-mid .register-scroll {
-    -webkit-mask-image: none !important;
-    mask-image: none !important;
-  }
-
   :root.theme-mid .register-step--field {
     opacity: 1 !important;
     filter: none !important;

@@ -221,7 +221,6 @@ body.selected-listing-modal-open .chat-page-shell {
       calc(100% - var(--chat-window-inline-gap) - 0.5rem)
     ) !important;
     --chat-window-shift-x: calc(clamp(0.16rem, calc(var(--chat-diameter) * 0.005), 0.3rem) + 0.25rem) !important;
-    --chat-window-fade-top-active: var(--chat-window-fade-top) !important;
   }
 }
 
