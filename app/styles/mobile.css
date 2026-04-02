@@ -417,6 +417,24 @@
   .chat-analysis-overlay [data-control-type][data-checked="true"]:active::before {
     opacity: 1 !important;
   }
+
+  .chat-analysis-overlay :is(button.button, a.button)[data-variant="primary"] {
+    --btn-primary-bg-active: var(--btn-primary-bg);
+    --btn-primary-shadow-active: var(--btn-primary-shadow);
+    --btn-primary-border-active: var(--btn-primary-border);
+  }
+
+  .chat-analysis-overlay
+    :is(button.button, a.button)[data-variant="primary"]:is(:hover, :active) {
+    background: var(--btn-primary-bg) !important;
+    border: var(--btn-primary-border) !important;
+    box-shadow: var(--btn-primary-shadow) !important;
+  }
+
+  .chat-analysis-overlay
+    :is(button.button, a.button)[data-variant="primary"]:is(:hover, :active)::before {
+    opacity: 0 !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1033,8 +1051,8 @@
       100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     );
-    padding-top: clamp(0.9rem, 2.8vh, 1.25rem);
-    padding-bottom: clamp(0.85rem, 2.6vh, 1.2rem);
+    padding-top: clamp(0.62rem, 1.9vh, 0.92rem);
+    padding-bottom: clamp(0.58rem, 1.8vh, 0.88rem);
     padding-left: clamp(0.8rem, 3vw, 1rem);
     padding-right: clamp(0.8rem, 3vw, 1rem);
   }
@@ -1043,7 +1061,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    height: clamp(2.6rem, 6.8vh, 4.1rem);
+    height: clamp(2.2rem, 5.6vh, 3.45rem);
     z-index: 4;
     pointer-events: none;
     opacity: 1;
@@ -1054,10 +1072,10 @@
     top: 0;
     background: linear-gradient(
       180deg,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.44) 0%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.26) 24%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.12) 52%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.04) 76%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.28) 0%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.16) 22%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.07) 48%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.02) 72%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
     );
   }
@@ -1065,20 +1083,20 @@
     bottom: 0;
     background: linear-gradient(
       0deg,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.44) 0%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.26) 24%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.12) 52%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.04) 76%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.28) 0%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.16) 22%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.07) 48%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.02) 72%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
     );
   }
   .profile-orbit-stack-list {
-    --stack-edge-fade: clamp(1.45rem, 5.2vh, 2.9rem);
+    --stack-edge-fade: clamp(0.9rem, 3.2vh, 1.7rem);
     --stack-safe-pad-top: calc(
-      var(--stack-edge-fade) + clamp(0.7rem, 2vh, 1.15rem)
+      var(--stack-edge-fade) + clamp(0.34rem, 1vh, 0.62rem)
     );
     --stack-safe-pad-bottom: calc(
-      var(--stack-edge-fade) + clamp(0.7rem, 2vh, 1.15rem)
+      var(--stack-edge-fade) + clamp(0.34rem, 1vh, 0.62rem)
     );
     position: relative;
     z-index: 2;
@@ -1303,10 +1321,10 @@
   body[data-platform="android"] .profile-orbit-stack-fade--top {
     background: linear-gradient(
       180deg,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.52) 0%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.32) 24%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.16) 52%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.05) 76%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.32) 0%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.18) 22%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.08) 48%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.02) 72%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
     ) !important;
   }
@@ -1315,10 +1333,10 @@
   body[data-platform="android"] .profile-orbit-stack-fade--bottom {
     background: linear-gradient(
       0deg,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.52) 0%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.32) 24%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.16) 52%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.05) 76%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.32) 0%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.18) 22%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.08) 48%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.02) 72%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
     ) !important;
   }
@@ -2080,7 +2098,7 @@
       --chat-user-bubble-bg,
       var(--subpage-card-bg, var(--input-bg))
     ) !important;
-    background-color: rgba(238, 226, 220, 0.8) !important;
+    background-color: rgba(233, 221, 215, 0.84) !important;
     border: var(
       --chat-user-bubble-border,
       var(--subpage-card-border, var(--input-border, 0 solid transparent))
@@ -2095,8 +2113,8 @@
   :root.theme-mid .chat-page-shell .chat-msg-user:hover,
   :root.theme-mid .chat-page-shell .chat-msg-user:focus-within {
     background: var(
-      --chat-user-bubble-bg-hover,
-      var(--chat-user-bubble-bg, var(--subpage-card-bg, var(--input-bg)))
+      --chat-user-bubble-bg,
+      var(--subpage-card-bg, var(--input-bg))
     ) !important;
     background-color: rgba(233, 221, 215, 0.84) !important;
     border-color: var(

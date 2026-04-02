@@ -590,7 +590,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
             role="dialog"
             aria-modal="false"
             aria-label={contextHint}
-            className={`${tooltipClassName} chat-analysis-overlay-hint`}
+            className={`${tooltipClassName} chat-analysis-overlay-hint chat-tools-surface-popover`}
             style={
               contextHintPlacement
                 ? {

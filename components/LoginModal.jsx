@@ -27,7 +27,7 @@ const otpSubmitButtonClassName =
   "max-[768px]:!min-w-[clamp(8.4rem,36vw,10.2rem)] max-[768px]:!min-h-[3.48rem] max-[768px]:!px-[1.15rem] max-[768px]:!py-[0.9rem] max-[768px]:!text-[1.5rem]";
 const otpSubmitLabelClassName = "inline-flex items-center justify-center text-center leading-[1.06] tracking-[0.01em]";
 const helpPopoverClassName =
-  "login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] " +
+  "login-help-popover chat-tools-surface-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] " +
   "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border border-[color:var(--subpage-card-border)] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] backdrop-saturate-[120%]";
 const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(1.78rem,1.18rem+1.15vw,2.18rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.18rem,9vw,3rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const otpModalTitleClassName =
@@ -1035,12 +1035,10 @@ export default function LoginModal({
   }, [clearButtonFocus]);
   const triggerKeypadBounce = useCallback(target => {
     if (!(target instanceof HTMLElement)) return;
-    target.classList.remove("pin-keypad__button--bounce");
-    void target.offsetWidth;
     target.classList.add("pin-keypad__button--bounce");
-    window.setTimeout(() => {
-      target.classList.remove("pin-keypad__button--bounce");
-    }, 650);
+    target.style.animationName = "none";
+    void target.offsetWidth;
+    target.style.animationName = "";
   }, []);
   if (!open) return null;
   const isMidTheme = prefs?.theme === "mid";
@@ -1074,8 +1072,8 @@ export default function LoginModal({
       ? "0 5px 10px rgba(0, 0, 0, 0.11), 0 1px 1px rgba(20, 12, 10, 0.07), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
       : "0 5px 9px rgba(0, 0, 0, 0.09), 0 1px 1px rgba(15, 23, 42, 0.06), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(0, 0, 0, 0.09)"
     : isNightTheme
-      ? "0 4px 9px rgba(2, 6, 16, 0.13), 0 1px 1px rgba(15, 23, 42, 0.065), inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.04), inset 0 -1px 0 rgba(2, 6, 16, 0.19)"
-      : "0 4px 9px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(15, 23, 42, 0.065), inset 0 0 0 var(--pin-border-w) rgba(34, 42, 56, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.035), inset 0 -1px 0 rgba(0, 0, 0, 0.18)";
+      ? "0 4px 9px rgba(2, 6, 16, 0.13), 0 1px 1px rgba(15, 23, 42, 0.065), 0 6px 8px -6px rgba(208, 228, 255, 0.34), inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.04), inset 0 -1px 0 rgba(2, 6, 16, 0.19)"
+      : "0 4px 9px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(15, 23, 42, 0.065), 0 6px 8px -6px rgba(248, 253, 255, 0.22), inset 0 0 0 var(--pin-border-w) rgba(34, 42, 56, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.035), inset 0 -1px 0 rgba(0, 0, 0, 0.18)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
       ? "linear-gradient(138deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 22%, rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0) 66%, rgba(122, 58, 56, 0.045) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 72%)"
@@ -1453,6 +1451,7 @@ export default function LoginModal({
                 color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : "rgba(255, 255, 255, 0.95)",
                 background: pinKeyBackground,
                 boxShadow: pinKeyBoxShadow,
+                "--pin-gloss-op": pinGlossOpacityButton,
                 ...pinBounceVars
               }} ref={el => keypadRefs.current[idx] = el} onKeyDown={e => handleKeypadKeyDown(e, idx)} onPointerDown={e => {
                 triggerKeypadBounce(e.currentTarget);

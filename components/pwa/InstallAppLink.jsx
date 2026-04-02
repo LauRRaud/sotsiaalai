@@ -98,7 +98,7 @@ export default function InstallAppLink({
   const macHint = t("pwa.instructions.mac");
   const desktopHint = t("pwa.instructions.desktop");
   const helpPopoverClassName =
-    "fixed z-[9999] w-[min(18rem,calc(100vw-1.5rem))] max-[480px]:w-[min(19rem,calc(100vw-1rem))] rounded-[16px] " +
+    "chat-tools-surface-popover fixed z-[9999] w-[min(18rem,calc(100vw-1.5rem))] max-[480px]:w-[min(19rem,calc(100vw-1rem))] rounded-[16px] " +
     "border border-[color:var(--opaque-panel-border,var(--subpage-card-border))] px-[0.95rem] pt-[0.92rem] pb-[0.84rem] " +
     "[background:var(--opaque-panel-bg,var(--subpage-card-bg))] text-[color:var(--opaque-panel-text,var(--subpage-card-text))] " +
     "text-[1.02rem] leading-[1.42] shadow-[var(--opaque-panel-shadow,var(--subpage-card-shadow))] backdrop-blur-0 backdrop-saturate-100 " +

@@ -294,6 +294,16 @@ html[data-contrast="hc"] body .chat-tools-menu {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
+html[data-contrast="hc"] body .chat-tools-surface-popover {
+  background: var(
+    --chat-card-surface-night-strong-bg,
+    radial-gradient(ellipse at top, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
+  ) !important;
+  box-shadow: none !important;
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:hover,
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:focus-visible {
   color: var(--hc-accent) !important;

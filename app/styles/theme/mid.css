@@ -45,14 +45,14 @@
   --mid-utility-panel-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgb(249, 242, 239) 0%,
-      rgb(242, 233, 229) 42%,
-      rgb(234, 224, 219) 100%
+      rgb(247, 240, 237) 0%,
+      rgb(240, 231, 227) 42%,
+      rgb(232, 222, 217) 100%
     ),
     linear-gradient(
       180deg,
-      rgb(242, 234, 230) 0%,
-      rgb(234, 225, 221) 100%
+      rgb(240, 232, 228) 0%,
+      rgb(232, 223, 219) 100%
     );
   --chat-rail-tooltip-bg: var(--mid-utility-panel-bg);
   --chat-tools-panel-bg: var(--mid-utility-panel-bg);
@@ -80,14 +80,14 @@
   --mid-unified-surface-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(250, 243, 240, 0.68) 0%,
-      rgba(243, 234, 229, 0.6) 42%,
-      rgba(234, 223, 218, 0.54) 100%
+      rgba(249, 241, 238, 0.64) 0%,
+      rgba(241, 232, 228, 0.56) 42%,
+      rgba(232, 221, 216, 0.5) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(245, 237, 233, 0.46) 0%,
-      rgba(236, 226, 221, 0.4) 100%
+      rgba(243, 234, 230, 0.43) 0%,
+      rgba(234, 224, 220, 0.37) 100%
     );
   --mid-unified-surface-bg-active:
     radial-gradient(
@@ -102,13 +102,13 @@
       rgba(233, 222, 217, 0.44) 100%
     );
   --mid-unified-surface-border: 1px solid rgba(126, 95, 88, 0.16);
-  --mid-unified-surface-border-hover: 1px solid rgba(126, 95, 88, 0.22);
+  --mid-unified-surface-border-hover: 1px solid rgba(126, 95, 88, 0.19);
   --mid-unified-surface-shadow:
     0 6px 14px rgba(38, 24, 22, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.34);
   --mid-unified-surface-shadow-hover:
-    0 8px 18px rgba(38, 24, 22, 0.11),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+    0 7px 16px rgba(38, 24, 22, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
   --mid-unified-surface-shadow-active:
     0 7px 16px rgba(38, 24, 22, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.38);
@@ -128,8 +128,8 @@
   --input-shadow: var(--mid-unified-surface-shadow);
   --input-shadow-hover: var(--mid-unified-surface-shadow-hover);
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
-  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.12);
-  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.14);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.08);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.1);
   --btn-primary-hover-brightness: 1;
   --btn-primary-bg: var(--mid-unified-surface-bg);
   --btn-primary-bg-hover: var(--mid-unified-surface-bg-hover);
@@ -149,7 +149,7 @@
   --mid-pill-surface-bg-hover: var(--btn-primary-bg-hover);
   --mid-pill-surface-bg-active: var(--btn-primary-bg-active);
   --mid-pill-surface-border: rgba(126, 95, 88, 0.16);
-  --mid-pill-surface-border-hover: rgba(126, 95, 88, 0.22);
+  --mid-pill-surface-border-hover: rgba(126, 95, 88, 0.19);
   --mid-pill-surface-border-shorthand: var(--mid-unified-surface-border);
   --mid-pill-surface-shadow: var(--btn-primary-shadow);
   --mid-pill-surface-shadow-hover: var(--btn-primary-shadow-hover);
@@ -168,9 +168,9 @@
   --seg-card-text-hover: #81504b;
   --seg-card-text-selected: #7a3a38;
   --seg-card-border: rgba(126, 95, 88, 0.16);
-  --seg-card-border-hover: rgba(126, 95, 88, 0.22);
-  --seg-card-border-selected: rgba(126, 95, 88, 0.22);
-  --seg-card-border-active: rgba(126, 95, 88, 0.22);
+  --seg-card-border-hover: rgba(126, 95, 88, 0.19);
+  --seg-card-border-selected: rgba(126, 95, 88, 0.19);
+  --seg-card-border-active: rgba(126, 95, 88, 0.19);
   --seg-card-shadow: var(--mid-unified-surface-shadow);
   --seg-card-shadow-hover: var(--mid-unified-surface-shadow-hover);
   --seg-card-shadow-selected: var(--mid-unified-surface-shadow-hover);
@@ -198,14 +198,14 @@
   --subpage-card-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(247, 239, 236, 0.46) 0%,
-      rgba(240, 230, 226, 0.38) 44%,
-      rgba(232, 221, 216, 0.32) 100%
+      rgba(246, 238, 235, 0.43) 0%,
+      rgba(239, 229, 225, 0.36) 44%,
+      rgba(231, 220, 215, 0.3) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(241, 232, 228, 0.26) 0%,
-      rgba(233, 223, 219, 0.22) 100%
+      rgba(240, 231, 227, 0.24) 0%,
+      rgba(232, 222, 218, 0.2) 100%
     );
   --subpage-card-border: transparent;
   --subpage-card-border-width: 0px;
@@ -376,14 +376,14 @@
   --chat-user-bubble-bg:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(240, 228, 223, 0.42) 0%,
-      rgba(231, 218, 212, 0.36) 42%,
-      rgba(222, 210, 204, 0.3) 100%
+      rgba(243, 232, 227, 0.44) 0%,
+      rgba(234, 223, 217, 0.38) 42%,
+      rgba(225, 214, 208, 0.32) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(230, 218, 213, 0.24) 0%,
-      rgba(221, 210, 204, 0.2) 100%
+      rgba(233, 221, 216, 0.26) 0%,
+      rgba(224, 213, 208, 0.22) 100%
     );
   --chat-user-bubble-bg-hover:
     radial-gradient(
@@ -522,7 +522,7 @@
 
 :root.theme-mid .chat-msg-user {
   background: var(--chat-user-bubble-bg, var(--subpage-card-bg)) !important;
-  background-color: rgba(230, 218, 212, 0.82) !important;
+  background-color: rgba(233, 221, 215, 0.84) !important;
   border: var(--subpage-card-border, 0 solid transparent) !important;
   color: #2f3a4a;
   box-shadow: var(--chat-user-bubble-shadow, var(--subpage-card-shadow, var(--chat-inputbar-shadow))) !important;
@@ -530,18 +530,27 @@
 
 :root.theme-mid .chat-msg-user:hover,
 :root.theme-mid .chat-msg-user:focus-within {
-  background: var(--chat-user-bubble-bg-hover, var(--chat-user-bubble-bg, var(--subpage-card-bg))) !important;
+  background: var(--chat-user-bubble-bg, var(--subpage-card-bg)) !important;
   background-color: rgba(233, 221, 215, 0.84) !important;
   border-color: var(--subpage-card-border, transparent) !important;
   box-shadow: var(
-    --chat-user-bubble-shadow-hover,
-    var(--subpage-card-shadow-hover,
+    --chat-user-bubble-shadow,
+    var(--subpage-card-shadow,
     var(--chat-inputbar-shadow)
   )) !important;
 }
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
 :root.theme-mid .chat-tools-menu {
+  background: var(--chat-tools-panel-bg, rgb(252, 246, 244)) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mid .chat-tools-surface-popover {
   background: var(--chat-tools-panel-bg, rgb(252, 246, 244)) !important;
   box-shadow: var(--btn-primary-shadow) !important;
   border: 0 !important;

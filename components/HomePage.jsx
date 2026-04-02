@@ -29,6 +29,8 @@ const BLUR_REVEAL_DELAY_MS = 1850;
 const CARD_FADE_DURATION_MS = 2400;
 const CARD_FADE_DELAY_MS = 500;
 const HOME_FOOTER_STAGGER_MS = 220;
+const CARD_AUTO_PREVIEW_DURATION_MS = 2500;
+const CARD_AUTO_PREVIEW_INTERVAL_MS = 15000;
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 export default function HomePage() {
   const {
@@ -65,6 +67,7 @@ export default function HomePage() {
   const [homeA11yReady, setHomeA11yReady] = useState(() => initialSkipIntro);
   const [showHomeBottomSections, setShowHomeBottomSections] = useState(() => initialSkipIntro);
   const [showHomeFooter, setShowHomeFooter] = useState(() => initialSkipIntro);
+  const [autoPreviewActive, setAutoPreviewActive] = useState(false);
   const [_leftCardEl, setLeftCardEl] = useState(null);
   const [_rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
@@ -329,8 +332,9 @@ export default function HomePage() {
     return () => clearRegisteredTimeout(footerTimer);
   }, [cardsIntroDone, clearRegisteredTimeout, isLoginOpen, registerTimeout]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
-  const leftBackInteractive = isMobile ? flipAllowed : flipAllowed && !leftFlipping;
-  const rightBackInteractive = isMobile ? flipAllowed : flipAllowed && !rightFlipping;
+  const cardInteractionAllowed = flipAllowed && !autoPreviewActive;
+  const leftBackInteractive = isMobile ? cardInteractionAllowed : cardInteractionAllowed && !leftFlipping;
+  const rightBackInteractive = isMobile ? cardInteractionAllowed : cardInteractionAllowed && !rightFlipping;
   const suppressCardHoverFxClassName = isHomeOverlayOpen ?
     "[&:hover_.card-face.front>.glass-card]:[animation:none] " +
       "[&:focus-within_.card-face.front>.glass-card]:[animation:none] " +
@@ -346,7 +350,7 @@ export default function HomePage() {
       "[&:focus-within_.card-face.back>.centered-back-right]:[box-shadow:none]" : null;
   const onLeftEnter = () => {
     if (suppressFlipRef.current) return;
-    if (!flipAllowed) return;
+    if (!cardInteractionAllowed) return;
     if (!isMobile) {
       clearLeftFlipTimeout();
       setLeftFlipping(true);
@@ -359,7 +363,7 @@ export default function HomePage() {
   };
   const onLeftLeave = () => {
     if (suppressFlipRef.current) return;
-    if (!flipAllowed) return;
+    if (!cardInteractionAllowed) return;
     if (!isMobile) {
       clearLeftFlipTimeout();
       setLeftFlipping(true);
@@ -372,7 +376,7 @@ export default function HomePage() {
   };
   const onRightEnter = () => {
     if (suppressFlipRef.current) return;
-    if (!flipAllowed) return;
+    if (!cardInteractionAllowed) return;
     if (!isMobile) {
       clearRightFlipTimeout();
       setRightFlipping(true);
@@ -385,7 +389,7 @@ export default function HomePage() {
   };
   const onRightLeave = () => {
     if (suppressFlipRef.current) return;
-    if (!flipAllowed) return;
+    if (!cardInteractionAllowed) return;
     if (!isMobile) {
       clearRightFlipTimeout();
       setRightFlipping(true);
@@ -397,7 +401,7 @@ export default function HomePage() {
     }
   };
   const handleCardBackClick = side => e => {
-    if (!flipAllowed) return;
+    if (!cardInteractionAllowed) return;
     e?.stopPropagation?.();
     if (!isMobile) {
       startExitToChat(side);
@@ -416,7 +420,7 @@ export default function HomePage() {
     }));
   };
   const handleCardTap = side => event => {
-    if (!flipAllowed) return;
+    if (!cardInteractionAllowed) return;
     if (!isMobile) {
       startExitToChat(side);
       return;
@@ -450,14 +454,14 @@ export default function HomePage() {
     });
   };
   const handleCardClick = side => event => {
-    if (!flipAllowed) return;
+    if (!cardInteractionAllowed) return;
     if (isMobile) return;
     event?.preventDefault?.();
     event?.stopPropagation?.();
     startExitToChat(side);
   };
   const handleCardAccessibilityKeyDown = side => event => {
-    if (!flipAllowed) return;
+    if (!cardInteractionAllowed) return;
     if (event.key !== "Enter" && event.key !== " ") return;
     event.preventDefault();
     handleCardTap(side)(event);
@@ -485,6 +489,42 @@ export default function HomePage() {
       block: "start"
     });
   }, [prefs.reduceMotion]);
+  useEffect(() => {
+    if (
+      prefs.reduceMotion ||
+      isMobile ||
+      !cardsIntroDone ||
+      isLoginOpen ||
+      isHomeOverlayOpen ||
+      leftFlipping ||
+      rightFlipping ||
+      leftPhase !== "front" ||
+      rightPhase !== "front" ||
+      autoPreviewActive
+    ) {
+      return;
+    }
+    const previewTimer = registerTimeout(() => {
+      setAutoPreviewActive(true);
+      registerTimeout(() => {
+        setAutoPreviewActive(false);
+      }, CARD_AUTO_PREVIEW_DURATION_MS);
+    }, CARD_AUTO_PREVIEW_INTERVAL_MS);
+    return () => clearRegisteredTimeout(previewTimer);
+  }, [
+    autoPreviewActive,
+    cardsIntroDone,
+    clearRegisteredTimeout,
+    isHomeOverlayOpen,
+    isLoginOpen,
+    isMobile,
+    leftFlipping,
+    leftPhase,
+    prefs.reduceMotion,
+    registerTimeout,
+    rightFlipping,
+    rightPhase
+  ]);
   const onLeftTransitionEnd = e => {
     if (e?.propertyName !== "transform") return;
     clearLeftFlipTimeout();
@@ -514,24 +554,26 @@ export default function HomePage() {
     "three-d-card left relative mx-auto grid place-items-center rounded-full aspect-square " +
       "w-[calc(var(--card-size)*0.94)] [perspective:78rem] overflow-visible",
     "float-card animate-[float-vertical_6.7s_ease-in-out_infinite] [will-change:transform]",
-    flipAllowed ? "cursor-[var(--cursor-pointer)]" : "cursor-[var(--cursor-default)]",
+    cardInteractionAllowed ? "cursor-[var(--cursor-pointer)]" : "cursor-[var(--cursor-default)]",
     "[&.is-flipping_.card-wrapper]:[will-change:transform] " +
       "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
     suppressCardHoverFxClassName,
     isHomeOverlayOpen ? "opacity-0 invisible pointer-events-none" : null,
     leftFlipping ? "is-flipping" : null,
+    autoPreviewActive ? "is-auto-rotating" : null,
     mobileFlipReady.left ? "mobile-flipped-left" : null
   );
   const rightCardClassName = cn(
     "three-d-card right relative mx-auto grid place-items-center rounded-full aspect-square " +
       "w-[calc(var(--card-size)*0.94)] [perspective:78rem] overflow-visible",
     "float-card animate-[float-vertical_6.7s_ease-in-out_infinite] [will-change:transform]",
-    flipAllowed ? "cursor-[var(--cursor-pointer)]" : "cursor-[var(--cursor-default)]",
+    cardInteractionAllowed ? "cursor-[var(--cursor-pointer)]" : "cursor-[var(--cursor-default)]",
     "[&.is-flipping_.card-wrapper]:[will-change:transform] " +
       "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
     suppressCardHoverFxClassName,
     isHomeOverlayOpen ? "opacity-0 invisible pointer-events-none" : null,
     rightFlipping ? "is-flipping" : null,
+    autoPreviewActive ? "is-auto-rotating" : null,
     mobileFlipReady.right ? "mobile-flipped-right" : null
   );
   const handleLoginSuccess = useCallback(() => {
@@ -557,7 +599,7 @@ export default function HomePage() {
           </h1>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[768px]:flex-col max-[768px]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[768px]:px-[clamp(1rem,4vw,1.5rem)] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[768px]:pb-[clamp(5rem,12vw,7rem)] max-[768px]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
-              <div ref={leftCardWrapRef} data-phase={leftPhase} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="link" aria-label={leftCardAriaLabel} aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
+              <div ref={leftCardWrapRef} data-phase={leftPhase} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="link" aria-label={leftCardAriaLabel} aria-disabled={!cardInteractionAllowed} tabIndex={cardInteractionAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
                 <div className={cn(leftCardWrapClassName)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
                   <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", leftBlurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
@@ -600,7 +642,7 @@ export default function HomePage() {
             </div>
 
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
-              <div ref={rightCardWrapRef} data-phase={rightPhase} className={cn(rightCardClassName, "home-card-a11y-button")} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")} role="link" aria-label={rightCardAriaLabel} aria-disabled={!flipAllowed} tabIndex={flipAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("right")}>
+              <div ref={rightCardWrapRef} data-phase={rightPhase} className={cn(rightCardClassName, "home-card-a11y-button")} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")} role="link" aria-label={rightCardAriaLabel} aria-disabled={!cardInteractionAllowed} tabIndex={cardInteractionAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("right")}>
                 <div className={cn(rightCardWrapClassName)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
                   <span className={cn("card-blur-layer absolute [inset:var(--home-card-blur-inset,0px)] rounded-full pointer-events-none z-0 [clip-path:circle(var(--home-card-blur-radius,50%)_at_50%_50%)] [transform:translateZ(0)_scale(var(--home-card-blur-scale,1))] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", rightBlurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">

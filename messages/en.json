@@ -189,7 +189,7 @@
       "client": {
         "login_aria": "Open help-seeker sign-in",
         "chat_aria": "Open help-seeker chat",
-        "title": "Person seeking help"
+        "title": "For person seeking help"
       }
     },
     "theme_toggle": {

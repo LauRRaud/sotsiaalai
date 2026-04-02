@@ -184,12 +184,12 @@
       "specialist": {
         "login_aria": "Ava sotsiaaltöö spetsialisti sisselogimine",
         "chat_aria": "Ava sotsiaaltöö spetsialisti vestlus",
-        "title": "Sotsiaaltöö spetsialist"
+        "title": "Sotsiaaltöö spetsialistile"
       },
       "client": {
         "login_aria": "Ava eluküsimusega pöörduja sisselogimine",
         "chat_aria": "Ava eluküsimusega pöörduja vestlus",
-        "title": "Eluküsimusega pöörduja"
+        "title": "Eluküsimusega pöördujale"
       }
     },
     "theme_toggle": {

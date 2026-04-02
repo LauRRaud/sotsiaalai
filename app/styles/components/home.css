@@ -194,6 +194,39 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   );
 }
 
+.homepage-root .three-d-card.is-auto-rotating {
+  pointer-events: none;
+}
+
+.homepage-root .three-d-card.is-auto-rotating .card-wrapper {
+  animation: home-card-spin-360 2500ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+
+.homepage-root .three-d-card.right.is-auto-rotating .card-wrapper {
+  animation-name: home-card-spin-360-right;
+}
+
+@keyframes home-card-spin-360 {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes home-card-spin-360-right {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(-360deg);
+  }
+}
+
 .homepage-root .home-card-pattern-layer {
   position: absolute;
   inset: 0;

@@ -227,6 +227,15 @@
   backdrop-filter: none !important;
 }
 
+:root.theme-night .chat-tools-surface-popover {
+  background: var(--chat-card-surface-night-strong-bg) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
 :root.theme-night .chat-analysis-upload-modal-card {
   background: var(--chat-card-surface-night-strong-bg) !important;
   border: 0 !important;

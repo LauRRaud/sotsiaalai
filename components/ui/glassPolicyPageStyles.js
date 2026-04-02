@@ -1,9 +1,9 @@
 export const glassPolicyRingClassName =
   "glass-ring-expandable glass-policy-expand-shape [--glass-ring-pad-top:clamp(calc(0.2*var(--base-rem)),1.1vh,calc(0.8*var(--base-rem)))] min-[768px]:[--ring-scale:1] min-[768px]:[--ring-fit-pad:calc(1.3*var(--base-rem))] min-[768px]:[--ring-ui-reserve-page:calc(2*var(--base-rem))] min-[768px]:[--ring-base-min:calc(36*var(--base-rem))] min-[768px]:[--ring-base-max:calc(54*var(--base-rem))] min-[768px]:[--ring-desktop-max:calc(58*var(--base-rem))] min-[768px]:[--ring-pad-x:clamp(calc(1.8*var(--base-rem)),calc(var(--ring-diameter,var(--ring-diameter-default))*0.05),calc(3.2*var(--base-rem)))] min-[768px]:[--ring-pad-top:clamp(calc(1.6*var(--base-rem)),4.2vw,calc(2.6*var(--base-rem)))] min-[768px]:[--ring-pad-top-half:clamp(calc(0.8*var(--base-rem)),2.1vw,calc(1.3*var(--base-rem)))] [--glass-ring-scroll-offset:clamp(1.45rem,3vh,2rem)] " +
   "[--policy-scroll-rise:clamp(1.08rem,2vh,1.45rem)] [--policy-first-line-drop:clamp(0.55rem,1.2vh,0.88rem)] " +
-  "max-[768px]:[--ring-pad-x:clamp(0.62rem,2.4vw,0.92rem)] " +
-  "max-[768px]:[--glass-ring-scroll-offset:clamp(1.9rem,4.6vh,2.9rem)] " +
-  "max-[768px]:[--glass-ring-scroll-offset-open:clamp(0.95rem,2.4vh,1.6rem)]";
+  "max-[768px]:[--ring-pad-x:clamp(0.32rem,1.4vw,0.58rem)] " +
+  "max-[768px]:[--glass-ring-scroll-offset:clamp(1.25rem,3.3vh,2.05rem)] " +
+  "max-[768px]:[--glass-ring-scroll-offset-open:clamp(0.48rem,1.4vh,0.95rem)]";
 
 export const glassPolicyTitleOffsetClassName =
   "min-[769px]:!mt-[clamp(2.6rem,5.5vh,3.7rem)]";
@@ -17,12 +17,12 @@ export const glassPolicyTitleMobileLongClassName =
 export const glassPolicyTitleExpandedClassName = "glass-policy-title--expanded";
 
 export const glassPolicyContentClassName =
-  "glass-policy-content mt-[clamp(0.18rem,1.1vh,0.75rem)] flex w-full flex-1 flex-col items-center max-[768px]:-mt-[clamp(0.16rem,0.6vh,0.3rem)] max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-0 max-[768px]:pt-[clamp(0.12rem,0.7vh,0.42rem)] max-[768px]:pb-[clamp(0.05rem,0.45vh,0.25rem)]";
+  "glass-policy-content mt-[clamp(0.18rem,1.1vh,0.75rem)] flex w-full flex-1 flex-col items-center max-[768px]:-mt-[clamp(0.12rem,0.45vh,0.22rem)] max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-0 max-[768px]:pt-[clamp(0.08rem,0.45vh,0.26rem)] max-[768px]:pb-[clamp(0.02rem,0.22vh,0.14rem)]";
 
 export const glassPolicyContentExpandedClassName = "glass-policy-content--expanded";
 
 export const glassPolicyScrollClassName =
-  "glass-ring-scroll glass-policy-scroll glass-policy-scroll-bottom-arc relative w-full max-w-[var(--policy-scroll-max-width,clamp(18.8rem,48.5vw,33rem))] overflow-y-auto pr-[0.1rem] pt-[clamp(0.7rem,1.8vh,1.2rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:[--policy-scroll-inline-gap:clamp(0.4rem,1.25vw,0.7rem)] max-[768px]:max-h-[calc(100%-0.35rem)] max-[768px]:translate-x-0 max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-0 max-[768px]:pt-[clamp(0.25rem,1vh,0.7rem)] max-[768px]:pb-[clamp(0.02rem,0.35vh,0.18rem)]";
+  "glass-ring-scroll glass-policy-scroll glass-policy-scroll-bottom-arc relative w-full max-w-[var(--policy-scroll-max-width,clamp(18.8rem,48.5vw,33rem))] overflow-y-auto pr-[0.1rem] pt-[clamp(0.7rem,1.8vh,1.2rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:[--policy-scroll-inline-gap:clamp(0.16rem,0.7vw,0.34rem)] max-[768px]:max-h-[calc(100%-0.1rem)] max-[768px]:translate-x-0 max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-0 max-[768px]:pt-[clamp(0.14rem,0.65vh,0.42rem)] max-[768px]:pb-[clamp(0.01rem,0.2vh,0.1rem)]";
 
 export const glassPolicyScrollExpandedClassName =
   "glass-policy-scroll--expanded min-[769px]:!w-[calc(100%-0.35rem)] min-[769px]:!max-w-none";
