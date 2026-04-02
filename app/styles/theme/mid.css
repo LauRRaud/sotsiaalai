@@ -249,10 +249,38 @@
   );
 }
 
+@media (min-width: 48.001em) {
+  :root.theme-mid
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item {
+    box-shadow:
+      0 9px 15px rgba(18, 12, 10, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -1px 0 rgba(126, 95, 88, 0.11) !important;
+  }
+
+  :root.theme-mid
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow:
+      0 11px 18px rgba(18, 12, 10, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.64),
+      inset 0 -1px 0 rgba(126, 95, 88, 0.13) !important;
+  }
+}
+
 /* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
 :root.theme-mid body.homepage {
   --home-panel-bg: rgba(203, 190, 186, 0.79);
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
+  --home-card-shell-shadow:
+    0 28px 38px -20px rgba(12, 7, 6, 0.32),
+    0 16px 22px -18px rgba(12, 7, 6, 0.22);
+  --home-card-shell-shadow-return:
+    0 22px 30px -20px rgba(12, 7, 6, 0.22),
+    0 14px 18px -18px rgba(12, 7, 6, 0.15);
   --home-panel-shadow-idle: 0 11px 24px rgba(20, 12, 10, 0.16);
   --home-panel-shadow-active: 0 14px 30px rgba(20, 12, 10, 0.19);
   --home-card-glow-idle:
@@ -265,6 +293,16 @@
     0 0 9px rgba(255, 244, 240, 0.105), 0 0 17px rgba(255, 244, 240, 0.06);
   --home-card-glow-active:
     0 0 11px rgba(255, 244, 240, 0.145), 0 0 21px rgba(255, 244, 240, 0.078);
+  --home-card-shadow-idle:
+    var(--home-card-shell-shadow);
+  --home-card-shadow-entry:
+    var(--home-card-shell-shadow);
+  --home-card-shadow-transition:
+    var(--home-card-glow-transition);
+  --home-card-shadow-exit:
+    var(--home-card-shadow-idle);
+  --home-card-shadow-active:
+    var(--home-card-shell-shadow);
 }
 
 :root.theme-mid .home-scroll-cue .home-scroll-cue-mouse,

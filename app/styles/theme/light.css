@@ -254,6 +254,12 @@
   --home-panel-bg: rgba(251, 249, 246, 0.93);
   --home-card-blur: 0.75rem;
   --home-card-saturate: 100%;
+  --home-card-shell-shadow:
+    0 28px 38px -20px rgba(12, 7, 6, 0.3),
+    0 16px 22px -18px rgba(12, 7, 6, 0.2);
+  --home-card-shell-shadow-return:
+    0 22px 30px -20px rgba(12, 7, 6, 0.2),
+    0 14px 18px -18px rgba(12, 7, 6, 0.14);
   --home-panel-shadow-idle: 0 14px 30px rgba(0, 0, 0, 0.14);
   --home-panel-shadow-active: 0 18px 36px rgba(0, 0, 0, 0.16);
   --home-card-glow-idle:
@@ -271,6 +277,16 @@
   --home-card-glow-active:
     0 0 11px rgba(255, 255, 255, 0.16),
     0 0 21px rgba(255, 255, 255, 0.085);
+  --home-card-shadow-idle:
+    var(--home-card-shell-shadow);
+  --home-card-shadow-entry:
+    var(--home-card-shell-shadow);
+  --home-card-shadow-transition:
+    var(--home-card-glow-transition);
+  --home-card-shadow-exit:
+    var(--home-card-shadow-idle);
+  --home-card-shadow-active:
+    var(--home-card-shell-shadow);
   --home-card-surface-bg: rgba(255, 255, 255, 0.18);
   --home-card-surface-blur: 1.2rem;
   --home-card-surface-saturate: 104%;
@@ -334,6 +350,31 @@
   background: var(--glass-surface-bg);
   color: var(--glass-surface-text);
 }
+
+@media (min-width: 48.001em) {
+  :root.theme-light:not(.theme-mid)
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item {
+    box-shadow:
+      0 9px 16px rgba(0, 0, 0, 0.16),
+      inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.54),
+      inset 0 1px 0 rgba(255, 255, 255, 0.68),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+  }
+
+  :root.theme-light:not(.theme-mid)
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow:
+      0 11px 18px rgba(0, 0, 0, 0.17),
+      inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.58),
+      inset 0 1px 0 rgba(255, 255, 255, 0.74),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.11) !important;
+  }
+}
+
 :root.theme-light .drawer-panel {
   color: var(--text-strong);
 }
