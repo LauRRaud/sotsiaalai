@@ -132,14 +132,14 @@
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.1);
   --btn-primary-hover-brightness: 1;
   --btn-primary-bg: var(--mid-unified-surface-bg);
-  --btn-primary-bg-hover: var(--mid-unified-surface-bg-hover);
+  --btn-primary-bg-hover: var(--mid-unified-surface-bg);
   --btn-primary-bg-active: var(--mid-unified-surface-bg-active);
   --btn-primary-text: #2f3a4a;
   --btn-primary-border: var(--mid-unified-surface-border);
-  --btn-primary-border-hover: var(--mid-unified-surface-border-hover);
+  --btn-primary-border-hover: var(--mid-unified-surface-border);
   --btn-primary-border-active: var(--mid-unified-surface-border-hover);
   --btn-primary-shadow: var(--mid-unified-surface-shadow);
-  --btn-primary-shadow-hover: var(--mid-unified-surface-shadow-hover);
+  --btn-primary-shadow-hover: var(--mid-unified-surface-shadow);
   --btn-primary-shadow-active: var(--mid-unified-surface-shadow-active);
   --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
   --btn-primary-shadow-focus:
@@ -162,17 +162,17 @@
   --seg-button-bg-selected: var(--seg-card-bg-selected);
   --seg-button-bg-active: var(--seg-card-bg-selected);
   --seg-card-bg: var(--mid-unified-surface-bg);
-  --seg-card-bg-hover: var(--mid-unified-surface-bg-hover);
+  --seg-card-bg-hover: var(--mid-unified-surface-bg);
   --seg-card-bg-selected: var(--mid-unified-surface-bg-hover);
   --seg-card-text: #2f3a4a;
   --seg-card-text-hover: #81504b;
   --seg-card-text-selected: #7a3a38;
   --seg-card-border: rgba(126, 95, 88, 0.16);
-  --seg-card-border-hover: rgba(126, 95, 88, 0.19);
+  --seg-card-border-hover: rgba(126, 95, 88, 0.16);
   --seg-card-border-selected: rgba(126, 95, 88, 0.19);
   --seg-card-border-active: rgba(126, 95, 88, 0.19);
   --seg-card-shadow: var(--mid-unified-surface-shadow);
-  --seg-card-shadow-hover: var(--mid-unified-surface-shadow-hover);
+  --seg-card-shadow-hover: var(--mid-unified-surface-shadow);
   --seg-card-shadow-selected: var(--mid-unified-surface-shadow-hover);
   --seg-card-shadow-active: var(--mid-unified-surface-shadow-active);
   --seg-radio-bg: rgba(253, 250, 249, 0.62);
@@ -357,12 +357,23 @@
   );
   color: var(--rail-tooltip-text, #3f241f);
   --chat-inputbar-bg: var(--mid-pill-surface-bg);
-  --chat-inputbar-bg-hover: var(--mid-pill-surface-bg-hover);
-  --chat-inputbar-bg-focus: var(--mid-pill-surface-bg-hover);
-  --chat-inputbar-overlay-bg: var(--mid-pill-surface-bg-hover);
+  --chat-inputbar-bg-hover: var(--mid-pill-surface-bg);
+  --chat-inputbar-bg-focus: var(--mid-pill-surface-bg);
+  --chat-inputbar-overlay-bg:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(249, 241, 238, 0.18) 0%,
+      rgba(241, 232, 228, 0.14) 42%,
+      rgba(232, 221, 216, 0.1) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(243, 234, 230, 0.08) 0%,
+      rgba(234, 224, 220, 0.05) 100%
+    );
   --chat-inputbar-shadow: var(--mid-pill-surface-shadow);
-  --chat-inputbar-shadow-hover: var(--mid-pill-surface-shadow-hover);
-  --chat-inputbar-shadow-focus: var(--mid-pill-surface-shadow-hover);
+  --chat-inputbar-shadow-hover: var(--mid-pill-surface-shadow);
+  --chat-inputbar-shadow-focus: var(--mid-pill-surface-shadow);
   --chat-inputbar-btn-bg: var(--mid-pill-surface-bg);
   --chat-inputbar-btn-bg-hover: var(--mid-pill-surface-bg);
   --chat-inputbar-btn-bg-focus: var(--mid-pill-surface-bg);

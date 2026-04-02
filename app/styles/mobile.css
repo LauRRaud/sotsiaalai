@@ -1051,8 +1051,8 @@
       100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     );
-    padding-top: clamp(0.62rem, 1.9vh, 0.92rem);
-    padding-bottom: clamp(0.58rem, 1.8vh, 0.88rem);
+    padding-top: clamp(0.36rem, 1.15vh, 0.62rem);
+    padding-bottom: clamp(0.34rem, 1.1vh, 0.6rem);
     padding-left: clamp(0.8rem, 3vw, 1rem);
     padding-right: clamp(0.8rem, 3vw, 1rem);
   }
@@ -1061,7 +1061,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    height: clamp(2.2rem, 5.6vh, 3.45rem);
+    height: clamp(1.3rem, 3.4vh, 2.1rem);
     z-index: 4;
     pointer-events: none;
     opacity: 1;
@@ -1072,10 +1072,10 @@
     top: 0;
     background: linear-gradient(
       180deg,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.28) 0%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.16) 22%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.07) 48%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.02) 72%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.16) 0%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.08) 18%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.03) 42%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.008) 68%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
     );
   }
@@ -1083,20 +1083,20 @@
     bottom: 0;
     background: linear-gradient(
       0deg,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.28) 0%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.16) 22%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.07) 48%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.02) 72%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.16) 0%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.08) 18%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.03) 42%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.008) 68%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
     );
   }
   .profile-orbit-stack-list {
-    --stack-edge-fade: clamp(0.9rem, 3.2vh, 1.7rem);
+    --stack-edge-fade: clamp(0.5rem, 1.45vh, 0.92rem);
     --stack-safe-pad-top: calc(
-      var(--stack-edge-fade) + clamp(0.34rem, 1vh, 0.62rem)
+      var(--stack-edge-fade) + clamp(0.14rem, 0.45vh, 0.32rem)
     );
     --stack-safe-pad-bottom: calc(
-      var(--stack-edge-fade) + clamp(0.34rem, 1vh, 0.62rem)
+      var(--stack-edge-fade) + clamp(0.14rem, 0.45vh, 0.32rem)
     );
     position: relative;
     z-index: 2;
@@ -1117,15 +1117,19 @@
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0%,
+      rgba(0, 0, 0, 0.55) calc(var(--stack-edge-fade) * 0.38),
       #000 var(--stack-edge-fade),
       #000 calc(100% - var(--stack-edge-fade)),
+      rgba(0, 0, 0, 0.55) calc(100% - (var(--stack-edge-fade) * 0.38)),
       transparent 100%
     );
     mask-image: linear-gradient(
       to bottom,
       transparent 0%,
+      rgba(0, 0, 0, 0.55) calc(var(--stack-edge-fade) * 0.38),
       #000 var(--stack-edge-fade),
       #000 calc(100% - var(--stack-edge-fade)),
+      rgba(0, 0, 0, 0.55) calc(100% - (var(--stack-edge-fade) * 0.38)),
       transparent 100%
     );
     -webkit-mask-size: 100% 100%;
@@ -1321,10 +1325,10 @@
   body[data-platform="android"] .profile-orbit-stack-fade--top {
     background: linear-gradient(
       180deg,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.32) 0%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.18) 22%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.08) 48%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.02) 72%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.18) 0%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.09) 18%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.035) 42%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.01) 68%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
     ) !important;
   }
@@ -1333,10 +1337,10 @@
   body[data-platform="android"] .profile-orbit-stack-fade--bottom {
     background: linear-gradient(
       0deg,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.32) 0%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.18) 22%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.08) 48%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.02) 72%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.18) 0%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.09) 18%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.035) 42%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.01) 68%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
     ) !important;
   }
@@ -2424,6 +2428,35 @@
   .policy-mobile-lower .glass-policy-scroll--expanded {
     margin-top: 0 !important;
     padding-top: clamp(0.18rem, 0.65vh, 0.38rem) !important;
+  }
+
+  .policy-mobile-tall {
+    --policy-mobile-content-drop: clamp(0.92rem, 2.45vh, 1.48rem);
+    --glass-ring-scroll-offset: clamp(1.82rem, 3.85vh, 2.45rem);
+    --glass-ring-scroll-offset-open: clamp(0.96rem, 1.95vh, 1.38rem);
+  }
+
+  .policy-mobile-tall .policy-mobile-title-wrap {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.88rem) !important;
+    padding-bottom: clamp(0.16rem, 0.72vh, 0.34rem) !important;
+  }
+
+  .policy-mobile-tall .glass-policy-scroll.glass-ring-scroll,
+  .policy-mobile-tall .glass-policy-scroll.glass-ring-scroll--open {
+    padding-bottom: clamp(1.5rem, 3.5vh, 2.25rem) !important;
+    max-height: calc(
+      100% - var(--glass-ring-scroll-offset-open, 1.38rem) -
+        var(--policy-mobile-content-drop, 1.48rem) +
+        clamp(1.72rem, 4vh, 2.45rem)
+    ) !important;
+  }
+
+  .policy-mobile-tall .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll
+    > footer,
+  .policy-mobile-tall
+    .policy-page-scroll.glass-policy-scroll.glass-ring-scroll
+    > footer.policy-page-footer {
+    margin-bottom: clamp(1.35rem, 3vh, 2rem) !important;
   }
 
   .guide-policy-content.glass-ring-content,

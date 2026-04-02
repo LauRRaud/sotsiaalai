@@ -55,6 +55,14 @@ function AddToHomeIcon() {
   );
 }
 
+function InstallInlineToken({ children }) {
+  return (
+    <span className="inline-flex items-center gap-[0.08em] whitespace-nowrap align-[-0.02em]">
+      {children}
+    </span>
+  );
+}
+
 function InstallHintSteps({ items }) {
   return (
     <ol className="m-0 list-none p-0 space-y-[0.16rem] text-left text-[1.06rem] leading-[1.42] max-[480px]:text-[1.1rem] max-[480px]:leading-[1.46]">
@@ -109,13 +117,28 @@ export default function InstallAppLink({
     <InstallHintSteps
       items={[
         <>
-          {t("pwa.instructions.ios_steps.step_1_prefix")} &quot;{t("pwa.instructions.ios_steps.share_label")} {" "}<ShareIcon />&quot;
+          {t("pwa.instructions.ios_steps.step_1_prefix")}{" "}
+          <InstallInlineToken>
+            <span>&quot;{t("pwa.instructions.ios_steps.share_label")}</span>
+            <ShareIcon />
+            <span>&quot;</span>
+          </InstallInlineToken>
         </>,
         <>
-          {t("pwa.instructions.ios_steps.step_2_prefix")} &quot;{t("pwa.instructions.ios_steps.more_label")} {" "}<MoreIcon />&quot;
+          {t("pwa.instructions.ios_steps.step_2_prefix")}{" "}
+          <InstallInlineToken>
+            <span>&quot;{t("pwa.instructions.ios_steps.more_label")}</span>
+            <MoreIcon />
+            <span>&quot;</span>
+          </InstallInlineToken>
         </>,
         <>
-          {t("pwa.instructions.ios_steps.step_3_prefix")} &quot;{t("pwa.instructions.ios_steps.add_home_label")} {" "}<AddToHomeIcon />&quot;
+          {t("pwa.instructions.ios_steps.step_3_prefix")}{" "}
+          <InstallInlineToken>
+            <span>&quot;{t("pwa.instructions.ios_steps.add_home_label")}</span>
+            <AddToHomeIcon />
+            <span>&quot;</span>
+          </InstallInlineToken>
         </>
       ]}
     />
@@ -370,12 +393,12 @@ export default function InstallAppLink({
                   }
             }
           >
-            <button
-              type="button"
-              className="absolute right-[0.12rem] top-[0.08rem] h-[2.2rem] w-[2.2rem] rounded-full border-0 bg-transparent text-[1.7rem] leading-none text-[#c57171] light:text-[#7a3a38]"
-              aria-label={t("buttons.close")}
-              onClick={() => setHelpOpen(false)}
-            >
+        <button
+          type="button"
+          className="absolute right-[0.12rem] top-[0.08rem] h-[2.2rem] w-[2.2rem] rounded-full border-0 bg-transparent text-[1.7rem] leading-none text-[color:var(--icon-btn-close-color)] hc:text-[color:var(--hc-accent)]"
+          aria-label={t("buttons.close")}
+          onClick={() => setHelpOpen(false)}
+        >
               {t("symbols.times")}
             </button>
             <div className="flex max-w-[inherit] flex-col pr-[1.38rem]">

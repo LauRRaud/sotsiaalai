@@ -526,7 +526,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const controlsContextClassName =
     "w-full pt-[0.25rem] flex-col gap-[0.55rem]";
   const modeRowClassName =
-    "mx-auto inline-flex w-fit items-center justify-center gap-[0.5rem] flex-nowrap self-center";
+    "mx-auto grid w-full grid-cols-[1fr_auto_1fr] items-center gap-[0.5rem] self-center";
+  const modeToggleWrapClassName = "col-start-2 justify-self-center";
+  const contextHintWrapClassName =
+    "relative z-[999] col-start-3 inline-flex w-fit shrink-0 items-center justify-self-start self-center";
   const actionsInlineClassName =
     "w-full flex justify-center gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
   const uploadButtonClassName =
@@ -681,13 +684,13 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                     name="chat-doc-mode"
                     checked={!docOnlyMode}
                     onChange={e => setDocOnlyMode(!e.target.checked)}
-                    className={docToggleCardClassName}
+                    className={cn(docToggleCardClassName, modeToggleWrapClassName)}
                   >
                     {extendedLabel}
                   </OptionCard>
                 <div
                   ref={contextHintWrapRef}
-                  className="relative z-[999] inline-flex w-fit shrink-0 items-center self-center"
+                  className={contextHintWrapClassName}
                 >
                   <OptionCard
                     type="checkbox"
