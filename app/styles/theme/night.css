@@ -19,29 +19,32 @@
 }
 
 :root.theme-night {
-  --glass-surface-bg: rgba(15, 14, 17, 0.35);
-  --glass-ring-surface-bg: rgba(18, 17, 20, 0.39);
-  --home-panel-bg: rgba(13, 17, 24, 0.86);
+  --glass-surface-bg: rgba(13, 17, 24, 0.35);
+  --glass-ring-surface-bg: rgba(16, 21, 31, 0.41);
+  --glass-ring-glow-dark:
+    0 9px 18px -15px rgba(192, 222, 255, 0.14),
+    0 16px 26px -24px rgba(112, 160, 224, 0.08);
+  --home-panel-bg: rgba(12, 17, 27, 0.86);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --chat-card-surface-night-standard-bg: radial-gradient(
     ellipse at top,
-    rgba(31, 45, 63, 0.81) 0%,
-    rgba(12, 17, 26, 0.84) 100%
+    rgba(33, 43, 57, 0.81) 0%,
+    rgba(14, 18, 26, 0.84) 100%
   );
   --chat-card-surface-night-standard-flat-bg: linear-gradient(
     180deg,
-    rgba(27, 39, 55, 0.79) 0%,
-    rgba(14, 19, 29, 0.84) 100%
+    rgba(29, 38, 52, 0.79) 0%,
+    rgba(15, 19, 28, 0.84) 100%
   );
   --chat-card-surface-night-strong-bg: radial-gradient(
     ellipse at top,
-    rgb(29, 42, 59) 0%,
-    rgb(12, 17, 26) 100%
+    rgb(31, 40, 54) 0%,
+    rgb(14, 18, 26) 100%
   );
   --chat-card-surface-night-flat-bg: linear-gradient(
     180deg,
-    rgb(25, 36, 51) 0%,
-    rgb(13, 19, 28) 100%
+    rgb(27, 36, 49) 0%,
+    rgb(14, 19, 28) 100%
   );
   --chat-ui-solid-surface: rgb(18, 26, 40);
   --chat-rail-tooltip-bg: rgb(18, 26, 40);
@@ -218,6 +221,16 @@
 }
 
 :root.theme-night
+  :is(
+    .help-listings-modal-content,
+    .invite-modal-content,
+    .materials-page-content,
+    .account-settings-modal-content
+  ) {
+  background: var(--glass-surface-bg) !important;
+}
+
+:root.theme-night
   .drawer-chat-sidebar
   .drawer-search-shell {
   box-shadow:
@@ -362,28 +375,6 @@
   ) !important;
   border-color: transparent !important;
   box-shadow: none !important;
-}
-
-:root.theme-night .login-modal-box.login-modal--otp #otp-code-input {
-  background: rgba(11, 18, 30, 0.72) !important;
-  border: 1px solid rgba(148, 163, 184, 0.34) !important;
-  color: #e6eefb !important;
-  box-shadow:
-    0 8px 18px rgba(2, 6, 16, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
-}
-
-:root.theme-night .login-modal-box.login-modal--otp #otp-code-input::placeholder {
-  color: rgba(208, 223, 243, 0.74) !important;
-}
-
-:root.theme-night .login-modal-box.login-modal--otp #otp-code-input:focus,
-:root.theme-night .login-modal-box.login-modal--otp #otp-code-input:focus-visible {
-  border-color: rgba(148, 163, 184, 0.46) !important;
-  box-shadow:
-    0 10px 20px rgba(2, 6, 16, 0.32),
-    0 0 0 2px rgba(148, 163, 184, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
 }
 
 :root.theme-night .login-modal-box.login-modal--otp .fancy-checkbox--otp .box {

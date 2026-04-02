@@ -496,6 +496,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "[--analysis-card-pad-x:clamp(0.85rem,2.5vw,1.65rem)] " +
     "[--analysis-card-pad-b:clamp(0.95rem,2.7vw,1.45rem)] " +
     "p-[var(--analysis-card-pad-y)_var(--analysis-card-pad-x)_var(--analysis-card-pad-b)] " +
+    "max-[768px]:pr-[calc(var(--analysis-card-pad-x)+0.65rem)] " +
     "tracking-[0.035em] text-rendering-geometricPrecision isolate " +
     "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto";
   const headerClassName =
@@ -550,6 +551,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "py-[clamp(0.28rem,1vw,0.6rem)] " +
     "[--analysis-preview-pad-x:clamp(0.75rem,2.2vw,1.35rem)] " +
     "[--analysis-preview-pad-right:clamp(0.2rem,0.9vw,0.6rem)] " +
+    "max-[768px]:[--analysis-preview-pad-right:clamp(0.85rem,3.6vw,1.15rem)] " +
     "[--analysis-preview-fade-top:clamp(1.45rem,3.2vh,2.25rem)] " +
     "[--analysis-preview-fade-bottom:clamp(1.7rem,3.5vh,2.45rem)] " +
     "overflow-y-auto overflow-x-hidden overscroll-contain [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:none] [overscroll-behavior-y:contain] [touch-action:pan-y] " +
@@ -563,10 +565,11 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "max-[768px]:[overscroll-behavior-y:auto]";
   const scrollTrackClassName =
     "chat-analysis-scroll-track absolute top-[0.6rem] bottom-[0.6rem] right-0 w-[1.7rem] " +
+    "max-[768px]:right-[0.08rem] max-[768px]:w-[1rem] " +
     "bg-transparent border-0 cursor-[var(--cursor-pointer)] " +
     "flex items-center justify-center";
   const scrollThumbClassName =
-    "absolute left-1/2 -translate-x-1/2 top-0 w-[1.6rem] h-[1.6rem] " +
+    "absolute left-1/2 -translate-x-1/2 top-0 w-[1.6rem] h-[1.6rem] max-[768px]:w-[1.15rem] max-[768px]:h-[1.15rem] " +
     "rounded-full bg-transparent border-0 shadow-none opacity-80 " +
     "flex items-center justify-center";
   const emptyClassName =

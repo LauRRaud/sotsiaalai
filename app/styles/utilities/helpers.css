@@ -1113,7 +1113,7 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
 }
 
 :root.theme-light .glass-ring {
-  --glass-shell-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+  --glass-shell-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
 }
 
 @media (min-width: 768px) and (max-width: 1440px) and (max-height: 840px) {

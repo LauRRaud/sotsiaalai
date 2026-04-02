@@ -206,29 +206,26 @@ const BackgroundContent = memo(function BackgroundContent({
     let raf = 0;
     let bindRetry = 0;
     let scrollHost = null;
-    let useWindowScroll = false;
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const isUsableElement = value => value instanceof HTMLElement;
     const resolveScrollBinding = () => {
       const homepageRoot = document.querySelector(".homepage-root");
+      const rootIsScrollable =
+        isUsableElement(homepageRoot) &&
+        homepageRoot.scrollHeight > homepageRoot.clientHeight + 1;
       if (
         resolveDisplayModeFromDom() === "browser" &&
-        homepageRoot instanceof HTMLElement
+        rootIsScrollable
       ) {
-        return {
-          host: homepageRoot,
-          useWindow: false
-        };
+        return homepageRoot;
       }
-      return {
-        host: document.scrollingElement || document.documentElement,
-        useWindow: true
-      };
+      return document.scrollingElement || document.documentElement;
     };
     const getScrollY = () => {
-      if (!useWindowScroll) {
-        return scrollHost && typeof scrollHost.scrollTop === "number"
-          ? scrollHost.scrollTop
-          : 0;
+      const activeHost = resolveScrollBinding();
+      scrollHost = activeHost;
+      if (isUsableElement(activeHost) && typeof activeHost.scrollTop === "number") {
+        return activeHost.scrollTop;
       }
       return (
         window.scrollY ||
@@ -248,16 +245,13 @@ const BackgroundContent = memo(function BackgroundContent({
       raf = window.requestAnimationFrame(update);
     };
     const attach = () => {
-      const binding = resolveScrollBinding();
-      scrollHost = binding.host;
-      useWindowScroll = binding.useWindow;
+      scrollHost = resolveScrollBinding();
       if (!scrollHost) {
         bindRetry = window.requestAnimationFrame(attach);
         return;
       }
-      if (useWindowScroll) {
-        window.addEventListener("scroll", onScroll, { passive: true });
-      } else {
+      window.addEventListener("scroll", onScroll, { passive: true });
+      if (isUsableElement(scrollHost)) {
         scrollHost.addEventListener("scroll", onScroll, { passive: true });
       }
       window.addEventListener("resize", onScroll);
@@ -267,7 +261,7 @@ const BackgroundContent = memo(function BackgroundContent({
     attach();
     return () => {
       if (bindRetry) window.cancelAnimationFrame(bindRetry);
-      if (!useWindowScroll && scrollHost) {
+      if (isUsableElement(scrollHost)) {
         scrollHost.removeEventListener("scroll", onScroll);
       }
       window.removeEventListener("scroll", onScroll);

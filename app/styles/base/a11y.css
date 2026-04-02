@@ -1392,15 +1392,6 @@ html[data-contrast="hc"] #login-modal :is(input:not([type="hidden"]):not([aria-h
 html[data-contrast="hc"] #login-modal :is(input:not([type="hidden"]):not([aria-hidden="true"]), textarea, select)::placeholder {
   color: rgba(255, 234, 0, 0.92) !important;
 }
-html[data-contrast="hc"] #login-modal.login-modal--otp #otp-code-input {
-  background: rgba(14, 20, 32, 0.36) !important;
-  border-color: rgba(255, 234, 0, 0.68) !important;
-  color: var(--hc-accent) !important;
-  box-shadow: none !important;
-}
-html[data-contrast="hc"] #login-modal.login-modal--otp #otp-code-input::placeholder {
-  color: rgba(255, 234, 0, 0.92) !important;
-}
 html[data-contrast="hc"] #login-modal.login-modal--otp .login-otp-content :is(p, span, label, strong, em, a, button) {
   color: var(--hc-accent) !important;
 }

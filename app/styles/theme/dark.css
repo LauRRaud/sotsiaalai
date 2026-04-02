@@ -382,26 +382,26 @@
   --home-card-light-opacity: 0.65;
   --home-card-dark-opacity: 0.6;
   --home-panel-shadow-idle:
-    0 0 10px rgba(248, 253, 255, 0.12),
-    0 0 22px rgba(248, 253, 255, 0.06);
+    0 0 8px rgba(248, 253, 255, 0.11),
+    0 0 16px rgba(248, 253, 255, 0.05);
   --home-panel-shadow-active:
-    0 0 14px rgba(248, 253, 255, 0.18),
-    0 0 30px rgba(248, 253, 255, 0.1);
+    0 0 10px rgba(248, 253, 255, 0.16),
+    0 0 20px rgba(248, 253, 255, 0.08);
   --home-card-glow-idle:
-    0 0 10px rgba(248, 253, 255, 0.12),
-    0 0 22px rgba(248, 253, 255, 0.06);
+    0 0 8px rgba(248, 253, 255, 0.11),
+    0 0 16px rgba(248, 253, 255, 0.05);
   --home-card-glow-entry:
-    0 0 13px rgba(248, 253, 255, 0.165),
-    0 0 28px rgba(248, 253, 255, 0.09);
+    0 0 10px rgba(248, 253, 255, 0.15),
+    0 0 20px rgba(248, 253, 255, 0.075);
   --home-card-glow-transition:
-    0 0 12px rgba(248, 253, 255, 0.15),
-    0 0 26px rgba(248, 253, 255, 0.08);
+    0 0 9px rgba(248, 253, 255, 0.14),
+    0 0 18px rgba(248, 253, 255, 0.068);
   --home-card-glow-exit:
-    0 0 11px rgba(248, 253, 255, 0.135),
-    0 0 23px rgba(248, 253, 255, 0.07);
+    0 0 9px rgba(248, 253, 255, 0.125),
+    0 0 17px rgba(248, 253, 255, 0.06);
   --home-card-glow-active:
-    0 0 14px rgba(248, 253, 255, 0.18),
-    0 0 30px rgba(248, 253, 255, 0.1);
+    0 0 10px rgba(248, 253, 255, 0.16),
+    0 0 20px rgba(248, 253, 255, 0.08);
   --home-scroll-cue-color: #c57171;
   --home-title-color: #c57171;
   --home-link-color: var(--brand-primary);
@@ -581,36 +581,6 @@
   color: var(--glass-modal-text, var(--glass-surface-text, #f2f2f2)) !important;
   border: var(--glass-modal-border, none) !important;
   box-shadow: var(--glass-modal-shadow, none) !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
-  .login-modal-box.login-modal--otp
-  #otp-code-input {
-  background: rgba(13, 16, 24, 0.84) !important;
-  border: 1px solid rgba(148, 163, 184, 0.3) !important;
-  color: #e5e7eb !important;
-  box-shadow:
-    0 8px 18px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
-  .login-modal-box.login-modal--otp
-  #otp-code-input::placeholder {
-  color: rgba(229, 231, 235, 0.62) !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
-  .login-modal-box.login-modal--otp
-  #otp-code-input:focus,
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
-  .login-modal-box.login-modal--otp
-  #otp-code-input:focus-visible {
-  border-color: rgba(148, 163, 184, 0.46) !important;
-  box-shadow:
-    0 10px 20px rgba(0, 0, 0, 0.3),
-    0 0 0 2px rgba(148, 163, 184, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)

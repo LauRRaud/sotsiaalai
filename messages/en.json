@@ -380,7 +380,7 @@
       },
       "screen_profile": {
         "sm": "Mobile / laptop",
-        "lg": "External screen"
+        "lg": "External screen / PC"
       }
     },
     "save": "Save",

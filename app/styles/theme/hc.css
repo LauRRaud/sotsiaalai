@@ -78,8 +78,8 @@ html[data-contrast="hc"] {
   --glass-modal-shadow: none;
   --glass-shell-shadow: var(--glass-ring-glow-dark);
   --glass-ring-glow-dark:
-    0 10px 20px -16px rgba(255, 234, 0, 0.42),
-    0 18px 30px -24px rgba(255, 234, 0, 0.24);
+    0 8px 16px -14px rgba(255, 234, 0, 0.38),
+    0 14px 22px -20px rgba(255, 234, 0, 0.2);
   --glass-input-bg-idle: var(--hc-bg);
   --glass-input-bg-active: var(--hc-surface);
   --text-strong: var(--hc-text);
@@ -233,23 +233,23 @@ html[data-contrast="hc"]:not(.theme-light) body.homepage {
   --home-link-color: var(--hc-accent);
   --home-scroll-cue-color: var(--hc-accent);
   --home-card-glow-idle:
-    0 0 10px rgba(255, 234, 0, 0.12),
-    0 0 22px rgba(255, 234, 0, 0.06);
+    0 0 8px rgba(255, 234, 0, 0.11),
+    0 0 16px rgba(255, 234, 0, 0.05);
   --home-card-glow-active:
-    0 0 14px rgba(255, 234, 0, 0.18),
-    0 0 30px rgba(255, 234, 0, 0.1);
+    0 0 10px rgba(255, 234, 0, 0.16),
+    0 0 20px rgba(255, 234, 0, 0.08);
 }
 
 html[data-contrast="hc"] .homepage-root .home-about-panel {
   box-shadow:
-    0 0 16px rgba(255, 234, 0, 0.28),
-    0 0 32px rgba(255, 234, 0, 0.16) !important;
+    0 0 12px rgba(255, 234, 0, 0.24),
+    0 0 22px rgba(255, 234, 0, 0.12) !important;
 }
 
 html[data-contrast="hc"] .homepage-root .home-before-panel {
   box-shadow:
-    0 0 18px rgba(255, 234, 0, 0.3),
-    0 0 36px rgba(255, 234, 0, 0.18) !important;
+    0 0 13px rgba(255, 234, 0, 0.25),
+    0 0 24px rgba(255, 234, 0, 0.13) !important;
 }
 
 html[data-contrast="hc"] .homepage-root :is(.home-about-scrollbox, .home-about-scrollbox *) {

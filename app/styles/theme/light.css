@@ -254,23 +254,23 @@
   --home-panel-bg: rgba(251, 249, 246, 0.93);
   --home-card-blur: 0.75rem;
   --home-card-saturate: 100%;
-  --home-panel-shadow-idle: 0 18px 40px rgba(0, 0, 0, 0.16);
-  --home-panel-shadow-active: 0 22px 46px rgba(0, 0, 0, 0.18);
+  --home-panel-shadow-idle: 0 14px 30px rgba(0, 0, 0, 0.14);
+  --home-panel-shadow-active: 0 18px 36px rgba(0, 0, 0, 0.16);
   --home-card-glow-idle:
-    0 0 10px rgba(255, 255, 255, 0.12),
-    0 0 22px rgba(255, 255, 255, 0.07);
+    0 0 8px rgba(255, 255, 255, 0.11),
+    0 0 16px rgba(255, 255, 255, 0.06);
   --home-card-glow-entry:
-    0 0 13px rgba(255, 255, 255, 0.165),
-    0 0 27px rgba(255, 255, 255, 0.092);
+    0 0 10px rgba(255, 255, 255, 0.15),
+    0 0 20px rgba(255, 255, 255, 0.08);
   --home-card-glow-transition:
-    0 0 12px rgba(255, 255, 255, 0.15),
-    0 0 25px rgba(255, 255, 255, 0.085);
+    0 0 9px rgba(255, 255, 255, 0.14),
+    0 0 18px rgba(255, 255, 255, 0.075);
   --home-card-glow-exit:
-    0 0 11px rgba(255, 255, 255, 0.14),
-    0 0 23px rgba(255, 255, 255, 0.078);
+    0 0 9px rgba(255, 255, 255, 0.13),
+    0 0 17px rgba(255, 255, 255, 0.07);
   --home-card-glow-active:
-    0 0 14px rgba(255, 255, 255, 0.18),
-    0 0 28px rgba(255, 255, 255, 0.1);
+    0 0 11px rgba(255, 255, 255, 0.16),
+    0 0 21px rgba(255, 255, 255, 0.085);
   --home-card-surface-bg: rgba(255, 255, 255, 0.18);
   --home-card-surface-blur: 1.2rem;
   --home-card-surface-saturate: 104%;

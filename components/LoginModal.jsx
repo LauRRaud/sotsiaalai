@@ -31,7 +31,7 @@ const helpPopoverClassName =
   "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border border-[color:var(--subpage-card-border)] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] backdrop-saturate-[120%]";
 const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(1.78rem,1.18rem+1.15vw,2.18rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.18rem,9vw,3rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const otpModalTitleClassName =
-  "!text-[clamp(1.34rem,0.95rem+0.72vw,1.72rem)] max-md:!text-[clamp(1.36rem,5.2vw,1.72rem)] max-md:!leading-[1.06]";
+  "!text-[clamp(1.34rem,0.95rem+0.72vw,1.72rem)] !leading-[1.08] whitespace-normal text-center max-w-[12ch] mx-auto max-md:!text-[clamp(1.36rem,5.2vw,1.72rem)] max-md:!leading-[1.06]";
 const otpTextClassName = "text-[color:var(--otp-copy-text)]";
 const otpInfoTextClassName = "text-[color:var(--otp-copy-strong)]";
 const MODAL_FOCUSABLE_SELECTOR = [
@@ -42,6 +42,20 @@ const MODAL_FOCUSABLE_SELECTOR = [
   "textarea:not([disabled])",
   "[tabindex]:not([tabindex='-1'])"
 ].join(", ");
+
+function renderOtpTitle(title) {
+  const parts = String(title || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (parts.length < 2) return title;
+  const splitIndex = Math.ceil(parts.length / 2);
+  return <>
+      <span className="block">{parts.slice(0, splitIndex).join(" ")}</span>
+      <span className="block">{parts.slice(splitIndex).join(" ")}</span>
+    </>;
+}
+
 function SubmitInnerEdgeDotsProgress({
   filled = 0,
   max = 8,
@@ -1226,33 +1240,6 @@ export default function LoginModal({
         : isLightTheme
           ? "#1f2937"
           : "#e5e7eb",
-      "--input-text": isOtpStep
-        ? "var(--otp-input-text)"
-        : undefined,
-      "--input-placeholder": isOtpStep
-        ? "var(--otp-input-placeholder)"
-        : undefined,
-      "--input-caret": isOtpStep
-        ? "var(--otp-input-caret)"
-        : undefined,
-      "--input-bg": isOtpStep
-        ? "var(--otp-input-bg)"
-        : undefined,
-      "--input-bg-hover": isOtpStep
-        ? "var(--otp-input-bg)"
-        : undefined,
-      "--input-bg-focus": isOtpStep
-        ? "var(--otp-input-bg)"
-        : undefined,
-      "--input-border": isOtpStep
-        ? "1px solid var(--otp-input-border)"
-        : undefined,
-      "--input-shadow": isOtpStep
-        ? "0 8px 18px rgba(0,0,0,0.3)"
-        : undefined,
-      "--input-shadow-hover": isOtpStep
-        ? "0 10px 20px rgba(0,0,0,0.34)"
-        : undefined,
       "--login-shell-shadow": loginShellShadow,
       "--login-shell-filter": loginShellFilter,
       width: isPhoneViewport
@@ -1287,7 +1274,9 @@ export default function LoginModal({
                   : ""
               } ${androidModalTitleClassName}`}
             >
-              {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
+              {isOtpStep
+                ? renderOtpTitle(t("auth.login.otp_title"))
+                : t("auth.login.title")}
             </div>
             <div className={headerMessageClass} role={error ? "alert" : showHeaderMessage ? "status" : undefined} aria-live={error ? "assertive" : showHeaderMessage ? "polite" : undefined} aria-atomic="true" aria-hidden={!showHeaderMessage}>
               {showHeaderMessage ? messageText : null}
@@ -1549,7 +1538,7 @@ export default function LoginModal({
             </div>
 
             <div className="w-full mt-[0.96rem] max-[768px]:mt-[0.62rem] flex justify-center">
-              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] !text-[color:var(--otp-input-text)] !caret-[color:var(--otp-input-caret)] text-left placeholder:opacity-100 placeholder:text-center placeholder:!text-[color:var(--otp-input-placeholder)] [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] px-[1.5rem] py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.01em] rounded-[0.88rem]" />
+              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className={`${glassSubpageFieldInputClassName} !w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] text-center !text-center placeholder:opacity-100 placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] !px-[1.2rem] !py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.12em]`} />
             </div>
             {otpInlineError ? <p id="otp-inline-error" role="alert" className="mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
                 {otpInlineError}

@@ -415,7 +415,7 @@
   }
 
   .chat-analysis-overlay [data-control-type][data-checked="true"]:active::before {
-    opacity: 1 !important;
+    opacity: 0 !important;
   }
 
   .chat-analysis-overlay :is(button.button, a.button)[data-variant="primary"] {
@@ -434,6 +434,18 @@
   .chat-analysis-overlay
     :is(button.button, a.button)[data-variant="primary"]:is(:hover, :active)::before {
     opacity: 0 !important;
+  }
+
+  .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type]::before,
+  .chat-analysis-overlay .chat-analysis-action-btn.button[data-variant="primary"]::before {
+    transition: none !important;
+  }
+
+  .chat-analysis-overlay .chat-analysis-action-btn.button[data-variant="primary"]:active,
+  .chat-analysis-overlay .chat-analysis-action-btn.button[data-variant="primary"]:active::before,
+  .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type]:active,
+  .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type]:active::before {
+    animation: none !important;
   }
 }
 

@@ -243,18 +243,18 @@
 :root.theme-mid body.homepage {
   --home-panel-bg: rgba(203, 190, 186, 0.79);
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
-  --home-panel-shadow-idle: 0 14px 30px rgba(20, 12, 10, 0.18);
-  --home-panel-shadow-active: 0 18px 36px rgba(20, 12, 10, 0.22);
+  --home-panel-shadow-idle: 0 11px 24px rgba(20, 12, 10, 0.16);
+  --home-panel-shadow-active: 0 14px 30px rgba(20, 12, 10, 0.19);
   --home-card-glow-idle:
-    0 0 10px rgba(255, 244, 240, 0.1), 0 0 22px rgba(255, 244, 240, 0.06);
+    0 0 8px rgba(255, 244, 240, 0.09), 0 0 16px rgba(255, 244, 240, 0.05);
   --home-card-glow-entry:
-    0 0 13px rgba(255, 244, 240, 0.145), 0 0 27px rgba(255, 244, 240, 0.082);
+    0 0 10px rgba(255, 244, 240, 0.13), 0 0 20px rgba(255, 244, 240, 0.07);
   --home-card-glow-transition:
-    0 0 12px rgba(255, 244, 240, 0.13), 0 0 25px rgba(255, 244, 240, 0.075);
+    0 0 9px rgba(255, 244, 240, 0.12), 0 0 18px rgba(255, 244, 240, 0.068);
   --home-card-glow-exit:
-    0 0 11px rgba(255, 244, 240, 0.115), 0 0 23px rgba(255, 244, 240, 0.068);
+    0 0 9px rgba(255, 244, 240, 0.105), 0 0 17px rgba(255, 244, 240, 0.06);
   --home-card-glow-active:
-    0 0 14px rgba(255, 244, 240, 0.16), 0 0 28px rgba(255, 244, 240, 0.09);
+    0 0 11px rgba(255, 244, 240, 0.145), 0 0 21px rgba(255, 244, 240, 0.078);
 }
 
 :root.theme-mid .home-scroll-cue .home-scroll-cue-mouse,
@@ -311,17 +311,6 @@
 /* OTP explanatory copy must stay dark in mid mode (desktop + mobile). */
 :root.theme-mid .login-modal-box.login-modal--otp .login-modal-shell p {
   color: #2c3340 !important;
-}
-
-:root.theme-mid .login-modal-box.login-modal--otp #otp-code-input {
-  background: rgba(253, 250, 249, 0.62) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.16) !important;
-  color: #4a3833 !important;
-}
-
-:root.theme-mid .login-modal-box.login-modal--otp #otp-code-input::placeholder {
-  color: rgba(82, 58, 51, 0.78) !important;
 }
 
 :root.theme-mid .login-modal-box.login-modal--otp .fancy-checkbox--otp .box {

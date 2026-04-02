@@ -230,7 +230,7 @@
   --opaque-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
   --opaque-panel-text: var(--subpage-card-text);
   --glass-ring-glow-dark:
-    0 10px 20px -16px rgba(248, 253, 255, 0.16);
+    0 8px 16px -14px rgba(248, 253, 255, 0.14);
 
   --glow-light-ring: #e1a0a0;
   --glow-light-soft: rgba(225, 160, 160, 0.28);
