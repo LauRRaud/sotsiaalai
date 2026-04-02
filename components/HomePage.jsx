@@ -24,6 +24,7 @@ const HomeFooter = dynamic(
   { loading: () => null }
 );
 let homeIntroSeen = false;
+const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
 const INTRO_ANIMATION_DELAY_MS = 1500;
 const BLUR_REVEAL_DELAY_MS = 1850;
 const CARD_FADE_DURATION_MS = 2400;
@@ -46,8 +47,24 @@ export default function HomePage() {
     hydrated: prefsHydrated
   } = useAccessibility();
   const { t, locale } = useI18n();
-  const [hasSeenIntro] = useState(() => homeIntroSeen);
-  const initialSkipIntro = hasSeenIntro;
+  const [initialSkipIntro] = useState(() => {
+    let shouldSkipIntro = homeIntroSeen;
+    if (!shouldSkipIntro && typeof window !== "undefined") {
+      try {
+        shouldSkipIntro = Boolean(
+          window.sessionStorage.getItem(HOME_RETURN_FROM_CHAT_KEY)
+        );
+        if (shouldSkipIntro) {
+          window.sessionStorage.removeItem(HOME_RETURN_FROM_CHAT_KEY);
+        }
+      } catch {}
+    }
+    if (shouldSkipIntro) {
+      homeIntroSeen = true;
+    }
+    return shouldSkipIntro;
+  });
+  const [hasSeenIntro] = useState(() => initialSkipIntro);
   const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
   const [rightFadeDone, setRightFadeDone] = useState(() => initialSkipIntro);
   const [introStart, setIntroStart] = useState(() => initialSkipIntro);

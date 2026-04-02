@@ -44,6 +44,7 @@ const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petat
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
+const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
 const ACTIVE_CHAT_WORKFLOW_VALUES = Object.freeze([
   "default",
   "career",
@@ -1900,15 +1901,20 @@ export default function ChatBody({
     });
   }, []);
   const handleBackHome = useCallback(async () => {
-    const now = Date.now();
-    if (now - backTapGuardRef.current < 320) return;
-    backTapGuardRef.current = now;
-    setShowSourcesPanel(false);
-    await waitForComposerCollapse();
-    if (typeof onBackHome === "function") {
-      onBackHome();
-      return;
-    }
+      const now = Date.now();
+      if (now - backTapGuardRef.current < 320) return;
+      backTapGuardRef.current = now;
+      setShowSourcesPanel(false);
+      await waitForComposerCollapse();
+      if (typeof window !== "undefined") {
+        try {
+          window.sessionStorage.setItem(HOME_RETURN_FROM_CHAT_KEY, String(now));
+        } catch {}
+      }
+      if (typeof onBackHome === "function") {
+        onBackHome();
+        return;
+      }
     const homePath = localizePath("/", locale);
     window.requestAnimationFrame(() => {
       pushWithTransition(router, homePath, {
