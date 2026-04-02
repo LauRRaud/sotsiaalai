@@ -251,7 +251,7 @@
 
 :root.theme-light body.homepage {
   --home-prose-color: var(--text-strong, #1f2937);
-  --home-panel-bg: rgba(251, 249, 246, 0.88);
+  --home-panel-bg: rgba(251, 249, 246, 0.93);
   --home-card-blur: 0.75rem;
   --home-card-saturate: 100%;
   --home-panel-shadow-idle: 0 18px 40px rgba(0, 0, 0, 0.16);

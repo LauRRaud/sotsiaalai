@@ -241,7 +241,7 @@
 
 /* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
 :root.theme-mid body.homepage {
-  --home-panel-bg: rgba(246, 236, 232, 0.72);
+  --home-panel-bg: rgba(203, 190, 186, 0.79);
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
   --home-panel-shadow-idle: 0 14px 30px rgba(20, 12, 10, 0.18);
   --home-panel-shadow-active: 0 18px 36px rgba(20, 12, 10, 0.22);
