@@ -19,8 +19,8 @@
  .homepage-root .home-about-panel,
  .homepage-root .home-before-panel {
   border: none !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
   overflow: hidden;
   isolation: isolate;
   contain: paint;
@@ -32,8 +32,11 @@
 
 .homepage-root .home-about-panel {
   background: var(
-    --glass-ring-surface-bg,
-    var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+    --home-panel-bg,
+    var(
+      --glass-ring-surface-bg,
+      var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+    )
   ) !important;
   box-shadow: var(
     --home-about-panel-shadow,
@@ -43,7 +46,7 @@
 
 .homepage-root .home-before-panel {
   background: var(
-    --glass-ring-surface-bg,
+    --home-panel-bg,
     var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
   ) !important;
   box-shadow: var(
@@ -54,6 +57,7 @@
     )
   ) !important;
 }
+
 
 .homepage-root .home-before-contact-button {
   appearance: none;
@@ -75,12 +79,15 @@
   .homepage-root .home-about-panel,
   .homepage-root .home-before-panel {
     background: var(
-      --glass-ring-surface-bg,
-      var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+      --home-panel-bg,
+      var(
+        --glass-ring-surface-bg,
+        var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+      )
     ) !important;
     color: var(--glass-surface-text, #f2f2f2) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
     box-shadow: var(--glass-shell-shadow, none) !important;
   }
 }
@@ -94,6 +101,7 @@
     visibility: hidden !important;
     pointer-events: none !important;
   }
+
 }
 
 .homepage-root .card-blur-layer {

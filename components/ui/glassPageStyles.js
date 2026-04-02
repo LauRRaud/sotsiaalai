@@ -91,6 +91,12 @@ export const glassSubpageCardInteractiveClassName =
 export const glassSubpageSurfaceScopeClassName =
   "[--glass-modal-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))]";
 
+export const glassSubpageContentWideClassName =
+  "mx-auto w-full max-w-[clamp(31rem,62vw,43rem)] max-[768px]:max-w-none";
+
+export const glassSubpagePanelWideClassName =
+  "mx-auto w-full max-w-[min(41rem,100%)] max-[768px]:max-w-none";
+
 export const glassFormInputBaseClassName = pillInputBaseClassName;
 
 export const glassSubpageFieldInputClassName =

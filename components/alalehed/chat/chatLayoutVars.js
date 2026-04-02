@@ -78,7 +78,7 @@ const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
   "--chat-window-mobile-extra-height": "0.45rem",
   "--chat-window-mobile-width-right": "0.28rem",
   "--chat-window-bottom-safe": "0rem",
-  "--chat-window-fade-top": "clamp(0.92rem, 2.4vh, 1.45rem)",
+  "--chat-window-fade-top": "clamp(2.2rem, 6.2vh, 3.35rem)",
   "--chat-window-top-text-fade-extra": "3.7rem",
   "--chat-window-scroll-top-fade-start": "0.52rem",
   "--chat-window-scroll-top-fade-mid": "1.12rem",

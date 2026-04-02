@@ -7,7 +7,7 @@ export default function HomeFooter({ className, logoClassName }) {
   return (
     <footer
       className={cn(
-        "relative z-30 flex w-full justify-center px-0 pb-[calc(env(safe-area-inset-bottom,0px)+0.1rem)] touch-pan-y pointer-events-none bg-transparent border-0 outline-none shadow-none",
+        "relative z-50 flex w-full justify-center px-0 pb-[calc(env(safe-area-inset-bottom,0px)+0.1rem)] touch-pan-y pointer-events-none bg-transparent border-0 outline-none shadow-none",
         className
       )}
     >

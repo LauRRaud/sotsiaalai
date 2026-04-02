@@ -1,26 +1,5 @@
 :root.theme-mid {
   --click-pulse-ring-color: rgba(96, 70, 65, 0.74);
-  --bg-bends-opacity: 0.72;
-  --bg-bends-overlay:
-    radial-gradient(
-      circle at 84% 24%,
-      rgba(224, 203, 197, 0.24) 0%,
-      rgba(224, 203, 197, 0.1) 20%,
-      rgba(224, 203, 197, 0) 44%
-    ),
-    radial-gradient(
-      circle at 50% 2%,
-      rgba(234, 219, 214, 0.24) 0%,
-      rgba(234, 219, 214, 0.12) 32%,
-      rgba(234, 219, 214, 0) 62%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(228, 209, 203, 0.22) 0%,
-      rgba(228, 209, 203, 0.08) 22%,
-      rgba(228, 209, 203, 0) 50%
-    );
-  --bg-bends-overlay-opacity: 1;
   --mid-bg-top: #9f807a;
   --mid-bg-mid: #7e5f58;
   --mid-bg-bottom: #644843;
@@ -57,7 +36,6 @@
   --chat-rail-tooltip-bg: var(--mid-utility-panel-bg);
   --chat-tools-panel-bg: var(--mid-utility-panel-bg);
   --chat-upload-picker-bg: var(--mid-utility-panel-bg);
-  --bg-bends-opacity: 0.72;
   --drawer-glass-bg: var(--glass-ring-surface-bg);
   --drawer-card-shadow:
     0 0 0.55rem rgba(82, 50, 46, 0.032),
@@ -246,6 +224,13 @@
 }
 
 :root.theme-mid .space-backdrop[data-mode="light"] {
+  --space-backdrop-glow: radial-gradient(
+    ellipse at 50% -14%,
+    rgba(255, 239, 231, 0.34) 0%,
+    rgba(255, 239, 231, 0.14) 34%,
+    rgba(255, 239, 231, 0.035) 56%,
+    rgba(255, 239, 231, 0) 74%
+  );
   background: linear-gradient(
     180deg,
     var(--mid-bg-top) 0%,
@@ -256,6 +241,7 @@
 
 /* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
 :root.theme-mid body.homepage {
+  --home-panel-bg: rgba(246, 236, 232, 0.72);
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
   --home-panel-shadow-idle: 0 14px 30px rgba(20, 12, 10, 0.18);
   --home-panel-shadow-active: 0 18px 36px rgba(20, 12, 10, 0.22);

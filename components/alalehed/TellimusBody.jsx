@@ -10,7 +10,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
-import { glassPageBackTopLeftClassName, glassPageCloseClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackTopLeftClassName, glassPageCloseClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassSubpageContentWideClassName, glassSubpagePanelWideClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
@@ -29,13 +29,13 @@ const titleClassName =
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const subscriptionCardBaseClassName =
-  `subscription-modal-content relative z-[21] flex w-full max-w-[clamp(32rem,54vw,42rem)] max-h-[calc(100dvh-2rem)] flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
+  `subscription-modal-content relative z-[21] flex w-full !max-w-[clamp(30rem,54vw,38rem)] max-h-[calc(100dvh-2rem)] flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] shadow-[var(--glass-shell-shadow,none)] ` +
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
-  `px-[1.2rem] pt-[0.35rem] pb-[1rem] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.9rem] ${glassPageMobileCardClassName}`;
+  `px-[0.95rem] pt-[0.35rem] pb-[1rem] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.9rem] ${glassPageMobileCardClassName}`;
 const contentClassName =
-  "subscription-content mx-auto mt-[1.2rem] flex w-full max-w-[clamp(27rem,54vw,37rem)] max-[768px]:mt-[1rem] max-[768px]:max-w-none flex-col gap-[1.05rem]";
+  `subscription-content ${glassSubpageContentWideClassName} mt-[1.2rem] flex max-[768px]:mt-[1rem] flex-col gap-[1.05rem]`;
 const subscriptionCopyClassName =
   "subscription-copy-text text-center text-[1.06rem] leading-[1.56] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:text-[1.12rem]";
 const subscriptionInfoTextClassName =
@@ -43,7 +43,7 @@ const subscriptionInfoTextClassName =
   "tracking-[0.004em] leading-[1.58] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] [&_p]:m-0 [&_p:last-child]:mb-0";
 const subscriptionSupplementTextClassName = `${subscriptionInfoTextClassName} m-0`;
 const subscriptionUnifiedPanelClassName =
-  "mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem] " +
+  `${glassSubpagePanelWideClassName} px-[0.5rem] py-[0.15rem] ` +
   "text-[color:var(--pt-120)] max-[768px]:max-w-none max-[768px]:px-[0.12rem] max-[768px]:py-0";
 const subscriptionCardBodyClassName =
   "grid gap-[0.68rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)]";
@@ -69,7 +69,7 @@ const subscriptionActionClassName =
 const subscriptionStatusClassName =
   "subscription-status-text m-0 text-left text-[1.04rem] leading-[1.52] font-[500]";
 const subscriptionActivePanelClassName =
-  "subscription-active-panel mx-auto w-full max-w-[min(35rem,100%)] px-[0.5rem] py-[0.15rem] max-[768px]:max-w-none max-[768px]:px-[0.12rem]";
+  `subscription-active-panel ${glassSubpagePanelWideClassName} px-[0.5rem] py-[0.15rem] max-[768px]:px-[0.12rem]`;
 const subscriptionActiveSummaryClassName =
   "subscription-active-summary text-left text-[1.08rem] leading-[1.56] font-[600] tracking-[0.004em] text-[color:var(--glass-modal-text)]";
 const subscriptionActiveNoteClassName =

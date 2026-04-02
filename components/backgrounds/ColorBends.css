@@ -3,9 +3,4 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  isolation: isolate;
-}
-.color-bends-container canvas {
-  position: relative;
-  z-index: 1;
 }

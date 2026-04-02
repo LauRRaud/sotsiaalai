@@ -89,6 +89,43 @@ body.selected-listing-modal-open .chat-page-shell {
   --chat-window-fade-bottom-active: var(--chat-window-fade-bottom-focus);
 }
 
+.drawer-chat-sidebar__list {
+  --drawer-sidebar-fade-top: clamp(2.2rem, 6.2vh, 3.35rem);
+  --drawer-sidebar-fade-bottom: clamp(1.35rem, 3.9vh, 2.15rem);
+  scroll-padding-top: calc(var(--drawer-sidebar-fade-top) + 0.18rem);
+  scroll-padding-bottom: calc(var(--drawer-sidebar-fade-bottom) + 0.12rem);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) calc(var(--drawer-sidebar-fade-top) * 0.16),
+    rgba(0, 0, 0, 0.52) calc(var(--drawer-sidebar-fade-top) * 0.42),
+    rgba(0, 0, 0, 0.82) calc(var(--drawer-sidebar-fade-top) * 0.72),
+    #000 calc(var(--drawer-sidebar-fade-top) * 1.02),
+    #000 calc(100% - (var(--drawer-sidebar-fade-bottom) * 1.02)),
+    rgba(0, 0, 0, 0.82) calc(100% - (var(--drawer-sidebar-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.52) calc(100% - (var(--drawer-sidebar-fade-bottom) * 0.42)),
+    rgba(0, 0, 0, 0.18) calc(100% - (var(--drawer-sidebar-fade-bottom) * 0.16)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) calc(var(--drawer-sidebar-fade-top) * 0.16),
+    rgba(0, 0, 0, 0.52) calc(var(--drawer-sidebar-fade-top) * 0.42),
+    rgba(0, 0, 0, 0.82) calc(var(--drawer-sidebar-fade-top) * 0.72),
+    #000 calc(var(--drawer-sidebar-fade-top) * 1.02),
+    #000 calc(100% - (var(--drawer-sidebar-fade-bottom) * 1.02)),
+    rgba(0, 0, 0, 0.82) calc(100% - (var(--drawer-sidebar-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.52) calc(100% - (var(--drawer-sidebar-fade-bottom) * 0.42)),
+    rgba(0, 0, 0, 0.18) calc(100% - (var(--drawer-sidebar-fade-bottom) * 0.16)),
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
 @media (max-width: 768px) {
   .chat-page-shell .chat-container.chat-container--round {
     --chat-nav-top: clamp(2.8rem, 11vw, 4.2rem);

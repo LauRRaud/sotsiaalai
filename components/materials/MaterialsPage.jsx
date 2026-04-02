@@ -11,6 +11,8 @@ import Textarea from "@/components/ui/Textarea"
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
+  glassSubpageContentWideClassName,
+  glassSubpagePanelWideClassName,
   glassSubpageCardClassName,
   glassSubpageSurfaceScopeClassName,
   glassPageTitleClassName
@@ -25,14 +27,14 @@ const materialsSecondaryButtonClassName =
   "materials-surface-button whitespace-normal text-center leading-[1.2] !px-[1.2rem] !py-[0.72rem] !text-[1rem] !min-h-[2.7rem] " +
   "max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.35rem] max-[768px]:!text-[1.08rem]"
 const materialsSectionClassName =
-  "grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] " +
-  "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]"
+  "grid gap-[0.82rem] rounded-[1.18rem] px-[0.45rem] py-[0.75rem] " +
+  "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.12rem] max-[768px]:py-[0.7rem]"
 const materialsUploadSectionClassName =
-  "materials-upload-panel grid gap-[0.82rem] rounded-[1.18rem] px-[1rem] py-[1rem] " +
-  "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.88rem] max-[768px]:py-[0.9rem]"
+  "materials-upload-panel grid gap-[0.82rem] rounded-[1.18rem] px-[0.45rem] py-[0.75rem] " +
+  "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.12rem] max-[768px]:py-[0.7rem]"
 const materialsTextareaClassName =
   `materials-comment-box min-h-[7.4rem] resize-y overflow-y-auto rounded-[1.05rem] ${glassSubpageCardClassName} ` +
-  "px-[1rem] py-[0.9rem] text-[1.05rem] leading-[1.36] text-[color:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
+  "px-[0.78rem] py-[0.82rem] text-[1.05rem] leading-[1.36] text-[color:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
   "placeholder:text-[color:rgba(73,84,101,0.72)] placeholder:opacity-100 " +
   "focus-visible:[background:var(--subpage-card-bg)] focus-visible:border-[color:var(--subpage-card-border)] focus-visible:shadow-[var(--subpage-card-shadow)]"
 const materialsTextareaShellClassName = materialsTextareaClassName
@@ -221,7 +223,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   return (
     <div className="materials-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:items-stretch max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0">
       <div
-        className={`materials-page-content invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards relative z-[21] w-full !max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] [border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.25rem] pt-[0.35rem] pb-[1.1rem] [--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] [--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ${glassSubpageSurfaceScopeClassName} max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] ${glassPageMobileCardClassName} ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
+        className={`materials-page-content invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards relative z-[21] w-full !max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] [border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[0.95rem] pt-[0.35rem] pb-[1.1rem] [--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] [--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ${glassSubpageSurfaceScopeClassName} max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] ${glassPageMobileCardClassName} ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
       >
         <BackButton
           onClick={handleBack}
@@ -239,7 +241,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className="mx-auto grid w-full max-w-[clamp(20rem,52vw,35rem)] gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]">
+        <div className={`${glassSubpageContentWideClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
           <section className={materialsUploadSectionClassName}>
             <div className="grid gap-[0.12rem] pb-[0.12rem] text-left">
               <p className="text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">
@@ -314,7 +316,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               as="section"
               variant="subpage"
               padding="sm"
-              className={`materials-admin-panel ${materialsSectionClassName} -mx-[0.28rem] max-[768px]:-mx-[0.14rem]`}
+              className={`materials-admin-panel ${glassSubpagePanelWideClassName} ${materialsSectionClassName}`}
             >
               <div className="flex items-start justify-between gap-[0.8rem]">
                 <div className="grid gap-[0.22rem]">
@@ -344,7 +346,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                   {items.map((item) => (
                     <div
                       key={item.id}
-                      className={`materials-admin-row grid gap-[0.62rem] rounded-[0.95rem] px-[0.88rem] py-[0.82rem] ${glassSubpageCardClassName}`}
+                      className={`materials-admin-row grid gap-[0.62rem] rounded-[0.95rem] px-[0.62rem] py-[0.72rem] ${glassSubpageCardClassName}`}
                     >
                       <div className="flex flex-wrap items-center gap-[0.45rem] text-[0.86rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.76]">
                         <span>{formatDate(item.createdAt, resolvedLocale)}</span>

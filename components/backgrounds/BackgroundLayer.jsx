@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, memo, Suspense } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -8,10 +8,10 @@ import dynamic from "next/dynamic";
 const Particles = dynamic(() => import("./Particles"), {
   ssr: false
 });
-const MaybeSplash = dynamic(() => import("../MaybeSplash"), {
+const ColorBends = dynamic(() => import("./ColorBends"), {
   ssr: false
 });
-const ColorBends = dynamic(() => import("./ColorBends"), {
+const MaybeSplash = dynamic(() => import("../MaybeSplash"), {
   ssr: false
 });
 function detectMobileLikeDevice() {
@@ -82,57 +82,27 @@ function resolvePlatformFromDom() {
 const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
   isLightTheme = false,
-  prefsHydrated = false,
-  themeMode = "dark",
-  isHomepage = false
+  isHomepage = false,
+  colorBendsColors = ["#7e4442"]
 }) {
   const layerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
-  const [colorBendsReady, setColorBendsReady] = useState(false);
   // Keep initial server/client render identical; compute real value after mount.
   const [deviceProfileReady, setDeviceProfileReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
   const [displayMode, setDisplayMode] = useState("browser");
   const [platform, setPlatform] = useState("");
-  const [wideViewport, setWideViewport] = useState(false);
   const browserMobileMode =
     displayMode === "browser" && (mobileLike || platform === "android" || platform === "ios");
   const mobileBackgroundMode = mobileLike || browserMobileMode;
+  const mobileColorBendsPhase = 12;
   const allowParticles = deviceProfileReady;
   const allowColorBends = deviceProfileReady;
   const baseParallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
   const particlesParallaxActive =
     deviceProfileReady && !reduceMotion && isHomepage && browserMobileMode;
-  const prioritizeBackgroundEffects = isHomepage && mobileBackgroundMode;
-  const baseColorBendsProps = mobileBackgroundMode
-    ? {
-        performanceMode: "balanced",
-        maxDpr: 1.1,
-        rotation: -58,
-        edgeTightness: 1,
-        thicknessBias: 0
-      }
-    : wideViewport
-      ? {
-          performanceMode: "balanced",
-          maxDpr: 1.15
-        }
-      : {
-          performanceMode: "balanced",
-          maxDpr: 1.35
-        };
-  const themeColorBendsProps =
-    themeMode === "mid"
-      ? {
-          colors: ["#7a4a47"]
-        }
-      : null;
-  const colorBendsProps = {
-    ...baseColorBendsProps,
-    ...(themeColorBendsProps || {})
-  };
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -146,7 +116,6 @@ const BackgroundContent = memo(function BackgroundContent({
       setMobileLike(detectMobileLikeDevice());
       setDisplayMode(resolveDisplayModeFromDom());
       setPlatform(resolvePlatformFromDom());
-      setWideViewport(window.innerWidth >= 1440 || window.innerHeight >= 1100);
       setDeviceProfileReady(true);
     };
     const layoutObserver = new MutationObserver(() => compute());
@@ -192,18 +161,6 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted]);
   useEffect(() => {
     if (!mounted) return;
-    if (prefsHydrated || prioritizeBackgroundEffects) {
-      setColorBendsReady(true);
-      return;
-    }
-    setColorBendsReady(false);
-    const fallbackTimer = window.setTimeout(() => {
-      setColorBendsReady(true);
-    }, 1200);
-    return () => window.clearTimeout(fallbackTimer);
-  }, [mounted, prefsHydrated, prioritizeBackgroundEffects]);
-  useEffect(() => {
-    if (!mounted) return;
     if (!deviceProfileReady || reduceMotion || mobileBackgroundMode) {
       setCursorReady(false);
       return;
@@ -215,7 +172,6 @@ const BackgroundContent = memo(function BackgroundContent({
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
     el.style.setProperty("--saai-parallax-space", "0px");
-    el.style.setProperty("--saai-parallax-bends", "0px");
     el.style.setProperty("--saai-parallax-particles", "0px");
     el.style.setProperty("--saai-bg-dim", "0");
     if (!baseParallaxActive) return;
@@ -225,10 +181,8 @@ const BackgroundContent = memo(function BackgroundContent({
       raf = 0;
       const y = window.scrollY || document.documentElement.scrollTop || 0;
       const spaceY = -clamp(y * 0.07, 0, 160);
-      const bendsY = -clamp(y * 0.11, 0, 220);
       const particlesY = -clamp(y * 0.15, 0, 260);
       el.style.setProperty("--saai-parallax-space", `${spaceY.toFixed(2)}px`);
-      el.style.setProperty("--saai-parallax-bends", `${bendsY.toFixed(2)}px`);
       el.style.setProperty("--saai-parallax-particles", `${particlesY.toFixed(2)}px`);
       el.style.setProperty("--saai-bg-dim", "0");
     };
@@ -312,13 +266,22 @@ const BackgroundContent = memo(function BackgroundContent({
           />
         </div>
 
-        {deviceProfileReady && colorBendsReady && allowColorBends && (
-          <div className="bg-bends-layer" aria-hidden="true">
-            <Suspense fallback={null}>
-              <ColorBends {...colorBendsProps} freeze={reduceMotion || mobileBackgroundMode} />
-            </Suspense>
-          </div>
-        )}
+        {deviceProfileReady && allowColorBends && <div className="bg-bends-layer" aria-hidden="true">
+            <ColorBends
+              colors={colorBendsColors}
+              rotation={-58}
+              speed={mobileBackgroundMode ? 0 : 0.15}
+              phase={mobileBackgroundMode ? mobileColorBendsPhase : 0}
+              scale={1}
+              frequency={1}
+              warpStrength={1}
+              mouseInfluence={0}
+              parallax={0}
+              noise={0}
+              transparent
+              autoRotate={0}
+            />
+          </div>}
 
         {}
         {deviceProfileReady && particlesReady && allowParticles && <div className="bg-particles-layer">
@@ -335,8 +298,7 @@ const BackgroundContent = memo(function BackgroundContent({
 });
 function BackgroundLayer() {
   const {
-    prefs,
-    hydrated
+    prefs
   } = useAccessibility();
   const pathname = usePathname();
   const [domTheme, setDomTheme] = useState(null);
@@ -357,14 +319,16 @@ function BackgroundLayer() {
   const effectiveTheme = domTheme || prefs?.theme;
   const isLightTheme =
     effectiveTheme === "light" ||
-    effectiveTheme === "light-mono" ||
     effectiveTheme === "mid";
+  const colorBendsColors =
+    effectiveTheme === "mid" || effectiveTheme === "light"
+      ? ["#7b4c49"]
+      : ["#7e4442"];
   return <BackgroundContent
     reduceMotion={reduceMotion}
     isLightTheme={isLightTheme}
-    prefsHydrated={!!hydrated}
-    themeMode={effectiveTheme || "dark"}
     isHomepage={isHomepage}
+    colorBendsColors={colorBendsColors}
   />;
 }
 export default memo(BackgroundLayer);

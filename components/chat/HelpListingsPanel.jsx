@@ -10,6 +10,8 @@ import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
   glassSubpageCardInteractiveClassName,
+  glassSubpageContentWideClassName,
+  glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles";
@@ -53,7 +55,7 @@ export default function HelpListingsPanel({
   }, [_side, closeTiltOverride]);
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
   const helpListingsContentClassName =
-    `help-listings-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] ` +
+    `help-listings-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
     `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
@@ -135,11 +137,11 @@ export default function HelpListingsPanel({
           </p>
         </div>
 
-        <div className="grid gap-[0.7rem] px-[1.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.12rem]">
+        <div className={`${glassSubpageContentWideClassName} grid gap-[0.7rem] px-[0.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.05rem]`}>
           <Panel
             variant="subpage"
             padding="sm"
-            className={`help-listings-panel ${listingsPanelClassName}`}
+            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} !p-[0.5rem] max-[768px]:!p-[0.12rem]`}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
