@@ -151,7 +151,6 @@ export default function ColorBends({
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const resizeObserverRef = useRef(null);
-  const intersectionObserverRef = useRef(null);
   const cleanupPointerRef = useRef(() => {});
   const renderStillRef = useRef(() => {});
   const syncPlaybackRef = useRef(() => {});
@@ -164,7 +163,6 @@ export default function ColorBends({
   const pointerSmoothRef = useRef(8);
   const animationEnabledRef = useRef(true);
   const visibleRef = useRef(true);
-  const inViewRef = useRef(true);
   const interactiveRef = useRef(false);
 
   useEffect(() => {
@@ -298,7 +296,7 @@ export default function ColorBends({
     syncPlaybackRef.current = () => {
       updatePlaybackMode();
 
-      if (animationEnabledRef.current && visibleRef.current && inViewRef.current) {
+      if (animationEnabledRef.current && visibleRef.current) {
         startLoop();
       } else {
         stopLoop();
@@ -343,18 +341,6 @@ export default function ColorBends({
 
     document.addEventListener("visibilitychange", onVisibilityChange);
 
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          inViewRef.current = !!entry?.isIntersecting;
-          syncPlaybackRef.current();
-        },
-        { root: null, rootMargin: "200px" }
-      );
-      observer.observe(container);
-      intersectionObserverRef.current = observer;
-    }
-
     updatePlaybackMode();
     syncPlaybackRef.current();
 
@@ -367,7 +353,6 @@ export default function ColorBends({
       } else {
         window.removeEventListener("resize", handleResize);
       }
-      intersectionObserverRef.current?.disconnect();
       geometry.dispose();
       material.dispose();
       renderer.dispose();

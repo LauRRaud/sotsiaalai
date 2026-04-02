@@ -30,6 +30,7 @@
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {
+  --home-panel-bg: rgba(16, 19, 24, 0.84);
   --chat-card-surface-standard-bg: radial-gradient(
     ellipse at top,
     rgba(42, 47, 55, 0.76) 0%,

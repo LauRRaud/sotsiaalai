@@ -708,11 +708,9 @@ export default function HomePage() {
             {showHomeFooter ? <HomeFooter /> : null}
           </div> : null}
       </div>
-
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect onAuthSuccess={handleLoginSuccess} />
     </>;
 }
-
 
 
 

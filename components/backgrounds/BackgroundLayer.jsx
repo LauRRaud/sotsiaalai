@@ -1,14 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, memo } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, memo } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import dynamic from "next/dynamic";
+import ColorBends from "./ColorBends";
 const Particles = dynamic(() => import("./Particles"), {
-  ssr: false
-});
-const ColorBends = dynamic(() => import("./ColorBends"), {
   ssr: false
 });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), {
@@ -97,14 +95,13 @@ const BackgroundContent = memo(function BackgroundContent({
   const browserMobileMode =
     displayMode === "browser" && (mobileLike || platform === "android" || platform === "ios");
   const mobileBackgroundMode = mobileLike || browserMobileMode;
-  const mobileColorBendsPhase = 12;
+  const mobileColorBendsPhase = 14;
   const allowParticles = deviceProfileReady;
-  const allowColorBends = deviceProfileReady;
   const baseParallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
   const particlesParallaxActive =
     deviceProfileReady && !reduceMotion && isHomepage && browserMobileMode;
   useEffect(() => setMounted(true), []);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     const mql = q => typeof window.matchMedia === "function" ? window.matchMedia(q) : null;
     const coarse = mql("(pointer: coarse)");
@@ -266,7 +263,7 @@ const BackgroundContent = memo(function BackgroundContent({
           />
         </div>
 
-        {deviceProfileReady && allowColorBends && <div className="bg-bends-layer" aria-hidden="true">
+        <div className="bg-bends-layer" aria-hidden="true">
             <ColorBends
               colors={colorBendsColors}
               rotation={-58}
@@ -281,7 +278,7 @@ const BackgroundContent = memo(function BackgroundContent({
               transparent
               autoRotate={0}
             />
-          </div>}
+          </div>
 
         {}
         {deviceProfileReady && particlesReady && allowParticles && <div className="bg-particles-layer">
@@ -322,7 +319,7 @@ function BackgroundLayer() {
     effectiveTheme === "mid";
   const colorBendsColors =
     effectiveTheme === "mid" || effectiveTheme === "light"
-      ? ["#7b4c49"]
+      ? ["#794f4c"]
       : ["#7e4442"];
   return <BackgroundContent
     reduceMotion={reduceMotion}
