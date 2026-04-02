@@ -8,15 +8,23 @@
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-accent: #7a3a38;
   --orbit-button-shadow:
-    0 12px 22px rgba(0, 0, 0, 0.14),
+    0 6px 10px rgba(0, 0, 0, 0.24),
     inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.64),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
   --orbit-button-shadow-center:
     0 16px 30px rgba(0, 0, 0, 0.18),
     inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.54),
     inset 0 1px 0 rgba(255, 255, 255, 0.68),
     inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  --orbit-button-shadow:
+    0 6px 10px rgba(18, 12, 10, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(126, 95, 88, 0.14);
 }
 
 :root:not(.theme-light):not([data-contrast="hc"])
@@ -125,7 +133,7 @@
       rgba(255, 255, 255, 0.66) 0%,
       rgba(255, 255, 255, 0.42) 55%,
       rgba(255, 255, 255, 0.26) 100%
-    );
+  );
   box-shadow:
     0 12px 22px rgba(0, 0, 0, 0.14),
     inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.5),
@@ -158,9 +166,37 @@
       120% 120% at 84% 90%,
       rgba(255, 255, 255, 0.04) 0%,
       rgba(255, 255, 255, 0) 56%
-    );
+  );
   --pin-gloss-op: 0.2;
 }
+
+:root.theme-light:not(.theme-mid)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item {
+  background:
+    radial-gradient(
+      120% 120% at 18% 16%,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.24) 62%
+    ),
+    radial-gradient(
+      120% 120% at 86% 90%,
+      rgba(0, 0, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0) 64%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.72) 0%,
+      rgba(255, 255, 255, 0.48) 55%,
+      rgba(255, 255, 255, 0.32) 100%
+    );
+  box-shadow:
+    0 13px 24px rgba(0, 0, 0, 0.145),
+    inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.54),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
 :root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-mobile-action.dock-item {
@@ -251,12 +287,36 @@
 :root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
-  box-shadow: var(--orbit-button-shadow);
+  box-shadow:
+    0 9px 16px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.54),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 :root.theme-mid
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
-  box-shadow: var(--orbit-button-shadow);
+  box-shadow:
+    0 9px 15px rgba(18, 12, 10, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(126, 95, 88, 0.11);
+}
+:root.theme-light:not(.theme-mid)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item {
+  box-shadow:
+    0 6px 10px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.54),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+}
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item {
+  box-shadow:
+    0 6px 10px rgba(18, 12, 10, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(126, 95, 88, 0.14);
 }
 :root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -271,18 +331,18 @@
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible) {
   box-shadow:
-    0 16px 28px rgba(82, 50, 46, 0.16),
+    0 7px 11px rgba(82, 50, 46, 0.28),
     inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.74),
     inset 0 1px 0 rgba(255, 255, 255, 0.94),
-    inset 0 -1px 0 rgba(82, 50, 46, 0.11);
+    inset 0 -1px 0 rgba(82, 50, 46, 0.13);
 }
 :root.theme-mid
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible) {
   box-shadow:
-    0 16px 28px rgba(20, 12, 10, 0.15),
+    0 7px 11px rgba(20, 12, 10, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(126, 95, 88, 0.12);
+    inset 0 -1px 0 rgba(126, 95, 88, 0.15);
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::after {
@@ -592,6 +652,78 @@ html[data-contrast="hc"]
   outline: none !important;
   border-color: transparent !important;
 }
+
+:root.theme-light:not(.theme-mid)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item,
+:root.theme-light:not(.theme-mid)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-mobile-action.dock-item {
+  box-shadow:
+    0 8px 14px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.54),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.11) !important;
+}
+
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item,
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-mobile-action.dock-item {
+  box-shadow:
+    0 7px 11px rgba(18, 12, 10, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(126, 95, 88, 0.14) !important;
+}
+
+:root.theme-light:not(.theme-mid)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible) {
+  box-shadow:
+    0 9px 15px rgba(82, 50, 46, 0.24),
+    inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.74),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    inset 0 -1px 0 rgba(82, 50, 46, 0.12) !important;
+}
+
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible) {
+  box-shadow:
+    0 8px 12px rgba(20, 12, 10, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(126, 95, 88, 0.15) !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item,
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-mobile-action.dock-item {
+  box-shadow:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 6px 8px -6px rgba(255, 234, 0, 0.32),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
+  box-shadow:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 7px 10px -6px rgba(255, 234, 0, 0.4),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
+}
+
 :root.theme-night
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-mobile-action.dock-item,
@@ -668,6 +800,13 @@ html[data-contrast="hc"]
     inset 0 0 0 var(--pin-border-w) rgba(34, 42, 56, 0.48),
     inset 0 1px 0 rgba(255, 255, 255, 0.035),
     inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+  --orbit-keypad-shadow-item:
+    0 4px 9px rgba(0, 0, 0, 0.12),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 6px 8px -6px rgba(248, 253, 255, 0.22),
+    inset 0 0 0 var(--pin-border-w) rgba(34, 42, 56, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
   --orbit-button-shadow: var(--orbit-keypad-shadow);
   --orbit-button-shadow-hover: var(--orbit-keypad-shadow);
   --orbit-button-shadow-center:
@@ -697,6 +836,13 @@ html[data-contrast="hc"]
   --orbit-keypad-shadow:
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19);
+  --orbit-keypad-shadow-item:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 6px 8px -6px rgba(208, 228, 255, 0.34),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
@@ -732,6 +878,13 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
+  --orbit-keypad-shadow-item:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 6px 8px -6px rgba(255, 234, 0, 0.32),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19);
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
@@ -750,7 +903,7 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
   ).dock-item {
   color: rgba(255, 255, 255, 0.92);
   background: var(--orbit-keypad-fill) !important;
-  box-shadow: var(--orbit-keypad-shadow) !important;
+  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
   border: none !important;
   outline: none !important;
 }
@@ -770,10 +923,16 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
 
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(
-    .profile-orbit-menu__item,
-    .profile-orbit-menu__center
-  ).dock-item {
+  .profile-orbit-menu__item.dock-item {
+  background: var(--orbit-keypad-fill) !important;
+  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
+  border: none !important;
+  outline: none !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item {
   background: var(--orbit-keypad-fill) !important;
   box-shadow: var(--orbit-keypad-shadow) !important;
   border: none !important;
@@ -1290,4 +1449,49 @@ html[data-contrast="hc"]
   filter: var(--orbit-mobile-visual-filter, none) !important;
   transform: scale(1) !important;
 }
+}
+
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item {
+  box-shadow:
+    0 9px 15px rgba(18, 12, 10, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(126, 95, 88, 0.11) !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item,
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-stack-bubble.dock-item,
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-mobile-action.dock-item {
+  box-shadow:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 6px 8px -6px rgba(255, 234, 0, 0.32),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active),
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active),
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active) {
+  box-shadow:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 7px 10px -6px rgba(255, 234, 0, 0.4),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
 }

@@ -34,7 +34,7 @@ const rootInputVars = {
   "--input-shadow": "var(--documents-soft-shadow)",
   "--input-radius": "12px"
 };
-const cardClassName = "relative overflow-hidden rounded-[1rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] p-[clamp(0.72rem,1.9vw,0.95rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-65";
+const cardClassName = "relative overflow-hidden rounded-[1rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] min-[769px]:backdrop-blur-[var(--glass-blur-radius,1rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] p-[clamp(0.72rem,1.9vw,0.95rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-65";
 const cardBodyClassName = "relative z-[1] grid gap-2";
 const cardHeadClassName = "flex flex-wrap items-start justify-between gap-2";
 const cardSubClassName = "text-[0.95rem] text-[color:var(--admin-muted)] max-w-[56ch]";

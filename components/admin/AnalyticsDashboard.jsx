@@ -52,6 +52,7 @@ const headerPillValueClassName = "text-[color:var(--admin-text)]";
 const cardClassName =
   "relative w-full min-w-0 self-start overflow-visible rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
   "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
+  "min-[769px]:backdrop-blur-[var(--glass-blur-radius,1rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
   "p-[clamp(0.62rem,1.4vw,0.82rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
   "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
 const cardBodyClassName = "relative z-[1] grid min-w-0 gap-[0.6rem]";
@@ -140,6 +141,7 @@ const summaryDeckClassName = "grid w-full items-start gap-3 2xl:grid-cols-[minma
 const summaryPanelClassName =
   "relative w-full min-w-0 overflow-visible rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
   "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
+  "min-[769px]:backdrop-blur-[var(--glass-blur-radius,1rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
   "p-[clamp(0.62rem,1.4vw,0.82rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
   "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
 const summaryPanelBodyClassName = "relative z-[1] grid min-w-0 gap-2.5";
