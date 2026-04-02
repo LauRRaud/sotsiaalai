@@ -35,6 +35,7 @@ const materialsTextareaClassName =
   "px-[1rem] py-[0.9rem] text-[1.05rem] leading-[1.36] text-[color:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
   "placeholder:text-[color:rgba(73,84,101,0.72)] placeholder:opacity-100 " +
   "focus-visible:[background:var(--subpage-card-bg)] focus-visible:border-[color:var(--subpage-card-border)] focus-visible:shadow-[var(--subpage-card-shadow)]"
+const materialsTextareaShellClassName = materialsTextareaClassName
 const materialsSectionTitleClassName =
   "text-[1.22rem] font-[650] leading-[1.18] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]"
 const materialsSectionCopyClassName =
