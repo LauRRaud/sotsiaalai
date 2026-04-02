@@ -306,7 +306,7 @@ export default function HomeAboutSection({
   const aboutBottomFade = aboutFade.bottom ? "5rem" : "0px";
   const shouldFadeAbout = animateIntro && !aboutIntroDone;
   const shouldFadeBefore = animateIntro && !beforeIntroDone;
-  const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.14), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.34), rgba(0,0,0,0.56) calc(${aboutTopFade} * 0.58), rgba(0,0,0,0.82) calc(${aboutTopFade} * 0.82), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,1) calc(100% - calc(${aboutBottomFade} * 0.9)), rgba(0,0,0,0.96) calc(100% - calc(${aboutBottomFade} * 0.72)), rgba(0,0,0,0.82) calc(100% - calc(${aboutBottomFade} * 0.5)), rgba(0,0,0,0.58) calc(100% - calc(${aboutBottomFade} * 0.32)), rgba(0,0,0,0.3) calc(100% - calc(${aboutBottomFade} * 0.16)), rgba(0,0,0,0) 100%)`;
+  const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.16), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.38), rgba(0,0,0,0.62) calc(${aboutTopFade} * 0.68), rgba(0,0,0,0.9) calc(${aboutTopFade} * 0.9), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,0.92) calc(100% - calc(${aboutBottomFade} * 0.86)), rgba(0,0,0,0.68) calc(100% - calc(${aboutBottomFade} * 0.62)), rgba(0,0,0,0.34) calc(100% - calc(${aboutBottomFade} * 0.34)), rgba(0,0,0,0.1) calc(100% - calc(${aboutBottomFade} * 0.12)), rgba(0,0,0,0) 100%)`;
   const openBeforeContact = (event) => {
     event.preventDefault();
     setBeforeView("contact");
@@ -358,9 +358,9 @@ export default function HomeAboutSection({
           <div className="relative mx-auto w-full max-w-[54.5rem] max-[768px]:max-w-[52rem]">
             <div
               ref={aboutScrollRef}
-              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.3rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.45rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]"
+              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.3rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.45rem] text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)] max-[768px]:[--about-scroll-max-height:min(76vh,44.5rem)]"
               style={{
-                maxHeight: "min(71vh, 41rem)",
+                maxHeight: "var(--about-scroll-max-height, min(71vh, 41rem))",
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
                 WebkitMaskImage: aboutMaskImage,

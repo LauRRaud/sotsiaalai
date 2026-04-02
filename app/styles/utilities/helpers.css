@@ -385,9 +385,9 @@ body.login-modal-open {
   border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
   border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
   --ring-pad-x: clamp(
-    0.6rem,
-    calc(var(--ring-diameter, var(--ring-diameter-default)) * 0.022),
-    1.4rem
+    0.22rem,
+    calc(var(--ring-diameter, var(--ring-diameter-default)) * 0.01),
+    0.82rem
   );
   --glass-ring-scroll-offset-open: clamp(2.4rem, 6vh, 4.2rem);
 }
@@ -500,11 +500,11 @@ body.login-modal-open {
       var(--glass-policy-scroll-curve-y-left);
   }
 
-.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
-  max-height: calc(
-    100% - clamp(1.45rem, 3vh, 2rem) + var(--policy-scroll-rise, 0rem)
-  );
-  margin-top: calc(var(--policy-scroll-rise, 0rem) * -1);
+  .glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    max-height: calc(
+      100% - clamp(1.1rem, 2.35vh, 1.55rem) + var(--policy-scroll-rise, 0rem)
+    );
+  margin-top: calc((var(--policy-scroll-rise, 0rem) * -1) + clamp(0.42rem, 0.9vh, 0.68rem));
   padding-top: calc(
     clamp(0.38rem, 0.95vh, 0.72rem) + var(--policy-first-line-drop, 0rem)
   );
@@ -551,12 +551,12 @@ body.login-modal-open {
       100% - var(--glass-ring-scroll-offset-open, 5rem) +
         var(--policy-scroll-rise, 0rem)
     );
-    margin-top: calc((var(--policy-scroll-rise, 0rem) * -0.48) - clamp(0.08rem, 0.18vh, 0.18rem));
+    margin-top: calc((var(--policy-scroll-rise, 0rem) * -0.48) + clamp(0.48rem, 1vh, 0.76rem));
     padding-top: calc(
       clamp(1.56rem, 3.15vh, 2.34rem) + var(--policy-first-line-drop, 0rem)
     );
-    width: calc(100% - clamp(1.5rem, 3vw, 2.3rem)) !important;
-    max-width: calc(100% - clamp(1.5rem, 3vw, 2.3rem)) !important;
+    width: calc(100% - clamp(0.7rem, 1.45vw, 1.15rem)) !important;
+    max-width: calc(100% - clamp(0.7rem, 1.45vw, 1.15rem)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
     padding-left: clamp(0.08rem, 0.3vw, 0.26rem);
@@ -832,135 +832,93 @@ body.login-modal-open {
 
 .guide-policy-content.glass-ring-content--open,
 .policy-page-content.glass-ring-content--open {
-  padding-top: clamp(0.04rem, 0.16vh, 0.14rem);
+  padding-top: clamp(0rem, 0.08vh, 0.08rem);
   margin-top: clamp(-1.08rem, -2.1vh, -0.68rem);
   position: relative;
 }
 
 .glass-policy-content--expanded {
-  padding-top: clamp(0.02rem, 0.12vh, 0.12rem) !important;
+  padding-top: clamp(0rem, 0.08vh, 0.08rem) !important;
   margin-top: clamp(-1.42rem, -2.75vh, -0.92rem) !important;
 }
 
 :root {
   --policy-bottom-fade-rgb: 3 8 18;
+  --policy-content-fade-top-open: clamp(0.55rem, 1.15vh, 0.9rem);
+  --policy-content-fade-bottom: clamp(4.4rem, 8.2vh, 5.8rem);
+  --policy-content-fade-bottom-open: clamp(5.8rem, 10.8vh, 7.6rem);
 }
 
 :root.theme-light:not(.theme-mid) {
   --policy-bottom-fade-rgb: 247 247 246;
+  --policy-content-fade-top-open: clamp(0.58rem, 1.2vh, 0.95rem);
+  --policy-content-fade-bottom: clamp(4.8rem, 8.7vh, 6.2rem);
+  --policy-content-fade-bottom-open: clamp(5.8rem, 10.8vh, 7.6rem);
 }
 
 :root.theme-mid {
   --policy-bottom-fade-rgb: 252 248 247;
+  --policy-content-fade-top-open: clamp(0.58rem, 1.2vh, 0.95rem);
+  --policy-content-fade-bottom: clamp(4.8rem, 8.7vh, 6.2rem);
+  --policy-content-fade-bottom-open: clamp(5.8rem, 10.8vh, 7.6rem);
 }
 
 :root.theme-night {
   --policy-bottom-fade-rgb: 12 20 34;
+  --policy-content-fade-top-open: clamp(0.48rem, 1.05vh, 0.8rem);
+  --policy-content-fade-bottom: clamp(4.1rem, 7.6vh, 5.4rem);
+  --policy-content-fade-bottom-open: clamp(5.4rem, 10vh, 7rem);
 }
 
 html[data-contrast="hc"] {
   --policy-bottom-fade-rgb: 11 11 11;
+  --policy-content-fade-top-open: clamp(0.62rem, 1.25vh, 1rem);
+  --policy-content-fade-bottom: clamp(4.6rem, 8.6vh, 6rem);
+  --policy-content-fade-bottom-open: clamp(5.8rem, 10.4vh, 7.4rem);
 }
 
-.guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-.policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: clamp(4.4rem, 8.2vh, 5.8rem);
-  pointer-events: none;
-  z-index: 6;
-  opacity: 1;
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-    rgba(var(--policy-bottom-fade-rgb), 0.03) 24%,
-    rgba(var(--policy-bottom-fade-rgb), 0.1) 48%,
-    rgba(var(--policy-bottom-fade-rgb), 0.24) 68%,
-    rgba(var(--policy-bottom-fade-rgb), 0.4) 82%,
-    rgba(var(--policy-bottom-fade-rgb), 0.54) 100%
-  );
+@media (max-width: 768px) {
+  :root {
+    --policy-content-fade-top-open: clamp(0.42rem, 0.95vh, 0.7rem);
+    --policy-content-fade-bottom: clamp(3.7rem, 7vh, 4.9rem);
+    --policy-content-fade-bottom-open: clamp(4.8rem, 8.8vh, 6.4rem);
+  }
+
+  :root.theme-light:not(.theme-mid) {
+    --policy-content-fade-top-open: clamp(0.44rem, 1vh, 0.72rem);
+    --policy-content-fade-bottom: clamp(3.9rem, 7.2vh, 5rem);
+    --policy-content-fade-bottom-open: clamp(4.9rem, 9vh, 6.5rem);
+  }
+
+  :root.theme-mid {
+    --policy-content-fade-top-open: clamp(0.44rem, 1vh, 0.72rem);
+    --policy-content-fade-bottom: clamp(3.9rem, 7.2vh, 5rem);
+    --policy-content-fade-bottom-open: clamp(4.9rem, 9vh, 6.5rem);
+  }
+
+  :root.theme-night {
+    --policy-content-fade-top-open: clamp(0.36rem, 0.85vh, 0.62rem);
+    --policy-content-fade-bottom: clamp(3.5rem, 6.6vh, 4.7rem);
+    --policy-content-fade-bottom-open: clamp(4.6rem, 8.5vh, 6rem);
+  }
+
+  html[data-contrast="hc"] {
+    --policy-content-fade-top-open: clamp(0.48rem, 1vh, 0.72rem);
+    --policy-content-fade-bottom: clamp(4rem, 7.4vh, 5.2rem);
+    --policy-content-fade-bottom-open: clamp(5.1rem, 9.2vh, 6.6rem);
+  }
 }
 
-:root.theme-light:not(.theme-mid)
-  .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-:root.theme-light:not(.theme-mid)
-  .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-  height: clamp(4.8rem, 8.7vh, 6.2rem);
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-    rgba(var(--policy-bottom-fade-rgb), 0.02) 24%,
-    rgba(var(--policy-bottom-fade-rgb), 0.08) 48%,
-    rgba(var(--policy-bottom-fade-rgb), 0.2) 68%,
-    rgba(var(--policy-bottom-fade-rgb), 0.32) 82%,
-    rgba(var(--policy-bottom-fade-rgb), 0.4) 92%,
-    rgba(var(--policy-bottom-fade-rgb), 0.48) 100%
-  );
-}
-
-:root.theme-mid
-  .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-:root.theme-mid
-  .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-  height: clamp(4.8rem, 8.7vh, 6.2rem);
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-    rgba(var(--policy-bottom-fade-rgb), 0.02) 24%,
-    rgba(var(--policy-bottom-fade-rgb), 0.07) 48%,
-    rgba(var(--policy-bottom-fade-rgb), 0.18) 68%,
-    rgba(var(--policy-bottom-fade-rgb), 0.28) 82%,
-    rgba(var(--policy-bottom-fade-rgb), 0.35) 92%,
-    rgba(var(--policy-bottom-fade-rgb), 0.42) 100%
-  );
-}
-
-.guide-policy-content.glass-ring-content--open::after,
-.policy-page-content.glass-ring-content--open::after {
-  height: clamp(5.8rem, 10.8vh, 7.6rem);
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-    rgba(var(--policy-bottom-fade-rgb), 0.04) 18%,
-    rgba(var(--policy-bottom-fade-rgb), 0.16) 42%,
-    rgba(var(--policy-bottom-fade-rgb), 0.32) 64%,
-    rgba(var(--policy-bottom-fade-rgb), 0.48) 80%,
-    rgba(var(--policy-bottom-fade-rgb), 0.6) 100%
-  );
-}
-
-:root.theme-light:not(.theme-mid) .guide-policy-content.glass-ring-content--open::after,
-:root.theme-light:not(.theme-mid) .policy-page-content.glass-ring-content--open::after {
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-    rgba(var(--policy-bottom-fade-rgb), 0.03) 18%,
-    rgba(var(--policy-bottom-fade-rgb), 0.12) 42%,
-    rgba(var(--policy-bottom-fade-rgb), 0.24) 64%,
-    rgba(var(--policy-bottom-fade-rgb), 0.36) 80%,
-    rgba(var(--policy-bottom-fade-rgb), 0.48) 100%
-  );
-}
-
-:root.theme-mid .guide-policy-content.glass-ring-content--open::after,
-:root.theme-mid .policy-page-content.glass-ring-content--open::after {
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-    rgba(var(--policy-bottom-fade-rgb), 0.02) 18%,
-    rgba(var(--policy-bottom-fade-rgb), 0.1) 42%,
-    rgba(var(--policy-bottom-fade-rgb), 0.2) 64%,
-    rgba(var(--policy-bottom-fade-rgb), 0.3) 80%,
-    rgba(var(--policy-bottom-fade-rgb), 0.4) 100%
-  );
-}
 
 .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
 .policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
   --policy-scroll-open-top-raise: clamp(0.68rem, 1.28vh, 1rem);
+  --policy-scroll-open-inline-gap: clamp(1rem, 2vw, 1.8rem);
+  --policy-scroll-open-max-width: clamp(
+    44rem,
+    calc(var(--ring-diameter, var(--ring-diameter-default)) * 0.975),
+    66rem
+  );
   max-height: calc(
     100% - var(--glass-ring-scroll-offset-open, 5rem) +
       var(--policy-scroll-rise, 0rem) + var(--policy-scroll-open-top-lift, 0rem) +
@@ -1001,7 +959,8 @@ html[data-contrast="hc"] {
   margin-top: calc(
     (var(--policy-scroll-rise, 0rem) * -0.12) -
       var(--policy-scroll-open-top-lift, 0rem) -
-      var(--policy-scroll-open-top-raise, 0rem)
+      var(--policy-scroll-open-top-raise, 0rem) +
+      clamp(0.56rem, 1.05vh, 0.84rem)
   ) !important;
   padding-top: calc(
     clamp(-0.4rem, -0.26vh, -0.08rem) + var(--policy-first-line-drop, 0rem)
@@ -1042,7 +1001,8 @@ html[data-contrast="hc"] {
 .glass-policy-scroll--expanded {
   margin-top: calc(
     (var(--policy-scroll-rise, 0rem) * -0.56) -
-      var(--policy-scroll-open-top-lift, 0rem)
+      var(--policy-scroll-open-top-lift, 0rem) +
+      clamp(0.58rem, 1.08vh, 0.86rem)
   ) !important;
   padding-top: calc(
     clamp(-0.08rem, 0.02vh, 0.08rem) + var(--policy-first-line-drop, 0rem)
@@ -1203,12 +1163,12 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
       ),
       calc(100% - var(--policy-scroll-inline-gap))
     );
-    --policy-scroll-open-inline-gap: 1rem;
+    --policy-scroll-open-inline-gap: 0.65rem;
     --policy-scroll-open-width: min(
       clamp(
-        40rem,
-        calc(var(--ring-diameter, var(--ring-diameter-default)) * 0.99),
-        64rem
+        43rem,
+        calc(var(--ring-diameter, var(--ring-diameter-default)) * 1.02),
+        66rem
       ),
       calc(100% - var(--policy-scroll-open-inline-gap))
     );
@@ -1220,13 +1180,14 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
 
   .glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
     max-height: calc(
-      100% - clamp(0.44rem, 0.86vh, 0.68rem) + var(--policy-scroll-rise, 0rem) -
+      100% - clamp(0.12rem, 0.28vh, 0.28rem) + var(--policy-scroll-rise, 0rem) -
         var(--policy-scroll-normal-bottom-cut, 0rem) -
         var(--policy-scroll-bottom-curve-reveal, 0rem)
     ) !important;
     margin-top: calc(
       (var(--policy-scroll-rise, 0rem) * -1) -
-        var(--policy-scroll-normal-top-shift, 0rem)
+        var(--policy-scroll-normal-top-shift, 0rem) +
+        clamp(0.48rem, 0.96vh, 0.72rem)
     ) !important;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -1261,102 +1222,6 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
     ) !important;
   }
 
-  .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-    content: "" !important;
-    display: block !important;
-    height: clamp(7.2rem, 12.2vh, 9.4rem) !important;
-    z-index: 12 !important;
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 0.06) 14%,
-      rgba(var(--policy-bottom-fade-rgb), 0.22) 30%,
-      rgba(var(--policy-bottom-fade-rgb), 0.46) 48%,
-      rgba(var(--policy-bottom-fade-rgb), 0.72) 66%,
-      rgba(var(--policy-bottom-fade-rgb), 0.92) 84%,
-      rgba(var(--policy-bottom-fade-rgb), 1) 100%
-    ) !important;
-  }
-
-  :root.theme-light:not(.theme-mid)
-    .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root.theme-light:not(.theme-mid)
-    .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-    height: clamp(6.8rem, 11.4vh, 8.8rem) !important;
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 0.04) 14%,
-      rgba(var(--policy-bottom-fade-rgb), 0.16) 30%,
-      rgba(var(--policy-bottom-fade-rgb), 0.34) 48%,
-      rgba(var(--policy-bottom-fade-rgb), 0.54) 66%,
-      rgba(var(--policy-bottom-fade-rgb), 0.76) 84%,
-      rgba(var(--policy-bottom-fade-rgb), 0.92) 94%,
-      rgba(var(--policy-bottom-fade-rgb), 1) 100%
-    ) !important;
-  }
-
-  :root.theme-mid
-    .guide-policy-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root.theme-mid
-    .policy-page-content.glass-ring-content:not(.glass-ring-content--open)::after {
-    height: clamp(6.8rem, 11.4vh, 8.8rem) !important;
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 0.04) 14%,
-      rgba(var(--policy-bottom-fade-rgb), 0.14) 30%,
-      rgba(var(--policy-bottom-fade-rgb), 0.3) 48%,
-      rgba(var(--policy-bottom-fade-rgb), 0.48) 66%,
-      rgba(var(--policy-bottom-fade-rgb), 0.68) 84%,
-      rgba(var(--policy-bottom-fade-rgb), 0.86) 94%,
-      rgba(var(--policy-bottom-fade-rgb), 1) 100%
-    ) !important;
-  }
-
-  .guide-policy-content.glass-ring-content--open::after,
-  .policy-page-content.glass-ring-content--open::after {
-    height: clamp(5.6rem, 10.2vh, 7.2rem) !important;
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 0.05) 18%,
-      rgba(var(--policy-bottom-fade-rgb), 0.18) 42%,
-      rgba(var(--policy-bottom-fade-rgb), 0.36) 64%,
-      rgba(var(--policy-bottom-fade-rgb), 0.52) 80%,
-      rgba(var(--policy-bottom-fade-rgb), 0.64) 100%
-    ) !important;
-  }
-
-  :root.theme-light:not(.theme-mid)
-    .guide-policy-content.glass-ring-content--open::after,
-  :root.theme-light:not(.theme-mid)
-    .policy-page-content.glass-ring-content--open::after {
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 0.03) 18%,
-      rgba(var(--policy-bottom-fade-rgb), 0.12) 42%,
-      rgba(var(--policy-bottom-fade-rgb), 0.24) 64%,
-      rgba(var(--policy-bottom-fade-rgb), 0.36) 80%,
-      rgba(var(--policy-bottom-fade-rgb), 0.48) 100%
-    ) !important;
-  }
-
-  :root.theme-mid .guide-policy-content.glass-ring-content--open::after,
-  :root.theme-mid .policy-page-content.glass-ring-content--open::after {
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--policy-bottom-fade-rgb), 0) 0%,
-      rgba(var(--policy-bottom-fade-rgb), 0.02) 18%,
-      rgba(var(--policy-bottom-fade-rgb), 0.1) 42%,
-      rgba(var(--policy-bottom-fade-rgb), 0.2) 64%,
-      rgba(var(--policy-bottom-fade-rgb), 0.3) 80%,
-      rgba(var(--policy-bottom-fade-rgb), 0.4) 100%
-    ) !important;
-  }
-
   .glass-policy-scroll.glass-ring-scroll--open {
     margin-left: auto !important;
     margin-right: auto !important;
@@ -1369,14 +1234,17 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
       (var(--policy-scroll-rise, 0rem) * -0.46) -
         var(--policy-scroll-open-top-lift, 0rem) -
         var(--policy-scroll-open-top-raise, 0rem) -
-        clamp(0.16rem, 0.32vh, 0.24rem)
+        clamp(0.16rem, 0.32vh, 0.24rem) +
+        clamp(0.62rem, 1.12vh, 0.92rem)
     ) !important;
     padding-top: calc(
       clamp(0.32rem, 0.9vh, 0.68rem) + var(--policy-first-line-drop, 0rem)
     ) !important;
     padding-bottom: clamp(1.2rem, 2.5vh, 2rem) !important;
-    padding-left: clamp(0.02rem, 0.1vw, 0.1rem) !important;
-    padding-right: clamp(0.28rem, 0.68vw, 0.5rem) !important;
+    width: calc(100% - clamp(0.42rem, 0.9vw, 0.72rem)) !important;
+    max-width: calc(100% - clamp(0.42rem, 0.9vw, 0.72rem)) !important;
+    padding-left: clamp(0.02rem, 0.08vw, 0.08rem) !important;
+    padding-right: clamp(0.12rem, 0.34vw, 0.24rem) !important;
     mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
@@ -1504,7 +1372,7 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
 @media (min-width: 769px) {
   .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
   .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
-    padding-bottom: clamp(5rem, 8.8vh, 6.8rem) !important;
+    padding-bottom: clamp(3.55rem, 6.4vh, 5rem) !important;
   }
 
   .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
@@ -1512,7 +1380,7 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
     > footer.policy-page-footer {
     margin-top: clamp(3.45rem, 6.4vh, 4.25rem) !important;
-    margin-bottom: clamp(0.85rem, 1.8vh, 1.25rem) !important;
+    margin-bottom: clamp(0.36rem, 0.92vh, 0.72rem) !important;
   }
 }
 
@@ -1525,26 +1393,8 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
       (var(--policy-scroll-rise, 0rem) * -0.12) -
         var(--policy-scroll-open-top-lift, 0rem) -
         var(--policy-scroll-open-top-raise, 0rem) -
-        clamp(0.56rem, 1.08vh, 0.84rem)
+        clamp(0.46rem, 0.92vh, 0.72rem)
     ) !important;
-  }
-}
-
-@media (min-width: 769px) {
-  :root .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content--open::after,
-  :root .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content--open::after,
-  :root.theme-light:not(.theme-mid) .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root.theme-light:not(.theme-mid) .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root.theme-light:not(.theme-mid) .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content--open::after,
-  :root.theme-light:not(.theme-mid) .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content--open::after,
-  :root.theme-mid .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root.theme-mid .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content:not(.glass-ring-content--open)::after,
-  :root.theme-mid .guide-policy-content.guide-policy-content.glass-ring-content.glass-ring-content--open::after,
-  :root.theme-mid .policy-page-content.policy-page-content.glass-ring-content.glass-ring-content--open::after {
-    content: "" !important;
-    display: block !important;
   }
 }
 
