@@ -1224,6 +1224,7 @@ html[data-contrast="hc"]
 .profile-orbit-mobile-action.dock-item {
   appearance: none;
   -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
   border: 0 !important;
   outline: none !important;
   overflow: hidden;
@@ -1285,11 +1286,12 @@ html[data-contrast="hc"]
   .profile-orbit-mobile-panel
   .profile-orbit-mobile-action.dock-item[data-orbit-mobile-active="true"] {
   box-shadow:
-    0 0 12px rgba(255, 234, 0, 0.22),
-    0 0 24px rgba(255, 234, 0, 0.12),
-    0 10px 22px rgba(0, 0, 0, 0.24),
-    inset 0 0 0 1px rgba(255, 234, 0, 0.1),
-    inset 0 1px 0 rgba(255, 250, 180, 0.035) !important;
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 6px 8px -6px rgba(255, 234, 0, 0.32),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
 }
 
 :root:not(.theme-light) .profile-orbit-mobile-scrim--top {
@@ -1372,6 +1374,10 @@ html[data-reduce-motion="1"]
 }
 
 @media (max-width: 48em) {
+  .profile-orbit-stack-item {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   .profile-orbit-stack-item[data-key="back"] .profile-orbit-stack-label {
     display: none;
   }
@@ -1421,12 +1427,7 @@ html[data-reduce-motion="1"]
   html[data-contrast="hc"]
     .profile-email-dock-wrapper.profile-orbit-menu-wrapper
     .profile-orbit-stack-bubble.dock-item {
-    box-shadow:
-      0 0 12px rgba(255, 234, 0, 0.22),
-      0 0 24px rgba(255, 234, 0, 0.12),
-      0 10px 22px rgba(0, 0, 0, 0.24),
-      inset 0 0 0 1px rgba(255, 234, 0, 0.1),
-      inset 0 1px 0 rgba(255, 250, 180, 0.035) !important;
+    box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
   }
 
 :root.theme-light:not(.theme-mid)
@@ -1484,18 +1485,8 @@ html[data-contrast="hc"]
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active),
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active),
-html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active) {
-  box-shadow:
-    0 4px 9px rgba(2, 6, 16, 0.13),
-    0 1px 1px rgba(15, 23, 42, 0.065),
-    0 0 10px rgba(255, 234, 0, 0.18),
-    0 11px 18px -7px rgba(255, 234, 0, 0.58),
-    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
+  .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
+  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
 }
 
 @media (min-width: 48.001em) {

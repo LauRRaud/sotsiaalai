@@ -135,6 +135,20 @@
   mask-size: 100% 100%;
 }
 
+.homepage-root.home-return-from-chat .card-blur-layer {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+.homepage-root.home-return-from-chat
+  :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
+  box-shadow: var(
+    --home-card-shadow-idle,
+    var(--home-card-glow-idle, none)
+  ) !important;
+  transition: none !important;
+}
+
 .homepage-root .home-card-a11y-button {
   position: relative;
   outline: none;
