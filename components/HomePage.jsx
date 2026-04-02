@@ -29,7 +29,10 @@ const BLUR_REVEAL_DELAY_MS = 1850;
 const CARD_FADE_DURATION_MS = 2400;
 const CARD_FADE_DELAY_MS = 500;
 const HOME_FOOTER_STAGGER_MS = 220;
-const CARD_AUTO_PREVIEW_DURATION_MS = 2500;
+const CARD_FLIP_TO_BACK_MS = 1250;
+const CARD_FLIP_TO_FRONT_MS = 1250;
+const CARD_AUTO_PREVIEW_DURATION_MS =
+  CARD_FLIP_TO_BACK_MS + CARD_FLIP_TO_FRONT_MS;
 const CARD_AUTO_PREVIEW_INTERVAL_MS = 15000;
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 export default function HomePage() {
@@ -112,8 +115,8 @@ export default function HomePage() {
     const perms = Array.isArray(u?.permissions) ? u.permissions : [];
     return Boolean(u?.isAdmin || u?.is_admin || role === "admin" || perms.includes("admin"));
   }, [session]);
-  const flipToBackMs = 1250;
-  const flipToFrontMs = 1250;
+  const flipToBackMs = CARD_FLIP_TO_BACK_MS;
+  const flipToFrontMs = CARD_FLIP_TO_FRONT_MS;
   const markChatEnterFromHome = useCallback(() => {
     if (typeof window === "undefined") return;
     try {
