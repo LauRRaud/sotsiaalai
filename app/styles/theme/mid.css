@@ -80,14 +80,14 @@
   --mid-unified-surface-bg-hover:
     radial-gradient(
       92% 88% at 50% 16%,
-      rgba(249, 241, 238, 0.64) 0%,
-      rgba(241, 232, 228, 0.56) 42%,
-      rgba(232, 221, 216, 0.5) 100%
+      rgba(246, 237, 233, 0.56) 0%,
+      rgba(238, 228, 223, 0.48) 42%,
+      rgba(229, 217, 212, 0.42) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(243, 234, 230, 0.43) 0%,
-      rgba(234, 224, 220, 0.37) 100%
+      rgba(239, 229, 224, 0.34) 0%,
+      rgba(230, 219, 214, 0.29) 100%
     );
   --mid-unified-surface-bg-active:
     radial-gradient(
@@ -132,7 +132,18 @@
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.1);
   --btn-primary-hover-brightness: 1;
   --btn-primary-bg: var(--mid-unified-surface-bg);
-  --btn-primary-bg-hover: var(--mid-unified-surface-bg);
+  --btn-primary-bg-hover:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(236, 226, 221, 0.46) 0%,
+      rgba(228, 217, 212, 0.4) 42%,
+      rgba(219, 207, 202, 0.34) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(230, 219, 214, 0.27) 0%,
+      rgba(221, 210, 205, 0.21) 100%
+    );
   --btn-primary-bg-active: var(--mid-unified-surface-bg-active);
   --btn-primary-text: #2f3a4a;
   --btn-primary-border: var(--mid-unified-surface-border);
@@ -917,4 +928,23 @@
   --btn-primary-shadow-focus:
     0 5px 12px rgba(0, 0, 0, 0.24),
     0 0 0 3px var(--btn-primary-focus-ring-color);
+}
+
+/* Materials comment box in mid should match the same subpage glass surface as help-list panels. */
+:root.theme-mid .materials-comment-box,
+:root.theme-light.theme-mid .materials-comment-box {
+  --input-bg: var(--subpage-card-bg);
+  --input-bg-hover: var(--subpage-card-bg-hover);
+  --input-bg-focus: var(--subpage-card-bg-hover);
+  --input-border: 0 solid transparent;
+  --input-radius: var(--subpage-card-radius);
+  --input-text: var(--subpage-card-text);
+  --input-caret: var(--subpage-card-text);
+  --input-placeholder: rgba(73, 84, 101, 0.72);
+  --input-shadow: var(--subpage-card-shadow);
+  --input-shadow-hover: var(--subpage-card-shadow-hover);
+  --input-shadow-focus-composite: var(--subpage-card-shadow-hover);
+  --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0);
 }

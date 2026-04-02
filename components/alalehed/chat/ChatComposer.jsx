@@ -565,10 +565,10 @@ export default function ChatComposer({
   const displayExpanded = inputFocused && composerExpanded;
   const inputBarClassName =
     "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] overflow-hidden " +
-    `flex-[1_1_auto] ${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.14rem]" : "grid-cols-[1fr_auto] items-center gap-x-[0.24rem]"} ` +
-    `min-h-[var(--inputbar-h)] ${displayExpanded ? "rounded-[1.35rem]" : "rounded-full"} ` +
+    `flex-[1_1_auto] ${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.14rem]" : "grid-cols-[1fr_auto] items-stretch gap-x-[0.24rem]"} ` +
+    `${displayExpanded ? "min-h-[var(--inputbar-h)] rounded-[1.35rem]" : "h-[var(--inputbar-h)] rounded-full"} ` +
     "transition-[border-color,box-shadow,background,max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    `${displayExpanded ? "px-[0.78rem] pt-[0.86rem] pb-[0.34rem] pr-[0.5rem]" : "px-[0.6rem] py-[0.14rem] pr-[0.08rem]"} ` +
+    `${displayExpanded ? "px-[0.78rem] pt-[0.86rem] pb-[0.34rem] pr-[0.5rem]" : "pl-[0.6rem] pr-[0.04rem] py-0"} ` +
     "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
   const inputFieldWrapClassName = displayExpanded
     ? "min-w-0 w-full px-[0.3rem] pt-[0.26rem] pr-[0.36rem]"
@@ -580,9 +580,9 @@ export default function ChatComposer({
     `${forcePlaceholderVisible ? "placeholder:opacity-100 placeholder:text-[color:var(--input-placeholder)] " : "placeholder:opacity-0 light:placeholder:opacity-100 light:placeholder:text-[color:var(--input-placeholder)]"}`;
   const actionRowClassName = displayExpanded
     ? "flex shrink-0 items-center justify-end gap-[0.24rem] px-[0.28rem] pb-0 pt-0"
-    : "flex items-center justify-end gap-[0.18rem]";
+    : "flex h-full self-stretch items-center justify-end gap-[0.18rem]";
   const actionButtonClassName =
-    "chat-listen-btn relative z-[2] !h-[calc(var(--inputbar-h)*0.96)] !w-[calc(var(--inputbar-h)*0.96)] !min-h-[calc(var(--inputbar-h)*0.96)] !min-w-[calc(var(--inputbar-h)*0.96)] !flex-[0_0_calc(var(--inputbar-h)*0.96)] !p-0 rounded-full " +
+    `chat-listen-btn relative z-[2] ${displayExpanded ? "!h-[var(--inputbar-h)] !w-[var(--inputbar-h)] !min-h-[var(--inputbar-h)] !min-w-[var(--inputbar-h)] !flex-[0_0_var(--inputbar-h)]" : "!h-[calc(var(--inputbar-h)-2px)] !w-[calc(var(--inputbar-h)-2px)] !min-h-[calc(var(--inputbar-h)-2px)] !min-w-[calc(var(--inputbar-h)-2px)] !flex-[0_0_calc(var(--inputbar-h)-2px)]"} !p-0 rounded-full ` +
     "flex items-center justify-center " +
     "mr-0 " +
     "pointer-events-auto !translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
@@ -590,7 +590,7 @@ export default function ChatComposer({
     "data-[speaking=true]:shadow-[0_0_0_1px_rgba(148,163,184,0.22),0_0_6px_rgba(84,95,115,0.45)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonClassName =
-    "chat-send-btn invite-primary-btn relative z-[2] !h-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !w-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !min-h-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !min-w-[calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !flex-[0_0_calc(var(--inputbar-h)*var(--chat-send-btn-scale,0.96))] !p-0 rounded-full " +
+    `chat-send-btn invite-primary-btn relative z-[2] ${displayExpanded ? "!h-[var(--inputbar-h)] !w-[var(--inputbar-h)] !min-h-[var(--inputbar-h)] !min-w-[var(--inputbar-h)] !flex-[0_0_var(--inputbar-h)]" : "!h-[calc(var(--inputbar-h)-2px)] !w-[calc(var(--inputbar-h)-2px)] !min-h-[calc(var(--inputbar-h)-2px)] !min-w-[calc(var(--inputbar-h)-2px)] !flex-[0_0_calc(var(--inputbar-h)-2px)]"} !p-0 rounded-full ` +
     "flex items-center justify-center overflow-hidden leading-none " +
     "translate-x-[var(--chat-send-btn-shift-x,0rem)] translate-y-[var(--chat-send-btn-shift-y,0rem)] " +
     "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +

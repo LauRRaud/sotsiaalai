@@ -7,7 +7,12 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import {
+  glassPageBackTopLeftClassName,
+  glassPageMobileCardClassName,
+  glassSubpageSurfaceScopeClassName,
+  glassPageTitleClassName
+} from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
 
@@ -109,6 +114,14 @@ export default function SelectedListingContext({
   const timeTypeValue = editState?.timeType ?? listing?.timeType ?? "";
   const targetGroupsValue = editState?.targetGroups ?? (Array.isArray(listing?.targetGroupLabels) ? listing.targetGroupLabels.join(", ") : "");
   const metaLine = listing ? buildMetaLine(listing) : "";
+  const selectedListingContentClassName =
+    `selected-listing-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] ` +
+    `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
+    `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
+    `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
+    `${glassSubpageSurfaceScopeClassName} ` +
+    `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards max-[768px]:!rounded-none ${glassPageMobileCardClassName}`;
 
   return createPortal(
     <Modal
@@ -118,7 +131,7 @@ export default function SelectedListingContext({
       closeOnOverlayClick
       aria-label={listing?.title || ui.selectedListing}
       className="selected-listing-modal-overlay z-[142] bg-transparent max-[768px]:p-0 max-[768px]:items-stretch"
-      contentClassName="selected-listing-modal-content !w-[min(100%,48rem)] !max-w-[clamp(30rem,56vw,40rem)] relative overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] leading-[1.35] tracking-[0.024rem] max-[768px]:!w-full max-[768px]:!max-w-none max-[768px]:!max-h-[100dvh] max-[768px]:!rounded-none max-[768px]:!px-[0.3rem] max-[768px]:!pt-[0.35rem] max-[768px]:!pb-[calc(env(safe-area-inset-bottom,0px)+0.8rem)]"
+      contentClassName={selectedListingContentClassName}
     >
       <BackButton
         onClick={onDismiss}
@@ -148,9 +161,9 @@ export default function SelectedListingContext({
 
       <div className="grid gap-[0.8rem] px-[1.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.12rem]">
         <Panel
-          variant="secondary"
+          variant="subpage"
           padding="sm"
-          className="mt-[0.9rem] max-[768px]:mt-[0.8rem] min-h-[min(54dvh,30rem)] max-h-[min(64dvh,34rem)] overflow-y-auto border-[rgba(248,253,255,0.1)] bg-[rgba(255,255,255,0.12)] shadow-[0_16px_34px_rgba(15,23,42,0.06)] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 [.theme-night_&]:bg-[rgba(10,14,24,0.34)] [.theme-dark_&]:bg-[rgba(12,16,24,0.38)] [.theme-mid_&]:bg-[rgba(255,255,255,0.1)] [.theme-light_&]:border-[rgba(122,58,56,0.07)] [.theme-light_&]:bg-[rgba(255,255,255,0.2)]"
+          className="mt-[0.9rem] max-[768px]:mt-[0.8rem] min-h-[min(54dvh,30rem)] max-h-[min(64dvh,34rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0"
         >
           {loading ? <div className="px-2 py-4 text-[1rem] opacity-80">{ui.loading}</div> : null}
           {!loading && error ? <div className="px-2 py-4 text-[1rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}

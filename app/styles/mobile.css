@@ -2354,20 +2354,20 @@
   html[data-platform="android"] body .chat-inputbar .chat-send-btn,
   body[data-platform="android"] .chat-inputbar .chat-listen-btn,
   body[data-platform="android"] .chat-inputbar .chat-send-btn {
-    width: var(--chat-action-size, var(--chat-composer-main-control-size)) !important;
-    height: var(--chat-action-size, var(--chat-composer-main-control-size)) !important;
-    min-width: var(--chat-action-size, var(--chat-composer-main-control-size)) !important;
-    min-height: var(--chat-action-size, var(--chat-composer-main-control-size)) !important;
-    flex: 0 0 var(--chat-action-size, var(--chat-composer-main-control-size)) !important;
+    width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    min-width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    min-height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    flex: 0 0 var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
   }
 
   html[data-platform="android"] body .chat-inputbar .chat-send-btn,
   body[data-platform="android"] .chat-inputbar .chat-send-btn {
-    width: var(--chat-composer-send-control-size, var(--chat-action-size)) !important;
-    height: var(--chat-composer-send-control-size, var(--chat-action-size)) !important;
-    min-width: var(--chat-composer-send-control-size, var(--chat-action-size)) !important;
-    min-height: var(--chat-composer-send-control-size, var(--chat-action-size)) !important;
-    flex: 0 0 var(--chat-composer-send-control-size, var(--chat-action-size)) !important;
+    width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    min-width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    min-height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    flex: 0 0 var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
   }
 
   .chat-input-row--embedded {

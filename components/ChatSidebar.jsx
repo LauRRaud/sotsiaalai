@@ -583,15 +583,21 @@ export default function ChatSidebar() {
     "drawer-pill-btn invite-primary-btn !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
     "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem] " +
     glassPrimaryButtonToneClassName;
-  const searchInputShellClassName = "relative";
+  const searchInputShellClassName = "drawer-search-shell relative";
   const searchInputClassName =
     `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
-    "duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";
+    "chat-sidebar-search-input duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
   const sidebarInsetWidthClassName = `${sidebarContentWidthClassName} px-[0.42rem] max-[768px]:px-[0.4rem]`;
   const listViewportClassName = "flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
+  const listScrollFrameClassName = "relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.1rem]";
   const listClassName =
-    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto px-0 pt-[1.05rem] max-[768px]:pt-[0.9rem] pb-[1.45rem] max-[768px]:pb-[1.15rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
+    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto px-0 pt-[0.22rem] max-[768px]:pt-[0.18rem] pb-[1.38rem] max-[768px]:pb-[1.14rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
+    "before:content-[''] before:block before:h-[0.05rem] max-[768px]:before:h-[0.04rem] after:content-[''] after:block after:h-[0.62rem] max-[768px]:after:h-[0.52rem] " +
+    "[--sidebar-scroll-fade-top:1.12rem] [--sidebar-scroll-fade-bottom:2.1rem] max-[768px]:[--sidebar-scroll-fade-top:0.96rem] max-[768px]:[--sidebar-scroll-fade-bottom:1.82rem] " +
+    "[mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.26)_calc(var(--sidebar-scroll-fade-top)*0.3),rgba(0,0,0,0.68)_calc(var(--sidebar-scroll-fade-top)*0.72),#000_var(--sidebar-scroll-fade-top),#000_calc(100%-var(--sidebar-scroll-fade-bottom)),rgba(0,0,0,0.9)_calc(100%-(var(--sidebar-scroll-fade-bottom)*0.74)),rgba(0,0,0,0.54)_calc(100%-(var(--sidebar-scroll-fade-bottom)*0.42)),rgba(0,0,0,0.18)_calc(100%-(var(--sidebar-scroll-fade-bottom)*0.16)),transparent_100%)] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.26)_calc(var(--sidebar-scroll-fade-top)*0.3),rgba(0,0,0,0.68)_calc(var(--sidebar-scroll-fade-top)*0.72),#000_var(--sidebar-scroll-fade-top),#000_calc(100%-var(--sidebar-scroll-fade-bottom)),rgba(0,0,0,0.9)_calc(100%-(var(--sidebar-scroll-fade-bottom)*0.74)),rgba(0,0,0,0.54)_calc(100%-(var(--sidebar-scroll-fade-bottom)*0.42)),rgba(0,0,0,0.18)_calc(100%-(var(--sidebar-scroll-fade-bottom)*0.16)),transparent_100%)] " +
+    "[mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]";
   const renderLoadingSkeleton = (prefix, count = 3) => Array.from({ length: count }).map((_, i) => <div key={`${prefix}-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
         <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
         <div className="h-2 w-1/3 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
@@ -686,7 +692,7 @@ export default function ChatSidebar() {
           {isConversationView ? t("chat.sidebar.sections.groups") : t("chat.sidebar.sections.conversations")}
         </Button>
       </div>
-      {isConversationView ? <div className={`${sidebarInsetWidthClassName} mt-[0.35rem] max-[768px]:mt-[0.45rem]`}>
+      {isConversationView ? <div className={`${sidebarInsetWidthClassName} mt-[0.04rem] max-[768px]:mt-[0.08rem]`}>
           <div className={searchInputShellClassName}>
             <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} className={searchInputClassName} />
           </div>
@@ -706,13 +712,15 @@ export default function ChatSidebar() {
         </div> : null}
       <div className={`${sidebarContentWidthClassName} flex min-h-0 w-full flex-1 flex-col`}>
         <div className={listViewportClassName} aria-label={isConversationView ? t("chat.sidebar.sections.conversations") : t("chat.sidebar.sections.groups")}>
-          {currentBusy && currentItems.length === 0 ? <div className={`${listClassName} py-2`}>
-              {renderLoadingSkeleton(isConversationView ? "conv" : "room", isConversationView ? 3 : 2)}
-            </div> : <ul className={listClassName}>
-              {!currentBusy && currentItems.length === 0 ? <li className={`flex w-full items-center gap-3 rounded-[1rem] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] ${glassSubpageCardClassName}`}>
-                  <span>{hasConversationSearch ? t("chat.sidebar.search.no_matches", "Otsingule vastavaid vestlusi ei leitud.") : isConversationView ? t("chat.sidebar.empty") : t("rooms.empty")}</span>
-                </li> : currentItems.map(renderListItem)}
-            </ul>}
+          <div className={listScrollFrameClassName}>
+            {currentBusy && currentItems.length === 0 ? <div className={`${listClassName} py-2`}>
+                {renderLoadingSkeleton(isConversationView ? "conv" : "room", isConversationView ? 3 : 2)}
+              </div> : <ul className={listClassName}>
+                {!currentBusy && currentItems.length === 0 ? <li className={`flex w-full items-center gap-3 rounded-[1rem] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] ${glassSubpageCardClassName}`}>
+                    <span>{hasConversationSearch ? t("chat.sidebar.search.no_matches", "Otsingule vastavaid vestlusi ei leitud.") : isConversationView ? t("chat.sidebar.empty") : t("rooms.empty")}</span>
+                  </li> : currentItems.map(renderListItem)}
+              </ul>}
+          </div>
           {isConversationView && hasMore ? <div className="flex w-full justify-center pt-[0.5rem]">
               <button type="button" className={loadMoreBtnClassName} onClick={fetchMore} disabled={busy || creating} aria-label={t("chat.sidebar.button.more")} title={t("chat.sidebar.button.more")}>
                 <ChevronIcon direction="down" className="h-[1rem] w-[1.68rem]" />

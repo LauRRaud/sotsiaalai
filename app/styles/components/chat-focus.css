@@ -295,19 +295,19 @@ body .chat-input-row .chat-side-control-btn {
 
 body .chat-inputbar .chat-listen-btn,
 body .chat-inputbar .chat-send-btn {
-  width: calc(var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
-  height: calc(var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
-  min-width: calc(var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
-  min-height: calc(var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
-  flex: 0 0 calc(var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
+  width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem))))) !important;
+  height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem))))) !important;
+  min-width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem))))) !important;
+  min-height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem))))) !important;
+  flex: 0 0 var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem))))) !important;
 }
 
 body .chat-inputbar .chat-send-btn {
-  width: calc(var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
-  height: calc(var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
-  min-width: calc(var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
-  min-height: calc(var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
-  flex: 0 0 calc(var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))) * 1.08) !important;
+  width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
+  height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
+  min-width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
+  min-height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
+  flex: 0 0 var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
 }
 
 body .chat-input-row .chat-side-control-btn svg {

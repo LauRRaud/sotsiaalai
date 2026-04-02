@@ -160,11 +160,11 @@ const accountModalOverlayClassName =
 const accountModalContentClassName =
   `invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
   `!w-[min(100%,calc(100dvh-2.5rem))] !max-w-[min(38rem,calc(100dvh-2.5rem))] !aspect-square !rounded-full ` +
-  `!bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
+  `![border:none] !bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
   `pt-[clamp(2.8rem,5.5vh,4rem)] !px-[clamp(2rem,4vw,3rem)] !pb-[clamp(2rem,4vh,2.8rem)] ` +
   `text-[1.12rem] leading-[1.35] tracking-[0.03rem] ` +
   `max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
-  `[--glass-ring-radius:9999px] [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] ` +
+  `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] [--glass-ring-radius:9999px] [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] ` +
   `[--glass-edge-left:calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] ` +
   `[--glass-edge-right:calc(var(--hud-edge-right,0px)+clamp(0.1rem,1.2vw,0.8rem))] ` +
   `[--glass-center-offset:0px] [--input-text:var(--glass-modal-text)]`;
