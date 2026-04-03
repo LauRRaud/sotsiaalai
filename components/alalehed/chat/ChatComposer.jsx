@@ -571,21 +571,21 @@ export default function ChatComposer({
   const displayExpanded = inputFocused && composerExpanded;
   const inputBarClassName =
     "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] overflow-hidden " +
-    `flex-[1_1_auto] ${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.14rem]" : "grid-cols-[1fr_auto] items-stretch gap-x-[0.24rem]"} ` +
+    `flex-[1_1_auto] ${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.08rem]" : "grid-cols-[1fr_auto] items-stretch gap-x-[0.24rem]"} ` +
     `${displayExpanded ? "min-h-[var(--inputbar-h)] rounded-[1.35rem]" : "h-[var(--inputbar-h)] rounded-full"} ` +
     "transition-[border-color,box-shadow,background,max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    `${displayExpanded ? "px-[0.78rem] pt-[0.86rem] pb-[0.34rem] pr-[0.5rem]" : "pl-[0.6rem] pr-[0.04rem] py-0"} ` +
+    `${displayExpanded ? "pl-[0.62rem] pt-[0.56rem] pb-0 pr-0" : "pl-[0.6rem] pr-[0.04rem] py-0"} ` +
     "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
   const inputFieldWrapClassName = displayExpanded
-    ? "min-w-0 w-full px-[0.3rem] pt-[0.26rem] pr-[0.36rem]"
+    ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem] pr-[0.8rem]"
     : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem]";
   const inputFieldClassName =
-    `chat-input-field block w-full min-h-[1.38rem] max-h-[min(30dvh,8.5rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] [overflow-wrap:anywhere] break-words ${displayExpanded ? "leading-[1.26] px-[0.12rem] pt-[0.14rem] pb-[0.05rem]" : "leading-[1.18] px-[0.12rem] pt-[0.28rem] pb-[0.12rem]"} ` +
+    `chat-input-field block w-full min-h-[1.38rem] max-h-[min(30dvh,8.5rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] [overflow-wrap:anywhere] break-words ${displayExpanded ? "leading-[1.26] px-[0.06rem] pt-0 pb-[0.05rem]" : "leading-[1.18] px-[0.12rem] pt-[0.28rem] pb-[0.12rem]"} ` +
     "text-[color:var(--pt-150)] light:text-[color:var(--text-strong,#1f2937)] " +
     "outline-none border-0 shadow-none " +
     `${forcePlaceholderVisible ? "placeholder:opacity-100 placeholder:text-[color:var(--input-placeholder)] " : "placeholder:opacity-0 light:placeholder:opacity-100 light:placeholder:text-[color:var(--input-placeholder)]"}`;
   const actionRowClassName = displayExpanded
-    ? "flex shrink-0 items-center justify-end gap-[0.24rem] px-[0.28rem] pb-0 pt-0"
+    ? "flex w-full shrink-0 items-center justify-end gap-[0.18rem] p-0"
     : "flex h-full self-stretch items-center justify-end gap-[0.18rem]";
   const actionButtonClassName =
     `chat-listen-btn relative z-[2] ${displayExpanded ? "!h-[var(--inputbar-h)] !w-[var(--inputbar-h)] !min-h-[var(--inputbar-h)] !min-w-[var(--inputbar-h)] !flex-[0_0_var(--inputbar-h)]" : "!h-[calc(var(--inputbar-h)-2px)] !w-[calc(var(--inputbar-h)-2px)] !min-h-[calc(var(--inputbar-h)-2px)] !min-w-[calc(var(--inputbar-h)-2px)] !flex-[0_0_calc(var(--inputbar-h)-2px)]"} !p-0 rounded-full ` +
@@ -598,7 +598,7 @@ export default function ChatComposer({
   const sendButtonClassName =
     `chat-send-btn invite-primary-btn relative z-[2] ${displayExpanded ? "!h-[var(--inputbar-h)] !w-[var(--inputbar-h)] !min-h-[var(--inputbar-h)] !min-w-[var(--inputbar-h)] !flex-[0_0_var(--inputbar-h)]" : "!h-[calc(var(--inputbar-h)-2px)] !w-[calc(var(--inputbar-h)-2px)] !min-h-[calc(var(--inputbar-h)-2px)] !min-w-[calc(var(--inputbar-h)-2px)] !flex-[0_0_calc(var(--inputbar-h)-2px)]"} !p-0 rounded-full ` +
     "flex items-center justify-center overflow-hidden leading-none " +
-    "translate-x-[var(--chat-send-btn-shift-x,0rem)] translate-y-[var(--chat-send-btn-shift-y,0rem)] " +
+    `${displayExpanded ? "!translate-x-0 !translate-y-0" : "translate-x-[var(--chat-send-btn-shift-x,0rem)] translate-y-[var(--chat-send-btn-shift-y,0rem)]"} ` +
     "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
@@ -771,11 +771,7 @@ export default function ChatComposer({
         {t("chat.input.label")}
       </label>
 
-      <div
-        className={inputBarClassName}
-        ref={inputBarRef}
-        data-expanded={displayExpanded ? "true" : "false"}
-      >
+      <div className={inputBarClassName} ref={inputBarRef}>
         <div className={inputFieldWrapClassName}>
           <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={e => {
           resizeComposerInput();

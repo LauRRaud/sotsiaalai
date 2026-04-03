@@ -372,8 +372,7 @@
   --drawer-delete-shadow-hover: 0 12px 28px rgba(2, 6, 23, 0.3);
 }
 
-:root:not(.theme-light) body.homepage,
-:root:not(.theme-light) .homepage-root {
+:root:not(.theme-light) body.homepage {
   --home-prose-color: rgba(242, 241, 239, 0.92);
   --home-card-blur: 0.6rem;
   --home-card-saturate: 118%;
@@ -389,8 +388,8 @@
     0 0 10px rgba(248, 253, 255, 0.16),
     0 0 20px rgba(248, 253, 255, 0.08);
   --home-card-glow-idle:
-    0 0 10px rgba(248, 253, 255, 0.13),
-    0 0 20px rgba(248, 253, 255, 0.06);
+    0 0 8px rgba(248, 253, 255, 0.11),
+    0 0 16px rgba(248, 253, 255, 0.05);
   --home-card-glow-entry:
     0 0 10px rgba(248, 253, 255, 0.15),
     0 0 20px rgba(248, 253, 255, 0.075);
@@ -403,35 +402,10 @@
   --home-card-glow-active:
     0 0 10px rgba(248, 253, 255, 0.16),
     0 0 20px rgba(248, 253, 255, 0.08);
-  --home-card-glow-hover:
-    0 0 12px rgba(248, 253, 255, 0.22),
-    0 0 24px rgba(248, 253, 255, 0.1);
-  --home-card-shadow-hover:
-    0 0 12px rgba(248, 253, 255, 0.22),
-    0 0 24px rgba(248, 253, 255, 0.1);
   --home-scroll-cue-color: #c57171;
   --home-title-color: #c57171;
   --home-link-color: var(--brand-primary);
 }
-
-@media (min-width: 48.001em) {
-  :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
-    .homepage-root
-    .home-about-panel {
-    box-shadow:
-      0 0 12px rgba(248, 253, 255, 0.14),
-      0 0 24px rgba(248, 253, 255, 0.07) !important;
-  }
-
-  :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
-    .homepage-root
-    .home-before-panel {
-    box-shadow:
-      0 0 13px rgba(248, 253, 255, 0.15),
-      0 0 26px rgba(248, 253, 255, 0.075) !important;
-  }
-}
-
 :root:not(.theme-light)
   .profile-email-dock-wrapper:not(.profile-orbit-menu-wrapper)
   .dock-item,
@@ -469,13 +443,6 @@
 }
 :root:not(.theme-light):not(.theme-mid) .chat-inputbar {
   --chat-action-size: var(--chat-composer-main-control-size, calc(var(--inputbar-h, 3.2rem) - 0.2rem));
-  --chat-inputbar-expanded-bg:
-    linear-gradient(
-      180deg,
-      rgba(24, 28, 36, 0.92) 0%,
-      rgba(16, 20, 28, 0.95) 100%
-    );
-  --chat-inputbar-expanded-border: rgba(248, 253, 255, 0.04);
   border: 0;
   background: transparent;
   box-shadow:

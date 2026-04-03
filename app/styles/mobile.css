@@ -900,12 +900,14 @@
   }
 
   .chat-page-shell .chat-container .chat-mask-layer,
-  .profile-container.glass-ring .profile-mask-layer {
+  .chat-page-shell .chat-container .chat-mask-tilt-fallback {
     contain: paint;
+    isolation: isolate;
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    will-change: transform, opacity;
   }
 
   .profile-container.glass-ring .profile-mask-layer {

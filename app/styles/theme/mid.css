@@ -278,8 +278,7 @@
 }
 
 /* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
-:root.theme-mid body.homepage,
-:root.theme-mid .homepage-root {
+:root.theme-mid body.homepage {
   --home-panel-bg: rgba(203, 190, 186, 0.79);
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
   --home-card-shell-shadow:
@@ -400,13 +399,6 @@
   --chat-inputbar-bg: var(--mid-pill-surface-bg);
   --chat-inputbar-bg-hover: var(--mid-pill-surface-bg);
   --chat-inputbar-bg-focus: var(--mid-pill-surface-bg);
-  --chat-inputbar-expanded-bg:
-    linear-gradient(
-      180deg,
-      rgba(247, 239, 235, 0.96) 0%,
-      rgba(238, 228, 223, 0.94) 100%
-    );
-  --chat-inputbar-expanded-border: rgba(122, 58, 56, 0.07);
   --chat-inputbar-overlay-bg:
     radial-gradient(
       92% 88% at 50% 16%,
@@ -801,52 +793,7 @@
 :root.theme-mid
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
-  background:
-    radial-gradient(
-      120% 120% at 18% 16%,
-      rgba(255, 255, 255, 0.44) 0%,
-      rgba(255, 255, 255, 0.1) 62%
-    ),
-    radial-gradient(
-      120% 120% at 86% 90%,
-      rgba(0, 0, 0, 0.05) 0%,
-      rgba(0, 0, 0, 0) 64%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(250, 243, 240, 0.34) 0%,
-      rgba(244, 234, 231, 0.24) 56%,
-      rgba(238, 226, 223, 0.16) 100%
-    ) !important;
-  --pin-gloss-op: 0.24;
   filter: none;
-}
-
-:root.theme-mid
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(
-    .profile-orbit-menu__item,
-    .profile-orbit-stack-bubble,
-    .profile-orbit-mobile-action
-  ).dock-item {
-  background:
-    radial-gradient(
-      120% 120% at 18% 16%,
-      rgba(255, 255, 255, 0.42) 0%,
-      rgba(255, 255, 255, 0.08) 62%
-    ),
-    radial-gradient(
-      120% 120% at 86% 90%,
-      rgba(0, 0, 0, 0.05) 0%,
-      rgba(0, 0, 0, 0) 64%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(247, 240, 237, 0.29) 0%,
-      rgba(241, 230, 227, 0.2) 56%,
-      rgba(235, 222, 219, 0.13) 100%
-    ) !important;
-  --pin-gloss-op: 0.22;
 }
 
 :root.theme-mid

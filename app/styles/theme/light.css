@@ -249,8 +249,7 @@
   --subscription-error-color: #c57171;
 }
 
-:root.theme-light body.homepage,
-:root.theme-light .homepage-root {
+:root.theme-light body.homepage {
   --home-prose-color: var(--text-strong, #1f2937);
   --home-panel-bg: rgba(251, 249, 246, 0.93);
   --home-card-blur: 0.75rem;
@@ -515,13 +514,6 @@
   --chat-inputbar-bg: var(--input-bg);
   --chat-inputbar-bg-hover: var(--input-bg-hover);
   --chat-inputbar-bg-focus: var(--input-bg-focus, var(--input-bg-hover));
-  --chat-inputbar-expanded-bg:
-    linear-gradient(
-      180deg,
-      rgba(253, 252, 251, 0.982) 0%,
-      rgba(249, 248, 247, 0.968) 100%
-    );
-  --chat-inputbar-expanded-border: rgba(148, 163, 184, 0.06);
   --chat-inputbar-shadow: var(--input-shadow);
   --chat-inputbar-shadow-hover: var(--input-shadow-hover);
   --chat-inputbar-shadow-focus: var(--input-shadow-hover);

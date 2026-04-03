@@ -4,7 +4,7 @@ const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
-const MOBILE_MASK_UPDATE_INTERVAL_MS = 48;
+const MOBILE_MASK_UPDATE_INTERVAL_MS = 96;
 const DESKTOP_MASK_TRACK_MS = 760;
 
 export function useChatInputHoleMask({
@@ -233,12 +233,14 @@ export function useChatInputHoleMask({
     box.addEventListener("transitionend", scheduleUpdate);
     inputBar.addEventListener("transitionend", scheduleUpdate);
     inputRow?.addEventListener("transitionend", scheduleUpdate);
-    box.addEventListener("transitionrun", scheduleUpdate);
-    inputBar.addEventListener("transitionrun", scheduleUpdate);
-    inputRow?.addEventListener("transitionrun", scheduleUpdate);
-    box.addEventListener("transitionstart", scheduleUpdate);
-    inputBar.addEventListener("transitionstart", scheduleUpdate);
-    inputRow?.addEventListener("transitionstart", scheduleUpdate);
+    if (!isMobileViewport) {
+      box.addEventListener("transitionrun", scheduleUpdate);
+      inputBar.addEventListener("transitionrun", scheduleUpdate);
+      inputRow?.addEventListener("transitionrun", scheduleUpdate);
+      box.addEventListener("transitionstart", scheduleUpdate);
+      inputBar.addEventListener("transitionstart", scheduleUpdate);
+      inputRow?.addEventListener("transitionstart", scheduleUpdate);
+    }
     let ro;
     let mo;
     if (typeof ResizeObserver !== "undefined") {
@@ -274,12 +276,14 @@ export function useChatInputHoleMask({
       box.removeEventListener("transitionend", scheduleUpdate);
       inputBar.removeEventListener("transitionend", scheduleUpdate);
       inputRow?.removeEventListener("transitionend", scheduleUpdate);
-      box.removeEventListener("transitionrun", scheduleUpdate);
-      inputBar.removeEventListener("transitionrun", scheduleUpdate);
-      inputRow?.removeEventListener("transitionrun", scheduleUpdate);
-      box.removeEventListener("transitionstart", scheduleUpdate);
-      inputBar.removeEventListener("transitionstart", scheduleUpdate);
-      inputRow?.removeEventListener("transitionstart", scheduleUpdate);
+      if (!isMobileViewport) {
+        box.removeEventListener("transitionrun", scheduleUpdate);
+        inputBar.removeEventListener("transitionrun", scheduleUpdate);
+        inputRow?.removeEventListener("transitionrun", scheduleUpdate);
+        box.removeEventListener("transitionstart", scheduleUpdate);
+        inputBar.removeEventListener("transitionstart", scheduleUpdate);
+        inputRow?.removeEventListener("transitionstart", scheduleUpdate);
+      }
       ro?.disconnect?.();
       mo?.disconnect?.();
       if (box?.dataset) delete box.dataset.routeTilting;

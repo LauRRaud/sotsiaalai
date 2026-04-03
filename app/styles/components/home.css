@@ -166,7 +166,8 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   box-shadow: none !important;
 }
 
-.homepage-root .three-d-card.right .card-blur-layer {
+:root:not(.theme-light) .homepage-root .three-d-card.right .card-blur-layer,
+:root.theme-mid .homepage-root .three-d-card.right .card-blur-layer {
   --home-card-blur-inset: 1px;
   --home-card-blur-radius: 49.5%;
 }
