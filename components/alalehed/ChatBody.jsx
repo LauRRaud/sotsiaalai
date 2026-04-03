@@ -555,8 +555,7 @@ export default function ChatBody({
     inputBarRef: inputBarRef,
     maskLayerRef,
     enabled: !isLightTheme && !profileOpen,
-    refreshRef: maskRefreshRef,
-    mobileStableReserve: inputFocused
+    refreshRef: maskRefreshRef
   });
   useEffect(() => {
     if (isLightTheme) return;

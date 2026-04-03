@@ -166,9 +166,7 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   box-shadow: none !important;
 }
 
-:root:not(.theme-light) .homepage-root .three-d-card.right .card-blur-layer,
-:root.theme-mid .homepage-root .three-d-card.right .card-blur-layer {
-  --home-card-blur: 0.28rem;
+.homepage-root .three-d-card.right .card-blur-layer {
   --home-card-blur-inset: 1px;
   --home-card-blur-radius: 49.5%;
 }
@@ -244,13 +242,59 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   animation-name: home-card-spin-360-right;
 }
 
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .homepage-root
+  .three-d-card
+  .card-face.front
+  :is(.glass-card, .glass-card-dark) {
+  transition:
+    opacity var(--fade-ms) ease,
+    box-shadow 900ms cubic-bezier(0.5, 0, 0.15, 1) 80ms !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .homepage-root
+  .three-d-card
+  .card-face.back
+  :is(.centered-back-left, .centered-back-right) {
+  transition-property: box-shadow !important;
+  transition-duration: 900ms !important;
+  transition-timing-function: cubic-bezier(0.5, 0, 0.15, 1) !important;
+  transition-delay: 80ms !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .homepage-root
+  .three-d-card:not(.is-auto-rotating):is(:hover, :focus-within, :active)
+  .card-face.front
+  :is(.glass-card, .glass-card-dark) {
+  box-shadow: var(
+    --home-card-shadow-hover,
+    var(
+      --home-card-shadow-active,
+      var(--home-card-glow-active, var(--home-card-shadow-idle, none))
+    )
+  ) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .homepage-root
+  .three-d-card:not(.is-auto-rotating):is(:hover, :focus-within, :active)
+  .card-face.back
+  :is(.centered-back-left, .centered-back-right) {
+  box-shadow: var(
+    --home-card-glow-hover,
+    var(--home-card-glow-active, var(--home-card-glow-idle, none))
+  ) !important;
+}
+
 @keyframes home-card-spin-360 {
   from {
     transform: rotateY(0deg);
   }
 
   to {
-    transform: rotateY(360deg);
+    transform: rotateY(-360deg);
   }
 }
 

@@ -771,7 +771,11 @@ export default function ChatComposer({
         {t("chat.input.label")}
       </label>
 
-      <div className={inputBarClassName} ref={inputBarRef}>
+      <div
+        className={inputBarClassName}
+        ref={inputBarRef}
+        data-expanded={displayExpanded ? "true" : "false"}
+      >
         <div className={inputFieldWrapClassName}>
           <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={e => {
           resizeComposerInput();

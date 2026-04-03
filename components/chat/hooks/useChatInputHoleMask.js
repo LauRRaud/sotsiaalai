@@ -13,8 +13,7 @@ export function useChatInputHoleMask({
   inputBarRef,
   maskLayerRef,
   enabled,
-  refreshRef,
-  mobileStableReserve = false
+  refreshRef
 }) {
   useLayoutEffect(() => {
     const box = containerRef?.current;
@@ -55,71 +54,6 @@ export function useChatInputHoleMask({
         y: snap(rect.top - rootRect.top),
         w: snap(w),
         h: snap(h)
-      };
-    };
-    const getStableMobileHoleRect = baseRect => {
-      if (!isMobileViewport || !mobileStableReserve || !baseRect) return baseRect;
-      const textarea = inputBar.querySelector("textarea");
-      if (!textarea) return baseRect;
-      const actionButton =
-        inputBar.querySelector(".chat-send-btn") ||
-        inputBar.querySelector(".chat-listen-btn");
-      const barStyle = window.getComputedStyle(inputBar);
-      const textStyle = window.getComputedStyle(textarea);
-      const rawValue = String(textarea.value || "");
-      const textPaddingTop = snap(Number.parseFloat(textStyle.paddingTop) || 0);
-      const textPaddingBottom = snap(
-        Number.parseFloat(textStyle.paddingBottom) || 0
-      );
-      const textBorderTop = snap(
-        Number.parseFloat(textStyle.borderTopWidth) || 0
-      );
-      const textBorderBottom = snap(
-        Number.parseFloat(textStyle.borderBottomWidth) || 0
-      );
-      const lineHeight = snap(Number.parseFloat(textStyle.lineHeight) || 22);
-      const currentTextContentHeight = snap(
-        Math.max(
-          0,
-          textarea.scrollHeight - textPaddingTop - textPaddingBottom
-        )
-      );
-      const currentLineCount = Math.max(
-        1,
-        Math.round(currentTextContentHeight / Math.max(lineHeight, 1))
-      );
-      if (!rawValue.trim() || currentLineCount < 2) return baseRect;
-      const buttonHeight = actionButton
-        ? snap(actionButton.getBoundingClientRect().height || actionButton.offsetHeight || 0)
-        : snap(baseRect.h);
-      const rowGap =
-        snap(
-          Number.parseFloat(barStyle.rowGap) ||
-            Number.parseFloat(barStyle.gap) ||
-            0
-        );
-      const paddingTop = snap(Number.parseFloat(barStyle.paddingTop) || 0);
-      const paddingBottom = snap(Number.parseFloat(barStyle.paddingBottom) || 0);
-      const reservedLineCount = 4;
-      const reservedTextHeight = snap(
-        lineHeight * reservedLineCount +
-          textPaddingTop +
-          textPaddingBottom +
-          textBorderTop +
-          textBorderBottom
-      );
-      const reservedHeight = snap(
-        Math.max(
-          baseRect.h,
-          paddingTop + reservedTextHeight + rowGap + buttonHeight + paddingBottom
-        )
-      );
-      if (reservedHeight <= baseRect.h) return baseRect;
-      const delta = snap(reservedHeight - baseRect.h);
-      return {
-        ...baseRect,
-        y: snap(Math.max(0, baseRect.y - delta)),
-        h: reservedHeight
       };
     };
     let lastMask = "";
@@ -214,18 +148,15 @@ export function useChatInputHoleMask({
         return;
       }
       retryCount = 0;
-      const stableInputLocal = getStableMobileHoleRect(inputLocal);
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);
-      const radius = snap(
-        Number.isFinite(radiusRaw) ? radiusRaw : stableInputLocal.h / 2
-      );
-      const geometryKey = `${boxW}|${boxH}|${stableInputLocal.x}|${stableInputLocal.y}|${stableInputLocal.w}|${stableInputLocal.h}|${radius}`;
+      const radius = snap(Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2);
+      const geometryKey = `${boxW}|${boxH}|${inputLocal.x}|${inputLocal.y}|${inputLocal.w}|${inputLocal.h}|${radius}`;
       if (geometryKey === lastGeometry && !force) {
         pendingAfterTilt = false;
         return;
       }
       lastGeometry = geometryKey;
-      const mask = buildMask(boxW, boxH, stableInputLocal, radius);
+      const mask = buildMask(boxW, boxH, inputLocal, radius);
       if (mask && (mask !== lastMask || force)) {
         box.style.setProperty("--chat-input-hole-mask", mask);
         if (maskLayer) {
@@ -360,5 +291,5 @@ export function useChatInputHoleMask({
         refreshRef.current = null;
       }
     };
-  }, [containerRef, inputRowRef, inputBarRef, maskLayerRef, enabled, mobileStableReserve, refreshRef]);
+  }, [containerRef, inputRowRef, inputBarRef, maskLayerRef, enabled, refreshRef]);
 }

@@ -389,8 +389,8 @@
     0 0 10px rgba(248, 253, 255, 0.16),
     0 0 20px rgba(248, 253, 255, 0.08);
   --home-card-glow-idle:
-    0 0 8px rgba(248, 253, 255, 0.11),
-    0 0 16px rgba(248, 253, 255, 0.05);
+    0 0 10px rgba(248, 253, 255, 0.13),
+    0 0 20px rgba(248, 253, 255, 0.06);
   --home-card-glow-entry:
     0 0 10px rgba(248, 253, 255, 0.15),
     0 0 20px rgba(248, 253, 255, 0.075);
@@ -403,6 +403,12 @@
   --home-card-glow-active:
     0 0 10px rgba(248, 253, 255, 0.16),
     0 0 20px rgba(248, 253, 255, 0.08);
+  --home-card-glow-hover:
+    0 0 12px rgba(248, 253, 255, 0.22),
+    0 0 24px rgba(248, 253, 255, 0.1);
+  --home-card-shadow-hover:
+    0 0 12px rgba(248, 253, 255, 0.22),
+    0 0 24px rgba(248, 253, 255, 0.1);
   --home-scroll-cue-color: #c57171;
   --home-title-color: #c57171;
   --home-link-color: var(--brand-primary);
@@ -463,6 +469,13 @@
 }
 :root:not(.theme-light):not(.theme-mid) .chat-inputbar {
   --chat-action-size: var(--chat-composer-main-control-size, calc(var(--inputbar-h, 3.2rem) - 0.2rem));
+  --chat-inputbar-expanded-bg:
+    linear-gradient(
+      180deg,
+      rgba(24, 28, 36, 0.92) 0%,
+      rgba(16, 20, 28, 0.95) 100%
+    );
+  --chat-inputbar-expanded-border: rgba(248, 253, 255, 0.04);
   border: 0;
   background: transparent;
   box-shadow:
