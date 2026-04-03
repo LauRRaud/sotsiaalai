@@ -19,15 +19,15 @@ Relevant files:
 
 Behavior today:
 1. `GET /api/subscription` returns user + latest subscription shape.
-2. `POST /api/subscription/init` creates `Payment(status=INITIATED, provider=MAKSEKESKUS)` and returns checkout URL.
-3. `GET /api/subscription/callback` maps provider return status to localized `/tellimus?payment=...` state.
-4. `POST /api/subscription/webhook` verifies signature (when secret configured), updates payment idempotently, and applies explicit subscription policies:
+2. `POST /api/subscription/init` creates `Payment(status=INITIATED, provider=MAKSEKESKUS)` and returns recurring iframe setup (`transactionId`, `publishableKey`, `scriptUrl`).
+3. `GET/POST /api/subscription/callback` handles MakeCommerce callback messages and stores recurring token data from `token_return`.
+4. `POST /api/subscription/webhook` verifies MakeCommerce `json + mac`, updates payment idempotently, and applies explicit subscription policies:
    - `PAID` -> activate/extend
    - `REFUNDED` -> `cancel|none` via `SUBSCRIPTION_WEBHOOK_REFUNDED_ACTION` (default `cancel`)
    - `CANCELED` -> `cancel|none` via `SUBSCRIPTION_WEBHOOK_CANCELED_ACTION` (default `none`)
    - `FAILED` -> `cancel|none` via `SUBSCRIPTION_WEBHOOK_FAILED_ACTION` (default `none`)
 5. `POST /api/subscription` direct activation is disabled by default (can be re-enabled only via `SUBSCRIPTION_ALLOW_DIRECT_ACTIVATION=1`).
-6. `/tellimus` page now calls `/api/subscription/init` and redirects to provider checkout.
+6. `/tellimus` page now calls `/api/subscription/init` and opens `checkout.min.js` for recurring card tokenization.
 7. `DELETE /api/subscription` still marks active subscriptions as canceled.
 8. Payment lifecycle now emits structured logs from init/callback/webhook routes (`[payments] { ... }`).
 9. Payment lifecycle events are persisted to `ChatLog` (`role=payment`) for admin analytics KPI tracking.
@@ -58,11 +58,11 @@ Current implemented behavior:
 
 ## Remaining Launch Risks
 
-1. Maksekeskus payload/signature contract still needs sandbox confirmation against exact provider spec.
+1. MakeCommerce sandbox/live credentials, approved iframe domain and webhook delivery must still be confirmed end-to-end against the live merchant setup.
 2. Callback route is intentionally non-authoritative; webhook must remain final source-of-truth in provider setup.
 3. Production env values (`MAKSEKESKUS_*`, webhook secret, return/cancel URLs, subscription webhook policy envs) must be set and validated.
 4. Provider retry semantics and backoff should be validated against real sandbox delivery behavior.
-5. Webhook signature is now required by default in production (`MAKSEKESKUS_WEBHOOK_SECRET`), unless explicitly bypassed with `SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED=1`.
+5. Webhook MAC validation uses `MAKSEKESKUS_API_KEY` directly and is always required.
 
 ## Target Flow (Maksekeskus)
 
@@ -78,17 +78,19 @@ Responsibilities:
   - `provider = MAKSEKESKUS`
   - `status = INITIATED`
   - unique `providerPaymentId` placeholder/reference
-- call Maksekeskus create-payment API
-- return checkout URL / redirect payload to frontend
+- call MakeCommerce `POST /v1/transactions` with `recurring_required=true`
+- return iframe setup payload to frontend
 
 ### 2) Return/Callback API (user browser redirect)
 
 Endpoint:
 - `GET /api/subscription/callback`
+- `POST /api/subscription/callback`
 
 Responsibilities:
-- parse provider callback params
+- parse provider callback params / form callback
 - map state for user feedback
+- store recurring token from `token_return`
 - do not trust callback as final truth
 - set user-facing state and redirect to `/tellimus` with status marker
 
@@ -98,7 +100,7 @@ Endpoint:
 - `POST /api/subscription/webhook`
 
 Responsibilities:
-- verify Maksekeskus signature/auth
+- verify MakeCommerce `mac`
 - idempotently update `Payment.status` (`PAID`, `FAILED`, `CANCELED`, `REFUNDED`)
 - on `PAID`: activate/extend subscription transactionally
 - on `REFUNDED`/`CANCELED`/`FAILED`: execute configured subscription policy action (`cancel|none`)
@@ -131,14 +133,15 @@ Current rule:
 
 - `components/alalehed/TellimusBody.jsx` now:
   - calls `POST /api/subscription/init`
-  - redirects to checkout URL
+  - loads MakeCommerce `checkout.min.js`
+  - opens recurring tokenization modal with recurring consent copy
   - reads callback state (`payment=success|pending|failed|canceled`) and shows localized feedback
   - reads sponsored subscription metadata and shows ending-soon / expired notices for sponsor-paid access
 
 ## Security/Operations Checklist
 
 - Verify callback/webhook signature with server-side secret.
-- Production safety: unsigned webhook processing is blocked by default in production. Temporary bypass is possible via `SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED=1` (not recommended for launch).
+- Production safety: unsigned webhook processing is not supported.
 - Owner webhook mail settings:
   - `PAYMENT_OWNER_EMAIL` (default `info@sotsiaal.ai`)
   - `PAYMENT_OWNER_EMAIL_LOCALE` (`en|et|ru`, default `en`)
@@ -200,7 +203,7 @@ Reference:
 
 - `POST /api/subscription/init`
   - input: `{ plan, locale }`
-  - output: `{ ok, paymentId, checkoutUrl }`
+  - output: `{ ok, paymentId, transactionId, publishableKey, scriptUrl }`
 
 - `POST /api/subscription/webhook`
   - input: provider payload + signature header

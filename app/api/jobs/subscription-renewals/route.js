@@ -160,7 +160,14 @@ export async function POST(request) {
         currency,
         recurringToken: subscription.billingMethod?.providerToken,
         customerEmail: subscription.user?.email || "",
-        description: buildChargeDescription(role, normalizeLocale(process.env.PAYMENT_OWNER_EMAIL_LOCALE))
+        locale: normalizeLocale(process.env.PAYMENT_OWNER_EMAIL_LOCALE),
+        webhookUrl: String(process.env.MAKSEKESKUS_WEBHOOK_URL || "").trim(),
+        description: buildChargeDescription(role, normalizeLocale(process.env.PAYMENT_OWNER_EMAIL_LOCALE)),
+        merchantData: {
+          flow: "subscription_renewal_job",
+          subscriptionId: subscription.id,
+          paymentId: paymentRecord.id,
+        },
       });
 
       await prisma.payment.update({

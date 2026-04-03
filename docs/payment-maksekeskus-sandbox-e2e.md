@@ -16,7 +16,7 @@ This is a platform-side E2E check. It does not replace Maksekeskus-side complian
 
 1. App API is running and reachable, default `http://localhost:3000`.
 2. Database is reachable from this workspace (`DATABASE_URL` configured).
-3. If your webhook route enforces signature, set `MAKSEKESKUS_WEBHOOK_SECRET`.
+3. Set `MAKSEKESKUS_API_KEY`, because the script signs webhook payloads with the same MAC secret the runtime uses.
 
 ## Script
 
@@ -45,7 +45,7 @@ What it does:
 ## Environment Variables
 
 - `MAKSEKESKUS_E2E_BASE_URL` (default `http://localhost:3000`)
-- `MAKSEKESKUS_WEBHOOK_SECRET` (optional; script signs webhook if set)
+- `MAKSEKESKUS_API_KEY` (required for signed webhook payloads)
 - `MAKSEKESKUS_E2E_USER_EMAIL` (default `maksekeskus-sandbox@example.test`)
 - `MAKSEKESKUS_E2E_AMOUNT` (default `7.99`)
 - `MAKSEKESKUS_E2E_CURRENCY` (default `EUR`)

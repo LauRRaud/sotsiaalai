@@ -87,7 +87,7 @@
       "forgot": "Forgot PIN?",
       "register_link": "Create account",
       "otp_title": "Confirm sign-in",
-      "otp_description": "We sent a verification code to {email}. Enter it within 10 minutes.",
+      "otp_description": "We sent a verification code to {email}. Enter it within 15 minutes.",
       "otp_expires": "Code expires at {time}.",
       "otp_placeholder": "Verification code (6 digits)",
       "otp_short_placeholder": "Verification code",
@@ -1171,6 +1171,21 @@
       "admin_notice": "Admin preview: {role}",
       "conversation_title": "Conversation with the agent",
       "conversation_description": "Send the first instruction or refine the current draft in the conversation. The agent uses the selected documents and your chosen work goal.",
+      "meeting_summary": {
+        "label": "Create meeting summary",
+        "description": "Use dictation to create a delayed meeting summary text that is saved as a source document for later report drafting.",
+        "enabled_help": "When this is enabled, the microphone creates a meeting summary in the background. The text appears later and is added to Documents and to the current draft input.",
+        "disabled_help": "When this is disabled, the microphone uses the regular speech-to-text flow and inserts the transcript into the current draft input immediately.",
+        "empty_help": "You can first dictate a meeting summary here. When it finishes, it will be added as a source document for the draft.",
+        "queued": "Meeting summary queued. The text will appear here a bit later.",
+        "processing": "Meeting summary is being processed. When it is ready, it will be added to Documents and to the current draft input.",
+        "ready": "Meeting summary finished. It was added to Documents and inserted into the current draft input.",
+        "busy": "One meeting summary is already processing. Wait for it to finish before starting another one.",
+        "error": "Meeting summary processing failed.",
+        "not_found": "Meeting summary job was not found.",
+        "document_title": "Meeting summary",
+        "result_added": "Meeting summary was added to the draft and saved under Documents as \"{title}\"."
+      },
       "conversation_intro_empty": "Hello! First bring documents into Document drafting and then describe what you want me to create.",
       "conversation_intro_with_docs": "Hello! Describe what I should create based on the {count} selected document(s).",
       "conversation_intro_empty_worker": "Hello! First bring documents into Document drafting and then describe which specialist-facing draft I should create.",
@@ -1481,7 +1496,10 @@
       "title": "Before payment",
       "agreement": "I agree to the <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>. I understand that I am joining a monthly subscription and want to start payment through Maksekeskus.",
       "details": "You choose the payment method on the Maksekeskus checkout page. Access is activated immediately after confirmation. If there is a payment issue, Maksekeskus terms and applicable legal requirements govern the handling.",
-      "error_required": "Please check the consent box before continuing to payment."
+      "error_required": "Please check the consent box before continuing to payment.",
+      "recurring_title": "SotsiaalAI monthly subscription",
+      "recurring_description": "Role: {role}. Monthly fee: {amount}. The subscription renews automatically every month until you cancel it.",
+      "recurring_confirmation": "I confirm that I agree to the recurring monthly charge and authorize future monthly payments from the same card until the subscription is canceled."
     }
   },
   "pwa": {
@@ -1920,6 +1938,9 @@
       "already_active": "Subscription is already active.",
       "provider_unavailable": "Payment provider is not configured.",
       "checkout_create_failed": "Could not create payment checkout.",
+      "recurring_provider_unavailable": "Recurring payment provider is not configured.",
+      "recurring_token_missing": "Recurring payment token is missing.",
+      "recurring_charge_failed": "Could not start the recurring payment.",
       "payment_not_found": "Payment reference was not found.",
       "webhook_signature_unconfigured": "Webhook signature verification is not configured.",
       "webhook_signature_invalid": "Webhook signature is invalid.",
@@ -2279,7 +2300,7 @@
           "paid_30d": "Paid (30d)",
           "empty": "No users found."
         },
-        "note": "Estimate model (EUR): chat/request {chat}, rag/search {rag}, stt/MB {stt}, tts/1k chars {tts}, base monthly budget {budget}, client monthly budget {budgetClient}, social work professional monthly budget {budgetWorker}. Daily analyze limits and monthly budget scale by role and current monthly fee. STT/TTS historical cost appears from event logging onwards.",
+        "note": "Estimate model (EUR): chat/request {chat}, rag/search {rag}, stt/minute {stt}, tts/minute {tts}, base monthly budget {budget}, client monthly budget {budgetClient}, social work professional monthly budget {budgetWorker}. Daily analyze limits and monthly budget scale by role and current monthly fee. STT/TTS historical cost appears from event logging onwards.",
         "actions": {
           "selected_count": "Selected: {count}",
           "selected_visible": "Selected from visible: {count}",

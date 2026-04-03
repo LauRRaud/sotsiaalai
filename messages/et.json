@@ -91,7 +91,7 @@
       "back": "Eemalda viimane number",
       "otp_title": "Kinnita sisenemine",
       "otp_info_sent": "Kinnituskood saadeti aadressile {email}.",
-      "otp_description": "Saadsime kinnituskoodi aadressile {email}. Sisesta see 10 minuti jooksul.",
+      "otp_description": "Saadsime kinnituskoodi aadressile {email}. Sisesta see 15 minuti jooksul.",
       "otp_expires": "Kood aegub kell {time}.",
       "otp_placeholder": "Kinnituskood (6 numbrit)",
       "otp_short_placeholder": "Kinnituskood",
@@ -418,7 +418,7 @@
     },
     "section7": {
       "heading": "7. Säilitamine",
-      "body": "<p><strong>7.1 Konto- ja profiiliandmed.</strong> Konto- ja profiiliandmeid säilitame üldjuhul kuni konto kustutamiseni, välja arvatud ulatuses, mida seadus nõuab pikemaks säilitamiseks.</p><p><strong>7.2 Autentimise ajutised andmed.</strong> E-posti kinnituse link säilib üldjuhul kuni 24 tundi, PIN-i lähtestamise token kuni 60 minutit, ühekordne sisselogimise kood kuni 10 minutit, ajutine sisselogimistoken kuni 15 minutit ja usaldatud seadme kirje kuni 30 päeva. Aegunud autentimiskirjed eemaldatakse regulaarselt.</p><p><strong>7.3 Vestlused ja jooksvad tööandmed.</strong> Vestlused, vestlussõnumid, vestluse jooksvad olekukirjed ja üldised kasutuslogid säilivad üldjuhul kuni 90 päeva alates viimasest aktiivsusest või vastava kirje loomise või uuendamise ajast.</p><p><strong>7.4 Ruumid ja abiandmed.</strong> Mitteaktiivsed ruumid ja nendega seotud sõnumid säilivad üldjuhul kuni 90 päeva pärast viimast sisulist aktiivsust. Suletud, tühistatud või arhiveeritud abisoovid ja abipakkumised ning lõpetatud või tagasi lükatud sobitused säilivad üldjuhul kuni 90 päeva pärast viimast uuendust.</p><p><strong>7.5 Dokumendid ja agendi tulemused.</strong> Dokumentide teeki laaditud failid, mallid, dokumendi koostamise tööruumi mustandid ning kinnitatud agendi tulemused säilivad üldjuhul kuni 90 päeva alates viimasest muutmisest. Kui vana dokument on tehniliselt seotud uuema tulemusega, võib seda säilitada lühiajaliselt seni, kuni uuem seos lõpeb.</p><p><strong>7.6 Kvoodi- ja kustutusreeglid.</strong> Kui kasutaja kustutab sisu, konto kustutatakse või kirje eemaldatakse kvoodi- või puhastusreeglite tõttu, võib see lühiajaliselt jääda varukoopiasse või töölogidesse taastamise, turvalisuse või õigusliku kohustuse tõttu ning seejärel eemaldatakse või muudetakse anonüümseks.</p><p><strong>7.7 Auditid, aktsepteerimised ja maksed.</strong> Üldised dokumentide auditikirjed, tehnilised töötluslogid ning tööalase kasutuse või andmetöötluse raamistikuga seotud tõendikirjed säilitatakse üldjuhul kuni 90 päeva, välja arvatud juhul, kui konkreetse aktsepteerimise, lepingulise suhte või õigusliku kohustuse tõendamiseks on mõistlikult vaja pikemat säilitamist. Makse teenusepakkujalt saadud detailne toores vastus või payload kärbitakse või eemaldatakse üldjuhul pärast 90 päeva. Minimaalne makse- ja raamatupidamisalune kirje säilib kuni 7 aastat või kauem, kui kohaldatav seadus seda nõuab.</p>"
+      "body": "<p><strong>7.1 Konto- ja profiiliandmed.</strong> Konto- ja profiiliandmeid säilitame üldjuhul kuni konto kustutamiseni, välja arvatud ulatuses, mida seadus nõuab pikemaks säilitamiseks.</p><p><strong>7.2 Autentimise ajutised andmed.</strong> E-posti kinnituse link säilib üldjuhul kuni 24 tundi, PIN-i lähtestamise token kuni 60 minutit, ühekordne sisselogimise kood kuni 15 minutit, ajutine sisselogimistoken kuni 15 minutit ja usaldatud seadme kirje kuni 30 päeva. Aegunud autentimiskirjed eemaldatakse regulaarselt.</p><p><strong>7.3 Vestlused ja jooksvad tööandmed.</strong> Vestlused, vestlussõnumid, vestluse jooksvad olekukirjed ja üldised kasutuslogid säilivad üldjuhul kuni 90 päeva alates viimasest aktiivsusest või vastava kirje loomise või uuendamise ajast.</p><p><strong>7.4 Ruumid ja abiandmed.</strong> Mitteaktiivsed ruumid ja nendega seotud sõnumid säilivad üldjuhul kuni 90 päeva pärast viimast sisulist aktiivsust. Suletud, tühistatud või arhiveeritud abisoovid ja abipakkumised ning lõpetatud või tagasi lükatud sobitused säilivad üldjuhul kuni 90 päeva pärast viimast uuendust.</p><p><strong>7.5 Dokumendid ja agendi tulemused.</strong> Dokumentide teeki laaditud failid, mallid, dokumendi koostamise tööruumi mustandid ning kinnitatud agendi tulemused säilivad üldjuhul kuni 90 päeva alates viimasest muutmisest. Kui vana dokument on tehniliselt seotud uuema tulemusega, võib seda säilitada lühiajaliselt seni, kuni uuem seos lõpeb.</p><p><strong>7.6 Kvoodi- ja kustutusreeglid.</strong> Kui kasutaja kustutab sisu, konto kustutatakse või kirje eemaldatakse kvoodi- või puhastusreeglite tõttu, võib see lühiajaliselt jääda varukoopiasse või töölogidesse taastamise, turvalisuse või õigusliku kohustuse tõttu ning seejärel eemaldatakse või muudetakse anonüümseks.</p><p><strong>7.7 Auditid, aktsepteerimised ja maksed.</strong> Üldised dokumentide auditikirjed, tehnilised töötluslogid ning tööalase kasutuse või andmetöötluse raamistikuga seotud tõendikirjed säilitatakse üldjuhul kuni 90 päeva, välja arvatud juhul, kui konkreetse aktsepteerimise, lepingulise suhte või õigusliku kohustuse tõendamiseks on mõistlikult vaja pikemat säilitamist. Makse teenusepakkujalt saadud detailne toores vastus või payload kärbitakse või eemaldatakse üldjuhul pärast 90 päeva. Minimaalne makse- ja raamatupidamisalune kirje säilib kuni 7 aastat või kauem, kui kohaldatav seadus seda nõuab.</p>"
     },
     "section8": {
       "heading": "8. Kasutaja õigused",
@@ -1171,6 +1171,21 @@
       "admin_notice": "Admini eelvaade: {role}",
       "conversation_title": "Vestlus agendiga",
       "conversation_description": "Anna esimene juhis või täpsusta praegust mustandit vestluses. Agent kasutab valitud dokumente ja sinu määratud töö eesmärki.",
+      "meeting_summary": {
+        "label": "Koosta kohtumise kokkuv?te",
+        "description": "Kasuta dikteerimist selleks, et teha kohtumise kokkuv?tte tekst hilisema aruande koostamise sisendiks. Valmis tulemus salvestatakse eraldi allikdokumendina.",
+        "enabled_help": "Kui see on sees, teeb mikrofon kohtumise kokkuv?tte taustal. Tekst ilmub veidi hiljem ning lisatakse Dokumentidesse ja praegusesse mustandisse.",
+        "disabled_help": "Kui see on v?ljas, kasutab mikrofon tavalist k?ne tekstiks voogu ja lisab transkriptsiooni kohe praegusesse mustandisse.",
+        "empty_help": "V?id alustada kohtumise kokkuv?tte sisse r??kimisest. Kui see valmis saab, lisatakse see mustandi allikdokumendiks.",
+        "queued": "Kohtumise kokkuv?te on j?rjekorras. Tekst j?uab siia veidi hiljem.",
+        "processing": "Kohtumise kokkuv?tet t??deldakse. Kui see valmis saab, lisatakse see Dokumentidesse ja praegusesse mustandisse.",
+        "ready": "Kohtumise kokkuv?te valmis. See lisati Dokumentidesse ja praegusesse mustandisse.",
+        "busy": "?ks kohtumise kokkuv?te on juba t??tluses. Oota selle valmimiseni enne uue alustamist.",
+        "error": "Kohtumise kokkuv?tte t??tlemine eba?nnestus.",
+        "not_found": "Kohtumise kokkuv?tte t??d ei leitud.",
+        "document_title": "Kohtumise kokkuv?te",
+        "result_added": "Kohtumise kokkuv?te lisati mustandisse ja salvestati Dokumentidesse nimega \"{title}\"."
+      },
       "conversation_intro_empty": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, mida soovid koostada.",
       "conversation_intro_with_docs": "Tere! Kirjelda, mida pean valitud {count} dokumendi põhjal koostama.",
       "conversation_intro_empty_worker": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, millise spetsialisti töömustandi pean koostama.",
@@ -1481,7 +1496,10 @@
       "title": "Enne maksmist",
       "agreement": "Nõustun <terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et liitun kuutasulise teenusega ja soovin makse algatada Maksekeskuse kaudu.",
       "details": "Makseviisi valid Maksekeskuse makselehel. Ligipääs aktiveerub kohe pärast kinnitust. Kui maksega on probleem, lähtutakse Maksekeskuse tingimustest ja kohaldatavatest õigusnormidest.",
-      "error_required": "Enne maksmist peab linnuke olema nõusolekul märgitud."
+      "error_required": "Enne maksmist peab linnuke olema nõusolekul märgitud.",
+      "recurring_title": "SotsiaalAI kuutellimus",
+      "recurring_description": "Roll: {role}. Kuutasu: {amount}. Tellimus pikeneb iga kuu automaatselt kuni selle tühistad.",
+      "recurring_confirmation": "Kinnitan, et nõustun korduva kuumaksega ja annan loa võtta edasised kuumaksed samalt kaardilt kuni tellimuse tühistamiseni."
     }
   },
   "pwa": {
@@ -1920,6 +1938,9 @@
       "already_active": "Tellimus on juba aktiivne.",
       "provider_unavailable": "Maksepakkuja ei ole seadistatud.",
       "checkout_create_failed": "Makse algatamine ebaõnnestus.",
+      "recurring_provider_unavailable": "Korduvmakse pakkuja ei ole seadistatud.",
+      "recurring_token_missing": "Korduvmakse token puudub.",
+      "recurring_charge_failed": "Korduvmakse algatamine ebaõnnestus.",
       "payment_not_found": "Makset ei leitud antud viitega.",
       "webhook_signature_unconfigured": "Webhooki allkirja kontroll ei ole seadistatud.",
       "webhook_signature_invalid": "Webhooki allkiri on vigane.",
@@ -2279,7 +2300,7 @@
           "paid_30d": "Laekunud (30p)",
           "empty": "Kasutajaid ei leitud."
         },
-        "note": "Hinnangumudel (EUR): vestlus/päring {chat}, rag/otsing {rag}, dikteerimine/MB {stt}, kõne/1k tähemärki {tts}, baaskuueelarve {budget}, pöörduja kuueelarve {budgetClient}, spetsialisti kuueelarve {budgetWorker}. Päevane analüüsilimiit ja kuueelarve skaleeruvad rolli ning kuutasu järgi. STT/TTS ajalooline kulu kuvatakse alates event-logimise kasutuselevõtust.",
+        "note": "Hinnangumudel (EUR): vestlus/päring {chat}, rag/otsing {rag}, dikteerimine/minut {stt}, kõne/minut {tts}, baaskuueelarve {budget}, pöörduja kuueelarve {budgetClient}, spetsialisti kuueelarve {budgetWorker}. Päevane analüüsilimiit ja kuueelarve skaleeruvad rolli ning kuutasu järgi. STT/TTS ajalooline kulu kuvatakse alates event-logimise kasutuselevõtust.",
         "actions": {
           "selected_count": "Valitud: {count}",
           "selected_visible": "Nähtavatest valitud: {count}",

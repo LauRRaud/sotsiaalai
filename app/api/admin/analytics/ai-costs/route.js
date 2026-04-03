@@ -6,8 +6,8 @@ import { assertAdmin } from "@/lib/authz";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
 import {
-  COST_STT_PER_AUDIO_MB_EUR,
-  COST_TTS_PER_1K_CHARS_EUR,
+  COST_STT_PER_MINUTE_EUR,
+  COST_TTS_PER_MINUTE_EUR,
   getMonthlyCostBudgetForRole
 } from "@/lib/usageBudget";
 
@@ -43,7 +43,8 @@ const OPENAI_CACHED_TOKEN_EUR_EQ = 0.000000125;
 const OPENAI_OUTPUT_TOKEN_EUR_EQ = 0.000005;
 const OPENAI_REASONING_TOKEN_EUR_EQ = 0.000005;
 const STT_DIRECT_TOTAL_TOKEN_EUR_EQ = 0.0000008;
-const STT_DIRECT_DURATION_SECOND_EUR_EQ = 0.00025;
+const STT_DURATION_SECOND_EUR_EQ = COST_STT_PER_MINUTE_EUR / 60;
+const TTS_DURATION_SECOND_EUR_EQ = COST_TTS_PER_MINUTE_EUR / 60;
 const RAG_PROMPT_TOKEN_EUR_EQ = OPENAI_INPUT_TOKEN_EUR_EQ;
 
 const UNIT_MODEL = {
@@ -57,10 +58,9 @@ const UNIT_MODEL = {
     openai_cached_token_units: round6(OPENAI_CACHED_TOKEN_EUR_EQ * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR),
     openai_output_token_units: round6(OPENAI_OUTPUT_TOKEN_EUR_EQ * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR),
     openai_reasoning_token_units: round6(OPENAI_REASONING_TOKEN_EUR_EQ * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR),
-    tts_text_char_units: round6((COST_TTS_PER_1K_CHARS_EUR / 1000) * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR),
-    stt_estimated_audio_mb_units: round6(COST_STT_PER_AUDIO_MB_EUR * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR),
+    tts_duration_second_units: round6(TTS_DURATION_SECOND_EUR_EQ * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR),
     stt_direct_total_token_units: round6(STT_DIRECT_TOTAL_TOKEN_EUR_EQ * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR),
-    stt_direct_duration_second_units: round6(STT_DIRECT_DURATION_SECOND_EUR_EQ * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR),
+    stt_duration_second_units: round6(STT_DURATION_SECOND_EUR_EQ * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR),
     rag_prompt_token_units: round6(RAG_PROMPT_TOKEN_EUR_EQ * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR)
   }
 };
@@ -145,6 +145,7 @@ function createUsageAccumulator() {
     rag_prompt_tokens: 0,
     rag_total_tokens: 0,
     tts_text_chars: 0,
+    tts_duration_seconds: 0,
     stt_total_tokens: 0,
     stt_duration_seconds: 0,
     stt_file_size_bytes: 0,
@@ -166,6 +167,7 @@ function createUsageAccumulator() {
       rag_prompt_tokens: 0,
       rag_total_tokens: 0,
       tts_text_chars: 0,
+      tts_duration_seconds: 0,
       stt_total_tokens: 0,
       stt_duration_seconds: 0,
       stt_file_size_bytes: 0
@@ -211,7 +213,11 @@ function computeInternalUsageUnits(row) {
   }
 
   if (event === "tts_cost_usage") {
-    return round6(toCount(data?.text_chars) * UNIT_MODEL.weights.tts_text_char_units);
+    const durationSeconds = toNumber(data?.duration_seconds);
+    if (durationSeconds != null && durationSeconds > 0) {
+      return round6(durationSeconds * UNIT_MODEL.weights.tts_duration_second_units);
+    }
+    return 0;
   }
 
   if (event === "stt_cost_usage") {
@@ -221,13 +227,10 @@ function computeInternalUsageUnits(row) {
     }
 
     const durationSeconds = toNumber(data?.duration_seconds);
-    if (data?.cost_read_directly === true && durationSeconds != null) {
-      return round6(durationSeconds * UNIT_MODEL.weights.stt_direct_duration_second_units);
+    if (durationSeconds != null && durationSeconds > 0) {
+      return round6(durationSeconds * UNIT_MODEL.weights.stt_duration_second_units);
     }
-
-    const fileSizeBytes = toNumber(data?.file_size_bytes);
-    const audioMb = fileSizeBytes != null && fileSizeBytes > 0 ? fileSizeBytes / (1024 * 1024) : 0;
-    return round6(audioMb * UNIT_MODEL.weights.stt_estimated_audio_mb_units);
+    return 0;
   }
 
   if (event === "rag_cost_usage") {
@@ -251,7 +254,11 @@ function computeApproximateCostEur(row) {
   }
 
   if (event === "tts_cost_usage") {
-    return round6((toCount(data?.text_chars) / 1000) * COST_TTS_PER_1K_CHARS_EUR);
+    const durationSeconds = toNumber(data?.duration_seconds);
+    if (durationSeconds != null && durationSeconds > 0) {
+      return round6(durationSeconds * TTS_DURATION_SECOND_EUR_EQ);
+    }
+    return 0;
   }
 
   if (event === "stt_cost_usage") {
@@ -261,13 +268,10 @@ function computeApproximateCostEur(row) {
     }
 
     const durationSeconds = toNumber(data?.duration_seconds);
-    if (data?.cost_read_directly === true && durationSeconds != null) {
-      return round6(durationSeconds * STT_DIRECT_DURATION_SECOND_EUR_EQ);
+    if (durationSeconds != null && durationSeconds > 0) {
+      return round6(durationSeconds * STT_DURATION_SECOND_EUR_EQ);
     }
-
-    const fileSizeBytes = toNumber(data?.file_size_bytes);
-    const audioMb = fileSizeBytes != null && fileSizeBytes > 0 ? fileSizeBytes / (1024 * 1024) : 0;
-    return round6(audioMb * COST_STT_PER_AUDIO_MB_EUR);
+    return 0;
   }
 
   if (event === "rag_cost_usage") {
@@ -326,6 +330,7 @@ function addRowToAccumulator(target, row) {
     target.tts_jobs += 1;
     target.tts_approximate_cost_eur += approximateCostEur;
     addMetric(target, "tts_text_chars", data?.text_chars);
+    addMetric(target, "tts_duration_seconds", data?.duration_seconds);
     return;
   }
 
@@ -787,6 +792,7 @@ export async function GET(req) {
           rag_prompt_tokens: toCount(summary.rag_prompt_tokens),
           rag_total_tokens: toCount(summary.rag_total_tokens),
           tts_text_chars: toCount(summary.tts_text_chars),
+          tts_duration_seconds: round2(summary.tts_duration_seconds),
           stt_total_tokens: toCount(summary.stt_total_tokens),
           stt_duration_seconds: round2(summary.stt_duration_seconds),
           stt_file_size_bytes: toCount(summary.stt_file_size_bytes)
@@ -799,7 +805,8 @@ export async function GET(req) {
             reasoning_tokens: average(summary.openai_reasoning_tokens, summary.samples.openai_reasoning_tokens)
           },
           tts_per_job: {
-            text_chars: average(summary.tts_text_chars, summary.samples.tts_text_chars)
+            text_chars: average(summary.tts_text_chars, summary.samples.tts_text_chars),
+            duration_seconds: average(summary.tts_duration_seconds, summary.samples.tts_duration_seconds)
           },
           stt_per_job: {
             total_tokens: average(summary.stt_total_tokens, summary.samples.stt_total_tokens),

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider"
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole"
@@ -24,6 +24,7 @@ import { linkBrandInlineClass } from "@/components/ui/linkStyles"
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName"
 import { AGENT_ARTIFACT_TYPE_VALUES } from "@/lib/documents/constants"
 import { clientTaskInstruction } from "@/lib/documents/agentTasks"
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage"
 import {
   artifactStatusLabel,
   artifactTypeLabel,
@@ -173,6 +174,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const [refiningResult, setRefiningResult] = useState(false)
   const [savingResult, setSavingResult] = useState(false)
   const [approvingResult, setApprovingResult] = useState(false)
+  const [meetingSummaryEnabled, setMeetingSummaryEnabled] = useState(false)
+  const [meetingSummaryJob, setMeetingSummaryJob] = useState(null)
   const [runError, setRunError] = useState("")
   const [runFeedback, setRunFeedback] = useState(null)
   const [approvalNotice, setApprovalNotice] = useState(null)
@@ -180,6 +183,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const [conversationMessages, setConversationMessages] = useState([])
   const [inputFocused, setInputFocused] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const handledMeetingSummaryJobIdsRef = useRef(new Set())
 
   function createWorkspaceVersion({ kind, title, content, type, templateId = selectedTemplateId }) {
     return {
@@ -619,6 +623,9 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     : ""
   const artifactResultsHref = !isClientRole ? localizePath("/documents?artifacts=all#artifacts", locale) : ""
   const isAgentBusy = starting || refiningResult
+  const meetingSummaryBusy =
+    !isClientRole &&
+    Boolean(meetingSummaryJob && ["queued", "running"].includes(String(meetingSummaryJob.status || "").toLowerCase()))
   const conversationIntroText = selectedCount
     ? t(`documents.agent_workspace.conversation_intro_with_docs_${roleScope}`, { count: selectedCount })
     : t(`documents.agent_workspace.conversation_intro_empty_${roleScope}`)
@@ -629,6 +636,72 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     if (latestAssistantMessage?.text) return latestAssistantMessage.text
     return ""
   }, [conversationMessages, resultContent, workspaceResult?.content])
+  const requestRegularSpeechToText = useCallback(
+    async ({ blob, locale: speechLocale }) => {
+      const fd = new FormData()
+      fd.append("audio", blob, "audio.webm")
+      fd.append("locale", speechLocale || locale || "auto")
+      const res = await fetch("/api/stt", {
+        method: "POST",
+        body: fd
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || data?.ok === false || !data?.text) {
+        throw new Error(
+          resolveApiMessage({
+            payload: data,
+            t,
+            fallbackKey: "chat.mic.error",
+            fallbackText: t("chat.mic.error")
+          })
+        )
+      }
+      return {
+        appendText: String(data.text || "")
+      }
+    },
+    [locale, t]
+  )
+
+  const handleSpeechTranscription = useCallback(
+    async ({ blob, locale: speechLocale }) => {
+      if (isClientRole || !meetingSummaryEnabled) {
+        return requestRegularSpeechToText({ blob, locale: speechLocale })
+      }
+      if (meetingSummaryBusy) {
+        throw new Error(t("documents.agent_workspace.meeting_summary.busy"))
+      }
+
+      const fd = new FormData()
+      fd.append("audio", blob, "meeting-summary.webm")
+      fd.append("locale", speechLocale || locale || "auto")
+      const res = await fetch("/api/documents/meeting-summary/jobs", {
+        method: "POST",
+        body: fd,
+        headers: {
+          "x-ui-locale": locale
+        }
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || data?.ok === false || !data?.job?.id) {
+        throw new Error(
+          resolveApiMessage({
+            payload: data,
+            t,
+            fallbackKey: "documents.agent_workspace.meeting_summary.error",
+            fallbackText: t("documents.agent_workspace.meeting_summary.error")
+          })
+        )
+      }
+
+      setMeetingSummaryJob(data.job)
+      return {
+        appendText: ""
+      }
+    },
+    [isClientRole, locale, meetingSummaryBusy, meetingSummaryEnabled, requestRegularSpeechToText, t]
+  )
+
   const {
     isSpeaking,
     speakLatestReply,
@@ -640,6 +713,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     locale,
     latestAiText,
     onAppendText: (text) => composerDraftApiRef.current?.appendText?.(text),
+    onTranscribeAudio: handleSpeechTranscription,
     onError: setRunError,
     t
   })
@@ -649,10 +723,23 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       ? t("documents.agent_workspace.conversation_generating")
       : t("documents.agent_workspace.conversation_refining")
     : !selectedCount
-      ? t(isClientRole ? "documents.agent_workspace.client_needs_documents" : "documents.agent_workspace.needs_documents")
+      ? !isClientRole && meetingSummaryEnabled
+        ? t("documents.agent_workspace.meeting_summary.empty_help")
+        : t(isClientRole ? "documents.agent_workspace.client_needs_documents" : "documents.agent_workspace.needs_documents")
       : hasWorkspaceResult && workspaceResult?.status === "DRAFT" && resultContent.trim()
         ? t("documents.agent_workspace.conversation_refine_help")
         : t("documents.agent_workspace.conversation_ready_help")
+  const meetingSummaryStatusText = !isClientRole
+    ? meetingSummaryJob?.status === "queued"
+      ? t("documents.agent_workspace.meeting_summary.queued")
+      : meetingSummaryJob?.status === "running"
+        ? t("documents.agent_workspace.meeting_summary.processing")
+        : meetingSummaryJob?.status === "done"
+          ? t("documents.agent_workspace.meeting_summary.ready")
+          : meetingSummaryJob?.status === "error"
+            ? String(meetingSummaryJob?.error || t("documents.agent_workspace.meeting_summary.error"))
+            : ""
+    : ""
   const clientResultLabel =
     outputTypeOptions.find((option) => option.value === clientTask)?.label || t("documents.agent_workspace.client_tasks.letter_request")
   const agentConversationVars = useMemo(
@@ -738,6 +825,99 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   function handleStopAgentRequest() {
     activeRequestAbortRef.current?.abort?.()
   }
+
+  useEffect(() => {
+    if (isClientRole) {
+      setMeetingSummaryEnabled(false)
+      setMeetingSummaryJob(null)
+    }
+  }, [isClientRole])
+
+  useEffect(() => {
+    const jobId = String(meetingSummaryJob?.id || "").trim()
+    const jobStatus = String(meetingSummaryJob?.status || "").trim().toLowerCase()
+    if (!jobId || !["queued", "running"].includes(jobStatus)) return undefined
+
+    let cancelled = false
+    let timerId = 0
+
+    async function pollJob() {
+      try {
+        const response = await fetch(`/api/documents/meeting-summary/jobs/${encodeURIComponent(jobId)}`, {
+          cache: "no-store",
+          headers: {
+            "x-ui-locale": locale
+          }
+        })
+        const payload = await response.json().catch(() => ({}))
+        if (!response.ok || payload?.ok === false || !payload?.job) {
+          throw new Error(payload?.message || t("documents.agent_workspace.meeting_summary.error"))
+        }
+        if (cancelled) return
+        setMeetingSummaryJob((current) => current?.id === jobId ? payload.job : current)
+        const nextStatus = String(payload.job?.status || "").trim().toLowerCase()
+        if (["done", "error"].includes(nextStatus)) return
+      } catch (error) {
+        if (cancelled) return
+        setMeetingSummaryJob((current) =>
+          current?.id === jobId
+            ? {
+                ...current,
+                status: "error",
+                error: error?.message || t("documents.agent_workspace.meeting_summary.error")
+              }
+            : current
+        )
+        return
+      }
+
+      timerId = window.setTimeout(pollJob, 2500)
+    }
+
+    void pollJob()
+
+    return () => {
+      cancelled = true
+      if (timerId) window.clearTimeout(timerId)
+    }
+  }, [locale, meetingSummaryJob?.id, meetingSummaryJob?.status, t])
+
+  useEffect(() => {
+    const jobId = String(meetingSummaryJob?.id || "").trim()
+    if (!jobId || String(meetingSummaryJob?.status || "").trim().toLowerCase() !== "done") return
+    if (handledMeetingSummaryJobIdsRef.current.has(jobId)) return
+
+    handledMeetingSummaryJobIdsRef.current.add(jobId)
+
+    const summaryText = String(meetingSummaryJob?.result?.summaryText || "").trim()
+    const document = meetingSummaryJob?.result?.document || null
+
+    if (document?.id) {
+      setSelectedDocumentIds((current) => current.includes(document.id) ? current : [...current, document.id])
+      setDocuments((current) => [document, ...current.filter((entry) => entry.id !== document.id)])
+      setMissingDocumentIds((current) => current.filter((id) => id !== document.id))
+    }
+
+    if (summaryText) {
+      composerDraftApiRef.current?.appendText?.(summaryText)
+    }
+
+    appendConversationMessage({
+      role: "ai",
+      text: t("documents.agent_workspace.meeting_summary.result_added", {
+        title:
+          document?.title ||
+          t("documents.agent_workspace.meeting_summary.document_title", "Meeting summary")
+      }),
+      attachments: document?.id
+        ? [{
+            label: t("documents.actions.download"),
+            url: `/api/documents/${encodeURIComponent(document.id)}/download`,
+            fileName: document.originalName || undefined
+          }]
+        : []
+    })
+  }, [meetingSummaryJob, t])
 
   async function refreshRecentArtifacts() {
     if (!isClientRole) return
@@ -1669,6 +1849,48 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                 </div>
                 <p className="documents-section-description documents-agent-start-help">{conversationHelpText}</p>
               </div>
+
+              {!isClientRole ? (
+                <div className="documents-notice documents-notice--muted rounded-[1rem] px-[1rem] py-[0.95rem]">
+                  <div className="flex flex-col gap-[0.5rem]">
+                    <label className="flex items-start gap-[0.7rem] text-[0.98rem] leading-[1.45]">
+                      <input
+                        type="checkbox"
+                        className="mt-[0.18rem] h-[1rem] w-[1rem] shrink-0 accent-[var(--documents-accent)]"
+                        checked={meetingSummaryEnabled}
+                        onChange={(event) => setMeetingSummaryEnabled(event.target.checked)}
+                      />
+                      <span className="min-w-0">
+                        <span className="documents-strong-text block font-semibold">
+                          {t("documents.agent_workspace.meeting_summary.label")}
+                        </span>
+                        <span className="documents-section-description documents-agent-copy block mt-[0.18rem]">
+                          {t("documents.agent_workspace.meeting_summary.description")}
+                        </span>
+                      </span>
+                    </label>
+                    <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
+                      {meetingSummaryEnabled
+                        ? t("documents.agent_workspace.meeting_summary.enabled_help")
+                        : t("documents.agent_workspace.meeting_summary.disabled_help")}
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
+              {!isClientRole && meetingSummaryStatusText ? (
+                <div
+                  className={`documents-notice rounded-[1rem] px-[1rem] py-[0.95rem] ${
+                    meetingSummaryJob?.status === "error"
+                      ? "documents-notice--error"
+                      : meetingSummaryJob?.status === "done"
+                        ? "documents-notice--success"
+                        : "documents-notice--info"
+                  }`}
+                >
+                  {meetingSummaryStatusText}
+                </div>
+              ) : null}
 
               <div className="documents-agent-conversation-shell" style={agentConversationVars}>
                 <ConversationView

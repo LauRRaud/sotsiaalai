@@ -4,6 +4,7 @@ export function useSpeech({
   locale,
   latestAiText,
   onAppendText,
+  onTranscribeAudio,
   onError,
   t
 }) {
@@ -250,23 +251,34 @@ export function useSpeech({
           return;
         }
         try {
-          const fd = new FormData();
-          fd.append("audio", blob, "audio.webm");
-          fd.append("locale", locale || "auto");
-          const res = await fetch("/api/stt", {
-            method: "POST",
-            body: fd
-          });
-          const data = await res.json().catch(() => ({}));
-          if (!res.ok || data?.ok === false || !data?.text) {
-            throw new Error(resolveApiMessage({
-              payload: data,
-              t: key => tr(key),
-              fallbackKey: "chat.mic.error",
-              fallbackText: tr("chat.mic.error")
-            }));
+          if (typeof onTranscribeAudio === "function") {
+            const result = await onTranscribeAudio({
+              blob,
+              mimeType: rec.mimeType || "audio/webm",
+              fileName: "audio.webm",
+              locale: locale || "auto"
+            });
+            const nextText = String(result?.appendText || "").trim();
+            if (nextText) onAppendText?.(nextText);
+          } else {
+            const fd = new FormData();
+            fd.append("audio", blob, "audio.webm");
+            fd.append("locale", locale || "auto");
+            const res = await fetch("/api/stt", {
+              method: "POST",
+              body: fd
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || data?.ok === false || !data?.text) {
+              throw new Error(resolveApiMessage({
+                payload: data,
+                t: key => tr(key),
+                fallbackKey: "chat.mic.error",
+                fallbackText: tr("chat.mic.error")
+              }));
+            }
+            onAppendText?.(data.text);
           }
-          onAppendText?.(data.text);
         } catch (err) {
           setRecordingError(err?.message || tr("chat.mic.error"));
         }
@@ -278,7 +290,7 @@ export function useSpeech({
       stopRecording();
       stopAudioMeter();
     }
-  }, [locale, onAppendText, recording, startAudioMeter, stopAudioMeter, stopRecording, tr, triggerRecordingPulse]);
+  }, [locale, onAppendText, onTranscribeAudio, recording, startAudioMeter, stopAudioMeter, stopRecording, tr, triggerRecordingPulse]);
   useEffect(() => {
     return () => {
       if (recordingPulseTimerRef.current) {

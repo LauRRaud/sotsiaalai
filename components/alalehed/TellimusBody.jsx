@@ -78,6 +78,50 @@ const subscriptionInfoBlockClassName = "grid gap-[0.7rem]";
 const subscriptionStatusStackClassName = "grid gap-[0.2rem] pt-[0.1rem]";
 const authModalBackdropClassName =
   "fixed inset-0 z-[94] bg-[rgba(6,10,18,0.74)] backdrop-blur-[2px] pointer-events-auto";
+
+let maksekeskusScriptPromise = null;
+
+function loadMaksekeskusCheckoutScript(scriptUrl) {
+  const src = String(scriptUrl || "").trim();
+  if (!src) {
+    return Promise.reject(new Error("missing_script_url"));
+  }
+  if (typeof window === "undefined" || typeof document === "undefined") {
+    return Promise.reject(new Error("browser_only"));
+  }
+  if (window.Maksekeskus?.Checkout) {
+    return Promise.resolve(window.Maksekeskus);
+  }
+  if (maksekeskusScriptPromise) {
+    return maksekeskusScriptPromise;
+  }
+
+  maksekeskusScriptPromise = new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[src="${src}"]`);
+    if (existing) {
+      existing.addEventListener("load", () => resolve(window.Maksekeskus), {
+        once: true
+      });
+      existing.addEventListener("error", () => reject(new Error("script_load_failed")), {
+        once: true
+      });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.onload = () => resolve(window.Maksekeskus);
+    script.onerror = () => {
+      maksekeskusScriptPromise = null;
+      reject(new Error("script_load_failed"));
+    };
+    document.head.appendChild(script);
+  });
+
+  return maksekeskusScriptPromise;
+}
+
 export default function TellimusBody() {
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -138,6 +182,15 @@ export default function TellimusBody() {
       })
     : t("subscription.info");
   const sponsoredInfoText = t("subscription.sponsored_info");
+  const recurringTitle = t("subscription.checkout.recurring_title", "SotsiaalAI kuutellimus");
+  const recurringDescription = t("subscription.checkout.recurring_description", {
+    role: planRoleLabel,
+    amount: monthlyAmountLabel || ""
+  });
+  const recurringConfirmation = t(
+    "subscription.checkout.recurring_confirmation",
+    "Kinnitan, et nõustun korduva kuumaksega ja volitan SotsiaalAI-d võtma igakuise makse sama kaardiga kuni tellimuse tühistamiseni."
+  );
   const subscriptionActiveSummary = monthlyAmountLabel
     ? t("subscription.active.summary_priced", {
         role: planRoleLabel,
@@ -181,6 +234,13 @@ export default function TellimusBody() {
     if (!isVerifiedEntry) return;
     setLoginOpen(true);
   }, [isVerifiedEntry, status]);
+  useEffect(() => {
+    return () => {
+      if (typeof window === "undefined") return;
+      delete window.sotsiaalaiMaksekeskusCompleted;
+      delete window.sotsiaalaiMaksekeskusCancelled;
+    };
+  }, []);
   useEffect(() => {
     if (paymentState === "success") {
       setError("");
@@ -261,15 +321,51 @@ export default function TellimusBody() {
         }));
         return;
       }
-      const checkoutUrl = typeof payload?.checkoutUrl === "string" ? payload.checkoutUrl.trim() : "";
-      if (!checkoutUrl) {
-        setError(t("subscription.error.payment_start"));
+      if (payload?.checkoutMode === "iframe_recurring") {
+        const publishableKey = String(payload?.publishableKey || "").trim();
+        const transactionId = String(payload?.transactionId || "").trim();
+        const scriptUrl = String(payload?.scriptUrl || "").trim();
+
+        if (!publishableKey || !transactionId || !scriptUrl) {
+          setError(t("subscription.error.payment_start"));
+          return;
+        }
+
+        await loadMaksekeskusCheckoutScript(scriptUrl);
+        if (!window.Maksekeskus?.Checkout?.initialize || !window.Maksekeskus?.Checkout?.open) {
+          setError(t("subscription.error.payment_start"));
+          return;
+        }
+
+        window.sotsiaalaiMaksekeskusCompleted = () => {
+          setError("");
+          setInfo(t("subscription.payment.confirmation_pending"));
+        };
+        window.sotsiaalaiMaksekeskusCancelled = () => {
+          setProcessing(false);
+          setInfo("");
+          setError(t("subscription.error.payment_failed"));
+        };
+
+        window.Maksekeskus.Checkout.initialize({
+          key: publishableKey,
+          transaction: transactionId,
+          email: session?.user?.email || undefined,
+          clientName: session?.user?.name || undefined,
+          locale,
+          recurringTitle,
+          recurringDescription,
+          recurringConfirmation,
+          recurringChecked: false,
+          recurringRequired: true,
+          completed: "sotsiaalaiMaksekeskusCompleted",
+          cancelled: "sotsiaalaiMaksekeskusCancelled",
+          backdropClose: false
+        });
+        window.Maksekeskus.Checkout.open();
         return;
       }
-      setInfo(t("subscription.payment.redirect_demo"));
-      if (typeof window !== "undefined") {
-        window.location.assign(checkoutUrl);
-      }
+      setError(t("subscription.error.payment_start"));
     } catch (err) {
       console.error("activate", err);
       setError(t("subscription.error.payment_start"));

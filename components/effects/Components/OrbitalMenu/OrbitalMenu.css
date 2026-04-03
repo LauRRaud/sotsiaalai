@@ -719,7 +719,7 @@ html[data-contrast="hc"]
   box-shadow:
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
-    0 7px 10px -6px rgba(255, 234, 0, 0.4),
+    0 6px 8px -6px rgba(255, 234, 0, 0.32),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
@@ -804,7 +804,8 @@ html[data-contrast="hc"]
   --orbit-keypad-shadow-item:
     0 4px 9px rgba(0, 0, 0, 0.12),
     0 1px 1px rgba(15, 23, 42, 0.065),
-    0 6px 8px -6px rgba(248, 253, 255, 0.22),
+    0 0 10px rgba(248, 253, 255, 0.08),
+    0 8px 10px -5px rgba(248, 253, 255, 0.26),
     inset 0 0 0 var(--pin-border-w) rgba(34, 42, 56, 0.48),
     inset 0 1px 0 rgba(255, 255, 255, 0.035),
     inset 0 -1px 0 rgba(0, 0, 0, 0.18);
@@ -843,7 +844,8 @@ html[data-contrast="hc"]
   --orbit-keypad-shadow-item:
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
-    0 6px 8px -6px rgba(208, 228, 255, 0.34),
+    0 0 10px rgba(208, 228, 255, 0.12),
+    0 8px 10px -5px rgba(208, 228, 255, 0.38),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
@@ -876,13 +878,16 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
   --orbit-keypad-shadow:
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
+    0 0 10px rgba(255, 234, 0, 0.12),
+    0 8px 10px -5px rgba(255, 234, 0, 0.38),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
   --orbit-keypad-shadow-item:
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
-    0 6px 8px -6px rgba(255, 234, 0, 0.32),
+    0 0 10px rgba(255, 234, 0, 0.12),
+    0 8px 10px -5px rgba(255, 234, 0, 0.38),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
@@ -1072,8 +1077,24 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
     0 0 12px rgba(255, 234, 0, 0.24),
     0 0 24px rgba(255, 234, 0, 0.12);
   --orbit-button-shadow:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 0 10px rgba(255, 234, 0, 0.12),
+    0 8px 10px -5px rgba(255, 234, 0, 0.38),
     inset 0 0 0 1px rgba(255, 255, 255, 0.035),
     inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  --orbit-button-shadow-hover:
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 234, 0, 0.065),
+    inset 0 1px 0 rgba(255, 250, 180, 0.035);
+  --orbit-keypad-shadow-item:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 0 10px rgba(255, 234, 0, 0.12),
+    0 8px 10px -5px rgba(255, 234, 0, 0.38),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19);
   --orbit-button-shadow-center:
     0 0 18px rgba(255, 255, 255, 0.28),
     0 0 34px rgba(255, 255, 255, 0.14),
@@ -1474,7 +1495,8 @@ html[data-contrast="hc"]
   box-shadow:
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
-    0 6px 8px -6px rgba(255, 234, 0, 0.32),
+    0 0 10px rgba(255, 234, 0, 0.12),
+    0 8px 10px -5px rgba(255, 234, 0, 0.38),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
@@ -1486,7 +1508,13 @@ html[data-contrast="hc"]
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
-  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
+  box-shadow:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 6px 8px -6px rgba(255, 234, 0, 0.32),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
 }
 
 @media (min-width: 48.001em) {
@@ -1497,7 +1525,8 @@ html[data-contrast="hc"]
     box-shadow:
       0 4px 9px rgba(2, 6, 16, 0.13),
       0 1px 1px rgba(15, 23, 42, 0.065),
-      0 6px 8px -6px rgba(255, 234, 0, 0.34),
+      0 0 10px rgba(255, 234, 0, 0.12),
+      0 8px 10px -5px rgba(255, 234, 0, 0.38),
       inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
       inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;

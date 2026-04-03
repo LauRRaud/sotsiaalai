@@ -11,8 +11,8 @@ import {
   MONTHLY_COST_BUDGET_EUR_PER_USER,
   COST_CHAT_REQUEST_EUR,
   COST_RAG_SEARCH_EUR,
-  COST_STT_PER_AUDIO_MB_EUR,
-  COST_TTS_PER_1K_CHARS_EUR,
+  COST_STT_PER_MINUTE_EUR,
+  COST_TTS_PER_MINUTE_EUR,
   getMonthlyCostBudgetForRole
 } from "@/lib/usageBudget";
 
@@ -91,8 +91,10 @@ function buildUsageSeed() {
     crisisDetected: 0,
     sttRequests: 0,
     sttAudioBytes: 0,
+    sttMinutes: 0,
     ttsRequests: 0,
     ttsChars: 0,
+    ttsMinutes: 0,
     analyses: 0
   };
 }
@@ -228,8 +230,8 @@ export async function GET(req) {
         costModel: {
           chatRequestEur: COST_CHAT_REQUEST_EUR,
           ragSearchEur: COST_RAG_SEARCH_EUR,
-          sttPerAudioMbEur: COST_STT_PER_AUDIO_MB_EUR,
-          ttsPer1kCharsEur: COST_TTS_PER_1K_CHARS_EUR,
+          sttPerMinuteEur: COST_STT_PER_MINUTE_EUR,
+          ttsPerMinuteEur: COST_TTS_PER_MINUTE_EUR,
           monthlyBudgetEur: round2(MONTHLY_COST_BUDGET_EUR_PER_USER),
           monthlyBudgetClientEur: round2(getMonthlyCostBudgetForRole("CLIENT", false)),
           monthlyBudgetWorkerEur: round2(getMonthlyCostBudgetForRole("SOCIAL_WORKER", false)),
@@ -329,11 +331,21 @@ export async function GET(req) {
       if (row.event === "stt_request") {
         const size = Number(row?.data?.fileSizeBytes || 0);
         if (Number.isFinite(size) && size > 0) usageByUser[userId].sttAudioBytes += size;
+        const durationSecondsValue = row?.data?.durationSeconds ?? row?.data?.duration_seconds ?? 0;
+        const durationSeconds = Number(durationSecondsValue);
+        if (Number.isFinite(durationSeconds) && durationSeconds > 0) {
+          usageByUser[userId].sttMinutes += durationSeconds / 60;
+        }
       }
 
       if (row.event === "tts_request") {
         const chars = Number(row?.data?.textLength || 0);
         if (Number.isFinite(chars) && chars > 0) usageByUser[userId].ttsChars += chars;
+        const durationSecondsValue = row?.data?.durationSeconds ?? row?.data?.duration_seconds ?? 0;
+        const durationSeconds = Number(durationSecondsValue);
+        if (Number.isFinite(durationSeconds) && durationSeconds > 0) {
+          usageByUser[userId].ttsMinutes += durationSeconds / 60;
+        }
       }
     }
 
@@ -379,13 +391,12 @@ export async function GET(req) {
       const usage = usageByUser[user.id] || buildUsageSeed();
       const analyzeUsage = analyzeUsageByUser[user.id] || { total30d: 0, today: 0 };
       const latestSubscription = latestSubscriptionByUser[user.id] || null;
-      const sttAudioMb = usage.sttAudioBytes > 0 ? usage.sttAudioBytes / (1024 * 1024) : 0;
       const analyzeLimit = getAnalyzeLimitDetails(String(user.role || "CLIENT").toUpperCase(), !!user.isAdmin);
 
       const chatCost = usage.chatRequests * COST_CHAT_REQUEST_EUR;
       const ragCost = usage.ragSearches * COST_RAG_SEARCH_EUR;
-      const sttCost = sttAudioMb * COST_STT_PER_AUDIO_MB_EUR;
-      const ttsCost = (usage.ttsChars / 1000) * COST_TTS_PER_1K_CHARS_EUR;
+      const sttCost = usage.sttMinutes * COST_STT_PER_MINUTE_EUR;
+      const ttsCost = usage.ttsMinutes * COST_TTS_PER_MINUTE_EUR;
       const totalCost = chatCost + ragCost + sttCost + ttsCost;
       const paidAmount = Number(paidByUserMap[user.id] || 0);
       const budget = Number(getMonthlyCostBudgetForRole(String(user.role || "CLIENT").toUpperCase(), !!user.isAdmin) || 0);
@@ -433,9 +444,9 @@ export async function GET(req) {
           noContext: usage.noContext,
           crisisDetected: usage.crisisDetected,
           sttRequests: usage.sttRequests,
-          sttAudioMb: round3(sttAudioMb),
+          sttMinutes: round3(usage.sttMinutes),
           ttsRequests: usage.ttsRequests,
-          ttsChars: usage.ttsChars,
+          ttsMinutes: round3(usage.ttsMinutes),
           analyses30d: analyzeUsage.total30d,
           analysesToday: analyzeUsage.today
         },
@@ -470,8 +481,8 @@ export async function GET(req) {
       costModel: {
         chatRequestEur: COST_CHAT_REQUEST_EUR,
         ragSearchEur: COST_RAG_SEARCH_EUR,
-        sttPerAudioMbEur: COST_STT_PER_AUDIO_MB_EUR,
-        ttsPer1kCharsEur: COST_TTS_PER_1K_CHARS_EUR,
+        sttPerMinuteEur: COST_STT_PER_MINUTE_EUR,
+        ttsPerMinuteEur: COST_TTS_PER_MINUTE_EUR,
         monthlyBudgetEur: round2(MONTHLY_COST_BUDGET_EUR_PER_USER),
         monthlyBudgetClientEur: round2(getMonthlyCostBudgetForRole("CLIENT", false)),
         monthlyBudgetWorkerEur: round2(getMonthlyCostBudgetForRole("SOCIAL_WORKER", false)),

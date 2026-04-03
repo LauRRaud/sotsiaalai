@@ -25,24 +25,19 @@ Required:
 - `MAKSEKESKUS_API_BASE` - provider API base URL
 - `MAKSEKESKUS_API_KEY` - provider API key
 - `MAKSEKESKUS_SHOP_ID` - provider shop/merchant identifier
-- `MAKSEKESKUS_RETURN_URL` - user return URL after checkout success
-- `MAKSEKESKUS_CANCEL_URL` - user return URL after cancel/failure
+- `MAKSEKESKUS_RETURN_URL` - user return URL for `payment_return` / `token_return` callbacks
+- `MAKSEKESKUS_CANCEL_URL` - user cancel URL for MakeCommerce callback handling
 - `MAKSEKESKUS_WEBHOOK_URL` - provider webhook target URL (`/api/subscription/webhook`)
 
-Compatibility note:
-- Runtime now also accepts legacy aliases for smoother migration:
-  - `MAKSEKESKUS_API_URL` -> `MAKSEKESKUS_API_BASE`
-  - `MAKSEKESKUS_SECRET_KEY` -> `MAKSEKESKUS_API_KEY`
-  - `MAKSEKESKUS_MERCHANT_ID` -> `MAKSEKESKUS_SHOP_ID`
-- Keep only the new names in production secrets long-term to avoid ambiguity.
+Required when `SUBSCRIPTION_RECURRING_ENABLED=1`:
+- `MAKSEKESKUS_PUBLIC_KEY` - publishable key used by `checkout.min.js`
 
 Recommended:
-- `MAKSEKESKUS_WEBHOOK_SECRET` - signature secret used by webhook verification
 - `MAKSEKESKUS_TIMEOUT_MS` - provider request timeout override (default is code-level fallback)
-- `MAKSEKESKUS_CHECKOUT_URL_TEMPLATE` - only if your provider contract requires templated checkout URL
-- `SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED=1` - temporary override for non-production testing only (production should keep this unset)
 - `PAYMENT_OWNER_EMAIL` - owner notification recipient for webhook status emails (default: `info@sotsiaal.ai`)
 - `PAYMENT_OWNER_EMAIL_LOCALE` - locale for owner webhook email template (`en|et|ru`, default `en`)
+
+Webhook MAC verification uses `MAKSEKESKUS_API_KEY` directly. There is no separate unsigned bypass path in runtime.
 
 ## Subscription Webhook Policy (owner decision)
 

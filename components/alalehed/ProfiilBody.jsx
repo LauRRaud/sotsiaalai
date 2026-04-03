@@ -491,7 +491,8 @@ export default function ProfiilBody({
   const prevA11yModalOpenRef = useRef(false);
   const [orbitMenuRenderKey, setOrbitMenuRenderKey] = useState(0);
   const orbitMenuResetReadyRef = useRef(false);
-  const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(() => initialIsMobileProfileMenu || detectMobileProfileMenu());
+  // Keep the first render deterministic for SSR hydration; reconcile on mount.
+  const [isMobileProfileMenu, setIsMobileProfileMenu] = useState(() => initialIsMobileProfileMenu);
   const [mobileLogoutArmed, setMobileLogoutArmed] = useState(false);
   const [profileHelpPanel, setProfileHelpPanel] = useState(null);
   const [profileHelpPanelClosing, setProfileHelpPanelClosing] = useState(false);

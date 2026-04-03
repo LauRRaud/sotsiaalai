@@ -48,30 +48,16 @@ export default function HomePage() {
   } = useAccessibility();
   const { t, locale } = useI18n();
   const [homeEntryState] = useState(() => {
-    let shouldSkipIntro = homeIntroSeen;
-    let returnedFromChat = false;
-    if (!shouldSkipIntro && typeof window !== "undefined") {
-      try {
-        returnedFromChat = Boolean(
-          window.sessionStorage.getItem(HOME_RETURN_FROM_CHAT_KEY)
-        );
-        if (returnedFromChat) {
-          window.sessionStorage.removeItem(HOME_RETURN_FROM_CHAT_KEY);
-        }
-      } catch {}
-      shouldSkipIntro = shouldSkipIntro || returnedFromChat;
-    }
+    const shouldSkipIntro = homeIntroSeen;
     if (shouldSkipIntro) {
       homeIntroSeen = true;
     }
     return {
-      initialSkipIntro: shouldSkipIntro,
-      returnedFromChat
+      initialSkipIntro: shouldSkipIntro
     };
   });
   const initialSkipIntro = homeEntryState.initialSkipIntro;
-  const returnedFromChat = homeEntryState.returnedFromChat;
-  const [hasSeenIntro] = useState(() => initialSkipIntro);
+  const [hasSeenIntro, setHasSeenIntro] = useState(() => initialSkipIntro);
   const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
   const [rightFadeDone, setRightFadeDone] = useState(() => initialSkipIntro);
   const [introStart, setIntroStart] = useState(() => initialSkipIntro);
@@ -215,6 +201,29 @@ export default function HomePage() {
   useEffect(() => {
     homeIntroSeen = true;
   }, []);
+  useEffect(() => {
+    if (initialSkipIntro || typeof window === "undefined") return;
+    let returnedFromChat = false;
+    try {
+      returnedFromChat = Boolean(
+        window.sessionStorage.getItem(HOME_RETURN_FROM_CHAT_KEY)
+      );
+      if (returnedFromChat) {
+        window.sessionStorage.removeItem(HOME_RETURN_FROM_CHAT_KEY);
+      }
+    } catch {}
+    if (!returnedFromChat) return;
+    homeIntroSeen = true;
+    setHasSeenIntro(true);
+    setLeftFadeDone(true);
+    setRightFadeDone(true);
+    setIntroStart(true);
+    setLeftBlurRevealReady(true);
+    setRightBlurRevealReady(true);
+    setHomeA11yReady(true);
+    setShowHomeBottomSections(true);
+    setShowHomeFooter(true);
+  }, [initialSkipIntro]);
   useEffect(() => {
     const timeoutIds = timeoutIdsRef.current;
     return () => {

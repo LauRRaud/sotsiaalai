@@ -2,13 +2,16 @@ export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { BillingInterval, PaymentProvider, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/client";
+import { BillingInterval, BillingMode, PaymentProvider, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/client";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
-import { createMaksekeskusCheckout, makeProviderPaymentId } from "@/lib/payments/maksekeskus";
-import { getInitialSubscriptionPaymentKind, getSubscriptionBillingMode, isRecurringBillingEnabled } from "@/lib/payments/recurring";
+import {
+  createMaksekeskusRecurringSetup,
+  makeProviderPaymentId,
+} from "@/lib/payments/maksekeskus";
+import { getInitialSubscriptionPaymentKind, isRecurringBillingEnabled } from "@/lib/payments/recurring";
 import { logPaymentEvent } from "@/lib/payments/observability";
 import {
   getRoleMonthlyAmount,
@@ -183,10 +186,12 @@ export async function POST(request) {
   const plan = normalizePlan(body?.plan, getRolePlanKey(planRole));
   const amount = getRoleMonthlyAmount(planRole).toFixed(2);
   const currency = normalizeCurrency(process.env.SUBSCRIPTION_CURRENCY || "EUR");
-  const billingMode = getSubscriptionBillingMode();
   const recurringEnabled = isRecurringBillingEnabled();
   if (!isTruthyFlag(body?.acceptedTerms)) {
     return errorJson("api.subscription.checkout_terms_required", 400, locale);
+  }
+  if (!recurringEnabled) {
+    return errorJson("api.subscription.recurring_provider_unavailable", 503, locale);
   }
 
   let paymentRecord = null;
@@ -221,8 +226,8 @@ export async function POST(request) {
           userId: session.userId,
           status: SubscriptionStatus.NONE,
           plan,
-          billingMode,
-          billingInterval: recurringEnabled ? BillingInterval.MONTHLY : null,
+          billingMode: BillingMode.RECURRING,
+          billingInterval: BillingInterval.MONTHLY,
           billingRetryCount: 0
         },
         select: {
@@ -249,8 +254,8 @@ export async function POST(request) {
           plan,
           planRole,
           locale,
-          billingMode,
-          recurringEnabled,
+          billingMode: BillingMode.RECURRING,
+          recurringEnabled: true,
           checkoutConsent: true
         }
       },
@@ -261,11 +266,10 @@ export async function POST(request) {
       }
     });
 
-    const returnUrl = resolveUrl(request, process.env.MAKSEKESKUS_RETURN_URL, "/api/subscription/callback?status=success");
-    const cancelUrl = resolveUrl(request, process.env.MAKSEKESKUS_CANCEL_URL, "/api/subscription/callback?status=canceled");
+    const returnUrl = resolveUrl(request, process.env.MAKSEKESKUS_RETURN_URL, "/api/subscription/callback");
+    const cancelUrl = resolveUrl(request, process.env.MAKSEKESKUS_CANCEL_URL, "/api/subscription/callback");
     const webhookUrl = resolveUrl(request, process.env.MAKSEKESKUS_WEBHOOK_URL, "/api/subscription/webhook");
-
-    const checkout = await createMaksekeskusCheckout({
+    const commonCheckoutInput = {
       providerPaymentId,
       amount,
       currency,
@@ -274,10 +278,20 @@ export async function POST(request) {
       cancelUrl,
       webhookUrl,
       customerEmail: session.email,
-      description: getRolePlanDescription(planRole, locale)
-    });
+      description: getRolePlanDescription(planRole, locale),
+      merchantData: {
+        flow: "subscription_init",
+        paymentId: paymentRecord.id,
+        subscriptionId: subscription.id,
+        plan,
+        planRole,
+      },
+      ip,
+    };
 
+    const checkout = await createMaksekeskusRecurringSetup(commonCheckoutInput);
     const finalProviderPaymentId = checkout.providerPaymentId || providerPaymentId;
+
     await prisma.payment.update({
       where: { id: paymentRecord.id },
       data: {
@@ -287,9 +301,11 @@ export async function POST(request) {
           plan,
           planRole,
           locale,
-          billingMode,
-          recurringEnabled,
+          billingMode: BillingMode.RECURRING,
+          recurringEnabled: true,
           checkoutConsent: true,
+          checkoutMode: "iframe_recurring",
+          transactionId: checkout.transactionId || null,
           checkout: checkout.raw || null
         }
       }
@@ -298,13 +314,17 @@ export async function POST(request) {
     logPaymentEvent("subscription_init_checkout_created", {
       userId: session.userId,
       paymentId: paymentRecord.id,
-      providerPaymentId: finalProviderPaymentId
+      providerPaymentId: finalProviderPaymentId,
+      checkoutMode: "iframe_recurring"
     });
 
     return ok({
       paymentId: paymentRecord.id,
       providerPaymentId: finalProviderPaymentId,
-      checkoutUrl: checkout.checkoutUrl
+      checkoutMode: "iframe_recurring",
+      transactionId: checkout.transactionId,
+      publishableKey: checkout.publishableKey,
+      scriptUrl: checkout.scriptUrl
     });
   } catch (error) {
     if (paymentRecord?.id) {

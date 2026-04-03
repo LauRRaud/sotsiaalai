@@ -7,6 +7,7 @@ import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
+import { readAudioDurationSecondsFromFile } from "@/lib/audio/duration";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -135,16 +136,19 @@ export async function POST(req) {
       sizeMB: Number((fileSize / (1024 * 1024)).toFixed(1))
     });
   }
-  const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
-    sttRequests: 1,
-    sttAudioBytes: fileSize
-  });
-  if (!budgetCheck.allowed) {
-    return errorJson("api.common.monthly_budget_exceeded", 429, uiLocale, {
-      budgetEur: budgetCheck.budgetEur,
-      usedEur: budgetCheck.usedEur,
-      remainingEur: budgetCheck.remainingEur
+  const inputDurationSeconds = await readAudioDurationSecondsFromFile(file);
+  if (inputDurationSeconds != null) {
+    const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
+      sttRequests: 1,
+      sttMinutes: inputDurationSeconds / 60
     });
+    if (!budgetCheck.allowed) {
+      return errorJson("api.common.monthly_budget_exceeded", 429, uiLocale, {
+        budgetEur: budgetCheck.budgetEur,
+        usedEur: budgetCheck.usedEur,
+        remainingEur: budgetCheck.remainingEur
+      });
+    }
   }
 
   if (STT_URL) {
@@ -168,7 +172,8 @@ export async function POST(req) {
         locale: String(locale || "auto"),
         fileSizeBytes: fileSize,
         mimeType: file.type || null,
-        textLength: String(data.text || "").length
+        textLength: String(data.text || "").length,
+        durationSeconds: toNullableNumber(inputDurationSeconds)
       });
 
       return NextResponse.json({
@@ -201,6 +206,21 @@ export async function POST(req) {
     const usageType = String(usage?.type || "").trim() || null;
     const isTokenUsage = usageType === "tokens";
     const isDurationUsage = usageType === "duration";
+    const measuredDurationSeconds =
+      (isDurationUsage ? toNullableNumber(usage?.seconds) : null) ?? toNullableNumber(inputDurationSeconds);
+    if (measuredDurationSeconds != null) {
+      const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
+        sttRequests: 1,
+        sttMinutes: measuredDurationSeconds / 60
+      });
+      if (!budgetCheck.allowed) {
+        return errorJson("api.common.monthly_budget_exceeded", 429, uiLocale, {
+          budgetEur: budgetCheck.budgetEur,
+          usedEur: budgetCheck.usedEur,
+          remainingEur: budgetCheck.remainingEur
+        });
+      }
+    }
     await logEvent("stt_cost_usage", {
       userId: session.user.id,
       role,
@@ -211,7 +231,7 @@ export async function POST(req) {
       latency_ms: Date.now() - startedAt,
       request_size_bytes: readRequestSize(req),
       file_size_bytes: fileSize,
-      duration_seconds: isDurationUsage ? toNullableNumber(usage?.seconds) : null,
+      duration_seconds: measuredDurationSeconds,
       text_chars: text.length,
       input_tokens: isTokenUsage ? toNullableNumber(usage?.input_tokens) : null,
       output_tokens: isTokenUsage ? toNullableNumber(usage?.output_tokens) : null,
@@ -222,7 +242,7 @@ export async function POST(req) {
       language: String(language || locale || "auto"),
       usage_type: usageType,
       cost_read_directly: Boolean(usageType),
-      cost_estimation_basis: usageType ? null : "file_size_bytes"
+      cost_estimation_basis: usageType ? null : null
     });
     await logEvent("stt_request", {
       userId: session.user.id,
@@ -231,7 +251,8 @@ export async function POST(req) {
       locale: String(language || locale || "auto"),
       fileSizeBytes: fileSize,
       mimeType: file.type || null,
-      textLength: text.length
+      textLength: text.length,
+      durationSeconds: measuredDurationSeconds
     });
 
     return NextResponse.json({

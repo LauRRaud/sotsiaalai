@@ -317,10 +317,16 @@ export default function ChatComposer({
   useEffect(() => {
     if (!draftApiRef) return;
     draftApiRef.current = {
-      appendText: txt => {
+      appendText: (txt, options = {}) => {
         const s = String(txt ?? "").trim();
         if (!s) return;
-        setDraft(prev => prev ? `${prev} ${s}` : s);
+        const separator =
+          typeof options?.separator === "string"
+            ? options.separator
+            : s.includes("\n")
+              ? "\n\n"
+              : " ";
+        setDraft(prev => (prev ? `${prev}${separator}${s}` : s));
       },
       clear: () => setDraft("")
     };

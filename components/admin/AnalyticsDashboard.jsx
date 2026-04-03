@@ -257,6 +257,10 @@ function formatDecimal(value, localeTag, digits = 2) {
   }
 }
 
+function formatMinutes(value, localeTag, digits = 2) {
+  return `${formatDecimal(value, localeTag, digits)} min`;
+}
+
 function formatMoney(amount, currency = "EUR", localeTag = "en-US") {
   try {
     return new Intl.NumberFormat(localeTag, {
@@ -1053,13 +1057,13 @@ export default function AnalyticsDashboard() {
             : formatPercent(aiCosts.summary.averages.openai_per_response.output_tokens, localeTag, 1)
       },
       {
-        label: t("admin.analytics.ai_costs.avg.tts_chars", "TTS characters / job"),
+        label: t("admin.analytics.ai_costs.avg.tts_chars", "TTS minutes / job"),
         value:
-          loadingAiCosts || aiCosts?.summary?.averages?.tts_per_job?.text_chars == null
+          loadingAiCosts || aiCosts?.summary?.averages?.tts_per_job?.duration_seconds == null
             ? loadingAiCosts
               ? t("admin.common.loading", "Loading...")
               : "-"
-            : formatPercent(aiCosts.summary.averages.tts_per_job.text_chars, localeTag, 1)
+            : formatMinutes(aiCosts.summary.averages.tts_per_job.duration_seconds / 60, localeTag, 2)
       },
       {
         label: t("admin.analytics.ai_costs.avg.stt_tokens", "STT total tokens / job"),
@@ -1071,13 +1075,13 @@ export default function AnalyticsDashboard() {
             : formatPercent(aiCosts.summary.averages.stt_per_job.total_tokens, localeTag, 1)
       },
       {
-        label: t("admin.analytics.ai_costs.avg.stt_duration", "STT seconds / job"),
+        label: t("admin.analytics.ai_costs.avg.stt_duration", "STT minutes / job"),
         value:
           loadingAiCosts || aiCosts?.summary?.averages?.stt_per_job?.duration_seconds == null
             ? loadingAiCosts
               ? t("admin.common.loading", "Loading...")
               : "-"
-            : formatPercent(aiCosts.summary.averages.stt_per_job.duration_seconds, localeTag, 2)
+            : formatMinutes(aiCosts.summary.averages.stt_per_job.duration_seconds / 60, localeTag, 2)
       }
     ],
     [aiCosts, loadingAiCosts, localeTag, t]
@@ -2370,11 +2374,11 @@ export default function AnalyticsDashboard() {
                           </div>
                           <div className={cellSubClassName}>
                             {t("admin.analytics.users.usage.stt", "STT")}: {formatCount(row?.usage?.sttRequests || 0, localeTag)} /{" "}
-                            {formatPercent(row?.usage?.sttAudioMb || 0, localeTag, 3)} MB
+                            {formatMinutes(row?.usage?.sttMinutes || 0, localeTag, 2)}
                           </div>
                           <div className={cellSubClassName}>
                             {t("admin.analytics.users.usage.tts", "TTS")}: {formatCount(row?.usage?.ttsRequests || 0, localeTag)} /{" "}
-                            {formatCount(row?.usage?.ttsChars || 0, localeTag)}
+                            {formatMinutes(row?.usage?.ttsMinutes || 0, localeTag, 2)}
                           </div>
                           <div className={cellSubClassName}>
                             {t("admin.analytics.users.usage.analyze", "Analyses (30d)")}:{" "}
@@ -2507,11 +2511,11 @@ export default function AnalyticsDashboard() {
                           },
                           {
                             label: t("admin.analytics.users.usage.stt", "STT"),
-                            value: `${formatCount(row?.usage?.sttRequests || 0, localeTag)} / ${formatPercent(row?.usage?.sttAudioMb || 0, localeTag, 3)} MB`
+                            value: `${formatCount(row?.usage?.sttRequests || 0, localeTag)} / ${formatMinutes(row?.usage?.sttMinutes || 0, localeTag, 2)}`
                           },
                           {
                             label: t("admin.analytics.users.usage.tts", "TTS"),
-                            value: `${formatCount(row?.usage?.ttsRequests || 0, localeTag)} / ${formatCount(row?.usage?.ttsChars || 0, localeTag)}`
+                            value: `${formatCount(row?.usage?.ttsRequests || 0, localeTag)} / ${formatMinutes(row?.usage?.ttsMinutes || 0, localeTag, 2)}`
                           },
                           {
                             label: t("admin.analytics.users.usage.analyze", "Analyses (30d)"),
@@ -2612,8 +2616,8 @@ export default function AnalyticsDashboard() {
               {
                 chat: toNumber(usersAnalytics?.costModel?.chatRequestEur || 0).toFixed(4),
                 rag: toNumber(usersAnalytics?.costModel?.ragSearchEur || 0).toFixed(4),
-                stt: toNumber(usersAnalytics?.costModel?.sttPerAudioMbEur || 0).toFixed(4),
-                tts: toNumber(usersAnalytics?.costModel?.ttsPer1kCharsEur || 0).toFixed(4),
+                stt: toNumber(usersAnalytics?.costModel?.sttPerMinuteEur || 0).toFixed(4),
+                tts: toNumber(usersAnalytics?.costModel?.ttsPerMinuteEur || 0).toFixed(4),
                 budget: toNumber(usersAnalytics?.costModel?.monthlyBudgetEur || 0).toFixed(2),
                 budgetClient: toNumber(usersAnalytics?.costModel?.monthlyBudgetClientEur || 0).toFixed(2),
                 budgetWorker: toNumber(usersAnalytics?.costModel?.monthlyBudgetWorkerEur || 0).toFixed(2)

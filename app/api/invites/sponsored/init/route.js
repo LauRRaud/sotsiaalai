@@ -514,12 +514,12 @@ export async function POST(request) {
       const returnUrl = resolveUrl(
         request,
         process.env.MAKSEKESKUS_SPONSORED_INVITE_RETURN_URL,
-        `/api/invites/sponsored/callback?inviteId=${encodeURIComponent(invite.id)}&roomId=${encodeURIComponent(invite.roomId)}&status=success`
+        `/api/invites/sponsored/callback?inviteId=${encodeURIComponent(invite.id)}&roomId=${encodeURIComponent(invite.roomId)}`
       );
       const cancelUrl = resolveUrl(
         request,
         process.env.MAKSEKESKUS_SPONSORED_INVITE_CANCEL_URL,
-        `/api/invites/sponsored/callback?inviteId=${encodeURIComponent(invite.id)}&roomId=${encodeURIComponent(invite.roomId)}&status=canceled`
+        `/api/invites/sponsored/callback?inviteId=${encodeURIComponent(invite.id)}&roomId=${encodeURIComponent(invite.roomId)}`
       );
       const webhookUrl = resolveUrl(
         request,
@@ -536,7 +536,15 @@ export async function POST(request) {
         cancelUrl,
         webhookUrl,
         customerEmail: auth.email,
-        description: getRolePlanDescription(targetRole, locale)
+        description: getRolePlanDescription(targetRole, locale),
+        merchantData: {
+          flow: "invite_sponsored_init",
+          paymentId: paymentRecord.id,
+          inviteId: invite.id,
+          roomId: invite.roomId,
+          targetRole,
+        },
+        ip,
       });
 
       const finalProviderPaymentId =

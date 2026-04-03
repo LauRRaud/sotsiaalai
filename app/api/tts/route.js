@@ -8,6 +8,8 @@ import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
+import { readAudioDurationSecondsFromBuffer } from "@/lib/audio/duration";
+import { resolveGoogleApplicationCredentialsPath } from "@/lib/googleCredentials";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -18,7 +20,9 @@ const OPENAI_TTS_MODEL = process.env.OPENAI_TTS_MODEL || "gpt-4o-mini-tts";
 const OPENAI_TTS_VOICE = process.env.OPENAI_TTS_VOICE || "alloy";
 const TTS_RATE_LIMIT_WINDOW_MS = Number(process.env.TTS_RATE_LIMIT_WINDOW_MS || 60_000);
 const TTS_RATE_LIMIT_MAX = Number(process.env.TTS_RATE_LIMIT_MAX || 30);
-const gcpTtsClient = new textToSpeech.TextToSpeechClient();
+
+let cachedGcpTtsClient = null;
+let cachedGcpTtsClientKey = null;
 
 function pickGoogleVoice(locale) {
   const base = (locale || "et").toLowerCase().split("-")[0];
@@ -57,7 +61,16 @@ function readRequestSize(req) {
 }
 
 async function synthGoogle({ text, locale }) {
-  const [resp] = await gcpTtsClient.synthesizeSpeech({
+  const credentialsPath = resolveGoogleApplicationCredentialsPath();
+  const cacheKey = credentialsPath || "__default__";
+  if (!cachedGcpTtsClient || cachedGcpTtsClientKey !== cacheKey) {
+    cachedGcpTtsClient = credentialsPath
+      ? new textToSpeech.TextToSpeechClient({ keyFilename: credentialsPath })
+      : new textToSpeech.TextToSpeechClient();
+    cachedGcpTtsClientKey = cacheKey;
+  }
+
+  const [resp] = await cachedGcpTtsClient.synthesizeSpeech({
     input: { text },
     voice: pickGoogleVoice(locale),
     audioConfig: {
@@ -75,6 +88,7 @@ async function synthGoogle({ text, locale }) {
   const buf = typeof audio === "string" ? Buffer.from(audio, "base64") : Buffer.from(audio);
   return {
     ok: true,
+    audioBuffer: buf,
     audioContent: buf.toString("base64"),
     contentType: "audio/mpeg",
     provider: "google"
@@ -97,6 +111,7 @@ async function synthOpenAI({ text }) {
   const buf = Buffer.from(await speech.arrayBuffer());
   return {
     ok: true,
+    audioBuffer: buf,
     audioContent: buf.toString("base64"),
     contentType: "audio/mpeg",
     provider: "openai",
@@ -142,7 +157,7 @@ export async function POST(req) {
     });
   }
 
-  const googleEnabled = !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
+  const googleEnabled = Boolean(resolveGoogleApplicationCredentialsPath());
   const openaiEnabled = !!OPENAI_API_KEY;
   if (!googleEnabled && !openaiEnabled) {
     return errorJson("api.tts.not_configured", 503, uiLocale);
@@ -166,22 +181,25 @@ export async function POST(req) {
       length: text.length
     });
   }
-  const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
-    ttsRequests: 1,
-    ttsChars: text.length
-  });
-  if (!budgetCheck.allowed) {
-    return errorJson("api.common.monthly_budget_exceeded", 429, localeFromRequest(req, locale), {
-      budgetEur: budgetCheck.budgetEur,
-      usedEur: budgetCheck.usedEur,
-      remainingEur: budgetCheck.remainingEur
-    });
-  }
 
   try {
     const result = googleEnabled ? await synthGoogle({ text, locale }) : await synthOpenAI({ text });
     if (!result.ok) {
       return errorJson(result.messageKey || "api.tts.synthesis_failed", 502, localeFromRequest(req, locale));
+    }
+    const durationSeconds = await readAudioDurationSecondsFromBuffer(result.audioBuffer, result.contentType);
+    if (durationSeconds != null) {
+      const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
+        ttsRequests: 1,
+        ttsMinutes: durationSeconds / 60
+      });
+      if (!budgetCheck.allowed) {
+        return errorJson("api.common.monthly_budget_exceeded", 429, localeFromRequest(req, locale), {
+          budgetEur: budgetCheck.budgetEur,
+          usedEur: budgetCheck.usedEur,
+          remainingEur: budgetCheck.remainingEur
+        });
+      }
     }
     if (result.provider === "openai") {
       await logEvent("tts_cost_usage", {
@@ -194,7 +212,7 @@ export async function POST(req) {
         latency_ms: toNullableNumber(result.latencyMs),
         request_size_bytes: readRequestSize(req),
         file_size_bytes: null,
-        duration_seconds: null,
+        duration_seconds: toNullableNumber(durationSeconds),
         text_chars: text.length,
         input_tokens: null,
         output_tokens: null,
@@ -204,7 +222,7 @@ export async function POST(req) {
         audio_bytes: toNullableNumber(result.audioBytes),
         voice: OPENAI_TTS_VOICE,
         cost_read_directly: false,
-        cost_estimation_basis: "text_chars"
+        cost_estimation_basis: null
       });
     }
     await logEvent("tts_request", {
@@ -212,7 +230,8 @@ export async function POST(req) {
       role,
       provider: result.provider || (googleEnabled ? "google" : "openai"),
       locale,
-      textLength: text.length
+      textLength: text.length,
+      durationSeconds: toNullableNumber(durationSeconds)
     });
     return NextResponse.json({
       ok: true,

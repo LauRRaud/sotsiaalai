@@ -210,6 +210,11 @@ function main() {
     warnings.push("Payment callback status query params are UI hints only; webhook must remain source of truth");
   }
 
+  const recurringEnabled = boolTrue.has(String(env.SUBSCRIPTION_RECURRING_ENABLED || "").trim().toLowerCase());
+  if (recurringEnabled && !isNonEmpty(env.MAKSEKESKUS_PUBLIC_KEY)) {
+    errors.push("SUBSCRIPTION_RECURRING_ENABLED=1 requires MAKSEKESKUS_PUBLIC_KEY");
+  }
+
   if (sourceFile) {
     console.log(`[env:check] Source: ${path.relative(rootDir, sourceFile)}`);
   } else {

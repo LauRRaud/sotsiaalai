@@ -16,12 +16,19 @@ import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
-import { extractProviderPaymentId, mapProviderPaymentStatus, verifyWebhookSignature } from "@/lib/payments/maksekeskus";
+import {
+  extractProviderPaymentId,
+  getMaksekeskusSecretKey,
+  mapProviderPaymentStatus,
+  parseMaksekeskusFormMessage,
+  verifyMaksekeskusMac,
+} from "@/lib/payments/maksekeskus";
 import {
   buildBillingMethodLabel,
   extractProviderCustomerId,
   extractRecurringMandateId,
-  extractRecurringToken
+  extractRecurringToken,
+  extractRecurringTokenValidUntil,
 } from "@/lib/payments/recurring";
 import { logPaymentEvent } from "@/lib/payments/observability";
 
@@ -30,10 +37,7 @@ const NO_STORE_HEADERS = {
   Pragma: "no-cache",
   Expires: "0"
 };
-const WEBHOOK_SECRET = String(process.env.MAKSEKESKUS_WEBHOOK_SECRET || "").trim();
-const WEBHOOK_ALLOW_UNSIGNED = String(process.env.SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED || "")
-  .trim()
-  .toLowerCase();
+const WEBHOOK_SECRET = String(getMaksekeskusSecretKey() || "").trim();
 const SUBSCRIPTION_WEBHOOK_RATE_LIMIT_WINDOW_MS = Number(process.env.SUBSCRIPTION_WEBHOOK_RATE_LIMIT_WINDOW_MS || 60_000);
 const SUBSCRIPTION_WEBHOOK_RATE_LIMIT_MAX = Number(process.env.SUBSCRIPTION_WEBHOOK_RATE_LIMIT_MAX || 120);
 const REFUNDED_ACTION = normalizeSubscriptionAction(process.env.SUBSCRIPTION_WEBHOOK_REFUNDED_ACTION, "cancel");
@@ -47,13 +51,6 @@ const OWNER_NOTIFICATION_LOCALE = normalizeServerLocale(process.env.PAYMENT_OWNE
 const ownerMailer = getMailer("payment-owner-webhook");
 const customerMailer = getMailer("payment-customer-webhook");
 const inviteMailer = getMailer("invite");
-
-function shouldAllowUnsignedWebhook() {
-  if (WEBHOOK_ALLOW_UNSIGNED === "1" || WEBHOOK_ALLOW_UNSIGNED === "true" || WEBHOOK_ALLOW_UNSIGNED === "yes") {
-    return true;
-  }
-  return process.env.NODE_ENV !== "production";
-}
 
 function json(payload, status = 200) {
   return NextResponse.json(payload, {
@@ -85,6 +82,7 @@ function parsePaidAt(payload) {
 function resolveIncomingStatus(payload) {
   const candidates = [
     payload?.status,
+    payload?.transaction?.status,
     payload?.payment_status,
     payload?.transaction_status,
     payload?.event,
@@ -403,6 +401,8 @@ async function upsertRecurringBillingMethod(tx, payment, payload, paidAt) {
   if (!payment?.subscriptionId) return null;
   const recurringToken = extractRecurringToken(payload);
   if (!recurringToken) return null;
+  const expiresAtRaw = extractRecurringTokenValidUntil(payload);
+  const expiresAt = expiresAtRaw ? new Date(expiresAtRaw) : null;
 
   const existingSubscription = await tx.subscription.findUnique({
     where: { id: payment.subscriptionId },
@@ -442,6 +442,7 @@ async function upsertRecurringBillingMethod(tx, payment, payload, paidAt) {
     providerMandateId,
     providerCustomerId,
     label,
+    expiresAt: expiresAt && !Number.isNaN(expiresAt.getTime()) ? expiresAt : null,
     activatedAt: paidAt,
     lastUsedAt: paidAt,
     revokedAt: null
@@ -514,6 +515,7 @@ export async function POST(request) {
   }
 
   const rawBody = await request.text().catch(() => "");
+  const contentType = String(request.headers.get("content-type") || "").toLowerCase();
   if (!rawBody) {
     logPaymentEvent("subscription_webhook_invalid_payload", {
       ip,
@@ -529,12 +531,42 @@ export async function POST(request) {
     );
   }
 
-  const signature =
-    request.headers.get("x-maksekeskus-signature") ||
-    request.headers.get("x-signature") ||
-    request.headers.get("x-webhook-signature") ||
-    "";
-  if (!WEBHOOK_SECRET && !shouldAllowUnsignedWebhook()) {
+  if (
+    !contentType.includes("application/x-www-form-urlencoded") &&
+    !rawBody.includes("json=")
+  ) {
+    logPaymentEvent("subscription_webhook_invalid_payload", {
+      ip,
+      reason: "unsupported_content_type",
+      contentType
+    });
+    return json(
+      {
+        ok: false,
+        messageKey: "api.subscription.webhook_invalid_payload",
+        message: "api.subscription.webhook_invalid_payload"
+      },
+      400
+    );
+  }
+
+  const parsed = parseMaksekeskusFormMessage(rawBody);
+  if (!parsed.jsonText || !parsed.payload) {
+    logPaymentEvent("subscription_webhook_invalid_payload", {
+      ip,
+      reason: "invalid_form_payload"
+    });
+    return json(
+      {
+        ok: false,
+        messageKey: "api.subscription.webhook_invalid_payload",
+        message: "api.subscription.webhook_invalid_payload"
+      },
+      400
+    );
+  }
+
+  if (!WEBHOOK_SECRET) {
     logPaymentEvent("subscription_webhook_signature_unconfigured", {
       ip
     });
@@ -547,9 +579,11 @@ export async function POST(request) {
       503
     );
   }
-  if (!verifyWebhookSignature(rawBody, signature, WEBHOOK_SECRET)) {
+
+  if (!verifyMaksekeskusMac(parsed.jsonText, parsed.mac, WEBHOOK_SECRET)) {
     logPaymentEvent("subscription_webhook_invalid_signature", {
-      ip
+      ip,
+      signatureMode: "mac"
     });
     return json(
       {
@@ -561,22 +595,21 @@ export async function POST(request) {
     );
   }
 
-  let payload = {};
-  try {
-    payload = JSON.parse(rawBody);
-  } catch {
-    logPaymentEvent("subscription_webhook_invalid_payload", {
+  const payload = parsed.payload;
+
+  const messageType = String(payload?.message_type || "payment_return")
+    .trim()
+    .toLowerCase();
+  if (messageType && messageType !== "payment_return") {
+    logPaymentEvent("subscription_webhook_ignored_message_type", {
       ip,
-      reason: "invalid_json"
+      messageType
     });
-    return json(
-      {
-        ok: false,
-        messageKey: "api.subscription.webhook_invalid_payload",
-        message: "api.subscription.webhook_invalid_payload"
-      },
-      400
-    );
+    return json({
+      ok: true,
+      ignored: true,
+      messageType
+    });
   }
 
   const providerPaymentId = extractProviderPaymentId(payload);

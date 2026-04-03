@@ -21,7 +21,7 @@ function pass(message) {
 
 function signPayload(payload, secret) {
   if (!secret) return "";
-  return crypto.createHmac("sha256", secret).update(payload).digest("hex");
+  return crypto.createHash("sha512").update(`${payload}${secret}`).digest("hex").toUpperCase();
 }
 
 function normalizeAction(value, fallback = "cancel") {
@@ -55,13 +55,16 @@ async function requestCallback(baseUrl, query, expectedState) {
 }
 
 async function requestWebhook(baseUrl, payload, webhookSecret) {
-  const body = JSON.stringify(payload);
-  const signature = signPayload(body, webhookSecret);
+  const json = JSON.stringify(payload);
+  const mac = signPayload(json, webhookSecret);
+  const body = new URLSearchParams({
+    json,
+    ...(mac ? { mac } : {})
+  }).toString();
   const response = await fetch(new URL("/api/subscription/webhook", baseUrl), {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      ...(signature ? { "x-maksekeskus-signature": signature } : {})
+      "Content-Type": "application/x-www-form-urlencoded"
     },
     body
   });
@@ -75,7 +78,7 @@ async function requestWebhook(baseUrl, payload, webhookSecret) {
 
 async function main() {
   const baseUrl = env("MAKSEKESKUS_E2E_BASE_URL", "http://localhost:3000");
-  const webhookSecret = env("MAKSEKESKUS_WEBHOOK_SECRET", "");
+  const webhookSecret = env("MAKSEKESKUS_API_KEY", "");
   const testEmail = env("MAKSEKESKUS_E2E_USER_EMAIL", "maksekeskus-sandbox@example.test");
   const amount = env("MAKSEKESKUS_E2E_AMOUNT", "7.99");
   const currency = env("MAKSEKESKUS_E2E_CURRENCY", "EUR").toUpperCase();
@@ -87,7 +90,7 @@ async function main() {
 
   pass(`base URL: ${baseUrl}`);
   pass(`test user: ${testEmail}`);
-  pass(`webhook signature: ${webhookSecret ? "enabled" : "disabled"}`);
+  pass(`webhook mac signing: ${webhookSecret ? "enabled" : "disabled"}`);
   pass(`expected REFUNDED action: ${expectedRefundedAction}`);
 
   const providerPaymentId = `mk_e2e_${Date.now()}_${crypto.randomBytes(3).toString("hex")}`;
@@ -173,9 +176,11 @@ async function main() {
     const paidRes = await requestWebhook(
       baseUrl,
       {
-        event_id: `${eventId}_paid`,
+        message_type: "payment_return",
+        message_time: new Date().toISOString(),
         reference: providerPaymentId,
-        status: "PAID",
+        transaction: `trx_${eventId}_paid`,
+        status: "COMPLETED",
         paid_at: new Date().toISOString()
       },
       webhookSecret
@@ -205,9 +210,11 @@ async function main() {
     const duplicatePaidRes = await requestWebhook(
       baseUrl,
       {
-        event_id: `${eventId}_paid_duplicate`,
+        message_type: "payment_return",
+        message_time: new Date().toISOString(),
         reference: providerPaymentId,
-        status: "PAID",
+        transaction: `trx_${eventId}_paid_duplicate`,
+        status: "COMPLETED",
         paid_at: new Date().toISOString()
       },
       webhookSecret
@@ -220,8 +227,10 @@ async function main() {
     const refundedRes = await requestWebhook(
       baseUrl,
       {
-        event_id: `${eventId}_refunded`,
+        message_type: "payment_return",
+        message_time: new Date().toISOString(),
         reference: providerPaymentId,
+        transaction: `trx_${eventId}_refunded`,
         status: "REFUNDED"
       },
       webhookSecret
