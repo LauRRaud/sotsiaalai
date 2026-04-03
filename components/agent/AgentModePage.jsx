@@ -255,12 +255,12 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     return query ? `${basePath}?${query}` : basePath
   }
 
-  function clearResultMessages() {
+  const clearResultMessages = useCallback(() => {
     if (runError) setRunError("")
     if (runFeedback) setRunFeedback(null)
     if (artifactError) setArtifactError("")
     if (approvalNotice) setApprovalNotice(null)
-  }
+  }, [approvalNotice, artifactError, runError, runFeedback])
 
   useEffect(() => {
     if (!approvalNotice) return undefined
@@ -290,6 +290,13 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       setAudience(defaultAudience)
     }
   }, [audienceTouched, defaultAudience])
+
+  useEffect(() => {
+    if (isClientRole || !meetingSummaryEnabled) return
+    if (outputType === "MEETING_SUMMARY") return
+    setOutputType("MEETING_SUMMARY")
+    clearResultMessages()
+  }, [clearResultMessages, isClientRole, meetingSummaryEnabled, outputType])
 
   useEffect(() => {
     setSelectedDocumentIds(initialSelectedDocumentIds)
@@ -739,6 +746,18 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           : meetingSummaryJob?.status === "error"
             ? String(meetingSummaryJob?.error || t("documents.agent_workspace.meeting_summary.error"))
             : ""
+    : ""
+  const meetingSummaryTemplateHelp = !isClientRole && meetingSummaryEnabled
+    ? outputType === "MEETING_SUMMARY"
+      ? t("documents.agent_workspace.meeting_summary.template_ready_help")
+      : t("documents.agent_workspace.meeting_summary.template_switch_help", {
+          type: artifactTypeLabel("MEETING_SUMMARY", t)
+        })
+    : ""
+  const meetingSummaryDocumentsHelp = !isClientRole && meetingSummaryEnabled
+    ? meetingSummaryJob?.status === "queued" || meetingSummaryJob?.status === "running"
+      ? t("documents.agent_workspace.meeting_summary.documents_processing_help")
+      : t("documents.agent_workspace.meeting_summary.documents_idle_help")
     : ""
   const clientResultLabel =
     outputTypeOptions.find((option) => option.value === clientTask)?.label || t("documents.agent_workspace.client_tasks.letter_request")
@@ -1603,6 +1622,11 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                               ? t("documents.agent_workspace.template_help")
                               : t("documents.agent_workspace.template_empty")}
                     </p>
+                    {meetingSummaryTemplateHelp ? (
+                      <p className="documents-meta-text documents-agent-template-note">
+                        {meetingSummaryTemplateHelp}
+                      </p>
+                    ) : null}
                   </div>
                 ) : null}
 
@@ -1610,6 +1634,11 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                   <span className="documents-meta-text documents-agent-field-label">
                     {t(isClientRole ? "documents.agent_workspace.client_task_label" : "documents.agent_workspace.output_type_label")}
                   </span>
+                  {!isClientRole ? (
+                    <p className="documents-agent-template-description">
+                      {t("documents.agent_workspace.output_type_description")}
+                    </p>
+                  ) : null}
                   <div className="documents-agent-chip-row">
                     {outputTypeOptions.map((option) => (
                       <OptionCard
@@ -1641,7 +1670,38 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                 {!isClientRole ? (
                   <>
                     <div className="documents-agent-goal-group">
+                      <div className="documents-notice documents-notice--muted rounded-[1rem] px-[1rem] py-[0.95rem]">
+                        <div className="flex flex-col gap-[0.5rem]">
+                          <label className="flex items-start gap-[0.7rem] text-[0.98rem] leading-[1.45]">
+                            <input
+                              type="checkbox"
+                              className="mt-[0.18rem] h-[1rem] w-[1rem] shrink-0 accent-[var(--documents-accent)]"
+                              checked={meetingSummaryEnabled}
+                              onChange={(event) => setMeetingSummaryEnabled(event.target.checked)}
+                            />
+                            <span className="min-w-0">
+                              <span className="documents-strong-text block font-semibold">
+                                {t("documents.agent_workspace.meeting_summary.label")}
+                              </span>
+                              <span className="documents-section-description documents-agent-copy block mt-[0.18rem]">
+                                {t("documents.agent_workspace.meeting_summary.description")}
+                              </span>
+                            </span>
+                          </label>
+                          <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
+                            {meetingSummaryEnabled
+                              ? t("documents.agent_workspace.meeting_summary.enabled_help")
+                              : t("documents.agent_workspace.meeting_summary.disabled_help")}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="documents-agent-goal-group">
                       <span className="documents-meta-text documents-agent-field-label">{t("chat.deep_research.scope_output_label")}</span>
+                      <p className="documents-agent-template-description">
+                        {t("documents.agent_workspace.scope_output_description")}
+                      </p>
                       <div className="documents-agent-chip-row">
                         {audienceOptions.map((option) => (
                           <OptionCard
@@ -1667,6 +1727,12 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                     </div>
 
                     <div className="documents-agent-select-grid">
+                      <div className="documents-agent-goal-group documents-agent-goal-group--full">
+                        <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.style_settings_label")}</span>
+                        <p className="documents-agent-template-description">
+                          {t("documents.agent_workspace.style_settings_description")}
+                        </p>
+                      </div>
                       <label className="documents-agent-select-field">
                         <span className="documents-meta-text documents-agent-field-label">{t("documents.agent_workspace.tone_label")}</span>
                         <DocumentsDropdown
@@ -1753,6 +1819,12 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                     className="sr-only"
                     onChange={handleClientUpload}
                   />
+                </div>
+              ) : null}
+
+              {meetingSummaryDocumentsHelp ? (
+                <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                  {meetingSummaryDocumentsHelp}
                 </div>
               ) : null}
 
@@ -1849,34 +1921,6 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                 </div>
                 <p className="documents-section-description documents-agent-start-help">{conversationHelpText}</p>
               </div>
-
-              {!isClientRole ? (
-                <div className="documents-notice documents-notice--muted rounded-[1rem] px-[1rem] py-[0.95rem]">
-                  <div className="flex flex-col gap-[0.5rem]">
-                    <label className="flex items-start gap-[0.7rem] text-[0.98rem] leading-[1.45]">
-                      <input
-                        type="checkbox"
-                        className="mt-[0.18rem] h-[1rem] w-[1rem] shrink-0 accent-[var(--documents-accent)]"
-                        checked={meetingSummaryEnabled}
-                        onChange={(event) => setMeetingSummaryEnabled(event.target.checked)}
-                      />
-                      <span className="min-w-0">
-                        <span className="documents-strong-text block font-semibold">
-                          {t("documents.agent_workspace.meeting_summary.label")}
-                        </span>
-                        <span className="documents-section-description documents-agent-copy block mt-[0.18rem]">
-                          {t("documents.agent_workspace.meeting_summary.description")}
-                        </span>
-                      </span>
-                    </label>
-                    <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
-                      {meetingSummaryEnabled
-                        ? t("documents.agent_workspace.meeting_summary.enabled_help")
-                        : t("documents.agent_workspace.meeting_summary.disabled_help")}
-                    </p>
-                  </div>
-                </div>
-              ) : null}
 
               {!isClientRole && meetingSummaryStatusText ? (
                 <div

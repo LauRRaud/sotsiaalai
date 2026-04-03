@@ -1083,7 +1083,10 @@
       "no_file_selected": "No file selected",
       "file_help": "Allowed: PDF, DOCX, TXT. Maximum size 25 MB.",
       "uploading": "Uploading...",
-      "artifact_title_placeholder": "Result title (optional)"
+      "artifact_title_placeholder": "Result title (optional)",
+      "title_label": "Title",
+      "dropzone_idle": "Drag a file here or click to choose a file",
+      "dropzone_active": "Drop the file here to upload it"
     },
     "actions": {
       "upload": "Upload",
@@ -1107,7 +1110,8 @@
       "approving": "Approving...",
       "approve": "Approve",
       "select_document": "Select document: {title}",
-      "select_for_agent": "Select"
+      "select_for_agent": "Select",
+      "clear_search": "Clear search"
     },
     "feedback": {
       "uploaded": "Document uploaded.",
@@ -1184,7 +1188,11 @@
         "error": "Meeting summary processing failed.",
         "not_found": "Meeting summary job was not found.",
         "document_title": "Meeting summary",
-        "result_added": "Meeting summary was added to the draft and saved under Documents as \"{title}\"."
+        "result_added": "Meeting summary was added to the draft and saved under Documents as \"{title}\".",
+        "template_ready_help": "If you want to turn the meeting summary into the same type of draft right away, choose a meeting-summary template here. The batch file itself is saved to Documents first as a plain-text source document.",
+        "template_switch_help": "If you want a template-based meeting summary from the batch file, change the output type to {type}. Then matching templates appear here.",
+        "documents_idle_help": "When the meeting summary is finished, it is first saved to Documents as a text file and then added here automatically among the selected documents.",
+        "documents_processing_help": "The meeting summary is processing. When it finishes, it will be saved to Documents as a text file and added here automatically."
       },
       "conversation_intro_empty": "Hello! First bring documents into Document drafting and then describe what you want me to create.",
       "conversation_intro_with_docs": "Hello! Describe what I should create based on the {count} selected document(s).",
@@ -1292,7 +1300,11 @@
         "generated": "Generated",
         "refined": "Refined",
         "rerun": "Re-run"
-      }
+      },
+      "output_type_description": "Choose whether the agent creates a meeting summary, case summary, report draft, or another result.",
+      "scope_output_description": "Choose whether the text is written for a specialist or for the person seeking help.",
+      "style_settings_label": "Style and language",
+      "style_settings_description": "Tone, language, and length define how the finished text should sound."
     },
     "errors": {
       "load_documents": "Failed to load documents.",

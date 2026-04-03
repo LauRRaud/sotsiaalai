@@ -109,6 +109,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const [uploadKind, setUploadKind] = useState("MATERIAL")
   const [uploadTemplateFor, setUploadTemplateFor] = useState("")
   const [uploadFile, setUploadFile] = useState(null)
+  const [uploadDragActive, setUploadDragActive] = useState(false)
   const [selectedDocumentIds, setSelectedDocumentIds] = useState([])
   const [frameworkStatus, setFrameworkStatus] = useState({
     loading: false,
@@ -243,6 +244,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   }), [artifacts])
   const artifactFilteredTotal = useMemo(() => (artifactFilter === "ALL" ? artifacts.length : artifacts.filter((artifact) => artifact.status === artifactFilter).length), [artifactFilter, artifacts])
   const artifactHasSearch = normalizeSearchValue(artifactSearch).length > 0
+  const showArtifactsToolbar = isArtifactsExpanded && (artifacts.length > 0 || artifactHasSearch || artifactFilter !== "ALL")
   const frameworkAcceptance = frameworkStatus.acceptance
   const hasFrameworkAcceptance = frameworkAcceptance?.accepted === true
   const frameworkAcceptedAtLabel = frameworkAcceptance?.acceptedAt
@@ -352,6 +354,29 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     })
   }
 
+  const handleUploadFileSelection = useCallback((file) => {
+    setUploadFile(file || null)
+    setUploadDragActive(false)
+  }, [])
+
+  const handleUploadDragOver = useCallback((event) => {
+    event.preventDefault()
+    setUploadDragActive(true)
+  }, [])
+
+  const handleUploadDragLeave = useCallback((event) => {
+    event.preventDefault()
+    const relatedTarget = event.relatedTarget
+    if (relatedTarget && event.currentTarget.contains?.(relatedTarget)) return
+    setUploadDragActive(false)
+  }, [])
+
+  const handleUploadDrop = useCallback((event) => {
+    event.preventDefault()
+    const nextFile = event.dataTransfer?.files?.[0] || null
+    handleUploadFileSelection(nextFile)
+  }, [handleUploadFileSelection])
+
   if (isClientRole) return null
 
   return (
@@ -443,24 +468,101 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     <h3 className="documents-subsection-title">{t("documents.library_sections.upload_title")}</h3>
                     <p className="documents-section-description documents-subsection-description">{t("documents.library_sections.upload_description")}</p>
                   </div>
-                <form className="documents-upload-form documents-library-upload-block" onSubmit={submitUpload}>
-                  <div className="documents-library-top-row grid gap-[0.65rem] min-[42rem]:grid-cols-[minmax(0,1.5fr)_minmax(11rem,0.9fr)]">
-                    <Input value={uploadTitle} onChange={(event) => setUploadTitle(event.target.value)} placeholder={t("documents.form.title_placeholder")} className="documents-form-input" />
-                    <DocumentsDropdown ariaLabel={t("documents.form.kind_label")} value={uploadKind} onChange={(nextValue) => { setUploadKind(nextValue); if (nextValue !== "TEMPLATE") setUploadTemplateFor("") }} options={kindOptions} className="documents-dropdown--kind" align="end" />
+                <form className="documents-upload-form documents-library-upload-block grid gap-[0.9rem] rounded-[1rem] border px-[0.95rem] py-[0.95rem]" onSubmit={submitUpload}>
+                  <div className="grid gap-[0.75rem] min-[42rem]:grid-cols-[minmax(0,1.45fr)_minmax(12rem,0.85fr)]">
+                    <label className="grid gap-[0.35rem]">
+                      <span className="documents-meta-text text-[0.88rem]">{t("documents.form.title_label", "Pealkiri")}</span>
+                      <Input
+                        value={uploadTitle}
+                        onChange={(event) => setUploadTitle(event.target.value)}
+                        placeholder={t("documents.form.title_placeholder")}
+                        className="documents-form-input"
+                      />
+                    </label>
+                    <label className="grid gap-[0.35rem]">
+                      <span className="documents-meta-text text-[0.88rem]">{t("documents.form.kind_label")}</span>
+                      <DocumentsDropdown
+                        ariaLabel={t("documents.form.kind_label")}
+                        value={uploadKind}
+                        onChange={(nextValue) => {
+                          setUploadKind(nextValue)
+                          if (nextValue !== "TEMPLATE") setUploadTemplateFor("")
+                        }}
+                        options={kindOptions}
+                        className="documents-dropdown--kind"
+                        align="end"
+                      />
+                    </label>
                   </div>
-                  {uploadKind === "TEMPLATE" ? <DocumentsDropdown ariaLabel={t("documents.form.template_for_placeholder")} value={uploadTemplateFor} onChange={setUploadTemplateFor} options={templateForOptions} placeholder={t("documents.form.template_for_placeholder")} align="end" /> : null}
-                  <div className="documents-upload-layout documents-upload-layout--library">
-                    <div className="documents-upload-field text-[0.94rem]">
-                      <input ref={uploadInputRef} className="sr-only" type="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" onChange={(event) => setUploadFile(event.target.files?.[0] || null)} />
-                      <div className="documents-upload-file-row">
-                        <Button type="button" size="sm" className="documents-primary-button documents-primary-button--compact documents-upload-choose-button" onClick={() => uploadInputRef.current?.click()}>{t("documents.form.choose_file")}</Button>
-                        <span className="documents-meta-text text-[0.96rem]">{uploadFile ? `${uploadFile.name} · ${formatFileSize(uploadFile.size)}` : t("documents.form.no_file_selected")}</span>
+
+                  {uploadKind === "TEMPLATE" ? (
+                    <label className="grid gap-[0.35rem]">
+                      <span className="documents-meta-text text-[0.88rem]">{t("documents.form.template_for_placeholder")}</span>
+                      <DocumentsDropdown
+                        ariaLabel={t("documents.form.template_for_placeholder")}
+                        value={uploadTemplateFor}
+                        onChange={setUploadTemplateFor}
+                        options={templateForOptions}
+                        placeholder={t("documents.form.template_for_placeholder")}
+                        align="end"
+                      />
+                    </label>
+                  ) : null}
+
+                  <div
+                    className={`grid gap-[0.65rem] rounded-[1rem] border px-[0.9rem] py-[0.9rem] transition-colors ${
+                      uploadDragActive
+                        ? "border-[color:var(--documents-accent)] bg-[rgba(197,113,113,0.08)]"
+                        : ""
+                    }`}
+                    onDragOver={handleUploadDragOver}
+                    onDragEnter={handleUploadDragOver}
+                    onDragLeave={handleUploadDragLeave}
+                    onDrop={handleUploadDrop}
+                  >
+                    <input
+                      ref={uploadInputRef}
+                      className="sr-only"
+                      type="file"
+                      accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+                      onChange={(event) => handleUploadFileSelection(event.target.files?.[0] || null)}
+                    />
+                    <button
+                      type="button"
+                      className="grid gap-[0.45rem] rounded-[0.95rem] border border-dashed px-[1rem] py-[1.05rem] text-left transition-colors hover:border-[color:var(--documents-accent)]"
+                      onClick={() => uploadInputRef.current?.click()}
+                    >
+                      <div className="documents-strong-text text-[1rem] font-semibold">
+                        {uploadDragActive ? t("documents.form.dropzone_active") : t("documents.form.dropzone_idle")}
                       </div>
+                      <p className="documents-meta-text text-[0.9rem]">{t("documents.form.file_help")}</p>
+                    </button>
+                    <div className="documents-notice documents-notice--muted rounded-[0.9rem] px-[0.85rem] py-[0.72rem] text-[0.94rem]">
+                      {uploadFile ? `${uploadFile.name} · ${formatFileSize(uploadFile.size)}` : t("documents.form.no_file_selected")}
                     </div>
-                  <div className="documents-upload-actions">
-                    <Button type="submit" size="sm" className="documents-primary-button documents-upload-submit" disabled={!uploadFile || uploading}>{uploading ? t("documents.form.uploading") : t("documents.actions.upload")}</Button>
+                    <div className="flex justify-start">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        className="documents-secondary-button"
+                        onClick={() => uploadInputRef.current?.click()}
+                      >
+                        {t("documents.form.choose_file")}
+                      </Button>
+                    </div>
                   </div>
-                </div>
+
+                  <div className="flex justify-end">
+                    <Button
+                      type="submit"
+                      size="sm"
+                      className="documents-primary-button documents-upload-submit min-w-[11.5rem]"
+                      disabled={!uploadFile || uploading}
+                    >
+                      {uploading ? t("documents.form.uploading") : t("documents.actions.upload")}
+                    </Button>
+                  </div>
                 </form>
                 </div>
 
@@ -611,21 +713,39 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 ))}
               </div>
               <div className="flex flex-wrap items-center gap-[0.8rem] justify-end">
-                <span className="documents-meta-text documents-results-summary text-[1rem]">{t("documents.artifacts.results_count", { shown: filteredArtifacts.length, total: artifactFilteredTotal })}</span>
                 <Link href={localizePath(isArtifactsExpanded ? "/documents#artifacts" : "/documents?artifacts=all#artifacts", locale)} className={documentsPanelLinkClassName}>{isArtifactsExpanded ? t("documents.actions.show_latest") : t("documents.actions.open_all_results")}</Link>
+                <span className="documents-meta-text documents-results-summary text-[0.95rem]">{t("documents.artifacts.results_count", { shown: filteredArtifacts.length, total: artifactFilteredTotal })}</span>
               </div>
             </div>
-            {isArtifactsExpanded ? (
-              <Panel variant="secondary" padding="sm" className="documents-subpanel documents-artifacts-toolbar mt-[0.85rem] grid gap-[0.7rem] rounded-[1rem]">
-                <div className="grid gap-[0.35rem]">
-                  <Input value={artifactSearch} onChange={(event) => setArtifactSearch(event.target.value)} placeholder={t("documents.artifacts.search_placeholder")} className="documents-form-input w-full" />
-                  <p className="documents-meta-text text-[0.84rem]">{artifactFilter === "FINAL" ? t("documents.artifacts.final_search_hint") : t("documents.artifacts.search_help")}</p>
+            {showArtifactsToolbar ? (
+              <div className="mt-[0.85rem] grid gap-[0.7rem] rounded-[1rem] border px-[0.95rem] py-[0.9rem]">
+                <p className="documents-meta-text text-[0.9rem]">
+                  {artifactFilter === "FINAL" ? t("documents.artifacts.final_search_hint") : t("documents.artifacts.search_help")}
+                </p>
+                <div className="grid gap-[0.7rem] md:grid-cols-[minmax(0,1fr)_19rem_auto] md:items-end">
+                  <label className="grid gap-[0.35rem]">
+                    <span className="documents-meta-text text-[0.88rem]">{t("documents.actions.search")}</span>
+                    <Input value={artifactSearch} onChange={(event) => setArtifactSearch(event.target.value)} placeholder={t("documents.artifacts.search_placeholder")} className="documents-form-input w-full" />
+                  </label>
+                  <label className="grid gap-[0.35rem]">
+                    <span className="documents-meta-text text-[0.88rem]">{t("documents.artifacts.sort_label")}</span>
+                    <DocumentsDropdown ariaLabel={t("documents.artifacts.sort_label")} value={artifactSort} onChange={setArtifactSort} options={artifactSortOptions} align="end" />
+                  </label>
+                  {artifactHasSearch ? (
+                    <div className="flex items-end">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        className="documents-secondary-button"
+                        onClick={() => setArtifactSearch("")}
+                      >
+                        {t("documents.actions.clear_search", "Puhasta otsing")}
+                      </Button>
+                    </div>
+                  ) : null}
                 </div>
-                <div className="grid gap-[0.35rem]">
-                  <span className="documents-meta-text text-[0.88rem]">{t("documents.artifacts.sort_label")}</span>
-                  <DocumentsDropdown ariaLabel={t("documents.artifacts.sort_label")} value={artifactSort} onChange={setArtifactSort} options={artifactSortOptions} align="end" />
-                </div>
-              </Panel>
+              </div>
             ) : null}
             <div className="mt-[0.9rem] flex flex-col gap-[0.72rem]">
               {artifactsLoading ? <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">{t("documents.loading")}</div> : null}

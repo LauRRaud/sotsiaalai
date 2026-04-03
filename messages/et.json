@@ -1083,7 +1083,10 @@
       "no_file_selected": "Faili pole valitud",
       "file_help": "Lubatud failid: PDF, DOCX ja TXT. Suurim fail on 25 MB.",
       "uploading": "Laen üles...",
-      "artifact_title_placeholder": "Tulemuse pealkiri (valikuline)"
+      "artifact_title_placeholder": "Tulemuse pealkiri (valikuline)",
+      "title_label": "Pealkiri",
+      "dropzone_idle": "Lohista fail siia v?i vajuta faili valimiseks",
+      "dropzone_active": "Vabasta fail siia ?leslaadimiseks"
     },
     "actions": {
       "upload": "Laadi üles",
@@ -1107,7 +1110,8 @@
       "approving": "Kinnitan...",
       "approve": "Kinnita",
       "select_document": "Vali dokument: {title}",
-      "select_for_agent": "Vali"
+      "select_for_agent": "Vali",
+      "clear_search": "Puhasta otsing"
     },
     "feedback": {
       "uploaded": "Dokument laaditi üles.",
@@ -1184,7 +1188,11 @@
         "error": "Kohtumise kokkuv?tte t??tlemine eba?nnestus.",
         "not_found": "Kohtumise kokkuv?tte t??d ei leitud.",
         "document_title": "Kohtumise kokkuv?te",
-        "result_added": "Kohtumise kokkuv?te lisati mustandisse ja salvestati Dokumentidesse nimega \"{title}\"."
+        "result_added": "Kohtumise kokkuv?te lisati mustandisse ja salvestati Dokumentidesse nimega \"{title}\".",
+        "template_ready_help": "Kui soovid kohtumise kokkuv?ttest kohe sama t??bi mustandit teha, vali siin kohtumise kokkuv?tte mall. Batch-fail ise salvestatakse enne tekstilise allikdokumendina Dokumentidesse.",
+        "template_switch_help": "Kui tahad kohtumise batch-failist mallip?hist kokkuv?tet, vali v?ljundi t??biks {type}. Siis n?ed siin sellele sobivaid malle.",
+        "documents_idle_help": "Kui kohtumise kokkuv?te valmis saab, salvestatakse see k?igepealt Dokumentidesse tekstifailina ja lisatakse siis automaatselt siia valitud dokumentide hulka.",
+        "documents_processing_help": "Kohtumise kokkuv?te on t??tlemisel. P?rast valmimist salvestatakse see Dokumentidesse tekstifailina ja lisatakse siia automaatselt."
       },
       "conversation_intro_empty": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, mida soovid koostada.",
       "conversation_intro_with_docs": "Tere! Kirjelda, mida pean valitud {count} dokumendi põhjal koostama.",
@@ -1292,7 +1300,11 @@
         "generated": "Loodud",
         "refined": "Täiendatud",
         "rerun": "Uus käivitus"
-      }
+      },
+      "output_type_description": "Vali, kas agent teeb kohtumise kokkuv?tte, juhtumikokkuv?tte, aruande mustandi v?i muu tulemuse.",
+      "scope_output_description": "Vali, kas tekst vormistatakse spetsialistile v?i p??rdujale.",
+      "style_settings_label": "Stiil ja keel",
+      "style_settings_description": "Toon, keel ja pikkus aitavad m??rata, kuidas valmis tekst k?lama peab."
     },
     "errors": {
       "load_documents": "Dokumentide laadimine ebaõnnestus.",
