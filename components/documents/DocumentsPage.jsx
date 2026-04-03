@@ -421,46 +421,44 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
               <div className="documents-library-section documents-library-intro">
                 <div className="documents-library-intro">
                   <div className="documents-library-copy">
-                    <p className="documents-section-description documents-library-description">{roleIntroText} <span className="documents-library-help-inline">{t("documents.form.file_help")}</span></p>
+                    <p className="documents-section-description documents-library-description">{roleIntroText}</p>
                   </div>
                 </div>
 
-                <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
-                  <div className="documents-subsection-stack">
-                    <div className="documents-subsection-copy">
-                      <h3 className="documents-subsection-title">{t("documents.framework_acceptance.manage_title")}</h3>
-                      <p className="documents-section-description documents-subsection-description">
-                        {frameworkStatus.loading
-                          ? t("documents.loading")
-                          : hasFrameworkAcceptance
-                          ? t("documents.framework_acceptance.manage_confirmed_short", {
-                              date: frameworkAcceptedAtLabel,
-                              version: frameworkAcceptance.frameworkVersion || WORKER_FRAMEWORK_VERSION
-                            })
-                          : t("documents.framework_acceptance.manage_pending")}
-                      </p>
-                    </div>
-                    <div className="documents-row-actions">
-                      <Button as="a" href={frameworkPageHref} size="sm" className="documents-primary-button">
-                        {t("auth.register.worker_framework_open")}
-                      </Button>
-                      <Button as="a" href={WORKER_FRAMEWORK_SIGNED_HREF} size="sm" className="documents-primary-button">
-                        {t("auth.register.worker_framework_download_signed")}
-                      </Button>
-                      {hasFrameworkAcceptance && frameworkAcceptance?.documentDownloadUrl ? (
-                        <Button
-                          as="a"
-                          href={frameworkAcceptance.documentDownloadUrl}
-                          size="sm"
-                          variant="ghost"
-                          className="documents-secondary-button"
-                        >
-                          {t("documents.framework_acceptance.download_record")}
-                        </Button>
-                      ) : null}
-                    </div>
+                <div className="documents-framework-banner documents-notice documents-notice--muted rounded-[1rem]">
+                  <div className="documents-framework-banner-copy">
+                    <h3 className="documents-subsection-title">{t("documents.framework_acceptance.manage_title")}</h3>
+                    <p className="documents-section-description documents-subsection-description">
+                      {frameworkStatus.loading
+                        ? t("documents.loading")
+                        : hasFrameworkAcceptance
+                        ? t("documents.framework_acceptance.manage_confirmed_short", {
+                            date: frameworkAcceptedAtLabel,
+                            version: frameworkAcceptance.frameworkVersion || WORKER_FRAMEWORK_VERSION
+                          })
+                        : t("documents.framework_acceptance.manage_pending")}
+                    </p>
                   </div>
-                </Panel>
+                  <div className="documents-framework-banner-actions">
+                    <Button as="a" href={frameworkPageHref} size="sm" className="documents-primary-button">
+                      {t("auth.register.worker_framework_open")}
+                    </Button>
+                    <Button as="a" href={WORKER_FRAMEWORK_SIGNED_HREF} size="sm" className="documents-primary-button">
+                      {t("auth.register.worker_framework_download_signed")}
+                    </Button>
+                    {hasFrameworkAcceptance && frameworkAcceptance?.documentDownloadUrl ? (
+                      <Button
+                        as="a"
+                        href={frameworkAcceptance.documentDownloadUrl}
+                        size="sm"
+                        variant="ghost"
+                        className="documents-secondary-button"
+                      >
+                        {t("documents.framework_acceptance.download_record")}
+                      </Button>
+                    ) : null}
+                  </div>
+                </div>
 
                 <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
                 <div className="documents-subsection-stack">
@@ -468,10 +466,10 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     <h3 className="documents-subsection-title">{t("documents.library_sections.upload_title")}</h3>
                     <p className="documents-section-description documents-subsection-description">{t("documents.library_sections.upload_description")}</p>
                   </div>
-                <form className="documents-upload-form documents-library-upload-block grid gap-[0.9rem] rounded-[1rem] border px-[0.95rem] py-[0.95rem]" onSubmit={submitUpload}>
-                  <div className="grid gap-[0.75rem] min-[42rem]:grid-cols-[minmax(0,1.45fr)_minmax(12rem,0.85fr)]">
-                    <label className="grid gap-[0.35rem]">
-                      <span className="documents-meta-text text-[0.88rem]">{t("documents.form.title_label", "Pealkiri")}</span>
+                <form className="documents-upload-form documents-library-upload-block documents-upload-surface" onSubmit={submitUpload}>
+                  <div className="documents-upload-grid">
+                    <label className="documents-upload-control">
+                      <span className="documents-meta-text documents-upload-label">{t("documents.form.title_label", "Pealkiri")}</span>
                       <Input
                         value={uploadTitle}
                         onChange={(event) => setUploadTitle(event.target.value)}
@@ -479,8 +477,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                         className="documents-form-input"
                       />
                     </label>
-                    <label className="grid gap-[0.35rem]">
-                      <span className="documents-meta-text text-[0.88rem]">{t("documents.form.kind_label")}</span>
+                    <label className="documents-upload-control">
+                      <span className="documents-meta-text documents-upload-label">{t("documents.form.kind_label")}</span>
                       <DocumentsDropdown
                         ariaLabel={t("documents.form.kind_label")}
                         value={uploadKind}
@@ -496,8 +494,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                   </div>
 
                   {uploadKind === "TEMPLATE" ? (
-                    <label className="grid gap-[0.35rem]">
-                      <span className="documents-meta-text text-[0.88rem]">{t("documents.form.template_for_placeholder")}</span>
+                    <label className="documents-upload-control">
+                      <span className="documents-meta-text documents-upload-label">{t("documents.form.template_for_placeholder")}</span>
                       <DocumentsDropdown
                         ariaLabel={t("documents.form.template_for_placeholder")}
                         value={uploadTemplateFor}
@@ -510,9 +508,9 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                   ) : null}
 
                   <div
-                    className={`grid gap-[0.65rem] rounded-[1rem] border px-[0.9rem] py-[0.9rem] transition-colors ${
+                    className={`documents-upload-dropzone ${
                       uploadDragActive
-                        ? "border-[color:var(--documents-accent)] bg-[rgba(197,113,113,0.08)]"
+                        ? "is-active"
                         : ""
                     }`}
                     onDragOver={handleUploadDragOver}
@@ -529,18 +527,18 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     />
                     <button
                       type="button"
-                      className="grid gap-[0.45rem] rounded-[0.95rem] border border-dashed px-[1rem] py-[1.05rem] text-left transition-colors hover:border-[color:var(--documents-accent)]"
+                      className="documents-upload-dropzone-trigger"
                       onClick={() => uploadInputRef.current?.click()}
                     >
-                      <div className="documents-strong-text text-[1rem] font-semibold">
+                      <div className="documents-strong-text documents-upload-dropzone-title">
                         {uploadDragActive ? t("documents.form.dropzone_active") : t("documents.form.dropzone_idle")}
                       </div>
-                      <p className="documents-meta-text text-[0.9rem]">{t("documents.form.file_help")}</p>
+                      <p className="documents-meta-text documents-upload-dropzone-help">{t("documents.form.file_help")}</p>
                     </button>
-                    <div className="documents-notice documents-notice--muted rounded-[0.9rem] px-[0.85rem] py-[0.72rem] text-[0.94rem]">
+                    <div className="documents-upload-selected documents-notice documents-notice--muted rounded-[0.9rem]">
                       {uploadFile ? `${uploadFile.name} · ${formatFileSize(uploadFile.size)}` : t("documents.form.no_file_selected")}
                     </div>
-                    <div className="flex justify-start">
+                    <div className="documents-upload-inline-actions">
                       <Button
                         type="button"
                         size="sm"
@@ -553,7 +551,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     </div>
                   </div>
 
-                  <div className="flex justify-end">
+                  <div className="documents-upload-submit-row">
                     <Button
                       type="submit"
                       size="sm"

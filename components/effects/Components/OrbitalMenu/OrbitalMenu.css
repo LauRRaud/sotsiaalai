@@ -1511,7 +1511,8 @@ html[data-contrast="hc"]
   box-shadow:
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
-    0 6px 8px -6px rgba(255, 234, 0, 0.32),
+    0 0 10px rgba(255, 234, 0, 0.12),
+    0 8px 10px -5px rgba(255, 234, 0, 0.38),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
@@ -1539,7 +1540,8 @@ html[data-contrast="hc"]
     box-shadow:
       0 4px 9px rgba(2, 6, 16, 0.13),
       0 1px 1px rgba(15, 23, 42, 0.065),
-      0 6px 8px -6px rgba(255, 234, 0, 0.34),
+      0 0 10px rgba(255, 234, 0, 0.12),
+      0 8px 10px -5px rgba(255, 234, 0, 0.38),
       inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
       inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
@@ -1552,8 +1554,39 @@ html[data-contrast="hc"]
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item::before {
+  content: "" !important;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  padding: 0;
+  background: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item::before {
+  box-shadow:
+    0 0 18px rgba(255, 234, 0, 0.18),
+    0 0 30px rgba(255, 234, 0, 0.1) !important;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity;
+}
+
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active)::before {
   opacity: 0 !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active)::before {
+  opacity: 1 !important;
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper

@@ -14,6 +14,7 @@ import { detectMobileViewport } from "@/components/alalehed/chat/chatLayoutVars"
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
 import BackButton from "@/components/ui/BackButton"
 import Button from "@/components/ui/Button"
+import FancyCheckbox from "@/components/ui/FancyCheckbox"
 import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
 import OptionCard from "@/components/ui/OptionCard"
@@ -87,6 +88,10 @@ function segmentedChipClassName(isActive) {
 
 const agentChoiceCardClassName =
   `${primarySegmentedButtonClassName} inline-flex min-h-[2.78rem] items-center justify-center rounded-[1.45rem] border-[var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[1rem] py-[0.62rem] text-[1.01rem] leading-[1.2] tracking-[0.018em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:[background:var(--seg-card-bg-hover,var(--seg-card-bg))] hover:border-[color:var(--seg-card-border-hover,var(--seg-card-border))] hover:text-[color:var(--seg-card-text-hover,var(--seg-card-text))] hover:shadow-[var(--seg-card-shadow-hover,var(--seg-card-shadow))] active:[background:var(--seg-card-bg-active,var(--seg-card-bg-selected,var(--seg-card-bg-hover,var(--seg-card-bg))))] active:border-[color:var(--seg-card-border-active,var(--seg-card-border-selected,var(--seg-card-border-hover,var(--seg-card-border))))] active:text-[color:var(--seg-card-text-selected,var(--seg-card-text-hover,var(--seg-card-text)))] active:shadow-[var(--seg-card-shadow-active,var(--seg-card-shadow-selected,var(--seg-card-shadow-hover,var(--seg-card-shadow))))] text-center max-[768px]:min-h-[2.9rem] max-[768px]:rounded-[1.38rem] max-[768px]:px-[0.95rem] max-[768px]:py-[0.68rem] max-[768px]:text-[1.05rem]`
+const meetingSummaryCheckboxRowClassName =
+  "documents-meeting-summary-check fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
+  "[--otp-check-shape:var(--documents-page-strong)] [--otp-check-tick:var(--documents-accent)] [--otp-check-text:var(--documents-page-strong)] " +
+  "[--otp-check-box-size:1.4rem] [--otp-check-font-size:1rem] [--otp-check-line-height:1.44] [--otp-check-text-max-width:100%] [--otp-check-text-max-width-mobile:100%] [--otp-check-box-offset:0.02rem]"
 const agentPanelLinkClassName =
   `${linkBrandInlineClass} inline-block w-auto max-w-full whitespace-normal break-words [text-wrap:balance] ` +
   "text-[clamp(1.06rem,1.42vw,1.24rem)] leading-[1.1] font-medium " +
@@ -1672,22 +1677,21 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                     <div className="documents-agent-goal-group">
                       <div className="documents-notice documents-notice--muted rounded-[1rem] px-[1rem] py-[0.95rem]">
                         <div className="flex flex-col gap-[0.5rem]">
-                          <label className="flex items-start gap-[0.7rem] text-[0.98rem] leading-[1.45]">
-                            <input
-                              type="checkbox"
-                              className="mt-[0.18rem] h-[1rem] w-[1rem] shrink-0 accent-[var(--documents-accent)]"
-                              checked={meetingSummaryEnabled}
-                              onChange={(event) => setMeetingSummaryEnabled(event.target.checked)}
-                            />
-                            <span className="min-w-0">
-                              <span className="documents-strong-text block font-semibold">
-                                {t("documents.agent_workspace.meeting_summary.label")}
+                          <FancyCheckbox
+                            checked={meetingSummaryEnabled}
+                            onChange={(checked) => setMeetingSummaryEnabled(Boolean(checked))}
+                            className={meetingSummaryCheckboxRowClassName}
+                            label={
+                              <span className="documents-meeting-summary-check-copy min-w-0">
+                                <span className="documents-strong-text block font-semibold">
+                                  {t("documents.agent_workspace.meeting_summary.label")}
+                                </span>
+                                <span className="documents-section-description documents-agent-copy block mt-[0.18rem]">
+                                  {t("documents.agent_workspace.meeting_summary.description")}
+                                </span>
                               </span>
-                              <span className="documents-section-description documents-agent-copy block mt-[0.18rem]">
-                                {t("documents.agent_workspace.meeting_summary.description")}
-                              </span>
-                            </span>
-                          </label>
+                            }
+                          />
                           <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
                             {meetingSummaryEnabled
                               ? t("documents.agent_workspace.meeting_summary.enabled_help")
