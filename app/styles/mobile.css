@@ -899,6 +899,15 @@
     backdrop-filter: none !important;
   }
 
+  .chat-page-shell .chat-container .chat-mask-layer,
+  .profile-container.glass-ring .profile-mask-layer {
+    contain: paint;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
   .profile-container.glass-ring .profile-mask-layer {
     background: var(
       --glass-ring-surface-bg,

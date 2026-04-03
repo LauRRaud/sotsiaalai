@@ -193,6 +193,20 @@
   backdrop-filter: none !important;
 }
 
+@media (min-width: 48.001em) {
+  :root.theme-night .homepage-root .home-about-panel {
+    box-shadow:
+      0 0 12px rgba(190, 220, 255, 0.18),
+      0 0 24px rgba(120, 168, 230, 0.08) !important;
+  }
+
+  :root.theme-night .homepage-root .home-before-panel {
+    box-shadow:
+      0 0 13px rgba(190, 220, 255, 0.19),
+      0 0 26px rgba(120, 168, 230, 0.09) !important;
+  }
+}
+
 :root.theme-night
   :is(
     .invite-list-panel,

@@ -11,6 +11,7 @@ import Textarea from "@/components/ui/Textarea"
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
+  glassSubpageMobileReadableWidthClassName,
   glassSubpageContentWideClassName,
   glassSubpagePanelWideClassName,
   glassSubpageCardClassName,
@@ -29,13 +30,18 @@ const materialsSecondaryButtonClassName =
 const materialsSectionClassName =
   "grid gap-[0.82rem] rounded-[1.18rem] px-[0.45rem] py-[0.75rem] " +
   "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.12rem] max-[768px]:py-[0.7rem]"
+const materialsMobilePanelWidthClassName =
+  "max-[768px]:mx-auto max-[768px]:w-full max-[768px]:max-w-[18.4rem]"
+const materialsMobileInnerWidthClassName =
+  "max-[768px]:mx-auto max-[768px]:w-full max-[768px]:max-w-[17.4rem]"
 const materialsUploadSectionClassName =
   "materials-upload-panel grid gap-[0.82rem] rounded-[1.18rem] px-[0.45rem] py-[0.75rem] " +
+  `${materialsMobilePanelWidthClassName} ` +
   "max-[768px]:gap-[0.72rem] max-[768px]:rounded-[1.08rem] max-[768px]:px-[0.12rem] max-[768px]:py-[0.7rem]"
 const materialsTextareaClassName =
   `materials-comment-box min-h-[7.4rem] resize-y overflow-y-auto rounded-[1.05rem] ${glassSubpageCardClassName} ` +
   "px-[0.78rem] py-[0.82rem] text-[1.05rem] leading-[1.36] text-[color:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))] " +
-  "placeholder:text-[color:rgba(73,84,101,0.72)] placeholder:opacity-100 " +
+  `placeholder:text-[color:rgba(73,84,101,0.72)] placeholder:opacity-100 ${materialsMobileInnerWidthClassName} ` +
   "focus-visible:[background:var(--subpage-card-bg)] focus-visible:border-[color:var(--subpage-card-border)] focus-visible:shadow-[var(--subpage-card-shadow)]"
 const materialsTextareaShellClassName = materialsTextareaClassName
 const materialsSectionTitleClassName =
@@ -241,15 +247,15 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className={`${glassSubpageContentWideClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
+        <div className={`${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
           <section className={materialsUploadSectionClassName}>
-            <div className="grid gap-[0.12rem] pb-[0.12rem] text-left">
+            <div className={`grid gap-[0.12rem] pb-[0.12rem] text-left ${materialsMobileInnerWidthClassName}`}>
               <p className="text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">
                 {t("materials_page.description")}
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-[-0.36rem] grid gap-[0.54rem]">
+            <form onSubmit={handleSubmit} className={`mt-[-0.36rem] grid gap-[0.54rem] ${materialsMobileInnerWidthClassName}`}>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -316,9 +322,9 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               as="section"
               variant="subpage"
               padding="sm"
-              className={`materials-admin-panel ${glassSubpagePanelWideClassName} ${materialsSectionClassName}`}
+              className={`materials-admin-panel ${glassSubpagePanelWideClassName} ${materialsSectionClassName} ${materialsMobilePanelWidthClassName}`}
             >
-              <div className="flex items-start justify-between gap-[0.8rem]">
+              <div className={`flex items-start justify-between gap-[0.8rem] max-[768px]:grid max-[768px]:gap-[0.72rem] ${materialsMobileInnerWidthClassName}`}>
                 <div className="grid gap-[0.22rem]">
                   <h2 className={materialsSectionTitleClassName}>{t("materials_page.admin.title")}</h2>
                   <p className={materialsSectionCopyClassName}>{t("materials_page.admin.subtitle")}</p>
@@ -327,7 +333,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                   variant="primary"
                   onClick={() => void refreshItems()}
                   disabled={loadingItems}
-                  className={materialsSecondaryButtonClassName}
+                  className={`${materialsSecondaryButtonClassName} max-[768px]:justify-self-start`}
                 >
                   {t("materials_page.admin.refresh")}
                 </Button>
@@ -342,7 +348,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               {loadingItems ? (
                 <p className="text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">{t("materials_page.admin.loading")}</p>
               ) : items.length ? (
-                <div className="grid gap-[0.72rem]">
+                <div className={`grid gap-[0.72rem] ${materialsMobileInnerWidthClassName}`}>
                   {items.map((item) => (
                     <div
                       key={item.id}
@@ -385,7 +391,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                   ))}
                 </div>
               ) : (
-                <p className="text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]">{t("materials_page.admin.empty")}</p>
+                <p className={`text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82] ${materialsMobileInnerWidthClassName}`}>{t("materials_page.admin.empty")}</p>
               )}
             </Panel>
           ) : null}

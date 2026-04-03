@@ -94,6 +94,9 @@ export const glassSubpageSurfaceScopeClassName =
 export const glassSubpageContentWideClassName =
   "mx-auto w-full max-w-[clamp(31rem,62vw,43rem)] max-[768px]:max-w-none";
 
+export const glassSubpageMobileReadableWidthClassName =
+  "max-[768px]:mx-auto max-[768px]:w-full max-[768px]:max-w-[18.75rem]";
+
 export const glassSubpagePanelWideClassName =
   "mx-auto w-full max-w-[min(41rem,100%)] max-[768px]:max-w-none";
 

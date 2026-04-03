@@ -278,7 +278,8 @@
 }
 
 /* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
-:root.theme-mid body.homepage {
+:root.theme-mid body.homepage,
+:root.theme-mid .homepage-root {
   --home-panel-bg: rgba(203, 190, 186, 0.79);
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
   --home-card-shell-shadow:

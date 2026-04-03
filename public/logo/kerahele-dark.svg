@@ -45,14 +45,14 @@
     <linearGradient id="gBottomFade" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
       <stop offset="62%" stop-color="#000000" stop-opacity="0.02"/>
-      <stop offset="84%" stop-color="#000000" stop-opacity="0.11"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.19"/>
+      <stop offset="84%" stop-color="#000000" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.14"/>
     </linearGradient>
 
     <radialGradient id="gBottomCore" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
       gradientTransform="translate(228 286) rotate(-8) scale(198 132)">
-      <stop offset="0" stop-color="#000000" stop-opacity="0.14"/>
-      <stop offset="0.56" stop-color="#000000" stop-opacity="0.06"/>
+      <stop offset="0" stop-color="#000000" stop-opacity="0.1"/>
+      <stop offset="0.56" stop-color="#000000" stop-opacity="0.035"/>
       <stop offset="1" stop-color="#000000" stop-opacity="0"/>
     </radialGradient>
 

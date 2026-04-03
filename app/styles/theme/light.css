@@ -249,7 +249,8 @@
   --subscription-error-color: #c57171;
 }
 
-:root.theme-light body.homepage {
+:root.theme-light body.homepage,
+:root.theme-light .homepage-root {
   --home-prose-color: var(--text-strong, #1f2937);
   --home-panel-bg: rgba(251, 249, 246, 0.93);
   --home-card-blur: 0.75rem;

@@ -13,7 +13,8 @@ export function useChatInputHoleMask({
   inputBarRef,
   maskLayerRef,
   enabled,
-  refreshRef
+  refreshRef,
+  mobileStableReserve = false
 }) {
   useLayoutEffect(() => {
     const box = containerRef?.current;
@@ -54,6 +55,58 @@ export function useChatInputHoleMask({
         y: snap(rect.top - rootRect.top),
         w: snap(w),
         h: snap(h)
+      };
+    };
+    const getStableMobileHoleRect = baseRect => {
+      if (!isMobileViewport || !mobileStableReserve || !baseRect) return baseRect;
+      const textarea = inputBar.querySelector("textarea");
+      const actionButton =
+        inputBar.querySelector(".chat-send-btn") ||
+        inputBar.querySelector(".chat-listen-btn");
+      const barStyle = window.getComputedStyle(inputBar);
+      const textStyle = textarea ? window.getComputedStyle(textarea) : null;
+      const buttonHeight = actionButton
+        ? snap(actionButton.getBoundingClientRect().height || actionButton.offsetHeight || 0)
+        : snap(baseRect.h);
+      const rowGap =
+        snap(
+          Number.parseFloat(barStyle.rowGap) ||
+            Number.parseFloat(barStyle.gap) ||
+            0
+        );
+      const paddingTop = snap(Number.parseFloat(barStyle.paddingTop) || 0);
+      const paddingBottom = snap(Number.parseFloat(barStyle.paddingBottom) || 0);
+      const textPaddingTop = snap(Number.parseFloat(textStyle?.paddingTop) || 0);
+      const textPaddingBottom = snap(
+        Number.parseFloat(textStyle?.paddingBottom) || 0
+      );
+      const textBorderTop = snap(
+        Number.parseFloat(textStyle?.borderTopWidth) || 0
+      );
+      const textBorderBottom = snap(
+        Number.parseFloat(textStyle?.borderBottomWidth) || 0
+      );
+      const lineHeight = snap(Number.parseFloat(textStyle?.lineHeight) || 22);
+      const reservedLineCount = 4;
+      const reservedTextHeight = snap(
+        lineHeight * reservedLineCount +
+          textPaddingTop +
+          textPaddingBottom +
+          textBorderTop +
+          textBorderBottom
+      );
+      const reservedHeight = snap(
+        Math.max(
+          baseRect.h,
+          paddingTop + reservedTextHeight + rowGap + buttonHeight + paddingBottom
+        )
+      );
+      if (reservedHeight <= baseRect.h) return baseRect;
+      const delta = snap(reservedHeight - baseRect.h);
+      return {
+        ...baseRect,
+        y: snap(Math.max(0, baseRect.y - delta)),
+        h: reservedHeight
       };
     };
     let lastMask = "";
@@ -148,15 +201,18 @@ export function useChatInputHoleMask({
         return;
       }
       retryCount = 0;
+      const stableInputLocal = getStableMobileHoleRect(inputLocal);
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);
-      const radius = snap(Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2);
-      const geometryKey = `${boxW}|${boxH}|${inputLocal.x}|${inputLocal.y}|${inputLocal.w}|${inputLocal.h}|${radius}`;
+      const radius = snap(
+        Number.isFinite(radiusRaw) ? radiusRaw : stableInputLocal.h / 2
+      );
+      const geometryKey = `${boxW}|${boxH}|${stableInputLocal.x}|${stableInputLocal.y}|${stableInputLocal.w}|${stableInputLocal.h}|${radius}`;
       if (geometryKey === lastGeometry && !force) {
         pendingAfterTilt = false;
         return;
       }
       lastGeometry = geometryKey;
-      const mask = buildMask(boxW, boxH, inputLocal, radius);
+      const mask = buildMask(boxW, boxH, stableInputLocal, radius);
       if (mask && (mask !== lastMask || force)) {
         box.style.setProperty("--chat-input-hole-mask", mask);
         if (maskLayer) {
@@ -291,5 +347,5 @@ export function useChatInputHoleMask({
         refreshRef.current = null;
       }
     };
-  }, [containerRef, inputRowRef, inputBarRef, maskLayerRef, enabled, refreshRef]);
+  }, [containerRef, inputRowRef, inputBarRef, maskLayerRef, enabled, mobileStableReserve, refreshRef]);
 }

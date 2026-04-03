@@ -44,14 +44,14 @@
     <linearGradient id="gBottomFade" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
       <stop offset="62%" stop-color="#000000" stop-opacity="0.02"/>
-      <stop offset="84%" stop-color="#000000" stop-opacity="0.10"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.17"/>
+      <stop offset="84%" stop-color="#000000" stop-opacity="0.075"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.125"/>
     </linearGradient>
 
     <radialGradient id="gBottomCore" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
       gradientTransform="translate(228 286) rotate(-8) scale(198 132)">
-      <stop offset="0" stop-color="#000000" stop-opacity="0.125"/>
-      <stop offset="0.56" stop-color="#000000" stop-opacity="0.05"/>
+      <stop offset="0" stop-color="#000000" stop-opacity="0.09"/>
+      <stop offset="0.56" stop-color="#000000" stop-opacity="0.032"/>
       <stop offset="1" stop-color="#000000" stop-opacity="0"/>
     </radialGradient>
 
@@ -199,17 +199,17 @@
       <!-- Pronounced lower hemisphere depth -->
       <g mask="url(#maskBottom)">
         <circle cx="200" cy="200" r="184" fill="none"
-                stroke="#000000" stroke-opacity="0.14" stroke-width="17"
+                stroke="#000000" stroke-opacity="0.1" stroke-width="14"
                 filter="url(#fWide)"/>
       </g>
 
       <!-- Extra lower-right mass -->
       <g mask="url(#maskBottomRight)">
         <circle cx="200" cy="200" r="184" fill="none"
-                stroke="#000000" stroke-opacity="0.15" stroke-width="15"
+                stroke="#000000" stroke-opacity="0.1" stroke-width="13"
                 filter="url(#fWide)"/>
         <circle cx="200" cy="200" r="184" fill="none"
-                stroke="#000000" stroke-opacity="0.08" stroke-width="6.5"
+                stroke="#000000" stroke-opacity="0.05" stroke-width="5.5"
                 filter="url(#fGlow)"/>
       </g>
 

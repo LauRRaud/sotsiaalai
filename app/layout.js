@@ -196,10 +196,8 @@ export default async function RootLayout({
       <body className="app-root">
         <Providers initialLocale={locale} messages={messages} session={session} initialA11yPrefs={initialA11yPrefs}>
           <ViewportLayoutSetter />
-          {}
           <BackgroundLayer />
           <ServiceWorkerRegistrar />
-          {}
           <main id="main" role="main" tabIndex={-1} style={{
           zIndex: 10
         }}>

@@ -11,6 +11,7 @@ import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
   glassSubpageContentWideClassName,
+  glassSubpageMobileReadableWidthClassName,
   glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
   glassPageTitleClassName
@@ -161,7 +162,7 @@ export default function SelectedListingContext({
         </div>
       </header>
 
-      <div className={`${glassSubpageContentWideClassName} grid gap-[0.8rem] px-[0.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.05rem]`}>
+      <div className={`${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.8rem] px-[0.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.05rem]`}>
         <Panel
           variant="subpage"
           padding="sm"

@@ -80,6 +80,9 @@ export default function InviteModal() {
   const inviteFieldWrapClassName =
     "w-full max-w-none";
   const mobileInviteInputClassName = glassSubpageFieldInputClassName;
+  const inviteInputClassName =
+    `${mobileInviteInputClassName} ` +
+    "light:placeholder:text-[#516072] [.theme-mid_&]:placeholder:text-[rgba(73,84,101,0.72)] [.theme-night_&]:placeholder:text-[rgba(226,232,240,0.62)] hc:placeholder:text-[color:var(--hc-accent)]";
   const invitePrimaryButtonClassName =
     "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
     "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
@@ -141,8 +144,14 @@ export default function InviteModal() {
     "[--seg-card-text-hover:var(--btn-primary-text)] " +
     "[--seg-card-text-selected:var(--btn-primary-text)]";
   const inviteEmailsRequiredError = error === t("invite.error.emails_required");
-  const inviteEmailsHintClassName =
-    "pointer-events-none absolute inset-y-0 left-[1rem] flex items-center text-[1.02rem] leading-[1.15] tracking-[0.01em] text-[color:var(--subscription-error-color,#fca5a5)] opacity-95 max-[768px]:text-[0.98rem]";
+  const inviteEmailInputClassName = `${inviteInputClassName} ${
+    inviteEmailsRequiredError
+      ? "[--input-border:1px_solid_rgba(208,116,108,0.28)] light:[--input-border:1px_solid_rgba(185,89,82,0.24)] [.theme-mid_&]:[--input-border:1px_solid_rgba(166,94,89,0.24)] [.theme-night_&]:[--input-border:1px_solid_rgba(232,190,190,0.24)] hc:[--input-border:1px_solid_var(--hc-accent)]"
+      : ""
+  }`;
+  const inviteFieldErrorClassName =
+    "mt-[0.48rem] px-[0.12rem] text-left text-[0.94rem] leading-[1.35] tracking-[0.006em] " +
+    "text-[rgba(255,223,218,0.94)] light:text-[#b2615d] [.theme-mid_&]:text-[#a65e59] [.theme-night_&]:text-[rgba(232,190,190,0.92)] hc:text-[color:var(--hc-accent)]";
   const inviteNoticeBaseClassName =
     "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.7rem)] z-[3] -translate-x-1/2 " +
     "w-fit max-w-[min(32rem,calc(100%-1rem))] whitespace-normal text-center rounded-full border " +
@@ -504,7 +513,7 @@ export default function InviteModal() {
                     disabled={busy}
                     placeholder={t("invite.room_title")}
                     aria-label={t("invite.room_title")}
-                    className={mobileInviteInputClassName}
+                    className={inviteInputClassName}
                   />
                 </div>
                 <div className={inviteFieldWrapClassName}>
@@ -515,27 +524,27 @@ export default function InviteModal() {
                     disabled={busy}
                     placeholder={t("invite.host_name_ph")}
                     aria-label={t("invite.host_name")}
-                    className={mobileInviteInputClassName}
+                    className={inviteInputClassName}
                   />
                 </div>
               </>
             ) : null}
-            <div className={`${inviteFieldWrapClassName} relative`}>
+            <div className={inviteFieldWrapClassName}>
               <input
                 id="invite-emails"
                 value={emails}
                 onChange={(e) => setEmails(e.target.value)}
-                placeholder={inviteEmailsRequiredError ? "" : t("invite.classic.emails_ph")}
+                placeholder={t("invite.classic.emails_ph")}
                 aria-label={t("invite.classic.emails")}
                 aria-invalid={inviteEmailsRequiredError ? "true" : undefined}
                 aria-describedby={inviteEmailsRequiredError ? "invite-emails-error" : undefined}
                 disabled={busy}
-                className={mobileInviteInputClassName}
+                className={inviteEmailInputClassName}
               />
               {inviteEmailsRequiredError ? (
-                <span id="invite-emails-error" className={inviteEmailsHintClassName}>
+                <p id="invite-emails-error" className={inviteFieldErrorClassName}>
                   {t("invite.error.emails_required")}
-                </span>
+                </p>
               ) : null}
             </div>
             <div className="grid gap-[0.7rem]">

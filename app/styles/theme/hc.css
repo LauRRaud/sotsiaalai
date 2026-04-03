@@ -227,7 +227,8 @@ html[data-contrast="hc"] .space-backdrop[data-mode="dark"] {
   background: radial-gradient(ellipse at top, #1b2735 0%, #090a0f 100%);
 }
 
-html[data-contrast="hc"]:not(.theme-light) body.homepage {
+html[data-contrast="hc"]:not(.theme-light) body.homepage,
+html[data-contrast="hc"]:not(.theme-light) .homepage-root {
   --home-prose-color: var(--hc-accent);
   --home-title-color: var(--hc-accent);
   --home-link-color: var(--hc-accent);

@@ -372,7 +372,8 @@
   --drawer-delete-shadow-hover: 0 12px 28px rgba(2, 6, 23, 0.3);
 }
 
-:root:not(.theme-light) body.homepage {
+:root:not(.theme-light) body.homepage,
+:root:not(.theme-light) .homepage-root {
   --home-prose-color: rgba(242, 241, 239, 0.92);
   --home-card-blur: 0.6rem;
   --home-card-saturate: 118%;
@@ -406,6 +407,25 @@
   --home-title-color: #c57171;
   --home-link-color: var(--brand-primary);
 }
+
+@media (min-width: 48.001em) {
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+    .homepage-root
+    .home-about-panel {
+    box-shadow:
+      0 0 12px rgba(248, 253, 255, 0.14),
+      0 0 24px rgba(248, 253, 255, 0.07) !important;
+  }
+
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+    .homepage-root
+    .home-before-panel {
+    box-shadow:
+      0 0 13px rgba(248, 253, 255, 0.15),
+      0 0 26px rgba(248, 253, 255, 0.075) !important;
+  }
+}
+
 :root:not(.theme-light)
   .profile-email-dock-wrapper:not(.profile-orbit-menu-wrapper)
   .dock-item,
