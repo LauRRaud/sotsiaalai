@@ -35,45 +35,45 @@ const subscriptionCardBaseClassName =
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[0.95rem] pt-[0.35rem] pb-[1rem] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.9rem] ${glassPageMobileCardClassName}`;
 const contentClassName =
-  `subscription-content ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} mt-[1.2rem] flex max-[768px]:mt-[1rem] flex-col gap-[1.05rem] max-[768px]:max-w-[17.75rem]`;
+  `subscription-content ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} mt-[1.2rem] flex max-w-[32.25rem] max-[768px]:mt-[1rem] flex-col gap-[1.05rem] max-[768px]:max-w-[22.25rem]`;
 const subscriptionCopyClassName =
-  "subscription-copy-text text-center text-[1.06rem] leading-[1.56] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:mx-auto max-[768px]:max-w-[15.9rem] max-[768px]:text-[1.12rem]";
+  "subscription-copy-text text-center text-[1.06rem] leading-[1.56] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] mx-auto w-full max-w-[32.25rem] max-[768px]:max-w-[20rem] max-[768px]:text-[1.12rem]";
 const subscriptionInfoTextClassName =
   "subscription-info-text text-left text-[1.08rem] max-[768px]:text-[1.12rem] " +
-  "tracking-[0.004em] leading-[1.58] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:mx-auto max-[768px]:max-w-[15.6rem] [&_p]:m-0 [&_p:last-child]:mb-0";
+  "tracking-[0.004em] leading-[1.58] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] mx-auto w-full max-w-[32.25rem] max-[768px]:max-w-[20rem] [&_p]:m-0 [&_p:last-child]:mb-0";
 const subscriptionSupplementTextClassName = `${subscriptionInfoTextClassName} m-0`;
 const subscriptionUnifiedPanelClassName =
   `${glassSubpagePanelWideClassName} px-[0.5rem] py-[0.15rem] ` +
-  "text-[color:var(--pt-120)] max-[768px]:max-w-[16.75rem] max-[768px]:px-[0.34rem] max-[768px]:py-0";
+  "text-[color:var(--pt-120)] max-w-[32.25rem] max-[768px]:max-w-[21.5rem] max-[768px]:px-[0.34rem] max-[768px]:py-0";
 const subscriptionCardBodyClassName =
-  "grid gap-[0.68rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:mx-auto max-[768px]:w-full max-[768px]:max-w-[15.9rem]";
+  "grid gap-[0.68rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] mx-auto w-full max-w-[32.25rem] max-[768px]:max-w-[20rem]";
 const subscriptionCheckoutCardBodyClassName =
-  "grid gap-[0.48rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] max-[768px]:mx-auto max-[768px]:w-full max-[768px]:max-w-[15.9rem]";
+  "grid gap-[0.48rem] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] mx-auto w-full max-w-[32.25rem] max-[768px]:max-w-[20rem]";
 const subscriptionSectionTitleClassName =
   "m-0 text-center text-[1.24rem] font-[500] tracking-[0.004em] leading-[1.28] text-[color:var(--glass-modal-text)] max-[768px]:text-[1.18rem]";
 const subscriptionDividerClassName =
   "my-[0.12rem] h-px w-full bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.16)_12%,rgba(255,255,255,0.16)_88%,rgba(255,255,255,0)_100%)] [.theme-light_&]:bg-[linear-gradient(90deg,rgba(122,58,56,0)_0%,rgba(122,58,56,0.12)_12%,rgba(122,58,56,0.12)_88%,rgba(122,58,56,0)_100%)]";
 const subscriptionConsentTextClassName =
-  "mt-[0.34rem] text-left text-[1.07rem] leading-[1.48] tracking-[0.003em] text-[color:var(--pt-130)] light:text-[color:var(--input-text)] max-[768px]:mx-auto max-[768px]:max-w-[15.6rem]";
+  "mt-[0.34rem] text-left text-[1.07rem] leading-[1.48] tracking-[0.003em] text-[color:var(--pt-130)] light:text-[color:var(--input-text)] mx-auto w-full max-w-[32.25rem] max-[768px]:max-w-[20rem]";
 const subscriptionAgreementLabelClassName =
   "block [&_a]:text-[1.08em] max-[768px]:[&_a]:text-[1.1em]";
 const subscriptionCheckboxRowClassName =
   "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
   "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:var(--title-color,var(--brand-primary))] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-  "[--otp-check-box-size:1.78rem] [--otp-check-font-size:1.06rem] [--otp-check-line-height:1.52] [--otp-check-text-max-width:min(100%,30rem)] max-[768px]:[--otp-check-text-max-width:min(100%,17rem)] [--otp-check-box-offset:0.08rem] " +
+  "[--otp-check-box-size:1.78rem] [--otp-check-font-size:1.06rem] [--otp-check-line-height:1.52] [--otp-check-text-max-width:min(100%,32.25rem)] max-[768px]:[--otp-check-text-max-width:min(100%,20rem)] [--otp-check-box-offset:0.08rem] " +
   "[&_.box]:translate-y-[-0.08rem]";
 const subscriptionCheckoutFooterClassName = "mt-[-0.1rem] flex justify-center";
 const subscriptionActionClassName =
   "min-w-[10.2rem] whitespace-nowrap px-[1.45rem] py-[0.82rem] text-[1.12rem] leading-[1.2] " +
   "max-[768px]:!w-fit max-[768px]:min-w-[10.2rem] max-[768px]:whitespace-normal max-[768px]:!px-[1rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem] max-[768px]:!min-h-[3.42rem]";
 const subscriptionStatusClassName =
-  "subscription-status-text m-0 text-left text-[1.04rem] leading-[1.52] font-[500] max-[768px]:mx-auto max-[768px]:max-w-[15.6rem]";
+  "subscription-status-text m-0 text-left text-[1.04rem] leading-[1.52] font-[500] mx-auto w-full max-w-[32.25rem] max-[768px]:max-w-[20rem]";
 const subscriptionActivePanelClassName =
-  `subscription-active-panel ${glassSubpagePanelWideClassName} px-[0.5rem] py-[0.15rem] max-[768px]:max-w-[16.75rem] max-[768px]:px-[0.34rem]`;
+  `subscription-active-panel ${glassSubpagePanelWideClassName} px-[0.5rem] py-[0.15rem] max-w-[32.25rem] max-[768px]:max-w-[21.5rem] max-[768px]:px-[0.34rem]`;
 const subscriptionActiveSummaryClassName =
-  "subscription-active-summary text-left text-[1.08rem] leading-[1.56] font-[600] tracking-[0.004em] text-[color:var(--glass-modal-text)] max-[768px]:mx-auto max-[768px]:max-w-[15.6rem]";
+  "subscription-active-summary text-left text-[1.08rem] leading-[1.56] font-[600] tracking-[0.004em] text-[color:var(--glass-modal-text)] mx-auto w-full max-w-[32.25rem] max-[768px]:max-w-[20rem]";
 const subscriptionActiveNoteClassName =
-  "subscription-active-note mt-[0.52rem] text-left text-[1.05rem] leading-[1.58] tracking-[0.004em] text-[color:var(--pt-120)] max-[768px]:mx-auto max-[768px]:max-w-[15.6rem]";
+  "subscription-active-note mt-[0.52rem] text-left text-[1.05rem] leading-[1.58] tracking-[0.004em] text-[color:var(--pt-120)] mx-auto w-full max-w-[32.25rem] max-[768px]:max-w-[20rem]";
 const subscriptionInfoBlockClassName = "grid gap-[0.7rem]";
 const subscriptionStatusStackClassName = "grid gap-[0.2rem] pt-[0.1rem]";
 const authModalBackdropClassName =

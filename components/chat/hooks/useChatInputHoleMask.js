@@ -60,11 +60,35 @@ export function useChatInputHoleMask({
     const getStableMobileHoleRect = baseRect => {
       if (!isMobileViewport || !mobileStableReserve || !baseRect) return baseRect;
       const textarea = inputBar.querySelector("textarea");
+      if (!textarea) return baseRect;
       const actionButton =
         inputBar.querySelector(".chat-send-btn") ||
         inputBar.querySelector(".chat-listen-btn");
       const barStyle = window.getComputedStyle(inputBar);
-      const textStyle = textarea ? window.getComputedStyle(textarea) : null;
+      const textStyle = window.getComputedStyle(textarea);
+      const rawValue = String(textarea.value || "");
+      const textPaddingTop = snap(Number.parseFloat(textStyle.paddingTop) || 0);
+      const textPaddingBottom = snap(
+        Number.parseFloat(textStyle.paddingBottom) || 0
+      );
+      const textBorderTop = snap(
+        Number.parseFloat(textStyle.borderTopWidth) || 0
+      );
+      const textBorderBottom = snap(
+        Number.parseFloat(textStyle.borderBottomWidth) || 0
+      );
+      const lineHeight = snap(Number.parseFloat(textStyle.lineHeight) || 22);
+      const currentTextContentHeight = snap(
+        Math.max(
+          0,
+          textarea.scrollHeight - textPaddingTop - textPaddingBottom
+        )
+      );
+      const currentLineCount = Math.max(
+        1,
+        Math.round(currentTextContentHeight / Math.max(lineHeight, 1))
+      );
+      if (!rawValue.trim() || currentLineCount < 2) return baseRect;
       const buttonHeight = actionButton
         ? snap(actionButton.getBoundingClientRect().height || actionButton.offsetHeight || 0)
         : snap(baseRect.h);
@@ -76,17 +100,6 @@ export function useChatInputHoleMask({
         );
       const paddingTop = snap(Number.parseFloat(barStyle.paddingTop) || 0);
       const paddingBottom = snap(Number.parseFloat(barStyle.paddingBottom) || 0);
-      const textPaddingTop = snap(Number.parseFloat(textStyle?.paddingTop) || 0);
-      const textPaddingBottom = snap(
-        Number.parseFloat(textStyle?.paddingBottom) || 0
-      );
-      const textBorderTop = snap(
-        Number.parseFloat(textStyle?.borderTopWidth) || 0
-      );
-      const textBorderBottom = snap(
-        Number.parseFloat(textStyle?.borderBottomWidth) || 0
-      );
-      const lineHeight = snap(Number.parseFloat(textStyle?.lineHeight) || 22);
       const reservedLineCount = 4;
       const reservedTextHeight = snap(
         lineHeight * reservedLineCount +

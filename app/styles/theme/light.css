@@ -336,6 +336,13 @@
     );
 }
 
+:root.theme-light:not(.theme-mid)
+  .homepage-root
+  :is(.right-card-primary, .centered-back-right)::before {
+  background-size: 103.5% 103.5%;
+  transform: scale(0.988);
+}
+
 :root.theme-light:not(.theme-mid) .homepage-root .right-card-primary .desc-ring-right .circular-text-line,
 :root.theme-light:not(.theme-mid) .homepage-root .centered-back-right h2 {
   color: rgba(230, 229, 227, 0.84) !important;

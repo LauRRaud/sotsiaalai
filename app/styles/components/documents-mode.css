@@ -59,6 +59,12 @@
   --documents-agent-composer-field-bg: transparent;
   --documents-agent-composer-shadow: var(--documents-glass-shadow);
   --documents-agent-composer-shadow-hover: var(--documents-glass-shadow);
+  --documents-dropdown-bg: rgba(18, 26, 40, 0.96);
+  --documents-dropdown-bg-hover: rgba(24, 34, 50, 0.98);
+  --documents-dropdown-item-bg: rgba(18, 26, 40, 0.94);
+  --documents-dropdown-item-bg-hover: rgba(26, 37, 55, 0.98);
+  --documents-dropdown-border: rgba(126, 154, 196, 0.18);
+  --documents-dropdown-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
   color: var(--documents-page-text);
 }
 
@@ -102,6 +108,12 @@
   --documents-agent-composer-field-bg: transparent;
   --documents-agent-composer-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
   --documents-agent-composer-shadow-hover: 0 5px 14px rgba(15, 23, 42, 0.06);
+  --documents-dropdown-bg: rgba(255, 250, 248, 0.98);
+  --documents-dropdown-bg-hover: rgba(255, 252, 251, 0.99);
+  --documents-dropdown-item-bg: rgba(255, 251, 249, 0.98);
+  --documents-dropdown-item-bg-hover: rgba(255, 254, 253, 1);
+  --documents-dropdown-border: rgba(190, 196, 208, 0.56);
+  --documents-dropdown-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
   --btn-primary-border: 0 solid transparent;
   --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.62);
   --btn-primary-border-active: 0 solid transparent;
@@ -154,6 +166,12 @@
   --documents-agent-composer-field-bg: transparent;
   --documents-agent-composer-shadow: 0 5px 14px rgba(18, 14, 16, 0.08);
   --documents-agent-composer-shadow-hover: 0 6px 16px rgba(18, 14, 16, 0.09);
+  --documents-dropdown-bg: rgba(248, 240, 236, 0.97);
+  --documents-dropdown-bg-hover: rgba(250, 244, 241, 0.99);
+  --documents-dropdown-item-bg: rgba(249, 242, 238, 0.98);
+  --documents-dropdown-item-bg-hover: rgba(252, 246, 243, 1);
+  --documents-dropdown-border: rgba(167, 145, 137, 0.3);
+  --documents-dropdown-shadow: 0 12px 26px rgba(31, 23, 22, 0.14);
   --btn-primary-border: 0 solid transparent;
   --btn-primary-border-hover: 0 solid transparent;
   --btn-primary-border-active: 0 solid transparent;
@@ -194,6 +212,12 @@
   --documents-agent-composer-field-bg: transparent;
   --documents-agent-composer-shadow: var(--glass-shell-shadow, 0 18px 38px rgba(2, 6, 14, 0.24));
   --documents-agent-composer-shadow-hover: var(--glass-shell-shadow, 0 18px 38px rgba(2, 6, 14, 0.24));
+  --documents-dropdown-bg: rgba(10, 16, 28, 0.96);
+  --documents-dropdown-bg-hover: rgba(16, 24, 38, 0.98);
+  --documents-dropdown-item-bg: rgba(10, 16, 28, 0.94);
+  --documents-dropdown-item-bg-hover: rgba(18, 28, 44, 0.98);
+  --documents-dropdown-border: rgba(118, 149, 219, 0.16);
+  --documents-dropdown-shadow: 0 16px 30px rgba(2, 6, 14, 0.28);
 }
 
 .documents-workspace-shell {
@@ -1716,12 +1740,13 @@
   max-width: min(18rem, calc(100vw - 2rem));
   overflow: hidden;
   padding: 0.38rem;
-  border: 1px solid var(--opaque-panel-border, var(--subpage-card-border));
+  border: 1px solid var(--documents-dropdown-border, var(--opaque-panel-border, var(--subpage-card-border)));
   border-radius: 0.88rem;
-  background: var(--opaque-panel-bg, var(--subpage-card-bg));
-  box-shadow: var(--opaque-panel-shadow, var(--subpage-card-shadow));
-  backdrop-filter: blur(18px) saturate(124%);
-  -webkit-backdrop-filter: blur(18px) saturate(124%);
+  background: var(--documents-dropdown-bg, var(--opaque-panel-bg, var(--subpage-card-bg)));
+  box-shadow: var(--documents-dropdown-shadow, var(--opaque-panel-shadow, var(--subpage-card-shadow)));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  isolation: isolate;
 }
 
 .documents-dropdown-item {
@@ -1731,7 +1756,7 @@
   justify-content: space-between;
   gap: 0.8rem;
   border: 1px solid transparent;
-  background: var(--opaque-panel-bg, var(--subpage-card-bg));
+  background: var(--documents-dropdown-item-bg, var(--documents-dropdown-bg, var(--opaque-panel-bg, var(--subpage-card-bg))));
   padding: 0.72rem 0.82rem;
   text-align: left;
   font-size: 1.1rem;
@@ -1749,14 +1774,14 @@
 
 .documents-dropdown-item:hover,
 .documents-dropdown-item:focus-visible {
-  background: var(--opaque-panel-bg-hover, var(--subpage-card-bg-hover));
-  border-color: var(--opaque-panel-border, var(--subpage-card-border));
+  background: var(--documents-dropdown-item-bg-hover, var(--documents-dropdown-bg-hover, var(--opaque-panel-bg-hover, var(--subpage-card-bg-hover))));
+  border-color: var(--documents-dropdown-border, var(--opaque-panel-border, var(--subpage-card-border)));
 }
 
 .documents-dropdown-item.is-active {
   color: var(--documents-accent);
-  background: color-mix(in srgb, var(--opaque-panel-bg-hover, var(--subpage-card-bg-hover)) 90%, var(--documents-accent-soft) 10%);
-  border-color: color-mix(in srgb, var(--documents-accent-border) 44%, var(--opaque-panel-border, var(--subpage-card-border)) 56%);
+  background: color-mix(in srgb, var(--documents-dropdown-item-bg-hover, var(--documents-dropdown-bg-hover, var(--opaque-panel-bg-hover, var(--subpage-card-bg-hover)))) 92%, var(--documents-accent-soft) 8%);
+  border-color: color-mix(in srgb, var(--documents-accent-border) 44%, var(--documents-dropdown-border, var(--opaque-panel-border, var(--subpage-card-border))) 56%);
 }
 
 .documents-dropdown-item:active {
