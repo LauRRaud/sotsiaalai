@@ -760,29 +760,11 @@
     --home-card-surface-bg: rgba(24, 18, 19, 0.32);
     --home-card-dark-opacity: 0.8;
   }
-  .homepage-root .three-d-card .card-blur-layer {
-    opacity: 0 !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
-  .homepage-root
-    .three-d-card
-    :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right)::after {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
-  .homepage-root
-    .three-d-card
-    :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right).fade-in::after {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
   html[data-reduce-motion="1"] .homepage-root .three-d-card.float-card {
     animation: none !important;
     transform: none !important;
   }
-  html[data-reduce-motion="1"] .homepage-root .three-d-card .card-wrapper,
-  html[data-reduce-motion="1"] .homepage-root .three-d-card .card-blur-layer {
+  html[data-reduce-motion="1"] .homepage-root .three-d-card .card-wrapper {
     transition: none !important;
   }
   .home-footer-logo.defer-fade {
@@ -911,10 +893,9 @@
   }
 
   .profile-container.glass-ring .profile-mask-layer {
-    background: var(
-      --glass-ring-surface-bg,
-      var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
-    ) !important;
+    background:
+      var(--glass-ring-sheen, none),
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
     -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
     backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
@@ -925,10 +906,9 @@
   }
 
   .profile-container.glass-ring[data-orbit-open="true"] .profile-mask-layer {
-    background: var(
-      --glass-ring-surface-bg,
-      var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
-    ) !important;
+    background:
+      var(--glass-ring-sheen, none),
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
     -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
     backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
     opacity: 1 !important;

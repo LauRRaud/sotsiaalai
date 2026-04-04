@@ -12,6 +12,7 @@ import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmente
 const docToggleCardClassName =
   "chat-analysis-toggle-btn !inline-flex !w-fit !justify-self-center !self-center !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
   "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
+  "[--seg-card-duration:560ms] " +
   "[&>span.shrink-0]:-translate-y-[0.08rem] " +
   "invite-sponsor-toggle-card " +
   "[--seg-card-bg:var(--btn-primary-bg)] " +
@@ -30,7 +31,12 @@ const docToggleCardClassName =
   "[--seg-card-text-hover:var(--btn-primary-text)] " +
   "[--seg-card-text-selected:var(--btn-primary-text)] " +
   `${primarySegmentedButtonClassName} ` +
-  "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
+  "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem] " +
+  "max-[768px]:[--seg-card-duration:0ms] max-[768px]:[--seg-card-bg-hover:var(--btn-primary-bg)] " +
+  "max-[768px]:[--seg-card-bg-selected:var(--btn-primary-bg)] max-[768px]:[--seg-card-bg-active:var(--btn-primary-bg)] " +
+  "max-[768px]:[--seg-card-shadow-hover:var(--btn-primary-shadow)] max-[768px]:[--seg-card-shadow-selected:var(--btn-primary-shadow)] " +
+  "max-[768px]:[--seg-card-shadow-active:var(--btn-primary-shadow)] max-[768px]:[--seg-card-text-hover:var(--btn-primary-text)] " +
+  "max-[768px]:[--seg-card-text-selected:var(--btn-primary-text)] max-[768px]:transition-none";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
   analysisPanelRef,
@@ -532,14 +538,23 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const contextHintWrapClassName =
     "relative z-[999] col-start-3 inline-flex w-fit shrink-0 items-center justify-self-start self-center";
   const actionsInlineClassName =
-    "w-full flex justify-center gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
+    "mt-[0.35rem] mb-[0.5rem] grid w-full max-w-[15.4rem] grid-cols-2 gap-[0.65rem] justify-center";
   const uploadButtonClassName =
     `documents-primary-button documents-primary-button--compact documents-upload-choose-button ${glassPrimaryButtonToneClassName}`;
   const invitePrimaryButtonClassName =
     "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
     "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
+  const actionButtonStabilityClassName =
+    "!w-full !justify-center !whitespace-nowrap " +
+    "[transform:none] hover:[transform:none] focus-visible:[transform:none] active:[transform:none] " +
+    "[animation:none] hover:[animation:none] focus-visible:[animation:none] active:[animation:none] " +
+    "[transition-property:background,border-color,box-shadow,opacity] [will-change:auto] " +
+    "[--btn-primary-border:1px_solid_transparent] " +
+    "[--btn-primary-border-hover:1px_solid_transparent] " +
+    "[--btn-primary-border-active:1px_solid_transparent] " +
+    "[&>span]:w-full [&>span]:justify-center [&>span]:text-center [&>span]:[transform:none] [&>span]:transition-none";
   const actionPrimaryButtonClassName =
-    `${invitePrimaryButtonClassName} invite-primary-btn chat-analysis-action-btn`;
+    `${invitePrimaryButtonClassName} ${actionButtonStabilityClassName} invite-primary-btn chat-analysis-action-btn`;
   const actionSecondaryButtonClassName = actionPrimaryButtonClassName;
   const previewWrapClassName =
     "chat-analysis-preview-wrap relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +

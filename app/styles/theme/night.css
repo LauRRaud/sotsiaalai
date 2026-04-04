@@ -22,8 +22,8 @@
   --glass-surface-bg: rgba(13, 17, 24, 0.35);
   --glass-ring-surface-bg: rgba(16, 21, 31, 0.41);
   --glass-ring-glow-dark:
-    0 9px 18px -15px rgba(192, 222, 255, 0.14),
-    0 16px 26px -24px rgba(112, 160, 224, 0.08);
+    0 10px 20px -15px rgba(192, 222, 255, 0.22),
+    0 22px 34px -24px rgba(112, 160, 224, 0.14);
   --home-panel-bg: rgba(12, 17, 27, 0.86);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --chat-card-surface-night-standard-bg: radial-gradient(
@@ -59,10 +59,16 @@
   --subscription-error-color: rgba(214, 226, 245, 0.9);
   --subpage-card-bg: var(--input-flat-bg);
   --subpage-card-bg-hover: var(--input-flat-bg-hover);
-  --subpage-card-border: transparent;
-  --subpage-card-border-hover: transparent;
-  --subpage-card-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
-  --subpage-card-shadow-hover: 0 12px 26px rgba(0, 0, 0, 0.24);
+  --subpage-card-border: rgba(170, 204, 245, 0.16);
+  --subpage-card-border-hover: rgba(190, 220, 255, 0.25);
+  --subpage-card-shadow:
+    inset 0 1px 0 rgba(220, 236, 255, 0.05),
+    0 10px 22px rgba(0, 0, 0, 0.18),
+    0 0 22px -16px rgba(190, 220, 255, 0.22);
+  --subpage-card-shadow-hover:
+    inset 0 1px 0 rgba(220, 236, 255, 0.07),
+    0 12px 26px rgba(0, 0, 0, 0.24),
+    0 0 26px -16px rgba(190, 220, 255, 0.3);
   --subpage-card-text: rgba(234, 238, 245, 0.94);
   --opaque-panel-bg: rgb(18, 26, 40);
   --opaque-panel-bg-hover: rgb(22, 32, 48);
@@ -227,9 +233,9 @@
   .drawer-chat-sidebar
   :is(.drawer-chat-card, .drawer-search-shell) {
   background: var(--chat-card-surface-night-standard-bg) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
+  border: 1px solid var(--subpage-card-border) !important;
+  box-shadow: var(--subpage-card-shadow) !important;
+  border-color: var(--subpage-card-border) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
@@ -249,8 +255,8 @@
   .drawer-search-shell {
   box-shadow:
     inset 0 1px 0 rgba(220, 236, 255, 0.08),
-    0 0 22px -16px rgba(190, 220, 255, 0.2),
-    0 6px 14px rgba(2, 6, 16, 0.2) !important;
+    0 0 26px -14px rgba(190, 220, 255, 0.28),
+    0 8px 16px rgba(2, 6, 16, 0.22) !important;
 }
 
 :root.theme-night .chat-tools-menu {

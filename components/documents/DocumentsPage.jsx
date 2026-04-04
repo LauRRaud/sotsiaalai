@@ -25,6 +25,7 @@ import {
 } from "@/lib/documents/presentation"
 import { WORKER_FRAMEWORK_SIGNED_HREF, WORKER_FRAMEWORK_VERSION } from "@/lib/frameworkAcceptances"
 import { localizePath } from "@/lib/localizePath"
+import { pushWithTransition } from "@/lib/routeTransition"
 
 const documentsTitleClassName =
   `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
@@ -90,6 +91,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const { t, locale } = useI18n()
   const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
   const isClientRole = effectiveRole === "CLIENT"
+  const [closing, setClosing] = useState(false)
   const isArtifactsExpanded = artifactsExpanded || initialArtifactLimit >= ARTIFACT_LIST_LIMIT_ALL
   const [kindFilter, setKindFilter] = useState("ALL")
   const [artifactFilter, setArtifactFilter] = useState("ALL")
@@ -252,6 +254,28 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     : ""
   const frameworkPageHref = localizePath("/tooalase-kasutuse-raamistik", locale)
 
+  const shouldReduceMotion = useCallback(() => {
+    if (typeof window === "undefined") return false
+    try {
+      if (document?.documentElement?.dataset?.reduceMotion === "1") return true
+      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)
+    } catch {
+      return false
+    }
+  }, [])
+
+  const handleBack = useCallback(() => {
+    if (closing) return
+    if (!shouldReduceMotion()) {
+      setClosing(true)
+    }
+    pushWithTransition(router, localizePath("/vestlus", locale), {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    })
+  }, [closing, locale, router, shouldReduceMotion])
+
   async function submitUpload(event) {
     event.preventDefault()
     if (!uploadFile || uploading) return
@@ -381,11 +405,15 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
 
   return (
     <section className="documents-workspace documents-workspace-page">
-      <div className={`documents-workspace-shell ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
+      <div
+        className={`documents-workspace-shell ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""} ${
+          closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""
+        }`}
+      >
         <div className="documents-grid">
           <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-panel--primary rounded-[1.3rem]">
             <BackButton
-              onClick={() => router.push(localizePath("/vestlus", locale))}
+              onClick={handleBack}
               ariaLabel={t("buttons.back")}
               className={backButtonClassName}
             />

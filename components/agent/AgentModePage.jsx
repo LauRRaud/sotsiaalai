@@ -188,6 +188,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const [conversationMessages, setConversationMessages] = useState([])
   const [inputFocused, setInputFocused] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [closing, setClosing] = useState(false)
   const handledMeetingSummaryJobIdsRef = useRef(new Set())
 
   function createWorkspaceVersion({ kind, title, content, type, templateId = selectedTemplateId }) {
@@ -1523,18 +1524,38 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     )
   }
 
+  const shouldReduceMotion = useCallback(() => {
+    if (typeof window === "undefined") return false
+    try {
+      if (document?.documentElement?.dataset?.reduceMotion === "1") return true
+      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)
+    } catch {
+      return false
+    }
+  }, [])
+
+  const handleBack = useCallback(() => {
+    if (closing) return
+    if (!shouldReduceMotion()) {
+      setClosing(true)
+    }
+    pushWithTransition(router, backHref, {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    })
+  }, [backHref, closing, router, shouldReduceMotion])
+
   return (
     <section className="documents-workspace documents-workspace-page">
-      <div className="documents-workspace-shell documents-workspace-shell--agent">
+      <div
+        className={`documents-workspace-shell documents-workspace-shell--agent ${
+          closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""
+        }`}
+      >
         <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-panel--primary rounded-[1.3rem]">
           <BackButton
-            onClick={() =>
-              pushWithTransition(router, backHref, {
-                glassRingTilt: "left",
-                waitForGlassRingTilt: true,
-                persistGlassRingTilt: false
-              })
-            }
+            onClick={handleBack}
             ariaLabel={t("documents.agent_workspace.back_to_chat")}
             className={backButtonClassName}
           />

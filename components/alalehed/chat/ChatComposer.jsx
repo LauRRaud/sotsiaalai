@@ -574,10 +574,10 @@ export default function ChatComposer({
     `flex-[1_1_auto] ${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.08rem]" : "grid-cols-[1fr_auto] items-stretch gap-x-[0.24rem]"} ` +
     `${displayExpanded ? "min-h-[var(--inputbar-h)] rounded-[1.35rem]" : "h-[var(--inputbar-h)] rounded-full"} ` +
     "transition-[border-color,box-shadow,background,max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    `${displayExpanded ? "pl-[0.62rem] pt-[0.56rem] pb-0 pr-0" : "pl-[0.6rem] pr-[0.04rem] py-0"} ` +
+    `${displayExpanded ? "pl-[0.62rem] pt-[0.56rem] pb-0 pr-0" : "pl-[0.6rem] pr-0 py-0"} ` +
     "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
   const inputFieldWrapClassName = displayExpanded
-    ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem] pr-[0.8rem]"
+    ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem]"
     : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem]";
   const inputFieldClassName =
     `chat-input-field block w-full min-h-[1.38rem] max-h-[min(30dvh,8.5rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] [overflow-wrap:anywhere] break-words ${displayExpanded ? "leading-[1.26] px-[0.06rem] pt-0 pb-[0.05rem]" : "leading-[1.18] px-[0.12rem] pt-[0.28rem] pb-[0.12rem]"} ` +
@@ -598,7 +598,7 @@ export default function ChatComposer({
   const sendButtonClassName =
     `chat-send-btn invite-primary-btn relative z-[2] ${displayExpanded ? "!h-[var(--inputbar-h)] !w-[var(--inputbar-h)] !min-h-[var(--inputbar-h)] !min-w-[var(--inputbar-h)] !flex-[0_0_var(--inputbar-h)]" : "!h-[calc(var(--inputbar-h)-2px)] !w-[calc(var(--inputbar-h)-2px)] !min-h-[calc(var(--inputbar-h)-2px)] !min-w-[calc(var(--inputbar-h)-2px)] !flex-[0_0_calc(var(--inputbar-h)-2px)]"} !p-0 rounded-full ` +
     "flex items-center justify-center overflow-hidden leading-none " +
-    `${displayExpanded ? "!translate-x-0 !translate-y-0" : "translate-x-[var(--chat-send-btn-shift-x,0rem)] translate-y-[var(--chat-send-btn-shift-y,0rem)]"} ` +
+    "translate-x-[var(--chat-send-btn-shift-x,0rem)] translate-y-[var(--chat-send-btn-shift-y,0rem)] " +
     "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
-import SmustCenterLogo from "@/public/logo/smust-center.svg";
+import SmustLogo from "@/public/logo/smust.svg";
 import { cn } from "@/components/ui/cn";
 import "./OrbitalMenu.css";
 
@@ -596,7 +596,7 @@ export default function OrbitalMenu({
         <div className="profile-orbit-menu__center-pulse relative grid place-items-center w-full h-full rounded-full overflow-visible" style={hubPulseStyle}>
           <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [will-change:transform]" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
             <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
-              <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
+              <SmustLogo className="profile-orbit-menu__hub-svg absolute left-1/2 top-1/2 block max-w-full h-auto w-[var(--orbit-center-icon-size)] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu transition-none z-[3] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]" aria-hidden="true" focusable="false" />
             </span>
           </button>
         </div>

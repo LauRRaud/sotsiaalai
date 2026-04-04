@@ -274,7 +274,7 @@ function ProfileShell({
   const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} aria-label={ariaLabel} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"} style={ringSurfaceStyle}>
       <div
         ref={maskLayerRef}
-        className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"
+        className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none [background:var(--glass-ring-sheen,none),var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"
         aria-hidden="true"
         data-orbit-open={orbitOpen ? "true" : "false"}
       />

@@ -10,6 +10,9 @@
   --chat-tools-panel-bg: rgb(26, 29, 34);
   --chat-upload-picker-bg: rgb(26, 29, 34);
   --glass-ring-surface-bg: rgba(14, 16, 20, 0.42);
+  --glass-ring-glow-dark:
+    0 10px 22px -18px rgba(248, 253, 255, 0.22),
+    0 22px 34px -28px rgba(248, 253, 255, 0.11);
   --chat-invite-list-border: transparent;
   --chat-invite-shadow:
     0 6px 16px rgba(0, 0, 0, 0.22),
@@ -92,10 +95,16 @@
   --input-flat-bg-hover: rgba(34, 37, 42, 0.9);
   --subpage-card-bg: var(--input-flat-bg);
   --subpage-card-bg-hover: var(--input-flat-bg-hover);
-  --subpage-card-border: transparent;
-  --subpage-card-border-hover: transparent;
-  --subpage-card-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-  --subpage-card-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --subpage-card-border: rgba(248, 253, 255, 0.08);
+  --subpage-card-border-hover: rgba(248, 253, 255, 0.14);
+  --subpage-card-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 8px 18px rgba(0, 0, 0, 0.14),
+    0 0 18px -14px rgba(248, 253, 255, 0.22);
+  --subpage-card-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 10px 22px rgba(0, 0, 0, 0.2),
+    0 0 24px -14px rgba(248, 253, 255, 0.28);
   --subpage-card-text: var(--pt-120);
   --opaque-panel-bg: rgb(26, 29, 34);
   --opaque-panel-bg-hover: rgb(32, 35, 40);
@@ -207,8 +216,8 @@
   .drawer-chat-sidebar
   :is(.drawer-chat-card, .drawer-search-shell) {
   background: var(--chat-card-surface-standard-bg) !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
+  box-shadow: var(--subpage-card-shadow) !important;
+  border-color: var(--subpage-card-border) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
@@ -216,8 +225,8 @@
   .drawer-search-shell {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 0 20px -16px rgba(255, 255, 255, 0.18),
-    0 6px 14px rgba(0, 0, 0, 0.18) !important;
+    0 0 24px -14px rgba(255, 255, 255, 0.24),
+    0 8px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])

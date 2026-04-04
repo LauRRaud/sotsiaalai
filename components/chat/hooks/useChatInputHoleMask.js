@@ -4,7 +4,7 @@ const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
-const MOBILE_MASK_UPDATE_INTERVAL_MS = 96;
+const MOBILE_MASK_UPDATE_INTERVAL_MS = 120;
 const DESKTOP_MASK_TRACK_MS = 760;
 
 export function useChatInputHoleMask({
@@ -61,6 +61,7 @@ export function useChatInputHoleMask({
     let rafLoop = 0;
     let loopUntil = 0;
     let mobileThrottleTimer = 0;
+    let mobileDebounceTimer = 0;
     let pendingAfterTilt = false;
     let retryCount = 0;
     let lastMaskRunAt = 0;
@@ -184,7 +185,7 @@ export function useChatInputHoleMask({
         rafLoop = window.requestAnimationFrame(tick);
       }
     };
-    const scheduleUpdate = ({ force = false, loop = true } = {}) => {
+    const runScheduledUpdate = ({ force = false, loop = true } = {}) => {
       if (isTiltActive() && lastMask) {
         pendingAfterTilt = true;
         return;
@@ -195,6 +196,33 @@ export function useChatInputHoleMask({
           force
         });
         if (loop) startLoop();
+      });
+    };
+    const scheduleUpdate = ({ force = false, loop = true } = {}) => {
+      if (isTiltActive() && lastMask) {
+        pendingAfterTilt = true;
+        return;
+      }
+      if (isMobileViewport && !force) {
+        if (mobileDebounceTimer) {
+          window.clearTimeout(mobileDebounceTimer);
+        }
+        mobileDebounceTimer = window.setTimeout(() => {
+          mobileDebounceTimer = 0;
+          runScheduledUpdate({
+            force: false,
+            loop: false
+          });
+        }, MOBILE_MASK_UPDATE_INTERVAL_MS);
+        return;
+      }
+      if (mobileDebounceTimer) {
+        window.clearTimeout(mobileDebounceTimer);
+        mobileDebounceTimer = 0;
+      }
+      runScheduledUpdate({
+        force,
+        loop
       });
     };
     const onTiltState = event => {
@@ -245,9 +273,11 @@ export function useChatInputHoleMask({
     let mo;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(scheduleUpdate);
-      ro.observe(box);
       ro.observe(inputBar);
-      if (inputRow) ro.observe(inputRow);
+      if (!isMobileViewport) {
+        ro.observe(box);
+        if (inputRow) ro.observe(inputRow);
+      }
     }
     if (!isMobileViewport && typeof MutationObserver !== "undefined") {
       mo = new MutationObserver(scheduleUpdate);
@@ -262,6 +292,9 @@ export function useChatInputHoleMask({
       if (rafLoop) window.cancelAnimationFrame(rafLoop);
       if (mobileThrottleTimer) {
         window.clearTimeout(mobileThrottleTimer);
+      }
+      if (mobileDebounceTimer) {
+        window.clearTimeout(mobileDebounceTimer);
       }
       window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
       window.removeEventListener("resize", scheduleUpdate);
