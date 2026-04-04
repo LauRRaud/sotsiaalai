@@ -898,6 +898,17 @@
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback {
     display: block !important;
+    background:
+      var(--glass-ring-sheen, none),
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    -webkit-mask-image: var(--chat-input-hole-mask, none) !important;
+    mask-image: var(--chat-input-hole-mask, none) !important;
+    -webkit-mask-size: 100% 100% !important;
+    mask-size: 100% 100% !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
     contain: none !important;
     isolation: auto !important;
     will-change: auto !important;
@@ -905,89 +916,6 @@
     -webkit-transform: none !important;
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane {
-    position: absolute;
-    pointer-events: none;
-    background:
-      var(--glass-ring-sheen, none),
-      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    transform: none;
-    -webkit-transform: none;
-    backface-visibility: visible;
-    -webkit-backface-visibility: visible;
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane--top {
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--chat-input-hole-y, 100%);
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane--bottom {
-    left: 0;
-    right: 0;
-    top: calc(var(--chat-input-hole-y, 100%) + var(--chat-input-hole-h, 0px));
-    bottom: 0;
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane--left {
-    left: 0;
-    top: calc(var(--chat-input-hole-y, 100%) + var(--chat-input-hole-r, 0px));
-    width: var(--chat-input-hole-x, 0px);
-    height: var(--chat-input-hole-side-h, 0px);
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane--right {
-    left: calc(var(--chat-input-hole-x, 0px) + var(--chat-input-hole-w, 0px));
-    right: 0;
-    top: calc(var(--chat-input-hole-y, 100%) + var(--chat-input-hole-r, 0px));
-    height: var(--chat-input-hole-side-h, 0px);
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane--corner {
-    width: var(--chat-input-hole-r, 0px);
-    height: var(--chat-input-hole-r, 0px);
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane--corner-tl {
-    left: var(--chat-input-hole-x, 0px);
-    top: var(--chat-input-hole-y, 100%);
-    border-bottom-right-radius: var(--chat-input-hole-r, 0px);
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane--corner-tr {
-    left: calc(
-      var(--chat-input-hole-x, 0px) + var(--chat-input-hole-w, 0px) - var(--chat-input-hole-r, 0px)
-    );
-    top: var(--chat-input-hole-y, 100%);
-    border-bottom-left-radius: var(--chat-input-hole-r, 0px);
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane--corner-bl {
-    left: var(--chat-input-hole-x, 0px);
-    top: calc(
-      var(--chat-input-hole-y, 100%) + var(--chat-input-hole-h, 0px) - var(--chat-input-hole-r, 0px)
-    );
-    border-top-right-radius: var(--chat-input-hole-r, 0px);
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback .mask-pane--corner-br {
-    left: calc(
-      var(--chat-input-hole-x, 0px) + var(--chat-input-hole-w, 0px) - var(--chat-input-hole-r, 0px)
-    );
-    top: calc(
-      var(--chat-input-hole-y, 100%) + var(--chat-input-hole-h, 0px) - var(--chat-input-hole-r, 0px)
-    );
-    border-top-left-radius: var(--chat-input-hole-r, 0px);
   }
 
   .profile-container.glass-ring .profile-mask-layer {
@@ -2379,7 +2307,7 @@
     transform: none !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: clamp(0.22rem, 1.4vw, 0.42rem) !important;
+    gap: clamp(0.34rem, 1.9vw, 0.58rem) !important;
     padding-left: clamp(0.36rem, 1.8vw, 0.62rem) !important;
     padding-right: clamp(0.7rem, 3vw, 1rem) !important;
   }
@@ -2397,12 +2325,12 @@
   .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
     flex: 0 0 auto !important;
     transform: none !important;
-    margin-left: clamp(-0.52rem, -1.6vw, -0.3rem) !important;
-    margin-right: clamp(0.02rem, 0.4vw, 0.12rem) !important;
+    margin-left: 0 !important;
+    margin-right: clamp(0.18rem, 0.9vw, 0.3rem) !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-tools-btn {
-    transform: translateX(0.18rem) !important;
+    transform: none !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
@@ -2419,7 +2347,7 @@
     ) !important;
     --chat-input-row-edge-pad: clamp(0.72rem, 3.2vw, 1rem) !important;
     --chat-input-side-controls-inline: calc(
-      var(--chat-composer-side-control-size) + clamp(0.14rem, 0.7vw, 0.26rem)
+      var(--chat-composer-side-control-size) + clamp(0.24rem, 1vw, 0.4rem)
     ) !important;
     --chat-input-max-w: min(
       100%,
@@ -2430,7 +2358,7 @@
           0.6rem
       )
     ) !important;
-    gap: clamp(0.14rem, 0.8vw, 0.26rem) !important;
+    gap: clamp(0.22rem, 1vw, 0.36rem) !important;
     padding-left: var(--chat-input-row-edge-pad) !important;
     padding-right: calc(
       var(--chat-input-row-edge-pad) + clamp(0.12rem, 0.55vw, 0.22rem)
@@ -2439,8 +2367,8 @@
 
   html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn,
   body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
-    margin-left: clamp(-0.18rem, -0.55vw, -0.08rem) !important;
-    margin-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: clamp(0.08rem, 0.4vw, 0.16rem) !important;
   }
 
   html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar,
