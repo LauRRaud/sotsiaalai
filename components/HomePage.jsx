@@ -663,7 +663,6 @@ export default function HomePage() {
                       animationDelay: `${CARD_FADE_DELAY_MS}ms`,
                       animationFillMode: "forwards"
                     } : undefined}>
-                      <span className={cn("home-card-surface-layer", instantShadowReady || leftBlurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                       <CircularRingLeft className={cn(isMobile || leftFadeDone ? "is-visible" : "", "relative z-[4]")} />
                       <AivalgeLogo className={cn("absolute left-[48%] top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-left),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu transition-none z-[5] overflow-visible [overflow:visible] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
                     </div>
@@ -685,7 +684,6 @@ export default function HomePage() {
                       animationDelay: `${CARD_FADE_DELAY_MS}ms`,
                       animationFillMode: "forwards"
                     } : undefined}>
-                      <span className={cn("home-card-surface-layer", instantShadowReady || leftBlurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                       <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-[#323232] [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
                         {t("home.card.specialist.title")}
                       </h2>
@@ -707,7 +705,6 @@ export default function HomePage() {
                       animationDelay: `${CARD_FADE_DELAY_MS}ms`,
                       animationFillMode: "forwards"
                     } : undefined}>
-                      <span className={cn("home-card-surface-layer", instantShadowReady || rightBlurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                       <CircularRingRight className={cn(isMobile || rightFadeDone ? "is-visible" : "", "relative z-[4]")} />
                       <SmustLogo className={cn("absolute left-1/2 top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-right),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu transition-none z-[5] overflow-visible [overflow:visible] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
                     </div>
@@ -729,7 +726,6 @@ export default function HomePage() {
                       animationDelay: `${CARD_FADE_DELAY_MS}ms`,
                       animationFillMode: "forwards"
                     } : undefined}>
-                      <span className={cn("home-card-surface-layer", instantShadowReady || rightBlurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                       <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.94rem,calc(var(--card-size)*0.065),1.7rem)] text-[#c57171] opacity-80 [text-shadow:0_0.5rem_0.3rem_rgba(0,0,0,0.6)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
                         {t("home.card.client.title")}
                       </h2>
