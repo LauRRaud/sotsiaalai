@@ -75,12 +75,18 @@ html[data-contrast="hc"] {
   --glass-border-width: 2px;
   --opaque-panel-bg: var(--chat-card-surface-night-standard-bg);
   --opaque-panel-bg-hover: var(--chat-card-surface-night-standard-flat-bg);
+  --opaque-panel-shadow:
+    0 0 10px rgba(255, 234, 0, 0.08),
+    0 10px 24px rgba(0, 0, 0, 0.22);
   --glass-modal-shadow: none;
-  --glass-shell-shadow: var(--glass-ring-glow-dark);
+  --glass-shell-shadow:
+    0 0 18px rgba(255, 234, 0, 0.22),
+    0 0 34px rgba(255, 234, 0, 0.12),
+    0 12px 22px -16px rgba(255, 234, 0, 0.2);
   --glass-ring-glow-dark:
-    0 0 16px rgba(255, 234, 0, 0.2),
-    0 0 32px rgba(255, 234, 0, 0.1),
-    0 12px 22px -16px rgba(255, 234, 0, 0.24);
+    0 0 18px rgba(255, 234, 0, 0.24),
+    0 0 34px rgba(255, 234, 0, 0.12),
+    0 12px 22px -16px rgba(255, 234, 0, 0.22);
   --glass-ring-edge-stroke-desktop:
     conic-gradient(
       from -104deg at 50% 50%,
@@ -113,8 +119,14 @@ html[data-contrast="hc"] {
   --subpage-card-bg-hover: var(--input-flat-bg-hover);
   --subpage-card-border: transparent;
   --subpage-card-border-hover: transparent;
-  --subpage-card-shadow: none;
-  --subpage-card-shadow-hover: none;
+  --subpage-card-shadow:
+    0 0 12px rgba(255, 234, 0, 0.1),
+    0 10px 22px rgba(0, 0, 0, 0.2),
+    0 0 24px -16px rgba(255, 234, 0, 0.16);
+  --subpage-card-shadow-hover:
+    0 0 14px rgba(255, 234, 0, 0.14),
+    0 12px 26px rgba(0, 0, 0, 0.24),
+    0 0 28px -16px rgba(255, 234, 0, 0.2);
   --subpage-card-text: var(--hc-accent);
   --rail-tooltip-bg: var(--chat-rail-tooltip-bg);
   --rail-tooltip-border: var(--subpage-card-border);
@@ -138,9 +150,18 @@ html[data-contrast="hc"] {
   --drawer-card-bg: var(--chat-card-surface-night-standard-bg);
   --drawer-card-bg-hover: var(--chat-card-surface-night-standard-flat-bg);
   --drawer-card-bg-active: var(--chat-card-surface-night-standard-flat-bg);
-  --drawer-card-shadow: none;
-  --drawer-card-shadow-hover: none;
-  --drawer-card-shadow-active: none;
+  --drawer-card-shadow:
+    0 0 12px rgba(255, 234, 0, 0.1),
+    0 10px 22px rgba(0, 0, 0, 0.2),
+    0 0 24px -16px rgba(255, 234, 0, 0.16);
+  --drawer-card-shadow-hover:
+    0 0 14px rgba(255, 234, 0, 0.14),
+    0 12px 26px rgba(0, 0, 0, 0.24),
+    0 0 28px -16px rgba(255, 234, 0, 0.2);
+  --drawer-card-shadow-active:
+    0 0 14px rgba(255, 234, 0, 0.14),
+    0 12px 26px rgba(0, 0, 0, 0.24),
+    0 0 28px -16px rgba(255, 234, 0, 0.2);
   --drawer-delete-border: var(--opaque-panel-border, var(--subpage-card-border));
   --drawer-delete-bg: var(--opaque-panel-bg);
   --drawer-delete-text: var(--opaque-panel-text, var(--hc-accent));

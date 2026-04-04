@@ -136,12 +136,11 @@ export default function ChatComposer({
   const initialDraftProbeCompleteRef = useRef(false);
   const previousDraftLengthRef = useRef(0);
   const composerLayoutSyncFramesRef = useRef([]);
+  const composerLayoutSignatureRef = useRef("");
   const notifyLayoutChange = useCallback(() => {
     if (typeof onLayoutChange !== "function" || typeof window === "undefined") {
       return;
     }
-
-    onLayoutChange();
 
     composerLayoutSyncFramesRef.current.forEach(frameId => {
       window.cancelAnimationFrame(frameId);
@@ -181,7 +180,11 @@ export default function ChatComposer({
         setComposerExpanded(false);
       }
       previousDraftLengthRef.current = currentDraftLength;
-      notifyLayoutChange();
+      const layoutSignature = `idle|${minHeight}|0`;
+      if (composerLayoutSignatureRef.current !== layoutSignature) {
+        composerLayoutSignatureRef.current = layoutSignature;
+        notifyLayoutChange();
+      }
       return;
     }
 
@@ -189,28 +192,33 @@ export default function ChatComposer({
     const nextHeight = Math.max(minHeight, Math.min(node.scrollHeight, maxHeight));
     const contentHeight = Math.max(0, node.scrollHeight - paddingTop - paddingBottom);
     const lineCount = Math.max(1, Math.round(contentHeight / lineHeight));
+    const scrollLocked = node.scrollHeight > maxHeight;
+    let nextExpanded;
+
+    if (composerExpanded) {
+      nextExpanded = draftIsGrowing
+        ? true
+        : currentDraftLength > 0 && lineCount > 1;
+    } else {
+      nextExpanded = lineCount > 1;
+    }
+
+    if (!currentDraftLength) {
+      nextExpanded = false;
+    }
+
     node.style.height = `${nextHeight}px`;
-    node.style.overflowY = node.scrollHeight > maxHeight ? "auto" : "hidden";
-    setComposerExpanded((previous) => {
-      let nextExpanded;
-
-      if (previous) {
-        nextExpanded = draftIsGrowing
-          ? true
-          : currentDraftLength > 0 && lineCount > 1;
-      } else {
-        nextExpanded = lineCount > 1;
-      }
-
-      if (!currentDraftLength) {
-        nextExpanded = false;
-      }
-
-      return previous === nextExpanded ? previous : nextExpanded;
-    });
+    node.style.overflowY = scrollLocked ? "auto" : "hidden";
+    if (composerExpanded !== nextExpanded) {
+      setComposerExpanded(nextExpanded);
+    }
     previousDraftLengthRef.current = currentDraftLength;
-    notifyLayoutChange();
-  }, [draft, inputFocused, inputRef, notifyLayoutChange]);
+    const layoutSignature = `${nextHeight}|${nextExpanded ? 1 : 0}|${scrollLocked ? 1 : 0}`;
+    if (composerLayoutSignatureRef.current !== layoutSignature) {
+      composerLayoutSignatureRef.current = layoutSignature;
+      notifyLayoutChange();
+    }
+  }, [composerExpanded, draft, inputFocused, inputRef, notifyLayoutChange]);
   const deepResearchDisabled = Boolean(isRoomMode);
   const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
   const isDeepResearchMode = composerMode === "deep_research";

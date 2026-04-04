@@ -22,8 +22,8 @@
   --glass-surface-bg: rgba(13, 17, 24, 0.35);
   --glass-ring-surface-bg: rgba(16, 21, 31, 0.41);
   --glass-ring-glow-dark:
-    0 10px 20px -15px rgba(192, 222, 255, 0.22),
-    0 22px 34px -24px rgba(112, 160, 224, 0.14);
+    0 10px 20px -15px rgba(232, 218, 208, 0.16),
+    0 22px 34px -24px rgba(176, 150, 140, 0.09);
   --home-panel-bg: rgba(12, 17, 27, 0.86);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --chat-card-surface-night-standard-bg: radial-gradient(
@@ -59,16 +59,16 @@
   --subscription-error-color: rgba(214, 226, 245, 0.9);
   --subpage-card-bg: var(--input-flat-bg);
   --subpage-card-bg-hover: var(--input-flat-bg-hover);
-  --subpage-card-border: rgba(170, 204, 245, 0.16);
-  --subpage-card-border-hover: rgba(190, 220, 255, 0.25);
+  --subpage-card-border: rgba(216, 226, 235, 0.12);
+  --subpage-card-border-hover: rgba(226, 232, 238, 0.18);
   --subpage-card-shadow:
     inset 0 1px 0 rgba(220, 236, 255, 0.05),
     0 10px 22px rgba(0, 0, 0, 0.18),
-    0 0 22px -16px rgba(190, 220, 255, 0.22);
+    0 0 22px -16px rgba(218, 226, 235, 0.14);
   --subpage-card-shadow-hover:
     inset 0 1px 0 rgba(220, 236, 255, 0.07),
     0 12px 26px rgba(0, 0, 0, 0.24),
-    0 0 26px -16px rgba(190, 220, 255, 0.3);
+    0 0 26px -16px rgba(226, 232, 238, 0.18);
   --subpage-card-text: rgba(234, 238, 245, 0.94);
   --opaque-panel-bg: rgb(18, 26, 40);
   --opaque-panel-bg-hover: rgb(22, 32, 48);
