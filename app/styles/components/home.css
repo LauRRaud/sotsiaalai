@@ -183,7 +183,7 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
 }
 
 .homepage-root .three-d-card.is-auto-rotating .card-wrapper {
-  animation: home-card-spin-360 2500ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation: home-card-spin-360 4500ms cubic-bezier(0.22, 0.61, 0.36, 1);
   will-change: transform;
 }
 
@@ -269,6 +269,14 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
     transform: rotateY(0deg);
   }
 
+  27.777% {
+    transform: rotateY(180deg);
+  }
+
+  72.222% {
+    transform: rotateY(180deg);
+  }
+
   to {
     transform: rotateY(360deg);
   }
@@ -277,6 +285,14 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
 @keyframes home-card-spin-360-right {
   from {
     transform: rotateY(0deg);
+  }
+
+  27.777% {
+    transform: rotateY(180deg);
+  }
+
+  72.222% {
+    transform: rotateY(180deg);
   }
 
   to {

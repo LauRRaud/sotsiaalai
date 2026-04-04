@@ -537,15 +537,15 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const uploadButtonClassName =
     `documents-primary-button documents-primary-button--compact documents-upload-choose-button ${glassPrimaryButtonToneClassName}`;
   const actionButtonStabilityClassName =
-    "!w-auto !min-w-[8.9rem] !justify-center !whitespace-nowrap " +
+    "!w-auto !justify-center !whitespace-nowrap " +
     "[transform:none] hover:[transform:none] focus-visible:[transform:none] active:[transform:none] " +
     "[animation:none] hover:[animation:none] focus-visible:[animation:none] active:[animation:none] " +
     "[transition-property:background,border-color,box-shadow,opacity] [will-change:auto] " +
     "[&>span]:w-auto [&>span]:justify-center [&>span]:text-center [&>span]:[transform:none] [&>span]:transition-none";
   const actionPrimaryButtonClassName =
     `${glassPrimaryButtonToneClassName} ${actionButtonStabilityClassName} chat-analysis-action-btn ` +
-    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
-    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
+    "!min-h-[3.05rem] !min-w-[6.9rem] !px-[1.05rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
+    "max-[768px]:!min-h-[3.2rem] max-[768px]:!min-w-[6.8rem] max-[768px]:!px-[1rem] max-[768px]:!text-[1.18rem]";
   const actionSecondaryButtonClassName = actionPrimaryButtonClassName;
   const previewWrapClassName =
     "chat-analysis-preview-wrap relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
