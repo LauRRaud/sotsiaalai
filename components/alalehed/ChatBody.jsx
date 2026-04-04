@@ -558,7 +558,12 @@ export default function ChatBody({
     inputRowRef,
     inputBarRef: inputBarRef,
     maskLayerRef,
-    enabled: !viewportIsMobile && !isLightTheme && !profileOpen,
+    enabled:
+      (!isLightTheme ||
+        (analysis.analysisPanelMode === "overlay" &&
+          analysis.showAnalysisPanel)) &&
+      !profileOpen,
+    applyMaskImage: true,
     refreshRef: maskRefreshRef
   });
   useEffect(() => {
@@ -2048,7 +2053,7 @@ export default function ChatBody({
     prettifyFileName
   };
   const useMaskedChatSurface =
-    (!viewportIsMobile && !isLightTheme) ||
+    !isLightTheme ||
     (analysis.analysisPanelMode === "overlay" &&
       analysis.showAnalysisPanel);
   const chatRingSurfaceStyle = useMaskedChatSurface
@@ -2062,9 +2067,10 @@ export default function ChatBody({
     ? { ...chatVars, ...chatRingSurfaceStyle }
     : chatVars;
   const chatContainerClassName = cn(
-      "main-content glass-ring chat-container chat-container--round " +
+        "main-content glass-ring chat-container chat-container--round " +
         "glass-ring--desktop-stable " +
         "relative z-[21] min-h-0 [overflow-anchor:none] light:text-[#1f2937] " +
+        "[--chat-input-hole-x:0px] [--chat-input-hole-y:100%] [--chat-input-hole-w:0px] [--chat-input-hole-h:0px] [--chat-input-hole-r:0px] [--chat-input-hole-side-h:0px] " +
         "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] " +
         "[scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
         "[&::-webkit-scrollbar-track]:bg-transparent " +

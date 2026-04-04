@@ -13,6 +13,7 @@ export function useChatInputHoleMask({
   inputBarRef,
   maskLayerRef,
   enabled,
+  applyMaskImage = true,
   refreshRef
 }) {
   useLayoutEffect(() => {
@@ -21,8 +22,23 @@ export function useChatInputHoleMask({
     const inputBar = inputBarRef?.current;
     const maskLayer = maskLayerRef?.current;
     if (!box || !inputBar) return;
+    const clearHoleGeometry = () => {
+      const targets = [box, maskLayer].filter(Boolean);
+      targets.forEach(target => {
+        if (target?.dataset) {
+          delete target.dataset.chatHoleReady;
+        }
+        target.style.removeProperty("--chat-input-hole-x");
+        target.style.removeProperty("--chat-input-hole-y");
+        target.style.removeProperty("--chat-input-hole-w");
+        target.style.removeProperty("--chat-input-hole-h");
+        target.style.removeProperty("--chat-input-hole-r");
+        target.style.removeProperty("--chat-input-hole-side-h");
+      });
+    };
     if (!enabled) {
       box.style.removeProperty("--chat-input-hole-mask");
+      clearHoleGeometry();
       if (maskLayer) {
         maskLayer.style.removeProperty("--chat-input-hole-mask");
         maskLayer.style.setProperty("-webkit-mask-image", "none");
@@ -157,6 +173,23 @@ export function useChatInputHoleMask({
         return;
       }
       lastGeometry = geometryKey;
+      const sideHeight = snap(Math.max(0, inputLocal.h - radius * 2));
+      const geometryTargets = [box, maskLayer].filter(Boolean);
+      geometryTargets.forEach(target => {
+        if (target?.dataset) {
+          target.dataset.chatHoleReady = "true";
+        }
+        target.style.setProperty("--chat-input-hole-x", `${inputLocal.x}px`);
+        target.style.setProperty("--chat-input-hole-y", `${inputLocal.y}px`);
+        target.style.setProperty("--chat-input-hole-w", `${inputLocal.w}px`);
+        target.style.setProperty("--chat-input-hole-h", `${inputLocal.h}px`);
+        target.style.setProperty("--chat-input-hole-r", `${radius}px`);
+        target.style.setProperty("--chat-input-hole-side-h", `${sideHeight}px`);
+      });
+      if (!applyMaskImage) {
+        pendingAfterTilt = false;
+        return;
+      }
       const mask = buildMask(boxW, boxH, inputLocal, radius);
       if (mask && (mask !== lastMask || force)) {
         box.style.setProperty("--chat-input-hole-mask", mask);
@@ -325,9 +358,10 @@ export function useChatInputHoleMask({
       if (maskLayer) {
         maskLayer.style.removeProperty("--chat-input-hole-mask");
       }
+      clearHoleGeometry();
       if (refreshRef?.current === refreshHandler) {
         refreshRef.current = null;
       }
     };
-  }, [containerRef, inputRowRef, inputBarRef, maskLayerRef, enabled, refreshRef]);
+  }, [containerRef, inputRowRef, inputBarRef, maskLayerRef, enabled, applyMaskImage, refreshRef]);
 }
