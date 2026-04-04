@@ -272,26 +272,26 @@ html[data-contrast="hc"]:not(.theme-light) .homepage-root {
   --home-link-color: var(--hc-accent);
   --home-scroll-cue-color: var(--hc-accent);
   --home-panel-shadow-idle:
-    0 0 10px rgba(255, 245, 160, 0.18),
-    0 0 20px rgba(255, 234, 0, 0.08);
-  --home-panel-shadow-active:
-    0 0 12px rgba(255, 248, 186, 0.22),
+    0 0 12px rgba(255, 245, 160, 0.22),
     0 0 24px rgba(255, 234, 0, 0.1);
+  --home-panel-shadow-active:
+    0 0 14px rgba(255, 248, 186, 0.26),
+    0 0 28px rgba(255, 234, 0, 0.12);
   --home-card-glow-idle:
-    0 0 9px rgba(255, 245, 160, 0.18),
-    0 0 19px rgba(255, 234, 0, 0.08);
-  --home-card-glow-entry:
-    0 0 9px rgba(255, 245, 160, 0.18),
-    0 0 19px rgba(255, 234, 0, 0.08);
-  --home-card-glow-transition:
-    0 0 9px rgba(255, 245, 160, 0.18),
-    0 0 19px rgba(255, 234, 0, 0.08);
-  --home-card-glow-exit:
-    0 0 9px rgba(255, 245, 160, 0.18),
-    0 0 19px rgba(255, 234, 0, 0.08);
-  --home-card-glow-active:
-    0 0 11px rgba(255, 248, 186, 0.22),
+    0 0 11px rgba(255, 245, 160, 0.22),
     0 0 22px rgba(255, 234, 0, 0.1);
+  --home-card-glow-entry:
+    0 0 11px rgba(255, 245, 160, 0.22),
+    0 0 22px rgba(255, 234, 0, 0.1);
+  --home-card-glow-transition:
+    0 0 11px rgba(255, 245, 160, 0.22),
+    0 0 22px rgba(255, 234, 0, 0.1);
+  --home-card-glow-exit:
+    0 0 11px rgba(255, 245, 160, 0.22),
+    0 0 22px rgba(255, 234, 0, 0.1);
+  --home-card-glow-active:
+    0 0 13px rgba(255, 248, 186, 0.26),
+    0 0 26px rgba(255, 234, 0, 0.12);
   --home-card-shadow-idle: var(--home-card-glow-idle);
   --home-card-shadow-entry: var(--home-card-glow-entry);
   --home-card-shadow-transition: var(--home-card-glow-transition);

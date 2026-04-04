@@ -400,7 +400,7 @@ export default function ChatBody({
       if (offset === lastAppliedOffset) return;
       lastAppliedOffset = offset;
       node.style.setProperty("--chat-vk-offset", `${offset}px`);
-      maskRefreshRef.current?.({
+      refreshMask({
         immediate: true
       });
     };
@@ -428,7 +428,7 @@ export default function ChatBody({
       window.removeEventListener("focusout", updateKeyboardOffset);
       node.style.setProperty("--chat-vk-offset", "0px");
     };
-  }, [inputFocused, isMobile]);
+  }, [inputFocused, isMobile, refreshMask]);
   const MAX_RENDERED_MESSAGES = 80;
   const PAGE_SIZE = 80;
   const [renderLimit, setRenderLimit] = useState(MAX_RENDERED_MESSAGES);
@@ -476,6 +476,13 @@ export default function ChatBody({
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
   const maskRefreshRef = useRef(null);
+  const refreshMask = useCallback((options = {}) => {
+    const immediate = options.immediate === true;
+    maskRefreshRef.current?.({
+      ...options,
+      immediate: immediate && !isMobile
+    });
+  }, [isMobile]);
   const waitForComposerCollapse = useCallback(async () => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
@@ -534,10 +541,10 @@ export default function ChatBody({
       container?.addEventListener("transitionend", onTransitionEnd);
       timeoutId = window.setTimeout(finish, 460);
     });
-    maskRefreshRef.current?.({
+    refreshMask({
       immediate: true
     });
-  }, [inputFocused, isMobile]);
+  }, [inputFocused, isMobile, refreshMask]);
   const {
     profileOpen,
     openProfileDirect,
@@ -553,25 +560,12 @@ export default function ChatBody({
     inputRef,
     waitForComposerCollapse
   });
-  useChatInputHoleMask({
-    containerRef: chatContainerRef,
-    inputRowRef,
-    inputBarRef: inputBarRef,
-    maskLayerRef,
-    enabled:
-      (!isLightTheme ||
-        (analysis.analysisPanelMode === "overlay" &&
-          analysis.showAnalysisPanel)) &&
-      !profileOpen,
-    applyMaskImage: true,
-    refreshRef: maskRefreshRef
-  });
   useEffect(() => {
     if (isLightTheme) return;
-    maskRefreshRef.current?.({
+    refreshMask({
       immediate: true
     });
-  }, [isLightTheme]);
+  }, [isLightTheme, refreshMask]);
   const {
     convId,
     setConvId,
@@ -764,6 +758,19 @@ export default function ChatBody({
     chatWindowRef,
     visibleMessagesCount: visibleMessages.length,
     isGeneratingRef
+  });
+  useChatInputHoleMask({
+    containerRef: chatContainerRef,
+    inputRowRef,
+    inputBarRef: inputBarRef,
+    maskLayerRef,
+    enabled:
+      (!isLightTheme ||
+        (analysis.analysisPanelMode === "overlay" &&
+          analysis.showAnalysisPanel)) &&
+      !profileOpen,
+    applyMaskImage: true,
+    refreshRef: maskRefreshRef
   });
   const {
     speechReady,
@@ -2182,7 +2189,7 @@ export default function ChatBody({
     handleMic={voiceEnabled ? handleMic : undefined}
     composerDraftApiRef={composerDraftApiRef}
     onDraftStateChange={handleDraftStateChange}
-    onComposerLayoutChange={() => maskRefreshRef.current?.({
+    onComposerLayoutChange={() => refreshMask({
       immediate: true
     })}
     sendToAssistant={sendToAssistant}

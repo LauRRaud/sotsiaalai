@@ -198,7 +198,7 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   :is(.glass-card, .glass-card-dark) {
   transition:
     opacity var(--fade-ms) ease,
-    box-shadow 900ms cubic-bezier(0.5, 0, 0.15, 1) 80ms !important;
+    box-shadow 260ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
@@ -207,38 +207,9 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   .card-face.back
   :is(.centered-back-left, .centered-back-right) {
   transition-property: box-shadow !important;
-  transition-duration: 900ms !important;
-  transition-timing-function: cubic-bezier(0.5, 0, 0.15, 1) !important;
-  transition-delay: 80ms !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
-  .homepage-root
-  .three-d-card:not(.is-auto-rotating):is(:hover, :focus-within, :active)
-  .card-face.front
-  :is(.glass-card, .glass-card-dark) {
-  box-shadow: none !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
-  .homepage-root
-  .three-d-card:not(.is-auto-rotating):is(:hover, :focus-within, :active)
-  .card-face.back
-  :is(.centered-back-left, .centered-back-right) {
-  box-shadow: none !important;
-}
-
-/* Homepage cards now rely on artwork + blur layer only; disable all glow shadows. */
-.homepage-root
-  :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
-  box-shadow: none !important;
-}
-
-.homepage-root
-  .three-d-card:not(.is-auto-rotating):is(:hover, :focus-within, :active)
-  .card-face
-  :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
-  box-shadow: none !important;
+  transition-duration: 260ms !important;
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  transition-delay: 0ms !important;
 }
 
 @keyframes home-card-spin-360 {
@@ -411,4 +382,54 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   width: 0;
   height: 0;
   display: none;
+}
+
+/* Homepage glow rules: keep the ring-like edge glow on dark/night/HC only. */
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .homepage-root
+  :is(.home-about-panel, .home-before-panel),
+:root.theme-night:not(.theme-mid) .homepage-root :is(.home-about-panel, .home-before-panel),
+html[data-contrast="hc"]:not(.theme-mid) .homepage-root :is(.home-about-panel, .home-before-panel) {
+  box-shadow: var(--home-panel-shadow-idle, var(--glass-shell-shadow, none)) !important;
+  transition: box-shadow 320ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .homepage-root
+  :is(.home-about-panel, .home-before-panel):is(:hover, :focus-within, :active),
+:root.theme-night:not(.theme-mid) .homepage-root :is(.home-about-panel, .home-before-panel):is(:hover, :focus-within, :active),
+html[data-contrast="hc"]:not(.theme-mid) .homepage-root :is(.home-about-panel, .home-before-panel):is(:hover, :focus-within, :active) {
+  box-shadow: var(
+    --home-panel-shadow-active,
+    var(--home-panel-shadow-idle, var(--glass-shell-shadow, none))
+  ) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .homepage-root
+  .three-d-card
+  .card-face
+  :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right),
+:root.theme-night:not(.theme-mid) .homepage-root .three-d-card .card-face :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right),
+html[data-contrast="hc"]:not(.theme-mid) .homepage-root .three-d-card .card-face :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
+  box-shadow: var(
+    --home-card-shadow-idle,
+    var(--home-card-glow-idle, var(--glass-shell-shadow, none))
+  ) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .homepage-root
+  .three-d-card:not(.is-auto-rotating):is(:hover, :focus-within, :active)
+  .card-face
+  :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right),
+:root.theme-night:not(.theme-mid) .homepage-root .three-d-card:not(.is-auto-rotating):is(:hover, :focus-within, :active) .card-face :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right),
+html[data-contrast="hc"]:not(.theme-mid) .homepage-root .three-d-card:not(.is-auto-rotating):is(:hover, :focus-within, :active) .card-face :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
+  box-shadow: var(
+    --home-card-shadow-active,
+    var(
+      --home-card-glow-active,
+      var(--home-card-shadow-idle, var(--home-card-glow-idle, var(--glass-shell-shadow, none)))
+    )
+  ) !important;
 }
