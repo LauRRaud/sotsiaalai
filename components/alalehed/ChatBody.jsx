@@ -558,7 +558,7 @@ export default function ChatBody({
     inputRowRef,
     inputBarRef: inputBarRef,
     maskLayerRef,
-    enabled: !isLightTheme && !profileOpen,
+    enabled: !viewportIsMobile && !isLightTheme && !profileOpen,
     refreshRef: maskRefreshRef
   });
   useEffect(() => {
@@ -2048,7 +2048,7 @@ export default function ChatBody({
     prettifyFileName
   };
   const useMaskedChatSurface =
-    !isLightTheme ||
+    (!viewportIsMobile && !isLightTheme) ||
     (analysis.analysisPanelMode === "overlay" &&
       analysis.showAnalysisPanel);
   const chatRingSurfaceStyle = useMaskedChatSurface
