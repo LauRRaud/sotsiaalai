@@ -114,6 +114,7 @@ export default function ChatComposer({
   handleMic,
   draftApiRef,
   onDraftStateChange,
+  onLayoutChange,
   inputFocused = false,
   isMobile = false,
   activeModeLabel = "",
@@ -134,6 +135,29 @@ export default function ChatComposer({
   const toolsMenuRef = useRef(null);
   const initialDraftProbeCompleteRef = useRef(false);
   const previousDraftLengthRef = useRef(0);
+  const composerLayoutSyncFramesRef = useRef([]);
+  const notifyLayoutChange = useCallback(() => {
+    if (typeof onLayoutChange !== "function" || typeof window === "undefined") {
+      return;
+    }
+
+    onLayoutChange();
+
+    composerLayoutSyncFramesRef.current.forEach(frameId => {
+      window.cancelAnimationFrame(frameId);
+    });
+    composerLayoutSyncFramesRef.current = [];
+
+    const frame1 = window.requestAnimationFrame(() => {
+      onLayoutChange();
+      const frame2 = window.requestAnimationFrame(() => {
+        onLayoutChange();
+      });
+      composerLayoutSyncFramesRef.current = [frame2];
+    });
+
+    composerLayoutSyncFramesRef.current = [frame1];
+  }, [onLayoutChange]);
   const resizeComposerInput = useCallback(() => {
     const node = inputRef?.current;
     if (!node || typeof window === "undefined") return;
@@ -157,6 +181,7 @@ export default function ChatComposer({
         setComposerExpanded(false);
       }
       previousDraftLengthRef.current = currentDraftLength;
+      notifyLayoutChange();
       return;
     }
 
@@ -184,7 +209,8 @@ export default function ChatComposer({
       return previous === nextExpanded ? previous : nextExpanded;
     });
     previousDraftLengthRef.current = currentDraftLength;
-  }, [draft, inputFocused, inputRef]);
+    notifyLayoutChange();
+  }, [draft, inputFocused, inputRef, notifyLayoutChange]);
   const deepResearchDisabled = Boolean(isRoomMode);
   const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
   const isDeepResearchMode = composerMode === "deep_research";
@@ -337,6 +363,13 @@ export default function ChatComposer({
   useEffect(() => {
     resizeComposerInput();
   }, [draft, composerExpanded, inputFocused, resizeComposerInput]);
+  useEffect(() => () => {
+    if (typeof window === "undefined") return;
+    composerLayoutSyncFramesRef.current.forEach(frameId => {
+      window.cancelAnimationFrame(frameId);
+    });
+    composerLayoutSyncFramesRef.current = [];
+  }, []);
   useEffect(() => {
     if (!initialDraftProbeCompleteRef.current) return;
     onDraftStateChange?.({

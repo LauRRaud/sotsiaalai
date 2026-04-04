@@ -2170,6 +2170,7 @@ export default function ChatBody({
     handleMic={voiceEnabled ? handleMic : undefined}
     composerDraftApiRef={composerDraftApiRef}
     onDraftStateChange={handleDraftStateChange}
+    onComposerLayoutChange={() => maskRefreshRef.current?.()}
     sendToAssistant={sendToAssistant}
     setSendToAssistant={setSendToAssistant}
     aiNote={aiNote}
