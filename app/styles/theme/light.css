@@ -287,8 +287,6 @@
     var(--home-card-shadow-idle);
   --home-card-shadow-active:
     var(--home-card-shell-shadow);
-  --home-card-surface-bg: rgba(255, 255, 255, 0.18);
-  --home-card-surface-blur: 1.2rem;
   --home-card-surface-saturate: 104%;
   --home-card-light-opacity: 0.6;
   --home-card-dark-opacity: 0.8;
