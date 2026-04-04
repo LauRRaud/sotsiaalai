@@ -335,7 +335,6 @@ export default function HomePage() {
     suppressFlipRef.current = false;
   }, []);
   const skipIntroAnimations = hasSeenIntro || prefs.reduceMotion;
-  const instantShadowReady = initialSkipIntro || hasSeenIntro;
   const introPending = !introStart && !skipIntroAnimations;
   const cardsIntroDone = leftFadeDone && rightFadeDone;
   const scrollCueReady = leftFadeDone && rightFadeDone;
@@ -630,6 +629,41 @@ export default function HomePage() {
     autoPreviewActive ? "is-auto-rotating" : null,
     mobileFlipReady.right ? "mobile-flipped-right" : null
   );
+  const rotatingBackdropBaseClassName = "home-card-rotating-backdrop";
+  const getBackdropClassName = (shouldFade, blurRevealReady, fadeDone, side) =>
+    cn(
+      rotatingBackdropBaseClassName,
+      side === "front" ?
+        "home-card-rotating-backdrop-front" :
+        "home-card-rotating-backdrop-back",
+      introPending || shouldFade && !blurRevealReady ? "home-card-rotating-backdrop-hidden" : null,
+      shouldFade && blurRevealReady && !fadeDone ? "home-card-rotating-backdrop-reveal" : null,
+      fadeDone ? "home-card-rotating-backdrop-ready" : null
+    );
+  const leftFrontBackdropClassName = getBackdropClassName(
+    shouldFadeLeft,
+    leftBlurRevealReady,
+    leftFadeDone,
+    "front"
+  );
+  const leftBackBackdropClassName = getBackdropClassName(
+    shouldFadeLeft,
+    leftBlurRevealReady,
+    leftFadeDone,
+    "back"
+  );
+  const rightFrontBackdropClassName = getBackdropClassName(
+    shouldFadeRight,
+    rightBlurRevealReady,
+    rightFadeDone,
+    "front"
+  );
+  const rightBackBackdropClassName = getBackdropClassName(
+    shouldFadeRight,
+    rightBlurRevealReady,
+    rightFadeDone,
+    "back"
+  );
   const handleLoginSuccess = useCallback(() => {
     const side = pendingExitSide || lastClickSideRef.current;
     if (!side) return;
@@ -655,6 +689,8 @@ export default function HomePage() {
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
               <div ref={leftCardWrapRef} data-phase={leftPhase} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="link" aria-label={leftCardAriaLabel} aria-disabled={!cardInteractionAllowed} tabIndex={cardInteractionAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
                 <div className={cn(leftCardWrapClassName)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
+                  <div aria-hidden="true" className={leftFrontBackdropClassName} />
+                  <div aria-hidden="true" className={leftBackBackdropClassName} />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
                     <div ref={setLeftCardEl} className={cn("glass-card", "glass-card-light", "left-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_360ms_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[2] before:bg-[url('/logo/kerahele.svg')] dark:before:bg-[url('/logo/kerahele-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in opacity-0" : null, leftFadeDone ? "fade-in-done" : null)} style={shouldFadeLeft ? {
                       animationName: "cardFadeIn",
@@ -697,6 +733,8 @@ export default function HomePage() {
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
               <div ref={rightCardWrapRef} data-phase={rightPhase} className={cn(rightCardClassName, "home-card-a11y-button")} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")} role="link" aria-label={rightCardAriaLabel} aria-disabled={!cardInteractionAllowed} tabIndex={cardInteractionAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("right")}>
                 <div className={cn(rightCardWrapClassName)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
+                  <div aria-hidden="true" className={rightFrontBackdropClassName} />
+                  <div aria-hidden="true" className={rightBackBackdropClassName} />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
                     <div ref={setRightCardEl} className={cn("glass-card", "glass-card-dark", "right-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_360ms_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[2] before:bg-[url('/logo/keratume.svg')] dark:before:bg-[url('/logo/keratume-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in opacity-0" : null, rightFadeDone ? "fade-in-done" : null)} style={shouldFadeRight ? {
                       animationName: "cardFadeIn",

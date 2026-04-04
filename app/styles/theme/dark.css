@@ -1,5 +1,23 @@
 :root:not(.theme-light) {
   --glass-shell-shadow: var(--glass-ring-glow-dark);
+  --glass-ring-edge-stroke-width-desktop: 1.36px;
+  --glass-ring-edge-stroke-opacity-desktop: 0.78;
+  --glass-ring-edge-stroke-blur-desktop: 0.12px;
+  --glass-ring-edge-stroke-desktop: conic-gradient(
+    from -104deg at 50% 50%,
+    rgba(242, 247, 255, 0) 0deg,
+    rgba(242, 247, 255, 0) 14deg,
+    rgba(242, 247, 255, 0.024) 26deg,
+    rgba(242, 247, 255, 0.09) 38deg,
+    rgba(242, 247, 255, 0.19) 46deg,
+    rgba(242, 247, 255, 0.32) 54deg,
+    rgba(242, 247, 255, 0.4) 60deg,
+    rgba(242, 247, 255, 0.26) 70deg,
+    rgba(242, 247, 255, 0.11) 82deg,
+    rgba(242, 247, 255, 0.028) 94deg,
+    rgba(242, 247, 255, 0) 108deg,
+    rgba(242, 247, 255, 0) 360deg
+  );
   --drawer-overlay-bg: rgba(0, 0, 0, 0.36);
   --subscription-error-color: rgba(232, 219, 217, 0.9);
   --drawer-glass-bg: var(--glass-ring-surface-bg);
@@ -11,8 +29,8 @@
   --chat-upload-picker-bg: rgb(26, 29, 34);
   --glass-ring-surface-bg: rgba(14, 16, 20, 0.42);
   --glass-ring-glow-dark:
-    0 10px 22px -18px rgba(248, 253, 255, 0.22),
-    0 22px 34px -28px rgba(248, 253, 255, 0.11);
+    0 10px 20px -18px rgba(248, 253, 255, 0.2),
+    0 20px 32px -28px rgba(248, 253, 255, 0.1);
   --chat-invite-list-border: transparent;
   --chat-invite-shadow:
     0 6px 16px rgba(0, 0, 0, 0.22),
@@ -381,7 +399,8 @@
   --drawer-delete-shadow-hover: 0 12px 28px rgba(2, 6, 23, 0.3);
 }
 
-:root:not(.theme-light) body.homepage {
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) body.homepage,
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .homepage-root {
   --home-prose-color: rgba(242, 241, 239, 0.92);
   --home-card-blur: 0.6rem;
   --home-card-saturate: 118%;
@@ -397,15 +416,6 @@
   --home-card-glow-idle:
     0 0 10px rgba(248, 253, 255, 0.14),
     0 0 20px rgba(248, 253, 255, 0.065);
-  --home-card-glow-entry:
-    0 0 12px rgba(248, 253, 255, 0.18),
-    0 0 22px rgba(248, 253, 255, 0.09);
-  --home-card-glow-transition:
-    0 0 11px rgba(248, 253, 255, 0.16),
-    0 0 21px rgba(248, 253, 255, 0.078);
-  --home-card-glow-exit:
-    0 0 10px rgba(248, 253, 255, 0.14),
-    0 0 19px rgba(248, 253, 255, 0.07);
   --home-card-glow-active:
     0 0 12px rgba(248, 253, 255, 0.2),
     0 0 24px rgba(248, 253, 255, 0.1);

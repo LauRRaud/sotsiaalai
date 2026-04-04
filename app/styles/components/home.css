@@ -191,6 +191,58 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   animation-name: home-card-spin-360-right;
 }
 
+.homepage-root .three-d-card > .card-wrapper {
+  z-index: 1;
+}
+
+.homepage-root .home-card-rotating-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgb(255 255 255 / 0.004);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-backdrop-filter: blur(0.34rem) saturate(103%);
+  backdrop-filter: blur(0.34rem) saturate(103%);
+  opacity: 1;
+  transition:
+    opacity 220ms ease,
+    -webkit-backdrop-filter 180ms ease,
+    backdrop-filter 180ms ease;
+}
+
+.homepage-root .home-card-rotating-backdrop-front {
+  transform: rotateY(0deg) translateZ(-1px);
+  -webkit-transform: rotateY(0deg) translateZ(-1px);
+}
+
+.homepage-root .home-card-rotating-backdrop-back {
+  transform: rotateY(180deg) translateZ(-1px);
+  -webkit-transform: rotateY(180deg) translateZ(-1px);
+}
+
+.homepage-root .home-card-rotating-backdrop-hidden {
+  opacity: 0;
+}
+
+.homepage-root .home-card-rotating-backdrop-reveal {
+  animation: cardBlurIntro 720ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.homepage-root .home-card-rotating-backdrop-ready {
+  opacity: 1;
+}
+
+:root
+  .homepage-root
+  .three-d-card:is(:hover, :focus-within, :active)
+  .home-card-rotating-backdrop {
+  -webkit-backdrop-filter: blur(0.48rem) saturate(106%);
+  backdrop-filter: blur(0.48rem) saturate(106%);
+}
+
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .homepage-root
   .three-d-card
@@ -353,6 +405,10 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
 }
 
 @media (max-width: 768px) {
+  .homepage-root .home-card-rotating-backdrop {
+    display: none;
+  }
+
   .homepage-root .home-card-pattern-layer {
     opacity: 0.32;
   }

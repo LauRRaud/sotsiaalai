@@ -221,12 +221,17 @@
 }
 
 .documents-workspace-shell {
+  --glass-ring-tilt-perspective: 3200px;
+  --glass-ring-tilt-angle-left: -2.2deg;
+  --glass-ring-tilt-angle-right: 2.2deg;
   width: min(100%, 56rem);
   margin: 0 auto;
   padding: clamp(1rem, 2vw, 1.5rem);
 }
 
 .documents-workspace-shell--artifacts {
+  --glass-ring-tilt-angle-left: -1.8deg;
+  --glass-ring-tilt-angle-right: 1.8deg;
   width: min(100%, 72rem);
 }
 

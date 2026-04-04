@@ -9,11 +9,17 @@ import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
 import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles"
 import { localizePath } from "@/lib/localizePath"
+import { backWithTransition, pushWithTransition } from "@/lib/routeTransition"
 
 const documentsTitleClassName =
   `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !text-left !whitespace-normal ` +
   `!text-[clamp(2rem,4vw,2.85rem)] !leading-[1.03] !tracking-[0.02em] ` +
   `max-[768px]:!text-[clamp(2rem,8vw,2.7rem)] max-[768px]:!leading-[1.05] max-[768px]:!mt-0`
+const backTransitionOptions = {
+  glassRingTilt: "left",
+  waitForGlassRingTilt: true,
+  persistGlassRingTilt: false
+}
 
 function formatDate(value, locale) {
   if (!value) return ""
@@ -48,6 +54,7 @@ export default function ArtifactDetailPage({ artifactId }) {
   const [saving, setSaving] = useState(false)
   const [approving, setApproving] = useState(false)
   const [approvalNotice, setApprovalNotice] = useState(null)
+  const [closing, setClosing] = useState(false)
 
   useEffect(() => {
     if (!approvalNotice) return undefined
@@ -145,22 +152,38 @@ export default function ArtifactDetailPage({ artifactId }) {
 
   async function deleteArtifact() {
     if (!window.confirm(t("documents.confirm.delete_artifact"))) return
+    if (closing) return
     try {
       const response = await fetch(`/api/documents/artifacts/${encodeURIComponent(artifactId)}`, { method: "DELETE" })
       const payload = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(payload?.message || t("documents.errors.delete_artifact_failed"))
-      router.push(localizePath("/documents", locale))
+      setClosing(true)
+      pushWithTransition(router, localizePath("/documents", locale), backTransitionOptions)
     } catch (error) {
       setErrorText(error?.message || t("documents.errors.delete_artifact_failed"))
     }
   }
 
+  const handleBack = useCallback(() => {
+    if (closing) return
+    setClosing(true)
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      backWithTransition(router, backTransitionOptions)
+      return
+    }
+    pushWithTransition(router, localizePath("/documents", locale), backTransitionOptions)
+  }, [closing, locale, router])
+
   return (
     <section className="documents-workspace documents-workspace-page">
-      <div className="documents-workspace-shell">
+      <div
+        className={`documents-workspace-shell ${
+          closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""
+        }`}
+      >
         <Panel variant="secondary" padding="md" className="documents-workspace-card rounded-[1.5rem]">
           <BackButton
-            onClick={() => router.push(localizePath("/documents", locale))}
+            onClick={handleBack}
             ariaLabel={t("buttons.back")}
             className={glassPageBackTopLeftClassName}
           />

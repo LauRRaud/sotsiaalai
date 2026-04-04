@@ -35,7 +35,7 @@ import {
   templateForLabel
 } from "@/lib/documents/presentation"
 import { localizePath } from "@/lib/localizePath"
-import { pushWithTransition } from "@/lib/routeTransition"
+import { backWithTransition, pushWithTransition } from "@/lib/routeTransition"
 
 const agentTitleClassName =
   `rooms-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
@@ -97,6 +97,11 @@ const agentPanelLinkClassName =
   "text-[clamp(1.06rem,1.42vw,1.24rem)] leading-[1.1] font-medium " +
   "[--link-brand-text:var(--documents-accent)] [--link-brand-border-hover:var(--documents-accent)] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] " +
   "max-[768px]:text-[clamp(1rem,4.1vw,1.15rem)] max-[768px]:leading-[1.12]"
+const backTransitionOptions = {
+  glassRingTilt: "left",
+  waitForGlassRingTilt: true,
+  persistGlassRingTilt: false
+}
 
 function formatArtifactMessage(artifact, t) {
   if (!artifact) return ""
@@ -1524,27 +1529,15 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     )
   }
 
-  const shouldReduceMotion = useCallback(() => {
-    if (typeof window === "undefined") return false
-    try {
-      if (document?.documentElement?.dataset?.reduceMotion === "1") return true
-      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)
-    } catch {
-      return false
-    }
-  }, [])
-
   const handleBack = useCallback(() => {
     if (closing) return
-    if (!shouldReduceMotion()) {
-      setClosing(true)
+    setClosing(true)
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      backWithTransition(router, backTransitionOptions)
+      return
     }
-    pushWithTransition(router, backHref, {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    })
-  }, [backHref, closing, router, shouldReduceMotion])
+    pushWithTransition(router, backHref, backTransitionOptions)
+  }, [backHref, closing, router])
 
   return (
     <section className="documents-workspace documents-workspace-page">

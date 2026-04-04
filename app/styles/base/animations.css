@@ -260,25 +260,25 @@
 
 @keyframes glassRingTiltFromRight {
   0% {
-    transform: perspective(1800px) rotateY(0deg);
+    transform: perspective(var(--glass-ring-tilt-perspective, 2200px)) rotateY(0deg);
   }
   50% {
-    transform: perspective(1800px) rotateY(8.2deg);
+    transform: perspective(var(--glass-ring-tilt-perspective, 2200px)) rotateY(var(--glass-ring-tilt-angle-right, 6deg));
   }
   100% {
-    transform: perspective(1800px) rotateY(0deg);
+    transform: perspective(var(--glass-ring-tilt-perspective, 2200px)) rotateY(0deg);
   }
 }
 
 @keyframes glassRingTiltFromLeft {
   0% {
-    transform: perspective(1800px) rotateY(0deg);
+    transform: perspective(var(--glass-ring-tilt-perspective, 2200px)) rotateY(0deg);
   }
   50% {
-    transform: perspective(1800px) rotateY(-8.2deg);
+    transform: perspective(var(--glass-ring-tilt-perspective, 2200px)) rotateY(var(--glass-ring-tilt-angle-left, -6deg));
   }
   100% {
-    transform: perspective(1800px) rotateY(0deg);
+    transform: perspective(var(--glass-ring-tilt-perspective, 2200px)) rotateY(0deg);
   }
 }
 

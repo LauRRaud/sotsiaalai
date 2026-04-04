@@ -764,7 +764,7 @@ export default function ChatComposer({
         </div>, document.body)
     : null;
   const sideControlsClassName =
-    "relative z-[85] pointer-events-auto flex items-center gap-[0.18rem] max-[768px]:gap-[0.12rem] " +
+    "relative z-[85] self-end pointer-events-auto flex items-center gap-[0.18rem] max-[768px]:gap-[0.12rem] " +
     "translate-x-[var(--chat-attach-left-pull,0rem)] max-[768px]:translate-x-0 " +
     "max-[768px]:ml-[clamp(-0.52rem,-1.6vw,-0.3rem)] max-[768px]:mr-[clamp(0.02rem,0.4vw,0.12rem)]";
   const sideControlPlaceholderClassName =

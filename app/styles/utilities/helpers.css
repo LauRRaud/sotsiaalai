@@ -348,6 +348,7 @@ body.login-modal-open {
   padding: var(--glass-ring-edge-stroke-width, 0px);
   background: var(--glass-ring-edge-stroke, none);
   opacity: var(--glass-ring-edge-stroke-opacity, 0);
+  filter: blur(var(--glass-ring-edge-stroke-blur, 0px));
   box-sizing: border-box;
   mask:
     linear-gradient(#000 0 0) content-box,
@@ -360,23 +361,33 @@ body.login-modal-open {
 }
 @media (min-width: 769px) {
   .glass-ring {
-    --glass-ring-edge-stroke-width: 1.35px;
-    --glass-ring-edge-stroke-opacity: 0.92;
+    --glass-ring-edge-stroke-width: var(
+      --glass-ring-edge-stroke-width-desktop,
+      1.18px
+    );
+    --glass-ring-edge-stroke-opacity: var(
+      --glass-ring-edge-stroke-opacity-desktop,
+      0.72
+    );
+    --glass-ring-edge-stroke-blur: var(
+      --glass-ring-edge-stroke-blur-desktop,
+      0.18px
+    );
     --glass-ring-edge-stroke: var(
       --glass-ring-edge-stroke-desktop,
       conic-gradient(
         from -104deg at 50% 50%,
         rgba(255, 255, 255, 0) 0deg,
-        rgba(255, 255, 255, 0) 16deg,
-        rgba(255, 255, 255, 0.015) 28deg,
-        rgba(255, 255, 255, 0.06) 40deg,
-        rgba(255, 255, 255, 0.16) 48deg,
-        rgba(255, 255, 255, 0.34) 56deg,
-        rgba(255, 255, 255, 0.46) 60deg,
-        rgba(255, 255, 255, 0.32) 68deg,
-        rgba(255, 255, 255, 0.14) 78deg,
-        rgba(255, 255, 255, 0.04) 88deg,
-        rgba(255, 255, 255, 0) 100deg,
+        rgba(255, 255, 255, 0) 18deg,
+        rgba(255, 255, 255, 0.01) 30deg,
+        rgba(255, 255, 255, 0.04) 42deg,
+        rgba(255, 255, 255, 0.11) 50deg,
+        rgba(255, 255, 255, 0.22) 58deg,
+        rgba(255, 255, 255, 0.3) 62deg,
+        rgba(255, 255, 255, 0.2) 70deg,
+        rgba(255, 255, 255, 0.08) 80deg,
+        rgba(255, 255, 255, 0.02) 90deg,
+        rgba(255, 255, 255, 0) 102deg,
         rgba(255, 255, 255, 0) 360deg
       )
     );

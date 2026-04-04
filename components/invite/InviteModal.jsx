@@ -127,22 +127,7 @@ export default function InviteModal() {
   const inviteSponsoredCheckoutFooterClassName =
     "mt-[0.95rem] pt-[0.05rem] flex justify-center max-[768px]:mt-[0.88rem]";
   const inviteSponsoredToggleCardClassName =
-    `${inviteSponsorToggleClassName} invite-sponsor-toggle-card ` +
-    "[--seg-card-bg:var(--btn-primary-bg)] " +
-    "[--seg-card-bg-hover:var(--btn-primary-bg-hover)] " +
-    "[--seg-card-bg-selected:var(--btn-primary-bg)] " +
-    "[--seg-card-bg-active:var(--btn-primary-bg-active)] " +
-    "[--seg-card-shadow:var(--btn-primary-shadow)] " +
-    "[--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] " +
-    "[--seg-card-shadow-selected:var(--btn-primary-shadow)] " +
-    "[--seg-card-shadow-active:var(--btn-primary-shadow-active)] " +
-    "[--seg-card-border:transparent] " +
-    "[--seg-card-border-hover:transparent] " +
-    "[--seg-card-border-selected:transparent] " +
-    "[--seg-card-border-active:transparent] " +
-    "[--seg-card-text:var(--btn-primary-text)] " +
-    "[--seg-card-text-hover:var(--btn-primary-text)] " +
-    "[--seg-card-text-selected:var(--btn-primary-text)]";
+    inviteSponsorToggleClassName;
   const inviteEmailsRequiredError = error === t("invite.error.emails_required");
   const inviteEmailInputClassName = `${inviteInputClassName} ${
     inviteEmailsRequiredError

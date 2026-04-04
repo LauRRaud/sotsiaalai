@@ -21,9 +21,27 @@
 :root.theme-night {
   --glass-surface-bg: rgba(13, 17, 24, 0.35);
   --glass-ring-surface-bg: rgba(16, 21, 31, 0.41);
+  --glass-ring-edge-stroke-width-desktop: 1.34px;
+  --glass-ring-edge-stroke-opacity-desktop: 0.76;
+  --glass-ring-edge-stroke-blur-desktop: 0.14px;
+  --glass-ring-edge-stroke-desktop: conic-gradient(
+    from -104deg at 50% 50%,
+    rgba(214, 231, 255, 0) 0deg,
+    rgba(214, 231, 255, 0) 14deg,
+    rgba(214, 231, 255, 0.026) 26deg,
+    rgba(214, 231, 255, 0.095) 38deg,
+    rgba(214, 231, 255, 0.2) 46deg,
+    rgba(214, 231, 255, 0.34) 54deg,
+    rgba(214, 231, 255, 0.44) 60deg,
+    rgba(214, 231, 255, 0.28) 70deg,
+    rgba(214, 231, 255, 0.12) 82deg,
+    rgba(214, 231, 255, 0.03) 94deg,
+    rgba(214, 231, 255, 0) 108deg,
+    rgba(214, 231, 255, 0) 360deg
+  );
   --glass-ring-glow-dark:
-    0 10px 20px -15px rgba(232, 218, 208, 0.16),
-    0 22px 34px -24px rgba(176, 150, 140, 0.09);
+    0 10px 18px -15px rgba(214, 231, 255, 0.18),
+    0 20px 32px -24px rgba(120, 168, 230, 0.1);
   --home-panel-bg: rgba(12, 17, 27, 0.86);
   --home-panel-shadow-idle:
     0 0 12px rgba(190, 220, 255, 0.2),
@@ -34,22 +52,10 @@
   --home-card-glow-idle:
     0 0 11px rgba(190, 220, 255, 0.18),
     0 0 22px rgba(120, 168, 230, 0.09);
-  --home-card-glow-entry:
-    0 0 12px rgba(190, 220, 255, 0.2),
-    0 0 24px rgba(120, 168, 230, 0.1);
-  --home-card-glow-transition:
-    0 0 11px rgba(190, 220, 255, 0.18),
-    0 0 22px rgba(120, 168, 230, 0.09);
-  --home-card-glow-exit:
-    0 0 10px rgba(190, 220, 255, 0.16),
-    0 0 20px rgba(120, 168, 230, 0.08);
   --home-card-glow-active:
     0 0 13px rgba(190, 220, 255, 0.22),
     0 0 28px rgba(120, 168, 230, 0.11);
   --home-card-shadow-idle: var(--home-card-glow-idle);
-  --home-card-shadow-entry: var(--home-card-glow-entry);
-  --home-card-shadow-transition: var(--home-card-glow-transition);
-  --home-card-shadow-exit: var(--home-card-glow-exit);
   --home-card-shadow-active: var(--home-card-glow-active);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --chat-card-surface-night-standard-bg: radial-gradient(

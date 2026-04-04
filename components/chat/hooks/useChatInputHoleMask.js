@@ -159,10 +159,54 @@ export function useChatInputHoleMask({
         scheduleGeometryRetry();
         return;
       }
-      const inputLocal = getLocalRect(inputBar, box);
-      if (!inputLocal) {
+      const inputLocalBase = getLocalRect(inputBar, box);
+      if (!inputLocalBase) {
         scheduleGeometryRetry();
         return;
+      }
+      let inputLocal = inputLocalBase;
+      if (isMobileViewport) {
+        const inputField = inputBar.querySelector(".chat-input-field");
+        const inputFieldFocused =
+          inputField instanceof HTMLElement &&
+          document.activeElement === inputField;
+        if (inputFieldFocused && inputField instanceof HTMLElement) {
+          const inputFieldStyles = window.getComputedStyle(inputField);
+          const lineHeight =
+            Number.parseFloat(inputFieldStyles.lineHeight) || 22;
+          const paddingTop =
+            Number.parseFloat(inputFieldStyles.paddingTop) || 0;
+          const paddingBottom =
+            Number.parseFloat(inputFieldStyles.paddingBottom) || 0;
+          const contentHeight = Math.max(
+            0,
+            inputField.scrollHeight - paddingTop - paddingBottom
+          );
+          const lineCount = Math.max(
+            1,
+            Math.round(contentHeight / lineHeight)
+          );
+          const stableLineCount = 3;
+          const extraLines = Math.max(0, lineCount - 1);
+          const estimatedBaseHeight = Math.max(
+            inputLocalBase.h - extraLines * lineHeight,
+            inputLocalBase.h * 0.6
+          );
+          const stableHeight = snap(
+            Math.max(
+              inputLocalBase.h,
+              estimatedBaseHeight + lineHeight * (stableLineCount - 1)
+            )
+          );
+          const stableDelta = Math.max(0, stableHeight - inputLocalBase.h);
+          if (stableDelta > 0) {
+            inputLocal = {
+              ...inputLocalBase,
+              y: snap(Math.max(0, inputLocalBase.y - stableDelta)),
+              h: stableHeight
+            };
+          }
+        }
       }
       retryCount = 0;
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);

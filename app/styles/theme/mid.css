@@ -13,6 +13,24 @@
     0 8px 14px rgba(12, 7, 6, 0.08);
   --glass-shell-shadow:
     var(--mid-round-shell-shadow);
+  --glass-ring-edge-stroke-width-desktop: 1.46px;
+  --glass-ring-edge-stroke-opacity-desktop: 0.95;
+  --glass-ring-edge-stroke-blur-desktop: 0.12px;
+  --glass-ring-edge-stroke-desktop: conic-gradient(
+    from -104deg at 50% 50%,
+    rgba(255, 255, 255, 0) 0deg,
+    rgba(255, 255, 255, 0) 14deg,
+    rgba(255, 252, 250, 0.024) 26deg,
+    rgba(255, 251, 248, 0.084) 38deg,
+    rgba(255, 251, 248, 0.18) 46deg,
+    rgba(255, 250, 247, 0.3) 54deg,
+    rgba(255, 250, 247, 0.36) 60deg,
+    rgba(255, 248, 245, 0.24) 70deg,
+    rgba(255, 246, 243, 0.1) 82deg,
+    rgba(255, 244, 241, 0.026) 94deg,
+    rgba(255, 255, 255, 0) 108deg,
+    rgba(255, 255, 255, 0) 360deg
+  );
   --glass-ring-glow-dark:
     0 14px 24px -12px rgba(44, 28, 25, 0.3);
   --glass-modal-bg: var(--glass-ring-surface-bg);
@@ -291,22 +309,10 @@
   --home-panel-shadow-active: 0 14px 30px rgba(20, 12, 10, 0.19);
   --home-card-glow-idle:
     0 0 8px rgba(255, 244, 240, 0.09), 0 0 16px rgba(255, 244, 240, 0.05);
-  --home-card-glow-entry:
-    0 0 10px rgba(255, 244, 240, 0.13), 0 0 20px rgba(255, 244, 240, 0.07);
-  --home-card-glow-transition:
-    0 0 9px rgba(255, 244, 240, 0.12), 0 0 18px rgba(255, 244, 240, 0.068);
-  --home-card-glow-exit:
-    0 0 9px rgba(255, 244, 240, 0.105), 0 0 17px rgba(255, 244, 240, 0.06);
   --home-card-glow-active:
     0 0 11px rgba(255, 244, 240, 0.145), 0 0 21px rgba(255, 244, 240, 0.078);
   --home-card-shadow-idle:
     var(--home-card-shell-shadow);
-  --home-card-shadow-entry:
-    var(--home-card-shell-shadow);
-  --home-card-shadow-transition:
-    var(--home-card-glow-transition);
-  --home-card-shadow-exit:
-    var(--home-card-shadow-idle);
   --home-card-shadow-active:
     var(--home-card-shell-shadow);
 }
@@ -680,15 +686,15 @@
 :root.theme-mid .invite-sponsor-toggle-card {
   --seg-card-bg: var(--btn-primary-bg);
   --seg-card-bg-hover: var(--btn-primary-bg-hover);
-  --seg-card-bg-selected: var(--btn-primary-bg);
-  --seg-card-bg-active: var(--btn-primary-bg);
+  --seg-card-bg-selected: var(--mid-unified-surface-bg-active);
+  --seg-card-bg-active: var(--mid-unified-surface-bg-active);
   --seg-card-shadow: var(--btn-primary-shadow);
   --seg-card-shadow-hover: var(--btn-primary-shadow-hover);
-  --seg-card-shadow-selected: var(--btn-primary-shadow);
+  --seg-card-shadow-selected: var(--btn-primary-shadow-active);
   --seg-card-shadow-active: var(--btn-primary-shadow-active);
   --seg-card-text: var(--btn-primary-text);
-  --seg-card-text-hover: var(--btn-primary-text);
-  --seg-card-text-selected: var(--btn-primary-text);
+  --seg-card-text-hover: var(--title-color);
+  --seg-card-text-selected: var(--title-color);
   --seg-card-border: transparent;
   --seg-card-border-hover: transparent;
   --seg-card-border-selected: transparent;

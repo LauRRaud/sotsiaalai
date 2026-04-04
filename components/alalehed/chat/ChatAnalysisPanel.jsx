@@ -17,26 +17,21 @@ const docToggleCardClassName =
   "invite-sponsor-toggle-card " +
   "[--seg-card-bg:var(--btn-primary-bg)] " +
   "[--seg-card-bg-hover:var(--btn-primary-bg-hover)] " +
-  "[--seg-card-bg-selected:var(--btn-primary-bg)] " +
-  "[--seg-card-bg-active:var(--btn-primary-bg-active)] " +
+  "[--seg-card-bg-selected:var(--btn-primary-bg-hover)] " +
+  "[--seg-card-bg-active:var(--btn-primary-bg-active,var(--btn-primary-bg-hover))] " +
   "[--seg-card-shadow:var(--btn-primary-shadow)] " +
   "[--seg-card-shadow-hover:var(--btn-primary-shadow-hover)] " +
-  "[--seg-card-shadow-selected:var(--btn-primary-shadow)] " +
+  "[--seg-card-shadow-selected:var(--btn-primary-shadow-hover)] " +
   "[--seg-card-shadow-active:var(--btn-primary-shadow-active)] " +
   "[--seg-card-border:transparent] " +
   "[--seg-card-border-hover:transparent] " +
   "[--seg-card-border-selected:transparent] " +
   "[--seg-card-border-active:transparent] " +
   "[--seg-card-text:var(--btn-primary-text)] " +
-  "[--seg-card-text-hover:var(--btn-primary-text)] " +
-  "[--seg-card-text-selected:var(--btn-primary-text)] " +
+  "[--seg-card-text-hover:var(--title-color,var(--brand-primary))] " +
+  "[--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
   `${primarySegmentedButtonClassName} ` +
-  "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem] " +
-  "max-[768px]:[--seg-card-duration:0ms] max-[768px]:[--seg-card-bg-hover:var(--btn-primary-bg)] " +
-  "max-[768px]:[--seg-card-bg-selected:var(--btn-primary-bg)] max-[768px]:[--seg-card-bg-active:var(--btn-primary-bg)] " +
-  "max-[768px]:[--seg-card-shadow-hover:var(--btn-primary-shadow)] max-[768px]:[--seg-card-shadow-selected:var(--btn-primary-shadow)] " +
-  "max-[768px]:[--seg-card-shadow-active:var(--btn-primary-shadow)] max-[768px]:[--seg-card-text-hover:var(--btn-primary-text)] " +
-  "max-[768px]:[--seg-card-text-selected:var(--btn-primary-text)] max-[768px]:transition-none";
+  "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
   analysisPanelRef,
@@ -538,23 +533,19 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const contextHintWrapClassName =
     "relative z-[999] col-start-3 inline-flex w-fit shrink-0 items-center justify-self-start self-center";
   const actionsInlineClassName =
-    "mt-[0.35rem] mb-[0.5rem] grid w-full max-w-[15.4rem] grid-cols-2 gap-[0.65rem] justify-center";
+    "mx-auto mt-[0.35rem] mb-[0.5rem] flex w-fit max-w-full flex-wrap items-center justify-center gap-[0.65rem]";
   const uploadButtonClassName =
     `documents-primary-button documents-primary-button--compact documents-upload-choose-button ${glassPrimaryButtonToneClassName}`;
-  const invitePrimaryButtonClassName =
-    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
-    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
   const actionButtonStabilityClassName =
-    "!w-full !justify-center !whitespace-nowrap " +
+    "!w-auto !min-w-[8.9rem] !justify-center !whitespace-nowrap " +
     "[transform:none] hover:[transform:none] focus-visible:[transform:none] active:[transform:none] " +
     "[animation:none] hover:[animation:none] focus-visible:[animation:none] active:[animation:none] " +
     "[transition-property:background,border-color,box-shadow,opacity] [will-change:auto] " +
-    "[--btn-primary-border:1px_solid_transparent] " +
-    "[--btn-primary-border-hover:1px_solid_transparent] " +
-    "[--btn-primary-border-active:1px_solid_transparent] " +
-    "[&>span]:w-full [&>span]:justify-center [&>span]:text-center [&>span]:[transform:none] [&>span]:transition-none";
+    "[&>span]:w-auto [&>span]:justify-center [&>span]:text-center [&>span]:[transform:none] [&>span]:transition-none";
   const actionPrimaryButtonClassName =
-    `${invitePrimaryButtonClassName} ${actionButtonStabilityClassName} invite-primary-btn chat-analysis-action-btn`;
+    `${glassPrimaryButtonToneClassName} ${actionButtonStabilityClassName} chat-analysis-action-btn ` +
+    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
+    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
   const actionSecondaryButtonClassName = actionPrimaryButtonClassName;
   const previewWrapClassName =
     "chat-analysis-preview-wrap relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
@@ -591,7 +582,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex flex-col gap-[1.25rem] text-[1.05rem] items-center text-center";
   const metaClassName = "mt-[0.35rem] text-[1.08rem]";
   const contextButtonClassName =
-    `${docToggleCardClassName} chat-analysis-help-btn !my-0 !min-w-[2.72rem] !justify-center !self-center !rounded-full !px-0 [&>span.shrink-0]:hidden [&>span:last-child]:flex-none [&>span:last-child]:justify-center`;
+    `${glassPrimaryButtonToneClassName} ${actionButtonStabilityClassName} chat-analysis-action-btn chat-analysis-help-btn ` +
+    "!my-0 !min-h-[2.72rem] !w-[2.72rem] !min-w-[2.72rem] !justify-center !self-center !rounded-full !px-0 !py-0 !text-[1.24rem] " +
+    "max-[768px]:!min-h-[2.9rem] max-[768px]:!w-[2.9rem] max-[768px]:!min-w-[2.9rem] max-[768px]:!text-[1.28rem] " +
+    "[&>span]:!w-full [&>span]:!justify-center";
   const tooltipClassName =
     "fixed z-[9999] rounded-[0.95rem] px-[0.9rem] py-[0.85rem] text-center " +
     "min-w-[14rem] max-w-[min(18rem,calc(100vw-1.2rem))] " +
@@ -710,17 +704,20 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                   ref={contextHintWrapRef}
                   className={contextHintWrapClassName}
                 >
-                  <OptionCard
-                    type="checkbox"
-                    checked={contextHintOpen}
-                    onChange={() => setContextHintOpen(prev => !prev)}
+                  <Button
+                    type="button"
+                    size="md"
+                    variant="primary"
                     className={contextButtonClassName}
+                    onClick={() => setContextHintOpen(prev => !prev)}
                     aria-label={contextHint}
+                    aria-pressed={contextHintOpen ? "true" : "false"}
                     aria-expanded={contextHintOpen ? "true" : "false"}
                     aria-describedby={contextHintOpen ? "chat-upload-context-hint" : undefined}
+                    title={contextHint}
                   >
                     ?
-                  </OptionCard>
+                  </Button>
                 </div>
               </div>
               </div>

@@ -25,7 +25,7 @@ import {
 } from "@/lib/documents/presentation"
 import { WORKER_FRAMEWORK_SIGNED_HREF, WORKER_FRAMEWORK_VERSION } from "@/lib/frameworkAcceptances"
 import { localizePath } from "@/lib/localizePath"
-import { pushWithTransition } from "@/lib/routeTransition"
+import { backWithTransition, pushWithTransition } from "@/lib/routeTransition"
 
 const documentsTitleClassName =
   `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
@@ -85,13 +85,17 @@ const documentsPanelLinkClassName =
   "text-[clamp(1.08rem,1.45vw,1.28rem)] leading-[1.1] font-medium " +
   "[--link-brand-text:var(--documents-accent)] [--link-brand-border-hover:var(--documents-accent)] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] " +
   "max-[768px]:text-[clamp(1.02rem,4.2vw,1.18rem)] max-[768px]:leading-[1.12]"
+const backTransitionOptions = {
+  glassRingTilt: "left",
+  waitForGlassRingTilt: true,
+  persistGlassRingTilt: false
+}
 
 export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded = false }) {
   const router = useRouter()
   const { t, locale } = useI18n()
   const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
   const isClientRole = effectiveRole === "CLIENT"
-  const [closing, setClosing] = useState(false)
   const isArtifactsExpanded = artifactsExpanded || initialArtifactLimit >= ARTIFACT_LIST_LIMIT_ALL
   const [kindFilter, setKindFilter] = useState("ALL")
   const [artifactFilter, setArtifactFilter] = useState("ALL")
@@ -117,6 +121,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     loading: false,
     acceptance: null
   })
+  const [closing, setClosing] = useState(false)
   const uploadInputRef = useRef(null)
   const deferredArtifactSearch = useDeferredValue(artifactSearch)
   const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
@@ -254,27 +259,15 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     : ""
   const frameworkPageHref = localizePath("/tooalase-kasutuse-raamistik", locale)
 
-  const shouldReduceMotion = useCallback(() => {
-    if (typeof window === "undefined") return false
-    try {
-      if (document?.documentElement?.dataset?.reduceMotion === "1") return true
-      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)
-    } catch {
-      return false
-    }
-  }, [])
-
   const handleBack = useCallback(() => {
     if (closing) return
-    if (!shouldReduceMotion()) {
-      setClosing(true)
+    setClosing(true)
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      backWithTransition(router, backTransitionOptions)
+      return
     }
-    pushWithTransition(router, localizePath("/vestlus", locale), {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    })
-  }, [closing, locale, router, shouldReduceMotion])
+    pushWithTransition(router, localizePath("/vestlus", locale), backTransitionOptions)
+  }, [closing, locale, router])
 
   async function submitUpload(event) {
     event.preventDefault()
