@@ -400,7 +400,9 @@ export default function ChatBody({
       if (offset === lastAppliedOffset) return;
       lastAppliedOffset = offset;
       node.style.setProperty("--chat-vk-offset", `${offset}px`);
-      maskRefreshRef.current?.();
+      maskRefreshRef.current?.({
+        immediate: true
+      });
     };
     const updateKeyboardOffset = () => {
       if (rafId) return;
@@ -532,7 +534,9 @@ export default function ChatBody({
       container?.addEventListener("transitionend", onTransitionEnd);
       timeoutId = window.setTimeout(finish, 460);
     });
-    maskRefreshRef.current?.();
+    maskRefreshRef.current?.({
+      immediate: true
+    });
   }, [inputFocused, isMobile]);
   const {
     profileOpen,
@@ -559,7 +563,9 @@ export default function ChatBody({
   });
   useEffect(() => {
     if (isLightTheme) return;
-    maskRefreshRef.current?.();
+    maskRefreshRef.current?.({
+      immediate: true
+    });
   }, [isLightTheme]);
   const {
     convId,
@@ -2170,7 +2176,9 @@ export default function ChatBody({
     handleMic={voiceEnabled ? handleMic : undefined}
     composerDraftApiRef={composerDraftApiRef}
     onDraftStateChange={handleDraftStateChange}
-    onComposerLayoutChange={() => maskRefreshRef.current?.()}
+    onComposerLayoutChange={() => maskRefreshRef.current?.({
+      immediate: true
+    })}
     sendToAssistant={sendToAssistant}
     setSendToAssistant={setSendToAssistant}
     aiNote={aiNote}

@@ -198,12 +198,12 @@ export function useChatInputHoleMask({
         if (loop) startLoop();
       });
     };
-    const scheduleUpdate = ({ force = false, loop = true } = {}) => {
+    const scheduleUpdate = ({ force = false, loop = true, immediate = false } = {}) => {
       if (isTiltActive() && lastMask) {
         pendingAfterTilt = true;
         return;
       }
-      if (isMobileViewport && !force) {
+      if (isMobileViewport && !force && !immediate) {
         if (mobileDebounceTimer) {
           window.clearTimeout(mobileDebounceTimer);
         }
@@ -235,10 +235,11 @@ export function useChatInputHoleMask({
         });
       }
     };
-    const refreshHandler = () => {
+    const refreshHandler = (options = {}) => {
       scheduleUpdate({
-        force: true,
-        loop: false
+        force: options.force === true,
+        loop: options.loop === true,
+        immediate: options.immediate === true
       });
     };
     if (refreshRef) {
