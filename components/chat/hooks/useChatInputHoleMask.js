@@ -166,7 +166,8 @@ export function useChatInputHoleMask({
       }
       retryCount = 0;
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);
-      const radius = snap(Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2);
+      const unclampedRadius = Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2;
+      const radius = snap(clamp(unclampedRadius, 0, Math.min(inputLocal.w, inputLocal.h) / 2));
       const geometryKey = `${boxW}|${boxH}|${inputLocal.x}|${inputLocal.y}|${inputLocal.w}|${inputLocal.h}|${radius}`;
       if (geometryKey === lastGeometry && !force) {
         pendingAfterTilt = false;

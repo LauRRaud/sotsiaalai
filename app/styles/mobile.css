@@ -893,11 +893,11 @@
   }
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-layer {
-    display: block !important;
+    display: none !important;
   }
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback {
-    display: none !important;
+    display: block !important;
     contain: none !important;
     isolation: auto !important;
     will-change: auto !important;

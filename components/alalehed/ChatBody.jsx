@@ -563,7 +563,7 @@ export default function ChatBody({
         (analysis.analysisPanelMode === "overlay" &&
           analysis.showAnalysisPanel)) &&
       !profileOpen,
-    applyMaskImage: true,
+    applyMaskImage: !isMobile,
     refreshRef: maskRefreshRef
   });
   useEffect(() => {
