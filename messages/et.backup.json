@@ -806,7 +806,8 @@
       "entry": {
         "helpOffer": "Sain aru, et soovid vormistada abipakkumise. Kas jätkame sellega?",
         "helpRequest": "Sain aru, et soovid vormistada abisoovi. Kas jätkame sellega?",
-        "reprompt": "Vasta \"jah\", et jätkata, või vali muu variant numbri või märksõnaga."
+        "reprompt": "Palun vasta \"jah\" või \"ei\".",
+        "cancelled": "Selge, jätame selle abikuulutuse praegu pooleli."
       },
       "questions": {
         "offer": {
@@ -861,7 +862,8 @@
         "requestTitle": "Palun vaata abisoov üle.",
         "offerTypeValue": "Abipakkumine",
         "requestTypeValue": "Abisoov",
-        "savePrompt": "Kui sobib, vasta „jah“ või „salvesta“. Kui soovid midagi muuta, kirjuta muudatus otse siia."
+        "savePrompt": "Kui sobib, vasta „jah“. Kui ei sobi, vasta „ei“ ja kirjuta, mida soovid muuta.",
+        "editPrompt": "Selge. Kirjuta palun, mida soovid muuta."
       },
       "labels": {
         "type": "Tüüp",
@@ -894,23 +896,20 @@
       },
       "browse": {
         "nextOffers": "Järgmisena võite kirjutada: \"näita sobivaid pakkumisi\".",
-        "nextRequests": "Järgmisena võite kirjutada: \"näita sobivaid abipalveid\".",
+        "nextRequests": "Järgmisena võite kirjutada: \"näita sobivaid abisoove\".",
         "emptyOffers": "Sobivaid aktiivseid abipakkumisi veel ei leitud.",
-        "emptyRequests": "Sobivaid aktiivseid abipalveid veel ei leitud.",
+        "emptyRequests": "Sobivaid aktiivseid abisoove veel ei leitud.",
         "foundOffers": "Leidsin {count} võimalikku pakkumist.",
-        "foundRequests": "Leidsin {count} võimalikku abipalvet.",
+        "foundRequests": "Leidsin {count} võimalikku abisoovi.",
         "connectHintOffers": "Kui soovite kedagi ühendada, kirjutage näiteks: \"ühenda esimese pakkumisega\".",
-        "connectHintRequests": "Kui soovite kedagi ühendada, kirjutage näiteks: \"ühenda esimese abipalvega\".",
-        "sourceMissingOffers": "Enne pean teadma, millise abipalve jaoks pakkumisi vaadata.",
-        "sourceMissingRequests": "Enne pean teadma, millise abipakkumise jaoks abipalveid vaadata.",
-        "cardHintOffer": "Kirjuta: „ühenda {index}. pakkumisega“",
-        "cardHintRequest": "Kirjuta: \"ühenda {index}. abipalvega\""
+        "connectHintRequests": "Kui soovite kedagi ühendada, kirjutage näiteks: \"ühenda esimese abisooviga\".",
+        "sourceMissingOffers": "Enne pean teadma, millise abisoovi jaoks pakkumisi vaadata.",
+        "sourceMissingRequests": "Enne pean teadma, millise abipakkumise jaoks abisoove vaadata."
       },
       "connect": {
         "needBrowse": "Enne ühendamist pean kõigepealt näitama sobivaid tulemusi.",
         "askWhich": "Kirjuta palun, millise tulemusega soovid ühendada, näiteks \"ühenda 1\".",
-        "created": "Ühendus on loodud. Avasingi selle matchi jaoks olemasoleva Room vestluse.",
-        "openRoom": "Ava Room vestlus",
+        "created": "Ühendus on loodud. Vestlus on nüüd leitav vestluste loendis.",
         "alreadyActive": "Selle kuulutuse jaoks on aktiivne match juba olemas.",
         "failed": "Ühenduse loomine ebaõnnestus."
       }

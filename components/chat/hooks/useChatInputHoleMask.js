@@ -36,20 +36,25 @@ export function useChatInputHoleMask({
         target.style.removeProperty("--chat-input-hole-side-h");
       });
     };
+    const isMobileViewport =
+      Boolean(window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches) ||
+      Boolean(window.matchMedia?.(COARSE_POINTER_QUERY)?.matches) ||
+      window.innerWidth <= 768;
     if (!enabled) {
       box.style.removeProperty("--chat-input-hole-mask");
       clearHoleGeometry();
       if (maskLayer) {
         maskLayer.style.removeProperty("--chat-input-hole-mask");
-        maskLayer.style.setProperty("-webkit-mask-image", "none");
-        maskLayer.style.setProperty("mask-image", "none");
+        if (isMobileViewport) {
+          maskLayer.style.removeProperty("-webkit-mask-image");
+          maskLayer.style.removeProperty("mask-image");
+        } else {
+          maskLayer.style.setProperty("-webkit-mask-image", "none");
+          maskLayer.style.setProperty("mask-image", "none");
+        }
       }
       return;
     }
-    const isMobileViewport =
-      Boolean(window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches) ||
-      Boolean(window.matchMedia?.(COARSE_POINTER_QUERY)?.matches) ||
-      window.innerWidth <= 768;
     const snapStep = isMobileViewport ? 1 : 0.25;
     const snap = value => Math.round(value / snapStep) * snapStep;
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -197,8 +202,13 @@ export function useChatInputHoleMask({
         box.style.setProperty("--chat-input-hole-mask", mask);
         if (maskLayer) {
           maskLayer.style.setProperty("--chat-input-hole-mask", mask);
-          maskLayer.style.setProperty("-webkit-mask-image", mask);
-          maskLayer.style.setProperty("mask-image", mask);
+          if (isMobileViewport) {
+            maskLayer.style.removeProperty("-webkit-mask-image");
+            maskLayer.style.removeProperty("mask-image");
+          } else {
+            maskLayer.style.setProperty("-webkit-mask-image", mask);
+            maskLayer.style.setProperty("mask-image", mask);
+          }
         }
         lastMask = mask;
       }

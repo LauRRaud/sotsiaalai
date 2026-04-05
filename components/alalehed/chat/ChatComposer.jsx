@@ -616,7 +616,7 @@ export default function ChatComposer({
     `${displayExpanded ? "min-h-[var(--inputbar-h)] rounded-[1.35rem]" : "h-[var(--inputbar-h)] rounded-full"} ` +
     "transition-[border-color,box-shadow,background,max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     `${displayExpanded ? "pl-[0.62rem] pt-[0.56rem] pb-0 pr-0" : "pl-[0.6rem] pr-0 py-0"} ` +
-    "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-none";
+    "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-[background,box-shadow,border-color] max-[768px]:duration-[320ms] max-[768px]:ease-[cubic-bezier(0.22,0.61,0.36,1)]";
   const inputFieldWrapClassName = displayExpanded
     ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem]"
     : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem]";

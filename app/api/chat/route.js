@@ -958,6 +958,10 @@ export async function POST(req) {
         taskDefaults: null
       };
   const documentPlan = documentDecision.plan;
+  const explicitHelpModeActive = forcedMode === "help_request" || forcedMode === "help_offer";
+  const helpForcedIntent = effectiveExplicitHelpIntent && !helpWorkflowState
+    ? effectiveExplicitHelpIntent
+    : null;
   const shouldUseDocumentWorkflow = Boolean(
     userId &&
     !roomId &&
@@ -966,7 +970,7 @@ export async function POST(req) {
   const shouldUseHelpWorkflow = Boolean(
     userId &&
     !roomId &&
-    (effectiveExplicitHelpIntent || (!forcedMode && helpWorkflowActive))
+    (explicitHelpModeActive || (!forcedMode && (helpWorkflowActive || helpWorkflowState)))
   );
   if (documentPlan) {
     logInfo("orchestration.plan", {
@@ -1384,7 +1388,8 @@ export async function POST(req) {
       convId,
       userId,
       replyLang,
-      forcedIntent: effectiveExplicitHelpIntent
+      workflowState: helpWorkflowState,
+      forcedIntent: helpForcedIntent
     }, prisma);
 
     if (helpResult?.handled) {

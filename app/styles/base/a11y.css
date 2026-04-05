@@ -1692,10 +1692,18 @@ html[data-contrast="hc"]
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
   --orbit-keypad-shadow-item:
-    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 3px 7px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
-    0 0 10px rgba(255, 234, 0, 0.12),
-    0 8px 10px -5px rgba(255, 234, 0, 0.38),
+    0 7px 11px -3px rgba(255, 234, 0, 0.2),
+    0 14px 18px -7px rgba(255, 234, 0, 0.14),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19);
+  --orbit-keypad-shadow-item-hover:
+    0 3px 7px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 7px 11px -3px rgba(255, 234, 0, 0.2),
+    0 14px 18px -7px rgba(255, 234, 0, 0.14),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
@@ -1715,20 +1723,29 @@ html[data-contrast="hc"]
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item {
+  .profile-orbit-menu__center.dock-item {
   color: var(--hc-accent) !important;
   background: var(--orbit-keypad-fill) !important;
   -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
   backdrop-filter: blur(0.9rem) saturate(120%) !important;
-  --pin-gloss-op: 0.1 !important;
+  outline: none !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-menu__item, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item {
+  color: var(--hc-accent) !important;
+  background: var(--orbit-keypad-fill-item, var(--orbit-keypad-fill)) !important;
+  -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
+  backdrop-filter: blur(0.9rem) saturate(120%) !important;
+  --pin-gloss-op: 0 !important;
   outline: none !important;
 }
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item {
-  box-shadow:
-    var(--orbit-keypad-shadow) !important;
+  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
   transition: box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 html[data-contrast="hc"]
@@ -1746,21 +1763,13 @@ html[data-contrast="hc"]
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1), ease !important;
   transition-delay: 0s, 0s !important;
   will-change: box-shadow;
-  box-shadow:
-    0 0 26px rgba(255, 234, 0, 0.38) !important;
+  box-shadow: 0 0 26px rgba(255, 234, 0, 0.38) !important;
 }
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
-  box-shadow:
-    0 4px 9px rgba(2, 6, 16, 0.13),
-    0 1px 1px rgba(15, 23, 42, 0.065),
-    0 0 10px rgba(255, 234, 0, 0.12),
-    0 8px 10px -5px rgba(255, 234, 0, 0.38),
-    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
+  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
 }
 html[data-contrast="hc"]
   body
@@ -1770,8 +1779,7 @@ html[data-contrast="hc"]
     :focus-visible,
     :active
   ) {
-  box-shadow:
-    0 0 32px rgba(255, 234, 0, 0.46) !important;
+  box-shadow: 0 0 32px rgba(255, 234, 0, 0.46) !important;
 }
 html[data-contrast="hc"]
   body
@@ -1787,17 +1795,119 @@ html[data-contrast="hc"]
 @media (min-width: 48.001em) {
   html[data-contrast="hc"]
     body
-    .profile-container.glass-ring
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible) {
-    box-shadow:
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    --orbit-item-glow:
+      0 0 5px rgba(255, 234, 0, 0.2),
+      0 0 8px rgba(255, 234, 0, 0.1);
+    --orbit-item-glow-strong:
+      0 0 6px rgba(255, 234, 0, 0.26),
+      0 0 10px rgba(255, 234, 0, 0.12);
+    --orbit-ring-glow:
+      0 0 10px rgba(255, 234, 0, 0.28),
+      0 0 18px rgba(255, 234, 0, 0.14);
+    --orbit-keypad-shadow:
       0 4px 9px rgba(2, 6, 16, 0.13),
       0 1px 1px rgba(15, 23, 42, 0.065),
       0 0 10px rgba(255, 234, 0, 0.12),
       0 8px 10px -5px rgba(255, 234, 0, 0.38),
       inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
+      inset 0 -1px 0 rgba(2, 6, 16, 0.19);
+    --orbit-keypad-shadow-item:
+      0 3px 7px rgba(2, 6, 16, 0.13),
+      0 1px 1px rgba(15, 23, 42, 0.065),
+      0 7px 11px -3px rgba(255, 234, 0, 0.2),
+      0 14px 18px -7px rgba(255, 234, 0, 0.14),
+      inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      inset 0 -1px 0 rgba(2, 6, 16, 0.19);
+    --orbit-keypad-shadow-item-hover:
+      0 3px 7px rgba(2, 6, 16, 0.13),
+      0 1px 1px rgba(15, 23, 42, 0.065),
+      0 7px 11px -3px rgba(255, 234, 0, 0.2),
+      0 14px 18px -7px rgba(255, 234, 0, 0.14),
+      inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      inset 0 -1px 0 rgba(2, 6, 16, 0.19);
+    --orbit-button-shadow: var(--orbit-keypad-shadow);
+    --orbit-button-shadow-hover: var(--orbit-keypad-shadow);
+    --orbit-button-shadow-center:
+      0 0 14px rgba(255, 234, 0, 0.4),
+      0 0 26px rgba(255, 234, 0, 0.22),
+      0 0 38px rgba(255, 234, 0, 0.12),
+      inset 0 0 0 1px rgba(255, 234, 0, 0.16),
+      inset 0 1px 0 rgba(255, 250, 180, 0.07);
+    --orbit-button-shadow-center-hover:
+      0 0 17px rgba(255, 234, 0, 0.48),
+      0 0 32px rgba(255, 234, 0, 0.28),
+      0 0 46px rgba(255, 234, 0, 0.14),
+      inset 0 0 0 1px rgba(255, 234, 0, 0.2),
+      inset 0 1px 0 rgba(255, 250, 180, 0.09);
+  }
+
+  html[data-contrast="hc"]
+    body
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    :is(.profile-orbit-menu__item, .profile-orbit-stack-bubble).dock-item,
+  html[data-contrast="hc"]
+    body
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    :is(.profile-orbit-menu__item, .profile-orbit-stack-bubble).dock-item {
+    box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
+    -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
+    backdrop-filter: blur(0.9rem) saturate(120%) !important;
+  }
+
+  html[data-contrast="hc"]
+    body
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item,
+  html[data-contrast="hc"]
+    body
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item {
+    box-shadow: var(--orbit-button-shadow-center) !important;
+    -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
+    backdrop-filter: blur(0.9rem) saturate(120%) !important;
+  }
+
+  html[data-contrast="hc"]
+    body
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    :is(.profile-orbit-menu__item, .profile-orbit-stack-bubble).dock-item:is(:hover, :focus-visible, :active),
+  html[data-contrast="hc"]
+    body
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    :is(.profile-orbit-menu__item, .profile-orbit-stack-bubble).dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
+    -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
+    backdrop-filter: blur(0.9rem) saturate(120%) !important;
+  }
+
+  html[data-contrast="hc"]
+    body
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active),
+  html[data-contrast="hc"]
+    body
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow: 0 0 34px rgba(255, 234, 0, 0.48) !important;
+    -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
+    backdrop-filter: blur(0.9rem) saturate(120%) !important;
+  }
+
+  html[data-contrast="hc"]
+    body
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible) {
+    box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
   }
 
   html[data-contrast="hc"]
@@ -1805,8 +1915,9 @@ html[data-contrast="hc"]
   .profile-container.glass-ring
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
-  box-shadow:
-    0 0 28px rgba(255, 234, 0, 0.4) !important;
+  box-shadow: 0 0 28px rgba(255, 234, 0, 0.4) !important;
+  -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
+  backdrop-filter: blur(0.9rem) saturate(120%) !important;
   }
 
   html[data-contrast="hc"]
@@ -1814,8 +1925,9 @@ html[data-contrast="hc"]
     .profile-container.glass-ring
     .profile-email-dock-wrapper.profile-orbit-menu-wrapper
     .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active) {
-    box-shadow:
-      0 0 34px rgba(255, 234, 0, 0.48) !important;
+    box-shadow: 0 0 34px rgba(255, 234, 0, 0.48) !important;
+    -webkit-backdrop-filter: blur(0.9rem) saturate(120%) !important;
+    backdrop-filter: blur(0.9rem) saturate(120%) !important;
   }
 }
 html[data-contrast="hc"]

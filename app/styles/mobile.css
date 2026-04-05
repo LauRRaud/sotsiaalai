@@ -804,6 +804,7 @@
     -webkit-backface-visibility: visible !important;
   }
 
+
   .profile-container.glass-ring .profile-mask-layer {
     background:
       var(--glass-ring-sheen, none),
@@ -880,19 +881,19 @@
     background:
       radial-gradient(
         120% 120% at 18% 16%,
-        rgba(255, 255, 255, 0.95) 0%,
-        rgba(255, 255, 255, 0.28) 62%
+        rgba(255, 255, 255, 0.975) 0%,
+        rgba(255, 255, 255, 0.34) 62%
       ),
       radial-gradient(
         120% 120% at 86% 90%,
-        rgba(0, 0, 0, 0.055) 0%,
+        rgba(0, 0, 0, 0.058) 0%,
         rgba(0, 0, 0, 0) 64%
       ),
       linear-gradient(
         145deg,
-        rgba(255, 255, 255, 0.78) 0%,
-        rgba(255, 255, 255, 0.56) 55%,
-        rgba(255, 255, 255, 0.42) 100%
+        rgba(255, 255, 255, 0.84) 0%,
+        rgba(255, 255, 255, 0.62) 55%,
+        rgba(255, 255, 255, 0.48) 100%
       ) !important;
   }
 
@@ -909,19 +910,19 @@
     background:
       radial-gradient(
         120% 120% at 18% 16%,
-        rgba(255, 255, 255, 0.56) 0%,
-        rgba(255, 255, 255, 0.16) 62%
+        rgba(255, 255, 255, 0.62) 0%,
+        rgba(255, 255, 255, 0.22) 62%
       ),
       radial-gradient(
         120% 120% at 86% 90%,
-        rgba(0, 0, 0, 0.05) 0%,
+        rgba(0, 0, 0, 0.054) 0%,
         rgba(0, 0, 0, 0) 64%
       ),
       linear-gradient(
         145deg,
-        rgba(252, 247, 245, 0.44) 0%,
-        rgba(246, 236, 233, 0.34) 56%,
-        rgba(241, 229, 226, 0.26) 100%
+        rgba(252, 247, 245, 0.5) 0%,
+        rgba(246, 236, 233, 0.39) 56%,
+        rgba(241, 229, 226, 0.31) 100%
       ) !important;
   }
 }
