@@ -186,24 +186,14 @@ export function useChatInputHoleMask({
             1,
             Math.round(contentHeight / lineHeight)
           );
-          const stableLineCount = 3;
-          const extraLines = Math.max(0, lineCount - 1);
-          const estimatedBaseHeight = Math.max(
-            inputLocalBase.h - extraLines * lineHeight,
-            inputLocalBase.h * 0.6
-          );
-          const stableHeight = snap(
-            Math.max(
-              inputLocalBase.h,
-              estimatedBaseHeight + lineHeight * (stableLineCount - 1)
-            )
-          );
-          const stableDelta = Math.max(0, stableHeight - inputLocalBase.h);
-          if (stableDelta > 0) {
+          if (lineCount > 1) {
+            const stableOverscan = snap(
+              Math.min(10, Math.max(4, lineHeight * 0.4))
+            );
             inputLocal = {
               ...inputLocalBase,
-              y: snap(Math.max(0, inputLocalBase.y - stableDelta)),
-              h: stableHeight
+              y: snap(Math.max(0, inputLocalBase.y - stableOverscan)),
+              h: snap(inputLocalBase.h + stableOverscan)
             };
           }
         }
