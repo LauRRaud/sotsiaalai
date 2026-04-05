@@ -159,44 +159,10 @@ export function useChatInputHoleMask({
         scheduleGeometryRetry();
         return;
       }
-      const inputLocalBase = getLocalRect(inputBar, box);
-      if (!inputLocalBase) {
+      const inputLocal = getLocalRect(inputBar, box);
+      if (!inputLocal) {
         scheduleGeometryRetry();
         return;
-      }
-      let inputLocal = inputLocalBase;
-      if (isMobileViewport) {
-        const inputField = inputBar.querySelector(".chat-input-field");
-        const inputFieldFocused =
-          inputField instanceof HTMLElement &&
-          document.activeElement === inputField;
-        if (inputFieldFocused && inputField instanceof HTMLElement) {
-          const inputFieldStyles = window.getComputedStyle(inputField);
-          const lineHeight =
-            Number.parseFloat(inputFieldStyles.lineHeight) || 22;
-          const paddingTop =
-            Number.parseFloat(inputFieldStyles.paddingTop) || 0;
-          const paddingBottom =
-            Number.parseFloat(inputFieldStyles.paddingBottom) || 0;
-          const contentHeight = Math.max(
-            0,
-            inputField.scrollHeight - paddingTop - paddingBottom
-          );
-          const lineCount = Math.max(
-            1,
-            Math.round(contentHeight / lineHeight)
-          );
-          if (lineCount > 1) {
-            const stableOverscan = snap(
-              Math.min(10, Math.max(4, lineHeight * 0.4))
-            );
-            inputLocal = {
-              ...inputLocalBase,
-              y: snap(Math.max(0, inputLocalBase.y - stableOverscan)),
-              h: snap(inputLocalBase.h + stableOverscan)
-            };
-          }
-        }
       }
       retryCount = 0;
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);
@@ -327,9 +293,11 @@ export function useChatInputHoleMask({
       window.addEventListener("scroll", scheduleUpdate, true);
       box.addEventListener("scroll", scheduleUpdate);
     }
-    box.addEventListener("transitionend", scheduleUpdate);
-    inputBar.addEventListener("transitionend", scheduleUpdate);
-    inputRow?.addEventListener("transitionend", scheduleUpdate);
+    if (!isMobileViewport) {
+      box.addEventListener("transitionend", scheduleUpdate);
+      inputBar.addEventListener("transitionend", scheduleUpdate);
+      inputRow?.addEventListener("transitionend", scheduleUpdate);
+    }
     if (!isMobileViewport) {
       box.addEventListener("transitionrun", scheduleUpdate);
       inputBar.addEventListener("transitionrun", scheduleUpdate);
@@ -342,8 +310,8 @@ export function useChatInputHoleMask({
     let mo;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(scheduleUpdate);
-      ro.observe(inputBar);
       if (!isMobileViewport) {
+        ro.observe(inputBar);
         ro.observe(box);
         if (inputRow) ro.observe(inputRow);
       }
@@ -375,10 +343,10 @@ export function useChatInputHoleMask({
         window.removeEventListener("scroll", scheduleUpdate, true);
         box.removeEventListener("scroll", scheduleUpdate);
       }
-      box.removeEventListener("transitionend", scheduleUpdate);
-      inputBar.removeEventListener("transitionend", scheduleUpdate);
-      inputRow?.removeEventListener("transitionend", scheduleUpdate);
       if (!isMobileViewport) {
+        box.removeEventListener("transitionend", scheduleUpdate);
+        inputBar.removeEventListener("transitionend", scheduleUpdate);
+        inputRow?.removeEventListener("transitionend", scheduleUpdate);
         box.removeEventListener("transitionrun", scheduleUpdate);
         inputBar.removeEventListener("transitionrun", scheduleUpdate);
         inputRow?.removeEventListener("transitionrun", scheduleUpdate);
