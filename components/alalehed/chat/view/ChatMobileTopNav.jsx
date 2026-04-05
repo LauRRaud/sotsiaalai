@@ -965,7 +965,7 @@ export default function ChatMobileTopNav({
             className="pointer-events-none absolute inset-x-0 top-[4.16rem] flex justify-center px-[0.45rem] text-center"
             style={{ transform: `translateX(${centerOffsetRem}rem)` }}
           >
-            <span className={cn("max-w-[14rem] whitespace-normal break-words [text-wrap:balance] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]", isAndroidPlatform ? "text-[clamp(1.5rem,6.2vw,1.78rem)]" : "text-[clamp(1.42rem,5.9vw,1.68rem)]")}>
+            <span className={cn("max-w-[14rem] whitespace-normal break-words [text-wrap:balance] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]", isAndroidPlatform ? "text-[clamp(1.4rem,5.75vw,1.64rem)]" : "text-[clamp(1.34rem,5.45vw,1.56rem)]")}>
               {labels[previewFocusedItem.key]}
             </span>
           </div>

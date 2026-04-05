@@ -3066,8 +3066,8 @@
     word-break: normal !important;
     hyphens: manual !important;
     overflow: visible !important;
-    font-size: clamp(1.72rem, 6.2vw, 2.12rem) !important;
-    line-height: 1.08 !important;
+    font-size: clamp(1.82rem, 6.55vw, 2.24rem) !important;
+    line-height: 1.06 !important;
     letter-spacing: 0.004em !important;
   }
 
@@ -3084,8 +3084,8 @@
 
   html[data-platform="android"] .policy-mobile-title--static,
   body[data-platform="android"] .policy-mobile-title--static {
-    font-size: clamp(1.56rem, 5.2vw, 1.84rem) !important;
-    line-height: 1.08 !important;
+    font-size: clamp(1.68rem, 5.75vw, 2rem) !important;
+    line-height: 1.06 !important;
   }
 
 }

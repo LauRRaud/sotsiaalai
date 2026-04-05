@@ -244,7 +244,7 @@ export default function LoginModal({
   const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", isAndroidPlatform ? "mt-[-0.14rem] max-md:mt-[0.04rem] mb-[0.04rem] max-md:mb-[0.14rem]" : "mt-[-0.52rem] max-md:mt-[-0.3rem] mb-[-0.18rem] max-md:mb-[-0.04rem]"].join(" ");
   const emailIconClass = "login-email-icon-btn inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
   const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
-  const loginPinFormClassName = ["w-full", "max-w-full", "mx-auto", "flex", "flex-col", "items-center", isAndroidPlatform ? "gap-[0.48em] mt-[0rem] max-md:gap-[0.58em] max-md:mt-[0.1rem]" : "gap-[0.35em] mt-[-0.24rem] max-md:mt-[-0.04rem]"].join(" ");
+  const loginPinFormClassName = ["w-full", "max-w-full", "mx-auto", "flex", "flex-col", "items-center", isAndroidPlatform ? "gap-[0.54em] mt-[0.02rem] max-md:gap-[0.66em] max-md:mt-[0.14rem]" : "gap-[0.35em] mt-[-0.24rem] max-md:mt-[-0.04rem]"].join(" ");
   useEffect(() => {
     if (typeof window === "undefined") return;
     const query = window.matchMedia("(max-width: 768px)");
@@ -1116,10 +1116,10 @@ export default function LoginModal({
   const loginShellFilter = "none";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
   const androidPinToggleClassName = isAndroidPlatform
-    ? "!text-[1.28rem] max-md:!text-[clamp(1.3rem,4.7vw,1.66rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"
+    ? "!text-[1.32rem] max-md:!text-[clamp(1.36rem,4.9vw,1.74rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"
     : "";
   const androidRegisterLinkClassName = isAndroidPlatform
-    ? "!text-[1.56rem] max-md:!text-[clamp(1.62rem,5.2vw,2.08rem)] leading-[1.14] whitespace-normal [text-wrap:balance]"
+    ? "!text-[1.62rem] max-md:!text-[clamp(1.72rem,5.45vw,2.18rem)] leading-[1.14] whitespace-normal [text-wrap:balance]"
     : "";
   const androidOtpActionClassName = isAndroidPlatform
     ? "!text-[clamp(1.26rem,4.95vw,1.48rem)] max-md:!text-[clamp(1.3rem,5.3vw,1.58rem)] leading-[1.16] whitespace-normal [text-wrap:balance]"
@@ -1145,13 +1145,23 @@ export default function LoginModal({
     isAndroidPlatform ? "max-[768px]:!min-h-[3.58rem]" : ""
   ].filter(Boolean).join(" ");
   const loginShellStyle =
-    isPhoneViewport && isAndroidPlatform && !isOtpStep
+    isPhoneViewport && !isOtpStep
       ? {
-          width: "min(calc(100vw - 0.72rem), calc(var(--login-core-w) + 2.9rem))",
-          minWidth: "min(calc(100vw - 0.72rem), calc(var(--login-core-w) + 2.9rem))",
-          maxWidth: "min(calc(100vw - 0.72rem), calc(var(--login-core-w) + 2.9rem))",
-          paddingLeft: "clamp(1.08rem, 4.8vw, 1.45rem)",
-          paddingRight: "clamp(1.08rem, 4.8vw, 1.45rem)",
+          width: isAndroidPlatform
+            ? "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3.12rem))"
+            : "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3rem))",
+          minWidth: isAndroidPlatform
+            ? "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3.12rem))"
+            : "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3rem))",
+          maxWidth: isAndroidPlatform
+            ? "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3.12rem))"
+            : "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3rem))",
+          paddingLeft: isAndroidPlatform
+            ? "clamp(1.14rem, 5vw, 1.52rem)"
+            : "clamp(1.06rem, 4.25vw, 1.26rem)",
+          paddingRight: isAndroidPlatform
+            ? "clamp(1.14rem, 5vw, 1.52rem)"
+            : "clamp(1.06rem, 4.25vw, 1.26rem)",
           marginLeft: "auto",
           marginRight: "auto"
         }
@@ -1189,23 +1199,23 @@ export default function LoginModal({
           : "0.64em",
       "--pin-btn": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(4.72rem, 17.6vw, 5.38rem)"
+          ? "clamp(4.84rem, 18.05vw, 5.5rem)"
           : "clamp(5.15rem, 19.8vw, 5.85rem)"
         : "4.58rem",
       "--pin-gap-x": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(0.9rem, 3.35vw, 1.14rem)"
+          ? "clamp(0.96rem, 3.65vw, 1.2rem)"
           : "clamp(1.26rem, 4.9vw, 1.56rem)"
         : "0.9rem",
       "--pin-gap-y": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(0.58rem, 1.82vh, 0.82rem)"
+          ? "clamp(0.64rem, 1.96vh, 0.88rem)"
           : "clamp(0.68rem, 2.1vh, 0.9rem)"
         : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
       "--login-email-w": isPhoneViewport
         ? isAndroidPlatform
-          ? "min(calc(var(--pin-grid-w) + 0.92rem), calc(100vw - 2.35rem))"
+          ? "min(calc(var(--pin-grid-w) + 1.08rem), calc(100vw - 2.2rem))"
           : "var(--pin-grid-w)"
         : "calc(var(--pin-grid-w) + 0.72rem)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
@@ -1213,12 +1223,12 @@ export default function LoginModal({
       "--login-pin-modal-w": "min(90vw, max(22rem, calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 1.5rem)))",
       "--login-envelope-size": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(4.88rem, 14.6vw, 5.96rem)"
+          ? "clamp(5rem, 14.95vw, 6.08rem)"
           : "clamp(5.45rem, 15.2vw, 6.9rem)"
         : "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(5.12rem, 15.2vw, 6.22rem)"
+          ? "clamp(5.24rem, 15.55vw, 6.34rem)"
           : "clamp(5.6rem, 15.8vw, 7.1rem)"
         : "clamp(4.4rem, 7vw, 5.2rem)",
       "--otp-copy-text": isMidTheme
