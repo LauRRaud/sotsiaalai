@@ -13,7 +13,7 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AppLink from "@/components/ui/Link";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
-import { glassSubpageFieldInputClassName } from "@/components/ui/glassPageStyles";
+import { glassFormInputBaseClassName } from "@/components/ui/glassPageStyles";
 import { EmailEnvelopeStatusIcon, LockErrorIcon, SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
@@ -1080,8 +1080,8 @@ export default function LoginModal({
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.995) 0%, rgba(255, 255, 255, 0.28) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.045) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.34) 100%)"
     : isNightTheme
-      ? "radial-gradient(138% 128% at 50% 12%, rgba(228, 239, 255, 0.085) 0%, rgba(228, 239, 255, 0.04) 24%, rgba(228, 239, 255, 0.012) 42%, rgba(228, 239, 255, 0) 60%), linear-gradient(160deg, rgba(58, 71, 90, 0.78) 0%, rgba(39, 49, 64, 0.72) 48%, rgba(20, 28, 39, 0.68) 100%), rgba(18, 24, 34, 0.6)"
-      : "radial-gradient(138% 128% at 50% 12%, rgba(244, 247, 255, 0.078) 0%, rgba(244, 247, 255, 0.03) 24%, rgba(244, 247, 255, 0.01) 42%, rgba(244, 247, 255, 0) 60%), linear-gradient(160deg, rgba(58, 66, 78, 0.72) 0%, rgba(36, 42, 52, 0.68) 48%, rgba(18, 23, 30, 0.64) 100%), rgba(18, 22, 28, 0.56)";
+      ? "radial-gradient(138% 128% at 50% 12%, rgba(228, 239, 255, 0.072) 0%, rgba(228, 239, 255, 0.032) 24%, rgba(228, 239, 255, 0.01) 42%, rgba(228, 239, 255, 0) 60%), linear-gradient(160deg, rgba(54, 68, 86, 0.68) 0%, rgba(35, 45, 60, 0.62) 48%, rgba(18, 26, 37, 0.56) 100%), rgba(18, 24, 34, 0.48)"
+      : "radial-gradient(138% 128% at 50% 12%, rgba(244, 247, 255, 0.064) 0%, rgba(244, 247, 255, 0.028) 24%, rgba(244, 247, 255, 0.01) 42%, rgba(244, 247, 255, 0) 60%), linear-gradient(160deg, rgba(54, 62, 74, 0.64) 0%, rgba(32, 38, 48, 0.6) 48%, rgba(18, 23, 30, 0.54) 100%), rgba(18, 22, 28, 0.44)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
       ? "0 5px 10px rgba(0, 0, 0, 0.11), 0 1px 1px rgba(20, 12, 10, 0.07), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
@@ -1096,8 +1096,8 @@ export default function LoginModal({
     : isNightTheme
       ? "linear-gradient(180deg, rgba(230, 240, 255, 0.12) 0%, rgba(230, 240, 255, 0.035) 18%, rgba(230, 240, 255, 0) 44%)"
       : "linear-gradient(180deg, rgba(248, 253, 255, 0.1) 0%, rgba(248, 253, 255, 0.03) 18%, rgba(248, 253, 255, 0) 44%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : isNightTheme ? "0.072" : "0.058";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : isNightTheme ? "0.055" : "0.044";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : isNightTheme ? "0.042" : "0.032";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : isNightTheme ? "0.03" : "0.022";
   const pinBounceVars = {
     "--pin-bounce-ms": "640ms",
     "--pin-bounce-up": "1.059",
@@ -1130,7 +1130,32 @@ export default function LoginModal({
   const androidModalTitleClassName = isAndroidPlatform
     ? "!text-[clamp(1.94rem,1.38rem+1.24vw,2.32rem)] max-md:!text-[clamp(2.24rem,8.45vw,2.9rem)]"
     : "";
-  const loginEmailInputClassName = ["login-email-input", glassSubpageFieldInputClassName, "block mx-auto !my-0 !w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))]", "!text-[1.22rem] !tracking-[0.018em] !px-[1.35rem] !py-[0.92rem] !min-h-[3.52rem]", "placeholder:text-[1.02rem] placeholder:tracking-[0.02em]", "max-[768px]:!text-[1.26rem] max-[768px]:!tracking-[0.022em] max-[768px]:!px-[1.42rem] max-[768px]:!py-[0.96rem] max-[768px]:!min-h-[3.64rem] max-[768px]:placeholder:text-[1.08rem]", isAndroidPlatform ? "max-[768px]:!text-[1.24rem] max-[768px]:!min-h-[3.58rem] max-[768px]:!px-[1.36rem]" : ""].filter(Boolean).join(" ");
+  const loginEmailShellClassName = [
+    "login-email-shell login-email-shell--surface relative block mx-auto w-full",
+    "!w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))]"
+  ].join(" ");
+  const loginEmailInputClassName = [
+    "login-email-input login-email-input--surface register-input register-input-mid-shell",
+    glassFormInputBaseClassName,
+    "block !my-0 !w-full !max-w-none !bg-transparent !border-0 !shadow-none",
+    "!text-left placeholder:!text-left !font-normal !text-[1.25rem] !leading-[1.45] !tracking-[0.01em] !px-[1.5rem] !py-[0.95rem] !min-h-[3.6rem]",
+    "!text-[color:var(--pt-50)] light:!text-[color:var(--input-text)]",
+    "placeholder:opacity-100 placeholder:!text-[color:var(--pt-200)] light:placeholder:!text-[color:var(--input-placeholder)]",
+    "max-[768px]:!text-[clamp(1.2rem,4.9vw,1.36rem)] max-[768px]:!px-[clamp(1.06rem,4.1vw,1.34rem)] max-[768px]:!py-[0.95rem] max-[768px]:!min-h-[3.62rem]",
+    isAndroidPlatform ? "max-[768px]:!min-h-[3.58rem]" : ""
+  ].filter(Boolean).join(" ");
+  const loginShellStyle =
+    isPhoneViewport && isAndroidPlatform && !isOtpStep
+      ? {
+          width: "min(calc(100vw - 0.72rem), calc(var(--login-core-w) + 2.9rem))",
+          minWidth: "min(calc(100vw - 0.72rem), calc(var(--login-core-w) + 2.9rem))",
+          maxWidth: "min(calc(100vw - 0.72rem), calc(var(--login-core-w) + 2.9rem))",
+          paddingLeft: "clamp(1.08rem, 4.8vw, 1.45rem)",
+          paddingRight: "clamp(1.08rem, 4.8vw, 1.45rem)",
+          marginLeft: "auto",
+          marginRight: "auto"
+        }
+      : undefined;
   const currentEmailValue = String(
     (emailRevealed ? emailInputRef.current?.value : "") ||
       emailValue ||
@@ -1269,7 +1294,7 @@ export default function LoginModal({
         isOtpStep
           ? "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
           : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"
-      }`}>
+      }`} style={loginShellStyle}>
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[768px]:!w-[2.66rem] max-[768px]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
@@ -1305,8 +1330,8 @@ export default function LoginModal({
           }} aria-describedby={emailHintIdRef.current} aria-label={t("auth.email_placeholder")} onClick={revealEmailInput}>
                   <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="login-email-icon pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
-                </button> : <label className="block w-full">
-                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={loginEmailInputClassName} onMouseDown={e => {
+                </button> : <label className={loginEmailShellClassName}>
+                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder={t("auth.email_placeholder")} autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={loginEmailInputClassName} onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
                 e.preventDefault();
@@ -1544,7 +1569,7 @@ export default function LoginModal({
             </div>
 
             <div className="w-full mt-[0.96rem] max-[768px]:mt-[0.62rem] flex justify-center">
-              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className={`${glassSubpageFieldInputClassName} !w-[min(100%,17.4rem)] !max-w-[17.4rem] max-[768px]:!w-[min(88vw,22rem)] max-[768px]:!max-w-[22rem] text-center !text-center placeholder:opacity-100 placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] !px-[1.2rem] !py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.12em]`} />
+              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className={`${glassSubpageFieldInputClassName} !w-[min(100%,15.8rem)] !max-w-[15.8rem] max-[768px]:!w-[min(74vw,18.6rem)] max-[768px]:!max-w-[18.6rem] text-center !text-center placeholder:opacity-100 focus:placeholder:opacity-0 placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] !px-[1.2rem] !py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.12em]`} />
             </div>
             {otpInlineError ? <p id="otp-inline-error" role="alert" className="m-0 mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
                 {otpInlineError}
