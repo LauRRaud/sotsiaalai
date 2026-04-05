@@ -1368,6 +1368,26 @@ html[data-contrast="hc"] #login-modal.login-modal--otp {
   --otp-input-border: rgba(255, 234, 0, 0.68);
   --otp-accent: var(--hc-accent);
 }
+html[data-contrast="hc"] #login-modal {
+  --login-pin-key-shadow:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 0 10px rgba(255, 234, 0, 0.16),
+    0 8px 12px -5px rgba(255, 234, 0, 0.34),
+    0 16px 20px -16px rgba(255, 234, 0, 0.24),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19);
+  --login-pin-key-shadow-strong:
+    0 4px 9px rgba(2, 6, 16, 0.13),
+    0 1px 1px rgba(15, 23, 42, 0.065),
+    0 0 12px rgba(255, 248, 186, 0.22),
+    0 10px 14px -5px rgba(255, 234, 0, 0.42),
+    0 18px 22px -16px rgba(255, 234, 0, 0.3),
+    inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19);
+}
 html[data-contrast="hc"] #login-modal .login-modal-shell {
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.56) !important;
@@ -1430,6 +1450,12 @@ html[data-contrast="hc"] #login-modal :is(.button, .btn, button[type="submit"], 
 }
 html[data-contrast="hc"] #login-modal .no-click-pulse {
   border-color: rgba(255, 234, 0, 0.66) !important;
+}
+html[data-contrast="hc"] #login-modal .login-keypad-btn {
+  box-shadow: var(--login-pin-key-shadow) !important;
+}
+html[data-contrast="hc"] #login-modal .login-keypad-btn:is(:hover, :focus-visible, :active) {
+  box-shadow: var(--login-pin-key-shadow-strong) !important;
 }
 html[data-contrast="hc"] #login-modal :is(a, .home-link, .pin-layout-toggle),
 html[data-contrast="hc"] #login-modal :is(a, .home-link, .pin-layout-toggle):is(:hover, :focus-visible, :active) {

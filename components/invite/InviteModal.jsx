@@ -82,7 +82,7 @@ export default function InviteModal() {
   const mobileInviteInputClassName = glassSubpageFieldInputClassName;
   const inviteInputClassName =
     `${mobileInviteInputClassName} ` +
-    "light:placeholder:text-[#516072] [.theme-mid_&]:placeholder:text-[rgba(73,84,101,0.72)] [.theme-night_&]:placeholder:text-[rgba(226,232,240,0.62)] hc:placeholder:text-[color:var(--hc-accent)]";
+    "light:placeholder:text-[#516072] [.theme-mid_&]:placeholder:text-[rgba(73,84,101,0.72)] hc:placeholder:text-[color:var(--hc-accent)]";
   const invitePrimaryButtonClassName =
     "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
     "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
