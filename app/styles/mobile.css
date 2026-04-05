@@ -723,6 +723,18 @@
     --home-card-dark-opacity: 0.99;
   }
 
+  :root.theme-mid body.homepage {
+    --home-card-light-opacity: 0.99;
+    --home-card-dark-opacity: 0.99;
+  }
+
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) body.homepage,
+  :root.theme-night body.homepage,
+  html[data-contrast="hc"]:not(.theme-light) body.homepage {
+    --home-card-light-opacity: 0.95;
+    --home-card-dark-opacity: 0.93;
+  }
+
   html:not([data-contrast="hc"]) .homepage-root .left-card-primary .circular-text-line,
   html:not([data-contrast="hc"]) .homepage-root .centered-back-left h2 {
     color: rgba(57, 57, 57, 0.78) !important;

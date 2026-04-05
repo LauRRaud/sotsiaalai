@@ -1,5 +1,7 @@
 html[data-contrast="hc"] {
   --home-panel-bg: rgba(9, 18, 30, 0.86);
+  --home-card-light-opacity: 0.78;
+  --home-card-dark-opacity: 0.68;
   --chat-card-surface-night-standard-bg: radial-gradient(
     124% 96% at 50% 6%,
     rgba(27, 39, 53, 0.5) 0%,
