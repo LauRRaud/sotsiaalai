@@ -39,11 +39,11 @@ const DEFAULT_SLOT_PROFILE = Object.freeze({
   centerOffsetRem: FOCUS_CENTER_OFFSET_REM
 });
 const ANDROID_SLOT_PROFILE = Object.freeze({
-  step1: 3.28,
-  step2: 6.18,
-  step3: 8.66,
-  tailStep: 2.18,
-  centerOffsetRem: -0.18
+  step1: 3.62,
+  step2: 6.92,
+  step3: 9.58,
+  tailStep: 2.44,
+  centerOffsetRem: -0.24
 });
 
 const clampNumber = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -322,9 +322,9 @@ export default function ChatMobileTopNav({
   const dragClampPx = isAndroidPlatform ? 156 : 192;
   const navRailStyle = isAndroidPlatform
     ? {
-        left: "calc(env(safe-area-inset-left,0px) + 3.26rem)",
-        right: "calc(env(safe-area-inset-right,0px) + 0.16rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.2rem)"
+        left: "calc(env(safe-area-inset-left,0px) + 3.36rem)",
+        right: "calc(env(safe-area-inset-right,0px) + 0.26rem)",
+        top: "calc(env(safe-area-inset-top,0px) + 0.18rem)"
       }
     : {
         left: "calc(env(safe-area-inset-left,0px) + 3.68rem)",
@@ -815,7 +815,10 @@ export default function ChatMobileTopNav({
           }
         }}
         className={cn(
-          "pointer-events-none relative inline-flex h-[clamp(2.96rem,11.9vw,3.42rem)] w-[clamp(2.96rem,11.9vw,3.42rem)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
+          "pointer-events-none relative inline-flex items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
+          isAndroidPlatform
+            ? "h-[clamp(3.08rem,12.45vw,3.56rem)] w-[clamp(3.08rem,12.45vw,3.56rem)]"
+            : "h-[clamp(2.96rem,11.9vw,3.42rem)] w-[clamp(2.96rem,11.9vw,3.42rem)]",
           "opacity-100",
           isDisabled ? "cursor-default" : "cursor-pointer"
         )}
@@ -962,7 +965,7 @@ export default function ChatMobileTopNav({
             className="pointer-events-none absolute inset-x-0 top-[4.16rem] flex justify-center px-[0.45rem] text-center"
             style={{ transform: `translateX(${centerOffsetRem}rem)` }}
           >
-            <span className="max-w-[14rem] whitespace-normal break-words [text-wrap:balance] text-[clamp(1.42rem,5.9vw,1.68rem)] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]">
+            <span className={cn("max-w-[14rem] whitespace-normal break-words [text-wrap:balance] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]", isAndroidPlatform ? "text-[clamp(1.5rem,6.2vw,1.78rem)]" : "text-[clamp(1.42rem,5.9vw,1.68rem)]")}>
               {labels[previewFocusedItem.key]}
             </span>
           </div>

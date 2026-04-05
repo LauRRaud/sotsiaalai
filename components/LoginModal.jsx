@@ -240,10 +240,11 @@ export default function LoginModal({
   const managedByExternalAuthSuccess =
     suppressRedirect && typeof onAuthSuccess === "function";
   const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-0 max-md:min-h-[0.38em] leading-[1.2]", "mt-[-0.08rem] max-md:mt-[0rem]", "mb-[-0.08rem] max-md:mb-[0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
-  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.02em]", "mt-[-0.04rem]", "max-md:mt-[0.08rem]", "mb-0"].join(" ");
-  const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.52rem]", "max-md:mt-[-0.3rem]", "mb-[-0.18rem]", "max-md:mb-[-0.04rem]"].join(" ");
+  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", isAndroidPlatform ? "gap-[0.12rem] mt-[0.04rem] max-md:mt-[0.18rem]" : "gap-[0.02em] mt-[-0.04rem] max-md:mt-[0.08rem]", "mb-0"].join(" ");
+  const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", isAndroidPlatform ? "mt-[-0.14rem] max-md:mt-[0.04rem] mb-[0.04rem] max-md:mb-[0.14rem]" : "mt-[-0.52rem] max-md:mt-[-0.3rem] mb-[-0.18rem] max-md:mb-[-0.04rem]"].join(" ");
   const emailIconClass = "login-email-icon-btn inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
   const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
+  const loginPinFormClassName = ["w-full", "max-w-full", "mx-auto", "flex", "flex-col", "items-center", isAndroidPlatform ? "gap-[0.48em] mt-[0rem] max-md:gap-[0.58em] max-md:mt-[0.1rem]" : "gap-[0.35em] mt-[-0.24rem] max-md:mt-[-0.04rem]"].join(" ");
   useEffect(() => {
     if (typeof window === "undefined") return;
     const query = window.matchMedia("(max-width: 768px)");
@@ -1079,8 +1080,8 @@ export default function LoginModal({
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.995) 0%, rgba(255, 255, 255, 0.28) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.045) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.34) 100%)"
     : isNightTheme
-      ? "radial-gradient(138% 128% at 50% 12%, rgba(228, 239, 255, 0.046) 0%, rgba(228, 239, 255, 0.018) 24%, rgba(228, 239, 255, 0.005) 42%, rgba(228, 239, 255, 0) 60%), linear-gradient(160deg, rgba(45, 53, 68, 0.43) 0%, rgba(28, 35, 47, 0.4) 48%, rgba(16, 22, 31, 0.36) 100%), rgba(18, 24, 34, 0.31)"
-      : "radial-gradient(138% 128% at 50% 12%, rgba(244, 247, 255, 0.04) 0%, rgba(244, 247, 255, 0.016) 24%, rgba(244, 247, 255, 0.004) 42%, rgba(244, 247, 255, 0) 60%), linear-gradient(160deg, rgba(50, 56, 67, 0.4) 0%, rgba(29, 35, 44, 0.37) 48%, rgba(16, 21, 28, 0.34) 100%), rgba(18, 22, 28, 0.29)";
+      ? "radial-gradient(138% 128% at 50% 12%, rgba(228, 239, 255, 0.085) 0%, rgba(228, 239, 255, 0.04) 24%, rgba(228, 239, 255, 0.012) 42%, rgba(228, 239, 255, 0) 60%), linear-gradient(160deg, rgba(58, 71, 90, 0.78) 0%, rgba(39, 49, 64, 0.72) 48%, rgba(20, 28, 39, 0.68) 100%), rgba(18, 24, 34, 0.6)"
+      : "radial-gradient(138% 128% at 50% 12%, rgba(244, 247, 255, 0.078) 0%, rgba(244, 247, 255, 0.03) 24%, rgba(244, 247, 255, 0.01) 42%, rgba(244, 247, 255, 0) 60%), linear-gradient(160deg, rgba(58, 66, 78, 0.72) 0%, rgba(36, 42, 52, 0.68) 48%, rgba(18, 23, 30, 0.64) 100%), rgba(18, 22, 28, 0.56)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
       ? "0 5px 10px rgba(0, 0, 0, 0.11), 0 1px 1px rgba(20, 12, 10, 0.07), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
@@ -1095,8 +1096,8 @@ export default function LoginModal({
     : isNightTheme
       ? "linear-gradient(180deg, rgba(230, 240, 255, 0.12) 0%, rgba(230, 240, 255, 0.035) 18%, rgba(230, 240, 255, 0) 44%)"
       : "linear-gradient(180deg, rgba(248, 253, 255, 0.1) 0%, rgba(248, 253, 255, 0.03) 18%, rgba(248, 253, 255, 0) 44%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : "0";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : "0";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : isNightTheme ? "0.072" : "0.058";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : isNightTheme ? "0.055" : "0.044";
   const pinBounceVars = {
     "--pin-bounce-ms": "640ms",
     "--pin-bounce-up": "1.059",
@@ -1115,20 +1116,21 @@ export default function LoginModal({
   const loginShellFilter = "none";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
   const androidPinToggleClassName = isAndroidPlatform
-    ? "!text-[1.22rem] max-md:!text-[clamp(1.22rem,4.45vw,1.54rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"
+    ? "!text-[1.28rem] max-md:!text-[clamp(1.3rem,4.7vw,1.66rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"
     : "";
   const androidRegisterLinkClassName = isAndroidPlatform
-    ? "!text-[1.46rem] max-md:!text-[clamp(1.46rem,4.95vw,1.95rem)] leading-[1.14] whitespace-normal [text-wrap:balance]"
+    ? "!text-[1.56rem] max-md:!text-[clamp(1.62rem,5.2vw,2.08rem)] leading-[1.14] whitespace-normal [text-wrap:balance]"
     : "";
   const androidOtpActionClassName = isAndroidPlatform
-    ? "!text-[clamp(1.2rem,4.8vw,1.42rem)] max-md:!text-[clamp(1.24rem,5.1vw,1.5rem)] leading-[1.16] whitespace-normal [text-wrap:balance]"
+    ? "!text-[clamp(1.26rem,4.95vw,1.48rem)] max-md:!text-[clamp(1.3rem,5.3vw,1.58rem)] leading-[1.16] whitespace-normal [text-wrap:balance]"
     : "";
   const androidHelpPopoverLinkClassName = isAndroidPlatform
     ? "whitespace-normal [text-wrap:balance] leading-[1.2]"
     : "";
   const androidModalTitleClassName = isAndroidPlatform
-    ? "!text-[clamp(1.82rem,1.3rem+1.2vw,2.2rem)] max-md:!text-[clamp(2.02rem,8vw,2.65rem)]"
+    ? "!text-[clamp(1.94rem,1.38rem+1.24vw,2.32rem)] max-md:!text-[clamp(2.24rem,8.45vw,2.9rem)]"
     : "";
+  const loginEmailInputClassName = ["login-email-input", glassSubpageFieldInputClassName, "block mx-auto !my-0 !w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))]", "!text-[1.22rem] !tracking-[0.018em] !px-[1.35rem] !py-[0.92rem] !min-h-[3.52rem]", "placeholder:text-[1.02rem] placeholder:tracking-[0.02em]", "max-[768px]:!text-[1.26rem] max-[768px]:!tracking-[0.022em] max-[768px]:!px-[1.42rem] max-[768px]:!py-[0.96rem] max-[768px]:!min-h-[3.64rem] max-[768px]:placeholder:text-[1.08rem]", isAndroidPlatform ? "max-[768px]:!text-[1.24rem] max-[768px]:!min-h-[3.58rem] max-[768px]:!px-[1.36rem]" : ""].filter(Boolean).join(" ");
   const currentEmailValue = String(
     (emailRevealed ? emailInputRef.current?.value : "") ||
       emailValue ||
@@ -1162,32 +1164,36 @@ export default function LoginModal({
           : "0.64em",
       "--pin-btn": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(4.3rem, 16.4vw, 4.95rem)"
+          ? "clamp(4.72rem, 17.6vw, 5.38rem)"
           : "clamp(5.15rem, 19.8vw, 5.85rem)"
         : "4.58rem",
       "--pin-gap-x": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(0.72rem, 2.9vw, 0.96rem)"
+          ? "clamp(0.9rem, 3.35vw, 1.14rem)"
           : "clamp(1.26rem, 4.9vw, 1.56rem)"
         : "0.9rem",
       "--pin-gap-y": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(0.48rem, 1.5vh, 0.68rem)"
+          ? "clamp(0.58rem, 1.82vh, 0.82rem)"
           : "clamp(0.68rem, 2.1vh, 0.9rem)"
         : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
-      "--login-email-w": isPhoneViewport ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
+      "--login-email-w": isPhoneViewport
+        ? isAndroidPlatform
+          ? "min(calc(var(--pin-grid-w) + 0.92rem), calc(100vw - 2.35rem))"
+          : "var(--pin-grid-w)"
+        : "calc(var(--pin-grid-w) + 0.72rem)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
       "--login-modal-pad-effective": isOtpStep ? "var(--login-modal-side-pad)" : "var(--login-modal-inner-side-pad)",
       "--login-pin-modal-w": "min(90vw, max(22rem, calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 1.5rem)))",
       "--login-envelope-size": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(4.5rem, 13vw, 5.45rem)"
+          ? "clamp(4.88rem, 14.6vw, 5.96rem)"
           : "clamp(5.45rem, 15.2vw, 6.9rem)"
         : "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(4.72rem, 13.8vw, 5.8rem)"
+          ? "clamp(5.12rem, 15.2vw, 6.22rem)"
           : "clamp(5.6rem, 15.8vw, 7.1rem)"
         : "clamp(4.4rem, 7vw, 5.2rem)",
       "--otp-copy-text": isMidTheme
@@ -1283,7 +1289,7 @@ export default function LoginModal({
             </div>
           </div>
 
-        {!isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center gap-[0.35em] mt-[-0.24rem] max-md:mt-[-0.04rem]" onSubmit={e => {
+        {!isOtpStep && <form className={loginPinFormClassName} onSubmit={e => {
         e.preventDefault();
         submitPinStep();
       }} autoComplete="off">
@@ -1300,7 +1306,7 @@ export default function LoginModal({
                   <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="login-email-icon pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button> : <label className="block w-full">
-                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={`login-email-input ${glassSubpageFieldInputClassName} block mx-auto !my-0 !w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))]`} onMouseDown={e => {
+                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={loginEmailInputClassName} onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
                 e.preventDefault();

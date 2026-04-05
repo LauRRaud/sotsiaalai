@@ -2987,18 +2987,18 @@
 
   html[data-platform="android"] .subpage-mobile-title,
   body[data-platform="android"] .subpage-mobile-title {
-    --fit-title-max-px: 31 !important;
-    --fit-title-min-scale-x: 0.92 !important;
-    --subpage-title-start-reserve: clamp(2.95rem, 9.8vw, 3.45rem) !important;
+    --fit-title-max-px: 35 !important;
+    --fit-title-min-scale-x: 0.935 !important;
+    --subpage-title-start-reserve: clamp(2.82rem, 9.4vw, 3.32rem) !important;
     --subpage-title-end-reserve: var(--subpage-title-start-reserve) !important;
-    font-size: var(--subpage-title-font, clamp(1.44rem, 4.95vw, 1.78rem)) !important;
-    letter-spacing: var(--subpage-title-tracking, 0.004em) !important;
+    font-size: var(--subpage-title-font, clamp(1.58rem, 5.35vw, 1.94rem)) !important;
+    letter-spacing: var(--subpage-title-tracking, 0.006em) !important;
   }
 
   html[data-platform="android"] .subpage-mobile-title--static,
   body[data-platform="android"] .subpage-mobile-title--static {
-    font-size: clamp(1.38rem, 4.7vw, 1.64rem) !important;
-    line-height: 1.07 !important;
+    font-size: clamp(1.56rem, 5.2vw, 1.84rem) !important;
+    line-height: 1.08 !important;
   }
 
   .policy-mobile-title-wrap {
@@ -3078,14 +3078,14 @@
 
   html[data-platform="android"] .policy-mobile-title-wrap,
   body[data-platform="android"] .policy-mobile-title-wrap {
-    --policy-title-inline-start: clamp(3.35rem, 10.9vw, 3.95rem) !important;
+    --policy-title-inline-start: clamp(3.18rem, 10.4vw, 3.78rem) !important;
     --policy-title-inline-end: var(--policy-title-inline-start) !important;
   }
 
   html[data-platform="android"] .policy-mobile-title--static,
   body[data-platform="android"] .policy-mobile-title--static {
-    font-size: clamp(1.38rem, 4.7vw, 1.64rem) !important;
-    line-height: 1.07 !important;
+    font-size: clamp(1.56rem, 5.2vw, 1.84rem) !important;
+    line-height: 1.08 !important;
   }
 
 }
