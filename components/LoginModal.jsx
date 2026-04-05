@@ -1148,20 +1148,20 @@ export default function LoginModal({
     isPhoneViewport && !isOtpStep
       ? {
           width: isAndroidPlatform
-            ? "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3.12rem))"
-            : "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3rem))",
+            ? "min(calc(100vw - 0.36rem), calc(var(--login-core-w) + 3.34rem))"
+            : "min(calc(100vw - 0.34rem), calc(var(--login-core-w) + 3.24rem))",
           minWidth: isAndroidPlatform
-            ? "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3.12rem))"
-            : "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3rem))",
+            ? "min(calc(100vw - 0.36rem), calc(var(--login-core-w) + 3.34rem))"
+            : "min(calc(100vw - 0.34rem), calc(var(--login-core-w) + 3.24rem))",
           maxWidth: isAndroidPlatform
-            ? "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3.12rem))"
-            : "min(calc(100vw - 0.56rem), calc(var(--login-core-w) + 3rem))",
+            ? "min(calc(100vw - 0.36rem), calc(var(--login-core-w) + 3.34rem))"
+            : "min(calc(100vw - 0.34rem), calc(var(--login-core-w) + 3.24rem))",
           paddingLeft: isAndroidPlatform
-            ? "clamp(1.14rem, 5vw, 1.52rem)"
-            : "clamp(1.06rem, 4.25vw, 1.26rem)",
+            ? "clamp(1.2rem, 5.25vw, 1.6rem)"
+            : "clamp(1.1rem, 4.35vw, 1.3rem)",
           paddingRight: isAndroidPlatform
-            ? "clamp(1.14rem, 5vw, 1.52rem)"
-            : "clamp(1.06rem, 4.25vw, 1.26rem)",
+            ? "clamp(1.2rem, 5.25vw, 1.6rem)"
+            : "clamp(1.1rem, 4.35vw, 1.3rem)",
           marginLeft: "auto",
           marginRight: "auto"
         }
@@ -1204,18 +1204,18 @@ export default function LoginModal({
         : "4.58rem",
       "--pin-gap-x": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(0.96rem, 3.65vw, 1.2rem)"
+          ? "clamp(1.04rem, 3.95vw, 1.3rem)"
           : "clamp(1.36rem, 5.2vw, 1.68rem)"
         : "0.9rem",
       "--pin-gap-y": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(0.64rem, 1.96vh, 0.88rem)"
+          ? "clamp(0.74rem, 2.18vh, 0.98rem)"
           : "clamp(0.76rem, 2.28vh, 0.98rem)"
         : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
       "--login-email-w": isPhoneViewport
         ? isAndroidPlatform
-          ? "min(calc(var(--pin-grid-w) + 1.08rem), calc(100vw - 2.2rem))"
+          ? "min(calc(var(--pin-grid-w) + 1.22rem), calc(100vw - 2.02rem))"
           : "var(--pin-grid-w)"
         : "calc(var(--pin-grid-w) + 0.72rem)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
