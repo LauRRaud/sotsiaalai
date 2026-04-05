@@ -1315,6 +1315,7 @@
   body[data-platform="android"] .profile-orbit-stack-list {
     justify-content: flex-start !important;
     overscroll-behavior-y: auto !important;
+    gap: clamp(1.84rem, 4.2vh, 2.92rem) !important;
   }
 
   html[data-platform="android"] .profile-orbit-stack-backdrop,
@@ -1388,7 +1389,7 @@
 
   html[data-platform="android"] .profile-orbit-stack-item,
   body[data-platform="android"] .profile-orbit-stack-item {
-    gap: clamp(0.48rem, 1.8vw, 0.78rem) !important;
+    gap: clamp(0.42rem, 1.6vw, 0.68rem) !important;
   }
 
   html[data-platform="android"] .profile-orbit-stack-bubble.dock-item,
@@ -3066,8 +3067,8 @@
     word-break: normal !important;
     hyphens: manual !important;
     overflow: visible !important;
-    font-size: clamp(1.82rem, 6.55vw, 2.24rem) !important;
-    line-height: 1.06 !important;
+    font-size: clamp(1.94rem, 6.95vw, 2.4rem) !important;
+    line-height: 1.04 !important;
     letter-spacing: 0.004em !important;
   }
 
@@ -3084,8 +3085,8 @@
 
   html[data-platform="android"] .policy-mobile-title--static,
   body[data-platform="android"] .policy-mobile-title--static {
-    font-size: clamp(1.68rem, 5.75vw, 2rem) !important;
-    line-height: 1.06 !important;
+    font-size: clamp(1.8rem, 6.15vw, 2.14rem) !important;
+    line-height: 1.04 !important;
   }
 
 }

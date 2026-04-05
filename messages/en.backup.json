@@ -813,26 +813,36 @@
         "offer": {
           "describe": "Please describe briefly what you want to offer, for whom, and where.",
           "rawPlace": "Please write where you want to offer help.",
+          "rawPlaceTransport": "In which area or on which route can you offer transport help?",
           "helpType": "Is this help voluntary, paid, or are you open to both?",
           "compensationDetails": "Please briefly describe the payment terms.",
           "timeType": "Is this help one-time, regular, or flexible?",
           "availability": "When can you start or when is this help available?",
-          "scope": "Would you like to add any conditions or details, for example when or to what extent you can help?"
+          "scope": "Would you like to add any conditions or details, for example when or to what extent you can help?",
+          "scopeTransport": "Can you help with giving rides, accompanying someone, or arranging transport? Please add any limits or details.",
+          "scopeDigital": "Will the digital help happen in person or remotely? Please briefly add what exactly you can help with.",
+          "scopeAdmin": "Can you help with applications, forms, or e-services? Please say whether the help happens in person or together online.",
+          "scopeHome": "What kind of home help can you offer, for example cleaning, simple household tasks, or other practical help?"
         },
         "request": {
           "describe": "Please describe briefly what help you need, for whom, and where.",
           "rawPlace": "Please write where the help is needed.",
+          "rawPlaceTransport": "In which area or on which route is transport help needed?",
           "beneficiary": "Is this help request for you or for someone else?",
           "urgency": "How quickly is the help needed: immediately, soon, or flexibly?",
           "helpType": "Are you looking for voluntary help, a paid service, or are you open to both?",
           "compensationDetails": "Please briefly describe the payment or compensation preference.",
           "timeType": "Do you need this help one-time, regularly, or flexibly?",
-          "availability": "When is the help needed or when could it start?"
+          "availability": "When is the help needed or when could it start?",
+          "availabilityTransport": "When is the transport help needed? If you want, also add the time or weekday.",
+          "availabilityDigital": "When is the digital help needed? If you want, also add whether in-person or remote help works better.",
+          "availabilityAdmin": "When is the help with forms or administrative tasks needed? If there is a deadline, please add that too."
         },
         "shared": {
           "contactPreference": "How would you like to be contacted: via chat, by phone, by email, or by agreement?",
-          "targetGroup": "Who is this help meant for?",
-          "category": "Which kind of help does this fit best under?",
+          "targetGroup": "Who is this help meant for? For example an older person, an adult, or a person with a disability.",
+          "targetGroupClarifyOffer": "This question is about who your help is meant for. Please answer for example: an older person, an adult, or a person with a disability.",
+          "category": "Which kind of help does this fit best under? For example transport, digital help, home help, or help with forms and administrative tasks.",
           "title": "I set a title. If you want a different one, write it now."
         },
         "location": {

@@ -283,3 +283,106 @@ test("saving a help request automatically shows matching offers", async () => {
   assert.match(String(result.reply || ""), /Leidsin 1/i);
   assert.match(String(result.reply || ""), /1\. Pakun transpordiabi/i);
 });
+
+test("help offer target-group answer does not get treated as location", async () => {
+  const offerState = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    confirmationPending: false,
+    municipalityId: "mun-1",
+    municipalityLabel: "Harku vald",
+    draft: {
+      title: "Pakun transpordiabi",
+      description: "Pakun transpordiabi Tabasalus.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      rawPlace: "Tabasalu",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "nädalavahetusel õhtul kell 19",
+      providerScopeOrConditions: "nädalavahetusel õhtul",
+      contactPreference: "vestluse kaudu"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "minule",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: offerState
+  }, createBrowsePrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.rawPlace, "Tabasalu");
+  assert.match(String(result.reply || ""), /kellele sinu abi on mõeldud/i);
+  assert.doesNotMatch(String(result.reply || ""), /Märkisin asukohaks minule/i);
+});
+
+test("transport request asks category-aware availability question", async () => {
+  const requestState = createHelpWorkflowDraftState({
+    intent: "create_help_request",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    confirmationPending: false,
+    municipalityId: "mun-1",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      rawPlace: "Tallinn",
+      beneficiaryLabel: "endale",
+      urgency: "lähiajal",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      contactPreference: "vestluse kaudu"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "vabatahtlik",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: requestState
+  }, createBrowsePrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.match(String(result.reply || ""), /Millal transpordiabi vaja on/i);
+});
+
+test("digital help offer asks category-aware scope question", async () => {
+  const offerState = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    confirmationPending: false,
+    municipalityId: "mun-1",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Pakun digiabi",
+      description: "Pakun digiabi telefoniga ja e-teenustega.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "kokkuleppel",
+      contactPreference: "vestluse kaudu"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "kokkuleppel",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: offerState
+  }, createBrowsePrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.match(String(result.reply || ""), /Kas digiabi toimub kohapeal või kaugelt/i);
+});

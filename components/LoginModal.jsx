@@ -1204,12 +1204,12 @@ export default function LoginModal({
         : "4.58rem",
       "--pin-gap-x": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(1.04rem, 3.95vw, 1.3rem)"
+          ? "clamp(1.18rem, 4.45vw, 1.48rem)"
           : "clamp(1.36rem, 5.2vw, 1.68rem)"
         : "0.9rem",
       "--pin-gap-y": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(0.74rem, 2.18vh, 0.98rem)"
+          ? "clamp(0.9rem, 2.6vh, 1.14rem)"
           : "clamp(0.76rem, 2.28vh, 0.98rem)"
         : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
