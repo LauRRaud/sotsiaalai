@@ -133,7 +133,7 @@ export function useChatInputHoleMask({
         });
       }, 120);
     };
-    const updateMask = ({ force = false } = {}) => {
+    const updateMask = ({ force = false, bypassThrottle = false } = {}) => {
       if (isTiltActive() && lastMask) {
         pendingAfterTilt = true;
         return;
@@ -141,6 +141,7 @@ export function useChatInputHoleMask({
       const ts = nowMs();
       if (
         !force &&
+        !bypassThrottle &&
         isMobileViewport &&
         ts - lastMaskRunAt < MOBILE_MASK_UPDATE_INTERVAL_MS
       ) {
@@ -219,7 +220,11 @@ export function useChatInputHoleMask({
         rafLoop = window.requestAnimationFrame(tick);
       }
     };
-    const runScheduledUpdate = ({ force = false, loop = true } = {}) => {
+    const runScheduledUpdate = ({
+      force = false,
+      loop = true,
+      bypassThrottle = false
+    } = {}) => {
       if (isTiltActive() && lastMask) {
         pendingAfterTilt = true;
         return;
@@ -227,12 +232,18 @@ export function useChatInputHoleMask({
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
         updateMask({
-          force
+          force,
+          bypassThrottle
         });
         if (loop) startLoop();
       });
     };
-    const scheduleUpdate = ({ force = false, loop = true, immediate = false } = {}) => {
+    const scheduleUpdate = ({
+      force = false,
+      loop = true,
+      immediate = false,
+      bypassThrottle = false
+    } = {}) => {
       if (isTiltActive() && lastMask) {
         pendingAfterTilt = true;
         return;
@@ -256,7 +267,8 @@ export function useChatInputHoleMask({
       }
       runScheduledUpdate({
         force,
-        loop
+        loop,
+        bypassThrottle: bypassThrottle || immediate
       });
     };
     const onTiltState = event => {
@@ -273,7 +285,8 @@ export function useChatInputHoleMask({
       scheduleUpdate({
         force: options.force === true,
         loop: options.loop === true,
-        immediate: options.immediate === true
+        immediate: options.immediate === true,
+        bypassThrottle: options.immediate === true
       });
     };
     if (refreshRef) {

@@ -478,9 +478,10 @@ export default function ChatBody({
   const maskRefreshRef = useRef(null);
   const refreshMask = useCallback((options = {}) => {
     const immediate = options.immediate === true;
+    const mobileImmediate = options.mobileImmediate === true;
     maskRefreshRef.current?.({
       ...options,
-      immediate: immediate && !isMobile
+      immediate: immediate && (!isMobile || mobileImmediate)
     });
   }, [isMobile]);
   const waitForComposerCollapse = useCallback(async () => {
@@ -542,7 +543,8 @@ export default function ChatBody({
       timeoutId = window.setTimeout(finish, 460);
     });
     refreshMask({
-      immediate: true
+      immediate: true,
+      mobileImmediate: true
     });
   }, [inputFocused, isMobile, refreshMask]);
   const {
@@ -2190,7 +2192,8 @@ export default function ChatBody({
     composerDraftApiRef={composerDraftApiRef}
     onDraftStateChange={handleDraftStateChange}
     onComposerLayoutChange={() => refreshMask({
-      immediate: true
+      immediate: true,
+      mobileImmediate: true
     })}
     sendToAssistant={sendToAssistant}
     setSendToAssistant={setSendToAssistant}

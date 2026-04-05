@@ -273,8 +273,8 @@
   --home-card-shadow-active:
     var(--home-card-shell-shadow);
   --home-card-surface-saturate: 104%;
-  --home-card-light-opacity: 0.6;
-  --home-card-dark-opacity: 0.8;
+  --home-card-light-opacity: 0.74;
+  --home-card-dark-opacity: 0.89;
   --home-scroll-cue-color: #7a3a38;
   --home-title-color: #7a3a38;
   --home-link-color: var(--link-color, #7a3a38);

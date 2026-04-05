@@ -405,8 +405,8 @@
   --home-card-blur: 0.6rem;
   --home-card-saturate: 118%;
   --home-card-surface-saturate: 122%;
-  --home-card-light-opacity: 0.65;
-  --home-card-dark-opacity: 0.6;
+  --home-card-light-opacity: 0.78;
+  --home-card-dark-opacity: 0.74;
   --home-panel-shadow-idle:
     0 0 10px rgba(248, 253, 255, 0.14),
     0 0 20px rgba(248, 253, 255, 0.065);
