@@ -300,6 +300,22 @@ html[data-contrast="hc"] .homepage-root .home-before-panel {
   box-shadow: var(--home-panel-shadow-active) !important;
 }
 
+html[data-contrast="hc"] .register-success-shell {
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.72);
+  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.92);
+  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.96);
+}
+
+html[data-contrast="hc"] .register-success-shell .register-success-panel {
+  box-shadow: var(--home-panel-shadow-idle, var(--glass-shell-shadow, none)) !important;
+}
+
+html[data-contrast="hc"] .register-success-shell .register-success-panel,
+html[data-contrast="hc"] .register-success-shell .register-success-panel * {
+  color: var(--hc-accent) !important;
+}
+
 html[data-contrast="hc"] .homepage-root :is(.home-about-scrollbox, .home-about-scrollbox *) {
   color: var(--hc-accent) !important;
 }

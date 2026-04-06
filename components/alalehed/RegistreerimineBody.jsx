@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import OptionCard from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
+import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
@@ -13,6 +14,7 @@ import { cn } from "@/components/ui/cn";
 import {
   glassPageBackClassName,
   glassPageBackMobileBottomCenterClassName,
+  glassPageCloseClassName,
   glassPageRingCenteredClassName,
   glassPageShellCenteredClassName,
   glassPageTitleClassName,
@@ -31,8 +33,22 @@ import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = `${glassPageTitleClassName} glass-title-register max-[768px]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0 max-[768px]:!px-0`;
+const successTitleClassName =
+  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0`;
+const successTitleWrapClassName =
+  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const contentClassName =
   "register-content mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
+const successContentClassName =
+  "register-success-content mx-auto mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(21rem,62vw,32rem)] flex-col items-center gap-[1.35rem] text-center";
+const successPanelClassName =
+  "register-success-panel relative w-full rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] " +
+  "[background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] " +
+  "[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] shadow-[var(--glass-shell-shadow,none)] [border:none] " +
+  "px-[clamp(1rem,2.4vw,1.8rem)] pt-[clamp(1.3rem,2.6vw,2rem)] pb-[clamp(1rem,2vw,1.45rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)]";
+const successMessageClassName =
+  "m-0 text-center text-[1.18rem] leading-[1.5] tracking-[0.012em] text-[color:var(--glass-surface-text,#f2f2f2)] light:text-[color:var(--input-text)] max-[768px]:text-[1.28rem] max-[768px]:leading-[1.42]";
+const successActionsClassName = "mt-[0.25rem] flex w-full justify-center";
 const scrollClassName =
   "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[769px]:max-w-[clamp(18.2rem,calc(var(--ring-diameter,52rem)/2.2),23.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.6rem] min-[769px]:px-[1.02rem] text-left csp-container mx-auto";
 const registerTextClassName =
@@ -51,6 +67,9 @@ const registerControlVarsClassName =
 const registerOptionButtonClassName = primarySegmentedButtonClassName;
 const registerButtonClassName =
   "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
+const successButtonClassName =
+  "register-success-button !min-h-[3.05rem] !px-[1.55rem] !py-[0.9rem] !text-[1.18rem] !leading-[1.12] !tracking-[0.02em] " +
+  "max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
@@ -133,6 +152,7 @@ export default function RegistreerimineBody({}) {
     pin: "",
   });
   const [successMessage, setSuccessMessage] = useState("");
+  const showSuccessState = Boolean(successMessage);
   const [isFrameworkModalOpen, setIsFrameworkModalOpen] = useState(false);
   const [frameworkReviewOpenedAt, setFrameworkReviewOpenedAt] = useState("");
   const [frameworkSignedDownloadedAt, setFrameworkSignedDownloadedAt] =
@@ -545,74 +565,109 @@ export default function RegistreerimineBody({}) {
   return (
     <section className={pageShellClassName} lang={locale}>
       <GlassRing
-        className={registerRingClassName}
+        className={cn(
+          registerRingClassName,
+          showSuccessState ? "register-success-shell mobile-keep-desktop-glass-cards [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]" : null,
+        )}
         data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}
       >
         <BackButton
-          onClick={handleClose}
+          onClick={showSuccessState ? handleClose : handleClose}
           ariaLabel={t("buttons.back_home")}
-          className={`${glassPageBackClassName} scroll-reactive-back`}
+          className={showSuccessState ? glassPageBackMobileBottomCenterClassName : `${glassPageBackClassName} scroll-reactive-back`}
         />
-        <div
-          className="csp-overlayTitle [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
-          aria-hidden="true"
-        >
-          <h1 className={localizedTitleClassName}>
-            {t("auth.register.title")}
-          </h1>
-        </div>
-
-        <div
-          className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron ${"is-visible"} ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
-          aria-hidden="true"
-        >
-          <span className="csp-chevron-frame" aria-hidden="true">
-            <ChevronIcon
-              direction="up"
-              strokeWidth={
-                isMobileViewport
-                  ? registerChevronStrokeWidthMobile
-                  : registerChevronStrokeWidthDesktop
-              }
-              className="csp-chevron-icon"
+        {showSuccessState ? (
+          <>
+            <CloseButton
+              onClick={handleClose}
+              ariaLabel={t("buttons.close")}
+              className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
             />
-          </span>
-        </div>
-        <div
-          className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron ${"is-visible"} ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`}
-          aria-hidden="true"
-        >
-          <span className="csp-chevron-frame" aria-hidden="true">
-            <ChevronIcon
-              direction="down"
-              strokeWidth={
-                isMobileViewport
-                  ? registerChevronStrokeWidthMobile
-                  : registerChevronStrokeWidthDesktop
-              }
-              className="csp-chevron-icon"
-            />
-          </span>
-        </div>
-
-        <div className={contentClassName}>
-          <div
-            ref={scrollRef}
-            className={`${scrollClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`}
-            style={{
-              "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
-              "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
-              "--csp-center-offset": `${isMobileViewport ? -5 : -11}px`,
-            }}
-            tabIndex={0}
-            aria-label={t("auth.register.title")}
-          >
-            <form
-              className="register-form flex flex-col gap-[2rem]"
-              onSubmit={handleSubmit}
-              autoComplete="on"
-              noValidate
+            <div className={successTitleWrapClassName}>
+              <h1 className={successTitleClassName}>
+                {t("auth.register.title")}
+              </h1>
+            </div>
+            <div className={successContentClassName}>
+              <div role="status" className={successPanelClassName}>
+                <p className={successMessageClassName}>
+                  {successMessage}
+                </p>
+              </div>
+              <div className={successActionsClassName}>
+                <Button
+                  type="button"
+                  variant="primary"
+                  className={successButtonClassName}
+                  onClick={handleClose}
+                >
+                  <span>{t("buttons.back_home")}</span>
+                </Button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div
+              className="csp-overlayTitle [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
+              aria-hidden="true"
             >
+              <h1 className={localizedTitleClassName}>
+                {t("auth.register.title")}
+              </h1>
+            </div>
+
+            <div
+              className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron ${"is-visible"} ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
+              aria-hidden="true"
+            >
+              <span className="csp-chevron-frame" aria-hidden="true">
+                <ChevronIcon
+                  direction="up"
+                  strokeWidth={
+                    isMobileViewport
+                      ? registerChevronStrokeWidthMobile
+                      : registerChevronStrokeWidthDesktop
+                  }
+                  className="csp-chevron-icon"
+                />
+              </span>
+            </div>
+            <div
+              className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron ${"is-visible"} ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`}
+              aria-hidden="true"
+            >
+              <span className="csp-chevron-frame" aria-hidden="true">
+                <ChevronIcon
+                  direction="down"
+                  strokeWidth={
+                    isMobileViewport
+                      ? registerChevronStrokeWidthMobile
+                      : registerChevronStrokeWidthDesktop
+                  }
+                  className="csp-chevron-icon"
+                />
+              </span>
+            </div>
+
+            <div className={contentClassName}>
+              <div
+                ref={scrollRef}
+                className={`${scrollClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`}
+                style={{
+                  "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
+                  "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
+                  "--csp-center-offset": `${isMobileViewport ? -5 : -11}px`,
+                }}
+                tabIndex={0}
+                aria-label={t("auth.register.title")}
+              >
+                <form
+                  className="register-form flex flex-col gap-[2rem]"
+                  onSubmit={handleSubmit}
+                  autoComplete="on"
+                  noValidate
+                >
               <section
                 className={`${registerStepClassName} register-step--field register-step--email ${getRegisterStepClassName(0)}`}
               >
@@ -807,65 +862,59 @@ export default function RegistreerimineBody({}) {
                 </section>
               ) : null}
 
-              <section
-                className={`${registerStepClassName} ${getRegisterStepClassName(submitStepIndex)}`}
-              >
-                {!isRegistrationOpen && (
-                  <div
-                    role="status"
-                    className="w-full rounded-[0.95rem] border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fde68a] light:text-[color:#92400e] text-[1.08rem] leading-[1.4]"
+                  <section
+                    className={`${registerStepClassName} ${getRegisterStepClassName(submitStepIndex)}`}
                   >
-                    {t("auth.register.closed_notice")}
-                  </div>
-                )}
-                {error && (
-                  <div
-                    role="alert"
-                    className="register-alert w-full rounded-[0.95rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fca5a5] text-[1.12rem] leading-[1.4]"
-                  >
-                    {error}
-                  </div>
-                )}
-                {successMessage && (
-                  <div
-                    role="status"
-                    className="auth-success-panel w-full rounded-[1.02rem] px-[1rem] py-[0.9rem] text-[1.2rem] max-[768px]:text-[1.34rem] leading-[1.38] font-medium"
-                  >
-                    {successMessage}
-                  </div>
-                )}
-                {submitting ? (
-                  <div
-                    className="flex justify-center py-[0.12rem]"
-                    role="status"
-                    aria-live="polite"
-                    aria-atomic="true"
-                  >
-                    <div className="rounded-[1.05rem] border border-[rgba(255,255,255,0.18)] bg-[linear-gradient(153deg,rgba(255,255,255,0.14)_0%,rgba(30,41,59,0.36)_55%,rgba(8,14,24,0.46)_100%)] px-[1rem] py-[0.88rem] shadow-[0_15px_30px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[var(--glass-modal-blur,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] light:border-[rgba(148,163,184,0.36)] light:bg-[linear-gradient(150deg,rgba(255,255,255,0.98)_0%,rgba(241,245,249,0.92)_58%,rgba(226,232,240,0.84)_100%)] light:shadow-[0_12px_24px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.82)]">
-                      <span className="block text-center text-[1.16rem] leading-[1.16] font-medium tracking-[0.01em] text-[color:#e2e8f0] light:text-[color:#334155]">
-                        {t("auth.register.loading_status", "Konto loomine")}
-                      </span>
+                    {!isRegistrationOpen && (
+                      <div
+                        role="status"
+                        className="w-full rounded-[0.95rem] border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fde68a] light:text-[color:#92400e] text-[1.08rem] leading-[1.4]"
+                      >
+                        {t("auth.register.closed_notice")}
+                      </div>
+                    )}
+                    {error && (
+                      <div
+                        role="alert"
+                        className="register-alert w-full rounded-[0.95rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fca5a5] text-[1.12rem] leading-[1.4]"
+                      >
+                        {error}
+                      </div>
+                    )}
+                    {submitting ? (
+                      <div
+                        className="flex justify-center py-[0.12rem]"
+                        role="status"
+                        aria-live="polite"
+                        aria-atomic="true"
+                      >
+                        <div className="rounded-[1.05rem] border border-[rgba(255,255,255,0.18)] bg-[linear-gradient(153deg,rgba(255,255,255,0.14)_0%,rgba(30,41,59,0.36)_55%,rgba(8,14,24,0.46)_100%)] px-[1rem] py-[0.88rem] shadow-[0_15px_30px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[var(--glass-modal-blur,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] light:border-[rgba(148,163,184,0.36)] light:bg-[linear-gradient(150deg,rgba(255,255,255,0.98)_0%,rgba(241,245,249,0.92)_58%,rgba(226,232,240,0.84)_100%)] light:shadow-[0_12px_24px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.82)]">
+                          <span className="block text-center text-[1.16rem] leading-[1.16] font-medium tracking-[0.01em] text-[color:#e2e8f0] light:text-[color:#334155]">
+                            {t("auth.register.loading_status", "Konto loomine")}
+                          </span>
+                        </div>
+                      </div>
+                    ) : null}
+                    <div
+                      className={`register-submit-wrap flex justify-center ${submitting ? "mt-[0.8rem]" : ""}`}
+                    >
+                      <Button
+                        type="submit"
+                        variant="primary"
+                        className={registerButtonClassName}
+                        disabled={submitting || !isRegistrationOpen}
+                      >
+                        <span className="register-submit-label">
+                          {t("auth.register.submit")}
+                        </span>
+                      </Button>
                     </div>
-                  </div>
-                ) : null}
-                <div
-                  className={`register-submit-wrap flex justify-center ${submitting ? "mt-[0.8rem]" : ""}`}
-                >
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    className={registerButtonClassName}
-                    disabled={submitting || !isRegistrationOpen}
-                  >
-                    <span className="register-submit-label">
-                      {t("auth.register.submit")}
-                    </span>
-                  </Button>
-                </div>
-              </section>
-            </form>
-          </div>
-        </div>
+                  </section>
+                </form>
+              </div>
+            </div>
+          </>
+        )}
       </GlassRing>
       {isFrameworkModalOpen ? (
         <div

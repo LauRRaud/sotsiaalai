@@ -473,26 +473,25 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     touchStartYRef.current = null;
   };
   const panelBaseClassName =
-    "w-full max-w-[min(90vw,24rem)] px-0 mx-auto " +
+    "w-full max-w-none px-0 mx-auto " +
     "mt-[clamp(0.3rem,0.8vw,0.5rem)] mb-[clamp(1.2rem,3vw,2rem)] " +
     "relative z-[30]";
   const panelWideClassName =
     "max-w-none w-full px-0";
   const panelExpandedClassName =
-    "relative mt-[clamp(0.3rem,0.8vw,0.5rem)] px-[clamp(0.05rem,0.8vw,0.55rem)]";
+    "relative mt-[clamp(0.3rem,0.8vw,0.5rem)] px-0";
   const panelOverlayClassName =
-    "chat-analysis-overlay absolute left-1/2 bottom-[clamp(4.9rem,11vh,6.8rem)] " +
-    "-translate-x-1/2 w-[min(64vw,24rem)] max-w-[calc(100%-2.2rem)] " +
-    "m-0 p-[clamp(0.05rem,0.6vw,0.4rem)] z-[260] pointer-events-auto " +
+    "chat-analysis-overlay absolute inset-x-0 bottom-[clamp(4.9rem,11vh,6.8rem)] " +
+    "w-full max-w-none m-0 p-0 z-[260] pointer-events-auto " +
     "max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+7.15rem+var(--chat-vk-offset,0px))] " +
-    "max-[768px]:w-[min(88vw,24rem)]";
+    "max-[768px]:inset-x-0";
   const cardOverlayClassName =
     "chat-analysis-overlay-card !isolation-auto";
   const cardClassName =
     "chat-analysis-panel-card w-full max-w-none rounded-[1.55rem] border-0 " +
-    "bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
-    "shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-blur-radius,1rem)] " +
-    "[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
+    "[background:var(--chat-analysis-panel-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
+    "shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--chat-analysis-panel-blur,calc(var(--glass-blur-radius,1rem)*0.56))] " +
+    "[-webkit-backdrop-filter:blur(var(--chat-analysis-panel-blur,calc(var(--glass-blur-radius,1rem)*0.56)))] " +
     "[--analysis-card-pad-y:clamp(0.7rem,1.95vw,1.05rem)] " +
     "[--analysis-card-pad-x:clamp(0.85rem,2.5vw,1.65rem)] " +
     "[--analysis-card-pad-b:clamp(0.95rem,2.7vw,1.45rem)] " +
@@ -500,6 +499,12 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "max-[768px]:pr-[calc(var(--analysis-card-pad-x)+0.65rem)] " +
     "tracking-[0.035em] text-rendering-geometricPrecision isolate " +
     "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto";
+  const cardSurfaceVars = {
+    "--chat-analysis-panel-bg":
+      "var(--glass-ring-sheen,none), var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))), var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))",
+    "--chat-analysis-panel-blur":
+      "calc(var(--glass-blur-radius, 1rem) * 0.56)"
+  };
   const headerClassName =
     "flex flex-col items-center justify-center gap-[0.6rem] flex-wrap relative z-[60] " +
     "pt-[0.15rem] mb-[0.6rem]";
@@ -656,6 +661,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
             ? "chat-analysis-upload-modal-card"
             : null
         )}
+        style={cardSurfaceVars}
       >
         <button
           type="button"

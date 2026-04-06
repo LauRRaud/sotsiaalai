@@ -279,9 +279,16 @@ body.selected-listing-modal-open .chat-page-shell {
   isolation: auto !important;
   border: 0 !important;
   color: var(--glass-surface-text, #f2f2f2) !important;
-  background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  background: var(
+    --chat-analysis-panel-bg,
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+  ) !important;
+  -webkit-backdrop-filter: blur(
+    var(--chat-analysis-panel-blur, var(--glass-blur-radius, 1rem))
+  ) !important;
+  backdrop-filter: blur(
+    var(--chat-analysis-panel-blur, var(--glass-blur-radius, 1rem))
+  ) !important;
   box-shadow: var(--glass-shell-shadow, none) !important;
 }
 

@@ -141,7 +141,7 @@
       },
       "submit": "Registreeru",
       "submitting": "Loome kontot…",
-      "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga. Kinnituse kiri võib olla e-posti Rämpspost (Spam) kaustas.",
+      "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga. Kui kiri sattus rämpsposti, ava see ja vajuta \"Teavitan, et pole rämpspost\".",
       "closed_notice": "Registreerimine on ajutiselt peatatud. Palun proovi uuesti peagi."
     },
     "reset": {

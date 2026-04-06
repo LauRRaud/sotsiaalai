@@ -209,12 +209,17 @@
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .chat-analysis-upload-modal-card {
-  background: var(--chat-card-surface-strong-bg) !important;
+  background: var(
+    --chat-analysis-panel-bg,
+    var(--chat-card-surface-strong-bg)
+  ) !important;
   border: 0 !important;
   box-shadow: none !important;
   border-color: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  -webkit-backdrop-filter: blur(
+    var(--chat-analysis-panel-blur, 0px)
+  ) !important;
+  backdrop-filter: blur(var(--chat-analysis-panel-blur, 0px)) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])

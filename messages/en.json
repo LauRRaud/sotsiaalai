@@ -141,7 +141,7 @@
       },
       "submit": "Create account",
       "submitting": "Creating account",
-      "success_message": "Account created! Please confirm your email and log in with your PIN. The confirmation email may be in your Spam folder.",
+      "success_message": "Account created! Please confirm your email and log in with your PIN. If the email landed in Spam, open it and click \"Not spam\".",
       "closed_notice": "Registration is temporarily paused. Please try again soon."
     },
     "reset": {
