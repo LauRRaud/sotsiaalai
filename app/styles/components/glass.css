@@ -260,12 +260,28 @@
   text-transform: none !important;
   display: inline !important;
   padding: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
   border: 0 !important;
   box-shadow: none !important;
   border-radius: 0 !important;
   background: transparent !important;
   text-decoration: none !important;
   cursor: pointer !important;
+  font-size: 1em !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+  transform: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+  transition: none !important;
+  outline: none !important;
+  vertical-align: baseline !important;
+  position: static !important;
 }
 
 :root.theme-light .register-checkbox-card .register-policy-link,
@@ -273,27 +289,9 @@
 :root.theme-light .register-checkbox-card .register-policy-link:active,
 :root.theme-light .register-checkbox-card .register-policy-link:focus-visible {
   color: var(--link-color, #7a3a38) !important;
-  font: inherit !important;
-  letter-spacing: inherit !important;
-  text-transform: none !important;
-  display: inline !important;
-  padding: 0 !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  text-decoration: none !important;
-  cursor: pointer !important;
 }
 
-.register-checkbox-card {
-  color: var(--pt-50) !important;
-}
-
-:root.theme-light .register-checkbox-card {
-  color: var(--input-text) !important;
-}
-
+.register-checkbox-card,
 .register-checkbox-card:hover,
 .register-checkbox-card:focus-within,
 .register-checkbox-card[data-checked="true"],
@@ -302,6 +300,7 @@
   color: var(--pt-50) !important;
 }
 
+:root.theme-light .register-checkbox-card,
 :root.theme-light .register-checkbox-card:hover,
 :root.theme-light .register-checkbox-card:focus-within,
 :root.theme-light .register-checkbox-card[data-checked="true"],
@@ -383,29 +382,6 @@
 .register-framework-card[data-checked="true"] > span:last-child,
 .register-framework-card[data-checked="true"] .register-policy-link {
   color: var(--title-color, var(--brand-primary)) !important;
-}
-
-.register-checkbox-card .register-policy-link {
-  display: inline !important;
-  padding-left: 0;
-  padding-right: 0;
-  font-size: 1em !important;
-  font-weight: inherit !important;
-  line-height: inherit !important;
-  letter-spacing: inherit !important;
-  text-transform: none !important;
-  white-space: normal;
-  word-break: normal;
-  overflow-wrap: normal;
-  hyphens: none;
-  transform: none !important;
-  filter: none !important;
-  text-shadow: none !important;
-  transition: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-  vertical-align: baseline !important;
-  position: static !important;
 }
 
 .register-checkbox-card .register-policy-link:hover,

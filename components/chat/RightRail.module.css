@@ -72,10 +72,7 @@
   mask-image: none;
 }
 
-:global(html[data-ui-profile="lg"]) .rightRail {
-  --rail-profile-scale: 1.25;
-}
-
+:global(html[data-ui-profile="lg"]) .rightRail,
 :global(html[data-ui-scale="lg"]) .rightRail {
   --rail-profile-scale: 1.25;
 }
@@ -396,24 +393,17 @@
 }
 
 :global(body.modal-open) .rightRail,
-:global(body.modal-open) .slot,
-:global(body.modal-open) .tooltip {
-  z-index: 20;
-}
-
 :global(body.help-listings-modal-open) .rightRail,
+:global(body.modal-open) .slot,
 :global(body.help-listings-modal-open) .slot,
+:global(body.modal-open) .tooltip,
 :global(body.help-listings-modal-open) .tooltip {
   z-index: 20;
 }
 
 :global(body.modal-open) .rightRail,
-:global(body.modal-open) .tooltip {
-  opacity: 0;
-  pointer-events: none;
-}
-
 :global(body.help-listings-modal-open) .rightRail,
+:global(body.modal-open) .tooltip,
 :global(body.help-listings-modal-open) .tooltip {
   opacity: 0;
   pointer-events: none;

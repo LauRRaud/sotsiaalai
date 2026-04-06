@@ -29,7 +29,7 @@
 }
 
 .glowHidden {
-  opacity: 0 !important;
+  opacity: 0;
 }
 .top .glow {
   animation-delay: calc(var(--pulse) / -2);
@@ -57,15 +57,15 @@
 @media (prefers-reduced-motion: reduce) {
   .ball,
   .glow {
-    animation: none !important;
+    animation: none;
   }
 }
 .static .ball {
-  animation: none !important;
-  transform: scale(1) !important;
+  animation: none;
+  transform: scale(1);
 }
 
 .static .glow {
-  animation: none !important;
-  opacity: 0 !important;
+  animation: none;
+  opacity: 0;
 }

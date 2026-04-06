@@ -59,6 +59,7 @@
   --home-card-shadow-active: var(--home-card-glow-active);
   --home-card-light-opacity: 0.78;
   --home-card-dark-opacity: 0.68;
+  --home-scroll-cue-color: #c57171;
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --chat-card-surface-night-standard-bg: radial-gradient(
     ellipse at top,
@@ -229,15 +230,6 @@
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(222, 236, 255, 0.06);
 }
 
-:root.theme-night .help-listings-panel {
-  background: var(--chat-card-surface-night-standard-bg) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
 @media (min-width: 48.001em) {
   :root.theme-night .homepage-root .home-about-panel {
     box-shadow:
@@ -254,6 +246,7 @@
 
 :root.theme-night
   :is(
+    .help-listings-panel,
     .invite-list-panel,
     .invite-list-row,
     .materials-admin-panel,
@@ -263,18 +256,16 @@
   background: var(--chat-card-surface-night-standard-bg) !important;
   border: 0 !important;
   box-shadow: none !important;
-  border-color: transparent !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
 
 :root.theme-night
   .drawer-chat-sidebar
-  :is(.drawer-chat-card, .drawer-search-shell) {
+  .drawer-chat-card {
   background: var(--chat-card-surface-night-standard-bg) !important;
   border: 1px solid var(--subpage-card-border) !important;
   box-shadow: var(--subpage-card-shadow) !important;
-  border-color: var(--subpage-card-border) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
@@ -289,38 +280,10 @@
   background: var(--glass-surface-bg) !important;
 }
 
-:root.theme-night
-  .drawer-chat-sidebar
-  .drawer-search-shell {
-  box-shadow:
-    inset 0 1px 0 rgba(220, 236, 255, 0.08),
-    0 0 26px -14px rgba(190, 220, 255, 0.28),
-    0 8px 16px rgba(2, 6, 16, 0.22) !important;
-}
-
-:root.theme-night .chat-tools-menu {
+:root.theme-night :is(.chat-tools-menu, .chat-tools-surface-popover, .chat-analysis-upload-modal-card) {
   background: var(--chat-card-surface-night-strong-bg) !important;
   border: 0 !important;
   box-shadow: none !important;
-  border-color: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-night .chat-tools-surface-popover {
-  background: var(--chat-card-surface-night-strong-bg) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-night .chat-analysis-upload-modal-card {
-  background: var(--chat-card-surface-night-strong-bg) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
@@ -343,63 +306,6 @@
   --framework-panel-shadow: none;
 }
 
-:root.theme-night
-  .materials-page-shell
-  :is(.materials-upload-choose-button, .materials-upload-submit-button) {
-  --btn-primary-bg: radial-gradient(
-      82% 66% at 50% -14%,
-      rgba(222, 236, 255, 0.108) 0%,
-      rgba(222, 236, 255, 0.048) 42%,
-      rgba(222, 236, 255, 0.016) 58%,
-      rgba(222, 236, 255, 0) 74%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(26, 35, 49, 0.92) 0%,
-      rgba(16, 25, 39, 0.94) 100%
-    );
-  --btn-primary-bg-hover: radial-gradient(
-      82% 66% at 50% -14%,
-      rgba(222, 236, 255, 0.135) 0%,
-      rgba(222, 236, 255, 0.06) 42%,
-      rgba(222, 236, 255, 0.02) 58%,
-      rgba(222, 236, 255, 0) 74%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(31, 42, 58, 0.93) 0%,
-      rgba(19, 30, 46, 0.95) 100%
-    );
-  --btn-primary-bg-active: radial-gradient(
-      82% 66% at 50% -14%,
-      rgba(222, 236, 255, 0.13) 0%,
-      rgba(222, 236, 255, 0.055) 42%,
-      rgba(222, 236, 255, 0.017) 58%,
-      rgba(222, 236, 255, 0) 74%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(28, 38, 53, 0.91) 0%,
-      rgba(18, 27, 42, 0.93) 100%
-    );
-  --btn-primary-border: 0 solid transparent;
-  --btn-primary-border-hover: 0 solid transparent;
-  --btn-primary-border-active: 0 solid transparent;
-  --btn-primary-shadow:
-    inset 0 1px 0 rgba(220, 236, 255, 0.1),
-    0 5px 12px rgba(2, 6, 16, 0.24);
-  --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(220, 236, 255, 0.12),
-    0 7px 14px rgba(2, 6, 16, 0.28);
-  --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(220, 236, 255, 0.08),
-    0 4px 10px rgba(2, 6, 16, 0.22);
-  --btn-primary-shadow-focus:
-    inset 0 1px 0 rgba(220, 236, 255, 0.16),
-    0 8px 18px rgba(2, 6, 16, 0.32),
-    0 0 0 3px var(--btn-primary-focus-ring-color);
-}
-
 /* OTP overrides dedicated for night theme (blue-tinted dark). */
 :root.theme-night .login-modal-box.login-modal--otp .login-modal-shell {
   background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
@@ -420,7 +326,6 @@
 :root.theme-night .chat-msg-user:focus-within {
   background-color: transparent !important;
   background-image: none !important;
-  border-color: transparent !important;
   box-shadow: none !important;
 }
 

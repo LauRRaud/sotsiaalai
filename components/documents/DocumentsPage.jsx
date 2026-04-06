@@ -33,7 +33,7 @@ const documentsTitleClassName =
   `max-[768px]:!text-[clamp(1.95rem,7vw,2.45rem)] max-[768px]:!leading-[1.08]`
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
-const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
+const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto min-[769px]:!top-[0.35rem] min-[769px]:!left-[0.35rem]`
 
 function normalizeSearchValue(value) {
   return String(value || "").trim().toLowerCase()
@@ -387,27 +387,29 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     <section className="documents-workspace documents-workspace-page">
       <div className={`documents-workspace-shell ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
         <div className="documents-grid">
-          <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-panel--primary rounded-[1.3rem]">
+          <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
             <BackButton
               onClick={handleBack}
               ariaLabel={t("buttons.back")}
               className={backButtonClassName}
             />
-            <header className="documents-page-header documents-page-header--panel">
-              <div className="documents-page-header-row">
-                <div className="documents-page-heading">
-                  <div className={mobileTitleWrapClassName}>
-                    <h1 className={documentsTitleClassName}>{t("documents.page_title")}</h1>
+            <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel !border-0 !shadow-none rounded-[1rem]">
+              <header className="documents-page-header documents-page-header--panel documents-page-header--hero">
+                <div className="documents-page-header-row">
+                  <div className="documents-page-heading">
+                    <div className={mobileTitleWrapClassName}>
+                      <h1 className={documentsTitleClassName}>{t("documents.page_title")}</h1>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </header>
-
-            {isAdmin && isRoleViewActive ? (
-              <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                {t("documents.view_mode.admin_notice", { role: roleViewLabel })}
-              </div>
-            ) : null}
+              </header>
+              {isAdmin && isRoleViewActive ? (
+                <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                  {t("documents.view_mode.admin_notice", { role: roleViewLabel })}
+                </div>
+              ) : null}
+              <p className="documents-section-description documents-library-description">{roleIntroText}</p>
+            </Panel>
 
             {successNotice ? (
               <div className="documents-notice documents-notice--info flex flex-wrap items-center justify-between gap-[0.7rem] rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
@@ -421,15 +423,9 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             {documentsError ? <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">{documentsError}</div> : null}
             {artifactsError ? <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">{artifactsError}</div> : null}
 
-            <div className="documents-section-stack mt-[1rem]">
+            <div className="documents-section-stack mt-[1.75rem]">
               <div className="documents-library-section documents-library-intro">
-                <div className="documents-library-intro">
-                  <div className="documents-library-copy">
-                    <p className="documents-section-description documents-library-description">{roleIntroText}</p>
-                  </div>
-                </div>
-
-                <div className="documents-framework-banner documents-notice documents-notice--muted rounded-[1rem]">
+                <div className="documents-framework-banner documents-notice documents-notice--muted !border-0 !shadow-none rounded-[1rem]">
                   <div className="documents-framework-banner-copy">
                     <h3 className="documents-subsection-title">{t("documents.framework_acceptance.manage_title")}</h3>
                     <p className="documents-section-description documents-subsection-description">
@@ -464,8 +460,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                   </div>
                 </div>
 
-                <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
-                <div className="documents-subsection-stack">
+                <div className="documents-section-body mt-[0.55rem]">
+                <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-subsection-stack !border-0 !shadow-none rounded-[1rem]">
                   <div className="documents-subsection-copy">
                     <h3 className="documents-subsection-title">{t("documents.library_sections.upload_title")}</h3>
                     <p className="documents-section-description documents-subsection-description">{t("documents.library_sections.upload_description")}</p>
@@ -481,7 +477,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                         className="documents-form-input"
                       />
                     </label>
-                    <label className="documents-upload-control">
+                    <label className="documents-upload-control documents-upload-control--kind">
                       <span className="documents-meta-text documents-upload-label">{t("documents.form.kind_label")}</span>
                       <DocumentsDropdown
                         ariaLabel={t("documents.form.kind_label")}
@@ -566,14 +562,13 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     </Button>
                   </div>
                 </form>
-                </div>
+                </Panel>
 
-                <div className="documents-subsection-stack">
+                <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-subsection-stack !border-0 !shadow-none rounded-[1rem]">
                   <div className="documents-subsection-copy">
                     <h3 className="documents-subsection-title">{t("documents.library_sections.list_title")}</h3>
                     <p className="documents-section-description documents-subsection-description">{t("documents.library_sections.list_description")}</p>
                   </div>
-                <div className="documents-soft-subpanel rounded-[1rem]">
                 <div className="documents-library-list-header">
                   <div className="documents-filter-row documents-library-filters">
                     {["ALL", ...DOCUMENT_KIND_VALUES].map((kind) => (
@@ -657,17 +652,16 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 </article>
               })}
                 </div>
-                </div>
-                </div>
-
                 </Panel>
+
+                </div>
               </div>
             </div>
-          </Panel>
+          </section>
 
-          <Panel as="section" variant="secondary" padding="sm" className="documents-panel rounded-[1.3rem]">
+          <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-shell-surface !border-0 !shadow-none rounded-[1.3rem]">
             <div className="documents-section-stack">
-            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
+            <div className="documents-section-body">
             <div className="documents-subsection-copy">
               <h3 className="documents-subsection-title">{t("documents.agent_handoff.title")}</h3>
               <p className="documents-section-description documents-subsection-description">{handoffHelpText}</p>
@@ -684,13 +678,13 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 )}
               </div>
             </div>
-            </Panel>
+            </div>
             </div>
           </Panel>
 
-          <Panel as="section" id="artifacts" variant="secondary" padding="sm" className="documents-panel rounded-[1.3rem]">
+          <Panel as="section" id="artifacts" variant="secondary" padding="sm" className="documents-panel documents-shell-surface !border-0 !shadow-none rounded-[1.3rem]">
             <div className="documents-section-stack">
-            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-section-body rounded-[1rem]">
+            <div className="documents-section-body">
             <div className="documents-subsection-copy">
               <h3 className="documents-subsection-title">{t("documents.outputs_title")}</h3>
               <p className="documents-section-description documents-subsection-description">{t("documents.outputs_description")}</p>
@@ -773,7 +767,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 </article>
               ))}
             </div>
-            </Panel>
+            </div>
             </div>
           </Panel>
         </div>

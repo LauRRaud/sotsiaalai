@@ -41,7 +41,7 @@ const agentTitleClassName =
   `${glassPageTitleClassName} w-full max-w-full max-[768px]:!mt-0 max-[768px]:!mb-0`
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
-const backButtonClassName = `${glassPageBackTopLeftClassName} scroll-reactive-back !z-[30] pointer-events-auto`
+const backButtonClassName = `${glassPageBackTopLeftClassName} scroll-reactive-back !z-[30] pointer-events-auto min-[769px]:!top-[0.35rem] min-[769px]:!left-[0.35rem]`
 const agentPrimaryButtonClassName =
   "drawer-pill-btn invite-primary-btn documents-primary-button !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
   "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem] " +
@@ -1529,27 +1529,29 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   return (
     <section className="documents-workspace documents-workspace-page">
       <div className="documents-workspace-shell documents-workspace-shell--agent">
-        <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-panel--primary rounded-[1.3rem]">
+        <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
           <BackButton
             onClick={handleBack}
             ariaLabel={t("documents.agent_workspace.back_to_chat")}
             className={backButtonClassName}
           />
-          <header className="documents-page-header documents-page-header--panel">
-            <div className="documents-page-header-row">
-              <div className="documents-page-heading">
-                <div className={mobileTitleWrapClassName}>
-                  <h1 className={agentTitleClassName}>{t("chat.tools.agent_mode")}</h1>
-                </div>
-                <p className="documents-page-description documents-agent-page-description">{introText}</p>
-                {isAdmin && isRoleViewActive ? (
-                  <div className="documents-notice documents-notice--muted mt-[0.8rem] rounded-[1rem] px-[1rem] py-[0.95rem] text-[0.95rem]">
-                    {t("documents.agent_workspace.admin_notice", { role: roleViewLabel })}
+          <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-page-hero-panel--agent !border-0 !shadow-none rounded-[1rem]">
+            <header className="documents-page-header documents-page-header--panel documents-page-header--hero">
+              <div className="documents-page-header-row">
+                <div className="documents-page-heading">
+                  <div className={mobileTitleWrapClassName}>
+                    <h1 className={agentTitleClassName}>{t("chat.tools.agent_mode")}</h1>
                   </div>
-                ) : null}
+                </div>
               </div>
-            </div>
-          </header>
+            </header>
+            <p className="documents-page-description documents-agent-page-description">{introText}</p>
+            {isAdmin && isRoleViewActive ? (
+              <div className="documents-notice documents-notice--muted rounded-[1rem] px-[1rem] py-[0.95rem] text-[0.95rem]">
+                {t("documents.agent_workspace.admin_notice", { role: roleViewLabel })}
+              </div>
+            ) : null}
+          </Panel>
 
           {documentsError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{documentsError}</div> : null}
           {runError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{runError}</div> : null}
@@ -1579,8 +1581,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             </div>
           ) : null}
 
-          <div className="documents-agent-layout">
-            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card rounded-[1rem]">
+          <div className="documents-agent-layout mt-[2.4rem]">
+            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card !border-0 !shadow-none rounded-[1rem]">
               <div className="documents-agent-card-copy">
                 <h2 className="documents-section-title">
                   {t(isClientRole ? "documents.agent_workspace.client_task_title" : "documents.agent_workspace.goal_title")}
@@ -1779,440 +1781,447 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
               </div>
             </Panel>
 
-            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-agent-card--full rounded-[1rem]">
-              <div className="documents-agent-card-header">
-                <div className="documents-agent-card-copy">
-                  <h2 className="documents-section-title">{t("documents.agent_workspace.selected_documents_title")}</h2>
-                  <p className="documents-section-description documents-agent-copy">
-                    {t(
-                      isClientRole
-                        ? clientTask === "FILL_FORM"
-                          ? "documents.agent_workspace.client_selected_documents_fill_form_description"
-                          : "documents.agent_workspace.client_selected_documents_description"
-                        : "documents.agent_workspace.selected_documents_description"
-                    )}
-                  </p>
-                </div>
-                <div className="documents-agent-card-actions">
-                  {!isClientRole && selectedDocumentIds.length ? (
-                    <Link href={documentsHref} className="documents-link-button documents-meta-text documents-agent-inline-link">
-                      {t("documents.back_to_documents")}
-                    </Link>
-                  ) : null}
-                </div>
-              </div>
-
-              {isClientRole ? (
-                <div className="documents-agent-row-actions documents-agent-row-actions--left">
-                  <Button
-                    type="button"
-                    size="sm"
-                    className={agentPrimaryButtonCompactClassName}
-                    onClick={() => clientUploadInputRef.current?.click?.()}
-                    disabled={clientUploading || selectedCountLimitReached}
-                  >
-                    {clientUploading ? t("documents.agent_workspace.client_uploading") : t("documents.agent_workspace.client_upload_button")}
-                  </Button>
-                  <input
-                    ref={clientUploadInputRef}
-                    type="file"
-                    accept=".pdf,.docx,.txt"
-                    className="sr-only"
-                    onChange={handleClientUpload}
-                  />
-                </div>
-              ) : null}
-
-              {meetingSummaryDocumentsHelp ? (
-                <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                  {meetingSummaryDocumentsHelp}
-                </div>
-              ) : null}
-
-              <div className="documents-agent-documents">
-                {clientUploadError ? (
-                  <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                    {clientUploadError}
-                  </div>
-                ) : null}
-                {documentsLoading ? <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">{t("documents.loading")}</div> : null}
-                {!documentsLoading && !selectedDocumentIds.length ? (
-                  <div className="documents-agent-empty">
-                    <div className={isClientRole ? "" : "documents-agent-empty--inline"}>
-                      <p>{t(isClientRole ? "documents.agent_workspace.client_empty_documents" : "documents.agent_workspace.empty_documents")}</p>
-                    </div>
-                    {!isClientRole ? (
-                      <Button as="a" href={documentsHref} size="sm" className={agentPrimaryButtonCompactClassName}>
-                        {t("documents.agent_workspace.select_documents")}
-                      </Button>
-                    ) : null}
-                  </div>
-                ) : null}
-                {!documentsLoading && selectedDocumentIds.length > 0 && documents.length === 0 ? (
-                  <div className="documents-empty-state documents-agent-empty rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">
-                    <p>{t("documents.agent_workspace.unavailable_documents")}</p>
-                    {!isClientRole ? (
-                      <Button as="a" href={documentsHref} size="sm" className={agentPrimaryButtonCompactClassName}>
-                        {t("documents.back_to_documents")}
-                      </Button>
-                    ) : null}
-                  </div>
-                ) : null}
-                {documents.map((document) => (
-                  <article key={document.id} className="documents-card documents-agent-document rounded-[1rem] border px-[0.9rem] py-[0.82rem]">
-                    <div className="documents-agent-document-top">
-                      <div className="min-w-0 flex-1">
-                        <div className="documents-document-row-title">
-                          <h3 className="documents-strong-text text-[1rem] font-semibold">{document.title}</h3>
-                          <span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{kindLabel(document.kind, t)}</span>
-                          {document.templateFor ? <span className="documents-chip is-active rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{templateForLabel(document.templateFor, t)}</span> : null}
-                        </div>
-                        <p className="documents-meta-text mt-[0.25rem] text-[0.9rem]">
-                          {document.originalName} - {formatFileSize(document.size)} - {formatDate(document.updatedAt, locale)}
-                        </p>
-                      </div>
-                      <div className="documents-agent-row-actions">
-                        <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="ghost" className="documents-secondary-button">
-                          {t("documents.actions.download")}
-                        </Button>
-                        {isClientRole ? (
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="ghost"
-                            className="documents-secondary-button"
-                            onClick={() => void handleClientRemoveDocument(document.id)}
-                          >
-                            {t("documents.agent_workspace.client_remove_document")}
-                          </Button>
-                        ) : null}
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </Panel>
-
-            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-agent-card--full rounded-[1rem]">
-              <div className="documents-agent-card-copy">
-                <h2 className="documents-section-title">{t("documents.agent_workspace.conversation_title")}</h2>
-                <p className="documents-section-description documents-agent-copy">
-                  {t(isClientRole ? "documents.agent_workspace.client_conversation_description" : "documents.agent_workspace.conversation_description")}
-                </p>
-              </div>
-
-              <div className="documents-agent-conversation-meta">
-                <div className="documents-agent-summary">
-                  <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
-                    {t("documents.agent_workspace.summary_documents", { count: selectedCount })}
-                  </span>
-                  <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
-                    {t("documents.agent_workspace.summary_output", { type: isClientRole ? clientResultLabel : artifactTypeLabel(outputType, t) })}
-                  </span>
-                  {!isClientRole ? (
-                    <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
-                      {audienceOptions.find((option) => option.value === audience)?.label}
-                    </span>
-                  ) : null}
-                  {!isClientRole && activeTemplate ? (
-                    <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
-                      {t("documents.agent_workspace.summary_template", { title: activeTemplate.title || activeTemplate.originalName })}
-                    </span>
-                  ) : null}
-                </div>
-                <p className="documents-section-description documents-agent-start-help">{conversationHelpText}</p>
-              </div>
-
-              {!isClientRole && meetingSummaryStatusText ? (
-                <div
-                  className={`documents-notice rounded-[1rem] px-[1rem] py-[0.95rem] ${
-                    meetingSummaryJob?.status === "error"
-                      ? "documents-notice--error"
-                      : meetingSummaryJob?.status === "done"
-                        ? "documents-notice--success"
-                        : "documents-notice--info"
-                  }`}
-                >
-                  {meetingSummaryStatusText}
-                </div>
-              ) : null}
-
-              <div className="documents-agent-conversation-shell" style={agentConversationVars}>
-                <ConversationView
-                  t={t}
-                  chatWindowRef={chatWindowRef}
-                  isStreamingAny={isAgentBusy}
-                  hiddenCount={0}
-                  pageSize={0}
-                  onRevealOlder={() => {}}
-                  canHideOlder={false}
-                  onHideOlder={() => {}}
-                  onJumpToBottom={handleJumpToBottom}
-                  messageItems={conversationItems}
-                  mainClassName="documents-agent-conversation-main"
-                  windowClassName="documents-agent-conversation-window"
-                  isMobile={isMobile}
-                  isLightTheme={isLightTheme}
-                />
-
-                <div className="documents-agent-composer-slot">
-                  <ChatComposer
-                    t={t}
-                    locale={locale}
-                    isLightTheme={isLightTheme}
-                    hideTools
-                    embedded
-                    forcePlaceholderVisible
-                    placeholderText={t("chat.input.placeholder")}
-                    acceptAttr=""
-                    ensureAnalysisPanelVisible={() => {}}
-                    fileInputRef={fileInputRef}
-                    onFileChange={() => {}}
-                    inputBarRef={inputBarRef}
-                    inputRef={inputRef}
-                    onFocusInput={() => setInputFocused(true)}
-                    onBlurInput={() => setInputFocused(false)}
-                    isGenerating={isAgentBusy}
-                    isStreamingAny={false}
-                    isRoomMode={false}
-                    roomBlocked={false}
-                    roomAuthRequired={false}
-                    onStop={handleStopAgentRequest}
-                    onSend={handleConversationSend}
-                    speakLatestReply={speakLatestReply}
-                    canSpeakLatest={canSpeakLatest}
-                    isSpeaking={isSpeaking}
-                    recording={recording}
-                    recordingPulse={recordingPulse}
-                    handleMic={handleMic}
-                    draftApiRef={composerDraftApiRef}
-                    inputFocused={inputFocused}
-                    isMobile={isMobile}
-                  />
-                </div>
-              </div>
-
-              <ChatRecordingNotice recordingError={recordingError} />
-            </Panel>
-
-            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-agent-card--full rounded-[1rem]">
-              <div className="documents-agent-card-header">
-                <div className="documents-agent-card-copy">
-                  <h2 className="documents-section-title">{t("documents.agent_workspace.result_title")}</h2>
-                  <p className="documents-section-description documents-agent-copy">
-                    {t(isClientRole ? "documents.agent_workspace.client_result_description" : "documents.agent_workspace.result_description")}
-                  </p>
-                  {!isClientRole ? (
-                    <p className="documents-meta-text documents-agent-copy mt-[0.12rem] text-[1rem] leading-[1.45]">
-                      {t("documents.agent_workspace.result_results_link_intro")}{" "}
-                      <Link href={artifactResultsHref} className={agentPanelLinkClassName}>
-                        {t("documents.agent_workspace.result_results_link_label")}
-                      </Link>
-                      .
+            <section className="documents-agent-section-shell documents-agent-card--full">
+              <Panel variant="secondary" padding="sm" className="documents-panel documents-agent-content-pane !border-0 !shadow-none rounded-[1rem]">
+                <div className="documents-agent-card-header">
+                  <div className="documents-agent-card-copy">
+                    <h2 className="documents-section-title">{t("documents.agent_workspace.selected_documents_title")}</h2>
+                    <p className="documents-section-description documents-agent-copy">
+                      {t(
+                        isClientRole
+                          ? clientTask === "FILL_FORM"
+                            ? "documents.agent_workspace.client_selected_documents_fill_form_description"
+                            : "documents.agent_workspace.client_selected_documents_description"
+                          : "documents.agent_workspace.selected_documents_description"
+                      )}
                     </p>
-                  ) : null}
-                </div>
-                {hasWorkspaceResult ? (
+                  </div>
                   <div className="documents-agent-card-actions">
-                    {activeArtifactDetailHref ? (
-                      <Link href={activeArtifactDetailHref} className={agentPanelLinkClassName}>
-                        {t("documents.agent_workspace.open_detail")}
+                    {!isClientRole && selectedDocumentIds.length ? (
+                      <Link href={documentsHref} className="documents-link-button documents-meta-text documents-agent-inline-link">
+                        {t("documents.back_to_documents")}
                       </Link>
                     ) : null}
+                  </div>
+                </div>
+
+                {isClientRole ? (
+                  <div className="documents-agent-row-actions documents-agent-row-actions--left">
                     <Button
                       type="button"
                       size="sm"
-                      variant="ghost"
-                      className="documents-secondary-button"
-                      onClick={handleClearWorkspaceResult}
-                      disabled={!canClearWorkspaceResult}
+                      className={agentPrimaryButtonCompactClassName}
+                      onClick={() => clientUploadInputRef.current?.click?.()}
+                      disabled={clientUploading || selectedCountLimitReached}
                     >
-                      {t("documents.agent_workspace.clear_result")}
+                      {clientUploading ? t("documents.agent_workspace.client_uploading") : t("documents.agent_workspace.client_upload_button")}
                     </Button>
+                    <input
+                      ref={clientUploadInputRef}
+                      type="file"
+                      accept=".pdf,.docx,.txt"
+                      className="sr-only"
+                      onChange={handleClientUpload}
+                    />
                   </div>
                 ) : null}
-              </div>
-              {artifactLoading ? <div className="documents-empty-state rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">{t("documents.loading")}</div> : null}
-              {!artifactLoading && !workspaceResult && !artifactError ? (
-                <div className="documents-empty-state documents-agent-empty rounded-[1rem] border border-dashed px-[0.95rem] py-[1rem] text-[0.98rem]">
-                  <p>{t("documents.agent_workspace.result_empty")}</p>
-                </div>
-              ) : null}
 
-              {!artifactLoading && workspaceResult ? (
-                <div className="documents-agent-result">
-                  <div className="flex flex-wrap items-center gap-[0.45rem]">
-                    <span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">
-                      {isClientRole ? clientResultLabel : artifactTypeLabel(workspaceResult.type, t)}
-                    </span>
-                    <span className={`documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em] ${workspaceResult.status === "FINAL" ? "is-active" : ""}`}>
-                      {isClientRole ? clientArtifactStatusLabel(workspaceResult.status) : artifactStatusLabel(workspaceResult.status, t)}
-                    </span>
+                {meetingSummaryDocumentsHelp ? (
+                  <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                    {meetingSummaryDocumentsHelp}
                   </div>
-                  <div className="documents-agent-result-meta documents-meta-text text-[0.94rem]">
-                    <span>{formatDate(workspaceResult.createdAt, locale)}</span>
-                    <span>{t("documents.updated_at")} {formatDate(workspaceResult.updatedAt, locale)}</span>
-                    {!isClientRole && workspaceResult.approvedAt ? <span>{t("documents.approved_at")} {formatDate(workspaceResult.approvedAt, locale)}</span> : null}
-                    <span>{t("documents.sources_label", { count: workspaceResult.sourceCount || 0 })}</span>
-                  </div>
+                ) : null}
 
-                  {!isWorkspaceResultSaved ? (
-                    <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                      {t(isClientRole ? "documents.agent_workspace.client_result_unsaved" : "documents.agent_workspace.result_unsaved")}
+                <div className="documents-agent-documents">
+                  {clientUploadError ? (
+                    <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                      {clientUploadError}
                     </div>
                   ) : null}
-                  {isWorkspaceResultSaved && hasDraftEdits ? (
-                    <div className="documents-notice documents-notice--warning rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                      {t(isClientRole ? "documents.agent_workspace.client_result_dirty" : "documents.agent_workspace.result_dirty")}
-                    </div>
-                  ) : null}
-                  {activeTemplate ? (
-                    <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                      {t("documents.agent_workspace.template_selected", { title: activeTemplate.title || activeTemplate.originalName })}
-                    </div>
-                  ) : null}
-
-                  {!isClientRole && alternateOutputOptions.length ? (
-                    <div className="documents-agent-quick-actions">
-                      <div className="documents-agent-refine-copy">
-                        <h3 className="documents-strong-text text-[0.98rem] font-semibold">{t("documents.agent_workspace.quick_actions_title")}</h3>
-                        <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.quick_actions_description")}</p>
+                  {documentsLoading ? <div className="documents-agent-pane-empty text-[0.98rem]">{t("documents.loading")}</div> : null}
+                  {!documentsLoading && !selectedDocumentIds.length ? (
+                    <div className="documents-agent-pane-empty documents-agent-empty text-[0.98rem]">
+                      <div className={isClientRole ? "" : "documents-agent-empty--inline"}>
+                        <p>{t(isClientRole ? "documents.agent_workspace.client_empty_documents" : "documents.agent_workspace.empty_documents")}</p>
                       </div>
-                      <div className="documents-agent-chip-row">
-                        {alternateOutputOptions.map((option) => (
-                          <button
-                            key={option.value}
-                            type="button"
-                            className={segmentedChipClassName(false)}
-                            onClick={() => {
-                              void handleAlternateOutput(option)
+                      {!isClientRole ? (
+                        <Button as="a" href={documentsHref} size="sm" className={agentPrimaryButtonCompactClassName}>
+                          {t("documents.agent_workspace.select_documents")}
+                        </Button>
+                      ) : null}
+                    </div>
+                  ) : null}
+                  {!documentsLoading && selectedDocumentIds.length > 0 && documents.length === 0 ? (
+                    <div className="documents-agent-pane-empty documents-agent-empty text-[0.98rem]">
+                      <p>{t("documents.agent_workspace.unavailable_documents")}</p>
+                      {!isClientRole ? (
+                        <Button as="a" href={documentsHref} size="sm" className={agentPrimaryButtonCompactClassName}>
+                          {t("documents.back_to_documents")}
+                        </Button>
+                      ) : null}
+                    </div>
+                  ) : null}
+                  {documents.map((document) => (
+                    <article key={document.id} className="documents-card documents-agent-document rounded-[1rem] border px-[0.9rem] py-[0.82rem]">
+                      <div className="documents-agent-document-top">
+                        <div className="min-w-0 flex-1">
+                          <div className="documents-document-row-title">
+                            <h3 className="documents-strong-text text-[1rem] font-semibold">{document.title}</h3>
+                            <span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{kindLabel(document.kind, t)}</span>
+                            {document.templateFor ? <span className="documents-chip is-active rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{templateForLabel(document.templateFor, t)}</span> : null}
+                          </div>
+                          <p className="documents-meta-text mt-[0.25rem] text-[0.9rem]">
+                            {document.originalName} - {formatFileSize(document.size)} - {formatDate(document.updatedAt, locale)}
+                          </p>
+                        </div>
+                        <div className="documents-agent-row-actions">
+                          <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="ghost" className="documents-secondary-button">
+                            {t("documents.actions.download")}
+                          </Button>
+                          {isClientRole ? (
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="ghost"
+                              className="documents-secondary-button"
+                              onClick={() => void handleClientRemoveDocument(document.id)}
+                            >
+                              {t("documents.agent_workspace.client_remove_document")}
+                            </Button>
+                          ) : null}
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </Panel>
+            </section>
+
+            <section className="documents-agent-section-shell documents-agent-card--full">
+              <Panel variant="secondary" padding="sm" className="documents-panel documents-agent-content-pane !border-0 !shadow-none rounded-[1rem]">
+                <div className="documents-agent-card-copy">
+                  <h2 className="documents-section-title">{t("documents.agent_workspace.conversation_title")}</h2>
+                  <p className="documents-section-description documents-agent-copy">
+                    {t(isClientRole ? "documents.agent_workspace.client_conversation_description" : "documents.agent_workspace.conversation_description")}
+                  </p>
+                </div>
+
+                <div className="documents-agent-conversation-meta">
+                  <div className="documents-agent-summary">
+                    <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
+                      {t("documents.agent_workspace.summary_documents", { count: selectedCount })}
+                    </span>
+                    <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
+                      {t("documents.agent_workspace.summary_output", { type: isClientRole ? clientResultLabel : artifactTypeLabel(outputType, t) })}
+                    </span>
+                    {!isClientRole ? (
+                      <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
+                        {audienceOptions.find((option) => option.value === audience)?.label}
+                      </span>
+                    ) : null}
+                    {!isClientRole && activeTemplate ? (
+                      <span className="documents-chip rounded-full px-[0.75rem] py-[0.25rem] text-[0.92rem]">
+                        {t("documents.agent_workspace.summary_template", { title: activeTemplate.title || activeTemplate.originalName })}
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="documents-section-description documents-agent-start-help">{conversationHelpText}</p>
+                </div>
+
+                {!isClientRole && meetingSummaryStatusText ? (
+                  <div
+                    className={`documents-notice rounded-[1rem] px-[1rem] py-[0.95rem] ${
+                      meetingSummaryJob?.status === "error"
+                        ? "documents-notice--error"
+                        : meetingSummaryJob?.status === "done"
+                          ? "documents-notice--success"
+                          : "documents-notice--info"
+                    }`}
+                  >
+                    {meetingSummaryStatusText}
+                  </div>
+                ) : null}
+
+                <div className="documents-agent-conversation-shell" style={agentConversationVars}>
+                  <ConversationView
+                    t={t}
+                    chatWindowRef={chatWindowRef}
+                    isStreamingAny={isAgentBusy}
+                    hiddenCount={0}
+                    pageSize={0}
+                    onRevealOlder={() => {}}
+                    canHideOlder={false}
+                    onHideOlder={() => {}}
+                    onJumpToBottom={handleJumpToBottom}
+                    messageItems={conversationItems}
+                    mainClassName="documents-agent-conversation-main"
+                    windowClassName="documents-agent-conversation-window"
+                    isMobile={isMobile}
+                    isLightTheme={isLightTheme}
+                  />
+
+                  <div className="documents-agent-composer-slot">
+                    <ChatComposer
+                      t={t}
+                      locale={locale}
+                      isLightTheme={isLightTheme}
+                      hideTools
+                      embedded
+                      forcePlaceholderVisible
+                      placeholderText={t("chat.input.placeholder")}
+                      acceptAttr=""
+                      ensureAnalysisPanelVisible={() => {}}
+                      fileInputRef={fileInputRef}
+                      onFileChange={() => {}}
+                      inputBarRef={inputBarRef}
+                      inputRef={inputRef}
+                      onFocusInput={() => setInputFocused(true)}
+                      onBlurInput={() => setInputFocused(false)}
+                      isGenerating={isAgentBusy}
+                      isStreamingAny={false}
+                      isRoomMode={false}
+                      roomBlocked={false}
+                      roomAuthRequired={false}
+                      onStop={handleStopAgentRequest}
+                      onSend={handleConversationSend}
+                      speakLatestReply={speakLatestReply}
+                      canSpeakLatest={canSpeakLatest}
+                      isSpeaking={isSpeaking}
+                      recording={recording}
+                      recordingPulse={recordingPulse}
+                      handleMic={handleMic}
+                      draftApiRef={composerDraftApiRef}
+                      inputFocused={inputFocused}
+                      isMobile={isMobile}
+                    />
+                  </div>
+                </div>
+
+                <ChatRecordingNotice recordingError={recordingError} />
+              </Panel>
+            </section>
+
+            <section className="documents-agent-section-shell documents-agent-card--full">
+              <Panel variant="secondary" padding="sm" className="documents-panel documents-agent-content-pane documents-agent-result-pane !border-0 !shadow-none rounded-[1rem]">
+                <div className="documents-agent-card-header">
+                  <div className="documents-agent-card-copy">
+                    <h2 className="documents-section-title">{t("documents.agent_workspace.result_title")}</h2>
+                    <p className="documents-section-description documents-agent-copy">
+                      {t(isClientRole ? "documents.agent_workspace.client_result_description" : "documents.agent_workspace.result_description")}
+                    </p>
+                    {!isClientRole ? (
+                      <p className="documents-meta-text documents-agent-copy mt-[0.12rem] text-[1rem] leading-[1.45]">
+                        {t("documents.agent_workspace.result_results_link_intro")}{" "}
+                        <Link href={artifactResultsHref} className={agentPanelLinkClassName}>
+                          {t("documents.agent_workspace.result_results_link_label")}
+                        </Link>
+                        .
+                      </p>
+                    ) : null}
+                  </div>
+                  {hasWorkspaceResult ? (
+                    <div className="documents-agent-card-actions">
+                      {activeArtifactDetailHref ? (
+                        <Link href={activeArtifactDetailHref} className={agentPanelLinkClassName}>
+                          {t("documents.agent_workspace.open_detail")}
+                        </Link>
+                      ) : null}
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        className="documents-secondary-button"
+                        onClick={handleClearWorkspaceResult}
+                        disabled={!canClearWorkspaceResult}
+                      >
+                        {t("documents.agent_workspace.clear_result")}
+                      </Button>
+                    </div>
+                  ) : null}
+                </div>
+
+                {artifactLoading ? <div className="documents-agent-result-empty text-[0.98rem]">{t("documents.loading")}</div> : null}
+                {!artifactLoading && !workspaceResult && !artifactError ? (
+                  <div className="documents-agent-result-empty documents-agent-empty text-[0.98rem]">
+                    <p>{t("documents.agent_workspace.result_empty")}</p>
+                  </div>
+                ) : null}
+
+                {!artifactLoading && workspaceResult ? (
+                  <div className="documents-agent-result">
+                    <div className="flex flex-wrap items-center gap-[0.45rem]">
+                      <span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">
+                        {isClientRole ? clientResultLabel : artifactTypeLabel(workspaceResult.type, t)}
+                      </span>
+                      <span className={`documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em] ${workspaceResult.status === "FINAL" ? "is-active" : ""}`}>
+                        {isClientRole ? clientArtifactStatusLabel(workspaceResult.status) : artifactStatusLabel(workspaceResult.status, t)}
+                      </span>
+                    </div>
+                    <div className="documents-agent-result-meta documents-meta-text text-[0.94rem]">
+                      <span>{formatDate(workspaceResult.createdAt, locale)}</span>
+                      <span>{t("documents.updated_at")} {formatDate(workspaceResult.updatedAt, locale)}</span>
+                      {!isClientRole && workspaceResult.approvedAt ? <span>{t("documents.approved_at")} {formatDate(workspaceResult.approvedAt, locale)}</span> : null}
+                      <span>{t("documents.sources_label", { count: workspaceResult.sourceCount || 0 })}</span>
+                    </div>
+
+                    {!isWorkspaceResultSaved ? (
+                      <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                        {t(isClientRole ? "documents.agent_workspace.client_result_unsaved" : "documents.agent_workspace.result_unsaved")}
+                      </div>
+                    ) : null}
+                    {isWorkspaceResultSaved && hasDraftEdits ? (
+                      <div className="documents-notice documents-notice--warning rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                        {t(isClientRole ? "documents.agent_workspace.client_result_dirty" : "documents.agent_workspace.result_dirty")}
+                      </div>
+                    ) : null}
+                    {activeTemplate ? (
+                      <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                        {t("documents.agent_workspace.template_selected", { title: activeTemplate.title || activeTemplate.originalName })}
+                      </div>
+                    ) : null}
+
+                    {!isClientRole && alternateOutputOptions.length ? (
+                      <div className="documents-agent-quick-actions">
+                        <div className="documents-agent-refine-copy">
+                          <h3 className="documents-strong-text text-[0.98rem] font-semibold">{t("documents.agent_workspace.quick_actions_title")}</h3>
+                          <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.quick_actions_description")}</p>
+                        </div>
+                        <div className="documents-agent-chip-row">
+                          {alternateOutputOptions.map((option) => (
+                            <button
+                              key={option.value}
+                              type="button"
+                              className={segmentedChipClassName(false)}
+                              onClick={() => {
+                                void handleAlternateOutput(option)
+                              }}
+                              disabled={!canRunAlternateOutput}
+                            >
+                              {t("documents.agent_workspace.quick_action_button", { type: option.label })}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {workspaceResult.status === "DRAFT" ? (
+                      <>
+                        <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                          {t("documents.agent_workspace.refine_in_chat")}
+                        </div>
+                        <div className="grid gap-[0.7rem]">
+                          <Input
+                            value={resultTitle}
+                            onChange={(event) => {
+                              setResultTitle(event.target.value)
+                              clearResultMessages()
                             }}
-                            disabled={!canRunAlternateOutput}
-                          >
-                            {t("documents.agent_workspace.quick_action_button", { type: option.label })}
-                          </button>
+                            placeholder={t("documents.form.artifact_title_placeholder")}
+                            className="documents-form-input"
+                          />
+                          <Textarea
+                            value={resultContent}
+                            onChange={(event) => {
+                              setResultContent(event.target.value)
+                              clearResultMessages()
+                            }}
+                            rows={14}
+                            className="documents-agent-textarea"
+                          />
+                        </div>
+                        <div className="documents-row-actions">
+                          <Button type="button" size="sm" className={agentPrimaryButtonClassName} onClick={() => void handleApprove()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
+                            {approvingResult ? t("documents.actions.approving") : t(isClientRole ? "documents.agent_workspace.client_finish" : "documents.actions.approve")}
+                          </Button>
+                          <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleSaveDraft()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
+                            {savingResult ? t("documents.actions.saving") : t(isClientRole ? "documents.actions.save" : "documents.actions.save_draft")}
+                          </Button>
+                          {!isClientRole && canRestoreSavedVersion ? (
+                            <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={handleRestoreSavedVersion}>
+                              {t("documents.agent_workspace.restore_saved")}
+                            </Button>
+                          ) : null}
+                          <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleCopyResult()}>
+                            {t("documents.actions.copy")}
+                          </Button>
+                        </div>
+                        {!isClientRole && workspaceVersions.length ? (
+                          <div className="documents-agent-version-list">
+                            <div className="documents-agent-refine-copy">
+                              <h3 className="documents-strong-text text-[0.98rem] font-semibold">{t("documents.agent_workspace.version_history_title")}</h3>
+                              <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.version_history_description")}</p>
+                            </div>
+                            {workspaceVersions.slice().reverse().map((version) => {
+                              const isActive = isWorkspaceVersionActive(version)
+                              return (
+                                <div key={version.id} className={`documents-card documents-agent-version-card rounded-[0.8rem] border px-[0.8rem] py-[0.72rem] text-[0.92rem] ${isActive ? "is-active" : ""}`}>
+                                  <div className="documents-agent-version-top">
+                                    <div className="min-w-0 flex-1">
+                                      <div className="documents-document-row-title">
+                                        <span className="documents-strong-text font-medium">
+                                          {version.title || artifactTypeLabel(version.type, t)}
+                                        </span>
+                                        <span className="documents-chip rounded-full px-[0.5rem] py-[0.12rem] text-[0.74rem] uppercase tracking-[0.08em]">
+                                          {t(`documents.agent_workspace.version_kinds.${version.kind}`)}
+                                        </span>
+                                        {isActive ? (
+                                          <span className="documents-chip is-active rounded-full px-[0.5rem] py-[0.12rem] text-[0.74rem] uppercase tracking-[0.08em]">
+                                            {t("documents.agent_workspace.version_current")}
+                                          </span>
+                                        ) : null}
+                                      </div>
+                                      <p className="documents-meta-text mt-[0.2rem] text-[0.84rem]">
+                                        {artifactTypeLabel(version.type, t)} - {formatDate(version.createdAt, locale)}
+                                      </p>
+                                    </div>
+                                    {!isActive ? (
+                                      <Button
+                                        type="button"
+                                        size="sm"
+                                        variant="ghost"
+                                        className="documents-secondary-button"
+                                        onClick={() => handleRestoreWorkspaceVersion(version.id)}
+                                      >
+                                        {t("documents.agent_workspace.restore_version")}
+                                      </Button>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        ) : null}
+                      </>
+                    ) : (
+                      <>
+                        <div className="documents-content documents-agent-result-content rounded-[1rem] border px-[1rem] py-[0.95rem] whitespace-pre-wrap text-[0.98rem] leading-[1.65]">
+                          {workspaceResult.content}
+                        </div>
+                        <div className="documents-row-actions">
+                          {workspaceResult.downloadUrls?.docx ? <Button as="a" href={workspaceResult.downloadUrls.docx} size="sm" className={agentPrimaryButtonClassName}>{t("documents.actions.download_docx")}</Button> : null}
+                          {workspaceResult.downloadUrls?.pdf ? <Button as="a" href={workspaceResult.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">{t("documents.actions.download_pdf")}</Button> : null}
+                          <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleCopyResult()}>
+                            {t("documents.actions.copy")}
+                          </Button>
+                        </div>
+                      </>
+                    )}
+
+                    {workspaceResult.sources?.length ? (
+                      <div className="documents-agent-source-list">
+                        {workspaceResult.sources.map((source) => (
+                          <a key={source.id} href={`/api/documents/${encodeURIComponent(source.id)}/download`} className="documents-card documents-agent-source-card rounded-[0.8rem] border px-[0.75rem] py-[0.65rem] text-[0.92rem]">
+                            <div className="documents-strong-text font-medium">{source.title}</div>
+                            <div className="documents-meta-text text-[0.84rem]">{source.originalName}</div>
+                            <div className="documents-link-button documents-meta-text mt-[0.28rem] text-[0.84rem]">{t("documents.actions.download")}</div>
+                          </a>
                         ))}
                       </div>
-                    </div>
-                  ) : null}
-
-                  {workspaceResult.status === "DRAFT" ? (
-                    <>
-                      <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                        {t("documents.agent_workspace.refine_in_chat")}
-                      </div>
-                      <div className="grid gap-[0.7rem]">
-                        <Input
-                          value={resultTitle}
-                          onChange={(event) => {
-                            setResultTitle(event.target.value)
-                            clearResultMessages()
-                          }}
-                          placeholder={t("documents.form.artifact_title_placeholder")}
-                          className="documents-form-input"
-                        />
-                        <Textarea
-                          value={resultContent}
-                          onChange={(event) => {
-                            setResultContent(event.target.value)
-                            clearResultMessages()
-                          }}
-                          rows={14}
-                          className="documents-agent-textarea"
-                        />
-                      </div>
-                      <div className="documents-row-actions">
-                        <Button type="button" size="sm" className={agentPrimaryButtonClassName} onClick={() => void handleApprove()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
-                          {approvingResult ? t("documents.actions.approving") : t(isClientRole ? "documents.agent_workspace.client_finish" : "documents.actions.approve")}
-                        </Button>
-                        <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleSaveDraft()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
-                          {savingResult ? t("documents.actions.saving") : t(isClientRole ? "documents.actions.save" : "documents.actions.save_draft")}
-                        </Button>
-                        {!isClientRole && canRestoreSavedVersion ? (
-                          <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={handleRestoreSavedVersion}>
-                            {t("documents.agent_workspace.restore_saved")}
-                          </Button>
-                        ) : null}
-                        <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleCopyResult()}>
-                          {t("documents.actions.copy")}
-                        </Button>
-                      </div>
-                      {!isClientRole && workspaceVersions.length ? (
-                        <div className="documents-agent-version-list">
-                          <div className="documents-agent-refine-copy">
-                            <h3 className="documents-strong-text text-[0.98rem] font-semibold">{t("documents.agent_workspace.version_history_title")}</h3>
-                            <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.version_history_description")}</p>
-                          </div>
-                          {workspaceVersions.slice().reverse().map((version) => {
-                            const isActive = isWorkspaceVersionActive(version)
-                            return (
-                              <div key={version.id} className={`documents-card documents-agent-version-card rounded-[0.8rem] border px-[0.8rem] py-[0.72rem] text-[0.92rem] ${isActive ? "is-active" : ""}`}>
-                                <div className="documents-agent-version-top">
-                                  <div className="min-w-0 flex-1">
-                                    <div className="documents-document-row-title">
-                                      <span className="documents-strong-text font-medium">
-                                        {version.title || artifactTypeLabel(version.type, t)}
-                                      </span>
-                                      <span className="documents-chip rounded-full px-[0.5rem] py-[0.12rem] text-[0.74rem] uppercase tracking-[0.08em]">
-                                        {t(`documents.agent_workspace.version_kinds.${version.kind}`)}
-                                      </span>
-                                      {isActive ? (
-                                        <span className="documents-chip is-active rounded-full px-[0.5rem] py-[0.12rem] text-[0.74rem] uppercase tracking-[0.08em]">
-                                          {t("documents.agent_workspace.version_current")}
-                                        </span>
-                                      ) : null}
-                                    </div>
-                                    <p className="documents-meta-text mt-[0.2rem] text-[0.84rem]">
-                                      {artifactTypeLabel(version.type, t)} - {formatDate(version.createdAt, locale)}
-                                    </p>
-                                  </div>
-                                  {!isActive ? (
-                                    <Button
-                                      type="button"
-                                      size="sm"
-                                      variant="ghost"
-                                      className="documents-secondary-button"
-                                      onClick={() => handleRestoreWorkspaceVersion(version.id)}
-                                    >
-                                      {t("documents.agent_workspace.restore_version")}
-                                    </Button>
-                                  ) : null}
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      ) : null}
-                    </>
-                  ) : (
-                    <>
-                      <div className="documents-content documents-agent-result-content rounded-[1rem] border px-[1rem] py-[0.95rem] whitespace-pre-wrap text-[0.98rem] leading-[1.65]">
-                        {workspaceResult.content}
-                      </div>
-                      <div className="documents-row-actions">
-                        {workspaceResult.downloadUrls?.docx ? <Button as="a" href={workspaceResult.downloadUrls.docx} size="sm" className={agentPrimaryButtonClassName}>{t("documents.actions.download_docx")}</Button> : null}
-                        {workspaceResult.downloadUrls?.pdf ? <Button as="a" href={workspaceResult.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">{t("documents.actions.download_pdf")}</Button> : null}
-                        <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleCopyResult()}>
-                          {t("documents.actions.copy")}
-                        </Button>
-                      </div>
-                    </>
-                  )}
-
-                  {workspaceResult.sources?.length ? (
-                    <div className="documents-agent-source-list">
-                      {workspaceResult.sources.map((source) => (
-                        <a key={source.id} href={`/api/documents/${encodeURIComponent(source.id)}/download`} className="documents-card documents-agent-source-card rounded-[0.8rem] border px-[0.75rem] py-[0.65rem] text-[0.92rem]">
-                          <div className="documents-strong-text font-medium">{source.title}</div>
-                          <div className="documents-meta-text text-[0.84rem]">{source.originalName}</div>
-                          <div className="documents-link-button documents-meta-text mt-[0.28rem] text-[0.84rem]">{t("documents.actions.download")}</div>
-                        </a>
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
-            </Panel>
+                    ) : null}
+                  </div>
+                ) : null}
+              </Panel>
+            </section>
 
             {isClientRole ? (
               <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-agent-card--full rounded-[1rem]">
@@ -2290,7 +2299,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
               </Panel>
             ) : null}
           </div>
-        </Panel>
+        </section>
       </div>
     </section>
   )

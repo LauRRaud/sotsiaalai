@@ -376,7 +376,7 @@ html[data-contrast="hc"] .homepage-root .home-before-panel {
   box-shadow: var(--home-panel-shadow-active) !important;
 }
 
-html[data-contrast="hc"] .register-success-shell {
+html[data-contrast="hc"] :is(.register-success-shell, .error-page-shell) {
   --btn-primary-text: var(--hc-accent);
   --btn-primary-border: 2px solid rgba(255, 234, 0, 0.72);
   --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.92);
@@ -472,13 +472,6 @@ html[data-contrast="hc"] .back-icon-arrow {
 
 html[data-contrast="hc"] .back-icon-dot {
   fill: var(--hc-accent) !important;
-}
-
-html[data-contrast="hc"] .error-page-shell {
-  --btn-primary-text: var(--hc-accent);
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.72);
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.92);
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.96);
 }
 
 html[data-contrast="hc"] .error-page-shell .error-page-description {
@@ -1640,7 +1633,8 @@ html[data-contrast="hc"] :is(
     .person-invite-modal-content,
     .update-pin-content,
     .update-email-content,
-    .reset-password-content
+    .reset-password-content,
+    .chat-analysis-overlay .chat-analysis-overlay-card
   )
   :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button) {
   color: var(--hc-accent) !important;
@@ -1653,7 +1647,8 @@ html[data-contrast="hc"] :is(
     .person-invite-modal-content,
     .update-pin-content,
     .update-email-content,
-    .reset-password-content
+    .reset-password-content,
+    .chat-analysis-overlay .chat-analysis-overlay-card
   )
   :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):is(:hover, :focus-visible) {
   border-color: rgba(255, 234, 0, 0.9) !important;
@@ -1665,46 +1660,33 @@ html[data-contrast="hc"] :is(
     .person-invite-modal-content,
     .update-pin-content,
     .update-email-content,
-    .reset-password-content
+    .reset-password-content,
+    .chat-analysis-overlay .chat-analysis-overlay-card
   )
   :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):active {
   border-color: rgba(255, 234, 0, 0.95) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }
-html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card :is(.invite-primary-btn, .invite-refresh-btn) {
-  color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.66) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-}
-html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card :is(.invite-primary-btn, .invite-refresh-btn):is(:hover, :focus-visible) {
-  border-color: rgba(255, 234, 0, 0.9) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
-html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card :is(.invite-primary-btn, .invite-refresh-btn):active {
-  border-color: rgba(255, 234, 0, 0.95) !important;
-  box-shadow: var(--btn-primary-shadow-active) !important;
-}
 html[data-contrast="hc"] :is(
     .register-content,
     .invite-modal-content,
     .person-invite-modal-content,
     .update-pin-content,
     .update-email-content,
-    .reset-password-content
+    .reset-password-content,
+    .chat-analysis-overlay .chat-analysis-overlay-card
   )
   [data-control-type] {
   --seg-card-border-width: 2px;
 }
-html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card [data-control-type] {
-  --seg-card-border-width: 2px;
-}
 html[data-contrast="hc"] :is(
     .register-content,
     .invite-modal-content,
     .person-invite-modal-content,
     .update-pin-content,
     .update-email-content,
-    .reset-password-content
+    .reset-password-content,
+    .chat-analysis-overlay .chat-analysis-overlay-card
   )
   [data-control-type][data-checked="true"] {
   color: var(--hc-accent) !important;
@@ -1712,24 +1694,16 @@ html[data-contrast="hc"] :is(
   border-color: rgba(255, 234, 0, 0.94) !important;
   box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
 }
-html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card [data-control-type][data-checked="true"] {
-  color: var(--hc-accent) !important;
-  background: rgba(255, 234, 0, 0.1) !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
-  box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
-}
 html[data-contrast="hc"] :is(
     .register-content,
     .invite-modal-content,
     .person-invite-modal-content,
     .update-pin-content,
     .update-email-content,
-    .reset-password-content
+    .reset-password-content,
+    .chat-analysis-overlay .chat-analysis-overlay-card
   )
   [data-control-type][data-checked="false"] {
-  border-color: rgba(255, 234, 0, 0.62) !important;
-}
-html[data-contrast="hc"] .chat-analysis-overlay .chat-analysis-overlay-card [data-control-type][data-checked="false"] {
   border-color: rgba(255, 234, 0, 0.62) !important;
 }
 html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"] {

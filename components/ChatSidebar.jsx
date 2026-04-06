@@ -583,7 +583,7 @@ export default function ChatSidebar() {
     "drawer-pill-btn invite-primary-btn !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
     "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem] " +
     glassPrimaryButtonToneClassName;
-  const searchInputShellClassName = "drawer-search-shell relative";
+  const searchInputShellClassName = "relative";
   const searchInputClassName =
     `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
     "chat-sidebar-search-input duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";

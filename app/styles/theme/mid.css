@@ -595,20 +595,10 @@
 }
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
-:root.theme-mid .chat-tools-menu {
+:root.theme-mid :is(.chat-tools-menu, .chat-tools-surface-popover) {
   background: var(--chat-tools-panel-bg, rgb(252, 246, 244)) !important;
   box-shadow: var(--btn-primary-shadow) !important;
   border: 0 !important;
-  border-color: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-mid .chat-tools-surface-popover {
-  background: var(--chat-tools-panel-bg, rgb(252, 246, 244)) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-  border: 0 !important;
-  border-color: transparent !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
@@ -638,7 +628,6 @@
 :root.theme-mid .chat-analysis-upload-modal-card {
   background: var(--chat-upload-picker-bg, var(--btn-primary-bg)) !important;
   border: 0 !important;
-  border-color: transparent !important;
   box-shadow: var(--btn-primary-shadow) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
@@ -658,7 +647,6 @@
       rgba(206, 188, 180, 0.966) 100%
     ) !important;
   border: 0 !important;
-  border-color: transparent !important;
   box-shadow:
     0 18px 36px rgba(28, 16, 14, 0.24),
     0 8px 18px rgba(28, 16, 14, 0.16) !important;
@@ -875,20 +863,6 @@
 :root.theme-light.theme-mid .drawer-panel .cs-trash-icon {
   stroke: currentColor;
   fill: none;
-}
-
-:root.theme-mid .drawer-panel .drawer-pill-btn.button[data-variant="primary"] {
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  background: var(--btn-primary-bg) !important;
-  border: var(--btn-primary-border) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-}
-
-:root.theme-mid
-  .drawer-panel
-  .drawer-pill-btn.button[data-variant="primary"]::before {
-  background: var(--btn-primary-bg-hover) !important;
 }
 
 /* Rooms page cards and controls in mid: same glass tone, less white. */

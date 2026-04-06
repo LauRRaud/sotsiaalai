@@ -317,31 +317,6 @@ html[data-contrast="hc"] {
   transition: background-color 99999s ease-out 0s, color 99999s ease-out 0s;
 }
 
-:root:not(.theme-light) #login-modal .login-email-shell--surface {
-  background: var(--input-bg) !important;
-}
-
-:root.theme-light #login-modal .login-email-shell--surface,
-:root.theme-mid #login-modal .login-email-shell--surface {
-  background: var(--input-bg) !important;
-}
-
-#login-modal input.login-email-input--surface:-webkit-autofill,
-#login-modal input.login-email-input--surface:-webkit-autofill:hover,
-#login-modal input.login-email-input--surface:-webkit-autofill:focus,
-#login-modal input.login-email-input--surface:-webkit-autofill:focus-visible,
-#login-modal input.login-email-input--surface:-webkit-autofill:active {
-  background: transparent !important;
-  background-image: none !important;
-  border: 0 !important;
-  color: var(--input-text) !important;
-  caret-color: var(--input-caret) !important;
-  -webkit-text-fill-color: var(--input-text) !important;
-  -webkit-box-shadow: inset 0 0 0 1000px transparent !important;
-  box-shadow: inset 0 0 0 1000px transparent !important;
-  transition: background-color 99999s ease-out 0s, color 99999s ease-out 0s;
-}
-
 #login-modal .login-help-popover {
   background: rgba(255, 250, 248, 0.9);
   border-color: rgba(190, 196, 208, 0.5);

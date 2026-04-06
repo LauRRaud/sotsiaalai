@@ -70,10 +70,7 @@
   pointer-events: none;
 }
 
-:global(html[data-ui-profile="lg"]) .leftRail {
-  --rail-profile-scale: 1.25;
-}
-
+:global(html[data-ui-profile="lg"]) .leftRail,
 :global(html[data-ui-scale="lg"]) .leftRail {
   --rail-profile-scale: 1.25;
 }
@@ -485,24 +482,17 @@
 }
 
 :global(body.modal-open) .leftRail,
-:global(body.modal-open) .slot,
-:global(body.modal-open) .tooltip {
-  z-index: 20;
-}
-
 :global(body.help-listings-modal-open) .leftRail,
+:global(body.modal-open) .slot,
 :global(body.help-listings-modal-open) .slot,
+:global(body.modal-open) .tooltip,
 :global(body.help-listings-modal-open) .tooltip {
   z-index: 20;
 }
 
 :global(body.modal-open) .leftRail,
-:global(body.modal-open) .tooltip {
-  opacity: 0;
-  pointer-events: none;
-}
-
 :global(body.help-listings-modal-open) .leftRail,
+:global(body.modal-open) .tooltip,
 :global(body.help-listings-modal-open) .tooltip {
   opacity: 0;
   pointer-events: none;

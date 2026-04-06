@@ -468,19 +468,9 @@
   fill: none;
 }
 
-:root.theme-light .chat-tools-menu {
+:root.theme-light :is(.chat-tools-menu, .chat-tools-surface-popover) {
   background: var(--chat-tools-panel-bg, rgb(249, 249, 248)) !important;
   border: 0 !important;
-  border-color: transparent !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-light .chat-tools-surface-popover {
-  background: var(--chat-tools-panel-bg, rgb(249, 249, 248)) !important;
-  border: 0 !important;
-  border-color: transparent !important;
   box-shadow: var(--btn-primary-shadow) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
@@ -489,7 +479,6 @@
 :root.theme-light:not(.theme-mid) .chat-analysis-upload-modal-card {
   background: var(--chat-upload-picker-bg, rgb(249, 249, 248)) !important;
   border: 0 !important;
-  border-color: transparent !important;
   box-shadow: var(--btn-primary-shadow) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
@@ -509,7 +498,6 @@
       rgba(229, 218, 210, 0.975) 100%
     ) !important;
   border: 0 !important;
-  border-color: transparent !important;
   box-shadow:
     0 20px 42px rgba(72, 44, 38, 0.16),
     0 8px 20px rgba(72, 44, 38, 0.1) !important;

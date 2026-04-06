@@ -41,26 +41,30 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const isOwn = role === "user";
   const authorLabel = isAssistant ? t("chat.aria.assistant") : isOwn ? t("chat.aria.user") : authorName || t("chat.aria.user");
   const messageBaseClassName =
-    "max-w-full leading-[1.45] mb-[0.35em] self-start";
+    "max-w-full leading-[1.45] mb-[0.35em]";
   const messageWrapClassName =
     "flex flex-col self-start mb-[0.35em] gap-[0.16em]";
   const nameClassName =
     "text-[0.95rem] tracking-[0.05em] text-[rgba(197,113,113,0.9)]";
+  const userMessageRowClassName =
+    "chat-msg-user flex w-full justify-end pr-[clamp(0.24rem,0.65vw,0.48rem)] max-[768px]:pr-[0.08rem]";
   const userBubbleClassName =
-    "chat-msg-user self-end ml-auto block w-full max-w-[min(84%,44rem)] mr-[clamp(0.24rem,0.65vw,0.48rem)] max-[768px]:mr-[0.08rem] text-left " +
-    "bg-transparent text-[color:var(--input-text)] " +
-    "border-0 rounded-none " +
-    "px-0 py-0 text-[1.16rem] leading-[1.45] tracking-[0.015em] font-[400] " +
-    "shadow-none transition-colors duration-300 " +
-    "light:bg-transparent " +
-    "light:text-[color:var(--input-text)]";
+    "chat-msg-user-bubble inline-block w-fit max-w-[min(84%,44rem)] text-left " +
+    "[background:color-mix(in_srgb,var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))_72%,transparent)] " +
+    "border-0 rounded-[1.28rem] rounded-br-[0.5rem] " +
+    "[.theme-light_&]:[background:color-mix(in_srgb,var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))_88%,white)] " +
+    "[.theme-mid_&]:[background:var(--mid-utility-panel-bg-hover,var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg)))))] " +
+    "[.theme-mid_&]:border-0 " +
+    "px-[0.96rem] py-[0.72rem] text-[1.16rem] leading-[1.42] tracking-[0.015em] font-[400] " +
+    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] shadow-none " +
+    "[-webkit-backdrop-filter:none] [backdrop-filter:none] transition-[transform] duration-200";
   const memberBubbleClassName =
     "self-start text-left bg-[rgba(14,20,32,0.2)] " +
     "border-2 border-[rgba(240,240,240,0.35)] rounded-[1.15em] rounded-bl-[0.55em] " +
     "px-[1em] py-[0.62em] shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_0.32rem_0.85rem_rgba(5,8,15,0.12)] " +
     "light:border-[rgba(15,23,42,0.16)] light:bg-[rgba(255,255,255,0.74)]";
   const aiBubbleClassName =
-    "chat-msg-ai w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
+    "chat-msg-ai self-start w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
     "text-[color:var(--input-text)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500]";
   const normalizedAttachments = Array.isArray(attachments)
     ? attachments
@@ -165,13 +169,25 @@ const ChatMessageItem = memo(function ChatMessageItem({
   if (!isAssistant && !isOwn) {
     return <div className={messageWrapClassName} role="article" tabIndex={0} data-chat-message-id={messageId}>
         {authorName ? <div className={nameClassName}>{authorName}</div> : null}
-        <div className={cn(messageBaseClassName, userBubbleClassName, memberBubbleClassName)}>
+        <div className={cn(messageBaseClassName, memberBubbleClassName)}>
           <span className="sr-only">
             {authorLabel}
             {": "}
           </span>
           <div className="whitespace-pre-wrap">{text}</div>
         </div>
+      </div>;
+  }
+  if (isOwn) {
+    return <div className={cn(messageBaseClassName, userMessageRowClassName)} role="article" tabIndex={0} data-chat-message-id={messageId}>
+        <span className="sr-only">
+          {authorLabel}
+          {": "}
+        </span>
+
+        {text ? <div className={userBubbleClassName}>
+            <div className="whitespace-pre-wrap">{visibleText}</div>
+          </div> : null}
       </div>;
   }
   return <div className={cn(messageBaseClassName, isAssistant ? aiBubbleClassName : userBubbleClassName)} role="article" tabIndex={0} data-chat-message-id={messageId}>

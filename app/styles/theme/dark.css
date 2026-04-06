@@ -189,41 +189,18 @@
     0 0 0 3px var(--btn-primary-focus-ring-color);
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .help-listings-panel {
-  background: var(--chat-card-surface-standard-bg) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-tools-menu {
-  background: var(--chat-card-surface-strong-bg) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-tools-surface-popover {
-  background: var(--chat-card-surface-strong-bg) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
-  .chat-analysis-upload-modal-card {
+  :is(.chat-tools-menu, .chat-tools-surface-popover, .chat-analysis-upload-modal-card) {
   background: var(--chat-card-surface-strong-bg) !important;
   border: 0 !important;
   box-shadow: none !important;
-  border-color: transparent !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   :is(
+    .help-listings-panel,
     .invite-list-panel,
     .invite-list-row,
     .materials-admin-panel,
@@ -237,19 +214,10 @@
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .drawer-chat-sidebar
-  :is(.drawer-chat-card, .drawer-search-shell) {
+  .drawer-chat-card {
   background: var(--chat-card-surface-standard-bg) !important;
   box-shadow: var(--subpage-card-shadow) !important;
   border-color: var(--subpage-card-border) !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
-  .drawer-chat-sidebar
-  .drawer-search-shell {
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 0 24px -14px rgba(255, 255, 255, 0.24),
-    0 8px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
@@ -569,7 +537,6 @@
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-msg-user:focus-within {
   background-color: transparent !important;
   background-image: none !important;
-  border-color: transparent !important;
   box-shadow: none !important;
 }
 :root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording="true"] {

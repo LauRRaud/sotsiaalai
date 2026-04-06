@@ -81,10 +81,6 @@
     height: 0;
   }
 
-  .glass-mobile-only-close {
-    display: none !important;
-  }
-
   .glass-mobile-only-close.modal-close-btn,
   .chat-mobile-close.modal-close-btn,
   .drawer-close-btn--chat.modal-close-btn {

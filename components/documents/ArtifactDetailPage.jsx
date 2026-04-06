@@ -162,7 +162,7 @@ export default function ArtifactDetailPage({ artifactId }) {
   return (
     <section className="documents-workspace documents-workspace-page">
       <div className="documents-workspace-shell">
-        <Panel variant="secondary" padding="md" className="documents-workspace-card rounded-[1.5rem]">
+        <Panel variant="secondary" padding="md" className="documents-workspace-card documents-shell-surface rounded-[1.5rem]">
           <BackButton
             onClick={handleBack}
             ariaLabel={t("buttons.back")}
@@ -213,7 +213,7 @@ export default function ArtifactDetailPage({ artifactId }) {
             </header>
 
             {!loading && !errorText && artifact ? (
-              <Panel variant="secondary" padding="sm" className="documents-panel mt-[1rem] rounded-[1.2rem]">
+              <div className="documents-section-body mt-[1rem]">
                 <div className="flex flex-wrap items-center gap-[0.45rem]">
                   <span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">
                     {artifactTypeLabel(artifact.type, t)}
@@ -299,14 +299,14 @@ export default function ArtifactDetailPage({ artifactId }) {
                 )}
 
                 {artifact.template ? (
-                  <Panel variant="secondary" padding="sm" className="documents-subpanel mt-[1rem] rounded-[0.95rem]">
+                  <div className="documents-inline-section">
                     <h2 className="documents-subsection-title">{t("documents.template_label")}</h2>
                     <p className="documents-meta-text mt-[0.25rem] text-[0.92rem]">
                       {artifact.template.title || artifact.template.originalName}
                     </p>
-                  </Panel>
+                  </div>
                 ) : null}
-                <Panel variant="secondary" padding="sm" className="documents-subpanel mt-[1rem] rounded-[0.95rem]">
+                <div className="documents-inline-section">
                   <h2 className="documents-subsection-title">{t("documents.sources_section_title")}</h2>
                   <div className="mt-[0.55rem] flex flex-col gap-[0.45rem]">
                     {artifact.sources?.length ? (
@@ -320,8 +320,8 @@ export default function ArtifactDetailPage({ artifactId }) {
                       <p className="documents-meta-text text-[0.92rem]">{t("documents.empty_sources")}</p>
                     )}
                   </div>
-                </Panel>
-              </Panel>
+                </div>
+              </div>
             ) : null}
           </div>
         </Panel>

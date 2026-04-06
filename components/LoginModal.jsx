@@ -1141,7 +1141,7 @@ export default function LoginModal({
       ? "rgba(80, 112, 162, 0.1)"
       : "rgba(52, 68, 96, 0.08)"
     : "transparent";
-  const pinKeyBackdropFilter = isDarkKeypadTheme ? "saturate(130%) blur(12px)" : "none";
+  const pinKeyBackdropFilter = "none";
   const pinKeyHoverShadow = isDarkKeypadTheme
     ? isNightTheme
       ? "0 7px 16px rgba(4, 9, 18, 0.17), 0 1px 3px rgba(7, 13, 24, 0.12), inset 0 0 0 var(--pin-border-w) rgba(198, 222, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -5px 10px rgba(7, 13, 22, 0.13), inset 0 -1px 0 rgba(44, 74, 120, 0.12)"
@@ -1150,20 +1150,23 @@ export default function LoginModal({
   const pinKeyFocusShadow = isDarkKeypadTheme
     ? `0 0 0 3px rgba(197, 113, 113, 0.18), ${pinKeyHoverShadow}`
     : pinKeyBoxShadow;
-  const pinKeyActiveShadow = isDarkKeypadTheme
-    ? isNightTheme
-      ? "0 5px 10px rgba(4, 9, 18, 0.16), 0 1px 3px rgba(7, 13, 24, 0.11), inset 0 0 0 var(--pin-border-w) rgba(198, 222, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 -6px 10px rgba(6, 11, 20, 0.16), inset 0 -1px 0 rgba(44, 74, 120, 0.12)"
-      : "0 5px 10px rgba(3, 8, 15, 0.15), 0 1px 3px rgba(8, 13, 21, 0.1), inset 0 0 0 var(--pin-border-w) rgba(214, 228, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.065), inset 0 -6px 10px rgba(5, 9, 16, 0.15), inset 0 -1px 0 rgba(38, 52, 76, 0.12)"
-    : pinKeyBoxShadow;
+  const pinKeyActiveShadow = pinKeyBoxShadow;
   const pinKeyHoverFilter = "none";
   const pinKeyHoverSheenOpacity = isDarkKeypadTheme ? pinKeySheenOpacity : "0";
-  const pinKeyActiveSheenOpacity = isDarkKeypadTheme ? "0.48" : "0";
-  const pinBounceVars = {
-    "--pin-bounce-ms": "640ms",
-    "--pin-bounce-up": "1.059",
-    "--pin-bounce-down": "0.989",
-    "--pin-bounce-recover": "1.011"
-  };
+  const pinKeyActiveSheenOpacity = isDarkKeypadTheme ? pinKeySheenOpacity : "0";
+  const pinBounceVars = isDarkKeypadTheme
+    ? {
+        "--pin-bounce-ms": "560ms",
+        "--pin-bounce-up": "1.04",
+        "--pin-bounce-down": "0.993",
+        "--pin-bounce-recover": "1.007"
+      }
+    : {
+        "--pin-bounce-ms": "640ms",
+        "--pin-bounce-up": "1.059",
+        "--pin-bounce-down": "0.989",
+        "--pin-bounce-recover": "1.011"
+      };
   const loginShellShadow = isOtpStep
     ? undefined
     : isMidTheme
@@ -1251,8 +1254,8 @@ export default function LoginModal({
           -webkit-backdrop-filter: var(--pin-key-backdrop-filter, none);
         }
         #login-modal[data-keypad-theme="dark"] .login-keypad-btn {
-          transform: translate3d(0, 0, 0);
-          transition-property: transform, box-shadow, background, color, opacity !important;
+          top: 0;
+          transition-property: top, box-shadow, background, color, opacity !important;
           transition-duration: 280ms !important;
           transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
           will-change: auto;
@@ -1290,24 +1293,16 @@ export default function LoginModal({
         #login-modal[data-keypad-theme="dark"] .login-keypad-btn:focus-visible::after {
           opacity: calc(var(--pin-gloss-op, 0) * 0.74);
         }
-        #login-modal[data-keypad-theme="dark"] .login-keypad-btn:active::before {
-          opacity: var(--pin-key-sheen-op-active, var(--pin-key-sheen-op, 0));
-          border-color: var(--pin-key-outline-active, var(--pin-key-outline, transparent));
-        }
-        #login-modal[data-keypad-theme="dark"] .login-keypad-btn:active::after {
-          opacity: calc(var(--pin-gloss-op, 0) * 0.6);
-        }
         #login-modal[data-keypad-theme="dark"] .login-keypad-btn:focus-visible {
           box-shadow: var(--pin-key-focus-shadow, var(--pin-key-hover-shadow, none)) !important;
           filter: var(--pin-key-hover-filter, none);
         }
         #login-modal[data-keypad-theme="dark"] .login-keypad-btn:hover {
-          transform: translate3d(0, 1px, 0);
+          top: 1px;
         }
         #login-modal[data-keypad-theme="dark"] .login-keypad-btn:active {
-          transform: translate3d(0, 2px, 0);
-          box-shadow: var(--pin-key-active-shadow, var(--pin-key-hover-shadow, none)) !important;
-          filter: brightness(0.985) saturate(1.03);
+          top: 1px;
+          filter: none;
         }
       `}</style>
       <div ref={boxRef} id="login-modal" data-keypad-theme={isDarkKeypadTheme ? "dark" : "light"} className={modalClasses} style={{
