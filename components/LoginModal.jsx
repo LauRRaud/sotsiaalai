@@ -1074,6 +1074,7 @@ export default function LoginModal({
   const isMidTheme = prefs?.theme === "mid";
   const isNightTheme = prefs?.theme === "night";
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
+  const isDarkKeypadTheme = !isLightTheme;
   const helpPopoverLinkStyle = isMidTheme
     ? {
         "--link-color": "#8a4b49",
@@ -1095,24 +1096,68 @@ export default function LoginModal({
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.995) 0%, rgba(255, 255, 255, 0.28) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.045) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.34) 100%)"
     : isNightTheme
-      ? "radial-gradient(138% 128% at 50% 12%, rgba(228, 239, 255, 0.072) 0%, rgba(228, 239, 255, 0.032) 24%, rgba(228, 239, 255, 0.01) 42%, rgba(228, 239, 255, 0) 60%), linear-gradient(160deg, rgba(54, 68, 86, 0.68) 0%, rgba(35, 45, 60, 0.62) 48%, rgba(18, 26, 37, 0.56) 100%), rgba(18, 24, 34, 0.48)"
-      : "radial-gradient(138% 128% at 50% 12%, rgba(244, 247, 255, 0.064) 0%, rgba(244, 247, 255, 0.028) 24%, rgba(244, 247, 255, 0.01) 42%, rgba(244, 247, 255, 0) 60%), linear-gradient(160deg, rgba(54, 62, 74, 0.64) 0%, rgba(32, 38, 48, 0.6) 48%, rgba(18, 23, 30, 0.54) 100%), rgba(18, 22, 28, 0.44)";
+      ? "radial-gradient(138% 124% at 28% 18%, rgba(255, 255, 255, 0.095) 0%, rgba(220, 236, 255, 0.05) 20%, rgba(170, 206, 255, 0.018) 34%, rgba(170, 206, 255, 0) 56%), linear-gradient(168deg, rgba(72, 91, 118, 0.2) 0%, rgba(38, 48, 64, 0.16) 46%, rgba(16, 22, 32, 0.12) 100%), rgba(12, 18, 28, 0.18)"
+      : "radial-gradient(136% 122% at 28% 18%, rgba(255, 255, 255, 0.08) 0%, rgba(232, 240, 255, 0.04) 20%, rgba(194, 214, 255, 0.014) 34%, rgba(194, 214, 255, 0) 56%), linear-gradient(168deg, rgba(68, 78, 98, 0.17) 0%, rgba(36, 42, 54, 0.135) 46%, rgba(14, 19, 26, 0.11) 100%), rgba(11, 15, 22, 0.16)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
       ? "0 5px 10px rgba(0, 0, 0, 0.11), 0 1px 1px rgba(20, 12, 10, 0.07), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
       : "0 5px 9px rgba(0, 0, 0, 0.09), 0 1px 1px rgba(15, 23, 42, 0.06), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(0, 0, 0, 0.09)"
     : isNightTheme
-      ? "0 3px 7px rgba(2, 6, 16, 0.12), 0 1px 1px rgba(15, 23, 42, 0.065), 0 6px 9px -6px rgba(120, 168, 230, 0.14), 0 12px 12px -10px rgba(208, 228, 255, 0.16), inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.026), inset 0 -1px 0 rgba(2, 6, 16, 0.15)"
-      : "0 3px 7px rgba(0, 0, 0, 0.11), 0 1px 1px rgba(15, 23, 42, 0.065), 0 6px 9px -6px rgba(248, 253, 255, 0.11), 0 12px 12px -10px rgba(248, 253, 255, 0.14), inset 0 0 0 var(--pin-border-w) rgba(34, 42, 56, 0.46), inset 0 1px 0 rgba(255, 255, 255, 0.024), inset 0 -1px 0 rgba(0, 0, 0, 0.15)";
+      ? "0 7px 16px rgba(4, 9, 18, 0.17), 0 1px 3px rgba(7, 13, 24, 0.12), inset 0 0 0 var(--pin-border-w) rgba(198, 222, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -5px 10px rgba(7, 13, 22, 0.13), inset 0 -1px 0 rgba(44, 74, 120, 0.12)"
+      : "0 6px 14px rgba(3, 8, 15, 0.16), 0 1px 3px rgba(8, 13, 21, 0.11), inset 0 0 0 var(--pin-border-w) rgba(214, 228, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 -4px 9px rgba(5, 9, 16, 0.12), inset 0 -1px 0 rgba(38, 52, 76, 0.12)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
       ? "linear-gradient(138deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 22%, rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0) 66%, rgba(122, 58, 56, 0.045) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 72%)"
       : "linear-gradient(138deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.2) 22%, rgba(255, 255, 255, 0.07) 44%, rgba(255, 255, 255, 0) 66%, rgba(255, 255, 255, 0.04) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.1) 36%, rgba(255, 255, 255, 0) 72%)"
     : isNightTheme
-      ? "linear-gradient(180deg, rgba(230, 240, 255, 0.12) 0%, rgba(230, 240, 255, 0.035) 18%, rgba(230, 240, 255, 0) 44%)"
-      : "linear-gradient(180deg, rgba(248, 253, 255, 0.1) 0%, rgba(248, 253, 255, 0.03) 18%, rgba(248, 253, 255, 0) 44%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : isNightTheme ? "0.042" : "0.032";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : isNightTheme ? "0.03" : "0.022";
+      ? "linear-gradient(145deg, rgba(255, 255, 255, 0.14) 0%, rgba(222, 237, 255, 0.055) 22%, rgba(222, 237, 255, 0.018) 38%, rgba(222, 237, 255, 0) 58%, rgba(95, 146, 228, 0.05) 100%)"
+      : "linear-gradient(145deg, rgba(255, 255, 255, 0.11) 0%, rgba(236, 244, 255, 0.042) 22%, rgba(236, 244, 255, 0.016) 38%, rgba(236, 244, 255, 0) 58%, rgba(150, 188, 244, 0.042) 100%)";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : isNightTheme ? "0.08" : "0.07";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : isNightTheme ? "0.09" : "0.08";
+  const pinKeySheenBackground = isDarkKeypadTheme
+    ? isNightTheme
+      ? "linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.028) 24%, rgba(255, 255, 255, 0) 60%)"
+      : "linear-gradient(180deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.022) 24%, rgba(255, 255, 255, 0) 60%)"
+    : "transparent";
+  const pinKeySheenOpacity = isDarkKeypadTheme ? "0.56" : "0";
+  const pinKeyOutline = isDarkKeypadTheme
+    ? isNightTheme
+      ? "rgba(190, 209, 236, 0.26)"
+      : "rgba(184, 197, 220, 0.22)"
+    : "transparent";
+  const pinKeyOutlineHover = isDarkKeypadTheme
+    ? pinKeyOutline
+    : "transparent";
+  const pinKeyOutlineActive = isDarkKeypadTheme
+    ? pinKeyOutline
+    : "transparent";
+  const pinKeyRimTop = isDarkKeypadTheme
+    ? isNightTheme
+      ? "rgba(249, 252, 255, 0.1)"
+      : "rgba(255, 255, 255, 0.075)"
+    : "transparent";
+  const pinKeyRimBottom = isDarkKeypadTheme
+    ? isNightTheme
+      ? "rgba(80, 112, 162, 0.1)"
+      : "rgba(52, 68, 96, 0.08)"
+    : "transparent";
+  const pinKeyBackdropFilter = isDarkKeypadTheme ? "saturate(130%) blur(12px)" : "none";
+  const pinKeyHoverShadow = isDarkKeypadTheme
+    ? isNightTheme
+      ? "0 7px 16px rgba(4, 9, 18, 0.17), 0 1px 3px rgba(7, 13, 24, 0.12), inset 0 0 0 var(--pin-border-w) rgba(198, 222, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -5px 10px rgba(7, 13, 22, 0.13), inset 0 -1px 0 rgba(44, 74, 120, 0.12)"
+      : "0 6px 14px rgba(3, 8, 15, 0.16), 0 1px 3px rgba(8, 13, 21, 0.11), inset 0 0 0 var(--pin-border-w) rgba(214, 228, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 -4px 9px rgba(5, 9, 16, 0.12), inset 0 -1px 0 rgba(38, 52, 76, 0.12)"
+    : pinKeyBoxShadow;
+  const pinKeyFocusShadow = isDarkKeypadTheme
+    ? `0 0 0 3px rgba(197, 113, 113, 0.18), ${pinKeyHoverShadow}`
+    : pinKeyBoxShadow;
+  const pinKeyActiveShadow = isDarkKeypadTheme
+    ? isNightTheme
+      ? "0 5px 10px rgba(4, 9, 18, 0.16), 0 1px 3px rgba(7, 13, 24, 0.11), inset 0 0 0 var(--pin-border-w) rgba(198, 222, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 -6px 10px rgba(6, 11, 20, 0.16), inset 0 -1px 0 rgba(44, 74, 120, 0.12)"
+      : "0 5px 10px rgba(3, 8, 15, 0.15), 0 1px 3px rgba(8, 13, 21, 0.1), inset 0 0 0 var(--pin-border-w) rgba(214, 228, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.065), inset 0 -6px 10px rgba(5, 9, 16, 0.15), inset 0 -1px 0 rgba(38, 52, 76, 0.12)"
+    : pinKeyBoxShadow;
+  const pinKeyHoverFilter = "none";
+  const pinKeyHoverSheenOpacity = isDarkKeypadTheme ? pinKeySheenOpacity : "0";
+  const pinKeyActiveSheenOpacity = isDarkKeypadTheme ? "0.48" : "0";
   const pinBounceVars = {
     "--pin-bounce-ms": "640ms",
     "--pin-bounce-up": "1.059",
@@ -1200,8 +1245,72 @@ export default function LoginModal({
           0%, 48% { opacity: 0; }
           52%, 100% { opacity: 1; }
         }
+        #login-modal .login-keypad-btn {
+          transform: translateZ(0);
+          backdrop-filter: var(--pin-key-backdrop-filter, none);
+          -webkit-backdrop-filter: var(--pin-key-backdrop-filter, none);
+        }
+        #login-modal[data-keypad-theme="dark"] .login-keypad-btn {
+          transform: translate3d(0, 0, 0);
+          transition-property: transform, box-shadow, background, color, opacity !important;
+          transition-duration: 280ms !important;
+          transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+          will-change: auto;
+        }
+        #login-modal[data-keypad-theme="dark"] .login-keypad-btn::after {
+          inset: 2px;
+          border-radius: inherit;
+          opacity: calc(var(--pin-gloss-op, 0) * 0.72);
+          transition:
+            opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+            inset 280ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #login-modal .login-keypad-btn::before {
+          content: "";
+          position: absolute;
+          inset: 1px;
+          border-radius: inherit;
+          pointer-events: none;
+          background: var(--pin-key-sheen-bg, transparent);
+          opacity: var(--pin-key-sheen-op, 0);
+          border: 1px solid var(--pin-key-outline, transparent);
+          transition:
+            opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+            border-color 280ms cubic-bezier(0.16, 1, 0.3, 1),
+            box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
+            background 280ms cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow:
+            inset 0 1px 0 var(--pin-key-rim-top, transparent),
+            inset 0 -1px 0 var(--pin-key-rim-bottom, transparent);
+        }
+        #login-modal[data-keypad-theme="dark"] .login-keypad-btn:focus-visible::before {
+          opacity: var(--pin-key-sheen-op-hover, var(--pin-key-sheen-op, 0));
+          border-color: var(--pin-key-outline-hover, var(--pin-key-outline, transparent));
+        }
+        #login-modal[data-keypad-theme="dark"] .login-keypad-btn:focus-visible::after {
+          opacity: calc(var(--pin-gloss-op, 0) * 0.74);
+        }
+        #login-modal[data-keypad-theme="dark"] .login-keypad-btn:active::before {
+          opacity: var(--pin-key-sheen-op-active, var(--pin-key-sheen-op, 0));
+          border-color: var(--pin-key-outline-active, var(--pin-key-outline, transparent));
+        }
+        #login-modal[data-keypad-theme="dark"] .login-keypad-btn:active::after {
+          opacity: calc(var(--pin-gloss-op, 0) * 0.6);
+        }
+        #login-modal[data-keypad-theme="dark"] .login-keypad-btn:focus-visible {
+          box-shadow: var(--pin-key-focus-shadow, var(--pin-key-hover-shadow, none)) !important;
+          filter: var(--pin-key-hover-filter, none);
+        }
+        #login-modal[data-keypad-theme="dark"] .login-keypad-btn:hover {
+          transform: translate3d(0, 1px, 0);
+        }
+        #login-modal[data-keypad-theme="dark"] .login-keypad-btn:active {
+          transform: translate3d(0, 2px, 0);
+          box-shadow: var(--pin-key-active-shadow, var(--pin-key-hover-shadow, none)) !important;
+          filter: brightness(0.985) saturate(1.03);
+        }
       `}</style>
-      <div ref={boxRef} id="login-modal" className={modalClasses} style={{
+      <div ref={boxRef} id="login-modal" data-keypad-theme={isDarkKeypadTheme ? "dark" : "light"} className={modalClasses} style={{
       "--login-modal-side-pad": isPhoneViewport ? "0px" : "1.15em",
       "--login-modal-inner-side-pad": isOtpStep
         ? isPhoneViewport
@@ -1294,6 +1403,20 @@ export default function LoginModal({
         : isLightTheme
           ? "#1f2937"
           : "#e5e7eb",
+      "--pin-key-backdrop-filter": pinKeyBackdropFilter,
+      "--pin-key-sheen-bg": pinKeySheenBackground,
+      "--pin-key-sheen-op": pinKeySheenOpacity,
+      "--pin-key-sheen-op-hover": pinKeyHoverSheenOpacity,
+      "--pin-key-sheen-op-active": pinKeyActiveSheenOpacity,
+      "--pin-key-outline": pinKeyOutline,
+      "--pin-key-outline-hover": pinKeyOutlineHover,
+      "--pin-key-outline-active": pinKeyOutlineActive,
+      "--pin-key-rim-top": pinKeyRimTop,
+      "--pin-key-rim-bottom": pinKeyRimBottom,
+      "--pin-key-hover-shadow": pinKeyHoverShadow,
+      "--pin-key-focus-shadow": pinKeyFocusShadow,
+      "--pin-key-active-shadow": pinKeyActiveShadow,
+      "--pin-key-hover-filter": pinKeyHoverFilter,
       "--login-shell-shadow": loginShellShadow,
       "--login-shell-filter": loginShellFilter,
       width: isPhoneViewport
@@ -1662,4 +1785,3 @@ export default function LoginModal({
       </div>
     </>, document.body);
   }
-
