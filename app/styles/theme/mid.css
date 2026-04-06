@@ -577,23 +577,21 @@
 }
 
 :root.theme-mid .chat-msg-user {
-  background: var(--chat-user-bubble-bg, var(--subpage-card-bg)) !important;
-  background-color: rgba(233, 221, 215, 0.84) !important;
-  border: var(--subpage-card-border, 0 solid transparent) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
   color: #2f3a4a;
-  box-shadow: var(--chat-user-bubble-shadow, var(--subpage-card-shadow, var(--chat-inputbar-shadow))) !important;
+  box-shadow: none !important;
 }
 
 :root.theme-mid .chat-msg-user:hover,
 :root.theme-mid .chat-msg-user:focus-within {
-  background: var(--chat-user-bubble-bg, var(--subpage-card-bg)) !important;
-  background-color: rgba(233, 221, 215, 0.84) !important;
-  border-color: var(--subpage-card-border, transparent) !important;
-  box-shadow: var(
-    --chat-user-bubble-shadow,
-    var(--subpage-card-shadow,
-    var(--chat-inputbar-shadow)
-  )) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */

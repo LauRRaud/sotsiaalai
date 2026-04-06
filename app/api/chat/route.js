@@ -34,6 +34,7 @@ import { detectHelpChatIntent } from "@/lib/help/intents";
 import { isActiveHelpWorkflowState, normalizeHelpWorkflowState } from "@/lib/help/workflowState";
 import { getChatSessionTurnLimit } from "@/lib/chat/guardrails";
 import { logOpenAIUsage } from "@/lib/openaiUsage";
+import { shouldUseHelpWorkflowMode } from "@/lib/chat/workflowModeRouting";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -978,11 +979,14 @@ export async function POST(req) {
     !roomId &&
     (forcedMode === "document" || (!forcedMode && documentWorkflowActive))
   );
-  const shouldUseHelpWorkflow = Boolean(
-    userId &&
-    !roomId &&
-    (explicitHelpModeActive || (!forcedMode && (helpWorkflowActive || inactiveHelpStateCanResume)))
-  );
+  const shouldUseHelpWorkflow = shouldUseHelpWorkflowMode({
+    userId,
+    roomId,
+    forcedMode,
+    explicitHelpModeActive,
+    helpWorkflowActive,
+    inactiveHelpStateCanResume
+  });
   if (documentPlan) {
     logInfo("orchestration.plan", {
       mode: documentPlan.mode,

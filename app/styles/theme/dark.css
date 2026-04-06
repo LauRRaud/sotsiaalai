@@ -559,28 +559,16 @@
   box-shadow: none;
 }
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-msg-user {
-  background-color: rgba(32, 36, 43, 0.7) !important;
-  background-image: radial-gradient(
-    78% 34% at 50% 2%,
-    rgba(238, 242, 248, 0.17) 0%,
-    rgba(238, 242, 248, 0.09) 22%,
-    rgba(238, 242, 248, 0.03) 38%,
-    rgba(238, 242, 248, 0) 62%
-  ) !important;
-  border: 0 solid transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
   color: var(--pt-150);
   box-shadow: none !important;
 }
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-msg-user:hover,
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-msg-user:focus-within {
-  background-color: rgba(32, 36, 43, 0.7) !important;
-  background-image: radial-gradient(
-    78% 34% at 50% 2%,
-    rgba(238, 242, 248, 0.17) 0%,
-    rgba(238, 242, 248, 0.09) 22%,
-    rgba(238, 242, 248, 0.03) 38%,
-    rgba(238, 242, 248, 0) 62%
-  ) !important;
+  background-color: transparent !important;
+  background-image: none !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }

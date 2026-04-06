@@ -640,23 +640,20 @@
   opacity: 0.95;
 }
 :root.theme-light .chat-msg-user {
-  background: var(--chat-user-bubble-bg, var(--chat-inputbar-bg));
-  background-color: rgba(252, 251, 250, 0.94);
-  border: var(--chat-user-bubble-border, var(--input-border));
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
+  border: none;
   color: #111827;
-  box-shadow: var(
-    --chat-user-bubble-shadow,
-    var(--chat-inputbar-shadow, 0 4px 10px rgba(0, 0, 0, 0.08))
-  );
+  box-shadow: none;
 }
 :root.theme-light .chat-msg-user:hover,
 :root.theme-light .chat-msg-user:focus-within {
-  background: var(--chat-user-bubble-bg, var(--chat-inputbar-bg));
-  background-color: rgba(252, 251, 250, 0.94);
-  box-shadow: var(
-    --chat-user-bubble-shadow,
-    var(--chat-inputbar-shadow, 0 4px 10px rgba(0, 0, 0, 0.08))
-  );
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  box-shadow: none;
 }
 :root.theme-light .chat-msg-ai {
   color: #111827;

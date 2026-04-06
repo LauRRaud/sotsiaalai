@@ -216,25 +216,21 @@ html[data-contrast="hc"] .materials-page-shell {
 }
 
 html[data-contrast="hc"] body .chat-msg-user {
-  background: var(--chat-card-surface-night-standard-flat-bg) !important;
-  background-color: rgba(20, 31, 48, 0.96) !important;
+  background: transparent !important;
+  background-color: transparent !important;
   background-image: none !important;
-  border: 2px solid rgba(255, 234, 0, 0.66) !important;
+  border: none !important;
   color: var(--hc-text) !important;
-  box-shadow:
-    0 6px 16px rgba(2, 6, 16, 0.18),
-    inset 0 1px 0 rgba(255, 234, 0, 0.06) !important;
+  box-shadow: none !important;
 }
 
 html[data-contrast="hc"] body .chat-msg-user:hover,
 html[data-contrast="hc"] body .chat-msg-user:focus-within {
-  background: var(--chat-card-surface-night-standard-flat-bg) !important;
-  background-color: rgba(20, 31, 48, 0.96) !important;
+  background: transparent !important;
+  background-color: transparent !important;
   background-image: none !important;
-  border-color: rgba(255, 234, 0, 0.66) !important;
-  box-shadow:
-    0 6px 16px rgba(2, 6, 16, 0.18),
-    inset 0 1px 0 rgba(255, 234, 0, 0.06) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
 html[data-contrast="hc"]

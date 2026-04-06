@@ -2154,37 +2154,21 @@
   }
 
   :root.theme-mid .chat-page-shell .chat-msg-user {
-    background: var(
-      --chat-user-bubble-bg,
-      var(--subpage-card-bg, var(--input-bg))
-    ) !important;
-    background-color: rgba(233, 221, 215, 0.84) !important;
-    border: var(
-      --chat-user-bubble-border,
-      var(--subpage-card-border, var(--input-border, 0 solid transparent))
-    ) !important;
-    box-shadow: var(
-      --chat-user-bubble-shadow,
-      var(--subpage-card-shadow, var(--input-shadow, none))
-    ) !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important;
     opacity: 1 !important;
   }
 
   :root.theme-mid .chat-page-shell .chat-msg-user:hover,
   :root.theme-mid .chat-page-shell .chat-msg-user:focus-within {
-    background: var(
-      --chat-user-bubble-bg,
-      var(--subpage-card-bg, var(--input-bg))
-    ) !important;
-    background-color: rgba(233, 221, 215, 0.84) !important;
-    border-color: var(
-      --chat-user-bubble-border,
-      var(--subpage-card-border, var(--input-border, transparent))
-    ) !important;
-    box-shadow: var(
-      --chat-user-bubble-shadow,
-      var(--subpage-card-shadow, var(--input-shadow, none))
-    ) !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
   }
 
   .chat-right-actions > nav {
@@ -3187,4 +3171,3 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     bottom: 0 !important;
   }
 }
-
