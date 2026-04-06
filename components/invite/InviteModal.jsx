@@ -36,6 +36,7 @@ function parseEmails(raw) {
 }
 const INVITE_TILT_CLOSE_MS = 540;
 export default function InviteModal() {
+  const sponsoredCheckoutDisabled = true;
   const { data: session } = useSession();
   const { t, locale } = useI18n();
   const [open, setOpen] = useState(false);
@@ -331,6 +332,10 @@ export default function InviteModal() {
       setError(t("invite.error.sponsor_plan_required"));
       return;
     }
+    if (paymentMode === "SPONSORED_BY_HOST" && sponsoredCheckoutDisabled) {
+      setError(t("invite.error.checkout_temporarily_disabled"));
+      return;
+    }
     if (paymentMode === "SPONSORED_BY_HOST" && !sponsoredCheckoutAgreed) {
       setError(t("invite.error.checkout_terms_required"));
       return;
@@ -610,7 +615,7 @@ export default function InviteModal() {
                           variant="primary"
                           size="md"
                           className={`${invitePrimaryButtonClassName} invite-primary-btn`}
-                          disabled={busy || !targetRole || !sponsoredCheckoutAgreed}
+                          disabled={sponsoredCheckoutDisabled || busy || !targetRole || !sponsoredCheckoutAgreed}
                         >
                           {busy
                             ? t("invite.sending")

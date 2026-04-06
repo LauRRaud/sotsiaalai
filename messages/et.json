@@ -781,8 +781,8 @@
       "no_context_worker": "Ma ei leidnud praegu materjalidest sellele täpset vastust. Palun täpsusta KOV või omavalitsus ning teenuse või olukorra tüüp."
     },
     "empty_intro": "Tere! Kirjelda lühidalt, mida soovid teada või milles juhendamist vajad. Kui soovid teist režiimi, vali see + märgi alt.",
-    "empty_intro_help_request": "Tere! Võid kirjutada kohe kogu abisoovi ühe lausega. Kirjelda lühidalt, millist abi vajad, kellele, kus ja millal; ma küsin ainult puuduva üle. Tühistamiseks vajuta abisoovi ikooni.",
-    "empty_intro_help_offer": "Tere! Võid kirjutada kohe kogu abipakkumise ühe lausega. Kirjelda lühidalt, millist abi saad pakkuda, kellele, kus ja millal; ma küsin ainult puuduva üle. Tühistamiseks vajuta abipakkumise ikooni.",
+    "empty_intro_help_request": "Kirjuta lühidalt, millist abi vajad. Soovi korral võid kohe lisada ka, mis liiki abiga on tegu ja mida täpsemalt vajad. Vajadusel küsin puuduva info üle.",
+    "empty_intro_help_offer": "Kirjuta lühidalt, millist abi saad pakkuda. Soovi korral võid kohe lisada ka, mis liiki abiga on tegu ja kuidas saad aidata. Vajadusel küsin puuduva info üle.",
     "modeSelection": {
       "confirm": {
         "rag": "Sain aru, et soovid saada infot või juhendamist. Kas jätkame sellega?",
@@ -880,38 +880,43 @@
       },
       "questions": {
         "offer": {
-          "describe": "Palun kirjelda lühidalt, mida soovid pakkuda, kellele ja kus.",
-          "rawPlace": "Palun kirjuta, kus abi pakkuda soovid.",
-          "rawPlaceTransport": "Mis piirkonnas või millisel marsruudil saad transpordiabi pakkuda?",
-          "helpType": "Kas see abi on vabatahtlik, tasuline või oled avatud mõlemale?",
-          "compensationDetails": "Palun kirjelda lühidalt tasu tingimusi.",
-          "timeType": "Kas see abi on ühekordne, regulaarne või paindlik?",
-          "availability": "Millal saad alustada või millal see abi on saadaval?",
-          "scope": "Kas soovid lisada tingimusi või täpsustusi, näiteks mis aegadel või mis ulatuses saad aidata?",
-          "scopeTransport": "Kas saad aidata sõidutamisega, saatmisega või transpordi korraldamisega? Lisa palun lühidalt piirangud või täpsustused.",
-          "scopeDigital": "Kas digiabi toimub kohapeal või kaugelt? Kirjuta palun lühidalt, millega täpsemalt saad aidata.",
-          "scopeAdmin": "Kas saad aidata avalduste, vormide või e-teenustega? Kirjuta palun, kas abi toimub kohapeal või koos veebis.",
-          "scopeHome": "Millega saad koduabis aidata, näiteks koristamine, lihtsamad kodused tööd või muu praktiline abi?"
+          "describe": "Kirjuta lühidalt, millist abi saad pakkuda. Soovi korral võid kohe lisada ka, mis liiki abiga on tegu ja kuidas saad aidata. Vajadusel küsin puuduva info üle.",
+          "rawPlace": "Kus saad aidata? Kirjuta koht võimalikult täpselt, näiteks linnaosa, asula, küla, linn või vald.",
+          "targetGroup": "Kellele sinu abi on mõeldud? Soovi korral võid lisada ka vanusegrupi ning selle, kas inimesel on erivajadus.",
+          "timing": "Millal saad aidata? Võid kohe juurde kirjutada ka, kas see on ühekordne või regulaarne abi.",
+          "helpCompensation": "Kas pakud abi vabatahtlikult, tasu eest või mõlemal moel? Kui tasu on oluline, võid kohe lisada ka tingimused.",
+          "detailsTransport": "Kuidas saad transpordi puhul aidata? Kas sõidutamise, saatmise või transpordi korraldamisega?",
+          "detailsDailyTasks": "Millega saad igapäevaelus aidata?",
+          "detailsHomeHelp": "Millega saad koduabis aidata?",
+          "detailsDigitalHelp": "Millega digiabis aidata saad? Kas pigem telefoni, arvuti, interneti või e-teenustega?",
+          "detailsCareSupport": "Millist tuge või hooldusabi saad pakkuda?",
+          "detailsChildYouthSupport": "Millist abi saad lapsele või noorele pakkuda?",
+          "detailsLearningGuidance": "Milles saad õppimise või juhendamisega aidata?",
+          "detailsSocialSupport": "Millist seltskondlikku või sotsiaalset tuge saad pakkuda?",
+          "detailsAdminFormHelp": "Kas saad aidata avalduste, vormide või e-teenustega?",
+          "detailsOther": "Kirjelda palun lühidalt, millist abi saad pakkuda."
         },
         "request": {
-          "describe": "Palun kirjelda lühidalt, millist abi vajad, kellele ja kus.",
-          "rawPlace": "Palun kirjuta, kus abi vaja on.",
-          "rawPlaceTransport": "Mis piirkonnas või millisel marsruudil transpordiabi vaja on?",
-          "beneficiary": "Kas see abisoov on sulle endale või kellelegi teisele?",
-          "urgency": "Kui kiiresti abi vaja on: kohe, lähiajal või paindlikult?",
-          "helpType": "Kas otsid vabatahtlikku abi, tasulist teenust või oled avatud mõlemale?",
-          "compensationDetails": "Palun kirjelda lühidalt tasu või tasustamise eelistust.",
-          "timeType": "Kas vajad seda abi ühekordselt, regulaarselt või paindlikult?",
-          "availability": "Millal abi vaja on või millal võiks sellega alustada?",
-          "availabilityTransport": "Millal transpordiabi vaja on? Kui soovid, lisa ka kellaaeg või nädalapäev.",
-          "availabilityDigital": "Millal digiabi vaja on? Kui soovid, lisa ka, kas sobib pigem kohapeal või kaugelt.",
-          "availabilityAdmin": "Millal asjaajamise või vormide abi vaja on? Kui on tähtaeg, kirjuta see ka palun juurde."
+          "describe": "Kirjuta lühidalt, millist abi vajad. Soovi korral võid kohe lisada ka, mis liiki abiga on tegu ja mida täpsemalt vajad. Vajadusel küsin puuduva info üle.",
+          "rawPlace": "Kus abi vaja on? Kirjuta koht võimalikult täpselt, näiteks linnaosa, asula, küla, linn või vald.",
+          "beneficiaryContext": "Kellele abi vaja on? Kas sulle endale või kellelegi teisele? Soovi korral võid lisada ka vanusegrupi ning selle, kas inimesel on erivajadus.",
+          "timing": "Millal abi vaja on? Võid kohe juurde kirjutada ka, kas see on ühekordne või regulaarne abi ning kas abi on vaja kohe, lähiajal või ei ole kiire.",
+          "helpCompensation": "Kas otsid vabatahtlikku abi, tasulist abi või oled avatud mõlemale? Kui tasu on oluline, võid kohe lisada ka tingimused.",
+          "detailsTransport": "Kuhu on vaja sõita ja millal?",
+          "detailsDailyTasks": "Millega igapäevaelus abi vaja on?",
+          "detailsHomeHelp": "Millega kodus abi vaja on?",
+          "detailsDigitalHelp": "Millega digiabi vaja on?",
+          "detailsCareSupport": "Millist tuge või hooldusabi vajad?",
+          "detailsChildYouthSupport": "Millist abi laps või noor vajab?",
+          "detailsLearningGuidance": "Milles õppimise või juhendamise abi vaja on?",
+          "detailsSocialSupport": "Millist seltskondlikku või sotsiaalset tuge vajad?",
+          "detailsAdminFormHelp": "Millega asjaajamises või vormide täitmisel abi vaja on?",
+          "detailsOther": "Kirjelda palun lühidalt, milles abi vaja on."
         },
         "shared": {
-          "contactPreference": "Kuidas soovid, et sinuga ühendust võetaks: vestluse kaudu, telefoni teel, e-posti teel või kokkuleppel?",
           "targetGroup": "Kellele see abi on mõeldud? Näiteks eakale, täiskasvanule või puudega inimesele.",
           "targetGroupClarifyOffer": "See küsimus on selle kohta, kellele sinu abi on mõeldud. Palun vasta näiteks: eakale, täiskasvanule või puudega inimesele.",
-          "category": "Millise abi alla see kõige paremini sobib? Näiteks transport, digiabi, koduabi või asjaajamise ja vormide abi.",
+          "category": "Mis liiki abiga on tegu? Kas see on pigem transport, igapäevaabi, koduabi, digiabi, tugi ja hooldus, laste ja noorte tugi, õppimise ja juhendamise abi, seltskond ja sotsiaalne tugi, asjaajamise ja vormide abi või muu abi?",
           "title": "Panin pealkirja paika. Kui soovid teistsugust pealkirja, kirjuta see nüüd."
         },
         "location": {
@@ -930,18 +935,17 @@
         "locationOnly": "Märkisin asukohaks {rawPlace}.",
         "helpType": "Märkisin, et tegu on {helpType} abiga.",
         "timeType": "Märkisin ajalisuseks {timeType}.",
-        "contactPreference": "Märkisin kontaktiviisiks {contactPreference}.",
         "beneficiary": "Märkisin, et abi on vaja {beneficiary}.",
         "urgency": "Märkisin kiireloomulisuseks {urgency}.",
         "conditions": "Märkisin tingimused.",
         "title": "Märkisin pealkirjaks \"{title}\"."
       },
       "preview": {
-        "offerTitle": "Palun vaata abipakkumine üle.",
-        "requestTitle": "Palun vaata abisoov üle.",
+        "offerTitle": "Vaata abipakkumine üle.",
+        "requestTitle": "Vaata abisoov üle.",
         "offerTypeValue": "Abipakkumine",
         "requestTypeValue": "Abisoov",
-        "savePrompt": "Kui sobib, vasta „jah“. Kui ei sobi, vasta „ei“ ja kirjuta, mida soovid muuta.",
+        "savePrompt": "Vasta „jah” või „ei”. Kui soovid midagi muuta, kirjuta see.",
         "editPrompt": "Selge. Kirjuta palun, mida soovid muuta."
       },
       "labels": {
@@ -961,7 +965,6 @@
         "availabilityForRequest": "Vajalik aeg / algus",
         "conditions": "Tingimused",
         "skillsOrBackground": "Oskused või taust",
-        "contactPreference": "Kontaktiviis",
         "beneficiaryLabel": "Kellele abi vaja on",
         "urgency": "Kiireloomulisus",
         "status": "Staatus"
@@ -1489,6 +1492,7 @@
     "loading": "Laen tellimuse infot…",
     "error": {
       "load_failed": "Tellimuse oleku laadimine ebaõnnestus.",
+      "checkout_temporarily_disabled": "Maksmine on hetkel ajutiselt peatatud.",
       "payment_start": "Makse algatamine ebaõnnestus.",
       "payment_failed": "Makse ebaõnnestus või katkestati."
     },
@@ -1756,6 +1760,7 @@
       "sponsored_checkout_required": "Kui valid \"Tasun tema eest\", tuleb kutse saata sponsoreeritud tellimuse maksevoo kaudu.",
       "sponsor_plan_unavailable": "Sponsoreeritud kutset ei saa luua, sest sobiv pakett pole saadaval.",
       "sponsor_capacity_full": "Sponsoreeritud kohtade limiit on täis.",
+      "checkout_temporarily_disabled": "Maksmine on hetkel ajutiselt peatatud.",
       "checkout_terms_required": "Enne sponsoreeritud makse algatamist peab tingimustega nõustuma."
     }
   },

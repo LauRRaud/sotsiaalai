@@ -8,78 +8,85 @@ const [{ runHelpChatWorkflow }, { createHelpWorkflowDraftState }] = await Promis
   import("../../lib/help/workflowState.js")
 ]);
 
-function createSavedRequestState(overrides = {}) {
-  return createHelpWorkflowDraftState({
-    intent: "create_help_request",
-    mode: "saved",
-    step: "saved",
-    flowLocked: false,
-    sourceRecordId: "req-1",
-    linkedRequestId: "req-1",
-    municipalityId: "mun-1",
-    municipalityLabel: "Tallinn",
-    draft: {
-      title: "Vajan transpordiabi",
-      description: "Vajan transpordiabi Tallinnas.",
-      category: "Transport",
-      categoryCode: "TRANSPORT",
-      targetGroupCodes: ["ADULT"],
-      targetGroups: ["Täiskasvanu"],
-      rawPlace: "Tallinn",
-      helpType: "VOLUNTARY",
-      timeType: "FLEXIBLE",
-      availabilityOrStart: "Kokkuleppel",
-      contactPreference: "vestluse kaudu",
-      beneficiaryLabel: "endale",
-      urgency: "lähiajal",
-      structuredSummary: "Vajan transpordiabi Tallinnas"
-    },
-    ...overrides
-  });
+const MUNICIPALITIES = {
+  "mun-tallinn": {
+    id: "mun-tallinn",
+    slug: "tallinn",
+    baseName: "Tallinn",
+    type: "CITY",
+    displayName: "Tallinn",
+    county: "Harju",
+    isActive: true
+  },
+  "mun-harku": {
+    id: "mun-harku",
+    slug: "harku-vald",
+    baseName: "Harku",
+    type: "MUNICIPALITY",
+    displayName: "Harku vald",
+    county: "Harju",
+    isActive: true
+  }
+};
+
+const HELP_CATEGORIES = {
+  TRANSPORT: { id: "cat-transport", code: "TRANSPORT", labelEt: "Transport", labelEn: "Transport", labelRu: "Transport", sortOrder: 1, isActive: true, parentId: null },
+  DIGITAL_HELP: { id: "cat-digital", code: "DIGITAL_HELP", labelEt: "Digiabi", labelEn: "Digital help", labelRu: "Digital help", sortOrder: 2, isActive: true, parentId: null },
+  HOME_HELP: { id: "cat-home", code: "HOME_HELP", labelEt: "Koduabi", labelEn: "Home help", labelRu: "Home help", sortOrder: 3, isActive: true, parentId: null },
+  ADMIN_FORM_HELP: { id: "cat-admin", code: "ADMIN_FORM_HELP", labelEt: "Asjaajamise ja vormide abi", labelEn: "Admin form help", labelRu: "Admin form help", sortOrder: 4, isActive: true, parentId: null },
+  OTHER: { id: "cat-other", code: "OTHER", labelEt: "Muu abi", labelEn: "Other", labelRu: "Other", sortOrder: 99, isActive: true, parentId: null }
+};
+
+const TARGET_GROUPS = {
+  CHILD: { id: "tg-child", code: "CHILD", labelEt: "Laps", labelEn: "Child", labelRu: "Child", isActive: true },
+  YOUTH: { id: "tg-youth", code: "YOUTH", labelEt: "Noor", labelEn: "Youth", labelRu: "Youth", isActive: true },
+  ADULT: { id: "tg-adult", code: "ADULT", labelEt: "Täiskasvanu", labelEn: "Adult", labelRu: "Adult", isActive: true },
+  ELDER: { id: "tg-elder", code: "ELDER", labelEt: "Eakas", labelEn: "Elder", labelRu: "Elder", isActive: true },
+  DISABILITY: { id: "tg-disability", code: "DISABILITY", labelEt: "Puue või erivajadus", labelEn: "Disability", labelRu: "Disability", isActive: true }
+};
+
+function findMunicipalityByText(where = {}) {
+  const haystack = JSON.stringify(where).toLowerCase();
+  if (haystack.includes("harku")) return MUNICIPALITIES["mun-harku"];
+  if (haystack.includes("tallinn")) return MUNICIPALITIES["mun-tallinn"];
+  return null;
 }
 
-function createBrowsePrismaStub() {
+function toTargetGroupLinks(codes = []) {
+  return codes
+    .map((code) => TARGET_GROUPS[code])
+    .filter(Boolean)
+    .map((targetGroup) => ({
+      targetGroupId: targetGroup.id,
+      targetGroup
+    }));
+}
+
+function createPrismaStub() {
   return {
     municipality: {
-      async findUnique() {
-        return {
-          id: "mun-1",
-          slug: "tallinn",
-          baseName: "Tallinn",
-          type: "CITY",
-          displayName: "Tallinn",
-          county: "Harju",
-          isActive: true
-        };
+      async findUnique({ where }) {
+        return MUNICIPALITIES[String(where?.id || "").trim()] || null;
+      },
+      async findFirst({ where }) {
+        return findMunicipalityByText(where);
       }
     },
     helpCategory: {
       async findUnique({ where }) {
-        if (where?.code === "TRANSPORT") {
-          return {
-            id: "cat-transport",
-            code: "TRANSPORT",
-            labelEt: "Transport",
-            labelEn: "Transport",
-            labelRu: "Transport",
-            sortOrder: 1,
-            isActive: true,
-            parentId: null
-          };
+        if (where?.id) {
+          return Object.values(HELP_CATEGORIES).find((item) => item.id === where.id) || null;
+        }
+        if (where?.code) {
+          return HELP_CATEGORIES[String(where.code).trim().toUpperCase()] || null;
         }
         return null;
       }
     },
     targetGroup: {
-      async findMany() {
-        return [{
-          id: "tg-adult",
-          code: "ADULT",
-          labelEt: "Täiskasvanu",
-          labelEn: "Adult",
-          labelRu: "Adult",
-          isActive: true
-        }];
+      async findMany({ where } = {}) {
+        const codes = Array.isArray(where?.code?.in) ? where.code.in : Object.keys(TARGET_GROUPS);
+        return codes.map((code) => TARGET_GROUPS[code]).filter(Boolean);
       }
     },
     helpRequest: {
@@ -87,33 +94,25 @@ function createBrowsePrismaStub() {
         return {
           id: "req-1",
           userId: "user-1",
-          municipalityId: "mun-1",
+          municipalityId: "mun-tallinn",
           primaryCategoryId: "cat-transport",
           title: "Vajan transpordiabi",
           description: "Vajan transpordiabi Tallinnas.",
           structuredSummary: "Vajan transpordiabi Tallinnas",
           roleLabel: "endale",
+          rawPlace: "Tallinn",
           helpType: "VOLUNTARY",
           timeType: "FLEXIBLE",
           status: "OPEN",
           createdAt: new Date("2026-04-05T09:00:00.000Z").toISOString(),
-          municipality: {
-            id: "mun-1",
-            displayName: "Tallinn",
-            county: "Harju"
-          },
-          primaryCategory: {
-            id: "cat-transport",
-            code: "TRANSPORT",
-            labelEt: "Transport",
-            labelEn: "Transport",
-            labelRu: "Transport"
-          },
+          municipality: MUNICIPALITIES["mun-tallinn"],
+          primaryCategory: HELP_CATEGORIES.TRANSPORT,
           categoryLinks: [],
-          targetGroupLinks: []
+          targetGroupLinks: toTargetGroupLinks(["ADULT"])
         };
       },
       async create({ data }) {
+        const category = Object.values(HELP_CATEGORIES).find((item) => item.id === data.primaryCategoryId) || HELP_CATEGORIES.OTHER;
         return {
           id: "req-1",
           userId: data.userId,
@@ -132,33 +131,10 @@ function createBrowsePrismaStub() {
           userConfirmedAt: data.userConfirmedAt || null,
           createdAt: new Date("2026-04-05T09:00:00.000Z").toISOString(),
           updatedAt: new Date("2026-04-05T09:00:00.000Z").toISOString(),
-          municipality: {
-            id: "mun-1",
-            slug: "tallinn",
-            baseName: "Tallinn",
-            type: "CITY",
-            displayName: "Tallinn",
-            county: "Harju",
-            isActive: true
-          },
-          primaryCategory: {
-            id: "cat-transport",
-            code: "TRANSPORT",
-            labelEt: "Transport",
-            labelEn: "Transport",
-            labelRu: "Transport"
-          },
+          municipality: MUNICIPALITIES[data.municipalityId] || null,
+          primaryCategory: category,
           categoryLinks: [],
-          targetGroupLinks: [{
-            targetGroupId: "tg-adult",
-            targetGroup: {
-              id: "tg-adult",
-              code: "ADULT",
-              labelEt: "Täiskasvanu",
-              labelEn: "Adult",
-              labelRu: "Adult"
-            }
-          }]
+          targetGroupLinks: toTargetGroupLinks((data.targetGroupLinks?.create || []).map((item) => item.targetGroupId))
         };
       }
     },
@@ -166,8 +142,9 @@ function createBrowsePrismaStub() {
       async findMany() {
         return [{
           id: "offer-1",
+          kind: "offer",
           userId: "user-2",
-          municipalityId: "mun-1",
+          municipalityId: "mun-tallinn",
           primaryCategoryId: "cat-transport",
           title: "Pakun transpordiabi",
           description: "Saan autoga aidata Tallinnas.",
@@ -177,78 +154,51 @@ function createBrowsePrismaStub() {
           timeType: "FLEXIBLE",
           status: "OPEN",
           createdAt: new Date("2026-04-05T10:00:00.000Z").toISOString(),
-          municipality: {
-            id: "mun-1",
-            displayName: "Tallinn",
-            county: "Harju"
-          },
-          primaryCategory: {
-            id: "cat-transport",
-            code: "TRANSPORT",
-            labelEt: "Transport",
-            labelEn: "Transport",
-            labelRu: "Transport"
-          },
+          municipality: MUNICIPALITIES["mun-tallinn"],
+          primaryCategory: HELP_CATEGORIES.TRANSPORT,
           categoryLinks: [],
           targetGroupLinks: []
         }];
+      },
+      async create({ data }) {
+        const category = Object.values(HELP_CATEGORIES).find((item) => item.id === data.primaryCategoryId) || HELP_CATEGORIES.OTHER;
+        return {
+          id: "offer-1",
+          userId: data.userId,
+          municipalityId: data.municipalityId,
+          primaryCategoryId: data.primaryCategoryId,
+          title: data.title,
+          description: data.description,
+          structuredSummary: data.structuredSummary,
+          roleLabel: data.roleLabel,
+          rawPlace: data.rawPlace,
+          helpType: data.helpType,
+          timeType: data.timeType,
+          status: data.status || "OPEN",
+          classificationSource: data.classificationSource || "USER",
+          classificationConfidence: data.classificationConfidence ?? null,
+          userConfirmedAt: data.userConfirmedAt || null,
+          createdAt: new Date("2026-04-05T10:00:00.000Z").toISOString(),
+          updatedAt: new Date("2026-04-05T10:00:00.000Z").toISOString(),
+          municipality: MUNICIPALITIES[data.municipalityId] || null,
+          primaryCategory: category,
+          categoryLinks: [],
+          targetGroupLinks: toTargetGroupLinks((data.targetGroupLinks?.create || []).map((item) => item.targetGroupId))
+        };
       }
     }
   };
 }
 
-test("cold-start browse intent is handled inside help workflow", async () => {
-  const result = await runHelpChatWorkflow({
-    message: "Sirvi abipakkumisi",
-    userId: "user-1",
-    replyLang: "et"
-  }, {});
-
-  assert.equal(result.handled, true);
-  assert.equal(result.workflowState?.intent, "browse_help_offers");
-  assert.match(String(result.reply || ""), /millise abipalve jaoks pakkumisi vaadata/i);
-});
-
-test("saved help request can transition into browse flow", async () => {
-  const result = await runHelpChatWorkflow({
-    message: "Sirvi sobivaid abipakkumisi",
-    userId: "user-1",
-    replyLang: "et",
-    workflowState: createSavedRequestState()
-  }, createBrowsePrismaStub());
-
-  assert.equal(result.handled, true);
-  assert.equal(result.workflowState?.intent, "browse_help_offers");
-  assert.equal(result.workflowState?.mode, "browse");
-  assert.equal(result.cards?.length || 0, 0);
-  assert.match(String(result.reply || ""), /Leidsin 1/i);
-  assert.match(String(result.reply || ""), /1\. Pakun transpordiabi/i);
-});
-
-test("new create intent after saved state starts a fresh confirmation flow", async () => {
-  const message = "Vajan abi kodu koristamisel Tartus";
-  const result = await runHelpChatWorkflow({
-    message,
-    userId: "user-1",
-    replyLang: "et",
-    workflowState: createSavedRequestState()
-  }, {});
-
-  assert.equal(result.handled, true);
-  assert.equal(result.workflowState?.intent, "create_help_request");
-  assert.equal(result.workflowState?.step, "intent_confirmation");
-  assert.equal(result.workflowState?.sourceMessage, message);
-  assert.equal(result.workflowState?.mode, "draft");
-});
-
-test("saving a help request automatically shows matching offers", async () => {
-  const previewState = createHelpWorkflowDraftState({
+function createSavedRequestState(overrides = {}) {
+  return createHelpWorkflowDraftState({
     intent: "create_help_request",
-    mode: "draft",
-    step: "edit_or_save",
-    flowLocked: true,
-    confirmationPending: true,
-    municipalityId: "mun-1",
+    mode: "saved",
+    step: "saved",
+    flowLocked: false,
+    sourceRecordId: "req-1",
+    linkedRequestId: "req-1",
+    municipalityId: "mun-tallinn",
     municipalityLabel: "Tallinn",
     draft: {
       title: "Vajan transpordiabi",
@@ -260,8 +210,164 @@ test("saving a help request automatically shows matching offers", async () => {
       rawPlace: "Tallinn",
       helpType: "VOLUNTARY",
       timeType: "FLEXIBLE",
-      availabilityOrStart: "Kokkuleppel",
-      contactPreference: "vestluse kaudu",
+      availabilityOrStart: "kokkuleppel",
+      beneficiaryLabel: "endale",
+      urgency: "lähiajal",
+      structuredSummary: "Vajan transpordiabi Tallinnas"
+    },
+    ...overrides
+  });
+}
+
+test("forced help mode treats first message as listing content and asks only missing basics", async () => {
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_request",
+    message: "Vajan Tabasalus transpordiabi reedel kell 19, see on ühekordne ja võib olla tasuline.",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.match(String(result.workflowState?.draft?.description || ""), /transpordiabi/i);
+  assert.equal(result.workflowState?.draft?.categoryCode, "TRANSPORT");
+  assert.equal(result.workflowState?.activeQuestionKey, "beneficiaryContext");
+  assert.match(String(result.reply || ""), /Kellele abi vaja on\?/i);
+});
+
+test("help create flow no longer self-starts from a normal chat message", async () => {
+  const result = await runHelpChatWorkflow({
+    message: "Vajan Tallinnas transpordiabi reedel õhtul.",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, false);
+  assert.equal(result.workflowState ?? null, null);
+});
+
+test("contact preference is no longer required before preview", async () => {
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_request",
+    message: "Vajan Tallinnas emale transpordiabi reedel kell 19. Abi on ühekordne, lähiajal vaja ja sobib tasuline abi kokkuleppel.",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.step, "edit_or_save");
+  assert.equal(result.workflowState?.draft?.contactPreference || "", "");
+  assert.match(String(result.reply || ""), /Vaata abisoov üle\./i);
+  assert.match(String(result.reply || ""), /Vasta .*jah.* või .*ei/i);
+  assert.doesNotMatch(String(result.reply || ""), /ühendust võetaks|kontaktiviis/i);
+});
+
+test("sparse but complete offer triggers a category enrichment question", async () => {
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: "Digiabi eakatele Tallinnas kokkuleppel vabatahtlikult.",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.activeQuestionLayer, "enrichment");
+  assert.match(String(result.reply || ""), /Millega digiabis aidata saad\?/i);
+});
+
+test("short keyword answer to enrichment is accepted and stored", async () => {
+  const state = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "collect_conditional_fields",
+    flowLocked: true,
+    activeQuestionLayer: "enrichment",
+    activeQuestionKey: "create_help_offer:DIGITAL_HELP",
+    askedEnrichmentKeys: ["create_help_offer:DIGITAL_HELP"],
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Pakun digiabi",
+      description: "Digiabi eakatele Tallinnas kokkuleppel vabatahtlikult.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      targetGroupCodes: ["ELDER"],
+      targetGroups: ["Eakas"],
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "kokkuleppel"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "ID-kaardi ja e-teenustega",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: state
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.step, "edit_or_save");
+  assert.equal(result.workflowState?.draft?.providerScopeOrConditions, "ID-kaardi ja e-teenustega");
+  assert.match(String(result.workflowState?.draft?.description || ""), /ID-kaardi ja e-teenustega/i);
+  assert.match(String(result.reply || ""), /Vaata abipakkumine üle\./i);
+});
+
+test("offer target-group answer is clarified instead of being treated as a place", async () => {
+  const state = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    activeQuestionLayer: "basic",
+    activeQuestionKey: "targetGroupCodes",
+    municipalityId: "mun-harku",
+    municipalityLabel: "Harku vald",
+    draft: {
+      title: "Pakun transpordiabi",
+      description: "Pakun transpordiabi Tabasalus.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      rawPlace: "Tabasalu",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "nädalavahetusel õhtul kell 19"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "minule",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: state
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.rawPlace, "Tabasalu");
+  assert.match(String(result.reply || ""), /kellele sinu abi on mõeldud/i);
+  assert.doesNotMatch(String(result.reply || ""), /asukohaks minule/i);
+});
+
+test("saving a help request immediately shows matching offers", async () => {
+  const previewState = createHelpWorkflowDraftState({
+    intent: "create_help_request",
+    mode: "draft",
+    step: "edit_or_save",
+    flowLocked: true,
+    confirmationPending: true,
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      targetGroupCodes: ["ADULT"],
+      targetGroups: ["Täiskasvanu"],
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "kokkuleppel",
       beneficiaryLabel: "endale",
       urgency: "lähiajal",
       structuredSummary: "Vajan transpordiabi Tallinnas"
@@ -273,116 +379,26 @@ test("saving a help request automatically shows matching offers", async () => {
     userId: "user-1",
     replyLang: "et",
     workflowState: previewState
-  }, createBrowsePrismaStub());
+  }, createPrismaStub());
 
   assert.equal(result.handled, true);
   assert.equal(result.workflowState?.intent, "browse_help_offers");
   assert.equal(result.workflowState?.mode, "browse");
-  assert.equal(result.cards?.length || 0, 0);
   assert.match(String(result.reply || ""), /Abisoov on salvestatud/i);
   assert.match(String(result.reply || ""), /Leidsin 1/i);
   assert.match(String(result.reply || ""), /1\. Pakun transpordiabi/i);
 });
 
-test("help offer target-group answer does not get treated as location", async () => {
-  const offerState = createHelpWorkflowDraftState({
-    intent: "create_help_offer",
-    mode: "draft",
-    step: "collect_required_fields",
-    flowLocked: true,
-    confirmationPending: false,
-    municipalityId: "mun-1",
-    municipalityLabel: "Harku vald",
-    draft: {
-      title: "Pakun transpordiabi",
-      description: "Pakun transpordiabi Tabasalus.",
-      category: "Transport",
-      categoryCode: "TRANSPORT",
-      rawPlace: "Tabasalu",
-      helpType: "VOLUNTARY",
-      timeType: "FLEXIBLE",
-      availabilityOrStart: "nädalavahetusel õhtul kell 19",
-      providerScopeOrConditions: "nädalavahetusel õhtul",
-      contactPreference: "vestluse kaudu"
-    }
-  });
-
+test("saved help request can still transition into browse flow", async () => {
   const result = await runHelpChatWorkflow({
-    message: "minule",
+    message: "Sirvi sobivaid abipakkumisi",
     userId: "user-1",
     replyLang: "et",
-    workflowState: offerState
-  }, createBrowsePrismaStub());
+    workflowState: createSavedRequestState()
+  }, createPrismaStub());
 
   assert.equal(result.handled, true);
-  assert.equal(result.workflowState?.draft?.rawPlace, "Tabasalu");
-  assert.match(String(result.reply || ""), /kellele sinu abi on mõeldud/i);
-  assert.doesNotMatch(String(result.reply || ""), /Märkisin asukohaks minule/i);
-});
-
-test("transport request asks category-aware availability question", async () => {
-  const requestState = createHelpWorkflowDraftState({
-    intent: "create_help_request",
-    mode: "draft",
-    step: "collect_required_fields",
-    flowLocked: true,
-    confirmationPending: false,
-    municipalityId: "mun-1",
-    municipalityLabel: "Tallinn",
-    draft: {
-      title: "Vajan transpordiabi",
-      description: "Vajan transpordiabi Tallinnas.",
-      category: "Transport",
-      categoryCode: "TRANSPORT",
-      rawPlace: "Tallinn",
-      beneficiaryLabel: "endale",
-      urgency: "lähiajal",
-      helpType: "VOLUNTARY",
-      timeType: "FLEXIBLE",
-      contactPreference: "vestluse kaudu"
-    }
-  });
-
-  const result = await runHelpChatWorkflow({
-    message: "vabatahtlik",
-    userId: "user-1",
-    replyLang: "et",
-    workflowState: requestState
-  }, createBrowsePrismaStub());
-
-  assert.equal(result.handled, true);
-  assert.match(String(result.reply || ""), /Millal transpordiabi vaja on/i);
-});
-
-test("digital help offer asks category-aware scope question", async () => {
-  const offerState = createHelpWorkflowDraftState({
-    intent: "create_help_offer",
-    mode: "draft",
-    step: "collect_required_fields",
-    flowLocked: true,
-    confirmationPending: false,
-    municipalityId: "mun-1",
-    municipalityLabel: "Tallinn",
-    draft: {
-      title: "Pakun digiabi",
-      description: "Pakun digiabi telefoniga ja e-teenustega.",
-      category: "Digiabi",
-      categoryCode: "DIGITAL_HELP",
-      rawPlace: "Tallinn",
-      helpType: "VOLUNTARY",
-      timeType: "FLEXIBLE",
-      availabilityOrStart: "kokkuleppel",
-      contactPreference: "vestluse kaudu"
-    }
-  });
-
-  const result = await runHelpChatWorkflow({
-    message: "kokkuleppel",
-    userId: "user-1",
-    replyLang: "et",
-    workflowState: offerState
-  }, createBrowsePrismaStub());
-
-  assert.equal(result.handled, true);
-  assert.match(String(result.reply || ""), /Kas digiabi toimub kohapeal või kaugelt/i);
+  assert.equal(result.workflowState?.intent, "browse_help_offers");
+  assert.equal(result.workflowState?.mode, "browse");
+  assert.match(String(result.reply || ""), /Leidsin 1/i);
 });

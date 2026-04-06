@@ -781,8 +781,8 @@
       "no_context_worker": "I could not find an exact answer in the materials right now. Please specify the municipality and the type of service or situation."
     },
     "empty_intro": "Hello! Briefly describe what you want to know or what guidance you need. If you want another mode, choose it from the + menu.",
-    "empty_intro_help_request": "Hello! You can write the whole help request in one sentence right away. Briefly describe what help is needed, for whom, where, and when; I will only ask about what is still missing. To cancel, press the help request icon.",
-    "empty_intro_help_offer": "Hello! You can write the whole help offer in one sentence right away. Briefly describe what help you can offer, for whom, where, and when; I will only ask about what is still missing. To cancel, press the help offer icon.",
+    "empty_intro_help_request": "Briefly write what help you need. If you want, you can immediately add what kind of help it is and what exactly you need. I will ask only about what is missing.",
+    "empty_intro_help_offer": "Briefly write what help you can offer. If you want, you can immediately add what kind of help it is and how you can help. I will ask only about what is missing.",
     "modeSelection": {
       "confirm": {
         "rag": "I understood that you want information and guidance. Shall we continue with that?",
@@ -880,8 +880,8 @@
       },
       "questions": {
         "offer": {
-          "describe": "Please describe briefly what you want to offer, for whom, and where.",
-          "rawPlace": "Please write where you want to offer help.",
+          "describe": "Briefly write what help you can offer. If you want, you can immediately add what kind of help it is and how you can help. I will ask only about what is missing.",
+          "rawPlace": "Where can you help? Write the place as precisely as possible, for example a district, settlement, village, town, or municipality.",
           "rawPlaceTransport": "In which area or on which route can you offer transport help?",
           "helpType": "Is this help voluntary, paid, or are you open to both?",
           "compensationDetails": "Please briefly describe the payment terms.",
@@ -891,11 +891,24 @@
           "scopeTransport": "Can you help with giving rides, accompanying someone, or arranging transport? Please add any limits or details.",
           "scopeDigital": "Will the digital help happen in person or remotely? Please briefly add what exactly you can help with.",
           "scopeAdmin": "Can you help with applications, forms, or e-services? Please say whether the help happens in person or together online.",
-          "scopeHome": "What kind of home help can you offer, for example cleaning, simple household tasks, or other practical help?"
+          "scopeHome": "What kind of home help can you offer, for example cleaning, simple household tasks, or other practical help?",
+          "targetGroup": "Who is your help meant for? If you want, you can also add the age group and whether the person has a disability or special need.",
+          "timing": "When can you help? You can also add whether this is one-time or regular help.",
+          "helpCompensation": "Do you offer help voluntarily, for payment, or both? If payment matters, you can add the terms right away.",
+          "detailsTransport": "How can you help with transport? With rides, accompanying someone, or arranging transport?",
+          "detailsDailyTasks": "What everyday tasks can you help with?",
+          "detailsHomeHelp": "What kind of home help can you offer?",
+          "detailsDigitalHelp": "What kind of digital help can you offer? More with phone, computer, internet, or e-services?",
+          "detailsCareSupport": "What kind of support or care help can you offer?",
+          "detailsChildYouthSupport": "What kind of help can you offer to a child or young person?",
+          "detailsLearningGuidance": "What can you help with in learning or guidance?",
+          "detailsSocialSupport": "What kind of social or companionship support can you offer?",
+          "detailsAdminFormHelp": "Can you help with applications, forms, or e-services?",
+          "detailsOther": "Please briefly describe what kind of help you can offer."
         },
         "request": {
-          "describe": "Please describe briefly what help you need, for whom, and where.",
-          "rawPlace": "Please write where the help is needed.",
+          "describe": "Briefly write what help you need. If you want, you can immediately add what kind of help it is and what exactly you need. I will ask only about what is missing.",
+          "rawPlace": "Where is the help needed? Write the place as precisely as possible, for example a district, settlement, village, town, or municipality.",
           "rawPlaceTransport": "In which area or on which route is transport help needed?",
           "beneficiary": "Is this help request for you or for someone else?",
           "urgency": "How quickly is the help needed: immediately, soon, or flexibly?",
@@ -905,13 +918,26 @@
           "availability": "When is the help needed or when could it start?",
           "availabilityTransport": "When is the transport help needed? If you want, also add the time or weekday.",
           "availabilityDigital": "When is the digital help needed? If you want, also add whether in-person or remote help works better.",
-          "availabilityAdmin": "When is the help with forms or administrative tasks needed? If there is a deadline, please add that too."
+          "availabilityAdmin": "When is the help with forms or administrative tasks needed? If there is a deadline, please add that too.",
+          "beneficiaryContext": "Who needs the help? Is it for you or for someone else? If you want, you can also add the age group and whether the person has a disability or special need.",
+          "timing": "When is the help needed? You can also add whether this is one-time or regular help and whether it is needed immediately, soon, or not urgently.",
+          "helpCompensation": "Are you looking for voluntary help, paid help, or are you open to both? If payment matters, you can add the terms right away.",
+          "detailsTransport": "Where do you need to go and when?",
+          "detailsDailyTasks": "What everyday tasks do you need help with?",
+          "detailsHomeHelp": "What kind of help do you need at home?",
+          "detailsDigitalHelp": "What kind of digital help do you need?",
+          "detailsCareSupport": "What kind of support or care help do you need?",
+          "detailsChildYouthSupport": "What kind of help does the child or young person need?",
+          "detailsLearningGuidance": "What kind of learning or guidance help is needed?",
+          "detailsSocialSupport": "What kind of social or companionship support do you need?",
+          "detailsAdminFormHelp": "What help is needed with administrative matters or forms?",
+          "detailsOther": "Please briefly describe what help is needed."
         },
         "shared": {
           "contactPreference": "How would you like to be contacted: via chat, by phone, by email, or by agreement?",
           "targetGroup": "Who is this help meant for? For example an older person, an adult, or a person with a disability.",
           "targetGroupClarifyOffer": "This question is about who your help is meant for. Please answer for example: an older person, an adult, or a person with a disability.",
-          "category": "Which kind of help does this fit best under? For example transport, digital help, home help, or help with forms and administrative tasks.",
+          "category": "What kind of help is this? Is it more like transport, daily tasks, home help, digital help, support and care, child and youth support, learning and guidance help, social support, help with forms and administrative matters, or other help?",
           "title": "I set a title. If you want a different one, write it now."
         },
         "location": {
@@ -937,11 +963,11 @@
         "title": "I set the title to \"{title}\"."
       },
       "preview": {
-        "offerTitle": "Please review the help offer.",
-        "requestTitle": "Please review the help request.",
+        "offerTitle": "Review the help offer.",
+        "requestTitle": "Review the help request.",
         "offerTypeValue": "Help offer",
         "requestTypeValue": "Help request",
-        "savePrompt": "If this looks right, reply \"yes\". If not, reply \"no\" and write what you want to change.",
+        "savePrompt": "Reply \"yes\" or \"no\". If you want to change something, write it.",
         "editPrompt": "Understood. Please write what you want to change."
       },
       "labels": {
@@ -1489,6 +1515,7 @@
     "loading": "Loading subscription details...",
     "error": {
       "load_failed": "Failed to load subscription status.",
+      "checkout_temporarily_disabled": "Payments are temporarily disabled right now.",
       "payment_start": "Could not start the payment.",
       "payment_failed": "Payment failed or was canceled."
     },
@@ -1756,6 +1783,7 @@
       "sponsored_checkout_required": "If you choose \"I'll pay for them\", the invite must be sent through the sponsored checkout flow.",
       "sponsor_plan_unavailable": "Sponsored invites cannot be created: plan is unavailable.",
       "sponsor_capacity_full": "Sponsored seats limit is full.",
+      "checkout_temporarily_disabled": "Payments are temporarily disabled right now.",
       "checkout_terms_required": "Please agree to the terms before starting sponsored payment."
     }
   },

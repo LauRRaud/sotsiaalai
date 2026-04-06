@@ -13,7 +13,7 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AppLink from "@/components/ui/Link";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
-import { glassFormInputBaseClassName } from "@/components/ui/glassPageStyles";
+import { glassFormInputBaseClassName, glassSubpageFieldInputClassName } from "@/components/ui/glassPageStyles";
 import { EmailEnvelopeStatusIcon, LockErrorIcon, SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";

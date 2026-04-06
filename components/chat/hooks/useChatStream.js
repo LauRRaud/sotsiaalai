@@ -160,10 +160,13 @@ export function useChatStream(config) {
     }
 
     const shouldSendToAssistant = cfg.isRoomMode ? cfg.sendToAssistant : true;
-    const selectedChatMode =
-      cfg.activeWorkflow === "help_request" || cfg.activeWorkflow === "help_offer"
-        ? cfg.activeWorkflow
-        : "rag";
+    const isInitialHelpLaunch =
+      (cfg.activeWorkflow === "help_request" || cfg.activeWorkflow === "help_offer")
+      && Array.isArray(cfg.historyPayload)
+      && cfg.historyPayload.length === 0;
+    const selectedChatMode = isInitialHelpLaunch
+      ? cfg.activeWorkflow
+      : "rag";
 
     cfg.appendMessage?.({
       role: "user",

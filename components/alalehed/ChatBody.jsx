@@ -1704,7 +1704,14 @@ export default function ChatBody({
     }
 
     if (!shouldUseCareerWorkflow) {
-      return sendMessage(text);
+      const sent = await sendMessage(text);
+      if (
+        sent &&
+        (activeWorkflow === "help_request" || activeWorkflow === "help_offer")
+      ) {
+        setActiveWorkflow("default");
+      }
+      return sent;
     }
 
     const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)

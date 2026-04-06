@@ -124,6 +124,7 @@ function loadMaksekeskusCheckoutScript(scriptUrl) {
 
 export default function TellimusBody() {
   const router = useRouter();
+  const subscriptionCheckoutDisabled = true;
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const [subActive, setSubActive] = useState(false);
@@ -294,6 +295,10 @@ export default function TellimusBody() {
     })();
   }, [isAuthed, status, t]);
   async function handleActivate() {
+    if (subscriptionCheckoutDisabled) {
+      setError(t("subscription.error.checkout_temporarily_disabled"));
+      return;
+    }
     if (!checkoutAgreed) {
       setError(t("subscription.checkout.error_required"));
       return;
@@ -516,7 +521,7 @@ export default function TellimusBody() {
                         {providerConfigError}
                       </p> : null}
                     <div className={cn(subscriptionCheckoutFooterClassName, hasPaymentNotice ? "pt-[0.15rem]" : null)}>
-                      <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing || !checkoutAgreed} aria-disabled={processing || !checkoutAgreed} aria-busy={processing} aria-describedby="billing-info checkout-consent" onClick={handleActivate}>
+                      <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={subscriptionCheckoutDisabled || processing || !checkoutAgreed} aria-disabled={subscriptionCheckoutDisabled || processing || !checkoutAgreed} aria-busy={processing} aria-describedby="billing-info checkout-consent" onClick={handleActivate}>
                         {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
                       </Button>
                     </div>
