@@ -14,7 +14,7 @@ import { cn } from "@/components/ui/cn";
 const pageShellClassName = glassPageShellCenteredClassName;
 const ringClassName = cn(glassPageRingCenteredClassName, "justify-start", "glass-ring--desktop-stable");
 const titleClassName = glassPageTitleClassName;
-const descriptionClassName = "mt-[0.75rem] text-[clamp(1.05rem,2vw,1.2rem)] text-center max-w-[clamp(18rem,50vw,30rem)]";
+const descriptionClassName = "error-page-description mt-[0.75rem] text-[clamp(1.05rem,2vw,1.2rem)] text-center max-w-[clamp(18rem,50vw,30rem)]";
 const actionCenterClassName = "flex w-full flex-1 items-center justify-center pb-[clamp(1.2rem,3vh,1.8rem)]";
 const textBlockClassName = "mt-[clamp(2.2rem,5.8vh,3.4rem)] flex w-full flex-col items-center";
 const retryButtonClassName =
@@ -40,7 +40,7 @@ export default function Error({
     return pushWithTransition(router, localizePath("/", locale));
   };
   const handleClose = () => pushWithTransition(router, localizePath("/", locale));
-  return <section className={pageShellClassName}>
+  return <section className={`${pageShellClassName} error-page-shell`}>
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
@@ -51,7 +51,7 @@ export default function Error({
           </p>
         </div>
         <div className={actionCenterClassName}>
-          <Button type="button" variant="primary" className={`${retryButtonClassName} invite-primary-btn`} onClick={() => reset()}>
+          <Button type="button" variant="primary" className={retryButtonClassName} onClick={() => reset()}>
             {t("errors.retry")}
           </Button>
         </div>

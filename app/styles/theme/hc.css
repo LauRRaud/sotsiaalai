@@ -387,6 +387,17 @@ html[data-contrast="hc"] .back-icon-dot {
   fill: var(--hc-accent) !important;
 }
 
+html[data-contrast="hc"] .error-page-shell {
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.72);
+  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.92);
+  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.96);
+}
+
+html[data-contrast="hc"] .error-page-shell .error-page-description {
+  color: var(--hc-accent) !important;
+}
+
 html[data-contrast="hc"] .profile-logout-icon path {
   stroke: var(--hc-accent) !important;
 }

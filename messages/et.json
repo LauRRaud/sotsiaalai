@@ -92,7 +92,7 @@
       "otp_title": "Kinnita sisenemine",
       "otp_info_sent": "Kinnituskood saadeti aadressile {email}.",
       "otp_description": "Saadsime kinnituskoodi aadressile {email}. Sisesta see 15 minuti jooksul.",
-      "otp_spam_hint": "Kui kiri sattus rämpsposti, ava see ja vajuta \"Teavitan, et pole rämpspost\". Siis jõuavad järgmised kirjad õigesse kausta ja link avaneb korrektselt.",
+      "otp_spam_hint": "Kui kiri sattus rämpsposti, ava see ja vajuta \"Teavitan, et pole rämpspost\".",
       "otp_expires": "Kood aegub kell {time}.",
       "otp_placeholder": "Kinnituskood (6 numbrit)",
       "otp_short_placeholder": "Kinnituskood",

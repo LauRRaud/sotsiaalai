@@ -88,7 +88,7 @@
       "register_link": "Create account",
       "otp_title": "Confirm sign-in",
       "otp_description": "We sent a verification code to {email}. Enter it within 15 minutes.",
-      "otp_spam_hint": "If the email landed in Spam, open it and click \"Not spam\". Then future emails should arrive in the main inbox and the link should open correctly.",
+      "otp_spam_hint": "If the email landed in Spam, open it and click \"Not spam\".",
       "otp_expires": "Code expires at {time}.",
       "otp_placeholder": "Verification code (6 digits)",
       "otp_short_placeholder": "Verification code",
