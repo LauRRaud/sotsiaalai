@@ -1028,8 +1028,8 @@
       "browse": {
         "nextOffers": "Järgmisena võite kirjutada: \"näita sobivaid pakkumisi\".",
         "nextRequests": "Järgmisena võite kirjutada: \"näita sobivaid abisoove\".",
-        "emptyOffers": "Sobivaid aktiivseid abipakkumisi veel ei leitud.",
-        "emptyRequests": "Sobivaid aktiivseid abisoove veel ei leitud.",
+        "emptyOffers": "Kahjuks sobivaid aktiivseid abipakkumisi praegu ei leitud. Kuulutus on üleval ja sobiva vaste korral saad siin samas ühise vestluse avada.",
+        "emptyRequests": "Kahjuks sobivaid aktiivseid abisoove praegu ei leitud. Kuulutus on üleval ja sobiva vaste korral saad siin samas ühise vestluse avada.",
         "foundOffers": "Leidsin {count} võimalikku pakkumist.",
         "foundRequests": "Leidsin {count} võimalikku abisoovi.",
         "connectHintOffers": "Kui soovite kedagi ühendada, kirjutage näiteks: \"ühenda esimese pakkumisega\".",

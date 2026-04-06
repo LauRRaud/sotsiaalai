@@ -258,6 +258,20 @@ export function useChatConversationState({
       text: m.text
     }));
   }, [visibleForHistory, isRoomMode]);
+  const getLatestHelpWorkflowState = useCallback(() => {
+    const sourceMessages = Array.isArray(messagesRef.current) ? messagesRef.current : [];
+    const visibleMessages = typeof getVisibleMessages === "function"
+      ? getVisibleMessages(sourceMessages)
+      : sourceMessages;
+    for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
+      const message = visibleMessages[i];
+      if (message?.role !== "ai") continue;
+      const helpState = message?.workflow?.help;
+      if (!helpState || typeof helpState !== "object") continue;
+      return helpState;
+    }
+    return null;
+  }, [getVisibleMessages]);
   const saveTimerRef = useRef(null);
   const saveIdleRef = useRef(null);
   useEffect(() => {
@@ -454,6 +468,7 @@ export function useChatConversationState({
     appendMessage,
     mutateMessage,
     historyPayload,
+    getLatestHelpWorkflowState,
     hydrateFromServer
   };
 }

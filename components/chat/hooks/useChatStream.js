@@ -203,6 +203,9 @@ export function useChatStream(config) {
     let attachments = [];
     let cards = [];
     let workflow = null;
+    const latestHelpWorkflowState = !cfg.isRoomMode && typeof cfg.getLatestHelpWorkflowState === "function"
+      ? normalizeWorkflow(cfg.getLatestHelpWorkflowState())
+      : normalizeWorkflow(cfg.helpWorkflowState);
     let streamTimer = null;
     let pushTimer = null;
 
@@ -287,8 +290,8 @@ export function useChatStream(config) {
             convId: cfg.convId,
             uiLocale: cfg.locale || "et",
             chatMode: selectedChatMode,
-            helpWorkflowState: !cfg.isRoomMode && cfg.helpWorkflowState && typeof cfg.helpWorkflowState === "object"
-              ? cfg.helpWorkflowState
+            helpWorkflowState: !cfg.isRoomMode && latestHelpWorkflowState && typeof latestHelpWorkflowState === "object"
+              ? latestHelpWorkflowState
               : undefined,
             roomId: cfg.isRoomMode ? cfg.roomId : undefined,
             ...(cfg.ephemeralChunks?.length

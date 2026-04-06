@@ -577,7 +577,8 @@ export default function ChatBody({
     conversationLocalReady,
     appendMessage,
     mutateMessage,
-    historyPayload
+    historyPayload,
+    getLatestHelpWorkflowState
   } = useChatConversationState({
     isRoomMode,
     roomId,
@@ -1383,6 +1384,7 @@ export default function ChatBody({
     locale,
     activeWorkflow,
     helpWorkflowState: latestHelpWorkflowState,
+    getLatestHelpWorkflowState,
     docOnlyMode: analysis.docOnlyMode,
     ephemeralChunks: analysis.ephemeralChunks,
     ephemeralSource: analysis.ephemeralSource,
@@ -1752,7 +1754,7 @@ export default function ChatBody({
       activateWorkflow: true,
       restoreFocusAfterResponse: shouldRestoreFocus,
     });
-  }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, helpFlowActive, inputFocused, runCareerTurn, sendMessage]);
+  }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, inputFocused, runCareerTurn, sendMessage]);
   const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));
   }, []);

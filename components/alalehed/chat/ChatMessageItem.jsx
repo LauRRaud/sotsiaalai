@@ -47,18 +47,18 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const nameClassName =
     "text-[0.95rem] tracking-[0.05em] text-[rgba(197,113,113,0.9)]";
   const userBubbleClassName =
-    "chat-msg-user self-end ml-auto inline-block w-fit max-w-[84%] mr-[clamp(0.24rem,0.65vw,0.48rem)] max-[768px]:mr-[0.08rem] text-left " +
-    "bg-[rgba(14,20,32,0.34)] text-[color:var(--pt-150)] " +
-    "border-2 border-[rgba(240,240,240,0.55)] " +
-    "rounded-[1.15em] rounded-br-[0.55em] " +
-    "px-[1em] py-[0.62em] text-[1.16rem] leading-[1.32] tracking-[0.04em] font-[400] " +
-    "shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_0.32rem_0.85rem_rgba(5,8,15,0.16)] " +
-    "transition-[border-color,box-shadow,background] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
-    "light:bg-[var(--chat-user-bubble-bg,var(--input-bg))] light:border-[var(--chat-user-bubble-border,var(--input-border))] light:shadow-[var(--chat-user-bubble-shadow,var(--input-shadow-composite,var(--input-shadow)))] " +
+    "chat-msg-user self-end ml-auto inline-block w-fit max-w-[84%] mr-[clamp(0.24rem,0.65vw,0.48rem)] max-[768px]:mr-[0.08rem] text-right " +
+    "bg-transparent text-[color:var(--pt-150)] " +
+    "border-0 rounded-none " +
+    "px-0 py-0 text-[1.16rem] leading-[1.32] tracking-[0.04em] font-[400] " +
+    "shadow-none transition-colors duration-300 " +
+    "light:bg-transparent " +
     "light:text-[color:var(--input-text)]";
   const memberBubbleClassName =
     "self-start text-left bg-[rgba(14,20,32,0.2)] " +
-    "border-[rgba(240,240,240,0.35)] rounded-bl-[0.55em]";
+    "border-2 border-[rgba(240,240,240,0.35)] rounded-[1.15em] rounded-bl-[0.55em] " +
+    "px-[1em] py-[0.62em] shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_0.32rem_0.85rem_rgba(5,8,15,0.12)] " +
+    "light:border-[rgba(15,23,42,0.16)] light:bg-[rgba(255,255,255,0.74)]";
   const aiBubbleClassName =
     "chat-msg-ai w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
     "text-[color:var(--input-text)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500]";

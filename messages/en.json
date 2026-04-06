@@ -1028,8 +1028,8 @@
       "browse": {
         "nextOffers": "Next you can write: \"show matching offers\".",
         "nextRequests": "Next you can write: \"show matching help requests\".",
-        "emptyOffers": "No active matching help offers found yet.",
-        "emptyRequests": "No active matching help requests found yet.",
+        "emptyOffers": "No active matching help offers were found right now. Your listing remains visible, and when a suitable match appears, you can open a shared chat right here.",
+        "emptyRequests": "No active matching help requests were found right now. Your listing remains visible, and when a suitable match appears, you can open a shared chat right here.",
         "foundOffers": "I found {count} possible offers.",
         "foundRequests": "I found {count} possible help requests.",
         "connectHintOffers": "If you want to connect, write for example: \"connect to the first offer\".",

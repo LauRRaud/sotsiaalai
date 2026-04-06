@@ -441,6 +441,66 @@ test("template placeholders are not treated as offer location or timing", async 
   assert.doesNotMatch(String(result.reply || ""), /ning olen kattesaadav/i);
 });
 
+test("low-signal offer input does not become a prefixed auto-title", async () => {
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: "dffdfdf",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.title, "Abipakkumine");
+  assert.doesNotMatch(String(result.reply || ""), /Markisin pealkirjaks|Märkisin pealkirjaks/i);
+  assert.match(String(result.reply || ""), /Mis liiki abiga on tegu\?/i);
+});
+
+test("explicit title line is stored as title without being copied into description", async () => {
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: [
+      "pealkiri: Digiabi koju",
+      "",
+      "Aitan Tabasalus telefoni ja e-teenustega kokkuleppel."
+    ].join("\n"),
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.title, "Digiabi koju");
+  assert.doesNotMatch(String(result.workflowState?.draft?.description || ""), /^Digiabi koju/i);
+  assert.match(String(result.workflowState?.draft?.description || ""), /Tabasalus telefoni ja e-teenustega kokkuleppel/i);
+});
+
+test("category fallback title is human-readable when description is low-signal", async () => {
+  const state = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    activeQuestionLayer: "basic",
+    activeQuestionKey: "availability",
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      rawPlace: "Tallinn"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "dffdfdf",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: state
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.title, "Digiabi pakkumine");
+});
+
 test("saving a help request immediately shows matching offers", async () => {
   const previewState = createHelpWorkflowDraftState({
     intent: "create_help_request",
