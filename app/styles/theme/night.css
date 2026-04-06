@@ -90,8 +90,11 @@
   --rail-tooltip-text: var(--subpage-card-text);
   --chat-tools-item-hover-bg: rgba(197, 113, 113, 0.1);
   --glass-analysis-bg: rgb(18, 26, 40);
-  --chat-analysis-preview-surface: rgb(17, 23, 33);
-  --chat-analysis-preview-blur: calc(var(--glass-blur-radius, 1rem) * 0.08);
+  --chat-analysis-preview-surface: var(--chat-card-surface-night-standard-bg);
+  --chat-analysis-preview-text: var(--subpage-card-text);
+  --chat-analysis-preview-border: 0 solid transparent;
+  --chat-analysis-preview-shadow: none;
+  --chat-analysis-preview-blur: 0px;
   --subscription-error-color: rgba(214, 226, 245, 0.9);
   --subpage-card-bg: var(--input-flat-bg);
   --subpage-card-bg-hover: var(--input-flat-bg-hover);

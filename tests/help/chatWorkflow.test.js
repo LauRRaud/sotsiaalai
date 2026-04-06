@@ -230,7 +230,7 @@ test("forced help mode treats first message as listing content and asks only mis
   assert.equal(result.handled, true);
   assert.match(String(result.workflowState?.draft?.description || ""), /transpordiabi/i);
   assert.equal(result.workflowState?.draft?.categoryCode, "TRANSPORT");
-  assert.equal(result.workflowState?.activeQuestionKey, "beneficiaryContext");
+  assert.equal(result.workflowState?.activeQuestionKey, "requestAudience");
   assert.match(String(result.reply || ""), /Kellele abi vaja on\?/i);
 });
 
@@ -348,6 +348,35 @@ test("offer target-group answer is clarified instead of being treated as a place
   assert.doesNotMatch(String(result.reply || ""), /asukohaks minule/i);
 });
 
+test("rich help offer does not copy full description into timing, compensation or conditions", async () => {
+  const message = [
+    "Pakun abi igapäevaelus ja digiasjades",
+    "",
+    "Pakun abi inimestele, kes vajavad tuge igapäevaste toimetuste või digilahendustega. Aitan arvuti ja nutiseadmete kasutamisel, riigi e-teenustes orienteerumisel, dokumentide täitmisel ning lihtsamas asjaajamises.",
+    "",
+    "Abi sobib eelkõige eakatele ja erivajadusega inimestele.",
+    "",
+    "Tegutsen Tabasalu piirkonnas. Saadavus on paindlik ja kokkuleppel. Abi võib olla nii vabatahtlik kui tasuline, sõltuvalt olukorrast ja vajadusest."
+  ].join("\n");
+
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message,
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.step, "edit_or_save");
+  assert.equal(result.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
+  assert.equal(result.workflowState?.draft?.helpType, "MIXED");
+  assert.equal(result.workflowState?.draft?.timeType, "FLEXIBLE");
+  assert.match(String(result.workflowState?.draft?.availabilityOrStart || ""), /paindlik|kokkuleppel/i);
+  assert.equal(String(result.workflowState?.draft?.compensationDetails || ""), "");
+  assert.equal(String(result.workflowState?.draft?.providerScopeOrConditions || ""), "");
+  assert.ok(String(result.workflowState?.draft?.title || "").length < 90);
+});
+
 test("saving a help request immediately shows matching offers", async () => {
   const previewState = createHelpWorkflowDraftState({
     intent: "create_help_request",
@@ -385,6 +414,8 @@ test("saving a help request immediately shows matching offers", async () => {
   assert.equal(result.workflowState?.intent, "browse_help_offers");
   assert.equal(result.workflowState?.mode, "browse");
   assert.match(String(result.reply || ""), /Abisoov on salvestatud/i);
+  assert.match(String(result.reply || ""), /lisatud abisoovide seinale/i);
+  assert.match(String(result.reply || ""), /Vaatan nüüd, kas sellele leidub sobivaid abipakkumisi/i);
   assert.match(String(result.reply || ""), /Leidsin 1/i);
   assert.match(String(result.reply || ""), /1\. Pakun transpordiabi/i);
 });

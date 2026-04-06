@@ -500,16 +500,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "max-[768px]:pr-[calc(var(--analysis-card-pad-x)+0.65rem)] " +
     "tracking-[0.035em] text-rendering-geometricPrecision isolate " +
     "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto";
-  const previewCardSurfaceStyle = uploadPreview
-    ? {
-        background:
-          "var(--glass-ring-sheen,none), var(--chat-analysis-preview-surface,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))",
-        backdropFilter:
-          "blur(var(--chat-analysis-preview-blur,calc(var(--glass-blur-radius, 1rem) * 0.18)))",
-        WebkitBackdropFilter:
-          "blur(var(--chat-analysis-preview-blur,calc(var(--glass-blur-radius, 1rem) * 0.18)))"
-      }
-    : undefined;
+  const previewCardSurfaceStyle = undefined;
   const headerClassName =
     "flex flex-col items-center justify-center gap-[0.6rem] flex-wrap relative z-[60] " +
     "pt-[0.15rem] mb-[0.6rem]";
@@ -662,6 +653,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
         className={cn(
           cardClassName,
           analysisPanelMode === "overlay" ? cardOverlayClassName : null,
+          uploadPreview ? "chat-analysis-upload-modal-card" : null,
           analysisPanelMode === "overlay" && !uploadPreview
             ? "chat-analysis-upload-modal-card"
             : null

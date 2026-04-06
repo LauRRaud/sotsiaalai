@@ -811,7 +811,7 @@
       },
       "questions": {
         "offer": {
-          "describe": "Briefly write what help you can offer. If you want, you can immediately add what kind of help it is and how you can help. I will ask only about what is missing.",
+          "describe": "Describe in one or two sentences what help you can offer. For example: \"I can offer transport help in Tabasalu in the evenings\" or \"I can help with digital issues and filling out forms\". I will ask only about what is missing.",
           "rawPlace": "Where can you help? Write the place as precisely as possible, for example a district, settlement, village, town, or municipality.",
           "rawPlaceTransport": "In which area or on which route can you offer transport help?",
           "helpType": "Is this help voluntary, paid, or are you open to both?",
@@ -838,7 +838,7 @@
           "detailsOther": "Please briefly describe what kind of help you can offer."
         },
         "request": {
-          "describe": "Briefly write what help you need. If you want, you can immediately add what kind of help it is and what exactly you need. I will ask only about what is missing.",
+          "describe": "Describe in one or two sentences what help you need. For example: \"I need transport help in Tabasalu on Friday at 7 PM\" or \"I need help with e-services and filling out forms\". I will ask only about what is missing.",
           "rawPlace": "Where is the help needed? Write the place as precisely as possible, for example a district, settlement, village, town, or municipality.",
           "rawPlaceTransport": "In which area or on which route is transport help needed?",
           "beneficiary": "Is this help request for you or for someone else?",
@@ -925,7 +925,11 @@
       },
       "saved": {
         "offer": "Thank you! The help offer has been saved.",
-        "request": "Thank you! The help request has been saved."
+        "request": "Thank you! The help request has been saved.",
+        "offerPublished": "It is now added to the help offers board.",
+        "requestPublished": "It is now added to the help requests board.",
+        "checkingRequests": "I will now check whether there are matching help requests.",
+        "checkingOffers": "I will now check whether there are matching help offers."
       },
       "create": {
         "cancelled": "Understood, I stopped creating this help listing."
@@ -950,8 +954,8 @@
         "failed": "Failed to create the connection."
       }
     },
-    "empty_intro_help_request": "Briefly write what help you need. If you want, you can immediately add what kind of help it is and what exactly you need. I will ask only about what is missing.",
-    "empty_intro_help_offer": "Briefly write what help you can offer. If you want, you can immediately add what kind of help it is and how you can help. I will ask only about what is missing."
+    "empty_intro_help_request": "Describe in one or two sentences what help you need. For example: \"I need transport help in Tabasalu on Friday at 7 PM\" or \"I need help with e-services and filling out forms\". I will ask only about what is missing.",
+    "empty_intro_help_offer": "Describe in one or two sentences what help you can offer. For example: \"I can offer transport help in Tabasalu in the evenings\" or \"I can help with digital issues and filling out forms\". I will ask only about what is missing."
   },
   "documents": {
     "meta": {

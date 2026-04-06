@@ -48,8 +48,11 @@
   --chat-tools-panel-text: var(--rail-tooltip-text);
   --chat-tools-item-hover-bg: rgba(197, 113, 113, 0.12);
   --glass-analysis-bg: rgb(26, 29, 34);
-  --chat-analysis-preview-surface: rgb(23, 26, 32);
-  --chat-analysis-preview-blur: calc(var(--glass-blur-radius, 1rem) * 0.08);
+  --chat-analysis-preview-surface: var(--chat-card-surface-standard-bg);
+  --chat-analysis-preview-text: var(--subpage-card-text);
+  --chat-analysis-preview-border: 0 solid transparent;
+  --chat-analysis-preview-shadow: none;
+  --chat-analysis-preview-blur: 0px;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {

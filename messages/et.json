@@ -782,8 +782,8 @@
       "no_context_worker": "Ma ei leidnud praegu materjalidest sellele täpset vastust. Palun täpsusta KOV või omavalitsus ning teenuse või olukorra tüüp."
     },
     "empty_intro": "Tere! Kirjelda lühidalt, mida soovid teada või milles juhendamist vajad. Kui soovid teist režiimi, vali see + märgi alt.",
-    "empty_intro_help_request": "Kirjuta lühidalt, millist abi vajad. Soovi korral võid kohe lisada ka, mis liiki abiga on tegu ja mida täpsemalt vajad. Vajadusel küsin puuduva info üle.",
-    "empty_intro_help_offer": "Kirjuta lühidalt, millist abi saad pakkuda. Soovi korral võid kohe lisada ka, mis liiki abiga on tegu ja kuidas saad aidata. Vajadusel küsin puuduva info üle.",
+    "empty_intro_help_request": "Kirjelda ühe või paari lausega, milles abi vajad. Näiteks: \"Vajan Tabasalus transpordiabi reedel kell 19\" või \"Vajan abi e-teenuste ja vormide täitmisel\". Vajadusel küsin puuduva info üle.",
+    "empty_intro_help_offer": "Kirjelda ühe või paari lausega, millist abi saad pakkuda. Näiteks: \"Pakun Tabasalus transpordiabi õhtuti\" või \"Pakun digiabi ja abi vormide täitmisel\". Vajadusel küsin puuduva info üle.",
     "modeSelection": {
       "confirm": {
         "rag": "Sain aru, et soovid saada infot või juhendamist. Kas jätkame sellega?",
@@ -881,7 +881,7 @@
       },
       "questions": {
         "offer": {
-          "describe": "Kirjuta lühidalt, millist abi saad pakkuda. Soovi korral võid kohe lisada ka, mis liiki abiga on tegu ja kuidas saad aidata. Vajadusel küsin puuduva info üle.",
+          "describe": "Kirjelda ühe või paari lausega, millist abi saad pakkuda. Näiteks: \"Pakun Tabasalus transpordiabi õhtuti\" või \"Pakun digiabi ja abi vormide täitmisel\". Vajadusel küsin puuduva info üle.",
           "rawPlace": "Kus saad aidata? Kirjuta koht võimalikult täpselt, näiteks linnaosa, asula, küla, linn või vald.",
           "rawPlaceTransport": "Mis piirkonnas või millisel marsruudil saad transpordiabi pakkuda?",
           "helpType": "Kas pakud abi vabatahtlikult, tasu eest või mõlemal moel? Kui tasu on oluline, võid kohe lisada ka tingimused.",
@@ -920,7 +920,7 @@
           }
         },
         "request": {
-          "describe": "Kirjuta lühidalt, millist abi vajad. Soovi korral võid kohe lisada ka, mis liiki abiga on tegu ja mida täpsemalt vajad. Vajadusel küsin puuduva info üle.",
+          "describe": "Kirjelda ühe või paari lausega, milles abi vajad. Näiteks: \"Vajan Tabasalus transpordiabi reedel kell 19\" või \"Vajan abi e-teenuste ja vormide täitmisel\". Vajadusel küsin puuduva info üle.",
           "rawPlace": "Kus abi vaja on? Kirjuta koht võimalikult täpselt, näiteks linnaosa, asula, küla, linn või vald.",
           "rawPlaceTransport": "Kus transpordiabi vaja on? Kirjuta lähtekoht või piirkond võimalikult täpselt.",
           "beneficiary": "Kellele abi vaja on? Kas sulle endale või kellelegi teisele? Soovi korral võid lisada ka vanusegrupi ning selle, kas inimesel on erivajadus.",

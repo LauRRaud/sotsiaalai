@@ -64,8 +64,11 @@
   --chat-rail-tooltip-bg: var(--mid-utility-panel-bg);
   --chat-tools-panel-bg: var(--mid-utility-panel-bg);
   --chat-upload-picker-bg: var(--mid-utility-panel-bg);
-  --chat-analysis-preview-surface: rgb(184, 166, 161);
-  --chat-analysis-preview-blur: calc(var(--glass-blur-radius, 1rem) * 0.09);
+  --chat-analysis-preview-surface: var(--subpage-card-bg);
+  --chat-analysis-preview-text: var(--subpage-card-text);
+  --chat-analysis-preview-border: var(--subpage-card-border);
+  --chat-analysis-preview-shadow: var(--subpage-card-shadow);
+  --chat-analysis-preview-blur: 0px;
   --drawer-glass-bg: var(--glass-ring-surface-bg);
   --drawer-card-shadow:
     0 0 0.55rem rgba(82, 50, 46, 0.032),

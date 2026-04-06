@@ -19,6 +19,7 @@ const TYPING_STEP_MS = 18;
 const TYPING_TRAILING_INLINE_RE = /^[\s!?,.;:)]$/;
 
 const ChatMessageItem = memo(function ChatMessageItem({
+  messageId,
   role,
   text,
   attachments,
@@ -162,7 +163,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "px-[0.9rem] py-[0.78rem] text-left shadow-[0_0.32rem_0.85rem_rgba(5,8,15,0.12)] " +
     "light:border-[rgba(15,23,42,0.12)] light:bg-[rgba(255,255,255,0.82)]";
   if (!isAssistant && !isOwn) {
-    return <div className={messageWrapClassName} role="article" tabIndex={0}>
+    return <div className={messageWrapClassName} role="article" tabIndex={0} data-chat-message-id={messageId}>
         {authorName ? <div className={nameClassName}>{authorName}</div> : null}
         <div className={cn(messageBaseClassName, userBubbleClassName, memberBubbleClassName)}>
           <span className="sr-only">
@@ -173,7 +174,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
         </div>
       </div>;
   }
-  return <div className={cn(messageBaseClassName, isAssistant ? aiBubbleClassName : userBubbleClassName)} role="article" tabIndex={0}>
+  return <div className={cn(messageBaseClassName, isAssistant ? aiBubbleClassName : userBubbleClassName)} role="article" tabIndex={0} data-chat-message-id={messageId}>
       <span className="sr-only">
         {authorLabel}
         {": "}

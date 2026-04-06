@@ -30,7 +30,7 @@ import {
 } from "@/lib/chat/documentOrchestration";
 import { runDocumentChatWorkflow } from "@/lib/chat/documentOrchestration";
 import { buildHelpWorkflowMetadata, getHelpWorkflowState, runHelpChatWorkflow } from "@/lib/help/chatWorkflow";
-import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
+import { isActiveHelpWorkflowState, normalizeHelpWorkflowState } from "@/lib/help/workflowState";
 import { getChatSessionTurnLimit } from "@/lib/chat/guardrails";
 import { logOpenAIUsage } from "@/lib/openaiUsage";
 export const runtime = "nodejs";
@@ -918,9 +918,12 @@ export async function POST(req) {
     requestedThoroughness,
     convId
   });
-  const helpWorkflowState = userId && !roomId
-    ? await getHelpWorkflowState(convId, userId, prisma)
+  const clientHelpWorkflowState = !roomId
+    ? normalizeHelpWorkflowState(payload?.helpWorkflowState || null)
     : null;
+  const helpWorkflowState = clientHelpWorkflowState || (userId && !roomId
+    ? await getHelpWorkflowState(convId, userId, prisma)
+    : null);
   const helpWorkflowActive = isActiveHelpWorkflowState(helpWorkflowState);
   const documentWorkflowState = userId && !roomId
     ? await getDocumentWorkflowState(convId, userId, prisma)

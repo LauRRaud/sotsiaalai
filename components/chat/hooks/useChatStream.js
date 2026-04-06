@@ -69,7 +69,15 @@ function dispatchHelpListingsRefresh(workflow) {
   if (typeof window === "undefined") return;
   const helpState = workflow?.help;
   if (!helpState || typeof helpState !== "object") return;
-  if (!(helpState.step === "saved" || helpState.mode === "saved")) return;
+  const justSaved =
+    helpState.step === "saved" ||
+    helpState.mode === "saved" ||
+    (
+      helpState.step === "browse" &&
+      helpState.mode === "browse" &&
+      !!helpState.sourceRecordId
+    );
+  if (!justSaved) return;
   try {
     window.dispatchEvent(new CustomEvent("sotsiaalai:refresh-help-listings"));
   } catch {}
@@ -279,6 +287,9 @@ export function useChatStream(config) {
             convId: cfg.convId,
             uiLocale: cfg.locale || "et",
             chatMode: selectedChatMode,
+            helpWorkflowState: !cfg.isRoomMode && cfg.helpWorkflowState && typeof cfg.helpWorkflowState === "object"
+              ? cfg.helpWorkflowState
+              : undefined,
             roomId: cfg.isRoomMode ? cfg.roomId : undefined,
             ...(cfg.ephemeralChunks?.length
               ? {
