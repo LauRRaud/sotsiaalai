@@ -806,6 +806,21 @@ html[data-contrast="hc"]
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  --orbit-keypad-fill-center:
+    radial-gradient(
+      120% 120% at 24% 18%,
+      rgba(255, 255, 255, 0.078) 0%,
+      rgba(255, 255, 255, 0.036) 22%,
+      rgba(255, 255, 255, 0.012) 38%,
+      rgba(255, 255, 255, 0) 54%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(54, 57, 62, 0.6) 0%,
+      rgba(35, 38, 43, 0.56) 48%,
+      rgba(21, 24, 28, 0.51) 100%
+    ),
+    rgba(24, 27, 31, 0.48);
   --orbit-keypad-fill:
     radial-gradient(
       124% 124% at 24% 18%,
@@ -861,6 +876,21 @@ html[data-contrast="hc"]
 }
 
 :root.theme-night .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  --orbit-keypad-fill-center:
+    radial-gradient(
+      124% 124% at 24% 18%,
+      rgba(228, 239, 255, 0.074) 0%,
+      rgba(228, 239, 255, 0.031) 22%,
+      rgba(228, 239, 255, 0.01) 38%,
+      rgba(228, 239, 255, 0) 54%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(45, 53, 68, 0.47) 0%,
+      rgba(28, 35, 47, 0.43) 48%,
+      rgba(16, 22, 31, 0.37) 100%
+    ),
+    rgba(18, 24, 34, 0.35);
   --orbit-keypad-fill:
     radial-gradient(
       124% 124% at 24% 18%,
@@ -998,7 +1028,7 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
   color: rgba(255, 255, 255, 0.92);
-  background: var(--orbit-keypad-fill) !important;
+  background: var(--orbit-keypad-fill-center, var(--orbit-keypad-fill)) !important;
   box-shadow: var(--orbit-button-shadow-center) !important;
   border: none !important;
   outline: none !important;

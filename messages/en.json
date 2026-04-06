@@ -782,8 +782,8 @@
       "no_context_worker": "I could not find an exact answer in the materials right now. Please specify the municipality and the type of service or situation."
     },
     "empty_intro": "Hello! Briefly describe what you want to know or what guidance you need. If you want another mode, choose it from the + menu.",
-    "empty_intro_help_request": "Describe in one or two sentences what help you need. For example: \"I need transport help in Tabasalu on Friday at 7 PM\" or \"I need help with e-services and filling out forms\". I will ask only about what is missing.",
-    "empty_intro_help_offer": "Describe in one or two sentences what help you can offer. For example: \"I can offer transport help in Tabasalu in the evenings\" or \"I can help with digital issues and filling out forms\". I will ask only about what is missing.",
+    "empty_intro_help_request": "Describe as clearly as possible what help you need. Include the key details so that your situation and need for help are easy to understand. If needed, we will ask for more.",
+    "empty_intro_help_offer": "Describe as clearly as possible what help you can offer. Include the key details so that it is clear what kind of support you can provide and how. If needed, we will ask for more.",
     "modeSelection": {
       "confirm": {
         "rag": "I understood that you want information and guidance. Shall we continue with that?",
@@ -881,7 +881,7 @@
       },
       "questions": {
         "offer": {
-          "describe": "Describe in one or two sentences what help you can offer. For example: \"I can offer transport help in Tabasalu in the evenings\" or \"I can help with digital issues and filling out forms\". I will ask only about what is missing.",
+          "describe": "Describe as clearly as possible what help you can offer. Include the key details so that it is clear what kind of support you can provide and how. If needed, we will ask for more.",
           "rawPlace": "Where can you help? Please describe the place as precisely as possible, for example a district, settlement, village, town or municipality.",
           "rawPlaceTransport": "In which area or on which route can you offer transport help?",
           "helpType": "Are you offering help on a volunteer basis, for payment, or both? If payment terms matter, you can add them right away.",
@@ -920,7 +920,7 @@
           }
         },
         "request": {
-          "describe": "Describe in one or two sentences what help you need. For example: \"I need transport help in Tabasalu on Friday at 7 PM\" or \"I need help with e-services and filling out forms\". I will ask only about what is missing.",
+          "describe": "Describe as clearly as possible what help you need. Include the key details so that your situation and need for help are easy to understand. If needed, we will ask for more.",
           "rawPlace": "Where is the help needed? Please describe the place as precisely as possible, for example a district, settlement, village, town or municipality.",
           "rawPlaceTransport": "In which area or on which route is transport help needed?",
           "beneficiary": "Who needs the help? Is it for you or for someone else? If you want, you can also add the age group and whether the person has special needs.",
