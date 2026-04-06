@@ -656,7 +656,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
           uploadPreview ? "chat-analysis-upload-modal-card" : null,
           analysisPanelMode === "overlay" && !uploadPreview
             ? "chat-analysis-upload-modal-card"
-            : null
+            : null,
+          uploadPreview ? "chat-analysis-preview-card" : null
         )}
         style={previewCardSurfaceStyle}
       >
@@ -940,4 +941,3 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   );
 });
 export default ChatAnalysisPanel;
-

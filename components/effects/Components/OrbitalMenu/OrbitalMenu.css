@@ -661,9 +661,6 @@ html[data-contrast="hc"]
 }
 :root.theme-night
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item,
-html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item {
   box-shadow: none !important;
   border: none !important;
@@ -734,21 +731,6 @@ html[data-contrast="hc"]
     0 8px 12px rgba(20, 12, 10, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
     inset 0 -1px 0 rgba(126, 95, 88, 0.15) !important;
-}
-
-html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item,
-html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-mobile-action.dock-item {
-  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
-}
-
-html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
-  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
 }
 
 :root.theme-night
@@ -1043,15 +1025,6 @@ html[data-contrast="hc"]
   outline: none !important;
 }
 
-html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item {
-  background: var(--orbit-keypad-fill) !important;
-  box-shadow: var(--orbit-button-shadow-center) !important;
-  border: none !important;
-  outline: none !important;
-}
-
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble).dock-item::before,
@@ -1227,9 +1200,9 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
-  background: var(--orbit-keypad-fill) !important;
-  border: none !important;
-  outline: none !important;
+  background: var(--orbit-keypad-fill);
+  border: none;
+  outline: none;
 }
 
 html[data-contrast="hc"]
@@ -1557,12 +1530,6 @@ html[data-reduce-motion="1"]
     animation: none !important;
   }
 
-html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-stack-bubble.dock-item {
-  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
-}
-
 :root.theme-light:not(.theme-mid)
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-stack-bubble.dock-item {
@@ -1616,22 +1583,6 @@ html[data-contrast="hc"]
   box-shadow: var(--orbit-keypad-shadow-item-hover, var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow))) !important;
 }
 
-@media (min-width: 48.001em) {
-  html[data-contrast="hc"]
-    .profile-container.glass-ring
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__item.dock-item {
-    box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
-  }
-
-  html[data-contrast="hc"]
-    .profile-container.glass-ring
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
-    box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
-  }
-}
-
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item::before {
   opacity: 0 !important;
@@ -1653,10 +1604,10 @@ html[data-contrast="hc"]
 }
 
 html[data-contrast="hc"]
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item::before {
   content: "" !important;
-  box-shadow: 0 0 24px rgba(255, 234, 0, 0.3) !important;
+  box-shadow: 0 0 20px rgba(255, 234, 0, 0.24) !important;
   transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
   will-change: opacity;
 }
@@ -1675,11 +1626,6 @@ html[data-contrast="hc"]
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
   box-shadow: var(--orbit-button-shadow) !important;
-}
-
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active) {
-  box-shadow: var(--orbit-button-shadow-center) !important;
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper

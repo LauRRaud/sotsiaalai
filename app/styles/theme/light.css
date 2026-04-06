@@ -486,7 +486,16 @@
   backdrop-filter: none !important;
 }
 
-:root.theme-light .chat-analysis-upload-modal-card {
+:root.theme-light:not(.theme-mid) .chat-analysis-upload-modal-card {
+  background: var(--chat-upload-picker-bg, rgb(249, 249, 248)) !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-light:not(.theme-mid) .chat-analysis-preview-card {
   background:
     radial-gradient(
       92% 88% at 50% 14%,

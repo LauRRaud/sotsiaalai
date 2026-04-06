@@ -25,7 +25,6 @@ import {
 } from "@/lib/documents/presentation"
 import { WORKER_FRAMEWORK_SIGNED_HREF, WORKER_FRAMEWORK_VERSION } from "@/lib/frameworkAcceptances"
 import { localizePath } from "@/lib/localizePath"
-import { backWithTransition, pushWithTransition } from "@/lib/routeTransition"
 
 const documentsTitleClassName =
   `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
@@ -85,11 +84,6 @@ const documentsPanelLinkClassName =
   "text-[clamp(1.08rem,1.45vw,1.28rem)] leading-[1.1] font-medium " +
   "[--link-brand-text:var(--documents-accent)] [--link-brand-border-hover:var(--documents-accent)] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] " +
   "max-[768px]:text-[clamp(1.02rem,4.2vw,1.18rem)] max-[768px]:leading-[1.12]"
-const backTransitionOptions = {
-  glassRingTilt: "left",
-  waitForGlassRingTilt: true,
-  persistGlassRingTilt: false
-}
 
 export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded = false }) {
   const router = useRouter()
@@ -121,7 +115,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     loading: false,
     acceptance: null
   })
-  const [closing, setClosing] = useState(false)
   const uploadInputRef = useRef(null)
   const deferredArtifactSearch = useDeferredValue(artifactSearch)
   const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
@@ -260,14 +253,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const frameworkPageHref = localizePath("/tooalase-kasutuse-raamistik", locale)
 
   const handleBack = useCallback(() => {
-    if (closing) return
-    setClosing(true)
-    if (typeof window !== "undefined" && window.history.length > 1) {
-      backWithTransition(router, backTransitionOptions)
-      return
-    }
-    pushWithTransition(router, localizePath("/vestlus", locale), backTransitionOptions)
-  }, [closing, locale, router])
+    router.push(localizePath("/vestlus", locale))
+  }, [locale, router])
 
   async function submitUpload(event) {
     event.preventDefault()
@@ -398,11 +385,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
 
   return (
     <section className="documents-workspace documents-workspace-page">
-      <div
-        className={`documents-workspace-shell ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""} ${
-          closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""
-        }`}
-      >
+      <div className={`documents-workspace-shell ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
         <div className="documents-grid">
           <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-panel--primary rounded-[1.3rem]">
             <BackButton

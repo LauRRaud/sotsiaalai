@@ -35,7 +35,6 @@ import {
   templateForLabel
 } from "@/lib/documents/presentation"
 import { localizePath } from "@/lib/localizePath"
-import { backWithTransition, pushWithTransition } from "@/lib/routeTransition"
 
 const agentTitleClassName =
   `rooms-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
@@ -97,11 +96,6 @@ const agentPanelLinkClassName =
   "text-[clamp(1.06rem,1.42vw,1.24rem)] leading-[1.1] font-medium " +
   "[--link-brand-text:var(--documents-accent)] [--link-brand-border-hover:var(--documents-accent)] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] " +
   "max-[768px]:text-[clamp(1rem,4.1vw,1.15rem)] max-[768px]:leading-[1.12]"
-const backTransitionOptions = {
-  glassRingTilt: "left",
-  waitForGlassRingTilt: true,
-  persistGlassRingTilt: false
-}
 
 function formatArtifactMessage(artifact, t) {
   if (!artifact) return ""
@@ -193,7 +187,6 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const [conversationMessages, setConversationMessages] = useState([])
   const [inputFocused, setInputFocused] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const [closing, setClosing] = useState(false)
   const handledMeetingSummaryJobIdsRef = useRef(new Set())
 
   function createWorkspaceVersion({ kind, title, content, type, templateId = selectedTemplateId }) {
@@ -1530,22 +1523,12 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   }
 
   const handleBack = useCallback(() => {
-    if (closing) return
-    setClosing(true)
-    if (typeof window !== "undefined" && window.history.length > 1) {
-      backWithTransition(router, backTransitionOptions)
-      return
-    }
-    pushWithTransition(router, backHref, backTransitionOptions)
-  }, [backHref, closing, router])
+    router.push(backHref)
+  }, [backHref, router])
 
   return (
     <section className="documents-workspace documents-workspace-page">
-      <div
-        className={`documents-workspace-shell documents-workspace-shell--agent ${
-          closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""
-        }`}
-      >
+      <div className="documents-workspace-shell documents-workspace-shell--agent">
         <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-panel--primary rounded-[1.3rem]">
           <BackButton
             onClick={handleBack}
