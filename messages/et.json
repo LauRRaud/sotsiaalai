@@ -1016,7 +1016,11 @@
       },
       "saved": {
         "offer": "Aitäh! Abipakkumine on salvestatud.",
-        "request": "Aitäh! Abisoov on salvestatud."
+        "request": "Aitäh! Abisoov on salvestatud.",
+        "offerPublished": "See on n??d lisatud abipakkumiste seinale.",
+        "requestPublished": "See on n??d lisatud abisoovide seinale.",
+        "checkingRequests": "Vaatan n??d, kas sellele leidub sobivaid abisoove.",
+        "checkingOffers": "Vaatan n??d, kas sellele leidub sobivaid abipakkumisi."
       },
       "create": {
         "cancelled": "Selge, katkestasin selle abikuulutuse vormistamise."
