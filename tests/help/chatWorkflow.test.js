@@ -90,6 +90,26 @@ function createPrismaStub() {
       }
     },
     helpRequest: {
+      async findMany() {
+        return [{
+          id: "req-2",
+          userId: "user-2",
+          municipalityId: "mun-tallinn",
+          primaryCategoryId: "cat-digital",
+          title: "Vajan digiabi",
+          description: "Vajan digiabi Tallinnas.",
+          structuredSummary: "Vajan digiabi Tallinnas",
+          roleLabel: "endale",
+          helpType: "MIXED",
+          timeType: "FLEXIBLE",
+          status: "OPEN",
+          createdAt: new Date("2026-04-05T11:00:00.000Z").toISOString(),
+          municipality: MUNICIPALITIES["mun-tallinn"],
+          primaryCategory: HELP_CATEGORIES.DIGITAL_HELP,
+          categoryLinks: [],
+          targetGroupLinks: toTargetGroupLinks(["ELDER"])
+        }];
+      },
       async findUnique() {
         return {
           id: "req-1",
@@ -159,6 +179,26 @@ function createPrismaStub() {
           categoryLinks: [],
           targetGroupLinks: []
         }];
+      },
+      async findUnique({ where } = {}) {
+        return {
+          id: String(where?.id || "offer-1"),
+          userId: "user-1",
+          municipalityId: "mun-tallinn",
+          primaryCategoryId: "cat-digital",
+          title: "Pakun digiabi",
+          description: "Pakun digiabi Tallinnas.",
+          structuredSummary: "Pakun digiabi Tallinnas",
+          roleLabel: "digiabi",
+          helpType: "MIXED",
+          timeType: "FLEXIBLE",
+          status: "OPEN",
+          createdAt: new Date("2026-04-05T10:30:00.000Z").toISOString(),
+          municipality: MUNICIPALITIES["mun-tallinn"],
+          primaryCategory: HELP_CATEGORIES.DIGITAL_HELP,
+          categoryLinks: [],
+          targetGroupLinks: toTargetGroupLinks(["ELDER", "DISABILITY"])
+        };
       },
       async create({ data }) {
         const category = Object.values(HELP_CATEGORIES).find((item) => item.id === data.primaryCategoryId) || HELP_CATEGORIES.OTHER;
@@ -257,7 +297,8 @@ test("contact preference is no longer required before preview", async () => {
   assert.equal(result.workflowState?.step, "edit_or_save");
   assert.equal(result.workflowState?.draft?.contactPreference || "", "");
   assert.match(String(result.reply || ""), /Vaata abisoov üle\./i);
-  assert.match(String(result.reply || ""), /Vasta .*jah.* või .*ei/i);
+  assert.match(String(result.reply || ""), /Kui kuulutus sobib, vasta .*jah/i);
+  assert.match(String(result.reply || ""), /Kui vastad .*ei.* kirjuta kohe, mida soovid muuta/i);
   assert.doesNotMatch(String(result.reply || ""), /ühendust võetaks|kontaktiviis/i);
 });
 
@@ -377,6 +418,29 @@ test("rich help offer does not copy full description into timing, compensation o
   assert.ok(String(result.workflowState?.draft?.title || "").length < 90);
 });
 
+test("template placeholders are not treated as offer location or timing", async () => {
+  const message = [
+    "pealkiri: Pakun abi igapaevaelus ja asjaajamises",
+    "",
+    "Pakun abi inimesele, kes vajab tuge igapaevaste toimetuste, asjaajamise voi digikusimustega.",
+    "Tegutsen [piirkond] piirkonnas ning olen kattesaadav [ajad voi paevad].",
+    "Abi osutan kokkuleppel vabatahtlikult, tasu eest voi vastavalt olukorrale."
+  ].join("\n");
+
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message,
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.rawPlace || "", "");
+  assert.equal(result.workflowState?.draft?.availabilityOrStart || "", "");
+  assert.notEqual(result.workflowState?.activeQuestionKey || "", "timing");
+  assert.doesNotMatch(String(result.reply || ""), /ning olen kattesaadav/i);
+});
+
 test("saving a help request immediately shows matching offers", async () => {
   const previewState = createHelpWorkflowDraftState({
     intent: "create_help_request",
@@ -415,9 +479,49 @@ test("saving a help request immediately shows matching offers", async () => {
   assert.equal(result.workflowState?.mode, "browse");
   assert.match(String(result.reply || ""), /Abisoov on salvestatud/i);
   assert.match(String(result.reply || ""), /lisatud abisoovide seinale/i);
-  assert.match(String(result.reply || ""), /Vaatan nüüd, kas sellele leidub sobivaid abipakkumisi/i);
+  assert.match(String(result.reply || ""), /leidub sobivaid abipakkumisi/i);
   assert.match(String(result.reply || ""), /Leidsin 1/i);
   assert.match(String(result.reply || ""), /1\. Pakun transpordiabi/i);
+});
+
+test("saving a help offer immediately shows matching requests", async () => {
+  const previewState = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "edit_or_save",
+    flowLocked: true,
+    confirmationPending: true,
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Pakun digiabi",
+      description: "Pakun digiabi Tallinnas.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      targetGroupCodes: ["ELDER", "DISABILITY"],
+      targetGroups: ["Eakas", "Puue vĆµi erivajadus"],
+      rawPlace: "Tallinn",
+      helpType: "MIXED",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "kokkuleppel",
+      structuredSummary: "Pakun digiabi Tallinnas"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "jah",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: previewState
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.intent, "browse_help_requests");
+  assert.equal(result.workflowState?.mode, "browse");
+  assert.match(String(result.reply || ""), /Abipakkumine on salvestatud/i);
+  assert.match(String(result.reply || ""), /leidub sobivaid abisoove/i);
+  assert.match(String(result.reply || ""), /Leidsin 1/i);
+  assert.match(String(result.reply || ""), /1\. Vajan digiabi/i);
 });
 
 test("saved help request can still transition into browse flow", async () => {

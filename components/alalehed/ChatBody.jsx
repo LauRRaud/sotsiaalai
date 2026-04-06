@@ -1706,15 +1706,7 @@ export default function ChatBody({
     }
 
     if (!shouldUseCareerWorkflow) {
-      const sent = await sendMessage(text);
-      if (
-        sent &&
-        (activeWorkflow === "help_request" || activeWorkflow === "help_offer") &&
-        !helpFlowActive
-      ) {
-        setActiveWorkflow("default");
-      }
-      return sent;
+      return sendMessage(text);
     }
 
     const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
@@ -1807,6 +1799,12 @@ export default function ChatBody({
     () => isActiveHelpWorkflowState(latestHelpWorkflowState),
     [latestHelpWorkflowState]
   );
+  useEffect(() => {
+    if (!(activeWorkflow === "help_request" || activeWorkflow === "help_offer")) return;
+    if (!latestHelpWorkflowState) return;
+    if (helpFlowActive) return;
+    setActiveWorkflow("default");
+  }, [activeWorkflow, helpFlowActive, latestHelpWorkflowState]);
   const handleAssistantMessageCreated = useCallback((messageId) => {
     onAssistantMessageCreated?.(messageId);
     if (!(activeWorkflow === "help_request" || activeWorkflow === "help_offer" || helpFlowActive)) return;

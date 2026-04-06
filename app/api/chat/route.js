@@ -30,6 +30,7 @@ import {
 } from "@/lib/chat/documentOrchestration";
 import { runDocumentChatWorkflow } from "@/lib/chat/documentOrchestration";
 import { buildHelpWorkflowMetadata, getHelpWorkflowState, runHelpChatWorkflow } from "@/lib/help/chatWorkflow";
+import { detectHelpChatIntent } from "@/lib/help/intents";
 import { isActiveHelpWorkflowState, normalizeHelpWorkflowState } from "@/lib/help/workflowState";
 import { getChatSessionTurnLimit } from "@/lib/chat/guardrails";
 import { logOpenAIUsage } from "@/lib/openaiUsage";
@@ -932,6 +933,7 @@ export async function POST(req) {
   const effectiveMessage = message;
   const forcedMode = requestedChatMode;
   const effectiveExplicitHelpIntent = explicitHelpIntent;
+  const detectedHelpIntent = !roomId ? detectHelpChatIntent(effectiveMessage) : null;
   const documentDecision = forcedMode === "document"
     ? resolveDocumentTaskDecision({
         message: effectiveMessage,
@@ -965,6 +967,12 @@ export async function POST(req) {
   const helpForcedIntent = effectiveExplicitHelpIntent && !helpWorkflowState
     ? effectiveExplicitHelpIntent
     : null;
+  const inactiveHelpStateCanResume = Boolean(
+    helpWorkflowState
+    && !helpWorkflowActive
+    && detectedHelpIntent
+    && detectedHelpIntent !== "service_guidance"
+  );
   const shouldUseDocumentWorkflow = Boolean(
     userId &&
     !roomId &&
@@ -973,7 +981,7 @@ export async function POST(req) {
   const shouldUseHelpWorkflow = Boolean(
     userId &&
     !roomId &&
-    (explicitHelpModeActive || (!forcedMode && (helpWorkflowActive || helpWorkflowState)))
+    (explicitHelpModeActive || (!forcedMode && (helpWorkflowActive || inactiveHelpStateCanResume)))
   );
   if (documentPlan) {
     logInfo("orchestration.plan", {
@@ -2081,4 +2089,3 @@ export async function GET(req) {
     route: "api/chat"
   });
 }
-

@@ -990,8 +990,8 @@
         "requestTitle": "Review the help request.",
         "offerTypeValue": "Help offer",
         "requestTypeValue": "Help request",
-        "savePrompt": "Reply ?yes? or ?no?. If you want to change something, write it here.",
-        "editPrompt": "Understood. Please write what you want to change."
+        "savePrompt": "If this listing looks right, reply \"yes\". If you reply \"no\", immediately write what you want to change.",
+        "editPrompt": "Understood. Please write right away what you want to change."
       },
       "labels": {
         "type": "Type",
