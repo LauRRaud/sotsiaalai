@@ -1,0 +1,2578 @@
+{
+  "common": {
+    "skip_to_content": "Jätka sisuni",
+    "language_changed": "Keel muudetud: {language}",
+    "languages": {
+      "et": "eesti",
+      "ru": "vene",
+      "en": "inglise"
+    },
+    "cancel": "Katkesta",
+    "close": "Sulge",
+    "back_home": "Tagasi avalehele",
+    "or": "või",
+    "back": "Tagasi",
+    "back_to_previous": "Tagasi eelmisele lehele"
+  },
+  "routes": {
+    "password_reset_path": "/taasta-parool"
+  },
+  "buttons": {
+    "save": "Salvesta",
+    "save_changes": "Salvesta muudatused",
+    "save_settings": "Salvesta seaded",
+    "close": "Sulge",
+    "cancel": "Katkesta",
+    "back": "Tagasi",
+    "back_home": "Tagasi avalehele",
+    "back_previous": "Tagasi eelmisele lehele",
+    "try_again": "Proovi uuesti",
+    "open_profile": "Ava profiil",
+    "open_chat": "Ava vestlus",
+    "open_accessibility": "Ava ligipääsetavuse seaded",
+    "new": "Uus",
+    "new_conversation": "Uus vestlus",
+    "refresh": "Värskenda",
+    "delete": "Kustuta",
+    "confirm": "Kinnita",
+    "submit": "Saada",
+    "expand": "Laienda",
+    "collapse": "Ahenda"
+  },
+  "symbols": {
+    "question": "?",
+    "times": "×"
+  },
+  "errors": {
+    "title": "Midagi läks valesti",
+    "description": "Vabandame, ilmnes ootamatu viga. Palun proovi uuesti või mine tagasi avalehele.",
+    "retry": "Proovi uuesti"
+  },
+  "nav": {
+    "main": "Peamenüü",
+    "home": "Avaleht",
+    "about": "MEIST",
+    "chat": "Vestlus",
+    "profile": "Profiil",
+    "privacy": "Privaatsus",
+    "terms": "Tingimused",
+    "register": "Registreeru",
+    "login": "Logi sisse",
+    "start": "Start",
+    "aria_main": "Peamenüü",
+    "toggle_light": "Lülita hele režiim",
+    "toggle_dark": "Lülita tume režiim",
+    "chats": "Vestlused",
+    "rooms": "Ruumid",
+    "add_person": "Lisa inimene",
+    "sources": "Allikad"
+  },
+  "auth": {
+    "email_placeholder": "Sinu@email.ee",
+    "password_placeholder": "PIN",
+    "pin_placeholder": "PIN",
+    "login": {
+      "title": "Logi sisse",
+      "or": "või",
+      "error": {
+        "credentials": "Vale e-post või PIN.",
+        "email_required": "Palun sisesta e-posti aadress.",
+        "email_invalid": "Palun sisesta korrektne e-posti aadress.",
+        "pin_required": "Palun sisesta PIN.",
+        "pin_invalid": "PIN peab olema 4–8 numbrit.",
+        "generic": "Sisselogimine ebaõnnestus. Palun proovi uuesti."
+      },
+      "submit": "Sisenen",
+      "submitting": "Sisenen…",
+      "forgot": "Unustasid PIN-i?",
+      "register_link": "Registreeru",
+      "clear": "Kustuta PIN",
+      "clear_short": "C",
+      "back": "Eemalda viimane number",
+      "otp_title": "Kinnita sisenemine",
+      "otp_info_sent": "Kinnituskood saadeti aadressile {email}.",
+      "otp_description": "Saadsime kinnituskoodi aadressile {email}. Sisesta see 15 minuti jooksul.",
+      "otp_expires": "Kood aegub kell {time}.",
+      "otp_placeholder": "Kinnituskood (6 numbrit)",
+      "otp_short_placeholder": "Kinnituskood",
+      "remember_device": "Jäta see seade 30 päevaks meelde",
+      "otp_submit": "Kinnitan",
+      "otp_submitting": "Kontrollime...",
+      "resend": "Saada kood uuesti",
+      "resending": "Saadame...",
+      "otp_back": "Kasuta teist e-posti",
+      "otp_invalid": "Kood on vale või aegunud.",
+      "otp_trusted_device_expired": "Usaldatud seadme 30-päevane periood lõppes. Kinnita sisselogimine koodiga.",
+      "otp_resent": "Saadeti uus kood aadressile {email}.",
+      "pin_hint": "Sisesta PIN. Turvalisuse huvides on sisestus peidetud ja märke ette ei loeta.",
+      "key": "Number {digit}",
+      "toggle_keypad": "Vaheta klahvistik",
+      "toggle_keypad_mobile_aria": "Vaheta PIN-i sisestusviisi ekraaniklahvistiku ja seadme klaviatuuri vahel.",
+      "toggle_keypad_desktop_aria": "Vaheta klahvistiku paigutust.",
+      "zero_key_aria": "0 / kustuta",
+      "help_hold_zero_before": "Hoia",
+      "help_hold_zero_after": "all ~0,5 s, et kustutada kogu PIN-kood",
+      "help_wrong_pin_note": "Vale PIN-i korral kustub PIN-kood automaatselt."
+    },
+    "register": {
+      "title": "Registreeru",
+      "pin_placeholder": "PIN (4-8 numbrit)",
+      "role_label_question": "Kes oled?",
+      "role_label": "Roll:",
+      "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
+      "worker_use_org": "Kasutan platvormi tööks kliendi isikuandmetega",
+      "worker_framework_title": "Tööalase kasutuse raamistik",
+      "worker_framework_note": "Kui kasutad SotsiaalAI-d tööülesannetes kliendi või muu isiku andmetega, pead enne jätkamist tutvuma tööalase kasutuse ja andmetöötluse raamistikuga ning alla laadima allkirjastatud raamdokumendi.",
+      "worker_framework_open": "Ava raamistik",
+      "worker_framework_ack": "Kinnitan, et olen alla laadinud SotsiaalAI allkirjastatud raamdokumendi ja allkirjastanud selle koos oma tööandja või asutusega.",
+      "worker_framework_digital_mark_note": "See linnuke on digitaalne märge, mis sobib SotsiaalAI-le digiallkirja asemel.",
+      "worker_framework_download_signed": "Allkirjastatud dokument",
+      "worker_framework_download_docx": "Lae alla",
+      "worker_framework_signed_note": "Kui soovid meiepoolset allkirjastatud versiooni, lae see siit alla.",
+      "agreement": "Nõustun <terms>kasutustingimuste</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
+      "guide_ack": "Olen tutvunud <guide1>platvormi</guide1> <guide2>kasutusjuhendiga</guide2>.",
+      "error": {
+        "role_required": "Vali roll.",
+        "framework_ack_required": "Organisatsiooni nimel tuvastatavate andmetega kasutuse puhul pead kinnitama, et oled raamistikuga tutvunud.",
+        "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
+        "failed": "Registreerimine ebaõnnestus.",
+        "auto_login": "Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida."
+      },
+      "submit": "Registreeru",
+      "submitting": "Loome kontot…",
+      "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga. Kinnituse kiri võib olla e-posti Rämpspost (Spam) kaustas.",
+      "closed_notice": "Registreerimine on ajutiselt peatatud. Palun proovi uuesti peagi."
+    },
+    "reset": {
+      "title": "Uuenda PIN",
+      "success": "<p>Kui sisestasid kehtiva aadressi, saatsime sinna taastelinki sisaldava kirja.</p><p>Kontrolli ka rämpsposti kausta!</p>",
+      "error": {
+        "required": "Palun sisesta oma e-posti aadress.",
+        "failed": "Taastelinki ei õnnestunud saata.",
+        "server": "Serveriga tekis ühenduse viga. Palun proovi uuesti."
+      },
+      "submit": "Saada taastelink",
+      "submitting": "Saadame…"
+    },
+    "resetForm": {
+      "title": "Uuenda PIN",
+      "success": "PIN on edukalt uuendatud. Saad nüüd sisse logida oma uue PIN-iga.",
+      "submit": "Uuenda PIN",
+      "submitting": "Uuendame…",
+      "fields": {
+        "pin": "Uus PIN",
+        "confirm": "Korda PIN-i"
+      },
+      "errors": {
+        "required": "Palun täida mõlemad PIN-väljad.",
+        "mismatch": "PIN-id ei kattu.",
+        "minLength": "PIN peab olema 4–8 numbrit.",
+        "pinLength": "PIN peab olema 4–8 numbrit.",
+        "updateFailed": "PIN-i ei õnnestunud uuendada.",
+        "server": "Serveriga tekkis ühenduse viga. Palun proovi uuesti."
+      }
+    },
+    "email_icon_hint": "Vajuta ümbrikule, et avada e-posti sisestus, ja sisesta oma e-post."
+  },
+  "home": {
+    "opening_banner": "Peagi avame!",
+    "nav": {
+      "aria_main": "Peamenüü",
+      "about": "MEIST"
+    },
+    "card": {
+      "specialist": {
+        "login_aria": "Ava sotsiaaltöö spetsialisti sisselogimine",
+        "chat_aria": "Ava sotsiaaltöö spetsialisti vestlus",
+        "title": "Sotsiaaltöö spetsialistile"
+      },
+      "client": {
+        "login_aria": "Ava eluküsimusega pöörduja sisselogimine",
+        "chat_aria": "Ava eluküsimusega pöörduja vestlus",
+        "title": "Eluküsimusega pöördujale"
+      }
+    },
+    "theme_toggle": {
+      "title": "Teema: {current}. Vaheta teemaks: {next}."
+    },
+    "footer": {
+      "logo_alt": "SotsiaalAI logo"
+    },
+    "circular": {
+      "left_text": "SEADUSED PRAKTIKA NÕUANDED",
+      "right_text": "ÕIGUSED JUHISED VÕIMALUSED"
+    },
+    "ring": {
+      "left": "SEADUSED PRAKTIKA NÕUANDED",
+      "right": "ÕIGUSED JUHISED VÕIMALUSED"
+    }
+  },
+  "profile": {
+    "title": "Profiil",
+    "loading": "Laen profiili…",
+    "login_to_manage_sub": "Logi sisse ja aktiveeri tellimus, et profiili vaadata.",
+    "login_to_view": "Profiili vaatamiseks logi sisse.",
+    "login": "Logi sisse",
+    "manage_subscription": "Halda tellimust",
+    "ui_language": "Kasutajaliidese keel",
+    "email": "E-post",
+    "new_password_optional": "Uus PIN (soovi korral)",
+    "saving": "Salvestan…",
+    "save": "Salvesta",
+    "logout": "Logi välja",
+    "logout_short": "Välja",
+    "account_settings": "Konto seaded",
+    "account_settings_hint": "Siin saad hallata sisselogimist, turvalisust ja konto sulgemist.",
+    "logout_all_devices": "Logi kõikjalt välja",
+    "logout_all_confirm": "Kas logida välja kõigist seadmetest ja brauseritest ning eemaldada usaldatud seadmed?",
+    "logging_out_all": "Logime välja kõigist seadmetest",
+    "logout_all_failed": "Kõigist seadmetest väljalogimine ebaõnnestus.",
+    "logout_hint": "Lõpetab aktiivse seansi selles seadmes.",
+    "logout_all_hint": "Logib sind välja kõigist seadmetest ja eemaldab meelde jäetud seadmed.",
+    "back_to_chat": "Tagasi vestlusesse",
+    "actions_label": "Profiili seaded",
+    "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
+    "deleting": "Kustutan…",
+    "delete_account": "Kustuta konto",
+    "delete_account_hint": "Kustutab konto ja eemaldab ligipääsu püsivalt – seda ei saa tagasi võtta.",
+    "delete_loading_status": "Konto kustutamine",
+    "load_failed": "Profiili laadimine ebaõnnestus.",
+    "update_failed": "Profiili uuendamine ebaõnnestus.",
+    "delete_failed": "Konto kustutamine ebaõnnestus.",
+    "saved_ok": "Muudatused salvestatud.",
+    "server_unreachable": "Server ei vasta. Palun proovi uuesti.",
+    "footer_brand": "SotsiaalAI ©",
+    "role_short": {
+      "admin": "Administraator",
+      "worker": "Spetsialist",
+      "client": "Pöörduja",
+      "unknown": ""
+    },
+    "view_mode": {
+      "worker": "Spetsialistile",
+      "client": "Pöördujale",
+      "current": "Praegu näed vaadet: {role}.",
+      "saved": "Vaade vahetati: {role}.",
+      "save_failed": "Vaate vahetamine ebaõnnestus."
+    },
+    "preferences": {
+      "title": "Keel ja ligipääsetavus",
+      "title_line1": "Keel ja",
+      "title_line2": "ligipääsetavus",
+      "hint": "Seadista vaikimisi keel ning ligipääsetavuse eelistused. Muudatused rakenduvad kohe.",
+      "sections": {
+        "locale": "Vaikekeel",
+        "contrast": "Kontrast",
+        "fontSize": "Kirjasuurus",
+        "motion": "Animatsioonid"
+      },
+      "reset": "Lähtesta",
+      "save": "Salvesta muudatused",
+      "saving": "Salvestan…",
+      "saved": "Eelistused salvestatud.",
+      "save_failed": "Eelistuste salvestamine ebaõnnestus. Palun proovi uuesti."
+    },
+    "change_password_cta": "Uuenda PIN",
+    "update_email_cta": "Uuenda e-post",
+    "materials_cta": "Materjalid",
+    "email_update": {
+      "title": "Uuenda e-post",
+      "current_placeholder": "Sinu e-post",
+      "new_placeholder": "Uus e-post",
+      "submit": "Saada kinnituskiri",
+      "submitting": "Saadan…",
+      "pin_placeholder": "Praegune PIN",
+      "success": "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.",
+      "error_email_required": "Palun sisesta e-posti aadress.",
+      "error_email_invalid": "Palun sisesta korrektne e-posti aadress.",
+      "error_pin_required": "Palun sisesta PIN-kood.",
+      "error_pin_length": "PIN peab olema 4–8 numbrit.",
+      "error_failed": "E-posti uuendamine ebaõnnestus.",
+      "error_email_in_use": "This email is already in use."
+    },
+    "pin_help": "Sisesta oma PIN, et kinnitada e-posti või PIN-i muudatus. PIN peab olema 4–8 numbrit.",
+    "current_pin_label": "Praegune PIN",
+    "new_pin_label": "Uus PIN",
+    "new_pin_placeholder": "Uus PIN (4–8 numbrit)",
+    "confirm_pin_label": "Kinnita uus PIN",
+    "success_email_pending": "Saadsime uuele aadressile kinnituskirja.",
+    "success_pin_updated": "PIN on uuendatud.",
+    "errors": {
+      "current_pin_required": "Sisesta muudatuse kinnitamiseks praegune PIN.",
+      "pin_required": "Sisesta ja kinnita uus PIN.",
+      "pin_invalid": "PIN peab olema 4–8 numbrit.",
+      "pin_mismatch": "PIN-id ei kattu.",
+      "no_changes": "Midagi pole uuendada.",
+      "current_pin_invalid": "Current PIN is invalid.",
+      "user_not_found": "User not found."
+    },
+    "theme_mode": {
+      "light": "Hele",
+      "mid": "Hämar",
+      "dark": "Tume",
+      "night": "Öö",
+      "hc": "KKR"
+    }
+  },
+  "materials_page": {
+    "title": "Materjalid",
+    "back_to_profile": "Tagasi profiili",
+    "description": "Siin saad saata õppematerjale, juhendeid ja muid dokumente, mis võiksid täiendada SotsiaalAI teadmuspõhist andmebaasi. Kõik saadetud failid vaadatakse enne andmebaasi lisamist üle. Toetatud failivormingud on PDF, DOCX ja TXT ning ühe faili maksimaalne suurus on 25 MB.",
+    "choose_file": "Vali fail",
+    "files_selected": "{count} faili valitud",
+    "comment_placeholder": "Lisa lühike kirjeldus: mis fail see on ja milleks see võiks kasulik olla.",
+    "comment_placeholder_multiple": "Lisa lühike selgitus iga faili kohta (nt failinimi + milleks see kasulik on).",
+    "submit": "Saada materjal",
+    "submitting": "Saadan...",
+    "submit_success": "Materjal on saadetud. Aitäh panuse eest.",
+    "errors": {
+      "load_failed": "Materjalide laadimine ebaõnnestus.",
+      "upload_failed": "Materjali üleslaadimine ebaõnnestus.",
+      "delete_failed": "Materjali kustutamine ebaõnnestus.",
+      "file_count_exceeded": "Saad korraga saata kuni 10 faili.",
+      "daily_upload_quota_exceeded": "P?evane ?leslaadimise limiit on t?itunud. Proovi homme uuesti.",
+      "storage_quota_exceeded": "Salvestusmaht on t?is. Kustuta m?ni fail ja proovi uuesti."
+    },
+    "admin": {
+      "title": "Laekunud materjalid",
+      "subtitle": "Nähtav ainult adminile.",
+      "refresh": "Värskenda",
+      "loading": "Laen materjale...",
+      "empty": "Ühtegi materjali ei ole veel saadetud.",
+      "comment_missing": "Kommentaari ei lisatud.",
+      "download": "Laadi alla",
+      "delete": "Kustuta",
+      "delete_confirm": "Kas kustutan selle materjali?"
+    }
+  },
+  "accessibility": {
+    "title": "Ligipääsetavuse eelistused",
+    "description": "Kohanda ekraani profiili, teksti suurust, kontrasti, animatsioone ja teemat.",
+    "language": "Keel",
+    "text_scale": "Teksti suurus",
+    "contrast": "Kontrast",
+    "motion": "Animatsioonid",
+    "theme": "Teema",
+    "options": {
+      "language": {
+        "et": "Eesti",
+        "ru": "Vene",
+        "en": "Inglise"
+      },
+      "text_scale": {
+        "sm": "Väike",
+        "md": "Tavaline",
+        "lg": "Suur",
+        "xl": "Väga suur"
+      },
+      "contrast": {
+        "normal": "Tavaline",
+        "hc": "Kõrge kontrast"
+      },
+      "motion": {
+        "reduce": "Vähenda liikumist"
+      },
+      "theme": {
+        "light": "Hele",
+        "mid": "Hämar",
+        "dark": "Tume",
+        "night": "Öö"
+      },
+      "screen_profile": {
+        "sm": "Mobiil / sülearvuti",
+        "lg": "Väline ekraan / PC"
+      }
+    },
+    "save": "Salvesta",
+    "complete_required": "Vali enne salvestamist keel, kontrast, teksti suurus, teema ja ekraani profiil.",
+    "screen_profile": "Ekraani profiil"
+  },
+  "privacy": {
+    "title": "Privaatsuspoliitika",
+    "section1": {
+      "heading": "1. Vastutav töötleja ja ulatus",
+      "paragraph1": "<p><strong>SotsiaalAI OÜ</strong> on veebiplatvormi <strong>SotsiaalAI</strong> vastutav töötleja nende töötluste osas, mille eesmärgid ja vahendid määrab SotsiaalAI ise. Meie üldine kontakt e-posti aadress on <strong>info@sotsiaal.ai</strong>. Sama aadressi kaudu saad esitada andmekaitsealaseid küsimusi ja kasutada oma andmesubjekti õigusi.</p><p>See privaatsuspoliitika selgitab, milliseid andmeid kogume, milleks neid kasutame, kui kaua neid säilitame, kuidas kasutus- ja salvestuspiirid võivad säilitamist mõjutada ning milliseid automatiseeritud süsteeme kasutame vastuste, mustandite, liigituste või otsingutulemuste loomiseks.</p>",
+      "paragraph2": "<p>Käesolev privaatsuspoliitika selgitab, kuidas töötleme isikuandmeid konto loomisel, sisselogimisel, tellimuste haldamisel, vestlustes, ruumides, abiandmete töövoogudes, dokumentide halduses, dokumendi koostamises, dokumendi analüüsis, süvauuringus ning häälfunktsioonides. Töötleme andmeid kooskõlas Eesti isikuandmete kaitse <aLawEst>seadusega</aLawEst> ja Euroopa Liidu isikuandmete kaitse <aGdpr>üldmäärusega</aGdpr>. Õiguste kasutamise taotlustele vastame üldjuhul ühe kuu jooksul.</p><p>Käesolev poliitika kirjeldab eelkõige SotsiaalAI tavapärast kasutust, kus platvormi kasutatakse isikliku konto alt. Kui kasutaja kasutab SotsiaalAI-d tööalases rollis või organisatsiooni nimel, võivad teatud töövoogude suhtes lisaks kohalduda tööandja või organisatsiooni sisereeglid ning eraldi tööalase kasutuse või andmetöötluse raamistik.</p>"
+    },
+    "section2": {
+      "heading": "2. Milliseid andmeid töötleme",
+      "paragraph1": "<p><strong>2.1 Konto-, profiili- ja autentimisandmed.</strong> Töötleme e-posti aadressi, kasutajarolli, PIN-i räsi, e-posti kinnituse olekut, seansiandmeid, ajutisi sisselogimise tokeneid, ühekordseid e-posti koode, usaldatud seadme infot ning profiiliandmeid, mille kasutaja ise lisab või muudab.</p>",
+      "paragraph2": "<p><strong>2.2 Platvormi tööandmed.</strong> Töötleme vestlusi ja vestlussõnumeid, ruumide sõnumeid ja liikmesust, abisoove, abipakkumisi, sobitusi, süvauuringu päringuid ja töö metaandmeid, kutseid, tellimuse ja sponsoreeritud ligipääsu olekut, maksete minimaalseid metaandmeid, dokumentide teeki laaditud faile, ajutisi vestlusfaile, dokumendi koostamise tööruumi mustandeid ja kinnitatud tulemusi, dokumentide auditikirjeid ning muid andmeid, mis on vajalikud vastava töövoo toimimiseks.</p><p>Kui kasutaja aktiveerib tööalase kasutuse või kinnitab vastava raamistikuga tutvumist, võime töödelda ka selle aktsepteerimise või kinnitusega seotud andmeid, näiteks kinnituse aega, versiooni, rolli ja muid tõendamiseks vajalikke tehnilisi kirjeid.</p>",
+      "paragraph3": "<p><strong>2.3 Tehnilised, turbe- ja lokaalsed andmed.</strong> Töötleme IP-aadressi, brauseri ja seadme metaandmeid, kasutus-, määr- ja vealogisid, turbesündmusi, AI-, otsingu- ja kõnefunktsioonide tehnilisi sündmusi ning hädavajalikke küpsiseid ja brauseri lokaalseid salvestusi. Lokaalsed salvestused hoiavad näiteks keelt, ligipääsetavuse seadeid, aktiivset vestlust, PIN-klaviatuuri eelistusi ja muid kasutusmugavuse valikuid.</p>"
+    },
+    "section3": {
+      "heading": "3. Eesmärgid ja õiguslikud alused",
+      "items": "<li>Konto loomine, sisselogimine, rolli määramine, tellimuse haldus ning platvormi põhifunktsioonide pakkumine põhinevad lepingu täitmisel (GDPR art 6 lg 1 p b). Teenuse kasutamiseks vajalikud põhiandmed on üldjuhul e-posti aadress, kasutajaroll ja autentimisandmed; kui kasutaja neid ei esita, ei saa kontot luua ega teenust kasutada.</li><li>Turvakontrollid, kuritarvituse ennetamine, logimine, teenuse töökindlus, tehniliste vigade diagnoosimine ning teenuse kaitsmine pahatahtliku kasutuse eest põhinevad õigustatud huvil tagada platvormi turvaline ja usaldusväärne toimimine (GDPR art 6 lg 1 p f).</li><li>Maksete minimaalsed andmed, raamatupidamine ja seadusest tulenevate kohustuste täitmine põhinevad õiguslikul kohustusel (GDPR art 6 lg 1 p c).</li><li>Mikrofoni, ettelugemise või seadme lokaalse salvestuse kasutamine toimub kasutaja tegevuse, brauseriloa või seadme seadistuse alusel ning ainult vastava funktsiooni pakkumiseks. Seal, kus töötlus põhineb nõusolekul, saab nõusoleku jätta andmata või selle hiljem tagasi võtta, kuid see võib piirata vastava funktsiooni kasutamist.</li><li>Kui platvormi sisestatakse eriliigilisi andmeid, näiteks tervise- või sotsiaalhoolekande andmeid, peab lisaks tavapärasele õiguslikule alusele olemas olema ka sobiv erand selliste andmete töötlemiseks. SotsiaalAI eeldab, et kasutaja sisestab ainult minimaalselt vajaliku info ning tal on õigus vastavaid andmeid sisestada.</li>"
+    },
+    "section4": {
+      "heading": "4. Rollijaotus, tundlikud andmed ja AI kasutus",
+      "body": "<p><strong>4.1 Kasutuse ulatus.</strong> Kui inimene kasutab SotsiaalAI-d enda küsimuste, dokumentide või töövoogude jaoks oma isikliku konto alt, on SotsiaalAI üldjuhul vastutav töötleja oma teenuse osutamise ulatuses.</p><p>SotsiaalAI-d võib kasutada töövahendina ka sellistes töövoogudes, kus ei sisestata kliendi või muu andmesubjekti tuvastatavaid isikuandmeid. Kui kasutaja soovib kasutada SotsiaalAI-d tööandja või organisatsiooni nimel tuvastatavate isikuandmetega, peab tal selleks olema tööandja või organisatsiooni selge luba ning vajaduse korral ka eraldi lepinguline andmetöötlusraamistik.</p><p>Tööandja ja töötaja sisemised kinnitused või kasutusload ei loo iseenesest SotsiaalAI ja organisatsiooni vahelist volitatud töötleja suhet. Kui SotsiaalAI töötleb isikuandmeid organisatsiooni nimel, peab selleks olema olemas ka SotsiaalAI poolt siduvalt aktsepteeritud kirjalik või elektrooniline lepinguline raamistik.</p><p><strong>4.2 Tundlikud andmed.</strong> Platvormis võib liikuda sotsiaal- ja terviseandmeid ning muud tundlikku infot. Sellise info sisestamine peab piirduma minimaalselt vajalikuga ning kasutaja peab tagama, et töötlemiseks on olemas asjakohane õiguslik alus. Kui töödeldakse eriliigilisi andmeid, peab lisaks tavapärasele õiguslikule alusele olemas olema ka sobiv erand selliste andmete töötlemiseks.</p><p><strong>4.3 AI ja kõneteenused.</strong> Vestlustes, dokumendi koostamises, dokumendi analüüsis, süvauuringus, dikteerimises ja ettelugemises võidakse kasutada väliseid teenusepakkujaid, sealhulgas OpenAI-d, Google Cloud Text-to-Speech teenust, maksete puhul Maksekeskus AS-i ning muid platvormil või lepingutes nimetatud teenusepakkujaid. Neile edastatakse ainult see sisend, mida on vaja vastava funktsiooni tehniliseks pakkumiseks.</p><p>AI väljund on abistav ega ole automaatselt siduv otsus, ametlik seisukoht ega professionaalne hinnang. Kasutaja peab AI väljundi enne kasutamist ise üle vaatama, vajaduse korral parandama ja kinnitama.</p><p><strong>4.4 Automatiseeritud otsused.</strong> Platvorm võib kasutada automaatset töövoo tuvastust, liigitamist, sobitamist või järjestamist, kuid lõplikud sisulised otsused peavad jääma inimesele. SotsiaalAI ei tee üksnes automatiseeritud töötlusel põhinevaid otsuseid, millel oleks kasutaja jaoks õiguslik või samaväärselt oluline mõju.</p><p><strong>4.5 Ajutised failid.</strong> Vestlusesse lisatud ajutised failid on mõeldud konkreetse sessiooni või töövoo jaoks. Neid ei lisata automaatselt püsivasse dokumentide teeki, kui kasutaja ei kasuta selleks eraldi dokumendihalduse töövoogu.</p><p><strong>4.6 Mudelite treenimine.</strong> SotsiaalAI ei kasuta platvormi kasutajasisu omaenda üldiste tehisintellektimudelite treenimiseks. Väliste teenusepakkujate töötlus toimub nende lepinguliste ja andmekaitseliste raamistikute järgi.</p><p><strong>4.7 Tööalase kasutuse raamistik.</strong> SotsiaalAI võib teha platvormis kättesaadavaks tööalase kasutuse ja andmetöötluse standardse raamdokumendi või muud sarnased tingimused. Sellise dokumendiga tutvumine, selle allalaadimine või töötaja tasandi kinnitus ei muuda seda automaatselt organisatsiooni suhtes siduvaks. Kui dokument on mõeldud organisatsiooni nimel andmete töötlemise raamistikuks, muutub see organisatsiooni suhtes siduvaks alles pärast nõuetekohast allkirjastamist või muud tõendatavat elektroonilist aktsepteerimist.</p>"
+    },
+    "section5": {
+      "heading": "5. Volitatud töötlejad ja võimalikud välisülekanded",
+      "body": "<p>SotsiaalAI kasutab teenuse osutamiseks volitatud töötlejaid ja teenusepakkujaid, näiteks:</p><ul><li>Zone Media OÜ-d tehnilise majutuse ja serveriinfrastruktuuri jaoks;</li><li>Maksekeskus AS-i makseteenuste jaoks;</li><li>OpenAI-d teatud tehisintellekti funktsioonide jaoks;</li><li>Google Cloud Text-to-Speech teenust teatud kõnefunktsioonide jaoks;</li><li>e-posti, logimise ja monitooringu pakkujaid.</li></ul><p>Zone Media OÜ VPS-teenuse kaudu toimub platvormi tehniline majutamine Euroopa Majanduspiirkonnas, sealhulgas Eestis.</p><p>Need teenusepakkujad töötlevad andmeid ainult vajalikus ulatuses ning nende kasutamisel rakendame lepingulisi ja tehnilisi kaitsemeetmeid. Kui mõni teenusepakkuja töötleb andmeid väljaspool EL-i või EMP-d, lähtume sobivast õiguslikust ülekandemehhanismist, näiteks Euroopa Komisjoni piisavusotsusest või standardsetest lepingutingimustest koos täiendavate kaitsemeetmetega. Kasutaja võib küsida lisateavet kohaldatavate kaitsemeetmete kohta või taotleda nende koopiat, kui see on õiguslikult võimalik, võttes meiega ühendust aadressil info@sotsiaal.ai.</p>"
+    },
+    "section6": {
+      "heading": "6. Andmete jagamine",
+      "body": "<p>SotsiaalAI ei müü isikuandmeid. Andmeid jagatakse ainult ulatuses, mis on vajalik teenuse toimimiseks: volitatud töötlejatele, makseteenuse osutajale, kasutaja kutsutud või sobitatud osapooltele ruumides ja abiandmete töövoos ning pädevatele asutustele, kui seadus seda nõuab.</p><p>Kui kasutaja loob kutse, salvestab nähtava abikirje või ühendab osapooli ruumi kaudu, jagatakse vastav info platvormi sees ainult nende kasutajatega, kellele see töövoog on mõeldud.</p><p>Kui kasutaja või organisatsiooni esindaja aktsepteerib tööalase kasutuse või andmetöötluse raamistiku, võidakse selle kinnitusega seotud tõendikirjeid säilitada ja vajaduse korral jagada vastava organisatsiooni või kasutajaga, et tõendada aktsepteerimise olemasolu, versiooni ja aega.</p>"
+    },
+    "section7": {
+      "heading": "7. Säilitamine",
+      "body": "<p><strong>7.1 Konto- ja profiiliandmed.</strong> Konto- ja profiiliandmeid säilitame üldjuhul kuni konto kustutamiseni, välja arvatud ulatuses, mida seadus nõuab pikemaks säilitamiseks.</p><p><strong>7.2 Autentimise ajutised andmed.</strong> E-posti kinnituse link säilib üldjuhul kuni 24 tundi, PIN-i lähtestamise token kuni 60 minutit, ühekordne sisselogimise kood kuni 15 minutit, ajutine sisselogimistoken kuni 15 minutit ja usaldatud seadme kirje kuni 30 päeva. Aegunud autentimiskirjed eemaldatakse regulaarselt.</p><p><strong>7.3 Vestlused ja jooksvad tööandmed.</strong> Vestlused, vestlussõnumid, vestluse jooksvad olekukirjed ja üldised kasutuslogid säilivad üldjuhul kuni 90 päeva alates viimasest aktiivsusest või vastava kirje loomise või uuendamise ajast.</p><p><strong>7.4 Ruumid ja abiandmed.</strong> Mitteaktiivsed ruumid ja nendega seotud sõnumid säilivad üldjuhul kuni 90 päeva pärast viimast sisulist aktiivsust. Suletud, tühistatud või arhiveeritud abisoovid ja abipakkumised ning lõpetatud või tagasi lükatud sobitused säilivad üldjuhul kuni 90 päeva pärast viimast uuendust.</p><p><strong>7.5 Dokumendid ja agendi tulemused.</strong> Dokumentide teeki laaditud failid, mallid, dokumendi koostamise tööruumi mustandid ning kinnitatud agendi tulemused säilivad üldjuhul kuni 90 päeva alates viimasest muutmisest. Kui vana dokument on tehniliselt seotud uuema tulemusega, võib seda säilitada lühiajaliselt seni, kuni uuem seos lõpeb.</p><p><strong>7.6 Kvoodi- ja kustutusreeglid.</strong> Kui kasutaja kustutab sisu, konto kustutatakse või kirje eemaldatakse kvoodi- või puhastusreeglite tõttu, võib see lühiajaliselt jääda varukoopiasse või töölogidesse taastamise, turvalisuse või õigusliku kohustuse tõttu ning seejärel eemaldatakse või muudetakse anonüümseks.</p><p><strong>7.7 Auditid, aktsepteerimised ja maksed.</strong> Üldised dokumentide auditikirjed, tehnilised töötluslogid ning tööalase kasutuse või andmetöötluse raamistikuga seotud tõendikirjed säilitatakse üldjuhul kuni 90 päeva, välja arvatud juhul, kui konkreetse aktsepteerimise, lepingulise suhte või õigusliku kohustuse tõendamiseks on mõistlikult vaja pikemat säilitamist. Makse teenusepakkujalt saadud detailne toores vastus või payload kärbitakse või eemaldatakse üldjuhul pärast 90 päeva. Minimaalne makse- ja raamatupidamisalune kirje säilib kuni 7 aastat või kauem, kui kohaldatav seadus seda nõuab.</p>"
+    },
+    "section8": {
+      "heading": "8. Kasutaja õigused",
+      "items": "<li>Õigus küsida ligipääsu enda andmetele ja saada neist koopia.</li><li>Õigus parandada ebaõigeid või puudulikke andmeid.</li><li>Õigus taotleda andmete kustutamist, kui selleks on õiguslik alus.</li><li>Õigus piirata töötlemist või esitada vastuväiteid õigustatud huvile tuginevale töötlemisele.</li><li>Õigus saada andmed ülekantavas vormis juhul, kui töötlemine põhineb lepingul või nõusolekul ja toimub automatiseeritult.</li><li>Õigus võtta nõusolek tagasi, kui konkreetne töötlus põhineb nõusolekul; tagasivõtmine ei mõjuta varasema töötluse seaduslikkust.</li><li>Õigus taotleda inimese sekkumist, kui leiad, et automatiseeritud loogika või AI-põhine töötlus vajab ülevaatamist.</li><li>Õigus esitada kaebus <aDpa>Andmekaitse Inspektsioonile</aDpa>.</li>"
+    },
+    "section9": {
+      "heading": "9. Küpsised ja brauseri salvestus",
+      "body": "<p>SotsiaalAI kasutab hädavajalikke küpsiseid ja brauseri lokaalseid salvestusi sisselogimise, seansi, usaldatud seadme, keele, ligipääsetavuse, aktiivse vestluse ning muude kasutusmugavuse eelistuste hoidmiseks. Reklaami- ega kolmanda osapoole turundusküpsiseid me ei kasuta. Samuti ei kasuta platvorm praegu avalikul kasutajaliidesel reklaamijälgijaid.</p>"
+    },
+    "section10": {
+      "heading": "10. Turvalisus",
+      "body": "<p>Rakendame riskipõhiseid tehnilisi ja korralduslikke turvameetmeid, sealhulgas krüpteeritud ühendust, PIN-ide ja ühekordsete koodide kaitset, rollipõhist ligipääsu, õiguste kontrolli, dokumentide ja töövoogude loogilist eristamist, turbe- ja auditilogisid ning aegumis- ja kustutusvooge. Ligipääs andmetele on piiratud tööülesande ja süsteemivajaduse järgi. Ükski veebiteenus ei ole siiski absoluutselt riskivaba, mistõttu soovitame sisestada ainult töövoo jaoks vajalikke andmeid.</p>"
+    },
+    "section11": {
+      "heading": "11. Muudatused",
+      "body": "<p>Privaatsuspoliitikat võidakse ajakohastada, kui platvormi funktsioonid, andmevood, teenusepakkujad, säilitamisreeglid või õiguslikud nõuded muutuvad. Olulistest muudatustest teavitame platvormis või e-posti teel enne muudatuse jõustumist või mõistliku aja jooksul pärast seda, kui kohaldatav õigus lubab sellist korda.</p>"
+    }
+  },
+  "terms": {
+    "title": "Kasutustingimused",
+    "section1": {
+      "heading": "1. Üldsätted",
+      "body": "<p>Käesolevad kasutustingimused reguleerivad <strong>SotsiaalAI OÜ</strong> hallatava platvormi <strong>SotsiaalAI</strong> kasutamist. Registreerudes või platvormi kasutades kinnitad, et oled tingimustega tutvunud ja nõustud nendega.</p><p>Platvormi stabiilse, turvalise ja mõistliku kasutamise tagamiseks võivad teenuses kehtida teatud tehnilised piirangud ja kasutusreeglid. Need võivad puudutada näiteks vestluste mahtu, süvauuringu kasutamist, dokumentide korduvalt täiendamist või parandamist ning failide arvu, mahtu ja säilitamist. Piirangud võivad sõltuda kasutatavast funktsioonist või paketist ning need on kirjeldatud käesolevates tingimustes või kuvatud vajaduse korral kasutajaliideses.</p><p>Platvormi kasutamine eeldab nende tingimustega nõustumist. Kui sa nendega ei nõustu, palume platvormi mitte kasutada. Kasutustingimused ja privaatsuspoliitika moodustavad koos teenuse kasutamise aluse.</p>"
+    },
+    "section2": {
+      "heading": "2. Teenuse kirjeldus",
+      "body": "<p>SotsiaalAI on rollipõhine veebiplatvorm, kus kasutaja saab vestluses küsida infot, saada juhendamist, kirjeldada abisoove ja abipakkumisi, kasutada dokumentide töövooge, hallata dokumente, avada ruume, saata kutseid ning kasutada profiili-, tellimuse- ja ligipääsetavuse seadeid.</p><p>Platvorm kasutab tehisintellekti, teadmuspõhist otsingut ja kasutaja valitud töövooge, et toetada nii sotsiaalvaldkonna spetsialiste kui ka abi otsivaid inimesi. Teenus ei ole hädaabikanal ega asenda siduvat ametlikku otsust, professionaalset nõustamist, erakorralist abi ega muud olukorras vajalikku vahetut sekkumist.</p>"
+    },
+    "section3": {
+      "heading": "3. Konto ja ligipääs",
+      "items": "<li>Platvormi põhifunktsioonide kasutamiseks tuleb luua konto ning valida sobiv kasutajaroll.</li><li>Kasutaja peab hoidma oma e-posti, PIN-i ja muud sisselogimisinfot konfidentsiaalsena ning vastutab oma konto alt tehtud toimingute eest.</li><li>Sisselogimine võib nõuda täiendavat e-posti teel saadetud kinnituskoodi ning kasutaja võib soovi korral märkida seadme usaldatuks.</li><li>Mitmed töövood eeldavad aktiivset tellimust või sponsoreeritud ligipääsu olemasolu.</li><li>Administraatori eelvaaterolli kasutamine ei anna õigust esineda teise kasutajana ega muuta tema andmeid ilma vastava loata.</li>"
+    },
+    "section4": {
+      "heading": "4. Lubatud kasutus",
+      "items": "<li>Platvormi tuleb kasutada kooskõlas seaduse, heade tavade ja käesolevate tingimustega.</li><li>Keelatud on ebaseaduslik, ähvardav, petlik, laimav, vaenu õhutav või teiste õigusi rikkuv sisu, sealhulgas selliste abisoovide, abipakkumiste või kutsete loomine, mis eksitavad teisi kasutajaid.</li><li>Keelatud on turvapiirangute ületamine, automatiseeritud masspäringud, funktsioonipõhistest kasutus-, salvestus- või tellimuspiiridest möödahiilimine või nende teadlik vältimine, pahavara levitamine või teenuse töö takistamine.</li><li>Keelatud on teise isiku konto kasutamine ilma loata, valeidentiteedi loomine või platvormi kasutamine viisil, mis kahjustab teisi kasutajaid või SotsiaalAI-d.</li><li>Keelatud on platvormi, selle tehnilise lahenduse, andmestruktuuride või muude teenuse osade süstemaatiline kopeerimine, levitamine, ümberpakkumine või kasutamine konkureeriva teenuse loomiseks ilma SotsiaalAI kirjaliku loata.</li>"
+    },
+    "section5": {
+      "heading": "5. Tellimus, maksed ja tühistamine",
+      "paragraph1": "<p>Platvormi tasulised funktsioonid põhinevad rollipõhisel kuutellimusel. Eluküsimusega pöörduja kuutasu on 7,99 eurot kuus ja sotsiaaltöö spetsialisti kuutasu on 14,99 eurot kuus, kui platvormil ei ole tellimuse vormistamise hetkel näidatud teisiti. Makseid vahendab Maksekeskus AS.</p>",
+      "paragraph2": "<p>Ligipääs võib olla kas kasutaja enda tasutud või kutsuja poolt sponsoreeritud. Sponsoreeritud ligipääs kehtib praeguse lahenduse järgi ühe kuu ning ei muutu automaatselt kasutaja enda tasuliseks tellimuseks. Kui kutsutud kasutajal on juba aktiivne oma tellimus, võib sponsoreeritud makse algatamine olla blokeeritud.</p>",
+      "paragraph3": "<p>Tellimust saad hallata lehel <a href=\"/tellimus\">Tellimus</a>, kus näed aktiivset paketti, sponsoreeritud ligipääsu lõppkuupäeva ja tühistamise võimalust, ning lehel <a href=\"/profiil\">Profiil</a>, kust saad tellimuse ülevaate avada ja konto seadeid muuta. Pärast makse algatamist suunatakse kasutaja Maksekeskuse makselehele ning ligipääs aktiveeritakse kohe pärast makseteenuse kinnitust. Makselehel kuvatavad makseviisid on need, mida Maksekeskus selle tehingu jaoks pakub. Kui kasutaja tühistab tellimuse, lõpeb järgmise arveldusperioodi automaatne uuendus, kuid juba tasutud periood jääb kehtima oma lõpuni, kui seadus ei näe ette teisiti. Pärast teenuse aktiveerimist ja kasutamise algust tagastusi üldjuhul ei tehta, kui seadus ei nõua teisiti. SotsiaalAI võib hinnastust, pakette või tasuliste funktsioonide ulatust muuta mõistliku etteteatamisega.</p>"
+    },
+    "section6": {
+      "heading": "6. Kättesaadavus ja hooldus",
+      "body": "<p>SotsiaalAI teeb mõistlikke pingutusi teenuse kättesaadavuse tagamiseks, kuid ei taga katkestusteta tööd. Hooldustööd, uuendused, turvaparandused, väliste teenuste häired või kasutuspiirangud võivad platvormi ajutiselt piirata.</p><p>Praegu kehtivad teenuses järgmised tehnilised piirangud: ühes vestluses kuni 50 kasutajapööret; süvauuringus korraga kuni 1 aktiivne töö kasutaja kohta ning kehtib ka päevane kasutuspiirang; sama dokumenti saab järjest kuni 3 korda täiendada või parandada; materjale saab üles laadida kuni 10 faili korraga ja kokku kuni 100 MB päevas.</p><p>SotsiaalAI võib rakendada tehnilisi limiite, mõistliku kasutuse kontrolle ja kuritarvituse vastaseid meetmeid teenuse töö, turvalisuse ja ausa ligipääsu kaitsmiseks. Kui kasutus on ebatavaliselt mahukas, korduv või näib piiridest möödahiilimisena, võib SotsiaalAI mõjutatud funktsioone ajutiselt aeglustada, piirata, peatada või ümber seadistada, isegi kui konto ise jääb aktiivseks.</p>"
+    },
+    "section7": {
+      "heading": "7. Platvormi töövood ja tulemused",
+      "body": "<p>SotsiaalAI toetab kasutajaid vestluste, dokumentide, abi- ja ruumifunktsioonide kasutamisel vastavalt platvormil kirjeldatud töövoogudele.</p><p>Dokumentide, mustandite, kokkuvõtete, liigituste, sobituste ja muude väljundite eesmärk on kasutajat abistada. Kui platvorm koostab dokumendi, aruande või muu teksti, on tulemuseks üldjuhul mustand või abistav tööversioon, mida kasutaja peab enne kasutamist ise üle vaatama, vajaduse korral parandama ja kinnitama.</p><p>SotsiaalAI ei tee kasutaja eest siduvaid ametlikke, õiguslikke ega professionaalseid otsuseid ning platvormi väljund ei tohi olla ainus alus otsusele, mis võib mõjutada inimese õigusi, kohustusi või olukorda oluliselt.</p>"
+    },
+    "section8": {
+      "heading": "8. Tööalane kasutus ja andmetöötluse raamistik",
+      "body": "<p>SotsiaalAI-d võib kasutada eraisikuna ning töövahendina ka sellistes töövoogudes, kus ei sisestata kliendi või muu andmesubjekti tuvastatavaid isikuandmeid.</p><p>Kui kasutaja soovib kasutada SotsiaalAI-d tööandja või organisatsiooni nimel kliendi või muu andmesubjekti tuvastatavate isikuandmetega, peab tal selleks olema tööandja või organisatsiooni selge luba ning vajaduse korral ka eraldi lepinguline andmetöötlusraamistik.</p><p>Tööandja ja töötaja sisemised kinnitused, juhised või kasutusload ei loo iseenesest SotsiaalAI ja organisatsiooni vahelist volitatud töötleja suhet. Kui SotsiaalAI töötleb isikuandmeid organisatsiooni nimel, peab selleks olema olemas ka SotsiaalAI poolt siduvalt aktsepteeritud kirjalik või elektrooniline lepinguline raamistik.</p><p>SotsiaalAI võib teha platvormis kättesaadavaks tööalase kasutuse ja andmetöötluse standardse raamdokumendi või muud sarnased tingimused. Sellise dokumendiga tutvumine, selle allalaadimine või töötaja tasandi kinnitus ei muuda seda automaatselt organisatsiooni suhtes siduvaks. Kui dokument on mõeldud organisatsiooni nimel andmete töötlemise raamistikuks, muutub see organisatsiooni suhtes siduvaks alles pärast nõuetekohast allkirjastamist või muud tõendatavat elektroonilist aktsepteerimist.</p>"
+    },
+    "section9": {
+      "heading": "9. Tehisintellekti kasutus",
+      "paragraph1": "<p>SotsiaalAI kasutab tehisintellekti, teadmuspõhist otsingut ja teisi tehnilisi teenuseid, et vastata küsimustele, pakkuda juhendamist, aidata dokumente koostada ning toetada abisoovide ja abipakkumiste töövooge. Platvorm võib paluda kasutajal vestluses kinnitada, millises töörežiimis sama vestlus jätkub.</p><p>AI võib pakkuda kasutajale kõige tõenäolisema töörežiimi, vastuse, liigituse, sobituse või mustandi, kuid lõplik otsus töövoo jätkamise ja väljundi kasutamise kohta jääb kasutajale. Kasutaja mõistab, et AI väljund võib olla ebatäpne, mittetäielik või vajada parandamist.</p>",
+      "paragraph2": "<p>AI väljundit ei tohi käsitleda automaatselt siduva tõe, ametliku seisukoha, professionaalse otsuse ega ainsa otsustusalusena.</p><p>Platvorm teavitab kasutajat, et ta suhtleb tehisintellekti funktsioonidega, välja arvatud juhul, kui see on töövoo olemusest või kasutajaliidesest selgelt ilmne.</p>"
+    },
+    "section10": {
+      "heading": "10. Andmetöötlus vestluses ja üleslaaditud materjalidega",
+      "paragraph1": "<p>Platvormi kasutamisel võib kasutaja sisestada teksti, saata ruumisõnumeid, salvestada abiandmeid, kutsuda teisi inimesi, laadida dokumente või kasutada häälfunktsioone. Neid andmeid töödeldakse teenuse toimimiseks vastavalt privaatsuspoliitikale.</p>",
+      "paragraph2": "<p>Andmetöötluse täpsem kirjeldus, säilitamistähtajad ja kasutaja õigused on toodud privaatsuspoliitikas.</p>",
+      "items": "<li><strong>Vestluse ja ruumi sisu.</strong> Vestlused, ruumid ja nendega seotud töövood salvestatakse platvormi toimimiseks, ajaloo kuvamiseks ja kasutaja valitud funktsioonide jätkamiseks.</li><li><strong>Abisoovid, abipakkumised ja kutsed.</strong> Kasutaja vastutab selle eest, et ta jagab ainult neid andmeid, mida on vaja teise poolega ühenduse loomiseks või abi vahendamiseks.</li><li><strong>Vestluse ajutised failid.</strong> Vestluse dokumendivoos või analüüsis lisatud failid on mõeldud sama sessiooni või töövoo jaoks ning neid ei lisata automaatselt püsivasse dokumentide teeki.</li><li><strong>Dokumentide teek ja agendi tulemused.</strong> Kui kasutaja laadib faili püsivasse dokumentide teeki või kinnitab agendi tulemuse, säilitatakse see üldjuhul kuni 90 päeva alates viimasest muutmisest, kui seadus või tehniline seos ei nõua lühiajaliselt teistsugust säilitamist.</li><li><strong>Dikteerimine ja ettelugemine.</strong> Häälefunktsioone kasutatakse ainult vastava funktsiooni pakkumiseks. Kasutaja peab ise tagama, et tal on õigus edastada mikrofoni või faili kaudu teiste isikute andmeid.</li><li><strong>Tundlikud andmed.</strong> Kui kasutaja sisestab tundlikku või kolmandaid isikuid puudutavat teavet, vastutab ta selle eest, et tal on selleks vajalik õiguslik alus ja et ta sisestab ainult minimaalselt vajaliku info.</li><li><strong>Tööalase kasutuse kinnitused.</strong> Kui kasutaja või organisatsiooni esindaja aktsepteerib tööalase kasutuse või andmetöötluse raamistiku, võib platvorm salvestada selle kinnitusega seotud tõendikirjeid, sealhulgas kinnituse aja, versiooni, rolli ja muid tõendamiseks vajalikke tehnilisi kirjeid.</li>"
+    },
+    "section11": {
+      "heading": "11. Intellektuaalomand",
+      "body": "<p>Platvormi tarkvara, kujundus, andmestruktuurid, kaubamärgid ja muu SotsiaalAI loodud sisu kuuluvad SotsiaalAI-le või selle partneritele, kui ei ole märgitud teisiti. Kasutaja omab oma sisestatud andmeid ulatuses, mis tuleneb seadusest ja tema õigustest nendele andmetele.</p><p>Kasutaja võib platvormi abil loodud väljundeid kasutada õiguspärasel eesmärgil oma tööks, suhtluseks ja dokumenteerimiseks. Ilma SotsiaalAI kirjaliku loata ei tohi platvormi tehnilist lahendust, ülesehitust, teenuse osi ega väljundite süstemaatilist kogumit kopeerida, levitada, ümber pakkuda ega kasutada konkureeriva teenuse loomiseks.</p>"
+    },
+    "section12": {
+      "heading": "12. Lepingu lõpetamine",
+      "body": "<p>Kasutaja võib platvormi kasutamise igal ajal lõpetada, sealhulgas konto kustutamise või tellimuse tühistamise kaudu. Konto kustutamine võib kaasa tuua ligipääsu kaotuse seotud dokumentidele, vestlustele, mustanditele ja muule tööruumi sisule vastavalt privaatsuspoliitikas kirjeldatud säilitamisreeglitele.</p><p>SotsiaalAI võib kasutaja ligipääsu peatada või lõpetada, kui kasutaja rikub oluliselt tingimusi, kuritarvitab teenust, ületab korduvalt või üritab mööda hiilida funktsioonipõhistest piiridest, seab ohtu teiste kasutajate turvalisuse või kahjustab platvormi toimimist. SotsiaalAI võib ka ajutiselt piirata konkreetseid funktsioone, et kaitsta teenuse stabiilsust, turvalisust või mõistlikku kasutust.</p>"
+    },
+    "section13": {
+      "heading": "13. Tingimuste muutmine",
+      "body": "<p>SotsiaalAI võib kasutustingimusi ajakohastada, kui teenus, hinnastamine, töövood või õigusnõuded muutuvad. Uus redaktsioon avaldatakse platvormil ning olulisest muudatusest teavitatakse kasutajaid mõistliku etteteatamisega.</p><p>Platvormi kasutamise jätkamine pärast muudatuste jõustumist tähendab uuendatud tingimustega nõustumist, kui kohaldatav õigus ei nõua muud korda.</p>"
+    },
+    "section14": {
+      "heading": "14. Kohaldatav õigus ja vaidluste lahendamine",
+      "body": "<p>Käesolevatele tingimustele kohaldatakse Eesti Vabariigi õigust.</p><p>Vaidlused püütakse esmalt lahendada läbirääkimiste teel. Kui kokkulepet ei saavutata, lahendatakse vaidlus Eesti Vabariigi kohtus või muus pädevas vaidluste lahendamise korras vastavalt kohaldatavale õigusele.</p><p>Käesolevad tingimused ei piira kasutajale kohaldatavast õigusest tulenevaid kohustuslikke õigusi.</p>"
+    }
+  },
+  "chat": {
+    "title": "SotsiaalAI",
+    "intro": {
+      "greeting": "Tere!",
+      "message": "SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes.",
+      "cta": "Kirjuta mulle!"
+    },
+    "crisis": {
+      "notice": "Vahetu ohu korral helista 112. Laste ja peredega seotud mure korral saab ööpäevaringselt tasuta abi telefonil 116 111."
+    },
+    "error": {
+      "rate_limit_retry": "Liiga palju päringuid. Proovi ~{seconds}s pärast.",
+      "rate_limit_generic": "Liiga palju päringuid. Proovi varsti uuesti.",
+      "no_response": "Assistent ei vastanud.",
+      "no_answer": "Vabandust, ma ei saanud praegu vastust koostada.",
+      "stream_missing": "Assistent ei saatnud voogu.",
+      "stream_failed": "Voo viga.",
+      "interrupted": "Vastuse genereerimine peatati.",
+      "interrupted_suffix": "(Vastuse genereerimine peatati.)",
+      "generic": "Vabandust, vastust ei õnnestunud saada.",
+      "subscription_required_profile": "Aktiivne tellimus puudub. Jätkamiseks ava Profiili leht ja vormista tellimus.",
+      "with_detail": "Viga: {message}",
+      "invalid_json": "Invalid JSON body.",
+      "message_required": "Sõnum on kohustuslik.",
+      "invalid_conv_id": "Conversation id is invalid.",
+      "openai_request_failed": "OpenAI request failed."
+    },
+    "menu": {
+      "open": "Ava vestlused",
+      "label": "Vestlused"
+    },
+    "right_rail": "Vestluse otseteed",
+    "show_quick_actions": "Näita otseteid",
+    "sidebar": {
+      "error": {
+        "load": "Vestluste laadimine ebaõnnestus.",
+        "history": "Vestluste ajalugu ei ole praegu saadaval.",
+        "create": "Uue vestluse loomine ebaõnnestus.",
+        "delete": "Vestluse kustutamine ebaõnnestus."
+      },
+      "confirm": {
+        "delete": "Kas kustutada see vestlus?",
+        "delete_selected": "Kas kustutada valitud vestlused?",
+        "delete_all": "Kas kustutada kõik vestlused?"
+      },
+      "aria_list": "Vestluste loend",
+      "button": {
+        "creating": "Loon…",
+        "new": "Uus vestlus",
+        "new_short": "Uus",
+        "refresh": "Värskenda",
+        "more": "Lae veel"
+      },
+      "empty": "Vestlusi pole.",
+      "empty_cta": "Loo esimene",
+      "sections": {
+        "conversations": "Vestlused",
+        "groups": "Grupivestlused"
+      },
+      "item": {
+        "fallback_title": "Vestlus",
+        "delete": "Kustuta vestlus",
+        "delete_title": "Kustuta"
+      },
+      "group_badge": "Grupivestlus",
+      "room_fallback": "Vestlusruum",
+      "selection": {
+        "select": "Vali",
+        "select_short": "Vali",
+        "cancel": "Tühista",
+        "cancel_short": "Tüh.",
+        "count": "Valitud",
+        "delete_selected": "Kustuta",
+        "delete_selected_short": "Kustuta",
+        "delete_all": "Kustuta kõik",
+        "delete_all_short": "Kõik",
+        "item": "Vali vestlus"
+      },
+      "search": {
+        "placeholder": "Otsi vestlusi...",
+        "label": "Otsi vestlusi",
+        "no_matches": "Otsingule vastavaid vestlusi ei leitud."
+      }
+    },
+    "profile": {
+      "open": "Ava profiil",
+      "alt": "Profiil",
+      "label": "Profiil"
+    },
+    "aria": {
+      "messages": "Vestluse sõnumid",
+      "user": "Sina",
+      "assistant": "Assistent",
+      "member": "Liige"
+    },
+    "typing": {
+      "label": "Mõtleb"
+    },
+    "scroll_to_bottom": "Kerige chati lõppu",
+    "scroll_to_bottom_title": "Kerige lõppu",
+    "show_older": "Näita varasemaid",
+    "left": "veel",
+    "input": {
+      "label": "Kirjuta sõnum",
+      "placeholder": "Kirjuta siia"
+    },
+    "send": {
+      "stop": "Peata vastus",
+      "send": "Saada sõnum",
+      "title_send": "Saada (Enter)",
+      "title_stop": "Peata vastus"
+    },
+    "listen": {
+      "last_reply": "Kuula viimast vastust",
+      "title": "Kuula viimast assistendi vastust"
+    },
+    "history": {
+      "load_more": "Lae varasemaid sõnumeid",
+      "loading": "Laen varasemaid…",
+      "initial_loading": "Laen vestlust…"
+    },
+    "back_to_home": "Tagasi avalehele",
+    "mobile": {
+      "new_conversation": "Uus vestlus",
+      "show_navigation": "Näita navigeerimist"
+    },
+    "help": {
+      "helpRequests": "Abisoovid",
+      "helpOffers": "Abipakkumised",
+      "myHelpRequests": "Minu abisoovid",
+      "myHelpOffers": "Minu abipakkumised",
+      "loadMore": "Lae juurde",
+      "loading": "Laen kuulutusi...",
+      "emptyGlobalRequests": "Aktiivseid abisoove veel ei ole.",
+      "emptyGlobalOffers": "Aktiivseid abipakkumisi veel ei ole.",
+      "emptyMyRequests": "Teil pole veel abisoove.",
+      "emptyMyOffers": "Teil pole veel abipakkumisi.",
+      "openListing": "Ava kuulutus",
+      "listingSingular": "kuulutus",
+      "listingPlural": "kuulutust",
+      "close": "Sulge",
+      "edit": "Muuda",
+      "save": "Salvesta",
+      "cancel": "Loobu",
+      "delete": "Kustuta",
+      "deleteConfirm": "Kas kustutada see kuulutus?",
+      "closeListing": "Sulge kuulutus",
+      "askAi": "Küsi AI-lt nõu",
+      "contact": "Võta ühendust",
+      "offerHelp": "Paku abi",
+      "startChat": "Ava vestlus",
+      "selectOwnListing": "Vali oma kuulutus ühendamiseks",
+      "selectedListing": "Valitud kuulutus",
+      "ownListing": "Minu kuulutus",
+      "updateFailed": "Kuulutuse uuendamine ebaõnnestus.",
+      "deleteFailed": "Kuulutuse kustutamine ebaõnnestus.",
+      "loadFailed": "Kuulutuste laadimine ebaõnnestus.",
+      "detailLoadFailed": "Kuulutuse avamine ebaõnnestus.",
+      "connectFailed": "Ühenduse loomine ebaõnnestus.",
+      "title": "Pealkiri",
+      "description": "Kirjeldus",
+      "roleLabel": "Roll / teenuse nimetus",
+      "helpType": "Abi liik",
+      "timeType": "Ajalisus",
+      "targetGroups": "Sihtrühm",
+      "emptyOption": "-",
+      "voluntaryLabel": "Vabatahtlik abi",
+      "paidLabel": "Tasuline abi",
+      "mixedLabel": "Vabatahtlik või tasuline",
+      "oneTimeLabel": "Ühekordne",
+      "recurringLabel": "Regulaarne",
+      "flexibleLabel": "Paindlik",
+      "statusClosed": "Kuulutus on suletud.",
+      "noOwnOptions": "Teil ei ole sobivat avatud vastaskirjet.",
+      "targetGroupsHint": "Nt eakas, täiskasvanu, puue",
+      "aiPromptPrefix": "Aita mul mõista ja vastata sellele kuulutusele:"
+    },
+    "sources": {
+      "button": "Allikad ({count})",
+      "dialog_label": "Vestluse allikad",
+      "heading": "Vestluse allikad",
+      "empty": "Vestluses ei ole allikaid.",
+      "used_multiple": "Kasutatud {count} vestluse lõigus.",
+      "section": "Sektsioon: {section}",
+      "pages": "Leheküljed: {pages}",
+      "open_single": "Ava allikas",
+      "open_indexed": "Ava ({index})",
+      "fallback_label": "Allikas",
+      "page_prefix": "lk"
+    },
+    "upload": {
+      "aria": "Laadi dokument",
+      "tooltip": "Laadi dokument",
+      "busy": "Laen dokumenti üles...",
+      "summary": "Dokumendi tekst",
+      "summary_show": "Näita",
+      "summary_hide": "Peida",
+      "privacy": "Analüüsiks, ei salvestata püsivalt.",
+      "context_hint": "Valitud analüüsiviis määrab, kas assistent kasutab ainult üleslaetud dokumenti või ka SotsiaalAI andmebaasi lisateadmisi.",
+      "files_selected": "Lisatud dokument: {count}/{limit}",
+      "limit_reached": "Selles vestluses saad lisada kuni {limit} faili.",
+      "ask_more": "Palun selgita seda dokumenti lühidalt ja too välja 3-5 olulisemat punkti.",
+      "ask_more_btn": "Alusta küsimust",
+      "use_as_context": "Analüüsi vestluses",
+      "usage": "Tänane analüüs: {used}/{limit}",
+      "error_size": "Fail on liiga suur ({size}MB > {limit}MB).",
+      "error_status": "Dokumendi analüüs ebaõnnestus (veakood {status}).",
+      "error_generic": "Dokumendi analüüs ebaõnnestus.",
+      "preview": "Dokumendi tekst",
+      "jump_to_chat": "Küsi"
+    },
+    "tools": {
+      "aria": "Tööriistad",
+      "tooltip": "Tööriistad",
+      "exit_mode_aria": "Lõpeta aktiivne režiim",
+      "menu_aria": "Vestluse tööriistad",
+      "document_analysis": "Dokumendi analüüs",
+      "deep_research": "Süvauuring",
+      "deep_research_room_only": "Süvauuring on saadaval ainult 1:1 vestluses.",
+      "info_mode": "Info assistent",
+      "documents": "Dokumendid",
+      "help_request_mode": "Abisoov",
+      "help_offer_mode": "Abipakkumine",
+      "career_mode": "Karjäärinõustamine",
+      "agent_mode": "Dokumendi koostamine"
+    },
+    "analysis": {
+      "extended_label": "Laiendatud analüüs"
+    },
+    "deep_research": {
+      "mode_label": "Süvauuring",
+      "exit_mode_aria": "Välju süvauuringu režiimist",
+      "running": "Süvauuring käib…",
+      "stage_planning": "Planeerin alaküsimused…",
+      "stage_retrieving": "Otsin andmebaasist tõendeid…",
+      "stage_synthesizing": "Koostan raportit…",
+      "cancelled": "Süvauuring peatati.",
+      "error_generic": "Süvauuring ebaõnnestus.",
+      "scope_title": "Süvauuring",
+      "scope_topic_label": "Teema",
+      "scope_topic_missing": "Teema puudub. Kirjuta küsimus sisestusväljale ja ava Süvauuring uuesti.",
+      "scope_output_label": "Vastus vormistatakse",
+      "scope_output_worker": "Spetsialistile",
+      "scope_output_client": "Pöördujale",
+      "scope_geo_label": "Piirkond",
+      "scope_geo_all": "Kõik",
+      "scope_geo_national": "Riik",
+      "scope_geo_municipality": "KOV",
+      "scope_geo_district": "Linnaosa",
+      "scope_geo_kov_optional": "KOV (valikuline)",
+      "scope_geo_district_optional": "Linnaosa (valikuline)",
+      "scope_start": "Alusta",
+      "scope_cancel": "Tühista",
+      "scope_started": "Süvauuring käivitatud.",
+      "scope_cancelled": "Süvauuring tühistatud."
+    },
+    "ai_toggle": {
+      "label": "Saada assistendile",
+      "note": "Vaikimisi on see inimeste jutt ja assistent ei näe sõnumit."
+    },
+    "page_label": "Vestluse sisu",
+    "room": {
+      "blocked": "Vestluses osalemine ei ole hetkel võimalik. Palun võta ühendust oma spetsialistiga.",
+      "auth_required": "Sessioon aegus. Palun logi uuesti sisse.",
+      "send_error": "Sõnumi saatmine ebaõnnestus."
+    },
+    "show_recent": "Näita vähem",
+    "mic": {
+      "start": "Alusta dikteerimist",
+      "stop": "Lõpeta salvestus",
+      "unsupported": "Mikrofon pole selles brauseris toetatud.",
+      "silence": "Dikteerimine: heli ei tuvastatud.",
+      "error": "Dikteerimine ebaõnnestus.",
+      "cannot_start": "Mikrofoni ei saanud avada."
+    },
+    "fallback": {
+      "no_context_client": "Ma ei leidnud praegu materjalidest sellele täpset vastust. Kirjelda palun oma olukorda veidi täpsemalt ja lisa vähemalt vald või linn.",
+      "no_context_worker": "Ma ei leidnud praegu materjalidest sellele täpset vastust. Palun täpsusta KOV või omavalitsus ning teenuse või olukorra tüüp."
+    },
+    "empty_intro": "Tere! Kirjelda lühidalt, mida soovid teada või milles juhendamist vajad. Kui soovid teist režiimi, vali see + märgi alt.",
+    "empty_intro_help_request": "Kirjelda võimalikult selgelt, millist abi vajad. Pane kirja oluline teave, et sinu olukord ja abivajadus oleksid arusaadavad. Vajadusel küsime lisa.",
+    "empty_intro_help_offer": "Kirjelda võimalikult selgelt, millist abi saad pakkuda. Pane kirja oluline teave, et oleks arusaadav, milles ja kuidas saad toeks olla. Vajadusel küsime lisa.",
+    "modeSelection": {
+      "confirm": {
+        "rag": "Sain aru, et soovid saada infot või juhendamist. Kas jätkame sellega?",
+        "document": "Sain aru, et soovid koostada dokumendi või aruande. Kas jätkame sellega?",
+        "documentClient": "Sain aru, et soovid koostada dokumendi. Kas jätkame sellega?",
+        "help_request": "Sain aru, et soovid vormistada abisoovi. Kas jätkame sellega?",
+        "help_offer": "Sain aru, et soovid vormistada abipakkumise. Kas jätkame sellega?"
+      },
+      "alternativesLead": "Kui soovid hoopis midagi muud, vali:",
+      "options": {
+        "rag": "Küsi infot ja juhendamist",
+        "document": "Koosta dokument või aruanne",
+        "documentClient": "Koosta dokument",
+        "help_request": "Vormista abisoov",
+        "help_offer": "Vormista abipakkumine"
+      },
+      "reprompt": "Vasta „jah“, et jätkata. Muu variandi valimiseks sisesta number."
+    },
+    "documentWorkflow": {
+      "questions": {
+        "describe": "Palun kirjelda, millist dokumenti või aruannet soovid koostada ja mis eesmärgil.",
+        "describeClient": "Palun kirjelda, millist dokumenti soovid koostada ja mis eesmärgil.",
+        "purpose": "Sain aru, et soovid koostada {documentType}. Palun kirjuta veel, mis eesmärgil see on.",
+        "purposeClient": "Sain aru, et soovid koostada {documentType}. Palun kirjuta veel, mis eesmärgil seda dokumenti vaja on.",
+        "recipient": "Kellele see on mõeldud või kuhu see esitada tuleb?",
+        "sourceBasis": "Kas soovid, et koostan uue teksti sinu kirjelduse põhjal või on sul juba mõni tekst, märge, dokument, vorm või mall, mida saan aluseks võtta? Kui sul on fail olemas, lisa see kirjaklambriga.",
+        "sourceMaterial": "Palun lisa tekst, märkmed või fail, mille põhjal dokument koostada. Kui sul on fail olemas, lisa see kirjaklambriga.",
+        "background": "Kas on mõni oluline taust või asjaolu, mida peaks kindlasti arvesse võtma?",
+        "languageTone": "Mis keeles ja mis toonis see peaks olema?",
+        "optionalPreferences": "Kui soovid, võid lisada ka eelistuse, kas tekst peaks olema pigem lühike või põhjalikum, kas peaks lähtuma mõnest vormist või mallist ning kas on mõni tähtaeg või periood, mida arvesse võtta.",
+        "optionalPreferencesClient": "Kui soovid, võid lisada ka eelistuse, kas tekst peaks olema pigem lühike või põhjalikum, kas peaks lähtuma mõnest vormist või mallist ning kas on mõni tähtaeg, mida arvesse võtta."
+      },
+      "reflections": {
+        "sourceDescription": "Märkisin, et koostan selle sinu kirjelduse põhjal.",
+        "sourceExisting": "Märkisin, et saan aluseks võtta olemasoleva materjali.",
+        "background": "Märkisin olulise tausta.",
+        "languageTone": "Märkisin keeleks {language} ja tooniks {tone}.",
+        "preferences": "Märkisin lisasoovid."
+      },
+      "preview": {
+        "title": "Palun vaata kokkuvõte üle.",
+        "confirm": "Kui sobib, vasta \"jah\" ja koostan mustandi. Kui soovid midagi muuta, kirjuta muudatus otse siia."
+      },
+      "generated": {
+        "worker": "Mustand valmis. Ava see Dokumentide lehel.",
+        "client": "Mustand valmis. Ava see dokumendi koostamise lehel."
+      },
+      "labels": {
+        "documentType": "Dokumendi liik",
+        "purpose": "Eesmärk",
+        "recipient": "Kellele / kuhu",
+        "sourceBasis": "Alus",
+        "sourceDetails": "Alusmaterjal",
+        "background": "Oluline taust",
+        "subjectLabel": "Kelle kohta / kelle jaoks",
+        "language": "Keel",
+        "tone": "Toon",
+        "length": "Pikkus",
+        "templatePreference": "Mall või vorm",
+        "deadline": "Tähtaeg",
+        "reportPeriod": "Aruande periood",
+        "recipientDetail": "Adressaadi täpsustus",
+        "sourceModeValues": {
+          "description": "Sinu kirjelduse põhjal",
+          "existingMaterial": "Olemasoleva materjali põhjal"
+        },
+        "languageValues": {
+          "estonian": "eesti keel",
+          "english": "inglise keel",
+          "russian": "vene keel"
+        },
+        "toneValues": {
+          "professional": "ametlik",
+          "plain": "lihtne ja selge",
+          "supportive": "toetav"
+        },
+        "lengthValues": {
+          "short": "lühike",
+          "standard": "tavaline",
+          "detailed": "põhjalikum"
+        }
+      },
+      "cancelled": "Selge, katkestasin dokumendi või aruande koostamise.",
+      "cancelledClient": "Selge, katkestasin dokumendi koostamise.",
+      "restarted": "Selge, alustame dokumendi või aruande koostamist otsast peale.",
+      "restartedClient": "Selge, alustame dokumendi koostamist otsast peale.",
+      "switchToInfo": "Selge, katkestasin dokumendi koostamise. Kirjuta nüüd oma küsimus ja annan infot või juhendamist."
+    },
+    "helpWorkflow": {
+      "entry": {
+        "helpOffer": "Sain aru, et soovid vormistada abipakkumise. Kas jätkame sellega?",
+        "helpRequest": "Sain aru, et soovid vormistada abisoovi. Kas jätkame sellega?",
+        "reprompt": "Palun vasta \"jah\" või \"ei\".",
+        "cancelled": "Selge, jätame selle abikuulutuse praegu pooleli."
+      },
+      "questions": {
+        "offer": {
+          "describe": "Kirjelda võimalikult selgelt, millist abi saad pakkuda. Pane kirja oluline teave, et oleks arusaadav, milles ja kuidas saad toeks olla. Vajadusel küsime lisa.",
+          "rawPlace": "Kus saad aidata? Kirjuta koht võimalikult täpselt, näiteks linnaosa, asula, küla, linn või vald.",
+          "targetGroup": "Kellele sinu abi on mõeldud? Soovi korral võid lisada ka vanusegrupi ning selle, kas inimesel on erivajadus.",
+          "timing": "Millal saad aidata? Võid kohe juurde kirjutada ka, kas see on ühekordne või regulaarne abi.",
+          "helpCompensation": "Kas pakud abi vabatahtlikult, tasu eest või mõlemal moel? Kui tasu on oluline, võid kohe lisada ka tingimused.",
+          "detailsTransport": "Kuidas saad transpordi puhul aidata? Kas sõidutamise, saatmise või transpordi korraldamisega?",
+          "detailsDailyTasks": "Millega saad igapäevaelus aidata?",
+          "detailsHomeHelp": "Millega saad koduabis aidata?",
+          "detailsDigitalHelp": "Millega digiabis aidata saad? Kas pigem telefoni, arvuti, interneti või e-teenustega?",
+          "detailsCareSupport": "Millist tuge või hooldusabi saad pakkuda?",
+          "detailsChildYouthSupport": "Millist abi saad lapsele või noorele pakkuda?",
+          "detailsLearningGuidance": "Milles saad õppimise või juhendamisega aidata?",
+          "detailsSocialSupport": "Millist seltskondlikku või sotsiaalset tuge saad pakkuda?",
+          "detailsAdminFormHelp": "Kas saad aidata avalduste, vormide või e-teenustega?",
+          "detailsOther": "Kirjelda palun lühidalt, millist abi saad pakkuda."
+        },
+        "request": {
+          "describe": "Kirjelda võimalikult selgelt, millist abi vajad. Pane kirja oluline teave, et sinu olukord ja abivajadus oleksid arusaadavad. Vajadusel küsime lisa.",
+          "rawPlace": "Kus abi vaja on? Kirjuta koht võimalikult täpselt, näiteks linnaosa, asula, küla, linn või vald.",
+          "beneficiaryContext": "Kellele abi vaja on? Kas sulle endale või kellelegi teisele? Soovi korral võid lisada ka vanusegrupi ning selle, kas inimesel on erivajadus.",
+          "timing": "Millal abi vaja on? Võid kohe juurde kirjutada ka, kas see on ühekordne või regulaarne abi ning kas abi on vaja kohe, lähiajal või ei ole kiire.",
+          "helpCompensation": "Kas otsid vabatahtlikku abi, tasulist abi või oled avatud mõlemale? Kui tasu on oluline, võid kohe lisada ka tingimused.",
+          "detailsTransport": "Kuhu on vaja sõita ja millal?",
+          "detailsDailyTasks": "Millega igapäevaelus abi vaja on?",
+          "detailsHomeHelp": "Millega kodus abi vaja on?",
+          "detailsDigitalHelp": "Millega digiabi vaja on?",
+          "detailsCareSupport": "Millist tuge või hooldusabi vajad?",
+          "detailsChildYouthSupport": "Millist abi laps või noor vajab?",
+          "detailsLearningGuidance": "Milles õppimise või juhendamise abi vaja on?",
+          "detailsSocialSupport": "Millist seltskondlikku või sotsiaalset tuge vajad?",
+          "detailsAdminFormHelp": "Millega asjaajamises või vormide täitmisel abi vaja on?",
+          "detailsOther": "Kirjelda palun lühidalt, milles abi vaja on."
+        },
+        "shared": {
+          "targetGroup": "Kellele see abi on mõeldud? Näiteks eakale, täiskasvanule või puudega inimesele.",
+          "targetGroupClarifyOffer": "See küsimus on selle kohta, kellele sinu abi on mõeldud. Palun vasta näiteks: eakale, täiskasvanule või puudega inimesele.",
+          "category": "Mis liiki abiga on tegu? Kas see on pigem transport, igapäevaabi, koduabi, digiabi, tugi ja hooldus, laste ja noorte tugi, õppimise ja juhendamise abi, seltskond ja sotsiaalne tugi, asjaajamise ja vormide abi või muu abi?",
+          "title": "Panin pealkirja paika. Kui soovid teistsugust pealkirja, kirjuta see nüüd."
+        },
+        "location": {
+          "confirmSingle": "Kas pead silmas omavalitsust {municipality}?",
+          "detectedPlace": "Tuvastatud koht",
+          "confirmSingleRetry": "Vasta \"jah\" või kirjuta õige omavalitsus või koht uuesti.",
+          "confirmMany": "Leidsin mitu võimalikku omavalitsust. Millist neist mõtled?",
+          "confirmManyHint": "Vasta nime või numbriga.",
+          "askMunicipality": "Kas pead silmas mõnda kindlat omavalitsust või piirkonda?"
+        }
+      },
+      "reflections": {
+        "offerSummary": "Sain aru, et soovid pakkuda {category}{target}{place}.",
+        "requestSummary": "Sain aru, et vajad {category}{target}{place}.",
+        "locationWithMunicipality": "Märkisin asukohaks {rawPlace} ja omavalitsuseks {municipality}.",
+        "locationOnly": "Märkisin asukohaks {rawPlace}.",
+        "helpType": "Märkisin, et tegu on {helpType} abiga.",
+        "timeType": "Märkisin ajalisuseks {timeType}.",
+        "beneficiary": "Märkisin, et abi on vaja {beneficiary}.",
+        "urgency": "Märkisin kiireloomulisuseks {urgency}.",
+        "conditions": "Märkisin tingimused.",
+        "title": "Märkisin pealkirjaks \"{title}\"."
+      },
+      "preview": {
+        "offerTitle": "Vaata abipakkumine üle.",
+        "requestTitle": "Vaata abisoov üle.",
+        "offerTypeValue": "Abipakkumine",
+        "requestTypeValue": "Abisoov",
+        "savePrompt": "Vasta „jah” või „ei”. Kui soovid midagi muuta, kirjuta see.",
+        "editPrompt": "Selge. Kirjuta palun, mida soovid muuta."
+      },
+      "labels": {
+        "type": "Tüüp",
+        "title": "Pealkiri",
+        "description": "Kirjeldus",
+        "primaryCategory": "Põhikategooria",
+        "secondaryCategories": "Lisakategooriad",
+        "municipality": "Omavalitsus",
+        "rawPlace": "Täpsem asukoht",
+        "targetGroups": "Sihtrühm",
+        "helpForm": "Abi vorm",
+        "compensationInfo": "Tasu info",
+        "compensationPreference": "Tasu eelistus",
+        "timeType": "Ajalisus",
+        "availabilityOrStart": "Saadavus / algus",
+        "availabilityForRequest": "Vajalik aeg / algus",
+        "conditions": "Tingimused",
+        "skillsOrBackground": "Oskused või taust",
+        "beneficiaryLabel": "Kellele abi vaja on",
+        "urgency": "Kiireloomulisus",
+        "status": "Staatus"
+      },
+      "saved": {
+        "offer": "Aitäh! Abipakkumine on salvestatud.",
+        "request": "Aitäh! Abisoov on salvestatud.",
+        "offerPublished": "See on n??d lisatud abipakkumiste seinale.",
+        "requestPublished": "See on n??d lisatud abisoovide seinale.",
+        "checkingRequests": "Vaatan n??d, kas sellele leidub sobivaid abisoove.",
+        "checkingOffers": "Vaatan n??d, kas sellele leidub sobivaid abipakkumisi."
+      },
+      "create": {
+        "cancelled": "Selge, katkestasin selle abikuulutuse vormistamise."
+      },
+      "browse": {
+        "nextOffers": "Järgmisena võite kirjutada: \"näita sobivaid pakkumisi\".",
+        "nextRequests": "Järgmisena võite kirjutada: \"näita sobivaid abisoove\".",
+        "emptyOffers": "Sobivaid aktiivseid abipakkumisi veel ei leitud.",
+        "emptyRequests": "Sobivaid aktiivseid abisoove veel ei leitud.",
+        "foundOffers": "Leidsin {count} võimalikku pakkumist.",
+        "foundRequests": "Leidsin {count} võimalikku abisoovi.",
+        "connectHintOffers": "Kui soovite kedagi ühendada, kirjutage näiteks: \"ühenda esimese pakkumisega\".",
+        "connectHintRequests": "Kui soovite kedagi ühendada, kirjutage näiteks: \"ühenda esimese abisooviga\".",
+        "sourceMissingOffers": "Enne pean teadma, millise abisoovi jaoks pakkumisi vaadata.",
+        "sourceMissingRequests": "Enne pean teadma, millise abipakkumise jaoks abisoove vaadata."
+      },
+      "connect": {
+        "needBrowse": "Enne ühendamist pean kõigepealt näitama sobivaid tulemusi.",
+        "askWhich": "Kirjuta palun, millise tulemusega soovid ühendada, näiteks \"ühenda 1\".",
+        "created": "Ühendus on loodud. Vestlus on nüüd leitav vestluste loendis.",
+        "alreadyActive": "Selle kuulutuse jaoks on aktiivne match juba olemas.",
+        "failed": "Ühenduse loomine ebaõnnestus."
+      }
+    }
+  },
+  "documents": {
+    "meta": {
+      "title": "Dokumendid",
+      "description": "Halda privaatseid malle, materjale, mustandeid ja kinnitatud agendi tulemusi.",
+      "artifactTitle": "Agendi tulemus",
+      "artifactDescription": "Vaata ja halda salvestatud agendi tulemust."
+    },
+    "page_title": "Dokumendid",
+    "page_description": "Privaatsed mallid ja materjalid tulevase töörežiimi jaoks ning agendi tulemused mustandi ja kinnitatud versioonina.",
+    "privacy_notice": "Palun ära lae üles isikuandmeid. Siia sobivad mallid ja anonümiseeritud vormid.",
+    "back_to_chat": "Tagasi vestlusesse",
+    "back_to_documents": "Tagasi dokumentidesse",
+    "inputs_title": "Minu dokumendid",
+    "inputs_description": "Siin hoiad malle, materjale ja muid faile. Märgid siin, milliseid dokumente agent võib töö tegemisel kasutada.",
+    "view_mode": {
+      "admin_notice": "Admini eelvaade: {role}",
+      "intro_worker": "Siin hoiad juhtumimaterjale, malle ja muid faile, mida agent saab kasutada spetsialisti töömustandite koostamisel.",
+      "intro_client": "Siin hoiad enda kirju, blankette ja taustadokumente, et agent saaks aidata neist teha selge vastuse või avalduse."
+    },
+    "outputs_title": "Agendi tulemused",
+    "outputs_description": "Siin näed agendi loodud mustandeid ja kinnitatud tulemusi ning saad need hiljem uuesti avada või alla laadida.",
+    "framework_acceptance": {
+      "title": "Tööalase kasutuse kinnituse kirje",
+      "manage_title": "Tööalase kasutuse raamistik",
+      "manage_pending": "Kui sul jäi registreerimisel raamdokument võtmata, ava raamistik siit, laadi allkirjastatud fail alla ja salvesta kinnitus ilma uuesti registreerimata.",
+      "manage_confirmed": "Kinnitus on salvestatud {date}. Vajadusel saad siit uuesti võtta nii allkirjastatud faili kui ka süsteemi loodud kinnituse kirje.",
+      "manage_confirmed_short": "Kinnitus on olemas alates {date}. Praegune versioon: {version}.",
+      "download_record": "Laadi kinnituse kirje",
+      "auth_required": "Kinnituse salvestamiseks logi sisse spetsialisti kontoga.",
+      "worker_only": "Seda kinnitust saab salvestada ainult sotsiaaltöö spetsialisti konto alt.",
+      "confirm_now": "Salvesta kinnitus",
+      "confirm_saving": "Salvestan kinnitust...",
+      "saved_notice": "Kinnitus salvestati. Süsteemi loodud kirje on nüüd nähtav ka Dokumentides.",
+      "already_confirmed": "Praeguse versiooni kinnitus oli juba olemas.",
+      "load_failed": "Raamistiku staatuse laadimine ebaõnnestus.",
+      "save_failed": "Kinnituse salvestamine ebaõnnestus.",
+      "system_chip": "Kinnitus",
+      "read_only_note": "Selle kirje lõi süsteem ja seda ei saa muuta ega kustutada.",
+      "accepted_at": "Kinnitatud",
+      "framework_version": "Versioon",
+      "status_confirmed": "Kinnitatud"
+    },
+    "library_sections": {
+      "upload_title": "Laadi dokument üles",
+      "upload_description": "Lisa siia uus fail ja määra sellele sobiv liik enne salvestamist.",
+      "list_title": "Dokumentide nimekiri",
+      "list_description": "Sirvi olemasolevaid dokumente, filtreeri liigi järgi ja vali need vajadusel agendile kaasa."
+    },
+    "loading": "Laen...",
+    "empty_documents": "Siin ei ole veel ühtegi dokumenti.",
+    "empty_artifacts": "Siin ei ole veel ühtegi agendi tulemust.",
+    "updated_at": "Uuendatud",
+    "approved_at": "Kinnitatud",
+    "artifact_detail_title": "Agendi tulemus",
+    "draft_notice": "See mustand on muudetav. Allalaadimine muutub kättesaadavaks pärast kinnitamist.",
+    "template_label": "Valitud mall",
+    "sources_section_title": "Allikdokumendid",
+    "sources_label": "Allikaid: {count}",
+    "empty_sources": "Allikdokumente pole seotud.",
+    "filters": {
+      "all": "Kõik"
+    },
+    "kinds": {
+      "template": "Mall",
+      "material": "Materjal",
+      "other": "Muu"
+    },
+    "template_for": {
+      "report_draft": "Aruanne",
+      "case_brief": "Juhtumikokkuvõte",
+      "meeting_summary": "Kohtumise kokkuvõte",
+      "checklist": "Kontrollnimekiri",
+      "letter_draft": "Kirja mustand",
+      "other": "Muu"
+    },
+    "artifact_types": {
+      "meeting_summary": "Kohtumise kokkuvõte",
+      "case_brief": "Juhtumikokkuvõte",
+      "report_draft": "Aruande mustand",
+      "checklist": "Kontrollnimekiri",
+      "letter_draft": "Kirja mustand",
+      "other": "Muu"
+    },
+    "status": {
+      "draft": "Mustand",
+      "final": "Kinnitatud"
+    },
+    "form": {
+      "kind_label": "Dokumendi liik",
+      "title_placeholder": "Pealkiri (valikuline)",
+      "template_for_placeholder": "Mille jaoks see mall on?",
+      "template_optional": "SotsiaalAI standardne DOCX mall",
+      "format_label": "Formaat",
+      "file_label": "Lisa fail",
+      "choose_file": "Vali fail",
+      "no_file_selected": "Faili pole valitud",
+      "file_help": "Lubatud failid: PDF, DOCX ja TXT. Suurim fail on 25 MB.",
+      "uploading": "Laen üles...",
+      "artifact_title_placeholder": "Tulemuse pealkiri (valikuline)",
+      "title_label": "Pealkiri",
+      "dropzone_idle": "Lohista fail siia või vajuta faili valimiseks",
+      "dropzone_active": "Vabasta fail siia ?leslaadimiseks"
+    },
+    "actions": {
+      "upload": "Laadi üles",
+      "download": "Laadi alla",
+      "download_docx": "Laadi DOCX alla",
+      "download_pdf": "Laadi PDF alla",
+      "rename": "Nimeta ümber",
+      "delete": "Kustuta",
+      "open": "Ava",
+      "copy": "Kopeeri",
+      "open_all_results": "Kõik tulemused",
+      "show_latest": "Näita viimaseid",
+      "agent_allowed": "Kasuta töörežiimis",
+      "open_agent_mode": "Ava dokumendi koostamisse",
+      "saving": "Salvestan...",
+      "create_report": "Koosta aruanne",
+      "creating_report": "Loon mustandit...",
+      "save": "Salvesta",
+      "save_draft": "Salvesta mustand",
+      "refine_stub": "Palu agendil täiendada",
+      "approving": "Kinnitan...",
+      "approve": "Kinnita",
+      "select_document": "Vali dokument: {title}",
+      "select_for_agent": "Vali",
+      "clear_search": "Puhasta otsing"
+    },
+    "feedback": {
+      "uploaded": "Dokument laaditi üles.",
+      "saved": "Muudatused salvestati.",
+      "deleted": "Dokument kustutati.",
+      "artifact_deleted": "Agendi tulemus kustutati.",
+      "copied": "Sisu kopeeriti lõikelauale.",
+      "draft_created": "Valitud dokumentidest loodi mustand.",
+      "approved": "Kinnitatud. Professionaalsed DOCX- ja PDF-failid on nüüd allalaaditavad.",
+      "refine_stub": "Agendi täiendus lisandub töörežiimi. Seni saad mustandit käsitsi muuta."
+    },
+    "confirm": {
+      "delete_document": "Kas kustutada see dokument jäädavalt? Toimingut ei saa tagasi võtta.",
+      "delete_artifact": "Kas kustutada see agendi tulemus jäädavalt? Toimingut ei saa tagasi võtta."
+    },
+    "multi_doc": {
+      "title": "Koosta tulemus",
+      "description": "Vali töörežiimis kasutamiseks lubatud dokumendid ja loo neist uus mustand.",
+      "selected_count": "Valitud: {count}",
+      "help": "Valida saab ainult dokumendid, millel on \"Kasuta töörežiimis\" lubatud. Valitud mall mõjutab DOCX eksporti pärast kinnitamist.",
+      "enable_agent_allowed": "Lülita esmalt sisse \"Kasuta töörežiimis\", et seda dokumenti valida."
+    },
+    "agent_handoff": {
+      "title": "Dokumendi koostamine",
+      "description": "Vali dokumendid siin ja ava need dokumendi koostamise lehel, kus toimub tegelik töö.",
+      "selected_count": "Valitud: {count}",
+      "empty_help": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need dokumendi koostamisse kaasa.",
+      "ready_help": "Valitud dokumendid on valmis. Jätka dokumendi koostamise lehel, et valida ülesanne ja alustada tööga.",
+      "empty_help_worker": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need dokumendi koostamisse kaasa spetsialisti töömustandi jaoks.",
+      "empty_help_client": "Luba dokumendid töörežiimi jaoks ja märgi need siin ette, et võtta need dokumendi koostamisse kaasa pöörduja teksti või vormi koostamiseks.",
+      "ready_help_worker": "Valitud dokumendid on valmis. Jätka dokumendi koostamise lehel, et koostada spetsialisti töömustand.",
+      "ready_help_client": "Valitud dokumendid on valmis. Jätka dokumendi koostamise lehel, et koostada pöördujale vajalik tekst või vormi täitmise tulemus.",
+      "agent_page_title": "Dokumendi koostamise töölaud",
+      "agent_page_empty": "Kirjelda, mida on vaja koostada. Agent teeb valitud dokumentide põhjal esimese mustandi.",
+      "agent_page_with_docs": "Valitud dokumendid on kaasas. Kirjelda ülesanne ja agent teeb nende põhjal esimese mustandi.",
+      "agent_page_empty_worker": "Anna agendile ülesanne ja juhis. Agent koostab valitud dokumentide põhjal spetsialisti töömustandi.",
+      "agent_page_empty_client": "Anna agendile ülesanne ja juhis. Agent aitab valitud dokumentide põhjal koostada pöördujale vajaliku teksti või vormi täitmise tulemuse.",
+      "agent_page_with_docs_worker": "Valitud dokumendid on kaasas. Anna ülesanne ja juhis ning agent koostab spetsialisti töömustandi.",
+      "agent_page_with_docs_client": "Valitud dokumendid on kaasas. Anna ülesanne ja juhis ning agent koostab pöördujale vajaliku teksti või vormi täitmise tulemuse."
+    },
+    "agent_workspace": {
+      "selected_documents_title": "Valitud dokumendid",
+      "selected_documents_description": "Need failid on praegu selle dokumenditöö juures kasutusel. Valikut saad muuta Dokumentides.",
+      "empty_documents": "Selle dokumenditöö jaoks ei ole veel ühtegi faili valitud.",
+      "unavailable_documents": "Valitud dokumendid ei ole siin enam saadaval. Mine tagasi Dokumentidesse ja vali failid uuesti.",
+      "select_documents": "Vali dokumendid",
+      "missing_documents": "{count} varem valitud dokumenti ei õnnestunud laadida.",
+      "goal_title": "Töö eesmärk",
+      "goal_description": "Vali, millist teksti agent koostab, kellele see on mõeldud ja millise tooni ning pikkusega tulemus peab olema.",
+      "template_label": "Mall",
+      "template_description": "Laadi mall Dokumentidesse ja vali siin, kas agent kasutab seda mustandi koostamisel.",
+      "template_none": "Ilma mallita",
+      "template_loading": "Laadin sobivaid malle...",
+      "template_help": "Vali mall, kui tahad juhtida mustandi struktuuri.",
+      "template_empty": "Sobivat malli ei leitud. Laadi mall enne Dokumentides üles.",
+      "template_selected": "Valitud mall: {title}",
+      "output_type_label": "Väljundi tüüp",
+      "tone_label": "Toon",
+      "language_label": "Keel",
+      "length_label": "Pikkus",
+      "admin_notice": "Admini eelvaade: {role}",
+      "conversation_title": "Vestlus agendiga",
+      "conversation_description": "Anna esimene juhis või täpsusta praegust mustandit vestluses. Agent kasutab valitud dokumente ja sinu määratud töö eesmärki.",
+      "meeting_summary": {
+        "label": "Koosta kohtumise kokkuvõte hiljem",
+        "description": "Kasuta mikrofoni selleks, et salvestada kohtumise põhjal eraldi kokkuvõte. Tulemus valmib veidi hiljem ning sobib hilisema aruande või mustandi sisendiks.",
+        "enabled_help": "Kui see valik on sees, loob mikrofon kohtumise kokkuvõtte taustal. Valmis tekst salvestatakse Dokumentidesse ja lisatakse siia valitud dokumentide hulka.",
+        "disabled_help": "Kui see valik on väljas, kasutab mikrofon tavalist kõne tekstiks voogu ja lisab transkriptsiooni kohe avatud mustandisse.",
+        "empty_help": "Võid alustada kohtumise kokkuvõtte sisse rääkimisest. Kui see valmis saab, lisatakse see mustandi allikdokumendiks.",
+        "queued": "Kohtumise kokkuvõte on järjekorras. Tekst jõuab siia veidi hiljem.",
+        "processing": "Kohtumise kokkuvõtet töödeldakse. Kui see valmis saab, lisatakse see Dokumentidesse ja praegusesse mustandisse.",
+        "ready": "Kohtumise kokkuvõte valmis. See lisati Dokumentidesse ja praegusesse mustandisse.",
+        "busy": "Üks kohtumise kokkuvõte on juba töötluses. Oota selle valmimiseni enne uue alustamist.",
+        "error": "Kohtumise kokkuvõtte töötlemine ebaõnnestus.",
+        "not_found": "Kohtumise kokkuvõtte tööd ei leitud.",
+        "document_title": "Kohtumise kokkuvõte",
+        "result_added": "Kohtumise kokkuvõte salvestati Dokumentidesse nimega \"{title}\" ja lisati siia kasutamiseks.",
+        "template_ready_help": "Kui soovid sellest kokkuvõttest teha kohe mustandi, vali siin kohtumise kokkuvõtte mall. Kõigepealt salvestatakse kokkuvõte siiski eraldi tekstidokumendina Dokumentidesse.",
+        "template_switch_help": "Kui soovid sellest kokkuvõttest teha malliga mustandi, vali väljundi tüübiks {type}. Siis kuvatakse siin sobivad mallid.",
+        "documents_idle_help": "Kui kokkuvõte valmis saab, salvestatakse see esmalt Dokumentidesse tekstidokumendina ja lisatakse seejärel automaatselt siia valitud dokumentide hulka.",
+        "documents_processing_help": "Kohtumise kokkuvõte on töötlemisel. Pärast valmimist salvestatakse see Dokumentidesse tekstidokumendina ja lisatakse siia automaatselt."
+      },
+      "conversation_intro_empty": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, mida soovid koostada.",
+      "conversation_intro_with_docs": "Tere! Kirjelda, mida pean valitud {count} dokumendi põhjal koostama.",
+      "conversation_intro_empty_worker": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, millise spetsialisti töömustandi pean koostama.",
+      "conversation_intro_empty_client": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, millise teksti või vormi täitmise tulemuse pean koostama.",
+      "conversation_intro_with_docs_worker": "Tere! Kirjelda, mida pean valitud {count} dokumendi põhjal spetsialisti jaoks koostama.",
+      "conversation_intro_with_docs_client": "Tere! Kirjelda, millise teksti, vastuse või vormi täitmise tulemuse pean valitud {count} dokumendi põhjal koostama.",
+      "conversation_ready_help": "Saada esimene juhis vestluses. Agent kasutab valitud dokumente ja töö eesmärki.",
+      "conversation_refine_help": "Saada uus sõnum, et praegust mustandit täpsustada või suunda muuta.",
+      "conversation_generating": "Koostan mustandit valitud dokumentide põhjal...",
+      "conversation_refining": "Täiendan praegust mustandit sinu juhise järgi...",
+      "instructions_title": "Juhis agendile",
+      "instructions_description": "Kirjelda, mida agent peab valitud dokumentide põhjal koostama ning mida ta peaks rõhutama või vältima.",
+      "instructions_placeholder": "Näiteks: koosta spetsialistile lühike juhtumikokkuvõte, too esile teenusevajadused ja riskid ning hoia sõnastus neutraalne ja professionaalne.",
+      "start": "Käivita agent",
+      "starting": "Käivitan agenti...",
+      "start_stub": "Workspace v1 on paigas. Agendi tegelik käivitus ühendatakse järgmises etapis.",
+      "needs_documents": "Agendi käivitamiseks too Dokumentidest kaasa vähemalt üks dokument.",
+      "needs_instruction": "Lisa enne käivitamist agendile juhis.",
+      "ready_help": "Töölaud on valmis. Järgmises etapis ühendame siia genereerimise ja mustandi halduse.",
+      "result_title": "Praegune mustand",
+      "result_description": "Viimati loodud mustand ilmub siia samasse tööruumi, et saaksid selle üle vaadata enne järgmist sammu.",
+      "result_results_link_intro": "Varem salvestatud ja kinnitatud tulemused leiad",
+      "result_results_link_label": "Agendi tulemustest",
+      "result_empty": "Kui käivitad agendi, ilmub loodud mustand siia.",
+      "result_ready": "Mustand on tööruumis valmis. Salvesta või kinnita see, et see liiguks Dokumentidesse.",
+      "result_unsaved": "See mustand on ainult praeguses tööruumis. Dokumentidesse liigub see pärast Salvesta või Kinnita tegevust.",
+      "result_dirty": "Selles mustandis on salvestamata muudatused. Dokumentides nähtav versioon ei ole veel uuenenud.",
+      "result_removed": "Aktiivne tulemus eemaldati tööruumist. Kui see oli varem salvestatud, jääb see Dokumentidesse alles.",
+      "clear_result": "Eemalda tööruumist",
+      "restore_saved": "Taasta salvestatud versioon",
+      "saved_version_restored": "Salvestatud versioon taastati tööruumis.",
+      "version_history_title": "Versiooniajalugu",
+      "version_history_description": "Siin on sama tööruumi viimased agendi loodud versioonid. Saad mõne varasema variandi tagasi tuua ilma Dokumentide vaatesse minemata.",
+      "version_current": "Praegune",
+      "restore_version": "Taasta versioon",
+      "version_restored": "Valitud versioon taastati tööruumis.",
+      "quick_actions_title": "Proovi teist väljundit",
+      "quick_actions_description": "Kasuta samu dokumente ja sama juhist, aga käivita agent kiiresti teise väljundi tüübi jaoks.",
+      "quick_action_button": "Loo kui {type}",
+      "quick_result_ready": "Uus mustand loodi samas tööruumis valitud teise väljunditüübiga.",
+      "refine_title": "Täpsusta mustandit",
+      "refine_description": "Lisa üks järeljuhis ja agent teeb praegusest mustandist selles tööruumis uue versiooni.",
+      "refine_placeholder": "Näiteks: tee tekst lühemaks, jäta kordused välja ja tõsta riskid eraldi punktidena esile.",
+      "refine_in_chat": "Täpsustused käivad nüüd agendi vestluses. Muuda siin sisu käsitsi ainult siis, kui tahad mustandit ise toimetada.",
+      "refine": "Täienda mustandit",
+      "refining": "Täiendan mustandit...",
+      "refine_help": "Lisa järeljuhis, et agent saaks praegust mustandit täpsustada.",
+      "refine_ready_help": "Agent kasutab järgmise versiooni jaoks praegust mustandit ja valitud dokumente.",
+      "refine_ready": "Mustandit täiendati tööruumis. Salvesta või kinnita see versioon, kui tahad selle Dokumentidesse viia.",
+      "saved_to_documents": "Mustand salvestati Dokumentidesse.",
+      "open_detail": "Ava täisvaates",
+      "summary_documents": "Dokumendid: {count}",
+      "summary_output": "Väljund: {type}",
+      "summary_template": "Mall: {title}",
+      "back_to_chat": "Tagasi vestlusesse",
+      "client_selected_documents_description": "Lisa siia selle töö jaoks vajalik fail või failid. Selles töös saad kasutada kuni 2 faili.",
+      "client_selected_documents_fill_form_description": "Lisa siia täidetav vorm või taotlus ning vajadusel teine fail, kus on info, mida vormi sisse panna. Selles töös saad kasutada kuni 2 faili.",
+      "client_empty_documents": "Faile pole veel lisatud.",
+      "client_upload_button": "Lisa fail",
+      "client_uploading": "Laen faili üles...",
+      "client_documents_limit": "Selles töös saad kasutada kuni {count} faili.",
+      "client_fill_form_hint": "Täida vorm või blankett töö puhul lisa võimalusel vorm ise ja soovi korral teine fail, kus on info, mida agent peab vormi sisse panema.",
+      "client_file_limit_reached": "Selles töös saad kasutada kuni {count} faili.",
+      "client_file_added": "Fail lisati sellesse töösse: {title}",
+      "client_file_removed": "Fail eemaldati sellest tööst.",
+      "client_remove_document": "Eemalda",
+      "client_task_title": "Mida soovid koostada",
+      "client_task_description": "Vali konkreetne tulemus, mida soovid nende failide põhjal koostada.",
+      "client_task_label": "Tulemus",
+      "client_needs_documents": "Lisa enne alustamist vähemalt üks fail.",
+      "client_result_description": "Siia ilmub agenti koostatud tulemus. Selle saad üle vaadata, muuta, salvestada ja alla laadida.",
+      "client_conversation_description": "Kirjuta, mida soovid valmis saada. Agent võib enne tulemuse koostamist küsida lühikesi täpsustusi.",
+      "client_result_ready": "Tulemus on valmis. Vaata see üle ja salvesta või märgi valmis.",
+      "client_result_unsaved": "See tulemus on praegu ainult tööruumis. Salvesta see, kui soovid selle hiljem uuesti avada.",
+      "client_result_dirty": "Selles tulemuses on salvestamata muudatused.",
+      "client_result_removed": "Aktiivne tulemus eemaldati tööruumist.",
+      "client_saved": "Tulemus salvestati.",
+      "client_finish": "Märgi valmis",
+      "client_finished": "Tulemus märgiti valmis ja on nüüd allalaaditav.",
+      "client_status_draft": "Pooleli",
+      "client_status_final": "Valmis",
+      "client_results_title": "Minu tulemused",
+      "client_results_description": "Siin on viimased salvestatud või lõpetatud tulemused, mida saad uuesti avada, kopeerida või alla laadida.",
+      "client_recent_results_loading": "Laadin viimaseid tulemusi...",
+      "client_recent_results_empty": "Siin pole veel ühtegi salvestatud tulemust.",
+      "client_open_result": "Ava",
+      "client_tasks": {
+        "letter_request": "Kirja või taotluse mustand",
+        "letter_reply": "Vastus kirjale",
+        "fill_form": "Täida vorm või blankett"
+      },
+      "tones": {
+        "professional": "Professionaalne",
+        "supportive": "Toetav",
+        "plain": "Lihtne keel"
+      },
+      "lengths": {
+        "short": "Lühike",
+        "standard": "Tavaline",
+        "detailed": "Põhjalik"
+      },
+      "version_kinds": {
+        "loaded": "Avatud",
+        "generated": "Loodud",
+        "refined": "Täiendatud",
+        "rerun": "Uus käivitus"
+      },
+      "output_type_description": "Vali, kas soovid kohtumise kokkuvõtet, juhtumikokkuvõtet, aruande mustandit, kontrollnimekirja või muud tulemust.",
+      "scope_output_description": "Vali, kas valmis tekst vormistatakse spetsialistile või pöördujale.",
+      "style_settings_label": "Stiil ja keel",
+      "style_settings_description": "Määra siin toon, keel ja pikkus, et agent oskaks teksti sobivalt vormistada."
+    },
+    "errors": {
+      "load_documents": "Dokumentide laadimine ebaõnnestus.",
+      "read_failed": "Dokumendi avamine ebaõnnestus.",
+      "load_artifacts": "Agendi tulemuste laadimine ebaõnnestus.",
+      "upload_failed": "Dokumendi üleslaadimine ebaõnnestus.",
+      "save_failed": "Dokumendi muudatuste salvestamine ebaõnnestus.",
+      "delete_failed": "Dokumendi kustutamine ebaõnnestus.",
+      "delete_artifact_failed": "Agendi tulemuse kustutamine ebaõnnestus.",
+      "copy_failed": "Sisu kopeerimine ebaõnnestus.",
+      "load_artifact": "Agendi tulemuse laadimine ebaõnnestus.",
+      "rename_artifact_failed": "Agendi tulemuse ümbernimetamine ebaõnnestus.",
+      "create_artifact_failed": "Mustandi loomine ebaõnnestus.",
+      "file_required": "Vali üleslaadimiseks fail.",
+      "file_too_large": "Fail on liiga suur. Maksimaalne suurus on 25 MB.",
+      "mime_not_allowed": "Lubatud on ainult PDF-, DOCX- ja TXT-failid.",
+      "file_signature_invalid": "Üles laaditud faili sisu ei vasta deklareeritud failitüübile.",
+      "multipart_required": "Üleslaadimine peab kasutama multipart-vormingut.",
+      "missing_id": "Dokumendi id puudub.",
+      "invalid_payload": "Päringu sisu on vigane.",
+      "not_found": "Dokumenti ei leitud.",
+      "read_only_document": "Süsteemi loodud kinnituskirjet ei saa muuta ega kustutada.",
+      "list_failed": "Dokumentide nimekirja laadimine ebaõnnestus.",
+      "update_failed": "Dokumendi uuendamine ebaõnnestus.",
+      "download_failed": "Dokumendi allalaadimine ebaõnnestus.",
+      "storage_path_invalid": "Dokumendi salvestustee on vigane.",
+      "storage_dir_missing": "Dokumentide salvestuskataloog pole seadistatud.",
+      "agent_storage_dir_missing": "Agendi salvestuskataloog pole seadistatud.",
+      "daily_upload_quota_exceeded": "P?evane ?leslaadimise limiit on t?itunud. Proovi homme uuesti.",
+      "storage_quota_exceeded": "Salvestusmaht on t?is. Kustuta m?ni fail ja proovi uuesti."
+    },
+    "artifacts": {
+      "search_placeholder": "Otsi pealkirja, sisu, liigi või allikdokumendi järgi",
+      "search_help": "Kasuta otsingut ja sorteerimist, et vaadata kõiki salvestatud mustandeid ja kinnitatud tulemusi.",
+      "final_search_hint": "Filtreeri kinnitatud tulemused ja otsi väljundeid pealkirja, sisu või allikdokumendi järgi.",
+      "sort_label": "Sorteeri tulemused",
+      "sort_updated_desc": "Viimati uuendatud eespool",
+      "sort_updated_asc": "Vanemad uuendused eespool",
+      "sort_approved_desc": "Viimati kinnitatud eespool",
+      "sort_title_asc": "Pealkiri A-Z",
+      "results_count": "Nähtaval {shown}/{total}",
+      "no_matches": "Selle otsingu ja valitud filtritega ei leitud ühtegi agendi tulemust.",
+      "source_preview_more": "+{count} veel",
+      "errors": {
+        "list_failed": "Agendi tulemuste nimekirja laadimine ebaõnnestus.",
+        "not_found": "Agendi tulemust ei leitud.",
+        "read_failed": "Agendi tulemuse avamine ebaõnnestus.",
+        "update_failed": "Agendi tulemuse uuendamine ebaõnnestus.",
+        "delete_failed": "Agendi tulemuse kustutamine ebaõnnestus.",
+        "create_failed": "Agendi mustandi loomine ebaõnnestus.",
+        "instruction_too_long": "Juhis on liiga pikk.",
+        "refinement_required": "Täpsustav juhis on kohustuslik.",
+        "analysis_unavailable": "Dokumendianalüüsi teenus pole praegu saadaval.",
+        "analysis_failed": "Valitud dokumentidest ei õnnestunud piisavalt teksti kätte saada.",
+        "ai_unavailable": "AI mustandi loomine pole praegu saadaval.",
+        "ai_empty": "AI mustandi loomine tagastas tühja tulemuse.",
+        "approve_failed": "Agendi tulemuse kinnitamine ebaõnnestus.",
+        "format_not_supported": "Praegu on saadaval ainult DOCX allalaadimine.",
+        "download_failed": "Kinnitatud tulemuse allalaadimine ebaõnnestus.",
+        "download_requires_approval": "Enne allalaadimist kinnita mustand.",
+        "content_required": "Artefakti sisu ei tohi olla tühi.",
+        "content_too_large": "Artefakti sisu on liiga mahukas.",
+        "sources_required": "Vali vähemalt üks allikdokument.",
+        "too_many_sources": "Valitud allikdokumente on liiga palju.",
+        "sources_not_found": "Üht või mitut valitud allikdokumenti ei leitud.",
+        "source_not_allowed": "Valitud dokumendid peavad olema töörežiimiks lubatud.",
+        "template_not_found": "Valitud malli ei leitud.",
+        "template_not_allowed": "Valitud mall peab olema töörežiimiks lubatud.",
+        "final_read_only": "Kinnitatud artefaktid on ainult lugemiseks."
+      }
+    }
+  },
+  "research": {
+    "error": {
+      "failed": "Süvauuring ebaõnnestus.",
+      "cancelled": "Süvauuring peatati.",
+      "timeout": "Süvauuring ületas ajapiirangu.",
+      "not_found": "Süvauuringu tööd ei leitud.",
+      "room_not_supported": "Süvauuring on saadaval ainult 1:1 vestluses.",
+      "query_too_long": "Süvauuringu päring on liiga pikk.",
+      "openai_key_missing": "Süvauuringu teenus pole seadistatud."
+    }
+  },
+  "about": {
+    "title": "Meist",
+    "intro": {
+      "paragraph1": "<p><strong>SotsiaalAI</strong> on tehisintellektil põhinev veebiplatvorm, mis toetab nii sotsiaalvaldkonna spetsialiste kui ka inimesi, kes otsivad selgust elulistes küsimustes. Sotsiaalvaldkonda iseloomustavad <strong>suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis</strong> – seda kinnitab ka <oska>OSKA raport (2025)</oska>. SotsiaalAI eesmärk on muuta vajalik teadmine paremini kättesaadavaks ning toetada nii professionaalset tööd kui ka abi otsimist.</p>",
+      "paragraph2": "<p>Platvormi keskmes on üks vestlusaken, mille kaudu saab küsida infot, saada juhendamist, koostada dokumente ja aruandeid ning vormistada praktilisi järgmisi samme. Vestluse kaudu saab kirjeldada ka abisoove ja abipakkumisi, lasta need struktureerida, vaadata sobivaid kuulutusi ning vajadusel liikuda edasi inimestevahelise suhtluseni. Lisaks saab kasutada <strong>dokumendi analüüsi, süvauuringut, grupivestlust, dikteerimist ja vastuste ettelugemist</strong>, mis parandavad ligipääsetavust ja kasutusmugavust.</p>",
+      "paragraph3": "<p>Platvormil on kaks rollipõhist, agendivõimekusega tehisintellekti assistenti: üks <strong>sotsiaaltöö spetsialistidele</strong> ja teine <strong>eluküsimustega pöördujatele</strong>. Spetsialistile on SotsiaalAI töövahend õigusraamistiku, metoodikate ja praktikate mõtestamisel, dokumentide koostamisel, materjalide haldamisel ning kovisiooni ja koostöö toetamisel. Pöördujale aitab see mõista toetusi, teenuseid ja õigusi ning vajadusel koostada ka kirju, taotlusi ja muid vajalikke tekste.</p>",
+      "paragraph4": "<p>SotsiaalAI visioon on kujuneda <strong>järgmise põlvkonna sotsiaalvaldkonna platvormiks</strong>, mille keskmes on üks vestlusaken. Selles kohtuvad tehisintellekt, usaldusväärne teadmuspõhi ja praktilised lahendused, et aidata nii spetsialistidel kui ka inimestel jõuda küsimusest või vajadusest selguse, järgmiste sammude ja toimiva lahenduseni - olgu selleks teenus, toetus, dokument, abisoov või -pakkumine, karjäärinõustamine, töövõimalus või abivahend.</p>",
+      "paragraph5": "<p>SotsiaalAI-d arendatakse <strong>sotsiaalse ettevõttena</strong> ja <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta töövood, koostöö ja abi leidmine selgemaks, kiiremaks ja ligipääsetavamaks. Seejuures peame oluliseks turvalist ja vastutustundlikku kasutuskogemust, mistõttu pöörame tähelepanu andmekaitsele, selgetele kasutusreeglitele ning vajalike turva- ja kaitsemeetmete rakendamisele.</p>",
+      "paragraph6": "<p>SotsiaalAI OÜ, registrikood 14206225, aadressiga Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti. <a href=\"#\" data-contact-open=\"1\">Kontakt</a>.</p>"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "email_label": "E-post",
+      "email_value": "info@sotsiaal.ai",
+      "company": "SotsiaalAI OÜ",
+      "registry_label": "Registrikood",
+      "registry_value": "14206225",
+      "address_label": "Aadress",
+      "address_value": "Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti",
+      "modal_body": "<p><strong>SotsiaalAI OÜ</strong><br />Registrikood 14206225<br />Aadress: Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti<br /><a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a></p>"
+    },
+    "cta": {
+      "title": "Enne kasutamist"
+    },
+    "links": {
+      "privacy": "Privaatsuspoliitika",
+      "terms": "Kasutustingimused",
+      "analytics": "Analüütika",
+      "admin": "RAG andmebaasi haldus",
+      "back_home": "Tagasi avalehele"
+    },
+    "footer": {
+      "note": "SotsiaalAI © 2025"
+    },
+    "guide": {
+      "jump_link": "Platvormi kasutusjuhend",
+      "short_title": "Kasutusjuhend",
+      "title": "Kuidas kasutada platvormi?",
+      "intro": "See juhend annab ülevaate, kuidas SotsiaalAI-s valida rolli, luua konto, aktiveerida ligipääsu ning kasutada vestlust, keele ja ligipääsetavuse seadeid, abi- ja dokumenditöövooge, dokumendi koostamist, ruume ja rollipõhiseid lehti.",
+      "sections_v2": {
+        "accessibility": {
+          "title": "1. Keel ja ligipääsetavus",
+          "body": "<p>Esimesel külastusel avaneb automaatselt <a href=\"#\" data-a11y-open=\"1\">Keel ja ligipääsetavus</a> aken. Sama vaate saad hiljem uuesti avada lehel <a href=\"/profiil\">Profiil</a>.</p><ul><li><strong>Keel.</strong> Vali kasutajaliidese keel: eesti, vene või inglise.</li><li><strong>Ekraani profiil.</strong> Vali \"Mobiil / sülearvuti\" või \"Väline ekraan\", et kuva sobituks paremini sinu seadmega.</li><li><strong>Teksti suurus.</strong> Kohanda kirjasuurust endale mugavaks.</li><li><strong>Kontrast.</strong> Lülita vajadusel sisse kõrgem kontrast.</li><li><strong>Animatsioonid.</strong> Märgi \"Vähenda liikumist\", kui soovid rahulikumat ja stabiilsemat kasutuskogemust.</li><li><strong>Teema.</strong> Profiili kaudu saad vahetada ka heleda, hämarama, tumeda ja öise kujunduse vahel.</li><li><strong>Salvestamine ja lähtestamine.</strong> Muudatused rakenduvad kohe, kuid vajadusel saad eelistused lähtestada ja uuesti salvestada.</li></ul>"
+        },
+        "home": {
+          "title": "2. Avaleht",
+          "body": "<p>Avalehel on kaks rollikaarti: \"Sotsiaaltöö spetsialistile\" ja \"Eluküsimusega pöördujale\".</p><ul><li>Kui sa pole sisse logitud, avab rollikaardi klõps sisselogimise vaate, kust saad liikuda ka registreerimisele.</li><li>Kui oled juba sisse logitud, viib rollikaardi klõps sinu rolli vestlusvaatesse.</li><li>Avalehel kuvatakse ka võimalus paigaldada SotsiaalAI oma seadmesse eraldi rakendusena, et platvormi oleks mugavam avada telefonis või arvutis.</li><li>Avalehe allosas asub <a href=\"/#meist\">MEIST</a> jaotis koos platvormi tutvustuse, tingimuste ja kasutusjuhendi lingiga.</li></ul>"
+        },
+        "register": {
+          "title": "3. Registreerimine ja ligipääsu aktiveerimine",
+          "body": "<p>SotsiaalAI kasutamiseks on vaja kontot. Vestluse aktiivseks kasutamiseks peab kontol olema ka aktiivne tellimus või sponsoreeritud ligipääs.</p><p><strong>3.1 Registreerimine</strong></p><ol><li>Vali avalehel sobiv rollikaart ja ava <a href=\"/registreerimine\">Registreerimine</a>.</li><li>Täida vorm: sisesta e-posti aadress ja PIN-kood (4–8 numbrit).</li><li>Nõustu kasutustingimustega, kinnita, et oled tutvunud privaatsuspoliitikaga, anna vajalikud nõusolekud nende töötluste jaoks, mis põhinevad nõusolekul, ning kinnita, et oled tutvunud platvormi kasutusjuhendiga.</li><li>Kui valid rolli <strong>Sotsiaaltöö spetsialist</strong> ja soovid kasutada platvormi tööandja või organisatsiooni nimel kliendi või muu isiku tuvastatavate andmetega, võivad lisaks kohalduda tööalase kasutuse ja andmetöötluse eritingimused.</li><li>Pärast registreerumist saadame sulle kinnituskirja. Konto aktiveerimiseks ava kiri ja kinnita oma e-posti aadress.</li></ol><p><strong>3.2 Tellimus või sponsoreeritud ligipääs</strong></p><ul><li>Pärast kinnitamist saad sisse logida e-posti ja PIN-koodiga.</li><li>Kui sul puudub aktiivne ligipääs, suunab platvorm sind lehele <a href=\"/tellimus\">Tellimus</a>.</li><li>Tellimuse algatamisel suunatakse sind Maksekeskuse makselehele. Ligipääs aktiveeritakse pärast makseteenuse kinnitust.</li><li><strong>Kuutasu on rollipõhine:</strong> eluküsimusega pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus.</li><li>Kui sinu ligipääs on sponsoreeritud kutse kaudu, kehtib see sponsoreeritud perioodi jooksul, tavaliselt ühe kuu, ilma eraldi makseta. Pärast selle lõppu saad kasutamise jätkamiseks aktiveerida oma tellimuse.</li></ul>"
+        },
+        "signin": {
+          "title": "4. Sisselogimine ja rolli alusel liikumine",
+          "body": "<p>Sisselogimine algab avalehelt sobiva rollikaardi valikuga.</p><ul><li>Sisesta e-posti aadress ja PIN-kood.</li><li>Varem usaldatud seadmes piisab tavaliselt ainult PIN-ist.</li><li>Kui logid sisse uuest või ebatavalisest keskkonnast, saadame e-postile 6-kohalise kinnituskoodi.</li><li>Soovi korral märgi \"Mäleta seda seadet 30 päeva\".</li><li>Kui PIN on ununenud, kasuta linki <a href=\"/taasta-parool\">Unustasin PIN-i</a>.</li><li>Pärast edukat sisselogimist avaneb sinu rolli vestlusvaade; kui ligipääs on piiratud, kuvatakse järgmised sammud.</li></ul>"
+        },
+        "chat": {
+          "title": "5. Vestlusleht",
+          "body": "<p><strong>Vestlusleht</strong> avaneb pärast sisselogimist. Leht jaguneb kolmeks: vasak kerimismenüü, keskmine vestlusala ja parem kerimismenüü.</p><p><strong>Keskmine vestlusala</strong></p><ul><li>Kirjuta sõnum sisestusväljale ja saada see nupu või Enteriga.</li><li>Vastuse loomise ajal muutub saatenupp peatamise nupuks.</li></ul><p><strong>Hääl, kerimine ja hoiatused</strong></p><ul><li>Mikrofoni nupuga saad kasutada dikteerimist; assistendi viimast vastust saab lasta ette lugeda.</li><li>Kui kerid vestluses üles, ilmub kiire nupp vestluse lõppu naasmiseks.</li><li>Võimaliku kriisiolukorra korral kuvatakse punane teavituskast kiire abi juhistega.</li></ul><p><strong>Keskmine vestlusala</strong></p><ul><li><strong>Plussmärk (+).</strong> Sisestuslahtri kõrval olev <strong>+</strong> avab vestluse tööriistad. Sealt saad sõltuvalt rollist ja olukorrast avada näiteks dokumendi analüüsi, süvauuringu, <strong>Dokumendid</strong> või <strong>Dokumendi koostamise</strong>.</li><li>Kui avad olemasoleva ruumi, muutub sama ala ruumivestluseks, kus näed ühiseid sõnumeid ja saad jätkata suhtlust kutsutud inimestega.</li></ul><p><strong>Assistendi töörežiimid vestluses</strong></p><ul><li><strong>Assistendirežiim.</strong> See on tavaline vestlusrežiim, kus saad küsida infot, selgitusi, järgmisi samme ja allikatega vastuseid.</li><li><strong>Dokumendi koostamise režiim.</strong> Kui sinu sõnum viitab dokumendi, kirja, vastuse või vormi koostamisele, küsib assistent enne töövoo alustamist loomulikus keeles kinnitust.</li><li><strong>Abisoovi režiim.</strong> Kui soovid abi otsida, juhib assistent sind abisoovi kirje koostamiseni.</li><li><strong>Abipakkumise režiim.</strong> Kui soovid abi pakkuda, juhib assistent sind abipakkumise kirje koostamiseni.</li><li>Kui vastad assistendi töörežiimi küsimusele <strong>jah</strong>, lukustub valitud töövoog sellesse vestlusesse; kui vastad <strong>ei</strong>, pakub assistent teisi variante.</li></ul><p><strong>Abisoovid ja abipakkumised</strong></p><ul><li>Abisoov või abipakkumine luuakse vestluses samm-sammult.</li><li>Kirje salvestatakse alles siis, kui kinnitad selle vestluses tekstiga nagu <strong>jah</strong> või <strong>salvesta</strong>.</li><li>Vasakust kerimismenüüst näed kõigi kasutajate kirjeid, paremast kerimismenüüst oma kirjeid.</li><li>Kirje avamisel kuvatakse vestlusalas detailvaade, kust saad võtta ühendust, pakkuda abi, küsida AI-lt selgitusi, muuta oma kirjet, sulgeda selle või kustutada selle.</li><li>Abisoovi ja abipakkumise sidumine loob või avab olemasoleva ruumi, kus päris vestlus saab jätkuda.</li></ul><p><strong>Dokumendirežiim ja rollipõhised tulemused</strong></p><ul><li>Dokumendi koostamine algab alles pärast seda, kui kinnitad assistendi pakutud dokumenditöövoo.</li><li>Assistent küsib puuduvaid andmeid ükshaaval ja näitab enne genereerimist lühikest kokkuvõtet.</li><li>Aktiivses dokumendirežiimis ilmub kirjaklamber <strong>+</strong>-märgi kõrvale. Sellega lisatud failid kehtivad ainult selle vestluse ja selle dokumenditöö jaoks.</li><li>Failide piirmäär on rollipõhine: eluküsimusega pöördujal kuni 2 faili, sotsiaaltöö spetsialistil kuni 10 faili.</li><li>Kui kinnitad kokkuvõtte vastusega <strong>jah</strong>, luuakse mustand.</li><li><strong>Sotsiaaltöö spetsialistil</strong> avaneb vestlusest loodud tulemus lehel <strong>Dokumendid</strong>.</li><li><strong>Eluküsimusega pöördujal</strong> avaneb vestlusest loodud tulemus lehel <strong>Dokumendi koostamine</strong>, kus saad mustandit edasi täpsustada, salvestada ja märkida valmis.</li><li>DOCX- ja PDF-allalaadimine muutub kättesaadavaks alles pärast mustandi kinnitamist lõplikuks versiooniks.</li></ul><p><strong>Vasak kerimismenüü</strong></p><ul><li><strong>Vestlused.</strong> Ava varasemad vestlused, loo uus vestlus ja laadi vanemaid vestlusi.</li><li><strong>Abisoovid.</strong> Ava üleplatvormiline abisoovide nimekiri.</li><li><strong>Abipakkumised.</strong> Ava üleplatvormiline abipakkumiste nimekiri.</li><li><strong>Allikad.</strong> Kui vastus kasutab materjale, saad avada kasutatud allikate loendi.</li></ul><p><strong>Parem kerimismenüü</strong></p><ul><li><strong>Profiil.</strong> Ava konto-, tellimuse- ja ligipääsetavuse seaded.</li><li><strong>Ruumid.</strong> Ava olemasolevad grupivestlused.</li><li><strong>Lisa inimene.</strong> Saada kutse teisele inimesele. Kutsel saad valida, kas kutsutul on oma tellimus või tasud ühe kuu sponsoreeritud ligipääsu tema eest.</li><li><strong>Minu abisoovid</strong> ja <strong>Minu abipakkumised.</strong> Ava enda kirjed otse vestlusest.</li><li><strong>Materjalid.</strong> Laadi üles asjakohaseid materjale ja dokumente, et täiendada SotsiaalAI andmebaasi. Kõik saadetud failid vaadatakse enne andmebaasi lisamist üle.</li></ul>"
+        },
+        "documents": {
+          "title": "6. Dokumendid",
+          "body": "<p>Leht <strong>Dokumendid</strong> on mõeldud <strong>sotsiaaltöö spetsialistile</strong>. See on koht, kus hallata oma püsivaid tööfaile ja vestlusest või agendist tekkinud tulemusi.</p><ul><li>Saad üles laadida dokumente, avada nende detailvaateid ja alla laadida originaalfaile.</li><li>Dokumente saab märkida töörežiimis kasutatavaks, et võtta need kaasa agendi või muu dokumenditöö jaoks.</li><li>Lehel kuvatakse ka mustandid ja kinnitatud tulemused, mis on loodud dokumentide põhjal.</li><li>Tulemusi saab avada detailvaates, salvestada, kinnitada ja pärast kinnitamist alla laadida DOCX- või PDF-failina.</li><li>Kui vestluses loodud mustand on spetsialisti töö jaoks, jõuab see siia samale lehele.</li></ul>"
+        },
+        "agent_mode": {
+          "title": "7. Dokumendi koostamine",
+          "body": "<p>Leht <strong>Dokumendi koostamine</strong> on töölaud, kus agent aitab valitud failide põhjal tekste ja mustandeid koostada. Eluküsimusega pöördujale on see peamine koht vestlusest loodud dokumentide jätkamiseks.</p><ul><li>Saad valida ülesande tüübi, tooni, keele, pikkuse ja vajadusel malli.</li><li>Pöörduja saab lisada oma töö jaoks vajalikud failid otse dokumendi koostamises ning kasutada seal rollile kehtivat failipiiri.</li><li>Vestlus agendiga käib samal lehel: saad anda esimese juhise, paluda täpsustusi ja luua uusi versioone.</li><li>Lehel kuvatakse praegune mustand, versiooniajalugu ning varasemad salvestatud või valmis märgitud tulemused.</li><li>Kui vestluses loodud tulemus on pöörduja töö jaoks, avaneb see siin edasi töötamiseks.</li></ul>"
+        },
+        "profile": {
+          "title": "8. Profiil",
+          "body": "<p>Leht <a href=\"/profiil\">Profiil</a> koondab sinu konto, tellimuse ja kasutuseelistused.</p><ul><li>Lehe keskel on orbitaalmenüü, mille kaudu avanevad peamised profiili toimingud.</li><li><strong>Uuenda PIN.</strong> Avab eraldi lehe, kus sisestad praeguse PIN-i, uue PIN-i ja kinnituse.</li><li><strong>Uuenda e-post.</strong> Avab eraldi lehe, kus sisestad uue e-posti aadressi ja kinnitad muudatuse praeguse PIN-iga.</li><li><strong>Halda tellimust.</strong> Avab tellimuse lehe, kus näed aktiivset paketti, sponsoreeritud ligipääsu lõppkuupäeva ja rollipõhist kuutasu: eluküsimusega pöördujale 7,99 € kuus ning sotsiaaltöö spetsialistile 14,99 € kuus.</li><li><strong>Keel ja ligipääsetavus.</strong> Ava keele, ekraani profiili, teksti suuruse, kontrasti ja animatsioonide seaded; muudatused rakenduvad kohe.</li><li><strong>Kujundus.</strong> Vaheta heleda, hämarama, tumeda ja öise vaate vahel.</li><li><strong>Konto seaded.</strong> Ava eraldi konto seadete vaade, kus saad logida sellest seadmest välja, logida kõigist seadmetest välja või alustada konto kustutamist.</li><li>Mobiilis võib profiili menüüs olla ka otsetee sinu abisoovidele ja abipakkumistele.</li></ul>"
+        },
+        "about": {
+          "title": "9. MEIST",
+          "body": "<p>Jaotis <a href=\"/#meist\">MEIST</a> asub avalehel rollikaartide all. Seal leiad:</p><ul><li>platvormi lühitutvustuse ja kasutusotstarbe;</li><li>ettevõtte kontaktandmed, mille avab <a href=\"#\" data-contact-open=\"1\">Kontakt</a>;</li><li>lingid <a href=\"/kasutustingimused\">kasutustingimustele</a> ja <a href=\"/privaatsustingimused\">privaatsuspoliitikale</a>;</li><li>lingi <a href=\"/kasutusjuhend\">platvormi kasutusjuhendile</a>.</li></ul>"
+        },
+        "before_use": {
+          "title": "10. Enne kasutamist",
+          "body": "<p>Kasutusjuhendi lehe lõpus on eraldi plokk <strong>Enne kasutamist</strong>. Sealt saad enne alustamist kiiresti avada olulisemad lingid.</p><ul><li><strong>Platvormi kasutusjuhend.</strong> Avab sama juhendi lehe uuesti.</li><li><strong>Kasutustingimused</strong> ja <strong>privaatsuspoliitika.</strong> Avavad platvormi tingimuste ja andmekasutuse lehed.</li><li><strong>Kontakt.</strong> Avab ettevõtte kontaktandmetega väikese akna.</li><li><strong>Paigalda mobiili või arvutisse.</strong> Avab seadmesse paigaldamise toimingu või näitab juhist, kuidas lisada SotsiaalAI telefonis või arvutis eraldi rakendusena.</li></ul>"
+        },
+        "quickstart": {
+          "title": "11. Kiire ülevaade",
+          "body": "<p>Kui soovid kiiresti alustada, liigu nii:</p><ol><li><strong>Vali avalehel roll</strong> ja loo konto.</li><li><strong>Nõustu tingimustega</strong>, kinnita, et oled kasutusjuhendiga tutvunud, ja kinnita seejärel oma e-post.</li><li><strong>Aktiveeri tellimus või sponsoreeritud ligipääs.</strong> Kuutasu on pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus. Sponsoreeritud ligipääs kehtib tavaliselt ühe kuu ja pärast seda saad vajadusel oma tellimuse aktiveerida.</li><li><strong>Logi sisse</strong> ja ava vestlusleht.</li><li><strong>Kirjuta küsimus</strong> või kirjelda olukorda.</li><li>Kui assistent küsib töörežiimi kohta, vasta <strong>jah</strong> või <strong>ei</strong>, et liikuda assistendi-, abi- või dokumenditöövoogu.</li><li>Kasuta vasakut ja paremat kerimismenüüd vestluste, ruumide, allikate ning oma abikirjete avamiseks.</li><li>Seadeid, kontot ja tellimust saad hallata lehel <a href=\"/profiil\">Profiil</a>.</li></ol>"
+        }
+      }
+    }
+  },
+  "subscription": {
+    "title": "Tellimus",
+    "loading": "Laen tellimuse infot…",
+    "error": {
+      "load_failed": "Tellimuse oleku laadimine ebaõnnestus.",
+      "checkout_temporarily_disabled": "Maksmine on hetkel ajutiselt peatatud.",
+      "payment_start": "Makse algatamine ebaõnnestus.",
+      "payment_failed": "Makse ebaõnnestus või katkestati."
+    },
+    "payment": {
+      "redirect_demo": "Suuname Maksekeskuse makselehele...",
+      "pending": "Makse kinnitamine on pooleli.",
+      "confirmation_pending": "Makse algatati. Ligipääs aktiveeritakse pärast makseteenuse kinnitust."
+    },
+    "active": {
+      "summary": "Sinu tellimus on aktiivne. Kuutasu sõltub paketist: spetsialistile 14,99 € / kuu, pöördujale 7,99 € / kuu.",
+      "summary_priced": "Sinu tellimus on aktiivne. Pakett: {role}. Kuutasu: {amount} kuus.",
+      "cancel_note": "Tellimuse saad igal ajal tühistada oma profiililehelt.",
+      "sponsored_note": "Sinu ligipääs on praegu sponsoreeritud ja kehtib kuni {date}. Pärast seda pead kasutamise jätkamiseks aktiveerima oma tellimuse.",
+      "sponsored_ending_soon": "Sinu sponsoreeritud ligipääs lõpeb {days} päeva pärast, kuupäeval {date}. Kasutamise jätkamiseks aktiveeri oma tellimus.",
+      "sponsored_expired": "Sinu sponsoreeritud kuu on lõppenud. Jätkamiseks aktiveeri oma tellimus."
+    },
+    "button": {
+      "open_profile": "Ava profiil",
+      "activate": "Aktiveeri tellimus",
+      "processing": "Suunan maksele…"
+    },
+    "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Kuutasu sõltub paketist. Tellimus pikeneb automaatselt ja seda saad igal ajal profiililehel tühistada.",
+    "info_priced": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus. Rolli \"{role}\" kuutasu on {amount}. Tellimus pikeneb automaatselt ja seda saad igal ajal profiililehel tühistada.",
+    "sponsored_info": "Kui sinu ligipääs tuleb sponsoreeritud kutse kaudu, kehtib see ühe kuu. Pärast seda aktiveeri oma tellimus.",
+    "checkout": {
+      "title": "Enne maksmist",
+      "agreement": "Nõustun <terms>kasutustingimustega</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et liitun kuutasulise teenusega ja soovin makse algatada Maksekeskuse kaudu.",
+      "details": "Makseviisi valid Maksekeskuse makselehel. Ligipääs aktiveerub kohe pärast kinnitust. Kui maksega on probleem, lähtutakse Maksekeskuse tingimustest ja kohaldatavatest õigusnormidest.",
+      "error_required": "Enne maksmist peab linnuke olema nõusolekul märgitud.",
+      "recurring_title": "SotsiaalAI kuutellimus",
+      "recurring_description": "Roll: {role}. Kuutasu: {amount}. Tellimus pikeneb iga kuu automaatselt kuni selle tühistad.",
+      "recurring_confirmation": "Kinnitan, et nõustun korduva kuumaksega ja annan loa võtta edasised kuumaksed samalt kaardilt kuni tellimuse tühistamiseni."
+    }
+  },
+  "pwa": {
+    "heading": "Soovid platvormi eraldi rakendusena?",
+    "cta": "Paigalda mobiili või arvutisse",
+    "cta_mobile": "Paigalda mobiili",
+    "cta_desktop": "Paigalda arvutisse",
+    "instructions": {
+      "ios": "Vajuta \"Jaga\" ja seejärel \"Vaata veel\". Ekraanile lisamiseks vajuta.",
+      "ios_steps": {
+        "step_1_prefix": "Vajuta",
+        "step_2_prefix": "Vali",
+        "step_3_prefix": "Vajuta",
+        "share_label": "Jaga",
+        "more_label": "Vaata veel",
+        "add_home_label": "Lisa avakuvale"
+      },
+      "android": "Vajuta brauseri menüüd ja vali \"Lisa avakuvale\".",
+      "android_steps": {
+        "step_1_prefix": "Vajuta",
+        "step_2_prefix": "Vali",
+        "menu_label": "Brauseri menüü",
+        "add_home_label": "Lisa avakuvale"
+      },
+      "desktop": "Ava brauseri menüü ja vali paigaldamine.",
+      "mac": "Mac: Ava Safari ja vali menüüst File → Add to Dock…"
+    }
+  },
+  "start": {
+    "heading": "Tere tulemast tagasi",
+    "lead": "Vali, millise tööriistaga jätkad.",
+    "cards": {
+      "rag": {
+        "title": "RAG andmebaasi haldus",
+        "description": "Laadi üles uusi materjale, halda allikaid ja jälgi indeksi staatust."
+      },
+      "chat": {
+        "title": "Vestlusassistendiga",
+        "description": "Testi assistenti ja vii vestlusi, kasutades rollipõhist RAG-konteksti."
+      }
+    },
+    "metadata": {
+      "title": "Järgmine samm — SotsiaalAI",
+      "description": "Vali, kuhu edasi liikuda pärast sisselogimist."
+    }
+  },
+  "notFound": {
+    "title": "Lehte ei leitud",
+    "description": "Vabandame, otsitud lehte ei eksisteeri või see on eemaldatud."
+  },
+  "role": {
+    "admin": "Administraator",
+    "worker": "Sotsiaaltöö spetsialist",
+    "client": "Eluküsimusega pöörduja",
+    "unknown": "—"
+  },
+  "meta": {
+    "home": {
+      "title": "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
+      "description": "SotsiaalAI ühendab killustatud sotsiaalvaldkonna info ja pakub arusaadavat tuge nii spetsialistidele kui eluküsimusega pöördujatele."
+    },
+    "about": {
+      "title": "Meist — SotsiaalAI",
+      "description": "Tutvu SotsiaalAI missiooni, väärtuste ja meeskonnaga."
+    },
+    "terms": {
+      "title": "Kasutustingimused – SotsiaalAI",
+      "description": "Tutvu SotsiaalAI platvormi kasutustingimustega."
+    },
+    "privacy": {
+      "title": "Privaatsustingimused – SotsiaalAI",
+      "description": "Loe, kuidas SotsiaalAI kogub, kasutab ja kaitseb sinu andmeid."
+    },
+    "profile": {
+      "title": "Profiil – SotsiaalAI",
+      "description": "Halda oma kontoandmeid, eelistusi ja ligipääsu SotsiaalAI teenustele."
+    },
+    "register": {
+      "title": "Loo konto – SotsiaalAI",
+      "description": "Registreeru ja vali roll, et kasutada SotsiaalAI platvormi."
+    },
+    "subscription": {
+      "title": "Tellimus – SotsiaalAI",
+      "description": "Vaata ja halda oma SotsiaalAI tellimust ja makseid."
+    },
+    "reset": {
+      "title": "PIN-i taastamine – SotsiaalAI",
+      "description": "Taasta oma konto PIN turvalise taastelingi abil."
+    },
+    "chat": {
+      "title": "Vestlus – SotsiaalAI",
+      "description": "Vestle rollipõhise AI-assistendiga, et leida vastuseid sotsiaalküsimustele."
+    },
+    "start": {
+      "title": "Järgmine samm — SotsiaalAI",
+      "description": "Vali, millise tööriistaga jätkad pärast sisselogimist."
+    },
+    "guide": {
+      "title": "Kasutusjuhend - SotsiaalAI",
+      "description": "Loe samm-sammult, kuidas SotsiaalAI platvormi kasutada."
+    },
+    "rooms": {
+      "load_failed": "Ruumide laadimine ebaonnestus.",
+      "title": "Rooms - SotsiaalAI",
+      "description": "Ava ja halda oma grupivestluse ruume."
+    },
+    "email_update": {
+      "title": "Update email - SotsiaalAI",
+      "description": "Muuda oma SotsiaalAI kontoga seotud e-posti aadressi."
+    }
+  },
+  "join": {
+    "missing_title": "Kutse link puudub",
+    "missing_description": "Palun ava kutselink oma e-postist.",
+    "heading": "Liitu vestlusega",
+    "lead": "Kinnitame kutse ja lisame sind ruumi.",
+    "signin_prompt": "Logi sisse või loo konto, et liituda.",
+    "signin": "Logi sisse",
+    "logged_in_as": "Oled sisse logitud kasutajana {email}.",
+    "join_button": "Liitu",
+    "joining": "Liidan...",
+    "success": "Liitumine õnnestus",
+    "error": "Liitumine ebaõnnestus",
+    "name_label": "Sinu nimi vestluses",
+    "name_placeholder": "Nt Kert",
+    "name_required": "Palun sisesta oma nimi."
+  },
+  "rooms": {
+    "aria": "Ruumid",
+    "title": "Ruumid",
+    "error": "Ruumide laadimine ebaõnnestus",
+    "loading": "Laadin ruume...",
+    "empty": "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.",
+    "fallback_title": "Ruum",
+    "back_to_chats": "Tagasi vestlustesse",
+    "unread": "Uusi",
+    "role_label": "Roll",
+    "members_label": "Liikmeid",
+    "last_empty": "Veel sõnumeid pole",
+    "role": {
+      "owner": "Omanik",
+      "moderator": "Moderaator",
+      "member": "Liige",
+      "admin": "Admin"
+    },
+    "invite": "Kutsu",
+    "leave": "Lahku",
+    "leave_busy": "Lahkun...",
+    "delete": "Kustuta",
+    "delete_busy": "Kustutan...",
+    "delete_title": "Kustuta ruum",
+    "delete_confirm": "Kustuta ruum \"{name}\"? See kustutab sõnumid ja kutsed.",
+    "leave_failed": "Ruumist lahkumine ebaõnnestus.",
+    "delete_failed": "Kustutamine ebaõnnestus.",
+    "cancel": "Tühista"
+  },
+  "invite": {
+    "success": "Kutsed saadetud",
+    "title": "Kutsu inimesi",
+    "eyebrow": "Grupivestlus",
+    "login_required": "Kutsumiseks logi sisse.",
+    "classic": {
+      "emails": "Kutsu inimesi vestlusesse",
+      "emails_ph": "Keda kutsud? (eralda e-postid komaga)",
+      "emails_help": "Eralda komaga",
+      "relationship": "Kellega on tegu?",
+      "payment": "Tellimuse olemasolu"
+    },
+    "rel": {
+      "colleague": "Kolleeg",
+      "client": "Klient"
+    },
+    "pay": {
+      "label": "Maksmine",
+      "self": "Kutsutu teeb tellimuse ise",
+      "host": "Tasun tema eest",
+      "default_note": "Vaikimisi saadad lihtsalt kutse. Kutsutud inimene saab registreeruda ning vajadusel tellimuse ise aktiveerida, enne kui ta ruumiga liitub.",
+      "multiple_hint": "Sponsoreeritud kutse jaoks saad korraga kasutada ainult ühte e-posti aadressi."
+    },
+    "sponsored": {
+      "title": "Vali sponsoreeritud tellimuse roll",
+      "description": "Vali, kas ostad kutsutule üheks kuuks sotsiaaltöö spetsialisti või eluküsimusega pöörduja tellimuse.",
+      "one_month_note": "Pärast makse kinnitamist saadetakse kutse välja. Sponsoreeritud tellimus kehtib ühe kuu; seejärel peab kutsutud inimene ise tellimust jätkama.",
+      "confirm_and_pay": "Alusta makset",
+      "payment_success": "Makse õnnestus. Kutse saadetakse välja pärast makse kinnitust.",
+      "payment_canceled": "Makse katkestati. Kutset ei saadetud välja.",
+      "payment_failed": "Makse ebaõnnestus. Proovi uuesti.",
+      "checkout": {
+        "title": "Enne makset",
+        "agreement": "Nõustun <terms>kasutus-</terms> ja <privacy>privaatsustingimustega</privacy>. Mõistan, et ostan kutsutule ühe kuu sponsoreeritud ligipääsu ja soovin makse algatada Maksekeskuse kaudu.",
+        "details": "Makseviisi valid Maksekeskuse makselehel. Sponsoreeritud kuu on ühekordne ega uuene automaatselt."
+      },
+      "role": {
+        "worker": "Sotsiaaltöö spetsialist",
+        "client": "Eluküsimusega pöörduja"
+      }
+    },
+    "sending": "Saadan...",
+    "send": "SAADA KUTSE",
+    "list": "Kutsed",
+    "loading": "Laen...",
+    "refresh": "Värskenda",
+    "empty": "Kutsete nimekiri on tühi",
+    "table": {
+      "email": "Email",
+      "role": "Roll",
+      "payer": "Maksja",
+      "status": "Staatus"
+    },
+    "payer": {
+      "host": "Tasun tema eest",
+      "self": "Kutsutu teeb tellimuse ise"
+    },
+    "resend": "Saada uuesti",
+    "room_title": "Ruumi nimi",
+    "room_title_required": "Lisa ruumile nimi enne kutsete saatmist.",
+    "host_name": "Sinu nimi vestluses",
+    "host_name_ph": "Sinu nimi",
+    "host_name_required": "Lisa oma nimi enne kutsete saatmist.",
+    "send_failed": "Kutse saatmine ebaõnnestus.",
+    "action_failed": "Tegevus ebaõnnestus.",
+    "error_generic": "Viga.",
+    "status": {
+      "accepted_self": "Liitunud (oma plaan)",
+      "accepted_sponsored": "Liitunud (sponsoreeritud)"
+    },
+    "error": {
+      "rate_limited": "Too many requests. Please try again later.",
+      "emails_required": "Lisa vähemalt üks e-posti aadress.",
+      "sponsored_single_email_required": "Sponsoreeritud kutse puhul saad korraga kutsuda ühe inimese.",
+      "sponsor_plan_required": "Vali sponsoreeritud tellimuse roll enne makse alustamist.",
+      "invitee_active_subscription": "Selle e-posti aadressiga kasutajal on juba aktiivne tellimus. Sponsoreeritud kuud ei saa talle uuesti osta.",
+      "sponsored_checkout_required": "Kui valid \"Tasun tema eest\", tuleb kutse saata sponsoreeritud tellimuse maksevoo kaudu.",
+      "sponsor_plan_unavailable": "Sponsoreeritud kutset ei saa luua, sest sobiv pakett pole saadaval.",
+      "sponsor_capacity_full": "Sponsoreeritud kohtade limiit on täis.",
+      "checkout_temporarily_disabled": "Maksmine on hetkel ajutiselt peatatud.",
+      "checkout_terms_required": "Enne sponsoreeritud makse algatamist peab tingimustega nõustuma."
+    }
+  },
+  "email": {
+    "auth": {
+      "reset": {
+        "subject": "SotsiaalAI PIN-i taastamine",
+        "text": "Tere!\n\nSaad PIN-i lähtestada lingi kaudu:\n{resetUrl}\n\nKui sa ei soovinud PIN-i taastada, võid selle kirja eirata.",
+        "html": "<p>Tere!</p><p>Saad PIN-i lähtestada lingi kaudu:</p><p><a href=\"{resetUrl}\">{resetUrl}</a></p><p>Kui sa ei soovinud PIN-i taastada, võid selle kirja eirata.</p>"
+      },
+      "login_otp": {
+        "subject": "SotsiaalAI sisselogimise kinnituskood",
+        "text": "Tere!\n\nSinu kinnituskood on: {code}\nKood kehtib {minutes} minutit.\n\nKui sa ei proovinud sisse logida, eira seda kirja.",
+        "html": "<p>Tere!</p><p>Sinu kinnituskood on: <strong>{code}</strong></p><p>Kood kehtib {minutes} minutit.</p><p>Kui sa ei proovinud sisse logida, eira seda kirja.</p>"
+      },
+      "login_otp_resend": {
+        "subject": "SotsiaalAI uus kinnituskood",
+        "text": "Tere!\n\nSinu uus kinnituskood on: {code}\nKood kehtib {minutes} minutit.\n\nKui sa ei proovinud sisse logida, eira seda kirja.",
+        "html": "<p>Tere!</p><p>Sinu uus kinnituskood on: <strong>{code}</strong></p><p>Kood kehtib {minutes} minutit.</p><p>Kui sa ei proovinud sisse logida, eira seda kirja.</p>"
+      },
+      "login_device_alert": {
+        "subject": "SotsiaalAI sisselogimine uuest või tundmatust seadmest",
+        "text": "Tere!\n\nMärkasime sisselogimiskatset uuest või tundmatust seadmest.\n\nAeg: {time}\nSeade: {device}\nIP-aadress: {ip}\n\nKui see olid sina, saad sisselogimist kinnituskoodiga jätkata. Kui mitte, muuda palun kohe oma PIN-i.",
+        "html": "<p>Tere!</p><p>Märkasime sisselogimiskatset uuest või tundmatust seadmest.</p><ul><li><strong>Aeg:</strong> {time}</li><li><strong>Seade:</strong> {device}</li><li><strong>IP-aadress:</strong> {ip}</li></ul><p>Kui see olid sina, saad sisselogimist kinnituskoodiga jätkata. Kui mitte, muuda palun kohe oma PIN-i.</p>"
+      },
+      "verify": {
+        "subject": "Kinnita oma e-posti aadress",
+        "text": "Tere!\n\nPalun kinnita oma e-posti aadress alloleva lingi kaudu:\n{verifyUrl}\n\nKui sa ei loonud kontot, siis voi selle kirja eirata.",
+        "html": "<p>Tere!</p><p>Palun kinnita oma e-posti aadress alloleva lingi kaudu:</p><p><a href=\"{verifyUrl}\">{verifyUrl}</a></p><p>Kui sa ei loonud kontot, siis voi selle kirja eirata.</p>"
+      },
+      "account_deleted": {
+        "subject": "SotsiaalAI konto on kustutatud",
+        "text": "Tere!\n\nTeie SotsiaalAI konto on kustutatud.\n\nKui te ei algatanud seda tegevust, palun kirjutage kohe aadressile info@sotsiaal.ai.",
+        "html": "<p>Tere!</p><p>Teie SotsiaalAI konto on kustutatud.</p><p>Kui te ei algatanud seda tegevust, palun kirjutage kohe aadressile <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>.</p>"
+      }
+    },
+    "invite": {
+      "create": {
+        "subject": "Invitation: {roomTitle}",
+        "text": "Tere!\n\n{inviterName} kutsus sind ruumi \"{roomTitle}\".\n\nLiitu: {joinLink}\n\nKui sa seda e-kirja ei oodanud, võid seda eirata.",
+        "html": "<p>Tere!</p><p>{inviterName} kutsus sind ruumi <strong>{roomTitle}</strong>.</p><p><a href=\"{joinLink}\">Liitu ruumiga</a></p><p>Kui sa seda e-kirja ei oodanud, võid seda eirata.</p>"
+      },
+      "sponsored": {
+        "subject": "Sponsoreeritud kutse: {roomTitle}",
+        "text": "Tere!\n\n{inviterName} kutsus sind ruumi \"{roomTitle}\" ja tasus sinu eest ühe kuu tellimuse.\nValitud roll: {roleLabel}\n\nLiitu: {joinLink}\n\nPärast ühe kuu lõppu pead kasutamise jätkamiseks tellimuse ise aktiveerima lehel Tellimus.\n\nKui sa ei oodanud seda kirja, võid selle eirata.",
+        "html": "<p>Tere!</p><p>{inviterName} kutsus sind ruumi <strong>{roomTitle}</strong> ja tasus sinu eest ühe kuu tellimuse.</p><p><strong>Valitud roll:</strong> {roleLabel}</p><p><a href=\"{joinLink}\">Liitu ruumiga</a></p><p>Pärast ühe kuu lõppu pead kasutamise jätkamiseks tellimuse ise aktiveerima lehel Tellimus.</p><p>Kui sa ei oodanud seda kirja, võid selle eirata.</p>"
+      },
+      "resend": {
+        "subject": "Invitation reminder: {roomTitle}",
+        "text": "Tere!\n\n{inviterName} saatis sulle ruumi \"{roomTitle}\" jaoks uue kutselingi.\n\nLiitu: {joinLink}\n\nKui sa seda e-kirja ei oodanud, võid seda eirata.",
+        "html": "<p>Tere!</p><p>{inviterName} saatis sulle ruumi <strong>{roomTitle}</strong> jaoks uue kutselingi.</p><p><a href=\"{joinLink}\">Liitu ruumiga</a></p><p>Kui sa seda e-kirja ei oodanud, võid seda eirata.</p>"
+      }
+    },
+    "payment": {
+      "owner_webhook": {
+        "subject": "[SotsiaalAI] Makse veebikonks: {status} ({providerPaymentId})",
+        "text": "Makse veebikonks töödeldi.\n\nOlek: {status}\nMakseteenuse makse ID: {providerPaymentId}\nMakse ID: {paymentId}\nSumma: {amount} {currency}\nTasutud: {paidAt}\nLoodud: {createdAt}\nKasutaja e-post: {userEmail}\nKasutaja ID: {userId}\nTellimuse ID: {subscriptionId}\nTellimuspakett: {subscriptionPlan}\nTellimuse olek: {subscriptionStatus}\nTellimus kehtib kuni: {subscriptionValidUntil}\nTellimus tühistati: {subscriptionCanceledAt}\nTellimuse tegevus: {subscriptionAction}\nSündmuse aeg: {eventTime}\n\nAdministraatori analüütika: {adminUrl}",
+        "html": "<p>Makse veebikonks töödeldi.</p><ul><li><strong>Olek:</strong> {status}</li><li><strong>Makseteenuse makse ID:</strong> {providerPaymentId}</li><li><strong>Makse ID:</strong> {paymentId}</li><li><strong>Summa:</strong> {amount} {currency}</li><li><strong>Tasutud:</strong> {paidAt}</li><li><strong>Loodud:</strong> {createdAt}</li><li><strong>Kasutaja e-post:</strong> {userEmail}</li><li><strong>Kasutaja ID:</strong> {userId}</li><li><strong>Tellimuse ID:</strong> {subscriptionId}</li><li><strong>Tellimuspakett:</strong> {subscriptionPlan}</li><li><strong>Tellimuse olek:</strong> {subscriptionStatus}</li><li><strong>Tellimus kehtib kuni:</strong> {subscriptionValidUntil}</li><li><strong>Tellimus tühistati:</strong> {subscriptionCanceledAt}</li><li><strong>Tellimuse tegevus:</strong> {subscriptionAction}</li><li><strong>Sündmuse aeg:</strong> {eventTime}</li></ul><p><a href=\"{adminUrl}\">Ava administraatori analüütika</a></p>"
+      },
+      "customer_confirmation": {
+        "subscription": {
+          "subject": "[SotsiaalAI] Makse laekus",
+          "text": "Tere!\n\nSinu SotsiaalAI tellimuse makse laekus edukalt.\n\nSumma: {amount} {currency}\nTasutud: {paidAt}\nTellimuspakett: {subscriptionPlan}\nKehtib kuni: {subscriptionValidUntil}\n\nTellimust saad hallata profiililehel: {profileUrl}\nKui vajad abi, kirjuta {supportEmail}.\n\nTellimus pikeneb automaatselt, kui sa seda Profiili lehel ei tühista või kui seadus ei nõua teisiti.",
+          "html": "<p>Tere!</p><p>Sinu SotsiaalAI tellimuse makse laekus edukalt.</p><ul><li><strong>Summa:</strong> {amount} {currency}</li><li><strong>Tasutud:</strong> {paidAt}</li><li><strong>Tellimuspakett:</strong> {subscriptionPlan}</li><li><strong>Kehtib kuni:</strong> {subscriptionValidUntil}</li></ul><p>Tellimust saad hallata <a href=\"{profileUrl}\">profiililehel</a>.</p><p>Kui vajad abi, kirjuta <a href=\"mailto:{supportEmail}\">{supportEmail}</a>.</p><p>Tellimus pikeneb automaatselt, kui sa seda Profiili lehel ei tühista või kui seadus ei nõua teisiti.</p>"
+        },
+        "sponsored": {
+          "subject": "[SotsiaalAI] Sponsoreeritud ligipääsu makse laekus",
+          "text": "Tere!\n\nSinu sponsoreeritud ligipääsu makse laekus edukalt.\n\nSumma: {amount} {currency}\nTasutud: {paidAt}\nRuum: {roomTitle}\nValitud roll: {roleLabel}\n\nTellimust saad hallata profiililehel: {profileUrl}\nKui vajad abi, kirjuta {supportEmail}.\n\nKutse saadetakse eraldi ning kutsutud inimene saab ligipääsu kirja.",
+          "html": "<p>Tere!</p><p>Sinu sponsoreeritud ligipääsu makse laekus edukalt.</p><ul><li><strong>Summa:</strong> {amount} {currency}</li><li><strong>Tasutud:</strong> {paidAt}</li><li><strong>Ruum:</strong> {roomTitle}</li><li><strong>Valitud roll:</strong> {roleLabel}</li></ul><p>Tellimust saad hallata <a href=\"{profileUrl}\">profiililehel</a>.</p><p>Kui vajad abi, kirjuta <a href=\"mailto:{supportEmail}\">{supportEmail}</a>.</p><p>Kutse saadetakse eraldi ning kutsutud inimene saab ligipääsu kirja.</p>"
+        }
+      }
+    }
+  },
+  "api": {
+    "common": {
+      "unauthorized": "Jatkamiseks logi sisse.",
+      "forbidden": "Sul puudub selle tegevuse jaoks oigus.",
+      "invalid_request": "Vigane paring.",
+      "invalid_json": "Vigane JSON payload.",
+      "missing_room_id": "Ruumi ID puudub.",
+      "rate_limited": "Liiga palju paringuid. Proovi hiljem uuesti.",
+      "subscription_required": "Vajalik on aktiivne tellimus.",
+      "monthly_budget_exceeded": "Kuu kasutuseelarve on täis. Jätka järgmisel kuul või uuenda paketti."
+    },
+    "chat": {
+      "invalid_conv_id": "Vigane vestluse ID.",
+      "invalid_id": "Vigane ID.",
+      "not_found": "Vestlust ei leitud.",
+      "conversation_exists": "Vestlus on juba olemas.",
+      "db_unavailable": "Andmebaas ei ole ajutiselt saadaval.",
+      "db_error_run_read": "Vestluse konteksti ei saanud laadida.",
+      "db_error_analyze_usage": "Analyysi kasutust ei saanud laadida.",
+      "db_error_conversations_list": "Vestlusi ei saanud laadida.",
+      "db_error_conversation_create": "Vestlust ei saanud luua.",
+      "db_error_conversation_read": "Vestlust ei saanud laadida.",
+      "db_error_conversation_delete": "Vestlust ei saanud kustutada.",
+      "db_error_conversation_restore": "Vestlust ei saanud taastada.",
+      "db_error_conversation_messages": "Vestluse sonumeid ei saanud laadida.",
+      "analyze": {
+        "multipart_required": "Paring peab olema multipart/form-data.",
+        "file_required": "Lisa fail.",
+        "file_too_large": "Fail on liiga suur.",
+        "mime_not_allowed": "Seda failiformaati ei toetata.",
+        "quota_exceeded": "Analyysi limiit on tais.",
+        "quota_check_failed": "Analyysi limiiti ei saanud kontrollida.",
+        "rag_key_missing": "Analyysi teenus ei ole seadistatud.",
+        "rag_host_external_denied": "Valise analyysi host ei ole lubatud.",
+        "rag_service_failed": "Analyysi teenuse paring ebaonnestus.",
+        "service_unavailable": "Analyysi teenus ei ole praegu saadaval.",
+        "privacy_ephemeral": "Faili toodeldakse ajutiselt ja seda ei salvestata."
+      }
+    },
+    "rooms": {
+      "not_found": "Ruumi ei leitud.",
+      "not_member": "Sa ei ole selle ruumi liige.",
+      "owner_cannot_leave": "Ruumi omanik ei saa ruumist lahkuda.",
+      "missing_room_id_or_msg_id": "Ruumi ID voi sonumi ID puudub.",
+      "message_not_found": "Sonumit ei leitud.",
+      "message_required": "Sonumi sisu on kohustuslik.",
+      "access_denied": "Ligipaas keelatud.",
+      "join_unavailable": "Liitumine ei ole praegu saadaval.",
+      "send_failed": "Sonumi saatmine ebaonnestus.",
+      "read_update_failed": "Lugemisoleku uuendamine ebaonnestus.",
+      "leave_failed": "Ruumist lahkumine ebaonnestus.",
+      "delete_failed": "Ruumi kustutamine ebaonnestus.",
+      "delete_message_failed": "Sonumi kustutamine ebaonnestus."
+    },
+    "stt": {
+      "not_configured": "Kõnest tekstiks teenus ei ole seadistatud.",
+      "rate_limited": "Liiga palju dikteerimispäringuid. Proovi hiljem uuesti.",
+      "audio_missing": "Helisisend puudub.",
+      "audio_too_large": "Dikteerimise helifail on liiga suur.",
+      "audio_format_unsupported": "Seda heliformaati ei toetata.",
+      "transcription_failed": "Dikteerimine ebaõnnestus.",
+      "service_error": "Kõnest tekstiks teenuse viga."
+    },
+    "tts": {
+      "not_configured": "Tekstist kõneks teenus ei ole seadistatud.",
+      "rate_limited": "Liiga palju kõnepäringuid. Proovi hiljem uuesti.",
+      "text_missing": "Tekstisisend puudub.",
+      "text_too_long": "Tekst on liiga pikk.",
+      "synthesis_failed": "Kõnesüntees ebaõnnestus.",
+      "service_error": "Tekstist kõneks teenuse viga."
+    },
+    "auth": {
+      "reset": {
+        "rate_limited_request": "Liiga palju taastamiskatseid. Proovi hiljem uuesti.",
+        "rate_limited_update": "Liiga palju PIN-i uuendamise katseid. Proovi hiljem uuesti.",
+        "invalid_email": "Palun sisesta korrektne e-posti aadress.",
+        "missing_token_or_pin": "Puudub token või PIN.",
+        "pin_invalid": "PIN peab olema 4-8 numbrit.",
+        "token_invalid": "Token on vigane või on see juba kasutatud.",
+        "token_expired": "Taastelink on aegunud. Palun taotle uus link.",
+        "user_not_found": "Kasutajat ei leitud.",
+        "request_failed": "Taastelinki ei õnnestunud saata. Palun proovi hiljem uuesti.",
+        "update_failed": "PIN-i ei õnnestunud uuendada.",
+        "base_url_missing": "Taastelingi baas-URL ei ole seadistatud.",
+        "email_from_missing": "Saatja e-posti aadress ei ole seadistatud."
+      },
+      "login": {
+        "rate_limited": "Liiga palju sisselogimise katseid. Proovi hiljem uuesti.",
+        "invalid_credentials": "Vale e-post või PIN.",
+        "missing_fields": "Puudub vajalik teave.",
+        "token_invalid": "Sisselogimise token on vigane.",
+        "token_expired": "Kinnituskood on aegunud.",
+        "otp_invalid": "Kood on vale või aegunud.",
+        "step1_failed": "Sisselogimine ebaõnnestus. Palun proovi uuesti.",
+        "verify_failed": "Koodi kontroll ebaõnnestus. Palun proovi uuesti.",
+        "resend_missing_token": "Puudub ajutine sisselogimise token.",
+        "resend_token_invalid": "Seda koodi ei saa uuesti saata.",
+        "user_missing": "Kasutajat ei leitud.",
+        "resend_failed": "Koodi saatmine ebaõnnestus.",
+        "email_from_missing": "Saatja e-posti aadress ei ole seadistatud."
+      },
+      "register": {
+        "rate_limited": "Liiga palju registreerimiskatseid. Proovi hiljem uuesti.",
+        "invalid_email": "Palun sisesta korrektne e-posti aadress.",
+        "pin_invalid": "PIN peab olema 4-8 numbrit.",
+        "email_in_use": "See e-posti aadress on juba kasutusel.",
+        "failed": "Registration failed. Please try again.",
+        "closed": "Registreerimine on ajutiselt suletud."
+      },
+      "verify": {
+        "invalid_link": "Kinnituslink on vigane või puudulik.",
+        "link_invalid_or_used": "See kinnituslink on vigane või seda on juba kasutatud.",
+        "link_expired": "Kinnituslink on aegunud.",
+        "user_not_found": "Kasutajat ei leitud.",
+        "confirm_failed": "Email verification failed.",
+        "rate_limited": "Too many verification requests. Please try again later.",
+        "invalid_email": "Palun sisesta korrektne e-posti aadress.",
+        "send_failed": "Failed to send verification email.",
+        "base_url_missing": "Kinnituse baas-URL ei ole seadistatud.",
+        "email_from_missing": "Saatja e-posti aadress ei ole seadistatud."
+      }
+    },
+    "subscription": {
+      "user_not_found": "Kasutajat ei leitud.",
+      "load_failed": "Tellimuse laadimine ebaõnnestus.",
+      "activate_failed": "Tellimuse aktiveerimine ebaõnnestus.",
+      "cancel_failed": "Tellimuse tühistamine ebaõnnestus.",
+      "already_active": "Tellimus on juba aktiivne.",
+      "provider_unavailable": "Maksepakkuja ei ole seadistatud.",
+      "checkout_create_failed": "Makse algatamine ebaõnnestus.",
+      "recurring_provider_unavailable": "Korduvmakse pakkuja ei ole seadistatud.",
+      "recurring_token_missing": "Korduvmakse token puudub.",
+      "recurring_charge_failed": "Korduvmakse algatamine ebaõnnestus.",
+      "payment_not_found": "Makset ei leitud antud viitega.",
+      "webhook_signature_unconfigured": "Webhooki allkirja kontroll ei ole seadistatud.",
+      "webhook_signature_invalid": "Webhooki allkiri on vigane.",
+      "webhook_invalid_payload": "Webhooki payload on vigane.",
+      "webhook_process_failed": "Maksete webhooki töötlemine ebaõnnestus.",
+      "direct_activation_disabled": "Otse aktiveerimine on keelatud. Alusta kõigepealt makse algatamisest.",
+      "checkout_terms_required": "Enne maksmist peab tingimustega nõustuma."
+    },
+    "invites": {
+      "email_from_missing": "Saatja e-posti aadress ei ole seadistatud.",
+      "load_failed": "Kutseid ei saanud laadida.",
+      "create_failed": "Kutsete loomine ebaõnnestus.",
+      "missing_id": "Kutse ID puudub.",
+      "missing_token": "Kutse token puudub.",
+      "invite_not_found": "Kutset ei leitud.",
+      "invite_expired": "Kutse on aegunud.",
+      "invite_used": "Kutset on juba kasutatud.",
+      "invite_email_mismatch": "See kutse on teisele e-posti aadressile.",
+      "invite_payment_pending": "Selle kutse makse on veel pooleli. Ava kutse uuesti pärast makse kinnitamist.",
+      "invite_role_mismatch": "See kutse on loodud teise kasutajarolli jaoks. Kasuta sobiva rolliga kontot.",
+      "only_pending_resend": "Uuesti saab saata ainult ootel kutseid.",
+      "subscription_required": "Sellesse ruumi liitumiseks on vaja tellimust.",
+      "accept_failed": "Kutse vastuvõtmine ebaõnnestus.",
+      "resend_failed": "Kutse uuesti saatmine ebaõnnestus.",
+      "revoke_failed": "Kutse tühistamine ebaõnnestus."
+    },
+    "admin": {
+      "analytics": {
+        "events_load_failed": "Analüütika sündmusi ei saanud laadida.",
+        "events_delete_invalid_payload": "Vali filter või kinnita kõigi logide kustutamine.",
+        "events_delete_failed": "Analüütika logide kustutamine ebaõnnestus.",
+        "reset_invalid_action": "Vigane reset-toiming.",
+        "reset_failed": "Reset-toimingu käivitamine ebaõnnestus.",
+        "summary_load_failed": "Analüütika kokkuvõtet ei saanud laadida.",
+        "users_load_failed": "Kasutajate analüütikat ei saanud laadida.",
+        "payment_alerts_not_configured": "Maksete alert webhook ei ole seadistatud.",
+        "payment_alerts_dispatch_failed": "Maksete alertide edastamine ebaõnnestus.",
+        "payment_alerts_dispatched": "Maksete alertid edastati.",
+        "payment_alerts_no_critical": "Edastamiseks ei ole kriitilisi maksete alerte.",
+        "payment_alerts_deduped": "Kriitilised maksete alertid on hiljuti juba edastatud.",
+        "payment_alerts_dry_run": "Maksete alertide dry-run lõpetatud.",
+        "users_delete_invalid_payload": "Kustutamiseks ei valitud sobivaid kasutajaid.",
+        "users_delete_not_found": "Valitud kasutajaid ei leitud.",
+        "users_delete_forbidden_targets": "Valitud kasutajaid ei saa kustutada (iseenda/admin piirang).",
+        "users_delete_failed": "Valitud kasutajate kustutamine ebaõnnestus.",
+        "users_email_invalid_payload": "E-kirja pealkiri ja sisu on kohustuslikud.",
+        "users_email_too_large": "E-kirja pealkiri või sisu on liiga pikk.",
+        "users_email_no_recipients": "Valitud sihtgrupis ei leitud saajaid.",
+        "users_email_send_failed": "Hulgie-kirja saatmine ebaõnnestus.",
+        "email_from_missing": "Saatja e-posti aadress ei ole seadistatud."
+      }
+    },
+    "rag": {
+      "rate_limited": "Liiga palju RAG päringuid. Proovi hiljem uuesti.",
+      "service_key_missing": "RAG teenuse API võti ei ole seadistatud.",
+      "external_host_not_allowed": "Väline RAG host ei ole lubatud.",
+      "proxy_timeout": "RAG proxy päring aegus.",
+      "proxy_error": "RAG proxy päring ebaõnnestus.",
+      "selftest": {
+        "step_connection": "Kontrollin RAG ühendust",
+        "step_search": "Teen RAG otsingut",
+        "step_openai": "Kontrollin OpenAI vastust",
+        "step_ok": "OK",
+        "sample_query": "tere",
+        "openai_prompt": "Vasta lühidalt: OK",
+        "openai_key_missing": "OPENAI_API_KEY ei ole seadistatud.",
+        "openai_empty_response": "OpenAI ei tagastanud vastust.",
+        "backend_error": "RAG teenus tagastas vea.",
+        "unknown_error": "Tundmatu viga."
+      }
+    }
+  },
+  "admin": {
+    "common": {
+      "loading": "Laen...",
+      "loading_data": "Laen andmeid...",
+      "loading_panel": "Laen paneeli...",
+      "refresh": "Värskenda",
+      "back": "Tagasi",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "pages": {
+      "analytics": {
+        "meta_title": "Analytics - SotsiaalAI"
+      },
+      "framework_acceptances": {
+        "meta_title": "Tööalase kasutuse kinnitused - SotsiaalAI"
+      },
+      "rag": {
+        "meta_title": "RAG Admin - SotsiaalAI",
+        "meta_description": "Lae üles ja halda RAG-materjale.",
+        "heading": "RAG haldus"
+      }
+    },
+    "framework_acceptances": {
+      "title": "Tööalase kasutuse kinnitused",
+      "subtitle": "Admini auditivaade kasutajate tööalase kasutuse ja andmetöötluse kinnitustele.",
+      "search_placeholder": "Otsi e-posti, kasutaja ID, versiooni või raamistiku võtme järgi",
+      "period": "Periood",
+      "period_all": "Kõik saadaolevad",
+      "period_days": "{days} päeva",
+      "refreshing": "Värskendan...",
+      "load_failed": "Tööalase kasutuse kinnitusi ei saanud laadida.",
+      "table_title": "Kinnituste kirjed",
+      "results_count": "{count} kirjet",
+      "empty": "Tööalase kasutuse kinnitusi ei leitud.",
+      "stats": {
+        "total": "Vasteid kokku",
+        "period": "Valitud perioodis",
+        "shown": "Nimekirjas näha",
+        "current_page": "Praegune päringutulemus",
+        "signed_downloads": "Allkirjastatud allalaadimine kirjas",
+        "shown_signed": "Praegu näha: {count}"
+      },
+      "columns": {
+        "time": "Aeg",
+        "user": "Kasutaja",
+        "role": "Roll",
+        "framework": "Raamistik",
+        "downloads": "Avatud / allalaaditud",
+        "document": "Dokumendi kirje",
+        "opened": "Avatud",
+        "signed": "Allkirjastatud allalaadimine",
+        "id": "Kinnituse ID"
+      }
+    },
+    "analytics": {
+      "title": "Analüütika",
+      "errors": {
+        "summary_fetch_failed": "Summary fetch failed.",
+        "events_fetch_failed": "Events fetch failed.",
+        "logs_delete_failed": "Logide kustutamine ebaõnnestus.",
+        "reset_failed": "Reset-toimingu käivitamine ebaõnnestus.",
+        "users_fetch_failed": "Users analytics fetch failed.",
+        "users_delete_failed": "Valitud kasutajate kustutamine ebaõnnestus.",
+        "users_email_send_failed": "Hulgie-kirja saatmine ebaõnnestus.",
+        "users_email_invalid_payload": "E-kirja pealkiri ja sisu on kohustuslikud."
+      },
+      "events": {
+        "chat_request": "Vestluspäring",
+        "rag_search": "RAG-otsing",
+        "no_context": "No context",
+        "crisis_detected": "Crisis detected",
+        "stt_request": "STT request",
+        "tts_request": "TTS request",
+        "rag_error": "RAG error",
+        "openai_error": "OpenAI error",
+        "subscription_init_started": "Subscription init started",
+        "subscription_init_checkout_created": "Tellimuse makse algatati",
+        "subscription_init_failed": "Subscription init failed",
+        "subscription_callback_redirect": "Subscription callback redirect",
+        "subscription_webhook_processed": "Subscription webhook processed",
+        "subscription_webhook_failed": "Subscription webhook failed",
+        "subscription_webhook_owner_email_sent": "Subscription webhook owner email sent",
+        "subscription_webhook_owner_email_failed": "Subscription webhook owner email failed",
+        "subscription_webhook_owner_email_skipped": "Subscription webhook owner email skipped",
+        "payment_alert_dispatch_dry_run": "Maksehoiatuste saatmise proovikäivitus",
+        "payment_alert_dispatched": "Maksehoiatus saadeti",
+        "payment_alert_dispatch_failed": "Maksehoiatuse saatmine ebaõnnestus"
+      },
+      "status": {
+        "pending": "Ootel",
+        "processing": "Töötlemisel",
+        "completed": "Valmis",
+        "failed": "Ebaõnnestus"
+      },
+      "audience": {
+        "social_worker": "Sotsiaaltöö spetsialist",
+        "client": "Abiotsija",
+        "both": "Mõlemad"
+      },
+      "meta": {
+        "hits": "hits",
+        "groups": "groups",
+        "grounding": "grounding",
+        "chosen": "chosen",
+        "crisis": "crisis",
+        "history": "history",
+        "payment_state": "makse olek",
+        "result_status": "tulemuse olek",
+        "subscription_action": "subscription action",
+        "alert_code": "alert code"
+      },
+      "kpis": {
+        "requests_30d": {
+          "title": "Päringud (30p)",
+          "meta": "Vestluspäringuid kokku"
+        },
+        "rag_searches": {
+          "title": "RAG otsingud"
+        },
+        "no_context": {
+          "title": "Kontekstita"
+        },
+        "share": "Share {percent}%",
+        "share_missing": "Share unavailable",
+        "crisis": {
+          "title": "Kriis",
+          "meta": "Tuvastatud kriisirisk"
+        },
+        "stt_requests": {
+          "title": "STT päringud",
+          "meta": "Häälsisendi osakaal {percent}%"
+        },
+        "tts_requests": {
+          "title": "TTS päringud",
+          "meta": "Hääljundi osakaal {percent}%"
+        },
+        "rag_averages": {
+          "title": "Keskmised (RAG)",
+          "meta": "Hits {hits}, groups {groups}, chosen {chosen}"
+        },
+        "grounding": {
+          "title": "Põhistatus",
+          "meta": "Strong {strong}% | OK {ok}% | Weak {weak}%"
+        }
+      },
+      "platform": {
+        "title": "Platvormi ülevaade",
+        "subtitle": "Vestluse, abi, koostöö ja dokumentide töövoogude koondvaade.",
+        "chat": {
+          "title": "Vestlus ja hääl",
+          "conversations_total": "Vestlusi kokku",
+          "active_conversations_30d": "Aktiivsed vestlused (30p)",
+          "ai_errors_30d": "AI vead (30p)"
+        },
+        "help": {
+          "title": "Abi töövoog",
+          "open_requests": "Avatud abisoovid",
+          "open_offers": "Avatud abipakkumised",
+          "matches_30d": "Sobitused (30p)",
+          "match_statuses_30d": "Sobituste olekud (30p)"
+        },
+        "collaboration": {
+          "title": "Ruumid ja kutsed",
+          "rooms_total": "Ruume kokku",
+          "active_rooms_30d": "Aktiivsed ruumid (30p)",
+          "room_messages_30d": "Ruumi sõnumid (30p)",
+          "pending_invites": "Ootel kutsed",
+          "sponsored_invites_30d": "Sponsorkutsed (30p)",
+          "active_sponsored_members": "Aktiivsed sponsorliikmed"
+        },
+        "documents": {
+          "title": "Dokumendid ja agent",
+          "total": "Dokumente kokku",
+          "uploaded_30d": "Üleslaaditud (30p)",
+          "draft_artifacts": "Mustand-artefaktid",
+          "final_artifacts": "Lõplikud artefaktid",
+          "created_30d": "Loodud (30p)",
+          "approved_30d": "Kinnitatud (30p)",
+          "downloads_30d": "Dokumendi allalaadimised (30p)",
+          "artifact_downloads_30d": "Artefakti allalaadimised (30p)"
+        }
+      },
+      "rag_docs": {
+        "title": "RAG dokumendibaas",
+        "subtitle": "Ülevaade indekseerimisest ja viimastest lisandustest.",
+        "total": "Dokumente kokku",
+        "failed": "Vigased",
+        "error_30d": "Veaga (30p)",
+        "statuses": "Olekud",
+        "audience": "Sihtrühm",
+        "type": "Tüüp"
+      },
+      "table": {
+        "time": "Aeg",
+        "title": "Pealkiri",
+        "status": "Olek",
+        "type": "Tüüp",
+        "audience": "Sihtrühm",
+        "source": "Allikas",
+        "untitled": "(pealkirjata)",
+        "empty": "Kirjeid ei leitud."
+      },
+      "billing": {
+        "title": "Tellimused ja maksed",
+        "subtitle": "Maksevood ja tellimuste aktiivsus viimase 30 päeva jooksul.",
+        "alerts": {
+          "none": "Viimase 30 päeva jooksul pole maksehoiatusi.",
+          "severity": {
+            "info": "Info",
+            "warning": "Hoiatus",
+            "critical": "Kriitiline"
+          },
+          "items": {
+            "checkout_create_rate_low": "Makse algatamise määr on madal ({value}% vs lävi {threshold}%).",
+            "paid_conversion_low": "Tasuliste maksete konversioon makse algatamisest on madal ({value}% vs lävi {threshold}%).",
+            "webhook_missing_after_checkout": "Makse algatamise sündmused on olemas, kuid webhooki töötlemise sündmusi ei leitud.",
+            "callback_pending_high": "Tagasisuunamise ootel osakaal on kõrge ({value}% vs lävi {threshold}%).",
+            "webhook_error_spike": "Webhooki tehniliste vigade arv on kõrge ({value}, lävi {threshold}).",
+            "webhook_error_rate_high": "Webhooki tehniliste vigade määr on kõrge ({value}% vs lävi {threshold}%).",
+            "unknown": "Liigitamata maksehoiatus."
+          }
+        },
+        "active_subscriptions": "Aktiivsed tellimused",
+        "new_subscriptions_30d": "Uued tellimused (30p)",
+        "cancellations_30d": "Tühistamised (30p)",
+        "payment_statuses_30d": "Maksete olekud (30p)",
+        "paid_amount_30d": "Laekunud summa (PAID, 30p)",
+        "pipeline": {
+          "checkout_ready": "Makse algatatud (30p)",
+          "webhook_paid": "Webhookiga kinnitatud maksed (30p)",
+          "callback_success": "Tagasisuunamine õnnestus (30p)",
+          "webhook_errors": "Webhooki vead (30p)",
+          "from_init": "{percent}% initsialiseeritud maksetest",
+          "from_checkout": "{percent}% makse algatamistest",
+          "callback_share": "{percent}% õnnestunud tagasisuunamisi",
+          "breakdown": "Ebaõnnestunud {failed} | Tühistatud {canceled} | Tagastatud {refunded}"
+        },
+        "table": {
+          "time": "Aeg",
+          "status": "Olek",
+          "amount": "Summa",
+          "provider": "Teenusepakkuja",
+          "paid_at": "Tasutud",
+          "empty": "Kirjeid ei leitud."
+        }
+      },
+      "users": {
+        "title": "Kasutajad, kulud ja limiidid",
+        "subtitle": "Kasutajapõhine 30 päeva kasutus, hinnanguline kulu ja kehtivad limiidid.",
+        "summary": {
+          "users": "Kasutajaid tabelis",
+          "estimated_cost": "Hinnanguline kulu (30p)",
+          "paid_amount": "Laekunud summa (30p)",
+          "budget_capacity": "Kogueelarve maht",
+          "near_limits": "Piiri lähedal"
+        },
+        "active": "Aktiivne",
+        "inactive": "Mitteaktiivne",
+        "usage": {
+          "chat": "Vestlus",
+          "rag": "RAG",
+          "stt": "Dikteerimine",
+          "tts": "Kõne",
+          "analyze": "Analüüsid (30p)",
+          "analyze_today": "Analüüsid täna"
+        },
+        "limits": {
+          "analyze_daily": "Analüüs/päev",
+          "analyze_usage_today": "Tänane kasutus",
+          "analyze_remaining": "Täna jäänud",
+          "plan_amount": "Kuutasu",
+          "monthly_budget": "Kuueelarve",
+          "remaining_budget": "Järelejäänud eelarve",
+          "utilization": "Eelarve kasutus"
+        },
+        "table": {
+          "user": "Kasutaja",
+          "role": "Roll",
+          "admin": "Admin",
+          "subscription": "Tellimus",
+          "usage_30d": "Kasutus (30p)",
+          "cost_30d": "Kulu hinnang (30p)",
+          "limits": "Limiidid",
+          "paid_30d": "Laekunud (30p)",
+          "empty": "Kasutajaid ei leitud."
+        },
+        "note": "Hinnangumudel (EUR): vestlus/päring {chat}, rag/otsing {rag}, dikteerimine/minut {stt}, kõne/minut {tts}, baaskuueelarve {budget}, pöörduja kuueelarve {budgetClient}, spetsialisti kuueelarve {budgetWorker}. Päevane analüüsilimiit ja kuueelarve skaleeruvad rolli ning kuutasu järgi. STT/TTS ajalooline kulu kuvatakse alates event-logimise kasutuselevõtust.",
+        "actions": {
+          "selected_count": "Valitud: {count}",
+          "selected_visible": "Nähtavatest valitud: {count}",
+          "select_visible": "Vali nähtavad",
+          "clear_visible": "Tühista valik nähtavatelt",
+          "delete_selected": "Kustuta valitud",
+          "deleting": "Kustutan...",
+          "delete_confirm": "Kas kustutada {count} valitud kasutajat? Toimingut ei saa tagasi võtta.",
+          "delete_done": "Kustutatud: {deleted}. Blokeeritud: {blocked}.",
+          "select_users_first": "Vali enne vähemalt üks kasutaja.",
+          "email_target": "E-kirja sihtgrupp",
+          "email_selected": "Valitud kasutajad",
+          "email_all": "Kõik kasutajad",
+          "email_subject": "E-kirja pealkiri",
+          "email_subject_ph": "Sisesta pealkiri",
+          "email_text": "E-kirja sisu",
+          "email_text_ph": "Kirjuta teade...",
+          "email_target_hint": "Praegune sihtgrupp: {mode}",
+          "send_email": "Saada e-kiri",
+          "sending": "Saadan...",
+          "email_done": "Saadetud: {sent}. Ebaõnnestus: {failed}.",
+          "select_user": "Vali kasutaja {user}"
+        }
+      },
+      "logs": {
+        "title": "Logid",
+        "subtitle": "Viimased 100 sündmust filtritega.",
+        "actions": {
+          "delete_filtered": "Kustuta filtritud logid",
+          "delete_all": "Kustuta kõik logid",
+          "deleting": "Kustutan...",
+          "delete_filtered_confirm": "Kas kustutada praeguse filtriga logid? Seda ei saa tagasi võtta.",
+          "delete_all_confirm": "Kas kustutada KÕIK analüütika logid? Seda ei saa tagasi võtta.",
+          "delete_done": "Kustutatud logisid: {count}."
+        },
+        "filter": {
+          "all_events": "Kõik sündmused",
+          "crisis_all": "Kriis: kõik",
+          "crisis_yes": "Kriis: jah",
+          "crisis_no": "Kriis: ei"
+        },
+        "table": {
+          "time": "Aeg",
+          "event": "Sündmus",
+          "role": "Roll",
+          "crisis": "Kriis",
+          "meta": "Meta",
+          "empty": "Kirjeid ei leitud."
+        }
+      },
+      "reset": {
+        "title": "Launchi-eelne reset",
+        "subtitle": "Käivita sihitud puhastused enne launchi. Iga tegevus küsib kaks kinnitust.",
+        "running": "Käivitan...",
+        "confirm": "Käivitan reset-toimingu: {action}?",
+        "confirm_with_count": "Toiming \"{action}\" kustutab umbes {count} rida. Jätkan?",
+        "cancelled": "Reset-toiming katkestati.",
+        "done": "Valmis: {action}. Kustutatud ridu: {count}.",
+        "actions": {
+          "clear_logs": "Kustuta analüütika logid",
+          "clear_conversations": "Kustuta vestlused",
+          "clear_rooms": "Kustuta ruumide andmed",
+          "clear_auth_tokens": "Kustuta autentimise tokenid",
+          "clear_usage_metrics": "Kustuta kasutusmõõdikud",
+          "clear_billing": "Kustuta makseandmed"
+        }
+      }
+    },
+    "rag": {
+      "status": {
+        "pending": "Ootel",
+        "processing": "Töötlemisel",
+        "completed": "Valmis",
+        "failed": "Vigane"
+      },
+      "audience": {
+        "social_worker": "Sotsiaaltöö spetsialist",
+        "client": "Abiotsija",
+        "both": "Mõlemad"
+      },
+      "common": {
+        "ok": "OK",
+        "failed": "Ebaõnnestus",
+        "saved": "Salvestatud"
+      },
+      "errors": {
+        "invalid_documents_json": "Server tagastas dokumendiloendi jaoks vigase JSON-i.",
+        "documents_load_failed": "Dokumentide laadimine ebaõnnestus.",
+        "pdf_required": "Vali PDF-fail.",
+        "meta_required": "Lisa metaandmete JSON-fail või kleebi JSON väljale.",
+        "pdf_ingest_failed": "PDF-i lisamine ebaõnnestus.",
+        "meta_json_invalid": "Metaandmete JSON on vigane.",
+        "meta_json_must_be_object": "Metaandmete JSON peab olema objekt.",
+        "url_required": "Sisesta URL.",
+        "url_ingest_failed": "URL-i lisamine ebaõnnestus.",
+        "articles_json_required": "Lisa artiklite JSON (fail või tekst).",
+        "articles_json_invalid": "Artiklite JSON on vigane.",
+        "doc_id_required": "docId puudub. Lisa docId väljale või JSON-faili.",
+        "articles_array_required": "Artiklite massiiv puudub või on tühi.",
+        "article_item_invalid": "Igal artiklil peab olema `title` ja `pageRange` või `startPage/endPage`.",
+        "articles_ingest_failed": "Artiklite lisamine ebaõnnestus.",
+        "reindex_failed": "Uuesti indekseerimine ebaõnnestus.",
+        "delete_failed": "Kustutamine ebaõnnestus.",
+        "meta_update_failed": "Metaandmete uuendamine ebaõnnestus.",
+        "selftest_failed": "Enesetest ebaõnnestus.",
+        "selftest_aborted": "Enesetest katkestati."
+      },
+      "success": {
+        "added_with_ref": "Lisatud: {ref}",
+        "pdf_ingest_with_doc_id": "PDF lisamine õnnestus (docId {docId}).",
+        "pdf_ingest": "PDF lisamine õnnestus.",
+        "meta_looks_valid": "Metaandmed tunduvad korrektsed. Otsing ja filtreerimine peaksid olema kiired.",
+        "url_sent": "URL saadeti RAG-andmebaasi.",
+        "articles_added_with_doc_id": "Artiklid lisati (docId {docId}).",
+        "reindex_started": "Uuesti indekseerimine käivitati.",
+        "document_deleted": "Dokument kustutati.",
+        "meta_saved": "Metaandmed salvestati.",
+        "selftest_finished": "Enesetest lõpetati."
+      },
+      "confirm": {
+        "delete_doc": "Kas soovid selle kirje kustutada? Seda ei saa tagasi võtta."
+      },
+      "selftest": {
+        "results_title": "Enesetesti tulemused",
+        "run": "Käivita enesetest",
+        "running": "Kontrollin..."
+      },
+      "ingest": {
+        "title": "Andmete lisamine: URL või PDF + metaandmed",
+        "subtitle": "Lisa allikad ja kontrolli metaandmete JSON-i korrektsust.",
+        "url_section_title": "URL-i lisamine",
+        "url_title_placeholder": "Pealkiri (valikuline)",
+        "url_description_placeholder": "Kirjeldus",
+        "url_tags_placeholder": "Sildid (komaga eraldatud)",
+        "sending": "Saadan...",
+        "send_url": "Saada URL",
+        "pdf_section_title": "PDF + metaandmed (JSON)",
+        "pdf_section_note": "Metaandmete JSON: docId, title, section, year, audience, tags.",
+        "pdf_meta_text_placeholder": "Või kleebi metaandmete JSON",
+        "send_pdf_with_meta": "Saada PDF metaandmetega"
+      },
+      "meta": {
+        "open_templates": "Ava metaandmete mallid",
+        "hide_templates": "Peida metaandmete mallid",
+        "check_json": "Kontrolli metaandmete JSON-i",
+        "templates_title": "Metaandmete JSON-i mallid",
+        "templates_note": "Platvorm eeldab iga lisamise kohta ühte JSON-objekti. Eri materjalide jaoks kasuta eraldi JSON-faile. Mitme artikliga PDF-ide jaoks kasuta /ingest/articles.",
+        "open_json": "Ava .json",
+        "important": "Oluline",
+        "recommended": "Soovitatav",
+        "page_range_or_pdf_pages": "pageRange või pdf_start_page/pdf_end_page",
+        "missing_required": "Puudub: {fields}",
+        "missing_recommended": "Soovitatav: {fields}",
+        "templates": {
+          "base": "Põhi (ülddokument)",
+          "periodical": "Perioodika artikkel",
+          "regulation": "Seadus või määrus",
+          "report": "Aruanne või juhend",
+          "web": "Veebileht"
+        },
+        "important_line_1": "docId, title, section",
+        "important_line_2": "year, audience, tags",
+        "recommended_line_1": "description, authors, issueLabel/issueId",
+        "recommended_line_2": "articleId, journalTitle, language",
+        "recommended_line_4": "source_type, source_url"
+      },
+      "articles": {
+        "title": "Artiklite lisamine (sama PDF)",
+        "subtitle": "Kasuta docId-d, mis tagastati PDF ingestist. JSON peab sisaldama articles massiivi.",
+        "open_template": "Ava artiklite mall",
+        "doc_id_placeholder": "docId (nt DOC-2024-014)",
+        "send": "Saada artiklid",
+        "added": "Artiklid lisatud.",
+        "added_count": "Lisatud {count} tükki.",
+        "default_article": "Artikkel",
+        "page_range": " (lk {start}-{end})",
+        "json_placeholder": "{\"docId\":\"DOC-2024-014\",\"articles\":[{\"title\":\"Pealkiri\",\"pageRange\":\"12-15\"}]}"
+      },
+      "documents": {
+        "title": "Dokumentide nimekiri",
+        "summary": "Kokku {total} | Filtreeritud {filtered} | Ootel {pending} | Töötluses {processing} | Valmis {completed} | Vigased {failed}",
+        "quick_find_title": "Kiirotsing",
+        "quick_find_body": "Otsing kasutab väljaid: pealkiri, kirjeldus, autorid, sildid, jaotis, number, aasta, docId, articleId, journalTitle, language.",
+        "quick_tags": "Kiirsildid:",
+        "search_placeholder": "Otsi pealkirja, autori, kirjelduse, docId või sildi järgi",
+        "filters": {
+          "all_sections": "Kõik jaotised",
+          "all_audiences": "Kõik sihtrühmad",
+          "all_years": "Kõik aastad",
+          "all_issues": "Kõik numbrid"
+        },
+        "sort": {
+          "recent": "Uuemad enne",
+          "title": "Pealkiri A-Z",
+          "section": "Jaotis",
+          "year": "Aasta",
+          "issue": "Number"
+        },
+        "reindex_selected": "Indekseeri valitud uuesti ({count})",
+        "select_visible": "Vali nähtavad",
+        "total": "Kokku {total}",
+        "filtered": "Filtreeritud {count}",
+        "showing": "Näidatud {count}",
+        "selected": "Valitud {count}",
+        "untitled": "(pealkirjata)",
+        "issue_label": "nr {issue}",
+        "no_results": "Tulemusi ei leitud.",
+        "load_more": "Lae rohkem"
+      },
+      "details": {
+        "section": "Jaotis",
+        "authors": "Autorid",
+        "year_issue": "Aasta / number",
+        "audience": "Sihtrühm",
+        "page": "Leht",
+        "issue": "Väljaanne",
+        "language": "Keel",
+        "type": "Tüüp",
+        "tags": "Sildid",
+        "source": "Allikas",
+        "select_material": "Vali detailide vaatamiseks materjal."
+      },
+      "actions": {
+        "edit": "Muuda",
+        "reindex": "Indekseeri uuesti",
+        "reindexing": "Indekseerin...",
+        "delete": "Kustuta",
+        "deleting": "Kustutan...",
+        "view": "Ava",
+        "close": "Sulge",
+        "save": "Salvesta",
+        "cancel": "Tühista"
+      },
+      "modal": {
+        "edit_meta": "Muuda metaandmeid",
+        "doc_id": "docId",
+        "type": "Tüüp",
+        "language": "Keel"
+      }
+    }
+  },
+  "footer": {
+    "legal": "SotsiaalAI OÜ, registrikood 14206225, aadress Kolde tn 6/1, Tabasalu alevik, Harku vald, Harjumaa. Kontakt: info@sotsiaal.ai."
+  }
+}
