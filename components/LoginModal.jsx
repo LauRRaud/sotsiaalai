@@ -13,7 +13,7 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AppLink from "@/components/ui/Link";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
-import { glassFormInputBaseClassName, glassSubpageFieldInputClassName } from "@/components/ui/glassPageStyles";
+import { glassFormInputBaseClassName } from "@/components/ui/glassPageStyles";
 import { EmailEnvelopeStatusIcon, LockErrorIcon, SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
@@ -29,11 +29,14 @@ const otpSubmitLabelClassName = "inline-flex items-center justify-center text-ce
 const helpPopoverClassName =
   "login-help-popover chat-tools-surface-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] " +
   "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border border-[color:var(--subpage-card-border)] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] backdrop-saturate-[120%]";
-const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(1.78rem,1.18rem+1.15vw,2.18rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.18rem,9vw,3rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(1.78rem,1.18rem+1.15vw,2.18rem)] !leading-[1.05] tracking-[0.01em] translate-y-[0.14rem] max-md:!text-[clamp(2.18rem,9vw,3rem)] max-md:!leading-[1.03] max-md:translate-y-[0.4rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const otpModalTitleClassName =
   "!text-[clamp(1.34rem,0.95rem+0.72vw,1.72rem)] !leading-[1.08] whitespace-normal text-center max-w-[12ch] mx-auto max-md:!text-[clamp(1.36rem,5.2vw,1.72rem)] max-md:!leading-[1.06]";
 const otpTextClassName = "text-[color:var(--otp-copy-text)]";
 const otpInfoTextClassName = "text-[color:var(--otp-copy-strong)]";
+const subpageFieldInputClassName =
+  `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
+  "duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";
 const MODAL_FOCUSABLE_SELECTOR = [
   "a[href]",
   "button:not([disabled])",
@@ -240,11 +243,20 @@ export default function LoginModal({
   const managedByExternalAuthSuccess =
     suppressRedirect && typeof onAuthSuccess === "function";
   const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-0 max-md:min-h-[0.38em] leading-[1.2]", "mt-[-0.08rem] max-md:mt-[0rem]", "mb-[-0.08rem] max-md:mb-[0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
-  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", isAndroidPlatform ? "gap-[0.12rem] mt-[0.04rem] max-md:mt-[0.18rem]" : "gap-[0.02em] mt-[-0.04rem] max-md:mt-[0.08rem]", "mb-0"].join(" ");
-  const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", isAndroidPlatform ? "mt-[-0.14rem] max-md:mt-[0.04rem] mb-[0.04rem] max-md:mb-[0.14rem]" : "mt-[-0.52rem] max-md:mt-[-0.3rem] mb-[-0.18rem] max-md:mb-[-0.04rem]"].join(" ");
+  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", isAndroidPlatform ? "gap-[0.12rem] mt-[0.14rem] max-md:mt-[0.28rem]" : "gap-[0.02em] mt-[0.08rem] max-md:mt-[0.18rem]", "mb-0"].join(" ");
+  const emailRowClass = [
+    "flex",
+    "w-full",
+    "justify-center",
+    "items-center",
+    "min-h-[var(--login-envelope-hit)]",
+    isAndroidPlatform
+      ? "mt-[-0.12rem] max-md:mt-[-0.06rem] mb-[-0.06rem] max-md:mb-[0rem]"
+      : "mt-[-0.34rem] max-md:mt-[-0.18rem] mb-[-0.08rem] max-md:mb-[-0.02rem]"
+  ].join(" ");
   const emailIconClass = "login-email-icon-btn inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
   const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
-  const loginPinFormClassName = ["w-full", "max-w-full", "mx-auto", "flex", "flex-col", "items-center", isAndroidPlatform ? "gap-[0.54em] mt-[0.02rem] max-md:gap-[0.66em] max-md:mt-[0.14rem]" : "gap-[0.35em] mt-[-0.24rem] max-md:mt-[-0.04rem]"].join(" ");
+  const loginPinFormClassName = ["w-full", "max-w-full", "mx-auto", "flex", "flex-col", "items-center", isAndroidPlatform ? "gap-[0.36em] mt-[-0.04rem] max-md:gap-[0.44em] max-md:mt-[0.04rem]" : "gap-[0.18em] mt-[-0.34rem] max-md:gap-[0.24em] max-md:mt-[-0.14rem]"].join(" ");
   useEffect(() => {
     if (typeof window === "undefined") return;
     const query = window.matchMedia("(max-width: 768px)");
@@ -564,13 +576,16 @@ export default function LoginModal({
     if (!prefillStoredEmail) {
       setStoredEmail("");
       setEmailValue("");
+      setEmailRevealed(true);
       if (emailInputRef.current) emailInputRef.current.value = "";
       return;
     }
     try {
       const stored = window.localStorage.getItem(LOGIN_EMAIL_KEY) || "";
+      const normalizedStored = String(stored || "").trim();
       setStoredEmail(stored);
       setEmailValue(stored);
+      setEmailRevealed(!normalizedStored);
       if (emailInputRef.current) emailInputRef.current.value = stored;
     } catch {}
   }, [open, isOtpStep, prefillStoredEmail]);
@@ -1130,19 +1145,17 @@ export default function LoginModal({
   const androidModalTitleClassName = isAndroidPlatform
     ? "!text-[clamp(1.94rem,1.38rem+1.24vw,2.32rem)] max-md:!text-[clamp(2.24rem,8.45vw,2.9rem)]"
     : "";
-  const loginEmailShellClassName = [
-    "login-email-shell login-email-shell--surface relative block mx-auto w-full",
+  const loginEmailFieldWrapClassName = [
+    "relative block mx-auto w-full",
     "!w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))]"
   ].join(" ");
   const loginEmailInputClassName = [
-    "login-email-input login-email-input--surface register-input register-input-mid-shell",
-    glassFormInputBaseClassName,
-    "block !my-0 !w-full !max-w-none !bg-transparent !border-0 !shadow-none",
-    "!text-left placeholder:!text-left !font-normal !text-[1.25rem] !leading-[1.45] !tracking-[0.01em] !px-[1.5rem] !py-[0.95rem] !min-h-[3.6rem]",
+    "register-input register-input-mid-shell block !my-0 !w-full !max-w-none",
+    "!text-left placeholder:!text-left !font-normal !text-[1.25rem] !leading-[1.38] !tracking-[0.01em] !px-[1.5rem] !py-[0.68rem] !min-h-[3.08rem]",
     "!text-[color:var(--pt-50)] light:!text-[color:var(--input-text)]",
     "placeholder:opacity-100 placeholder:!text-[color:var(--pt-200)] light:placeholder:!text-[color:var(--input-placeholder)]",
-    "max-[768px]:!text-[clamp(1.2rem,4.9vw,1.36rem)] max-[768px]:!px-[clamp(1.06rem,4.1vw,1.34rem)] max-[768px]:!py-[0.95rem] max-[768px]:!min-h-[3.62rem]",
-    isAndroidPlatform ? "max-[768px]:!min-h-[3.58rem]" : ""
+    "max-[768px]:!text-[clamp(1.2rem,4.9vw,1.36rem)] max-[768px]:!px-[clamp(1.06rem,4.1vw,1.34rem)] max-[768px]:!py-[0.72rem] max-[768px]:!min-h-[3.12rem]",
+    isAndroidPlatform ? "max-[768px]:!min-h-[3.04rem]" : ""
   ].filter(Boolean).join(" ");
   const loginShellStyle =
     isPhoneViewport && !isOtpStep
@@ -1340,7 +1353,7 @@ export default function LoginModal({
           }} aria-describedby={emailHintIdRef.current} aria-label={t("auth.email_placeholder")} onClick={revealEmailInput}>
                   <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="login-email-icon pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
-                </button> : <label className={loginEmailShellClassName}>
+                </button> : <label className={loginEmailFieldWrapClassName}>
                   <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder={t("auth.email_placeholder")} autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={loginEmailInputClassName} onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
@@ -1579,7 +1592,7 @@ export default function LoginModal({
             </div>
 
             <div className="w-full mt-[0.96rem] max-[768px]:mt-[0.62rem] flex justify-center">
-              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className={`${glassSubpageFieldInputClassName} !w-[min(100%,15.8rem)] !max-w-[15.8rem] max-[768px]:!w-[min(74vw,18.6rem)] max-[768px]:!max-w-[18.6rem] text-center !text-center placeholder:opacity-100 focus:placeholder:opacity-0 placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] !px-[1.2rem] !py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.12em]`} />
+              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className={`${subpageFieldInputClassName} !w-[min(100%,15.8rem)] !max-w-[15.8rem] max-[768px]:!w-[min(74vw,18.6rem)] max-[768px]:!max-w-[18.6rem] text-center !text-center placeholder:opacity-100 focus:placeholder:opacity-0 placeholder:text-center [font-variant-numeric:tabular-nums] font-medium text-[1.25rem] leading-[1.2] !px-[1.2rem] !py-[0.95rem] min-h-[3.6rem] placeholder:[font-size:1.02em] tracking-[0.12em]`} />
             </div>
             {otpInlineError ? <p id="otp-inline-error" role="alert" className="m-0 mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
                 {otpInlineError}

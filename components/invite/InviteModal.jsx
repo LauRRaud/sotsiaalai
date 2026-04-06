@@ -12,10 +12,10 @@ import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import {
+  glassFormInputBaseClassName,
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
   glassSubpageCardClassName,
-  glassSubpageFieldInputClassName,
   glassSubpageContentWideClassName,
   glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
@@ -35,6 +35,9 @@ function parseEmails(raw) {
   return [...new Set(list)];
 }
 const INVITE_TILT_CLOSE_MS = 540;
+const inviteFieldInputClassName =
+  `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
+  "duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";
 export default function InviteModal() {
   const sponsoredCheckoutDisabled = true;
   const { data: session } = useSession();
@@ -80,7 +83,7 @@ export default function InviteModal() {
   }`;
   const inviteFieldWrapClassName =
     "w-full max-w-none";
-  const mobileInviteInputClassName = glassSubpageFieldInputClassName;
+  const mobileInviteInputClassName = inviteFieldInputClassName;
   const inviteInputClassName =
     `${mobileInviteInputClassName} ` +
     "text-[color:var(--input-text)] light:text-[#17212b] light:placeholder:text-[#3b4a59] [.theme-mid_&]:text-[#263343] [.theme-mid_&]:placeholder:text-[#4a5a6b] hc:text-[color:var(--hc-accent)] hc:placeholder:text-[color:var(--hc-accent)]";
