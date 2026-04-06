@@ -48,6 +48,8 @@
   --chat-tools-panel-text: var(--rail-tooltip-text);
   --chat-tools-item-hover-bg: rgba(197, 113, 113, 0.12);
   --glass-analysis-bg: rgb(26, 29, 34);
+  --chat-analysis-preview-surface: rgb(23, 26, 32);
+  --chat-analysis-preview-blur: calc(var(--glass-blur-radius, 1rem) * 0.08);
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {

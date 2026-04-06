@@ -503,11 +503,11 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const previewCardSurfaceStyle = uploadPreview
     ? {
         background:
-          "linear-gradient(rgba(16,18,24,0.76), rgba(16,18,24,0.76)), var(--glass-ring-sheen,none), var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))",
+          "var(--glass-ring-sheen,none), var(--chat-analysis-preview-surface,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))",
         backdropFilter:
-          "blur(calc(var(--glass-blur-radius, 1rem) * 0.22))",
+          "blur(var(--chat-analysis-preview-blur,calc(var(--glass-blur-radius, 1rem) * 0.18)))",
         WebkitBackdropFilter:
-          "blur(calc(var(--glass-blur-radius, 1rem) * 0.22))"
+          "blur(var(--chat-analysis-preview-blur,calc(var(--glass-blur-radius, 1rem) * 0.18)))"
       }
     : undefined;
   const headerClassName =

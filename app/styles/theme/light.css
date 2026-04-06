@@ -56,6 +56,8 @@
   --rail-tooltip-text: var(--chat-invite-text);
   --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.08);
   --glass-analysis-bg: rgb(249, 249, 248);
+  --chat-analysis-preview-surface: rgb(247, 245, 242);
+  --chat-analysis-preview-blur: calc(var(--glass-blur-radius, 1rem) * 0.1);
   --glass-analysis-border: var(--opaque-panel-border);
   --glass-analysis-shadow: var(--opaque-panel-shadow);
   --glass-analysis-text: #1f1b16;
