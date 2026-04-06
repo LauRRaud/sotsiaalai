@@ -1584,6 +1584,9 @@ export default function LoginModal({
                 email: emailMask || ""
               })}
                 </p>
+                <p className="m-0 leading-[1.45] text-[0.96rem] max-md:text-[1rem] opacity-90 [overflow-wrap:normal] [word-break:normal] hyphens-none">
+                  {t("auth.login.otp_spam_hint")}
+                </p>
                 {otpDeadlineLabel && <p className="mt-[0.22rem] translate-y-[0.32rem] w-full text-center font-medium tracking-[0.01em] text-[1.04rem]" id="otp-deadline">
                     {t("auth.login.otp_expires", {
                 time: otpDeadlineLabel
