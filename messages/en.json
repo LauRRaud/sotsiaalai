@@ -661,6 +661,8 @@
       "loadFailed": "Failed to load listings.",
       "detailLoadFailed": "Failed to open the listing.",
       "connectFailed": "Failed to create the connection.",
+      "category": "Category",
+      "location": "Location",
       "title": "Title",
       "description": "Description",
       "roleLabel": "Role / service label",

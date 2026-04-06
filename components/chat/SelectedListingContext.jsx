@@ -26,16 +26,50 @@ function splitTargetGroups(value = "") {
     .filter(Boolean);
 }
 
-function buildMetaLine(listing = {}) {
-  return [
-    listing.categoryLabel,
-    listing.helpTypeLabel,
-    listing.timeTypeLabel,
-    listing.roleLabel,
-    ...(Array.isArray(listing.targetGroupLabels) ? listing.targetGroupLabels : [])
-  ]
-    .filter(Boolean)
-    .join(" | ");
+function normalizeComparableText(value = "") {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .replace(/[|·•]+/g, " ")
+    .trim();
+}
+
+function includesComparable(haystack = "", needle = "") {
+  const left = normalizeComparableText(haystack);
+  const right = normalizeComparableText(needle);
+  if (!left || !right) return false;
+  return left.includes(right);
+}
+
+function buildInfoItems(listing = {}, ui = {}) {
+  const summary = String(listing.summary || "").trim();
+  const items = [];
+
+  if (listing.categoryLabel) {
+    items.push({ label: ui.category || "Category", value: listing.categoryLabel });
+  }
+
+  if (listing.helpTypeLabel && !includesComparable(summary, listing.helpTypeLabel)) {
+    items.push({ label: ui.helpType, value: listing.helpTypeLabel });
+  }
+
+  if (listing.timeTypeLabel && !includesComparable(summary, listing.timeTypeLabel)) {
+    items.push({ label: ui.timeType, value: listing.timeTypeLabel });
+  }
+
+  if (Array.isArray(listing.targetGroupLabels) && listing.targetGroupLabels.length) {
+    items.push({ label: ui.targetGroups, value: listing.targetGroupLabels.join(", ") });
+  }
+
+  if (
+    listing.rawPlace &&
+    !includesComparable(summary, listing.rawPlace) &&
+    !includesComparable(listing.municipalityLabel, listing.rawPlace)
+  ) {
+    items.push({ label: ui.location || "Location", value: listing.rawPlace });
+  }
+
+  return items;
 }
 
 function SelectField({ label, value, onChange, options = [] }) {
@@ -116,15 +150,17 @@ export default function SelectedListingContext({
   const helpTypeValue = editState?.helpType ?? listing?.helpType ?? "";
   const timeTypeValue = editState?.timeType ?? listing?.timeType ?? "";
   const targetGroupsValue = editState?.targetGroups ?? (Array.isArray(listing?.targetGroupLabels) ? listing.targetGroupLabels.join(", ") : "");
-  const metaLine = listing ? buildMetaLine(listing) : "";
+  const infoItems = listing ? buildInfoItems(listing, ui) : [];
   const selectedListingContentClassName =
     `selected-listing-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
     `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
-    `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
+    `[--glass-modal-bg:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
-    `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
+    `[border:none] [background:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] shadow-[var(--glass-shell-shadow,none)] ` +
     `${glassSubpageSurfaceScopeClassName} ` +
     `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards max-[768px]:!rounded-none ${glassPageMobileCardClassName}`;
+  const actionButtonClassName =
+    "!min-h-[2.82rem] !px-[1.1rem] !py-[0.6rem] !text-[1rem] max-[768px]:!min-h-[2.95rem] max-[768px]:!text-[1.04rem]";
 
   return createPortal(
     <Modal
@@ -172,12 +208,21 @@ export default function SelectedListingContext({
           {!loading && error ? <div className="px-2 py-4 text-[1rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
           {!loading && listing ? (
             <div className="grid gap-[0.9rem]">
-              {listing.summary ? <p className="text-[1rem] leading-[1.5] opacity-92">{listing.summary}</p> : null}
+              {listing.summary ? (
+                <p className="text-[0.96rem] leading-[1.45] font-[520] opacity-88">
+                  {listing.summary}
+                </p>
+              ) : null}
               {listing.description ? <div className="whitespace-pre-wrap text-[0.98rem] leading-[1.62] opacity-88">{listing.description}</div> : null}
-              {metaLine ? (
-                <div className="text-[0.78rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)] [.theme-light_&]:text-[#7a3a38]">
-                  {metaLine}
-                </div>
+              {infoItems.length ? (
+                <dl className="grid gap-[0.55rem] rounded-[1rem] border border-[color:var(--subpage-card-border,transparent)] bg-[color:color-mix(in_srgb,var(--subpage-card-bg)_92%,transparent)] px-[0.85rem] py-[0.78rem] shadow-[var(--subpage-card-shadow)]">
+                  {infoItems.map((item) => (
+                    <div key={`${item.label}-${item.value}`} className="grid gap-[0.14rem]">
+                      <dt className="text-[0.76rem] uppercase tracking-[0.08em] opacity-62">{item.label}</dt>
+                      <dd className="m-0 text-[0.94rem] leading-[1.42] opacity-92">{item.value}</dd>
+                    </div>
+                  ))}
+                </dl>
               ) : null}
 
               {editState ? (
@@ -237,10 +282,10 @@ export default function SelectedListingContext({
                     />
                   </div>
                   <div className="flex flex-wrap justify-center gap-[0.6rem] pt-[0.25rem]">
-                    <Button type="button" variant="primary" size="md" onClick={() => onSaveEdit?.({ ...editState, targetGroups: splitTargetGroups(targetGroupsValue) })}>
+                    <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={() => onSaveEdit?.({ ...editState, targetGroups: splitTargetGroups(targetGroupsValue) })}>
                       {ui.save}
                     </Button>
-                    <Button type="button" variant="ghost" size="md" onClick={onCancelEdit}>
+                    <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onCancelEdit}>
                       {ui.cancel}
                     </Button>
                   </div>
@@ -249,16 +294,16 @@ export default function SelectedListingContext({
 
               {!editState && isOwn ? (
                 <div className="flex flex-wrap justify-center gap-[0.6rem] pt-[0.4rem]">
-                  <Button type="button" variant="primary" size="md" onClick={onStartEdit}>
+                  <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onStartEdit}>
                     {ui.edit}
                   </Button>
-                  <Button type="button" variant="ghost" size="md" onClick={onCloseListing} disabled={busyAction === "close" || listing.status === "CLOSED"}>
+                  <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onCloseListing} disabled={busyAction === "close" || listing.status === "CLOSED"}>
                     {ui.closeListing}
                   </Button>
-                  <Button type="button" variant="danger" size="md" onClick={onDeleteListing} disabled={busyAction === "delete"}>
+                  <Button type="button" variant="danger" size="md" className={actionButtonClassName} onClick={onDeleteListing} disabled={busyAction === "delete"}>
                     {ui.delete}
                   </Button>
-                  <Button type="button" variant="ghost" size="md" onClick={onAskAi}>
+                  <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onAskAi}>
                     {ui.askAi}
                   </Button>
                 </div>
@@ -280,10 +325,10 @@ export default function SelectedListingContext({
                     ]}
                   />
                   <div className="flex flex-wrap justify-center gap-[0.6rem]">
-                    <Button type="button" variant="primary" size="md" onClick={onConnect} disabled={connectDisabled}>
+                    <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onConnect} disabled={connectDisabled}>
                       {busyAction === "connect" ? `${kindActionLabel}...` : kindActionLabel}
                     </Button>
-                    <Button type="button" variant="ghost" size="md" onClick={onAskAi}>
+                    <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onAskAi}>
                       {ui.askAi}
                     </Button>
                   </div>

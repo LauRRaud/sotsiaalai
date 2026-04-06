@@ -487,10 +487,23 @@
 }
 
 :root.theme-light .chat-analysis-upload-modal-card {
-  background: var(--chat-upload-picker-bg, rgb(249, 249, 248)) !important;
+  background:
+    radial-gradient(
+      92% 88% at 50% 14%,
+      rgba(247, 241, 236, 0.985) 0%,
+      rgba(239, 231, 225, 0.982) 44%,
+      rgba(226, 214, 207, 0.978) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(242, 235, 229, 0.982) 0%,
+      rgba(229, 218, 210, 0.975) 100%
+    ) !important;
   border: 0 !important;
   border-color: transparent !important;
-  box-shadow: var(--btn-primary-shadow) !important;
+  box-shadow:
+    0 20px 42px rgba(72, 44, 38, 0.16),
+    0 8px 20px rgba(72, 44, 38, 0.1) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
@@ -644,7 +657,7 @@
   background-color: transparent;
   background-image: none;
   border: none;
-  color: #111827;
+  color: var(--input-text);
   box-shadow: none;
 }
 :root.theme-light .chat-msg-user:hover,

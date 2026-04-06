@@ -220,7 +220,7 @@ html[data-contrast="hc"] body .chat-msg-user {
   background-color: transparent !important;
   background-image: none !important;
   border: none !important;
-  color: var(--hc-text) !important;
+  color: var(--input-text) !important;
   box-shadow: none !important;
 }
 

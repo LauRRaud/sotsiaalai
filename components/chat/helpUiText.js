@@ -32,6 +32,8 @@ export function getHelpUiText(t) {
     loadFailed: t("chat.help.loadFailed"),
     detailLoadFailed: t("chat.help.detailLoadFailed"),
     connectFailed: t("chat.help.connectFailed"),
+    category: t("chat.help.category"),
+    location: t("chat.help.location"),
     title: t("chat.help.title"),
     description: t("chat.help.description"),
     roleLabel: t("chat.help.roleLabel"),

@@ -562,7 +562,7 @@
   background-color: transparent !important;
   background-image: none !important;
   border: none !important;
-  color: var(--pt-150);
+  color: var(--input-text) !important;
   box-shadow: none !important;
 }
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-msg-user:hover,

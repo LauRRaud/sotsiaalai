@@ -3,9 +3,10 @@ process.env.DATABASE_URL ??= "postgresql://user:pass@127.0.0.1:5432/sotsiaalai_t
 import test from "node:test";
 import assert from "node:assert/strict";
 
-const [{ runHelpChatWorkflow }, { createHelpWorkflowDraftState }] = await Promise.all([
+const [{ runHelpChatWorkflow }, { createHelpWorkflowDraftState }, { toHelpListingView }] = await Promise.all([
   import("../../lib/help/chatWorkflow.js"),
-  import("../../lib/help/workflowState.js")
+  import("../../lib/help/workflowState.js"),
+  import("../../lib/help/listingViews.js")
 ]);
 
 const MUNICIPALITIES = {
@@ -441,6 +442,83 @@ test("template placeholders are not treated as offer location or timing", async 
   assert.doesNotMatch(String(result.reply || ""), /ning olen kattesaadav/i);
 });
 
+test("initial offer follow-up question does not prepend inferred location reflection", async () => {
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: [
+      "Pakun abi inimesele, kes vajab tuge igapaevaelus.",
+      "Tegutsen Tabasalus ja selle lahiumbruses."
+    ].join(" "),
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.match(String(result.reply || ""), /Kellele sinu abi on moeldud|Kellele sinu abi on mõeldud/i);
+  assert.doesNotMatch(String(result.reply || ""), /Markisin asukohaks|Märkisin asukohaks/i);
+});
+
+test("basic structured answers are not appended into offer description", async () => {
+  const initialState = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    activeQuestionLayer: "basic",
+    activeQuestionKey: "targetGroupCodes",
+    municipalityId: "mun-harku",
+    municipalityLabel: "Harku vald",
+    draft: {
+      title: "Igapaevaabi pakkumine",
+      description: "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisatuge.",
+      category: "Igapaevaabi",
+      categoryCode: "DAILY_TASKS",
+      rawPlace: "Tabasalu"
+    }
+  });
+
+  const afterTargetGroup = await runHelpChatWorkflow({
+    message: "koik, eakad, noored, voivad olla ka puudega",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: initialState
+  }, createPrismaStub());
+
+  assert.equal(afterTargetGroup.handled, true);
+  assert.equal(
+    afterTargetGroup.workflowState?.draft?.description,
+    "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisatuge."
+  );
+
+  const afterTiming = await runHelpChatWorkflow({
+    message: "saan aidata teisipaeva ohtuti ja regulaarselt",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterTargetGroup.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterTiming.handled, true);
+  assert.equal(
+    afterTiming.workflowState?.draft?.description,
+    "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisatuge."
+  );
+
+  const afterCompensation = await runHelpChatWorkflow({
+    message: "tasu eest",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterTiming.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterCompensation.handled, true);
+  assert.equal(afterCompensation.workflowState?.step, "edit_or_save");
+  assert.equal(
+    afterCompensation.workflowState?.draft?.description,
+    "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisatuge."
+  );
+  assert.doesNotMatch(String(afterCompensation.reply || ""), /koik, eakad, noored/i);
+});
+
 test("low-signal offer input does not become a prefixed auto-title", async () => {
   const result = await runHelpChatWorkflow({
     forcedIntent: "create_help_offer",
@@ -540,6 +618,7 @@ test("saving a help request immediately shows matching offers", async () => {
   assert.match(String(result.reply || ""), /Abisoov on salvestatud/i);
   assert.match(String(result.reply || ""), /lisatud abisoovide seinale/i);
   assert.match(String(result.reply || ""), /leidub sobivaid abipakkumisi/i);
+  assert.doesNotMatch(String(result.reply || ""), /Staatus:\s*Aktiivne/i);
   assert.match(String(result.reply || ""), /Leidsin 1/i);
   assert.match(String(result.reply || ""), /1\. Pakun transpordiabi/i);
 });
@@ -580,6 +659,7 @@ test("saving a help offer immediately shows matching requests", async () => {
   assert.equal(result.workflowState?.mode, "browse");
   assert.match(String(result.reply || ""), /Abipakkumine on salvestatud/i);
   assert.match(String(result.reply || ""), /leidub sobivaid abisoove/i);
+  assert.doesNotMatch(String(result.reply || ""), /Staatus:\s*Aktiivne/i);
   assert.match(String(result.reply || ""), /Leidsin 1/i);
   assert.match(String(result.reply || ""), /1\. Vajan digiabi/i);
 });
@@ -596,4 +676,29 @@ test("saved help request can still transition into browse flow", async () => {
   assert.equal(result.workflowState?.intent, "browse_help_offers");
   assert.equal(result.workflowState?.mode, "browse");
   assert.match(String(result.reply || ""), /Leidsin 1/i);
+});
+
+test("listing view strips repeated title from structured summary", () => {
+  const title = "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisat";
+  const listing = toHelpListingView({
+    kind: "offer",
+    title,
+    structuredSummary: `${title} Ā· Tabasalu Ā· Harku vald Ā· Tasuline abi Ā· Regulaarne`,
+    description:
+      "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisatuge. Tegutsen Tabasalus."
+  }, { kind: "offer", locale: "et" });
+
+  assert.equal(listing.summary, "Tabasalu | Harku vald | Tasuline abi | Regulaarne");
+});
+
+test("listing view summary fallback skips the repeated opening sentence", () => {
+  const listing = toHelpListingView({
+    kind: "offer",
+    title: "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisat",
+    description:
+      "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisatuge. Monikord on elus perioode, kus koigega uksi toime tulla on keeruline. Olen valmis aitama rahulikult ja lugupidavalt."
+  }, { kind: "offer", locale: "et" });
+
+  assert.match(listing.summary, /^Monikord on elus perioode/);
+  assert.doesNotMatch(listing.summary, /^Pakun abi inimesele voi perele/);
 });

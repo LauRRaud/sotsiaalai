@@ -661,6 +661,8 @@
       "loadFailed": "Kuulutuste laadimine ebaõnnestus.",
       "detailLoadFailed": "Kuulutuse avamine ebaõnnestus.",
       "connectFailed": "Ühenduse loomine ebaõnnestus.",
+      "category": "Põhikategooria",
+      "location": "Asukoht",
       "title": "Pealkiri",
       "description": "Kirjeldus",
       "roleLabel": "Roll / teenuse nimetus",
@@ -1017,10 +1019,10 @@
       "saved": {
         "offer": "Aitäh! Abipakkumine on salvestatud.",
         "request": "Aitäh! Abisoov on salvestatud.",
-        "offerPublished": "See on n??d lisatud abipakkumiste seinale.",
-        "requestPublished": "See on n??d lisatud abisoovide seinale.",
-        "checkingRequests": "Vaatan n??d, kas sellele leidub sobivaid abisoove.",
-        "checkingOffers": "Vaatan n??d, kas sellele leidub sobivaid abipakkumisi."
+        "offerPublished": "See on nüüd lisatud abipakkumiste seinale.",
+        "requestPublished": "See on nüüd lisatud abisoovide seinale.",
+        "checkingRequests": "Vaatan nüüd, kas sellele leidub sobivaid abisoove.",
+        "checkingOffers": "Vaatan nüüd, kas sellele leidub sobivaid abipakkumisi."
       },
       "create": {
         "cancelled": "Selge, katkestasin selle abikuulutuse vormistamise."

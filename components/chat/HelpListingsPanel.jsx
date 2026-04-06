@@ -19,15 +19,15 @@ import {
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
 
-function buildMetaLine(item) {
-  return [
+function uniqueLabels(values = []) {
+  return Array.from(new Set((Array.isArray(values) ? values : []).map((item) => String(item || "").trim()).filter(Boolean)));
+}
+
+function buildTagLine(item = {}) {
+  return uniqueLabels([
     item.categoryLabel,
-    item.helpTypeLabel,
-    item.timeTypeLabel,
-    item.roleLabel
-  ]
-    .filter(Boolean)
-    .join(" | ");
+    ...(Array.isArray(item.targetGroupLabels) ? item.targetGroupLabels : [])
+  ]).join(" · ");
 }
 
 export default function HelpListingsPanel({
@@ -58,9 +58,9 @@ export default function HelpListingsPanel({
   const helpListingsContentClassName =
     `help-listings-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
     `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
-    `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
+    `[--glass-modal-bg:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
-    `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
+    `[border:none] [background:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] shadow-[var(--glass-shell-shadow,none)] ` +
     `${glassSubpageSurfaceScopeClassName} ` +
     `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards ${glassPageMobileCardClassName} ` +
     `${isClosing ? `${tiltAnimationClassName} pointer-events-none` : ""}`;
@@ -171,12 +171,11 @@ export default function HelpListingsPanel({
                     ) : null}
                   </div>
                   {item.summary ? <div className="mt-[0.5rem] text-[0.94rem] leading-[1.48] opacity-92 max-[768px]:text-[0.98rem]">{item.summary}</div> : null}
-                  {buildMetaLine(item) ? (
-                    <div className="mt-[0.58rem] text-[0.78rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)] [.theme-light_&]:text-[#7a3a38]">
-                      {buildMetaLine(item)}
+                  {buildTagLine(item) ? (
+                    <div className="mt-[0.58rem] text-[0.84rem] leading-[1.4] opacity-82">
+                      {buildTagLine(item)}
                     </div>
                   ) : null}
-                  {item.municipalityLabel ? <div className="mt-[0.5rem] text-[0.84rem] opacity-76">{item.municipalityLabel}</div> : null}
                 </button>
               ))}
             </div>

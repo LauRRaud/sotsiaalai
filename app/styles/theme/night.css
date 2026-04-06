@@ -412,7 +412,7 @@
   background-color: transparent !important;
   background-image: none !important;
   border: none !important;
-  color: var(--pt-150);
+  color: var(--input-text) !important;
   box-shadow: none !important;
 }
 
