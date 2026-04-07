@@ -37,11 +37,14 @@ import {
 import { localizePath } from "@/lib/localizePath"
 
 const agentTitleClassName =
-  `rooms-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
-  `${glassPageTitleClassName} w-full max-w-full max-[768px]:!mt-0 max-[768px]:!mb-0`
+  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
+  `${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`
+const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]"
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
-const backButtonClassName = `${glassPageBackTopLeftClassName} scroll-reactive-back !z-[30] pointer-events-auto min-[769px]:!top-[0.35rem] min-[769px]:!left-[0.35rem]`
+const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
+const heroBodyClassName =
+  "grid gap-[1.05rem] px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[0.95rem] max-[768px]:px-[0.05rem]"
 const agentPrimaryButtonClassName =
   "drawer-pill-btn invite-primary-btn documents-primary-button !inline-flex !w-fit !justify-center !self-center !min-h-[3.05rem] !rounded-[1.6rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
   "max-[768px]:!w-fit max-[768px]:!min-h-[3.2rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.18rem] " +
@@ -1536,21 +1539,19 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             className={backButtonClassName}
           />
           <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-page-hero-panel--agent documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
-            <header className="documents-page-header documents-page-header--panel documents-page-header--hero">
-              <div className="documents-page-header-row">
-                <div className="documents-page-heading">
-                  <div className={mobileTitleWrapClassName}>
-                    <h1 className={agentTitleClassName}>{t("chat.tools.agent_mode")}</h1>
-                  </div>
-                </div>
+            <header className={headerClassName}>
+              <div className={mobileTitleWrapClassName}>
+                <h1 className={agentTitleClassName}>{t("chat.tools.agent_mode")}</h1>
               </div>
             </header>
-            <p className="documents-page-description documents-agent-page-description">{introText}</p>
-            {isAdmin && isRoleViewActive ? (
-              <div className="documents-notice documents-notice--muted rounded-[1rem] px-[1rem] py-[0.95rem] text-[0.95rem]">
-                {t("documents.agent_workspace.admin_notice", { role: roleViewLabel })}
-              </div>
-            ) : null}
+            <div className={heroBodyClassName}>
+              <p className="documents-page-description documents-agent-page-description">{introText}</p>
+              {isAdmin && isRoleViewActive ? (
+                <div className="documents-notice documents-notice--muted rounded-[1rem] px-[1rem] py-[0.95rem] text-[0.95rem]">
+                  {t("documents.agent_workspace.admin_notice", { role: roleViewLabel })}
+                </div>
+              ) : null}
+            </div>
           </Panel>
 
           {documentsError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{documentsError}</div> : null}

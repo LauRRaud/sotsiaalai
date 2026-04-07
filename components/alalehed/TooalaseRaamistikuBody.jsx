@@ -27,22 +27,20 @@ const shellClassName =
   `${glassPageShellCenteredClassName} framework-page-shell ${glassPrimaryButtonToneClassName} ` +
   "relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.14rem]";
 const panelClassName =
-  `framework-surface-panel relative z-[21] w-full !max-w-[clamp(32rem,50vw,44rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `framework-surface-panel relative z-[21] w-full !max-w-[52rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.38rem,1.5vw,0.54rem)] max-[768px]:rounded-[1.2rem] max-[768px]:px-[0.38rem] max-[768px]:pb-[0.76rem] ${glassPageMobileCardClassName}`;
 const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
-const headerInnerClassName =
-  "grid w-full max-w-none gap-[0.75rem] px-[0.05rem] max-[768px]:max-w-none max-[768px]:px-0";
 const titleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const titleClassName =
-  `framework-title invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
+  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
   `w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const leadClassName =
-  "m-0 text-left text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
+  "m-0 text-left text-[1.08rem] leading-[1.68] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
 const bodyClassName =
   "framework-body mx-auto grid w-full max-w-none gap-[0.88rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.76rem] max-[768px]:px-0 max-[768px]:pb-[0.88rem]";
 const introCardClassName =
@@ -50,7 +48,7 @@ const introCardClassName =
 const sectionTitleClassName =
   "m-0 text-[1.14rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const introTextClassName =
-  "m-0 text-[1.14rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
+  "m-0 text-[1.14rem] leading-[1.68] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
 const documentCardClassName =
   "framework-document-card mx-auto grid w-full max-w-none gap-[0.92rem] px-[0.95rem] py-[0.98rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.76rem] max-[768px]:px-[0.56rem] max-[768px]:py-[0.74rem]";
 const confirmPanelClassName =
@@ -64,19 +62,19 @@ const docSubheadingClassName =
 const docLabelClassName =
   "m-0 pt-[0.15rem] text-[1.02rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
 const docParagraphClassName =
-  "m-0 text-[1.08rem] leading-[1.72] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
+  "m-0 text-[1.08rem] leading-[1.72] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
 const docListClassName =
-  "m-0 grid gap-[0.55rem] pl-[1.45rem] text-[1.08rem] leading-[1.68] max-[768px]:pl-[1.15rem]";
+  "m-0 grid gap-[0.55rem] pl-[1.45rem] text-[1.08rem] leading-[1.68] tracking-[0.018em] max-[768px]:pl-[1.15rem]";
 const docCheckRowClassName =
   `grid gap-[0.5rem] rounded-[0.95rem] px-[0.9rem] py-[0.75rem] ${glassSubpageCardClassName}`;
 const docCheckRowOptionsClassName = "flex flex-wrap items-center gap-x-[1rem] gap-y-[0.45rem]";
 const docCheckOptionClassName =
-  "inline-flex items-center gap-[0.45rem] text-[1rem] leading-[1.35] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
+  "inline-flex items-center gap-[0.45rem] text-[1rem] leading-[1.35] tracking-[0.016em] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
 const docCheckMarkerClassName =
   "inline-flex h-[1rem] w-[1rem] shrink-0 items-center justify-center rounded-[0.22rem] border border-current opacity-85";
 const docChecklistClassName = "grid gap-[0.6rem]";
 const docChecklistItemClassName =
-  "flex items-start gap-[0.55rem] text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
+  "flex items-start gap-[0.55rem] text-[1.08rem] leading-[1.68] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const actionRowClassName =
   "mx-auto flex w-full max-w-[26rem] flex-wrap items-center justify-center gap-[0.7rem] pt-[0.25rem] pb-[0.55rem] max-[768px]:grid max-[768px]:w-full max-[768px]:max-w-none max-[768px]:grid-cols-1 max-[768px]:pb-[0.55rem]";
 const actionButtonClassName =
@@ -372,22 +370,20 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
         />
 
         <header className={headerClassName}>
-          <div className={headerInnerClassName}>
-            <div className={titleWrapClassName}>
-              <h1 id="worker-framework-title" className={titleClassName}>
-                {locale === "et" ? (
-                  <>
-                    <span className="max-[768px]:hidden">{frameworkTitle}</span>
-                    <span className="hidden max-[768px]:block">
-                      <span className="block">{frameworkTitleMobileLines?.[0] || frameworkTitle}</span>
-                      {frameworkTitleMobileLines?.[1] ? <span className="block">{frameworkTitleMobileLines[1]}</span> : null}
-                    </span>
-                  </>
-                ) : (
-                  frameworkTitle
-                )}
-              </h1>
-            </div>
+          <div className={titleWrapClassName}>
+            <h1 id="worker-framework-title" className={titleClassName}>
+              {locale === "et" ? (
+                <>
+                  <span className="max-[768px]:hidden">{frameworkTitle}</span>
+                  <span className="hidden max-[768px]:block">
+                    <span className="block">{frameworkTitleMobileLines?.[0] || frameworkTitle}</span>
+                    {frameworkTitleMobileLines?.[1] ? <span className="block">{frameworkTitleMobileLines[1]}</span> : null}
+                  </span>
+                </>
+              ) : (
+                frameworkTitle
+              )}
+            </h1>
           </div>
         </header>
 
