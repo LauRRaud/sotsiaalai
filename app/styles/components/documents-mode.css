@@ -237,24 +237,24 @@
   --glass-ring-tilt-perspective: 3200px;
   --glass-ring-tilt-angle-left: -1.4deg;
   --glass-ring-tilt-angle-right: 1.4deg;
-  width: min(100%, 56rem);
+  width: min(100%, 52rem);
   margin: 0 auto;
-  padding: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(0.82rem, 1.7vw, 1.2rem);
 }
 
 .documents-workspace-shell--artifacts {
   --glass-ring-tilt-angle-left: -1.1deg;
   --glass-ring-tilt-angle-right: 1.1deg;
-  width: min(100%, 56rem);
+  width: min(100%, 52rem);
 }
 
 .documents-workspace-shell--agent {
-  width: min(100%, 56rem);
+  width: min(100%, 52rem);
 }
 
 .documents-workspace-page {
   min-height: 100dvh;
-  padding: clamp(0.75rem, 2vw, 1.5rem);
+  padding: clamp(0.65rem, 1.7vw, 1.2rem);
 }
 
 .documents-workspace-page--library {
@@ -2315,21 +2315,21 @@
 }
 
 .documents-primary-button {
-  min-height: 3rem;
-  padding-inline: 1.1rem;
-  padding-block: 0.72rem;
-  border-radius: 999px;
-  font-size: 1.08rem;
-  letter-spacing: 0.02em;
+  min-height: 3.05rem;
+  padding-inline: 1.15rem;
+  padding-block: 0.78rem;
+  border-radius: 1.6rem;
+  font-size: 1.12rem;
+  letter-spacing: 0.03rem;
 }
 
 .documents-secondary-button {
-  min-height: 2.7rem;
-  padding-inline: 0.95rem;
-  padding-block: 0.48rem;
-  border-radius: 999px;
-  font-size: 1.04rem;
-  letter-spacing: 0.01em;
+  min-height: 2.72rem;
+  padding-inline: 1.05rem;
+  padding-block: 0.64rem;
+  border-radius: 1.6rem;
+  font-size: 1.06rem;
+  letter-spacing: 0.022em;
   color: var(--documents-page-strong);
 }
 
@@ -2342,12 +2342,12 @@
 }
 
 .documents-danger-button {
-  min-height: 2.7rem;
-  padding-inline: 0.95rem;
-  padding-block: 0.48rem;
-  border-radius: 999px;
-  font-size: 1.02rem;
-  letter-spacing: 0.01em;
+  min-height: 2.72rem;
+  padding-inline: 1.05rem;
+  padding-block: 0.64rem;
+  border-radius: 1.6rem;
+  font-size: 1.06rem;
+  letter-spacing: 0.022em;
   color: var(--documents-accent);
 }
 
@@ -2483,7 +2483,15 @@
 
   .documents-workspace-shell {
     width: 100%;
-    padding: 0;
+    padding: 0.72rem 0.56rem 0.88rem;
+  }
+
+  .documents-primary-button,
+  .documents-secondary-button,
+  .documents-danger-button {
+    min-height: 2.9rem;
+    border-radius: 1.45rem;
+    font-size: 1.08rem;
   }
 
   .documents-page-header-row {
