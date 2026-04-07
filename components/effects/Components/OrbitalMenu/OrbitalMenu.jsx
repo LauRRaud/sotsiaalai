@@ -266,6 +266,17 @@ export default function OrbitalMenu({
     const hubEl = hubBtnRef.current;
     const closeEl = overlayCloseBtnRef.current;
     const raf = requestAnimationFrame(() => {
+      if (useMobileStack) {
+        const firstAction = stackItemRefs.current?.find(Boolean);
+        if (firstAction instanceof HTMLElement) {
+          focusWithoutScroll(firstAction);
+          firstAction.scrollIntoView?.({
+            block: "nearest",
+            behavior: "auto"
+          });
+          return;
+        }
+      }
       closeEl?.focus?.();
     });
     return () => {
@@ -681,7 +692,7 @@ export default function OrbitalMenu({
             <div className="profile-orbit-stack-fade profile-orbit-stack-fade--top" aria-hidden="true" />
             <div className="profile-orbit-stack-fade profile-orbit-stack-fade--bottom" aria-hidden="true" />
 
-            <div ref={stackListRef} className="profile-orbit-stack-list w-full flex flex-col items-center gap-[clamp(1rem,2.6vh,1.6rem)]" style={{
+            <div ref={stackListRef} className="profile-orbit-stack-list w-full flex flex-col items-center gap-[clamp(1rem,2.6vh,1.6rem)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]" role="group" aria-label={ariaLabel} style={{
           paddingTop: stackPad,
           paddingBottom: stackPad,
           "--stack-pad": `${stackPad}px`
@@ -689,7 +700,12 @@ export default function OrbitalMenu({
               {stackItems.map((item, index) => {
             return <button key={item.key || index} ref={el => {
               stackItemRefs.current[index] = el;
-            }} type="button" data-key={item.key || undefined} className="profile-orbit-stack-item" onClick={() => onMobileAction(item)} aria-label={item.label}>
+            }} type="button" data-key={item.key || undefined} className="profile-orbit-stack-item" onClick={() => onMobileAction(item)} onFocus={event => {
+              event.currentTarget.scrollIntoView?.({
+                block: "nearest",
+                behavior: prefersReducedMotion ? "auto" : "smooth"
+              });
+            }} aria-label={item.label}>
                   <span className="profile-orbit-stack-bubble dock-item" aria-hidden="true">
                     <span className="dock-icon">
                       {item.icon}

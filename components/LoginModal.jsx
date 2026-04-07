@@ -46,6 +46,15 @@ const MODAL_FOCUSABLE_SELECTOR = [
   "[tabindex]:not([tabindex='-1'])"
 ].join(", ");
 
+function focusElementWithoutScroll(element) {
+  if (!element?.focus) return;
+  try {
+    element.focus({ preventScroll: true });
+  } catch {
+    element.focus();
+  }
+}
+
 function renderOtpTitle(title) {
   const parts = String(title || "")
     .trim()
@@ -296,11 +305,9 @@ export default function LoginModal({
     "flex",
     "flex-col",
     isPhoneViewport
-      ? isOtpStep
-        ? "w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+0.35rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.35rem)]"
-        : "w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] items-center justify-center"
+      ? "w-full h-full min-h-full max-h-full items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+0.4rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.4rem)]"
       : "w-auto h-auto min-h-0 max-h-[calc(100dvh-2rem)]",
-    isPhoneViewport ? "overflow-y-auto overflow-x-hidden" : "overflow-visible max-md:max-h-[calc(100dvh-0.9rem)]",
+    isPhoneViewport ? "overflow-hidden" : "overflow-visible max-md:max-h-[calc(100dvh-0.9rem)]",
     "gap-0",
     "!rounded-[2.2rem]",
     "pt-[0.1em]",
@@ -624,17 +631,27 @@ export default function LoginModal({
   useEffect(() => {
     if (!open) return;
     if (isOtpStep) {
-      const target = otpInputRef.current;
-      if (target && typeof target.focus === "function") registerTimeout(() => target.focus(), 0);
+      registerTimeout(() => {
+        focusElementWithoutScroll(boxRef.current);
+        boxRef.current?.scrollTo?.({ top: 0, behavior: "auto" });
+        boxRef.current
+          ?.querySelector?.(".login-modal-shell")
+          ?.scrollTo?.({ top: 0, behavior: "auto" });
+        focusElementWithoutScroll(otpInputRef.current);
+      }, 0);
       return;
     }
     if (!emailRevealed) {
       const target = emailIconButtonRef.current;
-      if (target && typeof target.focus === "function") registerTimeout(() => target.focus(), 0);
+      if (target && typeof target.focus === "function") {
+        registerTimeout(() => focusElementWithoutScroll(target), 0);
+      }
       return;
     }
     const target = emailInputRef.current;
-    if (target && typeof target.focus === "function") registerTimeout(() => target.focus(), 0);
+    if (target && typeof target.focus === "function") {
+      registerTimeout(() => focusElementWithoutScroll(target), 0);
+    }
   }, [open, isOtpStep, emailRevealed, registerTimeout]);
   const finishLogin = useCallback(async token => {
     if (!token) {
@@ -1209,8 +1226,20 @@ export default function LoginModal({
     "max-[768px]:!text-[clamp(1.2rem,4.9vw,1.36rem)] max-[768px]:!px-[clamp(1.06rem,4.1vw,1.34rem)] max-[768px]:!py-[0.72rem] max-[768px]:!min-h-[3.12rem]",
     isAndroidPlatform ? "max-[768px]:!min-h-[3.04rem]" : ""
   ].filter(Boolean).join(" ");
-  const loginShellStyle =
-    isPhoneViewport && !isOtpStep
+  const loginShellStyle = {
+    ...(isPhoneViewport
+      ? {
+          maxHeight: "100%",
+          minHeight: 0,
+          overflowY: "auto",
+          overscrollBehavior: "contain",
+          WebkitOverflowScrolling: "touch",
+          alignSelf: "center",
+          marginLeft: "auto",
+          marginRight: "auto"
+        }
+      : null),
+    ...(isPhoneViewport && !isOtpStep
       ? {
           width: isAndroidPlatform
             ? "min(calc(100vw - 0.36rem), calc(var(--login-core-w) + 3.34rem))"
@@ -1226,11 +1255,10 @@ export default function LoginModal({
             : "clamp(1.1rem, 4.35vw, 1.3rem)",
           paddingRight: isAndroidPlatform
             ? "clamp(1.2rem, 5.25vw, 1.6rem)"
-            : "clamp(1.1rem, 4.35vw, 1.3rem)",
-          marginLeft: "auto",
-          marginRight: "auto"
+            : "clamp(1.1rem, 4.35vw, 1.3rem)"
         }
-      : undefined;
+      : null)
+  };
   const currentEmailValue = String(
     (emailRevealed ? emailInputRef.current?.value : "") ||
       emailValue ||

@@ -1805,12 +1805,17 @@
     width: 100% !important;
     min-width: 100% !important;
     max-width: 100% !important;
-    height: 100dvh !important;
-    max-height: 100dvh !important;
+    min-height: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.4rem) !important;
+    padding-right: 0 !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.4rem) !important;
+    padding-left: 0 !important;
+    box-sizing: border-box !important;
     transform: none !important;
-    overflow-x: hidden !important;
+    overflow: hidden !important;
   }
 
   html[data-display-mode="standalone"] #login-modal:not(.login-modal--otp),

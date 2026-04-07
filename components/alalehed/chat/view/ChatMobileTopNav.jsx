@@ -216,6 +216,11 @@ function getEdgeFadeOpacity(distance) {
   return 1 - (distance - 2.25) / 0.65;
 }
 
+function isTopNavButtonTarget(target) {
+  if (!(target instanceof Element)) return false;
+  return Boolean(target.closest("[data-chat-mobile-topnav-button='1']"));
+}
+
 export default function ChatMobileTopNav({
   t,
   locale,
@@ -802,6 +807,7 @@ export default function ChatMobileTopNav({
         ref={setButtonRef}
         type="button"
         data-key={item.key}
+        data-chat-mobile-topnav-button="1"
         aria-label={labels[item.key]}
         aria-disabled={isDisabled ? "true" : undefined}
         aria-haspopup={item.key === "sources" ? "dialog" : undefined}
@@ -843,7 +849,7 @@ export default function ChatMobileTopNav({
           }
         }}
         className={cn(
-          "pointer-events-none relative inline-flex items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
+          "pointer-events-auto relative inline-flex items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
           isCompactAndroidViewport
             ? "h-[clamp(2.86rem,11.6vw,3.22rem)] w-[clamp(2.86rem,11.6vw,3.22rem)]"
             : isAndroidPlatform
@@ -896,74 +902,76 @@ export default function ChatMobileTopNav({
         <div
           ref={swipeSurfaceRef}
           className="relative h-[8.6rem] overflow-visible"
-          style={{ touchAction: "pan-x" }}
+          style={{ touchAction: "pan-y" }}
+          onPointerDown={event => {
+            if (isTopNavButtonTarget(event.target)) {
+              return;
+            }
+            if (event.pointerType === "touch") {
+              return;
+            }
+            if (event.pointerType === "mouse" && event.button !== 0) {
+              return;
+            }
+            swipeSurfaceRef.current?.setPointerCapture?.(event.pointerId);
+            dragStateRef.current.pointerId = event.pointerId;
+            beginSwipe(event.clientX, event.clientY);
+          }}
+          onPointerMove={event => {
+            if (event.pointerType === "touch") {
+              return;
+            }
+            const pointerId = dragStateRef.current.pointerId;
+            if (pointerId == null || event.pointerId !== pointerId) return;
+            moveSwipe(event.clientX, event.clientY, event);
+          }}
+          onPointerUp={event => {
+            if (event.pointerType === "touch") {
+              return;
+            }
+            const pointerId = dragStateRef.current.pointerId;
+            if (pointerId == null || event.pointerId !== pointerId) return;
+            swipeSurfaceRef.current?.releasePointerCapture?.(event.pointerId);
+            finishSwipe(event.clientX, event);
+          }}
+          onPointerCancel={event => {
+            if (event.pointerType === "touch") {
+              return;
+            }
+            const pointerId = dragStateRef.current.pointerId;
+            if (pointerId == null || event.pointerId !== pointerId) return;
+            swipeSurfaceRef.current?.releasePointerCapture?.(event.pointerId);
+            resetSwipeState();
+          }}
+          onTouchStart={event => {
+            if (isTopNavButtonTarget(event.target)) {
+              return;
+            }
+            const touch = event.changedTouches?.[0];
+            if (!touch) return;
+            dragStateRef.current.touchId = touch.identifier;
+            beginSwipe(touch.clientX, touch.clientY);
+          }}
+          onTouchMove={event => {
+            const touchId = dragStateRef.current.touchId;
+            if (touchId == null) return;
+            const touch = Array.from(event.touches).find(currentTouch => currentTouch.identifier === touchId);
+            if (!touch) return;
+            moveSwipe(touch.clientX, touch.clientY, event);
+          }}
+          onTouchEnd={event => {
+            const touchId = dragStateRef.current.touchId;
+            if (touchId == null) return;
+            const touch = Array.from(event.changedTouches).find(
+              currentTouch => currentTouch.identifier === touchId
+            );
+            if (!touch) return;
+            finishSwipe(touch.clientX, event);
+          }}
+          onTouchCancel={() => {
+            resetSwipeState();
+          }}
         >
-          <div
-            className="absolute inset-x-[-0.8rem] top-0 bottom-0 z-[20]"
-            style={{ touchAction: "pan-x" }}
-            onPointerDown={event => {
-              if (event.pointerType === "touch") {
-                return;
-              }
-              if (event.pointerType === "mouse" && event.button !== 0) {
-                return;
-              }
-              swipeSurfaceRef.current?.setPointerCapture?.(event.pointerId);
-              dragStateRef.current.pointerId = event.pointerId;
-              beginSwipe(event.clientX, event.clientY);
-            }}
-            onPointerMove={event => {
-              if (event.pointerType === "touch") {
-                return;
-              }
-              const pointerId = dragStateRef.current.pointerId;
-              if (pointerId == null || event.pointerId !== pointerId) return;
-              moveSwipe(event.clientX, event.clientY, event);
-            }}
-            onPointerUp={event => {
-              if (event.pointerType === "touch") {
-                return;
-              }
-              const pointerId = dragStateRef.current.pointerId;
-              if (pointerId == null || event.pointerId !== pointerId) return;
-              swipeSurfaceRef.current?.releasePointerCapture?.(event.pointerId);
-              finishSwipe(event.clientX, event);
-            }}
-            onPointerCancel={event => {
-              if (event.pointerType === "touch") {
-                return;
-              }
-              const pointerId = dragStateRef.current.pointerId;
-              if (pointerId == null || event.pointerId !== pointerId) return;
-              swipeSurfaceRef.current?.releasePointerCapture?.(event.pointerId);
-              resetSwipeState();
-            }}
-            onTouchStart={event => {
-              const touch = event.changedTouches?.[0];
-              if (!touch) return;
-              dragStateRef.current.touchId = touch.identifier;
-              beginSwipe(touch.clientX, touch.clientY);
-            }}
-            onTouchMove={event => {
-              const touchId = dragStateRef.current.touchId;
-              if (touchId == null) return;
-              const touch = Array.from(event.touches).find(currentTouch => currentTouch.identifier === touchId);
-              if (!touch) return;
-              moveSwipe(touch.clientX, touch.clientY, event);
-            }}
-            onTouchEnd={event => {
-              const touchId = dragStateRef.current.touchId;
-              if (touchId == null) return;
-              const touch = Array.from(event.changedTouches).find(
-                currentTouch => currentTouch.identifier === touchId
-              );
-              if (!touch) return;
-              finishSwipe(touch.clientX, event);
-            }}
-            onTouchCancel={() => {
-              resetSwipeState();
-            }}
-          />
 
           <div className="relative h-[4.86rem] overflow-hidden">
             {visibleItems.map(({ item, index, slot }) => {
