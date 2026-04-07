@@ -1065,6 +1065,9 @@
     "view_mode": {
       "admin_notice": "Admin preview: {role}",
       "intro_worker": "Keep case materials, templates, and other files here so the agent can prepare specialist-facing drafts.",
+      "intro_worker_expand": "Read more",
+      "intro_worker_collapse": "Hide",
+      "intro_worker_details": "What this is for\nThis page is meant to make document drafting faster and more organized. Instead of starting from scratch every time, you can:\n- upload the materials you need\n- keep reusable templates ready\n- choose which files the AI assistant is allowed to use\n- open the drafting view based on those files\n- review and download finished drafts or final versions\n\nAdd documents\nUpload the files you need for work here, such as guidance, client-related materials, sample documents, or ready-made templates.\n\nSet the document role\nEach document can be marked, for example, as:\n- a template\n- background material\n- another file type\nThis helps the system understand how the file should be used.\n\nAllow AI to use the document\nFor each file, you can decide whether the system may use it during document drafting. This gives the specialist control over what information becomes input.\n\nChoose documents for drafting\nOnce the needed files are selected, you can send them forward into the drafting view. There the system can use them to create, for example, a draft, summary, letter, or another work text.\n\nManage finished results\nIn the lower part of the page you can see outputs that have already been created. You can:\n- open them\n- copy them\n- download them\n- delete them when needed",
       "intro_client": "Keep your letters, forms, and background documents here so the agent can help turn them into a clear reply or application."
     },
     "outputs_title": "Agent results",

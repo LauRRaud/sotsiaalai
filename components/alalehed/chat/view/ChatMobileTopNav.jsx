@@ -330,7 +330,7 @@ export default function ChatMobileTopNav({
   );
 
   const isCompactAndroidViewport =
-    isAndroidPlatform && viewportWidthPx > 0 && viewportWidthPx <= 390;
+    isAndroidPlatform && viewportWidthPx > 0 && viewportWidthPx <= 430;
   const slotProfile = isCompactAndroidViewport
     ? COMPACT_ANDROID_SLOT_PROFILE
     : isAndroidPlatform

@@ -118,30 +118,6 @@
   --documents-dropdown-item-bg-hover: var(--opaque-panel-bg-hover, rgba(255, 255, 255, 1));
   --documents-dropdown-border: transparent;
   --documents-dropdown-shadow: var(--btn-primary-shadow, 0 12px 28px rgba(15, 23, 42, 0.12));
-  --btn-primary-border: 0 solid transparent;
-  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.62);
-  --btn-primary-border-active: 0 solid transparent;
-  --btn-primary-bg-hover:
-    radial-gradient(
-      82% 66% at 50% 16%,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 1) 42%,
-      rgba(255, 255, 255, 0.99) 58%,
-      rgba(253, 251, 250, 0.97) 74%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(254, 252, 251, 0.985) 100%
-    );
-  --btn-primary-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 2px 8px rgba(15, 23, 42, 0.05);
-  --btn-primary-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 4px 10px rgba(15, 23, 42, 0.06);
-  --btn-primary-shadow-active: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 2px 6px rgba(15, 23, 42, 0.05);
-  --btn-primary-shadow-focus:
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 5px 12px rgba(15, 23, 42, 0.07),
-    0 0 0 3px var(--btn-primary-focus-ring-color),
-    0 0 0 1px rgba(255, 255, 255, 0.22);
 }
 
 :root.theme-mid .documents-workspace {
@@ -182,18 +158,6 @@
   --input-border: var(--mid-unified-surface-border);
   --input-shadow: var(--mid-unified-surface-shadow);
   --input-shadow-hover: var(--mid-unified-surface-shadow-hover);
-  --btn-primary-bg: var(--mid-unified-surface-bg);
-  --btn-primary-bg-hover: var(--mid-unified-surface-bg-hover);
-  --btn-primary-bg-active: var(--mid-unified-surface-bg-active);
-  --btn-primary-border: var(--mid-unified-surface-border);
-  --btn-primary-border-hover: var(--mid-unified-surface-border);
-  --btn-primary-border-active: var(--mid-unified-surface-border-hover);
-  --btn-primary-shadow: var(--mid-unified-surface-shadow);
-  --btn-primary-shadow-hover: var(--mid-unified-surface-shadow-hover);
-  --btn-primary-shadow-active: var(--mid-unified-surface-shadow-active);
-  --btn-primary-shadow-focus:
-    0 8px 18px rgba(38, 24, 22, 0.11),
-    0 0 0 3px var(--btn-primary-focus-ring-color);
 }
 
 :root.theme-night .documents-workspace {
@@ -282,16 +246,16 @@
 }
 
 :root.theme-light .documents-workspace-page--library {
-  --documents-glass-surface: rgba(255, 255, 255, 0.985);
-  --documents-panel-bg: rgba(255, 255, 255, 0.99);
-  --documents-card-bg: rgba(255, 255, 255, 0.985);
-  --documents-subpanel-bg: rgba(252, 251, 249, 0.985);
-  --documents-content-bg: rgba(252, 251, 249, 0.985);
-  --documents-muted-bg: rgba(248, 247, 245, 0.985);
-  --documents-agent-stage-bg: rgba(252, 251, 249, 0.985);
-  --documents-agent-thread-bg: rgba(255, 255, 255, 0.99);
-  --documents-agent-composer-bg: rgba(255, 255, 255, 0.99);
-  --documents-agent-composer-bg-hover: rgba(255, 255, 255, 1);
+  --documents-glass-surface: rgba(255, 255, 255, 0.9);
+  --documents-panel-bg: rgba(255, 255, 255, 0.92);
+  --documents-card-bg: rgba(255, 255, 255, 0.9);
+  --documents-subpanel-bg: rgba(252, 251, 249, 0.88);
+  --documents-content-bg: rgba(252, 251, 249, 0.88);
+  --documents-muted-bg: rgba(248, 247, 245, 0.84);
+  --documents-agent-stage-bg: rgba(252, 251, 249, 0.84);
+  --documents-agent-thread-bg: rgba(255, 255, 255, 0.9);
+  --documents-agent-composer-bg: rgba(255, 255, 255, 0.88);
+  --documents-agent-composer-bg-hover: rgba(255, 255, 255, 0.92);
   --documents-panel-border: rgba(190, 196, 208, 0.34);
   --documents-card-border: rgba(190, 196, 208, 0.3);
   --documents-subpanel-border: rgba(190, 196, 208, 0.3);
@@ -299,19 +263,19 @@
   --documents-muted-border: rgba(190, 196, 208, 0.28);
   --documents-soft-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
   --documents-strong-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
-  --documents-surface-panel-bg: rgba(255, 255, 255, 0.99);
+  --documents-surface-panel-bg: rgba(255, 255, 255, 0.92);
   --documents-surface-panel-border: rgba(190, 196, 208, 0.32);
   --documents-surface-panel-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
   --documents-surface-panel-text: var(--documents-page-text);
 }
 
 :root.theme-mid .documents-workspace-page--library {
-  --documents-glass-surface: rgba(242, 235, 226, 0.975);
-  --documents-panel-bg: rgba(244, 237, 229, 0.985);
-  --documents-card-bg: rgba(241, 234, 226, 0.985);
-  --documents-subpanel-bg: rgba(246, 239, 231, 0.985);
-  --documents-content-bg: rgba(241, 234, 226, 0.98);
-  --documents-muted-bg: rgba(237, 229, 220, 0.98);
+  --documents-glass-surface: rgba(242, 235, 226, 0.88);
+  --documents-panel-bg: rgba(244, 237, 229, 0.9);
+  --documents-card-bg: rgba(241, 234, 226, 0.88);
+  --documents-subpanel-bg: rgba(246, 239, 231, 0.86);
+  --documents-content-bg: rgba(241, 234, 226, 0.86);
+  --documents-muted-bg: rgba(237, 229, 220, 0.82);
   --documents-panel-border: rgba(176, 155, 141, 0.26);
   --documents-card-border: rgba(176, 155, 141, 0.22);
   --documents-subpanel-border: rgba(176, 155, 141, 0.22);
@@ -319,7 +283,7 @@
   --documents-muted-border: rgba(176, 155, 141, 0.2);
   --documents-soft-shadow: 0 8px 20px rgba(88, 66, 54, 0.08);
   --documents-strong-shadow: 0 10px 24px rgba(88, 66, 54, 0.1);
-  --documents-surface-panel-bg: rgba(244, 237, 229, 0.985);
+  --documents-surface-panel-bg: rgba(244, 237, 229, 0.9);
   --documents-surface-panel-border: rgba(176, 155, 141, 0.24);
   --documents-surface-panel-shadow: 0 8px 20px rgba(88, 66, 54, 0.08);
   --documents-surface-panel-text: var(--documents-page-text);

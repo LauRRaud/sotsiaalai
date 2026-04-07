@@ -11,7 +11,7 @@ import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
 import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
 import OptionCard from "@/components/ui/OptionCard"
-import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles"
+import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPrimaryButtonToneClassName } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass, linkRichTextBase } from "@/components/ui/linkStyles"
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName"
 import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
@@ -33,6 +33,31 @@ const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
 const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
+
+const WORKER_INTRO_COPY = {
+  et: {
+    expand: "Loe täpsemalt",
+    collapse: "Peida",
+    details:
+      "Milleks see mõeldud on\nLehe eesmärk on teha dokumentide koostamine kiiremaks ja korrastatumaks. Selle asemel, et iga kord nullist alustada, saad:\n- laadida üles vajalikud materjalid\n- hoida alles korduvkasutatavad põhjad\n- valida, milliseid faile AI-assistent tohib kasutada\n- avada nende põhjal dokumendi koostamise vaate\n- vaadata ja alla laadida valmis mustandeid või lõppversioone\n\nLisada dokumente\nSiia saab üles laadida tööks vajalikud failid, näiteks juhendid, kliendi kohta käivad materjalid, näidisdokumendid või valmis põhjad.\n\nMäärata dokumendi rolli\nDokumendi saab märkida näiteks:\n- põhjana\n- taustamaterjalina\n- muu tüüpi failina\nSee aitab süsteemil aru saada, kuidas seda faili kasutada.\n\nLubada dokument AI kasutusse\nIga faili juures saab otsustada, kas süsteem võib seda dokumendi koostamisel kasutada. See annab spetsialistile kontrolli, milline info läheb sisendiks.\n\nValida dokumendid koostamiseks\nKui vajalikud failid on välja valitud, saab need saata edasi dokumendi koostamise vaatesse. Seal saab süsteem nende põhjal teha näiteks mustandi, kokkuvõtte, kirja või muu tööteksti.\n\nHallata valmis tulemusi\nLehe alumises osas on näha juba loodud väljundid. Neid saab:\n- avada\n- kopeerida\n- alla laadida\n- vajadusel kustutada"
+  },
+  en: {
+    expand: "Read more",
+    collapse: "Hide",
+    details:
+      "What this is for\nThis page is meant to make document drafting faster and more organized. Instead of starting from scratch every time, you can:\n- upload the materials you need\n- keep reusable templates ready\n- choose which files the AI assistant is allowed to use\n- open the drafting view based on those files\n- review and download finished drafts or final versions\n\nAdd documents\nUpload the files you need for work here, such as guidance, client-related materials, sample documents, or ready-made templates.\n\nSet the document role\nEach document can be marked, for example, as:\n- a template\n- background material\n- another file type\nThis helps the system understand how the file should be used.\n\nAllow AI to use the document\nFor each file, you can decide whether the system may use it during document drafting. This gives the specialist control over what information becomes input.\n\nChoose documents for drafting\nOnce the needed files are selected, you can send them forward into the drafting view. There the system can use them to create, for example, a draft, summary, letter, or another work text.\n\nManage finished results\nIn the lower part of the page you can see outputs that have already been created. You can:\n- open them\n- copy them\n- download them\n- delete them when needed"
+  },
+  ru: {
+    expand: "Подробнее",
+    collapse: "Скрыть",
+    details:
+      "Для чего это нужно\nЭта страница нужна, чтобы сделать подготовку документов быстрее и понятнее. Вместо того чтобы каждый раз начинать с нуля, вы можете:\n- загружать нужные материалы\n- хранить шаблоны для повторного использования\n- выбирать, какие файлы ИИ-ассистент может использовать\n- открывать режим подготовки на основе этих файлов\n- просматривать и скачивать готовые черновики или финальные версии\n\nДобавление документов\nСюда можно загружать файлы, нужные для работы, например инструкции, материалы по клиенту, образцы документов или готовые шаблоны.\n\nНазначение роли документа\nДокумент можно отметить, например:\n- как шаблон\n- как фоновый материал\n- как другой тип файла\nЭто помогает системе понять, как использовать этот файл.\n\nРазрешить ИИ использовать документ\nДля каждого файла можно решить, может ли система использовать его при подготовке документов. Это дает специалисту контроль над тем, какая информация становится входным материалом.\n\nВыбор документов для подготовки\nКогда нужные файлы выбраны, их можно передать в режим подготовки. Там система может на их основе создать, например, черновик, сводку, письмо или другой рабочий текст.\n\nУправление готовыми результатами\nВ нижней части страницы видны уже созданные результаты. Их можно:\n- открывать\n- копировать\n- скачивать\n- удалять при необходимости"
+  }
+}
+
+function getWorkerIntroCopy(locale) {
+  return WORKER_INTRO_COPY[locale] || WORKER_INTRO_COPY.et
+}
 
 function parseIntroDetailSections(text) {
   return String(text || "")
@@ -170,9 +195,10 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const deferredArtifactSearch = useDeferredValue(artifactSearch)
   const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
   const roleViewLabel = t(effectiveRole === "SOCIAL_WORKER" ? "profile.role_short.worker" : "profile.role_short.client")
+  const workerIntroCopy = useMemo(() => getWorkerIntroCopy(locale), [locale])
   const roleIntroText = t(`documents.view_mode.intro_${roleScope}`)
-  const roleIntroDetailsText = roleScope === "worker" ? t("documents.view_mode.intro_worker_details") : ""
-  const hasRoleIntroDetails = roleScope === "worker" && roleIntroDetailsText && roleIntroDetailsText !== "documents.view_mode.intro_worker_details"
+  const roleIntroDetailsText = roleScope === "worker" ? workerIntroCopy.details : ""
+  const hasRoleIntroDetails = roleScope === "worker" && Boolean(roleIntroDetailsText)
   const roleIntroSections = useMemo(
     () => (hasRoleIntroDetails ? parseIntroDetailSections(roleIntroDetailsText) : []),
     [hasRoleIntroDetails, roleIntroDetailsText]
@@ -445,7 +471,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   if (isClientRole) return null
 
   return (
-    <section className="documents-workspace documents-workspace-page documents-workspace-page--library">
+    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library ${glassPrimaryButtonToneClassName}`}>
       <div className={`documents-workspace-shell ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
         <div className="documents-grid">
           <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
@@ -480,8 +506,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                           aria-controls="documents-intro-details"
                         >
                           {introExpanded
-                            ? t("documents.view_mode.intro_worker_collapse")
-                            : t("documents.view_mode.intro_worker_expand")}
+                            ? workerIntroCopy.collapse
+                            : workerIntroCopy.expand}
                         </button>
                       </>
                     ) : null}

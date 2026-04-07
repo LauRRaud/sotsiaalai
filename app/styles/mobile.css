@@ -642,6 +642,34 @@
     touch-action: pan-y;
     -webkit-tap-highlight-color: transparent;
   }
+
+  /* Mobile cards stay readable without the glass blur by using denser coin surfaces. */
+  .homepage-root .home-card-rotating-backdrop {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .homepage-root :is(.left-card-primary, .centered-back-left) {
+    background:
+      radial-gradient(
+        86% 72% at 50% 18%,
+        rgba(255, 253, 250, 0.82) 0%,
+        rgba(249, 244, 239, 0.74) 56%,
+        rgba(236, 226, 220, 0.64) 100%
+      ) !important;
+  }
+
+  .homepage-root :is(.right-card-primary, .centered-back-right) {
+    background:
+      radial-gradient(
+        82% 70% at 50% 18%,
+        rgba(43, 34, 36, 0.78) 0%,
+        rgba(24, 19, 21, 0.7) 58%,
+        rgba(10, 8, 9, 0.62) 100%
+      ) !important;
+  }
+
   .home-hero-shell {
     position: relative;
     transform: translateY(-0.75rem);

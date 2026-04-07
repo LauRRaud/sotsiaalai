@@ -1530,7 +1530,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   }, [backHref, router])
 
   return (
-    <section className="documents-workspace documents-workspace-page documents-workspace-page--library">
+    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library ${glassPrimaryButtonToneClassName}`}>
       <div className="documents-workspace-shell documents-workspace-shell--agent">
         <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
           <BackButton
