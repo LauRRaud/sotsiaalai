@@ -8,7 +8,9 @@ import Button from "@/components/ui/Button";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import {
   glassPageBackTopLeftClassName,
+  glassPageShellCenteredClassName,
   glassPageMobileCardClassName,
+  glassPrimaryButtonToneClassName,
   glassSubpageCardClassName,
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles";
@@ -22,11 +24,13 @@ import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 
 const shellClassName =
-  "framework-page-shell relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.14rem]";
+  `${glassPageShellCenteredClassName} framework-page-shell ${glassPrimaryButtonToneClassName} ` +
+  "relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.14rem]";
 const panelClassName =
-  `relative z-[21] w-full !max-w-[clamp(35rem,57vw,50rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
-  `[border:var(--glass-modal-border)] [background:var(--glass-modal-bg)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
-  `shadow-[var(--framework-panel-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
+  `framework-surface-panel relative z-[21] w-full !max-w-[clamp(35rem,57vw,50rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
+  `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] ` +
+  `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.46rem,1.8vw,0.62rem)] max-[768px]:rounded-[1.2rem] max-[768px]:px-[0.46rem] max-[768px]:pb-[0.76rem] ${glassPageMobileCardClassName}`;
 const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
@@ -41,15 +45,17 @@ const leadClassName =
   "m-0 text-left text-[1.08rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
 const bodyClassName =
   "framework-body mx-auto grid w-full max-w-[clamp(34rem,58vw,48rem)] gap-[1rem] px-[0.15rem] pt-[0.55rem] pb-[1.2rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.82rem] max-[768px]:px-[0.12rem] max-[768px]:pb-[0.92rem]";
-const surfaceClassName = glassSubpageCardClassName;
 const introCardClassName =
-  `framework-intro-card ${surfaceClassName} grid gap-[0.9rem] px-[1.25rem] py-[1.15rem] max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`;
+  "framework-intro-card grid gap-[0.9rem] px-[1.25rem] py-[1.15rem] max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]";
 const sectionTitleClassName =
   "m-0 text-[1.14rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const introTextClassName =
   "m-0 text-[1.14rem] leading-[1.68] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
 const documentCardClassName =
-  `framework-document-card ${surfaceClassName} mx-auto grid w-full max-w-[clamp(33rem,56vw,47rem)] gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:w-full max-[768px]:max-w-[min(100%,27.5rem)] max-[768px]:gap-[0.78rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`;
+  "framework-document-card mx-auto grid w-full max-w-[clamp(33rem,56vw,47rem)] gap-[1rem] px-[1.55rem] py-[1.22rem] max-[768px]:w-full max-[768px]:max-w-[min(100%,27.5rem)] max-[768px]:gap-[0.78rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]";
+const confirmPanelClassName =
+  `framework-confirm-panel ${glassSubpageCardClassName} grid gap-[0.85rem] rounded-[1rem] px-[1rem] py-[0.95rem] ` +
+  "max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]";
 const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.26rem] font-[680] leading-[1.3] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
@@ -74,7 +80,8 @@ const docChecklistItemClassName =
 const actionRowClassName =
   "mx-auto flex w-full max-w-[26rem] flex-wrap items-center justify-center gap-[0.7rem] pt-[0.25rem] pb-[0.55rem] max-[768px]:grid max-[768px]:w-full max-[768px]:max-w-none max-[768px]:grid-cols-1 max-[768px]:pb-[0.55rem]";
 const actionButtonClassName =
-  "!min-h-[2.82rem] !px-[1.15rem] !py-[0.72rem] !text-[1.08rem] !leading-[1.12] max-[768px]:!w-full max-[768px]:!min-h-[3.1rem] max-[768px]:!rounded-[1.05rem] max-[768px]:!px-[1.2rem] max-[768px]:!py-[0.82rem] max-[768px]:!text-[1.08rem] max-[768px]:!leading-[1.16]";
+  "!inline-flex !w-fit !justify-center !justify-self-center !self-center !min-h-[3.05rem] !rounded-[1.6rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !leading-[1.2] !tracking-[0.03rem] " +
+  "max-[768px]:!w-fit max-[768px]:!min-h-[3.2rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!px-[1rem] max-[768px]:!py-[0.82rem] max-[768px]:!text-[1.18rem]";
 const frameworkCheckboxRowClassName =
   "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
   "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:#7A3A38] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
@@ -410,7 +417,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
                 {t("auth.register.worker_framework_download_signed")}
               </Button>
             </div>
-            <div className={`${surfaceClassName} grid gap-[0.85rem] px-[1rem] py-[0.95rem] max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]`}>
+            <div className={confirmPanelClassName}>
               {frameworkStatus.loading ? (
                 <p className={introTextClassName}>{t("documents.loading")}</p>
               ) : null}

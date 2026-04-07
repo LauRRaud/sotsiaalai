@@ -1988,7 +1988,7 @@
   --panel-secondary-shadow: var(--documents-surface-panel-shadow);
   color: var(--documents-surface-panel-text);
   background: var(--documents-surface-panel-bg) !important;
-  border: 1px solid var(--documents-surface-panel-border) !important;
+  border: 0 solid transparent !important;
   box-shadow: var(--documents-surface-panel-shadow) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
