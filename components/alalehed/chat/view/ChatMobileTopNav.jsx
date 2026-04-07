@@ -45,6 +45,13 @@ const ANDROID_SLOT_PROFILE = Object.freeze({
   tailStep: 2.44,
   centerOffsetRem: -0.24
 });
+const COMPACT_ANDROID_SLOT_PROFILE = Object.freeze({
+  step1: 3.18,
+  step2: 6.12,
+  step3: 8.46,
+  tailStep: 2.12,
+  centerOffsetRem: -0.16
+});
 
 const clampNumber = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -254,6 +261,7 @@ export default function ChatMobileTopNav({
   const [isDragging, setIsDragging] = useState(false);
   const [isAndroidPlatform, setIsAndroidPlatform] = useState(false);
   const [rootRemPx, setRootRemPx] = useState(16);
+  const [viewportWidthPx, setViewportWidthPx] = useState(0);
 
   const setFocusedIndexImmediate = useCallback(nextValue => {
     if (typeof nextValue === "function") {
@@ -298,6 +306,14 @@ export default function ChatMobileTopNav({
         window.getComputedStyle(document.documentElement).fontSize || "16"
       );
       setRootRemPx(Number.isFinite(nextRootRem) && nextRootRem > 0 ? nextRootRem : 16);
+      const viewportWidth =
+        window.visualViewport?.width ||
+        window.innerWidth ||
+        document.documentElement?.clientWidth ||
+        0;
+      setViewportWidthPx(
+        Number.isFinite(viewportWidth) && viewportWidth > 0 ? viewportWidth : 0
+      );
     };
     updatePlatformMetrics();
     window.addEventListener("resize", updatePlatformMetrics);
@@ -313,14 +329,26 @@ export default function ChatMobileTopNav({
     [pathname]
   );
 
-  const slotProfile = isAndroidPlatform ? ANDROID_SLOT_PROFILE : DEFAULT_SLOT_PROFILE;
+  const isCompactAndroidViewport =
+    isAndroidPlatform && viewportWidthPx > 0 && viewportWidthPx <= 390;
+  const slotProfile = isCompactAndroidViewport
+    ? COMPACT_ANDROID_SLOT_PROFILE
+    : isAndroidPlatform
+      ? ANDROID_SLOT_PROFILE
+      : DEFAULT_SLOT_PROFILE;
   const slotStepPx = Math.max(1, slotProfile.step1 * rootRemPx);
   const centerOffsetRem = slotProfile.centerOffsetRem ?? FOCUS_CENTER_OFFSET_REM;
   const dragEngageThreshold = isAndroidPlatform ? 12 : 8;
   const maxSwipeSteps = isAndroidPlatform ? 1 : Number.POSITIVE_INFINITY;
   const dragDamping = isAndroidPlatform ? 0.72 : 1;
-  const dragClampPx = isAndroidPlatform ? 156 : 192;
-  const navRailStyle = isAndroidPlatform
+  const dragClampPx = isCompactAndroidViewport ? 138 : isAndroidPlatform ? 156 : 192;
+  const navRailStyle = isCompactAndroidViewport
+    ? {
+        left: "calc(env(safe-area-inset-left,0px) + clamp(2.78rem,10.8vw,3.02rem))",
+        right: "calc(env(safe-area-inset-right,0px) + 0.1rem)",
+        top: "calc(env(safe-area-inset-top,0px) + 0.12rem)"
+      }
+    : isAndroidPlatform
     ? {
         left: "calc(env(safe-area-inset-left,0px) + 3.36rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.26rem)",
@@ -816,7 +844,9 @@ export default function ChatMobileTopNav({
         }}
         className={cn(
           "pointer-events-none relative inline-flex items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
-          isAndroidPlatform
+          isCompactAndroidViewport
+            ? "h-[clamp(2.86rem,11.6vw,3.22rem)] w-[clamp(2.86rem,11.6vw,3.22rem)]"
+            : isAndroidPlatform
             ? "h-[clamp(3.08rem,12.45vw,3.56rem)] w-[clamp(3.08rem,12.45vw,3.56rem)]"
             : "h-[clamp(2.96rem,11.9vw,3.42rem)] w-[clamp(2.96rem,11.9vw,3.42rem)]",
           "opacity-100",
@@ -965,7 +995,7 @@ export default function ChatMobileTopNav({
             className="pointer-events-none absolute inset-x-0 top-[4.32rem] flex justify-center px-[0.45rem] text-center"
             style={{ transform: `translateX(${centerOffsetRem}rem)` }}
           >
-            <span className={cn("max-w-[14rem] whitespace-normal break-words [text-wrap:balance] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]", isAndroidPlatform ? "text-[clamp(1.4rem,5.75vw,1.64rem)]" : "text-[clamp(1.34rem,5.45vw,1.56rem)]")}>
+            <span className={cn("max-w-[14rem] whitespace-normal break-words [text-wrap:balance] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]", isCompactAndroidViewport ? "text-[clamp(1.26rem,5.2vw,1.46rem)]" : isAndroidPlatform ? "text-[clamp(1.4rem,5.75vw,1.64rem)]" : "text-[clamp(1.34rem,5.45vw,1.56rem)]")}>
               {labels[previewFocusedItem.key]}
             </span>
           </div>

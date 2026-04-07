@@ -3076,8 +3076,8 @@
   .login-modal-root.login-modal--otp .login-modal-close,
   .login-modal-root.login-modal--otp > button[aria-label] {
     position: absolute !important;
-    top: calc(env(safe-area-inset-top, 0px) + 1.02rem) !important;
-    right: max(0.92rem, calc(env(safe-area-inset-right, 0px) + 0.42rem)) !important;
+    top: 0.58rem !important;
+    right: 0.58rem !important;
     left: auto !important;
     margin: 0 !important;
     transform: none !important;

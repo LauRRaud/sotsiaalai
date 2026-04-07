@@ -27,7 +27,7 @@ const shellClassName =
   `${glassPageShellCenteredClassName} framework-page-shell ${glassPrimaryButtonToneClassName} ` +
   "relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.14rem]";
 const panelClassName =
-  `framework-surface-panel relative z-[21] w-full !max-w-[52rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `framework-surface-panel relative z-[21] w-full !max-w-[50rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
@@ -44,13 +44,13 @@ const leadClassName =
 const bodyClassName =
   "framework-body mx-auto grid w-full max-w-none gap-[0.88rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.76rem] max-[768px]:px-0 max-[768px]:pb-[0.88rem]";
 const introCardClassName =
-  "framework-intro-card grid gap-[0.82rem] px-[0.95rem] py-[0.88rem] max-[768px]:gap-[0.7rem] max-[768px]:px-[0.56rem] max-[768px]:py-[0.72rem]";
+  "framework-intro-card grid gap-[0.82rem] px-[0.52rem] py-[0.88rem] max-[768px]:gap-[0.7rem] max-[768px]:px-[0.36rem] max-[768px]:py-[0.72rem]";
 const sectionTitleClassName =
   "m-0 text-[1.14rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const introTextClassName =
   "m-0 text-[1.14rem] leading-[1.68] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
 const documentCardClassName =
-  "framework-document-card mx-auto grid w-full max-w-none gap-[0.92rem] px-[0.95rem] py-[0.98rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.76rem] max-[768px]:px-[0.56rem] max-[768px]:py-[0.74rem]";
+  "framework-document-card mx-auto grid w-full max-w-none gap-[0.92rem] px-[0.52rem] py-[0.98rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.76rem] max-[768px]:px-[0.36rem] max-[768px]:py-[0.74rem]";
 const confirmPanelClassName =
   `framework-confirm-panel ${glassSubpageCardClassName} grid gap-[0.85rem] rounded-[1rem] px-[1rem] py-[0.95rem] ` +
   "max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]";
