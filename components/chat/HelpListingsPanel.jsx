@@ -47,8 +47,17 @@ export default function HelpListingsPanel({
 }) {
   const { t } = useI18n();
   const ui = getHelpUiText(t);
+  const ownSectionLabel = title === ui.helpOffers ? ui.myHelpOffers : ui.myHelpRequests;
   const [isMounted, setIsMounted] = useState(false);
   const [closeTiltOverride, setCloseTiltOverride] = useState(null);
+  const ownItems = useMemo(
+    () => items.filter((item) => item?.isOwn),
+    [items]
+  );
+  const otherItems = useMemo(
+    () => items.filter((item) => !item?.isOwn),
+    [items]
+  );
   const tiltAnimationClassName = useMemo(() => {
     const effectiveSide = closeTiltOverride || _side;
     const keyframe = effectiveSide === "right" ? "glassRingTiltFromRight" : "glassRingTiltFromLeft";
@@ -72,6 +81,39 @@ export default function HelpListingsPanel({
     "mt-[0.25rem] max-[768px]:mt-[0.2rem] min-h-[min(56dvh,28rem)] max-h-[min(62dvh,30rem)] " +
     "max-[768px]:min-h-[min(60dvh,32rem)] max-[768px]:max-h-[min(66dvh,34rem)] overflow-y-auto " +
     "[scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
+
+  const renderListingCard = (item) => (
+    <button
+      key={`${item.kind}-${item.id}`}
+      type="button"
+      onClick={() => onSelectItem?.(item)}
+      className={`${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left ${item.isOwn ? "ring-1 ring-[rgba(197,113,113,0.34)] [.theme-light_&]:ring-[rgba(122,58,56,0.28)]" : ""}`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.1rem]">
+          {item.title}
+        </div>
+        <div className="shrink-0 flex flex-wrap items-center justify-end gap-[0.35rem]">
+          {item.isOwn ? (
+            <span className="rounded-full border border-[rgba(90,154,118,0.28)] bg-[rgba(90,154,118,0.12)] px-[0.62rem] py-[0.32rem] text-[0.72rem] uppercase tracking-[0.08em] text-[rgba(143,216,174,0.98)] [.theme-light_&]:border-[rgba(52,118,79,0.24)] [.theme-light_&]:bg-[rgba(52,118,79,0.08)] [.theme-light_&]:text-[rgba(52,118,79,0.98)]">
+              {ui.ownListing}
+            </span>
+          ) : null}
+          {item.statusLabel ? (
+            <span className="rounded-full border border-[rgba(197,113,113,0.16)] px-[0.62rem] py-[0.32rem] text-[0.74rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)] [.theme-light_&]:border-[rgba(122,58,56,0.14)] [.theme-light_&]:text-[#7a3a38]">
+              {item.statusLabel}
+            </span>
+          ) : null}
+        </div>
+      </div>
+      {item.summary ? <div className="mt-[0.5rem] text-[0.94rem] leading-[1.48] opacity-92 max-[768px]:text-[0.98rem]">{item.summary}</div> : null}
+      {buildTagLine(item) ? (
+        <div className="mt-[0.58rem] text-[0.84rem] leading-[1.4] opacity-82">
+          {buildTagLine(item)}
+        </div>
+      ) : null}
+    </button>
+  );
 
   useEffect(() => {
     setIsMounted(true);
@@ -153,31 +195,13 @@ export default function HelpListingsPanel({
             ) : null}
 
             <div className="grid gap-[0.7rem]">
-              {items.map((item) => (
-                <button
-                  key={`${item.kind}-${item.id}`}
-                  type="button"
-                  onClick={() => onSelectItem?.(item)}
-                  className={`${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left`}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.1rem]">
-                      {item.title}
-                    </div>
-                    {item.statusLabel ? (
-                      <span className="shrink-0 rounded-full border border-[rgba(197,113,113,0.16)] px-[0.62rem] py-[0.32rem] text-[0.74rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)] [.theme-light_&]:border-[rgba(122,58,56,0.14)] [.theme-light_&]:text-[#7a3a38]">
-                        {item.statusLabel}
-                      </span>
-                    ) : null}
-                  </div>
-                  {item.summary ? <div className="mt-[0.5rem] text-[0.94rem] leading-[1.48] opacity-92 max-[768px]:text-[0.98rem]">{item.summary}</div> : null}
-                  {buildTagLine(item) ? (
-                    <div className="mt-[0.58rem] text-[0.84rem] leading-[1.4] opacity-82">
-                      {buildTagLine(item)}
-                    </div>
-                  ) : null}
-                </button>
-              ))}
+              {ownItems.length ? (
+                <div className="mb-[0.1rem] text-[0.76rem] uppercase tracking-[0.11em] opacity-70">
+                  {ownSectionLabel}
+                </div>
+              ) : null}
+              {ownItems.map(renderListingCard)}
+              {otherItems.map(renderListingCard)}
             </div>
           </Panel>
 

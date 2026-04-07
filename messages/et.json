@@ -1064,7 +1064,10 @@
     "inputs_description": "Siin hoiad malle, materjale ja muid faile. Märgid siin, milliseid dokumente agent võib töö tegemisel kasutada.",
     "view_mode": {
       "admin_notice": "Admini eelvaade: {role}",
-      "intro_worker": "Siin hoiad juhtumimaterjale, malle ja muid faile, mida agent saab kasutada spetsialisti töömustandite koostamisel.",
+      "intro_worker": "See on sinu dokumenditöö töölaud. Siin saad hoida ühes kohas tööks vajalikke faile, valida neist sobivad alusmaterjalid ja lasta süsteemil nende põhjal dokumente ette valmistada.",
+      "intro_worker_expand": "Loe täpsemalt",
+      "intro_worker_collapse": "Peida",
+      "intro_worker_details": "Milleks see mõeldud on\nLehe eesmärk on teha dokumentide koostamine kiiremaks ja korrastatumaks. Selle asemel, et iga kord nullist alustada, saad:\n- laadida üles vajalikud materjalid\n- hoida alles korduvkasutatavad põhjad\n- valida, milliseid faile AI-assistent tohib kasutada\n- avada nende põhjal dokumendi koostamise vaate\n- vaadata ja alla laadida valmis mustandeid või lõppversioone\n\nLisada dokumente\nSiia saab üles laadida tööks vajalikud failid, näiteks juhendid, kliendi kohta käivad materjalid, näidisdokumendid või valmis põhjad.\n\nMäärata dokumendi rolli\nDokumendi saab märkida näiteks:\n- põhjana\n- taustamaterjalina\n- muu tüüpi failina\nSee aitab süsteemil aru saada, kuidas seda faili kasutada.\n\nLubada dokument AI kasutusse\nIga faili juures saab otsustada, kas süsteem võib seda dokumendi koostamisel kasutada. See annab spetsialistile kontrolli, milline info läheb sisendiks.\n\nValida dokumendid koostamiseks\nKui vajalikud failid on välja valitud, saab need saata edasi dokumendi koostamise vaatesse. Seal saab süsteem nende põhjal teha näiteks mustandi, kokkuvõtte, kirja või muu tööteksti.\n\nHallata valmis tulemusi\nLehe alumises osas on näha juba loodud väljundid. Neid saab:\n- avada\n- kopeerida\n- alla laadida\n- vajadusel kustutada",
       "intro_client": "Siin hoiad enda kirju, blankette ja taustadokumente, et agent saaks aidata neist teha selge vastuse või avalduse."
     },
     "outputs_title": "Agendi tulemused",

@@ -65,6 +65,10 @@
   --documents-dropdown-item-bg-hover: var(--opaque-panel-bg-hover, rgba(26, 37, 55, 0.98));
   --documents-dropdown-border: transparent;
   --documents-dropdown-shadow: var(--btn-primary-shadow, 0 14px 28px rgba(0, 0, 0, 0.22));
+  --documents-surface-panel-bg: var(--documents-panel-bg);
+  --documents-surface-panel-border: var(--documents-panel-border);
+  --documents-surface-panel-shadow: var(--documents-panel-shadow);
+  --documents-surface-panel-text: var(--documents-page-text);
   color: var(--documents-page-text);
 }
 
@@ -253,6 +257,250 @@
   padding: clamp(0.75rem, 2vw, 1.5rem);
 }
 
+.documents-workspace-page--library {
+  --documents-glass-surface: rgba(20, 24, 31, 0.94);
+  --documents-panel-bg: rgba(24, 29, 37, 0.96);
+  --documents-card-bg: rgba(23, 28, 35, 0.95);
+  --documents-subpanel-bg: rgba(25, 30, 38, 0.95);
+  --documents-content-bg: rgba(23, 28, 35, 0.94);
+  --documents-muted-bg: rgba(27, 32, 40, 0.94);
+  --documents-agent-stage-bg: rgba(23, 28, 35, 0.95);
+  --documents-agent-thread-bg: rgba(21, 26, 34, 0.96);
+  --documents-agent-composer-bg: rgba(24, 29, 37, 0.96);
+  --documents-agent-composer-bg-hover: rgba(27, 32, 40, 0.97);
+  --documents-panel-border: rgba(255, 255, 255, 0.09);
+  --documents-card-border: rgba(255, 255, 255, 0.08);
+  --documents-subpanel-border: rgba(255, 255, 255, 0.08);
+  --documents-content-border: rgba(255, 255, 255, 0.08);
+  --documents-muted-border: rgba(255, 255, 255, 0.08);
+  --documents-soft-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  --documents-strong-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  --documents-surface-panel-bg: rgba(24, 29, 37, 0.97);
+  --documents-surface-panel-border: rgba(255, 255, 255, 0.08);
+  --documents-surface-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  --documents-surface-panel-text: var(--documents-page-text);
+}
+
+:root.theme-light .documents-workspace-page--library {
+  --documents-glass-surface: rgba(255, 255, 255, 0.96);
+  --documents-panel-bg: rgba(255, 255, 255, 0.97);
+  --documents-card-bg: rgba(252, 252, 251, 0.97);
+  --documents-subpanel-bg: rgba(250, 250, 249, 0.96);
+  --documents-content-bg: rgba(250, 250, 249, 0.96);
+  --documents-muted-bg: rgba(247, 247, 246, 0.96);
+  --documents-agent-stage-bg: rgba(251, 251, 250, 0.96);
+  --documents-agent-thread-bg: rgba(255, 255, 255, 0.97);
+  --documents-agent-composer-bg: rgba(255, 255, 255, 0.97);
+  --documents-agent-composer-bg-hover: rgba(255, 255, 255, 0.99);
+  --documents-panel-border: rgba(190, 196, 208, 0.5);
+  --documents-card-border: rgba(190, 196, 208, 0.46);
+  --documents-subpanel-border: rgba(190, 196, 208, 0.44);
+  --documents-content-border: rgba(190, 196, 208, 0.42);
+  --documents-muted-border: rgba(190, 196, 208, 0.42);
+  --documents-soft-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  --documents-strong-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  --documents-surface-panel-bg: rgba(255, 255, 255, 0.98);
+  --documents-surface-panel-border: rgba(190, 196, 208, 0.44);
+  --documents-surface-panel-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  --documents-surface-panel-text: var(--documents-page-text);
+}
+
+:root.theme-mid .documents-workspace-page--library {
+  --documents-glass-surface: rgba(43, 37, 39, 0.95);
+  --documents-panel-bg: rgba(45, 39, 41, 0.96);
+  --documents-card-bg: rgba(42, 36, 39, 0.95);
+  --documents-subpanel-bg: rgba(46, 39, 42, 0.95);
+  --documents-content-bg: rgba(42, 36, 39, 0.94);
+  --documents-muted-bg: rgba(48, 41, 44, 0.94);
+  --documents-panel-border: rgba(156, 138, 145, 0.24);
+  --documents-card-border: rgba(156, 138, 145, 0.22);
+  --documents-subpanel-border: rgba(156, 138, 145, 0.22);
+  --documents-content-border: rgba(156, 138, 145, 0.2);
+  --documents-muted-border: rgba(156, 138, 145, 0.2);
+  --documents-soft-shadow: 0 10px 24px rgba(18, 14, 16, 0.18);
+  --documents-strong-shadow: 0 12px 28px rgba(18, 14, 16, 0.22);
+  --documents-surface-panel-bg: rgba(45, 39, 41, 0.96);
+  --documents-surface-panel-border: rgba(156, 138, 145, 0.24);
+  --documents-surface-panel-shadow: 0 10px 24px rgba(18, 14, 16, 0.18);
+  --documents-surface-panel-text: var(--documents-page-text);
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .documents-workspace-page--library {
+  --glass-ring-surface-bg: rgba(20, 24, 31, 0.95);
+  --documents-glass-surface: rgba(20, 24, 31, 0.95);
+  --documents-panel-bg: rgba(24, 29, 37, 0.97);
+  --documents-card-bg: rgba(22, 27, 34, 0.96);
+  --documents-subpanel-bg: rgba(24, 29, 37, 0.96);
+  --documents-content-bg: rgba(22, 27, 34, 0.95);
+  --documents-muted-bg: rgba(25, 30, 38, 0.95);
+  --documents-panel-border: rgba(255, 255, 255, 0.08);
+  --documents-card-border: rgba(255, 255, 255, 0.07);
+  --documents-subpanel-border: rgba(255, 255, 255, 0.07);
+  --documents-content-border: rgba(255, 255, 255, 0.07);
+  --documents-muted-border: rgba(255, 255, 255, 0.07);
+  --documents-chip-bg: rgba(28, 34, 43, 0.96);
+  --documents-chip-border: rgba(255, 255, 255, 0.08);
+  --documents-chip-text: rgba(238, 244, 255, 0.94);
+  --documents-info-bg: rgba(24, 29, 37, 0.95);
+  --documents-info-border: rgba(255, 255, 255, 0.08);
+  --documents-success-bg: rgba(24, 29, 37, 0.95);
+  --documents-success-border: rgba(255, 255, 255, 0.08);
+  --documents-warning-bg: rgba(24, 29, 37, 0.95);
+  --documents-warning-border: rgba(255, 255, 255, 0.08);
+  --documents-error-bg: rgba(24, 29, 37, 0.95);
+  --documents-error-border: rgba(255, 255, 255, 0.08);
+  --documents-agent-stage-bg: rgba(22, 27, 34, 0.96);
+  --documents-agent-stage-border: rgba(255, 255, 255, 0.07);
+  --documents-agent-thread-bg: rgba(20, 25, 33, 0.97);
+  --documents-agent-thread-border: rgba(255, 255, 255, 0.07);
+  --documents-agent-composer-bg: rgba(24, 29, 37, 0.97);
+  --documents-agent-composer-bg-hover: rgba(27, 32, 40, 0.98);
+  --documents-agent-composer-border: rgba(255, 255, 255, 0.08);
+  --documents-dropdown-bg: rgba(24, 29, 37, 0.98);
+  --documents-dropdown-bg-hover: rgba(28, 34, 43, 0.99);
+  --documents-dropdown-item-bg: rgba(24, 29, 37, 0.98);
+  --documents-dropdown-item-bg-hover: rgba(30, 36, 46, 0.99);
+  --documents-dropdown-border: rgba(255, 255, 255, 0.08);
+  --documents-dropdown-shadow: 0 12px 26px rgba(2, 6, 16, 0.22);
+  --documents-soft-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  --documents-strong-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  --panel-secondary-bg: var(--documents-panel-bg);
+  --panel-secondary-border: var(--documents-panel-border);
+  --panel-secondary-shadow: var(--documents-panel-shadow);
+  --subpage-card-bg: var(--documents-card-bg);
+  --subpage-card-bg-hover: rgba(26, 32, 40, 0.97);
+  --subpage-card-border: var(--documents-card-border);
+  --subpage-card-border-hover: rgba(255, 255, 255, 0.1);
+  --subpage-card-shadow: var(--documents-soft-shadow);
+  --subpage-card-shadow-hover: var(--documents-strong-shadow);
+  --opaque-panel-bg: rgba(24, 29, 37, 0.98);
+  --opaque-panel-bg-hover: rgba(28, 34, 43, 0.99);
+  --opaque-panel-border: rgba(255, 255, 255, 0.08);
+  --opaque-panel-shadow: 0 12px 26px rgba(2, 6, 16, 0.22);
+  --chat-tools-panel-bg: rgba(24, 29, 37, 0.98);
+  --chat-tools-panel-border: rgba(255, 255, 255, 0.08);
+  --chat-tools-panel-shadow: 0 12px 26px rgba(2, 6, 16, 0.22);
+  --form-surface: rgba(28, 34, 43, 0.96);
+  --form-surface-hover: rgba(31, 37, 47, 0.97);
+  --form-surface-active: rgba(34, 40, 50, 0.98);
+  --input-flat-bg: rgba(24, 29, 37, 0.97);
+  --input-flat-bg-hover: rgba(27, 32, 40, 0.98);
+  --input-bg: rgba(28, 34, 43, 0.96);
+  --input-bg-hover: rgba(31, 37, 47, 0.97);
+  --input-bg-focus: rgba(31, 37, 47, 0.98);
+  --input-border: 1px solid rgba(255, 255, 255, 0.08);
+  --input-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+  --input-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --btn-primary-text: rgba(238, 244, 255, 0.94);
+  --btn-primary-bg: rgba(28, 34, 43, 0.96);
+  --btn-primary-bg-hover: rgba(31, 37, 47, 0.97);
+  --btn-primary-bg-active: rgba(34, 40, 50, 0.98);
+  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.08);
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.12);
+  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.12);
+  --btn-primary-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+  --btn-primary-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --btn-primary-shadow-active: 0 8px 18px rgba(0, 0, 0, 0.16);
+  --btn-primary-shadow-focus:
+    0 10px 22px rgba(0, 0, 0, 0.18),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
+  --seg-card-bg: rgba(28, 34, 43, 0.96);
+  --seg-card-bg-hover: rgba(31, 37, 47, 0.97);
+  --seg-card-bg-selected: rgba(31, 37, 47, 0.98);
+  --seg-card-bg-active: rgba(34, 40, 50, 0.98);
+  --seg-card-border: rgba(255, 255, 255, 0.08);
+  --seg-card-border-hover: rgba(255, 255, 255, 0.12);
+  --seg-card-border-selected: rgba(255, 255, 255, 0.12);
+  --seg-card-border-active: rgba(255, 255, 255, 0.12);
+  --seg-card-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+  --seg-card-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --seg-card-shadow-selected: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --seg-card-shadow-active: 0 8px 18px rgba(0, 0, 0, 0.16);
+  --documents-surface-panel-bg: rgba(24, 29, 37, 0.97);
+  --documents-surface-panel-border: rgba(255, 255, 255, 0.08);
+  --documents-surface-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  --documents-surface-panel-text: var(--documents-page-text);
+}
+
+:root.theme-night .documents-workspace-page--library {
+  --documents-glass-surface: rgba(20, 24, 31, 0.95);
+  --documents-panel-bg: rgba(24, 29, 37, 0.97);
+  --documents-card-bg: rgba(22, 27, 34, 0.96);
+  --documents-subpanel-bg: rgba(24, 29, 37, 0.96);
+  --documents-content-bg: rgba(22, 27, 34, 0.95);
+  --documents-muted-bg: rgba(25, 30, 38, 0.95);
+  --documents-panel-border: rgba(255, 255, 255, 0.08);
+  --documents-card-border: rgba(255, 255, 255, 0.07);
+  --documents-subpanel-border: rgba(255, 255, 255, 0.07);
+  --documents-content-border: rgba(255, 255, 255, 0.07);
+  --documents-muted-border: rgba(255, 255, 255, 0.07);
+  --documents-chip-bg: rgba(28, 34, 43, 0.96);
+  --documents-chip-border: rgba(255, 255, 255, 0.08);
+  --documents-chip-text: rgba(238, 244, 255, 0.94);
+  --documents-info-bg: rgba(24, 29, 37, 0.95);
+  --documents-info-border: rgba(255, 255, 255, 0.08);
+  --documents-success-bg: rgba(24, 29, 37, 0.95);
+  --documents-success-border: rgba(255, 255, 255, 0.08);
+  --documents-warning-bg: rgba(24, 29, 37, 0.95);
+  --documents-warning-border: rgba(255, 255, 255, 0.08);
+  --documents-error-bg: rgba(24, 29, 37, 0.95);
+  --documents-error-border: rgba(255, 255, 255, 0.08);
+  --documents-agent-stage-bg: rgba(22, 27, 34, 0.96);
+  --documents-agent-stage-border: rgba(255, 255, 255, 0.07);
+  --documents-agent-thread-bg: rgba(20, 25, 33, 0.97);
+  --documents-agent-thread-border: rgba(255, 255, 255, 0.07);
+  --documents-agent-composer-bg: rgba(24, 29, 37, 0.97);
+  --documents-agent-composer-bg-hover: rgba(27, 32, 40, 0.98);
+  --documents-agent-composer-border: rgba(255, 255, 255, 0.08);
+  --documents-dropdown-bg: rgba(24, 29, 37, 0.98);
+  --documents-dropdown-bg-hover: rgba(28, 34, 43, 0.99);
+  --documents-dropdown-item-bg: rgba(24, 29, 37, 0.98);
+  --documents-dropdown-item-bg-hover: rgba(30, 36, 46, 0.99);
+  --documents-dropdown-shadow: 0 12px 26px rgba(2, 6, 16, 0.22);
+  --input-bg: rgba(28, 34, 43, 0.96);
+  --input-bg-hover: rgba(31, 37, 47, 0.97);
+  --input-bg-focus: rgba(31, 37, 47, 0.98);
+  --input-border: 1px solid rgba(255, 255, 255, 0.08);
+  --input-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+  --input-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --btn-primary-bg: rgba(28, 34, 43, 0.96);
+  --btn-primary-bg-hover: rgba(31, 37, 47, 0.97);
+  --btn-primary-bg-active: rgba(34, 40, 50, 0.98);
+  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.08);
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.12);
+  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.12);
+  --btn-primary-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+  --btn-primary-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --btn-primary-shadow-active: 0 8px 18px rgba(0, 0, 0, 0.16);
+  --seg-card-bg: rgba(28, 34, 43, 0.96);
+  --seg-card-bg-hover: rgba(31, 37, 47, 0.97);
+  --seg-card-bg-selected: rgba(31, 37, 47, 0.98);
+  --seg-card-bg-active: rgba(34, 40, 50, 0.98);
+  --seg-card-border: rgba(255, 255, 255, 0.08);
+  --seg-card-border-hover: rgba(255, 255, 255, 0.12);
+  --seg-card-border-selected: rgba(255, 255, 255, 0.12);
+  --seg-card-border-active: rgba(255, 255, 255, 0.12);
+  --seg-card-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+  --seg-card-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --seg-card-shadow-selected: 0 10px 22px rgba(0, 0, 0, 0.18);
+  --seg-card-shadow-active: 0 8px 18px rgba(0, 0, 0, 0.16);
+  --documents-surface-panel-bg: rgba(24, 29, 37, 0.97);
+  --documents-surface-panel-border: rgba(255, 255, 255, 0.08);
+  --documents-surface-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  --documents-surface-panel-text: var(--documents-page-text);
+}
+
+.documents-workspace-page--library :is(
+  .documents-panel,
+  .documents-card,
+  .documents-subpanel,
+  .documents-framework-banner,
+  .documents-agent-handoff-panel
+) {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
 .documents-workspace-content {
   position: relative;
   z-index: 1;
@@ -315,6 +563,7 @@
   max-width: min(54rem, 100%);
   font-size: 1.12rem;
   line-height: 1.66;
+  letter-spacing: 0.02em;
   color: var(--documents-page-muted);
   text-align: left;
   margin: 0;
@@ -349,8 +598,9 @@
 
 .documents-section-description {
   max-width: 100%;
-  font-size: 1.14rem;
+  font-size: 1.18rem;
   line-height: 1.66;
+  letter-spacing: 0.02em;
   color: var(--documents-page-strong);
   margin: 0;
 }
@@ -382,8 +632,9 @@
 }
 
 .documents-subsection-description {
-  font-size: 1.08rem;
-  line-height: 1.62;
+  font-size: 1.14rem;
+  line-height: 1.66;
+  letter-spacing: 0.02em;
   color: var(--documents-page-muted);
 }
 
@@ -558,7 +809,8 @@
 }
 
 .documents-upload-label {
-  font-size: 0.88rem;
+  font-size: 1rem;
+  letter-spacing: 0.012em;
 }
 
 .documents-upload-dropzone {
@@ -596,18 +848,21 @@
 }
 
 .documents-upload-dropzone-title {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
+  letter-spacing: 0.014em;
 }
 
 .documents-upload-dropzone-help {
-  font-size: 0.94rem;
-  line-height: 1.5;
+  font-size: 1.04rem;
+  line-height: 1.56;
+  letter-spacing: 0.014em;
 }
 
 .documents-upload-selected {
   padding: 0.72rem 0.85rem;
-  font-size: 0.94rem;
+  font-size: 1rem;
+  letter-spacing: 0.012em;
 }
 
 .documents-upload-inline-actions {
@@ -621,20 +876,120 @@
 }
 
 .documents-library-description {
-  max-width: min(54rem, 100%);
-  font-size: 1.12rem;
+  max-width: min(56rem, 100%);
+  margin: 0 auto;
+  font-size: clamp(1.04rem, 1.42vw, 1.16rem);
   line-height: 1.62;
-  margin-inline: auto;
+  letter-spacing: 0.02em;
+  text-align: left;
 }
 
 .documents-library-copy {
   display: grid;
-  gap: 0.14rem;
-  margin-bottom: 1.15rem;
+  gap: 0.7rem;
+  width: 100%;
 }
 
 .documents-library-copy > p {
   margin: 0;
+}
+
+.documents-library-summary {
+  margin: 0;
+}
+
+.documents-library-more-link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+.documents-library-more-link:focus-visible {
+  outline: none;
+}
+
+.documents-library-details {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  padding-top: 0.1rem;
+}
+
+.documents-library-detail-group {
+  padding-top: 0.1rem;
+}
+
+.documents-library-detail-group-title {
+  margin: 0 0 0.15rem;
+  font-size: clamp(1.34rem, 2.05vw, 1.62rem);
+  line-height: 1.15;
+  letter-spacing: 0.016em;
+}
+
+.documents-library-detail-title {
+  margin: 0 0 0.08rem;
+  color: var(--documents-heading-color);
+  font-size: clamp(1.16rem, 1.62vw, 1.3rem);
+  line-height: 1.2;
+  letter-spacing: 0.014em;
+  font-weight: 400;
+}
+
+.documents-library-detail-section {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.documents-library-detail-text {
+  margin: 0;
+  font-size: clamp(1.04rem, 1.42vw, 1.16rem);
+  line-height: 1.62;
+  letter-spacing: 0.02em;
+  color: var(--documents-page-strong);
+}
+
+.documents-library-detail-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.26rem;
+  font-size: clamp(1.04rem, 1.42vw, 1.16rem);
+  line-height: 1.62;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+  .documents-library-description,
+  .documents-library-detail-text,
+  .documents-library-detail-list {
+    font-size: clamp(1.08rem, 4.25vw, 1.24rem);
+    line-height: 1.56;
+    letter-spacing: 0.014em;
+  }
+
+  .documents-library-detail-group-title {
+    font-size: clamp(1.42rem, 5.2vw, 1.66rem);
+  }
+
+  .documents-library-detail-title {
+    font-size: clamp(1.18rem, 4.6vw, 1.34rem);
+    line-height: 1.2;
+  }
+}
+
+.documents-panel-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
 }
 
 .documents-library-help-inline {
@@ -983,6 +1338,7 @@
   max-width: none;
   font-size: 1.12rem;
   line-height: 1.62;
+  letter-spacing: 0.02em;
 }
 
 .documents-agent-card-actions {
@@ -1102,6 +1458,7 @@
   max-width: none;
   font-size: 1.08rem;
   line-height: 1.6;
+  letter-spacing: 0.02em;
   color: var(--documents-page-muted);
 }
 
@@ -1133,6 +1490,7 @@
   color: var(--documents-page-muted);
   font-size: 1.02rem;
   line-height: 1.55;
+  letter-spacing: 0.02em;
 }
 
 .documents-agent-select-grid {
@@ -1615,6 +1973,18 @@
   backdrop-filter: none;
 }
 
+.documents-workspace-page--library .documents-surface-panel {
+  --panel-secondary-bg: var(--documents-surface-panel-bg);
+  --panel-secondary-border: var(--documents-surface-panel-border);
+  --panel-secondary-shadow: var(--documents-surface-panel-shadow);
+  color: var(--documents-surface-panel-text);
+  background: var(--documents-surface-panel-bg) !important;
+  border: 1px solid var(--documents-surface-panel-border) !important;
+  box-shadow: var(--documents-surface-panel-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
 .documents-card {
   background: var(--documents-card-bg);
   border-color: var(--documents-card-border);
@@ -1657,6 +2027,7 @@
   min-height: 3rem;
   padding-inline: 1.15rem;
   font-size: 1.14rem;
+  letter-spacing: 0.014em;
 }
 
 .documents-file-field {
@@ -1772,6 +2143,7 @@
   border-radius: 999px;
   padding: 0.68rem 0.95rem;
   text-align: left;
+  letter-spacing: 0.014em;
   cursor: pointer;
   transition:
     background 180ms ease,
@@ -1792,6 +2164,7 @@
   color: var(--input-text);
   font-size: 1.12rem;
   line-height: 1.28;
+  letter-spacing: 0.014em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -2064,11 +2437,13 @@
   color: var(--documents-page-muted);
   font-size: 1.1rem;
   line-height: 1.66;
+  letter-spacing: 0.014em;
 }
 
 .documents-results-summary {
   color: var(--documents-page-strong);
   font-size: 1.12rem;
+  letter-spacing: 0.014em;
 }
 
 .documents-primary-button:disabled,
@@ -2303,6 +2678,10 @@ html[data-contrast="hc"] .documents-workspace {
   --btn-primary-shadow: none;
   --btn-primary-shadow-hover: none;
   --btn-primary-shadow-active: none;
+  --documents-surface-panel-bg: rgba(9, 14, 24, 0.62);
+  --documents-surface-panel-border: rgba(255, 234, 0, 0.54);
+  --documents-surface-panel-shadow: none;
+  --documents-surface-panel-text: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .documents-workspace :is(

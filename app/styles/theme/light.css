@@ -34,8 +34,8 @@
   --glass-input-bg-idle: rgba(18, 20, 32, 0.18);
   --glass-input-bg-active: rgba(18, 20, 32, 0.24);
   --glass-blur-radius: 1rem;
-  --glass-surface-bg: rgba(252, 251, 249, 0.64);
-  --glass-ring-surface-bg: rgba(251, 250, 248, 0.68);
+  --glass-surface-bg: rgba(252, 251, 249, 0.74);
+  --glass-ring-surface-bg: rgba(251, 250, 248, 0.8);
   --glass-surface-text: #2b2620;
   --chat-ui-solid-surface: rgb(249, 249, 248);
   --chat-rail-tooltip-bg: rgb(249, 249, 248);
@@ -180,28 +180,28 @@
   --subpage-card-bg:
     radial-gradient(
       82% 66% at 50% 16%,
-      rgba(253, 252, 251, 0.872) 0%,
-      rgba(252, 251, 250, 0.866) 42%,
-      rgba(251, 250, 249, 0.848) 58%,
-      rgba(249, 247, 246, 0.81) 74%
+      rgba(253, 252, 251, 0.92) 0%,
+      rgba(252, 251, 250, 0.914) 42%,
+      rgba(251, 250, 249, 0.898) 58%,
+      rgba(249, 247, 246, 0.872) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(252, 251, 250, 0.872) 0%,
-      rgba(249, 248, 247, 0.836) 100%
+      rgba(252, 251, 250, 0.918) 0%,
+      rgba(249, 248, 247, 0.888) 100%
     );
   --subpage-card-bg-hover:
     radial-gradient(
       82% 66% at 50% 16%,
-      rgba(254, 253, 252, 0.894) 0%,
-      rgba(253, 252, 251, 0.888) 42%,
-      rgba(252, 251, 250, 0.864) 58%,
-      rgba(250, 248, 247, 0.828) 74%
+      rgba(254, 253, 252, 0.944) 0%,
+      rgba(253, 252, 251, 0.938) 42%,
+      rgba(252, 251, 250, 0.918) 58%,
+      rgba(250, 248, 247, 0.888) 74%
     ),
     linear-gradient(
       180deg,
-      rgba(253, 252, 251, 0.894) 0%,
-      rgba(250, 249, 248, 0.856) 100%
+      rgba(253, 252, 251, 0.94) 0%,
+      rgba(250, 249, 248, 0.906) 100%
     );
   --subpage-card-border: rgba(148, 163, 184, 0.08);
   --subpage-card-border-hover: rgba(148, 163, 184, 0.1);

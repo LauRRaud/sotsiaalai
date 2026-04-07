@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import LoginModal from "@/components/LoginModal";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -263,6 +264,7 @@ export default function ChatBody({
   const [careerCurrentState, setCareerCurrentState] = useState(null);
   const [careerLoading, setCareerLoading] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const helpUi = useMemo(() => getHelpUiText(t), [t]);
   const [activeListingsPanel, setActiveListingsPanel] = useState(null);
   const [listingsPanelClosing, setListingsPanelClosing] = useState(false);
@@ -276,6 +278,15 @@ export default function ChatBody({
   const listingsPanelCloseTimerRef = useRef(null);
   const deepResearchHintMessageIdRef = useRef(null);
   const careerTurnRequestRef = useRef(0);
+  const maskRefreshRef = useRef(null);
+  const refreshMask = useCallback((options = {}) => {
+    const immediate = options.immediate === true;
+    const mobileImmediate = options.mobileImmediate === true;
+    maskRefreshRef.current?.({
+      ...options,
+      immediate: immediate && (!isMobile || mobileImmediate)
+    });
+  }, [isMobile]);
   const {
     isRoomMode,
     roomMessages,
@@ -476,15 +487,6 @@ export default function ChatBody({
   const maskLayerRef = useRef(null);
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
-  const maskRefreshRef = useRef(null);
-  const refreshMask = useCallback((options = {}) => {
-    const immediate = options.immediate === true;
-    const mobileImmediate = options.mobileImmediate === true;
-    maskRefreshRef.current?.({
-      ...options,
-      immediate: immediate && (!isMobile || mobileImmediate)
-    });
-  }, [isMobile]);
   const waitForComposerCollapse = useCallback(async () => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
@@ -1286,28 +1288,28 @@ export default function ChatBody({
   }, [helpUi.emptyGlobalOffers, helpUi.helpOffers, openListingsPanel]);
   const openMyRequestsPanel = useCallback((source = "chat") => {
     openListingsPanel({
-      key: "my_help_requests",
-      side: "right",
+      key: "help_requests",
+      side: "left",
       kind: "request",
-      scope: "mine",
+      scope: "global",
       status: "OPEN",
       returnToProfile: source === "profile",
       title: helpUi.helpRequests,
-      emptyText: helpUi.emptyMyRequests
+      emptyText: helpUi.emptyGlobalRequests
     });
-  }, [helpUi.emptyMyRequests, helpUi.helpRequests, openListingsPanel]);
+  }, [helpUi.emptyGlobalRequests, helpUi.helpRequests, openListingsPanel]);
   const openMyOffersPanel = useCallback((source = "chat") => {
     openListingsPanel({
-      key: "my_help_offers",
-      side: "right",
+      key: "help_offers",
+      side: "left",
       kind: "offer",
-      scope: "mine",
+      scope: "global",
       status: "OPEN",
       returnToProfile: source === "profile",
       title: helpUi.helpOffers,
-      emptyText: helpUi.emptyMyOffers
+      emptyText: helpUi.emptyGlobalOffers
     });
-  }, [helpUi.emptyMyOffers, helpUi.helpOffers, openListingsPanel]);
+  }, [helpUi.emptyGlobalOffers, helpUi.helpOffers, openListingsPanel]);
   const openHelpPanelByKey = useCallback((panelKey, source = "chat") => {
     if (panelKey === "my_help_requests") {
       openMyRequestsPanel(source);
@@ -1403,7 +1405,7 @@ export default function ChatBody({
     appendMessage,
     mutateMessage,
     onFocusInput: focusInput,
-    onAuthRedirect: null
+    onAuthRedirect: () => setLoginOpen(true)
   });
   const {
     isResearching,
@@ -2152,103 +2154,109 @@ export default function ChatBody({
         : null,
       viewportIsMobile ? "chat-layout-mobile" : "chat-layout-desktop"
     );
-  return <ChatBodyView
-    embedded={embedded}
-    t={t}
-    locale={locale}
-    profileOpen={profileOpen}
-    closeProfile={closeProfile}
-    isEntering={isEntering}
-    focusActive={focusActive}
-    chatContainerRef={chatContainerRef}
-    chatContainerClassName={chatContainerClassName}
-    chatRingStyle={chatRingStyle}
-    useMaskedChatSurface={useMaskedChatSurface}
-    handleBackHome={handleBackHome}
-    mobileRailVisible={mobileRailVisible}
-    mobileRailInteractionLocked={mobileRailInteractionLocked}
-    showMobileRail={showMobileRail}
-    isLightTheme={isLightTheme}
-    roomId={roomId}
-    inputFocused={inputFocused}
-    isMobile={viewportIsMobile}
-    sourcesButtonRef={sourcesButtonRef}
-    toggleSourcesPanel={toggleSourcesPanel}
-    showSourcesPanel={showSourcesPanel}
-    sourcesPulse={sourcesPulse}
-    conversationSources={conversationSources}
-    hasConversationSources={hasConversationSources}
-    leftRailActiveKey={activeListingsPanel?.side === "left" ? activeListingsPanel.key : ""}
-    rightRailActiveKey={activeListingsPanel?.side === "right" ? activeListingsPanel.key : ""}
-    onShowHelpRequests={openGlobalRequestsPanel}
-    onShowHelpOffers={openGlobalOffersPanel}
-    onShowMyHelpRequests={openMyRequestsPanel}
-    onShowMyHelpOffers={openMyOffersPanel}
-    toggleProfile={toggleProfile}
-    openProfileDirect={openProfileDirect}
-    analysis={analysis}
-    isRoomMode={isRoomMode}
-    roomTitle={roomTitle}
-    isCrisis={isCrisis}
-    crisisText={crisisText}
-    errorBanner={errorBanner}
-    roomBlocked={roomBlocked}
-    roomAuthRequired={roomAuthRequired}
-    modeNotice={modeNotice}
-    activeModeLabel={activeModeLabel}
-    activeModeKey={activeWorkflow}
-    chatWindowRef={chatWindowRef}
-    isStreamingAny={isStreamingAny}
-    hiddenCount={hiddenCount}
-    pageSize={PAGE_SIZE}
-    onRevealOlder={revealOlder}
-    canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES}
-    onHideOlder={hideOlder}
-    onJumpToBottom={handleJumpToBottom}
-    messageItems={messageItems}
-    listingsPanelNode={listingsPanelNode}
-    selectedListingContextNode={selectedListingContextNode}
-    onWindowDoubleClick={handleChatWindowDoubleClick}
-    chatAnalysisPanelProps={chatAnalysisPanelProps}
-    inputRowRef={inputRowRef}
-    inputBarRef={inputBarRef}
-    inputRef={inputRef}
-    onFocusComposer={handleComposerFocus}
-    onBlurInput={handleInputBlur}
-    isGenerating={isGenerating}
-    onStop={stop}
-    onSend={handleSendMessage}
-    onSendDeepResearch={handleSendDeepResearchFromComposer}
-    onArmDeepResearch={handleArmDeepResearch}
-    onCancelDeepResearchMode={handleCancelDeepResearchMode}
-    onConsumeDeepResearchMode={handleConsumeDeepResearchMode}
-    onDeepResearchEmptySubmit={handleDeepResearchEmptySubmit}
-    onActivateInfoMode={activateInfoMode}
-    onActivateCareerMode={activateCareerMode}
-    onActivateHelpRequestMode={activateHelpRequestMode}
-    onActivateHelpOfferMode={activateHelpOfferMode}
-    careerModeLocked={careerModeLocked}
-    documentFlowActive={documentFlowActive}
-    onPickDocumentFile={analysis.onPickFile}
-    speakLatestReply={speakLatestReply}
-    canSpeakLatest={canSpeakLatest}
-    voiceEnabled={voiceEnabled}
-    isSpeaking={isSpeaking}
-    recording={recording}
-    recordingPulse={recordingPulse}
-    handleMic={voiceEnabled ? handleMic : undefined}
-    composerDraftApiRef={composerDraftApiRef}
-    onDraftStateChange={handleDraftStateChange}
-    onComposerLayoutChange={() => refreshMask({
-      immediate: true,
-      mobileImmediate: true
-    })}
-    sendToAssistant={sendToAssistant}
-    setSendToAssistant={setSendToAssistant}
-    aiNote={aiNote}
-    recordingError={recordingError}
-    closeSourcesPanel={closeSourcesPanel}
-    analysisPanelWidth={analysisPanelWidth}
-    maskLayerRef={maskLayerRef}
-  />;
+  return <>
+    <ChatBodyView
+      embedded={embedded}
+      t={t}
+      locale={locale}
+      profileOpen={profileOpen}
+      closeProfile={closeProfile}
+      isEntering={isEntering}
+      focusActive={focusActive}
+      chatContainerRef={chatContainerRef}
+      chatContainerClassName={chatContainerClassName}
+      chatRingStyle={chatRingStyle}
+      useMaskedChatSurface={useMaskedChatSurface}
+      handleBackHome={handleBackHome}
+      mobileRailVisible={mobileRailVisible}
+      mobileRailInteractionLocked={mobileRailInteractionLocked}
+      showMobileRail={showMobileRail}
+      isLightTheme={isLightTheme}
+      roomId={roomId}
+      inputFocused={inputFocused}
+      isMobile={viewportIsMobile}
+      sourcesButtonRef={sourcesButtonRef}
+      toggleSourcesPanel={toggleSourcesPanel}
+      showSourcesPanel={showSourcesPanel}
+      sourcesPulse={sourcesPulse}
+      conversationSources={conversationSources}
+      hasConversationSources={hasConversationSources}
+      leftRailActiveKey={activeListingsPanel?.side === "left" ? activeListingsPanel.key : ""}
+      rightRailActiveKey={activeListingsPanel?.side === "right" ? activeListingsPanel.key : ""}
+      onShowHelpRequests={openGlobalRequestsPanel}
+      onShowHelpOffers={openGlobalOffersPanel}
+      toggleProfile={toggleProfile}
+      openProfileDirect={openProfileDirect}
+      analysis={analysis}
+      isRoomMode={isRoomMode}
+      roomTitle={roomTitle}
+      isCrisis={isCrisis}
+      crisisText={crisisText}
+      errorBanner={errorBanner}
+      roomBlocked={roomBlocked}
+      roomAuthRequired={roomAuthRequired}
+      modeNotice={modeNotice}
+      activeModeLabel={activeModeLabel}
+      activeModeKey={activeWorkflow}
+      chatWindowRef={chatWindowRef}
+      isStreamingAny={isStreamingAny}
+      hiddenCount={hiddenCount}
+      pageSize={PAGE_SIZE}
+      onRevealOlder={revealOlder}
+      canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES}
+      onHideOlder={hideOlder}
+      onJumpToBottom={handleJumpToBottom}
+      messageItems={messageItems}
+      listingsPanelNode={listingsPanelNode}
+      selectedListingContextNode={selectedListingContextNode}
+      onWindowDoubleClick={handleChatWindowDoubleClick}
+      chatAnalysisPanelProps={chatAnalysisPanelProps}
+      inputRowRef={inputRowRef}
+      inputBarRef={inputBarRef}
+      inputRef={inputRef}
+      onFocusComposer={handleComposerFocus}
+      onBlurInput={handleInputBlur}
+      isGenerating={isGenerating}
+      onStop={stop}
+      onSend={handleSendMessage}
+      onSendDeepResearch={handleSendDeepResearchFromComposer}
+      onArmDeepResearch={handleArmDeepResearch}
+      onCancelDeepResearchMode={handleCancelDeepResearchMode}
+      onConsumeDeepResearchMode={handleConsumeDeepResearchMode}
+      onDeepResearchEmptySubmit={handleDeepResearchEmptySubmit}
+      onActivateInfoMode={activateInfoMode}
+      onActivateCareerMode={activateCareerMode}
+      onActivateHelpRequestMode={activateHelpRequestMode}
+      onActivateHelpOfferMode={activateHelpOfferMode}
+      careerModeLocked={careerModeLocked}
+      documentFlowActive={documentFlowActive}
+      onPickDocumentFile={analysis.onPickFile}
+      speakLatestReply={speakLatestReply}
+      canSpeakLatest={canSpeakLatest}
+      voiceEnabled={voiceEnabled}
+      isSpeaking={isSpeaking}
+      recording={recording}
+      recordingPulse={recordingPulse}
+      handleMic={voiceEnabled ? handleMic : undefined}
+      composerDraftApiRef={composerDraftApiRef}
+      onDraftStateChange={handleDraftStateChange}
+      onComposerLayoutChange={() => refreshMask({
+        immediate: true,
+        mobileImmediate: true
+      })}
+      sendToAssistant={sendToAssistant}
+      setSendToAssistant={setSendToAssistant}
+      aiNote={aiNote}
+      recordingError={recordingError}
+      closeSourcesPanel={closeSourcesPanel}
+      analysisPanelWidth={analysisPanelWidth}
+      maskLayerRef={maskLayerRef}
+    />
+    <LoginModal
+      open={loginOpen}
+      onClose={() => setLoginOpen(false)}
+      suppressRedirect
+      onAuthSuccess={() => setLoginOpen(false)}
+    />
+  </>;
 }

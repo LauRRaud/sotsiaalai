@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { AddPersonIcon, ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, MaterialsIcon, ProfileIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
+import { AddPersonIcon, ChatBubbleIcon, MaterialsIcon, ProfileIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
@@ -33,17 +33,6 @@ function detectRailProfileScale() {
   return profile === "lg" || scale === "lg" ? 1.25 : 1;
 }
 
-function _getHelpLabels(locale = "et") {
-  const normalized = String(locale || "et").trim().toLowerCase();
-  if (normalized === "en") {
-    return { myRequests: "My requests", myOffers: "My offers" };
-  }
-  if (normalized === "ru") {
-    return { myRequests: "Мои запросы", myOffers: "Мои предложения" };
-  }
-  return { myRequests: "Minu abisoovid", myOffers: "Minu abipakkumised" };
-}
-
 export default function RightRail({
   t,
   locale = "et",
@@ -55,11 +44,8 @@ export default function RightRail({
   showSourcesPanel,
   sourcesPulse,
   conversationSources,
-  hasConversationSources,
   onProfileToggle,
   activeWorkspaceKey = "",
-  onShowMyHelpRequests,
-  onShowMyHelpOffers,
   embedded = false,
   suspendPointerEvents = false,
   suppressTooltip = false,
@@ -92,7 +78,6 @@ export default function RightRail({
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [isRouteTilting, setIsRouteTilting] = useState(false);
   const [armedKey, setArmedKey] = useState(null);
-  const localizedHelpLabels = useMemo(() => _getHelpLabels(locale), [locale]);
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
     [pathname]
@@ -351,26 +336,6 @@ export default function RightRail({
     });
   };
 
-  const openMyHelpRequestsPanel = () => {
-    runWithTransition(() => {
-      onShowMyHelpRequests?.();
-    }, {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  };
-
-  const openMyHelpOffersPanel = () => {
-    runWithTransition(() => {
-      onShowMyHelpOffers?.();
-    }, {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  };
-
   const openMaterials = () => {
     pushWithTransition(router, localizePath("/materjalid", locale), {
       glassRingTilt: "right",
@@ -388,16 +353,13 @@ export default function RightRail({
       key: "invite",
       label: t("nav.add_person")
     }, {
-      key: "my_help_requests",
-      label: t("chat.help.myHelpRequests") || localizedHelpLabels.myRequests
-    }, {
-      key: "my_help_offers",
-      label: t("chat.help.myHelpOffers") || localizedHelpLabels.myOffers
-    }, {
       key: "materials",
       label: t("profile.materials_cta")
+    }, {
+      key: "sources",
+      label: t("nav.sources")
     }];
-  }, [localizedHelpLabels.myOffers, localizedHelpLabels.myRequests, t]);
+  }, [t]);
 
   const mobileItems = useMemo(() => {
     return [{
@@ -691,16 +653,7 @@ export default function RightRail({
             openMaterials();
             return;
           }
-          if (it.key === "my_help_requests") {
-            openMyHelpRequestsPanel();
-            return;
-          }
-          if (it.key === "my_help_offers") {
-            openMyHelpOffersPanel();
-            return;
-          }
           if (it.key === "sources") {
-            if (!hasConversationSources) return;
             toggleSourcesPanel();
           }
         };
@@ -716,8 +669,8 @@ export default function RightRail({
         };
 
         const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";
-        const isDisabled = it?.key === "sources" ? !hasConversationSources : false;
-        const isAriaDisabled = it?.key === "sources" ? !hasConversationSources : false;
+        const isDisabled = false;
+        const isAriaDisabled = false;
         const displayLabel = it?.label || "";
 
         return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!viewportIsMobile ? () => {
@@ -738,7 +691,7 @@ export default function RightRail({
         clearArmed();
         performActivate(event);
       } : undefined} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
-              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "materials" ? <MaterialsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconMaterials)} /> : it?.key === "my_help_requests" ? <HelpRequestIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : it?.key === "my_help_offers" ? <HelpOfferIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconHelp)} /> : null}
+              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "materials" ? <MaterialsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconMaterials)} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {displayLabel}
               </span>
@@ -753,3 +706,4 @@ export default function RightRail({
       </nav>
     </div>;
 }
+

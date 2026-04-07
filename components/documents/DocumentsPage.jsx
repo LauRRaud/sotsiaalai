@@ -12,7 +12,7 @@ import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
 import OptionCard from "@/components/ui/OptionCard"
 import { glassPageBackTopLeftClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles"
-import { linkBrandInlineClass } from "@/components/ui/linkStyles"
+import { linkBrandInlineClass, linkRichTextBase } from "@/components/ui/linkStyles"
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName"
 import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
 import {
@@ -34,6 +34,52 @@ const documentsTitleClassName =
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
 const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto min-[769px]:!top-[0.35rem] min-[769px]:!left-[0.35rem]`
+
+function parseIntroDetailSections(text) {
+  return String(text || "")
+    .split(/\n{2,}/)
+    .map((block) => block.split("\n").map((line) => line.trim()).filter(Boolean))
+    .filter((lines) => lines.length)
+    .map((lines) => {
+      const title = lines[0]
+      const items = []
+      let paragraphLines = []
+      let listItems = []
+
+      const flushParagraph = () => {
+        if (!paragraphLines.length) return
+        items.push({
+          type: "paragraph",
+          text: paragraphLines.join(" ")
+        })
+        paragraphLines = []
+      }
+
+      const flushList = () => {
+        if (!listItems.length) return
+        items.push({
+          type: "list",
+          items: [...listItems]
+        })
+        listItems = []
+      }
+
+      lines.slice(1).forEach((line) => {
+        if (line.startsWith("- ")) {
+          flushParagraph()
+          listItems.push(line.slice(2).trim())
+          return
+        }
+        flushList()
+        paragraphLines.push(line)
+      })
+
+      flushParagraph()
+      flushList()
+
+      return { title, items }
+    })
+}
 
 function normalizeSearchValue(value) {
   return String(value || "").trim().toLowerCase()
@@ -80,10 +126,15 @@ function ChipLabel({ label, count }) {
 const documentsChoiceCardClassName =
   `${primarySegmentedButtonClassName} inline-flex min-h-[2.78rem] items-center justify-center rounded-[1.45rem] border-[var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[0.96rem] py-[0.62rem] text-[1.03rem] leading-[1.2] tracking-[0.018em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:[background:var(--seg-card-bg-hover,var(--seg-card-bg))] hover:border-[color:var(--seg-card-border-hover,var(--seg-card-border))] hover:text-[color:var(--seg-card-text-hover,var(--seg-card-text))] hover:shadow-[var(--seg-card-shadow-hover,var(--seg-card-shadow))] active:[background:var(--seg-card-bg-active,var(--seg-card-bg-selected,var(--seg-card-bg-hover,var(--seg-card-bg))))] active:border-[color:var(--seg-card-border-active,var(--seg-card-border-selected,var(--seg-card-border-hover,var(--seg-card-border))))] active:text-[color:var(--seg-card-text-selected,var(--seg-card-text-hover,var(--seg-card-text)))] active:shadow-[var(--seg-card-shadow-active,var(--seg-card-shadow-selected,var(--seg-card-shadow-hover,var(--seg-card-shadow))))] text-center max-[768px]:min-h-[2.9rem] max-[768px]:rounded-[1.38rem] max-[768px]:px-[0.92rem] max-[768px]:py-[0.66rem] max-[768px]:text-[1.05rem]`
 const documentsPanelLinkClassName =
-  `${linkBrandInlineClass} inline-block w-auto max-w-full whitespace-normal break-words [text-wrap:balance] ` +
-  "text-[clamp(1.08rem,1.45vw,1.28rem)] leading-[1.1] font-medium " +
-  "[--link-brand-text:var(--documents-accent)] [--link-brand-border-hover:var(--documents-accent)] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] " +
+  `${linkRichTextBase} documents-panel-link inline-block w-auto max-w-full whitespace-normal break-words [text-wrap:balance] ` +
+  "text-[clamp(1.02rem,1.25vw,1.14rem)] leading-[1.1] font-medium " +
+  "[--link-brand-text:var(--documents-accent)] " +
   "max-[768px]:text-[clamp(1.02rem,4.2vw,1.18rem)] max-[768px]:leading-[1.12]"
+const documentsInlineMoreLinkClassName =
+  `${linkRichTextBase} documents-panel-link documents-library-more-link inline w-auto whitespace-nowrap ` +
+  "font-medium " +
+  "[--link-brand-text:var(--documents-accent)] " +
+  "max-[768px]:leading-[1.12]"
 
 export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded = false }) {
   const router = useRouter()
@@ -91,6 +142,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
   const isClientRole = effectiveRole === "CLIENT"
   const isArtifactsExpanded = artifactsExpanded || initialArtifactLimit >= ARTIFACT_LIST_LIMIT_ALL
+  const [introExpanded, setIntroExpanded] = useState(false)
   const [kindFilter, setKindFilter] = useState("ALL")
   const [artifactFilter, setArtifactFilter] = useState("ALL")
   const [artifactSearch, setArtifactSearch] = useState("")
@@ -120,6 +172,12 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
   const roleViewLabel = t(effectiveRole === "SOCIAL_WORKER" ? "profile.role_short.worker" : "profile.role_short.client")
   const roleIntroText = t(`documents.view_mode.intro_${roleScope}`)
+  const roleIntroDetailsText = roleScope === "worker" ? t("documents.view_mode.intro_worker_details") : ""
+  const hasRoleIntroDetails = roleScope === "worker" && roleIntroDetailsText && roleIntroDetailsText !== "documents.view_mode.intro_worker_details"
+  const roleIntroSections = useMemo(
+    () => (hasRoleIntroDetails ? parseIntroDetailSections(roleIntroDetailsText) : []),
+    [hasRoleIntroDetails, roleIntroDetailsText]
+  )
   const handoffHelpText = selectedDocumentIds.length
     ? t(`documents.agent_handoff.ready_help_${roleScope}`)
     : t(`documents.agent_handoff.empty_help_${roleScope}`)
@@ -210,6 +268,10 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     const timer = window.setTimeout(() => setSuccessNotice(null), 6000)
     return () => window.clearTimeout(timer)
   }, [successNotice])
+
+  useEffect(() => {
+    setIntroExpanded(false)
+  }, [roleScope, roleIntroText, roleIntroDetailsText])
 
   useEffect(() => {
     const allowedIds = new Set(documents.filter((document) => document.agentAllowed).map((document) => document.id))
@@ -384,7 +446,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   if (isClientRole) return null
 
   return (
-    <section className="documents-workspace documents-workspace-page">
+    <section className="documents-workspace documents-workspace-page documents-workspace-page--library">
       <div className={`documents-workspace-shell ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
         <div className="documents-grid">
           <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
@@ -393,7 +455,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
               ariaLabel={t("buttons.back")}
               className={backButtonClassName}
             />
-            <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel !border-0 !shadow-none rounded-[1rem]">
+            <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
               <header className="documents-page-header documents-page-header--panel documents-page-header--hero">
                 <div className="documents-page-header-row">
                   <div className="documents-page-heading">
@@ -408,7 +470,55 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                   {t("documents.view_mode.admin_notice", { role: roleViewLabel })}
                 </div>
               ) : null}
-              <p className="documents-section-description documents-library-description">{roleIntroText}</p>
+              <div className="documents-section-description documents-library-description">
+                <div className="documents-library-copy">
+                  <p className="documents-library-summary">
+                    <span>{roleIntroText}</span>
+                    {hasRoleIntroDetails ? (
+                      <>
+                        {" "}
+                        <button
+                          type="button"
+                          className={documentsInlineMoreLinkClassName}
+                          onClick={() => setIntroExpanded((current) => !current)}
+                          aria-expanded={introExpanded}
+                          aria-controls="documents-intro-details"
+                        >
+                          {introExpanded
+                            ? t("documents.view_mode.intro_worker_collapse")
+                            : t("documents.view_mode.intro_worker_expand")}
+                        </button>
+                      </>
+                    ) : null}
+                  </p>
+                  {hasRoleIntroDetails ? (
+                    introExpanded ? (
+                      <div id="documents-intro-details" className="documents-library-details">
+                        {roleIntroSections.map((section, sectionIndex) => (
+                          section.items.length ? (
+                            <section key={`${section.title}-${sectionIndex}`} className="documents-library-detail-section">
+                              <h3 className={sectionIndex === 0 ? "documents-subsection-title documents-library-detail-group-title" : "documents-library-detail-title"}>
+                                {section.title}
+                              </h3>
+                              {section.items.map((item, itemIndex) => (
+                                item.type === "list" ? (
+                                  <ul key={`${section.title}-list-${itemIndex}`} className="documents-library-detail-list">
+                                    {item.items.map((entry, entryIndex) => (
+                                      <li key={`${section.title}-entry-${entryIndex}`}>{entry}</li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <p key={`${section.title}-text-${itemIndex}`} className="documents-library-detail-text">{item.text}</p>
+                                )
+                              ))}
+                            </section>
+                          ) : null
+                        ))}
+                      </div>
+                    ) : null
+                  ) : null}
+                </div>
+              </div>
             </Panel>
 
             {successNotice ? (
@@ -461,7 +571,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 </div>
 
                 <div className="documents-section-body mt-[0.55rem]">
-                <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-subsection-stack !border-0 !shadow-none rounded-[1rem]">
+                <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-subsection-stack documents-library-panel documents-library-panel--upload documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
                   <div className="documents-subsection-copy">
                     <h3 className="documents-subsection-title">{t("documents.library_sections.upload_title")}</h3>
                     <p className="documents-section-description documents-subsection-description">{t("documents.library_sections.upload_description")}</p>
@@ -564,7 +674,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 </form>
                 </Panel>
 
-                <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-subsection-stack !border-0 !shadow-none rounded-[1rem]">
+                <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-subsection-stack documents-library-panel documents-library-panel--list documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
                   <div className="documents-subsection-copy">
                     <h3 className="documents-subsection-title">{t("documents.library_sections.list_title")}</h3>
                     <p className="documents-section-description documents-subsection-description">{t("documents.library_sections.list_description")}</p>
@@ -659,7 +769,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             </div>
           </section>
 
-          <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-shell-surface !border-0 !shadow-none rounded-[1.3rem]">
+          <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-shell-surface documents-surface-panel !border-0 !shadow-none rounded-[1.3rem]">
             <div className="documents-section-stack">
             <div className="documents-section-body">
             <div className="documents-subsection-copy">
@@ -682,7 +792,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             </div>
           </Panel>
 
-          <Panel as="section" id="artifacts" variant="secondary" padding="sm" className="documents-panel documents-shell-surface !border-0 !shadow-none rounded-[1.3rem]">
+          <Panel as="section" id="artifacts" variant="secondary" padding="sm" className="documents-panel documents-shell-surface documents-surface-panel !border-0 !shadow-none rounded-[1.3rem]">
             <div className="documents-section-stack">
             <div className="documents-section-body">
             <div className="documents-subsection-copy">

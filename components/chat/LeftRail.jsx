@@ -119,8 +119,7 @@ export default function LeftRail({
       { key: "chats", label: t("nav.chats") },
       { key: "rooms", label: t("nav.rooms") },
       { key: "help_requests", label: t("chat.help.helpRequests") },
-      { key: "help_offers", label: t("chat.help.helpOffers") },
-      { key: "sources", label: t("nav.sources") }
+      { key: "help_offers", label: t("chat.help.helpOffers") }
     ],
     [t]
   );
@@ -372,8 +371,10 @@ export default function LeftRail({
     }
     if (showSourcesPanel) {
       const sourcesIndex = items.findIndex((item) => item.key === "sources");
-      setActiveIndex(sourcesIndex >= 0 ? sourcesIndex : 0);
-      return;
+      if (sourcesIndex >= 0) {
+        setActiveIndex(sourcesIndex);
+        return;
+      }
     }
     setActiveIndex(0);
   }, [activeHelpPanelKey, items, showSourcesPanel]);

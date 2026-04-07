@@ -1527,7 +1527,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   }, [backHref, router])
 
   return (
-    <section className="documents-workspace documents-workspace-page">
+    <section className="documents-workspace documents-workspace-page documents-workspace-page--library">
       <div className="documents-workspace-shell documents-workspace-shell--agent">
         <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
           <BackButton
@@ -1535,7 +1535,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             ariaLabel={t("documents.agent_workspace.back_to_chat")}
             className={backButtonClassName}
           />
-          <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-page-hero-panel--agent !border-0 !shadow-none rounded-[1rem]">
+          <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-page-hero-panel--agent documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
             <header className="documents-page-header documents-page-header--panel documents-page-header--hero">
               <div className="documents-page-header-row">
                 <div className="documents-page-heading">
@@ -1582,7 +1582,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           ) : null}
 
           <div className="documents-agent-layout mt-[2.4rem]">
-            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card !border-0 !shadow-none rounded-[1rem]">
+            <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
               <div className="documents-agent-card-copy">
                 <h2 className="documents-section-title">
                   {t(isClientRole ? "documents.agent_workspace.client_task_title" : "documents.agent_workspace.goal_title")}
@@ -1782,7 +1782,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             </Panel>
 
             <section className="documents-agent-section-shell documents-agent-card--full">
-              <Panel variant="secondary" padding="sm" className="documents-panel documents-agent-content-pane !border-0 !shadow-none rounded-[1rem]">
+              <Panel variant="secondary" padding="sm" className="documents-panel documents-agent-content-pane documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
                 <div className="documents-agent-card-header">
                   <div className="documents-agent-card-copy">
                     <h2 className="documents-section-title">{t("documents.agent_workspace.selected_documents_title")}</h2>
@@ -1898,7 +1898,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             </section>
 
             <section className="documents-agent-section-shell documents-agent-card--full">
-              <Panel variant="secondary" padding="sm" className="documents-panel documents-agent-content-pane !border-0 !shadow-none rounded-[1rem]">
+              <Panel variant="secondary" padding="sm" className="documents-panel documents-agent-content-pane documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
                 <div className="documents-agent-card-copy">
                   <h2 className="documents-section-title">{t("documents.agent_workspace.conversation_title")}</h2>
                   <p className="documents-section-description documents-agent-copy">
@@ -2002,7 +2002,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             </section>
 
             <section className="documents-agent-section-shell documents-agent-card--full">
-              <Panel variant="secondary" padding="sm" className="documents-panel documents-agent-content-pane documents-agent-result-pane !border-0 !shadow-none rounded-[1rem]">
+              <Panel variant="secondary" padding="sm" className="documents-panel documents-agent-content-pane documents-agent-result-pane documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
                 <div className="documents-agent-card-header">
                   <div className="documents-agent-card-copy">
                     <h2 className="documents-section-title">{t("documents.agent_workspace.result_title")}</h2>
@@ -2224,7 +2224,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             </section>
 
             {isClientRole ? (
-              <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-agent-card--full rounded-[1rem]">
+              <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-agent-card--full documents-surface-panel rounded-[1rem]">
                 <div className="documents-agent-card-copy">
                   <h2 className="documents-section-title">{t("documents.agent_workspace.client_results_title")}</h2>
                   <p className="documents-section-description documents-agent-copy">{t("documents.agent_workspace.client_results_description")}</p>

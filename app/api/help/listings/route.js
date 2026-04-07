@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
+import { prisma } from "@/lib/prisma";
 import {
   listHelpOfferListingViews,
-  listHelpOffers,
   listHelpRequestListingViews,
-  listHelpRequests
 } from "@/lib/help";
 
 export const runtime = "nodejs";
@@ -43,6 +42,134 @@ function normalizeKind(value = "") {
   return normalized === "offer" ? "offer" : normalized === "request" ? "request" : "";
 }
 
+function resolveModel(kind = "") {
+  return kind === "offer" ? prisma.helpOffer : prisma.helpRequest;
+}
+
+function resolveListingLoader(kind = "") {
+  return kind === "offer" ? listHelpOfferListingViews : listHelpRequestListingViews;
+}
+
+function createStatusFilter(status = "") {
+  const normalized = String(status || "").trim().toUpperCase();
+  return normalized ? { status: normalized } : {};
+}
+
+async function loadMineListings({
+  kind,
+  userId,
+  status,
+  locale,
+  limit,
+  offset
+}) {
+  const listViews = resolveListingLoader(kind);
+  const filters = {
+    userId,
+    limit: limit + 1,
+    offset,
+    ...createStatusFilter(status)
+  };
+  const items = await listViews(filters, { locale });
+  return {
+    items: items.slice(0, limit).map((item) => ({
+      ...item,
+      isOwn: true
+    })),
+    nextOffset: items.length > limit ? offset + limit : null
+  };
+}
+
+async function loadGlobalListingsWithOwnPinned({
+  kind,
+  userId,
+  status,
+  locale,
+  limit,
+  offset
+}) {
+  const model = resolveModel(kind);
+  const listViews = resolveListingLoader(kind);
+  const statusFilter = createStatusFilter(status);
+
+  const [ownTotal, othersTotal] = await Promise.all([
+    model.count({
+      where: {
+        userId,
+        ...statusFilter
+      }
+    }),
+    model.count({
+      where: {
+        NOT: {
+          userId
+        },
+        ...statusFilter
+      }
+    })
+  ]);
+
+  const total = ownTotal + othersTotal;
+  if (offset >= total) {
+    return {
+      items: [],
+      nextOffset: null
+    };
+  }
+
+  const pageWithSentinel = limit + 1;
+  const ownOffset = offset < ownTotal ? offset : ownTotal;
+
+  let ownItems = [];
+  if (ownOffset < ownTotal) {
+    ownItems = await listViews(
+      {
+        userId,
+        limit: pageWithSentinel,
+        offset: ownOffset,
+        ...statusFilter
+      },
+      { locale }
+    );
+  }
+
+  const ownNormalized = ownItems.map((item) => ({
+    ...item,
+    isOwn: true
+  }));
+
+  const othersOffset = Math.max(0, offset - ownTotal);
+  const remainingSlots = Math.max(0, pageWithSentinel - ownNormalized.length);
+
+  let otherItems = [];
+  if (remainingSlots > 0) {
+    otherItems = await listViews(
+      {
+        excludeUserId: userId,
+        limit: remainingSlots,
+        offset: othersOffset,
+        ...statusFilter
+      },
+      { locale }
+    );
+  }
+
+  const merged = [
+    ...ownNormalized,
+    ...otherItems.map((item) => ({
+      ...item,
+      isOwn: false
+    }))
+  ];
+
+  const hasMore = offset + limit < total;
+
+  return {
+    items: merged.slice(0, limit),
+    nextOffset: hasMore ? offset + limit : null
+  };
+}
+
 export async function GET(request) {
   const auth = await requireUser();
   if (!auth) {
@@ -61,50 +188,30 @@ export async function GET(request) {
     return json({ ok: false, message: "HELP_LISTING_KIND_REQUIRED" }, 400);
   }
 
-  const baseFilters = {
-    limit: limit + 1,
-    offset,
-    ...(status ? { status } : {}),
-    ...(scope === "mine" ? { userId: auth.userId } : {})
-  };
-
-  if (kind === "request") {
-    const [items, records] = await Promise.all([
-      listHelpRequestListingViews(baseFilters, { locale }),
-      listHelpRequests(baseFilters)
-    ]);
-    const hasMore = items.length > limit;
-    const slicedItems = items.slice(0, limit);
-    const slicedRecords = records.slice(0, limit);
-
-    return json({
-      ok: true,
-      kind,
-      scope,
-      items: slicedItems.map((item, index) => ({
-        ...item,
-        isOwn: slicedRecords[index]?.userId === auth.userId
-      })),
-      nextOffset: hasMore ? offset + limit : null
-    });
-  }
-
-  const [items, records] = await Promise.all([
-    listHelpOfferListingViews(baseFilters, { locale }),
-    listHelpOffers(baseFilters)
-  ]);
-  const hasMore = items.length > limit;
-  const slicedItems = items.slice(0, limit);
-  const slicedRecords = records.slice(0, limit);
+  const payload =
+    scope === "mine"
+      ? await loadMineListings({
+          kind,
+          userId: auth.userId,
+          status,
+          locale,
+          limit,
+          offset
+        })
+      : await loadGlobalListingsWithOwnPinned({
+          kind,
+          userId: auth.userId,
+          status,
+          locale,
+          limit,
+          offset
+        });
 
   return json({
     ok: true,
     kind,
     scope,
-    items: slicedItems.map((item, index) => ({
-      ...item,
-      isOwn: slicedRecords[index]?.userId === auth.userId
-    })),
-    nextOffset: hasMore ? offset + limit : null
+    items: payload.items,
+    nextOffset: payload.nextOffset
   });
 }

@@ -22,7 +22,6 @@ import Button from "@/components/ui/Button";
 import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
-import { HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
 import EuroIcon from "@/components/ui/icons/EuroIcon";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
@@ -992,56 +991,6 @@ export default function ProfiilBody({
     window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
     orbitQueryConsumedRef.current = false;
   }, [embedded, orbitOpen]);
-  const openProfileHelpPanel = useCallback((panelKey) => {
-    const key = String(panelKey || "");
-    if (key === "my_help_requests") {
-      setOrbitOpen(false);
-      setProfileHelpPanelClosing(false);
-      setProfileHelpPanelState({
-        items: [],
-        nextOffset: null,
-        loading: false,
-        error: ""
-      });
-      setProfileHelpPanel({
-        key,
-        kind: "request",
-        title: helpUi.helpRequests,
-        emptyText: helpUi.emptyMyRequests
-      });
-      return;
-    }
-    if (key === "my_help_offers") {
-      setOrbitOpen(false);
-      setProfileHelpPanelClosing(false);
-      setProfileHelpPanelState({
-        items: [],
-        nextOffset: null,
-        loading: false,
-        error: ""
-      });
-      setProfileHelpPanel({
-        key,
-        kind: "offer",
-        title: helpUi.helpOffers,
-        emptyText: helpUi.emptyMyOffers
-      });
-    }
-  }, [helpUi.emptyMyOffers, helpUi.emptyMyRequests, helpUi.helpOffers, helpUi.helpRequests]);
-  const openChatHelpPanel = useCallback((panelKey) => {
-    if (!panelKey) return;
-    if (typeof window !== "undefined") {
-      if (embedded) {
-        try {
-          window.dispatchEvent(new CustomEvent("sotsiaalai:open-help-listings", {
-            detail: { panelKey, source: "profile" }
-          }));
-          return;
-        } catch {}
-      }
-    }
-    openProfileHelpPanel(panelKey);
-  }, [embedded, openProfileHelpPanel]);
   const handleAdminViewRoleChange = useCallback(async nextRole => {
     if (!isAdminUser || roleSwitching) return;
     setError("");
@@ -1110,19 +1059,7 @@ export default function ProfiilBody({
     labelPos: "down",
     closeOnMobileAction: false,
     onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/tellimus?return=profile&orbit=1" : `/tellimus${embedded ? "?return=profile" : ""}`, locale))
-  }, ...(isMobileProfileMenu ? [{
-    key: "my_help_requests",
-    icon: <HelpRequestIcon isLightTheme={isLightTheme} />,
-    label: t("chat.help.myHelpRequests"),
-    labelPos: "down",
-    onClick: () => openChatHelpPanel("my_help_requests")
-  }, {
-    key: "my_help_offers",
-    icon: <HelpOfferIcon isLightTheme={isLightTheme} />,
-    label: t("chat.help.myHelpOffers"),
-    labelPos: "down",
-    onClick: () => openChatHelpPanel("my_help_offers")
-  }] : []), ...(isAdminUser ? [{
+  }, ...(isAdminUser ? [{
     key: "view_role",
     icon: <RoleToggleDockIcon className="h-full w-full" />,
     label: nextPreviewRoleLabel,
@@ -1139,7 +1076,7 @@ export default function ProfiilBody({
       a11yReturnToOrbitRef.current = isMobileProfileMenu;
       openA11y?.();
     }
-  }], [embedded, handleAdminViewRoleChange, handleModeSwitch, isAdminUser, isLightTheme, isMobileProfileMenu, locale, nextModeIcon, nextModeLabel, nextPreviewRole, nextPreviewRoleLabel, openA11y, openChatHelpPanel, router, t]);
+  }], [embedded, handleAdminViewRoleChange, handleModeSwitch, isAdminUser, isMobileProfileMenu, locale, nextModeIcon, nextModeLabel, nextPreviewRole, nextPreviewRoleLabel, openA11y, router, t]);
   const handleBack = useCallback(() => {
     if (typeof onBack === "function") {
       onBack();
@@ -1594,4 +1531,3 @@ export default function ProfiilBody({
       ) : null}
     </ProfileShell>;
 }
-
