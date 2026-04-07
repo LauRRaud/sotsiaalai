@@ -181,21 +181,26 @@ export default function OrbitalMenu({
   }, [stackItems.length]);
   useEffect(() => {
     if (!isOpen) return;
+    const handleKeyDown = event => {
+      if (event.key === "Escape") closeMenu();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    if (useMobileDialog) {
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
     const handlePointerDown = event => {
       const root = rootRef.current;
       if (!root) return;
       if (!root.contains(event.target)) closeMenu();
     };
-    const handleKeyDown = event => {
-      if (event.key === "Escape") closeMenu();
-    };
     document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [closeMenu, isOpen]);
+  }, [closeMenu, isOpen, useMobileDialog]);
   useEffect(() => {
     if (typeof document === "undefined") return;
     const html = document.documentElement;
@@ -603,10 +608,10 @@ export default function OrbitalMenu({
       </div>
 
       {}
-      {useMobileOverlay && isOpen && <div className="invite-modal-backdrop profile-orbit-mobile-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
+      {useMobileOverlay && isOpen && <div className="invite-modal-backdrop profile-orbit-mobile-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onClick={e => {
       if (e.target === e.currentTarget) closeMenu();
     }}>
-          <div className="invite-modal profile-orbit-mobile-panel relative isolate overflow-hidden w-screen max-w-screen h-[100dvh] max-h-[100dvh] rounded-none flex flex-col p-0 pt-[calc(env(safe-area-inset-top,0px)+0.95rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.95rem)]" onPointerDown={e => e.stopPropagation()}>
+          <div className="invite-modal profile-orbit-mobile-panel relative isolate overflow-hidden w-screen max-w-screen h-[100dvh] max-h-[100dvh] rounded-none flex flex-col p-0 pt-[calc(env(safe-area-inset-top,0px)+0.95rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.95rem)]" onClick={e => e.stopPropagation()}>
             <button ref={overlayCloseBtnRef} type="button" onClick={closeMenu} aria-label={toggleLabelClose} className="invite-modal__close modal-close-btn profile-orbit-mobile-close absolute top-[0.55rem] right-[0.65rem] z-[6] grid place-items-center w-[2.85rem] h-[2.85rem] p-0 m-0 !bg-transparent !border-0 !shadow-none leading-none text-[2.2rem] opacity-90 transition-[opacity,transform] duration-[160ms] ease-out [transform:translateZ(0)]">
               &times;
             </button>
@@ -669,10 +674,10 @@ export default function OrbitalMenu({
         </div>}
 
       {}
-      {useMobileStack && isOpen && <div className="profile-orbit-stack-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
+      {useMobileStack && isOpen && <div className="profile-orbit-stack-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onClick={e => {
       if (e.target === e.currentTarget) closeMenu();
     }}>
-          <div className="profile-orbit-stack-panel relative w-screen max-w-screen h-[100dvh] max-h-[100dvh] flex flex-col items-center justify-between gap-[clamp(1.1rem,2.6vh,2rem)]" onPointerDown={e => e.stopPropagation()}>
+          <div className="profile-orbit-stack-panel relative w-screen max-w-screen h-[100dvh] max-h-[100dvh] flex flex-col items-center justify-between gap-[clamp(1.1rem,2.6vh,2rem)]" onClick={e => e.stopPropagation()}>
             <div className="profile-orbit-stack-fade profile-orbit-stack-fade--top" aria-hidden="true" />
             <div className="profile-orbit-stack-fade profile-orbit-stack-fade--bottom" aria-hidden="true" />
 

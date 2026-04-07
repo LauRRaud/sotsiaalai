@@ -295,7 +295,11 @@ export default function LoginModal({
     "z-[100]",
     "flex",
     "flex-col",
-    isPhoneViewport ? "w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] items-center justify-center" : "w-auto h-auto min-h-0 max-h-[calc(100dvh-2rem)]",
+    isPhoneViewport
+      ? isOtpStep
+        ? "w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+0.35rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.35rem)]"
+        : "w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] items-center justify-center"
+      : "w-auto h-auto min-h-0 max-h-[calc(100dvh-2rem)]",
     isPhoneViewport ? "overflow-y-auto overflow-x-hidden" : "overflow-visible max-md:max-h-[calc(100dvh-0.9rem)]",
     "gap-0",
     "!rounded-[2.2rem]",
