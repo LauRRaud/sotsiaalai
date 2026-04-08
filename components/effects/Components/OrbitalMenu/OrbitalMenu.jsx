@@ -548,8 +548,8 @@ export default function OrbitalMenu({
   };
   const desktopAngleStep = useMemo(() => items.length ? 360 / items.length : 0, [items.length]);
   const desktopStartAngle = -90;
-  const orbitRadiusBoost = useOrbitLayout && isExpanded ? 1.16 : 1;
-  const desktopLabelGap = useOrbitLayout ? "0.68rem" : "0.5rem";
+  const orbitRadiusBoost = useOrbitLayout && isExpanded ? 1.13 : 1;
+  const desktopLabelGap = useOrbitLayout ? "0.86rem" : "0.5rem";
   const orbitItemScaleFactor = orbitSizeMode === "tight" ? 0.84 : orbitSizeMode === "compact" ? 0.92 : 1;
   const hubPulseStyle = prefersReducedMotion || useMobileStack ? undefined : {
     animationDelay: `${hubPulseDelayRef.current}ms`,
@@ -583,18 +583,21 @@ export default function OrbitalMenu({
         const orbitX = Math.round(Math.sin(angleRad) * orbitRadius * orbitRadiusBoost);
         const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius * orbitRadiusBoost);
         const labelPos = item.labelPos || "up";
-        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap))] top-1/2 -translate-y-1/2" : labelPos === "right" ? "left-[calc(100%+var(--label-gap))] top-1/2 -translate-y-1/2" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
+        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
         const labelWidthClass =
           item.key === "subscription"
             ? "max-w-[5.8rem]"
             : item.key === "theme" || item.key === "delete"
               ? "max-w-[6.4rem] [overflow-wrap:anywhere]"
-              : "max-w-[6.6rem] [overflow-wrap:anywhere]";
+              : labelPos === "left" || labelPos === "right"
+                ? "max-w-[6.6rem] [overflow-wrap:anywhere]"
+                : "max-w-[12rem]";
         return <div key={item.key || index} className={cn("profile-orbit-menu__slot group absolute top-1/2 left-1/2 w-[var(--orbit-item-render-size)] h-[var(--orbit-item-render-size)] [transform:translate3d(var(--orbit-x,0px),var(--orbit-y,0px),0)_translate(-50%,-50%)] opacity-[var(--item-opacity)] transition-opacity [transition-duration:200ms] [transition-timing-function:ease] z-[1]", isOpen && "animate-[orbit-item-reveal_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]", !isOpen && isClosing && "animate-[orbit-item-hide_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]")} data-key={item.key || index} data-label-pos={labelPos} style={{
           "--orbit-x": `${orbitX}px`,
           "--orbit-y": `${orbitY}px`,
           "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
-          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`
+          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
+          "--label-gap-side": item.key === "theme" ? "0.86rem" : item.key === "delete" ? "-0.02rem" : undefined
         }}>
                 <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-render-size)] h-[var(--orbit-item-render-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:box-shadow_0.55s_cubic-bezier(0.16,1,0.3,1),transform_0.22s_ease] [will-change:transform,box-shadow]" onClick={event => {
             item.onClick?.();
