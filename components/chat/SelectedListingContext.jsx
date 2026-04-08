@@ -9,7 +9,6 @@ import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
 import {
   glassPageBackTopLeftClassName,
-  glassPageMobileCardClassName,
   glassSubpageContentWideClassName,
   glassSubpageMobileReadableWidthClassName,
   glassSubpagePanelWideClassName,
@@ -153,12 +152,18 @@ export default function SelectedListingContext({
   const infoItems = listing ? buildInfoItems(listing, ui) : [];
   const selectedListingContentClassName =
     `selected-listing-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
-    `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `relative !max-h-none overflow-x-hidden !overflow-y-visible pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] shadow-[var(--glass-shell-shadow,none)] ` +
     `${glassSubpageSurfaceScopeClassName} ` +
-    `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards max-[768px]:!rounded-none ${glassPageMobileCardClassName}`;
+    `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards ` +
+    `max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] ` +
+    `max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
+    `max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
+    `max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] ` +
+    `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
+    `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]`;
   const actionButtonClassName =
     "!min-h-[2.82rem] !px-[1.1rem] !py-[0.6rem] !text-[1rem] max-[768px]:!min-h-[2.95rem] max-[768px]:!text-[1.04rem]";
 
@@ -169,7 +174,7 @@ export default function SelectedListingContext({
       onClose={onDismiss}
       closeOnOverlayClick
       aria-label={listing?.title || ui.selectedListing}
-      className="selected-listing-modal-overlay z-[142] bg-transparent max-[768px]:p-0 max-[768px]:items-stretch"
+      className="selected-listing-modal-overlay z-[142] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start"
       contentClassName={selectedListingContentClassName}
     >
       <BackButton
@@ -202,7 +207,7 @@ export default function SelectedListingContext({
         <Panel
           variant="subpage"
           padding="sm"
-          className={`${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] min-h-[min(54dvh,30rem)] max-h-[min(64dvh,34rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 !p-[0.5rem] max-[768px]:!p-[0.12rem]`}
+          className={`${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] !p-[0.5rem] max-[768px]:!p-[0.12rem]`}
         >
           {loading ? <div className="px-2 py-4 text-[1rem] opacity-80">{ui.loading}</div> : null}
           {!loading && error ? <div className="px-2 py-4 text-[1rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}

@@ -1309,6 +1309,12 @@ export default function LoginModal({
   const hasKnownEmail = Boolean(currentEmailValue);
   const emailIconStatus = showEmailErrorIcon || !hasKnownEmail ? "error" : "success";
   const stopInside = e => e.stopPropagation();
+  const helpSubmitHint =
+    locale === "en"
+      ? "To sign in, press"
+      : locale === "ru"
+        ? "Чтобы войти, нажмите"
+        : "Sisenemiseks vajuta";
   return createPortal(<>
       <style jsx global>{`
         @keyframes pinAltZeroFade {
@@ -1822,11 +1828,20 @@ export default function LoginModal({
                   width: isMobile ? "min(19.4rem, calc(100vw - 2.2rem))" : "19.2rem",
                   maxWidth: "calc(100vw - 1.6rem)"
                 }}>
-                    <button type="button" className="login-help-close-btn absolute right-[0.12rem] top-[0.04rem] w-[2.05rem] h-[2.05rem] rounded-full border-0 bg-transparent text-[1.56rem] leading-none cursor-pointer text-[#c57171] light:text-[#7a3a38]" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
+                    <button type="button" className="login-help-close-btn absolute right-[0.08rem] top-[0.02rem] w-[2.32rem] h-[2.32rem] rounded-full border-0 bg-transparent text-[1.86rem] leading-none cursor-pointer text-[#c57171] light:text-[#7a3a38]" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
                       {t("symbols.times")}
                     </button>
 
                     <div className="flex flex-col pr-[1.28rem] max-w-[inherit]">
+                      <div className="mt-[0.02rem] mb-[0.3rem] flex items-center gap-[0.34rem] text-[1.12rem] max-md:text-[1.2rem] leading-[1.28] text-inherit opacity-95 hyphens-none">
+                        <span>{helpSubmitHint}</span>
+                        <span className="inline-flex h-[1.1em] w-[1.1em] items-center justify-center rounded-full" aria-hidden="true">
+                          <SubmitArrowIcon
+                            isLightTheme={isLightTheme}
+                            className="h-[0.98em] w-[0.98em] translate-x-[0.03em]"
+                          />
+                        </span>
+                      </div>
                       <div className="mt-[0.06rem] text-[1.12rem] max-md:text-[1.2rem] leading-[1.36] text-inherit opacity-95 hyphens-none">
                         {t("auth.login.help_hold_zero_before")}{" "}
                         <strong>{0}</strong>{" "}

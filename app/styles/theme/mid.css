@@ -279,25 +279,6 @@
 }
 
 @media (min-width: 48.001em) {
-  :root.theme-mid
-    .profile-container.glass-ring
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__center.dock-item {
-    box-shadow:
-      0 9px 15px rgba(18, 12, 10, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      inset 0 -1px 0 rgba(126, 95, 88, 0.11) !important;
-  }
-
-  :root.theme-mid
-    .profile-container.glass-ring
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible, :active) {
-    box-shadow:
-      0 11px 18px rgba(18, 12, 10, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.64),
-      inset 0 -1px 0 rgba(126, 95, 88, 0.13) !important;
-  }
 }
 
 /* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
@@ -719,14 +700,6 @@
 :root.theme-mid .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-accent: #7a3a38;
   --orbit-mobile-accent: #7a3a38;
-  --orbit-button-shadow:
-    0 12px 22px rgba(20, 12, 10, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.58),
-    inset 0 -1px 0 rgba(126, 95, 88, 0.1);
-  --orbit-button-shadow-center:
-    0 16px 30px rgba(82, 50, 46, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.66),
-    inset 0 -1px 0 rgba(126, 95, 88, 0.09);
 }
 
 :root.theme-mid :is(
@@ -777,10 +750,6 @@
       rgba(241, 229, 226, 0.23) 100%
     ) !important;
   border: 0 !important;
-  box-shadow:
-    0 12px 22px rgba(20, 12, 10, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.58),
-    inset 0 -1px 0 rgba(126, 95, 88, 0.1) !important;
   --pin-gloss-bg:
     linear-gradient(
       135deg,
@@ -821,12 +790,6 @@
 }
 
 @media (max-width: 768px) {
-  :root.theme-mid
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-mobile-action.dock-item {
-    box-shadow: 0 12px 22px rgba(20, 12, 10, 0.12) !important;
-  }
-
   :root.theme-mid
     .profile-email-dock-wrapper.profile-orbit-menu-wrapper
     .profile-orbit-mobile-action.dock-item::after {

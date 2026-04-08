@@ -422,6 +422,7 @@ html[data-contrast="hc"] {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 @media (min-width: 769px) {
   .glass-ring {
     --glass-ring-edge-stroke-width: var(

@@ -32,8 +32,8 @@ const ringClassName = cn(
   "glass-ring--desktop-stable mobile-keep-desktop-glass-cards [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]"
 );
 const contentClassName =
-  "update-pin-content mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(21rem,62vw,32rem)] flex-col gap-4";
-const inputClassName = "w-full max-w-[26.25rem] max-[768px]:max-w-[min(100%,26.25rem)]";
+  "update-pin-content mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(21rem,62vw,32rem)] min-[769px]:max-[1120px]:max-w-[clamp(20rem,56vw,29.4rem)] flex-col gap-4";
+const inputClassName = "w-full max-w-[26.25rem] min-[769px]:max-[1120px]:max-w-[24.9rem] max-[768px]:max-w-[min(100%,26.25rem)]";
 const inputBaseClassName = `${glassFormInputBaseClassName} text-[1.25rem] py-[0.95rem] px-[1.5rem] min-h-[3.6rem]`;
 const primaryActionButtonClassName =
   "max-w-[22rem] whitespace-normal text-center leading-[1.2] px-[1.6rem] py-[1.05rem] text-[1.18rem] " +

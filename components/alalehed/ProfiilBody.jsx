@@ -177,13 +177,13 @@ const accountModalTitleClassName =
   `account-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} max-[768px]:!mt-0 max-[768px]:!mb-0 ` +
   "";
 const accountModalActionStackClassName =
-  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] gap-[0.95rem] mt-[clamp(2.15rem,4.8vh,3.05rem)] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:gap-[0.8rem] max-[768px]:mt-[clamp(1.85rem,4.2vh,2.45rem)] max-[768px]:px-0";
+  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] !gap-[1.05rem] mt-[clamp(2.05rem,4.5vh,2.8rem)] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:!gap-[0.92rem] max-[768px]:mt-[clamp(1.7rem,3.8vh,2.2rem)] max-[768px]:px-0";
 const accountModalCardClassName =
   "rounded-none border-0 bg-transparent p-0 min-h-0 text-[color:var(--glass-modal-text)] shadow-none " +
   "[.theme-mid_&]:text-[#3f4756] [.theme-light_&]:text-[#1f2937]";
 const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[0.7rem] pt-0 text-center";
 const accountModalNoteClassName =
-  "m-0 mb-[clamp(0.75rem,1.9vh,1.15rem)] mx-auto max-w-[24rem] text-center text-[1.24rem] leading-[1.35] tracking-[0.01rem] text-[color:var(--glass-modal-text)] max-[768px]:mb-[clamp(0.62rem,1.7vh,1rem)] max-[768px]:max-w-none max-[768px]:text-[1.3rem] max-[768px]:leading-[1.4]";
+  "m-0 !mb-[clamp(0.62rem,1.5vh,0.95rem)] mx-auto max-w-[24rem] text-center text-[1.24rem] leading-[1.35] tracking-[0.01rem] text-[color:var(--glass-modal-text)] max-[768px]:!mb-[clamp(0.48rem,1.2vh,0.72rem)] max-[768px]:max-w-none max-[768px]:text-[1.3rem] max-[768px]:leading-[1.4]";
 const accountModalButtonClassName =
   "account-settings-modal-button !min-h-[2.8rem] !px-[1.18rem] !py-[0.48rem] !text-[1.22rem] !tracking-[0.01em] !self-center shrink-0 " +
   "!min-w-[12.5rem] max-[768px]:!w-[13.5rem] max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
@@ -1267,7 +1267,6 @@ export default function ProfiilBody({
               initialMobileUi={isMobileProfileMenu}
               mobileVariant="stack"
               mobileBackItem={mobileBackItem}
-              className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem]"
               onOpenChange={setOrbitOpen}
             />
           </div>
@@ -1347,18 +1346,18 @@ export default function ProfiilBody({
           )}
         >
           <div className={accountModalHeadClassName}>
-              <BackButton
-                onClick={closeAccountSettingsWithTilt}
-                ariaLabel={t("buttons.back")}
-                holdPressedVisualDisabled
-                className={accountModalBackButtonClassName}
-              />
-              <div className={accountModalTitleWrapClassName}>
-                <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-                  <h2 className={accountModalTitleClassName}>{t("profile.account_settings")}</h2>
-                </div>
+            <BackButton
+              onClick={closeAccountSettingsWithTilt}
+              ariaLabel={t("buttons.back")}
+              holdPressedVisualDisabled
+              className={accountModalBackButtonClassName}
+            />
+            <div className={accountModalTitleWrapClassName}>
+              <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+                <h2 className={accountModalTitleClassName}>{t("profile.account_settings")}</h2>
               </div>
             </div>
+          </div>
           <div className={accountModalActionStackClassName}>
               <section className={accountModalCardClassName}>
                 <div className={accountModalActionRowClassName}>

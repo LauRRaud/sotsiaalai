@@ -8,7 +8,6 @@ import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
 import {
   glassPageBackTopLeftClassName,
-  glassPageMobileCardClassName,
   glassSubpageCardInteractiveClassName,
   glassSubpageContentWideClassName,
   glassSubpageMobileReadableWidthClassName,
@@ -66,21 +65,25 @@ export default function HelpListingsPanel({
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
   const helpListingsContentClassName =
     `help-listings-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
-    `relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `relative !max-h-none overflow-x-hidden !overflow-y-visible pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
     `${glassSubpageSurfaceScopeClassName} ` +
-    `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards ${glassPageMobileCardClassName} ` +
+    `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards ` +
+    `max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] ` +
+    `max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
+    `max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
+    `max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] ` +
+    `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
+    `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isClosing ? `${tiltAnimationClassName} pointer-events-none` : ""}`;
   const helpListingsTitleClassName =
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static help-listings-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const mobileTitleWrapClassName =
     "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
   const listingsPanelClassName =
-    "mt-[0.25rem] max-[768px]:mt-[0.2rem] min-h-[min(56dvh,28rem)] max-h-[min(62dvh,30rem)] " +
-    "max-[768px]:min-h-[min(60dvh,32rem)] max-[768px]:max-h-[min(66dvh,34rem)] overflow-y-auto " +
-    "[scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
+    "mt-[0.25rem] max-[768px]:mt-[0.2rem]";
 
   const renderListingCard = (item) => (
     <button
@@ -157,7 +160,7 @@ export default function HelpListingsPanel({
       onClose={onClose}
       closeOnOverlayClick={!isClosing}
       aria-label={title || ui.listingPlural}
-      className="help-listings-modal-overlay z-[140] bg-transparent max-[768px]:p-0 max-[768px]:items-stretch"
+      className="help-listings-modal-overlay z-[140] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start"
       contentClassName={helpListingsContentClassName}
     >
       <BackButton

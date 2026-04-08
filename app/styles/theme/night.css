@@ -274,8 +274,7 @@
   :is(
     .help-listings-modal-content,
     .invite-modal-content,
-    .materials-page-content,
-    .account-settings-modal-content
+    .materials-page-content
   ) {
   background: var(--glass-surface-bg) !important;
 }

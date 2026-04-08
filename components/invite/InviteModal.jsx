@@ -14,7 +14,6 @@ import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmente
 import {
   glassFormInputBaseClassName,
   glassPageBackTopLeftClassName,
-  glassPageMobileCardClassName,
   glassSubpageCardClassName,
   glassSubpageContentWideClassName,
   glassSubpagePanelWideClassName,
@@ -67,13 +66,18 @@ export default function InviteModal() {
   const sendLabel = formatSentenceCase(t("invite.send"));
   const sponsoredSelected = paymentMode === "SPONSORED_BY_HOST";
   const inviteModalContentClassName =
-    `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
+    `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative !max-h-none overflow-x-hidden !overflow-y-visible ` +
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
     `${glassSubpageSurfaceScopeClassName} ` +
-    `${glassPageMobileCardClassName} ` +
+    `max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] ` +
+    `max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
+    `max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
+    `max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] ` +
+    `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
+    `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const inviteModalTitleClassName = `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
@@ -473,7 +477,7 @@ export default function InviteModal() {
       aria-label={t("invite.title")}
       className={
         open
-          ? "invite-modal-overlay person-invite-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch"
+          ? "invite-modal-overlay person-invite-modal-overlay z-[140] overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start"
           : undefined
       }
       contentClassName={inviteModalContentClassName}

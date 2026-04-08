@@ -67,6 +67,7 @@ export default function OrbitalMenu({
   const prevOpenRef = useRef(false);
   const [orbitRadius, setOrbitRadius] = useState(0);
   const [orbitHideScale, setOrbitHideScale] = useState(0.9);
+  const [orbitSizeMode, setOrbitSizeMode] = useState("default");
   const overlayCloseBtnRef = useRef(null);
   const scrollRef = useRef(null);
   const slotRefs = useRef([]);
@@ -297,9 +298,20 @@ export default function OrbitalMenu({
       const rect = root.getBoundingClientRect();
       const itemEl = root.querySelector(".profile-orbit-menu__item");
       if (!rect.width || !itemEl) return;
+      const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 0;
+      const isSmallerDesktopViewport = viewportWidth > 768 && viewportWidth <= 1120;
+      const nextSizeMode = isSmallerDesktopViewport
+        ? rect.width <= 322
+          ? "tight"
+          : rect.width <= 352
+            ? "compact"
+            : "default"
+        : "default";
+      setOrbitSizeMode(prev => prev !== nextSizeMode ? nextSizeMode : prev);
+      const radiusScale = nextSizeMode === "tight" ? 0.8 : nextSizeMode === "compact" ? 0.88 : 1;
       const itemSize = itemEl.offsetWidth || 0;
       if (!itemSize) return;
-      const nextRadius = Math.max(0, (rect.width - itemSize) / 2);
+      const nextRadius = Math.max(0, (rect.width - itemSize) / 2) * radiusScale;
       setOrbitRadius(prev => Math.abs(prev - nextRadius) > 0.25 ? nextRadius : prev);
       const hubSize = hubBtnRef.current?.offsetWidth || 0;
       if (hubSize && nextRadius) {
@@ -536,7 +548,9 @@ export default function OrbitalMenu({
   };
   const desktopAngleStep = useMemo(() => items.length ? 360 / items.length : 0, [items.length]);
   const desktopStartAngle = -90;
-  const orbitRadiusBoost = isExpanded ? 1.14 : 1;
+  const orbitRadiusBoost = useOrbitLayout && isExpanded ? 1.16 : 1;
+  const desktopLabelGap = useOrbitLayout ? "0.68rem" : "0.5rem";
+  const orbitItemScaleFactor = orbitSizeMode === "tight" ? 0.84 : orbitSizeMode === "compact" ? 0.92 : 1;
   const hubPulseStyle = prefersReducedMotion || useMobileStack ? undefined : {
     animationDelay: `${hubPulseDelayRef.current}ms`,
     WebkitAnimationDelay: `${hubPulseDelayRef.current}ms`
@@ -547,8 +561,8 @@ export default function OrbitalMenu({
       className={cn(
       "profile-orbit-menu relative grid place-items-center w-[var(--orbit-size)] h-[var(--orbit-size)] " +
         "[--item-opacity:0] [--item-scale:0.9] [--item-scale-hover:0.885] " +
-        "[--label-gap:0.5rem] [--label-gap-side:0.01rem] [--label-nudge:0.3rem] " +
-        "[--orbit-item-icon-scale:0.56] [--orbit-item-icon-size:calc(var(--orbit-item-size)*var(--orbit-item-icon-scale))]",
+        "[--label-gap:0.5rem] [--label-nudge:0.3rem] " +
+        "[--orbit-item-icon-scale:0.56] [--orbit-item-render-size:calc(var(--orbit-item-size)*var(--orbit-item-scale-factor,1))] [--orbit-item-icon-size:calc(var(--orbit-item-render-size)*var(--orbit-item-icon-scale))]",
       isOpen && "is-open [--item-opacity:1]",
       isClosing && "is-closing",
       isExpanded && "is-expanded [--item-scale:1.06] [--item-scale-hover:1.03] [--orbit-item-size:var(--orbit-item-size-open)]",
@@ -556,6 +570,10 @@ export default function OrbitalMenu({
       useMobileStack && "is-stack",
       className
     )}
+      style={{
+        "--orbit-item-scale-factor": orbitItemScaleFactor,
+        "--label-gap": desktopLabelGap
+      }}
     >
       {}
       {useOrbitLayout && <div className={cn("profile-orbit-menu__items absolute inset-0", isOpen ? "pointer-events-auto" : "pointer-events-none")} role="group" aria-label={ariaLabel} id={menuId} inert={isOpen ? undefined : true}>
@@ -565,23 +583,20 @@ export default function OrbitalMenu({
         const orbitX = Math.round(Math.sin(angleRad) * orbitRadius * orbitRadiusBoost);
         const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius * orbitRadiusBoost);
         const labelPos = item.labelPos || "up";
-        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
+        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap))] top-1/2 -translate-y-1/2" : labelPos === "right" ? "left-[calc(100%+var(--label-gap))] top-1/2 -translate-y-1/2" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
         const labelWidthClass =
           item.key === "subscription"
             ? "max-w-[5.8rem]"
             : item.key === "theme" || item.key === "delete"
               ? "max-w-[6.4rem] [overflow-wrap:anywhere]"
-              : labelPos === "left" || labelPos === "right"
-                ? "max-w-[6.6rem] [overflow-wrap:anywhere]"
-                : "max-w-[12rem]";
-        return <div key={item.key || index} className={cn("profile-orbit-menu__slot group absolute top-1/2 left-1/2 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] [transform:translate3d(var(--orbit-x,0px),var(--orbit-y,0px),0)_translate(-50%,-50%)] opacity-[var(--item-opacity)] transition-opacity [transition-duration:200ms] [transition-timing-function:ease] z-[1]", isOpen && "animate-[orbit-item-reveal_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]", !isOpen && isClosing && "animate-[orbit-item-hide_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]")} data-key={item.key || index} data-label-pos={labelPos} style={{
+              : "max-w-[6.6rem] [overflow-wrap:anywhere]";
+        return <div key={item.key || index} className={cn("profile-orbit-menu__slot group absolute top-1/2 left-1/2 w-[var(--orbit-item-render-size)] h-[var(--orbit-item-render-size)] [transform:translate3d(var(--orbit-x,0px),var(--orbit-y,0px),0)_translate(-50%,-50%)] opacity-[var(--item-opacity)] transition-opacity [transition-duration:200ms] [transition-timing-function:ease] z-[1]", isOpen && "animate-[orbit-item-reveal_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]", !isOpen && isClosing && "animate-[orbit-item-hide_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]")} data-key={item.key || index} data-label-pos={labelPos} style={{
           "--orbit-x": `${orbitX}px`,
           "--orbit-y": `${orbitY}px`,
           "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
-          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
-          "--label-gap-side": item.key === "theme" ? "0.86rem" : item.key === "delete" ? "-0.02rem" : undefined
+          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`
         }}>
-                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:box-shadow_0.55s_cubic-bezier(0.16,1,0.3,1),transform_0.22s_ease] [will-change:transform,box-shadow]" onClick={event => {
+                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-render-size)] h-[var(--orbit-item-render-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:box-shadow_0.55s_cubic-bezier(0.16,1,0.3,1),transform_0.22s_ease] [will-change:transform,box-shadow]" onClick={event => {
             item.onClick?.();
             if (!item.keepOpen) {
               closeMenu();
