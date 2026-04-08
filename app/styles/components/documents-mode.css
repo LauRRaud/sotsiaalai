@@ -257,31 +257,31 @@
 }
 
 :root.theme-light .documents-workspace-page--library {
-  --documents-glass-surface: rgba(255, 255, 255, 0.93);
-  --documents-panel-bg: rgba(255, 255, 255, 0.94);
-  --documents-card-bg: rgba(255, 255, 255, 0.92);
-  --documents-subpanel-bg: rgba(252, 251, 249, 0.9);
-  --documents-content-bg: rgba(252, 251, 249, 0.9);
-  --documents-muted-bg: rgba(248, 247, 245, 0.86);
-  --documents-agent-stage-bg: rgba(252, 251, 249, 0.88);
-  --documents-agent-thread-bg: rgba(255, 255, 255, 0.975);
+  --documents-glass-surface: rgba(247, 245, 243, 0.92);
+  --documents-panel-bg: rgba(248, 246, 244, 0.94);
+  --documents-card-bg: rgba(246, 243, 241, 0.92);
+  --documents-subpanel-bg: rgba(243, 240, 237, 0.89);
+  --documents-content-bg: rgba(243, 240, 237, 0.89);
+  --documents-muted-bg: rgba(239, 236, 233, 0.86);
+  --documents-agent-stage-bg: rgba(244, 241, 238, 0.88);
+  --documents-agent-thread-bg: rgba(248, 246, 244, 0.95);
   --documents-agent-thread-border: rgba(210, 214, 223, 0.24);
   --documents-agent-thread-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
-  --documents-agent-composer-bg: rgba(255, 255, 255, 0.98);
-  --documents-agent-composer-bg-hover: rgba(255, 255, 255, 0.992);
+  --documents-agent-composer-bg: rgba(249, 247, 245, 0.96);
+  --documents-agent-composer-bg-hover: rgba(251, 249, 247, 0.975);
   --documents-agent-composer-border: rgba(210, 214, 223, 0.22);
   --documents-agent-composer-shadow: 0 12px 26px rgba(15, 23, 42, 0.075);
   --documents-agent-composer-shadow-hover: 0 14px 30px rgba(15, 23, 42, 0.09);
-  --documents-panel-border: rgba(190, 196, 208, 0.34);
-  --documents-card-border: rgba(190, 196, 208, 0.3);
-  --documents-subpanel-border: rgba(190, 196, 208, 0.3);
-  --documents-content-border: rgba(190, 196, 208, 0.28);
-  --documents-muted-border: rgba(190, 196, 208, 0.28);
-  --documents-soft-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
-  --documents-strong-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
-  --documents-surface-panel-bg: rgba(255, 255, 255, 0.94);
-  --documents-surface-panel-border: rgba(190, 196, 208, 0.32);
-  --documents-surface-panel-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+  --documents-panel-border: rgba(190, 196, 208, 0.3);
+  --documents-card-border: rgba(190, 196, 208, 0.27);
+  --documents-subpanel-border: rgba(190, 196, 208, 0.27);
+  --documents-content-border: rgba(190, 196, 208, 0.24);
+  --documents-muted-border: rgba(190, 196, 208, 0.24);
+  --documents-soft-shadow: 0 8px 20px rgba(15, 23, 42, 0.055);
+  --documents-strong-shadow: 0 10px 24px rgba(15, 23, 42, 0.065);
+  --documents-surface-panel-bg: rgba(248, 246, 244, 0.94);
+  --documents-surface-panel-border: rgba(190, 196, 208, 0.28);
+  --documents-surface-panel-shadow: 0 8px 20px rgba(15, 23, 42, 0.055);
   --documents-surface-panel-text: var(--documents-page-text);
 }
 
