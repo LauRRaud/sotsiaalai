@@ -258,7 +258,8 @@ export default function ChatMobileTopNav({
     currentY: 0,
     moved: false,
     gestureAxis: null,
-    cancelTap: false
+    cancelTap: false,
+    startedOnButton: false
   });
 
   const [focusedIndex, setFocusedIndex] = useState(getItemIndex(DEFAULT_FOCUSED_KEY));
@@ -655,11 +656,12 @@ export default function ChatMobileTopNav({
     dragStateRef.current.moved = false;
     dragStateRef.current.gestureAxis = null;
     dragStateRef.current.cancelTap = false;
+    dragStateRef.current.startedOnButton = false;
     setDragOffsetPx(0);
     setIsDragging(false);
   }, []);
 
-  const beginSwipe = useCallback((clientX, clientY) => {
+  const beginSwipe = useCallback((clientX, clientY, startedOnButton = false) => {
     dragStateRef.current.startX = clientX;
     dragStateRef.current.startY = clientY;
     dragStateRef.current.currentX = clientX;
@@ -667,6 +669,7 @@ export default function ChatMobileTopNav({
     dragStateRef.current.moved = false;
     dragStateRef.current.gestureAxis = null;
     dragStateRef.current.cancelTap = false;
+    dragStateRef.current.startedOnButton = startedOnButton;
     setDragOffsetPx(0);
     setIsDragging(false);
   }, []);
@@ -727,7 +730,11 @@ export default function ChatMobileTopNav({
         handleTrackPointerEnd();
         return;
       }
+      const startedOnButton = dragStateRef.current.startedOnButton;
       resetSwipeState();
+      if (startedOnButton) {
+        return;
+      }
       activateIndex(getClosestVisibleIndex(clientX), event);
     },
     [activateIndex, getClosestVisibleIndex, handleTrackPointerEnd, resetSwipeState]
@@ -904,9 +911,6 @@ export default function ChatMobileTopNav({
           className="relative h-[8.6rem] overflow-visible"
           style={{ touchAction: "pan-y" }}
           onPointerDown={event => {
-            if (isTopNavButtonTarget(event.target)) {
-              return;
-            }
             if (event.pointerType === "touch") {
               return;
             }
@@ -915,7 +919,11 @@ export default function ChatMobileTopNav({
             }
             swipeSurfaceRef.current?.setPointerCapture?.(event.pointerId);
             dragStateRef.current.pointerId = event.pointerId;
-            beginSwipe(event.clientX, event.clientY);
+            beginSwipe(
+              event.clientX,
+              event.clientY,
+              isTopNavButtonTarget(event.target)
+            );
           }}
           onPointerMove={event => {
             if (event.pointerType === "touch") {
@@ -944,13 +952,14 @@ export default function ChatMobileTopNav({
             resetSwipeState();
           }}
           onTouchStart={event => {
-            if (isTopNavButtonTarget(event.target)) {
-              return;
-            }
             const touch = event.changedTouches?.[0];
             if (!touch) return;
             dragStateRef.current.touchId = touch.identifier;
-            beginSwipe(touch.clientX, touch.clientY);
+            beginSwipe(
+              touch.clientX,
+              touch.clientY,
+              isTopNavButtonTarget(event.target)
+            );
           }}
           onTouchMove={event => {
             const touchId = dragStateRef.current.touchId;
