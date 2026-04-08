@@ -471,8 +471,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   if (isClientRole) return null
 
   return (
-    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library ${glassPrimaryButtonToneClassName}`}>
-      <div className={`documents-workspace-shell ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
+    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents ${glassPrimaryButtonToneClassName}`}>
+      <div className={`documents-workspace-shell documents-workspace-shell--documents ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
         <div className="documents-grid">
           <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
             <BackButton

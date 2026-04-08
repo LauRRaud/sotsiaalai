@@ -2437,9 +2437,33 @@
       max(0.5rem, env(safe-area-inset-left, 0px));
   }
 
+  .documents-workspace-page--agent {
+    padding:
+      calc(env(safe-area-inset-top, 0px) + 0.45rem)
+      max(0.28rem, env(safe-area-inset-right, 0px))
+      calc(env(safe-area-inset-bottom, 0px) + 1rem)
+      max(0.28rem, env(safe-area-inset-left, 0px));
+  }
+
+  .documents-workspace-page--documents {
+    padding:
+      calc(env(safe-area-inset-top, 0px) + 0.45rem)
+      max(0.28rem, env(safe-area-inset-right, 0px))
+      calc(env(safe-area-inset-bottom, 0px) + 1rem)
+      max(0.28rem, env(safe-area-inset-left, 0px));
+  }
+
   .documents-workspace-shell {
     width: 100%;
     padding: 0.72rem 0.56rem 0.88rem;
+  }
+
+  .documents-workspace-shell--agent {
+    padding-inline: 0.26rem;
+  }
+
+  .documents-workspace-shell--documents {
+    padding-inline: 0.26rem;
   }
 
   .documents-primary-button,

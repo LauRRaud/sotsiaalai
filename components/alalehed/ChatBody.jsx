@@ -594,6 +594,17 @@ export default function ChatBody({
     getVisibleMessages
   });
   const visibleMessages = useMemo(() => getVisibleMessages(messages), [getVisibleMessages, messages]);
+  const latestHelpWorkflowState = useMemo(() => {
+    for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
+      const message = visibleMessages[i];
+      if (message?.role !== "ai") continue;
+      if (!message?.workflow || typeof message.workflow !== "object") continue;
+      const helpState = message.workflow.help;
+      if (!helpState || typeof helpState !== "object") continue;
+      return helpState;
+    }
+    return null;
+  }, [visibleMessages]);
   const renderLimitStorageKey = useMemo(() => getConversationRenderLimitStorageKey({
     convId,
     userId: sessionUserId,
@@ -1375,6 +1386,33 @@ export default function ChatBody({
       window.dispatchEvent(new CustomEvent("sotsiaalai:refresh-conversations"));
     } catch {}
   }, []);
+  const helpFlowActive = useMemo(
+    () => isActiveHelpWorkflowState(latestHelpWorkflowState),
+    [latestHelpWorkflowState]
+  );
+  const handleAssistantMessageCreated = useCallback((messageId) => {
+    onAssistantMessageCreated?.(messageId);
+    if (!(activeWorkflow === "help_request" || activeWorkflow === "help_offer" || helpFlowActive)) return;
+    if (messageId == null) return;
+
+    const scrollToMessageStart = () => {
+      const node = chatWindowRef.current;
+      if (!(node instanceof HTMLElement)) return;
+      const messageNode = node.querySelector(`[data-chat-message-id="${messageId}"]`);
+      if (!(messageNode instanceof HTMLElement)) return;
+      const nodeRect = node.getBoundingClientRect();
+      const messageRect = messageNode.getBoundingClientRect();
+      const offsetTop = messageRect.top - nodeRect.top;
+      node.scrollTo({
+        top: Math.max(0, node.scrollTop + offsetTop - 8),
+        behavior: "auto"
+      });
+    };
+
+    requestAnimationFrame(scrollToMessageStart);
+    window.setTimeout(scrollToMessageStart, 80);
+    window.setTimeout(scrollToMessageStart, 220);
+  }, [activeWorkflow, helpFlowActive, onAssistantMessageCreated]);
   const {
     isGenerating: isChatGenerating,
     sendMessage,
@@ -1788,50 +1826,12 @@ export default function ChatBody({
     }
     return false;
   }, [visibleMessages]);
-  const latestHelpWorkflowState = useMemo(() => {
-    for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
-      const message = visibleMessages[i];
-      if (message?.role !== "ai") continue;
-      if (!message?.workflow || typeof message.workflow !== "object") continue;
-      const helpState = message.workflow.help;
-      if (!helpState || typeof helpState !== "object") continue;
-      return helpState;
-    }
-    return null;
-  }, [visibleMessages]);
-  const helpFlowActive = useMemo(
-    () => isActiveHelpWorkflowState(latestHelpWorkflowState),
-    [latestHelpWorkflowState]
-  );
   useEffect(() => {
     if (!(activeWorkflow === "help_request" || activeWorkflow === "help_offer")) return;
     if (!latestHelpWorkflowState) return;
     if (helpFlowActive) return;
     setActiveWorkflow("default");
   }, [activeWorkflow, helpFlowActive, latestHelpWorkflowState]);
-  const handleAssistantMessageCreated = useCallback((messageId) => {
-    onAssistantMessageCreated?.(messageId);
-    if (!(activeWorkflow === "help_request" || activeWorkflow === "help_offer" || helpFlowActive)) return;
-    if (messageId == null) return;
-
-    const scrollToMessageStart = () => {
-      const node = chatWindowRef.current;
-      if (!(node instanceof HTMLElement)) return;
-      const messageNode = node.querySelector(`[data-chat-message-id="${messageId}"]`);
-      if (!(messageNode instanceof HTMLElement)) return;
-      const nodeRect = node.getBoundingClientRect();
-      const messageRect = messageNode.getBoundingClientRect();
-      const offsetTop = messageRect.top - nodeRect.top;
-      node.scrollTo({
-        top: Math.max(0, node.scrollTop + offsetTop - 8),
-        behavior: "auto"
-      });
-    };
-
-    requestAnimationFrame(scrollToMessageStart);
-    window.setTimeout(scrollToMessageStart, 80);
-    window.setTimeout(scrollToMessageStart, 220);
-  }, [activeWorkflow, helpFlowActive, onAssistantMessageCreated]);
   const listingsPanelNode = activeListingsPanel ? (
     <HelpListingsPanel
       locale={locale}
