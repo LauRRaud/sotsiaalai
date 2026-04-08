@@ -296,10 +296,11 @@ export default function HomePage() {
     const updateOverlayState = () => {
       const hasOverlay =
         body.classList.contains("home-profile-open") ||
-        body.classList.contains("modal-open") ||
-        body.classList.contains("login-modal-open") ||
-        body.dataset.a11yScrollLock === "1";
-      setIsHomeOverlayOpen(Boolean(isMobile && hasOverlay));
+        body.dataset.a11yScrollLock === "1" ||
+        (isMobile &&
+          (body.classList.contains("modal-open") ||
+            body.classList.contains("login-modal-open")));
+      setIsHomeOverlayOpen(Boolean(hasOverlay));
     };
     updateOverlayState();
     if (typeof MutationObserver === "undefined") return;

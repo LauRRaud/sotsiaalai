@@ -442,6 +442,24 @@ test("template placeholders are not treated as offer location or timing", async 
   assert.doesNotMatch(String(result.reply || ""), /ning olen kattesaadav/i);
 });
 
+test("generic filler words do not satisfy the offer location question", async () => {
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: [
+      "Pakun digiabi eakatele ja puudega inimestele.",
+      "Aitan arvuti, telefoni ja e-teenustega.",
+      "Vajadusel kokkuleppel."
+    ].join(" "),
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.rawPlace || "", "");
+  assert.equal(result.workflowState?.activeQuestionKey || "", "rawPlace");
+  assert.match(String(result.reply || ""), /kus (abi pakkuda soovid|saad aidata)/i);
+});
+
 test("initial offer follow-up question does not prepend inferred location reflection", async () => {
   const result = await runHelpChatWorkflow({
     forcedIntent: "create_help_offer",

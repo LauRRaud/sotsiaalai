@@ -175,6 +175,12 @@ export default function LoginModal({
     return /Android/i.test(navigator.userAgent || "");
   }, []);
   const [isPhoneViewport, setIsPhoneViewport] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(() =>
+    typeof window === "undefined" ? 1440 : window.innerWidth || 1440
+  );
+  const [viewportHeight, setViewportHeight] = useState(() =>
+    typeof window === "undefined" ? 900 : window.innerHeight || 900
+  );
   const [step, setStep] = useState("pin");
   const [pinValue, setPinValue] = useState("");
   const [_pinError, setPinError] = useState(false);
@@ -277,6 +283,18 @@ export default function LoginModal({
     }
     query.addListener(apply);
     return () => query.removeListener(apply);
+  }, []);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const updateViewportSize = () => {
+      const nextWidth = window.innerWidth || 0;
+      const nextHeight = window.innerHeight || 0;
+      setViewportWidth(prev => (prev === nextWidth ? prev : nextWidth));
+      setViewportHeight(prev => (prev === nextHeight ? prev : nextHeight));
+    };
+    updateViewportSize();
+    window.addEventListener("resize", updateViewportSize);
+    return () => window.removeEventListener("resize", updateViewportSize);
   }, []);
   useEffect(() => {
     const timeoutIds = timeoutIdsRef.current;
@@ -1199,6 +1217,18 @@ export default function LoginModal({
           : "0 0 14px rgba(248, 253, 255, 0.11), 0 0 32px rgba(248, 253, 255, 0.055)";
   const loginShellFilter = "none";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
+  const isShortDesktopCandidate = !isPhoneViewport && viewportWidth <= 1280;
+  const desktopCompactMode = isPhoneViewport
+    ? "none"
+    : viewportHeight <= 640
+      ? "tight"
+      : isShortDesktopCandidate && viewportHeight <= 700
+        ? "tight"
+        : isShortDesktopCandidate && viewportHeight <= 760
+        ? "compact"
+        : "none";
+  const isCompactDesktop = desktopCompactMode !== "none";
+  const isTightDesktop = desktopCompactMode === "tight";
   const androidPinToggleClassName = isAndroidPlatform
     ? "!text-[1.32rem] max-md:!text-[clamp(1.36rem,4.9vw,1.74rem)] leading-[1.18] whitespace-normal [text-wrap:balance]"
     : "";
@@ -1237,6 +1267,15 @@ export default function LoginModal({
           alignSelf: "center",
           marginLeft: "auto",
           marginRight: "auto"
+        }
+      : null),
+    ...(!isPhoneViewport
+      ? {
+          maxHeight: "calc(100dvh - 1rem)",
+          overflowY: "auto",
+          overflowX: "visible",
+          overscrollBehavior: "contain",
+          WebkitOverflowScrolling: "touch"
         }
       : null),
     ...(isPhoneViewport && !isOtpStep
@@ -1336,50 +1375,148 @@ export default function LoginModal({
           top: 1px;
           filter: none;
         }
+        #login-modal[data-compact="compact"] .login-modal-shell {
+          padding-top: 0.72rem !important;
+        }
+        #login-modal[data-compact="tight"] .login-modal-shell {
+          padding-top: 0.56rem !important;
+        }
+        #login-modal[data-compact="compact"]:not(.login-modal--otp) .login-modal-shell {
+          padding-bottom: 0.88rem !important;
+        }
+        #login-modal[data-compact="tight"]:not(.login-modal--otp) .login-modal-shell {
+          padding-bottom: 0.68rem !important;
+        }
+        #login-modal[data-compact="compact"].login-modal--otp .login-modal-shell {
+          padding-bottom: 0.86rem !important;
+        }
+        #login-modal[data-compact="tight"].login-modal--otp .login-modal-shell {
+          padding-bottom: 0.7rem !important;
+        }
+        #login-modal[data-compact="compact"] .login-modal-title {
+          font-size: clamp(1.58rem, 1.04rem + 0.86vw, 1.94rem) !important;
+          line-height: 1.02 !important;
+        }
+        #login-modal[data-compact="tight"] .login-modal-title {
+          font-size: clamp(1.4rem, 0.96rem + 0.72vw, 1.72rem) !important;
+          line-height: 1 !important;
+        }
+        #login-modal[data-compact="compact"] .login-keypad-toggle-link {
+          font-size: 1.16rem !important;
+        }
+        #login-modal[data-compact="tight"] .login-keypad-toggle-link {
+          font-size: 1.04rem !important;
+        }
+        #login-modal[data-compact="compact"] .login-register-link {
+          font-size: 1.5rem !important;
+        }
+        #login-modal[data-compact="tight"] .login-register-link {
+          font-size: 1.28rem !important;
+        }
+        #login-modal[data-compact="compact"] .login-register-row {
+          margin-top: -0.18rem !important;
+        }
+        #login-modal[data-compact="tight"] .login-register-row {
+          margin-top: -0.08rem !important;
+          margin-bottom: 0 !important;
+        }
+        #login-modal[data-compact="compact"] .login-otp-copy {
+          gap: 0.32rem !important;
+        }
+        #login-modal[data-compact="tight"] .login-otp-copy {
+          gap: 0.24rem !important;
+        }
+        #login-modal[data-compact="compact"] .login-otp-actions {
+          gap: 0.52rem !important;
+          margin-top: 1.08rem !important;
+        }
+        #login-modal[data-compact="tight"] .login-otp-actions {
+          gap: 0.42rem !important;
+          margin-top: 0.84rem !important;
+        }
+        #login-modal[data-compact="compact"] .login-otp-action-link {
+          font-size: 1.06rem !important;
+        }
+        #login-modal[data-compact="tight"] .login-otp-action-link {
+          font-size: 0.98rem !important;
+        }
       `}</style>
-      <div ref={boxRef} id="login-modal" data-keypad-theme={isDarkKeypadTheme ? "dark" : "light"} className={modalClasses} style={{
-      "--login-modal-side-pad": isPhoneViewport ? "0px" : "1.15em",
+      <div ref={boxRef} id="login-modal" data-keypad-theme={isDarkKeypadTheme ? "dark" : "light"} data-compact={desktopCompactMode} className={modalClasses} style={{
+      "--login-modal-side-pad": isPhoneViewport ? "0px" : isTightDesktop ? "0.92em" : isCompactDesktop ? "1.02em" : "1.15em",
       "--login-modal-inner-side-pad": isOtpStep
         ? isPhoneViewport
           ? "0px"
-          : "0.86em"
+          : isTightDesktop
+            ? "0.7em"
+            : isCompactDesktop
+              ? "0.78em"
+              : "0.86em"
         : isPhoneViewport
           ? "0px"
-          : "0.64em",
+          : isTightDesktop
+            ? "0.52em"
+            : isCompactDesktop
+              ? "0.58em"
+              : "0.64em",
       "--pin-btn": isPhoneViewport
         ? isAndroidPlatform
           ? "clamp(4.84rem, 18.05vw, 5.5rem)"
           : "clamp(5.15rem, 19.8vw, 5.85rem)"
-        : "4.58rem",
+        : isTightDesktop
+          ? "3.94rem"
+          : isCompactDesktop
+            ? "4.22rem"
+            : "4.58rem",
       "--pin-gap-x": isPhoneViewport
         ? isAndroidPlatform
           ? "clamp(1.18rem, 4.45vw, 1.48rem)"
           : "clamp(1.36rem, 5.2vw, 1.68rem)"
-        : "0.9rem",
+        : isTightDesktop
+          ? "0.62rem"
+          : isCompactDesktop
+            ? "0.74rem"
+            : "0.9rem",
       "--pin-gap-y": isPhoneViewport
         ? isAndroidPlatform
           ? "clamp(0.9rem, 2.6vh, 1.14rem)"
           : "clamp(0.76rem, 2.28vh, 0.98rem)"
-        : "0.82rem",
+        : isTightDesktop
+          ? "0.52rem"
+          : isCompactDesktop
+            ? "0.64rem"
+            : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
       "--login-email-w": isPhoneViewport
         ? isAndroidPlatform
           ? "min(calc(var(--pin-grid-w) + 1.22rem), calc(100vw - 2.02rem))"
           : "var(--pin-grid-w)"
-        : "calc(var(--pin-grid-w) + 0.72rem)",
+        : isTightDesktop
+          ? "calc(var(--pin-grid-w) + 0.46rem)"
+          : isCompactDesktop
+            ? "calc(var(--pin-grid-w) + 0.58rem)"
+            : "calc(var(--pin-grid-w) + 0.72rem)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
+      "--login-pin-modal-min-w": isTightDesktop ? "19rem" : isCompactDesktop ? "20.25rem" : "22rem",
       "--login-modal-pad-effective": isOtpStep ? "var(--login-modal-side-pad)" : "var(--login-modal-inner-side-pad)",
-      "--login-pin-modal-w": "min(90vw, max(22rem, calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 1.5rem)))",
+      "--login-pin-modal-w": "min(90vw, max(var(--login-pin-modal-min-w,22rem), calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 1.5rem)))",
       "--login-envelope-size": isPhoneViewport
         ? isAndroidPlatform
           ? "clamp(5rem, 14.95vw, 6.08rem)"
           : "clamp(5.45rem, 15.2vw, 6.9rem)"
-        : "clamp(4.4rem, 7vw, 5.2rem)",
+        : isTightDesktop
+          ? "clamp(3.66rem, 5.6vw, 4.2rem)"
+          : isCompactDesktop
+            ? "clamp(3.92rem, 6vw, 4.56rem)"
+            : "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": isPhoneViewport
         ? isAndroidPlatform
           ? "clamp(5.24rem, 15.55vw, 6.34rem)"
           : "clamp(5.6rem, 15.8vw, 7.1rem)"
-        : "clamp(4.4rem, 7vw, 5.2rem)",
+        : isTightDesktop
+          ? "clamp(3.78rem, 5.8vw, 4.34rem)"
+          : isCompactDesktop
+            ? "clamp(4.02rem, 6.15vw, 4.68rem)"
+            : "clamp(4.4rem, 7vw, 5.2rem)",
       "--otp-copy-text": isMidTheme
         ? "#4a3833"
         : isNightTheme
@@ -1711,8 +1848,8 @@ export default function LoginModal({
               {showPinMessage ? messageText : null}
             </div>
 
-            <div className="text-center mt-[0.08rem] max-md:mt-[0.02rem] mb-[0.08rem]">
-              <button type="button" className={`${inlineLinkClassName} ${androidPinToggleClassName} pin-layout-toggle`} onClick={e => {
+            <div className="login-keypad-toggle-row text-center mt-[0.08rem] max-md:mt-[0.02rem] mb-[0.08rem]">
+              <button type="button" className={`${inlineLinkClassName} ${androidPinToggleClassName} login-keypad-toggle-link pin-layout-toggle`} onClick={e => {
                 toggleKeypad();
                 if (e.detail !== 0) clearButtonFocus(e.currentTarget);
               }} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
@@ -1769,10 +1906,10 @@ export default function LoginModal({
                 </span>
               </Button>
 
-              <div className="w-full flex flex-col items-center gap-[0.74rem] max-[768px]:gap-[0.62rem] mt-[1.9rem] max-[768px]:mt-[1.45rem]">
+              <div className="login-otp-actions w-full flex flex-col items-center gap-[0.74rem] max-[768px]:gap-[0.62rem] mt-[1.9rem] max-[768px]:mt-[1.45rem]">
                 <button
                   type="button"
-                  className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName}`}
+                  className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName} login-otp-action-link`}
                   onPointerUp={clearPointerKeyFocus}
                   onPointerCancel={clearPointerKeyFocus}
                   onClick={e => {
@@ -1785,7 +1922,7 @@ export default function LoginModal({
                 </button>
                 <button
                   type="button"
-                  className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName}`}
+                  className={`${homeLikeOtpLinkClassName} ${androidOtpActionClassName} login-otp-action-link`}
                   onPointerUp={clearPointerKeyFocus}
                   onPointerCancel={clearPointerKeyFocus}
                   onClick={e => {
@@ -1800,8 +1937,8 @@ export default function LoginModal({
           </form>}
 
         {!isOtpStep && <>
-            <div className="text-center mt-[-0.32rem] max-md:mt-[-0.16rem] mb-[0.04rem] max-md:mb-[0.04rem]">
-              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)] ${androidRegisterLinkClassName}`}>
+            <div className="login-register-row text-center mt-[-0.32rem] max-md:mt-[-0.16rem] mb-[0.04rem] max-md:mb-[0.04rem]">
+              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)] ${androidRegisterLinkClassName} login-register-link`}>
                 {t("auth.login.register_link")}
               </AppLink>
             </div>
