@@ -105,6 +105,67 @@ enum MunicipalityType {
   VALD
 }
 
+enum KovAdminStatus {
+  NOT_STARTED
+  DRAFT
+  READY_FOR_INGEST
+  INGESTED
+  NEEDS_REVIEW
+}
+
+enum KovAdminFileRole {
+  SOURCES_JSON
+  DATA_JSON
+  META_JSON
+  RAG_MD
+  RT_JSON
+  RT_MD
+}
+
+enum KovFileValidationStatus {
+  MISSING
+  VALID
+  INVALID
+}
+
+enum KovRtStatus {
+  NOT_STARTED
+  DRAFT
+  NEEDS_REVIEW
+  READY
+}
+
+enum KovIngestStatus {
+  NOT_INGESTED
+  READY
+  INGESTING
+  INGESTED
+  ERROR
+}
+
+enum KovAutoCheckStatus {
+  IDLE
+  DUE
+  CHECKING
+  CHANGES_DETECTED
+  NO_CHANGES
+  ERROR
+}
+
+enum OrganizationAdminFileRole {
+  SOURCES_JSON
+  DATA_JSON
+  META_JSON
+  RAG_MD
+  ATTACHMENT
+}
+
+enum OrganizationFileValidationStatus {
+  MISSING
+  VALID
+  INVALID
+}
+
 enum HelpRecordStatus {
   DRAFT
   OPEN
@@ -614,9 +675,141 @@ model Municipality {
 
   helpRequests HelpRequest[]
   helpOffers   HelpOffer[]
+  kovAdmin     MunicipalityKovAdmin?
   @@index([baseName])
   @@index([type])
   @@index([isActive])
+}
+
+model MunicipalityKovAdmin {
+  id               String         @id @default(cuid())
+  municipalityId   String         @unique
+  officialWebsite  String?
+  riigiTeatajaUrl  String?
+  status           KovAdminStatus @default(NOT_STARTED)
+  checkedAt        DateTime?
+  notes            String?        @db.Text
+  readyForIngest   Boolean        @default(false)
+  ingestStatus     KovIngestStatus   @default(NOT_INGESTED)
+  lastIngestedAt   DateTime?
+  lastIngestError  String?           @db.Text
+  ragDocId         String?
+  rtCheckedAt      DateTime?
+  rtNotes          String?           @db.Text
+  rtStatus         KovRtStatus       @default(NOT_STARTED)
+  rtIngestStatus   KovIngestStatus @default(NOT_INGESTED)
+  rtLastIngestedAt DateTime?
+  rtLastIngestError String?          @db.Text
+  rtRagDocId       String?
+  reviewCadence    String            @default("ANNUAL_JAN_PLUS_JULY_CHECK")
+  autoCheckStatus  KovAutoCheckStatus @default(IDLE)
+  lastFullReviewAt DateTime?
+  nextFullReviewAt DateTime?
+  lastLightCheckAt DateTime?
+  nextLightCheckAt DateTime?
+  lastChangeDetectedAt DateTime?
+  lightCheckSnapshot Json?
+  lastLightCheckSummary Json?
+  rtAutoCheckStatus KovAutoCheckStatus @default(IDLE)
+  rtLastLightCheckAt DateTime?
+  rtNextLightCheckAt DateTime?
+  rtLastChangeDetectedAt DateTime?
+  rtLightCheckSnapshot Json?
+  rtLastLightCheckSummary Json?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  municipality Municipality               @relation(fields: [municipalityId], references: [id], onDelete: Cascade)
+  files        MunicipalityKovAdminFile[]
+
+  @@index([status])
+  @@index([checkedAt])
+  @@index([readyForIngest])
+  @@index([ingestStatus])
+  @@index([rtCheckedAt])
+  @@index([rtStatus])
+  @@index([rtIngestStatus])
+  @@index([autoCheckStatus])
+  @@index([nextFullReviewAt])
+  @@index([nextLightCheckAt])
+  @@index([rtAutoCheckStatus])
+  @@index([rtNextLightCheckAt])
+}
+
+model MunicipalityKovAdminFile {
+  id                String                  @id @default(cuid())
+  kovAdminId        String
+  role              KovAdminFileRole
+  originalName      String
+  mime              String
+  size              Int
+  sha256            String
+  storagePath       String
+  version           Int                     @default(1)
+  validationStatus  KovFileValidationStatus @default(INVALID)
+  validationMessage String?
+  validatedAt       DateTime?
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @updatedAt
+
+  kovAdmin MunicipalityKovAdmin @relation(fields: [kovAdminId], references: [id], onDelete: Cascade)
+
+  @@unique([kovAdminId, role])
+  @@index([role])
+  @@index([storagePath])
+  @@index([validationStatus])
+}
+
+model OrganizationAdmin {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  displayName     String   @unique
+  type            String
+  focus           String?
+  county          String?
+  isActive        Boolean  @default(true)
+  officialWebsite String?
+  contactEmail    String?
+  contactPhone    String?
+  notes           String?  @db.Text
+  crawlReadiness  String   @default("PLANNED")
+  ingestStatus    String   @default("NOT_INGESTED")
+  lastIngestedAt  DateTime?
+  lastIngestError String?  @db.Text
+  ragDocId        String?
+  fileCount       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  files           OrganizationAdminFile[]
+
+  @@index([type])
+  @@index([county])
+  @@index([isActive])
+  @@index([crawlReadiness])
+  @@index([ingestStatus])
+}
+
+model OrganizationAdminFile {
+  id             String   @id @default(cuid())
+  organizationId String
+  role           OrganizationAdminFileRole @default(ATTACHMENT)
+  originalName   String
+  mime           String
+  size           Int
+  sha256         String
+  storagePath    String
+  validationStatus  OrganizationFileValidationStatus @default(INVALID)
+  validationMessage String?
+  validatedAt       DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization OrganizationAdmin @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([role])
+  @@index([storagePath])
 }
 
 model HelpCategory {

@@ -1,0 +1,918 @@
+"use client";
+
+import { useRef } from "react";
+
+import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
+import Textarea from "@/components/ui/Textarea";
+import {
+  buttonBaseClassName,
+  buttonCompactClassName,
+  buttonGhostClassName,
+  buttonPrimaryClassName,
+  buttonSecondaryClassName,
+  buttonTinyClassName,
+  cardBodyClassName,
+  cardClassName,
+  cardHeadClassName,
+  cardSubClassName,
+  docDetailMetaClassName,
+  docDetailMetaItemClassName,
+  docDetailMetaLabelClassName,
+  docDetailMetaValueClassName,
+  formatDateTime,
+  inputClassName,
+  labelClassName,
+  panelStackClassName,
+  readOnlyFieldClassName
+} from "../ragAdminShared";
+
+const WEB_FILE_DEFINITIONS = [
+  {
+    key: "sourcesJson",
+    fileName: "{slug}.sources.json",
+    shortLabel: "sources.json",
+    description: "Allikaregister URL-ide ja sourceKey-dega."
+  },
+  {
+    key: "dataJson",
+    fileName: "{slug}.json",
+    shortLabel: "json",
+    description: "Struktureeritud KOV veebikiht teenuste, toetuste, kontaktide ja vormidega."
+  },
+  {
+    key: "metaJson",
+    fileName: "{slug}.meta.json",
+    shortLabel: "meta.json",
+    description: "KOV veebikihi haldusmeta: checkedAt, coverage, markused ja unresolved issues."
+  },
+  {
+    key: "ragMd",
+    fileName: "{slug}.rag.md",
+    shortLabel: "rag.md",
+    description: "Praktilise KOV veebikihi puhastatud RAG tekst."
+  }
+];
+
+const RT_FILE_DEFINITIONS = [
+  {
+    key: "rtJson",
+    fileName: "{slug}.rt.json",
+    shortLabel: "rt.json",
+    description: "Riigi Teataja oiguskiht struktureeritud kujul."
+  },
+  {
+    key: "rtMd",
+    fileName: "{slug}.rt.md",
+    shortLabel: "rt.md",
+    description: "Riigi Teataja kihi puhastatud markdown koond."
+  }
+];
+
+const FILE_LABEL_BY_KEY = Object.fromEntries(
+  [...WEB_FILE_DEFINITIONS, ...RT_FILE_DEFINITIONS].map(file => [file.key, file.shortLabel])
+);
+
+function fileStatusLabel(status) {
+  if (status === "uploaded") return "uploaded";
+  if (status === "replaced") return "replaced";
+  return "missing";
+}
+
+function fileStatusClass(status) {
+  if (status === "uploaded") return "border-[#38bdf8] text-[#38bdf8]";
+  if (status === "replaced") return "border-[#22c55e] text-[#22c55e]";
+  return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
+}
+
+function validationLabel(validationStatus, et) {
+  if (validationStatus === "VALID") return et ? "valid" : "valid";
+  if (validationStatus === "INVALID") return et ? "vigane" : "invalid";
+  return et ? "puudub" : "missing";
+}
+
+function validationClass(validationStatus) {
+  if (validationStatus === "VALID") return "border-[#22c55e] text-[#22c55e]";
+  if (validationStatus === "INVALID") return "border-[#ef4444] text-[#ef4444]";
+  return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
+}
+
+function ingestClass(status) {
+  if (status === "READY") return "border-[#22c55e] text-[#22c55e]";
+  if (status === "INGESTING") return "border-[#f59e0b] text-[#f59e0b]";
+  if (status === "INGESTED") return "border-[#38bdf8] text-[#38bdf8]";
+  if (status === "ERROR") return "border-[#ef4444] text-[#ef4444]";
+  return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
+}
+
+function rtStatusClass(status) {
+  if (status === "READY") return "border-[#22c55e] text-[#22c55e]";
+  if (status === "NEEDS_REVIEW") return "border-[#ef4444] text-[#ef4444]";
+  if (status === "DRAFT") return "border-[#f59e0b] text-[#f59e0b]";
+  return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
+}
+
+function readinessClass(state) {
+  if (state === "BOTH_INGESTED") return "border-[#38bdf8] text-[#38bdf8]";
+  if (state === "BOTH_READY") return "border-[#22c55e] text-[#22c55e]";
+  if (state === "WEB_READY" || state === "RT_READY") return "border-[#f59e0b] text-[#f59e0b]";
+  return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
+}
+
+function readinessLabel(state, et) {
+  if (state === "BOTH_INGESTED") return et ? "Mõlemad kihid ingestitud" : "Both layers ingested";
+  if (state === "BOTH_READY") return et ? "Mõlemad kihid valmis" : "Both layers ready";
+  if (state === "WEB_READY") return et ? "Ainult KOV veeb valmis" : "Only KOV web ready";
+  if (state === "RT_READY") return et ? "Ainult RT valmis" : "Only RT ready";
+  return et ? "Kihid pooleli" : "Layers incomplete";
+}
+
+function autoCheckClass(status) {
+  if (status === "CHANGES_DETECTED" || status === "ERROR") return "border-[#ef4444] text-[#ef4444]";
+  if (status === "CHECKING" || status === "DUE") return "border-[#f59e0b] text-[#f59e0b]";
+  if (status === "NO_CHANGES") return "border-[#38bdf8] text-[#38bdf8]";
+  return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
+}
+
+function reviewStateClass(state) {
+  if (state === "CHANGES_DETECTED" || state === "ERROR" || state === "FULL_REVIEW_DUE") return "border-[#ef4444] text-[#ef4444]";
+  if (state === "CHECKING" || state === "LIGHT_CHECK_DUE") return "border-[#f59e0b] text-[#f59e0b]";
+  if (state === "NO_CHANGES") return "border-[#38bdf8] text-[#38bdf8]";
+  return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
+}
+
+function reviewStateLabel(state, et) {
+  if (state === "FULL_REVIEW_DUE") return et ? "Täisülevaatus tulekul" : "Full review due";
+  if (state === "LIGHT_CHECK_DUE") return et ? "Automaatkontroll tulekul" : "Light check due";
+  if (state === "CHANGES_DETECTED") return et ? "Muudatus tuvastatud" : "Changes detected";
+  if (state === "CHECKING") return et ? "Kontrollimisel" : "Checking";
+  if (state === "NO_CHANGES") return et ? "Kontroll korras" : "No changes";
+  if (state === "ERROR") return et ? "Kontrolli viga" : "Check error";
+  return et ? "Graafikus" : "On schedule";
+}
+
+function lightCheckReasonLabel(reason, et) {
+  if (reason === "new_source") return et ? "uus allikas" : "new source";
+  if (reason === "source_removed") return et ? "allikas eemaldatud" : "source removed";
+  if (reason === "content_changed") return et ? "sisu muutus" : "content changed";
+  return reason || "-";
+}
+
+function renderLightCheckDiffBlock(summary, { et, title }) {
+  if (!summary?.checkedAt) return null;
+
+  const changedSources = Array.isArray(summary.changedSources) ? summary.changedSources : [];
+  const removedSources = Array.isArray(summary.removedSources) ? summary.removedSources : [];
+  const errorSources = Array.isArray(summary.errorSources) ? summary.errorSources : [];
+  const hasItems = changedSources.length || removedSources.length || errorSources.length;
+
+  return (
+    <div className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3 text-[0.84rem] text-[color:var(--admin-text)]">
+      <div className="font-semibold">{title}</div>
+      {!hasItems ? (
+        <div className="text-[color:var(--admin-muted)]">
+          {summary.mode === "BASELINE_CREATED"
+            ? (et ? "Esimene kontroll lĆµi baasvĆµrdluse. JĆ¤rgmised jooksud nĆ¤itavad diffi." : "The first check created the baseline. Future runs will show a diff.")
+            : et ? "Muutunud allikaid ega vigu ei tuvastatud." : "No changed sources or fetch errors were detected."}
+        </div>
+      ) : null}
+      {changedSources.length ? (
+        <div className="grid gap-1">
+          <div className="font-medium">{et ? "Muutunud allikad" : "Changed sources"}</div>
+          {changedSources.map((item, index) => (
+            <div key={`${item.key || item.url || "changed"}-${index}`} className="rounded-[10px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-2">
+              <div className="font-medium">{item.key || item.url || "-"}</div>
+              <div className="mt-0.5 text-[color:var(--admin-muted)]">{lightCheckReasonLabel(item.reason, et)}</div>
+              {item.url ? <div className="mt-1 break-all text-[0.8rem] text-[color:var(--admin-muted)]">{item.url}</div> : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
+      {removedSources.length ? (
+        <div className="grid gap-1">
+          <div className="font-medium">{et ? "Kadunud allikad" : "Removed sources"}</div>
+          {removedSources.map((item, index) => (
+            <div key={`${item.key || item.url || "removed"}-${index}`} className="rounded-[10px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-2">
+              <div className="font-medium">{item.key || item.url || "-"}</div>
+              {item.url ? <div className="mt-1 break-all text-[0.8rem] text-[color:var(--admin-muted)]">{item.url}</div> : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
+      {errorSources.length ? (
+        <div className="grid gap-1">
+          <div className="font-medium">{et ? "Allikad veaga" : "Sources with errors"}</div>
+          {errorSources.map((item, index) => (
+            <div key={`${item.key || item.url || "error"}-${index}`} className="rounded-[10px] border border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_10%,var(--admin-surface-3)_90%)] px-2.5 py-2 text-[#ef4444]">
+              <div className="font-medium">{item.key || item.url || "-"}</div>
+              {item.url ? <div className="mt-1 break-all text-[0.8rem]">{item.url}</div> : null}
+              <div className="mt-1 text-[0.8rem]">{item.error || "-"}</div>
+            </div>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function updateDraft(setter, patch) {
+  setter(current => ({
+    ...current,
+    ...patch
+  }));
+}
+
+function renderFileCards({
+  entry,
+  locale,
+  et,
+  definitions,
+  files,
+  fileBusyKey,
+  onUploadFile,
+  onRemoveFile,
+  fileInputRefs
+}) {
+  return (
+    <div className="grid gap-2">
+      {definitions.map(file => {
+        const state = files?.[file.key] || { status: "missing", version: 0, validationStatus: "MISSING", validationMessage: "" };
+        const resolvedFileName = file.fileName.replace("{slug}", entry.slug);
+        const busy = fileBusyKey === `${entry.slug}:${file.key}`;
+        const isMarkdown = file.key === "ragMd" || file.key === "rtMd";
+
+        return (
+          <div
+            key={file.key}
+            className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-2.5"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <div className="font-semibold text-[color:var(--admin-text)]">{resolvedFileName}</div>
+                <div className="mt-1 grid gap-1 text-[0.82rem] text-[color:var(--admin-muted)]">
+                  <div>
+                    {et ? "Staatus" : "Status"}:{" "}
+                    <span className={`inline-flex rounded-full border px-2 py-0.5 ${fileStatusClass(state.status)}`}>
+                      {et
+                        ? state.status === "uploaded"
+                          ? "olemas"
+                          : state.status === "replaced"
+                            ? "asendatud"
+                            : "puudu"
+                        : fileStatusLabel(state.status)}
+                    </span>
+                  </div>
+                  <div>
+                    {et ? "Valideerimine" : "Validation"}:{" "}
+                    <span className={`inline-flex rounded-full border px-2 py-0.5 ${validationClass(state.validationStatus)}`}>
+                      {validationLabel(state.validationStatus, et)}
+                    </span>
+                  </div>
+                  <div>{et ? "Nimi" : "Name"}: {state.originalName || "-"}</div>
+                  <div>{et ? "Kiht" : "Layer"}: {file.shortLabel}</div>
+                  <div>{et ? "Versioon" : "Version"}: {state.version || 0}</div>
+                  <div>{et ? "Laetud" : "Uploaded"}: {state.uploadedAt ? formatDateTime(state.uploadedAt, locale) : "-"}</div>
+                  <div>{et ? "Valideeritud" : "Validated"}: {state.validatedAt ? formatDateTime(state.validatedAt, locale) : "-"}</div>
+                  {state.validationStatus === "INVALID" && state.validationMessage ? (
+                    <div className="rounded-[10px] border border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_10%,var(--admin-surface-3)_90%)] px-2 py-1 text-[#ef4444]">
+                      {state.validationMessage}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+              <div className="flex flex-wrap items-start justify-end gap-1.5">
+                <input
+                  ref={node => {
+                    fileInputRefs.current[file.key] = node;
+                  }}
+                  type="file"
+                  className="hidden"
+                  accept={isMarkdown ? ".md,.txt,text/markdown,text/plain" : ".json,application/json"}
+                  onChange={event => {
+                    const nextFile = event.target.files?.[0];
+                    if (nextFile) {
+                      onUploadFile(entry.slug, file.key, nextFile);
+                    }
+                    event.target.value = "";
+                  }}
+                />
+                <Button
+                  variant="primary"
+                  className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonTinyClassName}`}
+                  onClick={() => fileInputRefs.current[file.key]?.click()}
+                  disabled={busy}
+                >
+                  {busy ? "Laen..." : state.status === "missing" ? "Lae üles" : "Asenda fail"}
+                </Button>
+                {state.downloadUrl ? (
+                  <Button
+                    variant="ghost"
+                    className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                    onClick={() => window.open(state.downloadUrl, "_blank", "noopener,noreferrer")}
+                    disabled={busy}
+                  >
+                    Laadi alla
+                  </Button>
+                ) : null}
+                {state.status !== "missing" ? (
+                  <Button
+                    variant="ghost"
+                    className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                    onClick={() => onRemoveFile(entry.slug, file.key)}
+                    disabled={busy}
+                  >
+                    Eemalda
+                  </Button>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function KovDetailPanel({
+  entry,
+  locale,
+  et = true,
+  statusOptions,
+  statusLabel,
+  ingestStatusLabel,
+  rtStatusOptions,
+  rtStatusLabel,
+  autoCheckStatusLabel,
+  detailDraft,
+  onDraftChange,
+  onSave,
+  saveBusy,
+  onMarkReady,
+  onIngest,
+  onIngestRt,
+  onRevalidateAll,
+  onRevalidateRt,
+  onLightCheck,
+  onRtLightCheck,
+  onMarkWebReviewNeeded,
+  onConfirmWebLightCheck,
+  onMarkRtReviewNeeded,
+  onConfirmRtLightCheck,
+  editingLinks,
+  onSetEditingLinks,
+  onCycleStatus,
+  onUploadFile,
+  onRemoveFile,
+  fileBusyKey,
+  revalidateBusy = false,
+  revalidateRtBusy = false,
+  ingestBusy = false,
+  rtIngestBusy = false,
+  lightCheckBusy = false,
+  rtLightCheckBusy = false
+}) {
+  const fileInputRefs = useRef({});
+
+  if (!entry) {
+    return (
+      <div className={cardClassName}>
+        <div className={cardBodyClassName}>
+          <div className={cardSubClassName}>Vali KOV, et avada detailid.</div>
+        </div>
+      </div>
+    );
+  }
+
+  const webSummary = entry.webSummary || entry.validationSummary || {};
+  const rtSummary = entry.rtSummary || {};
+  const hasAllWebFilesValid = entry.validationSummary?.allFilesValid === true;
+  const webInvalidLabels = (webSummary.invalidKeys || []).map(key => FILE_LABEL_BY_KEY[key] || key);
+  const webMissingLabels = (webSummary.missingKeys || []).map(key => FILE_LABEL_BY_KEY[key] || key);
+  const rtInvalidLabels = (rtSummary.invalidKeys || []).map(key => FILE_LABEL_BY_KEY[key] || key);
+  const rtMissingLabels = (rtSummary.missingKeys || []).map(key => FILE_LABEL_BY_KEY[key] || key);
+  const canIngest = entry.ingestSummary?.canIngest === true && entry.ingestStatus !== "INGESTING";
+  const canRtIngest = entry.rtIngestSummary?.canIngest === true && entry.rtIngestStatus !== "INGESTING";
+  const combinedReadiness = entry.combinedReadiness || {};
+  const reviewSchedule = entry.reviewSchedule || {};
+  const hasWebDiffItems =
+    Number(entry.lightCheckSummary?.changedSourceCount || 0) > 0
+    || Number(entry.lightCheckSummary?.removedSourceCount || 0) > 0
+    || Number(entry.lightCheckSummary?.errorCount || 0) > 0;
+  const hasRtDiffItems =
+    Number(entry.rtLightCheckSummary?.changedSourceCount || 0) > 0
+    || Number(entry.rtLightCheckSummary?.removedSourceCount || 0) > 0
+    || Number(entry.rtLightCheckSummary?.errorCount || 0) > 0;
+  const webLightCheckDiff = renderLightCheckDiffBlock(entry.lightCheckSummary, {
+    et,
+    title: et ? "KOV veeb diff" : "KOV web diff"
+  });
+  const rtLightCheckDiff = renderLightCheckDiffBlock(entry.rtLightCheckSummary, {
+    et,
+    title: et ? "RT diff" : "RT diff"
+  });
+
+  return (
+    <div className="grid gap-2">
+      <div className={cardClassName}>
+        <div className={cardBodyClassName}>
+          <div className={cardHeadClassName}>
+            <div>
+              <div className="text-[1.08rem] font-semibold text-[color:var(--admin-text)]">{entry.displayName}</div>
+              <div className={cardSubClassName}>KOV veeb ja Riigi Teataja kiht eraldi halduses.</div>
+            </div>
+          </div>
+
+          <div className={docDetailMetaClassName}>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>KOV</span>
+              <span className={docDetailMetaValueClassName}>{entry.displayName}</span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>Slug</span>
+              <span className={docDetailMetaValueClassName}>{entry.slug}</span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>Maakond</span>
+              <span className={docDetailMetaValueClassName}>{entry.county || "-"}</span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>Tuup</span>
+              <span className={docDetailMetaValueClassName}>{entry.type === "LINN" ? "Linn" : "Vald"}</span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>{et ? "KOV veeb staatus" : "KOV web status"}</span>
+              <span className={docDetailMetaValueClassName}>{statusLabel(detailDraft.status || entry.status)}</span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>{et ? "RT seis" : "RT status"}</span>
+              <span className={docDetailMetaValueClassName}>
+                <span className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${rtStatusClass(detailDraft.rtStatus || entry.rtStatus)}`}>
+                  {rtStatusLabel(detailDraft.rtStatus || entry.rtStatus)}
+                </span>
+              </span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>{et ? "KOV ingest" : "Web ingest"}</span>
+              <span className={docDetailMetaValueClassName}>
+                <span className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${ingestClass(entry.ingestStatus)}`}>
+                  {ingestStatusLabel(entry.ingestStatus)}
+                </span>
+              </span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>{et ? "RT ingest" : "RT ingest"}</span>
+              <span className={docDetailMetaValueClassName}>
+                <span className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${ingestClass(entry.rtIngestStatus)}`}>
+                  {ingestStatusLabel(entry.rtIngestStatus)}
+                </span>
+              </span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>{et ? "KOV veeb failid" : "KOV web files"}</span>
+              <span className={docDetailMetaValueClassName}>{entry.fileCount || 0}/4</span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>{et ? "RT failid" : "RT files"}</span>
+              <span className={docDetailMetaValueClassName}>{entry.rtFileCount || 0}/2</span>
+            </div>
+            <div className={docDetailMetaItemClassName}>
+              <span className={docDetailMetaLabelClassName}>{et ? "Koondvalmidus" : "Combined readiness"}</span>
+              <span className={docDetailMetaValueClassName}>
+                <span className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${readinessClass(combinedReadiness.state)}`}>
+                  {readinessLabel(combinedReadiness.state, et)}
+                </span>
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-1.5 text-[0.82rem] text-[color:var(--admin-muted)]">
+            <span className="rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-1">
+              {et ? "Valmis kihte" : "Ready layers"}: {combinedReadiness.readyLayerCount || 0}/2
+            </span>
+            <span className="rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-1">
+              KOV: {combinedReadiness.webReady ? (et ? "valmis" : "ready") : et ? "pooleli" : "pending"}
+            </span>
+            <span className="rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-1">
+              RT: {combinedReadiness.rtReady ? (et ? "valmis" : "ready") : et ? "pooleli" : "pending"}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className={cardClassName}>
+        <div className={cardBodyClassName}>
+          <div>
+            <div className="text-[0.98rem] font-semibold text-[color:var(--admin-text)]">{et ? "Hooldusgraafik" : "Review schedule"}</div>
+            <div className={cardSubClassName}>
+                {et ? "Aastane täisülevaatus jaanuari lõpus ja kergem automaatkontroll juuli lõpus." : "Annual full review at the end of January and a lighter automated check at the end of July."}
+            </div>
+          </div>
+
+          <div className="mt-3 grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3 text-[0.86rem] text-[color:var(--admin-text)] sm:grid-cols-2">
+            <div>
+              <span className="font-semibold">{et ? "Seis" : "State"}:</span>{" "}
+              <span className={`inline-flex rounded-full border px-2 py-0.5 ${reviewStateClass(reviewSchedule.state)}`}>
+                {reviewStateLabel(reviewSchedule.state, et)}
+              </span>
+            </div>
+            <div>
+              <span className="font-semibold">{et ? "Automaatkontroll" : "Auto check"}:</span>{" "}
+              <span className={`inline-flex rounded-full border px-2 py-0.5 ${autoCheckClass(entry.autoCheckStatus)}`}>
+                {autoCheckStatusLabel(entry.autoCheckStatus)}
+              </span>
+            </div>
+            <div>
+              <span className="font-semibold">{et ? "RT automaatkontroll" : "RT auto check"}:</span>{" "}
+              <span className={`inline-flex rounded-full border px-2 py-0.5 ${autoCheckClass(entry.rtAutoCheckStatus)}`}>
+                {autoCheckStatusLabel(entry.rtAutoCheckStatus)}
+              </span>
+            </div>
+            <div>
+              <span className="font-semibold">{et ? "Viimane täisülevaatus" : "Last full review"}:</span>{" "}
+              {entry.lastFullReviewAt ? formatDateTime(entry.lastFullReviewAt, locale) : "-"}
+            </div>
+            <div>
+              <span className="font-semibold">{et ? "Järgmine täisülevaatus" : "Next full review"}:</span>{" "}
+              {entry.nextFullReviewAt ? formatDateTime(entry.nextFullReviewAt, locale) : "-"}
+            </div>
+            <div>
+              <span className="font-semibold">{et ? "Viimane automaatkontroll" : "Last light check"}:</span>{" "}
+              {entry.lastLightCheckAt ? formatDateTime(entry.lastLightCheckAt, locale) : "-"}
+            </div>
+            <div>
+              <span className="font-semibold">{et ? "Järgmine automaatkontroll" : "Next light check"}:</span>{" "}
+              {entry.nextLightCheckAt ? formatDateTime(entry.nextLightCheckAt, locale) : "-"}
+            </div>
+            <div className="sm:col-span-2">
+              <span className="font-semibold">{et ? "Viimane tuvastatud muudatus" : "Last detected change"}:</span>{" "}
+              {entry.lastChangeDetectedAt ? formatDateTime(entry.lastChangeDetectedAt, locale) : "-"}
+            </div>
+            <div className="sm:col-span-2">
+              <span className="font-semibold">{et ? "Viimane automaatkontrolli kokkuvote" : "Last light check summary"}:</span>{" "}
+              {entry.lightCheckSummary?.checkedAt
+                ? (
+                  entry.lightCheckSummary.mode === "BASELINE_CREATED"
+                    ? (et
+                      ? `Loodi baasvõrdlus ${entry.lightCheckSummary.checkedSourceCount || 0} allikast.`
+                      : `Created a baseline from ${entry.lightCheckSummary.checkedSourceCount || 0} sources.`)
+                    : et
+                      ? `${entry.lightCheckSummary.changedSourceCount || 0} muudatust, ${entry.lightCheckSummary.errorCount || 0} veaga allikat.`
+                      : `${entry.lightCheckSummary.changedSourceCount || 0} changes, ${entry.lightCheckSummary.errorCount || 0} source errors.`)
+                : "-"}
+            </div>
+            <div className="sm:col-span-2">
+              <span className="font-semibold">{et ? "Viimane RT kontrolli kokkuvote" : "Last RT check summary"}:</span>{" "}
+              {entry.rtLightCheckSummary?.checkedAt
+                ? (
+                  entry.rtLightCheckSummary.mode === "BASELINE_CREATED"
+                    ? (et
+                      ? `Loodi RT baasvõrdlus ${entry.rtLightCheckSummary.checkedSourceCount || 0} allikast.`
+                      : `Created an RT baseline from ${entry.rtLightCheckSummary.checkedSourceCount || 0} sources.`)
+                    : et
+                      ? `${entry.rtLightCheckSummary.changedSourceCount || 0} RT muudatust, ${entry.rtLightCheckSummary.errorCount || 0} veaga allikat.`
+                      : `${entry.rtLightCheckSummary.changedSourceCount || 0} RT changes, ${entry.rtLightCheckSummary.errorCount || 0} source errors.`)
+                : "-"}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 pt-1 pb-1">
+            <Button
+              variant="primary"
+              className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+              onClick={() => onSave()}
+              disabled={saveBusy}
+            >
+              {saveBusy ? "Salvestan..." : et ? "Salvesta muudatused" : "Save changes"}
+            </Button>
+            <Button
+              variant="primary"
+              className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+              onClick={() => onLightCheck?.()}
+              disabled={lightCheckBusy}
+            >
+              {lightCheckBusy
+                ? et ? "Kontrollin..." : "Checking..."
+                : et ? "Kontrolli muudatusi" : "Check for changes"}
+            </Button>
+            <Button
+              variant="primary"
+              className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+              onClick={() => onRtLightCheck?.()}
+              disabled={rtLightCheckBusy}
+            >
+              {rtLightCheckBusy
+                ? et ? "Kontrollin RT..." : "Checking RT..."
+                : et ? "Kontrolli RT muudatusi" : "Check RT changes"}
+            </Button>
+          </div>
+          {webLightCheckDiff}
+          {hasWebDiffItems ? (
+            <div className="flex flex-wrap gap-2 pt-1">
+              <Button
+                variant="ghost"
+                className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                onClick={() => onMarkWebReviewNeeded?.()}
+              >
+                {et ? "Märgi KOV ülevaatuseks" : "Mark KOV for review"}
+              </Button>
+              <Button
+                variant="primary"
+                className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                onClick={() => onConfirmWebLightCheck?.()}
+              >
+                {et ? "Kinnita KOV kontrollituks" : "Confirm KOV check"}
+              </Button>
+            </div>
+          ) : null}
+          {rtLightCheckDiff}
+          {hasRtDiffItems ? (
+            <div className="flex flex-wrap gap-2 pt-1">
+              <Button
+                variant="ghost"
+                className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                onClick={() => onMarkRtReviewNeeded?.()}
+              >
+                {et ? "Märgi RT ülevaatuseks" : "Mark RT for review"}
+              </Button>
+              <Button
+                variant="primary"
+                className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                onClick={() => onConfirmRtLightCheck?.()}
+              >
+                {et ? "Kinnita RT kontrollituks" : "Confirm RT check"}
+              </Button>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <div className={cardClassName}>
+        <div className={cardBodyClassName}>
+
+          <div>
+            <div className="text-[0.98rem] font-semibold text-[color:var(--admin-text)]">{et ? "KOV veeb" : "KOV web"}</div>
+            <div className={cardSubClassName}>
+              {et ? "Praktiline info: teenused, toetused, kontaktid, blanketid." : "Practical layer: services, benefits, contacts, forms."}
+            </div>
+          </div>
+
+          <div className="rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-2.5 text-[0.86rem] leading-[1.45] text-[color:var(--admin-muted)]">
+            {et
+              ? "Siin hallad KOV veebikihti. Salvesta muudatused = salvesta lingid, märkused ja staatused. Kontrolli muudatusi = vaata, kas allikad on muutunud. Failikaartidel Lae üles = lisa või asenda konkreetne fail."
+              : "This section manages the KOV web layer. Save changes stores links, notes, and statuses. Check for changes runs a source check. On file cards, Upload adds or replaces that specific file."}
+          </div>
+
+            <div className="mt-3 grid gap-3">
+            <div className="grid gap-3 md:grid-cols-2">
+              <div className={panelStackClassName}>
+                <label className={labelClassName}>Ametlik veebileht</label>
+                <Input
+                  value={detailDraft.officialWebsite || ""}
+                  onChange={event => updateDraft(onDraftChange, { officialWebsite: event.target.value })}
+                  className={inputClassName}
+                  size="sm"
+                  placeholder="https://..."
+                  disabled={!editingLinks}
+                />
+                {!editingLinks ? (
+                  <div className={readOnlyFieldClassName}>See viide kirjeldab KOV veebikihi ametlikku allikat.</div>
+                ) : null}
+                {detailDraft.officialWebsite ? (
+                  <a
+                    href={detailDraft.officialWebsite}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-1.5 text-[0.86rem] font-semibold text-[color:var(--admin-text)] no-underline"
+                  >
+                    {et ? "Ava veeb" : "Open website"}
+                  </a>
+                ) : null}
+              </div>
+
+              <div className={panelStackClassName}>
+                <label className={labelClassName}>{et ? "KOV veeb staatus" : "KOV web status"}</label>
+                <DocumentsDropdown
+                  ariaLabel="KOV veeb staatus"
+                  value={detailDraft.status}
+                  onChange={nextStatus => updateDraft(onDraftChange, { status: nextStatus })}
+                  options={statusOptions}
+                  className="w-full"
+                />
+                <label className={labelClassName}>{et ? "Viimati kontrollitud" : "Last checked"}</label>
+                <Input
+                  type="datetime-local"
+                  value={detailDraft.checkedAt || ""}
+                  onChange={event => updateDraft(onDraftChange, { checkedAt: event.target.value })}
+                  className={inputClassName}
+                  size="sm"
+                />
+                <label className={labelClassName}>{et ? "Markused" : "Notes"}</label>
+                <Textarea
+                  value={detailDraft.notes || ""}
+                  onChange={event => updateDraft(onDraftChange, { notes: event.target.value })}
+                  className={inputClassName}
+                  rows={4}
+                  size="sm"
+                />
+                <label className="inline-flex items-center gap-2 text-[0.9rem] text-[color:var(--admin-text)]">
+                  <input
+                    type="checkbox"
+                    checked={detailDraft.readyForIngest === true}
+                    onChange={event => updateDraft(onDraftChange, { readyForIngest: event.target.checked })}
+                  />
+                  {et ? "Valmis ingestiks" : "Ready for ingest"}
+                </label>
+              </div>
+            </div>
+
+            <div className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3 text-[0.86rem] text-[color:var(--admin-text)] sm:grid-cols-2">
+              <div>
+                <span className="font-semibold">{et ? "Kokkuvote" : "Summary"}:</span>{" "}
+                {et
+                  ? `${webSummary.presentCount || 0}/4 olemas, ${webSummary.validCount || 0}/4 valid`
+                  : `${webSummary.presentCount || 0}/4 present, ${webSummary.validCount || 0}/4 valid`}
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "Ingest" : "Ingest"}:</span>{" "}
+                {entry.ingestSummary?.canIngest
+                  ? et ? "valmis" : "ready"
+                  : (entry.ingestSummary?.blockingIssues || []).join("; ") || (et ? "pole valmis" : "not ready")}
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "Vigased failid" : "Invalid files"}:</span>{" "}
+                {webInvalidLabels.length ? webInvalidLabels.join(", ") : "-"}
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "Puuduvad failid" : "Missing files"}:</span>{" "}
+                {webMissingLabels.length ? webMissingLabels.join(", ") : "-"}
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "Viimati ingestitud" : "Last ingested"}:</span>{" "}
+                {entry.lastIngestedAt ? formatDateTime(entry.lastIngestedAt, locale) : "-"}
+              </div>
+              <div>
+                <span className="font-semibold">RAG doc ID:</span> {entry.ragDocId || "-"}
+              </div>
+              {entry.lastIngestError ? (
+                <div className="sm:col-span-2 rounded-[10px] border border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_10%,var(--admin-surface-3)_90%)] px-2 py-1 text-[#ef4444]">
+                  <span className="font-semibold">{et ? "Viimane ingest viga" : "Last ingest error"}:</span> {entry.lastIngestError}
+                </div>
+              ) : null}
+            </div>
+
+            {renderFileCards({
+              entry,
+              locale,
+              et,
+              definitions: WEB_FILE_DEFINITIONS,
+              files: entry.webFiles,
+              fileBusyKey,
+              onUploadFile,
+              onRemoveFile,
+              fileInputRefs
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className={cardClassName}>
+        <div className={cardBodyClassName}>
+          <div>
+            <div className="text-[0.98rem] font-semibold text-[color:var(--admin-text)]">{et ? "Riigi Teataja" : "Riigi Teataja"}</div>
+            <div className={cardSubClassName}>
+              {et ? "Oiguslik ja kinnitav kiht." : "Legal and confirming layer."}
+            </div>
+          </div>
+
+          <div className="rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-2.5 text-[0.86rem] leading-[1.45] text-[color:var(--admin-muted)]">
+            {et
+              ? "Siin hallad Riigi Teataja kihti. See on õiguslik kinnituskiht, mis käib KOV veebikihist eraldi. Failide üleslaadimine töötab samamoodi: lisa või asenda rt.json ja rt.md ning hoia siin RT link ja märkused."
+              : "This section manages the Riigi Teataja layer. It is the legal confirmation layer and is handled separately from the KOV web layer. File upload works the same way: add or replace rt.json and rt.md and keep the RT link and notes here."}
+          </div>
+
+          <div className="mt-3 grid gap-3">
+            <div className="grid gap-3 md:grid-cols-2">
+              <div className={panelStackClassName}>
+                <label className={labelClassName}>{et ? "Riigi Teataja link" : "Riigi Teataja URL"}</label>
+                <Input
+                  value={detailDraft.riigiTeatajaUrl || ""}
+                  onChange={event => updateDraft(onDraftChange, { riigiTeatajaUrl: event.target.value })}
+                  className={inputClassName}
+                  size="sm"
+                  placeholder="https://..."
+                  disabled={!editingLinks}
+                />
+                {!editingLinks ? (
+                  <div className={readOnlyFieldClassName}>See viide kirjeldab kehtiva korra ametlikku RT allikat.</div>
+                ) : null}
+                {detailDraft.riigiTeatajaUrl ? (
+                  <a
+                    href={detailDraft.riigiTeatajaUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-1.5 text-[0.86rem] font-semibold text-[color:var(--admin-text)] no-underline"
+                  >
+                    {et ? "Ava RT" : "Open RT"}
+                  </a>
+                ) : null}
+              </div>
+
+              <div className={panelStackClassName}>
+                <label className={labelClassName}>{et ? "RT seis" : "RT status"}</label>
+                <DocumentsDropdown
+                  ariaLabel="RT seis"
+                  value={detailDraft.rtStatus}
+                  onChange={nextStatus => updateDraft(onDraftChange, { rtStatus: nextStatus })}
+                  options={rtStatusOptions}
+                  className="w-full"
+                />
+                <label className={labelClassName}>{et ? "RT kontrollitud" : "RT checked at"}</label>
+                <Input
+                  type="datetime-local"
+                  value={detailDraft.rtCheckedAt || ""}
+                  onChange={event => updateDraft(onDraftChange, { rtCheckedAt: event.target.value })}
+                  className={inputClassName}
+                  size="sm"
+                />
+                <label className={labelClassName}>{et ? "RT markused" : "RT notes"}</label>
+                <Textarea
+                  value={detailDraft.rtNotes || ""}
+                  onChange={event => updateDraft(onDraftChange, { rtNotes: event.target.value })}
+                  className={inputClassName}
+                  rows={4}
+                  size="sm"
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3 text-[0.86rem] text-[color:var(--admin-text)] sm:grid-cols-2">
+              <div>
+                <span className="font-semibold">{et ? "Kokkuvote" : "Summary"}:</span>{" "}
+                {et
+                  ? `${rtSummary.presentCount || 0}/2 olemas, ${rtSummary.validCount || 0}/2 valid`
+                  : `${rtSummary.presentCount || 0}/2 present, ${rtSummary.validCount || 0}/2 valid`}
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "Ingest" : "Ingest"}:</span>{" "}
+                {entry.rtIngestSummary?.canIngest
+                  ? et ? "valmis" : "ready"
+                  : (entry.rtIngestSummary?.blockingIssues || []).join("; ") || (et ? "pole valmis" : "not ready")}
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "RT vigased failid" : "RT invalid files"}:</span>{" "}
+                {rtInvalidLabels.length ? rtInvalidLabels.join(", ") : "-"}
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "RT puuduvad failid" : "RT missing files"}:</span>{" "}
+                {rtMissingLabels.length ? rtMissingLabels.join(", ") : "-"}
+              </div>
+            </div>
+            <div className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3 text-[0.86rem] text-[color:var(--admin-text)] sm:grid-cols-2">
+              <div>
+                <span className="font-semibold">{et ? "RT failid" : "RT files"}:</span> {entry.rtFileCount || 0}/2
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "RT kontrollitud" : "RT checked at"}:</span>{" "}
+                {entry.rtCheckedAt ? formatDateTime(entry.rtCheckedAt, locale) : "-"}
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "RT automaatkontroll" : "RT light check"}:</span>{" "}
+                {entry.rtLastLightCheckAt ? formatDateTime(entry.rtLastLightCheckAt, locale) : "-"}
+              </div>
+              <div>
+                <span className="font-semibold">{et ? "RT viimati ingestitud" : "RT last ingested"}:</span>{" "}
+                {entry.rtLastIngestedAt ? formatDateTime(entry.rtLastIngestedAt, locale) : "-"}
+              </div>
+              <div>
+                <span className="font-semibold">RT RAG doc ID:</span> {entry.rtRagDocId || "-"}
+              </div>
+              {entry.rtLastIngestError ? (
+                <div className="sm:col-span-2 rounded-[10px] border border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_10%,var(--admin-surface-3)_90%)] px-2 py-1 text-[#ef4444]">
+                  <span className="font-semibold">{et ? "RT viimane ingest viga" : "Last RT ingest error"}:</span> {entry.rtLastIngestError}
+                </div>
+              ) : (
+                <div className="sm:col-span-2 text-[color:var(--admin-muted)]">
+                  {et
+                    ? "RT plokk on nuud eraldi ingestitav oiguskiht. Automaatne redaktsioonikontroll ja sisuline merge lisanduvad hiljem."
+                    : "The RT block is now a separately ingestable legal layer. Automated version checks and content merging will be added later."}
+                </div>
+              )}
+            </div>
+
+            {renderFileCards({
+              entry,
+              locale,
+              et,
+              definitions: RT_FILE_DEFINITIONS,
+              files: entry.rtFiles,
+              fileBusyKey,
+              onUploadFile,
+              onRemoveFile,
+              fileInputRefs
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
