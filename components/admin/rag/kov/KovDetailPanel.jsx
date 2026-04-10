@@ -57,16 +57,10 @@ const WEB_FILE_DEFINITIONS = [
 
 const RT_FILE_DEFINITIONS = [
   {
-    key: "rtJson",
-    fileName: "{slug}.rt.json",
-    shortLabel: "rt.json",
-    description: "Riigi Teataja oiguskiht struktureeritud kujul."
-  },
-  {
-    key: "rtMd",
-    fileName: "{slug}.rt.md",
-    shortLabel: "rt.md",
-    description: "Riigi Teataja kihi puhastatud markdown koond."
+    key: "rtXml",
+    fileName: "{slug}.rt.xml",
+    shortLabel: "rt.xml",
+    description: "Riigi Teataja XML algallikas. See on RT kihi ainus canonical source."
   }
 ];
 
@@ -240,7 +234,8 @@ function renderFileCards({
         const state = files?.[file.key] || { status: "missing", version: 0, validationStatus: "MISSING", validationMessage: "" };
         const resolvedFileName = file.fileName.replace("{slug}", entry.slug);
         const busy = fileBusyKey === `${entry.slug}:${file.key}`;
-        const isMarkdown = file.key === "ragMd" || file.key === "rtMd";
+        const isMarkdown = file.key === "ragMd";
+        const isXml = file.key === "rtXml";
 
         return (
           <div
@@ -288,7 +283,13 @@ function renderFileCards({
                   }}
                   type="file"
                   className="hidden"
-                  accept={isMarkdown ? ".md,.txt,text/markdown,text/plain" : ".json,application/json"}
+                  accept={
+                    isMarkdown
+                      ? ".md,.txt,text/markdown,text/plain"
+                      : isXml
+                        ? ".xml,application/xml,text/xml"
+                        : ".json,application/json"
+                  }
                   onChange={event => {
                     const nextFile = event.target.files?.[0];
                     if (nextFile) {
@@ -348,11 +349,11 @@ export default function KovDetailPanel({
   onDraftChange,
   onSave,
   saveBusy,
-  onMarkReady,
-  onIngest,
-  onIngestRt,
-  onRevalidateAll,
-  onRevalidateRt,
+  onMarkReady: _onMarkReady,
+  onIngest: _onIngest,
+  onIngestRt: _onIngestRt,
+  onRevalidateAll: _onRevalidateAll,
+  onRevalidateRt: _onRevalidateRt,
   onLightCheck,
   onRtLightCheck,
   onMarkWebReviewNeeded,
@@ -360,15 +361,15 @@ export default function KovDetailPanel({
   onMarkRtReviewNeeded,
   onConfirmRtLightCheck,
   editingLinks,
-  onSetEditingLinks,
-  onCycleStatus,
+  onSetEditingLinks: _onSetEditingLinks,
+  onCycleStatus: _onCycleStatus,
   onUploadFile,
   onRemoveFile,
   fileBusyKey,
-  revalidateBusy = false,
-  revalidateRtBusy = false,
-  ingestBusy = false,
-  rtIngestBusy = false,
+  revalidateBusy: _revalidateBusy = false,
+  revalidateRtBusy: _revalidateRtBusy = false,
+  ingestBusy: _ingestBusy = false,
+  rtIngestBusy: _rtIngestBusy = false,
   lightCheckBusy = false,
   rtLightCheckBusy = false
 }) {
@@ -386,13 +387,10 @@ export default function KovDetailPanel({
 
   const webSummary = entry.webSummary || entry.validationSummary || {};
   const rtSummary = entry.rtSummary || {};
-  const hasAllWebFilesValid = entry.validationSummary?.allFilesValid === true;
   const webInvalidLabels = (webSummary.invalidKeys || []).map(key => FILE_LABEL_BY_KEY[key] || key);
   const webMissingLabels = (webSummary.missingKeys || []).map(key => FILE_LABEL_BY_KEY[key] || key);
   const rtInvalidLabels = (rtSummary.invalidKeys || []).map(key => FILE_LABEL_BY_KEY[key] || key);
   const rtMissingLabels = (rtSummary.missingKeys || []).map(key => FILE_LABEL_BY_KEY[key] || key);
-  const canIngest = entry.ingestSummary?.canIngest === true && entry.ingestStatus !== "INGESTING";
-  const canRtIngest = entry.rtIngestSummary?.canIngest === true && entry.rtIngestStatus !== "INGESTING";
   const combinedReadiness = entry.combinedReadiness || {};
   const reviewSchedule = entry.reviewSchedule || {};
   const hasWebDiffItems =
@@ -474,7 +472,7 @@ export default function KovDetailPanel({
             </div>
             <div className={docDetailMetaItemClassName}>
               <span className={docDetailMetaLabelClassName}>{et ? "RT failid" : "RT files"}</span>
-              <span className={docDetailMetaValueClassName}>{entry.rtFileCount || 0}/2</span>
+              <span className={docDetailMetaValueClassName}>{entry.rtFileCount || 0}/1</span>
             </div>
             <div className={docDetailMetaItemClassName}>
               <span className={docDetailMetaLabelClassName}>{et ? "Koondvalmidus" : "Combined readiness"}</span>
@@ -786,8 +784,8 @@ export default function KovDetailPanel({
 
           <div className="rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-2.5 text-[0.86rem] leading-[1.45] text-[color:var(--admin-muted)]">
             {et
-              ? "Siin hallad Riigi Teataja kihti. See on õiguslik kinnituskiht, mis käib KOV veebikihist eraldi. Failide üleslaadimine töötab samamoodi: lisa või asenda rt.json ja rt.md ning hoia siin RT link ja märkused."
-              : "This section manages the Riigi Teataja layer. It is the legal confirmation layer and is handled separately from the KOV web layer. File upload works the same way: add or replace rt.json and rt.md and keep the RT link and notes here."}
+              ? "Siin hallad Riigi Teataja kihti. XML on siin ainus kanoniline allikas. Ingest parsib RT XML-faili, lisab identiteedi ja ehitab paragrahvi- voi loikepohised chunkid ilma normiteksti umber kirjutamata."
+              : "This section manages the Riigi Teataja layer. XML is the only canonical source here. Ingest parses the RT XML file, adds identity, and builds paragraph- or subsection-based chunks without rewriting the legal text."}
           </div>
 
           <div className="mt-3 grid gap-3">
@@ -849,8 +847,8 @@ export default function KovDetailPanel({
               <div>
                 <span className="font-semibold">{et ? "Kokkuvote" : "Summary"}:</span>{" "}
                 {et
-                  ? `${rtSummary.presentCount || 0}/2 olemas, ${rtSummary.validCount || 0}/2 valid`
-                  : `${rtSummary.presentCount || 0}/2 present, ${rtSummary.validCount || 0}/2 valid`}
+                  ? `${rtSummary.presentCount || 0}/1 olemas, ${rtSummary.validCount || 0}/1 valid`
+                  : `${rtSummary.presentCount || 0}/1 present, ${rtSummary.validCount || 0}/1 valid`}
               </div>
               <div>
                 <span className="font-semibold">{et ? "Ingest" : "Ingest"}:</span>{" "}
@@ -869,7 +867,7 @@ export default function KovDetailPanel({
             </div>
             <div className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3 text-[0.86rem] text-[color:var(--admin-text)] sm:grid-cols-2">
               <div>
-                <span className="font-semibold">{et ? "RT failid" : "RT files"}:</span> {entry.rtFileCount || 0}/2
+                <span className="font-semibold">{et ? "RT failid" : "RT files"}:</span> {entry.rtFileCount || 0}/1
               </div>
               <div>
                 <span className="font-semibold">{et ? "RT kontrollitud" : "RT checked at"}:</span>{" "}
@@ -893,8 +891,8 @@ export default function KovDetailPanel({
               ) : (
                 <div className="sm:col-span-2 text-[color:var(--admin-muted)]">
                   {et
-                    ? "RT plokk on nuud eraldi ingestitav oiguskiht. Automaatne redaktsioonikontroll ja sisuline merge lisanduvad hiljem."
-                    : "The RT block is now a separately ingestable legal layer. Automated version checks and content merging will be added later."}
+                    ? "RT plokk ingestitakse nuud XML algallikast. Chunke ei hallata kasitsi, vaid need regenereeritakse kogu akti kaupa."
+                    : "The RT block is now ingested from the XML source file. Chunks are not manually maintained and are regenerated for the whole act."}
                 </div>
               )}
             </div>
@@ -916,3 +914,4 @@ export default function KovDetailPanel({
     </div>
   );
 }
+

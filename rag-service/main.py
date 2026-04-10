@@ -1212,6 +1212,13 @@ class IngestText(BaseModel):
     model_config = {"populate_by_name": True, "extra": "allow"}
 
     doc_id: str
+    text: Optional[str] = None
+    chunks: List["IngestTextChunk"] = Field(default_factory=list)
+    metadata: Dict[str, object] = Field(default_factory=dict)
+
+class IngestTextChunk(BaseModel):
+    model_config = {"populate_by_name": True, "extra": "allow"}
+
     text: str
     metadata: Dict[str, object] = Field(default_factory=dict)
 
@@ -1536,37 +1543,192 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
         "cost_read_directly": embed_result.get("cost_read_directly"),
     }
 
-def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict, observability: Optional[Dict[str, object]] = None) -> int:
-    payload = _build_ingest_payload(doc_id, text_or_pages, meta_common)
-    if not payload["count"]:
-        return 0
-    _log_rag_cost_usage(
-        model=payload.get("embedding_model"),
-        latency_ms=payload.get("embedding_latency_ms"),
-        prompt_tokens=payload.get("prompt_tokens"),
-        total_tokens=payload.get("total_tokens"),
-        embedding_input_count=int(payload.get("embedding_input_count") or 0),
-        text_chars=_to_int(payload.get("text_chars")),
-        chunk_count=int(payload.get("count") or 0),
-        cost_read_directly=bool(payload.get("cost_read_directly")),
-        **(observability or {}),
-    )
-    collection.upsert(
-        documents=payload["documents"],
-        metadatas=payload["metadatas"],
-        ids=payload["ids"],
-        embeddings=payload["embeddings"],
-    )
-    return int(payload["count"])
+def _safe_chunk_id_segment(value: object) -> str:
+    raw = str(value or "").strip().lower()
+    cleaned = re.sub(r"[^a-z0-9]+", "-", raw).strip("-")
+    return cleaned or hashlib.sha1(str(value or "").encode("utf-8")).hexdigest()[:12]
 
-def _replace_document_vectors(
+def _build_chunk_metadata_entry(
     doc_id: str,
-    text_or_pages,
-    meta_common: Dict,
+    chunk_id: str,
+    chunk_index: int,
+    meta: RagMetadata,
+    page_num: Optional[int] = None,
+    extra_meta: Optional[Dict[str, object]] = None,
+) -> Dict[str, object]:
+    title = (meta.title or "").strip()
+    description = (meta.description or "").strip()
+    authors = meta.authors
+    tags = meta.tags
+    issue_id = normalize_issue_id(meta.issueId or "")
+    issue_label = normalize_issue_label(meta.issueLabel or "")
+    article_id = normalize_article_id(meta.articleId or "")
+    section = normalize_section(meta.section)
+    year = meta.year
+    page_range = (meta.pageRange or "").strip() or None
+    pages_list = meta.pages or []
+    journal_title = (meta.journalTitle or "").strip() or None
+    language = (meta.language or "et").strip() or "et"
+    audience = normalize_audience(meta.audience)
+    audiences = normalize_audience_list(meta.audiences or meta.audience)
+    collection_id = (meta.collection_id or "").strip() or None
+    country = normalize_country(meta.country)
+    county = (meta.county or "").strip() or None
+    jurisdiction_level = normalize_jurisdiction(meta.jurisdiction_level)
+    municipality_name = (meta.municipality_name or "").strip() or None
+    municipality_id = (meta.municipality_id or "").strip() or None
+    district_name = (meta.district_name or "").strip() or None
+    district_id = (meta.district_id or "").strip() or None
+    checked_at = (meta.checked_at or "").strip() or None
+    item_type = (meta.item_type or "").strip() or None
+    content_status = (meta.content_status or "").strip() or None
+    resource_type = (meta.resource_type or "").strip() or None
+    source_keys = meta.source_keys or []
+    source_urls = meta.source_urls or []
+    source_register_file = (meta.source_register_file or "").strip() or None
+    source_count = meta.source_count
+    administering_body = (meta.administering_body or "").strip() or None
+    geo_detection_method = (meta.geo_detection_method or "").strip() or None
+    geo_detection_confidence = (meta.geo_detection_confidence or "").strip() or None
+
+    base = {
+        "doc_id": meta.docId or doc_id,
+        "docId": meta.docId or doc_id,
+        "chunk_id": chunk_id,
+        "chunkId": chunk_id,
+        "chunk_index": chunk_index,
+        "chunkIndex": chunk_index,
+        "title": title or None,
+        "description": description or None,
+        "authors": authors,
+        "authors_list": authors or [],
+        "tags": tags,
+        "tags_list": tags or [],
+        "issue_id": issue_id or None,
+        "issueId": issue_id or None,
+        "issue_label": issue_label or None,
+        "issueLabel": issue_label or None,
+        "article_id": article_id or None,
+        "articleId": article_id or None,
+        "section": section or None,
+        "year": year,
+        "pageRange": page_range,
+        "pages": pages_list or None,
+        "journal_title": journal_title,
+        "journalTitle": journal_title,
+        "source_type": meta.source_type,
+        "source_path": meta.source_path,
+        "source_url": meta.source_url or meta.url,
+        "url": meta.url or meta.source_url,
+        "audience": audience,
+        "audiences": audiences,
+        "language": language,
+        "pdf_start_page": meta.pdf_start_page,
+        "pdf_end_page": meta.pdf_end_page,
+        "page": page_num,
+        "collection_id": collection_id,
+        "country": country,
+        "county": county,
+        "jurisdiction_level": jurisdiction_level,
+        "municipality_name": municipality_name,
+        "municipality_id": municipality_id,
+        "district_name": district_name,
+        "district_id": district_id,
+        "checked_at": checked_at,
+        "item_type": item_type,
+        "content_status": content_status,
+        "resource_type": resource_type,
+        "source_keys": source_keys,
+        "source_urls": source_urls,
+        "source_register_file": source_register_file,
+        "source_count": source_count,
+        "administering_body": administering_body,
+        "geo_detection_method": geo_detection_method,
+        "geo_detection_confidence": geo_detection_confidence,
+        "createdAt": now_iso(),
+    }
+
+    merged = {}
+    for k, v in base.items():
+        v2 = _stringify_meta(v)
+        if v2 is not None:
+            merged[k] = v2
+
+    extra = extra_meta if isinstance(extra_meta, dict) else {}
+    for k, v in extra.items():
+        if k in {"text", "metadata", "chunks"}:
+            continue
+        if k in merged:
+            continue
+        v2 = _stringify_meta(v)
+        if v2 is not None:
+            merged[k] = v2
+
+    return merged
+
+def _build_explicit_chunk_payload(doc_id: str, chunks: List["IngestTextChunk"], meta_common: Dict) -> Dict[str, object]:
+    final_texts: List[str] = []
+    metadatas: List[Dict[str, object]] = []
+    ids: List[str] = []
+
+    for index, chunk in enumerate(chunks):
+        text = _clean_text(str(chunk.text or ""))
+        if not text:
+            continue
+
+        extra_meta = dict(chunk.metadata or {})
+        combined_meta = {**(meta_common or {}), **extra_meta}
+        meta = build_rag_metadata(combined_meta, doc_id=doc_id)
+        raw_chunk_key = extra_meta.get("chunk_key") or extra_meta.get("canonical_chunk_id") or extra_meta.get("chunk_id") or extra_meta.get("chunkId")
+        chunk_key = _safe_chunk_id_segment(raw_chunk_key or f"{index}")
+        chunk_id = str(extra_meta.get("canonical_chunk_id") or extra_meta.get("chunk_id") or extra_meta.get("chunkId") or f"{doc_id}:{chunk_key}").strip()
+        if chunk_id in ids:
+            chunk_id = f"{chunk_id}:{index}"
+
+        final_texts.append(text)
+        ids.append(chunk_id)
+        metadatas.append(
+            _build_chunk_metadata_entry(
+                doc_id=doc_id,
+                chunk_id=chunk_id,
+                chunk_index=index,
+                meta=meta,
+                page_num=None,
+                extra_meta=combined_meta,
+            )
+        )
+
+    if not final_texts:
+        return {
+            "count": 0,
+            "documents": [],
+            "metadatas": [],
+            "ids": [],
+            "embeddings": [],
+        }
+
+    embed_result = _embed_batch_with_usage(final_texts)
+    embeddings = list(embed_result.get("embeddings") or [])
+    return {
+        "count": len(final_texts),
+        "documents": final_texts,
+        "metadatas": metadatas,
+        "ids": ids,
+        "embeddings": embeddings,
+        "embedding_model": embed_result.get("model"),
+        "prompt_tokens": embed_result.get("prompt_tokens"),
+        "total_tokens": embed_result.get("total_tokens"),
+        "embedding_latency_ms": embed_result.get("latency_ms"),
+        "embedding_input_count": embed_result.get("embedding_input_count"),
+        "text_chars": embed_result.get("text_chars"),
+        "cost_read_directly": embed_result.get("cost_read_directly"),
+    }
+
+def _replace_document_vectors_payload(
+    doc_id: str,
+    payload: Dict[str, object],
     observability: Optional[Dict[str, object]] = None,
 ) -> int:
-    payload = _build_ingest_payload(doc_id, text_or_pages, meta_common)
-
     existing = None
     try:
         existing = collection.get(where={"doc_id": doc_id}, include=["documents", "metadatas", "embeddings"], limit=100000)
@@ -1613,6 +1775,38 @@ def _replace_document_vectors(
         raise
 
     return int(payload["count"])
+
+def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict, observability: Optional[Dict[str, object]] = None) -> int:
+    payload = _build_ingest_payload(doc_id, text_or_pages, meta_common)
+    if not payload["count"]:
+        return 0
+    _log_rag_cost_usage(
+        model=payload.get("embedding_model"),
+        latency_ms=payload.get("embedding_latency_ms"),
+        prompt_tokens=payload.get("prompt_tokens"),
+        total_tokens=payload.get("total_tokens"),
+        embedding_input_count=int(payload.get("embedding_input_count") or 0),
+        text_chars=_to_int(payload.get("text_chars")),
+        chunk_count=int(payload.get("count") or 0),
+        cost_read_directly=bool(payload.get("cost_read_directly")),
+        **(observability or {}),
+    )
+    collection.upsert(
+        documents=payload["documents"],
+        metadatas=payload["metadatas"],
+        ids=payload["ids"],
+        embeddings=payload["embeddings"],
+    )
+    return int(payload["count"])
+
+def _replace_document_vectors(
+    doc_id: str,
+    text_or_pages,
+    meta_common: Dict,
+    observability: Optional[Dict[str, object]] = None,
+) -> int:
+    payload = _build_ingest_payload(doc_id, text_or_pages, meta_common)
+    return _replace_document_vectors_payload(doc_id, payload, observability=observability)
 
 def _register(doc_id: str, entry: Dict) -> None:
     with REGISTRY_LOCK:
@@ -1883,29 +2077,43 @@ def ingest_file(payload: _IngestFileModel, request: Request):
 @app.post("/ingest/text", dependencies=[Depends(_require_key)])
 def ingest_text(payload: IngestText, request: Request):
     doc_id = str(payload.doc_id or "").strip()
-    text = str(payload.text or "")
     if not doc_id:
         raise HTTPException(400, "doc_id is required")
-    if not text.strip():
-        raise HTTPException(400, "text is required")
 
     meta = dict(payload.metadata or {})
-    inserted = _replace_document_vectors(
-        doc_id,
-        text,
-        meta_common={
-            **meta,
-            "source_type": meta.get("source_type") or "agent_document",
-            "source_path": meta.get("source_path"),
-            "source_url": meta.get("source_url"),
-            "audience": normalize_audience(meta.get("audience")),
-        },
-        observability=_build_observability_context(
-            request,
-            "rag_ingest",
-            doc_id=doc_id,
-        ),
+    meta_common = {
+        **meta,
+        "source_type": meta.get("source_type") or "agent_document",
+        "source_path": meta.get("source_path"),
+        "source_url": meta.get("source_url"),
+        "audience": normalize_audience(meta.get("audience")),
+    }
+    chunks = list(payload.chunks or [])
+    observability = _build_observability_context(
+        request,
+        "rag_ingest",
+        doc_id=doc_id,
     )
+
+    if chunks:
+        chunk_payload = _build_explicit_chunk_payload(doc_id, chunks, meta_common)
+        if not chunk_payload["count"]:
+            raise HTTPException(400, "chunks must contain readable text")
+        inserted = _replace_document_vectors_payload(
+            doc_id,
+            chunk_payload,
+            observability=observability,
+        )
+    else:
+        text = str(payload.text or "")
+        if not text.strip():
+            raise HTTPException(400, "text is required")
+        inserted = _replace_document_vectors(
+            doc_id,
+            text,
+            meta_common=meta_common,
+            observability=observability,
+        )
 
     reg_entry = {
         "type": "TEXT",
@@ -2815,6 +3023,20 @@ def search(payload: SearchIn, request: Request):
             "county": md.get("county"),
             "jurisdiction_level": md.get("jurisdiction_level"),
             "municipality_name": md.get("municipality_name"),
+            "municipality": md.get("municipality"),
+            "issuer": md.get("issuer"),
+            "act_title": md.get("act_title"),
+            "act_reference": md.get("act_reference"),
+            "chapter_number": md.get("chapter_number"),
+            "chapter_title": md.get("chapter_title"),
+            "paragraph_number": md.get("paragraph_number"),
+            "paragraph_title": md.get("paragraph_title"),
+            "subsection_number": md.get("subsection_number"),
+            "point_number": md.get("point_number"),
+            "chunk_level": md.get("chunk_level"),
+            "canonical_source_id": md.get("canonical_source_id"),
+            "canonical_chunk_id": md.get("canonical_chunk_id"),
+            "source_format": md.get("source_format"),
             "municipality_id": md.get("municipality_id"),
             "district_name": md.get("district_name"),
             "district_id": md.get("district_id"),

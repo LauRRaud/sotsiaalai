@@ -120,6 +120,7 @@ enum KovAdminFileRole {
   RAG_MD
   RT_JSON
   RT_MD
+  RT_XML
 }
 
 enum KovFileValidationStatus {
