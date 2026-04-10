@@ -57,6 +57,20 @@ const INGEST_STYLE = {
   ERROR: "border-[#ef4444] text-[#ef4444]"
 };
 
+function ragDocStatusClass(doc) {
+  if (doc?.error) return "border-[#ef4444] text-[#ef4444]";
+  if (doc?.exists && Number(doc?.chunks || 0) > 0) return "border-[#38bdf8] text-[#38bdf8]";
+  if (doc?.exists) return "border-[#f59e0b] text-[#f59e0b]";
+  return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
+}
+
+function ragDocStatusLabel(doc, et) {
+  if (doc?.error) return et ? "Viga" : "Error";
+  if (doc?.exists && Number(doc?.chunks || 0) > 0) return et ? "Leitud" : "Found";
+  if (doc?.exists) return et ? "Registris, 0 chunki" : "In registry, 0 chunks";
+  return et ? "Puudub" : "Missing";
+}
+
 function readinessLabel(value, et) {
   if (value === "READY") return et ? "Valmis jargmiseks sammuks" : "Ready for next step";
   if (value === "REVIEW") return et ? "Vajab ulevaatust" : "Needs review";
@@ -128,6 +142,9 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
     saveDetail,
     message,
     setMessage,
+    ragStatus,
+    ragStatusLoading,
+    refreshSelectedRagStatus,
     resetFilters,
     applyQuickReadiness,
     uploadFile,
@@ -471,6 +488,59 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                       <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
                         {selectedEntry.ingestSummary.blockingIssues.join(". ")}
                       </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="grid gap-1.5 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <div className="text-[0.9rem] font-semibold text-[color:var(--admin-text)]">{et ? "RAG dokumendi seis" : "RAG document status"}</div>
+                      <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
+                        {et ? "Reaalajas kontroll RAG registrist." : "Live check from the RAG registry."}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-[0.78rem] text-[color:var(--admin-muted)]">
+                        {et ? "Värskendatud" : "Updated"}: {ragStatus?.checkedAt ? formatDateTime(ragStatus.checkedAt, locale) : "-"}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                        onClick={() => refreshSelectedRagStatus()}
+                        disabled={ragStatusLoading}
+                      >
+                        {ragStatusLoading
+                          ? et ? "Värskendan..." : "Refreshing..."
+                          : et ? "Värskenda RAG seisu" : "Refresh RAG status"}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-1 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-2">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className={`${badgeBaseClassName} ${ragDocStatusClass(ragStatus?.doc)}`}>
+                        {ragDocStatusLabel(ragStatus?.doc, et)}
+                      </span>
+                      {selectedEntry.ragDocId ? <span className={`${badgeBaseClassName} ${packageClass("FILES_READY")}`}>{selectedEntry.ragDocId}</span> : null}
+                    </div>
+                    <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
+                      {et ? "Chunkid" : "Chunks"}: {Number(ragStatus?.doc?.chunks || 0)}
+                    </div>
+                    <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
+                      {et ? "Pealkiri" : "Title"}: {ragStatus?.doc?.title || "-"}
+                    </div>
+                    <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
+                      {et ? "Teenuse staatus" : "Service status"}: {ragStatus?.doc?.status || "-"}
+                    </div>
+                    <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
+                      {et ? "Viimati ingestitud" : "Last ingested"}: {ragStatus?.doc?.lastIngested ? formatDateTime(ragStatus.doc.lastIngested, locale) : "-"}
+                    </div>
+                    <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
+                      {et ? "Registri uuendus" : "Registry update"}: {ragStatus?.doc?.updatedAt ? formatDateTime(ragStatus.doc.updatedAt, locale) : "-"}
+                    </div>
+                    {ragStatus?.doc?.error ? (
+                      <div className="text-[0.84rem] text-[#ef4444]">{ragStatus.doc.error}</div>
                     ) : null}
                   </div>
                 </div>

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { fetchRagDocumentStatus } from "@/components/admin/rag/ragDocumentStatusClient";
 import { KOV_FILE_ROLE_META } from "@/lib/admin/rag/kov/shared";
 
 const STATUS_LABELS = {
@@ -108,6 +109,12 @@ export function useKovAdminController(locale, initialItems = []) {
   const [lightCheckBusySlug, setLightCheckBusySlug] = useState("");
   const [rtLightCheckBusySlug, setRtLightCheckBusySlug] = useState("");
   const [detailDraft, setDetailDraft] = useState(buildDraft(initialItems[0] || null));
+  const [ragStatus, setRagStatus] = useState({
+    web: null,
+    rt: null,
+    checkedAt: null
+  });
+  const [ragStatusLoading, setRagStatusLoading] = useState(false);
 
   const statusLabel = useCallback(
     status => STATUS_LABELS[status]?.[et ? "et" : "en"] || status,
@@ -220,6 +227,81 @@ export function useKovAdminController(locale, initialItems = []) {
   useEffect(() => {
     setDetailDraft(buildDraft(selectedEntry));
   }, [selectedEntry]);
+
+  const fetchEntryRagStatus = useCallback(async entryLike => {
+    if (!entryLike) {
+      return {
+        web: null,
+        rt: null,
+        checkedAt: null
+      };
+    }
+
+    const [web, rt] = await Promise.all([
+      fetchRagDocumentStatus(entryLike.ragDocId),
+      fetchRagDocumentStatus(entryLike.rtRagDocId)
+    ]);
+
+    return {
+      web,
+      rt,
+      checkedAt: new Date().toISOString()
+    };
+  }, []);
+
+  const refreshSelectedRagStatus = useCallback(
+    async entryLike => {
+      const target = entryLike || selectedEntry;
+      if (!target) {
+        setRagStatus({
+          web: null,
+          rt: null,
+          checkedAt: null
+        });
+        return null;
+      }
+
+      setRagStatusLoading(true);
+      try {
+        const snapshot = await fetchEntryRagStatus(target);
+        setRagStatus(snapshot);
+        return snapshot;
+      } finally {
+        setRagStatusLoading(false);
+      }
+    },
+    [fetchEntryRagStatus, selectedEntry]
+  );
+
+  useEffect(() => {
+    let active = true;
+
+    if (!selectedEntry) {
+      setRagStatus({
+        web: null,
+        rt: null,
+        checkedAt: null
+      });
+      return undefined;
+    }
+
+    setRagStatusLoading(true);
+    fetchEntryRagStatus(selectedEntry)
+      .then(snapshot => {
+        if (active) {
+          setRagStatus(snapshot);
+        }
+      })
+      .finally(() => {
+        if (active) {
+          setRagStatusLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [fetchEntryRagStatus, selectedEntry]);
 
   const countyOptions = useMemo(() => {
     const counties = Array.from(new Set(items.map(item => item.county).filter(Boolean))).sort((a, b) => a.localeCompare(b, "et"));
@@ -666,6 +748,9 @@ export function useKovAdminController(locale, initialItems = []) {
           throw new Error(payload?.message || "KOV ingest failed");
         }
         applyServerItem(payload.item);
+        if (selectedEntry?.slug === slug) {
+          await refreshSelectedRagStatus(payload.item);
+        }
         setMessage({
           type: "success",
           text: et ? "KOV saadeti RAG-i edukalt." : "Municipality was ingested into RAG."
@@ -681,7 +766,7 @@ export function useKovAdminController(locale, initialItems = []) {
         setIngestBusySlug("");
       }
     },
-    [applyServerItem, et]
+    [applyServerItem, et, refreshSelectedRagStatus, selectedEntry]
   );
 
   const ingestSelected = useCallback(async () => {
@@ -734,6 +819,9 @@ export function useKovAdminController(locale, initialItems = []) {
           throw new Error(payload?.message || "KOV RT ingest failed");
         }
         applyServerItem(payload.item);
+        if (selectedEntry?.slug === slug) {
+          await refreshSelectedRagStatus(payload.item);
+        }
         setMessage({
           type: "success",
           text: et ? "RT kiht saadeti RAG-i edukalt." : "RT layer was ingested into RAG."
@@ -749,7 +837,7 @@ export function useKovAdminController(locale, initialItems = []) {
         setRtIngestBusySlug("");
       }
     },
-    [applyServerItem, et]
+    [applyServerItem, et, refreshSelectedRagStatus, selectedEntry]
   );
 
   const ingestRtSelected = useCallback(async () => {
@@ -1056,6 +1144,9 @@ export function useKovAdminController(locale, initialItems = []) {
     setMessage,
     detailDraft,
     setDetailDraft,
+    ragStatus,
+    ragStatusLoading,
+    refreshSelectedRagStatus,
     saveBusy,
     saveDetail,
     cycleStatus,

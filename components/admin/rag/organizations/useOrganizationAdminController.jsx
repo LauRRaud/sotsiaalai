@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import { fetchRagDocumentStatus } from "@/components/admin/rag/ragDocumentStatusClient";
+
 function createDraft(entry) {
   return {
     displayName: entry?.displayName || "",
@@ -33,6 +35,11 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   const [ingestBusySlug, setIngestBusySlug] = useState("");
   const [bulkIngestBusy, setBulkIngestBusy] = useState(false);
   const [message, setMessage] = useState(null);
+  const [ragStatus, setRagStatus] = useState({
+    doc: null,
+    checkedAt: null
+  });
+  const [ragStatusLoading, setRagStatusLoading] = useState(false);
 
   const typeOptions = useMemo(() => {
     const values = Array.from(new Set(items.map(item => item.type).filter(Boolean)));
@@ -59,6 +66,7 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   }, [activity, items, query, type]);
 
   const selectedEntry = filteredItems.find(item => item.slug === selectedSlug) || filteredItems[0] || null;
+  const selectedRagDocId = String(selectedEntry?.ragDocId || "").trim();
 
   useEffect(() => {
     if (!filteredItems.length) {
@@ -82,7 +90,59 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   useEffect(() => {
     setDetailDraft(createDraft(selectedEntry));
     setEditing(false);
-  }, [selectedEntry?.slug]);
+  }, [selectedEntry]);
+
+  useEffect(() => {
+    let active = true;
+
+    if (!selectedRagDocId) {
+      setRagStatus({
+        doc: null,
+        checkedAt: null
+      });
+      return undefined;
+    }
+
+    setRagStatusLoading(true);
+    fetchRagDocumentStatus(selectedRagDocId)
+      .then(doc => {
+        if (!active) return;
+        setRagStatus({
+          doc,
+          checkedAt: new Date().toISOString()
+        });
+      })
+      .finally(() => {
+        if (active) setRagStatusLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [selectedRagDocId]);
+
+  async function refreshSelectedRagStatus(entryLike = selectedEntry) {
+    if (!entryLike?.ragDocId) {
+      setRagStatus({
+        doc: null,
+        checkedAt: null
+      });
+      return null;
+    }
+
+    setRagStatusLoading(true);
+    try {
+      const doc = await fetchRagDocumentStatus(entryLike.ragDocId);
+      const snapshot = {
+        doc,
+        checkedAt: new Date().toISOString()
+      };
+      setRagStatus(snapshot);
+      return snapshot;
+    } finally {
+      setRagStatusLoading(false);
+    }
+  }
 
   async function saveDetail() {
     if (!selectedEntry?.slug || saveBusy) return;
@@ -256,6 +316,7 @@ export function useOrganizationAdminController(locale, initialItems = []) {
       setItems(current => current.map(item => (item.slug === payload.item.slug ? payload.item : item)));
       if (selectedSlug === payload.item.slug) {
         setDetailDraft(createDraft(payload.item));
+        await refreshSelectedRagStatus(payload.item);
       }
       setMessage({
         type: "ok",
@@ -296,6 +357,7 @@ export function useOrganizationAdminController(locale, initialItems = []) {
       setItems(current => current.map(item => nextBySlug.get(item.slug) || item));
       if (selectedSlug && nextBySlug.has(selectedSlug)) {
         setDetailDraft(createDraft(nextBySlug.get(selectedSlug)));
+        await refreshSelectedRagStatus(nextBySlug.get(selectedSlug));
       }
       setMessage({
         type: "ok",
@@ -378,6 +440,9 @@ export function useOrganizationAdminController(locale, initialItems = []) {
     saveDetail,
     message,
     setMessage,
+    ragStatus,
+    ragStatusLoading,
+    refreshSelectedRagStatus,
     resetFilters,
     applyQuickReadiness,
     uploadFile,

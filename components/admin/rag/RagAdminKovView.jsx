@@ -57,6 +57,9 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
     setMessage,
     detailDraft,
     setDetailDraft,
+    ragStatus,
+    ragStatusLoading,
+    refreshSelectedRagStatus,
     saveBusy,
     saveDetail,
     cycleStatus,
@@ -162,6 +165,9 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
           rtStatusOptions={rtStatusOptions}
           detailDraft={detailDraft}
           onDraftChange={setDetailDraft}
+          ragStatus={ragStatus}
+          ragStatusLoading={ragStatusLoading}
+          onRefreshRagStatus={() => refreshSelectedRagStatus()}
           editingLinks={editingLinks}
           onSetEditingLinks={setEditingLinks}
           onSave={saveDetail}

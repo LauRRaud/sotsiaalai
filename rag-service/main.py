@@ -35,7 +35,6 @@ from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
 import chromadb
-from chromadb.config import Settings
 
 # OpenAI embeddings
 from openai import OpenAI
@@ -101,7 +100,7 @@ if not OPENAI_API_KEY:
 STORAGE_DIR.mkdir(parents=True, exist_ok=True)
 
 # Chroma client (persistent) – we send precomputed OpenAI embeddings
-client = chromadb.Client(Settings(persist_directory=str(STORAGE_DIR / "chroma")))
+client = chromadb.PersistentClient(path=str(STORAGE_DIR / "chroma"))
 collection = client.get_or_create_collection(name=COLLECTION_NAME)
 
 # OpenAI client
@@ -1729,16 +1728,27 @@ def _replace_document_vectors_payload(
     payload: Dict[str, object],
     observability: Optional[Dict[str, object]] = None,
 ) -> int:
+    def _safe_existing_list(key: str) -> List[object]:
+        if not isinstance(existing, dict):
+            return []
+        value = existing.get(key)
+        if value is None:
+            return []
+        try:
+            return list(value)
+        except TypeError:
+            return []
+
     existing = None
     try:
         existing = collection.get(where={"doc_id": doc_id}, include=["documents", "metadatas", "embeddings"], limit=100000)
     except Exception:
         existing = None
 
-    existing_ids = list((existing or {}).get("ids") or [])
-    existing_documents = list((existing or {}).get("documents") or [])
-    existing_metadatas = list((existing or {}).get("metadatas") or [])
-    existing_embeddings = list((existing or {}).get("embeddings") or [])
+    existing_ids = _safe_existing_list("ids")
+    existing_documents = _safe_existing_list("documents")
+    existing_metadatas = _safe_existing_list("metadatas")
+    existing_embeddings = _safe_existing_list("embeddings")
 
     try:
         if payload["count"]:
@@ -2965,7 +2975,6 @@ def search(payload: SearchIn, request: Request):
             text_chars=_to_int(embed_result.get("text_chars")),
             chunk_count=1,
             result_count=result_count,
-            top_k=_to_int(observability.get("top_k")),
             cost_read_directly=bool(embed_result.get("cost_read_directly")),
             **observability,
         )
@@ -3064,7 +3073,6 @@ def search(payload: SearchIn, request: Request):
         text_chars=_to_int(embed_result.get("text_chars")),
         chunk_count=1,
         result_count=result_count,
-        top_k=_to_int(observability.get("top_k")),
         cost_read_directly=bool(embed_result.get("cost_read_directly")),
         **observability,
     )

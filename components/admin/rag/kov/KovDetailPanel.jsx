@@ -153,6 +153,46 @@ function lightCheckReasonLabel(reason, et) {
   return reason || "-";
 }
 
+function ragDocStatusClass(doc) {
+  if (doc?.error) return "border-[#ef4444] text-[#ef4444]";
+  if (doc?.exists && Number(doc?.chunks || 0) > 0) return "border-[#38bdf8] text-[#38bdf8]";
+  if (doc?.exists) return "border-[#f59e0b] text-[#f59e0b]";
+  return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
+}
+
+function ragDocStatusLabel(doc, et) {
+  if (doc?.error) return et ? "Viga" : "Error";
+  if (doc?.exists && Number(doc?.chunks || 0) > 0) return et ? "Leitud" : "Found";
+  if (doc?.exists) return et ? "Registris, 0 chunki" : "In registry, 0 chunks";
+  return et ? "Puudub" : "Missing";
+}
+
+function renderRagDocCard({ doc, label, et, locale }) {
+  return (
+    <div className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3 text-[0.84rem] text-[color:var(--admin-text)]">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="font-semibold">{label}</div>
+        <span className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${ragDocStatusClass(doc)}`}>
+          {ragDocStatusLabel(doc, et)}
+        </span>
+      </div>
+      <div className="grid gap-1 text-[color:var(--admin-muted)]">
+        <div>doc_id: {doc?.docId || "-"}</div>
+        <div>{et ? "Chunkid" : "Chunks"}: {Number(doc?.chunks || 0)}</div>
+        <div>{et ? "Pealkiri" : "Title"}: {doc?.title || "-"}</div>
+        <div>{et ? "Teenuse staatus" : "Service status"}: {doc?.status || "-"}</div>
+        <div>{et ? "Viimati ingestitud" : "Last ingested"}: {doc?.lastIngested ? formatDateTime(doc.lastIngested, locale) : "-"}</div>
+        <div>{et ? "Registri uuendus" : "Registry update"}: {doc?.updatedAt ? formatDateTime(doc.updatedAt, locale) : "-"}</div>
+        {doc?.error ? (
+          <div className="rounded-[10px] border border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_10%,var(--admin-surface-3)_90%)] px-2 py-1 text-[#ef4444]">
+            {doc.error}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function renderLightCheckDiffBlock(summary, { et, title }) {
   if (!summary?.checkedAt) return null;
 
@@ -347,6 +387,9 @@ export default function KovDetailPanel({
   autoCheckStatusLabel,
   detailDraft,
   onDraftChange,
+  ragStatus,
+  ragStatusLoading = false,
+  onRefreshRagStatus,
   onSave,
   saveBusy,
   onMarkReady: _onMarkReady,
@@ -409,6 +452,7 @@ export default function KovDetailPanel({
     et,
     title: et ? "RT diff" : "RT diff"
   });
+  const ragSnapshot = ragStatus || {};
 
   return (
     <div className="grid gap-2">
@@ -493,6 +537,66 @@ export default function KovDetailPanel({
             <span className="rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-1">
               RT: {combinedReadiness.rtReady ? (et ? "valmis" : "ready") : et ? "pooleli" : "pending"}
             </span>
+          </div>
+
+          <div className="mt-3 grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <div className="text-[0.96rem] font-semibold text-[color:var(--admin-text)]">{et ? "RAG dokumendi seis" : "RAG document status"}</div>
+                <div className={cardSubClassName}>
+                  {et
+                    ? "Reaalajas kontroll RAG registrist: doc_id, chunkide arv ja viimane ingest."
+                    : "Live check from the RAG registry: doc_id, chunk count, and last ingest."}
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[0.78rem] text-[color:var(--admin-muted)]">
+                  {et ? "Värskendatud" : "Updated"}: {ragSnapshot.checkedAt ? formatDateTime(ragSnapshot.checkedAt, locale) : "-"}
+                </span>
+                <Button
+                  variant="ghost"
+                  className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                  onClick={() => onRefreshRagStatus?.()}
+                  disabled={ragStatusLoading}
+                >
+                  {ragStatusLoading
+                    ? et ? "Värskendan..." : "Refreshing..."
+                    : et ? "Värskenda RAG seisu" : "Refresh RAG status"}
+                </Button>
+              </div>
+            </div>
+            <div className="grid gap-2 md:grid-cols-2">
+              {renderRagDocCard({
+                doc: ragSnapshot.web || {
+                  docId: entry.ragDocId || "",
+                  exists: false,
+                  chunks: 0,
+                  title: "",
+                  status: "",
+                  updatedAt: null,
+                  lastIngested: null,
+                  error: ""
+                },
+                label: et ? "KOV veeb RAG" : "KOV web RAG",
+                et,
+                locale
+              })}
+              {renderRagDocCard({
+                doc: ragSnapshot.rt || {
+                  docId: entry.rtRagDocId || "",
+                  exists: false,
+                  chunks: 0,
+                  title: "",
+                  status: "",
+                  updatedAt: null,
+                  lastIngested: null,
+                  error: ""
+                },
+                label: et ? "RT RAG" : "RT RAG",
+                et,
+                locale
+              })}
+            </div>
           </div>
         </div>
       </div>
