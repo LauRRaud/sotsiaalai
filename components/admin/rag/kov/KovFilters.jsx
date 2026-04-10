@@ -9,9 +9,7 @@ import {
   buttonCompactClassName,
   buttonGhostClassName,
   dropdownClassName,
-  inputClassName,
-  toolbarPrimaryClassName,
-  toolbarSecondaryClassName
+  inputClassName
 } from "../ragAdminShared";
 
 export default function KovFilters({

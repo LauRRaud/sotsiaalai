@@ -21,14 +21,10 @@ export async function fetchRagDocumentStatus(docId) {
   }
 
   try {
-    const response = await fetch(`/api/rag/documents/${encodeURIComponent(normalizedDocId)}`, {
+    const response = await fetch(`/api/admin/rag/document-status/${encodeURIComponent(normalizedDocId)}`, {
       cache: "no-store"
     });
     const payload = await response.json().catch(() => ({}));
-
-    if (response.status === 404) {
-      return fallback;
-    }
 
     if (!response.ok || payload?.ok === false) {
       return {
@@ -37,15 +33,18 @@ export async function fetchRagDocumentStatus(docId) {
       };
     }
 
+    const item = payload?.item || payload || {};
+
     return {
       ...fallback,
-      docId: String(payload?.docId || payload?.id || normalizedDocId).trim() || normalizedDocId,
-      exists: true,
-      chunks: Number.isFinite(Number(payload?.chunks)) ? Number(payload.chunks) : 0,
-      title: String(payload?.title || "").trim(),
-      status: String(payload?.status || "").trim() || "COMPLETED",
-      updatedAt: payload?.updatedAt || null,
-      lastIngested: payload?.lastIngested || null
+      docId: String(item?.docId || item?.id || normalizedDocId).trim() || normalizedDocId,
+      exists: item?.exists === true,
+      chunks: Number.isFinite(Number(item?.chunks)) ? Number(item.chunks) : 0,
+      title: String(item?.title || "").trim(),
+      status: String(item?.status || "").trim() || "",
+      updatedAt: item?.updatedAt || null,
+      lastIngested: item?.lastIngested || null,
+      error: String(item?.error || "").trim()
     };
   } catch (error) {
     return {
