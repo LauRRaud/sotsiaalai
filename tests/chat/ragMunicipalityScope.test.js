@@ -128,6 +128,8 @@ test("social worker prompt stops rewrite loops after a yes", () => {
   const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
   assert.match(system, /do not give a bare yes\/no answer followed mainly by an offer to continue/);
   assert.match(system, /3-5 concrete details from the source/);
+  assert.match(system, /Do not use internal source-status phrases/);
+  assert.match(system, /answer directly without meta-commentary about excerpts or available material/);
   assert.match(system, /provide that requested text and stop without offering another rewrite or format/);
   assert.match(system, /Do not start answers with label-like phrases/);
   assert.match(system, /State the conclusion directly in a natural sentence/);
@@ -192,4 +194,21 @@ test("social worker responses use medium verbosity while client stays low", () =
     stream: false,
     effectiveRole: "CLIENT"
   }).text.verbosity, "low");
+});
+
+test("extra system instructions are inserted before the user turn", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Millisesse valda pöörduda?",
+    context: "National social welfare context.",
+    effectiveRole: "CLIENT",
+    replyLang: "et",
+    extraSystemInstructions: [
+      "MUNICIPALITY_CLARIFICATION_REQUIRED: End with exactly one direct municipality question."
+    ]
+  });
+
+  assert.equal(input.input.at(-2).role, "system");
+  assert.match(input.input.at(-2).content, /MUNICIPALITY_CLARIFICATION_REQUIRED/);
+  assert.equal(input.input.at(-1).role, "user");
 });

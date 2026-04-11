@@ -224,6 +224,27 @@ function buildRagSearchQuery(message = "", history = []) {
   return Array.from(new Set(parts)).join("\n");
 }
 
+function isMunicipalityDependentSocialHelpQuestion(message = "") {
+  const normalized = normalizeIntentText(message);
+  if (!normalized) return false;
+  const mentionsMunicipalityLevel = /\b(kov|omavalitsus|omavalitsuse|vald|valla|vallalt|linna|linnalt|rahvastikuregistr|elukoha|elukohajarg)\b/.test(normalized);
+  const mentionsSocialHelp = /\b(abi|sotsiaal|hoolekan|hooldus|koduteenus|koduhooldus|toimetulek|toime|taotle|taotlus|teenus|toetus|osakond)\b/.test(normalized);
+  return mentionsMunicipalityLevel && mentionsSocialHelp;
+}
+
+function missingMunicipalitySystemInstruction(effectiveRole = "CLIENT") {
+  const audience = effectiveRole === "SOCIAL_WORKER" ? "specialist" : "person seeking help";
+  return [
+    "MUNICIPALITY_CLARIFICATION_REQUIRED:",
+    `The current ${audience} question depends on a municipality or city, but no municipality or city is known from user messages.`,
+    "Give the national/general legal and practical answer first.",
+    "Do not give municipality-specific contacts, forms, URLs, amounts, or procedures.",
+    "Do not phrase the next step as an optional offer.",
+    "End with exactly one direct question asking which municipality or city is the person's registered residence.",
+    "Do not add a draft, application text, call script, or any other closing offer in this turn."
+  ].join(" ");
+}
+
 function getDocContextBudget(role = "CLIENT", combineSources = false) {
   const worker = role === "SOCIAL_WORKER";
   return {
@@ -668,6 +689,7 @@ async function callOpenAI({
   includeSources,
   replyLang,
   isCrisis,
+  extraSystemInstructions,
   userId,
   role
 }) {
@@ -687,7 +709,8 @@ async function callOpenAI({
     grounding,
     includeSources,
     replyLang,
-    isCrisis
+    isCrisis,
+    extraSystemInstructions
   });
   const payload = buildResponsesPayload(input, {
     stream: false,
@@ -718,6 +741,7 @@ async function streamOpenAI({
   includeSources,
   replyLang,
   isCrisis,
+  extraSystemInstructions,
   userId,
   role
 }) {
@@ -737,7 +761,8 @@ async function streamOpenAI({
     grounding,
     includeSources,
     replyLang,
-    isCrisis
+    isCrisis,
+    extraSystemInstructions
   });
   const payload = buildResponsesPayload(input, {
     stream: true,
@@ -1681,6 +1706,11 @@ export async function POST(req) {
   };
   const mentionedMunicipalities = await detectMentionedMunicipalitiesFromUserText(rawHistory, effectiveMessage);
   const allowMunicipalityScopedRag = mentionedMunicipalities.length > 0;
+  const municipalityQuestionNeedsClarification =
+    !allowMunicipalityScopedRag && isMunicipalityDependentSocialHelpQuestion(effectiveMessage);
+  const extraSystemInstructions = municipalityQuestionNeedsClarification
+    ? [missingMunicipalitySystemInstruction(normalizedRole)]
+    : [];
   let matches = [];
   let groupedMatches = [];
   let chosen = [];
@@ -1986,6 +2016,7 @@ export async function POST(req) {
         includeSources,
         replyLang,
         isCrisis,
+        extraSystemInstructions,
         userId,
         role: normalizedRole
       });
@@ -2108,6 +2139,7 @@ export async function POST(req) {
           includeSources,
           replyLang,
           isCrisis,
+          extraSystemInstructions,
           userId,
           role: normalizedRole
         });

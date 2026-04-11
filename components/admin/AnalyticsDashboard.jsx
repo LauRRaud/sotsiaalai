@@ -136,7 +136,8 @@ const resetActionButtonClassName =
 const backButtonClassName =
   `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`;
 const metricListClassName = "grid gap-1";
-const metricRowClassName = "grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2 text-[0.86rem]";
+const metricRowClassName =
+  "grid min-w-0 grid-cols-1 items-start gap-x-2 gap-y-0.5 text-[0.86rem] sm:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]";
 const summaryDeckClassName = "grid w-full items-start gap-3 2xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)]";
 const summaryPanelClassName =
   "relative w-full min-w-0 overflow-visible rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
@@ -378,8 +379,10 @@ function MetricListCard({ title, items }) {
       <div className={metricListClassName}>
         {items.map(item => (
           <div key={item.label} className={metricRowClassName}>
-            <span className={`${cellSubClassName} min-w-0`}>{item.label}</span>
-            <span className="shrink-0 whitespace-nowrap text-right">{item.value}</span>
+            <span className={`${cellSubClassName} min-w-0 break-words`}>{item.label}</span>
+            <span className="min-w-0 max-w-full whitespace-normal break-words text-left sm:text-right [overflow-wrap:anywhere]">
+              {item.value}
+            </span>
           </div>
         ))}
       </div>
