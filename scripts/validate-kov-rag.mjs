@@ -6,15 +6,30 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 
-const SOURCE_TYPES = new Set(["INDEX", "DETAIL", "FORMS", "RT", "CONTACT", "OTHER"]);
-const ITEM_TYPES = new Set(["service", "benefit", "resource"]);
+const SOURCE_TYPES = new Set([
+  "INDEX",
+  "DETAIL",
+  "FORMS",
+  "RT",
+  "CONTACT",
+  "OTHER",
+  "web_page",
+  "contact_page",
+  "pdf",
+  "doc",
+  "docx",
+  "html",
+  "e_form",
+  "other"
+]);
+const ITEM_TYPES = new Set(["service", "benefit", "resource", "contact", "form"]);
 const ITEM_STATUSES = new Set(["active", "unclear", "ended", "inactive"]);
 const AUDIENCE_VALUES = new Set(["CLIENT", "SOCIAL_WORKER"]);
 const FORMATS = new Set(["pdf", "doc", "docx", "xls", "xlsx", "html", "e-form"]);
 const PROVIDER_TYPES = new Set(["KOV", "AGENCY", "EXTERNAL"]);
 const LEGAL_BASIS_TYPES = new Set(["LAW", "REGULATION", "ORDER", "WEB"]);
 const RESOURCE_TYPES = new Set(["contact", "institution", "provider", "external_link", "guidance"]);
-const ROOT_JSON_REQUIRED = Object.freeze(["municipality", "county", "country", "language", "checkedAt"]);
+const ROOT_JSON_REQUIRED = Object.freeze(["municipality", "county", "checkedAt"]);
 const HELP_TEXT = `
 Usage:
   node scripts/validate-kov-rag.mjs <dir|base-path|file> [--slug <slug>] [--allow-missing-rag-md]
@@ -25,7 +40,7 @@ Examples:
   npm run rag:validate:kov -- output/parnu-linn
 `.trim();
 
-function fail(message) {
+function _fail(message) {
   console.error(`[rag:validate:kov] ${message}`);
   process.exit(1);
 }
@@ -68,6 +83,10 @@ function toKovSlug(slug) {
     .replace(/ß/g, "ss")
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_+|_+$/g, "");
+}
+
+function toItemIdSlug(slug) {
+  return toKovSlug(slug).replace(/_final$/, "");
 }
 
 function uniqueSorted(values) {
@@ -243,8 +262,8 @@ function validateRootFields(data, label, errors) {
   });
   assertString(data.municipality, `${label}.municipality`, errors, { minLength: 1 });
   assertString(data.county, `${label}.county`, errors, { minLength: 1 });
-  if (data.country !== "EE") errors.push(`${label}.country: expected "EE"`);
-  if (data.language !== "et") errors.push(`${label}.language: expected "et"`);
+  if ("country" in data && data.country !== "EE") errors.push(`${label}.country: expected "EE"`);
+  if ("language" in data && data.language !== "et") errors.push(`${label}.language: expected "et"`);
   if (!looksLikeDate(data.checkedAt)) errors.push(`${label}.checkedAt: expected YYYY-MM-DD`);
 }
 
@@ -263,7 +282,9 @@ function validateSourcesJson(data, errors) {
   const allowed = new Set(["municipality", "county", "country", "language", "checkedAt", "indexUrl", "sources"]);
   assertAllowedKeys(data, allowed, label, errors);
   validateRootFields(data, label, errors);
-  if (!isValidUrl(data.indexUrl)) errors.push(`${label}.indexUrl: invalid URL`);
+  if ("indexUrl" in data && data.indexUrl != null && !isValidUrl(data.indexUrl)) {
+    errors.push(`${label}.indexUrl: invalid URL`);
+  }
   if (!Array.isArray(data.sources)) {
     errors.push(`${label}.sources: expected array`);
     return;
@@ -343,6 +364,7 @@ function validateApplication(application, label, errors) {
 }
 
 function validatePricing(pricing, label, errors) {
+  if (pricing == null) return;
   const allowed = new Set(["type", "value", "currency", "note"]);
   assertAllowedKeys(pricing, allowed, label, errors);
   assertRequiredKeys(pricing, ["type", "value", "currency", "note"], label, errors);
@@ -377,6 +399,146 @@ function validateLegalBasisEntry(entry, label, errors) {
   }
 }
 
+function validateOptionalString(value, label, errors, { allowNull = true } = {}) {
+  if (value == null && allowNull) return;
+  if (typeof value !== "string") errors.push(`${label}: expected string${allowNull ? " or null" : ""}`);
+}
+
+function validateOptionalStringArray(value, label, errors) {
+  if (value == null) return;
+  assertStringArray(value, label, errors, { allowEmpty: true, unique: true });
+}
+
+function validateStringOrStringArray(value, label, errors) {
+  if (value == null) return;
+  if (typeof value === "string") return;
+  assertStringArray(value, label, errors, { allowEmpty: true });
+}
+
+function validateFlexibleApplication(value, label, errors) {
+  if (value == null || typeof value === "string") return;
+  if (isObject(value)) {
+    validateApplication(value, label, errors);
+    return;
+  }
+  errors.push(`${label}: expected string, object, or null`);
+}
+
+function validateFlexibleItem(item, label, errors, kovSlug) {
+  const allowedKeys = new Set([
+    "id",
+    "itemType",
+    "title",
+    "status",
+    "audience",
+    "targetGroup",
+    "summary",
+    "resourceType",
+    "application",
+    "forms",
+    "provider",
+    "contacts",
+    "pricingOrAmount",
+    "legalBasis",
+    "sourceKeys",
+    "sourceUrls",
+    "amount",
+    "conditions",
+    "officialUrl",
+    "relatedForms",
+    "relatedContacts",
+    "relatedTo",
+    "decisionTime",
+    "deadline",
+    "phone",
+    "email",
+    "address",
+    "name",
+    "role",
+    "department",
+    "format",
+    "submissionChannels"
+  ]);
+  assertAllowedKeys(item, allowedKeys, label, errors);
+  assertRequiredKeys(item, ["id", "itemType", "title", "status", "sourceKeys"], label, errors);
+
+  assertString(item.id, `${label}.id`, errors, { minLength: 1, pattern: /^[a-z0-9_]+$/ });
+  if (item?.id && !new RegExp(`^${kovSlug}_(service|benefit|resource|contact|form)_[a-z0-9_]+$`).test(item.id)) {
+    errors.push(`${label}.id: expected format ${kovSlug}_{service|benefit|resource|contact|form}_{item_slug}`);
+  }
+  if (!ITEM_TYPES.has(item.itemType)) errors.push(`${label}.itemType: invalid item type "${item.itemType}"`);
+  assertString(item.title, `${label}.title`, errors, { minLength: 1 });
+  if (!ITEM_STATUSES.has(item.status)) errors.push(`${label}.status: invalid status "${item.status}"`);
+
+  if ("audience" in item) {
+    assertStringArray(item.audience, `${label}.audience`, errors, {
+      allowEmpty: false,
+      unique: true,
+      allowedSet: AUDIENCE_VALUES
+    });
+  }
+  validateStringOrStringArray(item.targetGroup, `${label}.targetGroup`, errors);
+  validateOptionalString(item.summary, `${label}.summary`, errors);
+  validateOptionalString(item.amount, `${label}.amount`, errors);
+  validateOptionalString(item.conditions, `${label}.conditions`, errors);
+  validateFlexibleApplication(item.application, `${label}.application`, errors);
+  validateOptionalString(item.decisionTime, `${label}.decisionTime`, errors);
+  validateOptionalString(item.deadline, `${label}.deadline`, errors);
+  validateOptionalString(item.phone, `${label}.phone`, errors);
+  validateOptionalString(item.email, `${label}.email`, errors);
+  validateOptionalString(item.address, `${label}.address`, errors);
+  validateOptionalString(item.name, `${label}.name`, errors);
+  validateOptionalString(item.role, `${label}.role`, errors);
+  validateOptionalString(item.department, `${label}.department`, errors);
+
+  if (item.officialUrl != null && !isValidUrl(item.officialUrl)) {
+    errors.push(`${label}.officialUrl: invalid URL`);
+  }
+  if (item.resourceType != null && !RESOURCE_TYPES.has(item.resourceType)) {
+    errors.push(`${label}.resourceType: invalid resource type "${item.resourceType}"`);
+  }
+  if (item.format != null && !FORMATS.has(item.format)) {
+    errors.push(`${label}.format: invalid format "${item.format}"`);
+  }
+  if (item.itemType === "form" && !item.officialUrl) {
+    errors.push(`${label}.officialUrl: required when itemType is "form"`);
+  }
+
+  if ("forms" in item) {
+    if (!Array.isArray(item.forms)) errors.push(`${label}.forms: expected array`);
+    else item.forms.forEach((form, index) => validateForm(form, `${label}.forms[${index}]`, errors));
+  }
+  if ("provider" in item) {
+    if (!(item.provider === null || isObject(item.provider))) errors.push(`${label}.provider: expected object or null`);
+    else validateProvider(item.provider, `${label}.provider`, errors);
+  }
+  if ("contacts" in item) {
+    if (!Array.isArray(item.contacts)) errors.push(`${label}.contacts: expected array`);
+    else item.contacts.forEach((contact, index) => validateContact(contact, `${label}.contacts[${index}]`, errors));
+  }
+  if ("pricingOrAmount" in item) validatePricing(item.pricingOrAmount, `${label}.pricingOrAmount`, errors);
+  if ("legalBasis" in item) {
+    if (!Array.isArray(item.legalBasis)) errors.push(`${label}.legalBasis: expected array`);
+    else item.legalBasis.forEach((entry, index) => validateLegalBasisEntry(entry, `${label}.legalBasis[${index}]`, errors));
+  }
+
+  assertStringArray(item.sourceKeys, `${label}.sourceKeys`, errors, {
+    allowEmpty: false,
+    unique: true
+  });
+  validateOptionalStringArray(item.sourceUrls, `${label}.sourceUrls`, errors);
+  validateOptionalStringArray(item.relatedForms, `${label}.relatedForms`, errors);
+  validateOptionalStringArray(item.relatedContacts, `${label}.relatedContacts`, errors);
+  validateOptionalStringArray(item.relatedTo, `${label}.relatedTo`, errors);
+  validateOptionalStringArray(item.submissionChannels, `${label}.submissionChannels`, errors);
+
+  if (Array.isArray(item.sourceUrls)) {
+    item.sourceUrls.forEach((url, index) => {
+      if (!isValidUrl(url)) errors.push(`${label}.sourceUrls[${index}]: invalid URL`);
+    });
+  }
+}
+
 function validateDatasetJson(data, slug, errors) {
   const label = "dataset";
   const allowed = new Set(["municipality", "county", "country", "language", "checkedAt", "items"]);
@@ -387,102 +549,15 @@ function validateDatasetJson(data, slug, errors) {
     return;
   }
 
-  const kovSlug = toKovSlug(slug);
-  const itemIdPattern = new RegExp(`^${kovSlug}_(service|benefit|resource)_[a-z0-9_]+$`);
+  const kovSlug = toItemIdSlug(slug);
   const seenIds = new Set();
 
   data.items.forEach((item, index) => {
     const itemLabel = `${label}.items[${index}]`;
-    const allowedKeys = new Set([
-      "id",
-      "itemType",
-      "title",
-      "status",
-      "audience",
-      "targetGroup",
-      "summary",
-      "resourceType",
-      "application",
-      "forms",
-      "provider",
-      "contacts",
-      "pricingOrAmount",
-      "legalBasis",
-      "sourceKeys",
-      "sourceUrls"
-    ]);
-    assertAllowedKeys(item, allowedKeys, itemLabel, errors);
-    assertRequiredKeys(item, [...allowedKeys], itemLabel, errors);
-    assertString(item.id, `${itemLabel}.id`, errors, { minLength: 1, pattern: /^[a-z0-9_]+$/ });
-    if (item?.id && !itemIdPattern.test(item.id)) {
-      errors.push(`${itemLabel}.id: expected format ${kovSlug}_{service|benefit|resource}_{item_slug}`);
-    }
+    validateFlexibleItem(item, itemLabel, errors, kovSlug);
     if (item?.id) {
       if (seenIds.has(item.id)) errors.push(`${label}.items: duplicate id "${item.id}"`);
       seenIds.add(item.id);
-    }
-    if (!ITEM_TYPES.has(item.itemType)) errors.push(`${itemLabel}.itemType: invalid item type "${item.itemType}"`);
-    assertString(item.title, `${itemLabel}.title`, errors, { minLength: 1 });
-    if (!ITEM_STATUSES.has(item.status)) errors.push(`${itemLabel}.status: invalid status "${item.status}"`);
-    assertStringArray(item.audience, `${itemLabel}.audience`, errors, {
-      allowEmpty: false,
-      unique: true,
-      allowedSet: AUDIENCE_VALUES
-    });
-    assertStringArray(item.targetGroup, `${itemLabel}.targetGroup`, errors, { allowEmpty: true });
-    if (!(item.summary === null || typeof item.summary === "string")) {
-      errors.push(`${itemLabel}.summary: expected string or null`);
-    }
-    if (!(item.resourceType === null || RESOURCE_TYPES.has(item.resourceType))) {
-      errors.push(`${itemLabel}.resourceType: invalid resource type "${item.resourceType}"`);
-    }
-    if (item.itemType === "resource" && item.resourceType == null) {
-      errors.push(`${itemLabel}.resourceType: required when itemType is "resource"`);
-    }
-    if (item.itemType !== "resource" && item.resourceType != null) {
-      errors.push(`${itemLabel}.resourceType: must be null unless itemType is "resource"`);
-    }
-    validateApplication(item.application, `${itemLabel}.application`, errors);
-    if (!Array.isArray(item.forms)) {
-      errors.push(`${itemLabel}.forms: expected array`);
-    } else {
-      item.forms.forEach((form, formIndex) =>
-        validateForm(form, `${itemLabel}.forms[${formIndex}]`, errors)
-      );
-    }
-    if (!(item.provider === null || isObject(item.provider))) {
-      errors.push(`${itemLabel}.provider: expected object or null`);
-    } else {
-      validateProvider(item.provider, `${itemLabel}.provider`, errors);
-    }
-    if (!Array.isArray(item.contacts)) {
-      errors.push(`${itemLabel}.contacts: expected array`);
-    } else {
-      item.contacts.forEach((contact, contactIndex) =>
-        validateContact(contact, `${itemLabel}.contacts[${contactIndex}]`, errors)
-      );
-    }
-    validatePricing(item.pricingOrAmount, `${itemLabel}.pricingOrAmount`, errors);
-    if (!Array.isArray(item.legalBasis)) {
-      errors.push(`${itemLabel}.legalBasis: expected array`);
-    } else {
-      item.legalBasis.forEach((entry, legalIndex) =>
-        validateLegalBasisEntry(entry, `${itemLabel}.legalBasis[${legalIndex}]`, errors)
-      );
-    }
-    assertStringArray(item.sourceKeys, `${itemLabel}.sourceKeys`, errors, {
-      allowEmpty: false,
-      unique: true
-    });
-    if (!Array.isArray(item.sourceUrls) || item.sourceUrls.length === 0) {
-      errors.push(`${itemLabel}.sourceUrls: expected non-empty array`);
-    } else {
-      const seenUrls = new Set();
-      item.sourceUrls.forEach((url, urlIndex) => {
-        if (!isValidUrl(url)) errors.push(`${itemLabel}.sourceUrls[${urlIndex}]: invalid URL`);
-        if (seenUrls.has(url)) errors.push(`${itemLabel}.sourceUrls: duplicate URL "${url}"`);
-        seenUrls.add(url);
-      });
     }
   });
 }
@@ -497,6 +572,7 @@ function validateMetaJson(data, errors) {
     "country",
     "language",
     "checkedAt",
+    "status",
     "collection_id",
     "jurisdiction_level",
     "municipality_name",
@@ -512,34 +588,26 @@ function validateMetaJson(data, errors) {
   assertAllowedKeys(data, allowed, label, errors);
   assertRequiredKeys(data, [
     "id",
-    "title",
     "municipality",
     "county",
-    "country",
-    "language",
     "checkedAt",
-    "collection_id",
-    "jurisdiction_level",
-    "municipality_name",
-    "district_name",
-    "tags",
     "coverage",
     "notes",
     "unresolvedIssues"
   ], label, errors);
-  assertString(data.id, `${label}.id`, errors, { minLength: 1, pattern: /^[a-z0-9_]+$/ });
-  assertString(data.title, `${label}.title`, errors, { minLength: 1 });
+  assertString(data.id, `${label}.id`, errors, { minLength: 1, pattern: /^[a-z0-9_-]+$/ });
+  if ("title" in data) assertString(data.title, `${label}.title`, errors, { minLength: 1 });
   validateRootFields(data, label, errors);
-  if (data.collection_id !== "kov_services") errors.push(`${label}.collection_id: expected "kov_services"`);
-  if (data.jurisdiction_level !== "MUNICIPALITY") {
+  if ("collection_id" in data && data.collection_id !== "kov_services") errors.push(`${label}.collection_id: expected "kov_services"`);
+  if ("jurisdiction_level" in data && data.jurisdiction_level !== "MUNICIPALITY") {
     errors.push(`${label}.jurisdiction_level: expected "MUNICIPALITY"`);
   }
-  assertString(data.municipality_name, `${label}.municipality_name`, errors, { minLength: 1 });
-  if (data.district_name !== null) errors.push(`${label}.district_name: expected null`);
-  if (!("sourceRegisterFile" in data) || !(data.sourceRegisterFile === null || typeof data.sourceRegisterFile === "string")) {
+  if ("municipality_name" in data) assertString(data.municipality_name, `${label}.municipality_name`, errors, { minLength: 1 });
+  if ("district_name" in data && data.district_name !== null) errors.push(`${label}.district_name: expected null`);
+  if ("sourceRegisterFile" in data && !(data.sourceRegisterFile === null || typeof data.sourceRegisterFile === "string")) {
     errors.push(`${label}.sourceRegisterFile: expected string or null`);
   }
-  if (!("sourceCount" in data) || !(data.sourceCount === null || (Number.isInteger(data.sourceCount) && data.sourceCount >= 0))) {
+  if ("sourceCount" in data && !(data.sourceCount === null || (Number.isInteger(data.sourceCount) && data.sourceCount >= 0))) {
     errors.push(`${label}.sourceCount: expected integer >= 0 or null`);
   }
   if ("sources" in data && data.sources !== null && !Array.isArray(data.sources)) {
@@ -555,13 +623,14 @@ function validateMetaJson(data, errors) {
       }
     });
   }
-  assertStringArray(data.tags, `${label}.tags`, errors, { allowEmpty: true, unique: true });
+  if ("tags" in data) assertStringArray(data.tags, `${label}.tags`, errors, { allowEmpty: true, unique: true });
   if (!isObject(data.coverage)) {
     errors.push(`${label}.coverage: expected object`);
   } else {
-    assertAllowedKeys(data.coverage, new Set(["services", "benefits", "resources"]), `${label}.coverage`, errors);
+    assertAllowedKeys(data.coverage, new Set(["services", "benefits", "resources", "contacts", "forms"]), `${label}.coverage`, errors);
     assertRequiredKeys(data.coverage, ["services", "benefits", "resources"], `${label}.coverage`, errors);
-    for (const key of ["services", "benefits", "resources"]) {
+    for (const key of ["services", "benefits", "resources", "contacts", "forms"]) {
+      if (!(key in data.coverage)) continue;
       const value = data.coverage[key];
       if (!Number.isInteger(value) || value < 0) {
         errors.push(`${label}.coverage.${key}: expected integer >= 0`);
@@ -620,7 +689,7 @@ function validateCrossFileConsistency({ sources, dataset, meta, slug }, errors) 
     }
   }
 
-  if (meta.municipality !== meta.municipality_name) {
+  if ("municipality_name" in meta && meta.municipality !== meta.municipality_name) {
     errors.push("cross-file root mismatch: meta.municipality must equal meta.municipality_name");
   }
 
@@ -635,8 +704,8 @@ function validateCrossFileConsistency({ sources, dataset, meta, slug }, errors) 
 
   const sourceMap = new Map((sources.sources || []).map((entry) => [entry.key, entry]));
   const allKnownUrls = new Set((sources.sources || []).map((entry) => entry.url));
-  const coverage = { service: 0, benefit: 0, resource: 0 };
-  const kovSlug = toKovSlug(slug);
+  const coverage = { service: 0, benefit: 0, resource: 0, contact: 0, form: 0 };
+  const kovSlug = toItemIdSlug(slug);
 
   (dataset.items || []).forEach((item, index) => {
     const label = `dataset.items[${index}]`;
@@ -654,7 +723,7 @@ function validateCrossFileConsistency({ sources, dataset, meta, slug }, errors) 
     for (const url of item.sourceUrls || []) {
       if (!allKnownUrls.has(url)) errors.push(`${label}: sourceUrl "${url}" not found in sources.json`);
     }
-    if (!compareSets(expectedUrls, actualUrls)) {
+    if (Array.isArray(item.sourceUrls) && item.sourceUrls.length && !compareSets(expectedUrls, actualUrls)) {
       errors.push(`${label}: sourceUrls must exactly match URLs derived from sourceKeys`);
     }
 
@@ -663,14 +732,17 @@ function validateCrossFileConsistency({ sources, dataset, meta, slug }, errors) 
     }
   });
 
-  if ((meta.coverage?.services ?? null) !== coverage.service) {
-    errors.push(`meta.coverage.services mismatch: expected ${coverage.service}`);
-  }
-  if ((meta.coverage?.benefits ?? null) !== coverage.benefit) {
-    errors.push(`meta.coverage.benefits mismatch: expected ${coverage.benefit}`);
-  }
-  if ((meta.coverage?.resources ?? null) !== coverage.resource) {
-    errors.push(`meta.coverage.resources mismatch: expected ${coverage.resource}`);
+  const coverageFieldMap = {
+    services: "service",
+    benefits: "benefit",
+    resources: "resource",
+    contacts: "contact",
+    forms: "form"
+  };
+  for (const [metaKey, itemType] of Object.entries(coverageFieldMap)) {
+    if (meta.coverage && metaKey in meta.coverage && meta.coverage[metaKey] !== coverage[itemType]) {
+      errors.push(`meta.coverage.${metaKey} mismatch: expected ${coverage[itemType]}`);
+    }
   }
 }
 

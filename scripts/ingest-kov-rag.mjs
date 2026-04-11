@@ -12,7 +12,7 @@ const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KE
 function usage() {
   console.log(`
 Usage:
-  node scripts/ingest-kov-rag.mjs <dir|base-path|file> [--slug <slug>] [--skip-validate] [--bundle-only]
+  node scripts/ingest-kov-rag.mjs <dir|base-path|file> [--slug <slug>] [--skip-validate] [--bundle-only] [--dry-run]
 
 Examples:
   node scripts/ingest-kov-rag.mjs output/parnu-linn
@@ -31,7 +31,7 @@ function isObject(value) {
   return value && typeof value === "object" && !Array.isArray(value);
 }
 
-function slugify(value) {
+function _slugify(value) {
   return String(value || "")
     .trim()
     .toLowerCase()
@@ -50,9 +50,22 @@ function deriveAudienceStorage(audience) {
 }
 
 function formatList(lines, emptyValue = "Puudub.") {
-  const cleaned = Array.isArray(lines) ? lines.map((line) => String(line || "").trim()).filter(Boolean) : [];
+  const cleaned = Array.isArray(lines)
+    ? lines.map((line) => String(line || "").trim()).filter(Boolean)
+    : typeof lines === "string" && lines.trim()
+      ? [lines.trim()]
+      : [];
   if (!cleaned.length) return emptyValue;
   return cleaned.map((line) => `- ${line}`).join("\n");
+}
+
+function formatInline(value, emptyValue = "Puudub.") {
+  if (Array.isArray(value)) {
+    const cleaned = value.map((entry) => String(entry || "").trim()).filter(Boolean);
+    return cleaned.length ? cleaned.join("; ") : emptyValue;
+  }
+  const text = String(value ?? "").trim();
+  return text || emptyValue;
 }
 
 function formatForms(forms) {
@@ -102,7 +115,7 @@ function formatLegalBasis(entries) {
     .join("\n") || "Puudub.";
 }
 
-function buildItemText(item, sourceMap) {
+function _buildItemText(item, sourceMap) {
   const sourceLines = (Array.isArray(item.sourceKeys) ? item.sourceKeys : [])
     .map((key) => {
       const source = sourceMap.get(key);
@@ -147,6 +160,91 @@ function buildItemText(item, sourceMap) {
     "",
     "Kontaktid:",
     formatContacts(item.contacts),
+    "",
+    `Tasulisus või summa: ${pricing}`,
+    "",
+    "Õiguslik alus:",
+    formatLegalBasis(item.legalBasis),
+    "",
+    "Allikad:",
+    sourceLines
+  ].filter(Boolean).join("\n");
+}
+
+function formatApplication(application) {
+  if (application && isObject(application)) {
+    return [
+      "Kanalid:",
+      formatList(application.channels, "Puudub."),
+      Array.isArray(application.steps) && application.steps.length ? "Sammud:" : null,
+      Array.isArray(application.steps) && application.steps.length ? formatList(application.steps) : null,
+      application.deadline ? `Tähtaeg: ${application.deadline}` : null,
+      application.decisionTime ? `Otsuse aeg: ${application.decisionTime}` : null,
+      application.notes ? `Märkused: ${application.notes}` : null
+    ].filter(Boolean).join("\n");
+  }
+  return formatInline(application);
+}
+
+function buildFlexibleItemText(item, sourceMap) {
+  const sourceLines = (Array.isArray(item.sourceKeys) ? item.sourceKeys : [])
+    .map((key) => {
+      const source = sourceMap.get(key);
+      if (!source) return `- ${key}`;
+      return `- ${key}: ${source.title || key}${source.url ? ` | ${source.url}` : ""}`;
+    })
+    .join("\n") || "Puudub.";
+  const provider = item.provider && isObject(item.provider)
+    ? [item.provider.name, item.provider.type, item.provider.unit, item.provider.url].filter(Boolean).join(" | ")
+    : "Puudub.";
+  const pricing = item.pricingOrAmount && isObject(item.pricingOrAmount)
+    ? [
+        item.pricingOrAmount.type,
+        item.pricingOrAmount.value != null ? String(item.pricingOrAmount.value) : "",
+        item.pricingOrAmount.currency,
+        item.pricingOrAmount.note
+      ].filter(Boolean).join(" | ") || "Puudub."
+    : formatInline(item.amount);
+
+  return [
+    `# ${item.title}`,
+    "",
+    `Liik: ${item.itemType}`,
+    `Staatus: ${item.status}`,
+    item.name ? `Nimi: ${item.name}` : null,
+    item.role ? `Roll: ${item.role}` : null,
+    item.department ? `Osakond: ${item.department}` : null,
+    item.phone ? `Telefon: ${item.phone}` : null,
+    item.email ? `E-post: ${item.email}` : null,
+    item.address ? `Aadress: ${item.address}` : null,
+    item.format ? `Failivorming: ${item.format}` : null,
+    item.officialUrl ? `Ametlik link: ${item.officialUrl}` : null,
+    `Sihtrühm: ${formatInline(item.targetGroup)}`,
+    `Auditoorium: ${(Array.isArray(item.audience) ? item.audience : []).join(", ") || "Puudub."}`,
+    `Kokkuvõte: ${item.summary || "Puudub."}`,
+    item.resourceType ? `Ressursi tüüp: ${item.resourceType}` : null,
+    item.conditions ? `Tingimused: ${item.conditions}` : null,
+    item.decisionTime ? `Otsuse aeg: ${item.decisionTime}` : null,
+    item.deadline ? `Tähtaeg: ${item.deadline}` : null,
+    "",
+    "Taotlemine:",
+    formatApplication(item.application),
+    Array.isArray(item.submissionChannels) && item.submissionChannels.length ? "Esitamise kanalid:" : null,
+    Array.isArray(item.submissionChannels) && item.submissionChannels.length ? formatList(item.submissionChannels) : null,
+    "",
+    "Vormid:",
+    formatForms(item.forms),
+    Array.isArray(item.relatedForms) && item.relatedForms.length ? "Seotud vormid:" : null,
+    Array.isArray(item.relatedForms) && item.relatedForms.length ? formatList(item.relatedForms) : null,
+    "",
+    `Haldaja / teenuseosutaja: ${provider}`,
+    "",
+    "Kontaktid:",
+    formatContacts(item.contacts),
+    Array.isArray(item.relatedContacts) && item.relatedContacts.length ? "Seotud kontaktid:" : null,
+    Array.isArray(item.relatedContacts) && item.relatedContacts.length ? formatList(item.relatedContacts) : null,
+    Array.isArray(item.relatedTo) && item.relatedTo.length ? "Seotud kirjed:" : null,
+    Array.isArray(item.relatedTo) && item.relatedTo.length ? formatList(item.relatedTo) : null,
     "",
     `Tasulisus või summa: ${pricing}`,
     "",
@@ -210,6 +308,7 @@ function parseArgs(argv) {
   let slug = "";
   let skipValidate = false;
   let bundleOnly = false;
+  let dryRun = false;
   const positional = [];
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -232,6 +331,10 @@ function parseArgs(argv) {
       bundleOnly = true;
       continue;
     }
+    if (arg === "--dry-run") {
+      dryRun = true;
+      continue;
+    }
     positional.push(arg);
   }
 
@@ -244,7 +347,8 @@ function parseArgs(argv) {
     input: positional[0],
     slug,
     skipValidate,
-    bundleOnly
+    bundleOnly,
+    dryRun
   };
 }
 
@@ -267,9 +371,33 @@ async function ingestText(baseUrl, payload) {
   return data;
 }
 
+function resolveCanonicalKovSlug(paths, meta) {
+  return String(meta?.id || paths.slug || "")
+    .trim()
+    .toLowerCase()
+    .replace(/-final$/, "");
+}
+
+function deriveSourceUrlsForItem(item, sourceMap) {
+  if (Array.isArray(item.sourceUrls) && item.sourceUrls.length) {
+    return item.sourceUrls;
+  }
+  return [...new Set((Array.isArray(item.sourceKeys) ? item.sourceKeys : [])
+    .map((key) => sourceMap.get(key)?.url)
+    .filter(Boolean))];
+}
+
+function sectionForItemType(itemType) {
+  if (itemType === "service") return "Teenused";
+  if (itemType === "benefit") return "Toetused";
+  if (itemType === "resource") return "Ressursid";
+  if (itemType === "contact") return "Kontaktid";
+  if (itemType === "form") return "Blanketid ja taotlused";
+  return "KOV";
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  if (!RAG_KEY) throw new Error("RAG_SERVICE_API_KEY or RAG_API_KEY is missing");
 
   const baseUrl = normalizeBaseFromHost(RAW_RAG_HOST);
   const paths = await resolveDatasetPaths(args.input, args.slug);
@@ -292,13 +420,26 @@ async function main() {
 
   const sourceMap = new Map((sources.sources || []).map((entry) => [entry.key, entry]));
   const unionAudience = [...new Set((dataset.items || []).flatMap((item) => Array.isArray(item.audience) ? item.audience : []))];
-  const bundleDocId = `kov::${paths.slug}::bundle`;
+  const canonicalSlug = resolveCanonicalKovSlug(paths, meta);
+  const bundleDocId = `kov::${canonicalSlug}::bundle`;
+
+  if (args.dryRun) {
+    console.log(`[rag:ingest:kov] Dry run OK: ${paths.slug}`);
+    if (canonicalSlug !== paths.slug) console.log(`  - canonical slug: ${canonicalSlug}`);
+    console.log(`  - bundle doc: ${bundleDocId}`);
+    console.log(`  - item docs: ${args.bundleOnly ? 0 : (dataset.items || []).length}`);
+    console.log(`  - source count: ${Array.isArray(sources.sources) ? sources.sources.length : 0}`);
+    console.log(`  - rag chars: ${String(ragText || "").length}`);
+    return;
+  }
+
+  if (!RAG_KEY) throw new Error("RAG_SERVICE_API_KEY or RAG_API_KEY is missing");
 
   const bundleResult = await ingestText(baseUrl, {
     doc_id: bundleDocId,
     text: ragText,
     metadata: {
-      title: meta.title,
+      title: meta.title || `${meta.municipality} sotsiaalteenused ja toetused`,
       description: `${meta.municipality} sotsiaalteenused, sotsiaaltoetused ja ressursid`,
       audience: deriveAudienceStorage(unionAudience),
       audiences: unionAudience,
@@ -319,7 +460,7 @@ async function main() {
       source_count: Array.isArray(sources.sources) ? sources.sources.length : 0,
       source_type: "kov_dataset_bundle",
       source_path: paths.ragPath,
-      source_url: sources.indexUrl,
+      source_url: sources.indexUrl || (sources.sources || []).find((entry) => entry?.url)?.url || null,
       fileName: path.basename(paths.ragPath),
       mimeType: "text/markdown"
     }
@@ -329,15 +470,16 @@ async function main() {
   let chunkCount = Number(bundleResult?.inserted || 0);
   if (!args.bundleOnly) {
     for (const item of dataset.items || []) {
-      const itemText = buildItemText(item, sourceMap);
-      const itemDocId = `kov::${paths.slug}::item::${item.id}`;
+      const itemText = buildFlexibleItemText(item, sourceMap);
+      const itemDocId = `kov::${canonicalSlug}::item::${item.id}`;
+      const itemSourceUrls = deriveSourceUrlsForItem(item, sourceMap);
       const result = await ingestText(baseUrl, {
         doc_id: itemDocId,
         text: itemText,
         metadata: {
           title: item.title,
           description: item.summary,
-          section: item.itemType === "service" ? "Teenused" : item.itemType === "benefit" ? "Toetused" : "Ressursid",
+          section: sectionForItemType(item.itemType),
           audience: deriveAudienceStorage(item.audience),
           audiences: Array.isArray(item.audience) ? item.audience : [],
           tags: [...new Set([...(meta.tags || []), item.itemType, item.resourceType].filter(Boolean))],
@@ -353,12 +495,12 @@ async function main() {
           content_status: item.status,
           resource_type: item.resourceType,
           source_keys: item.sourceKeys || [],
-          source_urls: item.sourceUrls || [],
+          source_urls: itemSourceUrls,
           source_register_file: path.basename(paths.sourcesPath),
           source_count: Array.isArray(sources.sources) ? sources.sources.length : 0,
           administering_body: item.provider && isObject(item.provider) ? item.provider.name || null : null,
           source_type: "kov_dataset_item",
-          source_url: Array.isArray(item.sourceUrls) && item.sourceUrls.length ? item.sourceUrls[0] : sources.indexUrl,
+          source_url: itemSourceUrls[0] || sources.indexUrl || null,
           mimeType: "text/markdown"
         }
       });
@@ -368,6 +510,7 @@ async function main() {
   }
 
   console.log(`[rag:ingest:kov] OK: ${paths.slug}`);
+  if (canonicalSlug !== paths.slug) console.log(`  - canonical slug: ${canonicalSlug}`);
   console.log(`  - bundle doc: ${bundleDocId}`);
   console.log(`  - item docs: ${itemCount}`);
   console.log(`  - inserted chunks: ${chunkCount}`);
