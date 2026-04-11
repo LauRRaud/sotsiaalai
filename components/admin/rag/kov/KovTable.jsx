@@ -86,13 +86,16 @@ export default function KovTable({
   onLightCheckSelected,
   onLightCheckRtSelected,
   onRevalidateRow,
+  onRevalidateRtRow,
   onRevalidateSelected,
   onRevalidateRtSelected,
   onIngestSelected,
   onIngestRtSelected,
   onIngestRow,
+  onIngestRtRow,
   onOpenEditor,
   revalidateBusySlug,
+  revalidateRtBusySlug,
   bulkRevalidateBusy,
   bulkRevalidateRtBusy,
   bulkWebIngestBusy,
@@ -100,6 +103,7 @@ export default function KovTable({
   bulkLightCheckBusy,
   bulkRtLightCheckBusy,
   ingestBusySlug,
+  rtIngestBusySlug,
   et
 }) {
   return (
@@ -209,8 +213,11 @@ export default function KovTable({
             const invalidFiles = Number(row.validationSummary?.invalidCount || 0);
             const allFilesValid = row.validationSummary?.allFilesValid === true;
             const rowBusy = revalidateBusySlug === row.slug;
+            const rtRowBusy = revalidateRtBusySlug === row.slug;
             const ingestBusy = ingestBusySlug === row.slug;
+            const rtIngestBusy = rtIngestBusySlug === row.slug;
             const canIngest = row.ingestSummary?.canIngest === true && row.ingestStatus !== "INGESTING";
+            const canRtIngest = row.rtIngestSummary?.canIngest === true && row.rtIngestStatus !== "INGESTING";
             const rtRequiredCount = Math.max(1, Number(row.rtSummary?.requiredCount || 1));
             const rtMissingCount = Number(row.rtSummary?.missingCount || 0);
             const rtInvalidCount = Number(row.rtSummary?.invalidCount || 0);
@@ -394,12 +401,28 @@ export default function KovTable({
                       {rowBusy ? (et ? "Valideerin..." : "Revalidating...") : et ? "Valideeri" : "Revalidate"}
                     </Button>
                     <Button
+                      variant="ghost"
+                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                      onClick={event => stopEvent(event, () => onRevalidateRtRow(row.slug))}
+                      disabled={rtRowBusy}
+                    >
+                      {rtRowBusy ? (et ? "RT val..." : "RT val...") : et ? "Valideeri RT" : "Validate RT"}
+                    </Button>
+                    <Button
                       variant="primary"
                       className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonTinyClassName}`}
                       onClick={event => stopEvent(event, () => onIngestRow(row.slug))}
                       disabled={!canIngest || ingestBusy}
                     >
                       {ingestBusy ? (et ? "Saadan..." : "Ingesting...") : et ? "Ingest" : "Ingest"}
+                    </Button>
+                    <Button
+                      variant="primary"
+                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonTinyClassName}`}
+                      onClick={event => stopEvent(event, () => onIngestRtRow(row.slug))}
+                      disabled={!canRtIngest || rtIngestBusy}
+                    >
+                      {rtIngestBusy ? (et ? "RT saadan..." : "RT ingesting...") : "RT ingest"}
                     </Button>
                   </div>
                 </td>

@@ -245,13 +245,16 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
             onLightCheckSelected={lightCheckSelected}
             onLightCheckRtSelected={lightCheckRtSelected}
             onRevalidateRow={revalidateSingle}
+            onRevalidateRtRow={revalidateRtSingle}
             onRevalidateSelected={revalidateSelected}
             onRevalidateRtSelected={revalidateRtSelected}
             onIngestSelected={ingestSelected}
             onIngestRtSelected={ingestRtSelected}
             onIngestRow={ingestSingle}
+            onIngestRtRow={ingestRtSingle}
             onOpenEditor={openEditor}
             revalidateBusySlug={revalidateBusySlug}
+            revalidateRtBusySlug={revalidateRtBusySlug}
             bulkRevalidateBusy={bulkRevalidateBusy}
             bulkRevalidateRtBusy={bulkRevalidateRtBusy}
             bulkWebIngestBusy={bulkWebIngestBusy}
@@ -259,6 +262,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
             bulkLightCheckBusy={bulkLightCheckBusy}
             bulkRtLightCheckBusy={bulkRtLightCheckBusy}
             ingestBusySlug={ingestBusySlug}
+            rtIngestBusySlug={rtIngestBusySlug}
             et={et}
           />
         ) : (
