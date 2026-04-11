@@ -266,12 +266,6 @@
 :root.theme-mid .chat-msg-user-bubble {
   color: #1f2937 !important;
   -webkit-text-fill-color: #1f2937;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(252, 248, 246, 0.99) 0%,
-      rgba(245, 237, 233, 0.98) 100%
-    ) !important;
   font-weight: 500;
   text-shadow: none;
 }
