@@ -1,7 +1,8 @@
 .chat-container--input-focus {
-  --chat-window-inline-gap: clamp(1.1rem, calc(var(--chat-diameter) * 0.022), 1.9rem);
+  --chat-shell-inline-size: var(--chat-diameter);
+  --chat-window-inline-gap: clamp(1.1rem, calc(var(--chat-shell-inline-size) * 0.022), 1.9rem);
   --chat-window-max-w: min(
-    clamp(31rem, calc(var(--chat-diameter) * 0.78), 45rem),
+    clamp(31rem, calc(var(--chat-shell-inline-size) * 0.78), 45rem),
     calc(100% - var(--chat-window-inline-gap))
   );
   --chat-window-top-offset: 0.65rem;
@@ -9,12 +10,12 @@
   --chat-scroll-down-offset: -1rem;
   --chat-input-max-w: min(
     clamp(calc(20 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.87), calc(31.5 * var(--base-rem))),
-    calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-diameter) * 0.026), calc(2.25 * var(--base-rem))))
+    calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-shell-inline-size) * 0.026), calc(2.25 * var(--base-rem))))
   );
   --chat-input-focus-shift: -2.35rem;
   --chat-attach-left-pull: 0rem;
   --chat-inputbar-left-pull: 0rem;
-  --chat-hpad-right: clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem);
+  --chat-hpad-right: clamp(0.5rem, calc(var(--chat-shell-inline-size) * 0.018), 1rem);
   --chat-window-focus-shift: 0rem;
 }
 
@@ -40,12 +41,12 @@
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window {
-    --chat-window-inline-gap: clamp(1.1rem, calc(var(--chat-diameter) * 0.024), 1.7rem) !important;
+    --chat-window-inline-gap: clamp(1.1rem, calc(var(--chat-shell-inline-size) * 0.024), 1.7rem) !important;
     --chat-window-max-w: min(
-      calc(clamp(28.5rem, calc(var(--chat-diameter) * 0.73), 40.5rem) - 0.5rem),
+      calc(clamp(28.5rem, calc(var(--chat-shell-inline-size) * 0.73), 40.5rem) - 0.5rem),
       calc(100% - var(--chat-window-inline-gap) - 0.5rem)
     ) !important;
-    --chat-window-shift-x: calc(clamp(0.16rem, calc(var(--chat-diameter) * 0.005), 0.3rem) + 0.25rem) !important;
+    --chat-window-shift-x: calc(clamp(0.16rem, calc(var(--chat-shell-inline-size) * 0.005), 0.3rem) + 0.25rem) !important;
   }
 }
 
@@ -243,6 +244,14 @@ body:is(
 
   .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus {
+    --chat-focus-inline-extra: clamp(0.08rem, 0.28vw, 0.24rem);
+    --chat-focus-content-inline-extra: clamp(0.28rem, 0.8vw, 0.72rem);
+    --chat-container-inline-size: calc(var(--chat-diameter) + var(--chat-focus-inline-extra));
+    --chat-shell-inline-size: calc(var(--chat-diameter) + var(--chat-focus-content-inline-extra));
+    width: var(--chat-container-inline-size);
+    inline-size: var(--chat-container-inline-size);
+    min-width: var(--chat-container-inline-size);
+    max-width: var(--chat-container-inline-size);
     height: var(--chat-diameter);
     max-height: var(--chat-diameter);
     block-size: var(--chat-diameter);
@@ -256,10 +265,10 @@ body:is(
   .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus
     .chat-window {
-    --chat-window-fade-top-focus: clamp(1.05rem, 2.35vh, 1.55rem);
-    --chat-window-scroll-top-fade-start-focus: 0.64rem;
-    --chat-window-scroll-top-fade-mid-focus: 1.32rem;
-    --chat-window-scroll-top-fade-end-focus: 2.2rem;
+    --chat-window-fade-top-focus: clamp(0.78rem, 1.8vh, 1.16rem);
+    --chat-window-scroll-top-fade-start-focus: 0.46rem;
+    --chat-window-scroll-top-fade-mid-focus: 0.96rem;
+    --chat-window-scroll-top-fade-end-focus: 1.58rem;
     --chat-window-fade-bottom-focus: clamp(2.65rem, 6.4vh, 4.15rem);
   }
 
@@ -288,16 +297,18 @@ body:is(
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
+    --chat-focus-inline-extra: clamp(0.06rem, 0.22vw, 0.18rem);
+    --chat-focus-content-inline-extra: clamp(0.22rem, 0.65vw, 0.58rem);
     --chat-window-top-offset: -0.42rem !important;
     --chat-window-pad-top: 0.95rem !important;
     --chat-window-top-safe: 2.25rem !important;
     --chat-content-top-offset: 1rem !important;
     --chat-content-spacer: clamp(1.75rem, 4.2vh, 2.9rem) !important;
-    --chat-window-fade-top: clamp(0.72rem, 1.7vh, 1.1rem) !important;
-    --chat-window-fade-top-focus: clamp(0.72rem, 1.7vh, 1.1rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.42rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 0.9rem !important;
-    --chat-window-scroll-top-fade-end-focus: 1.5rem !important;
+    --chat-window-fade-top: clamp(0.58rem, 1.35vh, 0.9rem) !important;
+    --chat-window-fade-top-focus: clamp(0.58rem, 1.35vh, 0.9rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.34rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 0.72rem !important;
+    --chat-window-scroll-top-fade-end-focus: 1.18rem !important;
     --chat-window-fade-bottom-focus: clamp(2.35rem, 5.4vh, 3.45rem) !important;
   }
 
@@ -311,16 +322,16 @@ body:is(
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window {
-    --chat-window-inline-gap: clamp(1rem, calc(var(--chat-diameter) * 0.022), 1.5rem) !important;
+    --chat-window-inline-gap: clamp(1rem, calc(var(--chat-shell-inline-size) * 0.022), 1.5rem) !important;
     --chat-window-max-w: min(
-      calc(clamp(27.5rem, calc(var(--chat-diameter) * 0.69), 38rem) - 0.5rem),
+      calc(clamp(27.5rem, calc(var(--chat-shell-inline-size) * 0.69), 38rem) - 0.5rem),
       calc(100% - var(--chat-window-inline-gap) - 0.5rem)
     ) !important;
-    --chat-window-shift-x: calc(clamp(0.16rem, calc(var(--chat-diameter) * 0.005), 0.3rem) + 0.25rem) !important;
-    --chat-window-fade-top-focus: clamp(0.98rem, 2.15vh, 1.42rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.58rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 1.18rem !important;
-    --chat-window-scroll-top-fade-end-focus: 1.95rem !important;
+    --chat-window-shift-x: calc(clamp(0.16rem, calc(var(--chat-shell-inline-size) * 0.005), 0.3rem) + 0.25rem) !important;
+    --chat-window-fade-top-focus: clamp(0.7rem, 1.6vh, 1.05rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.42rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 0.88rem !important;
+    --chat-window-scroll-top-fade-end-focus: 1.44rem !important;
     --chat-window-fade-bottom-focus: clamp(2.45rem, 5.8vh, 3.75rem) !important;
   }
 }

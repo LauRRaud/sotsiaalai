@@ -153,12 +153,10 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "chat-msg-user flex w-full justify-end pr-[clamp(0.24rem,0.65vw,0.48rem)] max-[768px]:pr-[0.08rem]";
   const userBubbleClassName =
     "chat-msg-user-bubble inline-block w-fit max-w-[min(84%,44rem)] text-left " +
-    "[background:color-mix(in_srgb,var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))_72%,transparent)] " +
+    "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
     "border-0 rounded-[1.28rem] rounded-br-[0.5rem] " +
-    "[.theme-light_&]:[background:color-mix(in_srgb,var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))_88%,white)] " +
-    "[.theme-mid_&]:[background:var(--mid-utility-panel-bg-hover,var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg)))))] " +
     "[.theme-mid_&]:border-0 " +
-    "px-[0.96rem] py-[0.72rem] text-[1.16rem] leading-[1.42] tracking-[0.015em] font-[400] " +
+    "px-[0.96rem] py-[0.72rem] text-[1.1rem] leading-[1.42] tracking-[0.015em] font-[400] " +
     "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] shadow-none " +
     "[-webkit-backdrop-filter:none] [backdrop-filter:none] transition-[transform] duration-200";
   const memberBubbleClassName =
@@ -168,7 +166,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "light:border-[rgba(15,23,42,0.16)] light:bg-[rgba(255,255,255,0.74)]";
   const aiBubbleClassName =
     "chat-msg-ai self-start w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
-    "text-[color:var(--input-text)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500]";
+    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500]";
   const normalizedAttachments = Array.isArray(attachments)
     ? attachments
         .filter(item => item && typeof item === "object")

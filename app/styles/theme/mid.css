@@ -409,36 +409,6 @@
   --chat-inputbar-btn-shadow-focus: var(--mid-pill-surface-shadow-hover);
 }
 
-:root.theme-mid .chat-page-shell {
-  --chat-user-bubble-bg:
-    radial-gradient(
-      92% 88% at 50% 16%,
-      rgba(243, 232, 227, 0.44) 0%,
-      rgba(234, 223, 217, 0.38) 42%,
-      rgba(225, 214, 208, 0.32) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(233, 221, 216, 0.26) 0%,
-      rgba(224, 213, 208, 0.22) 100%
-    );
-  --chat-user-bubble-bg-hover:
-    radial-gradient(
-      92% 88% at 50% 16%,
-      rgba(243, 232, 227, 0.44) 0%,
-      rgba(234, 223, 217, 0.38) 42%,
-      rgba(225, 214, 208, 0.32) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(233, 221, 216, 0.26) 0%,
-      rgba(224, 213, 208, 0.22) 100%
-    );
-  --chat-user-bubble-border: transparent;
-  --chat-user-bubble-shadow: var(--subpage-card-shadow);
-  --chat-user-bubble-shadow-hover: var(--subpage-card-shadow-hover);
-}
-
 :root.theme-mid .chat-inputbar {
   isolation: isolate;
   border: 0;
@@ -555,24 +525,6 @@
 :root.theme-mid .chat-inputbar .chat-send-btn:hover::before,
 :root.theme-mid .chat-inputbar .chat-send-btn:focus-visible::before {
   opacity: 1;
-}
-
-:root.theme-mid .chat-msg-user {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  color: var(--input-text) !important;
-  box-shadow: none !important;
-}
-
-:root.theme-mid .chat-msg-user:hover,
-:root.theme-mid .chat-msg-user:focus-within {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
 }
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */

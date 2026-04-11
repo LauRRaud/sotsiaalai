@@ -190,7 +190,12 @@
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
-  :is(.chat-tools-menu, .chat-tools-surface-popover, .chat-analysis-upload-modal-card) {
+  :is(
+    .chat-tools-menu,
+    .chat-tools-surface-popover,
+    .chat-analysis-upload-modal-card,
+    .chat-msg-user-bubble
+  ) {
   background: var(--chat-card-surface-strong-bg) !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -525,19 +530,6 @@
   .chat-inputbar
   .chat-send-btn[data-recording-complete="true"] {
   box-shadow: none;
-}
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-msg-user {
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  color: var(--input-text) !important;
-  box-shadow: none !important;
-}
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-msg-user:hover,
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .chat-msg-user:focus-within {
-  background-color: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
 }
 :root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording="true"] {
   border-color: #ff3b30;

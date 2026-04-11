@@ -556,17 +556,6 @@
   --chat-action-btn-shadow-hover: var(--btn-primary-shadow-hover);
   --chat-action-btn-shadow-focus: 0 5px 12px rgba(15, 23, 42, 0.1);
   --chat-action-btn-shadow-active: var(--btn-primary-shadow-active);
-  --chat-user-bubble-bg: var(--input-bg);
-  --chat-user-bubble-bg-hover: var(--input-bg-hover);
-  --chat-user-bubble-border: var(--input-border);
-  --chat-user-bubble-shadow: var(
-    --input-shadow-composite,
-    var(--input-shadow)
-  );
-  --chat-user-bubble-shadow-hover: var(
-    --input-shadow-hover-composite,
-    var(--input-shadow-hover)
-  );
   background: var(--chat-inputbar-bg);
   border: var(--input-border);
   box-shadow: var(--chat-inputbar-shadow);
@@ -680,22 +669,6 @@
 }
 :root.theme-light .chat-inputbar .chat-send-btn .chat-send-loader {
   opacity: 0.95;
-}
-:root.theme-light .chat-msg-user {
-  background: transparent;
-  background-color: transparent;
-  background-image: none;
-  border: none;
-  color: var(--input-text);
-  box-shadow: none;
-}
-:root.theme-light .chat-msg-user:hover,
-:root.theme-light .chat-msg-user:focus-within {
-  background: transparent;
-  background-color: transparent;
-  background-image: none;
-  border: none;
-  box-shadow: none;
 }
 :root.theme-light .chat-msg-ai {
   color: #111827;

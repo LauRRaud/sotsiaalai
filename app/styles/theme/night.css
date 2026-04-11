@@ -279,7 +279,13 @@
   background: var(--glass-surface-bg) !important;
 }
 
-:root.theme-night :is(.chat-tools-menu, .chat-tools-surface-popover, .chat-analysis-upload-modal-card) {
+:root.theme-night
+  :is(
+    .chat-tools-menu,
+    .chat-tools-surface-popover,
+    .chat-analysis-upload-modal-card,
+    .chat-msg-user-bubble
+  ) {
   background: var(--chat-card-surface-night-strong-bg) !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -311,21 +317,6 @@
   color: var(--glass-modal-text, var(--glass-surface-text, #f2f2f2)) !important;
   border: var(--glass-modal-border, none) !important;
   box-shadow: var(--glass-modal-shadow, none) !important;
-}
-
-:root.theme-night .chat-msg-user {
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  color: var(--input-text) !important;
-  box-shadow: none !important;
-}
-
-:root.theme-night .chat-msg-user:hover,
-:root.theme-night .chat-msg-user:focus-within {
-  background-color: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
 }
 
 :root.theme-night .login-modal-box.login-modal--otp .fancy-checkbox--otp .box {

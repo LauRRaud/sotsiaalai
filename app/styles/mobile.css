@@ -2185,24 +2185,6 @@
     margin-right: -0.04rem !important;
   }
 
-  :root.theme-mid .chat-page-shell .chat-msg-user {
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    opacity: 1 !important;
-  }
-
-  :root.theme-mid .chat-page-shell .chat-msg-user:hover,
-  :root.theme-mid .chat-page-shell .chat-msg-user:focus-within {
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
-  }
-
   .chat-right-actions > nav {
     width: auto !important;
     display: flex !important;

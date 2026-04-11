@@ -309,24 +309,6 @@ html[data-contrast="hc"] .materials-page-shell {
   --panel-secondary-shadow: none;
 }
 
-html[data-contrast="hc"] body .chat-msg-user {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  color: var(--input-text) !important;
-  box-shadow: none !important;
-}
-
-html[data-contrast="hc"] body .chat-msg-user:hover,
-html[data-contrast="hc"] body .chat-msg-user:focus-within {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-}
-
 html[data-ui-scale="lg"][data-contrast="hc"] {
   --cursor-default-backup:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E")
@@ -752,7 +734,7 @@ html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item {
   box-shadow: none !important;
   outline: none !important;
 }
-html[data-contrast="hc"] body .chat-tools-menu {
+html[data-contrast="hc"] body :is(.chat-tools-menu, .chat-msg-user-bubble) {
   background: var(
     --chat-card-surface-night-strong-bg,
     radial-gradient(ellipse at top, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
