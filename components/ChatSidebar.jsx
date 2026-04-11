@@ -689,7 +689,7 @@ export default function ChatSidebar() {
           {isConversationView ? t("chat.sidebar.sections.groups") : t("chat.sidebar.sections.conversations")}
         </Button>
       </div>
-      {isConversationView ? <div className={`${sidebarInsetWidthClassName} mt-[0.04rem] max-[768px]:mt-[0.08rem]`}>
+      {isConversationView ? <div className={`${sidebarInsetWidthClassName} mt-[0.16rem] max-[768px]:mt-[0.22rem]`}>
           <div className={searchInputShellClassName}>
             <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} className={searchInputClassName} />
           </div>
