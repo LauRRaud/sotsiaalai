@@ -93,6 +93,27 @@ test("chat prompt forbids assuming municipality from retrieved context", () => {
   assert.match(system, /provide that specific contact or form instead of a generic department or unrelated contact/);
   assert.match(system, /end with exactly one question asking which municipality or city applies/);
   assert.match(system, /include those details before any optional offer to draft wording/);
+  assert.match(system, /provide it and stop without offering another version/);
+});
+
+test("social worker prompt stops rewrite loops after a yes", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "assistant",
+        content: "Kui soovid, saan selle vormistada kliendile suunatud juhisena."
+      }
+    ],
+    userMessage: "jah",
+    context: "Jogeva koduteenus.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /provide that requested text and stop without offering another rewrite or format/);
+  assert.match(system, /Do not start answers with label-like phrases/);
+  assert.match(system, /State the conclusion directly in a natural sentence/);
 });
 
 test("chat prompt attributes mentioned details only to user messages", () => {
