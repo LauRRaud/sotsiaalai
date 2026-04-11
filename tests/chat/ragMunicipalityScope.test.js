@@ -110,6 +110,42 @@ test("chat prompt forbids assuming municipality from retrieved context", () => {
   assert.match(system, /provide it and stop without offering another version/);
 });
 
+test("client prompt layers social support answers without treating research as law", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Kas saan hoolduskoormuse tĆµttu abi?",
+    context: "Sotsiaalhoolekande seadus. Omastehoolduse uuring.",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /social services, benefits, support needs, care burden/);
+  assert.match(system, /national legal frame or Social Welfare Act \(SHS\) principle/);
+  assert.match(system, /concrete municipality regulation or service information/);
+  assert.match(system, /practical explanation of what the service, assessment, or next step means/);
+  assert.match(system, /research, monitoring, or report background/);
+  assert.match(system, /Do not present research, monitoring, or policy reports as a legal basis/);
+  assert.match(system, /For people seeking help, keep the legal frame short/);
+  assert.match(system, /If the municipality is missing, still give the national frame/);
+});
+
+test("social worker prompt asks for legal, local, practical and evidence layers", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Kuidas pĆµhjendada koduteenuse vajadust?",
+    context: "SHS. KOV koduteenuse kord. Hoolduskoormuse hindamise metoodika.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /make the source distinction explicit in plain professional language/);
+  assert.match(system, /national rule, local rule or service entry, practical case handling, and evidence or monitoring context/);
+  assert.match(system, /connect research background to assessment, documentation, service planning, risk factors, or rationale for intervention/);
+  assert.match(system, /Do not force all four layers/);
+});
+
 test("social worker prompt stops rewrite loops after a yes", () => {
   const input = toResponsesInput({
     history: [
