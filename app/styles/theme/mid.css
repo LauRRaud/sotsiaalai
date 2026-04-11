@@ -336,14 +336,19 @@
 :root.theme-mid .drawer-chat-card {
   background: var(--subpage-card-bg) !important;
   border-color: var(--subpage-card-border) !important;
-  box-shadow: var(--drawer-card-shadow, var(--subpage-card-shadow)) !important;
+  box-shadow: none !important;
 }
 
 :root.theme-mid .drawer-panel .drawer-chat-card.drawer-chat-card--active,
 :root.theme-mid .drawer-chat-card.drawer-chat-card--active {
   background: var(--subpage-card-bg-hover, var(--subpage-card-bg)) !important;
   border-color: var(--subpage-card-border-hover, var(--subpage-card-border)) !important;
-  box-shadow: var(--drawer-card-shadow-hover, var(--subpage-card-shadow-hover, var(--subpage-card-shadow))) !important;
+  box-shadow: none !important;
+}
+
+:root.theme-mid .drawer-panel .drawer-chat-card .cs-delete,
+:root.theme-mid .drawer-chat-card .cs-delete {
+  box-shadow: none !important;
 }
 
 /* Login modal and OTP panel in mid use the same transparent glass level. */

@@ -372,12 +372,15 @@
 :root.theme-light .drawer-panel .drawer-chat-card {
   border-color: transparent !important;
   background: var(--subpage-card-bg) !important;
-  box-shadow: var(--drawer-card-shadow, var(--subpage-card-shadow)) !important;
+  box-shadow: none !important;
 }
 :root.theme-light .drawer-panel .drawer-chat-card.drawer-chat-card--active {
   border-color: transparent !important;
   background: var(--subpage-card-bg-hover, var(--subpage-card-bg)) !important;
-  box-shadow: var(--drawer-card-shadow-hover, var(--subpage-card-shadow-hover, var(--subpage-card-shadow))) !important;
+  box-shadow: none !important;
+}
+:root.theme-light .drawer-panel .drawer-chat-card .cs-delete {
+  box-shadow: none !important;
 }
 :root.theme-light .drawer-close {
   color: var(--title-color);

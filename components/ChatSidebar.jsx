@@ -573,15 +573,15 @@ export default function ChatSidebar() {
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
     "disabled:cursor-not-allowed disabled:opacity-45";
   const sidebarTopPrimaryButtonClassName =
-    "invite-primary-btn !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
-    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem] " +
+    "invite-primary-btn !min-h-[2.42rem] !px-[0.86rem] !py-[0.48rem] !text-[0.98rem] !tracking-[0.012rem] !whitespace-nowrap " +
+    "max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.92rem] max-[768px]:!py-[0.52rem] max-[768px]:!text-[1.02rem] " +
     glassPrimaryButtonToneClassName;
   const sidebarTopIconButtonClassName =
-    "invite-primary-btn !min-h-[3.05rem] !px-[0.95rem] !py-[0.78rem] max-[768px]:!min-h-[3.2rem] max-[768px]:!px-[0.9rem] " +
+    "invite-primary-btn !min-h-[2.42rem] !px-[0.74rem] !py-[0.48rem] max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.74rem] max-[768px]:!py-[0.52rem] " +
     glassPrimaryButtonToneClassName;
   const sidebarPrimaryButtonClassName =
-    "drawer-pill-btn invite-primary-btn !min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
-    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem] " +
+    "drawer-pill-btn invite-primary-btn !min-h-[2.42rem] !px-[0.86rem] !py-[0.48rem] !text-[0.98rem] !tracking-[0.012rem] !whitespace-nowrap " +
+    "max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.92rem] max-[768px]:!py-[0.52rem] max-[768px]:!text-[1.02rem] " +
     glassPrimaryButtonToneClassName;
   const searchInputShellClassName = "relative";
   const searchInputClassName =
@@ -661,8 +661,8 @@ export default function ChatSidebar() {
       </li>;
   };
   return <>
-    <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-3 px-[0.15rem] max-[768px]:px-[0.1rem] pb-[0.4rem] pt-[0.7rem] max-[768px]:pt-[0.9rem] text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
-      <div className={`${sidebarContentWidthClassName} flex flex-wrap items-center justify-center gap-2 max-[768px]:gap-[0.72rem]`}>
+    <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-[0.62rem] px-[0.15rem] max-[768px]:px-[0.1rem] pb-[0.4rem] pt-[0.42rem] max-[768px]:pt-[0.54rem] text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
+      <div className={`${sidebarContentWidthClassName} flex flex-wrap items-center justify-center gap-[0.45rem] max-[768px]:gap-[0.5rem]`}>
         {isConversationView ? <Button variant="primary" size="md" className={sidebarTopPrimaryButtonClassName} onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
             {creating ? t("chat.sidebar.button.creating") : <>
                 <span>{t("chat.sidebar.button.new_short")}</span>
@@ -676,9 +676,9 @@ export default function ChatSidebar() {
                 <span className="max-[416px]:hidden">{t("chat.sidebar.selection.select")}</span>
                 <span className="hidden max-[416px]:inline">{t("chat.sidebar.selection.select_short")}</span>
               </>}
-          </Button> : null}
+        </Button> : null}
         <Button variant="primary" size="md" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh")} title={t("chat.sidebar.button.refresh")} className={sidebarTopIconButtonClassName}>
-          <svg className="h-5 w-5 max-[768px]:h-[1.74rem] max-[768px]:w-[1.74rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.05" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg className="h-[1.08rem] w-[1.08rem] max-[768px]:h-[1.18rem] max-[768px]:w-[1.18rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.05" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M3 12a9 9 0 0 1 15-6.2" />
             <polyline points="18 3 18 9 12 9" />
             <path d="M21 12a9 9 0 0 1-15 6.2" />
