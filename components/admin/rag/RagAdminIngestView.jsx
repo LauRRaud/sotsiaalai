@@ -85,6 +85,13 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
     setPdfMetaFileName,
     pdfMetaAudience,
     setPdfMetaAudience,
+    rtXmlFormRef,
+    rtXmlFileInputRef,
+    rtXmlFileName,
+    setRtXmlFileName,
+    rtXmlBusy,
+    rtXmlResult,
+    handleRtXmlSubmit,
     showMetaGuide,
     setShowMetaGuide,
     handleMetaCheck,
@@ -104,7 +111,6 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
     articlesResult,
     activeMetaTemplate,
     metaTemplates,
-    activeMetaTemplateKey,
     setActiveMetaTemplateKey,
     activeMetaTemplateContent
   } = controller;
@@ -289,6 +295,49 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                     <div className="text-[0.95rem] text-[color:var(--admin-muted)]">
                       {pdfMetaResult.fileName ? `${pdfMetaResult.fileName}: ` : ""}
                       {pdfMetaResult.shortRef || pdfMetaResult.docId || tr("admin.rag.common.saved")}
+                    </div>
+                  ) : null}
+            </form>
+
+            <form className={panelStackClassName} onSubmit={handleRtXmlSubmit} ref={rtXmlFormRef}>
+                  <label className={labelClassName}>{tr("admin.rag.ingest.rt_xml_section_title")}</label>
+                  <div className={formNoteClassName}>{tr("admin.rag.ingest.rt_xml_section_note")}</div>
+                  <input
+                    ref={rtXmlFileInputRef}
+                    name="rtXmlFile"
+                    type="file"
+                    accept=".xml,application/xml,text/xml"
+                    className="sr-only"
+                    onChange={event => setRtXmlFileName(event.target.files?.[0]?.name || "")}
+                  />
+                  <div className={filePickerClassName}>
+                    <Button
+                      type="button"
+                      size="sm"
+                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                      onClick={() => rtXmlFileInputRef.current?.click()}
+                    >
+                      {tr("admin.rag.ingest.choose_rt_xml")}
+                    </Button>
+                    <span className={filePickerNameClassName}>{rtXmlFileName || tr("admin.rag.ingest.no_rt_xml_selected")}</span>
+                  </div>
+                  <Button
+                    size="sm"
+                    type="submit"
+                    variant="primary"
+                    className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName} self-start`}
+                    disabled={rtXmlBusy}
+                  >
+                    {rtXmlBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_rt_xml")}
+                  </Button>
+                  {rtXmlResult ? (
+                    <div className="text-[0.95rem] text-[color:var(--admin-muted)]">
+                      {[
+                        rtXmlResult.title,
+                        rtXmlResult.actReference ? `RT ${rtXmlResult.actReference}` : "",
+                        rtXmlResult.docId ? `docId: ${rtXmlResult.docId}` : "",
+                        rtXmlResult.inserted != null ? tr("admin.rag.ingest.rt_xml_chunk_count", { count: rtXmlResult.inserted }) : ""
+                      ].filter(Boolean).join(" | ")}
                     </div>
                   ) : null}
             </form>

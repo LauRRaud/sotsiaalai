@@ -85,6 +85,9 @@ export function useRagAdminController() {
   const [pdfMetaResult, setPdfMetaResult] = useState(null);
   const [pdfFileName, setPdfFileName] = useState("");
   const [pdfMetaFileName, setPdfMetaFileName] = useState("");
+  const [rtXmlFileName, setRtXmlFileName] = useState("");
+  const [rtXmlBusy, setRtXmlBusy] = useState(false);
+  const [rtXmlResult, setRtXmlResult] = useState(null);
   const [metaCheck, setMetaCheck] = useState(null);
   const [showMetaGuide, setShowMetaGuide] = useState(false);
   const [activeMetaTemplateKey, setActiveMetaTemplateKey] = useState(META_TEMPLATES[0]?.key || "base");
@@ -120,6 +123,8 @@ export function useRagAdminController() {
   const pdfFormRef = useRef(null);
   const pdfFileInputRef = useRef(null);
   const pdfMetaFileInputRef = useRef(null);
+  const rtXmlFormRef = useRef(null);
+  const rtXmlFileInputRef = useRef(null);
   const articlesFileInputRef = useRef(null);
   const articlesFormRef = useRef(null);
   const fetchAbortRef = useRef(null);
@@ -358,6 +363,58 @@ export function useRagAdminController() {
       text: parts.join(" | ")
     });
   }, [tr]);
+
+  const handleRtXmlSubmit = useCallback(
+    async event => {
+      event.preventDefault();
+      resetMessage();
+      setRtXmlResult(null);
+
+      const form = event.currentTarget;
+      const xmlFile = form.rtXmlFile?.files?.[0];
+
+      if (!xmlFile) {
+        showError(tr("admin.rag.errors.rt_xml_required"));
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", xmlFile);
+
+      setRtXmlBusy(true);
+
+      try {
+        const res = await fetch("/api/admin/rag/national-rt", {
+          method: "POST",
+          body: formData
+        });
+        const raw = await res.text();
+        const data = raw ? JSON.parse(raw) : {};
+
+        if (!res.ok || data?.ok === false) {
+          throw new Error(resolveErrorText(data, "admin.rag.errors.rt_xml_ingest_failed"));
+        }
+
+        const docId = data?.docId || data?.doc_id || "";
+        showOk(tr("admin.rag.success.rt_xml_ingested", { docId }));
+        setRtXmlResult({
+          docId,
+          title: data?.title || "",
+          actReference: data?.actReference || "",
+          inserted: data?.inserted ?? null,
+          sourceUrl: data?.sourceUrl || ""
+        });
+        setRtXmlFileName("");
+        form.reset();
+        await fetchDocuments();
+      } catch (err) {
+        showError(err?.message || tr("admin.rag.errors.rt_xml_ingest_failed"));
+      } finally {
+        setRtXmlBusy(false);
+      }
+    },
+    [fetchDocuments, resetMessage, resolveErrorText, showError, showOk, tr]
+  );
 
   const handleUrlSubmit = useCallback(
     async event => {
@@ -1037,6 +1094,10 @@ export function useRagAdminController() {
     setPdfFileName,
     pdfMetaFileName,
     setPdfMetaFileName,
+    rtXmlFileName,
+    setRtXmlFileName,
+    rtXmlBusy,
+    rtXmlResult,
     metaCheck,
     showMetaGuide,
     setShowMetaGuide,
@@ -1091,6 +1152,8 @@ export function useRagAdminController() {
     pdfFormRef,
     pdfFileInputRef,
     pdfMetaFileInputRef,
+    rtXmlFormRef,
+    rtXmlFileInputRef,
     articlesFileInputRef,
     articlesFormRef,
     resetMessage,
@@ -1104,6 +1167,7 @@ export function useRagAdminController() {
     metaTemplates,
     handlePdfMetaSubmit,
     handleMetaCheck,
+    handleRtXmlSubmit,
     handleUrlSubmit,
     handleArticlesSubmit,
     handleReindex,
