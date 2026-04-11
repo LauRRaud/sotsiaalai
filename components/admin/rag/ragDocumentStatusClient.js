@@ -27,10 +27,10 @@ export function shouldFetchRagDocumentStatus(entryLike, layer = "web") {
   if (!entryLike) return false;
 
   if (layer === "rt") {
-    return String(entryLike.rtIngestStatus || "").trim() === "INGESTED" || Boolean(entryLike.rtLastIngestedAt);
+    return String(entryLike.rtIngestStatus || "").trim() === "INGESTED";
   }
 
-  return String(entryLike.ingestStatus || "").trim() === "INGESTED" || Boolean(entryLike.lastIngestedAt);
+  return String(entryLike.ingestStatus || "").trim() === "INGESTED";
 }
 
 export async function fetchRagDocumentStatus(docId) {
