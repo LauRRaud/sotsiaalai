@@ -1,8 +1,9 @@
 "use client";
 
-export async function fetchRagDocumentStatus(docId) {
+export function buildRagDocumentStatusFallback(docId, extras = {}) {
   const normalizedDocId = String(docId || "").trim();
-  const fallback = {
+
+  return {
     docId: normalizedDocId,
     exists: false,
     chunks: 0,
@@ -10,8 +11,31 @@ export async function fetchRagDocumentStatus(docId) {
     status: "",
     updatedAt: null,
     lastIngested: null,
-    error: ""
+    error: "",
+    notIngested: false,
+    ...extras
   };
+}
+
+export function buildNotIngestedRagDocumentStatus(docId) {
+  return buildRagDocumentStatusFallback(docId, {
+    notIngested: true
+  });
+}
+
+export function shouldFetchRagDocumentStatus(entryLike, layer = "web") {
+  if (!entryLike) return false;
+
+  if (layer === "rt") {
+    return String(entryLike.rtIngestStatus || "").trim() === "INGESTED" || Boolean(entryLike.rtLastIngestedAt);
+  }
+
+  return String(entryLike.ingestStatus || "").trim() === "INGESTED" || Boolean(entryLike.lastIngestedAt);
+}
+
+export async function fetchRagDocumentStatus(docId) {
+  const normalizedDocId = String(docId || "").trim();
+  const fallback = buildRagDocumentStatusFallback(normalizedDocId);
 
   if (!normalizedDocId) {
     return {

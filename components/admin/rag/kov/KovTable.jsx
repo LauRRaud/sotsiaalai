@@ -211,6 +211,10 @@ export default function KovTable({
             const rowBusy = revalidateBusySlug === row.slug;
             const ingestBusy = ingestBusySlug === row.slug;
             const canIngest = row.ingestSummary?.canIngest === true && row.ingestStatus !== "INGESTING";
+            const rtRequiredCount = Math.max(1, Number(row.rtSummary?.requiredCount || 1));
+            const rtMissingCount = Number(row.rtSummary?.missingCount || 0);
+            const rtInvalidCount = Number(row.rtSummary?.invalidCount || 0);
+            const rtValidCount = Number(row.rtSummary?.validCount || 0);
 
             return (
               <tr
@@ -276,7 +280,7 @@ export default function KovTable({
                 </td>
                 <td className="border-b border-[color:var(--documents-card-border)] px-3 py-2.5 align-top">
                   <div className="font-semibold">{row.fileCount}/4 <span className="font-normal text-[color:var(--documents-page-muted)]">KOV</span></div>
-                  <div className="mt-0.5 text-[0.78rem] text-[color:var(--documents-page-muted)]">{row.rtFileCount || 0}/2 RT</div>
+                  <div className="mt-0.5 text-[0.78rem] text-[color:var(--documents-page-muted)]">{row.rtFileCount || 0}/{rtRequiredCount} RT</div>
                   <div className="mt-1.5">
                     <span
                       className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${
@@ -297,22 +301,22 @@ export default function KovTable({
                   <div className="mt-1">
                     <span
                       className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${
-                        Number(row.rtSummary?.invalidCount || 0) > 0
-                          ? "border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
-                          : Number(row.rtSummary?.missingCount || 0) > 0
+                        rtMissingCount > 0
                             ? "border-[color:var(--documents-card-border)] bg-[color:var(--documents-card-bg)] text-[color:var(--documents-page-muted)]"
-                            : Number(row.rtSummary?.validCount || 0) === 2
-                              ? "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
-                              : "border-[color:var(--documents-card-border)] bg-[color:var(--documents-card-bg)] text-[color:var(--documents-page-muted)]"
+                            : rtInvalidCount > 0
+                              ? "border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
+                              : rtValidCount === rtRequiredCount
+                                ? "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
+                                : "border-[color:var(--documents-card-border)] bg-[color:var(--documents-card-bg)] text-[color:var(--documents-page-muted)]"
                       }`}
                     >
-                      {Number(row.rtSummary?.invalidCount || 0) > 0
-                        ? et ? "RT vigane" : "RT invalid"
-                        : Number(row.rtSummary?.missingCount || 0) > 0
+                      {rtMissingCount > 0
                           ? et ? "RT puudulik" : "RT incomplete"
-                        : Number(row.rtSummary?.validCount || 0) === 2
-                            ? et ? "RT korras" : "RT valid"
-                            : et ? "RT pooleli" : "RT pending"}
+                          : rtInvalidCount > 0
+                            ? et ? "RT vigane" : "RT invalid"
+                            : rtValidCount === rtRequiredCount
+                              ? et ? "RT korras" : "RT valid"
+                              : et ? "RT pooleli" : "RT pending"}
                     </span>
                   </div>
                   {(Number(row.rtLightCheckSummary?.changedSourceCount || 0) > 0 || Number(row.rtLightCheckSummary?.errorCount || 0) > 0) ? (

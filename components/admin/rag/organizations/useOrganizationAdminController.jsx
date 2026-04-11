@@ -2,7 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { fetchRagDocumentStatus } from "@/components/admin/rag/ragDocumentStatusClient";
+import {
+  buildNotIngestedRagDocumentStatus,
+  fetchRagDocumentStatus,
+  shouldFetchRagDocumentStatus
+} from "@/components/admin/rag/ragDocumentStatusClient";
 
 function createDraft(entry) {
   return {
@@ -103,6 +107,14 @@ export function useOrganizationAdminController(locale, initialItems = []) {
       return undefined;
     }
 
+    if (!shouldFetchRagDocumentStatus(selectedEntry, "web")) {
+      setRagStatus({
+        doc: buildNotIngestedRagDocumentStatus(selectedRagDocId),
+        checkedAt: null
+      });
+      return undefined;
+    }
+
     setRagStatusLoading(true);
     fetchRagDocumentStatus(selectedRagDocId)
       .then(doc => {
@@ -119,7 +131,7 @@ export function useOrganizationAdminController(locale, initialItems = []) {
     return () => {
       active = false;
     };
-  }, [selectedRagDocId]);
+  }, [selectedEntry, selectedRagDocId]);
 
   async function refreshSelectedRagStatus(entryLike = selectedEntry) {
     if (!entryLike?.ragDocId) {
@@ -128,6 +140,15 @@ export function useOrganizationAdminController(locale, initialItems = []) {
         checkedAt: null
       });
       return null;
+    }
+
+    if (!shouldFetchRagDocumentStatus(entryLike, "web")) {
+      const snapshot = {
+        doc: buildNotIngestedRagDocumentStatus(entryLike.ragDocId),
+        checkedAt: null
+      };
+      setRagStatus(snapshot);
+      return snapshot;
     }
 
     setRagStatusLoading(true);

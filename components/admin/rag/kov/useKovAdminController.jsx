@@ -2,7 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { fetchRagDocumentStatus } from "@/components/admin/rag/ragDocumentStatusClient";
+import {
+  buildNotIngestedRagDocumentStatus,
+  fetchRagDocumentStatus,
+  shouldFetchRagDocumentStatus
+} from "@/components/admin/rag/ragDocumentStatusClient";
 import { KOV_FILE_ROLE_META } from "@/lib/admin/rag/kov/shared";
 
 const STATUS_LABELS = {
@@ -237,15 +241,22 @@ export function useKovAdminController(locale, initialItems = []) {
       };
     }
 
+    const fetchWebStatus = shouldFetchRagDocumentStatus(entryLike, "web");
+    const fetchRtStatus = shouldFetchRagDocumentStatus(entryLike, "rt");
+
     const [web, rt] = await Promise.all([
-      fetchRagDocumentStatus(entryLike.ragDocId),
-      fetchRagDocumentStatus(entryLike.rtRagDocId)
+      fetchWebStatus
+        ? fetchRagDocumentStatus(entryLike.ragDocId)
+        : Promise.resolve(buildNotIngestedRagDocumentStatus(entryLike.ragDocId)),
+      fetchRtStatus
+        ? fetchRagDocumentStatus(entryLike.rtRagDocId)
+        : Promise.resolve(buildNotIngestedRagDocumentStatus(entryLike.rtRagDocId))
     ]);
 
     return {
       web,
       rt,
-      checkedAt: new Date().toISOString()
+      checkedAt: fetchWebStatus || fetchRtStatus ? new Date().toISOString() : null
     };
   }, []);
 

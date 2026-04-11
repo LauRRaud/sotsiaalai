@@ -162,6 +162,7 @@ function ragDocStatusClass(doc) {
 
 function ragDocStatusLabel(doc, et) {
   if (doc?.error) return et ? "Viga" : "Error";
+  if (doc?.notIngested) return et ? "Pole ingestitud" : "Not ingested";
   if (doc?.exists && Number(doc?.chunks || 0) > 0) return et ? "Leitud" : "Found";
   if (doc?.exists) return et ? "Registris, 0 chunki" : "In registry, 0 chunks";
   return et ? "Puudub" : "Missing";

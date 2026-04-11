@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback, useRef } from "react";
+
 import RagAdminAlert from "./RagAdminAlert";
 import { cardBodyClassName, cardClassName, cardSubClassName, rootClassName, rootInputVars } from "./ragAdminShared";
 import KovDetailPanel from "./kov/KovDetailPanel";
@@ -11,6 +13,7 @@ import { useKovAdminController } from "./kov/useKovAdminController";
 
 export default function RagAdminKovView({ locale, initialItems = [] }) {
   const controller = useKovAdminController(locale, initialItems);
+  const detailPanelRef = useRef(null);
 
   const {
     et,
@@ -98,6 +101,20 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
   } = controller;
 
   const resultsLabel = count => (et ? `Tulemusi: ${count}` : `Results: ${count}`);
+  const openEditor = useCallback(
+    slug => {
+      selectEntry(slug);
+      setEditingLinks(true);
+
+      window.requestAnimationFrame(() => {
+        detailPanelRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+    },
+    [selectEntry, setEditingLinks]
+  );
 
   return (
     <div className={rootClassName} style={rootInputVars}>
@@ -153,47 +170,49 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
       ) : null}
 
       <div className="grid gap-2">
-        <KovDetailPanel
-          entry={selectedEntry}
-          locale={locale}
-          et={et}
-          statusOptions={statusOptions}
-          statusLabel={statusLabel}
-          ingestStatusLabel={ingestStatusLabel}
-          rtStatusLabel={rtStatusLabel}
-          autoCheckStatusLabel={autoCheckStatusLabel}
-          rtStatusOptions={rtStatusOptions}
-          detailDraft={detailDraft}
-          onDraftChange={setDetailDraft}
-          ragStatus={ragStatus}
-          ragStatusLoading={ragStatusLoading}
-          onRefreshRagStatus={() => refreshSelectedRagStatus()}
-          editingLinks={editingLinks}
-          onSetEditingLinks={setEditingLinks}
-          onSave={saveDetail}
-          saveBusy={saveBusy}
-          onCycleStatus={cycleStatus}
-          onMarkReady={() => selectedEntry && markReady(selectedEntry.slug)}
-          onIngest={() => selectedEntry && ingestSingle(selectedEntry.slug)}
-          onIngestRt={() => selectedEntry && ingestRtSingle(selectedEntry.slug)}
-          onRevalidateAll={() => selectedEntry && revalidateSingle(selectedEntry.slug)}
-          onRevalidateRt={() => selectedEntry && revalidateRtSingle(selectedEntry.slug)}
-          onLightCheck={() => selectedEntry && lightCheckSingle(selectedEntry.slug)}
-          onRtLightCheck={() => selectedEntry && lightCheckRtSingle(selectedEntry.slug)}
-          onMarkWebReviewNeeded={() => selectedEntry && markWebReviewNeeded(selectedEntry.slug)}
-          onConfirmWebLightCheck={() => selectedEntry && confirmWebLightCheck(selectedEntry.slug)}
-          onMarkRtReviewNeeded={() => selectedEntry && markRtReviewNeeded(selectedEntry.slug)}
-          onConfirmRtLightCheck={() => selectedEntry && confirmRtLightCheck(selectedEntry.slug)}
-          onUploadFile={uploadFile}
-          onRemoveFile={removeFile}
-          fileBusyKey={fileBusyKey}
-          revalidateBusy={revalidateBusySlug === selectedEntry?.slug}
-          revalidateRtBusy={revalidateRtBusySlug === selectedEntry?.slug}
-          ingestBusy={ingestBusySlug === selectedEntry?.slug}
-          rtIngestBusy={rtIngestBusySlug === selectedEntry?.slug}
-          lightCheckBusy={lightCheckBusySlug === selectedEntry?.slug}
-          rtLightCheckBusy={rtLightCheckBusySlug === selectedEntry?.slug}
-        />
+        <div ref={detailPanelRef} className="scroll-mt-[92px]">
+          <KovDetailPanel
+            entry={selectedEntry}
+            locale={locale}
+            et={et}
+            statusOptions={statusOptions}
+            statusLabel={statusLabel}
+            ingestStatusLabel={ingestStatusLabel}
+            rtStatusLabel={rtStatusLabel}
+            autoCheckStatusLabel={autoCheckStatusLabel}
+            rtStatusOptions={rtStatusOptions}
+            detailDraft={detailDraft}
+            onDraftChange={setDetailDraft}
+            ragStatus={ragStatus}
+            ragStatusLoading={ragStatusLoading}
+            onRefreshRagStatus={() => refreshSelectedRagStatus()}
+            editingLinks={editingLinks}
+            onSetEditingLinks={setEditingLinks}
+            onSave={saveDetail}
+            saveBusy={saveBusy}
+            onCycleStatus={cycleStatus}
+            onMarkReady={() => selectedEntry && markReady(selectedEntry.slug)}
+            onIngest={() => selectedEntry && ingestSingle(selectedEntry.slug)}
+            onIngestRt={() => selectedEntry && ingestRtSingle(selectedEntry.slug)}
+            onRevalidateAll={() => selectedEntry && revalidateSingle(selectedEntry.slug)}
+            onRevalidateRt={() => selectedEntry && revalidateRtSingle(selectedEntry.slug)}
+            onLightCheck={() => selectedEntry && lightCheckSingle(selectedEntry.slug)}
+            onRtLightCheck={() => selectedEntry && lightCheckRtSingle(selectedEntry.slug)}
+            onMarkWebReviewNeeded={() => selectedEntry && markWebReviewNeeded(selectedEntry.slug)}
+            onConfirmWebLightCheck={() => selectedEntry && confirmWebLightCheck(selectedEntry.slug)}
+            onMarkRtReviewNeeded={() => selectedEntry && markRtReviewNeeded(selectedEntry.slug)}
+            onConfirmRtLightCheck={() => selectedEntry && confirmRtLightCheck(selectedEntry.slug)}
+            onUploadFile={uploadFile}
+            onRemoveFile={removeFile}
+            fileBusyKey={fileBusyKey}
+            revalidateBusy={revalidateBusySlug === selectedEntry?.slug}
+            revalidateRtBusy={revalidateRtBusySlug === selectedEntry?.slug}
+            ingestBusy={ingestBusySlug === selectedEntry?.slug}
+            rtIngestBusy={rtIngestBusySlug === selectedEntry?.slug}
+            lightCheckBusy={lightCheckBusySlug === selectedEntry?.slug}
+            rtLightCheckBusy={rtLightCheckBusySlug === selectedEntry?.slug}
+          />
+        </div>
         {filteredItems.length ? (
           <KovTable
             rows={filteredItems}
@@ -217,10 +236,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
             onIngestSelected={ingestSelected}
             onIngestRtSelected={ingestRtSelected}
             onIngestRow={ingestSingle}
-            onOpenEditor={slug => {
-              selectEntry(slug);
-              setEditingLinks(true);
-            }}
+            onOpenEditor={openEditor}
             revalidateBusySlug={revalidateBusySlug}
             bulkRevalidateBusy={bulkRevalidateBusy}
             bulkRevalidateRtBusy={bulkRevalidateRtBusy}
