@@ -690,7 +690,8 @@ async function callOpenAI({
     isCrisis
   });
   const payload = buildResponsesPayload(input, {
-    stream: false
+    stream: false,
+    effectiveRole
   });
   const startedAt = Date.now();
   const resp = await client.responses.create(payload);
@@ -739,7 +740,8 @@ async function streamOpenAI({
     isCrisis
   });
   const payload = buildResponsesPayload(input, {
-    stream: true
+    stream: true,
+    effectiveRole
   });
   const startedAt = Date.now();
   const stream = await client.responses.stream(payload);

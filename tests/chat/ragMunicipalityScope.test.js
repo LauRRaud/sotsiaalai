@@ -7,7 +7,7 @@ import {
   filterMunicipalityScopedMatches,
   isMunicipalityScopedMatch
 } from "../../lib/chat/ragContext.js";
-import { toResponsesInput } from "../../lib/chat/promptBuilder.js";
+import { buildResponsesPayload, toResponsesInput } from "../../lib/chat/promptBuilder.js";
 
 test("municipality scoped RAG matches are withheld until the user names a municipality", () => {
   const matches = [
@@ -101,6 +101,7 @@ test("chat prompt forbids assuming municipality from retrieved context", () => {
   const system = input.input[0].content;
   assert.match(system, /Do not assume the user's municipality/);
   assert.match(system, /explain the national rule first, then ask which municipality or city/);
+  assert.match(system, /Ask that municipality question directly/);
   assert.match(system, /do not offer to draft a letter, application, or call script before asking for the municipality/);
   assert.match(system, /Once the municipality is known/);
   assert.match(system, /provide that specific contact or form instead of a generic department or unrelated contact/);
@@ -125,11 +126,34 @@ test("social worker prompt stops rewrite loops after a yes", () => {
 
   const system = input.input[0].content;
   const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.match(system, /do not give a bare yes\/no answer followed mainly by an offer to continue/);
+  assert.match(system, /3-5 concrete details from the source/);
   assert.match(system, /provide that requested text and stop without offering another rewrite or format/);
   assert.match(system, /Do not start answers with label-like phrases/);
   assert.match(system, /State the conclusion directly in a natural sentence/);
   assert.match(turnInstruction, /Provide exactly the requested text or format now/);
   assert.match(turnInstruction, /Do not add another closing offer/);
+});
+
+test("permission-style affirmative replies also stop rewrite loops", () => {
+  for (const userMessage of ["võid", "võid ikka", "no tee"]) {
+    const input = toResponsesInput({
+      history: [
+        {
+          role: "assistant",
+          content: "Kui soovid, võin järgmise sammuna sõnastada lühikese kliendi pöördumise."
+        }
+      ],
+      userMessage,
+      context: "Jogeva koduteenus.",
+      effectiveRole: "SOCIAL_WORKER",
+      replyLang: "et"
+    });
+
+    const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+    assert.match(turnInstruction, /Provide exactly the requested text or format now/);
+    assert.match(turnInstruction, /Do not add another closing offer/);
+  }
 });
 
 test("chat prompt attributes mentioned details only to user messages", () => {
@@ -150,4 +174,22 @@ test("chat prompt attributes mentioned details only to user messages", () => {
   assert.match(system, /judge only from user-role messages/);
   assert.match(system, /Do not treat assistant replies/);
   assert.match(system, /acknowledge the error plainly/);
+});
+
+test("social worker responses use medium verbosity while client stays low", () => {
+  const base = {
+    model: "test-model",
+    input: [],
+    max_output_tokens: 100
+  };
+
+  assert.equal(buildResponsesPayload(base, {
+    stream: false,
+    effectiveRole: "SOCIAL_WORKER"
+  }).text.verbosity, "medium");
+
+  assert.equal(buildResponsesPayload(base, {
+    stream: false,
+    effectiveRole: "CLIENT"
+  }).text.verbosity, "low");
 });
