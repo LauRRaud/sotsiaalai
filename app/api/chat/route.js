@@ -187,6 +187,24 @@ function extractRecentUserText(history = [], maxItems = 2) {
   }
   return picked.reverse();
 }
+
+function shouldUseRecentTextForRetrieval(message = "") {
+  const normalized = normalizeIntentText(message);
+  if (!normalized) return false;
+  if (normalized.length <= 90) return true;
+  return /\b(see|seda|sellest|selle|seal|siin|jah|jep|okei|ok|kontakt|kontaktid|telefon|e-post|email|taotlus|taotlema|pean|kuidas|kuhu|kellele)\b/.test(normalized);
+}
+
+function buildRagSearchQuery(message = "", history = []) {
+  const current = String(message || "").trim();
+  if (!current) return "";
+  const recent = shouldUseRecentTextForRetrieval(current)
+    ? extractRecentUserText(history, 2)
+    : [];
+  const parts = [current, ...recent].filter(Boolean);
+  return Array.from(new Set(parts)).join("\n");
+}
+
 function getDocContextBudget(role = "CLIENT", combineSources = false) {
   const worker = role === "SOCIAL_WORKER";
   return {
@@ -1580,8 +1598,9 @@ export async function POST(req) {
   };
   if (!ephemeralChunks.length || combineSources) {
     try {
+      const ragQueryText = buildRagSearchQuery(effectiveMessage, rawHistory);
       matches = await searchRagDirect({
-        query: effectiveMessage,
+        query: ragQueryText,
         topK: RAG_TOP_K,
         filters: audienceFilter,
         userId,

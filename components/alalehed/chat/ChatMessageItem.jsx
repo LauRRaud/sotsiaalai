@@ -18,6 +18,120 @@ function splitGraphemes(text) {
 const TYPING_STEP_MS = 18;
 const TYPING_TRAILING_INLINE_RE = /^[\s!?,.;:)]$/;
 
+function renderInlineMarkdown(text, keyPrefix) {
+  const parts = [];
+  const source = String(text || "");
+  const boldRe = /\*\*([^*\n][\s\S]*?[^*\n])\*\*/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = boldRe.exec(source)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(source.slice(lastIndex, match.index));
+    }
+    parts.push(
+      <strong key={`${keyPrefix}-strong-${match.index}`} className="font-semibold">
+        {match[1]}
+      </strong>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < source.length) {
+    parts.push(source.slice(lastIndex));
+  }
+
+  return parts.length ? parts : source;
+}
+
+function parseMarkdownBlocks(text) {
+  const lines = String(text || "").replace(/\r\n?/g, "\n").split("\n");
+  const blocks = [];
+  let paragraph = [];
+  let list = null;
+
+  const flushParagraph = () => {
+    const content = paragraph.join("\n").trim();
+    if (content) {
+      blocks.push({ type: "paragraph", text: content });
+    }
+    paragraph = [];
+  };
+
+  const flushList = () => {
+    if (list?.items?.length) {
+      blocks.push(list);
+    }
+    list = null;
+  };
+
+  for (const line of lines) {
+    const unordered = line.match(/^\s*[-*]\s+(.+)$/);
+    const ordered = line.match(/^\s*\d+[.)]\s+(.+)$/);
+
+    if (unordered || ordered) {
+      flushParagraph();
+      const type = ordered ? "ordered" : "unordered";
+      if (!list || list.type !== type) {
+        flushList();
+        list = { type, items: [] };
+      }
+      list.items.push((ordered || unordered)[1].trim());
+      continue;
+    }
+
+    if (!line.trim()) {
+      flushParagraph();
+      flushList();
+      continue;
+    }
+
+    flushList();
+    paragraph.push(line);
+  }
+
+  flushParagraph();
+  flushList();
+  return blocks;
+}
+
+function AssistantMarkdown({ text }) {
+  const blocks = useMemo(() => parseMarkdownBlocks(text), [text]);
+
+  if (!blocks.length) return null;
+
+  return (
+    <div className="grid gap-[0.72em]">
+      {blocks.map((block, index) => {
+        if (block.type === "unordered" || block.type === "ordered") {
+          const ListTag = block.type === "ordered" ? "ol" : "ul";
+          return (
+            <ListTag
+              key={`${block.type}-${index}`}
+              className={cn(
+                "grid gap-[0.28em] pl-[1.25em] leading-inherit tracking-inherit",
+                block.type === "ordered" ? "list-decimal" : "list-disc"
+              )}
+            >
+              {block.items.map((item, itemIndex) => (
+                <li key={`${block.type}-${index}-${itemIndex}`}>
+                  {renderInlineMarkdown(item, `${block.type}-${index}-${itemIndex}`)}
+                </li>
+              ))}
+            </ListTag>
+          );
+        }
+
+        return (
+          <p key={`paragraph-${index}`} className="whitespace-pre-wrap">
+            {renderInlineMarkdown(block.text, `paragraph-${index}`)}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 const ChatMessageItem = memo(function ChatMessageItem({
   messageId,
   role,
@@ -197,9 +311,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
       </span>
 
       {text ? (
-        <div className="whitespace-pre-wrap">
-          <span>{visibleText}</span>
-        </div>
+        <AssistantMarkdown text={visibleText} />
       ) : null}
       {showCareerResponse ? (
         <CareerMessageRenderer

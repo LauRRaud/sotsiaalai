@@ -386,7 +386,14 @@ export function useKovAdminController(locale, initialItems = []) {
   const summaryCards = useMemo(() => {
     const visible = filteredItems.length;
     const ready = filteredItems.filter(item => item.readyForIngest).length;
-    const needsAttention = filteredItems.filter(item => ["NOT_STARTED", "DRAFT", "NEEDS_REVIEW"].includes(item.status)).length;
+    const needsAttention = filteredItems.filter(
+      item =>
+        item?.combinedReadiness?.state !== "BOTH_INGESTED"
+        && (
+          ["NOT_STARTED", "DRAFT", "NEEDS_REVIEW"].includes(item.status)
+          || item?.combinedReadiness?.state !== "BOTH_READY"
+        )
+    ).length;
     const completeFiles = filteredItems.filter(item => item?.validationSummary?.allFilesValid === true).length;
     return [
       {
