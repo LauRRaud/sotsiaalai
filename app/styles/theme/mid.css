@@ -256,6 +256,26 @@
   --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
 }
 
+:root.theme-mid .chat-window {
+  --chat-window-fade-top: 1.35rem;
+  --chat-window-scroll-top-fade-start: 0.38rem;
+  --chat-window-scroll-top-fade-mid: 1.08rem;
+  --chat-window-scroll-top-fade-end: 1.72rem;
+}
+
+:root.theme-mid .chat-msg-user-bubble {
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(252, 248, 246, 0.99) 0%,
+      rgba(245, 237, 233, 0.98) 100%
+    ) !important;
+  font-weight: 500;
+  text-shadow: none;
+}
+
 :root.theme-mid .chat-page-shell [class*="leftRail"] [class*="iconBtnActive"],
 :root.theme-mid .chat-page-shell [class*="rightRail"] [class*="iconBtnActive"] {
   background: rgba(116, 98, 91, 0.14);
