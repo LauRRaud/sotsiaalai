@@ -68,6 +68,7 @@ function parseMarkdownBlocks(text) {
   for (const line of lines) {
     const unordered = line.match(/^\s*[-*]\s+(.+)$/);
     const ordered = line.match(/^\s*\d+[.)]\s+(.+)$/);
+    const isIndentedContinuation = /^\s{2,}\S/.test(line);
 
     if (unordered || ordered) {
       flushParagraph();
@@ -77,6 +78,12 @@ function parseMarkdownBlocks(text) {
         list = { type, items: [] };
       }
       list.items.push((ordered || unordered)[1].trim());
+      continue;
+    }
+
+    if (isIndentedContinuation && list?.items?.length) {
+      const lastIndex = list.items.length - 1;
+      list.items[lastIndex] = `${list.items[lastIndex]}\n${line.trim()}`;
       continue;
     }
 
@@ -101,7 +108,7 @@ function AssistantMarkdown({ text }) {
   if (!blocks.length) return null;
 
   return (
-    <div className="grid gap-[0.72em]">
+    <div className="grid gap-[0.42em]">
       {blocks.map((block, index) => {
         if (block.type === "unordered" || block.type === "ordered") {
           const ListTag = block.type === "ordered" ? "ol" : "ul";
@@ -109,12 +116,12 @@ function AssistantMarkdown({ text }) {
             <ListTag
               key={`${block.type}-${index}`}
               className={cn(
-                "grid gap-[0.28em] pl-[1.25em] leading-inherit tracking-inherit",
+                "m-0 grid gap-[0.18em] pl-[1.25em] leading-inherit tracking-inherit",
                 block.type === "ordered" ? "list-decimal" : "list-disc"
               )}
             >
               {block.items.map((item, itemIndex) => (
-                <li key={`${block.type}-${index}-${itemIndex}`}>
+                <li key={`${block.type}-${index}-${itemIndex}`} className="whitespace-pre-wrap">
                   {renderInlineMarkdown(item, `${block.type}-${index}-${itemIndex}`)}
                 </li>
               ))}
@@ -123,7 +130,7 @@ function AssistantMarkdown({ text }) {
         }
 
         return (
-          <p key={`paragraph-${index}`} className="whitespace-pre-wrap">
+          <p key={`paragraph-${index}`} className="m-0 whitespace-pre-wrap">
             {renderInlineMarkdown(block.text, `paragraph-${index}`)}
           </p>
         );
