@@ -592,7 +592,7 @@ export default function ChatSidebar() {
   const listViewportClassName = "flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
   const listScrollFrameClassName = "relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.1rem]";
   const listClassName =
-    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-2 overflow-y-auto px-0 pt-[0.62rem] max-[768px]:pt-[0.54rem] pb-[1.12rem] max-[768px]:pb-[0.36rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
+    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-2 overflow-y-auto px-0 pt-[0.42rem] max-[768px]:pt-[0.36rem] pb-[1.12rem] max-[768px]:pb-[0.36rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
     "before:content-[''] before:block before:h-[0.05rem] max-[768px]:before:h-[0.04rem] after:content-[''] after:block after:h-[0.62rem] max-[768px]:after:h-[0.16rem]";
   const renderLoadingSkeleton = (prefix, count = 3) => Array.from({ length: count }).map((_, i) => <div key={`${prefix}-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
         <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
