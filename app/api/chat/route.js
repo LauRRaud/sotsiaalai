@@ -9,7 +9,14 @@ import {
   inferRequestedThoroughness,
   WORK_MODES
 } from "@/lib/chat/orchestrationPolicy";
-import { collapsePages, groupMatches, diversifyGroupsMMR, buildContextWithBudget, makeShortRef } from "@/lib/chat/ragContext";
+import {
+  collapsePages,
+  groupMatches,
+  diversifyGroupsMMR,
+  buildContextWithBudget,
+  makeShortRef,
+  filterMunicipalityScopedMatches
+} from "@/lib/chat/ragContext";
 import { detectCrisis, isGreeting, groundingStrength } from "@/lib/chat/safety";
 import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence";
 import { logEvent } from "@/lib/chat/logger";
@@ -35,6 +42,7 @@ import { isActiveHelpWorkflowState, normalizeHelpWorkflowState } from "@/lib/hel
 import { getChatSessionTurnLimit } from "@/lib/chat/guardrails";
 import { logOpenAIUsage } from "@/lib/openaiUsage";
 import { shouldUseHelpWorkflowMode } from "@/lib/chat/workflowModeRouting";
+import { loadMunicipalitySeedEntries, normalizeMunicipalitySearchText } from "@/lib/help/municipalityData";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -382,6 +390,61 @@ function collectRecentUserInputs(history = [], currentMessage = "", maxItems = 8
   if (current) items.unshift(current);
   return items.reverse();
 }
+
+let municipalitySeedEntriesPromise = null;
+
+async function getMunicipalitySeedEntriesSafe() {
+  if (!municipalitySeedEntriesPromise) {
+    municipalitySeedEntriesPromise = loadMunicipalitySeedEntries().catch((error) => {
+      municipalitySeedEntriesPromise = null;
+      logError("municipality_seed.load_failed", {
+        err: error?.message || String(error)
+      });
+      return [];
+    });
+  }
+  return municipalitySeedEntriesPromise;
+}
+
+function escapeRegExp(value = "") {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function containsMunicipalityLookupTerm(normalizedText, term) {
+  const normalizedTerm = normalizeMunicipalitySearchText(term);
+  if (!normalizedText || !normalizedTerm || normalizedTerm.length < 3) return false;
+  const escaped = escapeRegExp(normalizedTerm).replace(/\s+/g, "[\\s-]+");
+  const pattern = new RegExp(`(^|[^a-z0-9])${escaped}(?:s|l|le|lt|st|sse|ga|ta|ks|ni|na)?(?=$|[^a-z0-9])`, "i");
+  return pattern.test(normalizedText);
+}
+
+async function detectMentionedMunicipalitiesFromUserText(history = [], currentMessage = "") {
+  const userText = collectRecentUserInputs(history, currentMessage, 6).join("\n");
+  const normalizedText = normalizeMunicipalitySearchText(userText);
+  if (!normalizedText) return [];
+
+  const entries = await getMunicipalitySeedEntriesSafe();
+  const matches = [];
+  const seen = new Set();
+  for (const entry of entries) {
+    if (!entry || entry.isActive === false) continue;
+    const terms = [
+      entry.displayName,
+      `${entry.baseName || ""} ${String(entry.type || "").toLowerCase()}`.trim(),
+      entry.baseName
+    ].filter(Boolean);
+    const matchedTerm = terms.find(term => containsMunicipalityLookupTerm(normalizedText, term));
+    if (!matchedTerm || seen.has(entry.slug)) continue;
+    seen.add(entry.slug);
+    matches.push({
+      slug: entry.slug,
+      displayName: entry.displayName,
+      matchedTerm
+    });
+  }
+  return matches.slice(0, 5);
+}
+
 function detectClientTaskFromText(text = "") {
   const lower = normalizeIntentText(text);
   if (/\b(vorm|ankeet|blank|form|fill\s*form|fill in|taida vorm|taida ankeet)\b/.test(lower)) {
@@ -571,6 +634,20 @@ async function searchRagDirect({
   }
   return Array.isArray(data?.results) ? data.results : [];
 }
+
+function dedupeRagMatches(matches = []) {
+  const out = [];
+  const seen = new Set();
+  for (const match of Array.isArray(matches) ? matches : []) {
+    const md = match?.metadata || {};
+    const key = String(match?.id || md.chunk_id || md.chunkId || md.doc_id || md.docId || match?.text || "").slice(0, 220);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(match);
+  }
+  return out;
+}
+
 async function callOpenAI({
   history,
   userMessage,
@@ -1589,6 +1666,8 @@ export async function POST(req) {
       $in: ["SOCIAL_WORKER", "BOTH"]
     }
   };
+  const mentionedMunicipalities = await detectMentionedMunicipalitiesFromUserText(rawHistory, effectiveMessage);
+  const allowMunicipalityScopedRag = mentionedMunicipalities.length > 0;
   let matches = [];
   let groupedMatches = [];
   let chosen = [];
@@ -1601,12 +1680,35 @@ export async function POST(req) {
       const ragQueryText = buildRagSearchQuery(effectiveMessage, rawHistory);
       matches = await searchRagDirect({
         query: ragQueryText,
-        topK: RAG_TOP_K,
+        topK: allowMunicipalityScopedRag ? RAG_TOP_K : Math.min(50, Math.max(RAG_TOP_K, RAG_TOP_K * 3)),
         filters: audienceFilter,
         userId,
         role: normalizedRole,
         conversationId: convId
       });
+      matches = filterMunicipalityScopedMatches(matches, {
+        allowMunicipalityScoped: allowMunicipalityScopedRag
+      });
+      if (!allowMunicipalityScopedRag) {
+        const nationalMatches = await searchRagDirect({
+          query: ragQueryText,
+          topK: Math.min(12, Math.max(4, RAG_TOP_K)),
+          filters: {
+            ...audienceFilter,
+            jurisdiction_level: "NATIONAL"
+          },
+          observabilityStage: "rag_search_national_scope",
+          userId,
+          role: normalizedRole,
+          conversationId: convId
+        });
+        matches = dedupeRagMatches([
+          ...filterMunicipalityScopedMatches(nationalMatches, {
+            allowMunicipalityScoped: false
+          }),
+          ...matches
+        ]);
+      }
     } catch (err) {
       logError("rag.search.error", {
         err: err?.message,
@@ -1653,7 +1755,9 @@ export async function POST(req) {
     mmrSelected: chosen.length,
     docChunkInputCount: ephemeralChunks.length,
     docChunkUsedCount: docContextResult.usedChunks,
-    docContextChars: docContextResult.usedChars
+    docContextChars: docContextResult.usedChars,
+    municipalityMentioned: allowMunicipalityScopedRag,
+    municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
   });
   await logEvent("rag_search", {
     userId,
@@ -1667,7 +1771,9 @@ export async function POST(req) {
     docChunkUsedCount: docContextResult.usedChunks,
     docContextChars: docContextResult.usedChars,
     hadDocContext,
-    hadRagContext
+    hadRagContext,
+    municipalityMentioned: allowMunicipalityScopedRag,
+    municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
   });
   if (isCrisis) {
     await logEvent("crisis_detected", {

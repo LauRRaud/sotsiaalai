@@ -298,6 +298,29 @@ def normalize_article_id(value: Optional[str]) -> Optional[str]:
     v = value.strip()
     return v or None
 
+def _safe_doc_id_segment(value: object) -> str:
+    raw = str(value or "").strip().lower()
+    cleaned = re.sub(r"[^a-z0-9]+", "-", raw).strip("-")
+    return cleaned or hashlib.sha1(str(value or "").encode("utf-8")).hexdigest()[:12]
+
+def resolve_pdf_metadata_doc_id(meta: Dict) -> Tuple[str, Optional[str]]:
+    original_doc_id = str(meta.get("doc_id") or meta.get("docId") or "").strip()
+    doc_id = original_doc_id or str(uuid.uuid4())
+    article_id = normalize_article_id(str(meta.get("article_id") or meta.get("articleId") or "").strip())
+
+    if not article_id:
+        return doc_id, None
+
+    article_segment = _safe_doc_id_segment(article_id)
+    if article_segment and article_segment not in _safe_doc_id_segment(doc_id):
+        doc_id = f"{doc_id.rstrip('-_:')}-{article_segment}"
+
+    if original_doc_id and doc_id != original_doc_id:
+        meta["original_doc_id"] = original_doc_id
+        meta["originalDocId"] = original_doc_id
+
+    return doc_id, original_doc_id if doc_id != original_doc_id else None
+
 def normalize_section(value: Optional[str]) -> Optional[str]:
     if not value:
         return None
@@ -1474,6 +1497,8 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
             "chunkId": chunk_id,
             "chunk_index": i,
             "chunkIndex": i,
+            "original_doc_id": meta_common.get("original_doc_id") or meta_common.get("originalDocId"),
+            "originalDocId": meta_common.get("originalDocId") or meta_common.get("original_doc_id"),
             "title": title or None,
             "description": description or None,
             "authors": authors,
@@ -1999,6 +2024,8 @@ def _process_ingest_file(
         "path": str(raw_path),
         "title": meta.get("title"),
         "description": meta.get("description"),
+        "original_doc_id": meta.get("original_doc_id") or meta.get("originalDocId"),
+        "originalDocId": meta.get("originalDocId") or meta.get("original_doc_id"),
         "audience": normalize_audience(meta.get("audience")),
         "authors": normalize_authors(meta.get("authors")),
         "issueId": normalize_issue_id(meta.get("issue_id") or meta.get("issueId")),
@@ -2288,7 +2315,7 @@ async def ingest_pdf_with_metadata(
     if not isinstance(meta_dict, dict):
         raise HTTPException(400, "Metadata must be a JSON object.")
 
-    doc_id = str(meta_dict.get("doc_id") or meta_dict.get("docId") or uuid.uuid4())
+    doc_id, original_doc_id = resolve_pdf_metadata_doc_id(meta_dict)
     file_name = _sanitize_filename(file.filename or meta_dict.get("source_path") or "document.pdf")
     # override/meta additions
     meta_dict["source_type"] = "file"
@@ -2299,8 +2326,9 @@ async def ingest_pdf_with_metadata(
     end_page = _coerce_page_number(meta_dict.get("pdf_end_page") or meta_dict.get("pdfEndPage"))
 
     logger.info(
-        "Ingest PDF with metadata: doc_id=%s, file=%s, pages=%s-%s, collection=%s",
+        "Ingest PDF with metadata: doc_id=%s, original_doc_id=%s, file=%s, pages=%s-%s, collection=%s",
         doc_id,
+        original_doc_id,
         file_name,
         start_page,
         end_page,
@@ -2330,6 +2358,7 @@ async def ingest_pdf_with_metadata(
     return {
         **result,
         "docId": doc_id,
+        "originalDocId": original_doc_id,
         "fileName": file_name,
         "collection": COLLECTION_NAME,
         "pageStart": start_page,
