@@ -717,29 +717,6 @@ export default function ChatMobileTopNav({
     }
   }, [dragClampPx, dragDamping, dragEngageThreshold]);
 
-  const finishSwipe = useCallback(
-    (clientX, event) => {
-      dragStateRef.current.currentX = clientX;
-      if (dragStateRef.current.cancelTap || dragStateRef.current.gestureAxis === "y") {
-        resetSwipeState();
-        return;
-      }
-      if (dragStateRef.current.moved) {
-        suppressClickUntilRef.current =
-          typeof performance !== "undefined" ? performance.now() + 260 : Date.now() + 260;
-        handleTrackPointerEnd();
-        return;
-      }
-      const startedOnButton = dragStateRef.current.startedOnButton;
-      resetSwipeState();
-      if (startedOnButton) {
-        return;
-      }
-      activateIndex(getClosestVisibleIndex(clientX), event);
-    },
-    [activateIndex, getClosestVisibleIndex, handleTrackPointerEnd, resetSwipeState]
-  );
-
   const focusedItem = MOBILE_NAV_ITEMS[focusedIndex] || MOBILE_NAV_ITEMS[0];
   const dragProgress = dragOffsetPx / slotStepPx;
   const visibleItems = useMemo(() => {
@@ -790,6 +767,29 @@ export default function ChatMobileTopNav({
       return nearestIndex;
     },
     [visibleItems]
+  );
+
+  const finishSwipe = useCallback(
+    (clientX, event) => {
+      dragStateRef.current.currentX = clientX;
+      if (dragStateRef.current.cancelTap || dragStateRef.current.gestureAxis === "y") {
+        resetSwipeState();
+        return;
+      }
+      if (dragStateRef.current.moved) {
+        suppressClickUntilRef.current =
+          typeof performance !== "undefined" ? performance.now() + 260 : Date.now() + 260;
+        handleTrackPointerEnd();
+        return;
+      }
+      const startedOnButton = dragStateRef.current.startedOnButton;
+      resetSwipeState();
+      if (startedOnButton) {
+        return;
+      }
+      activateIndex(getClosestVisibleIndex(clientX), event);
+    },
+    [activateIndex, getClosestVisibleIndex, handleTrackPointerEnd, resetSwipeState]
   );
 
   const renderNavButton = (item, index) => {
