@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  displayUrl,
+  displayUrlsInText,
   filterMunicipalityScopedMatches,
   isMunicipalityScopedMatch
 } from "../../lib/chat/ragContext.js";
@@ -59,6 +61,17 @@ test("municipality scoped RAG matches are withheld until the user names a munici
   ]);
 });
 
+test("RAG context renders punycode URLs as readable IDN URLs", () => {
+  assert.equal(
+    displayUrl("https://xn--jgeva-dua.ee/sites/default/files/documents/2024-01/Sotsiaalabi_%20taotlus.pdf"),
+    "https://j\u00f5geva.ee/sites/default/files/documents/2024-01/Sotsiaalabi_%20taotlus.pdf"
+  );
+  assert.equal(
+    displayUrlsInText("Link: https://xn--jgeva-dua.ee/koduteenus."),
+    "Link: https://j\u00f5geva.ee/koduteenus."
+  );
+});
+
 test("municipality scoped RAG matches are allowed after municipality is known", () => {
   const matches = [
     {
@@ -111,9 +124,12 @@ test("social worker prompt stops rewrite loops after a yes", () => {
   });
 
   const system = input.input[0].content;
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
   assert.match(system, /provide that requested text and stop without offering another rewrite or format/);
   assert.match(system, /Do not start answers with label-like phrases/);
   assert.match(system, /State the conclusion directly in a natural sentence/);
+  assert.match(turnInstruction, /Provide exactly the requested text or format now/);
+  assert.match(turnInstruction, /Do not add another closing offer/);
 });
 
 test("chat prompt attributes mentioned details only to user messages", () => {

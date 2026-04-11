@@ -15,7 +15,8 @@ import {
   diversifyGroupsMMR,
   buildContextWithBudget,
   makeShortRef,
-  filterMunicipalityScopedMatches
+  filterMunicipalityScopedMatches,
+  displayUrl
 } from "@/lib/chat/ragContext";
 import { detectCrisis, isGreeting, groundingStrength } from "@/lib/chat/safety";
 import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence";
@@ -1819,7 +1820,7 @@ export async function POST(req) {
     return {
       id: entry.key || entry.docId || entry.articleId || entry.url || entry.fileName || `source-${idx}`,
       title: entry.title,
-      url: entry.url || undefined,
+      url: entry.url ? displayUrl(entry.url) : undefined,
       file: undefined,
       fileName: entry.fileName || undefined,
       audience: entry.audience || undefined,

@@ -95,11 +95,11 @@ body:is(
     rgba(0, 0, 0, 0.58) calc(var(--chat-window-fade-top-active) * 1.02 + var(--chat-window-scroll-top-fade-end-active) * 0.94),
     rgba(0, 0, 0, 0.82) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active)),
     #000 calc(var(--chat-window-fade-top-active) * 1.46 + var(--chat-window-scroll-top-fade-end-active) * 1.04),
-    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.95)),
-    rgba(0, 0, 0, 0.9) calc(100% - (var(--chat-window-fade-bottom-active) * 1.54)),
-    rgba(0, 0, 0, 0.68) calc(100% - (var(--chat-window-fade-bottom-active) * 1.12)),
-    rgba(0, 0, 0, 0.38) calc(100% - (var(--chat-window-fade-bottom-active) * 0.66)),
-    rgba(0, 0, 0, 0.14) calc(100% - (var(--chat-window-fade-bottom-active) * 0.26)),
+    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.34)),
+    rgba(0, 0, 0, 0.9) calc(100% - (var(--chat-window-fade-bottom-active) * 1.02)),
+    rgba(0, 0, 0, 0.68) calc(100% - (var(--chat-window-fade-bottom-active) * 0.72)),
+    rgba(0, 0, 0, 0.38) calc(100% - (var(--chat-window-fade-bottom-active) * 0.38)),
+    rgba(0, 0, 0, 0.14) calc(100% - (var(--chat-window-fade-bottom-active) * 0.14)),
     transparent 100%
   ) !important;
   -webkit-mask-image: linear-gradient(
@@ -113,11 +113,11 @@ body:is(
     rgba(0, 0, 0, 0.58) calc(var(--chat-window-fade-top-active) * 1.02 + var(--chat-window-scroll-top-fade-end-active) * 0.94),
     rgba(0, 0, 0, 0.82) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active)),
     #000 calc(var(--chat-window-fade-top-active) * 1.46 + var(--chat-window-scroll-top-fade-end-active) * 1.04),
-    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.95)),
-    rgba(0, 0, 0, 0.9) calc(100% - (var(--chat-window-fade-bottom-active) * 1.54)),
-    rgba(0, 0, 0, 0.68) calc(100% - (var(--chat-window-fade-bottom-active) * 1.12)),
-    rgba(0, 0, 0, 0.38) calc(100% - (var(--chat-window-fade-bottom-active) * 0.66)),
-    rgba(0, 0, 0, 0.14) calc(100% - (var(--chat-window-fade-bottom-active) * 0.26)),
+    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.34)),
+    rgba(0, 0, 0, 0.9) calc(100% - (var(--chat-window-fade-bottom-active) * 1.02)),
+    rgba(0, 0, 0, 0.68) calc(100% - (var(--chat-window-fade-bottom-active) * 0.72)),
+    rgba(0, 0, 0, 0.38) calc(100% - (var(--chat-window-fade-bottom-active) * 0.38)),
+    rgba(0, 0, 0, 0.14) calc(100% - (var(--chat-window-fade-bottom-active) * 0.14)),
     transparent 100%
   ) !important;
 }
