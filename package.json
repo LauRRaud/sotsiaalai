@@ -23,6 +23,7 @@
     "build": "npm run i18n:check && next build --webpack",
     "start": "npm run env:check && cross-env NODE_ENV=production next start -p 3000",
     "serve": "cross-env NODE_ENV=production pm2 start npm --name \"sotsiaalai\" -- start",
+    "deploy:server": "node scripts/deploy-server.mjs",
     "analyze": "cross-env BUNDLE_ANALYZE=true next build --webpack",
     "analyze:dev": "cross-env BUNDLE_ANALYZE=true next dev --turbopack",
     "clean:next": "node scripts/clean-next.mjs",
