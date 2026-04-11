@@ -651,3 +651,10 @@ html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-bt
   border-color: rgba(255, 234, 0, 0.94) !important;
   box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
 }
+
+:root.theme-mid
+  .chat-page-shell
+  .chat-container.chat-container--round.chat-container--input-focus
+  .chat-window {
+  --chat-window-fade-bottom-focus: clamp(0.8rem, 1.9vh, 1.2rem) !important;
+}
