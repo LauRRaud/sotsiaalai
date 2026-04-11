@@ -203,11 +203,21 @@ function shouldUseRecentTextForRetrieval(message = "") {
   return /\b(see|seda|sellest|selle|seal|siin|jah|jep|okei|ok|kontakt|kontaktid|telefon|e-post|email|taotlus|taotlema|pean|kuidas|kuhu|kellele)\b/.test(normalized);
 }
 
+function recentRetrievalContextLimit(message = "") {
+  const normalized = normalizeIntentText(message);
+  if (!normalized) return 2;
+  if (normalized.length <= 40) return 6;
+  if (/\b(see|seda|sellest|selle|seal|siin|jah|jep|okei|ok|kontakt|kontaktid|telefon|e-post|email|taotlus|taotlema|kuhu|kellele|mis valda|mis linna)\b/.test(normalized)) {
+    return 5;
+  }
+  return 2;
+}
+
 function buildRagSearchQuery(message = "", history = []) {
   const current = String(message || "").trim();
   if (!current) return "";
   const recent = shouldUseRecentTextForRetrieval(current)
-    ? extractRecentUserText(history, 2)
+    ? extractRecentUserText(history, recentRetrievalContextLimit(current))
     : [];
   const parts = [current, ...recent].filter(Boolean);
   return Array.from(new Set(parts)).join("\n");
