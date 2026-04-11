@@ -558,16 +558,16 @@ export default function ChatSidebar() {
   const isLoading = busy || roomsBusy;
   const selectedCount = selectedIds.size;
   const messageCardShellClassName =
-    "w-full overflow-visible px-[0.42rem] max-[768px]:px-[0.4rem] py-[0.08rem]";
+    "w-full overflow-visible px-[0.3rem] max-[768px]:px-[0.28rem] py-[0.02rem]";
   const messageCardClassNameCommon =
-    `drawer-chat-card flex w-full flex-col gap-[0.6rem] rounded-[1rem] p-[0.75rem_0.85rem] max-[768px]:p-[0.9rem_0.95rem] ${glassSubpageCardClassName}`;
+    `drawer-chat-card flex w-full flex-col gap-[0.38rem] rounded-[0.5rem] p-[0.58rem_0.7rem] max-[768px]:p-[0.62rem_0.72rem] ${glassSubpageCardClassName}`;
   const messageActiveVariant = "";
   const previewTextClassName =
-    "text-[1rem] max-[768px]:text-[1.12rem] leading-[1.5] text-[color:var(--drawer-preview-text,var(--text-strong))]";
+    "text-[0.95rem] max-[768px]:text-[1rem] leading-[1.38] text-[color:var(--drawer-preview-text,var(--text-strong))]";
   const timeTextClassName =
-    "text-[0.9rem] max-[768px]:text-[1.02rem] text-[color:var(--drawer-time-text,rgba(148,163,184,0.8))] [.theme-light_&]:text-[rgba(71,85,105,0.8)]";
+    "text-[0.78rem] max-[768px]:text-[0.88rem] leading-[1.2] text-[color:var(--drawer-time-text,rgba(148,163,184,0.8))] [.theme-light_&]:text-[rgba(71,85,105,0.8)]";
   const deleteBtnClassName =
-    "group inline-flex h-[2.18rem] w-[2.18rem] max-[768px]:h-[2.42rem] max-[768px]:w-[2.42rem] items-center justify-center rounded-[0.82rem] border-[1.7px] border-[color:var(--drawer-delete-border,rgba(148,163,184,0.42))] [background:var(--drawer-delete-bg,rgba(32,34,42,0.22))] p-0 text-[color:var(--drawer-delete-text,rgba(203,213,225,0.9))] shadow-[var(--drawer-delete-shadow,0_8px_20px_rgba(15,23,42,0.12))] supports-[backdrop-filter:blur(0px)]:backdrop-blur-[14px] transition-[border-color,background,color,box-shadow] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] hover:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] hover:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] hover:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,0_10px_22px_rgba(15,23,42,0.16)))] focus-visible:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] focus-visible:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,0_10px_22px_rgba(15,23,42,0.16)))] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-55";
+    "group inline-flex h-[1.86rem] w-[1.86rem] max-[768px]:h-[2rem] max-[768px]:w-[2rem] items-center justify-center rounded-[0.5rem] border-[1.4px] border-[color:var(--drawer-delete-border,rgba(148,163,184,0.42))] [background:var(--drawer-delete-bg,rgba(32,34,42,0.22))] p-0 text-[color:var(--drawer-delete-text,rgba(203,213,225,0.9))] shadow-[var(--drawer-delete-shadow,0_8px_20px_rgba(15,23,42,0.12))] supports-[backdrop-filter:blur(0px)]:backdrop-blur-[14px] transition-[border-color,background,color,box-shadow] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] hover:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] hover:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] hover:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,0_10px_22px_rgba(15,23,42,0.16)))] focus-visible:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] focus-visible:[background:var(--drawer-delete-bg-hover,var(--drawer-delete-bg,rgba(48,16,20,0.5)))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe1e1)] focus-visible:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,0_10px_22px_rgba(15,23,42,0.16)))] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-55";
   const loadMoreBtnClassName =
     "inline-flex h-[1.8rem] w-[2rem] items-center justify-center border-0 bg-transparent p-0 text-[#c57171] light:text-[#7a3a38] " +
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
@@ -592,7 +592,7 @@ export default function ChatSidebar() {
   const listViewportClassName = "flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
   const listScrollFrameClassName = "relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.1rem]";
   const listClassName =
-    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-3 overflow-y-auto px-0 pt-[0.22rem] max-[768px]:pt-[0.18rem] pb-[1.38rem] max-[768px]:pb-[0.46rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
+    "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-2 overflow-y-auto px-0 pt-[0.16rem] max-[768px]:pt-[0.12rem] pb-[1.12rem] max-[768px]:pb-[0.36rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
     "before:content-[''] before:block before:h-[0.05rem] max-[768px]:before:h-[0.04rem] after:content-[''] after:block after:h-[0.62rem] max-[768px]:after:h-[0.16rem]";
   const renderLoadingSkeleton = (prefix, count = 3) => Array.from({ length: count }).map((_, i) => <div key={`${prefix}-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
         <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
@@ -600,6 +600,7 @@ export default function ChatSidebar() {
       </div>);
   const renderListItem = item => {
     const isRoom = item.kind === "room";
+    const titleText = item.title || item.preview || t("chat.sidebar.item.fallback_title");
     const isActive = (() => {
       if (isRoom) {
         return activeRoomId === String(item.id || "");
@@ -613,8 +614,8 @@ export default function ChatSidebar() {
     })();
     return <li key={`${item.kind}:${item.id}`} className={messageCardShellClassName}>
         <div className={`${messageCardClassNameCommon} ${isActive ? messageActiveVariant : ""}`}>
-          <div className="flex items-start gap-3">
-            {selectMode && !isRoom ? <label className="mt-[0.1rem] flex h-6 w-6 max-[768px]:h-7 max-[768px]:w-7 items-center justify-center">
+          <div className="flex items-center gap-2.5">
+            {selectMode && !isRoom ? <label className="flex h-6 w-6 max-[768px]:h-7 max-[768px]:w-7 items-center justify-center">
                 <input type="checkbox" className="peer sr-only" checked={selectedIds.has(item.id)} onChange={() => toggleSelected(item.id)} disabled={isActionBusy} />
                 <span aria-hidden="true" className="relative flex h-[20px] w-[20px] max-[768px]:h-[26px] max-[768px]:w-[26px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100">
                   <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] max-[768px]:h-[21px] max-[768px]:w-[21px] scale-90 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
@@ -622,39 +623,39 @@ export default function ChatSidebar() {
                   </svg>
                 </span>
               </label> : null}
-            <div className="cs-open flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none cursor-pointer" onClick={() => selectMode ? null : onPick(item)} onKeyDown={event => {
+            <div className="cs-open flex min-w-0 w-full flex-1 flex-col gap-[0.22rem] bg-transparent p-0 text-left border-0 appearance-none cursor-pointer" onClick={() => selectMode ? null : onPick(item)} onKeyDown={event => {
             if (selectMode) return;
             if (event.key !== "Enter" && event.key !== " ") return;
             event.preventDefault();
             onPick(item);
           }} title={item.preview || item.title || t("chat.sidebar.item.fallback_title")} role="button" tabIndex={selectMode ? -1 : 0} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
-              <div className="flex flex-wrap items-center justify-start gap-2">
-                <span className="cs-title-text text-[1.2rem] max-[768px]:text-[1.38rem] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
-                  {item.title || item.preview || t("chat.sidebar.item.fallback_title")}
+              <div className="flex items-start justify-start">
+                <span className="cs-title-text text-[1rem] max-[768px]:text-[1.08rem] leading-[1.24] font-semibold text-[color:var(--drawer-title-text,rgba(242,241,239,0.94))] [.theme-light_&]:text-[rgba(31,41,55,0.92)] overflow-hidden [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical]">
+                  {titleText}
                 </span>
               </div>
-              {item.preview ? <div className={`cs-preview ${previewTextClassName}`}>
+              {isRoom && item.preview ? <div className={`cs-preview ${previewTextClassName}`}>
                   {item.preview}
                 </div> : null}
-              <div className="flex items-center justify-between gap-3">
-                <div className={`cs-time ${timeTextClassName}`}>
+              <div className="flex items-center gap-3">
+                <div className={`cs-time shrink-0 ${timeTextClassName}`}>
                   {formatDateTime(item.lastActivityAt)}
                 </div>
-                {!isRoom && !selectMode ? <button type="button" className={`${deleteBtnClassName} cs-delete shrink-0`} onClick={event => {
+              </div>
+            </div>
+            {!isRoom && !selectMode ? <button type="button" className={`${deleteBtnClassName} cs-delete shrink-0`} onClick={event => {
               event.preventDefault();
               event.stopPropagation();
               onDelete(item.id);
             }} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
-                    <svg className="cs-trash-icon h-[1.22rem] w-[1.22rem] max-[768px]:h-[1.34rem] max-[768px]:w-[1.34rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.82" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <svg className="cs-trash-icon h-[1.05rem] w-[1.05rem] max-[768px]:h-[1.14rem] max-[768px]:w-[1.14rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.82" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <polyline points="3 6 5 6 21 6" />
                       <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
                       <path d="M10 11v6" />
                       <path d="M14 11v6" />
                       <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
                     </svg>
-                  </button> : null}
-              </div>
-            </div>
+              </button> : null}
           </div>
         </div>
       </li>;
