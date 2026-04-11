@@ -128,7 +128,7 @@
       "worker_framework_ack": "I confirm that I have downloaded the SotsiaalAI-signed framework document and signed it together with my employer or organisation.",
       "worker_framework_digital_mark_note": "This checkbox is a digital mark that SotsiaalAI accepts instead of a digital signature.",
       "worker_framework_download_signed": "Signed document",
-      "worker_framework_download_docx": "Download",
+      "worker_framework_download_docx": "DOCX document",
       "worker_framework_signed_note": "If you need the signed version, download it here.",
       "agreement": "I agree to <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>.",
       "guide_ack": "I have read the <guide>platform guide</guide>.",

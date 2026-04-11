@@ -15,7 +15,7 @@ import {
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles";
 import {
-  WORKER_FRAMEWORK_DOCX_HREF,
+  getWorkerFrameworkDocxHref,
   WORKER_FRAMEWORK_REVIEW_STORAGE_KEY,
   WORKER_FRAMEWORK_SIGNED_HREF,
   WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY
@@ -172,10 +172,10 @@ function getNormalizedIntroCopy(locale) {
     return {
       introTitle: "Для чего нужен этот документ?",
       lead:
-        "Документ описывает условия профессионального использования SotsiaalAI и основные принципы защиты данных. Прокрутите вниз, чтобы прочитать документ на сайте.",
+        "Документ объединяет разрешение на профессиональное использование SotsiaalAI, основные правила, подтверждение работника и соглашение об обработке данных. Прокрутите вниз, чтобы прочитать документ на сайте.",
       paragraphs: [
-        "Если SotsiaalAI используется в рабочих задачах с персональными данными клиента или другого лица, до начала работы необходимо ознакомиться с рамочным документом и подписать подписанный SotsiaalAI рамочный документ вместе со своим работодателем или организацией.",
-        "Подтверждение, данное на платформе, является отдельным подтверждением на уровне пользователя. Оно сохраняется в системе вместе с учетной записью, ролью, датой и временем, позже видно пользователю в разделе Documents, но не заменяет рамочный документ, который должен быть оформлен с работодателем или организацией."
+        "Если SotsiaalAI используется в рабочих задачах с данными клиента или другого лица, до начала работы организация должна убедиться, что использование необходимо, разрешено и соответствует ее инструкциям.",
+        "Подтверждение на платформе является подтверждением на уровне пользователя. Основание профессионального использования и соглашение об обработке данных вступают в силу в объеме, указанном в подписанном файле."
       ]
     };
   }
@@ -184,10 +184,10 @@ function getNormalizedIntroCopy(locale) {
     return {
       introTitle: "What is this document for?",
       lead:
-        "This document explains SotsiaalAI professional-use terms and the main data protection principles. Scroll down to read the document on the web.",
+        "This document combines the SotsiaalAI professional-use permission, the main use rules, the worker confirmation, and the data-processing agreement. Scroll down to read the document on the web.",
       paragraphs: [
-        "If SotsiaalAI is used in work tasks with client or other personal data, the framework must be reviewed before starting and the SotsiaalAI-signed framework document must be signed together with the employer or organisation.",
-        "The confirmation given in the platform is a separate user-level confirmation. It is stored in the system together with the account, role, date and time, is later visible to the user in Documents, but does not replace the framework document that must be completed with the employer or organisation."
+        "If SotsiaalAI is used in work tasks with client or other personal data, the organisation must first make sure that the use is necessary, permitted, and aligned with its instructions.",
+        "The confirmation given in the platform is a user-level confirmation. The professional-use basis and the data-processing agreement take effect within the scope described in the signed file."
       ]
     };
   }
@@ -195,10 +195,10 @@ function getNormalizedIntroCopy(locale) {
   return {
     introTitle: "Milleks see dokument on?",
     lead:
-      "Dokument selgitab SotsiaalAI tööalase kasutuse tingimusi ja peamisi andmekaitse põhimõtteid. Keri alla, et dokumenti veebis lugeda.",
+      "Dokument koondab SotsiaalAI tööalase kasutuse loa, kasutamise põhireeglid, töötaja kinnituse ning andmete töötlemise kokkuleppe ühte faili. Keri alla, et dokumenti veebis lugeda.",
     paragraphs: [
-      "Kui SotsiaalAI-d kasutatakse tööülesannetes kliendi või muu isiku andmetega, tuleb enne alustamist tutvuda raamistikuga ning allkirjastada SotsiaalAI allkirjastatud raamdokument koos oma tööandja või asutusega.",
-      "Platvormis antav kinnitus on sellest eraldi kasutaja tasandi kinnitus. See salvestatakse süsteemis koos konto, rolli, kuupäeva ja kellaajaga, on hiljem kasutajale nähtav ka Dokumentides, kuid ei asenda tööandja või asutusega vormistatavat raamdokumenti."
+      "Kui SotsiaalAI-d kasutatakse tööülesannetes kliendi või muu isiku andmetega, tuleb enne alustamist veenduda, et kasutamine on vajalik, lubatud ja organisatsiooni juhistega kooskõlas.",
+      "Platvormis antav kinnitus on kasutaja tasandi kinnitus. Tööalase kasutuse alus ja andmetöötluse kokkulepe jõustuvad dokumendis kirjeldatud ulatuses allkirjastatud failiga."
     ]
   };
 }
@@ -207,6 +207,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
   const router = useRouter();
   const { t, locale } = useI18n();
   const introCopy = getIntroCopy(locale);
+  const frameworkDocxHref = getWorkerFrameworkDocxHref(locale);
   const frameworkTitle = t("auth.register.worker_framework_title");
   const frameworkTitleMobileLines =
     locale === "et"
@@ -399,7 +400,14 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
               </p>
             ))}
             <div className={actionRowClassName}>
-              <Button as="a" href={WORKER_FRAMEWORK_DOCX_HREF} download variant="primary" className={actionButtonClassName}>
+              <Button
+                as="a"
+                href={frameworkDocxHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="primary"
+                className={actionButtonClassName}
+              >
                 {t("auth.register.worker_framework_download_docx")}
               </Button>
               <Button
