@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-const [{ parseRtRegulationXml, buildRtRegulationChunks, buildKovRtXmlIngestPayload }] = await Promise.all([
+const [{ parseRtRegulationXml, buildRtRegulationChunks, buildKovRtXmlIngestPayload, buildNationalRtXmlIngestPayload }] = await Promise.all([
   import("../../lib/admin/rag/kov/rtXml.js")
 ]);
 
@@ -35,6 +35,44 @@ function buildXml({ paragraphs = "", actReference = "406112024020" } = {}) {
 </oigusakt>`;
 }
 
+function buildNationalXml({ paragraphs = "", actReference = "130122025029" } = {}) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<oigusakt xmlns="tyviseadus_1_10.02.2010">
+  <metaandmed>
+    <valjaandja>Riigikogu</valjaandja>
+    <dokumentLiik>seadus</dokumentLiik>
+    <tekstiliik>terviktekst</tekstiliik>
+    <vastuvoetud>
+      <aktikuupaev>2015-12-09</aktikuupaev>
+      <avaldamismarge>
+        <aktViide>130122015005</aktViide>
+      </avaldamismarge>
+      <joustumine>2016-01-01</joustumine>
+    </vastuvoetud>
+    <avaldamismarge>
+      <aktViide>${actReference}</aktViide>
+    </avaldamismarge>
+    <kehtivus>
+      <kehtivuseAlgus>2026-01-09</kehtivuseAlgus>
+      <kehtivuseLopp>2026-12-31</kehtivuseLopp>
+    </kehtivus>
+    <globaalID>${actReference}</globaalID>
+  </metaandmed>
+  <aktinimi>
+    <nimi>
+      <pealkiri>Sotsiaalhoolekande seadus</pealkiri>
+    </nimi>
+  </aktinimi>
+  <sisu>
+    <peatykk>
+      <peatykkNr>1</peatykkNr>
+      <peatykkPealkiri>\u00dclds\u00e4tted</peatykkPealkiri>
+      ${paragraphs}
+    </peatykk>
+  </sisu>
+</oigusakt>`;
+}
+
 const SIMPLE_PARAGRAPHS = `
   <paragrahv>
     <paragrahvNr>2</paragrahvNr>
@@ -49,6 +87,19 @@ const SIMPLE_PARAGRAPHS = `
       <loigeNr>2</loigeNr>
       <sisuTekst>
         <tavatekst>Koosk\u00f5lastatult v\u00f5ib abi osutada ka isikule, kelle elukoht ei ole J\u00f5geva vald.</tavatekst>
+      </sisuTekst>
+    </loige>
+  </paragrahv>
+`;
+
+const SIMPLE_NATIONAL_PARAGRAPHS = `
+  <paragrahv>
+    <paragrahvNr>1</paragrahvNr>
+    <paragrahvPealkiri>Seaduse reguleerimisala</paragrahvPealkiri>
+    <loige>
+      <loigeNr>1</loigeNr>
+      <sisuTekst>
+        <tavatekst>K\u00e4esolev seadus s\u00e4testab sotsiaalhoolekande korralduse.</tavatekst>
       </sisuTekst>
     </loige>
   </paragrahv>
@@ -208,4 +259,30 @@ test("rebuild payload keeps the same doc_id and canonical source while regenerat
   assert.equal(payloadV1.metadata.canonical_source_id, payloadV2.metadata.canonical_source_id);
   assert.ok(payloadV2.chunks.length > payloadV1.chunks.length);
   assert.ok(payloadV2.chunks.every(chunk => chunk.metadata.canonical_chunk_id.startsWith(payloadV2.metadata.canonical_source_id)));
+});
+
+test("national RT XML payload is not attached to a municipality", () => {
+  const payload = buildNationalRtXmlIngestPayload({
+    xmlText: buildNationalXml({ paragraphs: SIMPLE_NATIONAL_PARAGRAPHS }),
+    sourceFile: "130122025029.xml",
+    sourcePath: "KOV/130122025029.xml"
+  });
+
+  assert.equal(payload.doc_id, "rt-130122025029");
+  assert.equal(payload.metadata.collection_id, "national_regulations");
+  assert.equal(payload.metadata.jurisdiction_level, "NATIONAL");
+  assert.equal(payload.metadata.municipality_name, null);
+  assert.equal(payload.metadata.municipality, null);
+  assert.equal(payload.metadata.issuer, "Riigikogu");
+  assert.equal(payload.metadata.act_title, "Sotsiaalhoolekande seadus");
+  assert.equal(payload.metadata.act_reference, "130122025029");
+  assert.ok(payload.chunks.length >= 1);
+
+  for (const chunk of payload.chunks) {
+    assert.match(chunk.text, /Eesti - Sotsiaalhoolekande seadus/);
+    assert.equal(chunk.metadata.jurisdiction_level, "NATIONAL");
+    assert.equal(chunk.metadata.municipality_name, null);
+    assert.equal(chunk.metadata.municipality, null);
+    assert.ok(chunk.metadata.canonical_chunk_id.startsWith("riigiteataja:130122025029:"));
+  }
 });
