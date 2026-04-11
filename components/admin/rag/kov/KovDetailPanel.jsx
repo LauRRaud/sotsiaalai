@@ -284,8 +284,8 @@ function renderFileCards({
             className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-2.5"
           >
             <div className="flex flex-wrap items-start justify-between gap-2">
-              <div>
-                <div className="font-semibold text-[color:var(--admin-text)]">{resolvedFileName}</div>
+              <div className="min-w-0">
+                <div className="break-words font-semibold text-[color:var(--admin-text)]">{resolvedFileName}</div>
                 <div className="mt-1 grid gap-1 text-[0.82rem] text-[color:var(--admin-muted)]">
                   <div>
                     {et ? "Staatus" : "Status"}:{" "}
@@ -305,19 +305,19 @@ function renderFileCards({
                       {validationLabel(state.validationStatus, et)}
                     </span>
                   </div>
-                  <div>{et ? "Nimi" : "Name"}: {state.originalName || "-"}</div>
+                  <div className="break-words">{et ? "Nimi" : "Name"}: {state.originalName || "-"}</div>
                   <div>{et ? "Kiht" : "Layer"}: {file.shortLabel}</div>
                   <div>{et ? "Versioon" : "Version"}: {state.version || 0}</div>
                   <div>{et ? "Laetud" : "Uploaded"}: {state.uploadedAt ? formatDateTime(state.uploadedAt, locale) : "-"}</div>
                   <div>{et ? "Valideeritud" : "Validated"}: {state.validatedAt ? formatDateTime(state.validatedAt, locale) : "-"}</div>
                   {state.validationStatus === "INVALID" && state.validationMessage ? (
-                    <div className="rounded-[10px] border border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_10%,var(--admin-surface-3)_90%)] px-2 py-1 text-[#ef4444]">
+                    <div className="break-words rounded-[10px] border border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_10%,var(--admin-surface-3)_90%)] px-2 py-1 text-[#ef4444]">
                       {state.validationMessage}
                     </div>
                   ) : null}
                 </div>
               </div>
-              <div className="flex flex-wrap items-start justify-end gap-1.5">
+              <div className="flex shrink-0 flex-wrap items-start justify-end gap-1.5">
                 <input
                   ref={node => {
                     fileInputRefs.current[file.key] = node;
@@ -376,6 +376,33 @@ function renderFileCards({
   );
 }
 
+function renderSaveActions({ et, saveBusy, onSave, message, hint }) {
+  return (
+    <div className="flex flex-wrap items-center gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-2.5">
+      <Button
+        variant="primary"
+        className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+        onClick={() => onSave()}
+        disabled={saveBusy}
+      >
+        {saveBusy ? "Salvestan..." : et ? "Salvesta muudatused" : "Save changes"}
+      </Button>
+      <span className="text-[0.84rem] text-[color:var(--admin-muted)]">{hint}</span>
+      {message?.text ? (
+        <span
+          className={`rounded-full border px-2.5 py-1 text-[0.78rem] font-semibold ${
+            message.type === "error"
+              ? "border-[#ef4444] text-[#ef4444]"
+              : "border-[#22c55e] text-[#22c55e]"
+          }`}
+        >
+          {message.text}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
 export default function KovDetailPanel({
   entry,
   locale,
@@ -390,6 +417,7 @@ export default function KovDetailPanel({
   onDraftChange,
   ragStatus,
   ragStatusLoading = false,
+  message,
   onRefreshRagStatus,
   onSave,
   saveBusy,
@@ -681,14 +709,6 @@ export default function KovDetailPanel({
           <div className="flex flex-wrap gap-2 pt-1 pb-1">
             <Button
               variant="primary"
-              className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
-              onClick={() => onSave()}
-              disabled={saveBusy}
-            >
-              {saveBusy ? "Salvestan..." : et ? "Salvesta muudatused" : "Save changes"}
-            </Button>
-            <Button
-              variant="primary"
               className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
               onClick={() => onLightCheck?.()}
               disabled={lightCheckBusy}
@@ -828,6 +848,16 @@ export default function KovDetailPanel({
               </div>
             </div>
 
+            {renderSaveActions({
+              et,
+              saveBusy,
+              onSave,
+              message,
+              hint: et
+                ? "Salvestab KOV veebilehe, staatuse, kontrolli aja, märkused ja valmisoleku linnukese."
+                : "Saves the KOV website, status, checked time, notes, and ready-for-ingest checkbox."
+            })}
+
             <div className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3 text-[0.86rem] text-[color:var(--admin-text)] sm:grid-cols-2">
               <div>
                 <span className="font-semibold">{et ? "Kokkuvote" : "Summary"}:</span>{" "}
@@ -947,6 +977,16 @@ export default function KovDetailPanel({
                 />
               </div>
             </div>
+
+            {renderSaveActions({
+              et,
+              saveBusy,
+              onSave,
+              message,
+              hint: et
+                ? "Salvestab RT lingi, RT seisu, kontrolli aja ja RT märkused."
+                : "Saves the RT link, RT status, checked time, and RT notes."
+            })}
 
             <div className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-3 text-[0.86rem] text-[color:var(--admin-text)] sm:grid-cols-2">
               <div>

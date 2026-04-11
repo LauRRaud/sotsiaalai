@@ -101,19 +101,32 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
   } = controller;
 
   const resultsLabel = count => (et ? `Tulemusi: ${count}` : `Results: ${count}`);
+  const scrollToDetailPanel = useCallback((behavior = "smooth") => {
+    const node = detailPanelRef.current;
+    if (!node) return;
+
+    const offset = 92;
+    const top = Math.max(0, node.getBoundingClientRect().top + window.scrollY - offset);
+    window.scrollTo({
+      top,
+      behavior
+    });
+  }, []);
+
   const openEditor = useCallback(
     slug => {
       selectEntry(slug);
       setEditingLinks(true);
 
       window.requestAnimationFrame(() => {
-        detailPanelRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
+        window.requestAnimationFrame(() => {
+          scrollToDetailPanel("smooth");
         });
       });
+
+      window.setTimeout(() => scrollToDetailPanel("smooth"), 180);
     },
-    [selectEntry, setEditingLinks]
+    [scrollToDetailPanel, selectEntry, setEditingLinks]
   );
 
   return (
@@ -170,7 +183,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
       ) : null}
 
       <div className="grid gap-2">
-        <div ref={detailPanelRef} className="scroll-mt-[92px]">
+        <div ref={detailPanelRef} className="scroll-mt-[92px] [overflow-anchor:none]">
           <KovDetailPanel
             entry={selectedEntry}
             locale={locale}
@@ -185,6 +198,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
             onDraftChange={setDetailDraft}
             ragStatus={ragStatus}
             ragStatusLoading={ragStatusLoading}
+            message={message}
             onRefreshRagStatus={() => refreshSelectedRagStatus()}
             editingLinks={editingLinks}
             onSetEditingLinks={setEditingLinks}
