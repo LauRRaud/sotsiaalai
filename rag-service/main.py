@@ -353,7 +353,8 @@ def normalize_jurisdiction(value: Optional[str]) -> str:
 
 def _stringify_meta(value) -> Optional[str]:
     """
-    Chroma metadata does not accept arrays; flatten lists/sets to comma separated strings.
+    Chroma metadata does not accept arrays or objects; flatten lists/sets and
+    serialize dicts before upsert.
     Keep None as None, other scalars unchanged.
     """
     if value is None:
@@ -367,6 +368,11 @@ def _stringify_meta(value) -> Optional[str]:
             if s:
                 parts.append(s)
         return ", ".join(parts) if parts else None
+    if isinstance(value, dict):
+        try:
+            return json.dumps(value, ensure_ascii=False, sort_keys=True)
+        except Exception:
+            return str(value)
     return value
 
 # --- Helpers for short references -------------------------------------------
