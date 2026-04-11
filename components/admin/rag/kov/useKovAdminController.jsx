@@ -89,7 +89,7 @@ export function useKovAdminController(locale, initialItems = []) {
   const [type, setType] = useState("ALL");
   const [activity, setActivity] = useState("ACTIVE");
   const [packageState, setPackageState] = useState("ALL");
-  const [sort, setSort] = useState("COUNTY_ASC");
+  const [sort, setSort] = useState("NAME_ASC");
   const [selectedSlug, setSelectedSlug] = useState(initialItems[0]?.slug || null);
   const [selectedSlugs, setSelectedSlugs] = useState([]);
   const [editingLinks, setEditingLinks] = useState(false);
@@ -353,15 +353,15 @@ export function useKovAdminController(locale, initialItems = []) {
 
   const sortOptions = useMemo(
     () => [
-      { value: "COUNTY_ASC", label: et ? "Sorteeri maakonna järgi" : "Sort by county" },
-      { value: "NAME_ASC", label: et ? "Sorteeri nime järgi" : "Sort by name" },
+      { value: "NAME_ASC", label: et ? "Nimi A-Z" : "Name A-Z" },
+      { value: "COUNTY_ASC", label: et ? "Maakond A-Z" : "County A-Z" },
       { value: "CHECKED_DESC", label: et ? "Viimati kontrollitud enne" : "Recently checked first" }
     ],
     [et]
   );
 
   const hasActiveFilters =
-    query.trim().length > 0 || county !== "ALL" || type !== "ALL" || activity !== "ACTIVE" || packageState !== "ALL" || sort !== "COUNTY_ASC";
+    query.trim().length > 0 || county !== "ALL" || type !== "ALL" || activity !== "ACTIVE" || packageState !== "ALL" || sort !== "NAME_ASC";
 
   const resetFilters = useCallback(() => {
     setQuery("");
@@ -369,7 +369,7 @@ export function useKovAdminController(locale, initialItems = []) {
     setType("ALL");
     setActivity("ACTIVE");
     setPackageState("ALL");
-    setSort("COUNTY_ASC");
+    setSort("NAME_ASC");
   }, []);
 
   const summaryCards = useMemo(() => {

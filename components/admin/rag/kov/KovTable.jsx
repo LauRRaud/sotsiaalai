@@ -235,7 +235,7 @@ export default function KovTable({
                 <td className="border-b border-[color:var(--documents-card-border)] px-3 py-2.5 align-top">
                   <button
                     type="button"
-                    className="text-left text-[color:var(--documents-page-text)] underline-offset-2 hover:underline"
+                    className="inline-grid appearance-none rounded-[0.45rem] border-0 bg-transparent p-0 text-left text-[color:var(--documents-page-text)] underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--admin-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                     onClick={event => stopEvent(event, () => onSelect(row.slug))}
                   >
                     <div className="font-semibold">{row.displayName}</div>

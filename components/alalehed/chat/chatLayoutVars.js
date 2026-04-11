@@ -120,23 +120,23 @@ const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
 });
 
 const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
-  "--chat-focus-diameter-scale": "1.09",
+  "--chat-focus-diameter-scale": "1.06",
   "--ring-scale": "1",
   "--ring-fit-pad": "calc(1.3 * var(--base-rem))",
   "--ring-ui-reserve": "calc(2 * var(--base-rem))",
   "--ring-ui-reserve-page": "calc(2 * var(--base-rem))",
   "--ring-base-min": "calc(36 * var(--base-rem))",
-  "--ring-base-max": "calc(54 * var(--base-rem))",
-  "--ring-desktop-max": "calc(58 * var(--base-rem))",
+  "--ring-base-max": "calc(52 * var(--base-rem))",
+  "--ring-desktop-max": "calc(55 * var(--base-rem))",
   "--ring-diameter":
-    "min(var(--ring-max), calc(var(--ring-diameter-default) * var(--chat-focus-diameter-scale, 1.09)))",
+    "min(var(--ring-max), max(calc(40 * var(--base-rem)), calc(var(--ring-diameter-default) * var(--chat-focus-diameter-scale, 1.06))))",
   "--chat-diameter": "var(--ring-diameter, var(--ring-diameter-default))",
   "--chat-window-inline-gap": "clamp(1.1rem, calc(var(--chat-diameter) * 0.022), 1.9rem)",
   "--chat-window-max-w":
     "min(calc(clamp(31rem, calc(var(--chat-diameter) * 0.78), 45rem) - 0.5rem), calc(100% - var(--chat-window-inline-gap) - 0.5rem))",
   "--chat-window-shift-x": "calc(clamp(0.16rem, calc(var(--chat-diameter) * 0.005), 0.3rem) + 0.25rem)",
-  "--chat-window-pad-top": "clamp(3.6rem, 6.4vh, 4.8rem)",
-  "--chat-window-top-safe": "5.85rem",
+  "--chat-window-pad-top": "clamp(1.05rem, 2.3vh, 1.75rem)",
+  "--chat-window-top-safe": "clamp(2.15rem, 4.6vh, 3.35rem)",
   "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.1rem)",
   "--chat-window-top-offset": "0.5rem",
   "--chat-window-bottom-gap": "0.4rem",
@@ -163,8 +163,8 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-attach-left-pull": "-1.7rem",
   "--chat-inputbar-left-pull": "-1.65rem",
   "--chat-hpad-right": "clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem)",
-  "--chat-content-top-offset": "6.65rem",
-  "--chat-content-spacer": "8.75rem",
+  "--chat-content-top-offset": "clamp(1.4rem, 3.4vh, 2.6rem)",
+  "--chat-content-spacer": "clamp(2.4rem, 5.2vh, 3.9rem)",
   "--chat-content-bottom-spacer": "0.25rem",
   "--hud-icon": "clamp(3.16rem, calc(var(--chat-diameter) * 0.063), 3.45rem)"
 });

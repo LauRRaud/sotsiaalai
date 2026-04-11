@@ -2147,7 +2147,7 @@ export default function ChatBody({
         "min-[768px]:[&_.top-nav--chat]:left-[max(0px,calc(var(--hud-edge-left)+0.9rem))] " +
         "min-[768px]:[&_.chat-right-actions]:right-[max(0px,calc(var(--hud-edge-right)+0.2rem))]",
       layoutTransitionsReady
-        ? "min-[768px]:[transition:border-top-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-top-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),width_400ms_cubic-bezier(0.22,0.61,0.36,1),min-width_400ms_cubic-bezier(0.22,0.61,0.36,1),max-width_400ms_cubic-bezier(0.22,0.61,0.36,1),height_400ms_cubic-bezier(0.22,0.61,0.36,1),min-height_400ms_cubic-bezier(0.22,0.61,0.36,1),max-height_400ms_cubic-bezier(0.22,0.61,0.36,1),inline-size_400ms_cubic-bezier(0.22,0.61,0.36,1),block-size_400ms_cubic-bezier(0.22,0.61,0.36,1),transform_400ms_cubic-bezier(0.22,0.61,0.36,1)]"
+        ? "min-[768px]:[transition:border-top-left-radius_680ms_cubic-bezier(0.22,0.61,0.36,1),border-top-right-radius_680ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-left-radius_680ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-right-radius_680ms_cubic-bezier(0.22,0.61,0.36,1),width_680ms_cubic-bezier(0.22,0.61,0.36,1),min-width_680ms_cubic-bezier(0.22,0.61,0.36,1),max-width_680ms_cubic-bezier(0.22,0.61,0.36,1),height_680ms_cubic-bezier(0.22,0.61,0.36,1),min-height_680ms_cubic-bezier(0.22,0.61,0.36,1),max-height_680ms_cubic-bezier(0.22,0.61,0.36,1),inline-size_680ms_cubic-bezier(0.22,0.61,0.36,1),block-size_680ms_cubic-bezier(0.22,0.61,0.36,1),transform_680ms_cubic-bezier(0.22,0.61,0.36,1)]"
         : null,
       focusActive
         ? "chat-container--input-focus"

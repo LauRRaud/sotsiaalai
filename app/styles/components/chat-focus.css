@@ -82,6 +82,45 @@ body:is(
   --chat-window-fade-bottom-active: var(--chat-window-fade-bottom-focus);
 }
 
+.chat-container--input-focus .chat-window__scroll {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.015) calc(var(--chat-window-fade-top-active) * 0.06 + var(--chat-window-scroll-top-fade-start-active) * 0.22),
+    rgba(0, 0, 0, 0.045) calc(var(--chat-window-fade-top-active) * 0.16 + var(--chat-window-scroll-top-fade-start-active) * 0.46),
+    rgba(0, 0, 0, 0.1) calc(var(--chat-window-fade-top-active) * 0.3 + var(--chat-window-scroll-top-fade-mid-active) * 0.52),
+    rgba(0, 0, 0, 0.2) calc(var(--chat-window-fade-top-active) * 0.48 + var(--chat-window-scroll-top-fade-mid-active) * 0.76),
+    rgba(0, 0, 0, 0.36) calc(var(--chat-window-fade-top-active) * 0.72 + var(--chat-window-scroll-top-fade-end-active) * 0.82),
+    rgba(0, 0, 0, 0.58) calc(var(--chat-window-fade-top-active) * 1.02 + var(--chat-window-scroll-top-fade-end-active) * 0.94),
+    rgba(0, 0, 0, 0.82) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active)),
+    #000 calc(var(--chat-window-fade-top-active) * 1.46 + var(--chat-window-scroll-top-fade-end-active) * 1.04),
+    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.95)),
+    rgba(0, 0, 0, 0.9) calc(100% - (var(--chat-window-fade-bottom-active) * 1.54)),
+    rgba(0, 0, 0, 0.68) calc(100% - (var(--chat-window-fade-bottom-active) * 1.12)),
+    rgba(0, 0, 0, 0.38) calc(100% - (var(--chat-window-fade-bottom-active) * 0.66)),
+    rgba(0, 0, 0, 0.14) calc(100% - (var(--chat-window-fade-bottom-active) * 0.26)),
+    transparent 100%
+  ) !important;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.015) calc(var(--chat-window-fade-top-active) * 0.06 + var(--chat-window-scroll-top-fade-start-active) * 0.22),
+    rgba(0, 0, 0, 0.045) calc(var(--chat-window-fade-top-active) * 0.16 + var(--chat-window-scroll-top-fade-start-active) * 0.46),
+    rgba(0, 0, 0, 0.1) calc(var(--chat-window-fade-top-active) * 0.3 + var(--chat-window-scroll-top-fade-mid-active) * 0.52),
+    rgba(0, 0, 0, 0.2) calc(var(--chat-window-fade-top-active) * 0.48 + var(--chat-window-scroll-top-fade-mid-active) * 0.76),
+    rgba(0, 0, 0, 0.36) calc(var(--chat-window-fade-top-active) * 0.72 + var(--chat-window-scroll-top-fade-end-active) * 0.82),
+    rgba(0, 0, 0, 0.58) calc(var(--chat-window-fade-top-active) * 1.02 + var(--chat-window-scroll-top-fade-end-active) * 0.94),
+    rgba(0, 0, 0, 0.82) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active)),
+    #000 calc(var(--chat-window-fade-top-active) * 1.46 + var(--chat-window-scroll-top-fade-end-active) * 1.04),
+    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.95)),
+    rgba(0, 0, 0, 0.9) calc(100% - (var(--chat-window-fade-bottom-active) * 1.54)),
+    rgba(0, 0, 0, 0.68) calc(100% - (var(--chat-window-fade-bottom-active) * 1.12)),
+    rgba(0, 0, 0, 0.38) calc(100% - (var(--chat-window-fade-bottom-active) * 0.66)),
+    rgba(0, 0, 0, 0.14) calc(100% - (var(--chat-window-fade-bottom-active) * 0.26)),
+    transparent 100%
+  ) !important;
+}
+
 .drawer-chat-sidebar__list {
   --drawer-sidebar-fade-top: clamp(2.2rem, 6.2vh, 3.35rem);
   --drawer-sidebar-fade-bottom: clamp(1.35rem, 3.9vh, 2.15rem);
@@ -187,19 +226,19 @@ body:is(
     --chat-nav-top: 50%;
     --chat-hpad: clamp(2.2rem, calc(var(--chat-diameter) * 0.06), 3.4rem);
     transition:
-      border-top-left-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      border-top-right-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      border-bottom-left-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      border-bottom-right-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      width 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      min-width 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      max-width 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      height 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      min-height 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      max-height 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      inline-size 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      block-size 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      transform 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      border-top-left-radius 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      border-top-right-radius 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      border-bottom-left-radius 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      border-bottom-right-radius 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      width 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      min-width 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      max-width 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      height 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      min-height 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      max-height 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      inline-size 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      block-size 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 680ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
   .chat-page-shell
@@ -207,11 +246,21 @@ body:is(
     height: var(--chat-diameter);
     max-height: var(--chat-diameter);
     block-size: var(--chat-diameter);
-    border-top-left-radius: calc(var(--chat-diameter) / 2);
-    border-top-right-radius: calc(var(--chat-diameter) / 2);
+    border-top-left-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+    border-top-right-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
     border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     transform: none;
+  }
+
+  .chat-page-shell
+    .chat-container.chat-container--round.chat-container--input-focus
+    .chat-window {
+    --chat-window-fade-top-focus: clamp(1.05rem, 2.35vh, 1.55rem);
+    --chat-window-scroll-top-fade-start-focus: 0.64rem;
+    --chat-window-scroll-top-fade-mid-focus: 1.32rem;
+    --chat-window-scroll-top-fade-end-focus: 2.2rem;
+    --chat-window-fade-bottom-focus: clamp(2.65rem, 6.4vh, 4.15rem);
   }
 
   .chat-page-shell .chat-container--round .chat-right-actions {
@@ -240,11 +289,16 @@ body:is(
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
     --chat-window-top-offset: -0.42rem !important;
-    --chat-window-pad-top: 1.05rem !important;
-    --chat-window-top-safe: 3.15rem !important;
-    --chat-content-top-offset: 1.75rem !important;
-    --chat-window-fade-top: clamp(1.55rem, 3vh, 2.1rem) !important;
-    --chat-window-fade-top-focus: clamp(1.55rem, 3vh, 2.1rem) !important;
+    --chat-window-pad-top: 0.95rem !important;
+    --chat-window-top-safe: 2.25rem !important;
+    --chat-content-top-offset: 1rem !important;
+    --chat-content-spacer: clamp(1.75rem, 4.2vh, 2.9rem) !important;
+    --chat-window-fade-top: clamp(0.72rem, 1.7vh, 1.1rem) !important;
+    --chat-window-fade-top-focus: clamp(0.72rem, 1.7vh, 1.1rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.42rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 0.9rem !important;
+    --chat-window-scroll-top-fade-end-focus: 1.5rem !important;
+    --chat-window-fade-bottom-focus: clamp(2.35rem, 5.4vh, 3.45rem) !important;
   }
 
   .chat-page-shell .chat-container.chat-container--round .chat-window {
@@ -263,6 +317,11 @@ body:is(
       calc(100% - var(--chat-window-inline-gap) - 0.5rem)
     ) !important;
     --chat-window-shift-x: calc(clamp(0.16rem, calc(var(--chat-diameter) * 0.005), 0.3rem) + 0.25rem) !important;
+    --chat-window-fade-top-focus: clamp(0.98rem, 2.15vh, 1.42rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.58rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 1.18rem !important;
+    --chat-window-scroll-top-fade-end-focus: 1.95rem !important;
+    --chat-window-fade-bottom-focus: clamp(2.45rem, 5.8vh, 3.75rem) !important;
   }
 }
 
