@@ -19,29 +19,11 @@ const TYPING_STEP_MS = 18;
 const TYPING_TRAILING_INLINE_RE = /^[\s!?,.;:)]$/;
 
 function renderInlineMarkdown(text, keyPrefix) {
-  const parts = [];
   const source = String(text || "");
-  const boldRe = /\*\*([^*\n][\s\S]*?[^*\n])\*\*/g;
-  let lastIndex = 0;
-  let match;
-
-  while ((match = boldRe.exec(source)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(source.slice(lastIndex, match.index));
-    }
-    parts.push(
-      <strong key={`${keyPrefix}-strong-${match.index}`} className="font-semibold">
-        {match[1]}
-      </strong>
-    );
-    lastIndex = match.index + match[0].length;
-  }
-
-  if (lastIndex < source.length) {
-    parts.push(source.slice(lastIndex));
-  }
-
-  return parts.length ? parts : source;
+  void keyPrefix;
+  return source
+    .replace(/\*\*([^*\n][\s\S]*?[^*\n])\*\*/g, "$1")
+    .replace(/__([^_\n][\s\S]*?[^_\n])__/g, "$1");
 }
 
 function parseMarkdownBlocks(text) {
