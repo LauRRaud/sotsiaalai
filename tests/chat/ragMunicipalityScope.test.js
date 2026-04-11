@@ -87,7 +87,9 @@ test("chat prompt forbids assuming municipality from retrieved context", () => {
 
   const system = input.input[0].content;
   assert.match(system, /Do not assume the user's municipality/);
-  assert.match(system, /explain the national rule first and ask for the municipality/);
+  assert.match(system, /explain the national rule first, then ask which municipality or city/);
+  assert.match(system, /do not offer to draft a letter, application, or call script before asking for the municipality/);
+  assert.match(system, /end with exactly one question asking which municipality or city applies/);
 });
 
 test("chat prompt attributes mentioned details only to user messages", () => {
