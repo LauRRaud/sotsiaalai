@@ -24,6 +24,11 @@ function makeProgressText(stage, t) {
   return step ? `${base}\n${step}` : base;
 }
 
+function translateDeepResearchError(key, t) {
+  const resolved = t(key);
+  return resolved && resolved !== key ? resolved : t("chat.deep_research.error_generic");
+}
+
 function normalizeGeo(rawGeo = {}) {
   const levelRaw = String(rawGeo?.level || "ALL").trim().toUpperCase();
   const level =
@@ -33,7 +38,9 @@ function normalizeGeo(rawGeo = {}) {
   return {
     level,
     country: "EE",
+    municipality_id: String(rawGeo?.municipality_id || rawGeo?.municipalityId || "").trim(),
     municipality_name: String(rawGeo?.municipality_name || "").trim(),
+    district_id: String(rawGeo?.district_id || rawGeo?.districtId || "").trim(),
     district_name: String(rawGeo?.district_name || "").trim(),
   };
 }
@@ -201,10 +208,11 @@ export function useDeepResearchStream({
           if (event?.event === "error") {
             hadError = true;
             const key = String(data?.message || "").trim() || "chat.deep_research.error_generic";
-            setErrorBanner?.(t(key));
+            const message = translateDeepResearchError(key, t);
+            setErrorBanner?.(message);
             mutateMessage?.(streamingMessageId, msg => ({
               ...msg,
-              text: t("chat.deep_research.error_generic"),
+              text: message,
               isStreaming: false,
             }));
             continue;
@@ -223,12 +231,14 @@ export function useDeepResearchStream({
         }
         requestConversationsRefresh?.();
         return true;
-      } catch {
+      } catch (error) {
         if (!cancelledRef.current) {
-          setErrorBanner?.(t("chat.deep_research.error_generic"));
+          const key = String(error?.message || "").trim() || "chat.deep_research.error_generic";
+          const message = translateDeepResearchError(key, t);
+          setErrorBanner?.(message);
           mutateMessage?.(streamingMessageId, msg => ({
             ...msg,
-            text: t("chat.deep_research.error_generic"),
+            text: message,
             isStreaming: false,
           }));
         }

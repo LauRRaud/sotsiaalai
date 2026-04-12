@@ -331,8 +331,8 @@
       "upload_failed": "Materjali üleslaadimine ebaõnnestus.",
       "delete_failed": "Materjali kustutamine ebaõnnestus.",
       "file_count_exceeded": "Saad korraga saata kuni 10 faili.",
-      "daily_upload_quota_exceeded": "P?evane ?leslaadimise limiit on t?itunud. Proovi homme uuesti.",
-      "storage_quota_exceeded": "Salvestusmaht on t?is. Kustuta m?ni fail ja proovi uuesti."
+      "daily_upload_quota_exceeded": "Päevane üleslaadimise limiit on täitunud. Proovi homme uuesti.",
+      "storage_quota_exceeded": "Salvestusmaht on täis. Kustuta mõni fail ja proovi uuesti."
     },
     "admin": {
       "title": "Laekunud materjalid",
@@ -1399,8 +1399,8 @@
       "storage_path_invalid": "Dokumendi salvestustee on vigane.",
       "storage_dir_missing": "Dokumentide salvestuskataloog pole seadistatud.",
       "agent_storage_dir_missing": "Agendi salvestuskataloog pole seadistatud.",
-      "daily_upload_quota_exceeded": "P?evane ?leslaadimise limiit on t?itunud. Proovi homme uuesti.",
-      "storage_quota_exceeded": "Salvestusmaht on t?is. Kustuta m?ni fail ja proovi uuesti."
+      "daily_upload_quota_exceeded": "Päevane üleslaadimise limiit on täitunud. Proovi homme uuesti.",
+      "storage_quota_exceeded": "Salvestusmaht on täis. Kustuta mõni fail ja proovi uuesti."
     },
     "artifacts": {
       "search_placeholder": "Otsi pealkirja, sisu, liigi või allikdokumendi järgi",

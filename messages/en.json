@@ -1694,7 +1694,7 @@
     "missing_title": "Invitation link missing",
     "missing_description": "Please open the invite link from your email.",
     "heading": "Join the conversation",
-    "lead": "We?ll confirm the invite and add you to the room.",
+    "lead": "We'll confirm the invite and add you to the room.",
     "signin_prompt": "Sign in or create an account to join.",
     "signin": "Sign in",
     "logged_in_as": "Signed in as {email}.",
