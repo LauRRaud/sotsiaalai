@@ -224,6 +224,18 @@ export function useSpeech({
       recordingPulseTimerRef.current = null;
     }, 600);
   }, []);
+  const stopAudioMeter = useCallback(() => {
+    if (audioMeterTimerRef.current) {
+      clearInterval(audioMeterTimerRef.current);
+      audioMeterTimerRef.current = null;
+    }
+    if (audioContextRef.current) {
+      try {
+        audioContextRef.current.close();
+      } catch {}
+      audioContextRef.current = null;
+    }
+  }, []);
   const processRecordingBlob = useCallback(async ({ blob, mimeType, fileName = "audio.webm" }) => {
     setRecording(false);
     stopAudioMeter();
@@ -282,18 +294,6 @@ export function useSpeech({
       try {
         recorder?.stream?.getTracks?.().forEach(t => t.stop && t.stop());
       } catch {}
-    }
-  }, []);
-  const stopAudioMeter = useCallback(() => {
-    if (audioMeterTimerRef.current) {
-      clearInterval(audioMeterTimerRef.current);
-      audioMeterTimerRef.current = null;
-    }
-    if (audioContextRef.current) {
-      try {
-        audioContextRef.current.close();
-      } catch {}
-      audioContextRef.current = null;
     }
   }, []);
   const startAudioMeter = useCallback(stream => {
