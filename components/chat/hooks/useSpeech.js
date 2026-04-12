@@ -1,5 +1,65 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
+
+function getAudioContextClass() {
+  if (typeof window === "undefined") return null;
+  return window.AudioContext || window.webkitAudioContext || null;
+}
+
+function getSupportedRecorderMimeType() {
+  if (typeof window === "undefined" || typeof window.MediaRecorder === "undefined") return "";
+  if (typeof window.MediaRecorder.isTypeSupported !== "function") return "";
+  const candidates = [
+    "audio/webm;codecs=opus",
+    "audio/webm",
+    "audio/mp4",
+    "audio/ogg;codecs=opus",
+    "audio/ogg"
+  ];
+  return candidates.find(type => window.MediaRecorder.isTypeSupported(type)) || "";
+}
+
+function encodeWavBlob(chunks, sampleRate) {
+  const totalLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+  const pcm = new Int16Array(totalLength);
+  let offset = 0;
+  for (const chunk of chunks) {
+    for (let i = 0; i < chunk.length; i += 1) {
+      const sample = Math.max(-1, Math.min(1, chunk[i]));
+      pcm[offset] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
+      offset += 1;
+    }
+  }
+
+  const buffer = new ArrayBuffer(44 + pcm.length * 2);
+  const view = new DataView(buffer);
+  const writeString = (position, value) => {
+    for (let i = 0; i < value.length; i += 1) {
+      view.setUint8(position + i, value.charCodeAt(i));
+    }
+  };
+
+  writeString(0, "RIFF");
+  view.setUint32(4, 36 + pcm.length * 2, true);
+  writeString(8, "WAVE");
+  writeString(12, "fmt ");
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * 2, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+  writeString(36, "data");
+  view.setUint32(40, pcm.length * 2, true);
+
+  for (let i = 0; i < pcm.length; i += 1) {
+    view.setInt16(44 + i * 2, pcm[i], true);
+  }
+
+  return new Blob([buffer], { type: "audio/wav" });
+}
+
 export function useSpeech({
   locale,
   latestAiText,
@@ -16,6 +76,7 @@ export function useSpeech({
   const synthesisRef = useRef(null);
   const audioRef = useRef(null);
   const recorderRef = useRef(null);
+  const recorderKindRef = useRef(null);
   const recordingChunksRef = useRef([]);
   const recordingPulseTimerRef = useRef(null);
   const recordingLevelRef = useRef(0);
@@ -163,15 +224,65 @@ export function useSpeech({
       recordingPulseTimerRef.current = null;
     }, 600);
   }, []);
-  const stopRecording = useCallback(() => {
-    try {
-      recorderRef.current?.stop?.();
-    } catch {}
-    try {
-      recorderRef.current?.stream?.getTracks?.().forEach(t => t.stop && t.stop());
-    } catch {}
-    recorderRef.current = null;
+  const processRecordingBlob = useCallback(async ({ blob, mimeType, fileName = "audio.webm" }) => {
     setRecording(false);
+    stopAudioMeter();
+    triggerRecordingPulse();
+    if (!blob?.size) return;
+    const durationMs = Math.max(0, Date.now() - recordingStartedAtRef.current);
+    const maxLevel = recordingLevelRef.current;
+    if (maxLevel < 3.5 && durationMs > 500) {
+      setRecordingError(tr("chat.mic.silence"));
+      return;
+    }
+    try {
+      if (typeof onTranscribeAudio === "function") {
+        const result = await onTranscribeAudio({
+          blob,
+          mimeType,
+          fileName,
+          locale: locale || "auto"
+        });
+        const nextText = String(result?.appendText || "").trim();
+        if (nextText) onAppendText?.(nextText);
+      } else {
+        const fd = new FormData();
+        fd.append("audio", blob, fileName);
+        fd.append("locale", locale || "auto");
+        const res = await fetch("/api/stt", {
+          method: "POST",
+          body: fd
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data?.ok === false || !data?.text) {
+          throw new Error(resolveApiMessage({
+            payload: data,
+            t: key => tr(key),
+            fallbackKey: "chat.mic.error",
+            fallbackText: tr("chat.mic.error")
+          }));
+        }
+        onAppendText?.(data.text);
+      }
+    } catch (err) {
+      setRecordingError(err?.message || tr("chat.mic.error"));
+    }
+  }, [locale, onAppendText, onTranscribeAudio, stopAudioMeter, tr, triggerRecordingPulse]);
+
+  const stopRecording = useCallback(() => {
+    const recorder = recorderRef.current;
+    const recorderKind = recorderKindRef.current;
+    recorderRef.current = null;
+    recorderKindRef.current = null;
+    setRecording(false);
+    try {
+      recorder?.stop?.();
+    } catch {}
+    if (recorderKind !== "wave") {
+      try {
+        recorder?.stream?.getTracks?.().forEach(t => t.stop && t.stop());
+      } catch {}
+    }
   }, []);
   const stopAudioMeter = useCallback(() => {
     if (audioMeterTimerRef.current) {
@@ -208,6 +319,57 @@ export function useSpeech({
     } catch {}
   }, []);
   const handleMic = useCallback(async () => {
+    let stream = null;
+    const startWaveRecorder = async activeStream => {
+      const AudioContextClass = getAudioContextClass();
+      if (!AudioContextClass) {
+        throw new Error("UNSUPPORTED_RECORDING");
+      }
+      const context = new AudioContextClass();
+      if (typeof context.resume === "function" && context.state === "suspended") {
+        await context.resume().catch(() => {});
+      }
+      const source = context.createMediaStreamSource(activeStream);
+      const processor = context.createScriptProcessor(4096, 1, 1);
+      const mute = context.createGain();
+      mute.gain.value = 0;
+      const chunks = [];
+      processor.onaudioprocess = event => {
+        const input = event.inputBuffer.getChannelData(0);
+        chunks.push(new Float32Array(input));
+      };
+      source.connect(processor);
+      processor.connect(mute);
+      mute.connect(context.destination);
+      recorderRef.current = {
+        stream: activeStream,
+        stop: async () => {
+          try {
+            processor.disconnect();
+          } catch {}
+          try {
+            source.disconnect();
+          } catch {}
+          try {
+            mute.disconnect();
+          } catch {}
+          try {
+            activeStream.getTracks().forEach(track => track.stop && track.stop());
+          } catch {}
+          const sampleRate = context.sampleRate || 44100;
+          try {
+            await context.close();
+          } catch {}
+          const blob = encodeWavBlob(chunks, sampleRate);
+          await processRecordingBlob({
+            blob,
+            mimeType: "audio/wav",
+            fileName: "audio.wav"
+          });
+        }
+      };
+      recorderKindRef.current = "wave";
+    };
     if (recording) {
       stopRecording();
       stopAudioMeter();
@@ -224,73 +386,58 @@ export function useSpeech({
       return;
     }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
+      stream = await navigator.mediaDevices.getUserMedia({
         audio: true
       });
       recordingLevelRef.current = 0;
       recordingStartedAtRef.current = Date.now();
       startAudioMeter(stream);
       recordingChunksRef.current = [];
-      const rec = new MediaRecorder(stream);
-      recorderRef.current = rec;
-      rec.ondataavailable = e => {
-        if (e?.data?.size) recordingChunksRef.current.push(e.data);
-      };
-      rec.onstop = async () => {
-        setRecording(false);
-        stopAudioMeter();
-        triggerRecordingPulse();
-        const blob = new Blob(recordingChunksRef.current, {
-          type: rec.mimeType || "audio/webm"
-        });
-        if (!blob.size) return;
-        const durationMs = Math.max(0, Date.now() - recordingStartedAtRef.current);
-        const maxLevel = recordingLevelRef.current;
-        if (maxLevel < 3.5 && durationMs > 500) {
-          setRecordingError(tr("chat.mic.silence"));
-          return;
-        }
+      if (typeof window.MediaRecorder !== "undefined") {
         try {
-          if (typeof onTranscribeAudio === "function") {
-            const result = await onTranscribeAudio({
+          const recorderMimeType = getSupportedRecorderMimeType();
+          const rec = recorderMimeType ? new MediaRecorder(stream, { mimeType: recorderMimeType }) : new MediaRecorder(stream);
+          recorderRef.current = rec;
+          recorderKindRef.current = "media-recorder";
+          rec.ondataavailable = e => {
+            if (e?.data?.size) recordingChunksRef.current.push(e.data);
+          };
+          rec.onstop = () => {
+            try {
+              rec.stream?.getTracks?.().forEach(t => t.stop && t.stop());
+            } catch {}
+            const mimeType = rec.mimeType || recorderMimeType || "audio/webm";
+            const extension = mimeType.includes("wav") ? "wav" : mimeType.includes("mp4") ? "m4a" : mimeType.includes("ogg") ? "ogg" : "webm";
+            const blob = new Blob(recordingChunksRef.current, { type: mimeType });
+            void processRecordingBlob({
               blob,
-              mimeType: rec.mimeType || "audio/webm",
-              fileName: "audio.webm",
-              locale: locale || "auto"
+              mimeType,
+              fileName: `audio.${extension}`
             });
-            const nextText = String(result?.appendText || "").trim();
-            if (nextText) onAppendText?.(nextText);
-          } else {
-            const fd = new FormData();
-            fd.append("audio", blob, "audio.webm");
-            fd.append("locale", locale || "auto");
-            const res = await fetch("/api/stt", {
-              method: "POST",
-              body: fd
-            });
-            const data = await res.json().catch(() => ({}));
-            if (!res.ok || data?.ok === false || !data?.text) {
-              throw new Error(resolveApiMessage({
-                payload: data,
-                t: key => tr(key),
-                fallbackKey: "chat.mic.error",
-                fallbackText: tr("chat.mic.error")
-              }));
-            }
-            onAppendText?.(data.text);
-          }
-        } catch (err) {
-          setRecordingError(err?.message || tr("chat.mic.error"));
+          };
+          rec.start();
+        } catch {
+          recorderRef.current = null;
+          recorderKindRef.current = null;
+          await startWaveRecorder(stream);
         }
-      };
-      rec.start();
+      } else {
+        await startWaveRecorder(stream);
+      }
       setRecording(true);
-    } catch {
-      setRecordingError(tr("chat.mic.cannot_start"));
+    } catch (error) {
+      try {
+        stream?.getTracks?.().forEach(track => track.stop && track.stop());
+      } catch {}
+      if (String(error?.message || "") === "UNSUPPORTED_RECORDING") {
+        setRecordingError(tr("chat.mic.unsupported"));
+      } else {
+        setRecordingError(tr("chat.mic.cannot_start"));
+      }
       stopRecording();
       stopAudioMeter();
     }
-  }, [locale, onAppendText, onTranscribeAudio, recording, startAudioMeter, stopAudioMeter, stopRecording, tr, triggerRecordingPulse]);
+  }, [processRecordingBlob, recording, startAudioMeter, stopAudioMeter, stopRecording, tr]);
   useEffect(() => {
     return () => {
       if (recordingPulseTimerRef.current) {

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
 import { authConfig } from "@/auth";
+import { getDocumentStorageSnapshot } from "@/lib/admin/documentStorageSnapshot";
 import { assertAdmin } from "@/lib/authz";
 import { buildPaymentAlerts, buildPaymentPipelineFromCounts } from "@/lib/admin/payment-alerts";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
@@ -74,6 +75,7 @@ export async function GET(req) {
   try {
     const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     const now = new Date();
+    const storageSnapshotPromise = getDocumentStorageSnapshot();
 
     const [
       totalRequests,
@@ -137,7 +139,8 @@ export async function GET(req) {
       frameworkAcceptancesTotal,
       frameworkAcceptances30d,
       frameworkAcceptancesSigned30d,
-      recentFrameworkAcceptances
+      recentFrameworkAcceptances,
+      storageSnapshot
     ] = await Promise.all([
       prisma.chatLog.count({
         where: {
@@ -519,7 +522,8 @@ export async function GET(req) {
             }
           }
         }
-      })
+      }),
+      storageSnapshotPromise
     ]);
 
     const ragLogs = await prisma.chatLog.findMany({
@@ -646,7 +650,8 @@ export async function GET(req) {
           accepted30d: frameworkAcceptances30d,
           signedDownloaded30d: frameworkAcceptancesSigned30d,
           recent: recentFrameworkAcceptances
-        }
+        },
+        storage: storageSnapshot
       },
       averages: {
         avgRagMatchCount,

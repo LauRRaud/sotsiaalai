@@ -13,11 +13,13 @@ import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import {
   ragAdminShellCardClassName,
   ragAdminShellDividerClassName,
-  ragAdminShellNavClassName,
-  ragAdminShellNavLinkClassName,
   ragAdminShellSubtitleClassName,
   ragAdminShellTitleClassName
 } from "@/components/admin/rag/ragAdminShellStyles";
+import {
+  cardClassName as ragAdminCardClassName,
+  rootInputVars as ragAdminRootInputVars
+} from "@/components/admin/rag/ragAdminShared";
 import {
   glassPageBackTopLeftClassName
 } from "@/components/ui/glassPageStyles";
@@ -31,30 +33,21 @@ const pageClassName =
   "[--admin-success:var(--documents-success-text)] [--admin-danger:var(--documents-error-text)] [--rag-text:var(--documents-page-text)]";
 const pageHeaderClassName =
   `${ragAdminShellCardClassName} w-full min-w-0 max-w-full overflow-visible`;
-const pageHeaderSurfaceClassName = "relative z-[1] grid min-w-0 gap-3";
-const pageHeaderMainClassName = "relative flex w-full min-w-0 items-start justify-center gap-[0.75rem] text-center";
-const pageHeaderTitleWrapClassName = "grid min-w-0 w-full justify-items-center gap-[0.45rem] text-center";
-const mobileTitleWrapClassName =
-  "relative z-[4] flex w-full items-center justify-center";
+const pageHeaderSurfaceClassName = "relative z-[1] grid min-w-0 gap-3 justify-items-center text-center";
 const pageTitleClassName = ragAdminShellTitleClassName;
 const pageHeaderSubtitleClassName = ragAdminShellSubtitleClassName;
 const pageHeaderMetaRowClassName = "flex w-full min-w-0 flex-col items-center gap-3";
 const pageHeaderMetaClassName = "flex min-w-0 max-w-full flex-wrap items-center justify-center gap-2";
 const pageHeaderToolbarClassName = "flex flex-wrap items-center justify-center gap-2";
 const pageHeaderDividerClassName = ragAdminShellDividerClassName;
-const sectionNavClassName = `${ragAdminShellNavClassName} pt-0`;
+const sectionNavClassName = "flex w-full min-w-0 max-w-full flex-wrap items-center justify-center gap-2";
 const sectionNavLinkClassName =
-  `${ragAdminShellNavLinkClassName} min-h-[2.3rem] min-w-0 px-[0.9rem] py-[0.5rem] text-[0.84rem]`;
+  "documents-chip inline-flex min-h-[2.3rem] min-w-0 max-w-full items-center justify-center rounded-full px-[0.95rem] py-[0.5rem] text-center text-[0.9rem] font-[500] tracking-[0.01em] no-underline transition-[transform,color,border-color,background] duration-150 ease-out hover:-translate-y-[1px] hover:text-[color:var(--admin-text)]";
 const headerPillClassName =
   "documents-chip inline-flex max-w-full items-center gap-2 rounded-full px-[0.92rem] py-[0.48rem] text-[0.82rem] font-[600] tracking-[0.01em] text-[color:var(--admin-text)]";
 const headerPillLabelClassName = "text-[color:var(--admin-muted)]";
 const headerPillValueClassName = "text-[color:var(--admin-text)]";
-const cardClassName =
-  "relative w-full min-w-0 self-start overflow-visible rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
-  "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
-  "min-[769px]:backdrop-blur-[var(--glass-blur-radius,1rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
-  "p-[clamp(0.62rem,1.4vw,0.82rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
-  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
+const cardClassName = `${ragAdminCardClassName} w-full min-w-0 self-start`;
 const cardBodyClassName = "relative z-[1] grid min-w-0 gap-[0.6rem]";
 const kpiGridClassName = "grid grid-cols-1";
 const topKpiGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
@@ -133,18 +126,12 @@ const actionButtonClassName =
 const resetActionGridClassName = "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 xl:grid-cols-3";
 const resetActionButtonClassName =
   `${actionButtonClassName} !w-full !justify-start !min-h-[2.38rem] !px-[1.1rem] !py-[0.56rem] !text-[0.97rem] !leading-[1.15]`;
-const backButtonClassName =
-  `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`;
+const backButtonClassName = glassPageBackTopLeftClassName;
 const metricListClassName = "grid gap-1";
 const metricRowClassName =
   "grid min-w-0 grid-cols-1 items-start gap-x-2 gap-y-0.5 text-[0.86rem] sm:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]";
 const summaryDeckClassName = "grid w-full items-start gap-3 2xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)]";
-const summaryPanelClassName =
-  "relative w-full min-w-0 overflow-visible rounded-[0.95rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
-  "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
-  "min-[769px]:backdrop-blur-[var(--glass-blur-radius,1rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
-  "p-[clamp(0.62rem,1.4vw,0.82rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] " +
-  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-70";
+const summaryPanelClassName = `${ragAdminCardClassName} w-full min-w-0`;
 const summaryPanelBodyClassName = "relative z-[1] grid min-w-0 gap-2.5";
 const mobileListClassName = "hidden min-w-0 max-[1180px]:grid gap-2";
 const mobileRowCardClassName =
@@ -256,6 +243,20 @@ function formatDecimal(value, localeTag, digits = 2) {
   } catch {
     return String(toNumber(value));
   }
+}
+
+function formatStorageSize(value, localeTag, digits = 1) {
+  const size = toNumber(value);
+  if (size >= 1024 * 1024 * 1024) {
+    return `${formatDecimal(size / (1024 * 1024 * 1024), localeTag, digits)} GB`;
+  }
+  if (size >= 1024 * 1024) {
+    return `${formatDecimal(size / (1024 * 1024), localeTag, digits)} MB`;
+  }
+  if (size >= 1024) {
+    return `${formatDecimal(size / 1024, localeTag, digits)} KB`;
+  }
+  return `${formatCount(size, localeTag)} B`;
 }
 
 function formatMinutes(value, localeTag, digits = 2) {
@@ -433,6 +434,7 @@ export default function AnalyticsDashboard() {
     () => [
       { href: "#analytics-overview", label: t("admin.analytics.title", "Analytics") },
       { href: "#analytics-platform", label: t("admin.analytics.platform.title", "Platform overview") },
+      { href: "#analytics-storage", label: t("admin.analytics.storage.title", "Storage snapshot") },
       { href: "#analytics-rag-docs", label: t("admin.analytics.rag_docs.title", "RAG documents") },
       { href: "#analytics-billing", label: t("admin.analytics.billing.title", "Subscriptions and payments") },
       { href: "#analytics-users", label: t("admin.analytics.users.title", "Users, costs and limits") },
@@ -827,6 +829,7 @@ export default function AnalyticsDashboard() {
   const artifactDownloadCount = toNumber(documentActions.ARTIFACT_DOWNLOAD);
   const paymentPipeline = summary?.billing?.paymentPipeline30d || {};
   const paymentAlerts = Array.isArray(summary?.billing?.paymentAlerts30d) ? summary.billing.paymentAlerts30d : [];
+  const documentStorage = summary?.documents?.storage || null;
 
   const platformCards = useMemo(
     () => [
@@ -942,11 +945,19 @@ export default function AnalyticsDashboard() {
           {
             label: t("admin.analytics.platform.documents.framework_signed_30d", "Signed downloads (30d)"),
             value: formatCount(summary?.documents?.frameworkAcceptances?.signedDownloaded30d || 0, localeTag)
+          },
+          {
+            label: t("admin.analytics.platform.documents.storage_total", "Stored files"),
+            value: formatStorageSize(documentStorage?.totalBytes || 0, localeTag)
+          },
+          {
+            label: t("admin.analytics.platform.documents.storage_free", "Free disk"),
+            value: documentStorage?.volume ? formatStorageSize(documentStorage.volume.freeBytes || 0, localeTag) : "-"
           }
         ]
       }
     ],
-    [artifactDownloadCount, downloadCount, helpStatusSummary, localeTag, summary, t]
+    [artifactDownloadCount, documentStorage, downloadCount, helpStatusSummary, localeTag, summary, t]
   );
 
   const headerStats = useMemo(() => {
@@ -1537,26 +1548,20 @@ export default function AnalyticsDashboard() {
   );
 
   return (
-    <div className={pageClassName}>
+    <div className={pageClassName} style={ragAdminRootInputVars}>
       <div className={pageHeaderClassName} id="analytics-overview">
+        <BackButton
+          onClick={() => router.push(localizePath("/", locale))}
+          ariaLabel={t("admin.common.back", "Back")}
+          className={backButtonClassName}
+        />
         <div className={pageHeaderSurfaceClassName}>
-          <div className={pageHeaderMainClassName}>
-            <BackButton
-              onClick={() => router.push(localizePath("/#meist", locale))}
-              ariaLabel={t("admin.common.back", "Back")}
-              className={backButtonClassName}
-            />
-            <div className={pageHeaderTitleWrapClassName}>
-              <div className={mobileTitleWrapClassName}>
-                <h1 className={pageTitleClassName}>{t("admin.analytics.title", "Analytics")}</h1>
-              </div>
-              <div className={pageHeaderSubtitleClassName}>
-                {t(
-                  "admin.analytics.platform.subtitle",
-                  "Overview of chat, help, collaboration, documents, payments and platform limits."
-                )}
-              </div>
-            </div>
+          <h1 className={pageTitleClassName}>{t("admin.analytics.title", "Analytics")}</h1>
+          <div className={pageHeaderSubtitleClassName}>
+            {t(
+              "admin.analytics.platform.subtitle",
+              "Overview of chat, help, collaboration, documents, payments and platform limits."
+            )}
           </div>
           <div className={pageHeaderMetaRowClassName}>
             <div className={pageHeaderMetaClassName}>
@@ -1700,6 +1705,74 @@ export default function AnalyticsDashboard() {
               <MetricListCard key={card.title} title={card.title} items={card.items} />
             ))}
           </div>
+        </div>
+      </div>
+
+      <div className={cardClassName} id="analytics-storage">
+        <div className={cardBodyClassName}>
+          <div className={sectionHeadClassName}>
+            <div>
+              <CardTitle>{t("admin.analytics.storage.title", "Storage snapshot")}</CardTitle>
+              <div className={sectionSubClassName}>
+                {t(
+                  "admin.analytics.storage.subtitle",
+                  "Server-side file volume for documents, RAG admin uploads, materials, and agent storage."
+                )}
+              </div>
+            </div>
+          </div>
+          <div className={docsGridClassName}>
+            <KpiCard
+              title={t("admin.analytics.storage.total", "Stored files total")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.totalBytes || 0, localeTag)}
+              meta={t("admin.analytics.storage.total_meta", "Tracked file storage used by this app.")}
+            />
+            <KpiCard
+              title={t("admin.analytics.storage.docs_uploads", "Document uploads")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.docsUploadsBytes || 0, localeTag)}
+              meta={t("admin.analytics.storage.docs_uploads_meta", "User documents and generated acceptance records.")}
+            />
+            <KpiCard
+              title={t("admin.analytics.storage.rag_admin", "RAG admin files")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.ragAdminBytes || 0, localeTag)}
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : `${t("admin.analytics.storage.rag_admin_meta", "KOV + organization admin files.")} ${formatStorageSize(documentStorage?.kovBytes || 0, localeTag)} / ${formatStorageSize(documentStorage?.organizationBytes || 0, localeTag)}`
+              }
+            />
+            <KpiCard
+              title={t("admin.analytics.storage.materials", "Materials uploads")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.materialsBytes || 0, localeTag)}
+            />
+            <KpiCard
+              title={t("admin.analytics.storage.agent", "Agent storage")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.agentBytes || 0, localeTag)}
+            />
+            <KpiCard
+              title={t("admin.analytics.storage.free_disk", "Free disk on storage volume")}
+              value={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : documentStorage?.volume
+                    ? formatStorageSize(documentStorage.volume.freeBytes || 0, localeTag)
+                    : "-"
+              }
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : documentStorage?.volume
+                    ? `${t("admin.analytics.storage.disk_total", "Disk total")}: ${formatStorageSize(documentStorage.volume.totalBytes || 0, localeTag)} | ${t("admin.analytics.storage.disk_used", "Used")}: ${formatPercent(documentStorage.volume.usedPct || 0, localeTag, 1)}%`
+                    : t("admin.analytics.storage.disk_unavailable", "Volume snapshot unavailable.")
+              }
+            />
+          </div>
+          {!loadingSummary && Array.isArray(documentStorage?.issues) && documentStorage.issues.length ? (
+            <SectionAlert
+              tone="warn"
+              message={t("admin.analytics.storage.issues", "Some storage paths could not be measured.")}
+            />
+          ) : null}
         </div>
       </div>
 
