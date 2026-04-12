@@ -87,6 +87,8 @@ const BackgroundContent = memo(function BackgroundContent({
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
+  const [mobileBendsVisible, setMobileBendsVisible] = useState(false);
+  const [mobileParticlesVisible, setMobileParticlesVisible] = useState(false);
   // Keep initial server/client render identical; compute real value after mount.
   const [deviceProfileReady, setDeviceProfileReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
@@ -156,6 +158,46 @@ const BackgroundContent = memo(function BackgroundContent({
     if (!mounted) return;
     setParticlesReady(true);
   }, [mounted]);
+  useEffect(() => {
+    if (
+      !mounted ||
+      !deviceProfileReady
+    ) {
+      setMobileBendsVisible(false);
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setMobileBendsVisible(true);
+    }, mobileBackgroundMode ? 80 : 60);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [mounted, deviceProfileReady, mobileBackgroundMode]);
+  useEffect(() => {
+    if (
+      !mounted ||
+      !deviceProfileReady ||
+      !particlesReady ||
+      !allowParticles
+    ) {
+      setMobileParticlesVisible(false);
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setMobileParticlesVisible(true);
+    }, mobileBackgroundMode ? 180 : 120);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [
+    mounted,
+    deviceProfileReady,
+    particlesReady,
+    allowParticles,
+    mobileBackgroundMode
+  ]);
   useEffect(() => {
     if (!mounted) return;
     if (!deviceProfileReady || reduceMotion || mobileBackgroundMode) {
@@ -274,6 +316,7 @@ const BackgroundContent = memo(function BackgroundContent({
         data-page={isHomepage ? "home" : "subpage"}
         data-parallax={baseParallaxActive ? "on" : "off"}
         data-particles-parallax={particlesParallaxActive ? "on" : "off"}
+        data-mobile-bends={mobileBendsVisible ? "ready" : "pending"}
         aria-hidden="true"
         suppressHydrationWarning
       >
@@ -302,7 +345,10 @@ const BackgroundContent = memo(function BackgroundContent({
           </div>
 
         {}
-        {deviceProfileReady && particlesReady && allowParticles && <div className="bg-particles-layer">
+        {deviceProfileReady && particlesReady && allowParticles && <div
+            className="bg-particles-layer"
+            data-mobile-visible={mobileParticlesVisible ? "ready" : "pending"}
+          >
             <Particles freeze={reduceMotion} />
           </div>}
 
@@ -339,9 +385,11 @@ function BackgroundLayer() {
     effectiveTheme === "light" ||
     effectiveTheme === "mid";
   const colorBendsColors =
-    effectiveTheme === "mid" || effectiveTheme === "light"
-      ? ["#794f4c"]
-      : ["#7e4442"];
+    effectiveTheme === "light"
+      ? ["#9c7068"]
+      : effectiveTheme === "mid"
+        ? ["#794f4c"]
+        : ["#7e4442"];
   return <BackgroundContent
     reduceMotion={reduceMotion}
     isLightTheme={isLightTheme}

@@ -286,40 +286,34 @@
 }
 
 :root.theme-light:not(.theme-mid) .space-backdrop[data-mode="light"] {
-  --space-backdrop-glow: radial-gradient(
-    ellipse at 50% -12%,
-    rgba(255, 252, 247, 0.78) 0%,
-    rgba(255, 252, 247, 0.34) 34%,
-    rgba(255, 252, 247, 0.1) 56%,
-    rgba(255, 252, 247, 0) 76%
+  --space-backdrop-glow: linear-gradient(
+    180deg,
+    rgba(255, 252, 247, 0.22) 0%,
+    rgba(255, 252, 247, 0.08) 20%,
+    rgba(255, 252, 247, 0) 42%
   );
-  background:
-    radial-gradient(
-      circle at 50% -12%,
-      rgba(255, 253, 250, 0.96) 0%,
-      rgba(255, 255, 255, 0) 56%
-    ),
-    radial-gradient(
-      circle at 50% 22%,
-      rgba(240, 239, 236, 0.18) 0%,
-      rgba(244, 244, 242, 0) 64%
-    ),
-    linear-gradient(180deg, #faf8f5 0%, #f1efeb 54%, #e4e0da 100%);
+  background: linear-gradient(180deg, #faf8f5 0%, #f3f0eb 52%, #e7e1da 100%);
 }
 
 :root.theme-light:not(.theme-mid) .space-backdrop[data-mode="light"]::after {
   background:
     radial-gradient(
-      ellipse at 50% 12%,
-      rgba(255, 252, 247, 0.54) 0%,
-      rgba(255, 252, 247, 0.18) 34%,
-      rgba(255, 252, 247, 0) 62%
+      ellipse at -8% 50%,
+      rgba(248, 239, 231, 0.18) 0%,
+      rgba(248, 239, 231, 0.08) 22%,
+      rgba(248, 239, 231, 0) 52%
     ),
     radial-gradient(
-      ellipse at 50% 108%,
-      rgba(116, 105, 92, 0.12) 0%,
-      rgba(116, 105, 92, 0.045) 28%,
-      rgba(116, 105, 92, 0) 56%
+      ellipse at 108% 50%,
+      rgba(248, 239, 231, 0.16) 0%,
+      rgba(248, 239, 231, 0.07) 22%,
+      rgba(248, 239, 231, 0) 52%
+    ),
+    radial-gradient(
+      ellipse at 50% 112%,
+      rgba(118, 92, 78, 0.038) 0%,
+      rgba(118, 92, 78, 0.012) 26%,
+      rgba(118, 92, 78, 0) 48%
     );
 }
 
