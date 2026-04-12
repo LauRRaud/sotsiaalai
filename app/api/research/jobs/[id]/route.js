@@ -5,6 +5,7 @@ import {
   cancelResearchJob,
   getResearchJob,
   getResearchJobResult,
+  getResearchJobSnapshot,
 } from "@/lib/research/jobStore";
 
 export const runtime = "nodejs";
@@ -23,9 +24,9 @@ function errorJson(messageKey, status = 400) {
   );
 }
 
-function getAndAuthorizeJob(params, userId) {
+async function getAndAuthorizeJob(params, userId) {
   const jobId = String(params?.id || "").trim();
-  const job = getResearchJob(jobId);
+  const job = getResearchJob(jobId) || await getResearchJobSnapshot(jobId);
   if (!job) {
     return { ok: false, response: errorJson("research.error.not_found", 404) };
   }
@@ -49,11 +50,11 @@ export async function GET(_req, { params }) {
       { status: auth.status }
     );
   }
-  const check = getAndAuthorizeJob(params, auth.userId);
+  const check = await getAndAuthorizeJob(params, auth.userId);
   if (!check.ok) return check.response;
   return NextResponse.json({
     ok: true,
-    job: getResearchJobResult(check.jobId),
+    job: await getResearchJobResult(check.jobId),
   });
 }
 
@@ -71,8 +72,8 @@ export async function DELETE(_req, { params }) {
       { status: auth.status }
     );
   }
-  const check = getAndAuthorizeJob(params, auth.userId);
+  const check = await getAndAuthorizeJob(params, auth.userId);
   if (!check.ok) return check.response;
-  cancelResearchJob(check.job, "research.error.cancelled");
+  await cancelResearchJob(check.job, "research.error.cancelled");
   return NextResponse.json({ ok: true, status: "cancelled" });
 }

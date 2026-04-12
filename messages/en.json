@@ -2633,6 +2633,19 @@
       }
     }
   },
+  "research": {
+    "error": {
+      "cancelled": "Deep research was stopped.",
+      "failed": "Deep research failed.",
+      "interrupted": "Deep research was interrupted by a server restart or connection break. Please start it again.",
+      "not_found": "Deep research job was not found.",
+      "openai_key_missing": "Deep research AI configuration is missing.",
+      "query_too_long": "The deep research question is too long.",
+      "retrieval_failed": "Deep research could not retrieve evidence from the document base. Please try again.",
+      "room_not_supported": "Deep research is available only in 1:1 chat.",
+      "timeout": "Deep research took too long. Narrow the question and try again."
+    }
+  },
   "footer": {
     "legal": "SotsiaalAI OÜ, registry code 14206225, address Kolde tn 6/1, Tabasalu alevik, Harku vald, Harjumaa, Estonia. Contact: info@sotsiaal.ai."
   }

@@ -136,7 +136,7 @@ export async function POST(req) {
         .filter(Boolean)
         .slice(0, 3)
     : [];
-  const activeJobCount = getActiveResearchJobCount(auth.userId);
+  const activeJobCount = await getActiveResearchJobCount(auth.userId);
   if (activeJobCount > 0) {
     return errorJson("api.common.rate_limited", 429, {
       scope: "research_active_job",
@@ -214,7 +214,7 @@ export async function POST(req) {
 
   let job;
   try {
-    job = createResearchJob({
+    job = await createResearchJob({
       userId: auth.userId,
       payload: normalizedPayload,
     });
@@ -223,7 +223,7 @@ export async function POST(req) {
       return errorJson("api.common.rate_limited", 429, {
         scope: "research_active_job",
         limit: 1,
-        used: getActiveResearchJobCount(auth.userId)
+        used: await getActiveResearchJobCount(auth.userId)
       });
     }
     console.error("[research] job create failed", error);

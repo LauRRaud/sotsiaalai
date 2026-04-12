@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { requireResearchAuth } from "@/lib/research/auth";
-import { assertResearchAccess, getResearchJob, subscribeResearchJob } from "@/lib/research/jobStore";
+import {
+  assertResearchAccess,
+  getResearchJob,
+  getResearchJobSnapshot,
+  markResearchFailed,
+  subscribeResearchJob,
+} from "@/lib/research/jobStore";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -37,13 +43,14 @@ export async function GET(req, { params }) {
 
   const jobId = String(params?.id || "").trim();
   const job = getResearchJob(jobId);
-  if (!job) {
+  const jobSnapshot = job || await getResearchJobSnapshot(jobId);
+  if (!jobSnapshot) {
     return NextResponse.json(
       { ok: false, messageKey: "research.error.not_found", message: "research.error.not_found" },
       { status: 404 }
     );
   }
-  if (!assertResearchAccess(job, auth.userId)) {
+  if (!assertResearchAccess(jobSnapshot, auth.userId)) {
     return NextResponse.json(
       { ok: false, messageKey: "api.common.forbidden", message: "api.common.forbidden" },
       { status: 403 }
@@ -89,6 +96,28 @@ export async function GET(req, { params }) {
           closeStream();
         }
       };
+
+      if (!job) {
+        const status = String(jobSnapshot.status || "").trim();
+        if (status === "done") {
+          emit({ type: "result", result: jobSnapshot.result || null, metrics: jobSnapshot.metrics || null });
+          emit({ type: "status", status: "done" });
+          emit({ type: "done" });
+          return;
+        }
+        if (status === "error" || status === "cancelled") {
+          emit({ type: "error", message: jobSnapshot.error || "research.error.failed", metrics: jobSnapshot.metrics || null });
+          emit({ type: "status", status });
+          emit({ type: "done" });
+          return;
+        }
+        markResearchFailed(jobSnapshot, "research.error.interrupted").finally(() => {
+          emit({ type: "error", message: "research.error.interrupted" });
+          emit({ type: "status", status: "error" });
+          emit({ type: "done" });
+        });
+        return;
+      }
 
       unsub = subscribeResearchJob(jobId, emit);
       heartbeat = setInterval(() => {
