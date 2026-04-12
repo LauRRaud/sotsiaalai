@@ -18,7 +18,7 @@ export default function HomeFooter({ className, logoClassName }) {
       >
         <Logomust
           className={cn(
-            "home-footer-logo pointer-events-none w-[clamp(18rem,34vw,28rem)] h-auto opacity-[0.8] mt-[2.6rem]",
+            "home-footer-logo bottom-logo-breathe pointer-events-none w-[clamp(18rem,34vw,28rem)] h-auto opacity-[0.8] mt-[2.6rem]",
             logoClassName
           )}
           aria-hidden="true"

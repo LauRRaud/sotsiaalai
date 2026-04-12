@@ -16,6 +16,150 @@
   }
 }
 
+.bottom-logo-breathe {
+  --bottom-logo-breathe-duration: 6700ms;
+  position: relative;
+  transform-origin: 50% 100%;
+  animation: bottom-logo-breathe var(--bottom-logo-breathe-duration) ease-in-out infinite;
+  filter: drop-shadow(0 -12px 28px rgba(0, 0, 0, 0.34));
+}
+
+@keyframes bottom-logo-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+html[data-reduce-motion="1"] .bottom-logo-breathe {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bottom-logo-breathe {
+    animation: none !important;
+  }
+}
+
+[class*="home-logo-shine-rect"] {
+  opacity: 0;
+}
+
+.homepage-root .home-card-front-logo-ai [class*="home-logo-shine-rect"] {
+  --home-logo-shine-x0: -28px;
+  --home-logo-shine-y0: -260px;
+  --home-logo-shine-x1: 82px;
+  --home-logo-shine-y1: 600px;
+  --home-logo-shine-rot: -12deg;
+}
+
+.homepage-root .home-card-front-logo-smust [class*="home-logo-shine-rect"] {
+  --home-logo-shine-x0: -22px;
+  --home-logo-shine-y0: -240px;
+  --home-logo-shine-x1: 56px;
+  --home-logo-shine-y1: 520px;
+  --home-logo-shine-rot: -12deg;
+}
+
+.homepage-root .home-card-front-logo [class*="home-logo-shine-rect"] {
+  animation:
+    home-logo-shine-move 6700ms linear infinite,
+    home-logo-shine-fade 6700ms ease-in-out infinite;
+  animation-delay: 2000ms;
+  animation-fill-mode: both;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+@keyframes home-logo-shine-move {
+  0% {
+    transform: translate3d(
+        var(--home-logo-shine-x0),
+        var(--home-logo-shine-y0),
+        0
+      )
+      rotate(var(--home-logo-shine-rot));
+  }
+
+  82% {
+    transform: translate3d(
+        var(--home-logo-shine-x1),
+        var(--home-logo-shine-y1),
+        0
+      )
+      rotate(var(--home-logo-shine-rot));
+  }
+
+  99% {
+    transform: translate3d(
+        var(--home-logo-shine-x1),
+        var(--home-logo-shine-y1),
+        0
+      )
+      rotate(var(--home-logo-shine-rot));
+  }
+
+  100% {
+    transform: translate3d(
+        var(--home-logo-shine-x0),
+        var(--home-logo-shine-y0),
+        0
+      )
+      rotate(var(--home-logo-shine-rot));
+  }
+}
+
+@keyframes home-logo-shine-fade {
+  0% {
+    opacity: 0;
+  }
+
+  7% {
+    opacity: 0.44;
+  }
+
+  32% {
+    opacity: 0.34;
+  }
+
+  56% {
+    opacity: 0.2;
+  }
+
+  72% {
+    opacity: 0.09;
+  }
+
+  82% {
+    opacity: 0.045;
+  }
+
+  90% {
+    opacity: 0.022;
+  }
+
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-logo-shine-rect"] {
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homepage-root .home-card-front-logo [class*="home-logo-shine-rect"] {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
+
  .homepage-root .home-about-panel,
  .homepage-root .home-before-panel {
   border: none !important;

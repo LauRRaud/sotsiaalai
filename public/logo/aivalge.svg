@@ -92,6 +92,23 @@
     <filter id="stroke-soft" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="3.2"/>
     </filter>
+
+    <linearGradient id="home-logo-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.20" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.38" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="0.46" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.50" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="0.515" stop-color="#ffffff" stop-opacity="0.56"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.68" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="0.84" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="home-logo-shine-blur" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="7.8"/>
+    </filter>
   </defs>
 
   <!-- VARJU: mustad koopiad all -->
@@ -103,9 +120,9 @@
   </g>
 
   <!-- ORIGINAAL LOGO PEAL -->
-  <path class="cls-2"
+  <path id="home-ai-shape-vertical" class="cls-2"
         d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z"/>
-  <path class="cls-1"
+  <path id="home-ai-shape-slash" class="cls-1"
         d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z"/>
 
   <!-- ÕHEM ALUMINE SISENEM STROKE + HELE LÄIGE -->
@@ -135,6 +152,25 @@
         stroke-linecap="round"
         stroke-linejoin="round"/>
     </g>
+  </g>
+
+  <mask id="home-ai-shine-mask"
+        maskUnits="userSpaceOnUse"
+        maskContentUnits="userSpaceOnUse"
+        x="0" y="0" width="175.09" height="195.01"
+        style="mask-type: alpha">
+    <rect x="0" y="0" width="175.09" height="195.01" fill="transparent"/>
+    <use href="#home-ai-shape-vertical" xlink:href="#home-ai-shape-vertical" fill="white"/>
+    <use href="#home-ai-shape-slash" xlink:href="#home-ai-shape-slash" fill="white"/>
+  </mask>
+
+  <g class="home-logo-shine-sweep" mask="url(#home-ai-shine-mask)" style="mix-blend-mode: screen; pointer-events: none;">
+    <rect class="home-logo-shine-rect"
+          x="-177.46" y="-430.97"
+          width="507.03" height="507.03"
+          rx="60"
+          fill="url(#home-logo-shine)"
+          filter="url(#home-logo-shine-blur)"/>
   </g>
 
 </svg>

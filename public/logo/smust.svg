@@ -129,6 +129,23 @@
     <filter id="stroke-soft" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="3.2"/>
     </filter>
+
+    <linearGradient id="home-logo-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.20" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.38" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="0.46" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.50" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="0.515" stop-color="#ffffff" stop-opacity="0.56"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.68" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="0.84" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="home-logo-shine-blur" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="7.8"/>
+    </filter>
   </defs>
 
   <!-- VARJU: mustad koopiad (all) -->
@@ -152,7 +169,7 @@
   <path class="st2"
         d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
   <!-- suur punane kuju -->
-  <path class="st1"
+  <path id="home-smust-shape-main" class="st1"
         d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
   <!-- ülemine hele pall (ILMA stroke’ita) -->
   <path class="st0"
@@ -185,6 +202,24 @@
         stroke-linecap="round"
         stroke-linejoin="round"/>
     </g>
+  </g>
+
+  <mask id="home-smust-shine-mask"
+        maskUnits="userSpaceOnUse"
+        maskContentUnits="userSpaceOnUse"
+        x="0" y="0" width="111.12" height="170.15"
+        style="mask-type: alpha">
+    <rect x="0" y="0" width="111.12" height="170.15" fill="transparent"/>
+    <use href="#home-smust-shape-main" xlink:href="#home-smust-shape-main" fill="white"/>
+  </mask>
+
+  <g class="home-logo-shine-sweep" mask="url(#home-smust-shine-mask)" style="mix-blend-mode: screen; pointer-events: none;">
+    <rect class="home-logo-shine-rect"
+          x="-154.84" y="-376.03"
+          width="442.39" height="442.39"
+          rx="60"
+          fill="url(#home-logo-shine)"
+          filter="url(#home-logo-shine-blur)"/>
   </g>
 
 </svg>

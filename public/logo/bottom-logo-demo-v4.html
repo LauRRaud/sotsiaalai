@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="et">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bottom logo (shine v4)</title>
+  <style>
+    :root {
+      --shineDur: 11800; /* ms – slower */
+      --breatheDur: 6700ms;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(1200px 700px at 20% 20%, rgba(197,113,113,0.14), transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, rgba(120,170,255,0.12), transparent 60%),
+        linear-gradient(180deg, #070a13, #04050a 70%);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: rgba(255,255,255,0.80);
+    }
+
+    .hint {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 18px 110px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.60);
+    }
+
+    .bottomDock {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: min(900px, 96vw);
+      height: 86px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      overflow: hidden; /* guarantee: nothing below screen */
+      pointer-events: none;
+    }
+
+    .logo {
+      pointer-events: auto;
+      width: min(560px, 92vw);
+      height: auto;
+      max-height: 62px;
+
+      transform-origin: 50% 100%;
+      animation: breathe var(--breatheDur) ease-in-out infinite;
+
+      filter: drop-shadow(0 -12px 28px rgba(0,0,0,0.45));
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .logo { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hint">
+    <b>v4</b>: läige on nüüd <b>pehmem</b> (laiem gradient + tugevam blur) ja <b>aeglasem</b>.<br/>
+    Läige on maskiga ainult logo sees ja dock hoiab alumise serva puhtana.
+  </div>
+
+  <div class="bottomDock">
+    <svg class="logo" id="bottomLogo" aria-label="Logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 271.7 48">
+<defs>
+    <style>
+      .st0,
+      .st2,
+      .st3,
+      .st4,
+      .st5,
+      .st6,
+      .st7,
+      .st8,
+      .st9,
+      .st10,
+      .st13 {
+        fill: url(#text-gradient);
+      }
+
+      .st1 { fill: url(#linear-gradient10); }
+      .st11 { fill: url(#linear-gradient13); }
+
+      /* eemaldasin siit stroke'i, et ei tekiks tumedat äärt */
+      .st12 { fill: url(#linear-gradient11); }
+    </style>
+
+    <!-- UUS: veidi heledam, ühtlane punakaspruun gradient -->
+    <linearGradient id="text-gradient"
+      x1="0" y1="5"
+      x2="0" y2="46"
+      gradientUnits="userSpaceOnUse">
+      <stop offset="0"   stop-color="#cfa099"/>
+      <stop offset="0.35" stop-color="#a4615c"/>
+      <stop offset="0.7"  stop-color="#753432"/>
+      <stop offset="1"   stop-color="#44201f"/>
+    </linearGradient>
+
+    <linearGradient id="linear-gradient10" x1="22.23" y1="-4657.86" x2="22.23" y2="-4668.81" gradientTransform="translate(0 -4655.57) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5f5f4"/>
+      <stop offset=".22" stop-color="#eeedec"/>
+      <stop offset=".48" stop-color="#dad9d6"/>
+      <stop offset=".72" stop-color="#c7c5c1"/>
+      <stop offset="1" stop-color="#a8a59e"/>
+    </linearGradient>
+
+    <linearGradient id="linear-gradient11" x1="6.7" y1="-2016.98" x2="6.7" y2="-2028.53" gradientTransform="translate(0 -1983.57) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#666"/>
+      <stop offset=".5" stop-color="#383838"/>
+      <stop offset=".81" stop-color="#1c1c1c"/>
+      <stop offset="1" stop-color="#111"/>
+    </linearGradient>
+
+    <linearGradient id="linear-gradient13" x1="246.84" y1="3986.48" x2="260.85" y2="4045.91" gradientTransform="translate(0 -3992.18)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f1f1f0"/>
+      <stop offset=".21" stop-color="#e6e5e3"/>
+      <stop offset=".42" stop-color="#c3c1bc"/>
+      <stop offset=".53" stop-color="#aba8a1"/>
+      <stop offset=".65" stop-color="#8d8980"/>
+      <stop offset=".93" stop-color="#5f5b55"/>
+    </linearGradient>
+  <!-- Softer, slower shine -->
+  <linearGradient id="shineGradient__bottom" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset="44%"  stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset="48%"  stop-color="#ffffff" stop-opacity="0.10"/>
+    <stop offset="50%"  stop-color="#ffffff" stop-opacity="0.34"/>
+    <stop offset="52%"  stop-color="#ffffff" stop-opacity="0.10"/>
+    <stop offset="56%"  stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+  </linearGradient>
+
+  <filter id="shineBlur__bottom" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="3.2"/>
+  </filter>
+
+  <mask id="logoMask__bottom" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" style="mask-type:alpha">
+    <use href="#logoShape__bottom" xlink:href="#logoShape__bottom" fill="#ffffff"/>
+  </mask>
+</defs>
+<g id="logoShape__bottom"><!-- tähed / logo kuju -->
+  <path class="st13" d="M48.93,47.32c-3.67.55-8.02-3.17-10.1-6.02-6.3-8.69-2.1-21.11,8.05-24.5,1.04-.35,2.1-.49,2.02.83-1.48,7.33-1.62,15.34-1.09,22.68.15,1.95.31,4.13,1.09,5.88.18.46.26.83.13,1.05l-.06.09h-.04Z"/>
+  <path class="st2" d="M53.76,47.42c.21-1.01,1.13-2.07,1.24-3.2.86-4.31.68-13.44.5-17.93-.15-2.72-.22-6.08-1.01-8.56-.3-.91-.51-1.76.92-1.3,15.17,4.44,16.4,25.84.41,30.83-.67.14-1.45.58-2.03.24l-.03-.08Z"/>
+  <path class="st0" d="M84.45,43.35c.51.63,1.13,1.05,2.02,1.59.85.56,2.03,1.01,1.18,1.67-19.06,6.49-15.39-15.36-15.3-28.15,0-1.18.6-1.67,1.67-2.27,1.46-.87,4.12-1.99,5.2-2.95,1.39-1.45,3.59-5.94,4.92-7.14.04,2.26,0,22.31.03,28.87.15,4.52-.32,6.64.23,8.28l.08.1Z"/>
+  <path class="st9" d="M100.88,16.8c0,.71-.31,1.09-.58,1.72-4.35,9.42,13.73,9.14,15.25,17.17,1.62,5.62-4.26,11.94-10.05,11.82-.36-.13-.5-.13-.49-.64.21-.68.56-1.27.95-1.87,5.1-7.83-7.5-9.73-12.58-14.3-4.49-4.06-1.54-11.14,3.45-13.32.99-.46,3.3-1.45,4.03-.68l.04.12Z"/>
+  <path class="st7" d="M122.58,18.58c1.63-.71,4.88-.55,6.79-.41,2.03.1,3.07,1.13,3.03,3.09-.03,6.66.26,18.39-.13,24.36-.67,2.93-5.11,1.98-7.43,2.05-2.31-.06-3.54-1.01-3.45-3.34-.05-3.98,0-12.66-.03-18.66.06-2.73-.37-6.55,1.1-7.03l.13-.06Z"/>
+  <path class="st8" d="M149.55,31.1c-2.61,4.35-5.6,11.18.13,13.68.51.28,1.98.5,1.27,1.18-15.76,8.15-17.75-13.64-2.39-15.11.31-.03.56-.04.74,0,.24.1.23.15.23.15Z"/>
+  <path class="st10" d="M164.13,46.65c-1.4.33-4.84.13-6.6.17-1.6-.13-3.48.42-3.58-1.5-.04-3.99,0-17.38-.03-22.15.13-2.25-1.21-3.79-2.94-4.92-.47-.33-1.13-1.04-.6-1.45,4.77-2.43,13.55,1.8,14.31,8.14.13,3.66,0,11.94.03,17.37-.09,1.21.32,3.67-.47,4.3Z"/>
+  <path class="st6" d="M181.82,31.07c-2.44,3.98-5.54,10.59-.5,13.41.62.39,1.33.47,1.85.9.09.13.17.12.1.4-.77.9-2.32,1.1-3.49,1.49-14.62,3.52-11.22-16.99,1.82-16.39Z"/>
+  <path class="st4" d="M195.91,46.61c-1.32.42-4.56.15-6.24.22-1.67-.14-3.58.5-3.7-1.5-.05-4.08,0-17.74-.03-22.15.04-2.05-1.24-3.76-2.76-4.75-.4-.36-1.46-.85-1.12-1.51.33-.47,1.76-.65,2.89-.65,5.26-.12,10.91,3.18,11.5,9.4-.03,3.72.19,13.27-.03,18.83-.08.9.08,1.53-.45,2.07Z"/>
+  <path class="st3" d="M212.16,47.53c-.92.31-2.55.37-4.25.37-2.62-.13-5.72.37-5.78-2.49-.05-6.93-.05-30.35,0-39.39-.08-2.53,1.48-2.91,3.8-3.07,1.91-.09,4.07-.15,5.9.37,1.99.59,1.59,2.28,1.66,5.49v30.98c-.24,2.32.78,7.24-1.21,7.69Z"/>
+  <path class="st1" d="M21.07,1.76c8.25-1.36,9.75,11.27,1.16,11.45-7.34.15-7.64-10.37-1.16-11.45Z"/>
+  <path class="st12" d="M6.29,33.44c7.25-.71,8.6,10.51,1.51,11.45-8.28,1.1-9.44-10.67-1.51-11.45Z"/>
+  <path class="st5" d="M17.8,47.86c4.11-2.77,5.76-9.1,3.63-13.62-2.53-4.7-8.48-6.02-12.96-8.43-3.21-1.64-6.07-3.68-7.42-7.16C-1.94,11.36,1.63,2.9,9.41.24c.58-.19,1.81-.24,1,.44-2.4,1.37-3.62,4.13-3.5,6.87.42,13.41,26.12,9.41,24.16,26.66-.42,3.98-2.55,7.69-5.58,10.26-2.18,1.76-4.83,3.45-7.69,3.41"/>
+  <path class="st11" d="M270.42.58c1.58.56,1.22,2.16,1.27,5.17v5.06c0,8.88.04,27.59-.03,34.41.09,3.66-4.83,2.61-7.35,2.72-2.32-.13-3.94-.37-3.82-3.09.18-8.79-.41-33.04.23-42.89.77-2.43,7.66-1.89,9.56-1.42l.13.05h.01ZM254.48,47.54c-.91.32-3,.33-5.29.35-3.73,0-7.3.22-8.56-3.62-2.39-5.53-8.19-19.06-10.61-24.85-.5-1.3-.91-2.59-.95-3.9-.04-3.47,1.73-7.01,2.86-10.37.68-1.72,1.14-3.45,2.08-4.86,1.14-1.32,1.87,2.13,3.65,5.78,2.53,5.78,4.92,11.27,7.55,17.25,3.26,7.55,7.32,16.52,9.88,22.7.21.62.22,1.24-.49,1.5Z"/></g>
+<g id="shineLayer__bottom" mask="url(#logoMask__bottom)" opacity="0">
+  <g transform="rotate(22 135.850 24.000)">
+    <g id="shineMove__bottom">
+      <rect x="-260" y="-180" width="170" height="520"
+            fill="url(#shineGradient__bottom)" filter="url(#shineBlur__bottom)"/>
+    </g>
+  </g>
+</g>
+</svg>
+  </div>
+
+  <script>
+    (function() {
+      const svg = document.getElementById("bottomLogo");
+      if (!svg) return;
+
+      const move = svg.getElementById("shineMove__bottom");
+      const layer = svg.getElementById("shineLayer__bottom");
+      if (!move || !layer) return;
+
+      const dur = Number(getComputedStyle(document.documentElement).getPropertyValue("--shineDur")) || 11800;
+
+      // Move in SVG units (works with viewBox scaling)
+      const xFrom = -300;
+      const xTo   = 620;
+
+      // Timing: longer rest, slower pass
+      const tRestStart = 0.20; // no shine
+      const tFadeInEnd = 0.28;
+      const tFadeOutStart = 0.72;
+      const tEnd = 0.80;
+
+      const opMax = 0.38; // softer overall
+
+      function lerp(a,b,t) { return a + (b-a)*t; }
+      function clamp(v,a,b) { return Math.max(a, Math.min(b, v)); }
+
+      // Smoothstep easing for softer in/out (no hard edges)
+      function smoothstep(t) {
+        t = clamp(t, 0, 1);
+        return t * t * (3 - 2*t);
+      }
+
+      function opacityAt(p) {
+        if (p < tRestStart) return 0;
+        if (p < tFadeInEnd) {
+          const t = (p - tRestStart) / (tFadeInEnd - tRestStart);
+          return opMax * smoothstep(t);
+        }
+        if (p < tFadeOutStart) return opMax;
+        if (p < tEnd) {
+          const t = (p - tFadeOutStart) / (tEnd - tFadeOutStart);
+          return opMax * (1 - smoothstep(t)) * 0.85; // tail gets very light
+        }
+        return 0;
+      }
+
+      function xAt(p) {
+        if (p < tFadeInEnd) return xFrom;
+        if (p > tEnd) return xTo;
+        const t = (p - tFadeInEnd) / (tEnd - tFadeInEnd);
+        return lerp(xFrom, xTo, clamp(t,0,1));
+      }
+
+      let start = performance.now() + 900;
+
+      function tick(now) {
+        const elapsed = Math.max(0, now - start);
+        const p = (elapsed % dur) / dur;
+
+        const op = opacityAt(p);
+        const x = xAt(p);
+
+        layer.setAttribute("opacity", op.toFixed(3));
+        move.setAttribute("transform", "translate(" + x.toFixed(2) + " 0)");
+
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

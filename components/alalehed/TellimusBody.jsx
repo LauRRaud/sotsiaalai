@@ -23,15 +23,15 @@ const emailReplacement = {
   }
 };
 const pageShellClassName =
-  `${glassPageShellCenteredClassName} overflow-y-auto overscroll-contain px-[1rem] py-[clamp(1rem,3vh,1.75rem)] ` +
-  "max-[768px]:px-0 max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-top,0px))]";
+  `${glassPageShellCenteredClassName} !flex h-[100dvh] min-h-[100dvh] items-center justify-start overflow-x-hidden overflow-y-auto overscroll-contain px-[1rem] py-[clamp(1rem,3vh,1.75rem)] ` +
+  "max-[768px]:items-stretch max-[768px]:px-0 max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-top,0px))]";
 const titleClassName =
   `${glassPageTitleClassName} subscription-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
   `max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const subscriptionCardBaseClassName =
-  `subscription-modal-content relative z-[21] flex w-full !max-w-[clamp(30rem,54vw,38rem)] max-h-none flex-col overflow-x-hidden overflow-y-visible rounded-[var(--glass-modal-radius)] ` +
+  `subscription-modal-content relative z-[21] my-[clamp(0.5rem,2vh,1.25rem)] flex w-full shrink-0 !max-w-[clamp(30rem,54vw,38rem)] max-h-none flex-col overflow-x-hidden overflow-y-visible rounded-[var(--glass-modal-radius)] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] shadow-[var(--glass-shell-shadow,none)] ` +
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +

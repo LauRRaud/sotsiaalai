@@ -364,7 +364,7 @@
   --drawer-card-shadow: var(--subpage-card-shadow);
   --drawer-card-shadow-hover: var(--subpage-card-shadow-hover, var(--subpage-card-shadow));
   --drawer-card-shadow-active: var(--subpage-card-shadow-hover, var(--subpage-card-shadow));
-  --drawer-title-text: rgba(244, 242, 239, 0.96);
+  --drawer-title-text: var(--brand-primary, #c57171);
   --drawer-preview-text: rgba(223, 222, 218, 0.88);
   --drawer-time-text: rgba(171, 180, 196, 0.8);
   --drawer-delete-border: var(--opaque-panel-border);

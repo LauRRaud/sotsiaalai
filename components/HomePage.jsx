@@ -702,7 +702,7 @@ export default function HomePage() {
                       animationFillMode: "forwards"
                     } : undefined}>
                       <CircularRingLeft className={cn(isMobile || leftFadeDone ? "is-visible" : "", "relative z-[4]")} />
-                      <AivalgeLogo className={cn("absolute left-[48%] top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-left),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu transition-none z-[5] overflow-visible [overflow:visible] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
+                      <AivalgeLogo className={cn("home-card-front-logo home-card-front-logo-ai absolute left-[48%] top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-left),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu transition-none z-[5] overflow-visible [overflow:visible] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
                     </div>
                   </div>
 
@@ -746,7 +746,7 @@ export default function HomePage() {
                       animationFillMode: "forwards"
                     } : undefined}>
                       <CircularRingRight className={cn(isMobile || rightFadeDone ? "is-visible" : "", "relative z-[4]")} />
-                      <SmustLogo className={cn("absolute left-1/2 top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-right),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu transition-none z-[5] overflow-visible [overflow:visible] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
+                      <SmustLogo className={cn("home-card-front-logo home-card-front-logo-smust absolute left-1/2 top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-right),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu transition-none z-[5] overflow-visible [overflow:visible] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
                     </div>
                   </div>
 

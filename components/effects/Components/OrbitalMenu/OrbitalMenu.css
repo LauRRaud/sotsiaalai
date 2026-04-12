@@ -1172,6 +1172,7 @@ html[data-contrast="hc"]
 
 .profile-orbit-menu__center-pulse {
   animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite;
+  isolation: isolate;
   transform-origin: center;
   will-change: transform;
 }
