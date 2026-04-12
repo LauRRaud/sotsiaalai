@@ -1,5 +1,11 @@
 import { useCallback, useRef, useState } from "react";
 import { createSSEReader as defaultCreateSSEReader } from "@/components/chat/utils/sse";
+import {
+  normalizeGeo,
+  normalizeSources,
+  pollResearchJobUntilTerminal,
+  translateDeepResearchError,
+} from "@/components/chat/hooks/deepResearchClient";
 
 function parseEventData(raw) {
   const text = String(raw || "").trim();
@@ -22,46 +28,6 @@ function makeProgressText(stage, t) {
   const base = t("chat.deep_research.running");
   const step = stageLabel(stage, t);
   return step ? `${base}\n${step}` : base;
-}
-
-function translateDeepResearchError(key, t) {
-  const resolved = t(key);
-  return resolved && resolved !== key ? resolved : t("chat.deep_research.error_generic");
-}
-
-function normalizeGeo(rawGeo = {}) {
-  const levelRaw = String(rawGeo?.level || "ALL").trim().toUpperCase();
-  const level =
-    levelRaw === "NATIONAL" || levelRaw === "MUNICIPALITY" || levelRaw === "DISTRICT"
-      ? levelRaw
-      : "ALL";
-  return {
-    level,
-    country: "EE",
-    municipality_id: String(rawGeo?.municipality_id || rawGeo?.municipalityId || "").trim(),
-    municipality_name: String(rawGeo?.municipality_name || "").trim(),
-    district_id: String(rawGeo?.district_id || rawGeo?.districtId || "").trim(),
-    district_name: String(rawGeo?.district_name || "").trim(),
-  };
-}
-
-function normalizeSources(rawSources) {
-  if (!Array.isArray(rawSources)) return [];
-  return rawSources
-    .filter(item => item && typeof item === "object")
-    .map(item => ({
-      id: String(item.id || "").trim() || undefined,
-      title: String(item.title || "").trim() || undefined,
-      url: String(item.url || "").trim() || undefined,
-      fileName: String(item.fileName || "").trim() || undefined,
-      section: String(item.section || "").trim() || undefined,
-      year: Number.isFinite(Number(item.year)) ? Number(item.year) : undefined,
-      issueLabel: String(item.issueLabel || "").trim() || undefined,
-      pageRange: String(item.pageRange || "").trim() || undefined,
-      short_ref: String(item.short_ref || "").trim() || undefined,
-      source_type: String(item.source_type || "").trim() || undefined,
-    }))
-    .filter(item => item.id || item.title || item.url || item.fileName);
 }
 
 export function useDeepResearchStream({
@@ -140,6 +106,9 @@ export function useDeepResearchStream({
       setIsResearching(true);
       onFocusInput?.();
 
+      let jobId = "";
+      let controller = null;
+
       try {
         const createRes = await fetch("/api/research/jobs", {
           method: "POST",
@@ -161,53 +130,32 @@ export function useDeepResearchStream({
           throw new Error(createBody?.messageKey || "chat.deep_research.error_generic");
         }
 
-        const jobId = String(createBody.id);
+        jobId = String(createBody.id);
         activeJobIdRef.current = jobId;
-        const controller = new AbortController();
+        controller = new AbortController();
         activeControllerRef.current = controller;
 
-        const streamRes = await fetch(
-          `/api/research/jobs/${encodeURIComponent(jobId)}/stream`,
-          {
-            method: "GET",
-            headers: { Accept: "text/event-stream" },
-            signal: controller.signal,
-          }
-        );
-        if (!streamRes.ok || !streamRes.body) {
-          throw new Error("chat.deep_research.error_generic");
-        }
-
-        const reader = (createSSEReader || defaultCreateSSEReader)(streamRes.body);
         let finalText = "";
         let finalSources = [];
         let hadError = false;
+        let fallbackAttempted = false;
 
-        for await (const event of reader) {
-          if (cancelledRef.current) break;
-          const data = parseEventData(event?.data);
-          if (event?.event === "progress") {
-            const stage = String(data?.stage || "").trim().toLowerCase();
-            mutateMessage?.(streamingMessageId, msg => ({
-              ...msg,
-              text: makeProgressText(stage, t),
-            }));
-            continue;
-          }
-          if (event?.event === "result") {
-            finalText = String(data?.result?.report_text || "").trim();
-            finalSources = normalizeSources(data?.result?.sources);
+        const applyTerminalJob = job => {
+          const status = String(job?.status || "").trim().toLowerCase();
+          if (status === "done") {
+            finalText = String(job?.result?.report_text || "").trim();
+            finalSources = normalizeSources(job?.result?.sources);
             mutateMessage?.(streamingMessageId, msg => ({
               ...msg,
               text: finalText || t("chat.deep_research.error_generic"),
               sources: finalSources,
               isStreaming: false,
             }));
-            continue;
+            return true;
           }
-          if (event?.event === "error") {
+          if (status === "error" || status === "cancelled") {
             hadError = true;
-            const key = String(data?.message || "").trim() || "chat.deep_research.error_generic";
+            const key = String(job?.error || "").trim() || "chat.deep_research.error_generic";
             const message = translateDeepResearchError(key, t);
             setErrorBanner?.(message);
             mutateMessage?.(streamingMessageId, msg => ({
@@ -215,14 +163,82 @@ export function useDeepResearchStream({
               text: message,
               isStreaming: false,
             }));
-            continue;
+            return true;
           }
-          if (event?.event === "done") {
-            break;
+          return false;
+        };
+
+        const recoverFromPersistedJob = async () => {
+          if (fallbackAttempted || cancelledRef.current || !jobId) return false;
+          fallbackAttempted = true;
+          const job = await pollResearchJobUntilTerminal(jobId, {
+            signal: controller?.signal,
+            intervalMs: 2500,
+            maxAttempts: 24,
+          });
+          return applyTerminalJob(job);
+        };
+
+        try {
+          const streamRes = await fetch(
+            `/api/research/jobs/${encodeURIComponent(jobId)}/stream`,
+            {
+              method: "GET",
+              headers: { Accept: "text/event-stream" },
+              signal: controller.signal,
+            }
+          );
+          if (!streamRes.ok || !streamRes.body) {
+            throw new Error("chat.deep_research.error_generic");
+          }
+
+          const reader = (createSSEReader || defaultCreateSSEReader)(streamRes.body);
+
+          for await (const event of reader) {
+            if (cancelledRef.current) break;
+            const data = parseEventData(event?.data);
+            if (event?.event === "progress") {
+              const stage = String(data?.stage || "").trim().toLowerCase();
+              mutateMessage?.(streamingMessageId, msg => ({
+                ...msg,
+                text: makeProgressText(stage, t),
+              }));
+              continue;
+            }
+            if (event?.event === "result") {
+              finalText = String(data?.result?.report_text || "").trim();
+              finalSources = normalizeSources(data?.result?.sources);
+              mutateMessage?.(streamingMessageId, msg => ({
+                ...msg,
+                text: finalText || t("chat.deep_research.error_generic"),
+                sources: finalSources,
+                isStreaming: false,
+              }));
+              continue;
+            }
+            if (event?.event === "error") {
+              hadError = true;
+              const key = String(data?.message || "").trim() || "chat.deep_research.error_generic";
+              const message = translateDeepResearchError(key, t);
+              setErrorBanner?.(message);
+              mutateMessage?.(streamingMessageId, msg => ({
+                ...msg,
+                text: message,
+                isStreaming: false,
+              }));
+              continue;
+            }
+            if (event?.event === "done") {
+              break;
+            }
+          }
+        } catch (streamError) {
+          if (!cancelledRef.current && !(await recoverFromPersistedJob())) {
+            throw streamError;
           }
         }
 
-        if (!hadError && !finalText && !cancelledRef.current) {
+        if (!hadError && !finalText && !cancelledRef.current && !(await recoverFromPersistedJob())) {
           mutateMessage?.(streamingMessageId, msg => ({
             ...msg,
             text: t("chat.deep_research.error_generic"),
