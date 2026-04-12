@@ -1113,6 +1113,11 @@
     "filters": {
       "all": "Kõik"
     },
+    "pagination": {
+      "range": "{start}-{end} / {total}",
+      "previous": "Eelmine",
+      "next": "Järgmine"
+    },
     "kinds": {
       "template": "Mall",
       "material": "Materjal",

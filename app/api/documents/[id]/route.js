@@ -1,5 +1,6 @@
 import { assertOwnedByUser } from "@/lib/documents/access"
 import { logDocumentsAudit } from "@/lib/documents/audit"
+import { deleteDocumentRecordAndFile } from "@/lib/documents/deleteDocumentRecord"
 import { prisma } from "@/lib/prisma"
 import { isFrameworkAcceptanceSchemaError } from "@/lib/frameworkAcceptanceCompat"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
@@ -291,22 +292,38 @@ export async function DELETE(request, { params }) {
       return errorJson("documents.errors.read_only_document", 403, locale)
     }
 
-    await deleteStoredDocument(existing.storagePath)
-    await prisma.userDocument.delete({
-      where: { id }
+    const deletedDocument = await deleteDocumentRecordAndFile({
+      deleteRecord: () => prisma.userDocument.delete({
+        where: { id },
+        select: {
+          id: true,
+          title: true,
+          originalName: true,
+          kind: true,
+          storagePath: true
+        }
+      }),
+      deleteFile: (document) => deleteStoredDocument(document.storagePath),
+      onFileDeleteError: (cleanupError, document) => {
+        console.error("[documents] delete cleanup failed", {
+          documentId: document?.id,
+          storagePath: document?.storagePath,
+          error: cleanupError
+        })
+      }
     })
 
     await logDocumentsAudit("document.deleted", {
       userId: auth.userId,
-      documentId: existing.id,
-      title: existing.title,
-      originalName: existing.originalName,
-      kind: existing.kind
+      documentId: deletedDocument.id,
+      title: deletedDocument.title,
+      originalName: deletedDocument.originalName,
+      kind: deletedDocument.kind
     })
 
     return json({
       ok: true,
-      id
+      id: deletedDocument.id
     })
   } catch (error) {
     if (error?.status === 403) {

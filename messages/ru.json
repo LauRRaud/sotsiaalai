@@ -1113,6 +1113,11 @@
     "filters": {
       "all": "Все"
     },
+    "pagination": {
+      "range": "{start}-{end} / {total}",
+      "previous": "Предыдущая",
+      "next": "Следующая"
+    },
     "kinds": {
       "template": "Шаблон",
       "material": "Материал",

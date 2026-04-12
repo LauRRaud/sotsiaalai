@@ -6,17 +6,25 @@ import { authConfig } from "@/auth";
 import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
+import { reserveAnalyzeQuota, refundAnalyzeQuota } from "@/lib/analyzeQuotaServer";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
+import {
+  DEFAULT_ANALYZE_ALLOWED_MIME_CSV,
+  DEFAULT_ANALYZE_MAX_UPLOAD_MB,
+  readAnalyzeMaxUploadMb,
+  resolveAnalyzeMimeType
+} from "@/lib/chat/analyzeFileConfig";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 
-const MAX_MB = Number(
-  process.env.RAG_SERVER_MAX_MB || process.env.RAG_MAX_UPLOAD_MB || process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 25
+const MAX_MB = readAnalyzeMaxUploadMb(
+  process.env.RAG_SERVER_MAX_MB || process.env.RAG_MAX_UPLOAD_MB || process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB,
+  DEFAULT_ANALYZE_MAX_UPLOAD_MB
 );
 const RAW_ALLOWED_MIME = String(
   process.env.RAG_ALLOWED_MIME ||
     process.env.RAG_SERVER_ALLOWED_MIME ||
     process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
-    "application/pdf,text/plain,text/markdown,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    DEFAULT_ANALYZE_ALLOWED_MIME_CSV
 );
 const ALLOWED_MIME = new Set(
   RAW_ALLOWED_MIME.split(",")
@@ -80,19 +88,6 @@ function isLocalBaseUrl(url) {
   }
 }
 
-function inferMimeFromFileName(fileName) {
-  const name = String(fileName || "").trim().toLowerCase();
-  if (!name) return "";
-  if (name.endsWith(".pdf")) return "application/pdf";
-  if (name.endsWith(".txt")) return "text/plain";
-  if (name.endsWith(".md") || name.endsWith(".markdown")) return "text/markdown";
-  if (name.endsWith(".html") || name.endsWith(".htm")) return "text/html";
-  if (name.endsWith(".docx")) {
-    return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-  }
-  return "";
-}
-
 async function callRagAnalyze(formData) {
   if (!RAG_KEY) throw new Error("api.chat.analyze.rag_key_missing");
 
@@ -133,6 +128,13 @@ async function callRagAnalyze(formData) {
     }
 
     return data || {};
+  } catch (error) {
+    if (error?.name === "AbortError") {
+      const timeoutError = new Error("api.chat.analyze.service_unavailable");
+      timeoutError.status = 504;
+      throw timeoutError;
+    }
+    throw error;
   } finally {
     clearTimeout(timer);
   }
@@ -186,12 +188,12 @@ export async function POST(request) {
   }
 
   const mimeTypeRaw = fd.get("mimeType");
-  const mimeTypeFromRequest = typeof mimeTypeRaw === "string" ? mimeTypeRaw.trim().toLowerCase() : "";
-  const mimeTypeFromFile = String(file?.type || "").trim().toLowerCase();
-  const mimeTypeInferred = inferMimeFromFileName(file?.name || "");
-  const resolvedMimeType = [mimeTypeFromRequest, mimeTypeFromFile, mimeTypeInferred].find(
-    mime => mime && ALLOWED_MIME.has(mime)
-  );
+  const resolvedMimeType = resolveAnalyzeMimeType({
+    mimeTypeFromRequest: typeof mimeTypeRaw === "string" ? mimeTypeRaw : "",
+    mimeTypeFromFile: String(file?.type || ""),
+    fileName: file?.name || "",
+    allowedMime: [...ALLOWED_MIME]
+  });
   if (!resolvedMimeType) {
     return errorJson("api.chat.analyze.mime_not_allowed", 415, locale);
   }
@@ -200,32 +202,13 @@ export async function POST(request) {
   const day = utcDayStart();
   const isAdmin = roleState.isAdmin;
   const limit = getAnalyzeLimit(role, isAdmin);
+  let quotaReserved = false;
 
   try {
     await prisma.$transaction(async tx => {
-      await tx.analyzeUsage.upsert({
-        where: { userId_day: { userId, day } },
-        create: { userId, day, count: 0 },
-        update: {}
-      });
-
-      const updated = await tx.analyzeUsage.updateMany({
-        where: {
-          userId,
-          day,
-          count: { lt: limit }
-        },
-        data: {
-          count: { increment: 1 }
-        }
-      });
-
-      if (updated.count === 0) {
-        const err = new Error("api.chat.analyze.quota_exceeded");
-        err.code = "QUOTA";
-        throw err;
-      }
+      await reserveAnalyzeQuota(tx, { userId, day, limit });
     });
+    quotaReserved = true;
   } catch (e) {
     if (e?.code === "QUOTA") {
       const retry = secondsUntilUtcMidnight();
@@ -273,6 +256,13 @@ export async function POST(request) {
     });
   } catch (e) {
     console.error("[analyze-file] RAG analyze error:", e);
+    if (quotaReserved) {
+      try {
+        await refundAnalyzeQuota(prisma, { userId, day });
+      } catch (refundError) {
+        console.error("[analyze-file] quota refund failed:", refundError);
+      }
+    }
     const status = Number(e?.status) || 502;
     return errorJson(e?.message || "api.chat.analyze.service_unavailable", status, locale);
   }

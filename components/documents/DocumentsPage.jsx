@@ -14,7 +14,7 @@ import OptionCard from "@/components/ui/OptionCard"
 import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPrimaryButtonToneClassName } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass, linkRichTextBase } from "@/components/ui/linkStyles"
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName"
-import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
+import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, DOCUMENT_LIST_LIMIT, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
 import {
   artifactStatusLabel,
   artifactTypeLabel,
@@ -109,41 +109,79 @@ function normalizeSearchValue(value) {
   return String(value || "").trim().toLowerCase()
 }
 
-function artifactSearchBlob(artifact, t) {
-  const sourcesText = Array.isArray(artifact?.sources)
-    ? artifact.sources.map((source) => `${source?.title || ""} ${source?.originalName || ""}`).join(" ")
-    : ""
-  return normalizeSearchValue([
-    artifact?.title,
-    artifact?.snippet,
-    artifact?.type,
-    artifactTypeLabel(artifact?.type, t),
-    sourcesText
-  ].join(" "))
-}
-
-function artifactSortTimestamp(value) {
-  const timestamp = Date.parse(String(value || ""))
-  return Number.isFinite(timestamp) ? timestamp : 0
-}
-
-function compareArtifacts(left, right, sortKey, t, locale) {
-  if (sortKey === "updated_asc") return artifactSortTimestamp(left?.updatedAt) - artifactSortTimestamp(right?.updatedAt)
-  if (sortKey === "approved_desc") return artifactSortTimestamp(right?.approvedAt) - artifactSortTimestamp(left?.approvedAt)
-  if (sortKey === "title_asc") {
-    const leftLabel = String(left?.title || artifactTypeLabel(left?.type, t)).trim()
-    const rightLabel = String(right?.title || artifactTypeLabel(right?.type, t)).trim()
-    return leftLabel.localeCompare(rightLabel, locale || "et", { sensitivity: "base" })
-  }
-  return artifactSortTimestamp(right?.updatedAt) - artifactSortTimestamp(left?.updatedAt)
-}
-
 function ChipLabel({ label, count }) {
   return (
     <>
       <span>{label}</span>
       {typeof count === "number" ? <span className="documents-chip-count">&nbsp;({count})</span> : null}
     </>
+  )
+}
+
+function createPaginationState(limit) {
+  return {
+    total: 0,
+    limit,
+    offset: 0,
+    hasPrevious: false,
+    hasNext: false,
+    previousOffset: 0,
+    nextOffset: 0
+  }
+}
+
+function normalizePaginationState(payload, fallbackLimit, fallbackOffset = 0) {
+  const pagination = payload?.pagination || {}
+  const limit = Number.isFinite(Number(pagination.limit)) ? Math.max(1, Number(pagination.limit)) : fallbackLimit
+  const offset = Number.isFinite(Number(pagination.offset)) ? Math.max(0, Number(pagination.offset)) : fallbackOffset
+  const total = Number.isFinite(Number(pagination.total)) ? Math.max(0, Number(pagination.total)) : 0
+  const hasPrevious = Boolean(pagination.hasPrevious)
+  const hasNext = Boolean(pagination.hasNext)
+
+  return {
+    total,
+    limit,
+    offset,
+    hasPrevious,
+    hasNext,
+    previousOffset: hasPrevious ? Math.max(0, Number(pagination.previousOffset) || offset - limit) : 0,
+    nextOffset: hasNext ? Math.max(offset + limit, Number(pagination.nextOffset) || offset + limit) : offset
+  }
+}
+
+function PaginationControls({ itemCount, pagination, t, onPrevious, onNext }) {
+  if (!pagination || pagination.total <= pagination.limit) return null
+  const start = pagination.total > 0 ? pagination.offset + 1 : 0
+  const end = pagination.total > 0 ? Math.min(pagination.offset + itemCount, pagination.total) : 0
+
+  return (
+    <div className="mt-[0.85rem] flex flex-wrap items-center justify-between gap-[0.8rem] rounded-[1rem] border px-[0.95rem] py-[0.82rem]">
+      <span className="documents-meta-text text-[0.92rem]">
+        {t("documents.pagination.range", { start, end, total: pagination.total }, `${start}-${end} / ${pagination.total}`)}
+      </span>
+      <div className="flex flex-wrap items-center gap-[0.55rem]">
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          className="documents-secondary-button"
+          disabled={!pagination.hasPrevious}
+          onClick={onPrevious}
+        >
+          {t("documents.pagination.previous", "Eelmine")}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          className="documents-secondary-button"
+          disabled={!pagination.hasNext}
+          onClick={onNext}
+        >
+          {t("documents.pagination.next", "Jargmine")}
+        </Button>
+      </div>
+    </div>
   )
 }
 
@@ -166,13 +204,23 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
   const isClientRole = effectiveRole === "CLIENT"
   const isArtifactsExpanded = artifactsExpanded || initialArtifactLimit >= ARTIFACT_LIST_LIMIT_ALL
+  const artifactPageSize = isArtifactsExpanded ? ARTIFACT_LIST_LIMIT_ALL : initialArtifactLimit
   const [introExpanded, setIntroExpanded] = useState(false)
   const [kindFilter, setKindFilter] = useState("ALL")
   const [artifactFilter, setArtifactFilter] = useState("ALL")
   const [artifactSearch, setArtifactSearch] = useState("")
   const [artifactSort, setArtifactSort] = useState("updated_desc")
+  const [documentsOffset, setDocumentsOffset] = useState(0)
+  const [artifactsOffset, setArtifactsOffset] = useState(0)
   const [documents, setDocuments] = useState([])
   const [artifacts, setArtifacts] = useState([])
+  const [documentsPagination, setDocumentsPagination] = useState(() => createPaginationState(DOCUMENT_LIST_LIMIT))
+  const [artifactsPagination, setArtifactsPagination] = useState(() => createPaginationState(artifactPageSize))
+  const [artifactCounts, setArtifactCounts] = useState({
+    all: 0,
+    draft: 0,
+    final: 0
+  })
   const [documentsLoading, setDocumentsLoading] = useState(true)
   const [artifactsLoading, setArtifactsLoading] = useState(true)
   const [documentsError, setDocumentsError] = useState("")
@@ -193,6 +241,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   })
   const uploadInputRef = useRef(null)
   const deferredArtifactSearch = useDeferredValue(artifactSearch)
+  const trimmedArtifactSearch = String(deferredArtifactSearch || "").trim()
   const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
   const roleViewLabel = t(effectiveRole === "SOCIAL_WORKER" ? "profile.role_short.worker" : "profile.role_short.client")
   const workerIntroCopy = useMemo(() => getWorkerIntroCopy(locale), [locale])
@@ -207,42 +256,84 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     ? t(`documents.agent_handoff.ready_help_${roleScope}`)
     : t(`documents.agent_handoff.empty_help_${roleScope}`)
 
-  const loadDocuments = useCallback(async (nextKind = kindFilter) => {
+  const loadDocuments = useCallback(async (options = {}) => {
+    const nextKind = options.kind ?? kindFilter
+    const nextOffset = options.offset ?? documentsOffset
     setDocumentsLoading(true)
     setDocumentsError("")
     try {
-      const params = new URLSearchParams({ limit: "50" })
+      const params = new URLSearchParams({
+        limit: String(DOCUMENT_LIST_LIMIT),
+        offset: String(nextOffset)
+      })
       if (nextKind !== "ALL") params.set("kind", nextKind)
       const response = await fetch(`/api/documents?${params.toString()}`, { cache: "no-store" })
       const payload = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(payload?.message || t("documents.errors.load_documents"))
-      setDocuments(Array.isArray(payload?.documents) ? payload.documents : [])
+      const nextDocuments = Array.isArray(payload?.documents) ? payload.documents : []
+      const nextPagination = normalizePaginationState(payload, DOCUMENT_LIST_LIMIT, nextOffset)
+      if (!nextDocuments.length && nextPagination.total > 0 && nextOffset >= nextPagination.total) {
+        setDocumentsOffset(nextPagination.previousOffset)
+        return
+      }
+      setDocuments(nextDocuments)
+      setDocumentsPagination(nextPagination)
     } catch (error) {
       setDocuments([])
+      setDocumentsPagination(createPaginationState(DOCUMENT_LIST_LIMIT))
       setDocumentsError(error?.message || t("documents.errors.load_documents"))
     } finally {
       setDocumentsLoading(false)
     }
-  }, [kindFilter, t])
+  }, [documentsOffset, kindFilter, t])
 
-  const loadArtifacts = useCallback(async (limit = initialArtifactLimit) => {
+  const loadArtifacts = useCallback(async (options = {}) => {
+    const nextOffset = isArtifactsExpanded ? (options.offset ?? artifactsOffset) : 0
+    const nextFilter = options.filter ?? artifactFilter
+    const nextSort = options.sort ?? artifactSort
+    const nextSearch = options.search ?? trimmedArtifactSearch
     setArtifactsLoading(true)
     setArtifactsError("")
     try {
-      const response = await fetch(`/api/documents/artifacts?limit=${limit}`, { cache: "no-store" })
+      const params = new URLSearchParams({
+        limit: String(artifactPageSize),
+        offset: String(nextOffset),
+        sort: nextSort
+      })
+      if (nextFilter !== "ALL") params.set("status", nextFilter)
+      if (nextSearch) params.set("search", nextSearch)
+      const response = await fetch(`/api/documents/artifacts?${params.toString()}`, { cache: "no-store" })
       const payload = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(payload?.message || t("documents.errors.load_artifacts"))
-      setArtifacts(Array.isArray(payload?.artifacts) ? payload.artifacts : [])
+      const nextArtifacts = Array.isArray(payload?.artifacts) ? payload.artifacts : []
+      const nextPagination = normalizePaginationState(payload, artifactPageSize, nextOffset)
+      if (!nextArtifacts.length && nextPagination.total > 0 && nextOffset >= nextPagination.total) {
+        setArtifactsOffset(nextPagination.previousOffset)
+        return
+      }
+      setArtifacts(nextArtifacts)
+      setArtifactsPagination(nextPagination)
+      setArtifactCounts({
+        all: Number(payload?.counts?.all) || 0,
+        draft: Number(payload?.counts?.draft) || 0,
+        final: Number(payload?.counts?.final) || 0
+      })
     } catch (error) {
       setArtifacts([])
+      setArtifactsPagination(createPaginationState(artifactPageSize))
+      setArtifactCounts({
+        all: 0,
+        draft: 0,
+        final: 0
+      })
       setArtifactsError(error?.message || t("documents.errors.load_artifacts"))
     } finally {
       setArtifactsLoading(false)
     }
-  }, [initialArtifactLimit, t])
+  }, [artifactFilter, artifactPageSize, artifactSort, artifactsOffset, isArtifactsExpanded, t, trimmedArtifactSearch])
 
-  useEffect(() => { void loadDocuments(kindFilter) }, [kindFilter, loadDocuments])
-  useEffect(() => { void loadArtifacts(initialArtifactLimit) }, [initialArtifactLimit, loadArtifacts])
+  useEffect(() => { void loadDocuments() }, [loadDocuments])
+  useEffect(() => { void loadArtifacts() }, [loadArtifacts])
 
   useEffect(() => {
     let cancelled = false
@@ -299,8 +390,9 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   }, [roleScope, roleIntroText, roleIntroDetailsText])
 
   useEffect(() => {
-    const allowedIds = new Set(documents.filter((document) => document.agentAllowed).map((document) => document.id))
-    setSelectedDocumentIds((current) => current.filter((id) => allowedIds.has(id)))
+    const blockedIds = new Set(documents.filter((document) => !document.agentAllowed).map((document) => document.id))
+    if (!blockedIds.size) return
+    setSelectedDocumentIds((current) => current.filter((id) => !blockedIds.has(id)))
   }, [documents])
 
   const kindOptions = useMemo(() => DOCUMENT_KIND_VALUES.map((kind) => ({ value: kind, label: kindLabel(kind, t) })), [t])
@@ -317,21 +409,10 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     const params = new URLSearchParams({ documents: selectedDocumentIds.join(",") })
     return `${basePath}?${params.toString()}`
   }, [locale, selectedDocumentIds])
-  const filteredArtifacts = useMemo(() => {
-    const query = normalizeSearchValue(deferredArtifactSearch)
-    return artifacts
-      .filter((artifact) => (artifactFilter === "ALL" ? true : artifact.status === artifactFilter))
-      .filter((artifact) => (!query ? true : artifactSearchBlob(artifact, t).includes(query)))
-      .sort((left, right) => compareArtifacts(left, right, artifactSort, t, locale))
-  }, [artifactFilter, artifactSort, artifacts, deferredArtifactSearch, locale, t])
-  const artifactCounts = useMemo(() => ({
-    all: artifacts.length,
-    draft: artifacts.filter((artifact) => artifact.status === "DRAFT").length,
-    final: artifacts.filter((artifact) => artifact.status === "FINAL").length
-  }), [artifacts])
-  const artifactFilteredTotal = useMemo(() => (artifactFilter === "ALL" ? artifacts.length : artifacts.filter((artifact) => artifact.status === artifactFilter).length), [artifactFilter, artifacts])
+  const filteredArtifacts = artifacts
+  const artifactFilteredTotal = artifactsPagination.total
   const artifactHasSearch = normalizeSearchValue(artifactSearch).length > 0
-  const showArtifactsToolbar = isArtifactsExpanded && (artifacts.length > 0 || artifactHasSearch || artifactFilter !== "ALL")
+  const showArtifactsToolbar = isArtifactsExpanded && (artifactCounts.all > 0 || artifactHasSearch || artifactFilter !== "ALL")
   const frameworkAcceptance = frameworkStatus.acceptance
   const hasFrameworkAcceptance = frameworkAcceptance?.accepted === true
   const frameworkAcceptedAtLabel = frameworkAcceptance?.acceptedAt
@@ -363,7 +444,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
       setUploadTemplateFor("")
       setUploadFile(null)
       setSuccessNotice({ message: t("documents.feedback.uploaded") })
-      await loadDocuments(kindFilter)
+      setDocumentsOffset(0)
+      await loadDocuments({ offset: 0 })
     } catch (error) {
       setDocumentsError(error?.message || t("documents.errors.upload_failed"))
     } finally {
@@ -383,7 +465,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
       const payload = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(payload?.message || t("documents.errors.save_failed"))
       setSuccessNotice({ message: t(successKey) })
-      await loadDocuments(kindFilter)
+      await loadDocuments()
       return true
     } catch (error) {
       setDocumentsError(error?.message || t("documents.errors.save_failed"))
@@ -397,8 +479,9 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
       const response = await fetch(`/api/documents/${encodeURIComponent(id)}`, { method: "DELETE" })
       const payload = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(payload?.message || t("documents.errors.delete_failed"))
+      setSelectedDocumentIds((current) => current.filter((item) => item !== id))
       setSuccessNotice({ message: t("documents.feedback.deleted") })
-      await loadDocuments(kindFilter)
+      await loadDocuments()
     } catch (error) {
       setDocumentsError(error?.message || t("documents.errors.delete_failed"))
     }
@@ -411,7 +494,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
       const payload = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(payload?.message || t("documents.errors.delete_artifact_failed"))
       setSuccessNotice({ message: t("documents.feedback.artifact_deleted") })
-      await loadArtifacts(initialArtifactLimit)
+      await loadArtifacts()
     } catch (error) {
       setArtifactsError(error?.message || t("documents.errors.delete_artifact_failed"))
     }
@@ -709,7 +792,10 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                         name="documents-kind-filter"
                         value={kind}
                         checked={kindFilter === kind}
-                        onChange={(event) => setKindFilter(event.target.value)}
+                        onChange={(event) => {
+                          setKindFilter(event.target.value)
+                          setDocumentsOffset(0)
+                        }}
                         className={documentsChoiceCardClassName}
                         fitTextLines={1}
                       >
@@ -783,6 +869,13 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 </article>
               })}
                 </div>
+                <PaginationControls
+                  itemCount={documents.length}
+                  pagination={documentsPagination}
+                  t={t}
+                  onPrevious={() => setDocumentsOffset(documentsPagination.previousOffset)}
+                  onNext={() => setDocumentsOffset(documentsPagination.nextOffset)}
+                />
                 </Panel>
 
                 </div>
@@ -829,7 +922,10 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     name="documents-artifact-filter"
                     value={item.key}
                     checked={artifactFilter === item.key}
-                    onChange={(event) => setArtifactFilter(event.target.value)}
+                    onChange={(event) => {
+                      setArtifactFilter(event.target.value)
+                      setArtifactsOffset(0)
+                    }}
                     className={documentsChoiceCardClassName}
                     fitTextLines={1}
                   >
@@ -852,11 +948,28 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 <div className="grid gap-[0.7rem] md:grid-cols-[minmax(0,1fr)_19rem_auto] md:items-end">
                   <label className="grid gap-[0.35rem]">
                     <span className="documents-meta-text text-[0.88rem]">{t("documents.actions.search")}</span>
-                    <Input value={artifactSearch} onChange={(event) => setArtifactSearch(event.target.value)} placeholder={t("documents.artifacts.search_placeholder")} className="documents-form-input w-full" />
+                    <Input
+                      value={artifactSearch}
+                      onChange={(event) => {
+                        setArtifactSearch(event.target.value)
+                        setArtifactsOffset(0)
+                      }}
+                      placeholder={t("documents.artifacts.search_placeholder")}
+                      className="documents-form-input w-full"
+                    />
                   </label>
                   <label className="grid gap-[0.35rem]">
                     <span className="documents-meta-text text-[0.88rem]">{t("documents.artifacts.sort_label")}</span>
-                    <DocumentsDropdown ariaLabel={t("documents.artifacts.sort_label")} value={artifactSort} onChange={setArtifactSort} options={artifactSortOptions} align="end" />
+                    <DocumentsDropdown
+                      ariaLabel={t("documents.artifacts.sort_label")}
+                      value={artifactSort}
+                      onChange={(nextValue) => {
+                        setArtifactSort(nextValue)
+                        setArtifactsOffset(0)
+                      }}
+                      options={artifactSortOptions}
+                      align="end"
+                    />
                   </label>
                   {artifactHasSearch ? (
                     <div className="flex items-end">
@@ -865,7 +978,10 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                         size="sm"
                         variant="ghost"
                         className="documents-secondary-button"
-                        onClick={() => setArtifactSearch("")}
+                        onClick={() => {
+                          setArtifactSearch("")
+                          setArtifactsOffset(0)
+                        }}
                       >
                         {t("documents.actions.clear_search", "Puhasta otsing")}
                       </Button>
@@ -898,6 +1014,15 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 </article>
               ))}
             </div>
+            {isArtifactsExpanded ? (
+              <PaginationControls
+                itemCount={filteredArtifacts.length}
+                pagination={artifactsPagination}
+                t={t}
+                onPrevious={() => setArtifactsOffset(artifactsPagination.previousOffset)}
+                onNext={() => setArtifactsOffset(artifactsPagination.nextOffset)}
+              />
+            ) : null}
             </div>
             </div>
           </Panel>

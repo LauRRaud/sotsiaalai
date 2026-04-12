@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma"
 import { isFrameworkAcceptanceSchemaError } from "@/lib/frameworkAcceptanceCompat"
 import { effectiveRoleFromSession } from "@/lib/authz"
 import { DOCUMENT_LIST_LIMIT } from "@/lib/documents/constants"
+import { buildPaginationMeta, parseListLimit, parseListOffset } from "@/lib/documents/listing"
 import { logDocumentsAudit } from "@/lib/documents/audit"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { getDailyUploadQuotaBytes, getStorageQuotaBytes, getUtcDayStart } from "@/lib/storageGuardrails"
@@ -27,12 +28,6 @@ export const revalidate = 0
 
 const DOCUMENTS_RATE_LIMIT_WINDOW_MS = readDocumentsRateLimit(process.env.DOCUMENTS_RATE_LIMIT_WINDOW_MS, 60_000, 1000)
 const DOCUMENTS_UPLOAD_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.DOCUMENTS_UPLOAD_RATE_LIMIT_MAX, 12)
-
-function clampLimit(value, fallback = DOCUMENT_LIST_LIMIT) {
-  const parsed = Number(value)
-  if (!Number.isFinite(parsed) || parsed <= 0) return fallback
-  return Math.min(Math.floor(parsed), DOCUMENT_LIST_LIMIT)
-}
 
 function serializeDocument(document) {
   const frameworkAcceptance = document.frameworkAcceptance || null
@@ -74,78 +69,90 @@ export async function GET(request) {
   const requestUrl = new URL(request.url)
   const kindParam = String(requestUrl.searchParams.get("kind") || "").trim().toUpperCase()
   const kind = kindParam && kindParam !== "ALL" ? normalizeDocumentKind(kindParam) : null
-  const limit = clampLimit(requestUrl.searchParams.get("limit"), DOCUMENT_LIST_LIMIT)
+  const limit = parseListLimit(requestUrl.searchParams.get("limit"), {
+    fallback: DOCUMENT_LIST_LIMIT,
+    maxLimit: DOCUMENT_LIST_LIMIT
+  })
+  const offset = parseListOffset(requestUrl.searchParams.get("offset"))
+  const where = {
+    ownerId: auth.userId,
+    ...(kind ? { kind } : {})
+  }
 
   try {
-    const documents = await prisma.userDocument.findMany({
-      where: {
-        ownerId: auth.userId,
-        ...(kind ? { kind } : {})
-      },
-      select: {
-        id: true,
-        title: true,
-        originalName: true,
-        kind: true,
-        templateFor: true,
-        agentAllowed: true,
-        mime: true,
-        size: true,
-        createdAt: true,
-        updatedAt: true,
-        frameworkAcceptance: {
-          select: {
-            id: true,
-            frameworkKey: true,
-            frameworkVersion: true,
-            acceptanceType: true,
-            acceptedAt: true,
-            signedDocumentDownloadedAt: true
+    const [total, documents] = await prisma.$transaction([
+      prisma.userDocument.count({ where }),
+      prisma.userDocument.findMany({
+        where,
+        select: {
+          id: true,
+          title: true,
+          originalName: true,
+          kind: true,
+          templateFor: true,
+          agentAllowed: true,
+          mime: true,
+          size: true,
+          createdAt: true,
+          updatedAt: true,
+          frameworkAcceptance: {
+            select: {
+              id: true,
+              frameworkKey: true,
+              frameworkVersion: true,
+              acceptanceType: true,
+              acceptedAt: true,
+              signedDocumentDownloadedAt: true
+            }
           }
-        }
-      },
-      orderBy: {
-        updatedAt: "desc"
-      },
-      take: limit
-    })
+        },
+        orderBy: {
+          updatedAt: "desc"
+        },
+        skip: offset,
+        take: limit
+      })
+    ])
 
     return json({
       ok: true,
-      documents: documents.map(serializeDocument)
+      documents: documents.map(serializeDocument),
+      pagination: buildPaginationMeta({ total, limit, offset })
     })
   } catch (error) {
     if (isFrameworkAcceptanceSchemaError(error)) {
       try {
-        const documents = await prisma.userDocument.findMany({
-          where: {
-            ownerId: auth.userId,
-            ...(kind ? { kind } : {})
-          },
-          select: {
-            id: true,
-            title: true,
-            originalName: true,
-            kind: true,
-            templateFor: true,
-            agentAllowed: true,
-            mime: true,
-            size: true,
-            createdAt: true,
-            updatedAt: true
-          },
-          orderBy: {
-            updatedAt: "desc"
-          },
-          take: limit
-        })
+        const [total, documents] = await Promise.all([
+          prisma.userDocument.count({ where }),
+          prisma.userDocument.findMany({
+            where,
+            select: {
+              id: true,
+              title: true,
+              originalName: true,
+              kind: true,
+              templateFor: true,
+              agentAllowed: true,
+              mime: true,
+              size: true,
+              createdAt: true,
+              updatedAt: true
+            },
+            orderBy: {
+              updatedAt: "desc"
+            },
+            skip: offset,
+            take: limit
+          })
+        ])
 
         return json({
           ok: true,
           documents: documents.map((document) => serializeDocument({
             ...document,
             frameworkAcceptance: null
-          }))
+          })),
+          pagination: buildPaginationMeta({ total, limit, offset })
         })
       } catch (fallbackError) {
         console.error("[documents] legacy list fallback failed", fallbackError)

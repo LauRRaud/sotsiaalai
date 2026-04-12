@@ -1,4 +1,10 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  buildAnalyzeAcceptAttr,
+  DEFAULT_ANALYZE_ALLOWED_MIME_CSV,
+  DEFAULT_ANALYZE_MAX_UPLOAD_MB,
+  readAnalyzeMaxUploadMb
+} from "@/lib/chat/analyzeFileConfig";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 export function useChatAnalysisController({
   t,
@@ -242,44 +248,18 @@ export function useChatAnalysisController({
     };
   }, [isMobileViewport, showAnalysisPanel, isAnalysisExpanded, visibleMessagesCount, chatWindowRef]);
   const MAX_UPLOAD_MB = useMemo(() => {
-    const v = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
-    return Number.isFinite(v) && v > 0 ? v : 50;
+    return readAnalyzeMaxUploadMb(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB, DEFAULT_ANALYZE_MAX_UPLOAD_MB);
   }, []);
   const MAX_ANALYZE_CHUNKS = useMemo(() => {
     const v = Number(process.env.NEXT_PUBLIC_CHAT_ANALYZE_MAX_CHUNKS || 80);
     return Number.isFinite(v) && v > 0 ? Math.floor(v) : 80;
   }, []);
-  const RAW_ALLOWED_MIME = String(process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME || "application/pdf,text/plain,text/markdown,text/html,application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+  const RAW_ALLOWED_MIME = String(process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME || DEFAULT_ANALYZE_ALLOWED_MIME_CSV);
   const ALLOWED_MIME_LIST = useMemo(() => {
     const out = RAW_ALLOWED_MIME.split(",").map(s => s.trim()).filter(Boolean);
     return out.length ? out : ["application/pdf"];
   }, [RAW_ALLOWED_MIME]);
-  const acceptAttr = useMemo(() => {
-    const set = new Set();
-    ALLOWED_MIME_LIST.forEach(m => {
-      if (m === "application/pdf") {
-        set.add(m);
-        set.add(".pdf");
-      } else if (m === "text/plain") {
-        set.add(m);
-        set.add(".txt");
-      } else if (m === "text/markdown") {
-        set.add(m);
-        set.add(".md");
-        set.add(".markdown");
-      } else if (m === "text/html") {
-        set.add(m);
-        set.add(".html");
-        set.add(".htm");
-      } else if (m === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-        set.add(m);
-        set.add(".docx");
-      } else {
-        set.add(m);
-      }
-    });
-    return Array.from(set).join(",");
-  }, [ALLOWED_MIME_LIST]);
+  const acceptAttr = useMemo(() => buildAnalyzeAcceptAttr(ALLOWED_MIME_LIST), [ALLOWED_MIME_LIST]);
   const refreshUsage = useCallback(async () => {
     if (!sessionUserId) return;
     try {

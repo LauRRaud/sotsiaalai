@@ -5,6 +5,15 @@ import {
   ARTIFACT_LIST_LIMIT_ALL,
   MAX_ARTIFACT_SOURCE_DOCUMENTS
 } from "@/lib/documents/constants"
+import {
+  buildArtifactOrderBy,
+  buildArtifactSearchWhere,
+  buildPaginationMeta,
+  normalizeArtifactListSort,
+  normalizeArtifactStatusFilter,
+  parseListLimit,
+  parseListOffset
+} from "@/lib/documents/listing"
 import { logDocumentsAudit } from "@/lib/documents/audit"
 import {
   normalizeArtifactContent,
@@ -61,12 +70,6 @@ const artifactInclude = {
   }
 }
 
-function clampLimit(value, fallback = ARTIFACT_LIST_LIMIT) {
-  const parsed = Number(value)
-  if (!Number.isFinite(parsed) || parsed <= 0) return fallback
-  return Math.min(Math.floor(parsed), ARTIFACT_LIST_LIMIT_ALL)
-}
-
 function parseIncludeContent(value) {
   const normalized = String(value || "").trim().toLowerCase()
   return normalized === "1" || normalized === "true" || normalized === "yes"
@@ -95,24 +98,66 @@ export async function GET(request) {
   }
 
   const requestUrl = new URL(request.url)
-  const limit = clampLimit(requestUrl.searchParams.get("limit"), ARTIFACT_LIST_LIMIT)
+  const limit = parseListLimit(requestUrl.searchParams.get("limit"), {
+    fallback: ARTIFACT_LIST_LIMIT,
+    maxLimit: ARTIFACT_LIST_LIMIT_ALL
+  })
+  const offset = parseListOffset(requestUrl.searchParams.get("offset"))
   const includeContent = parseIncludeContent(requestUrl.searchParams.get("includeContent"))
+  const search = String(requestUrl.searchParams.get("search") || "").trim()
+  const status = normalizeArtifactStatusFilter(requestUrl.searchParams.get("status"))
+  const sort = normalizeArtifactListSort(requestUrl.searchParams.get("sort"))
+  const searchWhere = buildArtifactSearchWhere(search)
+  const baseWhere = {
+    ownerId: auth.userId,
+    ...(searchWhere || {})
+  }
+  const where = {
+    ...baseWhere,
+    ...(status ? { status } : {})
+  }
 
   try {
-    const artifacts = await prisma.agentArtifact.findMany({
-      where: {
-        ownerId: auth.userId
-      },
-      include: artifactInclude,
-      orderBy: {
-        updatedAt: "desc"
-      },
-      take: limit
-    })
+    const [total, statusCountsRaw, artifacts] = await prisma.$transaction([
+      prisma.agentArtifact.count({ where }),
+      prisma.agentArtifact.groupBy({
+        by: ["status"],
+        where: baseWhere,
+        _count: {
+          _all: true
+        }
+      }),
+      prisma.agentArtifact.findMany({
+        where,
+        include: artifactInclude,
+        orderBy: buildArtifactOrderBy(sort),
+        skip: offset,
+        take: limit
+      })
+    ])
+    const counts = {
+      all: 0,
+      draft: 0,
+      final: 0
+    }
+
+    for (const entry of statusCountsRaw) {
+      const count = Number(entry?._count?._all) || 0
+      counts.all += count
+      if (entry.status === "DRAFT") counts.draft = count
+      if (entry.status === "FINAL") counts.final = count
+    }
 
     return json({
       ok: true,
-      artifacts: artifacts.map((artifact) => serializeArtifact(artifact, { includeContent }))
+      artifacts: artifacts.map((artifact) => serializeArtifact(artifact, { includeContent })),
+      counts,
+      filters: {
+        search,
+        sort,
+        status
+      },
+      pagination: buildPaginationMeta({ total, limit, offset })
     })
   } catch (error) {
     console.error("[documents artifacts] list failed", error)
