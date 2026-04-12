@@ -222,7 +222,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
 @media (max-width: 768px) {
   .homepage-root .home-card-front-logo [class*="home-logo-shine-rect"] {
-    animation-name: home-logo-shine-move, home-logo-shine-fade-mobile;
+    animation-name: home-logo-shine-move, home-logo-shine-fade-desktop-soft;
   }
 }
 
