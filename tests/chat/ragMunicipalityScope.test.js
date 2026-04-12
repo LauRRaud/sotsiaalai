@@ -130,6 +130,63 @@ test("client prompt layers social support answers without treating research as l
   assert.match(system, /If the municipality is missing, still give the national frame/);
 });
 
+test("prompt keeps the named social service separate from similar services", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Nouded varjupaigateenuse osutamisele?",
+    context: [
+      "6. jagu Varjupaigateenus. Elukeskkond, kus osutatakse varjupaigateenust, peab vastama rahvatervishoiu seaduse paragrahv 21 nouetele.",
+      "Turvakoduteenuse tegevusloa noudeid ei tohi segi ajada varjupaigateenusega."
+    ].join("\n"),
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /treat that exact term as the target/);
+  assert.match(system, /Do not substitute a similar service/);
+  assert.match(system, /do not answer varjupaigateenus as turvakoduteenus/);
+  assert.match(system, /use the requested service's own section first/);
+  assert.match(system, /answer from the available exact-text and state the limit/);
+});
+
+test("prompt anchors short national-requirements follow-ups to the user's named service", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "user",
+        content: "soovin varjupaiga teenust"
+      },
+      {
+        role: "assistant",
+        content: "Jogeva vallas saad poorduda hoolekandekeskusse."
+      },
+      {
+        role: "user",
+        content: "Nouded teenuseosutajale?"
+      },
+      {
+        role: "assistant",
+        content: "Selles kohalikus materjalis ma teenuseosutaja eraldi noudeid ei nae."
+      }
+    ],
+    userMessage: "riiklik ma motlesin, riiklikud nouded",
+    context: [
+      "6. jagu Varjupaigateenus. Paragrahv 32. Varjupaigateenuse osutaja kehtestab sisekorraeeskirja.",
+      "Paragrahv 32-1. Elukeskkond, kus osutatakse varjupaigateenust, peab vastama rahvatervishoiu seaduse paragrahv 21 nouetele.",
+      "Turvakoduteenuse tegevusloa ja tuleohutuse noudeid ei kohaldata selle varjupaigateenuse loigu pohjal."
+    ].join("\n"),
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /resolve the target from the latest specific service named by the user/);
+  assert.match(system, /not from the assistant's prior wording or assumptions/);
+  assert.match(system, /Do not add broad activity-license, employee suitability, fire-safety, or child-protection requirements/);
+  assert.match(system, /unless the requested service's own section or another exact matching source says they apply/);
+});
+
 test("social worker prompt asks for legal, local, practical and evidence layers", () => {
   const input = toResponsesInput({
     history: [],
@@ -214,7 +271,7 @@ test("chat prompt attributes mentioned details only to user messages", () => {
   assert.match(system, /acknowledge the error plainly/);
 });
 
-test("social worker responses use medium verbosity while client stays low", () => {
+test("chat responses default to medium verbosity for both roles", () => {
   const base = {
     model: "test-model",
     input: [],
@@ -229,7 +286,7 @@ test("social worker responses use medium verbosity while client stays low", () =
   assert.equal(buildResponsesPayload(base, {
     stream: false,
     effectiveRole: "CLIENT"
-  }).text.verbosity, "low");
+  }).text.verbosity, "medium");
 });
 
 test("extra system instructions are inserted before the user turn", () => {
