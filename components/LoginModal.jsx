@@ -1330,9 +1330,15 @@ export default function LoginModal({
           backdrop-filter: var(--pin-key-backdrop-filter, none);
           -webkit-backdrop-filter: var(--pin-key-backdrop-filter, none);
         }
+        #login-modal .login-keypad-btn:is(:hover, :focus-visible) {
+          transform: translateZ(0) scale(0.985);
+        }
+        #login-modal .login-keypad-btn:active {
+          transform: translateZ(0) scale(0.97);
+        }
         #login-modal[data-keypad-theme="dark"] .login-keypad-btn {
           top: 0;
-          transition-property: top, box-shadow, background, color, opacity !important;
+          transition-property: transform, box-shadow, background, color, opacity !important;
           transition-duration: 280ms !important;
           transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
           will-change: auto;
@@ -1375,11 +1381,17 @@ export default function LoginModal({
           filter: var(--pin-key-hover-filter, none);
         }
         #login-modal[data-keypad-theme="dark"] .login-keypad-btn:hover {
-          top: 1px;
+          top: 0;
         }
         #login-modal[data-keypad-theme="dark"] .login-keypad-btn:active {
-          top: 1px;
+          top: 0;
           filter: none;
+        }
+        #login-modal .login-modal-close.modal-close-btn:is(:hover, :focus-visible) {
+          transform: scale(0.985);
+        }
+        #login-modal .login-modal-close.modal-close-btn:active {
+          transform: scale(0.97);
         }
         #login-modal[data-compact="compact"] .login-modal-shell {
           padding-top: 0.72rem !important;
