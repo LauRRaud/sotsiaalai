@@ -98,11 +98,11 @@
       <stop offset="0.22" stop-color="#ffffff" stop-opacity="0"/>
       <stop offset="0.44" stop-color="#ffffff" stop-opacity="0.03"/>
       <stop offset="0.47" stop-color="#ffffff" stop-opacity="0.18"/>
-      <stop offset="0.486" stop-color="#ffffff" stop-opacity="0.42"/>
-      <stop offset="0.495" stop-color="#ffffff" stop-opacity="0.62"/>
-      <stop offset="0.50" stop-color="#ffffff" stop-opacity="0.78"/>
-      <stop offset="0.506" stop-color="#ffffff" stop-opacity="0.64"/>
-      <stop offset="0.516" stop-color="#ffffff" stop-opacity="0.44"/>
+      <stop offset="0.482" stop-color="#ffffff" stop-opacity="0.34"/>
+      <stop offset="0.491" stop-color="#ffffff" stop-opacity="0.50"/>
+      <stop offset="0.50" stop-color="#ffffff" stop-opacity="0.60"/>
+      <stop offset="0.509" stop-color="#ffffff" stop-opacity="0.52"/>
+      <stop offset="0.520" stop-color="#ffffff" stop-opacity="0.36"/>
       <stop offset="0.532" stop-color="#ffffff" stop-opacity="0.2"/>
       <stop offset="0.56" stop-color="#ffffff" stop-opacity="0.04"/>
       <stop offset="0.86" stop-color="#ffffff" stop-opacity="0"/>
