@@ -87,6 +87,7 @@ export default function HomePage() {
   const [showHomeBottomSections, setShowHomeBottomSections] = useState(() => initialSkipIntro);
   const [showHomeFooter, setShowHomeFooter] = useState(() => initialSkipIntro);
   const [autoPreviewActive, setAutoPreviewActive] = useState(false);
+  const [autoPreviewBackVisible, setAutoPreviewBackVisible] = useState(false);
   const [_leftCardEl, setLeftCardEl] = useState(null);
   const [_rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
@@ -388,8 +389,9 @@ export default function HomePage() {
   }, [cardsIntroDone, clearRegisteredTimeout, isLoginOpen, registerTimeout]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const cardInteractionAllowed = flipAllowed && !autoPreviewActive;
-  const leftBackInteractive = isMobile ? cardInteractionAllowed : cardInteractionAllowed && !leftFlipping;
-  const rightBackInteractive = isMobile ? cardInteractionAllowed : cardInteractionAllowed && !rightFlipping;
+  const autoPreviewBackInteractive = !isMobile && flipAllowed && autoPreviewActive && autoPreviewBackVisible;
+  const leftBackInteractive = isMobile ? cardInteractionAllowed : autoPreviewBackInteractive || cardInteractionAllowed && !leftFlipping;
+  const rightBackInteractive = isMobile ? cardInteractionAllowed : autoPreviewBackInteractive || cardInteractionAllowed && !rightFlipping;
   const suppressCardHoverFxClassName = isHomeOverlayOpen ?
     "[&:hover_.card-face.front>.glass-card]:[animation:none] " +
       "[&:focus-within_.card-face.front>.glass-card]:[animation:none] " +
@@ -456,7 +458,7 @@ export default function HomePage() {
     }
   };
   const handleCardBackClick = side => e => {
-    if (!cardInteractionAllowed) return;
+    if (!cardInteractionAllowed && !autoPreviewBackInteractive) return;
     e?.stopPropagation?.();
     if (!isMobile) {
       startExitToChat(side);
@@ -561,7 +563,15 @@ export default function HomePage() {
     }
     const previewTimer = registerTimeout(() => {
       setAutoPreviewActive(true);
-      registerTimeout(() => {
+      setAutoPreviewBackVisible(false);
+      const previewBackTimer = registerTimeout(() => {
+        setAutoPreviewBackVisible(true);
+      }, CARD_FLIP_TO_BACK_MS);
+      const previewFrontTimer = registerTimeout(() => {
+        setAutoPreviewBackVisible(false);
+      }, CARD_FLIP_TO_BACK_MS + CARD_AUTO_PREVIEW_PAUSE_MS);
+      const previewEndTimer = registerTimeout(() => {
+        setAutoPreviewBackVisible(false);
         setAutoPreviewActive(false);
       }, CARD_AUTO_PREVIEW_DURATION_MS);
     }, CARD_AUTO_PREVIEW_INTERVAL_MS);
@@ -706,7 +716,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", leftPhase === "front" || leftPhase === "flippingToFront" ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" tabIndex={-1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
+                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", (leftPhase === "front" || leftPhase === "flippingToFront") && !autoPreviewBackVisible ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" tabIndex={-1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
                   if (!leftBackInteractive) return;
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
@@ -750,7 +760,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", rightPhase === "front" || rightPhase === "flippingToFront" ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" tabIndex={-1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
+                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", (rightPhase === "front" || rightPhase === "flippingToFront") && !autoPreviewBackVisible ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" tabIndex={-1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
                   if (!rightBackInteractive) return;
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();

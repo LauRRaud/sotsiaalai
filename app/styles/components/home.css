@@ -68,11 +68,12 @@ html[data-reduce-motion="1"] .bottom-logo-breathe {
 .homepage-root .home-card-front-logo [class*="home-logo-shine-rect"] {
   animation:
     home-logo-shine-move 6700ms linear infinite,
-    home-logo-shine-fade 6700ms ease-in-out infinite;
+    home-logo-shine-fade-desktop-soft 6700ms ease-in-out infinite;
   animation-delay: 2000ms;
   animation-fill-mode: both;
   transform-origin: 50% 50%;
   will-change: transform, opacity;
+  filter: none !important;
 }
 
 @keyframes home-logo-shine-move {
@@ -179,18 +180,48 @@ html[data-reduce-motion="1"] .bottom-logo-breathe {
   }
 }
 
+@keyframes home-logo-shine-fade-desktop-soft {
+  0% {
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0.34;
+  }
+
+  30% {
+    opacity: 0.25;
+  }
+
+  54% {
+    opacity: 0.14;
+  }
+
+  72% {
+    opacity: 0.065;
+  }
+
+  84% {
+    opacity: 0.024;
+  }
+
+  94%,
+  100% {
+    opacity: 0;
+  }
+}
+
 html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-logo-shine-rect"] {
   animation: none !important;
   opacity: 0 !important;
 }
 
-@media (max-width: 768px) {
-  .homepage-root .home-card-front-logo [class*="home-logo-shine-sweep"] {
-    mix-blend-mode: normal !important;
-  }
+.homepage-root .home-card-front-logo [class*="home-logo-shine-sweep"] {
+  mix-blend-mode: normal !important;
+}
 
+@media (max-width: 768px) {
   .homepage-root .home-card-front-logo [class*="home-logo-shine-rect"] {
-    filter: none !important;
     animation-name: home-logo-shine-move, home-logo-shine-fade-mobile;
   }
 }
