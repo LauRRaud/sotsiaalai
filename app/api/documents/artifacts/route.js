@@ -10,6 +10,7 @@ import {
   normalizeArtifactContent,
   normalizeArtifactTitle,
   normalizeArtifactType,
+  getMaxArtifactSourceDocumentsForRole,
   normalizeSelectedDocumentIds,
   serializeArtifact
 } from "@/lib/documents/artifacts"
@@ -144,9 +145,12 @@ export async function POST(request) {
     return errorJson("documents.errors.invalid_payload", 400, locale)
   }
 
+  const role = effectiveRoleFromSession(auth.session)
   let selectedDocumentIds
   try {
-    selectedDocumentIds = normalizeSelectedDocumentIds(body?.documentIds)
+    selectedDocumentIds = normalizeSelectedDocumentIds(body?.documentIds, {
+      maxDocuments: getMaxArtifactSourceDocumentsForRole(role)
+    })
   } catch (error) {
     return errorJson(error?.message || "documents.artifacts.errors.sources_required", Number(error?.status) || 400, locale)
   }
@@ -256,7 +260,6 @@ export async function POST(request) {
       ? getCachedRetrievalDebugMeta(auth.userId, finalContent)
       : null
     const debugMeta = generatedDebugMeta || cachedDebugMeta || null
-    const role = effectiveRoleFromSession(auth.session)
     const storageQuotaBytes = getStorageQuotaBytes(role)
     const storageUsageBytes = await getUserStorageUsageBytes(auth.userId)
     const finalContentBytes = getUtf8ByteLength(finalContent)

@@ -1,6 +1,11 @@
 import { assertOwnedByUser } from "@/lib/documents/access"
 import { buildDocumentAuditRecord } from "@/lib/documents/auditShared"
-import { normalizeArtifactContent, normalizeArtifactType, normalizeSelectedDocumentIds } from "@/lib/documents/artifacts"
+import {
+  getMaxArtifactSourceDocumentsForRole,
+  normalizeArtifactContent,
+  normalizeArtifactType,
+  normalizeSelectedDocumentIds
+} from "@/lib/documents/artifacts"
 import {
   normalizeAgentAudience,
   normalizeAgentLanguage,
@@ -48,12 +53,15 @@ export async function POST(request) {
     return errorJson("documents.errors.invalid_payload", 400, locale)
   }
 
+  const role = effectiveRoleFromSession(auth.session)
   let selectedDocumentIds
   let currentContent = ""
   let refinementInstruction = ""
   let artifactId = ""
   try {
-    selectedDocumentIds = normalizeSelectedDocumentIds(body?.documentIds)
+    selectedDocumentIds = normalizeSelectedDocumentIds(body?.documentIds, {
+      maxDocuments: getMaxArtifactSourceDocumentsForRole(role)
+    })
     currentContent = normalizeArtifactContent(body?.currentContent)
     refinementInstruction = normalizeRefinementInstruction(body?.refinementInstruction)
     artifactId = String(body?.artifactId || "").trim()
@@ -171,7 +179,7 @@ export async function POST(request) {
       observabilityRoute: "api/documents/artifacts/refine",
       observabilityStage: "document_refine",
       userId: auth.userId,
-      userRole: effectiveRoleFromSession(auth.session),
+      userRole: role,
       artifactId: artifactId || null
     })
     const content = result?.content || ""

@@ -1030,7 +1030,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
 
     clearResultMessages()
     try {
-      await fetch(`/api/documents/${encodeURIComponent(nextId)}`, {
+      const response = await fetch(`/api/documents/${encodeURIComponent(nextId)}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -1038,12 +1038,17 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
         },
         body: JSON.stringify({ agentAllowed: false })
       })
-    } catch {}
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.errors.update_failed"))
 
-    setSelectedDocumentIds((current) => current.filter((id) => id !== nextId))
-    setDocuments((current) => current.filter((document) => document.id !== nextId))
-    setMissingDocumentIds((current) => current.filter((id) => id !== nextId))
-    setRunFeedback({ message: t("documents.agent_workspace.client_file_removed") })
+      setSelectedDocumentIds((current) => current.filter((id) => id !== nextId))
+      setDocuments((current) => current.filter((document) => document.id !== nextId))
+      setMissingDocumentIds((current) => current.filter((id) => id !== nextId))
+      setRunFeedback({ message: t("documents.agent_workspace.client_file_removed") })
+    } catch (error) {
+      setRunFeedback(null)
+      setRunError(error?.message || t("documents.errors.update_failed"))
+    }
   }
 
   async function handleOpenClientArtifact(artifactId) {

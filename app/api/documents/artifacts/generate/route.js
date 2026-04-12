@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { effectiveRoleFromSession } from "@/lib/authz"
 import {
+  getMaxArtifactSourceDocumentsForRole,
   normalizeArtifactTitle,
   normalizeArtifactType,
   normalizeSelectedDocumentIds,
@@ -50,9 +51,12 @@ export async function POST(request) {
     return errorJson("documents.errors.invalid_payload", 400, locale)
   }
 
+  const role = effectiveRoleFromSession(auth.session)
   let selectedDocumentIds
   try {
-    selectedDocumentIds = normalizeSelectedDocumentIds(body?.documentIds)
+    selectedDocumentIds = normalizeSelectedDocumentIds(body?.documentIds, {
+      maxDocuments: getMaxArtifactSourceDocumentsForRole(role)
+    })
   } catch (error) {
     return errorJson(error?.message || "documents.artifacts.errors.sources_required", Number(error?.status) || 400, locale)
   }
@@ -144,7 +148,7 @@ export async function POST(request) {
       observabilityRoute: "api/documents/artifacts/generate",
       observabilityStage: "document_generate",
       userId: auth.userId,
-      userRole: effectiveRoleFromSession(auth.session)
+      userRole: role
     })
     const content = result?.content || ""
     if (content && result?.debugMeta) {
