@@ -11,8 +11,15 @@ import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import {
-  glassPageBackTopLeftClassName,
-  glassPageTitleClassName
+  ragAdminShellCardClassName,
+  ragAdminShellDividerClassName,
+  ragAdminShellNavClassName,
+  ragAdminShellNavLinkClassName,
+  ragAdminShellSubtitleClassName,
+  ragAdminShellTitleClassName
+} from "@/components/admin/rag/ragAdminShellStyles";
+import {
+  glassPageBackTopLeftClassName
 } from "@/components/ui/glassPageStyles";
 
 const pageClassName =
@@ -23,30 +30,23 @@ const pageClassName =
   "[--admin-accent:var(--documents-accent)] [--admin-accent-soft:var(--documents-accent-soft)] [--admin-accent-cool:var(--documents-accent)] " +
   "[--admin-success:var(--documents-success-text)] [--admin-danger:var(--documents-error-text)] [--rag-text:var(--documents-page-text)]";
 const pageHeaderClassName =
-  "relative w-full min-w-0 max-w-full overflow-visible rounded-[1.1rem] border border-[color:var(--glass-border-color,var(--admin-border))] " +
-  "bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_82%,var(--glass-surface-bg)_18%),color-mix(in_srgb,var(--admin-surface-2)_88%,transparent))] " +
-  "px-[clamp(0.9rem,2.2vw,1.15rem)] py-[clamp(0.9rem,2vw,1.05rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))]";
-const pageHeaderSurfaceClassName = "relative z-[1] grid gap-3 min-w-0";
-const pageHeaderMainClassName =
-  "invite-modal-title-wrap relative flex w-full min-w-0 items-start justify-center gap-[0.75rem] text-center";
+  `${ragAdminShellCardClassName} w-full min-w-0 max-w-full overflow-visible`;
+const pageHeaderSurfaceClassName = "relative z-[1] grid min-w-0 gap-3";
+const pageHeaderMainClassName = "relative flex w-full min-w-0 items-start justify-center gap-[0.75rem] text-center";
 const pageHeaderTitleWrapClassName = "grid min-w-0 w-full justify-items-center gap-[0.45rem] text-center";
 const mobileTitleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
-const pageTitleClassName =
-  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
-  `${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
-const pageHeaderSubtitleClassName = "max-w-[68ch] text-[0.92rem] leading-[1.5] text-[color:var(--admin-muted)] [text-wrap:pretty] max-[768px]:text-[0.92rem]";
+  "relative z-[4] flex w-full items-center justify-center";
+const pageTitleClassName = ragAdminShellTitleClassName;
+const pageHeaderSubtitleClassName = ragAdminShellSubtitleClassName;
 const pageHeaderMetaRowClassName = "flex w-full min-w-0 flex-col items-center gap-3";
 const pageHeaderMetaClassName = "flex min-w-0 max-w-full flex-wrap items-center justify-center gap-2";
 const pageHeaderToolbarClassName = "flex flex-wrap items-center justify-center gap-2";
-const sectionNavClassName =
-  "flex w-full min-w-0 max-w-full flex-wrap items-center justify-center gap-2 border-t border-[color:color-mix(in_srgb,var(--admin-border)_72%,transparent)] pt-3";
+const pageHeaderDividerClassName = ragAdminShellDividerClassName;
+const sectionNavClassName = `${ragAdminShellNavClassName} pt-0`;
 const sectionNavLinkClassName =
-  "inline-flex max-w-full items-center rounded-full border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_78%,transparent)] px-3 py-1.5 text-[0.8rem] font-[600] tracking-[0.01em] text-[color:var(--admin-muted)] transition-colors hover:text-[color:var(--admin-text)]";
+  `${ragAdminShellNavLinkClassName} min-h-[2.3rem] min-w-0 px-[0.9rem] py-[0.5rem] text-[0.84rem]`;
 const headerPillClassName =
-  "inline-flex items-center gap-2 rounded-full border border-[color:var(--admin-border-strong)] " +
-  "max-w-full bg-[color-mix(in_srgb,var(--admin-surface-2)_76%,transparent)] px-[0.9rem] py-[0.45rem] text-[0.82rem] font-[600] " +
-  "tracking-[0.01em] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]";
+  "documents-chip inline-flex max-w-full items-center gap-2 rounded-full px-[0.92rem] py-[0.48rem] text-[0.82rem] font-[600] tracking-[0.01em] text-[color:var(--admin-text)]";
 const headerPillLabelClassName = "text-[color:var(--admin-muted)]";
 const headerPillValueClassName = "text-[color:var(--admin-text)]";
 const cardClassName =
@@ -1576,6 +1576,7 @@ export default function AnalyticsDashboard() {
               </Button>
             </div>
           </div>
+          <div className={pageHeaderDividerClassName} />
           <div className={sectionNavClassName}>
             {sectionLinks.map(item => (
               <a key={item.href} href={item.href} className={sectionNavLinkClassName}>

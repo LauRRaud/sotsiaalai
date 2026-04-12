@@ -100,8 +100,9 @@ const BackgroundContent = memo(function BackgroundContent({
   const mobileColorBendsPhase = 14;
   const allowParticles = deviceProfileReady;
   const baseParallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
-  const particlesParallaxActive =
-    deviceProfileReady && !reduceMotion && isHomepage && browserMobileMode;
+  // Mobile browser chrome and the homepage's inner scroll container make this
+  // parallax feel unstable, so keep particles static there.
+  const particlesParallaxActive = false;
   useEffect(() => setMounted(true), []);
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
