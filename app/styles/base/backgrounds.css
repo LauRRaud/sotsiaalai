@@ -108,6 +108,13 @@
   opacity: 1;
   visibility: visible;
 }
+
+@media (max-width: 768px) {
+  [data-bg-layer] .bg-bends-layer {
+    transition-duration: 4000ms, 0s;
+  }
+}
+
 [data-bg-layer] .bg-particles-layer {
   z-index: 3;
 }

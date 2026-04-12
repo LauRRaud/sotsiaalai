@@ -169,7 +169,7 @@ const BackgroundContent = memo(function BackgroundContent({
 
     const timeoutId = window.setTimeout(() => {
       setMobileBendsVisible(true);
-    }, mobileBackgroundMode ? 80 : 60);
+    }, mobileBackgroundMode ? 500 : 60);
 
     return () => {
       window.clearTimeout(timeoutId);

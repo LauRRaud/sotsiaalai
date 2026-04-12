@@ -148,9 +148,51 @@ html[data-reduce-motion="1"] .bottom-logo-breathe {
   }
 }
 
+@keyframes home-logo-shine-fade-mobile {
+  0% {
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0.28;
+  }
+
+  34% {
+    opacity: 0.2;
+  }
+
+  58% {
+    opacity: 0.11;
+  }
+
+  74% {
+    opacity: 0.05;
+  }
+
+  84% {
+    opacity: 0.018;
+  }
+
+  94%,
+  100% {
+    opacity: 0;
+  }
+}
+
 html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-logo-shine-rect"] {
   animation: none !important;
   opacity: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .homepage-root .home-card-front-logo [class*="home-logo-shine-sweep"] {
+    mix-blend-mode: normal !important;
+  }
+
+  .homepage-root .home-card-front-logo [class*="home-logo-shine-rect"] {
+    filter: none !important;
+    animation-name: home-logo-shine-move, home-logo-shine-fade-mobile;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
