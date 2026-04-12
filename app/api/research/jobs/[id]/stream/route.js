@@ -4,7 +4,6 @@ import {
   assertResearchAccess,
   getResearchJob,
   getResearchJobSnapshot,
-  markResearchFailed,
   subscribeResearchJob,
 } from "@/lib/research/jobStore";
 
@@ -61,6 +60,7 @@ export async function GET(req, { params }) {
   let unsub = null;
   let closed = false;
   let heartbeat = null;
+  let dbPoll = null;
 
   const stream = new ReadableStream({
     start(controller) {
@@ -71,6 +71,10 @@ export async function GET(req, { params }) {
           if (heartbeat) {
             clearInterval(heartbeat);
             heartbeat = null;
+          }
+          if (dbPoll) {
+            clearInterval(dbPoll);
+            dbPoll = null;
           }
           unsub?.();
         } catch {}
@@ -97,25 +101,52 @@ export async function GET(req, { params }) {
         }
       };
 
-      if (!job) {
-        const status = String(jobSnapshot.status || "").trim();
+      const emitSnapshot = snapshot => {
+        const status = String(snapshot?.status || "").trim();
         if (status === "done") {
-          emit({ type: "result", result: jobSnapshot.result || null, metrics: jobSnapshot.metrics || null });
+          emit({ type: "result", result: snapshot.result || null, metrics: snapshot.metrics || null });
           emit({ type: "status", status: "done" });
           emit({ type: "done" });
-          return;
+          return true;
         }
         if (status === "error" || status === "cancelled") {
-          emit({ type: "error", message: jobSnapshot.error || "research.error.failed", metrics: jobSnapshot.metrics || null });
+          emit({ type: "error", message: snapshot.error || "research.error.failed", metrics: snapshot.metrics || null });
           emit({ type: "status", status });
           emit({ type: "done" });
-          return;
+          return true;
         }
-        markResearchFailed(jobSnapshot, "research.error.interrupted").finally(() => {
-          emit({ type: "error", message: "research.error.interrupted" });
-          emit({ type: "status", status: "error" });
-          emit({ type: "done" });
-        });
+        return false;
+      };
+
+      if (!job) {
+        if (emitSnapshot(jobSnapshot)) return;
+        emit({ type: "status", status: jobSnapshot.status || "queued" });
+        heartbeat = setInterval(() => {
+          if (closed) return;
+          try {
+            controller.enqueue(encoder.encode(": keepalive\n\n"));
+          } catch {
+            closeStream();
+          }
+        }, 15_000);
+        dbPoll = setInterval(() => {
+          if (closed) return;
+          getResearchJobSnapshot(jobId)
+            .then(snapshot => {
+              if (!snapshot) {
+                emit({ type: "error", message: "research.error.not_found" });
+                emit({ type: "status", status: "error" });
+                emit({ type: "done" });
+                return;
+              }
+              emitSnapshot(snapshot);
+            })
+            .catch(() => {
+              emit({ type: "error", message: "research.error.failed" });
+              emit({ type: "status", status: "error" });
+              emit({ type: "done" });
+            });
+        }, 2500);
         return;
       }
 
@@ -146,6 +177,7 @@ export async function GET(req, { params }) {
     cancel() {
       try {
         if (heartbeat) clearInterval(heartbeat);
+        if (dbPoll) clearInterval(dbPoll);
         unsub?.();
       } catch {}
     },

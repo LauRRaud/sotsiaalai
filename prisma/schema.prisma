@@ -672,6 +672,9 @@ model ResearchJob {
   error     String?
   result    Json?
   metrics   Json?
+  attempts  Int       @default(0)
+  workerId  String?
+  leaseUntil DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   startedAt DateTime?
@@ -681,6 +684,8 @@ model ResearchJob {
 
   @@index([userId, status, updatedAt])
   @@index([status, updatedAt])
+  @@index([status, leaseUntil, updatedAt])
+  @@index([workerId])
   @@index([endedAt])
 }
 
