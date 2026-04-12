@@ -909,7 +909,7 @@ export default function ChatMobileTopNav({
         <div
           ref={swipeSurfaceRef}
           className="relative h-[8.6rem] overflow-visible"
-          style={{ touchAction: "pan-y" }}
+          style={{ touchAction: "pan-x" }}
           onPointerDown={event => {
             if (event.pointerType === "touch") {
               return;
