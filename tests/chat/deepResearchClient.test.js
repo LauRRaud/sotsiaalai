@@ -128,3 +128,34 @@ test("pollResearchJobUntilTerminal surfaces final backend message key", async ()
     error => error?.message === "research.error.not_found"
   );
 });
+
+test("pollResearchJobUntilTerminal tolerates temporary missing jobs", async () => {
+  const responses = [
+    { ok: false, status: 404, body: { messageKey: "research.error.not_found" } },
+    { ok: false, status: 404, body: { messageKey: "research.error.not_found" } },
+    { ok: true, status: 200, body: { ok: true, job: { status: "running" } } },
+    { ok: true, status: 200, body: { ok: true, job: { status: "done", result: { report_text: "OK" } } } },
+  ];
+  let calls = 0;
+  const fetchImpl = async () => {
+    const next = responses[Math.min(calls, responses.length - 1)];
+    calls += 1;
+    return {
+      ok: next.ok,
+      status: next.status,
+      async json() {
+        return next.body;
+      },
+    };
+  };
+
+  const job = await pollResearchJobUntilTerminal("job-delayed", {
+    fetchImpl,
+    intervalMs: 0,
+    maxAttempts: 5,
+    tolerateNotFoundAttempts: 2,
+  });
+
+  assert.equal(calls, 4);
+  assert.equal(job.status, "done");
+});

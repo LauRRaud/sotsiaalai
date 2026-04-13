@@ -85,8 +85,14 @@ export async function pollResearchJobUntilTerminal(jobId, options = {}) {
 
   const fetchImpl = options.fetchImpl || fetch;
   const signal = options.signal;
-  const intervalMs = Math.max(0, Number(options.intervalMs) || 3000);
-  const maxAttempts = Math.max(1, Number(options.maxAttempts) || 20);
+  const rawIntervalMs = options.intervalMs == null ? 3000 : Number(options.intervalMs);
+  const rawMaxAttempts = options.maxAttempts == null ? 20 : Number(options.maxAttempts);
+  const intervalMs = Math.max(0, Number.isFinite(rawIntervalMs) ? rawIntervalMs : 3000);
+  const maxAttempts = Math.max(1, Number.isFinite(rawMaxAttempts) ? rawMaxAttempts : 20);
+  const tolerateNotFoundAttempts = Math.max(
+    0,
+    Number(options.tolerateNotFoundAttempts) || Math.min(4, maxAttempts - 1)
+  );
   const url = `/api/research/jobs/${encodeURIComponent(normalizedJobId)}`;
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
@@ -107,6 +113,12 @@ export async function pollResearchJobUntilTerminal(jobId, options = {}) {
         if (isTerminalResearchJobStatus(body.job.status)) {
           return body.job;
         }
+      } else if (
+        response.status === 404 &&
+        attempt < tolerateNotFoundAttempts &&
+        attempt < maxAttempts - 1
+      ) {
+        // Worker-mode deploys can briefly race against DB/readiness across processes.
       } else if (attempt >= maxAttempts - 1) {
         throw new Error(body?.messageKey || "chat.deep_research.error_generic");
       }

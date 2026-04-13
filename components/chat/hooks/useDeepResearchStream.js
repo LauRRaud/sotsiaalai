@@ -143,8 +143,10 @@ export function useDeepResearchStream({
         const applyTerminalJob = job => {
           const status = String(job?.status || "").trim().toLowerCase();
           if (status === "done") {
+            hadError = false;
             finalText = String(job?.result?.report_text || "").trim();
             finalSources = normalizeSources(job?.result?.sources);
+            setErrorBanner?.(null);
             mutateMessage?.(streamingMessageId, msg => ({
               ...msg,
               text: finalText || t("chat.deep_research.error_generic"),
@@ -175,6 +177,7 @@ export function useDeepResearchStream({
             signal: controller?.signal,
             intervalMs: 2500,
             maxAttempts: 24,
+            tolerateNotFoundAttempts: 6,
           });
           return applyTerminalJob(job);
         };
@@ -206,8 +209,10 @@ export function useDeepResearchStream({
               continue;
             }
             if (event?.event === "result") {
+              hadError = false;
               finalText = String(data?.result?.report_text || "").trim();
               finalSources = normalizeSources(data?.result?.sources);
+              setErrorBanner?.(null);
               mutateMessage?.(streamingMessageId, msg => ({
                 ...msg,
                 text: finalText || t("chat.deep_research.error_generic"),
