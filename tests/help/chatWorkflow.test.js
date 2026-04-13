@@ -456,9 +456,61 @@ test("offer audience all age groups is normalized and reflected without malforme
   assert.equal(result.handled, true);
   assert.deepEqual(result.workflowState?.draft?.targetGroups, ["Kõik vanusegrupid"]);
   assert.deepEqual(result.workflowState?.draft?.targetGroupCodes, ["CHILD", "YOUTH", "ADULT", "ELDER", "DISABILITY"]);
-  assert.match(String(result.reply || ""), /Sihtrühm: Kõik vanusegrupid\./);
-  assert.match(String(result.reply || ""), /Asukoht: Tabasalu\./);
+  assert.match(String(result.reply || ""), /Kas pakkumise juurde peaks lisama eritingimusi/i);
+  assert.doesNotMatch(String(result.reply || ""), /Sain aru/i);
+  assert.doesNotMatch(String(result.reply || ""), /Sihtrühm: Kõik vanusegrupid\./);
+  assert.doesNotMatch(String(result.reply || ""), /Asukoht: Tabasalu\./);
   assert.doesNotMatch(String(result.reply || ""), /digiabi Tabasalu/i);
+});
+
+test("request audience and timing answers complete target group and one-time availability", async () => {
+  const state = createHelpWorkflowDraftState({
+    intent: "create_help_request",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    activeQuestionLayer: "basic",
+    activeQuestionKey: "requestAudience",
+    municipalityId: "mun-harku",
+    municipalityLabel: "Harku vald",
+    draft: {
+      title: "Digiabi soov",
+      description: "Vajan abi SotsiaalAI platvormi kasutamisel Tabasalus.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      rawPlace: "Tabasalu",
+      helpType: "VOLUNTARY"
+    }
+  });
+
+  const afterAudience = await runHelpChatWorkflow({
+    message: "endale, täisealine",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: state
+  }, createPrismaStub());
+
+  assert.equal(afterAudience.handled, true);
+  assert.equal(afterAudience.workflowState?.draft?.beneficiaryLabel, "endale");
+  assert.deepEqual(afterAudience.workflowState?.draft?.targetGroupCodes, ["ADULT"]);
+  assert.match(String(afterAudience.reply || ""), /Millal abi vaja on/i);
+  assert.doesNotMatch(String(afterAudience.reply || ""), /Sain aru/i);
+
+  const afterTiming = await runHelpChatWorkflow({
+    message: "ühekordne, reede õhtul",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterAudience.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterTiming.handled, true);
+  assert.equal(afterTiming.workflowState?.draft?.timeType, "ONE_TIME");
+  assert.match(String(afterTiming.workflowState?.draft?.availabilityOrStart || ""), /reede/i);
+  assert.equal(afterTiming.workflowState?.draft?.urgency, "lähiajal");
+  assert.match(String(afterTiming.reply || ""), /Vaata abisoov üle\./i);
+  assert.match(String(afterTiming.reply || ""), /Sihtrühm:\s*Täiskasvanu/i);
+  assert.match(String(afterTiming.reply || ""), /Ajalisus:\s*Ühekordne/i);
+  assert.doesNotMatch(String(afterTiming.reply || ""), /Millal abi vaja on/i);
 });
 
 test("rich help offer does not copy full description into timing, compensation or conditions", async () => {

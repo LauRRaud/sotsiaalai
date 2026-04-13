@@ -17,19 +17,6 @@ import {
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
 
-function uniqueLabels(values = []) {
-  return Array.from(new Set((Array.isArray(values) ? values : []).map((item) => String(item || "").trim()).filter(Boolean)));
-}
-
-function buildTagLine(item = {}) {
-  return uniqueLabels([
-    item.categoryLabel,
-    ...(Array.isArray(item.targetGroupLabels) ? item.targetGroupLabels : []),
-    item.helpTypeLabel,
-    item.timeTypeLabel
-  ]).join(" | ");
-}
-
 export default function HelpListingsPanel({
   locale: _locale = "et",
   title = "",
@@ -86,7 +73,7 @@ export default function HelpListingsPanel({
   const listingsPanelClassName =
     "mt-0";
   const listingsScrollClassName =
-    "help-listings-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain px-[0.16rem] py-[0.18rem] pr-[0.32rem] [scrollbar-width:thin] max-[768px]:px-[0.24rem] max-[768px]:pr-[0.24rem]";
+    "help-listings-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain px-[0.16rem] pt-[0.92rem] pb-[0.62rem] pr-[0.32rem] [scrollbar-width:thin] max-[768px]:px-[0.24rem] max-[768px]:pt-[0.82rem] max-[768px]:pb-[0.58rem] max-[768px]:pr-[0.24rem]";
 
   const renderListingCard = (item) => (
     <button
@@ -113,11 +100,6 @@ export default function HelpListingsPanel({
         </div>
       </div>
       {item.summary ? <div className="mt-[0.5rem] break-words text-[0.94rem] leading-[1.48] opacity-92 max-[768px]:text-[0.92rem]">{item.summary}</div> : null}
-      {buildTagLine(item) ? (
-        <div className="mt-[0.58rem] break-words text-[0.84rem] leading-[1.4] opacity-82 max-[768px]:text-[0.8rem]">
-          {buildTagLine(item)}
-        </div>
-      ) : null}
     </button>
   );
 

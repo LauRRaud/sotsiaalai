@@ -1019,7 +1019,6 @@ export default function ChatBody({
     const kind = String(item?.kind || "").trim().toLowerCase();
     const id = String(item?.id || "").trim();
     if (!kind || !id) return;
-    closeListingsPanel();
     setSelectedListingState((prev) => ({
       ...prev,
       loading: true,
@@ -1072,7 +1071,7 @@ export default function ChatBody({
         busyAction: ""
       });
     }
-  }, [closeListingsPanel, helpUi.detailLoadFailed, locale]);
+  }, [helpUi.detailLoadFailed, locale]);
   const dismissSelectedListing = useCallback(() => {
     setSelectedListingState({
       loading: false,
