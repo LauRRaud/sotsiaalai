@@ -89,7 +89,7 @@ function MobileIconFrame({ scale = 1, xNudge = 0, className, children }) {
   );
 }
 
-function MobileChatBubbleIcon({ isLightTheme = false, className }) {
+function MobileChatBubbleIcon({ isLightTheme = false, className, showDots = true }) {
   const stroke = isLightTheme
     ? "var(--chat-icon-light, #7A3A38)"
     : "var(--chat-icon-dark, #c57171)";
@@ -109,37 +109,13 @@ function MobileChatBubbleIcon({ isLightTheme = false, className }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
-  );
-}
-
-function MobileNewConversationIcon({ isLightTheme = false, className }) {
-  const stroke = isLightTheme
-    ? "var(--chat-icon-light, #7A3A38)"
-    : "var(--chat-icon-dark, #c57171)";
-
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      className={cn(className)}
-    >
-      <path
-        d="M12 3H5.7C4.21 3 3 4.21 3 5.7v12.6C3 19.79 4.21 21 5.7 21h12.6c1.49 0 2.7-1.21 2.7-2.7V12"
-        stroke={stroke}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M17.05 3.95a2.1 2.1 0 0 1 2.97 2.97l-8.74 8.74-3.53.88.88-3.53 8.42-9.06Z"
-        stroke={stroke}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      {showDots ? (
+        <>
+          <circle cx="42" cy="42" r="5.1" fill={stroke} />
+          <circle cx="63.5" cy="38.5" r="5.1" fill={stroke} />
+          <circle cx="85" cy="42" r="5.1" fill={stroke} />
+        </>
+      ) : null}
     </svg>
   );
 }
@@ -575,8 +551,30 @@ export default function ChatMobileTopNav({
     }
     if (item.key === "new_chat") {
       return (
-        <MobileIconFrame scale={item.scale * 1.08} xNudge={0.02}>
-          <MobileNewConversationIcon isLightTheme={isLightTheme} className={iconClassName} />
+        <MobileIconFrame scale={item.scale * sizeBoost} xNudge={0.04}>
+          <span className="relative flex h-full w-full items-center justify-center">
+            <MobileChatBubbleIcon
+              isLightTheme={isLightTheme}
+              className={iconClassName}
+              showDots={false}
+            />
+            <span className="pointer-events-none absolute left-1/2 top-[43%] flex h-[47%] w-[47%] -translate-x-1/2 -translate-y-1/2 items-center justify-center text-[color:var(--chat-icon-dark,#c57171)] light:text-[color:var(--chat-icon-light,#7A3A38)]">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 42 42"
+                focusable="false"
+                className="block h-[78%] w-[78%]"
+                fill="none"
+              >
+                <path
+                  d="M21 8.75v24.5M8.75 21h24.5"
+                  stroke="currentColor"
+                  strokeWidth="5.2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+          </span>
         </MobileIconFrame>
       );
     }

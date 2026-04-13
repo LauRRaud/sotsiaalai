@@ -7,7 +7,12 @@ function resolveThemeColor(isLightTheme) {
   return isLightTheme ? LIGHT_THEME_COLOR : DARK_THEME_COLOR;
 }
 
-export function ChatBubbleIcon({ isLightTheme = false, className, ...props }) {
+export function ChatBubbleIcon({
+  isLightTheme = false,
+  className,
+  showDots = true,
+  ...props
+}) {
   const stroke = resolveThemeColor(isLightTheme);
   return (
     <svg
@@ -25,6 +30,13 @@ export function ChatBubbleIcon({ isLightTheme = false, className, ...props }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+      {showDots ? (
+        <>
+          <circle cx="42" cy="42" r="5.6" fill={stroke} />
+          <circle cx="63.5" cy="38.5" r="5.6" fill={stroke} />
+          <circle cx="85" cy="42" r="5.6" fill={stroke} />
+        </>
+      ) : null}
     </svg>
   );
 }

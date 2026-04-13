@@ -87,37 +87,49 @@ body:is(
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0, 0, 0, 0.015) calc(var(--chat-window-fade-top-active) * 0.06 + var(--chat-window-scroll-top-fade-start-active) * 0.22),
-    rgba(0, 0, 0, 0.045) calc(var(--chat-window-fade-top-active) * 0.16 + var(--chat-window-scroll-top-fade-start-active) * 0.46),
-    rgba(0, 0, 0, 0.1) calc(var(--chat-window-fade-top-active) * 0.3 + var(--chat-window-scroll-top-fade-mid-active) * 0.52),
-    rgba(0, 0, 0, 0.2) calc(var(--chat-window-fade-top-active) * 0.48 + var(--chat-window-scroll-top-fade-mid-active) * 0.76),
-    rgba(0, 0, 0, 0.36) calc(var(--chat-window-fade-top-active) * 0.72 + var(--chat-window-scroll-top-fade-end-active) * 0.82),
-    rgba(0, 0, 0, 0.58) calc(var(--chat-window-fade-top-active) * 1.02 + var(--chat-window-scroll-top-fade-end-active) * 0.94),
-    rgba(0, 0, 0, 0.82) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active)),
-    #000 calc(var(--chat-window-fade-top-active) * 1.46 + var(--chat-window-scroll-top-fade-end-active) * 1.04),
-    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.34)),
-    rgba(0, 0, 0, 0.9) calc(100% - (var(--chat-window-fade-bottom-active) * 1.02)),
-    rgba(0, 0, 0, 0.68) calc(100% - (var(--chat-window-fade-bottom-active) * 0.72)),
-    rgba(0, 0, 0, 0.38) calc(100% - (var(--chat-window-fade-bottom-active) * 0.38)),
-    rgba(0, 0, 0, 0.14) calc(100% - (var(--chat-window-fade-bottom-active) * 0.14)),
+    rgba(0, 0, 0, 0.002) calc(var(--chat-window-fade-top-active) * 0.03 + var(--chat-window-scroll-top-fade-start-active) * 0.12),
+    rgba(0, 0, 0, 0.007) calc(var(--chat-window-fade-top-active) * 0.08 + var(--chat-window-scroll-top-fade-start-active) * 0.26),
+    rgba(0, 0, 0, 0.016) calc(var(--chat-window-fade-top-active) * 0.14 + var(--chat-window-scroll-top-fade-start-active) * 0.42),
+    rgba(0, 0, 0, 0.032) calc(var(--chat-window-fade-top-active) * 0.22 + var(--chat-window-scroll-top-fade-start-active) * 0.62),
+    rgba(0, 0, 0, 0.056) calc(var(--chat-window-fade-top-active) * 0.34 + var(--chat-window-scroll-top-fade-mid-active) * 0.34),
+    rgba(0, 0, 0, 0.088) calc(var(--chat-window-fade-top-active) * 0.48 + var(--chat-window-scroll-top-fade-mid-active) * 0.54),
+    rgba(0, 0, 0, 0.136) calc(var(--chat-window-fade-top-active) * 0.64 + var(--chat-window-scroll-top-fade-mid-active) * 0.76),
+    rgba(0, 0, 0, 0.208) calc(var(--chat-window-fade-top-active) * 0.82 + var(--chat-window-scroll-top-fade-end-active) * 0.52),
+    rgba(0, 0, 0, 0.308) calc(var(--chat-window-fade-top-active) * 0.98 + var(--chat-window-scroll-top-fade-end-active) * 0.68),
+    rgba(0, 0, 0, 0.44) calc(var(--chat-window-fade-top-active) * 1.14 + var(--chat-window-scroll-top-fade-end-active) * 0.84),
+    rgba(0, 0, 0, 0.61) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active) * 0.98),
+    rgba(0, 0, 0, 0.8) calc(var(--chat-window-fade-top-active) * 1.42 + var(--chat-window-scroll-top-fade-end-active) * 1.06),
+    #000 calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.14),
+    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.22)),
+    rgba(0, 0, 0, 0.92) calc(100% - (var(--chat-window-fade-bottom-active) * 0.98)),
+    rgba(0, 0, 0, 0.74) calc(100% - (var(--chat-window-fade-bottom-active) * 0.78)),
+    rgba(0, 0, 0, 0.5) calc(100% - (var(--chat-window-fade-bottom-active) * 0.56)),
+    rgba(0, 0, 0, 0.28) calc(100% - (var(--chat-window-fade-bottom-active) * 0.34)),
+    rgba(0, 0, 0, 0.11) calc(100% - (var(--chat-window-fade-bottom-active) * 0.16)),
     transparent 100%
   ) !important;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0, 0, 0, 0.015) calc(var(--chat-window-fade-top-active) * 0.06 + var(--chat-window-scroll-top-fade-start-active) * 0.22),
-    rgba(0, 0, 0, 0.045) calc(var(--chat-window-fade-top-active) * 0.16 + var(--chat-window-scroll-top-fade-start-active) * 0.46),
-    rgba(0, 0, 0, 0.1) calc(var(--chat-window-fade-top-active) * 0.3 + var(--chat-window-scroll-top-fade-mid-active) * 0.52),
-    rgba(0, 0, 0, 0.2) calc(var(--chat-window-fade-top-active) * 0.48 + var(--chat-window-scroll-top-fade-mid-active) * 0.76),
-    rgba(0, 0, 0, 0.36) calc(var(--chat-window-fade-top-active) * 0.72 + var(--chat-window-scroll-top-fade-end-active) * 0.82),
-    rgba(0, 0, 0, 0.58) calc(var(--chat-window-fade-top-active) * 1.02 + var(--chat-window-scroll-top-fade-end-active) * 0.94),
-    rgba(0, 0, 0, 0.82) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active)),
-    #000 calc(var(--chat-window-fade-top-active) * 1.46 + var(--chat-window-scroll-top-fade-end-active) * 1.04),
-    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.34)),
-    rgba(0, 0, 0, 0.9) calc(100% - (var(--chat-window-fade-bottom-active) * 1.02)),
-    rgba(0, 0, 0, 0.68) calc(100% - (var(--chat-window-fade-bottom-active) * 0.72)),
-    rgba(0, 0, 0, 0.38) calc(100% - (var(--chat-window-fade-bottom-active) * 0.38)),
-    rgba(0, 0, 0, 0.14) calc(100% - (var(--chat-window-fade-bottom-active) * 0.14)),
+    rgba(0, 0, 0, 0.002) calc(var(--chat-window-fade-top-active) * 0.03 + var(--chat-window-scroll-top-fade-start-active) * 0.12),
+    rgba(0, 0, 0, 0.007) calc(var(--chat-window-fade-top-active) * 0.08 + var(--chat-window-scroll-top-fade-start-active) * 0.26),
+    rgba(0, 0, 0, 0.016) calc(var(--chat-window-fade-top-active) * 0.14 + var(--chat-window-scroll-top-fade-start-active) * 0.42),
+    rgba(0, 0, 0, 0.032) calc(var(--chat-window-fade-top-active) * 0.22 + var(--chat-window-scroll-top-fade-start-active) * 0.62),
+    rgba(0, 0, 0, 0.056) calc(var(--chat-window-fade-top-active) * 0.34 + var(--chat-window-scroll-top-fade-mid-active) * 0.34),
+    rgba(0, 0, 0, 0.088) calc(var(--chat-window-fade-top-active) * 0.48 + var(--chat-window-scroll-top-fade-mid-active) * 0.54),
+    rgba(0, 0, 0, 0.136) calc(var(--chat-window-fade-top-active) * 0.64 + var(--chat-window-scroll-top-fade-mid-active) * 0.76),
+    rgba(0, 0, 0, 0.208) calc(var(--chat-window-fade-top-active) * 0.82 + var(--chat-window-scroll-top-fade-end-active) * 0.52),
+    rgba(0, 0, 0, 0.308) calc(var(--chat-window-fade-top-active) * 0.98 + var(--chat-window-scroll-top-fade-end-active) * 0.68),
+    rgba(0, 0, 0, 0.44) calc(var(--chat-window-fade-top-active) * 1.14 + var(--chat-window-scroll-top-fade-end-active) * 0.84),
+    rgba(0, 0, 0, 0.61) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active) * 0.98),
+    rgba(0, 0, 0, 0.8) calc(var(--chat-window-fade-top-active) * 1.42 + var(--chat-window-scroll-top-fade-end-active) * 1.06),
+    #000 calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.14),
+    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.22)),
+    rgba(0, 0, 0, 0.92) calc(100% - (var(--chat-window-fade-bottom-active) * 0.98)),
+    rgba(0, 0, 0, 0.74) calc(100% - (var(--chat-window-fade-bottom-active) * 0.78)),
+    rgba(0, 0, 0, 0.5) calc(100% - (var(--chat-window-fade-bottom-active) * 0.56)),
+    rgba(0, 0, 0, 0.28) calc(100% - (var(--chat-window-fade-bottom-active) * 0.34)),
+    rgba(0, 0, 0, 0.11) calc(100% - (var(--chat-window-fade-bottom-active) * 0.16)),
     transparent 100%
   ) !important;
 }
@@ -269,7 +281,7 @@ body:is(
     --chat-window-scroll-top-fade-start-focus: 0.4rem;
     --chat-window-scroll-top-fade-mid-focus: 0.82rem;
     --chat-window-scroll-top-fade-end-focus: 1.34rem;
-    --chat-window-fade-bottom-focus: clamp(2.65rem, 6.4vh, 4.15rem);
+    --chat-window-fade-bottom-focus: clamp(2.98rem, 7.6vh, 5.05rem);
   }
 
   .chat-page-shell .chat-container--round .chat-right-actions {
@@ -309,7 +321,7 @@ body:is(
     --chat-window-scroll-top-fade-start-focus: 0.3rem !important;
     --chat-window-scroll-top-fade-mid-focus: 0.62rem !important;
     --chat-window-scroll-top-fade-end-focus: 1.02rem !important;
-    --chat-window-fade-bottom-focus: clamp(2.35rem, 5.4vh, 3.45rem) !important;
+    --chat-window-fade-bottom-focus: clamp(2.58rem, 6.35vh, 4.18rem) !important;
   }
 
   .chat-page-shell .chat-container.chat-container--round .chat-window {
@@ -332,7 +344,7 @@ body:is(
     --chat-window-scroll-top-fade-start-focus: 0.36rem !important;
     --chat-window-scroll-top-fade-mid-focus: 0.76rem !important;
     --chat-window-scroll-top-fade-end-focus: 1.22rem !important;
-    --chat-window-fade-bottom-focus: clamp(2.45rem, 5.8vh, 3.75rem) !important;
+    --chat-window-fade-bottom-focus: clamp(2.74rem, 6.75vh, 4.42rem) !important;
   }
 }
 
@@ -650,11 +662,4 @@ html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-bt
   background: rgba(255, 234, 0, 0.1) !important;
   border-color: rgba(255, 234, 0, 0.94) !important;
   box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
-}
-
-:root.theme-mid
-  .chat-page-shell
-  .chat-container.chat-container--round.chat-container--input-focus
-  .chat-window {
-  --chat-window-fade-bottom-focus: clamp(0.8rem, 1.9vh, 1.2rem) !important;
 }

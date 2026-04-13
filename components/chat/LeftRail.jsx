@@ -47,34 +47,34 @@ function _getHelpLabels(locale = "et") {
 }
 
 function NewConversationIcon({ isLightTheme = false, className }) {
-  const color = isLightTheme
+  const plusStroke = isLightTheme
     ? "var(--chat-icon-light, #7A3A38)"
     : "var(--chat-icon-dark, #c57171)";
 
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      className={cn(className, styles.iconNewChat)}
-      style={{ color }}
-    >
-      <path
-        d="M12 3H5.7C4.21 3 3 4.21 3 5.7v12.6C3 19.79 4.21 21 5.7 21h12.6c1.49 0 2.7-1.21 2.7-2.7V12"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+    <span className={styles.newChatIconWrap} aria-hidden="true">
+      <ChatBubbleIcon
+        isLightTheme={isLightTheme}
+        showDots={false}
+        className={cn(className, styles.iconChats, styles.iconNewChatBubble)}
       />
-      <path
-        d="M17.05 3.95a2.1 2.1 0 0 1 2.97 2.97l-8.74 8.74-3.53.88.88-3.53 8.42-9.06Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+      <span className={styles.newChatPlus}>
+        <svg
+          viewBox="0 0 42 42"
+          fill="none"
+          focusable="false"
+          className={styles.newChatPlusIcon}
+          style={{ color: plusStroke }}
+        >
+          <path
+            d="M21 8.75v24.5M8.75 21h24.5"
+            stroke="currentColor"
+            strokeWidth="5.2"
+            strokeLinecap="round"
+          />
+        </svg>
+      </span>
+    </span>
   );
 }
 

@@ -65,7 +65,7 @@ export default function HelpListingsPanel({
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
   const helpListingsContentClassName =
     `help-listings-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
-    `relative !max-h-none overflow-x-hidden !overflow-y-visible pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `relative !flex !min-h-[clamp(31rem,70vh,44rem)] !max-h-none !flex-col overflow-x-hidden !overflow-y-visible pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
@@ -76,6 +76,7 @@ export default function HelpListingsPanel({
     `max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
     `max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] ` +
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
+    `max-[768px]:!min-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isClosing ? `${tiltAnimationClassName} pointer-events-none` : ""}`;
   const helpListingsTitleClassName =
@@ -183,16 +184,16 @@ export default function HelpListingsPanel({
           </p>
         </div>
 
-        <div className={`help-listings-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.7rem] px-[0.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.05rem]`}>
+        <div className={`help-listings-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid flex-1 content-start gap-[1.25rem] px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem]`}>
           <Panel
             variant="subpage"
             padding="sm"
-            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} !p-[0.5rem] max-[768px]:!p-[0.12rem]`}
+            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} !min-h-[clamp(14rem,32vh,20rem)] !p-[0.72rem] max-[768px]:!min-h-[clamp(11rem,24vh,15rem)] max-[768px]:!p-[0.24rem]`}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
             {!loading && !error && !items.length ? (
-              <div className="help-listings-empty px-2 py-4 text-[1.08rem] leading-[1.45] opacity-78 max-[768px]:text-[1.12rem] hc:text-[color:var(--hc-accent)] hc:opacity-100">
+              <div className="help-listings-empty flex min-h-[clamp(10rem,22vh,14rem)] items-center px-2 py-4 text-[1.08rem] leading-[1.45] opacity-78 max-[768px]:min-h-[clamp(8rem,18vh,11rem)] max-[768px]:text-[1.12rem] hc:text-[color:var(--hc-accent)] hc:opacity-100">
                 {emptyText}
               </div>
             ) : null}
