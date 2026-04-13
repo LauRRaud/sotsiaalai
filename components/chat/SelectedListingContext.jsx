@@ -7,8 +7,10 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
+import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import {
   glassPageBackTopLeftClassName,
+  glassPrimaryButtonToneClassName,
   glassSubpageContentWideClassName,
   glassSubpageMobileReadableWidthClassName,
   glassSubpagePanelWideClassName,
@@ -17,6 +19,19 @@ import {
 } from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
+
+const HELP_CATEGORY_OPTIONS = [
+  { value: "TRANSPORT", label: "Transport" },
+  { value: "DAILY_TASKS", label: "Igapäevaabi" },
+  { value: "HOME_HELP", label: "Koduabi" },
+  { value: "DIGITAL_HELP", label: "Digiabi" },
+  { value: "CARE_SUPPORT", label: "Tugi ja hooldus" },
+  { value: "CHILD_YOUTH_SUPPORT", label: "Laste ja noorte tugi" },
+  { value: "LEARNING_GUIDANCE", label: "Õppimise ja juhendamise abi" },
+  { value: "SOCIAL_SUPPORT", label: "Seltskond ja sotsiaalne tugi" },
+  { value: "ADMIN_FORM_HELP", label: "Asjaajamise ja vormide abi" },
+  { value: "OTHER", label: "Muu abi" }
+];
 
 function splitTargetGroups(value = "") {
   return String(value || "")
@@ -95,22 +110,53 @@ function buildInfoItems(listing = {}, ui = {}) {
   return items;
 }
 
-function SelectField({ label, value, onChange, options = [] }) {
+function DropdownField({ label, value, onChange, options = [] }) {
+  const [open, setOpen] = useState(false);
+  const selected = options.find((option) => option.value === value);
+  const selectedLabel = selected?.label || options.find((option) => !option.value)?.label || "-";
+
   return (
-    <label className="grid gap-[0.35rem]">
-      <span className="text-[0.8rem] uppercase tracking-[0.08em] opacity-74">{label}</span>
-      <select
-        value={value}
-        onChange={onChange}
-        className="min-h-[3rem] rounded-[1rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[0.95rem] py-[0.62rem] text-[1rem] text-[color:var(--glass-modal-text)] outline-none [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)]"
+    <div className="relative grid gap-[0.35rem]">
+      <span className="text-[0.8rem] uppercase tracking-[0.08em] opacity-74">
+        {label}
+      </span>
+      <button
+        type="button"
+        onClick={() => setOpen((next) => !next)}
+        className="flex min-h-[3.1rem] w-full items-center justify-between gap-[0.8rem] rounded-[1.55rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[1rem] py-[0.66rem] text-left text-[1rem] text-[color:var(--glass-modal-text)] shadow-[var(--subpage-card-shadow)] outline-none transition-[background,border-color,box-shadow] duration-200 hover:bg-[rgba(255,255,255,0.16)] focus-visible:border-[rgba(197,113,113,0.44)] focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.16)] [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)] [.theme-light_&]:hover:bg-[rgba(255,255,255,0.44)]"
+        aria-haspopup="listbox"
+        aria-expanded={open}
       >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
+        <span className="min-w-0 truncate">{selectedLabel}</span>
+        <ChevronIcon direction={open ? "up" : "down"} strokeWidth={1.15} className="h-[1.05rem] w-[1.65rem] flex-none text-[color:var(--title-color,var(--brand-primary))]" />
+      </button>
+      {open ? (
+        <div
+          className="absolute left-0 right-0 top-[calc(100%+0.36rem)] z-[20] overflow-hidden rounded-[1.25rem] border border-[rgba(248,253,255,0.12)] bg-[var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(20,24,32,0.94)))] py-[0.45rem] text-[1rem] shadow-[0_16px_34px_rgba(0,0,0,0.18)] backdrop-blur-[18px] [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(245,239,236,0.96)]"
+          role="listbox"
+        >
+          {options.map((option) => {
+            const checked = option.value === value;
+            return (
+              <button
+                key={option.value || "empty"}
+                type="button"
+                role="option"
+                aria-selected={checked}
+                onClick={() => {
+                  onChange?.(option.value);
+                  setOpen(false);
+                }}
+                className={`flex w-full items-center justify-between gap-[0.75rem] px-[1rem] py-[0.62rem] text-left transition-colors duration-150 hover:bg-[rgba(255,255,255,0.12)] [.theme-light_&]:hover:bg-[rgba(122,58,56,0.06)] ${checked ? "text-[color:var(--title-color,var(--brand-primary))]" : ""}`}
+              >
+                <span className="min-w-0">{option.label}</span>
+                {checked ? <span aria-hidden="true" className="text-[color:var(--title-color,var(--brand-primary))]">✓</span> : null}
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -130,13 +176,16 @@ export default function SelectedListingContext({
   onChangeEditField,
   onCancelEdit,
   onSaveEdit,
-  onCloseListing,
   onDeleteListing,
   onDismiss
 }) {
   const { t } = useI18n();
   const ui = getHelpUiText(t);
   const [isMounted, setIsMounted] = useState(false);
+  const [scrollElement, setScrollElement] = useState(null);
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState("down");
 
   useEffect(() => {
     setIsMounted(true);
@@ -157,6 +206,38 @@ export default function SelectedListingContext({
     };
   }, [error, isMounted, listing, loading]);
 
+  useEffect(() => {
+    const element = scrollElement;
+    if (!element || loading || (!listing && !error)) {
+      setCanScrollUp(false);
+      setCanScrollDown(false);
+      setScrollDirection("down");
+      return undefined;
+    }
+
+    let lastTop = element.scrollTop || 0;
+    const updateScrollState = () => {
+      const nextTop = element.scrollTop || 0;
+      const maxTop = Math.max(0, element.scrollHeight - element.clientHeight);
+      setCanScrollUp(nextTop > 6);
+      setCanScrollDown(nextTop < maxTop - 6);
+      if (Math.abs(nextTop - lastTop) > 2) {
+        setScrollDirection(nextTop > lastTop ? "down" : "up");
+      }
+      lastTop = nextTop;
+    };
+
+    updateScrollState();
+    const rafId = window.requestAnimationFrame(updateScrollState);
+    element.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      element.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+    };
+  }, [editState, error, listing, loading, scrollElement]);
+
   if (!isMounted || typeof document === "undefined") {
     return null;
   }
@@ -169,9 +250,14 @@ export default function SelectedListingContext({
   const connectDisabled = !selectedConnectListingId || busyAction === "connect";
   const descriptionValue = editState?.description ?? listing?.editableDescription ?? listing?.description ?? "";
   const roleValue = editState?.roleLabel ?? listing?.roleLabel ?? "";
+  const categoryCodeValue = editState?.primaryCategoryCode ?? listing?.primaryCategoryCode ?? "";
   const helpTypeValue = editState?.helpType ?? listing?.helpType ?? "";
   const timeTypeValue = editState?.timeType ?? listing?.timeType ?? "";
   const targetGroupsValue = editState?.targetGroups ?? (Array.isArray(listing?.targetGroupLabels) ? listing.targetGroupLabels.join(", ") : "");
+  const rawPlaceValue = editState?.rawPlace ?? listing?.editableRawPlace ?? listing?.rawPlace ?? "";
+  const availabilityOrStartValue = editState?.availabilityOrStart ?? listing?.editableAvailabilityOrStart ?? listing?.availabilityOrStart ?? "";
+  const compensationDetailsValue = editState?.compensationDetails ?? listing?.editableCompensationDetails ?? listing?.compensationDetails ?? "";
+  const conditionsValue = editState?.conditions ?? listing?.editableConditions ?? listing?.conditions ?? "";
   const infoItems = listing ? buildInfoItems(listing, ui) : [];
   const cleanDescription = listing ? buildCleanDescription(listing) : "";
   const selectedListingContentClassName =
@@ -180,7 +266,7 @@ export default function SelectedListingContext({
     `[--glass-modal-bg:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] shadow-[var(--glass-shell-shadow,none)] ` +
-    `${glassSubpageSurfaceScopeClassName} ` +
+    `${glassSubpageSurfaceScopeClassName} ${glassPrimaryButtonToneClassName} ` +
     `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards ` +
     `max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] ` +
     `max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
@@ -190,7 +276,7 @@ export default function SelectedListingContext({
     `max-[768px]:!max-h-[calc(100dvh-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]`;
   const actionButtonClassName =
-    "!min-h-[2.82rem] !px-[1.1rem] !py-[0.6rem] !text-[1rem] max-[768px]:!min-h-[2.95rem] max-[768px]:!text-[1.04rem]";
+    "!min-h-[3.05rem] !rounded-[1.45rem] !px-[1.25rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.16rem]";
 
   return createPortal(
     <Modal
@@ -228,7 +314,10 @@ export default function SelectedListingContext({
         </div>
       </header>
 
-      <div className={`selected-listing-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex flex-1 flex-col overflow-y-auto gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[0.4rem] pr-[0.55rem] max-[768px]:px-[0.05rem] max-[768px]:pr-[0.05rem]`}>
+      <div
+        ref={setScrollElement}
+        className={`selected-listing-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.25rem] pr-[0.55rem] max-[768px]:px-[0.05rem] max-[768px]:pr-[0.05rem]`}
+      >
         <Panel
           variant="subpage"
           padding="sm"
@@ -274,6 +363,12 @@ export default function SelectedListingContext({
                     />
                   </label>
                   <div className="grid gap-[0.8rem] md:grid-cols-2">
+                    <DropdownField
+                      label={ui.category}
+                      value={categoryCodeValue}
+                      onChange={(value) => onChangeEditField?.("primaryCategoryCode", value)}
+                      options={HELP_CATEGORY_OPTIONS}
+                    />
                     <Input
                       id="listing-edit-role"
                       value={roleValue}
@@ -281,10 +376,17 @@ export default function SelectedListingContext({
                       placeholder={ui.roleLabel}
                       aria-label={ui.roleLabel}
                     />
-                    <SelectField
+                    <Input
+                      id="listing-edit-location"
+                      value={rawPlaceValue}
+                      onChange={(event) => onChangeEditField?.("rawPlace", event.target.value)}
+                      placeholder={ui.location}
+                      aria-label={ui.location}
+                    />
+                    <DropdownField
                       label={ui.helpType}
                       value={helpTypeValue}
-                      onChange={(event) => onChangeEditField?.("helpType", event.target.value)}
+                      onChange={(value) => onChangeEditField?.("helpType", value)}
                       options={[
                         { value: "", label: ui.emptyOption },
                         { value: "VOLUNTARY", label: ui.voluntaryLabel },
@@ -292,10 +394,10 @@ export default function SelectedListingContext({
                         { value: "MIXED", label: ui.mixedLabel }
                       ]}
                     />
-                    <SelectField
+                    <DropdownField
                       label={ui.timeType}
                       value={timeTypeValue}
-                      onChange={(event) => onChangeEditField?.("timeType", event.target.value)}
+                      onChange={(value) => onChangeEditField?.("timeType", value)}
                       options={[
                         { value: "", label: ui.emptyOption },
                         { value: "ONE_TIME", label: ui.oneTimeLabel },
@@ -309,6 +411,31 @@ export default function SelectedListingContext({
                       onChange={(event) => onChangeEditField?.("targetGroups", event.target.value)}
                       placeholder={ui.targetGroupsHint}
                       aria-label={ui.targetGroups}
+                    />
+                  </div>
+                  <label className="grid gap-[0.35rem]">
+                    <span className="text-[0.8rem] uppercase tracking-[0.08em] opacity-74">{ui.availabilityOrStart}</span>
+                    <textarea
+                      value={availabilityOrStartValue}
+                      onChange={(event) => onChangeEditField?.("availabilityOrStart", event.target.value)}
+                      rows={2}
+                      className="rounded-[1rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[0.95rem] py-[0.78rem] text-[1rem] text-[color:var(--glass-modal-text)] outline-none [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)]"
+                    />
+                  </label>
+                  <div className="grid gap-[0.8rem] md:grid-cols-2">
+                    <Input
+                      id="listing-edit-compensation"
+                      value={compensationDetailsValue}
+                      onChange={(event) => onChangeEditField?.("compensationDetails", event.target.value)}
+                      placeholder={ui.compensationDetails}
+                      aria-label={ui.compensationDetails}
+                    />
+                    <Input
+                      id="listing-edit-conditions"
+                      value={conditionsValue}
+                      onChange={(event) => onChangeEditField?.("conditions", event.target.value)}
+                      placeholder={ui.conditions}
+                      aria-label={ui.conditions}
                     />
                   </div>
                   <div className="flex flex-wrap justify-center gap-[0.6rem] pt-[0.25rem]">
@@ -327,9 +454,6 @@ export default function SelectedListingContext({
                   <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onStartEdit}>
                     {ui.edit}
                   </Button>
-                  <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onCloseListing} disabled={busyAction === "close" || listing.status === "CLOSED"}>
-                    {ui.closeListing}
-                  </Button>
                   <Button type="button" variant="danger" size="md" className={actionButtonClassName} onClick={onDeleteListing} disabled={busyAction === "delete"}>
                     {ui.delete}
                   </Button>
@@ -339,10 +463,10 @@ export default function SelectedListingContext({
               {!editState && !isOwn ? (
                 <div className="grid gap-[0.8rem] pt-[0.35rem]">
                   {listing.status === "CLOSED" ? <div className="text-[0.92rem] opacity-72">{ui.statusClosed}</div> : null}
-                  <SelectField
+                  <DropdownField
                     label={ui.selectOwnListing}
                     value={selectedConnectListingId}
-                    onChange={(event) => onSelectConnectListing?.(event.target.value)}
+                    onChange={(value) => onSelectConnectListing?.(value)}
                     options={[
                       { value: "", label: connectOptions.length ? "-" : ui.noOwnOptions },
                       ...connectOptions.map((item) => ({
@@ -361,6 +485,22 @@ export default function SelectedListingContext({
             </div>
           ) : null}
         </Panel>
+      </div>
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute bottom-[0.92rem] left-[1.65rem] right-[1.65rem] z-[4] h-[4.2rem] bg-[linear-gradient(to_top,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))),rgba(0,0,0,0))] transition-opacity duration-300 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+0.58rem)] max-[768px]:left-[0.78rem] max-[768px]:right-[0.78rem] ${canScrollDown ? "opacity-100" : "opacity-0"}`}
+      >
+        <span className={`absolute bottom-[0.05rem] left-1/2 block h-[2.55rem] w-[2.55rem] -translate-x-1/2 transition-all duration-500 ${canScrollDown ? (scrollDirection === "up" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
+          <ChevronIcon direction="down" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
+        </span>
+      </div>
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute left-[1.65rem] right-[1.65rem] top-[clamp(8.5rem,24vh,13rem)] z-[4] h-[3.4rem] bg-[linear-gradient(to_bottom,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))),rgba(0,0,0,0))] transition-opacity duration-300 max-[768px]:left-[0.78rem] max-[768px]:right-[0.78rem] ${canScrollUp ? "opacity-100" : "opacity-0"}`}
+      >
+        <span className={`absolute left-1/2 top-[0.22rem] block h-[2.25rem] w-[2.25rem] -translate-x-1/2 transition-all duration-500 ${canScrollUp ? (scrollDirection === "down" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
+          <ChevronIcon direction="up" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
+        </span>
       </div>
     </Modal>,
     document.body

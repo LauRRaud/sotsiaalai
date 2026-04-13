@@ -70,7 +70,7 @@ export default function HelpListingsPanel({
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
   const helpListingsContentClassName =
     `help-listings-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
-    `relative !flex !min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)] !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `relative !flex min-h-0 !min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)] !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
@@ -91,7 +91,7 @@ export default function HelpListingsPanel({
   const listingsPanelClassName =
     "mt-[0.25rem] max-[768px]:mt-[0.2rem]";
   const listingsScrollClassName =
-    "help-listings-scroll flex-1 overflow-y-auto pr-[0.18rem] [scrollbar-width:thin] max-[768px]:pr-[0.08rem]";
+    "help-listings-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain pr-[0.18rem] [scrollbar-width:thin] max-[768px]:pr-0";
 
   const renderListingCard = (item) => (
     <button
@@ -225,11 +225,11 @@ export default function HelpListingsPanel({
           </p>
         </div>
 
-        <div className={`help-listings-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex flex-1 flex-col gap-[1.25rem] px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem]`}>
+        <div className={`help-listings-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex min-h-0 flex-1 flex-col gap-[1.25rem] overflow-x-hidden px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem]`}>
           <Panel
             variant="subpage"
             padding="sm"
-            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} relative flex flex-1 flex-col !max-h-none !min-h-[clamp(24rem,60vh,34rem)] !overflow-hidden !p-[0.72rem] max-[768px]:!max-h-[clamp(17rem,46vh,23rem)] max-[768px]:!min-h-[clamp(14rem,30vh,18rem)] max-[768px]:!p-[0.24rem]`}
+            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} relative flex min-h-0 flex-1 flex-col !max-h-none !overflow-hidden !p-[0.72rem] max-[768px]:!p-[0.24rem]`}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
@@ -258,7 +258,7 @@ export default function HelpListingsPanel({
                   </span>
                 </div>
                 <div ref={listingsScrollRef} className={listingsScrollClassName}>
-                  <div className="grid gap-[0.7rem]">
+                  <div className="grid min-w-0 gap-[0.7rem]">
                     {ownItems.length ? (
                       <div className="mb-[0.1rem] text-[0.76rem] uppercase tracking-[0.11em] opacity-70">
                         {ownSectionLabel}

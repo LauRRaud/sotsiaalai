@@ -1091,9 +1091,14 @@ export default function ChatBody({
         edit: {
           title: prev.listing.editableTitle || prev.listing.title || "",
           description: prev.listing.editableDescription || prev.listing.description || "",
+          primaryCategoryCode: prev.listing.primaryCategoryCode || "",
           roleLabel: prev.listing.roleLabel || "",
+          rawPlace: prev.listing.editableRawPlace || prev.listing.rawPlace || "",
           helpType: prev.listing.helpType || "",
           timeType: prev.listing.timeType || "",
+          availabilityOrStart: prev.listing.editableAvailabilityOrStart || prev.listing.availabilityOrStart || "",
+          compensationDetails: prev.listing.editableCompensationDetails || prev.listing.compensationDetails || "",
+          conditions: prev.listing.editableConditions || prev.listing.conditions || "",
           targetGroups: Array.isArray(prev.listing.targetGroupLabels) ? prev.listing.targetGroupLabels.join(", ") : ""
         }
       };
@@ -1125,9 +1130,14 @@ export default function ChatBody({
         body: JSON.stringify({
           title: editPayload?.title,
           description: editPayload?.description,
+          primaryCategoryCode: editPayload?.primaryCategoryCode,
           roleLabel: editPayload?.roleLabel,
+          rawPlace: editPayload?.rawPlace,
           helpType: editPayload?.helpType,
           timeType: editPayload?.timeType,
+          availabilityOrStart: editPayload?.availabilityOrStart,
+          compensationDetails: editPayload?.compensationDetails,
+          conditions: editPayload?.conditions,
           targetGroups: Array.isArray(editPayload?.targetGroups) ? editPayload.targetGroups : []
         })
       });
