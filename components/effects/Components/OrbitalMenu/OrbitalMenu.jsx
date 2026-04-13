@@ -312,7 +312,7 @@ export default function OrbitalMenu({
             : "default"
         : "default";
       setOrbitSizeMode(prev => prev !== nextSizeMode ? nextSizeMode : prev);
-      const radiusScale = shouldNudgeOrbitInward ? 0.92 : shouldSlightlyNudgeOrbitInward ? 0.94 : 1;
+      const radiusScale = shouldNudgeOrbitInward ? 0.92 : shouldSlightlyNudgeOrbitInward ? 0.97 : 1;
       const itemSize = itemEl.offsetWidth || 0;
       if (!itemSize) return;
       const nextRadius = Math.max(0, (rect.width - itemSize) / 2) * radiusScale;

@@ -590,10 +590,12 @@ export default function ChatSidebar() {
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
   const sidebarInsetWidthClassName = `${sidebarContentWidthClassName} px-[0.42rem] max-[768px]:px-[0.4rem]`;
   const listViewportClassName = "mt-[-0.18rem] max-[768px]:mt-[-0.28rem] flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
-  const listScrollFrameClassName = "relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.1rem]";
+  const listScrollFrameClassName = "relative flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
   const listClassName =
     "drawer-chat-sidebar__list list-none m-0 flex min-h-0 flex-1 flex-col items-stretch gap-2 overflow-y-auto px-0 pt-[0.28rem] max-[768px]:pt-[0.22rem] pb-[1.12rem] max-[768px]:pb-[0.36rem] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
     "before:content-[''] before:block before:h-[0.05rem] max-[768px]:before:h-[0.04rem] after:content-[''] after:block after:h-[0.62rem] max-[768px]:after:h-[0.16rem]";
+  const emptyStateClassName =
+    `mx-[0.42rem] max-[768px]:mx-[0.4rem] flex items-center gap-3 rounded-[1rem] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] ${glassSubpageCardClassName}`;
   const renderLoadingSkeleton = (prefix, count = 3) => Array.from({ length: count }).map((_, i) => <div key={`${prefix}-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
         <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
         <div className="h-2 w-1/3 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
@@ -713,7 +715,7 @@ export default function ChatSidebar() {
             {currentBusy && currentItems.length === 0 ? <div className={`${listClassName} py-2`}>
                 {renderLoadingSkeleton(isConversationView ? "conv" : "room", isConversationView ? 3 : 2)}
               </div> : <ul className={listClassName}>
-                {!currentBusy && currentItems.length === 0 ? <li className={`flex w-full items-center gap-3 rounded-[1rem] px-3 py-4 text-[color:var(--drawer-preview-text,var(--text-strong))] ${glassSubpageCardClassName}`}>
+                {!currentBusy && currentItems.length === 0 ? <li className={emptyStateClassName}>
                     <span>{hasConversationSearch ? t("chat.sidebar.search.no_matches", "Otsingule vastavaid vestlusi ei leitud.") : isConversationView ? t("chat.sidebar.empty") : t("rooms.empty")}</span>
                   </li> : currentItems.map(renderListItem)}
               </ul>}
