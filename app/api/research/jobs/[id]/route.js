@@ -24,8 +24,13 @@ function errorJson(messageKey, status = 400) {
   );
 }
 
+async function getResearchJobId(params) {
+  const resolvedParams = await params;
+  return String(resolvedParams?.id || "").trim();
+}
+
 async function getAndAuthorizeJob(params, userId) {
-  const jobId = String(params?.id || "").trim();
+  const jobId = await getResearchJobId(params);
   const job = getResearchJob(jobId) || await getResearchJobSnapshot(jobId);
   if (!job) {
     return { ok: false, response: errorJson("research.error.not_found", 404) };

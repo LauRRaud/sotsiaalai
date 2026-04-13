@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
@@ -25,7 +25,7 @@ import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 
 const shellClassName =
   `${glassPageShellCenteredClassName} framework-page-shell ${glassPrimaryButtonToneClassName} ` +
-  "relative flex min-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.14rem]";
+  "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden overscroll-none px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.14rem]";
 const panelClassName =
   `framework-surface-panel relative z-[21] w-full !max-w-[50rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
@@ -46,7 +46,7 @@ const bodyClassName =
 const introCardClassName =
   "framework-intro-card grid gap-[0.82rem] px-[0.52rem] py-[0.88rem] max-[768px]:gap-[0.7rem] max-[768px]:px-[0.36rem] max-[768px]:py-[0.72rem]";
 const sectionTitleClassName =
-  "m-0 text-[1.14rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
+  "m-0 text-[1.28rem] font-[500] leading-[1.34] tracking-[0.01em] text-[color:var(--title-color,var(--brand-primary))]";
 const introTextClassName =
   "m-0 text-[1.14rem] leading-[1.68] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.16rem]";
 const documentCardClassName =
@@ -56,11 +56,11 @@ const confirmPanelClassName =
   "max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]";
 const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =
-  "m-0 pt-[0.55rem] text-[1.26rem] font-[680] leading-[1.3] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
+  "m-0 pt-[0.55rem] text-[1.36rem] font-[500] leading-[1.32] tracking-[0.01em] text-[color:var(--title-color,var(--brand-primary))]";
 const docSubheadingClassName =
-  "m-0 pt-[0.2rem] text-[1.1rem] font-[640] leading-[1.45] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
+  "m-0 pt-[0.2rem] text-[1.22rem] font-[500] leading-[1.45] text-[color:var(--title-color,var(--brand-primary))]";
 const docLabelClassName =
-  "m-0 pt-[0.15rem] text-[1.02rem] font-[650] tracking-[0.01em] text-[color:var(--glass-modal-text-soft,var(--pt-120))]";
+  "m-0 pt-[0.15rem] text-[1.1rem] font-[500] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const docParagraphClassName =
   "m-0 text-[1.08rem] leading-[1.72] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
 const docListClassName =
@@ -76,7 +76,7 @@ const docChecklistClassName = "grid gap-[0.6rem]";
 const docChecklistItemClassName =
   "flex items-start gap-[0.55rem] text-[1.08rem] leading-[1.68] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const actionRowClassName =
-  "mx-auto flex w-full max-w-[26rem] flex-wrap items-center justify-center gap-[0.7rem] pt-[0.25rem] pb-[0.55rem] max-[768px]:grid max-[768px]:w-full max-[768px]:max-w-none max-[768px]:grid-cols-1 max-[768px]:pb-[0.55rem]";
+  "mx-auto flex w-full max-w-none flex-nowrap items-center justify-center gap-[0.7rem] pt-[0.82rem] pb-[1rem] max-[768px]:grid max-[768px]:w-full max-[768px]:max-w-none max-[768px]:grid-cols-1 max-[768px]:pt-[0.74rem] max-[768px]:pb-[0.9rem]";
 const actionButtonClassName =
   "!inline-flex !w-fit !justify-center !justify-self-center !self-center !min-h-[3.05rem] !rounded-[1.6rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !leading-[1.2] !tracking-[0.03rem] " +
   "max-[768px]:!w-fit max-[768px]:!min-h-[3.2rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!px-[1rem] max-[768px]:!py-[0.82rem] max-[768px]:!text-[1.18rem]";
@@ -164,7 +164,32 @@ function FrameworkBlocks({ blocks = [] }) {
 }
 
 function getIntroCopy(locale) {
-  return getNormalizedIntroCopy(locale);
+  const fallbackCopy = getNormalizedIntroCopy(locale);
+  const compactIntroCopy = {
+    et: {
+      introTitle: "Dokumendi allalaadimine ja kinnitus",
+      lead:
+        "Laadi dokument alla või loe täisteksti allpool. Kinnituse saad salvestada pärast allkirjastatud raamdokumendi allalaadimist ja allkirjastamist.",
+      paragraphs: []
+    },
+    en: {
+      introTitle: "Download and confirmation",
+      lead:
+        "Download the document or read the full text below. You can save the confirmation after downloading and signing the signed framework document.",
+      paragraphs: []
+    },
+    ru: {
+      introTitle: "Скачивание и подтверждение документа",
+      lead:
+        "Скачайте документ или прочитайте полный текст ниже. Подтверждение можно сохранить после скачивания и подписания рамочного документа.",
+      paragraphs: []
+    }
+  };
+
+  return compactIntroCopy[locale] || {
+    ...fallbackCopy,
+    paragraphs: []
+  };
 }
 
 function getNormalizedIntroCopy(locale) {
@@ -206,6 +231,7 @@ function getNormalizedIntroCopy(locale) {
 export default function TooalaseRaamistikuBody({ frameworkDocument }) {
   const router = useRouter();
   const { t, locale } = useI18n();
+  const panelRef = useRef(null);
   const introCopy = getIntroCopy(locale);
   const frameworkDocxHref = getWorkerFrameworkDocxHref(locale);
   const frameworkTitle = t("auth.register.worker_framework_title");
@@ -230,6 +256,20 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
   const [savePending, setSavePending] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [saveNotice, setSaveNotice] = useState("");
+
+  useEffect(() => {
+    if (typeof document === "undefined") return undefined;
+    const root = document.documentElement;
+    const body = document.body;
+
+    root?.classList.add("framework-page-scroll-lock");
+    body?.classList.add("framework-page-scroll-lock");
+
+    return () => {
+      root?.classList.remove("framework-page-scroll-lock");
+      body?.classList.remove("framework-page-scroll-lock");
+    };
+  }, []);
 
   const loadFrameworkStatus = useCallback(async () => {
     setFrameworkStatus((current) => ({
@@ -295,6 +335,18 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
       persistGlassRingTilt: false
     });
   };
+
+  const handleShellWheel = useCallback((event) => {
+    const panel = panelRef.current;
+    const target = event.target;
+    if (!panel || panel.contains(target)) return;
+
+    const maxScrollTop = panel.scrollHeight - panel.clientHeight;
+    if (maxScrollTop <= 0) return;
+
+    event.preventDefault();
+    panel.scrollTop = Math.max(0, Math.min(maxScrollTop, panel.scrollTop + event.deltaY));
+  }, []);
 
   const handleSignedDownload = () => {
     if (typeof window === "undefined") return;
@@ -362,8 +414,8 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
   const acceptedAtText = acceptance?.acceptedAt ? new Date(acceptance.acceptedAt).toLocaleString(locale || "et") : "";
 
   return (
-    <section className={shellClassName} lang={locale}>
-      <div className={panelClassName}>
+    <section className={shellClassName} lang={locale} onWheel={handleShellWheel}>
+      <div ref={panelRef} className={panelClassName}>
         <BackButton
           onClick={handleBack}
           ariaLabel={t("buttons.back_previous")}
@@ -484,10 +536,10 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
             </div>
           </section>
 
-          <section className={documentCardClassName} aria-labelledby="framework-document-title">
-            <h2 id="framework-document-title" className={sectionTitleClassName}>
-              {frameworkDocument?.title || t("auth.register.worker_framework_title")}
-            </h2>
+          <section
+            className={documentCardClassName}
+            aria-label={frameworkDocument?.title || t("auth.register.worker_framework_title")}
+          >
             <FrameworkBlocks blocks={frameworkDocument?.documentBlocks || []} />
           </section>
         </div>

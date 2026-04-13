@@ -10,7 +10,6 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import ChatMessageItem from "./chat/ChatMessageItem";
 import { useSpeech } from "../chat/hooks/useSpeech";
 import { useChatStream } from "@/components/chat/hooks/useChatStream";
-import { useDeepResearchStream } from "@/components/chat/hooks/useDeepResearchStream";
 import { useChatConversationState } from "../chat/hooks/useChatConversationState";
 import { prettifyFileName } from "@/components/chat/utils/sources";
 import { useChatInputHoleMask } from "@/components/chat/hooks/useChatInputHoleMask";
@@ -39,10 +38,6 @@ const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
 const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
 const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
 const PANEL_TILT_CLOSE_MS = 540;
-const DEEP_RESEARCH_ARMED_TEXT =
-  "S\u00fcvauuringu re\u017eiim on valitud. Kirjuta oma uurimisk\u00fcsimus ja soovi korral t\u00e4psusta piirkond v\u00f5i tasand. T\u00fchistamiseks vajuta uuesti s\u00fcvauuringu ikooni.";
-const DEEP_RESEARCH_EMPTY_QUERY_HINT = "Kirjuta uurimisk\u00fcsimus.";
-const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petatud.";
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
@@ -276,7 +271,6 @@ export default function ChatBody({
   const [hasHydrated, setHasHydrated] = useState(false);
   const [layoutTransitionsReady, setLayoutTransitionsReady] = useState(false);
   const listingsPanelCloseTimerRef = useRef(null);
-  const deepResearchHintMessageIdRef = useRef(null);
   const careerTurnRequestRef = useRef(0);
   const maskRefreshRef = useRef(null);
   const refreshMask = useCallback((options = {}) => {
@@ -1445,26 +1439,10 @@ export default function ChatBody({
     onFocusInput: focusInput,
     onAuthRedirect: () => setLoginOpen(true)
   });
-  const {
-    isResearching,
-    runDeepResearch,
-    stopResearch
-  } = useDeepResearchStream({
-    convId,
-    userRole,
-    locale,
-    t,
-    appendMessage,
-    mutateMessage,
-    onFocusInput: focusInput,
-    setErrorBanner,
-    requestConversationsRefresh
-  });
-  const isGenerating = isChatGenerating || isResearching || careerLoading;
+  const isGenerating = isChatGenerating || careerLoading;
   const stop = useCallback(() => {
     stopChatStream();
-    void stopResearch();
-  }, [stopChatStream, stopResearch]);
+  }, [stopChatStream]);
   const startFreshConversation = useCallback((nextWorkflow = "default", options = {}) => {
     const {
       convId: requestedConvId = null,
@@ -1474,7 +1452,6 @@ export default function ChatBody({
 
     stop();
     careerTurnRequestRef.current += 1;
-    deepResearchHintMessageIdRef.current = null;
     setCareerLoading(false);
     setErrorBanner(null);
     setIsCrisis(false);
@@ -1501,59 +1478,6 @@ export default function ChatBody({
 
     return nextConvId;
   }, [analysis, resetCareerSession, setConvId, setIsCrisis, setMessages, stop]);
-  const handleArmDeepResearch = useCallback(() => {
-    const activeMessageId = deepResearchHintMessageIdRef.current;
-    if (activeMessageId != null) {
-      mutateMessage(activeMessageId, msg => ({
-        ...msg,
-        role: "ai",
-        text: DEEP_RESEARCH_ARMED_TEXT,
-        aiVisible: true
-      }));
-      return;
-    }
-    const createdId = appendMessage({
-      role: "ai",
-      text: DEEP_RESEARCH_ARMED_TEXT,
-      aiVisible: true
-    });
-    deepResearchHintMessageIdRef.current = createdId;
-  }, [appendMessage, mutateMessage]);
-  const handleCancelDeepResearchMode = useCallback(() => {
-    const messageId = deepResearchHintMessageIdRef.current;
-    if (messageId != null) {
-      mutateMessage(messageId, msg => ({
-        ...msg,
-        text: t("chat.deep_research.scope_cancelled"),
-        meta: null
-      }));
-      deepResearchHintMessageIdRef.current = null;
-    }
-  }, [mutateMessage, t]);
-  const handleConsumeDeepResearchMode = useCallback(payload => {
-    const started = Boolean(payload?.started);
-    const messageId = deepResearchHintMessageIdRef.current;
-    if (messageId != null) {
-      mutateMessage(messageId, msg => ({
-        ...msg,
-        text: started
-          ? t("chat.deep_research.scope_started")
-          : DEEP_RESEARCH_MODE_ENDED_TEXT,
-        meta: null
-      }));
-      deepResearchHintMessageIdRef.current = null;
-    }
-  }, [mutateMessage, t]);
-  const handleDeepResearchEmptySubmit = useCallback(() => {
-    appendMessage({
-      role: "ai",
-      text: DEEP_RESEARCH_EMPTY_QUERY_HINT,
-      aiVisible: true
-    });
-  }, [appendMessage]);
-  const handleSendDeepResearchFromComposer = useCallback((query) => {
-    return runDeepResearch(query);
-  }, [runDeepResearch]);
   const runCareerTurn = useCallback(async (payload = {}, options = {}) => {
     const {
       echoUserText = false,
@@ -2219,11 +2143,6 @@ export default function ChatBody({
       isGenerating={isGenerating}
       onStop={stop}
       onSend={handleSendMessage}
-      onSendDeepResearch={handleSendDeepResearchFromComposer}
-      onArmDeepResearch={handleArmDeepResearch}
-      onCancelDeepResearchMode={handleCancelDeepResearchMode}
-      onConsumeDeepResearchMode={handleConsumeDeepResearchMode}
-      onDeepResearchEmptySubmit={handleDeepResearchEmptySubmit}
       onActivateInfoMode={activateInfoMode}
       onActivateCareerMode={activateCareerMode}
       onActivateHelpRequestMode={activateHelpRequestMode}

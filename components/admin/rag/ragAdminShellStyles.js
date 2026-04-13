@@ -11,9 +11,9 @@ export const ragAdminShellInnerClassName =
   "mx-auto flex w-full flex-col gap-3 px-[clamp(0.45rem,1.2vw,0.8rem)] py-[clamp(0.45rem,1.2vw,0.8rem)]";
 
 export const ragAdminShellCardClassName =
-  `relative flex w-full flex-col gap-3 rounded-[1.6rem] px-[clamp(0.95rem,2.2vw,1.4rem)] py-[clamp(0.85rem,2vw,1.15rem)] ` +
+  `relative isolate flex w-full flex-col gap-3 rounded-[1.6rem] px-[clamp(0.95rem,2.2vw,1.4rem)] py-[clamp(0.85rem,2vw,1.15rem)] ` +
   `[background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
-  `[border:none] text-[color:var(--documents-page-text)] shadow-[var(--glass-shell-shadow,0_18px_46px_rgba(10,18,32,0.14))] ` +
+  `[border:none] text-[color:var(--documents-page-text)] shadow-[0_7px_18px_rgba(0,0,0,0.10)] ` +
   `backdrop-blur-[16px] [-webkit-backdrop-filter:blur(16px)] ${glassSubpageSurfaceScopeClassName}`;
 
 export const ragAdminShellTitleClassName =

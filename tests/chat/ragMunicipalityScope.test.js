@@ -203,6 +203,22 @@ test("social worker prompt asks for legal, local, practical and evidence layers"
   assert.match(system, /Do not force all four layers/);
 });
 
+test("chat prompt requires complete municipality service and support overviews", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Kirjelda mulle Jogeva valla toetusi ja teenuseid.",
+    context: "Jogeva vald. Sotsiaalteenused: koduteenus, tugiisikuteenus. Toetused: toimetulekutoetus, vajaduspohine toetus.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /cover both categories explicitly/);
+  assert.match(system, /municipality regulation or municipality service entries first/);
+  assert.match(system, /services but not benefit amounts or support conditions/);
+  assert.match(system, /Do not let one retrieved service entry dominate an overview question/);
+});
+
 test("social worker prompt stops rewrite loops after a yes", () => {
   const input = toResponsesInput({
     history: [
@@ -249,6 +265,29 @@ test("permission-style affirmative replies also stop rewrite loops", () => {
     assert.match(turnInstruction, /Provide exactly the requested text or format now/);
     assert.match(turnInstruction, /Do not add another closing offer/);
   }
+});
+
+test("document analysis prompt blocks unsolicited drafting or presentation offers", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Mis lisab eraldi kaitsekihi serveri halduse ja ligipääsu poolel?",
+    context: [
+      "USER DOCUMENT:",
+      "Avalikult on ette nähtud ainult 80/443; rakendus 3000, RAG-teenus 8000 ja PostgreSQL 5432 kuulavad ainult 127.0.0.1 peal.",
+      "Serveri haldus ja sisemine ligipääs käivad Tailscale'i privaatse ühenduse kaudu."
+    ].join("\n"),
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const docInstruction = input.input.find(
+    item => item.role === "system" && /DOCUMENT_ANALYSIS_MODE/.test(item.content)
+  )?.content || "";
+
+  assert.match(docInstruction, /uploaded a document for analysis/);
+  assert.match(docInstruction, /Do not end factual document-analysis answers with an offer/);
+  assert.match(docInstruction, /letter, presentation, application, email, memo/);
+  assert.match(docInstruction, /Only offer drafting or rewriting if the user explicitly asks/);
 });
 
 test("chat prompt attributes mentioned details only to user messages", () => {

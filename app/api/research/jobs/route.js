@@ -14,6 +14,7 @@ export const fetchCache = "force-no-store";
 
 const RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.RESEARCH_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
 const RATE_LIMIT_POST_MAX = readChatRateLimit(process.env.RESEARCH_RATE_LIMIT_POST_MAX, 12);
+const RESEARCH_API_ENABLED = false;
 const RESEARCH_JOB_MODE = String(process.env.RESEARCH_JOB_MODE || process.env.RESEARCH_RUNNER_MODE || "inline")
   .trim()
   .toLowerCase();
@@ -94,6 +95,10 @@ function normalizeOutputStyle(rawStyle, authRole) {
 }
 
 export async function POST(req) {
+  if (!RESEARCH_API_ENABLED) {
+    return errorJson("research.error.disabled", 404);
+  }
+
   const auth = await requireResearchAuth();
   if (!auth.ok) {
     return errorJson(auth.message, auth.status, {

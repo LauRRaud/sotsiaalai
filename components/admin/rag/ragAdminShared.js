@@ -28,7 +28,7 @@ export const rootInputVars = {
 };
 
 export const cardClassName =
-  "relative overflow-hidden rounded-[0.9rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[color-mix(in_srgb,var(--admin-surface)_88%,var(--glass-surface-bg,transparent)_12%)] min-[769px]:backdrop-blur-[var(--glass-blur-radius,0.68rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,0.68rem))] p-[clamp(0.52rem,1.1vw,0.7rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))]";
+  "relative isolate overflow-hidden rounded-[0.9rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[color-mix(in_srgb,var(--admin-surface)_88%,var(--glass-surface-bg,transparent)_12%)] min-[769px]:backdrop-blur-[var(--glass-blur-radius,0.68rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,0.68rem))] p-[clamp(0.52rem,1.1vw,0.7rem)] shadow-[0_7px_16px_rgba(0,0,0,0.10)]";
 export const cardBodyClassName = "relative z-[1] grid gap-1.1";
 export const cardHeadClassName = "flex flex-wrap items-start justify-between gap-1.5";
 export const cardSubClassName = "text-[0.9rem] leading-[1.45] text-[color:var(--admin-muted)] max-w-[58ch]";
@@ -190,6 +190,10 @@ export const buttonSecondaryClassName =
   "hover:![background:var(--admin-button-secondary-bg-hover)] hover:![border:1px_solid_color-mix(in_srgb,var(--admin-accent)_38%,var(--admin-border-strong)_62%)] " +
   "disabled:!opacity-100 disabled:![border:1px_solid_var(--admin-button-disabled-border)] disabled:![background:var(--admin-button-disabled-bg)] disabled:!text-[color:var(--admin-button-disabled-text)] " +
   "aria-disabled:!opacity-100 aria-disabled:![border:1px_solid_var(--admin-button-disabled-border)] aria-disabled:![background:var(--admin-button-disabled-bg)] aria-disabled:!text-[color:var(--admin-button-disabled-text)]";
+export const buttonRefreshClassName =
+  "invite-primary-btn !min-h-[2.24rem] !rounded-[1.12rem] !border !px-[0.88rem] !py-[0.36rem] !text-[0.88rem] !leading-[1.08] !tracking-[0.012rem] " +
+  "!transform-none hover:!transform-none focus-visible:!transform-none active:!transform-none disabled:!transform-none aria-disabled:!transform-none " +
+  "max-[768px]:!min-h-[2.34rem] max-[768px]:!rounded-[1.08rem] max-[768px]:!text-[0.9rem]";
 
 export const STATUS_CLASSES = {
   PENDING: `${badgeBaseClassName} ${badgeYellowClassName}`,

@@ -113,6 +113,37 @@ function MobileChatBubbleIcon({ isLightTheme = false, className }) {
   );
 }
 
+function MobileNewConversationIcon({ isLightTheme = false, className }) {
+  const stroke = isLightTheme
+    ? "var(--chat-icon-light, #7A3A38)"
+    : "var(--chat-icon-dark, #c57171)";
+
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+    >
+      <path
+        d="M12 3H5.7C4.21 3 3 4.21 3 5.7v12.6C3 19.79 4.21 21 5.7 21h12.6c1.49 0 2.7-1.21 2.7-2.7V12"
+        stroke={stroke}
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M17.05 3.95a2.1 2.1 0 0 1 2.97 2.97l-8.74 8.74-3.53.88.88-3.53 8.42-9.06Z"
+        stroke={stroke}
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function MobileHelpRequestIcon({ isLightTheme = false, className }) {
   const stroke = isLightTheme
     ? "var(--chat-icon-light, #7A3A38)"
@@ -544,25 +575,8 @@ export default function ChatMobileTopNav({
     }
     if (item.key === "new_chat") {
       return (
-        <MobileIconFrame scale={item.scale * sizeBoost} xNudge={0.04}>
-          <span className="relative flex h-full w-full items-center justify-center">
-            <MobileChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              focusable="false"
-              className="absolute left-1/2 top-[39%] h-[58%] w-[58%] -translate-x-1/2 -translate-y-1/2 text-[color:var(--chat-icon-dark,#c57171)] light:text-[color:var(--chat-icon-light,#7A3A38)]"
-              fill="none"
-            >
-              <path
-                d="M12 7.25v9.5M7.25 12h9.5"
-                stroke="currentColor"
-                strokeWidth="2.35"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
+        <MobileIconFrame scale={item.scale * 1.08} xNudge={0.02}>
+          <MobileNewConversationIcon isLightTheme={isLightTheme} className={iconClassName} />
         </MobileIconFrame>
       );
     }

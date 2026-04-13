@@ -75,7 +75,7 @@
       "title": "Sign in",
       "or": "or",
       "error": {
-        "credentials": "Incorrect email or PIN.",
+        "credentials": "Incorrect PIN.",
         "email_required": "Please enter your email address.",
         "email_invalid": "Please enter a valid email address.",
         "pin_required": "Please enter your PIN.",
@@ -1450,13 +1450,16 @@
   },
   "research": {
     "error": {
-      "failed": "Deep research failed.",
       "cancelled": "Deep research was stopped.",
-      "timeout": "Deep research exceeded the time budget.",
-      "not_found": "Research job was not found.",
+      "failed": "Deep research failed.",
+      "interrupted": "Deep research was interrupted by a server restart or connection break. Please start it again.",
+      "not_found": "Deep research job was not found.",
+      "openai_key_missing": "Deep research AI configuration is missing.",
+      "query_too_long": "The deep research question is too long.",
+      "retrieval_failed": "Deep research could not retrieve evidence from the document base. Please try again.",
       "room_not_supported": "Deep research is available only in 1:1 chat.",
-      "query_too_long": "Research query is too long.",
-      "openai_key_missing": "Research service is not configured."
+      "timeout": "Deep research took too long. Narrow the question and try again.",
+      "disabled": "Deep research is not available in the user interface."
     }
   },
   "about": {
@@ -1494,7 +1497,7 @@
       "note": "SotsiaalAI © 2025"
     },
     "guide": {
-      "jump_link": "Platform guide",
+      "jump_link": "Guide",
       "short_title": "Guide",
       "title": "How to use the SotsiaalAI platform?",
       "intro": "This guide explains how to choose a role in SotsiaalAI, create an account, activate access, and use chat, language and accessibility settings, help and document workflows, Document drafting, rooms, and role-based pages.",
@@ -1981,7 +1984,10 @@
       },
       "login": {
         "rate_limited": "Too many sign-in attempts. Please try again later.",
-        "invalid_credentials": "Incorrect email or PIN.",
+        "invalid_credentials": "Incorrect PIN.",
+        "email_not_found": "Incorrect email.",
+        "pin_incorrect": "Incorrect PIN.",
+        "pin_invalid": "PIN must be between 4 and 8 digits.",
         "missing_fields": "Missing required information.",
         "token_invalid": "Sign-in token is invalid.",
         "token_expired": "Sign-in token has expired.",
@@ -2185,7 +2191,11 @@
         "subscription_webhook_owner_email_skipped": "Subscription webhook owner email skipped",
         "payment_alert_dispatch_dry_run": "Payment alert dispatch dry run",
         "payment_alert_dispatched": "Payment alert dispatched",
-        "payment_alert_dispatch_failed": "Payment alert dispatch failed"
+        "payment_alert_dispatch_failed": "Payment alert dispatch failed",
+        "openai_usage": "OpenAI usage",
+        "rag_cost_usage": "RAG cost usage",
+        "tts_cost_usage": "TTS cost usage",
+        "stt_cost_usage": "STT cost usage"
       },
       "status": {
         "pending": "Pending",
@@ -2278,7 +2288,11 @@
           "created_30d": "Created (30d)",
           "approved_30d": "Approved (30d)",
           "downloads_30d": "Document downloads (30d)",
-          "artifact_downloads_30d": "Artifact downloads (30d)"
+          "artifact_downloads_30d": "Artifact downloads (30d)",
+          "framework_acceptances_30d": "Framework acceptances (30d)",
+          "framework_signed_30d": "Signed downloads (30d)",
+          "storage_total": "Stored files",
+          "storage_free": "Free disk"
         }
       },
       "rag_docs": {
@@ -2451,6 +2465,132 @@
           "clear_auth_tokens": "Clear auth tokens",
           "clear_usage_metrics": "Clear usage metrics",
           "clear_billing": "Clear billing data"
+        }
+      },
+      "storage": {
+        "title": "Storage snapshot",
+        "subtitle": "Server-side file volume for documents, RAG admin uploads, materials, and agent storage.",
+        "total": "Stored files total",
+        "total_meta": "Tracked file storage used by this app.",
+        "docs_uploads": "Document uploads",
+        "docs_uploads_meta": "User documents and generated acceptance records.",
+        "rag_admin": "RAG admin files",
+        "rag_admin_meta": "KOV + organization admin files.",
+        "materials": "Materials uploads",
+        "agent": "Agent storage",
+        "free_disk": "Free disk on storage volume",
+        "disk_total": "Disk total",
+        "disk_used": "Used",
+        "disk_unavailable": "Volume snapshot unavailable.",
+        "issues": "Some storage paths could not be measured."
+      },
+      "framework_acceptances": {
+        "title": "Framework acceptances",
+        "subtitle": "Recent professional-use acceptance records saved during registration.",
+        "total": "Total",
+        "accepted_30d": "Accepted (30d)",
+        "signed_30d": "Signed download recorded (30d)",
+        "version": "Version",
+        "signed": "Signed download",
+        "document": "Document"
+      },
+      "ai_costs": {
+        "title": "AI Cost Activity",
+        "subtitle": "ChatLog-based OpenAI, RAG, TTS and STT observability.",
+        "unit_model_note": "internal_usage_units are normalized internal analytics units for budget tracking. They are not exact provider billing.",
+        "units": "Internal usage units",
+        "budget_units": "Budget units / month",
+        "utilization": "Utilization",
+        "package": "Package",
+        "package_users": "Users",
+        "users_title": "User budget tracking",
+        "packages_title": "Package budget tracking",
+        "average_usage": "Average usage",
+        "cards": {
+          "total": "AI cost events",
+          "total_meta": "ChatLog-based observability events",
+          "direct": "Direct-usage events",
+          "direct_meta": "Usage returned directly by provider APIs",
+          "estimated": "Estimated-usage events",
+          "estimated_meta": "Events where cost must be estimated from request size or text length",
+          "users": "Users with AI activity",
+          "users_meta": "Users seen in current AI observability window",
+          "approx_eur": "Approx. AI cost",
+          "approx_eur_meta": "Approximate total {total} EUR"
+        },
+        "avg": {
+          "openai_input": "OpenAI input tokens / response",
+          "openai_output": "OpenAI output tokens / response",
+          "tts_chars": "TTS minutes / job",
+          "stt_tokens": "STT total tokens / job",
+          "stt_duration": "STT minutes / job"
+        },
+        "approx": {
+          "title": "Approximate EUR view",
+          "short": "Approx.",
+          "total": "Total",
+          "direct": "Direct",
+          "estimated": "Estimated",
+          "openai": "Text",
+          "rag": "RAG",
+          "tts_stt": "TTS + STT"
+        },
+        "breakdown": {
+          "role": "By role",
+          "package": "By package",
+          "model": "By model"
+        },
+        "attribution": {
+          "title": "Attribution completeness",
+          "scope": "Scope",
+          "scope_value": "User-facing standard text openai_usage",
+          "events": "Included events",
+          "user_id": "Rows with userId",
+          "role": "Rows with role",
+          "excluded": "Excluded internal routes"
+        },
+        "threshold": {
+          "label": "Threshold",
+          "normal": "Normal",
+          "warning": "Warning",
+          "high": "High",
+          "exceeded": "Exceeded",
+          "users_70": "Users >= 70%",
+          "users_85": "Users >= 85%",
+          "users_100": "Users >= 100%",
+          "packages_85": "Packages >= 85%"
+        },
+        "coverage": {
+          "label": "Coverage",
+          "complete": "Complete",
+          "partial": "Partial",
+          "note_excluded": "RAG/embedding cost is not yet included because rag_cost_usage has not been mirrored into ChatLog yet.",
+          "note_included": "RAG/embedding cost is included from mirrored rag_cost_usage events stored in ChatLog."
+        },
+        "guide": {
+          "title": "How to read this",
+          "includes": "Included now",
+          "units": "internal_usage_units",
+          "units_value": "Normalized internal usage units for comparison and thresholding, not exact provider billing.",
+          "approx_eur": "Approximate EUR",
+          "approx_eur_value": "Approximate EUR is a provider-cost-equivalent management view. It helps product and pricing decisions, but it is still not invoice-grade billing.",
+          "thresholds": "Thresholds",
+          "thresholds_value": "Normal <70%, warning >=70%, high >=85%, exceeded >=100%.",
+          "breakdowns": "Breakdowns",
+          "breakdowns_value": "Route/stage shows where usage happens, role/package shows who carries it, model shows which model family drives it.",
+          "top": "Top users and features",
+          "top_value": "Look for concentration, repeated heavy stages, and sharp differences between direct and estimated usage.",
+          "coverage": "Coverage",
+          "coverage_value": "Some usage is direct from provider responses, some is estimated. Treat this as an operational dashboard, not an invoice.",
+          "actions": "Operational use",
+          "actions_value": "Before changing pricing or limits, check coverage, route/stage concentration, user/package threshold status, and whether heavy usage is expected."
+        },
+        "features": {
+          "route": "Route",
+          "stage": "Stage",
+          "events": "Events",
+          "direct": "Direct",
+          "estimated": "Estimated"
         }
       }
     },
@@ -2636,19 +2776,6 @@
         "type": "type",
         "language": "language"
       }
-    }
-  },
-  "research": {
-    "error": {
-      "cancelled": "Deep research was stopped.",
-      "failed": "Deep research failed.",
-      "interrupted": "Deep research was interrupted by a server restart or connection break. Please start it again.",
-      "not_found": "Deep research job was not found.",
-      "openai_key_missing": "Deep research AI configuration is missing.",
-      "query_too_long": "The deep research question is too long.",
-      "retrieval_failed": "Deep research could not retrieve evidence from the document base. Please try again.",
-      "room_not_supported": "Deep research is available only in 1:1 chat.",
-      "timeout": "Deep research took too long. Narrow the question and try again."
     }
   },
   "footer": {

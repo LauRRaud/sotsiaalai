@@ -25,6 +25,11 @@ function toSse(event, payload) {
   return `event: ${event}\ndata: ${JSON.stringify(payload || {})}\n\n`;
 }
 
+async function getResearchJobId(params) {
+  const resolvedParams = await params;
+  return String(resolvedParams?.id || "").trim();
+}
+
 export async function GET(req, { params }) {
   const auth = await requireResearchAuth();
   if (!auth.ok) {
@@ -40,7 +45,7 @@ export async function GET(req, { params }) {
     );
   }
 
-  const jobId = String(params?.id || "").trim();
+  const jobId = await getResearchJobId(params);
   const job = getResearchJob(jobId);
   const jobSnapshot = job || await getResearchJobSnapshot(jobId);
   if (!jobSnapshot) {

@@ -511,6 +511,18 @@ export default function LoginModal({
   const markPinSuccess = useCallback(() => {
     setSubmitIconState("success");
   }, []);
+  const rememberKnownEmail = useCallback(email => {
+    if (!prefillStoredEmail) {
+      setStoredEmail("");
+      setEmailValue("");
+      return;
+    }
+    try {
+      window.localStorage.setItem(LOGIN_EMAIL_KEY, email);
+    } catch {}
+    setStoredEmail(email);
+    setEmailValue(email);
+  }, [prefillStoredEmail]);
   const focusKeypadIndex = idx => {
     const list = keypadRefs.current || [];
     const el = list[idx];
@@ -750,16 +762,6 @@ export default function LoginModal({
     setPinLoading(true);
     setPinValue("");
     try {
-      if (prefillStoredEmail) {
-        try {
-          window.localStorage.setItem(LOGIN_EMAIL_KEY, email);
-          setStoredEmail(email);
-          setEmailValue(email);
-        } catch {}
-      } else {
-        setStoredEmail("");
-        setEmailValue("");
-      }
       const res = await fetch("/api/auth/login-step1", {
         method: "POST",
         headers: {
@@ -773,8 +775,13 @@ export default function LoginModal({
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
+        const code = String(payload?.code || "").toUpperCase();
         markPinError();
-        if ((payload?.code || "").toUpperCase() === "INVALID_CREDENTIALS") {
+        if (code === "EMAIL_NOT_FOUND") {
+          setEmailErrorVisual(true);
+        }
+        if (code === "PIN_INCORRECT" || code === "INVALID_CREDENTIALS") {
+          rememberKnownEmail(email);
           setInvalidCredentials(true);
           setSubmitIconState("error");
         }
@@ -783,11 +790,13 @@ export default function LoginModal({
       }
       if (payload?.temp_login_token) setTempToken(payload.temp_login_token);
       if (payload?.status === "success" && payload?.temp_login_token) {
+        rememberKnownEmail(email);
         markPinSuccess();
         await finishLogin(payload.temp_login_token);
         return;
       }
       if (payload?.status === "need_2fa" && payload?.temp_login_token) {
+        rememberKnownEmail(email);
         markPinSuccess();
         setStep("otp");
         setOtpValue("");
@@ -805,7 +814,7 @@ export default function LoginModal({
     } finally {
       setPinLoading(false);
     }
-  }, [PIN_MAX, PIN_MIN, finishLogin, locale, markPinError, markPinSuccess, pinValue, prefillStoredEmail, resolveAuthApiMessage, resetIconState, storedEmail, t]);
+  }, [PIN_MAX, PIN_MIN, finishLogin, locale, markPinError, markPinSuccess, pinValue, rememberKnownEmail, resolveAuthApiMessage, resetIconState, storedEmail, t]);
   const handlePinInputChange = useCallback(e => {
     if (step !== "pin") return;
     const raw = typeof e?.target?.value === "string" ? e.target.value : "";
@@ -1216,7 +1225,7 @@ export default function LoginModal({
           ? "0 0 18px rgba(214, 232, 255, 0.12), 0 0 38px rgba(214, 232, 255, 0.06)"
           : "0 0 14px rgba(248, 253, 255, 0.11), 0 0 32px rgba(248, 253, 255, 0.055)";
   const loginShellFilter = "none";
-  const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
+  const showEmailErrorIcon = emailErrorVisual;
   const isShortDesktopCandidate = !isPhoneViewport && viewportWidth <= 1280;
   const desktopCompactMode = isPhoneViewport
     ? "none"

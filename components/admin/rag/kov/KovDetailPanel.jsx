@@ -11,6 +11,7 @@ import {
   buttonCompactClassName,
   buttonGhostClassName,
   buttonPrimaryClassName,
+  buttonRefreshClassName,
   buttonSecondaryClassName,
   buttonTinyClassName,
   cardBodyClassName,
@@ -583,8 +584,8 @@ export default function KovDetailPanel({
                   {et ? "Värskendatud" : "Updated"}: {ragSnapshot.checkedAt ? formatDateTime(ragSnapshot.checkedAt, locale) : "-"}
                 </span>
                 <Button
-                  variant="ghost"
-                  className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                  variant="primary"
+                  className={buttonRefreshClassName}
                   onClick={() => onRefreshRagStatus?.()}
                   disabled={ragStatusLoading}
                 >

@@ -253,9 +253,15 @@ export async function POST(request) {
       }
     }
 
-    if (!email || !isValidPin(pin)) {
-      return errorJson("api.auth.login.invalid_credentials", 400, locale, {
-        code: "INVALID_CREDENTIALS"
+    if (!email) {
+      return errorJson("api.auth.login.email_not_found", 400, locale, {
+        code: "EMAIL_NOT_FOUND"
+      });
+    }
+
+    if (!isValidPin(pin)) {
+      return errorJson("api.auth.login.pin_invalid", 400, locale, {
+        code: "PIN_INVALID"
       });
     }
 
@@ -270,16 +276,22 @@ export async function POST(request) {
       }
     });
 
-    if (!user?.passwordHash) {
-      return errorJson("api.auth.login.invalid_credentials", 401, locale, {
-        code: "INVALID_CREDENTIALS"
+    if (!user) {
+      return errorJson("api.auth.login.email_not_found", 401, locale, {
+        code: "EMAIL_NOT_FOUND"
+      });
+    }
+
+    if (!user.passwordHash) {
+      return errorJson("api.auth.login.pin_incorrect", 401, locale, {
+        code: "PIN_INCORRECT"
       });
     }
 
     const pinOk = await compare(pin, user.passwordHash);
     if (!pinOk) {
-      return errorJson("api.auth.login.invalid_credentials", 401, locale, {
-        code: "INVALID_CREDENTIALS"
+      return errorJson("api.auth.login.pin_incorrect", 401, locale, {
+        code: "PIN_INCORRECT"
       });
     }
 

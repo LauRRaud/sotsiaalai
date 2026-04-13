@@ -93,11 +93,6 @@ export default function ChatComposer({
   roomAuthRequired,
   onStop,
   onSend,
-  onSendDeepResearch,
-  onArmDeepResearch,
-  onCancelDeepResearchMode,
-  onConsumeDeepResearchMode,
-  onDeepResearchEmptySubmit,
   onActivateInfoMode,
   onActivateCareerMode,
   onActivateHelpRequestMode,
@@ -127,7 +122,6 @@ export default function ChatComposer({
   const [composerExpanded, setComposerExpanded] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [toolsMenuPosition, setToolsMenuPosition] = useState(null);
-  const [composerMode, setComposerMode] = useState("chat");
   const [isHighContrast, setIsHighContrast] = useState(false);
   const submitInFlightRef = useRef(false);
   const primaryActionHandledAtRef = useRef(0);
@@ -219,9 +213,6 @@ export default function ChatComposer({
       notifyLayoutChange();
     }
   }, [composerExpanded, draft, inputFocused, inputRef, notifyLayoutChange]);
-  const deepResearchDisabled = Boolean(isRoomMode);
-  const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
-  const isDeepResearchMode = composerMode === "deep_research";
   const helpRequestModeLabelRaw = t("chat.tools.help_request_mode");
   const helpRequestModeLabel =
     helpRequestModeLabelRaw && helpRequestModeLabelRaw !== "chat.tools.help_request_mode"
@@ -242,17 +233,14 @@ export default function ChatComposer({
     : isLightTheme
       ? MODE_LABEL_SHINE_BACKGROUND_LIGHT
       : MODE_LABEL_SHINE_BACKGROUND_DARK;
-  const subtleModeLabel =
-    composerMode === "deep_research"
-      ? t("chat.tools.deep_research")
-      : String(activeModeLabel || "")
-          .trim()
-          .replace(/^[^:]+:\s*/, "");
+  const subtleModeLabel = String(activeModeLabel || "")
+    .trim()
+    .replace(/^[^:]+:\s*/, "");
   const displayModeLabel = subtleModeLabel
     ? subtleModeLabel.charAt(0).toLocaleUpperCase(locale) + subtleModeLabel.slice(1)
     : "";
   const hasActiveWorkflowMode = activeModeKey && activeModeKey !== "default";
-  const modeToggleShowsActiveState = isDeepResearchMode || hasActiveWorkflowMode;
+  const modeToggleShowsActiveState = hasActiveWorkflowMode;
   const toolsMenuBackdropFilter = "none";
   const modeLabelClassName =
     "inline-block max-w-[min(76vw,24rem)] whitespace-pre text-center " +
@@ -268,11 +256,7 @@ export default function ChatComposer({
   useEffect(() => {
     if (!hideTools) return;
     setToolsOpen(false);
-    if (composerMode === "deep_research") {
-      setComposerMode("chat");
-      onCancelDeepResearchMode?.();
-    }
-  }, [composerMode, hideTools, onCancelDeepResearchMode]);
+  }, [hideTools]);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -342,11 +326,7 @@ export default function ChatComposer({
   useEffect(() => {
     if (!isRoomMode) return;
     setToolsOpen(false);
-    if (composerMode === "deep_research") {
-      setComposerMode("chat");
-      onCancelDeepResearchMode?.();
-    }
-  }, [composerMode, isRoomMode, onCancelDeepResearchMode]);
+  }, [isRoomMode]);
 
   useEffect(() => {
     if (!draftApiRef) return;
@@ -433,22 +413,10 @@ export default function ChatComposer({
   const closeToolsMenu = useCallback(() => {
     setToolsOpen(false);
   }, []);
-  const exitDeepResearchMode = useCallback(() => {
-    setComposerMode("chat");
-    onCancelDeepResearchMode?.();
-  }, [onCancelDeepResearchMode]);
   const openDocumentAnalysis = useCallback(() => {
     ensureAnalysisPanelVisible?.();
-    exitDeepResearchMode();
     closeToolsMenu();
-  }, [ensureAnalysisPanelVisible, exitDeepResearchMode, closeToolsMenu]);
-  const handleDeepResearchSelect = useCallback(() => {
-    if (!canRunDeepResearch) return;
-    setComposerMode("deep_research");
-    onArmDeepResearch?.();
-    closeToolsMenu();
-    requestAnimationFrame(() => inputRef.current?.focus?.());
-  }, [canRunDeepResearch, closeToolsMenu, inputRef, onArmDeepResearch]);
+  }, [ensureAnalysisPanelVisible, closeToolsMenu]);
   const handleAgentModeSelect = useCallback(() => {
     closeToolsMenu();
     router.push(localizePath("/dokreziim", locale));
@@ -487,43 +455,14 @@ export default function ChatComposer({
       submitInFlightRef.current = false;
     }
   }, [draft, isGenerating, onSend]);
-  const submitDeepResearch = useCallback(async () => {
-    if (submitInFlightRef.current) return false;
-    if (!canRunDeepResearch) return false;
-    const trimmed = draft.trim();
-    if (!trimmed) {
-      onDeepResearchEmptySubmit?.();
-      return false;
-    }
-    if (isGenerating) return false;
-    submitInFlightRef.current = true;
-    let attempted = false;
-    let started = false;
-    try {
-      attempted = true;
-      setDraft("");
-      const ok = await onSendDeepResearch(trimmed);
-      started = Boolean(ok);
-      return ok;
-    } finally {
-      submitInFlightRef.current = false;
-      if (attempted) {
-        setComposerMode("chat");
-        onConsumeDeepResearchMode?.({
-          started
-        });
-      }
-    }
-  }, [canRunDeepResearch, draft, isGenerating, onConsumeDeepResearchMode, onDeepResearchEmptySubmit, onSendDeepResearch]);
   const handleToolsButtonClick = useCallback(() => {
-    if (isDeepResearchMode || hasActiveWorkflowMode) {
+    if (hasActiveWorkflowMode) {
       onActivateInfoMode?.();
-      exitDeepResearchMode();
       closeToolsMenu();
       return;
     }
     setToolsOpen(prev => !prev);
-  }, [closeToolsMenu, exitDeepResearchMode, hasActiveWorkflowMode, isDeepResearchMode, onActivateInfoMode]);
+  }, [closeToolsMenu, hasActiveWorkflowMode, onActivateInfoMode]);
   const handleSubmit = useCallback(e => {
     if (Date.now() - primaryActionHandledAtRef.current < 400) {
       primaryActionHandledAtRef.current = 0;
@@ -536,39 +475,22 @@ export default function ChatComposer({
       onStop?.(e);
       return;
     }
-    if (composerMode === "deep_research") {
-      void submitDeepResearch();
-      return;
-    }
     void submitSend();
-  }, [closeToolsMenu, composerMode, isGenerating, onStop, submitDeepResearch, submitSend]);
+  }, [closeToolsMenu, isGenerating, onStop, submitSend]);
   const handleKeyDown = useCallback(e => {
-    if (e.key === "Escape" && composerMode === "deep_research") {
-      e.preventDefault();
-      exitDeepResearchMode();
-      return;
-    }
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       closeToolsMenu();
       if (isGenerating) return;
-      if (composerMode === "deep_research") {
-        void submitDeepResearch();
-        return;
-      }
       if (draft.trim()) {
         void submitSend();
       }
     }
-  }, [closeToolsMenu, composerMode, draft, exitDeepResearchMode, isGenerating, submitDeepResearch, submitSend]);
+  }, [closeToolsMenu, draft, isGenerating, submitSend]);
   const runPrimaryAction = useCallback(event => {
     closeToolsMenu();
     if (isGenerating || isStreamingAny) {
       onStop?.(event);
-      return;
-    }
-    if (composerMode === "deep_research") {
-      void submitDeepResearch();
       return;
     }
     if (draft.trim()) {
@@ -578,7 +500,7 @@ export default function ChatComposer({
     if (voiceEnabled) {
       handleMic?.(event);
     }
-  }, [closeToolsMenu, composerMode, draft, handleMic, isGenerating, isStreamingAny, onStop, submitDeepResearch, submitSend, voiceEnabled]);
+  }, [closeToolsMenu, draft, handleMic, isGenerating, isStreamingAny, onStop, submitSend, voiceEnabled]);
   const handlePrimaryActionPointerDown = useCallback(e => {
     e.preventDefault();
     e.stopPropagation();
@@ -678,7 +600,6 @@ export default function ChatComposer({
   const menuLargeModeIconClassName = "block h-[1.82rem] w-[1.82rem] shrink-0 opacity-95";
   const activeModeIconClassName = "opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110";
   const activeModeIconStrokeWidth = 1.45;
-  const activeDeepResearchIconStrokeWidth = 2.35;
   const plusIconStrokeWidth = 3.5;
   const toolsMenuClassName =
     "chat-tools-menu fixed z-[160] isolate overflow-hidden w-max min-w-[11.4rem] max-w-[calc(100vw-1rem)] rounded-[0.88rem] " +
@@ -692,15 +613,6 @@ export default function ChatComposer({
       backdropFilter: toolsMenuBackdropFilter,
       WebkitBackdropFilter: toolsMenuBackdropFilter
     }}>
-          <button type="button" role="menuitem" className={`${toolItemBaseClassName} ${!canRunDeepResearch ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`} onClick={handleDeepResearchSelect} disabled={!canRunDeepResearch} title={!canRunDeepResearch ? t("chat.tools.deep_research_room_only") : undefined}>
-            <span aria-hidden="true" className={toolIconSlotClassName}>
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className={`${menuLargeModeIconClassName} ${!canRunDeepResearch ? "opacity-55" : "opacity-95"}`}>
-                <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} />
-                <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" />
-              </svg>
-            </span>
-            <span className={toolLabelClassName}>{t("chat.tools.deep_research")}</span>
-          </button>
           {!isClientRole ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDocumentsSelect}>
               <span aria-hidden="true" className={toolIconSlotClassName}>
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className={menuLargeModeIconClassName}>
@@ -786,11 +698,8 @@ export default function ChatComposer({
   return <form ref={inputRowRef} style={inputRowMobileStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {!embedded || !hideTools ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? <div aria-hidden="true" className={sideControlPlaceholderClassName} /> : <>
-            <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? (isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.exit_mode_aria")) : t("chat.tools.aria")} title={modeToggleShowsActiveState ? (isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.exit_mode_aria")) : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
-              {isDeepResearchMode ? <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className={activeModeIconClassName}>
-                  <circle cx="17.8" cy="17.8" r="8.8" stroke={iconStroke} strokeWidth={activeDeepResearchIconStrokeWidth} />
-                  <path d="M24.2 24.2L31.5 31.5" stroke={iconStroke} strokeWidth={activeDeepResearchIconStrokeWidth} strokeLinecap="round" />
-                </svg> : activeModeKey === "career" ? <CareerModeIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+            <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.aria")} title={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
+              {activeModeKey === "career" ? <CareerModeIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                 : activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                 : activeModeKey === "help_offer" ? <HelpOfferIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                 : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className={activeModeIconClassName}>

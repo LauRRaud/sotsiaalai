@@ -12,6 +12,7 @@ import styles from "./LeftRail.module.css";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const CHAT_BACK_HOVER_ARM_KEY = "sotsiaalai:chat:back-hover-arm-on-move";
+const CHAT_CREATE_CONVERSATION_EVENT = "sotsiaalai:create-conversation";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const RAIL_TOOLTIP_DISMISS_EVENT = "sotsiaalai:chat-rail-tooltip-dismiss";
 const DEFAULT_RAIL_ITEM_SIZE_PX = 48;
@@ -43,6 +44,38 @@ function _getHelpLabels(locale = "et") {
     return { requests: "Запросы помощи", offers: "Предложения помощи" };
   }
   return { requests: "Abisoovid", offers: "Abipakkumised" };
+}
+
+function NewConversationIcon({ isLightTheme = false, className }) {
+  const color = isLightTheme
+    ? "var(--chat-icon-light, #7A3A38)"
+    : "var(--chat-icon-dark, #c57171)";
+
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className, styles.iconNewChat)}
+      style={{ color }}
+    >
+      <path
+        d="M12 3H5.7C4.21 3 3 4.21 3 5.7v12.6C3 19.79 4.21 21 5.7 21h12.6c1.49 0 2.7-1.21 2.7-2.7V12"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M17.05 3.95a2.1 2.1 0 0 1 2.97 2.97l-8.74 8.74-3.53.88.88-3.53 8.42-9.06Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
 
 export default function LeftRail({
@@ -116,6 +149,7 @@ export default function LeftRail({
   const items = useMemo(
     () => [
       { key: "back", label: t("chat.back_to_home") },
+      { key: "new_chat", label: t("buttons.new_conversation") },
       { key: "chats", label: t("nav.chats") },
       { key: "rooms", label: t("nav.rooms") },
       { key: "help_requests", label: t("chat.help.helpRequests") },
@@ -467,6 +501,12 @@ export default function LeftRail({
     [embedded, locale, normalizedPathname, router]
   );
 
+  const openNewConversation = useCallback(() => {
+    try {
+      window.dispatchEvent(new CustomEvent(CHAT_CREATE_CONVERSATION_EVENT));
+    } catch {}
+  }, []);
+
   const openRooms = useCallback(() => {
     pushWithTransition(router, localizePath("/ruum", locale));
   }, [locale, router]);
@@ -551,6 +591,10 @@ export default function LeftRail({
                 openChatsDrawer(event);
                 return;
               }
+              if (item.key === "new_chat") {
+                openNewConversation();
+                return;
+              }
               if (item.key === "sources") {
                 if (!hasConversationSources) return;
                 toggleSourcesPanel();
@@ -610,6 +654,12 @@ export default function LeftRail({
                   <ChatBubbleIcon
                     isLightTheme={isLightTheme}
                     className={cn(styles.iconSvg, styles.iconChats)}
+                  />
+                ) : null}
+                {item.key === "new_chat" ? (
+                  <NewConversationIcon
+                    isLightTheme={isLightTheme}
+                    className={styles.iconSvg}
                   />
                 ) : null}
                 {item.key === "sources" ? (
@@ -724,6 +774,10 @@ export default function LeftRail({
                 openChatsDrawer(event);
                 return;
               }
+              if (item.key === "new_chat") {
+                openNewConversation();
+                return;
+              }
               if (item.key === "back") {
                 onBackHome?.();
                 return;
@@ -828,6 +882,12 @@ export default function LeftRail({
                   <ChatBubbleIcon
                     isLightTheme={isLightTheme}
                     className={cn(styles.iconSvg, styles.iconChats)}
+                  />
+                ) : null}
+                {item.key === "new_chat" ? (
+                  <NewConversationIcon
+                    isLightTheme={isLightTheme}
+                    className={styles.iconSvg}
                   />
                 ) : null}
                 {item.key === "sources" ? (

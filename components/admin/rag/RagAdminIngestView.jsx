@@ -20,6 +20,7 @@ import {
   buttonCompactClassName,
   buttonGhostClassName,
   buttonPrimaryClassName,
+  buttonRefreshClassName,
   buttonSecondaryClassName,
   cardActionsClassName,
   cardBodyClassName,
@@ -139,7 +140,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
               <Button
                 size="sm"
                 variant="primary"
-                className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                className={buttonRefreshClassName}
                 onClick={fetchDocuments}
                 disabled={loadingList}
               >

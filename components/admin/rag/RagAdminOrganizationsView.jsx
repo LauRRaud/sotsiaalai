@@ -13,6 +13,7 @@ import {
   buttonCompactClassName,
   buttonGhostClassName,
   buttonPrimaryClassName,
+  buttonRefreshClassName,
   buttonSecondaryClassName,
   cardBodyClassName,
   cardClassName,
@@ -506,8 +507,8 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                         {et ? "Värskendatud" : "Updated"}: {ragStatus?.checkedAt ? formatDateTime(ragStatus.checkedAt, locale) : "-"}
                       </span>
                       <Button
-                        variant="ghost"
-                        className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                        variant="primary"
+                        className={buttonRefreshClassName}
                         onClick={() => refreshSelectedRagStatus()}
                         disabled={ragStatusLoading}
                       >

@@ -17,6 +17,7 @@ import {
   ragAdminShellTitleClassName
 } from "@/components/admin/rag/ragAdminShellStyles";
 import {
+  buttonRefreshClassName as ragAdminRefreshButtonClassName,
   cardClassName as ragAdminCardClassName,
   rootInputVars as ragAdminRootInputVars
 } from "@/components/admin/rag/ragAdminShared";
@@ -42,7 +43,7 @@ const pageHeaderToolbarClassName = "flex flex-wrap items-center justify-center g
 const pageHeaderDividerClassName = ragAdminShellDividerClassName;
 const sectionNavClassName = "flex w-full min-w-0 max-w-full flex-wrap items-center justify-center gap-2";
 const sectionNavLinkClassName =
-  "documents-chip inline-flex min-h-[2.3rem] min-w-0 max-w-full items-center justify-center rounded-full px-[0.95rem] py-[0.5rem] text-center text-[0.9rem] font-[500] tracking-[0.01em] no-underline transition-[transform,color,border-color,background] duration-150 ease-out hover:-translate-y-[1px] hover:text-[color:var(--admin-text)]";
+  "documents-chip inline-flex min-h-[2.3rem] min-w-0 max-w-full items-center justify-center rounded-full px-[0.95rem] py-[0.5rem] text-center text-[0.9rem] font-[500] tracking-[0.01em] no-underline transition-[color,border-color,background] duration-150 ease-out !transform-none hover:!transform-none focus-visible:!transform-none active:!transform-none hover:text-[color:var(--admin-text)]";
 const headerPillClassName =
   "documents-chip inline-flex max-w-full items-center gap-2 rounded-full px-[0.92rem] py-[0.48rem] text-[0.82rem] font-[600] tracking-[0.01em] text-[color:var(--admin-text)]";
 const headerPillLabelClassName = "text-[color:var(--admin-muted)]";
@@ -106,26 +107,13 @@ const alertCriticalClassName =
   "rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)]";
 const alertSuccessClassName =
   "rounded-[12px] border border-[color:var(--admin-success)] bg-[color-mix(in_srgb,var(--admin-success)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)]";
-const refreshButtonStyle = {
-  "--btn-primary-bg": "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_35%,var(--admin-surface)_65%),var(--admin-surface-2))",
-  "--btn-primary-bg-hover": "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_42%,var(--admin-surface)_58%),var(--admin-surface-2))",
-  "--btn-primary-bg-active": "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_28%,var(--admin-surface)_72%),var(--admin-surface-2))",
-  "--btn-primary-border": "1px solid color-mix(in_srgb,var(--admin-accent)_65%,var(--admin-border)_35%)",
-  "--btn-primary-border-hover": "1px solid var(--admin-accent)",
-  "--btn-primary-border-active": "1px solid color-mix(in_srgb,var(--admin-accent)_75%,var(--admin-border)_25%)",
-  "--btn-primary-text": "var(--admin-text)",
-  "--btn-primary-shadow": "var(--admin-shadow-soft)",
-  "--btn-primary-shadow-hover": "0 0 0 3px var(--admin-accent-soft), var(--admin-shadow)",
-  "--btn-primary-shadow-active": "var(--admin-shadow-soft)",
-  "--btn-primary-focus-ring-color": "var(--admin-accent-soft)"
-};
 const refreshButtonClassName =
-  "!justify-self-start !self-start !w-auto !min-h-[2.06rem] !rounded-[0.8rem] !px-[0.9rem] !py-[0.34rem] !text-[0.9rem] !leading-[1.05] !font-semibold !tracking-[0.01em] max-[768px]:!w-full max-[768px]:!justify-center";
+  `${ragAdminRefreshButtonClassName} !justify-self-center !self-center !w-auto max-[768px]:!w-full max-[768px]:!justify-center`;
 const actionButtonClassName =
-  "!justify-self-start !self-start !w-auto !max-w-full !min-h-[2.06rem] !rounded-[0.82rem] !px-[0.92rem] !py-[0.34rem] !text-[0.88rem] !leading-[1.05] !font-semibold !tracking-[0.01em] max-[768px]:!w-full max-[768px]:!justify-center";
+  `${ragAdminRefreshButtonClassName} !justify-self-start !self-start !w-auto !max-w-full max-[768px]:!w-full max-[768px]:!justify-center`;
 const resetActionGridClassName = "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 xl:grid-cols-3";
 const resetActionButtonClassName =
-  `${actionButtonClassName} !w-full !justify-start !min-h-[2.38rem] !px-[1.1rem] !py-[0.56rem] !text-[0.97rem] !leading-[1.15]`;
+  `${actionButtonClassName} !w-full !justify-center`;
 const backButtonClassName = glassPageBackTopLeftClassName;
 const metricListClassName = "grid gap-1";
 const metricRowClassName =
@@ -434,11 +422,11 @@ export default function AnalyticsDashboard() {
     () => [
       { href: "#analytics-overview", label: t("admin.analytics.title", "Analytics") },
       { href: "#analytics-platform", label: t("admin.analytics.platform.title", "Platform overview") },
-      { href: "#analytics-storage", label: t("admin.analytics.storage.title", "Storage snapshot") },
+      { href: "#analytics-storage", label: t("admin.analytics.storage.title", "Salvestusruumi ülevaade") },
       { href: "#analytics-rag-docs", label: t("admin.analytics.rag_docs.title", "RAG documents") },
       { href: "#analytics-billing", label: t("admin.analytics.billing.title", "Subscriptions and payments") },
       { href: "#analytics-users", label: t("admin.analytics.users.title", "Users, costs and limits") },
-      { href: "#analytics-ai-costs", label: t("admin.analytics.ai_costs.title", "AI Cost Activity") },
+      { href: "#analytics-ai-costs", label: t("admin.analytics.ai_costs.title", "AI kuluaktiivsus") },
       { href: "#analytics-logs", label: t("admin.analytics.logs.title", "Logs") }
     ],
     [t]
@@ -540,16 +528,50 @@ export default function AnalyticsDashboard() {
   const getThresholdLabel = useCallback(
     value => {
       const normalized = String(value || "").trim().toLowerCase();
-      if (normalized === "exceeded") return t("admin.analytics.ai_costs.threshold.exceeded", "Exceeded");
-      if (normalized === "high") return t("admin.analytics.ai_costs.threshold.high", "High");
-      if (normalized === "warning") return t("admin.analytics.ai_costs.threshold.warning", "Warning");
-      return t("admin.analytics.ai_costs.threshold.normal", "Normal");
+      if (normalized === "exceeded") return t("admin.analytics.ai_costs.threshold.exceeded", "Ületatud");
+      if (normalized === "high") return t("admin.analytics.ai_costs.threshold.high", "Kõrge");
+      if (normalized === "warning") return t("admin.analytics.ai_costs.threshold.warning", "Hoiatus");
+      return t("admin.analytics.ai_costs.threshold.normal", "Tavaline");
     },
     [t]
   );
 
   const getCoverageLabel = useCallback(
-    value => (value ? t("admin.analytics.ai_costs.coverage.complete", "Complete") : t("admin.analytics.ai_costs.coverage.partial", "Partial")),
+    value => (value ? t("admin.analytics.ai_costs.coverage.complete", "Täielik") : t("admin.analytics.ai_costs.coverage.partial", "Osaline")),
+    [t]
+  );
+
+  const getAiCoverageNote = useCallback(
+    note => {
+      const raw = String(note || "").trim();
+      if (!raw || raw.includes("not yet included") || raw.includes("has not been mirrored")) {
+        return t(
+          "admin.analytics.ai_costs.coverage.note_excluded",
+          "RAG-i ja embeddingu kulu ei ole veel kaasatud, sest rag_cost_usage ei ole veel ChatLogi peegeldatud."
+        );
+      }
+      if (raw.includes("included from mirrored rag_cost_usage")) {
+        return t(
+          "admin.analytics.ai_costs.coverage.note_included",
+          "RAG-i ja embeddingu kulu on kaasatud ChatLogi peegeldatud rag_cost_usage sündmustest."
+        );
+      }
+      return raw;
+    },
+    [t]
+  );
+
+  const getAiUnitModelNote = useCallback(
+    note => {
+      const raw = String(note || "").trim();
+      if (!raw || raw.includes("internal_usage_units are normalized")) {
+        return t(
+          "admin.analytics.ai_costs.unit_model_note",
+          "internal_usage_units on sisemine normaliseeritud analüütikaühik eelarve jälgimiseks. See ei ole täpne teenusepakkuja arveldus."
+        );
+      }
+      return raw;
+    },
     [t]
   );
 
@@ -1016,27 +1038,27 @@ export default function AnalyticsDashboard() {
   const aiCostCards = useMemo(
     () => [
       {
-        title: t("admin.analytics.ai_costs.cards.total", "AI cost events"),
+        title: t("admin.analytics.ai_costs.cards.total", "AI kulusündmused"),
         value: loadingAiCosts ? t("admin.common.loading", "Loading...") : formatCount(aiCosts?.summary?.total_events || 0, localeTag),
-        meta: t("admin.analytics.ai_costs.cards.total_meta", "ChatLog-based observability events")
+        meta: t("admin.analytics.ai_costs.cards.total_meta", "ChatLogi-põhised jälgitavuse sündmused")
       },
       {
-        title: t("admin.analytics.ai_costs.cards.direct", "Direct-usage events"),
+        title: t("admin.analytics.ai_costs.cards.direct", "Otsese kasutuse sündmused"),
         value: loadingAiCosts ? t("admin.common.loading", "Loading...") : formatCount(aiCosts?.summary?.direct_usage_events || 0, localeTag),
-        meta: t("admin.analytics.ai_costs.cards.direct_meta", "Usage returned directly by provider APIs")
+        meta: t("admin.analytics.ai_costs.cards.direct_meta", "Kasutus, mille tagastavad otse teenusepakkuja API-d")
       },
       {
-        title: t("admin.analytics.ai_costs.cards.estimated", "Estimated-usage events"),
+        title: t("admin.analytics.ai_costs.cards.estimated", "Hinnangulise kasutuse sündmused"),
         value: loadingAiCosts ? t("admin.common.loading", "Loading...") : formatCount(aiCosts?.summary?.estimated_usage_events || 0, localeTag),
-        meta: t("admin.analytics.ai_costs.cards.estimated_meta", "Events where cost must be estimated from request size or text length")
+        meta: t("admin.analytics.ai_costs.cards.estimated_meta", "Sündmused, mille kulu hinnatakse päringu mahu või teksti pikkuse järgi")
       },
       {
-        title: t("admin.analytics.ai_costs.cards.users", "Users with AI activity"),
+        title: t("admin.analytics.ai_costs.cards.users", "AI aktiivsusega kasutajad"),
         value: loadingAiCosts ? t("admin.common.loading", "Loading...") : formatCount(aiCosts?.summary?.unique_users || 0, localeTag),
-        meta: t("admin.analytics.ai_costs.cards.users_meta", "Users seen in current AI observability window")
+        meta: t("admin.analytics.ai_costs.cards.users_meta", "Kasutajad praeguses AI jälgitavuse aknas")
       },
       {
-        title: t("admin.analytics.ai_costs.cards.approx_eur", "Approx. AI cost"),
+        title: t("admin.analytics.ai_costs.cards.approx_eur", "Ligikaudne AI kulu"),
         value:
           loadingAiCosts
             ? t("admin.common.loading", "Loading...")
@@ -1053,7 +1075,7 @@ export default function AnalyticsDashboard() {
   const aiCostAverageItems = useMemo(
     () => [
       {
-        label: t("admin.analytics.ai_costs.avg.openai_input", "OpenAI input tokens / response"),
+        label: t("admin.analytics.ai_costs.avg.openai_input", "OpenAI sisendtokenid / vastus"),
         value:
           loadingAiCosts || aiCosts?.summary?.averages?.openai_per_response?.input_tokens == null
             ? loadingAiCosts
@@ -1062,7 +1084,7 @@ export default function AnalyticsDashboard() {
             : formatPercent(aiCosts.summary.averages.openai_per_response.input_tokens, localeTag, 1)
       },
       {
-        label: t("admin.analytics.ai_costs.avg.openai_output", "OpenAI output tokens / response"),
+        label: t("admin.analytics.ai_costs.avg.openai_output", "OpenAI väljundtokenid / vastus"),
         value:
           loadingAiCosts || aiCosts?.summary?.averages?.openai_per_response?.output_tokens == null
             ? loadingAiCosts
@@ -1071,7 +1093,7 @@ export default function AnalyticsDashboard() {
             : formatPercent(aiCosts.summary.averages.openai_per_response.output_tokens, localeTag, 1)
       },
       {
-        label: t("admin.analytics.ai_costs.avg.tts_chars", "TTS minutes / job"),
+        label: t("admin.analytics.ai_costs.avg.tts_chars", "TTS minutid / töö"),
         value:
           loadingAiCosts || aiCosts?.summary?.averages?.tts_per_job?.duration_seconds == null
             ? loadingAiCosts
@@ -1080,7 +1102,7 @@ export default function AnalyticsDashboard() {
             : formatMinutes(aiCosts.summary.averages.tts_per_job.duration_seconds / 60, localeTag, 2)
       },
       {
-        label: t("admin.analytics.ai_costs.avg.stt_tokens", "STT total tokens / job"),
+        label: t("admin.analytics.ai_costs.avg.stt_tokens", "STT tokenid kokku / töö"),
         value:
           loadingAiCosts || aiCosts?.summary?.averages?.stt_per_job?.total_tokens == null
             ? loadingAiCosts
@@ -1089,7 +1111,7 @@ export default function AnalyticsDashboard() {
             : formatPercent(aiCosts.summary.averages.stt_per_job.total_tokens, localeTag, 1)
       },
       {
-        label: t("admin.analytics.ai_costs.avg.stt_duration", "STT minutes / job"),
+        label: t("admin.analytics.ai_costs.avg.stt_duration", "STT minutid / töö"),
         value:
           loadingAiCosts || aiCosts?.summary?.averages?.stt_per_job?.duration_seconds == null
             ? loadingAiCosts
@@ -1107,19 +1129,19 @@ export default function AnalyticsDashboard() {
       const loadingLabel = t("admin.common.loading", "Loading...");
       return [
         {
-          label: t("admin.analytics.ai_costs.approx.total", "Total"),
+          label: t("admin.analytics.ai_costs.approx.total", "Kokku"),
           value: loadingAiCosts ? loadingLabel : formatMoney(approx?.total || 0, "EUR", localeTag)
         },
         {
-          label: t("admin.analytics.ai_costs.approx.direct", "Direct"),
+          label: t("admin.analytics.ai_costs.approx.direct", "Otsene"),
           value: loadingAiCosts ? loadingLabel : formatMoney(approx?.direct || 0, "EUR", localeTag)
         },
         {
-          label: t("admin.analytics.ai_costs.approx.estimated", "Estimated"),
+          label: t("admin.analytics.ai_costs.approx.estimated", "Hinnanguline"),
           value: loadingAiCosts ? loadingLabel : formatMoney(approx?.estimated || 0, "EUR", localeTag)
         },
         {
-          label: t("admin.analytics.ai_costs.approx.openai", "Text"),
+          label: t("admin.analytics.ai_costs.approx.openai", "Tekst"),
           value: loadingAiCosts ? loadingLabel : formatMoney(approx?.openai || 0, "EUR", localeTag)
         },
         {
@@ -1138,21 +1160,21 @@ export default function AnalyticsDashboard() {
   const aiCostBreakdownCards = useMemo(
     () => [
       {
-        title: t("admin.analytics.ai_costs.breakdown.role", "By role"),
+        title: t("admin.analytics.ai_costs.breakdown.role", "Rolli järgi"),
         items: (aiCosts?.breakdowns?.by_role || []).slice(0, 5).map(row => ({
           label: row.label || row.key || "-",
           value: formatCount(row.events || 0, localeTag)
         }))
       },
       {
-        title: t("admin.analytics.ai_costs.breakdown.package", "By package"),
+        title: t("admin.analytics.ai_costs.breakdown.package", "Paketi järgi"),
         items: (aiCosts?.breakdowns?.by_package || []).slice(0, 5).map(row => ({
           label: row.label || row.key || "-",
           value: formatCount(row.events || 0, localeTag)
         }))
       },
       {
-        title: t("admin.analytics.ai_costs.breakdown.model", "By model"),
+        title: t("admin.analytics.ai_costs.breakdown.model", "Mudeli järgi"),
         items: (aiCosts?.breakdowns?.by_model || []).slice(0, 5).map(row => ({
           label: row.label || row.key || "-",
           value: formatCount(row.events || 0, localeTag)
@@ -1175,18 +1197,18 @@ export default function AnalyticsDashboard() {
 
       return [
         {
-          label: t("admin.analytics.ai_costs.attribution.scope", "Scope"),
+          label: t("admin.analytics.ai_costs.attribution.scope", "Ulatus"),
           value:
             loadingAiCosts
               ? loadingLabel
-              : t("admin.analytics.ai_costs.attribution.scope_value", "User-facing standard text openai_usage")
+              : t("admin.analytics.ai_costs.attribution.scope_value", "Kasutajale suunatud tavalised openai_usage tekstisündmused")
         },
         {
-          label: t("admin.analytics.ai_costs.attribution.events", "Included events"),
+          label: t("admin.analytics.ai_costs.attribution.events", "Kaasatud sündmused"),
           value: loadingAiCosts ? loadingLabel : formatCount(totalEvents, localeTag)
         },
         {
-          label: t("admin.analytics.ai_costs.attribution.user_id", "Rows with userId"),
+          label: t("admin.analytics.ai_costs.attribution.user_id", "Read kasutaja ID-ga"),
           value:
             loadingAiCosts
               ? loadingLabel
@@ -1195,7 +1217,7 @@ export default function AnalyticsDashboard() {
                 : `${formatPercent(userIdPct, localeTag, 1)}% (${formatCount(completeness?.with_userId || 0, localeTag)})`
         },
         {
-          label: t("admin.analytics.ai_costs.attribution.role", "Rows with role"),
+          label: t("admin.analytics.ai_costs.attribution.role", "Read rolliga"),
           value:
             loadingAiCosts
               ? loadingLabel
@@ -1204,7 +1226,7 @@ export default function AnalyticsDashboard() {
                 : `${formatPercent(rolePct, localeTag, 1)}% (${formatCount(completeness?.with_role || 0, localeTag)})`
         },
         {
-          label: t("admin.analytics.ai_costs.attribution.excluded", "Excluded internal routes"),
+          label: t("admin.analytics.ai_costs.attribution.excluded", "Välja jäetud sisemised marsruudid"),
           value: loadingAiCosts ? loadingLabel : excludedRoutes || "-"
         }
       ];
@@ -1215,28 +1237,28 @@ export default function AnalyticsDashboard() {
   const aiThresholdCards = useMemo(
     () => [
       {
-        title: t("admin.analytics.ai_costs.threshold.users_70", "Users >= 70%"),
+        title: t("admin.analytics.ai_costs.threshold.users_70", "Kasutajad >= 70%"),
         value:
           loadingAiCosts
             ? t("admin.common.loading", "Loading...")
             : formatCount(aiCosts?.summary?.threshold_counts?.users_at_or_above_70_pct || 0, localeTag)
       },
       {
-        title: t("admin.analytics.ai_costs.threshold.users_85", "Users >= 85%"),
+        title: t("admin.analytics.ai_costs.threshold.users_85", "Kasutajad >= 85%"),
         value:
           loadingAiCosts
             ? t("admin.common.loading", "Loading...")
             : formatCount(aiCosts?.summary?.threshold_counts?.users_at_or_above_85_pct || 0, localeTag)
       },
       {
-        title: t("admin.analytics.ai_costs.threshold.users_100", "Users >= 100%"),
+        title: t("admin.analytics.ai_costs.threshold.users_100", "Kasutajad >= 100%"),
         value:
           loadingAiCosts
             ? t("admin.common.loading", "Loading...")
             : formatCount(aiCosts?.summary?.threshold_counts?.users_at_or_above_100_pct || 0, localeTag)
       },
       {
-        title: t("admin.analytics.ai_costs.threshold.packages_85", "Packages >= 85%"),
+        title: t("admin.analytics.ai_costs.threshold.packages_85", "Paketid >= 85%"),
         value:
           loadingAiCosts
             ? t("admin.common.loading", "Loading...")
@@ -1249,36 +1271,54 @@ export default function AnalyticsDashboard() {
   const aiAdminGuideItems = useMemo(
     () => [
       {
-        label: t("admin.analytics.ai_costs.guide.includes", "Included now"),
+        label: t("admin.analytics.ai_costs.guide.includes", "Praegu kaasatud"),
         value: "openai_usage, rag_cost_usage, tts_cost_usage, stt_cost_usage"
       },
       {
         label: t("admin.analytics.ai_costs.guide.units", "internal_usage_units"),
-        value: "Normalized internal usage units for comparison and thresholding, not exact provider billing."
+        value: t(
+          "admin.analytics.ai_costs.guide.units_value",
+          "Normaliseeritud sisemised kasutusühikud võrdlemiseks ja lävendite jälgimiseks, mitte täpne teenusepakkuja arveldus."
+        )
       },
       {
-        label: t("admin.analytics.ai_costs.guide.approx_eur", "Approximate EUR"),
-        value: "Approximate EUR is a provider-cost-equivalent management view. It helps product and pricing decisions, but it is still not invoice-grade billing."
+        label: t("admin.analytics.ai_costs.guide.approx_eur", "Ligikaudne EUR"),
+        value: t(
+          "admin.analytics.ai_costs.guide.approx_eur_value",
+          "Ligikaudne EUR on teenusepakkuja kuluga võrreldav haldusvaade. See aitab toote- ja hinnastusotsuseid teha, kuid ei ole arve täpsusega arveldus."
+        )
       },
       {
-        label: t("admin.analytics.ai_costs.guide.thresholds", "Thresholds"),
-        value: "Normal <70%, warning >=70%, high >=85%, exceeded >=100%."
+        label: t("admin.analytics.ai_costs.guide.thresholds", "Lävendid"),
+        value: t("admin.analytics.ai_costs.guide.thresholds_value", "Tavaline <70%, hoiatus >=70%, kõrge >=85%, ületatud >=100%.")
       },
       {
-        label: t("admin.analytics.ai_costs.guide.breakdowns", "Breakdowns"),
-        value: "Route/stage shows where usage happens, role/package shows who carries it, model shows which model family drives it."
+        label: t("admin.analytics.ai_costs.guide.breakdowns", "Jaotused"),
+        value: t(
+          "admin.analytics.ai_costs.guide.breakdowns_value",
+          "Marsruut/etapp näitab, kus kasutus tekib, roll/pakett näitab, kellele see langeb, ja mudel näitab kasutust vedavat mudeliperekonda."
+        )
       },
       {
-        label: t("admin.analytics.ai_costs.guide.top", "Top users and features"),
-        value: "Look for concentration, repeated heavy stages, and sharp differences between direct and estimated usage."
+        label: t("admin.analytics.ai_costs.guide.top", "Suurimad kasutajad ja funktsioonid"),
+        value: t(
+          "admin.analytics.ai_costs.guide.top_value",
+          "Jälgi kasutuse koondumist, korduvaid raskeid etappe ning suuri erinevusi otsese ja hinnangulise kasutuse vahel."
+        )
       },
       {
-        label: t("admin.analytics.ai_costs.guide.coverage", "Coverage"),
-        value: "Some usage is direct from provider responses, some is estimated. Treat this as an operational dashboard, not an invoice."
+        label: t("admin.analytics.ai_costs.guide.coverage", "Kaetus"),
+        value: t(
+          "admin.analytics.ai_costs.guide.coverage_value",
+          "Osa kasutusest tuleb otse teenusepakkuja vastustest, osa on hinnanguline. Käsitle seda töövaatena, mitte arvena."
+        )
       },
       {
-        label: t("admin.analytics.ai_costs.guide.actions", "Operational use"),
-        value: "Before changing pricing or limits, check coverage, route/stage concentration, user/package threshold status, and whether heavy usage is expected."
+        label: t("admin.analytics.ai_costs.guide.actions", "Tööalane kasutus"),
+        value: t(
+          "admin.analytics.ai_costs.guide.actions_value",
+          "Enne hinnastuse või limiitide muutmist kontrolli kaetust, marsruudi/etapi koondumist, kasutaja/paketi lävendi olekut ja seda, kas suur kasutus on ootuspärane."
+        )
       }
     ],
     [t]
@@ -1573,7 +1613,6 @@ export default function AnalyticsDashboard() {
               <Button
                 variant="primary"
                 className={refreshButtonClassName}
-                style={refreshButtonStyle}
                 onClick={refreshAll}
                 disabled={refreshing || loadingSummary || loadingEvents || loadingUsers || loadingAiCosts}
               >
@@ -1712,45 +1751,45 @@ export default function AnalyticsDashboard() {
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
-              <CardTitle>{t("admin.analytics.storage.title", "Storage snapshot")}</CardTitle>
+              <CardTitle>{t("admin.analytics.storage.title", "Salvestusruumi ülevaade")}</CardTitle>
               <div className={sectionSubClassName}>
                 {t(
                   "admin.analytics.storage.subtitle",
-                  "Server-side file volume for documents, RAG admin uploads, materials, and agent storage."
+                  "Serveripoolne failimaht dokumentide, RAG admini üleslaadimiste, materjalide ja agendi salvestuse jaoks."
                 )}
               </div>
             </div>
           </div>
           <div className={docsGridClassName}>
             <KpiCard
-              title={t("admin.analytics.storage.total", "Stored files total")}
+              title={t("admin.analytics.storage.total", "Salvestatud faile kokku")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.totalBytes || 0, localeTag)}
-              meta={t("admin.analytics.storage.total_meta", "Tracked file storage used by this app.")}
+              meta={t("admin.analytics.storage.total_meta", "Rakenduse jälgitav failisalvestuse kasutus.")}
             />
             <KpiCard
-              title={t("admin.analytics.storage.docs_uploads", "Document uploads")}
+              title={t("admin.analytics.storage.docs_uploads", "Dokumentide üleslaadimised")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.docsUploadsBytes || 0, localeTag)}
-              meta={t("admin.analytics.storage.docs_uploads_meta", "User documents and generated acceptance records.")}
+              meta={t("admin.analytics.storage.docs_uploads_meta", "Kasutajate dokumendid ja loodud kinnituskirjed.")}
             />
             <KpiCard
-              title={t("admin.analytics.storage.rag_admin", "RAG admin files")}
+              title={t("admin.analytics.storage.rag_admin", "RAG admini failid")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.ragAdminBytes || 0, localeTag)}
               meta={
                 loadingSummary
                   ? t("admin.common.loading", "Loading...")
-                  : `${t("admin.analytics.storage.rag_admin_meta", "KOV + organization admin files.")} ${formatStorageSize(documentStorage?.kovBytes || 0, localeTag)} / ${formatStorageSize(documentStorage?.organizationBytes || 0, localeTag)}`
+                  : `${t("admin.analytics.storage.rag_admin_meta", "KOV ja organisatsioonide adminifailid.")} ${formatStorageSize(documentStorage?.kovBytes || 0, localeTag)} / ${formatStorageSize(documentStorage?.organizationBytes || 0, localeTag)}`
               }
             />
             <KpiCard
-              title={t("admin.analytics.storage.materials", "Materials uploads")}
+              title={t("admin.analytics.storage.materials", "Materjalide üleslaadimised")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.materialsBytes || 0, localeTag)}
             />
             <KpiCard
-              title={t("admin.analytics.storage.agent", "Agent storage")}
+              title={t("admin.analytics.storage.agent", "Agendi salvestus")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatStorageSize(documentStorage?.agentBytes || 0, localeTag)}
             />
             <KpiCard
-              title={t("admin.analytics.storage.free_disk", "Free disk on storage volume")}
+              title={t("admin.analytics.storage.free_disk", "Vaba kettaruum salvestusmahul")}
               value={
                 loadingSummary
                   ? t("admin.common.loading", "Loading...")
@@ -1762,15 +1801,15 @@ export default function AnalyticsDashboard() {
                 loadingSummary
                   ? t("admin.common.loading", "Loading...")
                   : documentStorage?.volume
-                    ? `${t("admin.analytics.storage.disk_total", "Disk total")}: ${formatStorageSize(documentStorage.volume.totalBytes || 0, localeTag)} | ${t("admin.analytics.storage.disk_used", "Used")}: ${formatPercent(documentStorage.volume.usedPct || 0, localeTag, 1)}%`
-                    : t("admin.analytics.storage.disk_unavailable", "Volume snapshot unavailable.")
+                    ? `${t("admin.analytics.storage.disk_total", "Kettamaht kokku")}: ${formatStorageSize(documentStorage.volume.totalBytes || 0, localeTag)} | ${t("admin.analytics.storage.disk_used", "Kasutatud")}: ${formatPercent(documentStorage.volume.usedPct || 0, localeTag, 1)}%`
+                    : t("admin.analytics.storage.disk_unavailable", "Salvestusmahu hetkeseis ei ole saadaval.")
               }
             />
           </div>
           {!loadingSummary && Array.isArray(documentStorage?.issues) && documentStorage.issues.length ? (
             <SectionAlert
               tone="warn"
-              message={t("admin.analytics.storage.issues", "Some storage paths could not be measured.")}
+              message={t("admin.analytics.storage.issues", "Mõnda salvestusteed ei saanud mõõta.")}
             />
           ) : null}
         </div>
@@ -1780,23 +1819,23 @@ export default function AnalyticsDashboard() {
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
-              <CardTitle>{t("admin.analytics.framework_acceptances.title", "Framework acceptances")}</CardTitle>
+              <CardTitle>{t("admin.analytics.framework_acceptances.title", "Tööalase raamistiku kinnitused")}</CardTitle>
               <div className={sectionSubClassName}>
-                {t("admin.analytics.framework_acceptances.subtitle", "Recent professional-use acceptance records saved during registration.")}
+                {t("admin.analytics.framework_acceptances.subtitle", "Viimased registreerimisel salvestatud tööalase kasutuse kinnitused.")}
               </div>
             </div>
           </div>
           <div className={docsGridClassName}>
             <KpiCard
-              title={t("admin.analytics.framework_acceptances.total", "Total")}
+              title={t("admin.analytics.framework_acceptances.total", "Kokku")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.documents?.frameworkAcceptances?.total || 0, localeTag)}
             />
             <KpiCard
-              title={t("admin.analytics.framework_acceptances.accepted_30d", "Accepted (30d)")}
+              title={t("admin.analytics.framework_acceptances.accepted_30d", "Kinnitatud (30p)")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.documents?.frameworkAcceptances?.accepted30d || 0, localeTag)}
             />
             <KpiCard
-              title={t("admin.analytics.framework_acceptances.signed_30d", "Signed download recorded (30d)")}
+              title={t("admin.analytics.framework_acceptances.signed_30d", "Allkirjastatud allalaadimine salvestatud (30p)")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.documents?.frameworkAcceptances?.signedDownloaded30d || 0, localeTag)}
             />
           </div>
@@ -2251,7 +2290,7 @@ export default function AnalyticsDashboard() {
               {t("admin.common.refresh", "Search")}
             </Button>
             <Button
-              variant="ghost"
+              variant="primary"
               className={actionButtonClassName}
               type="button"
               onClick={handleUsersSearchClear}
@@ -2280,7 +2319,7 @@ export default function AnalyticsDashboard() {
               <div className={`${usersSelectActionsClassName} 2xl:justify-end`}>
                 <Button
                   size="sm"
-                  variant="ghost"
+                  variant="primary"
                   className={actionButtonClassName}
                   onClick={toggleAllVisibleUsers}
                   disabled={loadingUsers || !visibleUserIds.length}
@@ -2709,11 +2748,11 @@ export default function AnalyticsDashboard() {
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
-              <CardTitle>{t("admin.analytics.ai_costs.title", "AI Cost Activity")}</CardTitle>
+              <CardTitle>{t("admin.analytics.ai_costs.title", "AI kuluaktiivsus")}</CardTitle>
               <div className={sectionSubClassName}>
                 {t(
                   "admin.analytics.ai_costs.subtitle",
-                  "ChatLog-based OpenAI, RAG, TTS and STT observability."
+                  "ChatLogi-põhine OpenAI, RAG-i, TTS-i ja STT jälgitavus."
                 )}
               </div>
             </div>
@@ -2722,8 +2761,7 @@ export default function AnalyticsDashboard() {
           <SectionAlert
             tone="info"
             message={
-              aiCosts?.coverage?.note ||
-              "RAG/embedding cost is not yet included because rag_cost_usage has not been mirrored into ChatLog yet."
+              getAiCoverageNote(aiCosts?.coverage?.note)
             }
           />
 
@@ -2731,12 +2769,12 @@ export default function AnalyticsDashboard() {
             tone="info"
             message={
               aiCosts?.unit_model
-                ? `${aiCosts.unit_model.version}: ${aiCosts.unit_model.note}`
-                : "v2: internal_usage_units are normalized internal analytics units for budget tracking. They are not exact provider billing."
+                ? `${aiCosts.unit_model.version}: ${getAiUnitModelNote(aiCosts.unit_model.note)}`
+                : `v2: ${getAiUnitModelNote()}`
             }
           />
 
-          <MetricListCard title={t("admin.analytics.ai_costs.guide.title", "How to read this")} items={aiAdminGuideItems} />
+          <MetricListCard title={t("admin.analytics.ai_costs.guide.title", "Kuidas seda lugeda")} items={aiAdminGuideItems} />
 
           <div className={usersSummaryGridClassName}>
             {aiCostCards.map(card => (
@@ -2751,9 +2789,9 @@ export default function AnalyticsDashboard() {
           </div>
 
           <div className={platformGridClassName}>
-            <MetricListCard title={t("admin.analytics.ai_costs.average_usage", "Average usage")} items={aiCostAverageItems} />
-            <MetricListCard title={t("admin.analytics.ai_costs.approx.title", "Approximate EUR view")} items={aiApproxCostItems} />
-            <MetricListCard title={t("admin.analytics.ai_costs.attribution.title", "Attribution completeness")} items={aiAttributionItems} />
+            <MetricListCard title={t("admin.analytics.ai_costs.average_usage", "Keskmine kasutus")} items={aiCostAverageItems} />
+            <MetricListCard title={t("admin.analytics.ai_costs.approx.title", "Ligikaudne EUR vaade")} items={aiApproxCostItems} />
+            <MetricListCard title={t("admin.analytics.ai_costs.attribution.title", "Omistamise täielikkus")} items={aiAttributionItems} />
             {aiCostBreakdownCards.map(card => (
               <MetricListCard
                 key={card.title}
@@ -2782,13 +2820,13 @@ export default function AnalyticsDashboard() {
               <table className={tableClassName}>
                 <thead>
                   <tr>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.route", "Route")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.stage", "Stage")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.units", "Internal usage units")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.events", "Events")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.direct", "Direct")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.estimated", "Estimated")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.coverage.label", "Coverage")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.route", "Marsruut")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.stage", "Etapp")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.units", "Sisemised kasutusühikud")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.events", "Sündmused")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.direct", "Otsene")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.features.estimated", "Hinnanguline")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.coverage.label", "Kaetus")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2838,20 +2876,20 @@ export default function AnalyticsDashboard() {
                   </div>
                   <div className={mobileFieldGridClassName}>
                     <MobileInfoField
-                      label={t("admin.analytics.ai_costs.units", "Internal usage units")}
+                      label={t("admin.analytics.ai_costs.units", "Sisemised kasutusühikud")}
                       value={formatPercent(row.internal_usage_units || 0, localeTag, 1)}
                     />
                     <MobileInfoField
-                      label={t("admin.analytics.ai_costs.features.direct", "Direct")}
+                      label={t("admin.analytics.ai_costs.features.direct", "Otsene")}
                       value={formatCount(row.direct_usage_events || 0, localeTag)}
                     />
                     <MobileInfoField
-                      label={t("admin.analytics.ai_costs.features.estimated", "Estimated")}
+                      label={t("admin.analytics.ai_costs.features.estimated", "Hinnanguline")}
                       value={formatCount(row.estimated_usage_events || 0, localeTag)}
                     />
                   </div>
                   <MobileInfoField
-                    label={t("admin.analytics.ai_costs.coverage.label", "Coverage")}
+                    label={t("admin.analytics.ai_costs.coverage.label", "Kaetus")}
                     value={getCoverageLabel(row.coverage_complete)}
                   />
                 </div>
@@ -2863,7 +2901,7 @@ export default function AnalyticsDashboard() {
 
           <div className={tableHeaderClassName}>
             <div className={sectionSubClassName}>
-              {t("admin.analytics.ai_costs.users_title", "User budget tracking")}
+              {t("admin.analytics.ai_costs.users_title", "Kasutajate eelarvejälgimine")}
             </div>
           </div>
           <div className={tableDesktopWrapClassName}>
@@ -2873,12 +2911,12 @@ export default function AnalyticsDashboard() {
                   <tr>
                     <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.user", "User")}</th>
                     <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.role", "Role")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.package", "Package")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.units", "Internal usage units")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.budget_units", "Budget units / month")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.utilization", "Utilization")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.threshold.label", "Threshold")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.coverage.label", "Coverage")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.package", "Pakett")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.units", "Sisemised kasutusühikud")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.budget_units", "Eelarveühikud / kuu")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.utilization", "Kasutusmäär")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.threshold.label", "Lävend")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.coverage.label", "Kaetus")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2900,15 +2938,15 @@ export default function AnalyticsDashboard() {
                         <td className={tableCellClassName}>
                           <div>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</div>
                           <div className={cellSubClassName}>
-                            {t("admin.analytics.ai_costs.approx.short", "Approx.")}:{" "}
+                            {t("admin.analytics.ai_costs.approx.short", "Ligik.")}:{" "}
                             {formatMoney(row.approximate_cost_eur || 0, "EUR", localeTag)}
                           </div>
                           <div className={cellSubClassName}>
-                            {t("admin.analytics.ai_costs.features.direct", "Direct")}:{" "}
+                            {t("admin.analytics.ai_costs.features.direct", "Otsene")}:{" "}
                             {formatPercent(row.internal_usage_units_direct || 0, localeTag, 1)}
                           </div>
                           <div className={cellSubClassName}>
-                            {t("admin.analytics.ai_costs.features.estimated", "Estimated")}:{" "}
+                            {t("admin.analytics.ai_costs.features.estimated", "Hinnanguline")}:{" "}
                             {formatPercent(row.internal_usage_units_estimated || 0, localeTag, 1)}
                           </div>
                         </td>
@@ -2917,7 +2955,7 @@ export default function AnalyticsDashboard() {
                         <td className={tableCellClassName}>{getThresholdLabel(row.threshold_state)}</td>
                         <td className={`${tableCellClassName} ${cellSubClassName}`}>
                           <div>{getCoverageLabel(row.coverage_complete)}</div>
-                          <div className={cellSubClassName}>{row.coverage_note || "-"}</div>
+                          <div className={cellSubClassName}>{row.coverage_note ? getAiCoverageNote(row.coverage_note) : "-"}</div>
                         </td>
                       </tr>
                     ))
@@ -2947,31 +2985,31 @@ export default function AnalyticsDashboard() {
                   </div>
                   <div className={mobileFieldGridClassName}>
                     <MobileInfoField label={t("admin.analytics.users.table.role", "Role")} value={getRoleLabel(row.role, false)} />
-                    <MobileInfoField label={t("admin.analytics.ai_costs.package", "Package")} value={row.package || "-"} />
+                    <MobileInfoField label={t("admin.analytics.ai_costs.package", "Pakett")} value={row.package || "-"} />
                     <MobileInfoField
-                      label={t("admin.analytics.ai_costs.units", "Internal usage units")}
+                      label={t("admin.analytics.ai_costs.units", "Sisemised kasutusühikud")}
                       value={
                         <>
                           <div>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</div>
                           <div className={cellSubClassName}>
-                            {t("admin.analytics.ai_costs.approx.short", "Approx.")}:{" "}
+                            {t("admin.analytics.ai_costs.approx.short", "Ligik.")}:{" "}
                             {formatMoney(row.approximate_cost_eur || 0, "EUR", localeTag)}
                           </div>
                         </>
                       }
                     />
                     <MobileInfoField
-                      label={t("admin.analytics.ai_costs.budget_units", "Budget units / month")}
+                      label={t("admin.analytics.ai_costs.budget_units", "Eelarveühikud / kuu")}
                       value={formatPercent(row.budget_units_monthly || 0, localeTag, 1)}
                     />
                   </div>
                   <MobileInfoField
-                    label={t("admin.analytics.ai_costs.utilization", "Utilization")}
+                    label={t("admin.analytics.ai_costs.utilization", "Kasutusmäär")}
                     value={`${formatPercent(row.utilization_pct || 0, localeTag, 1)}%`}
                   />
                   <MobileInfoField
-                    label={t("admin.analytics.ai_costs.coverage.label", "Coverage")}
-                    value={`${getCoverageLabel(row.coverage_complete)}${row.coverage_note ? ` | ${row.coverage_note}` : ""}`}
+                    label={t("admin.analytics.ai_costs.coverage.label", "Kaetus")}
+                    value={`${getCoverageLabel(row.coverage_complete)}${row.coverage_note ? ` | ${getAiCoverageNote(row.coverage_note)}` : ""}`}
                   />
                 </div>
               ))
@@ -2982,7 +3020,7 @@ export default function AnalyticsDashboard() {
 
           <div className={tableHeaderClassName}>
             <div className={sectionSubClassName}>
-              {t("admin.analytics.ai_costs.packages_title", "Package budget tracking")}
+              {t("admin.analytics.ai_costs.packages_title", "Pakettide eelarvejälgimine")}
             </div>
           </div>
           <div className={tableDesktopWrapClassName}>
@@ -2990,13 +3028,13 @@ export default function AnalyticsDashboard() {
               <table className={tableClassName}>
                 <thead>
                   <tr>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.package", "Package")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.package_users", "Users")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.units", "Internal usage units")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.budget_units", "Budget units / month")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.utilization", "Utilization")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.threshold.label", "Threshold")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.coverage.label", "Coverage")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.package", "Pakett")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.package_users", "Kasutajad")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.units", "Sisemised kasutusühikud")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.budget_units", "Eelarveühikud / kuu")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.utilization", "Kasutusmäär")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.threshold.label", "Lävend")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.ai_costs.coverage.label", "Kaetus")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -3014,7 +3052,7 @@ export default function AnalyticsDashboard() {
                         <td className={tableCellClassName}>
                           <div>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</div>
                           <div className={cellSubClassName}>
-                            {t("admin.analytics.ai_costs.approx.short", "Approx.")}:{" "}
+                            {t("admin.analytics.ai_costs.approx.short", "Ligik.")}:{" "}
                             {formatMoney(row.approximate_cost_eur || 0, "EUR", localeTag)}
                           </div>
                         </td>
@@ -3023,7 +3061,7 @@ export default function AnalyticsDashboard() {
                         <td className={tableCellClassName}>{getThresholdLabel(row.threshold_state)}</td>
                         <td className={`${tableCellClassName} ${cellSubClassName}`}>
                           <div>{getCoverageLabel(row.coverage_complete)}</div>
-                          <div className={cellSubClassName}>{row.coverage_note || "-"}</div>
+                          <div className={cellSubClassName}>{row.coverage_note ? getAiCoverageNote(row.coverage_note) : "-"}</div>
                         </td>
                       </tr>
                     ))
@@ -3048,36 +3086,36 @@ export default function AnalyticsDashboard() {
                     <div>
                       <div className={mobileRowTitleClassName}>{row.package || "-"}</div>
                       <div className={mobileRowSubClassName}>
-                        {t("admin.analytics.ai_costs.package_users", "Users")}: {formatCount(row.users || 0, localeTag)}
+                        {t("admin.analytics.ai_costs.package_users", "Kasutajad")}: {formatCount(row.users || 0, localeTag)}
                       </div>
                     </div>
                     <span className={usersSelectCountClassName}>{getThresholdLabel(row.threshold_state)}</span>
                   </div>
                   <div className={mobileFieldGridClassName}>
                     <MobileInfoField
-                      label={t("admin.analytics.ai_costs.units", "Internal usage units")}
+                      label={t("admin.analytics.ai_costs.units", "Sisemised kasutusühikud")}
                       value={
                         <>
                           <div>{formatPercent(row.internal_usage_units || 0, localeTag, 1)}</div>
                           <div className={cellSubClassName}>
-                            {t("admin.analytics.ai_costs.approx.short", "Approx.")}:{" "}
+                            {t("admin.analytics.ai_costs.approx.short", "Ligik.")}:{" "}
                             {formatMoney(row.approximate_cost_eur || 0, "EUR", localeTag)}
                           </div>
                         </>
                       }
                     />
                     <MobileInfoField
-                      label={t("admin.analytics.ai_costs.budget_units", "Budget units / month")}
+                      label={t("admin.analytics.ai_costs.budget_units", "Eelarveühikud / kuu")}
                       value={formatPercent(row.budget_units_monthly || 0, localeTag, 1)}
                     />
                   </div>
                   <MobileInfoField
-                    label={t("admin.analytics.ai_costs.utilization", "Utilization")}
+                    label={t("admin.analytics.ai_costs.utilization", "Kasutusmäär")}
                     value={`${formatPercent(row.utilization_pct || 0, localeTag, 1)}%`}
                   />
                   <MobileInfoField
-                    label={t("admin.analytics.ai_costs.coverage.label", "Coverage")}
-                    value={`${getCoverageLabel(row.coverage_complete)}${row.coverage_note ? ` | ${row.coverage_note}` : ""}`}
+                    label={t("admin.analytics.ai_costs.coverage.label", "Kaetus")}
+                    value={`${getCoverageLabel(row.coverage_complete)}${row.coverage_note ? ` | ${getAiCoverageNote(row.coverage_note)}` : ""}`}
                   />
                 </div>
               ))

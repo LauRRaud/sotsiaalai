@@ -75,7 +75,7 @@
       "title": "Logi sisse",
       "or": "või",
       "error": {
-        "credentials": "Vale e-post või PIN.",
+        "credentials": "Vale PIN.",
         "email_required": "Palun sisesta e-posti aadress.",
         "email_invalid": "Palun sisesta korrektne e-posti aadress.",
         "pin_required": "Palun sisesta PIN.",
@@ -1450,13 +1450,16 @@
   },
   "research": {
     "error": {
-      "failed": "Süvauuring ebaõnnestus.",
       "cancelled": "Süvauuring peatati.",
-      "timeout": "Süvauuring ületas ajapiirangu.",
+      "failed": "Süvauuring ebaõnnestus.",
+      "interrupted": "Süvauuring katkes serveri taaskäivituse või ühenduse katkestuse tõttu. Palun käivita see uuesti.",
       "not_found": "Süvauuringu tööd ei leitud.",
+      "openai_key_missing": "Süvauuringu AI seadistus puudub.",
+      "query_too_long": "Süvauuringu küsimus on liiga pikk.",
+      "retrieval_failed": "Süvauuring ei saanud dokumendibaasist tõendeid kätte. Palun proovi uuesti.",
       "room_not_supported": "Süvauuring on saadaval ainult 1:1 vestluses.",
-      "query_too_long": "Süvauuringu päring on liiga pikk.",
-      "openai_key_missing": "Süvauuringu teenus pole seadistatud."
+      "timeout": "Süvauuring võttis liiga kaua aega. Täpsusta küsimust ja proovi uuesti.",
+      "disabled": "Süvauuring ei ole kasutajaliideses saadaval."
     }
   },
   "about": {
@@ -1494,7 +1497,7 @@
       "note": "SotsiaalAI © 2025"
     },
     "guide": {
-      "jump_link": "Platvormi kasutusjuhend",
+      "jump_link": "Kasutusjuhend",
       "short_title": "Kasutusjuhend",
       "title": "Kuidas kasutada platvormi?",
       "intro": "See juhend annab ülevaate, kuidas SotsiaalAI-s valida rolli, luua konto, aktiveerida ligipääsu ning kasutada vestlust, keele ja ligipääsetavuse seadeid, abi- ja dokumenditöövooge, dokumendi koostamist, ruume ja rollipõhiseid lehti.",
@@ -1981,7 +1984,10 @@
       },
       "login": {
         "rate_limited": "Liiga palju sisselogimise katseid. Proovi hiljem uuesti.",
-        "invalid_credentials": "Vale e-post või PIN.",
+        "invalid_credentials": "Vale PIN.",
+        "email_not_found": "Vale e-post.",
+        "pin_incorrect": "Vale PIN.",
+        "pin_invalid": "PIN peab olema 4-8 numbrit.",
         "missing_fields": "Puudub vajalik teave.",
         "token_invalid": "Sisselogimise token on vigane.",
         "token_expired": "Kinnituskood on aegunud.",
@@ -2156,11 +2162,11 @@
     "analytics": {
       "title": "Analüütika",
       "errors": {
-        "summary_fetch_failed": "Summary fetch failed.",
-        "events_fetch_failed": "Events fetch failed.",
+        "summary_fetch_failed": "Kokkuvõtte laadimine ebaõnnestus.",
+        "events_fetch_failed": "Sündmuste laadimine ebaõnnestus.",
         "logs_delete_failed": "Logide kustutamine ebaõnnestus.",
         "reset_failed": "Reset-toimingu käivitamine ebaõnnestus.",
-        "users_fetch_failed": "Users analytics fetch failed.",
+        "users_fetch_failed": "Kasutajate analüütika laadimine ebaõnnestus.",
         "users_delete_failed": "Valitud kasutajate kustutamine ebaõnnestus.",
         "users_email_send_failed": "Hulgie-kirja saatmine ebaõnnestus.",
         "users_email_invalid_payload": "E-kirja pealkiri ja sisu on kohustuslikud."
@@ -2168,24 +2174,28 @@
       "events": {
         "chat_request": "Vestluspäring",
         "rag_search": "RAG-otsing",
-        "no_context": "No context",
-        "crisis_detected": "Crisis detected",
-        "stt_request": "STT request",
-        "tts_request": "TTS request",
-        "rag_error": "RAG error",
-        "openai_error": "OpenAI error",
-        "subscription_init_started": "Subscription init started",
+        "no_context": "Kontekst puudub",
+        "crisis_detected": "Kriis tuvastatud",
+        "stt_request": "STT päring",
+        "tts_request": "TTS päring",
+        "rag_error": "RAG viga",
+        "openai_error": "OpenAI viga",
+        "subscription_init_started": "Tellimuse algatamine alustati",
         "subscription_init_checkout_created": "Tellimuse makse algatati",
-        "subscription_init_failed": "Subscription init failed",
-        "subscription_callback_redirect": "Subscription callback redirect",
-        "subscription_webhook_processed": "Subscription webhook processed",
-        "subscription_webhook_failed": "Subscription webhook failed",
-        "subscription_webhook_owner_email_sent": "Subscription webhook owner email sent",
-        "subscription_webhook_owner_email_failed": "Subscription webhook owner email failed",
-        "subscription_webhook_owner_email_skipped": "Subscription webhook owner email skipped",
+        "subscription_init_failed": "Tellimuse algatamine ebaõnnestus",
+        "subscription_callback_redirect": "Tellimuse tagasisuunamine",
+        "subscription_webhook_processed": "Tellimuse webhook töödeldi",
+        "subscription_webhook_failed": "Tellimuse webhook ebaõnnestus",
+        "subscription_webhook_owner_email_sent": "Tellimuse webhooki omaniku e-kiri saadeti",
+        "subscription_webhook_owner_email_failed": "Tellimuse webhooki omaniku e-kiri ebaõnnestus",
+        "subscription_webhook_owner_email_skipped": "Tellimuse webhooki omaniku e-kiri jäeti vahele",
         "payment_alert_dispatch_dry_run": "Maksehoiatuste saatmise proovikäivitus",
         "payment_alert_dispatched": "Maksehoiatus saadeti",
-        "payment_alert_dispatch_failed": "Maksehoiatuse saatmine ebaõnnestus"
+        "payment_alert_dispatch_failed": "Maksehoiatuse saatmine ebaõnnestus",
+        "openai_usage": "OpenAI kasutus",
+        "rag_cost_usage": "RAG kulu kasutus",
+        "tts_cost_usage": "TTS kulu kasutus",
+        "stt_cost_usage": "STT kulu kasutus"
       },
       "status": {
         "pending": "Ootel",
@@ -2199,16 +2209,16 @@
         "both": "Mõlemad"
       },
       "meta": {
-        "hits": "hits",
-        "groups": "groups",
-        "grounding": "grounding",
-        "chosen": "chosen",
-        "crisis": "crisis",
-        "history": "history",
+        "hits": "tabamused",
+        "groups": "grupid",
+        "grounding": "põhistatus",
+        "chosen": "valitud",
+        "crisis": "kriis",
+        "history": "ajalugu",
         "payment_state": "makse olek",
         "result_status": "tulemuse olek",
-        "subscription_action": "subscription action",
-        "alert_code": "alert code"
+        "subscription_action": "tellimuse tegevus",
+        "alert_code": "hoiatuse kood"
       },
       "kpis": {
         "requests_30d": {
@@ -2221,8 +2231,8 @@
         "no_context": {
           "title": "Kontekstita"
         },
-        "share": "Share {percent}%",
-        "share_missing": "Share unavailable",
+        "share": "Osakaal {percent}%",
+        "share_missing": "Osakaal pole saadaval",
         "crisis": {
           "title": "Kriis",
           "meta": "Tuvastatud kriisirisk"
@@ -2237,11 +2247,11 @@
         },
         "rag_averages": {
           "title": "Keskmised (RAG)",
-          "meta": "Hits {hits}, groups {groups}, chosen {chosen}"
+          "meta": "Tabamused {hits}, grupid {groups}, valitud {chosen}"
         },
         "grounding": {
           "title": "Põhistatus",
-          "meta": "Strong {strong}% | OK {ok}% | Weak {weak}%"
+          "meta": "Tugev {strong}% | OK {ok}% | nõrk {weak}%"
         }
       },
       "platform": {
@@ -2278,7 +2288,11 @@
           "created_30d": "Loodud (30p)",
           "approved_30d": "Kinnitatud (30p)",
           "downloads_30d": "Dokumendi allalaadimised (30p)",
-          "artifact_downloads_30d": "Artefakti allalaadimised (30p)"
+          "artifact_downloads_30d": "Artefakti allalaadimised (30p)",
+          "framework_acceptances_30d": "Raamistiku kinnitused (30p)",
+          "framework_signed_30d": "Allkirjastatud allalaadimised (30p)",
+          "storage_total": "Salvestatud failid",
+          "storage_free": "Vaba kettaruum"
         }
       },
       "rag_docs": {
@@ -2437,8 +2451,8 @@
         }
       },
       "reset": {
-        "title": "Launchi-eelne reset",
-        "subtitle": "Käivita sihitud puhastused enne launchi. Iga tegevus küsib kaks kinnitust.",
+        "title": "Käivituseelne lähtestus",
+        "subtitle": "Käivita sihitud puhastused enne avaldamist. Iga tegevus küsib kaks kinnitust.",
         "running": "Käivitan...",
         "confirm": "Käivitan reset-toimingu: {action}?",
         "confirm_with_count": "Toiming \"{action}\" kustutab umbes {count} rida. Jätkan?",
@@ -2451,6 +2465,132 @@
           "clear_auth_tokens": "Kustuta autentimise tokenid",
           "clear_usage_metrics": "Kustuta kasutusmõõdikud",
           "clear_billing": "Kustuta makseandmed"
+        }
+      },
+      "storage": {
+        "title": "Salvestusruumi ülevaade",
+        "subtitle": "Serveripoolne failimaht dokumentide, RAG admini üleslaadimiste, materjalide ja agendi salvestuse jaoks.",
+        "total": "Salvestatud faile kokku",
+        "total_meta": "Rakenduse jälgitav failisalvestuse kasutus.",
+        "docs_uploads": "Dokumentide üleslaadimised",
+        "docs_uploads_meta": "Kasutajate dokumendid ja loodud kinnituskirjed.",
+        "rag_admin": "RAG admini failid",
+        "rag_admin_meta": "KOV ja organisatsioonide adminifailid.",
+        "materials": "Materjalide üleslaadimised",
+        "agent": "Agendi salvestus",
+        "free_disk": "Vaba kettaruum salvestusmahul",
+        "disk_total": "Kettamaht kokku",
+        "disk_used": "Kasutatud",
+        "disk_unavailable": "Salvestusmahu hetkeseis ei ole saadaval.",
+        "issues": "Mõnda salvestusteed ei saanud mõõta."
+      },
+      "framework_acceptances": {
+        "title": "Tööalase raamistiku kinnitused",
+        "subtitle": "Viimased registreerimisel salvestatud tööalase kasutuse kinnitused.",
+        "total": "Kokku",
+        "accepted_30d": "Kinnitatud (30p)",
+        "signed_30d": "Allkirjastatud allalaadimine salvestatud (30p)",
+        "version": "Versioon",
+        "signed": "Allkirjastatud allalaadimine",
+        "document": "Dokument"
+      },
+      "ai_costs": {
+        "title": "AI kuluaktiivsus",
+        "subtitle": "ChatLogi-põhine OpenAI, RAG-i, TTS-i ja STT jälgitavus.",
+        "unit_model_note": "internal_usage_units on sisemine normaliseeritud analüütikaühik eelarve jälgimiseks. See ei ole täpne teenusepakkuja arveldus.",
+        "units": "Sisemised kasutusühikud",
+        "budget_units": "Eelarveühikud / kuu",
+        "utilization": "Kasutusmäär",
+        "package": "Pakett",
+        "package_users": "Kasutajad",
+        "users_title": "Kasutajate eelarvejälgimine",
+        "packages_title": "Pakettide eelarvejälgimine",
+        "average_usage": "Keskmine kasutus",
+        "cards": {
+          "total": "AI kulusündmused",
+          "total_meta": "ChatLogi-põhised jälgitavuse sündmused",
+          "direct": "Otsese kasutuse sündmused",
+          "direct_meta": "Kasutus, mille tagastavad otse teenusepakkuja API-d",
+          "estimated": "Hinnangulise kasutuse sündmused",
+          "estimated_meta": "Sündmused, mille kulu hinnatakse päringu mahu või teksti pikkuse järgi",
+          "users": "AI aktiivsusega kasutajad",
+          "users_meta": "Kasutajad praeguses AI jälgitavuse aknas",
+          "approx_eur": "Ligikaudne AI kulu",
+          "approx_eur_meta": "Kokku ligikaudne {total} EUR"
+        },
+        "avg": {
+          "openai_input": "OpenAI sisendtokenid / vastus",
+          "openai_output": "OpenAI väljundtokenid / vastus",
+          "tts_chars": "TTS minutid / töö",
+          "stt_tokens": "STT tokenid kokku / töö",
+          "stt_duration": "STT minutid / töö"
+        },
+        "approx": {
+          "title": "Ligikaudne EUR vaade",
+          "short": "Ligik.",
+          "total": "Kokku",
+          "direct": "Otsene",
+          "estimated": "Hinnanguline",
+          "openai": "Tekst",
+          "rag": "RAG",
+          "tts_stt": "TTS + STT"
+        },
+        "breakdown": {
+          "role": "Rolli järgi",
+          "package": "Paketi järgi",
+          "model": "Mudeli järgi"
+        },
+        "attribution": {
+          "title": "Omistamise täielikkus",
+          "scope": "Ulatus",
+          "scope_value": "Kasutajale suunatud tavalised openai_usage tekstisündmused",
+          "events": "Kaasatud sündmused",
+          "user_id": "Read kasutaja ID-ga",
+          "role": "Read rolliga",
+          "excluded": "Välja jäetud sisemised marsruudid"
+        },
+        "threshold": {
+          "label": "Lävend",
+          "normal": "Tavaline",
+          "warning": "Hoiatus",
+          "high": "Kõrge",
+          "exceeded": "Ületatud",
+          "users_70": "Kasutajad >= 70%",
+          "users_85": "Kasutajad >= 85%",
+          "users_100": "Kasutajad >= 100%",
+          "packages_85": "Paketid >= 85%"
+        },
+        "coverage": {
+          "label": "Kaetus",
+          "complete": "Täielik",
+          "partial": "Osaline",
+          "note_excluded": "RAG-i ja embeddingu kulu ei ole veel kaasatud, sest rag_cost_usage ei ole veel ChatLogi peegeldatud.",
+          "note_included": "RAG-i ja embeddingu kulu on kaasatud ChatLogi peegeldatud rag_cost_usage sündmustest."
+        },
+        "guide": {
+          "title": "Kuidas seda lugeda",
+          "includes": "Praegu kaasatud",
+          "units": "internal_usage_units",
+          "units_value": "Normaliseeritud sisemised kasutusühikud võrdlemiseks ja lävendite jälgimiseks, mitte täpne teenusepakkuja arveldus.",
+          "approx_eur": "Ligikaudne EUR",
+          "approx_eur_value": "Ligikaudne EUR on teenusepakkuja kuluga võrreldav haldusvaade. See aitab toote- ja hinnastusotsuseid teha, kuid ei ole arve täpsusega arveldus.",
+          "thresholds": "Lävendid",
+          "thresholds_value": "Tavaline <70%, hoiatus >=70%, kõrge >=85%, ületatud >=100%.",
+          "breakdowns": "Jaotused",
+          "breakdowns_value": "Marsruut/etapp näitab, kus kasutus tekib, roll/pakett näitab, kellele see langeb, ja mudel näitab kasutust vedavat mudeliperekonda.",
+          "top": "Suurimad kasutajad ja funktsioonid",
+          "top_value": "Jälgi kasutuse koondumist, korduvaid raskeid etappe ning suuri erinevusi otsese ja hinnangulise kasutuse vahel.",
+          "coverage": "Kaetus",
+          "coverage_value": "Osa kasutusest tuleb otse teenusepakkuja vastustest, osa on hinnanguline. Käsitle seda töövaatena, mitte arvena.",
+          "actions": "Tööalane kasutus",
+          "actions_value": "Enne hinnastuse või limiitide muutmist kontrolli kaetust, marsruudi/etapi koondumist, kasutaja/paketi lävendi olekut ja seda, kas suur kasutus on ootuspärane."
+        },
+        "features": {
+          "route": "Marsruut",
+          "stage": "Etapp",
+          "events": "Sündmused",
+          "direct": "Otsene",
+          "estimated": "Hinnanguline"
         }
       }
     },
@@ -2636,19 +2776,6 @@
         "type": "Tüüp",
         "language": "Keel"
       }
-    }
-  },
-  "research": {
-    "error": {
-      "cancelled": "Süvauuring peatati.",
-      "failed": "Süvauuring ebaõnnestus.",
-      "interrupted": "Süvauuring katkes serveri taaskäivituse või ühenduse katkestuse tõttu. Palun käivita see uuesti.",
-      "not_found": "Süvauuringu tööd ei leitud.",
-      "openai_key_missing": "Süvauuringu AI seadistus puudub.",
-      "query_too_long": "Süvauuringu küsimus on liiga pikk.",
-      "retrieval_failed": "Süvauuring ei saanud dokumendibaasist tõendeid kätte. Palun proovi uuesti.",
-      "room_not_supported": "Süvauuring on saadaval ainult 1:1 vestluses.",
-      "timeout": "Süvauuring võttis liiga kaua aega. Täpsusta küsimust ja proovi uuesti."
     }
   },
   "footer": {

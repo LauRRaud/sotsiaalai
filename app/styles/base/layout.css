@@ -8,6 +8,12 @@ body.chat-analysis-scroll-open {
   overflow: hidden;
   height: 100%;
 }
+html.framework-page-scroll-lock,
+body.framework-page-scroll-lock {
+  overflow: hidden;
+  height: 100%;
+  overscroll-behavior: none;
+}
 html.modal-open {
   overscroll-behavior: none;
 }

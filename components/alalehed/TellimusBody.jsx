@@ -23,7 +23,7 @@ const emailReplacement = {
   }
 };
 const pageShellClassName =
-  `${glassPageShellCenteredClassName} !flex h-[100dvh] min-h-[100dvh] items-center justify-start overflow-x-hidden overflow-y-auto overscroll-contain px-[1rem] py-[clamp(1rem,3vh,1.75rem)] ` +
+  `${glassPageShellCenteredClassName} !flex h-[100dvh] min-h-[100dvh] items-center justify-center overflow-x-hidden overflow-y-auto overscroll-contain px-[1rem] py-[clamp(1rem,3vh,1.75rem)] ` +
   "max-[768px]:items-stretch max-[768px]:px-0 max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-top,0px))]";
 const titleClassName =
   `${glassPageTitleClassName} subscription-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
