@@ -41,8 +41,7 @@ export default function HelpListingsPanel({
   onLoadMore,
   onSelectItem,
   onClose,
-  onBackToProfile,
-  emptyText = ""
+  onBackToProfile
 }) {
   const { t } = useI18n();
   const ui = getHelpUiText(t);
@@ -88,7 +87,7 @@ export default function HelpListingsPanel({
   const mobileTitleWrapClassName =
     "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
   const listingsPanelClassName =
-    "mt-[0.25rem] max-[768px]:mt-[0.2rem]";
+    "mt-0";
   const listingsScrollClassName =
     "help-listings-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain px-[0.16rem] py-[0.18rem] pr-[0.32rem] [scrollbar-width:thin] max-[768px]:px-[0.24rem] max-[768px]:pr-[0.24rem]";
 
@@ -210,7 +209,7 @@ export default function HelpListingsPanel({
         className={glassPageBackTopLeftClassName}
       />
 
-        <header className="help-listings-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
+        <header className="help-listings-title-wrap mb-[0.1rem] flex w-full items-start justify-center gap-[0.75rem]">
           <div className={mobileTitleWrapClassName}>
             <h2 className={helpListingsTitleClassName}>
               {title}
@@ -219,12 +218,12 @@ export default function HelpListingsPanel({
         </header>
 
         <div className="flex justify-center">
-          <p className="mt-[0.88rem] text-center text-[1.28rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:mt-[0.82rem] max-[768px]:text-[1.26rem] max-[768px]:tracking-[0.01em]">
+          <p className="mt-[0.34rem] text-center text-[1.22rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:mt-[0.28rem] max-[768px]:text-[1.18rem] max-[768px]:tracking-[0.01em]">
             {countLabel}
           </p>
         </div>
 
-        <div className={`help-listings-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col gap-[1.25rem] overflow-x-hidden px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1rem] max-[768px]:px-[0.2rem]`}>
+        <div className={`help-listings-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col gap-[0.55rem] overflow-x-hidden px-[0.78rem] pt-[0.12rem] pb-[0.4rem] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.2rem] max-[768px]:pt-[0.1rem]`}>
           <Panel
             variant="subpage"
             padding="sm"
@@ -232,12 +231,6 @@ export default function HelpListingsPanel({
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
-            {!loading && !error && !items.length ? (
-              <div className="help-listings-empty flex flex-1 min-h-[clamp(13rem,30vh,18rem)] items-center px-2 py-4 text-[1.08rem] leading-[1.45] opacity-78 max-[768px]:min-h-[clamp(10rem,22vh,14rem)] max-[768px]:text-[1.12rem] hc:text-[color:var(--hc-accent)] hc:opacity-100">
-                {emptyText}
-              </div>
-            ) : null}
-
             {!loading && !error && items.length ? (
               <>
                 <div
