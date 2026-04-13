@@ -247,7 +247,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className={`${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
+        <div className={`materials-page-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
           <section className={materialsUploadSectionClassName}>
             <div className={`grid gap-[0.12rem] pb-[0.12rem] text-left ${materialsDesktopReadableWidthClassName} ${materialsMobileInnerWidthClassName}`}>
               <p className="text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">

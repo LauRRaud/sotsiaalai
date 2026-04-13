@@ -1905,6 +1905,143 @@
     ) !important;
   }
 
+  .subscription-modal-content,
+  .help-listings-modal-content,
+  .selected-listing-modal-content {
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-width: none !important;
+    height: calc(
+      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-height: calc(
+      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
+    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
+    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-top: var(
+      --glass-ring-pad-top,
+      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
+    ) !important;
+    padding-right: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.15 * var(--base-rem)), 3.4vw, calc(1.85 * var(--base-rem)))
+    ) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem) !important;
+    padding-left: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.15 * var(--base-rem)), 3.4vw, calc(1.85 * var(--base-rem)))
+    ) !important;
+  }
+
+  .subscription-modal-content,
+  .help-listings-modal-content {
+    background: var(
+      --glass-modal-bg,
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+    ) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  }
+
+  .selected-listing-modal-content {
+    background: var(
+      --glass-modal-bg,
+      var(--subpage-card-bg, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))))
+    ) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  }
+
+  .subscription-page-shell,
+  .materials-page-shell {
+    padding: 0 !important;
+  }
+
+  :is(
+      .subscription-modal-content,
+      .materials-page-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .documents-workspace-page--library
+    )
+    .policy-mobile-title-wrap {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.34rem) !important;
+    padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
+  }
+
+  :is(.subscription-modal-content, .materials-page-content) .policy-mobile-title-wrap {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.18rem) !important;
+  }
+
+  .selected-listing-modal-content .selected-listing-eyebrow {
+    margin-top: calc(env(safe-area-inset-top, 0px) + 1rem) !important;
+  }
+
+  :is(
+      .subscription-modal-content,
+      .materials-page-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content
+    )
+    :is(.glass-page-title, .subpage-mobile-title, .policy-mobile-title--static) {
+    line-height: 1.05 !important;
+  }
+
+  .subscription-content,
+  .materials-page-body,
+  .materials-page-content
+    :is(
+      .materials-upload-panel,
+      .materials-admin-panel,
+      .materials-upload-panel > div,
+      .materials-upload-panel form,
+      .materials-upload-panel textarea,
+      .materials-admin-panel > div
+    ),
+  .help-listings-body,
+  .help-listings-modal-content
+    :is(.help-listings-panel, .help-listings-item-card, .help-listings-empty),
+  .selected-listing-body,
+  .selected-listing-modal-content :is(.selected-listing-title-wrap + div, .panel) {
+    max-width: none !important;
+  }
+
+  .help-listings-modal-content .help-listings-panel {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+  }
+
+  .help-listings-modal-content .help-listings-empty {
+    border-radius: 1rem;
+    background: var(--subpage-card-bg);
+    border: 1px solid var(--subpage-card-border, transparent);
+    box-shadow: var(--subpage-card-shadow);
+    padding: 1rem !important;
+  }
+
+  .help-listings-modal-content .help-listings-item-card {
+    width: 100%;
+    border-radius: 1rem !important;
+    padding: 0.9rem !important;
+  }
+
   :root.theme-light:not(.theme-mid) .invite-modal-content {
     color: var(--text-strong, #1f2937) !important;
   }

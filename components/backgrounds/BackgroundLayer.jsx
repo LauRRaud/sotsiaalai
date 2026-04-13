@@ -189,7 +189,7 @@ const BackgroundContent = memo(function BackgroundContent({
 
     const timeoutId = window.setTimeout(() => {
       setMobileParticlesVisible(true);
-    }, mobileBackgroundMode ? 180 : 120);
+    }, mobileBackgroundMode ? 0 : 120);
 
     return () => window.clearTimeout(timeoutId);
   }, [

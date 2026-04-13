@@ -90,7 +90,7 @@ export default function HelpListingsPanel({
       key={`${item.kind}-${item.id}`}
       type="button"
       onClick={() => onSelectItem?.(item)}
-      className={`${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left ${item.isOwn ? "ring-1 ring-[rgba(197,113,113,0.34)] [.theme-light_&]:ring-[rgba(122,58,56,0.28)]" : ""}`}
+      className={`help-listings-item-card ${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left ${item.isOwn ? "ring-1 ring-[rgba(197,113,113,0.34)] [.theme-light_&]:ring-[rgba(122,58,56,0.28)]" : ""}`}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.1rem]">
@@ -183,7 +183,7 @@ export default function HelpListingsPanel({
           </p>
         </div>
 
-        <div className={`${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.7rem] px-[0.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.05rem]`}>
+        <div className={`help-listings-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.7rem] px-[0.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.05rem]`}>
           <Panel
             variant="subpage"
             padding="sm"
@@ -192,7 +192,7 @@ export default function HelpListingsPanel({
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
             {!loading && !error && !items.length ? (
-              <div className="px-2 py-4 text-[1.08rem] leading-[1.45] opacity-78 max-[768px]:text-[1.12rem] hc:text-[color:var(--hc-accent)] hc:opacity-100">
+              <div className="help-listings-empty px-2 py-4 text-[1.08rem] leading-[1.45] opacity-78 max-[768px]:text-[1.12rem] hc:text-[color:var(--hc-accent)] hc:opacity-100">
                 {emptyText}
               </div>
             ) : null}

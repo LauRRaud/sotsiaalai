@@ -113,6 +113,10 @@
   [data-bg-layer] .bg-bends-layer {
     transition-duration: 4000ms, 0s;
   }
+
+  [data-bg-layer] .bg-particles-layer {
+    transition-duration: 4500ms, 0s;
+  }
 }
 
 [data-bg-layer] .bg-particles-layer {

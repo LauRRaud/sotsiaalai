@@ -112,7 +112,7 @@ export default function HomeAboutSection({
   const contactEmailValue = t("about.contact.email_value");
   const contactEmailLinkClassName = cn(
     "inline-block bg-transparent border-0 shadow-none rounded-none no-underline cursor-default",
-    "text-[clamp(1.22rem,1.74vw,1.38rem)] max-[768px]:text-[clamp(1.14rem,5vw,1.3rem)] leading-[1.22] tracking-[0.01em]",
+    "text-[clamp(1.22rem,1.74vw,1.38rem)] max-[768px]:text-[clamp(1.14rem,5vw,1.3rem)] leading-[1.22] max-[768px]:leading-[1.34] tracking-[0.01em]",
     "text-[color:var(--home-link-color,var(--brand-primary))]",
     "transition-colors duration-150",
     "light:!text-[color:var(--home-link-color,var(--brand-primary))]",
@@ -430,15 +430,15 @@ export default function HomeAboutSection({
                 <h3 id={beforeHeadingId} className="sr-only">
                   {t("about.contact.title")}
                 </h3>
-                <div className="home-before-contact-copy mx-auto flex w-full max-w-[min(78vw,23rem)] flex-col items-center gap-[clamp(0.68rem,1.08vw,0.88rem)] text-center max-[768px]:max-w-[min(78vw,18rem)]">
-                  <p className="m-0 text-[clamp(1.26rem,1.9vw,1.5rem)] max-[768px]:text-[clamp(1.18rem,5.2vw,1.38rem)] font-normal leading-[1.18] tracking-[0.015em] text-[color:var(--home-prose-color)]">
+                <div className="home-before-contact-copy mx-auto flex w-full max-w-[min(78vw,23rem)] flex-col items-center gap-[clamp(0.68rem,1.08vw,0.88rem)] text-center max-[768px]:max-w-[min(78vw,18rem)] max-[768px]:gap-[clamp(0.9rem,3vw,1.12rem)]">
+                  <p className="m-0 text-[clamp(1.26rem,1.9vw,1.5rem)] max-[768px]:text-[clamp(1.18rem,5.2vw,1.38rem)] font-normal leading-[1.18] max-[768px]:leading-[1.3] tracking-[0.015em] text-[color:var(--home-prose-color)]">
                     {contactCompany}
                   </p>
-                  <div className="m-0 flex w-full flex-col gap-[clamp(0.56rem,0.88vw,0.76rem)] text-[color:var(--home-prose-color)]">
-                    <p className="m-0 text-[clamp(1.16rem,1.55vw,1.28rem)] max-[768px]:text-[clamp(1.06rem,4.55vw,1.18rem)] leading-[1.3] tracking-[0.01em]">
+                  <div className="m-0 flex w-full flex-col gap-[clamp(0.56rem,0.88vw,0.76rem)] text-[color:var(--home-prose-color)] max-[768px]:gap-[clamp(0.78rem,2.65vw,1rem)]">
+                    <p className="m-0 text-[clamp(1.16rem,1.55vw,1.28rem)] max-[768px]:text-[clamp(1.06rem,4.55vw,1.18rem)] leading-[1.3] max-[768px]:leading-[1.4] tracking-[0.01em]">
                       {contactRegistryValue}
                     </p>
-                    <p className="m-0 text-[clamp(1.16rem,1.55vw,1.28rem)] max-[768px]:text-[clamp(1.06rem,4.55vw,1.18rem)] leading-[1.34] tracking-[0.01em] [text-wrap:balance]">
+                    <p className="m-0 text-[clamp(1.16rem,1.55vw,1.28rem)] max-[768px]:text-[clamp(1.06rem,4.55vw,1.18rem)] leading-[1.34] max-[768px]:leading-[1.48] tracking-[0.01em] [text-wrap:balance]">
                       {contactAddressValue}
                     </p>
                     <p className="m-0">
