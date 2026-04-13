@@ -438,7 +438,7 @@ export default function HomeAboutSection({
                     <p className="m-0 text-[clamp(1.16rem,1.55vw,1.28rem)] max-[768px]:text-[clamp(1.06rem,4.55vw,1.18rem)] leading-[1.3] tracking-[0.01em]">
                       {contactRegistryValue}
                     </p>
-                    <p className="m-0 text-[clamp(1.16rem,1.55vw,1.28rem)] max-[768px]:text-[clamp(1.06rem,4.55vw,1.18rem)] leading-[1.34] tracking-[0.01em] [text-wrap:balance]">
+                    <p className="m-0 text-[clamp(1.02rem,1.36vw,1.14rem)] max-[768px]:text-[clamp(0.96rem,4.05vw,1.08rem)] leading-[1.34] tracking-[0.01em] [text-wrap:balance]">
                       {contactAddressValue}
                     </p>
                     <p className="m-0">
@@ -539,4 +539,3 @@ export default function HomeAboutSection({
     </section>
   );
 }
-
