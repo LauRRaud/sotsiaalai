@@ -7,7 +7,6 @@ import Button from "@/components/ui/Button";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import {
   glassPageBackTopLeftClassName,
   glassPrimaryButtonToneClassName,
@@ -142,7 +141,7 @@ function TextField({ label, value, onChange, placeholder = "" }) {
         value={value}
         onChange={(event) => onChange?.(event.target.value)}
         placeholder={placeholder}
-        className="documents-field min-h-[3rem] w-full rounded-[0.9rem] px-[0.95rem] py-[0.7rem] text-[1rem] outline-none !shadow-none"
+        className="documents-field min-h-[3rem] w-full rounded-[0.9rem] px-[0.95rem] py-[0.7rem] text-[1rem] text-[color:var(--input-text,var(--glass-modal-text))] placeholder:text-[color:var(--input-placeholder,color-mix(in_srgb,var(--input-text)_58%,transparent))] outline-none !shadow-none"
       />
     </label>
   );
@@ -156,7 +155,7 @@ function TextAreaField({ label, value, onChange, rows = 3 }) {
         value={value}
         onChange={(event) => onChange?.(event.target.value)}
         rows={rows}
-        className="documents-field documents-field--textarea w-full resize-y rounded-[0.9rem] px-[0.95rem] py-[0.78rem] text-[1rem] leading-[1.45] outline-none !shadow-none"
+        className="documents-field documents-field--textarea w-full resize-y rounded-[0.9rem] px-[0.95rem] py-[0.78rem] text-[1rem] leading-[1.45] text-[color:var(--input-text,var(--glass-modal-text))] placeholder:text-[color:var(--input-placeholder,color-mix(in_srgb,var(--input-text)_58%,transparent))] outline-none !shadow-none"
       />
     </label>
   );
@@ -173,7 +172,7 @@ function TargetGroupsField({ label, value = [], onChange }) {
   };
 
   return (
-    <fieldset className="grid gap-[0.45rem]">
+    <fieldset className="m-0 grid min-w-0 gap-[0.45rem] border-0 p-0">
       <legend className="text-[0.8rem] uppercase tracking-[0.08em] opacity-74">{label}</legend>
       <div className="grid grid-cols-2 gap-[0.45rem] max-[520px]:grid-cols-1">
         {TARGET_GROUP_OPTIONS.map((option) => {
@@ -183,9 +182,9 @@ function TargetGroupsField({ label, value = [], onChange }) {
               key={option.value}
               type="button"
               onClick={() => toggleValue(option.value)}
-              className={`min-h-[2.65rem] rounded-[0.9rem] border px-[0.75rem] py-[0.55rem] text-left text-[0.98rem] leading-[1.2] transition-colors duration-150 !shadow-none ${
+              className={`min-h-[2.65rem] rounded-[1.05rem] border px-[0.75rem] py-[0.55rem] text-left text-[0.98rem] leading-[1.2] transition-colors duration-150 !shadow-none ${
                 selected
-                  ? "border-[color:var(--documents-accent-border,var(--subpage-card-border))] bg-[color:var(--documents-accent-soft,var(--input-bg-hover))] text-[color:var(--documents-accent,var(--title-color,var(--brand-primary)))]"
+                  ? "border-[color:var(--title-color,var(--brand-primary))] bg-[color:color-mix(in_srgb,var(--title-color,var(--brand-primary))_12%,transparent)] text-[color:var(--title-color,var(--brand-primary))]"
                   : "border-[color:var(--documents-card-border,var(--subpage-card-border))] bg-[color:var(--input-bg)] text-[color:var(--input-text)] hover:bg-[color:var(--input-bg-hover)]"
               }`}
               aria-pressed={selected ? "true" : "false"}
@@ -221,10 +220,6 @@ export default function SelectedListingContext({
   const { t } = useI18n();
   const ui = getHelpUiText(t);
   const [isMounted, setIsMounted] = useState(false);
-  const [scrollElement, setScrollElement] = useState(null);
-  const [canScrollUp, setCanScrollUp] = useState(false);
-  const [canScrollDown, setCanScrollDown] = useState(false);
-  const [scrollDirection, setScrollDirection] = useState("down");
 
   useEffect(() => {
     setIsMounted(true);
@@ -244,38 +239,6 @@ export default function SelectedListingContext({
       root.classList.remove("selected-listing-modal-open");
     };
   }, [error, isMounted, listing, loading]);
-
-  useEffect(() => {
-    const element = scrollElement;
-    if (!element || loading || (!listing && !error)) {
-      setCanScrollUp(false);
-      setCanScrollDown(false);
-      setScrollDirection("down");
-      return undefined;
-    }
-
-    let lastTop = element.scrollTop || 0;
-    const updateScrollState = () => {
-      const nextTop = element.scrollTop || 0;
-      const maxTop = Math.max(0, element.scrollHeight - element.clientHeight);
-      setCanScrollUp(nextTop > 6);
-      setCanScrollDown(nextTop < maxTop - 6);
-      if (Math.abs(nextTop - lastTop) > 2) {
-        setScrollDirection(nextTop > lastTop ? "down" : "up");
-      }
-      lastTop = nextTop;
-    };
-
-    updateScrollState();
-    const rafId = window.requestAnimationFrame(updateScrollState);
-    element.addEventListener("scroll", updateScrollState, { passive: true });
-    window.addEventListener("resize", updateScrollState);
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      element.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
-    };
-  }, [editState, error, listing, loading, scrollElement]);
 
   if (!isMounted || typeof document === "undefined") {
     return null;
@@ -301,7 +264,7 @@ export default function SelectedListingContext({
   const infoItems = listing ? buildInfoItems(listing, ui) : [];
   const cleanDescription = listing ? buildCleanDescription(listing) : "";
   const selectedListingContentClassName =
-    `selected-listing-modal-content documents-workspace !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
+    `selected-listing-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
     `relative !flex !max-h-[calc(100dvh-2.5rem)] !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
@@ -355,7 +318,6 @@ export default function SelectedListingContext({
       </header>
 
       <div
-        ref={setScrollElement}
         className={`selected-listing-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.25rem] pr-[0.55rem] max-[768px]:px-[0.05rem] max-[768px]:pr-[0.05rem]`}
       >
         <Panel
@@ -385,7 +347,7 @@ export default function SelectedListingContext({
               ) : null}
 
               {editState ? (
-                <div className="grid gap-[0.8rem] pt-[0.35rem]">
+                <div className="documents-workspace grid gap-[0.8rem] pt-[0.35rem]">
                   <TextField
                     label={ui.title}
                     value={editState.title}
@@ -482,7 +444,7 @@ export default function SelectedListingContext({
               ) : null}
 
               {!editState && !isOwn ? (
-                <div className="grid gap-[0.8rem] pt-[0.35rem]">
+                <div className="documents-workspace grid gap-[0.8rem] pt-[0.35rem]">
                   {listing.status === "CLOSED" ? <div className="text-[0.92rem] opacity-72">{ui.statusClosed}</div> : null}
                   <DropdownField
                     label={ui.selectOwnListing}
@@ -506,22 +468,6 @@ export default function SelectedListingContext({
             </div>
           ) : null}
         </Panel>
-      </div>
-      <div
-        aria-hidden="true"
-        className={`pointer-events-none absolute bottom-[0.92rem] left-[1.65rem] right-[1.65rem] z-[4] h-[4.8rem] bg-[linear-gradient(to_top,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_0%,color-mix(in_srgb,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_68%,transparent)_44%,transparent_100%)] transition-opacity duration-300 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+0.58rem)] max-[768px]:left-[0.78rem] max-[768px]:right-[0.78rem] ${canScrollDown ? "opacity-100" : "opacity-0"}`}
-      >
-        <span className={`absolute bottom-[0.05rem] left-1/2 block h-[2.55rem] w-[2.55rem] -translate-x-1/2 transition-all duration-500 ${canScrollDown ? (scrollDirection === "up" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
-          <ChevronIcon direction="down" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
-        </span>
-      </div>
-      <div
-        aria-hidden="true"
-        className={`pointer-events-none absolute left-[1.65rem] right-[1.65rem] top-[clamp(8.5rem,24vh,13rem)] z-[4] h-[4.2rem] bg-[linear-gradient(to_bottom,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_0%,color-mix(in_srgb,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_68%,transparent)_44%,transparent_100%)] transition-opacity duration-300 max-[768px]:left-[0.78rem] max-[768px]:right-[0.78rem] ${canScrollUp ? "opacity-100" : "opacity-0"}`}
-      >
-        <span className={`absolute left-1/2 top-[0.22rem] block h-[2.25rem] w-[2.25rem] -translate-x-1/2 transition-all duration-500 ${canScrollUp ? (scrollDirection === "down" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
-          <ChevronIcon direction="up" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
-        </span>
       </div>
     </Modal>,
     document.body

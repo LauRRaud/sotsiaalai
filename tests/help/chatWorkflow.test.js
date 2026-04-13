@@ -424,6 +424,43 @@ test("offer target-group answer is clarified instead of being treated as a place
   assert.doesNotMatch(String(result.reply || ""), /asukohaks minule/i);
 });
 
+test("offer audience all age groups is normalized and reflected without malformed location case", async () => {
+  const state = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    activeQuestionLayer: "basic",
+    activeQuestionKey: "offerAudience",
+    municipalityId: "mun-harku",
+    municipalityLabel: "Harku vald",
+    draft: {
+      title: "Digiabi pakkumine",
+      description: "Pakun tasuta juhendamist SotsiaalAI platvormi kasutamisel Tabasalus.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      rawPlace: "Tabasalu",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "Abi toimub kokkuleppel"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "kõik vanusegrupid",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: state
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.deepEqual(result.workflowState?.draft?.targetGroups, ["Kõik vanusegrupid"]);
+  assert.deepEqual(result.workflowState?.draft?.targetGroupCodes, ["CHILD", "YOUTH", "ADULT", "ELDER", "DISABILITY"]);
+  assert.match(String(result.reply || ""), /Sihtrühm: Kõik vanusegrupid\./);
+  assert.match(String(result.reply || ""), /Asukoht: Tabasalu\./);
+  assert.doesNotMatch(String(result.reply || ""), /digiabi Tabasalu/i);
+});
+
 test("rich help offer does not copy full description into timing, compensation or conditions", async () => {
   const message = [
     "Pakun abi igapäevaelus ja digiasjades",

@@ -63,6 +63,73 @@ body:is(
 
 .help-listings-scroll {
   touch-action: pan-y;
+  --help-scroll-fade-top: clamp(1.25rem, 3.6vh, 2.1rem);
+  --help-scroll-fade-bottom: clamp(1.45rem, 4.2vh, 2.4rem);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.08) calc(var(--help-scroll-fade-top) * 0.18),
+    rgba(0, 0, 0, 0.34) calc(var(--help-scroll-fade-top) * 0.42),
+    rgba(0, 0, 0, 0.72) calc(var(--help-scroll-fade-top) * 0.72),
+    #000 var(--help-scroll-fade-top),
+    #000 calc(100% - var(--help-scroll-fade-bottom)),
+    rgba(0, 0, 0, 0.72) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.34) calc(100% - (var(--help-scroll-fade-bottom) * 0.42)),
+    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.18)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.08) calc(var(--help-scroll-fade-top) * 0.18),
+    rgba(0, 0, 0, 0.34) calc(var(--help-scroll-fade-top) * 0.42),
+    rgba(0, 0, 0, 0.72) calc(var(--help-scroll-fade-top) * 0.72),
+    #000 var(--help-scroll-fade-top),
+    #000 calc(100% - var(--help-scroll-fade-bottom)),
+    rgba(0, 0, 0, 0.72) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.34) calc(100% - (var(--help-scroll-fade-bottom) * 0.42)),
+    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.18)),
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.selected-listing-body {
+  --help-scroll-fade-top: clamp(1.1rem, 3.2vh, 1.85rem);
+  --help-scroll-fade-bottom: clamp(1.35rem, 3.8vh, 2.2rem);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.08) calc(var(--help-scroll-fade-top) * 0.18),
+    rgba(0, 0, 0, 0.34) calc(var(--help-scroll-fade-top) * 0.42),
+    rgba(0, 0, 0, 0.72) calc(var(--help-scroll-fade-top) * 0.72),
+    #000 var(--help-scroll-fade-top),
+    #000 calc(100% - var(--help-scroll-fade-bottom)),
+    rgba(0, 0, 0, 0.72) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.34) calc(100% - (var(--help-scroll-fade-bottom) * 0.42)),
+    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.18)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.08) calc(var(--help-scroll-fade-top) * 0.18),
+    rgba(0, 0, 0, 0.34) calc(var(--help-scroll-fade-top) * 0.42),
+    rgba(0, 0, 0, 0.72) calc(var(--help-scroll-fade-top) * 0.72),
+    #000 var(--help-scroll-fade-top),
+    #000 calc(100% - var(--help-scroll-fade-bottom)),
+    rgba(0, 0, 0, 0.72) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.34) calc(100% - (var(--help-scroll-fade-bottom) * 0.42)),
+    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.18)),
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
 .help-listings-scroll > *,

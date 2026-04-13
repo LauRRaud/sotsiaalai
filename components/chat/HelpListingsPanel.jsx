@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import {
   glassPageBackTopLeftClassName,
   glassSubpageCardInteractiveClassName,
@@ -25,8 +24,10 @@ function uniqueLabels(values = []) {
 function buildTagLine(item = {}) {
   return uniqueLabels([
     item.categoryLabel,
-    ...(Array.isArray(item.targetGroupLabels) ? item.targetGroupLabels : [])
-  ]).join(" · ");
+    ...(Array.isArray(item.targetGroupLabels) ? item.targetGroupLabels : []),
+    item.helpTypeLabel,
+    item.timeTypeLabel
+  ]).join(" | ");
 }
 
 export default function HelpListingsPanel({
@@ -48,10 +49,6 @@ export default function HelpListingsPanel({
   const ownSectionLabel = title === ui.helpOffers ? ui.myHelpOffers : ui.myHelpRequests;
   const [isMounted, setIsMounted] = useState(false);
   const [closeTiltOverride, setCloseTiltOverride] = useState(null);
-  const listingsScrollRef = useRef(null);
-  const [canScrollUp, setCanScrollUp] = useState(false);
-  const [canScrollDown, setCanScrollDown] = useState(false);
-  const [scrollDirection, setScrollDirection] = useState("down");
   const ownItems = useMemo(
     () => items.filter((item) => item?.isOwn),
     [items]
@@ -150,40 +147,6 @@ export default function HelpListingsPanel({
     };
   }, [isMounted]);
 
-  useEffect(() => {
-    const element = listingsScrollRef.current;
-    if (!element || loading || error || !items.length) {
-      setCanScrollUp(false);
-      setCanScrollDown(false);
-      setScrollDirection("down");
-      return undefined;
-    }
-
-    let lastTop = element.scrollTop || 0;
-
-    const updateScrollState = () => {
-      const nextTop = element.scrollTop || 0;
-      const maxTop = Math.max(0, element.scrollHeight - element.clientHeight);
-      setCanScrollUp(nextTop > 6);
-      setCanScrollDown(nextTop < maxTop - 6);
-      if (Math.abs(nextTop - lastTop) > 2) {
-        setScrollDirection(nextTop > lastTop ? "down" : "up");
-      }
-      lastTop = nextTop;
-    };
-
-    updateScrollState();
-    const rafId = window.requestAnimationFrame(updateScrollState);
-    element.addEventListener("scroll", updateScrollState, { passive: true });
-    window.addEventListener("resize", updateScrollState);
-
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      element.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
-    };
-  }, [error, items.length, loading]);
-
   if (!isMounted || typeof document === "undefined") {
     return null;
   }
@@ -233,23 +196,7 @@ export default function HelpListingsPanel({
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
             {!loading && !error && items.length ? (
               <>
-                <div
-                  aria-hidden="true"
-                  className={`pointer-events-none absolute left-[0.62rem] right-[0.62rem] top-[0.62rem] z-[4] h-[4.6rem] rounded-t-[1rem] bg-[linear-gradient(to_bottom,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_0%,color-mix(in_srgb,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_68%,transparent)_44%,transparent_100%)] transition-opacity duration-300 max-[768px]:left-[0.28rem] max-[768px]:right-[0.28rem] max-[768px]:top-[0.28rem] ${canScrollUp ? "opacity-100" : "opacity-0"}`}
-                >
-                  <span className={`absolute left-1/2 top-[0.45rem] block h-[2.3rem] w-[2.3rem] -translate-x-1/2 transition-all duration-500 ${canScrollUp ? (scrollDirection === "down" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
-                    <ChevronIcon direction="up" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
-                  </span>
-                </div>
-                <div
-                  aria-hidden="true"
-                  className={`pointer-events-none absolute bottom-[0.62rem] left-[0.62rem] right-[0.62rem] z-[4] h-[4.8rem] rounded-b-[1rem] bg-[linear-gradient(to_top,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_0%,color-mix(in_srgb,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_68%,transparent)_44%,transparent_100%)] transition-opacity duration-300 max-[768px]:bottom-[0.28rem] max-[768px]:left-[0.28rem] max-[768px]:right-[0.28rem] ${canScrollDown ? "opacity-100" : "opacity-0"}`}
-                >
-                  <span className={`absolute bottom-[0.05rem] left-1/2 block h-[2.55rem] w-[2.55rem] -translate-x-1/2 transition-all duration-500 ${canScrollDown ? (scrollDirection === "up" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
-                    <ChevronIcon direction="down" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
-                  </span>
-                </div>
-                <div ref={listingsScrollRef} className={listingsScrollClassName}>
+                <div className={listingsScrollClassName}>
                   <div className="grid min-w-0 gap-[0.7rem]">
                     {ownItems.length ? (
                       <div className="mb-[0.1rem] text-[0.76rem] uppercase tracking-[0.11em] opacity-70">
