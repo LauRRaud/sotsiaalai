@@ -138,12 +138,28 @@ export function useDeepResearchStream({
         let finalText = "";
         let finalSources = [];
         let hadError = false;
+        let pendingErrorKey = "";
         let fallbackAttempted = false;
+
+        const applyErrorMessage = key => {
+          hadError = true;
+          const message = translateDeepResearchError(
+            String(key || "").trim() || "chat.deep_research.error_generic",
+            t
+          );
+          setErrorBanner?.(message);
+          mutateMessage?.(streamingMessageId, msg => ({
+            ...msg,
+            text: message,
+            isStreaming: false,
+          }));
+        };
 
         const applyTerminalJob = job => {
           const status = String(job?.status || "").trim().toLowerCase();
           if (status === "done") {
             hadError = false;
+            pendingErrorKey = "";
             finalText = String(job?.result?.report_text || "").trim();
             finalSources = normalizeSources(job?.result?.sources);
             setErrorBanner?.(null);
@@ -156,15 +172,8 @@ export function useDeepResearchStream({
             return true;
           }
           if (status === "error" || status === "cancelled") {
-            hadError = true;
-            const key = String(job?.error || "").trim() || "chat.deep_research.error_generic";
-            const message = translateDeepResearchError(key, t);
-            setErrorBanner?.(message);
-            mutateMessage?.(streamingMessageId, msg => ({
-              ...msg,
-              text: message,
-              isStreaming: false,
-            }));
+            pendingErrorKey = "";
+            applyErrorMessage(job?.error || "chat.deep_research.error_generic");
             return true;
           }
           return false;
@@ -210,6 +219,7 @@ export function useDeepResearchStream({
             }
             if (event?.event === "result") {
               hadError = false;
+              pendingErrorKey = "";
               finalText = String(data?.result?.report_text || "").trim();
               finalSources = normalizeSources(data?.result?.sources);
               setErrorBanner?.(null);
@@ -222,15 +232,8 @@ export function useDeepResearchStream({
               continue;
             }
             if (event?.event === "error") {
-              hadError = true;
-              const key = String(data?.message || "").trim() || "chat.deep_research.error_generic";
-              const message = translateDeepResearchError(key, t);
-              setErrorBanner?.(message);
-              mutateMessage?.(streamingMessageId, msg => ({
-                ...msg,
-                text: message,
-                isStreaming: false,
-              }));
+              pendingErrorKey =
+                String(data?.message || "").trim() || "chat.deep_research.error_generic";
               continue;
             }
             if (event?.event === "done") {
@@ -240,6 +243,12 @@ export function useDeepResearchStream({
         } catch (streamError) {
           if (!cancelledRef.current && !(await recoverFromPersistedJob())) {
             throw streamError;
+          }
+        }
+
+        if (!finalText && !cancelledRef.current && pendingErrorKey) {
+          if (!(await recoverFromPersistedJob())) {
+            applyErrorMessage(pendingErrorKey);
           }
         }
 

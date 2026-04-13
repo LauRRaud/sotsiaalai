@@ -61,6 +61,7 @@ export async function GET(req, { params }) {
   let closed = false;
   let heartbeat = null;
   let dbPoll = null;
+  let missingSnapshotCount = 0;
 
   const stream = new ReadableStream({
     start(controller) {
@@ -134,11 +135,15 @@ export async function GET(req, { params }) {
           getResearchJobSnapshot(jobId)
             .then(snapshot => {
               if (!snapshot) {
-                emit({ type: "error", message: "research.error.not_found" });
-                emit({ type: "status", status: "error" });
-                emit({ type: "done" });
+                missingSnapshotCount += 1;
+                if (missingSnapshotCount >= 6) {
+                  emit({ type: "error", message: "research.error.not_found" });
+                  emit({ type: "status", status: "error" });
+                  emit({ type: "done" });
+                }
                 return;
               }
+              missingSnapshotCount = 0;
               emitSnapshot(snapshot);
             })
             .catch(() => {
