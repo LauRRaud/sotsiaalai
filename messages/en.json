@@ -1470,7 +1470,7 @@
       "paragraph3": "<p>The platform includes two role-based, agent-capable AI assistants: one for <strong>social work professionals</strong> and one for <strong>people approaching with life-related questions</strong>. For professionals, SotsiaalAI is a working tool for interpreting legal frameworks, methodologies, and practices, drafting documents, managing materials, and supporting co-vision and collaboration. For people seeking help, it helps explain benefits, services, and rights and, when needed, also assists in drafting letters, applications, and other necessary texts.</p>",
       "paragraph4": "<p>SotsiaalAI's vision is to become a <strong>next-generation platform for the social sector</strong>, centred around a single chat window. Here, artificial intelligence, a trusted knowledge base, and practical solutions come together to help both professionals and people move from a question or need to clarity, next steps, and a working solution - whether that means a service, support, a document, a job opportunity, or an assistive aid.</p>",
       "paragraph5": "<p>SotsiaalAI is being developed as a <strong>social enterprise</strong> and a <strong>social innovation initiative</strong>. We combine technology and social-sector practice to reduce information barriers and make workflows, collaboration, and finding help clearer, faster, and more accessible. We also consider a safe and responsible user experience essential, which is why we focus on data protection, clear usage rules, and implementing the necessary security and protection measures.</p>",
-      "paragraph6": "<p>SotsiaalAI OÜ, registry code 14206225, address Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Estonia. <a href=\"#\" data-contact-open=\"1\">Contact</a>.</p>"
+      "paragraph6": "<p>SotsiaalAI OÜ, registry code 14206225, address Harju maakond, Harku vald, Tabasalu, Kolde tn 6/1, 76901, Estonia. <a href=\"#\" data-contact-open=\"1\">Contact</a>.</p>"
     },
     "contact": {
       "title": "Contact",
@@ -1480,8 +1480,8 @@
       "registry_label": "Registry code",
       "registry_value": "14206225",
       "address_label": "Address",
-      "address_value": "Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Estonia",
-      "modal_body": "<p><strong>SotsiaalAI OÜ</strong><br />Registry code 14206225<br />Address: Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Estonia<br /><a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a></p>"
+      "address_value": "Harju maakond, Harku vald, Tabasalu, Kolde tn 6/1, 76901, Estonia",
+      "modal_body": "<p><strong>SotsiaalAI OÜ</strong><br />Registry code 14206225<br />Address: Harju maakond, Harku vald, Tabasalu, Kolde tn 6/1, 76901, Estonia<br /><a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a></p>"
     },
     "cta": {
       "title": "Before using"
@@ -2779,6 +2779,6 @@
     }
   },
   "footer": {
-    "legal": "SotsiaalAI OÜ, registry code 14206225, address Kolde tn 6/1, Tabasalu alevik, Harku vald, Harjumaa, Estonia. Contact: info@sotsiaal.ai."
+    "legal": "SotsiaalAI OÜ, registry code 14206225, address Kolde tn 6/1, Tabasalu, Harku vald, Harjumaa, Estonia. Contact: info@sotsiaal.ai."
   }
 }

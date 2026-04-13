@@ -1470,7 +1470,7 @@
       "paragraph3": "<p>Platvormil on kaks rollipõhist, agendivõimekusega tehisintellekti assistenti: üks <strong>sotsiaaltöö spetsialistidele</strong> ja teine <strong>eluküsimustega pöördujatele</strong>. Spetsialistile on SotsiaalAI töövahend õigusraamistiku, metoodikate ja praktikate mõtestamisel, dokumentide koostamisel, materjalide haldamisel ning kovisiooni ja koostöö toetamisel. Pöördujale aitab see mõista toetusi, teenuseid ja õigusi ning vajadusel koostada ka kirju, taotlusi ja muid vajalikke tekste.</p>",
       "paragraph4": "<p>SotsiaalAI visioon on kujuneda <strong>järgmise põlvkonna sotsiaalvaldkonna platvormiks</strong>, mille keskmes on üks vestlusaken. Selles kohtuvad tehisintellekt, usaldusväärne teadmuspõhi ja praktilised lahendused, et aidata nii spetsialistidel kui ka inimestel jõuda küsimusest või vajadusest selguse, järgmiste sammude ja toimiva lahenduseni - olgu selleks teenus, toetus, dokument, abisoov või -pakkumine, karjäärinõustamine, töövõimalus või abivahend.</p>",
       "paragraph5": "<p>SotsiaalAI-d arendatakse <strong>sotsiaalse ettevõttena</strong> ja <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta töövood, koostöö ja abi leidmine selgemaks, kiiremaks ja ligipääsetavamaks. Seejuures peame oluliseks turvalist ja vastutustundlikku kasutuskogemust, mistõttu pöörame tähelepanu andmekaitsele, selgetele kasutusreeglitele ning vajalike turva- ja kaitsemeetmete rakendamisele.</p>",
-      "paragraph6": "<p>SotsiaalAI OÜ, registrikood 14206225, aadressiga Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti. <a href=\"#\" data-contact-open=\"1\">Kontakt</a>.</p>"
+      "paragraph6": "<p>SotsiaalAI OÜ, registrikood 14206225, aadressiga Harju maakond, Harku vald, Tabasalu, Kolde tn 6/1, 76901, Eesti. <a href=\"#\" data-contact-open=\"1\">Kontakt</a>.</p>"
     },
     "contact": {
       "title": "Kontakt",
@@ -1480,8 +1480,8 @@
       "registry_label": "Registrikood",
       "registry_value": "14206225",
       "address_label": "Aadress",
-      "address_value": "Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti",
-      "modal_body": "<p><strong>SotsiaalAI OÜ</strong><br />Registrikood 14206225<br />Aadress: Harju maakond, Harku vald, Tabasalu alevik, Kolde tn 6/1, 76901, Eesti<br /><a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a></p>"
+      "address_value": "Harju maakond, Harku vald, Tabasalu, Kolde tn 6/1, 76901, Eesti",
+      "modal_body": "<p><strong>SotsiaalAI OÜ</strong><br />Registrikood 14206225<br />Aadress: Harju maakond, Harku vald, Tabasalu, Kolde tn 6/1, 76901, Eesti<br /><a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a></p>"
     },
     "cta": {
       "title": "Enne kasutamist"
@@ -2779,6 +2779,6 @@
     }
   },
   "footer": {
-    "legal": "SotsiaalAI OÜ, registrikood 14206225, aadress Kolde tn 6/1, Tabasalu alevik, Harku vald, Harjumaa. Kontakt: info@sotsiaal.ai."
+    "legal": "SotsiaalAI OÜ, registrikood 14206225, aadress Kolde tn 6/1, Tabasalu, Harku vald, Harjumaa. Kontakt: info@sotsiaal.ai."
   }
 }
