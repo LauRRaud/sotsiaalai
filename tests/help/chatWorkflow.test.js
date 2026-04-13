@@ -33,6 +33,15 @@ const MUNICIPALITIES = {
     displayName: "Harku vald",
     county: "Harju",
     isActive: true
+  },
+  "mun-haapsalu": {
+    id: "mun-haapsalu",
+    slug: "haapsalu-linn",
+    baseName: "Haapsalu",
+    type: "LINN",
+    displayName: "Haapsalu linn",
+    county: "Laane",
+    isActive: true
   }
 };
 
@@ -54,6 +63,7 @@ const TARGET_GROUPS = {
 
 function findMunicipalityByText(where = {}) {
   const haystack = JSON.stringify(where).toLowerCase();
+  if (haystack.includes("haapsalu")) return MUNICIPALITIES["mun-haapsalu"];
   if (haystack.includes("harku")) return MUNICIPALITIES["mun-harku"];
   if (haystack.includes("tallinn")) return MUNICIPALITIES["mun-tallinn"];
   return null;
@@ -74,6 +84,13 @@ function createPrismaStub() {
     municipality: {
       async findUnique({ where }) {
         return MUNICIPALITIES[String(where?.id || "").trim()] || null;
+      },
+      async findMany({ where } = {}) {
+        const municipalities = Object.values(MUNICIPALITIES);
+        const slugs = Array.isArray(where?.slug?.in) ? where.slug.in : [];
+        if (slugs.length) return municipalities.filter((item) => slugs.includes(item.slug));
+        const match = findMunicipalityByText(where);
+        return match ? [match] : municipalities;
       },
       async findFirst({ where }) {
         return findMunicipalityByText(where);
@@ -316,7 +333,7 @@ test("contact preference is no longer required before preview", async () => {
   assert.equal(result.workflowState?.draft?.contactPreference || "", "");
   assert.match(String(result.reply || ""), /Vaata abisoov üle\./i);
   assert.match(String(result.reply || ""), /Kui kuulutus sobib, vasta .*jah/i);
-  assert.match(String(result.reply || ""), /Kui vastad .*ei.* kirjuta kohe, mida soovid muuta/i);
+  assert.match(String(result.reply || ""), /Kui vastad .*ei.* saad seda muuta/i);
   assert.doesNotMatch(String(result.reply || ""), /ühendust võetaks|kontaktiviis/i);
 });
 
@@ -426,7 +443,8 @@ test("rich help offer does not copy full description into timing, compensation o
   }, createPrismaStub());
 
   assert.equal(result.handled, true);
-  assert.equal(result.workflowState?.step, "edit_or_save");
+  assert.equal(result.workflowState?.step, "collect_conditional_fields");
+  assert.equal(result.workflowState?.activeQuestionKey, "create_help_offer:conditions");
   assert.equal(result.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
   assert.equal(result.workflowState?.draft?.helpType, "MIXED");
   assert.equal(result.workflowState?.draft?.timeType, "FLEXIBLE");
@@ -434,6 +452,114 @@ test("rich help offer does not copy full description into timing, compensation o
   assert.equal(String(result.workflowState?.draft?.compensationDetails || ""), "");
   assert.equal(String(result.workflowState?.draft?.providerScopeOrConditions || ""), "");
   assert.ok(String(result.workflowState?.draft?.title || "").length < 90);
+  assert.match(String(result.reply || ""), /eritingimusi/i);
+});
+
+test("Haapsalu digital help offer keeps flexible timing and clean preview fields", async () => {
+  const message = [
+    "Soovin pakkuda digiabi eakatele ja puudega inimestele Haapsalus.",
+    "Aitan telefoni, arvuti ja e-teenuste kasutamisega, näiteks ID-kaardi, Smart-ID, digiretseptide, pangalingi ja avalduste täitmisega.",
+    "Saan aidata kokkuleppel tööpäeva õhtuti või nädalavahetusel.",
+    "Abi on vabatahtlik, aga vajadusel võiks katta sõidukulu."
+  ].join(" ");
+
+  const confirmation = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message,
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(confirmation.handled, true);
+  if (confirmation.workflowState?.activeQuestionKey === "municipality_confirmation") {
+    assert.match(String(confirmation.reply || ""), /Haapsalu linn/i);
+  }
+
+  const afterMunicipality = confirmation.workflowState?.activeQuestionKey === "municipality_confirmation"
+    ? await runHelpChatWorkflow({
+        message: "jah",
+        userId: "user-1",
+        replyLang: "et",
+        workflowState: confirmation.workflowState
+      }, createPrismaStub())
+    : confirmation;
+
+  const result = afterMunicipality.workflowState?.activeQuestionKey === "create_help_offer:conditions"
+    ? await runHelpChatWorkflow({
+        message: "olen autoga",
+        userId: "user-1",
+        replyLang: "et",
+        workflowState: afterMunicipality.workflowState
+      }, createPrismaStub())
+    : afterMunicipality;
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.step, "edit_or_save");
+  assert.equal(result.workflowState?.draft?.description.startsWith("Pakun digiabi"), true);
+  assert.equal(result.workflowState?.draft?.timeType, "FLEXIBLE");
+  assert.equal(result.workflowState?.draft?.providerScopeOrConditions, "olen autoga");
+  assert.match(String(result.workflowState?.draft?.availabilityOrStart || ""), /kokkuleppel.*nädalavahetusel/i);
+  assert.match(String(result.workflowState?.draft?.compensationDetails || ""), /sõidukulu/i);
+  assert.match(String(result.reply || ""), /Ajalisus:\s*Paindlik/i);
+  assert.match(String(result.reply || ""), /Tingimused:\s*olen autoga/i);
+  assert.doesNotMatch(String(result.reply || ""), /^Tingimused:\s*$/m);
+});
+
+test("preview edit for offer conditions does not recategorize or geocode car text", async () => {
+  const previewState = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "edit_or_save",
+    flowLocked: true,
+    confirmationPending: true,
+    municipalityId: "mun-haapsalu",
+    municipalityLabel: "Haapsalu linn",
+    draft: {
+      title: "Pakun digiabi eakatele",
+      description: "Pakun digiabi eakatele inimestele telefoni ja e-teenuste kasutamisel.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      targetGroupCodes: ["ELDER", "DISABILITY"],
+      targetGroups: ["Eakas", "Puue või erivajadus"],
+      rawPlace: "Haapsalus",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "kokkuleppel"
+    }
+  });
+
+  const directEdit = await runHelpChatWorkflow({
+    message: "võiks muuta tingimused: olen autoga",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: previewState
+  }, createPrismaStub());
+
+  assert.equal(directEdit.handled, true);
+  assert.equal(directEdit.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
+  assert.equal(directEdit.workflowState?.draft?.rawPlace, "Haapsalus");
+  assert.equal(directEdit.workflowState?.municipalityLabel, "Haapsalu linn");
+  assert.equal(directEdit.workflowState?.draft?.providerScopeOrConditions, "olen autoga");
+  assert.match(String(directEdit.reply || ""), /Tingimused:\s*olen autoga/i);
+
+  const afterNo = await runHelpChatWorkflow({
+    message: "ei",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: previewState
+  }, createPrismaStub());
+
+  const afterPromptEdit = await runHelpChatWorkflow({
+    message: "tingimused, olen autoga",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterNo.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterPromptEdit.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
+  assert.equal(afterPromptEdit.workflowState?.draft?.rawPlace, "Haapsalus");
+  assert.equal(afterPromptEdit.workflowState?.draft?.providerScopeOrConditions, "olen autoga");
+  assert.doesNotMatch(String(afterPromptEdit.reply || ""), /Tartu linn/i);
 });
 
 test("template placeholders are not treated as offer location or timing", async () => {
@@ -546,12 +672,23 @@ test("basic structured answers are not appended into offer description", async (
   }, createPrismaStub());
 
   assert.equal(afterCompensation.handled, true);
-  assert.equal(afterCompensation.workflowState?.step, "edit_or_save");
+  assert.equal(afterCompensation.workflowState?.step, "collect_conditional_fields");
+  assert.equal(afterCompensation.workflowState?.activeQuestionKey, "create_help_offer:conditions");
+
+  const afterConditions = await runHelpChatWorkflow({
+    message: "ei",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterCompensation.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterConditions.handled, true);
+  assert.equal(afterConditions.workflowState?.step, "edit_or_save");
   assert.equal(
-    afterCompensation.workflowState?.draft?.description,
+    afterConditions.workflowState?.draft?.description,
     "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisatuge."
   );
-  assert.doesNotMatch(String(afterCompensation.reply || ""), /koik, eakad, noored/i);
+  assert.doesNotMatch(String(afterConditions.reply || ""), /koik, eakad, noored/i);
 });
 
 test("offer audience answer does not become a location when place is still missing", async () => {
@@ -662,6 +799,7 @@ test("help AI patcher can refine draft before the next question", async () => {
           helpType: "VOLUNTARY",
           timeType: "FLEXIBLE",
           availabilityOrStart: "kokkuleppel",
+          providerScopeOrConditions: "kokkuleppel",
           targetGroup: "Eakas",
           targetGroups: ["Eakas"],
           targetGroupCodes: ["ELDER"]

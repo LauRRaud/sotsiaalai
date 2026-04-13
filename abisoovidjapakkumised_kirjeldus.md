@@ -12,7 +12,7 @@ Kuulutus salvestatakse alles siis, kui kasutaja on selle üle vaadanud ja kinnit
 
 ## Lühikirjeldus
 
-SotsiaalAI pakub tasuta teenust abisoovide ja abipakkumiste loomiseks, täpsustamiseks ja sobitamiseks. Kasutaja saab kirjeldada oma vajadust või pakkumist oma sõnadega SotsiaalAI vestlusaknas, ilma keerulist vormi täitmata. SotsiaalAI tehisaru aitab selle põhjal koostada selge kuulutuse, täpsustab vajadusel puuduva info ning näitab pärast kinnitamist sobivaid vasteid. Teenust saab kasutada näiteks transpordiabi, igapäevaabi, koduabi, digiabi, asjaajamise toe, laste ja noorte toe, õppimise või juhendamise abi ning sotsiaalse toe otsimiseks või pakkumiseks. Kuulutus salvestatakse pärast kasutaja kinnitust ning seejärel saab platvormi sees liikuda edasi sobitamise ja ühise vestlusaknani.
+SotsiaalAI pakub tasuta vestluspõhist teenust abisoovide ja abipakkumiste loomiseks, täpsustamiseks ja sobitamiseks. Kasutaja saab kirjeldada oma vajadust või pakkumist loomulikus keeles, ilma et peaks alustama keerulise vormi täitmisest. SotsiaalAI aitab sellest vormistada selge kuulutuse, küsib vajadusel puuduva info üle ning näitab pärast kinnitamist sobivaid vasteid. Teenust saab kasutada näiteks transpordiabi, igapäevaabi, koduabi, digiabi, asjaajamise toe, laste ja noorte toe, õppimise või juhendamise abi ning sotsiaalse toe otsimiseks või pakkumiseks. Kuulutus salvestatakse alles pärast kasutaja kinnitust ning seejärel saab platvormi sees liikuda edasi sobitamise ja ühenduse võtmiseni.
 
 ## Mida teenus teeb
 
