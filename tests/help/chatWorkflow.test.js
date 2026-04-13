@@ -496,6 +496,7 @@ test("Haapsalu digital help offer keeps flexible timing and clean preview fields
   assert.equal(result.handled, true);
   assert.equal(result.workflowState?.step, "edit_or_save");
   assert.equal(result.workflowState?.draft?.description.startsWith("Pakun digiabi"), true);
+  assert.doesNotMatch(String(result.workflowState?.draft?.description || ""), /olen autoga/i);
   assert.equal(result.workflowState?.draft?.timeType, "FLEXIBLE");
   assert.equal(result.workflowState?.draft?.providerScopeOrConditions, "olen autoga");
   assert.match(String(result.workflowState?.draft?.availabilityOrStart || ""), /kokkuleppel.*nädalavahetusel/i);
@@ -827,6 +828,45 @@ test("low-signal offer input does not become a prefixed auto-title", async () =>
   assert.equal(result.workflowState?.draft?.title, "Abipakkumine");
   assert.doesNotMatch(String(result.reply || ""), /Markisin pealkirjaks|Märkisin pealkirjaks/i);
   assert.match(String(result.reply || ""), /Mis liiki abiga on tegu\?/i);
+});
+
+test("category answer replaces generated long title and strips help type from availability", async () => {
+  const initial = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: "Pakun tasuta juhendamist SotsiaalAI platvormi tutvustamisel ja kasutamisel Tabasalus. Aitan aru saada, kust alustada, milline reziim voi funktsioon voiks sobida ning kuidas platvormi samm-sammult kasutada. Abi toimub kokkuleppel ja on vabatahtlik.",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  const afterCategory = await runHelpChatWorkflow({
+    message: "digiabi",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: initial.workflowState
+  }, createPrismaStub());
+
+  const afterAudience = await runHelpChatWorkflow({
+    message: "Kõigile vanusegruppidele",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterCategory.workflowState
+  }, createPrismaStub());
+
+  const result = afterAudience.workflowState?.activeQuestionKey === "create_help_offer:conditions"
+    ? await runHelpChatWorkflow({
+        message: "ei",
+        userId: "user-1",
+        replyLang: "et",
+        workflowState: afterAudience.workflowState
+      }, createPrismaStub())
+    : afterAudience;
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.title, "Digiabi pakkumine");
+  assert.equal(result.workflowState?.draft?.availabilityOrStart, "Abi toimub kokkuleppel");
+  assert.match(String(result.reply || ""), /Pealkiri:\s*Digiabi pakkumine/i);
+  assert.match(String(result.reply || ""), /Saadavus \/ algus:\s*Abi toimub kokkuleppel/i);
+  assert.doesNotMatch(String(result.reply || ""), /Saadavus \/ algus:\s*.*vabatahtlik/i);
 });
 
 test("explicit title line is stored as title without being copied into description", async () => {
