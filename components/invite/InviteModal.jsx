@@ -67,6 +67,7 @@ export default function InviteModal() {
   const sponsoredSelected = paymentMode === "SPONSORED_BY_HOST";
   const inviteModalContentClassName =
     `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative !max-h-none overflow-x-hidden !overflow-y-visible ` +
+    `!flex !min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)] !flex-col !overflow-hidden ` +
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
@@ -81,7 +82,7 @@ export default function InviteModal() {
     `${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const inviteModalTitleClassName = `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
-    `${glassSubpageContentWideClassName} invite-modal-scroll grid gap-[1.6rem] px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]`;
+    `${glassSubpageContentWideClassName} invite-modal-scroll flex flex-1 flex-col gap-[1.6rem] overflow-y-auto px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]`;
   const inviteFormClassName = `grid gap-[1rem] max-[768px]:gap-[0.95rem] ${
     sponsoredSelected ? "pb-[1.6rem] max-[768px]:pb-[1.25rem]" : ""
   }`;

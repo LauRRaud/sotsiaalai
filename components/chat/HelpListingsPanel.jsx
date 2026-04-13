@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
+import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import {
   glassPageBackTopLeftClassName,
   glassSubpageCardInteractiveClassName,
@@ -49,6 +50,10 @@ export default function HelpListingsPanel({
   const ownSectionLabel = title === ui.helpOffers ? ui.myHelpOffers : ui.myHelpRequests;
   const [isMounted, setIsMounted] = useState(false);
   const [closeTiltOverride, setCloseTiltOverride] = useState(null);
+  const listingsScrollRef = useRef(null);
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState("down");
   const ownItems = useMemo(
     () => items.filter((item) => item?.isOwn),
     [items]
@@ -65,7 +70,7 @@ export default function HelpListingsPanel({
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
   const helpListingsContentClassName =
     `help-listings-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
-    `relative !flex !min-h-[clamp(36rem,84vh,52rem)] !max-h-none !flex-col overflow-x-hidden !overflow-y-visible pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `relative !flex !min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)] !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
@@ -93,28 +98,28 @@ export default function HelpListingsPanel({
       key={`${item.kind}-${item.id}`}
       type="button"
       onClick={() => onSelectItem?.(item)}
-      className={`help-listings-item-card ${glassSubpageCardInteractiveClassName} rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left ${item.isOwn ? "ring-1 ring-[rgba(197,113,113,0.34)] [.theme-light_&]:ring-[rgba(122,58,56,0.28)]" : ""}`}
+      className={`help-listings-item-card ${glassSubpageCardInteractiveClassName} min-w-0 rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left ${item.isOwn ? "ring-1 ring-[rgba(197,113,113,0.34)] [.theme-light_&]:ring-[rgba(122,58,56,0.28)]" : ""}`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.1rem]">
+      <div className="flex min-w-0 items-start justify-between gap-3 max-[768px]:flex-col max-[768px]:items-stretch max-[768px]:gap-[0.55rem]">
+        <div className="min-w-0 break-words text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.02rem] max-[768px]:leading-[1.22]">
           {item.title}
         </div>
-        <div className="shrink-0 flex flex-wrap items-center justify-end gap-[0.35rem]">
+        <div className="flex min-w-0 flex-wrap items-center justify-end gap-[0.35rem] max-[768px]:justify-start max-[768px]:gap-[0.28rem]">
           {item.isOwn ? (
-            <span className="rounded-full border border-[rgba(90,154,118,0.28)] bg-[rgba(90,154,118,0.12)] px-[0.62rem] py-[0.32rem] text-[0.72rem] uppercase tracking-[0.08em] text-[rgba(143,216,174,0.98)] [.theme-light_&]:border-[rgba(52,118,79,0.24)] [.theme-light_&]:bg-[rgba(52,118,79,0.08)] [.theme-light_&]:text-[rgba(52,118,79,0.98)]">
+            <span className="max-w-full rounded-full border border-[rgba(90,154,118,0.28)] bg-[rgba(90,154,118,0.12)] px-[0.62rem] py-[0.32rem] text-[0.72rem] uppercase tracking-[0.08em] text-[rgba(143,216,174,0.98)] max-[768px]:px-[0.5rem] max-[768px]:py-[0.26rem] max-[768px]:text-[0.62rem] max-[768px]:tracking-[0.055em] [.theme-light_&]:border-[rgba(52,118,79,0.24)] [.theme-light_&]:bg-[rgba(52,118,79,0.08)] [.theme-light_&]:text-[rgba(52,118,79,0.98)]">
               {ui.ownListing}
             </span>
           ) : null}
           {item.statusLabel ? (
-            <span className="rounded-full border border-[rgba(197,113,113,0.16)] px-[0.62rem] py-[0.32rem] text-[0.74rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)] [.theme-light_&]:border-[rgba(122,58,56,0.14)] [.theme-light_&]:text-[#7a3a38]">
+            <span className="max-w-full rounded-full border border-[rgba(197,113,113,0.16)] px-[0.62rem] py-[0.32rem] text-[0.74rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)] max-[768px]:px-[0.5rem] max-[768px]:py-[0.26rem] max-[768px]:text-[0.62rem] max-[768px]:tracking-[0.055em] [.theme-light_&]:border-[rgba(122,58,56,0.14)] [.theme-light_&]:text-[#7a3a38]">
               {item.statusLabel}
             </span>
           ) : null}
         </div>
       </div>
-      {item.summary ? <div className="mt-[0.5rem] text-[0.94rem] leading-[1.48] opacity-92 max-[768px]:text-[0.98rem]">{item.summary}</div> : null}
+      {item.summary ? <div className="mt-[0.5rem] break-words text-[0.94rem] leading-[1.48] opacity-92 max-[768px]:text-[0.92rem]">{item.summary}</div> : null}
       {buildTagLine(item) ? (
-        <div className="mt-[0.58rem] text-[0.84rem] leading-[1.4] opacity-82">
+        <div className="mt-[0.58rem] break-words text-[0.84rem] leading-[1.4] opacity-82 max-[768px]:text-[0.8rem]">
           {buildTagLine(item)}
         </div>
       ) : null}
@@ -146,6 +151,40 @@ export default function HelpListingsPanel({
       root.classList.remove("help-listings-modal-open");
     };
   }, [isMounted]);
+
+  useEffect(() => {
+    const element = listingsScrollRef.current;
+    if (!element || loading || error || !items.length) {
+      setCanScrollUp(false);
+      setCanScrollDown(false);
+      setScrollDirection("down");
+      return undefined;
+    }
+
+    let lastTop = element.scrollTop || 0;
+
+    const updateScrollState = () => {
+      const nextTop = element.scrollTop || 0;
+      const maxTop = Math.max(0, element.scrollHeight - element.clientHeight);
+      setCanScrollUp(nextTop > 6);
+      setCanScrollDown(nextTop < maxTop - 6);
+      if (Math.abs(nextTop - lastTop) > 2) {
+        setScrollDirection(nextTop > lastTop ? "down" : "up");
+      }
+      lastTop = nextTop;
+    };
+
+    updateScrollState();
+    const rafId = window.requestAnimationFrame(updateScrollState);
+    element.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      element.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+    };
+  }, [error, items.length, loading]);
 
   if (!isMounted || typeof document === "undefined") {
     return null;
@@ -190,7 +229,7 @@ export default function HelpListingsPanel({
           <Panel
             variant="subpage"
             padding="sm"
-            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} flex flex-1 flex-col !max-h-[clamp(21rem,54vh,29rem)] !min-h-[clamp(18rem,42vh,24rem)] !overflow-hidden !p-[0.72rem] max-[768px]:!max-h-[clamp(17rem,46vh,23rem)] max-[768px]:!min-h-[clamp(14rem,30vh,18rem)] max-[768px]:!p-[0.24rem]`}
+            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} relative flex flex-1 flex-col !max-h-none !min-h-[clamp(24rem,60vh,34rem)] !overflow-hidden !p-[0.72rem] max-[768px]:!max-h-[clamp(17rem,46vh,23rem)] max-[768px]:!min-h-[clamp(14rem,30vh,18rem)] max-[768px]:!p-[0.24rem]`}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
@@ -201,17 +240,35 @@ export default function HelpListingsPanel({
             ) : null}
 
             {!loading && !error && items.length ? (
-              <div className={listingsScrollClassName}>
-                <div className="grid gap-[0.7rem]">
-                  {ownItems.length ? (
-                    <div className="mb-[0.1rem] text-[0.76rem] uppercase tracking-[0.11em] opacity-70">
-                      {ownSectionLabel}
-                    </div>
-                  ) : null}
-                  {ownItems.map(renderListingCard)}
-                  {otherItems.map(renderListingCard)}
+              <>
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute left-[0.72rem] right-[0.72rem] top-[0.72rem] z-[4] h-[4.2rem] bg-[linear-gradient(to_bottom,var(--csp-surface,rgba(10,12,18,0.94)),rgba(0,0,0,0))] transition-opacity duration-300 max-[768px]:left-[0.24rem] max-[768px]:right-[0.24rem] max-[768px]:top-[0.24rem] ${canScrollUp ? "opacity-100" : "opacity-0"}`}
+                >
+                  <span className={`absolute left-1/2 top-[0.45rem] block h-[2.3rem] w-[2.3rem] -translate-x-1/2 transition-all duration-500 ${canScrollUp ? (scrollDirection === "down" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
+                    <ChevronIcon direction="up" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
+                  </span>
                 </div>
-              </div>
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute bottom-[0.72rem] left-[0.72rem] right-[0.72rem] z-[4] h-[4.4rem] bg-[linear-gradient(to_top,var(--csp-surface,rgba(10,12,18,0.94)),rgba(0,0,0,0))] transition-opacity duration-300 max-[768px]:bottom-[0.24rem] max-[768px]:left-[0.24rem] max-[768px]:right-[0.24rem] ${canScrollDown ? "opacity-100" : "opacity-0"}`}
+                >
+                  <span className={`absolute bottom-[0.05rem] left-1/2 block h-[2.55rem] w-[2.55rem] -translate-x-1/2 transition-all duration-500 ${canScrollDown ? (scrollDirection === "up" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
+                    <ChevronIcon direction="down" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
+                  </span>
+                </div>
+                <div ref={listingsScrollRef} className={listingsScrollClassName}>
+                  <div className="grid gap-[0.7rem]">
+                    {ownItems.length ? (
+                      <div className="mb-[0.1rem] text-[0.76rem] uppercase tracking-[0.11em] opacity-70">
+                        {ownSectionLabel}
+                      </div>
+                    ) : null}
+                    {ownItems.map(renderListingCard)}
+                    {otherItems.map(renderListingCard)}
+                  </div>
+                </div>
+              </>
             ) : null}
           </Panel>
 

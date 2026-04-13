@@ -31,7 +31,7 @@ const titleClassName =
 const mobileTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const subscriptionCardBaseClassName =
-  `subscription-modal-content relative z-[21] my-[clamp(0.5rem,2vh,1.25rem)] flex w-full shrink-0 !max-w-[clamp(30rem,54vw,38rem)] max-h-none flex-col overflow-x-hidden overflow-y-visible rounded-[var(--glass-modal-radius)] ` +
+  `subscription-modal-content relative z-[21] my-[clamp(0.5rem,2vh,1.25rem)] flex w-full shrink-0 !max-w-[clamp(30rem,54vw,38rem)] min-h-[clamp(40rem,86vh,56rem)] max-h-[calc(100dvh-2.5rem)] flex-col overflow-x-hidden overflow-y-hidden rounded-[var(--glass-modal-radius)] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] shadow-[var(--glass-shell-shadow,none)] ` +
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
@@ -39,7 +39,7 @@ const subscriptionCardBaseClassName =
   `max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] ` +
   `max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))]`;
 const contentClassName =
-  `subscription-content ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} mt-[1.2rem] flex max-w-[32.25rem] max-[768px]:mt-[1rem] flex-col gap-[1.05rem] max-[768px]:max-w-[22.25rem]`;
+  `subscription-content ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} mt-[1.2rem] flex max-w-[32.25rem] max-[768px]:mt-[1rem] flex-1 flex-col gap-[1.05rem] overflow-y-auto max-[768px]:max-w-[22.25rem]`;
 const subscriptionCopyClassName =
   "subscription-copy-text text-center text-[1.06rem] leading-[1.56] text-[color:var(--pt-150)] light:text-[color:var(--input-text)] mx-auto w-full max-w-[32.25rem] max-[768px]:max-w-[20rem] max-[768px]:text-[1.12rem]";
 const subscriptionInfoTextClassName =
