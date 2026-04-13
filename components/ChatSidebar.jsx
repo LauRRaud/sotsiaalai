@@ -630,7 +630,7 @@ export default function ChatSidebar() {
             onPick(item);
           }} title={item.preview || item.title || t("chat.sidebar.item.fallback_title")} role="button" tabIndex={selectMode ? -1 : 0} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
               <div className="flex items-start justify-start">
-                <span className="cs-title-text text-[1rem] max-[768px]:text-[1.08rem] leading-[1.24] font-semibold text-[color:var(--drawer-title-text,var(--brand-primary,#c57171))] [.theme-light_&]:text-[color:var(--title-color,#7a3a38)] overflow-hidden [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical]">
+                <span className="cs-title-text text-[1rem] max-[768px]:text-[1.08rem] leading-[1.24] font-medium text-[color:var(--drawer-title-text,var(--brand-primary,#c57171))] [.theme-light_&]:text-[color:var(--title-color,#7a3a38)] overflow-hidden [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical]">
                   {titleText}
                 </span>
               </div>
