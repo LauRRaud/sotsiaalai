@@ -242,6 +242,18 @@ Current role split:
   - open selected listing context in the chat area
   - explicitly connect a request and offer
   - continue the real conversation in an existing Room flow
+- Workflow behavior:
+  - help creation is chat-native and stores draft state across turns
+  - deterministic extraction fills the draft first, then asks only missing
+    fields
+  - extraction is field-aware: answers to audience, timing, or compensation
+    questions are not allowed to freely overwrite unrelated fields such as
+    location, category, or target group
+  - optional AI draft patching can be enabled after deterministic extraction
+    with `HELP_WORKFLOW_AI_EXTRACTOR=1`
+  - the optional patcher defaults to `gpt-5.4-nano` via
+    `HELP_WORKFLOW_EXTRACTOR_MODEL`, and is skipped if no OpenAI API key is
+    available or the model call fails
 - Frontend surfaces:
   - `/vestlus`
   - `components/chat/LeftRail.jsx`
@@ -257,6 +269,10 @@ Current role split:
 - Backend modules:
   - `lib/chat/modeSelection.js`
   - `lib/help/chatWorkflow.js`
+  - `lib/help/workflowExtraction.js`
+  - `lib/help/workflowQuestions.js`
+  - `lib/help/workflowActions.js`
+  - `lib/help/aiExtraction.js`
   - `lib/help/requests.js`
   - `lib/help/offers.js`
   - `lib/help/matches.js`
@@ -274,6 +290,14 @@ Current role split:
   - `HelpOfferCategory`
   - `HelpRequestTargetGroup`
   - `HelpOfferTargetGroup`
+- Structured help-listing fields:
+  - both requests and offers store title, description, structured summary,
+    municipality, raw place, category, target groups, help type, time type, and
+    status
+  - requests additionally store beneficiary label, urgency, availability/start,
+    compensation details, conditions, and skills/background details
+  - offers additionally store provider scope/conditions, availability/start,
+    compensation details, conditions, and skills/background details
 
 ## 10. Invites
 

@@ -53,7 +53,55 @@ Repeat for help offer:
 3. If confidence is lower, verify it asks for confirmation.
 4. Verify the saved structured location is `municipalityId`, not raw text.
 
-## 4. Trigger boundaries
+## 4. Field extraction boundaries
+
+1. Start a help offer draft where the place is still missing.
+2. When asked who the help is meant for, answer:
+   - `eakad ja puudega inimesed`
+3. Verify this answer fills target group, not location.
+4. Verify the next question still asks where help is offered.
+5. Start a help offer that already has category and target group.
+6. When asked about timing, answer:
+   - `saan aidata dokumentidega teisipaeva ohtuti`
+7. Verify timing is captured, but category and target group are not overwritten.
+
+## 5. Optional nano extraction
+
+This feature is off by default.
+
+1. Verify normal help workflow still works without:
+   - `HELP_WORKFLOW_AI_EXTRACTOR`
+2. Enable:
+   - `HELP_WORKFLOW_AI_EXTRACTOR=1`
+   - `HELP_WORKFLOW_EXTRACTOR_MODEL=gpt-5.4-nano`
+3. Verify the workflow still starts with deterministic extraction.
+4. Verify the optional model patch can improve structured fields before the
+   next question.
+5. Verify failures are non-blocking:
+   - remove or invalidate `OPENAI_API_KEY`
+   - confirm the deterministic workflow still continues
+6. Verify nano patching does not alter fields unrelated to the active question.
+
+## 6. Structured persistence
+
+1. Create and save a help request.
+2. Verify request details are saved as structured fields where applicable:
+   - beneficiary label
+   - urgency
+   - availability/start
+   - compensation details
+   - conditions
+   - skills/background
+3. Create and save a help offer.
+4. Verify offer details are saved as structured fields where applicable:
+   - provider scope/conditions
+   - availability/start
+   - compensation details
+   - conditions
+   - skills/background
+5. Verify existing listing views still show readable descriptions and summaries.
+
+## 7. Trigger boundaries
 
 1. Write an info-seeking message such as:
    - `Mul oleks vaja infot koduhoolduse kohta meie koduvallas.`
@@ -67,7 +115,7 @@ Repeat for:
 - `Kas tugiisik voiks olla KOV teenus voi peaksin ise otsima?`
 - `Elan selles kohalikus omavalitsuses ja vajan infot abi saamiseks.`
 
-## 5. LeftRail global browse
+## 8. LeftRail global browse
 
 1. Open global `help requests` from LeftRail.
 2. Verify listings are loaded from DB, not hardcoded.
@@ -78,7 +126,7 @@ Repeat for:
 
 Repeat for LeftRail `help offers`.
 
-## 6. RightRail personal workspace
+## 9. RightRail personal workspace
 
 1. Open `my help requests` from RightRail.
 2. Verify only signed-in user listings are shown.
@@ -93,7 +141,7 @@ Important:
 - verify `Add people` still remains in RightRail
 - verify it still opens the existing group-chat invite flow
 
-## 7. Selected listing context
+## 10. Selected listing context
 
 1. Open a global listing you do not own.
 2. Verify the detail view is human-readable, not a raw DB dump.
@@ -109,7 +157,7 @@ Important:
    - status
 4. Verify `Ask AI`, `Contact`, or `Offer help` actions are available as expected.
 
-## 8. Matching and Room continuation
+## 11. Matching and Room continuation
 
 1. Open a request and choose one of your own offers, or vice versa.
 2. Trigger explicit connect action.
@@ -118,7 +166,7 @@ Important:
 5. Verify the user lands in `/room/[roomId]`.
 6. Verify the matched pair can continue communication in that Room.
 
-## 9. Language checks
+## 12. Language checks
 
 Check in:
 
@@ -136,7 +184,7 @@ Verify for each language:
 - empty states
 - edit / close / delete flows
 
-## 10. Regression checks
+## 13. Regression checks
 
 1. Generic RAG answers still work in the same chat page.
 2. Existing Room chat still works.

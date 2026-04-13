@@ -8,6 +8,7 @@ datasource db {
   provider = "postgresql"
   // Prisma 7: URL, directUrl, shadowDatabaseUrl enam siia ei käi
 }
+
 enum Role {
   ADMIN
   SOCIAL_WORKER
@@ -286,17 +287,17 @@ model User {
   sessions Session[]
 
   // Äri
-  profile        Profile?
-  subscriptions  Subscription[]
-  payments       Payment[]
-  billingMethods BillingMethod[]
-  sponsoredSubscriptions Subscription[] @relation("SubscriptionSponsorUser")
-  ragDocuments   RagDocument[]
-  documents      UserDocument[]
-  agentArtifacts AgentArtifact[]
-  documentAudits DocumentAudit[]
-  frameworkAcceptances FrameworkAcceptance[]
-  materialSubmissions MaterialSubmission[]
+  profile                Profile?
+  subscriptions          Subscription[]
+  payments               Payment[]
+  billingMethods         BillingMethod[]
+  sponsoredSubscriptions Subscription[]        @relation("SubscriptionSponsorUser")
+  ragDocuments           RagDocument[]
+  documents              UserDocument[]
+  agentArtifacts         AgentArtifact[]
+  documentAudits         DocumentAudit[]
+  frameworkAcceptances   FrameworkAcceptance[]
+  materialSubmissions    MaterialSubmission[]
 
   // Chat / runs
   conversationRuns     ConversationRun[]
@@ -308,11 +309,11 @@ model User {
   loginTempTokens      LoginTempToken[]
   roomsOwned           Room[]
   roomMemberships      RoomMember[]
-  sentInvites          Invite[]            @relation("InviterUser")
-  sponsoredInvites     Invite[]            @relation("InviteSponsorUser")
-  sponsoredMembers     RoomMember[]        @relation("RoomMemberSponsorUser")
-  acceptedInvites      Invite[]            @relation("InviteAcceptedBy")
-  roomMessages         RoomMessage[]       @relation("RoomMessageAuthor")
+  sentInvites          Invite[]              @relation("InviterUser")
+  sponsoredInvites     Invite[]              @relation("InviteSponsorUser")
+  sponsoredMembers     RoomMember[]          @relation("RoomMemberSponsorUser")
+  acceptedInvites      Invite[]              @relation("InviteAcceptedBy")
+  roomMessages         RoomMessage[]         @relation("RoomMessageAuthor")
   helpRequests         HelpRequest[]
   helpOffers           HelpOffer[]
   researchJobs         ResearchJob[]
@@ -372,30 +373,30 @@ model VerificationToken {
 }
 
 model Subscription {
-  id          String             @id @default(cuid())
-  userId      String
-  status      SubscriptionStatus @default(NONE)
-  plan        String             @default("kuutellimus")
-  billingMode BillingMode        @default(ONE_OFF)
-  billingInterval BillingInterval?
-  billingMethodId String?
-  billingSource BillingSource    @default(SELF)
-  sponsorUserId String?
-  inviteId      String?
-  validUntil  DateTime?
-  nextBilling DateTime?
-  lastBilledAt DateTime?
-  pastDueSince DateTime?
-  billingRetryCount Int          @default(0)
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-  canceledAt  DateTime?
+  id                String             @id @default(cuid())
+  userId            String
+  status            SubscriptionStatus @default(NONE)
+  plan              String             @default("kuutellimus")
+  billingMode       BillingMode        @default(ONE_OFF)
+  billingInterval   BillingInterval?
+  billingMethodId   String?
+  billingSource     BillingSource      @default(SELF)
+  sponsorUserId     String?
+  inviteId          String?
+  validUntil        DateTime?
+  nextBilling       DateTime?
+  lastBilledAt      DateTime?
+  pastDueSince      DateTime?
+  billingRetryCount Int                @default(0)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  canceledAt        DateTime?
 
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   billingMethod BillingMethod? @relation(fields: [billingMethodId], references: [id], onDelete: SetNull)
-  sponsorUser User?     @relation("SubscriptionSponsorUser", fields: [sponsorUserId], references: [id], onDelete: SetNull)
-  invite      Invite?   @relation("InviteGrantedSubscription", fields: [inviteId], references: [id], onDelete: SetNull)
-  payments    Payment[]
+  sponsorUser   User?          @relation("SubscriptionSponsorUser", fields: [sponsorUserId], references: [id], onDelete: SetNull)
+  invite        Invite?        @relation("InviteGrantedSubscription", fields: [inviteId], references: [id], onDelete: SetNull)
+  payments      Payment[]
 
   @@index([userId])
   @@index([status])
@@ -426,10 +427,10 @@ model Payment {
   raw               Json?
   createdAt         DateTime        @default(now())
 
-  subscription Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  subscription  Subscription?  @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
   billingMethod BillingMethod? @relation(fields: [billingMethodId], references: [id], onDelete: SetNull)
-  invite       Invite?       @relation(fields: [inviteId], references: [id], onDelete: SetNull)
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invite        Invite?        @relation(fields: [inviteId], references: [id], onDelete: SetNull)
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerPaymentId])
   @@index([subscriptionId])
@@ -599,12 +600,12 @@ model AnalyzeUsage {
 }
 
 model EmailOtpCode {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
   codeHash  String
   expiresAt DateTime
   usedAt    DateTime?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -613,14 +614,14 @@ model EmailOtpCode {
 }
 
 model TrustedDevice {
-  id                    String   @id @default(cuid())
-  userId                String
-  deviceTokenHash       String   @unique
-  userAgentFingerprint  String?
-  ipRange               String?
-  expiresAt             DateTime
-  lastUsedAt            DateTime?
-  createdAt             DateTime @default(now())
+  id                   String    @id @default(cuid())
+  userId               String
+  deviceTokenHash      String    @unique
+  userAgentFingerprint String?
+  ipRange              String?
+  expiresAt            DateTime
+  lastUsedAt           DateTime?
+  createdAt            DateTime  @default(now())
 
   user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   loginTokens LoginTempToken[]
@@ -630,19 +631,19 @@ model TrustedDevice {
 }
 
 model LoginTempToken {
-  id               String    @id @default(cuid())
-  userId           String
-  tokenHash        String    @unique
-  requiresOtp      Boolean   @default(false)
-  otpVerifiedAt    DateTime?
-  expiresAt        DateTime
-  usedAt           DateTime?
-  userAgent        String?
-  ipAddress        String?
-  trustedDeviceId  String?
-  createdAt        DateTime  @default(now())
+  id              String    @id @default(cuid())
+  userId          String
+  tokenHash       String    @unique
+  requiresOtp     Boolean   @default(false)
+  otpVerifiedAt   DateTime?
+  expiresAt       DateTime
+  usedAt          DateTime?
+  userAgent       String?
+  ipAddress       String?
+  trustedDeviceId String?
+  createdAt       DateTime  @default(now())
 
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   trustedDevice TrustedDevice? @relation(fields: [trustedDeviceId], references: [id], onDelete: SetNull)
 
   @@index([userId])
@@ -665,20 +666,20 @@ model ChatLog {
 }
 
 model ResearchJob {
-  id        String    @id
-  userId    String
-  payload   Json
-  status    String    @default("queued")
-  error     String?
-  result    Json?
-  metrics   Json?
-  attempts  Int       @default(0)
-  workerId  String?
+  id         String    @id
+  userId     String
+  payload    Json
+  status     String    @default("queued")
+  error      String?
+  result     Json?
+  metrics    Json?
+  attempts   Int       @default(0)
+  workerId   String?
   leaseUntil DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  startedAt DateTime?
-  endedAt   DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  startedAt  DateTime?
+  endedAt    DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -703,48 +704,49 @@ model Municipality {
   helpRequests HelpRequest[]
   helpOffers   HelpOffer[]
   kovAdmin     MunicipalityKovAdmin?
+
   @@index([baseName])
   @@index([type])
   @@index([isActive])
 }
 
 model MunicipalityKovAdmin {
-  id               String         @id @default(cuid())
-  municipalityId   String         @unique
-  officialWebsite  String?
-  riigiTeatajaUrl  String?
-  status           KovAdminStatus @default(NOT_STARTED)
-  checkedAt        DateTime?
-  notes            String?        @db.Text
-  readyForIngest   Boolean        @default(false)
-  ingestStatus     KovIngestStatus   @default(NOT_INGESTED)
-  lastIngestedAt   DateTime?
-  lastIngestError  String?           @db.Text
-  ragDocId         String?
-  rtCheckedAt      DateTime?
-  rtNotes          String?           @db.Text
-  rtStatus         KovRtStatus       @default(NOT_STARTED)
-  rtIngestStatus   KovIngestStatus @default(NOT_INGESTED)
-  rtLastIngestedAt DateTime?
-  rtLastIngestError String?          @db.Text
-  rtRagDocId       String?
-  reviewCadence    String            @default("ANNUAL_JAN_PLUS_JULY_CHECK")
-  autoCheckStatus  KovAutoCheckStatus @default(IDLE)
-  lastFullReviewAt DateTime?
-  nextFullReviewAt DateTime?
-  lastLightCheckAt DateTime?
-  nextLightCheckAt DateTime?
-  lastChangeDetectedAt DateTime?
-  lightCheckSnapshot Json?
-  lastLightCheckSummary Json?
-  rtAutoCheckStatus KovAutoCheckStatus @default(IDLE)
-  rtLastLightCheckAt DateTime?
-  rtNextLightCheckAt DateTime?
-  rtLastChangeDetectedAt DateTime?
-  rtLightCheckSnapshot Json?
+  id                      String             @id @default(cuid())
+  municipalityId          String             @unique
+  officialWebsite         String?
+  riigiTeatajaUrl         String?
+  status                  KovAdminStatus     @default(NOT_STARTED)
+  checkedAt               DateTime?
+  notes                   String?            @db.Text
+  readyForIngest          Boolean            @default(false)
+  ingestStatus            KovIngestStatus    @default(NOT_INGESTED)
+  lastIngestedAt          DateTime?
+  lastIngestError         String?            @db.Text
+  ragDocId                String?
+  rtCheckedAt             DateTime?
+  rtNotes                 String?            @db.Text
+  rtStatus                KovRtStatus        @default(NOT_STARTED)
+  rtIngestStatus          KovIngestStatus    @default(NOT_INGESTED)
+  rtLastIngestedAt        DateTime?
+  rtLastIngestError       String?            @db.Text
+  rtRagDocId              String?
+  reviewCadence           String             @default("ANNUAL_JAN_PLUS_JULY_CHECK")
+  autoCheckStatus         KovAutoCheckStatus @default(IDLE)
+  lastFullReviewAt        DateTime?
+  nextFullReviewAt        DateTime?
+  lastLightCheckAt        DateTime?
+  nextLightCheckAt        DateTime?
+  lastChangeDetectedAt    DateTime?
+  lightCheckSnapshot      Json?
+  lastLightCheckSummary   Json?
+  rtAutoCheckStatus       KovAutoCheckStatus @default(IDLE)
+  rtLastLightCheckAt      DateTime?
+  rtNextLightCheckAt      DateTime?
+  rtLastChangeDetectedAt  DateTime?
+  rtLightCheckSnapshot    Json?
   rtLastLightCheckSummary Json?
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
 
   municipality Municipality               @relation(fields: [municipalityId], references: [id], onDelete: Cascade)
   files        MunicipalityKovAdminFile[]
@@ -788,27 +790,27 @@ model MunicipalityKovAdminFile {
 }
 
 model OrganizationAdmin {
-  id              String   @id @default(cuid())
-  slug            String   @unique
-  displayName     String   @unique
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  displayName     String    @unique
   type            String
   focus           String?
   county          String?
-  isActive        Boolean  @default(true)
+  isActive        Boolean   @default(true)
   officialWebsite String?
   contactEmail    String?
   contactPhone    String?
-  notes           String?  @db.Text
-  crawlReadiness  String   @default("PLANNED")
-  ingestStatus    String   @default("NOT_INGESTED")
+  notes           String?   @db.Text
+  crawlReadiness  String    @default("PLANNED")
+  ingestStatus    String    @default("NOT_INGESTED")
   lastIngestedAt  DateTime?
-  lastIngestError String?  @db.Text
+  lastIngestError String?   @db.Text
   ragDocId        String?
-  fileCount       Int      @default(0)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  fileCount       Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-  files           OrganizationAdminFile[]
+  files OrganizationAdminFile[]
 
   @@index([type])
   @@index([county])
@@ -818,19 +820,19 @@ model OrganizationAdmin {
 }
 
 model OrganizationAdminFile {
-  id             String   @id @default(cuid())
-  organizationId String
-  role           OrganizationAdminFileRole @default(ATTACHMENT)
-  originalName   String
-  mime           String
-  size           Int
-  sha256         String
-  storagePath    String
+  id                String                           @id @default(cuid())
+  organizationId    String
+  role              OrganizationAdminFileRole        @default(ATTACHMENT)
+  originalName      String
+  mime              String
+  size              Int
+  sha256            String
+  storagePath       String
   validationStatus  OrganizationFileValidationStatus @default(INVALID)
   validationMessage String?
   validatedAt       DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt         DateTime                         @default(now())
+  updatedAt         DateTime                         @updatedAt
 
   organization OrganizationAdmin @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
@@ -840,19 +842,19 @@ model OrganizationAdminFile {
 }
 
 model HelpCategory {
-  id            String               @id @default(cuid())
-  code          String               @unique
+  id            String   @id @default(cuid())
+  code          String   @unique
   labelEt       String
   labelEn       String
   labelRu       String
   descriptionEt String?
   descriptionEn String?
   descriptionRu String?
-  sortOrder     Int                  @default(0)
-  isActive      Boolean              @default(true)
+  sortOrder     Int      @default(0)
+  isActive      Boolean  @default(true)
   parentId      String?
-  createdAt     DateTime             @default(now())
-  updatedAt     DateTime             @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   parent         HelpCategory?         @relation("HelpCategoryTree", fields: [parentId], references: [id])
   children       HelpCategory[]        @relation("HelpCategoryTree")
@@ -867,37 +869,43 @@ model HelpCategory {
 }
 
 model TargetGroup {
-  id           String                   @id @default(cuid())
-  code         String                   @unique
-  labelEt      String
-  labelEn      String
-  labelRu      String
-  isActive     Boolean                  @default(true)
-  createdAt    DateTime                 @default(now())
-  updatedAt    DateTime                 @updatedAt
+  id        String   @id @default(cuid())
+  code      String   @unique
+  labelEt   String
+  labelEn   String
+  labelRu   String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   requestLinks HelpRequestTargetGroup[]
   offerLinks   HelpOfferTargetGroup[]
 }
 
 model HelpRequest {
-  id                       String                 @id @default(cuid())
+  id                       String               @id @default(cuid())
   userId                   String
   municipalityId           String?
   primaryCategoryId        String
   title                    String?
-  description              String                 @db.Text
+  description              String               @db.Text
   structuredSummary        String?
   roleLabel                String?
+  beneficiaryLabel         String?
+  urgency                  String?
+  availabilityOrStart      String?
+  compensationDetails      String?
+  conditions               String?
+  skillsOrBackground       String?
   rawPlace                 String?
   helpType                 HelpType?
   timeType                 TimeType?
-  status                   HelpRecordStatus       @default(OPEN)
-  classificationSource     ClassificationSource   @default(AI)
+  status                   HelpRecordStatus     @default(OPEN)
+  classificationSource     ClassificationSource @default(AI)
   classificationConfidence Float?
   userConfirmedAt          DateTime?
-  createdAt                DateTime               @default(now())
-  updatedAt                DateTime               @updatedAt
+  createdAt                DateTime             @default(now())
+  updatedAt                DateTime             @updatedAt
 
   user             User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   municipality     Municipality?            @relation(fields: [municipalityId], references: [id], onDelete: SetNull)
@@ -914,23 +922,28 @@ model HelpRequest {
 }
 
 model HelpOffer {
-  id                       String                 @id @default(cuid())
-  userId                   String
-  municipalityId           String?
-  primaryCategoryId        String
-  title                    String?
-  description              String                 @db.Text
-  structuredSummary        String?
-  roleLabel                String?
-  rawPlace                 String?
-  helpType                 HelpType?
-  timeType                 TimeType?
-  status                   HelpRecordStatus       @default(OPEN)
-  classificationSource     ClassificationSource   @default(AI)
-  classificationConfidence Float?
-  userConfirmedAt          DateTime?
-  createdAt                DateTime               @default(now())
-  updatedAt                DateTime               @updatedAt
+  id                        String               @id @default(cuid())
+  userId                    String
+  municipalityId            String?
+  primaryCategoryId         String
+  title                     String?
+  description               String               @db.Text
+  structuredSummary         String?
+  roleLabel                 String?
+  providerScopeOrConditions String?
+  availabilityOrStart       String?
+  compensationDetails       String?
+  conditions                String?
+  skillsOrBackground        String?
+  rawPlace                  String?
+  helpType                  HelpType?
+  timeType                  TimeType?
+  status                    HelpRecordStatus     @default(OPEN)
+  classificationSource      ClassificationSource @default(AI)
+  classificationConfidence  Float?
+  userConfirmedAt           DateTime?
+  createdAt                 DateTime             @default(now())
+  updatedAt                 DateTime             @updatedAt
 
   user             User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
   municipality     Municipality?          @relation(fields: [municipalityId], references: [id], onDelete: SetNull)
@@ -1015,70 +1028,70 @@ model HelpMatch {
 }
 
 model Room {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   ownerId     String
   title       String?
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  owner   User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  members RoomMember[]
-  invites Invite[]
-  messages RoomMessage[]
+  owner     User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  members   RoomMember[]
+  invites   Invite[]
+  messages  RoomMessage[]
   helpMatch HelpMatch?
 
   @@index([ownerId])
 }
 
 model RoomMember {
-  id              String         @id @default(cuid())
-  roomId          String
-  userId          String
-  role            RoomRole       @default(MEMBER)
-  displayName     String?
-  billingSource   BillingSource  @default(SELF)
-  sponsorUserId   String?
-  sponsorOrgId    String?
-  joinedAt        DateTime       @default(now())
-  leftAt          DateTime?
-  lastReadAt      DateTime?
+  id            String        @id @default(cuid())
+  roomId        String
+  userId        String
+  role          RoomRole      @default(MEMBER)
+  displayName   String?
+  billingSource BillingSource @default(SELF)
+  sponsorUserId String?
+  sponsorOrgId  String?
+  joinedAt      DateTime      @default(now())
+  leftAt        DateTime?
+  lastReadAt    DateTime?
 
-  room         Room    @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sponsorUser  User?   @relation("RoomMemberSponsorUser", fields: [sponsorUserId], references: [id], onDelete: SetNull)
+  room        Room  @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user        User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sponsorUser User? @relation("RoomMemberSponsorUser", fields: [sponsorUserId], references: [id], onDelete: SetNull)
 
   @@unique([roomId, userId])
   @@index([userId])
 }
 
 model Invite {
-  id                String             @id @default(cuid())
-  roomId            String
-  inviterId         String
-  inviteeEmail      String
-  tokenHash         String             @unique
-  status            InviteStatus       @default(SENT)
-  relationshipType  RelationshipType   @default(COLLEAGUE)
-  paymentMode       InvitePaymentMode  @default(SELF_PAID)
-  sponsoredByUserId String?
-  sponsoredByOrgId  String?
-  sponsoredRole     Role?
-  sponsoredPlan     String?
-  sponsoredPaidAt   DateTime?
-  expiresAt         DateTime
-  maxUses           Int                @default(1)
-  useCount          Int                @default(0)
-  createdAt         DateTime           @default(now())
+  id                    String            @id @default(cuid())
+  roomId                String
+  inviterId             String
+  inviteeEmail          String
+  tokenHash             String            @unique
+  status                InviteStatus      @default(SENT)
+  relationshipType      RelationshipType  @default(COLLEAGUE)
+  paymentMode           InvitePaymentMode @default(SELF_PAID)
+  sponsoredByUserId     String?
+  sponsoredByOrgId      String?
+  sponsoredRole         Role?
+  sponsoredPlan         String?
+  sponsoredPaidAt       DateTime?
+  expiresAt             DateTime
+  maxUses               Int               @default(1)
+  useCount              Int               @default(0)
+  createdAt             DateTime          @default(now())
   acceptedBillingSource BillingSource?
   acceptedByUserId      String?
 
-  room                   Room           @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  inviter                User           @relation("InviterUser", fields: [inviterId], references: [id], onDelete: Cascade)
-  sponsoredByUser        User?          @relation("InviteSponsorUser", fields: [sponsoredByUserId], references: [id], onDelete: SetNull)
-  acceptedByUser         User?          @relation("InviteAcceptedBy", fields: [acceptedByUserId], references: [id], onDelete: SetNull)
-  payments               Payment[]
-  grantedSubscriptions   Subscription[] @relation("InviteGrantedSubscription")
+  room                 Room           @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  inviter              User           @relation("InviterUser", fields: [inviterId], references: [id], onDelete: Cascade)
+  sponsoredByUser      User?          @relation("InviteSponsorUser", fields: [sponsoredByUserId], references: [id], onDelete: SetNull)
+  acceptedByUser       User?          @relation("InviteAcceptedBy", fields: [acceptedByUserId], references: [id], onDelete: SetNull)
+  payments             Payment[]
+  grantedSubscriptions Subscription[] @relation("InviteGrantedSubscription")
 
   @@index([roomId, status])
   @@index([tokenHash])
@@ -1087,12 +1100,12 @@ model Invite {
 }
 
 model RoomMessage {
-  id         String   @id @default(cuid())
+  id         String                @id @default(cuid())
   roomId     String
   authorId   String
   senderType RoomMessageSenderType @default(USER)
-  content    String   @db.Text
-  createdAt  DateTime @default(now())
+  content    String                @db.Text
+  createdAt  DateTime              @default(now())
   deletedAt  DateTime?
 
   room   Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
@@ -1103,20 +1116,20 @@ model RoomMessage {
 }
 
 model UserDocument {
-  id           String       @id @default(cuid())
-  ownerId      String
-  title        String
-  originalName String
-  kind         DocumentKind @default(MATERIAL)
-  templateFor  TemplateFor?
-  agentAllowed Boolean      @default(false)
-  mime         String
-  size         Int
-  sha256       String
-  storagePath  String
-  frameworkAcceptanceId String? @unique
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id                    String       @id @default(cuid())
+  ownerId               String
+  title                 String
+  originalName          String
+  kind                  DocumentKind @default(MATERIAL)
+  templateFor           TemplateFor?
+  agentAllowed          Boolean      @default(false)
+  mime                  String
+  size                  Int
+  sha256                String
+  storagePath           String
+  frameworkAcceptanceId String?      @unique
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
 
   owner               User                          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   frameworkAcceptance FrameworkAcceptance?          @relation(fields: [frameworkAcceptanceId], references: [id], onDelete: SetNull)
@@ -1131,23 +1144,23 @@ model UserDocument {
 }
 
 model FrameworkAcceptance {
-  id                        String   @id @default(cuid())
-  userId                    String
-  frameworkKey              String
-  frameworkVersion          String
-  acceptanceType            String
-  acceptanceSource          String
-  roleAtAcceptance          Role
-  locale                    String?
-  ipAddress                 String?
-  userAgent                 String?
-  acceptedAt                DateTime @default(now())
-  reviewDocumentOpenedAt    DateTime?
+  id                         String    @id @default(cuid())
+  userId                     String
+  frameworkKey               String
+  frameworkVersion           String
+  acceptanceType             String
+  acceptanceSource           String
+  roleAtAcceptance           Role
+  locale                     String?
+  ipAddress                  String?
+  userAgent                  String?
+  acceptedAt                 DateTime  @default(now())
+  reviewDocumentOpenedAt     DateTime?
   signedDocumentDownloadedAt DateTime?
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @updatedAt
+  createdAt                  DateTime  @default(now())
+  updatedAt                  DateTime  @updatedAt
 
-  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   document UserDocument?
 
   @@index([userId, acceptedAt])
@@ -1167,10 +1180,10 @@ model AgentArtifact {
   createdAt  DateTime            @default(now())
   updatedAt  DateTime            @updatedAt
 
-  owner             User                          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  template          UserDocument?                @relation("AgentArtifactTemplate", fields: [templateId], references: [id], onDelete: SetNull)
-  sourceDocuments   AgentArtifactSourceDocument[]
-  audits            DocumentAudit[]
+  owner           User                          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  template        UserDocument?                 @relation("AgentArtifactTemplate", fields: [templateId], references: [id], onDelete: SetNull)
+  sourceDocuments AgentArtifactSourceDocument[]
+  audits          DocumentAudit[]
 
   @@index([ownerId, updatedAt])
   @@index([ownerId, type, updatedAt])
@@ -1179,9 +1192,9 @@ model AgentArtifact {
 }
 
 model AgentArtifactSourceDocument {
-  artifactId  String
-  documentId  String
-  createdAt   DateTime      @default(now())
+  artifactId String
+  documentId String
+  createdAt  DateTime @default(now())
 
   artifact AgentArtifact @relation(fields: [artifactId], references: [id], onDelete: Cascade)
   document UserDocument  @relation(fields: [documentId], references: [id], onDelete: Cascade)
@@ -1199,8 +1212,8 @@ model DocumentAudit {
   meta       Json?
   createdAt  DateTime            @default(now())
 
-  owner    User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  document UserDocument? @relation(fields: [documentId], references: [id], onDelete: SetNull)
+  owner    User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  document UserDocument?  @relation(fields: [documentId], references: [id], onDelete: SetNull)
   artifact AgentArtifact? @relation(fields: [artifactId], references: [id], onDelete: SetNull)
 
   @@index([ownerId, createdAt])
@@ -1210,16 +1223,16 @@ model DocumentAudit {
 }
 
 model MaterialSubmission {
-  id                String    @id @default(cuid())
+  id                String   @id @default(cuid())
   submittedByUserId String?
-  comment           String    @db.Text
+  comment           String   @db.Text
   originalName      String
   mime              String
   size              Int
   sha256            String
   storagePath       String
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   submittedByUser User? @relation(fields: [submittedByUserId], references: [id], onDelete: SetNull)
 

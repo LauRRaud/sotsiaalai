@@ -123,7 +123,7 @@ body:is(
 }
 
 .drawer-chat-sidebar__list {
-  --drawer-sidebar-fade-top: clamp(2.2rem, 6.2vh, 3.35rem);
+  --drawer-sidebar-fade-top: clamp(1.85rem, 5.1vh, 2.85rem);
   --drawer-sidebar-fade-bottom: clamp(1.35rem, 3.9vh, 2.15rem);
   scroll-padding-top: calc(var(--drawer-sidebar-fade-top) + 0.18rem);
   scroll-padding-bottom: calc(var(--drawer-sidebar-fade-bottom) + 0.12rem);
@@ -164,18 +164,18 @@ body:is(
     --chat-nav-top: clamp(2.8rem, 11vw, 4.2rem);
     --chat-pad-top: clamp(0.75rem, 2vh, 1.1rem);
     --chat-pad-bottom: clamp(0.5rem, 1.8vh, 0.9rem);
-    --chat-window-fade-top-focus: clamp(0.68rem, 1.9vh, 1.08rem);
-    --chat-window-scroll-top-fade-start-focus: 0.62rem;
-    --chat-window-scroll-top-fade-mid-focus: 1.42rem;
-    --chat-window-scroll-top-fade-end-focus: 2.36rem;
+    --chat-window-fade-top-focus: clamp(0.58rem, 1.6vh, 0.94rem);
+    --chat-window-scroll-top-fade-start-focus: 0.52rem;
+    --chat-window-scroll-top-fade-mid-focus: 1.18rem;
+    --chat-window-scroll-top-fade-end-focus: 1.98rem;
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
-    --chat-window-fade-top: clamp(0.68rem, 1.9vh, 1.08rem) !important;
-    --chat-window-fade-top-focus: clamp(0.68rem, 1.9vh, 1.08rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.62rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 1.42rem !important;
-    --chat-window-scroll-top-fade-end-focus: 2.36rem !important;
+    --chat-window-fade-top: clamp(0.58rem, 1.6vh, 0.94rem) !important;
+    --chat-window-fade-top-focus: clamp(0.58rem, 1.6vh, 0.94rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.52rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 1.18rem !important;
+    --chat-window-scroll-top-fade-end-focus: 1.98rem !important;
   }
 }
 
@@ -265,10 +265,10 @@ body:is(
   .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus
     .chat-window {
-    --chat-window-fade-top-focus: clamp(0.78rem, 1.8vh, 1.16rem);
-    --chat-window-scroll-top-fade-start-focus: 0.46rem;
-    --chat-window-scroll-top-fade-mid-focus: 0.96rem;
-    --chat-window-scroll-top-fade-end-focus: 1.58rem;
+    --chat-window-fade-top-focus: clamp(0.66rem, 1.52vh, 0.98rem);
+    --chat-window-scroll-top-fade-start-focus: 0.4rem;
+    --chat-window-scroll-top-fade-mid-focus: 0.82rem;
+    --chat-window-scroll-top-fade-end-focus: 1.34rem;
     --chat-window-fade-bottom-focus: clamp(2.65rem, 6.4vh, 4.15rem);
   }
 
@@ -292,8 +292,8 @@ body:is(
     --chat-window-pad-top: 1.02rem !important;
     --chat-window-top-safe: 4.2rem !important;
     --chat-content-top-offset: 2.9rem !important;
-    --chat-window-fade-top: clamp(1.55rem, 3vh, 2.1rem) !important;
-    --chat-window-fade-top-focus: clamp(1.55rem, 3vh, 2.1rem) !important;
+    --chat-window-fade-top: clamp(1.3rem, 2.5vh, 1.76rem) !important;
+    --chat-window-fade-top-focus: clamp(1.3rem, 2.5vh, 1.76rem) !important;
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
@@ -304,11 +304,11 @@ body:is(
     --chat-window-top-safe: 2.25rem !important;
     --chat-content-top-offset: 1rem !important;
     --chat-content-spacer: clamp(1.75rem, 4.2vh, 2.9rem) !important;
-    --chat-window-fade-top: clamp(0.58rem, 1.35vh, 0.9rem) !important;
-    --chat-window-fade-top-focus: clamp(0.58rem, 1.35vh, 0.9rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.34rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 0.72rem !important;
-    --chat-window-scroll-top-fade-end-focus: 1.18rem !important;
+    --chat-window-fade-top: clamp(0.5rem, 1.16vh, 0.78rem) !important;
+    --chat-window-fade-top-focus: clamp(0.5rem, 1.16vh, 0.78rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.3rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 0.62rem !important;
+    --chat-window-scroll-top-fade-end-focus: 1.02rem !important;
     --chat-window-fade-bottom-focus: clamp(2.35rem, 5.4vh, 3.45rem) !important;
   }
 
@@ -328,10 +328,10 @@ body:is(
       calc(100% - var(--chat-window-inline-gap) - 0.5rem)
     ) !important;
     --chat-window-shift-x: calc(clamp(0.16rem, calc(var(--chat-shell-inline-size) * 0.005), 0.3rem) + 0.25rem) !important;
-    --chat-window-fade-top-focus: clamp(0.7rem, 1.6vh, 1.05rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.42rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 0.88rem !important;
-    --chat-window-scroll-top-fade-end-focus: 1.44rem !important;
+    --chat-window-fade-top-focus: clamp(0.6rem, 1.36vh, 0.9rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.36rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 0.76rem !important;
+    --chat-window-scroll-top-fade-end-focus: 1.22rem !important;
     --chat-window-fade-bottom-focus: clamp(2.45rem, 5.8vh, 3.75rem) !important;
   }
 }

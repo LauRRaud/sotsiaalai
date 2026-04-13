@@ -2245,10 +2245,8 @@
   }
 
   .drawer-panel--chat-glass .drawer-content {
-    height: calc(100% - clamp(4.2rem, 10.5vh, 5.6rem)) !important;
     padding-left: clamp(0.8rem, 3vw, 1rem) !important;
     padding-right: clamp(0.8rem, 3vw, 1rem) !important;
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem) !important;
   }
 
   .chat-right-actions {

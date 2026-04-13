@@ -308,7 +308,7 @@ export default function OrbitalMenu({
             : "default"
         : "default";
       setOrbitSizeMode(prev => prev !== nextSizeMode ? nextSizeMode : prev);
-      const radiusScale = nextSizeMode === "tight" ? 0.8 : nextSizeMode === "compact" ? 0.88 : 1;
+      const radiusScale = 1;
       const itemSize = itemEl.offsetWidth || 0;
       if (!itemSize) return;
       const nextRadius = Math.max(0, (rect.width - itemSize) / 2) * radiusScale;
@@ -550,7 +550,7 @@ export default function OrbitalMenu({
   const desktopStartAngle = -90;
   const orbitRadiusBoost = useOrbitLayout && isExpanded ? 1.13 : 1;
   const desktopLabelGap = useOrbitLayout ? "0.86rem" : "0.5rem";
-  const orbitItemScaleFactor = orbitSizeMode === "tight" ? 0.84 : orbitSizeMode === "compact" ? 0.92 : 1;
+  const orbitItemScaleFactor = orbitSizeMode === "tight" ? 0.98 : orbitSizeMode === "compact" ? 0.99 : 1;
   const hubPulseStyle = prefersReducedMotion || useMobileStack ? undefined : {
     animationDelay: `${hubPulseDelayRef.current}ms`,
     WebkitAnimationDelay: `${hubPulseDelayRef.current}ms`

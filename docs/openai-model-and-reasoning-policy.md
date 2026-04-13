@@ -26,6 +26,16 @@ Every standard Responses request must set both of these fields explicitly in the
 
 The codebase does not rely on per-flow model overrides for the standard text paths.
 
+## Optional help workflow extraction
+
+The help request / help offer workflow can optionally run a narrow draft-patching step after the deterministic parser.
+This is off by default and is not part of the standard text Responses path.
+
+- enable with: `HELP_WORKFLOW_AI_EXTRACTOR=1`
+- model override: `HELP_WORKFLOW_EXTRACTOR_MODEL`
+- default extractor model: `gpt-5.4-nano`
+- purpose: classify or correct structured draft fields before the next help-workflow question
+
 ## Other OpenAI uses
 
 Speech and audio features remain separate from the standard text Responses policy.

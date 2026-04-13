@@ -3,10 +3,16 @@ process.env.DATABASE_URL ??= "postgresql://user:pass@127.0.0.1:5432/sotsiaalai_t
 import test from "node:test";
 import assert from "node:assert/strict";
 
-const [{ runHelpChatWorkflow }, { createHelpWorkflowDraftState }, { toHelpListingView }] = await Promise.all([
+const [
+  { runHelpChatWorkflow },
+  { createHelpWorkflowDraftState },
+  { toHelpListingView },
+  { refineHelpDraftWithAi, getHelpAiExtractorModel }
+] = await Promise.all([
   import("../../lib/help/chatWorkflow.js"),
   import("../../lib/help/workflowState.js"),
-  import("../../lib/help/listingViews.js")
+  import("../../lib/help/listingViews.js"),
+  import("../../lib/help/aiExtraction.js")
 ]);
 
 const MUNICIPALITIES = {
@@ -143,6 +149,12 @@ function createPrismaStub() {
           description: data.description,
           structuredSummary: data.structuredSummary,
           roleLabel: data.roleLabel,
+          beneficiaryLabel: data.beneficiaryLabel,
+          urgency: data.urgency,
+          availabilityOrStart: data.availabilityOrStart,
+          compensationDetails: data.compensationDetails,
+          conditions: data.conditions,
+          skillsOrBackground: data.skillsOrBackground,
           rawPlace: data.rawPlace,
           helpType: data.helpType,
           timeType: data.timeType,
@@ -212,6 +224,11 @@ function createPrismaStub() {
           description: data.description,
           structuredSummary: data.structuredSummary,
           roleLabel: data.roleLabel,
+          providerScopeOrConditions: data.providerScopeOrConditions,
+          availabilityOrStart: data.availabilityOrStart,
+          compensationDetails: data.compensationDetails,
+          conditions: data.conditions,
+          skillsOrBackground: data.skillsOrBackground,
           rawPlace: data.rawPlace,
           helpType: data.helpType,
           timeType: data.timeType,
@@ -535,6 +552,129 @@ test("basic structured answers are not appended into offer description", async (
     "Pakun abi inimesele voi perele, kes vajab igapaevaelus veidi lisatuge."
   );
   assert.doesNotMatch(String(afterCompensation.reply || ""), /koik, eakad, noored/i);
+});
+
+test("offer audience answer does not become a location when place is still missing", async () => {
+  const state = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    activeQuestionLayer: "basic",
+    activeQuestionKey: "offerAudience",
+    draft: {
+      title: "Digiabi pakkumine",
+      description: "Pakun digiabi telefoni ja e-teenustega.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "kokkuleppel"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "eakad ja puudega inimesed",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: state
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.rawPlace || "", "");
+  assert.deepEqual(result.workflowState?.draft?.targetGroupCodes, ["ELDER", "DISABILITY"]);
+  assert.equal(result.workflowState?.activeQuestionKey, "rawPlace");
+});
+
+test("timing answer does not overwrite existing offer category or target group", async () => {
+  const state = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    activeQuestionLayer: "basic",
+    activeQuestionKey: "timing",
+    municipalityId: "mun-harku",
+    municipalityLabel: "Harku vald",
+    draft: {
+      title: "Digiabi pakkumine",
+      description: "Pakun digiabi telefoni ja e-teenustega.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      targetGroup: "Eakas",
+      targetGroups: ["Eakas"],
+      targetGroupCodes: ["ELDER"],
+      rawPlace: "Tabasalu",
+      helpType: "VOLUNTARY"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "saan aidata dokumentidega teisipaeva ohtuti",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: state
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
+  assert.equal(result.workflowState?.draft?.category, "Digiabi");
+  assert.deepEqual(result.workflowState?.draft?.targetGroupCodes, ["ELDER"]);
+  assert.match(String(result.workflowState?.draft?.availabilityOrStart || ""), /teisipaeva ohtuti/i);
+});
+
+test("help AI extractor defaults to nano and skips without an API key", async () => {
+  const result = await refineHelpDraftWithAi({
+    state: createHelpWorkflowDraftState({
+      intent: "create_help_offer",
+      activeQuestionKey: "description",
+      draft: {
+        description: "Pakun digiabi eakatele."
+      }
+    }),
+    message: "Pakun digiabi eakatele.",
+    env: {
+      HELP_WORKFLOW_AI_EXTRACTOR: "1"
+    }
+  });
+
+  assert.equal(getHelpAiExtractorModel({}), "gpt-5.4-nano");
+  assert.equal(result, null);
+});
+
+test("help AI patcher can refine draft before the next question", async () => {
+  let called = false;
+  const result = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: "Pakun abi eakatele.",
+    userId: "user-1",
+    replyLang: "et",
+    aiDraftPatcher: async ({ state, createHelpWorkflowDraftState: makeState }) => {
+      called = true;
+      return makeState({
+        ...state,
+        draft: {
+          ...state.draft,
+          description: "Pakun digiabi eakatele inimestele telefoni, arvuti ja e-teenuste kasutamisel kokkulepitud ajal.",
+          category: "Digiabi",
+          categoryCode: "DIGITAL_HELP",
+          rawPlace: "Tabasalu",
+          helpType: "VOLUNTARY",
+          timeType: "FLEXIBLE",
+          availabilityOrStart: "kokkuleppel",
+          targetGroup: "Eakas",
+          targetGroups: ["Eakas"],
+          targetGroupCodes: ["ELDER"]
+        }
+      });
+    }
+  }, createPrismaStub());
+
+  assert.equal(called, true);
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.step, "edit_or_save");
+  assert.equal(result.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
+  assert.equal(result.workflowState?.draft?.rawPlace, "Tabasalu");
 });
 
 test("low-signal offer input does not become a prefixed auto-title", async () => {
