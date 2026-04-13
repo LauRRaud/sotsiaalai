@@ -501,9 +501,9 @@ export default function ChatComposer({
     let started = false;
     try {
       attempted = true;
+      setDraft("");
       const ok = await onSendDeepResearch(trimmed);
       started = Boolean(ok);
-      if (ok) setDraft("");
       return ok;
     } finally {
       submitInFlightRef.current = false;
