@@ -318,7 +318,7 @@
   "materials_page": {
     "title": "Materials",
     "back_to_profile": "Back to profile",
-    "description": "Upload study material, a guide, or another document that could improve the SotsiaalAI knowledge base. Before adding it to the database, an administrator reviews the material. Supported file formats: PDF, DOCX, and TXT. The maximum size per file is 25 MB.",
+    "description": "Send study materials, guides, and other documents to help improve the SotsiaalAI database. All files are reviewed before they are added. Supported formats are PDF, DOCX, TXT and the maximum file size is 25 MB.",
     "choose_file": "Choose file",
     "files_selected": "{count} files selected",
     "comment_placeholder": "Add a short description: what this file is and why it could be useful.",

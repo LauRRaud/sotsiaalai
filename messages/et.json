@@ -318,7 +318,7 @@
   "materials_page": {
     "title": "Materjalid",
     "back_to_profile": "Tagasi profiili",
-    "description": "Siin saad saata õppematerjale, juhendeid ja muid dokumente, mis võiksid täiendada SotsiaalAI teadmuspõhist andmebaasi. Kõik saadetud failid vaadatakse enne andmebaasi lisamist üle. Toetatud failivormingud on PDF, DOCX ja TXT ning ühe faili maksimaalne suurus on 25 MB.",
+    "description": "Saada õppematerjale, juhendeid ja muid dokumente SotsiaalAI andmebaasi täiendamiseks. Kõik failid vaadatakse enne lisamist üle. Toetatud vormingud on PDF, DOCX, TXT ja maksimaalne failisuurus 25 MB.",
     "choose_file": "Vali fail",
     "files_selected": "{count} faili valitud",
     "comment_placeholder": "Lisa lühike kirjeldus: mis fail see on ja milleks see võiks kasulik olla.",

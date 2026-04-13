@@ -735,7 +735,7 @@ export default function ChatSidebar() {
       onConfirm={handleConfirmDelete}
       onCancel={handleConfirmCancel}
       overlayClassName="!z-[140] !bg-transparent !backdrop-blur-0 !backdrop-saturate-100"
-      contentClassName="!w-[min(100%,20.5rem)] !max-w-[20.5rem]"
+      contentClassName="chat-analysis-upload-modal-card !w-[min(100%,20.5rem)] !max-w-[20.5rem]"
     /> : null}
   </>;
 

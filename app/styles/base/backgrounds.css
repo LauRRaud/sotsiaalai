@@ -113,10 +113,6 @@
   [data-bg-layer] .bg-bends-layer {
     transition-duration: 4000ms, 0s;
   }
-
-  [data-bg-layer] .bg-particles-layer {
-    transition-duration: 4500ms, 0s;
-  }
 }
 
 [data-bg-layer] .bg-particles-layer {
@@ -127,6 +123,13 @@
     opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     visibility 0s linear 0s;
 }
+
+@media (max-width: 768px) {
+  [data-bg-layer] .bg-particles-layer {
+    transition-duration: 4500ms, 0s;
+  }
+}
+
 [data-bg-layer] .bg-particles-layer[data-mobile-visible="pending"] {
   opacity: 0;
   visibility: hidden;
