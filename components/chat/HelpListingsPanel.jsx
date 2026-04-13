@@ -11,7 +11,6 @@ import {
   glassPageBackTopLeftClassName,
   glassSubpageCardInteractiveClassName,
   glassSubpageContentWideClassName,
-  glassSubpageMobileReadableWidthClassName,
   glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
   glassPageTitleClassName
@@ -91,14 +90,14 @@ export default function HelpListingsPanel({
   const listingsPanelClassName =
     "mt-[0.25rem] max-[768px]:mt-[0.2rem]";
   const listingsScrollClassName =
-    "help-listings-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain pr-[0.18rem] [scrollbar-width:thin] max-[768px]:pr-0";
+    "help-listings-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain px-[0.16rem] py-[0.18rem] pr-[0.32rem] [scrollbar-width:thin] max-[768px]:px-[0.24rem] max-[768px]:pr-[0.24rem]";
 
   const renderListingCard = (item) => (
     <button
       key={`${item.kind}-${item.id}`}
       type="button"
       onClick={() => onSelectItem?.(item)}
-      className={`help-listings-item-card ${glassSubpageCardInteractiveClassName} min-w-0 rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left ${item.isOwn ? "ring-1 ring-[rgba(197,113,113,0.34)] [.theme-light_&]:ring-[rgba(122,58,56,0.28)]" : ""}`}
+      className={`help-listings-item-card ${glassSubpageCardInteractiveClassName} min-w-0 rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left !shadow-none hover:!shadow-none focus-visible:!shadow-none focus-within:!shadow-none ${item.isOwn ? "ring-1 ring-[rgba(197,113,113,0.34)] [.theme-light_&]:ring-[rgba(122,58,56,0.28)]" : ""}`}
     >
       <div className="flex min-w-0 items-start justify-between gap-3 max-[768px]:flex-col max-[768px]:items-stretch max-[768px]:gap-[0.55rem]">
         <div className="min-w-0 break-words text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.02rem] max-[768px]:leading-[1.22]">
@@ -225,11 +224,11 @@ export default function HelpListingsPanel({
           </p>
         </div>
 
-        <div className={`help-listings-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex min-h-0 flex-1 flex-col gap-[1.25rem] overflow-x-hidden px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem]`}>
+        <div className={`help-listings-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col gap-[1.25rem] overflow-x-hidden px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1rem] max-[768px]:px-[0.2rem]`}>
           <Panel
             variant="subpage"
             padding="sm"
-            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} relative flex min-h-0 flex-1 flex-col !max-h-none !overflow-hidden !p-[0.72rem] max-[768px]:!p-[0.24rem]`}
+            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} relative flex min-h-0 flex-1 flex-col !max-h-none !overflow-hidden !p-[0.62rem] !shadow-none max-[768px]:!p-[0.28rem]`}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
@@ -243,7 +242,7 @@ export default function HelpListingsPanel({
               <>
                 <div
                   aria-hidden="true"
-                  className={`pointer-events-none absolute left-[0.72rem] right-[0.72rem] top-[0.72rem] z-[4] h-[4.2rem] bg-[linear-gradient(to_bottom,var(--csp-surface,rgba(10,12,18,0.94)),rgba(0,0,0,0))] transition-opacity duration-300 max-[768px]:left-[0.24rem] max-[768px]:right-[0.24rem] max-[768px]:top-[0.24rem] ${canScrollUp ? "opacity-100" : "opacity-0"}`}
+                  className={`pointer-events-none absolute left-[0.62rem] right-[0.62rem] top-[0.62rem] z-[4] h-[4.6rem] rounded-t-[1rem] bg-[linear-gradient(to_bottom,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_0%,color-mix(in_srgb,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_68%,transparent)_44%,transparent_100%)] transition-opacity duration-300 max-[768px]:left-[0.28rem] max-[768px]:right-[0.28rem] max-[768px]:top-[0.28rem] ${canScrollUp ? "opacity-100" : "opacity-0"}`}
                 >
                   <span className={`absolute left-1/2 top-[0.45rem] block h-[2.3rem] w-[2.3rem] -translate-x-1/2 transition-all duration-500 ${canScrollUp ? (scrollDirection === "down" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
                     <ChevronIcon direction="up" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
@@ -251,7 +250,7 @@ export default function HelpListingsPanel({
                 </div>
                 <div
                   aria-hidden="true"
-                  className={`pointer-events-none absolute bottom-[0.72rem] left-[0.72rem] right-[0.72rem] z-[4] h-[4.4rem] bg-[linear-gradient(to_top,var(--csp-surface,rgba(10,12,18,0.94)),rgba(0,0,0,0))] transition-opacity duration-300 max-[768px]:bottom-[0.24rem] max-[768px]:left-[0.24rem] max-[768px]:right-[0.24rem] ${canScrollDown ? "opacity-100" : "opacity-0"}`}
+                  className={`pointer-events-none absolute bottom-[0.62rem] left-[0.62rem] right-[0.62rem] z-[4] h-[4.8rem] rounded-b-[1rem] bg-[linear-gradient(to_top,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_0%,color-mix(in_srgb,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_68%,transparent)_44%,transparent_100%)] transition-opacity duration-300 max-[768px]:bottom-[0.28rem] max-[768px]:left-[0.28rem] max-[768px]:right-[0.28rem] ${canScrollDown ? "opacity-100" : "opacity-0"}`}
                 >
                   <span className={`absolute bottom-[0.05rem] left-1/2 block h-[2.55rem] w-[2.55rem] -translate-x-1/2 transition-all duration-500 ${canScrollDown ? (scrollDirection === "up" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
                     <ChevronIcon direction="down" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />

@@ -61,6 +61,17 @@ body:is(
   pointer-events: none !important;
 }
 
+.help-listings-scroll {
+  touch-action: pan-y;
+}
+
+.help-listings-scroll > *,
+.help-listings-item-card {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
 @media (max-width: 768px) {
   body.conversation-drawer-open .chat-page-shell {
     opacity: 0 !important;

@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
+import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
@@ -33,12 +33,13 @@ const HELP_CATEGORY_OPTIONS = [
   { value: "OTHER", label: "Muu abi" }
 ];
 
-function splitTargetGroups(value = "") {
-  return String(value || "")
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
+const TARGET_GROUP_OPTIONS = [
+  { value: "CHILD", label: "Laps" },
+  { value: "YOUTH", label: "Noor" },
+  { value: "ADULT", label: "Täiskasvanu" },
+  { value: "ELDER", label: "Eakas" },
+  { value: "DISABILITY", label: "Puue või erivajadus" }
+];
 
 function normalizeComparableText(value = "") {
   return String(value || "")
@@ -110,53 +111,91 @@ function buildInfoItems(listing = {}, ui = {}) {
   return items;
 }
 
+function FieldLabel({ children }) {
+  return (
+    <span className="text-[0.8rem] uppercase tracking-[0.08em] opacity-74">
+      {children}
+    </span>
+  );
+}
+
 function DropdownField({ label, value, onChange, options = [] }) {
-  const [open, setOpen] = useState(false);
-  const selected = options.find((option) => option.value === value);
-  const selectedLabel = selected?.label || options.find((option) => !option.value)?.label || "-";
+  return (
+    <label className="grid gap-[0.35rem]">
+      <FieldLabel>{label}</FieldLabel>
+      <DocumentsDropdown
+        value={value}
+        onChange={onChange}
+        options={options}
+        placeholder="-"
+        ariaLabel={label}
+      />
+    </label>
+  );
+}
+
+function TextField({ label, value, onChange, placeholder = "" }) {
+  return (
+    <label className="grid gap-[0.35rem]">
+      <FieldLabel>{label}</FieldLabel>
+      <input
+        value={value}
+        onChange={(event) => onChange?.(event.target.value)}
+        placeholder={placeholder}
+        className="documents-field min-h-[3rem] w-full rounded-[0.9rem] px-[0.95rem] py-[0.7rem] text-[1rem] outline-none !shadow-none"
+      />
+    </label>
+  );
+}
+
+function TextAreaField({ label, value, onChange, rows = 3 }) {
+  return (
+    <label className="grid gap-[0.35rem]">
+      <FieldLabel>{label}</FieldLabel>
+      <textarea
+        value={value}
+        onChange={(event) => onChange?.(event.target.value)}
+        rows={rows}
+        className="documents-field documents-field--textarea w-full resize-y rounded-[0.9rem] px-[0.95rem] py-[0.78rem] text-[1rem] leading-[1.45] outline-none !shadow-none"
+      />
+    </label>
+  );
+}
+
+function TargetGroupsField({ label, value = [], onChange }) {
+  const selectedValues = Array.isArray(value) ? value : [];
+  const toggleValue = (nextValue) => {
+    const exists = selectedValues.includes(nextValue);
+    const nextValues = exists
+      ? selectedValues.filter((item) => item !== nextValue)
+      : [...selectedValues, nextValue];
+    onChange?.(nextValues);
+  };
 
   return (
-    <div className="relative grid gap-[0.35rem]">
-      <span className="text-[0.8rem] uppercase tracking-[0.08em] opacity-74">
-        {label}
-      </span>
-      <button
-        type="button"
-        onClick={() => setOpen((next) => !next)}
-        className="flex min-h-[3.1rem] w-full items-center justify-between gap-[0.8rem] rounded-[1.55rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[1rem] py-[0.66rem] text-left text-[1rem] text-[color:var(--glass-modal-text)] shadow-[var(--subpage-card-shadow)] outline-none transition-[background,border-color,box-shadow] duration-200 hover:bg-[rgba(255,255,255,0.16)] focus-visible:border-[rgba(197,113,113,0.44)] focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.16)] [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)] [.theme-light_&]:hover:bg-[rgba(255,255,255,0.44)]"
-        aria-haspopup="listbox"
-        aria-expanded={open}
-      >
-        <span className="min-w-0 truncate">{selectedLabel}</span>
-        <ChevronIcon direction={open ? "up" : "down"} strokeWidth={1.15} className="h-[1.05rem] w-[1.65rem] flex-none text-[color:var(--title-color,var(--brand-primary))]" />
-      </button>
-      {open ? (
-        <div
-          className="absolute left-0 right-0 top-[calc(100%+0.36rem)] z-[20] overflow-hidden rounded-[1.25rem] border border-[rgba(248,253,255,0.12)] bg-[var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(20,24,32,0.94)))] py-[0.45rem] text-[1rem] shadow-[0_16px_34px_rgba(0,0,0,0.18)] backdrop-blur-[18px] [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(245,239,236,0.96)]"
-          role="listbox"
-        >
-          {options.map((option) => {
-            const checked = option.value === value;
-            return (
-              <button
-                key={option.value || "empty"}
-                type="button"
-                role="option"
-                aria-selected={checked}
-                onClick={() => {
-                  onChange?.(option.value);
-                  setOpen(false);
-                }}
-                className={`flex w-full items-center justify-between gap-[0.75rem] px-[1rem] py-[0.62rem] text-left transition-colors duration-150 hover:bg-[rgba(255,255,255,0.12)] [.theme-light_&]:hover:bg-[rgba(122,58,56,0.06)] ${checked ? "text-[color:var(--title-color,var(--brand-primary))]" : ""}`}
-              >
-                <span className="min-w-0">{option.label}</span>
-                {checked ? <span aria-hidden="true" className="text-[color:var(--title-color,var(--brand-primary))]">✓</span> : null}
-              </button>
-            );
-          })}
-        </div>
-      ) : null}
-    </div>
+    <fieldset className="grid gap-[0.45rem]">
+      <legend className="text-[0.8rem] uppercase tracking-[0.08em] opacity-74">{label}</legend>
+      <div className="grid grid-cols-2 gap-[0.45rem] max-[520px]:grid-cols-1">
+        {TARGET_GROUP_OPTIONS.map((option) => {
+          const selected = selectedValues.includes(option.value);
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => toggleValue(option.value)}
+              className={`min-h-[2.65rem] rounded-[0.9rem] border px-[0.75rem] py-[0.55rem] text-left text-[0.98rem] leading-[1.2] transition-colors duration-150 !shadow-none ${
+                selected
+                  ? "border-[color:var(--documents-accent-border,var(--subpage-card-border))] bg-[color:var(--documents-accent-soft,var(--input-bg-hover))] text-[color:var(--documents-accent,var(--title-color,var(--brand-primary)))]"
+                  : "border-[color:var(--documents-card-border,var(--subpage-card-border))] bg-[color:var(--input-bg)] text-[color:var(--input-text)] hover:bg-[color:var(--input-bg-hover)]"
+              }`}
+              aria-pressed={selected ? "true" : "false"}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    </fieldset>
   );
 }
 
@@ -249,11 +288,12 @@ export default function SelectedListingContext({
   const kindActionLabel = listing?.kind === "request" ? ui.offerHelp : ui.contact;
   const connectDisabled = !selectedConnectListingId || busyAction === "connect";
   const descriptionValue = editState?.description ?? listing?.editableDescription ?? listing?.description ?? "";
-  const roleValue = editState?.roleLabel ?? listing?.roleLabel ?? "";
   const categoryCodeValue = editState?.primaryCategoryCode ?? listing?.primaryCategoryCode ?? "";
   const helpTypeValue = editState?.helpType ?? listing?.helpType ?? "";
   const timeTypeValue = editState?.timeType ?? listing?.timeType ?? "";
-  const targetGroupsValue = editState?.targetGroups ?? (Array.isArray(listing?.targetGroupLabels) ? listing.targetGroupLabels.join(", ") : "");
+  const targetGroupCodesValue = Array.isArray(editState?.targetGroupCodes)
+    ? editState.targetGroupCodes
+    : (Array.isArray(listing?.targetGroupCodes) ? listing.targetGroupCodes : []);
   const rawPlaceValue = editState?.rawPlace ?? listing?.editableRawPlace ?? listing?.rawPlace ?? "";
   const availabilityOrStartValue = editState?.availabilityOrStart ?? listing?.editableAvailabilityOrStart ?? listing?.availabilityOrStart ?? "";
   const compensationDetailsValue = editState?.compensationDetails ?? listing?.editableCompensationDetails ?? listing?.compensationDetails ?? "";
@@ -261,7 +301,7 @@ export default function SelectedListingContext({
   const infoItems = listing ? buildInfoItems(listing, ui) : [];
   const cleanDescription = listing ? buildCleanDescription(listing) : "";
   const selectedListingContentClassName =
-    `selected-listing-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
+    `selected-listing-modal-content documents-workspace !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
     `relative !flex !max-h-[calc(100dvh-2.5rem)] !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
@@ -321,7 +361,7 @@ export default function SelectedListingContext({
         <Panel
           variant="subpage"
           padding="sm"
-          className={`${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] !p-[0.5rem] max-[768px]:!p-[0.12rem]`}
+          className={`${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] !p-[0.5rem] !shadow-none max-[768px]:!p-[0.12rem]`}
         >
           {loading ? <div className="px-2 py-4 text-[1rem] opacity-80">{ui.loading}</div> : null}
           {!loading && error ? <div className="px-2 py-4 text-[1rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
@@ -334,7 +374,7 @@ export default function SelectedListingContext({
               ) : null}
               {cleanDescription ? <div className="whitespace-pre-wrap text-[0.98rem] leading-[1.62] opacity-88">{cleanDescription}</div> : null}
               {infoItems.length ? (
-                <dl className="grid gap-[0.55rem] rounded-[1rem] border border-[color:var(--subpage-card-border,transparent)] bg-[color:color-mix(in_srgb,var(--subpage-card-bg)_92%,transparent)] px-[0.85rem] py-[0.78rem] shadow-[var(--subpage-card-shadow)]">
+                <dl className="grid gap-[0.55rem] rounded-[1rem] border border-[color:var(--subpage-card-border,transparent)] bg-[color:color-mix(in_srgb,var(--subpage-card-bg)_92%,transparent)] px-[0.85rem] py-[0.78rem] !shadow-none">
                   {infoItems.map((item) => (
                     <div key={`${item.label}-${item.value}`} className="grid gap-[0.14rem]">
                       <dt className="text-[0.76rem] uppercase tracking-[0.08em] opacity-62">{item.label}</dt>
@@ -346,22 +386,18 @@ export default function SelectedListingContext({
 
               {editState ? (
                 <div className="grid gap-[0.8rem] pt-[0.35rem]">
-                  <Input
-                    id="listing-edit-title"
+                  <TextField
+                    label={ui.title}
                     value={editState.title}
-                    onChange={(event) => onChangeEditField?.("title", event.target.value)}
+                    onChange={(value) => onChangeEditField?.("title", value)}
                     placeholder={ui.title}
-                    aria-label={ui.title}
                   />
-                  <label className="grid gap-[0.35rem]">
-                    <span className="text-[0.8rem] uppercase tracking-[0.08em] opacity-74">{ui.description}</span>
-                    <textarea
-                      value={descriptionValue}
-                      onChange={(event) => onChangeEditField?.("description", event.target.value)}
-                      rows={5}
-                      className="rounded-[1rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[0.95rem] py-[0.78rem] text-[1rem] text-[color:var(--glass-modal-text)] outline-none [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)]"
-                    />
-                  </label>
+                  <TextAreaField
+                    label={ui.description}
+                    value={descriptionValue}
+                    onChange={(value) => onChangeEditField?.("description", value)}
+                    rows={5}
+                  />
                   <div className="grid gap-[0.8rem] md:grid-cols-2">
                     <DropdownField
                       label={ui.category}
@@ -369,19 +405,11 @@ export default function SelectedListingContext({
                       onChange={(value) => onChangeEditField?.("primaryCategoryCode", value)}
                       options={HELP_CATEGORY_OPTIONS}
                     />
-                    <Input
-                      id="listing-edit-role"
-                      value={roleValue}
-                      onChange={(event) => onChangeEditField?.("roleLabel", event.target.value)}
-                      placeholder={ui.roleLabel}
-                      aria-label={ui.roleLabel}
-                    />
-                    <Input
-                      id="listing-edit-location"
+                    <TextField
+                      label={ui.location}
                       value={rawPlaceValue}
-                      onChange={(event) => onChangeEditField?.("rawPlace", event.target.value)}
+                      onChange={(value) => onChangeEditField?.("rawPlace", value)}
                       placeholder={ui.location}
-                      aria-label={ui.location}
                     />
                     <DropdownField
                       label={ui.helpType}
@@ -405,41 +433,34 @@ export default function SelectedListingContext({
                         { value: "FLEXIBLE", label: ui.flexibleLabel }
                       ]}
                     />
-                    <Input
-                      id="listing-edit-targets"
-                      value={targetGroupsValue}
-                      onChange={(event) => onChangeEditField?.("targetGroups", event.target.value)}
-                      placeholder={ui.targetGroupsHint}
-                      aria-label={ui.targetGroups}
-                    />
                   </div>
-                  <label className="grid gap-[0.35rem]">
-                    <span className="text-[0.8rem] uppercase tracking-[0.08em] opacity-74">{ui.availabilityOrStart}</span>
-                    <textarea
-                      value={availabilityOrStartValue}
-                      onChange={(event) => onChangeEditField?.("availabilityOrStart", event.target.value)}
-                      rows={2}
-                      className="rounded-[1rem] border border-[rgba(248,253,255,0.12)] bg-[rgba(255,255,255,0.12)] px-[0.95rem] py-[0.78rem] text-[1rem] text-[color:var(--glass-modal-text)] outline-none [.theme-light_&]:border-[rgba(122,58,56,0.08)] [.theme-light_&]:bg-[rgba(255,255,255,0.3)]"
-                    />
-                  </label>
+                  <TargetGroupsField
+                    label={ui.targetGroups}
+                    value={targetGroupCodesValue}
+                    onChange={(value) => onChangeEditField?.("targetGroupCodes", value)}
+                  />
+                  <TextAreaField
+                    label={ui.availabilityOrStart}
+                    value={availabilityOrStartValue}
+                    onChange={(value) => onChangeEditField?.("availabilityOrStart", value)}
+                    rows={2}
+                  />
                   <div className="grid gap-[0.8rem] md:grid-cols-2">
-                    <Input
-                      id="listing-edit-compensation"
+                    <TextField
+                      label={ui.compensationDetails}
                       value={compensationDetailsValue}
-                      onChange={(event) => onChangeEditField?.("compensationDetails", event.target.value)}
+                      onChange={(value) => onChangeEditField?.("compensationDetails", value)}
                       placeholder={ui.compensationDetails}
-                      aria-label={ui.compensationDetails}
                     />
-                    <Input
-                      id="listing-edit-conditions"
+                    <TextField
+                      label={ui.conditions}
                       value={conditionsValue}
-                      onChange={(event) => onChangeEditField?.("conditions", event.target.value)}
+                      onChange={(value) => onChangeEditField?.("conditions", value)}
                       placeholder={ui.conditions}
-                      aria-label={ui.conditions}
                     />
                   </div>
                   <div className="flex flex-wrap justify-center gap-[0.6rem] pt-[0.25rem]">
-                    <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={() => onSaveEdit?.({ ...editState, targetGroups: splitTargetGroups(targetGroupsValue) })}>
+                    <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={() => onSaveEdit?.({ ...editState, targetGroupCodes: targetGroupCodesValue })}>
                       {ui.save}
                     </Button>
                     <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onCancelEdit}>
@@ -488,7 +509,7 @@ export default function SelectedListingContext({
       </div>
       <div
         aria-hidden="true"
-        className={`pointer-events-none absolute bottom-[0.92rem] left-[1.65rem] right-[1.65rem] z-[4] h-[4.2rem] bg-[linear-gradient(to_top,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))),rgba(0,0,0,0))] transition-opacity duration-300 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+0.58rem)] max-[768px]:left-[0.78rem] max-[768px]:right-[0.78rem] ${canScrollDown ? "opacity-100" : "opacity-0"}`}
+        className={`pointer-events-none absolute bottom-[0.92rem] left-[1.65rem] right-[1.65rem] z-[4] h-[4.8rem] bg-[linear-gradient(to_top,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_0%,color-mix(in_srgb,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_68%,transparent)_44%,transparent_100%)] transition-opacity duration-300 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+0.58rem)] max-[768px]:left-[0.78rem] max-[768px]:right-[0.78rem] ${canScrollDown ? "opacity-100" : "opacity-0"}`}
       >
         <span className={`absolute bottom-[0.05rem] left-1/2 block h-[2.55rem] w-[2.55rem] -translate-x-1/2 transition-all duration-500 ${canScrollDown ? (scrollDirection === "up" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
           <ChevronIcon direction="down" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />
@@ -496,7 +517,7 @@ export default function SelectedListingContext({
       </div>
       <div
         aria-hidden="true"
-        className={`pointer-events-none absolute left-[1.65rem] right-[1.65rem] top-[clamp(8.5rem,24vh,13rem)] z-[4] h-[3.4rem] bg-[linear-gradient(to_bottom,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))),rgba(0,0,0,0))] transition-opacity duration-300 max-[768px]:left-[0.78rem] max-[768px]:right-[0.78rem] ${canScrollUp ? "opacity-100" : "opacity-0"}`}
+        className={`pointer-events-none absolute left-[1.65rem] right-[1.65rem] top-[clamp(8.5rem,24vh,13rem)] z-[4] h-[4.2rem] bg-[linear-gradient(to_bottom,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_0%,color-mix(in_srgb,var(--glass-modal-bg,var(--subpage-card-bg,var(--glass-ring-surface-bg,rgba(10,12,18,0.94))))_68%,transparent)_44%,transparent_100%)] transition-opacity duration-300 max-[768px]:left-[0.78rem] max-[768px]:right-[0.78rem] ${canScrollUp ? "opacity-100" : "opacity-0"}`}
       >
         <span className={`absolute left-1/2 top-[0.22rem] block h-[2.25rem] w-[2.25rem] -translate-x-1/2 transition-all duration-500 ${canScrollUp ? (scrollDirection === "down" ? "scale-[0.74] opacity-35" : "scale-100 opacity-80") : "scale-[0.6] opacity-0"}`}>
           <ChevronIcon direction="up" strokeWidth={1} className="h-full w-full text-[color:var(--csp-arrow-color,var(--title-color,var(--brand-primary)))] opacity-80" />

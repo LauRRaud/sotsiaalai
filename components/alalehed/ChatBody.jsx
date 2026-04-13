@@ -18,6 +18,7 @@ import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalys
 import HelpListingsPanel from "@/components/chat/HelpListingsPanel";
 import SelectedListingContext from "@/components/chat/SelectedListingContext";
 import { getHelpUiText } from "@/components/chat/helpUiText";
+import ModalConfirm from "@/components/ui/ModalConfirm";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import { cn } from "@/components/ui/cn";
@@ -74,7 +75,8 @@ function createEmptySelectedListingState() {
     connectOptions: [],
     selectedConnectListingId: "",
     edit: null,
-    busyAction: ""
+    busyAction: "",
+    deleteConfirmOpen: false
   };
 }
 
@@ -1099,6 +1101,7 @@ export default function ChatBody({
           availabilityOrStart: prev.listing.editableAvailabilityOrStart || prev.listing.availabilityOrStart || "",
           compensationDetails: prev.listing.editableCompensationDetails || prev.listing.compensationDetails || "",
           conditions: prev.listing.editableConditions || prev.listing.conditions || "",
+          targetGroupCodes: Array.isArray(prev.listing.targetGroupCodes) ? prev.listing.targetGroupCodes : [],
           targetGroups: Array.isArray(prev.listing.targetGroupLabels) ? prev.listing.targetGroupLabels.join(", ") : ""
         }
       };
@@ -1138,6 +1141,7 @@ export default function ChatBody({
           availabilityOrStart: editPayload?.availabilityOrStart,
           compensationDetails: editPayload?.compensationDetails,
           conditions: editPayload?.conditions,
+          targetGroupCodes: Array.isArray(editPayload?.targetGroupCodes) ? editPayload.targetGroupCodes : undefined,
           targetGroups: Array.isArray(editPayload?.targetGroups) ? editPayload.targetGroups : []
         })
       });
@@ -1198,12 +1202,25 @@ export default function ChatBody({
       }));
     }
   }, [helpUi.updateFailed, locale, patchListingCollections, selectedListingState.listing]);
+  const requestDeleteOwnedListing = useCallback(() => {
+    setSelectedListingState((prev) => prev.listing ? {
+      ...prev,
+      deleteConfirmOpen: true,
+      error: ""
+    } : prev);
+  }, []);
+  const cancelDeleteOwnedListing = useCallback(() => {
+    setSelectedListingState((prev) => ({
+      ...prev,
+      deleteConfirmOpen: false
+    }));
+  }, []);
   const deleteOwnedListing = useCallback(async () => {
     const listing = selectedListingState.listing;
     if (!listing) return;
-    if (typeof window !== "undefined" && !window.confirm(helpUi.deleteConfirm)) return;
     setSelectedListingState((prev) => ({
       ...prev,
+      deleteConfirmOpen: false,
       busyAction: "delete",
       error: ""
     }));
@@ -1224,7 +1241,7 @@ export default function ChatBody({
         error: error?.message || helpUi.deleteFailed
       }));
     }
-  }, [dismissSelectedListing, helpUi.deleteConfirm, helpUi.deleteFailed, patchListingCollections, selectedListingState.listing]);
+  }, [dismissSelectedListing, helpUi.deleteFailed, patchListingCollections, selectedListingState.listing]);
   const connectSelectedListing = useCallback(async () => {
     const listing = selectedListingState.listing;
     const selectedConnectListingId = String(selectedListingState.selectedConnectListingId || "").trim();
@@ -1788,9 +1805,23 @@ export default function ChatBody({
       onCancelEdit={() => setSelectedListingState((prev) => ({ ...prev, edit: null, busyAction: "" }))}
       onSaveEdit={saveListingEdit}
       onCloseListing={closeOwnedListing}
-      onDeleteListing={deleteOwnedListing}
+      onDeleteListing={requestDeleteOwnedListing}
       onSelectConnectListing={(value) => setSelectedListingState((prev) => ({ ...prev, selectedConnectListingId: value }))}
       onConnect={connectSelectedListing}
+    />
+  ) : null;
+  const deleteListingConfirmNode = selectedListingState.deleteConfirmOpen ? (
+    <ModalConfirm
+      message={helpUi.deleteConfirm}
+      confirmLabel={t("buttons.delete")}
+      cancelLabel={t("buttons.cancel")}
+      confirmVariant="danger"
+      cancelVariant="primary"
+      onConfirm={deleteOwnedListing}
+      onCancel={cancelDeleteOwnedListing}
+      disabled={selectedListingState.busyAction === "delete"}
+      overlayClassName="!z-[146] !bg-transparent !backdrop-blur-0 !backdrop-saturate-100"
+      contentClassName="chat-analysis-upload-modal-card !w-[min(100%,20.5rem)] !max-w-[20.5rem]"
     />
   ) : null;
   const isStreamingAny = useMemo(() => isGenerating || visibleMessages.some(m => m.role === "ai" && m.isStreaming), [isGenerating, visibleMessages]);
@@ -2168,6 +2199,7 @@ export default function ChatBody({
       analysisPanelWidth={analysisPanelWidth}
       maskLayerRef={maskLayerRef}
     />
+    {deleteListingConfirmNode}
     <LoginModal
       open={loginOpen}
       onClose={() => setLoginOpen(false)}
