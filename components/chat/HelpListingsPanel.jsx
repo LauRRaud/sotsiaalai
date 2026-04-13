@@ -85,6 +85,8 @@ export default function HelpListingsPanel({
     "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
   const listingsPanelClassName =
     "mt-[0.25rem] max-[768px]:mt-[0.2rem]";
+  const listingsScrollClassName =
+    "help-listings-scroll flex-1 overflow-y-auto pr-[0.18rem] [scrollbar-width:thin] max-[768px]:pr-[0.08rem]";
 
   const renderListingCard = (item) => (
     <button
@@ -188,25 +190,29 @@ export default function HelpListingsPanel({
           <Panel
             variant="subpage"
             padding="sm"
-            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} flex flex-1 flex-col !min-h-[clamp(24rem,58vh,36rem)] !p-[0.72rem] max-[768px]:!min-h-[clamp(15rem,34vh,21rem)] max-[768px]:!p-[0.24rem]`}
+            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} flex flex-1 flex-col !max-h-[clamp(21rem,54vh,29rem)] !min-h-[clamp(18rem,42vh,24rem)] !overflow-hidden !p-[0.72rem] max-[768px]:!max-h-[clamp(17rem,46vh,23rem)] max-[768px]:!min-h-[clamp(14rem,30vh,18rem)] max-[768px]:!p-[0.24rem]`}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
             {!loading && !error && !items.length ? (
-              <div className="help-listings-empty flex flex-1 min-h-[clamp(19rem,48vh,30rem)] items-center px-2 py-4 text-[1.08rem] leading-[1.45] opacity-78 max-[768px]:min-h-[clamp(12rem,26vh,16rem)] max-[768px]:text-[1.12rem] hc:text-[color:var(--hc-accent)] hc:opacity-100">
+              <div className="help-listings-empty flex flex-1 min-h-[clamp(13rem,30vh,18rem)] items-center px-2 py-4 text-[1.08rem] leading-[1.45] opacity-78 max-[768px]:min-h-[clamp(10rem,22vh,14rem)] max-[768px]:text-[1.12rem] hc:text-[color:var(--hc-accent)] hc:opacity-100">
                 {emptyText}
               </div>
             ) : null}
 
-            <div className="grid gap-[0.7rem]">
-              {ownItems.length ? (
-                <div className="mb-[0.1rem] text-[0.76rem] uppercase tracking-[0.11em] opacity-70">
-                  {ownSectionLabel}
+            {!loading && !error && items.length ? (
+              <div className={listingsScrollClassName}>
+                <div className="grid gap-[0.7rem]">
+                  {ownItems.length ? (
+                    <div className="mb-[0.1rem] text-[0.76rem] uppercase tracking-[0.11em] opacity-70">
+                      {ownSectionLabel}
+                    </div>
+                  ) : null}
+                  {ownItems.map(renderListingCard)}
+                  {otherItems.map(renderListingCard)}
                 </div>
-              ) : null}
-              {ownItems.map(renderListingCard)}
-              {otherItems.map(renderListingCard)}
-            </div>
+              </div>
+            ) : null}
           </Panel>
 
           {!loading && nextOffset != null ? (

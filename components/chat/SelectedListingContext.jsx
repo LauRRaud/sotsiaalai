@@ -40,12 +40,24 @@ function includesComparable(haystack = "", needle = "") {
   return left.includes(right);
 }
 
+function buildCleanDescription(listing = {}) {
+  const text = String(listing?.description || "").trim();
+  if (!text) return "";
+  const match = text.match(/\b(?:Põhikategooria|Omavalitsus|Täpsem asukoht|Sihtrühm|Abi vorm|Tasu info|Ajalisus|Saadavus\s*\/\s*algus|Lisatingimused|Tingimused|Oskused või taust):/iu);
+  const cleaned = match?.index > 0 ? text.slice(0, match.index) : text;
+  return cleaned.trim();
+}
+
 function buildInfoItems(listing = {}, ui = {}) {
   const summary = String(listing.summary || "").trim();
   const items = [];
 
   if (listing.categoryLabel) {
     items.push({ label: ui.category || "Category", value: listing.categoryLabel });
+  }
+
+  if (listing.municipalityLabel && !includesComparable(summary, listing.municipalityLabel)) {
+    items.push({ label: ui.municipality || "Municipality", value: listing.municipalityLabel });
   }
 
   if (listing.helpTypeLabel && !includesComparable(summary, listing.helpTypeLabel)) {
@@ -66,6 +78,18 @@ function buildInfoItems(listing = {}, ui = {}) {
     !includesComparable(listing.municipalityLabel, listing.rawPlace)
   ) {
     items.push({ label: ui.location || "Location", value: listing.rawPlace });
+  }
+
+  if (listing.availabilityOrStart) {
+    items.push({ label: ui.availabilityOrStart || "Availability", value: listing.availabilityOrStart });
+  }
+
+  if (listing.compensationDetails) {
+    items.push({ label: ui.compensationDetails || "Compensation", value: listing.compensationDetails });
+  }
+
+  if (listing.conditions) {
+    items.push({ label: ui.conditions || "Conditions", value: listing.conditions });
   }
 
   return items;
@@ -102,7 +126,6 @@ export default function SelectedListingContext({
   busyAction = "",
   onSelectConnectListing,
   onConnect,
-  onAskAi,
   onStartEdit,
   onChangeEditField,
   onCancelEdit,
@@ -150,9 +173,10 @@ export default function SelectedListingContext({
   const timeTypeValue = editState?.timeType ?? listing?.timeType ?? "";
   const targetGroupsValue = editState?.targetGroups ?? (Array.isArray(listing?.targetGroupLabels) ? listing.targetGroupLabels.join(", ") : "");
   const infoItems = listing ? buildInfoItems(listing, ui) : [];
+  const cleanDescription = listing ? buildCleanDescription(listing) : "";
   const selectedListingContentClassName =
     `selected-listing-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
-    `relative !max-h-none overflow-x-hidden !overflow-y-visible pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `relative !flex !max-h-[calc(100dvh-2.5rem)] !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--subpage-card-bg,var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] shadow-[var(--glass-shell-shadow,none)] ` +
@@ -163,6 +187,7 @@ export default function SelectedListingContext({
     `max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
     `max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] ` +
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
+    `max-[768px]:!max-h-[calc(100dvh-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]`;
   const actionButtonClassName =
     "!min-h-[2.82rem] !px-[1.1rem] !py-[0.6rem] !text-[1rem] max-[768px]:!min-h-[2.95rem] max-[768px]:!text-[1.04rem]";
@@ -174,7 +199,7 @@ export default function SelectedListingContext({
       onClose={onDismiss}
       closeOnOverlayClick
       aria-label={listing?.title || ui.selectedListing}
-      className="selected-listing-modal-overlay z-[142] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start"
+      className="selected-listing-modal-overlay z-[142] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:items-start max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),0.35rem)]"
       contentClassName={selectedListingContentClassName}
     >
       <BackButton
@@ -183,14 +208,14 @@ export default function SelectedListingContext({
         className={glassPageBackTopLeftClassName}
       />
 
-      <header className="selected-listing-title-wrap flex w-full items-start justify-center">
-        <div className="flex w-full flex-col items-center">
+      <header className="selected-listing-title-wrap flex w-full items-start justify-center px-[4.3rem] max-[768px]:px-[3.85rem]">
+        <div className="flex w-full max-w-[30rem] flex-col items-center text-center">
           <div className="selected-listing-eyebrow mt-[0.7rem] text-[0.82rem] uppercase tracking-[0.12em] text-[color:var(--title-color,var(--brand-primary))] opacity-76 max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)]">
             {isOwn ? ui.ownListing : ui.selectedListing}
           </div>
           <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
             <h2
-              className={`selected-listing-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} max-[768px]:!mt-0 max-[768px]:!mb-0 min-[769px]:!mt-[0.5rem]`}
+              className={`selected-listing-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-w-[30rem] !text-balance max-[768px]:!mt-0 max-[768px]:!mb-0 min-[769px]:!mt-[0.45rem]`}
             >
               {loading ? ui.loading : listing?.title || ui.selectedListing}
             </h2>
@@ -203,7 +228,7 @@ export default function SelectedListingContext({
         </div>
       </header>
 
-      <div className={`selected-listing-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.8rem] px-[0.05rem] pt-0 pb-[0.4rem] max-[768px]:px-[0.05rem]`}>
+      <div className={`selected-listing-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex flex-1 flex-col overflow-y-auto gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[0.4rem] pr-[0.55rem] max-[768px]:px-[0.05rem] max-[768px]:pr-[0.05rem]`}>
         <Panel
           variant="subpage"
           padding="sm"
@@ -218,7 +243,7 @@ export default function SelectedListingContext({
                   {listing.summary}
                 </p>
               ) : null}
-              {listing.description ? <div className="whitespace-pre-wrap text-[0.98rem] leading-[1.62] opacity-88">{listing.description}</div> : null}
+              {cleanDescription ? <div className="whitespace-pre-wrap text-[0.98rem] leading-[1.62] opacity-88">{cleanDescription}</div> : null}
               {infoItems.length ? (
                 <dl className="grid gap-[0.55rem] rounded-[1rem] border border-[color:var(--subpage-card-border,transparent)] bg-[color:color-mix(in_srgb,var(--subpage-card-bg)_92%,transparent)] px-[0.85rem] py-[0.78rem] shadow-[var(--subpage-card-shadow)]">
                   {infoItems.map((item) => (
@@ -308,9 +333,6 @@ export default function SelectedListingContext({
                   <Button type="button" variant="danger" size="md" className={actionButtonClassName} onClick={onDeleteListing} disabled={busyAction === "delete"}>
                     {ui.delete}
                   </Button>
-                  <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onAskAi}>
-                    {ui.askAi}
-                  </Button>
                 </div>
               ) : null}
 
@@ -332,9 +354,6 @@ export default function SelectedListingContext({
                   <div className="flex flex-wrap justify-center gap-[0.6rem]">
                     <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onConnect} disabled={connectDisabled}>
                       {busyAction === "connect" ? `${kindActionLabel}...` : kindActionLabel}
-                    </Button>
-                    <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onAskAi}>
-                      {ui.askAi}
                     </Button>
                   </div>
                 </div>

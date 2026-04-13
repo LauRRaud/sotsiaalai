@@ -1255,18 +1255,6 @@ export default function ChatBody({
       }));
     }
   }, [helpUi.connectFailed, locale, router, selectedListingState.listing, selectedListingState.selectedConnectListingId]);
-  const askAiAboutListing = useCallback(() => {
-    const listing = selectedListingState.listing;
-    if (!listing) return;
-    const parts = [
-      helpUi.aiPromptPrefix,
-      listing.title,
-      listing.description || listing.summary || "",
-      listing.municipalityLabel || ""
-    ].filter(Boolean);
-    composerDraftApiRef.current?.appendText?.(`${parts.join("\n")}\n`);
-    focusInput();
-  }, [focusInput, helpUi.aiPromptPrefix, selectedListingState.listing]);
   const openGlobalRequestsPanel = useCallback(() => {
     openListingsPanel({
       key: "help_requests",
@@ -1785,7 +1773,6 @@ export default function ChatBody({
       selectedConnectListingId={selectedListingState.selectedConnectListingId}
       busyAction={selectedListingState.busyAction}
       onDismiss={dismissSelectedListing}
-      onAskAi={askAiAboutListing}
       onStartEdit={startListingEdit}
       onChangeEditField={changeListingEditField}
       onCancelEdit={() => setSelectedListingState((prev) => ({ ...prev, edit: null, busyAction: "" }))}
