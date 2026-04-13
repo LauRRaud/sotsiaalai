@@ -285,9 +285,9 @@ function createSavedRequestState(overrides = {}) {
       rawPlace: "Tallinn",
       helpType: "VOLUNTARY",
       timeType: "FLEXIBLE",
-      availabilityOrStart: "kokkuleppel",
-      beneficiaryLabel: "endale",
-      urgency: "lähiajal",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "Lähiajal",
       structuredSummary: "Vajan transpordiabi Tallinnas"
     },
     ...overrides
@@ -491,7 +491,7 @@ test("request audience and timing answers complete target group and one-time ava
   }, createPrismaStub());
 
   assert.equal(afterAudience.handled, true);
-  assert.equal(afterAudience.workflowState?.draft?.beneficiaryLabel, "endale");
+  assert.equal(afterAudience.workflowState?.draft?.beneficiaryLabel, "Endale");
   assert.deepEqual(afterAudience.workflowState?.draft?.targetGroupCodes, ["ADULT"]);
   assert.match(String(afterAudience.reply || ""), /Millal abi vaja on/i);
   assert.doesNotMatch(String(afterAudience.reply || ""), /Sain aru/i);
@@ -506,7 +506,7 @@ test("request audience and timing answers complete target group and one-time ava
   assert.equal(afterTiming.handled, true);
   assert.equal(afterTiming.workflowState?.draft?.timeType, "ONE_TIME");
   assert.match(String(afterTiming.workflowState?.draft?.availabilityOrStart || ""), /reede/i);
-  assert.equal(afterTiming.workflowState?.draft?.urgency, "lähiajal");
+  assert.equal(afterTiming.workflowState?.draft?.urgency, "Lähiajal");
   assert.match(String(afterTiming.reply || ""), /Vaata abisoov üle\./i);
   assert.match(String(afterTiming.reply || ""), /Sihtrühm:\s*Täiskasvanu/i);
   assert.match(String(afterTiming.reply || ""), /Ajalisus:\s*Ühekordne/i);
@@ -587,11 +587,11 @@ test("Haapsalu digital help offer keeps flexible timing and clean preview fields
   assert.equal(result.workflowState?.draft?.description.startsWith("Pakun digiabi"), true);
   assert.doesNotMatch(String(result.workflowState?.draft?.description || ""), /olen autoga/i);
   assert.equal(result.workflowState?.draft?.timeType, "FLEXIBLE");
-  assert.equal(result.workflowState?.draft?.providerScopeOrConditions, "olen autoga");
+  assert.equal(result.workflowState?.draft?.providerScopeOrConditions, "Olen autoga");
   assert.match(String(result.workflowState?.draft?.availabilityOrStart || ""), /kokkuleppel.*nädalavahetusel/i);
   assert.match(String(result.workflowState?.draft?.compensationDetails || ""), /sõidukulu/i);
   assert.match(String(result.reply || ""), /Ajalisus:\s*Paindlik/i);
-  assert.match(String(result.reply || ""), /Tingimused:\s*olen autoga/i);
+  assert.match(String(result.reply || ""), /Tingimused:\s*Olen autoga/i);
   assert.doesNotMatch(String(result.reply || ""), /^Tingimused:\s*$/m);
 });
 
@@ -629,8 +629,8 @@ test("preview edit for offer conditions does not recategorize or geocode car tex
   assert.equal(directEdit.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
   assert.equal(directEdit.workflowState?.draft?.rawPlace, "Haapsalus");
   assert.equal(directEdit.workflowState?.municipalityLabel, "Haapsalu linn");
-  assert.equal(directEdit.workflowState?.draft?.providerScopeOrConditions, "olen autoga");
-  assert.match(String(directEdit.reply || ""), /Tingimused:\s*olen autoga/i);
+  assert.equal(directEdit.workflowState?.draft?.providerScopeOrConditions, "Olen autoga");
+  assert.match(String(directEdit.reply || ""), /Tingimused:\s*Olen autoga/i);
 
   const afterNo = await runHelpChatWorkflow({
     message: "ei",
@@ -648,7 +648,7 @@ test("preview edit for offer conditions does not recategorize or geocode car tex
 
   assert.equal(afterPromptEdit.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
   assert.equal(afterPromptEdit.workflowState?.draft?.rawPlace, "Haapsalus");
-  assert.equal(afterPromptEdit.workflowState?.draft?.providerScopeOrConditions, "olen autoga");
+  assert.equal(afterPromptEdit.workflowState?.draft?.providerScopeOrConditions, "Olen autoga");
   assert.doesNotMatch(String(afterPromptEdit.reply || ""), /Tartu linn/i);
 });
 
@@ -1023,9 +1023,9 @@ test("saving a help request immediately shows matching offers", async () => {
       rawPlace: "Tallinn",
       helpType: "VOLUNTARY",
       timeType: "FLEXIBLE",
-      availabilityOrStart: "kokkuleppel",
-      beneficiaryLabel: "endale",
-      urgency: "lähiajal",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "Lähiajal",
       structuredSummary: "Vajan transpordiabi Tallinnas"
     }
   });

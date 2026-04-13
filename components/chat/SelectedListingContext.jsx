@@ -200,6 +200,7 @@ function TargetGroupsField({ label, value = [], onChange }) {
 
 export default function SelectedListingContext({
   locale: _locale = "et",
+  inline = false,
   loading = false,
   error = "",
   listing = null,
@@ -226,7 +227,7 @@ export default function SelectedListingContext({
   }, []);
 
   useEffect(() => {
-    if (!isMounted || (!listing && !loading && !error)) return undefined;
+    if (inline || !isMounted || (!listing && !loading && !error)) return undefined;
     const root = document.documentElement;
     document.body.classList.toggle("modal-open", true);
     root.classList.toggle("modal-open", true);
@@ -238,9 +239,9 @@ export default function SelectedListingContext({
       document.body.classList.remove("selected-listing-modal-open");
       root.classList.remove("selected-listing-modal-open");
     };
-  }, [error, isMounted, listing, loading]);
+  }, [error, inline, isMounted, listing, loading]);
 
-  if (!isMounted || typeof document === "undefined") {
+  if (!inline && (!isMounted || typeof document === "undefined")) {
     return null;
   }
 
@@ -281,16 +282,8 @@ export default function SelectedListingContext({
   const actionButtonClassName =
     "!min-h-[3.05rem] !rounded-[1.45rem] !px-[1.25rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.16rem]";
 
-  return createPortal(
-    <Modal
-      open
-      variant="glass"
-      onClose={onDismiss}
-      closeOnOverlayClick
-      aria-label={listing?.title || ui.selectedListing}
-      className="selected-listing-modal-overlay z-[142] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:items-start max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),0.35rem)]"
-      contentClassName={selectedListingContentClassName}
-    >
+  const selectedListingContent = (
+    <>
       <BackButton
         onClick={onDismiss}
         ariaLabel={ui.close}
@@ -469,6 +462,28 @@ export default function SelectedListingContext({
           ) : null}
         </Panel>
       </div>
+    </>
+  );
+
+  if (inline) {
+    return (
+      <div className={`${glassPrimaryButtonToneClassName} selected-listing-inline relative flex min-h-0 flex-1 flex-col overflow-hidden`}>
+        {selectedListingContent}
+      </div>
+    );
+  }
+
+  return createPortal(
+    <Modal
+      open
+      variant="glass"
+      onClose={onDismiss}
+      closeOnOverlayClick
+      aria-label={listing?.title || ui.selectedListing}
+      className="selected-listing-modal-overlay z-[142] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:items-start max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),0.35rem)]"
+      contentClassName={selectedListingContentClassName}
+    >
+      {selectedListingContent}
     </Modal>,
     document.body
   );

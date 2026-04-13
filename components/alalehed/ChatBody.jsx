@@ -996,6 +996,7 @@ export default function ChatBody({
         loading: false,
         error: ""
       });
+      setSelectedListingState(createEmptySelectedListingState());
       afterClose?.();
     };
     if (shouldReducePanelMotion()) {
@@ -1153,43 +1154,6 @@ export default function ChatBody({
         ...prev,
         listing: payload.listing,
         edit: null,
-        busyAction: "",
-        error: ""
-      }));
-    } catch (error) {
-      setSelectedListingState((prev) => ({
-        ...prev,
-        busyAction: "",
-        error: error?.message || helpUi.updateFailed
-      }));
-    }
-  }, [helpUi.updateFailed, locale, patchListingCollections, selectedListingState.listing]);
-  const closeOwnedListing = useCallback(async () => {
-    const listing = selectedListingState.listing;
-    if (!listing) return;
-    setSelectedListingState((prev) => ({
-      ...prev,
-      busyAction: "close",
-      error: ""
-    }));
-    try {
-      const response = await fetch(`/api/help/listings/${encodeURIComponent(listing.kind)}/${encodeURIComponent(listing.id)}?locale=${encodeURIComponent(locale)}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          status: "CLOSED"
-        })
-      });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok || payload?.ok === false || !payload?.listing) {
-        throw new Error(helpUi.updateFailed);
-      }
-      patchListingCollections(listing.kind, payload.listing);
-      setSelectedListingState((prev) => ({
-        ...prev,
-        listing: payload.listing,
         busyAction: "",
         error: ""
       }));
@@ -1770,6 +1734,32 @@ export default function ChatBody({
     if (helpFlowActive) return;
     setActiveWorkflow("default");
   }, [activeWorkflow, helpFlowActive, latestHelpWorkflowState]);
+  const hasSelectedListing = Boolean(selectedListingState.listing || selectedListingState.loading || selectedListingState.error);
+  const selectedListingContextProps = hasSelectedListing ? {
+    locale,
+    loading: selectedListingState.loading,
+    error: selectedListingState.error,
+    listing: selectedListingState.listing,
+    isOwn: selectedListingState.isOwn,
+    editState: selectedListingState.edit,
+    connectOptions: selectedListingState.connectOptions,
+    selectedConnectListingId: selectedListingState.selectedConnectListingId,
+    busyAction: selectedListingState.busyAction,
+    onDismiss: dismissSelectedListing,
+    onStartEdit: startListingEdit,
+    onChangeEditField: changeListingEditField,
+    onCancelEdit: () => setSelectedListingState((prev) => ({ ...prev, edit: null, busyAction: "" })),
+    onSaveEdit: saveListingEdit,
+    onDeleteListing: requestDeleteOwnedListing,
+    onSelectConnectListing: (value) => setSelectedListingState((prev) => ({ ...prev, selectedConnectListingId: value })),
+    onConnect: connectSelectedListing
+  } : null;
+  const inlineSelectedListingNode = activeListingsPanel && selectedListingContextProps ? (
+    <SelectedListingContext
+      {...selectedListingContextProps}
+      inline
+    />
+  ) : null;
   const listingsPanelNode = activeListingsPanel ? (
     <HelpListingsPanel
       locale={locale}
@@ -1785,28 +1775,12 @@ export default function ChatBody({
       onBackToProfile={activeListingsPanel?.returnToProfile ? backToProfileFromListingsPanel : undefined}
       onLoadMore={() => loadListingsPanel(activeListingsPanel, { append: true })}
       onSelectItem={openSelectedListing}
+      detailNode={inlineSelectedListingNode}
     />
   ) : null;
-  const selectedListingContextNode = (selectedListingState.listing || selectedListingState.loading || selectedListingState.error) ? (
+  const selectedListingContextNode = !activeListingsPanel && selectedListingContextProps ? (
     <SelectedListingContext
-      locale={locale}
-      loading={selectedListingState.loading}
-      error={selectedListingState.error}
-      listing={selectedListingState.listing}
-      isOwn={selectedListingState.isOwn}
-      editState={selectedListingState.edit}
-      connectOptions={selectedListingState.connectOptions}
-      selectedConnectListingId={selectedListingState.selectedConnectListingId}
-      busyAction={selectedListingState.busyAction}
-      onDismiss={dismissSelectedListing}
-      onStartEdit={startListingEdit}
-      onChangeEditField={changeListingEditField}
-      onCancelEdit={() => setSelectedListingState((prev) => ({ ...prev, edit: null, busyAction: "" }))}
-      onSaveEdit={saveListingEdit}
-      onCloseListing={closeOwnedListing}
-      onDeleteListing={requestDeleteOwnedListing}
-      onSelectConnectListing={(value) => setSelectedListingState((prev) => ({ ...prev, selectedConnectListingId: value }))}
-      onConnect={connectSelectedListing}
+      {...selectedListingContextProps}
     />
   ) : null;
   const deleteListingConfirmNode = selectedListingState.deleteConfirmOpen ? (

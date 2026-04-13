@@ -28,6 +28,7 @@ export default function HelpListingsPanel({
   isClosing = false,
   onLoadMore,
   onSelectItem,
+  detailNode = null,
   onClose,
   onBackToProfile
 }) {
@@ -44,6 +45,7 @@ export default function HelpListingsPanel({
     () => items.filter((item) => !item?.isOwn),
     [items]
   );
+  const hasDetail = Boolean(detailNode);
   const tiltAnimationClassName = useMemo(() => {
     const effectiveSide = closeTiltOverride || _side;
     const keyframe = effectiveSide === "right" ? "glassRingTiltFromRight" : "glassRingTiltFromLeft";
@@ -148,12 +150,16 @@ export default function HelpListingsPanel({
       className="help-listings-modal-overlay z-[140] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start"
       contentClassName={helpListingsContentClassName}
     >
-      <BackButton
-        onClick={handleBackClick}
-        ariaLabel={onBackToProfile ? t("buttons.back") : ui.close}
-        className={glassPageBackTopLeftClassName}
-      />
+      {!hasDetail ? (
+        <BackButton
+          onClick={handleBackClick}
+          ariaLabel={onBackToProfile ? t("buttons.back") : ui.close}
+          className={glassPageBackTopLeftClassName}
+        />
+      ) : null}
 
+      {hasDetail ? detailNode : (
+        <>
         <header className="help-listings-title-wrap mb-[0.1rem] flex w-full items-start justify-center gap-[0.75rem]">
           <div className={mobileTitleWrapClassName}>
             <h2 className={helpListingsTitleClassName}>
@@ -202,11 +208,13 @@ export default function HelpListingsPanel({
                 onClick={onLoadMore}
                 className="!min-h-[2.7rem] !px-[1.35rem] !py-[0.48rem] !text-[1.02rem] max-[768px]:!min-h-[2.9rem]"
               >
-                {ui.loadMore}
-              </Button>
-            </div>
-          ) : null}
+              {ui.loadMore}
+            </Button>
+          </div>
+        ) : null}
         </div>
+        </>
+      )}
     </Modal>,
     document.body
   );
