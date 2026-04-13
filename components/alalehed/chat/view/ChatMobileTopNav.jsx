@@ -6,6 +6,7 @@ import BackButton from "@/components/ui/BackButton";
 import { glassPageBackMobileBottomCenterClassName } from "@/components/ui/glassPageStyles";
 import {
   AddPersonIcon,
+  ChatBubbleIcon,
   MaterialsIcon,
   ProfileIcon,
   RoomsIcon,
@@ -21,7 +22,7 @@ const MOBILE_NAV_ITEMS = [
   { key: "materials", scale: 1.24 },
   { key: "help_requests", scale: 1.0 },
   { key: "help_offers", scale: 1.0 },
-  { key: "new_chat", scale: 0.98 },
+  { key: "new_chat", scale: 1.08 },
   { key: "profile", scale: 1.08 },
   { key: "rooms", scale: 1.02 },
   { key: "invite", scale: 1.1 },
@@ -86,37 +87,6 @@ function MobileIconFrame({ scale = 1, xNudge = 0, className, children }) {
     >
       {children}
     </span>
-  );
-}
-
-function MobileChatBubbleIcon({ isLightTheme = false, className, showDots = true }) {
-  const stroke = isLightTheme
-    ? "var(--chat-icon-light, #7A3A38)"
-    : "var(--chat-icon-dark, #c57171)";
-
-  return (
-    <svg
-      viewBox="-3 -3 132.15 119.8"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      className={cn(className)}
-    >
-      <path
-        d="M24.36 5h77.43c10.69 0 19.36 9.29 19.36 20.76v34.6c0 11.46-8.67 20.76-19.36 20.76H69.53l-25.81 27.68V81.12H24.36C13.67 81.12 5 71.83 5 60.36V25.76C5 14.29 13.67 5 24.36 5Z"
-        stroke={stroke}
-        strokeWidth="8.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {showDots ? (
-        <>
-          <circle cx="42" cy="42" r="5.1" fill={stroke} />
-          <circle cx="63.5" cy="38.5" r="5.1" fill={stroke} />
-          <circle cx="85" cy="42" r="5.1" fill={stroke} />
-        </>
-      ) : null}
-    </svg>
   );
 }
 
@@ -545,25 +515,25 @@ export default function ChatMobileTopNav({
     if (item.key === "chats") {
       return (
         <MobileIconFrame scale={item.scale * sizeBoost} xNudge={0.18}>
-          <MobileChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
+          <ChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
         </MobileIconFrame>
       );
     }
     if (item.key === "new_chat") {
       return (
-        <MobileIconFrame scale={item.scale * sizeBoost} xNudge={0.04}>
+        <MobileIconFrame scale={item.scale * 1.18} xNudge={0.06}>
           <span className="relative flex h-full w-full items-center justify-center">
-            <MobileChatBubbleIcon
+            <ChatBubbleIcon
               isLightTheme={isLightTheme}
               className={iconClassName}
               showDots={false}
             />
-            <span className="pointer-events-none absolute left-1/2 top-[43%] flex h-[47%] w-[47%] -translate-x-1/2 -translate-y-1/2 items-center justify-center text-[color:var(--chat-icon-dark,#c57171)] light:text-[color:var(--chat-icon-light,#7A3A38)]">
+            <span className="pointer-events-none absolute left-1/2 top-[39%] flex h-[54.5%] w-[54.5%] -translate-x-1/2 -translate-y-1/2 items-center justify-center text-[color:var(--chat-icon-dark,#c57171)] light:text-[color:var(--chat-icon-light,#7A3A38)]">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 42 42"
                 focusable="false"
-                className="block h-[78%] w-[78%]"
+                className="block h-[83%] w-[83%]"
                 fill="none"
               >
                 <path
