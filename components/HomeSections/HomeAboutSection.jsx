@@ -427,11 +427,11 @@ export default function HomeAboutSection({
                   className="absolute left-[clamp(-1.25rem,-1.95vw,-0.85rem)] top-[50%] z-[2] !h-[5.1rem] !w-[5.1rem] -translate-y-1/2 min-[769px]:!h-[5.6rem] min-[769px]:!w-[5.6rem] max-[768px]:left-[clamp(-0.9rem,-2.2vw,-0.4rem)] max-[768px]:!h-[4.75rem] max-[768px]:!w-[4.75rem]"
                   iconClassName="!h-[5.1rem] !w-[5.1rem] min-[769px]:!h-[5.6rem] min-[769px]:!w-[5.6rem] max-[768px]:!h-[4.75rem] max-[768px]:!w-[4.75rem]"
                 />
-                <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.82rem,1.3vw,1.05rem)] max-[768px]:mb-[clamp(0.72rem,1.8vw,0.92rem)] max-[768px]:-mt-[clamp(0.18rem,0.7vw,0.3rem)] text-[clamp(1.62rem,2.55vw,2.06rem)] max-[768px]:text-[clamp(1.54rem,6vw,1.88rem)] font-headline tracking-[0.02em] leading-[1.14] text-[color:var(--home-prose-color)]">
+                <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.3rem,0.62vw,0.48rem)] max-[768px]:mb-[clamp(0.26rem,0.82vw,0.4rem)] max-[768px]:-mt-[clamp(0.18rem,0.7vw,0.3rem)] text-[clamp(1.62rem,2.55vw,2.06rem)] max-[768px]:text-[clamp(1.54rem,6vw,1.88rem)] font-headline tracking-[0.02em] leading-[1.14] text-[color:var(--home-prose-color)]">
                   {t("about.contact.title")}
                 </h3>
                 <div className="home-before-contact-copy mx-auto flex w-full max-w-[min(78vw,23rem)] flex-col items-center gap-[clamp(0.55rem,0.9vw,0.72rem)] text-center max-[768px]:max-w-[min(78vw,18rem)]">
-                  <p className="m-0 text-[clamp(1.26rem,1.9vw,1.5rem)] max-[768px]:text-[clamp(1.18rem,5.2vw,1.38rem)] font-semibold leading-[1.18] tracking-[0.015em] text-[color:var(--home-prose-color)]">
+                  <p className="m-0 text-[clamp(1.26rem,1.9vw,1.5rem)] max-[768px]:text-[clamp(1.18rem,5.2vw,1.38rem)] font-normal leading-[1.18] tracking-[0.015em] text-[color:var(--home-prose-color)]">
                     {contactCompany}
                   </p>
                   <div className="m-0 flex w-full flex-col gap-[clamp(0.45rem,0.72vw,0.62rem)] text-[color:var(--home-prose-color)]">
@@ -539,6 +539,4 @@ export default function HomeAboutSection({
     </section>
   );
 }
-
-
 
