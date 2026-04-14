@@ -997,8 +997,12 @@
         "requestTitle": "Vaata abisoov üle.",
         "offerTypeValue": "Abipakkumine",
         "requestTypeValue": "Abisoov",
-        "savePrompt": "Kui kuulutus sobib, vasta „jah”. Kui vastad „ei”, siis saad seda muuta.",
-        "editPrompt": "Selge. Kirjuta palun kohe, mida soovid muuta."
+        "savePrompt": "Kui kuulutus sobib, vasta „jah”. Kui soovid kuulutust muuta, tee seda kuulutuse lehel.",
+        "offerSavePrompt": "Kui abipakkumine sobib, vasta „jah”. Kui soovid abipakkumist muuta, tee seda abipakkumise lehel.",
+        "requestSavePrompt": "Kui abisoov sobib, vasta „jah”. Kui soovid abisoovi muuta, tee seda abisoovi lehel.",
+        "editPrompt": "Kui soovid kuulutust muuta, tee seda kuulutuse lehel.",
+        "offerEditPrompt": "Kui soovid abipakkumist muuta, tee seda abipakkumise lehel. Kui abipakkumine sobib, vasta „jah”.",
+        "requestEditPrompt": "Kui soovid abisoovi muuta, tee seda abisoovi lehel. Kui abisoov sobib, vasta „jah”."
       },
       "labels": {
         "type": "Tüüp",

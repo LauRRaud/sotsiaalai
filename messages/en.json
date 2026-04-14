@@ -997,8 +997,12 @@
         "requestTitle": "Review the help request.",
         "offerTypeValue": "Help offer",
         "requestTypeValue": "Help request",
-        "savePrompt": "If this listing looks right, reply \"yes\". If you reply \"no\", you can change it.",
-        "editPrompt": "Understood. Please write right away what you want to change."
+        "savePrompt": "If this listing looks right, reply \"yes\". To change the listing, do it on the listing page.",
+        "offerSavePrompt": "If this help offer looks right, reply \"yes\". To change the help offer, do it on the help offer page.",
+        "requestSavePrompt": "If this help request looks right, reply \"yes\". To change the help request, do it on the help request page.",
+        "editPrompt": "To change the listing, do it on the listing page.",
+        "offerEditPrompt": "To change the help offer, do it on the help offer page. If the help offer looks right, reply \"yes\".",
+        "requestEditPrompt": "To change the help request, do it on the help request page. If the help request looks right, reply \"yes\"."
       },
       "labels": {
         "type": "Type",

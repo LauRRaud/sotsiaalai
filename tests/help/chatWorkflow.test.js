@@ -332,8 +332,9 @@ test("contact preference is no longer required before preview", async () => {
   assert.equal(result.workflowState?.step, "edit_or_save");
   assert.equal(result.workflowState?.draft?.contactPreference || "", "");
   assert.match(String(result.reply || ""), /Vaata abisoov üle\./i);
-  assert.match(String(result.reply || ""), /Kui kuulutus sobib, vasta .*jah/i);
-  assert.match(String(result.reply || ""), /Kui vastad .*ei.* saad seda muuta/i);
+  assert.match(String(result.reply || ""), /Kui abisoov sobib, vasta .*jah/i);
+  assert.match(String(result.reply || ""), /Kui soovid abisoovi muuta, tee seda abisoovi lehel/i);
+  assert.doesNotMatch(String(result.reply || ""), /Kui vastad .*ei/i);
   assert.doesNotMatch(String(result.reply || ""), /ühendust võetaks|kontaktiviis/i);
 });
 
@@ -388,6 +389,9 @@ test("short keyword answer to enrichment is accepted and stored", async () => {
   assert.equal(result.workflowState?.draft?.extraNotes, "ID-kaardi ja e-teenustega");
   assert.match(String(result.workflowState?.draft?.description || ""), /ID-kaardi ja e-teenustega/i);
   assert.match(String(result.reply || ""), /Vaata abipakkumine üle\./i);
+  assert.match(String(result.reply || ""), /Kui abipakkumine sobib, vasta .*jah/i);
+  assert.match(String(result.reply || ""), /Kui soovid abipakkumist muuta, tee seda abipakkumise lehel/i);
+  assert.doesNotMatch(String(result.reply || ""), /Kui vastad .*ei/i);
 });
 
 test("offer target-group answer is clarified instead of being treated as a place", async () => {
@@ -596,7 +600,7 @@ test("Haapsalu digital help offer keeps flexible timing and clean preview fields
   assert.doesNotMatch(String(result.reply || ""), /^Tingimused:\s*$/m);
 });
 
-test("preview edit for offer conditions does not recategorize or geocode car text", async () => {
+test("preview edit text points to offer page and does not mutate the draft", async () => {
   const previewState = createHelpWorkflowDraftState({
     intent: "create_help_offer",
     mode: "draft",
@@ -630,8 +634,8 @@ test("preview edit for offer conditions does not recategorize or geocode car tex
   assert.equal(directEdit.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
   assert.equal(directEdit.workflowState?.draft?.rawPlace, "Haapsalus");
   assert.equal(directEdit.workflowState?.municipalityLabel, "Haapsalu linn");
-  assert.equal(directEdit.workflowState?.draft?.providerScopeOrConditions, "Olen autoga");
-  assert.match(String(directEdit.reply || ""), /Tingimused:\s*Olen autoga/i);
+  assert.equal(directEdit.workflowState?.draft?.providerScopeOrConditions || "", "");
+  assert.match(String(directEdit.reply || ""), /abipakkumise lehel/i);
 
   const afterNo = await runHelpChatWorkflow({
     message: "ei",
@@ -649,8 +653,103 @@ test("preview edit for offer conditions does not recategorize or geocode car tex
 
   assert.equal(afterPromptEdit.workflowState?.draft?.categoryCode, "DIGITAL_HELP");
   assert.equal(afterPromptEdit.workflowState?.draft?.rawPlace, "Haapsalus");
-  assert.equal(afterPromptEdit.workflowState?.draft?.providerScopeOrConditions, "Olen autoga");
+  assert.equal(afterPromptEdit.workflowState?.draft?.providerScopeOrConditions || "", "");
+  assert.match(String(afterPromptEdit.reply || ""), /abipakkumise lehel/i);
   assert.doesNotMatch(String(afterPromptEdit.reply || ""), /Tartu linn/i);
+});
+
+test("preview freeform wording edit points to offer page and does not append", async () => {
+  const previewState = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "edit_or_save",
+    flowLocked: true,
+    confirmationPending: true,
+    askedEnrichmentKeys: ["create_help_offer:conditions"],
+    municipalityId: "mun-harku",
+    municipalityLabel: "Harku vald",
+    draft: {
+      title: "Digiabi pakkumine",
+      description: "Pakun tasuta juhendamist SotsiaalAI platvormi tutvustamisel ja kasutamisel Tabasalus. Aitan aru saada, kust alustada, milline reziim voi funktsioon voiks sobida ning kuidas platvormi samm-sammult kasutada. Abi toimub kokkuleppel ja on vabatahtlik.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      targetGroups: ["Koigile"],
+      rawPlace: "Tabasalu",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "Abi toimub kokkuleppel"
+    }
+  });
+
+  const afterNo = await runHelpChatWorkflow({
+    message: "ei",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: previewState
+  }, createPrismaStub());
+
+  const newDescription = "Pakun tasuta juhendamist SotsiaalAI platvormi kasutamisel Tabasalus. Aitan teha esimesed sammud, tutvustan platvormi voimalusi ning selgitan, kuidas seda enda kusimuste ja vajaduste puhul kasutada. Abi toimub kokkuleppel ja on vabatahtlik.";
+  const result = await runHelpChatWorkflow({
+    message: newDescription,
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterNo.workflowState
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.step, "edit_or_save");
+  assert.equal(result.workflowState?.draft?.title, "Digiabi pakkumine");
+  assert.notEqual(result.workflowState?.draft?.description, newDescription);
+  assert.match(String(result.workflowState?.draft?.description || ""), /kust alustada|samm-sammult/i);
+  assert.match(String(result.reply || ""), /abipakkumise lehel/i);
+  assert.doesNotMatch(String(result.reply || ""), /Aitan teha esimesed sammud/i);
+  assert.equal(result.workflowState?.draft?.helpType, "VOLUNTARY");
+  assert.equal(result.workflowState?.draft?.timeType, "FLEXIBLE");
+  assert.equal(result.workflowState?.draft?.availabilityOrStart, "Abi toimub kokkuleppel");
+  assert.equal(result.workflowState?.municipalityLabel, "Harku vald");
+  assert.equal(result.workflowState?.draft?.rawPlace, "Tabasalu");
+});
+
+test("preview single sentence wording edit is not treated as full replacement", async () => {
+  const previewState = createHelpWorkflowDraftState({
+    intent: "create_help_offer",
+    mode: "draft",
+    step: "edit_or_save",
+    flowLocked: true,
+    confirmationPending: true,
+    municipalityId: "mun-harku",
+    municipalityLabel: "Harku vald",
+    draft: {
+      title: "Digiabi pakkumine",
+      description: "Pakun tasuta juhendamist SotsiaalAI platvormi tutvustamisel ja kasutamisel Tabasalus. Aitan aru saada, kust alustada, milline reziim voi funktsioon voiks sobida ning kuidas platvormi samm-sammult kasutada. Abi toimub kokkuleppel ja on vabatahtlik.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      targetGroups: ["Koigile"],
+      rawPlace: "Tabasalu",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "Abi toimub kokkuleppel"
+    }
+  });
+
+  const afterNo = await runHelpChatWorkflow({
+    message: "ei",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: previewState
+  }, createPrismaStub());
+
+  const result = await runHelpChatWorkflow({
+    message: "Aitan teha esimesed sammud, tutvustan platvormi voimalusi ning selgitan, kuidas seda enda kusimuste ja vajaduste puhul kasutada.",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterNo.workflowState
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.doesNotMatch(String(result.workflowState?.draft?.description || ""), /Aitan teha esimesed sammud/i);
+  assert.match(String(result.workflowState?.draft?.description || ""), /Pakun tasuta juhendamist/i);
+  assert.match(String(result.reply || ""), /abipakkumise lehel/i);
 });
 
 test("template placeholders are not treated as offer location or timing", async () => {

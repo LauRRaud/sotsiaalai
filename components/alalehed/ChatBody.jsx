@@ -50,6 +50,21 @@ const ACTIVE_CHAT_WORKFLOW_VALUES = Object.freeze([
   "help_offer"
 ]);
 
+function readChatSurfaceModeFromDom() {
+  if (typeof document === "undefined") return null;
+  const html = document.documentElement;
+  const highContrast = html.getAttribute("data-contrast") === "hc";
+  const lightTheme = html.classList.contains("theme-light");
+  const midTheme = html.classList.contains("theme-mid");
+  const isLightTheme = !highContrast && (lightTheme || midTheme);
+
+  return {
+    isLightTheme,
+    usesInputHoleSurface: highContrast || !isLightTheme,
+    signature: `${highContrast ? "hc" : "normal"}|${lightTheme ? "light" : ""}|${midTheme ? "mid" : ""}|${html.classList.contains("theme-night") ? "night" : ""}`
+  };
+}
+
 function createConversationId() {
   if (typeof window !== "undefined" && window.crypto?.randomUUID) {
     return window.crypto.randomUUID();
@@ -233,7 +248,11 @@ export default function ChatBody({
   const {
     prefs
   } = useAccessibility();
-  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
+  const prefsIsLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
+  const prefsUsesInputHoleSurface = prefs?.contrast === "hc" || !prefsIsLightTheme;
+  const [domChatSurfaceMode, setDomChatSurfaceMode] = useState(null);
+  const isLightTheme = domChatSurfaceMode?.isLightTheme ?? prefsIsLightTheme;
+  const usesInputHoleSurface = domChatSurfaceMode?.usesInputHoleSurface ?? prefsUsesInputHoleSurface;
   const extendedLabel = t("chat.analysis.extended_label");
   const contextHint = t("chat.upload.context_hint");
   const aiNote = t("chat.ai_toggle.note");
@@ -306,6 +325,25 @@ export default function ChatBody({
   }, []);
   useIsomorphicLayoutEffect(() => {
     setHasHydrated(true);
+  }, []);
+  useIsomorphicLayoutEffect(() => {
+    if (typeof document === "undefined" || typeof MutationObserver === "undefined") return;
+    const html = document.documentElement;
+    let lastSignature = "";
+    const syncSurfaceMode = () => {
+      const next = readChatSurfaceModeFromDom();
+      if (!next || next.signature === lastSignature) return;
+      lastSignature = next.signature;
+      setDomChatSurfaceMode(next);
+    };
+
+    syncSurfaceMode();
+    const observer = new MutationObserver(syncSurfaceMode);
+    observer.observe(html, {
+      attributes: true,
+      attributeFilter: ["class", "data-contrast"]
+    });
+    return () => observer.disconnect();
   }, []);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -562,11 +600,11 @@ export default function ChatBody({
     waitForComposerCollapse
   });
   useEffect(() => {
-    if (isLightTheme) return;
+    if (!usesInputHoleSurface) return;
     refreshMask({
       immediate: true
     });
-  }, [isLightTheme, refreshMask]);
+  }, [usesInputHoleSurface, refreshMask]);
   const {
     convId,
     setConvId,
@@ -778,7 +816,7 @@ export default function ChatBody({
     inputBarRef: inputBarRef,
     maskLayerRef,
     enabled:
-      (!isLightTheme ||
+      (usesInputHoleSurface ||
         (analysis.analysisPanelMode === "overlay" &&
           analysis.showAnalysisPanel)) &&
       !profileOpen,
@@ -2037,7 +2075,7 @@ export default function ChatBody({
     prettifyFileName
   };
   const useMaskedChatSurface =
-    !isLightTheme ||
+    usesInputHoleSurface ||
     (analysis.analysisPanelMode === "overlay" &&
       analysis.showAnalysisPanel);
   const chatRingSurfaceStyle = useMaskedChatSurface
