@@ -121,6 +121,15 @@ body:is(
   min-width: 0;
 }
 
+.help-listings-modal-overlay {
+  justify-content: center !important;
+}
+
+.help-listings-modal-content {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 @media (max-width: 768px) {
   body.conversation-drawer-open .chat-page-shell {
     opacity: 0 !important;

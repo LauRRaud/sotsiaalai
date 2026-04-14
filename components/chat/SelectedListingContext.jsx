@@ -35,9 +35,10 @@ const TARGET_GROUP_OPTIONS = [
   { value: "CHILD", label: "Laps" },
   { value: "YOUTH", label: "Noor" },
   { value: "ADULT", label: "Täiskasvanu" },
-  { value: "ELDER", label: "Eakas" },
-  { value: "DISABILITY", label: "Erivajadus" }
+  { value: "ELDER", label: "Eakas" }
 ];
+
+const TARGET_GROUP_OPTION_VALUES = new Set(TARGET_GROUP_OPTIONS.map((option) => option.value));
 
 function normalizeComparableText(value = "") {
   return String(value || "")
@@ -254,9 +255,10 @@ export default function SelectedListingContext({
   const categoryCodeValue = editState?.primaryCategoryCode ?? listing?.primaryCategoryCode ?? "";
   const helpTypeValue = editState?.helpType ?? listing?.helpType ?? "";
   const timeTypeValue = editState?.timeType ?? listing?.timeType ?? "";
-  const targetGroupCodesValue = Array.isArray(editState?.targetGroupCodes)
+  const targetGroupCodesValue = (Array.isArray(editState?.targetGroupCodes)
     ? editState.targetGroupCodes
-    : (Array.isArray(listing?.targetGroupCodes) ? listing.targetGroupCodes : []);
+    : (Array.isArray(listing?.targetGroupCodes) ? listing.targetGroupCodes : []))
+    .filter((code) => TARGET_GROUP_OPTION_VALUES.has(code));
   const rawPlaceValue = editState?.rawPlace ?? listing?.editableRawPlace ?? listing?.rawPlace ?? "";
   const availabilityOrStartValue = editState?.availabilityOrStart ?? listing?.editableAvailabilityOrStart ?? listing?.availabilityOrStart ?? "";
   const compensationDetailsValue = editState?.compensationDetails ?? listing?.editableCompensationDetails ?? listing?.compensationDetails ?? "";
@@ -280,15 +282,17 @@ export default function SelectedListingContext({
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]`;
   const actionButtonClassName =
     "!min-h-[3.05rem] !rounded-[1.45rem] !px-[1.25rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.16rem]";
+  const actionRowClassName =
+    "mt-[-0.35rem] flex flex-wrap justify-center gap-[0.6rem] pt-[0.1rem] pb-[clamp(1rem,2.4vh,1.45rem)] max-[768px]:mt-[-0.2rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.2rem)]";
   const selectedListingTitleClassName =
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static selected-listing-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const mobileTitleWrapClassName =
     "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
   const selectedListingBodyClassName = inline
-    ? `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.55rem] px-[0.78rem] pt-[0.12rem] pb-[0.4rem] [scrollbar-gutter:stable] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.2rem] max-[768px]:pt-[0.1rem]`
-    : `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.25rem] [scrollbar-gutter:stable] max-[768px]:px-[0.2rem]`;
+    ? `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 max-h-full flex-1 touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.55rem] px-[0.78rem] pt-[0.12rem] pb-[1.2rem] [scrollbar-gutter:stable] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.2rem] max-[768px]:pt-[0.1rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.3rem)]`
+    : `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 max-h-full flex-1 touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.45rem] [scrollbar-gutter:stable] max-[768px]:px-[0.2rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.3rem)]`;
   const selectedListingPanelClassName = inline
-    ? `${glassSubpagePanelWideClassName} relative !max-h-none !overflow-hidden !p-[0.62rem] !shadow-none max-[768px]:!p-[0.28rem]`
+    ? `${glassSubpagePanelWideClassName} relative mb-[0.65rem] !max-h-none !overflow-visible !p-[0.62rem] !shadow-none max-[768px]:mb-[0.8rem] max-[768px]:!p-[0.28rem]`
     : `${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] !p-[0.5rem] !shadow-none max-[768px]:!p-[0.85rem]`;
   const statusRowVisible = Boolean(listing?.statusLabel || (isOwn && listing));
 
@@ -422,7 +426,7 @@ export default function SelectedListingContext({
                       placeholder={ui.conditions}
                     />
                   </div>
-                  <div className="flex flex-wrap justify-center gap-[0.6rem] pt-[0.25rem]">
+                  <div className={actionRowClassName}>
                     <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={() => onSaveEdit?.({ ...editState, targetGroupCodes: targetGroupCodesValue })}>
                       {ui.save}
                     </Button>
@@ -434,7 +438,7 @@ export default function SelectedListingContext({
               ) : null}
 
               {!editState && isOwn ? (
-                <div className="flex flex-wrap justify-center gap-[0.6rem] pt-[0.4rem]">
+                <div className={actionRowClassName}>
                   <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onStartEdit}>
                     {ui.edit}
                   </Button>
@@ -459,7 +463,7 @@ export default function SelectedListingContext({
                       }))
                     ]}
                   />
-                  <div className="flex flex-wrap justify-center gap-[0.6rem]">
+                  <div className={actionRowClassName}>
                     <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onConnect} disabled={connectDisabled}>
                       {busyAction === "connect" ? `${kindActionLabel}...` : kindActionLabel}
                     </Button>
@@ -475,7 +479,7 @@ export default function SelectedListingContext({
 
   if (inline) {
     return (
-      <div className={`${glassPrimaryButtonToneClassName} selected-listing-inline flex min-h-0 w-full flex-1 flex-col overflow-visible`}>
+      <div className={`${glassPrimaryButtonToneClassName} selected-listing-inline flex min-h-0 w-full flex-1 flex-col overflow-hidden`}>
         {selectedListingContent}
       </div>
     );
