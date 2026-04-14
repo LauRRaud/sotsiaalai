@@ -682,7 +682,7 @@
       "flexibleLabel": "Paindlik",
       "statusClosed": "Kuulutus on suletud.",
       "noOwnOptions": "Teil ei ole sobivat avatud vastaskirjet.",
-      "targetGroupsHint": "Nt eakas, täiskasvanu, puue",
+      "targetGroupsHint": "Nt eakas, täiskasvanu, erivajadus",
       "aiPromptPrefix": "Aita mul mõista ja vastata sellele kuulutusele:"
     },
     "sources": {
@@ -967,7 +967,7 @@
         },
         "shared": {
           "targetGroup": "Kellele sinu abi on mõeldud? Soovi korral võid lisada ka vanusegrupi ning selle, kas inimesel on erivajadus.",
-          "targetGroupClarifyOffer": "See küsimus on selle kohta, kellele sinu abi on mõeldud. Palun vasta näiteks: eakale, täiskasvanule või puudega inimesele.",
+          "targetGroupClarifyOffer": "See küsimus on selle kohta, kellele sinu abi on mõeldud. Palun vasta näiteks: eakale, täiskasvanule või erivajadusega inimesele.",
           "category": "Mis liiki abiga on tegu? Kas see on pigem transport, igapäevaabi, koduabi, digiabi, tugi ja hooldus, laste ja noorte tugi, õppimise ja juhendamise abi, seltskond ja sotsiaalne tugi, asjaajamise ja vormide abi või muu abi?",
           "title": "Panin pealkirja paika. Kui soovid teistsugust pealkirja, kirjuta see nüüd."
         },

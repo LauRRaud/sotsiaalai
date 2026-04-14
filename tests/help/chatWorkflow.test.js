@@ -58,7 +58,7 @@ const TARGET_GROUPS = {
   YOUTH: { id: "tg-youth", code: "YOUTH", labelEt: "Noor", labelEn: "Youth", labelRu: "Youth", isActive: true },
   ADULT: { id: "tg-adult", code: "ADULT", labelEt: "Täiskasvanu", labelEn: "Adult", labelRu: "Adult", isActive: true },
   ELDER: { id: "tg-elder", code: "ELDER", labelEt: "Eakas", labelEn: "Elder", labelRu: "Elder", isActive: true },
-  DISABILITY: { id: "tg-disability", code: "DISABILITY", labelEt: "Puue või erivajadus", labelEn: "Disability", labelRu: "Disability", isActive: true }
+  DISABILITY: { id: "tg-disability", code: "DISABILITY", labelEt: "Erivajadus", labelEn: "Disability", labelRu: "Disability", isActive: true }
 };
 
 function findMunicipalityByText(where = {}) {
@@ -384,7 +384,8 @@ test("short keyword answer to enrichment is accepted and stored", async () => {
 
   assert.equal(result.handled, true);
   assert.equal(result.workflowState?.step, "edit_or_save");
-  assert.equal(result.workflowState?.draft?.providerScopeOrConditions, "ID-kaardi ja e-teenustega");
+  assert.equal(result.workflowState?.draft?.providerScopeOrConditions || "", "");
+  assert.equal(result.workflowState?.draft?.extraNotes, "ID-kaardi ja e-teenustega");
   assert.match(String(result.workflowState?.draft?.description || ""), /ID-kaardi ja e-teenustega/i);
   assert.match(String(result.reply || ""), /Vaata abipakkumine üle\./i);
 });
@@ -610,7 +611,7 @@ test("preview edit for offer conditions does not recategorize or geocode car tex
       category: "Digiabi",
       categoryCode: "DIGITAL_HELP",
       targetGroupCodes: ["ELDER", "DISABILITY"],
-      targetGroups: ["Eakas", "Puue või erivajadus"],
+      targetGroups: ["Eakas", "Erivajadus"],
       rawPlace: "Haapsalus",
       helpType: "VOLUNTARY",
       timeType: "FLEXIBLE",
@@ -811,6 +812,95 @@ test("offer audience answer does not become a location when place is still missi
   assert.equal(result.workflowState?.draft?.rawPlace || "", "");
   assert.deepEqual(result.workflowState?.draft?.targetGroupCodes, ["ELDER", "DISABILITY"]);
   assert.equal(result.workflowState?.activeQuestionKey, "rawPlace");
+});
+
+test("offer flow keeps category details and Vääna location from sparse conversation", async () => {
+  const start = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: "tahaks kedagi Väänas abistada",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(start.handled, true);
+  assert.equal(start.workflowState?.municipalityLabel, "Harku vald");
+  assert.equal(start.workflowState?.draft?.rawPlace, "Vääna");
+  assert.equal(start.workflowState?.activeQuestionKey, "categoryCode");
+
+  const afterCategory = await runHelpChatWorkflow({
+    message: "koduabi, pesen põrandat",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: start.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterCategory.handled, true);
+  assert.equal(afterCategory.workflowState?.draft?.categoryCode, "HOME_HELP");
+  assert.match(String(afterCategory.workflowState?.draft?.description || ""), /pesen põrandat/i);
+  assert.equal(afterCategory.workflowState?.activeQuestionKey, "offerAudience");
+
+  const afterAudience = await runHelpChatWorkflow({
+    message: "noor",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterCategory.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterAudience.handled, true);
+  assert.deepEqual(afterAudience.workflowState?.draft?.targetGroupCodes, ["YOUTH"]);
+  assert.equal(afterAudience.workflowState?.activeQuestionKey, "timing");
+
+  const afterAvailability = await runHelpChatWorkflow({
+    message: "neljapäeva õhtul kell 18.30",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterAudience.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterAvailability.handled, true);
+  assert.equal(afterAvailability.workflowState?.activeQuestionKey, "timing");
+  assert.match(String(afterAvailability.reply || ""), /Kas see on .*regulaarne.*paindlik abi/i);
+  assert.doesNotMatch(String(afterAvailability.reply || ""), /Millal saad aidata/i);
+
+  const afterTimeType = await runHelpChatWorkflow({
+    message: "ühekordne",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterAvailability.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterTimeType.handled, true);
+  assert.equal(afterTimeType.workflowState?.draft?.timeType, "ONE_TIME");
+  assert.equal(afterTimeType.workflowState?.activeQuestionKey, "helpCompensation");
+
+  const afterCompensation = await runHelpChatWorkflow({
+    message: "tasu eest, 10 eur tunnis",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterTimeType.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterCompensation.handled, true);
+  assert.equal(afterCompensation.workflowState?.draft?.helpType, "PAID");
+  assert.match(String(afterCompensation.workflowState?.draft?.compensationDetails || ""), /tasu eest, 10 eur tunnis/i);
+  assert.notEqual(afterCompensation.workflowState?.activeQuestionKey, "create_help_offer:HOME_HELP");
+  assert.doesNotMatch(String(afterCompensation.reply || ""), /Millega saad koduabis aidata/i);
+
+  const finalResult = afterCompensation.workflowState?.activeQuestionKey === "create_help_offer:conditions"
+    ? await runHelpChatWorkflow({
+        message: "ei",
+        userId: "user-1",
+        replyLang: "et",
+        workflowState: afterCompensation.workflowState
+      }, createPrismaStub())
+    : afterCompensation;
+
+  assert.equal(finalResult.workflowState?.step, "edit_or_save");
+  assert.equal(finalResult.workflowState?.municipalityLabel, "Harku vald");
+  assert.equal(finalResult.workflowState?.draft?.rawPlace, "Vääna");
+  assert.match(String(finalResult.workflowState?.draft?.description || ""), /pesen põrandat/i);
+  assert.doesNotMatch(String(finalResult.workflowState?.draft?.description || ""), /ma juba ütlesin/i);
+  assert.equal(finalResult.workflowState?.draft?.providerScopeOrConditions || "", "");
 });
 
 test("timing answer does not overwrite existing offer category or target group", async () => {
@@ -1063,7 +1153,7 @@ test("saving a help offer immediately shows matching requests", async () => {
       category: "Digiabi",
       categoryCode: "DIGITAL_HELP",
       targetGroupCodes: ["ELDER", "DISABILITY"],
-      targetGroups: ["Eakas", "Puue vĆµi erivajadus"],
+      targetGroups: ["Eakas", "Erivajadus"],
       rawPlace: "Tallinn",
       helpType: "MIXED",
       timeType: "FLEXIBLE",

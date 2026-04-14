@@ -37,7 +37,7 @@ const TARGET_GROUP_OPTIONS = [
   { value: "YOUTH", label: "Noor" },
   { value: "ADULT", label: "Täiskasvanu" },
   { value: "ELDER", label: "Eakas" },
-  { value: "DISABILITY", label: "Puue või erivajadus" }
+  { value: "DISABILITY", label: "Erivajadus" }
 ];
 
 function normalizeComparableText(value = "") {
@@ -281,6 +281,11 @@ export default function SelectedListingContext({
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]`;
   const actionButtonClassName =
     "!min-h-[3.05rem] !rounded-[1.45rem] !px-[1.25rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.16rem]";
+  const selectedListingTitleClassName =
+    `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static selected-listing-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
+  const mobileTitleWrapClassName =
+    "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+  const statusRowVisible = Boolean(listing?.statusLabel || (isOwn && listing));
 
   const selectedListingContent = (
     <>
@@ -290,25 +295,25 @@ export default function SelectedListingContext({
         className={glassPageBackTopLeftClassName}
       />
 
-      <header className="selected-listing-title-wrap flex w-full items-start justify-center px-[4.3rem] max-[768px]:px-[3.85rem]">
-        <div className="flex w-full max-w-[30rem] flex-col items-center text-center">
-          <div className="selected-listing-eyebrow mt-[0.7rem] text-[0.82rem] uppercase tracking-[0.12em] text-[color:var(--title-color,var(--brand-primary))] opacity-76 max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)]">
-            {isOwn ? ui.ownListing : ui.selectedListing}
-          </div>
-          <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-            <h2
-              className={`selected-listing-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-w-[30rem] !text-balance max-[768px]:!mt-0 max-[768px]:!mb-0 min-[769px]:!mt-[0.45rem]`}
-            >
-              {loading ? ui.loading : listing?.title || ui.selectedListing}
-            </h2>
-          </div>
-          {listing?.statusLabel ? (
-            <p className="mt-[0.82rem] text-[1.08rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:text-[1.12rem]">
-              {listing.statusLabel}
-            </p>
-          ) : null}
+      <header className="selected-listing-title-wrap mb-[0.1rem] flex w-full items-start justify-center gap-[0.75rem]">
+        <div className={mobileTitleWrapClassName}>
+          <h2 className={selectedListingTitleClassName}>
+            {loading ? ui.loading : listing?.title || ui.selectedListing}
+          </h2>
         </div>
       </header>
+
+      {statusRowVisible ? (
+        <div className="flex justify-center">
+          <p className="mt-[0.34rem] flex max-w-full flex-wrap items-center justify-center gap-x-[0.55rem] gap-y-[0.18rem] text-center text-[1.22rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:mt-[0.28rem] max-[768px]:text-[1.18rem] max-[768px]:tracking-[0.01em]">
+            {listing?.statusLabel ? <span>{listing.statusLabel}</span> : null}
+            {listing?.statusLabel && isOwn ? (
+              <span aria-hidden="true" className="opacity-42">|</span>
+            ) : null}
+            {isOwn ? <span>{ui.ownListing}</span> : null}
+          </p>
+        </div>
+      ) : null}
 
       <div
         className={`selected-listing-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.25rem] pr-[0.55rem] max-[768px]:px-[0.05rem] max-[768px]:pr-[0.05rem]`}
