@@ -22,7 +22,7 @@ const MOBILE_NAV_ITEMS = [
   { key: "materials", scale: 1.24 },
   { key: "help_requests", scale: 1.0 },
   { key: "help_offers", scale: 1.0 },
-  { key: "new_chat", scale: 1.08 },
+  { key: "new_chat", scale: 0.98 },
   { key: "profile", scale: 1.08 },
   { key: "rooms", scale: 1.02 },
   { key: "invite", scale: 1.1 },
@@ -521,12 +521,13 @@ export default function ChatMobileTopNav({
     }
     if (item.key === "new_chat") {
       return (
-        <MobileIconFrame scale={item.scale * 1.18} xNudge={0.06}>
+        <MobileIconFrame scale={item.scale * 1.14} xNudge={0.06}>
           <span className="relative flex h-full w-full items-center justify-center">
             <ChatBubbleIcon
               isLightTheme={isLightTheme}
               className={iconClassName}
               showDots={false}
+              strokeWidth={8.2}
             />
             <span className="pointer-events-none absolute left-1/2 top-[39%] flex h-[54.5%] w-[54.5%] -translate-x-1/2 -translate-y-1/2 items-center justify-center text-[color:var(--chat-icon-dark,#c57171)] light:text-[color:var(--chat-icon-light,#7A3A38)]">
               <svg

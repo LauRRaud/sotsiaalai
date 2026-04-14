@@ -316,12 +316,12 @@ export default function SelectedListingContext({
       ) : null}
 
       <div
-        className={`selected-listing-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.25rem] pr-[0.55rem] max-[768px]:px-[0.05rem] max-[768px]:pr-[0.05rem]`}
+        className={`selected-listing-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.25rem] pr-[0.55rem] max-[768px]:px-[0.2rem] max-[768px]:pr-[0.2rem]`}
       >
         <Panel
           variant="subpage"
           padding="sm"
-          className={`${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] !p-[0.5rem] !shadow-none max-[768px]:!p-[0.12rem]`}
+          className={`${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] !p-[0.5rem] !shadow-none max-[768px]:!p-[0.85rem]`}
         >
           {loading ? <div className="px-2 py-4 text-[1rem] opacity-80">{ui.loading}</div> : null}
           {!loading && error ? <div className="px-2 py-4 text-[1rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
@@ -472,7 +472,7 @@ export default function SelectedListingContext({
 
   if (inline) {
     return (
-      <div className={`${glassPrimaryButtonToneClassName} selected-listing-inline relative flex min-h-0 flex-1 flex-col overflow-hidden`}>
+      <div className={`${glassPrimaryButtonToneClassName} selected-listing-inline flex min-h-0 flex-1 flex-col overflow-visible`}>
         {selectedListingContent}
       </div>
     );

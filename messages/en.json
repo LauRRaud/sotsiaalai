@@ -682,7 +682,7 @@
       "flexibleLabel": "Flexible",
       "statusClosed": "This listing is closed.",
       "noOwnOptions": "You do not have a suitable open opposite listing.",
-      "targetGroupsHint": "For example older person, adult, disability",
+      "targetGroupsHint": "For example young person, older person, adult",
       "aiPromptPrefix": "Help me understand and respond to this listing:"
     },
     "sources": {
@@ -900,7 +900,7 @@
           "conditionsOptional": "Should any special conditions be added to the offer? If there are none, reply \"no\".",
           "scopeAdmin": "Can you help with applications, forms, or e-services? Please say whether the help happens in person or together online.",
           "scopeHome": "What kind of home help can you offer, for example cleaning, simple household tasks, or other practical help?",
-          "targetGroup": "Who is your help meant for? If you want, you can also add the age group and whether the person has special needs.",
+          "targetGroup": "Who is this offer suitable for? For example a young person, an older person, or an adult.",
           "timing": "When can you help? If you want, you can also add whether this is one-time or regular help.",
           "helpCompensation": "Are you offering help on a volunteer basis, for payment, or both? If payment terms matter, you can add them right away.",
           "detailsTransport": "How can you help with transport? With rides, accompanying someone, or arranging transport?",
@@ -930,7 +930,7 @@
           "describe": "Describe as clearly as possible what help you need. Include the key details so that your situation and need for help are easy to understand. If needed, I will ask for more.",
           "rawPlace": "Where is the help needed? Please describe the place as precisely as possible, for example a district, settlement, village, town or municipality.",
           "rawPlaceTransport": "In which area or on which route is transport help needed?",
-          "beneficiary": "Who needs the help? Is it for you or for someone else? If you want, you can also add the age group and whether the person has special needs.",
+          "beneficiary": "Who needs the help? Is it for you or for someone else? If you want, you can also add the age group.",
           "urgency": "How quickly is the help needed: immediately, soon, or flexibly?",
           "helpType": "Are you looking for volunteer help, paid help, or are you open to both? If payment terms matter, you can add them right away.",
           "compensationDetails": "Please briefly describe the payment or compensation preference.",
@@ -939,7 +939,7 @@
           "availabilityTransport": "When is the transport help needed? If you want, also add the time or weekday.",
           "availabilityDigital": "When is the digital help needed? If you want, also add whether in-person or remote help works better.",
           "availabilityAdmin": "When is the help with forms or administrative tasks needed? If there is a deadline, please add that too.",
-          "beneficiaryContext": "Who needs the help? Is it for you or for someone else? If you want, you can also add the age group and whether the person has special needs.",
+          "beneficiaryContext": "Who needs the help? Is it for you or for someone else? If you want, you can also add the age group.",
           "timing": "When is the help needed? If you want, you can also add whether this is one-time or regular help, and whether it is needed immediately, soon, or not urgently.",
           "helpCompensation": "Are you looking for volunteer help, paid help, or are you open to both? If payment terms matter, you can add them right away.",
           "detailsTransport": "Where do you need to go and when?",
@@ -966,8 +966,8 @@
           }
         },
         "shared": {
-          "targetGroup": "Who is your help meant for? If you want, you can also add the age group and whether the person has special needs.",
-          "targetGroupClarifyOffer": "This question is about who your help is meant for. Please answer for example: an older person, an adult, or a person with a disability.",
+          "targetGroup": "Who is this offer suitable for? For example a young person, an older person, or an adult.",
+          "targetGroupClarifyOffer": "This question is about who the offer is suitable for. Please answer for example: a young person, an older person, or an adult.",
           "category": "What type of help is this? Is it more like transport, daily assistance, home help, digital help, care and support, support for children and youth, learning and guidance support, companionship and social support, administrative and forms help, or other help?",
           "title": "I set a title. If you want a different one, write it now."
         },

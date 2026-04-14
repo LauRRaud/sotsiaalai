@@ -421,7 +421,7 @@ test("offer target-group answer is clarified instead of being treated as a place
 
   assert.equal(result.handled, true);
   assert.equal(result.workflowState?.draft?.rawPlace, "Tabasalu");
-  assert.match(String(result.reply || ""), /kellele sinu abi on mõeldud/i);
+  assert.match(String(result.reply || ""), /kellele pakkumine sobib/i);
   assert.doesNotMatch(String(result.reply || ""), /asukohaks minule/i);
 });
 
@@ -706,7 +706,7 @@ test("initial offer follow-up question does not prepend inferred location reflec
   }, createPrismaStub());
 
   assert.equal(result.handled, true);
-  assert.match(String(result.reply || ""), /Kellele sinu abi on moeldud|Kellele sinu abi on mõeldud/i);
+  assert.match(String(result.reply || ""), /Kellele see pakkumine sobib/i);
   assert.doesNotMatch(String(result.reply || ""), /Markisin asukohaks|Märkisin asukohaks/i);
 });
 
@@ -901,6 +901,63 @@ test("offer flow keeps category details and Vääna location from sparse convers
   assert.match(String(finalResult.workflowState?.draft?.description || ""), /pesen põrandat/i);
   assert.doesNotMatch(String(finalResult.workflowState?.draft?.description || ""), /ma juba ütlesin/i);
   assert.equal(finalResult.workflowState?.draft?.providerScopeOrConditions || "", "");
+});
+
+test("offer flow drops vague intent phrase from final title and description", async () => {
+  const start = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: "tahaks kedagi Vaanas abistada",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  const afterCategory = await runHelpChatWorkflow({
+    message: "koduabi, pesen porandaid, koristan kooki",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: start.workflowState
+  }, createPrismaStub());
+
+  const afterAudience = await runHelpChatWorkflow({
+    message: "eakas, erivajadusega",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterCategory.workflowState
+  }, createPrismaStub());
+
+  const afterTiming = await runHelpChatWorkflow({
+    message: "teisipaeva ohtul kell 19.00, uhekordne",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterAudience.workflowState
+  }, createPrismaStub());
+
+  const afterCompensation = await runHelpChatWorkflow({
+    message: "tasu eest peamiselt, 10 eurot tund",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterTiming.workflowState
+  }, createPrismaStub());
+
+  const finalResult = afterCompensation.workflowState?.activeQuestionKey === "create_help_offer:conditions"
+    ? await runHelpChatWorkflow({
+        message: "ei ole",
+        userId: "user-1",
+        replyLang: "et",
+        workflowState: afterCompensation.workflowState
+      }, createPrismaStub())
+    : afterCompensation;
+
+  assert.equal(finalResult.workflowState?.step, "edit_or_save");
+  assert.equal(finalResult.workflowState?.draft?.title, "Koduabi pakkumine");
+  assert.equal(finalResult.workflowState?.draft?.categoryCode, "HOME_HELP");
+  assert.deepEqual(finalResult.workflowState?.draft?.targetGroupCodes, ["ELDER", "DISABILITY"]);
+  assert.match(String(finalResult.workflowState?.draft?.description || ""), /pesen porandaid/i);
+  assert.doesNotMatch(String(finalResult.workflowState?.draft?.description || ""), /tahaks|kedagi|abistada/i);
+  assert.match(String(finalResult.workflowState?.draft?.availabilityOrStart || ""), /teisipaeva ohtul kell 19\.00/i);
+  assert.doesNotMatch(String(finalResult.workflowState?.draft?.availabilityOrStart || ""), /uhekordne|\u00fchekordne/i);
+  assert.equal(finalResult.workflowState?.draft?.timeType, "ONE_TIME");
+  assert.match(String(finalResult.workflowState?.draft?.compensationDetails || ""), /10 eurot tund/i);
 });
 
 test("timing answer does not overwrite existing offer category or target group", async () => {

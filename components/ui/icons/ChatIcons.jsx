@@ -11,6 +11,7 @@ export function ChatBubbleIcon({
   isLightTheme = false,
   className,
   showDots = true,
+  strokeWidth = 10,
   ...props
 }) {
   const stroke = resolveThemeColor(isLightTheme);
@@ -26,7 +27,7 @@ export function ChatBubbleIcon({
       <path
         d="M24.36 5h77.43c10.69 0 19.36 9.29 19.36 20.76v34.6c0 11.46-8.67 20.76-19.36 20.76H69.53l-25.81 27.68V81.12H24.36C13.67 81.12 5 71.83 5 60.36V25.76C5 14.29 13.67 5 24.36 5Z"
         stroke={stroke}
-        strokeWidth="10"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

@@ -56,6 +56,7 @@ function NewConversationIcon({ isLightTheme = false, className }) {
       <ChatBubbleIcon
         isLightTheme={isLightTheme}
         showDots={false}
+        strokeWidth={8.2}
         className={cn(className, styles.iconChats, styles.iconNewChatBubble)}
       />
       <span className={styles.newChatPlus}>
