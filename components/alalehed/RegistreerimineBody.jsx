@@ -71,6 +71,7 @@ const successButtonClassName =
   "register-success-button !min-h-[3.05rem] !px-[1.55rem] !py-[0.9rem] !text-[1.18rem] !leading-[1.12] !tracking-[0.02em] " +
   "max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
+const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName =
   `register-input register-input-mid-shell ${pillInputBaseClassName} ` +
@@ -377,18 +378,18 @@ export default function RegistreerimineBody({}) {
   } = CenteredScrollPicker({
     containerRef: scrollRef,
     itemSelector: ".register-step",
-    disabled: !isMobileViewport,
+    applyItemVisibility: isMobileViewport,
     neighborDistance: isMobileViewport ? 2 : 1,
-    lockWheelToSteps: !isMobileViewport,
+    lockWheelToSteps: false,
     settleOnScroll: false,
-    enableArrowKeys: true,
+    enableArrowKeys: isMobileViewport,
     allowArrowKeysInInputs: true,
-    captureArrowKeys: true,
+    captureArrowKeys: isMobileViewport,
     settleMs: isMobileViewport ? 420 : 360,
     maxStepPerSettle: isMobileViewport ? 99 : 1,
     wheelCooldownMs: isMobileViewport ? 300 : 340,
     minWheelDelta: isMobileViewport ? 10 : 16,
-    manageHiddenFocus: !isMobileViewport,
+    manageHiddenFocus: isMobileViewport,
     pauseSettleOnInputFocus: isMobileViewport,
     pauseSettleWhileTouch: isMobileViewport,
   });
@@ -433,7 +434,7 @@ export default function RegistreerimineBody({}) {
       const nextPadBottomBase = Math.max(0, Math.floor((viewH - lastH) / 2));
       const nextPad = nextPadTopBase;
       setScrollPad((prev) => (prev === nextPad ? prev : nextPad));
-      const liftPx = isMobileViewport ? 5 : 11;
+      const liftPx = isMobileViewport ? 5 : 18;
       const nextTop = Math.max(0, nextPadTopBase - liftPx);
       const nextBottom = Math.max(0, nextPadBottomBase + liftPx);
       setScrollPadTop((prev) => (prev === nextTop ? prev : nextTop));
@@ -619,42 +620,48 @@ export default function RegistreerimineBody({}) {
               </h1>
             </div>
 
-            {isMobileViewport ? (
-              <>
-                <div
-                  className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron is-visible ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
-                  aria-hidden="true"
-                >
-                  <span className="csp-chevron-frame" aria-hidden="true">
-                    <ChevronIcon
-                      direction="up"
-                      strokeWidth={registerChevronStrokeWidthMobile}
-                      className="csp-chevron-icon"
-                    />
-                  </span>
-                </div>
-                <div
-                  className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`}
-                  aria-hidden="true"
-                >
-                  <span className="csp-chevron-frame" aria-hidden="true">
-                    <ChevronIcon
-                      direction="down"
-                      strokeWidth={registerChevronStrokeWidthMobile}
-                      className="csp-chevron-icon"
-                    />
-                  </span>
-                </div>
-              </>
-            ) : null}
+            <>
+              <div
+                className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron is-visible ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
+                aria-hidden="true"
+              >
+                <span className="csp-chevron-frame" aria-hidden="true">
+                  <ChevronIcon
+                    direction="up"
+                    strokeWidth={
+                      isMobileViewport
+                        ? registerChevronStrokeWidthMobile
+                        : registerChevronStrokeWidthDesktop
+                    }
+                    className="csp-chevron-icon"
+                  />
+                </span>
+              </div>
+              <div
+                className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`}
+                aria-hidden="true"
+              >
+                <span className="csp-chevron-frame" aria-hidden="true">
+                  <ChevronIcon
+                    direction="down"
+                    strokeWidth={
+                      isMobileViewport
+                        ? registerChevronStrokeWidthMobile
+                        : registerChevronStrokeWidthDesktop
+                    }
+                    className="csp-chevron-icon"
+                  />
+                </span>
+              </div>
+            </>
 
             <div className={contentClassName}>
               <div
                 ref={scrollRef}
                 className={`${scrollClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : ""}`}
                 style={{
-                  "--csp-pad-top": `${Math.max(0, isMobileViewport ? scrollPadTop || scrollPad : 0)}px`,
-                  "--csp-pad-bottom": `${Math.max(0, isMobileViewport ? scrollPadBottom || scrollPad : 0)}px`,
+                  "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
+                  "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
                   "--csp-center-offset": `${isMobileViewport ? -5 : 0}px`,
                 }}
                 tabIndex={0}

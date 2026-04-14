@@ -579,8 +579,12 @@
 }
 :root.theme-light .chat-inputbar .chat-send-btn {
   background: var(--chat-action-btn-bg);
-  border: var(--chat-action-btn-border);
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+  border: 0;
+  box-shadow:
+    0 1px 4px rgba(15, 23, 42, 0.06),
+    0 3px 8px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    0 0 0 1px rgba(255, 255, 255, 0.82);
 }
 :root.theme-light .chat-inputbar:hover:not(:focus-within),
 :root.theme-light .chat-inputbar:focus-within {
@@ -606,8 +610,12 @@
 }
 :root.theme-light .chat-inputbar:focus-within .chat-send-btn {
   background: var(--chat-action-btn-bg-hover);
-  border: var(--chat-action-btn-border);
-  box-shadow: var(--chat-action-btn-shadow-focus);
+  border: 0;
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.07),
+    0 4px 10px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    0 0 0 1px rgba(255, 255, 255, 0.84);
 }
 :root.theme-light .chat-inputbar:focus-within .chat-listen-btn {
   background: transparent;
@@ -619,8 +627,12 @@
 :root.theme-light .chat-inputbar .chat-send-btn:focus-visible,
 :root.theme-light .chat-inputbar .chat-send-btn:active {
   background: var(--chat-action-btn-bg-hover);
-  border: var(--chat-action-btn-border);
-  box-shadow: var(--chat-action-btn-shadow-focus);
+  border: 0;
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.07),
+    0 4px 10px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    0 0 0 1px rgba(255, 255, 255, 0.84);
   color: #1f2937;
 }
 :root.theme-light .chat-inputbar .chat-listen-btn:hover,
@@ -654,15 +666,23 @@
 }
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn {
   background: var(--chat-action-btn-bg-hover);
-  border: var(--chat-action-btn-border);
-  box-shadow: var(--chat-action-btn-shadow-focus);
+  border: 0;
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.07),
+    0 4px 10px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    0 0 0 1px rgba(255, 255, 255, 0.84);
 }
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:hover,
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:focus-visible,
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:active {
   background: var(--chat-action-btn-bg-hover);
-  border: var(--chat-action-btn-border);
-  box-shadow: var(--chat-action-btn-shadow-focus);
+  border: 0;
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.07),
+    0 4px 10px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    0 0 0 1px rgba(255, 255, 255, 0.84);
 }
 :root.theme-light .chat-inputbar .chat-send-btn .chat-send-loader {
   opacity: 0.95;

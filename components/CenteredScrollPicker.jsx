@@ -29,6 +29,7 @@ export default function CenteredScrollPicker({
   itemSelector = null,
   reduceMotion = false,
   disabled = false,
+  applyItemVisibility = true,
   settleMs = 220,
   maxStepPerSettle = 1,
   neighborDistance = 1,
@@ -183,6 +184,7 @@ export default function CenteredScrollPicker({
     }
   }, [manageHiddenFocus, inertOk]);
   const applyHiddenFocusGuards = useCallback(newActiveIdx => {
+    if (!applyItemVisibility) return;
     const items = getItems();
     if (!items.length) return;
     for (let i = 0; i < items.length; i += 1) {
@@ -200,7 +202,7 @@ export default function CenteredScrollPicker({
         }
       }
     }
-  }, [getItems, neighborDistance, setHiddenStateForItem, containerRef, manageHiddenFocus]);
+  }, [applyItemVisibility, getItems, neighborDistance, setHiddenStateForItem, containerRef, manageHiddenFocus]);
   const commitActiveIndex = useCallback((idx, {
     silent = false
   } = {}) => {

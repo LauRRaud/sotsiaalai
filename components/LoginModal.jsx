@@ -1254,11 +1254,11 @@ export default function LoginModal({
     ? "!text-[clamp(1.94rem,1.38rem+1.24vw,2.32rem)] max-md:!text-[clamp(2.24rem,8.45vw,2.9rem)]"
     : "";
   const loginEmailFieldWrapClassName = [
-    "relative block mx-auto w-full",
+    "relative block mx-auto w-full login-email-shell--surface",
     "!w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))]"
   ].join(" ");
   const loginEmailInputClassName = [
-    "register-input register-input-mid-shell block !my-0 !w-full !max-w-none",
+    "register-input register-input-mid-shell login-email-input--surface block !my-0 !w-full !max-w-none",
     "!text-left placeholder:!text-left !font-normal !text-[1.25rem] !leading-[1.38] !tracking-[0.01em] !px-[1.5rem] !py-[0.68rem] !min-h-[3.08rem]",
     "!text-[color:var(--pt-50)] light:!text-[color:var(--input-text)]",
     "placeholder:opacity-100 placeholder:!text-[color:var(--pt-200)] light:placeholder:!text-[color:var(--input-placeholder)]",

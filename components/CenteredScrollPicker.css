@@ -32,12 +32,6 @@
 
 .csp-desktop-free-scroll {
   scroll-snap-type: none;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  scroll-padding-top: 0 !important;
-  scroll-padding-bottom: 0 !important;
-  -webkit-mask-image: none !important;
-  mask-image: none !important;
 }
 
 .csp-desktop-free-scroll .csp-item,
@@ -109,6 +103,10 @@
 }
 
 .a11y-csp-scroll.csp-container {
+  --csp-surface: var(
+    --glass-ring-surface-bg,
+    var(--glass-surface-bg, rgba(10, 12, 18, 0.94))
+  );
   scroll-snap-type: y proximity;
   scroll-behavior: auto;
 }

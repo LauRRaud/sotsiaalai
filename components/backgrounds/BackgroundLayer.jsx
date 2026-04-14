@@ -332,13 +332,13 @@ const BackgroundContent = memo(function BackgroundContent({
             <ColorBends
               colors={colorBendsColors}
               rotation={-58}
-              speed={mobileBackgroundMode ? 0 : 0.15}
+              speed={reduceMotion ? 0 : mobileBackgroundMode ? 0 : 0.15}
               phase={mobileBackgroundMode ? mobileColorBendsPhase : 0}
               scale={1}
               frequency={1}
               warpStrength={1}
-              mouseInfluence={0}
-              parallax={0}
+              mouseInfluence={reduceMotion ? 0 : 0}
+              parallax={reduceMotion ? 0 : 0}
               noise={0}
               transparent
               autoRotate={0}
@@ -367,21 +367,25 @@ function BackgroundLayer() {
   } = useAccessibility();
   const pathname = usePathname();
   const [domTheme, setDomTheme] = useState(null);
-  const reduceMotion = !!prefs?.reduceMotion;
+  const [domReduceMotion, setDomReduceMotion] = useState(null);
   const isHomepage = pathname === "/";
   useEffect(() => {
     if (typeof document === "undefined") return;
     const html = document.documentElement;
-    const apply = () => setDomTheme(resolveThemeFromDom());
+    const apply = () => {
+      setDomTheme(resolveThemeFromDom());
+      setDomReduceMotion(html.getAttribute("data-reduce-motion") === "1");
+    };
     apply();
     const observer = new MutationObserver(apply);
     observer.observe(html, {
       attributes: true,
-      attributeFilter: ["class", "data-contrast"]
+      attributeFilter: ["class", "data-contrast", "data-reduce-motion"]
     });
     return () => observer.disconnect();
   }, []);
   const effectiveTheme = domTheme || prefs?.theme;
+  const effectiveReduceMotion = domReduceMotion ?? !!prefs?.reduceMotion;
   const isLightTheme =
     effectiveTheme === "light" ||
     effectiveTheme === "mid";
@@ -392,7 +396,7 @@ function BackgroundLayer() {
         ? ["#794f4c"]
         : ["#7e4442"];
   return <BackgroundContent
-    reduceMotion={reduceMotion}
+    reduceMotion={effectiveReduceMotion}
     isLightTheme={isLightTheme}
     isHomepage={isHomepage}
     colorBendsColors={colorBendsColors}

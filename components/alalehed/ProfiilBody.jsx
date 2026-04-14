@@ -157,8 +157,8 @@ const modalInputClassName =
 const accountModalOverlayClassName =
   "invite-modal-overlay account-settings-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
 const accountModalContentClassName =
-  `invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
-  `!w-[min(100%,calc(100dvh-2.5rem))] !max-w-[min(38rem,calc(100dvh-2.5rem))] !aspect-square !rounded-full ` +
+  `glass-ring glass-ring--desktop-stable invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
+  `!w-[var(--ring-diameter,var(--ring-diameter-default))] !min-w-[var(--ring-diameter,var(--ring-diameter-default))] !h-[var(--ring-diameter,var(--ring-diameter-default))] !min-h-[var(--ring-diameter,var(--ring-diameter-default))] !max-w-[var(--ring-diameter,var(--ring-diameter-default))] !max-h-[var(--ring-diameter,var(--ring-diameter-default))] !aspect-square !rounded-full ` +
   `![border:none] !bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
   `pt-[clamp(2.8rem,5.5vh,4rem)] !px-[clamp(2rem,4vw,3rem)] !pb-[clamp(2rem,4vh,2.8rem)] ` +
   `text-[1.12rem] leading-[1.35] tracking-[0.03rem] ` +

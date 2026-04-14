@@ -157,9 +157,9 @@
     );
   --btn-primary-bg-active: var(--mid-unified-surface-bg-active);
   --btn-primary-text: #2f3a4a;
-  --btn-primary-border: var(--mid-unified-surface-border);
-  --btn-primary-border-hover: var(--mid-unified-surface-border);
-  --btn-primary-border-active: var(--mid-unified-surface-border-hover);
+  --btn-primary-border: transparent;
+  --btn-primary-border-hover: transparent;
+  --btn-primary-border-active: transparent;
   --btn-primary-shadow: var(--mid-unified-surface-shadow);
   --btn-primary-shadow-hover: var(--mid-unified-surface-shadow);
   --btn-primary-shadow-active: var(--mid-unified-surface-shadow-active);

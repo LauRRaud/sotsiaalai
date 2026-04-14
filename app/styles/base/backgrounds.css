@@ -179,3 +179,10 @@
 [data-bg-layer][data-particles-parallax="on"] .bg-particles-layer {
   transform: translate3d(0, var(--saai-parallax-particles), 0);
 }
+
+html[data-reduce-motion="1"] [data-bg-layer] .bg-bends-layer,
+html[data-reduce-motion="1"] [data-bg-layer] .bg-particles-layer,
+body[data-reduce-motion="1"] [data-bg-layer] .bg-bends-layer,
+body[data-reduce-motion="1"] [data-bg-layer] .bg-particles-layer {
+  transition: none !important;
+}

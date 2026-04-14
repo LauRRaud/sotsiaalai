@@ -53,20 +53,11 @@ export default function HomePage() {
     hydrated: prefsHydrated
   } = useAccessibility();
   const { t, locale } = useI18n();
-  const [homeEntryState] = useState(() => {
-    const shouldSkipIntro = homeIntroSeen;
-    if (shouldSkipIntro) {
-      homeIntroSeen = true;
-    }
-    return {
-      initialSkipIntro: shouldSkipIntro
-    };
-  });
-  const initialSkipIntro = homeEntryState.initialSkipIntro;
-  const [hasSeenIntro, setHasSeenIntro] = useState(() => initialSkipIntro);
-  const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
-  const [rightFadeDone, setRightFadeDone] = useState(() => initialSkipIntro);
-  const [introStart, setIntroStart] = useState(() => initialSkipIntro);
+  const initialSkipIntro = false;
+  const [hasSeenIntro, setHasSeenIntro] = useState(false);
+  const [leftFadeDone, setLeftFadeDone] = useState(false);
+  const [rightFadeDone, setRightFadeDone] = useState(false);
+  const [introStart, setIntroStart] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
@@ -77,15 +68,15 @@ export default function HomePage() {
   const [pendingExitSide, setPendingExitSide] = useState(null);
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
-  const [leftBlurRevealReady, setLeftBlurRevealReady] = useState(() => initialSkipIntro);
-  const [rightBlurRevealReady, setRightBlurRevealReady] = useState(() => initialSkipIntro);
+  const [leftBlurRevealReady, setLeftBlurRevealReady] = useState(false);
+  const [rightBlurRevealReady, setRightBlurRevealReady] = useState(false);
   const [showScrollCue, setShowScrollCue] = useState(true);
   const [scrollCueEntered, setScrollCueEntered] = useState(false);
   const [isHomeOverlayOpen, setIsHomeOverlayOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [homeA11yReady, setHomeA11yReady] = useState(() => initialSkipIntro);
-  const [showHomeBottomSections, setShowHomeBottomSections] = useState(() => initialSkipIntro);
-  const [showHomeFooter, setShowHomeFooter] = useState(() => initialSkipIntro);
+  const [homeA11yReady, setHomeA11yReady] = useState(false);
+  const [showHomeBottomSections, setShowHomeBottomSections] = useState(false);
+  const [showHomeFooter, setShowHomeFooter] = useState(false);
   const [autoPreviewActive, setAutoPreviewActive] = useState(false);
   const [autoPreviewBackVisible, setAutoPreviewBackVisible] = useState(false);
   const [_leftCardEl, setLeftCardEl] = useState(null);

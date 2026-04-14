@@ -19,7 +19,7 @@ const modalRootClassName =
 const modalRootMobileClassName =
   "max-[768px]:left-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:right-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-right,0px))] max-[768px]:top-[calc(env(safe-area-inset-top,0px)+var(--glass-mobile-gap,0.35rem))] max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--glass-mobile-gap,0.35rem))] max-[768px]:transform-none max-[768px]:translate-x-0 max-[768px]:translate-y-0 max-[768px]:w-auto max-[768px]:h-auto max-[768px]:max-w-none max-[768px]:max-h-none max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] max-[768px]:p-[calc(env(safe-area-inset-top,0px)+2.4rem)_0_calc(env(safe-area-inset-bottom,0px)+1.4rem)] max-[768px]:text-[1.26rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.55rem)]";
 const modalRootDesktopClassName =
-  "glass-ring--desktop-stable min-[769px]:[--ring-ui-reserve:var(--ring-ui-reserve-page)] min-[769px]:[--ring-fit-w:calc(100vw-(2*var(--ring-fit-pad,calc(1.5*var(--base-rem)))))] min-[769px]:[--ring-fit-h:calc(100dvh-(2*var(--ring-fit-pad,calc(1.5*var(--base-rem))))-var(--ring-ui-reserve,calc(9*var(--base-rem))))] min-[769px]:[--ring-fit:min(var(--ring-fit-w),var(--ring-fit-h))] min-[769px]:[--ring-max:min(var(--ring-desktop-max,calc(55*var(--base-rem))),calc(var(--ring-base-max,calc(50*var(--base-rem)))*var(--ring-scale,1)))] min-[769px]:[--ring-diameter-default:min(var(--ring-max),max(var(--ring-base-min,calc(34*var(--base-rem))),var(--ring-fit)))] min-[769px]:w-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:h-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:max-w-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:max-h-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:rounded-full min-[769px]:overflow-hidden min-[769px]:px-[1.35rem]";
+  "glass-ring--desktop-stable min-[769px]:[--ring-ui-reserve:var(--ring-ui-reserve-page)] min-[769px]:[--ring-fit-w:calc(100vw-(2*var(--ring-fit-pad,calc(1.5*var(--base-rem)))))] min-[769px]:[--ring-fit-h:calc(100dvh-(2*var(--ring-fit-pad,calc(1.5*var(--base-rem))))-var(--ring-ui-reserve,calc(9*var(--base-rem))))] min-[769px]:[--ring-fit:min(var(--ring-fit-w),var(--ring-fit-h))] min-[769px]:[--ring-max:min(var(--ring-desktop-max,calc(55*var(--base-rem))),calc(var(--ring-base-max,calc(50*var(--base-rem)))*var(--ring-scale,1)))] min-[769px]:[--ring-diameter-default:min(var(--ring-max),max(var(--ring-base-min,calc(34*var(--base-rem))),var(--ring-fit)))] min-[769px]:w-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:h-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:max-w-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:max-h-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:rounded-full min-[769px]:overflow-hidden min-[769px]:px-[1.35rem] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)]";
 const scrollAreaClassName =
   "a11y-csp-scroll csp-container w-full flex flex-col items-center text-center gap-[2.8rem] flex-1 min-h-0 relative z-0 overflow-y-auto overflow-x-hidden bg-transparent [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[0.5rem] py-[1.1rem] overscroll-contain [--csp-title-offset:0px] [mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)]";
 const scrollAreaMobileClassName =
@@ -65,6 +65,7 @@ const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";
 const saveButtonClassName =
   "max-w-[22rem] whitespace-normal text-center leading-[1.2] px-[1.6rem] py-[1.05rem] text-[1.18rem] " +
   "max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]";
+const accessibilityChevronStrokeWidthDesktop = 0.72;
 const accessibilityChevronStrokeWidthMobile = 1.04;
 export default function AccessibilityModal({
   onClose,
@@ -217,9 +218,10 @@ export default function AccessibilityModal({
       const nextPadBottomBase = Math.max(0, Math.floor((viewH - lastH) / 2));
       const nextPad = nextPadTopBase;
       setScrollPad(prev => prev === nextPad ? prev : nextPad);
-      const liftPx = isMobileViewport ? 5 : 11;
-      const nextTop = Math.max(0, nextPadTopBase - liftPx);
-      const nextBottom = Math.max(0, nextPadBottomBase + liftPx);
+      const topLiftPx = isMobileViewport ? 7 : 20;
+      const bottomLiftPx = isMobileViewport ? 5 : -padOffset;
+      const nextTop = Math.max(0, nextPadTopBase - topLiftPx);
+      const nextBottom = Math.max(0, nextPadBottomBase + bottomLiftPx);
       setScrollPadTop(prev => prev === nextTop ? prev : nextTop);
       setScrollPadBottom(prev => prev === nextBottom ? prev : nextBottom);
     };
@@ -242,18 +244,18 @@ export default function AccessibilityModal({
     containerRef: scrollRef,
     itemSelector: ".csp-step",
     reduceMotion,
-    disabled: !isMobileViewport,
+    applyItemVisibility: isMobileViewport,
     neighborDistance: isMobileViewport ? 2 : 1,
-    lockWheelToSteps: !isMobileViewport,
+    lockWheelToSteps: false,
     settleOnScroll: false,
-    enableArrowKeys: true,
+    enableArrowKeys: isMobileViewport,
     allowArrowKeysInInputs: true,
-    captureArrowKeys: true,
+    captureArrowKeys: isMobileViewport,
     settleMs: isMobileViewport ? 420 : 360,
     maxStepPerSettle: isMobileViewport ? 99 : 1,
     wheelCooldownMs: isMobileViewport ? 300 : 340,
     minWheelDelta: isMobileViewport ? 10 : 16,
-    manageHiddenFocus: !isMobileViewport,
+    manageHiddenFocus: isMobileViewport,
     pauseSettleOnInputFocus: isMobileViewport,
     pauseSettleWhileTouch: isMobileViewport
   });
@@ -474,21 +476,21 @@ export default function AccessibilityModal({
           </h2>
         </div>
 
-        {isMobileViewport ? <><div className={`csp-scrim csp-scrim--top csp-scrim--chevron top-0 is-visible ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`} aria-hidden="true">
+        <><div className={`csp-scrim csp-scrim--top csp-scrim--chevron top-0 is-visible ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
-            <ChevronIcon direction="up" strokeWidth={accessibilityChevronStrokeWidthMobile} className="csp-chevron-icon" />
+            <ChevronIcon direction="up" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
           </span>
         </div>
         <div className={`csp-scrim csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
-            <ChevronIcon direction="down" strokeWidth={accessibilityChevronStrokeWidthMobile} className="csp-chevron-icon" />
+            <ChevronIcon direction="down" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
           </span>
-        </div></> : null}
+        </div></>
 
         <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : ""}`.trim()} style={{
-        "--csp-pad": `${isMobileViewport ? scrollPad + padOffset : 0}px`,
-        "--csp-pad-top": `${Math.max(0, isMobileViewport ? (scrollPadTop || scrollPad) + padOffset : 0)}px`,
-        "--csp-pad-bottom": `${Math.max(0, isMobileViewport ? (scrollPadBottom || scrollPad) + 16 : 0)}px`,
+        "--csp-pad": `${scrollPad + padOffset}px`,
+        "--csp-pad-top": `${Math.max(0, (scrollPadTop || scrollPad) + padOffset)}px`,
+        "--csp-pad-bottom": `${Math.max(0, (scrollPadBottom || scrollPad) + (isMobileViewport ? 16 : padOffset))}px`,
         "--csp-center-offset": `${isMobileViewport ? -5 : 0}px`
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
           <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${languageWraps ? `a11y-language-fieldset--wrap ${languageFieldsetWrappedSpacingClassName}` : `a11y-language-fieldset--single ${languageFieldsetSingleRowSpacingClassName}`} ${getA11yStepClassName(0)}`}>

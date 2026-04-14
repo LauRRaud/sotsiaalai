@@ -43,6 +43,7 @@ import { isActiveHelpWorkflowState, normalizeHelpWorkflowState } from "@/lib/hel
 import { getChatSessionTurnLimit } from "@/lib/chat/guardrails";
 import { logOpenAIUsage } from "@/lib/openaiUsage";
 import { shouldUseHelpWorkflowMode } from "@/lib/chat/workflowModeRouting";
+import { shouldAllowChatWithoutSubscription } from "@/lib/chat/subscriptionGate";
 import { loadMunicipalitySeedEntries, normalizeMunicipalitySearchText } from "@/lib/help/municipalityData";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -975,7 +976,31 @@ export async function POST(req) {
     const roomMembership = await getRoomMembership(userId, roomId);
     if (!roomMembership) return makeError("api.common.forbidden", 403);
   }
-  const gate = await requireSubscription(session, normalizedRole);
+  const explicitHelpIntent = !roomId
+    ? requestedChatMode === "help_request"
+      ? "create_help_request"
+      : requestedChatMode === "help_offer"
+        ? "create_help_offer"
+        : null
+    : null;
+  const clientHelpWorkflowState = !roomId
+    ? normalizeHelpWorkflowState(payload?.helpWorkflowState || null)
+    : null;
+  const helpWorkflowState = clientHelpWorkflowState || (userId && !roomId
+    ? await getHelpWorkflowState(convId, userId, prisma)
+    : null);
+  const helpWorkflowActive = isActiveHelpWorkflowState(helpWorkflowState);
+  const detectedHelpIntent = !roomId ? detectHelpChatIntent(message) : null;
+  const gate = await requireSubscription(session, normalizedRole, {
+    allowWithoutSubscription: shouldAllowChatWithoutSubscription({
+      roomId,
+      requestedChatMode,
+      explicitHelpIntent,
+      detectedHelpIntent,
+      helpWorkflowState,
+      helpWorkflowActive
+    })
+  });
   if (!gate.ok) {
     return NextResponse.json({
       ok: false,
@@ -1021,13 +1046,6 @@ export async function POST(req) {
     uiLocale
   });
   const greeting = isGreeting(message);
-  const explicitHelpIntent = !roomId
-    ? requestedChatMode === "help_request"
-      ? "create_help_request"
-      : requestedChatMode === "help_offer"
-        ? "create_help_offer"
-        : null
-    : null;
   const clarifyingTurns = countClarifyingTurns(rawHistory);
   const requestedThoroughness = inferRequestedThoroughness(message);
   const L = langStrings(replyLang, normalizedRole);
@@ -1053,13 +1071,6 @@ export async function POST(req) {
     requestedThoroughness,
     convId
   });
-  const clientHelpWorkflowState = !roomId
-    ? normalizeHelpWorkflowState(payload?.helpWorkflowState || null)
-    : null;
-  const helpWorkflowState = clientHelpWorkflowState || (userId && !roomId
-    ? await getHelpWorkflowState(convId, userId, prisma)
-    : null);
-  const helpWorkflowActive = isActiveHelpWorkflowState(helpWorkflowState);
   const documentWorkflowState = userId && !roomId
     ? await getDocumentWorkflowState(convId, userId, prisma)
     : null;
@@ -1067,7 +1078,6 @@ export async function POST(req) {
   const effectiveMessage = message;
   const forcedMode = requestedChatMode;
   const effectiveExplicitHelpIntent = explicitHelpIntent;
-  const detectedHelpIntent = !roomId ? detectHelpChatIntent(effectiveMessage) : null;
   const documentDecision = forcedMode === "document"
     ? resolveDocumentTaskDecision({
         message: effectiveMessage,

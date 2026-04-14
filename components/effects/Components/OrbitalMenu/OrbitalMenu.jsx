@@ -300,10 +300,6 @@ export default function OrbitalMenu({
       if (!rect.width || !itemEl) return;
       const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 0;
       const isSmallerDesktopViewport = viewportWidth > 768 && viewportWidth <= 1120;
-      const shouldNudgeOrbitInward = viewportWidth >= 1000 && viewportWidth <= 1180;
-      const shouldSlightlyNudgeOrbitInward =
-        viewportWidth >= 860 && viewportWidth < 1000
-        || rect.width >= 330 && rect.width < 365;
       const nextSizeMode = isSmallerDesktopViewport
         ? rect.width <= 322
           ? "tight"
@@ -312,10 +308,9 @@ export default function OrbitalMenu({
             : "default"
         : "default";
       setOrbitSizeMode(prev => prev !== nextSizeMode ? nextSizeMode : prev);
-      const radiusScale = shouldNudgeOrbitInward ? 0.92 : shouldSlightlyNudgeOrbitInward ? 0.97 : 1;
       const itemSize = itemEl.offsetWidth || 0;
       if (!itemSize) return;
-      const nextRadius = Math.max(0, (rect.width - itemSize) / 2) * radiusScale;
+      const nextRadius = Math.max(0, (rect.width - itemSize) / 2);
       setOrbitRadius(prev => Math.abs(prev - nextRadius) > 0.25 ? nextRadius : prev);
       const hubSize = hubBtnRef.current?.offsetWidth || 0;
       if (hubSize && nextRadius) {

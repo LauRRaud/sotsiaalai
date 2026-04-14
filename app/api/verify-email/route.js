@@ -29,7 +29,7 @@ const VERIFY_PAGE_COPY = {
   et: {
     title: "Kinnita e-posti aadress",
     intro: "Konto aktiveerimiseks kinnita oma e-posti aadress alloleva nupuga.",
-    confirm: "Kinnita e-post",
+    confirm: "Kinnitan",
     successTitle: "E-post on kinnitatud",
     successBody: "Võid nüüd jätkata tellimuse aktiveerimise või sisselogimisega.",
     continueLabel: "Jätka"
@@ -140,9 +140,14 @@ function renderVerifyPage({
       }
       h1 {
         margin: 0 0 12px;
-        font-size: 32px;
-        line-height: 1.05;
+        font-size: clamp(1.82rem, 3vw, 2.18rem);
+        line-height: 1.08;
         text-align: center;
+        letter-spacing: 0.02em;
+        color: #c57171;
+        text-shadow: 0 0.2rem 0.65rem rgba(0,0,0,0.28);
+        font-family: "Aino Headline", "Aino", Arial, sans-serif;
+        font-weight: 400;
       }
       p {
         margin: 0;
@@ -262,16 +267,18 @@ function buildVerifyConfirmUrl({ requestUrl, email, token, locale }) {
   } else {
     confirmUrl.searchParams.delete("locale");
   }
-  return confirmUrl.toString();
+  return `${confirmUrl.pathname}${confirmUrl.search}`;
 }
 
 function resolvePublicOrigin(requestUrl, headers) {
   const fallback = new URL(requestUrl).origin;
   const forwardedHost = String(headers?.get?.("x-forwarded-host") || "").trim();
+  const directHost = String(headers?.get?.("host") || "").trim();
   const forwardedProto = String(headers?.get?.("x-forwarded-proto") || "").trim();
-  if (!forwardedHost) return fallback;
+  const resolvedHost = forwardedHost || directHost;
+  if (!resolvedHost) return fallback;
   const protocol = forwardedProto || (fallback.startsWith("https://") ? "https" : "http");
-  return `${protocol}://${forwardedHost}`;
+  return `${protocol}://${resolvedHost}`;
 }
 
 function buildSubscriptionUrl({ requestUrl, locale, headers }) {

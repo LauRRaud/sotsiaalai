@@ -30,24 +30,6 @@
     .chat-container.chat-container--round.chat-container--input-focus {
     --chat-diameter: var(--ring-diameter, var(--ring-diameter-default)) !important;
   }
-
-  .chat-page-shell .chat-container.chat-container--round .chat-window {
-    --chat-window-inline-gap: clamp(1.7rem, calc(var(--chat-diameter) * 0.036), 2.4rem) !important;
-    --chat-window-max-w: min(
-      calc(clamp(27rem, calc(var(--chat-diameter) * 0.64), 38rem) - 0.55rem),
-      calc(100% - var(--chat-window-inline-gap) - 0.55rem)
-    ) !important;
-    --chat-window-shift-x: calc(clamp(0.22rem, calc(var(--chat-diameter) * 0.008), 0.42rem) + 0.18rem) !important;
-  }
-
-  .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window {
-    --chat-window-inline-gap: clamp(1.1rem, calc(var(--chat-shell-inline-size) * 0.024), 1.7rem) !important;
-    --chat-window-max-w: min(
-      calc(clamp(28.5rem, calc(var(--chat-shell-inline-size) * 0.73), 40.5rem) - 0.5rem),
-      calc(100% - var(--chat-window-inline-gap) - 0.5rem)
-    ) !important;
-    --chat-window-shift-x: calc(clamp(0.16rem, calc(var(--chat-shell-inline-size) * 0.005), 0.3rem) + 0.25rem) !important;
-  }
 }
 
 body:is(
@@ -402,28 +384,20 @@ body:is(
     --chat-window-fade-bottom-focus: clamp(2.58rem, 6.35vh, 4.18rem) !important;
   }
 
-  .chat-page-shell .chat-container.chat-container--round .chat-window {
-    --chat-window-inline-gap: clamp(1.6rem, calc(var(--chat-diameter) * 0.034), 2.2rem) !important;
-    --chat-window-max-w: min(
-      calc(clamp(26.5rem, calc(var(--chat-diameter) * 0.61), 35.5rem) - 0.55rem),
-      calc(100% - var(--chat-window-inline-gap) - 0.55rem)
-    ) !important;
-    --chat-window-shift-x: calc(clamp(0.22rem, calc(var(--chat-diameter) * 0.008), 0.42rem) + 0.18rem) !important;
-  }
-
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window {
-    --chat-window-inline-gap: clamp(1rem, calc(var(--chat-shell-inline-size) * 0.022), 1.5rem) !important;
-    --chat-window-max-w: min(
-      calc(clamp(27.5rem, calc(var(--chat-shell-inline-size) * 0.69), 38rem) - 0.5rem),
-      calc(100% - var(--chat-window-inline-gap) - 0.5rem)
-    ) !important;
-    --chat-window-shift-x: calc(clamp(0.16rem, calc(var(--chat-shell-inline-size) * 0.005), 0.3rem) + 0.25rem) !important;
     --chat-window-fade-top-focus: clamp(0.6rem, 1.36vh, 0.9rem) !important;
     --chat-window-scroll-top-fade-start-focus: 0.36rem !important;
     --chat-window-scroll-top-fade-mid-focus: 0.76rem !important;
     --chat-window-scroll-top-fade-end-focus: 1.22rem !important;
     --chat-window-fade-bottom-focus: clamp(2.74rem, 6.75vh, 4.42rem) !important;
   }
+}
+
+html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round,
+html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
+body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round,
+body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
+  transition: none !important;
 }
 
 .chat-analysis-overlay .chat-analysis-overlay-card {
