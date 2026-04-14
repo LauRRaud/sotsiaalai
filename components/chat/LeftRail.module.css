@@ -72,7 +72,7 @@
 
 :global(html[data-ui-profile="lg"]) .leftRail,
 :global(html[data-ui-scale="lg"]) .leftRail {
-  --rail-profile-scale: 1.25;
+  --rail-profile-scale: 1.2;
 }
 
 .item {
@@ -294,7 +294,7 @@
 
 :global(html[data-ui-profile="lg"]) .tooltip,
 :global(html[data-ui-scale="lg"]) .tooltip {
-  --rail-profile-scale: 1.25;
+  --rail-profile-scale: 1.2;
 }
 
 .tooltipVisible {

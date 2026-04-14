@@ -85,11 +85,6 @@ body.login-modal-open {
   background: transparent !important;
 }
 
-.a11y-modal-shell .csp-chevron-frame,
-.a11y-modal-shell .csp-chevron-icon {
-  opacity: 1 !important;
-}
-
 .a11y-modal-shell::before {
   content: "";
   position: absolute;
@@ -400,14 +395,14 @@ html[data-contrast="hc"] {
 .register-input-mid-shell:is(:-webkit-autofill, :autofill):focus,
 .register-input-mid-shell:is(:-webkit-autofill, :autofill):focus-visible,
 .register-input-mid-shell:is(:-webkit-autofill, :autofill):active {
-  background: var(--input-bg) !important;
+  background: var(--input-bg, var(--subpage-card-bg, rgba(255, 255, 255, 0.82))) !important;
   background-image: none !important;
   background-clip: padding-box;
   color: var(--input-text) !important;
   caret-color: var(--input-caret) !important;
   -webkit-text-fill-color: var(--input-text) !important;
-  -webkit-box-shadow: inset 0 0 0 1000px var(--input-bg) !important;
-  box-shadow: inset 0 0 0 1000px var(--input-bg) !important;
+  -webkit-box-shadow: inset 0 0 0 1000px var(--input-bg, var(--subpage-card-bg, rgba(255, 255, 255, 0.82))) !important;
+  box-shadow: inset 0 0 0 1000px var(--input-bg, var(--subpage-card-bg, rgba(255, 255, 255, 0.82))) !important;
   transition: background-color 99999s ease-out 0s, color 99999s ease-out 0s;
 }
 

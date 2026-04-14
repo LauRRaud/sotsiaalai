@@ -30,7 +30,7 @@ function detectRailProfileScale() {
   const root = document.documentElement;
   const profile = root?.dataset?.uiProfile;
   const scale = root?.dataset?.uiScale;
-  return profile === "lg" || scale === "lg" ? 1.25 : 1;
+  return profile === "lg" || scale === "lg" ? 1.2 : 1;
 }
 
 export default function RightRail({
@@ -124,8 +124,14 @@ export default function RightRail({
     if (!rail) return;
     const update = () => {
       const style = window.getComputedStyle(rail);
-      const itemEl = rail.querySelector("[data-item-index]");
-      const itemSize = itemEl instanceof HTMLElement ? itemEl.offsetHeight : 0;
+      // Mirror LeftRail sizing: use the rail CSS var instead of a rendered node.
+      // The first visible node can vary by active slot and icon composition, which
+      // made the right rail step feel looser than the left rail.
+      const itemSizeRaw = Number.parseFloat(
+        style.getPropertyValue("--rail-item-size").trim()
+      );
+      const itemSize =
+        Number.isFinite(itemSizeRaw) && itemSizeRaw > 0 ? itemSizeRaw : 0;
       const factorRaw = Number.parseFloat(
         style.getPropertyValue("--rail-step-factor").trim()
       );

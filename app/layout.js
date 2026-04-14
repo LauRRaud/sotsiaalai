@@ -30,7 +30,7 @@ const UI_SCALE_INIT_SCRIPT = `(function () {
     return 1;
   }
   function resolveProfileScale(value) {
-    return normalizeProfile(value) === "lg" ? 1.25 : 1;
+    return normalizeProfile(value) === "lg" ? 1.2 : 1;
   }
   function apply(textScale, profile) {
     var root = document.documentElement;

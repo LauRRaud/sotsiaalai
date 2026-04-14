@@ -51,7 +51,7 @@ function resolveUIScaleValue(uiScale, uiProfile) {
         : normalized === "xl"
           ? 1.25
           : 1;
-  const profileFactor = normalizeUIProfile(uiProfile) === "lg" ? 1.25 : 1;
+  const profileFactor = normalizeUIProfile(uiProfile) === "lg" ? 1.2 : 1;
   return profileFactor * textFactor;
 }
 function normalizeTheme(theme) {

@@ -27,7 +27,7 @@ const NO_STORE_HEADERS = {
 const mailer = getMailer("email-verify");
 const VERIFY_PAGE_COPY = {
   et: {
-    title: "Kinnita e-posti aadress",
+    title: "Kinnita e-post",
     intro: "Konto aktiveerimiseks kinnita oma e-posti aadress alloleva nupuga.",
     confirm: "Kinnitan",
     successTitle: "E-post on kinnitatud",
@@ -50,6 +50,18 @@ const VERIFY_PAGE_COPY = {
     successBody: "Теперь можно продолжить активацию подписки или войти.",
     continueLabel: "Продолжить"
   }
+};
+
+VERIFY_PAGE_COPY.et.successBody = "Võid nüüd jätkata platvormile sisenemisega.";
+VERIFY_PAGE_COPY.et.continueLabel = "Jätka";
+VERIFY_PAGE_COPY.en.successBody = "You can now continue to the platform and sign in.";
+VERIFY_PAGE_COPY.ru = {
+  title: "Подтвердите email",
+  intro: "Чтобы активировать аккаунт, подтвердите email с помощью кнопки ниже.",
+  confirm: "Подтвердить email",
+  successTitle: "Email подтвержден",
+  successBody: "Теперь можно продолжить и войти на платформу.",
+  continueLabel: "Продолжить"
 };
 
 function json(payload = {}, status = 200) {
@@ -120,83 +132,92 @@ function renderVerifyPage({
         display: grid;
         place-items: center;
         padding: 24px;
-        font-family: Arial, sans-serif;
+        font-family: "Aino", "Segoe UI", Arial, sans-serif;
         background:
-          radial-gradient(circle at top, rgba(197,113,113,0.18), transparent 36%),
-          linear-gradient(180deg, #0b1220 0%, #121a2b 100%);
-        color: #f5f7fb;
+          radial-gradient(circle at 18% 14%, rgba(197,113,113,0.12), transparent 22%),
+          radial-gradient(circle at 82% 84%, rgba(122,58,56,0.08), transparent 26%),
+          linear-gradient(180deg, #c6aea6 0%, #b99f98 100%);
+        color: #3f2f2b;
       }
       .card {
-        width: min(100%, 460px);
-        border-radius: 20px;
-        padding: 28px;
-        background: rgba(12, 18, 30, 0.78);
-        border: 1px solid rgba(255,255,255,0.12);
-        box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+        width: min(100%, 31rem);
+        border-radius: 2rem;
+        padding: clamp(2rem, 4vw, 2.4rem);
+        background: linear-gradient(180deg, rgba(255,255,255,0.52) 0%, rgba(247,240,237,0.64) 100%);
+        border: 1px solid rgba(255,255,255,0.34);
+        box-shadow:
+          0 1.4rem 3.6rem rgba(70,44,39,0.18),
+          inset 0 1px 0 rgba(255,255,255,0.52);
+        backdrop-filter: blur(20px) saturate(118%);
+        -webkit-backdrop-filter: blur(20px) saturate(118%);
       }
       .card--compact {
-        padding-top: 30px;
-        padding-bottom: 30px;
+        padding-top: clamp(2.15rem, 4vw, 2.55rem);
+        padding-bottom: clamp(2.15rem, 4vw, 2.55rem);
+      }
+      .stack {
+        display: grid;
+        justify-items: center;
+        gap: 1.1rem;
       }
       h1 {
-        margin: 0 0 12px;
-        font-size: clamp(1.82rem, 3vw, 2.18rem);
+        margin: 0;
+        font-size: clamp(2rem, 3vw, 2.3rem);
         line-height: 1.08;
         text-align: center;
         letter-spacing: 0.02em;
-        color: #c57171;
-        text-shadow: 0 0.2rem 0.65rem rgba(0,0,0,0.28);
+        color: #7a3a38;
+        text-shadow: 0 0.18rem 0.44rem rgba(255,255,255,0.16);
         font-family: "Aino Headline", "Aino", Arial, sans-serif;
         font-weight: 400;
       }
       p {
         margin: 0;
-        font-size: 17px;
-        line-height: 1.5;
-        color: ${isError ? "#fecaca" : "#e5e7eb"};
+        max-width: 24rem;
+        font-size: 1.04rem;
+        line-height: 1.56;
+        color: ${isError ? "#8f3030" : "#4f3d39"};
         text-align: center;
       }
       .actions {
-        margin-top: ${hasBody ? "22px" : "18px"};
         display: flex;
         justify-content: center;
+        padding-top: ${hasBody ? "0.5rem" : "0.9rem"};
       }
       .button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 52px;
-        min-width: 184px;
-        padding: 0 26px;
+        min-height: 3.55rem;
+        min-width: 11.75rem;
+        padding: 0 1.7rem;
         border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.46);
         text-decoration: none;
         background: ${
           isError
-            ? "linear-gradient(180deg,rgba(184,41,41,0.96),rgba(135,26,26,0.9))"
-            : "radial-gradient(84% 72% at 50% -6%,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.022) 40%,rgba(255,255,255,0.008) 56%,rgba(255,255,255,0.0025) 70%,rgba(255,255,255,0.0012) 82%,rgba(255,255,255,0) 92%),linear-gradient(180deg,rgba(32,34,40,0.9) 0%,rgba(18,20,25,0.94) 100%)"
+            ? "linear-gradient(180deg, rgba(234,192,192,0.96) 0%, rgba(223,171,171,0.96) 100%)"
+            : "radial-gradient(130% 130% at 18% 14%, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0) 58%), linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(245,236,232,0.92) 100%)"
         };
-        color: rgba(248, 252, 255, 0.96);
-        font-size: 1.32rem;
+        color: ${isError ? "#7a2323" : "#7a3a38"};
+        font-size: 1.14rem;
         font-weight: 500;
         line-height: 1.1;
         letter-spacing: 0.02em;
-        box-shadow: ${
-          isError
-            ? "0 10px 22px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.08)"
-            : "inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(5,6,9,0.58), 0 5px 12px rgba(0,0,0,0.2)"
-        };
-        transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, filter 180ms ease;
-        backdrop-filter: blur(10px) saturate(120%);
+        box-shadow:
+          0 0.6rem 1.4rem rgba(92,63,59,0.14),
+          inset 0 1px 0 rgba(255,255,255,0.72);
+        transition: box-shadow 180ms ease, transform 180ms ease, filter 180ms ease;
+        backdrop-filter: blur(12px) saturate(118%);
+        -webkit-backdrop-filter: blur(12px) saturate(118%);
       }
       .button:hover,
       .button:focus-visible {
-        border-color: rgba(255, 255, 255, 0.14);
-        box-shadow: ${isError
-          ? "0 12px 28px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1)"
-          : "inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(5,6,9,0.64), 0 7px 14px rgba(0,0,0,0.24), 0 0 0 3px rgba(197,113,113,0.28)"};
+        box-shadow:
+          0 0.75rem 1.7rem rgba(92,63,59,0.18),
+          inset 0 1px 0 rgba(255,255,255,0.78);
         outline: none;
-        filter: brightness(1.015);
+        filter: brightness(1.02);
       }
       .button:active {
         transform: translateY(1px);
@@ -205,10 +226,12 @@ function renderVerifyPage({
   </head>
   <body>
     <main class="card${hasBody ? "" : " card--compact"}">
-      <h1>${safeTitle}</h1>
-      ${hasBody ? `<p>${safeBody}</p>` : ""}
-      <div class="actions">
-        <a class="button" href="${safeActionUrl}">${safeActionLabel}</a>
+      <div class="stack">
+        <h1>${safeTitle}</h1>
+        ${hasBody ? `<p>${safeBody}</p>` : ""}
+        <div class="actions">
+          <a class="button" href="${safeActionUrl}">${safeActionLabel}</a>
+        </div>
       </div>
     </main>
   </body>
@@ -281,10 +304,16 @@ function resolvePublicOrigin(requestUrl, headers) {
   return `${protocol}://${resolvedHost}`;
 }
 
-function buildSubscriptionUrl({ requestUrl, locale, headers }) {
+function buildChatUrl({ requestUrl, locale, headers }) {
   const redirectBase = resolvePublicOrigin(requestUrl, headers);
-  const subscriptionPath = localizePath("/tellimus", locale);
-  return new URL(`${subscriptionPath}?reason=email-verified`, redirectBase);
+  return new URL(localizePath("/vestlus", locale), redirectBase);
+}
+
+function buildPostVerifyUrl({ requestUrl, locale, headers }) {
+  const url = buildChatUrl({ requestUrl, locale, headers });
+  url.searchParams.set("login", "1");
+  url.searchParams.set("reason", "email-verified");
+  return url;
 }
 
 async function confirmVerification({ email, token }) {
@@ -395,20 +424,20 @@ export async function GET(request) {
           title: copy.title,
           body: serverT(locale, "api.auth.verify.invalid_link", undefined, copy.intro),
           actionLabel: copy.continueLabel,
-          actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }).toString(),
+          actionUrl: buildChatUrl({ requestUrl: request.url, locale, headers: request.headers }).toString(),
           isError: true
         });
       }
 
       const existingUser = await prisma.user.findUnique({ where: { email } });
       if (existingUser?.emailVerified) {
-        return NextResponse.redirect(buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }));
+        return NextResponse.redirect(buildPostVerifyUrl({ requestUrl: request.url, locale, headers: request.headers }));
       }
 
       return renderVerifyPage({
         locale,
         title: copy.title,
-        body: "",
+        body: copy.intro,
         actionLabel: copy.confirm,
         actionUrl: buildVerifyConfirmUrl({
           requestUrl: request.url,
@@ -426,17 +455,17 @@ export async function GET(request) {
         title: copy.title,
         body: serverT(locale, result.messageKey, undefined, copy.intro),
         actionLabel: copy.continueLabel,
-        actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }).toString(),
+        actionUrl: buildChatUrl({ requestUrl: request.url, locale, headers: request.headers }).toString(),
         isError: true
       });
     }
 
-    return NextResponse.redirect(buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }));
+    return NextResponse.redirect(buildPostVerifyUrl({ requestUrl: request.url, locale, headers: request.headers }));
   } catch (error) {
     console.error("verify-email GET error", error);
     return renderVerifyPage({
       locale,
-      title: copy.successTitle,
+      title: copy.title,
       body: serverT(
         locale,
         "api.auth.verify.confirm_failed",
@@ -444,7 +473,7 @@ export async function GET(request) {
         copy.successBody
       ),
       actionLabel: copy.continueLabel,
-      actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }).toString(),
+      actionUrl: buildChatUrl({ requestUrl: request.url, locale, headers: request.headers }).toString(),
       isError: true
     });
   }

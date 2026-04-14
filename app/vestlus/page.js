@@ -30,15 +30,24 @@ export default async function Page({ searchParams }) {
   if (resolvedSearchParams?.profile === "1") {
     redirect(localizePath("/profiil", locale));
   }
+  const loginRequested = resolvedSearchParams?.login === "1";
+  const reason =
+    typeof resolvedSearchParams?.reason === "string"
+      ? resolvedSearchParams.reason.trim().toLowerCase()
+      : "";
+  const emailVerifiedEntry = reason === "email-verified";
   const roomIdRaw = resolvedSearchParams?.roomId;
   const roomId = typeof roomIdRaw === "string" ? roomIdRaw.trim() || null : null;
   return <>
       <ConversationDrawer>
         <ChatSidebar />
       </ConversationDrawer>
-      <ChatBody roomId={roomId} />
+      <ChatBody
+        roomId={roomId}
+        requestLoginOnOpen={loginRequested || emailVerifiedEntry}
+        emailVerifiedEntry={emailVerifiedEntry}
+      />
     </>;
 }
-
 
 

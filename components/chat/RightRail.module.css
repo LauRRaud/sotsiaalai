@@ -74,7 +74,7 @@
 
 :global(html[data-ui-profile="lg"]) .rightRail,
 :global(html[data-ui-scale="lg"]) .rightRail {
-  --rail-profile-scale: 1.25;
+  --rail-profile-scale: 1.2;
 }
 
 .item {
@@ -158,8 +158,8 @@
 }
 
 .iconInvite {
-  width: calc(100% * (var(--rail-icon-scale) + 0.07));
-  height: calc(100% * (var(--rail-icon-scale) + 0.07));
+  width: calc(100% * (var(--rail-icon-scale) + 0.08));
+  height: calc(100% * (var(--rail-icon-scale) + 0.08));
 }
 
 .iconMaterials {
@@ -186,8 +186,8 @@
 
 @media (min-width: 769px) {
   .item[data-key="sources"] .iconSvgSources {
-    width: calc(100% * (var(--rail-icon-scale) - 0.13));
-    height: calc(100% * (var(--rail-icon-scale) - 0.13));
+    width: calc(100% * (var(--rail-icon-scale) - 0.1));
+    height: calc(100% * (var(--rail-icon-scale) - 0.1));
   }
 }
 
@@ -281,7 +281,7 @@
 
 :global(html[data-ui-profile="lg"]) .tooltip,
 :global(html[data-ui-scale="lg"]) .tooltip {
-  --rail-profile-scale: 1.25;
+  --rail-profile-scale: 1.2;
 }
 
 .tooltipVisible {

@@ -32,6 +32,8 @@
 
 .csp-desktop-free-scroll {
   scroll-snap-type: none;
+  scroll-padding-top: 0 !important;
+  scroll-padding-bottom: 0 !important;
 }
 
 .csp-desktop-free-scroll .csp-item,

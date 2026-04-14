@@ -32,7 +32,7 @@ function detectRailProfileScale() {
   const root = document.documentElement;
   const profile = root?.dataset?.uiProfile;
   const scale = root?.dataset?.uiScale;
-  return profile === "lg" || scale === "lg" ? 1.25 : 1;
+  return profile === "lg" || scale === "lg" ? 1.2 : 1;
 }
 
 function _getHelpLabels(locale = "et") {

@@ -182,13 +182,31 @@ export default function RegistreerimineBody({}) {
     isSocialWorker && form.workerUse === "ORG_IDENTIFIABLE";
   const hasConfirmedFramework = requiresFramework && form.frameworkAck;
   const registerRingClassName = cn(
-    "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]",
+    "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]",
     isFrameworkModalOpen ? "pointer-events-none opacity-0" : null,
   );
   const agreementStepIndex = 3;
   const guideStepIndex = 4;
   const workerStepIndex = 5;
   const submitStepIndex = isSocialWorker ? 6 : 5;
+  const proxyWheelToRegisterScroll = useCallback((event) => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl) return;
+    if (event.defaultPrevented || event.ctrlKey || event.metaKey) return;
+    if (scrollEl.contains(event.target)) return;
+    const hasScrollableOverflow = scrollEl.scrollHeight - scrollEl.clientHeight > 1;
+    if (!hasScrollableOverflow) return;
+    const factor = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? scrollEl.clientHeight : 1;
+    const top = (event.deltaY || 0) * factor;
+    const left = (event.deltaX || 0) * factor;
+    if (typeof scrollEl.scrollBy === "function") {
+      scrollEl.scrollBy({ top, left, behavior: "auto" });
+    } else {
+      scrollEl.scrollTop += top;
+      scrollEl.scrollLeft += left;
+    }
+    event.preventDefault();
+  }, []);
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     const nextValue =
@@ -573,6 +591,7 @@ export default function RegistreerimineBody({}) {
           showSuccessState ? "register-success-shell mobile-keep-desktop-glass-cards [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]" : null,
         )}
         data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}
+        onWheel={proxyWheelToRegisterScroll}
       >
         <BackButton
           onClick={showSuccessState ? handleClose : handleClose}
@@ -678,7 +697,7 @@ export default function RegistreerimineBody({}) {
               >
                 <div className="register-input-shell register-input-shell--mid relative">
                   <input
-                    type="text"
+                    type="email"
                     id="email"
                     name="email"
                     className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()}
@@ -687,7 +706,7 @@ export default function RegistreerimineBody({}) {
                     onChange={handleChange}
                     required
                     inputMode="email"
-                    autoComplete="username"
+                    autoComplete="email"
                     autoCapitalize="none"
                     autoCorrect="off"
                     spellCheck={false}

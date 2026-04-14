@@ -233,7 +233,9 @@ function parseCareerBooleanAnswer(value) {
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
-  embedded = false
+  embedded = false,
+  requestLoginOnOpen = false,
+  emailVerifiedEntry = false
 }) {
   const router = useRouter();
   const {
@@ -281,6 +283,8 @@ export default function ChatBody({
   const [careerLoading, setCareerLoading] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const autoLoginHandledRef = useRef(false);
+  const verifyEntryUrlClearedRef = useRef(false);
   const helpUi = useMemo(() => getHelpUiText(t), [t]);
   const [activeListingsPanel, setActiveListingsPanel] = useState(null);
   const [listingsPanelClosing, setListingsPanelClosing] = useState(false);
@@ -323,6 +327,34 @@ export default function ChatBody({
   useEffect(() => {
     clearStaleScrollLock();
   }, []);
+  const clearVerifyEntryUrl = useCallback(() => {
+    if (!emailVerifiedEntry || typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    let changed = false;
+    if (url.searchParams.has("login")) {
+      url.searchParams.delete("login");
+      changed = true;
+    }
+    if (url.searchParams.get("reason") === "email-verified") {
+      url.searchParams.delete("reason");
+      changed = true;
+    }
+    if (!changed) return;
+    window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  }, [emailVerifiedEntry]);
+  useEffect(() => {
+    if (status === "loading") return;
+    if (!requestLoginOnOpen || status !== "unauthenticated") return;
+    if (autoLoginHandledRef.current) return;
+    autoLoginHandledRef.current = true;
+    setLoginOpen(true);
+  }, [requestLoginOnOpen, status]);
+  useEffect(() => {
+    if (!emailVerifiedEntry || status !== "authenticated") return;
+    if (verifyEntryUrlClearedRef.current) return;
+    verifyEntryUrlClearedRef.current = true;
+    clearVerifyEntryUrl();
+  }, [clearVerifyEntryUrl, emailVerifiedEntry, status]);
   useIsomorphicLayoutEffect(() => {
     setHasHydrated(true);
   }, []);
@@ -2214,9 +2246,16 @@ export default function ChatBody({
     {deleteListingConfirmNode}
     <LoginModal
       open={loginOpen}
-      onClose={() => setLoginOpen(false)}
+      onClose={() => {
+        setLoginOpen(false);
+        clearVerifyEntryUrl();
+      }}
       suppressRedirect
-      onAuthSuccess={() => setLoginOpen(false)}
+      onAuthSuccess={() => {
+        clearVerifyEntryUrl();
+        setLoginOpen(false);
+      }}
+      prefillStoredEmail={!emailVerifiedEntry}
     />
   </>;
 }
