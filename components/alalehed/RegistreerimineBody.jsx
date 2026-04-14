@@ -71,7 +71,6 @@ const successButtonClassName =
   "register-success-button !min-h-[3.05rem] !px-[1.55rem] !py-[0.9rem] !text-[1.18rem] !leading-[1.12] !tracking-[0.02em] " +
   "max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
-const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName =
   `register-input register-input-mid-shell ${pillInputBaseClassName} ` +
@@ -378,6 +377,7 @@ export default function RegistreerimineBody({}) {
   } = CenteredScrollPicker({
     containerRef: scrollRef,
     itemSelector: ".register-step",
+    disabled: !isMobileViewport,
     neighborDistance: isMobileViewport ? 2 : 1,
     lockWheelToSteps: !isMobileViewport,
     settleOnScroll: false,
@@ -392,7 +392,8 @@ export default function RegistreerimineBody({}) {
     pauseSettleOnInputFocus: isMobileViewport,
     pauseSettleWhileTouch: isMobileViewport,
   });
-  const getRegisterStepClassName = (index) => getItemClassName(index);
+  const getRegisterStepClassName = (index) =>
+    isMobileViewport ? getItemClassName(index) : "";
   useEffect(() => {
     if (typeof window === "undefined") return;
     setFrameworkReviewOpenedAt(
@@ -457,15 +458,16 @@ export default function RegistreerimineBody({}) {
     if (initViewportModeRef.current === mode) return;
     initViewportModeRef.current = mode;
     const resetToFirstStep = () => {
-      if (!isMobileViewport) {
+      scrollEl.scrollTop = 0;
+      if (isMobileViewport) {
+        scrollToIndex(0, "auto");
+      } else {
         window.scrollTo({
           top: 0,
           left: 0,
           behavior: "auto",
         });
       }
-      scrollEl.scrollTop = 0;
-      scrollToIndex(0, "auto");
       setIsScrolled(false);
       setHasUserStartedScroll(false);
       hasInitialScrollTopRef.current = true;
@@ -484,7 +486,7 @@ export default function RegistreerimineBody({}) {
     };
   }, [scrollToIndex, isMobileViewport]);
   useEffect(() => {
-    if (hasUserStartedScroll) return;
+    if (!isMobileViewport || hasUserStartedScroll) return;
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
     const alignToFirst = () => {
@@ -495,7 +497,7 @@ export default function RegistreerimineBody({}) {
     };
     const raf = requestAnimationFrame(alignToFirst);
     return () => cancelAnimationFrame(raf);
-  }, [scrollPadTop, scrollPadBottom, hasUserStartedScroll, scrollToIndex]);
+  }, [scrollPadTop, scrollPadBottom, hasUserStartedScroll, scrollToIndex, isMobileViewport]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
@@ -617,47 +619,43 @@ export default function RegistreerimineBody({}) {
               </h1>
             </div>
 
-            <div
-              className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron ${"is-visible"} ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
-              aria-hidden="true"
-            >
-              <span className="csp-chevron-frame" aria-hidden="true">
-                <ChevronIcon
-                  direction="up"
-                  strokeWidth={
-                    isMobileViewport
-                      ? registerChevronStrokeWidthMobile
-                      : registerChevronStrokeWidthDesktop
-                  }
-                  className="csp-chevron-icon"
-                />
-              </span>
-            </div>
-            <div
-              className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron ${"is-visible"} ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`}
-              aria-hidden="true"
-            >
-              <span className="csp-chevron-frame" aria-hidden="true">
-                <ChevronIcon
-                  direction="down"
-                  strokeWidth={
-                    isMobileViewport
-                      ? registerChevronStrokeWidthMobile
-                      : registerChevronStrokeWidthDesktop
-                  }
-                  className="csp-chevron-icon"
-                />
-              </span>
-            </div>
+            {isMobileViewport ? (
+              <>
+                <div
+                  className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron is-visible ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
+                  aria-hidden="true"
+                >
+                  <span className="csp-chevron-frame" aria-hidden="true">
+                    <ChevronIcon
+                      direction="up"
+                      strokeWidth={registerChevronStrokeWidthMobile}
+                      className="csp-chevron-icon"
+                    />
+                  </span>
+                </div>
+                <div
+                  className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`}
+                  aria-hidden="true"
+                >
+                  <span className="csp-chevron-frame" aria-hidden="true">
+                    <ChevronIcon
+                      direction="down"
+                      strokeWidth={registerChevronStrokeWidthMobile}
+                      className="csp-chevron-icon"
+                    />
+                  </span>
+                </div>
+              </>
+            ) : null}
 
             <div className={contentClassName}>
               <div
                 ref={scrollRef}
-                className={`${scrollClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`}
+                className={`${scrollClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : ""}`}
                 style={{
-                  "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
-                  "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
-                  "--csp-center-offset": `${isMobileViewport ? -5 : -11}px`,
+                  "--csp-pad-top": `${Math.max(0, isMobileViewport ? scrollPadTop || scrollPad : 0)}px`,
+                  "--csp-pad-bottom": `${Math.max(0, isMobileViewport ? scrollPadBottom || scrollPad : 0)}px`,
+                  "--csp-center-offset": `${isMobileViewport ? -5 : 0}px`,
                 }}
                 tabIndex={0}
                 aria-label={t("auth.register.title")}
@@ -881,22 +879,8 @@ export default function RegistreerimineBody({}) {
                         {error}
                       </div>
                     )}
-                    {submitting ? (
-                      <div
-                        className="flex justify-center py-[0.12rem]"
-                        role="status"
-                        aria-live="polite"
-                        aria-atomic="true"
-                      >
-                        <div className="rounded-[1.05rem] border border-[rgba(255,255,255,0.18)] bg-[linear-gradient(153deg,rgba(255,255,255,0.14)_0%,rgba(30,41,59,0.36)_55%,rgba(8,14,24,0.46)_100%)] px-[1rem] py-[0.88rem] shadow-[0_15px_30px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[var(--glass-modal-blur,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] light:border-[rgba(148,163,184,0.36)] light:bg-[linear-gradient(150deg,rgba(255,255,255,0.98)_0%,rgba(241,245,249,0.92)_58%,rgba(226,232,240,0.84)_100%)] light:shadow-[0_12px_24px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.82)]">
-                          <span className="block text-center text-[1.16rem] leading-[1.16] font-medium tracking-[0.01em] text-[color:#e2e8f0] light:text-[color:#334155]">
-                            {t("auth.register.loading_status", "Konto loomine")}
-                          </span>
-                        </div>
-                      </div>
-                    ) : null}
                     <div
-                      className={`register-submit-wrap flex justify-center ${submitting ? "mt-[0.8rem]" : ""}`}
+                      className="register-submit-wrap flex justify-center"
                     >
                       <Button
                         type="submit"

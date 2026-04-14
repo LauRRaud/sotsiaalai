@@ -25,7 +25,7 @@ const scrollAreaClassName =
 const scrollAreaMobileClassName =
   "max-[768px]:w-full max-[768px]:px-[1.1rem] max-[768px]:gap-[clamp(1.45rem,4.2vh,2.5rem)]";
 const fieldsetClassName =
-  "csp-step m-0 w-full max-w-[42rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[1rem] !pt-[0.95rem] !pb-[2.8rem] max-[768px]:!gap-[1.1rem] max-[768px]:!pt-[1.2rem] max-[768px]:!pb-[3.55rem] scroll-snap-align-center scroll-snap-stop-normal";
+  "csp-step m-0 w-full max-w-[42rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[1rem] !pt-[0.95rem] !pb-[2.8rem] max-[768px]:!gap-[1.1rem] max-[768px]:!pt-[1.2rem] max-[768px]:!pb-[3.55rem] max-[768px]:scroll-snap-align-center max-[768px]:scroll-snap-stop-normal";
 const legendClassName =
   "block w-full text-center mb-[0.38rem] mt-[0.2rem] max-[768px]:mb-[0.46rem] text-[color:var(--link-gold,#d0adad)] text-[clamp(1.3rem,3.1vw,1.85rem)] max-[768px]:text-[clamp(1.75rem,6.8vw,2.4rem)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] tracking-[0.02em] leading-[1.2] max-[768px]:leading-[1.12]";
 const languageLegendClassName = "";
@@ -65,7 +65,6 @@ const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";
 const saveButtonClassName =
   "max-w-[22rem] whitespace-normal text-center leading-[1.2] px-[1.6rem] py-[1.05rem] text-[1.18rem] " +
   "max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]";
-const accessibilityChevronStrokeWidthDesktop = 0.72;
 const accessibilityChevronStrokeWidthMobile = 1.04;
 export default function AccessibilityModal({
   onClose,
@@ -115,7 +114,6 @@ export default function AccessibilityModal({
   const initViewportModeRef = useRef(null);
   const initialScrollTopRef = useRef(0);
   const hasInitialScrollTopRef = useRef(false);
-  const skipNextFocusSnapRef = useRef(false);
   const padOffset = 36;
   const originalLocaleRef = useRef(locale);
   const previewedLangRef = useRef(null);
@@ -188,7 +186,6 @@ export default function AccessibilityModal({
   useEffect(() => {
     const target = firstFocusRef.current;
     if (!target || typeof target.focus !== "function") return;
-    skipNextFocusSnapRef.current = true;
     try {
       target.focus({
         preventScroll: true
@@ -245,6 +242,7 @@ export default function AccessibilityModal({
     containerRef: scrollRef,
     itemSelector: ".csp-step",
     reduceMotion,
+    disabled: !isMobileViewport,
     neighborDistance: isMobileViewport ? 2 : 1,
     lockWheelToSteps: !isMobileViewport,
     settleOnScroll: false,
@@ -260,7 +258,7 @@ export default function AccessibilityModal({
     pauseSettleWhileTouch: isMobileViewport
   });
   const getA11yStepClassName = index =>
-    getItemClassName(index);
+    isMobileViewport ? getItemClassName(index) : "";
   useEffect(() => {
     if (typeof window === "undefined") return;
     const query = window.matchMedia("(max-width: 768px)");
@@ -281,7 +279,9 @@ export default function AccessibilityModal({
     initViewportModeRef.current = mode;
     const resetToFirstStep = () => {
       scrollEl.scrollTop = 0;
-      scrollToIndex(0, "auto");
+      if (isMobileViewport) {
+        scrollToIndex(0, "auto");
+      }
       setIsScrolled(false);
       setHasUserStartedScroll(false);
       hasInitialScrollTopRef.current = true;
@@ -298,7 +298,7 @@ export default function AccessibilityModal({
     };
   }, [scrollToIndex, isMobileViewport]);
   useEffect(() => {
-    if (hasUserStartedScroll) return;
+    if (!isMobileViewport || hasUserStartedScroll) return;
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
     const alignToFirst = () => {
@@ -309,27 +309,7 @@ export default function AccessibilityModal({
     };
     const raf = requestAnimationFrame(alignToFirst);
     return () => cancelAnimationFrame(raf);
-  }, [scrollPadTop, scrollPadBottom, hasUserStartedScroll, scrollToIndex]);
-  useEffect(() => {
-    const scrollEl = scrollRef.current;
-    if (!scrollEl || isMobileViewport) return;
-    const onFocusIn = event => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement)) return;
-      if (skipNextFocusSnapRef.current) {
-        skipNextFocusSnapRef.current = false;
-        return;
-      }
-      if ((scrollEl.scrollTop || 0) <= 8) return;
-      const snapTarget = target.closest(".a11y-snap") || target;
-      snapTarget.scrollIntoView?.({
-        block: "center",
-        behavior: reduceMotion ? "auto" : "smooth"
-      });
-    };
-    scrollEl.addEventListener("focusin", onFocusIn);
-    return () => scrollEl.removeEventListener("focusin", onFocusIn);
-  }, [reduceMotion, isMobileViewport]);
+  }, [scrollPadTop, scrollPadBottom, hasUserStartedScroll, scrollToIndex, isMobileViewport]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl) return;
@@ -494,23 +474,22 @@ export default function AccessibilityModal({
           </h2>
         </div>
 
-        {}
-        <div className={`csp-scrim csp-scrim--top csp-scrim--chevron top-0 ${"is-visible"} ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`} aria-hidden="true">
+        {isMobileViewport ? <><div className={`csp-scrim csp-scrim--top csp-scrim--chevron top-0 is-visible ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
-            <ChevronIcon direction="up" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
+            <ChevronIcon direction="up" strokeWidth={accessibilityChevronStrokeWidthMobile} className="csp-chevron-icon" />
           </span>
         </div>
-        <div className={`csp-scrim csp-scrim--bottom csp-scrim--chevron ${"is-visible"} ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
+        <div className={`csp-scrim csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
-            <ChevronIcon direction="down" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
+            <ChevronIcon direction="down" strokeWidth={accessibilityChevronStrokeWidthMobile} className="csp-chevron-icon" />
           </span>
-        </div>
+        </div></> : null}
 
-        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`.trim()} style={{
-        "--csp-pad": `${scrollPad + padOffset}px`,
-        "--csp-pad-top": `${Math.max(0, (scrollPadTop || scrollPad) + padOffset)}px`,
-        "--csp-pad-bottom": `${Math.max(0, (scrollPadBottom || scrollPad) + (isMobileViewport ? 16 : padOffset))}px`,
-        "--csp-center-offset": `${isMobileViewport ? -5 : -11}px`
+        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : ""}`.trim()} style={{
+        "--csp-pad": `${isMobileViewport ? scrollPad + padOffset : 0}px`,
+        "--csp-pad-top": `${Math.max(0, isMobileViewport ? (scrollPadTop || scrollPad) + padOffset : 0)}px`,
+        "--csp-pad-bottom": `${Math.max(0, isMobileViewport ? (scrollPadBottom || scrollPad) + 16 : 0)}px`,
+        "--csp-center-offset": `${isMobileViewport ? -5 : 0}px`
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
           <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${languageWraps ? `a11y-language-fieldset--wrap ${languageFieldsetWrappedSpacingClassName}` : `a11y-language-fieldset--single ${languageFieldsetSingleRowSpacingClassName}`} ${getA11yStepClassName(0)}`}>
             <legend className={`${legendClassName} ${languageLegendClassName}`.trim()}>
@@ -643,9 +622,6 @@ export default function AccessibilityModal({
               <span>{t("accessibility.save")}</span>
             </Button>
           </div>
-          {saveDisabled ? <p className={`csp-step ${getA11yStepClassName(6)} mt-[-0.6rem] mb-0 px-[1rem] text-center text-[0.98rem] leading-[1.35] text-[color:var(--glass-surface-text-soft,var(--pt-120))] max-[768px]:mt-[-0.25rem] max-[768px]:text-[1.04rem]`}>
-              {t("accessibility.complete_required")}
-            </p> : null}
         </div>
       </div>
     </>;

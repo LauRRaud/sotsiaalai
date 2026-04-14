@@ -30,6 +30,22 @@
   height: 0;
 }
 
+.csp-desktop-free-scroll {
+  scroll-snap-type: none;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  scroll-padding-top: 0 !important;
+  scroll-padding-bottom: 0 !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+.csp-desktop-free-scroll .csp-item,
+.csp-desktop-free-scroll .csp-step {
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
+}
+
 :root.theme-light .csp-container {
   --csp-surface: rgba(252, 253, 255, 0.94);
 }

@@ -103,6 +103,7 @@ function renderVerifyPage({
   const safeBody = escapeHtml(body);
   const safeActionLabel = escapeHtml(actionLabel);
   const safeActionUrl = escapeHtml(actionUrl);
+  const hasBody = Boolean(safeBody);
 
   return new NextResponse(
     `<!doctype html>
@@ -133,39 +134,74 @@ function renderVerifyPage({
         border: 1px solid rgba(255,255,255,0.12);
         box-shadow: 0 20px 60px rgba(0,0,0,0.35);
       }
+      .card--compact {
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
       h1 {
         margin: 0 0 12px;
         font-size: 32px;
         line-height: 1.05;
+        text-align: center;
       }
       p {
         margin: 0;
         font-size: 17px;
         line-height: 1.5;
         color: ${isError ? "#fecaca" : "#e5e7eb"};
+        text-align: center;
       }
       .actions {
-        margin-top: 22px;
+        margin-top: ${hasBody ? "22px" : "18px"};
+        display: flex;
+        justify-content: center;
       }
       .button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 48px;
-        padding: 0 20px;
+        min-height: 52px;
+        min-width: 184px;
+        padding: 0 26px;
         border-radius: 999px;
-        border: 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
         text-decoration: none;
-        background: ${isError ? "#b45309" : "#c57171"};
-        color: white;
-        font-weight: 700;
+        background: ${
+          isError
+            ? "linear-gradient(180deg,rgba(184,41,41,0.96),rgba(135,26,26,0.9))"
+            : "radial-gradient(84% 72% at 50% -6%,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.022) 40%,rgba(255,255,255,0.008) 56%,rgba(255,255,255,0.0025) 70%,rgba(255,255,255,0.0012) 82%,rgba(255,255,255,0) 92%),linear-gradient(180deg,rgba(32,34,40,0.9) 0%,rgba(18,20,25,0.94) 100%)"
+        };
+        color: rgba(248, 252, 255, 0.96);
+        font-size: 1.32rem;
+        font-weight: 500;
+        line-height: 1.1;
+        letter-spacing: 0.02em;
+        box-shadow: ${
+          isError
+            ? "0 10px 22px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.08)"
+            : "inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(5,6,9,0.58), 0 5px 12px rgba(0,0,0,0.2)"
+        };
+        transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, filter 180ms ease;
+        backdrop-filter: blur(10px) saturate(120%);
+      }
+      .button:hover,
+      .button:focus-visible {
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow: ${isError
+          ? "0 12px 28px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1)"
+          : "inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(5,6,9,0.64), 0 7px 14px rgba(0,0,0,0.24), 0 0 0 3px rgba(197,113,113,0.28)"};
+        outline: none;
+        filter: brightness(1.015);
+      }
+      .button:active {
+        transform: translateY(1px);
       }
     </style>
   </head>
   <body>
-    <main class="card">
+    <main class="card${hasBody ? "" : " card--compact"}">
       <h1>${safeTitle}</h1>
-      <p>${safeBody}</p>
+      ${hasBody ? `<p>${safeBody}</p>` : ""}
       <div class="actions">
         <a class="button" href="${safeActionUrl}">${safeActionLabel}</a>
       </div>
@@ -229,8 +265,17 @@ function buildVerifyConfirmUrl({ requestUrl, email, token, locale }) {
   return confirmUrl.toString();
 }
 
-function buildSubscriptionUrl({ requestUrl, locale }) {
-  const redirectBase = resolveBaseUrl() || new URL(requestUrl).origin;
+function resolvePublicOrigin(requestUrl, headers) {
+  const fallback = new URL(requestUrl).origin;
+  const forwardedHost = String(headers?.get?.("x-forwarded-host") || "").trim();
+  const forwardedProto = String(headers?.get?.("x-forwarded-proto") || "").trim();
+  if (!forwardedHost) return fallback;
+  const protocol = forwardedProto || (fallback.startsWith("https://") ? "https" : "http");
+  return `${protocol}://${forwardedHost}`;
+}
+
+function buildSubscriptionUrl({ requestUrl, locale, headers }) {
+  const redirectBase = resolvePublicOrigin(requestUrl, headers);
   const subscriptionPath = localizePath("/tellimus", locale);
   return new URL(`${subscriptionPath}?reason=email-verified`, redirectBase);
 }
@@ -343,20 +388,20 @@ export async function GET(request) {
           title: copy.title,
           body: serverT(locale, "api.auth.verify.invalid_link", undefined, copy.intro),
           actionLabel: copy.continueLabel,
-          actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale }).toString(),
+          actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }).toString(),
           isError: true
         });
       }
 
       const existingUser = await prisma.user.findUnique({ where: { email } });
       if (existingUser?.emailVerified) {
-        return NextResponse.redirect(buildSubscriptionUrl({ requestUrl: request.url, locale }));
+        return NextResponse.redirect(buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }));
       }
 
       return renderVerifyPage({
         locale,
         title: copy.title,
-        body: copy.intro,
+        body: "",
         actionLabel: copy.confirm,
         actionUrl: buildVerifyConfirmUrl({
           requestUrl: request.url,
@@ -374,12 +419,12 @@ export async function GET(request) {
         title: copy.title,
         body: serverT(locale, result.messageKey, undefined, copy.intro),
         actionLabel: copy.continueLabel,
-        actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale }).toString(),
+        actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }).toString(),
         isError: true
       });
     }
 
-    return NextResponse.redirect(buildSubscriptionUrl({ requestUrl: request.url, locale }));
+    return NextResponse.redirect(buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }));
   } catch (error) {
     console.error("verify-email GET error", error);
     return renderVerifyPage({
@@ -392,7 +437,7 @@ export async function GET(request) {
         copy.successBody
       ),
       actionLabel: copy.continueLabel,
-      actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale }).toString(),
+      actionUrl: buildSubscriptionUrl({ requestUrl: request.url, locale, headers: request.headers }).toString(),
       isError: true
     });
   }
