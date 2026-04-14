@@ -152,7 +152,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const userMessageRowClassName =
     "chat-msg-user flex w-full justify-end pr-[clamp(0.24rem,0.65vw,0.48rem)] max-[768px]:pr-[0.08rem]";
   const userBubbleClassName =
-    "chat-msg-user-bubble inline-block w-fit max-w-[min(84%,44rem)] text-left " +
+    "chat-msg-user-bubble inline-block min-w-0 w-fit max-w-[min(84%,44rem)] text-left [overflow-wrap:anywhere] break-words " +
     "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
     "border-0 rounded-[1.28rem] rounded-br-[0.5rem] " +
     "[.theme-mid_&]:border-0 " +
@@ -287,7 +287,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
         </span>
 
         {text ? <div className={userBubbleClassName}>
-            <div className="whitespace-pre-wrap">{visibleText}</div>
+            <div className="min-w-0 max-w-full whitespace-pre-wrap [overflow-wrap:anywhere] break-words">{visibleText}</div>
           </div> : null}
       </div>;
   }

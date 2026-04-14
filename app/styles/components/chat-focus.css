@@ -123,11 +123,16 @@ body:is(
 
 .help-listings-modal-overlay,
 .selected-listing-modal-overlay {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
   justify-content: center !important;
+  justify-items: center !important;
+  align-items: start !important;
 }
 
 .help-listings-modal-content,
 .selected-listing-modal-content {
+  justify-self: center !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
@@ -142,6 +147,21 @@ body:is(
 .selected-listing-body > * {
   margin-left: auto !important;
   margin-right: auto !important;
+}
+
+.chat-msg-user,
+.chat-msg-user-bubble,
+.chat-msg-user-bubble > * {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.chat-msg-user-bubble,
+.chat-msg-user-bubble > *,
+.chat-msg-ai,
+.chat-msg-ai :is(p, li, div) {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
 }
 
 @media (max-width: 768px) {
