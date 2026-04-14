@@ -121,11 +121,25 @@ body:is(
   min-width: 0;
 }
 
-.help-listings-modal-overlay {
+.help-listings-modal-overlay,
+.selected-listing-modal-overlay {
   justify-content: center !important;
 }
 
-.help-listings-modal-content {
+.help-listings-modal-content,
+.selected-listing-modal-content {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.selected-listing-body {
+  box-sizing: border-box;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  scrollbar-gutter: stable both-edges;
+}
+
+.selected-listing-body > * {
   margin-left: auto !important;
   margin-right: auto !important;
 }

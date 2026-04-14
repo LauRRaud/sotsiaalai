@@ -266,7 +266,7 @@ export default function SelectedListingContext({
   const infoItems = listing ? buildInfoItems(listing, ui) : [];
   const cleanDescription = listing ? buildCleanDescription(listing) : "";
   const selectedListingContentClassName =
-    `selected-listing-modal-content !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
+    `selected-listing-modal-content mx-auto !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
     `relative !flex !max-h-[calc(100dvh-2.5rem)] !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
@@ -289,11 +289,11 @@ export default function SelectedListingContext({
   const mobileTitleWrapClassName =
     "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
   const selectedListingBodyClassName = inline
-    ? `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 max-h-full flex-1 touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.55rem] px-[0.78rem] pt-[0.12rem] pb-[1.2rem] [scrollbar-gutter:stable] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.2rem] max-[768px]:pt-[0.1rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.3rem)]`
-    : `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 max-h-full flex-1 touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.45rem] [scrollbar-gutter:stable] max-[768px]:px-[0.2rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.3rem)]`;
+    ? `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 max-h-full flex-1 touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.55rem] px-[0.78rem] pt-[0.12rem] pb-[1.2rem] [scrollbar-gutter:stable_both-edges] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.2rem] max-[768px]:pt-[0.1rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.3rem)]`
+    : `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 max-h-full flex-1 touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.45rem] [scrollbar-gutter:stable_both-edges] max-[768px]:px-[0.2rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.3rem)]`;
   const selectedListingPanelClassName = inline
-    ? `${glassSubpagePanelWideClassName} relative mb-[0.65rem] !max-h-none !overflow-visible !p-[0.62rem] !shadow-none max-[768px]:mb-[0.8rem] max-[768px]:!p-[0.28rem]`
-    : `${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] !p-[0.5rem] !shadow-none max-[768px]:!p-[0.85rem]`;
+    ? `${glassSubpagePanelWideClassName} relative mb-[0.65rem] self-center !max-h-none !overflow-visible !p-[0.62rem] !shadow-none max-[768px]:mb-[0.8rem] max-[768px]:!p-[0.28rem]`
+    : `${glassSubpagePanelWideClassName} mt-[0.9rem] self-center max-[768px]:mt-[0.8rem] !p-[0.5rem] !shadow-none max-[768px]:!p-[0.85rem]`;
   const statusRowVisible = Boolean(listing?.statusLabel || (isOwn && listing));
 
   const selectedListingContent = (
@@ -335,7 +335,7 @@ export default function SelectedListingContext({
           {!loading && listing ? (
             <div className="grid gap-[0.9rem]">
               {listing.summary ? (
-                <p className="text-[0.96rem] leading-[1.45] font-[520] opacity-88">
+                <p className="mx-auto max-w-full text-center text-[0.96rem] leading-[1.45] font-[520] opacity-88 [text-wrap:balance]">
                   {listing.summary}
                 </p>
               ) : null}
