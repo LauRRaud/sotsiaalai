@@ -35,6 +35,10 @@ export function useChatInputHoleMask({
         target.style.removeProperty("--chat-input-hole-r");
         target.style.removeProperty("--chat-input-hole-side-h");
       });
+      if (maskLayer) {
+        maskLayer.style.removeProperty("clip-path");
+        maskLayer.style.removeProperty("-webkit-clip-path");
+      }
     };
     const isMobileViewport =
       Boolean(window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches) ||
@@ -102,6 +106,17 @@ export function useChatInputHoleMask({
       const bottom = y + height;
       return [`M ${x + r} ${y}`, `H ${right - r}`, `A ${r} ${r} 0 0 1 ${right} ${y + r}`, `V ${bottom - r}`, `A ${r} ${r} 0 0 1 ${right - r} ${bottom}`, `H ${x + r}`, `A ${r} ${r} 0 0 1 ${x} ${bottom - r}`, `V ${y + r}`, `A ${r} ${r} 0 0 1 ${x + r} ${y}`, "Z"].join(" ");
     };
+    const buildCssClipPath = (rootW, rootH, holeRect, radius) => {
+      if (!rootW || !rootH || !holeRect?.w || !holeRect?.h) return "";
+      const outerPath = `M 0 0 H ${rootW} V ${rootH} H 0 Z`;
+      const holePad = 0;
+      const holeX = clamp(holeRect.x - holePad, 0, rootW);
+      const holeY = clamp(holeRect.y - holePad, 0, rootH);
+      const holeW = clamp(holeRect.w + holePad * 2, 0, rootW - holeX);
+      const holeH = clamp(holeRect.h + holePad * 2, 0, rootH - holeY);
+      const holePath = roundedRectPath(holeX, holeY, holeW, holeH, radius + holePad);
+      return `path(evenodd, "${outerPath} ${holePath}")`;
+    };
     const buildMask = (rootW, rootH, holeRect, radius) => {
       if (!rootW || !rootH || !holeRect?.w || !holeRect?.h) return null;
       const outerPath = `M 0 0 H ${rootW} V ${rootH} H 0 Z`;
@@ -139,6 +154,10 @@ export function useChatInputHoleMask({
       }, 120);
     };
     const updateMask = ({ force = false, bypassThrottle = false } = {}) => {
+      if (isTiltActive() && (lastGeometry || lastMask)) {
+        pendingAfterTilt = true;
+        return;
+      }
       const ts = nowMs();
       if (
         !force &&
@@ -189,6 +208,16 @@ export function useChatInputHoleMask({
         target.style.setProperty("--chat-input-hole-r", `${radius}px`);
         target.style.setProperty("--chat-input-hole-side-h", `${sideHeight}px`);
       });
+      if (!isMobileViewport && maskLayer) {
+        const cssClipPath = buildCssClipPath(boxW, boxH, inputLocal, radius);
+        if (cssClipPath) {
+          maskLayer.style.setProperty("clip-path", cssClipPath);
+          maskLayer.style.setProperty("-webkit-clip-path", cssClipPath);
+        } else {
+          maskLayer.style.removeProperty("clip-path");
+          maskLayer.style.removeProperty("-webkit-clip-path");
+        }
+      }
       if (!applyMaskImage) {
         pendingAfterTilt = false;
         return;
@@ -233,6 +262,10 @@ export function useChatInputHoleMask({
       loop = true,
       bypassThrottle = false
     } = {}) => {
+      if (isTiltActive() && (lastGeometry || lastMask)) {
+        pendingAfterTilt = true;
+        return;
+      }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
         updateMask({
@@ -248,6 +281,10 @@ export function useChatInputHoleMask({
       immediate = false,
       bypassThrottle = false
     } = {}) => {
+      if (isTiltActive() && (lastGeometry || lastMask)) {
+        pendingAfterTilt = true;
+        return;
+      }
       if (isMobileViewport && !force && !immediate) {
         if (mobileDebounceTimer) {
           window.clearTimeout(mobileDebounceTimer);
@@ -373,6 +410,8 @@ export function useChatInputHoleMask({
       if (maskLayer?.dataset) delete maskLayer.dataset.routeTilting;
       if (maskLayer) {
         maskLayer.style.removeProperty("--chat-input-hole-mask");
+        maskLayer.style.removeProperty("clip-path");
+        maskLayer.style.removeProperty("-webkit-clip-path");
       }
       clearHoleGeometry();
       if (refreshRef?.current === refreshHandler) {

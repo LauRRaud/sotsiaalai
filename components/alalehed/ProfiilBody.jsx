@@ -274,6 +274,12 @@ function ProfileShell({
       <div
         ref={maskLayerRef}
         className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none [background:var(--glass-ring-sheen,none),var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"
+        style={{
+          clipPath: orbitOpen ? "none" : undefined,
+          WebkitClipPath: orbitOpen ? "none" : undefined,
+          maskImage: "none",
+          WebkitMaskImage: "none"
+        }}
         aria-hidden="true"
         data-orbit-open={orbitOpen ? "true" : "false"}
       />
@@ -636,6 +642,12 @@ export default function ProfiilBody({
       const bottom = y + height;
       return [`M ${x + r} ${y}`, `H ${right - r}`, `A ${r} ${r} 0 0 1 ${right} ${y + r}`, `V ${bottom - r}`, `A ${r} ${r} 0 0 1 ${right - r} ${bottom}`, `H ${x + r}`, `A ${r} ${r} 0 0 1 ${x} ${bottom - r}`, `V ${y + r}`, `A ${r} ${r} 0 0 1 ${x + r} ${y}`, "Z"].join(" ");
     };
+    const buildCssClipPath = (rootW, rootH, holeRect, radius) => {
+      if (!rootW || !rootH || !holeRect?.w || !holeRect?.h) return "";
+      const outerPath = `M 0 0 H ${rootW} V ${rootH} H 0 Z`;
+      const holePath = roundedRectPath(clamp(holeRect.x, 0, rootW), clamp(holeRect.y, 0, rootH), clamp(holeRect.w, 0, rootW - holeRect.x), clamp(holeRect.h, 0, rootH - holeRect.y), radius);
+      return `path(evenodd, "${outerPath} ${holePath}")`;
+    };
     const buildMask = (rootW, rootH, holeRect, radius) => {
       if (!rootW || !rootH || !holeRect?.w || !holeRect?.h) return null;
       const outerPath = `M 0 0 H ${rootW} V ${rootH} H 0 Z`;
@@ -644,6 +656,10 @@ export default function ProfiilBody({
       return encodeSvgMask(svg);
     };
     const updateMask = ({ force = false } = {}) => {
+      if (isTiltActive() && lastMask) {
+        pendingAfterTilt = true;
+        return;
+      }
       if (box.dataset?.orbitOpen === "true") {
         if (maskLayer) {
           maskLayer.style.setProperty("-webkit-mask-image", "none");
@@ -673,6 +689,16 @@ export default function ProfiilBody({
       const pillRadiusRaw = Number.parseFloat(window.getComputedStyle(pill).borderTopLeftRadius);
       const pillRadius = Number.isFinite(pillRadiusRaw) ? pillRadiusRaw : pillLocal.h / 2;
       const mask = buildMask(boxW, boxH, pillLocal, pillRadius);
+      if (maskLayer) {
+        const cssClipPath = buildCssClipPath(boxW, boxH, pillLocal, pillRadius);
+        if (cssClipPath) {
+          maskLayer.style.setProperty("clip-path", cssClipPath);
+          maskLayer.style.setProperty("-webkit-clip-path", cssClipPath);
+        } else {
+          maskLayer.style.removeProperty("clip-path");
+          maskLayer.style.removeProperty("-webkit-clip-path");
+        }
+      }
       if (mask && (mask !== lastMask || force)) {
         box.style.setProperty("--profile-role-hole-mask", mask);
         if (maskLayer) {
@@ -703,6 +729,10 @@ export default function ProfiilBody({
       }
     };
     const scheduleUpdate = () => {
+      if (isTiltActive() && lastMask) {
+        pendingAfterTilt = true;
+        return;
+      }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
         updateMask();
@@ -773,12 +803,16 @@ export default function ProfiilBody({
       if (maskLayer) {
         maskLayer.style.setProperty("-webkit-mask-image", "none");
         maskLayer.style.setProperty("mask-image", "none");
+        maskLayer.style.setProperty("clip-path", "none");
+        maskLayer.style.setProperty("-webkit-clip-path", "none");
       }
       return;
     }
     if (maskLayer) {
       maskLayer.style.removeProperty("-webkit-mask-image");
       maskLayer.style.removeProperty("mask-image");
+      maskLayer.style.removeProperty("clip-path");
+      maskLayer.style.removeProperty("-webkit-clip-path");
     }
     const refresh = () => maskRefreshRef.current?.();
     const timers = [0, 80, 180, 360].map(delay => window.setTimeout(refresh, delay));

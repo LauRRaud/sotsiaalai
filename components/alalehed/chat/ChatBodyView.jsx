@@ -112,7 +112,10 @@ export default function ChatBodyView({
         {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
           <div className="relative overflow-visible">
             <GlassRing className={chatContainerClassName} style={chatRingStyle} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef} data-chat-container="true" data-chat-theme={isLightTheme ? "light" : "dark"} data-chat-layout={isMobile ? "mobile" : "desktop"} data-chat-layout-focus={focusActive ? "true" : "false"}>
-              {useMaskedChatSurface && !isMobile ? <div ref={maskLayerRef} className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none [background:var(--glass-ring-sheen,none),var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
+              {useMaskedChatSurface && !isMobile ? <div ref={maskLayerRef} className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none [background:var(--glass-ring-sheen,none),var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" style={{
+                maskImage: "none",
+                WebkitMaskImage: "none"
+              }} aria-hidden="true" /> : null}
               {useMaskedChatSurface && isMobile ? (
                 <div
                   ref={maskLayerRef}

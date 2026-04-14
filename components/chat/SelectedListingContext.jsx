@@ -11,7 +11,6 @@ import {
   glassPageBackTopLeftClassName,
   glassPrimaryButtonToneClassName,
   glassSubpageContentWideClassName,
-  glassSubpageMobileReadableWidthClassName,
   glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
   glassPageTitleClassName
@@ -285,6 +284,12 @@ export default function SelectedListingContext({
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static selected-listing-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const mobileTitleWrapClassName =
     "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+  const selectedListingBodyClassName = inline
+    ? `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.55rem] px-[0.78rem] pt-[0.12rem] pb-[0.4rem] [scrollbar-gutter:stable] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.2rem] max-[768px]:pt-[0.1rem]`
+    : `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.25rem] [scrollbar-gutter:stable] max-[768px]:px-[0.2rem]`;
+  const selectedListingPanelClassName = inline
+    ? `${glassSubpagePanelWideClassName} relative !max-h-none !overflow-hidden !p-[0.62rem] !shadow-none max-[768px]:!p-[0.28rem]`
+    : `${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] !p-[0.5rem] !shadow-none max-[768px]:!p-[0.85rem]`;
   const statusRowVisible = Boolean(listing?.statusLabel || (isOwn && listing));
 
   const selectedListingContent = (
@@ -315,13 +320,11 @@ export default function SelectedListingContext({
         </div>
       ) : null}
 
-      <div
-        className={`selected-listing-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.25rem] pr-[0.55rem] max-[768px]:px-[0.2rem] max-[768px]:pr-[0.2rem]`}
-      >
+      <div className={selectedListingBodyClassName}>
         <Panel
           variant="subpage"
           padding="sm"
-          className={`${glassSubpagePanelWideClassName} mt-[0.9rem] max-[768px]:mt-[0.8rem] !p-[0.5rem] !shadow-none max-[768px]:!p-[0.85rem]`}
+          className={selectedListingPanelClassName}
         >
           {loading ? <div className="px-2 py-4 text-[1rem] opacity-80">{ui.loading}</div> : null}
           {!loading && error ? <div className="px-2 py-4 text-[1rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
@@ -472,7 +475,7 @@ export default function SelectedListingContext({
 
   if (inline) {
     return (
-      <div className={`${glassPrimaryButtonToneClassName} selected-listing-inline flex min-h-0 flex-1 flex-col overflow-visible`}>
+      <div className={`${glassPrimaryButtonToneClassName} selected-listing-inline flex min-h-0 w-full flex-1 flex-col overflow-visible`}>
         {selectedListingContent}
       </div>
     );
