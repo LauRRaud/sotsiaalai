@@ -1059,6 +1059,51 @@ test("offer flow drops vague intent phrase from final title and description", as
   assert.match(String(finalResult.workflowState?.draft?.compensationDetails || ""), /10 eurot tund/i);
 });
 
+test("offer availability keeps kokkuleppel when later timing adds weekdays", async () => {
+  const start = await runHelpChatWorkflow({
+    forcedIntent: "create_help_offer",
+    message: "Pakun tasuta juhendamist SotsiaalAI platvormi kasutamisel Tabasalus. Aitan alustada, tutvustan platvormi võimalusi ning näitan, kuidas sealt infot, juhiseid ja tuge leida. Sobiva aja saame omavahel kokku leppida.",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  const afterCategory = await runHelpChatWorkflow({
+    message: "digiabi",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: start.workflowState
+  }, createPrismaStub());
+
+  const afterAudience = await runHelpChatWorkflow({
+    message: "kõigile vanusegruppidele",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterCategory.workflowState
+  }, createPrismaStub());
+
+  const afterTiming = await runHelpChatWorkflow({
+    message: "tööpäevadel, ühekordne abi",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterAudience.workflowState
+  }, createPrismaStub());
+
+  const finalResult = afterTiming.workflowState?.activeQuestionKey === "create_help_offer:conditions"
+    ? await runHelpChatWorkflow({
+        message: "ei",
+        userId: "user-1",
+        replyLang: "et",
+        workflowState: afterTiming.workflowState
+      }, createPrismaStub())
+    : afterTiming;
+
+  assert.equal(finalResult.handled, true);
+  assert.match(String(finalResult.workflowState?.draft?.availabilityOrStart || ""), /tööpäevadel/i);
+  assert.match(String(finalResult.workflowState?.draft?.availabilityOrStart || ""), /kokkuleppel/i);
+  assert.equal(finalResult.workflowState?.draft?.timeType, "ONE_TIME");
+  assert.match(String(finalResult.reply || ""), /Saadavus \/ algus:\s*Tööpäevadel, kokkuleppel/i);
+});
+
 test("timing answer does not overwrite existing offer category or target group", async () => {
   const state = createHelpWorkflowDraftState({
     intent: "create_help_offer",

@@ -643,11 +643,7 @@ export default function ProfiilBody({
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${rootW} ${rootH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}"/></svg>`;
       return encodeSvgMask(svg);
     };
-    const updateMask = () => {
-      if (isTiltActive() && lastMask) {
-        pendingAfterTilt = true;
-        return;
-      }
+    const updateMask = ({ force = false } = {}) => {
       if (box.dataset?.orbitOpen === "true") {
         if (maskLayer) {
           maskLayer.style.setProperty("-webkit-mask-image", "none");
@@ -677,7 +673,7 @@ export default function ProfiilBody({
       const pillRadiusRaw = Number.parseFloat(window.getComputedStyle(pill).borderTopLeftRadius);
       const pillRadius = Number.isFinite(pillRadiusRaw) ? pillRadiusRaw : pillLocal.h / 2;
       const mask = buildMask(boxW, boxH, pillLocal, pillRadius);
-      if (mask && mask !== lastMask) {
+      if (mask && (mask !== lastMask || force)) {
         box.style.setProperty("--profile-role-hole-mask", mask);
         if (maskLayer) {
           maskLayer.style.setProperty("--profile-role-hole-mask", mask);
@@ -694,7 +690,9 @@ export default function ProfiilBody({
         rafLoop = 0;
         return;
       }
-      updateMask();
+      updateMask({
+        force: isTiltActive()
+      });
       rafLoop = window.requestAnimationFrame(tick);
     };
     const startLoop = () => {
@@ -705,10 +703,6 @@ export default function ProfiilBody({
       }
     };
     const scheduleUpdate = () => {
-      if (isTiltActive() && lastMask) {
-        pendingAfterTilt = true;
-        return;
-      }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
         updateMask();

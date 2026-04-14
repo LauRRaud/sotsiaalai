@@ -139,10 +139,6 @@ export function useChatInputHoleMask({
       }, 120);
     };
     const updateMask = ({ force = false, bypassThrottle = false } = {}) => {
-      if (isTiltActive() && lastMask) {
-        pendingAfterTilt = true;
-        return;
-      }
       const ts = nowMs();
       if (
         !force &&
@@ -219,7 +215,9 @@ export function useChatInputHoleMask({
         rafLoop = 0;
         return;
       }
-      updateMask();
+      updateMask({
+        force: isTiltActive()
+      });
       rafLoop = window.requestAnimationFrame(tick);
     };
     const startLoop = () => {
@@ -235,10 +233,6 @@ export function useChatInputHoleMask({
       loop = true,
       bypassThrottle = false
     } = {}) => {
-      if (isTiltActive() && lastMask) {
-        pendingAfterTilt = true;
-        return;
-      }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
         updateMask({
@@ -254,10 +248,6 @@ export function useChatInputHoleMask({
       immediate = false,
       bypassThrottle = false
     } = {}) => {
-      if (isTiltActive() && lastMask) {
-        pendingAfterTilt = true;
-        return;
-      }
       if (isMobileViewport && !force && !immediate) {
         if (mobileDebounceTimer) {
           window.clearTimeout(mobileDebounceTimer);
