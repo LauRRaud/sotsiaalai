@@ -43,11 +43,11 @@ export function ChatTopNotices({
   const roomTitleClassName =
     "chat-room-title mx-auto w-full max-w-[min(36rem,calc(100%-2.4rem))] text-center " +
     "mt-[clamp(2.5rem,7vh,4.4rem)] mb-[0.66rem] " +
-    "text-[clamp(1.34rem,1.14rem+0.7vw,1.78rem)] leading-[1.08] tracking-[0.02em] " +
+    "text-[1.98em] leading-[1.08] tracking-[0.03em] " +
     "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
     "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] " +
     "max-[768px]:max-w-[calc(100%-2rem)] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2.2rem)] " +
-    "max-[768px]:mb-[0.36rem] max-[768px]:text-[clamp(1.32rem,5.4vw,1.8rem)]";
+    "max-[768px]:mb-[0.36rem] max-[768px]:text-[clamp(1.72rem,6.15vw,2.02rem)] max-[768px]:tracking-[0.016em]";
 
   return <>
     {isRoomMode && displayRoomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={15}>

@@ -53,7 +53,7 @@ const roomActionButtonClassName =
   "[.theme-light_&]:border-[rgba(148,163,184,0.5)] [.theme-light_&]:bg-[rgba(255,255,255,0.9)] [.theme-light_&]:text-[#1f2937] [.theme-light_&:hover]:border-[rgba(148,163,184,0.72)] [.theme-light_&:hover]:bg-[rgba(255,255,255,1)]";
 const roomDeleteButtonClassName =
   "cs-delete inline-flex h-[2rem] w-[2rem] items-center justify-center rounded-full border px-0 py-0 " +
-  "transition-[transform,border-color,background,color,box-shadow] duration-150 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-55 disabled:cursor-not-allowed " +
+  "transition-[border-color,background,color,box-shadow] duration-150 focus-visible:outline-none disabled:opacity-55 disabled:cursor-not-allowed " +
   "border-[color:var(--drawer-delete-border,rgba(192,72,72,0.48))] bg-[color:var(--drawer-delete-bg,rgba(72,24,32,0.34))] text-[color:var(--drawer-delete-text,#ffd6d6)] shadow-[var(--drawer-delete-shadow,none)] " +
   "hover:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] hover:bg-[color:var(--drawer-delete-bg-hover,rgba(96,28,40,0.52))] hover:text-[color:var(--drawer-delete-text-hover,#ffe6e6)] hover:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,none))] " +
   "focus-visible:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] focus-visible:bg-[color:var(--drawer-delete-bg-hover,rgba(96,28,40,0.52))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe6e6)] focus-visible:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,none))]";
@@ -681,7 +681,6 @@ export default function RoomsPage() {
                                       onClick={() => openDeleteConfirm(room)}
                                       disabled={deletingId === room.id}
                                       aria-label={t("rooms.delete")}
-                                      title={t("rooms.delete")}
                                     >
                                       <svg
                                         className="cs-trash-icon h-[1.05rem] w-[1.05rem] max-[768px]:h-[1.14rem] max-[768px]:w-[1.14rem]"

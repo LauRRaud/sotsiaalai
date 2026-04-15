@@ -164,10 +164,12 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "border-0 [box-shadow:var(--rail-tooltip-shadow,var(--subpage-card-shadow,0_12px_24px_rgba(0,0,0,0.18)))] " +
     "[-webkit-backdrop-filter:none] [backdrop-filter:none]";
   const userMessageRowClassName =
-    "chat-msg-user flex w-full justify-end pr-[clamp(0.24rem,0.65vw,0.48rem)] max-[768px]:pr-[0.08rem]";
+    "chat-msg-user flex w-full justify-end pr-[clamp(0.42rem,0.95vw,0.78rem)] max-[768px]:pr-[0.18rem]";
   const userBubbleClassName =
-    "chat-msg-user-bubble inline-block min-w-0 w-fit max-w-[min(84%,44rem)] text-left [overflow-wrap:anywhere] break-words " +
-    `${roomBubbleSurfaceClassName} rounded-[1.28rem] rounded-br-[0.5rem] ` +
+    "chat-msg-user-bubble mr-[0.04rem] max-[768px]:mr-[0.08rem] inline-block min-w-0 w-fit max-w-[min(84%,44rem)] text-left [overflow-wrap:anywhere] break-words " +
+    "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] border-0 " +
+    "[box-shadow:var(--rail-tooltip-shadow,var(--subpage-card-shadow,0_12px_24px_rgba(0,0,0,0.18)))] " +
+    "[-webkit-backdrop-filter:none] [backdrop-filter:none] rounded-[1.28rem] rounded-br-[0.5rem] " +
     "px-[0.96rem] py-[0.72rem] text-[1.1rem] leading-[1.42] tracking-[0.015em] font-[400] " +
     "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] transition-[transform] duration-200";
   const memberBubbleClassName =
