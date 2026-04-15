@@ -152,11 +152,12 @@
   background: transparent;
 }
 .a11y-modal-shell .csp-scrim--bottom {
+  height: clamp(8.25rem, 15vh, 10.5rem);
   background: linear-gradient(
     to top,
     var(--csp-surface) 0%,
-    var(--csp-surface) 82%,
-    rgba(255, 255, 255, 0.18) 94%,
+    var(--csp-surface) 72%,
+    rgba(255, 255, 255, 0.18) 90%,
     transparent 100%
   );
 }

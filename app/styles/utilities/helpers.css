@@ -106,6 +106,24 @@ body.login-modal-open {
   mask-composite: exclude;
 }
 
+.a11y-modal-shell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(8.5rem, 17vh, 11.5rem);
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(251, 250, 248, 0.84))) 0%,
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(251, 250, 248, 0.84))) 42%,
+    rgba(251, 250, 248, 0.18) 78%,
+    transparent 100%
+  );
+}
+
 body[data-a11y-scroll-lock="1"] .profile-orbit-layer,
 body[data-a11y-scroll-lock="1"] .profile-orbit-menu__center-shell,
 body[data-a11y-scroll-lock="1"] .profile-orbit-menu__center-pulse {
