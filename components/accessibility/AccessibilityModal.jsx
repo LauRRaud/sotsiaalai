@@ -21,7 +21,7 @@ const modalRootMobileClassName =
 const modalRootDesktopClassName =
   "glass-ring--desktop-stable min-[769px]:[--ring-ui-reserve:var(--ring-ui-reserve-page)] min-[769px]:[--ring-fit-w:calc(100vw-(2*var(--ring-fit-pad,calc(1.5*var(--base-rem)))))] min-[769px]:[--ring-fit-h:calc(100dvh-(2*var(--ring-fit-pad,calc(1.5*var(--base-rem))))-var(--ring-ui-reserve,calc(9*var(--base-rem))))] min-[769px]:[--ring-fit:min(var(--ring-fit-w),var(--ring-fit-h))] min-[769px]:[--ring-max:min(var(--ring-desktop-max,calc(55*var(--base-rem))),calc(var(--ring-base-max,calc(50*var(--base-rem)))*var(--ring-scale,1)))] min-[769px]:[--ring-diameter-default:min(var(--ring-max),max(var(--ring-base-min,calc(34*var(--base-rem))),var(--ring-fit)))] min-[769px]:w-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:h-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:max-w-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:max-h-[var(--ring-diameter,var(--ring-diameter-default))] min-[769px]:rounded-full min-[769px]:overflow-hidden min-[769px]:px-[1.35rem] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)]";
 const scrollAreaClassName =
-  "a11y-csp-scroll csp-container w-full flex flex-col items-center text-center gap-[2.8rem] flex-1 min-h-0 relative z-0 overflow-y-auto overflow-x-hidden bg-transparent [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[0.5rem] py-[1.1rem] overscroll-contain [--csp-title-offset:0px] [mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)]";
+  "a11y-csp-scroll csp-container w-full flex flex-col items-center text-center gap-[2.8rem] flex-1 min-h-0 relative z-0 overflow-y-auto overflow-x-hidden bg-transparent [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[0.5rem] py-[1.1rem] overscroll-contain [--csp-title-offset:0px]";
 const scrollAreaMobileClassName =
   "max-[768px]:w-full max-[768px]:px-[1.1rem] max-[768px]:gap-[clamp(1.45rem,4.2vh,2.5rem)]";
 const fieldsetClassName =
@@ -38,7 +38,7 @@ const languageOptionLabelClassName =
   "text-[clamp(1.04rem,2.55vw,1.16rem)] max-[768px]:text-[clamp(1.14rem,4.6vw,1.36rem)]";
 const optionsRowClassName =
   "flex flex-wrap justify-center items-center gap-[0.8rem_1.05rem] max-[768px]:gap-[1.26rem_1.3rem] w-full max-w-[42rem] mx-auto";
-const screenProfileFieldsetClassName = "a11y-screenprofile-fieldset min-[769px]:!mb-[3.6rem] min-[769px]:!pb-[4.35rem] max-[768px]:!mb-[4.55rem] max-[768px]:!pt-[1.42rem] max-[768px]:!pb-[4.7rem] max-[768px]:!min-h-[16.7rem]";
+const screenProfileFieldsetClassName = "a11y-screenprofile-fieldset min-[769px]:!mb-[3.6rem] min-[769px]:!pb-[4.35rem] max-[768px]:!mb-[1.75rem] max-[768px]:!pt-[1.42rem] max-[768px]:!pb-[3.15rem] max-[768px]:!min-h-[14.1rem]";
 const screenProfileLegendClassName = "";
 const screenProfileOptionsClassName = "a11y-screenprofile-options mt-0 flex-wrap max-[768px]:flex-wrap max-[768px]:mb-[0rem]";
 const screenProfileOptionsDesktopClassName = "min-[769px]:gap-[0.72rem] min-[769px]:justify-center";
@@ -499,7 +499,7 @@ export default function AccessibilityModal({
             <ChevronIcon direction="up" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
           </span>
         </div>
-        <div className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${!hasUserStartedScroll && canScrollDown ? "is-scroll-cue" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
+        <div className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${!isScrolled && canScrollDown ? "is-scroll-cue" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
             <ChevronIcon direction="down" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
           </span>
@@ -627,9 +627,15 @@ export default function AccessibilityModal({
               type="checkbox"
               checked={reduceMotion}
               onChange={e => setReduceMotion(e.target.checked)}
-              className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardCenteredClassName} ${motionShiftClassName}`}
+              className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardCenteredClassName} ${motionShiftClassName} a11y-motion-reduce-option`}
             >
-              <span>{t("accessibility.options.motion.reduce")}</span>
+              {locale === "et" ? <>
+                  <span className="max-[768px]:hidden">{t("accessibility.options.motion.reduce")}</span>
+                  <span className="hidden max-[768px]:inline text-center">
+                    <span className="block">Vähenda animatsioone</span>
+                    <span className="block">ja läbipaistvust</span>
+                  </span>
+                </> : <span>{t("accessibility.options.motion.reduce")}</span>}
             </OptionCard>
           </fieldset>
 

@@ -111,6 +111,30 @@
   );
   scroll-snap-type: y proximity;
   scroll-behavior: auto;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 10%,
+    #000 84%,
+    rgba(0, 0, 0, 0.72) 89%,
+    rgba(0, 0, 0, 0.28) 95%,
+    rgba(0, 0, 0, 0.04) 99%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 10%,
+    #000 84%,
+    rgba(0, 0, 0, 0.72) 89%,
+    rgba(0, 0, 0, 0.28) 95%,
+    rgba(0, 0, 0, 0.04) 99%,
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .a11y-csp-scroll.csp-container .csp-item {
@@ -121,6 +145,10 @@
 .a11y-csp-scroll.csp-container .a11y-save-step {
   scroll-snap-align: center;
   scroll-snap-stop: normal;
+}
+.a11y-modal-shell .csp-scrim--top,
+.a11y-modal-shell .csp-scrim--bottom {
+  background: transparent;
 }
 .csp-step {
   min-height: clamp(6.2rem, 10.5vh, 7.8rem);
@@ -198,11 +226,10 @@
   animation: none;
 }
 .csp-scrim--bottom.csp-scrim--chevron.is-scroll-cue .csp-chevron-frame {
-  animation: cspScrollCue 1.55s ease-in-out infinite;
+  animation: cspScrollCueFrame 1.55s ease-in-out infinite alternate;
 }
 .csp-scrim--bottom.csp-scrim--chevron.is-scroll-cue .csp-chevron-icon {
-  animation: none;
-  opacity: 0.82;
+  animation: cspScrollCueIcon 1.55s ease-in-out infinite alternate;
 }
 
 :root {
@@ -257,22 +284,22 @@
     opacity: 0.22;
   }
 }
-@keyframes cspScrollCue {
+@keyframes cspScrollCueFrame {
   0% {
-    transform: translateX(-50%) scale(0.76);
-    opacity: 0.26;
-  }
-  42% {
-    transform: translateX(-50%) scale(1.22);
-    opacity: 0.88;
-  }
-  72% {
-    transform: translateX(-50%) scale(0.86);
-    opacity: 0.42;
+    transform: translateX(-50%) scale(0.96);
+    opacity: 0.46;
   }
   100% {
-    transform: translateX(-50%) scale(0.76);
-    opacity: 0.26;
+    transform: translateX(-50%) scale(1.08);
+    opacity: 0.78;
+  }
+}
+@keyframes cspScrollCueIcon {
+  0% {
+    opacity: 0.46;
+  }
+  100% {
+    opacity: 0.78;
   }
 }
 .csp-overlayTitle {
