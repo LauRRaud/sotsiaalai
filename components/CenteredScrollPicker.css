@@ -157,7 +157,7 @@
     to top,
     var(--csp-surface) 0%,
     var(--csp-surface) 72%,
-    rgba(255, 255, 255, 0.18) 90%,
+    color-mix(in srgb, var(--csp-surface) 28%, transparent) 90%,
     transparent 100%
   );
 }

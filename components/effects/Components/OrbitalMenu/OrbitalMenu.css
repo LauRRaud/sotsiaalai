@@ -1295,33 +1295,26 @@ html[data-contrast="hc"]
   box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
 }
 
-:root:not(.theme-light) .profile-orbit-mobile-scrim--top {
-  background: linear-gradient(
-      to bottom,
-      rgba(10, 12, 18, 0.92),
-    rgba(10, 12, 18, 0)
-  );
-}
-:root:not(.theme-light) .profile-orbit-mobile-scrim--bottom {
-  background: linear-gradient(
-    to top,
-    rgba(10, 12, 18, 0.92),
-    rgba(10, 12, 18, 0)
-  );
-}
-
-:root.theme-light .profile-orbit-mobile-scrim--top {
+:root .profile-orbit-mobile-scrim--top {
   background: linear-gradient(
     to bottom,
-    rgba(252, 253, 255, 0.92),
-    rgba(252, 253, 255, 0)
+    color-mix(
+      in srgb,
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 94%,
+      transparent
+    ),
+    transparent
   );
 }
-:root.theme-light .profile-orbit-mobile-scrim--bottom {
+:root .profile-orbit-mobile-scrim--bottom {
   background: linear-gradient(
     to top,
-    rgba(252, 253, 255, 0.92),
-    rgba(252, 253, 255, 0)
+    color-mix(
+      in srgb,
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 94%,
+      transparent
+    ),
+    transparent
   );
 }
 :root:not(.theme-light) .profile-orbit-mobile-chevron {
