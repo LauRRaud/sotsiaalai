@@ -529,15 +529,15 @@ export default function ChatComposer({
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
     "transition-[top,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top] max-[768px]:transition-none";
   const composerMainClassName =
-    "flex min-w-0 flex-[1_1_auto] flex-col items-end";
+    "relative flex min-w-0 flex-[1_1_auto] flex-col items-end";
   const composerAssistRowClassName =
-    "mt-[0.14rem] flex w-full max-w-[min(100%,var(--chat-input-max-w))] items-center justify-end " +
-    "pr-[clamp(0.08rem,0.36vw,0.16rem)] max-[768px]:mt-[0.12rem] max-[768px]:pr-[0.06rem]";
+    "absolute left-0 right-0 top-[calc(100%+0.14rem)] flex w-full max-w-[min(100%,var(--chat-input-max-w))] items-center justify-end " +
+    "pr-[clamp(0.08rem,0.36vw,0.16rem)] max-[768px]:top-[calc(100%+0.12rem)] max-[768px]:pr-[0.06rem]";
   const composerModeRowClassName =
-    "pointer-events-none mt-[0.08rem] flex w-full max-w-[min(100%,var(--chat-input-max-w))] items-center justify-center " +
-    "max-[768px]:mt-[0.06rem]";
+    "pointer-events-none absolute left-0 right-0 top-[calc(100%+1.5rem)] flex w-full max-w-[min(100%,var(--chat-input-max-w))] items-center justify-center " +
+    "max-[768px]:top-[calc(100%+1.4rem)]";
   const modeLabelWrapClassName =
-    "translate-x-[-0.92rem] text-center max-[768px]:translate-x-[-0.44rem]";
+    "relative translate-x-[-0.92rem] text-center max-[768px]:translate-x-[-0.44rem]";
   const inputRowModeClassName = embedded
     ? "relative mt-0 w-full max-w-full gap-[0.4rem] pl-0 pr-0 [--chat-input-max-w:100%]"
     : "relative mt-[clamp(0.6rem,1.8vh,1.1rem)] " +
