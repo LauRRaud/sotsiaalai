@@ -19,6 +19,7 @@ const UI_SCALE_INIT_SCRIPT = `(function () {
     return null;
   }
   function normalizeProfile(value) {
+    if (value === "mac") return "mac";
     if (value === "lg" || value === "xl") return "lg";
     if (value === "sm" || value === "md") return "sm";
     return null;
@@ -30,7 +31,10 @@ const UI_SCALE_INIT_SCRIPT = `(function () {
     return 1;
   }
   function resolveProfileScale(value) {
-    return normalizeProfile(value) === "lg" ? 1.2 : 1;
+    var profile = normalizeProfile(value);
+    if (profile === "lg") return 1.25;
+    if (profile === "mac") return 1.18;
+    return 1;
   }
   function apply(textScale, profile) {
     var root = document.documentElement;
@@ -132,6 +136,7 @@ function normalizeColorTheme(colorTheme) {
   return allowed.has(colorTheme) ? colorTheme : "default";
 }
 function normalizeUiProfile(uiProfile) {
+  if (uiProfile === "mac") return "mac";
   if (uiProfile === "lg" || uiProfile === "xl") return "lg";
   return "sm";
 }

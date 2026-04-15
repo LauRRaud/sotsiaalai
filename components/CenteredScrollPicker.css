@@ -197,6 +197,13 @@
 .csp-scrim--chevron.is-hidden .csp-chevron-icon {
   animation: none;
 }
+.csp-scrim--bottom.csp-scrim--chevron.is-scroll-cue .csp-chevron-frame {
+  animation: cspScrollCue 1.55s ease-in-out infinite;
+}
+.csp-scrim--bottom.csp-scrim--chevron.is-scroll-cue .csp-chevron-icon {
+  animation: none;
+  opacity: 0.82;
+}
 
 :root {
   --csp-arrow-color: #c57171;
@@ -250,6 +257,24 @@
     opacity: 0.22;
   }
 }
+@keyframes cspScrollCue {
+  0% {
+    transform: translateX(-50%) scale(0.76);
+    opacity: 0.26;
+  }
+  42% {
+    transform: translateX(-50%) scale(1.22);
+    opacity: 0.88;
+  }
+  72% {
+    transform: translateX(-50%) scale(0.86);
+    opacity: 0.42;
+  }
+  100% {
+    transform: translateX(-50%) scale(0.76);
+    opacity: 0.26;
+  }
+}
 .csp-overlayTitle {
   position: absolute;
   left: 50%;
@@ -269,6 +294,9 @@
   .csp-chevron-icon {
     animation: none !important;
     opacity: 0.6;
+  }
+  .csp-scrim--bottom.csp-scrim--chevron.is-scroll-cue .csp-chevron-frame {
+    animation: none !important;
   }
 }
 

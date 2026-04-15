@@ -380,8 +380,9 @@
         "night": "Night"
       },
       "screen_profile": {
-        "sm": "Mobile / laptop",
-        "lg": "Mac / PC / external screen"
+        "sm": "Mobile / laptop screen",
+        "mac": "Apple laptop",
+        "lg": "External monitor / PC"
       }
     },
     "save": "Save",
@@ -1513,7 +1514,7 @@
       "sections_v2": {
         "accessibility": {
           "title": "1. Language and accessibility",
-          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens automatically. You can reopen the same view later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose Estonian, Russian, or English.</li><li><strong>Screen profile.</strong> Choose either \"Mobile / laptop\" or \"Mac / PC / external screen\" so the display fits your device better.</li><li><strong>Text size.</strong> Adjust the text size to what feels most comfortable.</li><li><strong>Contrast.</strong> Enable stronger contrast when needed.</li><li><strong>Animations.</strong> Turn on \"Reduce motion\" for a calmer and more stable experience.</li><li><strong>Theme.</strong> You can switch the color mode between light, dim, dark, and night themes.</li><li><strong>Save and reset.</strong> Changes apply immediately, but you can change preferences on the Profile page and save them again when needed.</li></ul>"
+          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens automatically. You can reopen the same view later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose Estonian, Russian, or English.</li><li><strong>Screen profile.</strong> Choose \"Mobile / laptop screen\", \"Apple laptop\", or \"External monitor / PC\" so the display fits your device better.</li><li><strong>Text size.</strong> Adjust the text size to what feels most comfortable.</li><li><strong>Contrast.</strong> Enable stronger contrast when needed.</li><li><strong>Animations.</strong> Turn on \"Reduce motion\" for a calmer and more stable experience.</li><li><strong>Theme.</strong> You can switch the color mode between light, dim, dark, and night themes.</li><li><strong>Save and reset.</strong> Changes apply immediately, but you can change preferences on the Profile page and save them again when needed.</li></ul>"
         },
         "home": {
           "title": "2. Home page",

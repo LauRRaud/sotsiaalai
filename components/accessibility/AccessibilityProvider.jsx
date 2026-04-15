@@ -15,7 +15,7 @@ const DEFAULT_PREFS = {
 };
 const COLOR_THEME_KEYS = new Set(["default", "green", "blue", "neutral", "gold", "red", "purple"]);
 const UI_SCALE_VALUES = new Set(["sm", "md", "lg", "xl"]);
-const UI_PROFILE_VALUES = new Set(["sm", "lg"]);
+const UI_PROFILE_VALUES = new Set(["sm", "mac", "lg"]);
 const UI_SCALE_STORAGE_KEY = "sotsiaalai.uiScale";
 const UI_PROFILE_STORAGE_KEY = "sotsiaalai.uiProfile";
 let themeSwitchClearTimer = null;
@@ -51,7 +51,8 @@ function resolveUIScaleValue(uiScale, uiProfile) {
         : normalized === "xl"
           ? 1.25
           : 1;
-  const profileFactor = normalizeUIProfile(uiProfile) === "lg" ? 1.2 : 1;
+  const profile = normalizeUIProfile(uiProfile);
+  const profileFactor = profile === "lg" ? 1.25 : profile === "mac" ? 1.18 : 1;
   return profileFactor * textFactor;
 }
 function normalizeTheme(theme) {

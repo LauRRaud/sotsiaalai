@@ -1739,6 +1739,14 @@
   }
 }
 
+.a11y-screenprofile-option--bottom {
+  flex-basis: 100% !important;
+  max-width: max-content !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  justify-content: center !important;
+}
+
 @media (max-width: 768px) and (display-mode: standalone),
   (max-width: 768px) and (display-mode: fullscreen) {
   .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {

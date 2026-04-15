@@ -38,10 +38,10 @@ const languageOptionLabelClassName =
   "text-[clamp(1.04rem,2.55vw,1.16rem)] max-[768px]:text-[clamp(1.14rem,4.6vw,1.36rem)]";
 const optionsRowClassName =
   "flex flex-wrap justify-center items-center gap-[0.8rem_1.05rem] max-[768px]:gap-[1.26rem_1.3rem] w-full max-w-[42rem] mx-auto";
-const screenProfileFieldsetClassName = "a11y-screenprofile-fieldset max-[768px]:!pt-[1.42rem] max-[768px]:!pb-[1.55rem] max-[768px]:!min-h-[11.8rem]";
+const screenProfileFieldsetClassName = "a11y-screenprofile-fieldset min-[769px]:!mb-[3.6rem] min-[769px]:!pb-[4.35rem] max-[768px]:!mb-[4.55rem] max-[768px]:!pt-[1.42rem] max-[768px]:!pb-[4.7rem] max-[768px]:!min-h-[16.7rem]";
 const screenProfileLegendClassName = "";
-const screenProfileOptionsClassName = "a11y-screenprofile-options mt-0 flex-nowrap max-[768px]:flex-wrap max-[768px]:mb-[0rem]";
-const screenProfileOptionsDesktopClassName = "min-[769px]:gap-[0.55rem] min-[769px]:justify-center";
+const screenProfileOptionsClassName = "a11y-screenprofile-options mt-0 flex-wrap max-[768px]:flex-wrap max-[768px]:mb-[0rem]";
+const screenProfileOptionsDesktopClassName = "min-[769px]:gap-[0.72rem] min-[769px]:justify-center";
 const textScaleFieldsetClassName = "a11y-textscale-fieldset max-[768px]:!pt-[1.42rem] max-[768px]:!pb-[1.55rem] max-[768px]:!min-h-[11.8rem]";
 const textScaleAfterSingleLanguageClassName = "max-[768px]:!pt-[1.42rem]";
 const textScaleLegendClassName = "";
@@ -91,7 +91,7 @@ export default function AccessibilityModal({
   const a11yTitleLine2 = t("profile.preferences.title_line2");
   const router = useRouter();
   const normalizeUiProfile = value =>
-    value === "lg" || value === "xl" ? "lg" : "sm";
+    value === "mac" ? "mac" : value === "lg" || value === "xl" ? "lg" : "sm";
   const initialUiScale = requireInitialSelection ? null : prefs.uiScale || "md";
   const initialUiProfile = requireInitialSelection ? null : prefs.uiProfile || normalizeUiProfile(prefs.uiScale);
   const initialLang = requireInitialSelection ? null : locale || "et";
@@ -499,7 +499,7 @@ export default function AccessibilityModal({
             <ChevronIcon direction="up" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
           </span>
         </div>
-        <div className={`csp-scrim csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
+        <div className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${!hasUserStartedScroll && canScrollDown ? "is-scroll-cue" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
             <ChevronIcon direction="down" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
           </span>
@@ -612,7 +612,10 @@ export default function AccessibilityModal({
               <OptionCard type="radio" name="sp" value="sm" checked={uiProfile === "sm"} onChange={() => setUiProfile("sm")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.screen_profile.sm")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="sp" value="lg" checked={uiProfile === "lg"} onChange={() => setUiProfile("lg")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
+              <OptionCard type="radio" name="sp" value="mac" checked={uiProfile === "mac"} onChange={() => setUiProfile("mac")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.screen_profile.mac")}</span>
+              </OptionCard>
+              <OptionCard type="radio" name="sp" value="lg" checked={uiProfile === "lg"} onChange={() => setUiProfile("lg")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName} a11y-screenprofile-option--bottom`}>
                 <span>{t("accessibility.options.screen_profile.lg")}</span>
               </OptionCard>
             </div>
