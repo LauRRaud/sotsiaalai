@@ -75,6 +75,7 @@
 :global(html[data-ui-profile="mac"]) .rightRail,
 :global(html[data-ui-scale="mac"]) .rightRail {
   --rail-profile-scale: 1;
+  --rail-step-factor: 1.26;
 }
 
 :global(html[data-ui-profile="lg"]) .rightRail,
