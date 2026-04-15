@@ -125,11 +125,9 @@ export function useChatStream(config) {
 
     if (cfg.isRoomMode) {
       if (cfg.roomBlocked) {
-        cfg.setErrorBanner?.(tr("chat.room.blocked"));
         return false;
       }
       if (cfg.roomAuthRequired) {
-        cfg.setErrorBanner?.(tr("chat.room.auth_required"));
         return false;
       }
 
@@ -147,11 +145,9 @@ export function useChatStream(config) {
         const data = await res.json().catch(() => ({}));
 
         if (res.status === 403) {
-          cfg.setErrorBanner?.(tr("chat.room.blocked"));
           return false;
         }
         if (res.status === 401) {
-          cfg.setErrorBanner?.(tr("chat.room.auth_required"));
           return false;
         }
         if (!res.ok || data?.ok === false) {
@@ -511,6 +507,12 @@ export function useChatStream(config) {
             });
           }
         } else {
+          const isSilentRoomAccessError =
+            cfg.isRoomMode &&
+            (err?.chatKey === "chat.room.blocked" || err?.chatKey === "chat.room.auth_required");
+          if (isSilentRoomAccessError) {
+            return false;
+          }
           const isSubscriptionRequired = err?.chatKey === "api.common.subscription_required";
           const errText = isSubscriptionRequired
             ? tr("chat.error.subscription_required_profile")

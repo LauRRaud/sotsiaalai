@@ -352,7 +352,7 @@ export default function SelectedListingContext({
               ) : null}
 
               {editState ? (
-                <div className="documents-workspace grid gap-[0.8rem] pt-[0.35rem]">
+                <div className="documents-workspace grid gap-[0.62rem] pt-0">
                   <TextField
                     label={ui.title}
                     value={editState.title}
@@ -455,15 +455,17 @@ export default function SelectedListingContext({
                     label={ui.selectOwnListing}
                     value={selectedConnectListingId}
                     onChange={(value) => onSelectConnectListing?.(value)}
-                    options={[
-                      { value: "", label: connectOptions.length ? "-" : ui.noOwnOptions },
-                      ...connectOptions.map((item) => ({
-                        value: item.id,
-                        label: item.title
-                      }))
-                    ]}
+                    options={connectOptions.length
+                      ? connectOptions.map((item) => ({
+                          value: item.id,
+                          label: item.title
+                        }))
+                      : [{
+                          value: "",
+                          label: ui.noOwnOptions
+                        }]}
                   />
-                  <div className={actionRowClassName}>
+                  <div className={`${actionRowClassName} pt-0`}>
                     <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onConnect} disabled={connectDisabled}>
                       {busyAction === "connect" ? `${kindActionLabel}...` : kindActionLabel}
                     </Button>

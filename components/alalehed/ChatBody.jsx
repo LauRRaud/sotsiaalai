@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import LoginModal from "@/components/LoginModal";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -238,6 +238,7 @@ export default function ChatBody({
   emailVerifiedEntry = false
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const {
     data: session,
     status
@@ -286,6 +287,12 @@ export default function ChatBody({
   const autoLoginHandledRef = useRef(false);
   const verifyEntryUrlClearedRef = useRef(false);
   const helpUi = useMemo(() => getHelpUiText(t), [t]);
+  const effectiveRoomId = useMemo(() => {
+    const roomIdFromSearch = typeof searchParams?.get === "function"
+      ? String(searchParams.get("roomId") || "").trim()
+      : "";
+    return roomIdFromSearch || roomId || null;
+  }, [roomId, searchParams]);
   const [activeListingsPanel, setActiveListingsPanel] = useState(null);
   const [listingsPanelClosing, setListingsPanelClosing] = useState(false);
   const [listingsPanelState, setListingsPanelState] = useState(() => createEmptyListingsPanelState());
@@ -320,7 +327,7 @@ export default function ChatBody({
     pendingRoomAiIdsRef,
     seenRoomAiIdsRef
   } = useChatRoomMode({
-    roomId,
+    roomId: effectiveRoomId,
     sessionUserId,
     t
   });
@@ -649,7 +656,7 @@ export default function ChatBody({
     getLatestHelpWorkflowState
   } = useChatConversationState({
     isRoomMode,
-    roomId,
+    roomId: effectiveRoomId,
     isGenerating: isGeneratingForSave,
     setErrorBanner,
     setIsCrisis,
@@ -701,7 +708,7 @@ export default function ChatBody({
   const emptyIntroSeen = emptyIntroSeenStored || emptyIntroSeenOverride;
   useEffect(() => {
     setComposerHasDraft(false);
-  }, [convId, locale, roomId, sessionUserId, sessionUserRole]);
+  }, [convId, effectiveRoomId, locale, sessionUserId, sessionUserRole]);
   useEffect(() => {
     setEmptyIntroSeenOverride(false);
   }, [emptyIntroSeenStorageKey]);
@@ -1120,6 +1127,9 @@ export default function ChatBody({
           connectOptions = Array.isArray(optionsPayload?.items) ? optionsPayload.items : [];
         }
       }
+      const initialConnectListingId = connectOptions[0]?.id
+        ? String(connectOptions[0].id).trim()
+        : "";
 
       setSelectedListingState({
         loading: false,
@@ -1127,7 +1137,7 @@ export default function ChatBody({
         listing: payload.listing,
         isOwn: Boolean(payload.isOwn),
         connectOptions,
-        selectedConnectListingId: "",
+        selectedConnectListingId: initialConnectListingId,
         edit: null,
         busyAction: ""
       });
@@ -1306,7 +1316,18 @@ export default function ChatBody({
         busyAction: ""
       }));
       if (roomTarget) {
-        pushWithTransition(router, roomTarget);
+        if (activeListingsPanel) {
+          closeListingsPanel({
+            afterClose: () => {
+              pushWithTransition(router, roomTarget);
+            }
+          });
+          return;
+        }
+        dismissSelectedListing();
+        requestAnimationFrame(() => {
+          pushWithTransition(router, roomTarget);
+        });
       }
     } catch (error) {
       setSelectedListingState((prev) => ({
@@ -1315,7 +1336,7 @@ export default function ChatBody({
         error: error?.message || helpUi.connectFailed
       }));
     }
-  }, [helpUi.connectFailed, locale, router, selectedListingState.listing, selectedListingState.selectedConnectListingId]);
+  }, [activeListingsPanel, closeListingsPanel, dismissSelectedListing, helpUi.connectFailed, locale, router, selectedListingState.listing, selectedListingState.selectedConnectListingId]);
   const openGlobalRequestsPanel = useCallback(() => {
     openListingsPanel({
       key: "help_requests",
@@ -1473,7 +1494,7 @@ export default function ChatBody({
     ephemeralSource: analysis.ephemeralSource,
     uploadPreview: analysis.uploadPreview,
     isRoomMode,
-    roomId,
+    roomId: effectiveRoomId,
     roomBlocked,
     roomAuthRequired,
     sendToAssistant,
@@ -2168,7 +2189,7 @@ export default function ChatBody({
       mobileRailInteractionLocked={mobileRailInteractionLocked}
       showMobileRail={showMobileRail}
       isLightTheme={isLightTheme}
-      roomId={roomId}
+      roomId={effectiveRoomId}
       inputFocused={inputFocused}
       isMobile={viewportIsMobile}
       sourcesButtonRef={sourcesButtonRef}

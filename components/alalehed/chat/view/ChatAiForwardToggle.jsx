@@ -1,7 +1,7 @@
 const aiToggleRowClassName =
-  "mt-[0.18rem] mx-auto flex w-full max-w-[min(93%,45rem)] items-start justify-start " +
-  "pl-[calc(var(--chat-composer-side-control-size)+clamp(0.38rem,1.1vw,0.72rem))] " +
-  "pr-[clamp(0.8rem,2.7vw,1.5rem)] max-[768px]:mt-[0.14rem] max-[768px]:pl-[calc(var(--chat-composer-side-control-size)+0.18rem)]";
+  "mt-[0.08rem] mx-auto flex w-full items-center justify-end " +
+  "max-w-[min(100%,calc(var(--chat-input-max-w,100%)+var(--chat-composer-side-control-size,3.15rem)+0.58rem))] " +
+  "pr-[clamp(0.8rem,2.7vw,1.5rem)] max-[768px]:mt-[0.04rem] max-[768px]:pr-[clamp(0.7rem,3vw,1rem)]";
 const aiToggleLabelClassName =
   "inline-flex items-center gap-[0.58rem] text-left text-[0.95rem] leading-[1.2] " +
   "text-[color:var(--pt-120)] cursor-pointer select-none";

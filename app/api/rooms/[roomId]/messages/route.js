@@ -110,7 +110,14 @@ async function getMemberDisplayNames(roomId, authorIds) {
 async function ensureAccess(userId, roomId, userRole) {
   const room = await prisma.room.findUnique({
     where: { id: roomId },
-    select: { id: true }
+    select: {
+      id: true,
+      helpMatch: {
+        select: {
+          id: true
+        }
+      }
+    }
   });
   if (!room) return {
     ok: false,
@@ -140,7 +147,8 @@ async function ensureAccess(userId, roomId, userRole) {
   const billingAccess = hasRoomBillingAccess({
     userRole,
     membership: member,
-    hasActiveSubscription: userActive
+    hasActiveSubscription: userActive,
+    room
   });
   if (billingAccess.ok) return {
     ok: true,

@@ -2159,7 +2159,7 @@
 
 .documents-dropdown-menu {
   position: absolute;
-  top: calc(100% + 0.38rem);
+  top: calc(100% + 0.14rem);
   left: 0;
   z-index: 140;
   width: max-content;

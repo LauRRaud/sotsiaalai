@@ -157,7 +157,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "border-0 rounded-[1.28rem] rounded-br-[0.5rem] " +
     "[.theme-mid_&]:border-0 " +
     "px-[0.96rem] py-[0.72rem] text-[1.1rem] leading-[1.42] tracking-[0.015em] font-[400] " +
-    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] shadow-none " +
+    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] shadow-none light:[box-shadow:var(--chat-inputbar-shadow)] [.theme-mid_&]:[box-shadow:var(--chat-inputbar-shadow)] " +
     "[-webkit-backdrop-filter:none] [backdrop-filter:none] transition-[transform] duration-200";
   const memberBubbleClassName =
     "self-start text-left bg-[rgba(14,20,32,0.2)] " +

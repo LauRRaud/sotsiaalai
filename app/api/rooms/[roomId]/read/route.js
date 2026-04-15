@@ -87,7 +87,14 @@ export async function PUT(_req, { params }) {
   try {
     const room = await prisma.room.findUnique({
       where: { id: roomId },
-      select: { id: true }
+      select: {
+        id: true,
+        helpMatch: {
+          select: {
+            id: true
+          }
+        }
+      }
     });
     if (!room) return errorJson("api.rooms.not_found", 404);
 
@@ -110,7 +117,8 @@ export async function PUT(_req, { params }) {
       const billingAccess = hasRoomBillingAccess({
         userRole: auth.userRole,
         membership: member,
-        hasActiveSubscription: userActive
+        hasActiveSubscription: userActive,
+        room
       });
       if (!billingAccess.ok) {
         return errorJson("api.common.forbidden", 403);

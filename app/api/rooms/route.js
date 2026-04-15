@@ -85,6 +85,11 @@ export async function GET() {
             id: true,
             title: true,
             description: true,
+            helpMatch: {
+              select: {
+                id: true
+              }
+            },
             messages: {
               orderBy: { createdAt: "desc" },
               take: 1,
@@ -112,6 +117,11 @@ export async function GET() {
                 id: true,
                 title: true,
                 description: true,
+                helpMatch: {
+                  select: {
+                    id: true
+                  }
+                },
                 messages: {
                   orderBy: { createdAt: "desc" },
                   take: 1,
@@ -148,7 +158,8 @@ export async function GET() {
         return hasRoomBillingAccess({
           userRole: auth.userRole,
           membership: m,
-          hasActiveSubscription: userActiveSubscription
+          hasActiveSubscription: userActiveSubscription,
+          room: m.room
         }).ok;
       });
 

@@ -1,5 +1,15 @@
 import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
 
+function getCompactRoomTitle(roomTitle) {
+  const source = String(roomTitle || "").trim();
+  if (!source) return "";
+
+  const withoutLocation = source.split(/\s[-–—]\s/)[0]?.trim() || source;
+  const compact = withoutLocation.replace(/\s+(soov|pakkumine)\b.*$/iu, "").trim();
+
+  return compact || withoutLocation || source;
+}
+
 const chatAlertClassName =
   "mt-[0.5rem] mb-[0.75rem] self-center mx-auto text-center " +
   "w-fit max-w-[min(30rem,calc(100%-2.2rem))] whitespace-normal " +
@@ -22,39 +32,32 @@ const recordingNoticeClassName =
   "border-0 bg-transparent shadow-none backdrop-blur-0 [-webkit-backdrop-filter:none]";
 
 export function ChatTopNotices({
-  t,
+  t: _t,
   isRoomMode,
   roomTitle,
   isCrisis,
   crisisText,
-  errorBanner,
-  roomBlocked,
-  roomAuthRequired
+  errorBanner
 }) {
+  const displayRoomTitle = getCompactRoomTitle(roomTitle);
   const roomTitleClassName =
     "chat-room-title mx-auto w-full max-w-[min(36rem,calc(100%-2.4rem))] text-center " +
-    "mt-[clamp(0.3rem,0.9vh,0.68rem)] mb-[0.72rem] " +
+    "mt-[clamp(0.95rem,2.5vh,1.7rem)] mb-[0.66rem] " +
     "text-[clamp(1.34rem,1.14rem+0.7vw,1.78rem)] leading-[1.08] tracking-[0.02em] " +
     "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
     "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] " +
-    "max-[768px]:max-w-[calc(100%-2rem)] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+0.42rem)] " +
-    "max-[768px]:mb-[0.42rem] max-[768px]:text-[clamp(1.32rem,5.4vw,1.8rem)]";
+    "max-[768px]:max-w-[calc(100%-2rem)] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+0.92rem)] " +
+    "max-[768px]:mb-[0.36rem] max-[768px]:text-[clamp(1.32rem,5.4vw,1.8rem)]";
 
   return <>
-    {isRoomMode && roomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={15}>
-      {roomTitle}
+    {isRoomMode && displayRoomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={15}>
+      {displayRoomTitle}
     </AutoFitPageTitle> : null}
     {isCrisis ? <div role="alert" className={chatAlertClassName}>
       {crisisText}
     </div> : null}
     {errorBanner ? <div role="alert" className={chatAlertClassName}>
       {errorBanner}
-    </div> : null}
-    {isRoomMode && roomBlocked ? <div className={chatAlertClassName} role="alert">
-      {t("chat.room.blocked")}
-    </div> : null}
-    {isRoomMode && roomAuthRequired ? <div className={chatAlertClassName} role="alert">
-      {t("chat.room.auth_required")}
     </div> : null}
   </>;
 }
