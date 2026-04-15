@@ -28,12 +28,6 @@ function detectMobileViewport() {
 }
 
 function detectRailProfileScale() {
-  if (typeof document === "undefined") return 1;
-  const root = document.documentElement;
-  const profile = root?.dataset?.uiProfile;
-  const scale = root?.dataset?.uiScale;
-  if (profile === "lg" || scale === "lg") return 1.2;
-  if (profile === "mac" || scale === "mac") return 1.18;
   return 1;
 }
 
@@ -720,7 +714,8 @@ export default function LeftRail({
           .map(slot => {
             const { item, itemIndex, slotOffset } = slot;
             const curveOffset = slotOffset;
-            const offsetY = slotOffset * stepPx;
+            const outerSlotDistanceFactor = Math.abs(slotOffset) === 2 ? 0.94 : 1;
+            const offsetY = slotOffset * stepPx * outerSlotDistanceFactor;
             const curveNorm = Math.min(Math.abs(curveOffset) / 2, 1);
             const edgeCurveBoost =
               !inputFocused && (activeIndex === 0 || activeIndex === items.length - 1)
@@ -753,7 +748,6 @@ export default function LeftRail({
                 (activeIndex === items.length - 1 && slotOffset === -2))
                 ? 2.2 * railProfileScale
                 : 0;
-            const outerSlotDistanceFactor = Math.abs(slotOffset) === 2 ? 0.94 : 1;
             const offsetX =
               baseCurvePx * curveNorm * curveNorm +
               edgeSafetyPx *
@@ -841,7 +835,7 @@ export default function LeftRail({
                 style={{
                   transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(
                     2
-                  )}px) translateY(${(offsetY * outerSlotDistanceFactor).toFixed(2)}px) scale(${scale.toFixed(3)})`,
+                  )}px) translateY(${offsetY.toFixed(2)}px) scale(${scale.toFixed(3)})`,
                   opacity: opacity.toFixed(3),
                   zIndex
                 }}

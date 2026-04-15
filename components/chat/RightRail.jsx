@@ -26,12 +26,6 @@ function detectMobileViewport() {
 }
 
 function detectRailProfileScale() {
-  if (typeof document === "undefined") return 1;
-  const root = document.documentElement;
-  const profile = root?.dataset?.uiProfile;
-  const scale = root?.dataset?.uiScale;
-  if (profile === "lg" || scale === "lg") return 1.2;
-  if (profile === "mac" || scale === "mac") return 1.18;
   return 1;
 }
 

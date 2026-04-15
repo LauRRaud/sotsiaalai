@@ -60,7 +60,7 @@
   outline: none;
   z-index: 70;
   --rail-profile-scale: 1;
-  --rail-item-size: calc(var(--hud-icon, 3rem) * var(--rail-profile-scale));
+  --rail-item-size: var(--hud-icon, 3rem);
   --rail-icon-scale: 0.79;
   --rail-step-factor: 1.12;
   --rail-edge-offset: calc(var(--rail-item-size) * 0.5);
@@ -74,12 +74,12 @@
 
 :global(html[data-ui-profile="mac"]) .rightRail,
 :global(html[data-ui-scale="mac"]) .rightRail {
-  --rail-profile-scale: 1.18;
+  --rail-profile-scale: 1;
 }
 
 :global(html[data-ui-profile="lg"]) .rightRail,
 :global(html[data-ui-scale="lg"]) .rightRail {
-  --rail-profile-scale: 1.2;
+  --rail-profile-scale: 1;
 }
 
 .item {
