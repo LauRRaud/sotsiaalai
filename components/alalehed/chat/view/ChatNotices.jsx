@@ -32,12 +32,16 @@ export function ChatTopNotices({
   roomAuthRequired
 }) {
   const roomTitleClassName =
-    "chat-room-title subpage-mobile-title subpage-mobile-title--static mx-auto max-w-[min(30rem,calc(100%-2.2rem))] text-center mt-[-0.6rem] mb-[0.9rem] " +
-    "text-[1.25rem] leading-[1.08] tracking-[0.02em] text-[color:var(--pt-200)] " +
-    "max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2rem)] max-[768px]:mb-[0.62rem]";
+    "chat-room-title mx-auto w-full max-w-[min(36rem,calc(100%-2.4rem))] text-center " +
+    "mt-[clamp(0.3rem,0.9vh,0.68rem)] mb-[0.72rem] " +
+    "text-[clamp(1.34rem,1.14rem+0.7vw,1.78rem)] leading-[1.08] tracking-[0.02em] " +
+    "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
+    "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] " +
+    "max-[768px]:max-w-[calc(100%-2rem)] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+0.42rem)] " +
+    "max-[768px]:mb-[0.42rem] max-[768px]:text-[clamp(1.32rem,5.4vw,1.8rem)]";
 
   return <>
-    {isRoomMode && roomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={17} disableFit>
+    {isRoomMode && roomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={15}>
       {roomTitle}
     </AutoFitPageTitle> : null}
     {isCrisis ? <div role="alert" className={chatAlertClassName}>

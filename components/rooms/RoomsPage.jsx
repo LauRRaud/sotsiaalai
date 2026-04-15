@@ -602,12 +602,7 @@ export default function RoomsPage() {
                                 localizePath(
                                   `/vestlus?roomId=${encodeURIComponent(room.id)}`,
                                   locale
-                                ),
-                                {
-                                  glassRingTilt: "right",
-                                  waitForGlassRingTilt: true,
-                                  persistGlassRingTilt: false
-                                }
+                                )
                               );
                             }}
                             className="grid w-full gap-[0.42rem] text-inherit no-underline"
@@ -645,7 +640,9 @@ export default function RoomsPage() {
                           {formattedLastActivity || hasRoomActions ? (
                             <div
                               className={`mt-[0.62rem] flex items-end gap-[0.45rem] ${
-                                hasRoomActions ? "justify-between" : "justify-end"
+                                formattedLastActivity && hasRoomActions
+                                  ? "justify-between"
+                                  : "justify-end"
                               }`}
                             >
                               {formattedLastActivity ? (
@@ -687,20 +684,20 @@ export default function RoomsPage() {
                                       title={t("rooms.delete")}
                                     >
                                       <svg
-                                        className="h-[1.08rem] w-[1.08rem]"
+                                        className="cs-trash-icon h-[1.05rem] w-[1.05rem] max-[768px]:h-[1.14rem] max-[768px]:w-[1.14rem]"
                                         viewBox="0 0 24 24"
                                         fill="none"
                                         stroke="currentColor"
-                                        strokeWidth="2"
+                                        strokeWidth="1.82"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         aria-hidden="true"
                                       >
-                                        <path d="M3 6h18" />
-                                        <path d="M8 6V4h8v2" />
-                                        <path d="M19 6l-1 14H6L5 6" />
-                                        <path d="M10 11v6" />
-                                        <path d="M14 11v6" />
+                                        <path d="M9 3.75h6a1 1 0 0 1 1 1V6H8V4.75a1 1 0 0 1 1-1Z" />
+                                        <path d="M4.75 6h14.5" />
+                                        <path d="M18.25 6l-.8 11.1a1.75 1.75 0 0 1-1.74 1.62H8.29a1.75 1.75 0 0 1-1.74-1.62L5.75 6" />
+                                        <path d="M10 9.25v5.75" />
+                                        <path d="M14 9.25v5.75" />
                                       </svg>
                                     </button>
                                   ) : null}

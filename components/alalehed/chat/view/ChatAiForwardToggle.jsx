@@ -1,5 +1,11 @@
-const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
-const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
+const aiToggleRowClassName =
+  "mt-[0.18rem] mx-auto flex w-full max-w-[min(93%,45rem)] items-start justify-start " +
+  "pl-[calc(var(--chat-composer-side-control-size)+clamp(0.38rem,1.1vw,0.72rem))] " +
+  "pr-[clamp(0.8rem,2.7vw,1.5rem)] max-[768px]:mt-[0.14rem] max-[768px]:pl-[calc(var(--chat-composer-side-control-size)+0.18rem)]";
+const aiToggleLabelClassName =
+  "inline-flex items-center gap-[0.58rem] text-left text-[0.95rem] leading-[1.2] " +
+  "text-[color:var(--pt-120)] cursor-pointer select-none";
+const aiToggleInputClassName = "ui-checkbox-glass h-[1.05rem] w-[1.05rem] shrink-0";
 
 export default function ChatAiForwardToggle({
   t,
@@ -11,10 +17,10 @@ export default function ChatAiForwardToggle({
 }) {
   if (!isRoomMode || !focusActive) return null;
 
-  return <div className="mt-[0.35rem] flex w-full max-w-[min(93%,45rem)] items-center justify-end gap-[0.45rem] mx-auto pl-[clamp(0.7rem,2.1vw,1.2rem)] pr-[clamp(0.8rem,2.7vw,1.5rem)]">
+  return <div className={aiToggleRowClassName}>
     <label className={aiToggleLabelClassName}>
       <input type="checkbox" className={aiToggleInputClassName} checked={sendToAssistant} onChange={e => setSendToAssistant(e.target.checked)} aria-describedby="chat-ai-hint" />
-      <span className="text-[0.95rem] leading-[1.2] text-[color:var(--pt-120)]">
+      <span className="pt-[0.02rem] text-[0.95rem] leading-[1.2] text-[color:var(--pt-120)]">
         {t("chat.ai_toggle.label")}
       </span>
     </label>
