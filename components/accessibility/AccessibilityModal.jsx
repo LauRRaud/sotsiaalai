@@ -236,8 +236,8 @@ export default function AccessibilityModal({
       const nextPadBottomBase = Math.max(0, Math.floor((viewH - lastH) / 2));
       const nextPad = nextPadTopBase;
       setScrollPad(prev => prev === nextPad ? prev : nextPad);
-      const topLiftPx = isMobileViewport ? 7 : 20;
-      const bottomLiftPx = isMobileViewport ? 5 : -padOffset;
+      const topLiftPx = isMobileViewport ? 7 : 0;
+      const bottomLiftPx = isMobileViewport ? 5 : -14;
       const nextTop = Math.max(0, nextPadTopBase - topLiftPx);
       const nextBottom = Math.max(0, nextPadBottomBase + bottomLiftPx);
       setScrollPadTop(prev => prev === nextTop ? prev : nextTop);
