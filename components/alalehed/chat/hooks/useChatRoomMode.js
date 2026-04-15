@@ -35,7 +35,7 @@ export function useChatRoomMode({
         id: m.id,
         role: isAssistant ? "ai" : isMine ? "user" : "member",
         text: m.content || "",
-        authorName: isAssistant ? t("chat.aria.assistant") : m.authorName || t("chat.aria.member"),
+        authorName: isAssistant ? t("chat.aria.assistant") : String(m.authorName || "").trim(),
         authorRole: m.authorRole || "MEMBER",
         createdAt: created,
         aiVisible: aiSeen
@@ -45,7 +45,7 @@ export function useChatRoomMode({
 
   const getVisibleMessages = useCallback(msgs => {
     if (!isRoomMode) return msgs;
-    const withTsAi = msgs.filter(m => m.role === "ai").map(m => ({
+    const withTsAi = msgs.filter(m => m.role === "ai" && m.roomScoped).map(m => ({
       ...m,
       createdAt: m.createdAt || Date.now()
     }));

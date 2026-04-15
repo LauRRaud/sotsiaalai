@@ -52,13 +52,15 @@ const roomActionButtonClassName =
   "focus-visible:outline-none focus-visible:border-[rgba(148,163,184,0.55)] focus-visible:bg-[rgba(34,36,42,0.52)] [.theme-night_&:focus-visible]:bg-[rgba(16,22,34,0.5)] active:translate-y-0 disabled:opacity-55 disabled:cursor-not-allowed " +
   "[.theme-light_&]:border-[rgba(148,163,184,0.5)] [.theme-light_&]:bg-[rgba(255,255,255,0.9)] [.theme-light_&]:text-[#1f2937] [.theme-light_&:hover]:border-[rgba(148,163,184,0.72)] [.theme-light_&:hover]:bg-[rgba(255,255,255,1)]";
 const roomDeleteButtonClassName =
-  "inline-flex h-[2rem] w-[2rem] items-center justify-center rounded-full border border-[rgba(192,72,72,0.48)] bg-[rgba(72,24,32,0.34)] text-[#ffd6d6] " +
-  "transition-[transform,border-color,background,color] duration-150 hover:-translate-y-[1px] hover:border-[rgba(255,120,120,0.72)] hover:bg-[rgba(96,28,40,0.52)] hover:text-[#ffe6e6] " +
-  "focus-visible:outline-none focus-visible:border-[rgba(255,120,120,0.72)] focus-visible:bg-[rgba(96,28,40,0.52)] focus-visible:text-[#ffe6e6] disabled:opacity-55 disabled:cursor-not-allowed " +
-  "[.theme-light_&]:border-[rgba(192,72,72,0.52)] [.theme-light_&]:bg-[rgba(255,235,235,0.92)] [.theme-light_&]:text-[#7a2323]";
+  "cs-delete inline-flex h-[2rem] w-[2rem] items-center justify-center rounded-full border px-0 py-0 " +
+  "transition-[transform,border-color,background,color,box-shadow] duration-150 hover:-translate-y-[1px] focus-visible:outline-none disabled:opacity-55 disabled:cursor-not-allowed " +
+  "border-[color:var(--drawer-delete-border,rgba(192,72,72,0.48))] bg-[color:var(--drawer-delete-bg,rgba(72,24,32,0.34))] text-[color:var(--drawer-delete-text,#ffd6d6)] shadow-[var(--drawer-delete-shadow,none)] " +
+  "hover:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] hover:bg-[color:var(--drawer-delete-bg-hover,rgba(96,28,40,0.52))] hover:text-[color:var(--drawer-delete-text-hover,#ffe6e6)] hover:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,none))] " +
+  "focus-visible:border-[color:var(--drawer-delete-border-hover,rgba(255,120,120,0.72))] focus-visible:bg-[color:var(--drawer-delete-bg-hover,rgba(96,28,40,0.52))] focus-visible:text-[color:var(--drawer-delete-text-hover,#ffe6e6)] focus-visible:shadow-[var(--drawer-delete-shadow-hover,var(--drawer-delete-shadow,none))]";
 const roomUnreadBadgeClassName =
-  "mt-[0.08rem] inline-flex items-center rounded-full border border-[rgba(212,94,94,0.58)] bg-[rgba(126,36,48,0.44)] px-[0.56rem] py-[0.14rem] text-[0.8rem] font-semibold tracking-[0.01em] text-[#ffe8e8] " +
-  "[.theme-light_&]:border-[rgba(198,74,90,0.62)] [.theme-light_&]:bg-[rgba(255,223,230,0.98)] [.theme-light_&]:text-[#7f1d2d]";
+  "rooms-unread-badge cs-title-badge mt-[0.08rem] inline-flex min-h-[2rem] min-w-[2rem] items-center justify-center rounded-full border px-[0.38rem] py-[0.16rem] text-center text-[0.92rem] font-semibold leading-none tracking-[-0.01em] " +
+  "border-[rgba(212,94,94,0.34)] bg-[rgba(126,36,48,0.16)] text-[color:var(--title-color,var(--brand-primary))] shadow-[0_8px_18px_rgba(82,50,46,0.08)] " +
+  "[.theme-light_&]:border-[color:color-mix(in_srgb,var(--title-color,var(--brand-primary))_22%,transparent)] [.theme-light_&]:bg-[rgba(255,255,255,0.72)] [.theme-light_&]:text-[color:color-mix(in_srgb,var(--title-color,var(--brand-primary))_82%,transparent)] [.theme-light_&]:shadow-[0_10px_20px_rgba(82,50,46,0.08)]";
 const modalTitleClassName =
   "text-center text-[1.45rem] leading-[1.2] tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const roomChevronStrokeWidthDesktop = 0.72;
@@ -612,14 +614,12 @@ export default function RoomsPage() {
                                 {room.title || t("rooms.fallback_title")}
                               </h2>
                               {room.unreadCount ? (
-                                <span
-                                  className={`${roomUnreadBadgeClassName} rooms-unread-badge`}
-                                  aria-label={`${t("rooms.unread")}: ${room.unreadCount}`}
-                                >
-                                  <span>
-                                    {t("rooms.unread")} {room.unreadCount}
+                                  <span
+                                    className={roomUnreadBadgeClassName}
+                                    aria-label={`${t("rooms.unread")}: ${room.unreadCount}`}
+                                  >
+                                    <span>{room.unreadCount}</span>
                                   </span>
-                                </span>
                               ) : null}
                             </div>
 
@@ -693,11 +693,11 @@ export default function RoomsPage() {
                                         strokeLinejoin="round"
                                         aria-hidden="true"
                                       >
-                                        <path d="M9 3.75h6a1 1 0 0 1 1 1V6H8V4.75a1 1 0 0 1 1-1Z" />
-                                        <path d="M4.75 6h14.5" />
-                                        <path d="M18.25 6l-.8 11.1a1.75 1.75 0 0 1-1.74 1.62H8.29a1.75 1.75 0 0 1-1.74-1.62L5.75 6" />
-                                        <path d="M10 9.25v5.75" />
-                                        <path d="M14 9.25v5.75" />
+                                        <polyline points="3 6 5 6 21 6" />
+                                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                        <path d="M10 11v6" />
+                                        <path d="M14 11v6" />
+                                        <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
                                       </svg>
                                     </button>
                                   ) : null}

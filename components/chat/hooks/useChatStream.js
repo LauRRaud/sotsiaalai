@@ -393,7 +393,8 @@ export function useChatStream(config) {
             attachments,
             cards,
             workflow,
-            aiVisible: true
+            aiVisible: true,
+            ...(cfg.isRoomMode ? { roomScoped: true } : {})
           });
 
           cfg.onAssistantMessageCreated?.(createdId);
@@ -417,7 +418,8 @@ export function useChatStream(config) {
           role: "ai",
           text: "",
           isStreaming: true,
-          aiVisible: true
+          aiVisible: true,
+          ...(cfg.isRoomMode ? { roomScoped: true } : {})
         });
 
         cfg.onAssistantMessageCreated?.(streamingMessageId);
@@ -503,7 +505,8 @@ export function useChatStream(config) {
           } else {
             cfg.appendMessage?.({
               role: "ai",
-              text: tr("chat.error.interrupted")
+              text: tr("chat.error.interrupted"),
+              ...(cfg.isRoomMode ? { roomScoped: true } : {})
             });
           }
         } else {
@@ -541,7 +544,8 @@ export function useChatStream(config) {
           } else {
             cfg.appendMessage?.({
               role: "ai",
-              text: errWithPrefix
+              text: errWithPrefix,
+              ...(cfg.isRoomMode ? { roomScoped: true } : {})
             });
           }
         }

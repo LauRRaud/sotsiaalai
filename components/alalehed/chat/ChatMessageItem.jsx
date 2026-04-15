@@ -142,28 +142,38 @@ const ChatMessageItem = memo(function ChatMessageItem({
 }) {
   const isAssistant = role === "ai";
   const isOwn = role === "user";
-  const authorLabel = isAssistant ? t("chat.aria.assistant") : isOwn ? t("chat.aria.user") : authorName || t("chat.aria.user");
+  const normalizedAuthorName = String(authorName || "").trim();
+  const hiddenAuthorNames = new Set([
+    String(t("chat.aria.member") || "").trim().toLowerCase(),
+    "liige",
+    "member"
+  ]);
+  const displayAuthorName =
+    normalizedAuthorName && !hiddenAuthorNames.has(normalizedAuthorName.toLowerCase())
+      ? normalizedAuthorName
+      : "";
+  const authorLabel = isAssistant ? t("chat.aria.assistant") : isOwn ? t("chat.aria.user") : displayAuthorName || t("chat.aria.user");
   const messageBaseClassName =
     "max-w-full leading-[1.45] mb-[0.35em]";
   const messageWrapClassName =
     "flex flex-col self-start mb-[0.35em] gap-[0.16em]";
   const nameClassName =
     "text-[0.95rem] tracking-[0.05em] text-[rgba(197,113,113,0.9)]";
+  const roomBubbleSurfaceClassName =
+    "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
+    "border-0 [box-shadow:var(--rail-tooltip-shadow,var(--subpage-card-shadow,0_12px_24px_rgba(0,0,0,0.18)))] " +
+    "[-webkit-backdrop-filter:none] [backdrop-filter:none]";
   const userMessageRowClassName =
     "chat-msg-user flex w-full justify-end pr-[clamp(0.24rem,0.65vw,0.48rem)] max-[768px]:pr-[0.08rem]";
   const userBubbleClassName =
     "chat-msg-user-bubble inline-block min-w-0 w-fit max-w-[min(84%,44rem)] text-left [overflow-wrap:anywhere] break-words " +
-    "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
-    "border-0 rounded-[1.28rem] rounded-br-[0.5rem] " +
-    "[.theme-mid_&]:border-0 " +
+    `${roomBubbleSurfaceClassName} rounded-[1.28rem] rounded-br-[0.5rem] ` +
     "px-[0.96rem] py-[0.72rem] text-[1.1rem] leading-[1.42] tracking-[0.015em] font-[400] " +
-    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] shadow-none light:[box-shadow:var(--chat-inputbar-shadow)] [.theme-mid_&]:[box-shadow:var(--chat-inputbar-shadow)] " +
-    "[-webkit-backdrop-filter:none] [backdrop-filter:none] transition-[transform] duration-200";
+    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] transition-[transform] duration-200";
   const memberBubbleClassName =
-    "self-start text-left bg-[rgba(14,20,32,0.2)] " +
-    "border-2 border-[rgba(240,240,240,0.35)] rounded-[1.15em] rounded-bl-[0.55em] " +
-    "px-[1em] py-[0.62em] shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_0.32rem_0.85rem_rgba(5,8,15,0.12)] " +
-    "light:border-[rgba(15,23,42,0.16)] light:bg-[rgba(255,255,255,0.74)]";
+    `inline-block min-w-0 w-fit max-w-[min(84%,44rem)] text-left [overflow-wrap:anywhere] break-words ${roomBubbleSurfaceClassName} ` +
+    "rounded-[1.28rem] rounded-bl-[0.5rem] px-[0.96rem] py-[0.72rem] text-[1.1rem] leading-[1.42] tracking-[0.015em] font-[400] " +
+    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))]";
   const aiBubbleClassName =
     "chat-msg-ai self-start w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
     "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500]";
@@ -269,7 +279,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "light:border-[rgba(15,23,42,0.12)] light:bg-[rgba(255,255,255,0.82)]";
   if (!isAssistant && !isOwn) {
     return <div className={messageWrapClassName} role="article" tabIndex={0} data-chat-message-id={messageId}>
-        {authorName ? <div className={nameClassName}>{authorName}</div> : null}
+        {displayAuthorName ? <div className={nameClassName}>{displayAuthorName}</div> : null}
         <div className={cn(messageBaseClassName, memberBubbleClassName)}>
           <span className="sr-only">
             {authorLabel}

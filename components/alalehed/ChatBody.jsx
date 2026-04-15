@@ -719,6 +719,15 @@ export default function ChatBody({
     setCareerLastResult(null);
     setCareerCurrentState(null);
   }, []);
+  useEffect(() => {
+    if (!isRoomMode) return;
+    setActiveWorkflow("default");
+    setShowSourcesPanel(false);
+    setActiveListingsPanel(null);
+    setListingsPanelClosing(false);
+    setListingsPanelState(createEmptyListingsPanelState());
+    setSelectedListingState(createEmptySelectedListingState());
+  }, [isRoomMode]);
   const goToSubscription = useCallback(() => {
     pushWithTransition(router, localizePath("/tellimus", locale));
   }, [locale, router]);
@@ -1060,6 +1069,7 @@ export default function ChatBody({
   }, []);
   const closeListingsPanel = useCallback((options = {}) => {
     const afterClose = typeof options.afterClose === "function" ? options.afterClose : null;
+    const skipAnimation = options?.skipAnimation === true;
     if (listingsPanelClosing) return;
     if (listingsPanelCloseTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(listingsPanelCloseTimerRef.current);
@@ -1077,7 +1087,7 @@ export default function ChatBody({
       setSelectedListingState(createEmptySelectedListingState());
       afterClose?.();
     };
-    if (shouldReducePanelMotion()) {
+    if (skipAnimation || shouldReducePanelMotion()) {
       finishClose();
       return;
     }
@@ -1318,6 +1328,7 @@ export default function ChatBody({
       if (roomTarget) {
         if (activeListingsPanel) {
           closeListingsPanel({
+            skipAnimation: true,
             afterClose: () => {
               pushWithTransition(router, roomTarget);
             }
