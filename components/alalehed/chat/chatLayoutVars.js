@@ -35,10 +35,8 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
   "--chat-composer-listen-icon-size": "2.05rem",
   "--chat-composer-mic-icon-size": "1.82rem",
   "--chat-send-btn-scale": "0.965",
-  "--chat-send-btn-shift-x": "0.18rem",
+  "--chat-send-btn-shift-x": "0.1rem",
   "--chat-send-btn-shift-y": "0rem",
-  "--chat-send-btn-expanded-shift-x": "0.22rem",
-  "--chat-send-btn-expanded-shift-y": "0.16rem",
   "--chat-input-max-w":
     "min(clamp(calc(14.9 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.54), calc(19 * var(--base-rem))), calc(var(--chat-window-max-w) - clamp(calc(4.9 * var(--base-rem)), calc(var(--chat-diameter) * 0.092), calc(6.2 * var(--base-rem)))))",
   "--chat-ai-offset": "clamp(1.35rem, 3vw, 2.4rem)",

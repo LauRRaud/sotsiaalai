@@ -48,8 +48,8 @@ export function ChatTopNotices({
   const roomTitleClassName =
     `chat-room-title subpage-mobile-title subpage-mobile-title--static ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} ${glassPageTitleProminentClassName} ` +
     "mx-auto w-full max-w-[min(36rem,calc(100%-2.2rem))] " +
-    "min-[769px]:!text-[3.02rem] min-[769px]:mt-[clamp(2.95rem,7.2vh,4.75rem)] min-[769px]:mb-[0.22rem] " +
-    "max-[768px]:!text-[clamp(2.1rem,7.3vw,2.52rem)] " +
+    "min-[769px]:!text-[2.5rem] min-[769px]:mt-[clamp(2.95rem,7.2vh,4.75rem)] min-[769px]:mb-[0.22rem] " +
+    "max-[768px]:!text-[clamp(1.76rem,6.2vw,2.08rem)] " +
     "max-[768px]:max-w-[calc(100%-1.8rem)] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2.7rem)] " +
     "max-[768px]:mb-[0.08rem]";
 

@@ -159,10 +159,6 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "flex flex-col self-start mb-[0.35em] gap-[0.16em]";
   const nameClassName =
     "text-[0.95rem] tracking-[0.05em] text-[rgba(197,113,113,0.9)]";
-  const roomBubbleSurfaceClassName =
-    "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
-    "border-0 [box-shadow:var(--rail-tooltip-shadow,var(--subpage-card-shadow,0_12px_24px_rgba(0,0,0,0.18)))] " +
-    "[-webkit-backdrop-filter:none] [backdrop-filter:none]";
   const userMessageRowClassName =
     "chat-msg-user flex w-full justify-end pr-[clamp(0.42rem,0.95vw,0.78rem)] max-[768px]:pr-[0.18rem]";
   const userBubbleClassName =
@@ -172,10 +168,9 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "[-webkit-backdrop-filter:none] [backdrop-filter:none] rounded-[1.28rem] rounded-br-[0.5rem] " +
     "px-[0.96rem] py-[0.72rem] text-[1.1rem] leading-[1.42] tracking-[0.015em] font-[400] " +
     "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] transition-[transform] duration-200";
-  const memberBubbleClassName =
-    `inline-block min-w-0 w-fit max-w-[min(84%,44rem)] text-left [overflow-wrap:anywhere] break-words ${roomBubbleSurfaceClassName} ` +
-    "rounded-[1.28rem] rounded-bl-[0.5rem] px-[0.96rem] py-[0.72rem] text-[1.1rem] leading-[1.42] tracking-[0.015em] font-[400] " +
-    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))]";
+  const memberTextClassName =
+    "chat-msg-ai self-start w-full bg-transparent border-0 shadow-none py-[0.06em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
+    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500]";
   const aiBubbleClassName =
     "chat-msg-ai self-start w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
     "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500]";
@@ -282,7 +277,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   if (!isAssistant && !isOwn) {
     return <div className={messageWrapClassName} role="article" tabIndex={0} data-chat-message-id={messageId}>
         {displayAuthorName ? <div className={nameClassName}>{displayAuthorName}</div> : null}
-        <div className={cn(messageBaseClassName, memberBubbleClassName)}>
+        <div className={cn(messageBaseClassName, memberTextClassName)}>
           <span className="sr-only">
             {authorLabel}
             {": "}
