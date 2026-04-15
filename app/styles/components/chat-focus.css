@@ -114,6 +114,18 @@ body:is(
   mask-repeat: no-repeat;
 }
 
+.selected-listing-body--inline {
+  --help-scroll-fade-top: clamp(0.42rem, 1.05vh, 0.64rem);
+  --help-scroll-fade-bottom: clamp(0.72rem, 1.9vh, 1.08rem);
+  scrollbar-gutter: auto !important;
+}
+
+.selected-listing-body--inline > *,
+.selected-listing-body--inline .selected-listing-panel--inline {
+  width: 100% !important;
+  max-width: none !important;
+}
+
 .help-listings-scroll > *,
 .help-listings-item-card {
   box-sizing: border-box;

@@ -561,7 +561,7 @@ export default function ChatComposer({
   const sendButtonClassName =
     `chat-send-btn invite-primary-btn relative z-[2] ${displayExpanded ? "!h-[var(--inputbar-h)] !w-[var(--inputbar-h)] !min-h-[var(--inputbar-h)] !min-w-[var(--inputbar-h)] !flex-[0_0_var(--inputbar-h)]" : "!h-[calc(var(--inputbar-h)-2px)] !w-[calc(var(--inputbar-h)-2px)] !min-h-[calc(var(--inputbar-h)-2px)] !min-w-[calc(var(--inputbar-h)-2px)] !flex-[0_0_calc(var(--inputbar-h)-2px)]"} !p-0 rounded-full ` +
     "self-center flex items-center justify-center overflow-hidden leading-none " +
-    `${displayExpanded ? "translate-x-[0.2rem]" : "translate-x-0"} translate-y-[var(--chat-send-btn-shift-y,0rem)] ` +
+    `${displayExpanded ? "translate-x-[var(--chat-send-btn-expanded-shift-x,0.22rem)] translate-y-[var(--chat-send-btn-expanded-shift-y,0.16rem)]" : "translate-x-[var(--chat-send-btn-shift-x,0.18rem)] translate-y-[var(--chat-send-btn-shift-y,0rem)]"} ` +
     "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
