@@ -71,6 +71,11 @@ async function requireUser() {
   }
 }
 
+async function resolveInviteId(paramsLike) {
+  const params = paramsLike instanceof Promise ? await paramsLike : paramsLike;
+  return String(params?.id || "").trim();
+}
+
 export async function POST(request, { params }) {
   let body = {};
   try {
@@ -85,7 +90,7 @@ export async function POST(request, { params }) {
     return errorJson("api.common.unauthorized", 401, locale);
   }
 
-  const id = String(params?.id || "").trim();
+  const id = await resolveInviteId(params);
   if (!id) {
     return errorJson("api.invites.missing_id", 400, locale, {
       code: "MISSING_ID"

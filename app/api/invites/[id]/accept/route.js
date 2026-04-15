@@ -119,8 +119,13 @@ function addOneMonth(date) {
   return next;
 }
 
+async function resolveInviteToken(paramsLike) {
+  const params = paramsLike instanceof Promise ? await paramsLike : paramsLike;
+  return String(params?.id || "").trim();
+}
+
 export async function POST(request, { params }) {
-  const tokenRaw = String(params?.id || "").trim();
+  const tokenRaw = await resolveInviteToken(params);
 
   let payload = {};
   try {

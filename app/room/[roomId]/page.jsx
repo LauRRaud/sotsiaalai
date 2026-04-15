@@ -8,7 +8,8 @@ export default async function RoomPage({
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
   const chatPath = localizePath("/vestlus", locale);
-  const roomId = params?.roomId ? String(params.roomId).trim() : "";
+  const resolvedParams = await params;
+  const roomId = resolvedParams?.roomId ? String(resolvedParams.roomId).trim() : "";
   if (roomId) {
     redirect(`${chatPath}?roomId=${encodeURIComponent(roomId)}`);
   }

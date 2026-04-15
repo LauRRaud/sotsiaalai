@@ -91,6 +91,11 @@ function buildJoinLink(token) {
   return `${base.replace(/\/+$/, "")}/join?token=${encodeURIComponent(token)}`;
 }
 
+async function resolveInviteId(paramsLike) {
+  const params = paramsLike instanceof Promise ? await paramsLike : paramsLike;
+  return String(params?.id || "").trim();
+}
+
 async function sendInviteEmail({ to, token, roomTitle, inviterName, locale }) {
   const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
   if (!from) {
@@ -131,7 +136,7 @@ export async function POST(request, { params }) {
     return errorJson("api.common.unauthorized", 401, locale);
   }
 
-  const id = String(params?.id || "").trim();
+  const id = await resolveInviteId(params);
   if (!id) {
     return errorJson("api.invites.missing_id", 400, locale, {
       code: "MISSING_ID"
