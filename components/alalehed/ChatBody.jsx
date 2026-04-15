@@ -341,6 +341,8 @@ export default function ChatBody({
     roomBlocked,
     roomAuthRequired,
     roomTitle,
+    roomRole,
+    isHelpMatchRoom,
     sendToAssistant,
     setSendToAssistant,
     getVisibleMessages,
@@ -1839,6 +1841,22 @@ export default function ChatBody({
   const activeModeLabel = useMemo(() => {
     return getWorkflowModeLabel(t, activeWorkflow);
   }, [activeWorkflow, t]);
+  const roomModeLabel = useMemo(() => {
+    if (!isRoomMode || !isHelpMatchRoom) return "";
+    if (roomRole === "OWNER") {
+      const value = t("chat.tools.help_request_mode");
+      return value && value !== "chat.tools.help_request_mode"
+        ? value
+        : "Abisoov";
+    }
+    if (roomRole === "MEMBER") {
+      const value = t("chat.tools.help_offer_mode");
+      return value && value !== "chat.tools.help_offer_mode"
+        ? value
+        : "Abipakkumine";
+    }
+    return "";
+  }, [isHelpMatchRoom, isRoomMode, roomRole, t]);
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
       const message = visibleMessages[i];
@@ -2237,6 +2255,7 @@ export default function ChatBody({
       roomAuthRequired={roomAuthRequired}
       modeNotice={modeNotice}
       activeModeLabel={activeModeLabel}
+      roomModeLabel={roomModeLabel}
       activeModeKey={activeWorkflow}
       chatWindowRef={chatWindowRef}
       isStreamingAny={isStreamingAny}

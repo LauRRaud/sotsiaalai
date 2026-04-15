@@ -36,6 +36,8 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   const [blocked, setBlocked] = useState(false);
   const [authRequired, setAuthRequired] = useState(false);
   const [roomTitle, setRoomTitle] = useState("");
+  const [roomRole, setRoomRole] = useState("");
+  const [isHelpMatchRoom, setIsHelpMatchRoom] = useState(false);
   const [useSse, setUseSse] = useState(false);
   const cursorRef = useRef(null);
   const timerRef = useRef(null);
@@ -140,6 +142,8 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     async function loadRoomTitle() {
       if (!roomId) {
         setRoomTitle("");
+        setRoomRole("");
+        setIsHelpMatchRoom(false);
         return;
       }
       try {
@@ -149,6 +153,8 @@ export function useRoomMessages(roomId, pollMs = 3000) {
         const data = await res.json().catch(() => ({}));
         if (!cancelled && res.ok && data?.ok) {
           setRoomTitle(String(data.roomTitle || ""));
+          setRoomRole(String(data.role || "").trim().toUpperCase());
+          setIsHelpMatchRoom(data.isHelpMatchRoom === true);
         }
       } catch {}
     }
@@ -171,6 +177,8 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     blocked,
     authRequired,
     roomTitle,
+    roomRole,
+    isHelpMatchRoom,
     reload: () => load(true),
     setMessages,
     useSse

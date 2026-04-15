@@ -12,7 +12,9 @@ export function useChatRoomMode({
     messages: roomMessages,
     blocked: roomBlocked,
     authRequired: roomAuthRequired,
-    roomTitle
+    roomTitle,
+    roomRole,
+    isHelpMatchRoom
   } = useRoomMessages(roomId || "", 3000);
   const aiVisibleByMessageId = useRef(new Map());
   const pendingRoomAiIdsRef = useRef([]);
@@ -74,6 +76,8 @@ export function useChatRoomMode({
     roomBlocked,
     roomAuthRequired,
     roomTitle,
+    roomRole,
+    isHelpMatchRoom,
     sendToAssistant,
     setSendToAssistant,
     getVisibleMessages,

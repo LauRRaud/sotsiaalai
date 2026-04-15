@@ -78,7 +78,14 @@ export async function GET(_req, { params }) {
   const [room, members] = await Promise.all([
     prisma.room.findUnique({
       where: { id: roomId },
-      select: { title: true }
+      select: {
+        title: true,
+        helpMatch: {
+          select: {
+            id: true
+          }
+        }
+      }
     }),
     prisma.roomMember.findMany({
       where: {
@@ -109,6 +116,7 @@ export async function GET(_req, { params }) {
     ok: true,
     role: membership.role,
     roomTitle: room?.title || "",
+    isHelpMatchRoom: Boolean(room?.helpMatch?.id),
     members: members.map(m => ({
       userId: m.userId,
       role: m.role,
