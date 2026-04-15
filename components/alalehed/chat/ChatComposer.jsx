@@ -530,13 +530,14 @@ export default function ChatComposer({
     "transition-[top,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top] max-[768px]:transition-none";
   const composerMainClassName =
     "flex min-w-0 flex-[1_1_auto] flex-col items-end";
-  const composerMetaRowClassName =
-    "relative mt-[0.22rem] w-full max-w-[min(100%,var(--chat-input-max-w))] min-h-[1.7rem] " +
-    "max-[768px]:mt-[0.18rem] max-[768px]:min-h-[1.56rem]";
-  const composerMetaToggleClassName =
-    "relative z-[1] ml-auto pr-[clamp(0.08rem,0.36vw,0.16rem)] max-[768px]:pr-[0.06rem]";
+  const composerAssistRowClassName =
+    "mt-[0.14rem] flex w-full max-w-[min(100%,var(--chat-input-max-w))] items-center justify-end " +
+    "pr-[clamp(0.08rem,0.36vw,0.16rem)] max-[768px]:mt-[0.12rem] max-[768px]:pr-[0.06rem]";
+  const composerModeRowClassName =
+    "pointer-events-none mt-[0.08rem] flex w-full max-w-[min(100%,var(--chat-input-max-w))] items-center justify-center " +
+    "max-[768px]:mt-[0.06rem]";
   const modeLabelWrapClassName =
-    "pointer-events-none absolute inset-x-0 top-1/2 z-0 flex -translate-y-1/2 items-center justify-center text-center";
+    "translate-x-[-0.92rem] text-center max-[768px]:translate-x-[-0.44rem]";
   const inputRowModeClassName = embedded
     ? "relative mt-0 w-full max-w-full gap-[0.4rem] pl-0 pr-0 [--chat-input-max-w:100%]"
     : "relative mt-[clamp(0.6rem,1.8vh,1.1rem)] " +
@@ -764,18 +765,18 @@ export default function ChatComposer({
               </Button>}
           </div>
         </div>
-        {modeToggleShowsActiveState || (isRoomMode && focusActive) ? <div className={composerMetaRowClassName}>
-            {modeToggleShowsActiveState && displayModeLabel ? <div className={modeLabelWrapClassName}>
-                <span
-                  aria-hidden="true"
-                  className={modeLabelClassName}
-                  style={modeLabelStyle}
-                >
-                  {displayModeLabel}
-                </span>
-                <span className="sr-only">{displayModeLabel}</span>
-              </div> : null}
-            <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} className={composerMetaToggleClassName} />
+        <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} className={composerAssistRowClassName} />
+        {modeToggleShowsActiveState && displayModeLabel ? <div className={composerModeRowClassName}>
+            <div className={modeLabelWrapClassName}>
+              <span
+                aria-hidden="true"
+                className={modeLabelClassName}
+                style={modeLabelStyle}
+              >
+                {displayModeLabel}
+              </span>
+              <span className="sr-only">{displayModeLabel}</span>
+            </div>
           </div> : null}
       </div>
     </form>;
