@@ -31,6 +31,15 @@ function detectRailProfileScale() {
   return 1;
 }
 
+function detectRailStepSpread() {
+  if (typeof document === "undefined") return 1;
+  const root = document.documentElement;
+  const profile = root?.dataset?.uiProfile;
+  const scale = root?.dataset?.uiScale;
+  if (profile === "mac" || scale === "mac") return 1.18;
+  return 1;
+}
+
 function _getHelpLabels(locale = "et") {
   const normalized = String(locale || "et").trim().toLowerCase();
   if (normalized === "en") {
@@ -114,6 +123,7 @@ export default function LeftRail({
   const [backHoverReady, setBackHoverReady] = useState(true);
   const [isRouteTilting, setIsRouteTilting] = useState(false);
   const [railProfileScale, setRailProfileScale] = useState(() => detectRailProfileScale());
+  const [railStepSpread, setRailStepSpread] = useState(1);
   const [stepPx, setStepPx] = useState(() =>
     Math.round(DEFAULT_RAIL_ITEM_SIZE_PX * DEFAULT_RAIL_STEP_FACTOR * detectRailProfileScale())
   );
@@ -233,6 +243,8 @@ export default function LeftRail({
       if (Number.isFinite(profileScaleParsed) && profileScaleParsed > 0) {
         setRailProfileScale(prev => (Math.abs(prev - profileScaleParsed) > 0.001 ? profileScaleParsed : prev));
       }
+      const nextStepSpread = detectRailStepSpread();
+      setRailStepSpread(prev => (Math.abs(prev - nextStepSpread) > 0.001 ? nextStepSpread : prev));
       if (!Number.isFinite(parsed)) return;
       setStepPx(prev => {
         const next = Math.round(parsed);
@@ -715,7 +727,7 @@ export default function LeftRail({
             const { item, itemIndex, slotOffset } = slot;
             const curveOffset = slotOffset;
             const outerSlotDistanceFactor = Math.abs(slotOffset) === 2 ? 0.94 : 1;
-            const offsetY = slotOffset * stepPx * outerSlotDistanceFactor;
+            const offsetY = slotOffset * stepPx * outerSlotDistanceFactor * railStepSpread;
             const curveNorm = Math.min(Math.abs(curveOffset) / 2, 1);
             const edgeCurveBoost =
               !inputFocused && (activeIndex === 0 || activeIndex === items.length - 1)

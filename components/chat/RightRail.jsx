@@ -29,6 +29,15 @@ function detectRailProfileScale() {
   return 1;
 }
 
+function detectRailStepSpread() {
+  if (typeof document === "undefined") return 1;
+  const root = document.documentElement;
+  const profile = root?.dataset?.uiProfile;
+  const scale = root?.dataset?.uiScale;
+  if (profile === "mac" || scale === "mac") return 1.18;
+  return 1;
+}
+
 export default function RightRail({
   t,
   locale = "et",
@@ -67,6 +76,7 @@ export default function RightRail({
   const [tooltipLabelIndex, setTooltipLabelIndex] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
   const [railProfileScale, setRailProfileScale] = useState(() => detectRailProfileScale());
+  const [railStepSpread, setRailStepSpread] = useState(1);
   const [stepPx, setStepPx] = useState(() =>
     Math.round(DEFAULT_RAIL_ITEM_SIZE_PX * DEFAULT_RAIL_STEP_FACTOR * detectRailProfileScale())
   );
@@ -139,6 +149,8 @@ export default function RightRail({
       if (Number.isFinite(profileScaleParsed) && profileScaleParsed > 0) {
         setRailProfileScale(prev => (Math.abs(prev - profileScaleParsed) > 0.001 ? profileScaleParsed : prev));
       }
+      const nextStepSpread = detectRailStepSpread();
+      setRailStepSpread(prev => (Math.abs(prev - nextStepSpread) > 0.001 ? nextStepSpread : prev));
       if (!Number.isFinite(parsed)) return;
       setStepPx(prev => {
         const next = Math.round(parsed);
@@ -590,7 +602,7 @@ export default function RightRail({
         const inviteProfileGapPx = !viewportIsMobile && it?.key === "profile"
           ? -(4.2 * railProfileScale)
           : 0;
-        const offsetY = (slotOffset * stepPx * outerSlotDistanceFactor) + inviteProfileGapPx;
+        const offsetY = (slotOffset * stepPx * outerSlotDistanceFactor * railStepSpread) + inviteProfileGapPx;
         const norm = Math.min(Math.abs(slotOffset) / 2, 1);
         const scale = 0.88 + (1 - norm) * 0.36;
         const opacity = slotOffset === 0 ? 1 : 0.32 + (1 - norm) * 0.48;

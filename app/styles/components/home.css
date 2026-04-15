@@ -326,6 +326,13 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   outline: none;
 }
 
+html[data-ui-profile="mac"] .homepage-root .three-d-card.left,
+html[data-ui-profile="mac"] .homepage-root .three-d-card.right,
+html[data-ui-scale="mac"] .homepage-root .three-d-card.left,
+html[data-ui-scale="mac"] .homepage-root .three-d-card.right {
+  width: calc(var(--card-size) * 0.88) !important;
+}
+
 .homepage-root .home-card-a11y-button:focus-visible {
   outline: 3px solid var(--focus-ring, rgba(96, 165, 250, 0.95));
   outline-offset: 0.55rem;
