@@ -251,8 +251,10 @@ export default function ChatComposer({
   const showAssistantToggleRow = Boolean(isRoomMode && focusActive);
   const showModeLabelRow = Boolean(displayModeLabel && (modeToggleShowsActiveState || roomModeLabel));
   const composerBottomReserveClassName =
-    showAssistantToggleRow || showModeLabelRow
-      ? "pb-[clamp(2.15rem,4.9vh,2.8rem)] max-[768px]:pb-[2.05rem]"
+    showAssistantToggleRow && showModeLabelRow
+      ? "pb-[clamp(4rem,8.2vh,4.9rem)] max-[768px]:pb-[3.55rem]"
+      : showAssistantToggleRow || showModeLabelRow
+        ? "pb-[clamp(2.2rem,5vh,2.9rem)] max-[768px]:pb-[2.15rem]"
       : "pb-0";
   const toolsMenuBackdropFilter = "none";
   const modeLabelClassName =
@@ -535,15 +537,15 @@ export default function ChatComposer({
   const inputRowClassName =
     `${embedded ? "chat-input-row--embedded " : ""}` +
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
-    "transition-[top,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top] max-[768px]:transition-none";
+    "transition-[top,margin-top,transform,padding-bottom,padding-top,padding-left,padding-right] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top,transform,padding-bottom] max-[768px]:transition-none";
   const composerMainClassName =
     "relative flex w-full max-w-[min(100%,var(--chat-input-max-w))] min-w-0 flex-[1_1_auto] items-stretch";
   const composerAssistRowClassName =
     "pointer-events-auto absolute left-1/2 top-[calc(100%+0.18rem)] flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end " +
-    "pr-[clamp(0.08rem,0.36vw,0.16rem)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.06rem]";
+    "pr-[clamp(1.2rem,3vw,1.65rem)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem]";
   const composerModeRowClassName =
-    "pointer-events-none absolute left-1/2 top-[calc(100%+1.5rem)] flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-center " +
-    "max-[768px]:top-[calc(100%+1.38rem)]";
+    "pointer-events-none absolute left-1/2 top-[calc(100%+1.28rem)] flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-center " +
+    "max-[768px]:top-[calc(100%+1.16rem)]";
   const modeLabelWrapClassName =
     "relative text-center";
   const inputRowModeClassName = embedded
@@ -559,12 +561,12 @@ export default function ChatComposer({
     "chat-inputbar relative grid w-full overflow-hidden " +
     `${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.08rem]" : "grid-cols-[1fr_auto] items-stretch gap-x-[0.24rem]"} ` +
     `${displayExpanded ? "min-h-[var(--inputbar-h)] rounded-[1.35rem]" : "h-[var(--inputbar-h)] rounded-full"} ` +
-    "transition-[border-color,box-shadow,background,max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "transition-[border-color,box-shadow,background,max-width,height,min-height,border-radius,padding,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     `${displayExpanded ? "pl-[0.62rem] pt-[0.56rem] pb-0 pr-0" : "pl-[0.6rem] pr-0 py-0"} ` +
-    "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-[background,box-shadow,border-color] max-[768px]:duration-[320ms] max-[768px]:ease-[cubic-bezier(0.22,0.61,0.36,1)]";
+    "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-[background,box-shadow,border-color,height,min-height,border-radius,padding,transform] max-[768px]:duration-[320ms] max-[768px]:ease-[cubic-bezier(0.22,0.61,0.36,1)]";
   const inputFieldWrapClassName = displayExpanded
-    ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem]"
-    : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem]";
+    ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem] transition-[padding] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]"
+    : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem] transition-[padding] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]";
   const inputFieldClassName =
     `chat-input-field block w-full min-h-[1.38rem] max-h-[min(30dvh,8.5rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] [overflow-wrap:anywhere] break-words ${displayExpanded ? "leading-[1.26] px-[0.06rem] pt-0 pb-[0.05rem]" : "leading-[1.18] px-[0.12rem] pt-[0.28rem] pb-[0.12rem]"} ` +
     "text-[color:var(--pt-150)] light:text-[color:var(--text-strong,#1f2937)] " +
@@ -748,7 +750,6 @@ export default function ChatComposer({
         <div className={inputBarClassName} ref={inputBarRef}>
           <div className={inputFieldWrapClassName}>
             <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={e => {
-            resizeComposerInput();
             onFocusInput?.(e);
           }} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
           </div>
