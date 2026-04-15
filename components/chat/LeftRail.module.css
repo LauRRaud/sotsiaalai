@@ -73,7 +73,7 @@
 :global(html[data-ui-profile="mac"]) .leftRail,
 :global(html[data-ui-scale="mac"]) .leftRail {
   --rail-profile-scale: 1;
-  --rail-step-factor: 1.26;
+  --rail-step-factor: 1.38;
 }
 
 :global(html[data-ui-profile="lg"]) .leftRail,

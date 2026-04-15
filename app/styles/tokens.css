@@ -437,30 +437,30 @@ html[data-ui-scale="lg"] {
 
 html[data-ui-profile="mac"],
 html[data-ui-scale="mac"] {
-  --card-size: calc(clamp(13.5rem, 30vw, 21rem) * 0.94915);
+  --card-size: calc(clamp(13.5rem, 30vw, 21rem) * 0.91525);
   --card-logo-front-left: calc(
-    clamp(4.2rem, calc(var(--card-size) * 0.48), 11.4rem) * 0.94915
+    clamp(4.2rem, calc(var(--card-size) * 0.48), 11.4rem) * 0.91525
   );
   --card-logo-front-right: calc(
-    clamp(3.9rem, calc(var(--card-size) * 0.4), 10.6rem) * 0.94915
+    clamp(3.9rem, calc(var(--card-size) * 0.4), 10.6rem) * 0.91525
   );
   --card-logo-back: calc(
-    clamp(2.65rem, calc(var(--card-size) * 0.25), 7rem) * 0.94915
+    clamp(2.65rem, calc(var(--card-size) * 0.25), 7rem) * 0.91525
   );
 }
 
 @media (min-width: 1280px) {
   html[data-ui-profile="mac"],
   html[data-ui-scale="mac"] {
-    --card-size: calc(clamp(15.5rem, 30vw, 23.5rem) * 0.94915);
+    --card-size: calc(clamp(15.5rem, 30vw, 23.5rem) * 0.91525);
     --card-logo-front-left: calc(
-      clamp(4.8rem, calc(var(--card-size) * 0.48), 12.8rem) * 0.94915
+      clamp(4.8rem, calc(var(--card-size) * 0.48), 12.8rem) * 0.91525
     );
     --card-logo-front-right: calc(
-      clamp(4.3rem, calc(var(--card-size) * 0.4), 11.6rem) * 0.94915
+      clamp(4.3rem, calc(var(--card-size) * 0.4), 11.6rem) * 0.91525
     );
     --card-logo-back: calc(
-      clamp(2.9rem, calc(var(--card-size) * 0.25), 7.5rem) * 0.94915
+      clamp(2.9rem, calc(var(--card-size) * 0.25), 7.5rem) * 0.91525
     );
   }
 }
@@ -468,15 +468,15 @@ html[data-ui-scale="mac"] {
 @media (min-width: 1440px) {
   html[data-ui-profile="mac"],
   html[data-ui-scale="mac"] {
-    --card-size: calc(clamp(16.75rem, 34vw, 25.5rem) * 0.94915);
+    --card-size: calc(clamp(16.75rem, 34vw, 25.5rem) * 0.91525);
     --card-logo-front-left: calc(
-      clamp(5.2rem, calc(var(--card-size) * 0.48), 13.8rem) * 0.94915
+      clamp(5.2rem, calc(var(--card-size) * 0.48), 13.8rem) * 0.91525
     );
     --card-logo-front-right: calc(
-      clamp(4.7rem, calc(var(--card-size) * 0.4), 12.4rem) * 0.94915
+      clamp(4.7rem, calc(var(--card-size) * 0.4), 12.4rem) * 0.91525
     );
     --card-logo-back: calc(
-      clamp(3.1rem, calc(var(--card-size) * 0.25), 8.2rem) * 0.94915
+      clamp(3.1rem, calc(var(--card-size) * 0.25), 8.2rem) * 0.91525
     );
   }
 }
@@ -484,15 +484,15 @@ html[data-ui-scale="mac"] {
 @media (min-width: 1760px) {
   html[data-ui-profile="mac"],
   html[data-ui-scale="mac"] {
-    --card-size: calc(clamp(19.5rem, 27vw, 28rem) * 0.94915);
+    --card-size: calc(clamp(19.5rem, 27vw, 28rem) * 0.91525);
     --card-logo-front-left: calc(
-      clamp(6.2rem, calc(var(--card-size) * 0.48), 12.9rem) * 0.94915
+      clamp(6.2rem, calc(var(--card-size) * 0.48), 12.9rem) * 0.91525
     );
     --card-logo-front-right: calc(
-      clamp(5.7rem, calc(var(--card-size) * 0.4), 11.4rem) * 0.94915
+      clamp(5.7rem, calc(var(--card-size) * 0.4), 11.4rem) * 0.91525
     );
     --card-logo-back: calc(
-      clamp(3.8rem, calc(var(--card-size) * 0.25), 9.2rem) * 0.94915
+      clamp(3.8rem, calc(var(--card-size) * 0.25), 9.2rem) * 0.91525
     );
   }
 }
