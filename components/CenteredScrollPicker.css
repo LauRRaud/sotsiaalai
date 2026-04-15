@@ -115,20 +115,22 @@
     to bottom,
     transparent 0%,
     #000 10%,
-    #000 84%,
-    rgba(0, 0, 0, 0.72) 89%,
-    rgba(0, 0, 0, 0.28) 95%,
-    rgba(0, 0, 0, 0.04) 99%,
+    #000 86%,
+    rgba(0, 0, 0, 0.98) 90.5%,
+    rgba(0, 0, 0, 0.72) 94.2%,
+    rgba(0, 0, 0, 0.22) 98.1%,
+    rgba(0, 0, 0, 0.01) 99.5%,
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
     #000 10%,
-    #000 84%,
-    rgba(0, 0, 0, 0.72) 89%,
-    rgba(0, 0, 0, 0.28) 95%,
-    rgba(0, 0, 0, 0.04) 99%,
+    #000 86%,
+    rgba(0, 0, 0, 0.98) 90.5%,
+    rgba(0, 0, 0, 0.72) 94.2%,
+    rgba(0, 0, 0, 0.22) 98.1%,
+    rgba(0, 0, 0, 0.01) 99.5%,
     transparent 100%
   );
   -webkit-mask-repeat: no-repeat;
@@ -146,9 +148,17 @@
   scroll-snap-align: center;
   scroll-snap-stop: normal;
 }
-.a11y-modal-shell .csp-scrim--top,
-.a11y-modal-shell .csp-scrim--bottom {
+.a11y-modal-shell .csp-scrim--top {
   background: transparent;
+}
+.a11y-modal-shell .csp-scrim--bottom {
+  background: linear-gradient(
+    to top,
+    var(--csp-surface) 0%,
+    var(--csp-surface) 82%,
+    rgba(255, 255, 255, 0.18) 94%,
+    transparent 100%
+  );
 }
 .csp-step {
   min-height: clamp(6.2rem, 10.5vh, 7.8rem);

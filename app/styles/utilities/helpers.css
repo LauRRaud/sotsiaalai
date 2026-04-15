@@ -80,8 +80,7 @@ body.login-modal-open {
   filter: none !important;
 }
 
-.a11y-modal-shell .csp-scrim--top,
-.a11y-modal-shell .csp-scrim--bottom {
+.a11y-modal-shell .csp-scrim--top {
   background: transparent !important;
 }
 
@@ -1309,6 +1308,7 @@ html[data-contrast="hc"] {
   height: clamp(3.35rem, calc(var(--ring-diameter, 52rem) / 14.8), 3.95rem);
 }
 
+html[data-ui-scale="mac"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg,
 html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
   width: clamp(4rem, calc(var(--ring-diameter, 52rem) / 12.4), 4.7rem);
   height: clamp(4rem, calc(var(--ring-diameter, 52rem) / 12.4), 4.7rem);

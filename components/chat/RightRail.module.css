@@ -72,6 +72,11 @@
   mask-image: none;
 }
 
+:global(html[data-ui-profile="mac"]) .rightRail,
+:global(html[data-ui-scale="mac"]) .rightRail {
+  --rail-profile-scale: 1.18;
+}
+
 :global(html[data-ui-profile="lg"]) .rightRail,
 :global(html[data-ui-scale="lg"]) .rightRail {
   --rail-profile-scale: 1.2;
@@ -279,6 +284,8 @@
   background-clip: padding-box;
 }
 
+:global(html[data-ui-profile="mac"]) .tooltip,
+:global(html[data-ui-scale="mac"]) .tooltip,
 :global(html[data-ui-profile="lg"]) .tooltip,
 :global(html[data-ui-scale="lg"]) .tooltip {
   --rail-profile-scale: 1.2;

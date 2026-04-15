@@ -30,7 +30,9 @@ function detectRailProfileScale() {
   const root = document.documentElement;
   const profile = root?.dataset?.uiProfile;
   const scale = root?.dataset?.uiScale;
-  return profile === "lg" || scale === "lg" ? 1.2 : 1;
+  if (profile === "lg" || scale === "lg") return 1.2;
+  if (profile === "mac" || scale === "mac") return 1.18;
+  return 1;
 }
 
 export default function RightRail({
@@ -591,7 +593,10 @@ export default function RightRail({
         const farEdgeOutwardPx = !viewportIsMobile && !inputFocused && ((activeIndex === 0 && slotOffset === 2) || (activeIndex === items.length - 1 && slotOffset === -2)) ? 2.2 * railProfileScale : 0;
         const outerSlotDistanceFactor = Math.abs(slotOffset) === 2 ? 0.94 : 1;
         const offsetX = -baseCurvePx * curveNorm * curveNorm - edgeSafetyPx * curveNorm * curveNorm * curveNorm * curveNorm - inwardSkewPx + centerOutwardPx + adjacentEdgeOutwardPx + farEdgeOutwardPx;
-        const offsetY = slotOffset * stepPx * outerSlotDistanceFactor;
+        const inviteProfileGapPx = !viewportIsMobile && it?.key === "profile"
+          ? -(4.2 * railProfileScale)
+          : 0;
+        const offsetY = (slotOffset * stepPx * outerSlotDistanceFactor) + inviteProfileGapPx;
         const norm = Math.min(Math.abs(slotOffset) / 2, 1);
         const scale = 0.88 + (1 - norm) * 0.36;
         const opacity = slotOffset === 0 ? 1 : 0.32 + (1 - norm) * 0.48;
