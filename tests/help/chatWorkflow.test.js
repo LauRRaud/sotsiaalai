@@ -265,6 +265,102 @@ function createPrismaStub() {
   };
 }
 
+function createAlternativeOfferPrismaStub(overrides = {}, options = {}) {
+  const prisma = createPrismaStub();
+  const alternativeOffer = {
+    id: "offer-paid-1",
+    userId: "user-2",
+    municipalityId: "mun-tallinn",
+    primaryCategoryId: "cat-transport",
+    title: "Tasuline transpordiabi",
+    description: "Pakun transpordiabi Tallinnas tasu eest.",
+    structuredSummary: "Pakun transpordiabi Tallinnas tasu eest",
+    roleLabel: "autojuht",
+    helpType: "PAID",
+    timeType: "FLEXIBLE",
+    status: "OPEN",
+    createdAt: new Date("2026-04-05T10:00:00.000Z").toISOString(),
+    municipality: MUNICIPALITIES["mun-tallinn"],
+    primaryCategory: HELP_CATEGORIES.TRANSPORT,
+    categoryLinks: [],
+    targetGroupLinks: toTargetGroupLinks(["ADULT"]),
+    ...overrides
+  };
+
+  prisma.helpOffer.findMany = async () => [alternativeOffer];
+  prisma.helpOffer.findUnique = async ({ where } = {}) => ({
+    ...alternativeOffer,
+    id: String(where?.id || alternativeOffer.id)
+  });
+  if (options?.requestOverride) {
+    const requestOverride = options.requestOverride;
+    prisma.helpRequest.findUnique = async () => ({
+      id: "req-1",
+      userId: "user-1",
+      municipalityId: "mun-tallinn",
+      primaryCategoryId: "cat-transport",
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      structuredSummary: "Vajan transpordiabi Tallinnas",
+      roleLabel: "endale",
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      status: "OPEN",
+      createdAt: new Date("2026-04-05T09:00:00.000Z").toISOString(),
+      municipality: MUNICIPALITIES["mun-tallinn"],
+      primaryCategory: HELP_CATEGORIES.TRANSPORT,
+      categoryLinks: [],
+      targetGroupLinks: toTargetGroupLinks(["ADULT"]),
+      ...requestOverride
+    });
+  }
+
+  prisma.room = {
+    async findUnique() {
+      return null;
+    },
+    async create() {
+      return { id: "room-1" };
+    }
+  };
+
+  prisma.helpMatch = {
+    async findUnique() {
+      return null;
+    },
+    async create({ data }) {
+      return {
+        id: "match-1",
+        requestId: data.requestId,
+        offerId: data.offerId,
+        requesterId: data.requesterId,
+        offererId: data.offererId,
+        roomId: data.roomId,
+        status: data.status,
+        scoreSnapshot: data.scoreSnapshot,
+        reasonsJson: data.reasonsJson,
+        createdAt: new Date("2026-04-05T12:00:00.000Z").toISOString(),
+        updatedAt: new Date("2026-04-05T12:00:00.000Z").toISOString()
+      };
+    },
+    async update({ data }) {
+      return {
+        id: "match-1",
+        roomId: data.roomId,
+        status: data.status,
+        scoreSnapshot: data.scoreSnapshot,
+        reasonsJson: data.reasonsJson,
+        updatedAt: new Date("2026-04-05T12:00:00.000Z").toISOString()
+      };
+    }
+  };
+
+  prisma.$transaction = async (callback) => callback(prisma);
+
+  return prisma;
+}
+
 function createSavedRequestState(overrides = {}) {
   return createHelpWorkflowDraftState({
     intent: "create_help_request",
@@ -336,6 +432,98 @@ test("contact preference is no longer required before preview", async () => {
   assert.match(String(result.reply || ""), /Kui soovid abisoovi muuta, tee seda abisoovi lehel/i);
   assert.doesNotMatch(String(result.reply || ""), /Kui vastad .*ei/i);
   assert.doesNotMatch(String(result.reply || ""), /ühendust võetaks|kontaktiviis/i);
+});
+
+test("request flow recognizes partitive voluntary answer and does not corrupt availability", async () => {
+  const start = await runHelpChatWorkflow({
+    forcedIntent: "create_help_request",
+    message: "Soovin abi SotsiaalAI platvormi kasutamisega alustamisel. Vajan juhendamist, kuidas leida infot, juhiseid ja tuge. Sobiv aeg kokkuleppel. Asun Tabasalus.",
+    userId: "user-1",
+    replyLang: "et"
+  }, createPrismaStub());
+
+  assert.equal(start.handled, true);
+  assert.equal(start.workflowState?.activeQuestionKey, "categoryCode");
+
+  const afterCategory = await runHelpChatWorkflow({
+    message: "digiabi",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: start.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterCategory.handled, true);
+  assert.equal(afterCategory.workflowState?.activeQuestionKey, "requestAudience");
+
+  const afterAudience = await runHelpChatWorkflow({
+    message: "endale, olen noor",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterCategory.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterAudience.handled, true);
+  assert.equal(afterAudience.workflowState?.activeQuestionKey, "timing");
+
+  const afterTiming = await runHelpChatWorkflow({
+    message: "kokkuleppel, ühekordne abi, ei ole kiire",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterAudience.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterTiming.handled, true);
+  assert.equal(afterTiming.workflowState?.activeQuestionKey, "helpCompensation");
+
+  const afterCompensation = await runHelpChatWorkflow({
+    message: "vabatahtlikku",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: afterTiming.workflowState
+  }, createPrismaStub());
+
+  assert.equal(afterCompensation.handled, true);
+  assert.equal(afterCompensation.workflowState?.draft?.helpType, "VOLUNTARY");
+  assert.match(String(afterCompensation.workflowState?.draft?.availabilityOrStart || ""), /kokkuleppel/i);
+  assert.doesNotMatch(String(afterCompensation.workflowState?.draft?.availabilityOrStart || ""), /vabatahtlik/i);
+  assert.notEqual(afterCompensation.workflowState?.activeQuestionKey, "helpCompensation");
+});
+
+test("request flow recognizes short mixed-compensation answer", async () => {
+  const state = createHelpWorkflowDraftState({
+    intent: "create_help_request",
+    mode: "draft",
+    step: "collect_required_fields",
+    flowLocked: true,
+    activeQuestionLayer: "basic",
+    activeQuestionKey: "helpCompensation",
+    municipalityId: "mun-harku",
+    municipalityLabel: "Harku vald",
+    draft: {
+      title: "Digiabi soov",
+      description: "Soovin abi SotsiaalAI platvormi kasutamisel Tabasalus.",
+      category: "Digiabi",
+      categoryCode: "DIGITAL_HELP",
+      targetGroupCodes: ["YOUTH"],
+      targetGroups: ["Noor"],
+      rawPlace: "Tabasalu",
+      timeType: "ONE_TIME",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "Paindlik"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "avatud mõlemale",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: state
+  }, createPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.draft?.helpType, "MIXED");
+  assert.notEqual(result.workflowState?.activeQuestionKey, "helpCompensation");
 });
 
 test("sparse but complete offer triggers a category enrichment question", async () => {
@@ -1337,6 +1525,244 @@ test("saving a help request immediately shows matching offers", async () => {
   assert.doesNotMatch(String(result.reply || ""), /Staatus:\s*Aktiivne/i);
   assert.match(String(result.reply || ""), /Leidsin 1/i);
   assert.match(String(result.reply || ""), /1\. Pakun transpordiabi/i);
+});
+
+test("saving a help request can show a similar offer when compensation differs", async () => {
+  const previewState = createHelpWorkflowDraftState({
+    intent: "create_help_request",
+    mode: "draft",
+    step: "edit_or_save",
+    flowLocked: true,
+    confirmationPending: true,
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      targetGroupCodes: ["ADULT"],
+      targetGroups: ["TĆ¤iskasvanu"],
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "LĆ¤hiajal",
+      structuredSummary: "Vajan transpordiabi Tallinnas"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "jah",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: previewState
+  }, createAlternativeOfferPrismaStub());
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.intent, "browse_help_offers");
+  assert.equal(result.workflowState?.mode, "browse");
+  assert.match(String(result.reply || ""), /sarnast abipakkumist/i);
+  assert.match(String(result.reply || ""), /mõni tingimus erineb/i);
+  assert.match(String(result.reply || ""), /sinu kuulutuses on vabatahtlik abi/i);
+  assert.match(String(result.reply || ""), /sellel kuulutusel on tasuline abi/i);
+  assert.equal(result.workflowState?.browseResults?.[0]?.requiresConfirmation, true);
+});
+
+test("saving a help request can show a similar offer when timing differs", async () => {
+  const previewState = createHelpWorkflowDraftState({
+    intent: "create_help_request",
+    mode: "draft",
+    step: "edit_or_save",
+    flowLocked: true,
+    confirmationPending: true,
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      targetGroupCodes: ["ADULT"],
+      targetGroups: ["TĆ¤iskasvanu"],
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "ONE_TIME",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "LĆ¤hiajal",
+      structuredSummary: "Vajan transpordiabi Tallinnas"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "jah",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: previewState
+  }, createAlternativeOfferPrismaStub({
+    id: "offer-time-1",
+    title: "Regulaarne transpordiabi",
+    description: "Pakun transpordiabi Tallinnas regulaarselt.",
+    structuredSummary: "Pakun transpordiabi Tallinnas regulaarselt",
+    helpType: "VOLUNTARY",
+    timeType: "RECURRING"
+  }, {
+    requestOverride: {
+      timeType: "ONE_TIME"
+    }
+  }));
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.intent, "browse_help_offers");
+  assert.match(String(result.reply || ""), /mõni tingimus erineb/i);
+  assert.match(String(result.reply || ""), /ajalisuse erinevus/i);
+  assert.match(String(result.reply || ""), /ühekordne/i);
+  assert.match(String(result.reply || ""), /regulaarne/i);
+  assert.equal(result.workflowState?.browseResults?.[0]?.requiresConfirmation, true);
+});
+
+test("connecting to a similar offer asks confirmation before creating the match", async () => {
+  const prisma = createAlternativeOfferPrismaStub();
+  const browseState = createHelpWorkflowDraftState({
+    intent: "connect_to_offer",
+    mode: "browse",
+    step: "connect",
+    flowLocked: true,
+    sourceRecordId: "req-1",
+    linkedRequestId: "req-1",
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      targetGroupCodes: ["ADULT"],
+      targetGroups: ["TĆ¤iskasvanu"],
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "LĆ¤hiajal"
+    },
+    browseResults: [{
+      id: "offer-paid-1",
+      kind: "offer",
+      title: "Tasuline transpordiabi",
+      description: "Pakun transpordiabi Tallinnas tasu eest.",
+      municipalityName: "Tallinn",
+      score: 65,
+      helpType: "PAID",
+      timeType: "FLEXIBLE",
+      compatibilityWarnings: ["help_type_mismatch"],
+      requiresConfirmation: true
+    }]
+  });
+
+  const confirmation = await runHelpChatWorkflow({
+    message: "1",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: browseState
+  }, prisma);
+
+  assert.equal(confirmation.handled, true);
+  assert.equal(confirmation.workflowState?.step, "connect");
+  assert.equal(confirmation.workflowState?.confirmationPending, true);
+  assert.equal(confirmation.workflowState?.candidateOfferId, "offer-paid-1");
+  assert.match(String(confirmation.reply || ""), /mõni tingimus erineb/i);
+  assert.match(String(confirmation.reply || ""), /vabatahtlik abi/i);
+  assert.match(String(confirmation.reply || ""), /tasuline abi/i);
+  assert.match(String(confirmation.reply || ""), /vasta \"jah\"/i);
+
+  const connected = await runHelpChatWorkflow({
+    message: "jah",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: confirmation.workflowState
+  }, prisma);
+
+  assert.equal(connected.handled, true);
+  assert.equal(connected.workflowState?.mode, "done");
+  assert.equal(connected.workflowState?.step, "connect");
+  assert.equal(connected.workflowState?.matchId, "match-1");
+  assert.equal(connected.workflowState?.roomId, "room-1");
+  assert.match(String(connected.reply || ""), /ühendus on loodud|connection has been created/i);
+});
+
+test("connecting to a similar offer can also confirm a timing mismatch", async () => {
+  const prisma = createAlternativeOfferPrismaStub({
+    id: "offer-time-1",
+    title: "Regulaarne transpordiabi",
+    description: "Pakun transpordiabi Tallinnas regulaarselt.",
+    structuredSummary: "Pakun transpordiabi Tallinnas regulaarselt",
+    helpType: "VOLUNTARY",
+    timeType: "RECURRING"
+  });
+  const connectState = createHelpWorkflowDraftState({
+    intent: "connect_to_offer",
+    mode: "browse",
+    step: "connect",
+    flowLocked: true,
+    sourceRecordId: "req-1",
+    linkedRequestId: "req-1",
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      targetGroupCodes: ["ADULT"],
+      targetGroups: ["TĆ¤iskasvanu"],
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "ONE_TIME",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "LĆ¤hiajal"
+    },
+    browseResults: [{
+      id: "offer-time-1",
+      kind: "offer",
+      title: "Regulaarne transpordiabi",
+      description: "Pakun transpordiabi Tallinnas regulaarselt.",
+      municipalityName: "Tallinn",
+      score: 65,
+      helpType: "VOLUNTARY",
+      timeType: "RECURRING",
+      compatibilityWarnings: ["time_type_incompatible"],
+      requiresConfirmation: true
+    }]
+  });
+
+  const confirmation = await runHelpChatWorkflow({
+    message: "1",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: connectState
+  }, prisma);
+
+  assert.equal(confirmation.handled, true);
+  assert.equal(confirmation.workflowState?.step, "connect");
+  assert.equal(confirmation.workflowState?.confirmationPending, true);
+  assert.match(String(confirmation.reply || ""), /mõni tingimus erineb/i);
+  assert.match(String(confirmation.reply || ""), /ajalisuse erinevus/i);
+  assert.match(String(confirmation.reply || ""), /vasta \"jah\"/i);
+
+  const connected = await runHelpChatWorkflow({
+    message: "jah",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: confirmation.workflowState
+  }, prisma);
+
+  assert.equal(connected.handled, true);
+  assert.equal(connected.workflowState?.mode, "done");
+  assert.equal(connected.workflowState?.matchId, "match-1");
 });
 
 test("saving a help offer immediately shows matching requests", async () => {

@@ -1044,14 +1044,23 @@
         "emptyRequests": "No active matching help requests were found right now. Your listing remains visible, and when a suitable match appears, you can open a shared chat right here.",
         "foundOffers": "I found {count} possible offers.",
         "foundRequests": "I found {count} possible help requests.",
+        "foundAlternativeOffersHelpType": "I found {count} similar help offers, but some conditions are different.",
+        "foundAlternativeRequestsHelpType": "I found {count} similar help requests, but some conditions are different.",
+        "compatibilityHelpType": "Difference: your listing is {sourceHelpType}, while this listing is {candidateHelpType}.",
+        "compatibilityTimeType": "Timing difference: your listing is {sourceTimeType}, while this listing is {candidateTimeType}.",
         "connectHintOffers": "If you want to connect, write for example: \"connect to the first offer\".",
         "connectHintRequests": "If you want to connect, write for example: \"connect to the first help request\".",
+        "connectHintAlternativeOffers": "If this could still work for you, write for example: \"connect to the first offer\". I will ask for confirmation before creating the match.",
+        "connectHintAlternativeRequests": "If this could still work for you, write for example: \"connect to the first help request\". I will ask for confirmation before creating the match.",
         "sourceMissingOffers": "First I need to know which help request to browse offers for.",
         "sourceMissingRequests": "First I need to know which help offer to browse help requests for."
       },
       "connect": {
         "needBrowse": "Before connecting, I need to show matching results first.",
         "askWhich": "Please tell me which result to connect to, for example \"connect 1\".",
+        "confirmHelpTypeMismatch": "I found a similar listing, but some conditions are different.",
+        "confirmHelpTypeMismatchRetry": "If this still works for you, reply \"yes\" and I will create the match. Otherwise reply \"no\".",
+        "cancelledSoftMatch": "Understood. I will leave this similar but slightly different listing unconnected.",
         "created": "The connection has been created. The conversation is now available in the chat list.",
         "alreadyActive": "There is already an active match for this listing.",
         "failed": "Failed to create the connection."

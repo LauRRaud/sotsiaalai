@@ -399,6 +399,12 @@
 }
 
 @media (min-width: 769px) {
+  .iconChats,
+  .iconNewChatBubble {
+    width: calc(100% * (var(--rail-icon-scale) + 0.03));
+    height: calc(100% * (var(--rail-icon-scale) + 0.03));
+  }
+
   .item[data-key="sources"] .iconSvgSources {
     width: calc(100% * (var(--rail-icon-scale) - 0.13));
     height: calc(100% * (var(--rail-icon-scale) - 0.13));
