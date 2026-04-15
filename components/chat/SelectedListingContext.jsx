@@ -281,18 +281,18 @@ export default function SelectedListingContext({
     `max-[768px]:!max-h-[calc(100dvh-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]`;
   const actionButtonClassName =
-    "!min-h-[3.05rem] !rounded-[1.45rem] !px-[1.25rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.16rem]";
+    "!min-h-[2.72rem] !rounded-[1.32rem] !px-[1.15rem] !py-[0.58rem] !text-[1.04rem] !tracking-[0.022em] max-[768px]:!min-h-[2.9rem] max-[768px]:!text-[1.08rem]";
   const actionRowClassName =
-    "mt-[-0.35rem] flex flex-wrap justify-center gap-[0.6rem] pt-[0.1rem] pb-[clamp(1rem,2.4vh,1.45rem)] max-[768px]:mt-[-0.2rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.2rem)]";
+    "mt-[-0.15rem] flex flex-wrap justify-center gap-[0.48rem] pt-0 pb-[0.05rem] max-[768px]:mt-[-0.05rem] max-[768px]:pb-[0.1rem]";
   const selectedListingTitleClassName =
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static selected-listing-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const mobileTitleWrapClassName =
     "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
   const selectedListingBodyClassName = inline
-    ? `selected-listing-body selected-listing-body--inline ${glassSubpageContentWideClassName} flex min-h-0 max-h-full flex-1 touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.55rem] !w-full !max-w-none px-[0.78rem] pt-[0.12rem] pb-[0.62rem] [scrollbar-gutter:auto] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.2rem] max-[768px]:pt-[0.1rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.82rem)]`
+    ? `selected-listing-body selected-listing-body--inline ${glassSubpageContentWideClassName} flex min-h-0 max-h-[calc(100dvh-12rem)] flex-none touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.4rem] !w-full !max-w-none px-[0.78rem] pt-[0.02rem] pb-[0.25rem] [scrollbar-gutter:auto] max-[768px]:gap-[0.38rem] max-[768px]:px-[0.2rem] max-[768px]:pt-0 max-[768px]:pb-[0.35rem]`
     : `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 max-h-full flex-1 touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.45rem] [scrollbar-gutter:stable_both-edges] max-[768px]:px-[0.2rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.3rem)]`;
   const selectedListingPanelClassName = inline
-    ? `${glassSubpagePanelWideClassName} selected-listing-panel--inline relative mb-[0.22rem] !w-full !max-w-none self-stretch !max-h-none !overflow-visible !p-[0.62rem] !shadow-none max-[768px]:mb-[0.35rem] max-[768px]:!p-[0.28rem]`
+    ? `${glassSubpagePanelWideClassName} selected-listing-panel--inline relative mb-0 !w-full !max-w-none self-stretch !max-h-none !overflow-visible !px-[0.74rem] !py-[0.58rem] !shadow-none max-[768px]:!px-[0.42rem] max-[768px]:!py-[0.45rem]`
     : `${glassSubpagePanelWideClassName} mt-[0.9rem] self-center max-[768px]:mt-[0.8rem] !p-[0.5rem] !shadow-none max-[768px]:!p-[0.85rem]`;
   const statusRowVisible = Boolean(listing?.statusLabel || (isOwn && listing));
 
@@ -333,19 +333,19 @@ export default function SelectedListingContext({
           {loading ? <div className="px-2 py-4 text-[1rem] opacity-80">{ui.loading}</div> : null}
           {!loading && error ? <div className="px-2 py-4 text-[1rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
           {!loading && listing ? (
-            <div className="grid gap-[0.9rem]">
+            <div className="selected-listing-detail-grid grid gap-[0.62rem]">
               {listing.summary ? (
-                <p className="mx-auto max-w-full text-center text-[0.96rem] leading-[1.45] font-[520] opacity-88 [text-wrap:balance]">
+                <p className="mx-auto max-w-full text-center text-[0.96rem] leading-[1.36] font-[520] opacity-88 [text-wrap:balance]">
                   {listing.summary}
                 </p>
               ) : null}
-              {cleanDescription ? <div className="whitespace-pre-wrap text-[0.98rem] leading-[1.62] opacity-88">{cleanDescription}</div> : null}
+              {cleanDescription ? <div className="whitespace-pre-wrap text-[0.98rem] leading-[1.48] opacity-88">{cleanDescription}</div> : null}
               {infoItems.length ? (
-                <dl className="grid gap-[0.55rem] rounded-[1rem] border border-[color:var(--subpage-card-border,transparent)] bg-[color:color-mix(in_srgb,var(--subpage-card-bg)_92%,transparent)] px-[0.85rem] py-[0.78rem] !shadow-none">
+                <dl className="selected-listing-info-list grid gap-[0.3rem] rounded-[0.9rem] border border-[color:var(--subpage-card-border,transparent)] bg-[color:color-mix(in_srgb,var(--subpage-card-bg)_92%,transparent)] px-[0.74rem] py-[0.52rem] !shadow-none">
                   {infoItems.map((item) => (
-                    <div key={`${item.label}-${item.value}`} className="grid gap-[0.14rem]">
-                      <dt className="text-[0.76rem] uppercase tracking-[0.08em] opacity-62">{item.label}</dt>
-                      <dd className="m-0 text-[0.94rem] leading-[1.42] opacity-92">{item.value}</dd>
+                    <div key={`${item.label}-${item.value}`} className="grid gap-[0.04rem]">
+                      <dt className="text-[0.72rem] uppercase tracking-[0.075em] opacity-62">{item.label}</dt>
+                      <dd className="m-0 text-[0.92rem] leading-[1.28] opacity-92">{item.value}</dd>
                     </div>
                   ))}
                 </dl>
@@ -479,7 +479,7 @@ export default function SelectedListingContext({
 
   if (inline) {
     return (
-      <div className={`${glassPrimaryButtonToneClassName} selected-listing-inline flex min-h-0 w-full flex-1 flex-col overflow-hidden`}>
+      <div className={`${glassPrimaryButtonToneClassName} selected-listing-inline flex min-h-0 w-full flex-none flex-col overflow-visible`}>
         {selectedListingContent}
       </div>
     );

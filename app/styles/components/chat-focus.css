@@ -115,8 +115,8 @@ body:is(
 }
 
 .selected-listing-body--inline {
-  --help-scroll-fade-top: clamp(0.42rem, 1.05vh, 0.64rem);
-  --help-scroll-fade-bottom: clamp(0.72rem, 1.9vh, 1.08rem);
+  --help-scroll-fade-top: clamp(0.22rem, 0.7vh, 0.42rem);
+  --help-scroll-fade-bottom: clamp(0.28rem, 0.8vh, 0.5rem);
   scrollbar-gutter: auto !important;
 }
 
