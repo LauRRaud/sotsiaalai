@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import Button from "@/components/ui/Button";
+import ChatAiForwardToggle from "./view/ChatAiForwardToggle";
 import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { DictateWaveIcon, HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
@@ -113,7 +114,11 @@ export default function ChatComposer({
   inputFocused = false,
   isMobile = false,
   activeModeLabel = "",
-  activeModeKey = ""
+  activeModeKey = "",
+  focusActive = false,
+  sendToAssistant = false,
+  setSendToAssistant,
+  aiNote = ""
 }) {
   const router = useRouter();
   const { effectiveRole } = useEffectiveRole();
@@ -523,6 +528,15 @@ export default function ChatComposer({
     `${embedded ? "chat-input-row--embedded " : ""}` +
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
     "transition-[top,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top] max-[768px]:transition-none";
+  const composerMainClassName =
+    "flex min-w-0 flex-[1_1_auto] flex-col items-end";
+  const composerMetaRowClassName =
+    "relative mt-[0.22rem] w-full max-w-[min(100%,var(--chat-input-max-w))] min-h-[1.7rem] " +
+    "max-[768px]:mt-[0.18rem] max-[768px]:min-h-[1.56rem]";
+  const composerMetaToggleClassName =
+    "relative z-[1] ml-auto pr-[clamp(0.08rem,0.36vw,0.16rem)] max-[768px]:pr-[0.06rem]";
+  const modeLabelWrapClassName =
+    "pointer-events-none absolute inset-x-0 top-1/2 z-0 flex -translate-y-1/2 items-center justify-center text-center";
   const inputRowModeClassName = embedded
     ? "relative mt-0 w-full max-w-full gap-[0.4rem] pl-0 pr-0 [--chat-input-max-w:100%]"
     : "relative mt-[clamp(0.6rem,1.8vh,1.1rem)] " +
@@ -721,43 +735,48 @@ export default function ChatComposer({
         {t("chat.input.label")}
       </label>
 
-      <div className={inputBarClassName} ref={inputBarRef}>
-        <div className={inputFieldWrapClassName}>
-          <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={e => {
-          resizeComposerInput();
-          onFocusInput?.(e);
-        }} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
-        </div>
-        <div className={actionRowClassName}>
-          <button type="button" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || !canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
-            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
-              <path d="M11 5L6 9H2v6h4l5 4z" />
-              <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
-            </svg>
-          </button>
-          {isGenerating || isStreamingAny ? <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
-              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="chat-send-stop-glyph h-[calc(var(--chat-composer-send-icon-size)*1.18)] w-[calc(var(--chat-composer-send-icon-size)*1.18)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
-                <rect x="4.75" y="4.75" width="14.5" height="14.5" rx="3" />
+      <div className={composerMainClassName}>
+        <div className={inputBarClassName} ref={inputBarRef}>
+          <div className={inputFieldWrapClassName}>
+            <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={e => {
+            resizeComposerInput();
+            onFocusInput?.(e);
+          }} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
+          </div>
+          <div className={actionRowClassName}>
+            <button type="button" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || !canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
+              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
+                <path d="M11 5L6 9H2v6h4l5 4z" />
+                <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
               </svg>
-            </Button> : hasInput ? <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
-              <SubmitArrowIcon
-                useCurrentColor
-                className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
-              />
-            </Button> : <Button as="button" variant="primary" size="md" type="button" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handlePrimaryActionClick} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
-              <DictateWaveIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]" />
-            </Button>}
+            </button>
+            {isGenerating || isStreamingAny ? <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+                <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="chat-send-stop-glyph h-[calc(var(--chat-composer-send-icon-size)*1.18)] w-[calc(var(--chat-composer-send-icon-size)*1.18)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
+                  <rect x="4.75" y="4.75" width="14.5" height="14.5" rx="3" />
+                </svg>
+              </Button> : hasInput ? <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+                <SubmitArrowIcon
+                  useCurrentColor
+                  className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
+                />
+              </Button> : <Button as="button" variant="primary" size="md" type="button" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handlePrimaryActionClick} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
+                <DictateWaveIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]" />
+              </Button>}
+          </div>
         </div>
+        {modeToggleShowsActiveState || (isRoomMode && focusActive) ? <div className={composerMetaRowClassName}>
+            {modeToggleShowsActiveState && displayModeLabel ? <div className={modeLabelWrapClassName}>
+                <span
+                  aria-hidden="true"
+                  className={modeLabelClassName}
+                  style={modeLabelStyle}
+                >
+                  {displayModeLabel}
+                </span>
+                <span className="sr-only">{displayModeLabel}</span>
+              </div> : null}
+            <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} className={composerMetaToggleClassName} />
+          </div> : null}
       </div>
-      {modeToggleShowsActiveState && displayModeLabel ? <div className="pointer-events-none absolute left-1/2 top-[calc(100%+1.18rem)] -translate-x-1/2 text-center max-[768px]:top-[calc(100%+0.98rem)]">
-          <span
-            aria-hidden="true"
-            className={modeLabelClassName}
-            style={modeLabelStyle}
-          >
-            {displayModeLabel}
-          </span>
-          <span className="sr-only">{displayModeLabel}</span>
-        </div> : null}
     </form>;
 }

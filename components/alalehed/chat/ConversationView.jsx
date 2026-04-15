@@ -32,6 +32,7 @@ const ConversationView = memo(function ConversationView({
   mainClassName: mainClassNameProp,
   onWindowDoubleClick,
   isMobile = false,
+  isRoomMode = false,
   isLightTheme = false,
   hasConversationSources = false,
   conversationSourcesCount = 0,
@@ -210,6 +211,13 @@ const ConversationView = memo(function ConversationView({
     "light:[--chat-arc-rgb:210_214_222] light:[--chat-arc-center-alpha:0.1] light:[--chat-arc-side-alpha:0.24] light:[--chat-arc-mid-alpha:0.09] " +
     "transition-[padding-top,padding-bottom,margin-top,max-height,max-width,transform] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "max-[768px]:w-[calc(100%+var(--chat-window-mobile-width-right,0rem))] max-[768px]:max-w-none max-[768px]:mx-0 max-[768px]:mr-auto max-[768px]:transition-none";
+  const roomModeWindowTuningClassName =
+    isRoomMode
+      ? "[--chat-window-pad-top:clamp(0.72rem,1.8vh,1.18rem)] [--chat-window-fade-top-default:0.72rem] [--chat-window-fade-top-focus-default:0.88rem] " +
+        "[--chat-window-scroll-top-fade-start-default:0.12rem] [--chat-window-scroll-top-fade-mid-default:0.58rem] [--chat-window-scroll-top-fade-end-default:1.04rem] " +
+        "max-[768px]:[--chat-window-pad-top:clamp(0.54rem,1.4vh,0.9rem)] max-[768px]:[--chat-window-fade-top-default:0.56rem] " +
+        "max-[768px]:[--chat-window-scroll-top-fade-start-default:0.08rem] max-[768px]:[--chat-window-scroll-top-fade-mid-default:0.4rem] max-[768px]:[--chat-window-scroll-top-fade-end-default:0.82rem]"
+      : "";
   const scrollClassName =
     "chat-window__scroll relative z-[1] h-full flex flex-col items-stretch gap-[0.75rem] flex-1 min-h-0 overflow-y-auto overscroll-contain " +
     "[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
@@ -225,7 +233,7 @@ const ConversationView = memo(function ConversationView({
     "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] " +
     "[scroll-padding-top:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))] " +
     "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] max-[768px]:transition-none";
-  const mergedWindowClassName = windowClassNameProp ? `${windowClassName} ${windowClassNameProp}` : windowClassName;
+  const mergedWindowClassName = `${windowClassName} ${roomModeWindowTuningClassName} ${windowClassNameProp || ""}`.trim();
   const scrollButtonClassName =
     "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
@@ -242,7 +250,7 @@ const ConversationView = memo(function ConversationView({
   return <main className={mergedMainClassName}>
       <div id="chat-window" className={mergedWindowClassName} onDoubleClick={onWindowDoubleClick}>
         <div id="chat-window-scroll" className={scrollClassName} ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"} tabIndex={0} onKeyDown={handleScrollKeyDown} onMouseDown={focusScrollArea} onWheel={focusScrollArea}>
-          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-spacer,0.55rem)] transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none" : "shrink-0 h-[calc(var(--chat-content-spacer,1.6rem)+0.8rem)] transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none"} />
+          <div aria-hidden="true" className={isMobile ? `shrink-0 ${isRoomMode ? "h-[0.18rem]" : "h-[var(--chat-content-spacer,0.55rem)]"} transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none` : `shrink-0 ${isRoomMode ? "h-[0.24rem]" : "h-[calc(var(--chat-content-spacer,1.6rem)+0.8rem)]"} transition-[height] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none`} />
 
           {hiddenCount > 0 ? <div className="flex justify-center">
               <button type="button" onClick={onRevealOlder} className={buttonClassName}>

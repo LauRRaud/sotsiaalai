@@ -106,6 +106,28 @@ function getEmptyIntroMessage(t, workflow) {
   return t("chat.empty_intro");
 }
 
+function getWorkflowModeLabel(t, workflow) {
+  if (workflow === "career") {
+    const value = t("chat.tools.career_mode");
+    return value && value !== "chat.tools.career_mode"
+      ? value
+      : "Karjäärinõustamine";
+  }
+  if (workflow === "help_request") {
+    const value = t("chat.tools.help_request_mode");
+    return value && value !== "chat.tools.help_request_mode"
+      ? value
+      : "Abisoov";
+  }
+  if (workflow === "help_offer") {
+    const value = t("chat.tools.help_offer_mode");
+    return value && value !== "chat.tools.help_offer_mode"
+      ? value
+      : "Abipakkumine";
+  }
+  return t("chat.tools.info_mode");
+}
+
 function getEmptyIntroSeenStorageKey({
   convId,
   userId,
@@ -1815,11 +1837,7 @@ export default function ChatBody({
   }, [handleCareerQuestionAnswer, handleEmptyIntroTyped, isRoomMode, renderedMessages, t]);
   const modeNotice = activeWorkflow === "career" ? "Aktiivne režiim: karjäärinõustamine" : null;
   const activeModeLabel = useMemo(() => {
-    if (activeWorkflow === "default") return t("chat.tools.info_mode");
-    if (activeWorkflow === "career") return t("chat.tools.career_mode");
-    if (activeWorkflow === "help_request") return t("chat.tools.help_request_mode");
-    if (activeWorkflow === "help_offer") return t("chat.tools.help_offer_mode");
-    return t("chat.tools.info_mode");
+    return getWorkflowModeLabel(t, activeWorkflow);
   }, [activeWorkflow, t]);
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
@@ -1831,12 +1849,6 @@ export default function ChatBody({
     }
     return false;
   }, [visibleMessages]);
-  useEffect(() => {
-    if (!(activeWorkflow === "help_request" || activeWorkflow === "help_offer")) return;
-    if (!latestHelpWorkflowState) return;
-    if (helpFlowActive) return;
-    setActiveWorkflow("default");
-  }, [activeWorkflow, helpFlowActive, latestHelpWorkflowState]);
   const hasSelectedListing = Boolean(selectedListingState.listing || selectedListingState.loading || selectedListingState.error);
   const selectedListingContextProps = hasSelectedListing ? {
     locale,

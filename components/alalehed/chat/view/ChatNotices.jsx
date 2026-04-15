@@ -1,4 +1,9 @@
 import AutoFitPageTitle from "@/components/ui/AutoFitPageTitle";
+import {
+  glassPageTitleClassName,
+  glassPageTitleMobileHeaderClassName,
+  glassPageTitleProminentClassName
+} from "@/components/ui/glassPageStyles";
 
 function getCompactRoomTitle(roomTitle) {
   const source = String(roomTitle || "").trim();
@@ -41,16 +46,14 @@ export function ChatTopNotices({
 }) {
   const displayRoomTitle = getCompactRoomTitle(roomTitle);
   const roomTitleClassName =
-    "chat-room-title mx-auto w-full max-w-[min(36rem,calc(100%-2.4rem))] text-center " +
-    "mt-[clamp(2.5rem,7vh,4.4rem)] mb-[0.66rem] " +
-    "text-[1.98em] leading-[1.08] tracking-[0.03em] " +
-    "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
-    "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] " +
-    "max-[768px]:max-w-[calc(100%-2rem)] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2.2rem)] " +
-    "max-[768px]:mb-[0.36rem] max-[768px]:text-[clamp(1.72rem,6.15vw,2.02rem)] max-[768px]:tracking-[0.016em]";
+    `chat-room-title subpage-mobile-title subpage-mobile-title--static ${glassPageTitleClassName} ${glassPageTitleMobileHeaderClassName} ${glassPageTitleProminentClassName} ` +
+    "mx-auto w-full max-w-[min(36rem,calc(100%-2.2rem))] " +
+    "min-[769px]:mt-[clamp(2.95rem,7.2vh,4.75rem)] min-[769px]:mb-[0.22rem] " +
+    "max-[768px]:max-w-[calc(100%-1.8rem)] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+2.7rem)] " +
+    "max-[768px]:mb-[0.08rem]";
 
   return <>
-    {isRoomMode && displayRoomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={15}>
+    {isRoomMode && displayRoomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={18} disableFit>
       {displayRoomTitle}
     </AutoFitPageTitle> : null}
     {isCrisis ? <div role="alert" className={chatAlertClassName}>

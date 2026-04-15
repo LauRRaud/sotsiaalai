@@ -808,13 +808,6 @@
   box-shadow: var(--mid-pill-surface-shadow) !important;
 }
 
-:root.theme-light.theme-mid .rooms-card:hover,
-:root.theme-light.theme-mid .rooms-card:focus-within {
-  border-color: var(--mid-pill-surface-border-hover) !important;
-  background: var(--mid-pill-surface-bg-hover) !important;
-  box-shadow: var(--mid-pill-surface-shadow-hover) !important;
-}
-
 :root.theme-light.theme-mid .rooms-action-btn {
   border-color: var(--mid-pill-surface-border) !important;
   background: var(--mid-pill-surface-bg) !important;
