@@ -361,6 +361,60 @@ function createAlternativeOfferPrismaStub(overrides = {}, options = {}) {
   return prisma;
 }
 
+function createMultiOfferPrismaStub(offers = [], options = {}) {
+  const normalizedOffers = (Array.isArray(offers) ? offers : []).map((offer, index) => ({
+    id: offer.id || `offer-${index + 1}`,
+    userId: offer.userId || `user-${index + 2}`,
+    municipalityId: offer.municipalityId || "mun-tallinn",
+    primaryCategoryId: offer.primaryCategoryId || "cat-transport",
+    title: offer.title || `Pakkumine ${index + 1}`,
+    description: offer.description || `Kirjeldus ${index + 1}`,
+    structuredSummary: offer.structuredSummary || offer.description || `Kirjeldus ${index + 1}`,
+    roleLabel: offer.roleLabel || "abiline",
+    helpType: offer.helpType || "VOLUNTARY",
+    timeType: offer.timeType || "FLEXIBLE",
+    status: offer.status || "OPEN",
+    createdAt: offer.createdAt || new Date("2026-04-05T10:00:00.000Z").toISOString(),
+    municipality: offer.municipality || MUNICIPALITIES["mun-tallinn"],
+    primaryCategory: offer.primaryCategory || HELP_CATEGORIES.TRANSPORT,
+    categoryLinks: offer.categoryLinks || [],
+    targetGroupLinks: offer.targetGroupLinks || toTargetGroupLinks(["ADULT"]),
+    ...offer
+  }));
+
+  const prisma = createAlternativeOfferPrismaStub(normalizedOffers[0] || {}, options);
+  prisma.createdMatches = [];
+  prisma.helpOffer.findMany = async () => normalizedOffers;
+  prisma.helpOffer.findUnique = async ({ where } = {}) => {
+    const id = String(where?.id || normalizedOffers[0]?.id || "");
+    return normalizedOffers.find((item) => item.id === id) || null;
+  };
+
+  let roomCounter = 0;
+  let matchCounter = 0;
+  prisma.room.create = async () => ({ id: `room-${++roomCounter}` });
+  prisma.helpMatch.findUnique = async () => null;
+  prisma.helpMatch.create = async ({ data }) => {
+    const record = {
+      id: `match-${++matchCounter}`,
+      requestId: data.requestId,
+      offerId: data.offerId,
+      requesterId: data.requesterId,
+      offererId: data.offererId,
+      roomId: data.roomId,
+      status: data.status,
+      scoreSnapshot: data.scoreSnapshot,
+      reasonsJson: data.reasonsJson,
+      createdAt: new Date("2026-04-05T12:00:00.000Z").toISOString(),
+      updatedAt: new Date("2026-04-05T12:00:00.000Z").toISOString()
+    };
+    prisma.createdMatches.push(record);
+    return record;
+  };
+
+  return prisma;
+}
+
 function createSavedRequestState(overrides = {}) {
   return createHelpWorkflowDraftState({
     intent: "create_help_request",
@@ -1623,6 +1677,61 @@ test("saving a help request can show a similar offer when timing differs", async
   assert.equal(result.workflowState?.browseResults?.[0]?.requiresConfirmation, true);
 });
 
+test("browse reply asks for offer numbers and allows multiple selections", async () => {
+  const previewState = createHelpWorkflowDraftState({
+    intent: "create_help_request",
+    mode: "draft",
+    step: "edit_or_save",
+    flowLocked: true,
+    confirmationPending: true,
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      targetGroupCodes: ["ADULT"],
+      targetGroups: ["TÄ†Ā¤iskasvanu"],
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "LÄ†Ā¤hiajal",
+      structuredSummary: "Vajan transpordiabi Tallinnas"
+    }
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "jah",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: previewState
+  }, createMultiOfferPrismaStub([
+    {
+      id: "offer-vol-1",
+      title: "Vabatahtlik transpordiabi",
+      description: "Pakun transpordiabi Tallinnas vabatahtlikult.",
+      structuredSummary: "Pakun transpordiabi Tallinnas vabatahtlikult",
+      helpType: "VOLUNTARY"
+    },
+    {
+      id: "offer-vol-2",
+      title: "Teine transpordiabi",
+      description: "Aitan transpordiga kokkuleppel.",
+      structuredSummary: "Aitan transpordiga kokkuleppel",
+      helpType: "VOLUNTARY"
+    }
+  ]));
+
+  assert.equal(result.handled, true);
+  assert.match(String(result.reply || ""), /Leidsin 2/i);
+  assert.match(String(result.reply || ""), /kirjuta pakkumise number/i);
+  assert.match(String(result.reply || ""), /1,2/i);
+  assert.match(String(result.reply || ""), /kõigiga/i);
+});
+
 test("connecting to a similar offer asks confirmation before creating the match", async () => {
   const prisma = createAlternativeOfferPrismaStub();
   const browseState = createHelpWorkflowDraftState({
@@ -1763,6 +1872,182 @@ test("connecting to a similar offer can also confirm a timing mismatch", async (
   assert.equal(connected.handled, true);
   assert.equal(connected.workflowState?.mode, "done");
   assert.equal(connected.workflowState?.matchId, "match-1");
+});
+
+test("browse state can connect to multiple hard matches with a plain numeric reply", async () => {
+  const prisma = createMultiOfferPrismaStub([
+    {
+      id: "offer-hard-1",
+      title: "Vabatahtlik transpordiabi 1",
+      description: "Pakun transpordiabi Tallinnas vabatahtlikult.",
+      structuredSummary: "Pakun transpordiabi Tallinnas vabatahtlikult",
+      helpType: "VOLUNTARY"
+    },
+    {
+      id: "offer-hard-2",
+      title: "Vabatahtlik transpordiabi 2",
+      description: "Aitan transpordiga teisel ajal.",
+      structuredSummary: "Aitan transpordiga teisel ajal",
+      helpType: "VOLUNTARY"
+    }
+  ]);
+
+  const browseState = createHelpWorkflowDraftState({
+    intent: "browse_help_offers",
+    mode: "browse",
+    step: "browse",
+    flowLocked: true,
+    sourceRecordId: "req-1",
+    linkedRequestId: "req-1",
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      targetGroupCodes: ["ADULT"],
+      targetGroups: ["TÄ†Ā¤iskasvanu"],
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "LÄ†Ā¤hiajal"
+    },
+    browseResults: [
+      {
+        id: "offer-hard-1",
+        kind: "offer",
+        title: "Vabatahtlik transpordiabi 1",
+        description: "Pakun transpordiabi Tallinnas vabatahtlikult.",
+        municipalityName: "Tallinn",
+        score: 92,
+        helpType: "VOLUNTARY",
+        timeType: "FLEXIBLE",
+        requiresConfirmation: false
+      },
+      {
+        id: "offer-hard-2",
+        kind: "offer",
+        title: "Vabatahtlik transpordiabi 2",
+        description: "Aitan transpordiga teisel ajal.",
+        municipalityName: "Tallinn",
+        score: 89,
+        helpType: "VOLUNTARY",
+        timeType: "FLEXIBLE",
+        requiresConfirmation: false
+      }
+    ]
+  });
+
+  const result = await runHelpChatWorkflow({
+    message: "1,2",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: browseState
+  }, prisma);
+
+  assert.equal(result.handled, true);
+  assert.equal(result.workflowState?.mode, "done");
+  assert.equal(prisma.createdMatches.length, 2);
+  assert.deepEqual(prisma.createdMatches.map((item) => item.offerId), ["offer-hard-1", "offer-hard-2"]);
+  assert.match(String(result.reply || ""), /2 vestlust/i);
+});
+
+test("multiple selected offers can create hard matches first and then ask confirmation for soft matches", async () => {
+  const prisma = createMultiOfferPrismaStub([
+    {
+      id: "offer-hard-1",
+      title: "Vabatahtlik transpordiabi 1",
+      description: "Pakun transpordiabi Tallinnas vabatahtlikult.",
+      structuredSummary: "Pakun transpordiabi Tallinnas vabatahtlikult",
+      helpType: "VOLUNTARY"
+    },
+    {
+      id: "offer-soft-2",
+      title: "Tasuline transpordiabi",
+      description: "Pakun transpordiabi Tallinnas tasu eest.",
+      structuredSummary: "Pakun transpordiabi Tallinnas tasu eest",
+      helpType: "PAID"
+    }
+  ]);
+
+  const browseState = createHelpWorkflowDraftState({
+    intent: "browse_help_offers",
+    mode: "browse",
+    step: "browse",
+    flowLocked: true,
+    sourceRecordId: "req-1",
+    linkedRequestId: "req-1",
+    municipalityId: "mun-tallinn",
+    municipalityLabel: "Tallinn",
+    draft: {
+      title: "Vajan transpordiabi",
+      description: "Vajan transpordiabi Tallinnas.",
+      category: "Transport",
+      categoryCode: "TRANSPORT",
+      targetGroupCodes: ["ADULT"],
+      targetGroups: ["TÄ†Ā¤iskasvanu"],
+      rawPlace: "Tallinn",
+      helpType: "VOLUNTARY",
+      timeType: "FLEXIBLE",
+      availabilityOrStart: "Kokkuleppel",
+      beneficiaryLabel: "Endale",
+      urgency: "LÄ†Ā¤hiajal"
+    },
+    browseResults: [
+      {
+        id: "offer-hard-1",
+        kind: "offer",
+        title: "Vabatahtlik transpordiabi 1",
+        description: "Pakun transpordiabi Tallinnas vabatahtlikult.",
+        municipalityName: "Tallinn",
+        score: 92,
+        helpType: "VOLUNTARY",
+        timeType: "FLEXIBLE",
+        requiresConfirmation: false
+      },
+      {
+        id: "offer-soft-2",
+        kind: "offer",
+        title: "Tasuline transpordiabi",
+        description: "Pakun transpordiabi Tallinnas tasu eest.",
+        municipalityName: "Tallinn",
+        score: 65,
+        helpType: "PAID",
+        timeType: "FLEXIBLE",
+        compatibilityWarnings: ["help_type_incompatible"],
+        requiresConfirmation: true
+      }
+    ]
+  });
+
+  const firstStep = await runHelpChatWorkflow({
+    message: "1,2",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: browseState
+  }, prisma);
+
+  assert.equal(firstStep.handled, true);
+  assert.equal(firstStep.workflowState?.confirmationPending, true);
+  assert.equal(prisma.createdMatches.length, 1);
+  assert.equal(prisma.createdMatches[0]?.offerId, "offer-hard-1");
+  assert.match(String(firstStep.reply || ""), /Ühendus on loodud/i);
+  assert.match(String(firstStep.reply || ""), /tingimus erineb/i);
+
+  const confirmed = await runHelpChatWorkflow({
+    message: "jah",
+    userId: "user-1",
+    replyLang: "et",
+    workflowState: firstStep.workflowState
+  }, prisma);
+
+  assert.equal(confirmed.handled, true);
+  assert.equal(confirmed.workflowState?.mode, "done");
+  assert.equal(prisma.createdMatches.length, 2);
+  assert.equal(prisma.createdMatches[1]?.offerId, "offer-soft-2");
 });
 
 test("saving a help offer immediately shows matching requests", async () => {

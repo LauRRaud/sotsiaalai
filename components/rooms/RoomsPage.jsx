@@ -245,8 +245,13 @@ export default function RoomsPage() {
     }
 
     load();
+    const onExternalRefresh = () => {
+      void load();
+    };
+    window.addEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
     return () => {
       cancelled = true;
+      window.removeEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
     };
   }, [resolveErrorMessage, t]);
 

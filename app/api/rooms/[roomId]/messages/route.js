@@ -172,8 +172,13 @@ function makeCursor(row) {
   return `${ms}_${row.id}`;
 }
 
+async function resolveRoomId(paramsLike) {
+  const params = paramsLike instanceof Promise ? await paramsLike : paramsLike;
+  return String(params?.roomId || "").trim();
+}
+
 export async function GET(req, { params }) {
-  const roomId = String(params?.roomId || "").trim();
+  const roomId = await resolveRoomId(params);
   if (!roomId) return errorJson("api.common.missing_room_id", 400);
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
@@ -255,7 +260,7 @@ export async function GET(req, { params }) {
 }
 
 export async function POST(req, { params }) {
-  const roomId = String(params?.roomId || "").trim();
+  const roomId = await resolveRoomId(params);
   if (!roomId) return errorJson("api.common.missing_room_id", 400);
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);

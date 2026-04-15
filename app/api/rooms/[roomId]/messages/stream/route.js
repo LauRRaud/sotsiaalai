@@ -93,10 +93,16 @@ function sseHeaders() {
     Connection: "keep-alive"
   };
 }
+
+async function resolveRoomId(paramsLike) {
+  const params = paramsLike instanceof Promise ? await paramsLike : paramsLike;
+  return String(params?.roomId || "").trim();
+}
+
 export async function GET(_req, {
   params
 }) {
-  const roomId = String(params?.roomId || "").trim();
+  const roomId = await resolveRoomId(params);
   if (!roomId) {
     return new NextResponse("api.common.missing_room_id", {
       status: 400

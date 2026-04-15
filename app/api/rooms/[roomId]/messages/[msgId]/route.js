@@ -55,9 +55,16 @@ async function canDelete(userId, roomId, authorId, userRole) {
   return userRole === "MEMBER" && userId === authorId;
 }
 
+async function resolveRouteParams(paramsLike) {
+  const params = paramsLike instanceof Promise ? await paramsLike : paramsLike;
+  return {
+    roomId: String(params?.roomId || "").trim(),
+    msgId: String(params?.msgId || "").trim()
+  };
+}
+
 export async function DELETE(_req, { params }) {
-  const roomId = String(params?.roomId || "").trim();
-  const msgId = String(params?.msgId || "").trim();
+  const { roomId, msgId } = await resolveRouteParams(params);
   if (!roomId || !msgId) return errorJson("api.rooms.missing_room_id_or_msg_id", 400);
 
   const auth = await requireUser();
