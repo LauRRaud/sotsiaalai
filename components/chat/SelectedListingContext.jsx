@@ -283,7 +283,7 @@ export default function SelectedListingContext({
   const actionButtonClassName =
     "!min-h-[2.72rem] !rounded-[1.32rem] !px-[1.15rem] !py-[0.58rem] !text-[1.04rem] !tracking-[0.022em] max-[768px]:!min-h-[2.9rem] max-[768px]:!text-[1.08rem]";
   const actionRowClassName =
-    "mt-[-0.15rem] flex flex-wrap justify-center gap-[0.48rem] pt-0 pb-[0.05rem] max-[768px]:mt-[-0.05rem] max-[768px]:pb-[0.1rem]";
+    "mt-[-0.05rem] flex flex-wrap justify-center gap-[0.48rem] pt-[0.12rem] pb-[0.72rem] max-[768px]:mt-0 max-[768px]:pb-[0.85rem]";
   const selectedListingTitleClassName =
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static selected-listing-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const mobileTitleWrapClassName =
@@ -341,11 +341,11 @@ export default function SelectedListingContext({
               ) : null}
               {cleanDescription ? <div className="whitespace-pre-wrap text-[0.98rem] leading-[1.48] opacity-88">{cleanDescription}</div> : null}
               {infoItems.length ? (
-                <dl className="selected-listing-info-list grid gap-[0.3rem] rounded-[0.9rem] border border-[color:var(--subpage-card-border,transparent)] bg-[color:color-mix(in_srgb,var(--subpage-card-bg)_92%,transparent)] px-[0.74rem] py-[0.52rem] !shadow-none">
+                <dl className="selected-listing-info-list grid gap-[0.42rem] rounded-[0.9rem] border border-[color:var(--subpage-card-border,transparent)] bg-[color:color-mix(in_srgb,var(--subpage-card-bg)_92%,transparent)] px-[0.74rem] py-[0.58rem] !shadow-none">
                   {infoItems.map((item) => (
-                    <div key={`${item.label}-${item.value}`} className="grid gap-[0.04rem]">
-                      <dt className="text-[0.72rem] uppercase tracking-[0.075em] opacity-62">{item.label}</dt>
-                      <dd className="m-0 text-[0.92rem] leading-[1.28] opacity-92">{item.value}</dd>
+                    <div key={`${item.label}-${item.value}`} className="grid gap-[0.06rem]">
+                      <dt className="text-[0.78rem] uppercase tracking-[0.085em] opacity-62">{item.label}</dt>
+                      <dd className="m-0 text-[1rem] leading-[1.32] opacity-92">{item.value}</dd>
                     </div>
                   ))}
                 </dl>
