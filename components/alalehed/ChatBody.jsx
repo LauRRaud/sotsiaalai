@@ -2260,6 +2260,7 @@ export default function ChatBody({
       roomTitle={roomTitle}
       hideRoomTitle={hideRoomTitle}
       allowAssistantForward={allowAssistantForward}
+      isHelpMatchRoom={isHelpMatchRoom}
       isCrisis={isCrisis}
       crisisText={crisisText}
       errorBanner={errorBanner}
