@@ -1533,7 +1533,7 @@ export default function ChatBody({
     roomId: effectiveRoomId,
     roomBlocked,
     roomAuthRequired,
-    sendToAssistant,
+    sendToAssistant: allowAssistantForward ? sendToAssistant : false,
     onRoomMessageSent,
     onAssistantMessageCreated: handleAssistantMessageCreated,
     t,
@@ -1863,6 +1863,7 @@ export default function ChatBody({
   }, [isHelpMatchRoom, isRoomMode, roomRole, roomTitle, t]);
   const hideComposerTools = isHelpMatchRoom;
   const hideRoomTitle = Boolean(roomModeLabel);
+  const allowAssistantForward = !isHelpMatchRoom;
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
       const message = visibleMessages[i];
@@ -2255,6 +2256,7 @@ export default function ChatBody({
       isRoomMode={isRoomMode}
       roomTitle={roomTitle}
       hideRoomTitle={hideRoomTitle}
+      allowAssistantForward={allowAssistantForward}
       isCrisis={isCrisis}
       crisisText={crisisText}
       errorBanner={errorBanner}
@@ -2306,7 +2308,7 @@ export default function ChatBody({
         immediate: true,
         mobileImmediate: true
       })}
-      sendToAssistant={sendToAssistant}
+      sendToAssistant={allowAssistantForward ? sendToAssistant : false}
       setSendToAssistant={setSendToAssistant}
       aiNote={aiNote}
       recordingError={recordingError}

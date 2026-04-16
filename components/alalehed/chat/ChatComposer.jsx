@@ -117,6 +117,7 @@ export default function ChatComposer({
   roomModeLabel = "",
   activeModeKey = "",
   focusActive = false,
+  allowAssistantForward = true,
   sendToAssistant = false,
   setSendToAssistant,
   aiNote = ""
@@ -249,7 +250,7 @@ export default function ChatComposer({
   const hasRoomModeLabel = Boolean(roomModeLabel);
   const hasActiveWorkflowMode = activeModeKey && activeModeKey !== "default";
   const modeToggleShowsActiveState = hasActiveWorkflowMode;
-  const showAssistantToggleRow = Boolean(isRoomMode && focusActive);
+  const showAssistantToggleRow = Boolean(isRoomMode && focusActive && allowAssistantForward && !hideTools);
   const showModeLabelRow = Boolean(displayModeLabel && (modeToggleShowsActiveState || roomModeLabel));
   const composerBottomReserveClassName =
     showAssistantToggleRow
@@ -637,6 +638,15 @@ export default function ChatComposer({
         marginTop: 0
       }
     : undefined;
+  const inputRowStyle = hideTools && !embedded
+    ? {
+        ...(inputRowMobileStyle || {}),
+        paddingLeft: "var(--chat-hpad-right,var(--chat-hpad))",
+        paddingRight: "var(--chat-hpad-right,var(--chat-hpad))",
+        "--chat-inputbar-left-pull": "0rem",
+        "--chat-attach-left-pull": "0rem"
+      }
+    : inputRowMobileStyle;
   const toolItemBaseClassName =
     "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
     "text-[1.12rem] leading-[1.14] tracking-[0.01em] transition-colors duration-150 " +
@@ -743,7 +753,7 @@ export default function ChatComposer({
     `chat-side-control-btn chat-document-attach-btn ${sideControlButtonBaseClassName}`;
   const documentAttachDisabled = isGenerating || isRoomMode && (roomBlocked || roomAuthRequired);
   const showSideControls = !hideTools;
-  return <form ref={inputRowRef} style={inputRowMobileStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
+  return <form ref={inputRowRef} style={inputRowStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {showSideControls ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? null : <>
             <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.aria")} title={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
@@ -797,7 +807,7 @@ export default function ChatComposer({
               </Button>}
           </div>
         </div>
-        <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} className={composerAssistRowClassName} />
+        {showAssistantToggleRow ? <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} allowAssistantForward={allowAssistantForward} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} className={composerAssistRowClassName} /> : null}
         {showModeLabelRow ? <div className={composerModeRowClassName}>
             <div className={modeLabelWrapClassName}>
               <span

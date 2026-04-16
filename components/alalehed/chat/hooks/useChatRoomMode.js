@@ -26,6 +26,12 @@ export function useChatRoomMode({
     seenRoomAiIdsRef.current = new Set();
   }, [roomId]);
 
+  useEffect(() => {
+    if (isHelpMatchRoom) {
+      setSendToAssistant(false);
+    }
+  }, [isHelpMatchRoom]);
+
   const mappedRoomMessages = useMemo(() => {
     if (!isRoomMode) return [];
     return (roomMessages || []).map(m => {
