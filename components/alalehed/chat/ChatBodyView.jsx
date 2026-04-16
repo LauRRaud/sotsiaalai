@@ -46,6 +46,7 @@ export default function ChatBodyView({
   analysis,
   isRoomMode,
   roomTitle,
+  hideRoomTitle,
   isCrisis,
   crisisText,
   errorBanner,
@@ -159,7 +160,7 @@ export default function ChatBodyView({
               {listingsPanelNode}
               {selectedListingContextNode}
 
-              <ChatTopNotices t={t} isRoomMode={isRoomMode} roomTitle={roomTitle} isCrisis={isCrisis} crisisText={crisisText} errorBanner={errorBanner} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} />
+              <ChatTopNotices t={t} isRoomMode={isRoomMode} roomTitle={roomTitle} hideRoomTitle={hideRoomTitle} isCrisis={isCrisis} crisisText={crisisText} errorBanner={errorBanner} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} />
 
               <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={pageSize} onRevealOlder={onRevealOlder} canHideOlder={canHideOlder} onHideOlder={onHideOlder} onJumpToBottom={onJumpToBottom} messageItems={messageItems} onWindowDoubleClick={onWindowDoubleClick} mainClassName={focusActive ? "mt-[var(--chat-window-main-offset,0rem)] mb-[clamp(0.6rem,1.6vh,1.3rem)] [transform:translateY(var(--chat-window-focus-shift,0rem))]" : "mt-[var(--chat-window-main-offset,0rem)] mb-[clamp(0.5rem,1.4vh,1.1rem)] [transform:translateY(0)]"} isMobile={isMobile} isLightTheme={isLightTheme} hasConversationSources={hasConversationSources} conversationSourcesCount={conversationSources.length} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} sourcesButtonRef={sourcesButtonRef} />
 

@@ -1862,6 +1862,7 @@ export default function ChatBody({
     return "";
   }, [isHelpMatchRoom, isRoomMode, roomRole, roomTitle, t]);
   const hideComposerTools = isHelpMatchRoom;
+  const hideRoomTitle = Boolean(roomModeLabel);
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
       const message = visibleMessages[i];
@@ -2253,6 +2254,7 @@ export default function ChatBody({
       analysis={analysis}
       isRoomMode={isRoomMode}
       roomTitle={roomTitle}
+      hideRoomTitle={hideRoomTitle}
       isCrisis={isCrisis}
       crisisText={crisisText}
       errorBanner={errorBanner}

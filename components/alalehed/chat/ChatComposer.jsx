@@ -246,6 +246,7 @@ export default function ChatComposer({
   const displayModeLabel = subtleModeLabel
     ? subtleModeLabel.charAt(0).toLocaleUpperCase(locale) + subtleModeLabel.slice(1)
     : "";
+  const hasRoomModeLabel = Boolean(roomModeLabel);
   const hasActiveWorkflowMode = activeModeKey && activeModeKey !== "default";
   const modeToggleShowsActiveState = hasActiveWorkflowMode;
   const showAssistantToggleRow = Boolean(isRoomMode && focusActive);
@@ -562,11 +563,11 @@ export default function ChatComposer({
     "relative flex w-full max-w-[min(100%,var(--chat-input-max-w))] min-w-0 flex-[1_1_auto] items-stretch " +
     "transition-[max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:max-width] max-[768px]:transition-none";
   const composerAssistRowClassName =
-    "pointer-events-auto absolute left-1/2 top-[calc(100%+0.18rem)] flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end " +
+    `pointer-events-auto absolute left-1/2 ${hasRoomModeLabel ? "top-[calc(100%+0.28rem)]" : "top-[calc(100%+0.18rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end ` +
     "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
   const composerModeRowClassName =
-    "pointer-events-none absolute left-1/2 top-[calc(100%+1.28rem)] flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-center " +
-    "transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+1.16rem)] max-[768px]:transition-none";
+    `pointer-events-none absolute left-1/2 ${hasRoomModeLabel ? "top-[calc(100%+1.95rem)] max-[768px]:top-[calc(100%+1.72rem)]" : "top-[calc(100%+1.28rem)] max-[768px]:top-[calc(100%+1.16rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-center ` +
+    "transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
   const modeLabelWrapClassName =
     "relative text-center";
   const inputRowModeClassName = embedded
@@ -613,7 +614,11 @@ export default function ChatComposer({
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const inputRowTransformClassName = embedded
     ? "[transform:none]"
-    : `${inputFocused ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]" : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]"} max-[768px]:[transform:none]`;
+    : `${inputFocused
+      ? hasRoomModeLabel
+        ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(1.15rem,2.8dvh,1.75rem)))]"
+        : "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]"
+      : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]"} max-[768px]:[transform:none]`;
   const isStandaloneDisplay = typeof window !== "undefined" && (
     document?.documentElement?.dataset?.displayMode === "standalone" ||
     window.matchMedia?.("(display-mode: standalone)")?.matches ||
@@ -725,10 +730,6 @@ export default function ChatComposer({
     "relative z-[85] self-end pointer-events-auto flex items-center gap-[0.18rem] max-[768px]:gap-[0.12rem] " +
     "translate-x-[var(--chat-attach-left-pull,0rem)] max-[768px]:translate-x-0 " +
     "max-[768px]:ml-[clamp(-0.52rem,-1.6vw,-0.3rem)] max-[768px]:mr-[clamp(0.02rem,0.4vw,0.12rem)]";
-  const sideControlPlaceholderClassName =
-    "inline-flex h-[var(--chat-composer-side-control-size)] w-[var(--chat-composer-side-control-size)] " +
-    "min-h-[var(--chat-composer-side-control-size)] min-w-[var(--chat-composer-side-control-size)] " +
-    "flex-[0_0_var(--chat-composer-side-control-size)]";
   const sideControlButtonShellClassName =
     "group relative z-[2] inline-flex " +
     "items-center justify-center leading-none pointer-events-auto " +
@@ -741,9 +742,10 @@ export default function ChatComposer({
   const documentAttachButtonClassName =
     `chat-side-control-btn chat-document-attach-btn ${sideControlButtonBaseClassName}`;
   const documentAttachDisabled = isGenerating || isRoomMode && (roomBlocked || roomAuthRequired);
+  const showSideControls = !hideTools;
   return <form ref={inputRowRef} style={inputRowMobileStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
-      {!embedded || !hideTools ? <div className={`chat-side-controls ${sideControlsClassName}`}>
-        {hideTools ? <div aria-hidden="true" className={sideControlPlaceholderClassName} /> : <>
+      {showSideControls ? <div className={`chat-side-controls ${sideControlsClassName}`}>
+        {hideTools ? null : <>
             <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.aria")} title={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
               {activeModeKey === "career" ? <CareerModeIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                 : activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />

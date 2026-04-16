@@ -40,6 +40,7 @@ export function ChatTopNotices({
   t: _t,
   isRoomMode,
   roomTitle,
+  hideRoomTitle = false,
   isCrisis,
   crisisText,
   errorBanner
@@ -54,7 +55,7 @@ export function ChatTopNotices({
     "max-[768px]:mb-[0.08rem]";
 
   return <>
-    {isRoomMode && displayRoomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={18} disableFit>
+    {isRoomMode && !hideRoomTitle && displayRoomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={18} disableFit>
       {displayRoomTitle}
     </AutoFitPageTitle> : null}
     {isCrisis ? <div role="alert" className={chatAlertClassName}>
