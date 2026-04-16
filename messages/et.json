@@ -265,7 +265,7 @@
         "locale": "Vaikekeel",
         "contrast": "Kontrast",
         "fontSize": "Kirjasuurus",
-        "motion": "Animatsioonid"
+        "motion": "Liikumine ja jõudlus"
       },
       "reset": "Lähtesta",
       "save": "Salvesta muudatused",
@@ -348,11 +348,11 @@
   },
   "accessibility": {
     "title": "Ligipääsetavuse eelistused",
-    "description": "Kohanda ekraani profiili, teksti suurust, kontrasti, animatsioone ja teemat.",
+    "description": "Kohanda ekraani profiili, teksti suurust, kontrasti, liikumist, läbipaistvust ja teemat.",
     "language": "Keel",
     "text_scale": "Teksti suurus",
     "contrast": "Kontrast",
-    "motion": "Animatsioonid",
+    "motion": "Liikumine ja jõudlus",
     "theme": "Teema",
     "options": {
       "language": {
@@ -371,7 +371,10 @@
         "hc": "Kõrge kontrast"
       },
       "motion": {
-        "reduce": "Vähenda animatsioone ja läbipaistvust"
+        "reduce": "Vähenda animatsioone"
+      },
+      "transparency": {
+        "reduce": "Vähenda läbipaistvust"
       },
       "theme": {
         "light": "Hele",
@@ -1527,7 +1530,7 @@
       "sections_v2": {
         "accessibility": {
           "title": "1. Keel ja ligipääsetavus",
-          "body": "<p>Esimesel külastusel avaneb automaatselt <a href=\"#\" data-a11y-open=\"1\">Keel ja ligipääsetavus</a> aken. Sama vaate saad hiljem uuesti avada lehel <a href=\"/profiil\">Profiil</a>.</p><ul><li><strong>Keel.</strong> Vali kasutajaliidese keel: eesti, vene või inglise.</li><li><strong>Ekraani profiil.</strong> Vali \"Mobiil / sülearvuti ekraan\", \"Apple’i sülearvuti\" või \"Väline monitor / PC\", et kuva sobituks paremini sinu seadmega.</li><li><strong>Teksti suurus.</strong> Kohanda kirjasuurust endale mugavaks.</li><li><strong>Kontrast.</strong> Lülita vajadusel sisse kõrgem kontrast.</li><li><strong>Animatsioonid.</strong> Märgi \"Vähenda liikumist\", kui soovid rahulikumat ja stabiilsemat kasutuskogemust.</li><li><strong>Teema.</strong> Saad vahetada värvirežiimi heleda, hämarama, tumeda ja öise kujunduse vahel.</li><li><strong>Salvestamine ja lähtestamine.</strong> Muudatused rakenduvad kohe, kuid vajadusel saad eelistusi profiili lehel muuta ja uuesti salvestada.</li></ul>"
+          "body": "<p>Esimesel külastusel avaneb automaatselt <a href=\"#\" data-a11y-open=\"1\">Keel ja ligipääsetavus</a> aken. Sama vaate saad hiljem uuesti avada lehel <a href=\"/profiil\">Profiil</a>.</p><ul><li><strong>Keel.</strong> Vali kasutajaliidese keel: eesti, vene või inglise.</li><li><strong>Ekraani profiil.</strong> Vali \"Mobiil / sülearvuti ekraan\", \"Apple’i sülearvuti\" või \"Väline monitor / PC\", et kuva sobituks paremini sinu seadmega.</li><li><strong>Teksti suurus.</strong> Kohanda kirjasuurust endale mugavaks.</li><li><strong>Kontrast.</strong> Lülita vajadusel sisse kõrgem kontrast.</li><li><strong>Liikumine ja jõudlus.</strong> Soovi korral saad eraldi vähendada animatsioone ja läbipaistvust, et kasutuskogemus oleks rahulikum või vanemas arvutis sujuvam.</li><li><strong>Teema.</strong> Saad vahetada värvirežiimi heleda, hämarama, tumeda ja öise kujunduse vahel.</li><li><strong>Salvestamine ja lähtestamine.</strong> Muudatused rakenduvad kohe, kuid vajadusel saad eelistusi profiili lehel muuta ja uuesti salvestada.</li></ul>"
         },
         "home": {
           "title": "2. Avaleht",
@@ -1555,7 +1558,7 @@
         },
         "profile": {
           "title": "8. Profiil",
-          "body": "<p>Leht <a href=\"/profiil\">Profiil</a> koondab sinu konto, tellimuse ja kasutuseelistused.</p><ul><li>Lehe keskel on orbitaalmenüü, mille kaudu avanevad peamised profiili toimingud.</li><li><strong>Uuenda PIN.</strong> Avab eraldi lehe, kus sisestad praeguse PIN-i, uue PIN-i ja kinnituse.</li><li><strong>Uuenda e-post.</strong> Avab eraldi lehe, kus sisestad uue e-posti aadressi ja kinnitad muudatuse praeguse PIN-iga.</li><li><strong>Halda tellimust.</strong> Avab tellimuse lehe, kus näed aktiivset paketti, sponsoreeritud ligipääsu lõppkuupäeva ja rollipõhist kuutasu: eluküsimusega pöördujale 7,99 € kuus ning sotsiaaltöö spetsialistile 14,99 € kuus.</li><li><strong>Keel ja ligipääsetavus.</strong> Ava keele, ekraani profiili, teksti suuruse, kontrasti ja animatsioonide seaded; muudatused rakenduvad kohe.</li><li><strong>Kujundus.</strong> Vaheta heleda, hämarama, tumeda ja öise värvirežiimi vahel.</li><li><strong>Konto seaded.</strong> Leht, kus saad välja logida sellest seadmest, logida välja kõigist seadmetest või alustada konto kustutamist.</li></ul>"
+          "body": "<p>Leht <a href=\"/profiil\">Profiil</a> koondab sinu konto, tellimuse ja kasutuseelistused.</p><ul><li>Lehe keskel on orbitaalmenüü, mille kaudu avanevad peamised profiili toimingud.</li><li><strong>Uuenda PIN.</strong> Avab eraldi lehe, kus sisestad praeguse PIN-i, uue PIN-i ja kinnituse.</li><li><strong>Uuenda e-post.</strong> Avab eraldi lehe, kus sisestad uue e-posti aadressi ja kinnitad muudatuse praeguse PIN-iga.</li><li><strong>Halda tellimust.</strong> Avab tellimuse lehe, kus näed aktiivset paketti, sponsoreeritud ligipääsu lõppkuupäeva ja rollipõhist kuutasu: eluküsimusega pöördujale 7,99 € kuus ning sotsiaaltöö spetsialistile 14,99 € kuus.</li><li><strong>Keel ja ligipääsetavus.</strong> Ava keele, ekraani profiili, teksti suuruse, kontrasti, animatsioonide ja läbipaistvuse seaded; muudatused rakenduvad kohe.</li><li><strong>Kujundus.</strong> Vaheta heleda, hämarama, tumeda ja öise värvirežiimi vahel.</li><li><strong>Konto seaded.</strong> Leht, kus saad välja logida sellest seadmest, logida välja kõigist seadmetest või alustada konto kustutamist.</li></ul>"
         },
         "about": {
           "title": "9. MEIST",

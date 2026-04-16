@@ -10,6 +10,7 @@ const DEFAULT_PREFS = {
   uiProfile: "sm",
   contrast: "normal",
   reduceMotion: false,
+  reduceTransparency: false,
   theme: "dark",
   colorTheme: "default"
 };
@@ -106,6 +107,7 @@ function readPrefsFromCookie() {
     const uiProfile = normalizeUIProfile(obj?.uiProfile ?? obj?.screenProfile ?? obj?.uiScale ?? obj?.textScale);
     const contrast = obj?.contrast || DEFAULT_PREFS.contrast;
     const reduceMotion = !!obj?.reduceMotion;
+    const reduceTransparency = obj?.reduceTransparency == null ? reduceMotion : !!obj?.reduceTransparency;
     let theme = normalizeTheme(obj?.theme);
     const colorTheme = normalizeColorTheme(obj?.colorTheme);
     if (contrast === "hc") theme = "dark";
@@ -114,6 +116,7 @@ function readPrefsFromCookie() {
       uiProfile,
       contrast,
       reduceMotion,
+      reduceTransparency,
       theme,
       colorTheme
     };
@@ -168,11 +171,14 @@ function readInitialPrefsFromDom() {
   }
   const storedUIScale = readStoredUIScale();
   const storedUIProfile = readStoredUIProfile();
+  const domReduceMotion = html.getAttribute("data-reduce-motion") === "1";
+  const reduceTransparencyAttr = html.getAttribute("data-reduce-transparency");
   const fromDataset = {
     uiScale: normalizeUIScale(storedUIScale ?? html.getAttribute("data-text-scale")),
     uiProfile: normalizeUIProfile(storedUIProfile ?? html.getAttribute("data-ui-profile") ?? html.getAttribute("data-ui-scale")),
     contrast,
-    reduceMotion: html.getAttribute("data-reduce-motion") === "1",
+    reduceMotion: domReduceMotion,
+    reduceTransparency: reduceTransparencyAttr == null ? domReduceMotion : reduceTransparencyAttr === "1",
     theme,
     colorTheme: normalizeColorTheme(html.getAttribute("data-color-theme"))
   };
@@ -196,6 +202,7 @@ function applyPrefsToDom(prefs) {
   html.setAttribute("data-ui-scale-auto", "0");
   html.setAttribute("data-contrast", prefs.contrast || DEFAULT_PREFS.contrast);
   html.setAttribute("data-reduce-motion", prefs.reduceMotion ? "1" : "0");
+  html.setAttribute("data-reduce-transparency", prefs.reduceTransparency ? "1" : "0");
   html.setAttribute("data-color-theme", normalizeColorTheme(prefs.colorTheme));
   html.style.setProperty("--ui-scale", String(resolveUIScaleValue(uiScale, uiProfile)));
   const theme = normalizeTheme(prefs.theme);
@@ -240,6 +247,8 @@ function buildInitialPrefs(initialPrefs) {
       uiScale: normalizeUIScale(initialPrefs.uiScale ?? domPrefs?.uiScale),
       uiProfile: normalizeUIProfile(initialPrefs.uiProfile ?? domPrefs?.uiProfile ?? initialPrefs.uiScale ?? domPrefs?.uiScale),
       contrast,
+      reduceMotion: !!(initialPrefs.reduceMotion ?? domPrefs?.reduceMotion),
+      reduceTransparency: !!(initialPrefs.reduceTransparency ?? domPrefs?.reduceTransparency ?? initialPrefs.reduceMotion ?? domPrefs?.reduceMotion),
       theme: contrast === "hc" ? "dark" : theme,
       colorTheme
     };

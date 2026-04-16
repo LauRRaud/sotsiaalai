@@ -166,53 +166,53 @@ body::-webkit-scrollbar {
   }
 }
 
-html[data-reduce-motion="1"],
-body[data-reduce-motion="1"] {
+html[data-reduce-transparency="1"],
+body[data-reduce-transparency="1"] {
   --glass-blur-radius: 0px !important;
   --glass-modal-blur: 0px !important;
 }
 
-html[data-reduce-motion="1"].theme-light,
-body[data-reduce-motion="1"].theme-light {
+html[data-reduce-transparency="1"].theme-light,
+body[data-reduce-transparency="1"].theme-light {
   --glass-surface-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93)) !important;
   --glass-ring-surface-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93)) !important;
   --glass-modal-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93)) !important;
   --drawer-glass-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93)) !important;
 }
 
-html[data-reduce-motion="1"].theme-mid,
-body[data-reduce-motion="1"].theme-mid {
+html[data-reduce-transparency="1"].theme-mid,
+body[data-reduce-transparency="1"].theme-mid {
   --glass-surface-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79)) !important;
   --glass-ring-surface-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79)) !important;
   --glass-modal-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79)) !important;
   --drawer-glass-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79)) !important;
 }
 
-html[data-reduce-motion="1"]:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]),
-body[data-reduce-motion="1"]:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {
+html[data-reduce-transparency="1"]:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]),
+body[data-reduce-transparency="1"]:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {
   --glass-surface-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84)) !important;
   --glass-ring-surface-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84)) !important;
   --glass-modal-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84)) !important;
   --drawer-glass-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84)) !important;
 }
 
-html[data-reduce-motion="1"].theme-night,
-body[data-reduce-motion="1"].theme-night {
+html[data-reduce-transparency="1"].theme-night,
+body[data-reduce-transparency="1"].theme-night {
   --glass-surface-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86)) !important;
   --glass-ring-surface-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86)) !important;
   --glass-modal-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86)) !important;
   --drawer-glass-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86)) !important;
 }
 
-html[data-reduce-motion="1"][data-contrast="hc"],
-body[data-reduce-motion="1"][data-contrast="hc"] {
+html[data-reduce-transparency="1"][data-contrast="hc"],
+body[data-reduce-transparency="1"][data-contrast="hc"] {
   --glass-surface-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86)) !important;
   --glass-ring-surface-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86)) !important;
   --glass-modal-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86)) !important;
   --drawer-glass-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86)) !important;
 }
 
-html[data-reduce-motion="1"] :is(
+html[data-reduce-transparency="1"] :is(
     [class*="backdrop-blur-"],
     [class*="backdrop-filter:blur("],
     [class*="-webkit-backdrop-filter:blur("],
@@ -221,7 +221,7 @@ html[data-reduce-motion="1"] :is(
     .chat-mask-layer,
     .profile-mask-layer
   ),
-body[data-reduce-motion="1"] :is(
+body[data-reduce-transparency="1"] :is(
     [class*="backdrop-blur-"],
     [class*="backdrop-filter:blur("],
     [class*="-webkit-backdrop-filter:blur("],
@@ -234,10 +234,10 @@ body[data-reduce-motion="1"] :is(
   backdrop-filter: none !important;
 }
 
-html[data-reduce-motion="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::before,
-html[data-reduce-motion="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::after,
-body[data-reduce-motion="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::before,
-body[data-reduce-motion="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::after {
+html[data-reduce-transparency="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::before,
+html[data-reduce-transparency="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::after,
+body[data-reduce-transparency="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::before,
+body[data-reduce-transparency="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::after {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }

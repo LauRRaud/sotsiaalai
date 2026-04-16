@@ -272,7 +272,7 @@
         "locale": "Default language",
         "contrast": "Contrast",
         "fontSize": "Font size",
-        "motion": "Motion"
+        "motion": "Motion and performance"
       },
       "reset": "Reset",
       "save": "Save changes",
@@ -348,11 +348,11 @@
   },
   "accessibility": {
     "title": "Accessibility preferences",
-    "description": "Adjust screen profile, text size, contrast, motion, and theme.",
+    "description": "Adjust screen profile, text size, contrast, motion, transparency, and theme.",
     "language": "Language",
     "text_scale": "Text size",
     "contrast": "Contrast",
-    "motion": "Animations",
+    "motion": "Motion and performance",
     "theme": "Theme",
     "options": {
       "language": {
@@ -371,7 +371,10 @@
         "hc": "High contrast"
       },
       "motion": {
-        "reduce": "Reduce animations and transparency"
+        "reduce": "Reduce animations"
+      },
+      "transparency": {
+        "reduce": "Reduce transparency"
       },
       "theme": {
         "light": "Light",
@@ -1527,7 +1530,7 @@
       "sections_v2": {
         "accessibility": {
           "title": "1. Language and accessibility",
-          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens automatically. You can reopen the same view later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose Estonian, Russian, or English.</li><li><strong>Screen profile.</strong> Choose \"Mobile / laptop screen\", \"Apple laptop\", or \"External monitor / PC\" so the display fits your device better.</li><li><strong>Text size.</strong> Adjust the text size to what feels most comfortable.</li><li><strong>Contrast.</strong> Enable stronger contrast when needed.</li><li><strong>Animations.</strong> Turn on \"Reduce motion\" for a calmer and more stable experience.</li><li><strong>Theme.</strong> You can switch the color mode between light, dim, dark, and night themes.</li><li><strong>Save and reset.</strong> Changes apply immediately, but you can change preferences on the Profile page and save them again when needed.</li></ul>"
+          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens automatically. You can reopen the same view later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose Estonian, Russian, or English.</li><li><strong>Screen profile.</strong> Choose \"Mobile / laptop screen\", \"Apple laptop\", or \"External monitor / PC\" so the display fits your device better.</li><li><strong>Text size.</strong> Adjust the text size to what feels most comfortable.</li><li><strong>Contrast.</strong> Enable stronger contrast when needed.</li><li><strong>Motion and performance.</strong> You can reduce animations and transparency separately for a calmer experience or better performance on older hardware.</li><li><strong>Theme.</strong> You can switch the color mode between light, dim, dark, and night themes.</li><li><strong>Save and reset.</strong> Changes apply immediately, but you can change preferences on the Profile page and save them again when needed.</li></ul>"
         },
         "home": {
           "title": "2. Home page",
@@ -1555,7 +1558,7 @@
         },
         "profile": {
           "title": "8. Profile",
-          "body": "<p>The <a href=\"/profiil\">Profile</a> page gathers your account, subscription, and personal preferences.</p><ul><li>The main actions open from the orbital menu in the center of the page.</li><li><strong>Update PIN.</strong> Opens a separate page where you enter the current PIN, the new PIN, and confirmation.</li><li><strong>Update email.</strong> Opens a separate page where you enter the new email address and confirm the change with your current PIN.</li><li><strong>Manage subscription.</strong> Opens the subscription page, where you can see the active plan, sponsored-access end date, and role-based monthly pricing: 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li><strong>Language and accessibility.</strong> Open language, screen profile, text size, contrast, and motion settings; changes apply immediately.</li><li><strong>Theme.</strong> Switch between light, dim, dark, and night color modes.</li><li><strong>Account settings.</strong> A page where you can sign out on this device, sign out on all devices, or start account deletion.</li></ul>"
+          "body": "<p>The <a href=\"/profiil\">Profile</a> page gathers your account, subscription, and personal preferences.</p><ul><li>The main actions open from the orbital menu in the center of the page.</li><li><strong>Update PIN.</strong> Opens a separate page where you enter the current PIN, the new PIN, and confirmation.</li><li><strong>Update email.</strong> Opens a separate page where you enter the new email address and confirm the change with your current PIN.</li><li><strong>Manage subscription.</strong> Opens the subscription page, where you can see the active plan, sponsored-access end date, and role-based monthly pricing: 7.99 EUR per month for a person seeking help and 14.99 EUR per month for a social work professional.</li><li><strong>Language and accessibility.</strong> Open language, screen profile, text size, contrast, animation, and transparency settings; changes apply immediately.</li><li><strong>Theme.</strong> Switch between light, dim, dark, and night color modes.</li><li><strong>Account settings.</strong> A page where you can sign out on this device, sign out on all devices, or start account deletion.</li></ul>"
         },
         "about": {
           "title": "9. ABOUT",

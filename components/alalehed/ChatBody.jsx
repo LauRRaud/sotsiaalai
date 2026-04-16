@@ -328,6 +328,18 @@ export default function ChatBody({
   const listingsPanelCloseTimerRef = useRef(null);
   const careerTurnRequestRef = useRef(0);
   const maskRefreshRef = useRef(null);
+  const chatWindowRef = useRef(null);
+  const chatContainerRef = useRef(null);
+  const isGeneratingRef = useRef(false);
+  const renderLimitInitializedConvRef = useRef(null);
+  const blurTimerRef = useRef(0);
+  const inputRef = useRef(null);
+  const composerDraftApiRef = useRef(null);
+  const inputRowRef = useRef(null);
+  const inputBarRef = useRef(null);
+  const maskLayerRef = useRef(null);
+  const sourcesButtonRef = useRef(null);
+  const backTapGuardRef = useRef(0);
   const refreshMask = useCallback((options = {}) => {
     const immediate = options.immediate === true;
     const mobileImmediate = options.mobileImmediate === true;
@@ -356,6 +368,8 @@ export default function ChatBody({
     sessionUserId,
     t
   });
+  const allowAssistantForward = !isHelpMatchRoom;
+  const hideComposerTools = isHelpMatchRoom;
   useEffect(() => {
     clearStaleScrollLock();
   }, []);
@@ -542,11 +556,6 @@ export default function ChatBody({
   const MAX_RENDERED_MESSAGES = 80;
   const PAGE_SIZE = 80;
   const [renderLimit, setRenderLimit] = useState(MAX_RENDERED_MESSAGES);
-  const chatWindowRef = useRef(null);
-  const chatContainerRef = useRef(null);
-  const isGeneratingRef = useRef(false);
-  const renderLimitInitializedConvRef = useRef(null);
-  const blurTimerRef = useRef(0);
   const handleInputBlur = useCallback(event => {
     const node = chatContainerRef.current;
     const next = event?.relatedTarget || document.activeElement;
@@ -576,15 +585,8 @@ export default function ChatBody({
       blurTimerRef.current = 0;
     }, MOBILE_KEYBOARD_BLUR_SETTLE_MS);
   }, [isMobile]);
-  const inputRef = useRef(null);
   const [composerHasDraft, setComposerHasDraft] = useState(false);
   const [emptyIntroSeenOverride, setEmptyIntroSeenOverride] = useState(false);
-  const composerDraftApiRef = useRef(null);
-  const inputRowRef = useRef(null);
-  const inputBarRef = useRef(null);
-  const maskLayerRef = useRef(null);
-  const sourcesButtonRef = useRef(null);
-  const backTapGuardRef = useRef(0);
   const waitForComposerCollapse = useCallback(async () => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
@@ -604,15 +606,18 @@ export default function ChatBody({
       const container = chatContainerRef.current;
       let settled = false;
       let timeoutId = 0;
-      const finish = () => {
+      let handleTransitionEnd = null;
+      function finish() {
         if (settled) return;
         settled = true;
-        row?.removeEventListener("transitionend", onTransitionEnd);
-        container?.removeEventListener("transitionend", onTransitionEnd);
+        if (handleTransitionEnd) {
+          row?.removeEventListener("transitionend", handleTransitionEnd);
+          container?.removeEventListener("transitionend", handleTransitionEnd);
+        }
         if (timeoutId) window.clearTimeout(timeoutId);
         resolve();
-      };
-      const onTransitionEnd = event => {
+      }
+      handleTransitionEnd = event => {
         if (
           event.target === row &&
           (event.propertyName === "top" ||
@@ -639,8 +644,8 @@ export default function ChatBody({
           finish();
         }
       };
-      row?.addEventListener("transitionend", onTransitionEnd);
-      container?.addEventListener("transitionend", onTransitionEnd);
+      row?.addEventListener("transitionend", handleTransitionEnd);
+      container?.addEventListener("transitionend", handleTransitionEnd);
       timeoutId = window.setTimeout(finish, 460);
     });
     refreshMask({
@@ -1861,9 +1866,7 @@ export default function ChatBody({
     }
     return "";
   }, [isHelpMatchRoom, isRoomMode, roomRole, roomTitle, t]);
-  const hideComposerTools = isHelpMatchRoom;
   const hideRoomTitle = Boolean(roomModeLabel);
-  const allowAssistantForward = !isHelpMatchRoom;
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
       const message = visibleMessages[i];

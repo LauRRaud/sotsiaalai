@@ -52,8 +52,9 @@ const themeOptionsClassName = "a11y-theme-options mt-0 flex-nowrap max-[768px]:f
 const contrastFieldsetClassName = "a11y-contrast-fieldset max-[768px]:!pt-[0rem]";
 const contrastLegendClassName = "";
 const contrastOptionsClassName = "";
-const motionFieldsetClassName = "a11y-motion-fieldset max-[768px]:!pt-[1.22rem] max-[768px]:!mt-[0.45rem]";
+const motionFieldsetClassName = "a11y-motion-fieldset max-[768px]:!pt-[1.22rem] max-[768px]:!mt-[0.45rem] max-[768px]:!pb-[3.1rem] max-[768px]:!min-h-[14rem]";
 const motionLegendClassName = "";
+const motionOptionsClassName = "a11y-motion-options mt-0 flex-col items-center justify-center gap-[0.72rem] max-[768px]:items-stretch";
 const contrastShiftClassName = "";
 const motionShiftClassName = "";
 const optionCardClassName =
@@ -61,7 +62,6 @@ const optionCardClassName =
 const optionCardButtonClassName = primarySegmentedButtonClassName;
 const optionCardTextScaleDesktopClassName =
   "whitespace-nowrap";
-const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";
 const saveButtonClassName =
   "max-w-[22rem] whitespace-normal text-center leading-[1.2] px-[1.6rem] py-[1.05rem] text-[1.18rem] " +
   "max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]";
@@ -101,6 +101,7 @@ export default function AccessibilityModal({
   const [uiProfile, setUiProfile] = useState(initialUiProfile);
   const [contrast, setContrast] = useState(initialContrast);
   const [reduceMotion, setReduceMotion] = useState(!!prefs.reduceMotion);
+  const [reduceTransparency, setReduceTransparency] = useState(!!prefs.reduceTransparency);
   const [theme, setTheme] = useState(initialTheme);
   const [lang, setLang] = useState(initialLang);
   const [scrollPad, setScrollPad] = useState(0);
@@ -144,6 +145,7 @@ export default function AccessibilityModal({
     setUiProfile(current => current ?? initialUiProfile);
     setContrast(current => current ?? initialContrast);
     setReduceMotion(!!prefs.reduceMotion);
+    setReduceTransparency(!!prefs.reduceTransparency);
     setTheme(current => current ?? initialTheme);
   }, [initialContrast, initialTheme, initialUiProfile, initialUiScale, prefs]);
   useEffect(() => {
@@ -433,6 +435,7 @@ export default function AccessibilityModal({
       uiProfile: uiProfile || prefs.uiProfile || normalizeUiProfile(prefs.uiScale),
       contrast: contrast || prefs.contrast || "normal",
       reduceMotion,
+      reduceTransparency,
       theme: theme || prefs.theme || "dark"
     });
     if (typeof window !== "undefined" && lang && lang !== locale) {
@@ -463,9 +466,10 @@ export default function AccessibilityModal({
       uiProfile: uiProfile || prefs.uiProfile || normalizeUiProfile(prefs.uiScale),
       contrast: contrast || prefs.contrast || "normal",
       reduceMotion,
+      reduceTransparency,
       theme: theme || prefs.theme || "dark"
     });
-  }, [contrast, onPreview, prefs.contrast, prefs.theme, prefs.uiProfile, prefs.uiScale, reduceMotion, theme, uiProfile, uiScale]);
+  }, [contrast, onPreview, prefs.contrast, prefs.theme, prefs.uiProfile, prefs.uiScale, reduceMotion, reduceTransparency, theme, uiProfile, uiScale]);
   useEffect(() => () => {
     onPreviewEnd?.();
   }, [onPreviewEnd]);
@@ -623,23 +627,27 @@ export default function AccessibilityModal({
 
           <fieldset className={`${fieldsetClassName} ${motionFieldsetClassName} ${getA11yStepClassName(5)}`}>
             <legend className={`${legendClassName} ${motionLegendClassName} ${motionShiftClassName}`.trim()}>{t("accessibility.motion")}</legend>
-            <OptionCard
-              type="checkbox"
-              checked={reduceMotion}
-              onChange={e => setReduceMotion(e.target.checked)}
-              className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardCenteredClassName} ${motionShiftClassName} a11y-motion-reduce-option`}
-            >
-              {locale === "et" ? <>
-                  <span className="max-[768px]:hidden">{t("accessibility.options.motion.reduce")}</span>
-                  <span className="hidden max-[768px]:inline text-center">
-                    <span className="block">Vähenda animatsioone</span>
-                    <span className="block">ja läbipaistvust</span>
-                  </span>
-                </> : <span>{t("accessibility.options.motion.reduce")}</span>}
-            </OptionCard>
+            <div className={`${optionsRowClassName} ${motionOptionsClassName} ${motionShiftClassName}`.trim()}>
+              <OptionCard
+                type="checkbox"
+                checked={reduceMotion}
+                onChange={e => setReduceMotion(e.target.checked)}
+                className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName} max-[768px]:!w-full max-[768px]:!justify-start a11y-motion-reduce-option`}
+              >
+                <span>{t("accessibility.options.motion.reduce")}</span>
+              </OptionCard>
+              <OptionCard
+                type="checkbox"
+                checked={reduceTransparency}
+                onChange={e => setReduceTransparency(e.target.checked)}
+                className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName} max-[768px]:!w-full max-[768px]:!justify-start a11y-transparency-reduce-option`}
+              >
+                <span>{t("accessibility.options.transparency.reduce")}</span>
+              </OptionCard>
+            </div>
           </fieldset>
 
-          <div className={`csp-step a11y-save-step ${getA11yStepClassName(6)} flex justify-center mt-[1.6rem] min-[769px]:mt-[0.7rem] min-[769px]:translate-y-[-0.7rem] max-[768px]:mt-[1.1rem] max-[768px]:translate-y-0`}>
+          <div className={`csp-step a11y-save-step ${getA11yStepClassName(6)} flex justify-center mt-[1.6rem] min-[769px]:mt-[3.2rem] min-[769px]:translate-y-0 max-[768px]:mt-[1.1rem] max-[768px]:translate-y-0`}>
               <Button
               type="button"
               variant="primary"
