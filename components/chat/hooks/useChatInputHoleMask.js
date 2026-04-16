@@ -1,9 +1,8 @@
 import { useLayoutEffect } from "react";
+import { detectMobileViewport } from "@/components/alalehed/chat/chatLayoutVars";
 
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
-const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
-const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const MOBILE_MASK_UPDATE_INTERVAL_MS = 120;
 const DESKTOP_MASK_TRACK_MS = 760;
 
@@ -40,10 +39,7 @@ export function useChatInputHoleMask({
         maskLayer.style.removeProperty("-webkit-clip-path");
       }
     };
-    const isMobileViewport =
-      Boolean(window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches) ||
-      Boolean(window.matchMedia?.(COARSE_POINTER_QUERY)?.matches) ||
-      window.innerWidth <= 768;
+    const isMobileViewport = detectMobileViewport();
     if (!enabled) {
       box.style.removeProperty("--chat-input-hole-mask");
       clearHoleGeometry();

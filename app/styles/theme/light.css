@@ -653,18 +653,22 @@
   border: 0;
   box-shadow: none;
 }
-:root.theme-light .chat-container--input-focus .chat-inputbar {
+:root.theme-light .chat-container--input-focus .chat-inputbar,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar {
   background: var(--chat-inputbar-bg-hover);
   box-shadow: var(--chat-inputbar-shadow-hover);
 }
-:root.theme-light .chat-container--input-focus .chat-inputbar:hover {
+:root.theme-light .chat-container--input-focus .chat-inputbar:hover,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar:hover {
   background: var(--chat-inputbar-bg-hover);
 }
-:root.theme-light .chat-container--input-focus .chat-inputbar:focus-within {
+:root.theme-light .chat-container--input-focus .chat-inputbar:focus-within,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar:focus-within {
   background: var(--chat-inputbar-bg-hover);
   box-shadow: var(--chat-inputbar-shadow-hover);
 }
-:root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn {
+:root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar .chat-send-btn {
   background: var(--chat-action-btn-bg-hover);
   border: 0;
   box-shadow:
@@ -675,7 +679,10 @@
 }
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:hover,
 :root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:focus-visible,
-:root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:active {
+:root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:active,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar .chat-send-btn:hover,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar .chat-send-btn:focus-visible,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar .chat-send-btn:active {
   background: var(--chat-action-btn-bg-hover);
   border: 0;
   box-shadow:

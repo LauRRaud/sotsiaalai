@@ -174,9 +174,19 @@ const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 
 function detectMobileViewport() {
   if (typeof window === "undefined") return false;
+  const width = Math.max(0, window.innerWidth || 0);
+  const height = Math.max(0, window.innerHeight || 0);
+  const shortestSide = Math.min(width, height);
   const matchWidth = window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches;
   const matchCoarse = window.matchMedia?.(COARSE_POINTER_QUERY)?.matches;
-  return Boolean(matchWidth || matchCoarse || window.innerWidth <= 768);
+  const likelyPortraitTouchViewport =
+    Boolean(matchCoarse) &&
+    width > 0 &&
+    height > width &&
+    width <= 1024 &&
+    shortestSide <= 900;
+
+  return Boolean(matchWidth || width <= 768 || likelyPortraitTouchViewport);
 }
 
 function resolveChatLayoutVars({

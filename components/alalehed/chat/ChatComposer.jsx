@@ -534,18 +534,41 @@ export default function ChatComposer({
     if (isMobile) return;
     e.preventDefault();
   }, [isMobile]);
+  const focusComposerField = useCallback(() => {
+    const node = inputRef?.current;
+    if (!node) return;
+    try {
+      if (!isMobile) {
+        node.focus({
+          preventScroll: true
+        });
+        return;
+      }
+    } catch {}
+    node.focus?.();
+  }, [inputRef, isMobile]);
+  const handleInputBarMouseDown = useCallback(e => {
+    const target = e?.target;
+    if (!(target instanceof Element)) return;
+    if (target.closest("textarea,button,a,input,select,label,[role='button'],[role='menuitem']")) {
+      return;
+    }
+    e.preventDefault();
+    focusComposerField();
+  }, [focusComposerField]);
   const inputRowClassName =
     `${embedded ? "chat-input-row--embedded " : ""}` +
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
     "transition-[top,margin-top,transform,padding-bottom,padding-top,padding-left,padding-right] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top,transform,padding-bottom] max-[768px]:transition-none";
   const composerMainClassName =
-    "relative flex w-full max-w-[min(100%,var(--chat-input-max-w))] min-w-0 flex-[1_1_auto] items-stretch";
+    "relative flex w-full max-w-[min(100%,var(--chat-input-max-w))] min-w-0 flex-[1_1_auto] items-stretch " +
+    "transition-[max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:max-width] max-[768px]:transition-none";
   const composerAssistRowClassName =
     "pointer-events-auto absolute left-1/2 top-[calc(100%+0.18rem)] flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end " +
-    "pr-[clamp(1.2rem,3vw,1.65rem)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem]";
+    "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
   const composerModeRowClassName =
     "pointer-events-none absolute left-1/2 top-[calc(100%+1.28rem)] flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-center " +
-    "max-[768px]:top-[calc(100%+1.16rem)]";
+    "transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+1.16rem)] max-[768px]:transition-none";
   const modeLabelWrapClassName =
     "relative text-center";
   const inputRowModeClassName = embedded
@@ -747,7 +770,7 @@ export default function ChatComposer({
       </label>
 
       <div className={composerMainClassName}>
-        <div className={inputBarClassName} ref={inputBarRef}>
+        <div className={inputBarClassName} ref={inputBarRef} onMouseDown={handleInputBarMouseDown}>
           <div className={inputFieldWrapClassName}>
             <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={e => {
             onFocusInput?.(e);

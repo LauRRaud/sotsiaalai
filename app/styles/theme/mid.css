@@ -462,7 +462,8 @@
 
 :root.theme-mid .chat-inputbar:hover::before,
 :root.theme-mid .chat-inputbar:focus-within::before,
-:root.theme-mid .chat-container--input-focus .chat-inputbar::before {
+:root.theme-mid .chat-container--input-focus .chat-inputbar::before,
+:root.theme-mid .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar::before {
   opacity: 1;
 }
 
@@ -473,7 +474,9 @@
 }
 
 :root.theme-mid .chat-container--input-focus .chat-inputbar,
-:root.theme-mid .chat-container--input-focus .chat-inputbar:focus-within {
+:root.theme-mid .chat-container--input-focus .chat-inputbar:focus-within,
+:root.theme-mid .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar,
+:root.theme-mid .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar:focus-within {
   background: var(--chat-inputbar-bg) !important;
   box-shadow: var(--chat-inputbar-shadow-focus);
 }
