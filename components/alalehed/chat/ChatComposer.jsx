@@ -253,6 +253,7 @@ export default function ChatComposer({
   const assistantForwardEnabled = allowAssistantForward && !hideTools;
   const showAssistantToggleRow = Boolean(isRoomMode && focusActive && assistantForwardEnabled);
   const showModeLabelRow = Boolean(displayModeLabel && (modeToggleShowsActiveState || roomModeLabel));
+  const roomModeLabelNeedsExtraOffset = hasRoomModeLabel && showAssistantToggleRow;
   const composerBottomReserveClassName =
     showAssistantToggleRow
       ? "pb-[clamp(2.2rem,5vh,2.9rem)] max-[768px]:pb-[2.15rem]"
@@ -568,7 +569,7 @@ export default function ChatComposer({
     `pointer-events-auto absolute left-1/2 ${hasRoomModeLabel ? "top-[calc(100%+0.28rem)]" : "top-[calc(100%+0.18rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end ` +
     "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
   const composerModeRowClassName =
-    `pointer-events-none absolute left-1/2 ${hasRoomModeLabel ? "top-[calc(100%+1.95rem)] max-[768px]:top-[calc(100%+1.72rem)]" : "top-[calc(100%+1.28rem)] max-[768px]:top-[calc(100%+1.16rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-center ` +
+    `pointer-events-none absolute left-1/2 ${roomModeLabelNeedsExtraOffset ? "top-[calc(100%+1.95rem)] max-[768px]:top-[calc(100%+1.72rem)]" : "top-[calc(100%+1.28rem)] max-[768px]:top-[calc(100%+1.16rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-center ` +
     "transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
   const modeLabelWrapClassName =
     "relative text-center";
