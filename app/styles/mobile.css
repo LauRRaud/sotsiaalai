@@ -539,10 +539,26 @@
   :root.theme-light,
   :root:not(.theme-light) {
     --glass-shell-shadow: none;
+    --glass-modal-shadow: none;
   }
 
-  .glass-ring {
+  .glass-ring,
+  .mobile-keep-desktop-glass-cards,
+  .invite-modal-content,
+  .person-invite-modal-content,
+  .account-settings-modal-content {
     box-shadow: none !important;
+    filter: none !important;
+    --glass-shell-shadow: none;
+    --glass-modal-shadow: none;
+    --subpage-card-shadow: none;
+    --subpage-card-shadow-hover: none;
+    --panel-secondary-shadow: none;
+  }
+
+  .glass-ring::before {
+    opacity: 0 !important;
+    filter: none !important;
   }
 
   html,
@@ -2060,8 +2076,8 @@
     --subpage-card-bg-hover: var(--btn-primary-bg-hover);
     --subpage-card-border: rgba(255, 255, 255, 0.5);
     --subpage-card-border-hover: rgba(255, 255, 255, 0.58);
-    --subpage-card-shadow: var(--btn-primary-shadow);
-    --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
+    --subpage-card-shadow: none;
+    --subpage-card-shadow-hover: none;
   }
 
   :root.theme-mid .mobile-keep-desktop-glass-cards {
@@ -2070,7 +2086,7 @@
     --glass-modal-bg: var(--glass-ring-surface-bg);
     --panel-secondary-bg: var(--btn-primary-bg);
     --panel-secondary-border: transparent;
-    --panel-secondary-shadow: var(--btn-primary-shadow);
+    --panel-secondary-shadow: none;
     --subpage-card-bg:
       radial-gradient(
         92% 88% at 50% 16%,
@@ -2097,8 +2113,8 @@
       );
     --subpage-card-border: transparent;
     --subpage-card-border-hover: transparent;
-    --subpage-card-shadow: var(--btn-primary-shadow);
-    --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
+    --subpage-card-shadow: none;
+    --subpage-card-shadow-hover: none;
   }
 
   :root.theme-mid

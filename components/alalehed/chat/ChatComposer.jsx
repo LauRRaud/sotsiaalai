@@ -568,8 +568,21 @@ export default function ChatComposer({
   const composerAssistRowClassName =
     `pointer-events-auto absolute left-1/2 ${hasRoomModeLabel ? "top-[calc(100%+0.28rem)]" : "top-[calc(100%+0.18rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end ` +
     "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
+  const isStandaloneDisplay = typeof window !== "undefined" && (
+    document?.documentElement?.dataset?.displayMode === "standalone" ||
+    window.matchMedia?.("(display-mode: standalone)")?.matches ||
+    window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
+    window.navigator?.standalone === true
+  );
+  const modeLabelMobileTopClassName = roomModeLabelNeedsExtraOffset
+    ? isStandaloneDisplay
+      ? "max-[768px]:top-[calc(100%+1.72rem)]"
+      : "max-[768px]:top-[calc(100%+1.08rem)]"
+    : isStandaloneDisplay
+      ? "max-[768px]:top-[calc(100%+1.16rem)]"
+      : "max-[768px]:top-[calc(100%+0.58rem)]";
   const composerModeRowClassName =
-    `pointer-events-none absolute left-0 right-0 ${roomModeLabelNeedsExtraOffset ? "top-[calc(100%+1.95rem)] max-[768px]:top-[calc(100%+1.72rem)]" : "top-[calc(100%+1.28rem)] max-[768px]:top-[calc(100%+1.16rem)]"} flex w-full items-center justify-center ` +
+    `pointer-events-none absolute left-0 right-0 ${roomModeLabelNeedsExtraOffset ? "top-[calc(100%+1.95rem)]" : "top-[calc(100%+1.28rem)]"} ${modeLabelMobileTopClassName} flex w-full items-center justify-center ` +
     "transition-[top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
   const modeLabelWrapClassName =
     "relative overflow-visible pb-[0.14rem] text-center";
@@ -622,12 +635,6 @@ export default function ChatComposer({
         ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(1.15rem,2.8dvh,1.75rem)))]"
         : "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]"
       : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]"} max-[768px]:[transform:none]`;
-  const isStandaloneDisplay = typeof window !== "undefined" && (
-    document?.documentElement?.dataset?.displayMode === "standalone" ||
-    window.matchMedia?.("(display-mode: standalone)")?.matches ||
-    window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
-    window.navigator?.standalone === true
-  );
   const inputRowMobileStyle = !embedded && isMobile
     ? {
         position: "absolute",

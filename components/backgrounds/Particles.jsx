@@ -88,6 +88,22 @@ const Particles = ({
     if (!container) return;
     const isMobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches || document.body?.getAttribute("data-layout") === "mobile";
     const isMobileLike = isMobile || window.matchMedia?.("(pointer: coarse)")?.matches || window.matchMedia?.("(hover: none)")?.matches;
+    const isStandaloneDisplay =
+      window.matchMedia?.("(display-mode: standalone)")?.matches ||
+      window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
+      window.navigator?.standalone === true;
+    const viewportWidth = Math.max(
+      window.innerWidth || 0,
+      window.visualViewport?.width || 0
+    );
+    const viewportHeight = Math.max(
+      window.innerHeight || 0,
+      window.visualViewport?.height || 0
+    );
+    const mobileViewportArea = viewportWidth * viewportHeight;
+    const mobileAreaFactor = isMobile
+      ? Math.min(1.32, Math.max(1, mobileViewportArea / (390 * 844)))
+      : 1;
     let lastSize = null;
     const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
     const isFrozen = freeze || prefersReducedMotion;
@@ -95,7 +111,16 @@ const Particles = ({
     const effectiveSpeed = isFrozen ? 0 : speed;
     const canAnimate = !isFrozen;
     const cfg = {
-      count: isMobile ? Math.max(150, Math.round(particleCount * 1.35)) : particleCount,
+      count: isMobile
+        ? Math.max(
+            isStandaloneDisplay ? 170 : 150,
+            Math.round(
+              particleCount *
+                (isStandaloneDisplay ? 1.46 : 1.35) *
+                mobileAreaFactor
+            )
+          )
+        : particleCount,
       spread: isMobile ? particleSpread * 0.94 : particleSpread,
       baseSize: isMobile ? Math.round(particleBaseSize * 0.94) : particleBaseSize,
       randomness: isMobile ? Math.min(0.32, sizeRandomness + 0.04) : sizeRandomness,
