@@ -261,11 +261,11 @@ export default function ChatComposer({
   const toolsMenuBackdropFilter = "none";
   const modeLabelClassName =
     "inline-block max-w-[min(76vw,24rem)] whitespace-pre text-center " +
-    "text-[1.42rem] font-[400] leading-[1.06] tracking-[0.012em] text-transparent " +
+    "text-[1.42rem] font-[400] leading-[1.12] tracking-[0.012em] text-transparent " +
     "[background-repeat:no-repeat] [background-size:220%_100%] [background-position:200%_center] " +
     "[-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] " +
     "[animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:100ms] [animation-fill-mode:both] " +
-    "max-[768px]:max-w-[min(84vw,21rem)] max-[768px]:text-[1.28rem]";
+    "max-[768px]:max-w-[min(84vw,21rem)] max-[768px]:text-[1.28rem] max-[768px]:leading-[1.16]";
   const modeLabelStyle = {
     backgroundImage: modeLabelShineBackground
   };
@@ -569,10 +569,10 @@ export default function ChatComposer({
     `pointer-events-auto absolute left-1/2 ${hasRoomModeLabel ? "top-[calc(100%+0.28rem)]" : "top-[calc(100%+0.18rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end ` +
     "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
   const composerModeRowClassName =
-    `pointer-events-none absolute left-1/2 ${roomModeLabelNeedsExtraOffset ? "top-[calc(100%+1.95rem)] max-[768px]:top-[calc(100%+1.72rem)]" : "top-[calc(100%+1.28rem)] max-[768px]:top-[calc(100%+1.16rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-center ` +
-    "transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
+    `pointer-events-none absolute left-0 right-0 ${roomModeLabelNeedsExtraOffset ? "top-[calc(100%+1.95rem)] max-[768px]:top-[calc(100%+1.72rem)]" : "top-[calc(100%+1.28rem)] max-[768px]:top-[calc(100%+1.16rem)]"} flex w-full items-center justify-center ` +
+    "transition-[top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
   const modeLabelWrapClassName =
-    "relative text-center";
+    "relative overflow-visible pb-[0.14rem] text-center";
   const inputRowModeClassName = embedded
     ? "relative mt-0 w-full max-w-full gap-[0.4rem] pl-0 pr-0 [--chat-input-max-w:100%]"
     : `relative mt-[clamp(0.6rem,1.8vh,1.1rem)] ${composerBottomReserveClassName} ` +
@@ -810,18 +810,18 @@ export default function ChatComposer({
           </div>
         </div>
         <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} allowAssistantForward={assistantForwardEnabled} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} className={composerAssistRowClassName} />
-        {showModeLabelRow ? <div className={composerModeRowClassName}>
-            <div className={modeLabelWrapClassName}>
-              <span
-                aria-hidden="true"
-                className={modeLabelClassName}
-                style={modeLabelStyle}
-              >
-                {displayModeLabel}
-              </span>
-              <span className="sr-only">{displayModeLabel}</span>
-            </div>
-          </div> : null}
       </div>
+      {showModeLabelRow ? <div className={composerModeRowClassName}>
+          <div className={modeLabelWrapClassName}>
+            <span
+              aria-hidden="true"
+              className={modeLabelClassName}
+              style={modeLabelStyle}
+            >
+              {displayModeLabel}
+            </span>
+            <span className="sr-only">{displayModeLabel}</span>
+          </div>
+        </div> : null}
     </form>;
 }

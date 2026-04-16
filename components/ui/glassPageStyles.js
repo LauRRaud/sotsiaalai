@@ -2,7 +2,7 @@ import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
 
 export const glassPageTitleClassName =
   "glass-page-title mt-[clamp(2.15rem,5.4vh,3.25rem)] mb-[clamp(0.35rem,1.4vh,0.8rem)] text-center text-[2.15em] max-[768px]:text-[clamp(1.78rem,6.6vw,2.18rem)] leading-[1.12] tracking-[0.03em] " +
-  "w-full max-w-full max-[768px]:mx-auto max-[768px]:tracking-[0.012em] max-[768px]:leading-[1.06] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+4.05rem)] max-[768px]:mb-[clamp(0.2rem,0.9vh,0.55rem)] " +
+  "w-full max-w-full max-[768px]:mx-auto max-[768px]:pb-[0.12em] max-[768px]:tracking-[0.012em] max-[768px]:leading-[1.14] max-[768px]:mt-[calc(env(safe-area-inset-top,0px)+4.05rem)] max-[768px]:mb-[clamp(0.2rem,0.9vh,0.55rem)] " +
   "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
   "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 

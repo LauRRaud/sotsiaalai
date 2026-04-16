@@ -90,7 +90,6 @@ export default function RoomsPage() {
   const [deletingId, setDeletingId] = useState(null);
   const [leavingId, setLeavingId] = useState(null);
   const [confirmRoom, setConfirmRoom] = useState(null);
-  const [errorText, setErrorText] = useState("");
   const [scrollPad, setScrollPad] = useState(0);
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
@@ -159,7 +158,6 @@ export default function RoomsPage() {
   const handleLeave = useCallback(
     async room => {
       if (!room?.id) return;
-      setErrorText("");
       setLeavingId(room.id);
       try {
         const res = await fetch(
@@ -175,12 +173,11 @@ export default function RoomsPage() {
         setRooms(prev => prev.filter(r => r.id !== room.id));
       } catch (err) {
         console.warn("Room leave failed:", err);
-        setErrorText(err?.message || t("rooms.leave_failed"));
       } finally {
         setLeavingId(null);
       }
     },
-    [resolveErrorMessage, t]
+    [resolveErrorMessage]
   );
 
   const openDeleteConfirm = useCallback(room => {
@@ -197,7 +194,6 @@ export default function RoomsPage() {
     async room => {
       const target = room?.id ? room : confirmRoom;
       if (!target?.id) return;
-      setErrorText("");
       setDeletingId(target.id);
       try {
         const res = await fetch(`/api/rooms/${encodeURIComponent(target.id)}`, {
@@ -210,13 +206,12 @@ export default function RoomsPage() {
         setRooms(prev => prev.filter(r => r.id !== target.id));
       } catch (err) {
         console.warn("Room delete failed:", err);
-        setErrorText(err?.message || t("rooms.delete_failed"));
       } finally {
         setDeletingId(null);
         setConfirmRoom(null);
       }
     },
-    [confirmRoom, resolveErrorMessage, t]
+    [confirmRoom, resolveErrorMessage]
   );
 
   useEffect(() => {
@@ -224,7 +219,6 @@ export default function RoomsPage() {
 
     async function load() {
       setLoading(true);
-      setErrorText("");
       try {
         const res = await fetch("/api/rooms", { cache: "no-store" });
         const data = await res.json().catch(() => ({}));
@@ -233,12 +227,10 @@ export default function RoomsPage() {
         }
         if (!cancelled) {
           setRooms(Array.isArray(data.rooms) ? data.rooms : []);
-          setErrorText("");
         }
       } catch (err) {
         if (!cancelled) {
           setRooms([]);
-          setErrorText(err?.message || t("rooms.error"));
         }
         console.warn("Rooms load failed:", err);
       } finally {
@@ -524,15 +516,6 @@ export default function RoomsPage() {
           </div>
 
           <div className={contentClassName}>
-            {errorText ? (
-              <p
-                role="alert"
-                aria-live="assertive"
-                className="mb-[0.5rem] w-full text-center text-[1.02rem] leading-[1.42] text-[color:#fca5a5] max-[768px]:text-left max-[768px]:text-[1.1rem]"
-              >
-                {errorText}
-              </p>
-            ) : null}
             <div
               ref={scrollRef}
               className={`${scrollAreaClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.035] [--csp-neighbor-scale:0.95] [--csp-hidden-scale:0.9] [--csp-neighbor-opacity:0.26] [--csp-hidden-opacity:0.08]" : "[--csp-active-scale:1.04] [--csp-neighbor-scale:0.9] [--csp-hidden-scale:0.82] [--csp-neighbor-opacity:0.1] [--csp-hidden-opacity:0]"}`}

@@ -95,10 +95,10 @@ const Particles = ({
     const effectiveSpeed = isFrozen ? 0 : speed;
     const canAnimate = !isFrozen;
     const cfg = {
-      count: isMobile ? Math.max(110, Math.round(particleCount * 1.05)) : particleCount,
-      spread: isMobile ? particleSpread * 0.86 : particleSpread,
-      baseSize: isMobile ? Math.round(particleBaseSize * 0.9) : particleBaseSize,
-      randomness: isMobile ? Math.min(0.28, sizeRandomness) : sizeRandomness,
+      count: isMobile ? Math.max(150, Math.round(particleCount * 1.35)) : particleCount,
+      spread: isMobile ? particleSpread * 0.94 : particleSpread,
+      baseSize: isMobile ? Math.round(particleBaseSize * 0.94) : particleBaseSize,
+      randomness: isMobile ? Math.min(0.32, sizeRandomness + 0.04) : sizeRandomness,
       dprMax: isMobile ? 1.5 : 2,
       speed: effectiveSpeed,
       hover: canAnimate ? isMobile ? false : moveParticlesOnHover : false
