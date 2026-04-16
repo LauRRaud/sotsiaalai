@@ -250,7 +250,8 @@ export default function ChatComposer({
   const hasRoomModeLabel = Boolean(roomModeLabel);
   const hasActiveWorkflowMode = activeModeKey && activeModeKey !== "default";
   const modeToggleShowsActiveState = hasActiveWorkflowMode;
-  const showAssistantToggleRow = Boolean(isRoomMode && focusActive && allowAssistantForward && !hideTools);
+  const assistantForwardEnabled = allowAssistantForward && !hideTools;
+  const showAssistantToggleRow = Boolean(isRoomMode && focusActive && assistantForwardEnabled);
   const showModeLabelRow = Boolean(displayModeLabel && (modeToggleShowsActiveState || roomModeLabel));
   const composerBottomReserveClassName =
     showAssistantToggleRow
@@ -807,7 +808,7 @@ export default function ChatComposer({
               </Button>}
           </div>
         </div>
-        {showAssistantToggleRow ? <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} allowAssistantForward={allowAssistantForward} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} className={composerAssistRowClassName} /> : null}
+        <ChatAiForwardToggle t={t} focusActive={focusActive} isRoomMode={isRoomMode} allowAssistantForward={assistantForwardEnabled} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} className={composerAssistRowClassName} />
         {showModeLabelRow ? <div className={composerModeRowClassName}>
             <div className={modeLabelWrapClassName}>
               <span
