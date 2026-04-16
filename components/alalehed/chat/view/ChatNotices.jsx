@@ -5,7 +5,7 @@ import {
   glassPageTitleProminentClassName
 } from "@/components/ui/glassPageStyles";
 
-function getCompactRoomTitle(roomTitle) {
+export function getCompactRoomTitle(roomTitle) {
   const source = String(roomTitle || "").trim();
   if (!source) return "";
 

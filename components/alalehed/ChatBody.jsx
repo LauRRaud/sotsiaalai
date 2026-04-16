@@ -31,6 +31,7 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { isActiveDocumentWorkflowState } from "@/lib/chat/documentWorkflowState";
 import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
+import { getCompactRoomTitle } from "./chat/view/ChatNotices";
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 const MOBILE_KEYBOARD_OPEN_THRESHOLD = 88;
@@ -1842,7 +1843,10 @@ export default function ChatBody({
     return getWorkflowModeLabel(t, activeWorkflow);
   }, [activeWorkflow, t]);
   const roomModeLabel = useMemo(() => {
-    if (!isRoomMode || !isHelpMatchRoom) return "";
+    if (!isRoomMode) return "";
+    const compactRoomTitle = getCompactRoomTitle(roomTitle);
+    if (compactRoomTitle) return compactRoomTitle;
+    if (!isHelpMatchRoom) return "";
     if (roomRole === "OWNER") {
       const value = t("chat.tools.help_request_mode");
       return value && value !== "chat.tools.help_request_mode"
@@ -1856,7 +1860,8 @@ export default function ChatBody({
         : "Abipakkumine";
     }
     return "";
-  }, [isHelpMatchRoom, isRoomMode, roomRole, t]);
+  }, [isHelpMatchRoom, isRoomMode, roomRole, roomTitle, t]);
+  const hideComposerTools = isHelpMatchRoom;
   const documentFlowActive = useMemo(() => {
     for (let i = visibleMessages.length - 1; i >= 0; i -= 1) {
       const message = visibleMessages[i];
@@ -2283,6 +2288,7 @@ export default function ChatBody({
       onActivateHelpRequestMode={activateHelpRequestMode}
       onActivateHelpOfferMode={activateHelpOfferMode}
       careerModeLocked={careerModeLocked}
+      hideComposerTools={hideComposerTools}
       documentFlowActive={documentFlowActive}
       onPickDocumentFile={analysis.onPickFile}
       speakLatestReply={speakLatestReply}

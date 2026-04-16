@@ -251,10 +251,8 @@ export default function ChatComposer({
   const showAssistantToggleRow = Boolean(isRoomMode && focusActive);
   const showModeLabelRow = Boolean(displayModeLabel && (modeToggleShowsActiveState || roomModeLabel));
   const composerBottomReserveClassName =
-    showAssistantToggleRow && showModeLabelRow
-      ? "pb-[clamp(4rem,8.2vh,4.9rem)] max-[768px]:pb-[3.55rem]"
-      : showAssistantToggleRow || showModeLabelRow
-        ? "pb-[clamp(2.2rem,5vh,2.9rem)] max-[768px]:pb-[2.15rem]"
+    showAssistantToggleRow
+      ? "pb-[clamp(2.2rem,5vh,2.9rem)] max-[768px]:pb-[2.15rem]"
       : "pb-0";
   const toolsMenuBackdropFilter = "none";
   const modeLabelClassName =
