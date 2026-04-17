@@ -1761,6 +1761,17 @@ export default function ChatBody({
       profileCvAvailable: true,
     };
   }, [activeWorkflow, analysis.uploadPreview, careerCurrentState, careerRuntime]);
+  const singlePendingCareerQuestion = useMemo(() => {
+    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
+      ? careerLastResult.response.questions
+      : [];
+
+    return activeWorkflow === "career" && pendingQuestions.length === 1
+      ? pendingQuestions[0]
+      : null;
+  }, [activeWorkflow, careerLastResult]);
+  const careerCvQuestionPending =
+    singlePendingCareerQuestion?.id === "profile_cv_available";
   const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
     const questionId = question?.id;
     if (!questionId) return false;
@@ -1837,27 +1848,18 @@ export default function ChatBody({
       return sendMessage(text);
     }
 
-    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
-      ? careerLastResult.response.questions
-      : [];
-
-    const singlePendingQuestion =
-      activeWorkflow === "career" && pendingQuestions.length === 1
-        ? pendingQuestions[0]
-        : null;
-
     const singleQuestionAnswer =
-      singlePendingQuestion?.type === "boolean"
+      singlePendingCareerQuestion?.type === "boolean"
         ? parseCareerBooleanAnswer(text)
         : text;
     const shouldAttachCvPayload =
-      singlePendingQuestion?.id === "profile_cv_available" &&
+      singlePendingCareerQuestion?.id === "profile_cv_available" &&
       singleQuestionAnswer === true;
 
     const payload =
-      singlePendingQuestion
+      singlePendingCareerQuestion
         ? {
-            questionId: singlePendingQuestion?.id,
+            questionId: singlePendingCareerQuestion?.id,
             answer: singleQuestionAnswer,
             profile: buildCareerProfilePayload(),
             runtime: buildCareerRuntimePayload(),
@@ -1878,7 +1880,7 @@ export default function ChatBody({
       activateWorkflow: true,
       restoreFocusAfterResponse: shouldRestoreFocus,
     });
-  }, [activeWorkflow, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, careerAccessReady, careerLastResult, careerModeLocked, goToSubscription, inputFocused, runCareerTurn, sendMessage]);
+  }, [activeWorkflow, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, careerAccessReady, careerModeLocked, goToSubscription, inputFocused, runCareerTurn, sendMessage, singlePendingCareerQuestion]);
   useEffect(() => {
     if (activeWorkflow !== "career") {
       processedCareerUploadRef.current = "";
@@ -1888,13 +1890,7 @@ export default function ChatBody({
     const uploadPreview = analysis.uploadPreview;
     if (!uploadPreview) return;
 
-    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
-      ? careerLastResult.response.questions
-      : [];
-    const singlePendingQuestion =
-      pendingQuestions.length === 1 ? pendingQuestions[0] : null;
-
-    if (singlePendingQuestion?.id !== "profile_cv_available") {
+    if (singlePendingCareerQuestion?.id !== "profile_cv_available") {
       return;
     }
 
@@ -1929,7 +1925,7 @@ export default function ChatBody({
         activateWorkflow: true,
       }
     );
-  }, [activeWorkflow, analysis.uploadPreview, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, careerLastResult, runCareerTurn]);
+  }, [activeWorkflow, analysis.uploadPreview, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, runCareerTurn, singlePendingCareerQuestion]);
   const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));
   }, []);
@@ -2398,6 +2394,7 @@ export default function ChatBody({
       careerModeLocked={careerModeLocked}
       hideComposerTools={hideComposerTools}
       documentFlowActive={documentFlowActive}
+      careerCvQuestionPending={careerCvQuestionPending}
       onPickDocumentFile={analysis.onPickFile}
       speakLatestReply={speakLatestReply}
       canSpeakLatest={canSpeakLatest}

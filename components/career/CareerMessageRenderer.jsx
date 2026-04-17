@@ -49,6 +49,65 @@ function BulletList({ items = [] }) {
   );
 }
 
+function MetaLine({ items = [] }) {
+  const safeItems = toSafeArray(items).filter(hasText);
+  if (!safeItems.length) return null;
+
+  return (
+    <div className="mt-[0.12rem] text-[0.82rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)]">
+      {safeItems.join(" | ")}
+    </div>
+  );
+}
+
+function ExternalLink({ href, label = "Open" }) {
+  if (!hasText(href)) return null;
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="mt-[0.55rem] inline-flex items-center justify-center rounded-full border border-[rgba(240,240,240,0.35)] bg-[rgba(14,20,32,0.18)] px-[0.72rem] py-[0.34rem] text-[0.88rem] font-medium leading-[1.2] text-[color:var(--pt-150)] no-underline transition-colors duration-150 hover:bg-[rgba(14,20,32,0.3)] focus-visible:bg-[rgba(14,20,32,0.3)] light:border-[rgba(15,23,42,0.16)] light:bg-[rgba(255,255,255,0.72)] light:text-[color:var(--input-text)]"
+    >
+      {label}
+    </a>
+  );
+}
+
+function StudyPlacesBlock({ items = [], title }) {
+  const safeItems = toSafeArray(items).filter(
+    (item) => item && (hasText(item.provider) || hasText(item.label))
+  );
+  if (!safeItems.length) return null;
+
+  return (
+    <div className="mt-[0.5rem]">
+      <div className="text-[0.84rem] font-semibold uppercase tracking-[0.08em] opacity-80">
+        {title}
+      </div>
+      <ul className="mt-[0.35rem] grid gap-[0.28rem] text-[0.92rem] leading-[1.45]">
+        {safeItems.map((item, index) => (
+          <li key={`${item?.url || item?.label || item?.provider}-${index}`}>
+            {item?.url ? (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[color:var(--pt-150)] no-underline hover:underline light:text-[color:var(--input-text)]"
+              >
+                {item?.provider || item?.label}
+              </a>
+            ) : (
+              item?.provider || item?.label
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function ProfileSummaryBlock({ profileSummary, uiText }) {
   if (!profileSummary || typeof profileSummary !== "object") return null;
 
@@ -120,15 +179,23 @@ function CardGrid({ cards = [], renderCard, cardClassName = "" }) {
 }
 
 function renderDirectionCard(card, uiText) {
+  const meta = [
+    hasText(card?.type) ? card.type : null,
+    hasText(card?.code) ? card.code : null,
+  ].filter(hasText);
+  const context = [
+    hasText(card?.field) ? card.field : null,
+    hasText(card?.group) ? card.group : null,
+  ].filter(hasText);
+
   return (
     <>
       <div className="text-[0.98rem] font-semibold leading-[1.35]">
         {card?.title || uiText.direction.defaultTitle}
       </div>
-      {hasText(card?.type) ? (
-        <div className="mt-[0.12rem] text-[0.82rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)]">
-          {card.type}
-        </div>
+      <MetaLine items={meta} />
+      {context.length > 0 ? (
+        <div className="mt-[0.35rem] text-[0.9rem] opacity-85">{context.join(" · ")}</div>
       ) : null}
       <BulletList items={card?.rationale} />
       {toSafeArray(card?.missingRequirements).length > 0 ? (
@@ -139,6 +206,11 @@ function renderDirectionCard(card, uiText) {
           <BulletList items={card?.missingRequirements} />
         </div>
       ) : null}
+      <StudyPlacesBlock
+        items={card?.studyPlaces}
+        title={uiText.direction?.studyTitle || "Where to study"}
+      />
+      <ExternalLink href={card?.linkUrl} label={uiText.direction?.openLink || "Open role"} />
     </>
   );
 }
@@ -147,6 +219,11 @@ function renderOptionCard(card, uiText) {
   const meta = [
     hasText(card?.fitLabel) ? card.fitLabel : null,
     typeof card?.score === "number" ? `${uiText.option.score}: ${card.score}` : null,
+    hasText(card?.code) ? card.code : null,
+  ].filter(hasText);
+  const context = [
+    hasText(card?.field) ? card.field : null,
+    hasText(card?.group) ? card.group : null,
   ].filter(hasText);
 
   return (
@@ -154,10 +231,9 @@ function renderOptionCard(card, uiText) {
       <div className="text-[0.98rem] font-semibold leading-[1.35]">
         {card?.title || uiText.option.defaultTitle}
       </div>
-      {meta.length > 0 ? (
-        <div className="mt-[0.12rem] text-[0.82rem] uppercase tracking-[0.08em] text-[rgba(197,113,113,0.92)]">
-          {meta.join(" | ")}
-        </div>
+      <MetaLine items={meta} />
+      {context.length > 0 ? (
+        <div className="mt-[0.35rem] text-[0.9rem] opacity-85">{context.join(" · ")}</div>
       ) : null}
       <BulletList items={card?.whyItFits} />
       {toSafeArray(card?.whatIsMissing).length > 0 ? (
@@ -173,6 +249,11 @@ function renderOptionCard(card, uiText) {
           {uiText.option.nextStep}: {card.nextStep}
         </div>
       ) : null}
+      <StudyPlacesBlock
+        items={card?.studyPlaces}
+        title={uiText.option?.studyTitle || "Where to study"}
+      />
+      <ExternalLink href={card?.linkUrl} label={uiText.option?.openLink || "Open role"} />
     </>
   );
 }

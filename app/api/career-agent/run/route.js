@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
+import { logEvent } from "@/lib/chat/logger";
 import { runCareerAgentRequestBody } from "../../../../lib/career-agent/api/runCareerAgent.js";
 import { persistCareerGeneratedDocument } from "../../../../lib/career-agent/documents/careerDocumentPersistence.js";
 
@@ -28,7 +29,13 @@ async function requireCareerSubscription(request) {
   }
 
   const roleState = resolveSessionRoleState(session, request.cookies);
-  return requireSubscription(session, roleState.effectiveRole);
+  const gate = await requireSubscription(session, roleState.effectiveRole);
+
+  return {
+    ...gate,
+    session,
+    roleState
+  };
 }
 
 export async function POST(request) {
@@ -63,6 +70,18 @@ export async function POST(request) {
   }
 
   const result = await runCareerAgentRequestBody(payload);
+
+  try {
+    await logEvent("career_agent_run", {
+      route: "api/career-agent/run",
+      stage: "turn_resolved",
+      ai_extractor_enabled: result?.body?.meta?.aiExtractor?.enabled === true,
+      ai_extractor_used: result?.body?.meta?.aiExtractor?.used === true,
+      ai_extractor_model: result?.body?.meta?.aiExtractor?.model || null,
+      userId: gate?.session?.user?.id || null,
+      role: gate?.roleState?.effectiveRole || null
+    });
+  } catch {}
 
   if (result?.ok && result?.body?.ok && result?.body?.result?.generatedDocument) {
     try {

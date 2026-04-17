@@ -1,5 +1,6 @@
 .chat-container--input-focus,
-.chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) {
+.chat-page-shell
+  .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) {
   --chat-shell-inline-size: var(--chat-diameter);
   --chat-window-inline-gap: clamp(1.1rem, calc(var(--chat-shell-inline-size) * 0.022), 1.9rem);
   --chat-window-max-w: min(
@@ -187,7 +188,7 @@ body:is(
 
 .chat-container--input-focus .chat-window,
 .chat-page-shell
-  .chat-container.chat-container--round:has(.chat-inputbar:focus-within)
+  .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)
   .chat-window {
   --chat-arc-fade-depth: 78%;
   --chat-arc-side-alpha: 0.34;
@@ -204,7 +205,7 @@ body:is(
 
 .chat-container--input-focus .chat-window__scroll,
 .chat-page-shell
-  .chat-container.chat-container--round:has(.chat-inputbar:focus-within)
+  .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)
   .chat-window__scroll {
   mask-image: linear-gradient(
     to bottom,
@@ -318,7 +319,7 @@ body:is(
     .chat-container.chat-container--round.chat-container--input-focus
     .chat-back-button,
   .chat-page-shell
-    .chat-container.chat-container--round:has(.chat-inputbar:focus-within)
+    .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)
     .chat-back-button {
     opacity: 1;
   }
@@ -332,7 +333,7 @@ body:is(
     .chat-back-button
     .back-icon-arrow,
   .chat-page-shell
-    .chat-container.chat-container--round:has(.chat-inputbar:focus-within)
+    .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)
     .chat-back-button
     .back-icon-arrow {
     opacity: 0.38;
@@ -347,11 +348,11 @@ body:is(
     .chat-back-button:focus-visible
     .back-icon-arrow,
   .chat-page-shell
-    .chat-container.chat-container--round:has(.chat-inputbar:focus-within)
+    .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)
     .chat-back-button:hover
     .back-icon-arrow,
   .chat-page-shell
-    .chat-container.chat-container--round:has(.chat-inputbar:focus-within)
+    .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)
     .chat-back-button:focus-visible
     .back-icon-arrow {
     opacity: 0.9;
@@ -394,7 +395,7 @@ body:is(
   .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus,
   .chat-page-shell
-    .chat-container.chat-container--round:has(.chat-inputbar:focus-within) {
+    .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) {
     --chat-focus-inline-extra: clamp(0.08rem, 0.28vw, 0.24rem);
     --chat-focus-content-inline-extra: clamp(0.28rem, 0.8vw, 0.72rem);
     --chat-container-inline-size: calc(var(--chat-diameter) + var(--chat-focus-inline-extra));
@@ -417,7 +418,7 @@ body:is(
     .chat-container.chat-container--round.chat-container--input-focus
     .chat-window,
   .chat-page-shell
-    .chat-container.chat-container--round:has(.chat-inputbar:focus-within)
+    .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)
     .chat-window {
     --chat-window-fade-top-focus: clamp(0.66rem, 1.52vh, 0.98rem);
     --chat-window-scroll-top-fade-start-focus: 0.4rem;
@@ -451,7 +452,7 @@ body:is(
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
-  .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) {
+  .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) {
     --chat-focus-inline-extra: clamp(0.06rem, 0.22vw, 0.18rem);
     --chat-focus-content-inline-extra: clamp(0.22rem, 0.65vw, 0.58rem);
     --chat-window-top-offset: -0.42rem !important;
@@ -468,7 +469,7 @@ body:is(
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window,
-  .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-window {
+  .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-window {
     --chat-window-fade-top-focus: clamp(0.6rem, 1.36vh, 0.9rem) !important;
     --chat-window-scroll-top-fade-start-focus: 0.36rem !important;
     --chat-window-scroll-top-fade-mid-focus: 0.76rem !important;
@@ -587,14 +588,14 @@ body .chat-inputbar .chat-send-btn .chat-mic-glyph {
 }
 
 .chat-container--input-focus .chat-inputbar,
-.chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar {
+.chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar {
   isolation: isolate;
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn,
 .chat-container--input-focus .chat-inputbar > .chat-send-btn,
-.chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn,
-.chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-send-btn {
+.chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn,
+.chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-send-btn {
   position: relative !important;
   inset: auto !important;
   left: auto !important;
@@ -613,25 +614,25 @@ body .chat-inputbar .chat-send-btn .chat-mic-glyph {
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn,
-.chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn {
+.chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn {
   transform: none !important;
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-send-btn,
-.chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-send-btn {
+.chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-send-btn {
   transform: none !important;
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn svg,
-.chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn svg {
+.chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn svg {
   top: 0 !important;
   transform: none !important;
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn:hover svg,
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn:focus-visible svg,
-.chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn:hover svg,
-.chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn:focus-visible svg {
+.chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn:hover svg,
+.chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn:focus-visible svg {
   transform: scale(1.08) !important;
   transform-origin: center;
 }

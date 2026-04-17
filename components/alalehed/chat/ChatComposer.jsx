@@ -70,6 +70,31 @@ function DocumentModeIcon({
   );
 }
 
+function AttachCvIcon({
+  stroke,
+  className,
+  strokeWidth = 1.9,
+  ...props
+}) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      {...props}
+    >
+      <path
+        d="M14.75 6.95v8.5a4.75 4.75 0 1 1-9.5 0v-8.6a3.1 3.1 0 1 1 6.2 0v8.6a1.45 1.45 0 1 1-2.9 0V8.9"
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function ChatComposer({
   t,
   locale = "et",
@@ -100,6 +125,7 @@ export default function ChatComposer({
   onActivateHelpOfferMode,
   careerModeLocked = false,
   showDocumentAttachButton = false,
+  showCareerCvAttachButton = false,
   onPickDocumentFile,
   speakLatestReply,
   canSpeakLatest,
@@ -768,18 +794,21 @@ export default function ChatComposer({
     `chat-side-control-btn chat-document-attach-btn ${sideControlButtonBaseClassName}`;
   const documentAttachDisabled = isGenerating || isRoomMode && (roomBlocked || roomAuthRequired);
   const showSideControls = !hideTools;
+  const replaceModeButtonWithCareerAttach = Boolean(showCareerCvAttachButton);
   return <form ref={inputRowRef} style={inputRowStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {showSideControls ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? null : <>
-            <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.aria")} title={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
-              {activeModeKey === "career" ? <CareerModeIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
-                : activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
-                : activeModeKey === "help_offer" ? <HelpOfferIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
-                : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className={activeModeIconClassName}>
-                  <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth={plusIconStrokeWidth} strokeLinecap="round" />
-                </svg>}
-            </button>
-            {toolsMenuPanel}
+            {replaceModeButtonWithCareerAttach ? <button type="button" className={toolsButtonClassName} aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={onPickDocumentFile} disabled={documentAttachDisabled}>
+                <AttachCvIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+              </button> : <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.aria")} title={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
+                {activeModeKey === "career" ? <CareerModeIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+                  : activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+                  : activeModeKey === "help_offer" ? <HelpOfferIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+                  : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className={activeModeIconClassName}>
+                    <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth={plusIconStrokeWidth} strokeLinecap="round" />
+                  </svg>}
+              </button>}
+            {replaceModeButtonWithCareerAttach ? null : toolsMenuPanel}
             {showDocumentAttachButton ? <button type="button" className={documentAttachButtonClassName} aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={onPickDocumentFile} disabled={documentAttachDisabled}>
                     <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
                       <path d="M26.9 14.2 18 23.1a4.45 4.45 0 1 0 6.29 6.29l9.26-9.26a7.42 7.42 0 0 0-10.49-10.49l-9.78 9.79a10.39 10.39 0 1 0 14.7 14.69l7.95-7.95" stroke={iconStroke} strokeWidth="2.95" strokeLinecap="round" strokeLinejoin="round" />

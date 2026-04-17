@@ -117,6 +117,30 @@ test("too little context continues by asking for more information", async () => 
   assert.equal(result.response?.kind, "question_set");
 });
 
+test("display name answer is used in the next guided question prompt", async () => {
+  const result = await resolveCareerTurn({
+    profile: {
+      identity: {
+        displayName: {
+          value: "Laur",
+          source: "from_user",
+          status: "confirmed",
+        },
+      },
+    },
+    runtime: {
+      currentState: "intake",
+      userMessageProvided: true,
+      intakeReasonProvided: true,
+      intakeReasonText: "Vajan selgust järgmiste tööalaste sammude osas.",
+      userMessage: "Vajan selgust järgmiste tööalaste sammude osas.",
+    },
+  });
+
+  assert.equal(result.response?.kind, "question_set");
+  assert.match(result.questions?.[0]?.prompt || "", /^Laur,\s+/);
+});
+
 test("summary stage gives a concrete recommendation when a direction is available", async () => {
   const result = await resolveCareerTurn({
     runtime: {
@@ -140,4 +164,33 @@ test("summary stage gives a concrete recommendation when a direction is availabl
     (result.response?.bullets || []).join("\n"),
     /meeskonnatoo/i
   );
+});
+
+test("explicit new target is recommended instead of only repeating the familiar past role", async () => {
+  const result = await resolveCareerTurn({
+    profile: {
+      experience: {
+        roles: {
+          items: [
+            {
+              title: { value: "sotsiaaltootaja", source: "from_user", status: "confirmed" },
+            },
+          ],
+          source: "from_user",
+          status: "confirmed",
+        },
+      },
+    },
+    runtime: {
+      currentState: "summary",
+      summaryPrepared: true,
+      problemStatementText:
+        "Tahan jõuda tehisintellekti arendajaks sotsiaalvaldkonnas.",
+    },
+  });
+
+  assert.equal(result.response?.kind, "summary");
+  const bullets = (result.response?.bullets || []).join("\n");
+  assert.match(bullets, /tehisintellekti arendaja/i);
+  assert.match(bullets, /Senise tausta põhjal sobib ka: sotsiaaltootaja/i);
 });

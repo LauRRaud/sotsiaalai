@@ -463,6 +463,30 @@ function getOrCreate(map, key, label = key) {
   return map.get(key);
 }
 
+function buildFeatureSpotlight(byFeature, key, coverageOptions = {}) {
+  if (!byFeature.has(key)) return null;
+
+  const bucket = byFeature.get(key);
+  const [route = "unknown", stage = "unknown"] = String(bucket?.key || key).split("::");
+
+  return bucketToJson(
+    bucket,
+    {
+      route,
+      stage
+    },
+    coverageOptions
+  );
+}
+
+function createEmptyFeatureSpotlight(route, stage, coverageOptions = {}) {
+  return {
+    ...bucketToJson(createBucket(`${route}::${stage}`, `${route} / ${stage}`), { route, stage }, coverageOptions),
+    route,
+    stage
+  };
+}
+
 function sortBuckets(rows) {
   return rows.sort((a, b) => {
     if (toCount(b.internal_usage_units) !== toCount(a.internal_usage_units)) {
@@ -538,6 +562,19 @@ export async function GET(req) {
         userId: true,
         role: true,
         event: true,
+        data: true
+      }
+    });
+
+    const careerRunRows = await prisma.chatLog.findMany({
+      where: {
+        createdAt: { gte: since },
+        event: "career_agent_run"
+      },
+      orderBy: { createdAt: "desc" },
+      select: {
+        userId: true,
+        role: true,
         data: true
       }
     });
@@ -646,6 +683,32 @@ export async function GET(req) {
         return bucketToJson(bucket, { route, stage }, coverageOptions);
       })
     ).slice(0, TOP_LIMIT);
+
+    const careerAiExtractorBase =
+      buildFeatureSpotlight(byFeature, "api/career-agent/run::career_ai_extractor", coverageOptions) ||
+      createEmptyFeatureSpotlight("api/career-agent/run", "career_ai_extractor", coverageOptions);
+
+    const careerRunsResolved = careerRunRows.filter(row => {
+      const data = isObject(row?.data) ? row.data : {};
+      return toText(data?.route, "") === "api/career-agent/run";
+    });
+    const careerAiExtractorActivated = careerRunsResolved.filter(row => {
+      const data = isObject(row?.data) ? row.data : {};
+      return data?.ai_extractor_used === true;
+    });
+    const careerAiExtractorActivationRatePct =
+      careerRunsResolved.length > 0
+        ? round2((careerAiExtractorActivated.length / careerRunsResolved.length) * 100)
+        : 0;
+
+    const featureSpotlights = {
+      career_ai_extractor: {
+        ...careerAiExtractorBase,
+        total_turns: careerRunsResolved.length,
+        activated_turns: careerAiExtractorActivated.length,
+        activation_rate_pct: careerAiExtractorActivationRatePct
+      }
+    };
 
     const userBudgetTracking = sortBuckets(
       Array.from(byUser.values()).map(bucket => {
@@ -840,6 +903,7 @@ export async function GET(req) {
         by_stage: byStageRows,
         by_model: byModelRows
       },
+      feature_spotlights: featureSpotlights,
       top_features: topFeatures,
       top_users: userBudgetTracking.slice(0, TOP_LIMIT),
       user_budget_tracking: userBudgetTracking,

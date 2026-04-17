@@ -2566,6 +2566,14 @@
           "package": "Paketi järgi",
           "model": "Mudeli järgi"
         },
+        "spotlight": {
+          "title": "KarjĆ¤Ć¤rinĆµustamise AI extractor",
+          "events": "SĆ¼ndmused",
+          "activation_rate": "AktiveerumismĆ¤Ć¤r",
+          "approx_cost": "Ligikaudne kulu",
+          "model": "Mudelid",
+          "split": "Otsene / hinnanguline"
+        },
         "attribution": {
           "title": "Omistamise täielikkus",
           "scope": "Ulatus",

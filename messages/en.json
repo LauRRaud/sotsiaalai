@@ -2566,6 +2566,14 @@
           "package": "By package",
           "model": "By model"
         },
+        "spotlight": {
+          "title": "Career guidance AI extractor",
+          "events": "Events",
+          "activation_rate": "Activation rate",
+          "approx_cost": "Approximate cost",
+          "model": "Models",
+          "split": "Direct / estimated"
+        },
         "attribution": {
           "title": "Attribution completeness",
           "scope": "Scope",

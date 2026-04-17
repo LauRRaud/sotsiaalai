@@ -1184,6 +1184,50 @@ export default function AnalyticsDashboard() {
     [aiCosts, localeTag, t]
   );
 
+  const careerAiExtractorItems = useMemo(() => {
+    const spotlight = aiCosts?.feature_spotlights?.career_ai_extractor;
+    const loadingLabel = t("admin.common.loading", "Loading...");
+    const models = Array.isArray(spotlight?.models) ? spotlight.models.filter(Boolean) : [];
+
+    return [
+      {
+        label: t("admin.analytics.ai_costs.spotlight.events", "Sündmused"),
+        value: loadingAiCosts ? loadingLabel : formatCount(spotlight?.events || 0, localeTag)
+      },
+      {
+        label: t("admin.analytics.ai_costs.spotlight.activation_rate", "Aktiveerumismäär"),
+        value:
+          loadingAiCosts
+            ? loadingLabel
+            : `${formatPercent(spotlight?.activation_rate_pct || 0, localeTag, 1)}% (${formatCount(
+                spotlight?.activated_turns || 0,
+                localeTag
+              )} / ${formatCount(spotlight?.total_turns || 0, localeTag)})`
+      },
+      {
+        label: t("admin.analytics.ai_costs.spotlight.approx_cost", "Ligikaudne kulu"),
+        value:
+          loadingAiCosts
+            ? loadingLabel
+            : formatMoney(spotlight?.approximate_cost_eur || 0, "EUR", localeTag)
+      },
+      {
+        label: t("admin.analytics.ai_costs.spotlight.model", "Mudelid"),
+        value: loadingAiCosts ? loadingLabel : models.length ? models.join(", ") : "-"
+      },
+      {
+        label: t("admin.analytics.ai_costs.spotlight.split", "Otsene / hinnanguline"),
+        value:
+          loadingAiCosts
+            ? loadingLabel
+            : `${formatCount(spotlight?.direct_usage_events || 0, localeTag)} / ${formatCount(
+                spotlight?.estimated_usage_events || 0,
+                localeTag
+              )}`
+      }
+    ];
+  }, [aiCosts, loadingAiCosts, localeTag, t]);
+
   const aiAttributionItems = useMemo(
     () => {
       const completeness = aiCosts?.summary?.attribution_completeness;
@@ -2792,6 +2836,10 @@ export default function AnalyticsDashboard() {
             <MetricListCard title={t("admin.analytics.ai_costs.average_usage", "Keskmine kasutus")} items={aiCostAverageItems} />
             <MetricListCard title={t("admin.analytics.ai_costs.approx.title", "Ligikaudne EUR vaade")} items={aiApproxCostItems} />
             <MetricListCard title={t("admin.analytics.ai_costs.attribution.title", "Omistamise täielikkus")} items={aiAttributionItems} />
+            <MetricListCard
+              title={t("admin.analytics.ai_costs.spotlight.title", "Karjäärinõustamise AI extractor")}
+              items={careerAiExtractorItems}
+            />
             {aiCostBreakdownCards.map(card => (
               <MetricListCard
                 key={card.title}
