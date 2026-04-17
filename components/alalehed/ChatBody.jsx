@@ -963,6 +963,25 @@ export default function ChatBody({
   const closeSourcesPanel = useCallback(() => {
     setShowSourcesPanel(false);
   }, []);
+  const singlePendingCareerQuestion = useMemo(() => {
+    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
+      ? careerLastResult.response.questions
+      : [];
+
+    return activeWorkflow === "career" && pendingQuestions.length === 1
+      ? pendingQuestions[0]
+      : null;
+  }, [activeWorkflow, careerLastResult]);
+  const careerCvQuestionPending =
+    singlePendingCareerQuestion?.id === "profile_cv_available";
+  const keepCareerUploadFocus =
+    activeWorkflow === "career" &&
+    careerCvQuestionPending &&
+    analysis.uploadBusy;
+  const suppressCareerCvPreview =
+    activeWorkflow === "career" &&
+    careerCvQuestionPending &&
+    Boolean(analysis.uploadPreview);
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
@@ -1606,25 +1625,6 @@ export default function ChatBody({
 
     return nextConvId;
   }, [analysis, resetCareerSession, setConvId, setIsCrisis, setMessages, stop]);
-  const singlePendingCareerQuestion = useMemo(() => {
-    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
-      ? careerLastResult.response.questions
-      : [];
-
-    return activeWorkflow === "career" && pendingQuestions.length === 1
-      ? pendingQuestions[0]
-      : null;
-  }, [activeWorkflow, careerLastResult]);
-  const careerCvQuestionPending =
-    singlePendingCareerQuestion?.id === "profile_cv_available";
-  const keepCareerUploadFocus =
-    activeWorkflow === "career" &&
-    careerCvQuestionPending &&
-    analysis.uploadBusy;
-  const suppressCareerCvPreview =
-    activeWorkflow === "career" &&
-    careerCvQuestionPending &&
-    Boolean(analysis.uploadPreview);
   const runCareerTurn = useCallback(async (payload = {}, options = {}) => {
     const {
       echoUserText = false,
