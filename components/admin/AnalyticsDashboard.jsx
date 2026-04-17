@@ -370,8 +370,8 @@ function MetricListCard({ title, items }) {
       <div className={metricListClassName}>
         {items.map(item => (
           <div key={item.label} className={metricRowClassName}>
-            <span className={`${cellSubClassName} min-w-0 break-words`}>{item.label}</span>
-            <span className="min-w-0 max-w-full whitespace-normal break-words text-left sm:text-right [overflow-wrap:anywhere]">
+            <span className={`${cellSubClassName} block min-w-0 break-words`}>{item.label}</span>
+            <span className="block w-full min-w-0 max-w-full whitespace-normal break-words text-left sm:text-right [overflow-wrap:anywhere]">
               {item.value}
             </span>
           </div>
