@@ -194,23 +194,6 @@ function isEditableElement(node) {
   return tag === "TEXTAREA" || tag === "INPUT" || node.isContentEditable;
 }
 
-function isCareerIntent(value) {
-  const normalized = String(value || "").trim().toLowerCase();
-  if (!normalized) return false;
-
-  return (
-    normalized.includes("karjäärinõust") ||
-    normalized.includes("karjäärinoust") ||
-    normalized.includes("cv abi") ||
-    normalized.includes("cv üle") ||
-    normalized.includes("cv ule") ||
-    normalized.includes("töösuund") ||
-    normalized.includes("toosuund") ||
-    normalized.includes("õpisuund") ||
-    normalized.includes("opisuund")
-  );
-}
-
 function formatCareerAnswerForDisplay(question, answer, answerLabel = null) {
   if (typeof answerLabel === "string" && answerLabel.trim()) {
     return answerLabel.trim();
@@ -340,6 +323,7 @@ export default function ChatBody({
   const maskLayerRef = useRef(null);
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
+  const processedCareerUploadRef = useRef("");
   const refreshMask = useCallback((options = {}) => {
     const immediate = options.immediate === true;
     const mobileImmediate = options.mobileImmediate === true;
@@ -1715,16 +1699,16 @@ export default function ChatBody({
     const echoText = formatCareerAnswerForDisplay(question, answer, answerLabel);
     const shouldRestoreFocus =
       document.activeElement === inputRef.current || inputFocused;
+    const shouldAttachCvPayload =
+      questionId === "profile_cv_available" && answer === true;
 
     void runCareerTurn(
       {
         questionId,
         answer,
-        profile: careerProfile || {},
-        runtime: {
-          ...(careerRuntime || {}),
-          ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
-        },
+        profile: buildCareerProfilePayload(),
+        runtime: buildCareerRuntimePayload(),
+        ...(shouldAttachCvPayload ? buildCareerCvPayload() : {}),
       },
       {
         echoUserText: Boolean(echoText),
@@ -1735,7 +1719,76 @@ export default function ChatBody({
     );
 
     return true;
-  }, [careerCurrentState, careerProfile, careerRuntime, inputFocused, runCareerTurn]);
+  }, [buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, inputFocused, runCareerTurn]);
+  const buildCareerCvPayload = useCallback(() => {
+    if (activeWorkflow !== "career" || !analysis.uploadPreview) {
+      return {};
+    }
+
+    const fullText =
+      typeof analysis.uploadPreview?.fullText === "string"
+        ? analysis.uploadPreview.fullText.trim()
+        : "";
+    const preview =
+      typeof analysis.uploadPreview?.preview === "string"
+        ? analysis.uploadPreview.preview.trim()
+        : "";
+    const cvText = fullText || preview;
+
+    if (!cvText) {
+      return {};
+    }
+
+    const cvFileName = String(analysis.uploadPreview?.fileName || "").trim();
+
+    return {
+      cvText,
+      ...(cvFileName ? { cvFileName } : {}),
+    };
+  }, [activeWorkflow, analysis.uploadPreview]);
+  const buildCareerProfilePayload = useCallback(() => {
+    const baseProfile =
+      careerProfile && typeof careerProfile === "object"
+        ? careerProfile
+        : {};
+
+    if (activeWorkflow !== "career" || !analysis.uploadPreview) {
+      return baseProfile;
+    }
+
+    const sourceMode =
+      baseProfile.sourceMode && typeof baseProfile.sourceMode === "object"
+        ? baseProfile.sourceMode
+        : {};
+    const activeModes = Array.isArray(sourceMode.activeModes)
+      ? sourceMode.activeModes
+      : [];
+
+    return {
+      ...baseProfile,
+      sourceMode: {
+        ...sourceMode,
+        activeModes: Array.from(new Set([...activeModes, "cv_upload"])),
+        cvUploaded: true,
+      },
+    };
+  }, [activeWorkflow, analysis.uploadPreview, careerProfile]);
+  const buildCareerRuntimePayload = useCallback(() => {
+    const baseRuntime = {
+      ...(careerRuntime || {}),
+      ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
+    };
+
+    if (activeWorkflow !== "career" || !analysis.uploadPreview) {
+      return baseRuntime;
+    }
+
+    return {
+      ...baseRuntime,
+      profileCvChecked: true,
+      profileCvAvailable: true,
+    };
+  }, [activeWorkflow, analysis.uploadPreview, careerCurrentState, careerRuntime]);
   const activateCareerMode = useCallback(() => {
     if (!careerAccessReady) return false;
     if (careerModeLocked) {
@@ -1745,7 +1798,6 @@ export default function ChatBody({
     startFreshConversation("career");
     void runCareerTurn(
       {
-        userMessage: "Soovin karj??rin?ustamist",
         profile: {},
         runtime: {},
       },
@@ -1771,7 +1823,6 @@ export default function ChatBody({
   const handleSendMessage = useCallback(async (rawText) => {
     const text = String(rawText || "").trim();
     if (!text) return false;
-    void isCareerIntent(text);
     const shouldUseCareerWorkflow = activeWorkflow === "career";
 
     if (shouldUseCareerWorkflow) {
@@ -1799,25 +1850,23 @@ export default function ChatBody({
       singlePendingQuestion?.type === "boolean"
         ? parseCareerBooleanAnswer(text)
         : text;
+    const shouldAttachCvPayload =
+      singlePendingQuestion?.id === "profile_cv_available" &&
+      singleQuestionAnswer === true;
 
     const payload =
       singlePendingQuestion
         ? {
             questionId: singlePendingQuestion?.id,
             answer: singleQuestionAnswer,
-            profile: careerProfile || {},
-            runtime: {
-              ...(careerRuntime || {}),
-              ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
-            },
+            profile: buildCareerProfilePayload(),
+            runtime: buildCareerRuntimePayload(),
+            ...(shouldAttachCvPayload ? buildCareerCvPayload() : {}),
           }
         : {
             userMessage: text,
-            profile: careerProfile || {},
-            runtime: {
-              ...(careerRuntime || {}),
-              ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
-            },
+            profile: buildCareerProfilePayload(),
+            runtime: buildCareerRuntimePayload(),
           };
 
     const shouldRestoreFocus =
@@ -1829,7 +1878,58 @@ export default function ChatBody({
       activateWorkflow: true,
       restoreFocusAfterResponse: shouldRestoreFocus,
     });
-  }, [activeWorkflow, careerAccessReady, careerCurrentState, careerLastResult, careerModeLocked, careerProfile, careerRuntime, goToSubscription, inputFocused, runCareerTurn, sendMessage]);
+  }, [activeWorkflow, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, careerAccessReady, careerLastResult, careerModeLocked, goToSubscription, inputFocused, runCareerTurn, sendMessage]);
+  useEffect(() => {
+    if (activeWorkflow !== "career") {
+      processedCareerUploadRef.current = "";
+      return;
+    }
+
+    const uploadPreview = analysis.uploadPreview;
+    if (!uploadPreview) return;
+
+    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
+      ? careerLastResult.response.questions
+      : [];
+    const singlePendingQuestion =
+      pendingQuestions.length === 1 ? pendingQuestions[0] : null;
+
+    if (singlePendingQuestion?.id !== "profile_cv_available") {
+      return;
+    }
+
+    const uploadKey = [
+      String(uploadPreview?.fileName || "").trim(),
+      Number(uploadPreview?.chunksCount || 0),
+      Number(String(uploadPreview?.fullText || "").length),
+    ].join(":");
+
+    if (!uploadKey || processedCareerUploadRef.current === uploadKey) {
+      return;
+    }
+
+    processedCareerUploadRef.current = uploadKey;
+
+    const prettyFileName = prettifyFileName(uploadPreview?.fileName || "");
+    const echoText = prettyFileName
+      ? `Lisasin CV manusesse: ${prettyFileName}`
+      : "Lisasin CV manusesse";
+
+    void runCareerTurn(
+      {
+        questionId: "profile_cv_available",
+        answer: true,
+        profile: buildCareerProfilePayload(),
+        runtime: buildCareerRuntimePayload(),
+        ...buildCareerCvPayload(),
+      },
+      {
+        echoUserText: true,
+        userEchoText: echoText,
+        activateWorkflow: true,
+      }
+    );
+  }, [activeWorkflow, analysis.uploadPreview, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, careerLastResult, runCareerTurn]);
   const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));
   }, []);
@@ -2336,3 +2436,4 @@ export default function ChatBody({
     />
   </>;
 }
+
