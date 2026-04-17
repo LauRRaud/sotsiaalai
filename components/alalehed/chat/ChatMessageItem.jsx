@@ -160,7 +160,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const nameClassName =
     "text-[0.95rem] tracking-[0.05em] text-[rgba(197,113,113,0.9)]";
   const userMessageRowClassName =
-    "chat-msg-user flex w-full justify-end pr-[clamp(0.42rem,0.95vw,0.78rem)] max-[768px]:pr-[0.18rem]";
+    "chat-msg-user flex w-full justify-end pl-[clamp(0.42rem,0.95vw,0.78rem)] pr-[clamp(0.42rem,0.95vw,0.78rem)] max-[768px]:pl-[0.6rem] max-[768px]:pr-[0.18rem]";
   const userBubbleClassName =
     "chat-msg-user-bubble mr-[0.04rem] max-[768px]:mr-[0.08rem] inline-block min-w-0 w-fit max-w-[min(84%,44rem)] text-left [overflow-wrap:anywhere] break-words " +
     "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] border-0 " +
