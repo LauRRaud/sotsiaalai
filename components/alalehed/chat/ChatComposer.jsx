@@ -492,14 +492,21 @@ export default function ChatComposer({
   }, [closeToolsMenu, locale, router]);
   const submitSend = useCallback(async () => {
     if (submitInFlightRef.current) return false;
-    const trimmed = draft.trim();
+    const originalDraft = draft;
+    const trimmed = originalDraft.trim();
     if (!trimmed) return false;
     if (isGenerating) return false;
     submitInFlightRef.current = true;
     try {
+      setDraft("");
       const ok = await onSend(trimmed);
-      if (ok) setDraft("");
+      if (!ok) {
+        setDraft(originalDraft);
+      }
       return ok;
+    } catch {
+      setDraft(originalDraft);
+      return false;
     } finally {
       submitInFlightRef.current = false;
     }
@@ -593,13 +600,13 @@ export default function ChatComposer({
   const inputRowClassName =
     `${embedded ? "chat-input-row--embedded " : ""}` +
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
-    "transition-[top,margin-top,transform,padding-bottom,padding-top,padding-left,padding-right] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top,transform,padding-bottom] max-[768px]:transition-none";
+    "transition-[top,margin-top,transform,padding-bottom,padding-top,padding-left,padding-right] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top,transform,padding-bottom] max-[768px]:transition-none";
   const composerMainClassName =
     "relative flex w-full max-w-[min(100%,var(--chat-input-max-w))] min-w-0 flex-[1_1_auto] items-stretch " +
-    "transition-[max-width] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:max-width] max-[768px]:transition-none";
+    "transition-[max-width] duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:max-width] max-[768px]:transition-none";
   const composerAssistRowClassName =
     `pointer-events-auto absolute left-1/2 ${hasRoomModeLabel ? "top-[calc(100%+0.28rem)]" : "top-[calc(100%+0.18rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end ` +
-    "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
+    "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
   const isStandaloneDisplay = typeof window !== "undefined" && (
     document?.documentElement?.dataset?.displayMode === "standalone" ||
     window.matchMedia?.("(display-mode: standalone)")?.matches ||
@@ -615,7 +622,7 @@ export default function ChatComposer({
       : "max-[768px]:top-[calc(100%+0.58rem)]";
   const composerModeRowClassName =
     `pointer-events-none absolute left-0 right-0 ${roomModeLabelNeedsExtraOffset ? "top-[calc(100%+1.95rem)]" : "top-[calc(100%+1.28rem)]"} ${modeLabelMobileTopClassName} flex w-full items-center justify-center ` +
-    "transition-[top] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
+    "transition-[top] duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
   const modeLabelWrapClassName =
     "relative overflow-visible pb-[0.14rem] text-center";
   const inputRowModeClassName = embedded
@@ -631,12 +638,12 @@ export default function ChatComposer({
     "chat-inputbar relative grid w-full overflow-hidden " +
     `${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.08rem]" : "grid-cols-[1fr_auto] items-stretch gap-x-[0.24rem]"} ` +
     `${displayExpanded ? "min-h-[var(--inputbar-h)] rounded-[1.35rem]" : "h-[var(--inputbar-h)] rounded-full"} ` +
-    "transition-[border-color,box-shadow,background,max-width,height,min-height,border-radius,padding,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "transition-[border-color,box-shadow,background,max-width,height,min-height,border-radius,padding,transform] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     `${displayExpanded ? "pl-[0.62rem] pt-[0.56rem] pb-0 pr-0" : "pl-[0.6rem] pr-0 py-0"} ` +
-    "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-[background,box-shadow,border-color,height,min-height,border-radius,padding,transform] max-[768px]:duration-[320ms] max-[768px]:ease-[cubic-bezier(0.22,0.61,0.36,1)]";
+    "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-[background,box-shadow,border-color,height,min-height,border-radius,padding,transform] max-[768px]:duration-[180ms] max-[768px]:ease-[cubic-bezier(0.22,0.61,0.36,1)]";
   const inputFieldWrapClassName = displayExpanded
-    ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem] transition-[padding] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]"
-    : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem] transition-[padding] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]";
+    ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem] transition-[padding] duration-[220ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]"
+    : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem] transition-[padding] duration-[220ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]";
   const inputFieldClassName =
     `chat-input-field block w-full min-h-[1.38rem] max-h-[min(30dvh,8.5rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] [overflow-wrap:anywhere] break-words ${displayExpanded ? "leading-[1.26] px-[0.06rem] pt-0 pb-[0.05rem]" : "leading-[1.18] px-[0.12rem] pt-[0.28rem] pb-[0.12rem]"} ` +
     "text-[color:var(--pt-150)] light:text-[color:var(--text-strong,#1f2937)] " +
@@ -650,14 +657,14 @@ export default function ChatComposer({
     "flex items-center justify-center " +
     "mr-0 " +
     "pointer-events-auto !translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
-    "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[220ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "data-[speaking=true]:shadow-[0_0_0_1px_rgba(148,163,184,0.22),0_0_6px_rgba(84,95,115,0.45)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonClassName =
     `chat-send-btn invite-primary-btn relative z-[2] ${displayExpanded ? "!h-[var(--inputbar-h)] !w-[var(--inputbar-h)] !min-h-[var(--inputbar-h)] !min-w-[var(--inputbar-h)] !flex-[0_0_var(--inputbar-h)]" : "!h-[calc(var(--inputbar-h)-2px)] !w-[calc(var(--inputbar-h)-2px)] !min-h-[calc(var(--inputbar-h)-2px)] !min-w-[calc(var(--inputbar-h)-2px)] !flex-[0_0_calc(var(--inputbar-h)-2px)]"} !p-0 rounded-full ` +
     "flex items-center justify-center overflow-hidden leading-none " +
     "translate-x-[var(--chat-send-btn-shift-x,0rem)] translate-y-[var(--chat-send-btn-shift-y,0rem)] " +
-    "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[220ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const inputRowTransformClassName = embedded

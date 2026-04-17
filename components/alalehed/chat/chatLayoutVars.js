@@ -137,7 +137,7 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-window-shift-x": "calc(clamp(0.16rem, calc(var(--chat-diameter) * 0.005), 0.3rem) + 0.25rem)",
   "--chat-window-pad-top": "clamp(1.05rem, 2.3vh, 1.75rem)",
   "--chat-window-top-safe": "clamp(2.15rem, 4.6vh, 3.35rem)",
-  "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.1rem)",
+  "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.7rem)",
   "--chat-window-top-offset": "0.5rem",
   "--chat-window-bottom-gap": "0.4rem",
   "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
@@ -165,7 +165,7 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-hpad-right": "clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem)",
   "--chat-content-top-offset": "clamp(1.4rem, 3.4vh, 2.6rem)",
   "--chat-content-spacer": "clamp(2.4rem, 5.2vh, 3.9rem)",
-  "--chat-content-bottom-spacer": "0.25rem",
+  "--chat-content-bottom-spacer": "0.6rem",
   "--hud-icon": "clamp(3.16rem, calc(var(--chat-diameter) * 0.063), 3.45rem)"
 });
 

@@ -14,6 +14,19 @@ function hasText(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+function localizeProfileCurrentStatus(value, uiText) {
+  const normalized = String(value || "").trim();
+  if (!normalized) return "";
+
+  const labels =
+    uiText?.profile?.statusLabels &&
+    typeof uiText.profile.statusLabels === "object"
+      ? uiText.profile.statusLabels
+      : null;
+
+  return labels?.[normalized] || normalized;
+}
+
 function hasMeaningfulDocumentStep(documentStep) {
   if (!documentStep || typeof documentStep !== "object") return false;
   if (hasText(documentStep.flow) || hasText(documentStep.documentFlow)) return true;
@@ -127,7 +140,10 @@ function ProfileSummaryBlock({ profileSummary, uiText }) {
       ? `${uiText.profile.nextStep}: ${goals.preferredNextStep}`
       : null,
     workStatus.currentStatus
-      ? `${uiText.profile.currentStatus}: ${workStatus.currentStatus}`
+      ? `${uiText.profile.currentStatus}: ${localizeProfileCurrentStatus(
+          workStatus.currentStatus,
+          uiText
+        )}`
       : null,
     toSafeArray(selfAnalysis.strengths).length > 0
       ? `${uiText.profile.strengths}: ${toSafeArray(selfAnalysis.strengths).join(", ")}`

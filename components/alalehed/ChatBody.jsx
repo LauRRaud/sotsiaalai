@@ -236,6 +236,21 @@ function parseCareerBooleanAnswer(value) {
   return null;
 }
 
+function inferCareerBooleanFromContext(value) {
+  const normalized = String(value || "").trim().toLowerCase();
+  if (!normalized) return null;
+
+  if (/(ei sobi|pole sobiv|ei saa|ei ole voimalik|ei ole võimalik|kindlasti ei)/i.test(normalized)) {
+    return false;
+  }
+
+  if (/(sobib|saan|voin|võin|olen valmis|on võimalik|saaksin|liigun|liikuda saan|kaugtöö sobib)/i.test(normalized)) {
+    return true;
+  }
+
+  return null;
+}
+
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
@@ -962,6 +977,24 @@ export default function ChatBody({
     window.setTimeout(scrollToLatest, 60);
     window.setTimeout(scrollToLatest, 180);
   }, []);
+  const handleComposerLayoutChange = useCallback(() => {
+    refreshMask({
+      immediate: true,
+      mobileImmediate: true,
+    });
+
+    if (!inputFocused && !keepCareerUploadFocus) return;
+
+    const stickToBottom = () => {
+      const node = chatWindowRef.current;
+      if (!node) return;
+      node.scrollTop = node.scrollHeight;
+    };
+
+    requestAnimationFrame(stickToBottom);
+    window.setTimeout(stickToBottom, 32);
+    window.setTimeout(stickToBottom, 120);
+  }, [inputFocused, keepCareerUploadFocus, refreshMask]);
   const restoreComposerFocus = useCallback(() => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
@@ -1584,6 +1617,10 @@ export default function ChatBody({
   }, [activeWorkflow, careerLastResult]);
   const careerCvQuestionPending =
     singlePendingCareerQuestion?.id === "profile_cv_available";
+  const keepCareerUploadFocus =
+    activeWorkflow === "career" &&
+    careerCvQuestionPending &&
+    analysis.uploadBusy;
   const suppressCareerCvPreview =
     activeWorkflow === "career" &&
     careerCvQuestionPending &&
@@ -1857,7 +1894,7 @@ export default function ChatBody({
 
     const singleQuestionAnswer =
       singlePendingCareerQuestion?.type === "boolean"
-        ? parseCareerBooleanAnswer(text)
+        ? parseCareerBooleanAnswer(text) ?? inferCareerBooleanFromContext(text)
         : text;
     const shouldAttachCvPayload =
       singlePendingCareerQuestion?.id === "profile_cv_available" &&
@@ -2073,12 +2110,12 @@ export default function ChatBody({
     };
   }, [stop]);
   useEffect(() => {
-    if (!analysis.showAnalysisPanel || suppressCareerCvPreview) return;
+    if (!analysis.showAnalysisPanel || suppressCareerCvPreview || keepCareerUploadFocus) return;
     try {
       inputRef.current?.blur?.();
     } catch {}
     setInputFocused(false);
-  }, [analysis.showAnalysisPanel, suppressCareerCvPreview]);
+  }, [analysis.showAnalysisPanel, keepCareerUploadFocus, suppressCareerCvPreview]);
   useEffect(() => {
     if (!analysis.showAnalysisPanel || suppressCareerCvPreview) return;
     if (analysis.uploadPreview) return;
@@ -2244,7 +2281,10 @@ export default function ChatBody({
     };
   }, []);
   const viewportIsMobile = hasHydrated ? isMobile : false;
-  const focusActive = inputFocused && !profileOpen && !viewportIsMobile;
+  const focusActive =
+    (inputFocused || keepCareerUploadFocus) &&
+    !profileOpen &&
+    !viewportIsMobile;
   const handleChatWindowDoubleClick = useCallback(() => {
     setInputFocused(false);
     try {
@@ -2415,10 +2455,7 @@ export default function ChatBody({
       handleMic={voiceEnabled ? handleMic : undefined}
       composerDraftApiRef={composerDraftApiRef}
       onDraftStateChange={handleDraftStateChange}
-      onComposerLayoutChange={() => refreshMask({
-        immediate: true,
-        mobileImmediate: true
-      })}
+      onComposerLayoutChange={handleComposerLayoutChange}
       sendToAssistant={allowAssistantForward ? sendToAssistant : false}
       setSendToAssistant={setSendToAssistant}
       aiNote={aiNote}
