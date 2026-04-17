@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
@@ -121,6 +121,7 @@ export default function ChatComposer({
   onSend,
   onActivateInfoMode,
   onActivateCareerMode,
+  careerModeEnabled = false,
   onActivateHelpRequestMode,
   onActivateHelpOfferMode,
   careerModeLocked = false,
@@ -397,7 +398,7 @@ export default function ChatComposer({
       if (draftApiRef.current) draftApiRef.current = null;
     };
   }, [draftApiRef]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     resizeComposerInput();
   }, [draft, composerExpanded, inputFocused, resizeComposerInput]);
   useEffect(() => () => {
@@ -638,12 +639,12 @@ export default function ChatComposer({
     "chat-inputbar relative grid w-full overflow-hidden " +
     `${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.08rem]" : "grid-cols-[1fr_auto] items-stretch gap-x-[0.24rem]"} ` +
     `${displayExpanded ? "min-h-[var(--inputbar-h)] rounded-[1.35rem]" : "h-[var(--inputbar-h)] rounded-full"} ` +
-    "transition-[border-color,box-shadow,background,max-width,height,min-height,border-radius,padding,transform] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "transition-[border-color,box-shadow,background,max-width,transform] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     `${displayExpanded ? "pl-[0.62rem] pt-[0.56rem] pb-0 pr-0" : "pl-[0.6rem] pr-0 py-0"} ` +
-    "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-[background,box-shadow,border-color,height,min-height,border-radius,padding,transform] max-[768px]:duration-[180ms] max-[768px]:ease-[cubic-bezier(0.22,0.61,0.36,1)]";
+    "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-[background,box-shadow,border-color,transform] max-[768px]:duration-[180ms] max-[768px]:ease-[cubic-bezier(0.22,0.61,0.36,1)]";
   const inputFieldWrapClassName = displayExpanded
-    ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem] transition-[padding] duration-[220ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]"
-    : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem] transition-[padding] duration-[220ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]";
+    ? "min-w-0 w-full px-[0.18rem] pt-[0.08rem]"
+    : "min-w-0 w-full self-stretch flex items-center pr-[0.16rem]";
   const inputFieldClassName =
     `chat-input-field block w-full min-h-[1.38rem] max-h-[min(30dvh,8.5rem)] resize-none appearance-none overflow-y-hidden bg-transparent text-[1.1rem] [overflow-wrap:anywhere] break-words ${displayExpanded ? "leading-[1.26] px-[0.06rem] pt-0 pb-[0.05rem]" : "leading-[1.18] px-[0.12rem] pt-[0.28rem] pb-[0.12rem]"} ` +
     "text-[color:var(--pt-150)] light:text-[color:var(--text-strong,#1f2937)] " +
@@ -731,33 +732,35 @@ export default function ChatComposer({
               </span>
               <span className={toolLabelClassName}>{t("chat.tools.documents")}</span>
             </button> : null}
-          <button
-            type="button"
-            role="menuitem"
-            className={`${toolItemBaseClassName} ${careerModeLocked ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`}
-            onClick={careerModeLocked ? handleCareerModeLockedSelect : handleCareerModeSelect}
-            aria-disabled={careerModeLocked ? "true" : undefined}
-            title={careerModeLocked ? t("chat.error.subscription_required_profile", "Tellimus vajalik") : undefined}
-          >
-            <span aria-hidden="true" className={toolIconSlotClassName}>
-              <CareerModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />
-            </span>
-            <span className={toolLabelClassName}>
-              <span>{careerModeLabel}</span>
-              {careerModeLocked ? (
-                <span
-                  aria-hidden="true"
-                  className="ml-[0.46rem] inline-flex h-[1.22rem] w-[1.22rem] shrink-0 items-center justify-center rounded-full border-0 bg-transparent p-0 text-[rgba(203,213,225,0.76)] light:text-[rgba(122,58,56,0.82)]"
-                >
-                  <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className="block h-[1.22rem] w-[1.22rem] shrink-0">
-                    <path d="M8.5 10.2V8.1a3.5 3.5 0 1 1 7 0v2.1" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M7.4 10.2h9.2c.66 0 1.2.54 1.2 1.2v5.2c0 .66-.54 1.2-1.2 1.2H7.4c-.66 0-1.2-.54-1.2-1.2v-5.2c0-.66.54-1.2 1.2-1.2Z" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" />
-                    <path d="M12 12.3v2.4" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
-                  </svg>
-                </span>
-              ) : null}
-            </span>
-          </button>
+          {careerModeEnabled ? (
+            <button
+              type="button"
+              role="menuitem"
+              className={`${toolItemBaseClassName} ${careerModeLocked ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`}
+              onClick={careerModeLocked ? handleCareerModeLockedSelect : handleCareerModeSelect}
+              aria-disabled={careerModeLocked ? "true" : undefined}
+              title={careerModeLocked ? t("chat.error.subscription_required_profile", "Tellimus vajalik") : undefined}
+            >
+              <span aria-hidden="true" className={toolIconSlotClassName}>
+                <CareerModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />
+              </span>
+              <span className={toolLabelClassName}>
+                <span>{careerModeLabel}</span>
+                {careerModeLocked ? (
+                  <span
+                    aria-hidden="true"
+                    className="ml-[0.46rem] inline-flex h-[1.22rem] w-[1.22rem] shrink-0 items-center justify-center rounded-full border-0 bg-transparent p-0 text-[rgba(203,213,225,0.76)] light:text-[rgba(122,58,56,0.82)]"
+                  >
+                    <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className="block h-[1.22rem] w-[1.22rem] shrink-0">
+                      <path d="M8.5 10.2V8.1a3.5 3.5 0 1 1 7 0v2.1" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M7.4 10.2h9.2c.66 0 1.2.54 1.2 1.2v5.2c0 .66-.54 1.2-1.2 1.2H7.4c-.66 0-1.2-.54-1.2-1.2v-5.2c0-.66.54-1.2 1.2-1.2Z" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" />
+                      <path d="M12 12.3v2.4" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+                    </svg>
+                  </span>
+                ) : null}
+              </span>
+            </button>
+          ) : null}
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleHelpRequestModeSelect}>
             <span aria-hidden="true" className={toolIconSlotClassName}>
               <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={1.92} className={menuModeIconClassName} />
@@ -801,7 +804,7 @@ export default function ChatComposer({
     `chat-side-control-btn chat-document-attach-btn ${sideControlButtonBaseClassName}`;
   const documentAttachDisabled = isGenerating || isRoomMode && (roomBlocked || roomAuthRequired);
   const showSideControls = !hideTools;
-  const replaceModeButtonWithCareerAttach = Boolean(showCareerCvAttachButton);
+  const replaceModeButtonWithCareerAttach = Boolean(careerModeEnabled && showCareerCvAttachButton);
   return <form ref={inputRowRef} style={inputRowStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {showSideControls ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? null : <>

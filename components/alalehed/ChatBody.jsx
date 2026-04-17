@@ -44,6 +44,10 @@ const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
 const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
+const CAREER_WORKFLOW_ENABLED =
+  String(process.env.NEXT_PUBLIC_ENABLE_CAREER_WORKFLOW || "")
+    .trim()
+    .toLowerCase() === "true";
 const ACTIVE_CHAT_WORKFLOW_VALUES = Object.freeze([
   "default",
   "career",
@@ -98,6 +102,9 @@ function createEmptySelectedListingState() {
 
 function normalizeActiveWorkflow(value) {
   const normalized = String(value || "").trim().toLowerCase();
+  if (normalized === "career" && !CAREER_WORKFLOW_ENABLED) {
+    return "default";
+  }
   return ACTIVE_CHAT_WORKFLOW_VALUES.includes(normalized) ? normalized : "default";
 }
 
@@ -1847,6 +1854,7 @@ export default function ChatBody({
     return true;
   }, [buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, inputFocused, runCareerTurn]);
   const activateCareerMode = useCallback(() => {
+    if (!CAREER_WORKFLOW_ENABLED) return false;
     if (!careerAccessReady) return false;
     if (careerModeLocked) {
       goToSubscription();
@@ -2440,6 +2448,7 @@ export default function ChatBody({
       onSend={handleSendMessage}
       onActivateInfoMode={activateInfoMode}
       onActivateCareerMode={activateCareerMode}
+      careerModeEnabled={CAREER_WORKFLOW_ENABLED}
       onActivateHelpRequestMode={activateHelpRequestMode}
       onActivateHelpOfferMode={activateHelpOfferMode}
       careerModeLocked={careerModeLocked}
