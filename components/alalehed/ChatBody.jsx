@@ -1686,12 +1686,15 @@ export default function ChatBody({
     } finally {
       if (careerTurnRequestRef.current === requestId) {
         setCareerLoading(false);
-        if (restoreFocusAfterResponse && !analysis.showAnalysisPanel) {
+        if (
+          restoreFocusAfterResponse &&
+          (!analysis.showAnalysisPanel || suppressCareerCvPreview)
+        ) {
           restoreComposerFocus();
         }
       }
     }
-  }, [analysis.showAnalysisPanel, appendMessage, goToSubscription, restoreComposerFocus, router, scrollConversationToBottom]);
+  }, [analysis.showAnalysisPanel, appendMessage, goToSubscription, restoreComposerFocus, router, scrollConversationToBottom, suppressCareerCvPreview]);
   const buildCareerCvPayload = useCallback(() => {
     if (activeWorkflow !== "career" || !analysis.uploadPreview) {
       return {};
@@ -1772,6 +1775,10 @@ export default function ChatBody({
   }, [activeWorkflow, careerLastResult]);
   const careerCvQuestionPending =
     singlePendingCareerQuestion?.id === "profile_cv_available";
+  const suppressCareerCvPreview =
+    activeWorkflow === "career" &&
+    careerCvQuestionPending &&
+    Boolean(analysis.uploadPreview);
   const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
     const questionId = question?.id;
     if (!questionId) return false;
@@ -1925,7 +1932,9 @@ export default function ChatBody({
         activateWorkflow: true,
       }
     );
-  }, [activeWorkflow, analysis.uploadPreview, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, runCareerTurn, singlePendingCareerQuestion]);
+    analysis.setUploadPreview?.(null);
+    analysis.closeAnalysisPanel?.();
+  }, [activeWorkflow, analysis.closeAnalysisPanel, analysis.setUploadPreview, analysis.uploadPreview, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, runCareerTurn, singlePendingCareerQuestion]);
   const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));
   }, []);
@@ -2064,14 +2073,14 @@ export default function ChatBody({
     };
   }, [stop]);
   useEffect(() => {
-    if (!analysis.showAnalysisPanel) return;
+    if (!analysis.showAnalysisPanel || suppressCareerCvPreview) return;
     try {
       inputRef.current?.blur?.();
     } catch {}
     setInputFocused(false);
-  }, [analysis.showAnalysisPanel]);
+  }, [analysis.showAnalysisPanel, suppressCareerCvPreview]);
   useEffect(() => {
-    if (!analysis.showAnalysisPanel) return;
+    if (!analysis.showAnalysisPanel || suppressCareerCvPreview) return;
     if (analysis.uploadPreview) return;
     if (typeof window === "undefined") return;
     const scroller = document.scrollingElement || document.documentElement;
@@ -2090,9 +2099,9 @@ export default function ChatBody({
     setTimeout(restore, 0);
     setTimeout(restore, 120);
     setTimeout(restore, 260);
-  }, [analysis.showAnalysisPanel, analysis.uploadPreview]);
+  }, [analysis.showAnalysisPanel, analysis.uploadPreview, suppressCareerCvPreview]);
   useEffect(() => {
-    if (!analysis.showAnalysisPanel) return;
+    if (!analysis.showAnalysisPanel || suppressCareerCvPreview) return;
     if (!analysis.uploadPreview) return;
     if (typeof window === "undefined") return;
     const ensureVisible = () => {
@@ -2112,7 +2121,7 @@ export default function ChatBody({
     };
     requestAnimationFrame(ensureVisible);
     setTimeout(ensureVisible, 120);
-  }, [analysis.showAnalysisPanel, analysis.uploadPreview, analysis.analysisPanelRef]);
+  }, [analysis.showAnalysisPanel, analysis.uploadPreview, analysis.analysisPanelRef, suppressCareerCvPreview]);
   useSyncRoomAssistantMessages({
     isRoomMode,
     roomMessages,
@@ -2395,6 +2404,7 @@ export default function ChatBody({
       hideComposerTools={hideComposerTools}
       documentFlowActive={documentFlowActive}
       careerCvQuestionPending={careerCvQuestionPending}
+      suppressCareerCvPreview={suppressCareerCvPreview}
       onPickDocumentFile={analysis.onPickFile}
       speakLatestReply={speakLatestReply}
       canSpeakLatest={canSpeakLatest}

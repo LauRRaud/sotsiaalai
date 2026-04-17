@@ -119,7 +119,12 @@ const resetActionButtonClassName =
 const backButtonClassName = glassPageBackTopLeftClassName;
 const metricListClassName = "grid min-w-0 max-w-full gap-1";
 const metricRowClassName =
-  "grid min-w-0 max-w-full grid-cols-1 items-start gap-x-2 gap-y-0.5 text-[0.86rem] sm:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]";
+  "grid min-w-0 max-w-full grid-cols-1 items-start gap-x-2 gap-y-0.5 text-[0.86rem] xl:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]";
+const metricRowStackedClassName = "grid min-w-0 max-w-full grid-cols-1 items-start gap-y-0.5 text-[0.86rem]";
+const metricValueClassName =
+  "block w-full min-w-0 max-w-full whitespace-normal break-words text-left xl:text-right [overflow-wrap:anywhere]";
+const metricValueStackedClassName =
+  "block w-full min-w-0 max-w-full whitespace-normal break-words text-left [overflow-wrap:anywhere]";
 const summaryDeckClassName = "grid w-full items-start gap-3 2xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)]";
 const summaryPanelClassName = `${ragAdminCardClassName} w-full min-w-0`;
 const summaryPanelBodyClassName = "relative z-[1] grid min-w-0 gap-2.5";
@@ -361,7 +366,7 @@ function CompactMetricGrid({ items, className = "" }) {
   );
 }
 
-function MetricListCard({ title, items }) {
+function MetricListCard({ title, items, stacked = false }) {
   return (
     <div className={metricGroupClassName}>
       <CardTitle className="min-w-0 text-[clamp(0.96rem,1.15vw,1.04rem)] leading-[1.08] [text-wrap:balance]">
@@ -369,9 +374,9 @@ function MetricListCard({ title, items }) {
       </CardTitle>
       <div className={metricListClassName}>
         {items.map(item => (
-          <div key={item.label} className={metricRowClassName}>
+          <div key={item.label} className={stacked ? metricRowStackedClassName : metricRowClassName}>
             <span className={`${cellSubClassName} block min-w-0 break-words`}>{item.label}</span>
-            <span className="block w-full min-w-0 max-w-full whitespace-normal break-words text-left sm:text-right [overflow-wrap:anywhere]">
+            <span className={stacked ? metricValueStackedClassName : metricValueClassName}>
               {item.value}
             </span>
           </div>
@@ -2820,7 +2825,7 @@ export default function AnalyticsDashboard() {
             }
           />
 
-          <MetricListCard title={t("admin.analytics.ai_costs.guide.title", "Kuidas seda lugeda")} items={aiAdminGuideItems} />
+          <MetricListCard title={t("admin.analytics.ai_costs.guide.title", "Kuidas seda lugeda")} items={aiAdminGuideItems} stacked />
 
           <div className={usersSummaryGridClassName}>
             {aiCostCards.map(card => (
@@ -2835,17 +2840,19 @@ export default function AnalyticsDashboard() {
           </div>
 
           <div className={platformGridClassName}>
-            <MetricListCard title={t("admin.analytics.ai_costs.average_usage", "Keskmine kasutus")} items={aiCostAverageItems} />
-            <MetricListCard title={t("admin.analytics.ai_costs.approx.title", "Ligikaudne EUR vaade")} items={aiApproxCostItems} />
-            <MetricListCard title={t("admin.analytics.ai_costs.attribution.title", "Omistamise täielikkus")} items={aiAttributionItems} />
+            <MetricListCard title={t("admin.analytics.ai_costs.average_usage", "Keskmine kasutus")} items={aiCostAverageItems} stacked />
+            <MetricListCard title={t("admin.analytics.ai_costs.approx.title", "Ligikaudne EUR vaade")} items={aiApproxCostItems} stacked />
+            <MetricListCard title={t("admin.analytics.ai_costs.attribution.title", "Omistamise täielikkus")} items={aiAttributionItems} stacked />
             <MetricListCard
               title={t("admin.analytics.ai_costs.spotlight.title", "Karjäärinõustamise AI extractor")}
               items={careerAiExtractorItems}
+              stacked
             />
             {aiCostBreakdownCards.map(card => (
               <MetricListCard
                 key={card.title}
                 title={card.title}
+                stacked
                 items={
                   card.items.length
                     ? card.items

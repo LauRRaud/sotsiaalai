@@ -89,6 +89,14 @@ test("when cv is already available parse profile asks what else to add before bu
     result.questions?.map((question) => question.id),
     ["profile_background_summary"]
   );
+  assert.match(
+    result.questions?.[0]?.prompt || "",
+    /mida soovid enda kohta veel kindlasti lisada või rõhutada/i
+  );
+  assert.doesNotMatch(
+    result.questions?.[0]?.prompt || "",
+    /Kui CV-d ei ole/i
+  );
 });
 
 test("too little context continues by asking for more information", async () => {
@@ -117,7 +125,7 @@ test("too little context continues by asking for more information", async () => 
   assert.equal(result.response?.kind, "question_set");
 });
 
-test("display name answer is used in the next guided question prompt", async () => {
+test("display name answer does not prefix the next guided question prompt", async () => {
   const result = await resolveCareerTurn({
     profile: {
       identity: {
@@ -138,7 +146,40 @@ test("display name answer is used in the next guided question prompt", async () 
   });
 
   assert.equal(result.response?.kind, "question_set");
-  assert.match(result.questions?.[0]?.prompt || "", /^Laur,\s+/);
+  assert.doesNotMatch(result.questions?.[0]?.prompt || "", /^Laur,\s+/);
+});
+
+test("profile background summary prompt stays neutral and keeps correct estonian characters", async () => {
+  const result = await resolveCareerTurn({
+    profile: {
+      identity: {
+        displayName: {
+          value: "Laur Raudsoo",
+          source: "from_user",
+          status: "confirmed",
+        },
+      },
+      sourceMode: {
+        cvUploaded: true,
+      },
+    },
+    runtime: {
+      currentState: "parse_profile",
+      userMessageProvided: true,
+      intakeReasonProvided: true,
+      intakeReasonText: "Soovin karjäärinõu.",
+      userMessage: "Soovin karjäärinõu.",
+      profileCvChecked: true,
+      profileCvAvailable: true,
+    },
+  });
+
+  const prompt = result.questions?.[0]?.prompt || "";
+  assert.equal(result.questions?.[0]?.id, "profile_background_summary");
+  assert.doesNotMatch(prompt, /^Laur Raudsoo,\s+/);
+  assert.match(prompt, /või rõhutada/);
+  assert.match(prompt, /kokkuvõtte/);
+  assert.doesNotMatch(prompt, /Kui CV-d ei ole/i);
 });
 
 test("summary stage gives a concrete recommendation when a direction is available", async () => {

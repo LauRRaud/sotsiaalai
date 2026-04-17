@@ -86,6 +86,7 @@ export default function ChatBodyView({
   activeModeKey,
   documentFlowActive,
   careerCvQuestionPending,
+  suppressCareerCvPreview,
   onPickDocumentFile,
   speakLatestReply,
   canSpeakLatest,
@@ -109,10 +110,11 @@ export default function ChatBodyView({
   const showProfileFace = profileOpen;
   const chatFaceClass = null;
   const profileFaceClass = null;
+  const showVisibleAnalysisPanel = analysis.showAnalysisPanel && !suppressCareerCvPreview;
 
   return <>
     <InviteModal />
-    <div className={cn("chat-page-shell grid place-items-center min-h-[100dvh] h-[100dvh] p-0 overflow-y-hidden overflow-x-visible max-[768px]:overflow-hidden [overflow-anchor:none] max-[768px]:overscroll-none max-[768px]:place-items-stretch", analysis.showAnalysisPanel && analysis.uploadPreview ? "chat-page-shell--analysis-scroll" : null, isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus place-items-center pt-0 pb-0 [scroll-padding-top:0] [scroll-padding-bottom:0]" : null)}>
+    <div className={cn("chat-page-shell grid place-items-center min-h-[100dvh] h-[100dvh] p-0 overflow-y-hidden overflow-x-visible max-[768px]:overflow-hidden [overflow-anchor:none] max-[768px]:overscroll-none max-[768px]:place-items-stretch", showVisibleAnalysisPanel && analysis.uploadPreview ? "chat-page-shell--analysis-scroll" : null, isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus place-items-center pt-0 pb-0 [scroll-padding-top:0] [scroll-padding-bottom:0]" : null)}>
       <>
         {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
           <div className="relative overflow-visible">
@@ -138,7 +140,7 @@ export default function ChatBodyView({
                   handleBackHome={handleBackHome}
                   mobileRailVisible={mobileRailVisible}
                   mobileRailInteractionLocked={
-                    (analysis.showAnalysisPanel &&
+                    (showVisibleAnalysisPanel &&
                       analysis.analysisPanelMode === "overlay") ||
                     mobileRailInteractionLocked
                   }
@@ -158,8 +160,8 @@ export default function ChatBodyView({
                 />
               ) : null}
 
-              {!isMobile ? <LeftRail t={t} locale={locale} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} activeHelpPanelKey={leftRailActiveKey} onShowHelpRequests={onShowHelpRequests} onShowHelpOffers={onShowHelpOffers} onBackHome={handleBackHome} embedded={embedded} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} /> : null}
-              {!isMobile ? <RightRail t={t} locale={locale} roomId={roomId} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} onProfileToggle={toggleProfile} activeWorkspaceKey={rightRailActiveKey} embedded={embedded} suppressTooltip={analysis.showAnalysisPanel} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} /> : null}
+              {!isMobile ? <LeftRail t={t} locale={locale} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} activeHelpPanelKey={leftRailActiveKey} onShowHelpRequests={onShowHelpRequests} onShowHelpOffers={onShowHelpOffers} onBackHome={handleBackHome} embedded={embedded} suspendPointerEvents={showVisibleAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} /> : null}
+              {!isMobile ? <RightRail t={t} locale={locale} roomId={roomId} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} onProfileToggle={toggleProfile} activeWorkspaceKey={rightRailActiveKey} embedded={embedded} suppressTooltip={showVisibleAnalysisPanel} suspendPointerEvents={showVisibleAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} /> : null}
               {listingsPanelNode}
               {selectedListingContextNode}
 
@@ -167,7 +169,7 @@ export default function ChatBodyView({
 
               <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={pageSize} onRevealOlder={onRevealOlder} canHideOlder={canHideOlder} onHideOlder={onHideOlder} onJumpToBottom={onJumpToBottom} messageItems={messageItems} onWindowDoubleClick={onWindowDoubleClick} mainClassName={focusActive ? "mt-[var(--chat-window-main-offset,0rem)] mb-[clamp(0.6rem,1.6vh,1.3rem)] [transform:translateY(var(--chat-window-focus-shift,0rem))]" : "mt-[var(--chat-window-main-offset,0rem)] mb-[clamp(0.5rem,1.4vh,1.1rem)] [transform:translateY(0)]"} isMobile={isMobile} isLightTheme={isLightTheme} hasConversationSources={hasConversationSources} conversationSourcesCount={conversationSources.length} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} sourcesButtonRef={sourcesButtonRef} />
 
-              {analysis.showAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel {...chatAnalysisPanelProps} /> : null}
+              {showVisibleAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel {...chatAnalysisPanelProps} /> : null}
 
               <ChatComposer t={t} locale={locale} isLightTheme={isLightTheme} hideTools={hideComposerTools} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputRowRef={inputRowRef} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={onFocusComposer} onBlurInput={onBlurInput} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={onStop} onSend={onSend} onActivateInfoMode={onActivateInfoMode} onActivateCareerMode={onActivateCareerMode} onActivateHelpRequestMode={onActivateHelpRequestMode} onActivateHelpOfferMode={onActivateHelpOfferMode} careerModeLocked={careerModeLocked} showDocumentAttachButton={documentFlowActive} showCareerCvAttachButton={careerCvQuestionPending} onPickDocumentFile={onPickDocumentFile} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} voiceEnabled={voiceEnabled} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} onDraftStateChange={onDraftStateChange} onLayoutChange={onComposerLayoutChange} inputFocused={inputFocused} isMobile={isMobile} activeModeLabel={activeModeLabel} roomModeLabel={roomModeLabel} activeModeKey={activeModeKey} focusActive={focusActive} allowAssistantForward={allowAssistantForward} isHelpMatchRoom={isHelpMatchRoom} sendToAssistant={sendToAssistant} setSendToAssistant={setSendToAssistant} aiNote={aiNote} />
               <ChatRecordingNotice recordingError={recordingError} floating />
@@ -175,7 +177,7 @@ export default function ChatBodyView({
               <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[768px]:mt-[0.55rem] max-[768px]:min-h-[1.1rem] max-[768px]:pb-[0.15rem]" />
               <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
             </GlassRing>
-            {analysis.showAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem] mx-auto" style={analysisPanelWidth ? {
+            {showVisibleAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem] mx-auto" style={analysisPanelWidth ? {
               width: `${analysisPanelWidth}px`,
               maxWidth: `${analysisPanelWidth}px`
             } : undefined}>

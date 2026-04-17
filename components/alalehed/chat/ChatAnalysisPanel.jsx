@@ -1,7 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 import OptionCard from "@/components/ui/OptionCard";
@@ -32,6 +32,32 @@ const docToggleCardClassName =
   "[--seg-card-text-selected:var(--title-color,var(--brand-primary))] " +
   `${primarySegmentedButtonClassName} ` +
   "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
+
+function normalizePreviewTextForDisplay(value = "") {
+  const text = String(value || "")
+    .replace(/\r\n?/g, "\n")
+    .replace(/\f/g, "\n\n");
+
+  const lines = text.split("\n").map((line) => line.replace(/[ \t]+$/g, ""));
+  const compactLines = [];
+  let previousWasBlank = false;
+
+  for (const line of lines) {
+    if (!line.trim()) {
+      if (!previousWasBlank) {
+        compactLines.push("");
+      }
+      previousWasBlank = true;
+      continue;
+    }
+
+    compactLines.push(line);
+    previousWasBlank = false;
+  }
+
+  return compactLines.join("\n").trim();
+}
+
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
   analysisPanelRef,
@@ -71,6 +97,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const [contextHintOpen, setContextHintOpen] = useState(false);
   const [contextHintPlacement, setContextHintPlacement] = useState(null);
   const [isHighContrast, setIsHighContrast] = useState(false);
+  const displayPreviewText = useMemo(
+    () => normalizePreviewTextForDisplay(previewText),
+    [previewText]
+  );
   useEffect(() => {
     if (typeof document === "undefined") return undefined;
     const root = document.documentElement;
@@ -562,7 +592,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "[--analysis-preview-fade-top:clamp(1.45rem,3.2vh,2.25rem)] " +
     "[--analysis-preview-fade-bottom:clamp(1.7rem,3.5vh,2.45rem)] " +
     "overflow-y-auto overflow-x-hidden overscroll-contain [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:none] [overscroll-behavior-y:contain] [touch-action:pan-y] " +
-    "text-[1.18rem] leading-[1.92] tracking-[0.02em] " +
+    "text-[1.12rem] leading-[1.66] tracking-[0.01em] " +
     "text-[color:var(--glass-surface-text,#f2f2f2)] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
     "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.08)_calc(var(--analysis-preview-fade-top)*0.16),rgba(0,0,0,0.28)_calc(var(--analysis-preview-fade-top)*0.38),rgba(0,0,0,0.62)_calc(var(--analysis-preview-fade-top)*0.68),rgba(0,0,0,0.9)_calc(var(--analysis-preview-fade-top)*0.9),#000_var(--analysis-preview-fade-top),#000_calc(100%-var(--analysis-preview-fade-bottom)),rgba(0,0,0,0.92)_calc(100%-(var(--analysis-preview-fade-bottom)*0.86)),rgba(0,0,0,0.68)_calc(100%-(var(--analysis-preview-fade-bottom)*0.62)),rgba(0,0,0,0.34)_calc(100%-(var(--analysis-preview-fade-bottom)*0.34)),rgba(0,0,0,0.1)_calc(100%-(var(--analysis-preview-fade-bottom)*0.12)),transparent_100%)] " +
     "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.08)_calc(var(--analysis-preview-fade-top)*0.16),rgba(0,0,0,0.28)_calc(var(--analysis-preview-fade-top)*0.38),rgba(0,0,0,0.62)_calc(var(--analysis-preview-fade-top)*0.68),rgba(0,0,0,0.9)_calc(var(--analysis-preview-fade-top)*0.9),#000_var(--analysis-preview-fade-top),#000_calc(100%-var(--analysis-preview-fade-bottom)),rgba(0,0,0,0.92)_calc(100%-(var(--analysis-preview-fade-bottom)*0.86)),rgba(0,0,0,0.68)_calc(100%-(var(--analysis-preview-fade-bottom)*0.62)),rgba(0,0,0,0.34)_calc(100%-(var(--analysis-preview-fade-bottom)*0.34)),rgba(0,0,0,0.1)_calc(100%-(var(--analysis-preview-fade-bottom)*0.12)),transparent_100%)] " +
@@ -729,7 +759,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                 {contextHint}
               </p>
               {contextHintPopover}
-              {previewText ? (
+              {displayPreviewText ? (
                 <div className={actionsInlineClassName}>
                   <Button
                     type="button"
@@ -762,7 +792,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                 </div>
               ) : null}
 
-              {!analysisCollapsed && previewText ? (
+              {!analysisCollapsed && displayPreviewText ? (
                 <div className={previewWrapClassName}>
                   <div
                     ref={previewRef}
@@ -787,7 +817,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                       setPreviewScroll(node.scrollTop / max);
                     }}
                   >
-                    {previewText}
+                    {displayPreviewText}
                   </div>
                   <div
                     ref={scrollTrackRef}
