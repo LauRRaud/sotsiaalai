@@ -1573,6 +1573,21 @@ export default function ChatBody({
 
     return nextConvId;
   }, [analysis, resetCareerSession, setConvId, setIsCrisis, setMessages, stop]);
+  const singlePendingCareerQuestion = useMemo(() => {
+    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
+      ? careerLastResult.response.questions
+      : [];
+
+    return activeWorkflow === "career" && pendingQuestions.length === 1
+      ? pendingQuestions[0]
+      : null;
+  }, [activeWorkflow, careerLastResult]);
+  const careerCvQuestionPending =
+    singlePendingCareerQuestion?.id === "profile_cv_available";
+  const suppressCareerCvPreview =
+    activeWorkflow === "career" &&
+    careerCvQuestionPending &&
+    Boolean(analysis.uploadPreview);
   const runCareerTurn = useCallback(async (payload = {}, options = {}) => {
     const {
       echoUserText = false,
@@ -1764,21 +1779,6 @@ export default function ChatBody({
       profileCvAvailable: true,
     };
   }, [activeWorkflow, analysis.uploadPreview, careerCurrentState, careerRuntime]);
-  const singlePendingCareerQuestion = useMemo(() => {
-    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
-      ? careerLastResult.response.questions
-      : [];
-
-    return activeWorkflow === "career" && pendingQuestions.length === 1
-      ? pendingQuestions[0]
-      : null;
-  }, [activeWorkflow, careerLastResult]);
-  const careerCvQuestionPending =
-    singlePendingCareerQuestion?.id === "profile_cv_available";
-  const suppressCareerCvPreview =
-    activeWorkflow === "career" &&
-    careerCvQuestionPending &&
-    Boolean(analysis.uploadPreview);
   const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
     const questionId = question?.id;
     if (!questionId) return false;
