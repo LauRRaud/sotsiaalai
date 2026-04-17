@@ -102,7 +102,7 @@ const Particles = ({
     );
     const mobileViewportArea = viewportWidth * viewportHeight;
     const mobileAreaFactor = isMobile
-      ? Math.min(1.32, Math.max(1, mobileViewportArea / (390 * 844)))
+      ? Math.min(1.2, Math.max(1, mobileViewportArea / (390 * 844)))
       : 1;
     let lastSize = null;
     const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
@@ -113,10 +113,10 @@ const Particles = ({
     const cfg = {
       count: isMobile
         ? Math.max(
-            isStandaloneDisplay ? 170 : 150,
+            isStandaloneDisplay ? 156 : 138,
             Math.round(
               particleCount *
-                (isStandaloneDisplay ? 1.46 : 1.35) *
+                (isStandaloneDisplay ? 1.32 : 1.22) *
                 mobileAreaFactor
             )
           )
