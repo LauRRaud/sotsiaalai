@@ -1692,34 +1692,6 @@ export default function ChatBody({
       }
     }
   }, [analysis.showAnalysisPanel, appendMessage, goToSubscription, restoreComposerFocus, router, scrollConversationToBottom]);
-  const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
-    const questionId = question?.id;
-    if (!questionId) return false;
-
-    const echoText = formatCareerAnswerForDisplay(question, answer, answerLabel);
-    const shouldRestoreFocus =
-      document.activeElement === inputRef.current || inputFocused;
-    const shouldAttachCvPayload =
-      questionId === "profile_cv_available" && answer === true;
-
-    void runCareerTurn(
-      {
-        questionId,
-        answer,
-        profile: buildCareerProfilePayload(),
-        runtime: buildCareerRuntimePayload(),
-        ...(shouldAttachCvPayload ? buildCareerCvPayload() : {}),
-      },
-      {
-        echoUserText: Boolean(echoText),
-        userEchoText: echoText,
-        activateWorkflow: true,
-        restoreFocusAfterResponse: shouldRestoreFocus,
-      }
-    );
-
-    return true;
-  }, [buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, inputFocused, runCareerTurn]);
   const buildCareerCvPayload = useCallback(() => {
     if (activeWorkflow !== "career" || !analysis.uploadPreview) {
       return {};
@@ -1789,6 +1761,34 @@ export default function ChatBody({
       profileCvAvailable: true,
     };
   }, [activeWorkflow, analysis.uploadPreview, careerCurrentState, careerRuntime]);
+  const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
+    const questionId = question?.id;
+    if (!questionId) return false;
+
+    const echoText = formatCareerAnswerForDisplay(question, answer, answerLabel);
+    const shouldRestoreFocus =
+      document.activeElement === inputRef.current || inputFocused;
+    const shouldAttachCvPayload =
+      questionId === "profile_cv_available" && answer === true;
+
+    void runCareerTurn(
+      {
+        questionId,
+        answer,
+        profile: buildCareerProfilePayload(),
+        runtime: buildCareerRuntimePayload(),
+        ...(shouldAttachCvPayload ? buildCareerCvPayload() : {}),
+      },
+      {
+        echoUserText: Boolean(echoText),
+        userEchoText: echoText,
+        activateWorkflow: true,
+        restoreFocusAfterResponse: shouldRestoreFocus,
+      }
+    );
+
+    return true;
+  }, [buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, inputFocused, runCareerTurn]);
   const activateCareerMode = useCallback(() => {
     if (!careerAccessReady) return false;
     if (careerModeLocked) {
