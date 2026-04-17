@@ -964,11 +964,13 @@ export default function ChatBody({
     setShowSourcesPanel(false);
   }, []);
   const singlePendingCareerQuestion = useMemo(() => {
-    const pendingQuestions = Array.isArray(careerLastResult?.response?.questions)
+    const pendingQuestions = Array.isArray(careerLastResult?.questions)
+      ? careerLastResult.questions
+      : Array.isArray(careerLastResult?.response?.questions)
       ? careerLastResult.response.questions
       : [];
 
-    return activeWorkflow === "career" && pendingQuestions.length === 1
+    return activeWorkflow === "career" && pendingQuestions.length > 0
       ? pendingQuestions[0]
       : null;
   }, [activeWorkflow, careerLastResult]);
@@ -1686,7 +1688,7 @@ export default function ChatBody({
       }
 
       if (!response.ok || body?.ok === false || !body?.result) {
-        throw new Error(body?.error || "Karj??rin?ustamise k?ivitamine eba?nnestus.");
+        throw new Error(body?.error || "Karjäärinõustamise käivitamine ebaõnnestus.");
       }
 
       const result = body.result;
@@ -1726,11 +1728,11 @@ export default function ChatBody({
         return false;
       }
       const message =
-        error?.message || "Karj??rin?ustamise k?ivitamine eba?nnestus.";
+        error?.message || "Karjäärinõustamise käivitamine ebaõnnestus.";
       setErrorBanner(message);
       appendMessage({
         role: "ai",
-        text: `Karj??rin?ustamise k?ivitamine eba?nnestus.\n\n${message}`,
+        text: `Karjäärinõustamise käivitamine ebaõnnestus.\n\n${message}`,
         aiVisible: true,
       });
       scrollConversationToBottom();

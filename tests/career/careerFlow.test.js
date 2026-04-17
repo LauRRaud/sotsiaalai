@@ -182,6 +182,33 @@ test("profile background summary prompt stays neutral and keeps correct estonian
   assert.doesNotMatch(prompt, /Kui CV-d ei ole/i);
 });
 
+test("profile confirmation does not show placeholder note when user has nothing extra to add", async () => {
+  const result = await resolveCareerTurn({
+    profile: {
+      sourceMode: {
+        cvUploaded: true,
+      },
+      identity: {
+        displayName: {
+          value: "Laur",
+          source: "from_user",
+          status: "confirmed",
+        },
+      },
+    },
+    runtime: {
+      currentState: "confirm_profile",
+      profileParsed: true,
+      latestUserText: "ei ole lisada midagi",
+      lastUserMessage: "ei ole lisada midagi",
+      userMessage: "ei ole lisada midagi",
+    },
+  });
+
+  assert.equal(result.response?.kind, "profile_confirmation");
+  assert.equal(result.response?.profileSummary?.draftText || null, null);
+});
+
 test("summary stage gives a concrete recommendation when a direction is available", async () => {
   const result = await resolveCareerTurn({
     runtime: {
@@ -232,6 +259,9 @@ test("explicit new target is recommended instead of only repeating the familiar 
 
   assert.equal(result.response?.kind, "summary");
   const bullets = (result.response?.bullets || []).join("\n");
-  assert.match(bullets, /tehisintellekti arendaja/i);
+  assert.match(
+    bullets,
+    /IKT-süsteemide analüütik|Tarkvaraarendaja|Andmeanalüütik|Teenusedisainer/i
+  );
   assert.match(bullets, /Senise tausta põhjal sobib ka: sotsiaaltootaja/i);
 });
