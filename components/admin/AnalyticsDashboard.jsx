@@ -52,20 +52,22 @@ const cardClassName = `${ragAdminCardClassName} w-full min-w-0 self-start`;
 const cardBodyClassName = "relative z-[1] grid min-w-0 gap-[0.6rem]";
 const kpiGridClassName = "grid grid-cols-1";
 const topKpiGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
-const platformGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
+const platformGridClassName = "grid min-w-0 grid-cols-1 gap-x-6 2xl:grid-cols-2";
 const docsGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
 const billingSummaryGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
 const billingPipelineGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
-const usersSummaryGridClassName = "grid grid-cols-1 gap-x-6 2xl:grid-cols-2";
+const usersSummaryGridClassName = "grid min-w-0 grid-cols-1 gap-x-6 2xl:grid-cols-2";
 const sectionHeadClassName = "flex flex-wrap items-start justify-between gap-3";
-const sectionSubClassName = "text-[0.9rem] leading-[1.45] text-[color:var(--admin-muted)] max-w-[68ch]";
+const sectionSubClassName =
+  "w-full min-w-0 break-words text-[0.9rem] leading-[1.45] text-[color:var(--admin-muted)] [overflow-wrap:anywhere] lg:max-w-[68ch]";
 const kpiValueClassName = "text-[clamp(1.2rem,1.55vw,1.52rem)] font-[700] leading-[1.02] text-[color:var(--admin-text)]";
 const kpiMetaClassName = "text-[0.84rem] leading-[1.3] text-[color:var(--admin-muted)]";
 const statRowClassName =
   "grid min-w-0 gap-x-3 gap-y-1 border-b border-[color:var(--admin-border)] py-2 last:border-b-0 grid-cols-[minmax(0,1fr)_auto]";
 const statRowMainClassName = "grid min-w-0 gap-[0.08rem] content-start";
 const statRowValueWrapClassName = "grid min-w-0 justify-items-end content-start";
-const metricGroupClassName = "grid min-w-0 gap-1.5 border-b border-[color:var(--admin-border)] py-2 last:border-b-0";
+const metricGroupClassName =
+  "grid min-w-0 max-w-full gap-1.5 border-b border-[color:var(--admin-border)] py-2 last:border-b-0";
 const barClassName = "flex h-2 overflow-hidden rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)]";
 const tableHeaderClassName = "flex flex-wrap items-center justify-between gap-2";
 const tableScrollHintClassName = "hidden";
@@ -115,9 +117,9 @@ const resetActionGridClassName = "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 x
 const resetActionButtonClassName =
   `${actionButtonClassName} !w-full !justify-center`;
 const backButtonClassName = glassPageBackTopLeftClassName;
-const metricListClassName = "grid gap-1";
+const metricListClassName = "grid min-w-0 max-w-full gap-1";
 const metricRowClassName =
-  "grid min-w-0 grid-cols-1 items-start gap-x-2 gap-y-0.5 text-[0.86rem] sm:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]";
+  "grid min-w-0 max-w-full grid-cols-1 items-start gap-x-2 gap-y-0.5 text-[0.86rem] sm:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]";
 const summaryDeckClassName = "grid w-full items-start gap-3 2xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)]";
 const summaryPanelClassName = `${ragAdminCardClassName} w-full min-w-0`;
 const summaryPanelBodyClassName = "relative z-[1] grid min-w-0 gap-2.5";
