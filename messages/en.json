@@ -241,7 +241,6 @@
       "count": "{count}/{max}",
       "item": "Device {number}",
       "current": "this device",
-      "current_fallback": "this device",
       "last_used": "Last used: {time}",
       "last_used_unknown": "Last-used time is not available.",
       "expires": "Trusted until: {time}",

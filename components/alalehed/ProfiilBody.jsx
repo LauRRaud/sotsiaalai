@@ -553,10 +553,12 @@ export default function ProfiilBody({
     .map((device, index) => device?.name || t("profile.devices.item", { number: index + 1 }))
     .filter(Boolean)
     .join(", ");
-  const currentTrustedDevice = trustedDevices.find((device) => device?.isCurrentDevice);
+  const currentTrustedDeviceIndex = trustedDevices.findIndex((device) => device?.isCurrentDevice);
+  const currentTrustedDevice =
+    currentTrustedDeviceIndex >= 0 ? trustedDevices[currentTrustedDeviceIndex] : null;
   const currentDeviceName =
     currentTrustedDevice?.name ||
-    (currentTrustedDevice ? t("profile.devices.current_fallback") : "");
+    (currentTrustedDevice ? t("profile.devices.item", { number: currentTrustedDeviceIndex + 1 }) : "");
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);

@@ -241,7 +241,6 @@
       "count": "{count}/{max}",
       "item": "Seade {number}",
       "current": "see seade",
-      "current_fallback": "see seade",
       "last_used": "Viimati kasutatud: {time}",
       "last_used_unknown": "Viimase kasutuse aeg puudub.",
       "expires": "Kehtib kuni: {time}",

@@ -317,7 +317,6 @@
       "count": "{count}/{max}",
       "item": "Устройство {number}",
       "current": "это устройство",
-      "current_fallback": "это устройство",
       "last_used": "Последнее использование: {time}",
       "last_used_unknown": "Время последнего использования недоступно.",
       "expires": "Доверие действует до: {time}",
