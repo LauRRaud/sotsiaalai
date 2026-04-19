@@ -8,7 +8,12 @@ import {
   isMunicipalityScopedMatch,
   makeShortRef
 } from "../../lib/chat/ragContext.js";
-import { buildResponsesPayload, toResponsesInput } from "../../lib/chat/promptBuilder.js";
+import {
+  buildResponsesPayload,
+  detectLang,
+  pickReplyLang,
+  toResponsesInput
+} from "../../lib/chat/promptBuilder.js";
 
 test("municipality scoped RAG matches are withheld until the user names a municipality", () => {
   const matches = [
@@ -317,6 +322,22 @@ test("prompt forbids speculating about internal causes when explaining answer mi
   assert.match(system, /Do not turn that kind of self-correction answer into a meta discussion about internal system behavior/);
 });
 
+test("prompt gives a short identity answer rule", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "kas oled chatgpt?",
+    context: "",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /If the user asks who you are or whether you are ChatGPT/);
+  assert.match(system, /Olen SotsiaalAI vestlusassistent/);
+  assert.match(system, /Do not identify yourself as OpenAI, ChatGPT, or an OpenAI-created assistant/);
+  assert.match(system, /Do not add meta explanations about product naming/);
+});
+
 test("turn rule handles simple availability questions with short confirm and follow-up", () => {
   const input = toResponsesInput({
     history: [],
@@ -349,6 +370,7 @@ test("turn rule forbids internal-cause speculation and cyrillic continuation", (
   const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
   assert.match(turnInstruction, /The user is asking about the cause of a previous style or language mistake/);
   assert.match(turnInstruction, /Do not discuss prompts, verbosity, model version, decoding, or internal system behavior/);
+  assert.match(turnInstruction, /Do not add a follow-up offer or preference question/);
   assert.match(turnInstruction, /An earlier assistant message mixed languages/);
   assert.match(turnInstruction, /Do not repeat or continue any Cyrillic text in this reply/);
 });
@@ -371,6 +393,95 @@ test("turn rule catches short miks follow-up after self-correction", () => {
   assert.match(turnInstruction, /short follow-up why-question after the assistant already acknowledged a style or language mistake/);
   assert.match(turnInstruction, /Answer briefly in user-facing terms only/);
   assert.match(turnInstruction, /Do not discuss prompts, verbosity, model version, decoding, or internal system behavior/);
+  assert.match(turnInstruction, /Do not add a follow-up offer or preference question/);
+});
+
+test("turn rule gives a short identity answer", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "kas oled chatgpt?",
+    context: "",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.match(turnInstruction, /The user is asking about the assistant's identity/);
+  assert.match(turnInstruction, /Answer in one short sentence/);
+  assert.match(turnInstruction, /Olen SotsiaalAI vestlusassistent/);
+  assert.match(turnInstruction, /Do not say that you are OpenAI, ChatGPT, or an OpenAI-created assistant/);
+  assert.match(turnInstruction, /Do not add meta explanation about product naming or internal status/);
+});
+
+test("identity detection covers openai assistant phrasing", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "openai assistent?",
+    context: "",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.match(turnInstruction, /The user is asking about the assistant's identity/);
+  assert.match(turnInstruction, /Olen SotsiaalAI vestlusassistent/);
+  assert.match(turnInstruction, /Do not say that you are OpenAI, ChatGPT, or an OpenAI-created assistant/);
+});
+
+test("identity detection does not trigger on substantive bare oled-sa questions", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "oled sa kursis sotsiaalhoolekande seadusega?",
+    context: "Sotsiaalhoolekande seadus.",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.doesNotMatch(turnInstruction, /assistant's identity/);
+  assert.equal(buildResponsesPayload(input, {
+    stream: false,
+    effectiveRole: "CLIENT"
+  }).text.verbosity, "medium");
+});
+
+test("identity detection catches what-assistant phrasing", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "mis assistent sa oled?",
+    context: "",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.match(turnInstruction, /assistant's identity/);
+  assert.match(turnInstruction, /Olen SotsiaalAI vestlusassistent/);
+});
+
+test("simple availability detection stays off for broader law questions", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Kas see seadus on olemas ja mis tingimustel see kehtib?",
+    context: "Sotsiaalhoolekande seadus.",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.doesNotMatch(turnInstruction, /simple availability check/);
+  assert.equal(buildResponsesPayload(input, {
+    stream: false,
+    effectiveRole: "CLIENT"
+  }).text.verbosity, "medium");
+});
+
+test("language detection recognizes Estonian without diacritics from common words", () => {
+  assert.equal(detectLang("kas oled assistent"), "et");
+  assert.equal(pickReplyLang({
+    userMessage: "kas oled assistent",
+    uiLocale: "en"
+  }), "et");
 });
 
 test("social worker prompt stops rewrite loops after a yes", () => {
@@ -506,6 +617,21 @@ test("internal-cause follow-up turns prefer low verbosity", () => {
       }
     ],
     userMessage: "miks?",
+    context: "",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  assert.equal(buildResponsesPayload(input, {
+    stream: false,
+    effectiveRole: "CLIENT"
+  }).text.verbosity, "low");
+});
+
+test("identity turns prefer low verbosity", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "kas oled chatgpt?",
     context: "",
     effectiveRole: "CLIENT",
     replyLang: "et"

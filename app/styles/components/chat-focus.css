@@ -14,7 +14,7 @@
     clamp(calc(20 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.87), calc(31.5 * var(--base-rem))),
     calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-shell-inline-size) * 0.026), calc(2.25 * var(--base-rem))))
   );
-  --chat-input-focus-shift: -2.35rem;
+  --chat-input-focus-shift: -3rem;
   --chat-attach-left-pull: 0rem;
   --chat-inputbar-left-pull: 0rem;
   --chat-hpad-right: clamp(0.5rem, calc(var(--chat-shell-inline-size) * 0.018), 1rem);

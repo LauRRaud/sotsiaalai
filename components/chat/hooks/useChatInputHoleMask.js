@@ -84,6 +84,7 @@ export function useChatInputHoleMask({
     let mobileThrottleTimer = 0;
     let mobileDebounceTimer = 0;
     let pendingAfterTilt = false;
+    let freezeGeometryDuringTilt = false;
     let retryCount = 0;
     let lastMaskRunAt = 0;
     let lastGeometry = "";
@@ -149,7 +150,15 @@ export function useChatInputHoleMask({
         });
       }, 120);
     };
-    const updateMask = ({ force = false, bypassThrottle = false } = {}) => {
+    const updateMask = ({
+      force = false,
+      bypassThrottle = false,
+      allowDuringTilt = false
+    } = {}) => {
+      if (freezeGeometryDuringTilt && !allowDuringTilt) {
+        pendingAfterTilt = true;
+        return;
+      }
       const ts = nowMs();
       if (
         !force &&
@@ -232,12 +241,16 @@ export function useChatInputHoleMask({
       pendingAfterTilt = false;
     };
     const tick = (ts) => {
+      if (freezeGeometryDuringTilt) {
+        rafLoop = 0;
+        return;
+      }
       if (ts > loopUntil) {
         rafLoop = 0;
         return;
       }
       updateMask({
-        force: isTiltActive()
+        force: false
       });
       rafLoop = window.requestAnimationFrame(tick);
     };
@@ -297,18 +310,34 @@ export function useChatInputHoleMask({
       setTiltVisualState(active);
       if (active) {
         pendingAfterTilt = false;
+        freezeGeometryDuringTilt = false;
+        updateMask({
+          force: true,
+          bypassThrottle: true,
+          allowDuringTilt: true
+        });
+        freezeGeometryDuringTilt = true;
+        window.cancelAnimationFrame(raf);
+        if (rafLoop) window.cancelAnimationFrame(rafLoop);
+        raf = 0;
+        rafLoop = 0;
+        loopUntil = 0;
+        return;
+      }
+      freezeGeometryDuringTilt = false;
+      if (pendingAfterTilt) {
         scheduleUpdate({
           force: true,
-          loop: true,
-          immediate: true
+          immediate: true,
+          loop: false
         });
         return;
       }
-      if (pendingAfterTilt) {
-        scheduleUpdate({
-          force: true
-        });
-      }
+      scheduleUpdate({
+        force: true,
+        immediate: true,
+        loop: false
+      });
     };
     const refreshHandler = (options = {}) => {
       scheduleUpdate({
@@ -322,9 +351,16 @@ export function useChatInputHoleMask({
       refreshRef.current = refreshHandler;
     }
     const vv = window.visualViewport;
-    setTiltVisualState(isTiltActive());
-    updateMask({ force: true });
-    scheduleUpdate();
+    const tiltActiveAtMount = isTiltActive();
+    setTiltVisualState(tiltActiveAtMount);
+    updateMask({
+      force: true,
+      allowDuringTilt: tiltActiveAtMount
+    });
+    freezeGeometryDuringTilt = tiltActiveAtMount;
+    if (!tiltActiveAtMount) {
+      scheduleUpdate();
+    }
     window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
     window.addEventListener("resize", scheduleUpdate);
     vv?.addEventListener("resize", scheduleUpdate);

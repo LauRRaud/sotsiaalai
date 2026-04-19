@@ -196,7 +196,13 @@ export default function ChatSidebar() {
     const throttleState = visibilityThrottleRef.current;
     refreshAll();
     const onExternalRefresh = () => refreshAll();
+    const onDrawerToggle = (event) => {
+      const explicitOpen = event?.detail?.open;
+      if (explicitOpen === false) return;
+      refreshAll();
+    };
     window.addEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
+    window.addEventListener("sotsiaalai:toggle-conversations", onDrawerToggle);
     const handleVisibilityEvent = () => {
       if (typeof document === "undefined") return;
       if (document.visibilityState === "visible") {
@@ -207,6 +213,7 @@ export default function ChatSidebar() {
     document.addEventListener("visibilitychange", handleVisibilityEvent);
     return () => {
       window.removeEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
+      window.removeEventListener("sotsiaalai:toggle-conversations", onDrawerToggle);
       window.removeEventListener("focus", handleVisibilityEvent);
       document.removeEventListener("visibilitychange", handleVisibilityEvent);
       if (throttleState?.timer) {

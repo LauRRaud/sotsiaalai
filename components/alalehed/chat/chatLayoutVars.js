@@ -20,7 +20,7 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
   "--chat-window-scroll-top-fade-start": "0.78rem",
   "--chat-window-scroll-top-fade-mid": "1.65rem",
   "--chat-window-scroll-top-fade-end": "2.8rem",
-  "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 0.9rem)",
+  "--chat-input-shift": "calc(clamp(2.45rem, 5.4dvh, 3.55rem) + 1.25rem)",
   "--chat-input-focus-shift": "0.85rem",
   "--chat-window-focus-shift": "0rem",
   "--chat-inputbar-left-pull": "-1.1rem",
@@ -39,6 +39,7 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
   "--chat-send-btn-shift-y": "0rem",
   "--chat-input-max-w":
     "min(clamp(calc(14.9 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.54), calc(19 * var(--base-rem))), calc(var(--chat-window-max-w) - clamp(calc(4.9 * var(--base-rem)), calc(var(--chat-diameter) * 0.092), calc(6.2 * var(--base-rem)))))",
+  "--chat-composer-bottom-gap": "clamp(1.9rem, 4.6vh, 3rem)",
   "--chat-ai-offset": "clamp(1.35rem, 3vw, 2.4rem)",
   "--chat-hpad": "clamp(2.2rem, calc(var(--chat-diameter) * 0.06), 3.4rem)",
   "--hud-edge": "clamp(1.05rem, 2.5vw, 1.55rem)",
@@ -161,7 +162,8 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-send-btn-expanded-shift-y": "0.16rem",
   "--chat-input-max-w":
     "min(clamp(calc(20 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.87), calc(31.5 * var(--base-rem))), calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-diameter) * 0.026), calc(2.25 * var(--base-rem)))))",
-  "--chat-input-focus-shift": "-2.35rem",
+  "--chat-composer-bottom-gap": "clamp(2.4rem, 5.4vh, 3.6rem)",
+  "--chat-input-focus-shift": "-3rem",
   "--chat-hpad-right": "clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem)",
   "--chat-content-top-offset": "clamp(1.4rem, 3.4vh, 2.6rem)",
   "--chat-content-spacer": "clamp(2.4rem, 5.2vh, 3.9rem)",

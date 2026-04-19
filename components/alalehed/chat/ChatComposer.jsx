@@ -16,9 +16,6 @@ const MODE_LABEL_SHINE_BACKGROUND_LIGHT =
   "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)";
 const MODE_LABEL_SHINE_BACKGROUND_HC =
   "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0.18) 32%, rgba(255,224,44,0.98) 50%, rgba(255,224,44,0.18) 68%, rgba(255,224,44,0) 100%)";
-const ROUTE_TILT_EVENT = "sotsiaalai:route-transition";
-const ROUTE_TILT_MS = 540;
-
 function CareerModeIcon({
   stroke,
   className,
@@ -160,7 +157,6 @@ export default function ChatComposer({
   const [toolsOpen, setToolsOpen] = useState(false);
   const [toolsMenuPosition, setToolsMenuPosition] = useState(null);
   const [isHighContrast, setIsHighContrast] = useState(false);
-  const [routeTiltDirection, setRouteTiltDirection] = useState(null);
   const submitInFlightRef = useRef(false);
   const primaryActionHandledAtRef = useRef(0);
   const toolsButtonRef = useRef(null);
@@ -169,7 +165,6 @@ export default function ChatComposer({
   const previousDraftLengthRef = useRef(0);
   const composerLayoutSyncFramesRef = useRef([]);
   const composerLayoutSignatureRef = useRef("");
-  const routeTiltTimerRef = useRef(0);
   const notifyLayoutChange = useCallback(() => {
     if (typeof onLayoutChange !== "function" || typeof window === "undefined") {
       return;
@@ -311,37 +306,6 @@ export default function ChatComposer({
     if (!hideTools) return;
     setToolsOpen(false);
   }, [hideTools]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const clearRouteTilt = () => {
-      if (routeTiltTimerRef.current) {
-        window.clearTimeout(routeTiltTimerRef.current);
-        routeTiltTimerRef.current = 0;
-      }
-      setRouteTiltDirection(null);
-    };
-    const onRouteTilt = event => {
-      const nextDirection = event?.detail?.glassRingTilt;
-      if (nextDirection !== "left" && nextDirection !== "right") {
-        clearRouteTilt();
-        return;
-      }
-      setRouteTiltDirection(nextDirection);
-      if (routeTiltTimerRef.current) {
-        window.clearTimeout(routeTiltTimerRef.current);
-      }
-      routeTiltTimerRef.current = window.setTimeout(() => {
-        routeTiltTimerRef.current = 0;
-        setRouteTiltDirection(null);
-      }, ROUTE_TILT_MS);
-    };
-    window.addEventListener(ROUTE_TILT_EVENT, onRouteTilt);
-    return () => {
-      window.removeEventListener(ROUTE_TILT_EVENT, onRouteTilt);
-      clearRouteTilt();
-    };
-  }, []);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -664,7 +628,7 @@ export default function ChatComposer({
     "relative overflow-visible pb-[0.14rem] text-center";
   const inputRowModeClassName = embedded
     ? "relative mt-0 w-full max-w-full gap-[0.4rem] pl-0 pr-0 [--chat-input-max-w:100%]"
-    : `relative mt-[clamp(0.6rem,1.8vh,1.1rem)] ${composerBottomReserveClassName} ` +
+    : `relative mt-[clamp(0.6rem,1.8vh,1.1rem)] min-[769px]:mb-[var(--chat-composer-bottom-gap,0rem)] ${composerBottomReserveClassName} ` +
       "max-[768px]:absolute max-[768px]:left-0 max-[768px]:right-0 " +
       "max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+2.75rem+var(--chat-vk-offset,0px))] " +
       "max-[768px]:z-[90] max-[768px]:mt-0 max-[768px]:w-full max-[768px]:max-w-full " +
@@ -704,20 +668,13 @@ export default function ChatComposer({
     "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[220ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
-  const routeTiltInputShiftX = !isMobile
-    ? routeTiltDirection === "left"
-      ? "clamp(-0.9rem,-1.85vw,-0.44rem)"
-      : routeTiltDirection === "right"
-        ? "clamp(0.44rem,1.05vw,0.82rem)"
-        : "0rem"
-    : "0rem";
   const inputRowTransformClassName = embedded
     ? "[transform:none]"
     : `${inputFocused
       ? hasRoomModeLabel
-        ? "[transform:translate3d(var(--chat-route-tilt-input-shift-x,0rem),calc(var(--chat-input-focus-shift,0.94rem)+clamp(1.15rem,2.8dvh,1.75rem)),0)]"
-        : "[transform:translate3d(var(--chat-route-tilt-input-shift-x,0rem),calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)),0)]"
-      : "[transform:translate3d(var(--chat-route-tilt-input-shift-x,0rem),calc(-1*var(--chat-input-shift,0rem)),0)]"} max-[768px]:[transform:none]`;
+        ? "[transform:translate3d(0,calc(var(--chat-input-focus-shift,0.94rem)+clamp(1.15rem,2.8dvh,1.75rem)),0)]"
+        : "[transform:translate3d(0,calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)),0)]"
+      : "[transform:translate3d(0,calc(-1*var(--chat-input-shift,0rem)),0)]"} max-[768px]:[transform:none]`;
   const inputRowMobileStyle = !embedded && isMobile
     ? {
         position: "absolute",
@@ -736,12 +693,10 @@ export default function ChatComposer({
         paddingLeft: "var(--chat-hpad-right,var(--chat-hpad))",
         paddingRight: "var(--chat-hpad-right,var(--chat-hpad))",
         "--chat-inputbar-left-pull": "0rem",
-        "--chat-attach-left-pull": "0rem",
-        "--chat-route-tilt-input-shift-x": routeTiltInputShiftX
+        "--chat-attach-left-pull": "0rem"
       }
     : {
-        ...(inputRowMobileStyle || {}),
-        "--chat-route-tilt-input-shift-x": routeTiltInputShiftX
+        ...(inputRowMobileStyle || {})
       };
   const toolItemBaseClassName =
     "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
