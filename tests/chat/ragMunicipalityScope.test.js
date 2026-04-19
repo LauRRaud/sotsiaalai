@@ -11,6 +11,7 @@ import {
 import {
   buildResponsesPayload,
   detectLang,
+  isIdentityQuestion,
   pickReplyLang,
   toResponsesInput
 } from "../../lib/chat/promptBuilder.js";
@@ -414,6 +415,8 @@ test("turn rule gives a short identity answer", () => {
 });
 
 test("identity detection covers openai assistant phrasing", () => {
+  assert.equal(isIdentityQuestion("openai assistent?"), true);
+
   const input = toResponsesInput({
     history: [],
     userMessage: "openai assistent?",

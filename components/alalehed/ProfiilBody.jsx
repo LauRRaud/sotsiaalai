@@ -157,7 +157,7 @@ const accountModalContentClassName =
   `!w-[var(--ring-diameter,var(--ring-diameter-default))] !min-w-[var(--ring-diameter,var(--ring-diameter-default))] !h-[var(--ring-diameter,var(--ring-diameter-default))] !min-h-[var(--ring-diameter,var(--ring-diameter-default))] !max-w-[var(--ring-diameter,var(--ring-diameter-default))] !max-h-[var(--ring-diameter,var(--ring-diameter-default))] !aspect-square !rounded-full ` +
   `max-[768px]:!min-w-0 max-[768px]:!min-h-0 max-[768px]:!aspect-auto max-[768px]:!rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
   `![border:none] !bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
-  `pt-[clamp(2.8rem,5.5vh,4rem)] !px-[clamp(2rem,4vw,3rem)] !pb-[clamp(2rem,4vh,2.8rem)] ` +
+  `pt-[clamp(2.35rem,4.5vh,3.35rem)] !px-[clamp(2rem,4vw,3rem)] !pb-[clamp(1.55rem,3.2vh,2.25rem)] ` +
   `text-[1.12rem] leading-[1.35] tracking-[0.03rem] ` +
   `max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] [--glass-ring-radius:9999px] [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] ` +
@@ -165,7 +165,7 @@ const accountModalContentClassName =
   `[--glass-edge-right:calc(var(--hud-edge-right,0px)+clamp(0.1rem,1.2vw,0.8rem))] ` +
   `[--glass-center-offset:0px] [--input-text:var(--glass-modal-text)]`;
 const accountModalHeadClassName =
-  "mb-[0.12rem] flex items-start justify-center gap-[0.75rem] max-[768px]:mb-[0.1rem]";
+  "mb-0 flex items-start justify-center gap-[0.75rem]";
 const accountModalBackButtonClassName =
   `${glassPageBackMobileBottomCenterClassName} account-settings-back-button !z-[145]`;
 const accountModalTitleWrapClassName =
@@ -174,15 +174,15 @@ const accountModalTitleClassName =
   `account-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} max-[768px]:!mt-0 max-[768px]:!mb-0 ` +
   "";
 const accountModalActionStackClassName =
-  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] !gap-[1.05rem] mt-[clamp(2.05rem,4.5vh,2.8rem)] px-[1.15rem] pt-[0.14rem] pb-[0.14rem] max-[768px]:max-w-none max-[768px]:!gap-[0.92rem] max-[768px]:mt-[clamp(1.7rem,3.8vh,2.2rem)] max-[768px]:px-0";
+  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] !gap-[0.72rem] mt-[clamp(1.35rem,3.2vh,2.05rem)] px-[1.15rem] pt-0 pb-[0.1rem] max-[768px]:max-w-none max-[768px]:!gap-[0.64rem] max-[768px]:mt-[clamp(1.1rem,2.7vh,1.55rem)] max-[768px]:px-0";
 const accountModalCardClassName =
   "rounded-none border-0 bg-transparent p-0 min-h-0 text-[color:var(--glass-modal-text)] shadow-none " +
   "[.theme-mid_&]:text-[#3f4756] [.theme-light_&]:text-[#1f2937]";
-const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[0.7rem] pt-0 text-center";
+const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[0.42rem] pt-0 text-center";
 const accountModalNoteClassName =
-  "m-0 !mb-[clamp(0.62rem,1.5vh,0.95rem)] mx-auto max-w-[24rem] text-center text-[1.24rem] leading-[1.35] tracking-[0.01rem] text-[color:var(--glass-modal-text)] max-[768px]:!mb-[clamp(0.48rem,1.2vh,0.72rem)] max-[768px]:max-w-none max-[768px]:text-[1.3rem] max-[768px]:leading-[1.4]";
+  "m-0 !mb-[clamp(0.28rem,0.85vh,0.55rem)] mx-auto max-w-[24rem] text-center text-[1.18rem] leading-[1.25] tracking-[0.01rem] text-[color:var(--glass-modal-text)] max-[768px]:!mb-[clamp(0.24rem,0.75vh,0.48rem)] max-[768px]:max-w-none max-[768px]:text-[1.22rem] max-[768px]:leading-[1.28]";
 const accountModalButtonClassName =
-  "account-settings-modal-button !min-h-[2.8rem] !px-[1.18rem] !py-[0.48rem] !text-[1.22rem] !tracking-[0.01em] !self-center shrink-0 " +
+  "account-settings-modal-button !min-h-[2.6rem] !px-[1.14rem] !py-[0.38rem] !text-[1.18rem] !tracking-[0.01em] !self-center shrink-0 " +
   "!min-w-[12.5rem] max-[768px]:!w-[13.5rem] max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {
