@@ -153,8 +153,9 @@ const modalInputClassName =
 const accountModalOverlayClassName =
   "invite-modal-overlay account-settings-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
 const accountModalContentClassName =
-  `glass-ring glass-ring--desktop-stable invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative !overflow-x-hidden !overflow-y-auto touch-pan-y overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 ` +
+  `glass-ring glass-ring--desktop-stable invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative !overflow-x-hidden !overflow-y-auto touch-pan-y overscroll-contain [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 ` +
   `!w-[var(--ring-diameter,var(--ring-diameter-default))] !min-w-[var(--ring-diameter,var(--ring-diameter-default))] !h-[var(--ring-diameter,var(--ring-diameter-default))] !min-h-[var(--ring-diameter,var(--ring-diameter-default))] !max-w-[var(--ring-diameter,var(--ring-diameter-default))] !max-h-[var(--ring-diameter,var(--ring-diameter-default))] !aspect-square !rounded-full ` +
+  `max-[768px]:!min-w-0 max-[768px]:!min-h-0 max-[768px]:!aspect-auto max-[768px]:!rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
   `![border:none] !bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
   `pt-[clamp(2.8rem,5.5vh,4rem)] !px-[clamp(2rem,4vw,3rem)] !pb-[clamp(2rem,4vh,2.8rem)] ` +
   `text-[1.12rem] leading-[1.35] tracking-[0.03rem] ` +
