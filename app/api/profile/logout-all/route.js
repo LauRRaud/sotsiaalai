@@ -82,6 +82,12 @@ export async function POST(request) {
         }
       });
 
+      await tx.session.deleteMany({
+        where: {
+          userId
+        }
+      });
+
       await tx.loginTempToken.deleteMany({
         where: {
           userId

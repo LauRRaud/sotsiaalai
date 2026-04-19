@@ -6,7 +6,13 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { resolveSessionRoleState } from "@/lib/authz";
-import { isValidPin } from "@/lib/auth/pin-login";
+import {
+  DEVICE_COOKIE_NAME,
+  getActiveSessionMaxForUser,
+  getTrustedDeviceMaxForUser,
+  hashOpaqueToken,
+  isValidPin
+} from "@/lib/auth/pin-login";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
@@ -154,7 +160,32 @@ export async function GET(request) {
       select: {
         email: true,
         role: true,
-        passwordHash: true
+        isAdmin: true,
+        passwordHash: true,
+        trustedDevices: {
+          where: {
+            expiresAt: {
+              gt: new Date()
+            }
+          },
+          select: {
+            id: true,
+            name: true,
+            deviceTokenHash: true,
+            ipRange: true,
+            expiresAt: true,
+            lastUsedAt: true,
+            createdAt: true
+          },
+          orderBy: [
+            {
+              lastUsedAt: "desc"
+            },
+            {
+              createdAt: "desc"
+            }
+          ]
+        }
       }
     });
 
@@ -163,6 +194,8 @@ export async function GET(request) {
     }
 
     const roleState = resolveSessionRoleState(ctx.session, request.cookies);
+    const currentDeviceToken = request.cookies.get(DEVICE_COOKIE_NAME)?.value;
+    const currentDeviceHash = currentDeviceToken ? hashOpaqueToken(currentDeviceToken) : null;
 
     return json({
       ok: true,
@@ -173,7 +206,18 @@ export async function GET(request) {
         adminViewRole: roleState.adminViewRole,
         isAdmin: roleState.isAdmin,
         isRoleViewActive: roleState.isRoleViewActive,
-        hasPassword: !!user.passwordHash
+        hasPassword: !!user.passwordHash,
+        activeSessionLimit: getActiveSessionMaxForUser(user),
+        trustedDeviceLimit: getTrustedDeviceMaxForUser(user),
+        trustedDevices: user.trustedDevices.map((device) => ({
+          id: device.id,
+          name: device.name,
+          ipRange: device.ipRange,
+          createdAt: device.createdAt?.toISOString?.() || null,
+          lastUsedAt: device.lastUsedAt?.toISOString?.() || null,
+          expiresAt: device.expiresAt?.toISOString?.() || null,
+          isCurrentDevice: Boolean(currentDeviceHash && device.deviceTokenHash === currentDeviceHash)
+        }))
       }
     });
   } catch (error) {

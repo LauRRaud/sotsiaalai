@@ -7,10 +7,19 @@ import {
   normalizeEmail,
   normalizePin,
   isValidPin,
-  isDirectPinLoginAllowed
+  isDirectPinLoginAllowed,
+  generateOpaqueToken,
+  getActiveSessionMaxForUser
 } from "@/lib/auth/pin-login";
 const CredentialsProvider = CredentialsProviderImport?.default ?? CredentialsProviderImport;
 const LOCALHOST_RE = /^https?:\/\/(?:localhost|127(?:\.\d{1,3}){1,3})(?::\d+)?$/i;
+const DEFAULT_SESSION_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
+
+function readPositiveInteger(value, fallback) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : fallback;
+}
+
 function normalizeBaseUrl(value) {
   if (!value) return "";
   const trimmed = String(value).trim();
@@ -29,6 +38,92 @@ function computeBaseUrl() {
 }
 const APP_BASE_URL = computeBaseUrl();
 const ALLOW_DIRECT_PIN_LOGIN = isDirectPinLoginAllowed();
+const SESSION_MAX_AGE_SECONDS = readPositiveInteger(
+  process.env.NEXTAUTH_SESSION_MAX_AGE_SECONDS || process.env.AUTH_SESSION_MAX_AGE_SECONDS,
+  DEFAULT_SESSION_MAX_AGE_SECONDS
+);
+
+function buildSessionExpires(now = new Date()) {
+  return new Date(now.getTime() + SESSION_MAX_AGE_SECONDS * 1000);
+}
+
+async function createTrackedSessionForUser(user) {
+  const userId = String(user?.id || "");
+  if (!userId) return null;
+
+  const now = new Date();
+  const maxSessions = Math.max(1, getActiveSessionMaxForUser(user));
+
+  return prisma.$transaction(async tx => {
+    await tx.session.deleteMany({
+      where: {
+        userId,
+        expires: {
+          lte: now
+        }
+      }
+    });
+
+    const activeSessions = await tx.session.findMany({
+      where: {
+        userId,
+        expires: {
+          gt: now
+        }
+      },
+      select: {
+        id: true
+      },
+      orderBy: {
+        expires: "asc"
+      }
+    });
+
+    const overflow = activeSessions.length - maxSessions + 1;
+    const evictIds = overflow > 0
+      ? activeSessions.slice(0, overflow).map(session => session.id)
+      : [];
+
+    if (evictIds.length > 0) {
+      await tx.session.deleteMany({
+        where: {
+          id: {
+            in: evictIds
+          }
+        }
+      });
+    }
+
+    return tx.session.create({
+      data: {
+        sessionToken: generateOpaqueToken(32),
+        userId,
+        expires: buildSessionExpires(now)
+      },
+      select: {
+        id: true
+      }
+    });
+  });
+}
+
+async function hasActiveTrackedSession(sessionRecordId, userId) {
+  if (!sessionRecordId || !userId) return false;
+  const sessionRecord = await prisma.session.findFirst({
+    where: {
+      id: String(sessionRecordId),
+      userId: String(userId),
+      expires: {
+        gt: new Date()
+      }
+    },
+    select: {
+      id: true
+    }
+  });
+  return Boolean(sessionRecord);
+}
+
 function isIgnorableJwtDecryptError(code, metadata) {
   if (code !== "JWT_SESSION_ERROR") return false;
   const candidates = [
@@ -56,7 +151,8 @@ function toInternalDestination(targetUrl, runtimeBaseUrl = APP_BASE_URL) {
 export const authConfig = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
+    maxAge: SESSION_MAX_AGE_SECONDS
   },
   logger: {
     error(code, metadata) {
@@ -111,33 +207,17 @@ export const authConfig = {
         const now = new Date();
         if (loginToken.expiresAt <= now || loginToken.usedAt) return null;
         if (loginToken.requiresOtp && !loginToken.otpVerifiedAt) return null;
-        const user = await prisma.$transaction(async tx => {
-          await tx.loginTempToken.update({
-            where: {
-              id: loginToken.id
-            },
-            data: {
-              usedAt: now
-            }
-          });
-          return tx.user.update({
-            where: {
-              id: loginToken.user.id
-            },
-            data: {
-              sessionVersion: {
-                increment: 1
-              }
-            },
-            select: {
-              id: true,
-              email: true,
-              role: true,
-              isAdmin: true,
-              sessionVersion: true
-            }
-          });
+        const claimedToken = await prisma.loginTempToken.updateMany({
+          where: {
+            id: loginToken.id,
+            usedAt: null
+          },
+          data: {
+            usedAt: now
+          }
         });
+        if (claimedToken.count !== 1) return null;
+        const user = loginToken.user;
         return {
           id: user.id,
           email: user.email,
@@ -168,29 +248,12 @@ export const authConfig = {
       if (!user?.passwordHash) return null;
       const ok = await compare(pin, user.passwordHash);
       if (!ok) return null;
-      const updatedUser = await prisma.user.update({
-        where: {
-          id: user.id
-        },
-        data: {
-          sessionVersion: {
-            increment: 1
-          }
-        },
-        select: {
-          id: true,
-          email: true,
-          role: true,
-          isAdmin: true,
-          sessionVersion: true
-        }
-      });
       return {
-        id: updatedUser.id,
-        email: updatedUser.email,
-        role: updatedUser.role,
-        isAdmin: updatedUser.isAdmin,
-        sessionVersion: updatedUser.sessionVersion
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        isAdmin: user.isAdmin,
+        sessionVersion: user.sessionVersion
       };
     }
   })],
@@ -239,6 +302,23 @@ export const authConfig = {
           if (Number(token.sessionVersion ?? 0) !== Number(currentUser.sessionVersion ?? 0)) {
             throw new Error("SESSION_REVOKED");
           }
+
+          if (token.sessionRecordId) {
+            const active = await hasActiveTrackedSession(token.sessionRecordId, token.id);
+            if (!active) {
+              throw new Error("SESSION_REVOKED");
+            }
+          } else {
+            const sessionRecord = await createTrackedSessionForUser({
+              id: token.id,
+              role: currentUser.role,
+              isAdmin: currentUser.isAdmin
+            });
+            if (sessionRecord?.id) {
+              token.sessionRecordId = sessionRecord.id;
+            }
+          }
+
           token.role = currentUser.role ?? "CLIENT";
           token.isAdmin = Boolean(currentUser.isAdmin);
           token.subActive = currentUser.subscriptions.length > 0;
@@ -270,6 +350,23 @@ export const authConfig = {
       baseUrl
     }) {
       return toInternalDestination(url, baseUrl);
+    }
+  },
+  events: {
+    async signOut(message) {
+      const sessionRecordId = message?.token?.sessionRecordId;
+      if (!sessionRecordId) return;
+      try {
+        await prisma.session.delete({
+          where: {
+            id: String(sessionRecordId)
+          }
+        });
+      } catch (error) {
+        if (error?.code !== "P2025") {
+          console.error("[auth] tracked session cleanup failed", error);
+        }
+      }
     }
   },
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET

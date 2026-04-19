@@ -12,8 +12,9 @@ import {
   buildDeviceCookie,
   DEVICE_COOKIE_NAME,
   TRUSTED_DEVICE_DAYS,
-  TRUSTED_DEVICE_MAX,
-  pickTrustedDeviceIdsToEvict
+  pickTrustedDeviceIdsToEvict,
+  getTrustedDeviceMaxForUser,
+  normalizeTrustedDeviceName
 } from "@/lib/auth/pin-login";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { serverT, normalizeServerLocale } from "@/lib/i18n/serverMessages";
@@ -87,7 +88,13 @@ async function fetchLoginToken(rawToken) {
       requiresOtp: true,
       otpVerifiedAt: true,
       expiresAt: true,
-      usedAt: true
+      usedAt: true,
+      user: {
+        select: {
+          role: true,
+          isAdmin: true
+        }
+      }
     }
   });
 }
@@ -100,6 +107,7 @@ export async function POST(request) {
     const rawToken = String(body?.temp_login_token || "").trim();
     const otpCode = String(body?.otp_code || "").trim();
     const rememberDevice = Boolean(body?.remember_device);
+    const deviceName = normalizeTrustedDeviceName(body?.device_name);
     const ipAddress = computeIpFromHeaders(request.headers) || "unknown";
 
     const ipLimit = consumeRateLimit(
@@ -195,6 +203,8 @@ export async function POST(request) {
 
       let trustedDeviceId = null;
       if (rememberDevice) {
+        const trustedDeviceMax = getTrustedDeviceMaxForUser(loginToken.user);
+
         await tx.trustedDevice.deleteMany({
           where: {
             userId: loginToken.userId,
@@ -220,7 +230,7 @@ export async function POST(request) {
 
         const evictIds = pickTrustedDeviceIdsToEvict(
           activeTrustedDevices,
-          Math.max(1, TRUSTED_DEVICE_MAX)
+          Math.max(1, trustedDeviceMax)
         );
 
         if (evictIds.length > 0) {
@@ -237,6 +247,7 @@ export async function POST(request) {
         const record = await tx.trustedDevice.create({
           data: {
             userId: loginToken.userId,
+            name: deviceName,
             deviceTokenHash: hashOpaqueToken(deviceToken),
             userAgentFingerprint: fingerprint,
             ipRange,

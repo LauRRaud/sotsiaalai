@@ -191,6 +191,7 @@ export default function LoginModal({
   const [emailMask, setEmailMask] = useState("");
   const [otpValue, setOtpValue] = useState("");
   const [rememberDevice, setRememberDevice] = useState(true);
+  const [deviceName, setDeviceName] = useState("");
   const [otpExpiresAt, setOtpExpiresAt] = useState(null);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
@@ -599,6 +600,7 @@ export default function LoginModal({
     setStoredEmail("");
     setOtpExpiresAt(null);
     setRememberDevice(true);
+    setDeviceName("");
     setEmailMask("");
     setError("");
     setInfo("");
@@ -980,6 +982,7 @@ export default function LoginModal({
           temp_login_token: tempToken,
           otp_code: cleanedOtp,
           remember_device: rememberDevice,
+          device_name: rememberDevice ? deviceName : "",
           locale
         })
       });
@@ -1934,6 +1937,25 @@ export default function LoginModal({
                 className="login-otp-remember fancy-checkbox--otp w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] justify-center"
               />
             </div>
+            {rememberDevice ? (
+              <div className="w-full mt-[0.7rem] max-[768px]:mt-[0.48rem] flex flex-col items-center gap-[0.32rem]">
+                <Input
+                  id="trusted-device-name"
+                  type="text"
+                  name="trusted-device-name"
+                  autoComplete="off"
+                  maxLength={60}
+                  value={deviceName}
+                  onChange={e => setDeviceName(e.target.value)}
+                  placeholder={t("auth.login.device_name_placeholder")}
+                  aria-label={t("auth.login.device_name_label")}
+                  className={`${subpageFieldInputClassName} !w-[min(100%,19.6rem)] !max-w-[19.6rem] max-[768px]:!w-[min(82vw,21rem)] max-[768px]:!max-w-[21rem] text-center !text-center placeholder:opacity-85 focus:placeholder:opacity-0 text-[1.04rem] !px-[1.08rem] !py-[0.78rem] min-h-[3.05rem]`}
+                />
+                <p className={`m-0 max-w-[21rem] text-center text-[0.9rem] leading-[1.28] opacity-80 ${otpTextClassName}`}>
+                  {t("auth.login.device_name_hint")}
+                </p>
+              </div>
+            ) : null}
 
             <div className="w-full max-w-[23.6rem] max-[768px]:max-w-[min(88vw,28rem)] flex flex-col items-center mt-[1.28rem] max-[768px]:mt-[0.88rem]">
               <Button type="submit" variant="primary" className={otpSubmitButtonClassName} disabled={otpLoading}>

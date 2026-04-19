@@ -617,6 +617,7 @@ model TrustedDevice {
   id                   String    @id @default(cuid())
   userId               String
   deviceTokenHash      String    @unique
+  name                 String?
   userAgentFingerprint String?
   ipRange              String?
   expiresAt            DateTime

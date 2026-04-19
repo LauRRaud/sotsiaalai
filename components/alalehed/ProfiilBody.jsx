@@ -12,7 +12,7 @@ import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu
 import HelpListingsPanel from "@/components/chat/HelpListingsPanel";
 import { getHelpUiText } from "@/components/chat/helpUiText";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition, triggerRouteTransition } from "@/lib/routeTransition";
+import { pushWithTransition } from "@/lib/routeTransition";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
@@ -73,6 +73,24 @@ function splitRoleLabelToTwoLines(label) {
   }
   return `${words.slice(0, bestIndex).join(" ")}\n${words.slice(bestIndex).join(" ")}`;
 }
+
+function formatProfileDeviceTime(value, locale) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return "";
+  const normalized = String(locale || "").toLowerCase();
+  const formatterLocale =
+    normalized.startsWith("et") ? "et-EE" : normalized.startsWith("ru") ? "ru-RU" : "en-GB";
+  try {
+    return new Intl.DateTimeFormat(formatterLocale, {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }).format(date);
+  } catch {
+    return date.toISOString();
+  }
+}
+
 const pageShellClassName =
   `${glassPageShellCenteredClassName} max-md:py-0`;
 const containerBaseClassName =
@@ -80,11 +98,6 @@ const containerBaseClassName =
   "box-border text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-mobile-action-stack):not(.profile-footer-note)]:relative " +
   "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-mobile-action-stack):not(.profile-footer-note)]:z-[1]";
-const titleBaseClassName =
-  "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
-  "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
-  "max-[48em]:text-[clamp(2.3rem,9.1vw,3rem)] " +
-  "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const headerCenterBaseClassName =
   "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[48em]:mb-[clamp(0.4rem,2vw,0.72rem)]";
 const headerCenterPageClassName =
@@ -187,6 +200,24 @@ const accountModalNoteClassName =
 const accountModalButtonClassName =
   "account-settings-modal-button !min-h-[2.8rem] !px-[1.18rem] !py-[0.48rem] !text-[1.22rem] !tracking-[0.01em] !self-center shrink-0 " +
   "!min-w-[12.5rem] max-[768px]:!w-[13.5rem] max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
+const accountDevicesPanelClassName =
+  "w-full rounded-[1.15rem] border border-[color:rgba(255,255,255,0.14)] bg-[color:rgba(255,255,255,0.055)] px-[0.95rem] py-[0.82rem] text-left " +
+  "shadow-[0_10px_28px_rgba(0,0,0,0.12)] [.theme-light_&]:border-[rgba(30,41,59,0.14)] [.theme-light_&]:bg-[rgba(255,255,255,0.45)]";
+const accountDevicesHeaderClassName =
+  "mb-[0.65rem] flex items-center justify-between gap-[0.65rem] text-[0.9rem] font-[600] uppercase tracking-[0.08em] opacity-85";
+const accountDevicesCountClassName =
+  "shrink-0 rounded-full bg-[rgba(255,255,255,0.12)] px-[0.55rem] py-[0.18rem] text-[0.76rem] tracking-[0.06em] opacity-80 [.theme-light_&]:bg-[rgba(30,41,59,0.08)]";
+const accountDevicesListClassName =
+  "m-0 grid max-h-[8.7rem] list-none gap-[0.48rem] overflow-y-auto p-0 pr-[0.15rem] text-[0.95rem] leading-[1.28]";
+const accountDeviceItemClassName =
+  "rounded-[0.82rem] bg-[rgba(255,255,255,0.06)] px-[0.72rem] py-[0.58rem] [.theme-light_&]:bg-[rgba(255,255,255,0.58)]";
+const accountDeviceNameClassName =
+  "mb-[0.2rem] flex items-center justify-between gap-[0.55rem] font-[650] tracking-[0.01em]";
+const accountDeviceBadgeClassName =
+  "shrink-0 rounded-full bg-[rgba(197,113,113,0.18)] px-[0.5rem] py-[0.12rem] text-[0.72rem] font-[650] uppercase tracking-[0.07em] text-[#f0b2b2] [.theme-light_&]:text-[#7A3A38]";
+const accountDeviceMetaClassName = "text-[0.86rem] opacity-72";
+const accountDevicesEmptyClassName =
+  "m-0 rounded-[0.82rem] bg-[rgba(255,255,255,0.045)] px-[0.72rem] py-[0.62rem] text-center text-[0.9rem] leading-[1.32] opacity-75 [.theme-light_&]:bg-[rgba(255,255,255,0.48)]";
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {
   soft:
@@ -360,15 +391,6 @@ function SubscriptionDockIcon({
         />
       </svg>;
 }
-function DeleteDockIcon({
-  isHovered: _isHovered,
-  ...props
-}) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
-      <path d="M4 6h16M10 10v6M14 10v6" />
-      <path d="M9 6l.6-1.4A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.4.6L15 6m3 0-.8 11.6a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 6" />
-    </svg>;
-}
 function AccountSettingsDockIcon({
   isHovered: _isHovered,
   ...props
@@ -536,11 +558,6 @@ export default function ProfiilBody({
   const isHighContrast = prefs?.contrast === "hc";
   const currentMode = isHighContrast ? "hc" : currentTheme;
   const profileShellTheme = isLightTheme ? "light" : "dark";
-  const titleClassName = cn(
-    embedded ? titleBaseClassName : glassPageTitleClassName,
-    !embedded && "min-[48.0625em]:sr-only",
-    "subpage-mobile-title"
-  );
   const headerCenterClassName = cn(
     headerCenterBaseClassName,
     !embedded && headerCenterPageClassName
@@ -563,6 +580,12 @@ export default function ProfiilBody({
   const roleLabelLines = roleLabelIsMultiLine
     ? roleLabelDisplay.split("\n").map(line => line.trim()).filter(Boolean)
     : [];
+  const trustedDevices = Array.isArray(profileUser?.trustedDevices)
+    ? profileUser.trustedDevices
+    : [];
+  const trustedDeviceLimit = Number.isFinite(Number(profileUser?.trustedDeviceLimit))
+    ? Number(profileUser.trustedDeviceLimit)
+    : trustedDevices.length;
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -863,13 +886,6 @@ export default function ProfiilBody({
       colorTheme: "default"
     });
   }, [nextMode, setPrefs]);
-  const triggerLeftTilt = useCallback(() => {
-    triggerRouteTransition({
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  }, []);
   const shouldReduceMotion = useCallback(() => {
     if (typeof window === "undefined") return false;
     try {
@@ -1426,6 +1442,52 @@ export default function ProfiilBody({
                     {t("profile.logout_all_devices")}
                   </Button>
                   <p className={accountModalNoteClassName}>{t("profile.logout_all_hint")}</p>
+                  <div className={accountDevicesPanelClassName}>
+                    <div className={accountDevicesHeaderClassName}>
+                      <span>{t("profile.devices.title")}</span>
+                      <span className={accountDevicesCountClassName}>
+                        {t("profile.devices.count", {
+                          count: trustedDevices.length,
+                          max: trustedDeviceLimit
+                        })}
+                      </span>
+                    </div>
+                    {trustedDevices.length > 0 ? (
+                      <ul className={accountDevicesListClassName}>
+                        {trustedDevices.map((device, index) => {
+                          const lastUsed = formatProfileDeviceTime(device?.lastUsedAt || device?.createdAt, locale);
+                          const expires = formatProfileDeviceTime(device?.expiresAt, locale);
+                          return (
+                            <li key={device?.id || index} className={accountDeviceItemClassName}>
+                              <div className={accountDeviceNameClassName}>
+                                <span>{device?.name || t("profile.devices.item", { number: index + 1 })}</span>
+                                {device?.isCurrentDevice ? (
+                                  <span className={accountDeviceBadgeClassName}>{t("profile.devices.current")}</span>
+                                ) : null}
+                              </div>
+                              <div className={accountDeviceMetaClassName}>
+                                {lastUsed
+                                  ? t("profile.devices.last_used", { time: lastUsed })
+                                  : t("profile.devices.last_used_unknown")}
+                              </div>
+                              {expires ? (
+                                <div className={accountDeviceMetaClassName}>
+                                  {t("profile.devices.expires", { time: expires })}
+                                </div>
+                              ) : null}
+                              {device?.ipRange ? (
+                                <div className={accountDeviceMetaClassName}>
+                                  {t("profile.devices.network", { network: device.ipRange })}
+                                </div>
+                              ) : null}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <p className={accountDevicesEmptyClassName}>{t("profile.devices.empty")}</p>
+                    )}
+                  </div>
                 </div>
               </section>
               <section className={accountModalCardClassName}>
