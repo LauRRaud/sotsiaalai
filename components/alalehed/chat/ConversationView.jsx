@@ -226,7 +226,7 @@ const ConversationView = memo(function ConversationView({
     "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] max-[768px]:transition-none";
   const mergedWindowClassName = `${windowClassName} ${windowClassNameProp || ""}`.trim();
   const scrollButtonClassName =
-    "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +
+    "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 translate-y-[var(--chat-window-shift-y,0rem)] bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
     "flex items-center justify-center transition-[transform,bottom] duration-[400ms] " +
     "hover:scale-[1.15] focus-visible:scale-[1.15]";

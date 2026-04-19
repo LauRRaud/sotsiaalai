@@ -22,6 +22,7 @@ import { detectCrisis, isGreeting, groundingStrength } from "@/lib/chat/safety";
 import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence";
 import { logEvent } from "@/lib/chat/logger";
 import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
+import { isAssistantSourceUiIssue, shouldUseExternalSourcesForTurn } from "@/lib/chat/sourceNeed";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 import { MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib/documents/constants";
@@ -373,6 +374,27 @@ function previousSourceUseSystemInstruction() {
     "If no assistant source metadata is attached to the previous answer, say that no source metadata is available for that previous answer instead of inventing sources.",
     "If the metadata is incomplete, say that the source metadata available for the previous answer includes only those listed items.",
     "Do not describe assistant source metadata, retrieved documents, or prior assistant content as text that was visible in the user's own message."
+  ].join(" ");
+}
+
+function assistantSourceUiIssueSystemInstruction() {
+  return [
+    "ASSISTANT_SOURCE_UI_ISSUE_MODE:",
+    "The user is asking about why sources were shown, why unnecessary sources appeared, or how to avoid source rows when a source-grounded answer is not needed.",
+    "Answer from the conversation and the visible source metadata only.",
+    "Do not run or imply a new source lookup.",
+    "Do not cite, list, or attach external sources for this answer.",
+    "Explain the correct behavior: simple conversational, identity, acknowledgement, style, or platform-feedback answers should not show sources unless the user explicitly asks for sources or the answer depends on law, services, deadlines, procedures, contacts, or official requirements."
+  ].join(" ");
+}
+
+function noExternalSourcesSystemInstruction() {
+  return [
+    "NO_EXTERNAL_SOURCE_MODE:",
+    "This turn does not need external source lookup.",
+    "Answer from the conversation and general user-facing reasoning only.",
+    "Do not cite, list, or attach external sources.",
+    "Do not mention RAG, retrieval, source search, or provided materials."
   ].join(" ");
 }
 
@@ -1237,6 +1259,12 @@ export async function POST(req) {
   const documentWorkflowActive = isActiveDocumentWorkflowState(documentWorkflowState);
   const previousSourceUseRequest = detectPreviousSourceUseRequest(rawHistory, effectiveMessage);
   const sourceLookupRequest = !previousSourceUseRequest && detectSourceAvailabilityRequest(rawHistory, effectiveMessage);
+  const assistantSourceUiIssueRequest = !sourceLookupRequest && isAssistantSourceUiIssue(effectiveMessage);
+  const externalSourcesNeeded = shouldUseExternalSourcesForTurn(effectiveMessage, {
+    forceSources,
+    sourceLookupRequest,
+    previousSourceUseRequest
+  });
   const sourceLookupCombinedText = sourceLookupRequest
     ? [effectiveMessage, ...extractRecentUserText(rawHistory, 8)].join("\n")
     : "";
@@ -1890,7 +1918,11 @@ export async function POST(req) {
       ? [missingMunicipalitySystemInstruction(normalizedRole)]
       : []),
     ...(previousSourceUseRequest ? [previousSourceUseSystemInstruction()] : []),
-    ...(sourceLookupRequest ? [sourceLookupSystemInstruction()] : [])
+    ...(sourceLookupRequest ? [sourceLookupSystemInstruction()] : []),
+    ...(assistantSourceUiIssueRequest ? [assistantSourceUiIssueSystemInstruction()] : []),
+    ...(!externalSourcesNeeded && !ephemeralChunks.length && !assistantSourceUiIssueRequest
+      ? [noExternalSourcesSystemInstruction()]
+      : [])
   ];
   let matches = [];
   let groupedMatches = [];
@@ -1899,7 +1931,8 @@ export async function POST(req) {
     text: "",
     used: []
   };
-  if ((!ephemeralChunks.length || combineSources) && !previousSourceUseRequest) {
+  const shouldRunRag = externalSourcesNeeded && (!ephemeralChunks.length || combineSources) && !previousSourceUseRequest && !assistantSourceUiIssueRequest;
+  if (shouldRunRag) {
     try {
       const ragQueryText = sourceLookupRequest
         ? buildSourceLookupSearchQuery(effectiveMessage, rawHistory)
@@ -2009,7 +2042,11 @@ export async function POST(req) {
       : sourceLookupRequest
         ? "SOURCE_LOOKUP_CONTEXT: The current targeted source lookup returned no matches. Say that the current search did not find the requested item, unless you can identify it from the user's quoted text or from assistant source metadata."
         : "";
-  const effectiveContext = context && context.trim() ? context : lookupFallbackContext;
+  const conversationalFallbackContext =
+    !externalSourcesNeeded && !docContext
+      ? "CONVERSATIONAL_CONTEXT: No external source lookup is needed for this turn. Answer from the conversation only and do not cite or list sources."
+      : "";
+  const effectiveContext = context && context.trim() ? context : lookupFallbackContext || conversationalFallbackContext;
   const grounding = groundingStrength(groupedMatches);
   const hadDocContext = !!docContext;
   const hadRagContext = !!ragContext;
@@ -2021,27 +2058,41 @@ export async function POST(req) {
     docChunkInputCount: ephemeralChunks.length,
     docChunkUsedCount: docContextResult.usedChunks,
     docContextChars: docContextResult.usedChars,
+    ragSkipped: !shouldRunRag,
+    externalSourcesNeeded,
+    assistantSourceUiIssueRequest,
     sourceLookupRequest,
     municipalityMentioned: allowMunicipalityScopedRag,
     municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
   });
-  await logEvent("rag_search", {
-    userId,
-    role: normalizedRole,
-    isCrisis,
-    ragMatchCount: matches.length,
-    groupCount: groupedMatches.length,
-    chosenGroupCount: chosen.length,
-    grounding,
-    docChunkInputCount: ephemeralChunks.length,
-    docChunkUsedCount: docContextResult.usedChunks,
-    docContextChars: docContextResult.usedChars,
-    hadDocContext,
-    hadRagContext,
-    sourceLookupRequest,
-    municipalityMentioned: allowMunicipalityScopedRag,
-    municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
-  });
+  if (shouldRunRag || hadDocContext || hadRagContext) {
+    await logEvent("rag_search", {
+      userId,
+      role: normalizedRole,
+      isCrisis,
+      ragMatchCount: matches.length,
+      groupCount: groupedMatches.length,
+      chosenGroupCount: chosen.length,
+      grounding,
+      docChunkInputCount: ephemeralChunks.length,
+      docChunkUsedCount: docContextResult.usedChunks,
+      docContextChars: docContextResult.usedChars,
+      hadDocContext,
+      hadRagContext,
+      sourceLookupRequest,
+      municipalityMentioned: allowMunicipalityScopedRag,
+      municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
+    });
+  } else {
+    await logEvent("chat_no_external_sources", {
+      userId,
+      role: normalizedRole,
+      isCrisis,
+      sourceLookupRequest,
+      assistantSourceUiIssueRequest,
+      messageLength: effectiveMessage.length
+    });
+  }
   if (isCrisis) {
     await logEvent("crisis_detected", {
       userId,
