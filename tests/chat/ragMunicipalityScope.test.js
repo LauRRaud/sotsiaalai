@@ -517,6 +517,24 @@ test("internal-cause follow-up turns prefer low verbosity", () => {
   }).text.verbosity, "low");
 });
 
+test("preferred verbosity is not sent as a top-level responses payload field", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Kas sul on sotsiaalhoolekande seadus olemas?",
+    context: "Sotsiaalhoolekande seadus.",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const payload = buildResponsesPayload(input, {
+    stream: false,
+    effectiveRole: "CLIENT"
+  });
+
+  assert.equal("preferredVerbosity" in payload, false);
+  assert.equal(payload.text.verbosity, "low");
+});
+
 test("extra system instructions are inserted before the user turn", () => {
   const input = toResponsesInput({
     history: [],
