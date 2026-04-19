@@ -262,6 +262,7 @@ test("prompt requires transparent source-state answers for availability question
   assert.match(system, /not found in the current search/);
   assert.match(system, /only partially visible/);
   assert.match(system, /identified from the user's own text/);
+  assert.match(system, /For simple source-availability or source-existence questions, answer briefly/);
   assert.match(system, /do not imply that a source or paragraph is visible/);
 });
 

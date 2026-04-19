@@ -347,6 +347,7 @@ function sourceLookupSystemInstruction() {
     "A targeted retrieval search has been run for this turn.",
     "Base the answer on RAG_CONTEXT, source metadata attached to previous assistant messages, and the user's own text only.",
     "If a previous assistant message contains 'Assistant source metadata for this answer', treat that as the source list attached to that answer.",
+    "For simple availability questions such as whether a law, paragraph, or source is present, answer briefly: start with the direct yes/no or found/not-found answer, then add at most one short follow-up sentence unless the user asked for more detail.",
     "If RAG_CONTEXT contains the requested item, say whether it appears as full text or only as a partial visible passage when that distinction is clear.",
     "If RAG_CONTEXT does not contain the requested item, say that the current search did not find it; do not say the database does not contain it.",
     "If you identify something from text supplied by the user, say that the identification is from the user's supplied text.",
