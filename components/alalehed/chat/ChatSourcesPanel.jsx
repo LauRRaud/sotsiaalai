@@ -77,13 +77,16 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
     "p-[0.35rem] shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow,var(--subpage-card-shadow)))] " +
     "backdrop-blur-0 backdrop-saturate-100 hc:border-0 hc:shadow-none";
   const headerClassName =
-    "flex shrink-0 items-center justify-between gap-[0.75rem] px-[0.75rem] pb-[0.45rem] pt-[0.55rem]";
-  const titleClassName = "m-0 text-[1.08rem] font-[600] leading-[1.15]";
+    "relative flex shrink-0 items-center justify-center px-[3.5rem] pb-[0.55rem] pt-[0.7rem]";
+  const titleClassName =
+    "m-0 w-full text-center text-[clamp(1.36rem,2.4vw,1.78rem)] font-[400] leading-[1.1] tracking-[0.03em] " +
+    "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
+    "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif]";
   const closeClassName =
-    "appearance-none rounded-[0.5rem] border-0 bg-transparent px-[0.62rem] py-[0.34rem] " +
-    "text-[0.88rem] font-[500] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--pt-100)))] " +
-    "transition-colors duration-150 hover:bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.2))] " +
-    "focus-visible:bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.2))] focus-visible:outline-none";
+    "absolute right-[0.78rem] top-[0.55rem] inline-flex h-[2.65rem] w-[2.65rem] items-center justify-center " +
+    "rounded-none border-0 bg-transparent p-0 text-[2.05rem] leading-none text-[#c57171] shadow-none " +
+    "transition-[transform,color,opacity] duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] " +
+    "hover:-translate-y-[1px] active:translate-y-[1px] focus-visible:outline-none light:text-[#7a3a38]";
   const bodyClassName =
     "min-h-0 flex-1 overflow-y-auto px-[0.75rem] pb-[0.85rem] pt-[0.18rem]";
   const emptyClassName = "m-0 text-[0.94rem] opacity-80";
@@ -117,8 +120,9 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
             ref={closeRef}
             onClick={onClose}
             className={closeClassName}
+            aria-label={t("buttons.close")}
           >
-            {t("buttons.close")}
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
 

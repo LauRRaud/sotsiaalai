@@ -10,7 +10,7 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
   "--chat-window-top-safe": "5.35rem",
   "--chat-window-bottom-gap": "1.34rem",
   "--chat-window-fade-top": "clamp(1.45rem, 3.2vh, 2.1rem)",
-  "--chat-window-fade-bottom": "clamp(3.6rem, 10.5vh, 6.2rem)",
+  "--chat-window-fade-bottom": "clamp(2.05rem, 5.8vh, 3.55rem)",
   "--chat-window-shift-y": "0rem",
   "--chat-window-main-offset": "0rem",
   "--chat-scroll-down-offset": "0.2rem",

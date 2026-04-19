@@ -256,7 +256,16 @@ export function useChatConversationState({
     const relevant = isRoomMode ? recent.filter(m => m.role === "ai" || m.aiVisible) : recent;
     return relevant.map(m => ({
       role: m.role === "member" ? "user" : m.role,
-      text: m.text
+      text: m.text,
+      sources: m.role === "ai" && Array.isArray(m.sources)
+        ? m.sources.slice(0, 8).map(source => ({
+            label: typeof source?.label === "string" ? source.label : undefined,
+            title: typeof source?.title === "string" ? source.title : undefined,
+            url: typeof source?.url === "string" ? source.url : undefined,
+            pageRange: typeof source?.pageRange === "string" ? source.pageRange : undefined,
+            section: typeof source?.section === "string" ? source.section : undefined
+          })).filter(source => source.label || source.title || source.url)
+        : undefined
     }));
   }, [visibleForHistory, isRoomMode]);
   const getLatestHelpWorkflowState = useCallback(() => {

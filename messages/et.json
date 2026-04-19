@@ -691,8 +691,8 @@
     },
     "sources": {
       "button": "Allikad ({count})",
-      "dialog_label": "Vestluse allikad",
-      "heading": "Vestluse allikad",
+      "dialog_label": "Vastuste allikad",
+      "heading": "Vastuste allikad",
       "empty": "Vestluses ei ole allikaid.",
       "used_multiple": "Kasutatud {count} vestluse lõigus.",
       "section": "Sektsioon: {section}",

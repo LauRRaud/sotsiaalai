@@ -237,6 +237,31 @@ test("prompt requires transparent source-state answers for availability question
   assert.match(system, /do not imply that a source or paragraph is visible/);
 });
 
+test("prompt requires source-use answers to rely on assistant source metadata", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "assistant",
+        content: [
+          "Jõgeva valla kord lähtub sotsiaalhoolekande seadusest.",
+          "Assistant source metadata for this answer:",
+          "1. Jõgeva vald - Sotsiaalhoolekandelise abi andmise kord Jõgeva vallas - § 1"
+        ].join("\n")
+      }
+    ],
+    userMessage: "Milliseid allikaid sa selle vastuse jaoks kasutasid?",
+    context: "Jõgeva vald. Sotsiaalhoolekandelise abi andmise kord Jõgeva vallas.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /which sources were used for the previous answer/);
+  assert.match(system, /previous assistant message's source metadata/);
+  assert.match(system, /Do not describe assistant source metadata/);
+  assert.match(system, /visible in the user's own message/);
+});
+
 test("social worker prompt stops rewrite loops after a yes", () => {
   const input = toResponsesInput({
     history: [

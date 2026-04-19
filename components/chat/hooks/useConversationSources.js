@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { collapsePages, formatSourceLabel } from "../utils/sources";
+import { collapsePages, formatSourceLabel, normalizePageRange } from "../utils/sources";
 export function useConversationSources({
   messages,
   showSourcesPanel,
@@ -31,7 +31,7 @@ export function useConversationSources({
           typeof src?.label === "string" && src.label.trim()
             ? src.label.trim()
             : formatSourceLabel(src && typeof src === "object" ? src : { title: "Allikas" });
-        const pageText = src?.pageRange || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(src?.page ? [src.page] : [])]);
+        const pageText = normalizePageRange(src?.pageRange) || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(src?.page ? [src.page] : [])]);
         const section = typeof src?.section === "string" ? src.section : undefined;
         const key = src?.key || src?.id || url || `${label}-${pageText || ""}-${idx}`;
         const existing = map.get(key) || {

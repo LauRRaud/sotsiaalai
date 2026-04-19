@@ -165,10 +165,29 @@ function toOpenAiMessages(history, options = {}) {
   if (!Array.isArray(history) || history.length === 0) return [];
   const maxItems = Math.max(1, Number(options.maxItems) || CHAT_HISTORY_MAX_ITEMS);
   const maxChars = Math.max(200, Number(options.maxChars) || CHAT_HISTORY_MAX_CHARS);
-  return history.filter(msg => msg && typeof msg.text === "string").slice(-maxItems).map(msg => ({
-    role: msg.role === "ai" ? "assistant" : "user",
-    content: String(msg.text).slice(0, maxChars)
-  }));
+  const sourceSummary = sources => {
+    if (!Array.isArray(sources) || !sources.length) return "";
+    const lines = sources.slice(0, 8).map((src, idx) => {
+      const label = String(src?.label || src?.title || src?.url || "").trim();
+      if (!label) return "";
+      const section = String(src?.section || "").trim();
+      const pages = String(src?.pageRange || "").trim();
+      const tail = [section, pages && !/^0+$/.test(pages) ? `lk ${pages}` : ""].filter(Boolean).join(", ");
+      return `${idx + 1}. ${tail ? `${label} (${tail})` : label}`;
+    }).filter(Boolean);
+    if (!lines.length) return "";
+    return `\n\nAssistant source metadata for this answer:\n${lines.join("\n")}`;
+  };
+  return history.filter(msg => msg && typeof msg.text === "string").slice(-maxItems).map(msg => {
+    const role = msg.role === "ai" ? "assistant" : "user";
+    const baseContent = String(msg.text).slice(0, maxChars);
+    return {
+      role,
+      content: role === "assistant"
+        ? `${baseContent}${sourceSummary(msg.sources)}`
+        : baseContent
+    };
+  });
 }
 function normalizeEphemeralChunk(text, maxChars = CHAT_EPHEMERAL_CHUNK_CHARS_MAX) {
   const normalized = String(text || "").replace(/\r\n?/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
@@ -274,11 +293,14 @@ function detectSourceAvailabilityRequest(history = [], message = "") {
     current.includes("§");
   const hasAvailabilityIntent =
     /\b(kas\s+)?(su|sul|sinul|teil)\b/.test(normalizedCurrent) ||
-    /\b(olemas|naed|näed|naitab|näitab|andmebaas|materjalides|allikates|leia|leidsid|kusin|küsin|kysin|küsisin|find|have|available|database|ask|asking)\b/.test(normalizedCurrent);
+    /\b(olemas|naed|näed|naitab|näitab|andmebaas|materjalides|allikates|kasuta|kasutas|kasutasid|kasutatud|viitasid|leia|leidsid|kusin|küsin|kysin|küsisin|find|have|available|database|ask|asking|used|cited)\b/.test(normalizedCurrent);
+  const hasIdentificationIntent =
+    /\b(mis|milline|kust|kus|what|which|where)\b/.test(normalizedCurrent) &&
+    /\b(tekst|lause|katkend|paragrahv|paragraph|loige|lõige|sate|säte|allik|viide|dokument|source|document|passage|quote|citation)\b/.test(normalizedCurrent);
   const shortParagraphFollowup =
     /^[§\s\d,;a-zA-Z-]+$/.test(current) &&
     /\b(paragrahv|paragraph|§|seadus|shs|andmebaas|materjal)\b/.test(normalizedCombined);
-  return Boolean(hasSourceTerm && (hasAvailabilityIntent || shortParagraphFollowup));
+  return Boolean(hasSourceTerm && (hasAvailabilityIntent || hasIdentificationIntent || shortParagraphFollowup));
 }
 
 function buildSourceLookupSearchQuery(message = "", history = []) {
@@ -301,12 +323,14 @@ function buildSourceLookupSearchQuery(message = "", history = []) {
 function sourceLookupSystemInstruction() {
   return [
     "SOURCE_LOOKUP_MODE:",
-    "The user is asking whether a source, document, legal act, paragraph, section, or material exists or is visible in the provided materials.",
+    "The user is asking whether a source, document, legal act, paragraph, section, or material exists, is visible in the provided materials, was used in a previous answer, or how to identify a quoted passage.",
     "A targeted retrieval search has been run for this turn.",
-    "Base the answer on RAG_CONTEXT and the user's own text only.",
+    "Base the answer on RAG_CONTEXT, source metadata attached to previous assistant messages, and the user's own text only.",
+    "If a previous assistant message contains 'Assistant source metadata for this answer', treat that as the source list attached to that answer.",
     "If RAG_CONTEXT contains the requested item, say whether it appears as full text or only as a partial visible passage when that distinction is clear.",
     "If RAG_CONTEXT does not contain the requested item, say that the current search did not find it; do not say the database does not contain it.",
     "If you identify something from text supplied by the user, say that the identification is from the user's supplied text.",
+    "Do not describe source metadata, retrieved documents, or prior assistant content as text that was visible in the user's message.",
     "Do not claim that you saw a paragraph, source, or document in the materials unless it appears in RAG_CONTEXT."
   ].join(" ");
 }
@@ -481,11 +505,6 @@ function inferDocumentFormats(message = "") {
   if (wantsWord) return ["word"];
   return ["pdf"];
 }
-const CLIENT_TASK_OPTIONS = [
-  { value: "LETTER_REQUEST", artifactType: "LETTER_DRAFT" },
-  { value: "LETTER_REPLY", artifactType: "LETTER_DRAFT" },
-  { value: "FILL_FORM", artifactType: "OTHER" }
-];
 function normalizeIntentText(value = "") {
   return String(value || "")
     .normalize("NFD")
@@ -564,72 +583,6 @@ async function detectMentionedMunicipalitiesFromUserText(history = [], currentMe
   return matches.slice(0, 5);
 }
 
-function detectClientTaskFromText(text = "") {
-  const lower = normalizeIntentText(text);
-  if (/\b(vorm|ankeet|blank|form|fill\s*form|fill in|taida vorm|taida ankeet)\b/.test(lower)) {
-    return "FILL_FORM";
-  }
-  if (/\b(vastus|vastuskiri|reply|response|answer|reply letter)\b/.test(lower)) {
-    return "LETTER_REPLY";
-  }
-  return "LETTER_REQUEST";
-}
-function artifactTypeFromClientTask(task = "LETTER_REQUEST") {
-  const option = CLIENT_TASK_OPTIONS.find((entry) => entry.value === String(task || "").trim().toUpperCase());
-  return option?.artifactType || "LETTER_DRAFT";
-}
-function clientTaskInstruction(task = "LETTER_REQUEST") {
-  if (task === "LETTER_REPLY") {
-    return "Draft a clear and practical reply to the received letter. Base it only on the user's instruction and the selected source files.";
-  }
-  if (task === "FILL_FORM") {
-    return "Help fill in the selected form or blank. Treat the uploaded files as the working materials for this task: one file may be the form itself and the second file may contain the information that should go into it. If the file is not directly fillable, produce a structured draft the user can copy into the form.";
-  }
-  return "Draft a clear request or application text that the user can review, edit, and send.";
-}
-function inferWorkerArtifactTypeFromText(text = "") {
-  const lower = normalizeIntentText(text);
-  if (/\b(checklist|kontrollnimekiri|kontroll)\b/.test(lower)) return "CHECKLIST";
-  if (/\b(koosolek|meeting|protokoll|minut)\b/.test(lower)) return "MEETING_SUMMARY";
-  if (/\b(case\s*brief|juhtumi|juhtum)\b/.test(lower)) return "CASE_BRIEF";
-  if (/\b(kiri|letter|avaldus|taotlus)\b/.test(lower)) return "LETTER_DRAFT";
-  if (/\b(other|muu|vaba\s*vorm)\b/.test(lower)) return "OTHER";
-  return "REPORT_DRAFT";
-}
-function inferToneFromText(text = "") {
-  const lower = normalizeIntentText(text);
-  if (/\b(supportive|toetav|rahulik|hooliv)\b/.test(lower)) return "supportive";
-  if (/\b(plain|lihtne|simple|selge)\b/.test(lower)) return "plain";
-  return "professional";
-}
-function inferLengthFromText(text = "") {
-  const lower = normalizeIntentText(text);
-  if (/\b(short|luhike|luhidalt|brief)\b/.test(lower)) return "short";
-  if (/\b(detailed|detailne|pohjalik|thorough)\b/.test(lower)) return "detailed";
-  return "standard";
-}
-function inferAudienceFromText(text = "", fallback = "worker") {
-  const lower = normalizeIntentText(text);
-  if (/\b(client|abivaj|poor|poordu|help[-\s]?seeker|service user)\b/.test(lower)) return "client";
-  if (/\b(worker|spetsialist|sotsiaaltootaja|ametnik|social worker|institution)\b/.test(lower)) return "worker";
-  return fallback;
-}
-function inferLanguageFromText(text = "", fallback = "et") {
-  const lower = normalizeIntentText(text);
-  if (/\b(in english|english|inglise)\b/.test(lower)) return "en";
-  if (/\b(in russian|russian|vene)\b/.test(lower)) return "ru";
-  if (/\b(in estonian|estonian|eesti)\b/.test(lower)) return "et";
-  return fallback;
-}
-function wantsTemplateFromText(text = "") {
-  const lower = normalizeIntentText(text);
-  return /\b(mall|template)\b/.test(lower);
-}
-function isTemplateCompatibleForType(template, artifactType) {
-  const templateType = String(template?.templateFor || "").trim().toUpperCase();
-  const targetType = String(artifactType || "").trim().toUpperCase();
-  return !templateType || templateType === "OTHER" || templateType === targetType;
-}
 function detectDocumentTaskIntent(message = "") {
   const text = normalizeIntentText(message);
   if (!text) return false;
@@ -1024,7 +977,6 @@ export async function POST(req) {
   }
   const message = String(payload?.message || "").trim();
   if (!message) return makeError("chat.error.message_required");
-  const modelMessage = message.slice(0, MAX_USER_MESSAGE_CHARS);
   const rawHistory = Array.isArray(payload?.history) ? payload.history : [];
   const wantStream = !!payload?.stream;
   const persist = !!payload?.persist;

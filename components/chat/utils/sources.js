@@ -1,6 +1,6 @@
 export function uniqueSortedPages(pages) {
   if (!Array.isArray(pages)) return [];
-  const nums = pages.map(p => Number(p)).filter(p => Number.isFinite(p));
+  const nums = pages.map(p => Number(p)).filter(p => Number.isFinite(p) && p > 0);
   return [...new Set(nums)].sort((a, b) => a - b);
 }
 export function collapsePages(pages) {
@@ -23,6 +23,39 @@ export function collapsePages(pages) {
   }
   if (start !== null) out.push(start === prev ? `${start}` : `${start}-${prev}`);
   return out.join(", ");
+}
+export function normalizePageRange(value) {
+  if (typeof value !== "string" && typeof value !== "number") return "";
+  const raw = String(value).trim();
+  if (!raw) return "";
+  if (/^0+$/.test(raw)) return "";
+
+  const tokens = raw
+    .split(",")
+    .map(part => part.trim())
+    .filter(Boolean);
+  if (!tokens.length) return "";
+
+  const normalized = [];
+  for (const token of tokens) {
+    const rangeMatch = token.match(/^(\d+)\s*[-–]\s*(\d+)$/);
+    if (rangeMatch) {
+      const start = Number(rangeMatch[1]);
+      const end = Number(rangeMatch[2]);
+      if (!Number.isFinite(start) || !Number.isFinite(end) || end <= 0) continue;
+      const safeStart = Math.max(1, start);
+      normalized.push(safeStart === end ? `${end}` : `${safeStart}-${end}`);
+      continue;
+    }
+    const singleMatch = token.match(/^\d+$/);
+    if (singleMatch) {
+      const page = Number(token);
+      if (page > 0) normalized.push(`${page}`);
+      continue;
+    }
+    normalized.push(token);
+  }
+  return normalized.join(", ");
 }
 export function asAuthorArray(v) {
   if (!v) return [];
@@ -53,7 +86,7 @@ export function formatSourceLabel(src) {
   const journal = typeof src?.journalTitle === "string" ? src.journalTitle.trim() : "";
   const issue = typeof src?.issueLabel === "string" ? src.issueLabel.trim() : typeof src?.issueId === "string" ? src.issueId.trim() : "";
   const year = typeof src?.year === "number" ? String(src.year) : typeof src?.year === "string" ? src.year.trim() : "";
-  const pagesCombined = typeof src?.pageRange === "string" && src.pageRange.trim() || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(typeof src?.page === "number" ? [src.page] : [])]);
+  const pagesCombined = normalizePageRange(src?.pageRange) || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(typeof src?.page === "number" ? [src.page] : [])]);
   const section = typeof src?.section === "string" ? src.section.trim() : "";
   const filePretty = src?.fileName ? prettifyFileName(src.fileName) : "";
   const issueSegment = [journal, issue && issue !== year ? issue : null, year || null].filter(Boolean).join(", ");
@@ -86,7 +119,7 @@ export function normalizeSources(sources) {
     const label = formatSourceLabel(src);
     const key = src?.id || url || `${label}-${idx}`;
     const pages = Array.isArray(src?.pages) ? uniqueSortedPages(src.pages) : undefined;
-    const pageLabel = src?.pageRange || collapsePages([...(pages || []), page]);
+    const pageLabel = normalizePageRange(src?.pageRange) || collapsePages([...(pages || []), page]);
     const authors = asAuthorArray(src?.authors);
     const issueLabel = typeof src?.issueLabel === "string" ? src.issueLabel : typeof src?.issueId === "string" ? src.issueId : undefined;
     const year = typeof src?.year === "number" || typeof src?.year === "string" ? src.year : undefined;
