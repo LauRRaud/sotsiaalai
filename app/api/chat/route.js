@@ -304,17 +304,18 @@ function detectSourceAvailabilityRequest(history = [], message = "") {
   return Boolean(hasSourceTerm && (hasAvailabilityIntent || hasIdentificationIntent || shortParagraphFollowup));
 }
 
-function historyHasAssistantSources(history = []) {
+function historyHasAssistantAnswer(history = []) {
   if (!Array.isArray(history)) return false;
   return history.some(item => {
     const role = String(item?.role || "").toLowerCase();
-    return (role === "ai" || role === "assistant") && Array.isArray(item?.sources) && item.sources.length > 0;
+    if (role !== "ai" && role !== "assistant") return false;
+    return typeof item?.text === "string" && item.text.trim().length > 0;
   });
 }
 
 function detectPreviousSourceUseRequest(history = [], message = "") {
   const normalized = normalizeIntentText(message);
-  if (!normalized || !historyHasAssistantSources(history)) return false;
+  if (!normalized || !historyHasAssistantAnswer(history)) return false;
   const asksSources = /\b(allik|viide|source|cite|citation)\b/.test(normalized);
   const asksUsed =
     /\b(kasuta|kasutas|kasutasid|kasutatud|viitasid|used|cited)\b/.test(normalized) ||
@@ -361,6 +362,7 @@ function previousSourceUseSystemInstruction() {
     "The user is asking which sources were used for a previous assistant answer.",
     "Do not perform or imply a new source search for this question.",
     "Answer from source metadata attached to previous assistant messages, especially any 'Assistant source metadata for this answer' block.",
+    "If no assistant source metadata is attached to the previous answer, say that no source metadata is available for that previous answer instead of inventing sources.",
     "If the metadata is incomplete, say that the source metadata available for the previous answer includes only those listed items.",
     "Do not describe assistant source metadata, retrieved documents, or prior assistant content as text that was visible in the user's own message."
   ].join(" ");
@@ -1863,6 +1865,22 @@ export async function POST(req) {
       matches = filterMunicipalityScopedMatches(matches, {
         allowMunicipalityScoped: allowMunicipalityScopedRag
       });
+      if (sourceLookupTargetsNationalLaw && matches.length === 0) {
+        const nationalFallbackMatches = await searchRagDirect({
+          query: ragQueryText,
+          topK: sourceLookupRequest
+            ? Math.min(24, Math.max(12, sourceLookupTopK || RAG_TOP_K))
+            : Math.min(24, Math.max(12, RAG_TOP_K)),
+          filters: audienceFilter,
+          observabilityStage: "rag_search_national_fallback",
+          userId,
+          role: normalizedRole,
+          conversationId: convId
+        });
+        matches = filterMunicipalityScopedMatches(nationalFallbackMatches, {
+          allowMunicipalityScoped: false
+        });
+      }
       if (!allowMunicipalityScopedRag && !sourceLookupTargetsNationalLaw) {
         const nationalMatches = await searchRagDirect({
           query: ragQueryText,
@@ -1921,6 +1939,13 @@ export async function POST(req) {
     contextParts.push(ragContext);
   }
   const context = contextParts.filter(Boolean).join("\n\n");
+  const lookupFallbackContext =
+    previousSourceUseRequest
+      ? "SOURCE_LOOKUP_CONTEXT: No retrieval search was run for this turn. Use any assistant source metadata attached to earlier answers. If none is attached, say that no source metadata is available for that earlier answer."
+      : sourceLookupRequest
+        ? "SOURCE_LOOKUP_CONTEXT: The current targeted source lookup returned no matches. Say that the current search did not find the requested item, unless you can identify it from the user's quoted text or from assistant source metadata."
+        : "";
+  const effectiveContext = context && context.trim() ? context : lookupFallbackContext;
   const grounding = groundingStrength(groupedMatches);
   const hadDocContext = !!docContext;
   const hadRagContext = !!ragContext;
@@ -2037,21 +2062,25 @@ export async function POST(req) {
     capability: mainOrchestrationPlan.capability
   });
   const mainMetadataExtra = buildOrchestrationMetadata(mainOrchestrationPlan);
-  if (!context || !context.trim()) {
+  if (!effectiveContext || !effectiveContext.trim()) {
     const out = isCrisis ? L.crisisNoCtx : L.noContext;
     let attachments = [];
     logInfo("branch.noContext", {
       role: normalizedRole,
       isCrisis,
       ragReturned: matches.length > 0,
-      hadDocContext: !!docContext
+      hadDocContext: !!docContext,
+      sourceLookupRequest,
+      previousSourceUseRequest
     });
     await logEvent("no_context", {
       userId,
       role: normalizedRole,
       isCrisis,
       hadRagResults: matches.length > 0,
-      hadDocContext: !!docContext
+      hadDocContext: !!docContext,
+      sourceLookupRequest,
+      previousSourceUseRequest
     });
     if (persist && convId && userId) {
       await persistInit({
@@ -2150,7 +2179,7 @@ export async function POST(req) {
       const aiResult = await callOpenAI({
         history,
         userMessage: effectiveMessage.slice(0, MAX_USER_MESSAGE_CHARS),
-        context,
+        context: effectiveContext,
         effectiveRole: normalizedRole,
         grounding,
         includeSources,
@@ -2273,7 +2302,7 @@ export async function POST(req) {
         const iter = await streamOpenAI({
           history,
           userMessage: effectiveMessage.slice(0, MAX_USER_MESSAGE_CHARS),
-          context,
+          context: effectiveContext,
           effectiveRole: normalizedRole,
           grounding,
           includeSources,
