@@ -87,10 +87,11 @@ export function formatSourceLabel(src) {
   const issue = typeof src?.issueLabel === "string" ? src.issueLabel.trim() : typeof src?.issueId === "string" ? src.issueId.trim() : "";
   const year = typeof src?.year === "number" ? String(src.year) : typeof src?.year === "string" ? src.year.trim() : "";
   const pagesCombined = normalizePageRange(src?.pageRange) || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(typeof src?.page === "number" ? [src.page] : [])]);
-  const section = typeof src?.section === "string" ? src.section.trim() : "";
+  const paragraphTitle = typeof src?.paragraphTitle === "string" ? src.paragraphTitle.trim() : typeof src?.paragraph_title === "string" ? src.paragraph_title.trim() : "";
+  const section = !paragraphTitle && typeof src?.section === "string" ? src.section.trim() : "";
   const filePretty = src?.fileName ? prettifyFileName(src.fileName) : "";
   const issueSegment = [journal, issue && issue !== year ? issue : null, year || null].filter(Boolean).join(", ");
-  const contextSegments = [issueSegment, section].filter(Boolean);
+  const contextSegments = [issueSegment, paragraphTitle || section].filter(Boolean);
   const mainSegments = [];
   if (authorText) mainSegments.push(authorText);
   if (titleText) mainSegments.push(titleText);
@@ -142,6 +143,7 @@ export function normalizeSources(sources) {
       issueId: typeof src?.issueId === "string" ? src?.issueId : undefined,
       year,
       section: typeof src?.section === "string" ? src.section : undefined,
+      paragraphTitle: typeof src?.paragraphTitle === "string" ? src.paragraphTitle : typeof src?.paragraph_title === "string" ? src.paragraph_title : undefined,
       pages
     };
   });

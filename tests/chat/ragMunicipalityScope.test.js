@@ -5,7 +5,8 @@ import {
   displayUrl,
   displayUrlsInText,
   filterMunicipalityScopedMatches,
-  isMunicipalityScopedMatch
+  isMunicipalityScopedMatch,
+  makeShortRef
 } from "../../lib/chat/ragContext.js";
 import { buildResponsesPayload, toResponsesInput } from "../../lib/chat/promptBuilder.js";
 
@@ -70,6 +71,17 @@ test("RAG context renders punycode URLs as readable IDN URLs", () => {
     displayUrlsInText("Link: https://xn--jgeva-dua.ee/koduteenus."),
     "Link: https://j\u00f5geva.ee/koduteenus."
   );
+});
+
+test("RT source labels prefer paragraph title over chapter section", () => {
+  const ref = makeShortRef({
+    title: "Eesti - Sotsiaalhoolekande seadus - § 10",
+    section: "Üldsätted",
+    paragraphTitle: "Lapse juhtumiplaan",
+    authors: []
+  });
+
+  assert.equal(ref, "Eesti - Sotsiaalhoolekande seadus - § 10 · Lapse juhtumiplaan");
 });
 
 test("municipality scoped RAG matches are allowed after municipality is known", () => {
@@ -217,6 +229,22 @@ test("chat prompt requires complete municipality service and support overviews",
   assert.match(system, /municipality regulation or municipality service entries first/);
   assert.match(system, /services but not benefit amounts or support conditions/);
   assert.match(system, /Do not let one retrieved service entry dominate an overview question/);
+});
+
+test("prompt avoids vague material caveats for broad municipality law comparisons", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Sotsiaalteenused ja toetused Jõgeval, kas need lähevad kokku sotsiaalhoolekande seadusega?",
+    context: "Jõgeva vald. Sotsiaalhoolekandelise abi andmise kord Jõgeva vallas. Sotsiaalhoolekande seadus.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /broad questions about whether a municipality rule or service set aligns with national law/);
+  assert.match(system, /answer the visible source relationship first/);
+  assert.match(system, /complete service-by-service legal audit/);
+  assert.match(system, /do not use vague caveats/);
 });
 
 test("prompt requires transparent source-state answers for availability questions", () => {

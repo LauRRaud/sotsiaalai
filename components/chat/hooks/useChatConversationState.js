@@ -263,6 +263,7 @@ export function useChatConversationState({
             title: typeof source?.title === "string" ? source.title : undefined,
             url: typeof source?.url === "string" ? source.url : undefined,
             pageRange: typeof source?.pageRange === "string" ? source.pageRange : undefined,
+            paragraphTitle: typeof source?.paragraphTitle === "string" ? source.paragraphTitle : undefined,
             section: typeof source?.section === "string" ? source.section : undefined
           })).filter(source => source.label || source.title || source.url)
         : undefined

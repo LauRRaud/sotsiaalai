@@ -37,7 +37,7 @@ export default async function AdminAnalyticsPage() {
   if (!isAdmin) redirect(localizePath("/", locale));
   return (
     <section className={ragAdminPageShellClassName}>
-      <div className={`${ragAdminShellInnerClassName} max-w-[56rem] text-[color:var(--documents-page-text)]`}>
+      <div className={`${ragAdminShellInnerClassName} max-w-[72rem] text-[color:var(--documents-page-text)]`}>
         <AdminAnalyticsClient />
       </div>
     </section>

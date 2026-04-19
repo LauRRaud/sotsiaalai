@@ -170,7 +170,8 @@ function toOpenAiMessages(history, options = {}) {
     const lines = sources.slice(0, 8).map((src, idx) => {
       const label = String(src?.label || src?.title || src?.url || "").trim();
       if (!label) return "";
-      const section = String(src?.section || "").trim();
+      const paragraphTitle = String(src?.paragraphTitle || src?.paragraph_title || "").trim();
+      const section = paragraphTitle || String(src?.section || "").trim();
       const pages = String(src?.pageRange || "").trim();
       const tail = [section, pages && !/^0+$/.test(pages) ? `lk ${pages}` : ""].filter(Boolean).join(", ");
       return `${idx + 1}. ${tail ? `${label} (${tail})` : label}`;
@@ -330,6 +331,7 @@ function sourceLookupSystemInstruction() {
     "If RAG_CONTEXT contains the requested item, say whether it appears as full text or only as a partial visible passage when that distinction is clear.",
     "If RAG_CONTEXT does not contain the requested item, say that the current search did not find it; do not say the database does not contain it.",
     "If you identify something from text supplied by the user, say that the identification is from the user's supplied text.",
+    "If the user challenges a contradiction after supplying a quote, distinguish 'I identified it from your quoted text' from 'the current search found it in the materials'.",
     "Do not describe source metadata, retrieved documents, or prior assistant content as text that was visible in the user's message.",
     "Do not claim that you saw a paragraph, source, or document in the materials unless it appears in RAG_CONTEXT."
   ].join(" ");
@@ -1899,9 +1901,10 @@ export async function POST(req) {
     authors: undefined,
     issueLabel: undefined,
     issueId: undefined,
-    journalTitle: undefined,
-    section: undefined,
-    year: undefined,
+      journalTitle: undefined,
+      section: undefined,
+      paragraphTitle: undefined,
+      year: undefined,
     pages: undefined,
     short_ref: "(uploaded document)"
   }] : [];
@@ -1924,6 +1927,10 @@ export async function POST(req) {
       issueId: entry.issueId || undefined,
       journalTitle: entry.journalTitle || undefined,
       section: entry.section || undefined,
+      paragraphTitle: entry.paragraphTitle || undefined,
+      paragraphNumber: entry.paragraphNumber || undefined,
+      subsectionNumber: entry.subsectionNumber || undefined,
+      pointNumber: entry.pointNumber || undefined,
       year: entry.year || undefined,
       pages: pageNumbers.length ? pageNumbers : undefined,
       short_ref: short_ref_text || undefined

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/glassPageStyles";
 
 const pageClassName =
-  "flex w-full min-w-0 max-w-full flex-col gap-[clamp(1rem,2.2vw,1.45rem)] overflow-x-clip text-[color:var(--admin-text)] " +
+  "flex w-full min-w-0 max-w-full flex-col gap-[clamp(1rem,2.2vw,1.45rem)] overflow-x-visible text-[color:var(--admin-text)] " +
   "[--admin-text:var(--documents-page-text)] [--admin-muted:var(--documents-page-muted)] [--admin-surface:var(--documents-card-bg)] " +
   "[--admin-surface-2:var(--documents-subpanel-bg)] [--admin-surface-3:var(--documents-content-bg)] [--admin-border:var(--documents-card-border)] " +
   "[--admin-border-strong:var(--documents-subpanel-border)] [--admin-shadow-soft:var(--documents-soft-shadow)] [--admin-shadow:var(--documents-strong-shadow)] " +
@@ -69,11 +69,11 @@ const statRowValueWrapClassName = "grid min-w-0 justify-items-end content-start"
 const metricGroupClassName =
   "grid min-w-0 max-w-full gap-1.5 border-b border-[color:var(--admin-border)] py-2 last:border-b-0";
 const barClassName = "flex h-2 overflow-hidden rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)]";
-const tableHeaderClassName = "flex flex-wrap items-center justify-between gap-2";
+const tableHeaderClassName = "flex min-w-0 max-w-full flex-wrap items-center justify-between gap-2";
 const tableScrollHintClassName = "hidden";
-const tableDesktopWrapClassName = "max-[1180px]:hidden";
+const tableDesktopWrapClassName = "w-full min-w-0 max-w-full max-[1180px]:hidden";
 const tableWrapClassName =
-  "overflow-auto rounded-[1rem] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] " +
+  "w-full min-w-0 max-w-full overflow-x-auto overflow-y-auto rounded-[1rem] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] " +
   "shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]";
 const tableClassName = "min-w-[38rem] w-full border-collapse text-[color:var(--admin-text)]";
 const tableHeadCellClassName =
@@ -100,15 +100,15 @@ const inputClassName =
 const textAreaClassName =
   "documents-field documents-form-input documents-field--textarea min-w-0 w-full max-w-full min-h-[120px] rounded-[12px] border px-3 py-[0.7rem] text-[0.95rem] leading-[1.45] text-[color:var(--admin-text)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none";
 const alertErrorClassName =
-  "rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)]";
+  "min-w-0 max-w-full break-words rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)] [overflow-wrap:anywhere]";
 const alertInfoClassName =
-  "rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[color-mix(in_srgb,var(--admin-accent-cool)_15%,var(--admin-surface-2)_85%)] px-3 py-2 text-[color:var(--admin-text)]";
+  "min-w-0 max-w-full break-words rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[color-mix(in_srgb,var(--admin-accent-cool)_15%,var(--admin-surface-2)_85%)] px-3 py-2 text-[color:var(--admin-text)] [overflow-wrap:anywhere]";
 const alertWarnClassName =
-  "rounded-[12px] border border-[color:var(--admin-warning,#f59e0b)] bg-[color-mix(in_srgb,var(--admin-warning,#f59e0b)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)]";
+  "min-w-0 max-w-full break-words rounded-[12px] border border-[color:var(--admin-warning,#f59e0b)] bg-[color-mix(in_srgb,var(--admin-warning,#f59e0b)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)] [overflow-wrap:anywhere]";
 const alertCriticalClassName =
-  "rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)]";
+  "min-w-0 max-w-full break-words rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)] [overflow-wrap:anywhere]";
 const alertSuccessClassName =
-  "rounded-[12px] border border-[color:var(--admin-success)] bg-[color-mix(in_srgb,var(--admin-success)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)]";
+  "min-w-0 max-w-full break-words rounded-[12px] border border-[color:var(--admin-success)] bg-[color-mix(in_srgb,var(--admin-success)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)] [overflow-wrap:anywhere]";
 const refreshButtonClassName =
   `${ragAdminRefreshButtonClassName} !justify-self-center !self-center !w-auto max-[768px]:!w-full max-[768px]:!justify-center`;
 const actionButtonClassName =
@@ -131,7 +131,7 @@ const summaryPanelBodyClassName = "relative z-[1] grid min-w-0 gap-2.5";
 const mobileListClassName = "hidden min-w-0 max-[1180px]:grid gap-2";
 const mobileRowCardClassName =
   "grid min-w-0 max-w-full gap-3 rounded-[1rem] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_92%,transparent),color-mix(in_srgb,var(--admin-surface-3)_94%,transparent))] p-3 shadow-[var(--admin-shadow-soft)]";
-const mobileRowHeadClassName = "flex min-w-0 items-start justify-between gap-3";
+const mobileRowHeadClassName = "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3";
 const mobileRowTitleClassName = "min-w-0 break-words text-[1rem] font-semibold leading-[1.25] text-[color:var(--admin-text)]";
 const mobileRowSubClassName = "min-w-0 break-all text-[0.82rem] text-[color:var(--admin-muted)]";
 const mobileFieldGridClassName = "grid gap-2 sm:grid-cols-2";
@@ -1190,50 +1190,6 @@ export default function AnalyticsDashboard() {
     ],
     [aiCosts, localeTag, t]
   );
-
-  const careerAiExtractorItems = useMemo(() => {
-    const spotlight = aiCosts?.feature_spotlights?.career_ai_extractor;
-    const loadingLabel = t("admin.common.loading", "Loading...");
-    const models = Array.isArray(spotlight?.models) ? spotlight.models.filter(Boolean) : [];
-
-    return [
-      {
-        label: t("admin.analytics.ai_costs.spotlight.events", "Sündmused"),
-        value: loadingAiCosts ? loadingLabel : formatCount(spotlight?.events || 0, localeTag)
-      },
-      {
-        label: t("admin.analytics.ai_costs.spotlight.activation_rate", "Aktiveerumismäär"),
-        value:
-          loadingAiCosts
-            ? loadingLabel
-            : `${formatPercent(spotlight?.activation_rate_pct || 0, localeTag, 1)}% (${formatCount(
-                spotlight?.activated_turns || 0,
-                localeTag
-              )} / ${formatCount(spotlight?.total_turns || 0, localeTag)})`
-      },
-      {
-        label: t("admin.analytics.ai_costs.spotlight.approx_cost", "Ligikaudne kulu"),
-        value:
-          loadingAiCosts
-            ? loadingLabel
-            : formatMoney(spotlight?.approximate_cost_eur || 0, "EUR", localeTag)
-      },
-      {
-        label: t("admin.analytics.ai_costs.spotlight.model", "Mudelid"),
-        value: loadingAiCosts ? loadingLabel : models.length ? models.join(", ") : "-"
-      },
-      {
-        label: t("admin.analytics.ai_costs.spotlight.split", "Otsene / hinnanguline"),
-        value:
-          loadingAiCosts
-            ? loadingLabel
-            : `${formatCount(spotlight?.direct_usage_events || 0, localeTag)} / ${formatCount(
-                spotlight?.estimated_usage_events || 0,
-                localeTag
-              )}`
-      }
-    ];
-  }, [aiCosts, loadingAiCosts, localeTag, t]);
 
   const aiAttributionItems = useMemo(
     () => {
@@ -2843,11 +2799,6 @@ export default function AnalyticsDashboard() {
             <MetricListCard title={t("admin.analytics.ai_costs.average_usage", "Keskmine kasutus")} items={aiCostAverageItems} stacked />
             <MetricListCard title={t("admin.analytics.ai_costs.approx.title", "Ligikaudne EUR vaade")} items={aiApproxCostItems} stacked />
             <MetricListCard title={t("admin.analytics.ai_costs.attribution.title", "Omistamise täielikkus")} items={aiAttributionItems} stacked />
-            <MetricListCard
-              title={t("admin.analytics.ai_costs.spotlight.title", "Karjäärinõustamise AI extractor")}
-              items={careerAiExtractorItems}
-              stacked
-            />
             {aiCostBreakdownCards.map(card => (
               <MetricListCard
                 key={card.title}

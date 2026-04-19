@@ -34,3 +34,14 @@ test("source labels and normalized source page ranges omit page zero", () => {
     undefined
   );
 });
+
+test("source labels prefer paragraph titles over generic sections", () => {
+  assert.equal(
+    formatSourceLabel({
+      title: "Eesti - Sotsiaalhoolekande seadus - § 10",
+      section: "Üldsätted",
+      paragraphTitle: "Lapse juhtumiplaan"
+    }),
+    "Eesti - Sotsiaalhoolekande seadus - § 10. Lapse juhtumiplaan."
+  );
+});
