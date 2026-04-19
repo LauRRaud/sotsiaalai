@@ -74,23 +74,6 @@ function splitRoleLabelToTwoLines(label) {
   return `${words.slice(0, bestIndex).join(" ")}\n${words.slice(bestIndex).join(" ")}`;
 }
 
-function formatProfileDeviceTime(value, locale) {
-  if (!value) return "";
-  const date = new Date(value);
-  if (!Number.isFinite(date.getTime())) return "";
-  const normalized = String(locale || "").toLowerCase();
-  const formatterLocale =
-    normalized.startsWith("et") ? "et-EE" : normalized.startsWith("ru") ? "ru-RU" : "en-GB";
-  try {
-    return new Intl.DateTimeFormat(formatterLocale, {
-      dateStyle: "medium",
-      timeStyle: "short"
-    }).format(date);
-  } catch {
-    return date.toISOString();
-  }
-}
-
 const pageShellClassName =
   `${glassPageShellCenteredClassName} max-md:py-0`;
 const containerBaseClassName =
@@ -170,7 +153,7 @@ const modalInputClassName =
 const accountModalOverlayClassName =
   "invite-modal-overlay account-settings-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
 const accountModalContentClassName =
-  `glass-ring glass-ring--desktop-stable invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative overflow-x-hidden overflow-y-auto overscroll-contain ` +
+  `glass-ring glass-ring--desktop-stable invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative !overflow-x-hidden !overflow-y-auto touch-pan-y overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 ` +
   `!w-[var(--ring-diameter,var(--ring-diameter-default))] !min-w-[var(--ring-diameter,var(--ring-diameter-default))] !h-[var(--ring-diameter,var(--ring-diameter-default))] !min-h-[var(--ring-diameter,var(--ring-diameter-default))] !max-w-[var(--ring-diameter,var(--ring-diameter-default))] !max-h-[var(--ring-diameter,var(--ring-diameter-default))] !aspect-square !rounded-full ` +
   `![border:none] !bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
   `pt-[clamp(2.8rem,5.5vh,4rem)] !px-[clamp(2rem,4vw,3rem)] !pb-[clamp(2rem,4vh,2.8rem)] ` +
@@ -200,24 +183,6 @@ const accountModalNoteClassName =
 const accountModalButtonClassName =
   "account-settings-modal-button !min-h-[2.8rem] !px-[1.18rem] !py-[0.48rem] !text-[1.22rem] !tracking-[0.01em] !self-center shrink-0 " +
   "!min-w-[12.5rem] max-[768px]:!w-[13.5rem] max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
-const accountDevicesPanelClassName =
-  "w-full rounded-[1.15rem] border border-[color:rgba(255,255,255,0.14)] bg-[color:rgba(255,255,255,0.055)] px-[0.95rem] py-[0.82rem] text-left " +
-  "shadow-[0_10px_28px_rgba(0,0,0,0.12)] [.theme-light_&]:border-[rgba(30,41,59,0.14)] [.theme-light_&]:bg-[rgba(255,255,255,0.45)]";
-const accountDevicesHeaderClassName =
-  "mb-[0.65rem] flex items-center justify-between gap-[0.65rem] text-[0.9rem] font-[600] uppercase tracking-[0.08em] opacity-85";
-const accountDevicesCountClassName =
-  "shrink-0 rounded-full bg-[rgba(255,255,255,0.12)] px-[0.55rem] py-[0.18rem] text-[0.76rem] tracking-[0.06em] opacity-80 [.theme-light_&]:bg-[rgba(30,41,59,0.08)]";
-const accountDevicesListClassName =
-  "m-0 grid max-h-[8.7rem] list-none gap-[0.48rem] overflow-y-auto p-0 pr-[0.15rem] text-[0.95rem] leading-[1.28]";
-const accountDeviceItemClassName =
-  "rounded-[0.82rem] bg-[rgba(255,255,255,0.06)] px-[0.72rem] py-[0.58rem] [.theme-light_&]:bg-[rgba(255,255,255,0.58)]";
-const accountDeviceNameClassName =
-  "mb-[0.2rem] flex items-center justify-between gap-[0.55rem] font-[650] tracking-[0.01em]";
-const accountDeviceBadgeClassName =
-  "shrink-0 rounded-full bg-[rgba(197,113,113,0.18)] px-[0.5rem] py-[0.12rem] text-[0.72rem] font-[650] uppercase tracking-[0.07em] text-[#f0b2b2] [.theme-light_&]:text-[#7A3A38]";
-const accountDeviceMetaClassName = "text-[0.86rem] opacity-72";
-const accountDevicesEmptyClassName =
-  "m-0 rounded-[0.82rem] bg-[rgba(255,255,255,0.045)] px-[0.72rem] py-[0.62rem] text-center text-[0.9rem] leading-[1.32] opacity-75 [.theme-light_&]:bg-[rgba(255,255,255,0.48)]";
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {
   soft:
@@ -583,9 +548,14 @@ export default function ProfiilBody({
   const trustedDevices = Array.isArray(profileUser?.trustedDevices)
     ? profileUser.trustedDevices
     : [];
-  const trustedDeviceLimit = Number.isFinite(Number(profileUser?.trustedDeviceLimit))
-    ? Number(profileUser.trustedDeviceLimit)
-    : trustedDevices.length;
+  const trustedDeviceNames = trustedDevices
+    .map((device, index) => device?.name || t("profile.devices.item", { number: index + 1 }))
+    .filter(Boolean)
+    .join(", ");
+  const currentTrustedDevice = trustedDevices.find((device) => device?.isCurrentDevice);
+  const currentDeviceName =
+    currentTrustedDevice?.name ||
+    (currentTrustedDevice ? t("profile.devices.current_fallback") : "");
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -1420,7 +1390,11 @@ export default function ProfiilBody({
                   >
                     {t("profile.logout")}
                   </Button>
-                  <p className={accountModalNoteClassName}>{t("profile.logout_hint")}</p>
+                  <p className={accountModalNoteClassName}>
+                    {currentDeviceName
+                      ? t("profile.logout_hint_device", { device: currentDeviceName })
+                      : t("profile.logout_hint")}
+                  </p>
                 </div>
               </section>
               <section className={accountModalCardClassName}>
@@ -1441,53 +1415,11 @@ export default function ProfiilBody({
                   >
                     {t("profile.logout_all_devices")}
                   </Button>
-                  <p className={accountModalNoteClassName}>{t("profile.logout_all_hint")}</p>
-                  <div className={accountDevicesPanelClassName}>
-                    <div className={accountDevicesHeaderClassName}>
-                      <span>{t("profile.devices.title")}</span>
-                      <span className={accountDevicesCountClassName}>
-                        {t("profile.devices.count", {
-                          count: trustedDevices.length,
-                          max: trustedDeviceLimit
-                        })}
-                      </span>
-                    </div>
-                    {trustedDevices.length > 0 ? (
-                      <ul className={accountDevicesListClassName}>
-                        {trustedDevices.map((device, index) => {
-                          const lastUsed = formatProfileDeviceTime(device?.lastUsedAt || device?.createdAt, locale);
-                          const expires = formatProfileDeviceTime(device?.expiresAt, locale);
-                          return (
-                            <li key={device?.id || index} className={accountDeviceItemClassName}>
-                              <div className={accountDeviceNameClassName}>
-                                <span>{device?.name || t("profile.devices.item", { number: index + 1 })}</span>
-                                {device?.isCurrentDevice ? (
-                                  <span className={accountDeviceBadgeClassName}>{t("profile.devices.current")}</span>
-                                ) : null}
-                              </div>
-                              <div className={accountDeviceMetaClassName}>
-                                {lastUsed
-                                  ? t("profile.devices.last_used", { time: lastUsed })
-                                  : t("profile.devices.last_used_unknown")}
-                              </div>
-                              {expires ? (
-                                <div className={accountDeviceMetaClassName}>
-                                  {t("profile.devices.expires", { time: expires })}
-                                </div>
-                              ) : null}
-                              {device?.ipRange ? (
-                                <div className={accountDeviceMetaClassName}>
-                                  {t("profile.devices.network", { network: device.ipRange })}
-                                </div>
-                              ) : null}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    ) : (
-                      <p className={accountDevicesEmptyClassName}>{t("profile.devices.empty")}</p>
-                    )}
-                  </div>
+                  <p className={accountModalNoteClassName}>
+                    {trustedDeviceNames
+                      ? t("profile.logout_all_hint_devices", { devices: trustedDeviceNames })
+                      : t("profile.logout_all_hint")}
+                  </p>
                 </div>
               </section>
               <section className={accountModalCardClassName}>
