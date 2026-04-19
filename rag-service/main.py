@@ -1862,6 +1862,131 @@ def _register(doc_id: str, entry: Dict) -> None:
         reg[doc_id] = e
         _save_registry_unlocked(reg)
 
+DOCUMENT_METADATA_FALLBACK_KEYS = (
+    "source_type",
+    "source_format",
+    "source_path",
+    "source_url",
+    "url",
+    "mimeType",
+    "fileName",
+    "collection_id",
+    "country",
+    "county",
+    "jurisdiction_level",
+    "municipality_name",
+    "municipality_id",
+    "municipality",
+    "district_name",
+    "district_id",
+    "issuer",
+    "act_title",
+    "act_reference",
+    "canonical_source_id",
+    "act_type",
+    "effective_start",
+    "effective_end",
+    "is_current_version",
+    "text_type",
+    "checked_at",
+    "item_type",
+    "content_status",
+    "resource_type",
+    "source_keys",
+    "source_urls",
+    "source_register_file",
+    "source_count",
+    "administering_body",
+    "geo_detection_method",
+    "geo_detection_confidence",
+    "language",
+    "audience",
+    "audiences",
+    "authors",
+    "tags",
+    "journalTitle",
+    "journal_title",
+    "title",
+    "description",
+)
+
+def _has_metadata_value(value) -> bool:
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return bool(value.strip())
+    if isinstance(value, (list, tuple, set, dict)):
+        return len(value) > 0
+    return True
+
+def _merge_registry_with_chunk_metadatas(meta: Optional[Dict], metadatas: Optional[List[Dict]]) -> Dict:
+    merged = dict(meta or {})
+    metadata_rows = [row for row in list(metadatas or []) if isinstance(row, dict)]
+    if not metadata_rows:
+        return merged
+
+    for key in DOCUMENT_METADATA_FALLBACK_KEYS:
+        if _has_metadata_value(merged.get(key)):
+            continue
+        for row in metadata_rows:
+            value = row.get(key)
+            if _has_metadata_value(value):
+                merged[key] = value
+                break
+
+    if not _has_metadata_value(merged.get("url")) and _has_metadata_value(merged.get("source_url")):
+        merged["url"] = merged.get("source_url")
+    if not _has_metadata_value(merged.get("sourceUrl")) and _has_metadata_value(merged.get("source_url")):
+        merged["sourceUrl"] = merged.get("source_url")
+    if not _has_metadata_value(merged.get("fileName")) and _has_metadata_value(merged.get("source_file")):
+        merged["fileName"] = merged.get("source_file")
+    if not _has_metadata_value(merged.get("mimeType")) and _has_metadata_value(merged.get("source_format")):
+        source_format = str(merged.get("source_format") or "").strip().lower()
+        if source_format == "xml":
+            merged["mimeType"] = "application/xml"
+
+    return merged
+
+def _metadata_summary(metadatas: Optional[List[Dict]]) -> Dict[str, object]:
+    rows = [row for row in list(metadatas or []) if isinstance(row, dict)]
+
+    def _collect(key: str, limit: int = 12) -> List[object]:
+        seen = []
+        for row in rows:
+            value = row.get(key)
+            if not _has_metadata_value(value):
+                continue
+            if value in seen:
+                continue
+            seen.append(value)
+            if len(seen) >= limit:
+                break
+        return seen
+
+    return {
+        "chunk_count": len(rows),
+        "jurisdiction_levels": _collect("jurisdiction_level"),
+        "audiences": _collect("audience"),
+        "collection_ids": _collect("collection_id"),
+        "source_types": _collect("source_type"),
+        "source_formats": _collect("source_format"),
+        "municipality_names": _collect("municipality_name"),
+        "issuers": _collect("issuer"),
+        "act_titles": _collect("act_title"),
+    }
+
+def _compose_chroma_where(filters: Dict[str, object]) -> Optional[Dict[str, object]]:
+    cleaned: List[Dict[str, object]] = []
+    for key, value in (filters or {}).items():
+        if value is None:
+            continue
+        cleaned.append({key: value})
+    if not cleaned:
+        return None
+    if len(cleaned) == 1:
+        return cleaned[0]
+    return {"$and": cleaned}
+
 # --------------------
 # Routes
 # --------------------
@@ -2170,7 +2295,14 @@ def ingest_text(payload: IngestText, request: Request):
         "tags": normalize_tags(meta.get("tags")),
         "language": (meta.get("language") or "et"),
         "collection_id": (meta.get("collection_id") or meta.get("collectionId") or None),
+        "country": normalize_country(meta.get("country")),
         "county": (meta.get("county") or None),
+        "jurisdiction_level": normalize_jurisdiction(meta.get("jurisdiction_level") or meta.get("jurisdictionLevel")),
+        "municipality_name": (meta.get("municipality_name") or meta.get("municipalityName") or meta.get("municipality") or None),
+        "municipality_id": (meta.get("municipality_id") or meta.get("municipalityId") or None),
+        "district_name": (meta.get("district_name") or meta.get("districtName") or None),
+        "district_id": (meta.get("district_id") or meta.get("districtId") or None),
+        "source_format": (meta.get("source_format") or meta.get("sourceFormat") or None),
         "checked_at": (meta.get("checked_at") or meta.get("checkedAt") or None),
         "item_type": (meta.get("item_type") or meta.get("itemType") or None),
         "content_status": (meta.get("content_status") or meta.get("contentStatus") or meta.get("status") or None),
@@ -2180,6 +2312,15 @@ def ingest_text(payload: IngestText, request: Request):
         "source_register_file": (meta.get("source_register_file") or meta.get("sourceRegisterFile") or None),
         "source_count": meta.get("source_count") or meta.get("sourceCount"),
         "administering_body": (meta.get("administering_body") or meta.get("administeringBody") or None),
+        "issuer": (meta.get("issuer") or None),
+        "act_title": (meta.get("act_title") or meta.get("actTitle") or None),
+        "act_reference": (meta.get("act_reference") or meta.get("actReference") or None),
+        "canonical_source_id": (meta.get("canonical_source_id") or meta.get("canonicalSourceId") or None),
+        "act_type": (meta.get("act_type") or meta.get("actType") or None),
+        "effective_start": (meta.get("effective_start") or meta.get("effectiveStart") or None),
+        "effective_end": (meta.get("effective_end") or meta.get("effectiveEnd") or None),
+        "is_current_version": meta.get("is_current_version") if meta.get("is_current_version") is not None else meta.get("isCurrentVersion"),
+        "text_type": (meta.get("text_type") or meta.get("textType") or None),
         "source_type": meta.get("source_type") or "agent_document",
         "path": meta.get("source_path"),
         "url": meta.get("source_url") or meta.get("url"),
@@ -2188,6 +2329,8 @@ def ingest_text(payload: IngestText, request: Request):
         "original_doc_id": meta.get("original_doc_id"),
         "fileName": meta.get("fileName"),
         "mimeType": meta.get("mimeType"),
+        "geo_detection_method": (meta.get("geo_detection_method") or meta.get("geoDetectionMethod") or None),
+        "geo_detection_confidence": (meta.get("geo_detection_confidence") or meta.get("geoDetectionConfidence") or None),
     }
     _register(doc_id, reg_entry)
 
@@ -2633,28 +2776,30 @@ def documents(limit: Optional[int] = None, offset: int = 0):
             got = collection.get(where={"doc_id": doc_id}, include=["metadatas"], limit=100000)
             ids = got.get("ids", []) or []
             count = len(ids)
+            resolved_meta = _merge_registry_with_chunk_metadatas(meta, got.get("metadatas"))
         except Exception:
             count = 0
+            resolved_meta = dict(meta or {})
         out.append({
             "id": doc_id,
             "docId": doc_id,
             "status": "COMPLETED",
             "chunks": count,
-            "title": meta.get("title"),
-            "description": meta.get("description"),
-            "type": meta.get("type") or "FILE",
-            "fileName": meta.get("fileName"),
-            "sourceUrl": meta.get("url"),
-            "mimeType": meta.get("mimeType"),
-            "audience": meta.get("audience"),
-            "authors": meta.get("authors"),
-            "journalTitle": meta.get("journalTitle"),
-            "tags": meta.get("tags"),
-            "language": meta.get("language"),
-            "createdAt": meta.get("createdAt"),
-            "updatedAt": meta.get("updatedAt"),
-            "lastIngested": meta.get("lastIngested"),
-            **{k: v for k, v in meta.items() if k not in {
+            "title": resolved_meta.get("title"),
+            "description": resolved_meta.get("description"),
+            "type": resolved_meta.get("type") or "FILE",
+            "fileName": resolved_meta.get("fileName"),
+            "sourceUrl": resolved_meta.get("url") or resolved_meta.get("sourceUrl"),
+            "mimeType": resolved_meta.get("mimeType"),
+            "audience": resolved_meta.get("audience"),
+            "authors": resolved_meta.get("authors"),
+            "journalTitle": resolved_meta.get("journalTitle") or resolved_meta.get("journal_title"),
+            "tags": resolved_meta.get("tags"),
+            "language": resolved_meta.get("language"),
+            "createdAt": resolved_meta.get("createdAt"),
+            "updatedAt": resolved_meta.get("updatedAt"),
+            "lastIngested": resolved_meta.get("lastIngested"),
+            **{k: v for k, v in resolved_meta.items() if k not in {
                 "title","description","type","fileName","url","mimeType",
                 "audience","createdAt","updatedAt","lastIngested","journalTitle","tags","language"
             }},
@@ -2670,14 +2815,20 @@ def get_document(doc_id: str):
     try:
         got = collection.get(where={"doc_id": doc_id}, include=["metadatas"], limit=100000)
         count = len(got.get("ids", []) or [])
+        chunk_metadatas = got.get("metadatas")
+        resolved_meta = _merge_registry_with_chunk_metadatas(meta, chunk_metadatas)
+        metadata_summary = _metadata_summary(chunk_metadatas)
     except Exception:
         count = 0
+        resolved_meta = dict(meta or {})
+        metadata_summary = _metadata_summary([])
     return {
         "id": doc_id,
         "docId": doc_id,
         "status": "COMPLETED",
         "chunks": count,
-        **meta,
+        "metadataSummary": metadata_summary,
+        **resolved_meta,
     }
 
 @app.get("/documents/{doc_id}/source", dependencies=[Depends(_require_key)])
@@ -2992,13 +3143,15 @@ def search(payload: SearchIn, request: Request):
     )
     result_count = 0
 
+    chroma_where = _compose_chroma_where(md_where)
+
     try:
         include_items = payload.include or ["documents", "metadatas", "distances"]
 
         res = collection.query(
             query_embeddings=[q_emb],
             n_results=max(1, min(50, payload.top_k or 5)),
-            where=md_where or None,
+            where=chroma_where,
             include=include_items,
         )
     except Exception as e:

@@ -263,6 +263,8 @@ test("prompt requires transparent source-state answers for availability question
   assert.match(system, /only partially visible/);
   assert.match(system, /identified from the user's own text/);
   assert.match(system, /For simple source-availability or source-existence questions, answer briefly/);
+  assert.match(system, /do not list paragraph numbers, examples, or source details unless the user asked for them/);
+  assert.match(system, /except for simple source-availability or source-existence questions where a short direct answer is better/);
   assert.match(system, /do not imply that a source or paragraph is visible/);
 });
 
@@ -289,6 +291,27 @@ test("prompt requires source-use answers to rely on assistant source metadata", 
   assert.match(system, /previous assistant message's source metadata/);
   assert.match(system, /Do not describe assistant source metadata/);
   assert.match(system, /visible in the user's own message/);
+});
+
+test("prompt forbids speculating about internal causes when explaining answer mistakes", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "assistant",
+        content: "Pigem juhistes ja stiilis, mitte eraldi nähtavas verbosity seades. Если soovi, võin vastata lühemalt."
+      }
+    ],
+    userMessage: "miks sa kirjutasid kogemata vene keeles?",
+    context: "",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /If the user asks why an earlier answer was too long, mixed languages, contained a wording mistake/);
+  assert.match(system, /Do not speculate about prompts, hidden instructions, verbosity settings, model choice, decoding, internal decision processes/);
+  assert.match(system, /If the exact cause is not knowable from the conversation, say that you cannot tell exactly/);
+  assert.match(system, /Do not turn that kind of self-correction answer into a meta discussion about internal system behavior/);
 });
 
 test("social worker prompt stops rewrite loops after a yes", () => {

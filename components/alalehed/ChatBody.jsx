@@ -613,6 +613,8 @@ export default function ChatBody({
       let settled = false;
       let timeoutId = 0;
       let handleTransitionEnd = null;
+      let rowSettled = !row;
+      let containerSettled = !container;
       function finish() {
         if (settled) return;
         settled = true;
@@ -630,11 +632,14 @@ export default function ChatBody({
             event.propertyName === "margin-top" ||
             event.propertyName === "transform")
         ) {
-          finish();
+          rowSettled = true;
+          if (containerSettled) finish();
           return;
         }
         if (event.target !== container) return;
         if (
+          event.propertyName === "border-top-left-radius" ||
+          event.propertyName === "border-top-right-radius" ||
           event.propertyName === "border-bottom-left-radius" ||
           event.propertyName === "border-bottom-right-radius" ||
           event.propertyName === "width" ||
@@ -647,12 +652,13 @@ export default function ChatBody({
           event.propertyName === "block-size" ||
           event.propertyName === "transform"
         ) {
-          finish();
+          containerSettled = true;
+          if (rowSettled) finish();
         }
       };
       row?.addEventListener("transitionend", handleTransitionEnd);
       container?.addEventListener("transitionend", handleTransitionEnd);
-      timeoutId = window.setTimeout(finish, 460);
+      timeoutId = window.setTimeout(finish, 760);
     });
     refreshMask({
       immediate: true,

@@ -444,13 +444,19 @@
     0 6px 16px rgba(0, 0, 0, 0.26),
     var(--chat-under-glow);
 }
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar:hover:not(:focus-within),
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar:focus-within {
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar:hover:not(:focus-within) {
   border-color: transparent;
   background: transparent;
   box-shadow:
     0 6px 16px rgba(0, 0, 0, 0.26),
     var(--chat-under-glow-strong);
+}
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar:focus-within {
+  border-color: transparent;
+  background: transparent;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    var(--chat-under-glow);
 }
 :root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn {
   border: 0;

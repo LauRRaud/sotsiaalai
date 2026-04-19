@@ -150,10 +150,6 @@ export function useChatInputHoleMask({
       }, 120);
     };
     const updateMask = ({ force = false, bypassThrottle = false } = {}) => {
-      if (isTiltActive() && (lastGeometry || lastMask)) {
-        pendingAfterTilt = true;
-        return;
-      }
       const ts = nowMs();
       if (
         !force &&
@@ -258,10 +254,6 @@ export function useChatInputHoleMask({
       loop = true,
       bypassThrottle = false
     } = {}) => {
-      if (isTiltActive() && (lastGeometry || lastMask)) {
-        pendingAfterTilt = true;
-        return;
-      }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
         updateMask({
@@ -277,10 +269,6 @@ export function useChatInputHoleMask({
       immediate = false,
       bypassThrottle = false
     } = {}) => {
-      if (isTiltActive() && (lastGeometry || lastMask)) {
-        pendingAfterTilt = true;
-        return;
-      }
       if (isMobileViewport && !force && !immediate) {
         if (mobileDebounceTimer) {
           window.clearTimeout(mobileDebounceTimer);
@@ -307,7 +295,15 @@ export function useChatInputHoleMask({
     const onTiltState = event => {
       const active = Boolean(event?.detail?.active);
       setTiltVisualState(active);
-      if (active) return;
+      if (active) {
+        pendingAfterTilt = false;
+        scheduleUpdate({
+          force: true,
+          loop: true,
+          immediate: true
+        });
+        return;
+      }
       if (pendingAfterTilt) {
         scheduleUpdate({
           force: true

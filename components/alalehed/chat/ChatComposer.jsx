@@ -16,6 +16,8 @@ const MODE_LABEL_SHINE_BACKGROUND_LIGHT =
   "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)";
 const MODE_LABEL_SHINE_BACKGROUND_HC =
   "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0.18) 32%, rgba(255,224,44,0.98) 50%, rgba(255,224,44,0.18) 68%, rgba(255,224,44,0) 100%)";
+const ROUTE_TILT_EVENT = "sotsiaalai:route-transition";
+const ROUTE_TILT_MS = 540;
 
 function CareerModeIcon({
   stroke,
@@ -158,6 +160,7 @@ export default function ChatComposer({
   const [toolsOpen, setToolsOpen] = useState(false);
   const [toolsMenuPosition, setToolsMenuPosition] = useState(null);
   const [isHighContrast, setIsHighContrast] = useState(false);
+  const [routeTiltDirection, setRouteTiltDirection] = useState(null);
   const submitInFlightRef = useRef(false);
   const primaryActionHandledAtRef = useRef(0);
   const toolsButtonRef = useRef(null);
@@ -166,6 +169,7 @@ export default function ChatComposer({
   const previousDraftLengthRef = useRef(0);
   const composerLayoutSyncFramesRef = useRef([]);
   const composerLayoutSignatureRef = useRef("");
+  const routeTiltTimerRef = useRef(0);
   const notifyLayoutChange = useCallback(() => {
     if (typeof onLayoutChange !== "function" || typeof window === "undefined") {
       return;
@@ -307,6 +311,37 @@ export default function ChatComposer({
     if (!hideTools) return;
     setToolsOpen(false);
   }, [hideTools]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const clearRouteTilt = () => {
+      if (routeTiltTimerRef.current) {
+        window.clearTimeout(routeTiltTimerRef.current);
+        routeTiltTimerRef.current = 0;
+      }
+      setRouteTiltDirection(null);
+    };
+    const onRouteTilt = event => {
+      const nextDirection = event?.detail?.glassRingTilt;
+      if (nextDirection !== "left" && nextDirection !== "right") {
+        clearRouteTilt();
+        return;
+      }
+      setRouteTiltDirection(nextDirection);
+      if (routeTiltTimerRef.current) {
+        window.clearTimeout(routeTiltTimerRef.current);
+      }
+      routeTiltTimerRef.current = window.setTimeout(() => {
+        routeTiltTimerRef.current = 0;
+        setRouteTiltDirection(null);
+      }, ROUTE_TILT_MS);
+    };
+    window.addEventListener(ROUTE_TILT_EVENT, onRouteTilt);
+    return () => {
+      window.removeEventListener(ROUTE_TILT_EVENT, onRouteTilt);
+      clearRouteTilt();
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -601,13 +636,14 @@ export default function ChatComposer({
   const inputRowClassName =
     `${embedded ? "chat-input-row--embedded " : ""}` +
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
-    "transition-[top,margin-top,transform,padding-bottom,padding-top,padding-left,padding-right] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top,transform,padding-bottom] max-[768px]:transition-none";
+    "transform-gpu [transform-style:preserve-3d] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] " +
+    "transition-[top,margin-top,transform,padding-bottom,padding-top,padding-left,padding-right] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:top,transform,padding-bottom] max-[768px]:transition-none";
   const composerMainClassName =
     "relative flex w-full max-w-[min(100%,var(--chat-input-max-w))] min-w-0 flex-[1_1_auto] items-stretch " +
-    "transition-[max-width] duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:max-width] max-[768px]:transition-none";
+    "transition-[max-width] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] [will-change:max-width] max-[768px]:transition-none";
   const composerAssistRowClassName =
     `pointer-events-auto absolute left-1/2 ${hasRoomModeLabel ? "top-[calc(100%+0.28rem)]" : "top-[calc(100%+0.18rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end ` +
-    "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
+    "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
   const isStandaloneDisplay = typeof window !== "undefined" && (
     document?.documentElement?.dataset?.displayMode === "standalone" ||
     window.matchMedia?.("(display-mode: standalone)")?.matches ||
@@ -623,7 +659,7 @@ export default function ChatComposer({
       : "max-[768px]:top-[calc(100%+0.58rem)]";
   const composerModeRowClassName =
     `pointer-events-none absolute left-0 right-0 ${roomModeLabelNeedsExtraOffset ? "top-[calc(100%+1.95rem)]" : "top-[calc(100%+1.28rem)]"} ${modeLabelMobileTopClassName} flex w-full items-center justify-center ` +
-    "transition-[top] duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
+    "transition-[top] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
   const modeLabelWrapClassName =
     "relative overflow-visible pb-[0.14rem] text-center";
   const inputRowModeClassName = embedded
@@ -639,7 +675,7 @@ export default function ChatComposer({
     "chat-inputbar relative grid w-full overflow-hidden " +
     `${displayExpanded ? "grid-cols-[1fr] items-stretch gap-y-[0.08rem]" : "grid-cols-[1fr_auto] items-stretch gap-x-[0.24rem]"} ` +
     `${displayExpanded ? "min-h-[var(--inputbar-h)] rounded-[1.35rem]" : "h-[var(--inputbar-h)] rounded-full"} ` +
-    "transition-[border-color,box-shadow,background,max-width,transform] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "transition-[border-color,box-shadow,background,max-width,transform] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     `${displayExpanded ? "pl-[0.62rem] pt-[0.56rem] pb-0 pr-0" : "pl-[0.6rem] pr-0 py-0"} ` +
     "pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)] max-[768px]:translate-x-0 max-[768px]:transition-[background,box-shadow,border-color,transform] max-[768px]:duration-[180ms] max-[768px]:ease-[cubic-bezier(0.22,0.61,0.36,1)]";
   const inputFieldWrapClassName = displayExpanded
@@ -668,13 +704,20 @@ export default function ChatComposer({
     "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[220ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
+  const routeTiltInputShiftX = !isMobile
+    ? routeTiltDirection === "left"
+      ? "clamp(-0.9rem,-1.85vw,-0.44rem)"
+      : routeTiltDirection === "right"
+        ? "clamp(0.44rem,1.05vw,0.82rem)"
+        : "0rem"
+    : "0rem";
   const inputRowTransformClassName = embedded
     ? "[transform:none]"
     : `${inputFocused
       ? hasRoomModeLabel
-        ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(1.15rem,2.8dvh,1.75rem)))]"
-        : "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]"
-      : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]"} max-[768px]:[transform:none]`;
+        ? "[transform:translate3d(var(--chat-route-tilt-input-shift-x,0rem),calc(var(--chat-input-focus-shift,0.94rem)+clamp(1.15rem,2.8dvh,1.75rem)),0)]"
+        : "[transform:translate3d(var(--chat-route-tilt-input-shift-x,0rem),calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)),0)]"
+      : "[transform:translate3d(var(--chat-route-tilt-input-shift-x,0rem),calc(-1*var(--chat-input-shift,0rem)),0)]"} max-[768px]:[transform:none]`;
   const inputRowMobileStyle = !embedded && isMobile
     ? {
         position: "absolute",
@@ -693,9 +736,13 @@ export default function ChatComposer({
         paddingLeft: "var(--chat-hpad-right,var(--chat-hpad))",
         paddingRight: "var(--chat-hpad-right,var(--chat-hpad))",
         "--chat-inputbar-left-pull": "0rem",
-        "--chat-attach-left-pull": "0rem"
+        "--chat-attach-left-pull": "0rem",
+        "--chat-route-tilt-input-shift-x": routeTiltInputShiftX
       }
-    : inputRowMobileStyle;
+    : {
+        ...(inputRowMobileStyle || {}),
+        "--chat-route-tilt-input-shift-x": routeTiltInputShiftX
+      };
   const toolItemBaseClassName =
     "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
     "text-[1.12rem] leading-[1.14] tracking-[0.01em] transition-colors duration-150 " +

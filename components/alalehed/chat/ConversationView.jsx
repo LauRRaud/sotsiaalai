@@ -186,7 +186,7 @@ const ConversationView = memo(function ConversationView({
   }, []);
   const mainClassName =
     "conversation-view relative flex flex-1 flex-col min-h-0 w-full " +
-    "transition-[transform,margin-bottom] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
+    "transition-[transform,margin-bottom] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
   const mergedMainClassName = mainClassNameProp ? `${mainClassName} ${mainClassNameProp}` : mainClassName;
   const windowClassName =
     "chat-window relative flex flex-1 min-h-0 flex-col items-stretch gap-[0.75rem] " +
@@ -208,7 +208,7 @@ const ConversationView = memo(function ConversationView({
     "[transform:translateX(var(--chat-window-shift-x,0rem))_translateY(var(--chat-window-shift-y,0rem))] " +
     "max-[768px]:[--chat-window-curve-x:var(--chat-window-corner)] max-[768px]:[--chat-window-curve-y:var(--chat-window-corner)] max-[768px]:[--chat-window-curve-y-left:var(--chat-window-corner)] max-[768px]:[--chat-window-curve-y-right:var(--chat-window-corner)] " +
     "light:[--chat-arc-rgb:210_214_222] light:[--chat-arc-center-alpha:0.1] light:[--chat-arc-side-alpha:0.24] light:[--chat-arc-mid-alpha:0.09] " +
-    "transition-[padding-top,padding-bottom,margin-top,max-height,max-width,transform] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "transition-[padding-top,padding-bottom,margin-top,max-height,max-width,transform] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "max-[768px]:w-[calc(100%+var(--chat-window-mobile-width-right,0rem))] max-[768px]:max-w-none max-[768px]:mx-0 max-[768px]:mr-auto max-[768px]:transition-none";
   const scrollClassName =
     "chat-window__scroll relative z-[1] h-full flex flex-col items-stretch gap-[0.75rem] flex-1 min-h-0 overflow-y-auto overscroll-contain " +
@@ -221,7 +221,7 @@ const ConversationView = memo(function ConversationView({
     "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
     "[&::-webkit-scrollbar-thumb]:bg-[linear-gradient(135deg,var(--pt-400),var(--pt-200))] [&::-webkit-scrollbar-thumb]:rounded-[0.625rem] [&::-webkit-scrollbar-thumb]:border-[0.1875rem] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent " +
     "[&::-webkit-scrollbar-track]:bg-transparent " +
-    "transition-[padding] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-[padding] " +
+    "transition-[padding] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-[padding] " +
     "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] " +
     "[scroll-padding-top:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))] " +
     "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] max-[768px]:transition-none";
@@ -242,7 +242,7 @@ const ConversationView = memo(function ConversationView({
   return <main className={mergedMainClassName}>
       <div id="chat-window" className={mergedWindowClassName} onDoubleClick={onWindowDoubleClick}>
         <div id="chat-window-scroll" className={scrollClassName} ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"} tabIndex={0} onKeyDown={handleScrollKeyDown} onMouseDown={focusScrollArea} onWheel={focusScrollArea}>
-          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-spacer,0.55rem)] transition-[height] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none" : "shrink-0 h-[calc(var(--chat-content-spacer,1.6rem)+0.8rem)] transition-[height] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none"} />
+          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-spacer,0.55rem)] transition-[height] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none" : "shrink-0 h-[calc(var(--chat-content-spacer,1.6rem)+0.8rem)] transition-[height] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none"} />
 
           {hiddenCount > 0 ? <div className="flex justify-center">
               <button type="button" onClick={onRevealOlder} className={buttonClassName}>
@@ -260,7 +260,7 @@ const ConversationView = memo(function ConversationView({
             </div> : null}
 
           <div ref={contentEndRef} aria-hidden="true" className="h-0 w-full shrink-0" />
-          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-bottom-spacer,0.85rem)] transition-[height] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none" : "shrink-0 h-[var(--chat-content-bottom-spacer,0rem)] transition-[height] duration-[240ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none"} />
+          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-bottom-spacer,0.85rem)] transition-[height] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none" : "shrink-0 h-[var(--chat-content-bottom-spacer,0rem)] transition-[height] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none"} />
         </div>
         {isMobile && hasConversationSources ? <button
             ref={sourcesButtonRef}
