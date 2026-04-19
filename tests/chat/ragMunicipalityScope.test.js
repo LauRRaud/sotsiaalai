@@ -262,10 +262,12 @@ test("prompt requires transparent source-state answers for availability question
   assert.match(system, /not found in the current search/);
   assert.match(system, /only partially visible/);
   assert.match(system, /identified from the user's own text/);
-  assert.match(system, /For simple source-availability or source-existence questions, answer briefly/);
-  assert.match(system, /do not list paragraph numbers, examples, or source details unless the user asked for them/);
-  assert.match(system, /except for simple source-availability or source-existence questions where a short direct answer is better/);
+  assert.match(system, /For simple source-availability or source-existence questions, answer in one short sentence/);
+  assert.match(system, /do not mention source state, partial visibility, paragraph numbers, examples, or source details unless the user explicitly asks about completeness or coverage/);
+  assert.match(system, /Only mention that something is partially visible when the user explicitly asks about completeness/);
+  assert.match(system, /except for simple availability checks where a short direct answer is better/);
   assert.match(system, /do not imply that a source or paragraph is visible/);
+  assert.match(system, /Exception: after a simple availability question about a law, document, source, or topic/);
 });
 
 test("prompt requires source-use answers to rely on assistant source metadata", () => {
@@ -309,9 +311,66 @@ test("prompt forbids speculating about internal causes when explaining answer mi
 
   const system = input.input[0].content;
   assert.match(system, /If the user asks why an earlier answer was too long, mixed languages, contained a wording mistake/);
+  assert.match(system, /A foreign-language word slipped in by mistake/);
   assert.match(system, /Do not speculate about prompts, hidden instructions, verbosity settings, model choice, decoding, internal decision processes/);
-  assert.match(system, /If the exact cause is not knowable from the conversation, say that you cannot tell exactly/);
+  assert.match(system, /If the user directly asks whether the cause was verbosity, prompt wording, model version/);
   assert.match(system, /Do not turn that kind of self-correction answer into a meta discussion about internal system behavior/);
+});
+
+test("turn rule handles simple availability questions with short confirm and follow-up", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Kas sul on sotsiaalhoolekande seadus olemas?",
+    context: "Sotsiaalhoolekande seadus.",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.match(turnInstruction, /simple availability check about a law, document, source, or topic/);
+  assert.match(turnInstruction, /Reply in one short sentence confirming availability or non-availability/);
+  assert.match(turnInstruction, /Then ask one short follow-up question about what the user wants to know about it/);
+});
+
+test("turn rule forbids internal-cause speculation and cyrillic continuation", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "assistant",
+        content: "Pigem juhistes ja stiilis. Если soovi, võin vastata lühemalt."
+      }
+    ],
+    userMessage: "kas asi on verbosity settingus?",
+    context: "",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.match(turnInstruction, /The user is asking about the cause of a previous style or language mistake/);
+  assert.match(turnInstruction, /Do not discuss prompts, verbosity, model version, decoding, or internal system behavior/);
+  assert.match(turnInstruction, /An earlier assistant message mixed languages/);
+  assert.match(turnInstruction, /Do not repeat or continue any Cyrillic text in this reply/);
+});
+
+test("turn rule catches short miks follow-up after self-correction", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "assistant",
+        content: "See oli keeleline viga. Vastus pidi olema ainult eesti keeles."
+      }
+    ],
+    userMessage: "miks?",
+    context: "",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.match(turnInstruction, /short follow-up why-question after the assistant already acknowledged a style or language mistake/);
+  assert.match(turnInstruction, /Answer briefly in user-facing terms only/);
+  assert.match(turnInstruction, /Do not discuss prompts, verbosity, model version, decoding, or internal system behavior/);
 });
 
 test("social worker prompt stops rewrite loops after a yes", () => {
@@ -421,6 +480,41 @@ test("chat responses default to medium verbosity for both roles", () => {
     stream: false,
     effectiveRole: "CLIENT"
   }).text.verbosity, "medium");
+});
+
+test("simple availability turns prefer low verbosity", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Kas sul on sotsiaalhoolekande seadus olemas?",
+    context: "Sotsiaalhoolekande seadus.",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  assert.equal(buildResponsesPayload(input, {
+    stream: false,
+    effectiveRole: "CLIENT"
+  }).text.verbosity, "low");
+});
+
+test("internal-cause follow-up turns prefer low verbosity", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "assistant",
+        content: "See oli keeleline viga. Vastus pidi olema ainult eesti keeles."
+      }
+    ],
+    userMessage: "miks?",
+    context: "",
+    effectiveRole: "CLIENT",
+    replyLang: "et"
+  });
+
+  assert.equal(buildResponsesPayload(input, {
+    stream: false,
+    effectiveRole: "CLIENT"
+  }).text.verbosity, "low");
 });
 
 test("extra system instructions are inserted before the user turn", () => {
