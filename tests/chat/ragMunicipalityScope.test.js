@@ -219,6 +219,24 @@ test("chat prompt requires complete municipality service and support overviews",
   assert.match(system, /Do not let one retrieved service entry dominate an overview question/);
 });
 
+test("prompt requires transparent source-state answers for availability questions", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Kas sul on sotsiaalhoolekande seaduse paragrahv 10 olemas?",
+    context: "Sotsiaalhoolekande seadus. Paragrahv 10. Lapsele juhtumiplaani koostamine.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /what sources, documents, legal acts, paragraphs, sections, or materials are available/);
+  assert.match(system, /found in the provided materials/);
+  assert.match(system, /not found in the current search/);
+  assert.match(system, /only partially visible/);
+  assert.match(system, /identified from the user's own text/);
+  assert.match(system, /do not imply that a source or paragraph is visible/);
+});
+
 test("social worker prompt stops rewrite loops after a yes", () => {
   const input = toResponsesInput({
     history: [

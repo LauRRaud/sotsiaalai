@@ -49,6 +49,7 @@ export default function RightRail({
   showSourcesPanel,
   sourcesPulse,
   conversationSources,
+  hasConversationSources = false,
   onProfileToggle,
   activeWorkspaceKey = "",
   embedded = false,
@@ -671,6 +672,7 @@ export default function RightRail({
             return;
           }
           if (it.key === "sources") {
+            if (!hasConversationSources) return;
             toggleSourcesPanel();
           }
         };
@@ -686,8 +688,8 @@ export default function RightRail({
         };
 
         const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";
-        const isDisabled = false;
-        const isAriaDisabled = false;
+        const isDisabled = it?.key === "sources" && !hasConversationSources;
+        const isAriaDisabled = isDisabled;
         const displayLabel = it?.label || "";
 
         return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!viewportIsMobile ? () => {

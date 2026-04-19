@@ -27,7 +27,10 @@ export function useConversationSources({
       sources.forEach((src, idx) => {
         if (!isDbSource(src)) return;
         const url = typeof src?.url === "string" && src.url.trim() ? src.url.trim() : "";
-        const label = formatSourceLabel(src?.label || src?.title || url || "Allikas");
+        const label =
+          typeof src?.label === "string" && src.label.trim()
+            ? src.label.trim()
+            : formatSourceLabel(src && typeof src === "object" ? src : { title: "Allikas" });
         const pageText = src?.pageRange || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(src?.page ? [src.page] : [])]);
         const section = typeof src?.section === "string" ? src.section : undefined;
         const key = src?.key || src?.id || url || `${label}-${pageText || ""}-${idx}`;

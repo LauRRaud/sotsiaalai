@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 const ChatSourcesPanel = memo(function ChatSourcesPanel({
   open,
   t,
@@ -64,32 +65,38 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
       }, 0);
     };
   }, [open, getFocusables, onClose, returnFocusRef]);
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
   const overlayClassName =
-    "fixed inset-0 z-[40] bg-[rgba(9,14,25,0.72)] " +
-    "flex items-center justify-center p-[1rem]";
+    "fixed inset-0 z-[170] flex items-center justify-center " +
+    "bg-[rgba(7,11,20,0.24)] p-[clamp(0.75rem,2.2vw,1.25rem)]";
   const dialogClassName =
-    "w-full max-w-[34rem] max-h-[80vh] overflow-y-auto rounded-[1.5rem] " +
-    "bg-[color:var(--rail-tooltip-bg)] border border-[color:var(--rail-tooltip-border)] " +
-    "p-[1.15rem_1.25rem] text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f8fafc))] " +
-    "shadow-[var(--rail-tooltip-shadow)]";
+    "chat-sources-window chat-tools-menu isolate flex w-[min(100%,38rem)] " +
+    "max-h-[min(78vh,44rem)] flex-col overflow-hidden rounded-[0.88rem] border-0 " +
+    "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
+    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--pt-100)))] " +
+    "p-[0.35rem] shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow,var(--subpage-card-shadow)))] " +
+    "backdrop-blur-0 backdrop-saturate-100 hc:border-0 hc:shadow-none";
   const headerClassName =
-    "flex items-center justify-between gap-[0.75rem] mb-[0.85rem]";
-  const titleClassName = "m-0 text-[1.05rem] font-[600]";
+    "flex shrink-0 items-center justify-between gap-[0.75rem] px-[0.75rem] pb-[0.45rem] pt-[0.55rem]";
+  const titleClassName = "m-0 text-[1.08rem] font-[600] leading-[1.15]";
   const closeClassName =
-    "rounded-full border border-[color:var(--rail-tooltip-border)] bg-[color:var(--rail-tooltip-bg)] " +
-    "text-[color:var(--rail-tooltip-text,var(--glass-surface-text,#f1f5f9))] px-[0.75rem] py-[0.3rem] " +
-    "text-[0.8rem] font-[500] shadow-[var(--rail-tooltip-shadow)] " +
-    "hover:bg-[color:var(--rail-tooltip-bg)] transition-colors";
-  const emptyClassName = "m-0 text-[0.92rem] opacity-80";
-  const listClassName = "m-0 pl-[1.2rem]";
-  const itemClassName = "mb-[1rem] leading-[1.6]";
-  const labelClassName = "text-[1rem] font-[600] text-[#f8fafc]";
-  const usageClassName = "text-[0.88rem] opacity-70";
-  const pagesClassName = "mt-[0.2rem] text-[0.9rem] opacity-70";
+    "appearance-none rounded-[0.5rem] border-0 bg-transparent px-[0.62rem] py-[0.34rem] " +
+    "text-[0.88rem] font-[500] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--pt-100)))] " +
+    "transition-colors duration-150 hover:bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.2))] " +
+    "focus-visible:bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.2))] focus-visible:outline-none";
+  const bodyClassName =
+    "min-h-0 flex-1 overflow-y-auto px-[0.75rem] pb-[0.85rem] pt-[0.18rem]";
+  const emptyClassName = "m-0 text-[0.94rem] opacity-80";
+  const listClassName = "m-0 list-decimal pl-[1.25rem]";
+  const itemClassName =
+    "mb-[0.72rem] rounded-[0.5rem] px-[0.45rem] py-[0.38rem] leading-[1.42] " +
+    "transition-colors duration-150 hover:bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.12))]";
+  const labelClassName = "text-[0.98rem] font-[600]";
+  const usageClassName = "mt-[0.16rem] text-[0.84rem] opacity-70";
+  const pagesClassName = "mt-[0.16rem] text-[0.86rem] opacity-70";
   const linksClassName = "mt-[0.45rem] flex flex-wrap gap-[0.5rem]";
-  const linkClassName = "text-[0.9rem] text-[#93c5fd] underline";
-  return (
+  const linkClassName = "text-[0.9rem] text-[#93c5fd] underline light:text-[#7a3a38]";
+  return createPortal(
     <div
       id="chat-sources-panel"
       ref={dialogRef}
@@ -115,59 +122,62 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
           </button>
         </div>
 
-        {conversationSources.length === 0 ? (
-          <p className={emptyClassName}>
-            {t("chat.sources.empty")}
-          </p>
-        ) : (
-          <ol className={listClassName}>
-            {conversationSources.map((src, idx) => (
-              <li key={src.key || idx} className={itemClassName}>
-                <div className={labelClassName}>{src.label}</div>
-                {src.occurrences > 1 ? (
-                  <div className={usageClassName}>
-                    {t("chat.sources.used_multiple").replace(
-                      "{count}",
-                      String(src.occurrences)
-                    )}
-                  </div>
-                ) : null}
+        <div className={bodyClassName}>
+          {conversationSources.length === 0 ? (
+            <p className={emptyClassName}>
+              {t("chat.sources.empty")}
+            </p>
+          ) : (
+            <ol className={listClassName}>
+              {conversationSources.map((src, idx) => (
+                <li key={src.key || idx} className={itemClassName}>
+                  <div className={labelClassName}>{src.label}</div>
+                  {src.occurrences > 1 ? (
+                    <div className={usageClassName}>
+                      {t("chat.sources.used_multiple").replace(
+                        "{count}",
+                        String(src.occurrences)
+                      )}
+                    </div>
+                  ) : null}
 
-                {src.pageText &&
-                !`${src.label}`.toLowerCase().includes("lk") ? (
-                  <div className={pagesClassName}>
-                    {t("chat.sources.pages").replace(
-                      "{pages}",
-                      String(src.pageText)
-                    )}
-                  </div>
-                ) : null}
-                {src.allUrls && src.allUrls.length ? (
-                  <div className={linksClassName}>
-                    {src.allUrls.map((url, urlIdx) => (
-                      <a
-                        key={`${src.key || idx}-url-${urlIdx}`}
-                        href={url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={linkClassName}
-                      >
-                        {src.allUrls.length > 1
-                          ? t("chat.sources.open_indexed").replace(
-                              "{index}",
-                              String(urlIdx + 1)
-                            )
-                          : t("chat.sources.open_single")}
-                      </a>
-                    ))}
-                  </div>
-                ) : null}
-              </li>
-            ))}
-          </ol>
-        )}
+                  {src.pageText &&
+                  !`${src.label}`.toLowerCase().includes("lk") ? (
+                    <div className={pagesClassName}>
+                      {t("chat.sources.pages").replace(
+                        "{pages}",
+                        String(src.pageText)
+                      )}
+                    </div>
+                  ) : null}
+                  {src.allUrls && src.allUrls.length ? (
+                    <div className={linksClassName}>
+                      {src.allUrls.map((url, urlIdx) => (
+                        <a
+                          key={`${src.key || idx}-url-${urlIdx}`}
+                          href={url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={linkClassName}
+                        >
+                          {src.allUrls.length > 1
+                            ? t("chat.sources.open_indexed").replace(
+                                "{index}",
+                                String(urlIdx + 1)
+                              )
+                            : t("chat.sources.open_single")}
+                        </a>
+                      ))}
+                    </div>
+                  ) : null}
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 });
 export default ChatSourcesPanel;

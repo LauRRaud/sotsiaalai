@@ -225,6 +225,92 @@ function buildRagSearchQuery(message = "", history = []) {
   return Array.from(new Set(parts)).join("\n");
 }
 
+function extractParagraphReferences(text = "") {
+  const source = String(text || "");
+  const refs = new Set();
+  const explicitPattern = /(?:§+\s*|paragrahv(?:i|is|ist|ile|il|iga|iks)?\s+|paragraph\s+)(\d+[a-z]?(?:\s*[-–]\s*\d+[a-z]?)?)/giu;
+  for (const match of source.matchAll(explicitPattern)) {
+    const ref = String(match?.[1] || "").replace(/\s+/g, "").replace(/[–]/g, "-").trim();
+    if (ref) refs.add(ref);
+  }
+
+  const normalized = normalizeIntentText(source);
+  if (/\b(paragrahv|paragraph|loige|lõige|sate|säte|§)\b/.test(normalized) || source.includes("§")) {
+    const listPattern = /(?:^|[\s,;])(\d{1,3}[a-z]?)(?=\s*(?:,|;|\bja\b|\band\b|\bning\b|$))/giu;
+    for (const match of source.matchAll(listPattern)) {
+      const ref = String(match?.[1] || "").trim();
+      if (ref) refs.add(ref);
+    }
+  }
+  return Array.from(refs).slice(0, 8);
+}
+
+function inferSourceLookupSubject(text = "") {
+  const normalized = normalizeIntentText(text);
+  if (/\bsotsiaalhoolekande sead/.test(normalized) || /\bshs\b/.test(normalized)) {
+    return "Sotsiaalhoolekande seadus";
+  }
+  if (/\bjogeva\b/.test(normalized) && /\b(riigi teataja|riigiteataja|maar|määr|kord|sotsiaalhoolekandelise abi)\b/.test(normalized)) {
+    return "Sotsiaalhoolekandelise abi andmise kord Jõgeva vallas";
+  }
+  if (/\bjogeva\b/.test(normalized)) {
+    return "Jõgeva vald sotsiaalteenused toetused";
+  }
+  if (/\briigi teataja|riigiteataja\b/.test(normalized)) {
+    return "Riigi Teataja";
+  }
+  return "";
+}
+
+function detectSourceAvailabilityRequest(history = [], message = "") {
+  const current = String(message || "").trim();
+  if (!current) return false;
+  const recent = extractRecentUserText(history, 6);
+  const combined = [current, ...recent].join("\n");
+  const normalizedCurrent = normalizeIntentText(current);
+  const normalizedCombined = normalizeIntentText(combined);
+  const hasSourceTerm =
+    /(?:§|paragrahv|paragraph|\bseadus|sotsiaalhoolekande|\bshs\b|riigi teataja|riigiteataja|allik|materjal|andmebaas|dokument|source|document|legal act)/.test(normalizedCombined) ||
+    current.includes("§");
+  const hasAvailabilityIntent =
+    /\b(kas\s+)?(su|sul|sinul|teil)\b/.test(normalizedCurrent) ||
+    /\b(olemas|naed|näed|naitab|näitab|andmebaas|materjalides|allikates|leia|leidsid|kusin|küsin|kysin|küsisin|find|have|available|database|ask|asking)\b/.test(normalizedCurrent);
+  const shortParagraphFollowup =
+    /^[§\s\d,;a-zA-Z-]+$/.test(current) &&
+    /\b(paragrahv|paragraph|§|seadus|shs|andmebaas|materjal)\b/.test(normalizedCombined);
+  return Boolean(hasSourceTerm && (hasAvailabilityIntent || shortParagraphFollowup));
+}
+
+function buildSourceLookupSearchQuery(message = "", history = []) {
+  const current = String(message || "").trim();
+  const recent = extractRecentUserText(history, 8);
+  const combined = [current, ...recent].filter(Boolean).join("\n");
+  const subject = inferSourceLookupSubject(combined);
+  const paragraphRefs = extractParagraphReferences(combined);
+  const parts = [];
+  if (subject) parts.push(subject);
+  if (current) parts.push(current);
+  for (const ref of paragraphRefs) {
+    parts.push(`${subject || ""} § ${ref}`.trim());
+    parts.push(`${subject || ""} paragrahv ${ref}`.trim());
+  }
+  parts.push(...recent);
+  return Array.from(new Set(parts.map(part => part.trim()).filter(Boolean))).join("\n");
+}
+
+function sourceLookupSystemInstruction() {
+  return [
+    "SOURCE_LOOKUP_MODE:",
+    "The user is asking whether a source, document, legal act, paragraph, section, or material exists or is visible in the provided materials.",
+    "A targeted retrieval search has been run for this turn.",
+    "Base the answer on RAG_CONTEXT and the user's own text only.",
+    "If RAG_CONTEXT contains the requested item, say whether it appears as full text or only as a partial visible passage when that distinction is clear.",
+    "If RAG_CONTEXT does not contain the requested item, say that the current search did not find it; do not say the database does not contain it.",
+    "If you identify something from text supplied by the user, say that the identification is from the user's supplied text.",
+    "Do not claim that you saw a paragraph, source, or document in the materials unless it appears in RAG_CONTEXT."
+  ].join(" ");
+}
+
 function isMunicipalityDependentSocialHelpQuestion(message = "") {
   const normalized = normalizeIntentText(message);
   if (!normalized) return false;
@@ -1078,6 +1164,7 @@ export async function POST(req) {
   const effectiveMessage = message;
   const forcedMode = requestedChatMode;
   const effectiveExplicitHelpIntent = explicitHelpIntent;
+  const sourceLookupRequest = detectSourceAvailabilityRequest(rawHistory, effectiveMessage);
   const documentDecision = forcedMode === "document"
     ? resolveDocumentTaskDecision({
         message: effectiveMessage,
@@ -1718,9 +1805,12 @@ export async function POST(req) {
   const allowMunicipalityScopedRag = mentionedMunicipalities.length > 0;
   const municipalityQuestionNeedsClarification =
     !allowMunicipalityScopedRag && isMunicipalityDependentSocialHelpQuestion(effectiveMessage);
-  const extraSystemInstructions = municipalityQuestionNeedsClarification
-    ? [missingMunicipalitySystemInstruction(normalizedRole)]
-    : [];
+  const extraSystemInstructions = [
+    ...(municipalityQuestionNeedsClarification
+      ? [missingMunicipalitySystemInstruction(normalizedRole)]
+      : []),
+    ...(sourceLookupRequest ? [sourceLookupSystemInstruction()] : [])
+  ];
   let matches = [];
   let groupedMatches = [];
   let chosen = [];
@@ -1730,10 +1820,16 @@ export async function POST(req) {
   };
   if (!ephemeralChunks.length || combineSources) {
     try {
-      const ragQueryText = buildRagSearchQuery(effectiveMessage, rawHistory);
+      const ragQueryText = sourceLookupRequest
+        ? buildSourceLookupSearchQuery(effectiveMessage, rawHistory)
+        : buildRagSearchQuery(effectiveMessage, rawHistory);
       matches = await searchRagDirect({
         query: ragQueryText,
-        topK: allowMunicipalityScopedRag ? RAG_TOP_K : Math.min(50, Math.max(RAG_TOP_K, RAG_TOP_K * 3)),
+        topK: sourceLookupRequest
+          ? Math.min(50, Math.max(RAG_TOP_K * 2, 18))
+          : allowMunicipalityScopedRag
+            ? RAG_TOP_K
+            : Math.min(50, Math.max(RAG_TOP_K, RAG_TOP_K * 3)),
         filters: audienceFilter,
         userId,
         role: normalizedRole,
@@ -1745,7 +1841,9 @@ export async function POST(req) {
       if (!allowMunicipalityScopedRag) {
         const nationalMatches = await searchRagDirect({
           query: ragQueryText,
-          topK: Math.min(12, Math.max(4, RAG_TOP_K)),
+          topK: sourceLookupRequest
+            ? Math.min(24, Math.max(8, RAG_TOP_K))
+            : Math.min(12, Math.max(4, RAG_TOP_K)),
           filters: {
             ...audienceFilter,
             jurisdiction_level: "NATIONAL"
@@ -1809,6 +1907,7 @@ export async function POST(req) {
     docChunkInputCount: ephemeralChunks.length,
     docChunkUsedCount: docContextResult.usedChunks,
     docContextChars: docContextResult.usedChars,
+    sourceLookupRequest,
     municipalityMentioned: allowMunicipalityScopedRag,
     municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
   });
@@ -1825,6 +1924,7 @@ export async function POST(req) {
     docContextChars: docContextResult.usedChars,
     hadDocContext,
     hadRagContext,
+    sourceLookupRequest,
     municipalityMentioned: allowMunicipalityScopedRag,
     municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
   });

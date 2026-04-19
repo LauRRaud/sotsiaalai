@@ -18,7 +18,6 @@ import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import "@/components/CenteredScrollPicker.css";
 import {
   glassPageBackMobileBottomCenterClassName,
-  glassSubpageCardClassName,
   glassPageRingCenteredClassName,
   glassPageShellCenteredClassName,
   glassPageTitleClassName
@@ -39,7 +38,11 @@ const scrollAreaClassName =
   "rooms-scroll relative flex-1 w-full max-w-[clamp(18.2rem,37vw,23.2rem)] min-[769px]:max-w-[clamp(18rem,35vw,22.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.62rem] min-[769px]:px-[0.95rem] text-left csp-container mx-auto";
 const roomStepClassName = "rooms-step csp-step !min-h-0 !py-[0.48rem]";
 const roomCardClassName =
-  `w-full rounded-[1rem] px-[1.14rem] py-[1.02rem] ${glassSubpageCardClassName}`;
+  "chat-tools-menu w-full rounded-[0.88rem] border-0 " +
+  "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
+  "px-[1.14rem] py-[1.02rem] text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--pt-100)))] " +
+  "shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow,var(--subpage-card-shadow)))] " +
+  "backdrop-blur-0 backdrop-saturate-100 hc:border-0 hc:shadow-none";
 const roomEmptyCardClassName =
   `invite-list-panel mx-auto w-[min(100%,calc(100%-1rem))] min-[769px]:w-[min(100%,calc(100%-1.4rem))] text-center`;
 const roomMetaRowClassName =

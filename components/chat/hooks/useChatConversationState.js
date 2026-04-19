@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { normalizeSources as defaultNormalizeSources } from "../utils/sources";
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
 const EMPTY_CONVERSATION_READY_KEY = "__empty__";
@@ -331,7 +332,9 @@ export function useChatConversationState({
       if (id !== currentGlobalId) return;
       const serverText = String(data.text || "");
       const serverTextTrim = serverText.trim();
-      const serverSources = typeof normalizeSources === "function" ? normalizeSources(data.sources ?? []) : [];
+      const normalizeSourceList =
+        typeof normalizeSources === "function" ? normalizeSources : defaultNormalizeSources;
+      const serverSources = normalizeSourceList(data.sources ?? []);
       const serverAttachments = Array.isArray(data.attachments)
         ? data.attachments
         : [];
@@ -352,7 +355,10 @@ export function useChatConversationState({
               id: nextId++,
               role: normalizedRole,
               text: typeof msg.text === "string" ? msg.text : "",
-              sources: normalizedRole === "ai" ? typeof normalizeSources === "function" ? normalizeSources(msg.sources ?? []) : undefined : undefined,
+              sources:
+                normalizedRole === "ai"
+                  ? normalizeSourceList(msg.sources ?? [])
+                  : undefined,
               attachments:
                 normalizedRole === "ai" && Array.isArray(msg.attachments)
                   ? msg.attachments
