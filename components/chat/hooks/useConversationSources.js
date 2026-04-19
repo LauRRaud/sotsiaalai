@@ -1,6 +1,37 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { collapsePages, formatSourceLabel, normalizePageRange } from "../utils/sources.js";
 
+function normalizeIdentityText(value = "") {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/\p{Diacritic}+/gu, "")
+    .toLowerCase()
+    .replace(/[.!?\s]+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isIdentityQuestionText(text = "") {
+  const normalized = normalizeIdentityText(text);
+  if (!normalized) return false;
+  return (
+    /\b(kes sa oled|kes te olete|mis sa oled|who are you|what are you)\b/.test(normalized) ||
+    /\b(mis assistent sa oled|milline assistent sa oled|what assistant are you)\b/.test(normalized) ||
+    /\b(?:(?:kas )?oled(?: sa)? (?:chatgpt|openai|sotsiaalai)|kas sa oled (?:chatgpt|openai|sotsiaalai)|are you (?:chatgpt|openai|sotsiaalai)|(?:chatgpt|openai|sotsiaalai) assistent)\b/.test(normalized) ||
+    /^(?:chatgpt|openai|sotsiaalai)(?:\s+assistent)?$/.test(normalized)
+  );
+}
+
+function isSourceFreeIdentityAnswer(text = "") {
+  const normalized = normalizeIdentityText(text);
+  return (
+    normalized === "olen sotsiaalai vestlusassistent" ||
+    normalized === "i am the sotsiaalai chat assistant" ||
+    normalized === "im the sotsiaalai chat assistant" ||
+    normalized === "я чат-ассистент sotsiaalai"
+  );
+}
+
 export function collectLatestAnswerSources(messages, uploadPreview) {
   const map = new Map();
   const uploadName = typeof uploadPreview?.fileName === "string" ? uploadPreview.fileName.trim().toLowerCase() : "";
@@ -17,11 +48,30 @@ export function collectLatestAnswerSources(messages, uploadPreview) {
   };
   const messageList = Array.isArray(messages) ? messages : [];
   let latestAssistantMessage = null;
+  let latestAssistantIndex = -1;
   for (let i = messageList.length - 1; i >= 0; i -= 1) {
     const role = String(messageList[i]?.role || "").toLowerCase();
     if (role !== "ai" && role !== "assistant") continue;
     latestAssistantMessage = messageList[i];
+    latestAssistantIndex = i;
     break;
+  }
+  let previousUserMessage = null;
+  for (let i = latestAssistantIndex - 1; i >= 0; i -= 1) {
+    const role = String(messageList[i]?.role || "").toLowerCase();
+    if (role !== "user" && role !== "client" && role !== "member") continue;
+    previousUserMessage = messageList[i];
+    break;
+  }
+  const latestAnswerText = String(latestAssistantMessage?.text || "").trim();
+  if (
+    isSourceFreeIdentityAnswer(latestAnswerText) ||
+    (
+      isIdentityQuestionText(previousUserMessage?.text) &&
+      (!latestAnswerText || isSourceFreeIdentityAnswer(latestAnswerText))
+    )
+  ) {
+    return [];
   }
   const sources = Array.isArray(latestAssistantMessage?.sources) ? latestAssistantMessage.sources : [];
   sources.forEach((src, idx) => {

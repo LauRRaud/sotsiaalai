@@ -416,6 +416,7 @@ test("turn rule gives a short identity answer", () => {
 
 test("identity detection covers openai assistant phrasing", () => {
   assert.equal(isIdentityQuestion("openai assistent?"), true);
+  assert.equal(isIdentityQuestion("kas sa oled openai asistent või sotsiaalai assistent?"), true);
 
   const input = toResponsesInput({
     history: [],
