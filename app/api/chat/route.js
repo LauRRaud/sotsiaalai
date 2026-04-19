@@ -304,6 +304,24 @@ function detectSourceAvailabilityRequest(history = [], message = "") {
   return Boolean(hasSourceTerm && (hasAvailabilityIntent || hasIdentificationIntent || shortParagraphFollowup));
 }
 
+function historyHasAssistantSources(history = []) {
+  if (!Array.isArray(history)) return false;
+  return history.some(item => {
+    const role = String(item?.role || "").toLowerCase();
+    return (role === "ai" || role === "assistant") && Array.isArray(item?.sources) && item.sources.length > 0;
+  });
+}
+
+function detectPreviousSourceUseRequest(history = [], message = "") {
+  const normalized = normalizeIntentText(message);
+  if (!normalized || !historyHasAssistantSources(history)) return false;
+  const asksSources = /\b(allik|viide|source|cite|citation)\b/.test(normalized);
+  const asksUsed =
+    /\b(kasuta|kasutas|kasutasid|kasutatud|viitasid|used|cited)\b/.test(normalized) ||
+    /\b(selle|eelmis|viimas|vastuse)\b/.test(normalized);
+  return asksSources && asksUsed;
+}
+
 function buildSourceLookupSearchQuery(message = "", history = []) {
   const current = String(message || "").trim();
   const recent = extractRecentUserText(history, 8);
@@ -334,6 +352,17 @@ function sourceLookupSystemInstruction() {
     "If the user challenges a contradiction after supplying a quote, distinguish 'I identified it from your quoted text' from 'the current search found it in the materials'.",
     "Do not describe source metadata, retrieved documents, or prior assistant content as text that was visible in the user's message.",
     "Do not claim that you saw a paragraph, source, or document in the materials unless it appears in RAG_CONTEXT."
+  ].join(" ");
+}
+
+function previousSourceUseSystemInstruction() {
+  return [
+    "PREVIOUS_SOURCE_USE_MODE:",
+    "The user is asking which sources were used for a previous assistant answer.",
+    "Do not perform or imply a new source search for this question.",
+    "Answer from source metadata attached to previous assistant messages, especially any 'Assistant source metadata for this answer' block.",
+    "If the metadata is incomplete, say that the source metadata available for the previous answer includes only those listed items.",
+    "Do not describe assistant source metadata, retrieved documents, or prior assistant content as text that was visible in the user's own message."
   ].join(" ");
 }
 
@@ -1118,7 +1147,16 @@ export async function POST(req) {
   const effectiveMessage = message;
   const forcedMode = requestedChatMode;
   const effectiveExplicitHelpIntent = explicitHelpIntent;
-  const sourceLookupRequest = detectSourceAvailabilityRequest(rawHistory, effectiveMessage);
+  const previousSourceUseRequest = detectPreviousSourceUseRequest(rawHistory, effectiveMessage);
+  const sourceLookupRequest = !previousSourceUseRequest && detectSourceAvailabilityRequest(rawHistory, effectiveMessage);
+  const sourceLookupCombinedText = sourceLookupRequest
+    ? [effectiveMessage, ...extractRecentUserText(rawHistory, 8)].join("\n")
+    : "";
+  const sourceLookupSubject = sourceLookupRequest
+    ? inferSourceLookupSubject(sourceLookupCombinedText)
+    : "";
+  const sourceLookupParagraphRefs = sourceLookupRequest ? extractParagraphReferences(sourceLookupCombinedText) : [];
+  const sourceLookupTargetsNationalLaw = sourceLookupRequest && sourceLookupSubject === "Sotsiaalhoolekande seadus";
   const documentDecision = forcedMode === "document"
     ? resolveDocumentTaskDecision({
         message: effectiveMessage,
@@ -1756,13 +1794,14 @@ export async function POST(req) {
     }
   };
   const mentionedMunicipalities = await detectMentionedMunicipalitiesFromUserText(rawHistory, effectiveMessage);
-  const allowMunicipalityScopedRag = mentionedMunicipalities.length > 0;
+  const allowMunicipalityScopedRag = mentionedMunicipalities.length > 0 && !sourceLookupTargetsNationalLaw;
   const municipalityQuestionNeedsClarification =
     !allowMunicipalityScopedRag && isMunicipalityDependentSocialHelpQuestion(effectiveMessage);
   const extraSystemInstructions = [
     ...(municipalityQuestionNeedsClarification
       ? [missingMunicipalitySystemInstruction(normalizedRole)]
       : []),
+    ...(previousSourceUseRequest ? [previousSourceUseSystemInstruction()] : []),
     ...(sourceLookupRequest ? [sourceLookupSystemInstruction()] : [])
   ];
   let matches = [];
@@ -1772,19 +1811,29 @@ export async function POST(req) {
     text: "",
     used: []
   };
-  if (!ephemeralChunks.length || combineSources) {
+  if ((!ephemeralChunks.length || combineSources) && !previousSourceUseRequest) {
     try {
       const ragQueryText = sourceLookupRequest
         ? buildSourceLookupSearchQuery(effectiveMessage, rawHistory)
         : buildRagSearchQuery(effectiveMessage, rawHistory);
+      const sourceLookupTopK = sourceLookupRequest
+        ? sourceLookupParagraphRefs.length <= 1
+          ? Math.min(12, Math.max(8, RAG_TOP_K))
+          : Math.min(36, Math.max(RAG_TOP_K, sourceLookupParagraphRefs.length * 5))
+        : null;
       matches = await searchRagDirect({
         query: ragQueryText,
         topK: sourceLookupRequest
-          ? Math.min(50, Math.max(RAG_TOP_K * 2, 18))
+          ? sourceLookupTopK
           : allowMunicipalityScopedRag
             ? RAG_TOP_K
             : Math.min(50, Math.max(RAG_TOP_K, RAG_TOP_K * 3)),
-        filters: audienceFilter,
+        filters: sourceLookupTargetsNationalLaw
+          ? {
+              ...audienceFilter,
+              jurisdiction_level: "NATIONAL"
+            }
+          : audienceFilter,
         userId,
         role: normalizedRole,
         conversationId: convId
@@ -1792,7 +1841,7 @@ export async function POST(req) {
       matches = filterMunicipalityScopedMatches(matches, {
         allowMunicipalityScoped: allowMunicipalityScopedRag
       });
-      if (!allowMunicipalityScopedRag) {
+      if (!allowMunicipalityScopedRag && !sourceLookupTargetsNationalLaw) {
         const nationalMatches = await searchRagDirect({
           query: ragQueryText,
           topK: sourceLookupRequest
