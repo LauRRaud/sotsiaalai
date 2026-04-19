@@ -188,12 +188,7 @@ export function useChatStream(config) {
     abortRef.current = controller;
 
     const clientTimeout = setTimeout(() => controller.abort(), 180000);
-    const STREAM_DELAY_MS = 35;
-    const STREAM_CHARS_PER_TICK = 6;
-    const PUSH_DELAY_MS = 70;
-
     let streamingMessageId = null;
-    let pendingText = "";
     let visibleText = "";
     let sources = [];
     let attachments = [];
@@ -202,23 +197,6 @@ export function useChatStream(config) {
     const latestHelpWorkflowState = !cfg.isRoomMode && typeof cfg.getLatestHelpWorkflowState === "function"
       ? normalizeWorkflow(cfg.getLatestHelpWorkflowState())
       : normalizeWorkflow(cfg.helpWorkflowState);
-    let streamTimer = null;
-    let pushTimer = null;
-
-    const clearStreamTimer = () => {
-      if (streamTimer) {
-        clearTimeout(streamTimer);
-        streamTimer = null;
-      }
-    };
-
-    const clearPushTimer = () => {
-      if (pushTimer) {
-        clearTimeout(pushTimer);
-        pushTimer = null;
-      }
-    };
-
     const doPushVisibleText = () => {
       if (streamingMessageId == null) return;
       startTransition(() => {
@@ -229,45 +207,8 @@ export function useChatStream(config) {
       });
     };
 
-    const schedulePushVisibleText = (force = false) => {
-      if (force) {
-        clearPushTimer();
-        doPushVisibleText();
-        return;
-      }
-      if (pushTimer) return;
-      pushTimer = setTimeout(() => {
-        pushTimer = null;
-        doPushVisibleText();
-      }, PUSH_DELAY_MS);
-    };
-
-    const flushChunk = () => {
-      if (!pendingText) return;
-      const chunk = pendingText.slice(0, STREAM_CHARS_PER_TICK);
-      pendingText = pendingText.slice(chunk.length);
-      visibleText += chunk;
-      schedulePushVisibleText(false);
-    };
-
-    const ensureStreamTimer = () => {
-      if (streamTimer) return;
-      const tick = () => {
-        streamTimer = null;
-        flushChunk();
-        if (pendingText) ensureStreamTimer();
-      };
-      streamTimer = setTimeout(tick, STREAM_DELAY_MS);
-    };
-
     const flushAllPending = () => {
-      clearStreamTimer();
-      clearPushTimer();
-      if (pendingText) {
-        visibleText += pendingText;
-        pendingText = "";
-      }
-      schedulePushVisibleText(true);
+      doPushVisibleText();
     };
 
     const runStream = async () => {
@@ -456,8 +397,8 @@ export function useChatStream(config) {
             try {
               const payload = JSON.parse(ev.data);
               if (payload?.t) {
-                pendingText += payload.t;
-                ensureStreamTimer();
+                visibleText += payload.t;
+                doPushVisibleText();
               }
             } catch {}
           } else if (ev.event === "error") {
@@ -552,9 +493,6 @@ export function useChatStream(config) {
 
         return false;
       } finally {
-        clearStreamTimer();
-        clearPushTimer();
-        pendingText = "";
         abortRef.current = null;
         isGeneratingRef.current = false;
         setIsGenerating(false);

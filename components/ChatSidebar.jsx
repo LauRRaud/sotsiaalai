@@ -693,7 +693,7 @@ export default function ChatSidebar() {
       </div>
       {isConversationView ? <div className={`${sidebarInsetWidthClassName} mt-[0.16rem] max-[768px]:mt-[0.22rem]`}>
           <div className={searchInputShellClassName}>
-            <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} className={searchInputClassName} />
+            <input id="chat-sidebar-search" name="chat-sidebar-search" value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} className={searchInputClassName} />
           </div>
         </div> : null}
       {selectMode && isConversationView ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>

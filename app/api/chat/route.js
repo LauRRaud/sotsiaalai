@@ -841,13 +841,21 @@ async function streamOpenAI({
   });
   const startedAt = Date.now();
   const stream = await client.responses.stream(payload);
+  const streamCreatedAt = Date.now();
+  let firstDeltaAt = null;
+  let deltaCount = 0;
+  let outputChars = 0;
   async function* iterator() {
     try {
       for await (const event of stream) {
         if (event.type === "response.output_text.delta") {
+          const delta = event.delta || "";
+          if (!firstDeltaAt) firstDeltaAt = Date.now();
+          deltaCount += 1;
+          outputChars += delta.length;
           yield {
             type: "delta",
-            text: event.delta || ""
+            text: delta
           };
         } else if (event.type === "response.error") {
           throw new Error(event.error?.message || "OpenAI stream error");
@@ -858,15 +866,29 @@ async function streamOpenAI({
         }
       }
     } finally {
+      const completedAt = Date.now();
       const finalResponse = await stream.finalResponse().catch(() => null);
       await logOpenAIUsage({
         response: finalResponse,
         model: payload.model,
         route: "api/chat",
         stage: "chat",
-        latencyMs: Date.now() - startedAt,
+        latencyMs: completedAt - startedAt,
         userId,
         role
+      });
+      await logEvent("openai_stream_timing", {
+        model: payload.model || null,
+        route: "api/chat",
+        stage: "chat",
+        latency_ms: completedAt - startedAt,
+        stream_create_latency_ms: streamCreatedAt - startedAt,
+        first_delta_latency_ms: firstDeltaAt ? firstDeltaAt - startedAt : null,
+        first_delta_after_stream_ms: firstDeltaAt ? firstDeltaAt - streamCreatedAt : null,
+        delta_count: deltaCount,
+        output_chars: outputChars,
+        ...(userId ? { userId } : {}),
+        ...(role ? { role } : {})
       });
     }
   }
