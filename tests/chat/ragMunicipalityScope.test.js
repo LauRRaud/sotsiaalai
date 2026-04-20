@@ -309,6 +309,20 @@ test("prompt limits repeated article-source phrasing while allowing legal refere
   assert.match(system, /it is appropriate to name the act, regulation, section, or paragraph clearly/);
 });
 
+test("specialist prompt does not assume curiosity questions need client-facing wording", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "mis on või oli võimaluste kohvik",
+    context: "Võimaluste kohvik pakkus psüühilise erivajadusega inimestele toetavat töökohta.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /Do not assume a specialist's factual or curiosity question needs client-facing wording/);
+  assert.match(system, /unless the user explicitly asks for client-facing communication or a concrete artifact/);
+});
+
 test("prompt keeps dated article facts separate from current status", () => {
   const input = toResponsesInput({
     history: [],
