@@ -182,7 +182,7 @@ const accountModalActionRowClassName = "flex flex-col items-center justify-start
 const accountModalNoteClassName =
   "m-0 !mb-[clamp(0.32rem,0.9vh,0.6rem)] mx-auto max-w-[24rem] text-center text-[1.05rem] leading-[1.34] tracking-[0.01rem] text-[color:var(--glass-modal-text)] max-[768px]:!mb-[clamp(0.28rem,0.85vh,0.54rem)] max-[768px]:max-w-none max-[768px]:text-[1.1rem] max-[768px]:leading-[1.36]";
 const accountModalButtonClassName =
-  "account-settings-modal-button !min-h-[2.45rem] !px-[1.05rem] !py-[0.34rem] !text-[1.08rem] !tracking-[0.01em] !self-center shrink-0 " +
+  "account-settings-modal-button !min-h-[2.6rem] !px-[1.14rem] !py-[0.38rem] !text-[1.2rem] !tracking-[0.01em] !self-center shrink-0 " +
   "!min-w-[12rem] max-[768px]:!w-[13rem] max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
 const accountModalActionStackStyle = {
   alignContent: "start",
