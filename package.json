@@ -53,7 +53,8 @@
     "research:worker": "tsx --tsconfig jsconfig.json scripts/research-worker.mjs",
     "rag:validate:kov": "node scripts/validate-kov-rag.mjs",
     "rag:ingest:kov": "node scripts/ingest-kov-rag.mjs",
-    "rag:ingest:rt-national": "node scripts/ingest-national-rt-xml.mjs"
+    "rag:ingest:rt-national": "node scripts/ingest-national-rt-xml.mjs",
+    "rag:ingest:ajakiri": "node scripts/ingest-ajakiri-sotsiaaltoo.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",
