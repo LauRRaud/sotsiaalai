@@ -137,7 +137,7 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-window-max-w":
     "min(calc(clamp(31rem, calc(var(--chat-diameter) * 0.78), 45rem) - 0.5rem), calc(100% - var(--chat-window-inline-gap) - 0.5rem))",
   "--chat-window-shift-x": "calc(clamp(0.16rem, calc(var(--chat-diameter) * 0.005), 0.3rem) + 0.25rem)",
-  "--chat-window-shift-y": "clamp(-2.2rem, -4.1vh, -1.35rem)",
+  "--chat-window-shift-y": "clamp(-1.15rem, -2.35vh, -0.55rem)",
   "--chat-window-pad-top": "clamp(1.05rem, 2.3vh, 1.75rem)",
   "--chat-window-top-safe": "clamp(2.15rem, 4.6vh, 3.35rem)",
   "--chat-window-pad-bottom": "calc(clamp(1.25rem, 2.8dvh, 2rem) + 1.15rem)",
@@ -168,8 +168,8 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-send-btn-expanded-shift-y": "0.16rem",
   "--chat-input-max-w":
     "min(clamp(calc(20 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.87), calc(31.5 * var(--base-rem))), calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-diameter) * 0.026), calc(2.25 * var(--base-rem)))))",
-  "--chat-composer-bottom-gap": "clamp(2.4rem, 5.4vh, 3.6rem)",
-  "--chat-input-focus-shift": "-2.35rem",
+  "--chat-composer-bottom-gap": "clamp(1.2rem, 3.1vh, 2.05rem)",
+  "--chat-input-focus-shift": "-1.75rem",
   "--chat-hpad-right": "clamp(0.5rem, calc(var(--chat-diameter) * 0.018), 1rem)",
   "--chat-content-top-offset": "clamp(1.4rem, 3.4vh, 2.6rem)",
   "--chat-content-spacer": "clamp(2.4rem, 5.2vh, 3.9rem)",

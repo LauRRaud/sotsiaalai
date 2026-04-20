@@ -10,13 +10,13 @@
   --chat-window-top-offset: clamp(2.15rem, 4.6vh, 3.25rem);
   --chat-window-bottom-gap: 1.25rem;
   --chat-window-main-bottom-overlap: clamp(-1.85rem, -3.8vh, -1.2rem);
-  --chat-window-shift-y: clamp(-2.2rem, -4.1vh, -1.35rem);
+  --chat-window-shift-y: clamp(-1.15rem, -2.35vh, -0.55rem);
   --chat-scroll-down-offset: 0.35rem;
   --chat-input-max-w: min(
     clamp(calc(20 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.87), calc(31.5 * var(--base-rem))),
     calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-shell-inline-size) * 0.026), calc(2.25 * var(--base-rem))))
   );
-  --chat-input-focus-shift: -2.35rem;
+  --chat-input-focus-shift: -1.75rem;
   --chat-attach-left-pull: 0rem;
   --chat-inputbar-left-pull: 0rem;
   --chat-hpad-right: clamp(0.5rem, calc(var(--chat-shell-inline-size) * 0.018), 1rem);
@@ -461,7 +461,7 @@ body:is(
     --chat-focus-inline-extra: clamp(0.06rem, 0.22vw, 0.18rem);
     --chat-focus-content-inline-extra: clamp(0.22rem, 0.65vw, 0.58rem);
     --chat-window-top-offset: clamp(1.85rem, 3.9vh, 2.85rem) !important;
-    --chat-window-shift-y: clamp(-2.2rem, -4.1vh, -1.35rem) !important;
+    --chat-window-shift-y: clamp(-1.15rem, -2.35vh, -0.55rem) !important;
     --chat-window-pad-top: 0.95rem !important;
     --chat-window-top-safe: 2.25rem !important;
     --chat-content-top-offset: 1rem !important;
