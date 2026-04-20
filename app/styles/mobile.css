@@ -2182,6 +2182,12 @@
     padding-right: clamp(0.2rem, 1.1vw, 0.42rem) !important;
   }
 
+  .account-settings-modal-content .invite-modal-scroll {
+    gap: clamp(2.1rem, 5.2vh, 2.85rem) !important;
+    padding-top: 0 !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.3rem) !important;
+  }
+
   .register-mobile-ring .framework-content-shell {
     width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -

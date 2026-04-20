@@ -153,7 +153,7 @@ const modalInputClassName =
 const accountModalOverlayClassName =
   "invite-modal-overlay account-settings-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
 const accountModalContentClassName =
-  `glass-ring glass-ring--desktop-stable invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative !overflow-x-hidden !overflow-y-auto touch-pan-y overscroll-contain [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 ` +
+  `glass-ring glass-ring--desktop-stable invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative flex flex-col items-stretch !overflow-hidden ` +
   `!w-[var(--ring-diameter,var(--ring-diameter-default))] !min-w-[var(--ring-diameter,var(--ring-diameter-default))] !h-[var(--ring-diameter,var(--ring-diameter-default))] !min-h-[var(--ring-diameter,var(--ring-diameter-default))] !max-w-[var(--ring-diameter,var(--ring-diameter-default))] !max-h-[var(--ring-diameter,var(--ring-diameter-default))] !aspect-square !rounded-full ` +
   `max-[768px]:!min-w-0 max-[768px]:!min-h-0 max-[768px]:!aspect-auto max-[768px]:!rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
   `![border:none] !bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
@@ -174,16 +174,26 @@ const accountModalTitleClassName =
   `account-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} max-[768px]:!mt-0 max-[768px]:!mb-0 ` +
   "";
 const accountModalActionStackClassName =
-  "invite-modal-scroll mx-auto grid w-full max-w-[clamp(17rem,42vw,27rem)] !gap-[clamp(1.8rem,3.9vh,2.75rem)] mt-[clamp(2.05rem,4.5vh,2.95rem)] px-[1.15rem] pt-0 pb-[0.1rem] max-[768px]:max-w-none max-[768px]:!gap-[clamp(1.45rem,5.4vw,2.1rem)] max-[768px]:mt-[clamp(1.65rem,4.4vh,2.35rem)] max-[768px]:px-0";
+  "invite-modal-scroll mx-auto grid min-h-0 w-full max-w-[clamp(17rem,42vw,27rem)] overflow-y-auto overscroll-contain touch-pan-y px-[1.15rem] pt-0 pb-[0.3rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:max-w-none max-[768px]:px-0";
 const accountModalCardClassName =
   "rounded-none border-0 bg-transparent p-0 min-h-0 text-[color:var(--glass-modal-text)] shadow-none " +
   "[.theme-mid_&]:text-[#3f4756] [.theme-light_&]:text-[#1f2937]";
-const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[clamp(0.85rem,1.95vh,1.2rem)] pt-0 text-center";
+const accountModalActionRowClassName = "flex flex-col items-center justify-start gap-[clamp(0.42rem,1vh,0.64rem)] pt-0 text-center";
 const accountModalNoteClassName =
-  "m-0 !mb-[clamp(0.4rem,1.1vh,0.75rem)] mx-auto max-w-[24rem] text-center text-[1.18rem] leading-[1.38] tracking-[0.01rem] text-[color:var(--glass-modal-text)] max-[768px]:!mb-[clamp(0.34rem,1vh,0.68rem)] max-[768px]:max-w-none max-[768px]:text-[1.22rem] max-[768px]:leading-[1.4]";
+  "m-0 !mb-[clamp(0.32rem,0.9vh,0.6rem)] mx-auto max-w-[24rem] text-center text-[1.05rem] leading-[1.34] tracking-[0.01rem] text-[color:var(--glass-modal-text)] max-[768px]:!mb-[clamp(0.28rem,0.85vh,0.54rem)] max-[768px]:max-w-none max-[768px]:text-[1.1rem] max-[768px]:leading-[1.36]";
 const accountModalButtonClassName =
-  "account-settings-modal-button !min-h-[2.6rem] !px-[1.14rem] !py-[0.38rem] !text-[1.18rem] !tracking-[0.01em] !self-center shrink-0 " +
-  "!min-w-[12.5rem] max-[768px]:!w-[13.5rem] max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
+  "account-settings-modal-button !min-h-[2.45rem] !px-[1.05rem] !py-[0.34rem] !text-[1.08rem] !tracking-[0.01em] !self-center shrink-0 " +
+  "!min-w-[12rem] max-[768px]:!w-[13rem] max-[768px]:!min-w-0 max-[768px]:!max-w-full max-[768px]:!justify-center";
+const accountModalActionStackStyle = {
+  alignContent: "start",
+  gap: "clamp(1.8rem, 3.9vh, 2.55rem)",
+  gridAutoRows: "max-content",
+  marginTop: "clamp(1.55rem, 3.4vh, 2.18rem)",
+  maxHeight: "calc(100% - 6.8rem)"
+};
+const accountModalActionRowStyle = {
+  gap: "clamp(0.82rem, 1.75vh, 1.12rem)"
+};
 const PROFILE_FOOTER_SHINE_VARIANT = "wide";
 const PROFILE_FOOTER_SHINE_GRADIENTS = {
   soft:
@@ -1375,9 +1385,9 @@ export default function ProfiilBody({
               </div>
             </div>
           </div>
-          <div className={accountModalActionStackClassName}>
+          <div className={accountModalActionStackClassName} style={accountModalActionStackStyle}>
               <section className={accountModalCardClassName}>
-                <div className={accountModalActionRowClassName}>
+                <div className={accountModalActionRowClassName} style={accountModalActionRowStyle}>
                   <Button
                     type="button"
                     variant="primary"
@@ -1401,7 +1411,7 @@ export default function ProfiilBody({
                 </div>
               </section>
               <section className={accountModalCardClassName}>
-                <div className={accountModalActionRowClassName}>
+                <div className={accountModalActionRowClassName} style={accountModalActionRowStyle}>
                   <Button
                     type="button"
                     variant="primary"
@@ -1426,7 +1436,7 @@ export default function ProfiilBody({
                 </div>
               </section>
               <section className={accountModalCardClassName}>
-                <div className={accountModalActionRowClassName}>
+                <div className={accountModalActionRowClassName} style={accountModalActionRowStyle}>
                   <Button
                     type="button"
                     variant="danger"
