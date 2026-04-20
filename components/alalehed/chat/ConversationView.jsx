@@ -263,7 +263,7 @@ const ConversationView = memo(function ConversationView({
     "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] max-[768px]:transition-none";
   const mergedWindowClassName = `${windowClassName} ${windowClassNameProp || ""}`.trim();
   const scrollButtonClassName =
-    "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 translate-y-[var(--chat-window-shift-y,0rem)] bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] max-[768px]:translate-y-0 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+6.1rem+var(--chat-vk-offset,0px))] " +
+    "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 translate-y-[var(--chat-window-shift-y,0rem)] bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] max-[768px]:translate-y-0 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--chat-window-bottom-gap,0rem)-var(--chat-window-mobile-extra-height,0rem)-2.15rem+var(--chat-vk-offset,0px))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
     "flex items-center justify-center transition-[transform,bottom] duration-[400ms] " +
     "hover:scale-[1.15] focus-visible:scale-[1.15]";

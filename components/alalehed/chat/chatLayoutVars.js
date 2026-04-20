@@ -70,14 +70,14 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
 
 const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
   "--chat-window-shift-x": "clamp(-0.34rem, -0.14vw, -0.12rem)",
-  "--chat-window-top-offset": "0rem",
+  "--chat-window-top-offset": "clamp(-0.32rem, -0.65vh, -0.16rem)",
   "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
   "--chat-window-pad-bottom": "calc(env(safe-area-inset-bottom, 0px) + 3.95rem)",
   "--chat-window-top-safe": "3.65rem",
-  "--chat-window-bottom-gap": "0.72rem",
+  "--chat-window-bottom-gap": "0.18rem",
   "--chat-window-shift-y": "clamp(1.95rem, 5.4vh, 2.8rem)",
   "--chat-window-main-offset": "clamp(0.72rem, 2.2vh, 1.02rem)",
-  "--chat-window-mobile-extra-height": "0.45rem",
+  "--chat-window-mobile-extra-height": "1.05rem",
   "--chat-window-mobile-width-right": "0.28rem",
   "--chat-window-bottom-safe": "0rem",
   "--chat-window-fade-top": "clamp(1.85rem, 5.2vh, 2.85rem)",
