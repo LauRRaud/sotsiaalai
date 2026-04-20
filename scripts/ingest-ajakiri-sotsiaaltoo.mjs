@@ -270,9 +270,9 @@ async function buildPlan(jsonFiles, completedDocIds) {
       error = "Already logged as ok";
     }
 
-    if (articleId) {
+    if (articleId && status === "ready") {
       const previous = seenArticleIds.get(articleId);
-      if (previous && status === "ready") {
+      if (previous) {
         status = "duplicate_article_id";
         error = `Duplicate articleId also used by ${path.relative(rootDir, previous)}`;
       } else {
@@ -280,9 +280,9 @@ async function buildPlan(jsonFiles, completedDocIds) {
       }
     }
 
-    if (expectedDocId) {
+    if (expectedDocId && status === "ready") {
       const previous = seenExpectedDocIds.get(expectedDocId);
-      if (previous && status === "ready") {
+      if (previous) {
         status = "duplicate_doc_id";
         error = `Duplicate expected docId also used by ${path.relative(rootDir, previous)}`;
       } else {

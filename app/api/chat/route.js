@@ -2119,7 +2119,7 @@ export async function POST(req) {
     pages: undefined,
     short_ref: "(uploaded document)"
   }] : [];
-  const ragSources = (budgeted.used.length ? budgeted.used : chosen).map((entry, idx) => {
+  const ragSources = budgeted.used.map((entry, idx) => {
     const pageNumbers = Array.isArray(entry.pages) ? entry.pages : [];
     const pageRanges = Array.isArray(entry.pageRanges) ? Array.from(new Set(entry.pageRanges.filter(Boolean))) : [];
     const pageTextRaw = (pageRanges.length ? pageRanges.join(", ") : collapsePages(pageNumbers)).trim();
