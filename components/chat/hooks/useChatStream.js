@@ -463,10 +463,6 @@ export function useChatStream(config) {
             : err?.chatKey
               ? tr(err.chatKey, err.chatValues)
               : tr("chat.error.generic");
-          const showTopErrorBanner = !isSubscriptionRequired;
-          if (showTopErrorBanner) {
-            cfg.setErrorBanner?.(errText);
-          }
           const errWithPrefix = isSubscriptionRequired
             ? errText
             : tr("chat.error.with_detail", {
