@@ -256,14 +256,6 @@
   --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
 }
 
-:root.theme-mid .chat-window {
-  --chat-window-fade-top: 1.35rem;
-  --chat-window-fade-bottom: clamp(1.2rem, 2.6vh, 1.75rem);
-  --chat-window-scroll-top-fade-start: 0.38rem;
-  --chat-window-scroll-top-fade-mid: 1.08rem;
-  --chat-window-scroll-top-fade-end: 1.72rem;
-}
-
 :root.theme-mid .chat-msg-user-bubble {
   color: #1f2937 !important;
   -webkit-text-fill-color: #1f2937;

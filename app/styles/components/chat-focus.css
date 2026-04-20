@@ -7,10 +7,11 @@
     clamp(31rem, calc(var(--chat-shell-inline-size) * 0.78), 45rem),
     calc(100% - var(--chat-window-inline-gap))
   );
-  --chat-window-top-offset: clamp(0.12rem, 0.7vh, 0.48rem);
-  --chat-window-bottom-gap: -0.45rem;
-  --chat-window-shift-y: clamp(0.45rem, 1.6vh, 1.15rem);
-  --chat-scroll-down-offset: -0.55rem;
+  --chat-window-top-offset: clamp(2.15rem, 4.6vh, 3.25rem);
+  --chat-window-bottom-gap: 1.25rem;
+  --chat-window-main-bottom-overlap: clamp(-1.85rem, -3.8vh, -1.2rem);
+  --chat-window-shift-y: clamp(-2.2rem, -4.1vh, -1.35rem);
+  --chat-scroll-down-offset: 0.35rem;
   --chat-input-max-w: min(
     clamp(calc(20 * var(--base-rem)), calc(var(--chat-window-max-w) * 0.87), calc(31.5 * var(--base-rem))),
     calc(var(--chat-window-max-w) - clamp(calc(1.35 * var(--base-rem)), calc(var(--chat-shell-inline-size) * 0.026), calc(2.25 * var(--base-rem))))
@@ -212,49 +213,47 @@ body:is(
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0, 0, 0, 0.002) calc(var(--chat-window-fade-top-active) * 0.03 + var(--chat-window-scroll-top-fade-start-active) * 0.12),
-    rgba(0, 0, 0, 0.007) calc(var(--chat-window-fade-top-active) * 0.08 + var(--chat-window-scroll-top-fade-start-active) * 0.26),
-    rgba(0, 0, 0, 0.016) calc(var(--chat-window-fade-top-active) * 0.14 + var(--chat-window-scroll-top-fade-start-active) * 0.42),
-    rgba(0, 0, 0, 0.032) calc(var(--chat-window-fade-top-active) * 0.22 + var(--chat-window-scroll-top-fade-start-active) * 0.62),
-    rgba(0, 0, 0, 0.056) calc(var(--chat-window-fade-top-active) * 0.34 + var(--chat-window-scroll-top-fade-mid-active) * 0.34),
-    rgba(0, 0, 0, 0.088) calc(var(--chat-window-fade-top-active) * 0.48 + var(--chat-window-scroll-top-fade-mid-active) * 0.54),
-    rgba(0, 0, 0, 0.136) calc(var(--chat-window-fade-top-active) * 0.64 + var(--chat-window-scroll-top-fade-mid-active) * 0.76),
-    rgba(0, 0, 0, 0.208) calc(var(--chat-window-fade-top-active) * 0.82 + var(--chat-window-scroll-top-fade-end-active) * 0.52),
-    rgba(0, 0, 0, 0.308) calc(var(--chat-window-fade-top-active) * 0.98 + var(--chat-window-scroll-top-fade-end-active) * 0.68),
-    rgba(0, 0, 0, 0.44) calc(var(--chat-window-fade-top-active) * 1.14 + var(--chat-window-scroll-top-fade-end-active) * 0.84),
-    rgba(0, 0, 0, 0.61) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active) * 0.98),
-    rgba(0, 0, 0, 0.8) calc(var(--chat-window-fade-top-active) * 1.42 + var(--chat-window-scroll-top-fade-end-active) * 1.06),
-    #000 calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.14),
-    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.22)),
-    rgba(0, 0, 0, 0.92) calc(100% - (var(--chat-window-fade-bottom-active) * 0.98)),
-    rgba(0, 0, 0, 0.74) calc(100% - (var(--chat-window-fade-bottom-active) * 0.78)),
-    rgba(0, 0, 0, 0.5) calc(100% - (var(--chat-window-fade-bottom-active) * 0.56)),
-    rgba(0, 0, 0, 0.28) calc(100% - (var(--chat-window-fade-bottom-active) * 0.34)),
-    rgba(0, 0, 0, 0.11) calc(100% - (var(--chat-window-fade-bottom-active) * 0.16)),
+    rgba(0, 0, 0, 0) calc(var(--chat-window-fade-top-active) * 0.06 + var(--chat-window-scroll-top-fade-start-active) * 0.16),
+    rgba(0, 0, 0, 0) calc(var(--chat-window-fade-top-active) * 0.14 + var(--chat-window-scroll-top-fade-start-active) * 0.32),
+    rgba(0, 0, 0, 0.001) calc(var(--chat-window-fade-top-active) * 0.24 + var(--chat-window-scroll-top-fade-start-active) * 0.5),
+    rgba(0, 0, 0, 0.004) calc(var(--chat-window-fade-top-active) * 0.36 + var(--chat-window-scroll-top-fade-start-active) * 0.7),
+    rgba(0, 0, 0, 0.014) calc(var(--chat-window-fade-top-active) * 0.52 + var(--chat-window-scroll-top-fade-mid-active) * 0.44),
+    rgba(0, 0, 0, 0.04) calc(var(--chat-window-fade-top-active) * 0.7 + var(--chat-window-scroll-top-fade-mid-active) * 0.62),
+    rgba(0, 0, 0, 0.095) calc(var(--chat-window-fade-top-active) * 0.9 + var(--chat-window-scroll-top-fade-mid-active) * 0.82),
+    rgba(0, 0, 0, 0.2) calc(var(--chat-window-fade-top-active) * 1.1 + var(--chat-window-scroll-top-fade-end-active) * 0.58),
+    rgba(0, 0, 0, 0.37) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active) * 0.74),
+    rgba(0, 0, 0, 0.6) calc(var(--chat-window-fade-top-active) * 1.44 + var(--chat-window-scroll-top-fade-end-active) * 0.9),
+    rgba(0, 0, 0, 0.86) calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.02),
+    #000 calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.08),
+    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.02)),
+    rgba(0, 0, 0, 0.62) calc(100% - (var(--chat-window-fade-bottom-active) * 0.78)),
+    rgba(0, 0, 0, 0.28) calc(100% - (var(--chat-window-fade-bottom-active) * 0.58)),
+    rgba(0, 0, 0, 0.1) calc(100% - (var(--chat-window-fade-bottom-active) * 0.38)),
+    rgba(0, 0, 0, 0.025) calc(100% - (var(--chat-window-fade-bottom-active) * 0.2)),
+    rgba(0, 0, 0, 0) calc(100% - (var(--chat-window-fade-bottom-active) * 0.08)),
     transparent 100%
   ) !important;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0, 0, 0, 0.002) calc(var(--chat-window-fade-top-active) * 0.03 + var(--chat-window-scroll-top-fade-start-active) * 0.12),
-    rgba(0, 0, 0, 0.007) calc(var(--chat-window-fade-top-active) * 0.08 + var(--chat-window-scroll-top-fade-start-active) * 0.26),
-    rgba(0, 0, 0, 0.016) calc(var(--chat-window-fade-top-active) * 0.14 + var(--chat-window-scroll-top-fade-start-active) * 0.42),
-    rgba(0, 0, 0, 0.032) calc(var(--chat-window-fade-top-active) * 0.22 + var(--chat-window-scroll-top-fade-start-active) * 0.62),
-    rgba(0, 0, 0, 0.056) calc(var(--chat-window-fade-top-active) * 0.34 + var(--chat-window-scroll-top-fade-mid-active) * 0.34),
-    rgba(0, 0, 0, 0.088) calc(var(--chat-window-fade-top-active) * 0.48 + var(--chat-window-scroll-top-fade-mid-active) * 0.54),
-    rgba(0, 0, 0, 0.136) calc(var(--chat-window-fade-top-active) * 0.64 + var(--chat-window-scroll-top-fade-mid-active) * 0.76),
-    rgba(0, 0, 0, 0.208) calc(var(--chat-window-fade-top-active) * 0.82 + var(--chat-window-scroll-top-fade-end-active) * 0.52),
-    rgba(0, 0, 0, 0.308) calc(var(--chat-window-fade-top-active) * 0.98 + var(--chat-window-scroll-top-fade-end-active) * 0.68),
-    rgba(0, 0, 0, 0.44) calc(var(--chat-window-fade-top-active) * 1.14 + var(--chat-window-scroll-top-fade-end-active) * 0.84),
-    rgba(0, 0, 0, 0.61) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active) * 0.98),
-    rgba(0, 0, 0, 0.8) calc(var(--chat-window-fade-top-active) * 1.42 + var(--chat-window-scroll-top-fade-end-active) * 1.06),
-    #000 calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.14),
-    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.22)),
-    rgba(0, 0, 0, 0.92) calc(100% - (var(--chat-window-fade-bottom-active) * 0.98)),
-    rgba(0, 0, 0, 0.74) calc(100% - (var(--chat-window-fade-bottom-active) * 0.78)),
-    rgba(0, 0, 0, 0.5) calc(100% - (var(--chat-window-fade-bottom-active) * 0.56)),
-    rgba(0, 0, 0, 0.28) calc(100% - (var(--chat-window-fade-bottom-active) * 0.34)),
-    rgba(0, 0, 0, 0.11) calc(100% - (var(--chat-window-fade-bottom-active) * 0.16)),
+    rgba(0, 0, 0, 0) calc(var(--chat-window-fade-top-active) * 0.06 + var(--chat-window-scroll-top-fade-start-active) * 0.16),
+    rgba(0, 0, 0, 0) calc(var(--chat-window-fade-top-active) * 0.14 + var(--chat-window-scroll-top-fade-start-active) * 0.32),
+    rgba(0, 0, 0, 0.001) calc(var(--chat-window-fade-top-active) * 0.24 + var(--chat-window-scroll-top-fade-start-active) * 0.5),
+    rgba(0, 0, 0, 0.004) calc(var(--chat-window-fade-top-active) * 0.36 + var(--chat-window-scroll-top-fade-start-active) * 0.7),
+    rgba(0, 0, 0, 0.014) calc(var(--chat-window-fade-top-active) * 0.52 + var(--chat-window-scroll-top-fade-mid-active) * 0.44),
+    rgba(0, 0, 0, 0.04) calc(var(--chat-window-fade-top-active) * 0.7 + var(--chat-window-scroll-top-fade-mid-active) * 0.62),
+    rgba(0, 0, 0, 0.095) calc(var(--chat-window-fade-top-active) * 0.9 + var(--chat-window-scroll-top-fade-mid-active) * 0.82),
+    rgba(0, 0, 0, 0.2) calc(var(--chat-window-fade-top-active) * 1.1 + var(--chat-window-scroll-top-fade-end-active) * 0.58),
+    rgba(0, 0, 0, 0.37) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active) * 0.74),
+    rgba(0, 0, 0, 0.6) calc(var(--chat-window-fade-top-active) * 1.44 + var(--chat-window-scroll-top-fade-end-active) * 0.9),
+    rgba(0, 0, 0, 0.86) calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.02),
+    #000 calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.08),
+    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.02)),
+    rgba(0, 0, 0, 0.62) calc(100% - (var(--chat-window-fade-bottom-active) * 0.78)),
+    rgba(0, 0, 0, 0.28) calc(100% - (var(--chat-window-fade-bottom-active) * 0.58)),
+    rgba(0, 0, 0, 0.1) calc(100% - (var(--chat-window-fade-bottom-active) * 0.38)),
+    rgba(0, 0, 0, 0.025) calc(100% - (var(--chat-window-fade-bottom-active) * 0.2)),
+    rgba(0, 0, 0, 0) calc(100% - (var(--chat-window-fade-bottom-active) * 0.08)),
     transparent 100%
   ) !important;
 }
@@ -301,18 +300,18 @@ body:is(
     --chat-nav-top: clamp(2.8rem, 11vw, 4.2rem);
     --chat-pad-top: clamp(0.75rem, 2vh, 1.1rem);
     --chat-pad-bottom: clamp(0.5rem, 1.8vh, 0.9rem);
-    --chat-window-fade-top-focus: clamp(0.58rem, 1.6vh, 0.94rem);
-    --chat-window-scroll-top-fade-start-focus: 0.52rem;
-    --chat-window-scroll-top-fade-mid-focus: 1.18rem;
-    --chat-window-scroll-top-fade-end-focus: 1.98rem;
+    --chat-window-fade-top-focus: clamp(0.42rem, 1.1vh, 0.72rem);
+    --chat-window-scroll-top-fade-start-focus: 0.2rem;
+    --chat-window-scroll-top-fade-mid-focus: 0.45rem;
+    --chat-window-scroll-top-fade-end-focus: 0.82rem;
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
-    --chat-window-fade-top: clamp(0.58rem, 1.6vh, 0.94rem) !important;
-    --chat-window-fade-top-focus: clamp(0.58rem, 1.6vh, 0.94rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.52rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 1.18rem !important;
-    --chat-window-scroll-top-fade-end-focus: 1.98rem !important;
+    --chat-window-fade-top: clamp(0.42rem, 1.1vh, 0.72rem) !important;
+    --chat-window-fade-top-focus: clamp(0.42rem, 1.1vh, 0.72rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.2rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 0.45rem !important;
+    --chat-window-scroll-top-fade-end-focus: 0.82rem !important;
   }
 }
 
@@ -422,11 +421,11 @@ body:is(
   .chat-page-shell
     .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)
     .chat-window {
-    --chat-window-fade-top-focus: clamp(1.45rem, 3.6vh, 2.5rem);
-    --chat-window-scroll-top-fade-start-focus: 0.82rem;
-    --chat-window-scroll-top-fade-mid-focus: 1.68rem;
-    --chat-window-scroll-top-fade-end-focus: 2.85rem;
-    --chat-window-fade-bottom-focus: clamp(3.2rem, 8.2vh, 5.4rem);
+    --chat-window-fade-top-focus: clamp(0.85rem, 1.9vh, 1.35rem);
+    --chat-window-scroll-top-fade-start-focus: 0.38rem;
+    --chat-window-scroll-top-fade-mid-focus: 0.78rem;
+    --chat-window-scroll-top-fade-end-focus: 1.35rem;
+    --chat-window-fade-bottom-focus: clamp(2.45rem, 6vh, 3.85rem);
   }
 
   .chat-page-shell .chat-container--round .chat-right-actions {
@@ -446,41 +445,45 @@ body:is(
 @media (min-width: 768px) and (max-width: 1440px) and (max-height: 840px) {
   .chat-page-shell .chat-container.chat-container--round {
     --chat-window-top-offset: 0rem !important;
-    --chat-window-bottom-gap: -0.35rem !important;
-    --chat-window-shift-y: clamp(0.45rem, 1.5vh, 1.08rem) !important;
-    --chat-scroll-down-offset: -1.05rem !important;
+    --chat-window-bottom-gap: -2.25rem !important;
+    --chat-window-fade-bottom: clamp(2.5rem, 6.4vh, 4.25rem) !important;
+    --chat-window-shift-y: clamp(1rem, 2.45vh, 1.9rem) !important;
+    --chat-scroll-down-offset: -0.95rem !important;
     --chat-window-pad-top: 1.02rem !important;
     --chat-window-top-safe: 4.2rem !important;
     --chat-content-top-offset: 2.9rem !important;
-    --chat-window-fade-top: clamp(1.5rem, 3.75vh, 2.55rem) !important;
-    --chat-window-fade-top-focus: clamp(1.3rem, 2.5vh, 1.76rem) !important;
+    --chat-window-fade-top: clamp(1.08rem, 2.75vh, 1.9rem) !important;
+    --chat-window-fade-top-focus: clamp(0.78rem, 1.75vh, 1.18rem) !important;
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
   .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) {
     --chat-focus-inline-extra: clamp(0.06rem, 0.22vw, 0.18rem);
     --chat-focus-content-inline-extra: clamp(0.22rem, 0.65vw, 0.58rem);
-    --chat-window-top-offset: 0rem !important;
-    --chat-window-shift-y: clamp(0.45rem, 1.6vh, 1.15rem) !important;
+    --chat-window-top-offset: clamp(1.85rem, 3.9vh, 2.85rem) !important;
+    --chat-window-shift-y: clamp(-2.2rem, -4.1vh, -1.35rem) !important;
     --chat-window-pad-top: 0.95rem !important;
     --chat-window-top-safe: 2.25rem !important;
     --chat-content-top-offset: 1rem !important;
     --chat-content-spacer: clamp(1.75rem, 4.2vh, 2.9rem) !important;
-    --chat-window-fade-top: clamp(0.5rem, 1.16vh, 0.78rem) !important;
-    --chat-window-fade-top-focus: clamp(0.5rem, 1.16vh, 0.78rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.72rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 1.45rem !important;
-    --chat-window-scroll-top-fade-end-focus: 2.45rem !important;
-    --chat-window-fade-bottom-focus: clamp(3rem, 7.6vh, 5rem) !important;
+    --chat-window-fade-top: clamp(0.75rem, 1.65vh, 1.12rem) !important;
+    --chat-window-fade-top-focus: clamp(0.75rem, 1.65vh, 1.12rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.34rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 0.7rem !important;
+    --chat-window-scroll-top-fade-end-focus: 1.2rem !important;
+    --chat-window-bottom-gap: 1.05rem !important;
+    --chat-window-main-bottom-overlap: clamp(-1.65rem, -3.5vh, -1.05rem) !important;
+    --chat-scroll-down-offset: 0.25rem !important;
+    --chat-window-fade-bottom-focus: clamp(2.28rem, 5.6vh, 3.55rem) !important;
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window,
   .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-window {
-    --chat-window-fade-top-focus: clamp(1.3rem, 3.2vh, 2.2rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.76rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 1.55rem !important;
-    --chat-window-scroll-top-fade-end-focus: 2.6rem !important;
-    --chat-window-fade-bottom-focus: clamp(3.15rem, 7.9vh, 5.2rem) !important;
+    --chat-window-fade-top-focus: clamp(0.78rem, 1.7vh, 1.2rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.36rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 0.72rem !important;
+    --chat-window-scroll-top-fade-end-focus: 1.24rem !important;
+    --chat-window-fade-bottom-focus: clamp(2.35rem, 5.8vh, 3.65rem) !important;
   }
 }
 
@@ -562,6 +565,9 @@ body .chat-inputbar .chat-send-btn {
   min-width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem))))) !important;
   min-height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem))))) !important;
   flex: 0 0 var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem))))) !important;
+  aspect-ratio: 1 / 1 !important;
+  box-sizing: border-box !important;
+  border-radius: 9999px !important;
 }
 
 body .chat-inputbar .chat-send-btn {
@@ -617,6 +623,10 @@ body .chat-inputbar .chat-send-btn .chat-mic-glyph {
   justify-self: center !important;
   align-self: center !important;
   line-height: 0 !important;
+  aspect-ratio: 1 / 1 !important;
+  box-sizing: border-box !important;
+  border-radius: 9999px !important;
+  overflow: hidden !important;
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn,

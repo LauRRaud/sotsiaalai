@@ -1,9 +1,13 @@
 "use client";
 
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const LINE_SCROLL_STEP = 34;
 const PAGE_SCROLL_RATIO = 0.72;
+
+function getScrollBottomDistance(node) {
+  return Math.max(0, node.scrollHeight - node.clientHeight - node.scrollTop);
+}
 
 function isInteractiveTarget(target) {
   return (
@@ -30,6 +34,7 @@ const ConversationView = memo(function ConversationView({
   windowClassName: windowClassNameProp,
   mainClassName: mainClassNameProp,
   onWindowDoubleClick,
+  focusActive = false,
   isMobile = false,
   isLightTheme: _isLightTheme = false,
   hasConversationSources: _hasConversationSources = false,
@@ -41,11 +46,19 @@ const ConversationView = memo(function ConversationView({
 }) {
   const [showScrollDown, setShowScrollDown] = useState(false);
   const isUserAtBottom = useRef(true);
+  const shouldAnchorBottomRef = useRef(true);
   const mountedRef = useRef(false);
   const contentEndRef = useRef(null);
   const revealOlderLockRef = useRef(false);
   const hiddenCountRef = useRef(hiddenCount);
   const onRevealOlderRef = useRef(onRevealOlder);
+  const scrollToBottom = useCallback(() => {
+    const node = chatWindowRef?.current;
+    if (!node) return;
+    node.scrollTop = node.scrollHeight;
+    isUserAtBottom.current = true;
+    shouldAnchorBottomRef.current = true;
+  }, [chatWindowRef]);
   useEffect(() => {
     hiddenCountRef.current = hiddenCount;
     revealOlderLockRef.current = false;
@@ -57,6 +70,7 @@ const ConversationView = memo(function ConversationView({
     const node = chatWindowRef?.current;
     if (!node) {
       isUserAtBottom.current = true;
+      shouldAnchorBottomRef.current = true;
       setShowScrollDown(false);
       return;
     }
@@ -70,7 +84,9 @@ const ConversationView = memo(function ConversationView({
       hasHiddenContentBelow = contentBottom - viewportBottom > 12;
     }
     const atBottom = !hasOverflow || !hasHiddenContentBelow;
+    const nearScrollBottom = getScrollBottomDistance(node) <= Math.max(72, node.clientHeight * 0.12);
     isUserAtBottom.current = atBottom;
+    shouldAnchorBottomRef.current = atBottom || nearScrollBottom;
     setShowScrollDown(hasOverflow && hasHiddenContentBelow);
 
     const nearTopThreshold = Math.max(48, node.clientHeight * 0.08);
@@ -119,15 +135,36 @@ const ConversationView = memo(function ConversationView({
 
     if (shouldStickToBottom) {
       const frame = window.requestAnimationFrame(() => {
-        node.scrollTop = node.scrollHeight;
-        isUserAtBottom.current = true;
+        scrollToBottom();
         updateScrollState();
       });
       return () => window.cancelAnimationFrame(frame);
     }
 
     updateScrollState();
-  }, [chatWindowRef, messageItems, hiddenCount, canHideOlder, updateScrollState]);
+  }, [chatWindowRef, messageItems, hiddenCount, canHideOlder, scrollToBottom, updateScrollState]);
+  useLayoutEffect(() => {
+    const node = chatWindowRef?.current;
+    if (!node) return;
+    const shouldAnchorBottom =
+      isUserAtBottom.current ||
+      shouldAnchorBottomRef.current ||
+      getScrollBottomDistance(node) <= Math.max(96, node.clientHeight * 0.16);
+    if (!shouldAnchorBottom) return;
+
+    let frame = 0;
+    const deadline = performance.now() + 620;
+    const keepAnchored = () => {
+      scrollToBottom();
+      updateScrollState();
+      if (performance.now() < deadline) {
+        frame = window.requestAnimationFrame(keepAnchored);
+      }
+    };
+
+    frame = window.requestAnimationFrame(keepAnchored);
+    return () => window.cancelAnimationFrame(frame);
+  }, [chatWindowRef, focusActive, isMobile, scrollToBottom, updateScrollState]);
   useEffect(() => {
     mountedRef.current = true;
     return () => {
@@ -212,8 +249,8 @@ const ConversationView = memo(function ConversationView({
   const scrollClassName =
     "chat-window__scroll relative z-[1] h-full flex flex-col items-stretch gap-[0.75rem] flex-1 min-h-0 overflow-y-auto overscroll-contain " +
     "[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
-    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.002)_calc(var(--chat-window-fade-top-active)*0.03+var(--chat-window-scroll-top-fade-start-active)*0.12),rgba(0,0,0,0.007)_calc(var(--chat-window-fade-top-active)*0.08+var(--chat-window-scroll-top-fade-start-active)*0.26),rgba(0,0,0,0.016)_calc(var(--chat-window-fade-top-active)*0.14+var(--chat-window-scroll-top-fade-start-active)*0.42),rgba(0,0,0,0.032)_calc(var(--chat-window-fade-top-active)*0.22+var(--chat-window-scroll-top-fade-start-active)*0.62),rgba(0,0,0,0.056)_calc(var(--chat-window-fade-top-active)*0.34+var(--chat-window-scroll-top-fade-mid-active)*0.34),rgba(0,0,0,0.088)_calc(var(--chat-window-fade-top-active)*0.48+var(--chat-window-scroll-top-fade-mid-active)*0.54),rgba(0,0,0,0.136)_calc(var(--chat-window-fade-top-active)*0.64+var(--chat-window-scroll-top-fade-mid-active)*0.76),rgba(0,0,0,0.208)_calc(var(--chat-window-fade-top-active)*0.82+var(--chat-window-scroll-top-fade-end-active)*0.52),rgba(0,0,0,0.308)_calc(var(--chat-window-fade-top-active)*0.98+var(--chat-window-scroll-top-fade-end-active)*0.68),rgba(0,0,0,0.44)_calc(var(--chat-window-fade-top-active)*1.14+var(--chat-window-scroll-top-fade-end-active)*0.84),rgba(0,0,0,0.61)_calc(var(--chat-window-fade-top-active)*1.28+var(--chat-window-scroll-top-fade-end-active)*0.98),rgba(0,0,0,0.8)_calc(var(--chat-window-fade-top-active)*1.42+var(--chat-window-scroll-top-fade-end-active)*1.06),#000_calc(var(--chat-window-fade-top-active)*1.58+var(--chat-window-scroll-top-fade-end-active)*1.14),#000_calc(100%-(var(--chat-window-fade-bottom-active)*1.22)),rgba(0,0,0,0.92)_calc(100%-(var(--chat-window-fade-bottom-active)*0.98)),rgba(0,0,0,0.74)_calc(100%-(var(--chat-window-fade-bottom-active)*0.78)),rgba(0,0,0,0.5)_calc(100%-(var(--chat-window-fade-bottom-active)*0.56)),rgba(0,0,0,0.28)_calc(100%-(var(--chat-window-fade-bottom-active)*0.34)),rgba(0,0,0,0.11)_calc(100%-(var(--chat-window-fade-bottom-active)*0.16)),transparent_100%)] " +
-    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.002)_calc(var(--chat-window-fade-top-active)*0.03+var(--chat-window-scroll-top-fade-start-active)*0.12),rgba(0,0,0,0.007)_calc(var(--chat-window-fade-top-active)*0.08+var(--chat-window-scroll-top-fade-start-active)*0.26),rgba(0,0,0,0.016)_calc(var(--chat-window-fade-top-active)*0.14+var(--chat-window-scroll-top-fade-start-active)*0.42),rgba(0,0,0,0.032)_calc(var(--chat-window-fade-top-active)*0.22+var(--chat-window-scroll-top-fade-start-active)*0.62),rgba(0,0,0,0.056)_calc(var(--chat-window-fade-top-active)*0.34+var(--chat-window-scroll-top-fade-mid-active)*0.34),rgba(0,0,0,0.088)_calc(var(--chat-window-fade-top-active)*0.48+var(--chat-window-scroll-top-fade-mid-active)*0.54),rgba(0,0,0,0.136)_calc(var(--chat-window-fade-top-active)*0.64+var(--chat-window-scroll-top-fade-mid-active)*0.76),rgba(0,0,0,0.208)_calc(var(--chat-window-fade-top-active)*0.82+var(--chat-window-scroll-top-fade-end-active)*0.52),rgba(0,0,0,0.308)_calc(var(--chat-window-fade-top-active)*0.98+var(--chat-window-scroll-top-fade-end-active)*0.68),rgba(0,0,0,0.44)_calc(var(--chat-window-fade-top-active)*1.14+var(--chat-window-scroll-top-fade-end-active)*0.84),rgba(0,0,0,0.61)_calc(var(--chat-window-fade-top-active)*1.28+var(--chat-window-scroll-top-fade-end-active)*0.98),rgba(0,0,0,0.8)_calc(var(--chat-window-fade-top-active)*1.42+var(--chat-window-scroll-top-fade-end-active)*1.06),#000_calc(var(--chat-window-fade-top-active)*1.58+var(--chat-window-scroll-top-fade-end-active)*1.14),#000_calc(100%-(var(--chat-window-fade-bottom-active)*1.22)),rgba(0,0,0,0.92)_calc(100%-(var(--chat-window-fade-bottom-active)*0.98)),rgba(0,0,0,0.74)_calc(100%-(var(--chat-window-fade-bottom-active)*0.78)),rgba(0,0,0,0.5)_calc(100%-(var(--chat-window-fade-bottom-active)*0.56)),rgba(0,0,0,0.28)_calc(100%-(var(--chat-window-fade-bottom-active)*0.34)),rgba(0,0,0,0.11)_calc(100%-(var(--chat-window-fade-bottom-active)*0.16)),transparent_100%)] " +
+    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.002)_calc(var(--chat-window-fade-top-active)*0.03+var(--chat-window-scroll-top-fade-start-active)*0.12),rgba(0,0,0,0.007)_calc(var(--chat-window-fade-top-active)*0.08+var(--chat-window-scroll-top-fade-start-active)*0.26),rgba(0,0,0,0.016)_calc(var(--chat-window-fade-top-active)*0.14+var(--chat-window-scroll-top-fade-start-active)*0.42),rgba(0,0,0,0.032)_calc(var(--chat-window-fade-top-active)*0.22+var(--chat-window-scroll-top-fade-start-active)*0.62),rgba(0,0,0,0.056)_calc(var(--chat-window-fade-top-active)*0.34+var(--chat-window-scroll-top-fade-mid-active)*0.34),rgba(0,0,0,0.088)_calc(var(--chat-window-fade-top-active)*0.48+var(--chat-window-scroll-top-fade-mid-active)*0.54),rgba(0,0,0,0.136)_calc(var(--chat-window-fade-top-active)*0.64+var(--chat-window-scroll-top-fade-mid-active)*0.76),rgba(0,0,0,0.208)_calc(var(--chat-window-fade-top-active)*0.82+var(--chat-window-scroll-top-fade-end-active)*0.52),rgba(0,0,0,0.308)_calc(var(--chat-window-fade-top-active)*0.98+var(--chat-window-scroll-top-fade-end-active)*0.68),rgba(0,0,0,0.44)_calc(var(--chat-window-fade-top-active)*1.14+var(--chat-window-scroll-top-fade-end-active)*0.84),rgba(0,0,0,0.61)_calc(var(--chat-window-fade-top-active)*1.28+var(--chat-window-scroll-top-fade-end-active)*0.98),rgba(0,0,0,0.8)_calc(var(--chat-window-fade-top-active)*1.42+var(--chat-window-scroll-top-fade-end-active)*1.06),#000_calc(var(--chat-window-fade-top-active)*1.58+var(--chat-window-scroll-top-fade-end-active)*1.14),#000_calc(100%-(var(--chat-window-fade-bottom-active)*1.02)),rgba(0,0,0,0.62)_calc(100%-(var(--chat-window-fade-bottom-active)*0.78)),rgba(0,0,0,0.28)_calc(100%-(var(--chat-window-fade-bottom-active)*0.58)),rgba(0,0,0,0.1)_calc(100%-(var(--chat-window-fade-bottom-active)*0.38)),rgba(0,0,0,0.025)_calc(100%-(var(--chat-window-fade-bottom-active)*0.2)),rgba(0,0,0,0)_calc(100%-(var(--chat-window-fade-bottom-active)*0.08)),transparent_100%)] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.002)_calc(var(--chat-window-fade-top-active)*0.03+var(--chat-window-scroll-top-fade-start-active)*0.12),rgba(0,0,0,0.007)_calc(var(--chat-window-fade-top-active)*0.08+var(--chat-window-scroll-top-fade-start-active)*0.26),rgba(0,0,0,0.016)_calc(var(--chat-window-fade-top-active)*0.14+var(--chat-window-scroll-top-fade-start-active)*0.42),rgba(0,0,0,0.032)_calc(var(--chat-window-fade-top-active)*0.22+var(--chat-window-scroll-top-fade-start-active)*0.62),rgba(0,0,0,0.056)_calc(var(--chat-window-fade-top-active)*0.34+var(--chat-window-scroll-top-fade-mid-active)*0.34),rgba(0,0,0,0.088)_calc(var(--chat-window-fade-top-active)*0.48+var(--chat-window-scroll-top-fade-mid-active)*0.54),rgba(0,0,0,0.136)_calc(var(--chat-window-fade-top-active)*0.64+var(--chat-window-scroll-top-fade-mid-active)*0.76),rgba(0,0,0,0.208)_calc(var(--chat-window-fade-top-active)*0.82+var(--chat-window-scroll-top-fade-end-active)*0.52),rgba(0,0,0,0.308)_calc(var(--chat-window-fade-top-active)*0.98+var(--chat-window-scroll-top-fade-end-active)*0.68),rgba(0,0,0,0.44)_calc(var(--chat-window-fade-top-active)*1.14+var(--chat-window-scroll-top-fade-end-active)*0.84),rgba(0,0,0,0.61)_calc(var(--chat-window-fade-top-active)*1.28+var(--chat-window-scroll-top-fade-end-active)*0.98),rgba(0,0,0,0.8)_calc(var(--chat-window-fade-top-active)*1.42+var(--chat-window-scroll-top-fade-end-active)*1.06),#000_calc(var(--chat-window-fade-top-active)*1.58+var(--chat-window-scroll-top-fade-end-active)*1.14),#000_calc(100%-(var(--chat-window-fade-bottom-active)*1.02)),rgba(0,0,0,0.62)_calc(100%-(var(--chat-window-fade-bottom-active)*0.78)),rgba(0,0,0,0.28)_calc(100%-(var(--chat-window-fade-bottom-active)*0.58)),rgba(0,0,0,0.1)_calc(100%-(var(--chat-window-fade-bottom-active)*0.38)),rgba(0,0,0,0.025)_calc(100%-(var(--chat-window-fade-bottom-active)*0.2)),rgba(0,0,0,0)_calc(100%-(var(--chat-window-fade-bottom-active)*0.08)),transparent_100%)] " +
     "max-[768px]:[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.18)_calc(var(--chat-window-fade-top-active)*0.16),rgba(0,0,0,0.52)_calc(var(--chat-window-fade-top-active)*0.42),rgba(0,0,0,0.82)_calc(var(--chat-window-fade-top-active)*0.72),#000_calc(var(--chat-window-fade-top-active)*1.02),#000_calc(100%-(var(--chat-window-fade-bottom-active)*1.02)),rgba(0,0,0,0.82)_calc(100%-(var(--chat-window-fade-bottom-active)*0.72)),rgba(0,0,0,0.52)_calc(100%-(var(--chat-window-fade-bottom-active)*0.42)),rgba(0,0,0,0.18)_calc(100%-(var(--chat-window-fade-bottom-active)*0.16)),transparent_100%)] " +
     "max-[768px]:[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.18)_calc(var(--chat-window-fade-top-active)*0.16),rgba(0,0,0,0.52)_calc(var(--chat-window-fade-top-active)*0.42),rgba(0,0,0,0.82)_calc(var(--chat-window-fade-top-active)*0.72),#000_calc(var(--chat-window-fade-top-active)*1.02),#000_calc(100%-(var(--chat-window-fade-bottom-active)*1.02)),rgba(0,0,0,0.82)_calc(100%-(var(--chat-window-fade-bottom-active)*0.72)),rgba(0,0,0,0.52)_calc(100%-(var(--chat-window-fade-bottom-active)*0.42)),rgba(0,0,0,0.18)_calc(100%-(var(--chat-window-fade-bottom-active)*0.16)),transparent_100%)] " +
     "[mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] " +
@@ -226,7 +263,7 @@ const ConversationView = memo(function ConversationView({
     "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] max-[768px]:transition-none";
   const mergedWindowClassName = `${windowClassName} ${windowClassNameProp || ""}`.trim();
   const scrollButtonClassName =
-    "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 translate-y-[var(--chat-window-shift-y,0rem)] bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +
+    "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 translate-y-[var(--chat-window-shift-y,0rem)] bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] max-[768px]:translate-y-0 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+6.1rem+var(--chat-vk-offset,0px))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
     "flex items-center justify-center transition-[transform,bottom] duration-[400ms] " +
     "hover:scale-[1.15] focus-visible:scale-[1.15]";
