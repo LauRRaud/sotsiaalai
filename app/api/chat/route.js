@@ -1263,6 +1263,7 @@ export async function POST(req) {
   const externalSourcesNeeded = shouldUseExternalSourcesForTurn(effectiveMessage, {
     forceSources,
     defaultToExternalSources: forcedMode === "rag",
+    hasHistory,
     sourceLookupRequest,
     previousSourceUseRequest
   });

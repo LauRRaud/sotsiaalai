@@ -276,6 +276,22 @@ test("prompt requires transparent source-state answers for availability question
   assert.match(system, /Exception: after a simple availability question about a law, document, source, or topic/);
 });
 
+test("prompt avoids user-facing my-materials phrasing when context supports an answer", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Võimaluste kohvik on või oli olemas?",
+    context: "2017. aasta Sotsiaaltöö artiklis kirjeldatakse Võimaluste kohvikut.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /answer as a direct fact/);
+  assert.match(system, /Do not say 'my materials'/);
+  assert.match(system, /minu materjalides/);
+  assert.match(system, /phrase it naturally as the document or article itself/);
+});
+
 test("prompt requires source-use answers to rely on assistant source metadata", () => {
   const input = toResponsesInput({
     history: [
@@ -352,6 +368,26 @@ test("turn rule handles simple availability questions with short confirm and fol
   assert.match(turnInstruction, /simple availability check about a law, document, source, or topic/);
   assert.match(turnInstruction, /Reply in one short sentence confirming availability or non-availability/);
   assert.match(turnInstruction, /Then ask one short follow-up question about what the user wants to know about it/);
+});
+
+test("turn rule fulfills affirmative answer to assistant explanation offer", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "assistant",
+        content: "Kui soovid, saan lühidalt selgitada, mis selle kohviku eesmärk oli ja kellele see mõeldud oli."
+      }
+    ],
+    userMessage: "jah",
+    context: "Võimaluste kohvik pakkus psüühilise erivajadusega inimestele toetavat töökohta.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.match(turnInstruction, /answered yes to the assistant's previous offer to explain/);
+  assert.match(turnInstruction, /Fulfill that previous offer immediately/);
+  assert.match(turnInstruction, /Do not repeat the offer/);
 });
 
 test("turn rule forbids internal-cause speculation and cyrillic continuation", () => {

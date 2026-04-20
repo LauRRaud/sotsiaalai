@@ -35,6 +35,20 @@ test("source need can default RAG mode to source lookup for substantive turns", 
   }), false);
 });
 
+test("source need searches short followups in RAG mode when there is history", () => {
+  assert.equal(shouldUseExternalSourcesForTurn("jah", {
+    defaultToExternalSources: true
+  }), false);
+  assert.equal(shouldUseExternalSourcesForTurn("jah", {
+    defaultToExternalSources: true,
+    hasHistory: true
+  }), true);
+  assert.equal(shouldUseExternalSourcesForTurn("tere", {
+    defaultToExternalSources: true,
+    hasHistory: true
+  }), false);
+});
+
 test("source need searches short comments and advice questions in default RAG mode", () => {
   assert.equal(shouldUseExternalSourcesForTurn("mul on täna halb tuju", {
     defaultToExternalSources: true
