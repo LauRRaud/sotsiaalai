@@ -309,6 +309,23 @@ test("prompt limits repeated article-source phrasing while allowing legal refere
   assert.match(system, /it is appropriate to name the act, regulation, section, or paragraph clearly/);
 });
 
+test("prompt keeps dated article facts separate from current status", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Võimaluste kohvik on või oli olemas?",
+    context: "Võimaluste kohvik võimalikuks. Sotsiaaltöö 4/2017.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /Keep time context explicit for dated sources/);
+  assert.match(system, /report what the article described at that time/);
+  assert.match(system, /do not imply the situation is still current unless current evidence is present/);
+  assert.match(system, /include the source year or exact date when it is visible/);
+  assert.match(system, /separate that from current status/);
+});
+
 test("weak RAG grounding rule keeps source answers close to context", () => {
   const input = toResponsesInput({
     history: [],
@@ -420,6 +437,31 @@ test("turn rule fulfills affirmative answer to assistant explanation offer", () 
   assert.match(turnInstruction, /answered yes to the assistant's previous offer to explain/);
   assert.match(turnInstruction, /Fulfill that previous offer immediately/);
   assert.match(turnInstruction, /Do not repeat the offer/);
+});
+
+test("turn rule answers short factual follow-ups as complete anchored sentences", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "user",
+        content: "Mis asi on Võimaluste kohvik?"
+      },
+      {
+        role: "assistant",
+        content: "Võimaluste kohvik oli psüühilise erivajadusega inimestele mõeldud toetatud töökoht."
+      }
+    ],
+    userMessage: "mis aastal?",
+    context: "Võimaluste kohvik võimalikuks. Sotsiaaltöö 4/2017.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
+  assert.match(turnInstruction, /short factual follow-up/);
+  assert.match(turnInstruction, /answer directly in a complete sentence/);
+  assert.match(turnInstruction, /Do not answer with a fragment such as 'aastal.'/);
+  assert.match(turnInstruction, /include the exact year\/date and what that year\/date refers to/);
 });
 
 test("turn rule forbids internal-cause speculation and cyrillic continuation", () => {
