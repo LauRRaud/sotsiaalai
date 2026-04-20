@@ -269,9 +269,8 @@ test("prompt requires transparent source-state answers for availability question
   assert.match(system, /only partially visible/);
   assert.match(system, /identified from the user's own text/);
   assert.match(system, /For simple source-availability or source-existence questions, answer in one short sentence/);
-  assert.match(system, /do not mention source state, partial visibility, paragraph numbers, examples, or source details unless the user explicitly asks about completeness or coverage/);
+  assert.match(system, /Do not mention paragraphs, source state, or partial visibility unless the user explicitly asks about coverage or completeness/);
   assert.match(system, /Only mention that something is partially visible when the user explicitly asks about completeness/);
-  assert.match(system, /except for simple availability checks where a short direct answer is better/);
   assert.match(system, /do not imply that a source or paragraph is visible/);
   assert.match(system, /Exception: after a simple availability question about a law, document, source, or topic/);
 });
@@ -289,10 +288,11 @@ test("prompt avoids user-facing my-materials phrasing when context supports an a
   assert.match(system, /answer as a direct fact/);
   assert.match(system, /Do not say 'my materials'/);
   assert.match(system, /minu materjalides/);
-  assert.match(system, /phrase it naturally as the document or article itself/);
+  assert.match(system, /answer with the substance first/);
+  assert.match(system, /Do not turn a simple factual question into a source presentation/);
 });
 
-test("prompt limits repeated article-source phrasing while allowing legal references", () => {
+test("prompt answers non-legal sources with substance first while allowing legal references", () => {
   const input = toResponsesInput({
     history: [],
     userMessage: "Mis on Võimaluste kohvik?",
@@ -302,9 +302,10 @@ test("prompt limits repeated article-source phrasing while allowing legal refere
   });
 
   const system = input.input[0].content;
-  assert.match(system, /For journal articles, reports, guidance documents, and other non-legal sources/);
-  assert.match(system, /at most once/);
-  assert.match(system, /do not repeat phrases such as 'artiklis'/);
+  assert.match(system, /For non-legal sources such as journal articles, reports, interviews, and case descriptions/);
+  assert.match(system, /answer with the substance first/);
+  assert.match(system, /Do not name the article, journal, author, project, or publication unless the user explicitly asks/);
+  assert.match(system, /Do not turn a simple factual question into a source presentation/);
   assert.match(system, /For legal sources, regulations, Riigi Teataja materials, laws, sections, and paragraphs/);
   assert.match(system, /it is appropriate to name the act, regulation, section, or paragraph clearly/);
 });
@@ -338,6 +339,57 @@ test("prompt keeps dated article facts separate from current status", () => {
   assert.match(system, /do not imply the situation is still current unless current evidence is present/);
   assert.match(system, /include the source year or exact date when it is visible/);
   assert.match(system, /separate that from current status/);
+});
+
+test("prompt has a strict social-sector domain boundary", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "kui aus olla siis oleks hea kui sa sotsiaalvaldkonna välistele küsimustele ei vastaks",
+    context: "",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /Answer only questions that are directly about social work/);
+  assert.match(system, /Ma aitan siin ainult sotsiaalvaldkonna küsimustes/);
+  assert.match(system, /Do not answer general trivia, entertainment, celebrity, religion, politics, shopping, coding, tech support/);
+});
+
+test("prompt handles factual corrections without inventing replacement facts", () => {
+  const input = toResponsesInput({
+    history: [
+      {
+        role: "assistant",
+        content: "See oli 1. aastal."
+      }
+    ],
+    userMessage: "miks sa ütlesid 1. aastal?",
+    context: "Võimaluste kohvik võimalikuks. Sotsiaaltöö 4/2017.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /If the user corrects a factual detail such as a year, name, or place/);
+  assert.match(system, /Do not defend the earlier answer/);
+  assert.match(system, /Use the corrected value unless RAG_CONTEXT clearly contradicts it/);
+  assert.match(system, /Do not invent a replacement fact/);
+});
+
+test("prompt does not add follow-up offers automatically to complete simple answers", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "mis oli võimaluste kohvik?",
+    context: "Võimaluste kohvik pakkus psüühilise erivajadusega inimestele toetavat töökohta.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /Do not add it automatically to every answer/);
+  assert.match(system, /Prefer no follow-up line when the answer is already complete/);
+  assert.match(system, /Do not add a closing offer to every answer/);
 });
 
 test("weak RAG grounding rule keeps source answers close to context", () => {
@@ -721,7 +773,25 @@ test("chat responses default to medium verbosity for both roles", () => {
   }).text.verbosity, "medium");
 });
 
-test("simple availability turns prefer low verbosity", () => {
+test("chat responses only change verbosity when explicitly requested", () => {
+  const base = {
+    model: "test-model",
+    input: [],
+    max_output_tokens: 100,
+    preferredVerbosity: "low"
+  };
+
+  assert.equal(buildResponsesPayload(base, {
+    stream: false
+  }).text.verbosity, "medium");
+
+  assert.equal(buildResponsesPayload(base, {
+    stream: false,
+    verbosity: "low"
+  }).text.verbosity, "low");
+});
+
+test("simple availability turns stay at medium verbosity", () => {
   const input = toResponsesInput({
     history: [],
     userMessage: "Kas sul on sotsiaalhoolekande seadus olemas?",
@@ -733,10 +803,10 @@ test("simple availability turns prefer low verbosity", () => {
   assert.equal(buildResponsesPayload(input, {
     stream: false,
     effectiveRole: "CLIENT"
-  }).text.verbosity, "low");
+  }).text.verbosity, "medium");
 });
 
-test("internal-cause follow-up turns prefer low verbosity", () => {
+test("internal-cause follow-up turns stay at medium verbosity", () => {
   const input = toResponsesInput({
     history: [
       {
@@ -753,10 +823,10 @@ test("internal-cause follow-up turns prefer low verbosity", () => {
   assert.equal(buildResponsesPayload(input, {
     stream: false,
     effectiveRole: "CLIENT"
-  }).text.verbosity, "low");
+  }).text.verbosity, "medium");
 });
 
-test("identity turns prefer low verbosity", () => {
+test("identity turns stay at medium verbosity", () => {
   const input = toResponsesInput({
     history: [],
     userMessage: "kas oled chatgpt?",
@@ -768,7 +838,7 @@ test("identity turns prefer low verbosity", () => {
   assert.equal(buildResponsesPayload(input, {
     stream: false,
     effectiveRole: "CLIENT"
-  }).text.verbosity, "low");
+  }).text.verbosity, "medium");
 });
 
 test("preferred verbosity is not sent as a top-level responses payload field", () => {
@@ -786,7 +856,7 @@ test("preferred verbosity is not sent as a top-level responses payload field", (
   });
 
   assert.equal("preferredVerbosity" in payload, false);
-  assert.equal(payload.text.verbosity, "low");
+  assert.equal(payload.text.verbosity, "medium");
 });
 
 test("extra system instructions are inserted before the user turn", () => {
