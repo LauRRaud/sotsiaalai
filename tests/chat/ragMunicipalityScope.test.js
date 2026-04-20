@@ -292,6 +292,38 @@ test("prompt avoids user-facing my-materials phrasing when context supports an a
   assert.match(system, /phrase it naturally as the document or article itself/);
 });
 
+test("prompt limits repeated article-source phrasing while allowing legal references", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Mis on Võimaluste kohvik?",
+    context: "Võimaluste kohvik pakkus psüühilise erivajadusega inimestele toetavat töökohta.",
+    effectiveRole: "SOCIAL_WORKER",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+  assert.match(system, /For journal articles, reports, guidance documents, and other non-legal sources/);
+  assert.match(system, /at most once/);
+  assert.match(system, /do not repeat phrases such as 'artiklis'/);
+  assert.match(system, /For legal sources, regulations, Riigi Teataja materials, laws, sections, and paragraphs/);
+  assert.match(system, /it is appropriate to name the act, regulation, section, or paragraph clearly/);
+});
+
+test("weak RAG grounding rule keeps source answers close to context", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "Mis on Võimaluste kohvik?",
+    context: "Võimaluste kohvik pakkus psüühilise erivajadusega inimestele toetavat töökohta.",
+    effectiveRole: "SOCIAL_WORKER",
+    grounding: "weak",
+    replyLang: "et"
+  });
+
+  const weakInstruction = input.input.find(item => item.role === "system" && /WEAK_RAG_GROUNDING/.test(item.content))?.content || "";
+  assert.match(weakInstruction, /Use only facts directly visible in RAG_CONTEXT/);
+  assert.match(weakInstruction, /Do not add inferred benefits, risks, causes, examples, or professional interpretations/);
+});
+
 test("prompt requires source-use answers to rely on assistant source metadata", () => {
   const input = toResponsesInput({
     history: [
