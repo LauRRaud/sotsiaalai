@@ -25,3 +25,21 @@ test("source need keeps legal and social service questions source grounded", () 
   assert.equal(shouldUseExternalSourcesForTurn("Kuidas taotleda Jogeva vallas koduteenust?"), true);
   assert.equal(shouldUseExternalSourcesForTurn("Mis tingimustel saab puudega lapse toetust?"), true);
 });
+
+test("source need can default RAG mode to source lookup for substantive turns", () => {
+  assert.equal(shouldUseExternalSourcesForTurn("Võimaluste kohvik on või oli olemas?", {
+    defaultToExternalSources: true
+  }), true);
+  assert.equal(shouldUseExternalSourcesForTurn("tere", {
+    defaultToExternalSources: true
+  }), false);
+});
+
+test("source need searches short comments and advice questions in default RAG mode", () => {
+  assert.equal(shouldUseExternalSourcesForTurn("mul on täna halb tuju", {
+    defaultToExternalSources: true
+  }), true);
+  assert.equal(shouldUseExternalSourcesForTurn("mida teha kui on halb tuju?", {
+    defaultToExternalSources: true
+  }), true);
+});

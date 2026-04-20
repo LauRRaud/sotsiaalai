@@ -1262,6 +1262,7 @@ export async function POST(req) {
   const assistantSourceUiIssueRequest = !sourceLookupRequest && isAssistantSourceUiIssue(effectiveMessage);
   const externalSourcesNeeded = shouldUseExternalSourcesForTurn(effectiveMessage, {
     forceSources,
+    defaultToExternalSources: forcedMode === "rag",
     sourceLookupRequest,
     previousSourceUseRequest
   });
