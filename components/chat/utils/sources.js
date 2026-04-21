@@ -59,15 +59,19 @@ export function normalizePageRange(value) {
 }
 export function asAuthorArray(v) {
   if (!v) return [];
-  if (Array.isArray(v)) return v.map(String).map(s => s.trim()).filter(Boolean);
+  const clean = value => {
+    const normalized = String(value || "").trim().toLowerCase();
+    return normalized === "autor puudub" || normalized.startsWith("autor puudub ") ? "" : String(value || "").trim();
+  };
+  if (Array.isArray(v)) return v.map(clean).filter(Boolean);
   if (typeof v === "string") {
     const s = v.trim();
     if (!s) return [];
     try {
       const arr = JSON.parse(s);
-      if (Array.isArray(arr)) return arr.map(String).map(x => x.trim()).filter(Boolean);
+      if (Array.isArray(arr)) return arr.map(clean).filter(Boolean);
     } catch {}
-    return s.split(/[;,]/).map(x => x.trim()).filter(Boolean);
+    return s.split(/[;,]/).map(clean).filter(Boolean);
   }
   return [];
 }

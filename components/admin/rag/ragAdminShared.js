@@ -28,7 +28,7 @@ export const rootInputVars = {
 };
 
 export const cardClassName =
-  "relative isolate overflow-hidden rounded-[0.9rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[color-mix(in_srgb,var(--admin-surface)_88%,var(--glass-surface-bg,transparent)_12%)] min-[769px]:backdrop-blur-[var(--glass-blur-radius,0.68rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,0.68rem))] p-[clamp(0.52rem,1.1vw,0.7rem)] shadow-[0_7px_16px_rgba(0,0,0,0.10)]";
+  "rag-admin-card relative isolate overflow-hidden rounded-[0.9rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[color-mix(in_srgb,var(--admin-surface)_88%,var(--glass-surface-bg,transparent)_12%)] min-[769px]:backdrop-blur-[var(--glass-blur-radius,0.68rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,0.68rem))] p-[clamp(0.52rem,1.1vw,0.7rem)] shadow-[0_7px_16px_rgba(0,0,0,0.10)]";
 export const cardBodyClassName = "relative z-[1] grid gap-1.1";
 export const cardHeadClassName = "flex flex-wrap items-start justify-between gap-1.5";
 export const cardSubClassName = "text-[0.9rem] leading-[1.45] text-[color:var(--admin-muted)] max-w-[58ch]";
@@ -56,9 +56,9 @@ export const badgeRedClassName =
 export const badgeGhostClassName =
   "border-transparent bg-[color-mix(in_srgb,var(--admin-accent)_18%,transparent)] text-[color:var(--admin-accent)]";
 export const toolbarPrimaryClassName =
-  "grid [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))] items-center gap-1 rounded-[12px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_86%,transparent)] min-[769px]:backdrop-blur-[var(--glass-blur-radius,0.68rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,0.68rem))] p-1.25";
+  "rag-admin-toolbar grid [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))] items-center gap-1 rounded-[12px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_86%,transparent)] min-[769px]:backdrop-blur-[var(--glass-blur-radius,0.68rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,0.68rem))] p-1.25";
 export const toolbarSecondaryClassName =
-  "grid [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))] items-center gap-1 rounded-[12px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_80%,transparent)] min-[769px]:backdrop-blur-[var(--glass-blur-radius,0.68rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,0.68rem))] p-1.25";
+  "rag-admin-toolbar grid [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))] items-center gap-1 rounded-[12px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_80%,transparent)] min-[769px]:backdrop-blur-[var(--glass-blur-radius,0.68rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,0.68rem))] p-1.25";
 export const metaCheckBaseClassName =
   "rounded-[10px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-2 text-[0.86rem] leading-[1.4]";
 export const metaCheckOkClassName =

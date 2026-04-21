@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import Link from "next/link";
 
@@ -138,6 +138,8 @@ function formatSourceLabel(value) {
 }
 
 export default function RagAdminDocumentsView({ controller, showMessage = true }) {
+  const [showAllTags, setShowAllTags] = useState(false);
+
   const {
     tr,
     locale,
@@ -315,6 +317,11 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
     };
   }, [activeSourceEntry, normalizedDocs]);
 
+  const selectedFilterTags = useMemo(
+    () => filterTags.filter(tag => allTags.includes(tag)),
+    [allTags, filterTags]
+  );
+
   return (
     <div className="grid gap-1.5">
       {showMessage ? <RagAdminAlert message={message} onDismiss={resetMessage} /> : null}
@@ -456,17 +463,51 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
               className={dropdownClassName}
             />
             {allTags.length ? (
-              <div className="flex flex-wrap items-center gap-1.5 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-2.5 py-2">
-                {allTags.map(tag => (
-                  <button
+              <div className="grid min-w-0 gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-2.5 py-2 min-[900px]:col-span-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <Button
                     type="button"
-                    key={tag}
-                    className={`${tagChipBaseClassName}${filterTags.includes(tag) ? ` ${tagChipActiveClassName}` : ""}`}
-                    onClick={() => toggleFilterTag(tag)}
+                    variant="ghost"
+                    className={`${buttonBaseClassName} ${buttonSecondaryClassName}`}
+                    aria-expanded={showAllTags ? "true" : "false"}
+                    onClick={() => setShowAllTags(current => !current)}
                   >
-                    {tag}
-                  </button>
-                ))}
+                    {showAllTags ? "Peida sildid" : `Kõik sildid (${allTags.length})`}
+                  </Button>
+                  <span className={quickTagsLabelClassName}>
+                    {selectedFilterTags.length ? `Valitud ${selectedFilterTags.length}` : "Lisasildid on peidetud"}
+                  </span>
+                </div>
+                {selectedFilterTags.length ? (
+                  <div className={tagsWrapClassName} aria-label="Valitud sildid">
+                    {selectedFilterTags.map(tag => (
+                      <button
+                        type="button"
+                        key={tag}
+                        className={`${tagChipBaseClassName} ${tagChipActiveClassName}`}
+                        onClick={() => toggleFilterTag(tag)}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+                {showAllTags ? (
+                  <div className="max-h-[12rem] overflow-y-auto pr-1">
+                    <div className={tagsWrapClassName}>
+                      {allTags.map(tag => (
+                        <button
+                          type="button"
+                          key={tag}
+                          className={`${tagChipBaseClassName}${filterTags.includes(tag) ? ` ${tagChipActiveClassName}` : ""}`}
+                          onClick={() => toggleFilterTag(tag)}
+                        >
+                          {tag}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             ) : (
               <div className={emptyFilterNoteClassName}>Silte pole saadaval.</div>

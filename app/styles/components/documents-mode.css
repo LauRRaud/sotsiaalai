@@ -1271,6 +1271,26 @@
   z-index: 24;
 }
 
+.documents-panel:has(.documents-dropdown.is-open),
+.documents-card:has(.documents-dropdown.is-open),
+.documents-subsection-stack:has(.documents-dropdown.is-open),
+.documents-shell-surface:has(.documents-dropdown.is-open),
+.documents-library-panel:has(.documents-dropdown.is-open),
+.rag-admin-card:has(.documents-dropdown.is-open) {
+  position: relative;
+  z-index: 40;
+  overflow: visible;
+}
+
+.documents-tool-card-header:has(.documents-dropdown.is-open),
+.documents-upload-control:has(.documents-dropdown.is-open),
+.documents-controls-grid:has(.documents-dropdown.is-open),
+.rag-admin-toolbar:has(.documents-dropdown.is-open) {
+  position: relative;
+  z-index: 60;
+  overflow: visible;
+}
+
 .documents-agent-card--full {
   grid-column: 1 / -1;
 }
