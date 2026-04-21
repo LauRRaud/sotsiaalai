@@ -329,6 +329,7 @@ export default function ChatBody({
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const viewportIsMobile = hasHydrated ? isMobile : false;
   const [layoutTransitionsReady, setLayoutTransitionsReady] = useState(false);
   const listingsPanelCloseTimerRef = useRef(null);
   const careerTurnRequestRef = useRef(0);
@@ -2366,7 +2367,6 @@ export default function ChatBody({
       ro?.disconnect?.();
     };
   }, []);
-  const viewportIsMobile = hasHydrated ? isMobile : false;
   const focusActive =
     (inputFocused || keepCareerUploadFocus) &&
     !profileOpen &&
