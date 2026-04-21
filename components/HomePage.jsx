@@ -377,7 +377,7 @@ export default function HomePage() {
       HOME_FOOTER_STAGGER_MS
     );
     return () => clearRegisteredTimeout(footerTimer);
-  }, [cardsIntroDone, clearRegisteredTimeout, isLoginOpen, registerTimeout]);
+  }, [cardsIntroDone, clearRegisteredTimeout, isLoginOpen, prefs.reduceMotion, registerTimeout]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const cardInteractionAllowed = flipAllowed && !autoPreviewActive;
   const autoPreviewBackInteractive = !isMobile && flipAllowed && autoPreviewActive && autoPreviewBackVisible;
@@ -555,13 +555,13 @@ export default function HomePage() {
     const previewTimer = registerTimeout(() => {
       setAutoPreviewActive(true);
       setAutoPreviewBackVisible(false);
-      const previewBackTimer = registerTimeout(() => {
+      registerTimeout(() => {
         setAutoPreviewBackVisible(true);
       }, CARD_FLIP_TO_BACK_MS);
-      const previewFrontTimer = registerTimeout(() => {
+      registerTimeout(() => {
         setAutoPreviewBackVisible(false);
       }, CARD_FLIP_TO_BACK_MS + CARD_AUTO_PREVIEW_PAUSE_MS);
-      const previewEndTimer = registerTimeout(() => {
+      registerTimeout(() => {
         setAutoPreviewBackVisible(false);
         setAutoPreviewActive(false);
       }, CARD_AUTO_PREVIEW_DURATION_MS);
@@ -686,7 +686,7 @@ export default function HomePage() {
               "text-[clamp(0.95rem,1.3vw,1.9rem)] text-[color:color-mix(in_srgb,var(--home-scroll-cue-color,var(--home-title-color,var(--brand-primary)))_68%,white_32%)]"
             )}
           >
-            Avame peagi!
+            {t("home.opening_banner")}
           </h1>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[768px]:flex-col max-[768px]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[768px]:px-[clamp(1rem,4vw,1.5rem)] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[768px]:pb-[clamp(5rem,12vw,7rem)] max-[768px]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>

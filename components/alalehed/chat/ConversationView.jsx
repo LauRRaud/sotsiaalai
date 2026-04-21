@@ -226,7 +226,7 @@ const ConversationView = memo(function ConversationView({
   const mergedMainClassName = mainClassNameProp ? `${mainClassName} ${mainClassNameProp}` : mainClassName;
   const windowClassName =
     "chat-window relative flex flex-1 min-h-0 flex-col items-stretch gap-[0.75rem] " +
-    "mt-[var(--chat-window-top-offset,0rem)] max-[768px]:flex-none max-[768px]:h-[calc(100%-var(--chat-window-bottom-gap,0rem)-var(--chat-vk-offset,0px)+var(--chat-window-mobile-extra-height,0rem))] max-[768px]:mb-[calc(var(--chat-window-bottom-gap,0rem)+var(--chat-vk-offset,0px))] max-h-[calc(100%-var(--chat-window-top-offset,0rem)-var(--chat-window-bottom-gap,0rem))] " +
+    "mt-[var(--chat-window-top-offset,0rem)] max-[768px]:flex-none max-[768px]:h-[calc(100%-var(--chat-window-bottom-gap,0rem)-var(--chat-vk-offset,0px)-var(--chat-composer-dynamic-extra,0px)+var(--chat-window-mobile-extra-height,0rem))] max-[768px]:mb-[calc(var(--chat-window-bottom-gap,0rem)+var(--chat-vk-offset,0px)+var(--chat-composer-dynamic-extra,0px))] max-h-[calc(100%-var(--chat-window-top-offset,0rem)-var(--chat-window-bottom-gap,0rem))] " +
     "[--chat-window-corner:clamp(0.9rem,2.2vw,1.4rem)] [--chat-window-curve-x:var(--chat-window-curve-x,var(--chat-window-corner))] [--chat-window-curve-y:var(--chat-window-curve-y,var(--chat-window-corner))] [--chat-window-curve-y-left:var(--chat-window-curve-y-left,var(--chat-window-corner))] [--chat-window-curve-y-right:var(--chat-window-curve-y-right,var(--chat-window-corner))] " +
     "[--chat-window-pad-x:var(--chat-window-pad-x,clamp(0.6rem,1.8vw,1.35rem))] [--chat-window-pad-top:var(--chat-window-pad-top,clamp(1.8rem,4vh,3rem))] " +
     "[--chat-window-bottom-safe:clamp(1.2rem,2.8vh,2.4rem)] [--chat-window-fade-top-default:2.15rem] " +
@@ -258,12 +258,12 @@ const ConversationView = memo(function ConversationView({
     "[&::-webkit-scrollbar-thumb]:bg-[linear-gradient(135deg,var(--pt-400),var(--pt-200))] [&::-webkit-scrollbar-thumb]:rounded-[0.625rem] [&::-webkit-scrollbar-thumb]:border-[0.1875rem] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent " +
     "[&::-webkit-scrollbar-track]:bg-transparent " +
     "transition-[padding] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-[padding] " +
-    "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] " +
+    "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px)+var(--chat-composer-dynamic-extra,0px))] " +
     "[scroll-padding-top:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))] " +
-    "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] max-[768px]:transition-none";
+    "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px)+var(--chat-composer-dynamic-extra,0px))] max-[768px]:transition-none";
   const mergedWindowClassName = `${windowClassName} ${windowClassNameProp || ""}`.trim();
   const scrollButtonClassName =
-    "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 translate-y-[var(--chat-window-shift-y,0rem)] bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] max-[768px]:translate-y-0 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--chat-window-bottom-gap,0rem)-var(--chat-window-mobile-extra-height,0rem)-2.15rem+var(--chat-vk-offset,0px))] " +
+    "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 translate-y-[var(--chat-window-shift-y,0rem)] bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] max-[768px]:translate-y-0 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--chat-window-bottom-gap,0rem)-var(--chat-window-mobile-extra-height,0rem)-2.15rem+var(--chat-vk-offset,0px)+var(--chat-composer-dynamic-extra,0px))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
     "flex items-center justify-center transition-[transform,bottom] duration-[400ms] " +
     "hover:scale-[1.15] focus-visible:scale-[1.15]";

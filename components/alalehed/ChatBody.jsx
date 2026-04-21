@@ -900,6 +900,9 @@ export default function ChatBody({
     visibleMessagesCount: visibleMessages.length,
     isGeneratingRef
   });
+  const careerUploadPreview = analysis.uploadPreview;
+  const setCareerUploadPreview = analysis.setUploadPreview;
+  const closeCareerAnalysisPanel = analysis.closeAnalysisPanel;
   useChatInputHoleMask({
     containerRef: chatContainerRef,
     inputRowRef,
@@ -1011,7 +1014,74 @@ export default function ChatBody({
     window.setTimeout(scrollToLatest, 60);
     window.setTimeout(scrollToLatest, 180);
   }, []);
+  const updateComposerMobileReserve = useCallback(() => {
+    const container = chatContainerRef.current;
+    if (!container || typeof window === "undefined") return;
+    if (!viewportIsMobile) {
+      container.style.setProperty("--chat-composer-dynamic-extra", "0px");
+      return;
+    }
+
+    const inputBar = inputBarRef.current;
+    if (!inputBar) {
+      container.style.setProperty("--chat-composer-dynamic-extra", "0px");
+      return;
+    }
+
+    const computed = window.getComputedStyle(inputBar);
+    const resolvedBaseHeight =
+      Number.parseFloat(computed.getPropertyValue("--inputbar-h")) ||
+      Number.parseFloat(computed.height) ||
+      0;
+    const currentHeight =
+      inputBar.getBoundingClientRect().height || inputBar.offsetHeight || 0;
+    const extraHeight = Math.max(0, currentHeight - resolvedBaseHeight);
+
+    container.style.setProperty(
+      "--chat-composer-dynamic-extra",
+      `${Math.round(extraHeight)}px`
+    );
+  }, [viewportIsMobile]);
+  useIsomorphicLayoutEffect(() => {
+    const container = chatContainerRef.current;
+    if (!container || typeof window === "undefined") return;
+
+    let frameId = 0;
+    let resizeObserver = null;
+    const visualViewport = window.visualViewport;
+    const scheduleUpdate = () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+        updateComposerMobileReserve();
+      });
+    };
+
+    scheduleUpdate();
+
+    const inputBar = inputBarRef.current;
+    if (typeof ResizeObserver !== "undefined" && inputBar) {
+      resizeObserver = new ResizeObserver(scheduleUpdate);
+      resizeObserver.observe(inputBar);
+    }
+
+    window.addEventListener("resize", scheduleUpdate);
+    visualViewport?.addEventListener("resize", scheduleUpdate);
+
+    return () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+      resizeObserver?.disconnect?.();
+      window.removeEventListener("resize", scheduleUpdate);
+      visualViewport?.removeEventListener("resize", scheduleUpdate);
+      container.style.removeProperty("--chat-composer-dynamic-extra");
+    };
+  }, [updateComposerMobileReserve]);
   const handleComposerLayoutChange = useCallback(() => {
+    updateComposerMobileReserve();
     refreshMask({
       immediate: true,
       mobileImmediate: true,
@@ -1028,7 +1098,7 @@ export default function ChatBody({
     requestAnimationFrame(stickToBottom);
     window.setTimeout(stickToBottom, 32);
     window.setTimeout(stickToBottom, 120);
-  }, [inputFocused, keepCareerUploadFocus, refreshMask]);
+  }, [inputFocused, keepCareerUploadFocus, refreshMask, updateComposerMobileReserve]);
   const restoreComposerFocus = useCallback(() => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);
@@ -1947,7 +2017,7 @@ export default function ChatBody({
       return;
     }
 
-    const uploadPreview = analysis.uploadPreview;
+    const uploadPreview = careerUploadPreview;
     if (!uploadPreview) return;
 
     if (singlePendingCareerQuestion?.id !== "profile_cv_available") {
@@ -1985,9 +2055,9 @@ export default function ChatBody({
         activateWorkflow: true,
       }
     );
-    analysis.setUploadPreview?.(null);
-    analysis.closeAnalysisPanel?.();
-  }, [activeWorkflow, analysis.closeAnalysisPanel, analysis.setUploadPreview, analysis.uploadPreview, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, runCareerTurn, singlePendingCareerQuestion]);
+    setCareerUploadPreview?.(null);
+    closeCareerAnalysisPanel?.();
+  }, [activeWorkflow, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, careerUploadPreview, closeCareerAnalysisPanel, runCareerTurn, setCareerUploadPreview, singlePendingCareerQuestion]);
   const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));
   }, []);

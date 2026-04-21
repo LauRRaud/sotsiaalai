@@ -26,12 +26,6 @@
     transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.mobileRailHidden {
-}
-
-.mobileRailVisible {
-}
-
 .leftRail {
   position: absolute;
   left: calc(var(--glass-edge-left, 0px) + var(--rail-inset, -0.7rem));

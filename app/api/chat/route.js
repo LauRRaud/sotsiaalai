@@ -3,6 +3,7 @@ import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
 import { pickReplyLang, langStrings, toResponsesInput, buildResponsesPayload } from "@/lib/chat/promptBuilder";
+import { buildLocalizedExtraSystemInstruction } from "@/lib/chat/systemPrompts/index.js";
 import {
   chooseOrchestrationPlan,
   countClarifyingTurns,
@@ -22,7 +23,7 @@ import { detectCrisis, isGreeting, groundingStrength } from "@/lib/chat/safety";
 import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence";
 import { logEvent } from "@/lib/chat/logger";
 import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
-import { isAssistantSourceUiIssue, shouldUseExternalSourcesForTurn } from "@/lib/chat/sourceNeed";
+import { shouldUseExternalSourcesForTurn } from "@/lib/chat/sourceNeed";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 import { MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib/documents/constants";
@@ -342,54 +343,8 @@ function buildSourceLookupSearchQuery(message = "", history = []) {
   return Array.from(new Set(parts.map(part => part.trim()).filter(Boolean))).join("\n");
 }
 
-function sourceLookupSystemInstruction() {
-  return [
-    "SOURCE_LOOKUP_MODE:",
-    "The user is asking whether a source, document, legal act, paragraph, section, or material exists, is visible in the provided materials, was used in a previous answer, or how to identify a quoted passage.",
-    "A targeted retrieval search has been run for this turn.",
-    "Base the answer on RAG_CONTEXT, source metadata attached to previous assistant messages, and the user's own text only.",
-    "If a previous assistant message contains 'Assistant source metadata for this answer', treat that as the source list attached to that answer.",
-    "For simple availability questions such as whether a law, paragraph, or source is present, answer briefly: start with the direct yes/no or found/not-found answer, add at most one short follow-up sentence, and do not list paragraph numbers, examples, or source details unless the user asked for them.",
-    "If RAG_CONTEXT contains the requested item, say whether it appears as full text or only as a partial visible passage when that distinction is clear.",
-    "If RAG_CONTEXT does not contain the requested item, say that the current search did not find it; do not say the database does not contain it.",
-    "If you identify something from text supplied by the user, say that the identification is from the user's supplied text.",
-    "If the user challenges a contradiction after supplying a quote, distinguish 'I identified it from your quoted text' from 'the current search found it in the materials'.",
-    "Do not describe source metadata, retrieved documents, or prior assistant content as text that was visible in the user's message.",
-    "Do not claim that you saw a paragraph, source, or document in the materials unless it appears in RAG_CONTEXT."
-  ].join(" ");
-}
-
-function previousSourceUseSystemInstruction() {
-  return [
-    "PREVIOUS_SOURCE_USE_MODE:",
-    "The user is asking which sources were used for a previous assistant answer.",
-    "Do not perform or imply a new source search for this question.",
-    "Answer from source metadata attached to previous assistant messages, especially any 'Assistant source metadata for this answer' block.",
-    "If no assistant source metadata is attached to the previous answer, say that no source metadata is available for that previous answer instead of inventing sources.",
-    "If the metadata is incomplete, say that the source metadata available for the previous answer includes only those listed items.",
-    "Do not describe assistant source metadata, retrieved documents, or prior assistant content as text that was visible in the user's own message."
-  ].join(" ");
-}
-
-function assistantSourceUiIssueSystemInstruction() {
-  return [
-    "ASSISTANT_SOURCE_UI_ISSUE_MODE:",
-    "The user is asking about why sources were shown, why unnecessary sources appeared, or how to avoid source rows when a source-grounded answer is not needed.",
-    "Answer from the conversation and the visible source metadata only.",
-    "Do not run or imply a new source lookup.",
-    "Do not cite, list, or attach external sources for this answer.",
-    "Explain the correct behavior: simple conversational, identity, acknowledgement, style, or platform-feedback answers should not show sources unless the user explicitly asks for sources or the answer depends on law, services, deadlines, procedures, contacts, or official requirements."
-  ].join(" ");
-}
-
-function noExternalSourcesSystemInstruction() {
-  return [
-    "NO_EXTERNAL_SOURCE_MODE:",
-    "This turn does not need external source lookup.",
-    "Answer from the conversation and general user-facing reasoning only.",
-    "Do not cite, list, or attach external sources.",
-    "Do not mention RAG, retrieval, source search, or provided materials."
-  ].join(" ");
+function sourceLookupSystemInstruction(replyLang = "et") {
+  return buildLocalizedExtraSystemInstruction("SOURCE_LOOKUP_MODE", { replyLang });
 }
 
 function isMunicipalityDependentSocialHelpQuestion(message = "") {
@@ -400,17 +355,11 @@ function isMunicipalityDependentSocialHelpQuestion(message = "") {
   return mentionsMunicipalityLevel && mentionsSocialHelp;
 }
 
-function missingMunicipalitySystemInstruction(effectiveRole = "CLIENT") {
-  const audience = effectiveRole === "SOCIAL_WORKER" ? "specialist" : "person seeking help";
-  return [
-    "MUNICIPALITY_CLARIFICATION_REQUIRED:",
-    `The current ${audience} question depends on a municipality or city, but no municipality or city is known from user messages.`,
-    "Give the national/general legal and practical answer first.",
-    "Do not give municipality-specific contacts, forms, URLs, amounts, or procedures.",
-    "Do not phrase the next step as an optional offer.",
-    "End with exactly one direct question asking which municipality or city is the person's registered residence.",
-    "Do not add a draft, application text, call script, or any other closing offer in this turn."
-  ].join(" ");
+function missingMunicipalitySystemInstruction(effectiveRole = "CLIENT", replyLang = "et") {
+  return buildLocalizedExtraSystemInstruction("MUNICIPALITY_CLARIFICATION_REQUIRED", {
+    effectiveRole,
+    replyLang
+  });
 }
 
 function getDocContextBudget(role = "CLIENT", combineSources = false) {
@@ -1211,7 +1160,6 @@ export async function POST(req) {
   const documentWorkflowActive = isActiveDocumentWorkflowState(documentWorkflowState);
   const previousSourceUseRequest = detectPreviousSourceUseRequest(rawHistory, effectiveMessage);
   const sourceLookupRequest = !previousSourceUseRequest && detectSourceAvailabilityRequest(rawHistory, effectiveMessage);
-  const assistantSourceUiIssueRequest = !sourceLookupRequest && isAssistantSourceUiIssue(effectiveMessage);
   const externalSourcesNeeded = shouldUseExternalSourcesForTurn(effectiveMessage, {
     forceSources,
     defaultToExternalSources: forcedMode === "rag",
@@ -1869,14 +1817,9 @@ export async function POST(req) {
     !allowMunicipalityScopedRag && isMunicipalityDependentSocialHelpQuestion(effectiveMessage);
   const extraSystemInstructions = [
     ...(municipalityQuestionNeedsClarification
-      ? [missingMunicipalitySystemInstruction(normalizedRole)]
+      ? [missingMunicipalitySystemInstruction(normalizedRole, replyLang)]
       : []),
-    ...(previousSourceUseRequest ? [previousSourceUseSystemInstruction()] : []),
-    ...(sourceLookupRequest ? [sourceLookupSystemInstruction()] : []),
-    ...(assistantSourceUiIssueRequest ? [assistantSourceUiIssueSystemInstruction()] : []),
-    ...(!externalSourcesNeeded && !ephemeralChunks.length && !assistantSourceUiIssueRequest
-      ? [noExternalSourcesSystemInstruction()]
-      : [])
+    ...(sourceLookupRequest ? [sourceLookupSystemInstruction(replyLang)] : [])
   ];
   let matches = [];
   let groupedMatches = [];
@@ -1885,7 +1828,7 @@ export async function POST(req) {
     text: "",
     used: []
   };
-  const shouldRunRag = externalSourcesNeeded && (!ephemeralChunks.length || combineSources) && !previousSourceUseRequest && !assistantSourceUiIssueRequest;
+  const shouldRunRag = externalSourcesNeeded && (!ephemeralChunks.length || combineSources) && !previousSourceUseRequest;
   if (shouldRunRag) {
     try {
       const ragQueryText = sourceLookupRequest
@@ -1990,15 +1933,12 @@ export async function POST(req) {
     contextParts.push(ragContext);
   }
   const context = contextParts.filter(Boolean).join("\n\n");
-  const lookupFallbackContext =
-    previousSourceUseRequest
-      ? "SOURCE_LOOKUP_CONTEXT: No retrieval search was run for this turn. Use any assistant source metadata attached to earlier answers. If none is attached, say that no source metadata is available for that earlier answer."
-      : sourceLookupRequest
-        ? "SOURCE_LOOKUP_CONTEXT: The current targeted source lookup returned no matches. Say that the current search did not find the requested item, unless you can identify it from the user's quoted text or from assistant source metadata."
-        : "";
+  const lookupFallbackContext = sourceLookupRequest
+    ? "SOURCE_LOOKUP_CONTEXT: The current targeted source lookup returned no matches."
+    : "";
   const conversationalFallbackContext =
     !externalSourcesNeeded && !docContext
-      ? "CONVERSATIONAL_CONTEXT: No external source lookup is needed for this turn. Answer from the conversation only and do not cite or list sources."
+      ? "CONVERSATIONAL_CONTEXT: No verified external context was retrieved for this turn."
       : "";
   const effectiveContext = context && context.trim() ? context : lookupFallbackContext || conversationalFallbackContext;
   const grounding = groundingStrength(groupedMatches);
@@ -2014,7 +1954,6 @@ export async function POST(req) {
     docContextChars: docContextResult.usedChars,
     ragSkipped: !shouldRunRag,
     externalSourcesNeeded,
-    assistantSourceUiIssueRequest,
     sourceLookupRequest,
     municipalityMentioned: allowMunicipalityScopedRag,
     municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
@@ -2043,7 +1982,6 @@ export async function POST(req) {
       role: normalizedRole,
       isCrisis,
       sourceLookupRequest,
-      assistantSourceUiIssueRequest,
       messageLength: effectiveMessage.length
     });
   }

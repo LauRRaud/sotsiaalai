@@ -19,12 +19,6 @@
     transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.mobileRailHidden {
-}
-
-.mobileRailVisible {
-}
-
 @media (max-width: 768px) {
   .navHiddenMobile {
     pointer-events: none !important;

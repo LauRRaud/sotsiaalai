@@ -158,9 +158,12 @@ export default function ColorBends({
   const autoRotateRef = useRef(autoRotate);
   const speedRef = useRef(speed);
   const phaseRef = useRef(phase);
+  const scaleRef = useRef(scale);
+  const frequencyRef = useRef(frequency);
+  const warpStrengthRef = useRef(warpStrength);
+  const noiseRef = useRef(noise);
   const pointerTargetRef = useRef(new THREE.Vector2(0, 0));
   const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
-  const pointerSmoothRef = useRef(8);
   const animationEnabledRef = useRef(true);
   const visibleRef = useRef(true);
   const interactiveRef = useRef(false);
@@ -188,13 +191,13 @@ export default function ColorBends({
         uColorCount: { value: 0 },
         uColors: { value: uColorsArray },
         uTransparent: { value: transparent ? 1 : 0 },
-        uScale: { value: scale },
-        uFrequency: { value: frequency },
-        uWarpStrength: { value: warpStrength },
+        uScale: { value: scaleRef.current },
+        uFrequency: { value: frequencyRef.current },
+        uWarpStrength: { value: warpStrengthRef.current },
         uPointer: { value: new THREE.Vector2(0, 0) },
         uMouseInfluence: { value: mouseInfluence },
         uParallax: { value: parallax },
-        uNoise: { value: noise }
+        uNoise: { value: noiseRef.current }
       },
       premultipliedAlpha: true,
       transparent: true
@@ -372,6 +375,10 @@ export default function ColorBends({
     autoRotateRef.current = autoRotate;
     speedRef.current = speed;
     phaseRef.current = phase;
+    scaleRef.current = scale;
+    frequencyRef.current = frequency;
+    warpStrengthRef.current = warpStrength;
+    noiseRef.current = noise;
 
     material.uniforms.uSpeed.value = speed;
     material.uniforms.uPhase.value = phase;

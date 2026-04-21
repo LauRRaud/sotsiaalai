@@ -1,5 +1,5 @@
 {
-  "$schema": "https://ui.shadcn.com/schema.json",
+  "$schema": "./.vscode/schemas/components.schema.json",
   "style": "new-york",
   "rsc": true,
   "tsx": false,
