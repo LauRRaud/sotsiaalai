@@ -920,6 +920,19 @@ async function streamOpenAI({
   }
   return iterator();
 }
+
+const STREAM_DELTA_MIN_CHARS = 28;
+const STREAM_DELTA_MAX_CHARS = 96;
+const STREAM_DELTA_MIN_INTERVAL_MS = 120;
+
+function shouldFlushStreamDelta(text = "", lastFlushAt = 0) {
+  if (!text) return false;
+  if (text.length >= STREAM_DELTA_MAX_CHARS) return true;
+  if (text.length < STREAM_DELTA_MIN_CHARS) return false;
+  if (/[\n.!?;:]\s*$/.test(text)) return true;
+  return Date.now() - lastFlushAt >= STREAM_DELTA_MIN_INTERVAL_MS;
+}
+
 function normalizePageRangeString(s = "") {
   return s.replace(/\s*[-\u2010-\u2015]\s*/g, "-").trim();
 }
@@ -2322,8 +2335,24 @@ export async function POST(req) {
   let clientGone = false;
   let heartbeatTimer = null;
   let accumulated = "";
+  let pendingDelta = "";
+  let lastDeltaFlushAt = Date.now();
   const sse = new ReadableStream({
     async start(controller) {
+      const flushPendingDelta = () => {
+        if (!pendingDelta || clientGone) return;
+        const text = pendingDelta;
+        pendingDelta = "";
+        lastDeltaFlushAt = Date.now();
+        try {
+          controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({
+            t: text
+          })}\n\n`));
+        } catch {
+          clientGone = true;
+        }
+      };
+
       try {
         req.signal?.addEventListener("abort", () => {
           clientGone = true;
@@ -2371,16 +2400,12 @@ export async function POST(req) {
         for await (const ev of iter) {
           if (ev.type === "delta" && ev.text) {
             accumulated += ev.text;
-            if (!clientGone) {
-              try {
-                controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({
-                  t: ev.text
-                })}\n\n`));
-              } catch {
-                clientGone = true;
-              }
+            pendingDelta += ev.text;
+            if (!clientGone && shouldFlushStreamDelta(pendingDelta, lastDeltaFlushAt)) {
+              flushPendingDelta();
             }
           } else if (ev.type === "done") {
+            flushPendingDelta();
             let attachments = [];
             if (persist && convId && userId) {
               await persistAppend({
