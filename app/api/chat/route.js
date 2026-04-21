@@ -2,7 +2,7 @@
 import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
-import { pickReplyLang, langStrings, toResponsesInput, buildResponsesPayload, isIdentityQuestion } from "@/lib/chat/promptBuilder";
+import { pickReplyLang, langStrings, toResponsesInput, buildResponsesPayload } from "@/lib/chat/promptBuilder";
 import {
   chooseOrchestrationPlan,
   countClarifyingTurns,
@@ -161,12 +161,6 @@ function buildImmediateChatResponse({
       "X-Accel-Buffering": "no"
     }
   });
-}
-
-function buildIdentityReply(replyLang = "et") {
-  if (replyLang === "en") return "I am the SotsiaalAI chat assistant.";
-  if (replyLang === "ru") return "Я чат-ассистент SotsiaalAI.";
-  return "Olen SotsiaalAI vestlusassistent.";
 }
 
 function toOpenAiMessages(history, options = {}) {
@@ -1197,61 +1191,6 @@ export async function POST(req) {
     requestedThoroughness,
     convId
   });
-
-  if (!isCrisis && isIdentityQuestion(effectiveMessage)) {
-    const reply = buildIdentityReply(replyLang);
-    const metadataExtra = buildOrchestrationMetadata({
-      mode: WORK_MODES.GENERAL_QUESTION,
-      step: "identity",
-      complexity: "simple",
-      reasoning: "low",
-      capability: "assistant",
-      userVisibleMode: "assistant"
-    });
-
-    if (persist && convId && userId) {
-      await persistInit({
-        convId,
-        userId,
-        role: normalizedRole,
-        sources: [],
-        isCrisis: false,
-        userMessage: effectiveMessage
-      });
-      await persistAppend({
-        convId,
-        userId,
-        fullText: reply
-      });
-      await persistDone({
-        convId,
-        userId,
-        status: "COMPLETED",
-        finalText: reply,
-        sources: [],
-        attachments: [],
-        metadataExtra,
-        isCrisis: false
-      });
-    }
-    if (roomId && userId) {
-      await saveAssistantRoomMessage({
-        roomId,
-        userId,
-        content: reply
-      });
-    }
-
-    return buildImmediateChatResponse({
-      wantStream,
-      reply,
-      sources: [],
-      attachments: [],
-      cards: [],
-      isCrisis: false,
-      convId
-    });
-  }
 
   const documentWorkflowState = userId && !roomId
     ? await getDocumentWorkflowState(convId, userId, prisma)

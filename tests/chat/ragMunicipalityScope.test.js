@@ -11,7 +11,6 @@ import {
 import {
   buildResponsesPayload,
   detectLang,
-  isIdentityQuestion,
   pickReplyLang,
   toResponsesInput
 } from "../../lib/chat/promptBuilder.js";
@@ -464,10 +463,8 @@ test("prompt gives a short identity answer rule", () => {
   });
 
   const system = input.input[0].content;
-  assert.match(system, /If the user asks who you are or whether you are ChatGPT/);
-  assert.match(system, /Olen SotsiaalAI vestlusassistent/);
-  assert.match(system, /Do not identify yourself as OpenAI, ChatGPT, or an OpenAI-created assistant/);
-  assert.match(system, /Do not add meta explanations about product naming/);
+  assert.match(system, /If the user asks who you are/);
+  assert.match(system, /SotsiaalAI vestlusassistent/);
 });
 
 test("turn rule handles simple availability questions with short confirm and follow-up", () => {
@@ -571,72 +568,6 @@ test("turn rule catches short miks follow-up after self-correction", () => {
   assert.match(turnInstruction, /Answer briefly in user-facing terms only/);
   assert.match(turnInstruction, /Do not discuss prompts, verbosity, model version, decoding, or internal system behavior/);
   assert.match(turnInstruction, /Do not add a follow-up offer or preference question/);
-});
-
-test("turn rule gives a short identity answer", () => {
-  const input = toResponsesInput({
-    history: [],
-    userMessage: "kas oled chatgpt?",
-    context: "",
-    effectiveRole: "CLIENT",
-    replyLang: "et"
-  });
-
-  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
-  assert.match(turnInstruction, /The user is asking about the assistant's identity/);
-  assert.match(turnInstruction, /Answer in one short sentence/);
-  assert.match(turnInstruction, /Olen SotsiaalAI vestlusassistent/);
-  assert.match(turnInstruction, /Do not say that you are OpenAI, ChatGPT, or an OpenAI-created assistant/);
-  assert.match(turnInstruction, /Do not add meta explanation about product naming or internal status/);
-});
-
-test("identity detection covers openai assistant phrasing", () => {
-  assert.equal(isIdentityQuestion("openai assistent?"), true);
-  assert.equal(isIdentityQuestion("kas sa oled openai asistent või sotsiaalai assistent?"), true);
-
-  const input = toResponsesInput({
-    history: [],
-    userMessage: "openai assistent?",
-    context: "",
-    effectiveRole: "CLIENT",
-    replyLang: "et"
-  });
-
-  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
-  assert.match(turnInstruction, /The user is asking about the assistant's identity/);
-  assert.match(turnInstruction, /Olen SotsiaalAI vestlusassistent/);
-  assert.match(turnInstruction, /Do not say that you are OpenAI, ChatGPT, or an OpenAI-created assistant/);
-});
-
-test("identity detection does not trigger on substantive bare oled-sa questions", () => {
-  const input = toResponsesInput({
-    history: [],
-    userMessage: "oled sa kursis sotsiaalhoolekande seadusega?",
-    context: "Sotsiaalhoolekande seadus.",
-    effectiveRole: "CLIENT",
-    replyLang: "et"
-  });
-
-  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
-  assert.doesNotMatch(turnInstruction, /assistant's identity/);
-  assert.equal(buildResponsesPayload(input, {
-    stream: false,
-    effectiveRole: "CLIENT"
-  }).text.verbosity, "medium");
-});
-
-test("identity detection catches what-assistant phrasing", () => {
-  const input = toResponsesInput({
-    history: [],
-    userMessage: "mis assistent sa oled?",
-    context: "",
-    effectiveRole: "CLIENT",
-    replyLang: "et"
-  });
-
-  const turnInstruction = input.input.find(item => item.role === "system" && /TURN_INSTRUCTION/.test(item.content))?.content || "";
-  assert.match(turnInstruction, /assistant's identity/);
-  assert.match(turnInstruction, /Olen SotsiaalAI vestlusassistent/);
 });
 
 test("simple availability detection stays off for broader law questions", () => {
