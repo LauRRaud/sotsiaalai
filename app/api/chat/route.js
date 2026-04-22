@@ -1941,6 +1941,7 @@ export async function POST(req) {
     text: "",
     used: []
   };
+  let temporalMissingYears = [];
   const shouldRunRag = externalSourcesNeeded && (!ephemeralChunks.length || combineSources) && !previousSourceUseRequest;
   if (shouldRunRag) {
     try {
@@ -2043,27 +2044,34 @@ export async function POST(req) {
           .filter(year => Number.isInteger(year))
       );
       const missingYears = temporalRetrievalPlan.years.filter(year => !coveredYears.has(year));
+      temporalMissingYears = missingYears;
       if (missingYears.length) {
-        const fallbackQueries = buildTemporalFillQueries({
-          years: missingYears,
-          focusText: temporalRetrievalPlan.focusText || effectiveMessage,
-          message: effectiveMessage,
-          topicHints
-        });
-        const fallbackMatches = await searchRagQueries({
-          queries: fallbackQueries,
-          topK: Math.max(8, RAG_TOP_K),
-          filters: sourceLookupTargetsNationalLaw
-            ? {
-                ...audienceFilter,
-                jurisdiction_level: "NATIONAL"
-              }
-            : audienceFilter,
-          observabilityStage: "rag_search_temporal_fill",
-          userId,
-          role: normalizedRole,
-          conversationId: convId
-        });
+        const fallbackSettled = await Promise.allSettled(
+          missingYears.map(year =>
+            searchRagQueries({
+              queries: buildTemporalFillQueries({
+                years: [year],
+                focusText: temporalRetrievalPlan.focusText || effectiveMessage,
+                message: effectiveMessage,
+                topicHints
+              }),
+              topK: Math.max(12, RAG_TOP_K),
+              filters: sourceLookupTargetsNationalLaw
+                ? {
+                    ...audienceFilter,
+                    jurisdiction_level: "NATIONAL"
+                  }
+                : audienceFilter,
+              observabilityStage: `rag_search_temporal_fill_${year}`,
+              userId,
+              role: normalizedRole,
+              conversationId: convId
+            })
+          )
+        );
+        const fallbackMatches = fallbackSettled.flatMap(item =>
+          item.status === "fulfilled" && Array.isArray(item.value) ? item.value : []
+        );
         matches = dedupeRagMatches([
           ...matches,
           ...filterMunicipalityScopedMatches(fallbackMatches, {
@@ -2076,7 +2084,11 @@ export async function POST(req) {
     chosen = temporalRetrievalPlan.enabled
       ? selectTemporalGroups(groupedMatches, temporalRetrievalPlan.years, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA)
       : diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);
-    budgeted = buildContextWithBudget(chosen);
+    budgeted = buildContextWithBudget(chosen, temporalRetrievalPlan.enabled
+      ? {
+          preferredYears: temporalRetrievalPlan.years
+        }
+      : undefined);
   }
   const ragContext = budgeted.text;
   const docBudget = getDocContextBudget(normalizedRole, combineSources);
@@ -2108,11 +2120,19 @@ export async function POST(req) {
   const grounding = groundingStrength(groupedMatches);
   const hadDocContext = !!docContext;
   const hadRagContext = !!ragContext;
+  const groupedYears = Array.from(new Set(groupedMatches.map(extractMatchGroupYear).filter(year => Number.isInteger(year))));
+  const selectedYears = Array.from(new Set(chosen.map(extractMatchGroupYear).filter(year => Number.isInteger(year))));
+  const contextYears = Array.from(new Set(budgeted.used.map(extractMatchGroupYear).filter(year => Number.isInteger(year))));
   logInfo("rag.afterSearch", {
     rawMatches: matches.length,
     groups: groupedMatches.length,
     grounding,
     mmrSelected: chosen.length,
+    groupedYears,
+    selectedYears,
+    contextYears,
+    requestedYears: temporalRetrievalPlan.enabled ? temporalRetrievalPlan.years : [],
+    missingYears: temporalMissingYears,
     docChunkInputCount: ephemeralChunks.length,
     docChunkUsedCount: docContextResult.usedChunks,
     docContextChars: docContextResult.usedChars,
@@ -2131,6 +2151,11 @@ export async function POST(req) {
       groupCount: groupedMatches.length,
       chosenGroupCount: chosen.length,
       grounding,
+      groupedYears: groupedYears.join(",") || undefined,
+      selectedYears: selectedYears.join(",") || undefined,
+      contextYears: contextYears.join(",") || undefined,
+      requestedYears: temporalRetrievalPlan.enabled ? temporalRetrievalPlan.years.join(",") : undefined,
+      missingYears: temporalMissingYears.length ? temporalMissingYears.join(",") : undefined,
       docChunkInputCount: ephemeralChunks.length,
       docChunkUsedCount: docContextResult.usedChunks,
       docContextChars: docContextResult.usedChars,

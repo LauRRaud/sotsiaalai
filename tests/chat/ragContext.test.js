@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { renderOneContextBlock, selectTemporalGroups, rankGroupsWithTopicHints } from "../../lib/chat/ragContext.js";
+import { buildContextWithBudget, renderOneContextBlock, selectTemporalGroups, rankGroupsWithTopicHints } from "../../lib/chat/ragContext.js";
 
 test("rag context header includes journal and year metadata", () => {
   const block = renderOneContextBlock({
@@ -59,6 +59,28 @@ test("temporal group selection reserves room for requested years", () => {
   const selected = selectTemporalGroups(groups, [2018, 2019, 2020], 3, 0.5);
 
   assert.deepEqual(selected.map(item => item.year), [2018, 2019, 2020]);
+});
+
+test("temporal context budgeting keeps later years by shrinking excerpts instead of dropping them", () => {
+  const longBody = "Sisuline kokkuvote. ".repeat(180);
+  const groups = [2018, 2019, 2020, 2021].map(year => ({
+    key: String(year),
+    title: `${year} ulevaade`,
+    year,
+    bestScore: 0.9,
+    authors: [`Autor ${year}`],
+    pages: [10, 11, 12],
+    pageRanges: [],
+    bodies: [longBody],
+    __sig: `${year} ulevaade`
+  }));
+
+  const budgeted = buildContextWithBudget(groups, {
+    preferredYears: [2018, 2019, 2020, 2021]
+  });
+
+  assert.deepEqual(budgeted.used.map(item => item.year), [2018, 2019, 2020, 2021]);
+  assert.match(budgeted.text, /\(4\) 2021 ulevaade/);
 });
 
 test("topic hint ranking boosts matching tags within the same year", () => {
