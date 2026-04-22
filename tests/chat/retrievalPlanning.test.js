@@ -53,6 +53,18 @@ test("temporal retrieval plan does not expand discrete years into a range", () =
   assert.ok(!plan.queries.some(query => /\b2019\b/.test(query)));
 });
 
+test("temporal retrieval plan turns on for compare questions written tabelina", () => {
+  const plan = buildTemporalRetrievalPlan({
+    message: "vordle 2018 ja 2020 suurimaid muutusi Eesti sotsiaalvaldkonnas tabelina",
+    history: [],
+    baseQuery: "vordle 2018 ja 2020 suurimaid muutusi Eesti sotsiaalvaldkonnas tabelina"
+  });
+
+  assert.equal(plan.enabled, true);
+  assert.deepEqual(plan.years, [2018, 2020]);
+  assert.ok(!plan.queries.some(query => /\b2019\b/.test(query)));
+});
+
 test("temporal retrieval plan treats common short followups as non-focus text", () => {
   const history = [
     { role: "user", content: "mis on olnud suurimad muutused Eesti sotsiaalvaldkonnas iga aasta kohta 2018-2021" },

@@ -2,7 +2,7 @@
 import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
-import { pickReplyLang, langStrings, toResponsesInput, buildResponsesPayload } from "@/lib/chat/promptBuilder";
+import { pickReplyLang, langStrings } from "@/lib/chat/promptBuilder";
 import { buildLocalizedExtraSystemInstruction } from "@/lib/chat/systemPrompts/index.js";
 import {
   chooseOrchestrationPlan,
@@ -10,46 +10,33 @@ import {
   inferRequestedThoroughness,
   WORK_MODES
 } from "@/lib/chat/orchestrationPolicy";
-import {
-  collapsePages,
-  groupMatches,
-  diversifyGroupsMMR,
-  selectTemporalGroups,
-  rankGroupsWithTopicHints,
-  buildContextWithBudget,
-  makeShortRef,
-  filterMunicipalityScopedMatches,
-  displayUrl
-} from "@/lib/chat/ragContext";
-import { detectCrisis, isGreeting, groundingStrength } from "@/lib/chat/safety";
-import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence";
+import { detectCrisis, isGreeting } from "@/lib/chat/safety";
+import { persistInit, persistDone } from "@/lib/chat/persistence";
 import { logEvent } from "@/lib/chat/logger";
-import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
-import { shouldUseExternalSourcesForTurn } from "@/lib/chat/sourceNeed";
-import { buildTemporalRetrievalPlan, buildTemporalBreakdownInstruction, buildTemporalFillQueries, extractTopicHints } from "@/lib/chat/retrievalPlanning";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
-import { canSpendMonthlyBudget } from "@/lib/usageBudget";
-import { MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib/documents/constants";
-import { generateArtifactDraftContent } from "@/lib/documents/generation";
-import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability";
+import { callOpenAI, streamOpenAI, shouldFlushStreamDelta } from "@/lib/chat/openaiRuntime";
+import { assembleRetrievalContext } from "@/lib/chat/retrievalContextAssembler";
+import { buildImmediateChatResponse, finalizeAssistantReply } from "@/lib/chat/responseFinalizer";
+import { handleDocumentWorkflowBranch, handleHelpWorkflowBranch } from "@/lib/chat/workflowBranchHandlers";
 import {
-  buildDocumentGeneratedIntro,
-  buildDocumentTaskAttachments,
-  buildDocumentWorkflowMetadata,
-  getDocumentWorkflowPlanInput,
+  normalizeEphemeralChunk,
+  detectSourcesRequest,
+  shouldOfferDocumentDownload,
+  normalizeRoomId,
+  isPlausibleConversationId
+} from "@/lib/chat/requestContext";
+import { canSpendMonthlyBudget } from "@/lib/usageBudget";
+import {
+  hasDocumentTaskContext,
   getDocumentWorkflowState,
-  isActiveDocumentWorkflowState,
-  resolveDocumentTaskDecision
+  isActiveDocumentWorkflowState
 } from "@/lib/chat/documentOrchestration";
-import { runDocumentChatWorkflow } from "@/lib/chat/documentOrchestration";
-import { buildHelpWorkflowMetadata, getHelpWorkflowState, runHelpChatWorkflow } from "@/lib/help/chatWorkflow";
+import { getHelpWorkflowState } from "@/lib/help/chatWorkflow";
 import { detectHelpChatIntent } from "@/lib/help/intents";
 import { isActiveHelpWorkflowState, normalizeHelpWorkflowState } from "@/lib/help/workflowState";
 import { getChatSessionTurnLimit } from "@/lib/chat/guardrails";
-import { logOpenAIUsage } from "@/lib/openaiUsage";
 import { shouldUseHelpWorkflowMode } from "@/lib/chat/workflowModeRouting";
 import { shouldAllowChatWithoutSubscription } from "@/lib/chat/subscriptionGate";
-import { loadMunicipalitySeedEntries, normalizeMunicipalitySearchText } from "@/lib/help/municipalityData";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -110,63 +97,6 @@ function buildOrchestrationMetadata(plan, extra = null) {
     ...(orchestration ? { orchestration } : {})
   };
 }
-function buildImmediateChatResponse({
-  wantStream = false,
-  reply = "",
-  sources = [],
-  attachments = [],
-  cards = [],
-  workflow = null,
-  isCrisis = false,
-  convId = null
-}) {
-  if (!wantStream) {
-    return NextResponse.json({
-      ok: true,
-      reply,
-      answer: reply,
-      sources,
-      attachments,
-      cards,
-      workflow,
-      isCrisis,
-      convId: convId || undefined
-    });
-  }
-  const enc = new TextEncoder();
-  const sse = new ReadableStream({
-    async start(controller) {
-      try {
-        controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({
-          sources,
-          workflow,
-          isCrisis
-        })}\n\n`));
-        controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({
-          t: reply
-        })}\n\n`));
-        controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({
-          attachments,
-          cards,
-          workflow
-        })}\n\n`));
-      } finally {
-        try {
-          controller.close();
-        } catch {}
-      }
-    }
-  });
-  return new Response(sse, {
-    headers: {
-      "Content-Type": "text/event-stream; charset=utf-8",
-      "Cache-Control": "no-cache, no-transform",
-      Connection: "keep-alive",
-      "X-Accel-Buffering": "no"
-    }
-  });
-}
-
 function toOpenAiMessages(history, options = {}) {
   if (!Array.isArray(history) || history.length === 0) return [];
   const maxItems = Math.max(1, Number(options.maxItems) || CHAT_HISTORY_MAX_ITEMS);
@@ -196,243 +126,9 @@ function toOpenAiMessages(history, options = {}) {
     };
   });
 }
-function normalizeEphemeralChunk(text, maxChars = CHAT_EPHEMERAL_CHUNK_CHARS_MAX) {
-  const normalized = String(text || "").replace(/\r\n?/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
-  if (!normalized) return "";
-  if (normalized.length <= maxChars) return normalized;
-  return `${normalized.slice(0, Math.max(1, maxChars - 3)).trimEnd()}...`;
-}
-function tokenizeForChunkSearch(text = "") {
-  const tokens = String(text || "").toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(token => token.length >= 3);
-  return Array.from(new Set(tokens)).slice(0, 28);
-}
-function extractQueryPhrases(text = "") {
-  const parts = String(text || "").toLowerCase().split(/[.?!\n;:]+/).map(s => s.trim()).filter(s => s.length >= 16);
-  return Array.from(new Set(parts)).slice(0, 4);
-}
-function extractRecentUserText(history = [], maxItems = 2) {
-  if (!Array.isArray(history) || !history.length) return [];
-  const picked = [];
-  for (let i = history.length - 1; i >= 0 && picked.length < maxItems; i -= 1) {
-    const msg = history[i];
-    const role = String(msg?.role || "").toLowerCase();
-    if (!(role === "user" || role === "client")) continue;
-    const text = String(msg?.text || msg?.content || "").trim();
-    if (!text) continue;
-    picked.push(text.slice(0, 700));
-  }
-  return picked.reverse();
-}
-
-function shouldUseRecentTextForRetrieval(message = "") {
-  const normalized = normalizeIntentText(message);
-  if (!normalized) return false;
-  if (normalized.length <= 90) return true;
-  return /\b(see|seda|sellest|selle|seal|siin|jah|jep|okei|ok|kontakt|kontaktid|telefon|e-post|email|taotlus|taotlema|pean|kuidas|kuhu|kellele)\b/.test(normalized);
-}
-
-function recentRetrievalContextLimit(message = "") {
-  const normalized = normalizeIntentText(message);
-  if (!normalized) return 2;
-  if (normalized.length <= 40) return 6;
-  if (/\b(see|seda|sellest|selle|seal|siin|jah|jep|okei|ok|kontakt|kontaktid|telefon|e-post|email|taotlus|taotlema|kuhu|kellele|mis valda|mis linna)\b/.test(normalized)) {
-    return 5;
-  }
-  return 2;
-}
-
-function buildRagSearchQuery(message = "", history = []) {
-  const current = String(message || "").trim();
-  if (!current) return "";
-  const recent = shouldUseRecentTextForRetrieval(current)
-    ? extractRecentUserText(history, recentRetrievalContextLimit(current))
-    : [];
-  const parts = [current, ...recent].filter(Boolean);
-  return Array.from(new Set(parts)).join("\n");
-}
-
-async function searchRagQueries({
-  queries,
-  topK = RAG_TOP_K,
-  filters,
-  observabilityRoute = "api/chat",
-  observabilityStage = "rag_search",
-  userId = null,
-  role = null,
-  conversationId = null
-}) {
-  const normalizedQueries = [];
-  const seen = new Set();
-  for (const raw of (Array.isArray(queries) ? queries : [queries])) {
-    if (!raw) continue;
-    const queryText = typeof raw === "string" ? raw : raw?.query;
-    const normalizedQuery = String(queryText || "").trim();
-    if (!normalizedQuery) continue;
-    const extraFilters = raw && typeof raw === "object" && !Array.isArray(raw) ? raw.filters || null : null;
-    const dedupeKey = JSON.stringify({
-      query: normalizedQuery,
-      filters: extraFilters || null
-    });
-    if (seen.has(dedupeKey)) continue;
-    seen.add(dedupeKey);
-    normalizedQueries.push({
-      query: normalizedQuery,
-      filters: extraFilters
-    });
-  }
-  const uniqueQueries = normalizedQueries;
-  if (!uniqueQueries.length) return [];
-  if (uniqueQueries.length === 1) {
-    return searchRagDirect({
-      query: uniqueQueries[0].query,
-      topK,
-      filters: uniqueQueries[0].filters ? {
-        ...(filters || {}),
-        ...uniqueQueries[0].filters
-      } : filters,
-      observabilityRoute,
-      observabilityStage,
-      userId,
-      role,
-      conversationId
-    });
-  }
-
-  const perQueryTopK = Math.max(4, Math.min(topK, Math.ceil(topK / uniqueQueries.length) + 2));
-  const settled = await Promise.allSettled(uniqueQueries.map((entry, index) =>
-    searchRagDirect({
-      query: entry.query,
-      topK: perQueryTopK,
-      filters: entry.filters ? {
-        ...(filters || {}),
-        ...entry.filters
-      } : filters,
-      observabilityRoute,
-      observabilityStage: `${observabilityStage}_q${index + 1}`,
-      userId,
-      role,
-      conversationId
-    })
-  ));
-
-  const merged = [];
-  let firstError = null;
-  for (const item of settled) {
-    if (item.status === "fulfilled") {
-      merged.push(...(Array.isArray(item.value) ? item.value : []));
-    } else if (!firstError) {
-      firstError = item.reason;
-    }
-  }
-  if (!merged.length && firstError) throw firstError;
-  return dedupeRagMatches(merged);
-}
-
-function extractParagraphReferences(text = "") {
-  const source = String(text || "");
-  const refs = new Set();
-  const explicitPattern = /(?:§+\s*|paragrahv(?:i|is|ist|ile|il|iga|iks)?\s+|paragraph\s+)(\d+[a-z]?(?:\s*[-–]\s*\d+[a-z]?)?)/giu;
-  for (const match of source.matchAll(explicitPattern)) {
-    const ref = String(match?.[1] || "").replace(/\s+/g, "").replace(/[–]/g, "-").trim();
-    if (ref) refs.add(ref);
-  }
-
-  const normalized = normalizeIntentText(source);
-  if (/\b(paragrahv|paragraph|loige|lõige|sate|säte|§)\b/.test(normalized) || source.includes("§")) {
-    const listPattern = /(?:^|[\s,;])(\d{1,3}[a-z]?)(?=\s*(?:,|;|\bja\b|\band\b|\bning\b|$))/giu;
-    for (const match of source.matchAll(listPattern)) {
-      const ref = String(match?.[1] || "").trim();
-      if (ref) refs.add(ref);
-    }
-  }
-  return Array.from(refs).slice(0, 8);
-}
-
-function inferSourceLookupSubject(text = "") {
-  const normalized = normalizeIntentText(text);
-  if (/\bsotsiaalhoolekande sead/.test(normalized) || /\bshs\b/.test(normalized)) {
-    return "Sotsiaalhoolekande seadus";
-  }
-  if (/\bjogeva\b/.test(normalized) && /\b(riigi teataja|riigiteataja|maar|määr|kord|sotsiaalhoolekandelise abi)\b/.test(normalized)) {
-    return "Sotsiaalhoolekandelise abi andmise kord Jõgeva vallas";
-  }
-  if (/\bjogeva\b/.test(normalized)) {
-    return "Jõgeva vald sotsiaalteenused toetused";
-  }
-  if (/\briigi teataja|riigiteataja\b/.test(normalized)) {
-    return "Riigi Teataja";
-  }
-  return "";
-}
-
-function detectSourceAvailabilityRequest(history = [], message = "") {
-  const current = String(message || "").trim();
-  if (!current) return false;
-  const recent = extractRecentUserText(history, 6);
-  const combined = [current, ...recent].join("\n");
-  const normalizedCurrent = normalizeIntentText(current);
-  const normalizedCombined = normalizeIntentText(combined);
-  const hasSourceTerm =
-    /(?:§|paragrahv|paragraph|\bseadus|sotsiaalhoolekande|\bshs\b|riigi teataja|riigiteataja|allik|materjal|andmebaas|dokument|source|document|legal act)/.test(normalizedCombined) ||
-    current.includes("§");
-  const hasAvailabilityIntent =
-    /\b(kas\s+)?(su|sul|sinul|teil)\b/.test(normalizedCurrent) ||
-    /\b(olemas|naed|näed|naitab|näitab|andmebaas|materjalides|allikates|kasuta|kasutas|kasutasid|kasutatud|viitasid|leia|leidsid|kusin|küsin|kysin|küsisin|find|have|available|database|ask|asking|used|cited)\b/.test(normalizedCurrent);
-  const hasIdentificationIntent =
-    /\b(mis|milline|kust|kus|what|which|where)\b/.test(normalizedCurrent) &&
-    /\b(tekst|lause|katkend|paragrahv|paragraph|loige|lõige|sate|säte|allik|viide|dokument|source|document|passage|quote|citation)\b/.test(normalizedCurrent);
-  const shortParagraphFollowup =
-    /^[§\s\d,;a-zA-Z-]+$/.test(current) &&
-    /\b(paragrahv|paragraph|§|seadus|shs|andmebaas|materjal)\b/.test(normalizedCombined);
-  return Boolean(hasSourceTerm && (hasAvailabilityIntent || hasIdentificationIntent || shortParagraphFollowup));
-}
-
-function historyHasAssistantAnswer(history = []) {
-  if (!Array.isArray(history)) return false;
-  return history.some(item => {
-    const role = String(item?.role || "").toLowerCase();
-    if (role !== "ai" && role !== "assistant") return false;
-    return typeof item?.text === "string" && item.text.trim().length > 0;
-  });
-}
-
-function detectPreviousSourceUseRequest(history = [], message = "") {
-  const normalized = normalizeIntentText(message);
-  if (!normalized || !historyHasAssistantAnswer(history)) return false;
-  const asksSources = /\b(allik|viide|source|cite|citation)\b/.test(normalized);
-  const asksUsed =
-    /\b(kasuta|kasutas|kasutasid|kasutatud|viitasid|used|cited)\b/.test(normalized) ||
-    /\b(selle|eelmis|viimas|vastuse)\b/.test(normalized);
-  return asksSources && asksUsed;
-}
-
-function buildSourceLookupSearchQuery(message = "", history = []) {
-  const current = String(message || "").trim();
-  const recent = extractRecentUserText(history, 8);
-  const combined = [current, ...recent].filter(Boolean).join("\n");
-  const subject = inferSourceLookupSubject(combined);
-  const paragraphRefs = extractParagraphReferences(combined);
-  const parts = [];
-  if (subject) parts.push(subject);
-  if (current) parts.push(current);
-  for (const ref of paragraphRefs) {
-    parts.push(`${subject || ""} § ${ref}`.trim());
-    parts.push(`${subject || ""} paragrahv ${ref}`.trim());
-  }
-  parts.push(...recent);
-  return Array.from(new Set(parts.map(part => part.trim()).filter(Boolean))).join("\n");
-}
 
 function sourceLookupSystemInstruction(replyLang = "et") {
   return buildLocalizedExtraSystemInstruction("SOURCE_LOOKUP_MODE", { replyLang });
-}
-
-function isMunicipalityDependentSocialHelpQuestion(message = "") {
-  const normalized = normalizeIntentText(message);
-  if (!normalized) return false;
-  const mentionsMunicipalityLevel = /\b(kov|omavalitsus|omavalitsuse|vald|valla|vallalt|linna|linnalt|rahvastikuregistr|elukoha|elukohajarg)\b/.test(normalized);
-  const mentionsSocialHelp = /\b(abi|sotsiaal|hoolekan|hooldus|koduteenus|koduhooldus|toimetulek|toime|taotle|taotlus|teenus|toetus|osakond)\b/.test(normalized);
-  return mentionsMunicipalityLevel && mentionsSocialHelp;
 }
 
 function missingMunicipalitySystemInstruction(effectiveRole = "CLIENT", replyLang = "et") {
@@ -440,554 +136,6 @@ function missingMunicipalitySystemInstruction(effectiveRole = "CLIENT", replyLan
     effectiveRole,
     replyLang
   });
-}
-
-function getDocContextBudget(role = "CLIENT", combineSources = false) {
-  const worker = role === "SOCIAL_WORKER";
-  return {
-    charBudget: worker
-      ? combineSources
-        ? CHAT_DOC_CONTEXT_WORKER_COMBINED_CHARS
-        : CHAT_DOC_CONTEXT_WORKER_CHARS
-      : combineSources
-        ? CHAT_DOC_CONTEXT_CLIENT_COMBINED_CHARS
-        : CHAT_DOC_CONTEXT_CLIENT_CHARS,
-    maxChunks: worker ? CHAT_DOC_CONTEXT_WORKER_MAX_CHUNKS : CHAT_DOC_CONTEXT_CLIENT_MAX_CHUNKS
-  };
-}
-function buildEphemeralDocContext(ephemeralChunks = [], options = {}) {
-  const chunks = Array.isArray(ephemeralChunks) ? ephemeralChunks : [];
-  if (!chunks.length) return {
-    text: "",
-    usedChars: 0,
-    usedChunks: 0
-  };
-  const maxChunks = Math.max(1, Number(options.maxChunks) || CHAT_DOC_CONTEXT_CLIENT_MAX_CHUNKS);
-  const charBudget = Math.max(300, Number(options.charBudget) || CHAT_DOC_CONTEXT_CLIENT_CHARS);
-  const normalized = [];
-  const seen = new Set();
-  for (const raw of chunks.slice(0, CHAT_EPHEMERAL_CHUNKS_MAX)) {
-    const cleaned = normalizeEphemeralChunk(raw, CHAT_EPHEMERAL_CHUNK_CHARS_MAX);
-    if (!cleaned) continue;
-    const dedupeKey = cleaned.slice(0, 180).toLowerCase();
-    if (seen.has(dedupeKey)) continue;
-    seen.add(dedupeKey);
-    normalized.push(cleaned);
-  }
-  if (!normalized.length) return {
-    text: "",
-    usedChars: 0,
-    usedChunks: 0
-  };
-  const queryText = String(options.queryText || "").trim().toLowerCase();
-  const queryTokens = tokenizeForChunkSearch(queryText);
-  const queryPhrases = extractQueryPhrases(queryText);
-  const queryNumbers = Array.from(new Set((queryText.match(/\d+/g) || []).slice(0, 5)));
-  const scored = normalized.map((chunk, index) => {
-    const lower = chunk.toLowerCase();
-    let tokenHits = 0;
-    for (const token of queryTokens) {
-      if (lower.includes(token)) tokenHits += 1;
-    }
-    let phraseHits = 0;
-    for (const phrase of queryPhrases) {
-      if (lower.includes(phrase)) phraseHits += 1;
-    }
-    let numberHits = 0;
-    for (const numberToken of queryNumbers) {
-      if (lower.includes(numberToken)) numberHits += 1;
-    }
-    const score = tokenHits * 1.5 + phraseHits * 2.1 + numberHits * 1.1 + (index === 0 ? 0.1 : 0);
-    return {
-      index,
-      chunk,
-      score
-    };
-  });
-  const ranked = [...scored].sort((a, b) => b.score - a.score || a.index - b.index);
-  let usedChars = 0;
-  const selected = [];
-  for (const entry of ranked) {
-    if (selected.length >= maxChunks) break;
-    const remaining = charBudget - usedChars;
-    if (remaining < 120) break;
-    const piece = entry.chunk.length > remaining ? entry.chunk.slice(0, remaining).trimEnd() : entry.chunk;
-    if (!piece) continue;
-    selected.push({
-      index: entry.index,
-      text: piece
-    });
-    usedChars += piece.length + 8;
-  }
-  if (!selected.length) {
-    const fallback = normalized[0].slice(0, charBudget).trim();
-    return {
-      text: fallback,
-      usedChars: fallback.length,
-      usedChunks: fallback ? 1 : 0
-    };
-  }
-  selected.sort((a, b) => a.index - b.index);
-  const text = selected.map((entry, idx) => `[DOC ${idx + 1}]\n${entry.text}`).join("\n\n---\n\n").trim();
-  return {
-    text,
-    usedChars: Math.min(charBudget, text.length),
-    usedChunks: selected.length
-  };
-}
-
-function getEphemeralSourceNames(ephemeralSource) {
-  const names = Array.isArray(ephemeralSource?.fileNames)
-    ? ephemeralSource.fileNames.map(name => String(name || "").trim()).filter(Boolean)
-    : [];
-  if (names.length) return names;
-  const singleName = String(ephemeralSource?.fileName || "").trim();
-  return singleName ? [singleName] : [];
-}
-
-function getEphemeralSourceLabel(ephemeralSource, fallback = "chat-uploaded-material") {
-  const names = getEphemeralSourceNames(ephemeralSource);
-  if (!names.length) return fallback;
-  return names.length === 1 ? names[0] : `${names[0]} +${names.length - 1}`;
-}
-function detectSourcesRequest(history = [], message = "") {
-  const sourcesText = [];
-  if (typeof message === "string") sourcesText.push(message);
-  if (Array.isArray(history)) {
-    for (const h of history) {
-      const role = String(h?.role || "").toLowerCase();
-      if (role === "user" || role === "client") {
-        sourcesText.push(h?.text || h?.content || "");
-      }
-    }
-  }
-  const txt = sourcesText.join(" ").toLowerCase();
-  const tokens = [
-    "allik",
-    "viide",
-    "source",
-    "cite",
-    "citation",
-    "\u0438\u0441\u0442\u043e\u0447\u043d",
-    "\u0441\u0441\u044b\u043b\u043a"
-  ];
-  return tokens.some(token => txt.includes(token));
-}
-function shouldOfferDocumentDownload(message = "") {
-  const lower = String(message || "").toLowerCase();
-  const hasPdf = /\bpdf\b/.test(lower);
-  const hasDocx = /\bdocx?\b/.test(lower);
-  const hasWord = /\bms\s*word\b/.test(lower) || /\bwordi?\b/.test(lower);
-  const hasFileIntent = /(allalaad|download|fail|file|dokument|document|export|eksport|laadi)/.test(lower);
-  if (hasPdf || hasDocx) return true;
-  if (hasWord && hasFileIntent) return true;
-  return false;
-}
-function inferDocumentFormats(message = "") {
-  const lower = String(message || "").toLowerCase();
-  const wantsPdf = /\bpdf\b/.test(lower);
-  const wantsWord = /\bdocx?\b/.test(lower) || /\bms\s*word\b/.test(lower) || /\bwordi?\b/.test(lower);
-  if (wantsPdf && wantsWord) return ["pdf", "word"];
-  if (wantsWord) return ["word"];
-  return ["pdf"];
-}
-function normalizeIntentText(value = "") {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/\p{Diacritic}+/gu, "")
-    .toLowerCase()
-    .trim();
-}
-function collectRecentUserInputs(history = [], currentMessage = "", maxItems = 8) {
-  const items = [];
-  if (Array.isArray(history)) {
-    for (let i = history.length - 1; i >= 0 && items.length < maxItems; i -= 1) {
-      const entry = history[i];
-      const role = String(entry?.role || "").toLowerCase();
-      if (!(role === "user" || role === "client")) continue;
-      const text = String(entry?.text || entry?.content || "").trim();
-      if (!text) continue;
-      items.push(text);
-    }
-  }
-  const current = String(currentMessage || "").trim();
-  if (current) items.unshift(current);
-  return items.reverse();
-}
-
-let municipalitySeedEntriesPromise = null;
-
-async function getMunicipalitySeedEntriesSafe() {
-  if (!municipalitySeedEntriesPromise) {
-    municipalitySeedEntriesPromise = loadMunicipalitySeedEntries().catch((error) => {
-      municipalitySeedEntriesPromise = null;
-      logError("municipality_seed.load_failed", {
-        err: error?.message || String(error)
-      });
-      return [];
-    });
-  }
-  return municipalitySeedEntriesPromise;
-}
-
-function escapeRegExp(value = "") {
-  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function containsMunicipalityLookupTerm(normalizedText, term) {
-  const normalizedTerm = normalizeMunicipalitySearchText(term);
-  if (!normalizedText || !normalizedTerm || normalizedTerm.length < 3) return false;
-  const escaped = escapeRegExp(normalizedTerm).replace(/\s+/g, "[\\s-]+");
-  const pattern = new RegExp(`(^|[^a-z0-9])${escaped}(?:s|l|le|lt|st|sse|ga|ta|ks|ni|na)?(?=$|[^a-z0-9])`, "i");
-  return pattern.test(normalizedText);
-}
-
-async function detectMentionedMunicipalitiesFromUserText(history = [], currentMessage = "") {
-  const userText = collectRecentUserInputs(history, currentMessage, 6).join("\n");
-  const normalizedText = normalizeMunicipalitySearchText(userText);
-  if (!normalizedText) return [];
-
-  const entries = await getMunicipalitySeedEntriesSafe();
-  const matches = [];
-  const seen = new Set();
-  for (const entry of entries) {
-    if (!entry || entry.isActive === false) continue;
-    const terms = [
-      entry.displayName,
-      `${entry.baseName || ""} ${String(entry.type || "").toLowerCase()}`.trim(),
-      entry.baseName
-    ].filter(Boolean);
-    const matchedTerm = terms.find(term => containsMunicipalityLookupTerm(normalizedText, term));
-    if (!matchedTerm || seen.has(entry.slug)) continue;
-    seen.add(entry.slug);
-    matches.push({
-      slug: entry.slug,
-      displayName: entry.displayName,
-      matchedTerm
-    });
-  }
-  return matches.slice(0, 5);
-}
-
-function detectDocumentTaskIntent(message = "") {
-  const text = normalizeIntentText(message);
-  if (!text) return false;
-  const hasAction = /\b(koost\w*|kirjut\w*|loo|luu\w*|loom\w*|aita\w*|valmista\w*|vormista\w*|prepare\w*|create\w*|draft\w*|write\w*|generate\w*|compose\w*)\b/.test(text);
-  const hasType = /\b(aruan\w*|raport\w*|report\w*|kokkuv\w*|summary\w*|letter\w*|kiri\w*|memo\w*|checklist\w*|protokoll\w*|brief\w*|case\w*|vorm\w*|form\w*|taotlus\w*|avaldus\w*|vastus\w*)\b/.test(text);
-  return hasAction && hasType;
-}
-function hasDocumentTaskContext(history = []) {
-  if (!Array.isArray(history) || !history.length) return false;
-  for (let i = history.length - 1; i >= 0 && i >= history.length - 10; i -= 1) {
-    const entry = history[i];
-    const role = String(entry?.role || "").toLowerCase();
-    if (!(role === "user" || role === "client")) continue;
-    const text = String(entry?.text || entry?.content || "").trim();
-    if (!text) continue;
-    if (detectDocumentTaskIntent(text)) return true;
-  }
-  return false;
-}
-function buildDocumentMissingInstructionReply(replyLang) {
-  if (replyLang === "en") {
-    return "To run 1:1 agent workflow I still need a concrete instruction. Describe what exactly should be created and what to emphasize.";
-  }
-  if (replyLang === "ru") {
-    return "Dlya zapuska 1:1 agent workflow nuzhna konkretnaya instrukciya: chto sozdavat i chto podcherknut.";
-  }
-  return "1:1 agent-workflow kaivitamiseks on vaja konkreetset juhist: mida tapselt koostada ja mida rohutada.";
-}
-function buildDownloadAttachments({
-  convId,
-  assistantMessageId,
-  message,
-  replyLang
-}) {
-  if (!convId || !assistantMessageId) return [];
-  const labels =
-    replyLang === "et"
-      ? {
-          pdf: "Laadi PDF alla",
-          word: "Laadi Word alla"
-        }
-      : replyLang === "ru"
-        ? {
-            pdf: "Скачать PDF",
-            word: "Скачать Word"
-          }
-        : {
-            pdf: "Download PDF",
-            word: "Download Word"
-          };
-  const formats = inferDocumentFormats(message);
-  return formats.map(format => {
-    const qs = new URLSearchParams({
-      convId: String(convId),
-      messageId: String(assistantMessageId),
-      format
-    });
-    const ext = format === "word" ? "doc" : "pdf";
-    return {
-      label: labels[format] || labels.pdf,
-      fileName: `sotsiaalai-summary.${ext}`,
-      format,
-      url: `/api/chat/export?${qs.toString()}`
-    };
-  });
-}
-async function searchRagDirect({
-  query,
-  topK = RAG_TOP_K,
-  filters,
-  observabilityRoute = "api/chat",
-  observabilityStage = "rag_search",
-  userId = null,
-  role = null,
-  conversationId = null
-}) {
-  const body = {
-    query,
-    top_k: topK,
-    where: filters || undefined
-  };
-  const controller = new AbortController();
-  const t = setTimeout(() => controller.abort(), 12000);
-  const res = await fetch(`${RAG_BASE}/search`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(observabilityRoute ? {
-        "X-Observability-Route": observabilityRoute
-      } : {}),
-      ...(observabilityStage ? {
-        "X-Observability-Stage": observabilityStage
-      } : {}),
-      ...(userId ? {
-        "X-Observability-User-Id": String(userId)
-      } : {}),
-      ...(role ? {
-        "X-Observability-Role": String(role)
-      } : {}),
-      ...(conversationId ? {
-        "X-Observability-Conversation-Id": String(conversationId)
-      } : {}),
-      ...(RAG_KEY ? {
-        "X-API-Key": RAG_KEY
-      } : {})
-    },
-    body: JSON.stringify(body),
-    cache: "no-store",
-    signal: controller.signal
-  });
-  clearTimeout(t);
-  let data = null;
-  try {
-    const raw = await res.text();
-    data = raw ? JSON.parse(raw) : null;
-  } catch {
-    data = null;
-  }
-  if (!res.ok) {
-    return [];
-  }
-  return Array.isArray(data?.results) ? data.results : [];
-}
-
-function dedupeRagMatches(matches = []) {
-  const out = [];
-  const seen = new Set();
-  for (const match of Array.isArray(matches) ? matches : []) {
-    const md = match?.metadata || {};
-    const key = String(match?.id || md.chunk_id || md.chunkId || md.doc_id || md.docId || match?.text || "").slice(0, 220);
-    if (!key || seen.has(key)) continue;
-    seen.add(key);
-    out.push(match);
-  }
-  return out;
-}
-function extractMatchGroupYear(entry) {
-  const raw = entry?.year;
-  if (typeof raw === "number" && Number.isFinite(raw)) return raw;
-  if (typeof raw === "string") {
-    const matched = raw.match(/\b(19|20)\d{2}\b/);
-    if (matched) return Number(matched[0]);
-  }
-  const fallbackValues = [entry?.issueLabel, entry?.issueId, entry?.title];
-  for (const value of fallbackValues) {
-    if (typeof value !== "string") continue;
-    const matched = value.match(/\b(19|20)\d{2}\b/);
-    if (matched) return Number(matched[0]);
-  }
-  return null;
-}
-
-async function callOpenAI({
-  history,
-  userMessage,
-  context,
-  effectiveRole,
-  grounding,
-  includeSources,
-  replyLang,
-  isCrisis,
-  extraSystemInstructions,
-  userId,
-  role
-}) {
-  const {
-    default: OpenAI
-  } = await import("openai");
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
-  const client = new OpenAI({
-    apiKey
-  });
-  const input = toResponsesInput({
-    history,
-    userMessage,
-    context,
-    effectiveRole,
-    grounding,
-    includeSources,
-    replyLang,
-    isCrisis,
-    extraSystemInstructions
-  });
-  const payload = buildResponsesPayload(input, {
-    stream: false,
-    effectiveRole
-  });
-  const startedAt = Date.now();
-  const resp = await client.responses.create(payload);
-  await logOpenAIUsage({
-    response: resp,
-    model: payload.model,
-    route: "api/chat",
-    stage: "chat",
-    latencyMs: Date.now() - startedAt,
-    userId,
-    role
-  });
-  const reply = resp.output_text && resp.output_text.trim() || "Sorry, I couldn't generate an answer right now.";
-  return {
-    reply
-  };
-}
-async function streamOpenAI({
-  history,
-  userMessage,
-  context,
-  effectiveRole,
-  grounding,
-  includeSources,
-  replyLang,
-  isCrisis,
-  extraSystemInstructions,
-  userId,
-  role
-}) {
-  const {
-    default: OpenAI
-  } = await import("openai");
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
-  const client = new OpenAI({
-    apiKey
-  });
-  const input = toResponsesInput({
-    history,
-    userMessage,
-    context,
-    effectiveRole,
-    grounding,
-    includeSources,
-    replyLang,
-    isCrisis,
-    extraSystemInstructions
-  });
-  const payload = buildResponsesPayload(input, {
-    stream: true,
-    effectiveRole
-  });
-  const startedAt = Date.now();
-  const stream = await client.responses.stream(payload);
-  const streamCreatedAt = Date.now();
-  let firstDeltaAt = null;
-  let deltaCount = 0;
-  let outputChars = 0;
-  async function* iterator() {
-    try {
-      for await (const event of stream) {
-        if (event.type === "response.output_text.delta") {
-          const delta = event.delta || "";
-          if (!firstDeltaAt) firstDeltaAt = Date.now();
-          deltaCount += 1;
-          outputChars += delta.length;
-          yield {
-            type: "delta",
-            text: delta
-          };
-        } else if (event.type === "response.error") {
-          throw new Error(event.error?.message || "OpenAI stream error");
-        } else if (event.type === "response.completed") {
-          yield {
-            type: "done"
-          };
-        }
-      }
-    } finally {
-      const completedAt = Date.now();
-      const finalResponse = await stream.finalResponse().catch(() => null);
-      await logOpenAIUsage({
-        response: finalResponse,
-        model: payload.model,
-        route: "api/chat",
-        stage: "chat",
-        latencyMs: completedAt - startedAt,
-        userId,
-        role
-      });
-      await logEvent("openai_stream_timing", {
-        model: payload.model || null,
-        route: "api/chat",
-        stage: "chat",
-        latency_ms: completedAt - startedAt,
-        stream_create_latency_ms: streamCreatedAt - startedAt,
-        first_delta_latency_ms: firstDeltaAt ? firstDeltaAt - startedAt : null,
-        first_delta_after_stream_ms: firstDeltaAt ? firstDeltaAt - streamCreatedAt : null,
-        delta_count: deltaCount,
-        output_chars: outputChars,
-        ...(userId ? { userId } : {}),
-        ...(role ? { role } : {})
-      });
-    }
-  }
-  return iterator();
-}
-
-const STREAM_DELTA_MIN_CHARS = 28;
-const STREAM_DELTA_MAX_CHARS = 96;
-const STREAM_DELTA_MIN_INTERVAL_MS = 120;
-
-function shouldFlushStreamDelta(text = "", lastFlushAt = 0) {
-  if (!text) return false;
-  if (text.length >= STREAM_DELTA_MAX_CHARS) return true;
-  if (text.length < STREAM_DELTA_MIN_CHARS) return false;
-  if (/[\n.!?;:]\s*$/.test(text)) return true;
-  return Date.now() - lastFlushAt >= STREAM_DELTA_MIN_INTERVAL_MS;
-}
-
-function normalizePageRangeString(s = "") {
-  return s.replace(/\s*[-\u2010-\u2015]\s*/g, "-").trim();
-}
-function normalizeRoomId(roomIdRaw) {
-  const value = String(roomIdRaw || "").trim();
-  return value || null;
-}
-function isPlausibleConversationId(id) {
-  if (!id || typeof id !== "string") return false;
-  if (id.length < 8 || id.length > 200) return false;
-  return /^[A-Za-z0-9._\-:+]+$/.test(id);
 }
 async function getRoomMembership(userId, roomId) {
   if (!userId || !roomId) return null;
@@ -1041,41 +189,6 @@ async function saveAssistantRoomMessage({
     });
   } catch {}
   return payload;
-}
-async function mergeAssistantMessageMetadata(assistantMessageId, metadataPatch) {
-  if (!assistantMessageId || !metadataPatch || typeof metadataPatch !== "object") return;
-  try {
-    const existing = await prisma.conversationMessage.findUnique({
-      where: {
-        id: assistantMessageId
-      },
-      select: {
-        metadata: true
-      }
-    });
-    const baseMeta = existing?.metadata && typeof existing.metadata === "object" ? existing.metadata : {};
-    await prisma.conversationMessage.update({
-      where: {
-        id: assistantMessageId
-      },
-      data: {
-        metadata: {
-          ...baseMeta,
-          ...metadataPatch
-        }
-      }
-    });
-  } catch (err) {
-    logError("persist.attachments.failed", {
-      assistantMessageId,
-      err: err?.message || String(err)
-    });
-  }
-}
-
-async function persistDownloadAttachments(assistantMessageId, attachments) {
-  if (!Array.isArray(attachments) || !attachments.length) return;
-  await mergeAssistantMessageMetadata(assistantMessageId, { attachments });
 }
 export async function POST(req) {
   const {
@@ -1253,52 +366,6 @@ export async function POST(req) {
     ? await getDocumentWorkflowState(convId, userId, prisma)
     : null;
   const documentWorkflowActive = isActiveDocumentWorkflowState(documentWorkflowState);
-  const previousSourceUseRequest = detectPreviousSourceUseRequest(rawHistory, effectiveMessage);
-  const sourceLookupRequest = !previousSourceUseRequest && detectSourceAvailabilityRequest(rawHistory, effectiveMessage);
-  const externalSourcesNeeded = shouldUseExternalSourcesForTurn(effectiveMessage, {
-    forceSources,
-    defaultToExternalSources: forcedMode === "rag",
-    hasHistory,
-    sourceLookupRequest,
-    previousSourceUseRequest
-  });
-  const sourceLookupCombinedText = sourceLookupRequest
-    ? [effectiveMessage, ...extractRecentUserText(rawHistory, 8)].join("\n")
-    : "";
-  const sourceLookupSubject = sourceLookupRequest
-    ? inferSourceLookupSubject(sourceLookupCombinedText)
-    : "";
-  const sourceLookupParagraphRefs = sourceLookupRequest ? extractParagraphReferences(sourceLookupCombinedText) : [];
-  const sourceLookupTargetsNationalLaw = sourceLookupRequest && sourceLookupSubject === "Sotsiaalhoolekande seadus";
-  const documentDecision = forcedMode === "document"
-    ? resolveDocumentTaskDecision({
-        message: effectiveMessage,
-        history: rawHistory,
-        role: normalizedRole,
-        replyLang,
-        sourceCount: ephemeralChunks.length,
-        clarifyingTurns,
-        requestedThoroughness,
-        forceDocumentTask: true
-      })
-    : forcedMode === "rag"
-    ? {
-        isDocumentTask: false,
-        historyHasDocumentTask: false,
-        documentTaskStart: false,
-        plan: null,
-        taskConfig: null,
-        taskDefaults: null
-      }
-    : {
-        isDocumentTask: false,
-        historyHasDocumentTask: false,
-        documentTaskStart: false,
-        plan: null,
-        taskConfig: null,
-        taskDefaults: null
-      };
-  const documentPlan = documentDecision.plan;
   const explicitHelpModeActive = forcedMode === "help_request" || forcedMode === "help_offer";
   const helpForcedIntent = effectiveExplicitHelpIntent && !helpWorkflowState
     ? effectiveExplicitHelpIntent
@@ -1322,490 +389,51 @@ export async function POST(req) {
     helpWorkflowActive,
     inactiveHelpStateCanResume
   });
-  if (documentPlan) {
-    logInfo("orchestration.plan", {
-      mode: documentPlan.mode,
-      step: documentPlan.step,
-      complexity: documentPlan.complexity,
-      reasoning: documentPlan.reasoning,
-      capability: documentPlan.capability
-    });
-  }
-  if (shouldUseDocumentWorkflow) {
-    const documentResult = await runDocumentChatWorkflow({
-      message: effectiveMessage,
-      convId,
-      userId,
-      replyLang,
-      role: normalizedRole,
-      workflowState: documentWorkflowState,
-      hasSourceMaterial: ephemeralChunks.length > 0,
-      forceConfirmed: forcedMode === "document"
-    }, prisma);
+  const documentWorkflowResponse = await handleDocumentWorkflowBranch({
+    shouldUseDocumentWorkflow,
+    message: effectiveMessage,
+    convId,
+    userId,
+    replyLang,
+    normalizedRole,
+    documentWorkflowState,
+    forcedMode,
+    ephemeralChunks,
+    ephemeralSource,
+    persist,
+    roomId,
+    wantStream,
+    clarifyingTurns,
+    requestedThoroughness,
+    prisma,
+    saveRoomMessage: saveAssistantRoomMessage,
+    buildOrchestrationMetadata,
+    logInfo,
+    logError
+  });
+  if (documentWorkflowResponse) return documentWorkflowResponse;
 
-    if (documentResult?.switchTo === "help_request" || documentResult?.switchTo === "help_offer") {
-      const switchedHelpIntent = documentResult.switchTo === "help_request"
-        ? "create_help_request"
-        : "create_help_offer";
-      const helpSeedMessage = String(documentResult.switchMessage || effectiveMessage).trim() || effectiveMessage;
-      const helpResult = await runHelpChatWorkflow({
-        message: helpSeedMessage,
-        convId,
-        userId,
-        replyLang,
-        forcedIntent: switchedHelpIntent
-      }, prisma);
-
-      if (helpResult?.handled) {
-        const reply = String(helpResult.reply || "").trim();
-        const attachments = Array.isArray(helpResult.attachments) ? helpResult.attachments : [];
-        const cards = Array.isArray(helpResult.cards) ? helpResult.cards : [];
-        const sources = Array.isArray(helpResult.sources) ? helpResult.sources : [];
-        const helpPlan = chooseOrchestrationPlan({
-          intent: helpResult?.workflowState?.intent || switchedHelpIntent || WORK_MODES.CREATE_HELP_REQUEST,
-          message: helpSeedMessage,
-          workflowState: helpResult?.workflowState || null,
-          clarifyingTurns,
-          requestedThoroughness
-        });
-        const metadataExtra = buildOrchestrationMetadata(
-          helpPlan,
-          buildHelpWorkflowMetadata(helpResult.workflowState)
-        );
-
-        if (persist && convId && userId) {
-          await persistInit({
-            convId,
-            userId,
-            role: normalizedRole,
-            sources,
-            isCrisis: false,
-            userMessage: effectiveMessage
-          });
-          await persistAppend({
-            convId,
-            userId,
-            fullText: reply
-          });
-          await persistDone({
-            convId,
-            userId,
-            status: "COMPLETED",
-            finalText: reply,
-            sources,
-            attachments,
-            cards,
-            metadataExtra,
-            isCrisis: false
-          });
-        }
-
-        return buildImmediateChatResponse({
-          wantStream,
-          reply,
-          sources,
-          attachments,
-          cards,
-          isCrisis: false,
-          convId
-        });
-      }
-    }
-
-    if (documentResult?.handled) {
-      const documentWorkflowMeta = buildDocumentWorkflowMetadata(documentResult.workflowState).workflow;
-      const workflowPlan = documentResult?.workflowState
-        ? getDocumentWorkflowPlanInput(documentResult.workflowState, requestedThoroughness, clarifyingTurns)
-        : documentPlan;
-
-      if (workflowPlan) {
-        logInfo("orchestration.plan", {
-          mode: workflowPlan.mode,
-          step: workflowPlan.step,
-          complexity: workflowPlan.complexity,
-          reasoning: workflowPlan.reasoning,
-          capability: workflowPlan.capability
-        });
-      }
-
-      if (!documentResult.readyToGenerate) {
-        const reply = String(documentResult.reply || "").trim();
-        const attachments = Array.isArray(documentResult.attachments) ? documentResult.attachments : [];
-        const metadataExtra = buildOrchestrationMetadata(
-          workflowPlan,
-          buildDocumentWorkflowMetadata(documentResult.workflowState)
-        );
-
-        if (persist && convId && userId) {
-          await persistInit({
-            convId,
-            userId,
-            role: normalizedRole,
-            sources: [],
-            isCrisis: false,
-            userMessage: effectiveMessage
-          });
-          await persistAppend({
-            convId,
-            userId,
-            fullText: reply
-          });
-          const persistResult = await persistDone({
-            convId,
-            userId,
-            status: "COMPLETED",
-            finalText: reply,
-            sources: [],
-            attachments: [],
-            isCrisis: false,
-            metadataExtra
-          });
-          if (attachments.length) {
-            await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-          }
-        }
-
-        return buildImmediateChatResponse({
-          wantStream,
-          reply,
-          sources: [],
-          attachments,
-          cards: [],
-          workflow: documentWorkflowMeta,
-          isCrisis: false,
-          convId
-        });
-      }
-
-      try {
-        const taskConfig = documentResult.taskConfig;
-        const documentsLimit = normalizedRole === "CLIENT"
-          ? Math.min(CLIENT_AGENT_DOCUMENT_LIMIT, MAX_ARTIFACT_SOURCE_DOCUMENTS)
-          : MAX_ARTIFACT_SOURCE_DOCUMENTS;
-        const agentDocuments = [];
-        const selectedTemplate = null;
-        const runInstruction = String(taskConfig?.instruction || "").trim();
-        const workflowDraft = documentResult?.workflowState?.draft || {};
-        const uploadedMaterialText = Array.isArray(ephemeralChunks) && ephemeralChunks.length
-          ? ephemeralChunks.join("\n\n---\n\n").slice(0, 14_000)
-          : "";
-        const sessionSourceMaterialText =
-          workflowDraft?.sourceMode === "existing_material"
-            ? uploadedMaterialText || runInstruction
-            : runInstruction;
-        const sessionSourceMaterialName =
-          workflowDraft?.sourceMode === "existing_material"
-            ? getEphemeralSourceLabel(ephemeralSource, "chat-uploaded-material")
-            : "chat-conversation-brief";
-        if (runInstruction.length < 12) {
-          const reply = buildDocumentMissingInstructionReply(replyLang);
-          const attachments = buildDocumentTaskAttachments({
-            replyLang,
-            role: normalizedRole
-          });
-          const metadataExtra = buildOrchestrationMetadata(
-            workflowPlan,
-            buildDocumentWorkflowMetadata(documentResult.workflowState)
-          );
-          if (persist && convId && userId) {
-            await persistInit({
-              convId,
-              userId,
-              role: normalizedRole,
-              sources: [],
-              isCrisis: false,
-              userMessage: effectiveMessage
-            });
-            await persistAppend({
-              convId,
-              userId,
-              fullText: reply
-            });
-            const persistResult = await persistDone({
-              convId,
-              userId,
-              status: "COMPLETED",
-              finalText: reply,
-              sources: [],
-              attachments: [],
-              isCrisis: false,
-              metadataExtra
-            });
-            await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-          }
-          return buildImmediateChatResponse({
-            wantStream,
-            reply,
-            sources: [],
-            attachments,
-            cards: [],
-            workflow: documentWorkflowMeta,
-            isCrisis: false,
-            convId
-          });
-        }
-
-        const generated = await generateArtifactDraftContent({
-          type: taskConfig.artifactType,
-          documents: agentDocuments,
-          sourceMaterialText: sessionSourceMaterialText,
-          sourceMaterialName: sessionSourceMaterialName,
-          templateTitle: selectedTemplate?.title || null,
-          instruction: runInstruction,
-          audience: taskConfig.audience,
-          tone: taskConfig.tone,
-          language: taskConfig.language,
-          length: taskConfig.length,
-          observabilityRoute: "api/chat",
-          observabilityStage: "document_generate",
-          userId,
-          userRole: normalizedRole,
-          conversationId: convId
-        });
-        const content = String(generated?.content || "").trim();
-        if (!content) throw new Error("documents.artifacts.errors.ai_empty");
-        if (generated?.debugMeta) {
-          cacheRetrievalDebugMeta(userId, content, generated.debugMeta);
-        }
-
-        const sourceData = agentDocuments
-          .slice(0, documentsLimit)
-          .map((document) => ({
-            documentId: document.id
-          }));
-        const artifact = await prisma.agentArtifact.create({
-          data: {
-            ownerId: userId,
-            type: taskConfig.artifactType,
-            title: taskConfig.generatedTitle || null,
-            status: "DRAFT",
-            content,
-            templateId: selectedTemplate?.id || null,
-            ...(sourceData.length
-              ? {
-                  sourceDocuments: {
-                    createMany: {
-                      data: sourceData
-                    }
-                  }
-                }
-              : {})
-          },
-          select: {
-            id: true
-          }
-        });
-        const intro = buildDocumentGeneratedIntro({
-          replyLang,
-          role: normalizedRole
-        });
-        const optionSummary = [
-          `type=${taskConfig.artifactType}`,
-          `audience=${taskConfig.audience}`,
-          `tone=${taskConfig.tone}`,
-          `language=${taskConfig.language}`,
-          `length=${taskConfig.length}`,
-          "template=none",
-          normalizedRole === "CLIENT" ? `clientTask=${taskConfig.clientTask || "LETTER_REQUEST"}` : ""
-        ]
-          .filter(Boolean)
-          .join(", ");
-        const reply = `${intro}\n\n(${optionSummary})\n\n${content}`;
-        const sources = workflowDraft?.sourceMode === "existing_material" && sessionSourceMaterialText
-          ? [{
-              id: "chat-session-material",
-              title: getEphemeralSourceLabel(ephemeralSource, "Uploaded document"),
-              fileName: getEphemeralSourceLabel(ephemeralSource, "") || undefined,
-              short_ref: "(uploaded document)"
-            }]
-          : agentDocuments.map((document, index) => ({
-              id: document.id,
-              title: document.title || document.originalName || `source-${index + 1}`,
-              fileName: document.originalName || undefined,
-              short_ref: "(selected document)"
-            }));
-        const attachments = buildDocumentTaskAttachments({
-          replyLang,
-          artifactId: artifact.id,
-          role: normalizedRole
-        });
-        const metadataExtra = buildOrchestrationMetadata(
-          workflowPlan,
-          buildDocumentWorkflowMetadata(null)
-        );
-
-        if (persist && convId && userId) {
-          await persistInit({
-            convId,
-            userId,
-            role: normalizedRole,
-            sources,
-            isCrisis: false,
-            userMessage: effectiveMessage
-          });
-          await persistAppend({
-            convId,
-            userId,
-            fullText: reply
-          });
-          const persistResult = await persistDone({
-            convId,
-            userId,
-            status: "COMPLETED",
-            finalText: reply,
-            sources,
-            attachments: [],
-            isCrisis: false,
-            metadataExtra
-          });
-          await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-        }
-
-        return buildImmediateChatResponse({
-          wantStream,
-          reply,
-          sources,
-          attachments,
-          cards: [],
-          workflow: buildDocumentWorkflowMetadata(null).workflow,
-          isCrisis: false,
-          convId
-        });
-      } catch (error) {
-        logError("document_task.flow_failed", {
-          err: error?.message || String(error),
-          userId,
-          role: normalizedRole
-        });
-        const reply =
-          replyLang === "ru"
-            ? "Не удалось создать черновик. Проверьте исходные материалы и попробуйте снова."
-            : replyLang === "en"
-              ? "Failed to create the draft. Check the source material and try again."
-              : "Mustandi loomine ebaõnnestus. Kontrolli alusmaterjale ja proovi uuesti.";
-        const attachments = buildDocumentTaskAttachments({
-          replyLang,
-          role: normalizedRole
-        });
-        const metadataExtra = buildOrchestrationMetadata(
-          workflowPlan,
-          buildDocumentWorkflowMetadata(documentResult.workflowState)
-        );
-
-        if (persist && convId && userId) {
-          await persistInit({
-            convId,
-            userId,
-            role: normalizedRole,
-            sources: [],
-            isCrisis: false,
-            userMessage: effectiveMessage
-          });
-          await persistAppend({
-            convId,
-            userId,
-            fullText: reply
-          });
-          const persistResult = await persistDone({
-            convId,
-            userId,
-            status: "COMPLETED",
-            finalText: reply,
-            sources: [],
-            attachments: [],
-            isCrisis: false,
-            metadataExtra
-          });
-          await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-        }
-
-        return buildImmediateChatResponse({
-          wantStream,
-          reply,
-          sources: [],
-          attachments,
-          cards: [],
-          workflow: documentWorkflowMeta,
-          isCrisis: false,
-          convId
-        });
-      }
-    }
-  }
-  if (shouldUseHelpWorkflow) {
-    const helpResult = await runHelpChatWorkflow({
-      message: effectiveMessage,
-      convId,
-      userId,
-      replyLang,
-      workflowState: helpWorkflowState,
-      forcedIntent: helpForcedIntent
-    }, prisma);
-
-    if (helpResult?.handled) {
-      const reply = String(helpResult.reply || "").trim();
-      const attachments = Array.isArray(helpResult.attachments) ? helpResult.attachments : [];
-      const cards = Array.isArray(helpResult.cards) ? helpResult.cards : [];
-      const sources = Array.isArray(helpResult.sources) ? helpResult.sources : [];
-      const helpPlan = chooseOrchestrationPlan({
-        intent: helpResult?.workflowState?.intent || effectiveExplicitHelpIntent || WORK_MODES.CREATE_HELP_REQUEST,
-        message: effectiveMessage,
-        workflowState: helpResult?.workflowState || null,
-        clarifyingTurns,
-        requestedThoroughness
-      });
-      logInfo("orchestration.plan", {
-        mode: helpPlan.mode,
-        step: helpPlan.step,
-        complexity: helpPlan.complexity,
-        reasoning: helpPlan.reasoning,
-        capability: helpPlan.capability
-      });
-      const metadataExtra = buildOrchestrationMetadata(
-        helpPlan,
-        buildHelpWorkflowMetadata(helpResult.workflowState)
-      );
-      const helpWorkflowMeta = buildHelpWorkflowMetadata(helpResult.workflowState).workflow;
-
-      if (persist && convId && userId) {
-        await persistInit({
-          convId,
-          userId,
-          role: normalizedRole,
-          sources,
-          isCrisis: false,
-          userMessage: effectiveMessage
-        });
-        await persistAppend({
-          convId,
-          userId,
-          fullText: reply
-        });
-        await persistDone({
-          convId,
-          userId,
-          status: "COMPLETED",
-          finalText: reply,
-          sources,
-          attachments,
-          cards,
-          metadataExtra,
-          isCrisis: false
-        });
-      }
-
-      return buildImmediateChatResponse({
-        wantStream,
-        reply,
-        sources,
-        attachments,
-        cards,
-        workflow: helpWorkflowMeta,
-        isCrisis: false,
-        convId
-      });
-    }
-  }
+  const helpWorkflowResponse = await handleHelpWorkflowBranch({
+    shouldUseHelpWorkflow,
+    message: effectiveMessage,
+    convId,
+    userId,
+    replyLang,
+    helpWorkflowState,
+    helpForcedIntent,
+    effectiveExplicitHelpIntent,
+    clarifyingTurns,
+    requestedThoroughness,
+    persist,
+    normalizedRole,
+    roomId,
+    wantStream,
+    prisma,
+    saveRoomMessage: saveAssistantRoomMessage,
+    buildOrchestrationMetadata,
+    logInfo
+  });
+  if (helpWorkflowResponse) return helpWorkflowResponse;
   if (isCrisis) {
     logInfo("crisis.detected", {
       role: normalizedRole,
@@ -1815,427 +443,73 @@ export async function POST(req) {
   }
   if (greeting && !isCrisis && !hasHistory) {
     const reply = normalizedRole === "SOCIAL_WORKER" ? L.greetingWorker : L.greetingClient;
-    let attachments = [];
-    if (persist && convId && userId) {
-      await persistInit({
-        convId,
-        userId,
-        role: normalizedRole,
-        sources: [],
-        isCrisis,
-        userMessage: message
-      });
-      await persistAppend({
-        convId,
-        userId,
-        fullText: reply
-      });
-      const persistResult = await persistDone({
-        convId,
-        userId,
-        status: "COMPLETED",
-        finalText: reply,
-        sources: [],
-        attachments: [],
-        isCrisis
-      });
-      if (wantsDocumentDownload) {
-        attachments = buildDownloadAttachments({
-          convId,
-          assistantMessageId: persistResult?.assistantMessageId,
-          message,
-          replyLang
-        });
-        await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-      }
-    }
-    if (roomId && userId) {
-      await saveAssistantRoomMessage({
-        roomId,
-        userId,
-        content: reply
-      });
-    }
-    if (!wantStream) {
-      return NextResponse.json({
-        ok: true,
-        reply,
-        answer: reply,
-        sources: [],
-        attachments,
-        isCrisis,
-        convId: convId || undefined
-      });
-    }
-    const enc = new TextEncoder();
-    const sse = new ReadableStream({
-      async start(controller) {
-        try {
-          controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({
-            sources: [],
-            isCrisis
-          })}\n\n`));
-          controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({
-            t: reply
-          })}\n\n`));
-          controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({
-            attachments
-          })}\n\n`));
-        } finally {
-          try {
-            controller.close();
-          } catch {}
-        }
-      }
+    const { attachments } = await finalizeAssistantReply({
+      persist,
+      convId,
+      userId,
+      role: normalizedRole,
+      userMessage: message,
+      reply,
+      sources: [],
+      attachments: [],
+      cards: [],
+      metadataExtra: null,
+      isCrisis,
+      wantsDocumentDownload,
+      replyLang,
+      messageForDownload: message,
+      roomId,
+      saveRoomMessage: saveAssistantRoomMessage
     });
-    return new Response(sse, {
-      headers: {
-        "Content-Type": "text/event-stream; charset=utf-8",
-        "Cache-Control": "no-cache, no-transform",
-        Connection: "keep-alive",
-        "X-Accel-Buffering": "no"
-      }
+    return buildImmediateChatResponse({
+      wantStream,
+      reply,
+      sources: [],
+      attachments,
+      cards: [],
+      isCrisis,
+      convId
     });
   }
-  const audienceFilter = payload?.audience === "CLIENT" || normalizedRole === "CLIENT" ? {
-    audience: {
-      $in: ["CLIENT", "BOTH"]
-    }
-  } : {
-    audience: {
-      $in: ["SOCIAL_WORKER", "BOTH"]
-    }
-  };
-  const mentionedMunicipalities = await detectMentionedMunicipalitiesFromUserText(rawHistory, effectiveMessage);
-  const allowMunicipalityScopedRag = mentionedMunicipalities.length > 0 && !sourceLookupTargetsNationalLaw;
-  const municipalityQuestionNeedsClarification =
-    !allowMunicipalityScopedRag && isMunicipalityDependentSocialHelpQuestion(effectiveMessage);
-  const baseRagQueryText = sourceLookupRequest
-    ? buildSourceLookupSearchQuery(effectiveMessage, rawHistory)
-    : buildRagSearchQuery(effectiveMessage, rawHistory);
-  const temporalRetrievalPlan = sourceLookupRequest
-    ? {
-        enabled: false,
-        years: [],
-        focusText: "",
-        queries: baseRagQueryText ? [baseRagQueryText] : []
-      }
-    : buildTemporalRetrievalPlan({
-        message: effectiveMessage,
-        history: rawHistory,
-        baseQuery: baseRagQueryText
-      });
-  const topicHints = extractTopicHints(temporalRetrievalPlan.focusText || effectiveMessage);
-  const topicTagFilter = topicHints.slice(0, 3);
-  const extraSystemInstructions = [
-    ...(municipalityQuestionNeedsClarification
-      ? [missingMunicipalitySystemInstruction(normalizedRole, replyLang)]
-      : []),
-    ...(sourceLookupRequest ? [sourceLookupSystemInstruction(replyLang)] : []),
-    ...(temporalRetrievalPlan.enabled ? [buildTemporalBreakdownInstruction(replyLang, temporalRetrievalPlan.years)] : [])
-  ];
-  let matches = [];
-  let groupedMatches = [];
-  let chosen = [];
-  let budgeted = {
-    text: "",
-    used: []
-  };
-  let temporalMissingYears = [];
-  const shouldRunRag = externalSourcesNeeded && (!ephemeralChunks.length || combineSources) && !previousSourceUseRequest;
-  if (shouldRunRag) {
-    try {
-      const ragQueryText = baseRagQueryText;
-      const ragQueries = sourceLookupRequest
-        ? [ragQueryText]
-        : temporalRetrievalPlan.enabled
-          ? [
-              { query: ragQueryText },
-              ...temporalRetrievalPlan.years.map(year => ({
-                query: [temporalRetrievalPlan.focusText || ragQueryText, String(year)].filter(Boolean).join("\n").trim(),
-                filters: {
-                  year,
-                  ...(topicTagFilter.length ? { tag_tokens: topicTagFilter } : {})
-                }
-              }))
-            ]
-          : [ragQueryText];
-      const sourceLookupTopK = sourceLookupRequest
-        ? sourceLookupParagraphRefs.length <= 1
-          ? Math.min(12, Math.max(8, RAG_TOP_K))
-          : Math.min(36, Math.max(RAG_TOP_K, sourceLookupParagraphRefs.length * 5))
-        : null;
-      matches = await searchRagQueries({
-        queries: ragQueries,
-        topK: sourceLookupRequest
-          ? sourceLookupTopK
-          : allowMunicipalityScopedRag
-            ? RAG_TOP_K
-            : Math.min(50, Math.max(RAG_TOP_K, RAG_TOP_K * 3)),
-        filters: sourceLookupTargetsNationalLaw
-          ? {
-              ...audienceFilter,
-              jurisdiction_level: "NATIONAL"
-            }
-          : audienceFilter,
-        userId,
-        role: normalizedRole,
-        conversationId: convId
-      });
-      matches = filterMunicipalityScopedMatches(matches, {
-        allowMunicipalityScoped: allowMunicipalityScopedRag
-      });
-      if (sourceLookupTargetsNationalLaw && matches.length === 0) {
-        const nationalFallbackMatches = await searchRagQueries({
-          queries: ragQueries,
-          topK: sourceLookupRequest
-            ? Math.min(24, Math.max(12, sourceLookupTopK || RAG_TOP_K))
-            : Math.min(24, Math.max(12, RAG_TOP_K)),
-          filters: audienceFilter,
-          observabilityStage: "rag_search_national_fallback",
-          userId,
-          role: normalizedRole,
-          conversationId: convId
-        });
-        matches = filterMunicipalityScopedMatches(nationalFallbackMatches, {
-          allowMunicipalityScoped: false
-        });
-      }
-      if (!allowMunicipalityScopedRag && !sourceLookupTargetsNationalLaw) {
-        const nationalMatches = await searchRagQueries({
-          queries: ragQueries,
-          topK: sourceLookupRequest
-            ? Math.min(24, Math.max(8, RAG_TOP_K))
-            : Math.min(12, Math.max(4, RAG_TOP_K)),
-          filters: {
-            ...audienceFilter,
-            jurisdiction_level: "NATIONAL"
-          },
-          observabilityStage: "rag_search_national_scope",
-          userId,
-          role: normalizedRole,
-          conversationId: convId
-        });
-        matches = dedupeRagMatches([
-          ...filterMunicipalityScopedMatches(nationalMatches, {
-            allowMunicipalityScoped: false
-          }),
-          ...matches
-        ]);
-      }
-    } catch (err) {
-      logError("rag.search.error", {
-        err: err?.message,
-        role: normalizedRole,
-        userId
-      });
-      await logEvent("rag_error", {
-        userId,
-        role: normalizedRole,
-        isCrisis,
-        message: err?.message || "rag search error"
-      });
-    }
-    groupedMatches = rankGroupsWithTopicHints(groupMatches(matches), topicHints);
-    if (temporalRetrievalPlan.enabled) {
-      const coveredYears = new Set(
-        groupedMatches
-          .map(extractMatchGroupYear)
-          .filter(year => Number.isInteger(year))
-      );
-      const missingYears = temporalRetrievalPlan.years.filter(year => !coveredYears.has(year));
-      temporalMissingYears = missingYears;
-      if (missingYears.length) {
-        const fallbackSettled = await Promise.allSettled(
-          missingYears.map(year =>
-            searchRagQueries({
-              queries: buildTemporalFillQueries({
-                years: [year],
-                focusText: temporalRetrievalPlan.focusText || effectiveMessage,
-                message: effectiveMessage,
-                topicHints
-              }),
-              topK: Math.max(12, RAG_TOP_K),
-              filters: sourceLookupTargetsNationalLaw
-                ? {
-                    ...audienceFilter,
-                    jurisdiction_level: "NATIONAL"
-                  }
-                : audienceFilter,
-              observabilityStage: `rag_search_temporal_fill_${year}`,
-              userId,
-              role: normalizedRole,
-              conversationId: convId
-            })
-          )
-        );
-        const fallbackMatches = fallbackSettled.flatMap(item =>
-          item.status === "fulfilled" && Array.isArray(item.value) ? item.value : []
-        );
-        matches = dedupeRagMatches([
-          ...matches,
-          ...filterMunicipalityScopedMatches(fallbackMatches, {
-            allowMunicipalityScoped: allowMunicipalityScopedRag
-          })
-        ]);
-        groupedMatches = rankGroupsWithTopicHints(groupMatches(matches), topicHints);
-      }
-    }
-    chosen = temporalRetrievalPlan.enabled
-      ? selectTemporalGroups(groupedMatches, temporalRetrievalPlan.years, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA)
-      : diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);
-    budgeted = buildContextWithBudget(chosen, temporalRetrievalPlan.enabled
-      ? {
-          preferredYears: temporalRetrievalPlan.years
-        }
-      : undefined);
-  }
-  const ragContext = budgeted.text;
-  const docBudget = getDocContextBudget(normalizedRole, combineSources);
-  const docQueryText = [effectiveMessage, ...extractRecentUserText(rawHistory, 2)].filter(Boolean).join("\n");
-  const docContextResult = buildEphemeralDocContext(ephemeralChunks, {
-    queryText: docQueryText,
-    charBudget: docBudget.charBudget,
-    maxChunks: docBudget.maxChunks
-  });
-  const docContext = docContextResult.text;
-  const contextParts = [];
-  if (docContext) {
-    contextParts.push(`USER DOCUMENT:\n${docContext}`);
-  }
-  if (!docContext) {
-    if (ragContext) contextParts.push(ragContext);
-  } else if (combineSources && ragContext) {
-    contextParts.push(ragContext);
-  }
-  const context = contextParts.filter(Boolean).join("\n\n");
-  const lookupFallbackContext = sourceLookupRequest
-    ? "SOURCE_LOOKUP_CONTEXT: The current targeted source lookup returned no matches."
-    : "";
-  const conversationalFallbackContext =
-    !externalSourcesNeeded && !docContext
-      ? "CONVERSATIONAL_CONTEXT: No verified external context was retrieved for this turn."
-      : "";
-  const effectiveContext = context && context.trim() ? context : lookupFallbackContext || conversationalFallbackContext;
-  const grounding = groundingStrength(groupedMatches);
-  const hadDocContext = !!docContext;
-  const hadRagContext = !!ragContext;
-  const groupedYears = Array.from(new Set(groupedMatches.map(extractMatchGroupYear).filter(year => Number.isInteger(year))));
-  const selectedYears = Array.from(new Set(chosen.map(extractMatchGroupYear).filter(year => Number.isInteger(year))));
-  const contextYears = Array.from(new Set(budgeted.used.map(extractMatchGroupYear).filter(year => Number.isInteger(year))));
-  logInfo("rag.afterSearch", {
-    rawMatches: matches.length,
-    groups: groupedMatches.length,
-    grounding,
-    mmrSelected: chosen.length,
-    groupedYears,
-    selectedYears,
-    contextYears,
-    requestedYears: temporalRetrievalPlan.enabled ? temporalRetrievalPlan.years : [],
-    missingYears: temporalMissingYears,
-    docChunkInputCount: ephemeralChunks.length,
-    docChunkUsedCount: docContextResult.usedChunks,
-    docContextChars: docContextResult.usedChars,
-    ragSkipped: !shouldRunRag,
-    externalSourcesNeeded,
+  const {
+    previousSourceUseRequest,
     sourceLookupRequest,
-    municipalityMentioned: allowMunicipalityScopedRag,
-    municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
+    extraSystemInstructions,
+    effectiveContext,
+    grounding,
+    sources,
+    retrievalMeta
+  } = await assembleRetrievalContext({
+    payloadAudience: payload?.audience,
+    normalizedRole,
+    rawHistory,
+    effectiveMessage,
+    forceSources,
+    forcedMode,
+    hasHistory,
+    replyLang,
+    ephemeralChunks,
+    ephemeralSource,
+    combineSources,
+    userId,
+    convId,
+    isCrisis,
+    logInfo,
+    logError,
+    logEvent,
+    buildMissingMunicipalityInstruction: missingMunicipalitySystemInstruction,
+    buildSourceLookupInstruction: sourceLookupSystemInstruction,
+    docContextBudgets: {
+      clientChars: CHAT_DOC_CONTEXT_CLIENT_CHARS,
+      clientCombinedChars: CHAT_DOC_CONTEXT_CLIENT_COMBINED_CHARS,
+      workerChars: CHAT_DOC_CONTEXT_WORKER_CHARS,
+      workerCombinedChars: CHAT_DOC_CONTEXT_WORKER_COMBINED_CHARS,
+      clientMaxChunks: CHAT_DOC_CONTEXT_CLIENT_MAX_CHUNKS,
+      workerMaxChunks: CHAT_DOC_CONTEXT_WORKER_MAX_CHUNKS,
+      maxInputChunks: CHAT_EPHEMERAL_CHUNKS_MAX,
+      chunkCharsMax: CHAT_EPHEMERAL_CHUNK_CHARS_MAX
+    }
   });
-  if (shouldRunRag || hadDocContext || hadRagContext) {
-    await logEvent("rag_search", {
-      userId,
-      role: normalizedRole,
-      isCrisis,
-      ragMatchCount: matches.length,
-      groupCount: groupedMatches.length,
-      chosenGroupCount: chosen.length,
-      grounding,
-      groupedYears: groupedYears.join(",") || undefined,
-      selectedYears: selectedYears.join(",") || undefined,
-      contextYears: contextYears.join(",") || undefined,
-      requestedYears: temporalRetrievalPlan.enabled ? temporalRetrievalPlan.years.join(",") : undefined,
-      missingYears: temporalMissingYears.length ? temporalMissingYears.join(",") : undefined,
-      docChunkInputCount: ephemeralChunks.length,
-      docChunkUsedCount: docContextResult.usedChunks,
-      docContextChars: docContextResult.usedChars,
-      hadDocContext,
-      hadRagContext,
-      sourceLookupRequest,
-      municipalityMentioned: allowMunicipalityScopedRag,
-      municipalityMatches: mentionedMunicipalities.map(item => item.displayName)
-    });
-  } else {
-    await logEvent("chat_no_external_sources", {
-      userId,
-      role: normalizedRole,
-      isCrisis,
-      sourceLookupRequest,
-      messageLength: effectiveMessage.length
-    });
-  }
-  if (isCrisis) {
-    await logEvent("crisis_detected", {
-      userId,
-      role: normalizedRole,
-      hasHistory,
-      hadRagContext
-    });
-  }
-  const docSources = ephemeralChunks && ephemeralChunks.length ? [{
-    id: "user-document",
-    title: getEphemeralSourceLabel(ephemeralSource, "(Uploaded document)"),
-    url: undefined,
-    file: undefined,
-    fileName: getEphemeralSourceLabel(ephemeralSource, "") || undefined,
-    audience: undefined,
-    pageRange: undefined,
-    authors: undefined,
-    issueLabel: undefined,
-    issueId: undefined,
-      journalTitle: undefined,
-      section: undefined,
-      paragraphTitle: undefined,
-      year: undefined,
-    pages: undefined,
-    short_ref: "(uploaded document)"
-  }] : [];
-  const ragSources = budgeted.used.map((entry, idx) => {
-    const pageNumbers = Array.isArray(entry.pages) ? entry.pages : [];
-    const pageRanges = Array.isArray(entry.pageRanges) ? Array.from(new Set(entry.pageRanges.filter(Boolean))) : [];
-    const pageTextRaw = (pageRanges.length ? pageRanges.join(", ") : collapsePages(pageNumbers)).trim();
-    const pageText = normalizePageRangeString(pageTextRaw);
-    const short_ref_text = (makeShortRef(entry, pageText) || "").trim();
-    return {
-      id: entry.key || entry.docId || entry.articleId || entry.url || entry.fileName || `source-${idx}`,
-      title: entry.title,
-      url: entry.url ? displayUrl(entry.url) : undefined,
-      file: undefined,
-      fileName: entry.fileName || undefined,
-      audience: entry.audience || undefined,
-      pageRange: pageText || undefined,
-      authors: Array.isArray(entry.authors) && entry.authors.length ? entry.authors : undefined,
-      issueLabel: entry.issueLabel || undefined,
-      issueId: entry.issueId || undefined,
-      journalTitle: entry.journalTitle || undefined,
-      section: entry.section || undefined,
-      paragraphTitle: entry.paragraphTitle || undefined,
-      paragraphNumber: entry.paragraphNumber || undefined,
-      subsectionNumber: entry.subsectionNumber || undefined,
-      pointNumber: entry.pointNumber || undefined,
-      year: entry.year || undefined,
-      pages: pageNumbers.length ? pageNumbers : undefined,
-      short_ref: short_ref_text || undefined
-    };
-  });
-  let sources;
-  if (docSources.length && combineSources) {
-    sources = [...docSources, ...ragSources];
-  } else if (docSources.length) {
-    sources = docSources;
-  } else {
-    sources = ragSources;
-  }
   const genericIntent =
     forcedMode === "rag"
       ? WORK_MODES.SERVICE_GUIDANCE
@@ -2247,8 +521,8 @@ export async function POST(req) {
     message: effectiveMessage,
     clarifyingTurns,
     requestedThoroughness,
-    sourceCount: Number(chosen.length || 0) + Number(docContextResult.usedChunks || 0),
-    hybridTask: genericIntent === WORK_MODES.SERVICE_GUIDANCE && hasDocumentTaskContext(rawHistory)
+    sourceCount: retrievalMeta.sourceCount,
+    hybridTask: genericIntent === WORK_MODES.SERVICE_GUIDANCE && hasDocumentTaskContext(rawHistory, normalizedRole)
   });
   logInfo("orchestration.plan", {
     mode: mainOrchestrationPlan.mode,
@@ -2260,12 +534,11 @@ export async function POST(req) {
   const mainMetadataExtra = buildOrchestrationMetadata(mainOrchestrationPlan);
   if (!effectiveContext || !effectiveContext.trim()) {
     const out = isCrisis ? L.crisisNoCtx : L.noContext;
-    let attachments = [];
     logInfo("branch.noContext", {
       role: normalizedRole,
       isCrisis,
-      ragReturned: matches.length > 0,
-      hadDocContext: !!docContext,
+      ragReturned: retrievalMeta.rawMatchesCount > 0,
+      hadDocContext: retrievalMeta.hadDocContext,
       sourceLookupRequest,
       previousSourceUseRequest
     });
@@ -2273,91 +546,37 @@ export async function POST(req) {
       userId,
       role: normalizedRole,
       isCrisis,
-      hadRagResults: matches.length > 0,
-      hadDocContext: !!docContext,
+      hadRagResults: retrievalMeta.rawMatchesCount > 0,
+      hadDocContext: retrievalMeta.hadDocContext,
       sourceLookupRequest,
       previousSourceUseRequest
     });
-    if (persist && convId && userId) {
-      await persistInit({
-        convId,
-        userId,
-        role: normalizedRole,
-        sources,
-        isCrisis,
-        userMessage: effectiveMessage
-      });
-      await persistAppend({
-        convId,
-        userId,
-        fullText: out
-      });
-      const persistResult = await persistDone({
-        convId,
-        userId,
-        status: "COMPLETED",
-        finalText: out,
-        sources,
-        attachments: [],
-        metadataExtra: mainMetadataExtra,
-        isCrisis
-      });
-      if (wantsDocumentDownload) {
-        attachments = buildDownloadAttachments({
-          convId,
-          assistantMessageId: persistResult?.assistantMessageId,
-          message: effectiveMessage,
-          replyLang
-        });
-        await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-      }
-    }
-    if (roomId && userId) {
-      await saveAssistantRoomMessage({
-        roomId,
-        userId,
-        content: out
-      });
-    }
-    if (!wantStream) {
-      return NextResponse.json({
-        ok: true,
-        reply: out,
-        answer: out,
-        sources,
-        attachments,
-        isCrisis,
-        convId: convId || undefined
-      });
-    }
-    const enc = new TextEncoder();
-    const sse = new ReadableStream({
-      async start(controller) {
-        try {
-          controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({
-            sources,
-            isCrisis
-          })}\n\n`));
-          controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({
-            t: out
-          })}\n\n`));
-          controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({
-            attachments
-          })}\n\n`));
-        } finally {
-          try {
-            controller.close();
-          } catch {}
-        }
-      }
+    const { attachments } = await finalizeAssistantReply({
+      persist,
+      convId,
+      userId,
+      role: normalizedRole,
+      userMessage: effectiveMessage,
+      reply: out,
+      sources,
+      attachments: [],
+      cards: [],
+      metadataExtra: mainMetadataExtra,
+      isCrisis,
+      wantsDocumentDownload,
+      replyLang,
+      messageForDownload: effectiveMessage,
+      roomId,
+      saveRoomMessage: saveAssistantRoomMessage
     });
-    return new Response(sse, {
-      headers: {
-        "Content-Type": "text/event-stream; charset=utf-8",
-        "Cache-Control": "no-cache, no-transform",
-        Connection: "keep-alive",
-        "X-Accel-Buffering": "no"
-      }
+    return buildImmediateChatResponse({
+      wantStream,
+      reply: out,
+      sources,
+      attachments,
+      cards: [],
+      isCrisis,
+      convId
     });
   }
   if (persist && convId && userId) {
@@ -2385,48 +604,33 @@ export async function POST(req) {
         userId,
         role: normalizedRole
       });
-      let attachments = [];
-      if (persist && convId && userId) {
-        await persistAppend({
-          convId,
-          userId,
-          fullText: aiResult.reply
-        });
-        const persistResult = await persistDone({
-          convId,
-          userId,
-          status: "COMPLETED",
-          finalText: aiResult.reply,
-          sources,
-          attachments: [],
-          metadataExtra: mainMetadataExtra,
-          isCrisis
-        });
-        if (wantsDocumentDownload) {
-          attachments = buildDownloadAttachments({
-            convId,
-            assistantMessageId: persistResult?.assistantMessageId,
-            message: effectiveMessage,
-            replyLang
-          });
-          await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-        }
-      }
-      if (roomId && userId) {
-        await saveAssistantRoomMessage({
-          roomId,
-          userId,
-          content: aiResult.reply
-        });
-      }
-      return NextResponse.json({
-        ok: true,
+      const { attachments } = await finalizeAssistantReply({
+        persist,
+        persistInitialized: true,
+        convId,
+        userId,
+        role: normalizedRole,
+        userMessage: effectiveMessage,
         reply: aiResult.reply,
-        answer: aiResult.reply,
+        sources,
+        attachments: [],
+        cards: [],
+        metadataExtra: mainMetadataExtra,
+        isCrisis,
+        wantsDocumentDownload,
+        replyLang,
+        messageForDownload: effectiveMessage,
+        roomId,
+        saveRoomMessage: saveAssistantRoomMessage
+      });
+      return buildImmediateChatResponse({
+        wantStream: false,
+        reply: aiResult.reply,
         sources,
         attachments,
+        cards: [],
         isCrisis,
-        convId: convId || undefined
+        convId
       });
     } catch (err) {
       const rawErrMessage = (err?.response?.data?.error?.message || err?.error?.message || err?.message) ?? "chat.error.openai_request_failed";
@@ -2533,40 +737,25 @@ export async function POST(req) {
             }
           } else if (ev.type === "done") {
             flushPendingDelta();
-            let attachments = [];
-            if (persist && convId && userId) {
-              await persistAppend({
-                convId,
-                userId,
-                fullText: accumulated
-              });
-              const persistResult = await persistDone({
-                convId,
-                userId,
-                status: "COMPLETED",
-                finalText: accumulated,
-                sources,
-                attachments: [],
-                metadataExtra: mainMetadataExtra,
-                isCrisis
-              });
-              if (wantsDocumentDownload) {
-                attachments = buildDownloadAttachments({
-                  convId,
-                  assistantMessageId: persistResult?.assistantMessageId,
-                  message: effectiveMessage,
-                  replyLang
-                });
-                await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
-              }
-            }
-            if (roomId && userId) {
-              await saveAssistantRoomMessage({
-                roomId,
-                userId,
-                content: accumulated
-              });
-            }
+            const { attachments } = await finalizeAssistantReply({
+              persist,
+              persistInitialized: true,
+              convId,
+              userId,
+              role: normalizedRole,
+              userMessage: effectiveMessage,
+              reply: accumulated,
+              sources,
+              attachments: [],
+              cards: [],
+              metadataExtra: mainMetadataExtra,
+              isCrisis,
+              wantsDocumentDownload,
+              replyLang,
+              messageForDownload: effectiveMessage,
+              roomId,
+              saveRoomMessage: saveAssistantRoomMessage
+            });
             if (!clientGone) {
               try {
                 controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({
