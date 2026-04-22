@@ -611,6 +611,12 @@ export default function ChatComposer({
   const modeLabelMobileTopClassName = roomModeLabelNeedsExtraOffset
     ? "max-[768px]:top-[calc(100%+1.08rem)]"
     : "max-[768px]:top-[calc(100%+0.58rem)]";
+  const isStandaloneDisplay = typeof window !== "undefined" && (
+    document?.documentElement?.dataset?.displayMode === "standalone" ||
+    window.matchMedia?.("(display-mode: standalone)")?.matches ||
+    window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
+    window.navigator?.standalone === true
+  );
   const composerModeRowClassName =
     `pointer-events-none absolute left-0 right-0 ${roomModeLabelNeedsExtraOffset ? "top-[calc(100%+1.95rem)]" : "top-[calc(100%+1.28rem)]"} ${modeLabelMobileTopClassName} flex w-full items-center justify-center ` +
     "transition-[top] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
@@ -671,7 +677,9 @@ export default function ChatComposer({
         left: 0,
         right: 0,
         top: "auto",
-        bottom: "calc(env(safe-area-inset-bottom,0px) + 2.5rem + var(--chat-vk-offset,0px))",
+        bottom: isStandaloneDisplay
+          ? "calc(env(safe-area-inset-bottom,0px) + 1.9rem + var(--chat-vk-offset,0px))"
+          : "calc(env(safe-area-inset-bottom,0px) + 2.5rem + var(--chat-vk-offset,0px))",
         marginTop: 0
       }
     : undefined;
