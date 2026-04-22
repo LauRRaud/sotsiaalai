@@ -74,8 +74,10 @@ test("temporal fill queries create broader year-bounded fallbacks", () => {
     topicHints: ["kov", "noustamine"]
   });
 
-  assert.ok(queries.length >= 3);
+  assert.ok(queries.length >= 4);
   assert.ok(queries.every(entry => entry.filters?.year === 2021));
+  assert.ok(queries.every(entry => !("tag_tokens" in (entry.filters || {}))));
   assert.ok(queries.some(entry => /sotsiaalhoolekanne/i.test(entry.query)));
   assert.ok(queries.some(entry => /sotsiaaltoo/i.test(entry.query)));
+  assert.ok(queries.some(entry => /eesti sotsiaalvaldkond 2021/i.test(entry.query)));
 });
