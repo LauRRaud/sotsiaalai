@@ -2444,8 +2444,9 @@
     position: absolute !important;
     left: 0 !important;
     right: 0 !important;
+    --chat-composer-mobile-bottom-base: 2.5rem !important;
     --chat-input-max-w: min(100%, calc(100vw - 6.45rem)) !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 2.5rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--chat-composer-mobile-bottom-base) + var(--chat-vk-offset, 0px)) !important;
     margin-top: 0 !important;
     transform: none !important;
     align-items: flex-end !important;
@@ -2461,12 +2462,12 @@
 
   html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.9rem + var(--chat-vk-offset, 0px)) !important;
+    --chat-composer-mobile-bottom-base: 0.95rem !important;
   }
 
   html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.9rem + var(--chat-vk-offset, 0px)) !important;
+    --chat-composer-mobile-bottom-base: 0.95rem !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {

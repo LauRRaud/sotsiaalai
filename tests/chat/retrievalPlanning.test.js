@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 
 import {
   buildTemporalRetrievalPlan,
-  buildTemporalBreakdownInstruction
+  buildTemporalBreakdownInstruction,
+  extractTopicHints
 } from "../../lib/chat/retrievalPlanning.js";
 
 test("temporal retrieval plan expands an explicit yearly range", () => {
@@ -54,4 +55,13 @@ test("temporal breakdown instruction tells the model not to fill missing years",
   assert.match(instruction, /^TEMPORAL_BREAKDOWN_MODE:/);
   assert.match(instruction, /puuduvaid aastaid/i);
   assert.match(instruction, /2018, 2019, 2020/);
+});
+
+test("topic hints keep concrete domain keywords and drop generic timeline words", () => {
+  const hints = extractTopicHints("KOVi rolli muutused ja noustamine aastatel 2018-2025");
+
+  assert.ok(hints.includes("kovi") || hints.includes("kov"));
+  assert.ok(hints.includes("noustamine"));
+  assert.ok(!hints.includes("aastatel"));
+  assert.ok(!hints.includes("muutused"));
 });

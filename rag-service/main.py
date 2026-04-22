@@ -3101,6 +3101,19 @@ def search(payload: SearchIn, request: Request):
             md_where["authors"] = payload.where["authors"]
         if "tags" in payload.where:
             md_where["tags"] = payload.where["tags"]
+        if "year" in payload.where:
+            year_filter = payload.where["year"]
+            if isinstance(year_filter, dict) and "$in" in year_filter:
+                normalized_years = [
+                    yr for yr in (normalize_year(v) for v in list(year_filter["$in"]))
+                    if yr is not None
+                ]
+                if normalized_years:
+                    md_where["year"] = {"$in": sorted(set(normalized_years))}
+            else:
+                normalized_year = normalize_year(year_filter)
+                if normalized_year is not None:
+                    md_where["year"] = normalized_year
         if "collection_id" in payload.where and isinstance(payload.where["collection_id"], str):
             md_where["collection_id"] = payload.where["collection_id"].strip()
         if "country" in payload.where and isinstance(payload.where["country"], str):

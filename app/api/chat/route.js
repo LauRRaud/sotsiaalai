@@ -14,6 +14,8 @@ import {
   collapsePages,
   groupMatches,
   diversifyGroupsMMR,
+  selectTemporalGroups,
+  rankGroupsWithTopicHints,
   buildContextWithBudget,
   makeShortRef,
   filterMunicipalityScopedMatches,
@@ -24,7 +26,7 @@ import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence"
 import { logEvent } from "@/lib/chat/logger";
 import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
 import { shouldUseExternalSourcesForTurn } from "@/lib/chat/sourceNeed";
-import { buildTemporalRetrievalPlan, buildTemporalBreakdownInstruction } from "@/lib/chat/retrievalPlanning";
+import { buildTemporalRetrievalPlan, buildTemporalBreakdownInstruction, extractTopicHints } from "@/lib/chat/retrievalPlanning";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 import { MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib/documents/constants";
@@ -259,15 +261,35 @@ async function searchRagQueries({
   role = null,
   conversationId = null
 }) {
-  const uniqueQueries = Array.from(new Set((Array.isArray(queries) ? queries : [queries])
-    .map(query => String(query || "").trim())
-    .filter(Boolean)));
+  const normalizedQueries = [];
+  const seen = new Set();
+  for (const raw of (Array.isArray(queries) ? queries : [queries])) {
+    if (!raw) continue;
+    const queryText = typeof raw === "string" ? raw : raw?.query;
+    const normalizedQuery = String(queryText || "").trim();
+    if (!normalizedQuery) continue;
+    const extraFilters = raw && typeof raw === "object" && !Array.isArray(raw) ? raw.filters || null : null;
+    const dedupeKey = JSON.stringify({
+      query: normalizedQuery,
+      filters: extraFilters || null
+    });
+    if (seen.has(dedupeKey)) continue;
+    seen.add(dedupeKey);
+    normalizedQueries.push({
+      query: normalizedQuery,
+      filters: extraFilters
+    });
+  }
+  const uniqueQueries = normalizedQueries;
   if (!uniqueQueries.length) return [];
   if (uniqueQueries.length === 1) {
     return searchRagDirect({
-      query: uniqueQueries[0],
+      query: uniqueQueries[0].query,
       topK,
-      filters,
+      filters: uniqueQueries[0].filters ? {
+        ...(filters || {}),
+        ...uniqueQueries[0].filters
+      } : filters,
       observabilityRoute,
       observabilityStage,
       userId,
@@ -277,11 +299,14 @@ async function searchRagQueries({
   }
 
   const perQueryTopK = Math.max(4, Math.min(topK, Math.ceil(topK / uniqueQueries.length) + 2));
-  const settled = await Promise.allSettled(uniqueQueries.map((query, index) =>
+  const settled = await Promise.allSettled(uniqueQueries.map((entry, index) =>
     searchRagDirect({
-      query,
+      query: entry.query,
       topK: perQueryTopK,
-      filters,
+      filters: entry.filters ? {
+        ...(filters || {}),
+        ...entry.filters
+      } : filters,
       observabilityRoute,
       observabilityStage: `${observabilityStage}_q${index + 1}`,
       userId,
@@ -1877,6 +1902,7 @@ export async function POST(req) {
     ? {
         enabled: false,
         years: [],
+        focusText: "",
         queries: baseRagQueryText ? [baseRagQueryText] : []
       }
     : buildTemporalRetrievalPlan({
@@ -1884,6 +1910,7 @@ export async function POST(req) {
         history: rawHistory,
         baseQuery: baseRagQueryText
       });
+  const topicHints = extractTopicHints(temporalRetrievalPlan.focusText || effectiveMessage);
   const extraSystemInstructions = [
     ...(municipalityQuestionNeedsClarification
       ? [missingMunicipalitySystemInstruction(normalizedRole, replyLang)]
@@ -1905,7 +1932,13 @@ export async function POST(req) {
       const ragQueries = sourceLookupRequest
         ? [ragQueryText]
         : temporalRetrievalPlan.enabled
-          ? temporalRetrievalPlan.queries
+          ? [
+              { query: ragQueryText },
+              ...temporalRetrievalPlan.years.map(year => ({
+                query: [temporalRetrievalPlan.focusText || ragQueryText, String(year)].filter(Boolean).join("\n").trim(),
+                filters: { year }
+              }))
+            ]
           : [ragQueryText];
       const sourceLookupTopK = sourceLookupRequest
         ? sourceLookupParagraphRefs.length <= 1
@@ -1983,8 +2016,10 @@ export async function POST(req) {
         message: err?.message || "rag search error"
       });
     }
-    groupedMatches = groupMatches(matches);
-    chosen = diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);
+    groupedMatches = rankGroupsWithTopicHints(groupMatches(matches), topicHints);
+    chosen = temporalRetrievalPlan.enabled
+      ? selectTemporalGroups(groupedMatches, temporalRetrievalPlan.years, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA)
+      : diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);
     budgeted = buildContextWithBudget(chosen);
   }
   const ragContext = budgeted.text;
