@@ -54,7 +54,8 @@
     "rag:validate:kov": "node scripts/validate-kov-rag.mjs",
     "rag:ingest:kov": "node scripts/ingest-kov-rag.mjs",
     "rag:ingest:rt-national": "node scripts/ingest-national-rt-xml.mjs",
-    "rag:ingest:ajakiri": "node scripts/ingest-ajakiri-sotsiaaltoo.mjs"
+    "rag:ingest:ajakiri": "node scripts/ingest-ajakiri-sotsiaaltoo.mjs",
+    "rag:reindex:documents": "node scripts/reindex-rag-documents.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",
