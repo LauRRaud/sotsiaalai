@@ -1836,6 +1836,9 @@
     min-height: 100% !important;
     height: 100% !important;
     max-height: 100% !important;
+    min-height: calc(var(--vh, 1vh) * 100) !important;
+    height: calc(var(--vh, 1vh) * 100) !important;
+    max-height: calc(var(--vh, 1vh) * 100) !important;
     margin: 0 !important;
     padding-top: calc(env(safe-area-inset-top, 0px) + 0.4rem) !important;
     padding-right: 0 !important;
@@ -1854,15 +1857,42 @@
 
   html[data-display-mode="standalone"] #login-modal .login-modal-shell,
   body[data-display-mode="standalone"] #login-modal .login-modal-shell {
-    margin-top: calc(-0.32rem - var(--login-pwa-title-top-extra, 0rem)) !important;
-    margin-bottom: calc(-0.32rem - var(--login-pwa-register-bottom-extra, 0rem)) !important;
-    padding-top: calc(clamp(0.86rem, 2.9vw, 1.18rem) + var(--login-pwa-title-top-extra, 0rem)) !important;
-    padding-bottom: calc(clamp(0.92rem, 3.1vw, 1.24rem) + var(--login-pwa-register-bottom-extra, 0rem)) !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    padding-top: clamp(0.86rem, 2.9vw, 1.18rem) !important;
+    padding-bottom: clamp(0.92rem, 3.1vw, 1.24rem) !important;
   }
 
   html[data-display-mode="standalone"] #login-modal.login-modal--otp .login-modal-shell,
   body[data-display-mode="standalone"] #login-modal.login-modal--otp .login-modal-shell {
     padding-bottom: clamp(1.28rem, 3.6vw, 1.74rem) !important;
+  }
+
+  html[data-display-mode="fullscreen"] #login-modal .login-modal-shell,
+  body[data-display-mode="fullscreen"] #login-modal .login-modal-shell {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+  }
+
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .chat-page-shell,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .chat-page-shell {
+    min-height: calc(var(--vh, 1vh) * 100) !important;
+    height: calc(var(--vh, 1vh) * 100) !important;
+  }
+
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring {
+    --glass-mobile-height: calc(var(--vh, 1vh) * 100) !important;
+  }
+
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .chat-page-shell
+    .chat-container.chat-container--round,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .chat-page-shell
+    .chat-container.chat-container--round {
+    --chat-window-pad-bottom: calc(env(safe-area-inset-bottom, 0px) + 2.7rem) !important;
+    --chat-content-bottom-spacer: 0.34rem !important;
   }
 
   .login-modal-box .login-modal-close.modal-close-btn {
@@ -2417,12 +2447,12 @@
 
   html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.4rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.4rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
@@ -2441,6 +2471,17 @@
     max-width: min(100%, var(--chat-input-max-w)) !important;
     flex: 1 1 auto !important;
     transform: none !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden {
+    --chat-input-max-w: 100% !important;
+    padding-left: var(--chat-hpad-right, var(--chat-hpad)) !important;
+    padding-right: var(--chat-hpad-right, var(--chat-hpad)) !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden .chat-inputbar {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded),
@@ -2478,6 +2519,17 @@
   body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
     width: min(100%, var(--chat-input-max-w)) !important;
     max-width: min(100%, var(--chat-input-max-w)) !important;
+  }
+
+  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden,
+  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden {
+    --chat-input-max-w: 100% !important;
+  }
+
+  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden .chat-inputbar,
+  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden .chat-inputbar {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   html[data-platform="android"] body .chat-inputbar .chat-listen-btn,

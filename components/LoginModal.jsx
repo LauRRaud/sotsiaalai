@@ -324,7 +324,7 @@ export default function LoginModal({
     "flex",
     "flex-col",
     isPhoneViewport
-      ? "w-full h-full min-h-full max-h-full items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+0.4rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.4rem)]"
+      ? "w-full h-full min-h-full max-h-full items-center justify-center pt-[calc(env(safe-area-inset-top,0px)+0.4rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.4rem)]"
       : "w-auto h-auto min-h-0 max-h-[calc(100dvh-2rem)]",
     isPhoneViewport ? "overflow-hidden" : "overflow-visible max-md:max-h-[calc(100dvh-0.9rem)]",
     "gap-0",
@@ -1277,6 +1277,8 @@ export default function LoginModal({
           overscrollBehavior: "contain",
           WebkitOverflowScrolling: "touch",
           alignSelf: "center",
+          marginTop: "auto",
+          marginBottom: "auto",
           marginLeft: "auto",
           marginRight: "auto"
         }

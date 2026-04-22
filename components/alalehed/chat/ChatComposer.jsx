@@ -806,8 +806,11 @@ export default function ChatComposer({
     `chat-side-control-btn chat-document-attach-btn ${sideControlButtonBaseClassName}`;
   const documentAttachDisabled = isGenerating || isRoomMode && (roomBlocked || roomAuthRequired);
   const showSideControls = !hideTools;
+  const inputRowToolsVisibilityClassName = showSideControls
+    ? "chat-input-row--tools-visible"
+    : "chat-input-row--tools-hidden";
   const replaceModeButtonWithCareerAttach = Boolean(careerModeEnabled && showCareerCvAttachButton);
-  return <form ref={inputRowRef} style={inputRowStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
+  return <form ref={inputRowRef} style={inputRowStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName} ${inputRowToolsVisibilityClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {showSideControls ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? null : <>
             {replaceModeButtonWithCareerAttach ? <button type="button" className={toolsButtonClassName} aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={onPickDocumentFile} disabled={documentAttachDisabled}>

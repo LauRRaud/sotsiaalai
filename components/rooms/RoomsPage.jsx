@@ -8,7 +8,7 @@ import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
-import Modal from "@/components/ui/Modal";
+import ModalConfirm from "@/components/ui/ModalConfirm";
 import Panel from "@/components/ui/Panel";
 import InviteModal from "@/components/invite/InviteModal";
 import BackButton from "@/components/ui/BackButton";
@@ -64,8 +64,6 @@ const roomUnreadBadgeClassName =
   "rooms-unread-badge cs-title-badge mt-[0.08rem] inline-flex min-h-[2rem] min-w-[2rem] items-center justify-center rounded-full border px-[0.38rem] py-[0.16rem] text-center text-[0.92rem] font-semibold leading-none tracking-[-0.01em] " +
   "border-[rgba(212,94,94,0.34)] bg-[rgba(126,36,48,0.16)] text-[color:var(--title-color,var(--brand-primary))] shadow-[0_8px_18px_rgba(82,50,46,0.08)] " +
   "[.theme-light_&]:border-[color:color-mix(in_srgb,var(--title-color,var(--brand-primary))_22%,transparent)] [.theme-light_&]:bg-[rgba(255,255,255,0.72)] [.theme-light_&]:text-[color:color-mix(in_srgb,var(--title-color,var(--brand-primary))_82%,transparent)] [.theme-light_&]:shadow-[0_10px_20px_rgba(82,50,46,0.08)]";
-const modalTitleClassName =
-  "text-center text-[1.45rem] leading-[1.2] tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const roomChevronStrokeWidthDesktop = 0.72;
 const roomChevronStrokeWidthMobile = 1.04;
 
@@ -701,46 +699,25 @@ export default function RoomsPage() {
         </GlassRing>
       </section>
 
-      <Modal
-        open={!!confirmRoom}
-        onClose={closeDeleteConfirm}
-        closeOnOverlayClick={!deletingId}
-        aria-labelledby="rooms-delete-title"
-      >
-        {confirmRoom ? (
-          <div className="flex flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]">
-            <h2 id="rooms-delete-title" className={modalTitleClassName}>
-              {t("rooms.delete_title")}
-            </h2>
-            <p className="text-[1.05rem] leading-[1.5] text-[color:var(--pt-120)] light:text-[color:var(--text-strong)]">
-              {t("rooms.delete_confirm").replace(
-                "{name}",
-                confirmRoom.title || t("rooms.fallback_title")
-              )}
-            </p>
-            <div className="flex flex-wrap justify-end gap-3">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={closeDeleteConfirm}
-                disabled={deletingId === confirmRoom.id}
-              >
-                {t("rooms.cancel")}
-              </Button>
-              <Button
-                type="button"
-                variant="primary"
-                onClick={() => confirmDelete(confirmRoom)}
-                disabled={deletingId === confirmRoom.id}
-              >
-                {deletingId === confirmRoom.id
-                  ? t("rooms.delete_busy")
-                  : t("rooms.delete")}
-              </Button>
-            </div>
-          </div>
-        ) : null}
-      </Modal>
+      {confirmRoom ? (
+        <ModalConfirm
+          message={t("rooms.delete_confirm").replace(
+            "{name}",
+            confirmRoom.title || t("rooms.fallback_title")
+          )}
+          confirmLabel={
+            deletingId === confirmRoom.id ? t("rooms.delete_busy") : t("rooms.delete")
+          }
+          cancelLabel={t("rooms.cancel")}
+          confirmVariant="danger"
+          cancelVariant="primary"
+          onConfirm={() => confirmDelete(confirmRoom)}
+          onCancel={closeDeleteConfirm}
+          disabled={deletingId === confirmRoom.id}
+          overlayClassName="!z-[140] !bg-transparent !backdrop-blur-0 !backdrop-saturate-100"
+          contentClassName="chat-analysis-upload-modal-card !w-[min(100%,20.5rem)] !max-w-[20.5rem]"
+        />
+      ) : null}
 
       <InviteModal />
     </>

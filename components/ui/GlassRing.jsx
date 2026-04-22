@@ -20,8 +20,9 @@ const baseStyles =
   "max-md:min-w-0 max-md:min-h-0 max-md:aspect-auto " +
   "max-md:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:max-w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
-  "max-md:h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
-  "max-md:max-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
+  "max-md:[--glass-mobile-height:calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
+  "max-md:h-[var(--glass-mobile-height)] " +
+  "max-md:max-h-[var(--glass-mobile-height)] " +
   "max-md:overflow-hidden " +
   "max-md:[--glass-ring-pad-top:clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem)))] " +
   "max-md:[--glass-ring-pad-top-half:clamp(calc(0.2*var(--base-rem)),0.7vh,calc(0.55*var(--base-rem)))] " +
