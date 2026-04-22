@@ -608,19 +608,9 @@ export default function ChatComposer({
   const composerAssistRowClassName =
     `pointer-events-auto absolute left-1/2 ${hasRoomModeLabel ? "top-[calc(100%+0.28rem)]" : "top-[calc(100%+0.18rem)]"} flex w-full max-w-[min(100%,var(--chat-input-max-w))] -translate-x-1/2 items-center justify-end ` +
     "pr-[clamp(1.2rem,3vw,1.65rem)] transition-[max-width,top] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:top-[calc(100%+0.16rem)] max-[768px]:pr-[0.9rem] max-[768px]:transition-none";
-  const isStandaloneDisplay = typeof window !== "undefined" && (
-    document?.documentElement?.dataset?.displayMode === "standalone" ||
-    window.matchMedia?.("(display-mode: standalone)")?.matches ||
-    window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
-    window.navigator?.standalone === true
-  );
   const modeLabelMobileTopClassName = roomModeLabelNeedsExtraOffset
-    ? isStandaloneDisplay
-      ? "max-[768px]:top-[calc(100%+1.24rem)]"
-      : "max-[768px]:top-[calc(100%+1.08rem)]"
-    : isStandaloneDisplay
-      ? "max-[768px]:top-[calc(100%+0.72rem)]"
-      : "max-[768px]:top-[calc(100%+0.58rem)]";
+    ? "max-[768px]:top-[calc(100%+1.08rem)]"
+    : "max-[768px]:top-[calc(100%+0.58rem)]";
   const composerModeRowClassName =
     `pointer-events-none absolute left-0 right-0 ${roomModeLabelNeedsExtraOffset ? "top-[calc(100%+1.95rem)]" : "top-[calc(100%+1.28rem)]"} ${modeLabelMobileTopClassName} flex w-full items-center justify-center ` +
     "transition-[top] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] max-[768px]:transition-none";
@@ -681,9 +671,7 @@ export default function ChatComposer({
         left: 0,
         right: 0,
         top: "auto",
-        bottom: isStandaloneDisplay
-          ? "calc(env(safe-area-inset-bottom,0px) + 1rem + var(--chat-vk-offset,0px))"
-          : "calc(env(safe-area-inset-bottom,0px) + 2.5rem + var(--chat-vk-offset,0px))",
+        bottom: "calc(env(safe-area-inset-bottom,0px) + 2.5rem + var(--chat-vk-offset,0px))",
         marginTop: 0
       }
     : undefined;
@@ -810,7 +798,7 @@ export default function ChatComposer({
     ? "chat-input-row--tools-visible"
     : "chat-input-row--tools-hidden";
   const replaceModeButtonWithCareerAttach = Boolean(careerModeEnabled && showCareerCvAttachButton);
-  return <form ref={inputRowRef} style={inputRowStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName} ${inputRowToolsVisibilityClassName}`} data-has-mode-label={showModeLabelRow ? "true" : "false"} data-has-room-mode-label={hasRoomModeLabel ? "true" : "false"} onSubmit={handleSubmit} autoComplete="off">
+  return <form ref={inputRowRef} style={inputRowStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName} ${inputRowToolsVisibilityClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {showSideControls ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? null : <>
             {replaceModeButtonWithCareerAttach ? <button type="button" className={toolsButtonClassName} aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={onPickDocumentFile} disabled={documentAttachDisabled}>

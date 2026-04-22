@@ -724,7 +724,7 @@
   html[data-display-mode="standalone"] .home-scroll-cue,
   body[data-display-mode="standalone"] .home-scroll-cue {
     bottom: calc(
-      env(safe-area-inset-bottom, 0px) + clamp(4.1rem, 10.2vh, 5.35rem)
+      env(safe-area-inset-bottom, 0px) + clamp(2.2rem, 5.8vh, 3.1rem)
     ) !important;
   }
 
@@ -1884,7 +1884,7 @@
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) {
     --glass-mobile-vh: calc(var(--app-vh, var(--vh, 1vh)) * 100);
     --glass-mobile-safe-top: 0px;
-    --glass-mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --glass-mobile-safe-bottom: 0px;
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring,
@@ -2461,32 +2461,12 @@
 
   html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.4rem + var(--chat-vk-offset, 0px)) !important;
-  }
-
-  html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded)[data-has-mode-label="true"],
-  body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded)[data-has-mode-label="true"] {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.45rem + var(--chat-vk-offset, 0px)) !important;
-  }
-
-  html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded)[data-has-room-mode-label="true"],
-  body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded)[data-has-room-mode-label="true"] {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.8rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 2.5rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.4rem + var(--chat-vk-offset, 0px)) !important;
-  }
-
-  html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded)[data-has-mode-label="true"],
-  body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded)[data-has-mode-label="true"] {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.45rem + var(--chat-vk-offset, 0px)) !important;
-  }
-
-  html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded)[data-has-room-mode-label="true"],
-  body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded)[data-has-room-mode-label="true"] {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.8rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 2.5rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
