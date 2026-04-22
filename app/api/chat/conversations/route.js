@@ -159,7 +159,7 @@ export async function GET(req) {
   const parsedCursor = parseCursor(cursorToken);
   const roleState = resolveSessionRoleState(auth.session, req.cookies);
   const roleParam = url.searchParams.get("role");
-  const roleFilter = resolveConversationListRoleFilter(roleParam, roleState.effectiveRole);
+  const roleFilter = resolveConversationListRoleFilter(roleParam, roleState.effectiveRole, roleState.isAdmin);
 
   const baseWhere = {
     userId: auth.userId,

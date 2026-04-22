@@ -37,7 +37,7 @@ export default function ChatSidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { effectiveRole } = useEffectiveRole();
+  const { effectiveRole, isAdmin } = useEffectiveRole();
   const [items, setItems] = useState([]);
   const [roomItems, setRoomItems] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -81,6 +81,7 @@ export default function ChatSidebar() {
     }
     return "CLIENT";
   }, [effectiveRole]);
+  const conversationListRole = useMemo(() => (isAdmin ? "ALL" : conversationRole), [conversationRole, isAdmin]);
   const fetchList = useCallback(async ({
     reset
   } = {
@@ -100,7 +101,7 @@ export default function ChatSidebar() {
       const params = new URLSearchParams({
         limit: String(pageSize)
       });
-      params.set("role", conversationRole);
+      params.set("role", conversationListRole);
       if (!reset && cursorRef.current) {
         params.set("cursor", cursorRef.current);
       }
@@ -131,7 +132,7 @@ export default function ChatSidebar() {
       if (abortRef.current === ac) abortRef.current = null;
       setBusy(false);
     }
-  }, [conversationRole, pageSize, resolveErrorMessage, t]);
+  }, [conversationListRole, pageSize, resolveErrorMessage, t]);
   const fetchRooms = useCallback(async () => {
     roomsAbortRef.current?.abort();
     const ac = new AbortController();
@@ -419,7 +420,7 @@ export default function ChatSidebar() {
       const params = new URLSearchParams({
         limit: "100"
       });
-      params.set("role", conversationRole);
+      params.set("role", conversationListRole);
       if (nextCursor) params.set("cursor", nextCursor);
       const r = await fetch(`/api/chat/conversations?${params.toString()}`, {
         cache: "no-store"
@@ -439,7 +440,7 @@ export default function ChatSidebar() {
       loops += 1;
     } while (nextCursor && loops < 50);
     return ids;
-  }, [conversationRole, resolveErrorMessage]);
+  }, [conversationListRole, resolveErrorMessage]);
   const deleteConversationIds = useCallback(async ids => {
     const unique = Array.from(new Set(ids)).filter(Boolean);
     if (!unique.length) return {
