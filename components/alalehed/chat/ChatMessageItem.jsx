@@ -268,7 +268,10 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "bg-[rgba(14,20,32,0.3)] px-[0.75rem] py-[0.3rem] text-[0.88rem] leading-[1.2] " +
     "text-[color:var(--pt-150)] no-underline transition-colors duration-150 " +
     "hover:bg-[rgba(14,20,32,0.45)] focus-visible:bg-[rgba(14,20,32,0.45)] " +
-    "light:border-[rgba(15,23,42,0.2)] light:bg-[rgba(255,255,255,0.75)] light:text-[color:var(--input-text)]";
+    "light:border-[rgba(15,23,42,0.2)] light:bg-[rgba(255,255,255,0.75)] light:text-[color:var(--input-text)] " +
+    "light:hover:bg-[rgba(255,255,255,0.92)] light:focus-visible:bg-[rgba(255,255,255,0.92)] " +
+    "[.theme-mid_&]:border-[rgba(122,58,56,0.18)] [.theme-mid_&]:bg-[rgba(255,246,243,0.82)] [.theme-mid_&]:text-[#4e201e] " +
+    "[.theme-mid_&]:hover:bg-[rgba(255,250,248,0.96)] [.theme-mid_&]:focus-visible:bg-[rgba(255,250,248,0.96)]";
   const cardsWrapClassName = "mt-[0.55rem] grid gap-[0.55rem]";
   const cardClassName =
     "rounded-[1rem] border border-[rgba(240,240,240,0.18)] bg-[rgba(14,20,32,0.26)] " +
