@@ -1,21 +1,22 @@
 {
   "docId": "sotsiaaltoo-1-2023",
-  "articleId": "hooldekodude-rahastamise-pohimotted-muutuvad-2023-1",
+  "articleId": "hooldekodude-rahastamise-pohimotted-ja-kommentaar-2023-1",
   "title": "Hooldekodude rahastamise põhimõtted muutuvad",
   "authors": [
     "Ketri Kupper",
-    "Meeli Tuubel"
+    "Meeli Tuubel",
+    "Maire Koppel"
   ],
   "year": 2023,
   "journalTitle": "Sotsiaaltöö",
   "issueLabel": "1/2023",
   "section": "Korraldus",
-  "pageRange": "9-13",
+  "pageRange": "9-14",
   "pdf_start_page": 1,
-  "pdf_end_page": 5,
+  "pdf_end_page": 6,
   "audience": "BOTH",
   "language": "et",
-  "description": "Artikkel selgitab hooldereformi sisu ja seda, kuidas alates 1. juulist 2023 muutub ööpäevaringse\nüldhooldusteenuse rahastamine. Autorid kirjeldavad, et omavalitsustele tekib kohustus katta\nhoolduskulud, samal ajal kui inimene tasub peamiselt majutuse ja toitlustuse eest, ning väikese\nsissetulekuga inimestele rakendub täiendav hüvitis. Käsitletakse hoolduskulude piirmäära kehtestamist,\nSTAR-i kasutamist hooldekodus olevate inimeste andmete korrastamiseks ning riigi eraldatavat lisarahastust.\nFookuses on teenuse taskukohasus, isikukesksem hooldus ja töötajate puuduse leevendamine.",
+  "description": "PDF koondab põhjalikuma ülevaate hooldereformi sisust ja üldhooldusteenuse rahastamise muutustest ning sellele järgneva lühikese kommentaari reformi mõjust hooldekodudele, töötajatele ja peredele. Fookuses on omavalitsuste kohustused, teenuse taskukohasus, rahastuse põhimõtted ja reformi praktilised mõjud.",
   "tags": [
     "hooldereform",
     "üldhooldusteenus",
@@ -23,7 +24,8 @@
     "kohalik omavalitsus",
     "hoolduskulud",
     "toetusfond",
-    "pikaajaline hooldus"
+    "pikaajaline hooldus",
+    "kommentaar"
   ],
   "source_type": "file",
   "source_path": "Sotsiaaltoo_1_2023_web_Part4.pdf"
