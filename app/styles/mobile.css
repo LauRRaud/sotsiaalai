@@ -1880,6 +1880,13 @@
     height: calc(var(--vh, 1vh) * 100) !important;
   }
 
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]),
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) {
+    --glass-mobile-vh: calc(var(--vh, 1vh) * 100);
+    --glass-mobile-safe-top: 0px;
+    --glass-mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring,
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring {
     --glass-mobile-safe-top: 0px !important;

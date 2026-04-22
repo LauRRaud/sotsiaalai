@@ -85,6 +85,18 @@ export async function GET() {
             id: true,
             title: true,
             description: true,
+            members: {
+              where: {
+                userId: auth.userId,
+                leftAt: null
+              },
+              take: 1,
+              select: {
+                role: true,
+                billingSource: true,
+                lastReadAt: true
+              }
+            },
             helpMatch: {
               select: {
                 id: true
@@ -138,13 +150,17 @@ export async function GET() {
         });
 
     const rawMemberships = isAdmin
-      ? memberships.map(r => ({
-          roomId: r.id,
-          room: r,
-          role: "ADMIN",
-          billingSource: "ADMIN",
-          lastReadAt: new Date(0)
-        }))
+        ? memberships.map(r => {
+          const adminMembership = Array.isArray(r.members) ? r.members[0] : null;
+          return {
+            roomId: r.id,
+            room: r,
+            hasMembership: Boolean(adminMembership),
+            role: adminMembership?.role || "ADMIN",
+            billingSource: adminMembership?.billingSource || "ADMIN",
+            lastReadAt: adminMembership?.lastReadAt || null
+          };
+        })
       : memberships;
 
     const normalizedMemberships = rawMemberships
@@ -172,6 +188,7 @@ export async function GET() {
 
     const rooms = await Promise.all(
       normalizedMemberships.map(async m => {
+        const canTrackUnread = !isAdmin || Boolean(m.hasMembership);
         const [memberCount, unreadCount] = await Promise.all([
           prisma.roomMember.count({
             where: {
@@ -179,20 +196,20 @@ export async function GET() {
               leftAt: null
             }
           }),
-          prisma.roomMessage.count({
-            where: isAdmin
-              ? {
-                  roomId: m.roomId,
-                  deletedAt: null
-                }
-              : {
+          canTrackUnread
+            ? prisma.roomMessage.count({
+                where: {
                   roomId: m.roomId,
                   deletedAt: null,
+                  authorId: {
+                    not: auth.userId
+                  },
                   createdAt: {
                     gt: m.lastReadAt || new Date(0)
                   }
                 }
-          })
+              })
+            : Promise.resolve(0)
         ]);
 
         const last = m.room.messages?.[0];

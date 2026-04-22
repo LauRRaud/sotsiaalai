@@ -64,12 +64,15 @@ export const glassPageRingCenteredClassName =
 
 export const glassPageMobileCardClassName =
   `${glassPrimaryButtonToneClassName} ` +
+  "max-[768px]:[--glass-mobile-vh:100dvh] " +
+  "max-[768px]:[--glass-mobile-safe-top:env(safe-area-inset-top,0px)] " +
+  "max-[768px]:[--glass-mobile-safe-bottom:env(safe-area-inset-bottom,0px)] " +
   "max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
-  "max-[768px]:!max-w-none max-[768px]:!h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
-  "max-[768px]:!max-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
-  "max-[768px]:!mt-[calc(env(safe-area-inset-top,0px)+var(--mobile-glass-card-gap,0.35rem))] " +
+  "max-[768px]:!max-w-none max-[768px]:!h-[calc(var(--glass-mobile-vh)-var(--glass-mobile-safe-top)-var(--glass-mobile-safe-bottom)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
+  "max-[768px]:!max-h-[calc(var(--glass-mobile-vh)-var(--glass-mobile-safe-top)-var(--glass-mobile-safe-bottom)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
+  "max-[768px]:!mt-[calc(var(--glass-mobile-safe-top)+var(--mobile-glass-card-gap,0.35rem))] " +
   "max-[768px]:!mr-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-right,0px))] " +
-  "max-[768px]:!mb-[calc(env(safe-area-inset-bottom,0px)+var(--mobile-glass-card-gap,0.35rem))] " +
+  "max-[768px]:!mb-[calc(var(--glass-mobile-safe-bottom)+var(--mobile-glass-card-gap,0.35rem))] " +
   "max-[768px]:!ml-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] " +
   "max-[768px]:!rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] " +
   "max-[768px]:!px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] " +

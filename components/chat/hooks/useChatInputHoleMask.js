@@ -371,28 +371,22 @@ export function useChatInputHoleMask({
       window.addEventListener("scroll", scheduleUpdate, true);
       box.addEventListener("scroll", scheduleUpdate);
     }
-    if (!isMobileViewport) {
-      box.addEventListener("transitionend", scheduleUpdate);
-      inputBar.addEventListener("transitionend", scheduleUpdate);
-      inputRow?.addEventListener("transitionend", scheduleUpdate);
-    }
-    if (!isMobileViewport) {
-      box.addEventListener("transitionrun", scheduleUpdate);
-      inputBar.addEventListener("transitionrun", scheduleUpdate);
-      inputRow?.addEventListener("transitionrun", scheduleUpdate);
-      box.addEventListener("transitionstart", scheduleUpdate);
-      inputBar.addEventListener("transitionstart", scheduleUpdate);
-      inputRow?.addEventListener("transitionstart", scheduleUpdate);
-    }
+    box.addEventListener("transitionend", scheduleUpdate);
+    inputBar.addEventListener("transitionend", scheduleUpdate);
+    inputRow?.addEventListener("transitionend", scheduleUpdate);
+    box.addEventListener("transitionrun", scheduleUpdate);
+    inputBar.addEventListener("transitionrun", scheduleUpdate);
+    inputRow?.addEventListener("transitionrun", scheduleUpdate);
+    box.addEventListener("transitionstart", scheduleUpdate);
+    inputBar.addEventListener("transitionstart", scheduleUpdate);
+    inputRow?.addEventListener("transitionstart", scheduleUpdate);
     let ro;
     let mo;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(scheduleUpdate);
-      if (!isMobileViewport) {
-        ro.observe(inputBar);
-        ro.observe(box);
-        if (inputRow) ro.observe(inputRow);
-      }
+      ro.observe(inputBar);
+      ro.observe(box);
+      if (inputRow) ro.observe(inputRow);
     }
     if (!isMobileViewport && typeof MutationObserver !== "undefined") {
       mo = new MutationObserver(scheduleUpdate);
@@ -421,17 +415,15 @@ export function useChatInputHoleMask({
         window.removeEventListener("scroll", scheduleUpdate, true);
         box.removeEventListener("scroll", scheduleUpdate);
       }
-      if (!isMobileViewport) {
-        box.removeEventListener("transitionend", scheduleUpdate);
-        inputBar.removeEventListener("transitionend", scheduleUpdate);
-        inputRow?.removeEventListener("transitionend", scheduleUpdate);
-        box.removeEventListener("transitionrun", scheduleUpdate);
-        inputBar.removeEventListener("transitionrun", scheduleUpdate);
-        inputRow?.removeEventListener("transitionrun", scheduleUpdate);
-        box.removeEventListener("transitionstart", scheduleUpdate);
-        inputBar.removeEventListener("transitionstart", scheduleUpdate);
-        inputRow?.removeEventListener("transitionstart", scheduleUpdate);
-      }
+      box.removeEventListener("transitionend", scheduleUpdate);
+      inputBar.removeEventListener("transitionend", scheduleUpdate);
+      inputRow?.removeEventListener("transitionend", scheduleUpdate);
+      box.removeEventListener("transitionrun", scheduleUpdate);
+      inputBar.removeEventListener("transitionrun", scheduleUpdate);
+      inputRow?.removeEventListener("transitionrun", scheduleUpdate);
+      box.removeEventListener("transitionstart", scheduleUpdate);
+      inputBar.removeEventListener("transitionstart", scheduleUpdate);
+      inputRow?.removeEventListener("transitionstart", scheduleUpdate);
       ro?.disconnect?.();
       mo?.disconnect?.();
       if (box?.dataset) delete box.dataset.routeTilting;
