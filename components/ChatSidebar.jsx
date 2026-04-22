@@ -6,6 +6,7 @@ import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
+import { buildRoomChatPath } from "@/lib/roomPath";
 import Button from "@/components/ui/Button";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import {
@@ -155,6 +156,7 @@ export default function ChatSidebar() {
         title: room.title || t("chat.sidebar.room_fallback"),
         preview: room?.lastMessage?.content || "",
         lastActivityAt: room?.lastMessage?.createdAt || null,
+        isHelpMatchRoom: room?.isHelpMatchRoom === true,
         kind: "room"
       })) : [];
       setRoomItems(normalized);
@@ -282,11 +284,21 @@ export default function ChatSidebar() {
     });
   }, []);
   const isEmbeddedChat = searchParams?.get("mode") === "chat";
-  const updateChatUrl = useCallback(nextRoomId => {
+  const updateChatUrl = useCallback((nextRoomId, options = {}) => {
     if (typeof window === "undefined") return;
     const url = new URL(window.location.href);
     url.searchParams.set("mode", "chat");
-    if (nextRoomId) url.searchParams.set("roomId", nextRoomId);else url.searchParams.delete("roomId");
+    if (nextRoomId) {
+      url.searchParams.set("roomId", nextRoomId);
+      if (options?.isHelpMatchRoom === true) {
+        url.searchParams.set("roomKind", "help-match");
+      } else {
+        url.searchParams.delete("roomKind");
+      }
+    } else {
+      url.searchParams.delete("roomId");
+      url.searchParams.delete("roomKind");
+    }
     const qs = url.searchParams.toString();
     const nextPath = qs ? `${url.pathname}?${qs}` : url.pathname;
     if (nextPath === `${pathname}${window.location.search}`) return;
@@ -326,10 +338,15 @@ export default function ChatSidebar() {
     if (!item?.id) return;
     if (selectMode) return;
       if (item.kind === "room") {
+        const roomChatPath = buildRoomChatPath(item.id, locale, {
+          isHelpMatchRoom: item.isHelpMatchRoom === true
+        });
         if (isEmbeddedChat) {
-          updateChatUrl(String(item.id));
+          updateChatUrl(String(item.id), {
+            isHelpMatchRoom: item.isHelpMatchRoom === true
+          });
         } else {
-          router.push(localizePath(`/vestlus?roomId=${encodeURIComponent(item.id)}`, locale));
+          router.push(roomChatPath);
         }
       window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", {
         detail: {

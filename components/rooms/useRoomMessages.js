@@ -31,13 +31,17 @@ function mergeById(prev, incoming) {
   return Array.from(map.values()).sort(compareRoomMessagesAsc);
 }
 
-export function useRoomMessages(roomId, pollMs = 3000) {
+export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
+  const initialIsHelpMatchRoom = options.initialIsHelpMatchRoom === true;
   const [messages, setMessages] = useState([]);
   const [blocked, setBlocked] = useState(false);
   const [authRequired, setAuthRequired] = useState(false);
-  const [roomTitle, setRoomTitle] = useState("");
-  const [roomRole, setRoomRole] = useState("");
-  const [isHelpMatchRoom, setIsHelpMatchRoom] = useState(false);
+  const [roomMeta, setRoomMeta] = useState({
+    roomId: String(roomId || ""),
+    roomTitle: "",
+    roomRole: "",
+    isHelpMatchRoom: initialIsHelpMatchRoom
+  });
   const [useSse, setUseSse] = useState(false);
   const cursorRef = useRef(null);
   const timerRef = useRef(null);
@@ -79,6 +83,12 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     if (!res.ok || data?.ok === false) return;
     setAuthRequired(false);
     setBlocked(false);
+    setRoomMeta({
+      roomId: String(roomId || ""),
+      roomTitle: String(data.roomTitle || ""),
+      roomRole: String(data.roomRole || "").trim().toUpperCase(),
+      isHelpMatchRoom: data.isHelpMatchRoom === true
+    });
     const items = Array.isArray(data.messages) ? data.messages.slice().reverse() : [];
     if (reset) {
       setMessages(items);
@@ -138,32 +148,25 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     lastReadMarkAtRef.current = 0;
   }, [roomId]);
   useEffect(() => {
-    let cancelled = false;
-    async function loadRoomTitle() {
-      if (!roomId) {
-        setRoomTitle("");
-        setRoomRole("");
-        setIsHelpMatchRoom(false);
-        return;
-      }
-      try {
-        const res = await fetch(`/api/rooms/${roomPathId}/members`, {
-          cache: "no-store"
-        });
-        const data = await res.json().catch(() => ({}));
-        if (!cancelled && res.ok && data?.ok) {
-          setRoomTitle(String(data.roomTitle || ""));
-          setRoomRole(String(data.role || "").trim().toUpperCase());
-          setIsHelpMatchRoom(data.isHelpMatchRoom === true);
-        }
-      } catch {}
+    if (!roomId) {
+      setRoomMeta({
+        roomId: "",
+        roomTitle: "",
+        roomRole: "",
+        isHelpMatchRoom: false
+      });
+      return;
     }
-    loadRoomTitle();
+    setRoomMeta({
+      roomId: String(roomId || ""),
+      roomTitle: "",
+      roomRole: "",
+      isHelpMatchRoom: initialIsHelpMatchRoom
+    });
     load(true);
     timerRef.current = setInterval(() => load(false), pollMs);
     connectSse();
     return () => {
-      cancelled = true;
       if (timerRef.current) clearInterval(timerRef.current);
       if (esRef.current) esRef.current.close();
       if (reconnectTimerRef.current) {
@@ -171,7 +174,13 @@ export function useRoomMessages(roomId, pollMs = 3000) {
         reconnectTimerRef.current = null;
       }
     };
-  }, [roomId, roomPathId, pollMs, load, connectSse]);
+  }, [roomId, roomPathId, pollMs, load, connectSse, initialIsHelpMatchRoom]);
+  const metaMatchesRoom = roomMeta.roomId === String(roomId || "");
+  const roomTitle = metaMatchesRoom ? roomMeta.roomTitle : "";
+  const roomRole = metaMatchesRoom ? roomMeta.roomRole : "";
+  const isHelpMatchRoom = metaMatchesRoom
+    ? roomMeta.isHelpMatchRoom
+    : initialIsHelpMatchRoom;
   return {
     messages,
     blocked,

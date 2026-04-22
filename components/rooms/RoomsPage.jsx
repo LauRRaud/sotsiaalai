@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath } from "@/lib/localizePath";
+import { buildRoomChatPath } from "@/lib/roomPath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import ModalConfirm from "@/components/ui/ModalConfirm";
@@ -558,6 +559,9 @@ export default function RoomsPage() {
                     const formattedLastActivity = room.lastMessage?.createdAt
                       ? formatTime(room.lastMessage.createdAt)
                       : "";
+                    const roomChatPath = buildRoomChatPath(room.id, locale, {
+                      isHelpMatchRoom: room.isHelpMatchRoom === true
+                    });
 
                     return (
                       <li
@@ -567,10 +571,7 @@ export default function RoomsPage() {
                         <article className={`${roomCardClassName} rooms-card`}>
                           <Link
                             prefetch={false}
-                            href={localizePath(
-                              `/vestlus?roomId=${encodeURIComponent(room.id)}`,
-                              locale
-                            )}
+                            href={roomChatPath}
                             onClick={event => {
                               if (event.defaultPrevented) return;
                               if (
@@ -585,10 +586,7 @@ export default function RoomsPage() {
                               event.preventDefault();
                               pushWithTransition(
                                 router,
-                                localizePath(
-                                  `/vestlus?roomId=${encodeURIComponent(room.id)}`,
-                                  locale
-                                )
+                                roomChatPath
                               );
                             }}
                             className="grid w-full gap-[0.42rem] text-inherit no-underline"

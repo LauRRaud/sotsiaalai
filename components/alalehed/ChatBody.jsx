@@ -321,6 +321,10 @@ export default function ChatBody({
       : "";
     return roomIdFromSearch || roomId || null;
   }, [roomId, searchParams]);
+  const initialIsHelpMatchRoom = useMemo(() => {
+    if (typeof searchParams?.get !== "function") return false;
+    return String(searchParams.get("roomKind") || "").trim().toLowerCase() === "help-match";
+  }, [searchParams]);
   const [activeListingsPanel, setActiveListingsPanel] = useState(null);
   const [listingsPanelClosing, setListingsPanelClosing] = useState(false);
   const [listingsPanelState, setListingsPanelState] = useState(() => createEmptyListingsPanelState());
@@ -373,7 +377,8 @@ export default function ChatBody({
   } = useChatRoomMode({
     roomId: effectiveRoomId,
     sessionUserId,
-    t
+    t,
+    initialIsHelpMatchRoom
   });
   const allowAssistantForward = !isHelpMatchRoom;
   const hideComposerTools = isHelpMatchRoom;

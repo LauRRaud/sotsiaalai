@@ -218,6 +218,7 @@ export async function GET() {
           title: m.room.title || null,
           description: m.room.description || "",
           role: m.role,
+          isHelpMatchRoom: Boolean(m.room.helpMatch?.id),
           memberCount,
           lastMessage: last
             ? {

@@ -4,7 +4,8 @@ import { useRoomMessages } from "@/components/rooms/useRoomMessages";
 export function useChatRoomMode({
   roomId,
   sessionUserId,
-  t
+  t,
+  initialIsHelpMatchRoom = false
 }) {
   const isRoomMode = Boolean(roomId);
   const [sendToAssistant, setSendToAssistant] = useState(false);
@@ -15,7 +16,9 @@ export function useChatRoomMode({
     roomTitle,
     roomRole,
     isHelpMatchRoom
-  } = useRoomMessages(roomId || "", 3000);
+  } = useRoomMessages(roomId || "", 3000, {
+    initialIsHelpMatchRoom
+  });
   const aiVisibleByMessageId = useRef(new Map());
   const pendingRoomAiIdsRef = useRef([]);
   const seenRoomAiIdsRef = useRef(new Set());

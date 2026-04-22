@@ -2464,9 +2464,29 @@
     bottom: calc(env(safe-area-inset-bottom, 0px) + 0.4rem + var(--chat-vk-offset, 0px)) !important;
   }
 
+  html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded)[data-has-mode-label="true"],
+  body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded)[data-has-mode-label="true"] {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.45rem + var(--chat-vk-offset, 0px)) !important;
+  }
+
+  html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded)[data-has-room-mode-label="true"],
+  body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded)[data-has-room-mode-label="true"] {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.8rem + var(--chat-vk-offset, 0px)) !important;
+  }
+
   html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded) {
     bottom: calc(env(safe-area-inset-bottom, 0px) + 0.4rem + var(--chat-vk-offset, 0px)) !important;
+  }
+
+  html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded)[data-has-mode-label="true"],
+  body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded)[data-has-mode-label="true"] {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.45rem + var(--chat-vk-offset, 0px)) !important;
+  }
+
+  html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded)[data-has-room-mode-label="true"],
+  body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded)[data-has-room-mode-label="true"] {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.8rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {

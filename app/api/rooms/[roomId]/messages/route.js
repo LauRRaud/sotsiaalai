@@ -194,6 +194,19 @@ export async function GET(req, { params }) {
   const access = await ensureAccess(auth.userId, roomId, auth.userRole);
   if (!access.ok) return errorJson(access.message, access.status || 403);
 
+  const room = await prisma.room.findUnique({
+    where: { id: roomId },
+    select: {
+      title: true,
+      helpMatch: {
+        select: {
+          id: true
+        }
+      }
+    }
+  });
+  if (!room) return errorJson("api.rooms.not_found", 404);
+
   const url = new URL(req.url);
   const limitParam = Number(url.searchParams.get("limit") || PAGE_SIZE);
   const limit = Math.max(1, Math.min(PAGE_SIZE, Number.isFinite(limitParam) ? limitParam : PAGE_SIZE));
@@ -251,6 +264,9 @@ export async function GET(req, { params }) {
 
   return json({
     ok: true,
+    roomTitle: room.title || "",
+    roomRole: String(access.member?.role || auth.userRole || "").trim().toUpperCase(),
+    isHelpMatchRoom: Boolean(room.helpMatch?.id),
     messages: page.map(m => ({
       id: m.id,
       content: m.content,
