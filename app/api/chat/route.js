@@ -805,6 +805,21 @@ function dedupeRagMatches(matches = []) {
   }
   return out;
 }
+function extractMatchGroupYear(entry) {
+  const raw = entry?.year;
+  if (typeof raw === "number" && Number.isFinite(raw)) return raw;
+  if (typeof raw === "string") {
+    const matched = raw.match(/\b(19|20)\d{2}\b/);
+    if (matched) return Number(matched[0]);
+  }
+  const fallbackValues = [entry?.issueLabel, entry?.issueId, entry?.title];
+  for (const value of fallbackValues) {
+    if (typeof value !== "string") continue;
+    const matched = value.match(/\b(19|20)\d{2}\b/);
+    if (matched) return Number(matched[0]);
+  }
+  return null;
+}
 
 async function callOpenAI({
   history,
@@ -2021,6 +2036,43 @@ export async function POST(req) {
       });
     }
     groupedMatches = rankGroupsWithTopicHints(groupMatches(matches), topicHints);
+    if (temporalRetrievalPlan.enabled) {
+      const coveredYears = new Set(
+        groupedMatches
+          .map(extractMatchGroupYear)
+          .filter(year => Number.isInteger(year))
+      );
+      const missingYears = temporalRetrievalPlan.years.filter(year => !coveredYears.has(year));
+      if (missingYears.length) {
+        const fallbackQueries = missingYears.map(year => ({
+          query: topicHints.length
+            ? [temporalRetrievalPlan.focusText || effectiveMessage, String(year)].filter(Boolean).join("\n").trim()
+            : `Eesti sotsiaalvaldkond sotsiaalpoliitika ${year}`,
+          filters: { year }
+        }));
+        const fallbackMatches = await searchRagQueries({
+          queries: fallbackQueries,
+          topK: Math.max(8, RAG_TOP_K),
+          filters: sourceLookupTargetsNationalLaw
+            ? {
+                ...audienceFilter,
+                jurisdiction_level: "NATIONAL"
+              }
+            : audienceFilter,
+          observabilityStage: "rag_search_temporal_fill",
+          userId,
+          role: normalizedRole,
+          conversationId: convId
+        });
+        matches = dedupeRagMatches([
+          ...matches,
+          ...filterMunicipalityScopedMatches(fallbackMatches, {
+            allowMunicipalityScoped: allowMunicipalityScopedRag
+          })
+        ]);
+        groupedMatches = rankGroupsWithTopicHints(groupMatches(matches), topicHints);
+      }
+    }
     chosen = temporalRetrievalPlan.enabled
       ? selectTemporalGroups(groupedMatches, temporalRetrievalPlan.years, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA)
       : diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);

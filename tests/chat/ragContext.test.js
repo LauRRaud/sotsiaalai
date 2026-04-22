@@ -88,3 +88,37 @@ test("topic hint ranking boosts matching tags within the same year", () => {
   assert.equal(ranked[0].key, "2019-kov");
   assert.ok(ranked[0].topicBoost > ranked[1].topicBoost);
 });
+
+test("source quality ranking demotes eessona against substantive analysis", () => {
+  const ranked = rankGroupsWithTopicHints([
+    {
+      key: "2021-eessona",
+      title: "EESSONA",
+      section: "Eessona",
+      year: 2021,
+      bestScore: 0.9,
+      tags: [],
+      pageRanges: ["2-2"],
+      pages: [2],
+      authors: ["Toimetus"],
+      bodies: ["Luhike sissejuhatus."],
+      __sig: "eessona"
+    },
+    {
+      key: "2021-analysis",
+      title: "Eesti inimeste toetamine majandusliku olukorra muutumisel",
+      section: "Analuus",
+      year: 2021,
+      bestScore: 0.82,
+      tags: [],
+      pageRanges: ["10-20"],
+      pages: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      authors: ["Hede Sinisaar"],
+      bodies: ["Pikk sisuline analuus, mis kasitleb toimetulekut ja tugiteenuseid.".repeat(20)],
+      __sig: "analysis"
+    }
+  ], []);
+
+  assert.equal(ranked[0].key, "2021-analysis");
+  assert.ok(ranked[0].qualityAdjust > ranked[1].qualityAdjust);
+});
