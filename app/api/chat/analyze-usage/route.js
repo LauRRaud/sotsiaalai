@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { resolveSessionRoleState } from "@/lib/authz";
+import { isChatDbOfflineError } from "@/lib/chat/routeServerUtils";
 import { prisma } from "@/lib/prisma";
 import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
@@ -79,6 +80,11 @@ export async function GET(req) {
     });
   } catch (err) {
     console.error("[chat/analyze-usage GET] failed", err);
+    if (isChatDbOfflineError(err)) {
+      return errorJson("api.chat.db_unavailable", 503, locale, {
+        degraded: true
+      });
+    }
     return errorJson("api.chat.db_error_analyze_usage", 500, locale, {
       code: "DB_ERROR_ANALYZE_USAGE"
     });

@@ -205,6 +205,7 @@ export default function SelectedListingContext({
   error = "",
   listing = null,
   isOwn = false,
+  canDelete = false,
   editState = null,
   connectOptions = [],
   selectedConnectListingId = "",
@@ -469,6 +470,11 @@ export default function SelectedListingContext({
                     <Button type="button" variant="primary" size="md" className={actionButtonClassName} onClick={onConnect} disabled={connectDisabled}>
                       {busyAction === "connect" ? `${kindActionLabel}...` : kindActionLabel}
                     </Button>
+                    {canDelete ? (
+                      <Button type="button" variant="danger" size="md" className={actionButtonClassName} onClick={onDeleteListing} disabled={busyAction === "delete"}>
+                        {ui.delete}
+                      </Button>
+                    ) : null}
                   </div>
                 </div>
               ) : null}

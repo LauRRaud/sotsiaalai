@@ -92,6 +92,7 @@ function createEmptySelectedListingState() {
     error: "",
     listing: null,
     isOwn: false,
+    canDelete: false,
     connectOptions: [],
     selectedConnectListingId: "",
     edit: null,
@@ -1146,16 +1147,7 @@ export default function ChatBody({
     setSelectedListingState((prev) => {
       if (!prev.listing || prev.listing.id !== listing.id || prev.listing.kind !== kind) return prev;
       if (mode === "delete") {
-        return {
-          loading: false,
-          error: "",
-          listing: null,
-          isOwn: false,
-          connectOptions: [],
-          selectedConnectListingId: "",
-          edit: null,
-          busyAction: ""
-        };
+        return createEmptySelectedListingState();
       }
       return {
         ...prev,
@@ -1303,35 +1295,23 @@ export default function ChatBody({
         error: "",
         listing: payload.listing,
         isOwn: Boolean(payload.isOwn),
+        canDelete: Boolean(payload.canDelete),
         connectOptions,
         selectedConnectListingId: initialConnectListingId,
         edit: null,
-        busyAction: ""
+        busyAction: "",
+        deleteConfirmOpen: false
       });
     } catch (error) {
       setSelectedListingState({
+        ...createEmptySelectedListingState(),
         loading: false,
-        error: error?.message || helpUi.detailLoadFailed,
-        listing: null,
-        isOwn: false,
-        connectOptions: [],
-        selectedConnectListingId: "",
-        edit: null,
-        busyAction: ""
+        error: error?.message || helpUi.detailLoadFailed
       });
     }
   }, [helpUi.detailLoadFailed, locale]);
   const dismissSelectedListing = useCallback(() => {
-    setSelectedListingState({
-      loading: false,
-      error: "",
-      listing: null,
-      isOwn: false,
-      connectOptions: [],
-      selectedConnectListingId: "",
-      edit: null,
-      busyAction: ""
-    });
+    setSelectedListingState(createEmptySelectedListingState());
   }, []);
   const startListingEdit = useCallback(() => {
     setSelectedListingState((prev) => {
@@ -2118,6 +2098,7 @@ export default function ChatBody({
     error: selectedListingState.error,
     listing: selectedListingState.listing,
     isOwn: selectedListingState.isOwn,
+    canDelete: selectedListingState.canDelete,
     editState: selectedListingState.edit,
     connectOptions: selectedListingState.connectOptions,
     selectedConnectListingId: selectedListingState.selectedConnectListingId,

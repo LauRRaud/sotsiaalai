@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
+import { isAdmin } from "@/lib/authz";
 import {
   deleteHelpOffer,
   deleteHelpRequest,
@@ -33,7 +34,8 @@ async function requireUser() {
     const session = await getServerSession(authConfig);
     if (!session?.user?.id) return null;
     return {
-      userId: session.user.id
+      userId: session.user.id,
+      isAdmin: isAdmin(session.user)
     };
   } catch {
     return null;
@@ -81,7 +83,8 @@ export async function GET(_request, context) {
   return json({
     ok: true,
     listing: toHelpListingDetailView(record, { kind, locale }),
-    isOwn: record.userId === auth.userId
+    isOwn: record.userId === auth.userId,
+    canDelete: record.userId === auth.userId || auth.isAdmin
   });
 }
 
@@ -126,7 +129,7 @@ export async function DELETE(_request, context) {
   if (!existing) {
     return json({ ok: false, message: "HELP_LISTING_NOT_FOUND" }, 404);
   }
-  if (existing.userId !== auth.userId) {
+  if (existing.userId !== auth.userId && !auth.isAdmin) {
     return json({ ok: false, message: "api.common.forbidden" }, 403);
   }
 

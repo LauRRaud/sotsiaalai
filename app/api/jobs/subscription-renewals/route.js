@@ -63,6 +63,10 @@ function normalizeLocale(rawLocale) {
   return "en";
 }
 
+function isDuplicateRenewalPaymentError(error) {
+  return error && typeof error === "object" && error.code === "P2002";
+}
+
 export async function POST(request) {
   if (!isAuthorized(request)) {
     return json({
@@ -114,7 +118,11 @@ export async function POST(request) {
     const role = normalizeSubscriptionRole(subscription?.user?.role);
     const amount = getRoleMonthlyAmount(role).toFixed(2);
     const currency = String(process.env.SUBSCRIPTION_CURRENCY || "EUR").trim().toUpperCase();
-    const providerPaymentId = buildRecurringPaymentReference(subscription.id);
+    const attemptNumber = Number(subscription.billingRetryCount || 0) + 1;
+    const providerPaymentId = buildRecurringPaymentReference(subscription.id, {
+      nextBilling: subscription.nextBilling,
+      attemptNumber
+    });
 
     if (dryRun) {
       results.push({
@@ -141,7 +149,7 @@ export async function POST(request) {
           amount,
           currency,
           status: PaymentStatus.INITIATED,
-          attemptNumber: Number(subscription.billingRetryCount || 0) + 1,
+          attemptNumber,
           raw: {
             flow: "subscription_renewal_job",
             subscriptionId: subscription.id,
@@ -194,6 +202,22 @@ export async function POST(request) {
         action: "charge_created"
       });
     } catch (error) {
+      if (!paymentRecord?.id && isDuplicateRenewalPaymentError(error)) {
+        logPaymentEvent("subscription_renewal_charge_duplicate_skipped", {
+          subscriptionId: subscription.id,
+          providerPaymentId,
+          attemptNumber
+        });
+
+        results.push({
+          subscriptionId: subscription.id,
+          action: "duplicate_skipped",
+          providerPaymentId,
+          attemptNumber
+        });
+        continue;
+      }
+
       const retryCount = Number(subscription.billingRetryCount || 0) + 1;
       const shouldCancel = shouldCancelAfterRetryCount(retryCount);
       const nextRetryAt = computeNextRetryAt(now, retryCount - 1);

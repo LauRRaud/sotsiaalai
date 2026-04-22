@@ -11,7 +11,8 @@ import {
   getActiveSessionMaxForUser,
   getTrustedDeviceMaxForUser,
   hashOpaqueToken,
-  isValidPin
+  isValidPin,
+  normalizePin
 } from "@/lib/auth/pin-login";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
@@ -306,7 +307,7 @@ export async function PUT(request) {
         });
       }
 
-      const currentOk = await compare(currentPassword, current.passwordHash);
+      const currentOk = await compare(normalizePin(currentPassword), current.passwordHash);
       if (!currentOk) {
         return errorJson("profile.errors.current_pin_invalid", 401, requestLocale, {
           code: "CURRENT_PASSWORD_INVALID"
@@ -395,7 +396,7 @@ export async function DELETE(request) {
         });
       }
 
-      const currentOk = await compare(currentPassword, current.passwordHash);
+      const currentOk = await compare(normalizePin(currentPassword), current.passwordHash);
       if (!currentOk) {
         return errorJson("profile.errors.current_pin_invalid", 401, requestLocale, {
           code: "CURRENT_PASSWORD_INVALID"

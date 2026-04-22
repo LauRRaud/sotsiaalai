@@ -143,19 +143,7 @@ export async function GET(req) {
       return errorJson("api.common.forbidden", 403);
     }
 
-    const [latestAssistant, latestMessage, recentMessages] = await Promise.all([
-      prisma.conversationMessage.findFirst({
-        where: {
-          conversationId: convId,
-          role: "ASSISTANT"
-        },
-        orderBy: { createdAt: "desc" },
-        select: {
-          content: true,
-          metadata: true,
-          createdAt: true
-        }
-      }),
+    const [latestMessage, recentMessages] = await Promise.all([
       prisma.conversationMessage.findFirst({
         where: {
           conversationId: convId,
@@ -166,6 +154,8 @@ export async function GET(req) {
         orderBy: { createdAt: "desc" },
         select: {
           role: true,
+          content: true,
+          metadata: true,
           createdAt: true
         }
       }),
@@ -209,8 +199,12 @@ export async function GET(req) {
       : [];
     const latestTurnRole = String(latestMessage?.role || "").trim().toUpperCase();
     const latestAssistantIsCurrent = latestTurnRole === "ASSISTANT";
-    const currentAssistant = latestAssistantIsCurrent ? latestAssistant : null;
-    const status = latestAssistantIsCurrent ? "COMPLETED" : "RUNNING";
+    const currentAssistant = latestAssistantIsCurrent ? latestMessage : null;
+    const status = latestAssistantIsCurrent
+      ? "COMPLETED"
+      : latestTurnRole === "USER"
+        ? "RUNNING"
+        : "IDLE";
     const text = currentAssistant?.content || (!latestMessage ? conversation.summary || "" : "");
 
     return json({

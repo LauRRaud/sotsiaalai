@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
 import { reserveAnalyzeQuota, refundAnalyzeQuota } from "@/lib/analyzeQuotaServer";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
+import { CHAT_NO_STORE_HEADERS, isChatDbOfflineError } from "@/lib/chat/routeServerUtils";
 import {
   DEFAULT_ANALYZE_ALLOWED_MIME_CSV,
   DEFAULT_ANALYZE_MAX_UPLOAD_MB,
@@ -43,11 +44,7 @@ const CHAT_ANALYZE_MAX_CHUNKS = readChatRateLimit(process.env.CHAT_ANALYZE_MAX_C
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: CHAT_NO_STORE_HEADERS
   });
 }
 
@@ -219,9 +216,16 @@ export async function POST(request) {
       }), {
         status: 429,
         headers: {
+          ...CHAT_NO_STORE_HEADERS,
           "Content-Type": "application/json",
           "Retry-After": String(retry)
         }
+      });
+    }
+
+    if (isChatDbOfflineError(e)) {
+      return errorJson("api.chat.db_unavailable", 503, locale, {
+        degraded: true
       });
     }
 
@@ -247,12 +251,12 @@ export async function POST(request) {
   try {
     const data = await callRagAnalyze(forward);
     return json({
+      ...(data && typeof data === "object" ? data : {}),
       ok: true,
       privacy: {
         ephemeral: true,
         noteKey: "api.chat.analyze.privacy_ephemeral"
-      },
-      ...data
+      }
     });
   } catch (e) {
     console.error("[analyze-file] RAG analyze error:", e);
