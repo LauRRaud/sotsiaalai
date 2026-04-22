@@ -1911,6 +1911,7 @@ export async function POST(req) {
         baseQuery: baseRagQueryText
       });
   const topicHints = extractTopicHints(temporalRetrievalPlan.focusText || effectiveMessage);
+  const topicTagFilter = topicHints.slice(0, 3);
   const extraSystemInstructions = [
     ...(municipalityQuestionNeedsClarification
       ? [missingMunicipalitySystemInstruction(normalizedRole, replyLang)]
@@ -1936,7 +1937,10 @@ export async function POST(req) {
               { query: ragQueryText },
               ...temporalRetrievalPlan.years.map(year => ({
                 query: [temporalRetrievalPlan.focusText || ragQueryText, String(year)].filter(Boolean).join("\n").trim(),
-                filters: { year }
+                filters: {
+                  year,
+                  ...(topicTagFilter.length ? { tag_tokens: topicTagFilter } : {})
+                }
               }))
             ]
           : [ragQueryText];

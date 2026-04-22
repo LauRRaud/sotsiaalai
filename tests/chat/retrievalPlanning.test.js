@@ -60,7 +60,7 @@ test("temporal breakdown instruction tells the model not to fill missing years",
 test("topic hints keep concrete domain keywords and drop generic timeline words", () => {
   const hints = extractTopicHints("KOVi rolli muutused ja noustamine aastatel 2018-2025");
 
-  assert.ok(hints.includes("kovi") || hints.includes("kov"));
+  assert.ok(hints.includes("kov"));
   assert.ok(hints.includes("noustamine"));
   assert.ok(!hints.includes("aastatel"));
   assert.ok(!hints.includes("muutused"));

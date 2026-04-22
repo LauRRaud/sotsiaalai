@@ -8,6 +8,7 @@ import re
 import hashlib
 import ipaddress
 import socket
+import unicodedata
 from io import BytesIO
 import logging
 import mimetypes
@@ -280,6 +281,54 @@ def normalize_tags(value) -> List[str]:
             if s:
                 out.append(s)
     return out[:30]
+
+MAX_TAG_TOKEN_SLOTS = 8
+
+def _normalize_token_text(value: object) -> str:
+    text = str(value or "").strip().lower()
+    if not text:
+        return ""
+    text = unicodedata.normalize("NFD", text)
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+def normalize_tag_tokens(value) -> List[str]:
+    tags = normalize_tags(value)
+    out: List[str] = []
+    seen = set()
+
+    def _push(token: str):
+        cleaned = _normalize_token_text(token)
+        if not cleaned or cleaned in seen:
+            return
+        seen.add(cleaned)
+        out.append(cleaned)
+
+    for tag in tags:
+        cleaned_tag = _normalize_token_text(tag)
+        if not cleaned_tag:
+            continue
+        for part in re.split(r"[^a-z0-9]+", cleaned_tag):
+            if not part:
+                continue
+            _push(part)
+            if 4 <= len(part) <= 5 and part.endswith("i"):
+                _push(part[:-1])
+            if len(part) >= 6 and part.endswith("mine"):
+                _push(part[:-1])
+    return out[:30]
+
+def build_tag_token_metadata(value) -> Dict[str, object]:
+    tag_tokens = normalize_tag_tokens(value)
+    meta: Dict[str, object] = {
+        "tag_tokens": tag_tokens,
+        "tagTokens": tag_tokens,
+    }
+    for idx in range(MAX_TAG_TOKEN_SLOTS):
+        key = f"tag_token_{idx + 1}"
+        meta[key] = tag_tokens[idx] if idx < len(tag_tokens) else None
+    return meta
 
 def normalize_issue_id(value: Optional[str]) -> Optional[str]:
     if not value:
@@ -1378,6 +1427,7 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
     description = (meta.description or "").strip()
     authors = meta.authors
     tags = meta.tags
+    tag_meta = build_tag_token_metadata(tags)
     issue_id = normalize_issue_id(meta.issueId or "")
     issue_label = normalize_issue_label(meta.issueLabel or "")
     article_id = normalize_article_id(meta.articleId or "")
@@ -1506,6 +1556,7 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
             "authors_list": authors or [],
             "tags": tags,
             "tags_list": tags or [],
+            **tag_meta,
             "issue_id": issue_id or None,
             "issueId": issue_id or None,
             "issue_label": issue_label or None,
@@ -1591,6 +1642,7 @@ def _build_chunk_metadata_entry(
     description = (meta.description or "").strip()
     authors = meta.authors
     tags = meta.tags
+    tag_meta = build_tag_token_metadata(tags)
     issue_id = normalize_issue_id(meta.issueId or "")
     issue_label = normalize_issue_label(meta.issueLabel or "")
     article_id = normalize_article_id(meta.articleId or "")
@@ -1635,6 +1687,7 @@ def _build_chunk_metadata_entry(
         "authors_list": authors or [],
         "tags": tags,
         "tags_list": tags or [],
+        **tag_meta,
         "issue_id": issue_id or None,
         "issueId": issue_id or None,
         "issue_label": issue_label or None,
@@ -1904,6 +1957,7 @@ DOCUMENT_METADATA_FALLBACK_KEYS = (
     "audiences",
     "authors",
     "tags",
+    "tag_tokens",
     "journalTitle",
     "journal_title",
     "title",
@@ -3101,6 +3155,19 @@ def search(payload: SearchIn, request: Request):
             md_where["authors"] = payload.where["authors"]
         if "tags" in payload.where:
             md_where["tags"] = payload.where["tags"]
+        if "tag_tokens" in payload.where or "tagTokens" in payload.where:
+            tag_token_filter = payload.where.get("tag_tokens", payload.where.get("tagTokens"))
+            if isinstance(tag_token_filter, dict) and "$in" in tag_token_filter:
+                normalized_tag_tokens = normalize_tag_tokens(list(tag_token_filter["$in"]))
+            else:
+                normalized_tag_tokens = normalize_tag_tokens(tag_token_filter)
+            if normalized_tag_tokens:
+                or_clauses = []
+                for token in normalized_tag_tokens:
+                    for idx in range(MAX_TAG_TOKEN_SLOTS):
+                        or_clauses.append({f"tag_token_{idx + 1}": token})
+                if or_clauses:
+                    md_where["$or"] = or_clauses
         if "year" in payload.where:
             year_filter = payload.where["year"]
             if isinstance(year_filter, dict) and "$in" in year_filter:
@@ -3201,6 +3268,7 @@ def search(payload: SearchIn, request: Request):
         issue_val = md.get("issue_label") or md.get("issueLabel") or md.get("issue_id") or md.get("issueId") or None
         authors_val = normalize_authors(md.get("authors") or md.get("authors_list"))
         tags_val = normalize_tags(md.get("tags") or md.get("tags_list"))
+        tag_tokens_val = normalize_tag_tokens(md.get("tag_tokens") or md.get("tagTokens") or tags_val)
         flat.append({
             "id": _id,
             "doc_id": md.get("doc_id") or md.get("docId"),
@@ -3216,6 +3284,8 @@ def search(payload: SearchIn, request: Request):
             "audience": md.get("audience"),
             "audiences": md.get("audiences"),
             "authors": authors_val,
+            "tag_tokens": tag_tokens_val,
+            "tagTokens": tag_tokens_val,
             "issue": issue_val,
             "issueLabel": md.get("issue_label") or md.get("issueLabel"),
             "issueId": md.get("issue_id") or md.get("issueId"),
