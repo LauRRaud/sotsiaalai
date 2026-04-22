@@ -1882,7 +1882,14 @@
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring,
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring {
-    --glass-mobile-height: calc(var(--vh, 1vh) * 100) !important;
+    --glass-mobile-safe-top: 0px !important;
+    --glass-mobile-height: calc(
+      (var(--vh, 1vh) * 100) -
+      var(--glass-mobile-safe-top, 0px) -
+      var(--glass-mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+      var(--glass-mobile-gap, 0.35rem) -
+      var(--glass-mobile-gap, 0.35rem)
+    ) !important;
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
@@ -2473,17 +2480,6 @@
     transform: none !important;
   }
 
-  .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden {
-    --chat-input-max-w: 100% !important;
-    padding-left: var(--chat-hpad-right, var(--chat-hpad)) !important;
-    padding-right: var(--chat-hpad-right, var(--chat-hpad)) !important;
-  }
-
-  .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden .chat-inputbar {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
   html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) {
     --chat-input-available-inline: calc(
@@ -2519,17 +2515,6 @@
   body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
     width: min(100%, var(--chat-input-max-w)) !important;
     max-width: min(100%, var(--chat-input-max-w)) !important;
-  }
-
-  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden,
-  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden {
-    --chat-input-max-w: 100% !important;
-  }
-
-  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden .chat-inputbar,
-  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded).chat-input-row--tools-hidden .chat-inputbar {
-    width: 100% !important;
-    max-width: 100% !important;
   }
 
   html[data-platform="android"] body .chat-inputbar .chat-listen-btn,

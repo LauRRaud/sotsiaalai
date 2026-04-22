@@ -16,11 +16,13 @@ const baseStyles =
   "px-[var(--glass-ring-pad-x)] pt-[var(--glass-ring-pad-top)] " +
   "mx-auto " +
   "max-md:[--glass-mobile-gap:var(--mobile-glass-card-gap,0.35rem)] " +
+  "max-md:[--glass-mobile-safe-top:env(safe-area-inset-top,0px)] " +
+  "max-md:[--glass-mobile-safe-bottom:env(safe-area-inset-bottom,0px)] " +
   "max-md:[--glass-ring-radius:var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] " +
   "max-md:min-w-0 max-md:min-h-0 max-md:aspect-auto " +
   "max-md:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:max-w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
-  "max-md:[--glass-mobile-height:calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
+  "max-md:[--glass-mobile-height:calc(100dvh-var(--glass-mobile-safe-top)-var(--glass-mobile-safe-bottom)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:h-[var(--glass-mobile-height)] " +
   "max-md:max-h-[var(--glass-mobile-height)] " +
   "max-md:overflow-hidden " +
