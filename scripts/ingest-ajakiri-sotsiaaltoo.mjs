@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -9,7 +9,7 @@ const rootDir = path.resolve(__dirname, "..");
 
 const DEFAULT_IMPORT_ROOT = "imports/ajakiri_sotsiaaltoo";
 const DEFAULT_LOG_PATH = "logs/ajakiri-sotsiaaltoo-ingest.jsonl";
-const DEFAULT_ALL_EXCLUDED_ISSUES = new Set(["MÕTISKLUSI"]);
+const DEFAULT_ALL_EXCLUDED_ISSUES = new Set();
 const RAW_RAG_HOST = String(process.env.RAG_INTERNAL_HOST || process.env.RAG_API_BASE || "127.0.0.1:8000").trim();
 const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 
@@ -454,3 +454,4 @@ main().catch(error => {
   console.error("[ajakiri:ingest] Failed:", error.message);
   process.exit(1);
 });
+
