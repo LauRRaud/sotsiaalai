@@ -2462,12 +2462,12 @@
 
   html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded) {
-    --chat-composer-mobile-bottom-base: 0.95rem !important;
+    --chat-composer-mobile-bottom-base: 0.5rem !important;
   }
 
   html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded) {
-    --chat-composer-mobile-bottom-base: 0.95rem !important;
+    --chat-composer-mobile-bottom-base: 0.5rem !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
