@@ -2461,12 +2461,12 @@
 
   html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 2.5rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.9rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded),
   body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded) {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 2.5rem + var(--chat-vk-offset, 0px)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.9rem + var(--chat-vk-offset, 0px)) !important;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
