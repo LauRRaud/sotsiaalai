@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CHAT_NO_STORE_HEADERS, isChatDbOfflineError, isPlausibleChatId, requireChatUser } from "@/lib/chat/routeServerUtils";
 import { prisma } from "@/lib/prisma";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
@@ -8,11 +9,10 @@ export const revalidate = 0;
 export const fetchCache = "force-no-store";
 const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
 const CHAT_RUN_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_RUN_GET_MAX, 90);
+const CHAT_RUN_MESSAGES_MAX = readChatRateLimit(process.env.CHAT_RUN_MESSAGES_MAX, 200);
 
 const noStoreHeaders = {
-  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-  Pragma: "no-cache",
-  Expires: "0",
+  ...CHAT_NO_STORE_HEADERS,
   "X-Accel-Buffering": "no",
   Vary: "Authorization"
 };
@@ -34,13 +34,11 @@ function errorJson(messageKey, status, extras = {}) {
 }
 
 function isDbOffline(err) {
-  return err?.code === "P1001" || err?.code === "P1017" || err?.name === "PrismaClientInitializationError" || err?.name === "PrismaClientRustPanicError";
+  return isChatDbOfflineError(err);
 }
 
 function isPlausibleId(id) {
-  if (!id || typeof id !== "string") return false;
-  if (id.length < 8 || id.length > 200) return false;
-  return /^[A-Za-z0-9._\-:+]+$/.test(id);
+  return isPlausibleChatId(id);
 }
 
 function normalizeSources(s) {
@@ -95,42 +93,8 @@ function normalizeWorkflow(value) {
   return value && typeof value === "object" ? value : null;
 }
 
-async function getAuthOptions() {
-  try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
-    return mod.authOptions || mod.default || mod.authConfig;
-  } catch {
-    try {
-      const mod = await import("@/auth");
-      return mod.authOptions || mod.default || mod.authConfig;
-    } catch {
-      return undefined;
-    }
-  }
-}
-
 async function requireUser() {
-  try {
-    const { getServerSession } = await import("next-auth/next");
-    const authOptions = await getAuthOptions();
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) return {
-      ok: false,
-      status: 401,
-      message: "api.common.unauthorized"
-    };
-    return {
-      ok: true,
-      userId: session.user.id,
-      isAdmin: !!session.user.isAdmin
-    };
-  } catch {
-    return {
-      ok: false,
-      status: 401,
-      message: "api.common.unauthorized"
-    };
-  }
+  return requireChatUser();
 }
 
 export async function GET(req) {
@@ -146,6 +110,11 @@ export async function GET(req) {
 
   const url = new URL(req.url);
   const convId = (url.searchParams.get("convId") || "").trim();
+  const limitParam = Number(url.searchParams.get("limit") || CHAT_RUN_MESSAGES_MAX);
+  const messageLimit = Math.max(
+    1,
+    Math.min(CHAT_RUN_MESSAGES_MAX, Number.isFinite(limitParam) ? Math.floor(limitParam) : CHAT_RUN_MESSAGES_MAX)
+  );
   if (!isPlausibleId(convId)) {
     return errorJson("api.chat.invalid_conv_id", 400);
   }
@@ -174,7 +143,7 @@ export async function GET(req) {
       return errorJson("api.common.forbidden", 403);
     }
 
-    const [latestAssistant, allMessages] = await Promise.all([
+    const [latestAssistant, latestMessage, recentMessages] = await Promise.all([
       prisma.conversationMessage.findFirst({
         where: {
           conversationId: convId,
@@ -187,9 +156,28 @@ export async function GET(req) {
           createdAt: true
         }
       }),
+      prisma.conversationMessage.findFirst({
+        where: {
+          conversationId: convId,
+          role: {
+            in: ["USER", "ASSISTANT"]
+          }
+        },
+        orderBy: { createdAt: "desc" },
+        select: {
+          role: true,
+          createdAt: true
+        }
+      }),
       prisma.conversationMessage.findMany({
-        where: { conversationId: convId },
-        orderBy: { createdAt: "asc" },
+        where: {
+          conversationId: convId,
+          role: {
+            in: ["USER", "ASSISTANT"]
+          }
+        },
+        orderBy: { createdAt: "desc" },
+        take: messageLimit + 1,
         select: {
           role: true,
           content: true,
@@ -199,8 +187,11 @@ export async function GET(req) {
       })
     ]);
 
-    const history = Array.isArray(allMessages)
-      ? allMessages
+    const messagesTruncated = Array.isArray(recentMessages) && recentMessages.length > messageLimit;
+    const messageRows = messagesTruncated ? recentMessages.slice(0, messageLimit) : recentMessages;
+    const history = Array.isArray(messageRows)
+      ? [...messageRows]
+          .reverse()
           .map(msg => {
             const normalizedRole = msg.role === "USER" ? "user" : msg.role === "ASSISTANT" ? "ai" : null;
             if (!normalizedRole) return null;
@@ -216,20 +207,26 @@ export async function GET(req) {
           })
           .filter(Boolean)
       : [];
+    const latestTurnRole = String(latestMessage?.role || "").trim().toUpperCase();
+    const latestAssistantIsCurrent = latestTurnRole === "ASSISTANT";
+    const currentAssistant = latestAssistantIsCurrent ? latestAssistant : null;
+    const status = latestAssistantIsCurrent ? "COMPLETED" : "RUNNING";
+    const text = currentAssistant?.content || (!latestMessage ? conversation.summary || "" : "");
 
     return json({
       ok: true,
       convId: conversation.id,
-      status: latestAssistant ? "COMPLETED" : "RUNNING",
+      status,
       role: conversation.role,
-      text: latestAssistant?.content || conversation.summary || "",
-      sources: normalizeSources(latestAssistant?.metadata?.sources || []),
-      attachments: normalizeAttachments(latestAssistant?.metadata?.attachments),
-      cards: normalizeCards(latestAssistant?.metadata?.cards),
-      workflow: normalizeWorkflow(latestAssistant?.metadata?.workflow),
-      isCrisis: !!latestAssistant?.metadata?.isCrisis,
+      text,
+      sources: normalizeSources(currentAssistant?.metadata?.sources || []),
+      attachments: normalizeAttachments(currentAssistant?.metadata?.attachments),
+      cards: normalizeCards(currentAssistant?.metadata?.cards),
+      workflow: normalizeWorkflow(currentAssistant?.metadata?.workflow),
+      isCrisis: !!currentAssistant?.metadata?.isCrisis,
       updatedAt: conversation.lastActivityAt,
       createdAt: conversation.createdAt,
+      messagesTruncated,
       messages: history
     });
   } catch (err) {

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CHAT_NO_STORE_HEADERS, isChatDbOfflineError, isPlausibleChatId, requireChatUser } from "@/lib/chat/routeServerUtils";
 import { prisma } from "@/lib/prisma";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
@@ -12,11 +13,7 @@ const CHAT_CONVERSATION_MESSAGES_GET_RATE_LIMIT_MAX = readChatRateLimit(process.
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: CHAT_NO_STORE_HEADERS
   });
 }
 
@@ -30,7 +27,7 @@ function errorJson(messageKey, status, extras = {}) {
 }
 
 function isDbOffline(err) {
-  return err?.code === "P1001" || err?.code === "P1017" || err?.name === "PrismaClientInitializationError" || err?.name === "PrismaClientRustPanicError";
+  return isChatDbOfflineError(err);
 }
 
 function parseCursor(token) {
@@ -60,53 +57,21 @@ function encodeCursor(row) {
 }
 
 function isPlausibleId(id) {
-  if (!id || typeof id !== "string") return false;
-  if (id.length < 8 || id.length > 200) return false;
-  return /^[A-Za-z0-9._\-:+]+$/.test(id);
-}
-
-async function getAuthOptions() {
-  try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
-    return mod.authOptions || mod.default || mod.authConfig;
-  } catch {
-    try {
-      const mod = await import("@/auth");
-      return mod.authOptions || mod.default || mod.authConfig;
-    } catch {
-      return undefined;
-    }
-  }
+  return isPlausibleChatId(id);
 }
 
 async function requireUser() {
-  try {
-    const { getServerSession } = await import("next-auth/next");
-    const authOptions = await getAuthOptions();
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) return {
-      ok: false,
-      status: 401,
-      message: "api.common.unauthorized"
-    };
-    return {
-      ok: true,
-      userId: session.user.id,
-      isAdmin: !!session.user.isAdmin
-    };
-  } catch {
-    return {
-      ok: false,
-      status: 401,
-      message: "api.common.unauthorized"
-    };
-  }
+  return requireChatUser();
 }
 
-export async function GET(req, { params }) {
-  const auth = await requireUser();
+export async function GET(req, { params }, deps = {}) {
+  const requireUserFn = deps.requireUser || requireUser;
+  const enforceRateLimit = deps.enforceChatRateLimit || enforceChatRateLimit;
+  const prismaClient = deps.prisma || prisma;
+
+  const auth = await requireUserFn();
   if (!auth.ok) return errorJson(auth.message, auth.status);
-  const rateLimitResponse = enforceChatRateLimit(req, {
+  const rateLimitResponse = enforceRateLimit(req, {
     scope: "conversation_messages_get",
     userId: auth.userId,
     limit: CHAT_CONVERSATION_MESSAGES_GET_RATE_LIMIT_MAX,
@@ -125,7 +90,7 @@ export async function GET(req, { params }) {
   const beforeCursor = parseCursor(beforeToken);
 
   try {
-    const conversation = await prisma.conversation.findUnique({
+    const conversation = await prismaClient.conversation.findUnique({
       where: { id },
       select: {
         id: true,
@@ -165,7 +130,7 @@ export async function GET(req, { params }) {
         }
       : null;
 
-    const rows = await prisma.conversationMessage.findMany({
+    const rows = await prismaClient.conversationMessage.findMany({
       where: cursorWhere ? { AND: [baseWhere, cursorWhere] } : baseWhere,
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: limit + 1,

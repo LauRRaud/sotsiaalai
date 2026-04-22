@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { CHAT_NO_STORE_HEADERS, isChatDbOfflineError, isPlausibleChatId, requireChatUser } from "@/lib/chat/routeServerUtils";
 import { prisma } from "@/lib/prisma";
+import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 import {
   createPdfBufferFromText,
   createWordBufferFromText
@@ -10,10 +12,11 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
+const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
+const CHAT_EXPORT_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_EXPORT_GET_MAX, 30);
+
 function isPlausibleId(id) {
-  if (!id || typeof id !== "string") return false;
-  if (id.length < 8 || id.length > 200) return false;
-  return /^[A-Za-z0-9._\-:+]+$/.test(id);
+  return isPlausibleChatId(id);
 }
 
 function parseFormat(value) {
@@ -21,7 +24,7 @@ function parseFormat(value) {
     .toLowerCase()
     .trim();
   if (normalized === "pdf") return "pdf";
-  if (normalized === "word" || normalized === "doc" || normalized === "docx") {
+  if (normalized === "word" || normalized === "doc") {
     return "word";
   }
   return null;
@@ -39,36 +42,12 @@ function sanitizeFileBase(value, fallback = "sotsiaalai-summary") {
   return cleaned.slice(0, 80);
 }
 
-async function getAuthOptions() {
-  try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
-    return mod.authOptions || mod.default || mod.authConfig;
-  } catch {
-    try {
-      const mod = await import("@/auth");
-      return mod.authOptions || mod.default || mod.authConfig;
-    } catch {
-      return undefined;
-    }
-  }
+async function requireUser() {
+  return requireChatUser();
 }
 
-async function requireUser() {
-  try {
-    const { getServerSession } = await import("next-auth/next");
-    const authOptions = await getAuthOptions();
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
-      return { ok: false };
-    }
-    return {
-      ok: true,
-      userId: String(session.user.id),
-      isAdmin: !!session.user.isAdmin
-    };
-  } catch {
-    return { ok: false };
-  }
+function isDbOffline(err) {
+  return isChatDbOfflineError(err);
 }
 
 function jsonError(messageKey, status) {
@@ -80,18 +59,30 @@ function jsonError(messageKey, status) {
     },
     {
       status,
-      headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-        Pragma: "no-cache",
-        Expires: "0"
-      }
+      headers: CHAT_NO_STORE_HEADERS
     }
   );
+}
+
+function buildDownloadHeaders(fileName, contentType) {
+  return {
+    "Content-Type": contentType,
+    "Content-Disposition": `attachment; filename="${fileName}"`,
+    "Cache-Control": "private, no-store"
+  };
 }
 
 export async function GET(req) {
   const auth = await requireUser();
   if (!auth.ok) return jsonError("api.common.unauthorized", 401);
+
+  const rateLimitResponse = enforceChatRateLimit(req, {
+    scope: "chat_export_get",
+    userId: auth.userId,
+    limit: CHAT_EXPORT_GET_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
 
   const url = new URL(req.url);
   const convId = String(url.searchParams.get("convId") || "").trim();
@@ -141,26 +132,20 @@ export async function GET(req) {
       const pdf = createPdfBufferFromText(msg.content);
       return new NextResponse(pdf, {
         status: 200,
-        headers: {
-          "Content-Type": "application/pdf",
-          "Content-Disposition": `attachment; filename="${fileBase}.pdf"`,
-          "Cache-Control": "private, no-store"
-        }
+        headers: buildDownloadHeaders(`${fileBase}.pdf`, "application/pdf")
       });
     }
 
     const word = createWordBufferFromText(msg.content, "SotsiaalAI summary");
     return new NextResponse(word, {
       status: 200,
-      headers: {
-        "Content-Type": "application/msword; charset=utf-8",
-        "Content-Disposition": `attachment; filename="${fileBase}.doc"`,
-        "Cache-Control": "private, no-store"
-      }
+      headers: buildDownloadHeaders(`${fileBase}.doc`, "application/msword; charset=utf-8")
     });
   } catch (err) {
+    if (isDbOffline(err)) {
+      return jsonError("api.chat.db_unavailable", 503);
+    }
     console.error("[chat export GET] failed", err);
     return jsonError("api.common.server_error", 500);
   }
 }
-

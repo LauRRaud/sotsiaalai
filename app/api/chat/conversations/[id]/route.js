@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
+import { CHAT_NO_STORE_HEADERS, isChatDbOfflineError, isPlausibleChatId, requireChatUser } from "@/lib/chat/routeServerUtils";
 import { prisma } from "@/lib/prisma";
-import { maybeRunRetentionCleanup } from "@/lib/retention";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
 export const runtime = "nodejs";
@@ -17,22 +17,14 @@ const CHAT_CONVERSATION_DELETE_RATE_LIMIT_MAX = readChatRateLimit(process.env.CH
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: CHAT_NO_STORE_HEADERS
   });
 }
 
 function noContent() {
   return new Response(null, {
     status: 204,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: CHAT_NO_STORE_HEADERS
   });
 }
 
@@ -46,7 +38,7 @@ function errorJson(messageKey, status, extras = {}) {
 }
 
 function isDbOffline(err) {
-  return err?.code === "P1001" || err?.code === "P1017" || err?.name === "PrismaClientInitializationError" || err?.name === "PrismaClientRustPanicError";
+  return isChatDbOfflineError(err);
 }
 
 function conversationExpiryDate() {
@@ -54,9 +46,7 @@ function conversationExpiryDate() {
 }
 
 function isPlausibleId(id) {
-  if (!id || typeof id !== "string") return false;
-  if (id.length < 8 || id.length > 200) return false;
-  return /^[A-Za-z0-9._\-:+]+$/.test(id);
+  return isPlausibleChatId(id);
 }
 
 function isPlainObject(value) {
@@ -74,49 +64,20 @@ function ensureOwnedOrAdmin(row, auth) {
   return { ok: true };
 }
 
-async function getAuthOptions() {
-  try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
-    return mod.authOptions || mod.default || mod.authConfig;
-  } catch {
-    try {
-      const mod = await import("@/auth");
-      return mod.authOptions || mod.default || mod.authConfig;
-    } catch {
-      return undefined;
-    }
-  }
-}
-
 async function requireUser() {
-  try {
-    await maybeRunRetentionCleanup();
-    const { getServerSession } = await import("next-auth/next");
-    const authOptions = await getAuthOptions();
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) return {
-      ok: false,
-      status: 401,
-      message: "api.common.unauthorized"
-    };
-    return {
-      ok: true,
-      userId: session.user.id,
-      isAdmin: !!session.user.isAdmin
-    };
-  } catch {
-    return {
-      ok: false,
-      status: 401,
-      message: "api.common.unauthorized"
-    };
-  }
+  return requireChatUser({
+    runRetentionCleanup: true
+  });
 }
 
-export async function GET(req, { params }) {
-  const auth = await requireUser();
+export async function GET(req, { params }, deps = {}) {
+  const requireUserFn = deps.requireUser || requireUser;
+  const enforceRateLimit = deps.enforceChatRateLimit || enforceChatRateLimit;
+  const prismaClient = deps.prisma || prisma;
+
+  const auth = await requireUserFn();
   if (!auth.ok) return errorJson(auth.message, auth.status);
-  const rateLimitResponse = enforceChatRateLimit(req, {
+  const rateLimitResponse = enforceRateLimit(req, {
     scope: "conversation_get",
     userId: auth.userId,
     limit: CHAT_CONVERSATION_GET_RATE_LIMIT_MAX,
@@ -129,7 +90,7 @@ export async function GET(req, { params }) {
   if (!isPlausibleId(id)) return errorJson("api.chat.invalid_id", 400);
 
   try {
-    const row = await prisma.conversation.findUnique({
+    const row = await prismaClient.conversation.findUnique({
       where: { id },
       select: {
         id: true,
@@ -174,10 +135,14 @@ export async function GET(req, { params }) {
   }
 }
 
-export async function DELETE(req, { params }) {
-  const auth = await requireUser();
+export async function DELETE(req, { params }, deps = {}) {
+  const requireUserFn = deps.requireUser || requireUser;
+  const enforceRateLimit = deps.enforceChatRateLimit || enforceChatRateLimit;
+  const prismaClient = deps.prisma || prisma;
+
+  const auth = await requireUserFn();
   if (!auth.ok) return errorJson(auth.message, auth.status);
-  const rateLimitResponse = enforceChatRateLimit(req, {
+  const rateLimitResponse = enforceRateLimit(req, {
     scope: "conversation_delete",
     userId: auth.userId,
     limit: CHAT_CONVERSATION_DELETE_RATE_LIMIT_MAX,
@@ -190,7 +155,7 @@ export async function DELETE(req, { params }) {
   if (!isPlausibleId(id)) return errorJson("api.chat.invalid_id", 400);
 
   try {
-    const existing = await prisma.conversation.findUnique({
+    const existing = await prismaClient.conversation.findUnique({
       where: { id },
       select: {
         userId: true,
@@ -204,7 +169,7 @@ export async function DELETE(req, { params }) {
       return noContent();
     }
 
-    await prisma.conversation.update({
+    await prismaClient.conversation.update({
       where: { id },
       data: {
         archivedAt: new Date(),
@@ -225,10 +190,14 @@ export async function DELETE(req, { params }) {
   }
 }
 
-export async function PUT(req, { params }) {
-  const auth = await requireUser();
+export async function PUT(req, { params }, deps = {}) {
+  const requireUserFn = deps.requireUser || requireUser;
+  const enforceRateLimit = deps.enforceChatRateLimit || enforceChatRateLimit;
+  const prismaClient = deps.prisma || prisma;
+
+  const auth = await requireUserFn();
   if (!auth.ok) return errorJson(auth.message, auth.status);
-  const rateLimitResponse = enforceChatRateLimit(req, {
+  const rateLimitResponse = enforceRateLimit(req, {
     scope: "conversation_put",
     userId: auth.userId,
     limit: CHAT_CONVERSATION_PUT_RATE_LIMIT_MAX,
@@ -241,7 +210,7 @@ export async function PUT(req, { params }) {
   if (!isPlausibleId(id)) return errorJson("api.chat.invalid_id", 400);
 
   try {
-    const existing = await prisma.conversation.findUnique({
+    const existing = await prismaClient.conversation.findUnique({
       where: { id },
       select: {
         id: true,
@@ -267,7 +236,7 @@ export async function PUT(req, { params }) {
       });
     }
 
-    const row = await prisma.conversation.update({
+    const row = await prismaClient.conversation.update({
       where: { id },
       data: {
         archivedAt: null,

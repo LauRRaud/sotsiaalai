@@ -103,6 +103,9 @@ export async function GET() {
               }
             },
             messages: {
+              where: {
+                deletedAt: null
+              },
               orderBy: { createdAt: "desc" },
               take: 1,
               select: {
@@ -135,6 +138,9 @@ export async function GET() {
                   }
                 },
                 messages: {
+                  where: {
+                    deletedAt: null
+                  },
                   orderBy: { createdAt: "desc" },
                   take: 1,
                   select: {

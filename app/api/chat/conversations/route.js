@@ -1,15 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth";
 import { resolveSessionRoleState } from "@/lib/authz";
 import {
   normalizeConversationRole as normalizeRole,
   resolveConversationListRoleFilter,
   resolveConversationWriteRole
 } from "@/lib/chat/conversationRoles";
+import { CHAT_NO_STORE_HEADERS, isChatDbOfflineError, isPlausibleChatId, requireChatUser } from "@/lib/chat/routeServerUtils";
 import { prisma } from "@/lib/prisma";
-import { maybeRunRetentionCleanup } from "@/lib/retention";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
 export const runtime = "nodejs";
@@ -26,11 +24,7 @@ const CHAT_CONVERSATIONS_POST_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHA
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: CHAT_NO_STORE_HEADERS
   });
 }
 
@@ -41,12 +35,6 @@ function errorJson(messageKey, status, extras = {}) {
     message: messageKey,
     ...extras
   }, status);
-}
-
-function isPlausibleConversationId(id) {
-  if (!id || typeof id !== "string") return false;
-  if (id.length < 8 || id.length > 200) return false;
-  return /^[A-Za-z0-9._\-:+]+$/.test(id);
 }
 
 function isPlainObject(value) {
@@ -111,40 +99,28 @@ function conversationExpiryDate() {
 }
 
 async function requireUser() {
-  try {
-    await maybeRunRetentionCleanup();
-    const session = await getServerSession(authConfig);
-    if (!session?.user?.id) {
-      return {
-        ok: false,
-        status: 401,
-        message: "api.common.unauthorized"
-      };
-    }
-    return {
-      ok: true,
-      session,
-      userId: session.user.id,
-      isAdmin: !!session.user.isAdmin,
-      role: normalizeRole(session?.user?.role || (session?.user?.isAdmin ? "SOCIAL_WORKER" : "CLIENT"))
-    };
-  } catch {
-    return {
-      ok: false,
-      status: 401,
-      message: "api.common.unauthorized"
-    };
-  }
+  return requireChatUser({
+    runRetentionCleanup: true,
+    includeSession: true,
+    includeRole: true,
+    normalizeRole
+  });
 }
 
 function isDbOffline(err) {
-  return err?.code === "P1001" || err?.code === "P1017" || err?.name === "PrismaClientInitializationError" || err?.name === "PrismaClientRustPanicError";
+  return isChatDbOfflineError(err);
 }
 
-export async function GET(req) {
-  const auth = await requireUser();
+export async function GET(req, deps = {}) {
+  const requireUserFn = deps.requireUser || requireUser;
+  const enforceRateLimit = deps.enforceChatRateLimit || enforceChatRateLimit;
+  const resolveRoleState = deps.resolveSessionRoleState || resolveSessionRoleState;
+  const resolveListRoleFilter = deps.resolveConversationListRoleFilter || resolveConversationListRoleFilter;
+  const prismaClient = deps.prisma || prisma;
+
+  const auth = await requireUserFn();
   if (!auth.ok) return errorJson(auth.message, auth.status);
-  const rateLimitResponse = enforceChatRateLimit(req, {
+  const rateLimitResponse = enforceRateLimit(req, {
     scope: "conversations_get",
     userId: auth.userId,
     limit: CHAT_CONVERSATIONS_GET_RATE_LIMIT_MAX,
@@ -157,9 +133,9 @@ export async function GET(req) {
   const limit = Math.max(1, Math.min(100, Number.isFinite(limitParam) ? limitParam : 30));
   const cursorToken = url.searchParams.get("cursor");
   const parsedCursor = parseCursor(cursorToken);
-  const roleState = resolveSessionRoleState(auth.session, req.cookies);
+  const roleState = resolveRoleState(auth.session, req.cookies);
   const roleParam = url.searchParams.get("role");
-  const roleFilter = resolveConversationListRoleFilter(roleParam, roleState.effectiveRole, roleState.isAdmin);
+  const roleFilter = resolveListRoleFilter(roleParam, roleState.effectiveRole, roleState.isAdmin);
 
   const baseWhere = {
     userId: auth.userId,
@@ -212,7 +188,7 @@ export async function GET(req) {
   }
 
   try {
-    const rows = await prisma.conversation.findMany({
+    const rows = await prismaClient.conversation.findMany({
       where,
       orderBy: [{ isPinned: "desc" }, { lastActivityAt: "desc" }, { id: "desc" }],
       take: limit + 1,
@@ -275,10 +251,17 @@ export async function GET(req) {
   }
 }
 
-export async function POST(req) {
-  const auth = await requireUser();
+export async function POST(req, deps = {}) {
+  const requireUserFn = deps.requireUser || requireUser;
+  const enforceRateLimit = deps.enforceChatRateLimit || enforceChatRateLimit;
+  const resolveRoleState = deps.resolveSessionRoleState || resolveSessionRoleState;
+  const resolveWriteRole = deps.resolveConversationWriteRole || resolveConversationWriteRole;
+  const generateUuid = deps.randomUUID || randomUUID;
+  const prismaClient = deps.prisma || prisma;
+
+  const auth = await requireUserFn();
   if (!auth.ok) return errorJson(auth.message, auth.status);
-  const rateLimitResponse = enforceChatRateLimit(req, {
+  const rateLimitResponse = enforceRateLimit(req, {
     scope: "conversations_post",
     userId: auth.userId,
     limit: CHAT_CONVERSATIONS_POST_RATE_LIMIT_MAX,
@@ -294,23 +277,23 @@ export async function POST(req) {
   }
 
   let convId = String(body?.id || "").trim();
-  if (convId && !isPlausibleConversationId(convId)) {
+  if (convId && !isPlausibleChatId(convId)) {
     return errorJson("api.chat.invalid_conv_id", 400);
   }
   if (!convId) {
     try {
-      convId = randomUUID();
+      convId = generateUuid();
     } catch {
       convId = String(Date.now());
     }
   }
 
-  const roleState = resolveSessionRoleState(auth.session, req.cookies);
+  const roleState = resolveRoleState(auth.session, req.cookies);
   const requestedRole =
     body?.role == null || body?.role === ""
       ? null
       : normalizeRole(body?.role);
-  const role = resolveConversationWriteRole({
+  const role = resolveWriteRole({
     requestedRole,
     effectiveRole: roleState.effectiveRole,
     isAdmin: auth.isAdmin,
@@ -320,7 +303,7 @@ export async function POST(req) {
   const metadata = sanitizeConversationMetadata(body?.metadata);
 
   try {
-    const existing = await prisma.conversation.findUnique({
+    const existing = await prismaClient.conversation.findUnique({
       where: { id: convId },
       select: {
         userId: true
@@ -333,7 +316,7 @@ export async function POST(req) {
     const now = new Date();
     const expiry = conversationExpiryDate();
     const row = existing
-      ? await prisma.conversation.update({
+      ? await prismaClient.conversation.update({
           where: { id: convId },
           data: {
             role,
@@ -351,7 +334,7 @@ export async function POST(req) {
             role: true
           }
         })
-      : await prisma.conversation.create({
+      : await prismaClient.conversation.create({
           data: {
             id: convId,
             userId: auth.userId,
