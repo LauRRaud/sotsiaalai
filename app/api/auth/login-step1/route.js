@@ -375,14 +375,6 @@ export async function POST(request) {
     const otpHash = await hashOtpCode(otpCode);
     const otpExpiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000);
 
-    await prisma.emailOtpCode.create({
-      data: {
-        userId: user.id,
-        codeHash: otpHash,
-        expiresAt: otpExpiresAt
-      }
-    });
-
     try {
       if (!trustedDevice) {
         await sendNewDeviceAlertEmail(user.email, locale, { userAgent, ipAddress });
@@ -392,6 +384,13 @@ export async function POST(request) {
     }
 
     await sendOtpEmail(user.email, otpCode, locale);
+    await prisma.emailOtpCode.create({
+      data: {
+        userId: user.id,
+        codeHash: otpHash,
+        expiresAt: otpExpiresAt
+      }
+    });
 
     return json({
       status: "need_2fa",

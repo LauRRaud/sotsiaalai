@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
+import { hasRoomBillingAccess } from "@/lib/rooms/access";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -55,6 +56,29 @@ async function canDelete(userId, roomId, authorId, userRole) {
   return userRole === "MEMBER" && userId === authorId;
 }
 
+async function hasActiveSubscription(userId) {
+  if (!userId) return false;
+  const now = new Date();
+  const sub = await prisma.subscription.findFirst({
+    where: {
+      userId,
+      status: "ACTIVE",
+      OR: [
+        { validUntil: null },
+        {
+          validUntil: {
+            gt: now
+          }
+        }
+      ]
+    },
+    select: {
+      id: true
+    }
+  });
+  return Boolean(sub);
+}
+
 async function resolveRouteParams(paramsLike) {
   const params = paramsLike instanceof Promise ? await paramsLike : paramsLike;
   return {
@@ -82,6 +106,31 @@ export async function DELETE(_req, { params }) {
             }
           });
     if (!membership) return errorJson("api.common.forbidden", 403);
+
+    if (auth.role !== "ADMIN") {
+      const [room, userActive] = await Promise.all([
+        prisma.room.findUnique({
+          where: { id: roomId },
+          select: {
+            id: true,
+            helpMatch: {
+              select: {
+                id: true
+              }
+            }
+          }
+        }),
+        hasActiveSubscription(auth.userId)
+      ]);
+      if (!room) return errorJson("api.rooms.not_found", 404);
+      const billingAccess = hasRoomBillingAccess({
+        userRole: auth.role,
+        membership,
+        hasActiveSubscription: userActive,
+        room
+      });
+      if (!billingAccess.ok) return errorJson("api.common.forbidden", 403);
+    }
 
     const message = await prisma.roomMessage.findFirst({
       where: {

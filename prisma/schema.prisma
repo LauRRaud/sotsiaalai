@@ -316,6 +316,8 @@ model User {
   roomMessages         RoomMessage[]         @relation("RoomMessageAuthor")
   helpRequests         HelpRequest[]
   helpOffers           HelpOffer[]
+  requestedHelpMatches HelpMatch[]           @relation("HelpMatchRequester")
+  offeredHelpMatches   HelpMatch[]           @relation("HelpMatchOfferer")
   researchJobs         ResearchJob[]
 
   createdAt DateTime @default(now())
@@ -366,7 +368,7 @@ model Session {
 
 model VerificationToken {
   identifier String
-  token      String
+  token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
@@ -1017,9 +1019,11 @@ model HelpMatch {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 
-  request HelpRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
-  offer   HelpOffer   @relation(fields: [offerId], references: [id], onDelete: Cascade)
-  room    Room?       @relation(fields: [roomId], references: [id], onDelete: SetNull)
+  request   HelpRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  offer     HelpOffer   @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  requester User        @relation("HelpMatchRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  offerer   User        @relation("HelpMatchOfferer", fields: [offererId], references: [id], onDelete: Cascade)
+  room      Room?       @relation(fields: [roomId], references: [id], onDelete: SetNull)
 
   @@unique([requestId, offerId])
   @@index([requesterId])
@@ -1225,7 +1229,7 @@ model DocumentAudit {
 
 model MaterialSubmission {
   id                String   @id @default(cuid())
-  submittedByUserId String?
+  submittedByUserId String
   comment           String   @db.Text
   originalName      String
   mime              String
@@ -1235,7 +1239,7 @@ model MaterialSubmission {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  submittedByUser User? @relation(fields: [submittedByUserId], references: [id], onDelete: SetNull)
+  submittedByUser User @relation(fields: [submittedByUserId], references: [id], onDelete: Cascade)
 
   @@index([submittedByUserId, createdAt])
   @@index([createdAt])

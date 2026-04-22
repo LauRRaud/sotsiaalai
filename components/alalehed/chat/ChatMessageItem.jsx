@@ -2,7 +2,6 @@
 
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/components/ui/cn";
-import CareerMessageRenderer from "@/components/career/CareerMessageRenderer";
 
 function splitGraphemes(text) {
   if (!text) return [];
@@ -127,11 +126,6 @@ const ChatMessageItem = memo(function ChatMessageItem({
   text,
   attachments,
   cards,
-  careerResponse,
-  careerSecondaryResponse,
-  careerDocumentStep,
-  careerGeneratedDocument,
-  onCareerQuestionAnswer,
   aiVisible: _aiVisible,
   typingEffect = false,
   onTypingComplete,
@@ -185,9 +179,6 @@ const ChatMessageItem = memo(function ChatMessageItem({
         .filter(item => !!item.url)
     : [];
   const showAttachments = isAssistant && normalizedAttachments.length > 0;
-  const showCareerResponse =
-    isAssistant &&
-    (careerResponse || careerSecondaryResponse || careerDocumentStep || careerGeneratedDocument);
   const typingTimerRef = useRef(0);
   const typingCompleteNotifiedRef = useRef(false);
   const [visibleCount, setVisibleCount] = useState(0);
@@ -309,15 +300,6 @@ const ChatMessageItem = memo(function ChatMessageItem({
 
       {text ? (
         <AssistantMarkdown text={visibleText} />
-      ) : null}
-      {showCareerResponse ? (
-        <CareerMessageRenderer
-          response={careerResponse}
-          secondaryResponse={careerSecondaryResponse}
-          documentStep={careerDocumentStep}
-          generatedDocument={careerGeneratedDocument}
-          onQuestionAnswer={onCareerQuestionAnswer}
-        />
       ) : null}
       {showCards ? (
         <div className={cardsWrapClassName}>

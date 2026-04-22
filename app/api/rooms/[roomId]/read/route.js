@@ -108,6 +108,14 @@ export async function PUT(_req, { params }) {
         roomId,
         userId: auth.userId,
         leftAt: null
+      },
+      select: {
+        roomId: true,
+        userId: true,
+        role: true,
+        billingSource: true,
+        lastReadAt: true,
+        leftAt: true
       }
     });
     if (!member) return errorJson("api.common.forbidden", 403);
@@ -137,6 +145,11 @@ export async function PUT(_req, { params }) {
         createdAt: true
       }
     });
+    const latestReadAt = latest?.createdAt || new Date();
+    const nextLastReadAt =
+      member.lastReadAt && member.lastReadAt > latestReadAt
+        ? member.lastReadAt
+        : latestReadAt;
     await prisma.roomMember.update({
       where: {
         roomId_userId: {
@@ -145,7 +158,7 @@ export async function PUT(_req, { params }) {
         }
       },
       data: {
-        lastReadAt: latest?.createdAt || new Date()
+        lastReadAt: nextLastReadAt
       }
     });
     return json({

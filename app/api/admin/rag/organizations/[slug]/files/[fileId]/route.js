@@ -34,10 +34,10 @@ export async function DELETE(request, { params }) {
     const file = entry.files.find(item => item.id === fileId);
     if (!file) return errorJson("api.common.not_found", 404, auth.locale);
 
+    await deleteStoredOrganizationFile(file.storagePath);
     await prisma.organizationAdminFile.delete({
       where: { id: fileId }
     });
-    await deleteStoredOrganizationFile(file.storagePath);
     await syncOrganizationFileCountById(entry.id);
     const updated = await syncOrganizationIngestStatusById(entry.id);
     return json({

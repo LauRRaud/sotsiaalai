@@ -262,7 +262,8 @@ export async function POST(request) {
       select: {
         id: true,
         providerPaymentId: true,
-        status: true
+        status: true,
+        raw: true
       }
     });
 
@@ -297,9 +298,12 @@ export async function POST(request) {
       data: {
         providerPaymentId: finalProviderPaymentId,
         raw: {
+          ...(paymentRecord.raw && typeof paymentRecord.raw === "object" ? paymentRecord.raw : {}),
           flow: "subscription_init",
           plan,
           planRole,
+          amount,
+          currency,
           locale,
           billingMode: BillingMode.RECURRING,
           recurringEnabled: true,
@@ -334,7 +338,15 @@ export async function POST(request) {
           data: {
             status: PaymentStatus.FAILED,
             raw: {
+              ...(paymentRecord.raw && typeof paymentRecord.raw === "object" ? paymentRecord.raw : {}),
               flow: "subscription_init",
+              plan,
+              planRole,
+              amount,
+              currency,
+              locale,
+              recurringEnabled: true,
+              checkoutConsent: true,
               error: error?.message || "init_failed"
             }
           }

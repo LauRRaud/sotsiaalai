@@ -45,6 +45,7 @@ const REGISTER_RATE_LIMIT_PER_EMAIL = Number(
 const REGISTRATION_OPEN = !["false", "0", "off"].includes(
   String(process.env.REGISTRATION_OPEN || "true").trim().toLowerCase()
 );
+const EMAIL_VERIFY_IDENTIFIER_PREFIX = "email-verify:";
 
 function json(payload = {}, status = 200) {
   return NextResponse.json(
@@ -77,6 +78,10 @@ function normalizeEmail(input) {
   return normalized.length > EMAIL_MAX
     ? normalized.slice(0, EMAIL_MAX)
     : normalized;
+}
+
+function buildEmailVerifyIdentifier(email) {
+  return `${EMAIL_VERIFY_IDENTIFIER_PREFIX}${normalizeEmail(email)}`;
 }
 
 function validEmail(value) {
@@ -275,18 +280,14 @@ export async function POST(request) {
       const token = crypto.randomBytes(32).toString("hex");
       const hours = Number(process.env.EMAIL_VERIFY_HOURS || 24);
       const expires = new Date(Date.now() + hours * 60 * 60 * 1000);
+      const identifier = buildEmailVerifyIdentifier(email);
 
-      await prisma.$transaction(async (tx) => {
-        await tx.verificationToken.deleteMany({
-          where: { identifier: email }
-        });
-        await tx.verificationToken.create({
-          data: {
-            identifier: email,
-            token,
-            expires
-          }
-        });
+      await prisma.verificationToken.create({
+        data: {
+          identifier,
+          token,
+          expires
+        }
       });
 
       const verifyUrl = buildVerifyUrl(email, token, locale);
@@ -295,6 +296,12 @@ export async function POST(request) {
       } else {
         try {
           await sendVerificationEmail(email, verifyUrl, locale);
+          await prisma.verificationToken.deleteMany({
+            where: {
+              identifier,
+              NOT: { token }
+            }
+          });
           await prisma.user.update({
             where: { email },
             data: { emailVerificationSentAt: new Date() }

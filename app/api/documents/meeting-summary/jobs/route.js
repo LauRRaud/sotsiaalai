@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { effectiveRoleFromSession } from "@/lib/authz";
 import { readAudioDurationSecondsFromBuffer } from "@/lib/audio/duration";
 import {
@@ -27,6 +26,22 @@ function isSupportedAudioMime(type) {
   return normalized === "video/webm" || normalized === "video/mp4";
 }
 
+function buildMeetingSummaryBudgetIncrement(inputDurationSeconds) {
+  if (inputDurationSeconds != null && Number.isFinite(Number(inputDurationSeconds)) && Number(inputDurationSeconds) > 0) {
+    return {
+      sttRequests: 1,
+      sttMinutes: Number(inputDurationSeconds) / 60,
+      chatRequests: 1
+    };
+  }
+
+  return {
+    sttRequests: 1,
+    sttMinutes: 1,
+    chatRequests: 1
+  };
+}
+
 export async function POST(request) {
   const locale = localeFromRequest(request);
   const auth = await requireDocumentUser();
@@ -44,17 +59,15 @@ export async function POST(request) {
     RATE_LIMIT_WINDOW_MS
   );
   if (!limit.allowed) {
-    return NextResponse.json(
+    return json(
       {
         ok: false,
         messageKey: "api.stt.rate_limited",
         message: "api.stt.rate_limited",
       },
+      429,
       {
-        status: 429,
-        headers: {
-          "Retry-After": String(limit.retryAfterSec),
-        },
+        "Retry-After": String(limit.retryAfterSec),
       }
     );
   }
@@ -89,23 +102,20 @@ export async function POST(request) {
   }
 
   const inputDurationSeconds = await readAudioDurationSecondsFromBuffer(buffer, file.type || null);
-  if (inputDurationSeconds != null) {
-    const budgetCheck = await canSpendMonthlyBudget(auth.userId, {
-      sttRequests: 1,
-      sttMinutes: inputDurationSeconds / 60,
-      chatRequests: 1,
+  const budgetCheck = await canSpendMonthlyBudget(
+    auth.userId,
+    buildMeetingSummaryBudgetIncrement(inputDurationSeconds)
+  );
+  if (!budgetCheck.allowed) {
+    return errorJson("api.common.monthly_budget_exceeded", 429, locale, {
+      budgetEur: budgetCheck.budgetEur,
+      usedEur: budgetCheck.usedEur,
+      remainingEur: budgetCheck.remainingEur,
     });
-    if (!budgetCheck.allowed) {
-      return errorJson("api.common.monthly_budget_exceeded", 429, locale, {
-        budgetEur: budgetCheck.budgetEur,
-        usedEur: budgetCheck.usedEur,
-        remainingEur: budgetCheck.remainingEur,
-      });
-    }
   }
 
   try {
-    const job = createMeetingSummaryJob({
+    const job = await createMeetingSummaryJob({
       userId: auth.userId,
       payload: {
         locale: inputLocale,

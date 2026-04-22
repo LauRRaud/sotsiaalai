@@ -93,14 +93,6 @@ async function resendOtp(email, userId, locale) {
   const codeHash = await hashOtpCode(code);
   const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000);
 
-  await prisma.emailOtpCode.create({
-    data: {
-      userId,
-      codeHash,
-      expiresAt
-    }
-  });
-
   const mailer = getMailer("login-otp");
   const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
   const isDev = process.env.NODE_ENV === "development";
@@ -135,6 +127,14 @@ async function resendOtp(email, userId, locale) {
       html
     });
   }
+
+  await prisma.emailOtpCode.create({
+    data: {
+      userId,
+      codeHash,
+      expiresAt
+    }
+  });
 
   return { code, expiresAt };
 }

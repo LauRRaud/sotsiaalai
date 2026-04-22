@@ -15,12 +15,6 @@ function hasMeaningfulMessageContent(message) {
   if (Array.isArray(message.cards) && message.cards.length > 0) {
     return true;
   }
-  if (message.careerResponse || message.careerSecondaryResponse) {
-    return true;
-  }
-  if (message.careerDocumentStep || message.careerGeneratedDocument) {
-    return true;
-  }
   return false;
 }
 

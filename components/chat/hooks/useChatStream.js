@@ -300,6 +300,11 @@ export function useChatStream(config) {
         }
 
         if (res.status === 429) {
+          const data = await readJsonBody();
+          const key = readApiErrorKey(data);
+          if (key) {
+            throw createLocalizedError(key);
+          }
           const retry = res.headers.get("retry-after");
           if (retry) {
             throw createLocalizedError("chat.error.rate_limit_retry", {

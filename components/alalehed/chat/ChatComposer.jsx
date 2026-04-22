@@ -16,27 +16,6 @@ const MODE_LABEL_SHINE_BACKGROUND_LIGHT =
   "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)";
 const MODE_LABEL_SHINE_BACKGROUND_HC =
   "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0.18) 32%, rgba(255,224,44,0.98) 50%, rgba(255,224,44,0.18) 68%, rgba(255,224,44,0) 100%)";
-function CareerModeIcon({
-  stroke,
-  className,
-  strokeWidth = 1.8,
-  ...props
-}) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      {...props}
-    >
-      <path d="M6.15 9.05A1.65 1.65 0 0 1 7.8 7.4h8.4a1.65 1.65 0 0 1 1.65 1.65v8.1a1.65 1.65 0 0 1-1.65 1.65H7.8a1.65 1.65 0 0 1-1.65-1.65v-8.1Z" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9.15 7.35v-.9a2.15 2.15 0 0 1 2.15-2.15h1.4a2.15 2.15 0 0 1 2.15 2.15v.9" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M6.15 11.25h11.7" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" />
-    </svg>
-  );
-}
-
 function DocumentModeIcon({
   stroke,
   className,
@@ -69,31 +48,6 @@ function DocumentModeIcon({
   );
 }
 
-function AttachCvIcon({
-  stroke,
-  className,
-  strokeWidth = 1.9,
-  ...props
-}) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      {...props}
-    >
-      <path
-        d="M14.75 6.95v8.5a4.75 4.75 0 1 1-9.5 0v-8.6a3.1 3.1 0 1 1 6.2 0v8.6a1.45 1.45 0 1 1-2.9 0V8.9"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function ChatComposer({
   t,
   locale = "et",
@@ -119,13 +73,9 @@ export default function ChatComposer({
   onStop,
   onSend,
   onActivateInfoMode,
-  onActivateCareerMode,
-  careerModeEnabled = false,
   onActivateHelpRequestMode,
   onActivateHelpOfferMode,
-  careerModeLocked = false,
   showDocumentAttachButton = false,
-  showCareerCvAttachButton = false,
   onPickDocumentFile,
   speakLatestReply,
   canSpeakLatest,
@@ -257,11 +207,6 @@ export default function ChatComposer({
     helpOfferModeLabelRaw && helpOfferModeLabelRaw !== "chat.tools.help_offer_mode"
       ? helpOfferModeLabelRaw
       : "Abipakkumine";
-  const careerModeLabelRaw = t("chat.tools.career_mode");
-  const careerModeLabel =
-    careerModeLabelRaw && careerModeLabelRaw !== "chat.tools.career_mode"
-      ? careerModeLabelRaw
-      : "Karj\u00E4\u00E4rin\u00F5ustamine";
   const modeLabelShineBackground = isHighContrast
     ? MODE_LABEL_SHINE_BACKGROUND_HC
     : isLightTheme
@@ -474,10 +419,6 @@ export default function ChatComposer({
     closeToolsMenu();
     router.push(localizePath("/documents", locale));
   }, [closeToolsMenu, locale, router]);
-  const handleCareerModeSelect = useCallback(() => {
-    closeToolsMenu();
-    onActivateCareerMode?.();
-  }, [closeToolsMenu, onActivateCareerMode]);
   const handleHelpRequestModeSelect = useCallback(() => {
     closeToolsMenu();
     onActivateHelpRequestMode?.();
@@ -486,10 +427,6 @@ export default function ChatComposer({
     closeToolsMenu();
     onActivateHelpOfferMode?.();
   }, [closeToolsMenu, onActivateHelpOfferMode]);
-  const handleCareerModeLockedSelect = useCallback(() => {
-    closeToolsMenu();
-    router.push(localizePath("/tellimus", locale));
-  }, [closeToolsMenu, locale, router]);
   const submitSend = useCallback(async () => {
     if (submitInFlightRef.current) return false;
     const originalDraft = draft;
@@ -722,35 +659,6 @@ export default function ChatComposer({
               </span>
               <span className={toolLabelClassName}>{t("chat.tools.documents")}</span>
             </button> : null}
-          {careerModeEnabled ? (
-            <button
-              type="button"
-              role="menuitem"
-              className={`${toolItemBaseClassName} ${careerModeLocked ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`}
-              onClick={careerModeLocked ? handleCareerModeLockedSelect : handleCareerModeSelect}
-              aria-disabled={careerModeLocked ? "true" : undefined}
-              title={careerModeLocked ? t("chat.error.subscription_required_profile", "Tellimus vajalik") : undefined}
-            >
-              <span aria-hidden="true" className={toolIconSlotClassName}>
-                <CareerModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />
-              </span>
-              <span className={toolLabelClassName}>
-                <span>{careerModeLabel}</span>
-                {careerModeLocked ? (
-                  <span
-                    aria-hidden="true"
-                    className="ml-[0.46rem] inline-flex h-[1.22rem] w-[1.22rem] shrink-0 items-center justify-center rounded-full border-0 bg-transparent p-0 text-[rgba(203,213,225,0.76)] light:text-[rgba(122,58,56,0.82)]"
-                  >
-                    <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className="block h-[1.22rem] w-[1.22rem] shrink-0">
-                      <path d="M8.5 10.2V8.1a3.5 3.5 0 1 1 7 0v2.1" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M7.4 10.2h9.2c.66 0 1.2.54 1.2 1.2v5.2c0 .66-.54 1.2-1.2 1.2H7.4c-.66 0-1.2-.54-1.2-1.2v-5.2c0-.66.54-1.2 1.2-1.2Z" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" />
-                      <path d="M12 12.3v2.4" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
-                    </svg>
-                  </span>
-                ) : null}
-              </span>
-            </button>
-          ) : null}
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleHelpRequestModeSelect}>
             <span aria-hidden="true" className={toolIconSlotClassName}>
               <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={1.92} className={menuModeIconClassName} />
@@ -797,21 +705,17 @@ export default function ChatComposer({
   const inputRowToolsVisibilityClassName = showSideControls
     ? "chat-input-row--tools-visible"
     : "chat-input-row--tools-hidden";
-  const replaceModeButtonWithCareerAttach = Boolean(careerModeEnabled && showCareerCvAttachButton);
   return <form ref={inputRowRef} style={inputRowStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName} ${inputRowToolsVisibilityClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {showSideControls ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? null : <>
-            {replaceModeButtonWithCareerAttach ? <button type="button" className={toolsButtonClassName} aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={onPickDocumentFile} disabled={documentAttachDisabled}>
-                <AttachCvIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
-              </button> : <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.aria")} title={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
-                {activeModeKey === "career" ? <CareerModeIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
-                  : activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+            <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.aria")} title={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
+                {activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                   : activeModeKey === "help_offer" ? <HelpOfferIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                   : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className={activeModeIconClassName}>
                     <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth={plusIconStrokeWidth} strokeLinecap="round" />
                   </svg>}
-              </button>}
-            {replaceModeButtonWithCareerAttach ? null : toolsMenuPanel}
+              </button>
+            {toolsMenuPanel}
             {showDocumentAttachButton ? <button type="button" className={documentAttachButtonClassName} aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={onPickDocumentFile} disabled={documentAttachDisabled}>
                     <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
                       <path d="M26.9 14.2 18 23.1a4.45 4.45 0 1 0 6.29 6.29l9.26-9.26a7.42 7.42 0 0 0-10.49-10.49l-9.78 9.79a10.39 10.39 0 1 0 14.7 14.69l7.95-7.95" stroke={iconStroke} strokeWidth="2.95" strokeLinecap="round" strokeLinejoin="round" />

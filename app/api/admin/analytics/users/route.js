@@ -13,6 +13,7 @@ import {
   COST_RAG_SEARCH_EUR,
   COST_STT_PER_MINUTE_EUR,
   COST_TTS_PER_MINUTE_EUR,
+  estimateUsageCostEur,
   getMonthlyCostBudgetForRole
 } from "@/lib/usageBudget";
 
@@ -353,7 +354,7 @@ export async function GET(req) {
       userIds.map(userId => [
         userId,
         {
-          total30d: 0,
+          totalInPeriod: 0,
           today: 0
         }
       ])
@@ -364,7 +365,7 @@ export async function GET(req) {
       if (!userId || !analyzeUsageByUser[userId]) continue;
 
       const count = Number(row?.count || 0);
-      analyzeUsageByUser[userId].total30d += count;
+      analyzeUsageByUser[userId].totalInPeriod += count;
       if (row?.day instanceof Date && row.day.getTime() === todayDay.getTime()) {
         analyzeUsageByUser[userId].today += count;
       }
@@ -389,15 +390,16 @@ export async function GET(req) {
 
     const items = users.map(user => {
       const usage = usageByUser[user.id] || buildUsageSeed();
-      const analyzeUsage = analyzeUsageByUser[user.id] || { total30d: 0, today: 0 };
+      const analyzeUsage = analyzeUsageByUser[user.id] || { totalInPeriod: 0, today: 0 };
       const latestSubscription = latestSubscriptionByUser[user.id] || null;
       const analyzeLimit = getAnalyzeLimitDetails(String(user.role || "CLIENT").toUpperCase(), !!user.isAdmin);
 
-      const chatCost = usage.chatRequests * COST_CHAT_REQUEST_EUR;
-      const ragCost = usage.ragSearches * COST_RAG_SEARCH_EUR;
-      const sttCost = usage.sttMinutes * COST_STT_PER_MINUTE_EUR;
-      const ttsCost = usage.ttsMinutes * COST_TTS_PER_MINUTE_EUR;
-      const totalCost = chatCost + ragCost + sttCost + ttsCost;
+      const estimatedCosts = estimateUsageCostEur(usage);
+      const chatCost = Number(estimatedCosts.chatEur || 0);
+      const ragCost = Number(estimatedCosts.ragEur || 0);
+      const sttCost = Number(estimatedCosts.sttEur || 0);
+      const ttsCost = Number(estimatedCosts.ttsEur || 0);
+      const totalCost = Number(estimatedCosts.totalEur || 0);
       const paidAmount = Number(paidByUserMap[user.id] || 0);
       const budget = Number(getMonthlyCostBudgetForRole(String(user.role || "CLIENT").toUpperCase(), !!user.isAdmin) || 0);
       const remainingBudget = Math.max(0, budget - totalCost);
@@ -447,7 +449,8 @@ export async function GET(req) {
           sttMinutes: round3(usage.sttMinutes),
           ttsRequests: usage.ttsRequests,
           ttsMinutes: round3(usage.ttsMinutes),
-          analyses30d: analyzeUsage.total30d,
+          analysesPeriod: analyzeUsage.totalInPeriod,
+          analyses30d: analyzeUsage.totalInPeriod,
           analysesToday: analyzeUsage.today
         },
         costs: {
@@ -463,6 +466,7 @@ export async function GET(req) {
           remainingEur: round2(remainingBudget),
           utilizationPct: round2(utilizationPct)
         },
+        paidAmountPeriodEur: round2(paidAmount),
         paidAmount30dEur: round2(paidAmount)
       };
     });

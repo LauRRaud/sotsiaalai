@@ -11,10 +11,16 @@ export const runtime = "nodejs";
 
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
 const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
-const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
+function readPositiveNumber(value, fallback) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric) || numeric <= 0) return fallback;
+  return numeric;
+}
+
+const RAG_TIMEOUT_MS = readPositiveNumber(process.env.RAG_TIMEOUT_MS, 30_000);
 const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
-const RAG_PROXY_RATE_LIMIT_WINDOW_MS = Number(process.env.RAG_PROXY_RATE_LIMIT_WINDOW_MS || 60_000);
-const RAG_PROXY_RATE_LIMIT_MAX = Number(process.env.RAG_PROXY_RATE_LIMIT_MAX || 120);
+const RAG_PROXY_RATE_LIMIT_WINDOW_MS = readPositiveNumber(process.env.RAG_PROXY_RATE_LIMIT_WINDOW_MS, 60_000);
+const RAG_PROXY_RATE_LIMIT_MAX = readPositiveNumber(process.env.RAG_PROXY_RATE_LIMIT_MAX, 120);
 
 const HOP_BY_HOP = new Set([
   "connection",

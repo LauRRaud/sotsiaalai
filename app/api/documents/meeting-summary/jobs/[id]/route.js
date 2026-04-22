@@ -1,10 +1,9 @@
-import { NextResponse } from "next/server";
 import {
   assertMeetingSummaryAccess,
-  getMeetingSummaryJob,
+  getMeetingSummaryJobSnapshot,
   getMeetingSummaryJobResult,
 } from "@/lib/documents/meetingSummaryJobs";
-import { errorJson, localeFromRequest, requireDocumentUser } from "@/lib/documents/server";
+import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,23 +20,23 @@ export async function GET(request, { params }) {
   }
 
   const jobId = String((await params)?.id || "").trim();
-  const job = getMeetingSummaryJob(jobId);
+  const job = await getMeetingSummaryJobSnapshot(jobId);
   if (!job) {
-    return NextResponse.json(
+    return json(
       {
         ok: false,
         messageKey: "documents.agent_workspace.meeting_summary.not_found",
         message: "documents.agent_workspace.meeting_summary.not_found",
       },
-      { status: 404 }
+      404
     );
   }
   if (!assertMeetingSummaryAccess(job, auth.userId)) {
     return errorJson("api.common.forbidden", 403, locale);
   }
 
-  return NextResponse.json({
+  return json({
     ok: true,
-    job: getMeetingSummaryJobResult(jobId),
+    job: await getMeetingSummaryJobResult(jobId),
   });
 }

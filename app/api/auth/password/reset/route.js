@@ -26,6 +26,7 @@ const RESET_RATE_LIMIT_PUT_PER_IP = Number(
 const RESET_RATE_LIMIT_PUT_PER_TOKEN = Number(
   process.env.RESET_RATE_LIMIT_PUT_PER_TOKEN || 10
 );
+const RESET_IDENTIFIER_PREFIX = "password-reset:";
 
 const NO_STORE_HEADERS = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
@@ -64,6 +65,10 @@ function err(messageKey, status = 400, locale = "en", extras = {}) {
 
 function normalizeEmail(value) {
   return String(value || "").trim().toLowerCase();
+}
+
+function buildResetIdentifier(email) {
+  return `${RESET_IDENTIFIER_PREFIX}${normalizeEmail(email)}`;
 }
 
 function localeFromRequest(request, bodyLocale) {
@@ -159,23 +164,25 @@ export async function POST(request) {
 
     const token = crypto.randomBytes(32).toString("hex");
     const expires = new Date(Date.now() + TOKEN_EXPIRY_MINUTES * 60 * 1000);
+    const identifier = buildResetIdentifier(email);
 
-    await prisma.$transaction(async (tx) => {
-      await tx.verificationToken.deleteMany({
-        where: { identifier: email }
-      });
-      await tx.verificationToken.create({
-        data: {
-          identifier: email,
-          token,
-          expires
-        }
-      });
+    await prisma.verificationToken.create({
+      data: {
+        identifier,
+        token,
+        expires
+      }
     });
 
     const resetUrl = buildResetUrl(token, locale);
     try {
       await sendResetEmail(email, resetUrl, locale);
+      await prisma.verificationToken.deleteMany({
+        where: {
+          identifier,
+          NOT: { token }
+        }
+      });
     } catch (sendError) {
       console.error("password reset email send failed", sendError);
     }
@@ -230,21 +237,42 @@ export async function PUT(request) {
     }
 
     const verificationToken = await prisma.verificationToken.findFirst({
-      where: { token }
+      where: {
+        token,
+        identifier: {
+          startsWith: RESET_IDENTIFIER_PREFIX
+        }
+      }
     });
     if (!verificationToken) {
       return err("api.auth.reset.token_invalid", 400, locale);
     }
 
     if (verificationToken.expires < new Date()) {
-      await prisma.verificationToken.deleteMany({ where: { token } });
+      await prisma.verificationToken.delete({
+        where: {
+          identifier_token: {
+            identifier: verificationToken.identifier,
+            token: verificationToken.token
+          }
+        }
+      });
       return err("api.auth.reset.token_expired", 410, locale);
     }
 
-    const email = normalizeEmail(verificationToken.identifier);
+    const email = normalizeEmail(
+      String(verificationToken.identifier || "").replace(RESET_IDENTIFIER_PREFIX, "")
+    );
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      await prisma.verificationToken.deleteMany({ where: { token } });
+      await prisma.verificationToken.delete({
+        where: {
+          identifier_token: {
+            identifier: verificationToken.identifier,
+            token: verificationToken.token
+          }
+        }
+      });
       return err("api.auth.reset.user_not_found", 404, locale);
     }
 
@@ -254,7 +282,14 @@ export async function PUT(request) {
         where: { id: user.id },
         data: { passwordHash }
       });
-      await tx.verificationToken.deleteMany({ where: { token } });
+      await tx.verificationToken.delete({
+        where: {
+          identifier_token: {
+            identifier: verificationToken.identifier,
+            token: verificationToken.token
+          }
+        }
+      });
     });
 
     return ok({ requiresReauth: true });

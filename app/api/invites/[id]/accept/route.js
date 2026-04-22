@@ -218,6 +218,24 @@ export async function POST(request, { params }) {
         }
       }
 
+      const existingMember = await tx.roomMember.findFirst({
+        where: {
+          roomId: invite.roomId,
+          userId: auth.userId,
+          leftAt: null
+        },
+        select: {
+          billingSource: true
+        }
+      });
+      if (existingMember) {
+        return {
+          ok: true,
+          roomId: invite.roomId,
+          billing_source: existingMember.billingSource || "SELF"
+        };
+      }
+
       const userActive =
         auth.role === "ADMIN" ? true : await hasActiveSubscriptionTx(tx, auth.userId);
 

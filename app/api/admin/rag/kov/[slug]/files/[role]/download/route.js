@@ -34,7 +34,10 @@ export async function GET(request, { params }) {
     const buffer = await readStoredKovFile(file.storagePath);
     await prisma.municipalityKovAdmin.update({
       where: { id: entry.id },
-      data: { checkedAt: new Date() }
+      data:
+        KOV_FILE_ROLE_META[fileKey].layer === "RT"
+          ? { rtCheckedAt: new Date() }
+          : { checkedAt: new Date() }
     });
 
     return new Response(buffer, {

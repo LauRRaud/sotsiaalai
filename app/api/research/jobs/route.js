@@ -14,7 +14,9 @@ export const fetchCache = "force-no-store";
 
 const RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.RESEARCH_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
 const RATE_LIMIT_POST_MAX = readChatRateLimit(process.env.RESEARCH_RATE_LIMIT_POST_MAX, 12);
-const RESEARCH_API_ENABLED = false;
+const RESEARCH_API_ENABLED = ["true", "1", "yes", "on"].includes(
+  String(process.env.RESEARCH_API_ENABLED || "").trim().toLowerCase()
+);
 const RESEARCH_JOB_MODE = String(process.env.RESEARCH_JOB_MODE || process.env.RESEARCH_RUNNER_MODE || "inline")
   .trim()
   .toLowerCase();
@@ -172,41 +174,23 @@ export async function POST(req) {
   const dailyLimit = getResearchDailyLimit(auth.role);
   const dayStart = utcDayStart();
   try {
-    await prisma.$transaction(async (tx) => {
-      const usedToday = await tx.chatLog.count({
-        where: {
-          event: "research_request",
-          userId: auth.userId,
-          role: auth.role,
-          createdAt: {
-            gte: dayStart
-          }
+    const usedToday = await prisma.chatLog.count({
+      where: {
+        event: "research_request",
+        userId: auth.userId,
+        role: auth.role,
+        createdAt: {
+          gte: dayStart
         }
-      });
-
-      if (usedToday >= dailyLimit) {
-        const quotaError = new Error("research.error.daily_quota_exceeded");
-        quotaError.code = "DAILY_QUOTA";
-        quotaError.used = usedToday;
-        throw quotaError;
       }
-
-      await tx.chatLog.create({
-        data: {
-          event: "research_request",
-          userId: auth.userId,
-          role: auth.role,
-          data: {
-            queryLength: query.length,
-            profile,
-            outputStyle,
-            collectionCount: collectionIds.length,
-            focusCount: normalizedPayload.focus.length,
-            convId
-          }
-        }
-      });
     });
+
+    if (usedToday >= dailyLimit) {
+      const quotaError = new Error("research.error.daily_quota_exceeded");
+      quotaError.code = "DAILY_QUOTA";
+      quotaError.used = usedToday;
+      throw quotaError;
+    }
   } catch (error) {
     if (error?.code === "DAILY_QUOTA") {
       return errorJson("api.common.rate_limited", 429, {
@@ -237,6 +221,27 @@ export async function POST(req) {
     console.error("[research] job create failed", error);
     return errorJson("research.error.failed", 503);
   }
+
+  prisma.chatLog.create({
+    data: {
+      event: "research_request",
+      userId: auth.userId,
+      role: auth.role,
+      data: {
+        queryLength: query.length,
+        profile,
+        outputStyle,
+        collectionCount: collectionIds.length,
+        focusCount: normalizedPayload.focus.length,
+        convId,
+        jobId: job.id
+      }
+    }
+  }).catch(error => {
+    try {
+      console.error("[research] request log failed", error);
+    } catch {}
+  });
 
   if (RESEARCH_JOB_MODE !== "worker") {
     queueMicrotask(() => {

@@ -21,6 +21,11 @@ const STT_RATE_LIMIT_MAX = Number(process.env.STT_RATE_LIMIT_MAX || 20);
 const STT_MAX_AUDIO_MB = Number(process.env.STT_MAX_AUDIO_MB || 12);
 const STT_MAX_AUDIO_BYTES = Math.max(1, Math.floor(STT_MAX_AUDIO_MB * 1024 * 1024));
 const STT_MAX_REQUEST_BYTES = Number(process.env.STT_MAX_REQUEST_BYTES || Math.ceil(STT_MAX_AUDIO_BYTES * 1.2));
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
 
 function isSupportedAudioMime(type) {
   const normalized = String(type || "").toLowerCase().trim();
@@ -52,7 +57,18 @@ function errorJson(messageKey, status, locale = "en", extras = {}) {
     message: translated,
     ...extras
   }, {
-    status
+    status,
+    headers: NO_STORE_HEADERS
+  });
+}
+
+function json(payload, status = 200, headers = {}) {
+  return NextResponse.json(payload, {
+    status,
+    headers: {
+      ...NO_STORE_HEADERS,
+      ...headers
+    }
   });
 }
 
@@ -63,6 +79,26 @@ function toNullableNumber(value) {
 
 function readRequestSize(req) {
   return toNullableNumber(req.headers.get("content-length"));
+}
+
+function buildPreflightBudgetIncrement({ usesExternalProvider, inputDurationSeconds }) {
+  if (inputDurationSeconds != null && Number.isFinite(Number(inputDurationSeconds)) && Number(inputDurationSeconds) > 0) {
+    return {
+      sttRequests: 1,
+      sttMinutes: Number(inputDurationSeconds) / 60
+    };
+  }
+
+  if (usesExternalProvider) {
+    return {
+      sttRequests: 1
+    };
+  }
+
+  return {
+    sttRequests: 1,
+    sttMinutes: 1
+  };
 }
 
 export async function POST(req) {
@@ -76,29 +112,24 @@ export async function POST(req) {
   const role = roleState.effectiveRole;
   const gate = await requireSubscription(session, role);
   if (!gate.ok) {
-    return NextResponse.json({
+    return json({
       ok: false,
       messageKey: gate.message,
       message: serverT(uiLocale, gate.message, undefined, gate.message),
       redirect: gate.redirect,
       requireSubscription: gate.requireSubscription
-    }, {
-      status: gate.status
-    });
+    }, gate.status);
   }
 
   const ip = getRequestIpFromRequest(req);
   const limit = consumeRateLimit(`stt:${session.user.id}:${ip}`, STT_RATE_LIMIT_MAX, STT_RATE_LIMIT_WINDOW_MS);
   if (!limit.allowed) {
-    return NextResponse.json({
+    return json({
       ok: false,
       messageKey: "api.stt.rate_limited",
       message: serverT(uiLocale, "api.stt.rate_limited", undefined, "api.stt.rate_limited")
-    }, {
-      status: 429,
-      headers: {
-        "Retry-After": String(limit.retryAfterSec)
-      }
+    }, 429, {
+      "Retry-After": String(limit.retryAfterSec)
     });
   }
 
@@ -137,18 +168,20 @@ export async function POST(req) {
     });
   }
   const inputDurationSeconds = await readAudioDurationSecondsFromFile(file);
-  if (inputDurationSeconds != null) {
-    const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
-      sttRequests: 1,
-      sttMinutes: inputDurationSeconds / 60
+  const usesExternalProvider = Boolean(STT_URL);
+  const budgetCheck = await canSpendMonthlyBudget(
+    session.user.id,
+    buildPreflightBudgetIncrement({
+      usesExternalProvider,
+      inputDurationSeconds
+    })
+  );
+  if (!budgetCheck.allowed) {
+    return errorJson("api.common.monthly_budget_exceeded", 429, uiLocale, {
+      budgetEur: budgetCheck.budgetEur,
+      usedEur: budgetCheck.usedEur,
+      remainingEur: budgetCheck.remainingEur
     });
-    if (!budgetCheck.allowed) {
-      return errorJson("api.common.monthly_budget_exceeded", 429, uiLocale, {
-        budgetEur: budgetCheck.budgetEur,
-        usedEur: budgetCheck.usedEur,
-        remainingEur: budgetCheck.remainingEur
-      });
-    }
   }
 
   if (STT_URL) {
@@ -176,7 +209,7 @@ export async function POST(req) {
         durationSeconds: toNullableNumber(inputDurationSeconds)
       });
 
-      return NextResponse.json({
+      return json({
         ok: true,
         text: data.text,
         language: data.language || locale,
@@ -208,19 +241,6 @@ export async function POST(req) {
     const isDurationUsage = usageType === "duration";
     const measuredDurationSeconds =
       (isDurationUsage ? toNullableNumber(usage?.seconds) : null) ?? toNullableNumber(inputDurationSeconds);
-    if (measuredDurationSeconds != null) {
-      const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
-        sttRequests: 1,
-        sttMinutes: measuredDurationSeconds / 60
-      });
-      if (!budgetCheck.allowed) {
-        return errorJson("api.common.monthly_budget_exceeded", 429, uiLocale, {
-          budgetEur: budgetCheck.budgetEur,
-          usedEur: budgetCheck.usedEur,
-          remainingEur: budgetCheck.remainingEur
-        });
-      }
-    }
     await logEvent("stt_cost_usage", {
       userId: session.user.id,
       role,
@@ -255,7 +275,7 @@ export async function POST(req) {
       durationSeconds: measuredDurationSeconds
     });
 
-    return NextResponse.json({
+    return json({
       ok: true,
       text,
       language: language || locale,

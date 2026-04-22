@@ -72,12 +72,14 @@ export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
     if (res.status === 401) {
       setAuthRequired(true);
       setBlocked(false);
+      setMessages([]);
       if (timerRef.current) clearInterval(timerRef.current);
       return;
     }
     if (res.status === 403) {
       setBlocked(true);
       setAuthRequired(false);
+      setMessages([]);
       return;
     }
     if (!res.ok || data?.ok === false) return;
@@ -149,6 +151,10 @@ export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
   }, [roomId]);
   useEffect(() => {
     if (!roomId) {
+      setMessages([]);
+      setBlocked(false);
+      setAuthRequired(false);
+      cursorRef.current = null;
       setRoomMeta({
         roomId: "",
         roomTitle: "",
@@ -163,6 +169,10 @@ export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
       roomRole: "",
       isHelpMatchRoom: initialIsHelpMatchRoom
     });
+    setMessages([]);
+    setBlocked(false);
+    setAuthRequired(false);
+    cursorRef.current = null;
     load(true);
     timerRef.current = setInterval(() => load(false), pollMs);
     connectSse();

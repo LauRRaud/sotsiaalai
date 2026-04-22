@@ -17,6 +17,7 @@ const VERIFY_RATE_LIMIT_PER_IP = Number(process.env.VERIFY_RATE_LIMIT_PER_IP || 
 const VERIFY_RATE_LIMIT_PER_EMAIL = Number(
   process.env.VERIFY_RATE_LIMIT_PER_EMAIL || 5
 );
+const EMAIL_VERIFY_IDENTIFIER_PREFIX = "email-verify:";
 
 const NO_STORE_HEADERS = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
@@ -250,6 +251,10 @@ function normalizeEmail(input) {
   return String(input || "").trim().toLowerCase();
 }
 
+function buildEmailVerifyIdentifier(email) {
+  return `${EMAIL_VERIFY_IDENTIFIER_PREFIX}${normalizeEmail(email)}`;
+}
+
 function localeFromRequest(request, directLocale) {
   const direct = normalizeServerLocale(directLocale);
   if (direct) return direct;
@@ -329,19 +334,30 @@ async function confirmVerification({ email, token }) {
   const user = await prisma.user.findUnique({ where: { email } });
   if (user?.emailVerified) {
     await prisma.verificationToken.deleteMany({
-      where: { identifier: email }
+      where: { identifier: buildEmailVerifyIdentifier(email) }
     });
     return { ok: true, alreadyVerified: true };
   }
 
-  const verificationToken = await prisma.verificationToken.findUnique({
+  const prefixedIdentifier = buildEmailVerifyIdentifier(email);
+  let verificationToken = await prisma.verificationToken.findUnique({
     where: {
       identifier_token: {
-        identifier: email,
+        identifier: prefixedIdentifier,
         token
       }
     }
   });
+  if (!verificationToken) {
+    verificationToken = await prisma.verificationToken.findUnique({
+      where: {
+        identifier_token: {
+          identifier: email,
+          token
+        }
+      }
+    });
+  }
 
   if (!verificationToken) {
     return {
@@ -353,8 +369,13 @@ async function confirmVerification({ email, token }) {
   }
 
   if (verificationToken.expires < new Date()) {
-    await prisma.verificationToken.deleteMany({
-      where: { identifier: email }
+    await prisma.verificationToken.delete({
+      where: {
+        identifier_token: {
+          identifier: verificationToken.identifier,
+          token: verificationToken.token
+        }
+      }
     });
     return {
       ok: false,
@@ -365,8 +386,13 @@ async function confirmVerification({ email, token }) {
   }
 
   if (!user) {
-    await prisma.verificationToken.deleteMany({
-      where: { identifier: email }
+    await prisma.verificationToken.delete({
+      where: {
+        identifier_token: {
+          identifier: verificationToken.identifier,
+          token: verificationToken.token
+        }
+      }
     });
     return {
       ok: false,
@@ -382,7 +408,17 @@ async function confirmVerification({ email, token }) {
       data: { emailVerified: new Date() }
     });
     await tx.verificationToken.deleteMany({
-      where: { identifier: email }
+      where: {
+        OR: [
+          { identifier: prefixedIdentifier },
+          {
+            identifier_token: {
+              identifier: verificationToken.identifier,
+              token: verificationToken.token
+            }
+          }
+        ]
+      }
     });
   });
 
@@ -524,22 +560,24 @@ export async function POST(request) {
 
     const token = crypto.randomBytes(32).toString("hex");
     const expires = new Date(Date.now() + TOKEN_EXPIRY_HOURS * 60 * 60 * 1000);
+    const identifier = buildEmailVerifyIdentifier(email);
 
-    await prisma.$transaction(async (tx) => {
-      await tx.verificationToken.deleteMany({
-        where: { identifier: email }
-      });
-      await tx.verificationToken.create({
-        data: {
-          identifier: email,
-          token,
-          expires
-        }
-      });
+    await prisma.verificationToken.create({
+      data: {
+        identifier,
+        token,
+        expires
+      }
     });
 
     const verifyUrl = buildVerifyUrl(email, token, locale);
     await sendVerificationEmail(email, verifyUrl, locale);
+    await prisma.verificationToken.deleteMany({
+      where: {
+        identifier,
+        NOT: { token }
+      }
+    });
 
     try {
       await prisma.user.update({

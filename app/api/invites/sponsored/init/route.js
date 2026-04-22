@@ -176,12 +176,15 @@ async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName, locale) {
       throw fail("api.rooms.not_found", 404, "ROOM_NOT_FOUND");
     }
     await ensureOwnerMembership(room.id, room.ownerId, ownerDisplayName);
-    return room;
+    return {
+      room,
+      created: false
+    };
   }
 
   const trimmedTitle = typeof roomTitle === "string" ? roomTitle.trim() : "";
   if (trimmedTitle) {
-    return prisma.room.create({
+    const room = await prisma.room.create({
       data: {
         ownerId: userId,
         title: trimmedTitle,
@@ -194,6 +197,10 @@ async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName, locale) {
         }
       }
     });
+    return {
+      room,
+      created: true
+    };
   }
 
   const existing = await prisma.room.findFirst({
@@ -202,11 +209,14 @@ async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName, locale) {
   });
   if (existing) {
     await ensureOwnerMembership(existing.id, existing.ownerId, ownerDisplayName);
-    return existing;
+    return {
+      room: existing,
+      created: false
+    };
   }
 
   const fallbackTitle = serverT(locale, "rooms.fallback_title", undefined, "Room");
-  return prisma.room.create({
+  const room = await prisma.room.create({
     data: {
       ownerId: userId,
       title: fallbackTitle,
@@ -219,6 +229,10 @@ async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName, locale) {
       }
     }
   });
+  return {
+    room,
+    created: true
+  };
 }
 
 async function requireRoomRole({
@@ -229,18 +243,20 @@ async function requireRoomRole({
   ownerDisplayName,
   locale
 }) {
-  const room = await ensureRoom(
+  const roomResult = await ensureRoom(
     userId,
     roomId,
     roomTitle,
     ownerDisplayName,
     locale
   );
+  const room = roomResult.room;
 
   if (room.ownerId === userId) {
     return {
       room,
-      membership: { role: "OWNER" }
+      membership: { role: "OWNER" },
+      roomCreated: roomResult.created
     };
   }
 
@@ -256,7 +272,11 @@ async function requireRoomRole({
     throw fail("api.common.forbidden", 403, "FORBIDDEN");
   }
 
-  return { room, membership };
+  return {
+    room,
+    membership,
+    roomCreated: roomResult.created
+  };
 }
 
 async function hasActiveSubscription(userId) {
@@ -600,6 +620,14 @@ export async function POST(request) {
           status: "REVOKED"
         }
       });
+
+      if (roomCheck.roomCreated) {
+        try {
+          await prisma.room.delete({
+            where: { id: roomCheck.room.id }
+          });
+        } catch {}
+      }
 
       throw error;
     }

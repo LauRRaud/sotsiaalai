@@ -166,6 +166,7 @@ export default function RegistreerimineBody({}) {
   const initViewportModeRef = useRef(null);
   const initialScrollTopRef = useRef(0);
   const hasInitialScrollTopRef = useRef(false);
+  const padOffset = 36;
   const roleLabelId = useId();
   const roleHintId = useId();
   const emailErrorId = useId();
@@ -182,7 +183,7 @@ export default function RegistreerimineBody({}) {
     isSocialWorker && form.workerUse === "ORG_IDENTIFIABLE";
   const hasConfirmedFramework = requiresFramework && form.frameworkAck;
   const registerRingClassName = cn(
-    "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]",
+    "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring register-ring-shell md:mt-0 md:mb-0 [--glass-ring-edge-stroke-width:0px] [--glass-ring-edge-stroke-opacity:0] [--glass-ring-edge-stroke-blur:0px] [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.4rem)]",
     isFrameworkModalOpen ? "pointer-events-none opacity-0" : null,
   );
   const agreementStepIndex = 3;
@@ -641,7 +642,7 @@ export default function RegistreerimineBody({}) {
 
             <>
               <div
-                className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron is-visible ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
+                className={`csp-scrim csp-scrim--top csp-scrim--chevron top-0 is-visible ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
                 aria-hidden="true"
               >
                 <span className="csp-chevron-frame" aria-hidden="true">
@@ -657,7 +658,7 @@ export default function RegistreerimineBody({}) {
                 </span>
               </div>
               <div
-                className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`}
+                className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${!isScrolled && canScrollDown ? "is-scroll-cue" : ""} ${canScrollDown ? "" : "is-hidden"}`}
                 aria-hidden="true"
               >
                 <span className="csp-chevron-frame" aria-hidden="true">
@@ -679,8 +680,9 @@ export default function RegistreerimineBody({}) {
                 ref={scrollRef}
                 className={`${scrollClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : ""}`}
                 style={{
-                  "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
-                  "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
+                  "--csp-pad": `${scrollPad + padOffset}px`,
+                  "--csp-pad-top": `${Math.max(0, (scrollPadTop || scrollPad) + padOffset)}px`,
+                  "--csp-pad-bottom": `${Math.max(0, (scrollPadBottom || scrollPad) + (isMobileViewport ? 16 : padOffset))}px`,
                   "--csp-center-offset": `${isMobileViewport ? -5 : 0}px`,
                 }}
                 tabIndex={0}

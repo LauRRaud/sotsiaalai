@@ -187,6 +187,38 @@ function createBucket(key, label = key) {
   };
 }
 
+function asTimestamp(value) {
+  const date = value instanceof Date ? value : new Date(value);
+  const ts = date.getTime();
+  return Number.isFinite(ts) ? ts : null;
+}
+
+function resolvePackageForEvent(userId, eventCreatedAt, subscriptionsByUser) {
+  const id = String(userId || "").trim();
+  if (!id) return "none";
+
+  const subscriptions = subscriptionsByUser.get(id) || [];
+  if (!subscriptions.length) return "none";
+
+  const eventTs = asTimestamp(eventCreatedAt);
+  if (eventTs == null) {
+    return toText(subscriptions[subscriptions.length - 1]?.plan, "none");
+  }
+
+  for (let index = subscriptions.length - 1; index >= 0; index -= 1) {
+    const subscription = subscriptions[index];
+    const createdAtTs = asTimestamp(subscription?.createdAt);
+    if (createdAtTs == null || createdAtTs > eventTs) continue;
+
+    const validUntilTs = asTimestamp(subscription?.validUntil);
+    if (validUntilTs != null && validUntilTs < eventTs) continue;
+
+    return toText(subscription?.plan, "none");
+  }
+
+  return "none";
+}
+
 function addMetric(target, name, value) {
   const parsed = toNumber(value);
   if (parsed == null) return;
@@ -541,7 +573,8 @@ export async function GET(req) {
     const since = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000);
     const ragMirroredCount = await prisma.chatLog.count({
       where: {
-        event: "rag_cost_usage"
+        event: "rag_cost_usage",
+        createdAt: { gte: since }
       }
     });
     const ragCostIncluded = ragMirroredCount > 0;
@@ -593,13 +626,14 @@ export async function GET(req) {
       userIds.length
         ? prisma.subscription.findMany({
             where: { userId: { in: userIds } },
-            orderBy: [{ createdAt: "desc" }, { updatedAt: "desc" }],
+            orderBy: [{ createdAt: "asc" }, { updatedAt: "asc" }],
             select: {
               userId: true,
               plan: true,
               status: true,
               createdAt: true,
-              updatedAt: true
+              updatedAt: true,
+              validUntil: true
             }
           })
         : Promise.resolve([]),
@@ -616,10 +650,13 @@ export async function GET(req) {
         : Promise.resolve([])
     ]);
 
-    const latestSubscriptionByUser = {};
+    const subscriptionsByUser = new Map();
     for (const row of subscriptions) {
       if (!row?.userId) continue;
-      if (!latestSubscriptionByUser[row.userId]) latestSubscriptionByUser[row.userId] = row;
+      if (!subscriptionsByUser.has(row.userId)) {
+        subscriptionsByUser.set(row.userId, []);
+      }
+      subscriptionsByUser.get(row.userId).push(row);
     }
 
     const userById = {};
@@ -640,13 +677,13 @@ export async function GET(req) {
     for (const row of rows) {
       const data = isObject(row?.data) ? row.data : {};
       const event = String(row?.event || "");
-      const role = toText(row?.role || userById[row?.userId]?.role, "unknown");
-      const pkg = toText(latestSubscriptionByUser[row?.userId]?.plan, "none");
+      const userId = String(row?.userId || "").trim();
+      const user = userById[userId];
+      const role = toText(row?.role || user?.role, "unknown");
+      const pkg = resolvePackageForEvent(userId, row?.createdAt, subscriptionsByUser);
       const route = toText(data?.route, "unknown");
       const stage = toText(data?.stage, "unknown");
       const model = toText(data?.model, "unknown");
-      const userId = String(row?.userId || "").trim();
-      const user = userById[userId];
       const userLabel = user?.email || userId || "anonymous";
       const featureKey = `${route}::${stage}`;
 
@@ -664,8 +701,9 @@ export async function GET(req) {
         const userBucket = getOrCreate(byUser, userId, userLabel);
         userBucket.email = user?.email || null;
         userBucket.role = role;
-        userBucket.package = pkg;
         userBucket.isAdmin = Boolean(user?.isAdmin);
+        if (!userBucket.packageKeys) userBucket.packageKeys = new Set();
+        userBucket.packageKeys.add(pkg);
         addRowToAccumulator(userBucket, row);
       }
     }
@@ -714,6 +752,11 @@ export async function GET(req) {
       Array.from(byUser.values()).map(bucket => {
         const role = bucket.role || "unknown";
         const isAdmin = Boolean(bucket.isAdmin);
+        const packageKeys = Array.from(bucket.packageKeys || []);
+        const packageName =
+          packageKeys.length <= 1
+            ? toText(packageKeys[0], "none")
+            : "mixed";
         const budgetEur = getMonthlyCostBudgetForRole(role, isAdmin);
         const budgetUnitsMonthly = round2(budgetEur * INTERNAL_USAGE_UNITS_PER_BUDGET_EUR);
         const utilizationPct =
@@ -726,7 +769,7 @@ export async function GET(req) {
             user_id: bucket.key,
             email: bucket.email || null,
             role,
-            package: bucket.package || "none",
+            package: packageName,
             is_admin: isAdmin,
             budget_eur_monthly: round2(budgetEur),
             budget_units_monthly: budgetUnitsMonthly,

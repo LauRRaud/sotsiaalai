@@ -23,6 +23,7 @@ const NO_STORE_HEADERS = {
   Pragma: "no-cache",
   Expires: "0"
 };
+const EMAIL_VERIFY_IDENTIFIER_PREFIX = "email-verify:";
 
 function json(payload, status = 200) {
   return NextResponse.json(payload, {
@@ -89,22 +90,22 @@ function buildVerifyUrl(email, token, locale) {
   return `${baseUrl.replace(/\/$/, "")}/api/verify-email?${params.toString()}`;
 }
 
+function buildEmailVerifyIdentifier(email) {
+  return `${EMAIL_VERIFY_IDENTIFIER_PREFIX}${String(email || "").trim().toLowerCase()}`;
+}
+
 async function sendVerificationEmail(email, locale) {
   const token = crypto.randomBytes(32).toString("hex");
   const hours = Number(process.env.EMAIL_VERIFY_HOURS || 24);
   const expires = new Date(Date.now() + hours * 60 * 60 * 1000);
+  const identifier = buildEmailVerifyIdentifier(email);
 
-  await prisma.$transaction(async (tx) => {
-    await tx.verificationToken.deleteMany({
-      where: { identifier: email }
-    });
-    await tx.verificationToken.create({
-      data: {
-        identifier: email,
-        token,
-        expires
-      }
-    });
+  await prisma.verificationToken.create({
+    data: {
+      identifier,
+      token,
+      expires
+    }
   });
 
   const verifyUrl = buildVerifyUrl(email, token, locale);
@@ -120,6 +121,13 @@ async function sendVerificationEmail(email, locale) {
     subject: serverT(locale, "email.auth.verify.subject"),
     text: serverT(locale, "email.auth.verify.text", { verifyUrl }),
     html: serverT(locale, "email.auth.verify.html", { verifyUrl })
+  });
+
+  await prisma.verificationToken.deleteMany({
+    where: {
+      identifier,
+      NOT: { token }
+    }
   });
 
   try {

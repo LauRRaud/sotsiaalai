@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 
 import { logEvent } from "@/lib/chat/logger";
+import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -65,6 +66,26 @@ export async function POST(req) {
 
   if (!eventId || !route || !stage || !serviceRoute || !serviceStage) {
     return badRequest("Missing required rag cost fields");
+  }
+
+  const existing = await prisma.chatLog.findFirst({
+    where: {
+      event: "rag_cost_usage",
+      data: {
+        path: ["event_id"],
+        equals: eventId
+      }
+    },
+    select: {
+      id: true
+    }
+  });
+  if (existing) {
+    return NextResponse.json({
+      ok: true,
+      event_id: eventId,
+      duplicate: true
+    });
   }
 
   await logEvent("rag_cost_usage", payload);

@@ -12,10 +12,23 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
+
+function json(payload, status = 200) {
+  return NextResponse.json(payload, {
+    status,
+    headers: NO_STORE_HEADERS
+  });
+}
+
 function sseHeaders() {
   return {
     "Content-Type": "text/event-stream; charset=utf-8",
-    "Cache-Control": "no-cache, no-transform",
+    "Cache-Control": "no-store, no-cache, no-transform",
     Connection: "keep-alive",
     "X-Accel-Buffering": "no",
   };
@@ -33,7 +46,7 @@ async function getResearchJobId(params) {
 export async function GET(req, { params }) {
   const auth = await requireResearchAuth();
   if (!auth.ok) {
-    return NextResponse.json(
+    return json(
       {
         ok: false,
         messageKey: auth.message,
@@ -41,7 +54,7 @@ export async function GET(req, { params }) {
         requireSubscription: auth.requireSubscription,
         redirect: auth.redirect,
       },
-      { status: auth.status }
+      auth.status
     );
   }
 
@@ -49,15 +62,15 @@ export async function GET(req, { params }) {
   const job = getResearchJob(jobId);
   const jobSnapshot = job || await getResearchJobSnapshot(jobId);
   if (!jobSnapshot) {
-    return NextResponse.json(
+    return json(
       { ok: false, messageKey: "research.error.not_found", message: "research.error.not_found" },
-      { status: 404 }
+      404
     );
   }
   if (!assertResearchAccess(jobSnapshot, auth.userId)) {
-    return NextResponse.json(
+    return json(
       { ok: false, messageKey: "api.common.forbidden", message: "api.common.forbidden" },
-      { status: 403 }
+      403
     );
   }
 

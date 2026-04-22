@@ -397,6 +397,10 @@ function paidAtOrNow(value) {
   return new Date();
 }
 
+function asPlainObject(value) {
+  return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+}
+
 async function upsertRecurringBillingMethod(tx, payment, payload, paidAt) {
   if (!payment?.subscriptionId) return null;
   const recurringToken = extractRecurringToken(payload);
@@ -668,6 +672,7 @@ export async function POST(request) {
           where: { id: payment.id },
           data: {
             raw: {
+              ...asPlainObject(payment.raw),
               source: "maksekeskus_webhook",
               payload
             }
@@ -700,6 +705,7 @@ export async function POST(request) {
           ...(nextStatus === PaymentStatus.FAILED || nextStatus === PaymentStatus.CANCELED ? { failedAt: new Date() } : {}),
           ...(nextStatus === PaymentStatus.REFUNDED ? { refundedAt: new Date() } : {}),
           raw: {
+            ...asPlainObject(payment.raw),
             source: "maksekeskus_webhook",
             payload,
             subscriptionAction

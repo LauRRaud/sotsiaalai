@@ -96,6 +96,10 @@ export async function POST(request) {
   const session = await getOptionalSession()
   const userId = session?.user?.id ? String(session.user.id) : ""
 
+  if (!userId) {
+    return errorJson("api.common.unauthorized", 401, locale)
+  }
+
   const rateLimitResponse = enforceDocumentsRateLimit(request, {
     scope: "materials_upload",
     userId,
@@ -138,29 +142,27 @@ export async function POST(request) {
     }))
     const totalBytes = sumFileBytes(validatedFiles)
 
-    if (userId) {
-      const role = effectiveRoleFromSession(session)
-      const storageQuotaBytes = getStorageQuotaBytes(role)
-      const [storageUsageBytes, dailyUploadBytes] = await Promise.all([
-        getUserStorageUsageBytes(userId),
-        getUserDailyUploadBytes(userId, getUtcDayStart())
-      ])
+    const role = effectiveRoleFromSession(session)
+    const storageQuotaBytes = getStorageQuotaBytes(role)
+    const [storageUsageBytes, dailyUploadBytes] = await Promise.all([
+      getUserStorageUsageBytes(userId),
+      getUserDailyUploadBytes(userId, getUtcDayStart())
+    ])
 
-      if (storageUsageBytes.totalBytes + totalBytes > storageQuotaBytes) {
-        return errorJson("materials_page.errors.storage_quota_exceeded", 413, locale, {
-          scope: "storage_quota",
-          limit: storageQuotaBytes,
-          used: storageUsageBytes.totalBytes
-        })
-      }
+    if (storageUsageBytes.totalBytes + totalBytes > storageQuotaBytes) {
+      return errorJson("materials_page.errors.storage_quota_exceeded", 413, locale, {
+        scope: "storage_quota",
+        limit: storageQuotaBytes,
+        used: storageUsageBytes.totalBytes
+      })
+    }
 
-      if (dailyUploadBytes + totalBytes > getDailyUploadQuotaBytes()) {
-        return errorJson("materials_page.errors.daily_upload_quota_exceeded", 429, locale, {
-          scope: "daily_upload",
-          limit: getDailyUploadQuotaBytes(),
-          used: dailyUploadBytes
-        })
-      }
+    if (dailyUploadBytes + totalBytes > getDailyUploadQuotaBytes()) {
+      return errorJson("materials_page.errors.daily_upload_quota_exceeded", 429, locale, {
+        scope: "daily_upload",
+        limit: getDailyUploadQuotaBytes(),
+        used: dailyUploadBytes
+      })
     }
 
     await ensureMaterialsStorage()
@@ -180,7 +182,7 @@ export async function POST(request) {
       storedEntries.map((entry) =>
         prisma.materialSubmission.create({
           data: {
-            submittedByUserId: userId || null,
+            submittedByUserId: userId,
             comment,
             originalName: String(entry.file.name || "material"),
             mime: entry.mime,

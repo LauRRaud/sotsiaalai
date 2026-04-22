@@ -29,6 +29,41 @@ function json(payload, status = 200) {
   });
 }
 
+function mapHelpRouteError(error, fallbackMessage = "HELP_LISTING_FAILED") {
+  const code = String(error?.code || error?.message || "").trim();
+  if (!code) {
+    return {
+      status: 500,
+      message: fallbackMessage
+    };
+  }
+
+  if (
+    code === "P2025"
+    || code.endsWith("_NOT_FOUND")
+  ) {
+    return {
+      status: 404,
+      message: code
+    };
+  }
+
+  if (
+    code.endsWith("_REQUIRED")
+    || code.endsWith("_INVALID")
+  ) {
+    return {
+      status: 400,
+      message: code
+    };
+  }
+
+  return {
+    status: 500,
+    message: fallbackMessage
+  };
+}
+
 async function requireUser() {
   try {
     const session = await getServerSession(authConfig);
@@ -107,7 +142,13 @@ export async function PATCH(request, context) {
   }
 
   const payload = await request.json().catch(() => ({}));
-  const updated = await updateRecord(kind, id, payload);
+  let updated = null;
+  try {
+    updated = await updateRecord(kind, id, payload);
+  } catch (error) {
+    const mapped = mapHelpRouteError(error, "HELP_LISTING_UPDATE_FAILED");
+    return json({ ok: false, message: mapped.message }, mapped.status);
+  }
 
   return json({
     ok: true,
@@ -133,7 +174,12 @@ export async function DELETE(_request, context) {
     return json({ ok: false, message: "api.common.forbidden" }, 403);
   }
 
-  await deleteRecord(kind, id);
+  try {
+    await deleteRecord(kind, id);
+  } catch (error) {
+    const mapped = mapHelpRouteError(error, "HELP_LISTING_DELETE_FAILED");
+    return json({ ok: false, message: mapped.message }, mapped.status);
+  }
   return json({
     ok: true,
     id

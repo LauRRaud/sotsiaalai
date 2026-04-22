@@ -13,14 +13,27 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
+
+function json(payload, status = 200) {
+  return NextResponse.json(payload, {
+    status,
+    headers: NO_STORE_HEADERS
+  });
+}
+
 function errorJson(messageKey, status = 400) {
-  return NextResponse.json(
+  return json(
     {
       ok: false,
       messageKey,
       message: messageKey,
     },
-    { status }
+    status
   );
 }
 
@@ -44,7 +57,7 @@ async function getAndAuthorizeJob(params, userId) {
 export async function GET(_req, { params }) {
   const auth = await requireResearchAuth();
   if (!auth.ok) {
-    return NextResponse.json(
+    return json(
       {
         ok: false,
         messageKey: auth.message,
@@ -52,12 +65,12 @@ export async function GET(_req, { params }) {
         requireSubscription: auth.requireSubscription,
         redirect: auth.redirect,
       },
-      { status: auth.status }
+      auth.status
     );
   }
   const check = await getAndAuthorizeJob(params, auth.userId);
   if (!check.ok) return check.response;
-  return NextResponse.json({
+  return json({
     ok: true,
     job: await getResearchJobResult(check.jobId),
   });
@@ -66,7 +79,7 @@ export async function GET(_req, { params }) {
 export async function DELETE(_req, { params }) {
   const auth = await requireResearchAuth();
   if (!auth.ok) {
-    return NextResponse.json(
+    return json(
       {
         ok: false,
         messageKey: auth.message,
@@ -74,11 +87,11 @@ export async function DELETE(_req, { params }) {
         requireSubscription: auth.requireSubscription,
         redirect: auth.redirect,
       },
-      { status: auth.status }
+      auth.status
     );
   }
   const check = await getAndAuthorizeJob(params, auth.userId);
   if (!check.ok) return check.response;
   await cancelResearchJob(check.job, "research.error.cancelled");
-  return NextResponse.json({ ok: true, status: "cancelled" });
+  return json({ ok: true, status: "cancelled" });
 }

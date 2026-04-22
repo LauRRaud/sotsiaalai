@@ -194,20 +194,20 @@ export async function POST(request, { params }) {
     }
 
     const { raw, hash } = randomToken();
-    await prisma.invite.update({
-      where: { id },
-      data: {
-        tokenHash: hash,
-        status: "SENT"
-      }
-    });
-
     await sendInviteEmail({
       to: invite.inviteeEmail,
       token: raw,
       roomTitle: invite.room?.title || serverT(locale, "rooms.fallback_title", undefined, "Room"),
       inviterName: auth.email || "SotsiaalAI",
       locale
+    });
+
+    await prisma.invite.update({
+      where: { id },
+      data: {
+        tokenHash: hash,
+        status: "SENT"
+      }
     });
 
     return json({

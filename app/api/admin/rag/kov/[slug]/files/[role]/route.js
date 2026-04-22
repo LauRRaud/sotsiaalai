@@ -33,6 +33,7 @@ export async function DELETE(request, { params }) {
       return errorJson("api.common.not_found", 404, auth.locale);
     }
 
+    await deleteStoredKovFile(existing.storagePath);
     await prisma.municipalityKovAdminFile.delete({
       where: {
         kovAdminId_role: {
@@ -41,7 +42,6 @@ export async function DELETE(request, { params }) {
         }
       }
     });
-    await deleteStoredKovFile(existing.storagePath);
     await prisma.municipalityKovAdmin.update({
       where: { id: entry.id },
       data:

@@ -20,6 +20,11 @@ const OPENAI_TTS_MODEL = process.env.OPENAI_TTS_MODEL || "gpt-4o-mini-tts";
 const OPENAI_TTS_VOICE = process.env.OPENAI_TTS_VOICE || "alloy";
 const TTS_RATE_LIMIT_WINDOW_MS = Number(process.env.TTS_RATE_LIMIT_WINDOW_MS || 60_000);
 const TTS_RATE_LIMIT_MAX = Number(process.env.TTS_RATE_LIMIT_MAX || 30);
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
 
 let cachedGcpTtsClient = null;
 let cachedGcpTtsClientKey = null;
@@ -47,7 +52,18 @@ function errorJson(messageKey, status, locale = "en", extras = {}) {
     message: translated,
     ...extras
   }, {
-    status
+    status,
+    headers: NO_STORE_HEADERS
+  });
+}
+
+function json(payload, status = 200, headers = {}) {
+  return NextResponse.json(payload, {
+    status,
+    headers: {
+      ...NO_STORE_HEADERS,
+      ...headers
+    }
   });
 }
 
@@ -131,29 +147,24 @@ export async function POST(req) {
   const role = roleState.effectiveRole;
   const gate = await requireSubscription(session, role);
   if (!gate.ok) {
-    return NextResponse.json({
+    return json({
       ok: false,
       messageKey: gate.message,
       message: serverT(uiLocale, gate.message, undefined, gate.message),
       redirect: gate.redirect,
       requireSubscription: gate.requireSubscription
-    }, {
-      status: gate.status
-    });
+    }, gate.status);
   }
 
   const ip = getRequestIpFromRequest(req);
   const limit = consumeRateLimit(`tts:${session.user.id}:${ip}`, TTS_RATE_LIMIT_MAX, TTS_RATE_LIMIT_WINDOW_MS);
   if (!limit.allowed) {
-    return NextResponse.json({
+    return json({
       ok: false,
       messageKey: "api.tts.rate_limited",
       message: serverT(uiLocale, "api.tts.rate_limited", undefined, "api.tts.rate_limited")
-    }, {
-      status: 429,
-      headers: {
-        "Retry-After": String(limit.retryAfterSec)
-      }
+    }, 429, {
+      "Retry-After": String(limit.retryAfterSec)
     });
   }
 
@@ -182,25 +193,23 @@ export async function POST(req) {
     });
   }
 
+  const preflightBudgetCheck = await canSpendMonthlyBudget(session.user.id, {
+    ttsRequests: 1
+  });
+  if (!preflightBudgetCheck.allowed) {
+    return errorJson("api.common.monthly_budget_exceeded", 429, localeFromRequest(req, locale), {
+      budgetEur: preflightBudgetCheck.budgetEur,
+      usedEur: preflightBudgetCheck.usedEur,
+      remainingEur: preflightBudgetCheck.remainingEur
+    });
+  }
+
   try {
     const result = googleEnabled ? await synthGoogle({ text, locale }) : await synthOpenAI({ text });
     if (!result.ok) {
       return errorJson(result.messageKey || "api.tts.synthesis_failed", 502, localeFromRequest(req, locale));
     }
     const durationSeconds = await readAudioDurationSecondsFromBuffer(result.audioBuffer, result.contentType);
-    if (durationSeconds != null) {
-      const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
-        ttsRequests: 1,
-        ttsMinutes: durationSeconds / 60
-      });
-      if (!budgetCheck.allowed) {
-        return errorJson("api.common.monthly_budget_exceeded", 429, localeFromRequest(req, locale), {
-          budgetEur: budgetCheck.budgetEur,
-          usedEur: budgetCheck.usedEur,
-          remainingEur: budgetCheck.remainingEur
-        });
-      }
-    }
     if (result.provider === "openai") {
       await logEvent("tts_cost_usage", {
         userId: session.user.id,
@@ -233,7 +242,7 @@ export async function POST(req) {
       textLength: text.length,
       durationSeconds: toNullableNumber(durationSeconds)
     });
-    return NextResponse.json({
+    return json({
       ok: true,
       audioContent: result.audioContent,
       contentType: result.contentType || "audio/mpeg",

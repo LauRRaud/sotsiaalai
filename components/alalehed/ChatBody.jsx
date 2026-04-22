@@ -44,13 +44,8 @@ const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
 const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
-const CAREER_WORKFLOW_ENABLED =
-  String(process.env.NEXT_PUBLIC_ENABLE_CAREER_WORKFLOW || "")
-    .trim()
-    .toLowerCase() === "true";
 const ACTIVE_CHAT_WORKFLOW_VALUES = Object.freeze([
   "default",
-  "career",
   "help_request",
   "help_offer"
 ]);
@@ -103,9 +98,6 @@ function createEmptySelectedListingState() {
 
 function normalizeActiveWorkflow(value) {
   const normalized = String(value || "").trim().toLowerCase();
-  if (normalized === "career" && !CAREER_WORKFLOW_ENABLED) {
-    return "default";
-  }
   return ACTIVE_CHAT_WORKFLOW_VALUES.includes(normalized) ? normalized : "default";
 }
 
@@ -150,19 +142,6 @@ function getEmptyIntroSeenStorageKey({
   return `${CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX}:${uid}:${role}:${loc}:${convId}`;
 }
 
-function getCareerSessionStorageKey({
-  convId,
-  userId,
-  userRole,
-  locale
-}) {
-  if (!convId) return null;
-  const uid = userId || "anon";
-  const role = (userRole || "CLIENT").toLowerCase();
-  const loc = locale || "et";
-  return `sotsiaalai:career-session:${uid}:${role}:${loc}:${convId}`;
-}
-
 function getConversationRenderLimitStorageKey({
   convId,
   userId,
@@ -202,63 +181,6 @@ function isEditableElement(node) {
   return tag === "TEXTAREA" || tag === "INPUT" || node.isContentEditable;
 }
 
-function formatCareerAnswerForDisplay(question, answer, answerLabel = null) {
-  if (typeof answerLabel === "string" && answerLabel.trim()) {
-    return answerLabel.trim();
-  }
-
-  if (question?.type === "boolean") {
-    return answer === true ? "Jah" : answer === false ? "Ei" : "";
-  }
-
-  if (Array.isArray(answer)) {
-    return answer
-      .map((item) => String(item || "").trim())
-      .filter(Boolean)
-      .join(", ");
-  }
-
-  if (typeof answer === "string") {
-    return answer.trim();
-  }
-
-  if (typeof answer === "number") {
-    return String(answer);
-  }
-
-  return "";
-}
-
-function parseCareerBooleanAnswer(value) {
-  const normalized = String(value || "").trim().toLowerCase();
-  if (!normalized) return null;
-
-  if (["jah", "jaa", "ja", "yes", "y", "true", "1", "да", "ага"].includes(normalized)) {
-    return true;
-  }
-
-  if (["ei", "ei.", "eip", "no", "n", "false", "0", "нет", "не"].includes(normalized)) {
-    return false;
-  }
-
-  return null;
-}
-
-function inferCareerBooleanFromContext(value) {
-  const normalized = String(value || "").trim().toLowerCase();
-  if (!normalized) return null;
-
-  if (/(ei sobi|pole sobiv|ei saa|ei ole voimalik|ei ole võimalik|kindlasti ei)/i.test(normalized)) {
-    return false;
-  }
-
-  if (/(sobib|saan|voin|võin|olen valmis|on võimalik|saaksin|liigun|liikuda saan|kaugtöö sobib)/i.test(normalized)) {
-    return true;
-  }
-
-  return null;
-}
-
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
@@ -293,9 +215,6 @@ export default function ChatBody({
   const sessionUserRole = effectiveRole;
   const userRole = effectiveRole;
   const voiceEnabled = Boolean(session?.user?.isAdmin || session?.subActive);
-  const careerAccessReady = status !== "loading";
-  const hasCareerAccess = Boolean(session?.user?.isAdmin || session?.subActive);
-  const careerModeLocked = careerAccessReady && !hasCareerAccess;
   const [inputFocused, setInputFocused] = useState(false);
   const {
     isMobile,
@@ -306,11 +225,6 @@ export default function ChatBody({
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [activeWorkflow, setActiveWorkflow] = useState("default");
-  const [careerProfile, setCareerProfile] = useState(null);
-  const [careerRuntime, setCareerRuntime] = useState(null);
-  const [careerLastResult, setCareerLastResult] = useState(null);
-  const [careerCurrentState, setCareerCurrentState] = useState(null);
-  const [careerLoading, setCareerLoading] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const autoLoginHandledRef = useRef(false);
@@ -337,7 +251,6 @@ export default function ChatBody({
   const viewportIsMobile = hasHydrated ? isMobile : false;
   const [layoutTransitionsReady, setLayoutTransitionsReady] = useState(false);
   const listingsPanelCloseTimerRef = useRef(null);
-  const careerTurnRequestRef = useRef(0);
   const maskRefreshRef = useRef(null);
   const chatWindowRef = useRef(null);
   const chatContainerRef = useRef(null);
@@ -351,7 +264,6 @@ export default function ChatBody({
   const maskLayerRef = useRef(null);
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
-  const processedCareerUploadRef = useRef("");
   const refreshMask = useCallback((options = {}) => {
     const immediate = options.immediate === true;
     const mobileImmediate = options.mobileImmediate === true;
@@ -733,13 +645,6 @@ export default function ChatBody({
     userRole: sessionUserRole,
     locale
   }), [convId, locale, sessionUserId, sessionUserRole]);
-  const careerSessionHydratedRef = useRef(false);
-  const careerSessionStorageKey = useMemo(() => getCareerSessionStorageKey({
-    convId,
-    userId: sessionUserId,
-    userRole: sessionUserRole,
-    locale
-  }), [convId, locale, sessionUserId, sessionUserRole]);
   const emptyIntroSeenStorageKey = useMemo(() => getEmptyIntroSeenStorageKey({
     convId,
     userId: sessionUserId,
@@ -761,13 +666,6 @@ export default function ChatBody({
   useEffect(() => {
     setEmptyIntroSeenOverride(false);
   }, [emptyIntroSeenStorageKey]);
-  const resetCareerSession = useCallback(() => {
-    setActiveWorkflow("default");
-    setCareerProfile(null);
-    setCareerRuntime(null);
-    setCareerLastResult(null);
-    setCareerCurrentState(null);
-  }, []);
   useEffect(() => {
     if (!isRoomMode) return;
     setActiveWorkflow("default");
@@ -777,71 +675,6 @@ export default function ChatBody({
     setListingsPanelState(createEmptyListingsPanelState());
     setSelectedListingState(createEmptySelectedListingState());
   }, [isRoomMode]);
-  const goToSubscription = useCallback(() => {
-    pushWithTransition(router, localizePath("/tellimus", locale));
-  }, [locale, router]);
-  useEffect(() => {
-    if (!careerSessionStorageKey || typeof window === "undefined") return;
-    careerSessionHydratedRef.current = false;
-    try {
-      const raw = window.sessionStorage.getItem(careerSessionStorageKey);
-      if (!raw) return;
-      const parsed = JSON.parse(raw);
-      setActiveWorkflow(normalizeActiveWorkflow(parsed?.activeWorkflow));
-      setCareerProfile(parsed?.careerProfile || null);
-      setCareerRuntime(parsed?.careerRuntime || null);
-      setCareerLastResult(parsed?.careerLastResult || null);
-      setCareerCurrentState(parsed?.careerCurrentState || null);
-    } catch {}
-    finally {
-      careerSessionHydratedRef.current = true;
-    }
-  }, [careerSessionStorageKey]);
-  useEffect(() => {
-    if (!careerAccessReady || hasCareerAccess) return;
-    if (
-      activeWorkflow !== "career" &&
-      !careerProfile &&
-      !careerRuntime &&
-      !careerLastResult &&
-      !careerCurrentState
-    ) {
-      return;
-    }
-    resetCareerSession();
-  }, [
-    activeWorkflow,
-    careerAccessReady,
-    careerCurrentState,
-    careerLastResult,
-    careerProfile,
-    careerRuntime,
-    hasCareerAccess,
-    resetCareerSession
-  ]);
-  useEffect(() => {
-    if (!careerSessionStorageKey || typeof window === "undefined") return;
-    if (!careerSessionHydratedRef.current) return;
-    try {
-      if (
-        activeWorkflow === "default" &&
-        !careerProfile &&
-        !careerRuntime &&
-        !careerLastResult &&
-        !careerCurrentState
-      ) {
-        window.sessionStorage.removeItem(careerSessionStorageKey);
-        return;
-      }
-      window.sessionStorage.setItem(careerSessionStorageKey, JSON.stringify({
-        activeWorkflow,
-        careerProfile,
-        careerRuntime,
-        careerLastResult,
-        careerCurrentState
-      }));
-    } catch {}
-  }, [activeWorkflow, careerCurrentState, careerLastResult, careerProfile, careerRuntime, careerSessionStorageKey]);
   const renderedMessages = useMemo(() => {
     const canShowIntroImmediately = emptyIntroSeen;
     const draftAllowsIntro = canShowIntroImmediately
@@ -907,9 +740,6 @@ export default function ChatBody({
     visibleMessagesCount: visibleMessages.length,
     isGeneratingRef
   });
-  const careerUploadPreview = analysis.uploadPreview;
-  const setCareerUploadPreview = analysis.setUploadPreview;
-  const closeCareerAnalysisPanel = analysis.closeAnalysisPanel;
   useChatInputHoleMask({
     containerRef: chatContainerRef,
     inputRowRef,
@@ -986,40 +816,10 @@ export default function ChatBody({
   const closeSourcesPanel = useCallback(() => {
     setShowSourcesPanel(false);
   }, []);
-  const singlePendingCareerQuestion = useMemo(() => {
-    const pendingQuestions = Array.isArray(careerLastResult?.questions)
-      ? careerLastResult.questions
-      : Array.isArray(careerLastResult?.response?.questions)
-      ? careerLastResult.response.questions
-      : [];
-
-    return activeWorkflow === "career" && pendingQuestions.length > 0
-      ? pendingQuestions[0]
-      : null;
-  }, [activeWorkflow, careerLastResult]);
-  const careerCvQuestionPending =
-    singlePendingCareerQuestion?.id === "profile_cv_available";
-  const keepCareerUploadFocus =
-    activeWorkflow === "career" &&
-    careerCvQuestionPending &&
-    analysis.uploadBusy;
-  const suppressCareerCvPreview =
-    activeWorkflow === "career" &&
-    careerCvQuestionPending &&
-    Boolean(analysis.uploadPreview);
+  const keepCareerUploadFocus = false;
+  const suppressCareerCvPreview = false;
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
-  }, []);
-  const scrollConversationToBottom = useCallback(() => {
-    const scrollToLatest = () => {
-      const node = chatWindowRef.current;
-      if (!node) return;
-      node.scrollTop = node.scrollHeight;
-    };
-
-    requestAnimationFrame(scrollToLatest);
-    window.setTimeout(scrollToLatest, 60);
-    window.setTimeout(scrollToLatest, 180);
   }, []);
   const updateComposerMobileReserve = useCallback(() => {
     const container = chatContainerRef.current;
@@ -1106,30 +906,6 @@ export default function ChatBody({
     window.setTimeout(stickToBottom, 32);
     window.setTimeout(stickToBottom, 120);
   }, [inputFocused, keepCareerUploadFocus, refreshMask, updateComposerMobileReserve]);
-  const restoreComposerFocus = useCallback(() => {
-    if (blurTimerRef.current && typeof window !== "undefined") {
-      window.clearTimeout(blurTimerRef.current);
-      blurTimerRef.current = 0;
-    }
-
-    const focusField = () => {
-      const node = inputRef.current;
-      if (!node) return;
-      setInputFocused(true);
-      try {
-        if (!isMobile) {
-          node.focus({
-            preventScroll: true,
-          });
-          return;
-        }
-      } catch {}
-      node.focus?.();
-    };
-
-    requestAnimationFrame(focusField);
-    window.setTimeout(focusField, isMobile ? 140 : 0);
-  }, [isMobile]);
   const patchListingCollections = useCallback((kind, listing, mode = "replace") => {
     setListingsPanelState((prev) => {
       const nextItems = prev.items.filter((item) => !(item.kind === kind && item.id === listing.id));
@@ -1657,7 +1433,7 @@ export default function ChatBody({
     onFocusInput: focusInput,
     onAuthRedirect: () => setLoginOpen(true)
   });
-  const isGenerating = isChatGenerating || careerLoading;
+  const isGenerating = isChatGenerating;
   const stop = useCallback(() => {
     stopChatStream();
   }, [stopChatStream]);
@@ -1669,8 +1445,6 @@ export default function ChatBody({
     const nextConvId = String(requestedConvId || "").trim() || createConversationId();
 
     stop();
-    careerTurnRequestRef.current += 1;
-    setCareerLoading(false);
     setErrorBanner(null);
     setIsCrisis(false);
     setShowSourcesPanel(false);
@@ -1681,7 +1455,6 @@ export default function ChatBody({
     if (closeAnalysis) {
       analysis.closeAnalysisPanel?.();
     }
-    resetCareerSession();
     setMessages([]);
     renderLimitInitializedConvRef.current = null;
     setRenderLimit(MAX_RENDERED_MESSAGES);
@@ -1695,246 +1468,7 @@ export default function ChatBody({
     }
 
     return nextConvId;
-  }, [analysis, resetCareerSession, setConvId, setIsCrisis, setMessages, stop]);
-  const runCareerTurn = useCallback(async (payload = {}, options = {}) => {
-    const {
-      echoUserText = false,
-      userEchoText = null,
-      activateWorkflow = true,
-      restoreFocusAfterResponse = false,
-    } = options;
-
-    const rawText =
-      payload?.userMessage ||
-      payload?.message ||
-      payload?.text ||
-      null;
-
-    const trimmedText = typeof rawText === "string" ? rawText.trim() : "";
-    const echoText =
-      typeof userEchoText === "string" && userEchoText.trim()
-        ? userEchoText.trim()
-        : trimmedText;
-
-    if (echoUserText && echoText) {
-      appendMessage({
-        role: "user",
-        text: echoText,
-        aiVisible: true,
-      });
-      scrollConversationToBottom();
-    }
-
-    const requestId = careerTurnRequestRef.current + 1;
-    careerTurnRequestRef.current = requestId;
-    setCareerLoading(true);
-    setErrorBanner(null);
-
-    try {
-      const response = await fetch("/api/career-agent/run", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const body = await response.json().catch(() => ({}));
-
-      const isSubscriptionRequired =
-        body?.messageKey === "api.common.subscription_required" ||
-        body?.requireSubscription === true;
-      if (isSubscriptionRequired) {
-        goToSubscription();
-        return false;
-      }
-
-      const redirectTarget =
-        typeof body?.redirect === "string" ? body.redirect.trim() : "";
-      if (body?.messageKey === "api.common.unauthorized" && redirectTarget) {
-        pushWithTransition(router, redirectTarget);
-        return false;
-      }
-
-      if (!response.ok || body?.ok === false || !body?.result) {
-        throw new Error(body?.error || "Karjäärinõustamise käivitamine ebaõnnestus.");
-      }
-
-      const result = body.result;
-      if (careerTurnRequestRef.current !== requestId) {
-        return false;
-      }
-
-      if (activateWorkflow) {
-        setActiveWorkflow("career");
-      }
-
-      setCareerProfile(result.profile || null);
-      setCareerRuntime(result.runtime || null);
-      setCareerLastResult(result);
-      setCareerCurrentState(result.currentState || null);
-
-      appendMessage({
-        role: "ai",
-        text: "",
-        aiVisible: true,
-        careerResponse: result.response || null,
-        careerSecondaryResponse: result.secondaryResponse || null,
-        careerDocumentStep: result.documentStep || null,
-        careerGeneratedDocument: result.generatedDocument || null,
-        workflow: {
-          career: {
-            state: result.currentState || null,
-            mode: result.modeDecision?.mode || null,
-          },
-        },
-      });
-      scrollConversationToBottom();
-
-      return true;
-    } catch (error) {
-      if (careerTurnRequestRef.current !== requestId) {
-        return false;
-      }
-      const message =
-        error?.message || "Karjäärinõustamise käivitamine ebaõnnestus.";
-      setErrorBanner(message);
-      appendMessage({
-        role: "ai",
-        text: `Karjäärinõustamise käivitamine ebaõnnestus.\n\n${message}`,
-        aiVisible: true,
-      });
-      scrollConversationToBottom();
-      return false;
-    } finally {
-      if (careerTurnRequestRef.current === requestId) {
-        setCareerLoading(false);
-        if (
-          restoreFocusAfterResponse &&
-          (!analysis.showAnalysisPanel || suppressCareerCvPreview)
-        ) {
-          restoreComposerFocus();
-        }
-      }
-    }
-  }, [analysis.showAnalysisPanel, appendMessage, goToSubscription, restoreComposerFocus, router, scrollConversationToBottom, suppressCareerCvPreview]);
-  const buildCareerCvPayload = useCallback(() => {
-    if (activeWorkflow !== "career" || !analysis.uploadPreview) {
-      return {};
-    }
-
-    const fullText =
-      typeof analysis.uploadPreview?.fullText === "string"
-        ? analysis.uploadPreview.fullText.trim()
-        : "";
-    const preview =
-      typeof analysis.uploadPreview?.preview === "string"
-        ? analysis.uploadPreview.preview.trim()
-        : "";
-    const cvText = fullText || preview;
-
-    if (!cvText) {
-      return {};
-    }
-
-    const cvFileName = String(analysis.uploadPreview?.fileName || "").trim();
-
-    return {
-      cvText,
-      ...(cvFileName ? { cvFileName } : {}),
-    };
-  }, [activeWorkflow, analysis.uploadPreview]);
-  const buildCareerProfilePayload = useCallback(() => {
-    const baseProfile =
-      careerProfile && typeof careerProfile === "object"
-        ? careerProfile
-        : {};
-
-    if (activeWorkflow !== "career" || !analysis.uploadPreview) {
-      return baseProfile;
-    }
-
-    const sourceMode =
-      baseProfile.sourceMode && typeof baseProfile.sourceMode === "object"
-        ? baseProfile.sourceMode
-        : {};
-    const activeModes = Array.isArray(sourceMode.activeModes)
-      ? sourceMode.activeModes
-      : [];
-
-    return {
-      ...baseProfile,
-      sourceMode: {
-        ...sourceMode,
-        activeModes: Array.from(new Set([...activeModes, "cv_upload"])),
-        cvUploaded: true,
-      },
-    };
-  }, [activeWorkflow, analysis.uploadPreview, careerProfile]);
-  const buildCareerRuntimePayload = useCallback(() => {
-    const baseRuntime = {
-      ...(careerRuntime || {}),
-      ...(careerCurrentState ? { currentState: careerCurrentState } : {}),
-    };
-
-    if (activeWorkflow !== "career" || !analysis.uploadPreview) {
-      return baseRuntime;
-    }
-
-    return {
-      ...baseRuntime,
-      profileCvChecked: true,
-      profileCvAvailable: true,
-    };
-  }, [activeWorkflow, analysis.uploadPreview, careerCurrentState, careerRuntime]);
-  const handleCareerQuestionAnswer = useCallback((question, answer, answerLabel = null) => {
-    const questionId = question?.id;
-    if (!questionId) return false;
-
-    const echoText = formatCareerAnswerForDisplay(question, answer, answerLabel);
-    const shouldRestoreFocus =
-      document.activeElement === inputRef.current || inputFocused;
-    const shouldAttachCvPayload =
-      questionId === "profile_cv_available" && answer === true;
-
-    void runCareerTurn(
-      {
-        questionId,
-        answer,
-        profile: buildCareerProfilePayload(),
-        runtime: buildCareerRuntimePayload(),
-        ...(shouldAttachCvPayload ? buildCareerCvPayload() : {}),
-      },
-      {
-        echoUserText: Boolean(echoText),
-        userEchoText: echoText,
-        activateWorkflow: true,
-        restoreFocusAfterResponse: shouldRestoreFocus,
-      }
-    );
-
-    return true;
-  }, [buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, inputFocused, runCareerTurn]);
-  const activateCareerMode = useCallback(() => {
-    if (!CAREER_WORKFLOW_ENABLED) return false;
-    if (!careerAccessReady) return false;
-    if (careerModeLocked) {
-      goToSubscription();
-      return false;
-    }
-    startFreshConversation("career");
-    void runCareerTurn(
-      {
-        profile: {},
-        runtime: {},
-      },
-      {
-        echoUserText: false,
-        activateWorkflow: true,
-      }
-    );
-    return true;
-  }, [careerAccessReady, careerModeLocked, goToSubscription, runCareerTurn, startFreshConversation]);
+  }, [analysis, setConvId, setIsCrisis, setMessages, stop]);
   const activateInfoMode = useCallback(() => {
     startFreshConversation("default");
     return true;
@@ -1950,100 +1484,8 @@ export default function ChatBody({
   const handleSendMessage = useCallback(async (rawText) => {
     const text = String(rawText || "").trim();
     if (!text) return false;
-    const shouldUseCareerWorkflow = activeWorkflow === "career";
-
-    if (shouldUseCareerWorkflow) {
-      if (!careerAccessReady) return false;
-      if (careerModeLocked) {
-        goToSubscription();
-        return false;
-      }
-    }
-
-    if (!shouldUseCareerWorkflow) {
-      return sendMessage(text);
-    }
-
-    const singleQuestionAnswer =
-      singlePendingCareerQuestion?.type === "boolean"
-        ? parseCareerBooleanAnswer(text) ?? inferCareerBooleanFromContext(text)
-        : text;
-    const shouldAttachCvPayload =
-      singlePendingCareerQuestion?.id === "profile_cv_available" &&
-      singleQuestionAnswer === true;
-
-    const payload =
-      singlePendingCareerQuestion
-        ? {
-            questionId: singlePendingCareerQuestion?.id,
-            answer: singleQuestionAnswer,
-            profile: buildCareerProfilePayload(),
-            runtime: buildCareerRuntimePayload(),
-            ...(shouldAttachCvPayload ? buildCareerCvPayload() : {}),
-          }
-        : {
-            userMessage: text,
-            profile: buildCareerProfilePayload(),
-            runtime: buildCareerRuntimePayload(),
-          };
-
-    const shouldRestoreFocus =
-      document.activeElement === inputRef.current || inputFocused;
-
-    return runCareerTurn(payload, {
-      echoUserText: true,
-      userEchoText: text,
-      activateWorkflow: true,
-      restoreFocusAfterResponse: shouldRestoreFocus,
-    });
-  }, [activeWorkflow, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, careerAccessReady, careerModeLocked, goToSubscription, inputFocused, runCareerTurn, sendMessage, singlePendingCareerQuestion]);
-  useEffect(() => {
-    if (activeWorkflow !== "career") {
-      processedCareerUploadRef.current = "";
-      return;
-    }
-
-    const uploadPreview = careerUploadPreview;
-    if (!uploadPreview) return;
-
-    if (singlePendingCareerQuestion?.id !== "profile_cv_available") {
-      return;
-    }
-
-    const uploadKey = [
-      String(uploadPreview?.fileName || "").trim(),
-      Number(uploadPreview?.chunksCount || 0),
-      Number(String(uploadPreview?.fullText || "").length),
-    ].join(":");
-
-    if (!uploadKey || processedCareerUploadRef.current === uploadKey) {
-      return;
-    }
-
-    processedCareerUploadRef.current = uploadKey;
-
-    const prettyFileName = prettifyFileName(uploadPreview?.fileName || "");
-    const echoText = prettyFileName
-      ? `Lisasin CV manusesse: ${prettyFileName}`
-      : "Lisasin CV manusesse";
-
-    void runCareerTurn(
-      {
-        questionId: "profile_cv_available",
-        answer: true,
-        profile: buildCareerProfilePayload(),
-        runtime: buildCareerRuntimePayload(),
-        ...buildCareerCvPayload(),
-      },
-      {
-        echoUserText: true,
-        userEchoText: echoText,
-        activateWorkflow: true,
-      }
-    );
-    setCareerUploadPreview?.(null);
-    closeCareerAnalysisPanel?.();
-  }, [activeWorkflow, buildCareerCvPayload, buildCareerProfilePayload, buildCareerRuntimePayload, careerUploadPreview, closeCareerAnalysisPanel, runCareerTurn, setCareerUploadPreview, singlePendingCareerQuestion]);
+    return sendMessage(text);
+  }, [sendMessage]);
   const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));
   }, []);
@@ -2055,9 +1497,8 @@ export default function ChatBody({
     } catch {}
   }, [emptyIntroSeenStorageKey]);
   const messageItems = useMemo(() => {
-    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} messageId={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} careerResponse={msg.careerResponse} careerSecondaryResponse={msg.careerSecondaryResponse} careerDocumentStep={msg.careerDocumentStep} careerGeneratedDocument={msg.careerGeneratedDocument} onCareerQuestionAnswer={handleCareerQuestionAnswer} aiVisible={!!msg.aiVisible} typingEffect={!!msg.typingEffect} onTypingComplete={msg.onTypingComplete === "emptyIntro" ? handleEmptyIntroTyped : undefined} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
-  }, [handleCareerQuestionAnswer, handleEmptyIntroTyped, isRoomMode, renderedMessages, t]);
-  const modeNotice = activeWorkflow === "career" ? "Aktiivne režiim: karjäärinõustamine" : null;
+    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} messageId={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} aiVisible={!!msg.aiVisible} typingEffect={!!msg.typingEffect} onTypingComplete={msg.onTypingComplete === "emptyIntro" ? handleEmptyIntroTyped : undefined} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
+  }, [handleEmptyIntroTyped, isRoomMode, renderedMessages, t]);
   const activeModeLabel = useMemo(() => {
     return getWorkflowModeLabel(t, activeWorkflow);
   }, [activeWorkflow, t]);
@@ -2483,7 +1924,6 @@ export default function ChatBody({
       errorBanner={errorBanner}
       roomBlocked={roomBlocked}
       roomAuthRequired={roomAuthRequired}
-      modeNotice={modeNotice}
       activeModeLabel={activeModeLabel}
       roomModeLabel={roomModeLabel}
       activeModeKey={activeWorkflow}
@@ -2509,14 +1949,10 @@ export default function ChatBody({
       onStop={stop}
       onSend={handleSendMessage}
       onActivateInfoMode={activateInfoMode}
-      onActivateCareerMode={activateCareerMode}
-      careerModeEnabled={CAREER_WORKFLOW_ENABLED}
       onActivateHelpRequestMode={activateHelpRequestMode}
       onActivateHelpOfferMode={activateHelpOfferMode}
-      careerModeLocked={careerModeLocked}
       hideComposerTools={hideComposerTools}
       documentFlowActive={documentFlowActive}
-      careerCvQuestionPending={careerCvQuestionPending}
       suppressCareerCvPreview={suppressCareerCvPreview}
       onPickDocumentFile={analysis.onPickFile}
       speakLatestReply={speakLatestReply}
@@ -2553,4 +1989,6 @@ export default function ChatBody({
     />
   </>;
 }
+
+
 
