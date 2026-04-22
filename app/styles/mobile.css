@@ -1836,9 +1836,9 @@
     min-height: 100% !important;
     height: 100% !important;
     max-height: 100% !important;
-    min-height: calc(var(--vh, 1vh) * 100) !important;
-    height: calc(var(--vh, 1vh) * 100) !important;
-    max-height: calc(var(--vh, 1vh) * 100) !important;
+    min-height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
+    height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
+    max-height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
     margin: 0 !important;
     padding-top: calc(env(safe-area-inset-top, 0px) + 0.4rem) !important;
     padding-right: 0 !important;
@@ -1876,13 +1876,13 @@
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .chat-page-shell,
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .chat-page-shell {
-    min-height: calc(var(--vh, 1vh) * 100) !important;
-    height: calc(var(--vh, 1vh) * 100) !important;
+    min-height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
+    height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]),
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) {
-    --glass-mobile-vh: calc(var(--vh, 1vh) * 100);
+    --glass-mobile-vh: calc(var(--app-vh, var(--vh, 1vh)) * 100);
     --glass-mobile-safe-top: 0px;
     --glass-mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
   }
@@ -1891,7 +1891,7 @@
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring {
     --glass-mobile-safe-top: 0px !important;
     --glass-mobile-height: calc(
-      (var(--vh, 1vh) * 100) -
+      (var(--app-vh, var(--vh, 1vh)) * 100) -
       var(--glass-mobile-safe-top, 0px) -
       var(--glass-mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
       var(--glass-mobile-gap, 0.35rem) -

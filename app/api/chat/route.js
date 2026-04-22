@@ -24,6 +24,7 @@ import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence"
 import { logEvent } from "@/lib/chat/logger";
 import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
 import { shouldUseExternalSourcesForTurn } from "@/lib/chat/sourceNeed";
+import { buildTemporalRetrievalPlan, buildTemporalBreakdownInstruction } from "@/lib/chat/retrievalPlanning";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 import { MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib/documents/constants";
@@ -246,6 +247,60 @@ function buildRagSearchQuery(message = "", history = []) {
     : [];
   const parts = [current, ...recent].filter(Boolean);
   return Array.from(new Set(parts)).join("\n");
+}
+
+async function searchRagQueries({
+  queries,
+  topK = RAG_TOP_K,
+  filters,
+  observabilityRoute = "api/chat",
+  observabilityStage = "rag_search",
+  userId = null,
+  role = null,
+  conversationId = null
+}) {
+  const uniqueQueries = Array.from(new Set((Array.isArray(queries) ? queries : [queries])
+    .map(query => String(query || "").trim())
+    .filter(Boolean)));
+  if (!uniqueQueries.length) return [];
+  if (uniqueQueries.length === 1) {
+    return searchRagDirect({
+      query: uniqueQueries[0],
+      topK,
+      filters,
+      observabilityRoute,
+      observabilityStage,
+      userId,
+      role,
+      conversationId
+    });
+  }
+
+  const perQueryTopK = Math.max(4, Math.min(topK, Math.ceil(topK / uniqueQueries.length) + 2));
+  const settled = await Promise.allSettled(uniqueQueries.map((query, index) =>
+    searchRagDirect({
+      query,
+      topK: perQueryTopK,
+      filters,
+      observabilityRoute,
+      observabilityStage: `${observabilityStage}_q${index + 1}`,
+      userId,
+      role,
+      conversationId
+    })
+  ));
+
+  const merged = [];
+  let firstError = null;
+  for (const item of settled) {
+    if (item.status === "fulfilled") {
+      merged.push(...(Array.isArray(item.value) ? item.value : []));
+    } else if (!firstError) {
+      firstError = item.reason;
+    }
+  }
+  if (!merged.length && firstError) throw firstError;
+  return dedupeRagMatches(merged);
 }
 
 function extractParagraphReferences(text = "") {
@@ -1815,11 +1870,26 @@ export async function POST(req) {
   const allowMunicipalityScopedRag = mentionedMunicipalities.length > 0 && !sourceLookupTargetsNationalLaw;
   const municipalityQuestionNeedsClarification =
     !allowMunicipalityScopedRag && isMunicipalityDependentSocialHelpQuestion(effectiveMessage);
+  const baseRagQueryText = sourceLookupRequest
+    ? buildSourceLookupSearchQuery(effectiveMessage, rawHistory)
+    : buildRagSearchQuery(effectiveMessage, rawHistory);
+  const temporalRetrievalPlan = sourceLookupRequest
+    ? {
+        enabled: false,
+        years: [],
+        queries: baseRagQueryText ? [baseRagQueryText] : []
+      }
+    : buildTemporalRetrievalPlan({
+        message: effectiveMessage,
+        history: rawHistory,
+        baseQuery: baseRagQueryText
+      });
   const extraSystemInstructions = [
     ...(municipalityQuestionNeedsClarification
       ? [missingMunicipalitySystemInstruction(normalizedRole, replyLang)]
       : []),
-    ...(sourceLookupRequest ? [sourceLookupSystemInstruction(replyLang)] : [])
+    ...(sourceLookupRequest ? [sourceLookupSystemInstruction(replyLang)] : []),
+    ...(temporalRetrievalPlan.enabled ? [buildTemporalBreakdownInstruction(replyLang, temporalRetrievalPlan.years)] : [])
   ];
   let matches = [];
   let groupedMatches = [];
@@ -1831,16 +1901,19 @@ export async function POST(req) {
   const shouldRunRag = externalSourcesNeeded && (!ephemeralChunks.length || combineSources) && !previousSourceUseRequest;
   if (shouldRunRag) {
     try {
-      const ragQueryText = sourceLookupRequest
-        ? buildSourceLookupSearchQuery(effectiveMessage, rawHistory)
-        : buildRagSearchQuery(effectiveMessage, rawHistory);
+      const ragQueryText = baseRagQueryText;
+      const ragQueries = sourceLookupRequest
+        ? [ragQueryText]
+        : temporalRetrievalPlan.enabled
+          ? temporalRetrievalPlan.queries
+          : [ragQueryText];
       const sourceLookupTopK = sourceLookupRequest
         ? sourceLookupParagraphRefs.length <= 1
           ? Math.min(12, Math.max(8, RAG_TOP_K))
           : Math.min(36, Math.max(RAG_TOP_K, sourceLookupParagraphRefs.length * 5))
         : null;
-      matches = await searchRagDirect({
-        query: ragQueryText,
+      matches = await searchRagQueries({
+        queries: ragQueries,
         topK: sourceLookupRequest
           ? sourceLookupTopK
           : allowMunicipalityScopedRag
@@ -1860,8 +1933,8 @@ export async function POST(req) {
         allowMunicipalityScoped: allowMunicipalityScopedRag
       });
       if (sourceLookupTargetsNationalLaw && matches.length === 0) {
-        const nationalFallbackMatches = await searchRagDirect({
-          query: ragQueryText,
+        const nationalFallbackMatches = await searchRagQueries({
+          queries: ragQueries,
           topK: sourceLookupRequest
             ? Math.min(24, Math.max(12, sourceLookupTopK || RAG_TOP_K))
             : Math.min(24, Math.max(12, RAG_TOP_K)),
@@ -1876,8 +1949,8 @@ export async function POST(req) {
         });
       }
       if (!allowMunicipalityScopedRag && !sourceLookupTargetsNationalLaw) {
-        const nationalMatches = await searchRagDirect({
-          query: ragQueryText,
+        const nationalMatches = await searchRagQueries({
+          queries: ragQueries,
           topK: sourceLookupRequest
             ? Math.min(24, Math.max(8, RAG_TOP_K))
             : Math.min(12, Math.max(4, RAG_TOP_K)),
