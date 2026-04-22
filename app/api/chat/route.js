@@ -26,7 +26,7 @@ import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence"
 import { logEvent } from "@/lib/chat/logger";
 import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
 import { shouldUseExternalSourcesForTurn } from "@/lib/chat/sourceNeed";
-import { buildTemporalRetrievalPlan, buildTemporalBreakdownInstruction, extractTopicHints } from "@/lib/chat/retrievalPlanning";
+import { buildTemporalRetrievalPlan, buildTemporalBreakdownInstruction, buildTemporalFillQueries, extractTopicHints } from "@/lib/chat/retrievalPlanning";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 import { MAX_ARTIFACT_SOURCE_DOCUMENTS } from "@/lib/documents/constants";
@@ -2044,12 +2044,12 @@ export async function POST(req) {
       );
       const missingYears = temporalRetrievalPlan.years.filter(year => !coveredYears.has(year));
       if (missingYears.length) {
-        const fallbackQueries = missingYears.map(year => ({
-          query: topicHints.length
-            ? [temporalRetrievalPlan.focusText || effectiveMessage, String(year)].filter(Boolean).join("\n").trim()
-            : `Eesti sotsiaalvaldkond sotsiaalpoliitika ${year}`,
-          filters: { year }
-        }));
+        const fallbackQueries = buildTemporalFillQueries({
+          years: missingYears,
+          focusText: temporalRetrievalPlan.focusText || effectiveMessage,
+          message: effectiveMessage,
+          topicHints
+        });
         const fallbackMatches = await searchRagQueries({
           queries: fallbackQueries,
           topK: Math.max(8, RAG_TOP_K),

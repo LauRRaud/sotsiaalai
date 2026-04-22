@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import {
   buildTemporalRetrievalPlan,
   buildTemporalBreakdownInstruction,
+  buildTemporalFillQueries,
   extractTopicHints
 } from "../../lib/chat/retrievalPlanning.js";
 
@@ -64,4 +65,17 @@ test("topic hints keep concrete domain keywords and drop generic timeline words"
   assert.ok(hints.includes("noustamine"));
   assert.ok(!hints.includes("aastatel"));
   assert.ok(!hints.includes("muutused"));
+});
+
+test("temporal fill queries create broader year-bounded fallbacks", () => {
+  const queries = buildTemporalFillQueries({
+    years: [2021],
+    focusText: "Mis on olnud suurimad muutused Eesti sotsiaalvaldkonnas iga aasta kohta",
+    topicHints: ["kov", "noustamine"]
+  });
+
+  assert.ok(queries.length >= 3);
+  assert.ok(queries.every(entry => entry.filters?.year === 2021));
+  assert.ok(queries.some(entry => /sotsiaalhoolekanne/i.test(entry.query)));
+  assert.ok(queries.some(entry => /sotsiaaltoo/i.test(entry.query)));
 });
