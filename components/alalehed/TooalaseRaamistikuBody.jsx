@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
+import Panel from "@/components/ui/Panel";
 import {
   glassPageBackTopLeftClassName,
   glassPageShellCenteredClassName,
@@ -52,11 +53,13 @@ const introTextClassName =
 const documentCardClassName =
   "framework-document-card mx-auto grid w-full max-w-none gap-[0.92rem] px-[0.52rem] py-[0.98rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.76rem] max-[768px]:px-[0.36rem] max-[768px]:py-[0.74rem]";
 const confirmPanelClassName =
-  `framework-confirm-panel ${glassSubpageCardClassName} grid gap-[0.85rem] rounded-[1rem] px-[1rem] py-[0.95rem] ` +
-  "max-[768px]:gap-[0.72rem] max-[768px]:px-[0.72rem] max-[768px]:py-[0.82rem]";
+  "framework-confirm-panel mt-[0.55rem] grid gap-[0.85rem] rounded-[1rem] [color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] " +
+  "max-[768px]:gap-[0.72rem] max-[768px]:!p-[0.78rem]";
 const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.36rem] font-[500] leading-[1.32] tracking-[0.01em] text-[color:var(--title-color,var(--brand-primary))]";
+const docTitleClassName =
+  "m-0 pt-[0.3rem] text-center text-[1.72rem] font-[500] leading-[1.2] tracking-[0.01em] text-[color:var(--title-color,var(--brand-primary))] max-[768px]:text-[1.56rem]";
 const docSubheadingClassName =
   "m-0 pt-[0.2rem] text-[1.22rem] font-[500] leading-[1.45] text-[color:var(--title-color,var(--brand-primary))]";
 const docLabelClassName =
@@ -82,7 +85,7 @@ const actionButtonClassName =
   "max-[768px]:!w-fit max-[768px]:!min-h-[3.2rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!px-[1rem] max-[768px]:!py-[0.82rem] max-[768px]:!text-[1.18rem]";
 const frameworkCheckboxRowClassName =
   "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
-  "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:#7A3A38] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+  "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:var(--title-color,var(--brand-primary))] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
   "[--otp-check-box-size:1.45rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:100%] [--otp-check-text-max-width-mobile:100%] [--otp-check-box-offset:0.08rem]";
 
 function FrameworkBlocks({ blocks = [] }) {
@@ -107,7 +110,7 @@ function FrameworkBlocks({ blocks = [] }) {
 
         if (block.type === "label") {
           return (
-            <p key={`${block.type}-${index}`} className={docLabelClassName}>
+            <p key={`${block.type}-${index}`} className={index === 0 ? docSubheadingClassName : docLabelClassName}>
               {block.text}
             </p>
           );
@@ -478,7 +481,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
                 {t("auth.register.worker_framework_download_signed")}
               </Button>
             </div>
-            <div className={confirmPanelClassName}>
+            <Panel variant="subpage" padding="sm" className={confirmPanelClassName}>
               {frameworkStatus.loading ? (
                 <p className={introTextClassName}>{t("documents.loading")}</p>
               ) : null}
@@ -538,7 +541,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
                 </>
               ) : null}
               {saveNotice ? <p className={introTextClassName}>{saveNotice}</p> : null}
-            </div>
+            </Panel>
           </section>
 
           <section
@@ -546,7 +549,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
             aria-label={documentTitle}
           >
             <div className={documentStackClassName}>
-              <h2 className={docHeadingClassName}>{documentTitle}</h2>
+              <h2 className={docTitleClassName}>{documentTitle}</h2>
               <FrameworkBlocks blocks={fullDocumentBlocks} />
             </div>
           </section>
