@@ -2,6 +2,7 @@
 
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/components/ui/cn";
+import { parseAssistantMarkdownBlocks } from "@/lib/chat/messageMarkdown";
 
 function splitGraphemes(text) {
   if (!text) return [];
@@ -25,66 +26,8 @@ function renderInlineMarkdown(text, keyPrefix) {
     .replace(/__([^_\n][\s\S]*?[^_\n])__/g, "$1");
 }
 
-function parseMarkdownBlocks(text) {
-  const lines = String(text || "").replace(/\r\n?/g, "\n").split("\n");
-  const blocks = [];
-  let paragraph = [];
-  let list = null;
-
-  const flushParagraph = () => {
-    const content = paragraph.join("\n").trim();
-    if (content) {
-      blocks.push({ type: "paragraph", text: content });
-    }
-    paragraph = [];
-  };
-
-  const flushList = () => {
-    if (list?.items?.length) {
-      blocks.push(list);
-    }
-    list = null;
-  };
-
-  for (const line of lines) {
-    const unordered = line.match(/^\s*[-*]\s+(.+)$/);
-    const ordered = line.match(/^\s*\d+[.)]\s+(.+)$/);
-    const isIndentedContinuation = /^\s{2,}\S/.test(line);
-
-    if (unordered || ordered) {
-      flushParagraph();
-      const type = ordered ? "ordered" : "unordered";
-      if (!list || list.type !== type) {
-        flushList();
-        list = { type, items: [] };
-      }
-      list.items.push((ordered || unordered)[1].trim());
-      continue;
-    }
-
-    if (isIndentedContinuation && list?.items?.length) {
-      const lastIndex = list.items.length - 1;
-      list.items[lastIndex] = `${list.items[lastIndex]}\n${line.trim()}`;
-      continue;
-    }
-
-    if (!line.trim()) {
-      flushParagraph();
-      flushList();
-      continue;
-    }
-
-    flushList();
-    paragraph.push(line);
-  }
-
-  flushParagraph();
-  flushList();
-  return blocks;
-}
-
 function AssistantMarkdown({ text }) {
-  const blocks = useMemo(() => parseMarkdownBlocks(text), [text]);
+  const blocks = useMemo(() => parseAssistantMarkdownBlocks(text), [text]);
 
   if (!blocks.length) return null;
 
