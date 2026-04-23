@@ -58,8 +58,6 @@ const confirmPanelClassName =
 const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.36rem] font-[500] leading-[1.32] tracking-[0.01em] text-[color:var(--title-color,var(--brand-primary))]";
-const docTitleClassName =
-  "m-0 pt-[0.3rem] text-center text-[1.42rem] font-[500] leading-[1.18] tracking-[0.002em] text-[color:var(--title-color,var(--brand-primary))] min-[769px]:whitespace-nowrap max-[768px]:text-[1.32rem]";
 const docSubheadingClassName =
   "m-0 pt-[0.2rem] text-[1.22rem] font-[500] leading-[1.45] text-[color:var(--title-color,var(--brand-primary))]";
 const docLabelClassName =
@@ -170,22 +168,28 @@ function getIntroCopy(locale) {
   const fallbackCopy = getNormalizedIntroCopy(locale);
   const compactIntroCopy = {
     et: {
-      introTitle: "Dokumendi allalaadimine ja kinnitus",
+      introTitle: "Andmete töötlemise kokkuleppe allalaadimine ja kinnitus",
       lead:
         "Laadi dokument alla või loe täisteksti allpool. Kinnituse saad salvestada pärast allkirjastatud eestikeelse raamdokumendi allalaadimist ja allkirjastamist.",
-      paragraphs: []
+      paragraphs: [
+        "SotsiaalAI platvormi kasutamiseks ei ole vaja lepingut. Lepinguline raamistik on mõeldud tööülesannete jaoks, kus SotsiaalAI abil töödeldakse kliendi või muu isiku isikuandmeid."
+      ]
     },
     en: {
-      introTitle: "Download and confirmation",
+      introTitle: "Data-processing agreement download and confirmation",
       lead:
         "Download the document or read the full text below. You can save the confirmation after downloading and signing the signed Estonian framework document.",
-      paragraphs: []
+      paragraphs: [
+        "You do not need an agreement to use the SotsiaalAI platform. The contractual framework is intended for work tasks where SotsiaalAI is used to process a client's or another person's personal data."
+      ]
     },
     ru: {
-      introTitle: "Скачивание и подтверждение документа",
+      introTitle: "Скачивание и подтверждение соглашения об обработке данных",
       lead:
         "Скачайте документ или прочитайте полный текст ниже. Подтверждение можно сохранить после скачивания и подписания подписанного эстонского рамочного документа.",
-      paragraphs: []
+      paragraphs: [
+        "Для использования платформы SotsiaalAI договор не требуется. Договорная рамка предназначена для рабочих задач, в которых с помощью SotsiaalAI обрабатываются персональные данные клиента или другого лица."
+      ]
     }
   };
 
@@ -549,7 +553,6 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
             aria-label={documentTitle}
           >
             <div className={documentStackClassName}>
-              <h2 className={docTitleClassName}>{documentTitle}</h2>
               <FrameworkBlocks blocks={fullDocumentBlocks} />
             </div>
           </section>
