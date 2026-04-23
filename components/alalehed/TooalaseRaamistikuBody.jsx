@@ -107,8 +107,16 @@ function FrameworkBlocks({ blocks = [] }) {
         }
 
         if (block.type === "label") {
+          if (index === 0) {
+            return (
+              <h3 key={`${block.type}-${index}`} className={docHeadingClassName}>
+                {block.text}
+              </h3>
+            );
+          }
+
           return (
-            <p key={`${block.type}-${index}`} className={index === 0 ? docSubheadingClassName : docLabelClassName}>
+            <p key={`${block.type}-${index}`} className={docLabelClassName}>
               {block.text}
             </p>
           );
