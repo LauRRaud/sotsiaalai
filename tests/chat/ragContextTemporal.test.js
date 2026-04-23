@@ -1,7 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { selectTemporalGroups } from "../../lib/chat/ragContext.js";
+import {
+  renderOneContextBlock,
+  selectTemporalGroups
+} from "../../lib/chat/ragContext.js";
 
 function group(title, year, rankScore = 0.7) {
   return {
@@ -49,4 +52,22 @@ test("temporal group selection can use retrospective sources that mention target
   );
 
   assert.deepEqual(selected.map(item => item.title), ["year 2020", "retrospective article"]);
+});
+
+test("rag context labels metadata year as source_year", () => {
+  const block = renderOneContextBlock(
+    {
+      title: "Sotsiaalvaldkonna võimalused",
+      journalTitle: "Sotsiaaltöö",
+      year: 2020,
+      jurisdictionLevel: "NATIONAL",
+      collectionId: "sotsiaaltoo_journal",
+      bodies: ["Allika sisu."]
+    },
+    0
+  );
+
+  assert.match(block, /source_year=2020/);
+  assert.match(block, /scope=NATIONAL/);
+  assert.match(block, /collection=sotsiaaltoo_journal/);
 });

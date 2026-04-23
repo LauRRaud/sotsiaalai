@@ -44,5 +44,6 @@ test("temporal instruction tells model to resolve short affirmative follow-ups",
   const instruction = buildTemporalBreakdownInstruction("et", [2018, 2019]);
 
   assert.match(instruction, /lühike nõusolek/);
+  assert.match(instruction, /source_year/);
   assert.match(instruction, /2018, 2019/);
 });
