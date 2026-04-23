@@ -59,7 +59,7 @@ const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.36rem] font-[500] leading-[1.32] tracking-[0.01em] text-[color:var(--title-color,var(--brand-primary))]";
 const docTitleClassName =
-  "m-0 pt-[0.3rem] text-center text-[1.72rem] font-[500] leading-[1.2] tracking-[0.01em] text-[color:var(--title-color,var(--brand-primary))] max-[768px]:text-[1.56rem]";
+  "m-0 pt-[0.3rem] text-center text-[1.42rem] font-[500] leading-[1.18] tracking-[0.002em] text-[color:var(--title-color,var(--brand-primary))] min-[769px]:whitespace-nowrap max-[768px]:text-[1.32rem]";
 const docSubheadingClassName =
   "m-0 pt-[0.2rem] text-[1.22rem] font-[500] leading-[1.45] text-[color:var(--title-color,var(--brand-primary))]";
 const docLabelClassName =
