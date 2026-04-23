@@ -53,7 +53,7 @@ const introTextClassName =
 const documentCardClassName =
   "framework-document-card mx-auto grid w-full max-w-none gap-[0.92rem] px-[0.52rem] py-[0.98rem] max-[768px]:w-full max-[768px]:max-w-none max-[768px]:gap-[0.76rem] max-[768px]:px-[0.36rem] max-[768px]:py-[0.74rem]";
 const confirmPanelClassName =
-  "framework-confirm-panel mt-[0.55rem] grid gap-[0.85rem] rounded-[1rem] [color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] " +
+  "framework-confirm-panel invite-list-panel mt-[0.55rem] grid gap-[0.85rem] rounded-[1rem] !border-0 !shadow-none [background:var(--chat-card-surface-night-standard-bg,var(--chat-card-surface-standard-bg,var(--subpage-card-bg)))] [color:var(--subpage-card-text)] " +
   "max-[768px]:gap-[0.72rem] max-[768px]:!p-[0.78rem]";
 const documentStackClassName = "grid gap-[0.82rem]";
 const docHeadingClassName =

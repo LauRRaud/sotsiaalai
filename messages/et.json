@@ -128,7 +128,7 @@
       "worker_framework_title": "Tööalase kasutuse raamistik",
       "worker_framework_note": "Kui kasutad SotsiaalAI-d tööülesannetes kliendi või muu isiku andmetega, pead enne jätkamist tutvuma tööalase kasutuse ja andmetöötluse raamistikuga ning alla laadima allkirjastatud eestikeelse raamdokumendi.",
       "worker_framework_open": "Ava raamistik",
-      "worker_framework_ack": "Kinnitan, et olen alla laadinud SotsiaalAI allkirjastatud eestikeelse raamdokumendi ja allkirjastanud selle koos oma tööandja või asutusega.",
+      "worker_framework_ack": "Kinnitan, et olen alla laadinud SotsiaalAI allkirjastatud eestikeelse raam­dokumendi ja allkirjastanud selle koos oma tööandja või asutusega.",
       "worker_framework_digital_mark_note": "See linnuke on digitaalne märge, mis sobib SotsiaalAI-le digiallkirja asemel.",
       "worker_framework_download_signed": "Allkirjastatud eestikeelne dokument",
       "worker_framework_download_docx": "DOCX dokument",
