@@ -169,19 +169,19 @@ function getIntroCopy(locale) {
     et: {
       introTitle: "Dokumendi allalaadimine ja kinnitus",
       lead:
-        "Laadi dokument alla või loe täisteksti allpool. Kinnituse saad salvestada pärast allkirjastatud raamdokumendi allalaadimist ja allkirjastamist.",
+        "Laadi dokument alla või loe täisteksti allpool. Kinnituse saad salvestada pärast allkirjastatud eestikeelse raamdokumendi allalaadimist ja allkirjastamist.",
       paragraphs: []
     },
     en: {
       introTitle: "Download and confirmation",
       lead:
-        "Download the document or read the full text below. You can save the confirmation after downloading and signing the signed framework document.",
+        "Download the document or read the full text below. You can save the confirmation after downloading and signing the signed Estonian framework document.",
       paragraphs: []
     },
     ru: {
       introTitle: "Скачивание и подтверждение документа",
       lead:
-        "Скачайте документ или прочитайте полный текст ниже. Подтверждение можно сохранить после скачивания и подписания рамочного документа.",
+        "Скачайте документ или прочитайте полный текст ниже. Подтверждение можно сохранить после скачивания и подписания подписанного эстонского рамочного документа.",
       paragraphs: []
     }
   };
@@ -412,6 +412,11 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
   const acceptance = frameworkStatus.acceptance || null;
   const isAccepted = acceptance?.accepted === true;
   const acceptedAtText = acceptance?.acceptedAt ? new Date(acceptance.acceptedAt).toLocaleString(locale || "et") : "";
+  const documentTitle = frameworkDocument?.title || t("auth.register.worker_framework_title");
+  const fullDocumentBlocks = [
+    ...(frameworkDocument?.prefaceBlocks || []),
+    ...(frameworkDocument?.documentBlocks || [])
+  ];
 
   return (
     <section className={shellClassName} lang={locale} onWheel={handleShellWheel}>
@@ -538,9 +543,12 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
 
           <section
             className={documentCardClassName}
-            aria-label={frameworkDocument?.title || t("auth.register.worker_framework_title")}
+            aria-label={documentTitle}
           >
-            <FrameworkBlocks blocks={frameworkDocument?.documentBlocks || []} />
+            <div className={documentStackClassName}>
+              <h2 className={docHeadingClassName}>{documentTitle}</h2>
+              <FrameworkBlocks blocks={fullDocumentBlocks} />
+            </div>
           </section>
         </div>
       </div>
