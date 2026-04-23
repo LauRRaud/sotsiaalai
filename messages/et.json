@@ -760,6 +760,7 @@
     },
     "deep_research": {
       "mode_label": "Süvauuring",
+      "input_placeholder": "Kirjuta uurimisküsimus või teema",
       "exit_mode_aria": "Välju süvauuringu režiimist",
       "running": "Süvauuring käib…",
       "stage_planning": "Planeerin alaküsimused…",
@@ -811,6 +812,7 @@
     "empty_intro": "Tere! Kirjelda lühidalt, mida soovid teada või milles juhendamist vajad. Kui soovid teist režiimi, vali see + märgi alt.",
     "empty_intro_help_request": "Kirjelda võimalikult selgelt, millist abi vajad. Pane kirja oluline teave, et sinu olukord ja abivajadus oleksid arusaadavad. Vajadusel küsin lisa.",
     "empty_intro_help_offer": "Kirjelda võimalikult selgelt, millist abi saad pakkuda. Pane kirja oluline teave, et oleks arusaadav, milles ja kuidas saad toeks olla. Vajadusel küsin lisa.",
+    "empty_intro_deep_research": "Süvauuringu režiim on käivitatud. Kirjuta teema või küsimus, mida soovid põhjalikumalt uurida. Režiimi lõpetamiseks vajuta luubi ikoonile.",
     "modeSelection": {
       "confirm": {
         "rag": "Sain aru, et soovid saada infot või juhendamist. Kas jätkame sellega?",

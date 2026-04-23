@@ -19,6 +19,22 @@ function createLocalizedError(key, values) {
   return err;
 }
 
+function readApiErrorKey(payload) {
+  const key = typeof payload?.messageKey === "string" ? payload.messageKey.trim() : "";
+  if (key) return key;
+  const message = typeof payload?.message === "string" ? payload.message.trim() : "";
+  if (!message) return "";
+  if (/^[a-z][a-z0-9_.:-]*$/i.test(message)) return message;
+  return "";
+}
+
+function getResearchProgressText(tr, stage) {
+  if (stage === "planning") return tr("chat.deep_research.stage_planning");
+  if (stage === "retrieving") return tr("chat.deep_research.stage_retrieving");
+  if (stage === "synthesizing") return tr("chat.deep_research.stage_synthesizing");
+  return tr("chat.deep_research.running");
+}
+
 function normalizeAttachments(payload) {
   if (!Array.isArray(payload)) return [];
   return payload
@@ -98,12 +114,22 @@ export function useChatStream(config) {
   }, [isGenerating]);
 
   const abortRef = useRef(null);
+  const researchJobIdRef = useRef(null);
+  const researchStreamingMessageIdRef = useRef(null);
 
   const stop = useCallback(() => {
+    const activeResearchJobId = researchJobIdRef.current;
+    if (activeResearchJobId && typeof fetch === "function") {
+      fetch(`/api/research/jobs/${encodeURIComponent(activeResearchJobId)}`, {
+        method: "DELETE"
+      }).catch(() => {});
+    }
     try {
       abortRef.current?.abort?.();
     } catch {}
     abortRef.current = null;
+    researchJobIdRef.current = null;
+    researchStreamingMessageIdRef.current = null;
     isGeneratingRef.current = false;
     setIsGenerating(false);
   }, []);
@@ -161,6 +187,224 @@ export function useChatStream(config) {
         cfg.setErrorBanner?.(tr("chat.room.send_error"));
         return false;
       }
+    }
+
+    if (cfg.activeWorkflow === "deep_research" && !cfg.isRoomMode) {
+      cfg.appendMessage?.({
+        role: "user",
+        text,
+        aiVisible: true
+      });
+
+      isGeneratingRef.current = true;
+      setIsGenerating(true);
+      cfg.onFocusInput?.();
+
+      const controller = new AbortController();
+      abortRef.current = controller;
+
+      let streamingMessageId = null;
+      let finalText = "";
+      let finalSources = [];
+      let completionState = "error";
+
+      const runResearch = async () => {
+        try {
+          const createResponse = await fetch("/api/research/jobs", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              query: text,
+              convId: cfg.convId,
+              persist: true,
+              uiLocale: cfg.locale || "et"
+            }),
+            signal: controller.signal
+          });
+          const createPayload = await createResponse.json().catch(() => ({}));
+
+          if (createResponse.status === 401) {
+            if (cfg.onAuthRedirect) {
+              cfg.onAuthRedirect();
+            } else if (typeof window !== "undefined") {
+              const callbackUrl = localizePath("/vestlus", cfg.locale || "et");
+              const params = new URLSearchParams({
+                callbackUrl
+              });
+              window.location.href = `/api/auth/signin?${params.toString()}`;
+            }
+            return true;
+          }
+
+          if (createResponse.status === 403) {
+            if (createPayload?.requireSubscription && createPayload?.redirect && typeof window !== "undefined") {
+              window.location.href = String(createPayload.redirect);
+              return true;
+            }
+            throw createLocalizedError(readApiErrorKey(createPayload) || "chat.deep_research.error_generic");
+          }
+
+          if (createResponse.status === 429) {
+            const key = readApiErrorKey(createPayload);
+            if (key) throw createLocalizedError(key);
+            throw createLocalizedError("chat.error.rate_limit_generic");
+          }
+
+          if (!createResponse.ok || createPayload?.ok === false || !createPayload?.id) {
+            throw createLocalizedError(readApiErrorKey(createPayload) || "chat.deep_research.error_generic");
+          }
+
+          const jobId = String(createPayload.id || "").trim();
+          if (!jobId) {
+            throw createLocalizedError("chat.deep_research.error_generic");
+          }
+          researchJobIdRef.current = jobId;
+
+          streamingMessageId = cfg.appendMessage?.({
+            role: "ai",
+            text: tr("chat.deep_research.running"),
+            isStreaming: true,
+            aiVisible: true,
+            ...(cfg.isRoomMode ? { roomScoped: true } : {})
+          });
+          researchStreamingMessageIdRef.current = streamingMessageId;
+          cfg.onAssistantMessageCreated?.(streamingMessageId);
+
+          const streamResponse = await fetch(`/api/research/jobs/${encodeURIComponent(jobId)}/stream`, {
+            cache: "no-store",
+            signal: controller.signal
+          });
+          if (!streamResponse.ok || !streamResponse.body) {
+            const streamPayload = await streamResponse.json().catch(() => ({}));
+            throw createLocalizedError(readApiErrorKey(streamPayload) || "chat.deep_research.error_generic");
+          }
+
+          const reader = (cfg.createSSEReader || defaultCreateSSEReader)(streamResponse.body);
+
+          for await (const ev of reader) {
+            if (ev.event === "status") {
+              try {
+                const payload = JSON.parse(ev.data || "{}");
+                const status = String(payload?.status || "").trim();
+                if ((status === "queued" || status === "running") && streamingMessageId != null) {
+                  cfg.mutateMessage?.(streamingMessageId, msg => ({
+                    ...msg,
+                    text: tr("chat.deep_research.running"),
+                    isStreaming: true
+                  }));
+                } else if (status === "done") {
+                  completionState = "done";
+                } else if (status === "cancelled") {
+                  completionState = "cancelled";
+                }
+              } catch {}
+              continue;
+            }
+
+            if (ev.event === "progress") {
+              try {
+                const payload = JSON.parse(ev.data || "{}");
+                const stage = String(payload?.stage || "").trim();
+                if (streamingMessageId != null) {
+                  cfg.mutateMessage?.(streamingMessageId, msg => ({
+                    ...msg,
+                    text: getResearchProgressText(tr, stage),
+                    isStreaming: true
+                  }));
+                }
+              } catch {}
+              continue;
+            }
+
+            if (ev.event === "result") {
+              try {
+                const payload = JSON.parse(ev.data || "{}");
+                finalText = String(payload?.result?.report_text || "").trim();
+                const normalize = cfg.normalizeSources || defaultNormalizeSources;
+                finalSources = normalize(payload?.result?.sources ?? []);
+              } catch {}
+              continue;
+            }
+
+            if (ev.event === "error") {
+              let errorKey = "chat.deep_research.error_generic";
+              try {
+                const payload = JSON.parse(ev.data || "{}");
+                const apiKey = readApiErrorKey(payload);
+                if (apiKey === "research.error.cancelled") {
+                  errorKey = "chat.deep_research.cancelled";
+                } else if (apiKey) {
+                  errorKey = apiKey;
+                }
+              } catch {}
+              throw createLocalizedError(errorKey);
+            }
+
+            if (ev.event === "done") {
+              break;
+            }
+          }
+
+          if (streamingMessageId != null) {
+            const nextText =
+              finalText ||
+              (completionState === "cancelled"
+                ? tr("chat.deep_research.cancelled")
+                : tr("chat.deep_research.error_generic"));
+            cfg.mutateMessage?.(streamingMessageId, msg => ({
+              ...msg,
+              text: nextText,
+              sources: finalSources,
+              isStreaming: false
+            }));
+          }
+
+          if (completionState === "done" && finalText) {
+            cfg.requestConversationsRefresh?.();
+            return true;
+          }
+          if (completionState === "cancelled") {
+            return false;
+          }
+          throw createLocalizedError("chat.deep_research.error_generic");
+        } catch (err) {
+          const errorKey =
+            err?.name === "AbortError"
+              ? "chat.deep_research.cancelled"
+              : err?.chatKey === "research.error.cancelled"
+                ? "chat.deep_research.cancelled"
+                : err?.chatKey || "chat.deep_research.error_generic";
+          const errorText = tr(errorKey, err?.chatValues);
+
+          if (streamingMessageId != null) {
+            cfg.mutateMessage?.(streamingMessageId, msg => ({
+              ...msg,
+              text: errorText,
+              sources: [],
+              isStreaming: false
+            }));
+          } else {
+            cfg.appendMessage?.({
+              role: "ai",
+              text: errorText,
+              ...(cfg.isRoomMode ? { roomScoped: true } : {})
+            });
+          }
+          return false;
+        } finally {
+          abortRef.current = null;
+          researchJobIdRef.current = null;
+          researchStreamingMessageIdRef.current = null;
+          isGeneratingRef.current = false;
+          setIsGenerating(false);
+          cfg.onFocusInput?.();
+        }
+      };
+
+      void runResearch();
+      return true;
     }
 
     const shouldSendToAssistant = cfg.isRoomMode ? cfg.sendToAssistant : true;
@@ -267,15 +511,6 @@ export function useChatStream(config) {
           }
           return parsedBody;
         };
-        const readApiErrorKey = payload => {
-          const key = typeof payload?.messageKey === "string" ? payload.messageKey.trim() : "";
-          if (key) return key;
-          const message = typeof payload?.message === "string" ? payload.message.trim() : "";
-          if (!message) return "";
-          if (/^[a-z][a-z0-9_.:-]*$/i.test(message)) return message;
-          return "";
-        };
-
         if (res.status === 401) {
           if (cfg.onAuthRedirect) {
             cfg.onAuthRedirect();

@@ -46,6 +46,7 @@ const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
 const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
 const ACTIVE_CHAT_WORKFLOW_VALUES = Object.freeze([
   "default",
+  "deep_research",
   "help_request",
   "help_offer"
 ]);
@@ -102,12 +103,19 @@ function normalizeActiveWorkflow(value) {
 }
 
 function getEmptyIntroMessage(t, workflow) {
+  if (workflow === "deep_research") return t("chat.empty_intro_deep_research");
   if (workflow === "help_request") return t("chat.empty_intro_help_request");
   if (workflow === "help_offer") return t("chat.empty_intro_help_offer");
   return t("chat.empty_intro");
 }
 
 function getWorkflowModeLabel(t, workflow) {
+  if (workflow === "deep_research") {
+    const value = t("chat.deep_research.mode_label");
+    return value && value !== "chat.deep_research.mode_label"
+      ? value
+      : "Süvauuring";
+  }
   if (workflow === "career") {
     const value = t("chat.tools.career_mode");
     return value && value !== "chat.tools.career_mode"
@@ -1469,10 +1477,37 @@ export default function ChatBody({
 
     return nextConvId;
   }, [analysis, setConvId, setIsCrisis, setMessages, stop]);
-  const activateInfoMode = useCallback(() => {
+  const activateInfoMode = useCallback((options = null) => {
+    const preserveConversation = Boolean(options?.preserveConversation);
+    const stopActiveRun = Boolean(options?.stopActiveRun);
+    if (stopActiveRun) {
+      stop();
+    }
+    if (preserveConversation) {
+      setActiveWorkflow("default");
+      return true;
+    }
     startFreshConversation("default");
     return true;
-  }, [startFreshConversation]);
+  }, [startFreshConversation, stop]);
+  const activateDeepResearchMode = useCallback(() => {
+    if (isRoomMode) {
+      setErrorBanner(t("chat.tools.deep_research_room_only"));
+      return false;
+    }
+    if (activeWorkflow === "deep_research") {
+      return true;
+    }
+    setErrorBanner(null);
+    setIsCrisis(false);
+    setActiveWorkflow("deep_research");
+    appendMessage({
+      role: "ai",
+      text: getEmptyIntroMessage(t, "deep_research"),
+      aiVisible: true
+    });
+    return true;
+  }, [activeWorkflow, appendMessage, isRoomMode, setIsCrisis, t]);
   const activateHelpRequestMode = useCallback(() => {
     startFreshConversation("help_request");
     return true;
@@ -1502,6 +1537,8 @@ export default function ChatBody({
   const activeModeLabel = useMemo(() => {
     return getWorkflowModeLabel(t, activeWorkflow);
   }, [activeWorkflow, t]);
+  const composerPlaceholderText = t("chat.input.placeholder");
+  const composerForcePlaceholderVisible = false;
   const roomModeLabel = useMemo(() => {
     if (!isRoomMode) return "";
     const compactRoomTitle = getCompactRoomTitle(roomTitle);
@@ -1949,8 +1986,11 @@ export default function ChatBody({
       onStop={stop}
       onSend={handleSendMessage}
       onActivateInfoMode={activateInfoMode}
+      onActivateDeepResearchMode={activateDeepResearchMode}
       onActivateHelpRequestMode={activateHelpRequestMode}
       onActivateHelpOfferMode={activateHelpOfferMode}
+      placeholderText={composerPlaceholderText}
+      forcePlaceholderVisible={composerForcePlaceholderVisible}
       hideComposerTools={hideComposerTools}
       documentFlowActive={documentFlowActive}
       suppressCareerCvPreview={suppressCareerCvPreview}

@@ -760,6 +760,7 @@
     },
     "deep_research": {
       "mode_label": "Deep research",
+      "input_placeholder": "Write the research question or topic",
       "exit_mode_aria": "Exit deep research mode",
       "running": "Deep research in progress…",
       "stage_planning": "Planning subquestions…",
@@ -811,6 +812,7 @@
     "empty_intro": "Hello! Briefly describe what you want to know or what guidance you need. If you want another mode, choose it from the + menu.",
     "empty_intro_help_request": "Describe as clearly as possible what help you need. Include the key details so that your situation and need for help are easy to understand. If needed, I will ask for more.",
     "empty_intro_help_offer": "Describe as clearly as possible what help you can offer. Include the key details so that it is clear what kind of support you can provide and how. If needed, I will ask for more.",
+    "empty_intro_deep_research": "Deep research mode is on. Write the topic or question you want to investigate more thoroughly. To leave this mode, press the magnifier icon.",
     "modeSelection": {
       "confirm": {
         "rag": "I understood that you want information and guidance. Shall we continue with that?",

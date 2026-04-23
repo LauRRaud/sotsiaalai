@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
@@ -48,6 +48,37 @@ function DocumentModeIcon({
   );
 }
 
+function DeepResearchIcon({
+  stroke,
+  className,
+  strokeWidth = 1.8,
+  ...props
+}) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      {...props}
+    >
+      <circle
+        cx="10.5"
+        cy="10.5"
+        r="5.4"
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+      />
+      <path
+        d="M14.55 14.55 19 19"
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function ChatComposer({
   t,
   locale = "et",
@@ -73,6 +104,7 @@ export default function ChatComposer({
   onStop,
   onSend,
   onActivateInfoMode,
+  onActivateDeepResearchMode,
   onActivateHelpRequestMode,
   onActivateHelpOfferMode,
   showDocumentAttachButton = false,
@@ -207,12 +239,29 @@ export default function ChatComposer({
     helpOfferModeLabelRaw && helpOfferModeLabelRaw !== "chat.tools.help_offer_mode"
       ? helpOfferModeLabelRaw
       : "Abipakkumine";
+  const deepResearchModeLabelRaw = t("chat.deep_research.mode_label");
+  const deepResearchModeLabel =
+    deepResearchModeLabelRaw && deepResearchModeLabelRaw !== "chat.deep_research.mode_label"
+      ? deepResearchModeLabelRaw
+      : "Süvauuring";
   const modeLabelShineBackground = isHighContrast
     ? MODE_LABEL_SHINE_BACKGROUND_HC
     : isLightTheme
       ? MODE_LABEL_SHINE_BACKGROUND_LIGHT
       : MODE_LABEL_SHINE_BACKGROUND_DARK;
-  const effectiveModeLabel = String(roomModeLabel || activeModeLabel || "");
+  const resolvedActiveModeLabel = useMemo(() => {
+    if (activeModeKey === "deep_research") return deepResearchModeLabel;
+    if (activeModeKey === "help_request") return helpRequestModeLabel;
+    if (activeModeKey === "help_offer") return helpOfferModeLabel;
+    return String(activeModeLabel || "");
+  }, [
+    activeModeKey,
+    activeModeLabel,
+    deepResearchModeLabel,
+    helpOfferModeLabel,
+    helpRequestModeLabel
+  ]);
+  const effectiveModeLabel = String(roomModeLabel || resolvedActiveModeLabel || "");
   const subtleModeLabel = effectiveModeLabel
     .trim()
     .replace(/^[^:]+:\s*/, "");
@@ -423,6 +472,10 @@ export default function ChatComposer({
     closeToolsMenu();
     onActivateHelpRequestMode?.();
   }, [closeToolsMenu, onActivateHelpRequestMode]);
+  const handleDeepResearchModeSelect = useCallback(() => {
+    closeToolsMenu();
+    onActivateDeepResearchMode?.();
+  }, [closeToolsMenu, onActivateDeepResearchMode]);
   const handleHelpOfferModeSelect = useCallback(() => {
     closeToolsMenu();
     onActivateHelpOfferMode?.();
@@ -450,12 +503,19 @@ export default function ChatComposer({
   }, [draft, isGenerating, onSend]);
   const handleToolsButtonClick = useCallback(() => {
     if (hasActiveWorkflowMode) {
-      onActivateInfoMode?.();
+      onActivateInfoMode?.(
+        activeModeKey === "deep_research"
+          ? {
+              preserveConversation: true,
+              stopActiveRun: true
+            }
+          : undefined
+      );
       closeToolsMenu();
       return;
     }
     setToolsOpen(prev => !prev);
-  }, [closeToolsMenu, hasActiveWorkflowMode, onActivateInfoMode]);
+  }, [activeModeKey, closeToolsMenu, hasActiveWorkflowMode, onActivateInfoMode]);
   const handleSubmit = useCallback(e => {
     if (Date.now() - primaryActionHandledAtRef.current < 400) {
       primaryActionHandledAtRef.current = 0;
@@ -650,15 +710,6 @@ export default function ChatComposer({
       backdropFilter: toolsMenuBackdropFilter,
       WebkitBackdropFilter: toolsMenuBackdropFilter
     }}>
-          {!isClientRole ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDocumentsSelect}>
-              <span aria-hidden="true" className={toolIconSlotClassName}>
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className={menuLargeModeIconClassName}>
-                  <path d="M4.85 7.4a1.75 1.75 0 0 1 1.75-1.75h4.1l1.55 1.55h5.15a1.75 1.75 0 0 1 1.75 1.75v8.45a1.75 1.75 0 0 1-1.75 1.75H6.6a1.75 1.75 0 0 1-1.75-1.75V7.4Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M4.85 10.8h14.3" stroke={iconStroke} strokeWidth={1.65} strokeLinecap="round" />
-                </svg>
-              </span>
-              <span className={toolLabelClassName}>{t("chat.tools.documents")}</span>
-            </button> : null}
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleHelpRequestModeSelect}>
             <span aria-hidden="true" className={toolIconSlotClassName}>
               <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={1.92} className={menuModeIconClassName} />
@@ -671,6 +722,21 @@ export default function ChatComposer({
             </span>
             <span className={toolLabelClassName}>{helpOfferModeLabel}</span>
           </button>
+          {!isRoomMode ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDeepResearchModeSelect}>
+              <span aria-hidden="true" className={toolIconSlotClassName}>
+                <DeepResearchIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />
+              </span>
+              <span className={toolLabelClassName}>{deepResearchModeLabel}</span>
+            </button> : null}
+          {!isClientRole ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDocumentsSelect}>
+              <span aria-hidden="true" className={toolIconSlotClassName}>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className={menuLargeModeIconClassName}>
+                  <path d="M4.85 7.4a1.75 1.75 0 0 1 1.75-1.75h4.1l1.55 1.55h5.15a1.75 1.75 0 0 1 1.75 1.75v8.45a1.75 1.75 0 0 1-1.75 1.75H6.6a1.75 1.75 0 0 1-1.75-1.75V7.4Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M4.85 10.8h14.3" stroke={iconStroke} strokeWidth={1.65} strokeLinecap="round" />
+                </svg>
+              </span>
+              <span className={toolLabelClassName}>{t("chat.tools.documents")}</span>
+            </button> : null}
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
             <span aria-hidden="true" className={toolIconSlotClassName}>
               <DocumentModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />
@@ -708,8 +774,9 @@ export default function ChatComposer({
   return <form ref={inputRowRef} style={inputRowStyle} className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName} ${inputRowToolsVisibilityClassName}`} onSubmit={handleSubmit} autoComplete="off">
       {showSideControls ? <div className={`chat-side-controls ${sideControlsClassName}`}>
         {hideTools ? null : <>
-            <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.aria")} title={modeToggleShowsActiveState ? t("chat.tools.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
-                {activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+            <button ref={toolsButtonRef} type="button" className={toolsButtonClassName} aria-label={modeToggleShowsActiveState ? activeModeKey === "deep_research" ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.exit_mode_aria") : t("chat.tools.aria")} title={modeToggleShowsActiveState ? activeModeKey === "deep_research" ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={modeToggleShowsActiveState ? undefined : "menu"} aria-expanded={modeToggleShowsActiveState ? undefined : toolsOpen ? "true" : "false"} onMouseDown={preserveDesktopInputFocusOnMouseDown} onClick={handleToolsButtonClick}>
+                {activeModeKey === "deep_research" ? <DeepResearchIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+                  : activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                   : activeModeKey === "help_offer" ? <HelpOfferIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                   : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className={activeModeIconClassName}>
                     <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth={plusIconStrokeWidth} strokeLinecap="round" />
