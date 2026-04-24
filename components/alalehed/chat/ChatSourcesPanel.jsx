@@ -133,49 +133,55 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
             </p>
           ) : (
             <ol className={listClassName}>
-              {conversationSources.map((src, idx) => (
-                <li key={src.key || idx} className={itemClassName}>
-                  <div className={labelClassName}>{src.label}</div>
-                  {src.occurrences > 1 ? (
-                    <div className={usageClassName}>
-                      {t("chat.sources.used_multiple").replace(
-                        "{count}",
-                        String(src.occurrences)
-                      )}
-                    </div>
-                  ) : null}
+              {conversationSources.map((src, idx) => {
+                const pageText = String(src.pageText || "").trim();
+                const showPageText =
+                  pageText &&
+                  !/^0+(?:\s*[-,]\s*0+)*$/.test(pageText) &&
+                  !`${src.label}`.toLowerCase().includes("lk");
+                return (
+                  <li key={src.key || idx} className={itemClassName}>
+                    <div className={labelClassName}>{src.label}</div>
+                    {src.occurrences > 1 ? (
+                      <div className={usageClassName}>
+                        {t("chat.sources.used_multiple").replace(
+                          "{count}",
+                          String(src.occurrences)
+                        )}
+                      </div>
+                    ) : null}
 
-                  {src.pageText &&
-                  !`${src.label}`.toLowerCase().includes("lk") ? (
-                    <div className={pagesClassName}>
-                      {t("chat.sources.pages").replace(
-                        "{pages}",
-                        String(src.pageText)
-                      )}
-                    </div>
-                  ) : null}
-                  {src.allUrls && src.allUrls.length ? (
-                    <div className={linksClassName}>
-                      {src.allUrls.map((url, urlIdx) => (
-                        <a
-                          key={`${src.key || idx}-url-${urlIdx}`}
-                          href={url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className={linkClassName}
-                        >
-                          {src.allUrls.length > 1
-                            ? t("chat.sources.open_indexed").replace(
-                                "{index}",
-                                String(urlIdx + 1)
-                              )
-                            : t("chat.sources.open_single")}
-                        </a>
-                      ))}
-                    </div>
-                  ) : null}
-                </li>
-              ))}
+                    {showPageText ? (
+                      <div className={pagesClassName}>
+                        {t("chat.sources.pages").replace(
+                          "{pages}",
+                          pageText
+                        )}
+                      </div>
+                    ) : null}
+                    {src.allUrls && src.allUrls.length ? (
+                      <div className={linksClassName}>
+                        {src.allUrls.map((url, urlIdx) => (
+                          <a
+                            key={`${src.key || idx}-url-${urlIdx}`}
+                            href={url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={linkClassName}
+                          >
+                            {src.allUrls.length > 1
+                              ? t("chat.sources.open_indexed").replace(
+                                  "{index}",
+                                  String(urlIdx + 1)
+                                )
+                              : t("chat.sources.open_single")}
+                          </a>
+                        ))}
+                      </div>
+                    ) : null}
+                  </li>
+                );
+              })}
             </ol>
           )}
         </div>

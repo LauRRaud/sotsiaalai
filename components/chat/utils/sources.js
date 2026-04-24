@@ -80,10 +80,27 @@ export function prettifyFileName(name) {
   const noExt = name.replace(/\.[a-z0-9]+$/i, "");
   return noExt.replace(/[_-]+/g, " ").trim();
 }
+function joinSourceSegments(segments) {
+  return segments
+    .filter(Boolean)
+    .map(segment => String(segment).trim())
+    .filter(Boolean)
+    .reduce((label, segment) => {
+      if (!label) return segment;
+      const separator = /[.!?]$/.test(label) ? " " : ". ";
+      return `${label}${separator}${segment}`;
+    }, "");
+}
+export function isSyntheticEvidenceRef(value) {
+  return /^E\d+$/i.test(String(value || "").trim());
+}
 export function formatSourceLabel(src) {
-  if (typeof src?.short_ref === "string" && src.short_ref.trim()) {
-    return src.short_ref.trim();
-  }
+  const shortRef = typeof src?.short_ref === "string" && src.short_ref.trim()
+    ? src.short_ref.trim()
+    : "";
+  const syntheticEvidenceRef = isSyntheticEvidenceRef(shortRef);
+  if (shortRef && shortRef.length > 8 && !syntheticEvidenceRef) return shortRef;
+
   const authors = asAuthorArray(src?.authors);
   const authorText = authors.length ? authors.join("; ") : null;
   const titleText = typeof src?.title === "string" && src.title.trim() ? src.title.trim() : "";
@@ -102,10 +119,15 @@ export function formatSourceLabel(src) {
   const tailSegments = [];
   if (contextSegments.length) tailSegments.push(contextSegments.join(", "));
   if (pagesCombined) tailSegments.push(`lk ${pagesCombined}`);
-  let label = [...mainSegments, ...tailSegments].filter(Boolean).join(". ").trim();
+  let label = joinSourceSegments([...mainSegments, ...tailSegments]).trim();
   if (!label && filePretty) {
     const fallbackParts = [filePretty, contextSegments.join(", ") || null, pagesCombined ? `lk ${pagesCombined}` : null, section || null].filter(Boolean);
     label = fallbackParts.join(", ").trim();
+  }
+  let labelFromShortRef = false;
+  if (!label && shortRef) {
+    label = shortRef;
+    labelFromShortRef = true;
   }
   if (!label) {
     const url = typeof src?.url === "string" ? src.url.replace(/^https?:\/\//, "") : "";
@@ -113,6 +135,9 @@ export function formatSourceLabel(src) {
   }
   if (label && !/[.!?]$/.test(label)) {
     label = `${label}.`;
+  }
+  if (!labelFromShortRef && shortRef && shortRef.length <= 8 && !syntheticEvidenceRef && label && !label.startsWith(`${shortRef}:`)) {
+    label = `${shortRef}: ${label}`;
   }
   return label;
 }
