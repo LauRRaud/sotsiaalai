@@ -1608,7 +1608,7 @@
           "body": "<p>At the end of the guide page there is a separate <strong>Before using</strong> block. It gives quick access to the most important links before you begin.</p><ul><li><strong>User guide.</strong> Opens the guide page where you can learn how to use the platform.</li><li><strong>Terms of Use</strong> and <strong>Privacy Policy.</strong> Open the platform's terms and data-use pages.</li><li><strong>Contact.</strong> Opens a circle with the company's contact details.</li><li><strong>Install on mobile or desktop.</strong> Starts the install action or shows instructions for adding SotsiaalAI as a separate app on your phone or computer.</li></ul>"
         },
         "quickstart": {
-          "title": "11. Quick overview",
+          "title": "10. Quick overview",
           "body": "<p>If you want to get started quickly, follow these steps:</p><ol><li><strong>Choose your role</strong> on the home page and create an account.</li><li><strong>Accept the policies</strong>, confirm that you have read the platform guide, and then verify your email.</li><li><strong>Activate a subscription.</strong> Monthly pricing is 7.99 EUR for a person seeking help and 14.99 EUR for a social work professional.</li><li><strong>Sign in</strong> and open the chat page.</li><li><strong>Write your question</strong> or describe your situation.</li><li>Use the left and right scroll menus to open conversations, rooms, sources, and settings.</li><li>Manage settings, account, and subscription on the <a href=\"/profiil\">Profile</a> page.</li></ol>"
         }
       }

@@ -56,6 +56,16 @@ const confirmPanelClassName =
   "framework-confirm-panel invite-list-panel mt-[0.55rem] grid gap-[0.85rem] rounded-[1rem] !border-0 !shadow-none [background:var(--chat-card-surface-night-standard-bg,var(--chat-card-surface-standard-bg,var(--subpage-card-bg)))] [color:var(--subpage-card-text)] " +
   "max-[768px]:gap-[0.72rem] max-[768px]:!p-[0.78rem]";
 const documentStackClassName = "grid gap-[0.82rem]";
+const documentHtmlClassName =
+  "framework-document-html overflow-x-auto text-[1.08rem] leading-[1.72] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+  "[&_p]:m-0 [&_p]:mb-[0.82rem] [&_em]:text-[color:var(--glass-modal-text-soft,var(--pt-120))] " +
+  "[&_h1]:m-0 [&_h1]:pt-[1.05rem] [&_h1]:pb-[0.25rem] [&_h1]:text-[1.36rem] [&_h1]:font-[500] [&_h1]:leading-[1.32] [&_h1]:tracking-[0.01em] [&_h1]:text-[color:var(--title-color,var(--brand-primary))] " +
+  "[&_h2]:m-0 [&_h2]:pt-[0.75rem] [&_h2]:pb-[0.2rem] [&_h2]:text-[1.22rem] [&_h2]:font-[500] [&_h2]:leading-[1.45] [&_h2]:text-[color:var(--title-color,var(--brand-primary))] " +
+  "[&_ol]:my-[0.72rem] [&_ol]:grid [&_ol]:gap-[0.5rem] [&_ol]:pl-[1.55rem] [&_ul]:my-[0.72rem] [&_ul]:grid [&_ul]:gap-[0.5rem] [&_ul]:pl-[1.55rem] [&_li]:pl-[0.15rem] " +
+  "[&_table]:my-[1.1rem] [&_table]:w-full [&_table]:min-w-[38rem] [&_table]:border-collapse [&_table]:text-[0.98rem] [&_table]:leading-[1.48] [&_table]:tracking-[0.01em] " +
+  "[&_td]:border [&_td]:border-white/20 [&_td]:px-[0.7rem] [&_td]:py-[0.55rem] [&_td]:align-top [&_td]:text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+  "[&_th]:border [&_th]:border-white/25 [&_th]:px-[0.7rem] [&_th]:py-[0.58rem] [&_th]:text-left [&_th]:font-[600] [&_th]:text-[color:var(--title-color,var(--brand-primary))] " +
+  "[&_tr:first-child_td]:font-[600] [&_tr:first-child_td]:text-[color:var(--title-color,var(--brand-primary))] max-[768px]:text-[1.08rem] max-[768px]:[&_table]:min-w-[34rem] max-[768px]:[&_td]:px-[0.55rem] max-[768px]:[&_td]:py-[0.48rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.36rem] font-[500] leading-[1.32] tracking-[0.01em] text-[color:var(--title-color,var(--brand-primary))]";
 const docSubheadingClassName =
@@ -432,6 +442,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
     ...(frameworkDocument?.prefaceBlocks || []),
     ...(frameworkDocument?.documentBlocks || [])
   ];
+  const documentHtml = frameworkDocument?.html || "";
 
   return (
     <section className={shellClassName} lang={locale} onWheel={handleShellWheel}>
@@ -560,9 +571,13 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
             className={documentCardClassName}
             aria-label={documentTitle}
           >
-            <div className={documentStackClassName}>
-              <FrameworkBlocks blocks={fullDocumentBlocks} />
-            </div>
+            {documentHtml ? (
+              <div className={documentHtmlClassName} dangerouslySetInnerHTML={{ __html: documentHtml }} />
+            ) : (
+              <div className={documentStackClassName}>
+                <FrameworkBlocks blocks={fullDocumentBlocks} />
+              </div>
+            )}
           </section>
         </div>
       </div>
