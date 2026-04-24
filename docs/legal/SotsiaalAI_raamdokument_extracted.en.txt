@@ -4,7 +4,7 @@ Framework for Professional Use and Data Processing Agreement
 
 Legal Framework and Retention
 
-This document is based on the applicable legal framework for the processing of personal data, in particular Regulation (EU) 2016/679 of the European Parliament and of the Council, the Estonian Personal Data Protection Act, and, where relevant, other legal acts governing the organisation?s field of activity. If the organisation is subject to requirements concerning public information, document management, archiving, or other document retention obligations, those requirements must also be followed when using SotsiaalAI.
+This document is based on the applicable legal framework for the processing of personal data, in particular Regulation (EU) 2016/679 of the European Parliament and of the Council and the Estonian Personal Data Protection Act. The organisation is responsible for ensuring that the use of SotsiaalAI also complies with any sector-specific requirements applicable to the organisation, including requirements concerning public information, document management, archiving, or document retention.
 
 Data, documents, and other work materials may be used, stored, and processed in SotsiaalAI only to the extent necessary for the performance of work tasks, the provision of the service, or compliance with a legal obligation. Data must not be retained longer than necessary. When the legal or operational basis for retention ends, the data shall be deleted, returned, or archived in accordance with the parties? agreement, applicable retention obligations, and technical possibilities.
 

@@ -9,6 +9,7 @@ export default function sitemap() {
     "/taasta-parool",
     "/kasutusjuhend",
     "/tooalase-kasutuse-raamistik",
+    "/autorilt",
     "/kasutustingimused",
     "/privaatsustingimused"
   ];

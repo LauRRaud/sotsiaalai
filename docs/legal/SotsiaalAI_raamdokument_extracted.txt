@@ -4,7 +4,7 @@ Tööalase kasutuse raamistik ja andmete töötlemise kokkulepe
 
 Õiguslik raamistik ja säilitamine 
 
-Käesolev dokument lähtub isikuandmete töötlemisel kohaldatavast õigusest, eelkõige Euroopa Parlamendi ja nõukogu määrusest (EL) 2016/679, Eesti isikuandmete kaitse seadusest ning vajaduse korral muudest organisatsiooni tegevusvaldkonda reguleerivatest õigusaktidest. Kui organisatsioonile kohalduvad avaliku teabe, dokumendihalduse, arhiveerimise või muud dokumentide säilitamise nõuded, tuleb SotsiaalAI kasutamisel järgida ka neid nõudeid.
+Käesolev dokument lähtub isikuandmete töötlemisel kohaldatavast õigusest, eelkõige Euroopa Parlamendi ja nõukogu määrusest (EL) 2016/679 ning Eesti isikuandmete kaitse seadusest. Organisatsioon vastutab selle eest, et SotsiaalAI kasutamisel järgitakse ka organisatsioonile kohalduvaid valdkondlikke nõudeid, sealhulgas avaliku teabe, dokumendihalduse, arhiveerimise või dokumentide säilitamise nõudeid.
 
 SotsiaalAI-s tohib andmeid, dokumente ja muid töömaterjale kasutada, säilitada ja töödelda ainult ulatuses, mis on vajalik tööülesande täitmiseks, teenuse osutamiseks või seadusest tuleneva kohustuse täitmiseks. Andmeid ei säilitata kauem, kui see on vajalik. Kui säilitamise alus lõpeb, andmed kustutatakse, tagastatakse või arhiveeritakse vastavalt poolte kokkuleppele, kohaldatavatele säilitamiskohustustele ja tehnilistele võimalustele.
 
