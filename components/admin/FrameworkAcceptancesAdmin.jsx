@@ -232,7 +232,7 @@ export default function FrameworkAcceptancesAdmin() {
             </div>
             <div className={statCardClassName}>
               <div className={statLabelClassName}>
-                {t("admin.framework_acceptances.stats.signed_downloads", "Signed download recorded")}
+                {t("admin.framework_acceptances.stats.signed_downloads", "Framework agreement download recorded")}
               </div>
               <div className={statValueClassName}>{formatCount(signedDownloads, localeTag)}</div>
               <div className={statMetaClassName}>
@@ -307,7 +307,7 @@ export default function FrameworkAcceptancesAdmin() {
                             {formatDate(item.reviewDocumentOpenedAt, localeTag)}
                           </div>
                           <div className={cellSubClassName}>
-                            {t("admin.framework_acceptances.columns.signed", "Signed download")}:{" "}
+                            {t("admin.framework_acceptances.columns.signed", "Framework agreement download")}:{" "}
                             {formatDate(item.signedDocumentDownloadedAt, localeTag)}
                           </div>
                         </td>
@@ -355,7 +355,7 @@ export default function FrameworkAcceptancesAdmin() {
                       value={formatDate(item.reviewDocumentOpenedAt, localeTag)}
                     />
                     <MobileField
-                      label={t("admin.framework_acceptances.columns.signed", "Signed download")}
+                      label={t("admin.framework_acceptances.columns.signed", "Framework agreement download")}
                       value={formatDate(item.signedDocumentDownloadedAt, localeTag)}
                     />
                     <MobileField

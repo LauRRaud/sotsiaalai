@@ -972,7 +972,7 @@ export default function AnalyticsDashboard() {
             value: formatCount(summary?.documents?.frameworkAcceptances?.accepted30d || 0, localeTag)
           },
           {
-            label: t("admin.analytics.platform.documents.framework_signed_30d", "Signed downloads (30d)"),
+            label: t("admin.analytics.platform.documents.framework_signed_30d", "Framework agreement downloads (30d)"),
             value: formatCount(summary?.documents?.frameworkAcceptances?.signedDownloaded30d || 0, localeTag)
           },
           {
@@ -1842,7 +1842,7 @@ export default function AnalyticsDashboard() {
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.documents?.frameworkAcceptances?.accepted30d || 0, localeTag)}
             />
             <KpiCard
-              title={t("admin.analytics.framework_acceptances.signed_30d", "Allkirjastatud allalaadimine salvestatud (30p)")}
+              title={t("admin.analytics.framework_acceptances.signed_30d", "Raamlepingu allalaadimine salvestatud (30p)")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.documents?.frameworkAcceptances?.signedDownloaded30d || 0, localeTag)}
             />
           </div>
@@ -1860,7 +1860,7 @@ export default function AnalyticsDashboard() {
                     <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.user", "User")}</th>
                     <th className={tableHeadCellClassName}>{t("admin.analytics.users.table.role", "Role")}</th>
                     <th className={tableHeadCellClassName}>{t("admin.analytics.framework_acceptances.version", "Version")}</th>
-                    <th className={tableHeadCellClassName}>{t("admin.analytics.framework_acceptances.signed", "Signed download")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.framework_acceptances.signed", "Framework agreement download")}</th>
                     <th className={tableHeadCellClassName}>{t("admin.analytics.framework_acceptances.document", "Document")}</th>
                   </tr>
                 </thead>
@@ -1908,7 +1908,7 @@ export default function AnalyticsDashboard() {
                   </div>
                   <div className={mobileFieldGridClassName}>
                     <MobileInfoField label={t("admin.analytics.users.table.role", "Role")} value={getRoleLabel(row.roleAtAcceptance, false)} />
-                    <MobileInfoField label={t("admin.analytics.framework_acceptances.signed", "Signed download")} value={row.signedDocumentDownloadedAt ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")} />
+                    <MobileInfoField label={t("admin.analytics.framework_acceptances.signed", "Framework agreement download")} value={row.signedDocumentDownloadedAt ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")} />
                   </div>
                   <MobileInfoField label={t("admin.analytics.framework_acceptances.document", "Document")} value={row.document?.title || "-"} />
                 </div>

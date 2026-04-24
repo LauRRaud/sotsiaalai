@@ -52,7 +52,7 @@ async function requireUser() {
 }
 
 async function canDelete(userId, roomId, authorId, userRole) {
-  if (userRole === "ADMIN" || userRole === "OWNER" || userRole === "MODERATOR") return true;
+  if (userRole === "OWNER" || userRole === "MODERATOR") return true;
   return userRole === "MEMBER" && userId === authorId;
 }
 
@@ -95,10 +95,7 @@ export async function DELETE(_req, { params }) {
   if (!auth.ok) return errorJson(auth.message, auth.status);
 
   try {
-    const membership =
-      auth.role === "ADMIN"
-        ? { role: "ADMIN" }
-        : await prisma.roomMember.findFirst({
+    const membership = await prisma.roomMember.findFirst({
             where: {
               roomId,
               userId: auth.userId,
@@ -107,30 +104,28 @@ export async function DELETE(_req, { params }) {
           });
     if (!membership) return errorJson("api.common.forbidden", 403);
 
-    if (auth.role !== "ADMIN") {
-      const [room, userActive] = await Promise.all([
-        prisma.room.findUnique({
-          where: { id: roomId },
-          select: {
-            id: true,
-            helpMatch: {
-              select: {
-                id: true
-              }
+    const [room, userActive] = await Promise.all([
+      prisma.room.findUnique({
+        where: { id: roomId },
+        select: {
+          id: true,
+          helpMatch: {
+            select: {
+              id: true
             }
           }
-        }),
-        hasActiveSubscription(auth.userId)
-      ]);
-      if (!room) return errorJson("api.rooms.not_found", 404);
-      const billingAccess = hasRoomBillingAccess({
-        userRole: auth.role,
-        membership,
-        hasActiveSubscription: userActive,
-        room
-      });
-      if (!billingAccess.ok) return errorJson("api.common.forbidden", 403);
-    }
+        }
+      }),
+      auth.role === "ADMIN" ? Promise.resolve(true) : hasActiveSubscription(auth.userId)
+    ]);
+    if (!room) return errorJson("api.rooms.not_found", 404);
+    const billingAccess = hasRoomBillingAccess({
+      userRole: auth.role,
+      membership,
+      hasActiveSubscription: userActive,
+      room
+    });
+    if (!billingAccess.ok) return errorJson("api.common.forbidden", 403);
 
     const message = await prisma.roomMessage.findFirst({
       where: {

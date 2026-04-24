@@ -65,9 +65,6 @@ async function ensureAccess(userId, roomId, userRole) {
     ok: false,
     status: 404
   };
-  if (userRole === "ADMIN") return {
-    ok: true
-  };
   const member = await prisma.roomMember.findFirst({
     where: {
       userId,

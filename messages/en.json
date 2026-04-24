@@ -126,13 +126,13 @@
       "role_hint": "Choose a role with arrow keys. Options: Social Work Specialist or Person seeking help.",
       "worker_use_org": "I use SotsiaalAI in work tasks with personal data",
       "worker_framework_title": "Professional-use framework",
-      "worker_framework_note": "If you use SotsiaalAI for work with other people's personal data, review the professional-use and data-processing framework and download the signed Estonian framework document before continuing.",
+      "worker_framework_note": "If you use SotsiaalAI for work with other people's personal data, review the professional-use and data-processing framework and download the Estonian framework agreement and signed DigiDoc file before continuing.",
       "worker_framework_open": "Open framework",
-      "worker_framework_ack": "I confirm that I have downloaded the SotsiaalAI-signed Estonian framework document and signed it together with my employer or organisation.",
+      "worker_framework_ack": "I confirm that I have reviewed the Estonian SotsiaalAI framework agreement and downloaded the signed DigiDoc file.",
       "worker_framework_digital_mark_note": "This checkbox is a digital mark that SotsiaalAI accepts instead of a digital signature.",
-      "worker_framework_download_signed": "Signed Estonian document",
+      "worker_framework_download_signed": "Signed DigiDoc",
       "worker_framework_download_docx": "DOCX document",
-      "worker_framework_signed_note": "If you need the signed Estonian version, download it here.",
+      "worker_framework_signed_note": "If you need the SotsiaalAI-signed Estonian DigiDoc file, download it here.",
       "agreement": "I agree to <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>.",
       "guide_ack": "I have read the <guide>platform guide</guide>.",
       "error": {
@@ -436,11 +436,11 @@
     },
     "section6": {
       "heading": "6. Data Disclosure and Sharing",
-      "body": "<p>SotsiaalAI does not sell personal data. Data is shared only to the extent needed to run the service: with processors, with the payment provider, with users you invite or are matched with in rooms and help-mediation workflows, and with competent authorities where required by law. If you create an invite or save a visible help listing, the relevant information is shared inside the platform with the users for whom that workflow is intended.</p>"
+      "body": "<p>SotsiaalAI does not sell personal data. Data is shared only to the extent needed to run the service: with processors, with the payment provider, with users you invite or are matched with in rooms and help-mediation workflows, and with competent authorities where required by law.</p><p>A user's personal conversations and documents are linked to that user's account. Room and group conversation content is visible to room members, and only to the extent needed for the relevant workflow. An organisation or employer administrator is not automatically given general access to an employee's personal conversations, documents, or files.</p><p>Platform administrator access to content is exceptional technical administration access used only where justified, for example to provide support, investigate an error or security incident, maintain service reliability, prevent abuse, or comply with a legal claim or obligation.</p><p>If you create an invite, save a visible help listing, or connect parties through a room, the relevant information is shared inside the platform only with the users for whom that workflow is intended.</p><p>If a user or organisation representative accepts a professional-use or data-processing framework, evidence records related to that acceptance may be retained and, where necessary, shared with the relevant organisation or user to prove the existence, version, and time of acceptance.</p>"
     },
     "section7": {
       "heading": "7. Retention",
-      "body": "<p><strong>7.1 Account and profile data.</strong> Account data is stored until the account is deleted, except where the law requires longer retention.</p><p><strong>7.2 Conversation history.</strong> Conversations are generally shown to the user for up to 90 days from the last activity unless deleted earlier by the user. After that, a conversation may be removed from the user view and marked for internal cleanup or deletion.</p><p><strong>7.3 Rooms, invites, and help data.</strong> Room data, invites, help requests, help offers, and matches are retained while active or otherwise needed for service operation, dispute handling, or security review.</p><p><strong>7.4 Documents and agent outputs.</strong> Files stored in the Documents library, drafts, and final outputs remain available until the user deletes them or the account is deleted, unless the law requires otherwise.</p><p><strong>7.5 Billing, audit, and technical logs.</strong> Payment data, audit records, and technical logs are retained according to applicable legal, security, and reliability needs and then deleted or anonymised within a reasonable time.</p><p><strong>7.6 Quota and cleanup.</strong> If content is deleted by the user, removed as part of account deletion, or cleared because of quota or cleanup rules, it may remain in backups or operational logs for a limited period needed for recovery, security, or legal compliance, after which it is removed or anonymised.</p>"
+      "body": "<p><strong>7.1 Account and profile data.</strong> Account and profile data is generally retained until the account is deleted, except where the law requires longer retention.</p><p><strong>7.2 Temporary authentication data.</strong> An email verification link is generally retained for up to 24 hours, a PIN reset token for up to 60 minutes, a one-time sign-in code for up to 15 minutes, a temporary sign-in token for up to 15 minutes, and a trusted-device record for up to 30 days. Expired authentication records are removed regularly.</p><p><strong>7.3 Conversations and current work data.</strong> Conversations, chat messages, current conversation state records, and general usage logs are generally retained for up to 90 days from the last activity or from the relevant record's creation or update time.</p><p><strong>7.4 Rooms and help data.</strong> Inactive rooms and related messages are generally retained for up to 90 days after the last substantive activity. Closed, cancelled, or archived help requests and help offers, and completed or rejected matches, are generally retained for up to 90 days after the last update.</p><p><strong>7.5 Documents and agent outputs.</strong> Files uploaded to the document library, templates, document drafting workspace drafts, and confirmed agent outputs are generally retained for up to 90 days from the last modification. If an older document is technically linked to a newer output, it may be retained briefly until the newer link ends.</p><p><strong>7.6 Deletion and deletion-job tracking.</strong> When a user deletes a document, it is removed from active document management and deletion of the related file and RAG or search-index reference is triggered where such a reference exists. If deletion from an external index does not succeed immediately, a technical deletion-job record may remain so that a failed or pending deletion is visible and can be followed up.</p><p><strong>7.7 Account deletion.</strong> When an account is deleted, the user account and related active user data are removed according to the application's deletion logic. Technical audit records and deletion-job records may remain as limited metadata to prove the deletion action, handle pending deletion jobs, maintain security, or comply with legal obligations.</p><p><strong>7.8 Backups and operational logs.</strong> If content is deleted by the user, the account is deleted, or a record is removed because of quota or cleanup rules, it may briefly remain in backups, system or proxy logs, or service-provider technical logs for recovery, security, troubleshooting, or legal-compliance purposes, and is then removed or anonymised according to the relevant operations or provider configuration.</p><p><strong>7.9 Audits, acceptances, and payments.</strong> General document audit records, technical processing logs, and evidence records related to professional-use or data-processing frameworks are generally retained for up to 90 days, unless a longer period is reasonably needed to prove a specific acceptance, contractual relationship, or legal obligation. A detailed raw response or payload received from the payment provider is generally truncated or removed after 90 days. The minimal payment and accounting record is retained for up to 7 years or longer if required by applicable law.</p>"
     },
     "section8": {
       "heading": "8. Your Rights",
@@ -452,7 +452,7 @@
     },
     "section10": {
       "heading": "10. Security",
-      "body": "<p>We apply reasonable technical and organisational safeguards, including HTTPS, two-step sign-in, permission checks, logging, dependency updates, and other protective measures. No web service is entirely risk-free, so we recommend entering only the data that is necessary for the workflow at hand.</p>"
+      "body": "<p>We apply risk-based technical and organisational safeguards, including encrypted connections, protection for PINs and one-time codes, role-based access, permission checks, logical separation of documents and workflows, security and audit logs, and expiry and deletion flows. Access to data is limited by work task and system need.</p><p>We minimise personal data in technical logs and audit records: the aim is to store mainly technical metadata, such as event type, user or resource technical identifier, status, time, file type, or size. Application logs are not intended to store document content, conversation content, voice-data buffers, request body previews, raw payment-provider payloads, or authentication or invite token values.</p><p>No web service is entirely risk-free. Server backups, systemd/journald logs, proxy logs, and external service-provider technical logs depend on separate operations and provider configurations. For that reason, we recommend entering only the data needed for the workflow at hand.</p>"
     },
     "section11": {
       "heading": "11. Changes",
@@ -471,7 +471,7 @@
     },
     "section3": {
       "heading": "3. Account and Access",
-      "items": "<li>You must create an account and choose an appropriate role to use the core platform features.</li><li>You must keep your email, PIN, and other sign-in information confidential and are responsible for actions taken through your account.</li><li>Sign-in may require an extra verification code sent by email, and you may choose to trust a device for future sign-ins.</li><li>Many workflows require an active subscription or valid sponsored access.</li><li>Administrator preview mode does not grant the right to impersonate another user or modify another user's data without proper authority.</li>"
+      "items": "<li>You must create an account and choose an appropriate role to use the core platform features.</li><li>You must keep your email, PIN, and other sign-in information confidential and are responsible for actions taken through your account.</li><li>Sign-in may require an extra verification code sent by email, and you may choose to trust a device for future sign-ins.</li><li>Many workflows require an active subscription or valid sponsored access.</li><li>Administrator preview mode or other administrative rights do not grant the right to impersonate another user, view that user's personal conversations or documents, or modify that user's data without a clear legal or technical justification.</li>"
     },
     "section4": {
       "heading": "4. Permitted Use",
@@ -493,7 +493,7 @@
     },
     "section8": {
       "heading": "8. Professional Use and Processing Framework",
-      "body": "<p>SotsiaalAI may be used as a private individual and also as a work tool in workflows where no identifiable personal data of a client or other data subject is entered.</p><p>If a user wishes to use SotsiaalAI on behalf of an employer or organisation with identifiable personal data of a client or other data subject, the user must have clear permission from the employer or organisation and, where necessary, a separate contractual data processing framework.</p><p>Internal confirmations, instructions, or usage permissions between employer and employee do not by themselves create a processor relationship between SotsiaalAI and the organisation. If SotsiaalAI processes personal data on behalf of an organisation, there must also be a written or electronic contractual framework bindingly accepted by SotsiaalAI.</p><p>SotsiaalAI may make available on the platform a standard framework document for professional use and data processing or similar terms. Reading such a document, downloading it, or confirming it at employee level does not automatically make it binding on the organisation. If the document is intended to serve as a framework for processing data on behalf of an organisation, it becomes binding on the organisation only after proper signing or other provable electronic acceptance.</p>"
+      "body": "<p>SotsiaalAI may be used as a private individual and also as a work tool in workflows where no identifiable personal data of a client or other data subject is entered.</p><p>If a user wishes to use SotsiaalAI on behalf of an employer or organisation with identifiable personal data of a client or other data subject, the user must have clear permission from the employer or organisation and, where necessary, a separate contractual data processing framework.</p><p>An organisation or employer administrator role does not by itself provide general access to an employee's personal conversations, documents, or files. Room and group conversation content is visible to room members, and data shared by a user is handled according to the visibility rules of the relevant workflow.</p><p>Internal confirmations, instructions, or usage permissions between employer and employee do not by themselves create a processor relationship between SotsiaalAI and the organisation. If SotsiaalAI processes personal data on behalf of an organisation, there must also be a written or electronic contractual framework bindingly accepted by SotsiaalAI.</p><p>SotsiaalAI may make available on the platform a standard framework document for professional use and data processing or similar terms. Reading such a document, downloading it, or confirming it at employee level does not automatically make it binding on the organisation. If the document is intended to serve as a framework for processing data on behalf of an organisation, it becomes binding on the organisation only after proper signing or other provable electronic acceptance.</p>"
     },
     "section9": {
       "heading": "9. Use of AI",
@@ -503,8 +503,8 @@
     "section10": {
       "heading": "10. Data Processing in Chats and Uploaded Materials",
       "paragraph1": "<p>When using the platform, a user may enter text, send room messages, save help data, invite other people, upload documents, or use voice features. That data is processed to operate the service in accordance with the Privacy Policy.</p>",
-      "paragraph2": "<p>More detailed rules on retention, visibility, and user rights are described in the Privacy Policy.</p>",
-      "items": "<li><strong>Chat and room content.</strong> Conversations, rooms, and their related workflow state are stored to operate the platform, show history, and continue the features chosen by the user.</li><li><strong>Help listings and invites.</strong> The user is responsible for sharing only the data needed to connect with another person or mediate help.</li><li><strong>Temporary chat files.</strong> Files added in the chat document workflow or analysis flow are intended for that session or workflow and are not automatically added to the persistent Documents library.</li><li><strong>Documents library and agent outputs.</strong> If the user uploads a file into the persistent Documents library or approves an agent result, it is generally stored for up to 90 days from the last change, unless the law or a technical link requires a different retention period for a short time.</li><li><strong>Dictation and read-aloud.</strong> Voice features are used only to provide that feature. The user must ensure they have the right to transmit another person's data through a microphone or file.</li><li><strong>Sensitive data.</strong> If the user enters sensitive information or data about third parties, the user is responsible for having a lawful basis and for sharing only the minimum necessary information.</li><li><strong>Professional-use confirmations.</strong> If the user or an organisation representative accepts a professional-use or data processing framework, the platform may store proof records related to that confirmation, including the time, version, role, and other technical details needed for evidence.</li>"
+      "paragraph2": "<p>More detailed rules on data processing, retention periods, deletion-job tracking, logging minimisation, and user rights are described in the Privacy Policy.</p>",
+      "items": "<li><strong>Chat and room content.</strong> Conversations, rooms, and their related workflow state are stored to operate the platform, show history, and continue the features chosen by the user. A user's personal conversations are linked to that user's account, and room content is visible to room members.</li><li><strong>Help listings and invites.</strong> The user is responsible for sharing only the data needed to connect with another person or mediate help.</li><li><strong>Temporary chat files.</strong> Files added in the chat document workflow or analysis flow are intended for that session or workflow and are not automatically added to the persistent Documents library.</li><li><strong>Documents library and agent outputs.</strong> If the user uploads a file into the persistent Documents library or approves an agent result, it is generally stored for up to 90 days from the last change, unless the law or a technical link requires a different retention period for a short time. When a document is deleted, it is removed from active document management and deletion of the related file and RAG or search-index reference is triggered where such a reference exists.</li><li><strong>Account deletion and technical records.</strong> When an account is deleted, the user loses access to related active data and the account is removed according to the application's deletion logic. Limited technical audit records and deletion-job records may remain for security, proof of deletion, handling pending deletion jobs, or legal obligations.</li><li><strong>Dictation and read-aloud.</strong> Voice features are used only to provide that feature. The user must ensure they have the right to transmit another person's data through a microphone or file.</li><li><strong>Sensitive data.</strong> If the user enters sensitive information or data about third parties, the user is responsible for having a lawful basis and for sharing only the minimum necessary information.</li><li><strong>Logging and audit.</strong> The platform may store technical logs, audit records, and deletion-job records for service security, reliability, and legal obligations. Application logs are not intended to store document content, conversation content, voice-data buffers, request body previews, raw payment-provider payloads, or authentication or invite token values.</li><li><strong>Professional-use confirmations.</strong> If the user or an organisation representative accepts a professional-use or data processing framework, the platform may store proof records related to that confirmation, including the time, version, role, and other technical details needed for evidence.</li>"
     },
     "section11": {
       "heading": "11. Intellectual Property",
@@ -512,7 +512,7 @@
     },
     "section12": {
       "heading": "12. Termination of the Agreement",
-      "body": "<p>The user may stop using the platform at any time, including by deleting the account or cancelling the subscription. Account deletion may result in loss of access to related documents, conversations, drafts, and other workspace content in accordance with the retention rules described in the Privacy Policy.</p><p>SotsiaalAI may suspend or terminate access if the user materially breaches the Terms, abuses the service, repeatedly exceeds or attempts to bypass feature limits, threatens the safety of other users, or harms the operation of the platform. SotsiaalAI may also temporarily limit specific features to protect service stability, security, or reasonable use.</p>"
+      "body": "<p>The user may stop using the platform at any time, including by deleting the account or cancelling the subscription. Account deletion may result in loss of access to related documents, conversations, drafts, and other workspace content in accordance with the retention and deletion rules described in the Privacy Policy. Technical audit records, deletion-job records, backups, and system, proxy, or service-provider logs may remain for a limited period to the extent described in the Privacy Policy.</p><p>SotsiaalAI may suspend or terminate access if the user materially breaches the Terms, abuses the service, repeatedly exceeds or attempts to bypass feature limits, threatens the safety of other users, or harms the operation of the platform. SotsiaalAI may also temporarily limit specific features to protect service stability, security, or reasonable use.</p>"
     },
     "section13": {
       "heading": "13. Changes to the Terms",
@@ -1120,8 +1120,8 @@
     "framework_acceptance": {
       "title": "Professional-use acceptance record",
       "manage_title": "Professional-use framework",
-      "manage_pending": "If you skipped the framework document during registration, open it here, download the signed file, and save the confirmation without registering again.",
-      "manage_confirmed": "The confirmation was saved on {date}. You can reopen both the signed file and the system-created acceptance record here whenever needed.",
+      "manage_pending": "If you skipped the framework agreement or DigiDoc file during registration, open it here, download the files, and save the confirmation without registering again.",
+      "manage_confirmed": "The confirmation was saved on {date}. You can reopen the framework agreement, the signed DigiDoc file, and the system-created acceptance record here whenever needed.",
       "manage_confirmed_short": "Confirmation is on file from {date}. Current version: {version}.",
       "download_record": "Download acceptance record",
       "auth_required": "Sign in with a specialist account to save the confirmation.",
@@ -2213,7 +2213,7 @@
         "period": "Within selected period",
         "shown": "Shown in list",
         "current_page": "Current query result",
-        "signed_downloads": "Signed download recorded",
+        "signed_downloads": "Framework agreement download recorded",
         "shown_signed": "Shown now: {count}"
       },
       "columns": {
@@ -2221,10 +2221,10 @@
         "user": "User",
         "role": "Role",
         "framework": "Framework",
-        "downloads": "Open / signed",
+        "downloads": "Open / agreement",
         "document": "Document record",
         "opened": "Opened",
-        "signed": "Signed download",
+        "signed": "Framework agreement download",
         "id": "Acceptance ID"
       }
     },
@@ -2359,7 +2359,7 @@
           "downloads_30d": "Document downloads (30d)",
           "artifact_downloads_30d": "Artifact downloads (30d)",
           "framework_acceptances_30d": "Framework acceptances (30d)",
-          "framework_signed_30d": "Signed downloads (30d)",
+          "framework_signed_30d": "Framework agreement downloads (30d)",
           "storage_total": "Stored files",
           "storage_free": "Free disk"
         }
@@ -2558,9 +2558,9 @@
         "subtitle": "Recent professional-use acceptance records saved during registration.",
         "total": "Total",
         "accepted_30d": "Accepted (30d)",
-        "signed_30d": "Signed download recorded (30d)",
+        "signed_30d": "Framework agreement download recorded (30d)",
         "version": "Version",
-        "signed": "Signed download",
+        "signed": "Framework agreement download",
         "document": "Document"
       },
       "ai_costs": {

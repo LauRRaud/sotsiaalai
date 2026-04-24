@@ -6,7 +6,6 @@ import { publishRoomEvent } from "@/lib/roomStream";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { hasRoomBillingAccess } from "@/lib/rooms/access";
-import { logDataAudit } from "@/lib/privacy/audit";
 import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
@@ -127,17 +126,6 @@ async function ensureAccess(userId, roomId, userRole) {
     message: "api.rooms.not_found"
   };
 
-  const isAdminRole = userRole === "ADMIN";
-  if (isAdminRole) return {
-    ok: true,
-    member: {
-      role: "ADMIN",
-      roomId,
-      userId
-    },
-    billingSource: "ADMIN"
-  };
-
   const member = await getMembership(userId, roomId);
   if (!member) return {
     ok: false,
@@ -195,18 +183,6 @@ export async function GET(req, { params }) {
 
   const access = await ensureAccess(auth.userId, roomId, auth.userRole);
   if (!access.ok) return errorJson(access.message, access.status || 403);
-  if (auth.userRole === "ADMIN" && access.member?.role === "ADMIN") {
-    await logDataAudit({
-      actorUserId: auth.userId,
-      action: "ROOM_MESSAGES_VIEW_ADMIN",
-      resourceType: "Room",
-      resourceId: roomId,
-      ipAddress: getRequestIpFromRequest(req),
-      userAgent: req.headers.get("user-agent") || null,
-      meta: { pageSize: PAGE_SIZE }
-    })
-  }
-
   const room = await prisma.room.findUnique({
     where: { id: roomId },
     select: {

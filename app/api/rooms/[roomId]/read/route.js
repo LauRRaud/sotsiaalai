@@ -98,11 +98,6 @@ export async function PUT(_req, { params }) {
     });
     if (!room) return errorJson("api.rooms.not_found", 404);
 
-    if (auth.userRole === "ADMIN") {
-      return json({
-        ok: true
-      });
-    }
     const member = await prisma.roomMember.findFirst({
       where: {
         roomId,
@@ -120,17 +115,15 @@ export async function PUT(_req, { params }) {
     });
     if (!member) return errorJson("api.common.forbidden", 403);
 
-    if (auth.userRole !== "ADMIN") {
-      const userActive = await hasActiveSubscription(auth.userId);
-      const billingAccess = hasRoomBillingAccess({
-        userRole: auth.userRole,
-        membership: member,
-        hasActiveSubscription: userActive,
-        room
-      });
-      if (!billingAccess.ok) {
-        return errorJson("api.common.forbidden", 403);
-      }
+    const userActive = auth.userRole === "ADMIN" ? true : await hasActiveSubscription(auth.userId);
+    const billingAccess = hasRoomBillingAccess({
+      userRole: auth.userRole,
+      membership: member,
+      hasActiveSubscription: userActive,
+      room
+    });
+    if (!billingAccess.ok) {
+      return errorJson("api.common.forbidden", 403);
     }
 
     const latest = await prisma.roomMessage.findFirst({

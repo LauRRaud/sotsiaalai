@@ -66,8 +66,7 @@ export async function DELETE(_req, { params }) {
     });
     if (!room) return errorJson("api.rooms.not_found", 404);
 
-    const isAdmin = auth.userRole === "ADMIN";
-    if (!isAdmin && room.ownerId !== auth.userId) {
+    if (room.ownerId !== auth.userId) {
       return errorJson("api.common.forbidden", 403);
     }
 

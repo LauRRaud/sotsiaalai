@@ -108,7 +108,7 @@ export async function GET(req) {
     if (!conversation || conversation.archivedAt) {
       return jsonError("api.chat.not_found", 404);
     }
-    if (!auth.isAdmin && conversation.userId !== auth.userId) {
+    if (conversation.userId !== auth.userId) {
       return jsonError("api.common.forbidden", 403);
     }
 

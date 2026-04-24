@@ -84,10 +84,7 @@ export async function GET(_req, { params }) {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
 
-  const isAdmin = auth.userRole === "ADMIN";
-  const membership = isAdmin
-    ? { role: "ADMIN" }
-    : await prisma.roomMember.findFirst({
+  const membership = await prisma.roomMember.findFirst({
         where: {
           roomId,
           userId: auth.userId,
@@ -112,17 +109,15 @@ export async function GET(_req, { params }) {
   });
   if (!room) return errorJson("api.rooms.not_found", 404);
 
-  if (!isAdmin) {
-    const userActive = await hasActiveSubscription(auth.userId);
-    const billingAccess = hasRoomBillingAccess({
-      userRole: auth.userRole,
-      membership,
-      hasActiveSubscription: userActive,
-      room
-    });
-    if (!billingAccess.ok) {
-      return errorJson("api.common.forbidden", 403);
-    }
+  const userActive = auth.userRole === "ADMIN" ? true : await hasActiveSubscription(auth.userId);
+  const billingAccess = hasRoomBillingAccess({
+    userRole: auth.userRole,
+    membership,
+    hasActiveSubscription: userActive,
+    room
+  });
+  if (!billingAccess.ok) {
+    return errorJson("api.common.forbidden", 403);
   }
 
   const [, members] = await Promise.all([

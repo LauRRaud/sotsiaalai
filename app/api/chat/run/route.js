@@ -140,7 +140,7 @@ export async function GET(req) {
         notFound: true
       }, 200);
     }
-    if (!auth.isAdmin && conversation.userId !== auth.userId) {
+    if (conversation.userId !== auth.userId) {
       return errorJson("api.common.forbidden", 403);
     }
 

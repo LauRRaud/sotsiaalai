@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { hasRoomBillingAccess } from "@/lib/rooms/access";
-import { logDataAudit } from "@/lib/privacy/audit";
 import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
@@ -80,56 +79,8 @@ export async function GET() {
   if (!auth.ok) return errorJson(auth.message, auth.status);
   try {
     const isAdmin = auth.userRole === "ADMIN";
-    if (isAdmin) {
-      await logDataAudit({
-        actorUserId: auth.userId,
-        action: "ROOM_LIST_VIEW_ADMIN",
-        resourceType: "Room",
-        ipAddress: null,
-        userAgent: null,
-        meta: { scope: "all_rooms" }
-      });
-    }
     const userActiveSubscription = isAdmin ? true : await hasActiveSubscription(auth.userId);
-    const memberships = isAdmin
-      ? await prisma.room.findMany({
-          select: {
-            id: true,
-            title: true,
-            description: true,
-            members: {
-              where: {
-                userId: auth.userId,
-                leftAt: null
-              },
-              take: 1,
-              select: {
-                role: true,
-                billingSource: true,
-                lastReadAt: true
-              }
-            },
-            helpMatch: {
-              select: {
-                id: true
-              }
-            },
-            messages: {
-              where: {
-                deletedAt: null
-              },
-              orderBy: { createdAt: "desc" },
-              take: 1,
-              select: {
-                id: true,
-                content: true,
-                createdAt: true
-              }
-            }
-          },
-          orderBy: { createdAt: "asc" }
-        })
-      : await prisma.roomMember.findMany({
+    const memberships = await prisma.roomMember.findMany({
           where: {
             userId: auth.userId,
             leftAt: null
@@ -167,19 +118,7 @@ export async function GET() {
           orderBy: { joinedAt: "asc" }
         });
 
-    const rawMemberships = isAdmin
-        ? memberships.map(r => {
-          const adminMembership = Array.isArray(r.members) ? r.members[0] : null;
-          return {
-            roomId: r.id,
-            room: r,
-            hasMembership: Boolean(adminMembership),
-            role: adminMembership?.role || "ADMIN",
-            billingSource: adminMembership?.billingSource || "ADMIN",
-            lastReadAt: adminMembership?.lastReadAt || null
-          };
-        })
-      : memberships;
+    const rawMemberships = memberships;
 
     const normalizedMemberships = rawMemberships
       .map(m => ({
@@ -188,7 +127,6 @@ export async function GET() {
       }))
       .filter(m => {
         if (!m.roomId || !m?.room) return false;
-        if (isAdmin) return true;
         return hasRoomBillingAccess({
           userRole: auth.userRole,
           membership: m,
@@ -206,7 +144,7 @@ export async function GET() {
 
     const rooms = await Promise.all(
       normalizedMemberships.map(async m => {
-        const canTrackUnread = !isAdmin || Boolean(m.hasMembership);
+        const canTrackUnread = true;
         const [memberCount, unreadCount] = await Promise.all([
           prisma.roomMember.count({
             where: {

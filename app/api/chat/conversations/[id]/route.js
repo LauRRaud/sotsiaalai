@@ -58,9 +58,8 @@ function sanitizeConversationMetadata(value) {
   return isPlainObject(value) ? value : null;
 }
 
-function ensureOwnedOrAdmin(row, auth) {
+function ensureOwned(row, auth) {
   if (!row) return { ok: false, status: 404, message: "api.chat.not_found" };
-  if (auth.isAdmin) return { ok: true };
   if (row.userId !== auth.userId) return { ok: false, status: 403, message: "api.common.forbidden" };
   return { ok: true };
 }
@@ -104,7 +103,7 @@ export async function GET(req, { params }, deps = {}) {
         archivedAt: true
       }
     });
-    const gate = ensureOwnedOrAdmin(row, auth);
+    const gate = ensureOwned(row, auth);
     if (!gate.ok) return errorJson(gate.message, gate.status);
 
     if (row.archivedAt) {
@@ -163,7 +162,7 @@ export async function DELETE(req, { params }, deps = {}) {
         archivedAt: true
       }
     });
-    const gate = ensureOwnedOrAdmin(existing, auth);
+    const gate = ensureOwned(existing, auth);
     if (!gate.ok) return errorJson(gate.message, gate.status);
 
     if (existing.archivedAt) {
@@ -222,7 +221,7 @@ export async function PUT(req, { params }, deps = {}) {
         metadata: true
       }
     });
-    const gate = ensureOwnedOrAdmin(existing, auth);
+    const gate = ensureOwned(existing, auth);
     if (!gate.ok) return errorJson(gate.message, gate.status);
 
     if (!existing.archivedAt) {
