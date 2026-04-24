@@ -277,20 +277,6 @@ export default function HomeAboutSection({
     };
   }, [aboutParagraphs.length]);
 
-  const renderCircleTitle = (title) => {
-    const normalized = String(title || "").trim().replace(/\s+/g, " ");
-    const words = normalized.split(" ");
-    if (words.length === 2) {
-      return (
-        <>
-          {words[0]}
-          <br />
-          {words[1]}
-        </>
-      );
-    }
-    return normalized;
-  };
   const openGlassPage = (event, pathname) => {
     if (event.defaultPrevented) return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -415,7 +401,7 @@ export default function HomeAboutSection({
               "relative z-[1] w-fit max-w-[min(88vw,26rem)] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.44rem,0.92vw,0.68rem)] max-[768px]:gap-[clamp(0.3rem,0.74vw,0.44rem)] max-[768px]:max-w-[min(88vw,24rem)] items-center",
               beforeView === "contact"
                 ? "justify-center w-full max-w-[min(84vw,24.5rem)] pl-[clamp(3.2rem,5.2vw,3.9rem)] pr-[clamp(2.45rem,4.2vw,3rem)] pt-[clamp(1.1rem,1.9vw,1.45rem)] pb-[clamp(0.4rem,0.8vw,0.65rem)] max-[768px]:max-w-[min(84vw,19.5rem)] max-[768px]:pl-[clamp(2.7rem,6.5vw,3.1rem)] max-[768px]:pr-[clamp(2.15rem,5.9vw,2.55rem)] max-[768px]:pt-[clamp(0.95rem,2.5vw,1.2rem)] max-[768px]:pb-[clamp(0.28rem,0.85vw,0.5rem)]"
-                : null
+                : "translate-y-[clamp(0.45rem,1vw,0.82rem)] max-[768px]:translate-y-[clamp(0.45rem,1.9vw,0.72rem)]"
             )}
           >
             {beforeView === "contact" ? (
@@ -451,8 +437,8 @@ export default function HomeAboutSection({
               </>
             ) : (
               <>
-                <h3 id={beforeHeadingId} className="home-before-title m-0 mb-[clamp(0.66rem,1.15vw,0.9rem)] max-[768px]:mb-[clamp(0.78rem,1.8vw,1rem)] mt-[clamp(-0.52rem,-1.18vw,-0.8rem)] max-[768px]:mt-[clamp(-0.34rem,-0.82vw,-0.56rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.16] text-[color:var(--home-prose-color)]">
-                  {renderCircleTitle(ctaTitle)}
+                <h3 id={beforeHeadingId} className="sr-only">
+                  {ctaTitle}
                 </h3>
                 <ul className={beforeListClassName}>
                   <li className={homeCircleItemClassName}>
