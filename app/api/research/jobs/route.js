@@ -14,9 +14,10 @@ export const fetchCache = "force-no-store";
 
 const RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.RESEARCH_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
 const RATE_LIMIT_POST_MAX = readChatRateLimit(process.env.RESEARCH_RATE_LIMIT_POST_MAX, 12);
-const RESEARCH_API_ENABLED = ["true", "1", "yes", "on"].includes(
-  String(process.env.RESEARCH_API_ENABLED || "").trim().toLowerCase()
-);
+const RESEARCH_API_ENABLED_RAW = String(process.env.RESEARCH_API_ENABLED || "").trim().toLowerCase();
+const RESEARCH_API_ENABLED = RESEARCH_API_ENABLED_RAW
+  ? ["true", "1", "yes", "on"].includes(RESEARCH_API_ENABLED_RAW)
+  : process.env.NODE_ENV !== "production";
 const RESEARCH_JOB_MODE = String(process.env.RESEARCH_JOB_MODE || process.env.RESEARCH_RUNNER_MODE || "inline")
   .trim()
   .toLowerCase();

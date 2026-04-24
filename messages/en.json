@@ -1502,6 +1502,7 @@
       "openai_key_missing": "Deep research AI configuration is missing.",
       "query_too_long": "The deep research question is too long.",
       "retrieval_failed": "Deep research could not retrieve evidence from the document base. Please try again.",
+      "retrieval_unavailable": "Deep research could not connect to the retrieval service. Please try again later.",
       "room_not_supported": "Deep research is available only in 1:1 chat.",
       "timeout": "Deep research took too long. Narrow the question and try again.",
       "disabled": "Deep research is not available in the user interface."

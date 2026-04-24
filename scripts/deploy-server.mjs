@@ -76,10 +76,16 @@ fi
 if systemctl list-unit-files sotsiaalai-rag.service >/dev/null 2>&1; then
   sudo systemctl restart sotsiaalai-rag.service
 fi
+if systemctl list-unit-files sotsiaalai-research-worker.service >/dev/null 2>&1; then
+  sudo systemctl restart sotsiaalai-research-worker.service
+fi
 sudo systemctl restart sotsiaalai-frontend.service
 
 if systemctl list-unit-files sotsiaalai-rag.service >/dev/null 2>&1; then
   systemctl is-active sotsiaalai-rag.service
+fi
+if systemctl list-unit-files sotsiaalai-research-worker.service >/dev/null 2>&1; then
+  systemctl is-active sotsiaalai-research-worker.service
 fi
 systemctl is-active sotsiaalai-frontend.service
 
