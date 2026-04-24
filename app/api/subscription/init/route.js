@@ -13,6 +13,7 @@ import {
 } from "@/lib/payments/maksekeskus";
 import { getInitialSubscriptionPaymentKind, isRecurringBillingEnabled } from "@/lib/payments/recurring";
 import { logPaymentEvent } from "@/lib/payments/observability";
+import { safeError } from "@/lib/privacy/safeError";
 import {
   getRoleMonthlyAmount,
   getRolePlanDescription,
@@ -353,7 +354,7 @@ export async function POST(request) {
         });
       } catch {}
     }
-    console.error("subscription init error", error);
+    console.error("subscription init error", safeError(error));
     const messageKey = String(error?.message || "").startsWith("api.subscription.")
       ? String(error.message)
       : "api.subscription.checkout_create_failed";

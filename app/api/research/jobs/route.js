@@ -6,6 +6,7 @@ import { requireResearchAuth } from "@/lib/research/auth";
 import { createResearchJob, getActiveResearchJobCount } from "@/lib/research/jobStore";
 import { getResearchDailyLimit } from "@/lib/research/guardrails";
 import { runDeepResearchJob } from "@/lib/research/pipeline";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -201,7 +202,7 @@ export async function POST(req) {
         retryAfter: secondsUntilUtcMidnight()
       });
     }
-    console.error("[research] quota log failed", error);
+    console.error("[research] quota log failed", safeError(error));
     return errorJson("research.error.failed", 503);
   }
 
@@ -219,7 +220,7 @@ export async function POST(req) {
         used: await getActiveResearchJobCount(auth.userId)
       });
     }
-    console.error("[research] job create failed", error);
+    console.error("[research] job create failed", safeError(error));
     return errorJson("research.error.failed", 503);
   }
 
@@ -240,7 +241,7 @@ export async function POST(req) {
     }
   }).catch(error => {
     try {
-      console.error("[research] request log failed", error);
+      console.error("[research] request log failed", safeError(error));
     } catch {}
   });
 
@@ -248,7 +249,7 @@ export async function POST(req) {
     queueMicrotask(() => {
       runDeepResearchJob(job).catch(err => {
         try {
-          console.error("[research][job] run failed", err);
+          console.error("[research][job] run failed", safeError(err));
         } catch {}
       });
     });

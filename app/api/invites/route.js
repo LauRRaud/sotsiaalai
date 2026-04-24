@@ -5,6 +5,7 @@ import { authConfig } from "@/auth";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
+import { safeError } from "@/lib/privacy/safeError";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 
@@ -368,7 +369,7 @@ export async function GET(request) {
       );
     }
 
-    console.error("[invites GET] failed", error);
+    console.error("[invites GET] failed", safeError(error));
     return errorJson("api.invites.load_failed", 500, locale, {
       code: "INVITES_LOAD_FAILED"
     });
@@ -540,7 +541,7 @@ export async function POST(request) {
           template: "create"
         });
       } catch (mailError) {
-        console.error("[invite email] failed", mailError);
+        console.error("[invite email] failed", safeError(mailError));
       }
     }
 
@@ -560,7 +561,7 @@ export async function POST(request) {
       );
     }
 
-    console.error("[invites POST] failed", error);
+    console.error("[invites POST] failed", safeError(error));
     return errorJson("api.invites.create_failed", 500, locale, {
       code: "INVITES_CREATE_FAILED"
     });

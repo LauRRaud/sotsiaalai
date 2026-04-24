@@ -7,6 +7,7 @@ import {
 } from "@/lib/admin/rag/organizations/service";
 import { deleteStoredOrganizationFile } from "@/lib/admin/rag/organizations/storage";
 import { errorJson, json, requireOrganizationAdminSession } from "@/lib/admin/rag/organizations/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -45,7 +46,7 @@ export async function DELETE(request, { params }) {
       item: updated || serializeOrganizationAdmin(await getOrganizationAdminEntryBySlug(slug))
     });
   } catch (error) {
-    console.error("[organization-admin] delete file failed", error);
+    console.error("[organization-admin] delete file failed", safeError(error));
     return errorJson("api.common.server_error", 500, auth.locale);
   }
 }

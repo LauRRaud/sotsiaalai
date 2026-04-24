@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { safeError } from "@/lib/privacy/safeError";
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -79,7 +80,7 @@ export async function GET(req) {
       resetSeconds: secondsUntilUtcMidnight()
     });
   } catch (err) {
-    console.error("[chat/analyze-usage GET] failed", err);
+    console.error("[chat/analyze-usage GET] failed", safeError(err));
     if (isChatDbOfflineError(err)) {
       return errorJson("api.chat.db_unavailable", 503, locale, {
         degraded: true

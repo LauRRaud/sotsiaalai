@@ -13,6 +13,7 @@ import { getMailer } from "@/lib/mailer";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { serverT, normalizeServerLocale } from "@/lib/i18n/serverMessages";
+import { safeError } from "@/lib/privacy/safeError";
 
 const LOGIN_RESEND_RATE_LIMIT_WINDOW_MS = Number(
   process.env.LOGIN_RESEND_RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000
@@ -208,7 +209,7 @@ export async function POST(request) {
       otp_expires_at: expiresAt.toISOString()
     });
   } catch (error) {
-    console.error("login-resend-otp error", error);
+    console.error("login-resend-otp error", safeError(error));
     return errorJson("api.auth.login.resend_failed", 500, locale, {
       code: "RESEND_FAILED"
     });

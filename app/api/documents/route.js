@@ -21,6 +21,7 @@ import {
   requireDocumentUser,
   writeUploadedFile
 } from "@/lib/documents/server"
+import { safeError } from "@/lib/privacy/safeError"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -155,10 +156,10 @@ export async function GET(request) {
           pagination: buildPaginationMeta({ total, limit, offset })
         })
       } catch (fallbackError) {
-        console.error("[documents] legacy list fallback failed", fallbackError)
+        console.error("[documents] legacy list fallback failed", safeError(fallbackError))
       }
     }
-    console.error("[documents] list failed", error)
+    console.error("[documents] list failed", safeError(error))
     return errorJson("documents.errors.list_failed", 500, locale)
   }
 }
@@ -278,7 +279,7 @@ export async function POST(request) {
       try {
         await deleteStoredDocument(storagePath)
       } catch (cleanupError) {
-        console.error("[documents] upload cleanup failed", cleanupError)
+        console.error("[documents] upload cleanup failed", safeError(cleanupError))
       }
     }
 
@@ -286,7 +287,7 @@ export async function POST(request) {
     const messageKey =
       status === 500 ? "documents.errors.upload_failed" : error?.message || "documents.errors.upload_failed"
     if (status === 500) {
-      console.error("[documents] upload failed", error)
+      console.error("[documents] upload failed", safeError(error))
     }
     await logDocumentsAudit("document.upload_failed", {
       userId: auth.userId,

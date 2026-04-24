@@ -9,6 +9,7 @@ import {
 import { CHAT_NO_STORE_HEADERS, isChatDbOfflineError, isPlausibleChatId, requireChatUser } from "@/lib/chat/routeServerUtils";
 import { prisma } from "@/lib/prisma";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -234,7 +235,7 @@ export async function GET(req, deps = {}) {
       nextCursor
     });
   } catch (err) {
-    console.error("[chat/conversations GET] failed", err);
+    console.error("[chat/conversations GET] failed", safeError(err));
     if (isDbOffline(err)) {
       return json({
         ok: true,
@@ -364,7 +365,7 @@ export async function POST(req, deps = {}) {
       }
     });
   } catch (err) {
-    console.error("[chat/conversations POST] failed", err);
+    console.error("[chat/conversations POST] failed", safeError(err));
     return errorJson("api.chat.db_error_conversation_create", 500, {
       code: "DB_ERROR_CONVERSATION_CREATE"
     });

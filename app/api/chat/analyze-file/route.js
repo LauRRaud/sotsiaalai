@@ -16,6 +16,7 @@ import {
   resolveAnalyzeMimeType
 } from "@/lib/chat/analyzeFileConfig";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { safeError } from "@/lib/privacy/safeError";
 
 const MAX_MB = readAnalyzeMaxUploadMb(
   process.env.RAG_SERVER_MAX_MB || process.env.RAG_MAX_UPLOAD_MB || process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB,
@@ -229,7 +230,7 @@ export async function POST(request) {
       });
     }
 
-    console.error("[analyze-file] quota check failed:", e);
+    console.error("[analyze-file] quota check failed:", safeError(e));
     return errorJson("api.chat.analyze.quota_check_failed", 503, locale);
   }
 
@@ -259,12 +260,12 @@ export async function POST(request) {
       }
     });
   } catch (e) {
-    console.error("[analyze-file] RAG analyze error:", e);
+    console.error("[analyze-file] RAG analyze error:", safeError(e));
     if (quotaReserved) {
       try {
         await refundAnalyzeQuota(prisma, { userId, day });
       } catch (refundError) {
-        console.error("[analyze-file] quota refund failed:", refundError);
+        console.error("[analyze-file] quota refund failed:", safeError(refundError));
       }
     }
     const status = Number(e?.status) || 502;

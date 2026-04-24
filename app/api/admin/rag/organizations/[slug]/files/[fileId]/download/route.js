@@ -1,6 +1,7 @@
 import { getOrganizationAdminEntryBySlug } from "@/lib/admin/rag/organizations/service";
 import { buildOrganizationDownloadHeaders, readStoredOrganizationFile } from "@/lib/admin/rag/organizations/storage";
 import { errorJson, requireOrganizationAdminSession } from "@/lib/admin/rag/organizations/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -34,7 +35,7 @@ export async function GET(request, { params }) {
       headers: buildOrganizationDownloadHeaders(file.originalName)
     });
   } catch (error) {
-    console.error("[organization-admin] download file failed", error);
+    console.error("[organization-admin] download file failed", safeError(error));
     return errorJson("api.common.server_error", 500, auth.locale);
   }
 }

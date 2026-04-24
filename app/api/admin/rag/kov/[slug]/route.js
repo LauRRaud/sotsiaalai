@@ -1,5 +1,6 @@
 import { getKovAdminEntryBySlug, serializeKovAdmin, updateKovAdminEntryBySlug } from "@/lib/admin/rag/kov/service";
 import { errorJson, json, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -28,7 +29,7 @@ export async function GET(request, { params }) {
       item: serializeKovAdmin(row)
     });
   } catch (error) {
-    console.error("[kov-admin] get failed", error);
+    console.error("[kov-admin] get failed", safeError(error));
     return errorJson("api.admin.kov.detail_failed", 500, auth.locale);
   }
 }
@@ -58,7 +59,7 @@ export async function PATCH(request, { params }) {
       item
     });
   } catch (error) {
-    console.error("[kov-admin] patch failed", error);
+    console.error("[kov-admin] patch failed", safeError(error));
     return errorJson("api.admin.kov.update_failed", 500, auth.locale);
   }
 }

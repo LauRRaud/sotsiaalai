@@ -10,6 +10,7 @@ import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 import { readAudioDurationSecondsFromBuffer } from "@/lib/audio/duration";
 import { resolveGoogleApplicationCredentialsPath } from "@/lib/googleCredentials";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -249,7 +250,7 @@ export async function POST(req) {
       provider: result.provider
     });
   } catch (err) {
-    console.error("tts", err);
+    console.error("tts", safeError(err));
     return errorJson("api.tts.service_error", 500, localeFromRequest(req, locale));
   }
 }

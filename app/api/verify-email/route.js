@@ -6,6 +6,7 @@ import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { localizePath } from "@/lib/localizePath";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
+import { safeError } from "@/lib/privacy/safeError";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 
@@ -498,7 +499,7 @@ export async function GET(request) {
 
     return NextResponse.redirect(buildPostVerifyUrl({ requestUrl: request.url, locale, headers: request.headers }));
   } catch (error) {
-    console.error("verify-email GET error", error);
+    console.error("verify-email GET error", safeError(error));
     return renderVerifyPage({
       locale,
       title: copy.title,
@@ -590,7 +591,7 @@ export async function POST(request) {
 
     return json();
   } catch (error) {
-    console.error("verify-email POST error", error);
+    console.error("verify-email POST error", safeError(error));
 
     if (
       typeof error?.message === "string" &&

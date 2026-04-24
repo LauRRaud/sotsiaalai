@@ -1,5 +1,6 @@
 import { revalidateKovRtEntriesBySlugs } from "@/lib/admin/rag/kov/service";
 import { errorJson, json, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,7 +28,7 @@ export async function POST(request) {
       count: items.length
     });
   } catch (error) {
-    console.error("[kov-admin] bulk rt revalidate failed", error);
+    console.error("[kov-admin] bulk rt revalidate failed", safeError(error));
     return errorJson("api.admin.kov.update_failed", 500, auth.locale);
   }
 }

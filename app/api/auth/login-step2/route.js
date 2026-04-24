@@ -18,6 +18,7 @@ import {
 } from "@/lib/auth/pin-login";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { serverT, normalizeServerLocale } from "@/lib/i18n/serverMessages";
+import { safeError } from "@/lib/privacy/safeError";
 
 const LOGIN_STEP2_RATE_LIMIT_WINDOW_MS = Number(
   process.env.LOGIN_STEP2_RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000
@@ -285,7 +286,7 @@ export async function POST(request) {
 
     return response;
   } catch (error) {
-    console.error("login-step2 error", error);
+    console.error("login-step2 error", safeError(error));
     return errorJson("api.auth.login.verify_failed", 500, locale, {
       code: "VERIFY_FAILED"
     });

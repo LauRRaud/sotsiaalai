@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { hasRoomBillingAccess } from "@/lib/rooms/access";
+import { logDataAudit } from "@/lib/privacy/audit";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -78,6 +80,16 @@ export async function GET() {
   if (!auth.ok) return errorJson(auth.message, auth.status);
   try {
     const isAdmin = auth.userRole === "ADMIN";
+    if (isAdmin) {
+      await logDataAudit({
+        actorUserId: auth.userId,
+        action: "ROOM_LIST_VIEW_ADMIN",
+        resourceType: "Room",
+        ipAddress: null,
+        userAgent: null,
+        meta: { scope: "all_rooms" }
+      });
+    }
     const userActiveSubscription = isAdmin ? true : await hasActiveSubscription(auth.userId);
     const memberships = isAdmin
       ? await prisma.room.findMany({
@@ -243,7 +255,7 @@ export async function GET() {
       rooms
     });
   } catch (err) {
-    console.error("[rooms GET] failed", err);
+    console.error("[rooms GET] failed", safeError(err));
     return errorJson("rooms.error", 500);
   }
 }

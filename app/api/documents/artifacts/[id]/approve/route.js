@@ -4,6 +4,7 @@ import { buildArtifactDownloadUrl, serializeArtifact } from "@/lib/documents/art
 import { prisma } from "@/lib/prisma"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
+import { safeError } from "@/lib/privacy/safeError"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -135,7 +136,7 @@ export async function POST(request, { params }) {
     if (error?.status === 403) {
       return errorJson("api.common.forbidden", 403, locale)
     }
-    console.error("[documents artifacts] approve failed", error)
+    console.error("[documents artifacts] approve failed", safeError(error))
     return errorJson("documents.artifacts.errors.approve_failed", 500, locale)
   }
 }

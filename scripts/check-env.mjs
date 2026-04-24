@@ -215,6 +215,39 @@ function main() {
     errors.push("SUBSCRIPTION_RECURRING_ENABLED=1 requires MAKSEKESKUS_PUBLIC_KEY");
   }
 
+  const retentionKeys = [
+    "DATA_RETENTION_DAYS",
+    "CONVERSATION_TTL_DAYS",
+    "PAYMENT_RETENTION_DAYS",
+    "PAYMENT_RAW_RETENTION_DAYS",
+    "LOG_RETENTION_DAYS"
+  ];
+
+  for (const key of retentionKeys) {
+    if (isNonEmpty(env[key]) && toNumber(env[key], 0) <= 0) {
+      errors.push(`${key} must be a positive number of days`);
+    }
+  }
+  if (env.NODE_ENV === "production") {
+    for (const key of retentionKeys) {
+      if (!isNonEmpty(env[key])) {
+        warnings.push(`${key} is not set; production will use application defaults`);
+      }
+    }
+  }
+
+  const ragDeleteFlag = String(env.RAG_DELETE_ON_DOCUMENT_DELETE || "").trim().toLowerCase();
+  if (ragDeleteFlag && !["1", "0", "true", "false", "yes", "no", "on", "off"].includes(ragDeleteFlag)) {
+    errors.push("RAG_DELETE_ON_DOCUMENT_DELETE must be a boolean-like value");
+  }
+  if (env.NODE_ENV === "production" && !ragDeleteFlag) {
+    warnings.push("RAG_DELETE_ON_DOCUMENT_DELETE is not set; document deletes will leave RAG cleanup marked as skipped");
+  }
+
+  if (isNonEmpty(env.BACKUP_RETENTION_DAYS)) {
+    warnings.push("BACKUP_RETENTION_DAYS is documentation/ops policy only; the app does not enforce backup deletion");
+  }
+
   if (sourceFile) {
     console.log(`[env:check] Source: ${path.relative(rootDir, sourceFile)}`);
   } else {

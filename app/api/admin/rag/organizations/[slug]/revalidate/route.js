@@ -1,5 +1,6 @@
 import { revalidateOrganizationEntryBySlug } from "@/lib/admin/rag/organizations/service";
 import { errorJson, json, requireOrganizationAdminSession } from "@/lib/admin/rag/organizations/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,7 +27,7 @@ export async function POST(request, { params }) {
       item
     });
   } catch (error) {
-    console.error("[organization-admin] revalidate failed", error);
+    console.error("[organization-admin] revalidate failed", safeError(error));
     return errorJson("api.common.server_error", 500, auth.locale);
   }
 }

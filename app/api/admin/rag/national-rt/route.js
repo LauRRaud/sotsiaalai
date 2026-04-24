@@ -1,6 +1,7 @@
 import { buildNationalRtXmlIngestPayload } from "@/lib/admin/rag/kov/rtXml";
 import { json, errorJson, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
 import { buildRagHeaders, ragServiceRequest } from "@/lib/documents/ragService";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -73,7 +74,7 @@ export async function POST(request) {
     });
   } catch (error) {
     const status = Number(error?.status) || 500;
-    console.error("[rag-admin] national RT XML ingest failed", error);
+    console.error("[rag-admin] national RT XML ingest failed", safeError(error));
     return errorJson("admin.rag.errors.rt_xml_ingest_failed", status, auth.locale, {
       message: String(error?.message || "RT XML ingest failed").slice(0, 500)
     });

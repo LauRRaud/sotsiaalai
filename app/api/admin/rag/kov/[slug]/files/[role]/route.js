@@ -3,6 +3,7 @@ import { getKovAdminEntryBySlug, serializeKovAdmin, syncKovAdminIngestStatusById
 import { deleteStoredKovFile } from "@/lib/admin/rag/kov/storage";
 import { KOV_FILE_ROLE_META, resolveKovFileKeyFromParam } from "@/lib/admin/rag/kov/shared";
 import { errorJson, json, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -57,7 +58,7 @@ export async function DELETE(request, { params }) {
       item: serializeKovAdmin(updated)
     });
   } catch (error) {
-    console.error("[kov-admin] delete file failed", error);
+    console.error("[kov-admin] delete file failed", safeError(error));
     return errorJson("api.admin.kov.file_delete_failed", 500, auth.locale);
   }
 }

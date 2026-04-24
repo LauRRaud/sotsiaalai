@@ -31,6 +31,7 @@ import {
   extractRecurringTokenValidUntil,
 } from "@/lib/payments/recurring";
 import { logPaymentEvent } from "@/lib/payments/observability";
+import { safeError } from "@/lib/privacy/safeError";
 
 const NO_STORE_HEADERS = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
@@ -923,7 +924,7 @@ export async function POST(request) {
       ...result
     });
   } catch (error) {
-    console.error("subscription webhook error", error);
+    console.error("subscription webhook error", safeError(error));
     logPaymentEvent("subscription_webhook_failed", {
       providerPaymentId,
       error

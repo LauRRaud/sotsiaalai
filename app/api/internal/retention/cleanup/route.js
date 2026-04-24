@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { assertRetentionAccess, maybeRunRetentionCleanup } from "@/lib/retention";
+import { logDataAudit } from "@/lib/privacy/audit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -30,6 +31,16 @@ export async function POST(request) {
   }
 
   const result = await maybeRunRetentionCleanup({ force: true });
+  await logDataAudit({
+    action: "RETENTION_CLEANUP_TRIGGERED",
+    resourceType: "Retention",
+    ipAddress: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || null,
+    userAgent: request.headers.get("user-agent") || null,
+    meta: {
+      scope: access.scope,
+      ok: Boolean(result?.ok)
+    }
+  });
   return json({
     ok: true,
     scope: access.scope,

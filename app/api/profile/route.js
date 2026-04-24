@@ -17,6 +17,8 @@ import {
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
+import { deleteUserWithPrivacyCleanup } from "@/lib/privacy/userDeletion";
+import { safeError } from "@/lib/privacy/safeError";
 
 const NO_STORE_HEADERS = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
@@ -230,7 +232,7 @@ export async function GET(request) {
       }
     });
   } catch (error) {
-    console.error("profile GET error", error);
+    console.error("profile GET error", safeError(error));
     return errorJson("profile.load_failed", 500, locale);
   }
 }
@@ -353,7 +355,7 @@ export async function PUT(request) {
       try {
         await sendVerificationEmail(data.email, requestLocale);
       } catch (sendError) {
-        console.error("profile verification email send failed", sendError);
+          console.error("profile verification email send failed", safeError(sendError));
       }
     }
 
@@ -367,7 +369,7 @@ export async function PUT(request) {
       return errorJson("profile.email_update.error_email_in_use", 409, locale);
     }
 
-    console.error("profile PUT error", error);
+    console.error("profile PUT error", safeError(error));
     return errorJson("profile.update_failed", 500, locale);
   }
 }
@@ -412,15 +414,19 @@ export async function DELETE(request) {
       }
     }
 
-    await prisma.user.delete({
-      where: { id: ctx.userId }
+    await deleteUserWithPrivacyCleanup({
+      actorUserId: ctx.userId,
+      targetUserId: ctx.userId,
+      reason: "profile_delete",
+      ipAddress: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || null,
+      userAgent: request.headers.get("user-agent") || null
     });
 
     if (current.email) {
       try {
         await sendAccountDeletedEmail(current.email, requestLocale);
       } catch (sendError) {
-        console.error("profile account-deleted email send failed", sendError);
+        console.error("profile account-deleted email send failed", safeError(sendError));
       }
     }
 
@@ -433,7 +439,7 @@ export async function DELETE(request) {
       return errorJson("profile.errors.user_not_found", 404, fallbackLocale);
     }
 
-    console.error("profile DELETE error", error);
+    console.error("profile DELETE error", safeError(error));
     return errorJson("profile.delete_failed", 500, fallbackLocale);
   }
 }

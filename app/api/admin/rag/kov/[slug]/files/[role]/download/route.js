@@ -3,6 +3,7 @@ import { getKovAdminEntryBySlug } from "@/lib/admin/rag/kov/service";
 import { buildKovDownloadHeaders, readStoredKovFile } from "@/lib/admin/rag/kov/storage";
 import { KOV_FILE_ROLE_META, resolveKovFileKeyFromParam } from "@/lib/admin/rag/kov/shared";
 import { errorJson, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -45,7 +46,7 @@ export async function GET(request, { params }) {
       headers: buildKovDownloadHeaders(fileKey, slug, file.originalName)
     });
   } catch (error) {
-    console.error("[kov-admin] download file failed", error);
+    console.error("[kov-admin] download file failed", safeError(error));
     return errorJson("api.admin.kov.file_download_failed", 500, auth.locale);
   }
 }

@@ -5,6 +5,7 @@ import { authConfig } from "@/auth";
 import { PaymentProvider, PaymentStatus } from "@/generated/prisma/client";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
+import { safeError } from "@/lib/privacy/safeError";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import {
@@ -643,7 +644,7 @@ export async function POST(request) {
       );
     }
 
-    console.error("[invites sponsored init] failed", error);
+    console.error("[invites sponsored init] failed", safeError(error));
     return errorJson("api.subscription.checkout_create_failed", 500, locale, {
       code: "SPONSORED_INVITE_INIT_FAILED"
     });

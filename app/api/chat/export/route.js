@@ -6,6 +6,7 @@ import {
   createPdfBufferFromText,
   createWordBufferFromText
 } from "@/lib/chat/exportDocument";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -145,7 +146,7 @@ export async function GET(req) {
     if (isDbOffline(err)) {
       return jsonError("api.chat.db_unavailable", 503);
     }
-    console.error("[chat export GET] failed", err);
+    console.error("[chat export GET] failed", safeError(err));
     return jsonError("api.common.server_error", 500);
   }
 }

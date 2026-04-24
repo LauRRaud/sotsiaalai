@@ -16,6 +16,7 @@ import {
   normalizeMaterialComment,
   writeUploadedMaterial
 } from "@/lib/materials/server"
+import { safeError } from "@/lib/privacy/safeError"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -83,7 +84,7 @@ export async function GET(request) {
       submissions: submissions.map(serializeSubmission)
     })
   } catch (error) {
-    console.error("[materials] list failed", error)
+    console.error("[materials] list failed", safeError(error))
     if (isMaterialSubmissionSchemaError(error)) {
       return errorJson(getMaterialSubmissionSchemaMessage(locale), 503, locale)
     }
@@ -218,7 +219,7 @@ export async function POST(request) {
       try {
         await deleteStoredMaterial(entry.storagePath)
       } catch (cleanupError) {
-        console.error("[materials] upload cleanup failed", cleanupError)
+        console.error("[materials] upload cleanup failed", safeError(cleanupError))
       }
     }
 
@@ -228,7 +229,7 @@ export async function POST(request) {
 
     const status = Number(error?.status) || 500
     if (status === 500) {
-      console.error("[materials] upload failed", error)
+      console.error("[materials] upload failed", safeError(error))
     }
     return errorJson(status === 500 ? "Materjali üleslaadimine ebaõnnestus." : error?.message || "Materjali üleslaadimine ebaõnnestus.", status, locale)
   }

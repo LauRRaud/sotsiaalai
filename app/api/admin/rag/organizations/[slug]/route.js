@@ -4,6 +4,7 @@ import {
   updateOrganizationAdminEntryBySlug
 } from "@/lib/admin/rag/organizations/service";
 import { errorJson, json, requireOrganizationAdminSession } from "@/lib/admin/rag/organizations/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -30,7 +31,7 @@ export async function GET(request, { params }) {
       item: serializeOrganizationAdmin(row)
     });
   } catch (error) {
-    console.error("[organization-admin] detail failed", error);
+    console.error("[organization-admin] detail failed", safeError(error));
     return errorJson("api.common.server_error", 500, auth.locale);
   }
 }
@@ -58,7 +59,7 @@ export async function PATCH(request, { params }) {
       item
     });
   } catch (error) {
-    console.error("[organization-admin] update failed", error);
+    console.error("[organization-admin] update failed", safeError(error));
     return errorJson("api.common.server_error", 500, auth.locale, {
       debug: process.env.NODE_ENV !== "production" ? String(error?.message || error) : undefined
     });

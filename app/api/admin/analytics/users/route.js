@@ -7,6 +7,8 @@ import { getAnalyzeLimitDetails, utcDayStart } from "@/lib/analyzeQuota";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
+import { deleteUserWithPrivacyCleanup } from "@/lib/privacy/userDeletion";
+import { safeError } from "@/lib/privacy/safeError";
 import {
   MONTHLY_COST_BUDGET_EUR_PER_USER,
   COST_CHAT_REQUEST_EUR,
@@ -545,19 +547,26 @@ export async function DELETE(req) {
       .map(user => String(user.email || "").trim().toLowerCase())
       .filter(Boolean);
 
-    await prisma.$transaction(async tx => {
-      if (emailsToCleanup.length) {
-        await tx.verificationToken.deleteMany({
-          where: { identifier: { in: emailsToCleanup } }
-        });
-      }
-      await tx.chatLog.deleteMany({
-        where: { userId: { in: deletableIds } }
+    if (emailsToCleanup.length) {
+      await prisma.verificationToken.deleteMany({
+        where: {
+          OR: [
+            { identifier: { in: emailsToCleanup } },
+            { identifier: { in: emailsToCleanup.map(email => `email-verify:${email}`) } }
+          ]
+        }
       });
-      await tx.user.deleteMany({
-        where: { id: { in: deletableIds } }
+    }
+
+    for (const userId of deletableIds) {
+      await deleteUserWithPrivacyCleanup({
+        actorUserId: ownUserId || String(session?.user?.id || ""),
+        targetUserId: userId,
+        reason: "admin_analytics_users_delete",
+        ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || null,
+        userAgent: req.headers.get("user-agent") || null
       });
-    });
+    }
 
     return json({
       ok: true,
@@ -569,7 +578,7 @@ export async function DELETE(req) {
       }
     });
   } catch (error) {
-    console.error("admin analytics users DELETE failed", error);
+    console.error("admin analytics users DELETE failed", safeError(error));
     return errorJson("api.admin.analytics.users_delete_failed", 500, locale, {
       debugCode: "ADMIN_ANALYTICS_USERS_DELETE_FAILED"
     });

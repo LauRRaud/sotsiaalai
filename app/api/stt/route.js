@@ -8,6 +8,7 @@ import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 import { readAudioDurationSecondsFromFile } from "@/lib/audio/duration";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -216,6 +217,7 @@ export async function POST(req) {
         provider: "external"
       });
     } catch (err) {
+      console.error("[stt] external provider failed", safeError(err));
       return errorJson(err?.message || "api.stt.service_error", 502, uiLocale);
     }
   }
@@ -282,6 +284,7 @@ export async function POST(req) {
       provider: "openai"
     });
   } catch (err) {
+    console.error("[stt] openai provider failed", safeError(err));
     return errorJson(err?.message || "api.stt.service_error", 502, uiLocale);
   }
 }

@@ -13,6 +13,7 @@ import {
   readStoredDocument,
   requireDocumentUser
 } from "@/lib/documents/server"
+import { safeError } from "@/lib/privacy/safeError"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -137,7 +138,7 @@ export async function GET(request, { params }) {
     if (error?.status === 403) {
       return errorJson("api.common.forbidden", 403, locale)
     }
-    console.error("[documents artifacts] download failed", error)
+    console.error("[documents artifacts] download failed", safeError(error))
     return errorJson("documents.artifacts.errors.download_failed", 500, locale)
   }
 }

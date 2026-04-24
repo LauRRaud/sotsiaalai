@@ -2,6 +2,7 @@ import process from "node:process";
 import { claimNextResearchJob, startResearchJobLeaseHeartbeat } from "../lib/research/jobStore.js";
 import { runDeepResearchJob } from "../lib/research/pipeline.js";
 import { prisma } from "../lib/prisma.js";
+import { safeError } from "../lib/privacy/safeError.js";
 
 function toInt(value, fallback, min = 1, max = Number.MAX_SAFE_INTEGER) {
   const parsed = Number(value);
@@ -45,7 +46,7 @@ async function runOnce() {
     await runDeepResearchJob(job);
     console.log(`[research-worker] finished job ${job.id}`);
   } catch (error) {
-    console.error(`[research-worker] job ${job.id} failed`, error);
+    console.error(`[research-worker] job ${job.id} failed`, safeError(error));
   } finally {
     stopHeartbeat();
   }
@@ -65,7 +66,7 @@ async function main() {
 }
 
 main().catch(async error => {
-  console.error("[research-worker] fatal", error);
+  console.error("[research-worker] fatal", safeError(error));
   try {
     await prisma.$disconnect();
   } catch {}

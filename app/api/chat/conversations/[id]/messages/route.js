@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { CHAT_NO_STORE_HEADERS, isChatDbOfflineError, isPlausibleChatId, requireChatUser } from "@/lib/chat/routeServerUtils";
 import { prisma } from "@/lib/prisma";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -166,7 +167,7 @@ export async function GET(req, { params }, deps = {}) {
         degraded: true
       });
     }
-    console.error("[chat/conversations/:id/messages GET] failed", err);
+    console.error("[chat/conversations/:id/messages GET] failed", safeError(err));
     return errorJson("api.chat.db_error_conversation_messages", 500, {
       code: "DB_ERROR_CONVERSATION_MESSAGES"
     });

@@ -15,6 +15,7 @@ import { createFrameworkAcceptanceDocument } from "@/lib/frameworkAcceptances/se
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
+import { safeError } from "@/lib/privacy/safeError";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 
@@ -272,7 +273,7 @@ export async function POST(request) {
           locale
         });
       } catch (documentError) {
-        console.error("[register] framework acceptance document creation failed", documentError);
+        console.error("[register] framework acceptance document creation failed", safeError(documentError));
       }
     }
 
@@ -307,16 +308,16 @@ export async function POST(request) {
             data: { emailVerificationSentAt: new Date() }
           });
         } catch (sendError) {
-          console.error("register verification email send failed", sendError);
+          console.error("register verification email send failed", safeError(sendError));
         }
       }
     } catch (verifyError) {
-      console.error("register verification flow failed", verifyError);
+      console.error("register verification flow failed", safeError(verifyError));
     }
 
     return json({}, 201);
   } catch (error) {
-    console.error("register POST error", error);
+    console.error("register POST error", safeError(error));
     return errorJson("api.auth.register.failed", 500, locale, {
       code: "REGISTER_FAILED"
     });

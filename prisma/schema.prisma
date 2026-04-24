@@ -668,6 +668,44 @@ model ChatLog {
   @@index([role, createdAt])
 }
 
+model DataAuditLog {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  actorUserId  String?
+  targetUserId String?
+  action       String
+  resourceType String?
+  resourceId   String?
+  ipAddress    String?
+  userAgent    String?
+  meta         Json?
+
+  @@index([createdAt])
+  @@index([actorUserId, createdAt])
+  @@index([targetUserId, createdAt])
+  @@index([action, createdAt])
+}
+
+model DataDeletionJob {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  actorUserId  String?
+  targetUserId String?
+  action       String
+  resourceType String
+  resourceId   String?
+  storagePath  String?
+  externalRef  String?
+  status       String   @default("pending")
+  attempts     Int      @default(0)
+  lastError    String?
+
+  @@index([status, createdAt])
+  @@index([targetUserId, createdAt])
+  @@index([resourceType, resourceId])
+}
+
 model ResearchJob {
   id         String    @id
   userId     String

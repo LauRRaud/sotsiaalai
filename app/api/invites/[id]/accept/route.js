@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
+import { safeError } from "@/lib/privacy/safeError";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { getRolePlanKey, normalizeSubscriptionRole } from "@/lib/subscriptionPlans";
@@ -388,7 +389,7 @@ export async function POST(request, { params }) {
       );
     }
 
-    console.error("[invite accept] failed", error);
+    console.error("[invite accept] failed", safeError(error));
     return errorJson("api.invites.accept_failed", 500, locale, {
       code: "INVITE_ACCEPT_FAILED"
     });

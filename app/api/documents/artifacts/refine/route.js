@@ -18,6 +18,7 @@ import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { prisma } from "@/lib/prisma"
 import { effectiveRoleFromSession } from "@/lib/authz"
+import { safeError } from "@/lib/privacy/safeError"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
 
 export const runtime = "nodejs"
@@ -208,7 +209,7 @@ export async function POST(request) {
     const status = Number(error?.status) || 500
     const messageKey =
       status === 500 ? "documents.artifacts.errors.update_failed" : error?.message || "documents.artifacts.errors.update_failed"
-    console.error("[documents artifacts] refine failed", error)
+    console.error("[documents artifacts] refine failed", safeError(error))
     return errorJson(messageKey, status, locale)
   }
 }

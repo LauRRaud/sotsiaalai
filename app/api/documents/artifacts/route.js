@@ -34,6 +34,7 @@ import {
 import { getCachedRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
+import { safeError } from "@/lib/privacy/safeError"
 import { getStorageQuotaBytes, getUtf8ByteLength } from "@/lib/storageGuardrails"
 import { getUserStorageUsageBytes } from "@/lib/storageUsage"
 
@@ -160,7 +161,7 @@ export async function GET(request) {
       pagination: buildPaginationMeta({ total, limit, offset })
     })
   } catch (error) {
-    console.error("[documents artifacts] list failed", error)
+    console.error("[documents artifacts] list failed", safeError(error))
     return errorJson("documents.artifacts.errors.list_failed", 500, locale)
   }
 }
@@ -357,7 +358,7 @@ export async function POST(request) {
     const status = Number(error?.status) || 500
     const messageKey =
       status === 500 ? "documents.artifacts.errors.create_failed" : error?.message || "documents.artifacts.errors.create_failed"
-    console.error("[documents artifacts] create failed", error)
+    console.error("[documents artifacts] create failed", safeError(error))
     return errorJson(messageKey, status, locale)
   }
 }

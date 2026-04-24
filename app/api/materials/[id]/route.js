@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma"
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server"
 import { getMaterialSubmissionSchemaMessage, isMaterialSubmissionSchemaError } from "@/lib/materials/compat"
 import { deleteStoredMaterial } from "@/lib/materials/server"
+import { safeError } from "@/lib/privacy/safeError"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -45,7 +46,7 @@ export async function DELETE(request, { params }) {
 
     return json({ ok: true })
   } catch (error) {
-    console.error("[materials] delete failed", error)
+    console.error("[materials] delete failed", safeError(error))
     if (isMaterialSubmissionSchemaError(error)) {
       return errorJson(getMaterialSubmissionSchemaMessage(locale), 503, locale)
     }

@@ -9,6 +9,7 @@ import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { serverT, normalizeServerLocale } from "@/lib/i18n/serverMessages";
 import { localizePath } from "@/lib/localizePath";
+import { safeError } from "@/lib/privacy/safeError";
 
 const TOKEN_EXPIRY_MINUTES = Number(process.env.RESET_TOKEN_MINUTES || 60);
 const RESET_RATE_LIMIT_WINDOW_MS = Number(
@@ -184,12 +185,12 @@ export async function POST(request) {
         }
       });
     } catch (sendError) {
-      console.error("password reset email send failed", sendError);
+      console.error("password reset email send failed", safeError(sendError));
     }
 
     return ok();
   } catch (error) {
-    console.error("password reset POST error", error);
+    console.error("password reset POST error", safeError(error));
     return err("api.auth.reset.request_failed", 500, locale);
   }
 }
@@ -294,7 +295,7 @@ export async function PUT(request) {
 
     return ok({ requiresReauth: true });
   } catch (error) {
-    console.error("PIN reset PUT error", error);
+    console.error("PIN reset PUT error", safeError(error));
     return err("api.auth.reset.update_failed", 500, locale);
   }
 }

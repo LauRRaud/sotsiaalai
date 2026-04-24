@@ -9,6 +9,7 @@ import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/d
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { canSpendMonthlyBudget } from "@/lib/usageBudget";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -131,7 +132,7 @@ export async function POST(request) {
     queueMicrotask(() => {
       runMeetingSummaryJob(job).catch((error) => {
         try {
-          console.error("[meeting-summary][job] failed", error);
+          console.error("[meeting-summary][job] failed", safeError(error));
         } catch {}
       });
     });

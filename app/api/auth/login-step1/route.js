@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { compare } from "bcrypt";
 import { prisma } from "@/lib/prisma";
+import { safeError } from "@/lib/privacy/safeError";
 import {
   normalizeEmail,
   normalizePin,
@@ -183,7 +184,7 @@ async function sendOtpEmail(email, code, locale) {
       });
     }
   } catch (error) {
-    console.error("[login-otp] send failed", error);
+    console.error("[login-otp] send failed", safeError(error));
     if (!isDev) throw error;
   }
 }
@@ -215,7 +216,7 @@ async function sendNewDeviceAlertEmail(email, locale, { userAgent, ipAddress } =
       });
     }
   } catch (error) {
-    console.error("[login-device-alert] send failed", error);
+    console.error("[login-device-alert] send failed", safeError(error));
     if (!isDev) throw error;
   }
 }
@@ -380,7 +381,7 @@ export async function POST(request) {
         await sendNewDeviceAlertEmail(user.email, locale, { userAgent, ipAddress });
       }
     } catch (mailError) {
-      console.error("login-step1 device alert send failed", mailError);
+      console.error("login-step1 device alert send failed", safeError(mailError));
     }
 
     await sendOtpEmail(user.email, otpCode, locale);
@@ -400,7 +401,7 @@ export async function POST(request) {
       otp_reason: otpReason
     });
   } catch (error) {
-    console.error("login-step1 error", error);
+    console.error("login-step1 error", safeError(error));
     return errorJson("api.auth.login.step1_failed", 500, locale, {
       code: "LOGIN_FAILED"
     });

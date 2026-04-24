@@ -18,6 +18,7 @@ import {
 import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
+import { safeError } from "@/lib/privacy/safeError"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -191,7 +192,7 @@ export async function POST(request) {
     const status = Number(error?.status) || 500
     const messageKey =
       status === 500 ? "documents.artifacts.errors.create_failed" : error?.message || "documents.artifacts.errors.create_failed"
-    console.error("[documents artifacts] generate failed", error)
+    console.error("[documents artifacts] generate failed", safeError(error))
     return errorJson(messageKey, status, locale)
   }
 }

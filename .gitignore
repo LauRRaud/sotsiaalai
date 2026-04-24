@@ -88,6 +88,7 @@ rag.env.*
 .env.production
 .env.local
 .env.development
+!.env.example
 production.env
 .venv/
 backups/

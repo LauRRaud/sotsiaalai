@@ -133,24 +133,47 @@ app.add_middleware(
 
 @app.exception_handler(RequestValidationError)
 async def handle_request_validation_error(request: Request, exc: RequestValidationError):
-    body_preview = ""
+    body_len = None
+    body_sha256 = None
     if isinstance(exc.body, (bytes, bytearray)):
-        try:
-            body_preview = base64.b64encode(exc.body[:64]).decode("ascii")
-        except Exception:
-            body_preview = "<binary>"
+        body_len = len(exc.body)
+        body_sha256 = hashlib.sha256(exc.body).hexdigest()
     elif isinstance(exc.body, str):
-        body_preview = exc.body[:64]
+        body_len = len(exc.body.encode("utf-8", errors="ignore"))
+        body_sha256 = hashlib.sha256(exc.body.encode("utf-8", errors="ignore")).hexdigest()
+    else:
+        content_length = request.headers.get("content-length")
+        if content_length:
+            try:
+                body_len = int(content_length)
+            except Exception:
+                body_len = None
+
+    error_summary = [
+        {
+            "loc": error.get("loc"),
+            "type": error.get("type"),
+        }
+        for error in exc.errors()
+    ]
+    request_id = (
+        request.headers.get("x-request-id")
+        or request.headers.get("x-correlation-id")
+        or request.headers.get("x-amzn-trace-id")
+    )
 
     try:
         logger.warning(
-            "Validation error on %s: %s (body preview: %s)",
+            "Validation error on %s: errors=%s content_type=%s body_bytes=%s body_sha256=%s request_id=%s",
             request.url.path,
-            exc.errors(),
-            body_preview,
+            error_summary,
+            request.headers.get("content-type"),
+            body_len,
+            body_sha256,
+            request_id,
         )
     except Exception:
-        logger.warning("Validation error on %s (body preview: %s)", request.url.path, body_preview)
+        logger.warning("Validation error on %s", request.url.path)
 
     return JSONResponse(
         status_code=422,

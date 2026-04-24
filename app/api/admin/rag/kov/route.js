@@ -1,5 +1,6 @@
 import { listKovAdminEntries } from "@/lib/admin/rag/kov/service";
 import { errorJson, json, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,7 +18,7 @@ export async function GET(request) {
       total: items.length
     });
   } catch (error) {
-    console.error("[kov-admin] list failed", error);
+    console.error("[kov-admin] list failed", safeError(error));
     return errorJson("api.admin.kov.list_failed", 500, auth.locale, {
       debug: process.env.NODE_ENV !== "production" ? String(error?.message || error) : undefined
     });

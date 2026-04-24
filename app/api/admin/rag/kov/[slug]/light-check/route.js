@@ -1,5 +1,6 @@
 import { runKovLightCheckBySlug } from "@/lib/admin/rag/kov/service";
 import { json, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -43,7 +44,7 @@ export async function POST(request, { params }) {
     });
   } catch (error) {
     const status = Number(error?.status) || 500;
-    console.error("[kov-admin] light check failed", { slug, error });
+    console.error("[kov-admin] light check failed", { slug, error: safeError(error) });
     return json(
       {
         ok: false,

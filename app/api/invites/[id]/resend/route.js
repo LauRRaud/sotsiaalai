@@ -5,6 +5,7 @@ import { authConfig } from "@/auth";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
+import { safeError } from "@/lib/privacy/safeError";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 
@@ -215,7 +216,7 @@ export async function POST(request, { params }) {
       id
     });
   } catch (error) {
-    console.error("[invite resend] failed", error);
+    console.error("[invite resend] failed", safeError(error));
 
     if (
       typeof error?.message === "string" &&

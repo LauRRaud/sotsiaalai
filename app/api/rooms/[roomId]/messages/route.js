@@ -6,6 +6,8 @@ import { publishRoomEvent } from "@/lib/roomStream";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { hasRoomBillingAccess } from "@/lib/rooms/access";
+import { logDataAudit } from "@/lib/privacy/audit";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -193,6 +195,17 @@ export async function GET(req, { params }) {
 
   const access = await ensureAccess(auth.userId, roomId, auth.userRole);
   if (!access.ok) return errorJson(access.message, access.status || 403);
+  if (auth.userRole === "ADMIN" && access.member?.role === "ADMIN") {
+    await logDataAudit({
+      actorUserId: auth.userId,
+      action: "ROOM_MESSAGES_VIEW_ADMIN",
+      resourceType: "Room",
+      resourceId: roomId,
+      ipAddress: getRequestIpFromRequest(req),
+      userAgent: req.headers.get("user-agent") || null,
+      meta: { pageSize: PAGE_SIZE }
+    })
+  }
 
   const room = await prisma.room.findUnique({
     where: { id: roomId },
@@ -368,7 +381,7 @@ export async function POST(req, { params }) {
     } catch {}
     return json(responsePayload);
   } catch (err) {
-    console.error("[room message POST] failed", err);
+    console.error("[room message POST] failed", safeError(err));
     return errorJson("api.rooms.send_failed", 500);
   }
 }

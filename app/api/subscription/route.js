@@ -10,6 +10,7 @@ import {
   getRoleMonthlyAmount,
   normalizeSubscriptionRole
 } from "@/lib/subscriptionPlans";
+import { safeError } from "@/lib/privacy/safeError";
 
 const ACTIVE_STATUS = SubscriptionStatus.ACTIVE;
 const CANCELED_STATUS = SubscriptionStatus.CANCELED;
@@ -167,7 +168,7 @@ export async function GET(request) {
       subscription: shape(subscription)
     });
   } catch (error) {
-    console.error("subscription GET error", error);
+    console.error("subscription GET error", safeError(error));
     return errorJson("api.subscription.load_failed", 500, locale);
   }
 }
@@ -221,7 +222,7 @@ export async function POST(request) {
       subscription: shape(subscription)
     });
   } catch (error) {
-    console.error("subscription POST error", error);
+    console.error("subscription POST error", safeError(error));
     return errorJson("api.subscription.activate_failed", 500, locale);
   }
 }
@@ -255,7 +256,7 @@ export async function DELETE(request) {
       subscription: shape(subscription)
     });
   } catch (error) {
-    console.error("subscription DELETE error", error);
+    console.error("subscription DELETE error", safeError(error));
     return errorJson("api.subscription.cancel_failed", 500, locale);
   }
 }

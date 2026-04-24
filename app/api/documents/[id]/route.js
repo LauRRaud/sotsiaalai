@@ -4,6 +4,10 @@ import { deleteDocumentRecordAndFile } from "@/lib/documents/deleteDocumentRecor
 import { prisma } from "@/lib/prisma"
 import { isFrameworkAcceptanceSchemaError } from "@/lib/frameworkAcceptanceCompat"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
+import { logDataAudit } from "@/lib/privacy/audit"
+import { createDataDeletionJob, DELETION_STATUS, markDataDeletionJob } from "@/lib/privacy/deletionJobs"
+import { deleteDocumentRagReference } from "@/lib/privacy/documentDeletion"
+import { safeError } from "@/lib/privacy/safeError"
 import {
   deleteStoredDocument,
   errorJson,
@@ -68,6 +72,7 @@ async function findDocumentWithFrameworkState(id) {
         agentAllowed: true,
         mime: true,
         size: true,
+        sha256: true,
         storagePath: true,
         createdAt: true,
         updatedAt: true,
@@ -103,6 +108,7 @@ async function findDocumentWithFrameworkState(id) {
         agentAllowed: true,
         mime: true,
         size: true,
+        sha256: true,
         storagePath: true,
         createdAt: true,
         updatedAt: true
@@ -151,7 +157,7 @@ export async function GET(request, { params }) {
     if (error?.status === 403) {
       return errorJson("api.common.forbidden", 403, locale)
     }
-    console.error("[documents] read failed", error)
+    console.error("[documents] read failed", safeError(error))
     return errorJson("documents.errors.read_failed", 500, locale)
   }
 }
@@ -254,7 +260,7 @@ export async function PATCH(request, { params }) {
     if (error?.status === 403) {
       return errorJson("api.common.forbidden", 403, locale)
     }
-    console.error("[documents] update failed", error)
+    console.error("[documents] update failed", safeError(error))
     return errorJson("documents.errors.update_failed", 500, locale)
   }
 }
@@ -292,6 +298,49 @@ export async function DELETE(request, { params }) {
       return errorJson("documents.errors.read_only_document", 403, locale)
     }
 
+    await deleteDocumentRagReference({
+      document: existing,
+      actorUserId: auth.userId,
+      targetUserId: auth.userId,
+      ipAddress: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || null,
+      userAgent: request.headers.get("user-agent") || null,
+      action: "RAG_DELETE",
+      auditResourceType: "UserDocument"
+    })
+
+    await logDataAudit({
+      actorUserId: auth.userId,
+      targetUserId: auth.userId,
+      action: "DOCUMENT_DELETE",
+      resourceType: "UserDocument",
+      resourceId: existing.id,
+      ipAddress: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || null,
+      userAgent: request.headers.get("user-agent") || null,
+      meta: {
+        kind: existing.kind,
+        mime: existing.mime,
+        size: existing.size
+      }
+    })
+
+    await logDocumentsAudit("document.deleted", {
+      userId: auth.userId,
+      documentId: existing.id,
+      title: existing.title,
+      originalName: existing.originalName,
+      kind: existing.kind
+    })
+
+    const fileDeletionJob = await createDataDeletionJob({
+      actorUserId: auth.userId,
+      targetUserId: auth.userId,
+      action: "FILE_DELETE",
+      resourceType: "UserDocument",
+      resourceId: existing.id,
+      storagePath: existing.storagePath,
+      status: DELETION_STATUS.PENDING
+    })
+
     const deletedDocument = await deleteDocumentRecordAndFile({
       deleteRecord: () => prisma.userDocument.delete({
         where: { id },
@@ -303,22 +352,25 @@ export async function DELETE(request, { params }) {
           storagePath: true
         }
       }),
-      deleteFile: (document) => deleteStoredDocument(document.storagePath),
+      deleteFile: async (document) => {
+        await deleteStoredDocument(document.storagePath)
+        await markDataDeletionJob(fileDeletionJob, {
+          status: DELETION_STATUS.DONE,
+          incrementAttempts: true
+        })
+      },
       onFileDeleteError: (cleanupError, document) => {
+        void markDataDeletionJob(fileDeletionJob, {
+          status: DELETION_STATUS.FAILED,
+          incrementAttempts: true,
+          lastError: safeError(cleanupError).message
+        })
         console.error("[documents] delete cleanup failed", {
           documentId: document?.id,
           storagePath: document?.storagePath,
-          error: cleanupError
+          error: safeError(cleanupError)
         })
       }
-    })
-
-    await logDocumentsAudit("document.deleted", {
-      userId: auth.userId,
-      documentId: deletedDocument.id,
-      title: deletedDocument.title,
-      originalName: deletedDocument.originalName,
-      kind: deletedDocument.kind
     })
 
     return json({
@@ -329,7 +381,7 @@ export async function DELETE(request, { params }) {
     if (error?.status === 403) {
       return errorJson("api.common.forbidden", 403, locale)
     }
-    console.error("[documents] delete failed", error)
+    console.error("[documents] delete failed", safeError(error))
     return errorJson("documents.errors.delete_failed", 500, locale)
   }
 }

@@ -11,6 +11,7 @@ import { getCachedRetrievalDebugMeta } from "@/lib/documents/retrievalObservabil
 import { prisma } from "@/lib/prisma"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
+import { safeError } from "@/lib/privacy/safeError"
 import { getStorageQuotaBytes, getUtf8ByteLength } from "@/lib/storageGuardrails"
 import { getUserStorageUsageBytes } from "@/lib/storageUsage"
 
@@ -104,7 +105,7 @@ export async function GET(request, { params }) {
     if (error?.status === 403) {
       return errorJson("api.common.forbidden", 403, locale)
     }
-    console.error("[documents artifacts] read failed", error)
+    console.error("[documents artifacts] read failed", safeError(error))
     return errorJson("documents.artifacts.errors.read_failed", 500, locale)
   }
 }
@@ -231,7 +232,7 @@ export async function PATCH(request, { params }) {
     if (error?.status === 400 || error?.status === 413) {
       return errorJson(error.message, error.status, locale)
     }
-    console.error("[documents artifacts] update failed", error)
+    console.error("[documents artifacts] update failed", safeError(error))
     return errorJson("documents.artifacts.errors.update_failed", 500, locale)
   }
 }
@@ -284,7 +285,7 @@ export async function DELETE(request, { params }) {
     if (error?.status === 403) {
       return errorJson("api.common.forbidden", 403, locale)
     }
-    console.error("[documents artifacts] delete failed", error)
+    console.error("[documents artifacts] delete failed", safeError(error))
     return errorJson("documents.artifacts.errors.delete_failed", 500, locale)
   }
 }
