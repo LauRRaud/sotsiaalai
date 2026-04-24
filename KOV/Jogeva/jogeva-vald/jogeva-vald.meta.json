@@ -1,0 +1,27 @@
+{
+  "id": "jogeva-vald",
+  "municipality": "Jõgeva vald",
+  "county": "Jõgevamaa",
+  "checkedAt": "2026-04-11",
+  "status": "needs_review",
+  "coverage": {
+    "services": 19,
+    "benefits": 6,
+    "resources": 12,
+    "contacts": 18,
+    "forms": 8
+  },
+  "notes": [
+    "Pakett koostati agent 2 korje põhjal ja täiendati Jõgeva ametliku veebikihi detailkontrolliga.",
+    "Allikad piirduvad Jõgeva valla ametliku veebilehe ja selle ametlike failidega.",
+    "Matusetoetus, parkimiskaardi taotlemise detailid ning hoolekandeasutuste koondleht täpsustati ametliku veebi põhjal.",
+    "RAG-fail puhastati numbrilistest viidetest ja lõpu allikaloendist; ametlikud lingid on kirjutatud otse plokkidesse."
+  ],
+  "unresolvedIssues": [
+    "Mitmel toetuse lehel on iseteeninduse võimalus olemas, kuid otselingid suunavad sisselogitud Piksel/SSO keskkonda; neid ei vormistatud eraldi form-itemitena.",
+    "Piirkonna sotsiaalhooldustöötajate detailkontaktid paiknevad välisel hoolekandekeskuse lehel; neid ei lisatud, sest selle paketi allikapiirang on Jõgeva valla ametlik veebikiht ja selle ametlikud failid.",
+    "Muud toetavad sotsiaalteenused koondleht sisaldab nii KOV-ga seotud teenuseid kui väliseid suunamisi; kirjete sisu esitati KOV lehe ulatuses, väliste teenusepakkujate enda lehti ei kasutatud allikana.",
+    "Mõned kontakti- ja teenusekirjed sisaldavad välise teenusepakkuja või hallatava asutuse kontaktandmeid Jõgeva valla koondlehe vahendusel; nende oma veebilehtedelt lisakontrolli ei tehtud.",
+    "KOV veebis võivad olla ajutised personalimärkused nagu puhkused või asendused; neid ei tõlgendatud püsivateks metaandmeteks."
+  ]
+}
