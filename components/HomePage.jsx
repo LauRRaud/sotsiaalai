@@ -678,16 +678,6 @@ export default function HomePage() {
   return <>
       <div className={cn("relative flex min-h-[100dvh] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>
         <section onClick={handleBackgroundTap} className="relative touch-pan-y">
-          <h1
-            aria-hidden="true"
-            className={cn(
-              "pointer-events-none absolute left-1/2 top-[max(env(safe-area-inset-top,0px),0.08rem)] z-[30] -translate-x-1/2",
-              "w-[min(94vw,56rem)] px-4 text-center font-bold uppercase tracking-[0.04em]",
-              "text-[clamp(0.95rem,1.3vw,1.9rem)] text-[color:color-mix(in_srgb,var(--home-scroll-cue-color,var(--home-title-color,var(--brand-primary)))_68%,white_32%)]"
-            )}
-          >
-            {t("home.opening_banner")}
-          </h1>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[768px]:flex-col max-[768px]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[768px]:px-[clamp(1rem,4vw,1.5rem)] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[768px]:pb-[clamp(5rem,12vw,7rem)] max-[768px]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
               <div ref={leftCardWrapRef} data-phase={leftPhase} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="link" aria-label={leftCardAriaLabel} aria-disabled={!cardInteractionAllowed} tabIndex={cardInteractionAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
