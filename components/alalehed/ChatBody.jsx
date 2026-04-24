@@ -189,6 +189,30 @@ function isEditableElement(node) {
   return tag === "TEXTAREA" || tag === "INPUT" || node.isContentEditable;
 }
 
+function resolveCssLengthPx(value, contextNode = null) {
+  const raw = String(value || "").trim();
+  if (!raw) return 0;
+
+  const numeric = Number.parseFloat(raw);
+  if (!Number.isFinite(numeric)) return 0;
+  if (raw.endsWith("px")) return numeric;
+
+  if (raw.endsWith("rem")) {
+    const root = contextNode?.ownerDocument?.documentElement || document.documentElement;
+    const rootFontSize = Number.parseFloat(window.getComputedStyle(root).fontSize) || 16;
+    return numeric * rootFontSize;
+  }
+
+  if (raw.endsWith("em")) {
+    const fontSize = contextNode
+      ? Number.parseFloat(window.getComputedStyle(contextNode).fontSize) || 16
+      : 16;
+    return numeric * fontSize;
+  }
+
+  return raw === String(numeric) ? numeric : 0;
+}
+
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
@@ -843,18 +867,22 @@ export default function ChatBody({
       return;
     }
 
+    const inputRow = inputRowRef.current;
     const computed = window.getComputedStyle(inputBar);
-    const resolvedBaseHeight =
-      Number.parseFloat(computed.getPropertyValue("--inputbar-h")) ||
-      Number.parseFloat(computed.height) ||
-      0;
-    const currentHeight =
-      inputBar.getBoundingClientRect().height || inputBar.offsetHeight || 0;
+    const resolvedBaseHeight = Math.max(
+      resolveCssLengthPx(computed.getPropertyValue("--inputbar-h"), inputBar),
+      1
+    );
+    const inputBarHeight =
+      inputBar.getBoundingClientRect().height || inputBar.offsetHeight || resolvedBaseHeight;
+    const inputRowHeight =
+      inputRow?.getBoundingClientRect?.().height || inputRow?.offsetHeight || inputBarHeight;
+    const currentHeight = Math.max(inputBarHeight, inputRowHeight);
     const extraHeight = Math.max(0, currentHeight - resolvedBaseHeight);
 
     container.style.setProperty(
       "--chat-composer-dynamic-extra",
-      `${Math.round(extraHeight)}px`
+      `${Math.ceil(extraHeight)}px`
     );
   }, [viewportIsMobile]);
   useIsomorphicLayoutEffect(() => {
@@ -877,9 +905,13 @@ export default function ChatBody({
     scheduleUpdate();
 
     const inputBar = inputBarRef.current;
+    const inputRow = inputRowRef.current;
     if (typeof ResizeObserver !== "undefined" && inputBar) {
       resizeObserver = new ResizeObserver(scheduleUpdate);
       resizeObserver.observe(inputBar);
+      if (inputRow && inputRow !== inputBar) {
+        resizeObserver.observe(inputRow);
+      }
     }
 
     window.addEventListener("resize", scheduleUpdate);
