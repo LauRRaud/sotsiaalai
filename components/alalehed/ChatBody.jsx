@@ -1436,6 +1436,9 @@ export default function ChatBody({
     setErrorBanner,
     setIsCrisis,
     requestConversationsRefresh,
+    onDeepResearchComplete: () => {
+      setActiveWorkflow("default");
+    },
     appendMessage,
     mutateMessage,
     onFocusInput: focusInput,

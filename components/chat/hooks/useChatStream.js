@@ -362,6 +362,7 @@ export function useChatStream(config) {
           }
 
           if (completionState === "done" && finalText) {
+            cfg.onDeepResearchComplete?.();
             cfg.requestConversationsRefresh?.();
             return true;
           }

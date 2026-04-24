@@ -459,12 +459,17 @@ export function useChatConversationState({
     const throttled = throttle(() => {
       if (document.visibilityState === "visible") hydrateFromServer(cancelledRef);
     }, 2500);
+    const refreshFromEvent = throttle(() => {
+      hydrateFromServer(cancelledRef);
+    }, 2500);
     window.addEventListener("focus", throttled);
     document.addEventListener("visibilitychange", throttled);
+    window.addEventListener("sotsiaalai:refresh-conversations", refreshFromEvent);
     return () => {
       cancelledRef.current = true;
       window.removeEventListener("focus", throttled);
       document.removeEventListener("visibilitychange", throttled);
+      window.removeEventListener("sotsiaalai:refresh-conversations", refreshFromEvent);
     };
   }, [convId, hydrateFromServer]);
   return {
