@@ -40,6 +40,23 @@ test("Estonian base prompt discourages search-status phrasing in ordinary answer
   assert.doesNotMatch(system, /Sõnasta loomulikult: "leidsin allikatest"/);
 });
 
+test("Estonian base prompt requires time context for older projects", () => {
+  const input = toResponsesInput({
+    history: [],
+    userMessage: "mis on võimaluste kohvik?",
+    context: "(1) Võimaluste kohvik. source_year=2016\nProjekt lõi toetava töökoha.",
+    effectiveRole: "SOCIAL_WORKER",
+    grounding: "strong",
+    replyLang: "et"
+  });
+
+  const system = input.input[0].content;
+
+  assert.match(system, /source_year näitavad, et tegu oli varasema projekti/);
+  assert.match(system, /kasuta õiget ajavormi/);
+  assert.match(system, /Ära kirjelda vana projekti .* praegu tegutseva teenusena/);
+});
+
 test("English and Russian base prompts discourage search-status phrasing in ordinary answers", () => {
   const enInput = toResponsesInput({
     history: [],
@@ -65,6 +82,32 @@ test("English and Russian base prompts discourage search-status phrasing in ordi
   assert.match(ruInput.input[0].content, /Пиши как внимательный специалист/);
   assert.match(ruInput.input[0].content, /Не начинай обычный ответ с фраз о статусе источников или поиска/);
   assert.doesNotMatch(ruInput.input[0].content, /Формулируй естественно: "я нашел в источниках"/);
+});
+
+test("English and Russian base prompts require time context for older projects", () => {
+  const enInput = toResponsesInput({
+    history: [],
+    userMessage: "what is the opportunities cafe?",
+    context: "(1) Opportunities cafe. source_year=2016\nThe project created supported work.",
+    effectiveRole: "SOCIAL_WORKER",
+    grounding: "strong",
+    replyLang: "en"
+  });
+  const ruInput = toResponsesInput({
+    history: [],
+    userMessage: "что такое кафе возможностей?",
+    context: "(1) Кафе возможностей. source_year=2016\nПроект создал поддерживаемую работу.",
+    effectiveRole: "SOCIAL_WORKER",
+    grounding: "strong",
+    replyLang: "ru"
+  });
+
+  assert.match(enInput.input[0].content, /source_year shows that this was an earlier project/);
+  assert.match(enInput.input[0].content, /use the correct tense/);
+  assert.match(enInput.input[0].content, /Do not describe an old project .* currently operating service/);
+  assert.match(ruInput.input[0].content, /source_year, показывают, что это был более ранний проект/);
+  assert.match(ruInput.input[0].content, /используй правильное время/);
+  assert.match(ruInput.input[0].content, /Не описывай старый проект .* как действующую сейчас услугу/);
 });
 
 test("weak grounding instruction avoids old source-summary lead-in", () => {

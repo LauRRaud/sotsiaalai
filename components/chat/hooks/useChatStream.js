@@ -649,6 +649,10 @@ export function useChatStream(config) {
               const payload = ev?.data ? JSON.parse(ev.data) : {};
               attachments = normalizeAttachments(payload?.attachments);
               cards = normalizeCards(payload?.cards);
+              if (Array.isArray(payload?.sources)) {
+                const normalize = cfg.normalizeSources || defaultNormalizeSources;
+                sources = normalize(payload.sources);
+              }
             } catch {}
             break;
           }
