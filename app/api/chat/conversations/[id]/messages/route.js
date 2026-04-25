@@ -61,6 +61,17 @@ function isPlausibleId(id) {
   return isPlausibleChatId(id);
 }
 
+function normalizeSources(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  return [value];
+}
+
+function readDisplayedSources(metadata) {
+  if (!metadata || typeof metadata !== "object") return [];
+  return normalizeSources(metadata.displayed_sources || metadata.sources || []);
+}
+
 async function requireUser() {
   return requireChatUser();
 }
@@ -146,13 +157,23 @@ export async function GET(req, { params }, deps = {}) {
 
     const hasMore = rows.length > limit;
     const pageRows = hasMore ? rows.slice(0, limit) : rows;
-    const items = [...pageRows].reverse().map(row => ({
-      id: row.id,
-      role: row.role,
-      content: row.content,
-      metadata: row.metadata,
-      createdAt: row.createdAt
-    }));
+    const items = [...pageRows].reverse().map(row => {
+      const isAssistant = String(row.role || "").toUpperCase() === "ASSISTANT";
+      const displayedSources = isAssistant ? readDisplayedSources(row.metadata) : [];
+      return {
+        id: row.id,
+        role: row.role,
+        content: row.content,
+        metadata: row.metadata,
+        ...(isAssistant
+          ? {
+              sources: displayedSources,
+              displayed_sources: displayedSources
+            }
+          : {}),
+        createdAt: row.createdAt
+      };
+    });
     const oldest = items[0];
     const nextCursor = hasMore && oldest ? encodeCursor(oldest) : null;
 

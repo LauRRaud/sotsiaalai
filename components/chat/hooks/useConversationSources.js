@@ -32,6 +32,12 @@ function isSourceFreeIdentityAnswer(text = "") {
   );
 }
 
+function getDisplayedMessageSources(message) {
+  if (Array.isArray(message?.displayed_sources)) return message.displayed_sources;
+  if (Array.isArray(message?.displayedSources)) return message.displayedSources;
+  return Array.isArray(message?.sources) ? message.sources : [];
+}
+
 export function collectLatestAnswerSources(messages, uploadPreview) {
   const map = new Map();
   const uploadName = typeof uploadPreview?.fileName === "string" ? uploadPreview.fileName.trim().toLowerCase() : "";
@@ -73,7 +79,7 @@ export function collectLatestAnswerSources(messages, uploadPreview) {
   ) {
     return [];
   }
-  const sources = Array.isArray(latestAssistantMessage?.sources) ? latestAssistantMessage.sources : [];
+  const sources = getDisplayedMessageSources(latestAssistantMessage);
   sources.forEach((src, idx) => {
     if (!isDbSource(src)) return;
     const url = typeof src?.url === "string" && src.url.trim() ? src.url.trim() : "";
@@ -139,7 +145,7 @@ export function collectConversationSources(messages, uploadPreview) {
       return;
     }
 
-    const sources = Array.isArray(message?.sources) ? message.sources : [];
+    const sources = getDisplayedMessageSources(message);
     sources.forEach((src, idx) => {
       if (!isDbSource(src)) return;
       const url = typeof src?.url === "string" && src.url.trim() ? src.url.trim() : "";

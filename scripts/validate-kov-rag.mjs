@@ -3,6 +3,12 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  RAG_METADATA_REQUIRED_FOR_READINESS,
+  isKnownRagSourceStatus,
+  isKnownRagSourceType
+} from "../lib/rag/sourceMetadata.js";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 
@@ -267,17 +273,109 @@ function validateRootFields(data, label, errors) {
   if (!looksLikeDate(data.checkedAt)) errors.push(`${label}.checkedAt: expected YYYY-MM-DD`);
 }
 
+function validateSourceReadinessFields(source, label, errors) {
+  if (!isObject(source)) return;
+
+  if ("source_id" in source) {
+    assertString(source.source_id, `${label}.source_id`, errors, { minLength: 1, pattern: /^[a-z0-9_-]+$/ });
+  }
+  if ("source_type" in source && !isKnownRagSourceType(source.source_type)) {
+    errors.push(`${label}.source_type: invalid RAG source type "${source.source_type}"`);
+  }
+  if ("authority" in source && !isNonEmptyString(source.authority)) {
+    errors.push(`${label}.authority: expected non-empty string`);
+  }
+  if ("audience" in source) {
+    assertStringArray(source.audience, `${label}.audience`, errors, {
+      allowEmpty: false,
+      unique: true,
+      allowedSet: AUDIENCE_VALUES
+    });
+  }
+  if ("language" in source && source.language !== "et") {
+    errors.push(`${label}.language: expected "et"`);
+  }
+  if ("municipality_id" in source && source.municipality_id != null) {
+    assertString(source.municipality_id, `${label}.municipality_id`, errors, { minLength: 1, pattern: /^[a-z0-9_-]+$/ });
+  }
+  if ("last_checked" in source && !looksLikeDate(source.last_checked)) {
+    errors.push(`${label}.last_checked: expected YYYY-MM-DD`);
+  }
+  for (const field of ["valid_from", "valid_to"]) {
+    if (field in source && source[field] != null && !looksLikeDate(source[field])) {
+      errors.push(`${label}.${field}: expected YYYY-MM-DD or null`);
+    }
+  }
+  if ("historical" in source && typeof source.historical !== "boolean") {
+    errors.push(`${label}.historical: expected boolean`);
+  }
+  if ("source_status" in source && !isKnownRagSourceStatus(source.source_status)) {
+    errors.push(`${label}.source_status: invalid value "${source.source_status}"`);
+  }
+  if ("content_hash" in source && !isNonEmptyString(source.content_hash)) {
+    errors.push(`${label}.content_hash: expected non-empty string`);
+  }
+  if ("url_canonical" in source && source.url_canonical != null && !isValidUrl(source.url_canonical)) {
+    errors.push(`${label}.url_canonical: invalid URL`);
+  }
+}
+
+function warnSourceReadinessCoverage(sources, label, warnings) {
+  if (!warnings || !Array.isArray(sources)) return;
+  const fields = RAG_METADATA_REQUIRED_FOR_READINESS;
+  const missingCounts = Object.fromEntries(fields.map(field => [field, 0]));
+
+  for (const source of sources) {
+    if (!isObject(source)) continue;
+    for (const field of fields) {
+      if (source[field] == null || source[field] === "") {
+        missingCounts[field] += 1;
+      }
+    }
+  }
+
+  const missingSummary = Object.entries(missingCounts)
+    .filter(([, count]) => count > 0)
+    .map(([field, count]) => `${field} (${count}/${sources.length})`);
+
+  if (missingSummary.length) {
+    warnings.push(`${label}: missing recommended V1 metadata fields: ${missingSummary.join(", ")}`);
+  }
+}
+
 function validateSourceRecord(source, label, errors) {
-  const allowed = new Set(["key", "type", "title", "url"]);
+  const allowed = new Set([
+    "key",
+    "type",
+    "title",
+    "url",
+    "source_id",
+    "source_type",
+    "authority",
+    "audience",
+    "language",
+    "municipality",
+    "municipality_id",
+    "last_checked",
+    "valid_from",
+    "valid_to",
+    "historical",
+    "canonical_item_id",
+    "document_id",
+    "content_hash",
+    "url_canonical",
+    "source_status"
+  ]);
   assertAllowedKeys(source, allowed, label, errors);
   assertRequiredKeys(source, ["key", "type", "title", "url"], label, errors);
   assertString(source.key, `${label}.key`, errors, { minLength: 1, pattern: /^[a-z0-9_]+$/ });
   if (!SOURCE_TYPES.has(source.type)) errors.push(`${label}.type: invalid source type "${source.type}"`);
   assertString(source.title, `${label}.title`, errors, { minLength: 1 });
   if (!isValidUrl(source.url)) errors.push(`${label}.url: invalid URL`);
+  validateSourceReadinessFields(source, label, errors);
 }
 
-function validateSourcesJson(data, errors) {
+function validateSourcesJson(data, errors, warnings = null) {
   const label = "sources";
   const allowed = new Set(["municipality", "county", "country", "language", "checkedAt", "indexUrl", "sources"]);
   assertAllowedKeys(data, allowed, label, errors);
@@ -298,6 +396,7 @@ function validateSourcesJson(data, errors) {
       seenKeys.add(source.key);
     }
   });
+  warnSourceReadinessCoverage(data.sources, `${label}.sources`, warnings);
 }
 
 function validateForm(form, label, errors) {
@@ -821,7 +920,7 @@ async function main() {
   scanForEmptyStrings(dataset, "dataset", errors);
   scanForEmptyStrings(meta, "meta", errors);
 
-  validateSourcesJson(sources, errors);
+  validateSourcesJson(sources, errors, warnings);
   validateDatasetJson(dataset, paths.slug, errors);
   validateMetaJson(meta, errors);
   if (ragRaw != null) validateRagMarkdown(ragRaw, paths.slug, errors);

@@ -63,6 +63,10 @@ function countDistinct(rows, keyField) {
   return Array.isArray(rows) ? rows.filter(row => row?.[keyField] != null).length : 0;
 }
 
+function arrayLength(value) {
+  return Array.isArray(value) ? value.length : 0;
+}
+
 export async function GET(req) {
   const locale = localeFromRequest(req);
   const session = await getServerSession(authConfig).catch(() => null);
@@ -82,6 +86,7 @@ export async function GET(req) {
       totalCrisis,
       noContextCount,
       ragSearchCount,
+      ragTraceCount,
       sttRequestCount,
       ttsRequestCount,
       ragErrorCount,
@@ -163,6 +168,12 @@ export async function GET(req) {
       prisma.chatLog.count({
         where: {
           event: "rag_search",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "rag_trace",
           createdAt: { gte: since }
         }
       }),
@@ -536,16 +547,37 @@ export async function GET(req) {
       take: 1000
     });
 
+    const ragTraceLogs = await prisma.chatLog.findMany({
+      where: {
+        event: "rag_trace",
+        createdAt: { gte: since }
+      },
+      select: { data: true },
+      orderBy: { createdAt: "desc" },
+      take: 1000
+    });
+
     let avgRagMatchCount = 0;
     let avgGroupCount = 0;
     let avgChosenGroupCount = 0;
     let total = 0;
+    let avgRetrievedCandidateCount = 0;
+    let avgSelectedContextCount = 0;
+    let avgDisplayedSourceCount = 0;
+    let avgFilteredOutSourceCount = 0;
+    let traceTotal = 0;
 
     const groundingDistribution = {
       weak: 0,
       ok: 0,
       strong: 0
     };
+
+    const attributionDecisionDistribution = {
+      display: 0,
+      hide: 0
+    };
+    const retrieverDistribution = {};
 
     for (const row of ragLogs) {
       const data = row?.data || {};
@@ -565,6 +597,41 @@ export async function GET(req) {
       avgRagMatchCount /= total;
       avgGroupCount /= total;
       avgChosenGroupCount /= total;
+    }
+
+    for (const row of ragTraceLogs) {
+      const data = row?.data || {};
+      const retrievedCount = typeof data.retrieved_count === "number"
+        ? data.retrieved_count
+        : arrayLength(data.retrieved_source_ids);
+      const selectedContextCount = typeof data.selected_context_count === "number"
+        ? data.selected_context_count
+        : arrayLength(data.selected_context_source_ids);
+
+      avgRetrievedCandidateCount += retrievedCount;
+      avgSelectedContextCount += selectedContextCount;
+      avgDisplayedSourceCount += arrayLength(data.displayed_source_ids);
+      avgFilteredOutSourceCount += arrayLength(data.filtered_out_source_ids);
+
+      for (const retriever of Array.isArray(data.retrievers_used) ? data.retrievers_used : []) {
+        const key = String(retriever || "").trim();
+        if (!key) continue;
+        retrieverDistribution[key] = (retrieverDistribution[key] || 0) + 1;
+      }
+
+      for (const decision of Array.isArray(data.attribution_decisions) ? data.attribution_decisions : []) {
+        if (decision?.decision === "display") attributionDecisionDistribution.display += 1;
+        if (decision?.decision === "hide") attributionDecisionDistribution.hide += 1;
+      }
+
+      traceTotal += 1;
+    }
+
+    if (traceTotal > 0) {
+      avgRetrievedCandidateCount /= traceTotal;
+      avgSelectedContextCount /= traceTotal;
+      avgDisplayedSourceCount /= traceTotal;
+      avgFilteredOutSourceCount /= traceTotal;
     }
 
     const paymentPipeline30d = buildPaymentPipelineFromCounts({
@@ -594,6 +661,7 @@ export async function GET(req) {
       totalCrisis,
       noContextCount,
       ragSearchCount,
+      ragTraceCount,
       chat: {
         conversationsTotal: conversationTotal,
         activeConversations30d,
@@ -657,7 +725,13 @@ export async function GET(req) {
         avgRagMatchCount,
         avgGroupCount,
         avgChosenGroupCount,
-        groundingDistribution
+        groundingDistribution,
+        avgRetrievedCandidateCount,
+        avgSelectedContextCount,
+        avgDisplayedSourceCount,
+        avgFilteredOutSourceCount,
+        attributionDecisionDistribution,
+        retrieverDistribution
       }
     });
   } catch {

@@ -236,7 +236,16 @@ export async function POST(req) {
     reasoning: mainOrchestrationPlan.reasoning,
     capability: mainOrchestrationPlan.capability
   });
-  const mainMetadataExtra = buildChatOrchestrationMetadata(mainOrchestrationPlan);
+  const mainMetadataExtra = {
+    ...buildChatOrchestrationMetadata(mainOrchestrationPlan),
+    ...(retrievalMeta?.ragRiskPolicy
+      ? {
+          rag_risk_policy: retrievalMeta.ragRiskPolicy,
+          rag_risk_level: retrievalMeta.ragRiskPolicy.riskLevel,
+          rag_required_evidence: retrievalMeta.ragRiskPolicy.requiredEvidence
+        }
+      : {})
+  };
   return handleMainChatResponse({
     req,
     wantStream,
@@ -255,6 +264,7 @@ export async function POST(req) {
     isCrisis,
     extraSystemInstructions,
     sources,
+    retrievalMeta,
     metadataExtra: mainMetadataExtra,
     wantsDocumentDownload,
     roomId,
@@ -264,7 +274,8 @@ export async function POST(req) {
       ragReturned: retrievalMeta.rawMatchesCount > 0,
       hadDocContext: retrievalMeta.hadDocContext,
       sourceLookupRequest,
-      previousSourceUseRequest
+      previousSourceUseRequest,
+      ragRiskLevel: retrievalMeta?.ragRiskPolicy?.riskLevel
     },
     makeError: makeChatError,
     logInfo: logChatInfo,

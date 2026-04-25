@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { filterSourcesForReply } from "../../lib/chat/sourceAttribution.js";
+import { buildSourceAttribution, filterSourcesForReply } from "../../lib/chat/sourceAttribution.js";
 
 test("keeps only sources that overlap with the direct answer", () => {
   const reply = [
@@ -85,4 +85,91 @@ test("does not drop the only candidate source", () => {
 
   assert.deepEqual(filtered.map(source => source.id), ["single"]);
   assert.equal("evidenceText" in filtered[0], false);
+});
+
+test("returns attribution decisions and filtered-out source ids", () => {
+  const reply = "Tartu linn koduteenus: taotlus käib sotsiaal- ja tervishoiuosakonna kaudu.";
+  const sources = [
+    {
+      id: "tartu-koduteenus",
+      title: "Tartu linn koduteenus",
+      evidenceText: "Tartu linn koduteenus taotlus käib sotsiaal- ja tervishoiuosakonna kaudu."
+    },
+    {
+      id: "journal-background",
+      title: "Koduteenuse areng Eestis",
+      evidenceText: "Artikkel kirjeldab koduteenuse üldist arengut."
+    }
+  ];
+
+  const attribution = buildSourceAttribution(reply, sources, {
+    query: "Tartu linn koduteenus"
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["tartu-koduteenus"]);
+  assert.deepEqual(attribution.filtered_out_source_ids, ["journal-background"]);
+  assert.equal(attribution.filter_reasons["journal-background"], "query_anchor_mismatch");
+  assert.deepEqual(
+    attribution.attribution_decisions.map(item => [item.source_id, item.decision]),
+    [
+      ["tartu-koduteenus", "display"],
+      ["journal-background", "hide"]
+    ]
+  );
+  assert.equal("evidenceText" in attribution.displayedSources[0], false);
+});
+
+test("hides weak background sources for high-risk answers", () => {
+  const reply = "Hooldajatoetuse summa tuleb kinnitada ametlikust allikast.";
+  const sources = [
+    {
+      id: "journal-background",
+      title: "Hooldajatoetuse summa",
+      source_type: "journal_article",
+      evidenceText: "Artikkel mainib hooldajatoetuse summat üldise näitena."
+    },
+    {
+      id: "kov-regulation",
+      title: "Hooldajatoetuse summa",
+      source_type: "kov_regulation",
+      evidenceText: "Määrus sätestab hooldajatoetuse summa."
+    }
+  ];
+
+  const attribution = buildSourceAttribution(reply, sources, {
+    query: "hooldajatoetuse summa",
+    riskPolicy: {
+      riskLevel: "high",
+      requiredEvidence: "strong",
+      insufficientEvidenceMode: true
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["kov-regulation"]);
+  assert.equal(attribution.filter_reasons["journal-background"], "insufficient_evidence_strength");
+  const journalDecision = attribution.attribution_decisions.find(item => item.source_id === "journal-background");
+  assert.equal(journalDecision.evidence_strength, "weak");
+  assert.equal(journalDecision.required_evidence, "strong");
+});
+
+test("does not keep the only candidate when high-risk evidence is insufficient", () => {
+  const attribution = buildSourceAttribution("Hooldajatoetuse summa on artiklis mainitud.", [
+    {
+      id: "single-journal",
+      title: "Hooldajatoetuse summa",
+      source_type: "journal_article",
+      evidenceText: "Artikkel mainib hooldajatoetuse summat."
+    }
+  ], {
+    query: "hooldajatoetuse summa",
+    riskPolicy: {
+      riskLevel: "high",
+      requiredEvidence: "strong",
+      insufficientEvidenceMode: true
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, []);
+  assert.deepEqual(attribution.filtered_out_source_ids, ["single-journal"]);
+  assert.equal(attribution.filter_reasons["single-journal"], "insufficient_evidence_strength");
 });

@@ -4,6 +4,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
+import {
+  inferKovItemRagSourceType,
+  mapKovItemStatusToRagSourceStatus
+} from "../lib/rag/sourceMetadata.js";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const RAW_RAG_HOST = String(process.env.RAG_INTERNAL_HOST || process.env.RAG_API_BASE || "127.0.0.1:8000").trim();
@@ -387,6 +392,15 @@ function deriveSourceUrlsForItem(item, sourceMap) {
     .filter(Boolean))];
 }
 
+function buildKovSourceId(canonicalSlug, suffix) {
+  return `kov_${_slugify(canonicalSlug)}_${_slugify(suffix)}`;
+}
+
+function buildCanonicalItemId(canonicalSlug, item) {
+  if (!item?.id) return null;
+  return `${_slugify(canonicalSlug)}_${String(item.itemType || "item").trim().toLowerCase()}_${_slugify(item.id)}`;
+}
+
 function sectionForItemType(itemType) {
   if (itemType === "service") return "Teenused";
   if (itemType === "benefit") return "Toetused";
@@ -422,6 +436,7 @@ async function main() {
   const unionAudience = [...new Set((dataset.items || []).flatMap((item) => Array.isArray(item.audience) ? item.audience : []))];
   const canonicalSlug = resolveCanonicalKovSlug(paths, meta);
   const bundleDocId = `kov::${canonicalSlug}::bundle`;
+  const nowIso = new Date().toISOString();
 
   if (args.dryRun) {
     console.log(`[rag:ingest:kov] Dry run OK: ${paths.slug}`);
@@ -458,9 +473,21 @@ async function main() {
       source_urls: (sources.sources || []).map((entry) => entry.url),
       source_register_file: path.basename(paths.sourcesPath),
       source_count: Array.isArray(sources.sources) ? sources.sources.length : 0,
-      source_type: "kov_dataset_bundle",
+      source_id: buildKovSourceId(canonicalSlug, "bundle"),
+      document_id: bundleDocId,
+      source_type: "kov_service_info",
+      legacy_source_type: "kov_dataset_bundle",
+      authority: "KOV",
+      municipality: meta.municipality,
+      municipality_id: _slugify(canonicalSlug),
+      last_checked: meta.checkedAt,
+      retrieved_at: nowIso,
+      historical: false,
+      source_status: "active",
+      canonical_item_id: null,
       source_path: paths.ragPath,
       source_url: sources.indexUrl || (sources.sources || []).find((entry) => entry?.url)?.url || null,
+      url_canonical: sources.indexUrl || (sources.sources || []).find((entry) => entry?.url)?.url || null,
       fileName: path.basename(paths.ragPath),
       mimeType: "text/markdown"
     }
@@ -473,6 +500,7 @@ async function main() {
       const itemText = buildFlexibleItemText(item, sourceMap);
       const itemDocId = `kov::${canonicalSlug}::item::${item.id}`;
       const itemSourceUrls = deriveSourceUrlsForItem(item, sourceMap);
+      const itemSourceType = inferKovItemRagSourceType(item.itemType, item.resourceType);
       const result = await ingestText(baseUrl, {
         doc_id: itemDocId,
         text: itemText,
@@ -499,8 +527,20 @@ async function main() {
           source_register_file: path.basename(paths.sourcesPath),
           source_count: Array.isArray(sources.sources) ? sources.sources.length : 0,
           administering_body: item.provider && isObject(item.provider) ? item.provider.name || null : null,
-          source_type: "kov_dataset_item",
+          source_id: buildKovSourceId(canonicalSlug, `item_${item.id}`),
+          document_id: itemDocId,
+          source_type: itemSourceType,
+          legacy_source_type: "kov_dataset_item",
+          authority: "KOV",
+          municipality: meta.municipality,
+          municipality_id: _slugify(canonicalSlug),
+          last_checked: dataset.checkedAt,
+          retrieved_at: nowIso,
+          historical: item.status === "ended" || item.status === "inactive",
+          source_status: mapKovItemStatusToRagSourceStatus(item.status),
+          canonical_item_id: buildCanonicalItemId(canonicalSlug, item),
           source_url: itemSourceUrls[0] || sources.indexUrl || null,
+          url_canonical: itemSourceUrls[0] || sources.indexUrl || null,
           mimeType: "text/markdown"
         }
       });

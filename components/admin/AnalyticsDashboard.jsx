@@ -148,6 +148,7 @@ const checkboxClassName = "ui-checkbox-glass";
 const EVENT_OPTIONS = [
   { value: "chat_request", labelKey: "admin.analytics.events.chat_request" },
   { value: "rag_search", labelKey: "admin.analytics.events.rag_search" },
+  { value: "rag_trace", labelKey: "admin.analytics.events.rag_trace", fallbackLabel: "RAG trace" },
   { value: "no_context", labelKey: "admin.analytics.events.no_context" },
   { value: "crisis_detected", labelKey: "admin.analytics.events.crisis_detected" },
   { value: "stt_request", labelKey: "admin.analytics.events.stt_request" },
@@ -595,6 +596,37 @@ export default function AnalyticsDashboard() {
       if (typeof meta.chosenGroupCount === "number") {
         parts.push(`${t("admin.analytics.meta.chosen", "chosen")}: ${formatCount(meta.chosenGroupCount, localeTag)}`);
       }
+      if (typeof meta.retrieved_count === "number") {
+        parts.push(`${t("admin.analytics.meta.retrieved", "retrieved")}: ${formatCount(meta.retrieved_count, localeTag)}`);
+      }
+      if (typeof meta.selected_context_count === "number") {
+        parts.push(`${t("admin.analytics.meta.selected_context", "selected")}: ${formatCount(meta.selected_context_count, localeTag)}`);
+      }
+      if (Array.isArray(meta.retrievers_used) && meta.retrievers_used.length) {
+        parts.push(`${t("admin.analytics.meta.retrievers", "retrievers")}: ${meta.retrievers_used.join(", ")}`);
+      }
+      if (Array.isArray(meta.displayed_source_ids)) {
+        parts.push(`${t("admin.analytics.meta.displayed_sources", "displayed")}: ${formatCount(meta.displayed_source_ids.length, localeTag)}`);
+      }
+      if (Array.isArray(meta.filtered_out_source_ids)) {
+        parts.push(`${t("admin.analytics.meta.filtered_sources", "filtered")}: ${formatCount(meta.filtered_out_source_ids.length, localeTag)}`);
+      }
+      if (Array.isArray(meta.attribution_decisions)) {
+        const displayCount = meta.attribution_decisions.filter(item => item?.decision === "display").length;
+        const hideCount = meta.attribution_decisions.filter(item => item?.decision === "hide").length;
+        parts.push(
+          `${t("admin.analytics.meta.attribution", "attribution")}: ${formatCount(displayCount, localeTag)}/${formatCount(hideCount, localeTag)}`
+        );
+      }
+      if (typeof meta.retrieval_trace_level === "string" && meta.retrieval_trace_level) {
+        parts.push(`${t("admin.analytics.meta.trace_level", "trace")}: ${meta.retrieval_trace_level}`);
+      }
+      if (typeof meta.rag_risk_level === "string" && meta.rag_risk_level) {
+        parts.push(`${t("admin.analytics.meta.rag_risk", "risk")}: ${meta.rag_risk_level}`);
+      }
+      if (typeof meta.rag_required_evidence === "string" && meta.rag_required_evidence) {
+        parts.push(`${t("admin.analytics.meta.required_evidence", "evidence")}: ${meta.rag_required_evidence}`);
+      }
       if (typeof meta.grounding === "string" && meta.grounding) {
         parts.push(`${t("admin.analytics.meta.grounding", "grounding")}: ${meta.grounding}`);
       }
@@ -836,6 +868,11 @@ export default function AnalyticsDashboard() {
       strong: Math.round((100 * toNumber(dist.strong)) / total)
     };
   }, [summary]);
+
+  const retrieverSummary = useMemo(
+    () => joinCounts(summary?.averages?.retrieverDistribution, {}, localeTag),
+    [localeTag, summary]
+  );
 
   const requestSplit = useMemo(() => {
     const total = toNumber(summary?.totalRequests);
@@ -1659,6 +1696,11 @@ export default function AnalyticsDashboard() {
                 }
               />
               <KpiCard
+                title={t("admin.analytics.kpis.rag_traces.title", "RAG traces")}
+                value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.ragTraceCount || 0, localeTag)}
+                meta={t("admin.analytics.kpis.rag_traces.meta", "Attribution trace events")}
+              />
+              <KpiCard
                 title={t("admin.analytics.kpis.no_context.title", "No context")}
                 value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(summary?.noContextCount || 0, localeTag)}
                 meta={
@@ -1709,9 +1751,11 @@ export default function AnalyticsDashboard() {
                       {
                         hits: formatPercent(summary?.averages?.avgRagMatchCount || 0, localeTag, 1),
                         groups: formatPercent(summary?.averages?.avgGroupCount || 0, localeTag, 1),
-                        chosen: formatPercent(summary?.averages?.avgChosenGroupCount || 0, localeTag, 1)
+                        chosen: formatPercent(summary?.averages?.avgChosenGroupCount || 0, localeTag, 1),
+                        displayed: formatPercent(summary?.averages?.avgDisplayedSourceCount || 0, localeTag, 1),
+                        filtered: formatPercent(summary?.averages?.avgFilteredOutSourceCount || 0, localeTag, 1)
                       },
-                      "Hits {hits}, groups {groups}, chosen {chosen}"
+                      "Hits {hits}, groups {groups}, chosen {chosen}, displayed {displayed}, filtered {filtered}"
                     )
               }
             />
@@ -1735,6 +1779,10 @@ export default function AnalyticsDashboard() {
                 <div className={kpiMetaClassName}>{loadingSummary ? t("admin.common.loading", "Loading...") : "-"}</div>
               )}
             </KpiCard>
+            <KpiCard
+              title={t("admin.analytics.kpis.retrievers.title", "Retrievers")}
+              meta={loadingSummary ? t("admin.common.loading", "Loading...") : retrieverSummary || "-"}
+            />
           </div>
         </div>
       </div>

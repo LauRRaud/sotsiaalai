@@ -23,3 +23,26 @@ test("topic hints outrank generic high-scoring noise for named concept questions
 
   assert.equal(ranked[0].key, "voimaluste-kohvik");
 });
+
+test("title_match channel boosts lexical exact title candidates", () => {
+  const ranked = rankGroupsWithTopicHints([
+    {
+      key: "semantic-noise",
+      title: "Koduteenuse üldine taust",
+      bodies: ["Üldine kirjeldus koduteenuse tähendusest."],
+      bestScore: 0.61,
+      retrievalChannels: ["dense"],
+      tags: []
+    },
+    {
+      key: "title-hit",
+      title: "Tartu linn koduteenus",
+      bodies: ["Koduteenuse taotlemise info Tartu linnas."],
+      bestScore: 0.3,
+      retrievalChannels: ["title_match"],
+      tags: []
+    }
+  ], []);
+
+  assert.equal(ranked[0].key, "title-hit");
+});

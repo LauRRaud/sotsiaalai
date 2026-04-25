@@ -561,7 +561,7 @@ export function useChatStream(config) {
 
           const replyText = (data?.answer ?? data?.reply) || tr("chat.error.no_answer");
           const normalize = cfg.normalizeSources || defaultNormalizeSources;
-          const normSources = normalize(data?.sources);
+          const normSources = normalize(Array.isArray(data?.displayed_sources) ? data.displayed_sources : data?.sources);
           const attachments = normalizeAttachments(data?.attachments);
           const cards = normalizeCards(data?.cards);
           const workflow = normalizeWorkflow(data?.workflow);
@@ -611,10 +611,12 @@ export function useChatStream(config) {
             try {
               const payload = JSON.parse(ev.data);
               const rawSources = Array.isArray(payload?.sources)
-                ? payload.sources
-                : Array.isArray(payload?.groups)
-                  ? payload.groups
-                  : null;
+                ? (Array.isArray(payload?.displayed_sources) ? payload.displayed_sources : payload.sources)
+                : Array.isArray(payload?.displayed_sources)
+                  ? payload.displayed_sources
+                  : Array.isArray(payload?.groups)
+                    ? payload.groups
+                    : null;
               if (rawSources) {
                 const normalize = cfg.normalizeSources || defaultNormalizeSources;
                 sources = normalize(rawSources);
@@ -649,9 +651,14 @@ export function useChatStream(config) {
               const payload = ev?.data ? JSON.parse(ev.data) : {};
               attachments = normalizeAttachments(payload?.attachments);
               cards = normalizeCards(payload?.cards);
-              if (Array.isArray(payload?.sources)) {
+              const doneSources = Array.isArray(payload?.displayed_sources)
+                ? payload.displayed_sources
+                : Array.isArray(payload?.sources)
+                  ? payload.sources
+                  : null;
+              if (doneSources) {
                 const normalize = cfg.normalizeSources || defaultNormalizeSources;
-                sources = normalize(payload.sources);
+                sources = normalize(doneSources);
               }
             } catch {}
             break;

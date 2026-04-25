@@ -80,6 +80,13 @@ SINGLE_CHUNK_TOKEN_LIMIT = int(os.getenv("RAG_SINGLE_CHUNK_TOKEN_LIMIT", "1200")
 # Force chunking even for shorter texts
 ALWAYS_CHUNK = os.getenv("RAG_ALWAYS_CHUNK", "0").strip() in {"1", "true", "yes"}
 
+# Lightweight lexical retrievers for hybrid RAG. Dense retrieval remains primary;
+# these channels add exact/title candidates and traceability without requiring a
+# separate search engine in V2.
+RAG_LEXICAL_SEARCH_ENABLED = os.getenv("RAG_LEXICAL_SEARCH_ENABLED", "1").strip().lower() in {"1", "true", "yes"}
+RAG_LEXICAL_SCAN_LIMIT = int(os.getenv("RAG_LEXICAL_SCAN_LIMIT", "2000"))
+RAG_LEXICAL_TOP_K = int(os.getenv("RAG_LEXICAL_TOP_K", "20"))
+
 # Lubatud MIME – kui env on tühi, kasuta mõistlikku vaikimisi komplekti
 _DEFAULT_ALLOWED = (
     "application/pdf,"
@@ -1101,9 +1108,22 @@ class RagMetadata(BaseModel):
     section: Optional[str] = None
     audience: Optional[str] = "BOTH"
     audiences: List[str] = Field(default_factory=list)
+    source_id: Optional[str] = None
+    document_id: Optional[str] = None
     source_type: Optional[str] = None
+    legacy_source_type: Optional[str] = None
+    authority: Optional[str] = None
     source_path: Optional[str] = None
     source_url: Optional[str] = None
+    url_canonical: Optional[str] = None
+    retrieved_at: Optional[str] = None
+    last_checked: Optional[str] = None
+    valid_from: Optional[str] = None
+    valid_to: Optional[str] = None
+    historical: Optional[bool] = None
+    source_status: Optional[str] = None
+    canonical_item_id: Optional[str] = None
+    content_hash: Optional[str] = None
     pageRange: Optional[str] = None
     page: Optional[int] = None
     pdf_start_page: Optional[int] = None
@@ -1245,9 +1265,22 @@ def build_rag_metadata(meta_common: Dict, doc_id: Optional[str] = None) -> RagMe
         section=meta.get("section"),
         audience=meta.get("audience"),
         audiences=meta.get("audiences") or meta.get("audience"),
+        source_id=meta.get("source_id") or meta.get("sourceId"),
+        document_id=meta.get("document_id") or meta.get("documentId"),
         source_type=meta.get("source_type"),
+        legacy_source_type=meta.get("legacy_source_type") or meta.get("legacySourceType"),
+        authority=meta.get("authority"),
         source_path=meta.get("source_path"),
         source_url=meta.get("source_url") or meta.get("url"),
+        url_canonical=meta.get("url_canonical") or meta.get("urlCanonical"),
+        retrieved_at=meta.get("retrieved_at") or meta.get("retrievedAt"),
+        last_checked=meta.get("last_checked") or meta.get("lastChecked"),
+        valid_from=meta.get("valid_from") or meta.get("validFrom"),
+        valid_to=meta.get("valid_to") or meta.get("validTo"),
+        historical=meta.get("historical"),
+        source_status=meta.get("source_status") or meta.get("sourceStatus"),
+        canonical_item_id=meta.get("canonical_item_id") or meta.get("canonicalItemId"),
+        content_hash=meta.get("content_hash") or meta.get("contentHash"),
         pageRange=meta.get("pageRange") or meta.get("page_range"),
         page=meta.get("page"),
         pdf_start_page=meta.get("pdf_start_page") or meta.get("pdfStartPage"),
@@ -1419,6 +1452,7 @@ class SearchIn(BaseModel):
     filterDocId: Optional[str] = None
     where: Optional[dict] = None
     include: Optional[List[str]] = None
+    retrievers: Optional[List[str]] = None
 
     @field_validator("include")
     @classmethod
@@ -1592,9 +1626,24 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
             "pages": pages_list or None,
             "journal_title": journal_title,
             "journalTitle": journal_title,
+            "source_id": source_id,
+            "sourceId": source_id,
+            "document_id": document_id,
+            "documentId": document_id,
             "source_type": meta.source_type or meta_common.get("source_type"),
+            "legacy_source_type": legacy_source_type,
+            "authority": authority,
             "source_path": meta.source_path or meta_common.get("source_path"),
             "source_url": meta.source_url or meta_common.get("source_url"),
+            "url_canonical": url_canonical,
+            "retrieved_at": retrieved_at,
+            "last_checked": last_checked,
+            "valid_from": valid_from,
+            "valid_to": valid_to,
+            "historical": historical,
+            "source_status": source_status,
+            "canonical_item_id": canonical_item_id,
+            "content_hash": content_hash,
             "url": meta.url or meta_common.get("source_url"),
             "mimeType": meta_common.get("mimeType") or meta_common.get("mime_type") or meta_common.get("mime"),
             "audience": audience,
@@ -1677,6 +1726,19 @@ def _build_chunk_metadata_entry(
     language = (meta.language or "et").strip() or "et"
     audience = normalize_audience(meta.audience)
     audiences = normalize_audience_list(meta.audiences or meta.audience)
+    source_id = (meta.source_id or "").strip() or None
+    document_id = (meta.document_id or "").strip() or None
+    legacy_source_type = (meta.legacy_source_type or "").strip() or None
+    authority = (meta.authority or "").strip() or None
+    url_canonical = (meta.url_canonical or "").strip() or None
+    retrieved_at = (meta.retrieved_at or "").strip() or None
+    last_checked = (meta.last_checked or "").strip() or None
+    valid_from = (meta.valid_from or "").strip() or None
+    valid_to = (meta.valid_to or "").strip() or None
+    historical = meta.historical
+    source_status = (meta.source_status or "").strip() or None
+    canonical_item_id = (meta.canonical_item_id or "").strip() or None
+    content_hash = (meta.content_hash or "").strip() or None
     collection_id = (meta.collection_id or "").strip() or None
     country = normalize_country(meta.country)
     county = (meta.county or "").strip() or None
@@ -1723,9 +1785,24 @@ def _build_chunk_metadata_entry(
         "pages": pages_list or None,
         "journal_title": journal_title,
         "journalTitle": journal_title,
+        "source_id": source_id,
+        "sourceId": source_id,
+        "document_id": document_id,
+        "documentId": document_id,
         "source_type": meta.source_type,
+        "legacy_source_type": legacy_source_type,
+        "authority": authority,
         "source_path": meta.source_path,
         "source_url": meta.source_url or meta.url,
+        "url_canonical": url_canonical,
+        "retrieved_at": retrieved_at,
+        "last_checked": last_checked,
+        "valid_from": valid_from,
+        "valid_to": valid_to,
+        "historical": historical,
+        "source_status": source_status,
+        "canonical_item_id": canonical_item_id,
+        "content_hash": content_hash,
         "url": meta.url or meta.source_url,
         "audience": audience,
         "audiences": audiences,
@@ -1939,11 +2016,26 @@ def _register(doc_id: str, entry: Dict) -> None:
         _save_registry_unlocked(reg)
 
 DOCUMENT_METADATA_FALLBACK_KEYS = (
+    "source_id",
+    "sourceId",
+    "document_id",
+    "documentId",
     "source_type",
+    "legacy_source_type",
+    "authority",
     "source_format",
     "source_path",
     "source_url",
+    "url_canonical",
     "url",
+    "retrieved_at",
+    "last_checked",
+    "valid_from",
+    "valid_to",
+    "historical",
+    "source_status",
+    "canonical_item_id",
+    "content_hash",
     "mimeType",
     "fileName",
     "collection_id",
@@ -2063,6 +2155,286 @@ def _compose_chroma_where(filters: Dict[str, object]) -> Optional[Dict[str, obje
     if len(cleaned) == 1:
         return cleaned[0]
     return {"$and": cleaned}
+
+LEXICAL_STOPWORDS = {
+    "aga",
+    "and",
+    "are",
+    "can",
+    "for",
+    "how",
+    "kas",
+    "kelle",
+    "kellele",
+    "kuidas",
+    "kus",
+    "kuhu",
+    "mis",
+    "mida",
+    "milline",
+    "millised",
+    "ning",
+    "on",
+    "saab",
+    "see",
+    "seda",
+    "the",
+    "või",
+    "voi",
+}
+
+def _normalize_search_text(value: object) -> str:
+    text = str(value or "").strip().lower()
+    if not text:
+        return ""
+    text = unicodedata.normalize("NFD", text)
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = re.sub(r"[^a-z0-9]+", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+def _search_tokens(value: object, limit: int = 24) -> List[str]:
+    normalized = _normalize_search_text(value)
+    if not normalized:
+        return []
+    out: List[str] = []
+    seen = set()
+    for token in normalized.split(" "):
+        if len(token) < 3 or token in LEXICAL_STOPWORDS or token in seen:
+            continue
+        seen.add(token)
+        out.append(token)
+        if len(out) >= limit:
+            break
+    return out
+
+def _query_phrases(query: str) -> List[str]:
+    phrases: List[str] = []
+    seen = set()
+    for raw in re.split(r"[\n\r]+", str(query or "")):
+        normalized = _normalize_search_text(raw)
+        if len(normalized) >= 8 and normalized not in seen:
+            seen.add(normalized)
+            phrases.append(normalized)
+    full = _normalize_search_text(query)
+    if len(full) >= 8 and full not in seen:
+        phrases.insert(0, full)
+    return phrases[:8]
+
+def _lexical_match(query: str, md: Dict, document: str) -> Optional[Dict[str, object]]:
+    title_norm = _normalize_search_text(md.get("title") or md.get("fileName") or md.get("source_url") or "")
+    body_norm = _normalize_search_text(document[:5000])
+    if not title_norm and not body_norm:
+        return None
+
+    phrases = _query_phrases(query)
+    query_tokens = _search_tokens(query)
+    title_tokens = set(_search_tokens(title_norm, limit=40))
+    body_tokens = set(_search_tokens(body_norm, limit=160))
+    channels: List[str] = []
+    score = 0.0
+
+    full_query = phrases[0] if phrases else _normalize_search_text(query)
+    if full_query and title_norm:
+        if title_norm == full_query:
+            score += 10.0
+            channels.append("title_match")
+        elif full_query in title_norm or title_norm in full_query:
+            score += 6.0
+            channels.append("title_match")
+
+    for phrase in phrases:
+        if title_norm and phrase in title_norm:
+            score += 4.0
+            if "title_match" not in channels:
+                channels.append("title_match")
+        elif body_norm and len(phrase) >= 12 and phrase in body_norm:
+            score += 3.0
+            if "exact_phrase" not in channels:
+                channels.append("exact_phrase")
+
+    if query_tokens:
+        title_overlap = len(set(query_tokens).intersection(title_tokens))
+        body_overlap = len(set(query_tokens).intersection(body_tokens))
+        if title_overlap:
+            score += min(4.0, title_overlap * 1.2)
+        if body_overlap >= 2:
+            score += min(2.5, body_overlap * 0.35)
+        if title_overlap >= max(1, min(3, len(query_tokens))):
+            if "title_match" not in channels:
+                channels.append("title_match")
+
+    if score < 3.0 or not channels:
+        return None
+    return {
+        "score": round(score, 4),
+        "channels": channels,
+    }
+
+def _append_channels(result: Dict, channels: List[str]) -> None:
+    existing = result.get("retrieval_channels")
+    merged: List[str] = []
+    for channel in (existing if isinstance(existing, list) else []) + channels:
+        cleaned = str(channel or "").strip()
+        if cleaned and cleaned not in merged:
+            merged.append(cleaned)
+    result["retrieval_channels"] = merged or ["dense"]
+    result["retrievalChannel"] = result["retrieval_channels"][0]
+    result["retrieval_channel"] = result["retrieval_channels"][0]
+    result["retriever"] = result["retrieval_channels"][0]
+
+def _normalize_requested_retrievers(value) -> List[str]:
+    raw = value if isinstance(value, list) else []
+    out: List[str] = []
+    for item in raw:
+        cleaned = re.sub(r"[^a-z0-9]+", "_", str(item or "").strip().lower()).strip("_")
+        if cleaned and cleaned not in out:
+            out.append(cleaned)
+    return out or ["dense", "title_match", "exact_phrase"]
+
+def _search_result_from_metadata(
+    *,
+    item_id: str,
+    document: str,
+    md: Dict,
+    distance=None,
+    channels: Optional[List[str]] = None,
+    rank: Optional[int] = None,
+    lexical_score: Optional[float] = None,
+) -> Dict[str, object]:
+    source_path = md.get("source_path")
+    file_name = None
+    if source_path:
+        try:
+            file_name = Path(source_path).name
+        except Exception:
+            file_name = source_path
+    authors_val = normalize_authors(md.get("authors") or md.get("authors_list"))
+    tags_val = normalize_tags(md.get("tags") or md.get("tags_list"))
+    tag_tokens_val = normalize_tag_tokens(md.get("tag_tokens") or md.get("tagTokens") or tags_val)
+    retrieval_channels = channels or ["dense"]
+    primary_channel = retrieval_channels[0] if retrieval_channels else "dense"
+    return {
+        "id": item_id,
+        "retriever": primary_channel,
+        "retrieval_channel": primary_channel,
+        "retrievalChannel": primary_channel,
+        "retrieval_channels": retrieval_channels,
+        "retrieval_rank": rank,
+        "lexical_score": lexical_score,
+        "doc_id": md.get("doc_id") or md.get("docId"),
+        "docId": md.get("docId") or md.get("doc_id"),
+        "chunk_id": md.get("chunk_id") or md.get("chunkId"),
+        "chunkId": md.get("chunkId") or md.get("chunk_id"),
+        "chunk_index": md.get("chunk_index") or md.get("chunkIndex"),
+        "chunkIndex": md.get("chunkIndex") or md.get("chunk_index"),
+        "original_doc_id": md.get("original_doc_id") or md.get("originalDocId"),
+        "originalDocId": md.get("originalDocId") or md.get("original_doc_id"),
+        "title": md.get("title"),
+        "description": md.get("description"),
+        "audience": md.get("audience"),
+        "audiences": md.get("audiences"),
+        "authors": authors_val,
+        "tag_tokens": tag_tokens_val,
+        "tagTokens": tag_tokens_val,
+        "issue": md.get("issue_label") or md.get("issueLabel") or md.get("issue_id") or md.get("issueId") or None,
+        "issueLabel": md.get("issue_label") or md.get("issueLabel"),
+        "issueId": md.get("issue_id") or md.get("issueId"),
+        "year": md.get("year"),
+        "articleId": md.get("article_id") or md.get("articleId"),
+        "section": md.get("section"),
+        "item_type": md.get("item_type"),
+        "content_status": md.get("content_status"),
+        "resource_type": md.get("resource_type"),
+        "checked_at": md.get("checked_at"),
+        "pages": md.get("pages"),
+        "pageRange": md.get("pageRange"),
+        "journalTitle": md.get("journal_title") or md.get("journalTitle"),
+        "source_id": md.get("source_id"),
+        "sourceId": md.get("sourceId") or md.get("source_id"),
+        "document_id": md.get("document_id"),
+        "documentId": md.get("documentId") or md.get("document_id"),
+        "legacy_source_type": md.get("legacy_source_type"),
+        "authority": md.get("authority"),
+        "url_canonical": md.get("url_canonical"),
+        "retrieved_at": md.get("retrieved_at"),
+        "last_checked": md.get("last_checked"),
+        "valid_from": md.get("valid_from"),
+        "valid_to": md.get("valid_to"),
+        "historical": md.get("historical"),
+        "source_status": md.get("source_status"),
+        "canonical_item_id": md.get("canonical_item_id"),
+        "content_hash": md.get("content_hash"),
+        "collection_id": md.get("collection_id"),
+        "country": md.get("country"),
+        "county": md.get("county"),
+        "jurisdiction_level": md.get("jurisdiction_level"),
+        "municipality_name": md.get("municipality_name"),
+        "municipality": md.get("municipality"),
+        "issuer": md.get("issuer"),
+        "act_title": md.get("act_title"),
+        "act_reference": md.get("act_reference"),
+        "chapter_number": md.get("chapter_number"),
+        "chapter_title": md.get("chapter_title"),
+        "paragraph_number": md.get("paragraph_number"),
+        "paragraph_title": md.get("paragraph_title"),
+        "subsection_number": md.get("subsection_number"),
+        "point_number": md.get("point_number"),
+        "chunk_level": md.get("chunk_level"),
+        "canonical_source_id": md.get("canonical_source_id"),
+        "canonical_chunk_id": md.get("canonical_chunk_id"),
+        "source_format": md.get("source_format"),
+        "municipality_id": md.get("municipality_id"),
+        "district_name": md.get("district_name"),
+        "district_id": md.get("district_id"),
+        "source_keys": md.get("source_keys"),
+        "source_urls": md.get("source_urls"),
+        "source_register_file": md.get("source_register_file"),
+        "source_count": md.get("source_count"),
+        "administering_body": md.get("administering_body"),
+        "tags": tags_val,
+        "language": md.get("language"),
+        "chunk": document,
+        "url": md.get("source_url"),
+        "fileName": file_name,
+        "source_type": md.get("source_type"),
+        "page": md.get("page"),
+        "distance": distance,
+    }
+
+def _fetch_lexical_candidates(query: str, chroma_where: Optional[Dict[str, object]], top_k: int) -> List[Dict[str, object]]:
+    if not RAG_LEXICAL_SEARCH_ENABLED or not str(query or "").strip():
+        return []
+    scan_limit = max(1, min(100000, RAG_LEXICAL_SCAN_LIMIT))
+    try:
+        if chroma_where:
+            got = collection.get(where=chroma_where, include=["documents", "metadatas"], limit=scan_limit)
+        else:
+            got = collection.get(include=["documents", "metadatas"], limit=scan_limit)
+    except Exception:
+        logger.exception("lexical retrieval failed")
+        return []
+
+    ids = got.get("ids") or []
+    docs = got.get("documents") or []
+    metas = got.get("metadatas") or []
+    scored: List[Dict[str, object]] = []
+    for i, item_id in enumerate(ids):
+        document = docs[i] if i < len(docs) and isinstance(docs[i], str) else ""
+        md = metas[i] if i < len(metas) and isinstance(metas[i], dict) else {}
+        match = _lexical_match(query, md, document)
+        if not match:
+            continue
+        scored.append({
+            "id": item_id,
+            "document": document,
+            "metadata": md,
+            "score": float(match["score"]),
+            "channels": list(match["channels"]),
+        })
+
+    scored.sort(key=lambda item: float(item.get("score") or 0), reverse=True)
+    limit = max(0, min(max(1, top_k), RAG_LEXICAL_TOP_K))
+    return scored[:limit]
 
 # --------------------
 # Routes
@@ -3153,6 +3525,7 @@ def delete_doc(doc_id: str):
 @app.post("/search", dependencies=[Depends(_require_key)])
 def search(payload: SearchIn, request: Request):
     md_where: Dict[str, object] = {}
+    requested_retrievers = _normalize_requested_retrievers(payload.retrievers)
 
     if payload.filterDocId:
         md_where["doc_id"] = payload.filterDocId
@@ -3237,7 +3610,7 @@ def search(payload: SearchIn, request: Request):
     embed_result = _embed_batch_with_usage([payload.query])
     q_embeds = list(embed_result.get("embeddings") or [])
     if not q_embeds:
-        return {"results": [], "groups": []}
+        return {"results": [], "groups": [], "retrievers_used": ["dense"], "search_strategy": "dense"}
     q_emb = q_embeds[0]
     observability = _build_observability_context(
         request,
@@ -3270,7 +3643,13 @@ def search(payload: SearchIn, request: Request):
             cost_read_directly=bool(embed_result.get("cost_read_directly")),
             **observability,
         )
-        return {"results": [], "groups": [], "error": f"query_failed: {e.__class__.__name__}: {e}"}
+        return {
+            "results": [],
+            "groups": [],
+            "retrievers_used": ["dense"],
+            "search_strategy": "dense",
+            "error": f"query_failed: {e.__class__.__name__}: {e}",
+        }
 
     ids = (res.get("ids") or [[]])[0] if res.get("ids") else []
     docs = (res.get("documents") or [[]])[0] if res.get("documents") else []
@@ -3294,6 +3673,11 @@ def search(payload: SearchIn, request: Request):
         tag_tokens_val = normalize_tag_tokens(md.get("tag_tokens") or md.get("tagTokens") or tags_val)
         flat.append({
             "id": _id,
+            "retriever": "dense",
+            "retrieval_channel": "dense",
+            "retrievalChannel": "dense",
+            "retrieval_channels": ["dense"],
+            "retrieval_rank": i + 1,
             "doc_id": md.get("doc_id") or md.get("docId"),
             "docId": md.get("docId") or md.get("doc_id"),
             "chunk_id": md.get("chunk_id") or md.get("chunkId"),
@@ -3322,6 +3706,21 @@ def search(payload: SearchIn, request: Request):
             "pages": md.get("pages"),
             "pageRange": md.get("pageRange"),
             "journalTitle": md.get("journal_title") or md.get("journalTitle"),
+            "source_id": md.get("source_id"),
+            "sourceId": md.get("sourceId") or md.get("source_id"),
+            "document_id": md.get("document_id"),
+            "documentId": md.get("documentId") or md.get("document_id"),
+            "legacy_source_type": md.get("legacy_source_type"),
+            "authority": md.get("authority"),
+            "url_canonical": md.get("url_canonical"),
+            "retrieved_at": md.get("retrieved_at"),
+            "last_checked": md.get("last_checked"),
+            "valid_from": md.get("valid_from"),
+            "valid_to": md.get("valid_to"),
+            "historical": md.get("historical"),
+            "source_status": md.get("source_status"),
+            "canonical_item_id": md.get("canonical_item_id"),
+            "content_hash": md.get("content_hash"),
             "collection_id": md.get("collection_id"),
             "country": md.get("country"),
             "county": md.get("county"),
@@ -3358,7 +3757,50 @@ def search(payload: SearchIn, request: Request):
             "page": md.get("page"),
             "distance": dists[i] if i < len(dists) else None,
         })
+
+    lexical_candidates = (
+        _fetch_lexical_candidates(
+            payload.query,
+            chroma_where,
+            max(1, min(50, payload.top_k or 5)),
+        )
+        if any(channel in requested_retrievers for channel in ["title_match", "exact_phrase"])
+        else []
+    )
+    flat_by_id = {str(item.get("id") or ""): item for item in flat if item.get("id")}
+    for rank, candidate in enumerate(lexical_candidates, start=1):
+        item_id = str(candidate.get("id") or "").strip()
+        if not item_id:
+            continue
+        channels = [str(item) for item in candidate.get("channels") or [] if str(item or "").strip()]
+        if not channels:
+            continue
+        if item_id in flat_by_id:
+            existing = flat_by_id[item_id]
+            _append_channels(existing, channels)
+            existing["lexical_score"] = candidate.get("score")
+            existing["lexical_rank"] = rank
+            continue
+        lexical_result = _search_result_from_metadata(
+            item_id=item_id,
+            document=str(candidate.get("document") or ""),
+            md=candidate.get("metadata") if isinstance(candidate.get("metadata"), dict) else {},
+            distance=None,
+            channels=channels,
+            rank=rank,
+            lexical_score=float(candidate.get("score") or 0),
+        )
+        lexical_result["lexical_rank"] = rank
+        flat_by_id[item_id] = lexical_result
+        flat.append(lexical_result)
     result_count = len(flat)
+    retrievers_used: List[str] = []
+    for item in flat:
+        for channel in item.get("retrieval_channels") if isinstance(item.get("retrieval_channels"), list) else []:
+            if channel and channel not in retrievers_used:
+                retrievers_used.append(channel)
+    if not retrievers_used:
+        retrievers_used = ["dense"]
     _log_rag_cost_usage(
         model=embed_result.get("model"),
         latency_ms=embed_result.get("latency_ms"),
@@ -3414,6 +3856,7 @@ def search(payload: SearchIn, request: Request):
                 "administering_body": r.get("administering_body"),
                 "tags": r.get("tags"),
                 "language": r.get("language"),
+                "retrieval_channels": set(),
                 "pages_all": [],
                 "page_ranges": [],
                 "items": [],
@@ -3434,6 +3877,10 @@ def search(payload: SearchIn, request: Request):
                 if t and t not in g["tags"]:
                     g["tags"].append(t)
         g["items"].append(r)
+        if isinstance(r.get("retrieval_channels"), list):
+            for channel in r["retrieval_channels"]:
+                if channel:
+                    g["retrieval_channels"].add(channel)
 
     def _collapse_pages_local(pages):
         s = sorted({p for p in pages if isinstance(p, int)})
@@ -3497,6 +3944,7 @@ def search(payload: SearchIn, request: Request):
             "source_register_file": g.get("source_register_file"),
             "source_count": g.get("source_count"),
             "administering_body": g.get("administering_body"),
+            "retrieval_channels": sorted(list(g.get("retrieval_channels") or [])),
             "tags": g.get("tags"),
             "language": g.get("language"),
             "pages": pages_compact,
@@ -3506,4 +3954,9 @@ def search(payload: SearchIn, request: Request):
         })
 
     groups.sort(key=lambda x: (-x["count"], x["title"] or ""))
-    return {"results": flat, "groups": groups}
+    return {
+        "results": flat,
+        "groups": groups,
+        "retrievers_used": retrievers_used,
+        "search_strategy": "hybrid" if any(channel != "dense" for channel in retrievers_used) else "dense",
+    }

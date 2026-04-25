@@ -338,7 +338,9 @@ export function useChatConversationState({
       const serverTextTrim = serverText.trim();
       const normalizeSourceList =
         typeof normalizeSources === "function" ? normalizeSources : defaultNormalizeSources;
-      const serverSources = normalizeSourceList(data.sources ?? []);
+      const serverSources = normalizeSourceList(
+        Array.isArray(data.displayed_sources) ? data.displayed_sources : data.sources ?? []
+      );
       const serverAttachments = Array.isArray(data.attachments)
         ? data.attachments
         : [];
@@ -361,7 +363,7 @@ export function useChatConversationState({
               text: typeof msg.text === "string" ? msg.text : "",
               sources:
                 normalizedRole === "ai"
-                  ? normalizeSourceList(msg.sources ?? [])
+                  ? normalizeSourceList(Array.isArray(msg.displayed_sources) ? msg.displayed_sources : msg.sources ?? [])
                   : undefined,
               attachments:
                 normalizedRole === "ai" && Array.isArray(msg.attachments)

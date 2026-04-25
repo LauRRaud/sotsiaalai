@@ -48,6 +48,11 @@ function normalizeSources(s) {
   return [s];
 }
 
+function readDisplayedSources(metadata) {
+  if (!metadata || typeof metadata !== "object") return [];
+  return normalizeSources(metadata.displayed_sources || metadata.sources || []);
+}
+
 function normalizeAttachments(value) {
   if (!Array.isArray(value)) return [];
   return value
@@ -189,7 +194,7 @@ export async function GET(req) {
             return {
               role: normalizedRole,
               text: msg.content || "",
-              sources: normalizedRole === "ai" ? normalizeSources(msg.metadata?.sources || []) : [],
+              sources: normalizedRole === "ai" ? readDisplayedSources(msg.metadata) : [],
               attachments: normalizedRole === "ai" ? normalizeAttachments(msg.metadata?.attachments) : [],
               cards: normalizedRole === "ai" ? normalizeCards(msg.metadata?.cards) : [],
               workflow: normalizedRole === "ai" ? normalizeWorkflow(msg.metadata?.workflow) : null,
@@ -214,7 +219,8 @@ export async function GET(req) {
       status,
       role: conversation.role,
       text,
-      sources: normalizeSources(currentAssistant?.metadata?.sources || []),
+      sources: readDisplayedSources(currentAssistant?.metadata),
+      displayed_sources: readDisplayedSources(currentAssistant?.metadata),
       attachments: normalizeAttachments(currentAssistant?.metadata?.attachments),
       cards: normalizeCards(currentAssistant?.metadata?.cards),
       workflow: normalizeWorkflow(currentAssistant?.metadata?.workflow),
