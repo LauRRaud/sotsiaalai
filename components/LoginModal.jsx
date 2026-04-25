@@ -1950,7 +1950,7 @@ export default function LoginModal({
                   onChange={e => setDeviceName(e.target.value)}
                   placeholder={t("auth.login.device_name_placeholder")}
                   aria-label={t("auth.login.device_name_label")}
-                  className={`${subpageFieldInputClassName} !w-[min(100%,19.6rem)] !max-w-[19.6rem] max-[768px]:!w-[min(82vw,21rem)] max-[768px]:!max-w-[21rem] text-center !text-center placeholder:opacity-85 focus:placeholder:opacity-0 text-[1.04rem] !px-[1.08rem] !py-[0.78rem] min-h-[3.05rem]`}
+                  className={`${subpageFieldInputClassName} !w-[min(100%,15.8rem)] !max-w-[15.8rem] max-[768px]:!w-[min(74vw,18.6rem)] max-[768px]:!max-w-[18.6rem] text-center !text-center placeholder:opacity-85 focus:placeholder:opacity-0 text-[1.04rem] !px-[1.08rem] !py-[0.78rem] min-h-[3.05rem]`}
                 />
                 <p className={`m-0 max-w-[21rem] text-center text-[0.9rem] leading-[1.28] opacity-80 ${otpTextClassName}`}>
                   {t("auth.login.device_name_hint")}
