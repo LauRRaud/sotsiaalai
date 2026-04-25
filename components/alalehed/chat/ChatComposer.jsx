@@ -178,7 +178,8 @@ export default function ChatComposer({
     const borderTop = Number.parseFloat(computed.borderTopWidth) || 0;
     const borderBottom = Number.parseFloat(computed.borderBottomWidth) || 0;
     const minHeight = Math.ceil(lineHeight + paddingTop + paddingBottom + borderTop + borderBottom);
-    const maxHeight = Math.ceil(lineHeight * 6 + paddingTop + paddingBottom + borderTop + borderBottom);
+    const maxVisibleLines = isMobile ? 3 : 6;
+    const maxHeight = Math.ceil(lineHeight * maxVisibleLines + paddingTop + paddingBottom + borderTop + borderBottom);
     const currentDraftLength = draft.length;
     const previousDraftLength = previousDraftLengthRef.current;
     const draftIsGrowing = currentDraftLength >= previousDraftLength;

@@ -1257,16 +1257,15 @@ export default function LoginModal({
     ? "!text-[clamp(1.94rem,1.38rem+1.24vw,2.32rem)] max-md:!text-[clamp(2.24rem,8.45vw,2.9rem)]"
     : "";
   const loginEmailFieldWrapClassName = [
-    "relative block mx-auto w-full login-email-shell--surface",
+    "register-input-shell register-input-shell--mid relative block mx-auto w-full",
     "!w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))]"
   ].join(" ");
   const loginEmailInputClassName = [
-    "register-input register-input-mid-shell login-email-input--surface block !my-0 !w-full !max-w-none",
-    "!text-left placeholder:!text-left !font-normal !text-[1.25rem] !leading-[1.38] !tracking-[0.01em] !px-[1.5rem] !py-[0.68rem] !min-h-[3.08rem]",
-    "!text-[color:var(--pt-50)] light:!text-[color:var(--input-text)]",
-    "placeholder:opacity-100 placeholder:!text-[color:var(--pt-200)] light:placeholder:!text-[color:var(--input-placeholder)]",
-    "max-[768px]:!text-[clamp(1.2rem,4.9vw,1.36rem)] max-[768px]:!px-[clamp(1.06rem,4.1vw,1.34rem)] max-[768px]:!py-[0.72rem] max-[768px]:!min-h-[3.12rem]",
-    isAndroidPlatform ? "max-[768px]:!min-h-[3.04rem]" : ""
+    "register-input register-input-mid-shell block !my-0 !w-full !max-w-none",
+    "!text-left placeholder:!text-left !font-normal !text-[1.25rem] !leading-[1.38] !tracking-[0.01em] !px-[1.5rem] !py-[0.95rem] !min-h-[3.6rem]",
+    "!text-[color:var(--input-text)] placeholder:opacity-100 placeholder:!text-[color:var(--input-placeholder)]",
+    "max-[768px]:!text-[clamp(1.2rem,4.9vw,1.36rem)] max-[768px]:!px-[clamp(1.06rem,4.1vw,1.34rem)] max-[768px]:!py-[0.84rem] max-[768px]:!min-h-[3.2rem]",
+    isAndroidPlatform ? "max-[768px]:!min-h-[3.12rem]" : ""
   ].filter(Boolean).join(" ");
   const loginShellStyle = {
     ...(isPhoneViewport
@@ -1673,7 +1672,7 @@ export default function LoginModal({
                   <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="login-email-icon pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button> : <label className={loginEmailFieldWrapClassName}>
-                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder={t("auth.email_placeholder")} autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={loginEmailInputClassName} onMouseDown={e => {
+                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} aria-invalid={emailErrorVisual ? "true" : "false"} placeholder={t("auth.email_placeholder")} autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={loginEmailInputClassName} onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
                 e.preventDefault();

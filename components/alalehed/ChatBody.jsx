@@ -858,12 +858,14 @@ export default function ChatBody({
     if (!container || typeof window === "undefined") return;
     if (!viewportIsMobile) {
       container.style.setProperty("--chat-composer-dynamic-extra", "0px");
+      container.style.setProperty("--chat-composer-occlusion", "0px");
       return;
     }
 
     const inputBar = inputBarRef.current;
     if (!inputBar) {
       container.style.setProperty("--chat-composer-dynamic-extra", "0px");
+      container.style.setProperty("--chat-composer-occlusion", "0px");
       return;
     }
 
@@ -879,10 +881,30 @@ export default function ChatBody({
       inputRow?.getBoundingClientRect?.().height || inputRow?.offsetHeight || inputBarHeight;
     const currentHeight = Math.max(inputBarHeight, inputRowHeight);
     const extraHeight = Math.max(0, currentHeight - resolvedBaseHeight);
+    const containerRect = container.getBoundingClientRect();
+    const inputBarRect = inputBar.getBoundingClientRect();
+    const inputRowRect = inputRow?.getBoundingClientRect?.();
+    const inputBarTop = Number.isFinite(inputBarRect.top)
+      ? inputBarRect.top
+      : Number.POSITIVE_INFINITY;
+    const inputRowTop = Number.isFinite(inputRowRect?.top)
+      ? inputRowRect.top
+      : Number.POSITIVE_INFINITY;
+    const inputTop = Math.min(
+      inputBarTop,
+      inputRowTop
+    );
+    const composerOcclusion = Number.isFinite(inputTop)
+      ? Math.max(0, containerRect.bottom - inputTop)
+      : currentHeight;
 
     container.style.setProperty(
       "--chat-composer-dynamic-extra",
       `${Math.ceil(extraHeight)}px`
+    );
+    container.style.setProperty(
+      "--chat-composer-occlusion",
+      `${Math.ceil(composerOcclusion)}px`
     );
   }, [viewportIsMobile]);
   useIsomorphicLayoutEffect(() => {
@@ -925,6 +947,7 @@ export default function ChatBody({
       window.removeEventListener("resize", scheduleUpdate);
       visualViewport?.removeEventListener("resize", scheduleUpdate);
       container.style.removeProperty("--chat-composer-dynamic-extra");
+      container.style.removeProperty("--chat-composer-occlusion");
     };
   }, [updateComposerMobileReserve]);
   const handleComposerLayoutChange = useCallback(() => {
