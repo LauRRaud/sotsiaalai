@@ -2490,26 +2490,12 @@
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-window__scroll {
     padding-bottom: max(
-      calc(
-        var(--chat-window-pad-bottom) + var(--chat-window-bottom-safe) +
-          var(--chat-window-fade-bottom-active) + var(--chat-vk-offset, 0px) +
-          var(--chat-composer-dynamic-extra, 0px)
-      ),
-      calc(
-        var(--chat-composer-occlusion, 0px) + var(--chat-window-fade-bottom-active) +
-          0.75rem
-      )
+      calc(var(--chat-vk-offset, 0px) - 0.28rem),
+      calc(var(--chat-vk-offset, 0px) + (var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
     ) !important;
     scroll-padding-bottom: max(
-      calc(
-        var(--chat-window-pad-bottom) + var(--chat-window-bottom-safe) +
-          var(--chat-window-fade-bottom-active) + var(--chat-vk-offset, 0px) +
-          var(--chat-composer-dynamic-extra, 0px)
-      ),
-      calc(
-        var(--chat-composer-occlusion, 0px) + var(--chat-window-fade-bottom-active) +
-          0.75rem
-      )
+      calc(var(--chat-vk-offset, 0px) - 0.28rem),
+      calc(var(--chat-vk-offset, 0px) + (var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
     ) !important;
   }
 
