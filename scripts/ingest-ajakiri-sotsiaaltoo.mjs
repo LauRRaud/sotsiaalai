@@ -14,6 +14,10 @@ const DEFAULT_LOG_PATH = "logs/ajakiri-sotsiaaltoo-ingest.jsonl";
 const DEFAULT_ALL_EXCLUDED_ISSUES = new Set();
 const RAW_RAG_HOST = String(process.env.RAG_INTERNAL_HOST || process.env.RAG_API_BASE || "127.0.0.1:8000").trim();
 const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
+const DEFAULT_REQUEST_TIMEOUT_MS = Math.max(
+  30_000,
+  Number.parseInt(String(process.env.RAG_INGEST_REQUEST_TIMEOUT_MS || "300000"), 10) || 300_000
+);
 
 function usage() {
   console.log(`
@@ -38,6 +42,8 @@ Options:
   --log <path>          JSONL log path. Default: ${DEFAULT_LOG_PATH}
   --plan-json <path>    Write dry-run/ingest plan summary as JSON.
   --base-url <url>      RAG service URL. Default from env or http://127.0.0.1:8000
+  --request-timeout-ms <n>
+                        Per-request timeout for RAG HTTP calls. Default: ${DEFAULT_REQUEST_TIMEOUT_MS}
   --stop-on-error       Stop after the first ingest error.
 `.trim());
 }
@@ -57,7 +63,8 @@ function parseArgs(argv) {
     concurrency: 1,
     logPath: DEFAULT_LOG_PATH,
     planJsonPath: "",
-    baseUrl: normalizeBaseFromHost(RAW_RAG_HOST)
+    baseUrl: normalizeBaseFromHost(RAW_RAG_HOST),
+    requestTimeoutMs: DEFAULT_REQUEST_TIMEOUT_MS
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -125,6 +132,10 @@ function parseArgs(argv) {
       args.baseUrl = normalizeBaseFromHost(String(argv[++i] || ""));
       continue;
     }
+    if (arg === "--request-timeout-ms") {
+      args.requestTimeoutMs = Math.max(30_000, Number.parseInt(String(argv[++i] || "0"), 10) || DEFAULT_REQUEST_TIMEOUT_MS);
+      continue;
+    }
     throw new Error(`Unknown argument: ${arg}`);
   }
 
@@ -145,6 +156,24 @@ function normalizeBaseFromHost(host) {
   if (!trimmed) return "http://127.0.0.1:8000";
   if (/^https?:\/\//i.test(trimmed)) return trimmed;
   return `http://${trimmed}`;
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+  } catch (error) {
+    if (error?.name === "AbortError") {
+      throw new Error(`RAG request timed out after ${timeoutMs}ms`);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 function resolveWorkspacePath(inputPath) {
@@ -503,11 +532,11 @@ async function buildPlan(jsonFiles, completedDocIds) {
   return items;
 }
 
-async function isDocumentExisting(baseUrl, expectedDocId) {
-  const response = await fetch(`${baseUrl}/documents/${encodeURIComponent(expectedDocId)}`, {
+async function isDocumentExisting(baseUrl, expectedDocId, timeoutMs) {
+  const response = await fetchWithTimeout(`${baseUrl}/documents/${encodeURIComponent(expectedDocId)}`, {
     method: "GET",
     headers: { "X-API-Key": RAG_KEY }
-  });
+  }, timeoutMs);
   if (response.status === 404) return false;
   if (!response.ok) {
     const text = await response.text().catch(() => "");
@@ -516,7 +545,7 @@ async function isDocumentExisting(baseUrl, expectedDocId) {
   return true;
 }
 
-async function ingestItem(baseUrl, item) {
+async function ingestItem(baseUrl, item, timeoutMs) {
   const [rawPdf, rawJson] = await Promise.all([
     fs.readFile(item.pdfPath),
     fs.readFile(item.jsonPath, "utf8")
@@ -534,7 +563,7 @@ async function ingestItem(baseUrl, item) {
   formData.append("file", new Blob([rawPdf], { type: "application/pdf" }), path.basename(item.pdfPath));
   formData.append("metadata_text", JSON.stringify(metadata));
 
-  const response = await fetch(`${baseUrl}/ingest/pdf-with-metadata`, {
+  const response = await fetchWithTimeout(`${baseUrl}/ingest/pdf-with-metadata`, {
     method: "POST",
     headers: {
       "X-API-Key": RAG_KEY,
@@ -542,7 +571,7 @@ async function ingestItem(baseUrl, item) {
       "X-Observability-Stage": "rag_ingest"
     },
     body: formData
-  });
+  }, timeoutMs);
 
   const responseText = await response.text().catch(() => "");
   let data = {};
@@ -722,13 +751,13 @@ async function main() {
 
   await runPool(ready, args.concurrency, async item => {
     try {
-      if (args.skipExisting && await isDocumentExisting(args.baseUrl, item.expectedDocId)) {
+      if (args.skipExisting && await isDocumentExisting(args.baseUrl, item.expectedDocId, args.requestTimeoutMs)) {
         skipped += 1;
         await appendLog(logPath, { ...logEntryBase(item), status: "skip_existing" });
         console.log(`[skip] ${item.expectedDocId}`);
         return;
       }
-      const result = await ingestItem(args.baseUrl, item);
+      const result = await ingestItem(args.baseUrl, item, args.requestTimeoutMs);
       ok += 1;
       await appendLog(logPath, {
         ...logEntryBase(item),

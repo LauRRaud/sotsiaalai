@@ -1027,6 +1027,11 @@ STATUS: partially implemented / active
 - Dense ja lexical kanalid ühendatakse RRF/weighted merge loogikaga ning tulemuste küljes liiguvad `rrf_score`, `hybrid_score` ja `hybrid_rank`.
 - RAG source metadata contract on koondatud ühisesse helperisse ning KOV, organisatsiooni, ajakirja ja Riigi Teataja ingest/validation radades kasutatakse rangemat metadata kontrolli.
 - Ajakirja ingest dry-run oskab vanadest JSON-idest koostada V2 metadata contract'i ilma faile käsitsi muutmata ning `--plan-json` väljundiga salvestada ready/blocked/backfill plaani enne mass re-ingest'i.
+- Ajakirja mass re-ingest on productionis kontrollitud `--resume` ja `--concurrency 2` töövooga; `--skip-existing` ei sobi metadata paranduse re-ingestiks, sest vanad olemasolevad dokumendid tuleb uue contract'iga üle kirjutada.
+- Ajakirja ingest skriptil on RAG HTTP päringute timeout (`--request-timeout-ms`, vaikimisi 300000 ms), et RAG service'i või fetch'i hangumine ei jätaks batch'i lõputult rippuma.
+- Ajakirja legacy cleanup tööriist `rag:cleanup:ajakiri-legacy` koostab RAG service registry põhjal dry-run plaani vanade `source_type=file` / `unknown` ajakirjakirjete eemaldamiseks ainult siis, kui olemas on sama pealkirja ja aasta `article_ingest` asendus.
+- Legacy cleanup kustutab päriselt ainult `--delete` lipuga ja ainult `delete_duplicate` otsuseid; ebakindlad või ilma asenduseta kirjed jäävad `review_legacy` staatusesse.
+- Productionis eemaldati selle tööriistaga 2026-04-26 neli kindlat ajakirja legacy duplikaati; neli ilma kindla `article_ingest` asenduseta kirjet jäid `review_legacy` staatusesse.
 - Source freshness audit on eraldi helperis ja CLI-s olemas: allikatüübi põhine kontroll leiab puuduva või aegunud `last_checked`, aegunud `valid_to`, mitteaktiivse `source_status` ja kõrge prioriteediga ülevaatusvajaduse.
 - Admin analytics RAG dokumentide vaates on esimene quality queue: see kuvab freshness auditi vead ja hoiatused ning annab prioriteetse nimekirja allikatest, mis vajavad metadata või värskuse ülevaatust.
 - Kui productionis on Prisma `RagDocument` tabel tühi, aga RAG service registry/Chroma sisaldab dokumente, kasutab admin analytics freshness audit fallback'ina RAG service `/documents` nimekirja. Vastuses on selleks `ragDocs.freshness.auditSource`, `ragServiceFallbackCount` ja `ragServiceFallbackError`.
@@ -1062,6 +1067,7 @@ Viimane lokaalne kontroll:
 
 ```text
 chat/RAG regressioonipakk: 66/66 passed
+RAG metadata/freshness/ingest/cleanup static pack: 32/32 passed
 ```
 
 See ei asenda serveri smoke testi pärast deploy'd. Productionis tuleb eraldi kontrollida RAG service health'i, chat endpointi, allikapaneeli ja vähemalt üht päris vestluse artikli-follow-up juhtumit.
