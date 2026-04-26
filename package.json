@@ -60,7 +60,8 @@
     "rag:smoke:v1": "node scripts/smoke-rag-v1-contract.mjs",
     "rag:smoke:v2": "node scripts/smoke-rag-v2-quality.mjs",
     "rag:reindex:documents": "node scripts/reindex-rag-documents.mjs",
-    "rag:cleanup:ajakiri-legacy": "node scripts/cleanup-legacy-ajakiri-rag-docs.mjs"
+    "rag:cleanup:ajakiri-legacy": "node scripts/cleanup-legacy-ajakiri-rag-docs.mjs",
+    "rag:plan:metadata": "node scripts/plan-rag-metadata-backfill.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",

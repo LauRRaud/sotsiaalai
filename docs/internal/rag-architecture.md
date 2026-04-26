@@ -1026,6 +1026,7 @@ STATUS: partially implemented / active
 - `query_plan` liigub `rag_trace` sisse, et hiljem oleks näha, miks valiti `source_focused_followup`, `broad_multi_source`, `temporal`, `municipality_service_benefit_list` või muu planner mode.
 - Dense ja lexical kanalid ühendatakse RRF/weighted merge loogikaga ning tulemuste küljes liiguvad `rrf_score`, `hybrid_score` ja `hybrid_rank`.
 - RAG source metadata contract on koondatud ühisesse helperisse ning KOV, organisatsiooni, ajakirja ja Riigi Teataja ingest/validation radades kasutatakse rangemat metadata kontrolli.
+- KOV/RT/organisatsiooni metadata jaoks on lisatud dry-run backfill planner `rag:plan:metadata`, mis koostab enne mass-ingesti JSON plaani: millised V2 contract'i väljad saab olemasolevatest source/meta failidest tuletada ja millised kirjed jäävad blokkeriks.
 - Ajakirja ingest dry-run oskab vanadest JSON-idest koostada V2 metadata contract'i ilma faile käsitsi muutmata ning `--plan-json` väljundiga salvestada ready/blocked/backfill plaani enne mass re-ingest'i.
 - Ajakirja mass re-ingest on productionis kontrollitud `--resume` ja `--concurrency 2` töövooga; `--skip-existing` ei sobi metadata paranduse re-ingestiks, sest vanad olemasolevad dokumendid tuleb uue contract'iga üle kirjutada.
 - Ajakirja ingest skriptil on RAG HTTP päringute timeout (`--request-timeout-ms`, vaikimisi 300000 ms), et RAG service'i või fetch'i hangumine ei jätaks batch'i lõputult rippuma.
@@ -1067,7 +1068,7 @@ Viimane lokaalne kontroll:
 
 ```text
 chat/RAG regressioonipakk: 66/66 passed
-RAG metadata/freshness/ingest/cleanup static pack: 34/34 passed
+RAG metadata/freshness/ingest/cleanup/backfill static pack: 40/40 passed
 ```
 
 See ei asenda serveri smoke testi pärast deploy'd. Productionis tuleb eraldi kontrollida RAG service health'i, chat endpointi, allikapaneeli ja vähemalt üht päris vestluse artikli-follow-up juhtumit.
@@ -1209,6 +1210,14 @@ KOV materjale ei ole veel suures mahus andmebaasi laetud. Enne seda tuleb lõpli
 - ajaloolised projektikirjeldused ja praktikalood.
 
 Iga profiil peab map'ima ühisele RAG source contract'ile: `source_id`, `document_id`, `chunk_id`, `source_type`, `authority`, `audience`, `language`, `municipality_id`, `canonical_item_id`, `last_checked`, `valid_from`, `valid_to`, `historical`, `source_status`, `content_hash`.
+
+Enne uut KOV/RT/organisatsiooni ingest'i saab sisendfailide contract'i kontrollida backfill planneriga:
+
+```text
+npm run rag:plan:metadata -- --root KOV --json logs/kov-metadata-backfill-plan.json
+```
+
+Planner ei muuda sisendfaile. See loeb `*.sources.json`, `*.meta.json` ja seotud source register'i kirjeid, tuletab V2 miinimumväljad nagu `source_id`, `document_id`, `source_type`, `authority`, `audience`, `municipality_id`, `last_checked`, `source_status`, `url_canonical` ja `content_hash`, ning tagastab `ready`, `backfill_required` või `blocked` staatuse.
 
 ### V3 Planeeritav Skoop
 
