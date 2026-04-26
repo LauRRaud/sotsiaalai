@@ -854,8 +854,18 @@ V2 esimene hübriidotsingu samm on lightweight lexical retrieval:
 V2 evidence score võib alguses olla reeglipõhine:
 
 ```text
-authority + source_type + municipality_match + freshness + exact_title_match + risk_fit
+retrieval_channel + authority + source_type + municipality_match + freshness + exact_title_match + risk_fit
 ```
+
+V2 esimene ranking quality layer kasutab olemasolevat metadata't enne V3 mudelipõhist reranker'it:
+
+- `title_match` ja `exact_phrase` kanalid annavad täpsel kattuvusel ranking boost'i;
+- ametlikud ja kõrgema autoriteediga `source_type` väärtused saavad eelistuse taustaallikate ees;
+- `source_status=active` saab väikese eelistuse;
+- `stale`, `inactive`, `archived`, `historical=true` ja `historical_source` saavad ranking penalty;
+- `valid_from`, `valid_to` ja `historical` peavad liikuma retrieval match'ist selected context source'i edasi, et hilisem evidence policy saaks neid kontrollida;
+- `ragRiskPolicy` liigub retrieval assembler'ist rankingusse, et `high` riskiga küsimustes tõuseksid ametlikud ja nõutud evidence source type'id taustaallikatest ette;
+- see kiht ei asenda hard/soft filter policy't, vaid annab V2-s parema vaikimisi järjestuse.
 
 V2 esimene teostatud quality-policy tükk on `RAG_RISK_POLICY`:
 

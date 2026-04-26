@@ -32,6 +32,17 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
     retrieversUsed: ["dense"],
     retrievedSourceIds: ["retrieved-a", "retrieved-b", "retrieved-c"],
     selectedContextSourceIds: ["tartu-koduteenus", "general-article"],
+    selectedContextDetails: [
+      {
+        source_id: "tartu-koduteenus",
+        source_type: "kov_service_info",
+        source_status: "active",
+        retrieval_channels: ["dense", "title_match"],
+        rank_score: 1.24,
+        topic_boost: 0.18,
+        quality_adjust: 0.42
+      }
+    ],
     ragRiskPolicy: {
       riskLevel: "medium",
       requiredEvidence: "strong",
@@ -44,6 +55,17 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
   assert.deepEqual(trace.retrievers_used, ["dense"]);
   assert.deepEqual(trace.retrieved_source_ids, ["retrieved-a", "retrieved-b", "retrieved-c"]);
   assert.deepEqual(trace.selected_context_source_ids, ["tartu-koduteenus", "general-article"]);
+  assert.deepEqual(trace.selected_context_details, [
+    {
+      source_id: "tartu-koduteenus",
+      source_type: "kov_service_info",
+      source_status: "active",
+      retrieval_channels: ["dense", "title_match"],
+      rank_score: 1.24,
+      topic_boost: 0.18,
+      quality_adjust: 0.42
+    }
+  ]);
   assert.deepEqual(trace.answer_source_ids, ["tartu-koduteenus"]);
   assert.deepEqual(trace.displayed_source_ids, ["tartu-koduteenus"]);
   assert.deepEqual(trace.filtered_out_source_ids, ["general-article"]);

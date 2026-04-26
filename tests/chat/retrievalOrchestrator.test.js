@@ -2,7 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  buildRagSearchQuery,
   dedupeRagMatches,
+  extractRecentAssistantSourceAnchors,
+  hasRecentAssistantSources,
   inferRetrieversUsed,
   searchRagQueries
 } from "../../lib/chat/retrievalOrchestrator.js";
@@ -78,4 +81,37 @@ test("searchRagQueries sends hybrid retriever request and preserves returned cha
   } finally {
     global.fetch = previousFetch;
   }
+});
+
+test("buildRagSearchQuery anchors short follow-ups to recent assistant sources", () => {
+  const history = [
+    {
+      role: "assistant",
+      text: "Laur Raudsoo on kirjutanud artikli „Tehisintellekt sotsiaaltöös: praktika, kaalutlused ja väärtuspõhised piirid“.",
+      sources: [
+        {
+          source_id: "sotsiaaltoo-ai-2025",
+          title: "Tehisintellekt sotsiaaltöös: praktika, kaalutlused ja väärtuspõhised piirid",
+          authors: ["Laur Raudsoo"],
+          journalTitle: "Sotsiaaltöö",
+          year: 2025,
+          source_type: "journal_article"
+        }
+      ]
+    },
+    {
+      role: "user",
+      text: "Kas seal Eestit ka mainitakse?"
+    }
+  ];
+
+  const query = buildRagSearchQuery("Soome", history);
+
+  assert.match(query, /Soome/);
+  assert.match(query, /Tehisintellekt sotsiaaltöös/);
+  assert.match(query, /Laur Raudsoo/);
+  assert.equal(hasRecentAssistantSources(history), true);
+  assert.deepEqual(extractRecentAssistantSourceAnchors(history, 1), [
+    "Tehisintellekt sotsiaaltöös: praktika, kaalutlused ja väärtuspõhised piirid Laur Raudsoo Sotsiaaltöö 2025"
+  ]);
 });

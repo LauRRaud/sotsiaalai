@@ -31,6 +31,36 @@ test("does not treat a decline as a retrieval follow-up by itself", () => {
   );
 });
 
+test("uses RAG for short article follow-ups when recent assistant sources exist", () => {
+  const options = {
+    hasHistory: true,
+    hasRecentAssistantSources: true
+  };
+
+  assert.equal(
+    shouldUseExternalSourcesForTurn("kas seal Eestit ka mainitakse?", options),
+    true
+  );
+  assert.equal(
+    shouldUseExternalSourcesForTurn("Soome", options),
+    true
+  );
+  assert.equal(
+    shouldUseExternalSourcesForTurn("OTT", options),
+    true
+  );
+});
+
+test("does not use RAG for a source-anchored decline", () => {
+  assert.equal(
+    shouldUseExternalSourcesForTurn("ei", {
+      hasHistory: true,
+      hasRecentAssistantSources: true
+    }),
+    false
+  );
+});
+
 test("does not use RAG when the user asks about the source UI itself", () => {
   assert.equal(
     shouldUseExternalSourcesForTurn("Miks vastuste allikad näitab imelikult?"),

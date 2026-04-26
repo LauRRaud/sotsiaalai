@@ -147,7 +147,9 @@ export function normalizeSources(sources) {
     const url = src?.url || src?.source || null;
     const page = typeof src?.page === "number" || typeof src?.page === "string" ? src.page : null;
     const label = formatSourceLabel(src);
-    const key = src?.id || url || `${label}-${idx}`;
+    const sourceId = src?.source_id || src?.sourceId || null;
+    const canonicalItemId = src?.canonical_item_id || src?.canonicalItemId || null;
+    const key = src?.key || src?.id || sourceId || canonicalItemId || url || `${label}-${idx}`;
     const pages = Array.isArray(src?.pages) ? uniqueSortedPages(src.pages) : undefined;
     const pageLabel = normalizePageRange(src?.pageRange) || collapsePages([...(pages || []), page]);
     const authors = asAuthorArray(src?.authors);
@@ -156,6 +158,9 @@ export function normalizeSources(sources) {
     const sourceType = typeof src?.sourceType === "string" ? src.sourceType : typeof src?.source_type === "string" ? src.source_type : typeof src?.origin === "string" ? src.origin : typeof src?.type === "string" ? src.type : undefined;
     return {
       key,
+      source_id: typeof sourceId === "string" ? sourceId : undefined,
+      sourceId: typeof sourceId === "string" ? sourceId : undefined,
+      canonical_item_id: typeof canonicalItemId === "string" ? canonicalItemId : undefined,
       label,
       url,
       page,

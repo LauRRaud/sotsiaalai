@@ -1,6 +1,33 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { collapsePages, formatSourceLabel, isSyntheticEvidenceRef, normalizePageRange } from "../utils/sources.js";
 
+const RAG_SOURCE_TYPE_HINTS = new Set([
+  "national_law",
+  "law",
+  "kov_regulation",
+  "regulation",
+  "state_guide",
+  "kov_service_info",
+  "official_form",
+  "application_form",
+  "web_form",
+  "pdf_form",
+  "official_contact",
+  "contact_page",
+  "journal_article",
+  "practice_example",
+  "project_description",
+  "personal_story",
+  "opinion",
+  "historical_source",
+  "methodology_guide",
+  "quality_guideline",
+  "service_standard",
+  "template",
+  "faq",
+  "partner_service_info"
+]);
+
 function normalizeIdentityText(value = "") {
   return String(value || "")
     .normalize("NFD")
@@ -38,20 +65,55 @@ function getDisplayedMessageSources(message) {
   return Array.isArray(message?.sources) ? message.sources : [];
 }
 
+function getSourceType(src) {
+  return typeof src?.sourceType === "string"
+    ? src.sourceType
+    : typeof src?.source_type === "string"
+      ? src.source_type
+      : typeof src?.origin === "string"
+        ? src.origin
+        : typeof src?.type === "string"
+          ? src.type
+          : "";
+}
+
+function isDbSource(src, uploadName = "") {
+  if (!src) return false;
+  const fileName = typeof src.fileName === "string" ? src.fileName.trim().toLowerCase() : "";
+  if (uploadName && fileName && fileName === uploadName) return false;
+  const sourceType = getSourceType(src).trim().toLowerCase();
+  if (sourceType.includes("ephemeral")) return false;
+  if (sourceType.includes("upload")) return false;
+  const hasKnownSourceType = RAG_SOURCE_TYPE_HINTS.has(sourceType);
+  const hasDbHint =
+    sourceType.includes("rag") ||
+    hasKnownSourceType ||
+    !!src.url ||
+    !!src.short_ref ||
+    !!src.journalTitle ||
+    !!src.source_id ||
+    !!src.sourceId ||
+    !!src.canonical_item_id ||
+    !!src.canonicalItemId ||
+    Array.isArray(src.authors) && src.authors.length > 0;
+  if (!hasDbHint && fileName) return false;
+  return hasDbHint;
+}
+
+function getSourceKey(src, fallback) {
+  return src?.key ||
+    src?.source_id ||
+    src?.sourceId ||
+    src?.id ||
+    src?.canonical_item_id ||
+    src?.canonicalItemId ||
+    src?.url ||
+    fallback;
+}
+
 export function collectLatestAnswerSources(messages, uploadPreview) {
   const map = new Map();
   const uploadName = typeof uploadPreview?.fileName === "string" ? uploadPreview.fileName.trim().toLowerCase() : "";
-  const isDbSource = src => {
-    if (!src) return false;
-    const fileName = typeof src.fileName === "string" ? src.fileName.trim().toLowerCase() : "";
-    if (uploadName && fileName && fileName === uploadName) return false;
-    const sourceType = typeof src.sourceType === "string" ? src.sourceType : typeof src.source_type === "string" ? src.source_type : typeof src.origin === "string" ? src.origin : typeof src.type === "string" ? src.type : "";
-    if (sourceType.toLowerCase().includes("ephemeral")) return false;
-    if (sourceType.toLowerCase().includes("upload")) return false;
-    const hasDbHint = sourceType.toLowerCase().includes("rag") || !!src.url || !!src.short_ref || !!src.journalTitle || Array.isArray(src.authors) && src.authors.length > 0;
-    if (!hasDbHint && fileName) return false;
-    return true;
-  };
   const messageList = Array.isArray(messages) ? messages : [];
   let latestAssistantMessage = null;
   let latestAssistantIndex = -1;
@@ -81,7 +143,7 @@ export function collectLatestAnswerSources(messages, uploadPreview) {
   }
   const sources = getDisplayedMessageSources(latestAssistantMessage);
   sources.forEach((src, idx) => {
-    if (!isDbSource(src)) return;
+    if (!isDbSource(src, uploadName)) return;
     const url = typeof src?.url === "string" && src.url.trim() ? src.url.trim() : "";
     const rawLabel = typeof src?.label === "string" ? src.label.trim() : "";
     const label =
@@ -90,7 +152,7 @@ export function collectLatestAnswerSources(messages, uploadPreview) {
         : formatSourceLabel(src && typeof src === "object" ? src : { title: "Allikas" });
     const pageText = normalizePageRange(src?.pageRange) || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(src?.page ? [src.page] : [])]);
     const section = typeof src?.section === "string" ? src.section : undefined;
-    const key = src?.key || src?.id || url || `${label}-${pageText || ""}-${idx}`;
+    const key = getSourceKey(src, `${label}-${pageText || ""}-${idx}`);
     const existing = map.get(key) || {
       key,
       label,
@@ -109,17 +171,6 @@ export function collectLatestAnswerSources(messages, uploadPreview) {
 export function collectConversationSources(messages, uploadPreview) {
   const map = new Map();
   const uploadName = typeof uploadPreview?.fileName === "string" ? uploadPreview.fileName.trim().toLowerCase() : "";
-  const isDbSource = src => {
-    if (!src) return false;
-    const fileName = typeof src.fileName === "string" ? src.fileName.trim().toLowerCase() : "";
-    if (uploadName && fileName && fileName === uploadName) return false;
-    const sourceType = typeof src.sourceType === "string" ? src.sourceType : typeof src.source_type === "string" ? src.source_type : typeof src.origin === "string" ? src.origin : typeof src.type === "string" ? src.type : "";
-    if (sourceType.toLowerCase().includes("ephemeral")) return false;
-    if (sourceType.toLowerCase().includes("upload")) return false;
-    const hasDbHint = sourceType.toLowerCase().includes("rag") || !!src.url || !!src.short_ref || !!src.journalTitle || Array.isArray(src.authors) && src.authors.length > 0;
-    if (!hasDbHint && fileName) return false;
-    return true;
-  };
   const messageList = Array.isArray(messages) ? messages : [];
 
   messageList.forEach((message, index) => {
@@ -147,7 +198,7 @@ export function collectConversationSources(messages, uploadPreview) {
 
     const sources = getDisplayedMessageSources(message);
     sources.forEach((src, idx) => {
-      if (!isDbSource(src)) return;
+      if (!isDbSource(src, uploadName)) return;
       const url = typeof src?.url === "string" && src.url.trim() ? src.url.trim() : "";
       const rawLabel = typeof src?.label === "string" ? src.label.trim() : "";
       const label =
@@ -156,7 +207,7 @@ export function collectConversationSources(messages, uploadPreview) {
           : formatSourceLabel(src && typeof src === "object" ? src : { title: "Allikas" });
       const pageText = normalizePageRange(src?.pageRange) || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(src?.page ? [src.page] : [])]);
       const section = typeof src?.section === "string" ? src.section : undefined;
-      const key = src?.key || src?.id || url || `${label}-${pageText || ""}-${index}-${idx}`;
+      const key = getSourceKey(src, `${label}-${pageText || ""}-${index}-${idx}`);
       const existing = map.get(key) || {
         key,
         label,
