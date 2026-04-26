@@ -2248,6 +2248,7 @@
         "stt_request": "STT request",
         "tts_request": "TTS request",
         "rag_error": "RAG error",
+        "rag_optional_search_error": "RAG optional search error",
         "openai_error": "OpenAI error",
         "subscription_init_started": "Subscription init started",
         "subscription_init_checkout_created": "Subscription checkout created",

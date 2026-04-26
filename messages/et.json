@@ -2248,6 +2248,7 @@
         "stt_request": "STT päring",
         "tts_request": "TTS päring",
         "rag_error": "RAG viga",
+        "rag_optional_search_error": "RAG lisapäringu viga",
         "openai_error": "OpenAI viga",
         "subscription_init_started": "Tellimuse algatamine alustati",
         "subscription_init_checkout_created": "Tellimuse makse algatati",

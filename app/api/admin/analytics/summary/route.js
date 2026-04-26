@@ -132,6 +132,7 @@ export async function GET(req) {
       sttRequestCount,
       ttsRequestCount,
       ragErrorCount,
+      ragOptionalSearchErrorCount,
       openAiErrorCount,
       conversationTotal,
       activeConversations30d,
@@ -235,6 +236,12 @@ export async function GET(req) {
       prisma.chatLog.count({
         where: {
           event: "rag_error",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "rag_optional_search_error",
           createdAt: { gte: since }
         }
       }),
@@ -774,6 +781,7 @@ export async function GET(req) {
         sttRequests30d: sttRequestCount,
         ttsRequests30d: ttsRequestCount,
         ragErrors30d: ragErrorCount,
+        ragOptionalSearchErrors30d: ragOptionalSearchErrorCount,
         openAiErrors30d: openAiErrorCount
       },
       ragDocs: {

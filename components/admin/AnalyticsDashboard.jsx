@@ -154,6 +154,7 @@ const EVENT_OPTIONS = [
   { value: "stt_request", labelKey: "admin.analytics.events.stt_request" },
   { value: "tts_request", labelKey: "admin.analytics.events.tts_request" },
   { value: "rag_error", labelKey: "admin.analytics.events.rag_error" },
+  { value: "rag_optional_search_error", labelKey: "admin.analytics.events.rag_optional_search_error", fallbackLabel: "RAG optional search error" },
   { value: "openai_error", labelKey: "admin.analytics.events.openai_error" },
   { value: "openai_usage", labelKey: "admin.analytics.events.openai_usage", fallbackLabel: "OpenAI usage" },
   { value: "rag_cost_usage", labelKey: "admin.analytics.events.rag_cost_usage", fallbackLabel: "RAG cost usage" },
@@ -784,6 +785,12 @@ export default function AnalyticsDashboard() {
       if (typeof meta.stage === "string" && meta.stage) {
         parts.push(`stage: ${meta.stage}`);
       }
+      if (typeof meta.optional === "boolean") {
+        parts.push(`optional: ${meta.optional ? t("admin.common.yes", "Yes") : t("admin.common.no", "No")}`);
+      }
+      if (typeof meta.error_message === "string" && meta.error_message) {
+        parts.push(`error: ${meta.error_message.slice(0, 160)}`);
+      }
       if (typeof meta.model === "string" && meta.model) {
         parts.push(`model: ${meta.model}`);
       }
@@ -1114,6 +1121,10 @@ export default function AnalyticsDashboard() {
               toNumber(summary?.chat?.ragErrors30d) + toNumber(summary?.chat?.openAiErrors30d),
               localeTag
             )
+          },
+          {
+            label: t("admin.analytics.platform.chat.rag_optional_errors_30d", "RAG optional errors (30d)"),
+            value: formatCount(summary?.chat?.ragOptionalSearchErrors30d || 0, localeTag)
           }
         ]
       },
