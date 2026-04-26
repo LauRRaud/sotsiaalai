@@ -186,6 +186,37 @@ function normalizeArticleSourceType(value) {
   return isGenericLegacySourceType(normalized) ? "journal_article" : normalized;
 }
 
+function normalizeArticleAudienceValue(value) {
+  const normalized = String(value || "").trim().toUpperCase();
+  if (!normalized) return null;
+  if (normalized === "PROFESSIONAL" || normalized === "SPECIALIST" || normalized === "SPETSIALIST") {
+    return "SOCIAL_WORKER";
+  }
+  if (normalized === "CLIENT" || normalized === "SOCIAL_WORKER" || normalized === "BOTH") return normalized;
+  return normalized;
+}
+
+function normalizeArticleAudience(value) {
+  if (Array.isArray(value)) {
+    const mapped = [...new Set(value.map(normalizeArticleAudienceValue).filter(Boolean))];
+    if (mapped.includes("BOTH")) return "BOTH";
+    if (mapped.includes("CLIENT") && mapped.includes("SOCIAL_WORKER")) return "BOTH";
+    return mapped[0] || "BOTH";
+  }
+  return normalizeArticleAudienceValue(value) || "BOTH";
+}
+
+function normalizeArticleAudiences(meta) {
+  const raw = Array.isArray(meta?.audiences)
+    ? meta.audiences
+    : Array.isArray(meta?.audience)
+      ? meta.audience
+      : [meta?.audience || "BOTH"];
+  const mapped = [...new Set(raw.map(normalizeArticleAudienceValue).filter(Boolean))];
+  if (!mapped.length || mapped.includes("BOTH")) return ["CLIENT", "SOCIAL_WORKER"];
+  return mapped;
+}
+
 function buildArticleMetadataContract(meta, item) {
   const expectedDocId = item?.expectedDocId || resolveExpectedDocId(meta).docId;
   const articleId = item?.articleId || meta?.article_id || meta?.articleId || "";
@@ -201,8 +232,8 @@ function buildArticleMetadataContract(meta, item) {
     source_type: normalizeArticleSourceType(meta?.source_type || meta?.sourceType),
     legacy_source_type: String(meta?.legacy_source_type || meta?.legacySourceType || "file").trim(),
     authority: String(meta?.authority || "editorial").trim(),
-    audience: meta?.audience || "BOTH",
-    audiences: Array.isArray(meta?.audiences) ? meta.audiences : ["CLIENT", "SOCIAL_WORKER"],
+    audience: normalizeArticleAudience(meta?.audience),
+    audiences: normalizeArticleAudiences(meta),
     language: String(meta?.language || "et").trim(),
     last_checked: dateOnly(meta?.last_checked || meta?.lastChecked || meta?.retrieved_at || meta?.retrievedAt),
     retrieved_at: meta?.retrieved_at || meta?.retrievedAt || new Date().toISOString(),
@@ -250,6 +281,14 @@ function metadataBackfilledFields(meta, contractMetadata, options = {}) {
     if (fieldName === "source_type") {
       const originalSourceType = meta?.source_type || meta?.sourceType;
       if (hasAnyMetadataValue(meta, aliases) && !isGenericLegacySourceType(originalSourceType)) continue;
+    } else if (fieldName === "audience") {
+      const rawAudience = Array.isArray(meta?.audiences) ? meta.audiences : meta?.audience;
+      const rawValues = Array.isArray(rawAudience) ? rawAudience : [rawAudience];
+      const hasLegacyAudience = rawValues.some(value => {
+        const normalized = String(value || "").trim().toUpperCase();
+        return normalized === "PROFESSIONAL" || normalized === "SPECIALIST" || normalized === "SPETSIALIST";
+      });
+      if (hasAnyMetadataValue(meta, aliases) && !hasLegacyAudience) continue;
     } else if (hasAnyMetadataValue(meta, aliases)) {
       continue;
     }
