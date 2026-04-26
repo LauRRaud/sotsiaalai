@@ -544,9 +544,19 @@ async function ingestItem(baseUrl, item) {
     body: formData
   });
 
-  const data = await response.json().catch(async () => ({ detail: await response.text().catch(() => "") }));
+  const responseText = await response.text().catch(() => "");
+  let data = {};
+  if (responseText.trim()) {
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      data = { detail: responseText };
+    }
+  }
   if (!response.ok || data?.ok === false) {
-    throw new Error(data?.detail || data?.message || `RAG ingest failed with HTTP ${response.status}`);
+    const detail = data?.detail || data?.message || responseText;
+    const compactDetail = String(detail || "").replace(/\s+/g, " ").trim().slice(0, 800);
+    throw new Error(compactDetail || `RAG ingest failed with HTTP ${response.status}`);
   }
   return data;
 }
