@@ -92,6 +92,10 @@ function summarizePayload(payload) {
     source_url: payload.metadata?.source_url,
     source_type: payload.metadata?.source_type,
     municipality_id: payload.metadata?.municipality_id || null,
+    valid_from: payload.metadata?.valid_from || null,
+    valid_to: payload.metadata?.valid_to || null,
+    historical: payload.metadata?.historical === true,
+    source_status: payload.metadata?.source_status || null,
     chunk_count: Array.isArray(payload.chunks) ? payload.chunks.length : 0,
     first_chunk: {
       chunk_key: firstChunk.metadata?.chunk_key,

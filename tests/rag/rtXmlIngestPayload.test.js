@@ -44,4 +44,7 @@ test("keeps national RT XML in national law collection", async () => {
   assert.equal(payload.metadata.jurisdiction_level, "NATIONAL");
   assert.equal(payload.metadata.municipality_name, null);
   assert.equal(payload.metadata.municipality_id, undefined);
+  assert.equal(payload.metadata.valid_to, "2026-12-31");
+  assert.equal(payload.metadata.source_status, "active");
+  assert.equal(payload.metadata.historical, false);
 });
