@@ -263,6 +263,21 @@ test("renderOneContextBlock exposes source status metadata for time-aware answer
   assert.match(block, /historical=true/);
 });
 
+test("renderOneContextBlock exposes RT paragraph numbers in legal context headers", () => {
+  const block = renderOneContextBlock({
+    title: "Eesti - Sotsiaalhoolekande seadus",
+    sourceType: "national_law",
+    collectionId: "national_regulations",
+    jurisdictionLevel: "NATIONAL",
+    paragraphNumber: "14",
+    paragraphTitle: "Kohaliku omavalitsuse üksuse ülesanded",
+    bodies: ["Kohaliku omavalitsuse ülesandeid kirjeldav lõik."]
+  }, 0);
+
+  assert.match(block, /§ 14/);
+  assert.match(block, /Kohaliku omavalitsuse üksuse ülesanded/);
+});
+
 test("high-risk ranking prefers strong official evidence over high-scoring background", () => {
   const ranked = rankGroupsWithTopicHints([
     {

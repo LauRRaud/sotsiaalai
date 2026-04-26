@@ -234,6 +234,22 @@
     }
   },
   {
+    "id": "planner_national_kov_obligation",
+    "message": "mida ütleb sotsiaalhoolekande seadus kohaliku omavalitsuse kohustuse kohta sotsiaalteenuseid korraldada",
+    "baseRagQueryText": "mida ütleb sotsiaalhoolekande seadus kohaliku omavalitsuse kohustuse kohta sotsiaalteenuseid korraldada\nSotsiaalhoolekande seadus\nkohaliku omavalitsuse üksuse ülesanded",
+    "flags": {
+      "nationalServiceBenefitQuestion": true
+    },
+    "expected": {
+      "mode": "national_service_benefit",
+      "query_order": "default",
+      "selection_strategy": "mmr_diversity",
+      "has_per_query_filters": false,
+      "filter_keys": ["$in", "audience", "jurisdiction_level"],
+      "first_query_contains": ["kohaliku omavalitsuse", "ülesanded"]
+    }
+  },
+  {
     "id": "planner_service_jurisdiction",
     "message": "kas koduteenus on KOV voi riiklik teenus",
     "baseRagQueryText": "kas koduteenus on KOV voi riiklik teenus\nSotsiaalhoolekande seadus",

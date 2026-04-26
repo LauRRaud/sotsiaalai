@@ -4,7 +4,12 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-import { buildRagQueryPlan } from "../../lib/chat/queryPlanner.js";
+import {
+  buildNationalServiceBenefitQuery,
+  buildRagQueryPlan,
+  buildServiceJurisdictionQuery
+} from "../../lib/chat/queryPlanner.js";
+import { isNationalServiceBenefitQuestion } from "../../lib/chat/retrievalContextAssembler.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -160,6 +165,18 @@ test("Query Planner V2 expands municipality service and benefit list queries", (
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.item_type === "service"), true);
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.item_type === "benefit"), true);
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.collection_id === "kov_regulations"), true);
+});
+
+test("Query Planner V2 anchors national legal obligation queries to KOV duty paragraphs", () => {
+  const message = "Mida ütleb sotsiaalhoolekande seadus kohaliku omavalitsuse kohustuse kohta sotsiaalteenuseid korraldada?";
+  assert.equal(isNationalServiceBenefitQuestion(message), true);
+
+  const nationalQuery = buildNationalServiceBenefitQuery(message);
+  assert.match(nationalQuery, /kohaliku omavalitsuse üksuse ülesanded/i);
+  assert.match(nationalQuery, /kohaliku omavalitsuse kohustus/i);
+
+  const jurisdictionQuery = buildServiceJurisdictionQuery("kas koduteenus on KOV või riiklik teenus");
+  assert.match(jurisdictionQuery, /kohaliku omavalitsuse üksuse ülesanded/i);
 });
 
 test("Query Planner V2 eval fixture keeps planner modes stable", () => {
