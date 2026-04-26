@@ -676,6 +676,20 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   display: none;
 }
 
+@media (max-width: 768px) {
+  .homepage-root .home-about-scrollbox,
+  .homepage-root .home-about-scrollbox :is(p, div, strong, b, a, span) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+    -webkit-hyphens: auto;
+    hyphens: auto !important;
+  }
+}
+
 /* Homepage glow rules: keep the ring-like edge glow on dark/night/HC only. */
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .homepage-root
