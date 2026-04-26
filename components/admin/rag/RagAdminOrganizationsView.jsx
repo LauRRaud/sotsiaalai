@@ -115,6 +115,17 @@ function validationClass(value) {
   return "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]";
 }
 
+function isFocusedFile(remediationFocus, fileKey) {
+  if (!remediationFocus || !fileKey) return false;
+  return remediationFocus.fileKey === fileKey || remediationFocus.focus === fileKey;
+}
+
+function focusCardClass(focused) {
+  return focused
+    ? "border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_12%,var(--admin-surface-3)_88%)] shadow-[0_0_0_1px_color-mix(in_srgb,#38bdf8_45%,transparent)]"
+    : "border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)]";
+}
+
 export default function RagAdminOrganizationsView({ locale, initialItems = [] }) {
   const controller = useOrganizationAdminController(locale, initialItems);
   const {
@@ -146,6 +157,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
     setMessage,
     ragStatus,
     ragStatusLoading,
+    remediationFocus,
     refreshSelectedRagStatus,
     resetFilters,
     applyQuickReadiness,
@@ -157,6 +169,11 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
   } = controller;
 
   const attachmentInputRef = useRef(null);
+  const detailsFocused = remediationFocus?.focus === "organization_details";
+  const attachmentsFocused = isFocusedFile(remediationFocus, "attachment");
+  const focusHint = remediationFocus?.fileKey
+    ? `${et ? "Fail" : "File"}: ${ORGANIZATION_FILE_ROLE_META[remediationFocus.fileKey]?.label || remediationFocus.fileKey}`
+    : remediationFocus?.focus || "";
 
   return (
     <div className={rootClassName} style={rootInputVars}>
@@ -291,6 +308,13 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
           <div className={cardBodyClassName}>
             {selectedEntry ? (
               <>
+                {remediationFocus ? (
+                  <div className="rounded-[12px] border border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_10%,var(--admin-surface)_90%)] px-3 py-2 text-[0.86rem] text-[color:var(--admin-text)]">
+                    <span className="font-semibold">{et ? "Quality queue siht" : "Quality queue target"}:</span>{" "}
+                    {focusHint || (et ? "kontrolli selle kirje metadata't" : "review this record metadata")}
+                  </div>
+                ) : null}
+
                 <div className={cardHeadClassName}>
                   <div>
                     <div className="text-[1.05rem] font-semibold text-[color:var(--admin-text)]">{selectedEntry.displayName}</div>
@@ -330,7 +354,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                   </div>
                 </div>
 
-                <div className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3">
+                <div className={`grid gap-2 rounded-[12px] border bg-[color:var(--admin-surface-2)] p-3 ${detailsFocused ? "border-[#38bdf8] shadow-[0_0_0_1px_color-mix(in_srgb,#38bdf8_45%,transparent)]" : "border-[color:var(--admin-border)]"}`}>
                   <div className="grid gap-1.5 sm:grid-cols-2">
                     <Input
                       value={detailDraft.displayName}
@@ -560,12 +584,20 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                       const busy = fileBusyKey === `${selectedEntry.slug}:${roleMeta.paramRole}`;
                       const inputId = `${selectedEntry.slug}-${roleMeta.paramRole}`;
                       const resolvedName = roleMeta.fileNamePattern.replace("{slug}", selectedEntry.slug);
+                      const focused = isFocusedFile(remediationFocus, key);
 
                       return (
-                        <div key={key} className="grid gap-1.5 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] p-2.5">
+                        <div key={key} className={`grid gap-1.5 rounded-[12px] border p-2.5 ${focusCardClass(focused)}`}>
                           <div className="flex flex-wrap items-start justify-between gap-2">
                             <div className="grid gap-1">
-                              <div className="font-semibold text-[color:var(--admin-text)]">{resolvedName}</div>
+                              <div className="flex flex-wrap items-center gap-2">
+                                <div className="font-semibold text-[color:var(--admin-text)]">{resolvedName}</div>
+                                {focused ? (
+                                  <span className="rounded-full border border-[#38bdf8] px-2 py-0.5 text-[0.75rem] font-semibold text-[#38bdf8]">
+                                    {et ? "Quality queue siht" : "Quality queue target"}
+                                  </span>
+                                ) : null}
+                              </div>
                               <div className="text-[0.82rem] text-[color:var(--admin-muted)]">
                                 {file?.status === "missing"
                                   ? et ? "Puudub" : "Missing"
@@ -626,10 +658,17 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                   </div>
                 </div>
 
-                <div className="grid gap-1.5 rounded-[12px] border border-dashed border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3">
+                <div className={`grid gap-1.5 rounded-[12px] border border-dashed bg-[color:var(--admin-surface-2)] p-3 ${attachmentsFocused ? "border-[#38bdf8] shadow-[0_0_0_1px_color-mix(in_srgb,#38bdf8_45%,transparent)]" : "border-[color:var(--admin-border)]"}`}>
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
-                      <div className="text-[0.9rem] font-semibold text-[color:var(--admin-text)]">{et ? "Lisafailid" : "Additional files"}</div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <div className="text-[0.9rem] font-semibold text-[color:var(--admin-text)]">{et ? "Lisafailid" : "Additional files"}</div>
+                        {attachmentsFocused ? (
+                          <span className="rounded-full border border-[#38bdf8] px-2 py-0.5 text-[0.75rem] font-semibold text-[#38bdf8]">
+                            {et ? "Quality queue siht" : "Quality queue target"}
+                          </span>
+                        ) : null}
+                      </div>
                       <div className="text-[0.92rem] text-[color:var(--admin-muted)]">
                         {et ? "Muud toofailid ja lisadokumendid." : "Other working files and supporting documents."}
                       </div>

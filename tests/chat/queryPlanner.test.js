@@ -61,6 +61,26 @@ function basePlan(overrides = {}) {
   });
 }
 
+function assertQueryKind(query, kind, id) {
+  if (!kind) return;
+  if (kind === "filtered") {
+    assert.equal(typeof query, "object", `${id}: expected first query object`);
+    assert.equal(query && !Array.isArray(query), true, `${id}: expected first query object`);
+    assert.equal(typeof query.query, "string", `${id}: expected first query text`);
+    assert.equal(typeof query.filters, "object", `${id}: expected first query filters`);
+    return;
+  }
+  if (kind === "unfiltered") {
+    assert.equal(typeof query, "string", `${id}: expected first query string`);
+    return;
+  }
+  assert.fail(`${id}: unknown query kind ${kind}`);
+}
+
+function queryText(query) {
+  return typeof query === "string" ? query : String(query?.query || "");
+}
+
 test("Query Planner V2 makes source-focused follow-up searches explicit", () => {
   const plan = basePlan({
     effectiveMessage: "Eesti",
@@ -181,6 +201,17 @@ test("Query Planner V2 eval fixture keeps planner modes stable", () => {
     assert.equal(plan.queryPlan.selection_strategy, item.expected.selection_strategy, item.id);
     assert.equal(plan.queryPlan.has_per_query_filters, item.expected.has_per_query_filters, item.id);
     assert.deepEqual(plan.queryPlan.filter_keys, item.expected.filter_keys, item.id);
+
+    assertQueryKind(plan.primaryRagQueries[0], item.expected.first_query_kind, item.id);
+    if (item.expected.first_query_filters) {
+      assert.deepEqual(plan.primaryRagQueries[0]?.filters, item.expected.first_query_filters, item.id);
+    }
+    if (item.expected.second_query_filters) {
+      assert.deepEqual(plan.primaryRagQueries[1]?.filters, item.expected.second_query_filters, item.id);
+    }
+    for (const needle of item.expected.first_query_contains || []) {
+      assert.match(queryText(plan.primaryRagQueries[0]), new RegExp(needle, "i"), `${item.id}: first query should contain ${needle}`);
+    }
   }
 
   assert.equal(seenModes.has("source_focused_followup"), true);

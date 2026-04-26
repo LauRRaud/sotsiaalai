@@ -84,6 +84,8 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
     setPdfFileName,
     pdfMetaFileName,
     setPdfMetaFileName,
+    pdfMetaText,
+    setPdfMetaText,
     pdfMetaAudience,
     setPdfMetaAudience,
     rtXmlFormRef,
@@ -236,6 +238,8 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                   </div>
                   <Textarea
                     name="pdfMetaText"
+                    value={pdfMetaText}
+                    onChange={event => setPdfMetaText(event.target.value)}
                     placeholder={tr("admin.rag.ingest.pdf_meta_text_placeholder")}
                     rows={3}
                     size="sm"

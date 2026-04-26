@@ -24,7 +24,109 @@
       "query_order": "source_focus_first",
       "selection_strategy": "mmr_diversity",
       "has_per_query_filters": true,
-      "filter_keys": ["$in", "audience", "doc_id"]
+      "filter_keys": ["$in", "audience", "doc_id"],
+      "first_query_kind": "filtered",
+      "first_query_filters": {
+        "doc_id": "article-doc-2025"
+      },
+      "first_query_contains": ["Eesti", "Tehisintellekt sotsiaaltoos"]
+    }
+  },
+  {
+    "id": "planner_source_followup_article_country_question",
+    "message": "Kas artiklis on Soome kohta mõni näide?",
+    "history": [
+      {
+        "role": "assistant",
+        "text": "Artikli vastus.",
+        "displayed_sources": [
+          {
+            "doc_id": "article-doc-2025",
+            "source_id": "sotsiaaltoo-ai-2025",
+            "title": "Tehisintellekt sotsiaaltöös: praktika, kaalutlused ja väärtuspõhised piirid",
+            "authors": ["Laur Raudsoo"],
+            "journalTitle": "Sotsiaaltöö",
+            "year": 2025
+          }
+        ]
+      }
+    ],
+    "flags": {},
+    "expected": {
+      "mode": "source_focused_followup",
+      "query_order": "source_focus_first",
+      "selection_strategy": "mmr_diversity",
+      "has_per_query_filters": true,
+      "filter_keys": ["$in", "audience", "doc_id"],
+      "first_query_kind": "filtered",
+      "first_query_filters": {
+        "doc_id": "article-doc-2025"
+      },
+      "first_query_contains": ["Soome", "Tehisintellekt sotsiaaltöös", "Laur Raudsoo"]
+    }
+  },
+  {
+    "id": "planner_source_followup_article_name_source_id",
+    "message": "OTT",
+    "history": [
+      {
+        "role": "assistant",
+        "text": "Artikli vastus.",
+        "sources": [
+          {
+            "source_id": "sotsiaaltoo-ai-2025",
+            "title": "Tehisintellekt sotsiaaltöös",
+            "authors": ["Laur Raudsoo"],
+            "journalTitle": "Sotsiaaltöö",
+            "year": 2025
+          }
+        ]
+      }
+    ],
+    "flags": {},
+    "expected": {
+      "mode": "source_focused_followup",
+      "query_order": "source_focus_first",
+      "selection_strategy": "mmr_diversity",
+      "has_per_query_filters": true,
+      "filter_keys": ["$in", "audience", "source_id"],
+      "first_query_kind": "filtered",
+      "first_query_filters": {
+        "source_id": "sotsiaaltoo-ai-2025"
+      },
+      "first_query_contains": ["OTT", "Tehisintellekt sotsiaaltöös"]
+    }
+  },
+  {
+    "id": "planner_source_followup_canonical_item",
+    "message": "mis näited seal olid?",
+    "history": [
+      {
+        "role": "assistant",
+        "text": "Artikli vastus.",
+        "sources": [
+          {
+            "canonical_item_id": "sotsiaaltoo_ai_article_2025",
+            "title": "Tehisintellekt sotsiaaltöös",
+            "authors": ["Laur Raudsoo"],
+            "journalTitle": "Sotsiaaltöö",
+            "year": 2025
+          }
+        ]
+      }
+    ],
+    "flags": {},
+    "expected": {
+      "mode": "source_focused_followup",
+      "query_order": "source_focus_first",
+      "selection_strategy": "mmr_diversity",
+      "has_per_query_filters": true,
+      "filter_keys": ["$in", "audience", "canonical_item_id"],
+      "first_query_kind": "filtered",
+      "first_query_filters": {
+        "canonical_item_id": "sotsiaaltoo_ai_article_2025"
+      },
+      "first_query_contains": ["näited", "Tehisintellekt sotsiaaltöös"]
     }
   },
   {
@@ -52,7 +154,43 @@
       "query_order": "broad_first",
       "selection_strategy": "multi_source_diversity",
       "has_per_query_filters": true,
-      "filter_keys": ["$in", "audience", "doc_id"]
+      "filter_keys": ["$in", "audience", "doc_id"],
+      "first_query_kind": "unfiltered",
+      "second_query_filters": {
+        "doc_id": "article-doc-2025"
+      }
+    }
+  },
+  {
+    "id": "planner_broad_article_overview_not_locked",
+    "message": "anna laiem ülevaade tehisintellekti käsitlustest Sotsiaaltöö artiklites",
+    "history": [
+      {
+        "role": "assistant",
+        "text": "Artikli vastus.",
+        "sources": [
+          {
+            "doc_id": "article-doc-2025",
+            "title": "Tehisintellekt sotsiaaltöös",
+            "journalTitle": "Sotsiaaltöö",
+            "year": 2025
+          }
+        ]
+      }
+    ],
+    "flags": {
+      "broadMultiSourceQuestion": true
+    },
+    "expected": {
+      "mode": "broad_multi_source",
+      "query_order": "broad_first",
+      "selection_strategy": "multi_source_diversity",
+      "has_per_query_filters": true,
+      "filter_keys": ["$in", "audience", "doc_id"],
+      "first_query_kind": "unfiltered",
+      "second_query_filters": {
+        "doc_id": "article-doc-2025"
+      }
     }
   },
   {

@@ -14,11 +14,19 @@
   "pdf_end_page": 8,
   "audience": "BOTH",
   "language": "et",
+  "source_type": "journal_article",
+  "legacy_source_type": "file",
+  "authority": "editorial",
+  "source_status": "active",
+  "historical": true,
+  "last_checked": "2026-04-26",
+  "collection_id": "sotsiaaltoo_articles",
+  "source_id": "sotsiaaltoo_pikaajaline_hooldus_sloveenias_2021_1",
+  "document_id": "sotsiaaltoo-1-2021-pikaajaline-hooldus-sloveenias-2021-1",
   "description": "Ülevaade Sloveenia pikaajalise hoolduse süsteemi probleemidest.",
   "tags": [
     "pikaajaline hooldus",
     "Sloveenia"
   ],
-  "source_type": "file",
   "source_path": "artikkel_12_pikaajaline_hooldus_sloveenias.pdf"
 }

@@ -1,7 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
+import {
+  buildRemediationContext,
+  findRemediationTargetItem,
+  getRemediationIdentifierValue
+} from "@/components/admin/rag/remediationContext";
 import {
   buildNotIngestedRagDocumentStatus,
   fetchRagDocumentStatus,
@@ -25,6 +31,8 @@ function createDraft(entry) {
 
 export function useOrganizationAdminController(locale, initialItems = []) {
   const et = String(locale || "").toLowerCase().startsWith("et");
+  const searchParams = useSearchParams();
+  const remediationQueryKey = searchParams?.toString?.() || "";
   const [items, setItems] = useState(initialItems);
   const [query, setQuery] = useState("");
   const [type, setType] = useState("ALL");
@@ -44,6 +52,26 @@ export function useOrganizationAdminController(locale, initialItems = []) {
     checkedAt: null
   });
   const [ragStatusLoading, setRagStatusLoading] = useState(false);
+  const remediationAppliedRef = useRef("");
+  const keepEditingForRemediationRef = useRef(false);
+
+  const remediationContext = useMemo(
+    () => buildRemediationContext(searchParams, locale),
+    [locale, searchParams]
+  );
+  const remediationFocus = useMemo(
+    () => remediationContext
+      ? {
+        action: remediationContext.action || "",
+        fields: remediationContext.fields || [],
+        recommendedFields: remediationContext.recommendedFields || [],
+        focus: remediationContext.focus || "",
+        fileKey: remediationContext.fileKey || "",
+        sourceFileType: getRemediationIdentifierValue(remediationContext, "source_file_type")
+      }
+      : null,
+    [remediationContext]
+  );
 
   const typeOptions = useMemo(() => {
     const values = Array.from(new Set(items.map(item => item.type).filter(Boolean)));
@@ -92,7 +120,44 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   }, [filteredItems]);
 
   useEffect(() => {
+    if (!remediationContext || items.length === 0) return;
+    if (remediationAppliedRef.current === remediationQueryKey) return;
+    remediationAppliedRef.current = remediationQueryKey;
+
+    const candidates = [
+      getRemediationIdentifierValue(remediationContext, "organization"),
+      getRemediationIdentifierValue(remediationContext, "canonical_item_id"),
+      getRemediationIdentifierValue(remediationContext, "source_id"),
+      getRemediationIdentifierValue(remediationContext, "document_id"),
+      getRemediationIdentifierValue(remediationContext, "source_path")
+    ].filter(Boolean);
+
+    const target = findRemediationTargetItem(items, candidates, [
+      "officialWebsite",
+      "contactEmail",
+      "contactPhone"
+    ]);
+
+    if (!target) {
+      if (candidates[0]) setQuery(candidates[0]);
+      return;
+    }
+
+    setQuery(target.displayName || target.slug || candidates[0] || "");
+    setType("ALL");
+    setActivity("ALL");
+    setSelectedSlug(target.slug);
+    keepEditingForRemediationRef.current = true;
+    setEditing(true);
+  }, [items, remediationContext, remediationQueryKey]);
+
+  useEffect(() => {
     setDetailDraft(createDraft(selectedEntry));
+    if (keepEditingForRemediationRef.current) {
+      keepEditingForRemediationRef.current = false;
+      setEditing(true);
+      return;
+    }
     setEditing(false);
   }, [selectedEntry]);
 
@@ -463,6 +528,7 @@ export function useOrganizationAdminController(locale, initialItems = []) {
     setMessage,
     ragStatus,
     ragStatusLoading,
+    remediationFocus,
     refreshSelectedRagStatus,
     resetFilters,
     applyQuickReadiness,

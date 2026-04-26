@@ -289,3 +289,62 @@ test("selectMultiSourceGroups prefers distinct source identities for synthesis",
   assert.equal(selected.length, 2);
   assert.deepEqual(selected.map(item => item.docId), ["article-a", "article-b"]);
 });
+
+test("selectMultiSourceGroups deduplicates canonical item identities for synthesis", () => {
+  const groups = groupMatches([
+    {
+      id: "ai-summary",
+      text: "Article summary about tehisintellekt in social work.",
+      hybrid_score: 0.95,
+      metadata: {
+        title: "Tehisintellekt sotsiaaltoos",
+        doc_id: "article-ai-summary",
+        source_id: "article-ai-summary",
+        canonical_item_id: "article-ai",
+        source_type: "journal_article"
+      }
+    },
+    {
+      id: "ai-pdf",
+      text: "PDF chunk from the same tehisintellekt social work article.",
+      hybrid_score: 0.93,
+      metadata: {
+        title: "Tehisintellekt sotsiaaltoos PDF",
+        doc_id: "article-ai-pdf",
+        source_id: "article-ai-pdf",
+        canonical_item_id: "article-ai",
+        source_type: "journal_article"
+      }
+    },
+    {
+      id: "slovenia",
+      text: "Separate article about long-term care in Slovenia.",
+      hybrid_score: 0.64,
+      metadata: {
+        title: "Pikaajaline hooldus Sloveenias",
+        doc_id: "article-slovenia",
+        source_id: "article-slovenia",
+        canonical_item_id: "article-slovenia",
+        source_type: "journal_article"
+      }
+    },
+    {
+      id: "ott",
+      text: "Separate article about community service examples and OTT.",
+      hybrid_score: 0.62,
+      metadata: {
+        title: "Kogukonnateenuse naited",
+        doc_id: "article-ott",
+        source_id: "article-ott",
+        canonical_item_id: "article-ott",
+        source_type: "journal_article"
+      }
+    }
+  ]);
+  const ranked = rankGroupsWithTopicHints(groups, ["tehisintellekt", "sotsiaaltoo"]);
+  const selected = selectMultiSourceGroups(ranked, 3, 0.9);
+
+  assert.equal(selected.length, 3);
+  assert.deepEqual(selected.map(item => item.canonicalItemId), ["article-ai", "article-slovenia", "article-ott"]);
+  assert.deepEqual(new Set(selected.map(item => item.canonicalItemId)).size, selected.length);
+});

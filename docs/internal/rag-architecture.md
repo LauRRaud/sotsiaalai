@@ -2,6 +2,8 @@
 
 ## Juhtpõhimõte
 
+STATUS: active principle
+
 SotsiaalAI RAG otsib laialt, filtreerib rangelt, koostab kontrollitud source package'i ja kuvab allikatena ainult need allikad, millele lõplik vastus sisuliselt toetub.
 
 RAG pipeline peab eristama nelja kihti:
@@ -16,6 +18,8 @@ Kasutajale kuvatavad allikad ei tohi sisaldada allikaid, mida vastus ei kasutanu
 
 ## Current State vs Target State
 
+STATUS: active snapshot
+
 | Area | Current | Target |
 | --- | --- | --- |
 | Source display | Allikapaneel sõltub valitud või salvestatud allikaloendist | Paneel kuvab ainult serveri kinnitatud `displayed_sources` |
@@ -26,6 +30,8 @@ Kasutajale kuvatavad allikad ei tohi sisaldada allikaid, mida vastus ei kasutanu
 | Metadata | Ebaühtlane allikate kirjeldus | Kontrollitud source type, authority, KOV, kehtivus ja olek |
 
 ## Evolution Principle
+
+STATUS: active principle
 
 Süsteemi edasiarendamine ei tähenda, et praegune vana RAG pipeline peab jääma samaks. V1 eesmärk on vältida pimesi ümberkirjutamist, mitte lukustada olemasolevaid tehnilisi piire.
 
@@ -40,6 +46,8 @@ Legacy ühilduvus on üleminekuvahend:
 Oluline põhimõte: vana süsteemi ei säilitata sellepärast, et see on olemas. Seda säilitatakse ainult nii kaua, kui see aitab turvaliselt üle minna kontrollitavamale ja usaldusväärsemale arhitektuurile.
 
 ## Evidence Policy
+
+STATUS: active policy
 
 Iga faktiväide peab võimaluse korral tuginema kontrollitud allikale. Kõrge riskiga väited, nagu õigus, toetus, summa, tähtaeg, vorm, kontakt, abikõlblikkus või kriisiolukorra juhis, vajavad tugevat tõendusastet.
 
@@ -56,6 +64,8 @@ Ajaloolist allikat, ajakirjaartiklit, praktikalugu või arvamust ei tohi kasutad
 
 ## Risk-Based RAG Policy
 
+STATUS: active policy / partially implemented
+
 Kõik kasutajaküsimused ei vaja sama ranget retrieval'i ja attribution'i taset.
 
 - `low risk` - üldine selgitus, metoodiline taust, mõistete seletus.
@@ -65,6 +75,8 @@ Kõik kasutajaküsimused ei vaja sama ranget retrieval'i ja attribution'i taset.
 Kõrge riskiga küsimuste puhul peab süsteem eelistama ametlikke ja kehtivaid allikaid ning andma kindla vastuse ainult siis, kui tõendus on piisav. Kui tõendus puudub, peab vastus kasutama insufficient evidence režiimi.
 
 ## Insufficient Evidence And Source Conflict Handling
+
+STATUS: active policy / partially implemented
 
 Kui süsteem ei leia piisavalt tugevat allikat, peab vastus eristama:
 
@@ -76,6 +88,8 @@ Kui allikad on omavahel vastuolus, ei tohi vastus vastuolu ära siluda. Vastus p
 
 ## Freshness Policy
 
+STATUS: active policy / partially implemented
+
 Allika värskuse nõue sõltub allikatüübist.
 
 - KOV kontaktid ja vormid vajavad regulaarset kontrolli ning vananenud `last_checked` peab olema adminis nähtav.
@@ -85,13 +99,19 @@ Allika värskuse nõue sõltub allikatüübist.
 
 ## KOV Disambiguation Policy
 
+STATUS: active policy / partially implemented
+
 KOV on hard filter ainult siis, kui kasutaja küsimus või tööruumi kontekst annab selle kõrge kindlusega.
 
 Kui kasutaja viitab mitmele KOV-ile, näiteks elukoht on ühes ja viibimiskoht teises, peab süsteem vältima automaatset oletust. Sellisel juhul küsib süsteem täpsustust või annab tingimusliku vastuse, mis eristab KOV-e ja ütleb, millist infot tuleb üle kontrollida.
 
 ## Teostusjärjekord
 
+STATUS: historical roadmap / superseded by current V1-V2-V3 status blocks
+
 ### 1. Väike Golden Set
+
+STATUS: done / maintenance
 
 Kohe alguses tuleb teha umbes 20 küsimusega testikomplekt. See peab tekkima enne suuremaid RAG-i muudatusi või samas arendustsüklis koos trace'i ja allikafiltri esimese versiooniga, et iga muudatuse mõju oleks võrreldav.
 
@@ -128,6 +148,8 @@ Iga testi puhul hinnata:
 
 ### 2. Minimaalne RAG Trace
 
+STATUS: done / maintenance
+
 Answer-source filtering'ut ei saa parandada pimesi. Iga RAG-vastuse juurde peab kohe logima vähemalt:
 
 ```json
@@ -147,6 +169,8 @@ Answer-source filtering'ut ei saa parandada pimesi. Iga RAG-vastuse juurde peab 
 See näitab, kas filter on liiga range, liiga leebe või ebajärjekindel.
 
 ### 3. Answer Sources / Displayed Sources Ausaks
+
+STATUS: done / maintenance
 
 Esimene prioriteet on parandada allikapaneeli loogika.
 
@@ -207,6 +231,8 @@ Server peab mudeli enesemärgistust kontrollima vähemalt:
 
 ### 4. Metadata Ja Source Type Korrastamine
 
+STATUS: active / partially implemented
+
 Miinimumväljad:
 
 ```json
@@ -262,6 +288,8 @@ partner_service_info
 ```
 
 ### 4.1. Source Metadata Profiles Enne Mass-Ingesti
+
+STATUS: active design / partially implemented
 
 KOV materjale ja suuremat korpust ei ole mõistlik andmebaasi laadida enne, kui allikapõhised metadata profiilid on kokku lepitud. Kõik allikad ei pea kasutama sama detailset skeemi, aga kõik peavad map'ima ühisele RAG source contract'ile.
 
@@ -478,6 +506,8 @@ Open decision enne ingest'i: kas kasutada igas korpuseperes eraldi failinimesid 
 
 ### 5. Hard Filters
 
+STATUS: planned / partially implemented
+
 Hard filter peab tulema enne pehmet ranking'ut ainult siis, kui filterväli on tuvastatud kõrge kindlusega. Madala kindlusega väljade puhul kasutatakse soft boost / soft penalty loogikat, et õige allikas ei kaoks enne ranking'ut.
 
 High-confidence hard filter:
@@ -499,6 +529,8 @@ Soft filter / boost:
 
 ### 6. Hübriidotsing
 
+STATUS: active / partially implemented
+
 Soovitud kombinatsioon:
 
 ```text
@@ -512,6 +544,8 @@ exact phrase search
 Täpne fraas, pealkirja kattuvus ja allikatüüp peavad kaaluma rohkem kui üldine semantiline sarnasus, eriti konkreetsete nimede, artiklite, KOV teenuste ja vormide puhul.
 
 ### 7. Canonical Item + Source Package
+
+STATUS: active design / partially implemented
 
 Eesmärk on liikuda chunk-põhiselt RAG-ilt source package RAG-ile.
 
@@ -558,6 +592,8 @@ See sama objekt peab saama toetada RAG vastust, allikapaneeli, vormide ja kontak
 
 ### 8. Reranking
 
+STATUS: planned
+
 Reranker hindab näiteks:
 
 - kas allikas vastab küsimusele;
@@ -571,6 +607,8 @@ Reranker hindab näiteks:
 Reranking võib olla alguses reeglipõhine ja hiljem mudelipõhine.
 
 ### 9. Täis Observability
+
+STATUS: planned / design target
 
 Kui põhiloogika töötab, laiendada trace täisobservability'ks:
 
@@ -593,6 +631,8 @@ Kui põhiloogika töötab, laiendada trace täisobservability'ks:
 
 ### 10. Suurem Regressioonitestide Komplekt
 
+STATUS: planned
+
 Siht:
 
 - 100-300 küsimust;
@@ -609,6 +649,8 @@ Siht:
 Iga suurem RAG-i muudatus peab selle komplekti läbima.
 
 ## V1 Implementation Scope
+
+STATUS: done / maintenance
 
 V1 eesmärk ei ole kogu RAG stack ümber ehitada. V1 eesmärk on muuta olemasolev süsteem jälgitavaks ja allikate kuvamine ausaks.
 
@@ -634,6 +676,8 @@ V1 on valmis, kui kasutajale nähtavad allikad ei sisalda enam otsingumüra ja i
 
 ## V1 Acceptance Criteria
 
+STATUS: done / maintenance
+
 V1 loetakse tehtuks, kui:
 
 - iga RAG-vastus logib `retrieved_source_ids`, `selected_context_source_ids`, `answer_source_ids`, `displayed_source_ids`, `filtered_out_source_ids`, `filter_reasons` ja `attribution_decisions`;
@@ -646,7 +690,11 @@ V1 loetakse tehtuks, kui:
 
 ## V1 Delivery Plan
 
+STATUS: done / historical
+
 ### RAG-1: Add Golden Set Fixture
+
+STATUS: done
 
 Luua 20 küsimusega testikomplekt koos oodatud allikatüüpide, keelatud allikate ja `must_not_claim` reeglitega.
 
@@ -656,6 +704,8 @@ Acceptance:
 - testid katavad KOV, vormi, kontakti, ajaloolise allika, vale KOV-i, vale keele ja "allikas ei kinnita" juhtumi.
 
 ### RAG-2: Add Minimal RagTrace Object
+
+STATUS: done
 
 Luua ühtne trace objekt, mis salvestab vähemalt:
 
@@ -674,6 +724,8 @@ Acceptance:
 
 ### RAG-3: Return Attribution Decisions From sourceAttribution.js
 
+STATUS: done
+
 `sourceAttribution.js` peab tagastama lisaks kuvatavatele allikatele ka otsuste loendi.
 
 ```json
@@ -691,6 +743,8 @@ Acceptance:
 
 ### RAG-4: Persist displayed_source_ids In Message Metadata
 
+STATUS: done
+
 Salvestada lõplikud `displayed_source_ids` assistendi sõnumi metadata'sse.
 
 Acceptance:
@@ -700,6 +754,8 @@ Acceptance:
 
 ### RAG-5: Make Source Panel Read displayed_source_ids Only
 
+STATUS: done
+
 Frontendi allikapaneel ei tohi enam ise retrieved või selected allikaid kokku korjata.
 
 Acceptance:
@@ -708,6 +764,8 @@ Acceptance:
 - vähemalt üks test tõendab, et retrieved allikas ei ilmu paneeli, kui seda ei kinnitatud.
 
 ### RAG-6: Add Metadata Validation To Ingest
+
+STATUS: partially implemented / active hardening
 
 Ingest peab kontrollima miinimumvälju:
 
@@ -728,6 +786,8 @@ Acceptance:
 
 ### RAG-7: Add Retrieved-But-Not-Displayed Regression Test
 
+STATUS: done
+
 Lisada test, kus otsing leiab mitu kandidaati, aga kasutajale kuvatakse ainult üks või kaks kinnitatud allikat.
 
 Acceptance:
@@ -737,9 +797,13 @@ Acceptance:
 
 ## V1 Ja V2 Täiendavad Märkused
 
+STATUS: mixed / historical notes and active V2 guidance
+
 Need märkused täpsustavad järgmisi arendusideid. Need ei laienda automaatselt V1 kohustuslikku skoopi, vaid aitavad hiljem ticketiteks ja otsusteks jagada.
 
 ### V1 Audit Checklist
+
+STATUS: done / historical
 
 Enne V1 koodi muutmist tuleb praeguse pipeline'i vastu kontrollida:
 
@@ -752,6 +816,8 @@ Enne V1 koodi muutmist tuleb praeguse pipeline'i vastu kontrollida:
 - kas allikapaneel võib kuvada allikat, mida backend ei kinnitanud.
 
 ### V1 Backend Response Contract
+
+STATUS: done / maintenance
 
 V1 peab lukustama backendist frontendile liikuva minimaalse vastusekuju.
 
@@ -775,6 +841,8 @@ V1 peab lukustama backendist frontendile liikuva minimaalse vastusekuju.
 
 ### V1 Feature Flags And Legacy Sources
 
+STATUS: partially completed / historical
+
 V1 rollout võiks kasutada feature flag'e:
 
 ```text
@@ -792,6 +860,8 @@ Legacy allikate käsitlus:
 
 ### V1 Golden Set Schema
 
+STATUS: done / maintenance
+
 Golden set peab olema masinloetav, mitte ainult tekstiloend.
 
 ```json
@@ -808,6 +878,8 @@ Golden set peab olema masinloetav, mitte ainult tekstiloend.
 ```
 
 ### V2 Implementation Boundary
+
+STATUS: partially implemented / active
 
 V2 eesmärk on parandada otsingu ja kvaliteedipoliitika tugevust ilma V3 täielikku teadmismudelit nõudmata.
 
@@ -917,9 +989,13 @@ V2 mõõdikud:
 
 ## Arenduse Seis 2026-04-26
 
+STATUS: current snapshot
+
 See plokk kirjeldab hetkeseisu lokaalses arenduses. Serveri production-seis võib erineda, kuni muudatused on deploy'tud.
 
 ### V1 Praktiliselt Tehtud
+
+STATUS: done / maintenance
 
 - Golden set ja RAG regressioonitestid on olemas ning neid kasutatakse muudatuste kontrolliks.
 - `displayed_sources`, `displayed_source_ids`, `attribution_decisions` ja `rag_trace` liiguvad backend response'i ja message metadata kaudu.
@@ -933,6 +1009,8 @@ See plokk kirjeldab hetkeseisu lokaalses arenduses. Serveri production-seis või
 - Attribution decision reason'id on koondatud standardseks taksonoomiaks ja testiga kontrollitud.
 
 ### V2 Osaliselt Tehtud
+
+STATUS: partially implemented / active
 
 - RAG service tagastab ja märgistab retrieval kanalid, sh `dense`, `title_match`, `exact_phrase` ja lightweight `bm25`.
 - Vastete küljes liigub `retrieval_channels`; trace'is liigub `retrievers_used`.
@@ -952,13 +1030,30 @@ See plokk kirjeldab hetkeseisu lokaalses arenduses. Serveri production-seis või
 - Admin analytics RAG dokumentide vaates on esimene quality queue: see kuvab freshness auditi vead ja hoiatused ning annab prioriteetse nimekirja allikatest, mis vajavad metadata või värskuse ülevaatust.
 - Quality queue kontrollib esimeses versioonis ka URL-i kuju, puuduvaid URL-e praeguse info tõendusallikatel, KOV teenust ilma seotud vormiallikata ning kontaktiviiteid, mis ei tule `official_contact` või `contact_page` allikatüübist.
 - KOV ingest lisab item metadata külge `sections_present`, vormi-, kontakti- ja õigusliku aluse loendurid; quality queue kasutab neid source package signaale, et vormi või ametliku kontakti puudumist märkida ainult siis, kui teenuse metadata seda vajadust päriselt näitab.
+- Quality queue tuvastab nüüd ka esimese source package konflikti: sama `canonical_item_id` alla ei tohi sattuda mitme erineva `municipality_id` KOV allikad ilma ülevaatuseta.
+- Admin analytics mõõdab metadata contract'i completeness'i: näha on puuduvad kohustuslikud väljad, soovituslike väljade puudumine ja kui suur osa auditeeritud allikatest vastab miinimumcontract'ile.
+- Metadata kvaliteet on jaotatud ka korpusepere järgi (`kov_web`, `kov_rt`, `national_rt`, `ajakiri_sotsiaaltoo`, `organizations`, `unknown`), et admin näeks, milline ingest rada toodab puuduliku contract'iga allikaid.
+- Metadata kvaliteet on jaotatud ka sisendi/failitüübi järgi (`rag_md`, `kov_data_item`, `sources_json`, `meta_json`, `rt_xml`, `article_ingest` jne), et parandustöö jõuaks konkreetse ingest sisendini.
+- Quality queue issue'd sisaldavad `remediation` objekti: paranduse tegevus, puuduvad väljad ja siht (`collection_family`, `source_file_type`, `source_id`, `document_id`, `canonical_item_id`). Siht sisaldab võimalusel ka `admin_href` väärtust ning admin vaade kuvab selle “Fix” veeruna.
+- `admin_href` kannab nüüd parandustöö konteksti query parameetrites edasi: `remediation_action`, `fields`, `source_id`, `document_id`, `canonical_item_id`, `source_type`, `source_file_type` ja vajadusel `source_path`, `municipality` või `organization`.
+- RAG admini sihtlehed loevad quality queue query parameetreid ja kuvavad parandustöö konteksti: action, parandatavad väljad ning source/document/canonical identifikaatorid.
+- RAG admini parandustöö banner näitab ka `focus` ja `file_key` väärtusi, et admin näeks kohe, kas parandustöö puudutab dokumenti, lingiplokki või konkreetset failikaarti.
+- RAG admin controller kasutab sama query konteksti madala riskiga eeltäitmiseks: dokumendivaate otsing saab siht-identifikaatori ning ingest PDF+metadata textarea saab metadata parandusstub'i.
+- KOV ja organisatsioonide admin controllerid kasutavad quality queue query konteksti sihtkirje leidmiseks: vaade puhastab piiravad filtrid, valib õige KOV-i või organisatsiooni ning avab vajadusel lingi/detaili muutmise režiimi.
+- Quality queue remediation target kannab nüüd ka töö fookust: `focus` ja võimalusel `file_key`. Admin UI märgib KOV ja organisatsiooni detailis konkreetse failikaardi või lingiploki, mida parandustöö puudutab.
 - Admin analytics mõõdab kõrge riskiga RAG vastuste allikariski kahes kihis: `answer_source_stale_rate` / `answer_unknown_source_rate` näitavad vastuse tõendusallikate riski ning `displayed_source_stale_rate` / `displayed_unknown_source_rate` näitavad kasutajale kuvatud allikapaneeli riski.
 - Admin analytics kuvab eraldi high-risk source risk queue tabeli, mis näitab, kas risk tuli `answer` või `displayed` kihist.
+- Admin analytics mõõdab nüüd trace'i põhjal source display contract'i: `displayed_source_precision`, contract violation count/rate ning retrieved/selected allikate filtratsioonimäär näitavad, kas kuvatud allikad on kinnitatud answer source'id ja kui palju otsingumüra välja jäi.
 - Admin analytics sündmuste real kuvatakse `query_plan` detailid: planner mode, query order, selection strategy, query count ja `rag_top_k`.
 - Admin analytics 30 päeva kokkuvõttes arvutatakse Query Planner mode, query order ja selection strategy jaotused.
 - Query Planner V2 esimene eval-fixture on olemas: see kontrollib artikli järelküsimust, laia võrdlust, KOV teenuseid/toetusi, national scope'i, teenuse tasandi liigitust, temporal päringut, source lookup'i ja default low-risk päringut.
+- Query Planner V2 eval-fixture katab nüüd mitu realistlikku artikli-follow-up varianti: lühike riigiküsimus, küsimus sama artikli näidete kohta, nime/akronüümi otsing, `source_id` fallback, `canonical_item_id` fallback ning broad multi-source küsimus, mis ei tohi lukustuda ainult eelmise artikli külge.
+- Sama Query Planner V2 fixture kontrollib nüüd ka retrieval orchestrator'i päringuehitust: source-focused juhtumites peab esimene päring olema filtriga ja broad multi-source juhtumites peab esimene päring jääma filtrita.
+- Multi-source context selection testib nüüd ka `canonical_item_id` põhist dedupe'i: laia sünteesi puhul ei valita sama canonical item'i korduvaid dokumente enne, kui eri allikaidentiteedid on kaetud.
 
 ### Viimati Kontrollitud Testid
+
+STATUS: current snapshot / needs refresh after each release
 
 Viimane lokaalne kontroll:
 
@@ -969,6 +1064,8 @@ chat/RAG regressioonipakk: 66/66 passed
 See ei asenda serveri smoke testi pärast deploy'd. Productionis tuleb eraldi kontrollida RAG service health'i, chat endpointi, allikapaneeli ja vähemalt üht päris vestluse artikli-follow-up juhtumit.
 
 ### V1.2 Production Smoke
+
+STATUS: done / maintenance
 
 V1.2 lisab production smoke skripti:
 
@@ -1022,18 +1119,68 @@ npm run rag:smoke:v1 -- --stream
 
 Mõlemad smoke käsud läbisid `https://sotsiaal.ai` vastu edukalt. Kontroll kinnitas, et non-stream ja streaming `/api/chat` vastused tagastavad V1 contract'i väljad, sealhulgas `rag_contract_version`, `source_display_mode`, `rag_trace`, `sources` ja `displayed_sources`.
 
+### V2 Production/Admin Smoke
+
+STATUS: active / partially implemented
+
+V2 lisab eraldi kvaliteedikihi smoke skripti:
+
+```text
+npm run rag:smoke:v2
+```
+
+Skript: `scripts/smoke-rag-v2-quality.mjs`.
+
+Käivitamiseks productioni vastu:
+
+```text
+SOTSIAALAI_SMOKE_BASE_URL=https://sotsiaal.ai
+SOTSIAALAI_SMOKE_COOKIE="next-auth.session-token=..."
+npm run rag:smoke:v2
+```
+
+Vajadusel saab kasutada bearer tokenit:
+
+```text
+SOTSIAALAI_SMOKE_BEARER="..."
+npm run rag:smoke:v2
+```
+
+Chat trace'i V2 signaalide kontrollimiseks:
+
+```text
+npm run rag:smoke:v2 -- --chat
+```
+
+Smoke kontrollib vähemalt:
+
+- `/api/admin/analytics/summary` vastab admin autentimisega;
+- `ragDocs.freshness.summary.metadata_quality` sisaldab kokkuvõtte, collection ja file type jaotusi;
+- kvaliteedijärjekorra kirjetel on `collection_family`, `source_file_type`, `metadata_quality` ja `remediation`;
+- remediation target sisaldab admin sihtlinki `admin_href`, action'it, parandatavate väljade loendit ning võimalusel `focus`/`file_key` sihti;
+- `admin_href` query string sisaldab sama `focus`/`file_key` sihti, mis `remediation.target` objekt;
+- `ragDocs.sourceQuality.summary` sisaldab `displayed_source_precision`, contract violation ja retrieved/selected filter rate mõõdikuid;
+- high-risk source freshness kokkuvõte ja järjekord on olemas;
+- `--chat` korral on `/api/chat` vastuse `rag_trace` sees `retrievers_used`, `query_plan` ja riskipoliitika signaal.
+
 ## Järgmised Plaanitavad Tööd
+
+STATUS: active backlog
 
 ### V2 Järgmine Praktiline Skoop
 
+STATUS: active backlog
+
 1. Parandada päris vestluse kvaliteeti artikli-follow-up juhtumites: kui kasutaja küsib sama artikli kohta riike, näiteid või nimesid, peab uus otsing tekkima ja sama artikli tekstist täpsem lõik leiduma.
-2. Laiendada planner eval-fixture'it päris probleemvestluste põhjal, mitte ainult sünteetiliste juhtumitega.
+2. Laiendada planner eval-fixture'it edasi päris production/problem vestluste põhjal ning siduda see hiljem retrieval tulemuse kvaliteedimõõdikuga, mitte ainult planner mode'iga.
 3. Mõõta ja häälestada lightweight `bm25` kanalit päris probleemvestluste põhjal ning otsustada, kas vaja on Postgres full-text või eraldi indeksit.
 4. Laiendada source package kvaliteedikontrolli päris KOV andmestiku põhjal: vormi ja kontakti signaalid on olemas, järgmine samm on vastuolude, katkiste URL-ide ja puudulike source package'ite ülevaatusvoog.
 5. Siduda kõrge riskiga vastuste allikariski mõõdik tulevase claim-level attribution'iga, et stale või tundmatu allikas oleks näha konkreetse väite tasemel, mitte ainult vastuse tasemel.
-6. Hakata koguma metadata kvaliteedi mõõdikuid ingest'i ja admini vaadete jaoks.
+6. Laiendada eeltäitmist konkreetsetesse KOV/organisatsiooni parandustöövoogudesse, kus vormivälju saab turvaliselt ette valida, näiteks URL-i, `last_checked` või source type paranduse jaoks.
 
 ### KOV Ja Muude Materjalide Meta Enne Mass-Ingesti
+
+STATUS: active / partially implemented
 
 KOV materjale ei ole veel suures mahus andmebaasi laetud. Enne seda tuleb lõplikult fikseerida metadata profiilid vähemalt nendele allikatüüpidele:
 
@@ -1051,6 +1198,8 @@ Iga profiil peab map'ima ühisele RAG source contract'ile: `source_id`, `documen
 
 ### V3 Planeeritav Skoop
 
+STATUS: planned / design target
+
 V3 ei ole järgmine väike refaktor, vaid küpse teadmussüsteemi kiht.
 
 - Source Package muutub runtime objektist püsivaks või poolpüsivaks andmemudeliks.
@@ -1062,6 +1211,8 @@ V3 ei ole järgmine väike refaktor, vaid küpse teadmussüsteemi kiht.
 - Kui trace näitab, et Chroma/olemasolev otsingukiht jääb kitsaks, kaaluda Qdrantit või muud hübriidotsingut paremini toetavat lahendust.
 
 ## Data Contracts
+
+STATUS: active contract / evolving
 
 Pipeline'is liikuvad põhiobjektid peavad olema eristatavad:
 
@@ -1077,6 +1228,8 @@ Need objektid ei tohi segada `source_id`, `document_id`, `chunk_id` ja `canonica
 
 ## Rollout Plan
 
+STATUS: partially completed / historical
+
 V1 tuleb sisse lülitada järk-järgult:
 
 1. `shadow mode` - uus trace ja attribution decision'id logitakse, aga UI käitumist ei muudeta.
@@ -1085,6 +1238,8 @@ V1 tuleb sisse lülitada järk-järgult:
 4. `full displayed_sources enforcement` - allikapaneel kuvab ainult serveri kinnitatud `displayed_sources`.
 
 ## Privacy Boundary For RAG Trace
+
+STATUS: active policy
 
 RAG trace peab vaikimisi salvestama tehnilised otsused ja allikaidentifikaatorid, mitte kogu kasutaja sisendit, täit model context'i ega delikaatseid juhtumikirjeldusi.
 
@@ -1110,6 +1265,8 @@ Kui detailsem debug-logi on arenduses ajutiselt vajalik, peab see olema piiratud
 
 ## Open Decisions
 
+STATUS: active decisions
+
 - Kas Chroma jääb pikemaks ajaks või liigub RAG hiljem Qdranti või muu hübriidotsingut paremini toetava lahenduse peale?
 - Kas BM25/full-text tuleb Postgresist, eraldi indeksist või vector DB hübriidotsingust?
 - Kas `answer_sources` ja `displayed_sources` salvestatakse `ConversationMessage.metadata` sisse või eraldi tabelitesse?
@@ -1119,6 +1276,8 @@ Kui detailsem debug-logi on arenduses ajutiselt vajalik, peab see olema piiratud
 - Kuidas versioonida source package'id, kui KOV teenus, vorm või kontakt muutub?
 
 ## V3 Target State
+
+STATUS: design target
 
 V3 tähendab SotsiaalAI RAG-is küpset tootetasemel teadmussüsteemi, mitte ainult parandatud otsingut.
 
@@ -1151,6 +1310,8 @@ küsimus
 
 ### V3 Core Capabilities
 
+STATUS: design target
+
 V3 põhivõimekused:
 
 - täielik `SourcePackage` andmemudel KOV teenuste, toetuste, vormide, kontaktide ja õigusliku aluse jaoks;
@@ -1162,6 +1323,8 @@ V3 põhivõimekused:
 - vajadusel Qdrant või muu lahendus, kui trace näitab, et Chroma ja olemasolev otsingukiht jäävad päriselt kitsaks.
 
 ### V3 Source Package
+
+STATUS: design target
 
 V3-s on KOV teenus või toetus struktureeritud objekt, mitte ainult hulk chunk'e.
 
@@ -1201,6 +1364,8 @@ See võimaldab küsida otse:
 
 ### V3 Claim-Level Attribution
 
+STATUS: design target
+
 V3-s liigub süsteem kõrge riskiga väidete puhul väitepõhise tõenduse poole.
 
 ```json
@@ -1225,6 +1390,8 @@ Claim-level attribution on eriti oluline järgmiste väidete puhul:
 - KOV-spetsiifiline tingimus.
 
 ### V3 Maturity Notes
+
+STATUS: design target
 
 V3 valmisolek ei tähenda ainult uute funktsioonide olemasolu. V3 peab olema auditeeritav, mõõdetav ja hooldatav teadmussüsteem.
 
@@ -1294,6 +1461,8 @@ Need numbrid on algsed sihid, mitte lõplikud lepingulised lubadused. Oluline on
 
 ### V3 Acceptance Criteria
 
+STATUS: design target
+
 V3 loetakse tehtuks, kui:
 
 - KOV teenused, toetused, vormid ja kontaktid on esindatud source package objektidena;
@@ -1305,6 +1474,8 @@ V3 loetakse tehtuks, kui:
 - mõõdetakse unsupported claim, wrong KOV, stale source ja displayed source precision näitajaid.
 
 ### V3 Limits
+
+STATUS: design target
 
 Ka V3 ei tee süsteemi eksimatuks.
 
@@ -1318,7 +1489,11 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 
 ## Praeguse Süsteemi Failikaart
 
+STATUS: reference / active map
+
 ### Vestluse API Ja Orkestreerimine
+
+STATUS: reference / active code map
 
 - `app/api/chat/route.js` - peamine chat endpoint; ühendab bootstrap'i, töövood, RAG konteksti ja vastuse genereerimise.
 - `lib/chat/requestBootstrap.js` - autentimine, sisendi normaliseerimine, ajalugu, roll, keel, greeting, töövoo olekud.
@@ -1329,6 +1504,8 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 
 ### Promptid Ja OpenAI Vastus
 
+STATUS: reference / active code map
+
 - `lib/chat/promptBuilder.js` - Responses API sisendi koostamine, RAG_CONTEXT, grounding, greeting strings, max tokenid.
 - `lib/chat/openaiRuntime.js` - `callOpenAI`, `streamOpenAI`, Responses API payload.
 - `lib/chat/systemPrompts/index.js` - keelepõhiste süsteemipromptide valik.
@@ -1338,6 +1515,8 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 - `lib/chat/systemPrompts/common.js` - promptide renderdamise abifunktsioonid.
 
 ### RAG Vajaduse Tuvastus, Otsing Ja Kontekst
+
+STATUS: reference / active code map
 
 - `lib/chat/sourceNeed.js` - otsustab, kas pöörde jaoks on vaja väliseid allikaid/RAG-i.
 - `lib/chat/retrievalContextAssembler.js` - RAG pipeline'i keskne koostaja: võtab planneri otsuse, käivitab otsingu, koostab konteksti ja allikad.
@@ -1352,6 +1531,8 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 
 ### Salvestamine, Metadata Ja Allikate Kuvamine
 
+STATUS: reference / active code map
+
 - `lib/chat/responseFinalizer.js` - vastuse JSON/SSE finaliseerimine, allikate/attachmentide salvestus.
 - `lib/chat/persistence.js` - vestluse ja assistendi sõnumi salvestus, metadata `sources`.
 - `components/chat/hooks/useChatStream.js` - frontendi chat stream, `meta`, `delta`, `done`, allikate vastuvõtt.
@@ -1362,10 +1543,14 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 
 ### RAG Service
 
+STATUS: reference / active code map
+
 - `rag-service/main.py` - FastAPI RAG service, OpenAI embeddings, Chroma, upload/search endpointid, registry ja observability headerid.
 - `rag-service/requirements.txt` - RAG service Python sõltuvused.
 
 ### RAG Ingest Ja Admin
+
+STATUS: reference / active code map
 
 - `scripts/ingest-kov-rag.mjs` - KOV RAG pakettide ingest.
 - `scripts/validate-kov-rag.mjs` - KOV `sources.json`, `data.json`, `meta.json`, `rag.md` valideerimine.
@@ -1382,6 +1567,8 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 
 ### Andmebaas Ja Logid
 
+STATUS: reference / active code map
+
 - `prisma/schema.prisma` - `RagDocument`, `Conversation`, `ConversationMessage`, `ConversationRun`, `ChatLog`, KOV/organization admin mudelid.
 - `lib/chat/logger.js` - chat/RAG sündmuste logimine `ChatLog` tabelisse.
 - `app/api/admin/analytics/summary/route.js` - RAG logide ja dokumentide admin-kokkuvõte.
@@ -1389,6 +1576,8 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 - `app/api/admin/analytics/ai-costs/route.js` - AI/RAG kulude kokkuvõte.
 
 ### Testid
+
+STATUS: reference / active test map
 
 - `tests/chat/queryPlanner.test.js` - Query Planner V2 plaani, filtrite, broad/source-focused käitumise ja KOV laiendatud päringute testid.
 - `tests/fixtures/query-planner-v2-cases.json` - Query Planner V2 eval-fixture planner mode'ide ja filtrite regressiooniks.
@@ -1402,6 +1591,8 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 
 ## Esmane Analüüsisuund
 
+STATUS: historical / superseded by current V2 backlog
+
 Järgmises analüüsis vaadata järjest:
 
 1. `sourceAttribution.js`, `mainResponseHandler.js`, `useChatStream.js`, `useConversationSources.js` - kas `displayed sources` on piisavalt aus ja kas attribution decision'id on logitavad.
@@ -1411,5 +1602,7 @@ Järgmises analüüsis vaadata järjest:
 5. `prisma/schema.prisma` - kas andmemudel toetab source type, canonical item, answer source ja trace kihte.
 
 ## Lõppeesmärk
+
+STATUS: active principle
 
 SotsiaalAI RAG-i eesmärk ei ole leida võimalikult palju sarnaseid tekstikatkeid, vaid koostada kontrollitud tõenduspakett, mille põhjal saab anda rolli, aja, KOV-i ja allikatüübi suhtes usaldusväärse vastuse.

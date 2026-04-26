@@ -11,6 +11,7 @@ import {
   summarizeFreshnessAudit,
   summarizeHighRiskSourceFreshness
 } from "@/lib/rag/sourceFreshness";
+import { summarizeRagTraceSourceQuality } from "@/lib/rag/sourceQualityMetrics";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -91,10 +92,14 @@ function compactFreshnessIssue(item) {
     document_id: item.document_id || null,
     title: item.title || null,
     source_type: item.source_type || null,
+    collection_family: item.collection_family || null,
+    source_file_type: item.source_file_type || null,
     source_status: item.source_status || null,
     freshness_status: item.freshness_status || null,
     severity: item.severity || "info",
     reasons: Array.isArray(item.reasons) ? item.reasons.slice(0, 8) : [],
+    metadata_quality: item.metadata_quality || null,
+    remediation: item.remediation || null,
     last_checked: item.last_checked || null,
     age_days: item.age_days,
     max_age_days: item.max_age_days,
@@ -714,6 +719,7 @@ export async function GET(req) {
       .slice(0, 25)
       .map(compactFreshnessIssue);
     const highRiskFreshness = summarizeHighRiskSourceFreshness(ragTraceLogs, ragFreshnessAudit.items);
+    const ragSourceQuality = summarizeRagTraceSourceQuality(ragTraceLogs);
 
     const paymentPipeline30d = buildPaymentPipelineFromCounts({
       initStarted: paymentEventInitStartedCount,
@@ -765,6 +771,10 @@ export async function GET(req) {
           issues: ragFreshnessIssues,
           highRisk: highRiskFreshness.summary,
           highRiskIssues: highRiskFreshness.issues
+        },
+        sourceQuality: {
+          summary: ragSourceQuality.summary,
+          issues: ragSourceQuality.issues
         }
       },
       billing: {

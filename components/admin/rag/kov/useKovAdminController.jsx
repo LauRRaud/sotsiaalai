@@ -1,7 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
+import {
+  buildRemediationContext,
+  findRemediationTargetItem,
+  getRemediationIdentifierValue
+} from "@/components/admin/rag/remediationContext";
 import {
   buildNotIngestedRagDocumentStatus,
   fetchRagDocumentStatus,
@@ -83,8 +89,27 @@ function buildDraft(entry) {
   };
 }
 
+function remediationNeedsLinkEditing(context) {
+  const values = new Set([
+    context?.action,
+    ...(context?.fields || []),
+    ...(context?.recommendedFields || [])
+  ].filter(Boolean));
+  return [
+    "add_or_link_form_source",
+    "add_or_link_official_contact_source",
+    "fix_source_url",
+    "application_form",
+    "official_contact",
+    "contact_page",
+    "url"
+  ].some(value => values.has(value));
+}
+
 export function useKovAdminController(locale, initialItems = []) {
   const et = isEstonian(locale);
+  const searchParams = useSearchParams();
+  const remediationQueryKey = searchParams?.toString?.() || "";
 
   const [items, setItems] = useState(initialItems);
   const [loading, setLoading] = useState(initialItems.length === 0);
@@ -119,6 +144,25 @@ export function useKovAdminController(locale, initialItems = []) {
     checkedAt: null
   });
   const [ragStatusLoading, setRagStatusLoading] = useState(false);
+  const remediationAppliedRef = useRef("");
+
+  const remediationContext = useMemo(
+    () => buildRemediationContext(searchParams, locale),
+    [locale, searchParams]
+  );
+  const remediationFocus = useMemo(
+    () => remediationContext
+      ? {
+        action: remediationContext.action || "",
+        fields: remediationContext.fields || [],
+        recommendedFields: remediationContext.recommendedFields || [],
+        focus: remediationContext.focus || "",
+        fileKey: remediationContext.fileKey || "",
+        sourceFileType: getRemediationIdentifierValue(remediationContext, "source_file_type")
+      }
+      : null,
+    [remediationContext]
+  );
 
   const statusLabel = useCallback(
     status => STATUS_LABELS[status]?.[et ? "et" : "en"] || status,
@@ -218,6 +262,39 @@ export function useKovAdminController(locale, initialItems = []) {
       setSelectedSlug(filteredItems[0].slug);
     }
   }, [filteredItems, selectedSlug]);
+
+  useEffect(() => {
+    if (!remediationContext || items.length === 0) return;
+    if (remediationAppliedRef.current === remediationQueryKey) return;
+    remediationAppliedRef.current = remediationQueryKey;
+
+    const candidates = [
+      getRemediationIdentifierValue(remediationContext, "municipality"),
+      getRemediationIdentifierValue(remediationContext, "canonical_item_id"),
+      getRemediationIdentifierValue(remediationContext, "source_id"),
+      getRemediationIdentifierValue(remediationContext, "document_id"),
+      getRemediationIdentifierValue(remediationContext, "source_path")
+    ].filter(Boolean);
+
+    const target = findRemediationTargetItem(items, candidates, [
+      "officialWebsite",
+      "riigiTeatajaUrl"
+    ]);
+
+    if (!target) {
+      if (candidates[0]) setQuery(candidates[0]);
+      return;
+    }
+
+    setQuery(target.displayName || target.slug || candidates[0] || "");
+    setCounty("ALL");
+    setType("ALL");
+    setActivity("ALL");
+    setPackageState("ALL");
+    setSort("NAME_ASC");
+    setSelectedSlug(target.slug);
+    setEditingLinks(remediationNeedsLinkEditing(remediationContext));
+  }, [items, remediationContext, remediationQueryKey]);
 
   useEffect(() => {
     setSelectedSlugs(prev => prev.filter(slug => items.some(item => item.slug === slug)));
@@ -1164,6 +1241,7 @@ export function useKovAdminController(locale, initialItems = []) {
     setDetailDraft,
     ragStatus,
     ragStatusLoading,
+    remediationFocus,
     refreshSelectedRagStatus,
     saveBusy,
     saveDetail,

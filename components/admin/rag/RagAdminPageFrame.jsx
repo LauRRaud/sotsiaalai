@@ -8,6 +8,7 @@ import { glassPageBackTopLeftClassName } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 
 import { getRagAdminCopy } from "./ragAdminCopy";
+import RagAdminRemediationContext from "./RagAdminRemediationContext";
 import {
   ragAdminPageShellClassName,
   ragAdminShellCardClassName,
@@ -88,6 +89,8 @@ export default function RagAdminPageFrame({
               );
             })}
           </nav>
+
+          <RagAdminRemediationContext locale={locale} />
         </div>
 
         {children}

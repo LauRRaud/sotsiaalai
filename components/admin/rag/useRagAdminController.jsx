@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
@@ -26,9 +27,14 @@ import {
   toLocaleTag,
   validateMeta
 } from "./ragAdminShared";
+import {
+  buildRemediationContext,
+  buildRemediationMetadataStub
+} from "./remediationContext";
 
 export function useRagAdminController() {
   const { t, locale } = useI18n();
+  const searchParams = useSearchParams();
   const localeTag = useMemo(() => toLocaleTag(locale), [locale]);
   const tr = useCallback(
     (key, values) => {
@@ -85,6 +91,7 @@ export function useRagAdminController() {
   const [pdfMetaResult, setPdfMetaResult] = useState(null);
   const [pdfFileName, setPdfFileName] = useState("");
   const [pdfMetaFileName, setPdfMetaFileName] = useState("");
+  const [pdfMetaText, setPdfMetaText] = useState("");
   const [rtXmlFileName, setRtXmlFileName] = useState("");
   const [rtXmlBusy, setRtXmlBusy] = useState(false);
   const [rtXmlResult, setRtXmlResult] = useState(null);
@@ -128,6 +135,7 @@ export function useRagAdminController() {
   const articlesFileInputRef = useRef(null);
   const articlesFormRef = useRef(null);
   const fetchAbortRef = useRef(null);
+  const remediationAppliedRef = useRef("");
 
   const resetMessage = useCallback(() => setMessage(null), []);
   const getAudienceLabel = useCallback(value => audienceLabels[value] || (value ? value : "-"), [audienceLabels]);
@@ -143,6 +151,29 @@ export function useRagAdminController() {
       }),
     [tr]
   );
+
+  const remediationContext = useMemo(
+    () => buildRemediationContext(searchParams, locale),
+    [locale, searchParams]
+  );
+
+  useEffect(() => {
+    if (!remediationContext) return;
+    const key = searchParams?.toString?.() || JSON.stringify(remediationContext);
+    if (remediationAppliedRef.current === key) return;
+    remediationAppliedRef.current = key;
+
+    const searchHint = remediationContext.identifiers.find(([name]) =>
+      ["source_id", "document_id", "canonical_item_id", "source_path"].includes(name)
+    )?.[1];
+    if (searchHint) setSearchQuery(searchHint);
+
+    const metadataStub = buildRemediationMetadataStub(remediationContext);
+    if (metadataStub) {
+      setPdfMetaText(metadataStub);
+      setShowMetaGuide(true);
+    }
+  }, [remediationContext, searchParams]);
 
   const fetchDocuments = useCallback(async () => {
     fetchAbortRef.current?.abort?.();
@@ -298,6 +329,7 @@ export function useRagAdminController() {
         setPdfMetaAudience("BOTH");
         setPdfFileName("");
         setPdfMetaFileName("");
+        setPdfMetaText("");
         form.reset();
         await fetchDocuments();
       } catch (err) {
@@ -1094,6 +1126,8 @@ export function useRagAdminController() {
     setPdfFileName,
     pdfMetaFileName,
     setPdfMetaFileName,
+    pdfMetaText,
+    setPdfMetaText,
     rtXmlFileName,
     setRtXmlFileName,
     rtXmlBusy,

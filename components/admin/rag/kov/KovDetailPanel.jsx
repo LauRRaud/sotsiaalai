@@ -69,6 +69,17 @@ const FILE_LABEL_BY_KEY = Object.fromEntries(
   [...WEB_FILE_DEFINITIONS, ...RT_FILE_DEFINITIONS].map(file => [file.key, file.shortLabel])
 );
 
+function isFocusedFile(remediationFocus, fileKey) {
+  if (!remediationFocus || !fileKey) return false;
+  return remediationFocus.fileKey === fileKey || remediationFocus.focus === fileKey;
+}
+
+function focusCardClass(focused) {
+  return focused
+    ? "border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_12%,var(--admin-surface-2)_88%)] shadow-[0_0_0_1px_color-mix(in_srgb,#38bdf8_45%,transparent)]"
+    : "border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)]";
+}
+
 function fileStatusLabel(status) {
   if (status === "uploaded") return "uploaded";
   if (status === "replaced") return "replaced";
@@ -268,7 +279,8 @@ function renderFileCards({
   fileBusyKey,
   onUploadFile,
   onRemoveFile,
-  fileInputRefs
+  fileInputRefs,
+  remediationFocus
 }) {
   return (
     <div className="grid gap-2">
@@ -278,15 +290,23 @@ function renderFileCards({
         const busy = fileBusyKey === `${entry.slug}:${file.key}`;
         const isMarkdown = file.key === "ragMd";
         const isXml = file.key === "rtXml";
+        const focused = isFocusedFile(remediationFocus, file.key);
 
         return (
           <div
             key={file.key}
-            className="grid gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-2.5"
+            className={`grid gap-2 rounded-[12px] border p-2.5 ${focusCardClass(focused)}`}
           >
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="min-w-0">
-                <div className="break-words font-semibold text-[color:var(--admin-text)]">{resolvedFileName}</div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="break-words font-semibold text-[color:var(--admin-text)]">{resolvedFileName}</div>
+                  {focused ? (
+                    <span className="rounded-full border border-[#38bdf8] px-2 py-0.5 text-[0.75rem] font-semibold text-[#38bdf8]">
+                      {et ? "Quality queue siht" : "Quality queue target"}
+                    </span>
+                  ) : null}
+                </div>
                 <div className="mt-1 grid gap-1 text-[0.82rem] text-[color:var(--admin-muted)]">
                   <div>
                     {et ? "Staatus" : "Status"}:{" "}
@@ -418,6 +438,7 @@ export default function KovDetailPanel({
   onDraftChange,
   ragStatus,
   ragStatusLoading = false,
+  remediationFocus = null,
   message,
   onRefreshRagStatus,
   onSave,
@@ -483,9 +504,20 @@ export default function KovDetailPanel({
     title: et ? "RT diff" : "RT diff"
   });
   const ragSnapshot = ragStatus || {};
+  const webLinkFocused = remediationFocus?.focus === "kov_web_links" || remediationFocus?.focus === "kov_web_link";
+  const rtLinkFocused = remediationFocus?.focus === "kov_rt_link";
+  const focusHint = remediationFocus?.fileKey
+    ? `${et ? "Fail" : "File"}: ${FILE_LABEL_BY_KEY[remediationFocus.fileKey] || remediationFocus.fileKey}`
+    : remediationFocus?.focus || "";
 
   return (
     <div className="grid gap-2">
+      {remediationFocus ? (
+        <div className="rounded-[12px] border border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_10%,var(--admin-surface)_90%)] px-3 py-2 text-[0.86rem] text-[color:var(--admin-text)]">
+          <span className="font-semibold">{et ? "Quality queue siht" : "Quality queue target"}:</span>{" "}
+          {focusHint || (et ? "kontrolli selle kirje metadata't" : "review this record metadata")}
+        </div>
+      ) : null}
       <div className={cardClassName}>
         <div className={cardBodyClassName}>
           <div className={cardHeadClassName}>
@@ -788,7 +820,7 @@ export default function KovDetailPanel({
 
             <div className="mt-3 grid gap-3">
             <div className="grid gap-3 md:grid-cols-2">
-              <div className={panelStackClassName}>
+              <div className={`${panelStackClassName} ${webLinkFocused ? "rounded-[12px] border border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_8%,transparent)] p-2" : ""}`}>
                 <label className={labelClassName}>Ametlik veebileht</label>
                 <Input
                   value={detailDraft.officialWebsite || ""}
@@ -903,7 +935,8 @@ export default function KovDetailPanel({
               fileBusyKey,
               onUploadFile,
               onRemoveFile,
-              fileInputRefs
+              fileInputRefs,
+              remediationFocus
             })}
           </div>
         </div>
@@ -926,7 +959,7 @@ export default function KovDetailPanel({
 
           <div className="mt-3 grid gap-3">
             <div className="grid gap-3 md:grid-cols-2">
-              <div className={panelStackClassName}>
+              <div className={`${panelStackClassName} ${rtLinkFocused ? "rounded-[12px] border border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_8%,transparent)] p-2" : ""}`}>
                 <label className={labelClassName}>{et ? "Riigi Teataja link" : "Riigi Teataja URL"}</label>
                 <Input
                   value={detailDraft.riigiTeatajaUrl || ""}
@@ -1052,7 +1085,8 @@ export default function KovDetailPanel({
               fileBusyKey,
               onUploadFile,
               onRemoveFile,
-              fileInputRefs
+              fileInputRefs,
+              remediationFocus
             })}
           </div>
         </div>

@@ -440,7 +440,8 @@ export default function AnalyticsDashboard() {
       missing_url: t("admin.analytics.rag_docs.freshness.missing_url", "Missing URL"),
       contact_not_official_source: t("admin.analytics.rag_docs.freshness.contact_not_official_source", "Contact not official"),
       kov_service_missing_form_source: t("admin.analytics.rag_docs.freshness.kov_service_missing_form_source", "Service missing form source"),
-      kov_service_missing_official_contact_source: t("admin.analytics.rag_docs.freshness.kov_service_missing_official_contact_source", "Service missing official contact source")
+      kov_service_missing_official_contact_source: t("admin.analytics.rag_docs.freshness.kov_service_missing_official_contact_source", "Service missing official contact source"),
+      canonical_item_municipality_conflict: t("admin.analytics.rag_docs.freshness.canonical_item_municipality_conflict", "Canonical item KOV conflict")
     }),
     [t]
   );
@@ -458,6 +459,50 @@ export default function AnalyticsDashboard() {
     () => ({
       answer: t("admin.analytics.rag_docs.high_risk_layer.answer", "Answer source"),
       displayed: t("admin.analytics.rag_docs.high_risk_layer.displayed", "Displayed source")
+    }),
+    [t]
+  );
+
+  const collectionFamilyLabels = useMemo(
+    () => ({
+      kov_web: t("admin.analytics.rag_docs.collection.kov_web", "KOV web"),
+      kov_rt: t("admin.analytics.rag_docs.collection.kov_rt", "KOV RT"),
+      national_rt: t("admin.analytics.rag_docs.collection.national_rt", "National RT"),
+      ajakiri_sotsiaaltoo: t("admin.analytics.rag_docs.collection.ajakiri_sotsiaaltoo", "Ajakiri Sotsiaaltoo"),
+      organizations: t("admin.analytics.rag_docs.collection.organizations", "Organizations"),
+      unknown: t("admin.analytics.rag_docs.collection.unknown", "Unknown")
+    }),
+    [t]
+  );
+
+  const sourceFileTypeLabels = useMemo(
+    () => ({
+      kov_data_item: t("admin.analytics.rag_docs.file_type.kov_data_item", "KOV data item"),
+      rag_md: t("admin.analytics.rag_docs.file_type.rag_md", "RAG markdown"),
+      rt_xml: t("admin.analytics.rag_docs.file_type.rt_xml", "RT XML"),
+      rt_json: t("admin.analytics.rag_docs.file_type.rt_json", "RT JSON"),
+      rt_md: t("admin.analytics.rag_docs.file_type.rt_md", "RT markdown"),
+      sources_json: t("admin.analytics.rag_docs.file_type.sources_json", "sources.json"),
+      meta_json: t("admin.analytics.rag_docs.file_type.meta_json", "meta.json"),
+      data_json: t("admin.analytics.rag_docs.file_type.data_json", "data.json"),
+      article_ingest: t("admin.analytics.rag_docs.file_type.article_ingest", "Article ingest"),
+      xml: t("admin.analytics.rag_docs.file_type.xml", "XML"),
+      unknown: t("admin.analytics.rag_docs.file_type.unknown", "Unknown")
+    }),
+    [t]
+  );
+
+  const remediationActionLabels = useMemo(
+    () => ({
+      fill_required_metadata_fields: t("admin.analytics.rag_docs.remediation.fill_required_metadata_fields", "Fill required metadata"),
+      fill_recommended_metadata_fields: t("admin.analytics.rag_docs.remediation.fill_recommended_metadata_fields", "Fill recommended metadata"),
+      map_source_type: t("admin.analytics.rag_docs.remediation.map_source_type", "Map source type"),
+      fix_source_url: t("admin.analytics.rag_docs.remediation.fix_source_url", "Fix source URL"),
+      refresh_last_checked: t("admin.analytics.rag_docs.remediation.refresh_last_checked", "Refresh last_checked"),
+      review_validity_window: t("admin.analytics.rag_docs.remediation.review_validity_window", "Review validity dates"),
+      add_or_link_form_source: t("admin.analytics.rag_docs.remediation.add_or_link_form_source", "Add or link form source"),
+      add_or_link_official_contact_source: t("admin.analytics.rag_docs.remediation.add_or_link_official_contact_source", "Add or link official contact"),
+      review_source_metadata: t("admin.analytics.rag_docs.remediation.review_source_metadata", "Review source metadata")
     }),
     [t]
   );
@@ -979,12 +1024,76 @@ export default function AnalyticsDashboard() {
   const paymentPipeline = summary?.billing?.paymentPipeline30d || {};
   const paymentAlerts = Array.isArray(summary?.billing?.paymentAlerts30d) ? summary.billing.paymentAlerts30d : [];
   const documentStorage = summary?.documents?.storage || null;
-  const ragFreshness = summary?.ragDocs?.freshness || null;
-  const ragFreshnessSummary = ragFreshness?.summary || {};
+  const ragFreshness = useMemo(() => summary?.ragDocs?.freshness || null, [summary]);
+  const ragSourceQuality = useMemo(() => summary?.ragDocs?.sourceQuality?.summary || {}, [summary]);
+  const ragFreshnessSummary = useMemo(() => ragFreshness?.summary || {}, [ragFreshness]);
+  const ragMetadataQuality = useMemo(() => ragFreshnessSummary?.metadata_quality || {}, [ragFreshnessSummary]);
+  const ragMetadataByCollection = useMemo(
+    () => ragMetadataQuality?.by_collection || {},
+    [ragMetadataQuality]
+  );
+  const ragMetadataByFileType = useMemo(
+    () => ragMetadataQuality?.by_file_type || {},
+    [ragMetadataQuality]
+  );
   const ragQualityReasons = ragFreshnessSummary?.reasons || {};
   const ragHighRiskFreshness = ragFreshness?.highRisk || {};
   const ragFreshnessIssues = Array.isArray(ragFreshness?.issues) ? ragFreshness.issues : [];
   const ragHighRiskIssues = Array.isArray(ragFreshness?.highRiskIssues) ? ragFreshness.highRiskIssues : [];
+  const ragMetadataCollectionSummary = useMemo(() => {
+    const rows = Object.entries(ragMetadataByCollection)
+      .map(([family, item]) => ({
+        family,
+        label: collectionFamilyLabels[family] || family,
+        total: toNumber(item?.total),
+        incomplete: toNumber(item?.incomplete)
+      }))
+      .filter(item => item.total > 0)
+      .sort((left, right) => right.incomplete - left.incomplete || right.total - left.total)
+      .slice(0, 4);
+    return rows.map(item => `${item.label}: ${formatCount(item.incomplete, localeTag)}/${formatCount(item.total, localeTag)}`).join(" | ");
+  }, [collectionFamilyLabels, localeTag, ragMetadataByCollection]);
+  const ragMetadataFileTypeSummary = useMemo(() => {
+    const rows = Object.entries(ragMetadataByFileType)
+      .map(([fileType, item]) => ({
+        fileType,
+        label: sourceFileTypeLabels[fileType] || fileType,
+        total: toNumber(item?.total),
+        incomplete: toNumber(item?.incomplete)
+      }))
+      .filter(item => item.total > 0)
+      .sort((left, right) => right.incomplete - left.incomplete || right.total - left.total)
+      .slice(0, 4);
+    return rows.map(item => `${item.label}: ${formatCount(item.incomplete, localeTag)}/${formatCount(item.total, localeTag)}`).join(" | ");
+  }, [localeTag, ragMetadataByFileType, sourceFileTypeLabels]);
+  const formatRemediationTarget = useCallback(
+    (item = {}) => {
+      const target = item.remediation?.target || {};
+      const family = collectionFamilyLabels[target.collection_family || item.collection_family] || target.collection_family || item.collection_family || "-";
+      const fileType = sourceFileTypeLabels[target.source_file_type || item.source_file_type] || target.source_file_type || item.source_file_type || "-";
+      return `${family} / ${fileType}`;
+    },
+    [collectionFamilyLabels, sourceFileTypeLabels]
+  );
+  const formatRemediationAction = useCallback(
+    (item = {}) => {
+      const action = item.remediation?.action || "review_source_metadata";
+      const label = remediationActionLabels[action] || action;
+      const fields = Array.isArray(item.remediation?.fields) && item.remediation.fields.length
+        ? `: ${item.remediation.fields.slice(0, 4).join(", ")}`
+        : "";
+      return `${label}${fields}`;
+    },
+    [remediationActionLabels]
+  );
+  const openRemediationTarget = useCallback(
+    (item = {}) => {
+      const href = item.remediation?.target?.admin_href;
+      if (!href) return;
+      router.push(localizePath(href, locale));
+    },
+    [locale, router]
+  );
 
   const platformCards = useMemo(
     () => [
@@ -2129,6 +2238,95 @@ export default function AnalyticsDashboard() {
               meta={t("admin.analytics.rag_docs.freshness_audited_meta", "Latest RAG documents checked for source metadata freshness.")}
             />
             <KpiCard
+              title={t("admin.analytics.rag_docs.metadata_contract", "Metadata contract")}
+              value={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : `${formatPercent(toNumber(ragMetadataQuality.completeness_rate) * 100, localeTag, 1)}%`
+              }
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : t(
+                      "admin.analytics.rag_docs.metadata_contract_meta",
+                      {
+                        incomplete: formatCount(ragMetadataQuality.incomplete || 0, localeTag),
+                        required: formatCount(ragMetadataQuality.required_missing || 0, localeTag),
+                        topMissing: joinCounts(ragMetadataQuality.missing_required_fields, {}, localeTag) || "-"
+                      },
+                      "Incomplete {incomplete} | missing required fields {required} | top: {topMissing}"
+                    )
+              }
+            />
+            <KpiCard
+              title={t("admin.analytics.rag_docs.metadata_by_collection", "Metadata by collection")}
+              value={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : formatCount(Object.keys(ragMetadataByCollection).length, localeTag)
+              }
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : ragMetadataCollectionSummary || t("admin.analytics.rag_docs.metadata_by_collection_empty", "No collection-level metadata gaps found.")
+              }
+            />
+            <KpiCard
+              title={t("admin.analytics.rag_docs.metadata_by_file_type", "Metadata by file type")}
+              value={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : formatCount(Object.keys(ragMetadataByFileType).length, localeTag)
+              }
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                : ragMetadataFileTypeSummary || t("admin.analytics.rag_docs.metadata_by_file_type_empty", "No file-type metadata gaps found.")
+              }
+            />
+            <KpiCard
+              title={t("admin.analytics.rag_docs.displayed_source_precision", "Displayed source precision")}
+              value={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : `${formatPercent(toNumber(ragSourceQuality.displayed_source_precision) * 100, localeTag, 1)}%`
+              }
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : t(
+                      "admin.analytics.rag_docs.displayed_source_precision_meta",
+                      {
+                        basis: formatCount(ragSourceQuality.displayed_source_precision_basis || 0, localeTag),
+                        violations: formatCount(ragSourceQuality.displayed_source_violation_count || 0, localeTag),
+                        traces: formatCount(ragSourceQuality.traces_with_display_contract_violation || 0, localeTag)
+                      },
+                      "Displayed checked {basis} | violations {violations} | affected traces {traces}"
+                    )
+              }
+            />
+            <KpiCard
+              title={t("admin.analytics.rag_docs.retrieved_noise_filtered", "Retrieved noise filtered")}
+              value={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : `${formatPercent(toNumber(ragSourceQuality.retrieved_filter_rate) * 100, localeTag, 1)}%`
+              }
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : t(
+                      "admin.analytics.rag_docs.retrieved_noise_filtered_meta",
+                      {
+                        filtered: formatCount(ragSourceQuality.retrieved_but_not_displayed_count || 0, localeTag),
+                        retrieved: formatCount(ragSourceQuality.retrieved_source_count || 0, localeTag),
+                        traces: formatCount(ragSourceQuality.traces_with_retrieved_but_not_displayed || 0, localeTag)
+                      },
+                      "Retrieved not displayed {filtered}/{retrieved} | affected traces {traces}"
+                    )
+              }
+            />
+            <KpiCard
               title={t("admin.analytics.rag_docs.freshness_errors", "Freshness errors")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(ragFreshnessSummary.errors || 0, localeTag)}
               meta={
@@ -2355,13 +2553,14 @@ export default function AnalyticsDashboard() {
                     <th className={tableHeadCellClassName}>{t("admin.analytics.table.type", "Type")}</th>
                     <th className={tableHeadCellClassName}>{t("admin.analytics.rag_docs.last_checked", "Last checked")}</th>
                     <th className={tableHeadCellClassName}>{t("admin.analytics.rag_docs.age", "Age")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.fix", "Fix")}</th>
                     <th className={tableHeadCellClassName}>{t("admin.analytics.table.reason", "Reason")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loadingSummary ? (
                     <tr>
-                      <td className={tableCellClassName} colSpan={6}>
+                      <td className={tableCellClassName} colSpan={7}>
                         {t("admin.common.loading_data", "Loading...")}
                       </td>
                     </tr>
@@ -2381,6 +2580,19 @@ export default function AnalyticsDashboard() {
                         <td className={tableCellClassName}>{item.source_type || "-"}</td>
                         <td className={tableCellClassName}>{item.last_checked || "-"}</td>
                         <td className={tableCellClassName}>{formatDays(item.age_days, localeTag)}</td>
+                        <td className={tableCellClassName}>
+                          <div>{formatRemediationAction(item)}</div>
+                          <div className={cellSubClassName}>{formatRemediationTarget(item)}</div>
+                          {item.remediation?.target?.admin_href ? (
+                            <button
+                              type="button"
+                              className="documents-chip mt-1 inline-flex min-h-[1.9rem] max-w-full items-center justify-center rounded-full px-2 py-1 text-[0.76rem] font-[600]"
+                              onClick={() => openRemediationTarget(item)}
+                            >
+                              {t("admin.analytics.rag_docs.open_fix_target", "Open target")}
+                            </button>
+                          ) : null}
+                        </td>
                         <td className={`${tableCellClassName} ${cellSubClassName}`}>
                           {(Array.isArray(item.reasons) ? item.reasons.join(", ") : "").slice(0, 120) || "-"}
                         </td>
@@ -2388,7 +2600,7 @@ export default function AnalyticsDashboard() {
                     ))
                   ) : (
                     <tr>
-                      <td className={tableCellClassName} colSpan={6}>
+                      <td className={tableCellClassName} colSpan={7}>
                         {t("admin.analytics.rag_docs.quality_queue_empty", "No RAG source freshness issues found in the audited set.")}
                       </td>
                     </tr>
@@ -2422,7 +2634,21 @@ export default function AnalyticsDashboard() {
                     <MobileInfoField label={t("admin.analytics.table.type", "Type")} value={item.source_type || "-"} />
                     <MobileInfoField label={t("admin.analytics.rag_docs.last_checked", "Last checked")} value={item.last_checked || "-"} />
                     <MobileInfoField label={t("admin.analytics.rag_docs.age", "Age")} value={formatDays(item.age_days, localeTag)} />
+                    <MobileInfoField label={t("admin.analytics.table.fix", "Fix")} value={formatRemediationAction(item)} />
                   </div>
+                  <MobileInfoField
+                    label={t("admin.analytics.rag_docs.fix_target", "Fix target")}
+                    value={formatRemediationTarget(item)}
+                  />
+                  {item.remediation?.target?.admin_href ? (
+                    <button
+                      type="button"
+                      className="documents-chip inline-flex min-h-[2rem] max-w-full items-center justify-center rounded-full px-2 py-1 text-[0.8rem] font-[600]"
+                      onClick={() => openRemediationTarget(item)}
+                    >
+                      {t("admin.analytics.rag_docs.open_fix_target", "Open target")}
+                    </button>
+                  ) : null}
                   <MobileInfoField
                     label={t("admin.analytics.table.reason", "Reason")}
                     value={(Array.isArray(item.reasons) ? item.reasons.join(", ") : "") || "-"}

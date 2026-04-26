@@ -1,5 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 import {
   buildRagSearchQuery,
@@ -12,6 +15,34 @@ import {
   isBroadMultiSourceRagQuestion,
   searchRagQueries
 } from "../../lib/chat/retrievalOrchestrator.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const plannerFixturePath = path.resolve(__dirname, "../fixtures/query-planner-v2-cases.json");
+
+function readPlannerCases() {
+  return JSON.parse(readFileSync(plannerFixturePath, "utf8"));
+}
+
+function assertQueryKind(query, kind, id) {
+  if (!kind) return;
+  if (kind === "filtered") {
+    assert.equal(typeof query, "object", `${id}: expected filtered query object`);
+    assert.equal(query && !Array.isArray(query), true, `${id}: expected filtered query object`);
+    assert.equal(typeof query.query, "string", `${id}: expected filtered query text`);
+    assert.equal(typeof query.filters, "object", `${id}: expected filtered query filters`);
+    return;
+  }
+  if (kind === "unfiltered") {
+    assert.equal(typeof query, "string", `${id}: expected unfiltered query string`);
+    return;
+  }
+  assert.fail(`${id}: unknown query kind ${kind}`);
+}
+
+function queryText(query) {
+  return typeof query === "string" ? query : String(query?.query || "");
+}
 
 test("dedupeRagMatches annotates dense retriever metadata by default", () => {
   const deduped = dedupeRagMatches([
@@ -231,5 +262,28 @@ test("searchRagQueries merges per-query source filters with base filters", async
     });
   } finally {
     global.fetch = previousFetch;
+  }
+});
+
+test("source anchored retrieval queries follow planner eval fixture contracts", () => {
+  const cases = readPlannerCases().filter(item => item.expected?.first_query_kind);
+  assert.equal(cases.length >= 6, true);
+
+  for (const item of cases) {
+    const baseQuery = buildRagSearchQuery(item.message, item.history || []);
+    const queries = buildSourceAnchoredRagQueries(item.message, item.history || [], baseQuery);
+
+    assert.equal(queries.length >= 1, true, item.id);
+    assertQueryKind(queries[0], item.expected.first_query_kind, item.id);
+
+    if (item.expected.first_query_filters) {
+      assert.deepEqual(queries[0]?.filters, item.expected.first_query_filters, item.id);
+    }
+    if (item.expected.second_query_filters) {
+      assert.deepEqual(queries[1]?.filters, item.expected.second_query_filters, item.id);
+    }
+    for (const needle of item.expected.first_query_contains || []) {
+      assert.match(queryText(queries[0]), new RegExp(needle, "i"), `${item.id}: first query should contain ${needle}`);
+    }
   }
 });
