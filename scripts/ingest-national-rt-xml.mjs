@@ -3,7 +3,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { buildNationalRtXmlIngestPayload } from "../lib/admin/rag/kov/rtXml.js";
+import { buildRtXmlIngestPayload } from "../lib/admin/rag/kov/rtXml.js";
 import { assertRagSourceMetadataContract } from "../lib/rag/sourceMetadata.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -14,7 +14,7 @@ const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KE
 function usage() {
   console.log(`
 Usage:
-  node scripts/ingest-national-rt-xml.mjs <xml-file> [--doc-id <doc-id>] [--source-url <url>] [--dry-run]
+  node scripts/ingest-national-rt-xml.mjs <xml-file> [--doc-id <doc-id>] [--source-url <url>] [--municipality <name>] [--municipality-id <id>] [--dry-run]
 
 Example:
   node scripts/ingest-national-rt-xml.mjs KOV/130122025029.xml --dry-run
@@ -34,6 +34,8 @@ function parseArgs(argv) {
     file: "",
     docId: "",
     sourceUrl: "",
+    municipality: "",
+    municipalityId: "",
     dryRun: false
   };
 
@@ -54,6 +56,16 @@ function parseArgs(argv) {
     }
     if (value === "--source-url") {
       args.sourceUrl = String(argv[i + 1] || "").trim();
+      i += 1;
+      continue;
+    }
+    if (value === "--municipality") {
+      args.municipality = String(argv[i + 1] || "").trim();
+      i += 1;
+      continue;
+    }
+    if (value === "--municipality-id") {
+      args.municipalityId = String(argv[i + 1] || "").trim();
       i += 1;
       continue;
     }
@@ -78,6 +90,8 @@ function summarizePayload(payload) {
     jurisdiction_level: payload.metadata?.jurisdiction_level,
     municipality_name: payload.metadata?.municipality_name || null,
     source_url: payload.metadata?.source_url,
+    source_type: payload.metadata?.source_type,
+    municipality_id: payload.metadata?.municipality_id || null,
     chunk_count: Array.isArray(payload.chunks) ? payload.chunks.length : 0,
     first_chunk: {
       chunk_key: firstChunk.metadata?.chunk_key,
@@ -98,12 +112,14 @@ async function main() {
   const absolutePath = path.resolve(rootDir, args.file);
   const xmlText = await fs.readFile(absolutePath, "utf8");
   const sourcePath = path.relative(rootDir, absolutePath).replace(/\\/g, "/");
-  const payload = buildNationalRtXmlIngestPayload({
+  const payload = buildRtXmlIngestPayload({
     xmlText,
     sourceFile: path.basename(absolutePath),
     sourcePath,
     sourceUrl: args.sourceUrl,
-    docId: args.docId
+    docId: args.docId,
+    municipality: args.municipality,
+    municipalityId: args.municipalityId
   });
   assertRagSourceMetadataContract(payload.metadata, {
     label: "national_rt.metadata",
