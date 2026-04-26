@@ -36,6 +36,7 @@ Options:
   --limit <n>           Process at most n JSON files after filtering.
   --concurrency <n>     Parallel uploads. Default: 1. Recommended: 1-2.
   --log <path>          JSONL log path. Default: ${DEFAULT_LOG_PATH}
+  --plan-json <path>    Write dry-run/ingest plan summary as JSON.
   --base-url <url>      RAG service URL. Default from env or http://127.0.0.1:8000
   --stop-on-error       Stop after the first ingest error.
 `.trim());
@@ -55,6 +56,7 @@ function parseArgs(argv) {
     limit: 0,
     concurrency: 1,
     logPath: DEFAULT_LOG_PATH,
+    planJsonPath: "",
     baseUrl: normalizeBaseFromHost(RAW_RAG_HOST)
   };
 
@@ -112,6 +114,11 @@ function parseArgs(argv) {
     }
     if (arg === "--log") {
       args.logPath = String(argv[++i] || "").trim() || DEFAULT_LOG_PATH;
+      continue;
+    }
+    if (arg === "--plan-json") {
+      args.planJsonPath = String(argv[++i] || "").trim();
+      if (!args.planJsonPath) throw new Error("--plan-json requires a path");
       continue;
     }
     if (arg === "--base-url") {
@@ -199,6 +206,45 @@ function buildArticleMetadataContract(meta, item) {
     source_url: url || meta?.source_url || meta?.sourceUrl || null,
     url_canonical: meta?.url_canonical || meta?.urlCanonical || url
   };
+}
+
+function hasMetadataValue(record, fieldName) {
+  if (!record || typeof record !== "object") return false;
+  const value = record[fieldName];
+  if (Array.isArray(value)) return value.length > 0;
+  return value !== undefined && value !== null && String(value).trim() !== "";
+}
+
+function hasAnyMetadataValue(record, fieldNames) {
+  return fieldNames.some(fieldName => hasMetadataValue(record, fieldName));
+}
+
+function metadataBackfilledFields(meta, contractMetadata, options = {}) {
+  const checks = [
+    ["source_id", ["source_id", "sourceId"]],
+    ["document_id", ["document_id", "documentId"]],
+    ["source_type", ["source_type", "sourceType"]],
+    ["authority", ["authority"]],
+    ["audience", ["audience", "audiences"]],
+    ["language", ["language"]],
+    ["last_checked", ["last_checked", "lastChecked"]],
+    ["retrieved_at", ["retrieved_at", "retrievedAt"]],
+    ["historical", ["historical"]],
+    ["source_status", ["source_status", "sourceStatus"]],
+    ["content_hash", ["content_hash", "contentHash"]],
+    ["url_canonical", ["url_canonical", "urlCanonical"]],
+    ["source_path", ["source_path", "sourcePath"]]
+  ];
+  const fields = [];
+  for (const [fieldName, aliases] of checks) {
+    if (hasAnyMetadataValue(meta, aliases)) continue;
+    if (!hasMetadataValue(contractMetadata, fieldName)) continue;
+    fields.push(fieldName);
+  }
+  if (options.inferredSourcePath && !fields.includes("source_path")) {
+    fields.push("source_path");
+  }
+  return fields;
 }
 
 async function pathExists(filePath) {
@@ -367,6 +413,9 @@ async function buildPlan(jsonFiles, completedDocIds) {
     const contractMetadata = status === "ready"
       ? buildArticleMetadataContract(meta, { expectedDocId, articleId, sourcePath })
       : null;
+    const backfilledFields = contractMetadata
+      ? metadataBackfilledFields(meta, contractMetadata, { inferredSourcePath: resolvedPdf.inferred })
+      : [];
     if (contractMetadata) {
       const contract = validateRagSourceMetadataContract(contractMetadata, {
         label: `${path.relative(rootDir, jsonPath)}.metadata`,
@@ -392,6 +441,7 @@ async function buildPlan(jsonFiles, completedDocIds) {
       articleId,
       title,
       contractMetadata,
+      backfilledFields,
       inferredSourcePath: resolvedPdf.inferred,
       error
     });
@@ -456,6 +506,99 @@ function printSummary(items) {
   }
 }
 
+function printMetadataBackfillSummary(items) {
+  const ready = items.filter(item => item.status === "ready");
+  const fieldCounts = new Map();
+  let inferredSourcePath = 0;
+  for (const item of ready) {
+    if (item.inferredSourcePath) inferredSourcePath += 1;
+    for (const fieldName of item.backfilledFields || []) {
+      fieldCounts.set(fieldName, (fieldCounts.get(fieldName) || 0) + 1);
+    }
+  }
+
+  console.log("[ajakiri:ingest] V2 metadata backfill:");
+  console.log(`  inferred source_path from sibling PDF: ${inferredSourcePath}`);
+  const rows = [...fieldCounts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  if (!rows.length) {
+    console.log("  no derived metadata fields needed");
+    return;
+  }
+  for (const [fieldName, count] of rows) {
+    console.log(`  ${fieldName}: ${count}`);
+  }
+}
+
+function countBy(items, keyFn) {
+  const out = {};
+  for (const item of items || []) {
+    const key = keyFn(item);
+    if (!key) continue;
+    out[key] = (out[key] || 0) + 1;
+  }
+  return out;
+}
+
+function buildPlanReport({ args, importRoot, plan }) {
+  const ready = plan.filter(item => item.status === "ready");
+  const blocked = plan.filter(item => item.status !== "ready" && item.status !== "resume_skip");
+  const backfilledFields = {};
+  for (const item of ready) {
+    for (const fieldName of item.backfilledFields || []) {
+      backfilledFields[fieldName] = (backfilledFields[fieldName] || 0) + 1;
+    }
+  }
+
+  return {
+    generated_at: new Date().toISOString(),
+    root: path.relative(rootDir, importRoot) || importRoot,
+    mode: args.dryRun ? "dry-run" : "ingest",
+    issues: args.all ? "all" : args.issues,
+    limit: args.limit,
+    counts: {
+      total: plan.length,
+      ready: ready.length,
+      blocked: blocked.length,
+      by_status: countBy(plan, item => item.status),
+      by_issue: countBy(plan, item => item.issue)
+    },
+    v2_metadata_backfill: {
+      inferred_source_path_count: ready.filter(item => item.inferredSourcePath).length,
+      fields: backfilledFields
+    },
+    blocked: blocked.map(item => ({
+      status: item.status,
+      issue: item.issue,
+      json_path: path.relative(rootDir, item.jsonPath),
+      pdf_path: item.pdfPath ? path.relative(rootDir, item.pdfPath) : null,
+      source_path: item.sourcePath || null,
+      expected_doc_id: item.expectedDocId || null,
+      article_id: item.articleId || null,
+      title: item.title || null,
+      error: item.error || null
+    })),
+    ready: ready.map(item => ({
+      issue: item.issue,
+      json_path: path.relative(rootDir, item.jsonPath),
+      pdf_path: item.pdfPath ? path.relative(rootDir, item.pdfPath) : null,
+      source_path: item.sourcePath,
+      expected_doc_id: item.expectedDocId,
+      article_id: item.articleId,
+      title: item.title,
+      inferred_source_path: item.inferredSourcePath,
+      backfilled_fields: item.backfilledFields || []
+    }))
+  };
+}
+
+async function writePlanReport(reportPath, report) {
+  if (!reportPath) return;
+  const absolute = resolveWorkspacePath(reportPath);
+  await fs.mkdir(path.dirname(absolute), { recursive: true });
+  await fs.writeFile(absolute, `${JSON.stringify(report, null, 2)}\n`, "utf8");
+  console.log(`[ajakiri:ingest] plan json: ${path.relative(rootDir, absolute) || absolute}`);
+}
+
 async function runPool(items, concurrency, worker) {
   let index = 0;
   const workers = Array.from({ length: concurrency }, async () => {
@@ -493,6 +636,8 @@ async function main() {
   }
   console.log(`[ajakiri:ingest] json files: ${plan.length}`);
   printSummary(plan);
+  printMetadataBackfillSummary(plan);
+  await writePlanReport(args.planJsonPath, buildPlanReport({ args, importRoot, plan }));
 
   const ready = plan.filter(item => item.status === "ready");
   const blocked = plan.filter(item => item.status !== "ready" && item.status !== "resume_skip");

@@ -1026,6 +1026,7 @@ STATUS: partially implemented / active
 - `query_plan` liigub `rag_trace` sisse, et hiljem oleks näha, miks valiti `source_focused_followup`, `broad_multi_source`, `temporal`, `municipality_service_benefit_list` või muu planner mode.
 - Dense ja lexical kanalid ühendatakse RRF/weighted merge loogikaga ning tulemuste küljes liiguvad `rrf_score`, `hybrid_score` ja `hybrid_rank`.
 - RAG source metadata contract on koondatud ühisesse helperisse ning KOV, organisatsiooni, ajakirja ja Riigi Teataja ingest/validation radades kasutatakse rangemat metadata kontrolli.
+- Ajakirja ingest dry-run oskab vanadest JSON-idest koostada V2 metadata contract'i ilma faile käsitsi muutmata ning `--plan-json` väljundiga salvestada ready/blocked/backfill plaani enne mass re-ingest'i.
 - Source freshness audit on eraldi helperis ja CLI-s olemas: allikatüübi põhine kontroll leiab puuduva või aegunud `last_checked`, aegunud `valid_to`, mitteaktiivse `source_status` ja kõrge prioriteediga ülevaatusvajaduse.
 - Admin analytics RAG dokumentide vaates on esimene quality queue: see kuvab freshness auditi vead ja hoiatused ning annab prioriteetse nimekirja allikatest, mis vajavad metadata või värskuse ülevaatust.
 - Kui productionis on Prisma `RagDocument` tabel tühi, aga RAG service registry/Chroma sisaldab dokumente, kasutab admin analytics freshness audit fallback'ina RAG service `/documents` nimekirja. Vastuses on selleks `ragDocs.freshness.auditSource`, `ragServiceFallbackCount` ja `ragServiceFallbackError`.
@@ -1160,6 +1161,9 @@ Smoke kontrollib vähemalt:
 - `ragDocs.freshness.auditSource` näitab, kas freshness audit tuli Prisma `RagDocument` tabelist või RAG service `/documents` fallback'ist;
 - `ragDocs.freshness.ragServiceFallbackCount` ja `ragServiceFallbackError` on olemas, et productionis oleks näha, kas fallback leidis registry dokumendid või ebaõnnestus;
 - `ragDocs.freshness.summary.metadata_quality` sisaldab kokkuvõtte, collection ja file type jaotusi;
+- smoke väljund näitab `freshnessReasons`, `missingRequiredFields` ja `missingRecommendedFields`, et re-ingest'i järel oleks kohe näha, kas `unknown_source_type`, `missing_last_checked` või muu metadata probleem vähenes;
+- re-ingest'i kontrolliks saab smoke käsule anda lävendi, näiteks `--max-reason unknown_source_type=0 --max-reason missing_last_checked=0`;
+- smoke väljundis on ka `metadataByCollection` ja `metadataByFileType`, et ajakirja, KOV, national RT või muu korpuse re-ingest'i mõju oleks eraldi mõõdetav; vajadusel saab kasutada `--min-collection-completeness ajakiri_sotsiaaltoo=0.95`;
 - kvaliteedijärjekorra kirjetel on `collection_family`, `source_file_type`, `metadata_quality` ja `remediation`;
 - remediation target sisaldab admin sihtlinki `admin_href`, action'it, parandatavate väljade loendit ning võimalusel `focus`/`file_key` sihti;
 - `admin_href` query string sisaldab sama `focus`/`file_key` sihti, mis `remediation.target` objekt;

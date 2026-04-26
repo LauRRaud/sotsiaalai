@@ -12,6 +12,8 @@ function usage() {
     "Usage:",
     "  npm run rag:smoke:v2",
     "  npm run rag:smoke:v2 -- --chat",
+    "  npm run rag:smoke:v2 -- --max-reason unknown_source_type=0 --max-reason missing_last_checked=0",
+    "  npm run rag:smoke:v2 -- --min-collection-completeness ajakiri_sotsiaaltoo=0.95",
     "",
     "Environment:",
     "  SOTSIAALAI_SMOKE_BASE_URL=https://sotsiaal.ai",
@@ -19,7 +21,9 @@ function usage() {
     "  SOTSIAALAI_SMOKE_BEARER=\"...\"",
     "",
     "Checks V2 RAG quality surfaces from /api/admin/analytics/summary.",
-    "With --chat, also checks that /api/chat returns V2 trace signals."
+    "With --chat, also checks that /api/chat returns V2 trace signals.",
+    "Use --max-reason reason=count to fail when a freshness issue reason exceeds a threshold.",
+    "Use --min-collection-completeness collection=rate to fail when one corpus family is below a metadata completeness target."
   ].join("\n");
 }
 
@@ -30,6 +34,8 @@ function parseArgs(argv = []) {
     bearer: process.env.SOTSIAALAI_SMOKE_BEARER || process.env.SMOKE_BEARER || "",
     role: process.env.SOTSIAALAI_SMOKE_ROLE || "SOCIAL_WORKER",
     chat: process.env.SOTSIAALAI_SMOKE_CHAT === "1" || process.env.SMOKE_CHAT === "1",
+    maxReasons: {},
+    minCollectionCompleteness: {},
     help: false
   };
 
@@ -41,6 +47,24 @@ function parseArgs(argv = []) {
     else if (arg === "--bearer") args.bearer = argv[++index] || "";
     else if (arg === "--role") args.role = argv[++index] || args.role;
     else if (arg === "--chat") args.chat = true;
+    else if (arg === "--max-reason") {
+      const value = argv[++index] || "";
+      const [reason, rawLimit] = value.split("=");
+      const limit = Number(rawLimit);
+      if (!reason || !Number.isFinite(limit) || limit < 0) {
+        throw new Error("--max-reason expects reason=nonnegative_number");
+      }
+      args.maxReasons[reason] = Math.floor(limit);
+    }
+    else if (arg === "--min-collection-completeness") {
+      const value = argv[++index] || "";
+      const [collection, rawRate] = value.split("=");
+      const rate = Number(rawRate);
+      if (!collection || !Number.isFinite(rate) || rate < 0 || rate > 1) {
+        throw new Error("--min-collection-completeness expects collection=rate_between_0_and_1");
+      }
+      args.minCollectionCompleteness[collection] = rate;
+    }
     else throw new Error(`Unknown option: ${arg}`);
   }
 
@@ -309,6 +333,55 @@ function metadataKeys(value) {
   return Object.keys(value || {}).sort();
 }
 
+function topEntries(value, limit = 10) {
+  return Object.fromEntries(
+    Object.entries(value || {})
+      .sort((left, right) => Number(right[1] || 0) - Number(left[1] || 0) || left[0].localeCompare(right[0]))
+      .slice(0, limit)
+  );
+}
+
+function compactMetadataBuckets(buckets = {}) {
+  return Object.fromEntries(
+    Object.entries(buckets || {})
+      .sort((left, right) => left[0].localeCompare(right[0]))
+      .map(([name, bucket]) => [
+        name,
+        {
+          total: bucket.total,
+          complete: bucket.complete,
+          incomplete: bucket.incomplete,
+          completenessRate: bucket.completeness_rate,
+          averageScore: bucket.average_score,
+          missingRequiredFields: topEntries(bucket.missing_required_fields, 5),
+          missingRecommendedFields: topEntries(bucket.missing_recommended_fields, 5)
+        }
+      ])
+  );
+}
+
+function assertReasonThresholds(reasons = {}, maxReasons = {}) {
+  for (const [reason, maxAllowed] of Object.entries(maxReasons || {})) {
+    const count = Number(reasons?.[reason] || 0);
+    assertCondition(
+      count <= maxAllowed,
+      `freshness reason "${reason}" count ${count} exceeds max ${maxAllowed}`
+    );
+  }
+}
+
+function assertCollectionCompletenessThresholds(buckets = {}, thresholds = {}) {
+  for (const [collection, minRate] of Object.entries(thresholds || {})) {
+    const bucket = buckets?.[collection];
+    assertObject(bucket, `metadata collection "${collection}" missing`);
+    const rate = Number(bucket.completeness_rate || 0);
+    assertCondition(
+      rate >= minRate,
+      `metadata collection "${collection}" completeness ${rate} is below min ${minRate}`
+    );
+  }
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) {
@@ -318,6 +391,11 @@ async function main() {
 
   const adminPayload = await getJson(args, "/api/admin/analytics/summary?locale=et", "admin analytics");
   const freshness = assertAdminQualityPayload(adminPayload);
+  assertReasonThresholds(freshness.summary.reasons, args.maxReasons);
+  assertCollectionCompletenessThresholds(
+    freshness.summary.metadata_quality.by_collection,
+    args.minCollectionCompleteness
+  );
   const chatSummary = args.chat ? await checkChatV2(args) : null;
 
   console.log(JSON.stringify({
@@ -339,6 +417,11 @@ async function main() {
       metadataAverageScore: freshness.summary.metadata_quality.average_score,
       metadataCollections: metadataKeys(freshness.summary.metadata_quality.by_collection),
       metadataFileTypes: metadataKeys(freshness.summary.metadata_quality.by_file_type),
+      freshnessReasons: topEntries(freshness.summary.reasons),
+      missingRequiredFields: topEntries(freshness.summary.metadata_quality.missing_required_fields),
+      missingRecommendedFields: topEntries(freshness.summary.metadata_quality.missing_recommended_fields),
+      metadataByCollection: compactMetadataBuckets(freshness.summary.metadata_quality.by_collection),
+      metadataByFileType: compactMetadataBuckets(freshness.summary.metadata_quality.by_file_type),
       displayedSourcePrecision: adminPayload.ragDocs.sourceQuality.summary.displayed_source_precision,
       retrievedFilterRate: adminPayload.ragDocs.sourceQuality.summary.retrieved_filter_rate,
       wrongMunicipalityRate: adminPayload.ragDocs.sourceQuality.summary.wrong_municipality_rate,
