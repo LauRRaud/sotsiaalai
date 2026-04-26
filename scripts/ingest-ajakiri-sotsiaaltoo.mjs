@@ -556,7 +556,8 @@ async function ingestItem(baseUrl, item) {
   if (!response.ok || data?.ok === false) {
     const detail = data?.detail || data?.message || responseText;
     const compactDetail = String(detail || "").replace(/\s+/g, " ").trim().slice(0, 800);
-    throw new Error(compactDetail || `RAG ingest failed with HTTP ${response.status}`);
+    const statusDetail = `RAG ingest failed with HTTP ${response.status} ${response.statusText || ""}`.trim();
+    throw new Error(compactDetail ? `${statusDetail}: ${compactDetail}` : statusDetail);
   }
   return data;
 }

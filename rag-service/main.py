@@ -3095,6 +3095,21 @@ async def ingest_pdf_with_metadata(
         )
     except ValidationError as e:
         raise HTTPException(400, f"Invalid metadata: {e}") from e
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(
+            "PDF metadata ingest failed: doc_id=%s, original_doc_id=%s, file=%s, source_type=%s, collection=%s",
+            doc_id,
+            original_doc_id,
+            file_name,
+            meta_dict.get("source_type"),
+            COLLECTION_NAME,
+        )
+        raise HTTPException(
+            500,
+            f"RAG ingest failed for doc_id={doc_id}; check rag-service logs.",
+        ) from e
 
     return {
         **result,
