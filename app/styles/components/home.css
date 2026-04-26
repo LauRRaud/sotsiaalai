@@ -676,6 +676,17 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   display: none;
 }
 
+.homepage-root .home-about-scrollbox,
+.homepage-root .home-about-scrollbox :is(p, div, strong, b, a, span) {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
 @media (max-width: 768px) {
   .homepage-root .home-about-scrollbox,
   .homepage-root .home-about-scrollbox :is(p, div, strong, b, a, span) {
@@ -685,8 +696,8 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
     white-space: normal !important;
     overflow-wrap: break-word !important;
     word-break: normal !important;
-    -webkit-hyphens: auto;
-    hyphens: auto !important;
+    -webkit-hyphens: none !important;
+    hyphens: none !important;
   }
 }
 

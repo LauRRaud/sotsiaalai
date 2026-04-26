@@ -3417,7 +3417,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     white-space: normal !important;
     overflow-wrap: break-word !important;
     word-break: normal !important;
-    -webkit-hyphens: auto !important;
-    hyphens: auto !important;
+    -webkit-hyphens: none !important;
+    hyphens: none !important;
   }
 }

@@ -19,29 +19,6 @@ const HOME_BEFORE_DIAMETER_KEY_PREFIX = "sotsiaalai:home-before-diameter";
 const HOME_PANEL_FADE_DURATION_MS = 900;
 const HOME_PANEL_BLUR_REVEAL_MS = 780;
 const HOME_PANEL_STAGGER_MS = 120;
-const SOFT_HYPHEN = "\u00ad";
-
-function addEstonianSoftHyphensToWord(word) {
-  if (word.length < 12 || word.includes(SOFT_HYPHEN) || /SotsiaalAI/.test(word)) {
-    return word;
-  }
-
-  return word.replace(/(.{6})(?=.{4,})/gu, `$1${SOFT_HYPHEN}`);
-}
-
-function addEstonianSoftHyphens(html, locale) {
-  if (locale !== "et" || typeof html !== "string" || !html) {
-    return html;
-  }
-
-  return html
-    .split(/(<[^>]+>)/g)
-    .map((part) => {
-      if (!part || part.startsWith("<")) return part;
-      return part.replace(/\p{L}{12,}/gu, addEstonianSoftHyphensToWord);
-    })
-    .join("");
-}
 
 function getHomeBeforeDiameterKey(locale, showAdminLinks, view) {
   return `${HOME_BEFORE_DIAMETER_KEY_PREFIX}:${locale || "et"}:${showAdminLinks ? "1" : "0"}:${view}`;
@@ -88,7 +65,7 @@ export default function HomeAboutSection({
   const aboutParagraphs = aboutParagraphKeys
     .map((key) => ({
       key,
-      value: addEstonianSoftHyphens(t(`about.intro.${key}`), locale)
+      value: t(`about.intro.${key}`)
     }))
     .filter(({ key, value }) => value && value !== `about.intro.${key}`);
   const beforeCardRef = useRef(null);
@@ -368,7 +345,7 @@ export default function HomeAboutSection({
             <div
               ref={aboutScrollRef}
               lang={locale}
-              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.3rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.45rem] text-center max-[768px]:text-left text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[768px]:leading-[1.62] tracking-[0.03em] max-[768px]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)] max-[768px]:break-words max-[768px]:hyphens-auto max-[768px]:[--about-scroll-max-height:min(76vh,44.5rem)]"
+              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.3rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.45rem] text-left text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.12rem,4.25vw,1.32rem)] leading-[1.7] max-[768px]:leading-[1.58] tracking-[0.03em] max-[768px]:tracking-[0.006em] space-y-[0.95rem] [color:var(--home-prose-color)] break-words hyphens-auto max-[768px]:hyphens-none max-[768px]:[--about-scroll-max-height:min(76vh,44.5rem)]"
               style={{
                 maxHeight: "var(--about-scroll-max-height, min(71vh, 41rem))",
                 scrollbarWidth: "none",
