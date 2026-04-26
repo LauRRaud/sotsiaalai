@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -172,6 +172,7 @@ function dateOnly(value = "") {
 function buildArticleMetadataContract(meta, item) {
   const expectedDocId = item?.expectedDocId || resolveExpectedDocId(meta).docId;
   const articleId = item?.articleId || meta?.article_id || meta?.articleId || "";
+  const sourcePath = String(meta?.source_path || meta?.sourcePath || item?.sourcePath || "").trim();
   const url = String(meta?.article_url || meta?.articleUrl || meta?.url || "").trim() || null;
   const sourceId = String(meta?.source_id || meta?.sourceId || "").trim()
     || `sotsiaaltoo_${safeDocIdSegment(articleId || expectedDocId || meta?.title)}`;
@@ -194,6 +195,7 @@ function buildArticleMetadataContract(meta, item) {
     valid_from: meta?.valid_from || meta?.validFrom || null,
     valid_to: meta?.valid_to || meta?.validTo || null,
     content_hash: meta?.content_hash || meta?.contentHash || crypto.createHash("sha1").update(JSON.stringify(meta)).digest("hex"),
+    source_path: sourcePath || meta?.source_path || meta?.sourcePath || null,
     source_url: url || meta?.source_url || meta?.sourceUrl || null,
     url_canonical: meta?.url_canonical || meta?.urlCanonical || url
   };
@@ -206,6 +208,39 @@ async function pathExists(filePath) {
   } catch {
     return false;
   }
+}
+
+async function resolvePdfPathFromJson(jsonPath, meta = {}) {
+  const sourcePath = String(meta?.source_path || meta?.sourcePath || "").trim();
+  if (sourcePath) {
+    return {
+      sourcePath,
+      pdfPath: path.resolve(path.dirname(jsonPath), sourcePath),
+      inferred: false
+    };
+  }
+
+  const baseName = path.basename(jsonPath, path.extname(jsonPath));
+  const candidates = [
+    `${baseName}.pdf`,
+    `${baseName}.PDF`
+  ];
+  for (const candidate of candidates) {
+    const candidatePath = path.resolve(path.dirname(jsonPath), candidate);
+    if (await pathExists(candidatePath)) {
+      return {
+        sourcePath: candidate,
+        pdfPath: candidatePath,
+        inferred: true
+      };
+    }
+  }
+
+  return {
+    sourcePath: "",
+    pdfPath: "",
+    inferred: false
+  };
 }
 
 async function readJson(filePath) {
@@ -281,10 +316,11 @@ async function buildPlan(jsonFiles, completedDocIds) {
       continue;
     }
 
-    const sourcePath = String(meta?.source_path || "").trim();
+    const resolvedPdf = await resolvePdfPathFromJson(jsonPath, meta);
+    const sourcePath = resolvedPdf.sourcePath;
     const { docId: expectedDocId, originalDocId, articleId } = resolveExpectedDocId(meta);
     const title = String(meta?.title || "").trim();
-    const pdfPath = sourcePath ? path.resolve(path.dirname(jsonPath), sourcePath) : "";
+    const pdfPath = resolvedPdf.pdfPath;
 
     let status = "ready";
     let error = "";
@@ -329,7 +365,7 @@ async function buildPlan(jsonFiles, completedDocIds) {
     }
 
     const contractMetadata = status === "ready"
-      ? buildArticleMetadataContract(meta, { expectedDocId, articleId })
+      ? buildArticleMetadataContract(meta, { expectedDocId, articleId, sourcePath })
       : null;
     if (contractMetadata) {
       const contract = validateRagSourceMetadataContract(contractMetadata, {
@@ -356,6 +392,7 @@ async function buildPlan(jsonFiles, completedDocIds) {
       articleId,
       title,
       contractMetadata,
+      inferredSourcePath: resolvedPdf.inferred,
       error
     });
   }
