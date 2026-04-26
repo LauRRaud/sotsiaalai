@@ -45,6 +45,10 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
         dense_score: 0.41,
         lexical_score: 6.2,
         lexical_score_normalized: 0.43662,
+        bm25_score: 2.4,
+        bm25_coverage: 0.75,
+        bm25_matches: 3,
+        bm25_query_tokens: 4,
         rrf_score: 0.04,
         channel_boost: 0.09,
         hybrid_rank: 1,
@@ -81,7 +85,12 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
       },
       channel_counts: {
         dense: 2,
-        title_match: 1
+        title_match: 1,
+        bm25: 1
+      },
+      bm25: {
+        result_count: 1,
+        average_coverage: 0.75
       },
       scored_count: 2,
       top_hybrid_score: 0.82,
@@ -106,6 +115,10 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
       dense_score: 0.41,
       lexical_score: 6.2,
       lexical_score_normalized: 0.43662,
+      bm25_score: 2.4,
+      bm25_coverage: 0.75,
+      bm25_matches: 3,
+      bm25_query_tokens: 4,
       rrf_score: 0.04,
       channel_boost: 0.09,
       hybrid_rank: 1,
@@ -137,6 +150,7 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
   });
   assert.equal(trace.hybrid_retrieval.merge_strategy.strategy, "weighted_hybrid_rrf");
   assert.equal(trace.hybrid_retrieval.channel_counts.title_match, 1);
+  assert.equal(trace.hybrid_retrieval.bm25.average_coverage, 0.75);
   assert.equal(trace.hybrid_retrieval.top_hybrid_score, 0.82);
   assert.equal(trace.retrieval_trace_level, "retrieved_candidates");
 });

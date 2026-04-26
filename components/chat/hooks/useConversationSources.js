@@ -232,16 +232,26 @@ export function useConversationSources({
 }) {
   const [sourcesPulse, setSourcesPulse] = useState(false);
   const sourcesPulseTimerRef = useRef(null);
-  const prevSourcesCountRef = useRef(0);
-  const conversationSources = useMemo(() => {
+  const prevSourcesSignatureRef = useRef("");
+  const latestAnswerSources = useMemo(() => {
+    return collectLatestAnswerSources(messages, uploadPreview);
+  }, [messages, uploadPreview]);
+  const allConversationSources = useMemo(() => {
     return collectConversationSources(messages, uploadPreview);
   }, [messages, uploadPreview]);
-  const hasConversationSources = conversationSources.length > 0;
+  const conversationSources = latestAnswerSources;
+  const conversationSourcesSignature = useMemo(() => {
+    return conversationSources
+      .map((source, index) => source?.key || source?.label || index)
+      .join("|");
+  }, [conversationSources]);
+  const hasConversationSources = latestAnswerSources.length > 0 || allConversationSources.length > 0;
+  const hasAllConversationSources = allConversationSources.length > 0;
   useEffect(() => {
     const currentCount = conversationSources.length;
-    const prevCount = prevSourcesCountRef.current;
-    prevSourcesCountRef.current = currentCount;
-    if (!showSourcesPanel && currentCount > prevCount && currentCount > 0) {
+    const prevSignature = prevSourcesSignatureRef.current;
+    prevSourcesSignatureRef.current = conversationSourcesSignature;
+    if (!showSourcesPanel && currentCount > 0 && conversationSourcesSignature !== prevSignature) {
       setSourcesPulse(true);
       if (sourcesPulseTimerRef.current) {
         window.clearTimeout(sourcesPulseTimerRef.current);
@@ -255,10 +265,13 @@ export function useConversationSources({
         window.clearTimeout(sourcesPulseTimerRef.current);
       }
     };
-  }, [conversationSources.length, showSourcesPanel]);
+  }, [conversationSources.length, conversationSourcesSignature, showSourcesPanel]);
   return {
     conversationSources,
+    latestAnswerSources,
+    allConversationSources,
     hasConversationSources,
+    hasAllConversationSources,
     sourcesPulse
   };
 }

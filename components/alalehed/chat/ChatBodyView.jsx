@@ -36,7 +36,10 @@ export default function ChatBodyView({
   showSourcesPanel,
   sourcesPulse,
   conversationSources,
+  latestAnswerSources,
+  allConversationSources,
   hasConversationSources,
+  hasAllConversationSources: _hasAllConversationSources,
   leftRailActiveKey,
   rightRailActiveKey,
   onShowHelpRequests,
@@ -175,7 +178,15 @@ export default function ChatBodyView({
               <ChatRecordingNotice recordingError={recordingError} floating />
 
               <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[768px]:mt-[0.55rem] max-[768px]:min-h-[1.1rem] max-[768px]:pb-[0.15rem]" />
-              <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
+              <ChatSourcesPanel
+                open={showSourcesPanel}
+                t={t}
+                conversationSources={conversationSources}
+                latestAnswerSources={latestAnswerSources}
+                allConversationSources={allConversationSources}
+                onClose={closeSourcesPanel}
+                returnFocusRef={sourcesButtonRef}
+              />
             </GlassRing>
             {showVisibleAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem] mx-auto" style={analysisPanelWidth ? {
               width: `${analysisPanelWidth}px`,

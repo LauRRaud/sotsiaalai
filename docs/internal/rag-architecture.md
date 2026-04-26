@@ -1025,6 +1025,7 @@ STATUS: partially implemented / active
 - Query Planner V2 on eraldi moodulis `lib/chat/queryPlanner.js` ja tagastab standardse plaani: päringud, filtrid, topK, selection strategy, context group target ja trace'i `query_plan`.
 - `query_plan` liigub `rag_trace` sisse, et hiljem oleks näha, miks valiti `source_focused_followup`, `broad_multi_source`, `temporal`, `municipality_service_benefit_list` või muu planner mode.
 - Dense ja lexical kanalid ühendatakse RRF/weighted merge loogikaga ning tulemuste küljes liiguvad `rrf_score`, `hybrid_score` ja `hybrid_rank`.
+- Lightweight `bm25` kanal kannab nüüd mõõdetavaid tuning-signaale: `bm25_score`, `bm25_coverage`, `bm25_matches`, `bm25_query_tokens`, BM25 env seaded merge strategy's ning `rag_trace.hybrid_retrieval.bm25` kokkuvõte. See võimaldab päris probleemvestlustest otsustada, kas lightweight kanalist piisab või on vaja Postgres full-texti / eraldi indeksit.
 - RAG source metadata contract on koondatud ühisesse helperisse ning KOV, organisatsiooni, ajakirja ja Riigi Teataja ingest/validation radades kasutatakse rangemat metadata kontrolli.
 - KOV/RT/organisatsiooni metadata jaoks on lisatud dry-run backfill planner `rag:plan:metadata`, mis koostab enne mass-ingesti JSON plaani: millised V2 contract'i väljad saab olemasolevatest source/meta failidest tuletada ja millised kirjed jäävad blokkeriks.
 - Ajakirja ingest dry-run oskab vanadest JSON-idest koostada V2 metadata contract'i ilma faile käsitsi muutmata ning `--plan-json` väljundiga salvestada ready/blocked/backfill plaani enne mass re-ingest'i.
@@ -1188,7 +1189,7 @@ STATUS: active backlog
 
 1. Parandada päris vestluse kvaliteeti artikli-follow-up juhtumites: kui kasutaja küsib sama artikli kohta riike, näiteid või nimesid, peab uus otsing tekkima ja sama artikli tekstist täpsem lõik leiduma.
 2. Laiendada planner eval-fixture'it edasi päris production/problem vestluste põhjal ning siduda see hiljem retrieval tulemuse kvaliteedimõõdikuga, mitte ainult planner mode'iga.
-3. Mõõta ja häälestada lightweight `bm25` kanalit päris probleemvestluste põhjal ning otsustada, kas vaja on Postgres full-text või eraldi indeksit.
+3. Mõõta ja häälestada lightweight `bm25` kanalit päris probleemvestluste põhjal ning otsustada, kas vaja on Postgres full-text või eraldi indeksit. Esimene mõõtekiht on olemas; järgmine samm on koguda production smoke/problemvestluste näidised ja võrrelda BM25 coverage'i, lexical-only tulemusi ning valitud konteksti täpsust.
 4. Laiendada source package kvaliteedikontrolli päris KOV andmestiku põhjal: vormi ja kontakti signaalid on olemas, järgmine samm on vastuolude, katkiste URL-ide ja puudulike source package'ite ülevaatusvoog.
 5. Siduda kõrge riskiga vastuste allikariski mõõdik tulevase claim-level attribution'iga, et stale või tundmatu allikas oleks näha konkreetse väite tasemel, mitte ainult vastuse tasemel.
 6. Laiendada eeltäitmist konkreetsetesse KOV/organisatsiooni parandustöövoogudesse, kus vormivälju saab turvaliselt ette valida, näiteks URL-i, `last_checked` või source type paranduse jaoks.

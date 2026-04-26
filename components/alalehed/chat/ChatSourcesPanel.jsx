@@ -1,17 +1,42 @@
 "use client";
 
-import { memo, useCallback, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 const ChatSourcesPanel = memo(function ChatSourcesPanel({
   open,
   t,
   conversationSources,
+  latestAnswerSources,
+  allConversationSources,
   onClose,
   returnFocusRef
 }) {
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
   const prevFocusRef = useRef(null);
+  const [activeScope, setActiveScope] = useState("latest");
+  const latestSources = Array.isArray(latestAnswerSources)
+    ? latestAnswerSources
+    : Array.isArray(conversationSources)
+      ? conversationSources
+      : [];
+  const historySources = Array.isArray(allConversationSources)
+    ? allConversationSources
+    : Array.isArray(conversationSources)
+      ? conversationSources
+      : [];
+  const hasLatestSources = latestSources.length > 0;
+  const hasHistorySources = historySources.length > 0;
+  const showScopeSwitch = hasHistorySources && (
+    !hasLatestSources ||
+    latestSources.length !== historySources.length ||
+    latestSources.some((source, index) => source?.key !== historySources[index]?.key)
+  );
+  const selectedScope = activeScope === "all" ? "all" : "latest";
+  const selectedSources = selectedScope === "all" ? historySources : latestSources;
+  const emptyText = selectedScope === "latest" && hasHistorySources
+    ? t("chat.sources.latest_empty")
+    : t("chat.sources.empty");
   const getFocusables = useCallback(root => {
     if (!root) return [];
     const nodes = root.querySelectorAll(["a[href]", "area[href]", "button:not([disabled])", "input:not([disabled]):not([type='hidden'])", "select:not([disabled])", "textarea:not([disabled])", "[tabindex]:not([tabindex='-1'])"].join(","));
@@ -19,6 +44,7 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
   }, []);
   useEffect(() => {
     if (!open) return;
+    setActiveScope("latest");
     try {
       prevFocusRef.current = document.activeElement;
     } catch {}
@@ -65,6 +91,18 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
       }, 0);
     };
   }, [open, getFocusables, onClose, returnFocusRef]);
+  const scopeOptions = useMemo(() => [
+    {
+      key: "latest",
+      label: t("chat.sources.latest_scope"),
+      count: latestSources.length
+    },
+    {
+      key: "all",
+      label: t("chat.sources.all_scope"),
+      count: historySources.length
+    }
+  ], [historySources.length, latestSources.length, t]);
   if (!open || typeof document === "undefined") return null;
   const overlayClassName =
     "fixed inset-0 z-[170] flex items-center justify-center " +
@@ -89,6 +127,16 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
     "hover:-translate-y-[1px] active:translate-y-[1px] focus-visible:outline-none light:text-[#7a3a38]";
   const bodyClassName =
     "min-h-0 flex-1 overflow-y-auto px-[0.75rem] pb-[0.85rem] pt-[0.18rem]";
+  const scopeClassName =
+    "mb-[0.65rem] flex rounded-[0.5rem] bg-[color:var(--chat-tools-item-hover-bg,rgba(255,255,255,0.10))] p-[0.18rem]";
+  const scopeButtonBaseClassName =
+    "min-w-0 flex-1 rounded-[0.38rem] border-0 px-[0.55rem] py-[0.45rem] text-[0.82rem] " +
+    "font-[600] leading-[1.15] transition-colors duration-150 focus-visible:outline-none " +
+    "focus-visible:ring-2 focus-visible:ring-[color:var(--brand-primary,#93c5fd)]";
+  const scopeButtonActiveClassName =
+    "bg-[color:var(--chat-tools-item-active-bg,rgba(255,255,255,0.22))] text-[color:var(--opaque-panel-text,var(--pt-100))]";
+  const scopeButtonInactiveClassName =
+    "bg-transparent text-[color:var(--opaque-panel-text,var(--pt-100))] opacity-70 hover:opacity-100";
   const emptyClassName = "m-0 text-[0.94rem] opacity-80";
   const listClassName = "m-0 list-decimal pl-[1.25rem]";
   const itemClassName =
@@ -127,13 +175,33 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
         </div>
 
         <div className={bodyClassName}>
-          {conversationSources.length === 0 ? (
+          {showScopeSwitch ? (
+            <div className={scopeClassName} role="tablist" aria-label={t("chat.sources.scope_label")}>
+              {scopeOptions.map(option => {
+                const isActive = selectedScope === option.key;
+                return (
+                  <button
+                    key={option.key}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive ? "true" : "false"}
+                    className={`${scopeButtonBaseClassName} ${isActive ? scopeButtonActiveClassName : scopeButtonInactiveClassName}`}
+                    onClick={() => setActiveScope(option.key)}
+                  >
+                    {option.label} ({option.count})
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
+
+          {selectedSources.length === 0 ? (
             <p className={emptyClassName}>
-              {t("chat.sources.empty")}
+              {emptyText}
             </p>
           ) : (
             <ol className={listClassName}>
-              {conversationSources.map((src, idx) => {
+              {selectedSources.map((src, idx) => {
                 const pageText = String(src.pageText || "").trim();
                 const showPageText =
                   pageText &&

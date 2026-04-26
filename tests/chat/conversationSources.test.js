@@ -82,6 +82,52 @@ test("source panel collectors keep known RAG source types without urls", () => {
   ]);
 });
 
+test("source panel collectors separate latest answer from whole conversation", () => {
+  const messages = [
+    {
+      role: "user",
+      text: "Mida räägib AI artikkel?"
+    },
+    {
+      role: "assistant",
+      text: "Artikkel räägib tehisintellekti kasutamisest sotsiaaltöös.",
+      displayed_sources: [
+        {
+          source_id: "ai-article",
+          title: "Tehisintellekt sotsiaaltöös",
+          source_type: "journal_article"
+        }
+      ]
+    },
+    {
+      role: "user",
+      text: "Kuidas Jõgeva vallas koduteenust taotleda?"
+    },
+    {
+      role: "assistant",
+      text: "Koduteenust saab taotleda sotsiaalabi taotluse blanketil.",
+      displayed_sources: [
+        {
+          source_id: "jogeva-koduteenus",
+          title: "Koduteenus",
+          source_type: "kov_service_info"
+        }
+      ]
+    }
+  ];
+
+  const conversationSources = collectConversationSources(messages);
+  const latestSources = collectLatestAnswerSources(messages);
+
+  assert.deepEqual(conversationSources.map(source => source.key), [
+    "ai-article",
+    "jogeva-koduteenus"
+  ]);
+  assert.deepEqual(latestSources.map(source => source.key), [
+    "jogeva-koduteenus"
+  ]);
+});
+
 test("source panel collectors still exclude uploaded document sources", () => {
   const messages = [
     {

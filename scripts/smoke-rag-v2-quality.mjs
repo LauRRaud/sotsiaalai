@@ -305,6 +305,9 @@ function assertChatV2Payload(payload) {
   assertObject(trace.query_plan, "rag_trace.query_plan missing");
   assertObject(trace.hybrid_retrieval, "rag_trace.hybrid_retrieval missing");
   assertObject(trace.hybrid_retrieval.channel_counts, "rag_trace.hybrid_retrieval.channel_counts missing");
+  if (trace.retrievers_used.includes("bm25")) {
+    assertObject(trace.hybrid_retrieval.bm25, "rag_trace.hybrid_retrieval.bm25 missing while bm25 retriever was used");
+  }
 
   const riskLevel = firstValue(trace.rag_risk_level, trace.risk_level, trace.riskLevel);
   const requiredEvidence = firstValue(trace.rag_required_evidence, trace.required_evidence, trace.requiredEvidence);
@@ -315,6 +318,7 @@ function assertChatV2Payload(payload) {
     retrieversUsed: trace.retrievers_used,
     hybridMergeStrategy: trace.hybrid_retrieval?.merge_strategy?.strategy || null,
     hybridChannelCounts: trace.hybrid_retrieval?.channel_counts || {},
+    hybridBm25: trace.hybrid_retrieval?.bm25 || null,
     riskLevel,
     requiredEvidence
   };

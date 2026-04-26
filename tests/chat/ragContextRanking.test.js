@@ -108,6 +108,10 @@ test("groupMatches preserves hybrid retrieval score components for trace", () =>
       dense_score: 0.41,
       lexical_score: 6.2,
       lexical_score_normalized: 0.43662,
+      bm25_score: 2.4,
+      bm25_coverage: 0.75,
+      bm25_matches: 3,
+      bm25_query_tokens: 4,
       rrf_score: 0.04,
       channel_boost: 0.14,
       hybrid_rank: 1,
@@ -124,6 +128,10 @@ test("groupMatches preserves hybrid retrieval score components for trace", () =>
   assert.equal(groups[0].denseScore, 0.41);
   assert.equal(groups[0].lexicalScore, 6.2);
   assert.equal(groups[0].lexicalScoreNormalized, 0.43662);
+  assert.equal(groups[0].bm25Score, 2.4);
+  assert.equal(groups[0].bm25Coverage, 0.75);
+  assert.equal(groups[0].bm25Matches, 3);
+  assert.equal(groups[0].bm25QueryTokens, 4);
   assert.equal(groups[0].rrfScore, 0.04);
   assert.equal(groups[0].channelBoost, 0.14);
   assert.equal(groups[0].hybridRank, 1);

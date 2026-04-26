@@ -823,7 +823,10 @@ export default function ChatBody({
   }, [renderLimitStorageKey, visibleMessages.length]);
   const {
     conversationSources,
+    latestAnswerSources,
+    allConversationSources,
     hasConversationSources,
+    hasAllConversationSources,
     sourcesPulse
   } = useConversationSources({
     messages,
@@ -2001,7 +2004,10 @@ export default function ChatBody({
       showSourcesPanel={showSourcesPanel}
       sourcesPulse={sourcesPulse}
       conversationSources={conversationSources}
+      latestAnswerSources={latestAnswerSources}
+      allConversationSources={allConversationSources}
       hasConversationSources={hasConversationSources}
+      hasAllConversationSources={hasAllConversationSources}
       leftRailActiveKey={activeListingsPanel?.side === "left" ? activeListingsPanel.key : ""}
       rightRailActiveKey={activeListingsPanel?.side === "right" ? activeListingsPanel.key : ""}
       onShowHelpRequests={openGlobalRequestsPanel}

@@ -7,6 +7,7 @@ import os
 import re
 import hashlib
 import ipaddress
+import math
 import socket
 import unicodedata
 from io import BytesIO
@@ -87,6 +88,10 @@ RAG_LEXICAL_SEARCH_ENABLED = os.getenv("RAG_LEXICAL_SEARCH_ENABLED", "1").strip(
 RAG_LEXICAL_SCAN_LIMIT = int(os.getenv("RAG_LEXICAL_SCAN_LIMIT", "2000"))
 RAG_LEXICAL_TOP_K = int(os.getenv("RAG_LEXICAL_TOP_K", "20"))
 RAG_BM25_MIN_COVERAGE = float(os.getenv("RAG_BM25_MIN_COVERAGE", "0.35"))
+RAG_BM25_TITLE_WEIGHT = float(os.getenv("RAG_BM25_TITLE_WEIGHT", "1.8"))
+RAG_BM25_BODY_WEIGHT = float(os.getenv("RAG_BM25_BODY_WEIGHT", "1.0"))
+RAG_BM25_TITLE_K = float(os.getenv("RAG_BM25_TITLE_K", "0.8"))
+RAG_BM25_BODY_K = float(os.getenv("RAG_BM25_BODY_K", "1.5"))
 RAG_RRF_K = int(os.getenv("RAG_RRF_K", "60"))
 HYBRID_CHANNEL_WEIGHTS = {
     "dense": 1.0,
@@ -2289,6 +2294,11 @@ def _lexical_match(query: str, md: Dict, document: str) -> Optional[Dict[str, ob
     body_tokens = set(body_counts.keys())
     channels: List[str] = []
     score = 0.0
+    bm25_score = 0.0
+    bm25_matches = 0
+    bm25_title_matches = 0
+    bm25_body_matches = 0
+    bm25_coverage = 0.0
 
     full_query = phrases[0] if phrases else _normalize_search_text(query)
     if full_query and title_norm:
@@ -2319,8 +2329,6 @@ def _lexical_match(query: str, md: Dict, document: str) -> Optional[Dict[str, ob
         if title_overlap >= max(1, min(3, len(query_tokens))):
             if "title_match" not in channels:
                 channels.append("title_match")
-        bm25_score = 0.0
-        bm25_matches = 0
         for token in query_tokens:
             title_freq = title_counts.get(token, 0)
             body_freq = body_counts.get(token, 0)
@@ -2328,9 +2336,11 @@ def _lexical_match(query: str, md: Dict, document: str) -> Optional[Dict[str, ob
                 continue
             bm25_matches += 1
             if title_freq:
-                bm25_score += 1.8 * (title_freq / (title_freq + 0.8))
+                bm25_title_matches += 1
+                bm25_score += RAG_BM25_TITLE_WEIGHT * (title_freq / (title_freq + RAG_BM25_TITLE_K))
             if body_freq:
-                bm25_score += 1.0 * (body_freq / (body_freq + 1.5))
+                bm25_body_matches += 1
+                bm25_score += RAG_BM25_BODY_WEIGHT * (body_freq / (body_freq + RAG_BM25_BODY_K))
         bm25_coverage = bm25_matches / max(1, len(query_tokens))
         if bm25_matches and (
             bm25_coverage >= RAG_BM25_MIN_COVERAGE
@@ -2345,6 +2355,12 @@ def _lexical_match(query: str, md: Dict, document: str) -> Optional[Dict[str, ob
     return {
         "score": round(score, 4),
         "channels": channels,
+        "bm25_score": round(bm25_score, 4) if query_tokens else None,
+        "bm25_matches": bm25_matches if query_tokens else None,
+        "bm25_title_matches": bm25_title_matches if query_tokens else None,
+        "bm25_body_matches": bm25_body_matches if query_tokens else None,
+        "bm25_coverage": round(bm25_coverage, 6) if query_tokens else None,
+        "bm25_query_tokens": len(query_tokens) if query_tokens else None,
     }
 
 def _append_channels(result: Dict, channels: List[str]) -> None:
@@ -2377,6 +2393,7 @@ def _search_result_from_metadata(
     channels: Optional[List[str]] = None,
     rank: Optional[int] = None,
     lexical_score: Optional[float] = None,
+    lexical_details: Optional[Dict[str, object]] = None,
 ) -> Dict[str, object]:
     source_path = md.get("source_path")
     file_name = None
@@ -2398,6 +2415,12 @@ def _search_result_from_metadata(
         "retrieval_channels": retrieval_channels,
         "retrieval_rank": rank,
         "lexical_score": lexical_score,
+        "bm25_score": lexical_details.get("bm25_score") if isinstance(lexical_details, dict) else None,
+        "bm25_coverage": lexical_details.get("bm25_coverage") if isinstance(lexical_details, dict) else None,
+        "bm25_matches": lexical_details.get("bm25_matches") if isinstance(lexical_details, dict) else None,
+        "bm25_title_matches": lexical_details.get("bm25_title_matches") if isinstance(lexical_details, dict) else None,
+        "bm25_body_matches": lexical_details.get("bm25_body_matches") if isinstance(lexical_details, dict) else None,
+        "bm25_query_tokens": lexical_details.get("bm25_query_tokens") if isinstance(lexical_details, dict) else None,
         "doc_id": md.get("doc_id") or md.get("docId"),
         "docId": md.get("docId") or md.get("doc_id"),
         "chunk_id": md.get("chunk_id") or md.get("chunkId"),
@@ -2538,6 +2561,10 @@ def _apply_hybrid_ranking(results: List[Dict[str, object]]) -> None:
             "dense_score": item.get("dense_score"),
             "lexical_score_raw": item.get("lexical_score"),
             "lexical_score_normalized": item.get("lexical_score_normalized"),
+            "bm25_score": item.get("bm25_score"),
+            "bm25_coverage": item.get("bm25_coverage"),
+            "bm25_matches": item.get("bm25_matches"),
+            "bm25_query_tokens": item.get("bm25_query_tokens"),
             "rrf_score": item.get("rrf_score"),
             "channel_boost": item.get("channel_boost"),
             "hybrid_score": item.get("hybrid_score"),
@@ -2569,14 +2596,51 @@ def _build_hybrid_merge_strategy(requested_retrievers: List[str]) -> Dict[str, o
         "requested_retrievers": requested_retrievers,
         "channel_weights": HYBRID_CHANNEL_WEIGHTS,
         "channel_boosts": HYBRID_CHANNEL_BOOSTS,
+        "bm25_config": {
+            "min_coverage": RAG_BM25_MIN_COVERAGE,
+            "title_weight": RAG_BM25_TITLE_WEIGHT,
+            "body_weight": RAG_BM25_BODY_WEIGHT,
+            "title_k": RAG_BM25_TITLE_K,
+            "body_k": RAG_BM25_BODY_K,
+        },
         "score_formula": "dense_score*0.58 + lexical_score*0.34 + rrf_score*8.0 + channel_boost",
     }
 
 def _build_channel_stats(results: List[Dict[str, object]]) -> Dict[str, object]:
     channel_counts: Dict[str, int] = {}
     top_channels: List[str] = []
+    bm25_scores: List[float] = []
+    bm25_coverages: List[float] = []
+    bm25_only_count = 0
+    lexical_only_count = 0
+    dense_only_count = 0
+    dense_and_lexical_count = 0
     for item in results:
         channels = item.get("retrieval_channels") if isinstance(item.get("retrieval_channels"), list) else []
+        channel_set = {str(channel or "").strip() for channel in channels if str(channel or "").strip()}
+        has_dense = "dense" in channel_set
+        has_lexical = any(channel in channel_set for channel in ["title_match", "exact_phrase", "bm25"])
+        if has_dense and not has_lexical:
+            dense_only_count += 1
+        elif has_lexical and not has_dense:
+            lexical_only_count += 1
+        elif has_dense and has_lexical:
+            dense_and_lexical_count += 1
+        if channel_set == {"bm25"}:
+            bm25_only_count += 1
+        if "bm25" in channel_set:
+            try:
+                bm25_score = float(item.get("bm25_score"))
+                if math.isfinite(bm25_score):
+                    bm25_scores.append(bm25_score)
+            except Exception:
+                pass
+            try:
+                bm25_coverage = float(item.get("bm25_coverage"))
+                if math.isfinite(bm25_coverage):
+                    bm25_coverages.append(bm25_coverage)
+            except Exception:
+                pass
         for channel in channels:
             cleaned = str(channel or "").strip()
             if not cleaned:
@@ -2584,11 +2648,24 @@ def _build_channel_stats(results: List[Dict[str, object]]) -> Dict[str, object]:
             channel_counts[cleaned] = channel_counts.get(cleaned, 0) + 1
             if cleaned not in top_channels and len(top_channels) < 8:
                 top_channels.append(cleaned)
+    bm25_summary = {
+        "result_count": channel_counts.get("bm25", 0),
+        "only_count": bm25_only_count,
+        "average_score": round(sum(bm25_scores) / len(bm25_scores), 6) if bm25_scores else None,
+        "top_score": round(max(bm25_scores), 6) if bm25_scores else None,
+        "average_coverage": round(sum(bm25_coverages) / len(bm25_coverages), 6) if bm25_coverages else None,
+        "min_coverage": round(min(bm25_coverages), 6) if bm25_coverages else None,
+        "low_coverage_count": sum(1 for value in bm25_coverages if value < max(0.0, RAG_BM25_MIN_COVERAGE)),
+    }
     return {
         "result_count": len(results),
         "channel_counts": channel_counts,
         "top_channels": top_channels,
         "hybrid_ranked_count": sum(1 for item in results if _to_int(item.get("hybrid_rank"))),
+        "dense_only_count": dense_only_count,
+        "lexical_only_count": lexical_only_count,
+        "dense_and_lexical_count": dense_and_lexical_count,
+        "bm25": bm25_summary,
     }
 
 def _fetch_lexical_candidates(
@@ -2629,6 +2706,12 @@ def _fetch_lexical_candidates(
             "metadata": md,
             "score": float(match["score"]),
             "channels": channels,
+            "bm25_score": match.get("bm25_score"),
+            "bm25_coverage": match.get("bm25_coverage"),
+            "bm25_matches": match.get("bm25_matches"),
+            "bm25_title_matches": match.get("bm25_title_matches"),
+            "bm25_body_matches": match.get("bm25_body_matches"),
+            "bm25_query_tokens": match.get("bm25_query_tokens"),
         })
 
     scored.sort(key=lambda item: float(item.get("score") or 0), reverse=True)
@@ -4017,6 +4100,16 @@ def search(payload: SearchIn, request: Request):
             _append_channels(existing, channels)
             existing["lexical_score"] = candidate.get("score")
             existing["lexical_rank"] = rank
+            for detail_key in [
+                "bm25_score",
+                "bm25_coverage",
+                "bm25_matches",
+                "bm25_title_matches",
+                "bm25_body_matches",
+                "bm25_query_tokens",
+            ]:
+                if candidate.get(detail_key) is not None:
+                    existing[detail_key] = candidate.get(detail_key)
             continue
         lexical_result = _search_result_from_metadata(
             item_id=item_id,
@@ -4026,6 +4119,7 @@ def search(payload: SearchIn, request: Request):
             channels=channels,
             rank=rank,
             lexical_score=float(candidate.get("score") or 0),
+            lexical_details=candidate,
         )
         lexical_result["lexical_rank"] = rank
         flat_by_id[item_id] = lexical_result

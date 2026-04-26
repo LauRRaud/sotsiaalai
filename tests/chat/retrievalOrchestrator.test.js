@@ -103,7 +103,17 @@ test("searchRagQueries sends hybrid retriever request and preserves returned cha
               title_match: 1,
               bm25: 1
             },
-            top_channels: ["dense", "title_match", "bm25"]
+            top_channels: ["dense", "title_match", "bm25"],
+            dense_only_count: 0,
+            lexical_only_count: 0,
+            dense_and_lexical_count: 1,
+            bm25: {
+              result_count: 1,
+              only_count: 0,
+              average_score: 2.4,
+              top_score: 2.4,
+              average_coverage: 0.75
+            }
           },
           results: [
             {
@@ -112,6 +122,10 @@ test("searchRagQueries sends hybrid retriever request and preserves returned cha
               text: "Koduteenuse taotlemine Tartus.",
               retrieval_channels: ["dense", "title_match", "bm25"],
               hybrid_score: 0.82,
+              bm25_score: 2.4,
+              bm25_coverage: 0.75,
+              bm25_matches: 3,
+              bm25_query_tokens: 4,
               rrf_score: 0.04,
               retrieval_scores: {
                 hybrid_score: 0.82,
@@ -139,6 +153,9 @@ test("searchRagQueries sends hybrid retriever request and preserves returned cha
     assert.equal(results[0].search_strategy, "hybrid");
     assert.equal(results[0].retrieval_merge_strategy.strategy, "weighted_hybrid_rrf");
     assert.equal(results[0].retrieval_channel_stats.channel_counts.title_match, 1);
+    assert.equal(results[0].retrieval_channel_stats.bm25.average_coverage, 0.75);
+    assert.equal(results[0].bm25_score, 2.4);
+    assert.equal(results[0].bm25_coverage, 0.75);
     assert.equal(results[0].retrieval_scores.dense_rank, 1);
     assert.deepEqual(inferRetrieversUsed(results), ["dense", "title_match", "bm25"]);
   } finally {
