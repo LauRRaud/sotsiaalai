@@ -2156,6 +2156,20 @@ def _compose_chroma_where(filters: Dict[str, object]) -> Optional[Dict[str, obje
         return cleaned[0]
     return {"$and": cleaned}
 
+def _copy_string_metadata_filter(source: Dict[str, object], target: Dict[str, object], input_key: str, metadata_key: str) -> None:
+    if input_key not in source:
+        return
+    value = source.get(input_key)
+    if isinstance(value, dict) and "$in" in value:
+        cleaned = [str(v).strip() for v in list(value.get("$in") or []) if str(v).strip()]
+        if cleaned:
+            target[metadata_key] = {"$in": cleaned}
+        return
+    if isinstance(value, str):
+        cleaned = value.strip()
+        if cleaned:
+            target[metadata_key] = cleaned
+
 LEXICAL_STOPWORDS = {
     "aga",
     "and",
@@ -3547,6 +3561,12 @@ def search(payload: SearchIn, request: Request):
                     md_where["doc_id"] = {"$in": cleaned_doc_ids}
             elif isinstance(doc_id_filter, str):
                 md_where["doc_id"] = doc_id_filter
+        _copy_string_metadata_filter(payload.where, md_where, "document_id", "document_id")
+        _copy_string_metadata_filter(payload.where, md_where, "documentId", "document_id")
+        _copy_string_metadata_filter(payload.where, md_where, "source_id", "source_id")
+        _copy_string_metadata_filter(payload.where, md_where, "sourceId", "source_id")
+        _copy_string_metadata_filter(payload.where, md_where, "canonical_item_id", "canonical_item_id")
+        _copy_string_metadata_filter(payload.where, md_where, "canonicalItemId", "canonical_item_id")
         if "authors" in payload.where:
             md_where["authors"] = payload.where["authors"]
         if "tags" in payload.where:

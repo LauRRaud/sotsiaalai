@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { groupMatches, rankGroupsWithTopicHints, renderOneContextBlock } from "../../lib/chat/ragContext.js";
+import { groupMatches, rankGroupsWithTopicHints, renderOneContextBlock, selectMultiSourceGroups } from "../../lib/chat/ragContext.js";
 
 test("topic hints outrank generic high-scoring noise for named concept questions", () => {
   const ranked = rankGroupsWithTopicHints([
@@ -206,4 +206,36 @@ test("low-risk ranking can still prefer methodology and practice background", ()
   });
 
   assert.equal(ranked[0].key, "methodology");
+});
+
+test("selectMultiSourceGroups prefers distinct source identities for synthesis", () => {
+  const selected = selectMultiSourceGroups([
+    {
+      key: "a-1",
+      docId: "article-a",
+      title: "Article A",
+      bestScore: 0.9,
+      rankScore: 0.9,
+      __sig: "article a tehisintellekt"
+    },
+    {
+      key: "a-2",
+      docId: "article-a",
+      title: "Article A",
+      bestScore: 0.85,
+      rankScore: 0.85,
+      __sig: "article a tehisintellekt teine"
+    },
+    {
+      key: "b-1",
+      docId: "article-b",
+      title: "Article B",
+      bestScore: 0.7,
+      rankScore: 0.7,
+      __sig: "article b tehisintellekt"
+    }
+  ], 2, 0.8);
+
+  assert.equal(selected.length, 2);
+  assert.deepEqual(selected.map(item => item.docId), ["article-a", "article-b"]);
 });

@@ -42,6 +42,10 @@ test("non-stream response exposes displayed_sources separately from legacy sourc
     reply: "Vastus",
     sources: retrieved,
     displayedSources: displayed,
+    ragContract: {
+      rag_contract_version: "v1",
+      source_display_mode: "displayed_sources_enforced"
+    },
     ragTrace,
     attributionDecisions: [{ source_id: "used", decision: "display", reason: "reply_overlap_validated" }]
   });
@@ -51,6 +55,8 @@ test("non-stream response exposes displayed_sources separately from legacy sourc
   assert.equal(payload.sources.length, 2);
   assert.equal(payload.displayed_sources.length, 1);
   assert.equal(payload.displayed_sources[0].source_id, "used");
+  assert.equal(payload.rag_contract_version, "v1");
+  assert.equal(payload.source_display_mode, "displayed_sources_enforced");
   assert.deepEqual(payload.rag_trace.displayed_source_ids, ["used"]);
   assert.equal(payload.attribution_decisions.length, 1);
 });
@@ -63,6 +69,10 @@ test("stream response includes displayed_sources in meta and done events", async
     reply: "Vastus",
     sources: retrieved,
     displayedSources: displayed,
+    ragContract: {
+      rag_contract_version: "v1",
+      source_display_mode: "displayed_sources_enforced"
+    },
     ragTrace: {
       retrieved_count: 2,
       selected_context_count: 2,
@@ -78,7 +88,11 @@ test("stream response includes displayed_sources in meta and done events", async
   assert.equal(meta.sources.length, 2);
   assert.equal(meta.displayed_sources.length, 1);
   assert.equal(meta.displayed_sources[0].source_id, "used");
+  assert.equal(meta.rag_contract_version, "v1");
+  assert.equal(meta.source_display_mode, "displayed_sources_enforced");
   assert.equal(done.sources.length, 2);
   assert.equal(done.displayed_sources.length, 1);
   assert.equal(done.displayed_sources[0].source_id, "used");
+  assert.equal(done.rag_contract_version, "v1");
+  assert.equal(done.source_display_mode, "displayed_sources_enforced");
 });

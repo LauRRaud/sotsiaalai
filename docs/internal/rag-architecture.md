@@ -914,6 +914,136 @@ V2 mõõdikud:
 - `unsupported_claim_rate`;
 - `insufficient_evidence_correctness`.
 
+## Arenduse Seis 2026-04-26
+
+See plokk kirjeldab hetkeseisu lokaalses arenduses. Serveri production-seis võib erineda, kuni muudatused on deploy'tud.
+
+### V1 Praktiliselt Tehtud
+
+- Golden set ja RAG regressioonitestid on olemas ning neid kasutatakse muudatuste kontrolliks.
+- `displayed_sources`, `displayed_source_ids`, `attribution_decisions` ja `rag_trace` liiguvad backend response'i ja message metadata kaudu.
+- Allikapaneeli loogika eelistab backendist tulnud kinnitatud `displayed_sources` andmeid, mitte ei kogu pimesi kõiki legacy `sources` allikaid.
+- `sourceAttribution.js` tagastab kuvamise/peitmise otsused koos põhjustega.
+- Streaming ja non-streaming vastuste jaoks on testid, mis kontrollivad `displayed_sources` metadata liikumist.
+- RAG trace eristab retrieved, selected context, answer ja displayed source kihte.
+- Legacy `sources` loogika jääb ühilduvuseks alles, aga uus rada on `displayed_sources` ja `rag_trace`.
+- Uued RAG metadata objektid märgivad `rag_contract_version: "v1"` ja `source_display_mode`, et legacy ja V1 allikaloogika oleks hiljem eristatav.
+- `rag_trace.selected_context_details` sanitiseeritakse lubatud tehniliste väljadeni; trace ei kopeeri täit prompti, kasutaja teksti, model context'i ega tõendilõikude sisu.
+- Attribution decision reason'id on koondatud standardseks taksonoomiaks ja testiga kontrollitud.
+
+### V2 Osaliselt Tehtud
+
+- RAG service tagastab ja märgistab retrieval kanalid, sh `dense`, `title_match` ja `exact_phrase`.
+- Vastete küljes liigub `retrieval_channels`; trace'is liigub `retrievers_used`.
+- Riskipoliitika klassifitseerib küsimused `low`, `medium` ja `high` tasemele.
+- Riskitase ja nõutav tõendus liiguvad `rag_trace` sisse.
+- Ranking kasutab olemasolevat metadata't: `source_type`, `source_status`, `historical`, `retrieval_channels`, pealkirja- ja fraasikattuvust.
+- Kõrge riskiga vastustes ei kuvata nõrka taustaallikat tugeva tõendusena.
+- Lühikesed artikli järelküsimused, näiteks "Eesti", "Soome" või "OTT", ankurdatakse hiljutise assistendi allika külge.
+- Sama allika järelküsimuses kasutatakse esmalt `doc_id`, `source_id` või `canonical_item_id` põhist filtrit ning seejärel fallback otsingut.
+- Laiade võrdlus- ja sünteesiküsimuste puhul ei lukustata otsingut ainult eelmise artikli külge; broad query jookseb esimesena ja source-focused query jääb toetavaks.
+- Multi-source selection eelistab laia sünteesi puhul eri allikaidentiteete, mitte sama dokumendi korduvaid chunk'e.
+- Query Planner V2 on eraldi moodulis `lib/chat/queryPlanner.js` ja tagastab standardse plaani: päringud, filtrid, topK, selection strategy, context group target ja trace'i `query_plan`.
+- `query_plan` liigub `rag_trace` sisse, et hiljem oleks näha, miks valiti `source_focused_followup`, `broad_multi_source`, `temporal`, `municipality_service_benefit_list` või muu planner mode.
+- Admin analytics sündmuste real kuvatakse `query_plan` detailid: planner mode, query order, selection strategy, query count ja `rag_top_k`.
+- Admin analytics 30 päeva kokkuvõttes arvutatakse Query Planner mode, query order ja selection strategy jaotused.
+- Query Planner V2 esimene eval-fixture on olemas: see kontrollib artikli järelküsimust, laia võrdlust, KOV teenuseid/toetusi, national scope'i, teenuse tasandi liigitust, temporal päringut, source lookup'i ja default low-risk päringut.
+
+### Viimati Kontrollitud Testid
+
+Viimane lokaalne kontroll:
+
+```text
+chat/RAG regressioonipakk: 66/66 passed
+```
+
+See ei asenda serveri smoke testi pärast deploy'd. Productionis tuleb eraldi kontrollida RAG service health'i, chat endpointi, allikapaneeli ja vähemalt üht päris vestluse artikli-follow-up juhtumit.
+
+### V1.2 Production Smoke
+
+V1.2 lisab production smoke skripti:
+
+```text
+npm run rag:smoke:v1
+```
+
+Skript: `scripts/smoke-rag-v1-contract.mjs`.
+
+Käivitamiseks productioni vastu:
+
+```text
+SOTSIAALAI_SMOKE_BASE_URL=https://sotsiaal.ai
+SOTSIAALAI_SMOKE_COOKIE="next-auth.session-token=..."
+npm run rag:smoke:v1
+```
+
+Vajadusel saab kasutada bearer tokenit:
+
+```text
+SOTSIAALAI_SMOKE_BEARER="..."
+npm run rag:smoke:v1
+```
+
+Streamingu kontrollimiseks:
+
+```text
+npm run rag:smoke:v1 -- --stream
+```
+
+Smoke kontrollib vähemalt:
+
+- `/api/chat` health GET vastab;
+- `/api/chat` RAG päring vastab edukalt;
+- vastuses on `sources` ja `displayed_sources`;
+- `displayed_sources.length <= sources.length`;
+- RAG vastuses on `rag_contract_version: "v1"`;
+- RAG vastuses on `source_display_mode`;
+- RAG vastuses on `rag_trace`;
+- `rag_trace.displayed_source_ids` sisaldab kuvatud allikaid;
+- `rag_trace` ei sisalda täit kasutaja sõnumit, prompti, model context'i ega pikki tõendilõike.
+
+Pärast V1.2 võib V1 lugeda arenduslikult lõpetatuks ning hoida seda maintenance/hardening režiimis. Uus RAG kvaliteediarendus liigub V2 alla.
+
+## Järgmised Plaanitavad Tööd
+
+### V2 Järgmine Praktiline Skoop
+
+1. Parandada päris vestluse kvaliteeti artikli-follow-up juhtumites: kui kasutaja küsib sama artikli kohta riike, näiteid või nimesid, peab uus otsing tekkima ja sama artikli tekstist täpsem lõik leiduma.
+2. Laiendada planner eval-fixture'it päris probleemvestluste põhjal, mitte ainult sünteetiliste juhtumitega.
+3. Lisada BM25 või Postgres full-text kanal `title_match` ja `exact_phrase` kõrvale.
+4. Lisada RRF või weighted merge loogika, et dense, exact/title ja tulevane BM25 ei oleks lihtsalt juhuslikult kokku kleebitud.
+5. Teha KOV, ajakirja, organisatsiooni ja Riigi Teataja ingest'i metadata validation rangemaks.
+6. Lisada admin quality queue esimene versioon: puuduv metadata, vana `last_checked`, katkine URL, ametliku vormi puudumine, kontakt ilma ametliku allikata.
+7. Lisada source freshness audit: millised allikad vajavad ülevaatust enne, kui neid tohib kasutada kehtiva info tõendusena.
+
+### KOV Ja Muude Materjalide Meta Enne Mass-Ingesti
+
+KOV materjale ei ole veel suures mahus andmebaasi laetud. Enne seda tuleb lõplikult fikseerida metadata profiilid vähemalt nendele allikatüüpidele:
+
+- ajakirja Sotsiaaltöö artiklid;
+- KOV kodulehe teenuse- ja toetuselehed;
+- KOV vormid ja e-teenuse lingid;
+- KOV ametlikud kontaktilehed;
+- KOV Riigi Teataja määrused;
+- riiklikud õigusaktid ja juhised;
+- organisatsioonide materjalid;
+- metoodika- ja kvaliteedijuhised;
+- ajaloolised projektikirjeldused ja praktikalood.
+
+Iga profiil peab map'ima ühisele RAG source contract'ile: `source_id`, `document_id`, `chunk_id`, `source_type`, `authority`, `audience`, `language`, `municipality_id`, `canonical_item_id`, `last_checked`, `valid_from`, `valid_to`, `historical`, `source_status`, `content_hash`.
+
+### V3 Planeeritav Skoop
+
+V3 ei ole järgmine väike refaktor, vaid küpse teadmussüsteemi kiht.
+
+- Source Package muutub runtime objektist püsivaks või poolpüsivaks andmemudeliks.
+- KOV teenus, toetus, vorm ja kontakt muutuvad canonical item'iteks, mitte ainult otsingutulemusteks.
+- Claim-level attribution seob olulised väited konkreetsete allikate ja lõikudega.
+- Mudelipõhine või tugevam reeglipõhine reranker hindab mitte ainult sarnasust, vaid tõendusväärtust.
+- Admin töövoog võimaldab kinnitada, arhiveerida, märkida vastuolusid ja määrata, kas allikas sobib ainult taustaks või ka tõenduseks.
+- Suurem regressioonikomplekt kasvab 100-300 küsimuseni.
+- Kui trace näitab, et Chroma/olemasolev otsingukiht jääb kitsaks, kaaluda Qdrantit või muud hübriidotsingut paremini toetavat lahendust.
+
 ## Data Contracts
 
 Pipeline'is liikuvad põhiobjektid peavad olema eristatavad:
@@ -1193,7 +1323,8 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 ### RAG Vajaduse Tuvastus, Otsing Ja Kontekst
 
 - `lib/chat/sourceNeed.js` - otsustab, kas pöörde jaoks on vaja väliseid allikaid/RAG-i.
-- `lib/chat/retrievalContextAssembler.js` - RAG pipeline'i keskne koostaja: päringud, filtrid, otsing, grupid, kontekst, allikad.
+- `lib/chat/retrievalContextAssembler.js` - RAG pipeline'i keskne koostaja: võtab planneri otsuse, käivitab otsingu, koostab konteksti ja allikad.
+- `lib/chat/queryPlanner.js` - Query Planner V2: koostab RAG päringud, filtrid, topK, selection strategy, context group target ja `query_plan` trace'i.
 - `lib/chat/retrievalOrchestrator.js` - RAG päringu ehitus, source lookup tuvastus, RAG service `/search` kutsumine, dedupe.
 - `lib/chat/retrievalPlanning.js` - ajatelje/aastate kaupa retrieval, temporal query'd ja juhised.
 - `lib/chat/requestContext.js` - omavalitsuse, hiljutise teksti ja ajutiste dokumentide konteksti abiloogika.
@@ -1242,9 +1373,14 @@ V3 suurim tugevus ei ole see, et süsteem leiab rohkem infot, vaid see, et ta te
 
 ### Testid
 
+- `tests/chat/queryPlanner.test.js` - Query Planner V2 plaani, filtrite, broad/source-focused käitumise ja KOV laiendatud päringute testid.
+- `tests/fixtures/query-planner-v2-cases.json` - Query Planner V2 eval-fixture planner mode'ide ja filtrite regressiooniks.
 - `tests/chat/sourceNeed.test.js` - RAG vajaduse tuvastus.
+- `tests/chat/retrievalOrchestrator.test.js` - RAG päringute, follow-up source anchoring'u, hübriidkanalite ja source filter merge'i testid.
 - `tests/chat/sourceAttribution.test.js` - vastusepõhine allikafiltreerimine.
+- `tests/chat/ragTraceMetadata.test.js` - `rag_trace`, allikakihtide ja `query_plan` metadata testid.
 - `tests/chat/ragContextRanking.test.js` - teema vihjete põhine ranking.
+- `tests/chat/conversationSources.test.js` - allikapaneeli jaoks sõnumitest allikate kogumise ja `displayed_sources` eelistamise testid.
 - `tests/chat/promptStyle.test.js` - prompti stiil, tervitused ja ajakontekst.
 
 ## Esmane Analüüsisuund

@@ -56,6 +56,7 @@
     "rag:ingest:rt-national": "node scripts/ingest-national-rt-xml.mjs",
     "rag:ingest:ajakiri": "node scripts/ingest-ajakiri-sotsiaaltoo.mjs",
     "rag:hybrid:test": "node scripts/test-rag-hybrid-search.mjs",
+    "rag:smoke:v1": "node scripts/smoke-rag-v1-contract.mjs",
     "rag:reindex:documents": "node scripts/reindex-rag-documents.mjs"
   },
   "dependencies": {

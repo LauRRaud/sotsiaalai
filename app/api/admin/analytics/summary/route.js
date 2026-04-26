@@ -578,6 +578,9 @@ export async function GET(req) {
       hide: 0
     };
     const retrieverDistribution = {};
+    const queryPlannerModeDistribution = {};
+    const queryPlannerQueryOrderDistribution = {};
+    const queryPlannerSelectionStrategyDistribution = {};
 
     for (const row of ragLogs) {
       const data = row?.data || {};
@@ -617,6 +620,21 @@ export async function GET(req) {
         const key = String(retriever || "").trim();
         if (!key) continue;
         retrieverDistribution[key] = (retrieverDistribution[key] || 0) + 1;
+      }
+
+      const queryPlan = data?.query_plan && typeof data.query_plan === "object" ? data.query_plan : null;
+      const plannerMode = String(queryPlan?.mode || "").trim();
+      if (plannerMode) {
+        queryPlannerModeDistribution[plannerMode] = (queryPlannerModeDistribution[plannerMode] || 0) + 1;
+      }
+      const plannerQueryOrder = String(queryPlan?.query_order || "").trim();
+      if (plannerQueryOrder) {
+        queryPlannerQueryOrderDistribution[plannerQueryOrder] = (queryPlannerQueryOrderDistribution[plannerQueryOrder] || 0) + 1;
+      }
+      const plannerSelectionStrategy = String(queryPlan?.selection_strategy || "").trim();
+      if (plannerSelectionStrategy) {
+        queryPlannerSelectionStrategyDistribution[plannerSelectionStrategy] =
+          (queryPlannerSelectionStrategyDistribution[plannerSelectionStrategy] || 0) + 1;
       }
 
       for (const decision of Array.isArray(data.attribution_decisions) ? data.attribution_decisions : []) {
@@ -731,7 +749,10 @@ export async function GET(req) {
         avgDisplayedSourceCount,
         avgFilteredOutSourceCount,
         attributionDecisionDistribution,
-        retrieverDistribution
+        retrieverDistribution,
+        queryPlannerModeDistribution,
+        queryPlannerQueryOrderDistribution,
+        queryPlannerSelectionStrategyDistribution
       }
     });
   } catch {

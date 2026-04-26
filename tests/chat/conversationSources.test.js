@@ -2,6 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  normalizeSources
+} from "../../components/chat/utils/sources.js";
+
+import {
   collectConversationSources,
   collectLatestAnswerSources
 } from "../../components/chat/hooks/useConversationSources.js";
@@ -104,4 +108,25 @@ test("source panel collectors still exclude uploaded document sources", () => {
 
   assert.equal(conversationSources.length, 1);
   assert.equal(conversationSources[0].key, "methodology");
+});
+
+test("normalizeSources preserves source focus ids for follow-up retrieval", () => {
+  const normalized = normalizeSources([
+    {
+      source_id: "source-ai-2025",
+      doc_id: "doc-ai-2025",
+      document_id: "document-ai-2025",
+      chunk_id: "chunk-ai-001",
+      canonical_item_id: "article-ai-2025",
+      title: "Tehisintellekt sotsiaaltöös",
+      source_type: "journal_article"
+    }
+  ]);
+
+  assert.equal(normalized[0].key, "source-ai-2025");
+  assert.equal(normalized[0].source_id, "source-ai-2025");
+  assert.equal(normalized[0].doc_id, "doc-ai-2025");
+  assert.equal(normalized[0].document_id, "document-ai-2025");
+  assert.equal(normalized[0].chunk_id, "chunk-ai-001");
+  assert.equal(normalized[0].canonical_item_id, "article-ai-2025");
 });

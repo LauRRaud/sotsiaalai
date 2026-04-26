@@ -621,6 +621,37 @@ export default function AnalyticsDashboard() {
       if (typeof meta.retrieval_trace_level === "string" && meta.retrieval_trace_level) {
         parts.push(`${t("admin.analytics.meta.trace_level", "trace")}: ${meta.retrieval_trace_level}`);
       }
+      const queryPlan = meta.query_plan && typeof meta.query_plan === "object" ? meta.query_plan : null;
+      const queryPlanMode = typeof queryPlan?.mode === "string" && queryPlan.mode
+        ? queryPlan.mode
+        : typeof meta.queryPlanMode === "string" && meta.queryPlanMode
+          ? meta.queryPlanMode
+          : "";
+      const queryPlanOrder = typeof queryPlan?.query_order === "string" && queryPlan.query_order
+        ? queryPlan.query_order
+        : typeof meta.queryPlanQueryOrder === "string" && meta.queryPlanQueryOrder
+          ? meta.queryPlanQueryOrder
+          : "";
+      const queryPlanStrategy = typeof queryPlan?.selection_strategy === "string" && queryPlan.selection_strategy
+        ? queryPlan.selection_strategy
+        : typeof meta.queryPlanSelectionStrategy === "string" && meta.queryPlanSelectionStrategy
+          ? meta.queryPlanSelectionStrategy
+          : "";
+      if (queryPlanMode) {
+        parts.push(`${t("admin.analytics.meta.query_plan_mode", "planner")}: ${queryPlanMode}`);
+      }
+      if (queryPlanOrder) {
+        parts.push(`${t("admin.analytics.meta.query_plan_order", "query order")}: ${queryPlanOrder}`);
+      }
+      if (queryPlanStrategy) {
+        parts.push(`${t("admin.analytics.meta.query_plan_strategy", "selection")}: ${queryPlanStrategy}`);
+      }
+      if (typeof queryPlan?.query_count === "number") {
+        parts.push(`${t("admin.analytics.meta.query_plan_queries", "queries")}: ${formatCount(queryPlan.query_count, localeTag)}`);
+      }
+      if (typeof queryPlan?.rag_top_k === "number") {
+        parts.push(`rag_top_k: ${formatCount(queryPlan.rag_top_k, localeTag)}`);
+      }
       if (typeof meta.rag_risk_level === "string" && meta.rag_risk_level) {
         parts.push(`${t("admin.analytics.meta.rag_risk", "risk")}: ${meta.rag_risk_level}`);
       }
@@ -871,6 +902,14 @@ export default function AnalyticsDashboard() {
 
   const retrieverSummary = useMemo(
     () => joinCounts(summary?.averages?.retrieverDistribution, {}, localeTag),
+    [localeTag, summary]
+  );
+  const queryPlannerSummary = useMemo(
+    () => joinCounts(summary?.averages?.queryPlannerModeDistribution, {}, localeTag),
+    [localeTag, summary]
+  );
+  const queryPlannerStrategySummary = useMemo(
+    () => joinCounts(summary?.averages?.queryPlannerSelectionStrategyDistribution, {}, localeTag),
     [localeTag, summary]
   );
 
@@ -1782,6 +1821,16 @@ export default function AnalyticsDashboard() {
             <KpiCard
               title={t("admin.analytics.kpis.retrievers.title", "Retrievers")}
               meta={loadingSummary ? t("admin.common.loading", "Loading...") : retrieverSummary || "-"}
+            />
+            <KpiCard
+              title={t("admin.analytics.kpis.query_planner.title", "Query planner")}
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : queryPlannerSummary
+                    ? `${queryPlannerSummary}${queryPlannerStrategySummary ? ` | ${queryPlannerStrategySummary}` : ""}`
+                    : "-"
+              }
             />
           </div>
         </div>

@@ -1,7 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { buildSourceAttribution, filterSourcesForReply } from "../../lib/chat/sourceAttribution.js";
+import {
+  ALLOWED_ATTRIBUTION_DECISION_REASONS,
+  buildSourceAttribution,
+  filterSourcesForReply
+} from "../../lib/chat/sourceAttribution.js";
 
 test("keeps only sources that overlap with the direct answer", () => {
   const reply = [
@@ -117,6 +121,49 @@ test("returns attribution decisions and filtered-out source ids", () => {
     ]
   );
   assert.equal("evidenceText" in attribution.displayedSources[0], false);
+});
+
+test("uses only standardized attribution decision reasons", () => {
+  const reply = "Tartu linn koduteenus: taotlus kĆ¤ib sotsiaal- ja tervishoiuosakonna kaudu.";
+  const attribution = buildSourceAttribution(reply, [
+    {
+      id: "tartu-koduteenus",
+      title: "Tartu linn koduteenus",
+      evidenceText: "Tartu linn koduteenus taotlus kĆ¤ib sotsiaal- ja tervishoiuosakonna kaudu."
+    },
+    {
+      id: "journal-background",
+      title: "Koduteenuse areng Eestis",
+      evidenceText: "Artikkel kirjeldab koduteenuse Ć¼ldist arengut."
+    }
+  ], {
+    query: "Tartu linn koduteenus"
+  });
+
+  for (const decision of attribution.attribution_decisions) {
+    assert.equal(ALLOWED_ATTRIBUTION_DECISION_REASONS.has(decision.reason), true, decision.reason);
+  }
+});
+
+test("uses standardized insufficient evidence reason", () => {
+  const attribution = buildSourceAttribution("Hooldajatoetuse summa on artiklis mainitud.", [
+    {
+      id: "single-journal",
+      title: "Hooldajatoetuse summa",
+      source_type: "journal_article",
+      evidenceText: "Artikkel mainib hooldajatoetuse summat."
+    }
+  ], {
+    query: "hooldajatoetuse summa",
+    riskPolicy: {
+      riskLevel: "high",
+      requiredEvidence: "strong",
+      insufficientEvidenceMode: true
+    }
+  });
+
+  assert.equal(ALLOWED_ATTRIBUTION_DECISION_REASONS.has(attribution.attribution_decisions[0].reason), true);
+  assert.equal(attribution.attribution_decisions[0].reason, "insufficient_evidence_strength");
 });
 
 test("hides weak background sources for high-risk answers", () => {

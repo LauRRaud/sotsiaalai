@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 
 import {
   buildAttributionMetadata,
-  buildRagTraceFromAttribution
+  buildRagTraceFromAttribution,
+  RAG_CONTRACT_VERSION
 } from "../../lib/chat/mainResponseHandler.js";
 import { buildSourceAttribution } from "../../lib/chat/sourceAttribution.js";
 
@@ -40,13 +41,26 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
         retrieval_channels: ["dense", "title_match"],
         rank_score: 1.24,
         topic_boost: 0.18,
-        quality_adjust: 0.42
+        quality_adjust: 0.42,
+        evidence_text: "Sensitive context text must not be copied to trace.",
+        model_context: "Full model context must not be copied to trace."
       }
     ],
+    userMessage: "Client private story must not be copied to trace.",
+    modelContext: "Full RAG context must not be copied to trace.",
+    prompt: "Full prompt must not be copied to trace.",
     ragRiskPolicy: {
       riskLevel: "medium",
       requiredEvidence: "strong",
       insufficientEvidenceMode: true
+    },
+    queryPlan: {
+      planner_version: "v2",
+      mode: "broad_multi_source",
+      query_order: "broad_first",
+      selection_strategy: "multi_source_diversity",
+      query_count: 2,
+      filter_keys: ["audience", "doc_id"]
     }
   });
 
@@ -73,6 +87,18 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
   assert.equal(trace.rag_risk_level, "medium");
   assert.equal(trace.rag_required_evidence, "strong");
   assert.equal(trace.rag_insufficient_evidence_mode, true);
+  assert.equal(JSON.stringify(trace).includes("Sensitive context text"), false);
+  assert.equal(JSON.stringify(trace).includes("Client private story"), false);
+  assert.equal(JSON.stringify(trace).includes("Full RAG context"), false);
+  assert.equal(JSON.stringify(trace).includes("Full prompt"), false);
+  assert.deepEqual(trace.query_plan, {
+    planner_version: "v2",
+    mode: "broad_multi_source",
+    query_order: "broad_first",
+    selection_strategy: "multi_source_diversity",
+    query_count: 2,
+    filter_keys: ["audience", "doc_id"]
+  });
   assert.equal(trace.retrieval_trace_level, "retrieved_candidates");
 });
 
@@ -92,6 +118,8 @@ test("attribution metadata stores displayed sources and keeps legacy metadata", 
   });
 
   assert.equal(metadata.workflow, "chat");
+  assert.equal(metadata.rag_contract_version, RAG_CONTRACT_VERSION);
+  assert.equal(metadata.source_display_mode, "displayed_sources_enforced");
   assert.deepEqual(metadata.displayed_source_ids, ["tartu-koduteenus"]);
   assert.equal(metadata.displayed_sources.length, 1);
   assert.equal(metadata.displayed_sources[0].source_id, "tartu-koduteenus");

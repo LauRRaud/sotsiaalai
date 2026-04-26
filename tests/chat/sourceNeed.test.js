@@ -61,6 +61,22 @@ test("does not use RAG for a source-anchored decline", () => {
   );
 });
 
+test("uses RAG for broad comparison follow-ups when recent assistant sources exist", () => {
+  const options = {
+    hasHistory: true,
+    hasRecentAssistantSources: true
+  };
+
+  assert.equal(
+    shouldUseExternalSourcesForTurn("võrdle seda teiste artiklitega", options),
+    true
+  );
+  assert.equal(
+    shouldUseExternalSourcesForTurn("tee laiem ülevaade ajakirjas Sotsiaaltöö", options),
+    true
+  );
+});
+
 test("does not use RAG when the user asks about the source UI itself", () => {
   assert.equal(
     shouldUseExternalSourcesForTurn("Miks vastuste allikad näitab imelikult?"),
