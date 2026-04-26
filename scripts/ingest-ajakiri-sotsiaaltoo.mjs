@@ -176,6 +176,16 @@ function dateOnly(value = "") {
   return matched ? matched[0] : new Date().toISOString().slice(0, 10);
 }
 
+function isGenericLegacySourceType(value) {
+  const normalized = String(value || "").trim().toLowerCase();
+  return !normalized || ["file", "document", "pdf", "upload", "uploaded_file"].includes(normalized);
+}
+
+function normalizeArticleSourceType(value) {
+  const normalized = String(value || "").trim();
+  return isGenericLegacySourceType(normalized) ? "journal_article" : normalized;
+}
+
 function buildArticleMetadataContract(meta, item) {
   const expectedDocId = item?.expectedDocId || resolveExpectedDocId(meta).docId;
   const articleId = item?.articleId || meta?.article_id || meta?.articleId || "";
@@ -188,7 +198,7 @@ function buildArticleMetadataContract(meta, item) {
     source_id: sourceId,
     document_id: String(meta?.document_id || meta?.documentId || expectedDocId || "").trim(),
     title: String(meta?.title || "").trim(),
-    source_type: String(meta?.source_type || meta?.sourceType || "journal_article").trim(),
+    source_type: normalizeArticleSourceType(meta?.source_type || meta?.sourceType),
     legacy_source_type: String(meta?.legacy_source_type || meta?.legacySourceType || "file").trim(),
     authority: String(meta?.authority || "editorial").trim(),
     audience: meta?.audience || "BOTH",
@@ -237,7 +247,12 @@ function metadataBackfilledFields(meta, contractMetadata, options = {}) {
   ];
   const fields = [];
   for (const [fieldName, aliases] of checks) {
-    if (hasAnyMetadataValue(meta, aliases)) continue;
+    if (fieldName === "source_type") {
+      const originalSourceType = meta?.source_type || meta?.sourceType;
+      if (hasAnyMetadataValue(meta, aliases) && !isGenericLegacySourceType(originalSourceType)) continue;
+    } else if (hasAnyMetadataValue(meta, aliases)) {
+      continue;
+    }
     if (!hasMetadataValue(contractMetadata, fieldName)) continue;
     fields.push(fieldName);
   }
