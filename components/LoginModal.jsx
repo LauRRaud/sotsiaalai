@@ -1294,14 +1294,14 @@ export default function LoginModal({
     ...(isPhoneViewport && !isOtpStep
       ? {
           width: isAndroidPlatform
-            ? "min(calc(100vw - 0.36rem), calc(var(--login-core-w) + 3.34rem))"
-            : "min(calc(100vw - 0.34rem), calc(var(--login-core-w) + 3.24rem))",
+            ? "min(calc(100vw - 0.16rem), calc(var(--login-core-w) + 3.58rem))"
+            : "min(calc(100vw - 0.14rem), calc(var(--login-core-w) + 3.48rem))",
           minWidth: isAndroidPlatform
-            ? "min(calc(100vw - 0.36rem), calc(var(--login-core-w) + 3.34rem))"
-            : "min(calc(100vw - 0.34rem), calc(var(--login-core-w) + 3.24rem))",
+            ? "min(calc(100vw - 0.16rem), calc(var(--login-core-w) + 3.58rem))"
+            : "min(calc(100vw - 0.14rem), calc(var(--login-core-w) + 3.48rem))",
           maxWidth: isAndroidPlatform
-            ? "min(calc(100vw - 0.36rem), calc(var(--login-core-w) + 3.34rem))"
-            : "min(calc(100vw - 0.34rem), calc(var(--login-core-w) + 3.24rem))",
+            ? "min(calc(100vw - 0.16rem), calc(var(--login-core-w) + 3.58rem))"
+            : "min(calc(100vw - 0.14rem), calc(var(--login-core-w) + 3.48rem))",
           paddingLeft: isAndroidPlatform
             ? "clamp(1.2rem, 5.25vw, 1.6rem)"
             : "clamp(1.1rem, 4.35vw, 1.3rem)",
