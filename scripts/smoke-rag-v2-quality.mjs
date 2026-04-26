@@ -238,7 +238,13 @@ function assertAdminQualityPayload(payload) {
   assertSourceQualityPayload(payload.ragDocs.sourceQuality);
 
   const freshness = payload.ragDocs.freshness;
+  assertCondition(typeof freshness.auditSource === "string", "ragDocs.freshness.auditSource must be a string");
   assertNumber(freshness.audited, "ragDocs.freshness.audited must be a number");
+  assertNumber(freshness.ragServiceFallbackCount, "ragDocs.freshness.ragServiceFallbackCount must be a number");
+  assertCondition(
+    freshness.ragServiceFallbackError === null || typeof freshness.ragServiceFallbackError === "string",
+    "ragDocs.freshness.ragServiceFallbackError must be null or string"
+  );
   assertObject(freshness.summary, "ragDocs.freshness.summary missing");
   assertCondition(Array.isArray(freshness.issues), "ragDocs.freshness.issues must be an array");
   assertObject(freshness.highRisk, "ragDocs.freshness.highRisk missing");
@@ -327,6 +333,8 @@ async function main() {
     },
     summary: {
       audited: freshness.audited,
+      freshnessAuditSource: freshness.auditSource,
+      ragServiceFallbackCount: freshness.ragServiceFallbackCount,
       metadataCompletenessRate: freshness.summary.metadata_quality.completeness_rate,
       metadataAverageScore: freshness.summary.metadata_quality.average_score,
       metadataCollections: metadataKeys(freshness.summary.metadata_quality.by_collection),

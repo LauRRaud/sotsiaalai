@@ -98,7 +98,7 @@
       "otp_short_placeholder": "Kinnituskood",
       "remember_device": "Jäta see seade 30 päevaks meelde",
       "device_name_label": "Seadme nimi",
-      "device_name_placeholder": "Seadme nimi, nt minu telefon",
+      "device_name_placeholder": "Seadme nimi",
       "device_name_hint": "Nimi kuvatakse profiilis registreeritud seadmete loendis.",
       "otp_submit": "Kinnitan",
       "otp_submitting": "Kontrollime...",

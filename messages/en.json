@@ -94,7 +94,7 @@
       "otp_short_placeholder": "Verification code",
       "remember_device": "Remember this device for 30 days",
       "device_name_label": "Device name",
-      "device_name_placeholder": "Device name, e.g. my phone",
+      "device_name_placeholder": "Device name",
       "device_name_hint": "This name is shown in the registered devices list in your profile.",
       "otp_submit": "Confirm",
       "otp_submitting": "Verifying",

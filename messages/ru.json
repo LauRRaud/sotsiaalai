@@ -93,7 +93,7 @@
       "otp_short_placeholder": "Verification code",
       "remember_device": "Запомнить это устройство на 30 дней",
       "device_name_label": "Название устройства",
-      "device_name_placeholder": "Название устройства, например мой телефон",
+      "device_name_placeholder": "Название устройства",
       "device_name_hint": "Это название будет показано в профиле в списке зарегистрированных устройств.",
       "otp_submit": "Подтвердить",
       "otp_submitting": "Проверяем…",

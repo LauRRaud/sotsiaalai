@@ -1028,6 +1028,7 @@ STATUS: partially implemented / active
 - RAG source metadata contract on koondatud ühisesse helperisse ning KOV, organisatsiooni, ajakirja ja Riigi Teataja ingest/validation radades kasutatakse rangemat metadata kontrolli.
 - Source freshness audit on eraldi helperis ja CLI-s olemas: allikatüübi põhine kontroll leiab puuduva või aegunud `last_checked`, aegunud `valid_to`, mitteaktiivse `source_status` ja kõrge prioriteediga ülevaatusvajaduse.
 - Admin analytics RAG dokumentide vaates on esimene quality queue: see kuvab freshness auditi vead ja hoiatused ning annab prioriteetse nimekirja allikatest, mis vajavad metadata või värskuse ülevaatust.
+- Kui productionis on Prisma `RagDocument` tabel tühi, aga RAG service registry/Chroma sisaldab dokumente, kasutab admin analytics freshness audit fallback'ina RAG service `/documents` nimekirja. Vastuses on selleks `ragDocs.freshness.auditSource`, `ragServiceFallbackCount` ja `ragServiceFallbackError`.
 - Quality queue kontrollib esimeses versioonis ka URL-i kuju, puuduvaid URL-e praeguse info tõendusallikatel, KOV teenust ilma seotud vormiallikata ning kontaktiviiteid, mis ei tule `official_contact` või `contact_page` allikatüübist.
 - KOV ingest lisab item metadata külge `sections_present`, vormi-, kontakti- ja õigusliku aluse loendurid; quality queue kasutab neid source package signaale, et vormi või ametliku kontakti puudumist märkida ainult siis, kui teenuse metadata seda vajadust päriselt näitab.
 - Quality queue tuvastab nüüd ka esimese source package konflikti: sama `canonical_item_id` alla ei tohi sattuda mitme erineva `municipality_id` KOV allikad ilma ülevaatuseta.
@@ -1156,6 +1157,8 @@ npm run rag:smoke:v2 -- --chat
 Smoke kontrollib vähemalt:
 
 - `/api/admin/analytics/summary` vastab admin autentimisega;
+- `ragDocs.freshness.auditSource` näitab, kas freshness audit tuli Prisma `RagDocument` tabelist või RAG service `/documents` fallback'ist;
+- `ragDocs.freshness.ragServiceFallbackCount` ja `ragServiceFallbackError` on olemas, et productionis oleks näha, kas fallback leidis registry dokumendid või ebaõnnestus;
 - `ragDocs.freshness.summary.metadata_quality` sisaldab kokkuvõtte, collection ja file type jaotusi;
 - kvaliteedijärjekorra kirjetel on `collection_family`, `source_file_type`, `metadata_quality` ja `remediation`;
 - remediation target sisaldab admin sihtlinki `admin_href`, action'it, parandatavate väljade loendit ning võimalusel `focus`/`file_key` sihti;

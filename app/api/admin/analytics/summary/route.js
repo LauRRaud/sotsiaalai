@@ -11,6 +11,7 @@ import {
   summarizeFreshnessAudit,
   summarizeHighRiskSourceFreshness
 } from "@/lib/rag/sourceFreshness";
+import { fetchRagServiceDocumentsForFreshness } from "@/lib/rag/ragServiceFreshnessFallback";
 import { summarizeRagTraceSourceQuality } from "@/lib/rag/sourceQualityMetrics";
 
 export const runtime = "nodejs";
@@ -712,7 +713,25 @@ export async function GET(req) {
       avgFilteredOutSourceCount /= traceTotal;
     }
 
-    const ragFreshnessAudit = summarizeFreshnessAudit(ragDocsForFreshness, { now });
+    let ragDocsFreshnessSource = "prisma_rag_documents";
+    let ragServiceFallbackError = null;
+    let ragServiceFallbackCount = 0;
+    let ragDocsForFreshnessAudit = ragDocsForFreshness;
+
+    if (arrayLength(ragDocsForFreshness) === 0) {
+      try {
+        const ragServiceDocs = await fetchRagServiceDocumentsForFreshness({ limit: 1000 });
+        ragServiceFallbackCount = ragServiceDocs.length;
+        if (ragServiceDocs.length > 0) {
+          ragDocsFreshnessSource = "rag_service_documents";
+          ragDocsForFreshnessAudit = ragServiceDocs;
+        }
+      } catch (error) {
+        ragServiceFallbackError = error?.message || String(error);
+      }
+    }
+
+    const ragFreshnessAudit = summarizeFreshnessAudit(ragDocsForFreshnessAudit, { now });
     const ragFreshnessIssues = ragFreshnessAudit.items
       .filter(item => item.severity === "error" || item.severity === "warning")
       .sort(sortFreshnessIssue)
@@ -766,7 +785,10 @@ export async function GET(req) {
         byType: toCountMap(ragDocsByType, "type"),
         recent: ragDocsRecent,
         freshness: {
+          auditSource: ragDocsFreshnessSource,
           audited: ragFreshnessAudit.summary.total,
+          ragServiceFallbackCount,
+          ragServiceFallbackError,
           summary: ragFreshnessAudit.summary,
           issues: ragFreshnessIssues,
           highRisk: highRiskFreshness.summary,
