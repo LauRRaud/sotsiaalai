@@ -22,12 +22,12 @@ STATUS: active snapshot
 
 | Area | Current | Target |
 | --- | --- | --- |
-| Source display | Allikapaneel sõltub valitud või salvestatud allikaloendist | Paneel kuvab ainult serveri kinnitatud `displayed_sources` |
-| Retrieval | Peamiselt Chroma vektorotsing ja olemasolev ranking | Hübriidotsing, metadata, exact/title match ja vajadusel reranking |
-| Attribution | Vastusepõhine allikafiltreerimine | `answer_source_ids`, `displayed_source_ids` ja `attribution_decisions` |
-| Trace | Osaline RAG/chat logimine | Iga RAG-vastuse minimaalne trace ja hiljem täisobservability |
-| KOV service model | Markdown/chunk-põhine korpus | Canonical item + source package |
-| Metadata | Ebaühtlane allikate kirjeldus | Kontrollitud source type, authority, KOV, kehtivus ja olek |
+| Source display | V1 rada eelistab backendist tulnud `displayed_sources`; legacy `sources` jääb vanade sõnumite ühilduvuseks | Täielik `displayed_sources` enforcement kõigis uutes RAG vastustes ja adminis nähtav source display precision |
+| Retrieval | V2 kasutab dense + lightweight lexical kanaleid (`title_match`, `exact_phrase`, `bm25`) ning hybrid/RRF merge'i | Tugevam hübriidotsing koos metadata filtrite, full-text/BM25 indeksi ja vajadusel mudelipõhise reranking'uga |
+| Attribution | `answer_source_ids`, `displayed_source_ids`, `attribution_decisions` ja riskipõhine evidence-strength kontroll on V1/V2 radades olemas | Claim-level attribution kõrge riskiga väidetele ning allikakonflikti põhjendatud lahendamine |
+| Trace | Iga RAG-vastus kannab minimaalset `rag_trace` objekti; trace sisaldab query plan'i, retrieval kanaleid, source kihte ja riskitaset | Täisobservability koos query intent'i, ranking score'ide, source package'i, latency, tokenite ja kvaliteedimõõdikutega |
+| KOV service model | Peamiselt chunk-põhine RAG, kuid metadata ja source package signaalid liiguvad ingestist quality queue'sse | Canonical item + püsiv või poolpüsiv `SourcePackage` teenuste, vormide, kontaktide ja õigusliku aluse jaoks |
+| Metadata | V2 contract ja validation on olemas; ajakirja reingest ja legacy cleanup on tehtud, KOV/RT/org metadata vajab veel rangemat masskontrolli | Kõik korpusepered map'ivad ühtsele source contract'ile koos authority, source type, KOV, kehtivuse, oleku ja versioning'uga |
 
 ## Evolution Principle
 
@@ -1031,7 +1031,7 @@ STATUS: partially implemented / active
 - Ajakirja ingest skriptil on RAG HTTP päringute timeout (`--request-timeout-ms`, vaikimisi 300000 ms), et RAG service'i või fetch'i hangumine ei jätaks batch'i lõputult rippuma.
 - Ajakirja legacy cleanup tööriist `rag:cleanup:ajakiri-legacy` koostab RAG service registry põhjal dry-run plaani vanade `source_type=file` / `unknown` ajakirjakirjete eemaldamiseks ainult siis, kui olemas on sama pealkirja ja aasta `article_ingest` asendus.
 - Legacy cleanup kustutab päriselt ainult `--delete` lipuga ja ainult `delete_duplicate` otsuseid; ebakindlad või ilma asenduseta kirjed jäävad `review_legacy` staatusesse.
-- Productionis eemaldati selle tööriistaga 2026-04-26 neli kindlat ajakirja legacy duplikaati; neli ilma kindla `article_ingest` asenduseta kirjet jäid `review_legacy` staatusesse.
+- Productionis eemaldati selle tööriistaga 2026-04-26 esmalt neli kindlat ajakirja legacy duplikaati. Pärast AI ja Sloveenia artikli siht-ingesti ning kahe kinnitatud `covered_by_combined_article` mappingu lisamist eemaldati ülejäänud kolm legacy kirjet; järelkontrollis oli `legacy_file: 0`, `delete_duplicate: 0` ja `review_legacy: 0`.
 - Source freshness audit on eraldi helperis ja CLI-s olemas: allikatüübi põhine kontroll leiab puuduva või aegunud `last_checked`, aegunud `valid_to`, mitteaktiivse `source_status` ja kõrge prioriteediga ülevaatusvajaduse.
 - Admin analytics RAG dokumentide vaates on esimene quality queue: see kuvab freshness auditi vead ja hoiatused ning annab prioriteetse nimekirja allikatest, mis vajavad metadata või värskuse ülevaatust.
 - Kui productionis on Prisma `RagDocument` tabel tühi, aga RAG service registry/Chroma sisaldab dokumente, kasutab admin analytics freshness audit fallback'ina RAG service `/documents` nimekirja. Vastuses on selleks `ragDocs.freshness.auditSource`, `ragServiceFallbackCount` ja `ragServiceFallbackError`.
@@ -1067,7 +1067,7 @@ Viimane lokaalne kontroll:
 
 ```text
 chat/RAG regressioonipakk: 66/66 passed
-RAG metadata/freshness/ingest/cleanup static pack: 32/32 passed
+RAG metadata/freshness/ingest/cleanup static pack: 34/34 passed
 ```
 
 See ei asenda serveri smoke testi pärast deploy'd. Productionis tuleb eraldi kontrollida RAG service health'i, chat endpointi, allikapaneeli ja vähemalt üht päris vestluse artikli-follow-up juhtumit.

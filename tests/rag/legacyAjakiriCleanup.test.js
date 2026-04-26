@@ -125,3 +125,46 @@ test("keeps ambiguous replacements in review", () => {
   assert.equal(plan.actions[0].reason, "ambiguous_replacement");
   assert.equal(plan.actions[0].replacement_candidates.length, 2);
 });
+
+test("uses approved manual mappings for legacy subarticle records covered by combined articles", () => {
+  const plan = buildLegacyAjakiriCleanupPlan([
+    {
+      docId: "sotsiaaltoo-3-2022-mida-sotsiaaltootaja-saab-teha-enda-heaks-meelespea-2022-3",
+      title: "Mida sotsiaaltöötaja saab teha enda heaks – meelespea",
+      source_type: "file",
+      source_file_type: "unknown",
+      collection_family: "ajakiri_sotsiaaltoo"
+    },
+    {
+      docId: "sotsiaaltoo-3-2022-ole-iseenda-terapeut-koos-meelespeaga-2022-3",
+      title: "Ole iseenda terapeut!",
+      year: 2022,
+      source_type: "journal_article",
+      source_file_type: "article_ingest",
+      collection_family: "ajakiri_sotsiaaltoo"
+    }
+  ]);
+
+  assert.equal(plan.summary.delete_duplicate, 1);
+  assert.equal(plan.actions[0].action, "delete_duplicate");
+  assert.equal(plan.actions[0].reason, "covered_by_combined_article");
+  assert.equal(plan.actions[0].match_reason, "manual_covered_by_combined_article");
+  assert.equal(plan.actions[0].replacement_doc_id, "sotsiaaltoo-3-2022-ole-iseenda-terapeut-koos-meelespeaga-2022-3");
+});
+
+test("keeps manual mappings in review when replacement is missing", () => {
+  const plan = buildLegacyAjakiriCleanupPlan([
+    {
+      docId: "sotsiaaltoo-1-2023-hooldekodude-rahastamise-reform-tahendab-kolossaalset-muutust-2023-1",
+      title: "Hooldekodude rahastamise reform tähendab kolossaalset muutust",
+      source_type: "file",
+      source_file_type: "unknown",
+      collection_family: "ajakiri_sotsiaaltoo"
+    }
+  ]);
+
+  assert.equal(plan.summary.delete_duplicate || 0, 0);
+  assert.equal(plan.summary.review_legacy, 1);
+  assert.equal(plan.actions[0].reason, "manual_replacement_not_found");
+  assert.equal(plan.actions[0].expected_replacement_doc_id, "sotsiaaltoo-1-2023-hooldekodude-rahastamise-pohimotted-ja-kommentaar-2023-1");
+});
