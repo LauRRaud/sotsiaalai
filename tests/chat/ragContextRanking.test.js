@@ -177,6 +177,73 @@ test("groupMatches preserves source validity metadata for later evidence checks"
   assert.equal(groups[0].historical, false);
 });
 
+test("groupMatches keeps RT legal paragraphs separate after V2 source type normalization", () => {
+  const groups = groupMatches([
+    {
+      id: "rt-14",
+      chunk: "Kohaliku omavalitsuse üksus korraldab sotsiaalteenuste osutamist.",
+      metadata: {
+        doc_id: "national-rt-shs",
+        canonical_chunk_id: "riigiteataja:shs:paragraph-14",
+        title: "Eesti - Sotsiaalhoolekande seadus - § 14",
+        paragraph_number: "14",
+        paragraph_title: "Kohaliku omavalitsuse üksuse ülesanded",
+        source_type: "national_law",
+        collection_id: "national_regulations"
+      }
+    },
+    {
+      id: "rt-157",
+      chunk: "Riikliku ja haldusjärelevalve teostamine.",
+      metadata: {
+        doc_id: "national-rt-shs",
+        canonical_chunk_id: "riigiteataja:shs:paragraph-157",
+        title: "Eesti - Sotsiaalhoolekande seadus - § 157",
+        paragraph_number: "157",
+        paragraph_title: "Riikliku ja haldusjärelevalve teostamine",
+        source_type: "national_law",
+        collection_id: "national_regulations"
+      }
+    }
+  ]);
+
+  assert.equal(groups.length, 2);
+  assert.deepEqual(groups.map(group => group.paragraphNumber), ["14", "157"]);
+});
+
+test("legal paragraph ranking prefers term-specific RT paragraph over generic legal noise", () => {
+  const ranked = rankGroupsWithTopicHints([
+    {
+      key: "paragraph-157",
+      title: "Eesti - Sotsiaalhoolekande seadus - § 157",
+      paragraphTitle: "Riikliku ja haldusjärelevalve teostamine",
+      paragraphNumber: "157",
+      bodies: ["Riikliku ja haldusjärelevalve teostamine sotsiaalhoolekande seaduse täitmise üle."],
+      bestScore: 0.9,
+      sourceType: "national_law",
+      sourceStatus: "active",
+      collectionId: "national_regulations",
+      retrievalChannels: ["bm25"],
+      tags: []
+    },
+    {
+      key: "paragraph-14",
+      title: "Eesti - Sotsiaalhoolekande seadus - § 14",
+      paragraphTitle: "Kohaliku omavalitsuse üksuse ülesanded",
+      paragraphNumber: "14",
+      bodies: ["Kohaliku omavalitsuse üksus korraldab sotsiaalteenuste osutamist ja muud abi vastavalt abivajadusele."],
+      bestScore: 0.55,
+      sourceType: "national_law",
+      sourceStatus: "active",
+      collectionId: "national_regulations",
+      retrievalChannels: ["bm25"],
+      tags: []
+    }
+  ], ["kohaliku omavalitsuse üksus", "sotsiaalteenuste", "korraldab"]);
+
+  assert.equal(ranked[0].key, "paragraph-14");
+});
+
 test("renderOneContextBlock exposes source status metadata for time-aware answers", () => {
   const block = renderOneContextBlock({
     title: "Juubelilugu",
