@@ -41,6 +41,15 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
         municipality_name: "Tartu linn",
         source_status: "active",
         retrieval_channels: ["dense", "title_match"],
+        hybrid_score: 0.82,
+        dense_score: 0.41,
+        lexical_score: 6.2,
+        lexical_score_normalized: 0.43662,
+        rrf_score: 0.04,
+        channel_boost: 0.09,
+        hybrid_rank: 1,
+        dense_rank: 3,
+        lexical_rank: 1,
         rank_score: 1.24,
         topic_boost: 0.18,
         quality_adjust: 0.42,
@@ -63,6 +72,20 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
       selection_strategy: "multi_source_diversity",
       query_count: 2,
       filter_keys: ["audience", "doc_id"]
+    },
+    hybridRetrieval: {
+      merge_strategy: {
+        strategy: "weighted_hybrid_rrf",
+        rrf_k: 60,
+        requested_retrievers: ["dense", "title_match", "exact_phrase", "bm25"]
+      },
+      channel_counts: {
+        dense: 2,
+        title_match: 1
+      },
+      scored_count: 2,
+      top_hybrid_score: 0.82,
+      top_rrf_score: 0.04
     }
   });
 
@@ -79,6 +102,15 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
       municipality_name: "Tartu linn",
       source_status: "active",
       retrieval_channels: ["dense", "title_match"],
+      hybrid_score: 0.82,
+      dense_score: 0.41,
+      lexical_score: 6.2,
+      lexical_score_normalized: 0.43662,
+      rrf_score: 0.04,
+      channel_boost: 0.09,
+      hybrid_rank: 1,
+      dense_rank: 3,
+      lexical_rank: 1,
       rank_score: 1.24,
       topic_boost: 0.18,
       quality_adjust: 0.42
@@ -103,6 +135,9 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
     query_count: 2,
     filter_keys: ["audience", "doc_id"]
   });
+  assert.equal(trace.hybrid_retrieval.merge_strategy.strategy, "weighted_hybrid_rrf");
+  assert.equal(trace.hybrid_retrieval.channel_counts.title_match, 1);
+  assert.equal(trace.hybrid_retrieval.top_hybrid_score, 0.82);
   assert.equal(trace.retrieval_trace_level, "retrieved_candidates");
 });
 

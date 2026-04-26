@@ -742,6 +742,26 @@ export default function AnalyticsDashboard() {
       if (typeof queryPlan?.rag_top_k === "number") {
         parts.push(`rag_top_k: ${formatCount(queryPlan.rag_top_k, localeTag)}`);
       }
+      const hybridRetrieval = meta.hybrid_retrieval && typeof meta.hybrid_retrieval === "object" ? meta.hybrid_retrieval : null;
+      const mergeStrategy = hybridRetrieval?.merge_strategy && typeof hybridRetrieval.merge_strategy === "object"
+        ? hybridRetrieval.merge_strategy
+        : null;
+      if (typeof mergeStrategy?.strategy === "string" && mergeStrategy.strategy) {
+        parts.push(`merge: ${mergeStrategy.strategy}`);
+      }
+      if (typeof mergeStrategy?.rrf_k === "number") {
+        parts.push(`rrf_k: ${formatCount(mergeStrategy.rrf_k, localeTag)}`);
+      }
+      if (hybridRetrieval?.channel_counts && typeof hybridRetrieval.channel_counts === "object") {
+        const channelCounts = Object.entries(hybridRetrieval.channel_counts)
+          .filter(([, value]) => Number.isFinite(Number(value)))
+          .map(([key, value]) => `${key}:${formatCount(Number(value), localeTag)}`)
+          .join(", ");
+        if (channelCounts) parts.push(`channels: ${channelCounts}`);
+      }
+      if (typeof hybridRetrieval?.top_hybrid_score === "number") {
+        parts.push(`top_hybrid: ${formatDecimal(hybridRetrieval.top_hybrid_score, localeTag, 3)}`);
+      }
       if (typeof meta.rag_risk_level === "string" && meta.rag_risk_level) {
         parts.push(`${t("admin.analytics.meta.rag_risk", "risk")}: ${meta.rag_risk_level}`);
       }

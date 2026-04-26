@@ -97,6 +97,41 @@ test("group ranking uses backend hybrid_score when present", () => {
   assert.equal(ranked[0].bestScore, 0.78);
 });
 
+test("groupMatches preserves hybrid retrieval score components for trace", () => {
+  const groups = groupMatches([
+    {
+      id: "chunk-1",
+      title: "Koduteenus",
+      text: "Koduteenuse taotlemine.",
+      retrieval_channels: ["dense", "title_match", "bm25"],
+      hybrid_score: 0.82,
+      dense_score: 0.41,
+      lexical_score: 6.2,
+      lexical_score_normalized: 0.43662,
+      rrf_score: 0.04,
+      channel_boost: 0.14,
+      hybrid_rank: 1,
+      dense_rank: 3,
+      lexical_rank: 1,
+      retrieval_scores: {
+        hybrid_score: 0.82,
+        rrf_score: 0.04
+      }
+    }
+  ]);
+
+  assert.equal(groups[0].bestScore, 0.82);
+  assert.equal(groups[0].denseScore, 0.41);
+  assert.equal(groups[0].lexicalScore, 6.2);
+  assert.equal(groups[0].lexicalScoreNormalized, 0.43662);
+  assert.equal(groups[0].rrfScore, 0.04);
+  assert.equal(groups[0].channelBoost, 0.14);
+  assert.equal(groups[0].hybridRank, 1);
+  assert.equal(groups[0].denseRank, 3);
+  assert.equal(groups[0].lexicalRank, 1);
+  assert.equal(groups[0].retrievalScores.hybrid_score, 0.82);
+});
+
 test("official active sources outrank background sources with close scores", () => {
   const ranked = rankGroupsWithTopicHints([
     {

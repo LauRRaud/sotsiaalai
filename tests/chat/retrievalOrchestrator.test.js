@@ -90,6 +90,21 @@ test("searchRagQueries sends hybrid retriever request and preserves returned cha
       async text() {
         return JSON.stringify({
           retrievers_used: ["dense", "title_match", "bm25"],
+          search_strategy: "hybrid",
+          merge_strategy: {
+            strategy: "weighted_hybrid_rrf",
+            rrf_k: 60,
+            requested_retrievers: ["dense", "title_match", "exact_phrase", "bm25"]
+          },
+          channel_stats: {
+            result_count: 1,
+            channel_counts: {
+              dense: 1,
+              title_match: 1,
+              bm25: 1
+            },
+            top_channels: ["dense", "title_match", "bm25"]
+          },
           results: [
             {
               id: "chunk-title",
@@ -97,7 +112,13 @@ test("searchRagQueries sends hybrid retriever request and preserves returned cha
               text: "Koduteenuse taotlemine Tartus.",
               retrieval_channels: ["dense", "title_match", "bm25"],
               hybrid_score: 0.82,
-              rrf_score: 0.04
+              rrf_score: 0.04,
+              retrieval_scores: {
+                hybrid_score: 0.82,
+                rrf_score: 0.04,
+                dense_rank: 1,
+                lexical_rank: 1
+              }
             }
           ]
         });
@@ -115,6 +136,10 @@ test("searchRagQueries sends hybrid retriever request and preserves returned cha
     assert.deepEqual(results[0].retrieval_channels, ["dense", "title_match", "bm25"]);
     assert.equal(results[0].hybrid_score, 0.82);
     assert.equal(results[0].rrf_score, 0.04);
+    assert.equal(results[0].search_strategy, "hybrid");
+    assert.equal(results[0].retrieval_merge_strategy.strategy, "weighted_hybrid_rrf");
+    assert.equal(results[0].retrieval_channel_stats.channel_counts.title_match, 1);
+    assert.equal(results[0].retrieval_scores.dense_rank, 1);
     assert.deepEqual(inferRetrieversUsed(results), ["dense", "title_match", "bm25"]);
   } finally {
     global.fetch = previousFetch;

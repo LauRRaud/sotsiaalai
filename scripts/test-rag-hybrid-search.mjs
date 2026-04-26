@@ -154,8 +154,14 @@ function compactResult(result) {
         ? result.retrievalChannels
         : [],
     lexical_score: result?.lexical_score ?? null,
+    lexical_score_normalized: result?.lexical_score_normalized ?? null,
     rrf_score: result?.rrf_score ?? null,
     hybrid_score: result?.hybrid_score ?? result?.hybridScore ?? null,
+    channel_boost: result?.channel_boost ?? null,
+    hybrid_rank: result?.hybrid_rank ?? result?.hybridRank ?? null,
+    dense_rank: result?.dense_rank ?? null,
+    lexical_rank: result?.lexical_rank ?? null,
+    retrieval_scores: result?.retrieval_scores || null,
     distance: result?.distance ?? null,
     source_type: result?.source_type || null,
     source_id: result?.source_id || result?.sourceId || null,
@@ -219,6 +225,8 @@ async function main() {
         query,
         retrievers_used: data.retrievers_used || [],
         search_strategy: data.search_strategy || null,
+        merge_strategy: data.merge_strategy || null,
+        channel_stats: data.channel_stats || null,
         result_count: Array.isArray(data.results) ? data.results.length : 0,
         top
       };

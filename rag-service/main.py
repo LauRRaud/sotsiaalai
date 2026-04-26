@@ -88,6 +88,17 @@ RAG_LEXICAL_SCAN_LIMIT = int(os.getenv("RAG_LEXICAL_SCAN_LIMIT", "2000"))
 RAG_LEXICAL_TOP_K = int(os.getenv("RAG_LEXICAL_TOP_K", "20"))
 RAG_BM25_MIN_COVERAGE = float(os.getenv("RAG_BM25_MIN_COVERAGE", "0.35"))
 RAG_RRF_K = int(os.getenv("RAG_RRF_K", "60"))
+HYBRID_CHANNEL_WEIGHTS = {
+    "dense": 1.0,
+    "title_match": 1.35,
+    "exact_phrase": 1.15,
+    "bm25": 1.0,
+}
+HYBRID_CHANNEL_BOOSTS = {
+    "title_match": 0.09,
+    "exact_phrase": 0.06,
+    "bm25": 0.05,
+}
 
 # Lubatud MIME – kui env on tühi, kasuta mõistlikku vaikimisi komplekti
 _DEFAULT_ALLOWED = (
@@ -2488,12 +2499,6 @@ def _hybrid_lexical_score(value) -> float:
 def _apply_hybrid_ranking(results: List[Dict[str, object]]) -> None:
     if not results:
         return
-    channel_weights = {
-        "dense": 1.0,
-        "title_match": 1.35,
-        "exact_phrase": 1.15,
-        "bm25": 1.0,
-    }
     rrf_k = max(1, RAG_RRF_K)
     for original_index, item in enumerate(results):
         channels = item.get("retrieval_channels") if isinstance(item.get("retrieval_channels"), list) else []
@@ -2504,26 +2509,43 @@ def _apply_hybrid_ranking(results: List[Dict[str, object]]) -> None:
             channel in channels for channel in ["title_match", "exact_phrase", "bm25"]
         ) else 0.0
         rrf_score = 0.0
+        rrf_contributions: Dict[str, float] = {}
         if dense_rank and "dense" in channels:
-            rrf_score += channel_weights["dense"] / (rrf_k + dense_rank)
+            contribution = HYBRID_CHANNEL_WEIGHTS["dense"] / (rrf_k + dense_rank)
+            rrf_score += contribution
+            rrf_contributions["dense"] = round(contribution, 6)
         if lexical_rank:
             for channel in channels:
                 if channel == "dense":
                     continue
-                rrf_score += channel_weights.get(str(channel), 0.75) / (rrf_k + lexical_rank)
-        channel_boost = sum(
-            {
-                "title_match": 0.09,
-                "exact_phrase": 0.06,
-                "bm25": 0.05,
-            }.get(str(channel), 0.0)
+                contribution = HYBRID_CHANNEL_WEIGHTS.get(str(channel), 0.75) / (rrf_k + lexical_rank)
+                rrf_score += contribution
+                rrf_contributions[str(channel)] = round(contribution, 6)
+        channel_boosts = {
+            str(channel): round(HYBRID_CHANNEL_BOOSTS.get(str(channel), 0.0), 6)
             for channel in channels
-        )
+            if HYBRID_CHANNEL_BOOSTS.get(str(channel), 0.0)
+        }
+        channel_boost = sum(channel_boosts.values())
         hybrid_score = (dense_score * 0.58) + (lexical_score * 0.34) + (rrf_score * 8.0) + channel_boost
         item["dense_score"] = round(dense_score, 6) if dense_score else None
+        item["lexical_score_normalized"] = round(lexical_score, 6) if lexical_score else None
         item["rrf_score"] = round(rrf_score, 6)
+        item["channel_boost"] = round(channel_boost, 6)
         item["hybrid_score"] = round(hybrid_score, 6)
         item["hybridScore"] = item["hybrid_score"]
+        item["retrieval_scores"] = {
+            "dense_score": item.get("dense_score"),
+            "lexical_score_raw": item.get("lexical_score"),
+            "lexical_score_normalized": item.get("lexical_score_normalized"),
+            "rrf_score": item.get("rrf_score"),
+            "channel_boost": item.get("channel_boost"),
+            "hybrid_score": item.get("hybrid_score"),
+            "dense_rank": dense_rank,
+            "lexical_rank": lexical_rank,
+            "rrf_contributions": rrf_contributions,
+            "channel_boosts": channel_boosts,
+        }
         item["_hybrid_original_index"] = original_index
 
     results.sort(
@@ -2536,7 +2558,38 @@ def _apply_hybrid_ranking(results: List[Dict[str, object]]) -> None:
     for rank, item in enumerate(results, start=1):
         item["hybrid_rank"] = rank
         item["hybridRank"] = rank
+        if isinstance(item.get("retrieval_scores"), dict):
+            item["retrieval_scores"]["hybrid_rank"] = rank
         item.pop("_hybrid_original_index", None)
+
+def _build_hybrid_merge_strategy(requested_retrievers: List[str]) -> Dict[str, object]:
+    return {
+        "strategy": "weighted_hybrid_rrf",
+        "rrf_k": max(1, RAG_RRF_K),
+        "requested_retrievers": requested_retrievers,
+        "channel_weights": HYBRID_CHANNEL_WEIGHTS,
+        "channel_boosts": HYBRID_CHANNEL_BOOSTS,
+        "score_formula": "dense_score*0.58 + lexical_score*0.34 + rrf_score*8.0 + channel_boost",
+    }
+
+def _build_channel_stats(results: List[Dict[str, object]]) -> Dict[str, object]:
+    channel_counts: Dict[str, int] = {}
+    top_channels: List[str] = []
+    for item in results:
+        channels = item.get("retrieval_channels") if isinstance(item.get("retrieval_channels"), list) else []
+        for channel in channels:
+            cleaned = str(channel or "").strip()
+            if not cleaned:
+                continue
+            channel_counts[cleaned] = channel_counts.get(cleaned, 0) + 1
+            if cleaned not in top_channels and len(top_channels) < 8:
+                top_channels.append(cleaned)
+    return {
+        "result_count": len(results),
+        "channel_counts": channel_counts,
+        "top_channels": top_channels,
+        "hybrid_ranked_count": sum(1 for item in results if _to_int(item.get("hybrid_rank"))),
+    }
 
 def _fetch_lexical_candidates(
     query: str,
@@ -4144,4 +4197,6 @@ def search(payload: SearchIn, request: Request):
         "groups": groups,
         "retrievers_used": retrievers_used,
         "search_strategy": "hybrid" if any(channel != "dense" for channel in retrievers_used) else "dense",
+        "merge_strategy": _build_hybrid_merge_strategy(requested_retrievers),
+        "channel_stats": _build_channel_stats(flat),
     }

@@ -303,6 +303,8 @@ function assertChatV2Payload(payload) {
   const trace = payload.rag_trace;
   assertCondition(Array.isArray(trace.retrievers_used), "rag_trace.retrievers_used must be an array");
   assertObject(trace.query_plan, "rag_trace.query_plan missing");
+  assertObject(trace.hybrid_retrieval, "rag_trace.hybrid_retrieval missing");
+  assertObject(trace.hybrid_retrieval.channel_counts, "rag_trace.hybrid_retrieval.channel_counts missing");
 
   const riskLevel = firstValue(trace.rag_risk_level, trace.risk_level, trace.riskLevel);
   const requiredEvidence = firstValue(trace.rag_required_evidence, trace.required_evidence, trace.requiredEvidence);
@@ -311,6 +313,8 @@ function assertChatV2Payload(payload) {
   return {
     queryPlanMode: trace.query_plan?.mode || null,
     retrieversUsed: trace.retrievers_used,
+    hybridMergeStrategy: trace.hybrid_retrieval?.merge_strategy?.strategy || null,
+    hybridChannelCounts: trace.hybrid_retrieval?.channel_counts || {},
     riskLevel,
     requiredEvidence
   };
