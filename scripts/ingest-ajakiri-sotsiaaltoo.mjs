@@ -4,6 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import crypto from "node:crypto";
 
+import { assertRagSourceMetadataContract, validateRagSourceMetadataContract } from "../lib/rag/sourceMetadata.js";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 
@@ -161,6 +163,42 @@ function resolveExpectedDocId(meta) {
   return { docId, originalDocId, articleId };
 }
 
+function dateOnly(value = "") {
+  const text = String(value || "").trim();
+  const matched = text.match(/\d{4}-\d{2}-\d{2}/);
+  return matched ? matched[0] : new Date().toISOString().slice(0, 10);
+}
+
+function buildArticleMetadataContract(meta, item) {
+  const expectedDocId = item?.expectedDocId || resolveExpectedDocId(meta).docId;
+  const articleId = item?.articleId || meta?.article_id || meta?.articleId || "";
+  const url = String(meta?.article_url || meta?.articleUrl || meta?.url || "").trim() || null;
+  const sourceId = String(meta?.source_id || meta?.sourceId || "").trim()
+    || `sotsiaaltoo_${safeDocIdSegment(articleId || expectedDocId || meta?.title)}`;
+  return {
+    ...meta,
+    source_id: sourceId,
+    document_id: String(meta?.document_id || meta?.documentId || expectedDocId || "").trim(),
+    title: String(meta?.title || "").trim(),
+    source_type: String(meta?.source_type || meta?.sourceType || "journal_article").trim(),
+    legacy_source_type: String(meta?.legacy_source_type || meta?.legacySourceType || "file").trim(),
+    authority: String(meta?.authority || "editorial").trim(),
+    audience: meta?.audience || "BOTH",
+    audiences: Array.isArray(meta?.audiences) ? meta.audiences : ["CLIENT", "SOCIAL_WORKER"],
+    language: String(meta?.language || "et").trim(),
+    last_checked: dateOnly(meta?.last_checked || meta?.lastChecked || meta?.retrieved_at || meta?.retrievedAt),
+    retrieved_at: meta?.retrieved_at || meta?.retrievedAt || new Date().toISOString(),
+    historical: typeof meta?.historical === "boolean" ? meta.historical : true,
+    source_status: String(meta?.source_status || meta?.sourceStatus || "active").trim(),
+    canonical_item_id: meta?.canonical_item_id || meta?.canonicalItemId || null,
+    valid_from: meta?.valid_from || meta?.validFrom || null,
+    valid_to: meta?.valid_to || meta?.validTo || null,
+    content_hash: meta?.content_hash || meta?.contentHash || crypto.createHash("sha1").update(JSON.stringify(meta)).digest("hex"),
+    source_url: url || meta?.source_url || meta?.sourceUrl || null,
+    url_canonical: meta?.url_canonical || meta?.urlCanonical || url
+  };
+}
+
 async function pathExists(filePath) {
   try {
     await fs.access(filePath);
@@ -290,6 +328,23 @@ async function buildPlan(jsonFiles, completedDocIds) {
       }
     }
 
+    const contractMetadata = status === "ready"
+      ? buildArticleMetadataContract(meta, { expectedDocId, articleId })
+      : null;
+    if (contractMetadata) {
+      const contract = validateRagSourceMetadataContract(contractMetadata, {
+        label: `${path.relative(rootDir, jsonPath)}.metadata`,
+        requireMunicipality: false,
+        requireDocumentId: true,
+        requireTitle: true,
+        requireAudience: true
+      });
+      if (!contract.ok) {
+        status = "invalid_rag_metadata";
+        error = contract.errors.join("; ");
+      }
+    }
+
     items.push({
       status,
       issue,
@@ -300,6 +355,7 @@ async function buildPlan(jsonFiles, completedDocIds) {
       originalDocId,
       articleId,
       title,
+      contractMetadata,
       error
     });
   }
@@ -324,9 +380,18 @@ async function ingestItem(baseUrl, item) {
     fs.readFile(item.pdfPath),
     fs.readFile(item.jsonPath, "utf8")
   ]);
+  const parsedMeta = JSON.parse(rawJson);
+  const metadata = buildArticleMetadataContract(parsedMeta, item);
+  assertRagSourceMetadataContract(metadata, {
+    label: `${path.relative(rootDir, item.jsonPath)}.metadata`,
+    requireMunicipality: false,
+    requireDocumentId: true,
+    requireTitle: true,
+    requireAudience: true
+  });
   const formData = new FormData();
   formData.append("file", new Blob([rawPdf], { type: "application/pdf" }), path.basename(item.pdfPath));
-  formData.append("metadata_text", rawJson);
+  formData.append("metadata_text", JSON.stringify(metadata));
 
   const response = await fetch(`${baseUrl}/ingest/pdf-with-metadata`, {
     method: "POST",

@@ -837,7 +837,7 @@ V2 hübriidotsing võib jääda evolutsiooniliseks:
 - Chroma dense retrieval jääb alles;
 - exact/title match lisandub serveri või andmebaasi kihis;
 - BM25/full-text lisandub eraldi kanalina;
-- tulemused ühendatakse RRF või weighted merge loogikaga;
+- tulemused ühendatakse RRF/weighted merge loogikaga;
 - reranking võib jääda reeglipõhiseks, kui mudelipõhine reranker ei ole veel vajalik.
 
 V2 retrieval trace peab iga kanali eraldi nähtavaks tegema. Esimese sammuna peab ka olemasolev Chroma otsing märkima tulemused `dense` retriever'ist tulnuks ja `rag_trace.retrievers_used` peab selle salvestama. Hilisemad `exact_phrase`, `title_match`, `bm25` ja reranker'i kanalid lisanduvad samasse välja, et kvaliteedilangust või -võitu saaks mõõta, mitte aimata.
@@ -847,9 +847,10 @@ V2 esimene hübriidotsingu samm on lightweight lexical retrieval:
 - `dense` jääb põhikanaliks;
 - `title_match` otsib pealkirja kattuvust;
 - `exact_phrase` otsib täpse fraasi kattuvust tekstis;
+- `bm25` märgib tokenipõhise full-text kattuvuse, kui täpne fraas või pealkiri üksi ei kata päringut;
 - leksikaalne scan on piiratud `RAG_LEXICAL_SCAN_LIMIT` ja `RAG_LEXICAL_TOP_K` väärtustega;
 - leitud kanalid kantakse tulemuse `retrieval_channels` väljale ja hiljem `rag_trace.retrievers_used` alla;
-- lexical kanal ei asenda BM25/full-text indeksit, vaid annab V2-s esimese mõõdetava silla päris hübriidotsingu poole.
+- lexical kanal ei asenda eraldi full-text indeksit, vaid annab V2-s esimese mõõdetava silla päris hübriidotsingu poole.
 
 V2 evidence score võib alguses olla reeglipõhine:
 
@@ -933,11 +934,11 @@ See plokk kirjeldab hetkeseisu lokaalses arenduses. Serveri production-seis või
 
 ### V2 Osaliselt Tehtud
 
-- RAG service tagastab ja märgistab retrieval kanalid, sh `dense`, `title_match` ja `exact_phrase`.
+- RAG service tagastab ja märgistab retrieval kanalid, sh `dense`, `title_match`, `exact_phrase` ja lightweight `bm25`.
 - Vastete küljes liigub `retrieval_channels`; trace'is liigub `retrievers_used`.
 - Riskipoliitika klassifitseerib küsimused `low`, `medium` ja `high` tasemele.
 - Riskitase ja nõutav tõendus liiguvad `rag_trace` sisse.
-- Ranking kasutab olemasolevat metadata't: `source_type`, `source_status`, `historical`, `retrieval_channels`, pealkirja- ja fraasikattuvust.
+- Ranking kasutab olemasolevat metadata't: `source_type`, `source_status`, `historical`, `retrieval_channels`, pealkirja-, fraasi- ja tokenikattuvust.
 - Kõrge riskiga vastustes ei kuvata nõrka taustaallikat tugeva tõendusena.
 - Lühikesed artikli järelküsimused, näiteks "Eesti", "Soome" või "OTT", ankurdatakse hiljutise assistendi allika külge.
 - Sama allika järelküsimuses kasutatakse esmalt `doc_id`, `source_id` või `canonical_item_id` põhist filtrit ning seejärel fallback otsingut.
@@ -945,6 +946,14 @@ See plokk kirjeldab hetkeseisu lokaalses arenduses. Serveri production-seis või
 - Multi-source selection eelistab laia sünteesi puhul eri allikaidentiteete, mitte sama dokumendi korduvaid chunk'e.
 - Query Planner V2 on eraldi moodulis `lib/chat/queryPlanner.js` ja tagastab standardse plaani: päringud, filtrid, topK, selection strategy, context group target ja trace'i `query_plan`.
 - `query_plan` liigub `rag_trace` sisse, et hiljem oleks näha, miks valiti `source_focused_followup`, `broad_multi_source`, `temporal`, `municipality_service_benefit_list` või muu planner mode.
+- Dense ja lexical kanalid ühendatakse RRF/weighted merge loogikaga ning tulemuste küljes liiguvad `rrf_score`, `hybrid_score` ja `hybrid_rank`.
+- RAG source metadata contract on koondatud ühisesse helperisse ning KOV, organisatsiooni, ajakirja ja Riigi Teataja ingest/validation radades kasutatakse rangemat metadata kontrolli.
+- Source freshness audit on eraldi helperis ja CLI-s olemas: allikatüübi põhine kontroll leiab puuduva või aegunud `last_checked`, aegunud `valid_to`, mitteaktiivse `source_status` ja kõrge prioriteediga ülevaatusvajaduse.
+- Admin analytics RAG dokumentide vaates on esimene quality queue: see kuvab freshness auditi vead ja hoiatused ning annab prioriteetse nimekirja allikatest, mis vajavad metadata või värskuse ülevaatust.
+- Quality queue kontrollib esimeses versioonis ka URL-i kuju, puuduvaid URL-e praeguse info tõendusallikatel, KOV teenust ilma seotud vormiallikata ning kontaktiviiteid, mis ei tule `official_contact` või `contact_page` allikatüübist.
+- KOV ingest lisab item metadata külge `sections_present`, vormi-, kontakti- ja õigusliku aluse loendurid; quality queue kasutab neid source package signaale, et vormi või ametliku kontakti puudumist märkida ainult siis, kui teenuse metadata seda vajadust päriselt näitab.
+- Admin analytics mõõdab kõrge riskiga RAG vastuste allikariski kahes kihis: `answer_source_stale_rate` / `answer_unknown_source_rate` näitavad vastuse tõendusallikate riski ning `displayed_source_stale_rate` / `displayed_unknown_source_rate` näitavad kasutajale kuvatud allikapaneeli riski.
+- Admin analytics kuvab eraldi high-risk source risk queue tabeli, mis näitab, kas risk tuli `answer` või `displayed` kihist.
 - Admin analytics sündmuste real kuvatakse `query_plan` detailid: planner mode, query order, selection strategy, query count ja `rag_top_k`.
 - Admin analytics 30 päeva kokkuvõttes arvutatakse Query Planner mode, query order ja selection strategy jaotused.
 - Query Planner V2 esimene eval-fixture on olemas: see kontrollib artikli järelküsimust, laia võrdlust, KOV teenuseid/toetusi, national scope'i, teenuse tasandi liigitust, temporal päringut, source lookup'i ja default low-risk päringut.
@@ -1004,17 +1013,25 @@ Smoke kontrollib vähemalt:
 
 Pärast V1.2 võib V1 lugeda arenduslikult lõpetatuks ning hoida seda maintenance/hardening režiimis. Uus RAG kvaliteediarendus liigub V2 alla.
 
+Production kontroll 2026-04-26:
+
+```text
+npm run rag:smoke:v1
+npm run rag:smoke:v1 -- --stream
+```
+
+Mõlemad smoke käsud läbisid `https://sotsiaal.ai` vastu edukalt. Kontroll kinnitas, et non-stream ja streaming `/api/chat` vastused tagastavad V1 contract'i väljad, sealhulgas `rag_contract_version`, `source_display_mode`, `rag_trace`, `sources` ja `displayed_sources`.
+
 ## Järgmised Plaanitavad Tööd
 
 ### V2 Järgmine Praktiline Skoop
 
 1. Parandada päris vestluse kvaliteeti artikli-follow-up juhtumites: kui kasutaja küsib sama artikli kohta riike, näiteid või nimesid, peab uus otsing tekkima ja sama artikli tekstist täpsem lõik leiduma.
 2. Laiendada planner eval-fixture'it päris probleemvestluste põhjal, mitte ainult sünteetiliste juhtumitega.
-3. Lisada BM25 või Postgres full-text kanal `title_match` ja `exact_phrase` kõrvale.
-4. Lisada RRF või weighted merge loogika, et dense, exact/title ja tulevane BM25 ei oleks lihtsalt juhuslikult kokku kleebitud.
-5. Teha KOV, ajakirja, organisatsiooni ja Riigi Teataja ingest'i metadata validation rangemaks.
-6. Lisada admin quality queue esimene versioon: puuduv metadata, vana `last_checked`, katkine URL, ametliku vormi puudumine, kontakt ilma ametliku allikata.
-7. Lisada source freshness audit: millised allikad vajavad ülevaatust enne, kui neid tohib kasutada kehtiva info tõendusena.
+3. Mõõta ja häälestada lightweight `bm25` kanalit päris probleemvestluste põhjal ning otsustada, kas vaja on Postgres full-text või eraldi indeksit.
+4. Laiendada source package kvaliteedikontrolli päris KOV andmestiku põhjal: vormi ja kontakti signaalid on olemas, järgmine samm on vastuolude, katkiste URL-ide ja puudulike source package'ite ülevaatusvoog.
+5. Siduda kõrge riskiga vastuste allikariski mõõdik tulevase claim-level attribution'iga, et stale või tundmatu allikas oleks näha konkreetse väite tasemel, mitte ainult vastuse tasemel.
+6. Hakata koguma metadata kvaliteedi mõõdikuid ingest'i ja admini vaadete jaoks.
 
 ### KOV Ja Muude Materjalide Meta Enne Mass-Ingesti
 

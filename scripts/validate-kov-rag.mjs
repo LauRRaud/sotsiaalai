@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 import {
   RAG_METADATA_REQUIRED_FOR_READINESS,
+  validateRagSourceMetadataContract,
   isKnownRagSourceStatus,
   isKnownRagSourceType
 } from "../lib/rag/sourceMetadata.js";
@@ -275,6 +276,14 @@ function validateRootFields(data, label, errors) {
 
 function validateSourceReadinessFields(source, label, errors) {
   if (!isObject(source)) return;
+  const contract = validateRagSourceMetadataContract(source, {
+    label,
+    requireMunicipality: true,
+    requireDocumentId: false,
+    requireTitle: false,
+    requireAudience: true
+  });
+  errors.push(...contract.errors);
 
   if ("source_id" in source) {
     assertString(source.source_id, `${label}.source_id`, errors, { minLength: 1, pattern: /^[a-z0-9_-]+$/ });
@@ -324,6 +333,7 @@ function warnSourceReadinessCoverage(sources, label, warnings) {
   if (!warnings || !Array.isArray(sources)) return;
   const fields = RAG_METADATA_REQUIRED_FOR_READINESS;
   const missingCounts = Object.fromEntries(fields.map(field => [field, 0]));
+  const contractWarnings = [];
 
   for (const source of sources) {
     if (!isObject(source)) continue;
@@ -332,6 +342,14 @@ function warnSourceReadinessCoverage(sources, label, warnings) {
         missingCounts[field] += 1;
       }
     }
+    const contract = validateRagSourceMetadataContract(source, {
+      label: `${label}.${source.key || source.title || "unknown"}`,
+      requireMunicipality: true,
+      requireDocumentId: false,
+      requireTitle: false,
+      requireAudience: true
+    });
+    contractWarnings.push(...contract.warnings);
   }
 
   const missingSummary = Object.entries(missingCounts)
@@ -340,6 +358,10 @@ function warnSourceReadinessCoverage(sources, label, warnings) {
 
   if (missingSummary.length) {
     warnings.push(`${label}: missing recommended V1 metadata fields: ${missingSummary.join(", ")}`);
+  }
+  if (contractWarnings.length) {
+    warnings.push(...contractWarnings.slice(0, 20));
+    if (contractWarnings.length > 20) warnings.push(`${label}: +${contractWarnings.length - 20} more recommended metadata warnings`);
   }
 }
 
@@ -362,7 +384,9 @@ function validateSourceRecord(source, label, errors) {
     "historical",
     "canonical_item_id",
     "document_id",
+    "chunk_id",
     "content_hash",
+    "retrieved_at",
     "url_canonical",
     "source_status"
   ]);

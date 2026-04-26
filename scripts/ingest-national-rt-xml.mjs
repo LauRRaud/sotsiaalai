@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { buildNationalRtXmlIngestPayload } from "../lib/admin/rag/kov/rtXml.js";
+import { assertRagSourceMetadataContract } from "../lib/rag/sourceMetadata.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -103,6 +104,13 @@ async function main() {
     sourcePath,
     sourceUrl: args.sourceUrl,
     docId: args.docId
+  });
+  assertRagSourceMetadataContract(payload.metadata, {
+    label: "national_rt.metadata",
+    requireMunicipality: false,
+    requireDocumentId: true,
+    requireTitle: true,
+    requireAudience: true
   });
 
   console.log(JSON.stringify(summarizePayload(payload), null, 2));

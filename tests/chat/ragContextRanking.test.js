@@ -47,6 +47,56 @@ test("title_match channel boosts lexical exact title candidates", () => {
   assert.equal(ranked[0].key, "title-hit");
 });
 
+test("bm25 channel boosts lexical body matches without requiring exact phrase", () => {
+  const ranked = rankGroupsWithTopicHints([
+    {
+      key: "dense-nearby",
+      title: "Teenuste ylevaade",
+      bodies: ["Yldine kohalike teenuste kirjeldus."],
+      bestScore: 0.46,
+      retrievalChannels: ["dense"],
+      tags: []
+    },
+    {
+      key: "bm25-hit",
+      title: "Koduteenuse taotlemine",
+      bodies: ["Tartu koduteenus ja taotlus on kirjeldatud teenuselehel."],
+      bestScore: 0.31,
+      retrievalChannels: ["bm25"],
+      tags: []
+    }
+  ], []);
+
+  assert.equal(ranked[0].key, "bm25-hit");
+});
+
+test("group ranking uses backend hybrid_score when present", () => {
+  const groups = groupMatches([
+    {
+      id: "dense-top",
+      doc_id: "dense-top",
+      title: "Semantiline vaste",
+      chunk: "Sisuliselt laiem vastus.",
+      distance: 0.05,
+      retrieval_channels: ["dense"],
+      hybrid_score: 0.42
+    },
+    {
+      id: "hybrid-top",
+      doc_id: "hybrid-top",
+      title: "Täpne hübriidvaste",
+      chunk: "Päringu täpne tekstiline vaste.",
+      distance: 0.4,
+      retrieval_channels: ["dense", "bm25"],
+      hybrid_score: 0.78
+    }
+  ]);
+  const ranked = rankGroupsWithTopicHints(groups, []);
+
+  assert.equal(ranked[0].key, "hybrid-top");
+  assert.equal(ranked[0].bestScore, 0.78);
+});
+
 test("official active sources outrank background sources with close scores", () => {
   const ranked = rankGroupsWithTopicHints([
     {

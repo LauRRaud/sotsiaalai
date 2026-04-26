@@ -58,13 +58,15 @@ test("searchRagQueries sends hybrid retriever request and preserves returned cha
       ok: true,
       async text() {
         return JSON.stringify({
-          retrievers_used: ["dense", "title_match"],
+          retrievers_used: ["dense", "title_match", "bm25"],
           results: [
             {
               id: "chunk-title",
               title: "Tartu linn koduteenus",
               text: "Koduteenuse taotlemine Tartus.",
-              retrieval_channels: ["dense", "title_match"]
+              retrieval_channels: ["dense", "title_match", "bm25"],
+              hybrid_score: 0.82,
+              rrf_score: 0.04
             }
           ]
         });
@@ -78,9 +80,11 @@ test("searchRagQueries sends hybrid retriever request and preserves returned cha
       topK: 5
     });
 
-    assert.deepEqual(calls[0].retrievers, ["dense", "title_match", "exact_phrase"]);
-    assert.deepEqual(results[0].retrieval_channels, ["dense", "title_match"]);
-    assert.deepEqual(inferRetrieversUsed(results), ["dense", "title_match"]);
+    assert.deepEqual(calls[0].retrievers, ["dense", "title_match", "exact_phrase", "bm25"]);
+    assert.deepEqual(results[0].retrieval_channels, ["dense", "title_match", "bm25"]);
+    assert.equal(results[0].hybrid_score, 0.82);
+    assert.equal(results[0].rrf_score, 0.04);
+    assert.deepEqual(inferRetrieversUsed(results), ["dense", "title_match", "bm25"]);
   } finally {
     global.fetch = previousFetch;
   }

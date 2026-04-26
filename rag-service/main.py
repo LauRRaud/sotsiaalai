@@ -86,6 +86,8 @@ ALWAYS_CHUNK = os.getenv("RAG_ALWAYS_CHUNK", "0").strip() in {"1", "true", "yes"
 RAG_LEXICAL_SEARCH_ENABLED = os.getenv("RAG_LEXICAL_SEARCH_ENABLED", "1").strip().lower() in {"1", "true", "yes"}
 RAG_LEXICAL_SCAN_LIMIT = int(os.getenv("RAG_LEXICAL_SCAN_LIMIT", "2000"))
 RAG_LEXICAL_TOP_K = int(os.getenv("RAG_LEXICAL_TOP_K", "20"))
+RAG_BM25_MIN_COVERAGE = float(os.getenv("RAG_BM25_MIN_COVERAGE", "0.35"))
+RAG_RRF_K = int(os.getenv("RAG_RRF_K", "60"))
 
 # Lubatud MIME – kui env on tühi, kasuta mõistlikku vaikimisi komplekti
 _DEFAULT_ALLOWED = (
@@ -2234,16 +2236,33 @@ def _query_phrases(query: str) -> List[str]:
         phrases.insert(0, full)
     return phrases[:8]
 
+def _lexical_token_counts(text: str, limit: int = 1000) -> Dict[str, int]:
+    counts: Dict[str, int] = {}
+    if not text:
+        return counts
+    seen = 0
+    for token in str(text or "").split(" "):
+        cleaned = token.strip()
+        if len(cleaned) < 3 or cleaned in LEXICAL_STOPWORDS:
+            continue
+        counts[cleaned] = counts.get(cleaned, 0) + 1
+        seen += 1
+        if seen >= limit:
+            break
+    return counts
+
 def _lexical_match(query: str, md: Dict, document: str) -> Optional[Dict[str, object]]:
     title_norm = _normalize_search_text(md.get("title") or md.get("fileName") or md.get("source_url") or "")
-    body_norm = _normalize_search_text(document[:5000])
+    body_norm = _normalize_search_text(document[:12000])
     if not title_norm and not body_norm:
         return None
 
     phrases = _query_phrases(query)
     query_tokens = _search_tokens(query)
-    title_tokens = set(_search_tokens(title_norm, limit=40))
-    body_tokens = set(_search_tokens(body_norm, limit=160))
+    title_counts = _lexical_token_counts(title_norm, limit=80)
+    body_counts = _lexical_token_counts(body_norm, limit=900)
+    title_tokens = set(title_counts.keys())
+    body_tokens = set(body_counts.keys())
     channels: List[str] = []
     score = 0.0
 
@@ -2276,6 +2295,26 @@ def _lexical_match(query: str, md: Dict, document: str) -> Optional[Dict[str, ob
         if title_overlap >= max(1, min(3, len(query_tokens))):
             if "title_match" not in channels:
                 channels.append("title_match")
+        bm25_score = 0.0
+        bm25_matches = 0
+        for token in query_tokens:
+            title_freq = title_counts.get(token, 0)
+            body_freq = body_counts.get(token, 0)
+            if not title_freq and not body_freq:
+                continue
+            bm25_matches += 1
+            if title_freq:
+                bm25_score += 1.8 * (title_freq / (title_freq + 0.8))
+            if body_freq:
+                bm25_score += 1.0 * (body_freq / (body_freq + 1.5))
+        bm25_coverage = bm25_matches / max(1, len(query_tokens))
+        if bm25_matches and (
+            bm25_coverage >= RAG_BM25_MIN_COVERAGE
+            or bm25_matches >= min(3, len(query_tokens))
+        ):
+            score += min(5.0, bm25_score)
+            if "bm25" not in channels:
+                channels.append("bm25")
 
     if score < 3.0 or not channels:
         return None
@@ -2303,7 +2342,7 @@ def _normalize_requested_retrievers(value) -> List[str]:
         cleaned = re.sub(r"[^a-z0-9]+", "_", str(item or "").strip().lower()).strip("_")
         if cleaned and cleaned not in out:
             out.append(cleaned)
-    return out or ["dense", "title_match", "exact_phrase"]
+    return out or ["dense", "title_match", "exact_phrase", "bm25"]
 
 def _search_result_from_metadata(
     *,
@@ -2415,9 +2454,86 @@ def _search_result_from_metadata(
         "distance": distance,
     }
 
-def _fetch_lexical_candidates(query: str, chroma_where: Optional[Dict[str, object]], top_k: int) -> List[Dict[str, object]]:
+def _hybrid_dense_score(distance) -> float:
+    try:
+        value = float(distance)
+    except Exception:
+        return 0.0
+    if value < 0:
+        value = 0.0
+    return 1.0 / (1.0 + value)
+
+def _hybrid_lexical_score(value) -> float:
+    try:
+        score = float(value)
+    except Exception:
+        return 0.0
+    if score <= 0:
+        return 0.0
+    return score / (score + 8.0)
+
+def _apply_hybrid_ranking(results: List[Dict[str, object]]) -> None:
+    if not results:
+        return
+    channel_weights = {
+        "dense": 1.0,
+        "title_match": 1.35,
+        "exact_phrase": 1.15,
+        "bm25": 1.0,
+    }
+    rrf_k = max(1, RAG_RRF_K)
+    for original_index, item in enumerate(results):
+        channels = item.get("retrieval_channels") if isinstance(item.get("retrieval_channels"), list) else []
+        dense_rank = _to_int(item.get("dense_rank") or item.get("retrieval_rank"))
+        lexical_rank = _to_int(item.get("lexical_rank"))
+        dense_score = _hybrid_dense_score(item.get("distance")) if "dense" in channels else 0.0
+        lexical_score = _hybrid_lexical_score(item.get("lexical_score")) if any(
+            channel in channels for channel in ["title_match", "exact_phrase", "bm25"]
+        ) else 0.0
+        rrf_score = 0.0
+        if dense_rank and "dense" in channels:
+            rrf_score += channel_weights["dense"] / (rrf_k + dense_rank)
+        if lexical_rank:
+            for channel in channels:
+                if channel == "dense":
+                    continue
+                rrf_score += channel_weights.get(str(channel), 0.75) / (rrf_k + lexical_rank)
+        channel_boost = sum(
+            {
+                "title_match": 0.09,
+                "exact_phrase": 0.06,
+                "bm25": 0.05,
+            }.get(str(channel), 0.0)
+            for channel in channels
+        )
+        hybrid_score = (dense_score * 0.58) + (lexical_score * 0.34) + (rrf_score * 8.0) + channel_boost
+        item["dense_score"] = round(dense_score, 6) if dense_score else None
+        item["rrf_score"] = round(rrf_score, 6)
+        item["hybrid_score"] = round(hybrid_score, 6)
+        item["hybridScore"] = item["hybrid_score"]
+        item["_hybrid_original_index"] = original_index
+
+    results.sort(
+        key=lambda item: (
+            -float(item.get("hybrid_score") or 0),
+            int(item.get("lexical_rank") or item.get("dense_rank") or item.get("retrieval_rank") or 999999),
+            int(item.get("_hybrid_original_index") or 0),
+        )
+    )
+    for rank, item in enumerate(results, start=1):
+        item["hybrid_rank"] = rank
+        item["hybridRank"] = rank
+        item.pop("_hybrid_original_index", None)
+
+def _fetch_lexical_candidates(
+    query: str,
+    chroma_where: Optional[Dict[str, object]],
+    top_k: int,
+    requested_retrievers: Optional[List[str]] = None,
+) -> List[Dict[str, object]]:
     if not RAG_LEXICAL_SEARCH_ENABLED or not str(query or "").strip():
         return []
+    allowed_channels = set(requested_retrievers or ["title_match", "exact_phrase", "bm25"])
     scan_limit = max(1, min(100000, RAG_LEXICAL_SCAN_LIMIT))
     try:
         if chroma_where:
@@ -2438,12 +2554,15 @@ def _fetch_lexical_candidates(query: str, chroma_where: Optional[Dict[str, objec
         match = _lexical_match(query, md, document)
         if not match:
             continue
+        channels = [item for item in list(match["channels"]) if item in allowed_channels]
+        if not channels:
+            continue
         scored.append({
             "id": item_id,
             "document": document,
             "metadata": md,
             "score": float(match["score"]),
-            "channels": list(match["channels"]),
+            "channels": channels,
         })
 
     scored.sort(key=lambda item: float(item.get("score") or 0), reverse=True)
@@ -2925,7 +3044,7 @@ async def ingest_pdf_with_metadata(
     doc_id, original_doc_id = resolve_pdf_metadata_doc_id(meta_dict)
     file_name = _sanitize_filename(file.filename or meta_dict.get("source_path") or "document.pdf")
     # override/meta additions
-    meta_dict["source_type"] = "file"
+    meta_dict["source_type"] = meta_dict.get("source_type") or "file"
     meta_dict["source_path"] = file_name
     if audience:
         meta_dict["audience"] = audience
@@ -3698,6 +3817,7 @@ def search(payload: SearchIn, request: Request):
             "retrievalChannel": "dense",
             "retrieval_channels": ["dense"],
             "retrieval_rank": i + 1,
+            "dense_rank": i + 1,
             "doc_id": md.get("doc_id") or md.get("docId"),
             "docId": md.get("docId") or md.get("doc_id"),
             "chunk_id": md.get("chunk_id") or md.get("chunkId"),
@@ -3783,8 +3903,9 @@ def search(payload: SearchIn, request: Request):
             payload.query,
             chroma_where,
             max(1, min(50, payload.top_k or 5)),
+            requested_retrievers,
         )
-        if any(channel in requested_retrievers for channel in ["title_match", "exact_phrase"])
+        if any(channel in requested_retrievers for channel in ["title_match", "exact_phrase", "bm25"])
         else []
     )
     flat_by_id = {str(item.get("id") or ""): item for item in flat if item.get("id")}
@@ -3813,6 +3934,7 @@ def search(payload: SearchIn, request: Request):
         lexical_result["lexical_rank"] = rank
         flat_by_id[item_id] = lexical_result
         flat.append(lexical_result)
+    _apply_hybrid_ranking(flat)
     result_count = len(flat)
     retrievers_used: List[str] = []
     for item in flat:

@@ -7,6 +7,10 @@ import { assertAdmin } from "@/lib/authz";
 import { buildPaymentAlerts, buildPaymentPipelineFromCounts } from "@/lib/admin/payment-alerts";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
+import {
+  summarizeFreshnessAudit,
+  summarizeHighRiskSourceFreshness
+} from "@/lib/rag/sourceFreshness";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -67,6 +71,38 @@ function arrayLength(value) {
   return Array.isArray(value) ? value.length : 0;
 }
 
+function sortFreshnessIssue(left, right) {
+  const severityRank = { error: 0, warning: 1, info: 2 };
+  const priorityRank = { high: 0, medium: 1, low: 2, unknown: 3 };
+  const leftSeverity = severityRank[left?.severity] ?? 9;
+  const rightSeverity = severityRank[right?.severity] ?? 9;
+  if (leftSeverity !== rightSeverity) return leftSeverity - rightSeverity;
+
+  const leftPriority = priorityRank[left?.freshness_priority] ?? 9;
+  const rightPriority = priorityRank[right?.freshness_priority] ?? 9;
+  if (leftPriority !== rightPriority) return leftPriority - rightPriority;
+
+  return Number(right?.age_days || 0) - Number(left?.age_days || 0);
+}
+
+function compactFreshnessIssue(item) {
+  return {
+    source_id: item.source_id || null,
+    document_id: item.document_id || null,
+    title: item.title || null,
+    source_type: item.source_type || null,
+    source_status: item.source_status || null,
+    freshness_status: item.freshness_status || null,
+    severity: item.severity || "info",
+    reasons: Array.isArray(item.reasons) ? item.reasons.slice(0, 8) : [],
+    last_checked: item.last_checked || null,
+    age_days: item.age_days,
+    max_age_days: item.max_age_days,
+    valid_to: item.valid_to || null,
+    url: item.url || null
+  };
+}
+
 export async function GET(req) {
   const locale = localeFromRequest(req);
   const session = await getServerSession(authConfig).catch(() => null);
@@ -97,6 +133,7 @@ export async function GET(req) {
       ragDocFailed,
       ragDocError30d,
       ragDocsRecent,
+      ragDocsForFreshness,
       ragDocsByStatus,
       ragDocsByAudience,
       ragDocsByType,
@@ -231,6 +268,24 @@ export async function GET(req) {
           createdAt: true,
           updatedAt: true,
           error: true
+        }
+      }),
+      prisma.ragDocument.findMany({
+        orderBy: { updatedAt: "desc" },
+        take: 1000,
+        select: {
+          id: true,
+          title: true,
+          type: true,
+          status: true,
+          audience: true,
+          sourceUrl: true,
+          fileName: true,
+          remoteId: true,
+          metadata: true,
+          insertedAt: true,
+          createdAt: true,
+          updatedAt: true
         }
       }),
       prisma.ragDocument.groupBy({ by: ["status"], _count: { _all: true } }),
@@ -652,6 +707,14 @@ export async function GET(req) {
       avgFilteredOutSourceCount /= traceTotal;
     }
 
+    const ragFreshnessAudit = summarizeFreshnessAudit(ragDocsForFreshness, { now });
+    const ragFreshnessIssues = ragFreshnessAudit.items
+      .filter(item => item.severity === "error" || item.severity === "warning")
+      .sort(sortFreshnessIssue)
+      .slice(0, 25)
+      .map(compactFreshnessIssue);
+    const highRiskFreshness = summarizeHighRiskSourceFreshness(ragTraceLogs, ragFreshnessAudit.items);
+
     const paymentPipeline30d = buildPaymentPipelineFromCounts({
       initStarted: paymentEventInitStartedCount,
       checkoutCreated: paymentEventCheckoutCreatedCount,
@@ -695,7 +758,14 @@ export async function GET(req) {
         byStatus: toCountMap(ragDocsByStatus, "status"),
         byAudience: toCountMap(ragDocsByAudience, "audience"),
         byType: toCountMap(ragDocsByType, "type"),
-        recent: ragDocsRecent
+        recent: ragDocsRecent,
+        freshness: {
+          audited: ragFreshnessAudit.summary.total,
+          summary: ragFreshnessAudit.summary,
+          issues: ragFreshnessIssues,
+          highRisk: highRiskFreshness.summary,
+          highRiskIssues: highRiskFreshness.issues
+        }
       },
       billing: {
         activeSubscriptions,

@@ -259,6 +259,11 @@ function formatMinutes(value, localeTag, digits = 2) {
   return `${formatDecimal(value, localeTag, digits)} min`;
 }
 
+function formatDays(value, localeTag) {
+  if (value == null || value === "") return "-";
+  return `${formatCount(value, localeTag)} d`;
+}
+
 function formatMoney(amount, currency = "EUR", localeTag = "en-US") {
   try {
     return new Intl.NumberFormat(localeTag, {
@@ -414,6 +419,45 @@ export default function AnalyticsDashboard() {
       PROCESSING: t(STATUS_LABEL_KEYS.PROCESSING, "Processing"),
       COMPLETED: t(STATUS_LABEL_KEYS.COMPLETED, "Completed"),
       FAILED: t(STATUS_LABEL_KEYS.FAILED, "Failed")
+    }),
+    [t]
+  );
+
+  const freshnessStatusLabels = useMemo(
+    () => ({
+      ok: t("admin.analytics.rag_docs.freshness.ok", "OK"),
+      due_soon: t("admin.analytics.rag_docs.freshness.due_soon", "Due soon"),
+      stale: t("admin.analytics.rag_docs.freshness.stale", "Stale"),
+      missing_last_checked: t("admin.analytics.rag_docs.freshness.missing_last_checked", "Missing last_checked"),
+      expired: t("admin.analytics.rag_docs.freshness.expired", "Expired"),
+      inactive: t("admin.analytics.rag_docs.freshness.inactive", "Inactive"),
+      archived: t("admin.analytics.rag_docs.freshness.archived", "Archived"),
+      unknown_type: t("admin.analytics.rag_docs.freshness.unknown_type", "Unknown type"),
+      invalid_last_checked: t("admin.analytics.rag_docs.freshness.invalid_last_checked", "Invalid last_checked"),
+      not_yet_valid: t("admin.analytics.rag_docs.freshness.not_yet_valid", "Not yet valid"),
+      historical: t("admin.analytics.rag_docs.freshness.historical", "Historical"),
+      invalid_url: t("admin.analytics.rag_docs.freshness.invalid_url", "Invalid URL"),
+      missing_url: t("admin.analytics.rag_docs.freshness.missing_url", "Missing URL"),
+      contact_not_official_source: t("admin.analytics.rag_docs.freshness.contact_not_official_source", "Contact not official"),
+      kov_service_missing_form_source: t("admin.analytics.rag_docs.freshness.kov_service_missing_form_source", "Service missing form source"),
+      kov_service_missing_official_contact_source: t("admin.analytics.rag_docs.freshness.kov_service_missing_official_contact_source", "Service missing official contact source")
+    }),
+    [t]
+  );
+
+  const freshnessSeverityLabels = useMemo(
+    () => ({
+      error: t("admin.analytics.rag_docs.freshness.error", "Error"),
+      warning: t("admin.analytics.rag_docs.freshness.warning", "Warning"),
+      info: t("admin.analytics.rag_docs.freshness.info", "Info")
+    }),
+    [t]
+  );
+
+  const highRiskSourceLayerLabels = useMemo(
+    () => ({
+      answer: t("admin.analytics.rag_docs.high_risk_layer.answer", "Answer source"),
+      displayed: t("admin.analytics.rag_docs.high_risk_layer.displayed", "Displayed source")
     }),
     [t]
   );
@@ -935,6 +979,12 @@ export default function AnalyticsDashboard() {
   const paymentPipeline = summary?.billing?.paymentPipeline30d || {};
   const paymentAlerts = Array.isArray(summary?.billing?.paymentAlerts30d) ? summary.billing.paymentAlerts30d : [];
   const documentStorage = summary?.documents?.storage || null;
+  const ragFreshness = summary?.ragDocs?.freshness || null;
+  const ragFreshnessSummary = ragFreshness?.summary || {};
+  const ragQualityReasons = ragFreshnessSummary?.reasons || {};
+  const ragHighRiskFreshness = ragFreshness?.highRisk || {};
+  const ragFreshnessIssues = Array.isArray(ragFreshness?.issues) ? ragFreshness.issues : [];
+  const ragHighRiskIssues = Array.isArray(ragFreshness?.highRiskIssues) ? ragFreshness.highRiskIssues : [];
 
   const platformCards = useMemo(
     () => [
@@ -2073,6 +2123,317 @@ export default function AnalyticsDashboard() {
                   : joinCounts(summary?.ragDocs?.byType, {}, localeTag, ["FILE", "URL"]) || "-"
               }
             />
+            <KpiCard
+              title={t("admin.analytics.rag_docs.freshness_audited", "Freshness audited")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(ragFreshness?.audited || 0, localeTag)}
+              meta={t("admin.analytics.rag_docs.freshness_audited_meta", "Latest RAG documents checked for source metadata freshness.")}
+            />
+            <KpiCard
+              title={t("admin.analytics.rag_docs.freshness_errors", "Freshness errors")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(ragFreshnessSummary.errors || 0, localeTag)}
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : t(
+                      "admin.analytics.rag_docs.freshness_errors_meta",
+                      {
+                        stale: formatCount(ragFreshnessSummary.stale || 0, localeTag),
+                        missing: formatCount(ragFreshnessSummary.missing_last_checked || 0, localeTag),
+                        expired: formatCount(ragFreshnessSummary.expired || 0, localeTag)
+                      },
+                      "Stale {stale} | missing last_checked {missing} | expired {expired}"
+                    )
+              }
+            />
+            <KpiCard
+              title={t("admin.analytics.rag_docs.freshness_warnings", "Freshness warnings")}
+              value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(ragFreshnessSummary.warnings || 0, localeTag)}
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : t(
+                      "admin.analytics.rag_docs.freshness_warnings_meta",
+                      {
+                        dueSoon: formatCount(ragFreshnessSummary.due_soon || 0, localeTag),
+                        unknown: formatCount(ragFreshnessSummary.unknown_type || 0, localeTag),
+                        invalidUrl: formatCount(ragQualityReasons.invalid_url || 0, localeTag),
+                        missingForm: formatCount(ragQualityReasons.kov_service_missing_form_source || 0, localeTag),
+                        missingContact: formatCount(ragQualityReasons.kov_service_missing_official_contact_source || 0, localeTag)
+                      },
+                      "Due soon {dueSoon} | unknown type {unknown} | invalid URL {invalidUrl} | missing form {missingForm} | missing contact {missingContact}"
+                    )
+              }
+            />
+            <KpiCard
+              title={t("admin.analytics.rag_docs.high_risk_answer_source_risk", "High-risk answer source risk")}
+              value={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : `${formatPercent(toNumber(ragHighRiskFreshness.answer_source_stale_rate) * 100, localeTag, 1)}%`
+              }
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : t(
+                      "admin.analytics.rag_docs.high_risk_answer_source_risk_meta",
+                      {
+                        responses: formatCount(ragHighRiskFreshness.high_risk_with_answer_sources || 0, localeTag),
+                        stale: formatCount(ragHighRiskFreshness.stale_answer_source_responses || 0, localeTag),
+                        unknownRate: `${formatPercent(toNumber(ragHighRiskFreshness.answer_unknown_source_rate) * 100, localeTag, 1)}%`
+                      },
+                      "Answer-source responses {responses} | stale {stale} | unknown {unknownRate}"
+                    )
+              }
+            />
+            <KpiCard
+              title={t("admin.analytics.rag_docs.high_risk_displayed_source_risk", "High-risk displayed source risk")}
+              value={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : `${formatPercent(toNumber(ragHighRiskFreshness.displayed_source_stale_rate) * 100, localeTag, 1)}%`
+              }
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : t(
+                      "admin.analytics.rag_docs.high_risk_displayed_source_risk_meta",
+                      {
+                        responses: formatCount(ragHighRiskFreshness.high_risk_with_displayed_sources || 0, localeTag),
+                        stale: formatCount(ragHighRiskFreshness.stale_displayed_source_responses || 0, localeTag),
+                        unknownRate: `${formatPercent(toNumber(ragHighRiskFreshness.displayed_unknown_source_rate) * 100, localeTag, 1)}%`
+                      },
+                      "Displayed-source responses {responses} | stale {stale} | unknown {unknownRate}"
+                    )
+              }
+            />
+          </div>
+          {!loadingSummary && ragFreshnessIssues.length > 0 ? (
+            <SectionAlert
+              tone={toNumber(ragFreshnessSummary.errors) > 0 ? "critical" : "warn"}
+              message={t(
+                "admin.analytics.rag_docs.freshness_queue_alert",
+                {
+                  count: formatCount(ragFreshnessIssues.length, localeTag)
+                },
+                "Quality queue contains {count} RAG sources that need metadata or freshness review."
+              )}
+            />
+          ) : null}
+          {!loadingSummary && ragHighRiskIssues.length > 0 ? (
+            <SectionAlert
+              tone={toNumber(ragHighRiskFreshness.stale_answer_source_responses) > 0 ? "critical" : "warn"}
+              message={t(
+                "admin.analytics.rag_docs.high_risk_queue_alert",
+                {
+                  count: formatCount(ragHighRiskIssues.length, localeTag)
+                },
+                "High-risk source risk queue contains {count} answer/display source issues."
+              )}
+            />
+          ) : null}
+          <div className={tableHeaderClassName}>
+            <div>
+              <CardTitle className="!mb-0 text-[clamp(0.98rem,1.12vw,1.06rem)]">
+                {t("admin.analytics.rag_docs.high_risk_source_queue", "High-risk source risk")}
+              </CardTitle>
+              <div className={sectionSubClassName}>
+                {t(
+                  "admin.analytics.rag_docs.high_risk_source_queue_subtitle",
+                  "Sources that appeared in high-risk answers or displayed source panels and have stale, missing or unknown freshness status."
+                )}
+              </div>
+            </div>
+            <div className={tableScrollHintClassName}>
+              {t("admin.common.table_scroll_hint", "Scroll sideways on smaller screens to see all columns.")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
+                  <tr>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.layer", "Layer")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.status", "Status")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.title", "Title")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.type", "Type")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.reason", "Reason")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loadingSummary ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={5}>
+                        {t("admin.common.loading_data", "Loading...")}
+                      </td>
+                    </tr>
+                  ) : ragHighRiskIssues.length ? (
+                    ragHighRiskIssues.map((item, index) => (
+                      <tr key={`${item.layer || "layer"}-${item.source_id || item.title || item.issue || "issue"}-${index}`} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>{highRiskSourceLayerLabels[item.layer] || item.layer || "-"}</td>
+                        <td className={tableCellClassName}>
+                          <div>{freshnessSeverityLabels[item.severity] || item.severity || "-"}</div>
+                          <div className={cellSubClassName}>
+                            {freshnessStatusLabels[item.freshness_status] || item.issue || item.freshness_status || "-"}
+                          </div>
+                        </td>
+                        <td className={tableCellClassName}>
+                          <div>{item.title || item.source_id || t("admin.analytics.table.untitled", "(untitled)")}</div>
+                          <div className={cellSubClassName}>{item.source_id || "-"}</div>
+                        </td>
+                        <td className={tableCellClassName}>{item.source_type || "-"}</td>
+                        <td className={`${tableCellClassName} ${cellSubClassName}`}>
+                          {(Array.isArray(item.reasons) ? item.reasons.join(", ") : item.issue || "").slice(0, 120) || "-"}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={5}>
+                        {t("admin.analytics.rag_docs.high_risk_source_queue_empty", "No high-risk source freshness issues found.")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingSummary ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : ragHighRiskIssues.length ? (
+              ragHighRiskIssues.map((item, index) => (
+                <div key={`${item.layer || "layer"}-${item.source_id || item.title || item.issue || "issue"}-mobile-${index}`} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div>
+                      <div className={mobileRowTitleClassName}>{item.title || item.source_id || t("admin.analytics.table.untitled", "(untitled)")}</div>
+                      <div className={mobileRowSubClassName}>{item.source_id || "-"}</div>
+                    </div>
+                    <span className={usersSelectCountClassName}>{highRiskSourceLayerLabels[item.layer] || item.layer || "-"}</span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField
+                      label={t("admin.analytics.table.status", "Status")}
+                      value={freshnessStatusLabels[item.freshness_status] || item.issue || item.freshness_status || "-"}
+                    />
+                    <MobileInfoField label={t("admin.analytics.table.type", "Type")} value={item.source_type || "-"} />
+                  </div>
+                  <MobileInfoField
+                    label={t("admin.analytics.table.reason", "Reason")}
+                    value={(Array.isArray(item.reasons) ? item.reasons.join(", ") : item.issue || "") || "-"}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>
+                {t("admin.analytics.rag_docs.high_risk_source_queue_empty", "No high-risk source freshness issues found.")}
+              </div>
+            )}
+          </div>
+          <div className={tableHeaderClassName}>
+            <div>
+              <CardTitle className="!mb-0 text-[clamp(0.98rem,1.12vw,1.06rem)]">
+                {t("admin.analytics.rag_docs.quality_queue", "RAG quality queue")}
+              </CardTitle>
+              <div className={sectionSubClassName}>
+                {t(
+                  "admin.analytics.rag_docs.quality_queue_subtitle",
+                  "Prioritized source metadata, freshness, URL, form and contact issues from the latest audited RAG documents."
+                )}
+              </div>
+            </div>
+            <div className={tableScrollHintClassName}>
+              {t("admin.common.table_scroll_hint", "Scroll sideways on smaller screens to see all columns.")}
+            </div>
+          </div>
+          <div className={tableDesktopWrapClassName}>
+            <div className={tableWrapClassName}>
+              <table className={tableClassName}>
+                <thead>
+                  <tr>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.status", "Status")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.title", "Title")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.type", "Type")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.rag_docs.last_checked", "Last checked")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.rag_docs.age", "Age")}</th>
+                    <th className={tableHeadCellClassName}>{t("admin.analytics.table.reason", "Reason")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loadingSummary ? (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={6}>
+                        {t("admin.common.loading_data", "Loading...")}
+                      </td>
+                    </tr>
+                  ) : ragFreshnessIssues.length ? (
+                    ragFreshnessIssues.map((item, index) => (
+                      <tr key={`${item.source_id || item.document_id || item.title || "issue"}-${index}`} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>
+                          <div>{freshnessSeverityLabels[item.severity] || item.severity || "-"}</div>
+                          <div className={cellSubClassName}>
+                            {freshnessStatusLabels[item.freshness_status] || item.freshness_status || "-"}
+                          </div>
+                        </td>
+                        <td className={tableCellClassName}>
+                          <div>{item.title || item.source_id || item.document_id || t("admin.analytics.table.untitled", "(untitled)")}</div>
+                          <div className={cellSubClassName}>{item.source_id || item.document_id || "-"}</div>
+                        </td>
+                        <td className={tableCellClassName}>{item.source_type || "-"}</td>
+                        <td className={tableCellClassName}>{item.last_checked || "-"}</td>
+                        <td className={tableCellClassName}>{formatDays(item.age_days, localeTag)}</td>
+                        <td className={`${tableCellClassName} ${cellSubClassName}`}>
+                          {(Array.isArray(item.reasons) ? item.reasons.join(", ") : "").slice(0, 120) || "-"}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className={tableCellClassName} colSpan={6}>
+                        {t("admin.analytics.rag_docs.quality_queue_empty", "No RAG source freshness issues found in the audited set.")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={mobileListClassName}>
+            {loadingSummary ? (
+              <div className={mobileRowCardClassName}>{t("admin.common.loading_data", "Loading...")}</div>
+            ) : ragFreshnessIssues.length ? (
+              ragFreshnessIssues.map((item, index) => (
+                <div key={`${item.source_id || item.document_id || item.title || "issue"}-mobile-${index}`} className={mobileRowCardClassName}>
+                  <div className={mobileRowHeadClassName}>
+                    <div>
+                      <div className={mobileRowTitleClassName}>
+                        {item.title || item.source_id || item.document_id || t("admin.analytics.table.untitled", "(untitled)")}
+                      </div>
+                      <div className={mobileRowSubClassName}>{item.source_id || item.document_id || "-"}</div>
+                    </div>
+                    <span className={usersSelectCountClassName}>
+                      {freshnessSeverityLabels[item.severity] || item.severity || "-"}
+                    </span>
+                  </div>
+                  <div className={mobileFieldGridClassName}>
+                    <MobileInfoField
+                      label={t("admin.analytics.table.status", "Status")}
+                      value={freshnessStatusLabels[item.freshness_status] || item.freshness_status || "-"}
+                    />
+                    <MobileInfoField label={t("admin.analytics.table.type", "Type")} value={item.source_type || "-"} />
+                    <MobileInfoField label={t("admin.analytics.rag_docs.last_checked", "Last checked")} value={item.last_checked || "-"} />
+                    <MobileInfoField label={t("admin.analytics.rag_docs.age", "Age")} value={formatDays(item.age_days, localeTag)} />
+                  </div>
+                  <MobileInfoField
+                    label={t("admin.analytics.table.reason", "Reason")}
+                    value={(Array.isArray(item.reasons) ? item.reasons.join(", ") : "") || "-"}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className={mobileRowCardClassName}>
+                {t("admin.analytics.rag_docs.quality_queue_empty", "No RAG source freshness issues found in the audited set.")}
+              </div>
+            )}
           </div>
           <div className={tableHeaderClassName}>
             <div className={tableScrollHintClassName}>

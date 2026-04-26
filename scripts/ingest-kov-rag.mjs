@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
 import {
+  assertRagSourceMetadataContract,
   inferKovItemRagSourceType,
   mapKovItemStatusToRagSourceStatus
 } from "../lib/rag/sourceMetadata.js";
@@ -118,6 +119,45 @@ function formatLegalBasis(entries) {
     })
     .filter(Boolean)
     .join("\n") || "Puudub.";
+}
+
+function countItems(value) {
+  return Array.isArray(value) ? value.length : 0;
+}
+
+function hasObjectText(value, fields) {
+  if (!value || !isObject(value)) return false;
+  return fields.some((field) => {
+    const fieldValue = value[field];
+    if (Array.isArray(fieldValue)) return fieldValue.length > 0;
+    return String(fieldValue || "").trim().length > 0;
+  });
+}
+
+function deriveSectionsPresent(item = {}) {
+  const sections = [];
+  if (item.summary || item.description) sections.push("description");
+  if (item.conditions || item.targetGroup) sections.push("eligibility");
+  if (
+    hasObjectText(item.application, ["channels", "steps", "deadline", "decisionTime", "notes"]) ||
+    countItems(item.submissionChannels) > 0 ||
+    item.deadline ||
+    item.decisionTime
+  ) {
+    sections.push("application");
+  }
+  if (countItems(item.forms) > 0 || countItems(item.relatedForms) > 0) sections.push("forms");
+  if (
+    countItems(item.contacts) > 0 ||
+    countItems(item.relatedContacts) > 0 ||
+    item.phone ||
+    item.email ||
+    item.address
+  ) {
+    sections.push("contacts");
+  }
+  if (countItems(item.legalBasis) > 0) sections.push("legal_basis");
+  return sections;
 }
 
 function _buildItemText(item, sourceMap) {
@@ -410,6 +450,17 @@ function sectionForItemType(itemType) {
   return "KOV";
 }
 
+function assertIngestMetadata(metadata, label, options = {}) {
+  assertRagSourceMetadataContract(metadata, {
+    label,
+    requireMunicipality: true,
+    requireDocumentId: true,
+    requireTitle: true,
+    requireAudience: true,
+    requireCanonicalItemId: options.requireCanonicalItemId === true
+  });
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 
@@ -450,47 +501,50 @@ async function main() {
 
   if (!RAG_KEY) throw new Error("RAG_SERVICE_API_KEY or RAG_API_KEY is missing");
 
+  const bundleMetadata = {
+    title: meta.title || `${meta.municipality} sotsiaalteenused ja toetused`,
+    description: `${meta.municipality} sotsiaalteenused, sotsiaaltoetused ja ressursid`,
+    audience: deriveAudienceStorage(unionAudience),
+    audiences: unionAudience,
+    tags: meta.tags || [],
+    language: meta.language || "et",
+    collection_id: meta.collection_id || "kov_services",
+    country: meta.country || "EE",
+    county: meta.county,
+    jurisdiction_level: meta.jurisdiction_level || "MUNICIPALITY",
+    municipality_name: meta.municipality_name || meta.municipality,
+    district_name: meta.district_name ?? null,
+    checked_at: meta.checkedAt,
+    item_type: "bundle",
+    content_status: "active",
+    source_keys: (sources.sources || []).map((entry) => entry.key),
+    source_urls: (sources.sources || []).map((entry) => entry.url),
+    source_register_file: path.basename(paths.sourcesPath),
+    source_count: Array.isArray(sources.sources) ? sources.sources.length : 0,
+    source_id: buildKovSourceId(canonicalSlug, "bundle"),
+    document_id: bundleDocId,
+    source_type: "kov_service_info",
+    legacy_source_type: "kov_dataset_bundle",
+    authority: "KOV",
+    municipality: meta.municipality,
+    municipality_id: _slugify(canonicalSlug),
+    last_checked: meta.checkedAt,
+    retrieved_at: nowIso,
+    historical: false,
+    source_status: "active",
+    canonical_item_id: null,
+    source_path: paths.ragPath,
+    source_url: sources.indexUrl || (sources.sources || []).find((entry) => entry?.url)?.url || null,
+    url_canonical: sources.indexUrl || (sources.sources || []).find((entry) => entry?.url)?.url || null,
+    fileName: path.basename(paths.ragPath),
+    mimeType: "text/markdown"
+  };
+  assertIngestMetadata(bundleMetadata, "kov.bundle.metadata");
+
   const bundleResult = await ingestText(baseUrl, {
     doc_id: bundleDocId,
     text: ragText,
-    metadata: {
-      title: meta.title || `${meta.municipality} sotsiaalteenused ja toetused`,
-      description: `${meta.municipality} sotsiaalteenused, sotsiaaltoetused ja ressursid`,
-      audience: deriveAudienceStorage(unionAudience),
-      audiences: unionAudience,
-      tags: meta.tags || [],
-      language: meta.language || "et",
-      collection_id: meta.collection_id || "kov_services",
-      country: meta.country || "EE",
-      county: meta.county,
-      jurisdiction_level: meta.jurisdiction_level || "MUNICIPALITY",
-      municipality_name: meta.municipality_name || meta.municipality,
-      district_name: meta.district_name ?? null,
-      checked_at: meta.checkedAt,
-      item_type: "bundle",
-      content_status: "active",
-      source_keys: (sources.sources || []).map((entry) => entry.key),
-      source_urls: (sources.sources || []).map((entry) => entry.url),
-      source_register_file: path.basename(paths.sourcesPath),
-      source_count: Array.isArray(sources.sources) ? sources.sources.length : 0,
-      source_id: buildKovSourceId(canonicalSlug, "bundle"),
-      document_id: bundleDocId,
-      source_type: "kov_service_info",
-      legacy_source_type: "kov_dataset_bundle",
-      authority: "KOV",
-      municipality: meta.municipality,
-      municipality_id: _slugify(canonicalSlug),
-      last_checked: meta.checkedAt,
-      retrieved_at: nowIso,
-      historical: false,
-      source_status: "active",
-      canonical_item_id: null,
-      source_path: paths.ragPath,
-      source_url: sources.indexUrl || (sources.sources || []).find((entry) => entry?.url)?.url || null,
-      url_canonical: sources.indexUrl || (sources.sources || []).find((entry) => entry?.url)?.url || null,
-      fileName: path.basename(paths.ragPath),
-      mimeType: "text/markdown"
-    }
+    metadata: bundleMetadata
   });
 
   let itemCount = 0;
@@ -501,48 +555,57 @@ async function main() {
       const itemDocId = `kov::${canonicalSlug}::item::${item.id}`;
       const itemSourceUrls = deriveSourceUrlsForItem(item, sourceMap);
       const itemSourceType = inferKovItemRagSourceType(item.itemType, item.resourceType);
+      const itemMetadata = {
+        title: item.title,
+        description: item.summary,
+        section: sectionForItemType(item.itemType),
+        audience: deriveAudienceStorage(item.audience),
+        audiences: Array.isArray(item.audience) ? item.audience : [],
+        tags: [...new Set([...(meta.tags || []), item.itemType, item.resourceType].filter(Boolean))],
+        language: meta.language || "et",
+        collection_id: meta.collection_id || "kov_services",
+        country: meta.country || "EE",
+        county: meta.county,
+        jurisdiction_level: meta.jurisdiction_level || "MUNICIPALITY",
+        municipality_name: meta.municipality_name || meta.municipality,
+        district_name: meta.district_name ?? null,
+        checked_at: dataset.checkedAt,
+        item_type: item.itemType,
+        content_status: item.status,
+        resource_type: item.resourceType,
+        source_keys: item.sourceKeys || [],
+        source_urls: itemSourceUrls,
+        source_register_file: path.basename(paths.sourcesPath),
+        source_count: Array.isArray(sources.sources) ? sources.sources.length : 0,
+        administering_body: item.provider && isObject(item.provider) ? item.provider.name || null : null,
+        source_id: buildKovSourceId(canonicalSlug, `item_${item.id}`),
+        document_id: itemDocId,
+        source_type: itemSourceType,
+        legacy_source_type: "kov_dataset_item",
+        authority: "KOV",
+        municipality: meta.municipality,
+        municipality_id: _slugify(canonicalSlug),
+        last_checked: dataset.checkedAt,
+        retrieved_at: nowIso,
+        historical: item.status === "ended" || item.status === "inactive",
+        source_status: mapKovItemStatusToRagSourceStatus(item.status),
+        canonical_item_id: buildCanonicalItemId(canonicalSlug, item),
+        sections_present: deriveSectionsPresent(item),
+        forms_count: countItems(item.forms),
+        related_forms_count: countItems(item.relatedForms),
+        contacts_count: countItems(item.contacts),
+        related_contacts_count: countItems(item.relatedContacts),
+        legal_basis_count: countItems(item.legalBasis),
+        source_url: itemSourceUrls[0] || sources.indexUrl || null,
+        url_canonical: itemSourceUrls[0] || sources.indexUrl || null,
+        mimeType: "text/markdown"
+      };
+      assertIngestMetadata(itemMetadata, `kov.item.${item.id}.metadata`, { requireCanonicalItemId: true });
+
       const result = await ingestText(baseUrl, {
         doc_id: itemDocId,
         text: itemText,
-        metadata: {
-          title: item.title,
-          description: item.summary,
-          section: sectionForItemType(item.itemType),
-          audience: deriveAudienceStorage(item.audience),
-          audiences: Array.isArray(item.audience) ? item.audience : [],
-          tags: [...new Set([...(meta.tags || []), item.itemType, item.resourceType].filter(Boolean))],
-          language: meta.language || "et",
-          collection_id: meta.collection_id || "kov_services",
-          country: meta.country || "EE",
-          county: meta.county,
-          jurisdiction_level: meta.jurisdiction_level || "MUNICIPALITY",
-          municipality_name: meta.municipality_name || meta.municipality,
-          district_name: meta.district_name ?? null,
-          checked_at: dataset.checkedAt,
-          item_type: item.itemType,
-          content_status: item.status,
-          resource_type: item.resourceType,
-          source_keys: item.sourceKeys || [],
-          source_urls: itemSourceUrls,
-          source_register_file: path.basename(paths.sourcesPath),
-          source_count: Array.isArray(sources.sources) ? sources.sources.length : 0,
-          administering_body: item.provider && isObject(item.provider) ? item.provider.name || null : null,
-          source_id: buildKovSourceId(canonicalSlug, `item_${item.id}`),
-          document_id: itemDocId,
-          source_type: itemSourceType,
-          legacy_source_type: "kov_dataset_item",
-          authority: "KOV",
-          municipality: meta.municipality,
-          municipality_id: _slugify(canonicalSlug),
-          last_checked: dataset.checkedAt,
-          retrieved_at: nowIso,
-          historical: item.status === "ended" || item.status === "inactive",
-          source_status: mapKovItemStatusToRagSourceStatus(item.status),
-          canonical_item_id: buildCanonicalItemId(canonicalSlug, item),
-          source_url: itemSourceUrls[0] || sources.indexUrl || null,
-          url_canonical: itemSourceUrls[0] || sources.indexUrl || null,
-          mimeType: "text/markdown"
-        }
+        metadata: itemMetadata
       });
       itemCount += 1;
       chunkCount += Number(result?.inserted || 0);

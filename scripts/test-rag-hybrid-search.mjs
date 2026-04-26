@@ -154,6 +154,8 @@ function compactResult(result) {
         ? result.retrievalChannels
         : [],
     lexical_score: result?.lexical_score ?? null,
+    rrf_score: result?.rrf_score ?? null,
+    hybrid_score: result?.hybrid_score ?? result?.hybridScore ?? null,
     distance: result?.distance ?? null,
     source_type: result?.source_type || null,
     source_id: result?.source_id || result?.sourceId || null,
@@ -171,7 +173,7 @@ async function searchOne({ baseUrl, apiKey, query, topK }) {
     body: JSON.stringify({
       query,
       top_k: topK,
-      retrievers: ["dense", "title_match", "exact_phrase"]
+      retrievers: ["dense", "title_match", "exact_phrase", "bm25"]
     })
   });
 
