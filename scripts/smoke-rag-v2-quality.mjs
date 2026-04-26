@@ -192,7 +192,12 @@ function assertSourceQualityPayload(sourceQuality) {
     "displayed_source_precision_basis",
     "display_contract_violation_rate",
     "retrieved_filter_rate",
-    "selected_filter_rate"
+    "selected_filter_rate",
+    "municipality_scope_expected_traces",
+    "municipality_source_count",
+    "wrong_municipality_source_count",
+    "traces_with_wrong_municipality",
+    "wrong_municipality_rate"
   ]) {
     assertNumber(sourceQuality.summary[field], `ragDocs.sourceQuality.summary.${field} must be a number`);
   }
@@ -214,7 +219,14 @@ function assertSourceQualityPayload(sourceQuality) {
     const issue = sourceQuality.issues[0];
     assertObject(issue, "ragDocs.sourceQuality.issues[0] missing");
     assertCondition(typeof issue.type === "string", "ragDocs.sourceQuality.issues[0].type missing");
-    assertCondition(Array.isArray(issue.offending_source_ids), "ragDocs.sourceQuality.issues[0].offending_source_ids must be an array");
+    if (issue.type === "displayed_source_not_in_answer_sources") {
+      assertCondition(Array.isArray(issue.offending_source_ids), "ragDocs.sourceQuality.issues[0].offending_source_ids must be an array");
+    }
+    if (issue.type === "selected_context_wrong_municipality") {
+      assertCondition(typeof issue.source_id === "string" || issue.source_id === null, "ragDocs.sourceQuality.issues[0].source_id missing");
+      assertCondition(Array.isArray(issue.expected_municipality_ids), "ragDocs.sourceQuality.issues[0].expected_municipality_ids must be an array");
+      assertCondition(Array.isArray(issue.expected_municipality_names), "ragDocs.sourceQuality.issues[0].expected_municipality_names must be an array");
+    }
   }
 }
 
@@ -321,6 +333,7 @@ async function main() {
       metadataFileTypes: metadataKeys(freshness.summary.metadata_quality.by_file_type),
       displayedSourcePrecision: adminPayload.ragDocs.sourceQuality.summary.displayed_source_precision,
       retrievedFilterRate: adminPayload.ragDocs.sourceQuality.summary.retrieved_filter_rate,
+      wrongMunicipalityRate: adminPayload.ragDocs.sourceQuality.summary.wrong_municipality_rate,
       sourceQualityIssues: adminPayload.ragDocs.sourceQuality.issues.length,
       qualityIssues: freshness.issues.length,
       highRiskIssues: freshness.highRiskIssues.length,

@@ -79,3 +79,60 @@ test("uses count fallbacks when trace source id arrays are missing", () => {
   assert.equal(result.summary.displayed_source_precision_basis, 0);
   assert.equal(result.summary.source_display_mode_distribution.unknown, 1);
 });
+
+test("measures wrong municipality rate from selected context details", () => {
+  const result = summarizeRagTraceSourceQuality([
+    {
+      data: {
+        query_plan: {
+          municipality_names: ["Tartu linn"],
+          municipality_ids: ["tartu_linn"]
+        },
+        selected_context_details: [
+          {
+            source_id: "tartu-koduteenus",
+            source_type: "kov_service_info",
+            municipality_id: "tartu_linn",
+            municipality_name: "Tartu linn"
+          },
+          {
+            source_id: "voru-koduteenus",
+            source_type: "kov_service_info",
+            municipality_id: "voru_linn",
+            municipality_name: "Voru linn"
+          },
+          {
+            source_id: "background",
+            source_type: "journal_article"
+          }
+        ]
+      }
+    },
+    {
+      data: {
+        query_plan: {
+          municipality_names: ["Tartu linn"]
+        },
+        selected_context_details: [
+          {
+            source_id: "tartu-contact",
+            source_type: "official_contact",
+            municipality_name: "Tartu linn"
+          }
+        ]
+      }
+    }
+  ]);
+
+  assert.equal(result.ok, false);
+  assert.equal(result.summary.municipality_scope_expected_traces, 2);
+  assert.equal(result.summary.municipality_source_count, 3);
+  assert.equal(result.summary.wrong_municipality_source_count, 1);
+  assert.equal(result.summary.traces_with_wrong_municipality, 1);
+  assert.equal(result.summary.wrong_municipality_rate, 1 / 3);
+  assert.equal(result.issues.length, 1);
+  assert.equal(result.issues[0].type, "selected_context_wrong_municipality");
+  assert.equal(result.issues[0].source_id, "voru-koduteenus");
+  assert.deepEqual(result.issues[0].expected_municipality_ids, ["tartu_linn"]);
+  assert.deepEqual(result.issues[0].expected_municipality_names, ["tartu linn"]);
+});

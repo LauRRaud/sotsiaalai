@@ -2327,6 +2327,27 @@ export default function AnalyticsDashboard() {
               }
             />
             <KpiCard
+              title={t("admin.analytics.rag_docs.wrong_municipality_rate", "Wrong KOV rate")}
+              value={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : `${formatPercent(toNumber(ragSourceQuality.wrong_municipality_rate) * 100, localeTag, 1)}%`
+              }
+              meta={
+                loadingSummary
+                  ? t("admin.common.loading", "Loading...")
+                  : t(
+                      "admin.analytics.rag_docs.wrong_municipality_rate_meta",
+                      {
+                        wrong: formatCount(ragSourceQuality.wrong_municipality_source_count || 0, localeTag),
+                        scoped: formatCount(ragSourceQuality.municipality_source_count || 0, localeTag),
+                        traces: formatCount(ragSourceQuality.traces_with_wrong_municipality || 0, localeTag)
+                      },
+                      "Wrong KOV sources {wrong}/{scoped} | affected traces {traces}"
+                    )
+              }
+            />
+            <KpiCard
               title={t("admin.analytics.rag_docs.freshness_errors", "Freshness errors")}
               value={loadingSummary ? t("admin.common.loading", "Loading...") : formatCount(ragFreshnessSummary.errors || 0, localeTag)}
               meta={

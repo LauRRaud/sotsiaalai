@@ -37,6 +37,8 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
       {
         source_id: "tartu-koduteenus",
         source_type: "kov_service_info",
+        municipality_id: "tartu_linn",
+        municipality_name: "Tartu linn",
         source_status: "active",
         retrieval_channels: ["dense", "title_match"],
         rank_score: 1.24,
@@ -73,6 +75,8 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
     {
       source_id: "tartu-koduteenus",
       source_type: "kov_service_info",
+      municipality_id: "tartu_linn",
+      municipality_name: "Tartu linn",
       source_status: "active",
       retrieval_channels: ["dense", "title_match"],
       rank_score: 1.24,

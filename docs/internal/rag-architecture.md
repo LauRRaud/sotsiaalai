@@ -1044,6 +1044,7 @@ STATUS: partially implemented / active
 - Admin analytics mõõdab kõrge riskiga RAG vastuste allikariski kahes kihis: `answer_source_stale_rate` / `answer_unknown_source_rate` näitavad vastuse tõendusallikate riski ning `displayed_source_stale_rate` / `displayed_unknown_source_rate` näitavad kasutajale kuvatud allikapaneeli riski.
 - Admin analytics kuvab eraldi high-risk source risk queue tabeli, mis näitab, kas risk tuli `answer` või `displayed` kihist.
 - Admin analytics mõõdab nüüd trace'i põhjal source display contract'i: `displayed_source_precision`, contract violation count/rate ning retrieved/selected allikate filtratsioonimäär näitavad, kas kuvatud allikad on kinnitatud answer source'id ja kui palju otsingumüra välja jäi.
+- Trace kannab nüüd valitud kontekstiallikate juures ohutut KOV metadata't (`municipality_id`, `municipality_name`) ning Query Planner trace kannab oodatud KOV sihti; admin analytics arvutab nende põhjal `wrong_municipality_rate`.
 - Admin analytics sündmuste real kuvatakse `query_plan` detailid: planner mode, query order, selection strategy, query count ja `rag_top_k`.
 - Admin analytics 30 päeva kokkuvõttes arvutatakse Query Planner mode, query order ja selection strategy jaotused.
 - Query Planner V2 esimene eval-fixture on olemas: see kontrollib artikli järelküsimust, laia võrdlust, KOV teenuseid/toetusi, national scope'i, teenuse tasandi liigitust, temporal päringut, source lookup'i ja default low-risk päringut.
@@ -1159,7 +1160,7 @@ Smoke kontrollib vähemalt:
 - kvaliteedijärjekorra kirjetel on `collection_family`, `source_file_type`, `metadata_quality` ja `remediation`;
 - remediation target sisaldab admin sihtlinki `admin_href`, action'it, parandatavate väljade loendit ning võimalusel `focus`/`file_key` sihti;
 - `admin_href` query string sisaldab sama `focus`/`file_key` sihti, mis `remediation.target` objekt;
-- `ragDocs.sourceQuality.summary` sisaldab `displayed_source_precision`, contract violation ja retrieved/selected filter rate mõõdikuid;
+- `ragDocs.sourceQuality.summary` sisaldab `displayed_source_precision`, contract violation, retrieved/selected filter rate ja `wrong_municipality_rate` mõõdikuid;
 - high-risk source freshness kokkuvõte ja järjekord on olemas;
 - `--chat` korral on `/api/chat` vastuse `rag_trace` sees `retrievers_used`, `query_plan` ja riskipoliitika signaal.
 
