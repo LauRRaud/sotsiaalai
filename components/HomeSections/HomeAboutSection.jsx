@@ -19,6 +19,29 @@ const HOME_BEFORE_DIAMETER_KEY_PREFIX = "sotsiaalai:home-before-diameter";
 const HOME_PANEL_FADE_DURATION_MS = 900;
 const HOME_PANEL_BLUR_REVEAL_MS = 780;
 const HOME_PANEL_STAGGER_MS = 120;
+const SOFT_HYPHEN = "\u00ad";
+
+function addEstonianSoftHyphensToWord(word) {
+  if (word.length < 12 || word.includes(SOFT_HYPHEN) || /SotsiaalAI/.test(word)) {
+    return word;
+  }
+
+  return word.replace(/(.{6})(?=.{4,})/gu, `$1${SOFT_HYPHEN}`);
+}
+
+function addEstonianSoftHyphens(html, locale) {
+  if (locale !== "et" || typeof html !== "string" || !html) {
+    return html;
+  }
+
+  return html
+    .split(/(<[^>]+>)/g)
+    .map((part) => {
+      if (!part || part.startsWith("<")) return part;
+      return part.replace(/\p{L}{12,}/gu, addEstonianSoftHyphensToWord);
+    })
+    .join("");
+}
 
 function getHomeBeforeDiameterKey(locale, showAdminLinks, view) {
   return `${HOME_BEFORE_DIAMETER_KEY_PREFIX}:${locale || "et"}:${showAdminLinks ? "1" : "0"}:${view}`;
@@ -65,7 +88,7 @@ export default function HomeAboutSection({
   const aboutParagraphs = aboutParagraphKeys
     .map((key) => ({
       key,
-      value: t(`about.intro.${key}`)
+      value: addEstonianSoftHyphens(t(`about.intro.${key}`), locale)
     }))
     .filter(({ key, value }) => value && value !== `about.intro.${key}`);
   const beforeCardRef = useRef(null);

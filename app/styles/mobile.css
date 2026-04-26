@@ -3407,3 +3407,17 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     bottom: 0 !important;
   }
 }
+
+@media (max-width: 768px) {
+  .homepage-root .home-about-scrollbox,
+  .homepage-root .home-about-scrollbox :is(p, div, strong, b, a, span) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+    -webkit-hyphens: auto !important;
+    hyphens: auto !important;
+  }
+}
