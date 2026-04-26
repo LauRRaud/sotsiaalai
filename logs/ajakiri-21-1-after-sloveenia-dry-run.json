@@ -1,0 +1,345 @@
+{
+  "generated_at": "2026-04-26T15:43:03.039Z",
+  "root": "imports\\ajakiri_sotsiaaltoo",
+  "mode": "dry-run",
+  "issues": [
+    "21-1"
+  ],
+  "limit": 0,
+  "counts": {
+    "total": 15,
+    "ready": 15,
+    "blocked": 0,
+    "by_status": {
+      "ready": 15
+    },
+    "by_issue": {
+      "21-1": 15
+    }
+  },
+  "v2_metadata_backfill": {
+    "inferred_source_path_count": 0,
+    "fields": {
+      "source_id": 14,
+      "document_id": 14,
+      "source_type": 14,
+      "authority": 14,
+      "last_checked": 14,
+      "retrieved_at": 15,
+      "historical": 14,
+      "source_status": 14,
+      "content_hash": 15
+    }
+  },
+  "blocked": [],
+  "ready": [
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Anu-Lii_Jürman_elus.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_2_persoon_anu-lii_jurman_korrigeeritud.pdf",
+      "source_path": "artikkel_2_persoon_anu-lii_jurman_korrigeeritud.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-anu-lii-jurman-elus-tuleb-pakkumised-vastu-votta-oigel-ajal-2021-1",
+      "article_id": "anu-lii-jurman-elus-tuleb-pakkumised-vastu-votta-oigel-ajal-2021-1",
+      "title": "Anu-Lii Jürman: elus tuleb pakkumised vastu võtta õigel ajal",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Eakad_on_Türi.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_4_eakad_on_tyri_vallas.pdf",
+      "source_path": "artikkel_4_eakad_on_tyri_vallas.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-eakad-on-tyri-vallas-kogukonna-vaartuslik-ja-hoitud-osa-2021-1",
+      "article_id": "eakad-on-tyri-vallas-kogukonna-vaartuslik-ja-hoitud-osa-2021-1",
+      "title": "Eakad on Türi vallas kogukonna väärtuslik ja hoitud osa",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\EESSÕNA.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_1_eessona.pdf",
+      "source_path": "artikkel_1_eessona.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-eessona-2021-1",
+      "article_id": "eessona-2021-1",
+      "title": "EESSÕNA",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Eesti_inimeste_toetamine.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_3_eesti_inimeste_toetamine.pdf",
+      "source_path": "artikkel_3_eesti_inimeste_toetamine.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-eesti-inimeste-toetamine-majandusliku-olukorra-muutumisel-2021-1",
+      "article_id": "eesti-inimeste-toetamine-majandusliku-olukorra-muutumisel-2021-1",
+      "title": "Eesti inimeste toetamine majandusliku olukorra muutumisel",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Hea_sotsiaaltöötaja_on.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_13_hea_sotsiaaltootaja.pdf",
+      "source_path": "artikkel_13_hea_sotsiaaltootaja.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-hea-sotsiaaltootaja-on-haesti-hoitud-2021-1",
+      "article_id": "hea-sotsiaaltootaja-on-haesti-hoitud-2021-1",
+      "title": "Hea sotsiaaltöötaja on hästi hoitud",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Hiiumaa_Sotsiaalkeskuse_kiire.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_5_hiiu_sotsiaalkeskus.pdf",
+      "source_path": "artikkel_5_hiiu_sotsiaalkeskus.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-hiiumaa-sotsiaalkeskuse-kiire-areng-ja-uued-proovikivid-2021-1",
+      "article_id": "hiiumaa-sotsiaalkeskuse-kiire-areng-ja-uued-proovikivid-2021-1",
+      "title": "Hiiumaa Sotsiaalkeskuse kiire areng ja uued proovikivid",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Jututajad_aitavad_leevendada.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_15_jututajad.pdf",
+      "source_path": "artikkel_15_jututajad.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-jututajad-aitavad-leevendada-uksildust-2021-1",
+      "article_id": "jututajad-aitavad-leevendada-uksildust-2021-1",
+      "title": "Jututajad aitavad leevendada üksildust",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Koduteenuse_korraldamise_probleeme.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_6_koduteenuse_korraldamine.pdf",
+      "source_path": "artikkel_6_koduteenuse_korraldamine.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-koduteenuse-korraldamise-probleeme-kohalikes-omavalitsustes-2021-1",
+      "article_id": "koduteenuse-korraldamise-probleeme-kohalikes-omavalitsustes-2021-1",
+      "title": "Koduteenuse korraldamise probleeme kohalikes omavalitsustes",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Kohalike_sotsiaalteenuste_ja.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_10_kohalike_teenuste_kattesaadavus.pdf",
+      "source_path": "artikkel_10_kohalike_teenuste_kattesaadavus.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-kohalike-sotsiaalteenuste-ja-sotsiaaltoetuste-kattesaadavus-2021-1",
+      "article_id": "kohalike-sotsiaalteenuste-ja-sotsiaaltoetuste-kattesaadavus-2021-1",
+      "title": "Kohalike sotsiaalteenuste ja sotsiaaltoetuste kättesaadavus",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Lastekaitsetööga_kokku.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_11_lastekaitsetoo_vaade.pdf",
+      "source_path": "artikkel_11_lastekaitsetoo_vaade.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-lastekaitsetooga-kokku-puutunud-vaade-eestis-2021-1",
+      "article_id": "lastekaitsetooga-kokku-puutunud-vaade-eestis-2021-1",
+      "title": "Lastekaitsetööga kokku puutunud laste ja lähedaste vaade lastekaitsetööle Eestis",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Miks_me_vajame.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_9_hooldustoootajad.pdf",
+      "source_path": "artikkel_9_hooldustoootajad.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-miks-me-vajame-erialase-ettevalmistusega-hooldustootajaid-2021-1",
+      "article_id": "miks-me-vajame-erialase-ettevalmistusega-hooldustootajaid-2021-1",
+      "title": "Miks me vajame erialase ettevalmistusega hooldustöötajaid?",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Pikaajaline_hooldus_Sloveenias.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_12_pikaajaline_hooldus_sloveenias.pdf",
+      "source_path": "artikkel_12_pikaajaline_hooldus_sloveenias.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-pikaajaline-hooldus-sloveenias-2021-1",
+      "article_id": "pikaajaline-hooldus-sloveenias-2021-1",
+      "title": "Pikaajaline hooldus Sloveenias: probleemid ja tulevikusuunad",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "retrieved_at",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Uusi_teadmisi_võlanõustamise.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_7_volanoustamise_koolitus.pdf",
+      "source_path": "artikkel_7_volanoustamise_koolitus.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-uusi-teadmisi-volanoustamise-koolituselt-2021-1",
+      "article_id": "uusi-teadmisi-volanoustamise-koolituselt-2021-1",
+      "title": "Uusi teadmisi võlanõustamise koolituselt",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Vabatahtlike_kaasamise_mudeli.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_8_vabatahtlike_kaasamine.pdf",
+      "source_path": "artikkel_8_vabatahtlike_kaasamine.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-vabatahtlike-kaasamise-mudeli-rakendamine-hoolekandes-2021-1",
+      "article_id": "vabatahtlike-kaasamise-mudeli-rakendamine-hoolekandes-2021-1",
+      "title": "Vabatahtlike kaasamise mudeli rakendamine hoolekandes",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "21-1",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\Vaktsineerimine_aitab_vältida.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\21-1\\artikkel_14_vaktsineerimine.pdf",
+      "source_path": "artikkel_14_vaktsineerimine.pdf",
+      "expected_doc_id": "sotsiaaltoo-1-2021-vaktsineerimine-aitab-valtida-nakatumist-2021-1",
+      "article_id": "vaktsineerimine-aitab-valtida-nakatumist-2021-1",
+      "title": "Vaktsineerimine aitab vältida nakatumist",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    }
+  ]
+}

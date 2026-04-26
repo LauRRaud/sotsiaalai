@@ -1,0 +1,415 @@
+{
+  "generated_at": "2026-04-26T15:48:00.555Z",
+  "root": "imports\\ajakiri_sotsiaaltoo",
+  "mode": "dry-run",
+  "issues": [
+    "22-3"
+  ],
+  "limit": 0,
+  "counts": {
+    "total": 18,
+    "ready": 18,
+    "blocked": 0,
+    "by_status": {
+      "ready": 18
+    },
+    "by_issue": {
+      "22-3": 18
+    }
+  },
+  "v2_metadata_backfill": {
+    "inferred_source_path_count": 0,
+    "fields": {
+      "source_id": 18,
+      "document_id": 18,
+      "source_type": 18,
+      "authority": 18,
+      "last_checked": 18,
+      "retrieved_at": 18,
+      "historical": 18,
+      "source_status": 18,
+      "content_hash": 18
+    }
+  },
+  "blocked": [],
+  "ready": [
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_1_eessona.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_1_eessona.pdf",
+      "source_path": "2022_3_artikkel_1_eessona.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-kairit-lindmae-eessona-2022-3",
+      "article_id": "kairit-lindmae-eessona-2022-3",
+      "title": "Eessõna",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_2_persoon.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_2_persoon_Kristina Traks.pdf",
+      "source_path": "2022_3_artikkel_2_persoon_Kristina Traks.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-imbi-ivask-laste-usaldust-on-raske-palvida-aga-sellest-oleneb-koik-2022-3",
+      "article_id": "imbi-ivask-laste-usaldust-on-raske-palvida-aga-sellest-oleneb-koik-2022-3",
+      "title": "Imbi Ivask: „Laste usaldust on raske pälvida, aga sellest oleneb kõik.”",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_3_korraldus.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_3_korraldus.pdf",
+      "source_path": "2022_3_artikkel_3_korraldus.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-volanoustamisteenuse-arendamisest-2022-3",
+      "article_id": "volanoustamisteenuse-arendamisest-2022-3",
+      "title": "Võlanõustamisteenuse arendamisest",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_4_projekt.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_4_kohila_projekt.pdf",
+      "source_path": "2022_3_artikkel_4_kohila_projekt.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-kohila-valla-kogemus-isikukeskse-erihoolekande-mudeli-rakendamisel-2022-3",
+      "article_id": "kohila-valla-kogemus-isikukeskse-erihoolekande-mudeli-rakendamisel-2022-3",
+      "title": "Kohila valla kogemus isikukeskse erihoolekande mudeli rakendamisel",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_5_kommentaar.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_5_kommentaar.pdf",
+      "source_path": "2022_3_artikkel_5_kommentaar.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-kommentaar-iste-kohila-kogemus-2022-3",
+      "article_id": "kommentaar-iste-kohila-kogemus-2022-3",
+      "title": "Kommentaar",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_6_sotsiaaltransport.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_6_sotsiaaltransport.pdf",
+      "source_path": "2022_3_artikkel_6_sotsiaaltransport.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-sotsiaaltranspordi-uhise-korraldusmudeli-katsetamine-parnumaal-2022-3",
+      "article_id": "sotsiaaltranspordi-uhise-korraldusmudeli-katsetamine-parnumaal-2022-3",
+      "title": "Sotsiaaltranspordi ühise korraldusmudeli katsetamine Pärnumaal",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_7_kommentaar.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_7_kommentaar_ruut_kurves.pdf",
+      "source_path": "2022_3_artikkel_7_kommentaar_ruut_kurves.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-kommentaar-sotsiaaltransport-parnumaa-2022-3",
+      "article_id": "kommentaar-sotsiaaltransport-parnumaa-2022-3",
+      "title": "Kommentaar",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_8_koostoo.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_8_koostooprojekt.pdf",
+      "source_path": "2022_3_artikkel_8_koostooprojekt.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-tootukassa-ja-omavalitsuste-koostooprojekt-2022-3",
+      "article_id": "tootukassa-ja-omavalitsuste-koostooprojekt-2022-3",
+      "title": "Töötukassa ja omavalitsuste koostööprojekt – ühiselt jõuab kaugemale",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_10_kao.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_10_kao_tugikeskus.pdf",
+      "source_path": "2022_3_artikkel_10_kao_tugikeskus.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-kao-tugikeskus-inimnaoline-teenus-2022-3",
+      "article_id": "kao-tugikeskus-inimnaoline-teenus-2022-3",
+      "title": "Käo Tugikeskus – inimnäoline asutus Tallinnas",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_11_perepesa.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_11_perepesa.pdf",
+      "source_path": "2022_3_artikkel_11_perepesa.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-perepesa-toetab-laste-ja-perede-heaolu-2022-3",
+      "article_id": "perepesa-toetab-laste-ja-perede-heaolu-2022-3",
+      "title": "Perepesa toetab laste ja perede heaolu",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_12_kinnine_lasteasutus.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_12_kinnine_lasteasutus.pdf",
+      "source_path": "2022_3_artikkel_12_kinnine_lasteasutus.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-kinnise-lasteasutuse-teenus-hiiumaa-sotsiaalkeskuse-noortekodus-2022-3",
+      "article_id": "kinnise-lasteasutuse-teenus-hiiumaa-sotsiaalkeskuse-noortekodus-2022-3",
+      "title": "Kinnise lasteasutuse teenus Hiiumaa sotsiaalkeskuse noortekodus",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_13_koduhooldus.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_13_koduhooldus.pdf",
+      "source_path": "2022_3_artikkel_13_koduhooldus.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-koduhooldus-lahendus-riigile-elanikule-ja-tooturule-2022-3",
+      "article_id": "koduhooldus-lahendus-riigile-elanikule-ja-tooturule-2022-3",
+      "title": "Koduhooldus – lahendus riigile, elanikule ja tööturule",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_14_teenusmajad.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_14_teenusmajad.pdf",
+      "source_path": "2022_3_artikkel_14_teenusmajad.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-teenused-ja-majad-ehk-teenusmajad-2022-3",
+      "article_id": "teenused-ja-majad-ehk-teenusmajad-2022-3",
+      "title": "Teenused ja majad ehk teenusmajad",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_15_traumateadlik_elulootoo.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_15_traumateadlik_elulootoo.pdf",
+      "source_path": "2022_3_artikkel_15_traumateadlik_elulootoo.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-traumateadlik-elulootoo-asendushooldusel-kasvavate-laste-identiteedi-toetamiseks-2022-3",
+      "article_id": "traumateadlik-elulootoo-asendushooldusel-kasvavate-laste-identiteedi-toetamiseks-2022-3",
+      "title": "Traumateadlik elulootöö asendushooldusel kasvavate laste identiteedi toetamiseks",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_16_mobiilne_noorsootoo.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_16_mobiilne_noorsootoo.pdf",
+      "source_path": "2022_3_artikkel_16_mobiilne_noorsootoo.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-mobiilne-noorsootoo-aitab-jouda-keerulistes-oludes-noorteni-2022-3",
+      "article_id": "mobiilne-noorsootoo-aitab-jouda-keerulistes-oludes-noorteni-2022-3",
+      "title": "Mobiilne noorsootöö aitab jõuda keerulistes oludes noorteni",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_17_omastehooldajate_voimestamine.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_17_omastehooldajate_voimestamine.pdf",
+      "source_path": "2022_3_artikkel_17_omastehooldajate_voimestamine.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-dementsusega-inimeste-omastehooldajate-voimestamine-tugigruppide-abil-2022-3",
+      "article_id": "dementsusega-inimeste-omastehooldajate-voimestamine-tugigruppide-abil-2022-3",
+      "title": "Dementsusega inimeste omastehooldajate võimestamine tugigruppide abil",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_18_ametist_lahkumine.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_18_ametist_lahkumine.pdf",
+      "source_path": "2022_3_artikkel_18_ametist_lahkumine.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-mis-viis-otsuseni-ametist-lahkuda-lastekaitsetootajate-kogemuslood-2022-3",
+      "article_id": "mis-viis-otsuseni-ametist-lahkuda-lastekaitsetootajate-kogemuslood-2022-3",
+      "title": "Mis viis otsuseni ametist lahkuda? Lastekaitsetöötajate kogemuslood",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    },
+    {
+      "issue": "22-3",
+      "json_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_19_ole_iseenda_terapeut.json",
+      "pdf_path": "imports\\ajakiri_sotsiaaltoo\\22-3\\2022_3_artikkel_19_ole_iseenda_terapeut.pdf",
+      "source_path": "2022_3_artikkel_19_ole_iseenda_terapeut.pdf",
+      "expected_doc_id": "sotsiaaltoo-3-2022-ole-iseenda-terapeut-koos-meelespeaga-2022-3",
+      "article_id": "ole-iseenda-terapeut-koos-meelespeaga-2022-3",
+      "title": "Ole iseenda terapeut!",
+      "inferred_source_path": false,
+      "backfilled_fields": [
+        "source_id",
+        "document_id",
+        "source_type",
+        "authority",
+        "last_checked",
+        "retrieved_at",
+        "historical",
+        "source_status",
+        "content_hash"
+      ]
+    }
+  ]
+}
