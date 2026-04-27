@@ -84,6 +84,21 @@ Kui süsteem ei leia piisavalt tugevat allikat, peab vastus eristama:
 - mida allikad ei kinnita;
 - milline info tuleb KOV-ist, õigusaktist või ametlikust allikast üle kontrollida.
 
+Lõppkasutajale ei tohi allikapiirangut sõnastada sisemise otsingukonteksti kaudu. Vastus ei kasuta väljendeid nagu `nähtavas kontekstis`, `RAG kontekstis`, `kontekstis ei ole`, `selles vaates ei ole` või muid tehnilisi fraase, mis viitavad mudelile saadetud kontekstile.
+
+Kui RAG/allikad ei anna piisavat kinnitust, kasutatakse loomulikku sõnastust, näiteks:
+
+- "Praegu kasutatud allikad ei anna sellele piisavalt täpset vastust."
+- "Ma ei saa seda nende allikate põhjal kindlalt kinnitada."
+- "Leitud allikad puudutavad teemat, kuid ei kinnita seda detaili."
+- "Ma ei leidnud praeguse otsinguga sellele piisavalt täpset allikavastet."
+
+Õiguslike küsimuste puhul eelistada sõnastust:
+
+- "Ma ei leidnud praeguse otsinguga sellele piisavalt täpset õiguslikku allikakinnitust."
+
+Oluline: süsteem ei tohi väita, et midagi ei eksisteeri ainult seetõttu, et praegune otsing või RAG seda ei leidnud. Kui täpne allikas ei tulnud esile, peab vastus ütlema, et praeguse otsinguga ei leitud piisavat kinnitust.
+
 Kui allikad on omavahel vastuolus, ei tohi vastus vastuolu ära siluda. Vastus peab nimetama vastuolu ja eelistama kõrgema autoriteediga, kehtivamat või konkreetsema intent'iga sobivat allikat. Näiteks õigusliku küsimuse puhul on kehtiv õigusakt tugevam kui artikkel; vormi küsimuse puhul võib ametlik vorm või e-teenuse link olla tugevam kui üldine teenuseleht.
 
 ## Freshness Policy
@@ -987,7 +1002,7 @@ V2 mõõdikud:
 - `unsupported_claim_rate`;
 - `insufficient_evidence_correctness`.
 
-## Arenduse Seis 2026-04-26
+## Arenduse Seis 2026-04-27
 
 STATUS: current snapshot
 
@@ -1052,8 +1067,13 @@ STATUS: partially implemented / active
 - Quality queue remediation target kannab nüüd ka töö fookust: `focus` ja võimalusel `file_key`. Admin UI märgib KOV ja organisatsiooni detailis konkreetse failikaardi või lingiploki, mida parandustöö puudutab.
 - Admin analytics mõõdab kõrge riskiga RAG vastuste allikariski kahes kihis: `answer_source_stale_rate` / `answer_unknown_source_rate` näitavad vastuse tõendusallikate riski ning `displayed_source_stale_rate` / `displayed_unknown_source_rate` näitavad kasutajale kuvatud allikapaneeli riski.
 - Admin analytics kuvab eraldi high-risk source risk queue tabeli, mis näitab, kas risk tuli `answer` või `displayed` kihist.
+- High-risk source risk mõõdik on seotud tulevase claim-level attribution kihiga. Kui trace sisaldab `claim_attributions`, loeb analytics eraldi `claim` allikakihi ning arvutab `high_risk_claim_source_count`, `stale_claim_source_responses`, `unknown_claim_source_responses`, `claim_source_stale_rate`, `claim_unknown_source_rate` ja `claim_source_risk_readiness_rate`.
+- Claim-level risk queue kirjed ei salvesta täit väiteteksti, vaid ainult piiratud tehnilisi viiteid nagu `claim_id`, `claim_type`, `evidence_strength` ja seotud `source_id`, et privaatsuspiir jääks samaks.
 - Admin analytics mõõdab nüüd trace'i põhjal source display contract'i: `displayed_source_precision`, contract violation count/rate ning retrieved/selected allikate filtratsioonimäär näitavad, kas kuvatud allikad on kinnitatud answer source'id ja kui palju otsingumüra välja jäi.
 - Trace kannab nüüd valitud kontekstiallikate juures ohutut KOV metadata't (`municipality_id`, `municipality_name`) ning Query Planner trace kannab oodatud KOV sihti; admin analytics arvutab nende põhjal `wrong_municipality_rate`.
+- Quality queue remediation target lisab parandustöö linkidele ohutud soovitused: `suggested_source_type`, `suggested_authority`, `suggested_url`, vajadusel `suggested_last_checked` ja `suggested_source_status`.
+- Admin remediation context oskab nende põhjal metadata stub'i eeltäita, näiteks `source_type`, `authority`, `last_checked`, `source_status` ja `url` väljade parandamiseks. Eeltäitmine on piiratud madala riskiga väärtustega ega kirjuta automaatselt andmeid üle.
+- Assistendi vastuse stiilijuhis keelab lõppvastuses tehnilised fraasid nagu `nähtavas kontekstis`, `RAG kontekstis`, `kontekstis ei ole` ja `selles vaates ei ole`. Ebapiisava allikakinnituse korral kasutatakse loomulikku sõnastust, näiteks "Praegu kasutatud allikad ei anna sellele piisavalt täpset vastust" või õiguslike küsimuste puhul "Ma ei leidnud praeguse otsinguga sellele piisavalt täpset õiguslikku allikakinnitust."
 - Admin analytics sündmuste real kuvatakse `query_plan` detailid: planner mode, query order, selection strategy, query count ja `rag_top_k`.
 - Admin analytics 30 päeva kokkuvõttes arvutatakse Query Planner mode, query order ja selection strategy jaotused.
 - Query Planner V2 esimene eval-fixture on olemas: see kontrollib artikli järelküsimust, laia võrdlust, KOV teenuseid/toetusi, national scope'i, teenuse tasandi liigitust, temporal päringut, source lookup'i ja default low-risk päringut.
@@ -1070,6 +1090,8 @@ Viimane lokaalne kontroll:
 ```text
 chat/RAG regressioonipakk: 66/66 passed
 RAG metadata/freshness/ingest/cleanup/backfill static pack: 40/40 passed
+prompt/retrieval style pack: 10/10 passed
+source freshness/remediation/source quality pack: 23/23 passed
 ```
 
 See ei asenda serveri smoke testi pärast deploy'd. Productionis tuleb eraldi kontrollida RAG service health'i, chat endpointi, allikapaneeli ja vähemalt üht päris vestluse artikli-follow-up juhtumit.
@@ -1177,6 +1199,7 @@ Smoke kontrollib vähemalt:
 - `admin_href` query string sisaldab sama `focus`/`file_key` sihti, mis `remediation.target` objekt;
 - `ragDocs.sourceQuality.summary` sisaldab `displayed_source_precision`, contract violation, retrieved/selected filter rate ja `wrong_municipality_rate` mõõdikuid;
 - high-risk source freshness kokkuvõte ja järjekord on olemas;
+- high-risk source freshness kokkuvõttes on olemas ka claim-kihi väljad: `high_risk_claim_source_count`, `stale_claim_source_responses` ja `claim_source_risk_readiness_rate`;
 - `--chat` korral on `/api/chat` vastuse `rag_trace` sees `retrievers_used`, `query_plan` ja riskipoliitika signaal.
 
 ## Järgmised Plaanitavad Tööd
@@ -1191,8 +1214,9 @@ STATUS: active backlog
 2. Laiendada planner eval-fixture'it edasi päris production/problem vestluste põhjal ning siduda see hiljem retrieval tulemuse kvaliteedimõõdikuga, mitte ainult planner mode'iga.
 3. Mõõta ja häälestada lightweight `bm25` kanalit päris probleemvestluste põhjal ning otsustada, kas vaja on Postgres full-text või eraldi indeksit. Esimene mõõtekiht on olemas; järgmine samm on koguda production smoke/problemvestluste näidised ja võrrelda BM25 coverage'i, lexical-only tulemusi ning valitud konteksti täpsust.
 4. Laiendada source package kvaliteedikontrolli päris KOV andmestiku põhjal: vormi ja kontakti signaalid on olemas, järgmine samm on vastuolude, katkiste URL-ide ja puudulike source package'ite ülevaatusvoog.
-5. Siduda kõrge riskiga vastuste allikariski mõõdik tulevase claim-level attribution'iga, et stale või tundmatu allikas oleks näha konkreetse väite tasemel, mitte ainult vastuse tasemel.
-6. Laiendada eeltäitmist konkreetsetesse KOV/organisatsiooni parandustöövoogudesse, kus vormivälju saab turvaliselt ette valida, näiteks URL-i, `last_checked` või source type paranduse jaoks.
+5. Esimene claim-level risk readiness kiht on tehtud: kui trace sisaldab `claim_attributions`, mõõdab analytics stale/tundmatut allikat `claim` kihis eraldi. Järgmine samm on päris claim-level attribution'i tootmine vastuse koostamise ajal.
+6. Esimene remediation eeltäitmise kiht on tehtud: quality queue lingid kannavad soovitatud `source_type`, `authority`, `url`, `last_checked` ja `source_status` väärtusi ning admin metadata stub saab neid turvaliselt ette täita. Järgmine samm on siduda see konkreetsete KOV/organisatsiooni vormiväljadega, mitte ainult metadata JSON stub'iga.
+7. Hoida lõppvastuste sõnastus kasutajasõbralikuna: ebapiisava allikakinnituse korral ei tohi assistent kasutada tehnilisi fraase nagu `nähtavas kontekstis`, vaid peab ütlema, mida praegune otsing/allikad kinnitavad või ei kinnita.
 
 ### KOV Ja Muude Materjalide Meta Enne Mass-Ingesti
 

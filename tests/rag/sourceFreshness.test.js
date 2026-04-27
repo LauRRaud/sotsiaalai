@@ -172,6 +172,8 @@ test("summarizes metadata contract completeness", () => {
   assert.equal(href.searchParams.get("recommended_fields"), "content_hash");
   assert.equal(href.searchParams.get("source_id"), "missing");
   assert.equal(href.searchParams.get("document_id"), "doc-missing");
+  assert.equal(href.searchParams.get("suggested_source_type"), "journal_article");
+  assert.equal(href.searchParams.get("suggested_authority"), "editorial");
   assert.equal(href.searchParams.get("focus"), "ingest_metadata");
 });
 
@@ -509,4 +511,64 @@ test("keeps high-risk answer source risk separate from displayed source risk", (
   assert.equal(result.summary.displayed_source_stale_rate, 0);
   assert.equal(result.summary.stale_source_rate, 0);
   assert.ok(result.issues.some(item => item.layer === "answer" && item.source_id === "stale-answer"));
+});
+
+test("tracks high-risk claim source freshness separately from answer and displayed sources", () => {
+  const freshness = summarizeFreshnessAudit([
+    {
+      source_id: "fresh-law",
+      title: "Kehtiv seadus",
+      source_type: "national_law",
+      source_status: "active",
+      last_checked: "2026-04-20",
+      url: "https://example.test/law"
+    },
+    {
+      source_id: "stale-kov",
+      title: "Vana KOV leht",
+      source_type: "kov_service_info",
+      source_status: "active",
+      last_checked: "2025-01-01",
+      url: "https://example.test/kov"
+    }
+  ], {
+    now: NOW
+  });
+
+  const result = summarizeHighRiskSourceFreshness([
+    {
+      data: {
+        rag_risk_level: "high",
+        answer_source_ids: ["fresh-law"],
+        displayed_source_ids: ["fresh-law"],
+        claim_attributions: [
+          {
+            claim_id: "jogeva_koduteenus_application",
+            claim_type: "application_step",
+            evidence_source_ids: ["stale-kov"]
+          },
+          {
+            claim_id: "missing_claim",
+            claim_type: "eligibility",
+            source_id: "missing-source"
+          }
+        ]
+      }
+    }
+  ], freshness.items);
+
+  assert.equal(result.ok, false);
+  assert.equal(result.summary.high_risk_with_claim_sources, 1);
+  assert.equal(result.summary.high_risk_claim_source_count, 2);
+  assert.equal(result.summary.stale_claim_source_responses, 1);
+  assert.equal(result.summary.unknown_claim_source_responses, 1);
+  assert.equal(result.summary.claim_source_stale_rate, 1);
+  assert.equal(result.summary.claim_unknown_source_rate, 1);
+  assert.equal(result.summary.claim_source_risk_readiness_rate, 1);
+  assert.equal(result.summary.stale_source_rate, 0);
+  assert.ok(result.issues.some(item =>
+    item.layer === "claim" &&
+    item.source_id === "stale-kov" &&
+    item.claim_refs?.[0]?.claim_id === "jogeva_koduteenus_application"
+  ));
 });

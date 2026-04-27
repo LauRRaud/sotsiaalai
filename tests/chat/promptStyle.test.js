@@ -37,6 +37,10 @@ test("Estonian base prompt discourages search-status phrasing in ordinary answer
 
   assert.match(system, /Kirjuta nagu abivalmis spetsialist/);
   assert.match(system, /Ära alusta tavavastust allika- või otsingustaatusega/);
+  assert.match(system, /Ära kasuta lõppvastuses väljendeid/);
+  assert.match(system, /Praegu kasutatud allikad ei anna sellele piisavalt täpset vastust/);
+  assert.match(system, /Ma ei leidnud praeguse otsinguga sellele piisavalt täpset õiguslikku allikakinnitust/);
+  assert.match(system, /Ära väida, et midagi ei eksisteeri ainult seetõttu/);
   assert.doesNotMatch(system, /Sõnasta loomulikult: "leidsin allikatest"/);
 });
 
@@ -158,6 +162,8 @@ test("English and Russian weak grounding instructions avoid old source-summary l
   assert.ok(ruWeakGrounding);
   assert.doesNotMatch(enWeakGrounding.content, /retrieved RAG context/);
   assert.doesNotMatch(enWeakGrounding.content, /Frame conclusions/);
+  assert.doesNotMatch(enWeakGrounding.content, /visible sources/);
+  assert.match(enWeakGrounding.content, /the current search could confirm/);
   assert.match(enWeakGrounding.content, /do not open with technical source- or search-status phrasing/);
   assert.doesNotMatch(ruWeakGrounding.content, /Найденный RAG-контекст/);
   assert.doesNotMatch(ruWeakGrounding.content, /Формулируй выводы/);

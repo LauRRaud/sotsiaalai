@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 import {
   buildRemediationContext,
+  buildRemediationFieldDefaults,
   buildRemediationMetadataStub,
   findRemediationTargetItem,
   getRemediationIdentifierValue,
@@ -58,6 +59,41 @@ test("builds a metadata stub from remediation context", () => {
     "  \"source_type\": \"journal_article\",",
     "  \"url\": \"\",",
     "  \"content_hash\": \"\"",
+    "}",
+    ""
+  ].join("\n"));
+});
+
+test("prefills safe remediation metadata defaults", () => {
+  const context = buildRemediationContext(new URLSearchParams({
+    remediation_action: "fill_required_metadata_fields",
+    fields: "source_type,authority,last_checked,source_status,url",
+    source_id: "source-1",
+    document_id: "doc-1",
+    source_type: "file",
+    source_path: "https://jogeva.ee/koduteenus",
+    municipality: "jogeva_vald",
+    suggested_source_type: "kov_service_info"
+  }));
+
+  assert.deepEqual(buildRemediationFieldDefaults(context, { today: "2026-04-27" }), {
+    authority: "KOV",
+    last_checked: "2026-04-27",
+    source_status: "active",
+    source_type: "kov_service_info",
+    url: "https://jogeva.ee/koduteenus"
+  });
+
+  assert.equal(buildRemediationMetadataStub(context, { today: "2026-04-27" }), [
+    "{",
+    "  \"source_id\": \"source-1\",",
+    "  \"document_id\": \"doc-1\",",
+    "  \"source_type\": \"kov_service_info\",",
+    "  \"source_path\": \"https://jogeva.ee/koduteenus\",",
+    "  \"authority\": \"KOV\",",
+    "  \"last_checked\": \"2026-04-27\",",
+    "  \"source_status\": \"active\",",
+    "  \"url\": \"https://jogeva.ee/koduteenus\"",
     "}",
     ""
   ].join("\n"));

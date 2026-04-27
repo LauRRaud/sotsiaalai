@@ -34,11 +34,16 @@ export const REMEDIATION_ACTION_LABELS = {
   review_validity_window: {
     et: "Kontrolli kehtivusvahemikku",
     en: "Review validity window"
+  },
+  resolve_canonical_item_municipality_conflict: {
+    et: "Lahenda canonical item'i KOV vastuolu",
+    en: "Resolve canonical item municipality conflict"
   }
 };
 
 const FIELD_LABELS = {
   application_form: "application_form",
+  authority: "authority",
   canonical_item_id: "canonical_item_id",
   contact_page: "contact_page",
   content_hash: "content_hash",
@@ -74,6 +79,14 @@ function labelForField(field) {
   return FIELD_LABELS[field] || field;
 }
 
+function objectFromEntries(entries) {
+  const out = {};
+  for (const [key, value] of entries) {
+    if (value) out[key] = value;
+  }
+  return out;
+}
+
 export function buildRemediationContext(searchParams, locale = "en") {
   const action = paramValue(searchParams, "remediation_action");
   const fields = splitList(paramValue(searchParams, "fields"));
@@ -91,8 +104,15 @@ export function buildRemediationContext(searchParams, locale = "en") {
     ["organization", paramValue(searchParams, "organization")],
     ["source", paramValue(searchParams, "source")]
   ].filter(([, value]) => value);
+  const suggestions = objectFromEntries([
+    ["source_type", paramValue(searchParams, "suggested_source_type")],
+    ["authority", paramValue(searchParams, "suggested_authority")],
+    ["url", paramValue(searchParams, "suggested_url")],
+    ["last_checked", paramValue(searchParams, "suggested_last_checked")],
+    ["source_status", paramValue(searchParams, "suggested_source_status")]
+  ]);
 
-  if (!action && fields.length === 0 && identifiers.length === 0 && !focus && !fileKey) return null;
+  if (!action && fields.length === 0 && identifiers.length === 0 && !focus && !fileKey && Object.keys(suggestions).length === 0) return null;
 
   return {
     action,
@@ -102,12 +122,72 @@ export function buildRemediationContext(searchParams, locale = "en") {
     recommendedFields,
     recommendedFieldLabels: recommendedFields.map(labelForField),
     identifiers,
+    suggestions,
     focus,
     fileKey
   };
 }
 
-export function buildRemediationMetadataStub(context) {
+function todayDateOnly(options = {}) {
+  const explicit = String(options.today || "").trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(explicit)) return explicit;
+  const now = options.now instanceof Date ? options.now : new Date();
+  return Number.isNaN(now.getTime()) ? "" : now.toISOString().slice(0, 10);
+}
+
+function isHttpUrl(value) {
+  try {
+    const parsed = new URL(String(value || ""));
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function remediationIdentifierValue(context, key) {
+  for (const [name, value] of context?.identifiers || []) {
+    if (name === key && value) return value;
+  }
+  return "";
+}
+
+function defaultAuthority(context) {
+  const suggestion = context?.suggestions?.authority;
+  if (suggestion) return suggestion;
+  if (remediationIdentifierValue(context, "municipality")) return "KOV";
+  if (remediationIdentifierValue(context, "organization")) return "organization";
+  const source = remediationIdentifierValue(context, "source");
+  if (source === "ajakiri_sotsiaaltoo") return "editorial";
+  if (source === "national_rt") return "official_legal";
+  return "";
+}
+
+function defaultSourceType(context) {
+  const suggestion = context?.suggestions?.source_type;
+  if (suggestion) return suggestion;
+  const current = remediationIdentifierValue(context, "source_type");
+  return current && !["file", "unknown"].includes(current) ? current : "";
+}
+
+function defaultUrl(context) {
+  const suggestion = context?.suggestions?.url;
+  if (suggestion) return suggestion;
+  const sourcePath = remediationIdentifierValue(context, "source_path");
+  return isHttpUrl(sourcePath) ? sourcePath : "";
+}
+
+export function buildRemediationFieldDefaults(context, options = {}) {
+  if (!context || typeof context !== "object") return {};
+  return {
+    authority: defaultAuthority(context),
+    last_checked: context.suggestions?.last_checked || todayDateOnly(options),
+    source_status: context.suggestions?.source_status || "active",
+    source_type: defaultSourceType(context),
+    url: defaultUrl(context)
+  };
+}
+
+export function buildRemediationMetadataStub(context, options = {}) {
   if (!context || typeof context !== "object") return "";
 
   const out = {};
@@ -116,9 +196,15 @@ export function buildRemediationMetadataStub(context) {
     out[key] = value;
   }
 
+  const defaults = buildRemediationFieldDefaults(context, options);
+  const editableFields = new Set(context.fields || []);
   for (const field of [...(context.fields || []), ...(context.recommendedFields || [])]) {
-    if (!field || Object.prototype.hasOwnProperty.call(out, field)) continue;
-    out[field] = "";
+    if (!field) continue;
+    if (Object.prototype.hasOwnProperty.call(out, field)) {
+      if (editableFields.has(field) && defaults[field]) out[field] = defaults[field];
+      continue;
+    }
+    out[field] = Object.prototype.hasOwnProperty.call(defaults, field) ? defaults[field] : "";
   }
 
   if (Object.keys(out).length === 0) return "";

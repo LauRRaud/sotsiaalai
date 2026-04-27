@@ -459,7 +459,8 @@ export default function AnalyticsDashboard() {
   const highRiskSourceLayerLabels = useMemo(
     () => ({
       answer: t("admin.analytics.rag_docs.high_risk_layer.answer", "Answer source"),
-      displayed: t("admin.analytics.rag_docs.high_risk_layer.displayed", "Displayed source")
+      displayed: t("admin.analytics.rag_docs.high_risk_layer.displayed", "Displayed source"),
+      claim: t("admin.analytics.rag_docs.high_risk_layer.claim", "Claim source")
     }),
     [t]
   );

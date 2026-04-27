@@ -273,6 +273,9 @@ function assertAdminQualityPayload(payload) {
   assertCondition(Array.isArray(freshness.issues), "ragDocs.freshness.issues must be an array");
   assertObject(freshness.highRisk, "ragDocs.freshness.highRisk missing");
   assertCondition(Array.isArray(freshness.highRiskIssues), "ragDocs.freshness.highRiskIssues must be an array");
+  assertNumber(freshness.highRisk.high_risk_with_claim_sources, "ragDocs.freshness.highRisk.high_risk_with_claim_sources must be a number");
+  assertNumber(freshness.highRisk.stale_claim_source_responses, "ragDocs.freshness.highRisk.stale_claim_source_responses must be a number");
+  assertNumber(freshness.highRisk.claim_source_risk_readiness_rate, "ragDocs.freshness.highRisk.claim_source_risk_readiness_rate must be a number");
 
   assertMetadataQuality(freshness.summary);
 
@@ -436,6 +439,9 @@ async function main() {
       sourceQualityIssues: adminPayload.ragDocs.sourceQuality.issues.length,
       qualityIssues: freshness.issues.length,
       highRiskIssues: freshness.highRiskIssues.length,
+      highRiskClaimSources: freshness.highRisk.high_risk_claim_source_count,
+      highRiskClaimReadinessRate: freshness.highRisk.claim_source_risk_readiness_rate,
+      highRiskStaleClaimResponses: freshness.highRisk.stale_claim_source_responses,
       chat: chatSummary
     }
   }, null, 2));
