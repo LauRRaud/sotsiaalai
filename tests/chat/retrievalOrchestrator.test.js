@@ -7,6 +7,7 @@ import path from "node:path";
 import {
   buildRagSearchQuery,
   buildSourceAnchoredRagQueries,
+  detectSourceAvailabilityRequest,
   dedupeRagMatches,
   extractRecentAssistantSourceAnchors,
   extractRecentAssistantSourceFocus,
@@ -258,6 +259,13 @@ test("buildSourceAnchoredRagQueries keeps broad synthesis queries unfiltered fir
   assert.match(queries[0], /võrdle seda teiste/);
   assert.match(queries[0], /Tehisintellekt sotsiaaltöös/);
   assert.deepEqual(queries[1].filters, { doc_id: "article-doc-2025" });
+});
+
+test("detectSourceAvailabilityRequest treats inflected legal provision lists as source lookup", () => {
+  assert.equal(
+    detectSourceAvailabilityRequest([], "Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?"),
+    true
+  );
 });
 
 test("searchRagQueries merges per-query source filters with base filters", async () => {

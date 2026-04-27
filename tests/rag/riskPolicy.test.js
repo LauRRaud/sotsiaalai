@@ -37,6 +37,14 @@ test("classifies legal, benefit amount and deadline questions as high risk", () 
   assert.equal(policy.preferredSourceTypes.includes("kov_regulation"), true);
 });
 
+test("classifies inflected legal provision lookup questions as high risk", () => {
+  const policy = classifyRagRisk("Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?");
+
+  assert.equal(policy.riskLevel, "high");
+  assert.equal(policy.requiredEvidence, "strong");
+  assert.equal(policy.insufficientEvidenceMode, true);
+});
+
 test("crisis option forces high risk", () => {
   const policy = classifyRagRisk("Vajan abi", { isCrisis: true });
 

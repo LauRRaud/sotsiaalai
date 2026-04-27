@@ -263,3 +263,44 @@ test("uses legal chunk ids for national law attribution instead of collapsing by
     "riigiteataja:130122025029:paragraph-132-lg-1"
   ].sort());
 });
+
+test("keeps exact SHS legal sources with acronym and inflected benefit terms", () => {
+  const sources = [
+    {
+      id: "riigiteataja:130122025029:paragraph-132-lg-1",
+      source_id: "national_rt_130122025029",
+      sourceType: "national_law",
+      title: "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 1",
+      paragraphNumber: "132",
+      paragraphTitle: "Toimetulekutoetuse taotlemine",
+      authority: "official_legal",
+      source_status: "active",
+      evidenceText: "§ 132. Toimetulekutoetuse taotlemine. Taotleja esitab taotluse kohaliku omavalitsuse üksusele."
+    },
+    {
+      id: "riigiteataja:130122025029:paragraph-135-lg-1",
+      source_id: "national_rt_130122025029",
+      sourceType: "national_law",
+      title: "Eesti - Sotsiaalhoolekande seadus - § 135 Riigieelarvest makstav täiendav sotsiaaltoetus lg 1",
+      paragraphNumber: "135",
+      paragraphTitle: "Riigieelarvest makstav täiendav sotsiaaltoetus",
+      authority: "official_legal",
+      source_status: "active",
+      evidenceText: "§ 135. Riigieelarvest makstav täiendav sotsiaaltoetus."
+    }
+  ];
+  const reply = "Sotsiaalhoolekande seaduse § 132 „Toimetulekutoetuse taotlemine” on siin nähtav, kuid ainult osalise katkendi kujul.";
+  const attribution = buildSourceAttribution(reply, sources, {
+    query: "SHS § 132 toimetulekutoetuse taotlemine",
+    riskPolicy: {
+      riskLevel: "high",
+      requiredEvidence: "strong",
+      insufficientEvidenceMode: true
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, [
+    "riigiteataja:130122025029:paragraph-132-lg-1"
+  ]);
+  assert.equal(attribution.filter_reasons["riigiteataja:130122025029:paragraph-135-lg-1"], "query_anchor_mismatch");
+});
