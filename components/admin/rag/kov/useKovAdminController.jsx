@@ -462,7 +462,7 @@ export function useKovAdminController(locale, initialItems = []) {
 
   const summaryCards = useMemo(() => {
     const visible = filteredItems.length;
-    const ready = filteredItems.filter(item => item.readyForIngest).length;
+    const ingestedAny = filteredItems.filter(item => item.ingestStatus === "INGESTED" || item.rtIngestStatus === "INGESTED").length;
     const needsAttention = filteredItems.filter(
       item =>
         item?.combinedReadiness?.state !== "BOTH_INGESTED"
@@ -489,17 +489,17 @@ export function useKovAdminController(locale, initialItems = []) {
       },
       {
         key: "files",
-        label: et ? "4 faili valid" : "All four files valid",
+        label: et ? "Admin failid valid" : "Admin files valid",
         value: completeFiles,
-        hint: et ? "KOV-id, millel on kogu failikomplekt minimaalselt korras." : "Municipalities where the full file set passes basic validation.",
+        hint: et ? "Ainult adminis üles laaditud KOV failipakett, mitte CLI RAG ingest." : "Only the manually uploaded admin file package, not CLI RAG ingest.",
         tone: completeFiles > 0 ? "success" : "neutral"
       },
       {
-        key: "ready",
-        label: et ? "Järgmiseks sammuks valmis" : "Ready for next step",
-        value: ready,
-        hint: et ? "Adminis eraldi märgitud valmisolek." : "Explicit readiness flag from admin.",
-        tone: ready > 0 ? "success" : "neutral"
+        key: "ingested",
+        value: ingestedAny,
+        label: et ? "RAG ingestitud" : "RAG ingested",
+        hint: et ? "KOV-id, millel on vähemalt üks RAG kiht juba ingestitud." : "Municipalities with at least one RAG layer already ingested.",
+        tone: ingestedAny > 0 ? "success" : "neutral"
       },
       {
         key: "bothReady",

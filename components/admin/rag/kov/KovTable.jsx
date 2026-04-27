@@ -218,6 +218,8 @@ export default function KovTable({
             const rtIngestBusy = rtIngestBusySlug === row.slug;
             const canIngest = row.ingestSummary?.canIngest === true && row.ingestStatus !== "INGESTING";
             const canRtIngest = row.rtIngestSummary?.canIngest === true && row.rtIngestStatus !== "INGESTING";
+            const webIngested = row.ingestStatus === "INGESTED";
+            const rtIngested = row.rtIngestStatus === "INGESTED";
             const rtRequiredCount = Math.max(1, Number(row.rtSummary?.requiredCount || 1));
             const rtMissingCount = Number(row.rtSummary?.missingCount || 0);
             const rtInvalidCount = Number(row.rtSummary?.invalidCount || 0);
@@ -286,46 +288,64 @@ export default function KovTable({
                   ) : null}
                 </td>
                 <td className="border-b border-[color:var(--documents-card-border)] px-3 py-2.5 align-top">
-                  <div className="font-semibold">{row.fileCount}/4 <span className="font-normal text-[color:var(--documents-page-muted)]">KOV</span></div>
-                  <div className="mt-0.5 text-[0.78rem] text-[color:var(--documents-page-muted)]">{row.rtFileCount || 0}/{rtRequiredCount} RT</div>
-                  <div className="mt-1.5">
-                    <span
-                      className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${
-                        allFilesValid
-                          ? "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
-                          : invalidFiles > 0
-                            ? "border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
-                            : "border-[color:var(--documents-card-border)] bg-[color:var(--documents-card-bg)] text-[color:var(--documents-page-muted)]"
-                      }`}
-                    >
-                      {allFilesValid
-                        ? et ? "Kõik failid korras" : "All files valid"
-                        : invalidFiles > 0
-                          ? et ? "Sisaldab vigaseid faile" : "Has invalid files"
-                          : et ? "Faile on puudu" : "Missing files"}
-                    </span>
+                  <div className="font-semibold">
+                    {webIngested ? (et ? "KOV ingestitud" : "KOV ingested") : `${row.fileCount}/4 KOV`}
                   </div>
-                  <div className="mt-1">
-                    <span
-                      className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${
-                        rtMissingCount > 0
-                            ? "border-[color:var(--documents-card-border)] bg-[color:var(--documents-card-bg)] text-[color:var(--documents-page-muted)]"
-                            : rtInvalidCount > 0
+                  <div className="mt-0.5 text-[0.78rem] text-[color:var(--documents-page-muted)]">
+                    {rtIngested ? (et ? "RT ingestitud" : "RT ingested") : `${row.rtFileCount || 0}/${rtRequiredCount} RT`}
+                  </div>
+                  {webIngested && row.fileCount < 4 ? (
+                    <div className="mt-0.5 text-[0.74rem] text-[color:var(--documents-page-muted)]">
+                      {et ? "Admin failid" : "Admin files"}: {row.fileCount}/4
+                    </div>
+                  ) : null}
+                  {rtIngested && (row.rtFileCount || 0) < rtRequiredCount ? (
+                    <div className="mt-0.5 text-[0.74rem] text-[color:var(--documents-page-muted)]">
+                      {et ? "Admin RT fail" : "Admin RT file"}: {row.rtFileCount || 0}/{rtRequiredCount}
+                    </div>
+                  ) : null}
+                  {!webIngested ? (
+                    <div className="mt-1.5">
+                      <span
+                        className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${
+                          allFilesValid
+                            ? "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
+                            : invalidFiles > 0
                               ? "border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
+                              : "border-[color:var(--documents-card-border)] bg-[color:var(--documents-card-bg)] text-[color:var(--documents-page-muted)]"
+                        }`}
+                      >
+                        {allFilesValid
+                          ? et ? "Kõik failid korras" : "All files valid"
+                          : invalidFiles > 0
+                            ? et ? "Sisaldab vigaseid faile" : "Has invalid files"
+                            : et ? "Admin failid puuduvad" : "Admin files missing"}
+                      </span>
+                    </div>
+                  ) : null}
+                  {!rtIngested ? (
+                    <div className="mt-1">
+                      <span
+                        className={`inline-flex rounded-full border px-2 py-0.5 text-[0.76rem] font-semibold ${
+                          rtMissingCount > 0
+                              ? "border-[color:var(--documents-card-border)] bg-[color:var(--documents-card-bg)] text-[color:var(--documents-page-muted)]"
+                              : rtInvalidCount > 0
+                                ? "border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
+                                : rtValidCount === rtRequiredCount
+                                  ? "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
+                                  : "border-[color:var(--documents-card-border)] bg-[color:var(--documents-card-bg)] text-[color:var(--documents-page-muted)]"
+                        }`}
+                      >
+                        {rtMissingCount > 0
+                            ? et ? "Admin RT fail puudub" : "Admin RT file missing"
+                            : rtInvalidCount > 0
+                              ? et ? "RT vigane" : "RT invalid"
                               : rtValidCount === rtRequiredCount
-                                ? "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--documents-content-bg)_82%)] text-[color:var(--documents-page-text)]"
-                                : "border-[color:var(--documents-card-border)] bg-[color:var(--documents-card-bg)] text-[color:var(--documents-page-muted)]"
-                      }`}
-                    >
-                      {rtMissingCount > 0
-                          ? et ? "RT puudulik" : "RT incomplete"
-                          : rtInvalidCount > 0
-                            ? et ? "RT vigane" : "RT invalid"
-                            : rtValidCount === rtRequiredCount
-                              ? et ? "RT korras" : "RT valid"
-                              : et ? "RT pooleli" : "RT pending"}
-                    </span>
-                  </div>
+                                ? et ? "RT korras" : "RT valid"
+                                : et ? "RT pooleli" : "RT pending"}
+                      </span>
+                    </div>
+                  ) : null}
                   {(Number(row.rtLightCheckSummary?.changedSourceCount || 0) > 0 || Number(row.rtLightCheckSummary?.errorCount || 0) > 0) ? (
                     <div className="mt-0.5 text-[0.76rem] text-[color:var(--documents-page-muted)]">
                       {et

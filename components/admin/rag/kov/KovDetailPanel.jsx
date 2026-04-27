@@ -573,11 +573,11 @@ export default function KovDetailPanel({
               </span>
             </div>
             <div className={docDetailMetaItemClassName}>
-              <span className={docDetailMetaLabelClassName}>{et ? "KOV veeb failid" : "KOV web files"}</span>
+              <span className={docDetailMetaLabelClassName}>{et ? "Admin KOV failid" : "Admin KOV files"}</span>
               <span className={docDetailMetaValueClassName}>{entry.fileCount || 0}/4</span>
             </div>
             <div className={docDetailMetaItemClassName}>
-              <span className={docDetailMetaLabelClassName}>{et ? "RT failid" : "RT files"}</span>
+              <span className={docDetailMetaLabelClassName}>{et ? "Admin RT fail" : "Admin RT file"}</span>
               <span className={docDetailMetaValueClassName}>{entry.rtFileCount || 0}/1</span>
             </div>
             <div className={docDetailMetaItemClassName}>
