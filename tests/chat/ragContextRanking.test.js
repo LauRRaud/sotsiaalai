@@ -340,6 +340,39 @@ test("legal paragraph ranking prefers term-specific RT paragraph over generic le
   assert.equal(ranked[0].key, "paragraph-14");
 });
 
+test("legal paragraph ranking penalizes amendment provisions for ordinary benefit section lookup", () => {
+  const ranked = rankGroupsWithTopicHints([
+    {
+      key: "paragraph-176",
+      title: "Eesti - Sotsiaalhoolekande seadus - § 176",
+      paragraphTitle: "Sotsiaalhoolekande seaduse muutmine",
+      paragraphNumber: "176",
+      bodies: ["Sotsiaalhoolekande seaduse muutmine. Toimetulekutoetuse muudatused."],
+      bestScore: 0.92,
+      sourceType: "national_law",
+      sourceStatus: "active",
+      collectionId: "national_regulations",
+      retrievalChannels: ["bm25", "title_match"],
+      tags: []
+    },
+    {
+      key: "paragraph-132",
+      title: "Eesti - Sotsiaalhoolekande seadus - § 132",
+      paragraphTitle: "Toimetulekutoetuse taotlemine",
+      paragraphNumber: "132",
+      bodies: ["Toimetulekutoetuse taotleja esitab taotluse kohaliku omavalitsuse üksusele."],
+      bestScore: 0.62,
+      sourceType: "national_law",
+      sourceStatus: "active",
+      collectionId: "national_regulations",
+      retrievalChannels: ["bm25", "title_match"],
+      tags: []
+    }
+  ], ["sotsiaalhoolekande seadus", "toimetulekutoetus", "paragrahvid"]);
+
+  assert.equal(ranked[0].key, "paragraph-132");
+});
+
 test("renderOneContextBlock exposes source status metadata for time-aware answers", () => {
   const block = renderOneContextBlock({
     title: "Juubelilugu",

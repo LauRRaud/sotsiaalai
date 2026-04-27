@@ -6,6 +6,7 @@ import path from "node:path";
 
 import {
   buildRagSearchQuery,
+  buildSourceLookupSearchQuery,
   buildSourceAnchoredRagQueries,
   detectSourceAvailabilityRequest,
   dedupeRagMatches,
@@ -266,6 +267,21 @@ test("detectSourceAvailabilityRequest treats inflected legal provision lists as 
     detectSourceAvailabilityRequest([], "Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?"),
     true
   );
+});
+
+test("buildSourceLookupSearchQuery expands SHS subsistence benefit section anchors", () => {
+  const query = buildSourceLookupSearchQuery(
+    "Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?",
+    []
+  );
+
+  assert.match(query, /Sotsiaalhoolekande seadus 8\. jagu Toimetulekutoetus paragrahvid 131 132 133 134 135/);
+  assert.match(query, /§ 131 Toimetulekutoetus/);
+  assert.match(query, /§ 132 Toimetulekutoetuse taotlemine/);
+  assert.match(query, /§ 133 Toimetulekutoetuse arvestamise alused/);
+  assert.match(query, /§ 134 Toimetulekutoetuse määramine ja maksmine/);
+  assert.match(query, /§ 135 Riigieelarvest makstav täiendav sotsiaaltoetus/);
+  assert.doesNotMatch(query, /§ 176/);
 });
 
 test("searchRagQueries merges per-query source filters with base filters", async () => {
