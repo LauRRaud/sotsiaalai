@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/glassPageStyles";
 import {
   getWorkerFrameworkDocxHref,
+  WORKER_FRAMEWORK_REGISTER_ACK_STORAGE_KEY,
+  WORKER_FRAMEWORK_REGISTER_CONTEXT_STORAGE_KEY,
   WORKER_FRAMEWORK_REVIEW_STORAGE_KEY,
   WORKER_FRAMEWORK_SIGNED_HREF,
   WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY
@@ -278,6 +280,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
     acceptance: null
   });
   const [confirmChecked, setConfirmChecked] = useState(false);
+  const [isRegisterContext, setIsRegisterContext] = useState(false);
   const [savePending, setSavePending] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [saveNotice, setSaveNotice] = useState("");
@@ -338,6 +341,14 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
     const timestamp =
       window.sessionStorage.getItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY) || new Date().toISOString();
     window.sessionStorage.setItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY, timestamp);
+    const registerContext =
+      window.sessionStorage.getItem(WORKER_FRAMEWORK_REGISTER_CONTEXT_STORAGE_KEY) === "1";
+    setIsRegisterContext(registerContext);
+    if (registerContext) {
+      setConfirmChecked(
+        window.sessionStorage.getItem(WORKER_FRAMEWORK_REGISTER_ACK_STORAGE_KEY) === "1"
+      );
+    }
   }, []);
 
   useEffect(() => {
@@ -389,6 +400,15 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
     setSaveNotice("");
 
     try {
+      if (isRegisterConfirmationMode) {
+        if (typeof window !== "undefined") {
+          window.sessionStorage.setItem(WORKER_FRAMEWORK_REGISTER_ACK_STORAGE_KEY, "1");
+        }
+        setConfirmChecked(true);
+        setSaveNotice(t("documents.framework_acceptance.register_saved_notice"));
+        return;
+      }
+
       const frameworkReviewOpenedAt =
         typeof window !== "undefined"
           ? window.sessionStorage.getItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY) || null
@@ -436,6 +456,8 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
 
   const acceptance = frameworkStatus.acceptance || null;
   const isAccepted = acceptance?.accepted === true;
+  const isRegisterConfirmationMode = isRegisterContext && !frameworkStatus.authenticated;
+  const canConfirmFramework = frameworkStatus.eligible || isRegisterConfirmationMode;
   const acceptedAtText = acceptance?.acceptedAt ? new Date(acceptance.acceptedAt).toLocaleString(locale || "et") : "";
   const documentTitle = frameworkDocument?.title || t("auth.register.worker_framework_title");
   const fullDocumentBlocks = [
@@ -541,12 +563,12 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
                     id="framework-page-ack"
                     name="frameworkAck"
                     checked={confirmChecked}
-                    disabled={!frameworkStatus.eligible || savePending}
+                    disabled={!canConfirmFramework || savePending}
                     onChange={(next) => setConfirmChecked(next)}
                     label={t("auth.register.worker_framework_ack")}
                     className={frameworkCheckboxRowClassName}
                   />
-                  {frameworkStatus.eligible ? (
+                  {canConfirmFramework ? (
                     <div className={actionRowClassName}>
                       <Button
                         type="button"
@@ -560,7 +582,13 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
                           : t("documents.framework_acceptance.confirm_now")}
                       </Button>
                     </div>
-                  ) : null}
+                  ) : (
+                    <p className={introTextClassName}>
+                      {frameworkStatus.authenticated
+                        ? t("documents.framework_acceptance.worker_only")
+                        : t("documents.framework_acceptance.auth_required")}
+                    </p>
+                  )}
                 </>
               ) : null}
               {saveNotice ? <p className={introTextClassName}>{saveNotice}</p> : null}

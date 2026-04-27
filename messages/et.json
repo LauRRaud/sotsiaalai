@@ -1133,6 +1133,7 @@
       "confirm_now": "Salvesta kinnitus",
       "confirm_saving": "Salvestan kinnitust...",
       "saved_notice": "Kinnitus salvestati. Süsteemi loodud kirje on nüüd nähtav ka Dokumentides.",
+      "register_saved_notice": "Kinnitus salvestati registreerimisvormi jaoks. Mine tagasi registreerimise lehele ja jätka sama vormiga.",
       "already_confirmed": "Praeguse versiooni kinnitus oli juba olemas.",
       "load_failed": "Raamistiku staatuse laadimine ebaõnnestus.",
       "save_failed": "Kinnituse salvestamine ebaõnnestus.",

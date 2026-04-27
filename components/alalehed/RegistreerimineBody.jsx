@@ -25,6 +25,8 @@ import "@/components/CenteredScrollPicker.css";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import {
+  WORKER_FRAMEWORK_REGISTER_ACK_STORAGE_KEY,
+  WORKER_FRAMEWORK_REGISTER_CONTEXT_STORAGE_KEY,
   WORKER_FRAMEWORK_REVIEW_STORAGE_KEY,
   WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY,
   WORKER_FRAMEWORK_VERSION,
@@ -101,6 +103,30 @@ const isRegistrationOpen = !["false", "0", "off"].includes(
     .trim()
     .toLowerCase(),
 );
+const REGISTER_DRAFT_STORAGE_KEY = "sotsiaalai_register_draft";
+const initialForm = {
+  email: "",
+  pin: "",
+  role: "",
+  workerUse: "",
+  frameworkAck: false,
+  agree: false,
+  guideAck: false,
+};
+
+function normalizeDraftForm(draft) {
+  if (!draft || typeof draft !== "object") return null;
+  return {
+    email: typeof draft.email === "string" ? draft.email : "",
+    pin: typeof draft.pin === "string" ? draft.pin.replace(/\D/g, "").slice(0, 8) : "",
+    role: draft.role === "SOCIAL_WORKER" || draft.role === "CLIENT" ? draft.role : "",
+    workerUse: draft.workerUse === "ORG_IDENTIFIABLE" ? "ORG_IDENTIFIABLE" : "",
+    frameworkAck: draft.frameworkAck === true,
+    agree: draft.agree === true,
+    guideAck: draft.guideAck === true,
+  };
+}
+
 export default function RegistreerimineBody({}) {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -122,6 +148,21 @@ export default function RegistreerimineBody({}) {
   }, []);
   const openFrameworkPage = () => {
     if (typeof window !== "undefined") {
+      const liveForm = {
+        ...form,
+        email: document.getElementById("email")?.value || form.email,
+        pin: document.getElementById("pin")?.value || form.pin,
+        role:
+          document.querySelector('input[name="role"]:checked')?.value ||
+          form.role ||
+          "SOCIAL_WORKER",
+        agree:
+          document.querySelector('input[name="agree"]')?.checked ??
+          form.agree,
+        guideAck:
+          document.querySelector('input[name="guideAck"]')?.checked ??
+          form.guideAck,
+      };
       const timestamp =
         window.sessionStorage.getItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY) ||
         new Date().toISOString();
@@ -130,21 +171,22 @@ export default function RegistreerimineBody({}) {
         timestamp,
       );
       setFrameworkReviewOpenedAt(timestamp);
+      window.sessionStorage.setItem(WORKER_FRAMEWORK_REGISTER_CONTEXT_STORAGE_KEY, "1");
+      window.sessionStorage.setItem(
+        REGISTER_DRAFT_STORAGE_KEY,
+        JSON.stringify({
+          ...liveForm,
+          role: "SOCIAL_WORKER",
+          workerUse: "ORG_IDENTIFIABLE",
+        }),
+      );
     }
     router.push(localizePath("/tooalase-kasutuse-raamistik", locale));
   };
   const PIN_MIN = 4;
   const PIN_MAX = 8;
-  const initialForm = {
-    email: "",
-    pin: "",
-    role: "",
-    workerUse: "",
-    frameworkAck: false,
-    agree: false,
-    guideAck: false,
-  };
   const [form, setForm] = useState(initialForm);
+  const [draftReady, setDraftReady] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({
@@ -369,6 +411,9 @@ export default function RegistreerimineBody({}) {
         }),
       );
       if (typeof window !== "undefined") {
+        window.sessionStorage.removeItem(REGISTER_DRAFT_STORAGE_KEY);
+        window.sessionStorage.removeItem(WORKER_FRAMEWORK_REGISTER_CONTEXT_STORAGE_KEY);
+        window.sessionStorage.removeItem(WORKER_FRAMEWORK_REGISTER_ACK_STORAGE_KEY);
         window.sessionStorage.removeItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY);
         window.sessionStorage.removeItem(
           WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY,
@@ -416,6 +461,36 @@ export default function RegistreerimineBody({}) {
     isMobileViewport ? getItemClassName(index) : "";
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const rawDraft = window.sessionStorage.getItem(REGISTER_DRAFT_STORAGE_KEY);
+    const registerFrameworkAck =
+      window.sessionStorage.getItem(WORKER_FRAMEWORK_REGISTER_ACK_STORAGE_KEY) === "1";
+    if (rawDraft || registerFrameworkAck) {
+      try {
+        const parsedDraft = rawDraft ? JSON.parse(rawDraft) : null;
+        const nextDraft = normalizeDraftForm(parsedDraft) || initialForm;
+        setForm({
+          ...initialForm,
+          ...nextDraft,
+          ...(registerFrameworkAck
+            ? {
+                role: "SOCIAL_WORKER",
+                workerUse: "ORG_IDENTIFIABLE",
+                frameworkAck: true,
+              }
+            : null),
+        });
+      } catch {
+        if (registerFrameworkAck) {
+          setForm((prev) => ({
+            ...prev,
+            role: "SOCIAL_WORKER",
+            workerUse: "ORG_IDENTIFIABLE",
+            frameworkAck: true,
+          }));
+        }
+      }
+    }
+    setDraftReady(true);
     setFrameworkReviewOpenedAt(
       window.sessionStorage.getItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY) || "",
     );
@@ -425,6 +500,10 @@ export default function RegistreerimineBody({}) {
       ) || "",
     );
   }, []);
+  useEffect(() => {
+    if (typeof window === "undefined" || showSuccessState || !draftReady) return;
+    window.sessionStorage.setItem(REGISTER_DRAFT_STORAGE_KEY, JSON.stringify(form));
+  }, [draftReady, form, showSuccessState]);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const query = window.matchMedia("(max-width: 768px)");
@@ -561,15 +640,23 @@ export default function RegistreerimineBody({}) {
   }, [closeFrameworkModal, isFrameworkModalOpen, router, locale]);
   const handleWorkerUseToggle = (checked) => {
     if (checked) {
+      const registerFrameworkAck =
+        typeof window !== "undefined" &&
+        window.sessionStorage.getItem(WORKER_FRAMEWORK_REGISTER_ACK_STORAGE_KEY) === "1";
       setForm((prev) => ({
         ...prev,
         workerUse: "ORG_IDENTIFIABLE",
+        frameworkAck: registerFrameworkAck,
       }));
-      setIsFrameworkModalOpen(true);
+      if (!registerFrameworkAck) {
+        setIsFrameworkModalOpen(true);
+      }
       return;
     }
 
     if (typeof window !== "undefined") {
+      window.sessionStorage.removeItem(WORKER_FRAMEWORK_REGISTER_CONTEXT_STORAGE_KEY);
+      window.sessionStorage.removeItem(WORKER_FRAMEWORK_REGISTER_ACK_STORAGE_KEY);
       window.sessionStorage.removeItem(WORKER_FRAMEWORK_REVIEW_STORAGE_KEY);
       window.sessionStorage.removeItem(
         WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY,
@@ -702,7 +789,7 @@ export default function RegistreerimineBody({}) {
                     type="email"
                     id="email"
                     name="email"
-                    className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()}
+                    className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName} ${fieldErrors.email ? "text-transparent caret-[color:var(--glass-surface-text,#f2f2f2)] light:caret-[color:var(--input-text)]" : ""}`.trim()}
                     placeholder={fieldErrors.email ? "" : t("auth.email_placeholder")}
                     value={form.email}
                     onChange={handleChange}
@@ -734,7 +821,7 @@ export default function RegistreerimineBody({}) {
                     type="text"
                     id="pin"
                     name="pin"
-                    className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()}
+                    className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName} ${fieldErrors.pin ? "text-transparent caret-[color:var(--glass-surface-text,#f2f2f2)] light:caret-[color:var(--input-text)]" : ""}`.trim()}
                     placeholder={
                       fieldErrors.pin
                         ? ""

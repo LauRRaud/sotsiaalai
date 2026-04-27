@@ -1133,6 +1133,7 @@
       "confirm_now": "Save confirmation",
       "confirm_saving": "Saving confirmation...",
       "saved_notice": "Confirmation saved. The system-created record is now also visible in Documents.",
+      "register_saved_notice": "Confirmation saved for the registration form. Go back to registration and continue with the same form.",
       "already_confirmed": "The current version was already confirmed.",
       "load_failed": "Failed to load framework status.",
       "save_failed": "Failed to save confirmation.",
