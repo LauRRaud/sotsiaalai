@@ -5,6 +5,7 @@ const args = new Set(process.argv.slice(2));
 const remote = process.env.DEPLOY_SSH_HOST || "sotsiaalai";
 const appDir = process.env.DEPLOY_APP_DIR || "/home/ubuntu/apps/sotsiaalai";
 const branch = process.env.DEPLOY_BRANCH || "main";
+const frontendEnv = process.env.DEPLOY_FRONTEND_ENV || "/etc/sotsiaalai/frontend.env";
 const discardTracked = args.has("--discard-tracked");
 const skipBuild = args.has("--skip-build");
 
@@ -22,6 +23,7 @@ set -euo pipefail
 
 APP_DIR=${shellEscape(appDir)}
 BRANCH=${shellEscape(branch)}
+FRONTEND_ENV=${shellEscape(frontendEnv)}
 DISCARD_TRACKED=${discardTracked ? "1" : "0"}
 SKIP_BUILD=${skipBuild ? "1" : "0"}
 
@@ -70,6 +72,11 @@ else
 fi
 
 if [ "$SKIP_BUILD" != "1" ]; then
+  if [ -f "$FRONTEND_ENV" ]; then
+    set -a
+    . "$FRONTEND_ENV"
+    set +a
+  fi
   npm run build
 fi
 
