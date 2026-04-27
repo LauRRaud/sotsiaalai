@@ -32,9 +32,6 @@ yarn-error.log*
 coverage/
 .nyc_output/
 
-# Large import corpora kept outside deploy/repo payload
-imports/ajakiri_sotsiaaltoo/
-
 # Backups and temp files
 *.bak
 *.tmp
