@@ -1234,6 +1234,19 @@ Chat trace'i V2 signaalide kontrollimiseks:
 npm run rag:smoke:v2 -- --chat
 ```
 
+Legal exact smoke kontrollimiseks olemasoleva V2 smoke peale:
+
+```text
+npm run rag:smoke:v2 -- --legal-exact
+npm run rag:smoke:v2 -- --chat --legal-exact
+```
+
+Soovi korral saab sama kontrolli jooksutada ka eraldi skriptina:
+
+```text
+npm run rag:smoke:legal-exact -- --all
+```
+
 Smoke kontrollib vähemalt:
 
 - `/api/admin/analytics/summary` vastab admin autentimisega;
@@ -1247,6 +1260,7 @@ Smoke kontrollib vähemalt:
 - remediation target sisaldab admin sihtlinki `admin_href`, action'it, parandatavate väljade loendit ning võimalusel `focus`/`file_key` sihti;
 - `admin_href` query string sisaldab sama `focus`/`file_key` sihti, mis `remediation.target` objekt;
 - `ragDocs.sourceQuality.summary` sisaldab `displayed_source_precision`, contract violation, retrieved/selected filter rate ja `wrong_municipality_rate` mõõdikuid;
+- `--legal-exact` kontrollib lisaks `RAG /search` exact paragraph filtrit (`§132`, `§140`), `legalLookupPlan`/`selection_strategy` trace'i, history override'i ning synthetic wrong-paragraph metrics regressiooni;
 - high-risk source freshness kokkuvõte ja järjekord on olemas;
 - high-risk source freshness kokkuvõttes on olemas ka claim-kihi väljad: `high_risk_claim_source_count`, `stale_claim_source_responses` ja `claim_source_risk_readiness_rate`;
 - `--chat` korral on `/api/chat` vastuse `rag_trace` sees `retrievers_used`, `query_plan` ja riskipoliitika signaal.

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { runLegalExactSmokeSuite } from "./smoke-rag-legal-exact.mjs";
+
 const DEFAULT_BASE_URL = "http://127.0.0.1:3000";
 
 const DEFAULT_CHAT_CASE = {
@@ -12,6 +14,8 @@ function usage() {
     "Usage:",
     "  npm run rag:smoke:v2",
     "  npm run rag:smoke:v2 -- --chat",
+    "  npm run rag:smoke:v2 -- --legal-exact",
+    "  npm run rag:smoke:v2 -- --chat --legal-exact",
     "  npm run rag:smoke:v2 -- --max-reason unknown_source_type=0 --max-reason missing_last_checked=0",
     "  npm run rag:smoke:v2 -- --min-collection-completeness ajakiri_sotsiaaltoo=0.95",
     "",
@@ -22,6 +26,7 @@ function usage() {
     "",
     "Checks V2 RAG quality surfaces from /api/admin/analytics/summary.",
     "With --chat, also checks that /api/chat returns V2 trace signals.",
+    "With --legal-exact, also runs legal-exact smoke for direct RAG-service filters, chat legal lookup traces and synthetic wrong-paragraph metrics.",
     "Use --max-reason reason=count to fail when a freshness issue reason exceeds a threshold.",
     "Use --min-collection-completeness collection=rate to fail when one corpus family is below a metadata completeness target."
   ].join("\n");
@@ -34,6 +39,7 @@ function parseArgs(argv = []) {
     bearer: process.env.SOTSIAALAI_SMOKE_BEARER || process.env.SMOKE_BEARER || "",
     role: process.env.SOTSIAALAI_SMOKE_ROLE || "SOCIAL_WORKER",
     chat: process.env.SOTSIAALAI_SMOKE_CHAT === "1" || process.env.SMOKE_CHAT === "1",
+    legalExact: process.env.SOTSIAALAI_SMOKE_LEGAL_EXACT === "1" || process.env.SMOKE_LEGAL_EXACT === "1",
     maxReasons: {},
     minCollectionCompleteness: {},
     help: false
@@ -47,6 +53,7 @@ function parseArgs(argv = []) {
     else if (arg === "--bearer") args.bearer = argv[++index] || "";
     else if (arg === "--role") args.role = argv[++index] || args.role;
     else if (arg === "--chat") args.chat = true;
+    else if (arg === "--legal-exact") args.legalExact = true;
     else if (arg === "--max-reason") {
       const value = argv[++index] || "";
       const [reason, rawLimit] = value.split("=");
@@ -408,6 +415,20 @@ async function main() {
     args.minCollectionCompleteness
   );
   const chatSummary = args.chat ? await checkChatV2(args) : null;
+  const legalExactSummary = args.legalExact
+    ? await runLegalExactSmokeSuite({
+      baseUrl: args.baseUrl,
+      cookie: args.cookie,
+      bearer: args.bearer,
+      role: args.role,
+      ragServiceUrl: process.env.RAG_SERVICE_URL || process.env.RAG_INTERNAL_HOST || process.env.RAG_API_BASE || "http://127.0.0.1:8000",
+      ragServiceApiKey: process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "",
+      runChat: args.chat,
+      runRagService: true,
+      runAll: false,
+      help: false
+    })
+    : null;
 
   console.log(JSON.stringify({
     ok: true,
@@ -418,7 +439,8 @@ async function main() {
       qualityQueueShape: true,
       sourceQuality: true,
       highRiskFreshness: true,
-      chatV2: Boolean(args.chat)
+      chatV2: Boolean(args.chat),
+      legalExact: Boolean(args.legalExact)
     },
     summary: {
       audited: freshness.audited,
@@ -442,7 +464,8 @@ async function main() {
       highRiskClaimSources: freshness.highRisk.high_risk_claim_source_count,
       highRiskClaimReadinessRate: freshness.highRisk.claim_source_risk_readiness_rate,
       highRiskStaleClaimResponses: freshness.highRisk.stale_claim_source_responses,
-      chat: chatSummary
+      chat: chatSummary,
+      legalExact: legalExactSummary
     }
   }, null, 2));
 }

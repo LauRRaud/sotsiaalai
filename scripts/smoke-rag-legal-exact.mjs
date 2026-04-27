@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 
+import { pathToFileURL } from "node:url";
+
 import { summarizeRagTraceSourceQuality } from "../lib/rag/sourceQualityMetrics.js";
 
 const DEFAULT_BASE_URL = "http://127.0.0.1:3000";
 const DEFAULT_RAG_SERVICE_URL = "http://127.0.0.1:8000";
+const PARAGRAPH_SIGN = "\u00A7";
+const LEGAL_SOURCE_TYPE_PATTERN = /^(national_law|law|kov_regulation|regulation|riigiteataja_regulation)$/;
 
-function usage() {
+export function usage() {
   return [
     "Usage:",
     "  npm run rag:smoke:legal-exact -- --all",
@@ -23,7 +27,7 @@ function usage() {
   ].join("\n");
 }
 
-function parseArgs(argv = []) {
+export function parseArgs(argv = []) {
   const args = {
     baseUrl: process.env.SOTSIAALAI_SMOKE_BASE_URL || process.env.SMOKE_BASE_URL || DEFAULT_BASE_URL,
     cookie: process.env.SOTSIAALAI_SMOKE_COOKIE || process.env.SMOKE_COOKIE || "",
@@ -139,15 +143,15 @@ function sourceTitle(source = {}) {
 }
 
 function selectedContextDetails(trace = {}) {
-  return Array.isArray(trace?.selected_context_details) ? trace.selected_context_details : [];
+  if (Array.isArray(trace?.selected_context_details)) return trace.selected_context_details;
+  if (Array.isArray(trace?.selectedContextDetails)) return trace.selectedContextDetails;
+  return [];
 }
 
 function displayedSources(payload = {}) {
-  return Array.isArray(payload.displayed_sources)
-    ? payload.displayed_sources
-    : Array.isArray(payload.displayedSources)
-      ? payload.displayedSources
-      : [];
+  if (Array.isArray(payload.displayed_sources)) return payload.displayed_sources;
+  if (Array.isArray(payload.displayedSources)) return payload.displayedSources;
+  return [];
 }
 
 function responseText(payload = {}) {
@@ -180,7 +184,7 @@ async function runRagServiceSmoke(args) {
     {
       id: "rag_service_shs_132",
       body: {
-        query: "Sotsiaalhoolekande seadus § 132 toimetulekutoetuse taotlemine",
+        query: `Sotsiaalhoolekande seadus ${PARAGRAPH_SIGN} 132 toimetulekutoetuse taotlemine`,
         top_k: 20,
         where: {
           source_type: "national_law",
@@ -193,7 +197,7 @@ async function runRagServiceSmoke(args) {
     {
       id: "rag_service_shs_140",
       body: {
-        query: "Sotsiaalhoolekande seadus § 140",
+        query: `Sotsiaalhoolekande seadus ${PARAGRAPH_SIGN} 140`,
         top_k: 20,
         where: {
           source_type: "national_law",
@@ -234,7 +238,7 @@ async function postChat(args, message, history = []) {
 function assertLegalDisplayedParagraphs(label, sources, allowedParagraphs) {
   for (const source of sources) {
     const type = sourceType(source);
-    if (!/^(national_law|law|kov_regulation|regulation|riigiteataja_regulation)$/.test(type)) continue;
+    if (!LEGAL_SOURCE_TYPE_PATTERN.test(type)) continue;
     const paragraphNumber = sourceParagraphNumber(source);
     assertCondition(allowedParagraphs.includes(paragraphNumber), `${label}: displayed legal paragraph ${paragraphNumber || "(missing)"} is not allowed`);
   }
@@ -243,7 +247,7 @@ function assertLegalDisplayedParagraphs(label, sources, allowedParagraphs) {
 function assertLegalSelectedParagraphs(label, details, allowedParagraphs) {
   for (const detail of details) {
     const type = sourceType(detail);
-    if (!/^(national_law|law|kov_regulation|regulation|riigiteataja_regulation)$/.test(type)) continue;
+    if (!LEGAL_SOURCE_TYPE_PATTERN.test(type)) continue;
     const paragraphNumber = sourceParagraphNumber(detail);
     assertCondition(allowedParagraphs.includes(paragraphNumber), `${label}: selected legal paragraph ${paragraphNumber || "(missing)"} is not allowed`);
   }
@@ -274,7 +278,7 @@ async function runChatSmoke(args) {
     };
   }
 
-  const shs140 = await postChat(args, "SHS § 140?");
+  const shs140 = await postChat(args, `SHS ${PARAGRAPH_SIGN} 140?`);
   const shs140Trace = shs140?.rag_trace || {};
   const shs140Plan = legalLookupPlan(shs140Trace);
   const shs140ParagraphRefs = paragraphRefsFromPlan(shs140Plan);
@@ -289,11 +293,11 @@ async function runChatSmoke(args) {
   assertLegalDisplayedParagraphs("chat_shs_140", displayedSources(shs140), ["140"]);
   assertCondition(
     displayedSources(shs140).every((source) => !/Paragrahvi 140 rakendamine/i.test(sourceTitle(source))),
-    "chat_shs_140: displayed sources must not contain §160"
+    `chat_shs_140: displayed sources must not contain ${PARAGRAPH_SIGN}160`
   );
 
   const firstTurn = await postChat(args, "Millised SHS paragrahvid reguleerivad toimetulekutoetust?");
-  const secondTurn = await postChat(args, "SHS § 140?", [
+  const secondTurn = await postChat(args, `SHS ${PARAGRAPH_SIGN} 140?`, [
     { role: "user", text: "Millised SHS paragrahvid reguleerivad toimetulekutoetust?" },
     { role: "assistant", text: responseText(firstTurn), displayed_sources: displayedSources(firstTurn) }
   ]);
@@ -305,7 +309,7 @@ async function runChatSmoke(args) {
   assertLegalSelectedParagraphs("chat_history_override", selectedContextDetails(secondTrace), ["140"]);
   assertLegalDisplayedParagraphs("chat_history_override", displayedSources(secondTurn), ["140"]);
 
-  const shs132 = await postChat(args, "SHS § 132 toimetulekutoetuse taotlemine?");
+  const shs132 = await postChat(args, `SHS ${PARAGRAPH_SIGN} 132 toimetulekutoetuse taotlemine?`);
   const shs132Trace = shs132?.rag_trace || {};
   const shs132Plan = legalLookupPlan(shs132Trace);
   const shs132ParagraphRefs = paragraphRefsFromPlan(shs132Plan);
@@ -321,15 +325,15 @@ async function runChatSmoke(args) {
     "chat_shs_132: journal_article must not be displayed as current legal source"
   );
 
-  const shs999 = await postChat(args, "SHS § 999?");
+  const shs999 = await postChat(args, `SHS ${PARAGRAPH_SIGN} 999?`);
   const shs999Trace = shs999?.rag_trace || {};
-  const shs999Selected = selectedContextDetails(shs999Trace).filter((detail) => /^(national_law|law|kov_regulation|regulation|riigiteataja_regulation)$/.test(sourceType(detail)));
-  const shs999Displayed = displayedSources(shs999).filter((source) => /^(national_law|law|kov_regulation|regulation|riigiteataja_regulation)$/.test(sourceType(source)));
+  const shs999Selected = selectedContextDetails(shs999Trace).filter((detail) => LEGAL_SOURCE_TYPE_PATTERN.test(sourceType(detail)));
+  const shs999Displayed = displayedSources(shs999).filter((source) => LEGAL_SOURCE_TYPE_PATTERN.test(sourceType(source)));
   assertCondition(shs999Selected.length === 0, "chat_shs_999: selected legal sources must be empty");
   assertCondition(shs999Displayed.length === 0, "chat_shs_999: displayed legal sources must be empty");
   assertCondition(
     responseText(shs999).length === 0 ||
-    !/§\s*(140|160|132|131|133|134|135)\b/.test(responseText(shs999)),
+    !/\u00A7\s*(140|160|132|131|133|134|135)\b/.test(responseText(shs999)),
     "chat_shs_999: response must not substitute a different paragraph"
   );
 
@@ -392,13 +396,8 @@ function runSyntheticMetricsRegression() {
   };
 }
 
-async function main() {
-  const args = parseArgs(process.argv.slice(2));
-  if (args.help) {
-    console.log(usage());
-    return;
-  }
-
+export async function runLegalExactSmokeSuite(rawArgs = process.argv.slice(2)) {
+  const args = Array.isArray(rawArgs) ? parseArgs(rawArgs) : rawArgs;
   const output = {
     ok: true,
     environment: {
@@ -422,13 +421,26 @@ async function main() {
   output.checks.syntheticMetrics = true;
   output.results.syntheticMetrics = runSyntheticMetricsRegression();
 
+  return output;
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+  if (args.help) {
+    console.log(usage());
+    return;
+  }
+
+  const output = await runLegalExactSmokeSuite(args);
   console.log(JSON.stringify(output, null, 2));
 }
 
-main().catch((error) => {
-  console.error(JSON.stringify({
-    ok: false,
-    error: error?.message || String(error)
-  }, null, 2));
-  process.exitCode = 1;
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(JSON.stringify({
+      ok: false,
+      error: error?.message || String(error)
+    }, null, 2));
+    process.exitCode = 1;
+  });
+}
