@@ -1,14 +1,29 @@
 param(
-    [string]$Message = "SotsiaalAI",
-    [string]$SshTarget = "sotsiaalai"
+    [Alias("m")]
+    [string]$Message,
+    [switch]$SkipDeploy,
+    [switch]$SkipBuild,
+    [switch]$AllowSecrets
 )
 
-Write-Host "Git commit ja push (kohalik)..."
-git add .
-git commit -m $Message
-git push origin main
+$script = Join-Path $PSScriptRoot "scripts\ai-deploy.mjs"
+$deployArgs = @()
 
-Write-Host "Deploy serverisse..."
-ssh $SshTarget 'cd /home/ubuntu/apps/sotsiaalai; git pull; npm ci; npm run prisma:prepare:prod; npm run build; sudo systemctl restart sotsiaalai-frontend.service; sudo systemctl status sotsiaalai-frontend.service --no-pager'
+if ($Message) {
+    $deployArgs += @("--message", $Message)
+}
 
-Write-Host "Valmis."
+if ($SkipDeploy) {
+    $deployArgs += "--skip-deploy"
+}
+
+if ($SkipBuild) {
+    $deployArgs += "--skip-build"
+}
+
+if ($AllowSecrets) {
+    $deployArgs += "--allow-secrets"
+}
+
+node $script @deployArgs
+exit $LASTEXITCODE
