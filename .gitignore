@@ -14,6 +14,8 @@ Thumbs.db
 **/.env.*
 env
 env.*
+*.env.server
+*.env.backup
 production.env
 rag.env
 rag.env.*

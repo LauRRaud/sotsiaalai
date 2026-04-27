@@ -9,7 +9,10 @@ import {
   buildRagQueryPlan,
   buildServiceJurisdictionQuery
 } from "../../lib/chat/queryPlanner.js";
-import { isNationalServiceBenefitQuestion } from "../../lib/chat/retrievalContextAssembler.js";
+import {
+  buildRagContextBudgetOptions,
+  isNationalServiceBenefitQuestion
+} from "../../lib/chat/retrievalContextAssembler.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -192,6 +195,39 @@ test("Query Planner V2 gives national source lookup enough depth for legal secti
   assert.equal(plan.searchFilters.jurisdiction_level, "NATIONAL");
   assert.equal(plan.ragSearchTopK >= 24, true);
   assert.equal(plan.queryPlan.context_group_target >= 6, true);
+});
+
+test("RAG context budgeting compacts broad national legal section lookups", () => {
+  const options = buildRagContextBudgetOptions({
+    temporalRetrievalPlan: {
+      enabled: false,
+      years: []
+    },
+    sourceLookupRequest: true,
+    sourceLookupTargetsNationalLaw: true,
+    sourceLookupParagraphRefs: [],
+    contextGroupTarget: 8
+  });
+
+  assert.deepEqual(options, {
+    compact: true,
+    maxGroups: 8
+  });
+
+  const exactParagraphOptions = buildRagContextBudgetOptions({
+    temporalRetrievalPlan: {
+      enabled: false,
+      years: []
+    },
+    sourceLookupRequest: true,
+    sourceLookupTargetsNationalLaw: true,
+    sourceLookupParagraphRefs: ["132"],
+    contextGroupTarget: 8
+  });
+
+  assert.deepEqual(exactParagraphOptions, {
+    maxGroups: 8
+  });
 });
 
 test("Query Planner V2 eval fixture keeps planner modes stable", () => {

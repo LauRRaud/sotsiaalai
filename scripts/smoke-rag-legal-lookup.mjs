@@ -7,9 +7,9 @@ const CASES = [
   {
     id: "shs_toimetulekutoetus_sections",
     query: "Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?",
-    required: ["131", "132", "133", "134"],
+    required: ["131", "132", "133", "134", "135"],
     forbiddenPrimary: ["2", "156"],
-    requiredWindow: 24
+    requiredWindow: 32
   },
   {
     id: "shs_131_exact",
