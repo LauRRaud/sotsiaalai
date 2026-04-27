@@ -5,6 +5,7 @@ import {
   buildRagMetadataBackfillPlan,
   planRagMetadataBackfillForSource
 } from "../../lib/rag/metadataBackfillPlan.js";
+import { RAG_METADATA_SCHEMA_VERSION } from "../../lib/rag/sourceMetadata.js";
 
 const kovContext = {
   collectionFamily: "kov_web",
@@ -29,6 +30,7 @@ test("plans V2 metadata backfill for KOV web source register entries", () => {
   assert.equal(plan.source_id, "jogeva_vald_koduteenus_page");
   assert.equal(plan.source_type, "kov_service_info");
   assert.equal(plan.metadata.authority, "KOV");
+  assert.equal(plan.metadata.metadata_schema_version, RAG_METADATA_SCHEMA_VERSION);
   assert.equal(plan.metadata.municipality_id, "jogeva_vald");
   assert.equal(plan.metadata.last_checked, "2026-04-11");
   assert.deepEqual(plan.metadata.audience, ["CLIENT", "SOCIAL_WORKER"]);
@@ -73,6 +75,37 @@ test("maps KOV dataset item metadata with canonical item id", () => {
   assert.equal(plan.source_type, "kov_service_info");
   assert.equal(plan.metadata.canonical_item_id, "jogeva_vald_service_koduteenus");
   assert.equal(plan.metadata.source_status, "active");
+});
+
+test("backfill normalizes legacy canonical aliases before validation", () => {
+  const plan = planRagMetadataBackfillForSource({
+    canonical_source_id: "legacy-source",
+    docId: "legacy-doc",
+    title: "Legacy allikas",
+    source_type: "journal_article",
+    authority: "editorial",
+    audience: "BOTH",
+    language: "et",
+    checked_at: "2026-04-12T09:00:00Z",
+    content_status: "archived",
+    effective_start: "2026-01-01T00:00:00Z",
+    effective_end: "2026-12-31T00:00:00Z",
+    is_current_version: false,
+    url: "https://example.test/legacy"
+  }, {
+    collectionFamily: "ajakiri_sotsiaaltoo"
+  });
+
+  assert.equal(plan.status, "backfill_required");
+  assert.equal(plan.metadata.metadata_schema_version, RAG_METADATA_SCHEMA_VERSION);
+  assert.equal(plan.metadata.source_id, "legacy_source");
+  assert.equal(plan.metadata.document_id, "legacy-doc");
+  assert.equal(plan.metadata.last_checked, "2026-04-12");
+  assert.equal(plan.metadata.source_status, "archived");
+  assert.equal(plan.metadata.valid_from, "2026-01-01");
+  assert.equal(plan.metadata.valid_to, "2026-12-31");
+  assert.equal(plan.metadata.historical, true);
+  assert.equal(plan.metadata.url_canonical, "https://example.test/legacy");
 });
 
 test("maps RT and organization collections to their V2 source profiles", () => {

@@ -7,7 +7,6 @@ import path from "node:path";
 import {
   buildNationalServiceBenefitQuery,
   buildRagQueryPlan,
-  buildSourceLookupRagQueries,
   buildServiceJurisdictionQuery
 } from "../../lib/chat/queryPlanner.js";
 import {
@@ -176,46 +175,84 @@ test("Query Planner V2 anchors national legal obligation queries to KOV duty par
   assert.equal(isNationalServiceBenefitQuestion(message), true);
 
   const nationalQuery = buildNationalServiceBenefitQuery(message);
-  assert.match(nationalQuery, /kohaliku omavalitsuse üksuse ülesanded/i);
-  assert.match(nationalQuery, /kohaliku omavalitsuse kohustus/i);
+  assert.match(nationalQuery, /kohaliku omavalitsuse yksuse ylesanded/i);
+  assert.match(nationalQuery, /kohaliku omavalitsuse yksuse ylesanded/i);
 
   const jurisdictionQuery = buildServiceJurisdictionQuery("kas koduteenus on KOV või riiklik teenus");
-  assert.match(jurisdictionQuery, /kohaliku omavalitsuse üksuse ülesanded/i);
+  assert.match(jurisdictionQuery, /kohaliku omavalitsuse yksuse ylesanded/i);
 });
 
-test("Query Planner V2 gives national source lookup enough depth for legal sections", () => {
+test("Query Planner V2 builds explicit legal paragraph lookups with hard metadata filters", () => {
   const plan = basePlan({
-    effectiveMessage: "Mis paragrahvid reguleerivad SHS-is toimetulekutoetust?",
+    effectiveMessage: "SHS § 140?",
+    baseRagQueryText: "Sotsiaalhoolekande seadus § 140",
+    sourceLookupRequest: true,
+    sourceLookupTargetsNationalLaw: true,
+    sourceLookupParagraphRefs: ["140"]
+  });
+
+  assert.equal(plan.legalLookupPlan.enabled, true);
+  assert.equal(plan.legalLookupPlan.mode, "explicit_paragraph");
+  assert.deepEqual(plan.legalLookupPlan.paragraphRefs, ["140"]);
+  assert.equal(plan.queryPlan.mode, "explicit_paragraph");
+  assert.equal(plan.queryPlan.legalLookupPlan.enabled, true);
+  assert.equal(plan.queryPlan.selection_strategy, "legal_exact");
+  assert.equal(plan.primaryRagQueries.length, 1);
+  assert.deepEqual(plan.primaryRagQueries[0].filters, {
+    source_type: "national_law",
+    collection_id: "national_regulations",
+    act_title: "Sotsiaalhoolekande seadus",
+    source_status: "active",
+    historical: false,
+    paragraph_number: "140"
+  });
+  assert.equal(plan.ragSearchTopK >= 24, true);
+  assert.equal(plan.queryPlan.context_group_target >= 6, true);
+});
+
+test("Query Planner V2 keeps topic-based SHS lookups topic-based without hardcoded paragraph refs", () => {
+  const plan = basePlan({
+    effectiveMessage: "Millised SHS sätted reguleerivad toimetulekutoetust?",
     baseRagQueryText: "Sotsiaalhoolekande seadus toimetulekutoetus",
     sourceLookupRequest: true,
     sourceLookupTargetsNationalLaw: true,
     sourceLookupParagraphRefs: []
   });
 
-  assert.equal(plan.queryPlan.mode, "national_source_lookup");
-  assert.equal(plan.searchFilters.jurisdiction_level, "NATIONAL");
-  assert.equal(plan.ragSearchTopK >= 24, true);
-  assert.equal(plan.queryPlan.context_group_target >= 6, true);
+  assert.equal(plan.legalLookupPlan.enabled, true);
+  assert.equal(plan.legalLookupPlan.mode, "topic_to_paragraphs");
+  assert.deepEqual(plan.legalLookupPlan.paragraphRefs, []);
+  assert.deepEqual(plan.legalLookupPlan.topicTerms, ["toimetulekutoetus"]);
+  assert.equal(plan.primaryRagQueries.length, 1);
+  assert.deepEqual(plan.primaryRagQueries[0].filters, {
+    source_type: "national_law",
+    collection_id: "national_regulations",
+    act_title: "Sotsiaalhoolekande seadus",
+    source_status: "active",
+    historical: false
+  });
+  assert.doesNotMatch(plan.primaryRagQueries[0].query, /131|132|133|134|135/);
 });
 
-test("Query Planner V2 adds a focused SHS §135 query for subsistence benefit section lists", () => {
-  const queries = buildSourceLookupRagQueries(
-    [
-      "Sotsiaalhoolekande seadus 8. jagu Toimetulekutoetus paragrahvid 131 132 133 134 135",
-      "Sotsiaalhoolekande seadus § 131 Toimetulekutoetus",
-      "Sotsiaalhoolekande seadus § 132 Toimetulekutoetuse taotlemine",
-      "Sotsiaalhoolekande seadus § 133 Toimetulekutoetuse arvestamise alused",
-      "Sotsiaalhoolekande seadus § 134 Toimetulekutoetuse määramine ja maksmine",
-      "Sotsiaalhoolekande seadus § 135 Riigieelarvest makstav täiendav sotsiaaltoetus"
-    ].join("\n"),
-    {
-      sourceLookupTargetsNationalLaw: true,
-      sourceLookupParagraphRefs: []
-    }
-  );
+test("Query Planner V2 lets explicit paragraph beat earlier topic anchors in history", () => {
+  const plan = basePlan({
+    effectiveMessage: "SHS § 140?",
+    baseRagQueryText: "Sotsiaalhoolekande seadus § 140",
+    rawHistory: [
+      {
+        role: "user",
+        text: "Millised SHS paragrahvid reguleerivad toimetulekutoetust?"
+      }
+    ],
+    sourceLookupRequest: true,
+    sourceLookupTargetsNationalLaw: true,
+    sourceLookupParagraphRefs: ["131", "132", "133", "134", "135", "140"]
+  });
 
-  assert.equal(queries.length, 2);
-  assert.match(queries[1].query, /§ 135/);
+  assert.equal(plan.legalLookupPlan.mode, "explicit_paragraph");
+  assert.deepEqual(plan.legalLookupPlan.paragraphRefs, ["140"]);
+  assert.equal(plan.primaryRagQueries.length, 1);
+  assert.equal(plan.primaryRagQueries[0].filters.paragraph_number, "140");
 });
 
 test("RAG context budgeting compacts broad national legal section lookups", () => {
@@ -309,6 +346,6 @@ test("Query Planner V2 eval fixture keeps planner modes stable", () => {
   assert.equal(seenModes.has("national_service_benefit"), true);
   assert.equal(seenModes.has("service_jurisdiction"), true);
   assert.equal(seenModes.has("temporal"), true);
-  assert.equal(seenModes.has("national_source_lookup"), true);
+  assert.equal(seenModes.has("explicit_paragraph"), true);
   assert.equal(seenModes.has("default"), true);
 });

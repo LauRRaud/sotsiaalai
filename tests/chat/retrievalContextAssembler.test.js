@@ -1,7 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { buildRagSearchErrorPayload } from "../../lib/chat/retrievalContextAssembler.js";
+import {
+  buildLegalExactSelection,
+  buildRagSearchErrorPayload
+} from "../../lib/chat/retrievalContextAssembler.js";
 
 test("buildRagSearchErrorPayload marks optional RAG failures with planner context", () => {
   const payload = buildRagSearchErrorPayload({
@@ -42,4 +45,78 @@ test("buildRagSearchErrorPayload truncates long error text", () => {
   });
 
   assert.equal(payload.error_message.length, 240);
+});
+
+test("buildLegalExactSelection keeps only requested legal paragraph groups", () => {
+  const result = buildLegalExactSelection([
+    {
+      key: "law-140",
+      sourceType: "national_law",
+      sourceStatus: "active",
+      historical: false,
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphNumber: "140",
+      paragraphTitle: "Toimetulekutoetuse maksmine"
+    },
+    {
+      key: "law-160",
+      sourceType: "national_law",
+      sourceStatus: "active",
+      historical: false,
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphNumber: "160",
+      paragraphTitle: "Paragrahvi 140 rakendamine"
+    },
+    {
+      key: "law-70",
+      sourceType: "national_law",
+      sourceStatus: "active",
+      historical: false,
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphNumber: "70"
+    },
+    {
+      key: "journal-140",
+      sourceType: "journal_article",
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphNumber: "140"
+    }
+  ], {
+    enabled: true,
+    mode: "explicit_paragraph",
+    sourceTypes: ["national_law"],
+    actTitle: "Sotsiaalhoolekande seadus",
+    paragraphRefs: ["140"],
+    requireCurrent: true
+  });
+
+  assert.equal(result.insufficientPreciseLegalSourceSupport, false);
+  assert.deepEqual(result.missingParagraphRefs, []);
+  assert.deepEqual(result.selectionGroups.map(item => item.paragraphNumber), ["140"]);
+  assert.deepEqual(result.groupedMatches.map(item => item.paragraphNumber), ["140"]);
+});
+
+test("buildLegalExactSelection reports insufficient support when exact paragraph is missing", () => {
+  const result = buildLegalExactSelection([
+    {
+      key: "law-160",
+      sourceType: "national_law",
+      sourceStatus: "active",
+      historical: false,
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphNumber: "160",
+      paragraphTitle: "Paragrahvi 140 rakendamine"
+    }
+  ], {
+    enabled: true,
+    mode: "explicit_paragraph",
+    sourceTypes: ["national_law"],
+    actTitle: "Sotsiaalhoolekande seadus",
+    paragraphRefs: ["999"],
+    requireCurrent: true
+  });
+
+  assert.equal(result.insufficientPreciseLegalSourceSupport, true);
+  assert.deepEqual(result.missingParagraphRefs, ["999"]);
+  assert.deepEqual(result.selectionGroups, []);
 });

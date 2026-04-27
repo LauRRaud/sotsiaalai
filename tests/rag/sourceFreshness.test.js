@@ -43,6 +43,36 @@ test("normalizes RagDocument metadata for freshness audit", () => {
   assert.equal(normalized.related_forms_count, 1);
 });
 
+test("normalizes legacy freshness aliases through canonical metadata contract", () => {
+  const normalized = normalizeSourceMetadataForFreshness({
+    id: "doc_legacy",
+    title: "Legacy seadus",
+    metadata: {
+      canonical_source_id: "legacy-law",
+      docId: "national-rt-legacy",
+      source_type: "national_law",
+      authority: "official_legal",
+      language: "et",
+      audience: "BOTH",
+      checked_at: "2026-04-24T10:00:00Z",
+      content_status: "current",
+      effective_start: "2026-01-01T00:00:00Z",
+      effective_end: "2026-12-31T00:00:00Z",
+      is_current_version: false,
+      url: "https://www.riigiteataja.ee/akt/123"
+    }
+  });
+
+  assert.equal(normalized.source_id, "legacy-law");
+  assert.equal(normalized.document_id, "national-rt-legacy");
+  assert.equal(normalized.last_checked, "2026-04-24");
+  assert.equal(normalized.source_status, "active");
+  assert.equal(normalized.valid_from, "2026-01-01");
+  assert.equal(normalized.valid_to, "2026-12-31");
+  assert.equal(normalized.historical, true);
+  assert.equal(normalized.url_canonical, "https://www.riigiteataja.ee/akt/123");
+});
+
 test("flags stale high-priority KOV forms as errors", () => {
   const result = assessSourceFreshness({
     source_id: "tartu_hooldajatoetus_vorm",
@@ -149,7 +179,7 @@ test("summarizes metadata contract completeness", () => {
   assert.equal(result.summary.metadata_quality.incomplete, 1);
   assert.equal(result.summary.metadata_quality.completeness_rate, 0.5);
   assert.equal(result.summary.metadata_quality.missing_required_fields.authority, 1);
-  assert.equal(result.summary.metadata_quality.missing_required_fields.source_status, 1);
+  assert.equal(result.summary.metadata_quality.missing_required_fields.source_status, undefined);
   assert.equal(result.summary.metadata_quality.missing_recommended_fields.content_hash, 1);
   assert.equal(result.summary.metadata_quality.by_collection.kov_web.complete, 1);
   assert.equal(result.summary.metadata_quality.by_collection.ajakiri_sotsiaaltoo.incomplete, 1);
@@ -160,7 +190,7 @@ test("summarizes metadata contract completeness", () => {
 
   const missing = result.items.find(item => item.source_id === "missing");
   assert.equal(missing.remediation.action, "fill_required_metadata_fields");
-  assert.deepEqual(missing.remediation.fields, ["authority", "source_status"]);
+  assert.deepEqual(missing.remediation.fields, ["authority"]);
   assert.equal(missing.remediation.target.collection_family, "ajakiri_sotsiaaltoo");
   assert.equal(missing.remediation.target.source_file_type, "article_ingest");
   assert.ok(missing.remediation.target.admin_href.startsWith("/admin/rag/ingest?"));
@@ -168,7 +198,7 @@ test("summarizes metadata contract completeness", () => {
   assert.equal(href.pathname, "/admin/rag/ingest");
   assert.equal(href.searchParams.get("source"), "ajakiri_sotsiaaltoo");
   assert.equal(href.searchParams.get("remediation_action"), "fill_required_metadata_fields");
-  assert.equal(href.searchParams.get("fields"), "authority,source_status");
+  assert.equal(href.searchParams.get("fields"), "authority");
   assert.equal(href.searchParams.get("recommended_fields"), "content_hash");
   assert.equal(href.searchParams.get("source_id"), "missing");
   assert.equal(href.searchParams.get("document_id"), "doc-missing");

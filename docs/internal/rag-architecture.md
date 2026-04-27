@@ -120,6 +120,51 @@ KOV on hard filter ainult siis, kui kasutaja küsimus või tööruumi kontekst a
 
 Kui kasutaja viitab mitmele KOV-ile, näiteks elukoht on ühes ja viibimiskoht teises, peab süsteem vältima automaatset oletust. Sellisel juhul küsib süsteem täpsustust või annab tingimusliku vastuse, mis eristab KOV-e ja ütleb, millist infot tuleb üle kontrollida.
 
+## Legal Exact Retrieval Policy
+
+STATUS: active / fixed-in-progress
+
+- Kui kasutaja nimetab õigusakti ja konkreetse paragrahvi, muutub `paragraph_number` metadata hard filteriks.
+- Semantiliselt sarnane säte ei tohi asendada otseselt küsitud paragrahvi.
+- Näide: `SHS § 140?` peab kasutama `paragraph_number = "140"`; `§ 160` "Paragrahvi 140 rakendamine" võib olla debug-taseme retrieved kandidaat, aga ei tohi olla `selected context` ega `displayed source`.
+- `explicit_paragraph` viide võidab alati teemaankrud ja vestluse ajaloo.
+- `topic_to_paragraphs` režiimis ei hardcodeta paragrahve; otsing toimub akti canonical metadata ja teema-termide alusel.
+
+## V2.5 Pre-launch Canonical Hardening
+
+STATUS: active implementation boundary
+
+V2.5 on kohustuslik vahekiht enne V3.
+
+V2.5 sisaldab:
+
+- canonical metadata contract'i;
+- RAG-service täielikke `where` filtreid;
+- `legalLookupPlan` loogikat;
+- legal exact retrieval selection'it;
+- legal attribution contract'i;
+- reingest readiness'i.
+
+V3 `SourcePackage`'i ega claim-level attribution'it ei tohi ehitada segase legacy/canonical metadata peale.
+
+## Pre-launch Canonical Reset Decision
+
+STATUS: active implementation policy
+
+- Kuna platvorm ei ole veel avalik, ei säilitata uut RAG-i ehitades vana ja uue metadata skeemi segadust.
+- Legacy väljad on lubatud ainult sisendadapteris ja normalizeris.
+- Uus ingest peab kirjutama canonical metadata väljad.
+- Vajadusel tehakse backup + clean reingest, kuid ükski skript ei tohi production RAG storage'it automaatselt kustutada.
+
+## P0 Known Defect: Legal Paragraph Filtering
+
+STATUS: fixed in progress
+
+- `RAG-service /search where paragraph_number` peab päriselt filtreerima.
+- `§ 140` filter ei tohi tagastada `§ 160`.
+- ETAPP 1 parandas RAG-service filterikihi.
+- ETAPP 3 ühendas selle `legalLookupPlan` ja query planneri kihiga.
+
 ## Teostusjärjekord
 
 STATUS: historical roadmap / superseded by current V1-V2-V3 status blocks
@@ -395,13 +440,14 @@ KOV määrused on tugevamad kui KOV kodulehe üldtekst, kui küsimus puudutab õ
   "legal_level": "municipal_regulation",
   "municipality_id": "tartu_linn",
   "act_title": "...",
-  "act_id": "...",
-  "rt_url": "...",
+  "act_reference": "...",
+  "url_canonical": "...",
   "issuer": "...",
   "adopted_at": null,
   "valid_from": null,
   "valid_to": null,
-  "paragraph": null,
+  "paragraph_number": null,
+  "paragraph_title": null,
   "section_title": null,
   "historical": false
 }
@@ -417,11 +463,14 @@ Riiklik õigus ja riiklikud juhised annavad üldraami. Need ei tohi automaatselt
   "authority": "official_legal",
   "legal_level": "national_law",
   "act_title": "...",
-  "act_id": "...",
-  "rt_url": "...",
+  "act_reference": "...",
+  "url_canonical": "...",
+  "last_checked": null,
+  "source_status": "active",
   "valid_from": null,
   "valid_to": null,
-  "paragraph": null,
+  "paragraph_number": null,
+  "paragraph_title": null,
   "topic": [],
   "applies_nationally": true
 }

@@ -136,3 +136,66 @@ test("measures wrong municipality rate from selected context details", () => {
   assert.deepEqual(result.issues[0].expected_municipality_ids, ["tartu_linn"]);
   assert.deepEqual(result.issues[0].expected_municipality_names, ["tartu linn"]);
 });
+
+test("measures legal displayed paragraph precision and flags wrong displayed paragraph", () => {
+  const result = summarizeRagTraceSourceQuality([
+    {
+      data: {
+        query_plan: {
+          legalLookupPlan: {
+            enabled: true,
+            mode: "explicit_paragraph",
+            actTitle: "Sotsiaalhoolekande seadus",
+            paragraphRefs: ["140"]
+          }
+        },
+        attribution_decisions: [
+          {
+            source_id: "rt-160",
+            decision: "display",
+            source_type: "national_law",
+            paragraph_number: "160",
+            act_title: "Sotsiaalhoolekande seadus",
+            source_status: "active"
+          }
+        ]
+      }
+    }
+  ]);
+
+  assert.equal(result.ok, false);
+  assert.equal(result.summary.legal_displayed_paragraph_precision, 0);
+  assert.equal(result.summary.legal_wrong_paragraph_count, 1);
+  assert.equal(result.issues.some(item => item.type === "legal_displayed_wrong_paragraph"), true);
+});
+
+test("measures legal selected paragraph precision and flags wrong selected paragraph", () => {
+  const result = summarizeRagTraceSourceQuality([
+    {
+      data: {
+        query_plan: {
+          legalLookupPlan: {
+            enabled: true,
+            mode: "explicit_paragraph",
+            actTitle: "Sotsiaalhoolekande seadus",
+            paragraphRefs: ["140"]
+          }
+        },
+        selected_context_details: [
+          {
+            source_id: "rt-160",
+            source_type: "national_law",
+            paragraph_number: "160",
+            act_title: "Sotsiaalhoolekande seadus",
+            source_status: "active"
+          }
+        ]
+      }
+    }
+  ]);
+
+  assert.equal(result.ok, false);
+  assert.equal(result.summary.legal_selected_paragraph_precision, 0);
+  assert.equal(result.summary.legal_wrong_paragraph_count, 1);
+  assert.equal(result.issues.some(item => item.type === "legal_selected_wrong_paragraph"), true);
+});

@@ -23,6 +23,7 @@ function extractPythonFunction(source, name) {
 test("RAG service ingest payload defines V2 source contract fields before metadata use", () => {
   const fn = extractPythonFunction(readRagServiceMain(), "_build_ingest_payload");
   const fields = [
+    "metadata_schema_version",
     "source_id",
     "document_id",
     "legacy_source_type",

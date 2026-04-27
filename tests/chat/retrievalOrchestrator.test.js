@@ -269,13 +269,17 @@ test("detectSourceAvailabilityRequest treats inflected legal provision lists as 
   );
 });
 
-test("buildSourceLookupSearchQuery expands SHS subsistence benefit section anchors", () => {
+test("buildSourceLookupSearchQuery keeps SHS legal lookups free of hardcoded section anchors", () => {
   const query = buildSourceLookupSearchQuery(
     "Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?",
     []
   );
 
-  assert.match(query, /Sotsiaalhoolekande seadus 8\. jagu Toimetulekutoetus paragrahvid 131 132 133 134 135/);
+  assert.match(query, /Sotsiaalhoolekande seadus/);
+  assert.match(query, /toimetulekutoetust/);
+  assert.doesNotMatch(query, /131 132 133 134 135/);
+  assert.doesNotMatch(query, /Ā§ 135/);
+  return;
   assert.match(query, /§ 131 Toimetulekutoetus/);
   assert.match(query, /§ 132 Toimetulekutoetuse taotlemine/);
   assert.match(query, /§ 133 Toimetulekutoetuse arvestamise alused/);

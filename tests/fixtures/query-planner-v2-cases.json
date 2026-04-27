@@ -290,11 +290,11 @@
       "sourceLookupTargetsNationalLaw": true
     },
     "expected": {
-      "mode": "national_source_lookup",
+      "mode": "explicit_paragraph",
       "query_order": "targeted_source_lookup",
-      "selection_strategy": "mmr_diversity",
-      "has_per_query_filters": false,
-      "filter_keys": ["$in", "audience", "jurisdiction_level"]
+      "selection_strategy": "legal_exact",
+      "has_per_query_filters": true,
+      "filter_keys": ["$in", "act_title", "audience", "collection_id", "historical", "paragraph_number", "source_status", "source_type"]
     }
   },
   {

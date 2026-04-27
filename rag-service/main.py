@@ -1126,6 +1126,7 @@ class RagMetadata(BaseModel):
     section: Optional[str] = None
     audience: Optional[str] = "BOTH"
     audiences: List[str] = Field(default_factory=list)
+    metadata_schema_version: Optional[str] = None
     source_id: Optional[str] = None
     document_id: Optional[str] = None
     source_type: Optional[str] = None
@@ -1236,6 +1237,7 @@ class RagMetadata(BaseModel):
         "articleId",
         "section",
         "journalTitle",
+        "metadata_schema_version",
         "title",
         "description",
         "pageRange",
@@ -1269,7 +1271,111 @@ class RagMetadata(BaseModel):
 
 def build_rag_metadata(meta_common: Dict, doc_id: Optional[str] = None) -> RagMetadata:
     meta = meta_common or {}
+    def _first_value(*values):
+        for value in values:
+            if isinstance(value, list):
+                if len(value) > 0:
+                    return value
+                continue
+            if value is None:
+                continue
+            if isinstance(value, str) and not value.strip():
+                continue
+            return value
+        return None
+
+    def _clean_date(value):
+        raw = str(value or "").strip()
+        if not raw:
+            return None
+        match = re.match(r"^(\d{4}-\d{2}-\d{2})", raw)
+        return match.group(1) if match else None
+
+    def _normalize_bool(value):
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, (int, float)):
+            return bool(value)
+        if isinstance(value, str):
+            normalized = value.strip().lower()
+            if normalized in {"true", "1", "yes", "on"}:
+                return True
+            if normalized in {"false", "0", "no", "off"}:
+                return False
+        return None
+
+    def _derive_historical():
+        explicit = _normalize_bool(_first_value(meta.get("historical"), meta.get("is_historical"), meta.get("isHistorical")))
+        if explicit is not None:
+            return explicit
+        current = _normalize_bool(_first_value(meta.get("is_current_version"), meta.get("isCurrentVersion")))
+        if current is not None:
+            return not current
+        return False
+
+    def _derive_source_status():
+        explicit = str(_first_value(meta.get("source_status"), meta.get("sourceStatus")) or "").strip().lower()
+        if explicit:
+            return explicit
+        content_status = str(_first_value(meta.get("content_status"), meta.get("contentStatus"), meta.get("status")) or "").strip().lower()
+        if content_status in {"active", "current", "kehtiv"}:
+            return "active"
+        if content_status in {"inactive"}:
+            return "inactive"
+        if content_status in {"ended", "archived"}:
+            return "archived"
+        current = _normalize_bool(_first_value(meta.get("is_current_version"), meta.get("isCurrentVersion")))
+        if current is False:
+            return "archived"
+        if current is True:
+            return "active"
+        return "unknown"
+
     resolved_doc_id = doc_id or meta.get("docId") or meta.get("doc_id")
+    metadata_schema_version = _first_value(
+        meta.get("metadata_schema_version"),
+        meta.get("metadataSchemaVersion"),
+        "v2.5",
+    )
+    resolved_source_id = _first_value(
+        meta.get("source_id"),
+        meta.get("sourceId"),
+        meta.get("canonical_source_id"),
+        meta.get("canonicalSourceId"),
+    )
+    resolved_document_id = _first_value(
+        meta.get("document_id"),
+        meta.get("documentId"),
+        meta.get("docId"),
+        resolved_doc_id,
+    )
+    resolved_url_canonical = _first_value(
+        meta.get("url_canonical"),
+        meta.get("urlCanonical"),
+        meta.get("url"),
+        meta.get("source_url"),
+        meta.get("sourceUrl"),
+    )
+    resolved_last_checked = _clean_date(_first_value(
+        meta.get("last_checked"),
+        meta.get("lastChecked"),
+        meta.get("checked_at"),
+        meta.get("checkedAt"),
+    ))
+    resolved_valid_from = _clean_date(_first_value(
+        meta.get("valid_from"),
+        meta.get("validFrom"),
+        meta.get("effective_start"),
+        meta.get("effectiveStart"),
+    ))
+    resolved_valid_to = _clean_date(_first_value(
+        meta.get("valid_to"),
+        meta.get("validTo"),
+        meta.get("effective_end"),
+        meta.get("effectiveEnd"),
+    ))
+    resolved_historical = _derive_historical()
+    resolved_source_status = _derive_source_status()
     return RagMetadata(
         docId=resolved_doc_id,
         articleId=meta.get("articleId") or meta.get("article_id"),
@@ -1283,20 +1389,21 @@ def build_rag_metadata(meta_common: Dict, doc_id: Optional[str] = None) -> RagMe
         section=meta.get("section"),
         audience=meta.get("audience"),
         audiences=meta.get("audiences") or meta.get("audience"),
-        source_id=meta.get("source_id") or meta.get("sourceId"),
-        document_id=meta.get("document_id") or meta.get("documentId"),
+        metadata_schema_version=metadata_schema_version,
+        source_id=resolved_source_id,
+        document_id=resolved_document_id,
         source_type=meta.get("source_type"),
         legacy_source_type=meta.get("legacy_source_type") or meta.get("legacySourceType"),
         authority=meta.get("authority"),
         source_path=meta.get("source_path"),
         source_url=meta.get("source_url") or meta.get("url"),
-        url_canonical=meta.get("url_canonical") or meta.get("urlCanonical"),
+        url_canonical=resolved_url_canonical,
         retrieved_at=meta.get("retrieved_at") or meta.get("retrievedAt"),
-        last_checked=meta.get("last_checked") or meta.get("lastChecked"),
-        valid_from=meta.get("valid_from") or meta.get("validFrom"),
-        valid_to=meta.get("valid_to") or meta.get("validTo"),
-        historical=meta.get("historical"),
-        source_status=meta.get("source_status") or meta.get("sourceStatus"),
+        last_checked=resolved_last_checked,
+        valid_from=resolved_valid_from,
+        valid_to=resolved_valid_to,
+        historical=resolved_historical,
+        source_status=resolved_source_status,
         canonical_item_id=meta.get("canonical_item_id") or meta.get("canonicalItemId"),
         content_hash=meta.get("content_hash") or meta.get("contentHash"),
         pageRange=meta.get("pageRange") or meta.get("page_range"),
@@ -1320,9 +1427,9 @@ def build_rag_metadata(meta_common: Dict, doc_id: Optional[str] = None) -> RagMe
         municipality_id=meta.get("municipality_id") or meta.get("municipalityId"),
         district_name=meta.get("district_name") or meta.get("districtName"),
         district_id=meta.get("district_id") or meta.get("districtId"),
-        checked_at=meta.get("checked_at") or meta.get("checkedAt"),
+        checked_at=meta.get("checked_at") or meta.get("checkedAt") or resolved_last_checked,
         item_type=meta.get("item_type") or meta.get("itemType"),
-        content_status=meta.get("content_status") or meta.get("contentStatus") or meta.get("status"),
+        content_status=meta.get("content_status") or meta.get("contentStatus") or meta.get("status") or resolved_source_status,
         resource_type=meta.get("resource_type") or meta.get("resourceType"),
         source_keys=meta.get("source_keys") or meta.get("sourceKeys") or [],
         source_urls=meta.get("source_urls") or meta.get("sourceUrls") or [],
@@ -1514,6 +1621,7 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
     language = (meta.language or "et").strip() or "et"
     audience = normalize_audience(meta.audience)
     audiences = normalize_audience_list(meta.audiences or meta.audience)
+    metadata_schema_version = (meta.metadata_schema_version or "").strip() or "v2.5"
     source_id = (meta.source_id or "").strip() or None
     document_id = (meta.document_id or "").strip() or None
     legacy_source_type = (meta.legacy_source_type or "").strip() or None
@@ -1558,7 +1666,7 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
     if section:       prefix_lines.append(f"[SECTION] {section}")
     if year:          prefix_lines.append(f"[YEAR] {year}")
     if item_type:     prefix_lines.append(f"[ITEM_TYPE] {item_type}")
-    if content_status: prefix_lines.append(f"[STATUS] {content_status}")
+    if status_label:   prefix_lines.append(f"[STATUS] {status_label}")
     if resource_type: prefix_lines.append(f"[RESOURCE_TYPE] {resource_type}")
     if administering_body: prefix_lines.append(f"[ADMIN_BODY] {administering_body}")
     if county:        prefix_lines.append(f"[COUNTY] {county}")
@@ -1657,6 +1765,7 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
             "pages": pages_list or None,
             "journal_title": journal_title,
             "journalTitle": journal_title,
+            "metadata_schema_version": metadata_schema_version,
             "source_id": source_id,
             "sourceId": source_id,
             "document_id": document_id,
@@ -1781,6 +1890,7 @@ def _build_chunk_metadata_entry(
     checked_at = (meta.checked_at or "").strip() or None
     item_type = (meta.item_type or "").strip() or None
     content_status = (meta.content_status or "").strip() or None
+    status_label = source_status or content_status
     resource_type = (meta.resource_type or "").strip() or None
     source_keys = meta.source_keys or []
     source_urls = meta.source_urls or []
@@ -1816,6 +1926,7 @@ def _build_chunk_metadata_entry(
         "pages": pages_list or None,
         "journal_title": journal_title,
         "journalTitle": journal_title,
+        "metadata_schema_version": metadata_schema_version,
         "source_id": source_id,
         "sourceId": source_id,
         "document_id": document_id,

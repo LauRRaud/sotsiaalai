@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import {
   ALLOWED_ATTRIBUTION_DECISION_REASONS,
   buildSourceAttribution,
+  extractParagraphRefsFromReply,
   filterSourcesForReply,
   getSourceAttributionId
 } from "../../lib/chat/sourceAttribution.js";
@@ -303,4 +304,96 @@ test("keeps exact SHS legal sources with acronym and inflected benefit terms", (
     "riigiteataja:130122025029:paragraph-132-lg-1"
   ]);
   assert.equal(attribution.filter_reasons["riigiteataja:130122025029:paragraph-135-lg-1"], "query_anchor_mismatch");
+});
+
+test("extracts paragraph refs from reply text", () => {
+  assert.deepEqual(
+    extractParagraphRefsFromReply("Selles vastuses on § 140 ja paragrahv 132."),
+    ["140", "132"]
+  );
+});
+
+test("hides wrong legal paragraph sources even when reply mentions a nearby paragraph", () => {
+  const sources = [
+    {
+      id: "rt-140",
+      sourceType: "national_law",
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphNumber: "140",
+      paragraphTitle: "Toimetulekutoetuse maksmine",
+      source_status: "active",
+      evidenceText: "§ 140. Toimetulekutoetuse maksmine."
+    },
+    {
+      id: "rt-160",
+      sourceType: "national_law",
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphNumber: "160",
+      paragraphTitle: "Paragrahvi 140 rakendamine",
+      source_status: "active",
+      evidenceText: "§ 160. Paragrahvi 140 rakendamine."
+    }
+  ];
+
+  const attribution = buildSourceAttribution("SHS § 140 käsitleb toimetulekutoetuse maksmist.", sources, {
+    query: "SHS § 140",
+    legalLookupPlan: {
+      enabled: true,
+      mode: "explicit_paragraph",
+      sourceTypes: ["national_law"],
+      collectionId: "national_regulations",
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphRefs: ["140"],
+      municipalityId: null,
+      requireCurrent: true
+    },
+    riskPolicy: {
+      riskLevel: "high",
+      requiredEvidence: "strong",
+      insufficientEvidenceMode: true
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["rt-140"]);
+  assert.equal(attribution.filter_reasons["rt-160"], "legal_paragraph_not_in_answer_or_plan");
+});
+
+test("hides journal article for exact current legal paragraph lookup", () => {
+  const attribution = buildSourceAttribution("SHS § 132 reguleerib toimetulekutoetuse taotlemist.", [
+    {
+      id: "journal-shs-132",
+      sourceType: "journal_article",
+      title: "SHS muudatused",
+      paragraphNumber: "132",
+      evidenceText: "Artikkel kirjeldab SHS muudatusi."
+    },
+    {
+      id: "law-132",
+      sourceType: "national_law",
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphNumber: "132",
+      source_status: "active",
+      evidenceText: "§ 132. Toimetulekutoetuse taotlemine."
+    }
+  ], {
+    query: "SHS § 132 toimetulekutoetuse taotlemine",
+    legalLookupPlan: {
+      enabled: true,
+      mode: "explicit_paragraph",
+      sourceTypes: ["national_law"],
+      collectionId: "national_regulations",
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphRefs: ["132"],
+      municipalityId: null,
+      requireCurrent: true
+    },
+    riskPolicy: {
+      riskLevel: "high",
+      requiredEvidence: "strong",
+      insufficientEvidenceMode: true
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["law-132"]);
+  assert.equal(attribution.filter_reasons["journal-shs-132"], "legal_source_type_mismatch");
 });
