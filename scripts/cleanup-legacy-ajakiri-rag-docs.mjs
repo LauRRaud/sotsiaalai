@@ -6,7 +6,7 @@ import path from "node:path";
 import { buildLegacyAjakiriCleanupPlan } from "../lib/rag/legacyAjakiriCleanup.js";
 
 const RAW_RAG_HOST = String(process.env.RAG_INTERNAL_HOST || process.env.RAG_API_BASE || "127.0.0.1:8000").trim();
-const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
+const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || "").trim();
 
 function normalizeBaseFromHost(host) {
   const trimmed = String(host || "").trim().replace(/\/+$/, "");
@@ -92,7 +92,7 @@ function parseArgs(argv) {
   }
 
   if (!RAG_KEY) {
-    throw new Error("RAG_SERVICE_API_KEY or RAG_API_KEY is missing.");
+    throw new Error("RAG_SERVICE_API_KEY is missing.");
   }
   return args;
 }

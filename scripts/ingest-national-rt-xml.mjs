@@ -9,7 +9,7 @@ import { assertRagSourceMetadataContract } from "../lib/rag/sourceMetadata.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const RAW_RAG_HOST = String(process.env.RAG_INTERNAL_HOST || process.env.RAG_API_BASE || "127.0.0.1:8000").trim();
-const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
+const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || "").trim();
 
 function usage() {
   console.log(`
@@ -138,7 +138,7 @@ async function main() {
   if (args.dryRun) return;
 
   if (!RAG_KEY) {
-    throw new Error("RAG_SERVICE_API_KEY or RAG_API_KEY is required for ingest");
+    throw new Error("RAG_SERVICE_API_KEY is required for ingest");
   }
 
   const response = await fetch(`${normalizeBaseFromHost(RAW_RAG_HOST)}/ingest/text`, {

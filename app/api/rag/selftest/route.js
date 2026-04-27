@@ -6,13 +6,13 @@ import { assertAdmin } from "@/lib/authz";
 import { DEFAULT_MODEL } from "@/lib/chat/settings";
 import { logOpenAIUsage } from "@/lib/openaiUsage";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { RAG_SERVICE_KEY } from "@/lib/server/ragAuth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
-const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 function readPositiveNumber(value, fallback) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric) || numeric <= 0) return fallback;
@@ -90,7 +90,7 @@ async function ragFetch(path, init = {}) {
     throw createStepError("api.rag.external_host_not_allowed");
   }
 
-  if (!RAG_KEY) {
+  if (!RAG_SERVICE_KEY) {
     throw createStepError("api.rag.service_key_missing");
   }
 
@@ -99,7 +99,7 @@ async function ragFetch(path, init = {}) {
 
   try {
     const headers = new Headers(init.headers);
-    headers.set("X-API-Key", RAG_KEY);
+    headers.set("X-API-Key", RAG_SERVICE_KEY);
     headers.set("Content-Type", headers.get("Content-Type") || "application/json");
 
     const res = await fetch(`${base}${path}`, {

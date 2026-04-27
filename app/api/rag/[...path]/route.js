@@ -5,12 +5,12 @@ import { assertAdmin } from "@/lib/authz";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { consumeRateLimit } from "@/lib/rate-limit";
+import { RAG_SERVICE_KEY } from "@/lib/server/ragAuth";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
-const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 function readPositiveNumber(value, fallback) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric) || numeric <= 0) return fallback;
@@ -149,7 +149,7 @@ async function proxy(req, ctx = {}) {
 
   const paramSegments = Array.isArray(resolvedParams?.path) ? resolvedParams.path : [];
 
-  if (!RAG_KEY) {
+  if (!RAG_SERVICE_KEY) {
     return errorJson("api.rag.service_key_missing", 500, locale, {
       debugCode: "RAG_PROXY_KEY_MISSING"
     });
@@ -164,7 +164,7 @@ async function proxy(req, ctx = {}) {
 
   const target = buildTargetUrl(req, paramSegments);
   const headers = new Headers();
-  headers.set("X-API-Key", RAG_KEY);
+  headers.set("X-API-Key", RAG_SERVICE_KEY);
 
   for (const name of SAFE_FORWARD_REQ_HEADERS) {
     const value = req.headers.get(name);

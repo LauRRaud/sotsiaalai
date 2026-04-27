@@ -17,6 +17,7 @@ import {
 } from "@/lib/chat/analyzeFileConfig";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { safeError } from "@/lib/privacy/safeError";
+import { RAG_SERVICE_KEY } from "@/lib/server/ragAuth";
 
 const MAX_MB = readAnalyzeMaxUploadMb(
   process.env.RAG_SERVER_MAX_MB || process.env.RAG_MAX_UPLOAD_MB || process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB,
@@ -34,7 +35,6 @@ const ALLOWED_MIME = new Set(
     .filter(Boolean)
 );
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
-const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
 const LOCAL_HOST_RE = /^(127\.0\.0\.1|localhost|\[?::1\]?)(:\d+)?$/i;
@@ -87,7 +87,7 @@ function isLocalBaseUrl(url) {
 }
 
 async function callRagAnalyze(formData) {
-  if (!RAG_KEY) throw new Error("api.chat.analyze.rag_key_missing");
+  if (!RAG_SERVICE_KEY) throw new Error("api.chat.analyze.rag_key_missing");
 
   const base = normalizeBaseFromHost(RAW_RAG_HOST);
   if (!ALLOW_EXTERNAL && !isLocalBaseUrl(base)) {
@@ -95,7 +95,7 @@ async function callRagAnalyze(formData) {
   }
 
   const headers = new Headers();
-  headers.set("X-API-Key", RAG_KEY);
+  headers.set("X-API-Key", RAG_SERVICE_KEY);
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);

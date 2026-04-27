@@ -13,7 +13,7 @@ const DEFAULT_IMPORT_ROOT = "imports/ajakiri_sotsiaaltoo";
 const DEFAULT_LOG_PATH = "logs/ajakiri-sotsiaaltoo-ingest.jsonl";
 const DEFAULT_ALL_EXCLUDED_ISSUES = new Set();
 const RAW_RAG_HOST = String(process.env.RAG_INTERNAL_HOST || process.env.RAG_API_BASE || "127.0.0.1:8000").trim();
-const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
+const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || "").trim();
 const DEFAULT_REQUEST_TIMEOUT_MS = Math.max(
   30_000,
   Number.parseInt(String(process.env.RAG_INGEST_REQUEST_TIMEOUT_MS || "300000"), 10) || 300_000
@@ -146,7 +146,7 @@ function parseArgs(argv) {
     throw new Error("Use either --all or --issue, not both.");
   }
   if (!args.dryRun && !RAG_KEY) {
-    throw new Error("RAG_SERVICE_API_KEY or RAG_API_KEY is missing.");
+    throw new Error("RAG_SERVICE_API_KEY is missing.");
   }
   return args;
 }

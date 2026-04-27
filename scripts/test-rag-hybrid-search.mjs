@@ -205,7 +205,7 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   const { env, used } = loadEnv(args.envFile);
   const baseUrl = normalizeBaseUrl(args.baseUrl || env.RAG_API_BASE || env.RAG_INTERNAL_HOST);
-  const apiKey = String(env.RAG_SERVICE_API_KEY || env.RAG_API_KEY || "").trim();
+  const apiKey = String(env.RAG_SERVICE_API_KEY || "").trim();
 
   console.log(`[rag:hybrid:test] base=${baseUrl}`);
   if (used.length) {

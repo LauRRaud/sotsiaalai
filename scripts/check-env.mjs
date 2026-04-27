@@ -94,7 +94,6 @@ function main() {
     "DATABASE_URL",
     "OPENAI_API_KEY",
     "RAG_SERVICE_API_KEY",
-    "RAG_API_KEY",
     "RAG_INTERNAL_HOST",
     "RAG_API_BASE",
     "EMAIL_FROM"

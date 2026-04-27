@@ -13,7 +13,7 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const RAW_RAG_HOST = String(process.env.RAG_INTERNAL_HOST || process.env.RAG_API_BASE || "127.0.0.1:8000").trim();
-const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
+const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || "").trim();
 
 function usage() {
   console.log(`
@@ -499,7 +499,7 @@ async function main() {
     return;
   }
 
-  if (!RAG_KEY) throw new Error("RAG_SERVICE_API_KEY or RAG_API_KEY is missing");
+  if (!RAG_KEY) throw new Error("RAG_SERVICE_API_KEY is missing");
 
   const bundleMetadata = {
     title: meta.title || `${meta.municipality} sotsiaalteenused ja toetused`,
