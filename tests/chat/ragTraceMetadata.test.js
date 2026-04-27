@@ -182,3 +182,43 @@ test("attribution metadata stores displayed sources and keeps legacy metadata", 
   assert.deepEqual(metadata.rag_trace.retrievers_used, ["dense"]);
   assert.equal(metadata.rag_trace.rag_risk_level, "medium");
 });
+
+test("RAG trace merges legalLookupPlan into query_plan when retrievalMeta carries it separately", () => {
+  const attribution = buildSourceAttribution("SHS § 140 käsitleb toimetulekutoetuse maksmist.", [
+    {
+      source_id: "rt-140",
+      title: "SHS § 140",
+      source_type: "national_law",
+      paragraphNumber: "140",
+      evidenceText: "Toimetulekutoetuse maksmine."
+    }
+  ], {
+    query: "SHS § 140"
+  });
+
+  const trace = buildRagTraceFromAttribution([], attribution, {
+    queryPlan: {
+      planner_version: "v2",
+      mode: "explicit_paragraph",
+      selection_strategy: "legal_exact"
+    },
+    legalLookupPlan: {
+      enabled: true,
+      mode: "explicit_paragraph",
+      jurisdictionLevel: "NATIONAL",
+      sourceTypes: ["national_law"],
+      collectionId: "national_regulations",
+      actTitle: "Sotsiaalhoolekande seadus",
+      actAliases: ["shs"],
+      municipalityId: null,
+      paragraphRefs: ["140"],
+      topicTerms: [],
+      requireCurrent: true
+    }
+  });
+
+  assert.equal(trace.query_plan.legalLookupPlan.enabled, true);
+  assert.equal(trace.query_plan.legalLookupPlan.mode, "explicit_paragraph");
+  assert.deepEqual(trace.query_plan.legalLookupPlan.paragraphRefs, ["140"]);
+  assert.equal(trace.query_plan.legalLookupPlan.actTitle, "Sotsiaalhoolekande seadus");
+});

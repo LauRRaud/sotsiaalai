@@ -116,7 +116,15 @@ async function postJson(baseUrl, path, body, headers, label) {
 
 function legalLookupPlan(trace = {}) {
   const queryPlan = trace?.query_plan && typeof trace.query_plan === "object" ? trace.query_plan : {};
-  return queryPlan.legalLookupPlan || queryPlan.legal_lookup_plan || queryPlan.legal_lookup || null;
+  return (
+    queryPlan.legalLookupPlan ||
+    queryPlan.legal_lookup_plan ||
+    queryPlan.legal_lookup ||
+    trace?.legalLookupPlan ||
+    trace?.legal_lookup_plan ||
+    trace?.legal_lookup ||
+    null
+  );
 }
 
 function paragraphRefsFromPlan(plan = null) {
@@ -164,6 +172,36 @@ function summarizeSources(list = []) {
     paragraph_number: sourceParagraphNumber(source) || null,
     source_type: sourceType(source) || null
   }));
+}
+
+function uniqueParagraphNumbers(list = []) {
+  return [...new Set(
+    (Array.isArray(list) ? list : [])
+      .map((source) => sourceParagraphNumber(source))
+      .filter(Boolean)
+  )];
+}
+
+function buildChatDebugSnapshot(payload = {}) {
+  const trace = payload?.rag_trace && typeof payload.rag_trace === "object" ? payload.rag_trace : null;
+  const queryPlan = trace?.query_plan && typeof trace.query_plan === "object" ? trace.query_plan : null;
+  const plan = legalLookupPlan(trace || {});
+  return {
+    rag_trace_present: !!trace,
+    query_plan_present: !!queryPlan,
+    query_plan_keys: queryPlan ? Object.keys(queryPlan).sort() : [],
+    legalLookupPlan_present: !!(queryPlan?.legalLookupPlan),
+    legal_lookup_plan_present: !!(queryPlan?.legal_lookup_plan),
+    legal_lookup_present: !!(queryPlan?.legal_lookup),
+    selection_strategy: queryPlan?.selection_strategy || null,
+    selected_context_paragraph_numbers: uniqueParagraphNumbers(selectedContextDetails(trace || {})),
+    displayed_source_paragraph_numbers: uniqueParagraphNumbers(displayedSources(payload))
+  };
+}
+
+function withChatDebug(error, payload) {
+  const message = error?.message || String(error);
+  return new Error(`${message}; debug=${JSON.stringify(buildChatDebugSnapshot(payload))}`);
 }
 
 function assertSearchResults(label, results, expectedParagraph) {
@@ -279,63 +317,79 @@ async function runChatSmoke(args) {
   }
 
   const shs140 = await postChat(args, `SHS ${PARAGRAPH_SIGN} 140?`);
-  const shs140Trace = shs140?.rag_trace || {};
-  const shs140Plan = legalLookupPlan(shs140Trace);
-  const shs140ParagraphRefs = paragraphRefsFromPlan(shs140Plan);
-  assertCondition(shs140Plan?.enabled === true, "chat_shs_140: legalLookupPlan.enabled must be true");
-  assertCondition(shs140Plan?.mode === "explicit_paragraph", "chat_shs_140: legalLookupPlan.mode must be explicit_paragraph");
-  assertCondition(shs140ParagraphRefs.includes("140"), "chat_shs_140: paragraphRefs must contain 140");
-  assertCondition(
-    ["legal_exact", "legal_exact_paragraph"].includes(String(shs140Trace?.query_plan?.selection_strategy || "")),
-    "chat_shs_140: selection_strategy must be legal_exact"
-  );
-  assertLegalSelectedParagraphs("chat_shs_140", selectedContextDetails(shs140Trace), ["140"]);
-  assertLegalDisplayedParagraphs("chat_shs_140", displayedSources(shs140), ["140"]);
-  assertCondition(
-    displayedSources(shs140).every((source) => !/Paragrahvi 140 rakendamine/i.test(sourceTitle(source))),
-    `chat_shs_140: displayed sources must not contain ${PARAGRAPH_SIGN}160`
-  );
+  try {
+    const shs140Trace = shs140?.rag_trace || {};
+    const shs140Plan = legalLookupPlan(shs140Trace);
+    const shs140ParagraphRefs = paragraphRefsFromPlan(shs140Plan);
+    assertCondition(shs140Plan?.enabled === true, "chat_shs_140: legalLookupPlan.enabled must be true");
+    assertCondition(shs140Plan?.mode === "explicit_paragraph", "chat_shs_140: legalLookupPlan.mode must be explicit_paragraph");
+    assertCondition(shs140ParagraphRefs.includes("140"), "chat_shs_140: paragraphRefs must contain 140");
+    assertCondition(
+      ["legal_exact", "legal_exact_paragraph"].includes(String(shs140Trace?.query_plan?.selection_strategy || "")),
+      "chat_shs_140: selection_strategy must be legal_exact"
+    );
+    assertLegalSelectedParagraphs("chat_shs_140", selectedContextDetails(shs140Trace), ["140"]);
+    assertLegalDisplayedParagraphs("chat_shs_140", displayedSources(shs140), ["140"]);
+    assertCondition(
+      displayedSources(shs140).every((source) => !/Paragrahvi 140 rakendamine/i.test(sourceTitle(source))),
+      `chat_shs_140: displayed sources must not contain ${PARAGRAPH_SIGN}160`
+    );
+  } catch (error) {
+    throw withChatDebug(error, shs140);
+  }
 
   const firstTurn = await postChat(args, "Millised SHS paragrahvid reguleerivad toimetulekutoetust?");
   const secondTurn = await postChat(args, `SHS ${PARAGRAPH_SIGN} 140?`, [
     { role: "user", text: "Millised SHS paragrahvid reguleerivad toimetulekutoetust?" },
     { role: "assistant", text: responseText(firstTurn), displayed_sources: displayedSources(firstTurn) }
   ]);
-  const secondTrace = secondTurn?.rag_trace || {};
-  const secondPlan = legalLookupPlan(secondTrace);
-  const secondParagraphRefs = paragraphRefsFromPlan(secondPlan);
-  assertCondition(secondPlan?.mode === "explicit_paragraph", "chat_history_override: mode must be explicit_paragraph");
-  assertCondition(secondParagraphRefs.length === 1 && secondParagraphRefs[0] === "140", "chat_history_override: paragraphRefs must be [140]");
-  assertLegalSelectedParagraphs("chat_history_override", selectedContextDetails(secondTrace), ["140"]);
-  assertLegalDisplayedParagraphs("chat_history_override", displayedSources(secondTurn), ["140"]);
+  try {
+    const secondTrace = secondTurn?.rag_trace || {};
+    const secondPlan = legalLookupPlan(secondTrace);
+    const secondParagraphRefs = paragraphRefsFromPlan(secondPlan);
+    assertCondition(secondPlan?.mode === "explicit_paragraph", "chat_history_override: mode must be explicit_paragraph");
+    assertCondition(secondParagraphRefs.length === 1 && secondParagraphRefs[0] === "140", "chat_history_override: paragraphRefs must be [140]");
+    assertLegalSelectedParagraphs("chat_history_override", selectedContextDetails(secondTrace), ["140"]);
+    assertLegalDisplayedParagraphs("chat_history_override", displayedSources(secondTurn), ["140"]);
+  } catch (error) {
+    throw withChatDebug(error, secondTurn);
+  }
 
   const shs132 = await postChat(args, `SHS ${PARAGRAPH_SIGN} 132 toimetulekutoetuse taotlemine?`);
-  const shs132Trace = shs132?.rag_trace || {};
-  const shs132Plan = legalLookupPlan(shs132Trace);
-  const shs132ParagraphRefs = paragraphRefsFromPlan(shs132Plan);
-  assertCondition(shs132ParagraphRefs.includes("132"), "chat_shs_132: paragraphRefs must contain 132");
-  assertCondition(
-    ["legal_exact", "legal_exact_paragraph"].includes(String(shs132Trace?.query_plan?.selection_strategy || "")),
-    "chat_shs_132: selection_strategy must be legal_exact"
-  );
-  assertLegalSelectedParagraphs("chat_shs_132", selectedContextDetails(shs132Trace), ["132"]);
-  assertLegalDisplayedParagraphs("chat_shs_132", displayedSources(shs132), ["132"]);
-  assertCondition(
-    displayedSources(shs132).every((source) => sourceType(source) !== "journal_article"),
-    "chat_shs_132: journal_article must not be displayed as current legal source"
-  );
+  try {
+    const shs132Trace = shs132?.rag_trace || {};
+    const shs132Plan = legalLookupPlan(shs132Trace);
+    const shs132ParagraphRefs = paragraphRefsFromPlan(shs132Plan);
+    assertCondition(shs132ParagraphRefs.includes("132"), "chat_shs_132: paragraphRefs must contain 132");
+    assertCondition(
+      ["legal_exact", "legal_exact_paragraph"].includes(String(shs132Trace?.query_plan?.selection_strategy || "")),
+      "chat_shs_132: selection_strategy must be legal_exact"
+    );
+    assertLegalSelectedParagraphs("chat_shs_132", selectedContextDetails(shs132Trace), ["132"]);
+    assertLegalDisplayedParagraphs("chat_shs_132", displayedSources(shs132), ["132"]);
+    assertCondition(
+      displayedSources(shs132).every((source) => sourceType(source) !== "journal_article"),
+      "chat_shs_132: journal_article must not be displayed as current legal source"
+    );
+  } catch (error) {
+    throw withChatDebug(error, shs132);
+  }
 
   const shs999 = await postChat(args, `SHS ${PARAGRAPH_SIGN} 999?`);
-  const shs999Trace = shs999?.rag_trace || {};
-  const shs999Selected = selectedContextDetails(shs999Trace).filter((detail) => LEGAL_SOURCE_TYPE_PATTERN.test(sourceType(detail)));
-  const shs999Displayed = displayedSources(shs999).filter((source) => LEGAL_SOURCE_TYPE_PATTERN.test(sourceType(source)));
-  assertCondition(shs999Selected.length === 0, "chat_shs_999: selected legal sources must be empty");
-  assertCondition(shs999Displayed.length === 0, "chat_shs_999: displayed legal sources must be empty");
-  assertCondition(
-    responseText(shs999).length === 0 ||
-    !/\u00A7\s*(140|160|132|131|133|134|135)\b/.test(responseText(shs999)),
-    "chat_shs_999: response must not substitute a different paragraph"
-  );
+  try {
+    const shs999Trace = shs999?.rag_trace || {};
+    const shs999Selected = selectedContextDetails(shs999Trace).filter((detail) => LEGAL_SOURCE_TYPE_PATTERN.test(sourceType(detail)));
+    const shs999Displayed = displayedSources(shs999).filter((source) => LEGAL_SOURCE_TYPE_PATTERN.test(sourceType(source)));
+    assertCondition(shs999Selected.length === 0, "chat_shs_999: selected legal sources must be empty");
+    assertCondition(shs999Displayed.length === 0, "chat_shs_999: displayed legal sources must be empty");
+    assertCondition(
+      responseText(shs999).length === 0 ||
+      !/\u00A7\s*(140|160|132|131|133|134|135)\b/.test(responseText(shs999)),
+      "chat_shs_999: response must not substitute a different paragraph"
+    );
+  } catch (error) {
+    throw withChatDebug(error, shs999);
+  }
 
   return {
     skipped: false,
