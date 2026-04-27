@@ -4,7 +4,8 @@ import assert from "node:assert/strict";
 import {
   ALLOWED_ATTRIBUTION_DECISION_REASONS,
   buildSourceAttribution,
-  filterSourcesForReply
+  filterSourcesForReply,
+  getSourceAttributionId
 } from "../../lib/chat/sourceAttribution.js";
 
 test("keeps only sources that overlap with the direct answer", () => {
@@ -219,4 +220,46 @@ test("does not keep the only candidate when high-risk evidence is insufficient",
   assert.deepEqual(attribution.displayed_source_ids, []);
   assert.deepEqual(attribution.filtered_out_source_ids, ["single-journal"]);
   assert.equal(attribution.filter_reasons["single-journal"], "insufficient_evidence_strength");
+});
+
+test("uses legal chunk ids for national law attribution instead of collapsing by document source", () => {
+  const sources = [
+    {
+      id: "riigiteataja:130122025029:paragraph-131-lg-1",
+      source_id: "national_rt_130122025029",
+      sourceType: "national_law",
+      title: "Eesti - Sotsiaalhoolekande seadus - § 131 Toimetulekutoetus lg 1",
+      paragraphNumber: "131",
+      paragraphTitle: "Toimetulekutoetus",
+      authority: "official_legal",
+      source_status: "active",
+      evidenceText: "§ 131. Toimetulekutoetus. Toimetulekutoetuse eesmärk on materiaalset puudust leevendada."
+    },
+    {
+      id: "riigiteataja:130122025029:paragraph-132-lg-1",
+      source_id: "national_rt_130122025029",
+      sourceType: "national_law",
+      title: "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 1",
+      paragraphNumber: "132",
+      paragraphTitle: "Toimetulekutoetuse taotlemine",
+      authority: "official_legal",
+      source_status: "active",
+      evidenceText: "§ 132. Toimetulekutoetuse taotlemine. Taotleja esitab taotluse kohaliku omavalitsuse üksusele."
+    }
+  ];
+  const reply = "Peamised sätted on § 131 „Toimetulekutoetus” ja § 132 „Toimetulekutoetuse taotlemine”.";
+  const attribution = buildSourceAttribution(reply, sources, {
+    query: "Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?",
+    riskPolicy: {
+      riskLevel: "high",
+      requiredEvidence: "strong",
+      insufficientEvidenceMode: true
+    }
+  });
+
+  assert.equal(getSourceAttributionId(sources[0], 0), "riigiteataja:130122025029:paragraph-131-lg-1");
+  assert.deepEqual([...attribution.displayed_source_ids].sort(), [
+    "riigiteataja:130122025029:paragraph-131-lg-1",
+    "riigiteataja:130122025029:paragraph-132-lg-1"
+  ].sort());
 });

@@ -2232,10 +2232,30 @@ def _normalize_search_text(value: object) -> str:
     text = str(value or "").strip().lower()
     if not text:
         return ""
+    text = re.sub(r"\bshs\b", "shs sotsiaalhoolekande seadus", text, flags=re.I)
+    text = re.sub(
+        r"\btoimetulekutoetus(?:e|t|ele|el|elt|eks|ega|es|i)?\b",
+        "toimetulekutoetus",
+        text,
+        flags=re.I,
+    )
     text = unicodedata.normalize("NFD", text)
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
     text = re.sub(r"[^a-z0-9]+", " ", text)
     return re.sub(r"\s+", " ", text).strip()
+
+def _extract_query_paragraph_refs(query: object) -> List[str]:
+    source = str(query or "")
+    refs: List[str] = []
+    for pattern in [
+        r"(?:§+\s*|paragrahv(?:i|is|ist|ile|il|iga|iks)?\s+|paragraph\s+)(\d+[a-z]?)",
+        r"\bshs\s+(\d{1,3}[a-z]?)\b",
+    ]:
+        for match in re.finditer(pattern, source, flags=re.I):
+            ref = str(match.group(1) or "").strip().lower()
+            if ref and ref not in refs:
+                refs.append(ref)
+    return refs[:8]
 
 def _search_tokens(value: object, limit: int = 24) -> List[str]:
     normalized = _normalize_search_text(value)
@@ -2282,12 +2302,17 @@ def _lexical_token_counts(text: str, limit: int = 1000) -> Dict[str, int]:
 
 def _lexical_match(query: str, md: Dict, document: str) -> Optional[Dict[str, object]]:
     title_norm = _normalize_search_text(md.get("title") or md.get("fileName") or md.get("source_url") or "")
+    paragraph_title_norm = _normalize_search_text(md.get("paragraph_title") or "")
+    section_norm = _normalize_search_text(md.get("section") or "")
+    act_title_norm = _normalize_search_text(md.get("act_title") or "")
     body_norm = _normalize_search_text(document[:12000])
     if not title_norm and not body_norm:
         return None
 
     phrases = _query_phrases(query)
     query_tokens = _search_tokens(query)
+    paragraph_refs = _extract_query_paragraph_refs(query)
+    paragraph_number = _normalize_search_text(md.get("paragraph_number") or "")
     title_counts = _lexical_token_counts(title_norm, limit=80)
     body_counts = _lexical_token_counts(body_norm, limit=900)
     title_tokens = set(title_counts.keys())
@@ -2301,6 +2326,32 @@ def _lexical_match(query: str, md: Dict, document: str) -> Optional[Dict[str, ob
     bm25_coverage = 0.0
 
     full_query = phrases[0] if phrases else _normalize_search_text(query)
+    if paragraph_number and paragraph_number in paragraph_refs:
+        score += 16.0
+        channels.append("title_match")
+        if paragraph_title_norm and paragraph_title_norm in full_query:
+            score += 6.0
+        elif paragraph_title_norm:
+            paragraph_title_tokens = set(_search_tokens(paragraph_title_norm, limit=12))
+            if paragraph_title_tokens and paragraph_title_tokens.intersection(set(query_tokens)):
+                score += 3.5
+        if act_title_norm and any(token in set(query_tokens) for token in _search_tokens(act_title_norm, limit=8)):
+            score += 2.0
+    elif paragraph_title_norm and full_query:
+        if paragraph_title_norm in full_query:
+            score += 8.0
+            channels.append("title_match")
+        elif paragraph_title_norm and paragraph_title_norm in title_norm:
+            paragraph_title_tokens = set(_search_tokens(paragraph_title_norm, limit=12))
+            overlap = len(paragraph_title_tokens.intersection(set(query_tokens)))
+            if overlap >= max(1, min(2, len(paragraph_title_tokens))):
+                score += min(6.0, 2.5 * overlap)
+                channels.append("title_match")
+    if section_norm and section_norm in full_query:
+        score += 3.0
+        if "title_match" not in channels:
+            channels.append("title_match")
+
     if full_query and title_norm:
         if title_norm == full_query:
             score += 10.0
