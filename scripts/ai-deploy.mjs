@@ -24,11 +24,13 @@ const secretPathPatterns = [
 ];
 
 function run(command, args, options = {}) {
-  const shell = process.platform === "win32" && command.endsWith(".cmd");
-  const result = spawnSync(command, args, {
+  const useCmd = process.platform === "win32" && command.endsWith(".cmd");
+  const executable = useCmd ? process.env.ComSpec || "cmd.exe" : command;
+  const executableArgs = useCmd ? ["/d", "/s", "/c", command, ...args] : args;
+  const result = spawnSync(executable, executableArgs, {
     stdio: options.capture ? ["ignore", "pipe", "pipe"] : "inherit",
     encoding: "utf8",
-    shell
+    shell: false
   });
 
   if (result.error) {
