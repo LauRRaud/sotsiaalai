@@ -2187,6 +2187,55 @@ def _compose_chroma_where(filters: Dict[str, object]) -> Optional[Dict[str, obje
         return cleaned[0]
     return {"$and": cleaned}
 
+def _normalize_metadata_scalar(value: object) -> object:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return value
+    if value is None:
+        return None
+    text = str(value).strip()
+    lowered = text.lower()
+    if lowered in {"true", "false"}:
+        return lowered == "true"
+    return text
+
+def _metadata_matches_filter(metadata: Dict[str, object], where: Optional[Dict[str, object]]) -> bool:
+    if not where:
+        return True
+    if not isinstance(metadata, dict):
+        return False
+    if "$and" in where:
+        clauses = where.get("$and") or []
+        return all(_metadata_matches_filter(metadata, clause) for clause in clauses if isinstance(clause, dict))
+    if "$or" in where:
+        clauses = where.get("$or") or []
+        return any(_metadata_matches_filter(metadata, clause) for clause in clauses if isinstance(clause, dict))
+
+    for key, expected in where.items():
+        if key in {"$and", "$or"}:
+            continue
+        actual = _normalize_metadata_scalar(metadata.get(key))
+        if isinstance(expected, dict):
+            if "$in" in expected:
+                normalized_expected = [_normalize_metadata_scalar(item) for item in list(expected.get("$in") or [])]
+                if isinstance(actual, list):
+                    normalized_actual = [_normalize_metadata_scalar(item) for item in actual]
+                    if not any(item in normalized_expected for item in normalized_actual):
+                        return False
+                elif actual not in normalized_expected:
+                    return False
+                continue
+            return False
+        normalized_expected = _normalize_metadata_scalar(expected)
+        if isinstance(actual, list):
+            normalized_actual = [_normalize_metadata_scalar(item) for item in actual]
+            if normalized_expected not in normalized_actual:
+                return False
+        elif actual != normalized_expected:
+            return False
+    return True
+
 def _copy_string_metadata_filter(source: Dict[str, object], target: Dict[str, object], input_key: str, metadata_key: str) -> None:
     if input_key not in source:
         return
@@ -2200,6 +2249,94 @@ def _copy_string_metadata_filter(source: Dict[str, object], target: Dict[str, ob
         cleaned = value.strip()
         if cleaned:
             target[metadata_key] = cleaned
+
+def _copy_bool_metadata_filter(source: Dict[str, object], target: Dict[str, object], input_key: str, metadata_key: str) -> None:
+    if input_key not in source:
+        return
+    value = source.get(input_key)
+    if isinstance(value, bool):
+        target[metadata_key] = value
+        return
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"1", "true", "yes", "on"}:
+            target[metadata_key] = True
+        elif normalized in {"0", "false", "no", "off"}:
+            target[metadata_key] = False
+
+SEARCH_METADATA_STRING_FILTERS: List[Tuple[str, str]] = [
+    ("document_id", "document_id"),
+    ("documentId", "document_id"),
+    ("source_id", "source_id"),
+    ("sourceId", "source_id"),
+    ("chunk_id", "chunk_id"),
+    ("chunkId", "chunk_id"),
+    ("source_type", "source_type"),
+    ("sourceType", "source_type"),
+    ("source_status", "source_status"),
+    ("sourceStatus", "source_status"),
+    ("collection_id", "collection_id"),
+    ("collectionId", "collection_id"),
+    ("canonical_item_id", "canonical_item_id"),
+    ("canonicalItemId", "canonical_item_id"),
+    ("authority", "authority"),
+    ("language", "language"),
+    ("last_checked", "last_checked"),
+    ("lastChecked", "last_checked"),
+    ("valid_from", "valid_from"),
+    ("validFrom", "valid_from"),
+    ("valid_to", "valid_to"),
+    ("validTo", "valid_to"),
+    ("act_title", "act_title"),
+    ("actTitle", "act_title"),
+    ("act_reference", "act_reference"),
+    ("actReference", "act_reference"),
+    ("act_type", "act_type"),
+    ("actType", "act_type"),
+    ("issuer", "issuer"),
+    ("chapter_number", "chapter_number"),
+    ("chapterNumber", "chapter_number"),
+    ("chapter_title", "chapter_title"),
+    ("chapterTitle", "chapter_title"),
+    ("section_title", "section_title"),
+    ("sectionTitle", "section_title"),
+    ("paragraph_number", "paragraph_number"),
+    ("paragraphNumber", "paragraph_number"),
+    ("paragraph_title", "paragraph_title"),
+    ("paragraphTitle", "paragraph_title"),
+    ("subsection_number", "subsection_number"),
+    ("subsectionNumber", "subsection_number"),
+    ("point_number", "point_number"),
+    ("pointNumber", "point_number"),
+    ("jurisdiction_level", "jurisdiction_level"),
+    ("jurisdictionLevel", "jurisdiction_level"),
+    ("municipality_id", "municipality_id"),
+    ("municipalityId", "municipality_id"),
+    ("municipality_name", "municipality_name"),
+    ("municipalityName", "municipality_name"),
+    ("item_type", "item_type"),
+    ("itemType", "item_type"),
+    ("resource_type", "resource_type"),
+    ("resourceType", "resource_type"),
+    ("checked_at", "checked_at"),
+    ("checkedAt", "checked_at"),
+    ("content_status", "content_status"),
+    ("contentStatus", "content_status"),
+    ("country", "country"),
+    ("county", "county"),
+    ("district_name", "district_name"),
+    ("districtName", "district_name"),
+    ("district_id", "district_id"),
+    ("districtId", "district_id"),
+    ("journal_title", "journal_title"),
+    ("journalTitle", "journal_title"),
+    ("issue_id", "issue_id"),
+    ("issueId", "issue_id"),
+    ("issue_label", "issue_label"),
+    ("issueLabel", "issue_label"),
+    ("article_id", "article_id"),
+    ("articleId", "article_id"),
+]
 
 LEXICAL_STOPWORDS = {
     "aga",
@@ -3910,12 +4047,9 @@ def search(payload: SearchIn, request: Request):
                     md_where["doc_id"] = {"$in": cleaned_doc_ids}
             elif isinstance(doc_id_filter, str):
                 md_where["doc_id"] = doc_id_filter
-        _copy_string_metadata_filter(payload.where, md_where, "document_id", "document_id")
-        _copy_string_metadata_filter(payload.where, md_where, "documentId", "document_id")
-        _copy_string_metadata_filter(payload.where, md_where, "source_id", "source_id")
-        _copy_string_metadata_filter(payload.where, md_where, "sourceId", "source_id")
-        _copy_string_metadata_filter(payload.where, md_where, "canonical_item_id", "canonical_item_id")
-        _copy_string_metadata_filter(payload.where, md_where, "canonicalItemId", "canonical_item_id")
+        for input_key, metadata_key in SEARCH_METADATA_STRING_FILTERS:
+            _copy_string_metadata_filter(payload.where, md_where, input_key, metadata_key)
+        _copy_bool_metadata_filter(payload.where, md_where, "historical", "historical")
         if "authors" in payload.where:
             md_where["authors"] = payload.where["authors"]
         if "tags" in payload.where:
@@ -3946,35 +4080,16 @@ def search(payload: SearchIn, request: Request):
                 normalized_year = normalize_year(year_filter)
                 if normalized_year is not None:
                     md_where["year"] = normalized_year
-        if "collection_id" in payload.where and isinstance(payload.where["collection_id"], str):
-            md_where["collection_id"] = payload.where["collection_id"].strip()
-        if "country" in payload.where and isinstance(payload.where["country"], str):
-            normalized_country = normalize_country(payload.where["country"])
+        country_filter = payload.where.get("country")
+        if isinstance(country_filter, str):
+            normalized_country = normalize_country(country_filter)
             if normalized_country:
                 md_where["country"] = normalized_country
-        if "county" in payload.where and isinstance(payload.where["county"], str):
-            md_where["county"] = payload.where["county"].strip()
-        jurisdiction = payload.where.get("jurisdiction_level")
+        jurisdiction = payload.where.get("jurisdiction_level", payload.where.get("jurisdictionLevel"))
         if isinstance(jurisdiction, dict) and "$in" in jurisdiction:
             md_where["jurisdiction_level"] = {"$in": [normalize_jurisdiction(v) for v in list(jurisdiction["$in"])]}
         elif isinstance(jurisdiction, str):
             md_where["jurisdiction_level"] = normalize_jurisdiction(jurisdiction)
-        if "municipality_name" in payload.where and isinstance(payload.where["municipality_name"], str):
-            md_where["municipality_name"] = payload.where["municipality_name"].strip()
-        if "municipality_id" in payload.where and isinstance(payload.where["municipality_id"], str):
-            md_where["municipality_id"] = payload.where["municipality_id"].strip()
-        if "district_name" in payload.where and isinstance(payload.where["district_name"], str):
-            md_where["district_name"] = payload.where["district_name"].strip()
-        if "district_id" in payload.where and isinstance(payload.where["district_id"], str):
-            md_where["district_id"] = payload.where["district_id"].strip()
-        if "item_type" in payload.where and isinstance(payload.where["item_type"], str):
-            md_where["item_type"] = payload.where["item_type"].strip()
-        if "content_status" in payload.where and isinstance(payload.where["content_status"], str):
-            md_where["content_status"] = payload.where["content_status"].strip()
-        if "resource_type" in payload.where and isinstance(payload.where["resource_type"], str):
-            md_where["resource_type"] = payload.where["resource_type"].strip()
-        if "checked_at" in payload.where and isinstance(payload.where["checked_at"], str):
-            md_where["checked_at"] = payload.where["checked_at"].strip()
 
     embed_result = _embed_batch_with_usage([payload.query])
     q_embeds = list(embed_result.get("embeddings") or [])
@@ -4029,6 +4144,8 @@ def search(payload: SearchIn, request: Request):
     for i, _id in enumerate(ids):
         ch = docs[i] if i < len(docs) and isinstance(docs[i], str) else ""
         md = metas[i] if i < len(metas) and isinstance(metas[i], dict) else {}
+        if not _metadata_matches_filter(md, chroma_where):
+            continue
         source_path = md.get("source_path")
         file_name = None
         if source_path:
@@ -4143,6 +4260,9 @@ def search(payload: SearchIn, request: Request):
         item_id = str(candidate.get("id") or "").strip()
         if not item_id:
             continue
+        candidate_md = candidate.get("metadata") if isinstance(candidate.get("metadata"), dict) else {}
+        if not _metadata_matches_filter(candidate_md, chroma_where):
+            continue
         channels = [str(item) for item in candidate.get("channels") or [] if str(item or "").strip()]
         if not channels:
             continue
@@ -4165,7 +4285,7 @@ def search(payload: SearchIn, request: Request):
         lexical_result = _search_result_from_metadata(
             item_id=item_id,
             document=str(candidate.get("document") or ""),
-            md=candidate.get("metadata") if isinstance(candidate.get("metadata"), dict) else {},
+            md=candidate_md,
             distance=None,
             channels=channels,
             rank=rank,
