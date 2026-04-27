@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 import { buildRtXmlIngestPayload } from "../lib/admin/rag/kov/rtXml.js";
 import { assertRagSourceMetadataContract } from "../lib/rag/sourceMetadata.js";
+import { syncKovRtCliIngest } from "./lib/kov-admin-sync.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -157,6 +158,18 @@ async function main() {
   }
 
   console.log(`Ingested ${payload.doc_id}: ${data?.inserted ?? payload.chunks.length} chunks`);
+  const adminSync = await syncKovRtCliIngest({
+    municipalitySlug: args.municipalityId || payload.metadata?.municipality_id || "",
+    municipalityName: args.municipality || payload.metadata?.municipality_name || "",
+    county: payload.metadata?.county || "",
+    sourceUrl: args.sourceUrl || payload.metadata?.source_url || "",
+    ragDocId: payload.doc_id
+  });
+  if (adminSync?.synced) {
+    console.log(`[rt:admin-sync] ${adminSync.municipalitySlug} -> ${adminSync.ragDocId}`);
+  } else if (adminSync?.reason && adminSync.reason !== "municipality not provided") {
+    console.log(`[rt:admin-sync] skipped (${adminSync.reason})`);
+  }
 }
 
 main().catch(error => {

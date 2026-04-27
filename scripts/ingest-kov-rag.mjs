@@ -9,6 +9,7 @@ import {
   inferKovItemRagSourceType,
   mapKovItemStatusToRagSourceStatus
 } from "../lib/rag/sourceMetadata.js";
+import { syncKovWebCliIngest } from "./lib/kov-admin-sync.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -612,11 +613,25 @@ async function main() {
     }
   }
 
+  const adminSync = await syncKovWebCliIngest({
+    municipalitySlug: canonicalSlug,
+    municipalityName: meta.municipality_name || meta.municipality,
+    county: meta.county,
+    checkedAt: meta.checkedAt || dataset.checkedAt || nowIso,
+    officialWebsite: sources.indexUrl || (sources.sources || []).find((entry) => entry?.url)?.url || "",
+    ragDocId: bundleDocId
+  });
+
   console.log(`[rag:ingest:kov] OK: ${paths.slug}`);
   if (canonicalSlug !== paths.slug) console.log(`  - canonical slug: ${canonicalSlug}`);
   console.log(`  - bundle doc: ${bundleDocId}`);
   console.log(`  - item docs: ${itemCount}`);
   console.log(`  - inserted chunks: ${chunkCount}`);
+  console.log(
+    adminSync?.synced
+      ? `  - admin sync: ${adminSync.municipalitySlug} -> ${adminSync.ragDocId}`
+      : `  - admin sync: skipped (${adminSync?.reason || "unknown reason"})`
+  );
 }
 
 main().catch((error) => {
