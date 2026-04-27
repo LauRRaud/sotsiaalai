@@ -47,4 +47,18 @@ test("keeps national RT XML in national law collection", async () => {
   assert.equal(payload.metadata.valid_to, "2026-12-31");
   assert.equal(payload.metadata.source_status, "active");
   assert.equal(payload.metadata.historical, false);
+
+  const byParagraph = new Map();
+  for (const chunk of payload.chunks) {
+    const number = String(chunk?.metadata?.paragraph_number || "");
+    if (number && !byParagraph.has(number)) byParagraph.set(number, chunk);
+  }
+
+  assert.equal(byParagraph.get("131")?.metadata?.paragraph_title, "Toimetulekutoetus");
+  assert.equal(byParagraph.get("132")?.metadata?.paragraph_title, "Toimetulekutoetuse taotlemine");
+  assert.equal(byParagraph.get("133")?.metadata?.paragraph_title, "Toimetulekutoetuse arvestamise alused");
+  assert.equal(byParagraph.get("134")?.metadata?.paragraph_title, "Toimetulekutoetuse määramine ja maksmine");
+  assert.equal(byParagraph.get("131")?.metadata?.section, "Toimetulekutoetus");
+  assert.match(byParagraph.get("131")?.metadata?.title || "", /§ 131 Toimetulekutoetus/);
+  assert.match(byParagraph.get("131")?.text || "", /8\. jagu - Toimetulekutoetus/);
 });
