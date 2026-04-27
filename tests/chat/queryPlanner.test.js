@@ -179,6 +179,20 @@ test("Query Planner V2 anchors national legal obligation queries to KOV duty par
   assert.match(jurisdictionQuery, /kohaliku omavalitsuse üksuse ülesanded/i);
 });
 
+test("Query Planner V2 gives national source lookup enough depth for legal sections", () => {
+  const plan = basePlan({
+    effectiveMessage: "Mis paragrahvid reguleerivad SHS-is toimetulekutoetust?",
+    baseRagQueryText: "Sotsiaalhoolekande seadus toimetulekutoetus",
+    sourceLookupRequest: true,
+    sourceLookupTargetsNationalLaw: true,
+    sourceLookupParagraphRefs: []
+  });
+
+  assert.equal(plan.queryPlan.mode, "national_source_lookup");
+  assert.equal(plan.searchFilters.jurisdiction_level, "NATIONAL");
+  assert.equal(plan.ragSearchTopK >= 24, true);
+});
+
 test("Query Planner V2 eval fixture keeps planner modes stable", () => {
   const cases = readPlannerCases();
   assert.equal(Array.isArray(cases), true);
