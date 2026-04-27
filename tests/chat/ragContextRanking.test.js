@@ -254,6 +254,59 @@ test("groupMatches keeps RT legal paragraphs separate after V2 source type norma
   assert.deepEqual(groups.map(group => group.paragraphNumber), ["14", "157"]);
 });
 
+test("groupMatches aggregates RT legal subsections into paragraph-level source units", () => {
+  const groups = groupMatches([
+    {
+      id: "rt-131-lg-1",
+      chunk: "§ 131 lg 1 Toimetulekutoetuse eesmärk.",
+      metadata: {
+        doc_id: "rt-130122025029",
+        canonical_chunk_id: "riigiteataja:130122025029:paragraph-131-lg-1",
+        title: "Eesti - Sotsiaalhoolekande seadus - § 131 Toimetulekutoetus lg 1",
+        act_title: "Sotsiaalhoolekande seadus",
+        paragraph_number: "131",
+        paragraph_title: "Toimetulekutoetus",
+        source_type: "national_law",
+        collection_id: "national_regulations"
+      }
+    },
+    {
+      id: "rt-131-lg-2",
+      chunk: "§ 131 lg 2 Õigus saada toimetulekutoetust.",
+      metadata: {
+        doc_id: "rt-130122025029",
+        canonical_chunk_id: "riigiteataja:130122025029:paragraph-131-lg-2",
+        title: "Eesti - Sotsiaalhoolekande seadus - § 131 Toimetulekutoetus lg 2",
+        act_title: "Sotsiaalhoolekande seadus",
+        paragraph_number: "131",
+        paragraph_title: "Toimetulekutoetus",
+        source_type: "national_law",
+        collection_id: "national_regulations"
+      }
+    },
+    {
+      id: "rt-132-lg-1",
+      chunk: "§ 132 lg 1 Toimetulekutoetuse taotlemine.",
+      metadata: {
+        doc_id: "rt-130122025029",
+        canonical_chunk_id: "riigiteataja:130122025029:paragraph-132-lg-1",
+        title: "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 1",
+        act_title: "Sotsiaalhoolekande seadus",
+        paragraph_number: "132",
+        paragraph_title: "Toimetulekutoetuse taotlemine",
+        source_type: "national_law",
+        collection_id: "national_regulations"
+      }
+    }
+  ]);
+
+  assert.equal(groups.length, 2);
+  assert.equal(groups[0].paragraphNumber, "131");
+  assert.equal(groups[0].bodies.length, 2);
+  assert.match(groups[0].title, /§ 131 Toimetulekutoetus/);
+  assert.equal(groups[1].paragraphNumber, "132");
+});
+
 test("legal paragraph ranking prefers term-specific RT paragraph over generic legal noise", () => {
   const ranked = rankGroupsWithTopicHints([
     {

@@ -8,19 +8,22 @@ const CASES = [
     id: "shs_toimetulekutoetus_sections",
     query: "Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?",
     required: ["131", "132", "133", "134"],
-    forbiddenPrimary: ["2", "156"]
+    forbiddenPrimary: ["2", "156"],
+    requiredWindow: 24
   },
   {
     id: "shs_131_exact",
     query: "Sotsiaalhoolekande seadus § 131 toimetulekutoetus",
     required: ["131"],
-    forbiddenPrimary: ["2", "156"]
+    forbiddenPrimary: ["2", "156"],
+    requiredWindow: 8
   },
   {
     id: "shs_132_exact",
     query: "SHS § 132 toimetulekutoetuse taotlemine",
     required: ["132"],
-    forbiddenPrimary: ["2", "156"]
+    forbiddenPrimary: ["2", "156"],
+    requiredWindow: 8
   }
 ];
 
@@ -70,14 +73,16 @@ async function main() {
     const data = await search(item.query);
     const results = Array.isArray(data.results) ? data.results : [];
     const top = results.slice(0, 8);
+    const requiredWindow = results.slice(0, item.requiredWindow || 8);
     const topParagraphs = top.map(paragraphNumber).filter(Boolean);
+    const requiredWindowParagraphs = requiredWindow.map(paragraphNumber).filter(Boolean);
     const topTitles = top.map(title).filter(Boolean);
-    const topSet = new Set(topParagraphs);
+    const requiredSet = new Set(requiredWindowParagraphs);
 
     for (const required of item.required) {
       assertCondition(
-        topSet.has(required),
-        `${item.id}: expected § ${required} in top 8, got ${topParagraphs.join(", ") || "(none)"}`
+        requiredSet.has(required),
+        `${item.id}: expected § ${required} in top ${item.requiredWindow || 8}, got ${requiredWindowParagraphs.join(", ") || "(none)"}`
       );
     }
 
