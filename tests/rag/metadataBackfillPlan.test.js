@@ -64,7 +64,9 @@ test("maps KOV dataset item metadata with canonical item id", () => {
     id: "jogeva_vald_service_koduteenus",
     itemType: "service",
     title: "Koduteenus",
-    status: "active"
+    status: "active",
+    officialUrl: "https://example.test/koduteenus",
+    sourceKeys: ["koduteenus_page"]
   }, {
     ...kovContext,
     recordKind: "item"
@@ -75,6 +77,9 @@ test("maps KOV dataset item metadata with canonical item id", () => {
   assert.equal(plan.source_type, "kov_service_info");
   assert.equal(plan.metadata.canonical_item_id, "jogeva_vald_service_koduteenus");
   assert.equal(plan.metadata.source_status, "active");
+  assert.equal(plan.metadata.municipality_name, "Jogeva vald");
+  assert.equal(plan.metadata.url_canonical, "https://example.test/koduteenus");
+  assert.deepEqual(plan.metadata.source_urls, ["koduteenus_page"]);
 });
 
 test("backfill normalizes legacy canonical aliases before validation", () => {

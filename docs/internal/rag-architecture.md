@@ -2045,3 +2045,15 @@ ubuntu@uvn-72-147:~/apps/sotsiaalai$ npm run rag:smoke:v2 -- --chat --legal-exac
     }
   }
 }
+## ETAPP 8 Reingest Readiness
+
+STATUS: documented / active
+
+- Clean canonical reingest'i praktiline töövoog on runbookis `docs/internal/rag-clean-reingest-runbook.md`.
+- Enne production clean reingest'i jooksuta readiness audit:
+
+```text
+npm run rag:reingest:readiness -- --root <INPUT_ROOT> --json logs/rag-reingest-readiness.json
+```
+
+- Pärast reingest'i jooksuta runbooki smoke checklist: `npm run rag:smoke:v2 -- --legal-exact`, `npm run rag:smoke:v2 -- --chat --legal-exact` ja vajadusel `npm run rag:smoke:legal-exact -- --all`.

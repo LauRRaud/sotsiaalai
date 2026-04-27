@@ -92,6 +92,7 @@ test("normalizes legacy metadata aliases into canonical fields", () => {
     effective_end: "2026-12-31T00:00:00Z",
     is_current_version: false,
     url: "https://example.test/source",
+    sourceKeys: ["registry_entry", "official_page"],
     language: "et",
     source_type: "national_law",
     authority: "official_legal",
@@ -108,6 +109,24 @@ test("normalizes legacy metadata aliases into canonical fields", () => {
   assert.equal(normalized.valid_to, "2026-12-31");
   assert.equal(normalized.historical, true);
   assert.equal(normalized.url_canonical, "https://example.test/source");
+  assert.deepEqual(normalized.source_urls, ["registry_entry", "official_page"]);
+});
+
+test("normalizes officialUrl and sourceKeys aliases for KOV item-style inputs", () => {
+  const normalized = normalizeRagSourceMetadata({
+    title: "Koduteenus",
+    source_type: "kov_service_info",
+    authority: "KOV",
+    language: "et",
+    audience: ["CLIENT", "SOCIAL_WORKER"],
+    officialUrl: "https://example.test/koduteenus",
+    sourceKeys: ["koduteenus_page"],
+    municipality: "Jõgeva vald"
+  });
+
+  assert.equal(normalized.url_canonical, "https://example.test/koduteenus");
+  assert.deepEqual(normalized.source_urls, ["koduteenus_page"]);
+  assert.equal(normalized.municipality_name, "Jõgeva vald");
 });
 
 test("derives source status from version flags when explicit canonical status is missing", () => {
