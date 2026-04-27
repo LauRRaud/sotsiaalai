@@ -128,6 +128,7 @@ STATUS: active / fixed-in-progress
 - Semantiliselt sarnane säte ei tohi asendada otseselt küsitud paragrahvi.
 - Näide: `SHS § 140?` peab kasutama `paragraph_number = "140"`; `§ 160` "Paragrahvi 140 rakendamine" võib olla debug-taseme retrieved kandidaat, aga ei tohi olla `selected context` ega `displayed source`.
 - `explicit_paragraph` viide võidab alati teemaankrud ja vestluse ajaloo.
+- `explicit_paragraph` tuvastus ei tohi sõltuda ainult `sourceLookupRequest` heuristikast; sisendkujud nagu `SHS § 140?`, `SHS §140`, `Sotsiaalhoolekande seadus § 140`, `Sotsiaalhoolekande seaduse § 140`, `SHS paragrahv 140` ja `Sotsiaalhoolekande seadus paragrahv 140` peavad minema legal exact rajale ka siis, kui muu lookup-heuristika oleks vaikimisi nõrk.
 - `topic_to_paragraphs` režiimis ei hardcodeta paragrahve; otsing toimub akti canonical metadata ja teema-termide alusel.
 
 ## V2.5 Pre-launch Canonical Hardening
@@ -1261,6 +1262,7 @@ Smoke kontrollib vähemalt:
 - `admin_href` query string sisaldab sama `focus`/`file_key` sihti, mis `remediation.target` objekt;
 - `ragDocs.sourceQuality.summary` sisaldab `displayed_source_precision`, contract violation, retrieved/selected filter rate ja `wrong_municipality_rate` mõõdikuid;
 - `--legal-exact` kontrollib lisaks `RAG /search` exact paragraph filtrit (`§132`, `§140`), `legalLookupPlan`/`selection_strategy` trace'i, history override'i ning synthetic wrong-paragraph metrics regressiooni;
+- kui legal exact chat smoke läbikukkub, tagastab skript ainult safe debug snapshot'i: kas `rag_trace`/`query_plan` olid olemas, millised `query_plan` võtmed esinesid, milline oli `legalLookupPlan` snapshot (`enabled`, `mode`, `actTitle`, `paragraphRefs`, `sourceTypes`, `collectionId`, `requireCurrent`) ning millised `paragraph_number` väärtused jõudsid `selected_context_details` ja `displayed_sources` kihtidesse;
 - high-risk source freshness kokkuvõte ja järjekord on olemas;
 - high-risk source freshness kokkuvõttes on olemas ka claim-kihi väljad: `high_risk_claim_source_count`, `stale_claim_source_responses` ja `claim_source_risk_readiness_rate`;
 - `--chat` korral on `/api/chat` vastuse `rag_trace` sees `retrievers_used`, `query_plan` ja riskipoliitika signaal.
@@ -1717,3 +1719,329 @@ Järgmises analüüsis vaadata järjest:
 STATUS: active principle
 
 SotsiaalAI RAG-i eesmärk ei ole leida võimalikult palju sarnaseid tekstikatkeid, vaid koostada kontrollitud tõenduspakett, mille põhjal saab anda rolli, aja, KOV-i ja allikatüübi suhtes usaldusväärse vastuse.
+
+
+ubuntu@uvn-72-147:~/apps/sotsiaalai$ npm run rag:smoke:v2 -- --chat --legal-exact
+
+> sotsiaalai@1.0.0 rag:smoke:v2
+> node scripts/smoke-rag-v2-quality.mjs --chat --legal-exact
+
+{
+  "ok": true,
+  "baseUrl": "https://sotsiaal.ai",
+  "checks": {
+    "adminAnalytics": true,
+    "metadataQuality": true,
+    "qualityQueueShape": true,
+    "sourceQuality": true,
+    "highRiskFreshness": true,
+    "chatV2": true,
+    "legalExact": true
+  },
+  "summary": {
+    "audited": 704,
+    "freshnessAuditSource": "rag_service_documents",
+    "ragServiceFallbackCount": 704,
+    "metadataCompletenessRate": 1,
+    "metadataAverageScore": 0.9013795626721645,
+    "metadataCollections": [
+      "ajakiri_sotsiaaltoo",
+      "kov_rt",
+      "kov_web",
+      "national_rt"
+    ],
+    "metadataFileTypes": [
+      "article_ingest",
+      "kov_data_item",
+      "rag_md",
+      "xml"
+    ],
+    "freshnessReasons": {},
+    "missingRequiredFields": {},
+    "missingRecommendedFields": {
+      "url_canonical": 638,
+      "content_hash": 64
+    },
+    "metadataByCollection": {
+      "ajakiri_sotsiaaltoo": {
+        "total": 638,
+        "complete": 638,
+        "incomplete": 0,
+        "completenessRate": 1,
+        "averageScore": 0.8999999999999893,
+        "missingRequiredFields": {},
+        "missingRecommendedFields": {
+          "url_canonical": 638
+        }
+      },
+      "kov_rt": {
+        "total": 1,
+        "complete": 1,
+        "incomplete": 0,
+        "completenessRate": 1,
+        "averageScore": 1,
+        "missingRequiredFields": {},
+        "missingRecommendedFields": {}
+      },
+      "kov_web": {
+        "total": 64,
+        "complete": 64,
+        "incomplete": 0,
+        "completenessRate": 1,
+        "averageScore": 0.9120501893939384,
+        "missingRequiredFields": {},
+        "missingRecommendedFields": {
+          "content_hash": 64
+        }
+      },
+      "national_rt": {
+        "total": 1,
+        "complete": 1,
+        "incomplete": 0,
+        "completenessRate": 1,
+        "averageScore": 1,
+        "missingRequiredFields": {},
+        "missingRecommendedFields": {}
+      }
+    },
+    "metadataByFileType": {
+      "article_ingest": {
+        "total": 638,
+        "complete": 638,
+        "incomplete": 0,
+        "completenessRate": 1,
+        "averageScore": 0.8999999999999893,
+        "missingRequiredFields": {},
+        "missingRecommendedFields": {
+          "url_canonical": 638
+        }
+      },
+      "kov_data_item": {
+        "total": 63,
+        "complete": 63,
+        "incomplete": 0,
+        "completenessRate": 1,
+        "averageScore": 0.9120971620971612,
+        "missingRequiredFields": {},
+        "missingRecommendedFields": {
+          "content_hash": 63
+        }
+      },
+      "rag_md": {
+        "total": 1,
+        "complete": 1,
+        "incomplete": 0,
+        "completenessRate": 1,
+        "averageScore": 0.9090909090909091,
+        "missingRequiredFields": {},
+        "missingRecommendedFields": {
+          "content_hash": 1
+        }
+      },
+      "xml": {
+        "total": 2,
+        "complete": 2,
+        "incomplete": 0,
+        "completenessRate": 1,
+        "averageScore": 1,
+        "missingRequiredFields": {},
+        "missingRecommendedFields": {}
+      }
+    },
+    "displayedSourcePrecision": 1,
+    "retrievedFilterRate": 1,
+    "wrongMunicipalityRate": 0,
+    "sourceQualityIssues": 0,
+    "qualityIssues": 0,
+    "highRiskIssues": 0,
+    "highRiskClaimSources": 0,
+    "highRiskClaimReadinessRate": 0,
+    "highRiskStaleClaimResponses": 0,
+    "chat": {
+      "queryPlanMode": "default",
+      "retrieversUsed": [
+        "dense",
+        "bm25"
+      ],
+      "hybridMergeStrategy": "weighted_hybrid_rrf",
+      "hybridChannelCounts": {
+        "dense": 47,
+        "bm25": 47
+      },
+      "hybridBm25": {
+        "result_count": 11,
+        "only_count": 11,
+        "average_score": 3.241291,
+        "top_score": 3.7333,
+        "average_coverage": 0.418182,
+        "min_coverage": 0.4,
+        "low_coverage_count": 0
+      },
+      "riskLevel": "low",
+      "requiredEvidence": "medium"
+    },
+    "legalExact": {
+      "ok": true,
+      "environment": {
+        "baseUrl": "https://sotsiaal.ai",
+        "ragServiceUrl": "http://127.0.0.1:8000"
+      },
+      "checks": {
+        "ragService": true,
+        "chat": true,
+        "syntheticMetrics": true
+      },
+      "results": {
+        "ragService": [
+          {
+            "id": "rag_service_shs_132",
+            "ok": true,
+            "top": [
+              {
+                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 1",
+                "paragraph_number": "132",
+                "source_type": "national_law"
+              },
+              {
+                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 1",
+                "paragraph_number": "132",
+                "source_type": "national_law"
+              },
+              {
+                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 2",
+                "paragraph_number": "132",
+                "source_type": "national_law"
+              },
+              {
+                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 3",
+                "paragraph_number": "132",
+                "source_type": "national_law"
+              },
+              {
+                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 6",
+                "paragraph_number": "132",
+                "source_type": "national_law"
+              }
+            ]
+          },
+          {
+            "id": "rag_service_shs_140",
+            "ok": true,
+            "top": [
+              {
+                "title": "Eesti - Sotsiaalhoolekande seadus - § 140 Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
+                "paragraph_number": "140",
+                "source_type": "national_law"
+              },
+              {
+                "title": "Eesti - Sotsiaalhoolekande seadus - § 140 Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
+                "paragraph_number": "140",
+                "source_type": "national_law"
+              },
+              {
+                "title": "Eesti - Sotsiaalhoolekande seadus - § 140 Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale",
+                "paragraph_number": "140",
+                "source_type": "national_law"
+              }
+            ]
+          }
+        ],
+        "chat": {
+          "skipped": false,
+          "cases": [
+            {
+              "id": "chat_shs_140",
+              "selection_strategy": "legal_exact",
+              "displayed_sources": [],
+              "selected_context_details": [
+                {
+                  "title": "Sotsiaalhoolekande seadus § 140 Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
+                  "paragraph_number": "140",
+                  "source_type": "national_law"
+                },
+                {
+                  "title": "Sotsiaalhoolekande seadus § 140 Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
+                  "paragraph_number": "140",
+                  "source_type": "national_law"
+                },
+                {
+                  "title": "Sotsiaalhoolekande seadus § 140 Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale",
+                  "paragraph_number": "140",
+                  "source_type": "national_law"
+                }
+              ],
+              "displayed_source_ids": [],
+              "selected_context_source_ids": [
+                "rt-130122025029|paragraph-140|Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
+                "rt-130122025029|paragraph-140|Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
+                "rt-130122025029|paragraph-140|Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale"
+              ],
+              "insufficient_precise_legal_source_support": false
+            },
+            {
+              "id": "chat_history_override_second_turn",
+              "selection_strategy": "legal_exact",
+              "displayed_sources": [],
+              "selected_context_details": [
+                {
+                  "title": "Sotsiaalhoolekande seadus § 140 Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
+                  "paragraph_number": "140",
+                  "source_type": "national_law"
+                },
+                {
+                  "title": "Sotsiaalhoolekande seadus § 140 Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
+                  "paragraph_number": "140",
+                  "source_type": "national_law"
+                },
+                {
+                  "title": "Sotsiaalhoolekande seadus § 140 Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale",
+                  "paragraph_number": "140",
+                  "source_type": "national_law"
+                }
+              ],
+              "displayed_source_ids": [],
+              "selected_context_source_ids": [
+                "rt-130122025029|paragraph-140|Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
+                "rt-130122025029|paragraph-140|Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
+                "rt-130122025029|paragraph-140|Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale"
+              ],
+              "insufficient_precise_legal_source_support": false
+            },
+            {
+              "id": "chat_shs_132",
+              "selection_strategy": "legal_exact",
+              "displayed_sources": [],
+              "selected_context_details": [
+                {
+                  "title": "Sotsiaalhoolekande seadus § 132 Toimetulekutoetuse taotlemine",
+                  "paragraph_number": "132",
+                  "source_type": "national_law"
+                }
+              ],
+              "displayed_source_ids": [],
+              "selected_context_source_ids": [
+                "rt-130122025029|paragraph-132|Toimetulekutoetuse taotlemine"
+              ],
+              "insufficient_precise_legal_source_support": false
+            },
+            {
+              "id": "chat_shs_999",
+              "selection_strategy": "legal_exact",
+              "displayed_sources": [],
+              "selected_context_details": [],
+              "displayed_source_ids": [],
+              "selected_context_source_ids": [],
+              "insufficient_precise_legal_source_support": false
+            }
+          ]
+        },
+        "syntheticMetrics": {
+          "ok": true,
+          "legal_selected_paragraph_precision": 0,
+          "legal_displayed_paragraph_precision": 0,
+          "legal_wrong_paragraph_count": 2
+        }
+      }
+    }
+  }
+}
