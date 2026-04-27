@@ -2,6 +2,7 @@
 import { spawnSync } from "node:child_process";
 
 const args = process.argv.slice(2);
+const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 const skipDeploy = args.includes("--skip-deploy");
 const skipBuild = args.includes("--skip-build");
 const allowSecrets = args.includes("--allow-secrets");
@@ -87,7 +88,7 @@ try {
     if (skipBuild) {
       deployArgs.push("--", "--skip-build");
     }
-    run("npm", deployArgs);
+    run(npmCommand, deployArgs);
   }
 
   console.log("[AI] Done.");
