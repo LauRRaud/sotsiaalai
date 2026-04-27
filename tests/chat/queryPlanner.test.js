@@ -7,6 +7,7 @@ import path from "node:path";
 import {
   buildNationalServiceBenefitQuery,
   buildRagQueryPlan,
+  buildSourceLookupRagQueries,
   buildServiceJurisdictionQuery
 } from "../../lib/chat/queryPlanner.js";
 import {
@@ -195,6 +196,26 @@ test("Query Planner V2 gives national source lookup enough depth for legal secti
   assert.equal(plan.searchFilters.jurisdiction_level, "NATIONAL");
   assert.equal(plan.ragSearchTopK >= 24, true);
   assert.equal(plan.queryPlan.context_group_target >= 6, true);
+});
+
+test("Query Planner V2 adds a focused SHS §135 query for subsistence benefit section lists", () => {
+  const queries = buildSourceLookupRagQueries(
+    [
+      "Sotsiaalhoolekande seadus 8. jagu Toimetulekutoetus paragrahvid 131 132 133 134 135",
+      "Sotsiaalhoolekande seadus § 131 Toimetulekutoetus",
+      "Sotsiaalhoolekande seadus § 132 Toimetulekutoetuse taotlemine",
+      "Sotsiaalhoolekande seadus § 133 Toimetulekutoetuse arvestamise alused",
+      "Sotsiaalhoolekande seadus § 134 Toimetulekutoetuse määramine ja maksmine",
+      "Sotsiaalhoolekande seadus § 135 Riigieelarvest makstav täiendav sotsiaaltoetus"
+    ].join("\n"),
+    {
+      sourceLookupTargetsNationalLaw: true,
+      sourceLookupParagraphRefs: []
+    }
+  );
+
+  assert.equal(queries.length, 2);
+  assert.match(queries[1].query, /§ 135/);
 });
 
 test("RAG context budgeting compacts broad national legal section lookups", () => {

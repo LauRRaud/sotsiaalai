@@ -1,12 +1,25 @@
 #!/usr/bin/env node
 
+import { buildSourceLookupSearchQuery } from "../lib/chat/retrievalOrchestrator.js";
+import { buildSourceLookupRagQueries } from "../lib/chat/queryPlanner.js";
+
 const RAW_RAG_HOST = String(process.env.RAG_INTERNAL_HOST || process.env.RAG_API_BASE || "127.0.0.1:8000").trim();
 const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || "").trim();
+
+const shsToimetulekutoetusSectionsQuestion =
+  "Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?";
 
 const CASES = [
   {
     id: "shs_toimetulekutoetus_sections",
-    query: "Millised Sotsiaalhoolekande seaduse paragrahvid reguleerivad toimetulekutoetust?",
+    query: shsToimetulekutoetusSectionsQuestion,
+    queries: buildSourceLookupRagQueries(
+      buildSourceLookupSearchQuery(shsToimetulekutoetusSectionsQuestion, []),
+      {
+        sourceLookupTargetsNationalLaw: true,
+        sourceLookupParagraphRefs: []
+      }
+    ),
     required: ["131", "132", "133", "134", "135"],
     forbiddenPrimary: ["2", "156"],
     requiredWindow: 32
@@ -42,26 +55,57 @@ function title(result = {}) {
   return String(result?.title || result?.metadata?.title || "").trim();
 }
 
-async function search(query) {
+function resultKey(result = {}) {
+  return String(
+    result.id ||
+    result.chunk_id ||
+    result.chunkId ||
+    result.metadata?.chunk_id ||
+    result.metadata?.canonical_chunk_id ||
+    result.title ||
+    result.metadata?.title ||
+    ""
+  ).trim();
+}
+
+async function search(queryOrQueries) {
   if (!RAG_KEY) throw new Error("RAG_SERVICE_API_KEY is required");
-  const res = await fetch(`${normalizeBaseFromHost(RAW_RAG_HOST)}/search`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-Key": RAG_KEY
-    },
-    body: JSON.stringify({
-      query,
-      top_k: 24,
-      retrievers: ["dense", "title_match", "exact_phrase", "bm25"],
-      where: {
-        jurisdiction_level: "NATIONAL"
-      }
-    })
-  });
-  const raw = await res.text();
-  if (!res.ok) throw new Error(`RAG search failed (${res.status}): ${raw.slice(0, 500)}`);
-  return raw ? JSON.parse(raw) : {};
+  const queries = (Array.isArray(queryOrQueries) ? queryOrQueries : [queryOrQueries])
+    .map((entry) => String(typeof entry === "string" ? entry : entry?.query || "").trim())
+    .filter(Boolean);
+  const mergedResults = [];
+  const seen = new Set();
+
+  for (const query of queries) {
+    const res = await fetch(`${normalizeBaseFromHost(RAW_RAG_HOST)}/search`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": RAG_KEY
+      },
+      body: JSON.stringify({
+        query,
+        top_k: 24,
+        retrievers: ["dense", "title_match", "exact_phrase", "bm25"],
+        where: {
+          jurisdiction_level: "NATIONAL"
+        }
+      })
+    });
+    const raw = await res.text();
+    if (!res.ok) throw new Error(`RAG search failed (${res.status}): ${raw.slice(0, 500)}`);
+    const data = raw ? JSON.parse(raw) : {};
+    for (const result of Array.isArray(data.results) ? data.results : []) {
+      const key = resultKey(result);
+      if (key && seen.has(key)) continue;
+      if (key) seen.add(key);
+      mergedResults.push(result);
+    }
+  }
+
+  return {
+    results: mergedResults
+  };
 }
 
 function assertCondition(condition, message) {
@@ -70,7 +114,7 @@ function assertCondition(condition, message) {
 
 async function main() {
   for (const item of CASES) {
-    const data = await search(item.query);
+    const data = await search(item.queries || item.query);
     const results = Array.isArray(data.results) ? data.results : [];
     const top = results.slice(0, 8);
     const requiredWindow = results.slice(0, item.requiredWindow || 8);
