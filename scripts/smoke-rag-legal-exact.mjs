@@ -193,6 +193,17 @@ function buildChatDebugSnapshot(payload = {}) {
     legalLookupPlan_present: !!(queryPlan?.legalLookupPlan),
     legal_lookup_plan_present: !!(queryPlan?.legal_lookup_plan),
     legal_lookup_present: !!(queryPlan?.legal_lookup),
+    legal_lookup_snapshot: plan
+      ? {
+          enabled: plan.enabled === true,
+          mode: plan.mode || null,
+          actTitle: plan.actTitle || null,
+          paragraphRefs: Array.isArray(plan.paragraphRefs) ? plan.paragraphRefs : [],
+          sourceTypes: Array.isArray(plan.sourceTypes) ? plan.sourceTypes : [],
+          collectionId: plan.collectionId || null,
+          requireCurrent: plan.requireCurrent === true
+        }
+      : null,
     selection_strategy: queryPlan?.selection_strategy || null,
     selected_context_paragraph_numbers: uniqueParagraphNumbers(selectedContextDetails(trace || {})),
     displayed_source_paragraph_numbers: uniqueParagraphNumbers(displayedSources(payload))

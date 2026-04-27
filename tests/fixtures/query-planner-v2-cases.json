@@ -226,11 +226,11 @@
       "nationalServiceBenefitQuestion": true
     },
     "expected": {
-      "mode": "national_service_benefit",
+      "mode": "topic_to_paragraphs",
       "query_order": "default",
       "selection_strategy": "mmr_diversity",
-      "has_per_query_filters": false,
-      "filter_keys": ["$in", "audience", "jurisdiction_level"]
+      "has_per_query_filters": true,
+      "filter_keys": ["$in", "act_title", "audience", "collection_id", "historical", "source_status", "source_type"]
     }
   },
   {
@@ -241,12 +241,12 @@
       "nationalServiceBenefitQuestion": true
     },
     "expected": {
-      "mode": "national_service_benefit",
+      "mode": "topic_to_paragraphs",
       "query_order": "default",
       "selection_strategy": "mmr_diversity",
-      "has_per_query_filters": false,
-      "filter_keys": ["$in", "audience", "jurisdiction_level"],
-      "first_query_contains": ["kohaliku omavalitsuse", "ülesanded"]
+      "has_per_query_filters": true,
+      "filter_keys": ["$in", "act_title", "audience", "collection_id", "historical", "source_status", "source_type"],
+      "first_query_contains": ["kohaliku omavalitsuse"]
     }
   },
   {
@@ -310,3 +310,4 @@
     }
   }
 ]
+

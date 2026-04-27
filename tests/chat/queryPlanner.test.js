@@ -210,6 +210,41 @@ test("Query Planner V2 builds explicit legal paragraph lookups with hard metadat
   assert.equal(plan.queryPlan.context_group_target >= 6, true);
 });
 
+test("Query Planner V2 detects explicit legal paragraph lookup variants without depending on sourceLookupRequest", () => {
+  const messages = [
+    "SHS § 140?",
+    "SHS §140",
+    "Sotsiaalhoolekande seadus § 140",
+    "Sotsiaalhoolekande seaduse § 140",
+    "SHS paragrahv 140",
+    "Sotsiaalhoolekande seadus paragrahv 140"
+  ];
+
+  for (const message of messages) {
+    const plan = basePlan({
+      effectiveMessage: message,
+      baseRagQueryText: message,
+      sourceLookupRequest: false,
+      sourceLookupTargetsNationalLaw: false,
+      sourceLookupParagraphRefs: []
+    });
+
+    assert.equal(plan.legalLookupPlan.enabled, true, message);
+    assert.equal(plan.legalLookupPlan.mode, "explicit_paragraph", message);
+    assert.deepEqual(plan.legalLookupPlan.paragraphRefs, ["140"], message);
+    assert.equal(plan.queryPlan.mode, "explicit_paragraph", message);
+    assert.equal(plan.queryPlan.selection_strategy, "legal_exact", message);
+    assert.deepEqual(plan.primaryRagQueries[0].filters, {
+      source_type: "national_law",
+      collection_id: "national_regulations",
+      act_title: "Sotsiaalhoolekande seadus",
+      source_status: "active",
+      historical: false,
+      paragraph_number: "140"
+    }, message);
+  }
+});
+
 test("Query Planner V2 keeps topic-based SHS lookups topic-based without hardcoded paragraph refs", () => {
   const plan = basePlan({
     effectiveMessage: "Millised SHS sätted reguleerivad toimetulekutoetust?",
@@ -343,7 +378,7 @@ test("Query Planner V2 eval fixture keeps planner modes stable", () => {
   assert.equal(seenModes.has("source_focused_followup"), true);
   assert.equal(seenModes.has("broad_multi_source"), true);
   assert.equal(seenModes.has("municipality_service_benefit_list"), true);
-  assert.equal(seenModes.has("national_service_benefit"), true);
+  assert.equal(seenModes.has("topic_to_paragraphs"), true);
   assert.equal(seenModes.has("service_jurisdiction"), true);
   assert.equal(seenModes.has("temporal"), true);
   assert.equal(seenModes.has("explicit_paragraph"), true);
