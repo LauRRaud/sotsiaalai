@@ -1,40 +1,65 @@
-# OS & editor
+# OS and editor
 .DS_Store
 Thumbs.db
-.vscode/
 .idea/
+.vscode/
+*.swp
+*.swo
+*.orig
 
-# Env failid (ära pane GitHubi)
+# Local env and secrets
 .env
-.env.local
-.env.development.local
-.env.test.local
+.env.*
 **/.env
 **/.env.*
 !.env.example
-.env.production
+env
+env.*
+production.env
+rag.env
+rag.env.*
+rag-service/rag.env
+KOV/key.json/
+*.gserviceaccount.json
 
-# Logid
+# Logs and local outputs
 *.log
+logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+coverage/
+.nyc_output/
 
-# Varukoopiad/jäägid
+# Backups and temp files
 *.bak
 *.tmp
 *.patch
 *.tgz
+backups/
 /tmp/
+generated/
+prisma/_backup_old/
+rag-service/storage.bak.*/
+safety_snapshots/
 
-# Node
+# Codex / local review artifacts
+.codex/
+*.codex_tmp
+*.segment.txt
+
+# Node / frontend build
 node_modules/
-
-# Next.js
 .next/
 out/
+.turbo/
+.vercel/
+.eslintcache
+.pnpm-store/
+.npm/
 
-# Python (rag-service)
+# Python / rag-service
+.venv/
 rag-service/.venv/
 rag-service/**/__pycache__/
 rag-service/.mypy_cache/
@@ -45,61 +70,14 @@ rag-service/.python-version
 rag-service/**/*.py[cod]
 rag-service/logs/
 
-# PM2 lokaalsed logid
+# Local runtime data
+storage/
+rag-service/storage/
 .pm2/
 
-# Editor/cache
-*.swp
-*.swo
-*.orig
-.eslintcache
-
-# Test/katvus
-coverage/
-.nyc_output/
-
-# Next/ehitusvahendid
-.vercel/
-.turbo/
-
-# Prisma (kui kasutad SQLite arenduses – mitte sul, aga jätan näiteks)
+# Prisma SQLite leftovers
 prisma/dev.db
 prisma/dev.db-journal
-generated/
 
-# RAG lokaalsed andmed (Chroma jms)
-storage/
-storage/**
-rag-service/storage/
-rag-service/storage/**
-
-# NPM/Pnpm cache
-.pnpm-store/
-.npm/
-
-# Prisma võimalikud varukoopiad
-prisma/_backup_old/
-.env
-.env.*
-env
-env.*
-rag.env
-rag.env.*
-.env.production
-.env.local
-.env.development
-!.env.example
-production.env
-.venv/
-backups/
-rag-service/storage
-rag-service/storage.bak.*/
-rag-service/rag.env
-rag-service/requirements.lock.before_upgrade.txt
-rag-service/requirements.before-update.txt
-KOV/key.json/
-*.gserviceaccount.json
- 
-# Windows reserved device names (prevent git add failure on Windows)
-# Only ignore at repo root to avoid overmatching
+# Windows reserved device names
 /CON

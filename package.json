@@ -6,8 +6,8 @@
   "prisma": {
     "seed": "node --import tsx prisma/seed.js"
   },
-  "description": "SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna spetsialistidele ja abivajajatele.",
-  "author": "SotsiaalAI OÜ",
+  "description": "SotsiaalAI - kaasaegne AI-platvorm sotsiaalvaldkonna spetsialistidele ja abivajajatele.",
+  "author": "SotsiaalAI OU",
   "scripts": {
     "d": "cross-env NODE_ENV=development next dev --turbopack -p 3000",
     "dev": "npm run d",
@@ -19,7 +19,6 @@
     "db:seed:local": "dotenv -e .env.local -- prisma db seed",
     "prisma:generate:local": "dotenv -e .env.local -- prisma generate",
     "seed:municipalities": "node scripts/seed-municipalities.mjs",
-    "dev:create-admin:sotsiaalai": "node scripts/create-admin.mjs --email \"admin@sotsiaal.ai\" --password \"sotsiaalai1\" --role ADMIN --admin",
     "build": "npm run i18n:check && next build --webpack",
     "start": "npm run env:check && cross-env NODE_ENV=production next start -p 3000",
     "serve": "cross-env NODE_ENV=production pm2 start npm --name \"sotsiaalai\" -- start",
@@ -38,8 +37,6 @@
     "db:push:prod": "dotenv -e .env.production -- prisma db push",
     "prisma:studio:prod": "dotenv -e .env.production -- prisma studio",
     "postinstall": "prisma generate",
-    "dev:create-admin": "node scripts/create-admin.mjs --email admin@localhost --password Parool123 --role ADMIN --admin",
-    "uuenda": "git add -A && git commit -m \"uuendus\" || echo \"(pole midagi commitida)\"; git push origin main",
     "i18n:types": "node scripts/generate-message-types.mjs",
     "i18n:check": "node scripts/check-messages.mjs",
     "ai:check-attribution": "node scripts/check-openai-attribution-symmetry.mjs",
