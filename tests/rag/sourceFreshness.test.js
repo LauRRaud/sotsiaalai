@@ -572,3 +572,43 @@ test("tracks high-risk claim source freshness separately from answer and display
     item.claim_refs?.[0]?.claim_id === "jogeva_koduteenus_application"
   ));
 });
+
+test("matches Riigi Teataja paragraph-level source ids to act-level freshness metadata", () => {
+  const freshness = summarizeFreshnessAudit([
+    {
+      source_id: "national_rt_130122025029",
+      document_id: "national-rt-130122025029",
+      title: "Sotsiaalhoolekande seadus",
+      source_type: "national_law",
+      authority: "official_legal",
+      language: "et",
+      source_status: "active",
+      act_reference: "130122025029",
+      last_checked: "2026-04-20",
+      url: "https://www.riigiteataja.ee/akt/130122025029"
+    }
+  ], {
+    now: NOW
+  });
+
+  const result = summarizeHighRiskSourceFreshness([
+    {
+      data: {
+        rag_risk_level: "high",
+        answer_source_ids: [
+          "rt-130122025029|paragraph-132|Toimetulekutoetuse taotlemine"
+        ],
+        displayed_source_ids: [
+          "riigiteataja:130122025029:paragraph-131"
+        ]
+      }
+    }
+  ], freshness.items);
+
+  assert.equal(result.summary.high_risk_answer_source_count, 1);
+  assert.equal(result.summary.matched_answer_source_count, 1);
+  assert.equal(result.summary.unknown_answer_source_count, 0);
+  assert.equal(result.summary.matched_displayed_source_count, 1);
+  assert.equal(result.summary.unknown_displayed_source_count, 0);
+  assert.equal(result.issues.length, 0);
+});

@@ -191,6 +191,7 @@ test("Query Planner V2 gives national source lookup enough depth for legal secti
   assert.equal(plan.queryPlan.mode, "national_source_lookup");
   assert.equal(plan.searchFilters.jurisdiction_level, "NATIONAL");
   assert.equal(plan.ragSearchTopK >= 24, true);
+  assert.equal(plan.queryPlan.context_group_target >= 6, true);
 });
 
 test("Query Planner V2 eval fixture keeps planner modes stable", () => {
