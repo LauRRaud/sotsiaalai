@@ -1,7 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { buildRuntimeSourcePackages } from "../../lib/chat/sourcePackages.js";
+import {
+  buildRuntimeSourcePackages,
+  normalizeSourcePackageCanonicalItemId
+} from "../../lib/chat/sourcePackages.js";
 
 test("buildRuntimeSourcePackages groups Jogeva KOV service evidence by canonical item and municipality", () => {
   const packages = buildRuntimeSourcePackages([
@@ -298,4 +301,59 @@ test("buildRuntimeSourcePackages maps service relatedForms and relatedContacts i
   assert.equal(pkg.missing_sections.includes("legal_basis"), false);
   assert.equal(pkg.missing_sections.includes("fees"), true);
   assert.equal(pkg.missing_sections.includes("deadlines"), true);
+});
+
+test("buildRuntimeSourcePackages resolves Jogeva related forms and contacts from canonical repo JSON fallback", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      source_id: "kov_jogeva_vald_item_jogeva_vald_service_koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      collection_id: "kov_services",
+      item_type: "service",
+      canonical_item_id: "jogeva_vald_service_jogeva_vald_service_koduteenus",
+      municipality_id: "jogeva_vald",
+      municipality_name: "Jogeva vald",
+      sections_present: ["description", "eligibility", "application"],
+      source_status: "active",
+      last_checked: "2026-04-28"
+    }
+  ]);
+
+  const pkg = packages.find(item => item.canonical_item_id === "jogeva_vald_service_koduteenus");
+  assert.equal(
+    normalizeSourcePackageCanonicalItemId("jogeva_vald_service_jogeva_vald_service_koduteenus"),
+    "jogeva_vald_service_koduteenus"
+  );
+  assert.ok(pkg);
+  assert.equal(pkg.package_id, "jogeva_vald_service_koduteenus_package");
+  assert.deepEqual(pkg.sections.forms.map(source => source.source_id), ["jogeva_vald_sotsiaalabi_taotlus_pdf"]);
+  assert.equal(pkg.sections.forms[0].source_type, "application_form");
+  assert.equal(pkg.sections.forms[0].item_type, "form");
+  assert.deepEqual(pkg.sections.contacts.map(source => source.source_id), ["jogeva_vald_social_contacts"]);
+  assert.equal(pkg.sections.contacts[0].source_type, "contact_page");
+  assert.equal(pkg.sections.contacts[0].evidence_strength, "partial");
+  assert.equal(pkg.missing_sections.includes("forms"), false);
+  assert.equal(pkg.missing_sections.includes("contacts"), false);
+});
+
+test("buildRuntimeSourcePackages does not use Jogeva canonical fallback for another municipality", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      source_id: "tartu-service",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      collection_id: "kov_services",
+      item_type: "service",
+      canonical_item_id: "jogeva_vald_service_koduteenus",
+      municipality_id: "tartu_linn",
+      sections_present: ["description", "eligibility", "application"],
+      source_status: "active"
+    }
+  ]);
+
+  const pkg = packages.find(item => item.municipality_id === "tartu_linn");
+  assert.ok(pkg);
+  assert.deepEqual(pkg.sections.forms, []);
+  assert.deepEqual(pkg.sections.contacts, []);
 });

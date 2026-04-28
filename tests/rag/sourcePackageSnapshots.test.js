@@ -147,6 +147,22 @@ test("buildSourcePackageSnapshot includes partial KOV regulation legal basis mem
   assert.equal(membership.evidence_allowed, true);
 });
 
+test("buildSourcePackageSnapshot hash changes when forms and contacts membership is added", () => {
+  const withoutFormsContacts = buildSourcePackageSnapshot(packageFixture({
+    missing_sections: ["forms", "contacts"],
+    sections: {
+      ...packageFixture().sections,
+      forms: [],
+      contacts: []
+    }
+  }));
+  const withFormsContacts = buildSourcePackageSnapshot(packageFixture());
+
+  assert.notEqual(withoutFormsContacts.packageHash, withFormsContacts.packageHash);
+  assert.equal(withFormsContacts.sectionSummary.forms.count, 1);
+  assert.equal(withFormsContacts.sectionSummary.contacts.count, 1);
+});
+
 
 test("persistSourcePackageSnapshots does not duplicate same package hash", async () => {
   const client = createFakeClient();
