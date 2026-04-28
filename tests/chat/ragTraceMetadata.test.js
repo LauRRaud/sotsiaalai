@@ -223,6 +223,38 @@ test("RAG trace merges legalLookupPlan into query_plan when retrievalMeta carrie
   assert.equal(trace.query_plan.legalLookupPlan.actTitle, "Sotsiaalhoolekande seadus");
 });
 
+test("RAG trace exposes legal exact section attribution opt-out safely", () => {
+  const attribution = buildSourceAttribution("SHS § 140 vastus kasutab legal exact rada.", [
+    {
+      source_id: "rt-140",
+      title: "SHS § 140",
+      source_type: "national_law",
+      paragraphNumber: "140"
+    }
+  ], {
+    query: "SHS § 140"
+  });
+
+  const trace = buildRagTraceFromAttribution([], attribution, {
+    queryPlan: {
+      planner_version: "v2",
+      mode: "explicit_paragraph",
+      selection_strategy: "legal_exact"
+    },
+    sectionAttribution: {
+      package_attribution_checked: false,
+      high_risk_attribution_checked: false,
+      section_attribution: [],
+      attribution_flags: ["legal_exact_opt_out"]
+    }
+  });
+
+  assert.equal(trace.package_attribution_checked, false);
+  assert.equal(trace.high_risk_attribution_checked, false);
+  assert.deepEqual(trace.section_attribution, []);
+  assert.deepEqual(trace.attribution_flags, ["legal_exact_opt_out"]);
+});
+
 test("RAG trace exposes sanitized runtime source packages", () => {
   const attribution = buildSourceAttribution("Jogeva valla koduteenuse info on kinnitatud teenuse, vormi ja kontakti allikatega.", [
     {
@@ -281,6 +313,29 @@ test("RAG trace exposes sanitized runtime source packages", () => {
       missingSectionsUsed: ["contacts", "legal_basis"],
       packageDisplayedSourceIds: ["service-info", "service-form"],
       packageAnswerFlags: ["missing_contacts", "missing_legal_basis"]
+    },
+    sectionAttribution: {
+      package_attribution_checked: true,
+      high_risk_attribution_checked: false,
+      section_attribution: [
+        {
+          package_id: "jogeva_vald_service_koduteenus_package",
+          section: "description",
+          source_ids: ["service-info"],
+          evidence_strength: "strong",
+          evidence_statuses: ["confirmed"],
+          evidenceText: "Sensitive section attribution text must not be copied."
+        },
+        {
+          package_id: "jogeva_vald_service_koduteenus_package",
+          section: "contacts",
+          source_ids: [],
+          evidence_strength: "missing",
+          evidence_statuses: ["missing_section"],
+          prompt: "Sensitive prompt must not be copied."
+        }
+      ],
+      attribution_flags: ["missing_contacts"]
     }
   });
 
@@ -297,6 +352,27 @@ test("RAG trace exposes sanitized runtime source packages", () => {
   assert.equal(trace.source_packages[0].section_counts.forms, 1);
   assert.deepEqual(trace.source_packages[0].sections.forms.map(source => source.source_id), ["service-form"]);
   assert.equal(JSON.stringify(trace.source_packages).includes("Sensitive package source text"), false);
+  assert.equal(trace.package_attribution_checked, true);
+  assert.equal(trace.high_risk_attribution_checked, false);
+  assert.equal(trace.section_attribution.length, 2);
+  assert.deepEqual(trace.section_attribution[0], {
+    package_id: "jogeva_vald_service_koduteenus_package",
+    section: "description",
+    source_ids: ["service-info"],
+    evidence_strength: "strong",
+    evidence_statuses: ["confirmed"]
+  });
+  assert.deepEqual(trace.section_attribution[1], {
+    package_id: "jogeva_vald_service_koduteenus_package",
+    section: "contacts",
+    source_ids: [],
+    evidence_strength: "missing",
+    evidence_statuses: ["missing_section"]
+  });
+  assert.deepEqual(trace.attribution_flags, ["missing_contacts"]);
+  assert.equal(Array.isArray(trace.section_attribution[0].evidence_statuses), true);
+  assert.equal(JSON.stringify(trace.section_attribution).includes("Sensitive section attribution text"), false);
+  assert.equal(JSON.stringify(trace.section_attribution).includes("Sensitive prompt"), false);
 });
 
 test("RAG trace and metadata expose insufficient precise legal source support flag", () => {

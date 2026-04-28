@@ -24,8 +24,8 @@ STATUS: active snapshot
 | --- | --- | --- |
 | Source display | Uued RAG vastused kasutavad backendist tulnud `displayed_sources`; legal exact juhtumid on production smoke'iga kontrollitud; legacy `sources` jääb ainult vanade sõnumite ühilduvuseks | Täielik `displayed_sources` enforcement kõigis uutes RAG vastustes ja adminis nähtav display precision ning contract violation mõõdik |
 | Retrieval | V2 kasutab dense + lightweight lexical kanaleid (`title_match`, `exact_phrase`, `bm25`) ning hybrid/RRF merge'i | Tugevam hübriidotsing koos metadata filtrite, full-text/BM25 indeksi ja vajadusel mudelipõhise reranking'uga |
-| Attribution | `answer_source_ids`, `displayed_source_ids`, `attribution_decisions` ja legal attribution contract on kasutusel; legal exact puhul ei kuvata valet paragrahvi; `§999` / exact missing annab `insufficient_precise_legal_source_support` signaali | Claim-level attribution kõrge riskiga väidetele ning allikakonflikti põhjendatud lahendamine |
-| Trace | `rag_trace` sisaldab `query_plan`'i, retrieval kanaleid, source kihte, `legalLookupPlan`'i, `selection_strategy`'t, riskitaset, legal exact signaale ning runtime `source_packages` kokkuvõtet; V3.0A source-package smoke kinnitab trace kihi | Täisobservability koos source package'i, latency, tokenite ja kvaliteedimõõdikutega |
+| Attribution | `answer_source_ids`, `displayed_source_ids`, `attribution_decisions` ja legal attribution contract on kasutusel; legal exact puhul ei kuvata valet paragrahvi; `§999` / exact missing annab `insufficient_precise_legal_source_support` signaali; V3.4A section-level attribution on code/test tasemel olemas package-aware ja high-risk vastustele | Claim-level attribution kõrge riskiga väidetele ning allikakonflikti põhjendatud lahendamine |
+| Trace | `rag_trace` sisaldab `query_plan`'i, retrieval kanaleid, source kihte, `legalLookupPlan`'i, `selection_strategy`'t, riskitaset, legal exact signaale, runtime `source_packages` kokkuvõtet ning V3.4A `section_attribution` signaale; V3.0A source-package smoke kinnitab trace kihi | Täisobservability koos source package'i, latency, tokenite ja kvaliteedimõõdikutega |
 | KOV service model | Jõgeva KOV RT ja KOV web/service on clean canonical reingest'iga sees; V3.0A runtime `SourcePackage` builder koondab valitud konteksti sama `canonical_item_id` + `municipality_id` põhjal package summary'ks; vastamine on veel valdavalt chunk-põhine ja package-aware answering on V3.2 | Runtime või persisted `SourcePackage` teenustele, vormidele, kontaktidele ja õiguslikule alusele |
 | Metadata | V2.5 canonical contract on kasutusel; clean canonical reingest on tehtud olemasoleva korpuse piires (`national_rt`, Jõgeva KOV RT, Jõgeva KOV web/service, ajakiri `Sotsiaaltöö`); readiness audit KOV-i ja ajakirja kohta andis `blocked=0`; legacy storage jäi rollback'iks alles | Kõik tulevased korpusepered map'ivad samale source contract'ile; org/template/methodology korpuste readiness ja ingest tuleb veel eraldi teha |
 
@@ -1537,7 +1537,24 @@ V3.3B kasutab action log'i ja persisted review reason detaili, kuid ei tee veel 
 
 ### V3.4 — Claim/Section Attribution For High-Risk Answers
 
-STATUS: planned
+STATUS: V3.4A section-level attribution foundation implemented at code/test level / production smoke pending
+
+V3.4A ei ole veel täielik claim-level attribution ega persisted claim store. See lisab esimese kitsama usalduskihi: package-aware või high-risk vastuse `rag_trace` sisaldab kompaktset `section_attribution` kokkuvõtet, mis seob `SourcePackage` sektsioonid ja `source_id` väärtused.
+
+V3.4A trace väljad:
+
+- `section_attribution`;
+- `attribution_flags`;
+- `package_attribution_checked`;
+- `high_risk_attribution_checked`.
+
+`section_attribution` kirje sisaldab ainult ohutuid tehnilisi välju: `package_id`, `section`, `source_ids`, `evidence_strength` ja `evidence_statuses`. Trace ei salvesta prompti, kasutajateksti, vastuse täisteksti, full claim text'i ega pikki allikakatkeid.
+
+Missing sections on deterministlikult trace'is nähtavad. Kui `forms`, `contacts`, `legal_basis`, `fees` või `deadlines` puudub, tekib vastava sektsiooni kirje `evidence_strength = "missing"`, `evidence_statuses = ["missing_section"]` ja `source_ids = []`.
+
+Legal exact rada on opt-out. `legal_exact` ja `legal_exact_paragraph` päringud ei kasuta SourcePackage section attribution'it ning nende `displayed_sources` enforcement jääb legal exact lepingusse.
+
+V3.4B-sse jäävad täielik claim-level attribution, claim hashing, admin claim analytics ja võimalik persisted claim store.
 
 Kõrge riskiga väited seotakse konkreetse allika, SourcePackage'i sektsiooni või claim attribution'iga.
 

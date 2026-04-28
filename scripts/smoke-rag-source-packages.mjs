@@ -8,6 +8,7 @@ function usage() {
     "  npm run rag:smoke:source-packages",
     "  npm run rag:smoke:source-packages -- --persist",
     "  npm run rag:smoke:source-packages -- --answering",
+    "  npm run rag:smoke:source-packages -- --answering --persist --attribution",
     "  npm run rag:smoke:source-packages -- --base-url https://sotsiaal.ai",
     "",
     "Environment:",
@@ -18,7 +19,8 @@ function usage() {
     "  DATABASE_URL=postgresql://...",
     "",
     "Checks that a live chat/RAG flow exposes safe rag_trace.source_packages for a Jogeva KOV service question.",
-    "With --persist, or when DATABASE_URL is present, also checks SourcePackageSnapshot DB persistence."
+    "With --persist, or when DATABASE_URL is present, also checks SourcePackageSnapshot DB persistence.",
+    "With --attribution, also checks deterministic section-level attribution for package-aware answers."
   ].join("\n");
 }
 
@@ -31,6 +33,7 @@ function parseArgs(argv = []) {
     persist: false,
     noPersist: false,
     answering: false,
+    attribution: false,
     help: false
   };
 
@@ -44,10 +47,12 @@ function parseArgs(argv = []) {
     else if (arg === "--persist") args.persist = true;
     else if (arg === "--no-persist") args.noPersist = true;
     else if (arg === "--answering") args.answering = true;
+    else if (arg === "--attribution") args.attribution = true;
     else throw new Error(`Unknown option: ${arg}`);
   }
 
   args.checkPersistence = !args.noPersist && (args.persist || !!process.env.DATABASE_URL);
+  if (args.attribution) args.answering = true;
   return args;
 }
 
@@ -239,6 +244,41 @@ function assertPackageAwareAnswering(payload = {}, packages = []) {
   }
 }
 
+function assertSectionAttribution(payload = {}, packages = []) {
+  const trace = ragTrace(payload);
+  assertCondition(trace.package_attribution_checked === true, "section attribution must check package attribution");
+  assertCondition(Array.isArray(trace.section_attribution), "section_attribution must be an array");
+  assertCondition(trace.section_attribution.length > 0, "section_attribution must not be empty");
+  assertCondition(Array.isArray(trace.attribution_flags), "attribution_flags must be an array");
+
+  for (const entry of trace.section_attribution) {
+    assertCondition(Array.isArray(entry.evidence_statuses), `section_attribution ${entry.section || "(missing)"} evidence_statuses must be an array`);
+    assertCondition(Array.isArray(entry.source_ids), `section_attribution ${entry.section || "(missing)"} source_ids must be an array`);
+  }
+
+  for (const sectionName of ["forms", "contacts", "legal_basis"]) {
+    const entry = trace.section_attribution.find(item => item?.section === sectionName);
+    assertCondition(entry, `section_attribution must include ${sectionName}`);
+    assertCondition(entry.evidence_strength === "missing", `${sectionName}: expected missing evidence strength`);
+    assertCondition(entry.evidence_statuses.includes("missing_section"), `${sectionName}: expected missing_section status`);
+    assertCondition(entry.source_ids.length === 0, `${sectionName}: missing section must not carry source_ids`);
+  }
+
+  const packageSourceIds = new Set(packages.flatMap(pkg => Array.isArray(pkg.source_ids) ? pkg.source_ids : []));
+  const displayedIds = Array.isArray(trace.package_displayed_source_ids) ? trace.package_displayed_source_ids : [];
+  for (const id of displayedIds) {
+    assertCondition(packageSourceIds.has(id), `package_displayed_source_ids contains non-package source ${id}`);
+  }
+
+  const serialized = JSON.stringify({
+    section_attribution: trace.section_attribution,
+    attribution_flags: trace.attribution_flags
+  });
+  for (const unsafe of ["prompt", "userMessage", "model_context", "evidenceText", "evidence_text", "body_preview"]) {
+    assertCondition(!serialized.includes(unsafe), `section attribution trace contains unsafe value ${unsafe}`);
+  }
+}
+
 async function beforePersistenceSnapshot(args) {
   if (!args.checkPersistence) {
     return {
@@ -360,7 +400,11 @@ async function main() {
   if (args.answering) {
     assertPackageAwareAnswering(payload, packages);
   }
+  if (args.attribution) {
+    assertSectionAttribution(payload, packages);
+  }
   const persistence = await afterPersistenceSnapshot(persistenceBefore, packages);
+  const trace = ragTrace(payload);
 
   console.log(JSON.stringify({
     ok: true,
@@ -369,10 +413,23 @@ async function main() {
     trace: {
       checked: true,
       source_packages_present: packages.length > 0,
-      package_aware_answering_used: ragTrace(payload).package_aware_answering_used === true,
-      used_package_ids: ragTrace(payload).used_package_ids || [],
-      missing_sections_used: ragTrace(payload).missing_sections_used || [],
-      package_displayed_source_ids: ragTrace(payload).package_displayed_source_ids || []
+      package_aware_answering_used: trace.package_aware_answering_used === true,
+      used_package_ids: trace.used_package_ids || [],
+      missing_sections_used: trace.missing_sections_used || [],
+      package_displayed_source_ids: trace.package_displayed_source_ids || [],
+      package_attribution_checked: trace.package_attribution_checked === true,
+      high_risk_attribution_checked: trace.high_risk_attribution_checked === true,
+      section_attribution_count: Array.isArray(trace.section_attribution) ? trace.section_attribution.length : 0,
+      missing_section_attribution: Array.isArray(trace.section_attribution)
+        ? trace.section_attribution
+          .filter(entry => entry?.evidence_strength === "missing")
+          .map(entry => ({
+            section: entry.section,
+            source_ids: entry.source_ids || [],
+            evidence_strength: entry.evidence_strength,
+            evidence_statuses: entry.evidence_statuses || []
+          }))
+        : []
     },
     snapshot_persistence: persistence,
     package: summary
