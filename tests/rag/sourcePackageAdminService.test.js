@@ -210,6 +210,7 @@ test("mark_reviewed sets review metadata without changing automated package stat
   assert.equal(reviewed.reviewedBy, "admin@example.test");
   assert.equal(reviewed.reviewNote, "Checked in admin.");
   assert.ok(reviewed.reviewedAt);
+  assert.equal(client.rows[0].reviewedBy, "admin@example.test");
   assert.equal(client.rows[0].active, true);
   assert.equal(client.events.length, 1);
   assert.equal(client.events[0].action, "mark_reviewed");
@@ -225,16 +226,20 @@ test("archive sets reviewStatus archived, status archived, and active false", as
   assert.equal(archived.status, "archived");
   assert.equal(archived.active, false);
   assert.equal(archived.reviewedBy, "admin@example.test");
+  assert.ok(archived.reviewedAt);
   assert.equal(client.events.at(-1).action, "archive");
 });
 
-test("restore_active deactivates previous active snapshot and keeps only one active snapshot", async () => {
+test("restore_active deactivates previous active snapshot, keeps one active snapshot, and clears row-level review metadata when pending", async () => {
   const client = createFakeClient([
     snapshotFixture({
       id: "snapshot-archived",
       active: false,
       status: "archived",
-      reviewStatus: "archived"
+      reviewStatus: "archived",
+      reviewedAt: new Date("2026-04-28T09:00:00.000Z"),
+      reviewedBy: "old-admin@example.test",
+      reviewNote: "Older archive review."
     }),
     snapshotFixture({
       id: "snapshot-active",
@@ -253,6 +258,9 @@ test("restore_active deactivates previous active snapshot and keeps only one act
 
   assert.equal(restored.active, true);
   assert.equal(restored.reviewStatus, "pending");
+  assert.equal(restored.reviewedAt, null);
+  assert.equal(restored.reviewedBy, null);
+  assert.equal(restored.reviewNote, null);
   assert.equal(client.rows.find(row => row.id === "snapshot-active").active, false);
   assert.equal(client.rows.find(row => row.id === "snapshot-active").status, "archived");
   assert.equal(client.rows.filter(row => row.active === true).length, 1);
@@ -260,10 +268,37 @@ test("restore_active deactivates previous active snapshot and keeps only one act
   assert.deepEqual(client.events.at(-1).metadata.displaced_snapshot_ids, ["snapshot-active"]);
 });
 
-test("recompute refreshes current status from persisted metadata and writes history", async () => {
+test("recompute that moves snapshot back to pending clears reviewedAt, reviewedBy, and reviewNote while keeping history", async () => {
+  const client = createFakeClient([
+    snapshotFixture({
+      reviewStatus: "reviewed",
+      reviewedAt: new Date("2026-04-28T09:00:00.000Z"),
+      reviewedBy: "admin@example.test",
+      reviewNote: "Previously reviewed."
+    })
+  ]);
+
+  const recomputed = await reviewSourcePackageSnapshot("snapshot-1", "recompute", {
+    reviewedBy: "admin@example.test"
+  }, client);
+
+  assert.equal(recomputed.status, "needs_review");
+  assert.equal(recomputed.reviewStatus, "pending");
+  assert.equal(recomputed.reviewedAt, null);
+  assert.equal(recomputed.reviewedBy, null);
+  assert.equal(recomputed.reviewNote, null);
+  assert.equal(client.events.at(-1).action, "recompute");
+  assert.equal(client.events.at(-1).metadata.recomputed_status, "needs_review");
+});
+
+test("recompute that stays reviewed keeps reviewedAt, reviewedBy, and reviewNote", async () => {
   const client = createFakeClient([
     snapshotFixture({
       status: "active",
+      reviewStatus: "reviewed",
+      reviewedAt: new Date("2026-04-28T09:00:00.000Z"),
+      reviewedBy: "admin@example.test",
+      reviewNote: "Previously reviewed.",
       missingSections: [],
       sourceMembership: [
         {
@@ -279,10 +314,15 @@ test("recompute refreshes current status from persisted metadata and writes hist
   ]);
 
   const recomputed = await reviewSourcePackageSnapshot("snapshot-1", "recompute", {
-    reviewedBy: "admin@example.test"
+    reviewedBy: "new-admin@example.test",
+    reviewNote: "Should not overwrite reviewed metadata when still reviewed."
   }, client);
 
   assert.equal(recomputed.status, "active");
+  assert.equal(recomputed.reviewStatus, "reviewed");
+  assert.equal(String(recomputed.reviewedAt), String(new Date("2026-04-28T09:00:00.000Z")));
+  assert.equal(recomputed.reviewedBy, "admin@example.test");
+  assert.equal(recomputed.reviewNote, "Previously reviewed.");
   assert.equal(client.events.at(-1).action, "recompute");
   assert.equal(client.events.at(-1).metadata.recomputed_status, "active");
 });
