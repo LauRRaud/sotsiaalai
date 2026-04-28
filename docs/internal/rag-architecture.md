@@ -33,7 +33,7 @@ STATUS: active snapshot
 Current-state update after V3.4A follow-up:
 
 - KOV service model is now beyond the original runtime-only package summary: V3.0A runtime `SourcePackage`, V3.1 persisted snapshot, V3.2 package-aware answering and V3.4A section attribution are confirmed.
-- The V3.4A follow-up added conservative SourcePackage completeness mapping for `forms`, `contacts`, `legal_basis`, `fees` and `deadlines`, more precise Jogeva gap-report candidate diagnostics, and a supplemental same-KOV `kov_regulation` lookup so Jogeva RT can reach package `legal_basis` without overfilling `fees` or `deadlines`.
+- The V3.4A follow-up added and production-verified conservative SourcePackage completeness mapping for `forms`, `contacts`, `legal_basis`, `fees` and `deadlines`, more precise Jogeva gap-report candidate diagnostics, a supplemental same-KOV `kov_regulation` lookup, and a Jogeva canonical relation fallback resolver for `relatedForms` / `relatedContacts`.
 - The remaining target is fuller package coverage from ingest metadata and V3.4B claim-level attribution, not a retrieval engine replacement.
 
 ### V3.0A Implementation Update 2026-04-28
@@ -1600,7 +1600,7 @@ Trace ei pea salvestama täit väiteteksti. Piisab ohututest väljadest:
 
 V3.4A follow-up: Jogeva SourcePackage completeness fix
 
-STATUS: production-confirmed for `legal_basis` / conservative `fees`-`deadlines` follow-up implemented
+STATUS: production-confirmed for `legal_basis`, `forms` and `contacts` / conservative `fees`-`deadlines` mapping verified
 
 The follow-up fixed the first package completeness issue found by the Jogeva gap report. The issue was not pure `input_missing`: the repository inputs contain Jogeva form/contact signals and the KOV regulation XML, but runtime package building and gap diagnostics did not use those relationships precisely enough.
 
@@ -1608,6 +1608,8 @@ Implemented behavior:
 
 - `application_form`, `web_form` and `pdf_form` sources can populate the `forms` section when they belong to the same municipality and have a direct or related `canonical_item_id` link to the service package;
 - `official_contact` and `contact_page` sources can populate the `contacts` section under the same conservative relation rule;
+- Jogeva fallback resolver can use repository canonical JSON and `sources.json` data to resolve `relatedForms` and `relatedContacts` when live retrieval metadata does not carry those relations into the runtime builder;
+- duplicate-prefixed snapshot canonical ids are normalized only for local canonical JSON lookup, not for package identity, so existing stable `packageId` / `canonicalItemId` values remain unchanged;
 - same-municipality `kov_regulation` can populate `legal_basis`;
 - `fees` and `deadlines` are mapped conservatively and do not become present only because a general KOV regulation exists;
 - a generic same-municipality KOV regulation association is marked `partial`, not `strong`;
@@ -1620,12 +1622,15 @@ Implemented behavior:
 
 Operational note:
 
-- If production metadata carries `relatedCanonicalItemIds` or an equivalent relation, Jogeva forms and contacts can now join the package.
-- If production metadata does not yet carry those relation fields, the remaining issue is ingest/metadata enrichment rather than SourcePackage runtime logic.
+- If production metadata carries `relatedCanonicalItemIds` or an equivalent relation, Jogeva forms and contacts can join the package directly.
+- If live retrieval metadata does not carry those relation fields, the Jogeva fallback resolver can use `KOV/Jogeva/jogeva-vald/jogeva-vald.json` and `jogeva-vald.sources.json` as a safe local relation source.
 - Jogeva KOV RT (`jogeva-vald-rt-406112024020`) can now reach `legal_basis` as `partial` evidence when it is retrieved as a same-municipality regulation candidate.
-- Production confirmation: Jogeva `legal_basis` missing count dropped from `6/14` to `0`, the RT regulation reached `SourcePackage` `sourceMembership`, and `rag:smoke:v2 -- --chat --legal-exact` plus `rag:smoke:v2` stayed green.
+- Production confirmation after the full resolver follow-up: active Jogeva logical packages = `14`, duplicate normalized active package count = `0`, `forms` missing = `2`, `contacts` missing = `0`, `legal_basis` missing = `0`, `fees` missing = `14`, `deadlines` missing = `14`.
+- Forms are present for `12/14` Jogeva packages and contacts are present for `14/14` packages when corresponding canonical relations and source records exist.
+- The RT regulation reached `SourcePackage` `sourceMembership`, source-package attribution smoke was updated for present-or-missing `forms` / `contacts`, and `rag:smoke:v2 -- --chat --legal-exact` plus `rag:smoke:v2` stayed green.
 - Source-package attribution smoke must no longer require `legal_basis` to be missing; after the RT mapping fix, `legal_basis` may be present with `kov_regulation` source ids and `partial` or `strong` evidence strength.
-- `forms` and `contacts` may still remain missing when no candidate package sources exist.
+- Source-package attribution smoke must no longer require `forms` or `contacts` to be missing; when present, their `source_id` values must come from the package section and use allowed form/contact source types.
+- `forms` and `contacts` may still remain missing only when no valid candidate package source exists.
 - `fees` and `deadlines` must stay missing unless metadata, section hints or regulation text signals indicate those sections specifically.
 
 Production check:

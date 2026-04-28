@@ -1,0 +1,22 @@
+{
+  "id": "harku-vald",
+  "municipality": "Harku vald",
+  "county": "Harjumaa",
+  "checkedAt": "2026-04-11",
+  "status": "checked",
+  "coverage": {
+    "services": 16,
+    "benefits": 20,
+    "resources": 5,
+    "contacts": 10,
+    "forms": 13
+  },
+  "notes": [],
+  "unresolvedIssues": [
+    "2026. aasta jõulutoetuse määrasid, tähtaega ja uut taotlusvormi ei olnud kontrollimise ajal Harku valla lehel veel avaldatud; lehel oli endiselt 2025. aasta info.",
+    "Teenused erivajadusega inimesele leht nimetab blanketti „Hoolduse seadmise ja hooldaja määramise taotlus“, kuid kontrolli käigus ei õnnestunud selle otselinki usaldusväärselt avada; seotud plokis õnnestus kontrollida hoolduse jätkamise blanketti ja hooldajatoetuse blanketid.",
+    "Tugiisikuteenuse, asendushooldusteenuse ja järelhooldusteenuse lehed kirjeldavad teenuste sisu ja kontakte, kuid ei kirjelda detailset menetluskäiku ega eraldi blankette samas detailsuses nagu mõne teise teenuse puhul.",
+    "Viipekeele tõlketeenuse leht nimetab teenuse eesmärgi ja teenuseosutaja (Viipekeeletõlkide OÜ), kuid ei kirjelda Harku valla veebis detailselt praktilist taotlemise korda.",
+    "Puudega isiku transporditoetuse leht kirjeldab sihtrühma, tingimusi ja taotlemist, kuid ei avalda toetuse konkreetset rahalist määra."
+  ]
+}

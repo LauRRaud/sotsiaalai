@@ -1,0 +1,211 @@
+{
+  "municipality": "Harku vald",
+  "county": "Harjumaa",
+  "checkedAt": "2026-04-11",
+  "sources": [
+    {
+      "key": "home",
+      "type": "web_page",
+      "title": "Harku valla avaleht",
+      "url": "https://harku.ee"
+    },
+    {
+      "key": "social_overview",
+      "type": "web_page",
+      "title": "Pere, sotsiaal ja tervishoid",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid"
+    },
+    {
+      "key": "laste_heaolu_page",
+      "type": "web_page",
+      "title": "Laste heaolu",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/pere-ja-lapsed/laste-heaolu"
+    },
+    {
+      "key": "toetused_peredele_page",
+      "type": "web_page",
+      "title": "Toetused peredele",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/pere-ja-lapsed/toetused-peredele"
+    },
+    {
+      "key": "vanemlus_ja_paarisuhe_page",
+      "type": "web_page",
+      "title": "Vanemlus ja paarisuhe",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/pere-ja-lapsed/vanemlus-ja-paarisuhe"
+    },
+    {
+      "key": "vahekindlustatud_page",
+      "type": "web_page",
+      "title": "Toetused vähekindlustatud isikutele ja peredele",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toetused-vahekindlustatud-isikutele-ja-peredele"
+    },
+    {
+      "key": "toiduabi_page",
+      "type": "web_page",
+      "title": "Toiduabi",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toiduabi"
+    },
+    {
+      "key": "abi_majandusliku_raskuse_korral_page",
+      "type": "web_page",
+      "title": "Abi majandusliku raskuse korral",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/abi-majandusliku-raskuse-korral"
+    },
+    {
+      "key": "elukoha_tagamine_page",
+      "type": "web_page",
+      "title": "Elukoha tagamine",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/kodu/elukoha-tagamine"
+    },
+    {
+      "key": "vaimne_tervis_page",
+      "type": "web_page",
+      "title": "Vaimne tervis",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/vaimne-tervis"
+    },
+    {
+      "key": "volanoustamisteenus_page",
+      "type": "web_page",
+      "title": "Võlanõustamisteenus",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/volanoustamisteenus"
+    },
+    {
+      "key": "eakate_toimetulek_page",
+      "type": "web_page",
+      "title": "Eakate toimetulek",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/eakate-toimetulek"
+    },
+    {
+      "key": "erivajadusega_laps_page",
+      "type": "web_page",
+      "title": "Erivajadusega laps",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/erivajadusega-laps"
+    },
+    {
+      "key": "tugiisikuteenus_page",
+      "type": "web_page",
+      "title": "Tugiisikuteenus",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/tugiisikuteenus"
+    },
+    {
+      "key": "erivajadusega_inimesele_page",
+      "type": "web_page",
+      "title": "Teenused erivajadusega inimesele",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/teenused-erivajadusega-inimesele"
+    },
+    {
+      "key": "muud_toetused_ja_teenused_page",
+      "type": "web_page",
+      "title": "Muud toetused ja teenused",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/muud-toetused-ja-teenused"
+    },
+    {
+      "key": "harku_sotsiaalkeskus_page",
+      "type": "web_page",
+      "title": "Harku Sotsiaalkeskus",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/harku-sotsiaalkeskus"
+    },
+    {
+      "key": "contacts_page",
+      "type": "web_page",
+      "title": "Sotsiaal- ja tervishoiuosakonna kontaktid",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+    },
+    {
+      "key": "matusetoetus_page",
+      "type": "web_page",
+      "title": "Matusetoetus",
+      "url": "https://harku.ee/pere-sotsiaal-ja-tervishoid/lahedase-surm/matusetoetus"
+    },
+    {
+      "key": "sotsiaaltransporditeenuse_taotlus_pdf",
+      "type": "pdf",
+      "title": "Sotsiaaltransporditeenuse taotlus",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/Sotsiaaltransporditeenuse%20taotlus.pdf"
+    },
+    {
+      "key": "pere_tulust_mittesoltava_taotlus_pdf",
+      "type": "pdf",
+      "title": "Pere tulust mittesõltuva toetuse taotlus",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/PERE%20TULUST%20MITTES%C3%95LTUVA%20TOETUSE%20TAOTLUS.pdf"
+    },
+    {
+      "key": "pere_tulust_soltuva_taotlus_pdf",
+      "type": "pdf",
+      "title": "Pere tulust sõltuva toetuse taotlus",
+      "url": "https://harku.ee/sites/default/files/documents/2025-06/PERE%20TULUST%20S%C3%95LTUVA%20TOETUSE%20TAOTLUS.pdf"
+    },
+    {
+      "key": "joulutoetuse_taotlus_2025_pdf",
+      "type": "pdf",
+      "title": "Jõulutoetuse taotlus 2025",
+      "url": "https://harku.ee/sites/default/files/documents/2025-11/J%C3%B5ulutoetuse%20taotlus%202025_0.pdf"
+    },
+    {
+      "key": "joulutoetuse_maksmine_2025_pdf",
+      "type": "pdf",
+      "title": "Jõulutoetuse maksmine 2025. aastal",
+      "url": "https://harku.ee/sites/default/files/documents/2025-11/J%C3%B5ulutoetuse%20maksmine%202025.%20aastal.pdf"
+    },
+    {
+      "key": "uldhooldusteenuse_taotlus_doc",
+      "type": "doc",
+      "title": "Üldhooldusteenuse toetuse taotlus",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/%C3%9Cldhooldusteenuse%20toetuse%20taotlus.doc"
+    },
+    {
+      "key": "uldhooldusteenuse_lisatoetuse_taotlus_doc",
+      "type": "doc",
+      "title": "Üldhooldusteenuse lisatoetuse taotlus",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/%C3%9Cldhooldusteenuse%20lisatoetuse%20taotlus.doc"
+    },
+    {
+      "key": "toimetulekutoetuse_taotlus_pdf",
+      "type": "pdf",
+      "title": "Toimetulekutoetuse taotlus",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/Toimetulekutoetuse%20taotlus.pdf"
+    },
+    {
+      "key": "hooldajatoetuse_maarad_2026_pdf",
+      "type": "pdf",
+      "title": "Hooldajatoetuste määrad 2026. aastaks",
+      "url": "https://harku.ee/sites/default/files/documents/2026-01/Hooldajatoetuse%20m%C3%A4%C3%A4rad%202026.%20aastaks_1.pdf"
+    },
+    {
+      "key": "hooldajatoetuse_taotlus_pdf",
+      "type": "pdf",
+      "title": "Hooldajatoetuse taotlus",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/HOOLDAJATOETUSE%20TAOTLUS.pdf"
+    },
+    {
+      "key": "nousolek_hooldajaks_asumise_kohta_pdf",
+      "type": "pdf",
+      "title": "Nõusolek hooldajaks asumise kohta",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/N%C3%95USOLEK%20HOOLDAJAKS%20ASUMISE%20KOHTA.pdf"
+    },
+    {
+      "key": "hooldajatoetus_taisealise_eestkostjale_pdf",
+      "type": "pdf",
+      "title": "Hooldajatoetuse taotlus täisealise isiku eeskostjale",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/TAOTLUS%20HOOLDAJATOETUS%20%20T%C3%84ISEALISE%20ISIKU%20EESTKOSTJALE.pdf"
+    },
+    {
+      "key": "hooldajatoetus_lapse_hooldajale_pdf",
+      "type": "pdf",
+      "title": "Hooldajatoetuse taotlus lapse hooldajale",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/TAOTLUS%20hooldajatoetus%20lapse%20hooldajale.pdf"
+    },
+    {
+      "key": "taotlus_hoolduse_jatkamiseks_pdf",
+      "type": "pdf",
+      "title": "Taotlus hoolduse jätkamiseks",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/TAOTLUS%20T%C3%84HTAJALISE%20HOOLDUSE%20J%C3%84TKAMISEKS.pdf"
+    },
+    {
+      "key": "lapsehoiuteenuse_ja_muu_toetava_teenuse_taotlus_pdf",
+      "type": "pdf",
+      "title": "Raske ja sügava puudega lapse lapsehoiuteenuse ja muu toetava sotsiaalteenuse taotlus",
+      "url": "https://harku.ee/sites/default/files/documents/2025-08/Raske%20ja%20s%C3%BCgava%20puudega%20lapse%20lapsehoiuteenuse%20ja%20muu%20toetava%20teenuse%20taotlus.pdf"
+    }
+  ]
+}
