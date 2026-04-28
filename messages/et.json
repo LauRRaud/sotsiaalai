@@ -2164,6 +2164,8 @@
       "external_host_not_allowed": "Väline RAG host ei ole lubatud.",
       "proxy_timeout": "RAG proxy päring aegus.",
       "proxy_error": "RAG proxy päring ebaõnnestus.",
+      "document_status_failed": "RAG dokumendi seisu päring ebaõnnestus.",
+      "document_status_auth_failed": "RAG dokumendi seisu päringul puudub serveris õigus.",
       "selftest": {
         "step_connection": "Kontrollin RAG ühendust",
         "step_search": "Teen RAG otsingut",

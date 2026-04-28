@@ -2164,6 +2164,8 @@
       "external_host_not_allowed": "Внешний хост RAG запрещен.",
       "proxy_timeout": "Истекло время ожидания запроса RAG proxy.",
       "proxy_error": "Запрос RAG proxy завершился ошибкой.",
+      "document_status_failed": "Не удалось получить статус документа RAG.",
+      "document_status_auth_failed": "Сервер не авторизован для получения статуса документа RAG.",
       "selftest": {
         "step_connection": "Проверка подключения к RAG",
         "step_search": "Запуск поиска RAG",

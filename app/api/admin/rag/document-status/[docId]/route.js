@@ -1,5 +1,6 @@
 import { errorJson, json, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
-import { ragServiceRequest } from "@/lib/documents/ragService";
+import { buildRagHeaders, ragServiceRequest } from "@/lib/documents/ragService";
+import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,14 +32,19 @@ export async function GET(request, { params }) {
   if (!docId) return errorJson("api.common.bad_request", 400, auth.locale);
 
   try {
+    const headers = buildRagHeaders(null, {
+      route: "api/admin/rag/document-status",
+      stage: "document_status"
+    });
+    headers.set("x-ui-locale", auth.locale);
+
     const payload = await ragServiceRequest(
       `/documents/${encodeURIComponent(docId)}`,
       {
-        headers: {
-          "x-ui-locale": auth.locale
-        }
+        method: "GET",
+        headers
       },
-      "api.common.server_error"
+      "api.rag.document_status_failed"
     );
 
     return json({
@@ -63,7 +69,24 @@ export async function GET(request, { params }) {
       });
     }
 
-    return errorJson("api.common.server_error", status, auth.locale, {
+    if (status === 401) {
+      console.error("[rag-admin] document status RAG auth failed", {
+        docId,
+        status,
+        error: safeError(error)
+      });
+      return errorJson("api.rag.document_status_auth_failed", 502, auth.locale, {
+        debugCode: "RAG_DOCUMENT_STATUS_AUTH_FAILED",
+        debug: process.env.NODE_ENV !== "production" ? String(error?.message || error) : undefined
+      });
+    }
+
+    console.error("[rag-admin] document status fetch failed", {
+      docId,
+      status,
+      error: safeError(error)
+    });
+    return errorJson("api.rag.document_status_failed", status, auth.locale, {
       debug: process.env.NODE_ENV !== "production" ? String(error?.message || error) : undefined
     });
   }

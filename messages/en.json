@@ -2164,6 +2164,8 @@
       "external_host_not_allowed": "External RAG host is not allowed.",
       "proxy_timeout": "RAG proxy request timed out.",
       "proxy_error": "RAG proxy request failed.",
+      "document_status_failed": "RAG document status lookup failed.",
+      "document_status_auth_failed": "RAG document status lookup is not authorized on the server.",
       "selftest": {
         "step_connection": "Checking RAG connection",
         "step_search": "Running RAG search",
