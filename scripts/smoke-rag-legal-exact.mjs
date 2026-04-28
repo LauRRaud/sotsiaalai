@@ -314,6 +314,8 @@ function summarizeChatCase(id, payload) {
     insufficient_precise_legal_source_support: !!(
       payload?.rag_trace?.insufficientPreciseLegalSourceSupport ||
       payload?.rag_trace?.insufficient_precise_legal_source_support ||
+      payload?.insufficientPreciseLegalSourceSupport ||
+      payload?.insufficient_precise_legal_source_support ||
       payload?.meta?.insufficientPreciseLegalSourceSupport
     )
   };
@@ -340,6 +342,7 @@ async function runChatSmoke(args) {
       "chat_shs_140: selection_strategy must be legal_exact"
     );
     assertLegalSelectedParagraphs("chat_shs_140", selectedContextDetails(shs140Trace), ["140"]);
+    assertCondition(displayedSources(shs140).length > 0, "chat_shs_140: displayed_sources must not be empty");
     assertLegalDisplayedParagraphs("chat_shs_140", displayedSources(shs140), ["140"]);
     assertCondition(
       displayedSources(shs140).every((source) => !/Paragrahvi 140 rakendamine/i.test(sourceTitle(source))),
@@ -377,6 +380,7 @@ async function runChatSmoke(args) {
       "chat_shs_132: selection_strategy must be legal_exact"
     );
     assertLegalSelectedParagraphs("chat_shs_132", selectedContextDetails(shs132Trace), ["132"]);
+    assertCondition(displayedSources(shs132).length > 0, "chat_shs_132: displayed_sources must not be empty");
     assertLegalDisplayedParagraphs("chat_shs_132", displayedSources(shs132), ["132"]);
     assertCondition(
       displayedSources(shs132).every((source) => sourceType(source) !== "journal_article"),
@@ -393,6 +397,16 @@ async function runChatSmoke(args) {
     const shs999Displayed = displayedSources(shs999).filter((source) => LEGAL_SOURCE_TYPE_PATTERN.test(sourceType(source)));
     assertCondition(shs999Selected.length === 0, "chat_shs_999: selected legal sources must be empty");
     assertCondition(shs999Displayed.length === 0, "chat_shs_999: displayed legal sources must be empty");
+    assertCondition(
+      !!(
+        shs999?.rag_trace?.insufficientPreciseLegalSourceSupport ||
+        shs999?.rag_trace?.insufficient_precise_legal_source_support ||
+        shs999?.insufficientPreciseLegalSourceSupport ||
+        shs999?.insufficient_precise_legal_source_support ||
+        shs999?.meta?.insufficientPreciseLegalSourceSupport
+      ),
+      "chat_shs_999: insufficient_precise_legal_source_support must be true"
+    );
     assertCondition(
       responseText(shs999).length === 0 ||
       !/\u00A7\s*(140|160|132|131|133|134|135)\b/.test(responseText(shs999)),

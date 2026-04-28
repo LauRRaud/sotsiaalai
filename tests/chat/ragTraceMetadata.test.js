@@ -222,3 +222,38 @@ test("RAG trace merges legalLookupPlan into query_plan when retrievalMeta carrie
   assert.deepEqual(trace.query_plan.legalLookupPlan.paragraphRefs, ["140"]);
   assert.equal(trace.query_plan.legalLookupPlan.actTitle, "Sotsiaalhoolekande seadus");
 });
+
+test("RAG trace and metadata expose insufficient precise legal source support flag", () => {
+  const attribution = buildSourceAttribution("Praeguse otsinguga ei leitud piisavalt täpset õiguslikku kinnitust.", [], {
+    query: "SHS Ā§ 999"
+  });
+
+  const trace = buildRagTraceFromAttribution([], attribution, {
+    queryPlan: {
+      planner_version: "v2",
+      mode: "explicit_paragraph",
+      selection_strategy: "legal_exact"
+    },
+    legalLookupPlan: {
+      enabled: true,
+      mode: "explicit_paragraph",
+      jurisdictionLevel: "NATIONAL",
+      sourceTypes: ["national_law"],
+      collectionId: "national_regulations",
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphRefs: ["999"],
+      topicTerms: [],
+      requireCurrent: true
+    },
+    insufficientPreciseLegalSourceSupport: true
+  });
+
+  const metadata = buildAttributionMetadata({}, [], attribution, {
+    insufficientPreciseLegalSourceSupport: true
+  });
+
+  assert.equal(trace.insufficient_precise_legal_source_support, true);
+  assert.equal(trace.insufficientPreciseLegalSourceSupport, true);
+  assert.equal(metadata.insufficient_precise_legal_source_support, true);
+  assert.equal(metadata.insufficientPreciseLegalSourceSupport, true);
+});

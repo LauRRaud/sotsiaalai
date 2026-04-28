@@ -397,3 +397,35 @@ test("hides journal article for exact current legal paragraph lookup", () => {
   assert.deepEqual(attribution.displayed_source_ids, ["law-132"]);
   assert.equal(attribution.filter_reasons["journal-shs-132"], "legal_source_type_mismatch");
 });
+
+test("accepts exact legal source when act title is provided in snake_case retrieval shape", () => {
+  const attribution = buildSourceAttribution("SHS Ā§ 140 reguleerib toimetulekutoetuse maksmist.", [
+    {
+      id: "law-140",
+      source_type: "national_law",
+      act_title: "Sotsiaalhoolekande seadus",
+      paragraphNumber: "140",
+      source_status: "active",
+      evidenceText: "Ā§ 140. Toimetulekutoetuse maksmine."
+    }
+  ], {
+    query: "SHS Ā§ 140",
+    legalLookupPlan: {
+      enabled: true,
+      mode: "explicit_paragraph",
+      sourceTypes: ["national_law"],
+      collectionId: "national_regulations",
+      actTitle: "Sotsiaalhoolekande seadus",
+      paragraphRefs: ["140"],
+      municipalityId: null,
+      requireCurrent: true
+    },
+    riskPolicy: {
+      riskLevel: "high",
+      requiredEvidence: "strong",
+      insufficientEvidenceMode: true
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["law-140"]);
+});
