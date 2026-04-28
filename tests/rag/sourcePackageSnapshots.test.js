@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 import {
   buildSourcePackageSnapshot,
+  normalizeSourcePackageSnapshotCanonicalId,
   persistSourcePackageSnapshots
 } from "../../lib/rag/sourcePackageSnapshots.js";
 
@@ -75,6 +76,15 @@ function createFakeClient() {
           return 0;
         });
       return found[0] || null;
+    },
+    async findMany({ where = {}, orderBy = {} } = {}) {
+      const found = rows
+        .filter(row => matchesWhere(row, where))
+        .sort((left, right) => {
+          if (orderBy.version === "desc") return Number(right.version) - Number(left.version);
+          return 0;
+        });
+      return found;
     },
     async updateMany({ where = {}, data = {} } = {}) {
       let count = 0;
@@ -163,6 +173,13 @@ test("buildSourcePackageSnapshot hash changes when forms and contacts membership
   assert.equal(withFormsContacts.sectionSummary.contacts.count, 1);
 });
 
+test("normalizeSourcePackageSnapshotCanonicalId collapses Jogeva duplicate prefix for dedupe only", () => {
+  assert.equal(
+    normalizeSourcePackageSnapshotCanonicalId("jogeva_vald_service_jogeva_vald_service_koduteenus"),
+    "jogeva_vald_service_koduteenus"
+  );
+});
+
 
 test("persistSourcePackageSnapshots does not duplicate same package hash", async () => {
   const client = createFakeClient();
@@ -229,6 +246,29 @@ test("persistSourcePackageSnapshots reactivates an archived hash as the next ver
   assert.equal(reactivated[0].snapshot.version, 3);
   assert.equal(client.rows.filter(row => row.active === true).length, 1);
   assert.equal(client.rows.find(row => row.active === true).packageHash, reactivated[0].snapshot.packageHash);
+});
+
+test("persistSourcePackageSnapshots archives duplicate normalized active snapshots and prefers stable legacy package id", async () => {
+  const client = createFakeClient();
+  await persistSourcePackageSnapshots([
+    packageFixture({
+      package_id: "jogeva_vald_service_koduteenus_package",
+      canonical_item_id: "jogeva_vald_service_koduteenus"
+    })
+  ], client);
+
+  const persisted = await persistSourcePackageSnapshots([
+    packageFixture({
+      package_id: "jogeva_vald_service_jogeva_vald_service_koduteenus_package",
+      canonical_item_id: "jogeva_vald_service_jogeva_vald_service_koduteenus"
+    })
+  ], client);
+
+  const activeRows = client.rows.filter(row => row.active === true);
+  assert.equal(activeRows.length, 1);
+  assert.equal(activeRows[0].packageId, "jogeva_vald_service_jogeva_vald_service_koduteenus_package");
+  assert.equal(client.rows.find(row => row.packageId === "jogeva_vald_service_koduteenus_package").status, "archived");
+  assert.equal(persisted[0].dedupe.archivedCount, 1);
 });
 
 test("buildSourcePackageSnapshot marks missing, conflicting, and invalid current evidence packages as needs_review", () => {

@@ -320,13 +320,14 @@ test("buildRuntimeSourcePackages resolves Jogeva related forms and contacts from
     }
   ]);
 
-  const pkg = packages.find(item => item.canonical_item_id === "jogeva_vald_service_koduteenus");
+  const pkg = packages.find(item => item.canonical_item_id === "jogeva_vald_service_jogeva_vald_service_koduteenus");
   assert.equal(
     normalizeSourcePackageCanonicalItemId("jogeva_vald_service_jogeva_vald_service_koduteenus"),
     "jogeva_vald_service_koduteenus"
   );
   assert.ok(pkg);
-  assert.equal(pkg.package_id, "jogeva_vald_service_koduteenus_package");
+  assert.equal(pkg.package_id, "jogeva_vald_service_jogeva_vald_service_koduteenus_package");
+  assert.equal(pkg.canonical_item_id, "jogeva_vald_service_jogeva_vald_service_koduteenus");
   assert.deepEqual(pkg.sections.forms.map(source => source.source_id), ["jogeva_vald_sotsiaalabi_taotlus_pdf"]);
   assert.equal(pkg.sections.forms[0].source_type, "application_form");
   assert.equal(pkg.sections.forms[0].item_type, "form");
@@ -335,6 +336,27 @@ test("buildRuntimeSourcePackages resolves Jogeva related forms and contacts from
   assert.equal(pkg.sections.contacts[0].evidence_strength, "partial");
   assert.equal(pkg.missing_sections.includes("forms"), false);
   assert.equal(pkg.missing_sections.includes("contacts"), false);
+});
+
+test("buildRuntimeSourcePackages uses canonical normalization for lookup without changing package identity", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      source_id: "service-info",
+      title: "Eluruumi tagamise teenus",
+      source_type: "kov_service_info",
+      item_type: "service",
+      canonical_item_id: "jogeva_vald_service_jogeva_vald_service_eluruumi_tagamise_teenus",
+      municipality_id: "jogeva_vald",
+      sections_present: ["description", "eligibility", "application"],
+      source_status: "active"
+    }
+  ]);
+
+  assert.equal(packages.length, 1);
+  assert.equal(packages[0].canonical_item_id, "jogeva_vald_service_jogeva_vald_service_eluruumi_tagamise_teenus");
+  assert.equal(packages[0].package_id, "jogeva_vald_service_jogeva_vald_service_eluruumi_tagamise_teenus_package");
+  assert.equal(packages[0].sections.forms.length > 0, true);
+  assert.equal(packages[0].sections.contacts.length > 0, true);
 });
 
 test("buildRuntimeSourcePackages does not use Jogeva canonical fallback for another municipality", () => {
