@@ -40,7 +40,7 @@ STATUS: implemented and smoke-tested
 - `ragContext` kannab edasi `resource_type` ja `sections_present`.
 - Unit/regression testid läbisid.
 - Source-package smoke kinnitab päris Jõgeva KOV küsimusega `rag_trace.source_packages` olemasolu.
-- V3.1 DB-write smoke on eraldi `npm run rag:smoke:source-packages -- --persist` kontroll.
+- V3.1 DB-write smoke kinnitab `SourcePackageSnapshot` persistence'i.
 
 
 ## Evolution Principle
@@ -1461,7 +1461,7 @@ V3.0A piirid:
 
 ### V3.1 — Persisted SourcePackage Snapshot + Versioning
 
-STATUS: first persisted snapshot implementation / DB-write smoke pending / not yet package-aware answering
+STATUS: deployed and DB-write smoke confirmed / not yet package-aware answering
 
 SourcePackage salvestatakse snapshot'ina, mitte kohe käsitsi hallatava sisuna. Eesmärk on näha, milline pakett tekkis, millistest allikatest, millise hash'i ja versiooniga. V3.1 ei muuda veel vastust package-aware'iks; see jääb V3.2 skoobiks.
 
@@ -1487,9 +1487,16 @@ Oluline risk: persisted SourcePackage ei tohi muutuda "vanaks tõeks". Seetõttu
 
 Esimene V3.1 implementatsioon salvestab snapshot'i ja read-only admin loendurid. See ei lisa käsitsi sisuhaldust, claim-level attribution'it, retrieval migrationit ega package-aware answeringut.
 
+Production confirmation:
+
+- source package smoke lõi 3 Jõgeva KOV service package'i;
+- korduv smoke ei loonud sama hash'i jaoks duplikaatversioone;
+- active snapshot'id püsisid `version=1` väärtusega;
+- mittetäielikud package'id märgiti korrektselt `needs_review` staatusesse.
+
 ### V3.2 — Package-Aware Answering
 
-STATUS: planned
+STATUS: implemented at code/test level / package-answering smoke pending
 
 Vastus ei tugine enam ainult valitud chunk'idele, vaid kasutab teenuse või toetuse kontrollitud SourcePackage'it.
 

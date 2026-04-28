@@ -429,3 +429,30 @@ test("accepts exact legal source when act title is provided in snake_case retrie
 
   assert.deepEqual(attribution.displayed_source_ids, ["law-140"]);
 });
+
+test("package-aware attribution displays only package-confirmed sources", () => {
+  const attribution = buildSourceAttribution("Jõgeva valla koduteenuse allikad kinnitavad teenuse info.", [
+    {
+      id: "service-info",
+      source_id: "service-info",
+      title: "Jõgeva vald koduteenus",
+      source_type: "kov_service_info",
+      source_status: "active",
+      evidenceText: "Koduteenuse info."
+    },
+    {
+      id: "journal-background",
+      source_id: "journal-background",
+      title: "Koduteenuse taust",
+      source_type: "journal_article",
+      evidenceText: "Taustartikkel."
+    }
+  ], {
+    query: "Jõgeva vald koduteenus",
+    packageAwareAnsweringUsed: true,
+    packageDisplayedSourceIds: ["service-info"]
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["service-info"]);
+  assert.equal(attribution.filtered_out_source_ids.includes("journal-background"), true);
+});

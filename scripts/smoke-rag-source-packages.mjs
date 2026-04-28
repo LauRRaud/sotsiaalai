@@ -7,6 +7,7 @@ function usage() {
     "Usage:",
     "  npm run rag:smoke:source-packages",
     "  npm run rag:smoke:source-packages -- --persist",
+    "  npm run rag:smoke:source-packages -- --answering",
     "  npm run rag:smoke:source-packages -- --base-url https://sotsiaal.ai",
     "",
     "Environment:",
@@ -29,6 +30,7 @@ function parseArgs(argv = []) {
     role: process.env.SOTSIAALAI_SMOKE_ROLE || "SOCIAL_WORKER",
     persist: false,
     noPersist: false,
+    answering: false,
     help: false
   };
 
@@ -41,6 +43,7 @@ function parseArgs(argv = []) {
     else if (arg === "--role") args.role = argv[++index] || args.role;
     else if (arg === "--persist") args.persist = true;
     else if (arg === "--no-persist") args.noPersist = true;
+    else if (arg === "--answering") args.answering = true;
     else throw new Error(`Unknown option: ${arg}`);
   }
 
@@ -79,7 +82,9 @@ async function postChat(args) {
     method: "POST",
     headers: authHeaders(args, true),
     body: JSON.stringify({
-      message: "Jõgeva vald koduteenus",
+      message: args.answering
+        ? "Kuidas Jõgeva vallas koduteenust taotleda ja kust vormi või kontakti leiab?"
+        : "Jõgeva vald koduteenus",
       history: [],
       role: args.role,
       persist: args.checkPersistence === true,
@@ -123,6 +128,10 @@ function sourcePackages(payload = {}) {
   if (Array.isArray(trace.source_packages)) return trace.source_packages;
   if (Array.isArray(trace.sourcePackages)) return trace.sourcePackages;
   return [];
+}
+
+function ragTrace(payload = {}) {
+  return payload?.rag_trace && typeof payload.rag_trace === "object" ? payload.rag_trace : {};
 }
 
 function sectionCounts(pkg = {}) {
@@ -205,6 +214,29 @@ function assertPackageContract(packages = []) {
 
   assertSafeTrace(packages);
   return summarizePackage(jogeva);
+}
+
+function assertPackageAwareAnswering(payload = {}, packages = []) {
+  const trace = ragTrace(payload);
+  assertCondition(trace.package_aware_answering_used === true, "package-aware answering must be used");
+  assertCondition(Array.isArray(trace.used_package_ids) && trace.used_package_ids.length > 0, "used_package_ids must not be empty");
+  assertCondition(Array.isArray(trace.missing_sections_used), "missing_sections_used must be present");
+  assertCondition(Array.isArray(trace.package_displayed_source_ids), "package_displayed_source_ids must be present");
+
+  const packageSourceIds = new Set(packages.flatMap(pkg => Array.isArray(pkg.source_ids) ? pkg.source_ids : []));
+  const displayed = Array.isArray(payload.displayed_sources) ? payload.displayed_sources : [];
+  for (const source of displayed) {
+    const id = String(source?.id || source?.source_id || source?.sourceId || "").trim();
+    assertCondition(!id || packageSourceIds.has(id), `displayed source ${id} is not package-confirmed`);
+  }
+
+  const reply = String(payload.reply || payload.message || payload.text || "").toLowerCase();
+  if (trace.missing_sections_used.includes("forms")) {
+    assertCondition(!/(taotlusvorm on olemas|vorm on olemas|laadi vorm)/i.test(reply), "reply must not claim a missing form exists");
+  }
+  if (trace.missing_sections_used.includes("contacts")) {
+    assertCondition(!/(telefon\s*:|e-post\s*:|@)/i.test(reply), "reply must not invent missing contact details");
+  }
 }
 
 async function beforePersistenceSnapshot(args) {
@@ -325,6 +357,9 @@ async function main() {
   const payload = await postChat(args);
   const packages = sourcePackages(payload);
   const summary = assertPackageContract(packages);
+  if (args.answering) {
+    assertPackageAwareAnswering(payload, packages);
+  }
   const persistence = await afterPersistenceSnapshot(persistenceBefore, packages);
 
   console.log(JSON.stringify({
@@ -333,7 +368,11 @@ async function main() {
     package_count: packages.length,
     trace: {
       checked: true,
-      source_packages_present: packages.length > 0
+      source_packages_present: packages.length > 0,
+      package_aware_answering_used: ragTrace(payload).package_aware_answering_used === true,
+      used_package_ids: ragTrace(payload).used_package_ids || [],
+      missing_sections_used: ragTrace(payload).missing_sections_used || [],
+      package_displayed_source_ids: ragTrace(payload).package_displayed_source_ids || []
     },
     snapshot_persistence: persistence,
     package: summary
