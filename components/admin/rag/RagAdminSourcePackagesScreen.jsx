@@ -4,6 +4,8 @@ import { Fragment, useEffect, useMemo, useState } from "react";
 
 const CARD_CLASS = "rounded-[1rem] bg-white/55 p-4 shadow-[0_8px_24px_rgba(60,40,40,0.08)] backdrop-blur";
 const BUTTON_CLASS = "rounded-[0.75rem] border border-black/10 bg-white/70 px-3 py-2 text-sm font-medium text-[color:var(--documents-page-text)] transition hover:bg-white";
+const HEADER_CELL_CLASS = "border-b border-black/10 p-2 align-top";
+const BODY_CELL_CLASS = "border-b border-black/5 p-2 align-top";
 
 function formatDate(value) {
   if (!value) return "-";
@@ -81,7 +83,7 @@ export default function RagAdminSourcePackagesScreen() {
   return (
     <div className="flex flex-col gap-3 text-[color:var(--documents-page-text)]">
       <section className={CARD_CLASS}>
-        <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {[
             ["Total", summary.total],
             ["Active", summary.active],
@@ -113,19 +115,31 @@ export default function RagAdminSourcePackagesScreen() {
         {loading ? <div className="text-sm opacity-70">Loading...</div> : null}
 
         <div className="overflow-x-auto">
-          <table className="min-w-full border-separate border-spacing-0 text-left text-sm">
+          <table className="min-w-[1160px] w-full table-fixed border-separate border-spacing-0 text-left text-sm">
+            <colgroup>
+              <col className="w-[22%]" />
+              <col className="w-[14%]" />
+              <col className="w-[12%]" />
+              <col className="w-[11%]" />
+              <col className="w-[10%]" />
+              <col className="w-[10%]" />
+              <col className="w-[9%]" />
+              <col className="w-[8%]" />
+              <col className="w-[10%]" />
+              <col className="w-[14%]" />
+            </colgroup>
             <thead>
               <tr className="text-xs uppercase tracking-[0.04em] opacity-70">
-                <th className="border-b border-black/10 p-2">Title</th>
-                <th className="border-b border-black/10 p-2">Municipality</th>
-                <th className="border-b border-black/10 p-2">Type</th>
-                <th className="border-b border-black/10 p-2">Status</th>
-                <th className="border-b border-black/10 p-2">Review</th>
-                <th className="border-b border-black/10 p-2">Missing</th>
-                <th className="border-b border-black/10 p-2">Version</th>
-                <th className="border-b border-black/10 p-2">Active</th>
-                <th className="border-b border-black/10 p-2">Last built</th>
-                <th className="border-b border-black/10 p-2">Actions</th>
+                <th className={HEADER_CELL_CLASS}>Title</th>
+                <th className={HEADER_CELL_CLASS}>Municipality</th>
+                <th className={HEADER_CELL_CLASS}>Type</th>
+                <th className={HEADER_CELL_CLASS}>Status</th>
+                <th className={HEADER_CELL_CLASS}>Review</th>
+                <th className={HEADER_CELL_CLASS}>Missing</th>
+                <th className={HEADER_CELL_CLASS}>Version</th>
+                <th className={HEADER_CELL_CLASS}>Active</th>
+                <th className={HEADER_CELL_CLASS}>Last built</th>
+                <th className={HEADER_CELL_CLASS}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -135,20 +149,20 @@ export default function RagAdminSourcePackagesScreen() {
                 return (
                   <Fragment key={item.id}>
                     <tr className="align-top">
-                      <td className="border-b border-black/5 p-2">
-                        <button type="button" className="text-left font-medium underline-offset-2 hover:underline" onClick={() => setExpandedId(expanded ? "" : item.id)}>
+                      <td className={BODY_CELL_CLASS}>
+                        <button type="button" className="max-w-full whitespace-normal break-words text-left font-medium leading-6 underline-offset-2 hover:underline" onClick={() => setExpandedId(expanded ? "" : item.id)}>
                           {item.title || item.packageId}
                         </button>
                       </td>
-                      <td className="border-b border-black/5 p-2">{item.municipalityId || "-"}</td>
-                      <td className="border-b border-black/5 p-2">{item.packageType || "-"}</td>
-                      <td className="border-b border-black/5 p-2">{item.status}</td>
-                      <td className="border-b border-black/5 p-2">{item.reviewStatus}</td>
-                      <td className="border-b border-black/5 p-2">{Array.isArray(item.missingSections) && item.missingSections.length ? item.missingSections.join(", ") : "-"}</td>
-                      <td className="border-b border-black/5 p-2">{item.version}</td>
-                      <td className="border-b border-black/5 p-2">{item.active ? "yes" : "no"}</td>
-                      <td className="border-b border-black/5 p-2">{formatDate(item.lastBuiltAt)}</td>
-                      <td className="border-b border-black/5 p-2">
+                      <td className={`${BODY_CELL_CLASS} break-all text-[0.92rem]`}>{item.municipalityId || "-"}</td>
+                      <td className={`${BODY_CELL_CLASS} break-words`}>{item.packageType || "-"}</td>
+                      <td className={`${BODY_CELL_CLASS} break-words`}>{item.status}</td>
+                      <td className={`${BODY_CELL_CLASS} break-words`}>{item.reviewStatus}</td>
+                      <td className={`${BODY_CELL_CLASS} whitespace-normal break-words leading-6`}>{Array.isArray(item.missingSections) && item.missingSections.length ? item.missingSections.join(", ") : "-"}</td>
+                      <td className={BODY_CELL_CLASS}>{item.version}</td>
+                      <td className={BODY_CELL_CLASS}>{item.active ? "yes" : "no"}</td>
+                      <td className={`${BODY_CELL_CLASS} whitespace-normal break-words`}>{formatDate(item.lastBuiltAt)}</td>
+                      <td className={BODY_CELL_CLASS}>
                         <div className="flex flex-wrap gap-2">
                           <button type="button" className={BUTTON_CLASS} disabled={!!busyId || item.reviewStatus === "reviewed"} onClick={() => runAction(item.id, "mark_reviewed")}>
                             {busyId === `${item.id}:mark_reviewed` ? "Saving" : "Mark reviewed"}
@@ -162,26 +176,34 @@ export default function RagAdminSourcePackagesScreen() {
                     {expanded ? (
                       <tr key={`${item.id}-detail`}>
                         <td colSpan={10} className="border-b border-black/5 bg-white/35 p-3">
-                          <div className="grid gap-3 md:grid-cols-2">
-                            <div>
+                          <div className="grid gap-4 lg:grid-cols-[minmax(0,1.45fr)_minmax(240px,0.9fr)]">
+                            <div className="min-w-0 space-y-1">
                               <div className="font-semibold">Package</div>
-                              <div>packageId: {item.packageId}</div>
-                              <div>canonicalItemId: {item.canonicalItemId}</div>
-                              <div>review flags: {flags.length ? flags.join(", ") : "-"}</div>
+                              <div className="break-all">packageId: {item.packageId}</div>
+                              <div className="break-all">canonicalItemId: {item.canonicalItemId}</div>
+                              <div className="whitespace-normal break-words">review flags: {flags.length ? flags.join(", ") : "-"}</div>
                             </div>
-                            <div>
+                            <div className="min-w-0 space-y-1">
                               <div className="font-semibold">Sections</div>
                               {Object.entries(item.sectionSummary || {}).map(([key, value]) => (
-                                <div key={key}>{key}: {value?.count || 0}</div>
-                              ))}
-                            </div>
-                            <div className="md:col-span-2">
-                              <div className="font-semibold">Sources</div>
-                              {(item.sourceMembership || []).map(source => (
-                                <div key={source.source_id} className="text-xs">
-                                  {source.source_id} - {source.source_type || "-"} - {(source.sections || []).join(", ")}
+                                <div key={key} className="flex items-baseline justify-between gap-3">
+                                  <span className="break-words">{key}</span>
+                                  <span className="shrink-0">{value?.count || 0}</span>
                                 </div>
                               ))}
+                            </div>
+                            <div className="min-w-0 lg:col-span-2">
+                              <div className="font-semibold">Sources</div>
+                              <div className="mt-2 space-y-1.5">
+                                {(item.sourceMembership || []).map(source => (
+                                  <div key={source.source_id} className="rounded-[0.75rem] bg-white/45 px-3 py-2 text-xs leading-5">
+                                    <div className="break-all font-medium">{source.source_id}</div>
+                                    <div className="whitespace-normal break-words opacity-80">
+                                      {source.source_type || "-"} | {(source.sections || []).join(", ") || "-"}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </div>
                         </td>
