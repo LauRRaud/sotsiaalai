@@ -20,7 +20,7 @@ import {
   ragAdminShellTitleClassName
 } from "./ragAdminShellStyles";
 
-const NAV_ORDER = ["documents", "ingest", "kov", "organizations"];
+const NAV_ORDER = ["documents", "ingest", "kov", "organizations", "sourcePackages"];
 
 function buildNav(locale, copy) {
   const localized = path => localizePath(path, locale);
@@ -41,6 +41,10 @@ function buildNav(locale, copy) {
     organizations: {
       href: localized("/admin/rag/organizations"),
       label: copy.nav.organizations
+    },
+    sourcePackages: {
+      href: localized("/admin/rag/source-packages"),
+      label: copy.nav.sourcePackages
     }
   };
 }

@@ -1496,7 +1496,7 @@ Production confirmation:
 
 ### V3.2 — Package-Aware Answering
 
-STATUS: implemented at code/test level / package-answering smoke pending
+STATUS: implemented and production-smoked
 
 Vastus ei tugine enam ainult valitud chunk'idele, vaid kasutab teenuse või toetuse kontrollitud SourcePackage'it.
 
@@ -1505,22 +1505,32 @@ Vastus ei tugine enam ainult valitud chunk'idele, vaid kasutab teenuse või toet
 - Kui õiguslik alus on KOV määruses, viitab süsteem KOV määrusele.
 - Kui allikas on ainult ajakirjaartikkel, ei kasutata seda tänase teenuse, vormi, kontakti või õiguse tõenduseks.
 
+Production smoke confirmation:
+
+- `npm run rag:smoke:source-packages -- --answering --persist` läbis;
+- `rag_trace.package_aware_answering_used = true`;
+- `used_package_ids`, `missing_sections_used` ja `package_displayed_source_ids` olid olemas;
+- smoke kasutas Jõgeva KOV service package'e ning `missing_sections_used` sisaldas `forms`, `contacts`, `legal_basis`, `fees` ja `deadlines`;
+- `SourcePackageSnapshot` persistence jäi tööle;
+- `npm run rag:smoke:v2 -- --chat --legal-exact` jäi roheliseks;
+- `npm run rag:smoke:v2` jäi roheliseks.
+
 ### V3.3 — Admin Review Workflow
 
-STATUS: planned
+STATUS: V3.3A admin review MVP implemented at code/test level / production smoke pending
 
-Admin peab nägema SourcePackage kvaliteediprobleeme:
+V3.3A lisab `SourcePackageSnapshot` andmetele esimese admin review MVP:
 
-- missing forms;
-- missing contacts;
-- missing legal_basis;
-- stale source;
-- source conflict;
-- wrong source type;
-- package conflict;
-- source changed after last build.
+- admin saab SourcePackageSnapshot pakette listida;
+- admin saab paketi detaili vaadata;
+- admin näeb `missing_sections` ja arvutatud review flags signaale;
+- admin saab teha `mark_reviewed` ja `archive`;
+- admin analytics näitab SourcePackage review loendureid;
+- admin UI on read-only tabel minimaalse tegevusloogikaga.
 
-Esimene versioon võib olla read-only või minimaalsete toimingutega: `mark reviewed`, `archive`, `rebuild`, `mark background only`.
+See ei ole käsitsi teenuseinfo sisuhaldus. V3.3A ei luba vorme, kontakte, õiguslikku alust ega teenusekirjeldust käsitsi muuta. `status` jääb automaatseks paketikvaliteedi väljaks (`active | needs_review | archived`), `reviewStatus` on admini review töövoog (`pending | reviewed | archived`).
+
+`restore_active`, package rebuild actions, konfliktide lahendamise workflow ja admini parandustoimingud jäävad V3.3B skoopi. V3.4 claim/section attribution jääb järgmiseks suuremaks etapiks.
 
 ### V3.4 — Claim/Section Attribution For High-Risk Answers
 

@@ -79,21 +79,41 @@ async function getSourcePackageSnapshotSummary() {
     sourcePackageCount: 0,
     activeSourcePackageCount: 0,
     needsReviewSourcePackageCount: 0,
+    reviewedSourcePackageCount: 0,
+    pendingReviewSourcePackageCount: 0,
+    archivedSourcePackageCount: 0,
     missingFormsCount: 0,
     missingContactsCount: 0,
     missingLegalBasisCount: 0,
+    missingFeesCount: 0,
+    missingDeadlinesCount: 0,
     packageConflictCount: 0,
     packagesByMunicipality: {},
     packagesByType: {},
+    packagesByReviewStatus: {},
     unavailable: !delegate
   };
   if (!delegate) return empty;
 
   try {
-    const [total, active, needsReview, activeRows, byMunicipalityRows, byTypeRows] = await Promise.all([
+    const [
+      total,
+      active,
+      needsReview,
+      reviewed,
+      pendingReview,
+      archivedReview,
+      activeRows,
+      byMunicipalityRows,
+      byTypeRows,
+      byReviewStatusRows
+    ] = await Promise.all([
       delegate.count(),
       delegate.count({ where: { active: true } }),
       delegate.count({ where: { active: true, status: "needs_review" } }),
+      delegate.count({ where: { reviewStatus: "reviewed" } }),
+      delegate.count({ where: { reviewStatus: "pending" } }),
+      delegate.count({ where: { reviewStatus: "archived" } }),
       delegate.findMany({
         where: { active: true },
         select: {
@@ -111,18 +131,26 @@ async function getSourcePackageSnapshotSummary() {
         by: ["packageType"],
         where: { active: true },
         _count: { _all: true }
+      }),
+      delegate.groupBy({
+        by: ["reviewStatus"],
+        _count: { _all: true }
       })
     ]);
 
     let missingForms = 0;
     let missingContacts = 0;
     let missingLegalBasis = 0;
+    let missingFees = 0;
+    let missingDeadlines = 0;
     let packageConflicts = 0;
     for (const row of activeRows) {
       const missing = Array.isArray(row.missingSections) ? row.missingSections : [];
       if (missing.includes("forms")) missingForms += 1;
       if (missing.includes("contacts")) missingContacts += 1;
       if (missing.includes("legal_basis")) missingLegalBasis += 1;
+      if (missing.includes("fees")) missingFees += 1;
+      if (missing.includes("deadlines")) missingDeadlines += 1;
       const membership = Array.isArray(row.sourceMembership) ? row.sourceMembership : [];
       const municipalities = new Set(membership.map(item => item?.municipality_id).filter(Boolean));
       if (municipalities.size > 1) packageConflicts += 1;
@@ -132,15 +160,23 @@ async function getSourcePackageSnapshotSummary() {
       sourcePackageCount: total,
       activeSourcePackageCount: active,
       needsReviewSourcePackageCount: needsReview,
+      reviewedSourcePackageCount: reviewed,
+      pendingReviewSourcePackageCount: pendingReview,
+      archivedSourcePackageCount: archivedReview,
       missingFormsCount: missingForms,
       missingContactsCount: missingContacts,
       missingLegalBasisCount: missingLegalBasis,
+      missingFeesCount: missingFees,
+      missingDeadlinesCount: missingDeadlines,
       packageConflictCount: packageConflicts,
       packagesByMunicipality: Object.fromEntries(
         byMunicipalityRows.map(row => [row.municipalityId || "unknown", row._count?._all || 0])
       ),
       packagesByType: Object.fromEntries(
         byTypeRows.map(row => [row.packageType || "unknown", row._count?._all || 0])
+      ),
+      packagesByReviewStatus: Object.fromEntries(
+        byReviewStatusRows.map(row => [row.reviewStatus || "unknown", row._count?._all || 0])
       ),
       unavailable: false
     };

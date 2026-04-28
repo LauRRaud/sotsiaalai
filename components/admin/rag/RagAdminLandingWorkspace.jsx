@@ -19,7 +19,7 @@ import {
   ragAdminShellTitleClassName
 } from "./ragAdminShellStyles";
 
-const NAV_KEYS = ["documents", "ingest", "kov", "organizations"];
+const NAV_KEYS = ["documents", "ingest", "kov", "organizations", "sourcePackages"];
 
 export default function RagAdminLandingWorkspace({ locale }) {
   const copy = getRagAdminCopy(locale);
@@ -46,7 +46,7 @@ export default function RagAdminLandingWorkspace({ locale }) {
               <Link
                 key={key}
                 prefetch={false}
-                href={localizePath(`/admin/rag/${key === "documents" ? "documents" : key}`)}
+                href={localizePath(`/admin/rag/${key === "documents" ? "documents" : key === "sourcePackages" ? "source-packages" : key}`)}
                 className={ragAdminShellNavLinkClassName}
               >
                 <span>{copy.nav[key]}</span>

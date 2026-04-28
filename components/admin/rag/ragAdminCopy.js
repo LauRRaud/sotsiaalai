@@ -12,7 +12,8 @@ export function getRagAdminCopy(locale) {
         documents: "Dokumendid",
         ingest: "Ingest",
         kov: "KOV",
-        organizations: "Organisatsioonid"
+        organizations: "Organisatsioonid",
+        sourcePackages: "Source packages"
       },
       landing: {
         title: "Toolaud",
@@ -41,6 +42,12 @@ export function getRagAdminCopy(locale) {
             title: "Organisatsioonid",
             body: "Halda MTU-sid, sihtasutusi, teenuseosutajaid, partnereid ja olulisi teemaveebe eraldi admin-vaates.",
             cta: "Ava organisatsioonid"
+          },
+          {
+            href: "/admin/rag/source-packages",
+            title: "Source packages",
+            body: "Vaata SourcePackage snapshotte, missing sectione ja review seisu.",
+            cta: "Ava source packages"
           }
         ],
         notesTitle: "Markused",
@@ -66,6 +73,10 @@ export function getRagAdminCopy(locale) {
         organizations: {
           title: "Organisatsioonide haldus",
           subtitle: "Halda organisatsioone, teenuseosutajaid, partnereid ja olulisi veebiallikaid eraldi RAG admini pohiosana."
+        },
+        sourcePackages: {
+          title: "SourcePackage review",
+          subtitle: "Vaata persisted SourcePackage snapshotte, review flags seisu ja minimaalseid review tegevusi."
         }
       },
       kov: {
@@ -82,7 +93,8 @@ export function getRagAdminCopy(locale) {
       documents: "Documents",
       ingest: "Ingest",
       kov: "Municipal",
-      organizations: "Organizations"
+      organizations: "Organizations",
+      sourcePackages: "Source packages"
     },
       landing: {
         title: "Workspace",
@@ -111,6 +123,12 @@ export function getRagAdminCopy(locale) {
           title: "Organizations",
           body: "Manage NGOs, foundations, service providers, partners, and important thematic websites in a dedicated admin area.",
           cta: "Open organizations"
+        },
+        {
+          href: "/admin/rag/source-packages",
+          title: "Source packages",
+          body: "Review SourcePackage snapshots, missing sections, and review status.",
+          cta: "Open source packages"
         }
       ],
       notesTitle: "Notes",
@@ -136,6 +154,10 @@ export function getRagAdminCopy(locale) {
       organizations: {
         title: "Organization admin",
         subtitle: "Manage organizations, service providers, partners, and important source websites as a separate RAG admin domain."
+      },
+      sourcePackages: {
+        title: "SourcePackage review",
+        subtitle: "Inspect persisted SourcePackage snapshots, review flags, and minimal review actions."
       }
     },
     kov: {
