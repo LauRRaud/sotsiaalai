@@ -256,12 +256,35 @@ function assertSectionAttribution(payload = {}, packages = []) {
     assertCondition(Array.isArray(entry.source_ids), `section_attribution ${entry.section || "(missing)"} source_ids must be an array`);
   }
 
-  for (const sectionName of ["forms", "contacts", "legal_basis"]) {
+  for (const sectionName of ["forms", "contacts"]) {
     const entry = trace.section_attribution.find(item => item?.section === sectionName);
     assertCondition(entry, `section_attribution must include ${sectionName}`);
     assertCondition(entry.evidence_strength === "missing", `${sectionName}: expected missing evidence strength`);
     assertCondition(entry.evidence_statuses.includes("missing_section"), `${sectionName}: expected missing_section status`);
     assertCondition(entry.source_ids.length === 0, `${sectionName}: missing section must not carry source_ids`);
+  }
+
+  const legalBasis = trace.section_attribution.find(item => item?.section === "legal_basis");
+  assertCondition(legalBasis, "section_attribution must include legal_basis");
+  if (legalBasis.evidence_strength === "missing") {
+    assertCondition(legalBasis.evidence_statuses.includes("missing_section"), "legal_basis: expected missing_section status when missing");
+    assertCondition(legalBasis.source_ids.length === 0, "legal_basis: missing section must not carry source_ids");
+  } else {
+    assertCondition(["strong", "partial"].includes(legalBasis.evidence_strength), "legal_basis: expected strong or partial evidence strength");
+    assertCondition(legalBasis.source_ids.length > 0, "legal_basis: present section must carry source_ids");
+    const legalBasisSources = packages.flatMap(pkg => {
+      const pkgSections = sections(pkg);
+      return Array.isArray(pkgSections.legal_basis) ? pkgSections.legal_basis : [];
+    });
+    const legalBasisSourceIds = new Set(legalBasisSources.map(source => String(source?.source_id || "").trim()).filter(Boolean));
+    const legalBasisSourceTypes = new Map(legalBasisSources.map(source => [
+      String(source?.source_id || "").trim(),
+      String(source?.source_type || source?.sourceType || "").trim()
+    ]));
+    for (const id of legalBasis.source_ids) {
+      assertCondition(legalBasisSourceIds.has(id), `legal_basis: source ${id} is not in package legal_basis`);
+      assertCondition(legalBasisSourceTypes.get(id) === "kov_regulation", `legal_basis: source ${id} must be kov_regulation`);
+    }
   }
 
   const packageSourceIds = new Set(packages.flatMap(pkg => Array.isArray(pkg.source_ids) ? pkg.source_ids : []));

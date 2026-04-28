@@ -33,7 +33,7 @@ STATUS: active snapshot
 Current-state update after V3.4A follow-up:
 
 - KOV service model is now beyond the original runtime-only package summary: V3.0A runtime `SourcePackage`, V3.1 persisted snapshot, V3.2 package-aware answering and V3.4A section attribution are confirmed.
-- The V3.4A follow-up added conservative SourcePackage completeness mapping for `forms`, `contacts`, `legal_basis`, `fees` and `deadlines`, more precise Jogeva gap-report candidate diagnostics, and a supplemental same-KOV `kov_regulation` lookup so Jogeva RT can reach package `legal_basis`.
+- The V3.4A follow-up added conservative SourcePackage completeness mapping for `forms`, `contacts`, `legal_basis`, `fees` and `deadlines`, more precise Jogeva gap-report candidate diagnostics, and a supplemental same-KOV `kov_regulation` lookup so Jogeva RT can reach package `legal_basis` without overfilling `fees` or `deadlines`.
 - The remaining target is fuller package coverage from ingest metadata and V3.4B claim-level attribution, not a retrieval engine replacement.
 
 ### V3.0A Implementation Update 2026-04-28
@@ -1600,7 +1600,7 @@ Trace ei pea salvestama täit väiteteksti. Piisab ohututest väljadest:
 
 V3.4A follow-up: Jogeva SourcePackage completeness fix
 
-STATUS: implemented at code/test level / production gap report and smoke pending
+STATUS: production-confirmed for `legal_basis` / conservative `fees`-`deadlines` follow-up implemented
 
 The follow-up fixed the first package completeness issue found by the Jogeva gap report. The issue was not pure `input_missing`: the repository inputs contain Jogeva form/contact signals and the KOV regulation XML, but runtime package building and gap diagnostics did not use those relationships precisely enough.
 
@@ -1608,7 +1608,8 @@ Implemented behavior:
 
 - `application_form`, `web_form` and `pdf_form` sources can populate the `forms` section when they belong to the same municipality and have a direct or related `canonical_item_id` link to the service package;
 - `official_contact` and `contact_page` sources can populate the `contacts` section under the same conservative relation rule;
-- same-municipality `kov_regulation` can populate `legal_basis`, `fees` and `deadlines`;
+- same-municipality `kov_regulation` can populate `legal_basis`;
+- `fees` and `deadlines` are mapped conservatively and do not become present only because a general KOV regulation exists;
 - a generic same-municipality KOV regulation association is marked `partial`, not `strong`;
 - KOV service/benefit chat retrieval adds a small supplemental same-municipality `kov_regulation` lookup so the registry RT candidate can reach the runtime SourcePackage builder;
 - production-shaped RT metadata such as `source_type = "kov_regulation"`, `collection_id = "kov_regulations"`, `municipality_id = "jogeva_vald"` and `is_current_version = true` is normalized into active package evidence;
@@ -1622,7 +1623,10 @@ Operational note:
 - If production metadata carries `relatedCanonicalItemIds` or an equivalent relation, Jogeva forms and contacts can now join the package.
 - If production metadata does not yet carry those relation fields, the remaining issue is ingest/metadata enrichment rather than SourcePackage runtime logic.
 - Jogeva KOV RT (`jogeva-vald-rt-406112024020`) can now reach `legal_basis` as `partial` evidence when it is retrieved as a same-municipality regulation candidate.
-- Expected production confirmation after deploy: Jogeva `legal_basis` missing count should drop from 6 to 0 if the same KOV general regulation is associated with all six service packages.
+- Production confirmation: Jogeva `legal_basis` missing count dropped from `6/14` to `0`, the RT regulation reached `SourcePackage` `sourceMembership`, and `rag:smoke:v2 -- --chat --legal-exact` plus `rag:smoke:v2` stayed green.
+- Source-package attribution smoke must no longer require `legal_basis` to be missing; after the RT mapping fix, `legal_basis` may be present with `kov_regulation` source ids and `partial` or `strong` evidence strength.
+- `forms` and `contacts` may still remain missing when no candidate package sources exist.
+- `fees` and `deadlines` must stay missing unless metadata, section hints or regulation text signals indicate those sections specifically.
 
 Production check:
 
@@ -1630,6 +1634,7 @@ Production check:
 npm run rag:report:jogeva-sourcepackage-gaps -- --summary-only --json logs/jogeva-sourcepackage-gap-report.json
 npm run rag:smoke:source-packages -- --answering --persist --attribution
 npm run rag:smoke:v2 -- --chat --legal-exact
+npm run rag:smoke:v2
 ```
 
 ### V3.5 — Larger Regression System

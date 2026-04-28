@@ -162,11 +162,48 @@ test("buildRuntimeSourcePackages links related form contact and general KOV regu
   assert.deepEqual(pkg.sections.forms.map(source => source.source_id), ["related-form"]);
   assert.deepEqual(pkg.sections.contacts.map(source => source.source_id), ["related-contact"]);
   assert.deepEqual(pkg.sections.legal_basis.map(source => source.source_id), ["general-regulation"]);
-  assert.deepEqual(pkg.sections.fees.map(source => source.source_id), ["general-regulation"]);
-  assert.deepEqual(pkg.sections.deadlines.map(source => source.source_id), ["general-regulation"]);
+  assert.deepEqual(pkg.sections.fees.map(source => source.source_id), []);
+  assert.deepEqual(pkg.sections.deadlines.map(source => source.source_id), []);
   assert.equal(pkg.sections.legal_basis[0].evidence_strength, "partial");
   assert.equal(pkg.source_ids.includes("wrong-kov-form"), false);
   assert.equal(pkg.source_ids.includes("journal-form"), false);
+});
+
+test("buildRuntimeSourcePackages maps KOV regulation fees and deadlines only with explicit signals", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      id: "service-info",
+      title: "Koduteenus",
+      sourceType: "kov_service_info",
+      itemType: "service",
+      canonicalItemId: "jogeva_vald_service_koduteenus",
+      municipalityId: "jogeva_vald",
+      sectionsPresent: ["description", "eligibility", "application"],
+      sourceStatus: "active"
+    },
+    {
+      id: "fee-regulation",
+      title: "Koduteenuse tasu ja omaosalus",
+      sourceType: "kov_regulation",
+      collectionId: "kov_regulations",
+      municipalityId: "jogeva_vald",
+      sourceStatus: "active"
+    },
+    {
+      id: "deadline-regulation",
+      title: "Taotluse menetlustähtaeg",
+      sourceType: "kov_regulation",
+      collectionId: "kov_regulations",
+      municipalityId: "jogeva_vald",
+      sourceStatus: "active"
+    }
+  ]);
+
+  const pkg = packages.find(item => item.canonical_item_id === "jogeva_vald_service_koduteenus");
+  assert.ok(pkg);
+  assert.deepEqual(pkg.sections.legal_basis.map(source => source.source_id), ["fee-regulation", "deadline-regulation"]);
+  assert.deepEqual(pkg.sections.fees.map(source => source.source_id), ["fee-regulation"]);
+  assert.deepEqual(pkg.sections.deadlines.map(source => source.source_id), ["deadline-regulation"]);
 });
 
 test("buildRuntimeSourcePackages adds production-shaped same-KOV RT regulation as partial legal basis", () => {
@@ -217,4 +254,6 @@ test("buildRuntimeSourcePackages adds production-shaped same-KOV RT regulation a
   assert.equal(pkg.source_ids.includes("tartu-rt"), false);
   assert.equal(pkg.source_ids.includes("national-law"), false);
   assert.equal(pkg.missing_sections.includes("legal_basis"), false);
+  assert.equal(pkg.missing_sections.includes("fees"), true);
+  assert.equal(pkg.missing_sections.includes("deadlines"), true);
 });
