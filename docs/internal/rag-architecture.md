@@ -30,6 +30,12 @@ STATUS: active snapshot
 | Metadata | V2.5 canonical contract on kasutusel; clean canonical reingest on tehtud olemasoleva korpuse piires (`national_rt`, Jõgeva KOV RT, Jõgeva KOV web/service, ajakiri `Sotsiaaltöö`); readiness audit KOV-i ja ajakirja kohta andis `blocked=0`; legacy storage jäi rollback'iks alles | Kõik tulevased korpusepered map'ivad samale source contract'ile; org/template/methodology korpuste readiness ja ingest tuleb veel eraldi teha |
 
 
+Current-state update after V3.4A follow-up:
+
+- KOV service model is now beyond the original runtime-only package summary: V3.0A runtime `SourcePackage`, V3.1 persisted snapshot, V3.2 package-aware answering and V3.4A section attribution are confirmed.
+- The V3.4A follow-up added conservative SourcePackage completeness mapping for `forms`, `contacts`, `legal_basis`, `fees` and `deadlines`, more precise Jogeva gap-report candidate diagnostics, and a supplemental same-KOV `kov_regulation` lookup so Jogeva RT can reach package `legal_basis`.
+- The remaining target is fuller package coverage from ingest metadata and V3.4B claim-level attribution, not a retrieval engine replacement.
+
 ### V3.0A Implementation Update 2026-04-28
 
 STATUS: implemented and smoke-tested
@@ -1537,7 +1543,7 @@ V3.3B kasutab action log'i ja persisted review reason detaili, kuid ei tee veel 
 
 ### V3.4 — Claim/Section Attribution For High-Risk Answers
 
-STATUS: V3.4A section-level attribution foundation production confirmed / post-confirmation audit active
+STATUS: V3.4A section-level attribution foundation production confirmed / completeness follow-up implemented at code/test level
 
 V3.4A ei ole veel täielik claim-level attribution ega persisted claim store. See lisab esimese kitsama usalduskihi: package-aware või high-risk vastuse `rag_trace` sisaldab kompaktset `section_attribution` kokkuvõtet, mis seob `SourcePackage` sektsioonid ja `source_id` väärtused.
 
@@ -1591,6 +1597,40 @@ Trace ei pea salvestama täit väiteteksti. Piisab ohututest väljadest:
 - `section`;
 - `source_ids`;
 - `evidence_strength`.
+
+V3.4A follow-up: Jogeva SourcePackage completeness fix
+
+STATUS: implemented at code/test level / production gap report and smoke pending
+
+The follow-up fixed the first package completeness issue found by the Jogeva gap report. The issue was not pure `input_missing`: the repository inputs contain Jogeva form/contact signals and the KOV regulation XML, but runtime package building and gap diagnostics did not use those relationships precisely enough.
+
+Implemented behavior:
+
+- `application_form`, `web_form` and `pdf_form` sources can populate the `forms` section when they belong to the same municipality and have a direct or related `canonical_item_id` link to the service package;
+- `official_contact` and `contact_page` sources can populate the `contacts` section under the same conservative relation rule;
+- same-municipality `kov_regulation` can populate `legal_basis`, `fees` and `deadlines`;
+- a generic same-municipality KOV regulation association is marked `partial`, not `strong`;
+- KOV service/benefit chat retrieval adds a small supplemental same-municipality `kov_regulation` lookup so the registry RT candidate can reach the runtime SourcePackage builder;
+- production-shaped RT metadata such as `source_type = "kov_regulation"`, `collection_id = "kov_regulations"`, `municipality_id = "jogeva_vald"` and `is_current_version = true` is normalized into active package evidence;
+- wrong municipality sources are excluded from the package;
+- `journal_article` remains disallowed as current `forms`, `contacts`, `legal_basis`, `fees` or `deadlines` evidence;
+- `national_law` is not used as an automatic substitute for KOV regulation in this fix;
+- the gap report now includes `candidate_source_ids` for `mapping_missing` and `source_type_mismatch`, and returns `input_missing` when no candidate source exists.
+
+Operational note:
+
+- If production metadata carries `relatedCanonicalItemIds` or an equivalent relation, Jogeva forms and contacts can now join the package.
+- If production metadata does not yet carry those relation fields, the remaining issue is ingest/metadata enrichment rather than SourcePackage runtime logic.
+- Jogeva KOV RT (`jogeva-vald-rt-406112024020`) can now reach `legal_basis` as `partial` evidence when it is retrieved as a same-municipality regulation candidate.
+- Expected production confirmation after deploy: Jogeva `legal_basis` missing count should drop from 6 to 0 if the same KOV general regulation is associated with all six service packages.
+
+Production check:
+
+```text
+npm run rag:report:jogeva-sourcepackage-gaps -- --summary-only --json logs/jogeva-sourcepackage-gap-report.json
+npm run rag:smoke:source-packages -- --answering --persist --attribution
+npm run rag:smoke:v2 -- --chat --legal-exact
+```
 
 ### V3.5 — Larger Regression System
 

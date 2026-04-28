@@ -122,6 +122,32 @@ test("buildSourcePackageSnapshot persists only safe package metadata", () => {
   assert.equal(serialized.includes("userMessage"), false);
 });
 
+test("buildSourcePackageSnapshot includes partial KOV regulation legal basis membership", () => {
+  const snapshot = buildSourcePackageSnapshot(packageFixture({
+    sections: {
+      ...packageFixture().sections,
+      legal_basis: [
+        {
+          source_id: "jogeva-vald-rt-406112024020",
+          title: "Sotsiaalhoolekandelise abi andmise kord Jõgeva vallas",
+          source_type: "kov_regulation",
+          collection_id: "kov_regulations",
+          municipality_id: "jogeva_vald",
+          evidence_strength: "partial"
+        }
+      ]
+    }
+  }));
+
+  assert.deepEqual(snapshot.sectionSummary.legal_basis.source_ids, ["jogeva-vald-rt-406112024020"]);
+  const membership = snapshot.sourceMembership.find(source => source.source_id === "jogeva-vald-rt-406112024020");
+  assert.ok(membership);
+  assert.equal(membership.source_type, "kov_regulation");
+  assert.equal(membership.evidence_strength, "partial");
+  assert.equal(membership.evidence_allowed, true);
+});
+
+
 test("persistSourcePackageSnapshots does not duplicate same package hash", async () => {
   const client = createFakeClient();
   const first = await persistSourcePackageSnapshots([packageFixture()], client);

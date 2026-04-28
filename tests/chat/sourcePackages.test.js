@@ -168,3 +168,53 @@ test("buildRuntimeSourcePackages links related form contact and general KOV regu
   assert.equal(pkg.source_ids.includes("wrong-kov-form"), false);
   assert.equal(pkg.source_ids.includes("journal-form"), false);
 });
+
+test("buildRuntimeSourcePackages adds production-shaped same-KOV RT regulation as partial legal basis", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      source_id: "kov_jogeva_vald_item_jogeva_vald_service_koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      collection_id: "kov_services",
+      item_type: "service",
+      canonical_item_id: "jogeva_vald_service_koduteenus",
+      municipality_id: "jogeva_vald",
+      sections_present: ["description", "eligibility", "application"],
+      source_status: "active"
+    },
+    {
+      source_id: "jogeva-vald-rt-406112024020",
+      doc_id: "jogeva-vald-rt-406112024020",
+      title: "Sotsiaalhoolekandelise abi andmise kord Jõgeva vallas",
+      source_type: "kov_regulation",
+      collection_id: "kov_regulations",
+      municipality_id: "jogeva_vald",
+      jurisdiction_level: "MUNICIPALITY",
+      is_current_version: true,
+      effective_start: "2025-01-01"
+    },
+    {
+      source_id: "tartu-rt",
+      title: "Sotsiaalhoolekandelise abi andmise kord Tartu linnas",
+      source_type: "kov_regulation",
+      collection_id: "kov_regulations",
+      municipality_id: "tartu_linn"
+    },
+    {
+      source_id: "national-law",
+      title: "Sotsiaalhoolekande seadus",
+      source_type: "national_law",
+      collection_id: "national_regulations",
+      jurisdiction_level: "NATIONAL"
+    }
+  ]);
+
+  const pkg = packages.find(item => item.canonical_item_id === "jogeva_vald_service_koduteenus");
+  assert.ok(pkg);
+  assert.deepEqual(pkg.sections.legal_basis.map(source => source.source_id), ["jogeva-vald-rt-406112024020"]);
+  assert.equal(pkg.sections.legal_basis[0].evidence_strength, "partial");
+  assert.equal(pkg.source_ids.includes("jogeva-vald-rt-406112024020"), true);
+  assert.equal(pkg.source_ids.includes("tartu-rt"), false);
+  assert.equal(pkg.source_ids.includes("national-law"), false);
+  assert.equal(pkg.missing_sections.includes("legal_basis"), false);
+});
