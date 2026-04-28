@@ -140,6 +140,30 @@ test("groupMatches preserves hybrid retrieval score components for trace", () =>
   assert.equal(groups[0].retrievalScores.hybrid_score, 0.82);
 });
 
+test("groupMatches preserves related form and contact metadata for SourcePackage mapping", () => {
+  const groups = groupMatches([
+    {
+      id: "koduteenus",
+      title: "Koduteenus",
+      text: "Koduteenuse taotlemine.",
+      metadata: {
+        source_type: "municipality_kov",
+        collection_id: "kov_services",
+        item_id: "jogeva_vald_service_koduteenus",
+        item_type: "service",
+        canonical_item_id: "jogeva_vald_service_koduteenus",
+        municipality_id: "jogeva_vald",
+        related_forms: ["jogeva_vald_form_sotsiaalabi_taotlus"],
+        related_contacts: ["jogeva_vald_contact_eve_viks"],
+        sections_present: ["description", "eligibility", "application"]
+      }
+    }
+  ]);
+
+  assert.deepEqual(groups[0].relatedForms, ["jogeva_vald_form_sotsiaalabi_taotlus"]);
+  assert.deepEqual(groups[0].relatedContacts, ["jogeva_vald_contact_eve_viks"]);
+});
+
 test("official active sources outrank background sources with close scores", () => {
   const ranked = rankGroupsWithTopicHints([
     {

@@ -257,3 +257,45 @@ test("buildRuntimeSourcePackages adds production-shaped same-KOV RT regulation a
   assert.equal(pkg.missing_sections.includes("fees"), true);
   assert.equal(pkg.missing_sections.includes("deadlines"), true);
 });
+
+test("buildRuntimeSourcePackages maps service relatedForms and relatedContacts into package sections", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      source_id: "kov_jogeva_vald_item_jogeva_vald_service_koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      collection_id: "kov_services",
+      item_type: "service",
+      canonical_item_id: "jogeva_vald_service_koduteenus",
+      municipality_id: "jogeva_vald",
+      municipality_name: "Jogeva vald",
+      sections_present: ["description", "eligibility", "application"],
+      related_forms: ["jogeva_vald_form_sotsiaalabi_taotlus"],
+      related_contacts: ["jogeva_vald_contact_eve_viks"],
+      source_status: "active",
+      last_checked: "2026-04-28"
+    },
+    {
+      source_id: "jogeva-vald-rt-406112024020",
+      title: "Sotsiaalhoolekandelise abi andmise kord Jogeva vallas",
+      source_type: "kov_regulation",
+      collection_id: "kov_regulations",
+      municipality_id: "jogeva_vald",
+      source_status: "active"
+    }
+  ]);
+
+  const pkg = packages.find(item => item.canonical_item_id === "jogeva_vald_service_koduteenus");
+  assert.ok(pkg);
+  assert.deepEqual(pkg.sections.forms.map(source => source.source_id), ["jogeva_vald_form_sotsiaalabi_taotlus"]);
+  assert.equal(pkg.sections.forms[0].source_type, "application_form");
+  assert.equal(pkg.sections.forms[0].item_type, "form");
+  assert.deepEqual(pkg.sections.contacts.map(source => source.source_id), ["jogeva_vald_contact_eve_viks"]);
+  assert.equal(pkg.sections.contacts[0].source_type, "official_contact");
+  assert.equal(pkg.sections.contacts[0].item_type, "contact");
+  assert.equal(pkg.missing_sections.includes("forms"), false);
+  assert.equal(pkg.missing_sections.includes("contacts"), false);
+  assert.equal(pkg.missing_sections.includes("legal_basis"), false);
+  assert.equal(pkg.missing_sections.includes("fees"), true);
+  assert.equal(pkg.missing_sections.includes("deadlines"), true);
+});
