@@ -25,10 +25,12 @@ function countBy(items = [], predicate) {
 
 export default function RagAdminSourcePackagesScreen() {
   const [items, setItems] = useState([]);
+  const [detailsById, setDetailsById] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState("");
   const [expandedId, setExpandedId] = useState("");
+  const [detailLoadingId, setDetailLoadingId] = useState("");
 
   async function load() {
     setLoading(true);
@@ -61,17 +63,43 @@ export default function RagAdminSourcePackagesScreen() {
     missingLegalBasis: countBy(items, item => item.reviewFlags?.missing_legal_basis)
   }), [items]);
 
+  async function loadDetail(id) {
+    setDetailLoadingId(id);
+    try {
+      const res = await fetch(`/api/admin/rag/source-packages/${encodeURIComponent(id)}`, { cache: "no-store" });
+      const data = await res.json();
+      if (!res.ok || data?.ok !== true) throw new Error(data?.message || "Source package detail load failed");
+      setDetailsById(current => ({ ...current, [id]: data.item || null }));
+    } catch (err) {
+      setError(err?.message || String(err));
+    } finally {
+      setDetailLoadingId("");
+    }
+  }
+
+  async function toggleExpanded(id) {
+    if (expandedId === id) {
+      setExpandedId("");
+      return;
+    }
+    setExpandedId(id);
+    if (!detailsById[id]) await loadDetail(id);
+  }
+
   async function runAction(id, action) {
     setBusyId(`${id}:${action}`);
     setError("");
     try {
+      const needsNote = action !== "recompute";
+      const reviewNote = needsNote ? window.prompt("Optional review note", "") ?? "" : "";
       const res = await fetch(`/api/admin/rag/source-packages/${encodeURIComponent(id)}/review`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action })
+        body: JSON.stringify({ action, reviewNote })
       });
       const data = await res.json();
       if (!res.ok || data?.ok !== true) throw new Error(data?.message || "Review action failed");
+      setDetailsById(current => ({ ...current, [id]: data.item || null }));
       await load();
     } catch (err) {
       setError(err?.message || String(err));
@@ -144,13 +172,14 @@ export default function RagAdminSourcePackagesScreen() {
             </thead>
             <tbody>
               {items.map(item => {
-                const flags = flagList(item.reviewFlags);
+                const detail = detailsById[item.id] || item;
+                const flags = flagList(detail.reviewFlags);
                 const expanded = expandedId === item.id;
                 return (
                   <Fragment key={item.id}>
                     <tr className="align-top">
                       <td className={BODY_CELL_CLASS}>
-                        <button type="button" className="max-w-full whitespace-normal break-words text-left font-medium leading-6 underline-offset-2 hover:underline" onClick={() => setExpandedId(expanded ? "" : item.id)}>
+                        <button type="button" className="max-w-full whitespace-normal break-words text-left font-medium leading-6 underline-offset-2 hover:underline" onClick={() => toggleExpanded(item.id)}>
                           {item.title || item.packageId}
                         </button>
                       </td>
@@ -170,22 +199,46 @@ export default function RagAdminSourcePackagesScreen() {
                           <button type="button" className={BUTTON_CLASS} disabled={!!busyId || item.reviewStatus === "archived"} onClick={() => runAction(item.id, "archive")}>
                             {busyId === `${item.id}:archive` ? "Saving" : "Archive"}
                           </button>
+                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId || item.active === true} onClick={() => runAction(item.id, "restore_active")}>
+                            {busyId === `${item.id}:restore_active` ? "Saving" : "Restore active"}
+                          </button>
+                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId} onClick={() => runAction(item.id, "recompute")}>
+                            {busyId === `${item.id}:recompute` ? "Saving" : "Recompute"}
+                          </button>
                         </div>
                       </td>
                     </tr>
                     {expanded ? (
                       <tr key={`${item.id}-detail`}>
                         <td colSpan={10} className="border-b border-black/5 bg-white/35 p-3">
+                          {detailLoadingId === item.id && !detailsById[item.id] ? (
+                            <div className="text-sm opacity-70">Loading details...</div>
+                          ) : (
                           <div className="grid gap-4 lg:grid-cols-[minmax(0,1.45fr)_minmax(240px,0.9fr)]">
                             <div className="min-w-0 space-y-1">
                               <div className="font-semibold">Package</div>
-                              <div className="break-all">packageId: {item.packageId}</div>
-                              <div className="break-all">canonicalItemId: {item.canonicalItemId}</div>
+                              <div className="break-all">packageId: {detail.packageId}</div>
+                              <div className="break-all">canonicalItemId: {detail.canonicalItemId}</div>
                               <div className="whitespace-normal break-words">review flags: {flags.length ? flags.join(", ") : "-"}</div>
+                              <div className="mt-3">
+                                <div className="font-semibold">Review reasons</div>
+                                <div className="mt-1 space-y-1">
+                                  {(detail.reviewReasons || []).length ? (
+                                    detail.reviewReasons.map(reason => (
+                                      <div key={reason.code} className="rounded-[0.75rem] bg-white/45 px-3 py-2 text-sm leading-5">
+                                        <div className="font-medium">{reason.label}</div>
+                                        <div className="text-xs uppercase tracking-[0.04em] opacity-70">{reason.severity}</div>
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <div className="text-sm opacity-70">No review reasons.</div>
+                                  )}
+                                </div>
+                              </div>
                             </div>
                             <div className="min-w-0 space-y-1">
                               <div className="font-semibold">Sections</div>
-                              {Object.entries(item.sectionSummary || {}).map(([key, value]) => (
+                              {Object.entries(detail.sectionSummary || {}).map(([key, value]) => (
                                 <div key={key} className="flex items-baseline justify-between gap-3">
                                   <span className="break-words">{key}</span>
                                   <span className="shrink-0">{value?.count || 0}</span>
@@ -195,7 +248,7 @@ export default function RagAdminSourcePackagesScreen() {
                             <div className="min-w-0 lg:col-span-2">
                               <div className="font-semibold">Sources</div>
                               <div className="mt-2 space-y-1.5">
-                                {(item.sourceMembership || []).map(source => (
+                                {(detail.sourceMembership || []).map(source => (
                                   <div key={source.source_id} className="rounded-[0.75rem] bg-white/45 px-3 py-2 text-xs leading-5">
                                     <div className="break-all font-medium">{source.source_id}</div>
                                     <div className="whitespace-normal break-words opacity-80">
@@ -205,7 +258,30 @@ export default function RagAdminSourcePackagesScreen() {
                                 ))}
                               </div>
                             </div>
+                            <div className="min-w-0 lg:col-span-2">
+                              <div className="font-semibold">Review history</div>
+                              <div className="mt-2 space-y-1.5">
+                                {(detail.history || []).length ? (
+                                  detail.history.map(entry => (
+                                    <div key={entry.id} className="rounded-[0.75rem] bg-white/45 px-3 py-2 text-xs leading-5">
+                                      <div className="flex flex-wrap items-center gap-2">
+                                        <span className="font-medium">{entry.action}</span>
+                                        <span className="opacity-70">{formatDate(entry.createdAt)}</span>
+                                        {entry.actor ? <span className="opacity-70">{entry.actor}</span> : null}
+                                      </div>
+                                      <div className="whitespace-normal break-words opacity-80">
+                                        {entry.fromStatus || "-"} / {entry.fromReviewStatus || "-"} / {entry.fromActive ? "active" : "inactive"} to {entry.toStatus || "-"} / {entry.toReviewStatus || "-"} / {entry.toActive ? "active" : "inactive"}
+                                      </div>
+                                      {entry.note ? <div className="whitespace-normal break-words">{entry.note}</div> : null}
+                                    </div>
+                                  ))
+                                ) : (
+                                  <div className="text-sm opacity-70">No review history yet.</div>
+                                )}
+                              </div>
+                            </div>
                           </div>
+                          )}
                         </td>
                       </tr>
                     ) : null}

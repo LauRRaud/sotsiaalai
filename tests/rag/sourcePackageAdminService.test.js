@@ -2,8 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  buildSourcePackageReviewReasons,
   buildSourcePackageWhere,
   computeSourcePackageReviewFlags,
+  getSourcePackageSnapshot,
   listSourcePackageSnapshots,
   reviewSourcePackageSnapshot,
   serializeSourcePackageSnapshot
@@ -66,15 +68,29 @@ function matchesValue(rowValue, expected) {
   return rowValue === expected;
 }
 
-function createFakeClient(seedRows = []) {
+function matchesWhere(row, where = {}) {
+  return Object.entries(where).every(([key, value]) => {
+    if (value && typeof value === "object" && "id" in value && value.id && typeof value.id === "object" && "not" in value.id) {
+      return row.id !== value.id.not;
+    }
+    return matchesValue(row[key], value);
+  });
+}
+
+function createFakeClient(seedRows = [], seedEvents = []) {
   const rows = seedRows.map(row => ({ ...row }));
-  const delegate = {
+  const events = seedEvents.map(row => ({ ...row }));
+  let eventCounter = events.length + 1;
+
+  const snapshotDelegate = {
     rows,
     async count({ where = {} } = {}) {
       return rows.filter(row => matchesWhere(row, where)).length;
     },
-    async findMany({ where = {}, skip = 0, take = 50 } = {}) {
-      return rows.filter(row => matchesWhere(row, where)).slice(skip, skip + take);
+    async findMany({ where = {}, skip = 0, take = 50, select } = {}) {
+      const filtered = rows.filter(row => matchesWhere(row, where)).slice(skip, skip + take);
+      if (!select) return filtered;
+      return filtered.map(row => Object.fromEntries(Object.keys(select).map(key => [key, row[key]])));
     },
     async findUnique({ where = {} } = {}) {
       return rows.find(row => matchesWhere(row, where)) || null;
@@ -88,13 +104,43 @@ function createFakeClient(seedRows = []) {
       }
       Object.assign(row, data, { updatedAt: new Date("2026-04-28T11:00:00.000Z") });
       return row;
+    },
+    async updateMany({ where = {}, data = {} } = {}) {
+      let count = 0;
+      for (const row of rows) {
+        if (!matchesWhere(row, where)) continue;
+        Object.assign(row, data, { updatedAt: new Date("2026-04-28T11:00:00.000Z") });
+        count += 1;
+      }
+      return { count };
     }
   };
-  return { sourcePackageSnapshot: delegate, rows };
-}
 
-function matchesWhere(row, where = {}) {
-  return Object.entries(where).every(([key, value]) => matchesValue(row[key], value));
+  const eventDelegate = {
+    events,
+    async create({ data = {} } = {}) {
+      const row = {
+        id: `event-${eventCounter++}`,
+        createdAt: new Date("2026-04-28T11:00:00.000Z"),
+        ...data
+      };
+      events.push(row);
+      return row;
+    },
+    async findMany({ where = {}, take = 20 } = {}) {
+      return events.filter(row => matchesWhere(row, where)).slice(0, take);
+    }
+  };
+
+  return {
+    sourcePackageSnapshot: snapshotDelegate,
+    sourcePackageSnapshotReviewEvent: eventDelegate,
+    rows,
+    events,
+    async $transaction(work) {
+      return work(this);
+    }
+  };
 }
 
 test("serializeSourcePackageSnapshot returns safe review data without prompt, user text, or excerpts", () => {
@@ -102,6 +148,8 @@ test("serializeSourcePackageSnapshot returns safe review data without prompt, us
   const text = JSON.stringify(serialized);
 
   assert.equal(serialized.reviewStatus, "pending");
+  assert.equal(Array.isArray(serialized.reviewReasons), true);
+  assert.equal(serialized.reviewReasons.length > 0, true);
   assert.deepEqual(serialized.reviewFlags, {
     missing_forms: true,
     missing_contacts: true,
@@ -125,6 +173,16 @@ test("buildSourcePackageWhere supports review, status, active, and needsReview f
   assert.deepEqual(buildSourcePackageWhere({ needsReview: "false" }), { status: { not: "needs_review" } });
 });
 
+test("buildSourcePackageReviewReasons exposes readable reason details", () => {
+  const reasons = buildSourcePackageReviewReasons({
+    missing_forms: true,
+    invalid_current_evidence: true
+  });
+
+  assert.deepEqual(reasons.map(item => item.code), ["missing_forms", "invalid_current_evidence"]);
+  assert.equal(reasons[0].label.length > 5, true);
+});
+
 test("listSourcePackageSnapshots applies reviewStatus and status filters", async () => {
   const client = createFakeClient([
     snapshotFixture({ id: "pending", reviewStatus: "pending", status: "needs_review" }),
@@ -140,7 +198,7 @@ test("listSourcePackageSnapshots applies reviewStatus and status filters", async
   assert.equal(needsReview.items[0].id, "pending");
 });
 
-test("mark_reviewed sets review metadata without changing automated package status", async () => {
+test("mark_reviewed sets review metadata without changing automated package status and writes history", async () => {
   const client = createFakeClient([snapshotFixture()]);
   const reviewed = await reviewSourcePackageSnapshot("snapshot-1", "mark_reviewed", {
     reviewedBy: "admin@example.test",
@@ -153,6 +211,8 @@ test("mark_reviewed sets review metadata without changing automated package stat
   assert.equal(reviewed.reviewNote, "Checked in admin.");
   assert.ok(reviewed.reviewedAt);
   assert.equal(client.rows[0].active, true);
+  assert.equal(client.events.length, 1);
+  assert.equal(client.events[0].action, "mark_reviewed");
 });
 
 test("archive sets reviewStatus archived, status archived, and active false", async () => {
@@ -165,6 +225,96 @@ test("archive sets reviewStatus archived, status archived, and active false", as
   assert.equal(archived.status, "archived");
   assert.equal(archived.active, false);
   assert.equal(archived.reviewedBy, "admin@example.test");
+  assert.equal(client.events.at(-1).action, "archive");
+});
+
+test("restore_active deactivates previous active snapshot and keeps only one active snapshot", async () => {
+  const client = createFakeClient([
+    snapshotFixture({
+      id: "snapshot-archived",
+      active: false,
+      status: "archived",
+      reviewStatus: "archived"
+    }),
+    snapshotFixture({
+      id: "snapshot-active",
+      packageHash: "hash-2",
+      version: 2,
+      active: true,
+      status: "active",
+      reviewStatus: "reviewed"
+    })
+  ]);
+
+  const restored = await reviewSourcePackageSnapshot("snapshot-archived", "restore_active", {
+    reviewedBy: "admin@example.test",
+    reviewNote: "Rollback to previous snapshot"
+  }, client);
+
+  assert.equal(restored.active, true);
+  assert.equal(restored.reviewStatus, "pending");
+  assert.equal(client.rows.find(row => row.id === "snapshot-active").active, false);
+  assert.equal(client.rows.find(row => row.id === "snapshot-active").status, "archived");
+  assert.equal(client.rows.filter(row => row.active === true).length, 1);
+  assert.equal(client.events.at(-1).action, "restore_active");
+  assert.deepEqual(client.events.at(-1).metadata.displaced_snapshot_ids, ["snapshot-active"]);
+});
+
+test("recompute refreshes current status from persisted metadata and writes history", async () => {
+  const client = createFakeClient([
+    snapshotFixture({
+      status: "active",
+      missingSections: [],
+      sourceMembership: [
+        {
+          source_id: "service-form",
+          municipality_id: "jogeva_vald",
+          source_status: "active",
+          historical: false,
+          sections: ["forms", "contacts", "legal_basis"],
+          evidence_allowed: true
+        }
+      ]
+    })
+  ]);
+
+  const recomputed = await reviewSourcePackageSnapshot("snapshot-1", "recompute", {
+    reviewedBy: "admin@example.test"
+  }, client);
+
+  assert.equal(recomputed.status, "active");
+  assert.equal(client.events.at(-1).action, "recompute");
+  assert.equal(client.events.at(-1).metadata.recomputed_status, "active");
+});
+
+test("getSourcePackageSnapshot returns safe history entries", async () => {
+  const client = createFakeClient([snapshotFixture()], [
+    {
+      id: "event-1",
+      snapshotId: "snapshot-1",
+      packageId: "jogeva_vald_service_koduteenus_package",
+      action: "mark_reviewed",
+      actor: "admin@example.test",
+      note: "Reviewed",
+      fromStatus: "needs_review",
+      toStatus: "needs_review",
+      fromReviewStatus: "pending",
+      toReviewStatus: "reviewed",
+      fromActive: true,
+      toActive: true,
+      metadata: {
+        hiddenPrompt: "must not exist in snapshot itself but event metadata is allowed when explicitly added"
+      },
+      createdAt: new Date("2026-04-28T11:00:00.000Z")
+    }
+  ]);
+
+  const item = await getSourcePackageSnapshot("snapshot-1", client);
+
+  assert.equal(item.id, "snapshot-1");
+  assert.equal(Array.isArray(item.history), true);
+  assert.equal(item.history.length, 1);
+  assert.equal(item.history[0].action, "mark_reviewed");
 });
 
 test("computeSourcePackageReviewFlags detects package conflict and invalid current evidence", () => {

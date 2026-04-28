@@ -1517,20 +1517,23 @@ Production smoke confirmation:
 
 ### V3.3 — Admin Review Workflow
 
-STATUS: V3.3A admin review MVP implemented at code/test level / production smoke pending
+STATUS: V3.3B admin review operations implemented at code/test level / production smoke pending
 
-V3.3A lisab `SourcePackageSnapshot` andmetele esimese admin review MVP:
+V3.3A/V3.3B lisavad `SourcePackageSnapshot` andmetele esimese admin review operatsioonikihi:
 
 - admin saab SourcePackageSnapshot pakette listida;
 - admin saab paketi detaili vaadata;
 - admin näeb `missing_sections` ja arvutatud review flags signaale;
 - admin saab teha `mark_reviewed` ja `archive`;
+- admin saab teha `restore_active`, mis taastab vana snapshoti aktiivseks ilma mitme aktiivse versiooni konfliktita;
+- admin detailis on review/audit history;
+- admin saab teha ohutu `recompute` tegevuse, mis arvutab review state'i olemasoleva persisted metadata pealt uuesti;
 - admin analytics näitab SourcePackage review loendureid;
 - admin UI on read-only tabel minimaalse tegevusloogikaga.
 
-See ei ole käsitsi teenuseinfo sisuhaldus. V3.3A ei luba vorme, kontakte, õiguslikku alust ega teenusekirjeldust käsitsi muuta. `status` jääb automaatseks paketikvaliteedi väljaks (`active | needs_review | archived`), `reviewStatus` on admini review töövoog (`pending | reviewed | archived`).
+See ei ole käsitsi teenuseinfo sisuhaldus. V3.3 ei luba vorme, kontakte, õiguslikku alust ega teenusekirjeldust käsitsi muuta. `status` jääb automaatseks paketikvaliteedi väljaks (`active | needs_review | archived`), `reviewStatus` on admini review töövoog (`pending | reviewed | archived`).
 
-`restore_active`, package rebuild actions, konfliktide lahendamise workflow ja admini parandustoimingud jäävad V3.3B skoopi. V3.4 claim/section attribution jääb järgmiseks suuremaks etapiks.
+V3.3B kasutab action log'i ja persisted review reason detaili, kuid ei tee veel käsitsi source membership muutmist ega package sisuhaldust. V3.4 claim/section attribution jääb järgmiseks suuremaks etapiks.
 
 ### V3.4 — Claim/Section Attribution For High-Risk Answers
 

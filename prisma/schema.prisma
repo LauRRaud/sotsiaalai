@@ -551,6 +551,7 @@ model SourcePackageSnapshot {
   reviewNote      String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  reviewEvents    SourcePackageSnapshotReviewEvent[]
 
   @@unique([packageId, packageHash])
   @@unique([packageId, version])
@@ -560,6 +561,29 @@ model SourcePackageSnapshot {
   @@index([status])
   @@index([reviewStatus])
   @@index([lastBuiltAt])
+}
+
+model SourcePackageSnapshotReviewEvent {
+  id               String   @id @default(cuid())
+  snapshotId       String
+  packageId        String
+  action           String
+  actor            String?
+  note             String?
+  fromStatus       String?
+  toStatus         String?
+  fromReviewStatus String?
+  toReviewStatus   String?
+  fromActive       Boolean?
+  toActive         Boolean?
+  metadata         Json?
+  createdAt        DateTime @default(now())
+
+  snapshot SourcePackageSnapshot @relation(fields: [snapshotId], references: [id], onDelete: Cascade)
+
+  @@index([snapshotId, createdAt])
+  @@index([packageId, createdAt])
+  @@index([action])
 }
 
 model ConversationRun {
