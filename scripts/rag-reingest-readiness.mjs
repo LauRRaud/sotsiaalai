@@ -137,6 +137,10 @@ function parseArgs(argv) {
   return args;
 }
 
+function todayDateOnly() {
+  return new Date().toISOString().slice(0, 10);
+}
+
 function inferCollectionFamily(filePath, payload = {}, explicit = "") {
   if (explicit) return explicit;
   const normalized = normalizeRel(filePath).toLowerCase();
@@ -407,8 +411,8 @@ function extraRequiredFieldsForItem(metadata = {}, context = {}) {
   }
 
   if (sourceType === "journal_article" || collectionId === "sotsiaaltoo_articles") {
-    required.push("collection_id", "source_type", "authority", "journalTitle", "issueId", "articleId", "year");
-    recommended.push("issueLabel", "authors", "section", "pageRange");
+    required.push("collection_id", "source_type", "authority", "journalTitle", "articleId", "year");
+    recommended.push("issueId", "issueLabel", "authors", "section", "pageRange", "url_canonical");
     if (collectionId && collectionId !== "sotsiaaltoo_articles") {
       fieldErrors.push("collection_id_expected_sotsiaaltoo_articles");
     }
@@ -681,8 +685,11 @@ export async function runReingestReadinessAudit(rawArgs = {}) {
   }
 
   const limitedRecords = args.limit > 0 ? records.slice(0, args.limit) : records;
-  const plan = buildRagMetadataBackfillPlan(limitedRecords);
-  const items = limitedRecords.map(record => buildAuditItem(record));
+  const auditOptions = {
+    defaultLastChecked: todayDateOnly()
+  };
+  const plan = buildRagMetadataBackfillPlan(limitedRecords, auditOptions);
+  const items = limitedRecords.map(record => buildAuditItem(record, auditOptions));
   const aggregate = summarizeAuditItems(items);
 
   const output = {

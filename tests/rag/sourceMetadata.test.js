@@ -129,6 +129,41 @@ test("normalizes officialUrl and sourceKeys aliases for KOV item-style inputs", 
   assert.equal(normalized.municipality_name, "Jõgeva vald");
 });
 
+test("normalizes legacy Sotsiaaltoo article metadata from file source type", () => {
+  const normalized = normalizeRagSourceMetadata({
+    docId: "sotsiaaltoo-4-2019",
+    articleId: "omavalitsuste-noustamisuksus-2019",
+    title: "Omavalitsuste jaoks loodud nõustamisüksus",
+    authors: ["Heli Ferschel", "Evelyn Hallika"],
+    year: 2019,
+    journalTitle: "Sotsiaaltöö",
+    issueLabel: "4/2019",
+    section: "Sotsiaaltöö korraldus",
+    pageRange: "20-23",
+    audience: "BOTH",
+    language: "et",
+    source_type: "file",
+    source_path: "ST4_2019_web_link_Part8.pdf"
+  });
+
+  assert.equal(normalized.source_type, "journal_article");
+  assert.equal(normalized.collection_id, "sotsiaaltoo_articles");
+  assert.equal(normalized.authority, "editorial");
+  assert.equal(normalized.document_id, "sotsiaaltoo-4-2019");
+  assert.equal(normalized.source_id, "omavalitsuste-noustamisuksus-2019");
+  assert.equal(normalized.articleId, "omavalitsuste-noustamisuksus-2019");
+  assert.equal(normalized.journalTitle, "Sotsiaaltöö");
+  assert.equal(normalized.issueLabel, "4/2019");
+  assert.equal(normalized.year, 2019);
+  assert.deepEqual(normalized.authors, ["Heli Ferschel", "Evelyn Hallika"]);
+  assert.equal(normalized.section, "Sotsiaaltöö korraldus");
+  assert.equal(normalized.pageRange, "20-23");
+  assert.equal(normalized.historical, true);
+  assert.equal(normalized.source_status, "active");
+  assert.equal(normalized.url_canonical, null);
+  assert.equal(normalized.source_path, "ST4_2019_web_link_Part8.pdf");
+});
+
 test("derives source status from version flags when explicit canonical status is missing", () => {
   const archived = normalizeRagSourceMetadata({
     source_type: "journal_article",

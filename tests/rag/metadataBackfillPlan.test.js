@@ -113,6 +113,47 @@ test("backfill normalizes legacy canonical aliases before validation", () => {
   assert.equal(plan.metadata.url_canonical, "https://example.test/legacy");
 });
 
+test("backfill maps legacy Sotsiaaltoo article metadata to canonical journal profile", () => {
+  const plan = planRagMetadataBackfillForSource({
+    docId: "sotsiaaltoo-4-2019",
+    articleId: "omavalitsuste-noustamisuksus-2019",
+    title: "Omavalitsuste jaoks loodud nõustamisüksus",
+    authors: ["Heli Ferschel", "Evelyn Hallika", "Kätlin Hanson", "Meeli Tuubel"],
+    year: 2019,
+    journalTitle: "Sotsiaaltöö",
+    issueLabel: "4/2019",
+    section: "Sotsiaaltöö korraldus",
+    pageRange: "20-23",
+    audience: "BOTH",
+    language: "et",
+    source_type: "file",
+    source_path: "ST4_2019_web_link_Part8.pdf"
+  }, {
+    collectionFamily: "ajakiri_sotsiaaltoo",
+    filePath: "imports/ajakiri_sotsiaaltoo/19-4/omavalitsuste-noustamisuksus-2019.json"
+  }, {
+    defaultLastChecked: "2026-04-28"
+  });
+
+  assert.equal(plan.status, "backfill_required");
+  assert.equal(plan.metadata.source_type, "journal_article");
+  assert.equal(plan.metadata.collection_id, "sotsiaaltoo_articles");
+  assert.equal(plan.metadata.authority, "editorial");
+  assert.equal(plan.metadata.document_id, "sotsiaaltoo-4-2019");
+  assert.equal(plan.metadata.source_id, "omavalitsuste-noustamisuksus-2019");
+  assert.equal(plan.metadata.articleId, "omavalitsuste-noustamisuksus-2019");
+  assert.equal(plan.metadata.journalTitle, "Sotsiaaltöö");
+  assert.equal(plan.metadata.issueLabel, "4/2019");
+  assert.equal(plan.metadata.year, 2019);
+  assert.equal(plan.metadata.historical, true);
+  assert.equal(plan.metadata.source_status, "active");
+  assert.equal(plan.metadata.last_checked, "2026-04-28");
+  assert.equal(plan.metadata.url_canonical, null);
+  assert.equal(plan.remaining_errors.length, 0);
+  assert.ok(plan.inferred_fields.includes("source_type"));
+  assert.ok(plan.inferred_fields.includes("last_checked"));
+});
+
 test("maps RT and organization collections to their V2 source profiles", () => {
   const rt = planRagMetadataBackfillForSource({
     key: "act_123",
