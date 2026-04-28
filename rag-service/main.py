@@ -104,6 +104,7 @@ HYBRID_CHANNEL_BOOSTS = {
     "exact_phrase": 0.06,
     "bm25": 0.05,
 }
+RAG_METADATA_SCHEMA_VERSION = os.getenv("RAG_METADATA_SCHEMA_VERSION", "v2.5").strip() or "v2.5"
 
 # Lubatud MIME – kui env on tühi, kasuta mõistlikku vaikimisi komplekti
 _DEFAULT_ALLOWED = (
@@ -1335,7 +1336,7 @@ def build_rag_metadata(meta_common: Dict, doc_id: Optional[str] = None) -> RagMe
     metadata_schema_version = _first_value(
         meta.get("metadata_schema_version"),
         meta.get("metadataSchemaVersion"),
-        "v2.5",
+        RAG_METADATA_SCHEMA_VERSION,
     )
     resolved_source_id = _first_value(
         meta.get("source_id"),
@@ -1621,7 +1622,7 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
     language = (meta.language or "et").strip() or "et"
     audience = normalize_audience(meta.audience)
     audiences = normalize_audience_list(meta.audiences or meta.audience)
-    metadata_schema_version = (meta.metadata_schema_version or "").strip() or "v2.5"
+    metadata_schema_version = (meta.metadata_schema_version or "").strip() or RAG_METADATA_SCHEMA_VERSION
     source_id = (meta.source_id or "").strip() or None
     document_id = (meta.document_id or "").strip() or None
     legacy_source_type = (meta.legacy_source_type or "").strip() or None
@@ -1646,6 +1647,7 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
     checked_at = (meta.checked_at or "").strip() or None
     item_type = (meta.item_type or "").strip() or None
     content_status = (meta.content_status or "").strip() or None
+    status_label = source_status or content_status
     resource_type = (meta.resource_type or "").strip() or None
     source_keys = meta.source_keys or []
     source_urls = meta.source_urls or []
@@ -1850,6 +1852,7 @@ def _build_chunk_metadata_entry(
     page_num: Optional[int] = None,
     extra_meta: Optional[Dict[str, object]] = None,
 ) -> Dict[str, object]:
+    metadata_schema_version = (meta.metadata_schema_version or "").strip() or RAG_METADATA_SCHEMA_VERSION
     title = (meta.title or "").strip()
     description = (meta.description or "").strip()
     authors = meta.authors

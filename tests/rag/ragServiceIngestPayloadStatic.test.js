@@ -51,6 +51,19 @@ test("RAG service ingest payload defines V2 source contract fields before metada
   }
 });
 
+test("RAG service chunk metadata entry defines schema version before writing metadata", () => {
+  const fn = extractPythonFunction(readRagServiceMain(), "_build_chunk_metadata_entry");
+  const assignment = fn.indexOf("metadata_schema_version =");
+  const metadataUse = fn.indexOf('"metadata_schema_version": metadata_schema_version');
+
+  assert.notEqual(assignment, -1, "metadata_schema_version assignment missing");
+  assert.notEqual(metadataUse, -1, "metadata_schema_version metadata use missing");
+  assert.ok(
+    assignment < metadataUse,
+    "metadata_schema_version must be assigned before it is written into chunk metadata"
+  );
+});
+
 test("RAG service PDF metadata ingest logs unexpected failures with source identifiers", () => {
   const fn = extractPythonFunction(readRagServiceMain(), "ingest_pdf_with_metadata");
 
