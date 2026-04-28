@@ -70,6 +70,10 @@ async function writeJson(filePath, value) {
   await fs.writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
+function resolveRoot(root) {
+  return path.isAbsolute(root) ? root : path.resolve(process.cwd(), root);
+}
+
 async function loadSnapshots(municipalityId) {
   if (!process.env.DATABASE_URL) {
     return {
@@ -119,6 +123,9 @@ function printSummary(report, outputPath) {
     services_with_related_contacts: report.summary.services_with_related_contacts,
     reason_counts: report.summary.reason_counts,
     recommended_next_step: report.recommended_next_step,
+    localJsonFound: report.localJsonFound,
+    localDataSourcePath: report.localDataSourcePath,
+    checkedPaths: report.checkedPaths,
     registry_available: report.registry_available,
     snapshot_available: report.snapshot_available,
     output: outputPath
@@ -132,16 +139,27 @@ async function main() {
     return;
   }
 
-  const localData = await readJson(path.join(args.root, "jogeva-vald.json"));
-  const localSourcesData = await readJson(path.join(args.root, "jogeva-vald.sources.json"));
+  const root = resolveRoot(args.root);
+  const checkedPaths = {
+    root,
+    localData: path.join(root, "jogeva-vald.json"),
+    localSources: path.join(root, "jogeva-vald.sources.json"),
+    localRagMarkdown: path.join(root, "jogeva-vald.rag.md"),
+    registry: args.registry
+  };
+  const localData = await readJson(checkedPaths.localData);
+  const localSourcesData = await readJson(checkedPaths.localSources);
   const registry = await readJson(args.registry);
-  const ragMarkdown = await readText(path.join(args.root, "jogeva-vald.rag.md"));
+  const ragMarkdown = await readText(checkedPaths.localRagMarkdown);
   const snapshotResult = await loadSnapshots(args.municipalityId);
 
   const report = buildJogevaFormsContactsAudit({
     municipalityId: args.municipalityId,
     localData,
     localSourcesData,
+    localJsonFound: !!localData,
+    localDataSourcePath: checkedPaths.localData,
+    checkedPaths,
     registry,
     registryAvailable: !!registry,
     ragMarkdown,

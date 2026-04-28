@@ -1,7 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { buildJogevaFormsContactsAudit } from "../../lib/admin/rag/sourcePackages/formsContactsAudit.js";
+import {
+  buildJogevaFormsContactsAudit,
+  normalizeJogevaCanonicalItemId
+} from "../../lib/admin/rag/sourcePackages/formsContactsAudit.js";
 
 function baseInput(overrides = {}) {
   return {
@@ -180,3 +183,36 @@ test("output stays compact and does not expose long excerpts or prompt text", ()
   assert.equal(serialized.includes("hidden user text"), false);
 });
 
+test("double-prefixed SourcePackage canonicalItemId matches repo item id", () => {
+  const report = buildJogevaFormsContactsAudit(baseInput({
+    snapshots: [
+      {
+        packageId: "jogeva_vald_service_jogeva_vald_service_koduteenus_package",
+        canonicalItemId: "jogeva_vald_service_jogeva_vald_service_koduteenus",
+        sectionSummary: {},
+        sourceMembership: []
+      }
+    ]
+  }));
+
+  assert.equal(normalizeJogevaCanonicalItemId("jogeva_vald_service_jogeva_vald_service_koduteenus"), "jogeva_vald_service_koduteenus");
+  assert.equal(report.summary.active_snapshot_count, 1);
+  assert.equal(report.summary.services_audited, 1);
+  assert.equal(report.services[0].package_id, "jogeva_vald_service_jogeva_vald_service_koduteenus_package");
+});
+
+test("report exposes local path diagnostics", () => {
+  const report = buildJogevaFormsContactsAudit(baseInput({
+    localJsonFound: true,
+    localDataSourcePath: "C:/repo/KOV/Jogeva/jogeva-vald/jogeva-vald.json",
+    checkedPaths: {
+      root: "C:/repo/KOV/Jogeva/jogeva-vald",
+      localData: "C:/repo/KOV/Jogeva/jogeva-vald/jogeva-vald.json"
+    }
+  }));
+
+  assert.equal(report.localJsonFound, true);
+  assert.equal(report.localDataSourcePath.endsWith("jogeva-vald.json"), true);
+  assert.equal(report.checkedPaths.localData.endsWith("jogeva-vald.json"), true);
+  assert.equal(typeof report.recommended_next_step, "string");
+});
