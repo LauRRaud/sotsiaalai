@@ -150,6 +150,11 @@ test("serializeSourcePackageSnapshot returns safe review data without prompt, us
   assert.equal(serialized.reviewStatus, "pending");
   assert.equal(Array.isArray(serialized.reviewReasons), true);
   assert.equal(serialized.reviewReasons.length > 0, true);
+  assert.equal(serialized.packageAttributionChecked, true);
+  assert.equal(serialized.highRiskAttributionChecked, false);
+  assert.equal(Array.isArray(serialized.attributionFlags), true);
+  assert.equal(serialized.sectionAttributionSummary.forms.evidence_strength, "missing");
+  assert.equal(serialized.gapSummary.forms.status, "missing");
   assert.deepEqual(serialized.reviewFlags, {
     missing_forms: true,
     missing_contacts: true,

@@ -23,6 +23,20 @@ function countBy(items = [], predicate) {
   return items.filter(predicate).length;
 }
 
+function formatSectionName(value) {
+  return String(value || "").replaceAll("_", " ");
+}
+
+function badgeClass(tone = "default") {
+  const tones = {
+    confirmed: "border-emerald-200 bg-emerald-50 text-emerald-900",
+    missing: "border-amber-200 bg-amber-50 text-amber-900",
+    unsupported: "border-red-200 bg-red-50 text-red-900",
+    default: "border-black/10 bg-white/60 text-[color:var(--documents-page-text)]"
+  };
+  return `inline-flex max-w-full items-center rounded-full border px-2 py-1 text-xs leading-4 ${tones[tone] || tones.default}`;
+}
+
 export default function RagAdminSourcePackagesScreen() {
   const [items, setItems] = useState([]);
   const [detailsById, setDetailsById] = useState({});
@@ -233,6 +247,71 @@ export default function RagAdminSourcePackagesScreen() {
                                   ) : (
                                     <div className="text-sm opacity-70">No review reasons.</div>
                                   )}
+                                </div>
+                              </div>
+                              <div className="mt-3">
+                                <div className="font-semibold">Attribution readability</div>
+                                <div className="mt-1 flex flex-wrap gap-2 text-xs">
+                                  <span className={badgeClass(detail.packageAttributionChecked ? "confirmed" : "default")}>
+                                    package attribution: {detail.packageAttributionChecked ? "checked" : "not checked"}
+                                  </span>
+                                  <span className={badgeClass(detail.highRiskAttributionChecked ? "confirmed" : "default")}>
+                                    high risk attribution: {detail.highRiskAttributionChecked ? "checked" : "not checked"}
+                                  </span>
+                                </div>
+                                <div className="mt-2">
+                                  <div className="text-xs uppercase tracking-[0.04em] opacity-70">Attribution flags</div>
+                                  <div className="mt-1 flex flex-wrap gap-1">
+                                    {(detail.attributionFlags || []).length ? (
+                                      detail.attributionFlags.map(flag => (
+                                        <span key={flag} className={badgeClass("missing")}>{formatSectionName(flag)}</span>
+                                      ))
+                                    ) : (
+                                      <span className="text-sm opacity-70">-</span>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                                  {Object.entries(detail.sectionAttributionSummary || {}).map(([section, info]) => {
+                                    const missing = info?.evidence_strength === "missing";
+                                    const unsupported = info?.evidence_strength === "unsupported";
+                                    return (
+                                      <div key={section} className="rounded-[0.75rem] bg-white/45 px-3 py-2 text-sm leading-5">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                          <span className="font-medium">{formatSectionName(section)}</span>
+                                          <span className={badgeClass(missing ? "missing" : unsupported ? "unsupported" : "confirmed")}>
+                                            {info?.evidence_strength || "unknown"}
+                                          </span>
+                                        </div>
+                                        <div className="mt-1 flex flex-wrap gap-1">
+                                          {(info?.evidence_statuses || []).map(status => (
+                                            <span key={status} className={badgeClass(status === "confirmed" ? "confirmed" : status === "missing_section" ? "missing" : "unsupported")}>
+                                              {formatSectionName(status)}
+                                            </span>
+                                          ))}
+                                        </div>
+                                        <div className="mt-1 break-all text-xs opacity-80">
+                                          sources: {(info?.source_ids || []).join(", ") || "-"}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                              <div className="mt-3">
+                                <div className="font-semibold">Gap summary</div>
+                                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                                  {Object.entries(detail.gapSummary || {}).map(([section, gap]) => (
+                                    <div key={section} className="rounded-[0.75rem] bg-white/45 px-3 py-2 text-sm leading-5">
+                                      <div className="flex flex-wrap items-center gap-2">
+                                        <span className="font-medium">{formatSectionName(section)}</span>
+                                        <span className={badgeClass(gap?.status === "missing" ? "missing" : "confirmed")}>{gap?.status || "unknown"}</span>
+                                      </div>
+                                      <div className="mt-1 break-words text-xs opacity-80">
+                                        reason: {formatSectionName(gap?.likelyReason) || "-"}
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
                               </div>
                             </div>

@@ -61,6 +61,7 @@
     "rag:smoke:legal": "node scripts/smoke-rag-legal-lookup.mjs",
     "rag:smoke:legal-exact": "node scripts/smoke-rag-legal-exact.mjs",
     "rag:smoke:source-packages": "node scripts/smoke-rag-source-packages.mjs",
+    "rag:report:jogeva-sourcepackage-gaps": "node scripts/report-jogeva-sourcepackage-gaps.mjs",
     "rag:reindex:documents": "node scripts/reindex-rag-documents.mjs",
     "rag:cleanup:ajakiri-legacy": "node scripts/cleanup-legacy-ajakiri-rag-docs.mjs",
     "rag:delete:ajakiri": "node scripts/delete-ajakiri-rag-docs.mjs",
