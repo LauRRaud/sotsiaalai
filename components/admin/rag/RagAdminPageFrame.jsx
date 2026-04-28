@@ -54,6 +54,7 @@ export default function RagAdminPageFrame({
   activeKey = "documents",
   title,
   subtitle,
+  maxWidthClassName = "max-w-[56rem]",
   children
 }) {
   const router = useRouter();
@@ -62,7 +63,7 @@ export default function RagAdminPageFrame({
 
   return (
     <section className={ragAdminPageShellClassName}>
-      <div className={`${ragAdminShellInnerClassName} max-w-[56rem] text-[color:var(--documents-page-text)]`}>
+      <div className={`${ragAdminShellInnerClassName} ${maxWidthClassName} text-[color:var(--documents-page-text)]`}>
         <div className={ragAdminShellCardClassName}>
           <BackButton
             ariaLabel={locale?.startsWith("et") ? "Tagasi" : "Back"}

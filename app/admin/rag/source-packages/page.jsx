@@ -27,6 +27,7 @@ export default async function AdminRagSourcePackagesPage() {
     <RagAdminPageFrame
       locale={locale}
       activeKey="sourcePackages"
+      maxWidthClassName="max-w-[88rem]"
       title={copy.pages.sourcePackages.title}
       subtitle={copy.pages.sourcePackages.subtitle}
     >
