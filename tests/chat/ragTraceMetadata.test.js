@@ -223,9 +223,73 @@ test("RAG trace merges legalLookupPlan into query_plan when retrievalMeta carrie
   assert.equal(trace.query_plan.legalLookupPlan.actTitle, "Sotsiaalhoolekande seadus");
 });
 
+test("RAG trace exposes sanitized runtime source packages", () => {
+  const attribution = buildSourceAttribution("Jogeva valla koduteenuse info on kinnitatud teenuse, vormi ja kontakti allikatega.", [
+    {
+      source_id: "service-info",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      evidenceText: "Koduteenuse kirjeldus."
+    }
+  ], {
+    query: "Jogeva vald koduteenus"
+  });
+
+  const trace = buildRagTraceFromAttribution([], attribution, {
+    sourcePackages: [
+      {
+        package_id: "jogeva_vald_service_koduteenus_package",
+        canonical_item_id: "jogeva_vald_service_koduteenus",
+        package_type: "kov_service",
+        title: "Koduteenus",
+        municipality_id: "jogeva_vald",
+        municipality_name: "Jogeva vald",
+        section_counts: {
+          description: 1,
+          forms: 1,
+          contacts: 0,
+          legal_basis: 0
+        },
+        sections: {
+          description: [
+            {
+              source_id: "service-info",
+              title: "Koduteenus",
+              source_type: "kov_service_info",
+              evidenceText: "Sensitive package source text must not be copied."
+            }
+          ],
+          forms: [
+            {
+              source_id: "service-form",
+              title: "Koduteenuse taotlus",
+              source_type: "application_form"
+            }
+          ],
+          contacts: [],
+          legal_basis: []
+        },
+        source_ids: ["service-info", "service-form"],
+        last_checked: "2026-04-28",
+        confidence: "medium",
+        missing_sections: ["contacts", "legal_basis"]
+      }
+    ]
+  });
+
+  assert.equal(trace.source_packages.length, 1);
+  assert.equal(trace.source_packages[0].package_type, "kov_service");
+  assert.equal(trace.source_packages[0].municipality_id, "jogeva_vald");
+  assert.deepEqual(trace.source_packages[0].source_ids, ["service-info", "service-form"]);
+  assert.equal(trace.source_packages[0].section_counts.description, 1);
+  assert.equal(trace.source_packages[0].section_counts.forms, 1);
+  assert.deepEqual(trace.source_packages[0].sections.forms.map(source => source.source_id), ["service-form"]);
+  assert.equal(JSON.stringify(trace.source_packages).includes("Sensitive package source text"), false);
+});
+
 test("RAG trace and metadata expose insufficient precise legal source support flag", () => {
   const attribution = buildSourceAttribution("Praeguse otsinguga ei leitud piisavalt täpset õiguslikku kinnitust.", [], {
-    query: "SHS Ā§ 999"
+    query: "SHS § 999"
   });
 
   const trace = buildRagTraceFromAttribution([], attribution, {

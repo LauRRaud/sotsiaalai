@@ -528,6 +528,35 @@ model RagDocument {
   @@index([status, updatedAt, createdAt])
 }
 
+model SourcePackageSnapshot {
+  id              String    @id @default(cuid())
+  packageId       String
+  canonicalItemId String
+  municipalityId  String?
+  packageType     String
+  title           String?
+  status          String    @default("active")
+  confidence      String?
+  missingSections Json
+  packageHash     String
+  lastBuiltAt     DateTime  @default(now())
+  lastChecked     DateTime?
+  version         Int
+  sectionSummary  Json
+  sourceMembership Json
+  active          Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([packageId, packageHash])
+  @@unique([packageId, version])
+  @@index([packageId, active])
+  @@index([municipalityId])
+  @@index([packageType])
+  @@index([status])
+  @@index([lastBuiltAt])
+}
+
 model ConversationRun {
   /// Frontendi saadetud convId (nt randomUUID). Hoia stabiilsena sama vestluse jooksul.
   id       String    @id

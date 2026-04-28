@@ -22,12 +22,25 @@ STATUS: active snapshot
 
 | Area | Current | Target |
 | --- | --- | --- |
-| Source display | V1 rada eelistab backendist tulnud `displayed_sources`; legacy `sources` jääb vanade sõnumite ühilduvuseks | Täielik `displayed_sources` enforcement kõigis uutes RAG vastustes ja adminis nähtav source display precision |
+| Source display | Uued RAG vastused kasutavad backendist tulnud `displayed_sources`; legal exact juhtumid on production smoke'iga kontrollitud; legacy `sources` jääb ainult vanade sõnumite ühilduvuseks | Täielik `displayed_sources` enforcement kõigis uutes RAG vastustes ja adminis nähtav display precision ning contract violation mõõdik |
 | Retrieval | V2 kasutab dense + lightweight lexical kanaleid (`title_match`, `exact_phrase`, `bm25`) ning hybrid/RRF merge'i | Tugevam hübriidotsing koos metadata filtrite, full-text/BM25 indeksi ja vajadusel mudelipõhise reranking'uga |
-| Attribution | `answer_source_ids`, `displayed_source_ids`, `attribution_decisions` ja riskipõhine evidence-strength kontroll on V1/V2 radades olemas | Claim-level attribution kõrge riskiga väidetele ning allikakonflikti põhjendatud lahendamine |
-| Trace | Iga RAG-vastus kannab minimaalset `rag_trace` objekti; trace sisaldab query plan'i, retrieval kanaleid, source kihte ja riskitaset | Täisobservability koos query intent'i, ranking score'ide, source package'i, latency, tokenite ja kvaliteedimõõdikutega |
-| KOV service model | Peamiselt chunk-põhine RAG, kuid metadata ja source package signaalid liiguvad ingestist quality queue'sse | Canonical item + püsiv või poolpüsiv `SourcePackage` teenuste, vormide, kontaktide ja õigusliku aluse jaoks |
-| Metadata | V2 contract ja validation on olemas; ajakirja reingest ja legacy cleanup on tehtud, KOV/RT/org metadata vajab veel rangemat masskontrolli | Kõik korpusepered map'ivad ühtsele source contract'ile koos authority, source type, KOV, kehtivuse, oleku ja versioning'uga |
+| Attribution | `answer_source_ids`, `displayed_source_ids`, `attribution_decisions` ja legal attribution contract on kasutusel; legal exact puhul ei kuvata valet paragrahvi; `§999` / exact missing annab `insufficient_precise_legal_source_support` signaali | Claim-level attribution kõrge riskiga väidetele ning allikakonflikti põhjendatud lahendamine |
+| Trace | `rag_trace` sisaldab `query_plan`'i, retrieval kanaleid, source kihte, `legalLookupPlan`'i, `selection_strategy`'t, riskitaset, legal exact signaale ning V3.0A code/test tasemel ka runtime `source_packages` kokkuvõtet; source-package production smoke on järgmine acceptance samm | Täisobservability koos source package'i, latency, tokenite ja kvaliteedimõõdikutega |
+| KOV service model | Jõgeva KOV RT ja KOV web/service on clean canonical reingest'iga sees; V3.0A runtime `SourcePackage` builder koondab valitud konteksti sama `canonical_item_id` + `municipality_id` põhjal package summary'ks; vastamine on veel valdavalt chunk-põhine ja package-aware answering on V3.2 | Runtime või persisted `SourcePackage` teenustele, vormidele, kontaktidele ja õiguslikule alusele |
+| Metadata | V2.5 canonical contract on kasutusel; clean canonical reingest on tehtud olemasoleva korpuse piires (`national_rt`, Jõgeva KOV RT, Jõgeva KOV web/service, ajakiri `Sotsiaaltöö`); readiness audit KOV-i ja ajakirja kohta andis `blocked=0`; legacy storage jäi rollback'iks alles | Kõik tulevased korpusepered map'ivad samale source contract'ile; org/template/methodology korpuste readiness ja ingest tuleb veel eraldi teha |
+
+
+### V3.0A Implementation Update 2026-04-28
+
+STATUS: implemented at code/test level / source-package smoke pending
+
+- Runtime `SourcePackage` builder on rakendatud `lib/chat/sourcePackages.js`.
+- Selected context põhjal koostatakse ohutu `rag_trace.source_packages` summary.
+- Builder rühmitab sama `canonical_item_id` + `municipality_id` järgi.
+- `ragContext` kannab edasi `resource_type` ja `sections_present`.
+- Unit/regression testid läbisid.
+- Järgmine acceptance samm on source-package smoke päris Jõgeva KOV küsimusega.
+
 
 ## Evolution Principle
 
@@ -122,7 +135,7 @@ Kui kasutaja viitab mitmele KOV-ile, näiteks elukoht on ühes ja viibimiskoht t
 
 ## Legal Exact Retrieval Policy
 
-STATUS: active / fixed-in-progress
+STATUS: active / implemented / production-smoked
 
 - Kui kasutaja nimetab õigusakti ja konkreetse paragrahvi, muutub `paragraph_number` metadata hard filteriks.
 - Semantiliselt sarnane säte ei tohi asendada otseselt küsitud paragrahvi.
@@ -130,6 +143,15 @@ STATUS: active / fixed-in-progress
 - `explicit_paragraph` viide võidab alati teemaankrud ja vestluse ajaloo.
 - `explicit_paragraph` tuvastus ei tohi sõltuda ainult `sourceLookupRequest` heuristikast; sisendkujud nagu `SHS § 140?`, `SHS §140`, `Sotsiaalhoolekande seadus § 140`, `Sotsiaalhoolekande seaduse § 140`, `SHS paragrahv 140` ja `Sotsiaalhoolekande seadus paragrahv 140` peavad minema legal exact rajale ka siis, kui muu lookup-heuristika oleks vaikimisi nõrk.
 - `topic_to_paragraphs` režiimis ei hardcodeta paragrahve; otsing toimub akti canonical metadata ja teema-termide alusel.
+
+Production smoke confirmation:
+
+- SHS `§ 132` ja `§ 140` RAG-service direct exact paragraph filter läbib.
+- Chat `SHS § 140?` kasutab `selection_strategy = legal_exact`.
+- `selected_context_details` sisaldab ainult küsitud `paragraph_number` väärtust.
+- `displayed_sources` ei ole tühi ja sisaldab ainult küsitud `paragraph_number` väärtust.
+- History override ei vii tagasi vana teemaankru juurde.
+- `SHS § 999?` ei asendu sarnase paragrahviga ja annab `insufficient_precise_legal_source_support = true`.
 
 ## V2.5 Pre-launch Canonical Hardening
 
@@ -157,14 +179,74 @@ STATUS: active implementation policy
 - Uus ingest peab kirjutama canonical metadata väljad.
 - Vajadusel tehakse backup + clean reingest, kuid ükski skript ei tohi production RAG storage'it automaatselt kustutada.
 
+## V2.5 Clean Canonical Reingest
+
+STATUS: completed for current available corpus / maintenance
+
+2026-04-28 tehti kontrollitud clean canonical reingest töövoog:
+
+- vana aktiivne RAG storage tõsteti legacy kausta rollback'i jaoks;
+- uus `/var/lib/sotsiaalai-rag` loodi puhtalt;
+- ingestiti SHS / national RT;
+- ingestiti Jõgeva KOV RT;
+- ingestiti Jõgeva KOV web/service;
+- ingestiti ajakiri `Sotsiaaltöö`;
+- legal exact smoke'id ja V2 metadata smoke'id läbisid.
+
+Aktiivne corpus pärast reingest'i:
+
+- `national_regulations`: 1
+- `kov_regulations`: 1
+- `kov_services`: 64
+- `sotsiaaltoo_articles`: 638
+
+Legacy storage:
+
+- `/var/lib/sotsiaalai-rag.legacy.2026-04-28-0933` jäi alles rollback'i jaoks;
+- seda ei kustutata enne, kui UI pärisküsimused ja täiendav smoke on kinnitanud uue storage'i stabiilsuse.
+
+Known non-blocking recommended metadata:
+
+- `kov_web`: `content_hash` recommended väli võib vajada hilisemat täiendust;
+- `sotsiaaltoo_articles`: vanadel artiklitel võib `url_canonical` puududa, kui sisendis oli ainult `source_path` või PDF failinimi, mitte päris canonical URL;
+- need ei ole required blockerid.
+
+## ETAPP 8 Reingest Readiness
+
+STATUS: completed / active tool
+
+Readiness audit:
+
+```text
+npm run rag:reingest:readiness -- --root <INPUT_ROOT> --json logs/rag-reingest-readiness.json
+```
+
+Tõlgendus:
+
+- `blocked > 0`: ära tee clean reingest'i enne parandust;
+- `backfill_required > 0`: lubatud, kui normalizer/backfill suudab canonical väljad tuletada;
+- `ready`: sisend on juba canonical või piisavalt täielik.
+
+Kontrollitud tulemused:
+
+- KOV root: `blocked = 0`, `backfill_required = 139`;
+- ajakiri Sotsiaaltöö: `blocked = 0`, `backfill_required = 638`.
+
+Runbook:
+
+- detailne backup → clean storage → reingest → smoke → rollback juhis on failis `docs/internal/rag-clean-reingest-runbook.md`.
+
 ## P0 Known Defect: Legal Paragraph Filtering
 
-STATUS: fixed in progress
+STATUS: fixed / production-smoked
 
 - `RAG-service /search where paragraph_number` peab päriselt filtreerima.
 - `§ 140` filter ei tohi tagastada `§ 160`.
 - ETAPP 1 parandas RAG-service filterikihi.
 - ETAPP 3 ühendas selle `legalLookupPlan` ja query planneri kihiga.
+- ETAPP 7 parandas live chat legal exact smoke'i.
+- ETAPP 7.1 parandas `displayed_sources` ja exact-missing signaali.
+- Production smoke'id kinnitasid, et `§ 140` ei too `§ 160` selected/displayed kihti.
 
 ## Teostusjärjekord
 
@@ -441,14 +523,13 @@ KOV määrused on tugevamad kui KOV kodulehe üldtekst, kui küsimus puudutab õ
   "legal_level": "municipal_regulation",
   "municipality_id": "tartu_linn",
   "act_title": "...",
-  "act_reference": "...",
-  "url_canonical": "...",
+  "act_id": "...",
+  "rt_url": "...",
   "issuer": "...",
   "adopted_at": null,
   "valid_from": null,
   "valid_to": null,
-  "paragraph_number": null,
-  "paragraph_title": null,
+  "paragraph": null,
   "section_title": null,
   "historical": false
 }
@@ -464,14 +545,11 @@ Riiklik õigus ja riiklikud juhised annavad üldraami. Need ei tohi automaatselt
   "authority": "official_legal",
   "legal_level": "national_law",
   "act_title": "...",
-  "act_reference": "...",
-  "url_canonical": "...",
-  "last_checked": null,
-  "source_status": "active",
+  "act_id": "...",
+  "rt_url": "...",
   "valid_from": null,
   "valid_to": null,
-  "paragraph_number": null,
-  "paragraph_title": null,
+  "paragraph": null,
   "topic": [],
   "applies_nationally": true
 }
@@ -567,7 +645,7 @@ Mallid ja töövahendid:
 - templates.meta.json
 ```
 
-Open decision enne ingest'i: kas kasutada igas korpuseperes eraldi failinimesid või hoida failinimed ühtsed ja eristada tüüpi `collection_type` väljaga. Mõlemal juhul peab väljund jõudma samasse `source_documents`, `chunks`, `source_packages` ja `answer_sources` loogikasse.
+Open decision enne tulevaste korpuste ingest'i: kas kasutada igas korpuseperes eraldi failinimesid või hoida failinimed ühtsed ja eristada tüüpi `collection_type` väljaga. Mõlemal juhul peab väljund jõudma samasse `source_documents`, `chunks`, `source_packages` ja `answer_sources` loogikasse.
 
 ### 5. Hard Filters
 
@@ -975,7 +1053,7 @@ V2 hübriidotsing võib jääda evolutsiooniliseks:
 - exact/title match lisandub serveri või andmebaasi kihis;
 - BM25/full-text lisandub eraldi kanalina;
 - tulemused ühendatakse RRF/weighted merge loogikaga;
-- reranking võib jääda reeglipõhiseks, kui mudelipõhine reranker ei ole veel vajalik.
+- reranking võib jääda reeglipõhiseks; mudelipõhist rerankerit kaalutakse ainult siis, kui mõõdikud näitavad vajadust.
 
 V2 retrieval trace peab iga kanali eraldi nähtavaks tegema. Esimese sammuna peab ka olemasolev Chroma otsing märkima tulemused `dense` retriever'ist tulnuks ja `rag_trace.retrievers_used` peab selle salvestama. Hilisemad `exact_phrase`, `title_match`, `bm25` ja reranker'i kanalid lisanduvad samasse välja, et kvaliteedilangust või -võitu saaks mõõta, mitte aimata.
 
@@ -995,7 +1073,7 @@ V2 evidence score võib alguses olla reeglipõhine:
 retrieval_channel + authority + source_type + municipality_match + freshness + exact_title_match + risk_fit
 ```
 
-V2 esimene ranking quality layer kasutab olemasolevat metadata't enne V3 mudelipõhist reranker'it:
+V2 esimene ranking quality layer kasutab olemasolevat metadata't enne võimalikku hilisemat mudelipõhist reranker'it:
 
 - `title_match` ja `exact_phrase` kanalid annavad täpsel kattuvusel ranking boost'i;
 - ametlikud ja kõrgema autoriteediga `source_type` väärtused saavad eelistuse taustaallikate ees;
@@ -1052,11 +1130,26 @@ V2 mõõdikud:
 - `unsupported_claim_rate`;
 - `insufficient_evidence_correctness`.
 
-## Arenduse Seis 2026-04-27
+## Arenduse Seis 2026-04-28
 
 STATUS: current snapshot
 
-See plokk kirjeldab hetkeseisu lokaalses arenduses. Serveri production-seis võib erineda, kuni muudatused on deploy'tud.
+See plokk kirjeldab hetkeseisu lokaalses arenduses ja production-smoke'iga kinnitatud seisu pärast clean canonical reingest'i.
+
+### Seis pärast clean canonical reingest'i 2026-04-28
+
+STATUS: production-smoked snapshot
+
+- V2.5 canonical hardening on productionis kontrollitud.
+- Legal exact retrieval + `displayed_sources` on production smoke'iga kontrollitud.
+- Clean canonical reingest on tehtud olemasoleva korpuse piires.
+- Aktiivses registry's on 704 kirjet:
+  - `national_regulations`: 1
+  - `kov_regulations`: 1
+  - `kov_services`: 64
+  - `sotsiaaltoo_articles`: 638
+- `npm run rag:smoke:v2 -- --chat --legal-exact` ja `npm run rag:smoke:v2` läbivad.
+- Legacy storage on alles rollback'i jaoks.
 
 ### V1 Praktiliselt Tehtud
 
@@ -1235,18 +1328,23 @@ Chat trace'i V2 signaalide kontrollimiseks:
 npm run rag:smoke:v2 -- --chat
 ```
 
-Legal exact smoke kontrollimiseks olemasoleva V2 smoke peale:
+Pärast clean canonical reingest'i minimaalne kontroll:
+
+```text
+npm run rag:smoke:v2 -- --chat --legal-exact
+npm run rag:smoke:v2
+```
+
+Täielikum kontroll:
 
 ```text
 npm run rag:smoke:v2 -- --legal-exact
 npm run rag:smoke:v2 -- --chat --legal-exact
-```
-
-Soovi korral saab sama kontrolli jooksutada ka eraldi skriptina:
-
-```text
 npm run rag:smoke:legal-exact -- --all
+npm run rag:smoke:v2
 ```
+
+`--chat --legal-exact` on kõige olulisem legal smoke, sest see kontrollib RAG-service, chat, selected context ja displayed sources kihti.
 
 Smoke kontrollib vähemalt:
 
@@ -1261,8 +1359,6 @@ Smoke kontrollib vähemalt:
 - remediation target sisaldab admin sihtlinki `admin_href`, action'it, parandatavate väljade loendit ning võimalusel `focus`/`file_key` sihti;
 - `admin_href` query string sisaldab sama `focus`/`file_key` sihti, mis `remediation.target` objekt;
 - `ragDocs.sourceQuality.summary` sisaldab `displayed_source_precision`, contract violation, retrieved/selected filter rate ja `wrong_municipality_rate` mõõdikuid;
-- `--legal-exact` kontrollib lisaks `RAG /search` exact paragraph filtrit (`§132`, `§140`), `legalLookupPlan`/`selection_strategy` trace'i, history override'i ning synthetic wrong-paragraph metrics regressiooni;
-- kui legal exact chat smoke läbikukkub, tagastab skript ainult safe debug snapshot'i: kas `rag_trace`/`query_plan` olid olemas, millised `query_plan` võtmed esinesid, milline oli `legalLookupPlan` snapshot (`enabled`, `mode`, `actTitle`, `paragraphRefs`, `sourceTypes`, `collectionId`, `requireCurrent`) ning millised `paragraph_number` väärtused jõudsid `selected_context_details` ja `displayed_sources` kihtidesse;
 - high-risk source freshness kokkuvõte ja järjekord on olemas;
 - high-risk source freshness kokkuvõttes on olemas ka claim-kihi väljad: `high_risk_claim_source_count`, `stale_claim_source_responses` ja `claim_source_risk_readiness_rate`;
 - `--chat` korral on `/api/chat` vastuse `rag_trace` sees `retrievers_used`, `query_plan` ja riskipoliitika signaal.
@@ -1271,57 +1367,250 @@ Smoke kontrollib vähemalt:
 
 STATUS: active backlog
 
-### V2 Järgmine Praktiline Skoop
+### V2 Maintenance Backlog
 
-STATUS: active backlog
+STATUS: active maintenance
 
-1. Parandada päris vestluse kvaliteeti artikli-follow-up juhtumites: kui kasutaja küsib sama artikli kohta riike, näiteid või nimesid, peab uus otsing tekkima ja sama artikli tekstist täpsem lõik leiduma.
-2. Laiendada planner eval-fixture'it edasi päris production/problem vestluste põhjal ning siduda see hiljem retrieval tulemuse kvaliteedimõõdikuga, mitte ainult planner mode'iga.
-3. Mõõta ja häälestada lightweight `bm25` kanalit päris probleemvestluste põhjal ning otsustada, kas vaja on Postgres full-text või eraldi indeksit. Esimene mõõtekiht on olemas; järgmine samm on koguda production smoke/problemvestluste näidised ja võrrelda BM25 coverage'i, lexical-only tulemusi ning valitud konteksti täpsust.
-4. Laiendada source package kvaliteedikontrolli päris KOV andmestiku põhjal: vormi ja kontakti signaalid on olemas, järgmine samm on vastuolude, katkiste URL-ide ja puudulike source package'ite ülevaatusvoog.
-5. Esimene claim-level risk readiness kiht on tehtud: kui trace sisaldab `claim_attributions`, mõõdab analytics stale/tundmatut allikat `claim` kihis eraldi. Järgmine samm on päris claim-level attribution'i tootmine vastuse koostamise ajal.
-6. Esimene remediation eeltäitmise kiht on tehtud: quality queue lingid kannavad soovitatud `source_type`, `authority`, `url`, `last_checked` ja `source_status` väärtusi ning admin metadata stub saab neid turvaliselt ette täita. Järgmine samm on siduda see konkreetsete KOV/organisatsiooni vormiväljadega, mitte ainult metadata JSON stub'iga.
-7. Hoida lõppvastuste sõnastus kasutajasõbralikuna: ebapiisava allikakinnituse korral ei tohi assistent kasutada tehnilisi fraase nagu `nähtavas kontekstis`, vaid peab ütlema, mida praegune otsing/allikad kinnitavad või ei kinnita.
+1. Hoida smoke'id ja readiness auditid aktiivsed pärast iga reingest'i.
+2. Parandada recommended `content_hash` KOV web/service allikatele.
+3. Kui ajakirja artiklitele tekivad päris canonical URL-id, täita `url_canonical`; ära tee `source_path` väärtusest URL-i.
+4. Teha organisatsioonide, template ja metoodikakorpuste readiness + ingest.
+5. Laiendada golden set'i päris probleemvestluste põhjal.
+6. Parandada artikli follow-up kvaliteeti ja BM25/full-text tuningut production näidete põhjal.
+7. Hoida insufficient evidence sõnastus mittetehniline.
 
-### KOV Ja Muude Materjalide Meta Enne Mass-Ingesti
+## V3 Roadmap And Architecture Maturity
 
-STATUS: active / partially implemented
+STATUS: planned / staged implementation
 
-KOV materjale ei ole veel suures mahus andmebaasi laetud. Enne seda tuleb lõplikult fikseerida metadata profiilid vähemalt nendele allikatüüpidele:
+V3 fookus ei ole uus otsingumootor, Qdrant migratsioon ega suur DB-migratsioon. V3 fookus on kontrollitud teadmuse kiht: `SourcePackage`, package-aware answering, tõendusrollid, claim/section attribution, admin quality workflow ja regressioonitestid.
 
-- ajakirja Sotsiaaltöö artiklid;
-- KOV kodulehe teenuse- ja toetuselehed;
-- KOV vormid ja e-teenuse lingid;
-- KOV ametlikud kontaktilehed;
-- KOV Riigi Teataja määrused;
-- riiklikud õigusaktid ja juhised;
-- organisatsioonide materjalid;
-- metoodika- ja kvaliteedijuhised;
-- ajaloolised projektikirjeldused ja praktikalood.
+V3 arhitektuurne küpsus tuleb sellest, et süsteem ei vali ainult õigeid chunk'e, vaid teab, mis tüüpi infot ta kasutab ja milleks seda tohib kasutada. Õigusakt, KOV määrus, KOV teenuseinfo, vorm, kontakt, juhend ja taustartikkel ei ole sama tüüpi tõendusallikad.
 
-Iga profiil peab map'ima ühisele RAG source contract'ile: `source_id`, `document_id`, `chunk_id`, `source_type`, `authority`, `audience`, `language`, `municipality_id`, `canonical_item_id`, `last_checked`, `valid_from`, `valid_to`, `historical`, `source_status`, `content_hash`.
+### V3.0A — Runtime SourcePackage Builder
 
-Enne uut KOV/RT/organisatsiooni ingest'i saab sisendfailide contract'i kontrollida backfill planneriga:
+STATUS: implemented at code/test level / source-package smoke pending
 
-```text
-npm run rag:plan:metadata -- --root KOV --json logs/kov-metadata-backfill-plan.json
+V3.0A esimene praktiline skoop on runtime `SourcePackage` builder Jõgeva KOV piloodi peal. See ei ole veel persisted andmemudel ega package-aware answering, vaid kontrollkiht, mis koondab valitud kontekstiallikad sama `canonical_item_id` ja sama `municipality_id` põhjal ohutuks trace'itavaks paketiks.
+
+Implementation status 2026-04-28:
+
+- runtime builder on failis `lib/chat/sourcePackages.js`;
+- `retrievalContextAssembler` ehitab `retrievalMeta.sourcePackages` valitud kontekstiallikatest;
+- `mainResponseHandler` lisab safe kujul `rag_trace.source_packages`;
+- `ragContext` kannab edasi package'i jaoks vajalikke metadata signaale nagu `resource_type` ja `sections_present`;
+- testid katavad Jõgeva KOV teenuse package'i, vale KOV-i eraldi hoidmise, ajakirjaartikli välistamise current evidence sektsioonidest ja trace sanitiseerimise.
+
+Eesmärk:
+
+- koondada sama `canonical_item_id` ja sama `municipality_id` allikad kontrollitud paketiks;
+- eristada sektsioonid `description`, `eligibility`, `application`, `forms`, `contacts`, `legal_basis`, `fees` ja `deadlines`;
+- lubada KOV määrus `legal_basis` sektsioonis;
+- lubada KOV service info `description`, `eligibility` ja `application` sektsioonides;
+- lubada `official_contact` / `contact_page` allikad `contacts` sektsioonis;
+- lubada `application_form`, `web_form` ja `pdf_form` allikad `forms` sektsioonis;
+- mitte lubada `journal_article` allikat tänase õiguse, vormi, kontakti või kehtiva teenuseinfo kinnitamiseks;
+- lisada `rag_trace.source_packages`;
+- hoida olemasolevad legal exact smoke'id rohelisena.
+
+Minimal `SourcePackage` kuju:
+
+```json
+{
+  "package_id": "jogeva_vald_service_koduteenus_package",
+  "canonical_item_id": "jogeva_vald_service_koduteenus",
+  "package_type": "kov_service",
+  "title": "Koduteenus",
+  "municipality_id": "jogeva_vald",
+  "sections": {
+    "description": [],
+    "eligibility": [],
+    "application": [],
+    "forms": [],
+    "contacts": [],
+    "legal_basis": [],
+    "fees": [],
+    "deadlines": []
+  },
+  "source_ids": [],
+  "last_checked": "2026-04-28",
+  "confidence": "medium",
+  "missing_sections": []
+}
 ```
 
-Planner ei muuda sisendfaile. See loeb `*.sources.json`, `*.meta.json` ja seotud source register'i kirjeid, tuletab V2 miinimumväljad nagu `source_id`, `document_id`, `source_type`, `authority`, `audience`, `municipality_id`, `last_checked`, `source_status`, `url_canonical` ja `content_hash`, ning tagastab `ready`, `backfill_required` või `blocked` staatuse.
+V3.0A acceptance:
 
-### V3 Planeeritav Skoop
+- Jõgeva teenuse või toetuse küsimus loob source package'i;
+- `package.municipality_id = jogeva_vald`;
+- vale KOV allikat ei panda paketti;
+- KOV määrus võib minna `legal_basis` alla;
+- vorm jõuab `forms` sektsiooni, kui sobiv vormiallikas on olemas;
+- kontakt jõuab `contacts` sektsiooni, kui sobiv kontaktiallikas on olemas;
+- ajakirjaartikkel võib olla background, aga mitte current legal/form/contact evidence;
+- `rag_trace` sisaldab `source_packages` kokkuvõtet;
+- legal exact smoke'id jäävad roheliseks.
 
-STATUS: planned / design target
+V3.0A piirid:
 
-V3 ei ole järgmine väike refaktor, vaid küpse teadmussüsteemi kiht.
+- package ehitatakse runtime'is ainult valitud kontekstist;
+- package ei ole veel persisted andmemudel;
+- selected context ei ole veel täielikult package-aware, vaid package on trace'i ja järgmise arenduse kontrollkiht;
+- package ei asenda legal exact retrieval'i ega displayed source attribution contract'i.
 
-- Source Package muutub runtime objektist püsivaks või poolpüsivaks andmemudeliks.
-- KOV teenus, toetus, vorm ja kontakt muutuvad canonical item'iteks, mitte ainult otsingutulemusteks.
-- Claim-level attribution seob olulised väited konkreetsete allikate ja lõikudega.
-- Mudelipõhine või tugevam reeglipõhine reranker hindab mitte ainult sarnasust, vaid tõendusväärtust.
-- Admin töövoog võimaldab kinnitada, arhiveerida, märkida vastuolusid ja määrata, kas allikas sobib ainult taustaks või ka tõenduseks.
-- Suurem regressioonikomplekt kasvab 100-300 küsimuseni.
-- Kui trace näitab, et Chroma/olemasolev otsingukiht jääb kitsaks, kaaluda Qdrantit või muud hübriidotsingut paremini toetavat lahendust.
+### V3.1 — Persisted SourcePackage Snapshot + Versioning
+
+STATUS: first persisted snapshot implementation / not yet package-aware answering
+
+SourcePackage salvestatakse snapshot'ina, mitte kohe käsitsi hallatava sisuna. Eesmärk on näha, milline pakett tekkis, millistest allikatest, millise hash'i ja versiooniga. V3.1 ei muuda veel vastust package-aware'iks; see jääb V3.2 skoobiks.
+
+Vajalikud väljad:
+
+- `package_id`
+- `canonical_item_id`
+- `municipality_id`
+- `package_type`
+- `title`
+- `confidence`
+- `package_hash`
+- `last_built_at`
+- `last_checked`
+- `version`
+- `section_summary`
+- `source_membership`
+- `missing_sections`
+- `active`
+- `status`: `active | needs_review | archived`
+
+Oluline risk: persisted SourcePackage ei tohi muutuda "vanaks tõeks". Seetõttu peab olema version history, rebuild trigger pärast reingest'i või metadata muutust ning `needs_review` staatus, kui allikas vananeb või paketi sektsioon kaob.
+
+Esimene V3.1 implementatsioon salvestab snapshot'i ja read-only admin loendurid. See ei lisa käsitsi sisuhaldust, claim-level attribution'it, retrieval migrationit ega package-aware answeringut.
+
+### V3.2 — Package-Aware Answering
+
+STATUS: planned
+
+Vastus ei tugine enam ainult valitud chunk'idele, vaid kasutab teenuse või toetuse kontrollitud SourcePackage'it.
+
+- Kui vorm puudub, süsteem ei leiuta vormi.
+- Kui kontakt puudub, süsteem ütleb, et kontaktiallikas puudub.
+- Kui õiguslik alus on KOV määruses, viitab süsteem KOV määrusele.
+- Kui allikas on ainult ajakirjaartikkel, ei kasutata seda tänase teenuse, vormi, kontakti või õiguse tõenduseks.
+
+### V3.3 — Admin Review Workflow
+
+STATUS: planned
+
+Admin peab nägema SourcePackage kvaliteediprobleeme:
+
+- missing forms;
+- missing contacts;
+- missing legal_basis;
+- stale source;
+- source conflict;
+- wrong source type;
+- package conflict;
+- source changed after last build.
+
+Esimene versioon võib olla read-only või minimaalsete toimingutega: `mark reviewed`, `archive`, `rebuild`, `mark background only`.
+
+### V3.4 — Claim/Section Attribution For High-Risk Answers
+
+STATUS: planned
+
+Kõrge riskiga väited seotakse konkreetse allika, SourcePackage'i sektsiooni või claim attribution'iga.
+
+Kõrge riskiga väited:
+
+- õigus;
+- toetus;
+- summa;
+- tähtaeg;
+- vorm;
+- kontakt;
+- abikõlblikkus;
+- menetlus;
+- kriisiolukorra juhis.
+
+Trace ei pea salvestama täit väiteteksti. Piisab ohututest väljadest:
+
+- `claim_id`;
+- `claim_type`;
+- `package_id`;
+- `section`;
+- `source_ids`;
+- `evidence_strength`.
+
+### V3.5 — Larger Regression System
+
+STATUS: planned
+
+Pärast package-aware answering ja high-risk attribution kihti kasvatatakse regressioonikomplekt 100–300 testini.
+
+Testid peavad kontrollima:
+
+- õige KOV;
+- õige paragrahv;
+- õige source type;
+- current vs historical evidence;
+- displayed sources ainult kinnitatud allikatest;
+- missing section käsitlus;
+- insufficient evidence;
+- `journal_article` ei muutu current legal/form/contact evidence'iks.
+
+### V3.6 — Multi-KOV Rollout In Waves
+
+STATUS: planned
+
+Kõiki KOV-e ei paketeerita korraga.
+
+Soovitatud laiendamine:
+
+1. Jõgeva pilot.
+2. 3–5 eri suurusega KOV-i.
+3. 10–15 KOV-i.
+4. Suurem korpus.
+5. Täiskorpus.
+
+Iga laine järel tuleb kontrollida:
+
+- readiness audit;
+- package build;
+- package quality;
+- legal exact smoke;
+- V2 metadata smoke;
+- manual UI küsimused;
+- wrong municipality rate;
+- displayed source precision.
+
+### V3.7 — Optional Retrieval/Index Technology Review
+
+STATUS: optional / future technology decision
+
+V3.7 ei ole kohustuslik arendusetapp ega tipptaseme tingimus.
+
+Uut otsingumootorit, Qdranti, tugevamat BM25 indeksit, rerankerit või eraldi SourcePackage index'it kaalutakse ainult siis, kui V3.0–V3.6 mõõdikud näitavad, et olemasolev retrieval/index kiht piirab kvaliteeti, recall'i, latency't või skaleerumist.
+
+Kui olemasolev Chroma + lexical/BM25 kiht toetab SourcePackage pipeline'i piisavalt hästi, jääb V3.7 tegemata või lükkub tuleviku tehnoloogiauuenemiseks.
+
+### Architecture Maturity Definition
+
+STATUS: design criterion
+
+SotsiaalAI RAG-i võib lugeda arhitektuuriliselt tipptasemele jõudnuks siis, kui iga kõrge riskiga vastuse puhul on automaatselt jälgitav:
+
+- milline intent, riskitase, KOV või õigusraam tuvastati;
+- millised allikad leiti;
+- millised allikad valiti;
+- milline SourcePackage koostati;
+- millised package sektsioonid olid olemas või puudu;
+- millised allikad konkreetseid olulisi väiteid kinnitasid;
+- miks mõni allikas välja jäeti;
+- miks just need allikad kasutajale kuvati;
+- kas admin saab puuduse parandada;
+- kas regressioonitestid püüavad kinni vale KOV-i, vale paragrahvi, vale allikatüübi ja kasutamata allika kuvamise.
+
+Tipptase ei tule ainult uuest otsingumootorist. Tipptase tuleb sellest, et süsteem kontrollib teadmuse struktuuri, allikatüüpe, tõendusrolle, väiteid, kuvatavaid allikaid ja kvaliteediprobleeme.
 
 ## Data Contracts
 
@@ -1376,21 +1665,24 @@ Trace ei peaks vaikimisi salvestama:
 
 Kui detailsem debug-logi on arenduses ajutiselt vajalik, peab see olema piiratud ligipääsuga ja ajaliselt piiratud.
 
-## Open Decisions
+## Remaining Open Decisions
 
 STATUS: active decisions
 
-- Kas Chroma jääb pikemaks ajaks või liigub RAG hiljem Qdranti või muu hübriidotsingut paremini toetava lahenduse peale?
-- Kas BM25/full-text tuleb Postgresist, eraldi indeksist või vector DB hübriidotsingust?
 - Kas `answer_sources` ja `displayed_sources` salvestatakse `ConversationMessage.metadata` sisse või eraldi tabelitesse?
 - Kas `canonical_item_id` tekib ingestis automaatselt või admini kinnitusega?
-- Kas source package on V1 järel runtime'i objekt, andmebaasi objekt või mõlemat?
-- Kas claim-level attribution on V2 või V3 eesmärk?
-- Kuidas versioonida source package'id, kui KOV teenus, vorm või kontakt muutub?
+- Milline on persisted `SourcePackage` täpne DB schema V3.1-s?
+- Milline rebuild trigger strategy valida pärast reingest'i, source metadata muutust või stale source signaali?
+- Kuidas admin review workflow piirata nii, et see ei muutuks käsitsi sisuhalduseks?
+- Milline on claim text privacy mudel: `text_hash` vs excerpt-free `claim_id`?
+- Millal laiendada multi-KOV rollout 3-5 KOV-ilt 10-15 KOV-ile?
+- V3.7 retrieval/index technology review on optional: Chroma, Postgres full-text, tugevam BM25, reranker, Qdrant või eraldi SourcePackage index vaadatakse üle ainult siis, kui mõõdikud näitavad vajadust.
 
-## V3 Target State
+## V3 Conceptual Target State
 
-STATUS: design target
+STATUS: conceptual / superseded by V3 Roadmap And Architecture Maturity
+
+See plokk kirjeldab V3 üldist kontseptsiooni. Konkreetne staged roadmap ja prioriteedid on plokis `V3 Roadmap And Architecture Maturity`. Kui tekib vastuolu, kehtib roadmap'i plokk.
 
 V3 tähendab SotsiaalAI RAG-is küpset tootetasemel teadmussüsteemi, mitte ainult parandatud otsingut.
 
@@ -1413,7 +1705,6 @@ küsimus
 -> rolli, riski, KOV-i ja teema tuvastus
 -> hübriidotsing ja metadata filtrid
 -> source package
--> reranking
 -> evidence policy
 -> vastus
 -> kinnitatud allikad
@@ -1428,12 +1719,11 @@ STATUS: design target
 V3 põhivõimekused:
 
 - täielik `SourcePackage` andmemudel KOV teenuste, toetuste, vormide, kontaktide ja õigusliku aluse jaoks;
-- mudelipõhine või kombineeritud reranker, mis hindab mitte ainult sarnasust, vaid tõendusväärtust;
 - claim-level attribution kõrge riskiga väidetele;
 - 100-300 küsimusega regressioonitestide komplekt;
 - kvaliteedimõõdikud nagu `source_recall`, `source_precision`, `displayed_source_precision`, `unsupported_claim_rate`, `wrong_municipality_rate`, `stale_source_rate` ja `insufficient_evidence_correctness`;
 - admini kvaliteeditöövoog vananenud, vastuoluliste, puudulike või kinnitamata allikate jaoks;
-- vajadusel Qdrant või muu lahendus, kui trace näitab, et Chroma ja olemasolev otsingukiht jäävad päriselt kitsaks.
+- optional retrieval/index technology review ainult siis, kui trace ja regressioonid näitavad, et olemasolev otsingukiht jääb kvaliteedi, recall'i, latency või skaleerumise piiranguks.
 
 ### V3 Source Package
 
@@ -1483,12 +1773,17 @@ V3-s liigub süsteem kõrge riskiga väidete puhul väitepõhise tõenduse poole
 
 ```json
 {
-  "claim": "Koduteenust saab taotleda Tartu linnas sotsiaal- ja tervishoiuosakonna kaudu.",
-  "source_id": "tartu_linn_koduteenus_page",
-  "evidence_strength": "strong",
-  "section": "Taotlemine"
+  "claim_id": "claim_1",
+  "claim_type": "eligibility_or_assessment",
+  "text_hash": "...",
+  "package_id": "jogeva_vald_service_koduteenus_package",
+  "section": "eligibility",
+  "source_ids": ["..."],
+  "evidence_strength": "strong"
 }
 ```
+
+Trace ja claim attribution ei salvesta täit väiteteksti, prompti ega kasutaja teksti. Kasutatakse piiratud tehnilisi viiteid nagu `claim_id`, `claim_type`, `text_hash`, `package_id`, `section`, `source_ids` ja `evidence_strength`.
 
 Claim-level attribution on eriti oluline järgmiste väidete puhul:
 
@@ -1518,16 +1813,17 @@ Claim store:
 
 ```json
 {
-  "claim_id": "tartu_koduteenus_application_channel",
-  "canonical_item_id": "tartu_linn_service_koduteenus",
+  "claim_id": "claim_1",
   "claim_type": "application_step",
-  "text": "Koduteenust saab taotleda Tartu linnas sotsiaal- ja tervishoiuosakonna kaudu.",
-  "evidence_source_ids": [],
-  "valid_from": null,
-  "valid_to": null,
-  "confidence": "high"
+  "text_hash": "...",
+  "package_id": "jogeva_vald_service_koduteenus_package",
+  "section": "application",
+  "source_ids": ["..."],
+  "evidence_strength": "strong"
 }
 ```
+
+Claim store ja trace ei salvesta täit väiteteksti, prompti ega kasutaja teksti. Vajadusel kasutatakse `text_hash` väärtust, et sama väidet tehniliselt võrrelda ilma sisu logimata.
 
 Temporal reasoning:
 
@@ -1719,341 +2015,3 @@ Järgmises analüüsis vaadata järjest:
 STATUS: active principle
 
 SotsiaalAI RAG-i eesmärk ei ole leida võimalikult palju sarnaseid tekstikatkeid, vaid koostada kontrollitud tõenduspakett, mille põhjal saab anda rolli, aja, KOV-i ja allikatüübi suhtes usaldusväärse vastuse.
-
-
-ubuntu@uvn-72-147:~/apps/sotsiaalai$ npm run rag:smoke:v2 -- --chat --legal-exact
-
-> sotsiaalai@1.0.0 rag:smoke:v2
-> node scripts/smoke-rag-v2-quality.mjs --chat --legal-exact
-
-{
-  "ok": true,
-  "baseUrl": "https://sotsiaal.ai",
-  "checks": {
-    "adminAnalytics": true,
-    "metadataQuality": true,
-    "qualityQueueShape": true,
-    "sourceQuality": true,
-    "highRiskFreshness": true,
-    "chatV2": true,
-    "legalExact": true
-  },
-  "summary": {
-    "audited": 704,
-    "freshnessAuditSource": "rag_service_documents",
-    "ragServiceFallbackCount": 704,
-    "metadataCompletenessRate": 1,
-    "metadataAverageScore": 0.9013795626721645,
-    "metadataCollections": [
-      "ajakiri_sotsiaaltoo",
-      "kov_rt",
-      "kov_web",
-      "national_rt"
-    ],
-    "metadataFileTypes": [
-      "article_ingest",
-      "kov_data_item",
-      "rag_md",
-      "xml"
-    ],
-    "freshnessReasons": {},
-    "missingRequiredFields": {},
-    "missingRecommendedFields": {
-      "url_canonical": 638,
-      "content_hash": 64
-    },
-    "metadataByCollection": {
-      "ajakiri_sotsiaaltoo": {
-        "total": 638,
-        "complete": 638,
-        "incomplete": 0,
-        "completenessRate": 1,
-        "averageScore": 0.8999999999999893,
-        "missingRequiredFields": {},
-        "missingRecommendedFields": {
-          "url_canonical": 638
-        }
-      },
-      "kov_rt": {
-        "total": 1,
-        "complete": 1,
-        "incomplete": 0,
-        "completenessRate": 1,
-        "averageScore": 1,
-        "missingRequiredFields": {},
-        "missingRecommendedFields": {}
-      },
-      "kov_web": {
-        "total": 64,
-        "complete": 64,
-        "incomplete": 0,
-        "completenessRate": 1,
-        "averageScore": 0.9120501893939384,
-        "missingRequiredFields": {},
-        "missingRecommendedFields": {
-          "content_hash": 64
-        }
-      },
-      "national_rt": {
-        "total": 1,
-        "complete": 1,
-        "incomplete": 0,
-        "completenessRate": 1,
-        "averageScore": 1,
-        "missingRequiredFields": {},
-        "missingRecommendedFields": {}
-      }
-    },
-    "metadataByFileType": {
-      "article_ingest": {
-        "total": 638,
-        "complete": 638,
-        "incomplete": 0,
-        "completenessRate": 1,
-        "averageScore": 0.8999999999999893,
-        "missingRequiredFields": {},
-        "missingRecommendedFields": {
-          "url_canonical": 638
-        }
-      },
-      "kov_data_item": {
-        "total": 63,
-        "complete": 63,
-        "incomplete": 0,
-        "completenessRate": 1,
-        "averageScore": 0.9120971620971612,
-        "missingRequiredFields": {},
-        "missingRecommendedFields": {
-          "content_hash": 63
-        }
-      },
-      "rag_md": {
-        "total": 1,
-        "complete": 1,
-        "incomplete": 0,
-        "completenessRate": 1,
-        "averageScore": 0.9090909090909091,
-        "missingRequiredFields": {},
-        "missingRecommendedFields": {
-          "content_hash": 1
-        }
-      },
-      "xml": {
-        "total": 2,
-        "complete": 2,
-        "incomplete": 0,
-        "completenessRate": 1,
-        "averageScore": 1,
-        "missingRequiredFields": {},
-        "missingRecommendedFields": {}
-      }
-    },
-    "displayedSourcePrecision": 1,
-    "retrievedFilterRate": 1,
-    "wrongMunicipalityRate": 0,
-    "sourceQualityIssues": 0,
-    "qualityIssues": 0,
-    "highRiskIssues": 0,
-    "highRiskClaimSources": 0,
-    "highRiskClaimReadinessRate": 0,
-    "highRiskStaleClaimResponses": 0,
-    "chat": {
-      "queryPlanMode": "default",
-      "retrieversUsed": [
-        "dense",
-        "bm25"
-      ],
-      "hybridMergeStrategy": "weighted_hybrid_rrf",
-      "hybridChannelCounts": {
-        "dense": 47,
-        "bm25": 47
-      },
-      "hybridBm25": {
-        "result_count": 11,
-        "only_count": 11,
-        "average_score": 3.241291,
-        "top_score": 3.7333,
-        "average_coverage": 0.418182,
-        "min_coverage": 0.4,
-        "low_coverage_count": 0
-      },
-      "riskLevel": "low",
-      "requiredEvidence": "medium"
-    },
-    "legalExact": {
-      "ok": true,
-      "environment": {
-        "baseUrl": "https://sotsiaal.ai",
-        "ragServiceUrl": "http://127.0.0.1:8000"
-      },
-      "checks": {
-        "ragService": true,
-        "chat": true,
-        "syntheticMetrics": true
-      },
-      "results": {
-        "ragService": [
-          {
-            "id": "rag_service_shs_132",
-            "ok": true,
-            "top": [
-              {
-                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 1",
-                "paragraph_number": "132",
-                "source_type": "national_law"
-              },
-              {
-                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 1",
-                "paragraph_number": "132",
-                "source_type": "national_law"
-              },
-              {
-                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 2",
-                "paragraph_number": "132",
-                "source_type": "national_law"
-              },
-              {
-                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 3",
-                "paragraph_number": "132",
-                "source_type": "national_law"
-              },
-              {
-                "title": "Eesti - Sotsiaalhoolekande seadus - § 132 Toimetulekutoetuse taotlemine lg 6",
-                "paragraph_number": "132",
-                "source_type": "national_law"
-              }
-            ]
-          },
-          {
-            "id": "rag_service_shs_140",
-            "ok": true,
-            "top": [
-              {
-                "title": "Eesti - Sotsiaalhoolekande seadus - § 140 Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
-                "paragraph_number": "140",
-                "source_type": "national_law"
-              },
-              {
-                "title": "Eesti - Sotsiaalhoolekande seadus - § 140 Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
-                "paragraph_number": "140",
-                "source_type": "national_law"
-              },
-              {
-                "title": "Eesti - Sotsiaalhoolekande seadus - § 140 Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale",
-                "paragraph_number": "140",
-                "source_type": "national_law"
-              }
-            ]
-          }
-        ],
-        "chat": {
-          "skipped": false,
-          "cases": [
-            {
-              "id": "chat_shs_140",
-              "selection_strategy": "legal_exact",
-              "displayed_sources": [],
-              "selected_context_details": [
-                {
-                  "title": "Sotsiaalhoolekande seadus § 140 Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
-                  "paragraph_number": "140",
-                  "source_type": "national_law"
-                },
-                {
-                  "title": "Sotsiaalhoolekande seadus § 140 Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
-                  "paragraph_number": "140",
-                  "source_type": "national_law"
-                },
-                {
-                  "title": "Sotsiaalhoolekande seadus § 140 Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale",
-                  "paragraph_number": "140",
-                  "source_type": "national_law"
-                }
-              ],
-              "displayed_source_ids": [],
-              "selected_context_source_ids": [
-                "rt-130122025029|paragraph-140|Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
-                "rt-130122025029|paragraph-140|Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
-                "rt-130122025029|paragraph-140|Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale"
-              ],
-              "insufficient_precise_legal_source_support": false
-            },
-            {
-              "id": "chat_history_override_second_turn",
-              "selection_strategy": "legal_exact",
-              "displayed_sources": [],
-              "selected_context_details": [
-                {
-                  "title": "Sotsiaalhoolekande seadus § 140 Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
-                  "paragraph_number": "140",
-                  "source_type": "national_law"
-                },
-                {
-                  "title": "Sotsiaalhoolekande seadus § 140 Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
-                  "paragraph_number": "140",
-                  "source_type": "national_law"
-                },
-                {
-                  "title": "Sotsiaalhoolekande seadus § 140 Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale",
-                  "paragraph_number": "140",
-                  "source_type": "national_law"
-                }
-              ],
-              "displayed_source_ids": [],
-              "selected_context_source_ids": [
-                "rt-130122025029|paragraph-140|Erakorralises olukorras rakendatavad rahalise toetamise meetmed erakorralisest olukorrast tulenevate toimetulekuraskuste ennetamiseks",
-                "rt-130122025029|paragraph-140|Sotsiaaltoetus välisriigist Eestisse elama asunud Eesti kodanikule või eesti rahvusest isikule ning tema abikaasale, registreeritud elukaaslasele, lastele ja vanematele",
-                "rt-130122025029|paragraph-140|Sotsiaaltoetus tuumakatastroofi tagajärgede likvideerijale"
-              ],
-              "insufficient_precise_legal_source_support": false
-            },
-            {
-              "id": "chat_shs_132",
-              "selection_strategy": "legal_exact",
-              "displayed_sources": [],
-              "selected_context_details": [
-                {
-                  "title": "Sotsiaalhoolekande seadus § 132 Toimetulekutoetuse taotlemine",
-                  "paragraph_number": "132",
-                  "source_type": "national_law"
-                }
-              ],
-              "displayed_source_ids": [],
-              "selected_context_source_ids": [
-                "rt-130122025029|paragraph-132|Toimetulekutoetuse taotlemine"
-              ],
-              "insufficient_precise_legal_source_support": false
-            },
-            {
-              "id": "chat_shs_999",
-              "selection_strategy": "legal_exact",
-              "displayed_sources": [],
-              "selected_context_details": [],
-              "displayed_source_ids": [],
-              "selected_context_source_ids": [],
-              "insufficient_precise_legal_source_support": false
-            }
-          ]
-        },
-        "syntheticMetrics": {
-          "ok": true,
-          "legal_selected_paragraph_precision": 0,
-          "legal_displayed_paragraph_precision": 0,
-          "legal_wrong_paragraph_count": 2
-        }
-      }
-    }
-  }
-}
-## ETAPP 8 Reingest Readiness
-
-STATUS: documented / active
-
-- Clean canonical reingest'i praktiline töövoog on runbookis `docs/internal/rag-clean-reingest-runbook.md`.
-- Enne production clean reingest'i jooksuta readiness audit:
-
-```text
-npm run rag:reingest:readiness -- --root <INPUT_ROOT> --json logs/rag-reingest-readiness.json
-```
-
-- Pärast reingest'i jooksuta runbooki smoke checklist: `npm run rag:smoke:v2 -- --legal-exact`, `npm run rag:smoke:v2 -- --chat --legal-exact` ja vajadusel `npm run rag:smoke:legal-exact -- --all`.
