@@ -244,6 +244,60 @@ function assertPackageAwareAnswering(payload = {}, packages = []) {
   }
 }
 
+const FORM_SECTION_SOURCE_TYPES = new Set(["application_form", "web_form", "pdf_form", "form"]);
+const CONTACT_SECTION_SOURCE_TYPES = new Set(["official_contact", "contact_page", "contact"]);
+
+function sourceTypeForSmoke(source = {}) {
+  return String(
+    source.source_type ||
+    source.sourceType ||
+    source.resource_type ||
+    source.resourceType ||
+    source.item_type ||
+    source.itemType ||
+    ""
+  ).trim();
+}
+
+function packageSectionSources(packages = [], sectionName = "") {
+  return packages.flatMap(pkg => {
+    const pkgSections = sections(pkg);
+    return Array.isArray(pkgSections[sectionName]) ? pkgSections[sectionName] : [];
+  });
+}
+
+function assertMissingSectionEntry(entry = {}, sectionName = "") {
+  assertCondition(entry.evidence_strength === "missing", `${sectionName}: expected missing evidence strength`);
+  assertCondition(entry.evidence_statuses.includes("missing_section"), `${sectionName}: expected missing_section status`);
+  assertCondition(entry.source_ids.length === 0, `${sectionName}: missing section must not carry source_ids`);
+}
+
+function assertOptionalEvidenceSection(trace = {}, packages = [], sectionName = "", allowedSourceTypes = new Set()) {
+  const entry = trace.section_attribution.find(item => item?.section === sectionName);
+  assertCondition(entry, `section_attribution must include ${sectionName}`);
+
+  if (entry.evidence_strength === "missing") {
+    assertMissingSectionEntry(entry, sectionName);
+    return;
+  }
+
+  assertCondition(["strong", "partial"].includes(entry.evidence_strength), `${sectionName}: expected strong or partial evidence strength`);
+  assertCondition(entry.source_ids.length > 0, `${sectionName}: present section must carry source_ids`);
+
+  const sectionSources = packageSectionSources(packages, sectionName);
+  const sourceById = new Map(sectionSources.map(source => [
+    String(source?.source_id || "").trim(),
+    source
+  ]).filter(([id]) => Boolean(id)));
+
+  for (const id of entry.source_ids) {
+    const source = sourceById.get(id);
+    assertCondition(source, `${sectionName}: source ${id} is not in package ${sectionName}`);
+    const type = sourceTypeForSmoke(source);
+    assertCondition(allowedSourceTypes.has(type), `${sectionName}: source ${id} has unsupported type ${type || "(missing)"}`);
+  }
+}
+
 function assertSectionAttribution(payload = {}, packages = []) {
   const trace = ragTrace(payload);
   assertCondition(trace.package_attribution_checked === true, "section attribution must check package attribution");
@@ -256,26 +310,17 @@ function assertSectionAttribution(payload = {}, packages = []) {
     assertCondition(Array.isArray(entry.source_ids), `section_attribution ${entry.section || "(missing)"} source_ids must be an array`);
   }
 
-  for (const sectionName of ["forms", "contacts"]) {
-    const entry = trace.section_attribution.find(item => item?.section === sectionName);
-    assertCondition(entry, `section_attribution must include ${sectionName}`);
-    assertCondition(entry.evidence_strength === "missing", `${sectionName}: expected missing evidence strength`);
-    assertCondition(entry.evidence_statuses.includes("missing_section"), `${sectionName}: expected missing_section status`);
-    assertCondition(entry.source_ids.length === 0, `${sectionName}: missing section must not carry source_ids`);
-  }
+  assertOptionalEvidenceSection(trace, packages, "forms", FORM_SECTION_SOURCE_TYPES);
+  assertOptionalEvidenceSection(trace, packages, "contacts", CONTACT_SECTION_SOURCE_TYPES);
 
   const legalBasis = trace.section_attribution.find(item => item?.section === "legal_basis");
   assertCondition(legalBasis, "section_attribution must include legal_basis");
   if (legalBasis.evidence_strength === "missing") {
-    assertCondition(legalBasis.evidence_statuses.includes("missing_section"), "legal_basis: expected missing_section status when missing");
-    assertCondition(legalBasis.source_ids.length === 0, "legal_basis: missing section must not carry source_ids");
+    assertMissingSectionEntry(legalBasis, "legal_basis");
   } else {
     assertCondition(["strong", "partial"].includes(legalBasis.evidence_strength), "legal_basis: expected strong or partial evidence strength");
     assertCondition(legalBasis.source_ids.length > 0, "legal_basis: present section must carry source_ids");
-    const legalBasisSources = packages.flatMap(pkg => {
-      const pkgSections = sections(pkg);
-      return Array.isArray(pkgSections.legal_basis) ? pkgSections.legal_basis : [];
-    });
+    const legalBasisSources = packageSectionSources(packages, "legal_basis");
     const legalBasisSourceIds = new Set(legalBasisSources.map(source => String(source?.source_id || "").trim()).filter(Boolean));
     const legalBasisSourceTypes = new Map(legalBasisSources.map(source => [
       String(source?.source_id || "").trim(),
@@ -285,6 +330,12 @@ function assertSectionAttribution(payload = {}, packages = []) {
       assertCondition(legalBasisSourceIds.has(id), `legal_basis: source ${id} is not in package legal_basis`);
       assertCondition(legalBasisSourceTypes.get(id) === "kov_regulation", `legal_basis: source ${id} must be kov_regulation`);
     }
+  }
+
+  for (const sectionName of ["fees", "deadlines"]) {
+    const entry = trace.section_attribution.find(item => item?.section === sectionName);
+    assertCondition(entry, `section_attribution must include ${sectionName}`);
+    assertMissingSectionEntry(entry, sectionName);
   }
 
   const packageSourceIds = new Set(packages.flatMap(pkg => Array.isArray(pkg.source_ids) ? pkg.source_ids : []));
