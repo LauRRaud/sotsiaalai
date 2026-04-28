@@ -6,6 +6,7 @@ function usage() {
   return [
     "Usage:",
     "  npm run rag:smoke:source-packages",
+    "  npm run rag:smoke:source-packages -- --persist",
     "  npm run rag:smoke:source-packages -- --base-url https://sotsiaal.ai",
     "",
     "Environment:",
@@ -13,8 +14,10 @@ function usage() {
     "  SOTSIAALAI_SMOKE_COOKIE=\"...\"",
     "  SOTSIAALAI_SMOKE_BEARER=\"...\"",
     "  SOTSIAALAI_SMOKE_ROLE=SOCIAL_WORKER",
+    "  DATABASE_URL=postgresql://...",
     "",
-    "Checks that a live chat/RAG flow exposes safe rag_trace.source_packages for a Jogeva KOV service question."
+    "Checks that a live chat/RAG flow exposes safe rag_trace.source_packages for a Jogeva KOV service question.",
+    "With --persist, or when DATABASE_URL is present, also checks SourcePackageSnapshot DB persistence."
   ].join("\n");
 }
 
@@ -24,6 +27,8 @@ function parseArgs(argv = []) {
     cookie: process.env.SOTSIAALAI_SMOKE_COOKIE || process.env.SMOKE_COOKIE || "",
     bearer: process.env.SOTSIAALAI_SMOKE_BEARER || process.env.SMOKE_BEARER || "",
     role: process.env.SOTSIAALAI_SMOKE_ROLE || "SOCIAL_WORKER",
+    persist: false,
+    noPersist: false,
     help: false
   };
 
@@ -34,9 +39,12 @@ function parseArgs(argv = []) {
     else if (arg === "--cookie") args.cookie = argv[++index] || "";
     else if (arg === "--bearer") args.bearer = argv[++index] || "";
     else if (arg === "--role") args.role = argv[++index] || args.role;
+    else if (arg === "--persist") args.persist = true;
+    else if (arg === "--no-persist") args.noPersist = true;
     else throw new Error(`Unknown option: ${arg}`);
   }
 
+  args.checkPersistence = !args.noPersist && (args.persist || !!process.env.DATABASE_URL);
   return args;
 }
 
@@ -74,13 +82,40 @@ async function postChat(args) {
       message: "Jõgeva vald koduteenus",
       history: [],
       role: args.role,
-      persist: false,
+      persist: args.checkPersistence === true,
       uiLocale: "et",
       chatMode: "rag",
       forceSources: true
     })
   });
   return readJsonResponse(res, "source_package_chat");
+}
+
+async function loadPersistenceTools() {
+  try {
+    const [{ prisma }, { buildSourcePackageSnapshots }] = await Promise.all([
+      import("../lib/prisma.js"),
+      import("../lib/rag/sourcePackageSnapshots.js")
+    ]);
+    const delegate = prisma?.sourcePackageSnapshot;
+    if (!delegate) {
+      return {
+        ok: false,
+        reason: "sourcePackageSnapshot delegate unavailable"
+      };
+    }
+    return {
+      ok: true,
+      prisma,
+      delegate,
+      buildSourcePackageSnapshots
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      reason: error?.message || String(error)
+    };
+  }
 }
 
 function sourcePackages(payload = {}) {
@@ -128,6 +163,26 @@ function assertSafeTrace(packages = []) {
   }
 }
 
+function assertSafeSnapshots(rows = []) {
+  const serialized = JSON.stringify(rows.map(row => ({
+    sectionSummary: row.sectionSummary,
+    sourceMembership: row.sourceMembership
+  })));
+  const forbiddenValues = [
+    "evidenceText",
+    "evidence_text",
+    "body_preview",
+    "model_context",
+    "prompt",
+    "userMessage",
+    "message",
+    "Jõgeva vald koduteenus"
+  ];
+  for (const value of forbiddenValues) {
+    assertCondition(!serialized.includes(value), `SourcePackageSnapshot persisted unsafe value: ${value}`);
+  }
+}
+
 function assertPackageContract(packages = []) {
   assertCondition(packages.length > 0, "source_packages: at least one package must be present");
   const jogeva = packages.find(pkg => pkg?.municipality_id === "jogeva_vald");
@@ -152,6 +207,95 @@ function assertPackageContract(packages = []) {
   return summarizePackage(jogeva);
 }
 
+async function beforePersistenceSnapshot(args) {
+  if (!args.checkPersistence) {
+    return {
+      checked: false,
+      reason: "persistence check disabled; pass --persist or set DATABASE_URL"
+    };
+  }
+
+  const tools = await loadPersistenceTools();
+  if (!tools.ok) {
+    return {
+      checked: false,
+      reason: tools.reason
+    };
+  }
+
+  try {
+    return {
+      checked: true,
+      tools,
+      before: await tools.delegate.count()
+    };
+  } catch (error) {
+    await tools.prisma?.$disconnect?.().catch(() => {});
+    return {
+      checked: false,
+      reason: error?.message || String(error)
+    };
+  }
+}
+
+async function afterPersistenceSnapshot(state, packages = []) {
+  if (!state?.checked) return state || { checked: false, reason: "persistence check was not initialized" };
+  const { delegate, buildSourcePackageSnapshots, prisma } = state.tools;
+  const expected = buildSourcePackageSnapshots(packages);
+  const after = await delegate.count();
+
+  if (!expected.length) {
+    await prisma?.$disconnect?.().catch(() => {});
+    return {
+      checked: true,
+      before: state.before,
+      after,
+      created_or_existing: 0,
+      reason: "trace source packages did not produce snapshot identities"
+    };
+  }
+
+  const matchingRows = await delegate.findMany({
+    where: {
+      OR: expected.map(snapshot => ({
+        packageId: snapshot.packageId,
+        packageHash: snapshot.packageHash
+      }))
+    },
+    select: {
+      packageId: true,
+      packageHash: true,
+      version: true,
+      active: true,
+      sectionSummary: true,
+      sourceMembership: true
+    }
+  });
+
+  const expectedKeys = new Set(expected.map(snapshot => `${snapshot.packageId}::${snapshot.packageHash}`));
+  const matchedKeys = new Set(matchingRows.map(row => `${row.packageId}::${row.packageHash}`));
+  for (const key of expectedKeys) {
+    assertCondition(matchedKeys.has(key), `SourcePackageSnapshot missing expected package hash ${key}`);
+  }
+  for (const key of expectedKeys) {
+    const duplicateCount = matchingRows.filter(row => `${row.packageId}::${row.packageHash}` === key).length;
+    assertCondition(duplicateCount === 1, `SourcePackageSnapshot duplicate package hash ${key}`);
+  }
+  assertSafeSnapshots(matchingRows);
+
+  await prisma?.$disconnect?.().catch(() => {});
+  return {
+    checked: true,
+    before: state.before,
+    after,
+    created_or_existing: expected.length,
+    package_hashes: expected.map(snapshot => ({
+      package_id: snapshot.packageId,
+      package_hash: snapshot.packageHash.slice(0, 12)
+    }))
+  };
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) {
@@ -164,18 +308,34 @@ async function main() {
       ok: true,
       skipped: true,
       reason: "missing_auth",
-      note: "Set SOTSIAALAI_SMOKE_COOKIE or SOTSIAALAI_SMOKE_BEARER to run the live source package smoke."
+      note: "Set SOTSIAALAI_SMOKE_COOKIE or SOTSIAALAI_SMOKE_BEARER to run the live source package smoke.",
+      trace: {
+        checked: false,
+        source_packages_present: false
+      },
+      snapshot_persistence: {
+        checked: false,
+        reason: "missing_auth"
+      }
     }, null, 2));
     return;
   }
 
+  const persistenceBefore = await beforePersistenceSnapshot(args);
   const payload = await postChat(args);
   const packages = sourcePackages(payload);
   const summary = assertPackageContract(packages);
+  const persistence = await afterPersistenceSnapshot(persistenceBefore, packages);
+
   console.log(JSON.stringify({
     ok: true,
     skipped: false,
     package_count: packages.length,
+    trace: {
+      checked: true,
+      source_packages_present: packages.length > 0
+    },
+    snapshot_persistence: persistence,
     package: summary
   }, null, 2));
 }

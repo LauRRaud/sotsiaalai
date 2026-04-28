@@ -25,21 +25,22 @@ STATUS: active snapshot
 | Source display | Uued RAG vastused kasutavad backendist tulnud `displayed_sources`; legal exact juhtumid on production smoke'iga kontrollitud; legacy `sources` jääb ainult vanade sõnumite ühilduvuseks | Täielik `displayed_sources` enforcement kõigis uutes RAG vastustes ja adminis nähtav display precision ning contract violation mõõdik |
 | Retrieval | V2 kasutab dense + lightweight lexical kanaleid (`title_match`, `exact_phrase`, `bm25`) ning hybrid/RRF merge'i | Tugevam hübriidotsing koos metadata filtrite, full-text/BM25 indeksi ja vajadusel mudelipõhise reranking'uga |
 | Attribution | `answer_source_ids`, `displayed_source_ids`, `attribution_decisions` ja legal attribution contract on kasutusel; legal exact puhul ei kuvata valet paragrahvi; `§999` / exact missing annab `insufficient_precise_legal_source_support` signaali | Claim-level attribution kõrge riskiga väidetele ning allikakonflikti põhjendatud lahendamine |
-| Trace | `rag_trace` sisaldab `query_plan`'i, retrieval kanaleid, source kihte, `legalLookupPlan`'i, `selection_strategy`'t, riskitaset, legal exact signaale ning V3.0A code/test tasemel ka runtime `source_packages` kokkuvõtet; source-package production smoke on järgmine acceptance samm | Täisobservability koos source package'i, latency, tokenite ja kvaliteedimõõdikutega |
+| Trace | `rag_trace` sisaldab `query_plan`'i, retrieval kanaleid, source kihte, `legalLookupPlan`'i, `selection_strategy`'t, riskitaset, legal exact signaale ning runtime `source_packages` kokkuvõtet; V3.0A source-package smoke kinnitab trace kihi | Täisobservability koos source package'i, latency, tokenite ja kvaliteedimõõdikutega |
 | KOV service model | Jõgeva KOV RT ja KOV web/service on clean canonical reingest'iga sees; V3.0A runtime `SourcePackage` builder koondab valitud konteksti sama `canonical_item_id` + `municipality_id` põhjal package summary'ks; vastamine on veel valdavalt chunk-põhine ja package-aware answering on V3.2 | Runtime või persisted `SourcePackage` teenustele, vormidele, kontaktidele ja õiguslikule alusele |
 | Metadata | V2.5 canonical contract on kasutusel; clean canonical reingest on tehtud olemasoleva korpuse piires (`national_rt`, Jõgeva KOV RT, Jõgeva KOV web/service, ajakiri `Sotsiaaltöö`); readiness audit KOV-i ja ajakirja kohta andis `blocked=0`; legacy storage jäi rollback'iks alles | Kõik tulevased korpusepered map'ivad samale source contract'ile; org/template/methodology korpuste readiness ja ingest tuleb veel eraldi teha |
 
 
 ### V3.0A Implementation Update 2026-04-28
 
-STATUS: implemented at code/test level / source-package smoke pending
+STATUS: implemented and smoke-tested
 
 - Runtime `SourcePackage` builder on rakendatud `lib/chat/sourcePackages.js`.
 - Selected context põhjal koostatakse ohutu `rag_trace.source_packages` summary.
 - Builder rühmitab sama `canonical_item_id` + `municipality_id` järgi.
 - `ragContext` kannab edasi `resource_type` ja `sections_present`.
 - Unit/regression testid läbisid.
-- Järgmine acceptance samm on source-package smoke päris Jõgeva KOV küsimusega.
+- Source-package smoke kinnitab päris Jõgeva KOV küsimusega `rag_trace.source_packages` olemasolu.
+- V3.1 DB-write smoke on eraldi `npm run rag:smoke:source-packages -- --persist` kontroll.
 
 
 ## Evolution Principle
@@ -1389,7 +1390,7 @@ V3 arhitektuurne küpsus tuleb sellest, et süsteem ei vali ainult õigeid chunk
 
 ### V3.0A — Runtime SourcePackage Builder
 
-STATUS: implemented at code/test level / source-package smoke pending
+STATUS: implemented and smoke-tested
 
 V3.0A esimene praktiline skoop on runtime `SourcePackage` builder Jõgeva KOV piloodi peal. See ei ole veel persisted andmemudel ega package-aware answering, vaid kontrollkiht, mis koondab valitud kontekstiallikad sama `canonical_item_id` ja sama `municipality_id` põhjal ohutuks trace'itavaks paketiks.
 
@@ -1460,7 +1461,7 @@ V3.0A piirid:
 
 ### V3.1 — Persisted SourcePackage Snapshot + Versioning
 
-STATUS: first persisted snapshot implementation / not yet package-aware answering
+STATUS: first persisted snapshot implementation / DB-write smoke pending / not yet package-aware answering
 
 SourcePackage salvestatakse snapshot'ina, mitte kohe käsitsi hallatava sisuna. Eesmärk on näha, milline pakett tekkis, millistest allikatest, millise hash'i ja versiooniga. V3.1 ei muuda veel vastust package-aware'iks; see jääb V3.2 skoobiks.
 
