@@ -70,6 +70,7 @@ test("candidate source with allowed evidence role makes missing section mapping_
   });
 
   assert.equal(item.gaps.forms.likelyReason, "mapping_missing");
+  assert.deepEqual(item.gaps.forms.candidate_source_ids, ["form-source"]);
 });
 
 test("candidate source with wrong source type makes source_type_mismatch", () => {
@@ -87,6 +88,14 @@ test("candidate source with wrong source type makes source_type_mismatch", () =>
   });
 
   assert.equal(item.gaps.legal_basis.likelyReason, "source_type_mismatch");
+  assert.deepEqual(item.gaps.legal_basis.candidate_source_ids, ["service-info"]);
+});
+
+test("missing section without candidate source is input_missing", () => {
+  const item = buildSourcePackageGapItem(snapshotFixture());
+
+  assert.equal(item.gaps.forms.likelyReason, "input_missing");
+  assert.deepEqual(item.gaps.forms.candidate_source_ids, []);
 });
 
 test("existing section is marked present", () => {

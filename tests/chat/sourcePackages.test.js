@@ -97,3 +97,74 @@ test("buildRuntimeSourcePackages groups Jogeva KOV service evidence by canonical
   assert.equal(jogevaPackage.source_ids.includes("journal-background"), false);
   assert.equal(JSON.stringify(jogevaPackage).includes("This text must not be copied"), false);
 });
+
+test("buildRuntimeSourcePackages links related form contact and general KOV regulation evidence conservatively", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      id: "service-info",
+      title: "Koduteenus",
+      sourceType: "kov_service_info",
+      itemType: "service",
+      canonicalItemId: "jogeva_vald_service_koduteenus",
+      municipalityId: "jogeva_vald",
+      sectionsPresent: ["description", "eligibility", "application"],
+      sourceStatus: "active"
+    },
+    {
+      id: "related-form",
+      title: "Sotsiaalabi taotlus",
+      sourceType: "application_form",
+      itemType: "form",
+      canonicalItemId: "jogeva_vald_form_sotsiaalabi_taotlus",
+      relatedCanonicalItemIds: ["jogeva_vald_service_koduteenus"],
+      municipalityId: "jogeva_vald",
+      sourceStatus: "active"
+    },
+    {
+      id: "related-contact",
+      title: "Sotsiaalvaldkonna kontakt",
+      sourceType: "contact_page",
+      itemType: "contact",
+      canonicalItemId: "jogeva_vald_contact_eve_viks",
+      relatedCanonicalItemIds: ["jogeva_vald_service_koduteenus"],
+      municipalityId: "jogeva_vald",
+      sourceStatus: "active"
+    },
+    {
+      id: "general-regulation",
+      title: "Jogeva valla sotsiaalhoolekandelise abi andmise kord",
+      sourceType: "kov_regulation",
+      collectionId: "kov_regulations",
+      municipalityId: "jogeva_vald",
+      sourceStatus: "active"
+    },
+    {
+      id: "wrong-kov-form",
+      title: "Vale KOV vorm",
+      sourceType: "application_form",
+      itemType: "form",
+      relatedCanonicalItemIds: ["jogeva_vald_service_koduteenus"],
+      municipalityId: "tartu_linn",
+      sourceStatus: "active"
+    },
+    {
+      id: "journal-form",
+      title: "Artikkel",
+      sourceType: "journal_article",
+      relatedCanonicalItemIds: ["jogeva_vald_service_koduteenus"],
+      municipalityId: "jogeva_vald",
+      sourceStatus: "active"
+    }
+  ]);
+
+  const pkg = packages.find(item => item.canonical_item_id === "jogeva_vald_service_koduteenus");
+  assert.ok(pkg);
+  assert.deepEqual(pkg.sections.forms.map(source => source.source_id), ["related-form"]);
+  assert.deepEqual(pkg.sections.contacts.map(source => source.source_id), ["related-contact"]);
+  assert.deepEqual(pkg.sections.legal_basis.map(source => source.source_id), ["general-regulation"]);
+  assert.deepEqual(pkg.sections.fees.map(source => source.source_id), ["general-regulation"]);
+  assert.deepEqual(pkg.sections.deadlines.map(source => source.source_id), ["general-regulation"]);
+  assert.equal(pkg.sections.legal_basis[0].evidence_strength, "partial");
+  assert.equal(pkg.source_ids.includes("wrong-kov-form"), false);
+  assert.equal(pkg.source_ids.includes("journal-form"), false);
+});

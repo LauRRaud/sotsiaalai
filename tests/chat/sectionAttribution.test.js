@@ -130,6 +130,33 @@ test("historical or inactive source cannot confirm current evidence", () => {
   }
 });
 
+test("partial KOV regulation association stays partial in section attribution", () => {
+  const result = buildSectionAttribution({
+    sourcePackages: [
+      packageFixture({
+        sections: {
+          ...packageFixture().sections,
+          legal_basis: [
+            {
+              source_id: "jogeva-regulation",
+              source_type: "kov_regulation",
+              source_status: "active",
+              historical: false,
+              evidence_strength: "partial"
+            }
+          ]
+        }
+      })
+    ],
+    packageAwareAnswering: { used: true }
+  });
+
+  const entry = section(result, "legal_basis");
+  assert.deepEqual(entry.source_ids, ["jogeva-regulation"]);
+  assert.equal(entry.evidence_strength, "partial");
+  assert.deepEqual(entry.evidence_statuses, ["weak_or_indirect_section"]);
+});
+
 test("legal exact query opts out of SourcePackage section attribution", () => {
   const result = buildSectionAttribution({
     sourcePackages: [packageFixture()],
