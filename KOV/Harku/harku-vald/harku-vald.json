@@ -20,7 +20,43 @@
       "relatedContacts": [
         "harku_vald_contact_meeli_vaarpuu",
         "harku_vald_contact_epp_sona"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "eakate_toimetulek_page"
+      ],
+      "source_keys": [
+        "eakate_toimetulek_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_koduteenus",
+      "document_id": "harku_vald_service_koduteenus",
+      "canonical_item_id": "harku_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/eakate-toimetulek",
+      "content_hash": "f69738d77ff64a90273eab2fc72ce47d2c91d5c78a6fd1ec2af6db29235d509d",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_uldhooldusteenus",
@@ -41,7 +77,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "eakate_toimetulek_page"
+      ],
+      "source_keys": [
+        "eakate_toimetulek_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_uldhooldusteenus",
+      "document_id": "harku_vald_service_uldhooldusteenus",
+      "canonical_item_id": "harku_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/eakate-toimetulek",
+      "content_hash": "aacf688bbd4e57ce160249bc2327c92b05c6928b1f72994b9157c7df78b2f601",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_sotsiaaltransport",
@@ -61,7 +133,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "source_keys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_sotsiaaltransport",
+      "document_id": "harku_vald_service_sotsiaaltransport",
+      "canonical_item_id": "harku_vald_service_sotsiaaltransport",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/teenused-erivajadusega-inimesele",
+      "content_hash": "597e9f0215da4b2706b974dbe489422c1932d9046fa55c59f6a511b6f16c7a98",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_hairenuputeenus",
@@ -80,7 +188,43 @@
       "relatedContacts": [
         "harku_vald_contact_meeli_vaarpuu",
         "harku_vald_contact_epp_sona"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "muud_toetused_ja_teenused_page"
+      ],
+      "source_keys": [
+        "muud_toetused_ja_teenused_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_hairenuputeenus",
+      "document_id": "harku_vald_service_hairenuputeenus",
+      "canonical_item_id": "harku_vald_service_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/muud-toetused-ja-teenused",
+      "content_hash": "215508319abbe940c7850ea150fc3802429b5cade92da6f8d51c3ac18b416257",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_eluruumi_teenus",
@@ -98,7 +242,43 @@
       "relatedForms": [],
       "relatedContacts": [
         "harku_vald_contact_epp_sona"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "elukoha_tagamine_page"
+      ],
+      "source_keys": [
+        "elukoha_tagamine_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_eluruumi_teenus",
+      "document_id": "harku_vald_service_eluruumi_teenus",
+      "canonical_item_id": "harku_vald_service_eluruumi_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/kodu/elukoha-tagamine",
+      "content_hash": "1dd89e2b3de4bf375488b442765ebeb04e1c8d22085724df0d218cbef563f0d4",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_varjupaigateenus",
@@ -117,7 +297,43 @@
       "relatedContacts": [
         "harku_vald_contact_epp_sona",
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "elukoha_tagamine_page"
+      ],
+      "source_keys": [
+        "elukoha_tagamine_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_varjupaigateenus",
+      "document_id": "harku_vald_service_varjupaigateenus",
+      "canonical_item_id": "harku_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/kodu/elukoha-tagamine",
+      "content_hash": "55448655ed174a1ef538db4110a1e00877338938b008e2bd9b425732b193750e",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_turvakoduteenus",
@@ -141,7 +357,43 @@
         "harku_vald_contact_maive_riismandel",
         "harku_vald_contact_meeli_vaarpuu",
         "harku_vald_contact_epp_sona"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "elukoha_tagamine_page"
+      ],
+      "source_keys": [
+        "elukoha_tagamine_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_turvakoduteenus",
+      "document_id": "harku_vald_service_turvakoduteenus",
+      "canonical_item_id": "harku_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/kodu/elukoha-tagamine",
+      "content_hash": "a335ab613d771bea62d081953cfabc8a6c57accb68606eafa7b7bbe53e7ef80e",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_vaimse_tervise_noustamine",
@@ -163,7 +415,43 @@
         "harku_vald_contact_heli_tuulik",
         "harku_vald_contact_maive_riismandel",
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vaimne_tervis_page"
+      ],
+      "source_keys": [
+        "vaimne_tervis_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_vaimse_tervise_noustamine",
+      "document_id": "harku_vald_service_vaimse_tervise_noustamine",
+      "canonical_item_id": "harku_vald_service_vaimse_tervise_noustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/vaimne-tervis",
+      "content_hash": "eb8aa9d4b041ee64949844757b8075579ad1672579b0e22f55a75eeaed1f3144",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_volanoustamise_teenus",
@@ -181,7 +469,43 @@
       "relatedForms": [],
       "relatedContacts": [
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "volanoustamisteenus_page"
+      ],
+      "source_keys": [
+        "volanoustamisteenus_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_volanoustamise_teenus",
+      "document_id": "harku_vald_service_volanoustamise_teenus",
+      "canonical_item_id": "harku_vald_service_volanoustamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/volanoustamisteenus",
+      "content_hash": "d093c84bd3b87011651bb19f38d6c7b7daec0272c3fac2c6c30be88cd32daefc",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_toidupank",
@@ -199,7 +523,43 @@
       "relatedForms": [],
       "relatedContacts": [
         "harku_vald_contact_epp_sona"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "toiduabi_page"
+      ],
+      "source_keys": [
+        "toiduabi_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_toidupank",
+      "document_id": "harku_vald_service_toidupank",
+      "canonical_item_id": "harku_vald_service_toidupank",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toiduabi",
+      "content_hash": "ea3a177419d9149a6559e5bbd16aaa9688bfe05e46f7e9d82d323ed35b24f56d",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_tugiisikuteenus",
@@ -222,7 +582,43 @@
         "harku_vald_contact_maive_riismandel",
         "harku_vald_contact_meeli_vaarpuu",
         "harku_vald_contact_epp_sona"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "tugiisikuteenus_page"
+      ],
+      "source_keys": [
+        "tugiisikuteenus_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_tugiisikuteenus",
+      "document_id": "harku_vald_service_tugiisikuteenus",
+      "canonical_item_id": "harku_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/tugiisikuteenus",
+      "content_hash": "5872f2331599c37d22f36f8ee933e8dea6019afb3153d7a25ec6344db6a5039d",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_isikliku_abistaja_teenus",
@@ -242,7 +638,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "source_keys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_isikliku_abistaja_teenus",
+      "document_id": "harku_vald_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "harku_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/teenused-erivajadusega-inimesele",
+      "content_hash": "22b59986a7aa8f6f19dfb52fea6e42fd636d22f989da1e51dcf32cb8a0baa500",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_taisealise_isiku_hooldus",
@@ -262,7 +694,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "source_keys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_taisealise_isiku_hooldus",
+      "document_id": "harku_vald_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "harku_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/teenused-erivajadusega-inimesele",
+      "content_hash": "e889c57deff8b5402944d103d26712e61e50d46f89db08e7a95de5243ce8eaf7",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_lapsehoiuteenus",
@@ -285,7 +753,43 @@
         "harku_vald_contact_ivika_kelder",
         "harku_vald_contact_heli_tuulik",
         "harku_vald_contact_maive_riismandel"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "erivajadusega_laps_page"
+      ],
+      "source_keys": [
+        "erivajadusega_laps_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_lapsehoiuteenus",
+      "document_id": "harku_vald_service_lapsehoiuteenus",
+      "canonical_item_id": "harku_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/erivajadusega-laps",
+      "content_hash": "f29a75c36aa787534e21b5f0e482b1123a5d5bd06f58e14f91dd9a21a3e8c72a",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_asendushooldusteenus",
@@ -306,7 +810,43 @@
         "harku_vald_contact_ivika_kelder",
         "harku_vald_contact_heli_tuulik",
         "harku_vald_contact_maive_riismandel"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vanemlus_ja_paarisuhe_page"
+      ],
+      "source_keys": [
+        "vanemlus_ja_paarisuhe_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_asendushooldusteenus",
+      "document_id": "harku_vald_service_asendushooldusteenus",
+      "canonical_item_id": "harku_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/pere-ja-lapsed/vanemlus-ja-paarisuhe",
+      "content_hash": "d025299e9c3e77f105a739afd5e430881ae5b32789a93106aa6123bbb2f9bfd2",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_service_jarelhooldusteenus",
@@ -327,7 +867,43 @@
         "harku_vald_contact_ivika_kelder",
         "harku_vald_contact_heli_tuulik",
         "harku_vald_contact_maive_riismandel"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vanemlus_ja_paarisuhe_page"
+      ],
+      "source_keys": [
+        "vanemlus_ja_paarisuhe_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_service_jarelhooldusteenus",
+      "document_id": "harku_vald_service_jarelhooldusteenus",
+      "canonical_item_id": "harku_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/pere-ja-lapsed/vanemlus-ja-paarisuhe",
+      "content_hash": "e0488f2f45c3515749c23d56e240a605f2f80b96f59ce4b6a921edb4cacf2026",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_ujumisteenuse_toetus",
@@ -347,7 +923,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "eakate_toimetulek_page"
+      ],
+      "source_keys": [
+        "eakate_toimetulek_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_ujumisteenuse_toetus",
+      "document_id": "harku_vald_benefit_ujumisteenuse_toetus",
+      "canonical_item_id": "harku_vald_benefit_ujumisteenuse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/eakate-toimetulek",
+      "content_hash": "ff72faf8a25a0da2226a5ca95f4479773111000dc4b802bf52631a05100217a4",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_koolitoetus_eestkostel_või_peres_hooldamisel",
@@ -367,7 +979,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "toetused_peredele_page"
+      ],
+      "source_keys": [
+        "toetused_peredele_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_koolitoetus_eestkostel_või_peres_hooldamisel",
+      "document_id": "harku_vald_benefit_koolitoetus_eestkostel_või_peres_hooldamisel",
+      "canonical_item_id": "harku_vald_benefit_koolitoetus_eestkostel_või_peres_hooldamisel",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/pere-ja-lapsed/toetused-peredele",
+      "content_hash": "e75932aae9354890b5404b6f386d33c8d5fd3a77d4de256f51ba99c21bacc9a3",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_joulutoetus",
@@ -387,7 +1035,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "toetused_peredele_page"
+      ],
+      "source_keys": [
+        "toetused_peredele_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_joulutoetus",
+      "document_id": "harku_vald_benefit_joulutoetus",
+      "canonical_item_id": "harku_vald_benefit_joulutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/pere-ja-lapsed/toetused-peredele",
+      "content_hash": "a938d3ed65a7f7919e403e9922741bbf1769ac1a6497f68136b35de167114875",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_toidutoetus",
@@ -407,7 +1091,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vahekindlustatud_page"
+      ],
+      "source_keys": [
+        "vahekindlustatud_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_toidutoetus",
+      "document_id": "harku_vald_benefit_toidutoetus",
+      "canonical_item_id": "harku_vald_benefit_toidutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toetused-vahekindlustatud-isikutele-ja-peredele",
+      "content_hash": "97fd60a8c6fefd9742b3297f19a4b85907b23d25f224f359ce0d34ad9a31264d",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_koolitoetus_vahemalt_üks_laps",
@@ -427,7 +1147,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vahekindlustatud_page"
+      ],
+      "source_keys": [
+        "vahekindlustatud_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_koolitoetus_vahemalt_üks_laps",
+      "document_id": "harku_vald_benefit_koolitoetus_vahemalt_üks_laps",
+      "canonical_item_id": "harku_vald_benefit_koolitoetus_vahemalt_üks_laps",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toetused-vahekindlustatud-isikutele-ja-peredele",
+      "content_hash": "c2542590be4cb6e7b35126f79681b6c9ad28d057bb6a1748b819f522315aa970",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_koolitoetus_vahemalt_kaks_last",
@@ -447,7 +1203,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vahekindlustatud_page"
+      ],
+      "source_keys": [
+        "vahekindlustatud_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_koolitoetus_vahemalt_kaks_last",
+      "document_id": "harku_vald_benefit_koolitoetus_vahemalt_kaks_last",
+      "canonical_item_id": "harku_vald_benefit_koolitoetus_vahemalt_kaks_last",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toetused-vahekindlustatud-isikutele-ja-peredele",
+      "content_hash": "f6d6a90af12ef3b162610d1589d29e826956f5f55b42de0e0aecc1f37cc6e428",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_koolitoetus_lopetamisel",
@@ -467,7 +1259,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vahekindlustatud_page"
+      ],
+      "source_keys": [
+        "vahekindlustatud_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_koolitoetus_lopetamisel",
+      "document_id": "harku_vald_benefit_koolitoetus_lopetamisel",
+      "canonical_item_id": "harku_vald_benefit_koolitoetus_lopetamisel",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toetused-vahekindlustatud-isikutele-ja-peredele",
+      "content_hash": "695f4988e09f7b677352d99c68a5fa834f5a9d7bacbe3b11e40e731ffa469d13",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_kultuuri_ja_spordiuritused",
@@ -487,7 +1315,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vahekindlustatud_page"
+      ],
+      "source_keys": [
+        "vahekindlustatud_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_kultuuri_ja_spordiuritused",
+      "document_id": "harku_vald_benefit_kultuuri_ja_spordiuritused",
+      "canonical_item_id": "harku_vald_benefit_kultuuri_ja_spordiuritused",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toetused-vahekindlustatud-isikutele-ja-peredele",
+      "content_hash": "1d63dd04d9c12dcda23b533191d412cc4f409d9f3cebc402334040a2a419d5d3",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_paljulapselise_pere_toetus",
@@ -507,7 +1371,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vahekindlustatud_page"
+      ],
+      "source_keys": [
+        "vahekindlustatud_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_paljulapselise_pere_toetus",
+      "document_id": "harku_vald_benefit_paljulapselise_pere_toetus",
+      "canonical_item_id": "harku_vald_benefit_paljulapselise_pere_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toetused-vahekindlustatud-isikutele-ja-peredele",
+      "content_hash": "111eae958b46201f4361e2690de4537b48382c475d814b876bb7590d762fa152",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_laagritoetus",
@@ -527,7 +1427,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vahekindlustatud_page"
+      ],
+      "source_keys": [
+        "vahekindlustatud_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_laagritoetus",
+      "document_id": "harku_vald_benefit_laagritoetus",
+      "canonical_item_id": "harku_vald_benefit_laagritoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toetused-vahekindlustatud-isikutele-ja-peredele",
+      "content_hash": "f0759a1d7e3536589a35d62200df41c21f49fe8bfdab8b09488d9ae5d9e97dfc",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_nagemise_parandamise_toetus",
@@ -547,7 +1483,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "vahekindlustatud_page"
+      ],
+      "source_keys": [
+        "vahekindlustatud_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_nagemise_parandamise_toetus",
+      "document_id": "harku_vald_benefit_nagemise_parandamise_toetus",
+      "canonical_item_id": "harku_vald_benefit_nagemise_parandamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toetused-vahekindlustatud-isikutele-ja-peredele",
+      "content_hash": "b102a5c39e67ac934d4d87b587e9f5b8d3357cfcfe9a826eebcb323576e0e03c",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_rimi_toidukaart",
@@ -565,7 +1537,43 @@
       "relatedForms": [],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "toiduabi_page"
+      ],
+      "source_keys": [
+        "toiduabi_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_rimi_toidukaart",
+      "document_id": "harku_vald_benefit_rimi_toidukaart",
+      "canonical_item_id": "harku_vald_benefit_rimi_toidukaart",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/toiduabi",
+      "content_hash": "a88f367b6986350b7e1d1d1be56b9251f1218807fa5f923f2b678b0f272d9967",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_toimetulekutoetus",
@@ -586,7 +1594,43 @@
       "relatedContacts": [
         "harku_vald_contact_epp_sona",
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "abi_majandusliku_raskuse_korral_page"
+      ],
+      "source_keys": [
+        "abi_majandusliku_raskuse_korral_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_toimetulekutoetus",
+      "document_id": "harku_vald_benefit_toimetulekutoetus",
+      "canonical_item_id": "harku_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/abi-majandusliku-raskuse-korral",
+      "content_hash": "20a28aba6c42b1ec04a9668b2331c231587aa61c38130541e4b7a5cd1085ad67",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_uhekordne_toetus",
@@ -607,7 +1651,43 @@
       "relatedContacts": [
         "harku_vald_contact_epp_sona",
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "abi_majandusliku_raskuse_korral_page"
+      ],
+      "source_keys": [
+        "abi_majandusliku_raskuse_korral_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_uhekordne_toetus",
+      "document_id": "harku_vald_benefit_uhekordne_toetus",
+      "canonical_item_id": "harku_vald_benefit_uhekordne_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/abi-majandusliku-raskuse-korral",
+      "content_hash": "52f4185f3ced5c9dc7f1010a2397a195fadab5f66a99b3bee6222eaf92eb55c4",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_matusetoetus",
@@ -627,7 +1707,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadri_kelgo"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "matusetoetus_page"
+      ],
+      "source_keys": [
+        "matusetoetus_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_matusetoetus",
+      "document_id": "harku_vald_benefit_matusetoetus",
+      "canonical_item_id": "harku_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/lahedase-surm/matusetoetus",
+      "content_hash": "c1094ad1f0d486c0ae6ac22b5523d7bb927a133c1019f3841bb77769089f629f",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_ravi_ja_rehabilitatsioonitoetus",
@@ -647,7 +1763,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "eakate_toimetulek_page"
+      ],
+      "source_keys": [
+        "eakate_toimetulek_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_ravi_ja_rehabilitatsioonitoetus",
+      "document_id": "harku_vald_benefit_ravi_ja_rehabilitatsioonitoetus",
+      "canonical_item_id": "harku_vald_benefit_ravi_ja_rehabilitatsioonitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/eakate-toimetulek",
+      "content_hash": "0a7fcd0ffe075e7ec99bcf709940c085506737b1aea8d3ed57bb06dc905b9db9",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_kuttetoetus",
@@ -667,7 +1819,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "eakate_toimetulek_page"
+      ],
+      "source_keys": [
+        "eakate_toimetulek_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_kuttetoetus",
+      "document_id": "harku_vald_benefit_kuttetoetus",
+      "canonical_item_id": "harku_vald_benefit_kuttetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/eakate-toimetulek",
+      "content_hash": "e257b98afcec6f78376597a68ae1fd7d9d2e8e4520c0125dfd77cfd0bdd36daf",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_tahtpaeva_toetus",
@@ -685,7 +1873,43 @@
       "relatedForms": [],
       "relatedContacts": [
         "harku_vald_contact_kadi_netse"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "eakate_toimetulek_page"
+      ],
+      "source_keys": [
+        "eakate_toimetulek_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_tahtpaeva_toetus",
+      "document_id": "harku_vald_benefit_tahtpaeva_toetus",
+      "canonical_item_id": "harku_vald_benefit_tahtpaeva_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/eakate-toimetulek",
+      "content_hash": "5a506b8131689a6fa2e524c10c0b78a04c536e592b8c4602ad909d5c19329fe2",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_puudega_isiku_transporditoetus",
@@ -705,7 +1929,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "source_keys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_puudega_isiku_transporditoetus",
+      "document_id": "harku_vald_benefit_puudega_isiku_transporditoetus",
+      "canonical_item_id": "harku_vald_benefit_puudega_isiku_transporditoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/teenused-erivajadusega-inimesele",
+      "content_hash": "f8fdc391ba345b0f581b3d191fe9d98ee1aafb93deba8f8cafc60861146703a3",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_benefit_hooldajatoetus",
@@ -728,7 +1988,43 @@
       ],
       "relatedContacts": [
         "harku_vald_contact_meeli_vaarpuu"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "source_keys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_benefit_hooldajatoetus",
+      "document_id": "harku_vald_benefit_hooldajatoetus",
+      "canonical_item_id": "harku_vald_benefit_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/teenused-erivajadusega-inimesele",
+      "content_hash": "215e405f42493b6b4af4f09500a03feb42e6ecbb2af4c670830ce279030663ed",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_resource_eakate_paevakeskus",
@@ -742,7 +2038,44 @@
       "phone": "8282 2171",
       "email": "eakatepaevakeskus@harku.ee",
       "targetGroup": "Eakad, puuetega inimesed ja teised abivajajad.",
-      "application": "Päevakeskusesse saab pöörduda otse ning sealt saab abi sotsiaalteenuste kohta info saamisel ja dokumentide vormistamisel."
+      "application": "Päevakeskusesse saab pöörduda otse ning sealt saab abi sotsiaalteenuste kohta info saamisel ja dokumentide vormistamisel.",
+      "item_type": "resource",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "eakate_toimetulek_page"
+      ],
+      "source_keys": [
+        "eakate_toimetulek_page"
+      ],
+      "relatedForms": [],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_resource_eakate_paevakeskus",
+      "document_id": "harku_vald_resource_eakate_paevakeskus",
+      "canonical_item_id": "harku_vald_resource_eakate_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/toimetulek/eakate-toimetulek",
+      "content_hash": "989842779844bbe70877cc37763fba55de28e541141a13fe99622c08a53c7958",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_resource_harku_sotsiaalkeskus",
@@ -756,7 +2089,44 @@
       "phone": "5347 3011",
       "email": "info@harkusotsiaalkeskus.ee",
       "targetGroup": "Erivajadusega inimesed ja teised abivajajad, kes vajavad päevahoidu, kogukonnas elamise teenust, nõustamist või teraapiaid.",
-      "application": "Teenusele saamiseks saab inimene ise, tema eestkostja või kohalik omavalitsus sotsiaalkeskusega ühendust võtta. Enne alustamist selgitatakse vajadus ja koostatakse tegevus- või teraapiaplaan."
+      "application": "Teenusele saamiseks saab inimene ise, tema eestkostja või kohalik omavalitsus sotsiaalkeskusega ühendust võtta. Enne alustamist selgitatakse vajadus ja koostatakse tegevus- või teraapiaplaan.",
+      "item_type": "resource",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "harku_sotsiaalkeskus_page"
+      ],
+      "source_keys": [
+        "harku_sotsiaalkeskus_page"
+      ],
+      "relatedForms": [],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_resource_harku_sotsiaalkeskus",
+      "document_id": "harku_vald_resource_harku_sotsiaalkeskus",
+      "canonical_item_id": "harku_vald_resource_harku_sotsiaalkeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/harku-sotsiaalkeskus",
+      "content_hash": "56560f69dce8c0d228152cbc2324d9c9cdd426733d749d6fba4a2c2fdcc2bb2c",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_resource_parkimiskaart",
@@ -773,7 +2143,44 @@
       "email": null,
       "targetGroup": "Liikumis- või nägemispuudega inimesed ning ajutise liikumis- või nägemisraskusega inimesed, kellele on parkimiskaart põhjendatud.",
       "conditions": "Kaarti saab taotleda mõõduka, raske või sügava liikumis- või nägemispuude korral ning ajutise liikumis- või nägemisraskuse korral arstitõendi alusel.",
-      "application": "Parkimiskaarti saab taotleda ainult Harku Vallavalitsuses kohapeal. Kaasa tuleb võtta isikut tõendav dokument, 3 × 4 cm foto ja vajaduse korral arstitõend või Sotsiaalkindlustusameti otsus. Otsus tehakse 10 tööpäeva jooksul."
+      "application": "Parkimiskaarti saab taotleda ainult Harku Vallavalitsuses kohapeal. Kaasa tuleb võtta isikut tõendav dokument, 3 × 4 cm foto ja vajaduse korral arstitõend või Sotsiaalkindlustusameti otsus. Otsus tehakse 10 tööpäeva jooksul.",
+      "item_type": "resource",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "muud_toetused_ja_teenused_page"
+      ],
+      "source_keys": [
+        "muud_toetused_ja_teenused_page"
+      ],
+      "relatedForms": [],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_resource_parkimiskaart",
+      "document_id": "harku_vald_resource_parkimiskaart",
+      "canonical_item_id": "harku_vald_resource_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/muud-toetused-ja-teenused",
+      "content_hash": "8e634dd880485f24643c8e30c84c3efa9096b580aef5e36d07cbe78175ebf63e",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_resource_viipekeele_tolketeenus",
@@ -790,7 +2197,44 @@
       "email": null,
       "targetGroup": "Kuulmispuudega Harku valla elanikud, kes kasutavad viipekeelt.",
       "conditions": "KOV leht toob näidetena tervishoiu- ja sotsiaalteenuste kasutamise, suhtlemise ametiasutustes, perekondlikud sündmused ning hädaolukorrad.",
-      "application": "KOV leht kirjeldab teenuse eesmärki ja nimetab teenuseosutaja Viipekeeletõlkide OÜ, kuid ei kirjelda detailselt taotlemise samme."
+      "application": "KOV leht kirjeldab teenuse eesmärki ja nimetab teenuseosutaja Viipekeeletõlkide OÜ, kuid ei kirjelda detailselt taotlemise samme.",
+      "item_type": "resource",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "muud_toetused_ja_teenused_page"
+      ],
+      "source_keys": [
+        "muud_toetused_ja_teenused_page"
+      ],
+      "relatedForms": [],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_resource_viipekeele_tolketeenus",
+      "document_id": "harku_vald_resource_viipekeele_tolketeenus",
+      "canonical_item_id": "harku_vald_resource_viipekeele_tolketeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/muud-toetused-ja-teenused",
+      "content_hash": "a3e05e10c19ace5303cd83b7cfb2c4ba3f955a470212f4541d1451b1cd9d1518",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_resource_erihoolekanne",
@@ -805,7 +2249,44 @@
       "email": null,
       "targetGroup": "Täisealised Eestis elavad psüühikahäirega inimesed, keda ei saa aidata teiste sotsiaalhoolekande teenustega.",
       "conditions": "Otsuse teenuse kohta teeb Sotsiaalkindlustusamet.",
-      "application": "Teenuse saamiseks tuleb esitada digiallkirjastatud taotlus või pöörduda Sotsiaalkindlustusameti teenindusse. Harku valla leht viitab erihoolekande teenuse taotluse blanketile ja Sotsiaalkindlustusameti lisainfole."
+      "application": "Teenuse saamiseks tuleb esitada digiallkirjastatud taotlus või pöörduda Sotsiaalkindlustusameti teenindusse. Harku valla leht viitab erihoolekande teenuse taotluse blanketile ja Sotsiaalkindlustusameti lisainfole.",
+      "item_type": "resource",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "source_keys": [
+        "erivajadusega_inimesele_page"
+      ],
+      "relatedForms": [],
+      "relatedLegalSources": [
+        "harku-vald-rt-404072025017"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_resource_erihoolekanne",
+      "document_id": "harku_vald_resource_erihoolekanne",
+      "canonical_item_id": "harku_vald_resource_erihoolekanne",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/erivajadus-ja-igapaevaelu/teenused-erivajadusega-inimesele",
+      "content_hash": "904ae516cd1499df29efe341851d16fff05e53465883e9ef2e0bbdc4aef8a502",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_kaja_saat",
@@ -818,7 +2299,44 @@
       "department": "Laste heaolu",
       "phone": "5918 2038",
       "email": "kaja.saat@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_kaja_saat"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_kaja_saat"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_kaja_saat",
+      "document_id": "harku_vald_contact_kaja_saat",
+      "canonical_item_id": "harku_vald_contact_kaja_saat",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "75c081cf62fb1fc3eee4d52acbcd67d845d37c676abb3dafea6dfc7e185de379",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_ivika_kelder",
@@ -831,7 +2349,44 @@
       "department": "Laste heaolu",
       "phone": "5912 4800",
       "email": "ivika.kelder@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_ivika_kelder"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_ivika_kelder"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_ivika_kelder",
+      "document_id": "harku_vald_contact_ivika_kelder",
+      "canonical_item_id": "harku_vald_contact_ivika_kelder",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "3cac3d67e9fed6a8ef679984688324ab68738527c312620432d3953596175226",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_heli_tuulik",
@@ -844,7 +2399,44 @@
       "department": "Laste heaolu",
       "phone": "5323 0694",
       "email": "heli.tuulik@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_heli_tuulik"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_heli_tuulik"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_heli_tuulik",
+      "document_id": "harku_vald_contact_heli_tuulik",
+      "canonical_item_id": "harku_vald_contact_heli_tuulik",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "0d91c7f28fd5d5f99ae6bc8aeeac00281e4ba87449fa0c31ad9dd684bc2babae",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_maive_riismandel",
@@ -857,7 +2449,44 @@
       "department": "Laste heaolu",
       "phone": "5841 4341",
       "email": "maive.riismandel@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_maive_riismandel"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_maive_riismandel"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_maive_riismandel",
+      "document_id": "harku_vald_contact_maive_riismandel",
+      "canonical_item_id": "harku_vald_contact_maive_riismandel",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "93b2e19757d6ee3960ef337d2c0c55a5c9e793c1a061aae6e654980dc5c2b205",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_annika_rannamets",
@@ -870,7 +2499,44 @@
       "department": "Noorte heaolu",
       "phone": "5191 1056",
       "email": "annika.rannamets@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_annika_rannamets"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_annika_rannamets"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_annika_rannamets",
+      "document_id": "harku_vald_contact_annika_rannamets",
+      "canonical_item_id": "harku_vald_contact_annika_rannamets",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "268af07862b7ce6091c8c737e69b7648136c6d1d0565614e2a69d1c72059ffa3",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_meeli_vaarpuu",
@@ -883,7 +2549,44 @@
       "department": "Sotsiaalhoolekanne",
       "phone": "5552 0232",
       "email": "meeli.vaarpuu@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_meeli_vaarpuu"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_meeli_vaarpuu"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_meeli_vaarpuu",
+      "document_id": "harku_vald_contact_meeli_vaarpuu",
+      "canonical_item_id": "harku_vald_contact_meeli_vaarpuu",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "0ff8674293d8fbc9214827c1fc50d0aea5f4cc0fcf2ea2179d71c426c4f794b8",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_epp_sona",
@@ -896,7 +2599,44 @@
       "department": "Sotsiaalhoolekanne",
       "phone": "5308 3290",
       "email": "epp.sona@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_epp_sona"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_epp_sona"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_epp_sona",
+      "document_id": "harku_vald_contact_epp_sona",
+      "canonical_item_id": "harku_vald_contact_epp_sona",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "fea8aad9bf21444df15b0a900dafec60b5ab63f239e8856598ad76638ac46f9c",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_kadri_kelgo",
@@ -909,7 +2649,44 @@
       "department": "Sotsiaalhoolekanne",
       "phone": "5342 1350",
       "email": "kadri.kelgo@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_kadri_kelgo"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_kadri_kelgo"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_kadri_kelgo",
+      "document_id": "harku_vald_contact_kadri_kelgo",
+      "canonical_item_id": "harku_vald_contact_kadri_kelgo",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "2d443fbe884f1b507bfdac1b347770768d811a44a06fe3d7185dbcdfdbb0f0bb",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_kadi_netse",
@@ -922,7 +2699,44 @@
       "department": "Sotsiaalhoolekanne",
       "phone": "5884 7260",
       "email": "kadi.netse@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_kadi_netse"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_kadi_netse"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_kadi_netse",
+      "document_id": "harku_vald_contact_kadi_netse",
+      "canonical_item_id": "harku_vald_contact_kadi_netse",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "dd3f7bb8f0d08201c5430940b9366d5f14e2dda8afa381f9e6c3b60f642dbd75",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_contact_tiia_spitson",
@@ -935,7 +2749,44 @@
       "department": "Sotsiaal- ja tervishoiuosakond",
       "phone": "5332 7907",
       "email": "tiia.spitson@harku.ee",
-      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid"
+      "officialUrl": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "item_type": "contact",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "contacts_page",
+        "harku_vald_contact_tiia_spitson"
+      ],
+      "source_keys": [
+        "contacts_page",
+        "harku_vald_contact_tiia_spitson"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_contact_tiia_spitson",
+      "document_id": "harku_vald_contact_tiia_spitson",
+      "canonical_item_id": "harku_vald_contact_tiia_spitson",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/pere-sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiuosakonna-kontaktid",
+      "content_hash": "fb5e5464f8b6fb9f0ecb2e82c65f951aa6ffde069947f6cd340f7effa78dba0f",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_sotsiaaltransport_taotlus",
@@ -952,7 +2803,42 @@
       ],
       "relatedTo": [
         "harku_vald_service_sotsiaaltransport"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "sotsiaaltransporditeenuse_taotlus_pdf"
+      ],
+      "source_keys": [
+        "sotsiaaltransporditeenuse_taotlus_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_sotsiaaltransport_taotlus",
+      "document_id": "harku_vald_form_sotsiaaltransport_taotlus",
+      "canonical_item_id": "harku_vald_form_sotsiaaltransport_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/Sotsiaaltransporditeenuse%20taotlus.pdf",
+      "content_hash": "f9fa56a40ffc1965240401a06d80d66f5c4717f06d007ab5199a60a8f30a63d9",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_pere_tulust_mittesoltuv_toetuse_taotlus",
@@ -976,7 +2862,42 @@
         "harku_vald_benefit_uhekordne_toetus",
         "harku_vald_benefit_puudega_isiku_transporditoetus",
         "harku_vald_service_isikliku_abistaja_teenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "pere_tulust_mittesoltava_taotlus_pdf"
+      ],
+      "source_keys": [
+        "pere_tulust_mittesoltava_taotlus_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_pere_tulust_mittesoltuv_toetuse_taotlus",
+      "document_id": "harku_vald_form_pere_tulust_mittesoltuv_toetuse_taotlus",
+      "canonical_item_id": "harku_vald_form_pere_tulust_mittesoltuv_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/PERE%20TULUST%20MITTES%C3%95LTUVA%20TOETUSE%20TAOTLUS.pdf",
+      "content_hash": "6876717407da2d0a69263811fa49ac3f87bb3125fbfd5db7e6d7bb7c660ed772",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_pere_tulust_soltuv_toetuse_taotlus",
@@ -1000,7 +2921,42 @@
         "harku_vald_benefit_paljulapselise_pere_toetus",
         "harku_vald_benefit_laagritoetus",
         "harku_vald_benefit_nagemise_parandamise_toetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "pere_tulust_soltuva_taotlus_pdf"
+      ],
+      "source_keys": [
+        "pere_tulust_soltuva_taotlus_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_pere_tulust_soltuv_toetuse_taotlus",
+      "document_id": "harku_vald_form_pere_tulust_soltuv_toetuse_taotlus",
+      "canonical_item_id": "harku_vald_form_pere_tulust_soltuv_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-06/PERE%20TULUST%20S%C3%95LTUVA%20TOETUSE%20TAOTLUS.pdf",
+      "content_hash": "09736a83721d88a7bbf7ef2c34fa49b2cd8dec98051bcd025365cc2fbac6566a",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_joulutoetuse_taotlus",
@@ -1017,7 +2973,42 @@
       ],
       "relatedTo": [
         "harku_vald_benefit_joulutoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "joulutoetuse_taotlus_2025_pdf"
+      ],
+      "source_keys": [
+        "joulutoetuse_taotlus_2025_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_joulutoetuse_taotlus",
+      "document_id": "harku_vald_form_joulutoetuse_taotlus",
+      "canonical_item_id": "harku_vald_form_joulutoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-11/J%C3%B5ulutoetuse%20taotlus%202025_0.pdf",
+      "content_hash": "d62dab854b10a73e9459e3e16ad539585c8410551d7857d5b88ebbbc1b41885f",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_uldhooldusteenuse_taotlus",
@@ -1034,7 +3025,42 @@
       ],
       "relatedTo": [
         "harku_vald_service_uldhooldusteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "uldhooldusteenuse_taotlus_doc"
+      ],
+      "source_keys": [
+        "uldhooldusteenuse_taotlus_doc"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_uldhooldusteenuse_taotlus",
+      "document_id": "harku_vald_form_uldhooldusteenuse_taotlus",
+      "canonical_item_id": "harku_vald_form_uldhooldusteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/%C3%9Cldhooldusteenuse%20toetuse%20taotlus.doc",
+      "content_hash": "d918ab9a25d654e8461278435936b3fedceb2c707176f69f1a429e9255dea846",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_uldhooldusteenuse_lisatoetus",
@@ -1051,7 +3077,42 @@
       ],
       "relatedTo": [
         "harku_vald_service_uldhooldusteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "uldhooldusteenuse_lisatoetuse_taotlus_doc"
+      ],
+      "source_keys": [
+        "uldhooldusteenuse_lisatoetuse_taotlus_doc"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_uldhooldusteenuse_lisatoetus",
+      "document_id": "harku_vald_form_uldhooldusteenuse_lisatoetus",
+      "canonical_item_id": "harku_vald_form_uldhooldusteenuse_lisatoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/%C3%9Cldhooldusteenuse%20lisatoetuse%20taotlus.doc",
+      "content_hash": "4878afacbce783b4bf492f458249ce322850cd9272fe610e334cc2b15121ddbf",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_toimetulekutoetuse_taotlus",
@@ -1068,7 +3129,42 @@
       ],
       "relatedTo": [
         "harku_vald_benefit_toimetulekutoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "toimetulekutoetuse_taotlus_pdf"
+      ],
+      "source_keys": [
+        "toimetulekutoetuse_taotlus_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_toimetulekutoetuse_taotlus",
+      "document_id": "harku_vald_form_toimetulekutoetuse_taotlus",
+      "canonical_item_id": "harku_vald_form_toimetulekutoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/Toimetulekutoetuse%20taotlus.pdf",
+      "content_hash": "ddbe02d8c34115fba4dbc7620f32c51c4a282c3b247cd766df3f6f551ead4a87",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_hooldajatoetuse_taotlus",
@@ -1085,7 +3181,42 @@
       ],
       "relatedTo": [
         "harku_vald_benefit_hooldajatoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "hooldajatoetuse_taotlus_pdf"
+      ],
+      "source_keys": [
+        "hooldajatoetuse_taotlus_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_hooldajatoetuse_taotlus",
+      "document_id": "harku_vald_form_hooldajatoetuse_taotlus",
+      "canonical_item_id": "harku_vald_form_hooldajatoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/HOOLDAJATOETUSE%20TAOTLUS.pdf",
+      "content_hash": "89298bb6c717d4731e58896895bfe4a50361eeef3787b84d6fda9dae1726a567",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_nousolek_hooldajaks_asumiseks",
@@ -1102,7 +3233,42 @@
       ],
       "relatedTo": [
         "harku_vald_benefit_hooldajatoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "nousolek_hooldajaks_asumise_kohta_pdf"
+      ],
+      "source_keys": [
+        "nousolek_hooldajaks_asumise_kohta_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_nousolek_hooldajaks_asumiseks",
+      "document_id": "harku_vald_form_nousolek_hooldajaks_asumiseks",
+      "canonical_item_id": "harku_vald_form_nousolek_hooldajaks_asumiseks",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/N%C3%95USOLEK%20HOOLDAJAKS%20ASUMISE%20KOHTA.pdf",
+      "content_hash": "509de5c396d50be532da2df6d7befc20dbe3a3e9f260f4464e4eaa2028fd0f22",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_hooldajatoetus_taisealise_eestkostjale",
@@ -1119,7 +3285,42 @@
       ],
       "relatedTo": [
         "harku_vald_benefit_hooldajatoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "hooldajatoetus_taisealise_eestkostjale_pdf"
+      ],
+      "source_keys": [
+        "hooldajatoetus_taisealise_eestkostjale_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_hooldajatoetus_taisealise_eestkostjale",
+      "document_id": "harku_vald_form_hooldajatoetus_taisealise_eestkostjale",
+      "canonical_item_id": "harku_vald_form_hooldajatoetus_taisealise_eestkostjale",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/TAOTLUS%20HOOLDAJATOETUS%20%20T%C3%84ISEALISE%20ISIKU%20EESTKOSTJALE.pdf",
+      "content_hash": "f7ccf482e1ced8d5831d9ff57c689dbdda11e238597fd97c2d75067cb6ff7998",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_hooldajatoetus_lapse_hooldajale",
@@ -1136,7 +3337,42 @@
       ],
       "relatedTo": [
         "harku_vald_benefit_hooldajatoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "hooldajatoetus_lapse_hooldajale_pdf"
+      ],
+      "source_keys": [
+        "hooldajatoetus_lapse_hooldajale_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_hooldajatoetus_lapse_hooldajale",
+      "document_id": "harku_vald_form_hooldajatoetus_lapse_hooldajale",
+      "canonical_item_id": "harku_vald_form_hooldajatoetus_lapse_hooldajale",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/TAOTLUS%20hooldajatoetus%20lapse%20hooldajale.pdf",
+      "content_hash": "fc3a13b302e6a62adf19d1692e3d40fe4e13de2e720178a1c4291a4add080d36",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_taotlus_hoolduse_jatkamiseks",
@@ -1153,7 +3389,42 @@
       ],
       "relatedTo": [
         "harku_vald_service_taisealise_isiku_hooldus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "taotlus_hoolduse_jatkamiseks_pdf"
+      ],
+      "source_keys": [
+        "taotlus_hoolduse_jatkamiseks_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_taotlus_hoolduse_jatkamiseks",
+      "document_id": "harku_vald_form_taotlus_hoolduse_jatkamiseks",
+      "canonical_item_id": "harku_vald_form_taotlus_hoolduse_jatkamiseks",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/TAOTLUS%20T%C3%84HTAJALISE%20HOOLDUSE%20J%C3%84TKAMISEKS.pdf",
+      "content_hash": "74c524d1aeadbff141a38fc1eb6c4d8e94baa95d5e5438c9d81ee5f09ac5f441",
+      "evidence_allowed": true
     },
     {
       "id": "harku_vald_form_lapsehoiuteenuse_ja_muu_toetava_teenuse_taotlus",
@@ -1170,7 +3441,47 @@
       ],
       "relatedTo": [
         "harku_vald_service_lapsehoiuteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "harku_vald",
+      "municipality_name": "Harku vald",
+      "county": "Harjumaa",
+      "sourceKeys": [
+        "lapsehoiuteenuse_ja_muu_toetava_teenuse_taotlus_pdf"
+      ],
+      "source_keys": [
+        "lapsehoiuteenuse_ja_muu_toetava_teenuse_taotlus_pdf"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "metadata_schema_version": "v2.5",
+      "source_id": "harku_vald_form_lapsehoiuteenuse_ja_muu_toetava_teenuse_taotlus",
+      "document_id": "harku_vald_form_lapsehoiuteenuse_ja_muu_toetava_teenuse_taotlus",
+      "canonical_item_id": "harku_vald_form_lapsehoiuteenuse_ja_muu_toetava_teenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-11",
+      "last_checked": "2026-04-11",
+      "retrieved_at": "2026-04-11",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://harku.ee/sites/default/files/documents/2025-08/Raske%20ja%20s%C3%BCgava%20puudega%20lapse%20lapsehoiuteenuse%20ja%20muu%20toetava%20teenuse%20taotlus.pdf",
+      "content_hash": "aafd9130207a89c4d2076555676a3229097c041cb6bd1494292cef71280affe4",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_id": "harku_vald",
+  "municipality_name": "Harku vald",
+  "checked_at": "2026-04-11",
+  "schemaVersion": "v2.5-sourcepackage",
+  "lastMetadataUpgradeAt": "2026-04-28"
 }
