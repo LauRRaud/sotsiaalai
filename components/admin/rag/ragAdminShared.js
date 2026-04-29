@@ -411,6 +411,10 @@ export const normalizeDoc = item => {
     url: normalizeString(item.url || meta.url || meta.source_url || meta.sourceUrl || item.sourceUrl || ""),
     journalTitle: normalizeString(item.journalTitle || meta.journalTitle || meta.journal_title || ""),
     language: normalizeString(item.language || meta.language || ""),
-    source_type: normalizeString(meta.source_type || meta.sourceType || item.source_type || item.sourceType || item.type || "")
+    source_type: normalizeString(meta.source_type || meta.sourceType || item.source_type || item.sourceType || item.type || ""),
+    collection_id: normalizeString(meta.collection_id || meta.collectionId || item.collection_id || item.collectionId || ""),
+    source_format: normalizeString(meta.source_format || meta.sourceFormat || item.source_format || item.sourceFormat || ""),
+    municipality_id: normalizeString(meta.municipality_id || meta.municipalityId || item.municipality_id || item.municipalityId || ""),
+    municipality_name: normalizeString(meta.municipality_name || meta.municipalityName || item.municipality_name || item.municipalityName || "")
   };
 };

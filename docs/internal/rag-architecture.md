@@ -86,6 +86,55 @@ Validation result:
 
 Backups are written before `--write` as `*.bak-<timestamp>` for `.sources.json`, `.json`, `.meta.json`, and `.rag.md`. The `rag.md` content is not rewritten by this metadata upgrade.
 
+### KOV RAG Cleanup And Admin Workflow Reset 2026-04-29
+
+STATUS: implemented / dry-run-first / no reingest
+
+KOV cleanup now treats RAG state and app DB admin workflow state as separate layers. Deleting a KOV document from RAG service removes the retrievable document/chunks, but it does not by itself prove that the admin workflow row is no longer marked as ingested. Therefore `rag:cleanup:kov` plans and, with explicit confirmation, resets both layers.
+
+Tooling:
+
+```text
+npm run rag:inventory:kov -- --json logs/kov-rag-inventory.json
+npm run rag:cleanup:kov -- --manifest config/kov-reingest-cleanup-manifest.json --dry-run --json logs/cleanup-kov-rag-state-dry-run.json
+npm run rag:cleanup:kov -- --manifest config/kov-reingest-cleanup-manifest.json --write --confirm-cleanup --json logs/cleanup-kov-rag-state-write.json
+```
+
+Safety rules:
+
+- default mode is read-only dry-run;
+- destructive cleanup requires both `--write` and `--confirm-cleanup`;
+- `--write` without `--confirm-cleanup` aborts before planning/deleting;
+- cleanup never deletes repository KOV source bundles or files under `KOV/`, `scripts/`, `config/`, or the knowledge-doc layer;
+- cleanup does not perform reingest and does not implement V3.4B claim-level attribution.
+
+Inventory now includes KOV admin workflow state per municipality when DB access is available:
+
+- `adminStatus` from `MunicipalityKovAdmin.status`;
+- `readyForIngest`;
+- `ingestStatus`, `lastIngestedAt`, `lastIngestError`;
+- `rtIngestStatus`, `rtLastIngestedAt`, `rtLastIngestError`;
+- `ragDocId` / expected web docId;
+- `rtRagDocId` / expected RT docId;
+- RAG `/documents` existence signal for expected web and RT docIds;
+- `staleAdminIngested` signal.
+
+Cleanup dry-run now includes `admin_status_reset` for each scoped KOV, with `before`, `after`, `changes`, `will_update`, and `removes_top_level_ingested_status`. This makes stale admin UI states visible before any write.
+
+Confirmed reset policy uses the actual Prisma enums:
+
+- if the KOV source bundle exists and its metadata/sourcePackage readiness is OK, set `MunicipalityKovAdmin.status = READY_FOR_INGEST`;
+- otherwise set `MunicipalityKovAdmin.status = NEEDS_REVIEW`;
+- set `readyForIngest` according to source bundle readiness;
+- set `ingestStatus = NOT_INGESTED`;
+- clear `lastIngestedAt` and `lastIngestError`;
+- set `rtIngestStatus = NOT_INGESTED`;
+- clear `rtLastIngestedAt` and `rtLastIngestError`.
+
+`ragDocId` and `rtRagDocId` are treated as deterministic expected ids (`kov-<slug>` and `kov-rt-<slug>`), not as proof that the document currently exists in RAG. The real ingest presence signal must come from `ingestStatus` plus authenticated `/documents/:docId` status lookup.
+
+This fixes the admin UI inconsistency where the top-level KOV badge could still show `Ingested` after the underlying RAG document had been manually deleted, while the document status panel correctly showed `KOV: Pole ingestitud`.
+
 ### V3.0A Implementation Update 2026-04-28
 
 STATUS: implemented and smoke-tested
@@ -2117,6 +2166,9 @@ STATUS: reference / active code map
 - `scripts/ingest-national-rt-xml.mjs` - riikliku Riigi Teataja XML ingest.
 - `scripts/ingest-ajakiri-sotsiaaltoo.mjs` - Sotsiaaltöö ajakirja artiklite ingest.
 - `scripts/reindex-rag-documents.mjs` - dokumentide reindex.
+- `scripts/inventory-kov-rag-state.mjs` - KOV RAG/SourcePackage/admin workflow inventory; read-only.
+- `scripts/cleanup-kov-rag-state.mjs` - safe KOV cleanup/reset; dry-run-first, `--write --confirm-cleanup` required for destructive work.
+- `scripts/lib/kov-rag-state.mjs` - shared KOV cleanup/inventory helpers, including admin workflow reset planning.
 - `lib/admin/rag/kov/service.js` - KOV admin, failid, kontroll, ingest ja generic KOV metadata normaliseerimine `meta.json` -> RAG document/chunk metadata.
 - `lib/admin/rag/kov/validation.js` - KOV failide valideerimine.
 - `lib/admin/rag/kov/rtXml.js` - KOV/Riigi Teataja XML parser ja chunk'id.

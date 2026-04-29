@@ -137,6 +137,104 @@ function formatSourceLabel(value) {
   return value;
 }
 
+const SOURCE_TYPE_LABELS = {
+  application_form: "KOV vorm",
+  journal_article: "Ajakirjaartikkel",
+  kov_regulation: "KOV maarus",
+  kov_service_info: "KOV teenuseinfo",
+  municipality_kov: "KOV teenuseinfo",
+  official_contact: "KOV kontakt",
+  official_guideline: "Juhend",
+  policy_analysis: "Poliitikaanaluus",
+  research_report: "Uuring",
+  uploaded_file: "Ules laaditud fail"
+};
+
+const COLLECTION_LABELS = {
+  kov_regulations: "KOV RT kiht",
+  national_guidelines: "Riiklik juhend",
+  research_reports: "Uuringud",
+  sotsiaaltoo_articles: "Ajakiri Sotsiaaltoo",
+  training_materials: "Oppematerjalid"
+};
+
+const KOV_DOC_SOURCE_TYPES = new Set([
+  "application_form",
+  "kov_regulation",
+  "kov_service_info",
+  "municipality_kov",
+  "official_contact"
+]);
+
+function getSemanticSourceType(doc) {
+  const sourceType = String(doc?.source_type || "").trim();
+  if (sourceType) return sourceType;
+
+  const collectionId = String(doc?.collection_id || "").trim();
+  if (collectionId === "sotsiaaltoo_articles") return "journal_article";
+  if (collectionId === "kov_regulations") return "kov_regulation";
+  return String(doc?.type || "").trim();
+}
+
+function getCollectionLabel(doc) {
+  const collectionId = String(doc?.collection_id || "").trim();
+  return COLLECTION_LABELS[collectionId] || collectionId;
+}
+
+function getPrimaryTypeLabel(doc) {
+  const semanticType = getSemanticSourceType(doc);
+  return SOURCE_TYPE_LABELS[semanticType] || semanticType || String(doc?.type || "").trim();
+}
+
+function getTechnicalTypeLabel(doc) {
+  const technicalType = String(doc?.type || "").trim();
+  if (!technicalType) return "";
+
+  const semanticType = String(doc?.source_type || "").trim();
+  if (semanticType && technicalType.toUpperCase() === semanticType.toUpperCase()) return "";
+  return technicalType;
+}
+
+function normalizeMunicipalitySlug(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replaceAll("_", "-");
+}
+
+function getMunicipalitySlug(doc) {
+  const municipalityId = normalizeMunicipalitySlug(doc?.municipality_id);
+  if (municipalityId) return municipalityId;
+
+  const docId = String(doc?.docId || doc?.id || "").trim().toLowerCase();
+  const itemMatch = docId.match(/^kov::([^:]+)::/);
+  if (itemMatch?.[1]) return normalizeMunicipalitySlug(itemMatch[1]);
+
+  const rtMatch = docId.match(/^kov-rt-(.+)$/);
+  if (rtMatch?.[1]) return normalizeMunicipalitySlug(rtMatch[1]);
+
+  const webMatch = docId.match(/^kov-(.+)$/);
+  if (webMatch?.[1]) return normalizeMunicipalitySlug(webMatch[1]);
+
+  return "";
+}
+
+function isKovManagedDoc(doc) {
+  const sourceType = getSemanticSourceType(doc);
+  if (KOV_DOC_SOURCE_TYPES.has(sourceType)) return true;
+
+  const collectionId = String(doc?.collection_id || "").trim();
+  if (collectionId === "kov_regulations" || collectionId === "kov_services") return true;
+
+  return Boolean(getMunicipalitySlug(doc));
+}
+
+function getKovManageHref(doc) {
+  const slug = getMunicipalitySlug(doc);
+  const path = slug ? `/admin/rag/kov?slug=${encodeURIComponent(slug)}` : "/admin/rag/kov";
+  return localizePath(path);
+}
+
 export default function RagAdminDocumentsView({ controller, showMessage = true }) {
   const [showAllTags, setShowAllTags] = useState(false);
 
@@ -206,7 +304,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
     const counts = new Map();
 
     for (const doc of normalizedDocs) {
-      const type = String(doc.type || doc.source_type || "UNKNOWN").trim() || "UNKNOWN";
+      const type = getPrimaryTypeLabel(doc) || "UNKNOWN";
       counts.set(type, (counts.get(type) || 0) + 1);
     }
 
@@ -279,7 +377,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
       const key = getDocSourceKey(doc);
       const current = counts.get(key) || { key, count: 0, kinds: new Set(), lastSeen: null };
       current.count += 1;
-      current.kinds.add(String(doc.type || doc.source_type || "UNKNOWN").trim() || "UNKNOWN");
+      current.kinds.add(getPrimaryTypeLabel(doc) || "UNKNOWN");
       const syncedAt = doc.insertedAt || doc.lastIngested || doc.updatedAt || doc.createdAt || null;
       if (syncedAt && (!current.lastSeen || new Date(syncedAt) > new Date(current.lastSeen))) {
         current.lastSeen = syncedAt;
@@ -552,7 +650,8 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                   const syncedAt = doc.insertedAt || doc.lastIngested || doc.updatedAt || doc.createdAt || null;
                   const isSelected = selectedIds.has(doc.id);
                   const isActive = doc.id === previewId;
-                  const docType = doc.type || doc.source_type || "";
+                  const docType = getPrimaryTypeLabel(doc);
+                  const collectionLabel = getCollectionLabel(doc);
 
                   return (
                     <div
@@ -583,6 +682,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                         <div className={docItemMetaClassName}>
                           <span className={STATUS_CLASSES[status] || badgeBaseClassName}>{statusLabels[status] || status}</span>
                           {docType ? <span className={docItemMetaPillClassName}>{docType}</span> : null}
+                          {collectionLabel ? <span className={docItemMetaPillClassName}>{collectionLabel}</span> : null}
                           {doc.section ? <span className={docItemMetaPillClassName}>{doc.section}</span> : null}
                           {doc.year ? <span className={docItemMetaPillClassName}>{doc.year}</span> : null}
                           {doc.issueLabel ? (
@@ -611,9 +711,15 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                     const syncedAt = previewDoc.insertedAt || previewDoc.lastIngested || previewDoc.updatedAt || previewDoc.createdAt || null;
                     const pageLabel = previewDoc.pageRange || formatPdfRange(previewDoc) || "-";
                     const source = previewDoc.url || previewDoc.source_url || previewDoc.source_path || "";
-                    const typeLabel = previewDoc.type || previewDoc.source_type || "";
-                    const canEdit = canEditDocMeta(previewDoc);
+                    const typeLabel = getPrimaryTypeLabel(previewDoc);
+                    const technicalTypeLabel = getTechnicalTypeLabel(previewDoc);
+                    const collectionLabel = getCollectionLabel(previewDoc);
+                    const kovManagedDoc = isKovManagedDoc(previewDoc);
+                    const kovManageHref = kovManagedDoc ? getKovManageHref(previewDoc) : "";
+                    const canEdit = canEditDocMeta(previewDoc) && !kovManagedDoc;
                     const canView = canViewSource(previewDoc);
+                    const canReindex = !kovManagedDoc;
+                    const canDelete = !kovManagedDoc;
 
                     return (
                       <div className={docDetailClassName}>
@@ -673,6 +779,18 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                               <span className={docDetailMetaValueClassName}>{typeLabel}</span>
                             </div>
                           ) : null}
+                          {collectionLabel ? (
+                            <div className={docDetailMetaItemClassName}>
+                              <span className={docDetailMetaLabelClassName}>Collection</span>
+                              <span className={docDetailMetaValueClassName}>{collectionLabel}</span>
+                            </div>
+                          ) : null}
+                          {technicalTypeLabel ? (
+                            <div className={docDetailMetaItemClassName}>
+                              <span className={docDetailMetaLabelClassName}>System type</span>
+                              <span className={docDetailMetaValueClassName}>{technicalTypeLabel}</span>
+                            </div>
+                          ) : null}
                           {previewDoc.articleId ? (
                             <div className={docDetailMetaItemClassName}>
                               <span className={docDetailMetaLabelClassName}>ArticleId</span>
@@ -690,6 +808,11 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                             <span className={docDetailSourceTextClassName}>{source}</span>
                           </div>
                         ) : null}
+                        {kovManagedDoc ? (
+                          <div className={noteCardClassName}>
+                            KOV seotud RAG read hallatakse paketina KOV vaates. Documents lehel ei kustutata neid uhekaupa.
+                          </div>
+                        ) : null}
                         <div className={docDetailActionsClassName}>
                           <Button
                             variant="ghost"
@@ -703,7 +826,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                             variant="ghost"
                             className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
                             onClick={() => handleReindex(previewDoc.id)}
-                            disabled={reindexingId === previewDoc.id}
+                            disabled={reindexingId === previewDoc.id || !canReindex}
                           >
                             {reindexingId === previewDoc.id ? tr("admin.rag.actions.reindexing") : tr("admin.rag.actions.reindex")}
                           </Button>
@@ -711,10 +834,18 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                             variant="danger"
                             className={`${buttonBaseClassName} ${buttonDangerClassName} ${buttonCompactClassName}`}
                             onClick={() => handleDelete(previewDoc.id)}
-                            disabled={deletingId === previewDoc.id}
+                            disabled={deletingId === previewDoc.id || !canDelete}
                           >
                             {deletingId === previewDoc.id ? tr("admin.rag.actions.deleting") : tr("admin.rag.actions.delete")}
                           </Button>
+                          {kovManageHref ? (
+                            <Link
+                              href={kovManageHref}
+                              className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                            >
+                              Halda KOV vaates
+                            </Link>
+                          ) : null}
                           <Button
                             variant="ghost"
                             className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}

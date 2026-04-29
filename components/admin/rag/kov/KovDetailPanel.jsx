@@ -1,11 +1,13 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
+import { localizePath } from "@/lib/localizePath";
 import {
   buttonBaseClassName,
   buttonCompactClassName,
@@ -438,12 +440,14 @@ export default function KovDetailPanel({
   onDraftChange,
   ragStatus,
   ragStatusLoading = false,
+  ragResetPlan = null,
   remediationFocus = null,
   message,
   onRefreshRagStatus,
   onSave,
   saveBusy,
   onMarkReady: _onMarkReady,
+  onResetRagState,
   onIngest: _onIngest,
   onIngestRt: _onIngestRt,
   onRevalidateAll: _onRevalidateAll,
@@ -465,7 +469,8 @@ export default function KovDetailPanel({
   ingestBusy: _ingestBusy = false,
   rtIngestBusy: _rtIngestBusy = false,
   lightCheckBusy = false,
-  rtLightCheckBusy = false
+  rtLightCheckBusy = false,
+  resetBusy = false
 }) {
   const fileInputRefs = useRef({});
 
@@ -478,6 +483,10 @@ export default function KovDetailPanel({
       </div>
     );
   }
+
+  const resetSummary = ragResetPlan?.summary || null;
+  const municipalityId = entry.slug ? entry.slug.replaceAll("-", "_") : "";
+  const sourcePackagesHref = localizePath(`/admin/rag/source-packages?municipalityId=${encodeURIComponent(municipalityId)}`);
 
   const webSummary = entry.webSummary || entry.validationSummary || {};
   const rtSummary = entry.rtSummary || {};
@@ -658,6 +667,42 @@ export default function KovDetailPanel({
                 et,
                 locale
               })}
+            </div>
+            <div className="grid gap-2 rounded-[12px] border border-dashed border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-3 text-[0.84rem] text-[color:var(--admin-text)]">
+              <div className="grid gap-1">
+                <div className="font-semibold">{et ? "Paketipõhine KOV reset" : "Package-level KOV reset"}</div>
+                <div className="text-[color:var(--admin-muted)]">
+                  {et
+                    ? "Reset eemaldab ainult selle KOV RAG dokumendid, archiveerib aktiivsed SourcePackage snapshotid ja viib admin ingest-state'i tagasi mitte-ingestitud seisu. Repo faile see ei muuda."
+                    : "Reset removes only this municipality's RAG documents, archives active SourcePackage snapshots, and returns admin ingest state to not ingested. Repo files are not touched."}
+                </div>
+              </div>
+              {resetSummary ? (
+                <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                  <div><span className="font-semibold">{et ? "RAG dokumendid" : "RAG documents"}:</span> {resetSummary.matched_rag_doc_ids || 0}</div>
+                  <div><span className="font-semibold">{et ? "Aktiivsed snapshotid" : "Active snapshots"}:</span> {resetSummary.active_snapshot_count || 0}</div>
+                  <div><span className="font-semibold">{et ? "Archiveeritud snapshotid" : "Archived snapshots"}:</span> {resetSummary.archived_snapshot_count || 0}</div>
+                  <div><span className="font-semibold">{et ? "Admin reset" : "Admin reset"}:</span> {resetSummary.admin_row_will_reset ? (et ? "jah" : "yes") : (et ? "ei" : "no")}</div>
+                </div>
+              ) : null}
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="ghost"
+                  className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                  onClick={() => onResetRagState?.()}
+                  disabled={resetBusy}
+                >
+                  {resetBusy
+                    ? et ? "Valmistan reseti..." : "Preparing reset..."
+                    : et ? "Reseti KOV RAG state" : "Reset KOV RAG state"}
+                </Button>
+                <Link
+                  href={sourcePackagesHref}
+                  className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                >
+                  {et ? "Ava source packages" : "Open source packages"}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -332,7 +332,8 @@ async function executePlan(plan, args) {
       },
       data: {
         active: false,
-        status: "archived"
+        status: "archived",
+        reviewStatus: "archived"
       }
     });
     result.archived_source_package_snapshots = Number(archiveResult.count || 0);

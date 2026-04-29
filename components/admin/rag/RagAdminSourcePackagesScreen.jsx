@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const CARD_CLASS = "rounded-[1rem] bg-white/55 p-4 shadow-[0_8px_24px_rgba(60,40,40,0.08)] backdrop-blur";
 const BUTTON_CLASS = "rounded-[0.75rem] border border-black/10 bg-white/70 px-3 py-2 text-sm font-medium text-[color:var(--documents-page-text)] transition hover:bg-white";
@@ -37,7 +38,22 @@ function badgeClass(tone = "default") {
   return `inline-flex max-w-full items-center rounded-full border px-2 py-1 text-xs leading-4 ${tones[tone] || tones.default}`;
 }
 
+function effectiveReviewStatus(item = {}) {
+  if (item.status === "archived" || item.active !== true) return "archived";
+  if (item.reviewStatus === "reviewed") return "reviewed";
+  return "pending";
+}
+
+function effectiveReviewLabel(item = {}) {
+  const effective = effectiveReviewStatus(item);
+  const raw = String(item.reviewStatus || "pending").trim() || "pending";
+  if (effective === raw) return effective;
+  return `${effective} (raw: ${raw})`;
+}
+
 export default function RagAdminSourcePackagesScreen() {
+  const searchParams = useSearchParams();
+  const municipalityId = String(searchParams?.get("municipalityId") || "").trim();
   const [items, setItems] = useState([]);
   const [detailsById, setDetailsById] = useState({});
   const [loading, setLoading] = useState(true);
@@ -50,7 +66,10 @@ export default function RagAdminSourcePackagesScreen() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/admin/rag/source-packages?limit=100", { cache: "no-store" });
+      const query = new URLSearchParams({ limit: "100" });
+      if (municipalityId) query.set("municipalityId", municipalityId);
+
+      const res = await fetch(`/api/admin/rag/source-packages?${query.toString()}`, { cache: "no-store" });
       const data = await res.json();
       if (!res.ok || data?.ok !== true) throw new Error(data?.message || "Source package load failed");
       setItems(Array.isArray(data.items) ? data.items : []);
@@ -63,15 +82,15 @@ export default function RagAdminSourcePackagesScreen() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [municipalityId]);
 
   const summary = useMemo(() => ({
     total: items.length,
     active: countBy(items, item => item.active === true),
     needsReview: countBy(items, item => item.status === "needs_review"),
-    pending: countBy(items, item => item.reviewStatus === "pending"),
-    reviewed: countBy(items, item => item.reviewStatus === "reviewed"),
-    archived: countBy(items, item => item.reviewStatus === "archived"),
+    pending: countBy(items, item => effectiveReviewStatus(item) === "pending"),
+    reviewed: countBy(items, item => effectiveReviewStatus(item) === "reviewed"),
+    archived: countBy(items, item => effectiveReviewStatus(item) === "archived"),
     missingForms: countBy(items, item => item.reviewFlags?.missing_forms),
     missingContacts: countBy(items, item => item.reviewFlags?.missing_contacts),
     missingLegalBasis: countBy(items, item => item.reviewFlags?.missing_legal_basis)
@@ -147,7 +166,10 @@ export default function RagAdminSourcePackagesScreen() {
 
       <section className={CARD_CLASS}>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-lg font-semibold">Source packages</h2>
+          <div className="grid gap-1">
+            <h2 className="text-lg font-semibold">Source packages</h2>
+            {municipalityId ? <div className="text-sm opacity-70">Municipality filter: {municipalityId}</div> : null}
+          </div>
           <button type="button" className={BUTTON_CLASS} onClick={load} disabled={loading}>
             Refresh
           </button>
@@ -189,6 +211,7 @@ export default function RagAdminSourcePackagesScreen() {
                 const detail = detailsById[item.id] || item;
                 const flags = flagList(detail.reviewFlags);
                 const expanded = expandedId === item.id;
+                const effectiveReview = effectiveReviewStatus(item);
                 return (
                   <Fragment key={item.id}>
                     <tr className="align-top">
@@ -200,17 +223,17 @@ export default function RagAdminSourcePackagesScreen() {
                       <td className={`${BODY_CELL_CLASS} break-all text-[0.92rem]`}>{item.municipalityId || "-"}</td>
                       <td className={`${BODY_CELL_CLASS} break-words`}>{item.packageType || "-"}</td>
                       <td className={`${BODY_CELL_CLASS} break-words`}>{item.status}</td>
-                      <td className={`${BODY_CELL_CLASS} break-words`}>{item.reviewStatus}</td>
+                      <td className={`${BODY_CELL_CLASS} break-words`}>{effectiveReviewLabel(item)}</td>
                       <td className={`${BODY_CELL_CLASS} whitespace-normal break-words leading-6`}>{Array.isArray(item.missingSections) && item.missingSections.length ? item.missingSections.join(", ") : "-"}</td>
                       <td className={BODY_CELL_CLASS}>{item.version}</td>
                       <td className={BODY_CELL_CLASS}>{item.active ? "yes" : "no"}</td>
                       <td className={`${BODY_CELL_CLASS} whitespace-normal break-words`}>{formatDate(item.lastBuiltAt)}</td>
                       <td className={BODY_CELL_CLASS}>
                         <div className="flex flex-wrap gap-2">
-                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId || item.reviewStatus === "reviewed"} onClick={() => runAction(item.id, "mark_reviewed")}>
+                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId || effectiveReview === "reviewed" || effectiveReview === "archived"} onClick={() => runAction(item.id, "mark_reviewed")}>
                             {busyId === `${item.id}:mark_reviewed` ? "Saving" : "Mark reviewed"}
                           </button>
-                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId || item.reviewStatus === "archived"} onClick={() => runAction(item.id, "archive")}>
+                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId || effectiveReview === "archived"} onClick={() => runAction(item.id, "archive")}>
                             {busyId === `${item.id}:archive` ? "Saving" : "Archive"}
                           </button>
                           <button type="button" className={BUTTON_CLASS} disabled={!!busyId || item.active === true} onClick={() => runAction(item.id, "restore_active")}>

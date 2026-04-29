@@ -62,12 +62,14 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
     setDetailDraft,
     ragStatus,
     ragStatusLoading,
+    ragResetPlan,
     remediationFocus,
     refreshSelectedRagStatus,
     saveBusy,
     saveDetail,
     cycleStatus,
     markReady,
+    resetRagState,
     uploadFile,
     removeFile,
     fileBusyKey,
@@ -87,6 +89,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
     rtIngestBusySlug,
     lightCheckBusySlug,
     rtLightCheckBusySlug,
+    resetBusySlug,
     ingestSingle,
     ingestSelected,
     ingestRtSingle,
@@ -199,6 +202,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
             onDraftChange={setDetailDraft}
             ragStatus={ragStatus}
             ragStatusLoading={ragStatusLoading}
+            ragResetPlan={ragResetPlan && ragResetPlan?.municipality?.slug === selectedEntry?.slug ? ragResetPlan : null}
             remediationFocus={remediationFocus}
             message={message}
             onRefreshRagStatus={() => refreshSelectedRagStatus()}
@@ -208,6 +212,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
             saveBusy={saveBusy}
             onCycleStatus={cycleStatus}
             onMarkReady={() => selectedEntry && markReady(selectedEntry.slug)}
+            onResetRagState={() => selectedEntry && resetRagState(selectedEntry.slug)}
             onIngest={() => selectedEntry && ingestSingle(selectedEntry.slug)}
             onIngestRt={() => selectedEntry && ingestRtSingle(selectedEntry.slug)}
             onRevalidateAll={() => selectedEntry && revalidateSingle(selectedEntry.slug)}
@@ -227,6 +232,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
             rtIngestBusy={rtIngestBusySlug === selectedEntry?.slug}
             lightCheckBusy={lightCheckBusySlug === selectedEntry?.slug}
             rtLightCheckBusy={rtLightCheckBusySlug === selectedEntry?.slug}
+            resetBusy={resetBusySlug === selectedEntry?.slug}
           />
         </div>
         {filteredItems.length ? (

@@ -137,6 +137,8 @@ export function useKovAdminController(locale, initialItems = []) {
   const [rtIngestBusySlug, setRtIngestBusySlug] = useState("");
   const [lightCheckBusySlug, setLightCheckBusySlug] = useState("");
   const [rtLightCheckBusySlug, setRtLightCheckBusySlug] = useState("");
+  const [resetBusySlug, setResetBusySlug] = useState("");
+  const [ragResetPlan, setRagResetPlan] = useState(null);
   const [detailDraft, setDetailDraft] = useState(buildDraft(initialItems[0] || null));
   const [ragStatus, setRagStatus] = useState({
     web: null,
@@ -264,6 +266,20 @@ export function useKovAdminController(locale, initialItems = []) {
   }, [filteredItems, selectedSlug]);
 
   useEffect(() => {
+    const slugFromQuery = String(searchParams?.get("slug") || "").trim().toLowerCase();
+    if (!slugFromQuery) return;
+    if (!items.some(item => item.slug === slugFromQuery)) return;
+
+    setQuery(slugFromQuery);
+    setCounty("ALL");
+    setType("ALL");
+    setActivity("ALL");
+    setPackageState("ALL");
+    setSort("NAME_ASC");
+    setSelectedSlug(slugFromQuery);
+  }, [items, searchParams]);
+
+  useEffect(() => {
     if (!remediationContext || items.length === 0) return;
     if (remediationAppliedRef.current === remediationQueryKey) return;
     remediationAppliedRef.current = remediationQueryKey;
@@ -308,6 +324,12 @@ export function useKovAdminController(locale, initialItems = []) {
   useEffect(() => {
     setDetailDraft(buildDraft(selectedEntry));
   }, [selectedEntry]);
+
+  useEffect(() => {
+    if (!ragResetPlan) return;
+    if (ragResetPlan?.municipality?.slug === selectedSlug) return;
+    setRagResetPlan(null);
+  }, [ragResetPlan, selectedSlug]);
 
   const fetchEntryRagStatus = useCallback(async entryLike => {
     if (!entryLike) {
@@ -618,6 +640,79 @@ export function useKovAdminController(locale, initialItems = []) {
       }
     },
     [et, items, patchEntry, selectedEntry]
+  );
+
+  const resetRagState = useCallback(
+    async slug => {
+      if (!slug) return null;
+
+      setResetBusySlug(slug);
+      try {
+        const dryRunResponse = await fetch(`/api/admin/rag/kov/${encodeURIComponent(slug)}/reset-rag-state`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({})
+        });
+        const dryRunPayload = await dryRunResponse.json();
+        if (!dryRunResponse.ok || dryRunPayload?.ok === false) {
+          throw new Error(dryRunPayload?.message || "KOV RAG reset dry-run failed");
+        }
+
+        setRagResetPlan(dryRunPayload);
+
+        const summary = dryRunPayload?.summary || {};
+        const confirmText = [
+          et ? `Resetin ${slug} KOV RAG state'i?` : `Reset RAG state for ${slug}?`,
+          et ? `RAG dokumendid: ${summary.matched_rag_doc_ids || 0}` : `RAG documents: ${summary.matched_rag_doc_ids || 0}`,
+          et ? `Aktiivsed source package'id: ${summary.active_snapshot_count || 0}` : `Active source packages: ${summary.active_snapshot_count || 0}`,
+          et ? `Admin state reset: ${summary.admin_row_will_reset ? "jah" : "ei"}` : `Admin state reset: ${summary.admin_row_will_reset ? "yes" : "no"}`,
+          et ? "Repo faile see ei puuduta." : "This does not touch repo files."
+        ].join("\n");
+
+        if (!window.confirm(confirmText)) {
+          return {
+            ok: false,
+            cancelled: true,
+            dryRun: dryRunPayload
+          };
+        }
+
+        const writeResponse = await fetch(`/api/admin/rag/kov/${encodeURIComponent(slug)}/reset-rag-state`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ confirmReset: true })
+        });
+        const writePayload = await writeResponse.json();
+        if (!writeResponse.ok || writePayload?.ok === false) {
+          throw new Error(writePayload?.message || "KOV RAG reset failed");
+        }
+
+        setRagResetPlan(writePayload);
+        await loadItems();
+        setSelectedSlug(slug);
+        setEditingLinks(false);
+        setMessage({
+          type: "success",
+          text: et
+            ? "KOV RAG state resetiti paketina. Documents üksikuid ridu ei pea eraldi kustutama."
+            : "KOV RAG state was reset package-wise. No individual document deletes are needed."
+        });
+        return writePayload;
+      } catch (error) {
+        setMessage({
+          type: "error",
+          text: error?.message || (et ? "KOV RAG state reset ebaõnnestus." : "KOV RAG state reset failed.")
+        });
+        return null;
+      } finally {
+        setResetBusySlug("");
+      }
+    },
+    [et, loadItems]
   );
 
   const uploadFile = useCallback(
@@ -1241,12 +1336,14 @@ export function useKovAdminController(locale, initialItems = []) {
     setDetailDraft,
     ragStatus,
     ragStatusLoading,
+    ragResetPlan,
     remediationFocus,
     refreshSelectedRagStatus,
     saveBusy,
     saveDetail,
     cycleStatus,
     markReady,
+    resetRagState,
     uploadFile,
     removeFile,
     fileBusyKey,
@@ -1266,6 +1363,7 @@ export function useKovAdminController(locale, initialItems = []) {
     rtIngestBusySlug,
     lightCheckBusySlug,
     rtLightCheckBusySlug,
+    resetBusySlug,
     ingestSingle,
     ingestSelected,
     ingestRtSingle,
