@@ -157,9 +157,9 @@
       "web_doc_id": "kov-haljala-vald",
       "rt_doc_id": "kov-rt-haljala-vald",
       "act_title": "Haljala valla sotsiaalhoolekandelise abi andmise tingimused ja kord",
-      "act_url": "https://www.riigiteataja.ee/akt/422112024020?leiaKehtiv",
-      "act_reference": "422112024020",
-      "xml_file": "422112024020.xml",
+      "act_url": "https://www.riigiteataja.ee/akt/423012026003?leiaKehtiv",
+      "act_reference": "423012026003",
+      "xml_file": "423012026003.xml",
       "xml_detection": {
         "allowed_locations": [
           "<kov-folder>/<act_reference>.xml",
@@ -177,10 +177,10 @@
         "source_format": "xml",
         "jurisdiction_level": "MUNICIPALITY",
         "legal_basis": true,
-        "act_reference": "422112024020",
+        "act_reference": "423012026003",
         "act_title": "Haljala valla sotsiaalhoolekandelise abi andmise tingimused ja kord",
-        "act_url": "https://www.riigiteataja.ee/akt/422112024020?leiaKehtiv",
-        "xml_file": "422112024020.xml",
+        "act_url": "https://www.riigiteataja.ee/akt/423012026003?leiaKehtiv",
+        "xml_file": "423012026003.xml",
         "source_status": "active",
         "historical": false,
         "is_current_version": true
