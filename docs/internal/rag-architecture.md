@@ -35,6 +35,7 @@ Current-state update after V3.4A follow-up:
 - KOV service model is now beyond the original runtime-only package summary: V3.0A runtime `SourcePackage`, V3.1 persisted snapshot, V3.2 package-aware answering and V3.4A section attribution are confirmed.
 - The V3.4A follow-up added and production-verified conservative SourcePackage completeness mapping for `forms`, `contacts`, `legal_basis`, `fees` and `deadlines`, more precise Jogeva gap-report candidate diagnostics, a supplemental same-KOV `kov_regulation` lookup, and a Jogeva canonical relation fallback resolver for `relatedForms` / `relatedContacts`.
 - The remaining target is fuller package coverage from ingest metadata and V3.4B claim-level attribution, not a retrieval engine replacement.
+- KOV table rows above are superseded by the 2026-04-29 golden reingest pilot state below: server cleanup is complete, Harku web+RT is ingested as the first golden KOV, and Harku SourcePackage snapshot persistence is confirmed. Jogeva/Haljala and the 10-KOV batch are not yet run.
 
 ### KOV Admin / Metadata Update 2026-04-29
 
@@ -181,6 +182,90 @@ Implemented files:
 - `tests/rag/sourcePackageAdminService.test.js` - regression tests for severity, info-only fees/deadlines, accepted gaps, and recompute.
 
 This does not perform reingest, cleanup write, source-file mutation, or V3.4B claim-level attribution.
+
+### KOV Golden Reingest Pilot 2026-04-29
+
+STATUS: Harku completed / second golden KOV not started
+
+Server KOV/RT runtime state was reset before the pilot:
+
+- active KOV/RT RAG documents after cleanup: `0`;
+- active `SourcePackageSnapshot` rows after cleanup: `0`;
+- archived old Jogeva snapshots remained as archive: `62`;
+- stale admin `INGESTED` states after cleanup: `0`;
+- second cleanup dry-run after write had `0` actions;
+- non-KOV corpora were not touched.
+
+Harku is the first golden municipality. The web layer and RT/legal layer are intentionally separate:
+
+- web docId: `kov-harku-vald`;
+- RT docId: `kov-rt-harku-vald`;
+- web collection: `kov_services`;
+- RT collection: `kov_legal`;
+- RT source type: `kov_regulation`;
+- RT source format: `xml`;
+- RT `legal_basis = true`;
+- Harku web package does not contain RT/legal source rows.
+
+Validation and ingest result:
+
+- `npm run kov:validate-metadata -- --root KOV --slug harku-vald` is green;
+- `npm run kov:validate-rt -- --root KOV --slug harku-vald` is green;
+- `kov-harku-vald` exists in RAG with status `COMPLETED` and `59` chunks;
+- `kov-rt-harku-vald` exists in RAG with status `COMPLETED` and `110` chunks;
+- KOV inventory after ingest reports `kov_related_rag_document_count = 2`;
+- stale admin ingested count is `0`.
+
+SourcePackage smoke/auth blocker was fixed with a server-side CLI fallback in `scripts/smoke-rag-source-packages.mjs`. If no browser cookie or bearer token is configured, the smoke command no longer returns `skipped: missing_auth`; it builds and persists SourcePackages from the local KOV bundle plus RT manifest using server DB/RAG environment. The preflight output exposes only booleans:
+
+- `auth_configured`;
+- `cookie_present`;
+- `bearer_present`;
+- `internal_key_present`;
+- `skip_reason`.
+
+No cookie, bearer token, or internal key value is logged.
+
+Confirmed Harku smoke command:
+
+```text
+npm run rag:smoke:source-packages -- --municipality harku_vald --slug harku-vald --answering --persist --attribution
+```
+
+Result:
+
+- `skipped = false`;
+- `mode = cli_sourcepackage_persist`;
+- `package_count = 41`;
+- active Harku `SourcePackageSnapshot` count = `41`;
+- duplicate normalized canonical id count = `0`;
+- `package_aware_answering_used = true`;
+- `package_attribution_checked = true`.
+
+Harku gap report after snapshot persistence:
+
+- missing forms: `18`;
+- missing contacts: `3`;
+- missing legal_basis: `0`;
+- missing fees: `41`;
+- missing deadlines: `41`.
+
+Fees and deadlines remain conservative info-level gaps unless stronger explicit evidence is mapped. This is expected and must not by itself create critical pending review state.
+
+Harku RT chat lookup follow-up:
+
+- Harku RT document existence was confirmed in admin and RAG as `kov-rt-harku-vald`.
+- The user-facing question `kas Harku valla riigiteataja on sul?` initially returned insufficient evidence because the chat legal lookup still searched the old KOV RT collection and added an over-specific synthetic `act_title = "Harku vald kord"` filter.
+- KOV municipality RT source availability questions now route to `legal_source_lookup`, target `collection_id = "kov_legal"` with `source_type = "kov_regulation"` and `municipality_id`, and do not add a synthetic `act_title` filter.
+- `kov_legal` is treated as a municipality legal layer in chat context grouping/ranking alongside legacy `kov_regulations`.
+- The content question `mis oigusakti alusel Harku vald sotsiaalhoolekandelist abi annab?` already retrieved the correct RT evidence; this fix closes the metadata/existence lookup path as well.
+
+Important limits:
+
+- Jogeva/Haljala second golden KOV has not been run yet.
+- The 10-KOV local batch has not been run yet.
+- V3.4B claim-level attribution has not been started.
+- V3.5 regression system and V3.6 full rollout are not in scope for this completed step.
 
 ### V3.0A Implementation Update 2026-04-28
 
@@ -1351,6 +1436,7 @@ STATUS: partially implemented / active
 - Quality queue kontrollib esimeses versioonis ka URL-i kuju, puuduvaid URL-e praeguse info tõendusallikatel, KOV teenust ilma seotud vormiallikata ning kontaktiviiteid, mis ei tule `official_contact` või `contact_page` allikatüübist.
 - KOV ingest lisab item metadata külge `sections_present`, vormi-, kontakti- ja õigusliku aluse loendurid; quality queue kasutab neid source package signaale, et vormi või ametliku kontakti puudumist märkida ainult siis, kui teenuse metadata seda vajadust päriselt näitab.
 - Quality queue tuvastab nüüd ka esimese source package konflikti: sama `canonical_item_id` alla ei tohi sattuda mitme erineva `municipality_id` KOV allikad ilma ülevaatuseta.
+- SourcePackage `wrong collection id` kontroll käsitleb KOV RT kihi jaoks lubatud aliasena nii `kov_regulations` kui ka productionis kasutatavat `kov_legal` väärtust, kui `source_type = "kov_regulation"`.
 - Admin analytics mõõdab metadata contract'i completeness'i: näha on puuduvad kohustuslikud väljad, soovituslike väljade puudumine ja kui suur osa auditeeritud allikatest vastab miinimumcontract'ile.
 - Metadata kvaliteet on jaotatud ka korpusepere järgi (`kov_web`, `kov_rt`, `national_rt`, `ajakiri_sotsiaaltoo`, `organizations`, `unknown`), et admin näeks, milline ingest rada toodab puuduliku contract'iga allikaid.
 - Metadata kvaliteet on jaotatud ka sisendi/failitüübi järgi (`rag_md`, `kov_data_item`, `sources_json`, `meta_json`, `rt_xml`, `article_ingest` jne), et parandustöö jõuaks konkreetse ingest sisendini.
@@ -1361,6 +1447,7 @@ STATUS: partially implemented / active
 - RAG admin controller kasutab sama query konteksti madala riskiga eeltäitmiseks: dokumendivaate otsing saab siht-identifikaatori ning ingest PDF+metadata textarea saab metadata parandusstub'i.
 - KOV ja organisatsioonide admin controllerid kasutavad quality queue query konteksti sihtkirje leidmiseks: vaade puhastab piiravad filtrid, valib õige KOV-i või organisatsiooni ning avab vajadusel lingi/detaili muutmise režiimi.
 - Quality queue remediation target kannab nüüd ka töö fookust: `focus` ja võimalusel `file_key`. Admin UI märgib KOV ja organisatsiooni detailis konkreetse failikaardi või lingiploki, mida parandustöö puudutab.
+- KOV admin detail ei eelda enam, et kõik failikaardid oleksid eelnevalt `municipalityKovAdminFile` tabelis. Kui DB kirje puudub, aga repo all on canonical fail (`KOV/<slug>/<slug>.sources.json`, `.json`, `.meta.json`, `.rag.md`) või RT XML leitakse `kov_rt` manifesti kaudu, serialiseeritakse see admini jaoks repository fallback failina, valideeritakse ning summary ei jää valesti `0/4` või `0/1`.
 - Admin analytics mõõdab kõrge riskiga RAG vastuste allikariski kahes kihis: `answer_source_stale_rate` / `answer_unknown_source_rate` näitavad vastuse tõendusallikate riski ning `displayed_source_stale_rate` / `displayed_unknown_source_rate` näitavad kasutajale kuvatud allikapaneeli riski.
 - Admin analytics kuvab eraldi high-risk source risk queue tabeli, mis näitab, kas risk tuli `answer` või `displayed` kihist.
 - High-risk source risk mõõdik on seotud tulevase claim-level attribution kihiga. Kui trace sisaldab `claim_attributions`, loeb analytics eraldi `claim` allikakihi ning arvutab `high_risk_claim_source_count`, `stale_claim_source_responses`, `unknown_claim_source_responses`, `claim_source_stale_rate`, `claim_unknown_source_rate` ja `claim_source_risk_readiness_rate`.
@@ -1771,6 +1858,7 @@ Implemented behavior:
 - a generic same-municipality KOV regulation association is marked `partial`, not `strong`;
 - KOV service/benefit chat retrieval adds a small supplemental same-municipality `kov_regulation` lookup so the registry RT candidate can reach the runtime SourcePackage builder;
 - production-shaped RT metadata such as `source_type = "kov_regulation"`, `collection_id = "kov_regulations"`, `municipality_id = "jogeva_vald"` and `is_current_version = true` is normalized into active package evidence;
+- KOV RT evidence normalizer accepts both `collection_id = "kov_regulations"` and `collection_id = "kov_legal"` for `source_type = "kov_regulation"` so production RT chunks and admin review logic do not disagree on the same layer;
 - wrong municipality sources are excluded from the package;
 - `journal_article` remains disallowed as current `forms`, `contacts`, `legal_basis`, `fees` or `deadlines` evidence;
 - `national_law` is not used as an automatic substitute for KOV regulation in this fix;

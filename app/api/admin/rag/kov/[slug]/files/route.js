@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { getKovAdminEntryBySlug, serializeKovAdmin, syncKovAdminIngestStatusById } from "@/lib/admin/rag/kov/service";
+import { getKovAdminEntryBySlug, serializeKovAdminWithRepositoryFallback, syncKovAdminIngestStatusById } from "@/lib/admin/rag/kov/service";
 import { buildKovStoredFilePath, deleteStoredKovFile, ensureKovStorage, readStoredKovFile, writeUploadedKovFile } from "@/lib/admin/rag/kov/storage";
 import { KOV_FILE_ROLE_META, resolveKovFileKeyFromParam } from "@/lib/admin/rag/kov/shared";
 import { validateKovFileContent } from "@/lib/admin/rag/kov/validation";
@@ -108,7 +108,7 @@ export async function POST(request, { params }) {
     return json(
       {
         ok: true,
-        item: serializeKovAdmin(updated)
+        item: await serializeKovAdminWithRepositoryFallback(updated)
       },
       201
     );

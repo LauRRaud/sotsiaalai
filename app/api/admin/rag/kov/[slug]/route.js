@@ -1,4 +1,4 @@
-import { getKovAdminEntryBySlug, serializeKovAdmin, updateKovAdminEntryBySlug } from "@/lib/admin/rag/kov/service";
+import { getKovAdminEntryBySlug, serializeKovAdminWithRepositoryFallback, updateKovAdminEntryBySlug } from "@/lib/admin/rag/kov/service";
 import { errorJson, json, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
 import { safeError } from "@/lib/privacy/safeError";
 
@@ -26,7 +26,7 @@ export async function GET(request, { params }) {
 
     return json({
       ok: true,
-      item: serializeKovAdmin(row)
+      item: await serializeKovAdminWithRepositoryFallback(row)
     });
   } catch (error) {
     console.error("[kov-admin] get failed", safeError(error));

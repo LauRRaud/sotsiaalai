@@ -494,3 +494,23 @@ test("computeSourcePackageReviewFlags detects package conflict and invalid curre
   assert.equal(flags.package_conflict, true);
   assert.equal(flags.invalid_current_evidence, true);
 });
+
+test("kov_legal collection is accepted for kov_regulation source membership", () => {
+  const flags = computeSourcePackageReviewFlags(snapshotFixture({
+    missingSections: [],
+    sourceMembership: [
+      {
+        source_id: "harku-rt",
+        source_type: "kov_regulation",
+        collection_id: "kov_legal",
+        municipality_id: "harku_vald",
+        source_status: "active",
+        historical: false,
+        sections: ["legal_basis"],
+        evidence_allowed: true
+      }
+    ]
+  }));
+
+  assert.equal(flags.wrong_collection_id, false);
+});

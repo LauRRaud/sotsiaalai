@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { getKovAdminEntryBySlug, serializeKovAdmin, syncKovAdminIngestStatusById } from "@/lib/admin/rag/kov/service";
+import { getKovAdminEntryBySlug, serializeKovAdminWithRepositoryFallback, syncKovAdminIngestStatusById } from "@/lib/admin/rag/kov/service";
 import { deleteStoredKovFile } from "@/lib/admin/rag/kov/storage";
 import { KOV_FILE_ROLE_META, resolveKovFileKeyFromParam } from "@/lib/admin/rag/kov/shared";
 import { errorJson, json, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
@@ -55,7 +55,7 @@ export async function DELETE(request, { params }) {
     const updated = await getKovAdminEntryBySlug(slug);
     return json({
       ok: true,
-      item: serializeKovAdmin(updated)
+      item: await serializeKovAdminWithRepositoryFallback(updated)
     });
   } catch (error) {
     console.error("[kov-admin] delete file failed", safeError(error));

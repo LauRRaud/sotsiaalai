@@ -380,7 +380,7 @@ function renderFileCards({
                     Laadi alla
                   </Button>
                 ) : null}
-                {state.status !== "missing" ? (
+                {state.status !== "missing" && state.storageKind !== "repository" ? (
                   <Button
                     variant="ghost"
                     className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}

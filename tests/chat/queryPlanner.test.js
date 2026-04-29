@@ -167,7 +167,34 @@ test("Query Planner V2 expands municipality service and benefit list queries", (
   assert.equal(plan.searchFilters.municipality_name, "Tartu linn");
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.item_type === "service"), true);
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.item_type === "benefit"), true);
-  assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.collection_id === "kov_regulations"), true);
+  assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.collection_id === "kov_legal"), true);
+});
+
+test("Query Planner V2 routes municipality Riigi Teataja availability checks to KOV legal layer", () => {
+  const plan = basePlan({
+    effectiveMessage: "kas Harku valla riigiteataja on sul?",
+    baseRagQueryText: "kas Harku valla riigiteataja on sul?",
+    sourceLookupRequest: true,
+    allowMunicipalityScopedRag: true,
+    effectiveMunicipalities: [
+      {
+        id: "harku_vald",
+        displayName: "Harku vald"
+      }
+    ]
+  });
+
+  assert.equal(plan.legalLookupPlan.enabled, true);
+  assert.equal(plan.legalLookupPlan.mode, "legal_source_lookup");
+  assert.equal(plan.legalLookupPlan.collectionId, "kov_legal");
+  assert.equal(plan.legalLookupPlan.municipalityId, "harku_vald");
+  assert.equal(plan.legalLookupPlan.actTitle, null);
+  assert.equal(plan.primaryRagQueries.length, 1);
+  assert.equal(plan.primaryRagQueries[0].filters.collection_id, "kov_legal");
+  assert.equal(plan.primaryRagQueries[0].filters.source_type, "kov_regulation");
+  assert.equal(plan.primaryRagQueries[0].filters.municipality_id, "harku_vald");
+  assert.equal(Object.hasOwn(plan.primaryRagQueries[0].filters, "act_title"), false);
+  assert.match(plan.primaryRagQueries[0].query, /Riigi Teataja/i);
 });
 
 test("Query Planner V2 anchors national legal obligation queries to KOV duty paragraphs", () => {
