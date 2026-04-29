@@ -1,0 +1,265 @@
+{
+  "municipality": "Hiiumaa vald",
+  "county": "Hiiumaa",
+  "checkedAt": "2026-04-11",
+  "sources": [
+    {
+      "key": "home",
+      "type": "web_page",
+      "title": "Hiiumaa vald avaleht",
+      "url": "https://vald.hiiumaa.ee"
+    },
+    {
+      "key": "social_overview",
+      "type": "web_page",
+      "title": "Perekond ja sotsiaalabi",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi"
+    },
+    {
+      "key": "eestkoste_page",
+      "type": "web_page",
+      "title": "Eestkoste",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/erivajadused-ja-igapaevaelu/eestkoste"
+    },
+    {
+      "key": "eluruumi_tagamine_page",
+      "type": "web_page",
+      "title": "Eluruumi tagamine",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/sotsiaalabi/eluruumi-tagamine"
+    },
+    {
+      "key": "erihoolekande_teenused_page",
+      "type": "web_page",
+      "title": "Erihoolekandeteenused",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/erivajadused-ja-igapaevaelu/erihoolekandeteenused"
+    },
+    {
+      "key": "esimese_klassi_astuja_toetus_page",
+      "type": "web_page",
+      "title": "Esimese klassi astuja toetus",
+      "url": "https://vald.hiiumaa.ee/esimese-klassi-astuja-toetus"
+    },
+    {
+      "key": "huvihariduse_toetus_page",
+      "type": "web_page",
+      "title": "Huvihariduse ja -tegevuse toetus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/sotsiaalabi/huvihariduse-ja-tegevuse-toetus"
+    },
+    {
+      "key": "haeda_ohus_laps_page",
+      "type": "web_page",
+      "title": "Hädaohus ja abivajav laps",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/laste-ja-perede-heaolu/hadaohus-ja-abivajav-laps"
+    },
+    {
+      "key": "isikliku_abistaja_page",
+      "type": "web_page",
+      "title": "Isikliku abistaja teenus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/erivajadused-ja-igapaevaelu/isikliku-abistaja-teenus"
+    },
+    {
+      "key": "kalmistud_page",
+      "type": "web_page",
+      "title": "Kalmistud",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/lahedase-surm/kalmistud"
+    },
+    {
+      "key": "koduteenus_page",
+      "type": "web_page",
+      "title": "Koduteenus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/erivajadused-ja-igapaevaelu/koduteenus"
+    },
+    {
+      "key": "lasteaiad_page",
+      "type": "web_page",
+      "title": "Lasteaiad",
+      "url": "https://vald.hiiumaa.ee/haridus-kultuur-sport-kogukonnad/haridus/lasteaiad"
+    },
+    {
+      "key": "lastekaitse_page",
+      "type": "web_page",
+      "title": "Lastekaitse",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/laste-ja-perede-heaolu/lastekaitse"
+    },
+    {
+      "key": "domestic_violence_page",
+      "type": "web_page",
+      "title": "Lähisuhtevägivald perekonnas",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/laste-ja-perede-heaolu/lahisuhtevagivald-perekonnas"
+    },
+    {
+      "key": "matusetoetus_page",
+      "type": "web_page",
+      "title": "Matusetoetus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/lahedase-surm/matusetoetus"
+    },
+    {
+      "key": "mida_teha_kaotus_page",
+      "type": "web_page",
+      "title": "Mida teha lähedase kaotuse korral?",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/lahedase-surm/mida-teha-lahedase-kaotuse-korral"
+    },
+    {
+      "key": "parkimiskaart_page",
+      "type": "web_page",
+      "title": "Parkimiskaart",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/erivajadused-ja-igapaevaelu/parkimiskaart"
+    },
+    {
+      "key": "raske_puuetega_laste_toetus_page",
+      "type": "web_page",
+      "title": "Raske ja sügava puudega laste erivajadusest tingitud toetus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/laste-ja-perede-heaolu/raske-ja-sugava-puudega-laste-erivajadusest-tingitud"
+    },
+    {
+      "key": "sissetulekust_soltuv_toetus_page",
+      "type": "web_page",
+      "title": "Sissetulekust sõltuv toetus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/sotsiaalabi/sissetulekust-soltuv-toetus"
+    },
+    {
+      "key": "sotsiaaltransport_page",
+      "type": "web_page",
+      "title": "Sotsiaaltranspordi teenus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/erivajadused-ja-igapaevaelu/sotsiaaltranspordi-teenus"
+    },
+    {
+      "key": "sunnipaevatoetus_page",
+      "type": "web_page",
+      "title": "Sünnipäevatoetus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/vaarikas-vananemine/sunnipaevatoetus"
+    },
+    {
+      "key": "sunnitoetus_page",
+      "type": "web_page",
+      "title": "Sünnitoetus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/perekonnasundmused/sunnitoetus"
+    },
+    {
+      "key": "toiduabi_page",
+      "type": "web_page",
+      "title": "Toiduabi",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/sotsiaalabi/toiduabi"
+    },
+    {
+      "key": "toimetulekutoetus_page",
+      "type": "web_page",
+      "title": "Toimetulekutoetus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/sotsiaalabi/toimetulekutoetus"
+    },
+    {
+      "key": "tugiteenused_lastele_page",
+      "type": "web_page",
+      "title": "Tugiteenused lastele Hiiumaa vallas",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/laste-ja-perede-heaolu/tugiteenused-lastele-hiiumaa-vallas"
+    },
+    {
+      "key": "turvakoduteenus_page",
+      "type": "web_page",
+      "title": "Turvakoduteenus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/sotsiaalabi/turvakoduteenus"
+    },
+    {
+      "key": "taisealise_isiku_hooldus_page",
+      "type": "web_page",
+      "title": "Täisealise isiku hooldus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/erivajadused-ja-igapaevaelu/taisealise-isiku-hooldus"
+    },
+    {
+      "key": "vaimse_tervise_teenus_page",
+      "type": "web_page",
+      "title": "Vaimse tervise teenus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/sotsiaalabi/vaimse-tervise-teenus"
+    },
+    {
+      "key": "parenting_support_page",
+      "type": "web_page",
+      "title": "Vanemlikkus ja paarisuhe",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/laste-ja-perede-heaolu/vanemlikkus-ja-paarisuhe"
+    },
+    {
+      "key": "varjupaigateenus_page",
+      "type": "web_page",
+      "title": "Varjupaigateenus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/sotsiaalabi/varjupaigateenus"
+    },
+    {
+      "key": "valtimatu_sotsiaalabi_page",
+      "type": "web_page",
+      "title": "Vältimatu sotsiaalabi",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/sotsiaalabi/valtimatu-sotsiaalabi"
+    },
+    {
+      "key": "uldhooldusteenus_page",
+      "type": "web_page",
+      "title": "Üldhooldusteenus",
+      "url": "https://vald.hiiumaa.ee/perekond-ja-sotsiaalabi/vaarikas-vananemine/uldhooldusteenus"
+    },
+    {
+      "key": "esimese_klassi_astuja_toetuse_taotlus_file",
+      "type": "document",
+      "title": "Esimesse klassi astuja toetuse taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/Esimesse%20klassi%20astuja%20toetuse%20taotlus_0.docx"
+    },
+    {
+      "key": "hauaplatsi_taotlus_file",
+      "type": "document",
+      "title": "Hiiumaa Vallavalitsuse hauaplatsi taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/Hiiumaa%20Vallavalitsuse%20hauaplatsi%20taotlus.docx"
+    },
+    {
+      "key": "huvihariduse_toetuse_taotlus_file",
+      "type": "document",
+      "title": "Huvihariduse ja huvitegevuse toetuse taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/Huvihariduse%20ja%20huvitegevuse%20toetus.docx"
+    },
+    {
+      "key": "matusetoetuse_taotlus_file",
+      "type": "document",
+      "title": "Matusetoetuse taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/Matusetoetuse%20taotlus.docx"
+    },
+    {
+      "key": "raske_puuetega_lapse_toetava_sotsiaalteenuse_taotlus_file",
+      "type": "document",
+      "title": "Raske ja sügava puudega lapse toetava sotsiaalteenuse taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/Raske%20ja%20s%C3%BCgava%20puudega%20lapse%20toetava%20sotsiaalteenuse%20taotlus.docx"
+    },
+    {
+      "key": "sissetulekust_soltuva_toetuse_taotlus_file",
+      "type": "document",
+      "title": "Sissetulekust sõltuva toetuse taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/Sissetulekust%20s%C3%B5ltuva%20toetuse%20taotlus%20%281%29.docx"
+    },
+    {
+      "key": "sotsiaaltoetuse_taotlus_file",
+      "type": "document",
+      "title": "Sotsiaaltoetuse taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2026-03/Sotsiaaltoetuse%20taotlus.docx"
+    },
+    {
+      "key": "sunnitoetuse_taotlus_file",
+      "type": "document",
+      "title": "Sünnitoetuse taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/S%C3%BCnnitoetuse%20taotlus.docx"
+    },
+    {
+      "key": "tugiteenus_lapsele_taotlus_file",
+      "type": "document",
+      "title": "Teenuse taotlus lapsele",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/Teenuse%20taotlus%20lapsele.docx"
+    },
+    {
+      "key": "vaimse_tervise_teenuse_taotlus_file",
+      "type": "document",
+      "title": "Vaimse tervise teenuse taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/Vaimse%20tervise%20teenuse%20taotlus%20%282%29.docx"
+    },
+    {
+      "key": "uldhooldusteenuse_taotlus_file",
+      "type": "document",
+      "title": "Üldhooldusteenuse ja rahastamise taotlus",
+      "url": "https://vald.hiiumaa.ee/sites/default/files/documents/2025-09/%C3%9Cldhooldusteenuse%20ja%20rahastamise%20taotlus.docx"
+    }
+  ]
+}

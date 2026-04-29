@@ -1,0 +1,23 @@
+{
+  "id": "anija-vald",
+  "municipality": "Anija vald",
+  "county": "Harjumaa",
+  "checkedAt": "2026-04-12",
+  "status": "needs_review",
+  "coverage": {
+    "services": 18,
+    "benefits": 13,
+    "resources": 4,
+    "contacts": 10,
+    "forms": 9
+  },
+  "notes": [],
+  "unresolvedIssues": [
+    "The Sotsiaalkeskus page lists two phone numbers (602 0048 and 5332 8474) for the special care instructors Maie Sirkas and Katrin Liiv but does not state which number belongs to which person or provide their email addresses.",
+    "Many social services (e.g., Koduteenus, väljaspool kodu osutatav üldhooldusteenus, tugiisikuteenus) only have brief descriptions on the services overview page with no dedicated detail pages; there may be additional eligibility, conditions or application details not captured.",
+    "The ‘Muud sotsiaalteenused’ PDF lists additional services like counselling, psychological support and sign‑language interpretation without separate detail pages; these services have been summarised collectively, and service‑specific information may be incomplete.",
+    "The ‘Puuetega inimeste eluaseme kohandamine’ programme is described as part of a project; it is unclear whether it is an ongoing service or a past initiative.",
+    "Some child protection resources referenced on the Lastekaitse page (e.g., PDFs such as ‘Vanemliku hoolitsuseta lapsed’ and ‘Psühholoogiline nõustamine’) were not processed; additional details may exist in these documents.",
+    "Contacts Liis Põrk and Eike Mägi are noted as being on leave; it is unclear who currently handles their responsibilities."
+  ]
+}

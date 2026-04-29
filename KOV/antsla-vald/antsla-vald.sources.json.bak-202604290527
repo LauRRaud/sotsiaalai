@@ -1,0 +1,355 @@
+{
+  "municipality": "Antsla vald",
+  "county": "Võrumaa",
+  "checkedAt": "2026-04-12",
+  "sources": [
+    {
+      "key": "home",
+      "type": "web_page",
+      "title": "Antsla vald",
+      "url": "https://antsla.ee/"
+    },
+    {
+      "key": "social_main_page",
+      "type": "web_page",
+      "title": "Pere, sotsiaal ja tervishoid – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/"
+    },
+    {
+      "key": "social_overview",
+      "type": "web_page",
+      "title": "Teenused ja toetused – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/"
+    },
+    {
+      "key": "social_services_and_benefits_page",
+      "type": "web_page",
+      "title": "Sotsiaalteenused ja -toetused – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused-ja-toetused/"
+    },
+    {
+      "key": "social_services_overview",
+      "type": "web_page",
+      "title": "Sotsiaalteenused – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/"
+    },
+    {
+      "key": "social_benefits_overview",
+      "type": "web_page",
+      "title": "Sotsiaaltoetused – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/"
+    },
+    {
+      "key": "eakad_ja_erivajadus_overview",
+      "type": "web_page",
+      "title": "Eakad ja erivajadus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadus/"
+    },
+    {
+      "key": "toetus_ja_kaitse_peredele_overview",
+      "type": "web_page",
+      "title": "Toetus ja kaitse peredele – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/"
+    },
+    {
+      "key": "health_and_care_institutions_page",
+      "type": "web_page",
+      "title": "Tervishoiu- ja hoolekandeasutused – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/asutused/tervishoiu-ja-hoolekandeasutused/"
+    },
+    {
+      "key": "forms_page",
+      "type": "web_page",
+      "title": "Asjaajamisjuhised ja blanketid – Antsla vald",
+      "url": "https://antsla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/asjaajamisjuhised-ja-blanketid/"
+    },
+    {
+      "key": "contact_page",
+      "type": "contact_page",
+      "title": "Kontakt – Antsla vald",
+      "url": "https://antsla.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/"
+    },
+    {
+      "key": "abivahendi_vajajale_page",
+      "type": "web_page",
+      "title": "Abivahendi vajajale – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadus/abivahendi-vajajale/"
+    },
+    {
+      "key": "antsla_tervisekeskus_page",
+      "type": "web_page",
+      "title": "Antsla Tervisekeskus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/asutused/antsla-tervisekeskus/"
+    },
+    {
+      "key": "asendushooldusteenus_page",
+      "type": "web_page",
+      "title": "Asendushooldusteenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/asendushooldusteenus/"
+    },
+    {
+      "key": "eluruumi_tagamise_teenus_page",
+      "type": "web_page",
+      "title": "Eluruumi tagamise teenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/eluruumi-tagamise-teenus/"
+    },
+    {
+      "key": "erihoolekandeteenused_page",
+      "type": "web_page",
+      "title": "Erihoolekandeteenused – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/erihoolekandeteenused/"
+    },
+    {
+      "key": "esimesse_klassi_astumise_toetus_page",
+      "type": "web_page",
+      "title": "Esimesse klassi astumise toetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/esimesse-klassi-astumise-toetus/"
+    },
+    {
+      "key": "hooldaja_nousoleku_vorm_file",
+      "type": "file",
+      "title": "Hooldaja nõusoleku vorm – Antsla vald",
+      "url": "https://antsla.ee/wp-content/uploads/2025/07/Lisa-5_Hooldaja-nousoleku-vorm.odt"
+    },
+    {
+      "key": "hooldajatoetus_page",
+      "type": "web_page",
+      "title": "Hooldajatoetus puudega lapse hooldajale – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/hooldajatoetus-puudega-lapse-hooldajale/"
+    },
+    {
+      "key": "isikliku_abistaja_teenus_page",
+      "type": "web_page",
+      "title": "Isikliku abistaja teenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/isikliku-abistaja-teenus/"
+    },
+    {
+      "key": "jarelhooldusteenus_page",
+      "type": "web_page",
+      "title": "Järelhooldusteenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/jarelhooldusteenus/"
+    },
+    {
+      "key": "joulutoetus_page",
+      "type": "web_page",
+      "title": "Jõulutoetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/joulutoetus/"
+    },
+    {
+      "key": "juhtkoer_page",
+      "type": "web_page",
+      "title": "Juhtkoer vaegnägijale – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadus/juhtkoer-vaegnagijale/"
+    },
+    {
+      "key": "kaugtoige_page",
+      "type": "web_page",
+      "title": "Kaugtõlge – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadus/kaugtolge/"
+    },
+    {
+      "key": "kirjutustoige_page",
+      "type": "web_page",
+      "title": "Kirjutustõlge – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadus/kirjutustolge/"
+    },
+    {
+      "key": "koduteenus_page",
+      "type": "web_page",
+      "title": "Koduteenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/koduteenus/"
+    },
+    {
+      "key": "koolitarvete_toetus_page",
+      "type": "web_page",
+      "title": "Toetus koolitarvete, riiete ja jalanõude soetamiseks – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/toetus-koolitarvete-riiete-ja-jalanoode-soetamiseks/"
+    },
+    {
+      "key": "kutte_toetus_page",
+      "type": "web_page",
+      "title": "Kütteks tarbitud soojusenergia või küttematerjali hüvitamise toetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/kutteks-tarbitud-soojusenergia-voi-kuttematerjali-huvitamise-toetus/"
+    },
+    {
+      "key": "lastekaitse_page",
+      "type": "web_page",
+      "title": "Lastekaitse – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/lastekaitse/"
+    },
+    {
+      "key": "lasterikkale_toidukulu_toetus_page",
+      "type": "web_page",
+      "title": "Lasterikkale perele munitsipaallastehoius ja lasteaedades käiva lapse toidukulu toetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/lasterikkale-perele-munitsipaallastehoius-ja-lasteaias-kaiva-lapse-toidukulu-toetus/"
+    },
+    {
+      "key": "matusetoetus_page",
+      "type": "web_page",
+      "title": "Matusetoetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/matusetoetus/"
+    },
+    {
+      "key": "medi_hairenuputeenus_page",
+      "type": "web_page",
+      "title": "MEDI häirenupu teenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/medi-hairenupu-teenus/"
+    },
+    {
+      "key": "ohvriabi_page",
+      "type": "web_page",
+      "title": "Ohvriabi – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/ohvriabi/"
+    },
+    {
+      "key": "onnetusjuhtumi_toetus_page",
+      "type": "web_page",
+      "title": "Õnnetusjuhtumi toetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/onnetusjuhtumi-toetus/"
+    },
+    {
+      "key": "parkimiskaart_page",
+      "type": "web_page",
+      "title": "Parkimiskaart – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadus/parkimiskaart/"
+    },
+    {
+      "key": "peaasi_page",
+      "type": "web_page",
+      "title": "Peaasi – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/peaasi/"
+    },
+    {
+      "key": "ravikulude_toetus_page",
+      "type": "web_page",
+      "title": "Ravikulude ja abivahendi soetamise toetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/toetus-ravikulude-raviteenuste-voi-abivahendi-soetamise-huvitamiseks/"
+    },
+    {
+      "key": "saun_page",
+      "type": "web_page",
+      "title": "Saun – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/saun/"
+    },
+    {
+      "key": "sotsiaalteenuste_taotluse_vorm_file",
+      "type": "file",
+      "title": "Sotsiaalteenuste taotluse vorm – Antsla vald",
+      "url": "https://antsla.ee/wp-content/uploads/2025/07/Lisa-7_Sotsiaalteenuse-taotluse-vorm.odt"
+    },
+    {
+      "key": "sotsiaaltransporditeenus_page",
+      "type": "web_page",
+      "title": "Sotsiaaltransporditeenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/sotsiaaltransporditeenus/"
+    },
+    {
+      "key": "sunnitoetus_page",
+      "type": "web_page",
+      "title": "Sünnitoetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sunnitoetus/"
+    },
+    {
+      "key": "sunnitoetuse_kooli_alustamise_matusetoetuse_voi_hooldekodutoetuse_avaldus_file",
+      "type": "file",
+      "title": "Avaldus sünnitoetuse, kooli alustamise, matusetoetuse või hooldekodutoetuse saamiseks – Antsla vald",
+      "url": "https://antsla.ee/wp-content/uploads/2025/07/Avaldus-sunnitoetus_kooli-alustamine_matuse_hooldekodutoetus.odt"
+    },
+    {
+      "key": "taastav_oigus_page",
+      "type": "web_page",
+      "title": "Taastav õigus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/taastav-oigus/"
+    },
+    {
+      "key": "taiendava_sotsiaaltoetuse_avaldus_file",
+      "type": "file",
+      "title": "Avaldus täiendava sotsiaaltoetuse taotlemiseks – Antsla vald",
+      "url": "https://antsla.ee/wp-content/uploads/2025/07/Lisa-3_Avaldus-taiendava-sotsiaaltoetuse-taotlemiseks.odt"
+    },
+    {
+      "key": "taisealise_isiku_hooldus_page",
+      "type": "web_page",
+      "title": "Täisealise isiku hooldus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/taisealise-isiku-hooldus/"
+    },
+    {
+      "key": "tasuta_oigusabi_page",
+      "type": "web_page",
+      "title": "Tasuta õigusabi – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/tasuta-oigusabi/"
+    },
+    {
+      "key": "toetus_noorele_page",
+      "type": "web_page",
+      "title": "Toetus asendushooldusteenusel olevale noorele – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/toetus-asendushooldusteenusel-olevale-noorele/"
+    },
+    {
+      "key": "toetus_puudega_lapse_perele_page",
+      "type": "web_page",
+      "title": "Toetus puudega lapse perele – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/toetus-puudega-lapse-perele/"
+    },
+    {
+      "key": "toimetulekutoetus_page",
+      "type": "web_page",
+      "title": "Toimetulekutoetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/toimetulekutoetus/"
+    },
+    {
+      "key": "toimetulekutoetuse_taotlemise_toend_file",
+      "type": "file",
+      "title": "Tõend toimetulekutoetuse taotlemiseks – Antsla vald",
+      "url": "https://antsla.ee/wp-content/uploads/2025/07/Lisa-9_Toend-toimetulekutoetuse-taotlemiseks.odt"
+    },
+    {
+      "key": "toimetulekutoetuse_taotlus_file",
+      "type": "file",
+      "title": "Toimetulekutoetuse taotlus – Antsla vald",
+      "url": "https://antsla.ee/wp-content/uploads/2025/07/Avaldus-toimetulekutoetuse-taotlemiseks.odt"
+    },
+    {
+      "key": "toitlustamise_osalustasu_toetus_page",
+      "type": "web_page",
+      "title": "Haridusasutuse toitlustamise ja osalustasu hüvitamise toetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/haridusasutuses-lapse-toitlustamise-ja-koolieelse-asutuse-lapsevanema-osalustasu-vabastamine-voi-huvitamine/"
+    },
+    {
+      "key": "tugiisikuteenus_page",
+      "type": "web_page",
+      "title": "Tugiisikuteenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/tugiisikuteenus/"
+    },
+    {
+      "key": "turvakoduteenus_page",
+      "type": "web_page",
+      "title": "Turvakoduteenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/turvakoduteenus/"
+    },
+    {
+      "key": "vaimse_tervise_teenused_page",
+      "type": "web_page",
+      "title": "Vaimse tervise teenused – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/vaimse-tervise-teenused/"
+    },
+    {
+      "key": "valjaspool_kodu_osutatav_uldhooldusteenus_page",
+      "type": "web_page",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/valjaspool-kodu-osutatav-uldhooldusteenus/"
+    },
+    {
+      "key": "valtimatu_sotsiaalabi_toetus_page",
+      "type": "web_page",
+      "title": "Vältimatu sotsiaalabi toetus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/valtimatu-sotsiaalabi-toetus/"
+    },
+    {
+      "key": "volanoustamisteenus_page",
+      "type": "web_page",
+      "title": "Võlanõustamisteenus – Antsla vald",
+      "url": "https://antsla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/volanoustamisteenus/"
+    }
+  ]
+}

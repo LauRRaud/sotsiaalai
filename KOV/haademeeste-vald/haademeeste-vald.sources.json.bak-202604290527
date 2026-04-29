@@ -1,0 +1,181 @@
+{
+  "municipality": "Häädemeeste vald",
+  "county": "Pärnumaa",
+  "checkedAt": "2026-04-11",
+  "sources": [
+    {
+      "key": "home",
+      "type": "web_page",
+      "title": "Häädemeeste valla avaleht",
+      "url": "https://haademeeste.ee/"
+    },
+    {
+      "key": "kontakt_page",
+      "type": "web_page",
+      "title": "Üldkontaktid, teenistujad",
+      "url": "https://haademeeste.ee/kontakt"
+    },
+    {
+      "key": "sotsiaalteenused_page",
+      "type": "web_page",
+      "title": "Sotsiaalteenused",
+      "url": "https://haademeeste.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused"
+    },
+    {
+      "key": "sotsiaaltoetused_page",
+      "type": "web_page",
+      "title": "Sotsiaaltoetused",
+      "url": "https://haademeeste.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused"
+    },
+    {
+      "key": "lapse_sund_page",
+      "type": "web_page",
+      "title": "Lapse sünd",
+      "url": "https://haademeeste.ee/lapse-sund"
+    },
+    {
+      "key": "sunnitoetuse_taotlemine_page",
+      "type": "web_page",
+      "title": "Sünnitoetuse taotlemine",
+      "url": "https://haademeeste.ee/sunnitoetus"
+    },
+    {
+      "key": "lahedase_surm_page",
+      "type": "web_page",
+      "title": "Lähedase surm",
+      "url": "https://haademeeste.ee/lahedase-surm"
+    },
+    {
+      "key": "matusetoetuse_taotlemine_page",
+      "type": "web_page",
+      "title": "Matusetoetuse taotlemine",
+      "url": "https://haademeeste.ee/matusetoetus"
+    },
+    {
+      "key": "i_klassi_toetus_page",
+      "type": "web_page",
+      "title": "Toetus I klassi õppima asunud laste vanematele",
+      "url": "https://haademeeste.ee/toiming/toetus-i-klassi-oppima-asunud-laste-vanematele"
+    },
+    {
+      "key": "lastekaitse_page",
+      "type": "web_page",
+      "title": "Lastekaitse",
+      "url": "https://haademeeste.ee/lastekaitse"
+    },
+    {
+      "key": "hadaohus_laps_page",
+      "type": "web_page",
+      "title": "Hädaohus ja abivajav laps",
+      "url": "https://haademeeste.ee/abivajavlaps"
+    },
+    {
+      "key": "erivajadusega_laps_page",
+      "type": "web_page",
+      "title": "Erivajadusega laps",
+      "url": "https://haademeeste.ee/erivajadusegalaps"
+    },
+    {
+      "key": "asendus_jarelhooldusteenus_page",
+      "type": "web_page",
+      "title": "Asendus- ja järelhooldusteenus",
+      "url": "https://haademeeste.ee/asendusjarelhooldus"
+    },
+    {
+      "key": "muud_sotsiaalabi_voimalused_page",
+      "type": "web_page",
+      "title": "Muud sotsiaalabi võimalused",
+      "url": "https://haademeeste.ee/sotsabivoimalused"
+    },
+    {
+      "key": "kasulikke_viiteid_page",
+      "type": "web_page",
+      "title": "Kasulikke viiteid",
+      "url": "https://haademeeste.ee/tjtkasulikkeviiteid"
+    },
+    {
+      "key": "eakate_kodu_page",
+      "type": "web_page",
+      "title": "Häädemeeste Eakate Kodu",
+      "url": "https://haademeeste.ee/hooldekodu"
+    },
+    {
+      "key": "parkimiskaart_page",
+      "type": "web_page",
+      "title": "Puudega inimese sõiduki parkimiskaart",
+      "url": "https://haademeeste.ee/parkimiskaart"
+    },
+    {
+      "key": "erihoolekandeteenused_page",
+      "type": "web_page",
+      "title": "Erihoolekandeteenused",
+      "url": "https://haademeeste.ee/erihoolekandeteenused"
+    },
+    {
+      "key": "yldhooldusteenuse_piirmaar_news",
+      "type": "web_page",
+      "title": "Väljaspool kodu osutatava ööpäevaringse üldhooldusteenuse hoolduskulude uus piirmäär",
+      "url": "https://haademeeste.ee/uudised/valjaspool-kodu-osutatava-oopaevaringse-uldhooldusteenuse-hoolduskulude-uus-piirmaar"
+    },
+    {
+      "key": "sunnitoetus_form",
+      "type": "form_page",
+      "title": "Sünnitoetuse taotlus",
+      "url": "https://haademeeste.ee/sites/default/files/documents/2026-02/S%C3%BCnnitoetuse%20taotlus.docx"
+    },
+    {
+      "key": "matusetoetus_form",
+      "type": "form_page",
+      "title": "Matusetoetuse taotlus",
+      "url": "https://haademeeste.ee/sites/default/files/documents/2026-02/Matusetoetuse%20taotlus.docx"
+    },
+    {
+      "key": "kov_sotsiaaltoetus_form",
+      "type": "form_page",
+      "title": "KOV sotsiaaltoetuse taotlus",
+      "url": "https://haademeeste.ee/sites/default/files/documents/2026-02/KOV%20sotsiaaltoetuse%20taotlus.docx"
+    },
+    {
+      "key": "i_klassi_form",
+      "type": "form_page",
+      "title": "I klassi astuja toetuse taotlus",
+      "url": "https://haademeeste.ee/sites/default/files/documents/2026-02/I%20klassi%20asutaja%20toetuse%20taotlus.docx"
+    },
+    {
+      "key": "toimetulekutoetus_form",
+      "type": "form_page",
+      "title": "Toimetulekutoetuse taotlus",
+      "url": "https://haademeeste.ee/sites/default/files/documents/2026-02/Toimetulekutoetuse%20taotlus.doc"
+    },
+    {
+      "key": "koduteenus_form",
+      "type": "form_page",
+      "title": "Koduteenuse taotlus",
+      "url": "https://haademeeste.ee/sites/default/files/documents/2025-12/Koduteenus_TAOTLUS_H%C3%A4%C3%A4demeesteVV.doc"
+    },
+    {
+      "key": "tugiisikuteenuse_form",
+      "type": "form_page",
+      "title": "Tugiisikuteenuse taotlus",
+      "url": "https://haademeeste.ee/sites/default/files/documents/2025-12/Tugiisikuteenus_TAOTLUS__H%C3%A4%C3%A4demeesteVV%20%281%29.doc"
+    },
+    {
+      "key": "hooldus_hooldajatoetus_form",
+      "type": "form_page",
+      "title": "Hooldus- ja hooldajatoetuse taotlus",
+      "url": "https://haademeeste.ee/sites/default/files/documents/2025-12/Hooldus-hooldajatoetus_taotlus.doc"
+    },
+    {
+      "key": "isikliku_abistaja_form",
+      "type": "form_page",
+      "title": "Isikliku abistaja teenuse taotlus",
+      "url": "https://haademeeste.ee/sites/default/files/documents/2025-12/Isikliku%20abistaja%20teenus_TAOTLUS__H%C3%A4%C3%A4demeesteVV.doc"
+    },
+    {
+      "key": "eakate_kodu_avaldus_form",
+      "type": "form_page",
+      "title": "Häädemeeste Eakate Kodu avaldus",
+      "url": "https://haademeeste.ee/media/7515/download"
+    }
+  ]
+}

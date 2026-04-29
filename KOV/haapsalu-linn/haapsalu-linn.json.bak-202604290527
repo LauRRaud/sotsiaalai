@@ -1,0 +1,1133 @@
+{
+  "municipality": "Haapsalu linn",
+  "county": "Läänemaa",
+  "checkedAt": "2026-04-11",
+  "items": [
+    {
+      "id": "haapsalu_linn_service_asendus_ja_jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Asendus- ja järelhooldusteenus",
+      "status": "active",
+      "summary": "Haapsalu linnal on eraldi leht asendus- ja järelhooldusteenuse kohta ning Haapsalu Hoolekandekeskuse teenuste hulgas on nimetatud asendushooldusteenus ja järelhooldus.",
+      "targetGroup": "Lapsed ja noored, kellele on vajalik asendushoolduse või järelhoolduse korraldamine.",
+      "conditions": "Teenuse vajadus selgitatakse välja lastekaitse töö käigus.",
+      "application": "Pöördu Haapsalu Linnavalitsuse lastekaitse poole või Haapsalu Hoolekandekeskuses Kaire Loometsa poole.",
+      "officialUrl": "https://haapsalu.ee/asendus-ja-jarelhooldusteenus",
+      "sourceKeys": [
+        "asendus_ja_jarelhooldusteenus_page",
+        "hoolekandeasutused_page",
+        "hkk_asendushooldusteenus_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_kaasi_almers",
+        "haapsalu_linn_contact_aire_kivi",
+        "haapsalu_linn_contact_erika_koplimaa",
+        "haapsalu_linn_contact_kaire_loomets"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_eluruumi_tagamine",
+      "itemType": "service",
+      "title": "Eluruumi tagamine",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenuse eesmärk on kindlustada eluruumi kasutamise võimalus inimesele, kes ei ole sotsiaalmajanduslikust olukorrast tulenevalt võimeline enda ja oma perekonna vajadustele vastavat eluruumi tagama. Puudest tingituna võib teenus hõlmata ka eluruumi kohandamist või sobivama eluruumi leidmist.",
+      "targetGroup": "Inimesed ja pered, kes ei suuda oma vajadustele vastavat eluruumi ise tagada, ning puudega inimesed, kelle eluruum vajab kohandamist.",
+      "conditions": "Teenuse vajadust hinnatakse inimese olukorra põhjal.",
+      "application": "Teenuse kohta saab infot Haapsalu Linnavalitsusest; eluruumi küsimustes on kontaktiks linnavara spetsialist Erika Tomson.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/eluruumi-tagamine/",
+      "sourceKeys": [
+        "eluruumi_tagamine_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_erika_tomson"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_hingehoidja_teenus",
+      "itemType": "service",
+      "title": "Hingehoidja teenus",
+      "status": "active",
+      "summary": "Hingehoidja viib läbi hingehoidlikku vestlust ning leina- ja kriisinõustamist, toetab surijaid ja nende lähedasi ning nõustab surnuga ümberkäimise küsimustes. Vestlused on konfidentsiaalsed.",
+      "targetGroup": "Inimesed, kes vajavad hingehoidlikku vestlust, leina- või kriisinõustamist.",
+      "application": "Teenuse kohta saab ühendust võtta hingehoidja Küllike Valguga telefonil 5809 3633.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/hingehoidja-teenus/",
+      "sourceKeys": [
+        "hingehoidja_teenus_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_kullike_valk"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus on täisealise puudega inimese abistamine nendes igapäevaelu tegevustes, milles inimene vajab oma puudest tulenevalt füüsilist kõrvalabi.",
+      "targetGroup": "Täisealised puudega inimesed, kes vajavad igapäevaelus füüsilist kõrvalabi.",
+      "conditions": "Teenuse sisu lepitakse kokku vastavalt inimese abivajadusele.",
+      "application": "Pöördu Haapsalu Linnavalitsuse sotsiaalosakonda või Haapsalu Hoolekandekeskusesse. Teenust koordineerib Reet Lumiste.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/isikliku-abistaja-teenus/",
+      "sourceKeys": [
+        "isikliku_abistaja_teenus_page",
+        "hkk_isikliku_abistaja_page",
+        "hoolekandeasutused_page"
+      ],
+      "relatedForms": [
+        "haapsalu_linn_form_isikliku_abistaja_teenuse_blankett",
+        "haapsalu_linn_form_isikliku_abistaja_teenuse_aruanne"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_reet_lumiste"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenuse osutamisel abistatakse inimest toimingutes, mida ta terviseseisundist, tegevusvõimest või elukeskkonnast tulenevatel põhjustel ei suuda kõrvalabita teha, kuid mis on vajalikud kodustes tingimustes elamiseks.",
+      "targetGroup": "Inimesed, kelle igapäevane toimetulek kodus on tervise, tegevusvõime või elukeskkonna tõttu raskendatud.",
+      "conditions": "Teenuse sisu ja vajadus hinnatakse juhtumipõhiselt.",
+      "application": "Teenuse saamiseks pöördu Haapsalu Linnavalitsuse sotsiaalosakonda või Haapsalu Hoolekandekeskusesse.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/koduteenus/",
+      "sourceKeys": [
+        "koduteenus_page",
+        "hoolekandeasutused_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_lapsehoiuteenus",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus",
+      "status": "active",
+      "summary": "Lapsehoiuteenuse eesmärk on toetada last kasvatava inimese toimetulekut või töötamist või vähendada lapse erivajadusest tulenevat hoolduskoormust. Teenust osutab Haapsalu Hoolekandekeskus.",
+      "targetGroup": "Pered, kes kasvatavad last ja vajavad lapsehoiuteenuse abi, sealhulgas erivajadusega lapse hoolduskoormuse vähendamiseks.",
+      "conditions": "Teenust osutatakse lapse vajadusest lähtudes.",
+      "application": "Teenuse saamiseks pöördu sotsiaalosakonda või Haapsalu Hoolekandekeskusesse. Teenust koordineerib Kaire Loomets.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/lapsehoiuteenus/",
+      "sourceKeys": [
+        "lapsehoiuteenus_page",
+        "hkk_lapsehoiu_ja_tugiisikuteenus_page",
+        "hoolekandeasutused_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_kaire_loomets"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_manguteraapia",
+      "itemType": "service",
+      "title": "Mänguteraapia",
+      "status": "active",
+      "summary": "Mänguteraapia teenust pakub Meeltemaa OÜ mänguterapeut Elen Ormus. Vastuvõtt toimub Haapsalu Hoolekandekeskuses Kastani 9.",
+      "targetGroup": "Lapsed ja pered, kes vajavad mänguteraapia tuge.",
+      "application": "Ühendust saab võtta otse mänguterapeut Elen Ormusega telefonil 506 0890 või e-posti teel elen.ormus@mail.ee.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/manguteraapia/",
+      "sourceKeys": [
+        "manguteraapia_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_elen_ormus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus aitab inimest, kelle puue takistab isikliku või ühissõiduki kasutamist, et jõuda tööle, õppeasutusse või avalike teenuste kasutamisele sobiva transpordivahendiga.",
+      "targetGroup": "Eelkõige puudega inimesed, kelle liikumisvõime või terviseseisund takistab tavatranspordi kasutamist.",
+      "conditions": "Teenuse vajadus hinnatakse juhtumipõhiselt; teenuse kasutamine võib olla tasuline vastavalt hinnakirjale või sotsiaalkomisjoni otsusele osaliselt tasust vabastatud.",
+      "application": "Teenuse vajaduse väljaselgitamiseks pöördu sotsiaalosakonda või Haapsalu Hoolekandekeskusesse.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/sotsiaaltransporditeenus/",
+      "sourceKeys": [
+        "sotsiaaltransporditeenus_page",
+        "hoolekandeasutused_page",
+        "hkk_home_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab iseseisvat toimetulekut olukordades, kus inimene vajab sotsiaalsete, majanduslike, psühholoogiliste või tervislike probleemide tõttu oma kohustuste täitmisel ja õiguste teostamisel olulisel määral kõrvalabi.",
+      "targetGroup": "Lapsed ja täiskasvanud, kelle iseseisev toimetulek vajab olulist juhendamist, motiveerimist või kõrvalabi.",
+      "conditions": "Teenust osutatakse linnavalitsuse korralduse alusel.",
+      "application": "Teenuse vajaduse hindamiseks pöördu sotsiaalosakonda. Täiskasvanute teenust koordineerib Haapsalu Hoolekandekeskuses Reet Lumiste ja laste teenust Kaire Loomets.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/tugiisikuteenus/",
+      "sourceKeys": [
+        "tugiisikuteenus_page",
+        "hoolekandeasutused_page",
+        "hkk_lapsehoiu_ja_tugiisikuteenus_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_reet_lumiste",
+        "haapsalu_linn_contact_kaire_loomets"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenus tagab inimesele ajutise eluaseme, turvalise keskkonna ja esmase abi. Vajaduse korral hõlmab esmane abi kriisiabi ning teavitamist teistest abi saamise võimalustest; tulenevalt east ja vajadusest tagatakse ka hooldamine ja arendamine.",
+      "targetGroup": "Lapsed ja täiskasvanud, kes vajavad ajutist turvalist eluaset või kriisiabi.",
+      "conditions": "Teenust osutatakse ajutise abi vajaduse korral.",
+      "application": "Pöördu sotsiaalosakonda või Haapsalu Hoolekandekeskusesse. Täiskasvanute turvakodu teenuse korraldust vahendab Reet Lumiste ning laste tugiteenuseid Kaire Loomets.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/turvakoduteenus/",
+      "sourceKeys": [
+        "turvakoduteenus_page",
+        "hkk_turvakoduteenus_page",
+        "hoolekandeasutused_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_reet_lumiste",
+        "haapsalu_linn_contact_kaire_loomets"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Kohalik omavalitsus seab isiku taotluse alusel hoolduse täisealisele inimesele, kes vaimse või kehalise puude tõttu vajab abi oma õiguste teostamiseks ja kohustuste täitmiseks. Hoolduse seadmisel määratakse kindlaks hooldava isiku ülesanded.",
+      "targetGroup": "Täisealised inimesed, kes vajavad vaimse või kehalise puude tõttu kõrvalabi õiguste teostamisel ja kohustuste täitmisel.",
+      "conditions": "Hooldus seatakse inimese taotluse alusel.",
+      "application": "Esita avaldus Haapsalu Linnavalitsusele. Teenusega seotud blanketil käsitletakse ühiselt hoolduse seadmist ja hooldajatoetuse määramist.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/taisealise-isiku-hooldus/",
+      "sourceKeys": [
+        "taisealise_isiku_hooldus_page"
+      ],
+      "relatedForms": [
+        "haapsalu_linn_form_hoolduse_seadmine"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenuse eesmärk on ajutise ööbimiskoha võimaluse kindlustamine täisealisele inimesele, kes ei ole võimeline endale ööbimiskohta leidma. Ajutises ööbimiskohas peab olema tagatud voodikoht, pesemisvõimalus ja turvaline keskkond.",
+      "targetGroup": "Täisealised inimesed, kellel puudub ajutiselt ööbimiskoht.",
+      "conditions": "Teenust osutatakse ajutise ööbimiskoha vajaduse korral.",
+      "application": "Teenust osutavad Sotsiaalhoole Ühing ja Haapsalu Sotsiaalmaja. Teenuse korralduse kohta saab infot Haapsalu Linnavalitsuse sotsiaalosakonnast või Haapsalu Hoolekandekeskusest.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/varjupaigateenus/",
+      "sourceKeys": [
+        "varjupaigateenus_page",
+        "hkk_varjupaigateenus_page",
+        "hoolekandeasutused_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_reet_lumiste"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Väljaspool kodu osutatava üldhooldusteenuse eesmärk on tagada turvaline keskkond ja toimetulek täisealisele inimesele, kes terviseseisundist, tegevusvõimest või elukeskkonnast tulenevatel põhjustel ei suuda kodustes tingimustes ajutiselt või püsivalt iseseisvalt toime tulla.",
+      "targetGroup": "Täisealised inimesed, kes ei tule kodustes tingimustes ajutiselt või püsivalt iseseisvalt toime.",
+      "conditions": "Teenuse vajadus hinnatakse inimese olukorra põhjal; teenus on üldjuhul tasuline.",
+      "application": "Teenuse vajaduse hindamiseks pöördu sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/valjaspool-kodu-osutatav-uldhooldusteenus/",
+      "sourceKeys": [
+        "uldhooldusteenus_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_service_volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab parandada inimese toimetulekut pere-eelarve, kohustuste ja võlgadega seotud küsimustes. Teenust osutab Haapsalu Hoolekandekeskuse partner.",
+      "targetGroup": "Inimesed, kes vajavad abi võlgade, makseraskuste või eelarvega seotud küsimustes.",
+      "conditions": "Teenust vahendatakse Haapsalu Hoolekandekeskuse kaudu.",
+      "application": "Lisainfo saamiseks helista Haapsalu Hoolekandekeskuse üldnumbrile 5301 1424 või pöördu sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/volanoustamisteenus/",
+      "sourceKeys": [
+        "volanoustamisteenus_page",
+        "hoolekandeasutused_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_erakorralised_toetused",
+      "itemType": "benefit",
+      "title": "Erakorralised toetused",
+      "status": "active",
+      "summary": "Erakorralisi toetusi makstakse ootamatute väljaminekute korral, näiteks pikaajalise haiguse või tulekahju tõttu.",
+      "targetGroup": "Haapsalu linna inimesed ja pered, kes on sattunud erakorralisse abivajadusse.",
+      "conditions": "Toetus on mõeldud ootamatute kulude katmiseks.",
+      "application": "Toetuse taotlemiseks pöördu Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltumatud-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_independent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+      "itemType": "benefit",
+      "title": "Esmakordselt kooli mineva lapse toetus",
+      "status": "active",
+      "summary": "Toetus on mõeldud esimest korda kooli mineva lapse toetamiseks.",
+      "targetGroup": "Pered, kelle laps läheb esimest korda kooli.",
+      "amount": "200 eurot",
+      "conditions": "Toetuse saamiseks peavad laps ja lapsevanem olema vähemalt kuus kuud enne kooli minekut rahvastikuregistri järgi Haapsalu linna elanikud.",
+      "application": "Toetuse taotlemiseks pöördu Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltumatud-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_independent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_hooldajatoetus_puudega_lapse",
+      "itemType": "benefit",
+      "title": "Hooldajatoetus puudega lapse hooldajale",
+      "status": "active",
+      "summary": "Hooldajatoetus toetab raske või sügava puudega lapse hooldamist.",
+      "targetGroup": "Raske või sügava puudega lapse mittetöötav vanem, hooldaja või eestkostja.",
+      "amount": "50 eurot kuus raske puudega lapse hooldamisel; 60 eurot kuus sügava puudega lapse hooldamisel",
+      "conditions": "Toetus on mõeldud raske või sügava puudega lapse mittetöötavale vanemale, hooldajale või eestkostjale.",
+      "application": "Esita vastav avaldus Haapsalu Linnavalitsusele.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltumatud-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_independent_benefits",
+        "eeskirjad_korrad_blanketid_page"
+      ],
+      "relatedForms": [
+        "haapsalu_linn_form_hooldajatoetus_puudega_lapse"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_hooldajatoetus_taisealise",
+      "itemType": "benefit",
+      "title": "Hooldajatoetus raske ja sügava puudega täisealise isiku hooldajale",
+      "status": "active",
+      "summary": "Hooldajatoetus toetab raske või sügava puudega täisealise inimese hooldamist.",
+      "targetGroup": "Raske või sügava puudega täisealise inimese hooldaja.",
+      "amount": "50 eurot kuus raske puudega täisealise isiku hooldamisel; 60 eurot kuus sügava puudega täisealise isiku hooldamisel",
+      "conditions": "Toetust makstakse raske või sügava puudega täisealise inimese hooldamise eest.",
+      "application": "Esita avaldus Haapsalu Linnavalitsusele. Hoolduse seadmise blanketil käsitletakse ka hooldajatoetuse määramist.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltumatud-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_independent_benefits",
+        "taisealise_isiku_hooldus_page",
+        "eeskirjad_korrad_blanketid_page"
+      ],
+      "relatedForms": [
+        "haapsalu_linn_form_hoolduse_seadmine"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_lasteaia_toiduraha_ja_osalustasu_toetus",
+      "itemType": "benefit",
+      "title": "Lasteaia toiduraha ja osalustasu toetus",
+      "status": "active",
+      "summary": "Eeskirjade ja blankettide lehel on eraldi välja toodud lasteaia toiduraha ja osalustasu toetuse taotlemine vähekindlustatud peredele.",
+      "targetGroup": "Vähekindlustatud pered, kelle lapsed käivad lasteaias.",
+      "conditions": "Toetust saavad taotleda pered, kus iga pereliikme netosissetulek ei ületa 2,5-kordset riiklikku toimetulekupiiri. Kui taotlejale on eelneva kuue kuu jooksul määratud toimetulekutoetus, ei pea kõiki sissetuleku- ja kuludokumente uuesti lisama.",
+      "application": "Taotlusi võetakse vastu perioodidel 1. september kuni 31. jaanuar ja 1. veebruar kuni 31. august. Kasutatakse vastavat toiduraha, osalustasu ja õppemaksu blanketti.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/eeskirjad-korrad-ja-blanketid/",
+      "sourceKeys": [
+        "eeskirjad_korrad_blanketid_page"
+      ],
+      "relatedForms": [
+        "haapsalu_linn_form_toiduraha_osalustasu_oppemaks"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetus on Haapsalu linna toetus linna elaniku surma korral.",
+      "targetGroup": "Matuse korraldaja Haapsalu linna elaniku surma korral.",
+      "amount": "270 eurot",
+      "conditions": "Toetust makstakse Haapsalu linna elaniku surma korral, kui surnu rahvastikuregistri järgne elukoht oli Haapsalu linn.",
+      "application": "Esita matusetoetuse avaldus Haapsalu Linnavalitsusele.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltumatud-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_independent_benefits",
+        "eeskirjad_korrad_blanketid_page"
+      ],
+      "relatedForms": [
+        "haapsalu_linn_form_matusetoetus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_sunnipaevatoetus",
+      "itemType": "benefit",
+      "title": "Sünnipäevatoetus",
+      "status": "active",
+      "summary": "Sünnipäevatoetust makstakse Haapsalu linna eakatele juubelisünnipäevade puhul.",
+      "targetGroup": "Haapsalu linna eakad juubilarid.",
+      "amount": "50 eurot",
+      "conditions": "Toetust makstakse 70., 80. ja alates 90. eluaastast iga sünnipäeva puhul.",
+      "application": "Toetuse kohta saab täpsustada Haapsalu Linnavalitsuse sotsiaalosakonnast.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltumatud-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_independent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Sünnitoetus on Haapsalu linna toetus lapse sünni puhul.",
+      "targetGroup": "Lapse vanem või kohtu määratud eestkostja.",
+      "amount": "600 eurot",
+      "conditions": "Toetuse saamiseks peab vähemalt ühe vanema rahvastikuregistri järgne elukoht olema Haapsalu linn ning laps ja vanem peavad toetuse taotlemise ajal olema kantud Haapsalu linna elanikena rahvastikuregistrisse. Toetus makstakse kahes osas: 50% pärast lapse sündi ja 50% pärast lapse aastaseks saamist.",
+      "application": "Mõlema osa väljamaksmiseks tuleb esitada kirjalik avaldus kolme kuu jooksul pärast lapse sündi ning kolme kuu jooksul pärast lapse aastaseks saamist.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltumatud-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_independent_benefits",
+        "eeskirjad_korrad_blanketid_page"
+      ],
+      "relatedForms": [
+        "haapsalu_linn_form_sunnitoetus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_tegevustoetus_sotsiaalhoolekanne",
+      "itemType": "benefit",
+      "title": "Tegevustoetus sotsiaalhoolekandealastele ja tervist edendavatele tegevustele",
+      "status": "active",
+      "summary": "Haapsalu linna blanketilehel on eraldi tegevustoetuse taotlus sotsiaalhoolekandealastele ja tervist edendavatele tegevustele.",
+      "targetGroup": "Ühingud ja tegevuste korraldajad, kes taotlevad tegevustoetust sotsiaalhoolekande või tervise edendamise valdkonnas.",
+      "application": "Kasuta ametlikku tegevustoetuse taotluse blanketti.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/eeskirjad-korrad-ja-blanketid/",
+      "sourceKeys": [
+        "eeskirjad_korrad_blanketid_page"
+      ],
+      "relatedForms": [
+        "haapsalu_linn_form_tegevustoetus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_eluaseme_tagatisraha_toetus",
+      "itemType": "benefit",
+      "title": "Toetus eluaseme üürimisega kaasneva tagatisraha tasumiseks",
+      "status": "active",
+      "summary": "Toetus aitab katta eluaseme üürimisega kaasnevat tagatisraha.",
+      "targetGroup": "Inimesed ja pered, kes vajavad abi üürikorteri tagatisraha tasumisel.",
+      "conditions": "Taotleja peab olema enne taotluse esitamist olnud vähemalt ühe aasta Haapsalu linna elanik. Toetust saab üldjuhul üks kord kolme aasta jooksul.",
+      "application": "Esita taotlus Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_huvihariduse_toetus",
+      "itemType": "benefit",
+      "title": "Toetus huvihariduse õppetasu maksmiseks",
+      "status": "active",
+      "summary": "Toetus aitab katta huvihariduse õppetasu kulusid.",
+      "targetGroup": "Lastega pered, kes vajavad abi huvihariduse õppetasu tasumisel.",
+      "conditions": "Taotleda saab kahel perioodil aastas: 1. septembrist 31. jaanuarini ja 1. veebruarist 15. juunini. Esitada tuleb eelneva kuue kuu sissetulekud ja eluasemekulud.",
+      "application": "Esita taotlus Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_kutte_toetus",
+      "itemType": "benefit",
+      "title": "Toetus kütte osaliseks hüvitamiseks",
+      "status": "active",
+      "summary": "Toetus aitab osaliselt hüvitada küttega seotud kulusid.",
+      "targetGroup": "Inimesed ja pered, kellel on küttekulude kandmisel abivajadus.",
+      "conditions": "Toetuse määramisel lähtutakse kütuse ostmist tõendavast dokumendist.",
+      "application": "Esita taotlus koos kuludokumendiga Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_laste_programmid_toetus",
+      "itemType": "benefit",
+      "title": "Toetus laste noorteprogrammides, noorteprojektides, ekskursioonidel või laagrites osalemise hüvitamiseks",
+      "status": "active",
+      "summary": "Toetus aitab hüvitada lapse osalemist noorteprogrammides, noorteprojektides, ekskursioonidel või laagrites.",
+      "targetGroup": "Õppivate lastega pered, kes vajavad abi osalemistasude katmisel.",
+      "conditions": "Toetust hüvitatakse üks kord aastas ühe õppiva lapse kohta kuludokumendi alusel.",
+      "application": "Esita taotlus Haapsalu Linnavalitsuse sotsiaalosakonda koos kuludokumendiga.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_laste_toitlustamise_toetus",
+      "itemType": "benefit",
+      "title": "Toetus laste toitlustamiseks koolis ja lasteaias",
+      "status": "active",
+      "summary": "Toetus aitab katta laste toitlustamise kulusid koolis ja lasteaias.",
+      "targetGroup": "Lastega pered, kes vajavad abi kooli- või lasteaiatoidu eest tasumisel.",
+      "conditions": "Taotleda saab kahel perioodil aastas: 1. septembrist 31. jaanuarini ja 1. veebruarist 31. augustini. Esitada tuleb eelneva kuue kuu sissetulekud ja eluasemekulud.",
+      "application": "Esita taotlus Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_puudega_laste_teenuste_toetus",
+      "itemType": "benefit",
+      "title": "Toetus puudega lastele ja nende peredele osutatud sotsiaal- ning tervishoiuteenuste eest tasumiseks",
+      "status": "active",
+      "summary": "Toetus aitab tasuda puudega lastele ja nende peredele osutatud sotsiaal- ning tervishoiuteenuste eest.",
+      "targetGroup": "Puudega lapsed ja nende pered.",
+      "conditions": "Toetust kasutatakse teenuste või abivahendite eest tasumiseks, mis toetavad lapse arengut ja pere toimetulekut.",
+      "application": "Toetuse taotlemiseks pöördu Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltumatud-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_independent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_puuetega_inimese_toetus",
+      "itemType": "benefit",
+      "title": "Toetus puuetega inimesele",
+      "status": "active",
+      "summary": "Toetus aitab katta puuetega inimese iseseisvat toimetulekut toetavaid kulusid, sealhulgas abivahendeid või eluruumi kohandamist.",
+      "targetGroup": "Puudega inimesed, kes vajavad abi iseseisvaks toimetulekuks.",
+      "conditions": "Toetust kasutatakse puude tõttu tekkinud takistuste vähendamiseks.",
+      "application": "Esita taotlus Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_ravimite_prillide_toetus",
+      "itemType": "benefit",
+      "title": "Toetus ravimite ja prillide ostmiseks",
+      "status": "active",
+      "summary": "Toetus aitab katta retseptiravimite ja prillide ostmise kulusid.",
+      "targetGroup": "Inimesed ja pered, kellel on ravimite või prillide ostmisel majanduslik raskus.",
+      "conditions": "Toetuse määramisel lähtutakse kuludokumendist.",
+      "application": "Esita taotlus koos kuludokumendiga Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_tasulised_hooldus_tervishoiuteenused_toetus",
+      "itemType": "benefit",
+      "title": "Toetus tasuliste hooldus- ja tervishoiuteenuste eest tasumiseks",
+      "status": "active",
+      "summary": "Toetus aitab osaliselt hüvitada tasuliste hooldus- ja tervishoiuteenuste kulusid, näiteks hooldekodu, hooldushaigla või eriarstiabi kasutamisel.",
+      "targetGroup": "Inimesed ja pered, kellel on tasuliste hooldus- või tervishoiuteenuste kasutamisel abivajadus.",
+      "conditions": "Toetuse määramisel lähtutakse tegelikest kuludest ja inimese olukorrast.",
+      "application": "Esita taotlus Haapsalu Linnavalitsuse sotsiaalosakonda koos kuludokumentidega.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on riiklik toetus inimesele või perele, kelle kuu netosissetulek pärast eluasemekulude mahaarvamist jääb alla toimetulekupiiri.",
+      "targetGroup": "Inimesed ja pered, kelle sissetulek jääb alla toimetulekupiiri.",
+      "conditions": "Taotlemisel tuleb esitada kõikide pereliikmete eelmise kuu sissetulekuid tõendavad dokumendid ja jooksva kuu eluasemekulud.",
+      "application": "Esita toimetulekutoetuse avaldus Haapsalu Linnavalitsusele koos nõutud dokumentidega.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits",
+        "eeskirjad_korrad_blanketid_page"
+      ],
+      "relatedForms": [
+        "haapsalu_linn_form_toimetulekutoetus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_benefit_uhekordsed_sotsiaaltoetused",
+      "itemType": "benefit",
+      "title": "Ühekordsed toetused lastega peredele",
+      "status": "active",
+      "summary": "Ühekordsed toetused lastega peredele aitavad katta muu hulgas koolitarvete, riiete, jalatsite, spordivarustuse ja tasuliste teenuste kulusid.",
+      "targetGroup": "Lastega pered, kelle majanduslik olukord vajab toetust.",
+      "conditions": "Toetuse vajadust hinnatakse pere olukorra põhjal.",
+      "application": "Taotlemiseks pöördu Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-sotsiaaltoetused/",
+      "sourceKeys": [
+        "income_dependent_benefits"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_haapsalu_hoolekandekeskus",
+      "itemType": "resource",
+      "title": "Haapsalu Hoolekandekeskus",
+      "status": "active",
+      "summary": "Haapsalu Hoolekandekeskus on Haapsalu linna allasutus, kus osutatakse teenuseid eri sihtgruppidele, sealhulgas lastele, eakatele, puuetega inimestele ja raskustesse sattunud täiskasvanutele.",
+      "address": "Kastani 7, Haapsalu 90508",
+      "phone": "53011424",
+      "officialUrl": "https://sotsiaalmaja.haapsalu.ee/",
+      "sourceKeys": [
+        "hoolekandeasutused_page",
+        "hkk_home_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_hairenupp_ja_koduandur",
+      "itemType": "resource",
+      "title": "Häirenupp ja koduandur",
+      "status": "active",
+      "summary": "Haapsalu ametlikel lehtedel on häirenuppu ja koduandurit kirjeldatud kodus turvatunnet suurendava lahendusena. Haapsalu Sotsiaalmaja lehel on toodud, et teenus on tasuline ning inimese omaosalus on 19 eurot kuus.",
+      "amount": "19 eurot kuus omaosalus",
+      "officialUrl": "https://sotsiaalmaja.haapsalu.ee/teenused-2/hairenuputeenus/",
+      "sourceKeys": [
+        "hairenupp_koduandur_page",
+        "hkk_hairenuputeenus_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_reet_lumiste"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_inimkaubanduse_nouandeliin",
+      "itemType": "resource",
+      "title": "Inimkaubanduse ennetamise ja ohvrite abistamise nõuandeliin",
+      "status": "active",
+      "summary": "Haapsalu ohvriabi lehel on toodud inimkaubanduse ennetamise ja ohvrite abistamise nõuandeliin.",
+      "phone": "+3726607320",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/ohvriabi/",
+      "sourceKeys": [
+        "ohvriabi_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_lasteabi_telefon",
+      "itemType": "resource",
+      "title": "Lasteabi telefon 116 111",
+      "status": "active",
+      "summary": "Lasteabi telefon 116 111 on toodud Haapsalu ohvriabi lehel riikliku abikanalina lapsega seotud murede korral.",
+      "phone": "116111",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/ohvriabi/",
+      "sourceKeys": [
+        "ohvriabi_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_lastekaitse",
+      "itemType": "resource",
+      "title": "Lastekaitse",
+      "status": "active",
+      "summary": "Lastekaitse lehel on juhis abivajavast lapsest teatamiseks. Teavitada saab Haapsalu Linnavalitsuse e-posti aadressil info{ätt}haapsalulv.ee või telefonil 4725300 ning pöörduda lastekaitse spetsialistide poole.",
+      "phone": "4725300",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/lastekaitse/",
+      "sourceKeys": [
+        "lastekaitse_page",
+        "kontakt_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_aire_kivi",
+        "haapsalu_linn_contact_erika_koplimaa",
+        "haapsalu_linn_contact_kaasi_almers"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_laenemaa_kriisiabikeskus",
+      "itemType": "resource",
+      "title": "Läänemaa Kriisiabikeskus",
+      "status": "active",
+      "summary": "Vaimse tervise teenuste lehel on toodud Läänemaa Kriisiabikeskus kui üks abivõimalus.",
+      "address": "Kastani 7, Haapsalu",
+      "phone": "4757555",
+      "email": "kriisiabikeskus@hot.ee",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/vaimse-tervise-teenused/",
+      "sourceKeys": [
+        "vaimse_tervise_teenused_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_laanemaa_ohvriabi",
+      "itemType": "resource",
+      "title": "Läänemaa ohvriabi",
+      "status": "active",
+      "summary": "Läänemaa ohvriabi kontakt on välja toodud Haapsalu sotsiaalteenuste lehel piirkondliku abivõimalusena.",
+      "phone": "53402027",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/laanemaa-ohvriabi/",
+      "sourceKeys": [
+        "laanemaa_ohvriabi_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_meeste_koda_haapsalu_kuur",
+      "itemType": "resource",
+      "title": "Meeste Koda Haapsalu Kuur",
+      "status": "active",
+      "summary": "Haapsalu linna sotsiaalteenuste lehel on Meeste Koda Haapsalu Kuur toodud ühe toetava tegevusena. Organisatsioon ise kirjeldab end töökojana, mis toetab meeste tervist ja heaolu ühistegevuse kaudu.",
+      "officialUrl": "https://haapsalu.ee/meeste-koda-haapsalu-kuur",
+      "sourceKeys": [
+        "meeste_koda_page",
+        "sotsiaalteenused_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_noortegarantii_tugisusteem",
+      "itemType": "resource",
+      "title": "Noortegarantii tugisüsteem",
+      "status": "active",
+      "summary": "Noortegarantii tugisüsteem toetab noori juhtumikorralduse põhimõttel, aitab välja selgitada toe vajaduse ning toetab noort tööle jõudmisel või õppetöös püsimisel.",
+      "targetGroup": "Noored, kellel on vaja tuge haridusteele naasmiseks või tööturule jõudmiseks.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/noortegarantii-tugisusteem/",
+      "sourceKeys": [
+        "noortegarantii_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_ohvriabi_telefon",
+      "itemType": "resource",
+      "title": "Ohvriabi kriisitelefon 116 006",
+      "status": "active",
+      "summary": "Ohvriabi kriisitelefon 116 006 pakub ööpäevaringset tuge vägivalla, kuriteo, kaotuse või muu kriisiolukorra korral ning suunab vajadusel edasi spetsialistide juurde.",
+      "phone": "116006; +3726147393",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/ohvriabi-kriisitelefon/",
+      "sourceKeys": [
+        "ohvriabi_kriisitelefon_page",
+        "ohvriabi_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_omastehooldajate_tugigrupp",
+      "itemType": "resource",
+      "title": "Omastehooldajate tugigrupp",
+      "status": "active",
+      "summary": "Haapsalu Hoolekandekeskuses käib koos omastehooldajate tugigrupp. Lisaks korraldatakse omastehooldajatele vestlusringe ja infoüritusi. Kokkusaamised toimuvad üldjuhul kord kuus.",
+      "officialUrl": "https://sotsiaalmaja.haapsalu.ee/tegevused/tugigrupid/",
+      "sourceKeys": [
+        "hkk_tugigrupid_page",
+        "hoolekandeasutused_page"
+      ],
+      "relatedContacts": [
+        "haapsalu_linn_contact_reet_lumiste"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_perelepitus",
+      "itemType": "resource",
+      "title": "Perelepitus",
+      "status": "active",
+      "summary": "Perelepitusteenus on mõeldud ühise alaealise lapse vanematele, kellel ei ole õnnestunud lahkumineku järel kokku leppida lapse elukorralduslikes küsimustes. Teenus keskendub lapse heaolust lähtuvate kokkulepete saavutamisele.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/perelepitus/",
+      "sourceKeys": [
+        "perelepitus_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_parkimiskaart",
+      "itemType": "resource",
+      "title": "Puudega inimese sõiduki parkimiskaart",
+      "status": "active",
+      "summary": "Sotsiaalkindlustusamet väljastab puudega inimese parkimiskaarte kohalikele omavalitsustele. Parkimiskaarti saab taotleda mõõduka, raske või sügava puudega inimene, kui puue on seotud liikumise või nägemisega, samuti ajutise liikumis- või nägemispuudega inimene vastavate tingimuste täitmisel.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/puudega-inimese-soiduki-parkimiskaart/",
+      "sourceKeys": [
+        "parkimiskaart_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_toiduabikaart",
+      "itemType": "resource",
+      "title": "Toiduabikaart",
+      "status": "active",
+      "summary": "Haapsalu linn avaldab infot toiduabikaardi kohta. Küsimuste korral suunab KOV pöörduma Haapsalu Linnavalitsuse sotsiaalosakonda.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/toiduabikaart/",
+      "sourceKeys": [
+        "toiduabikaart_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_toidupank",
+      "itemType": "resource",
+      "title": "Toidupank",
+      "status": "active",
+      "summary": "Toiduabi saamiseks tuleb esmalt pöörduda Haapsalu Linnavalitsuse sotsiaalosakonda. Vajaduse korral lisatakse inimene toiduabi saajate nimekirja. Läänemaa Toidupanga koordinaatori telefon on 535 54330.",
+      "phone": "53554330",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/toidupank/",
+      "sourceKeys": [
+        "toidupank_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_dementsusega_inimeste_lahedaste_tugigrupp",
+      "itemType": "resource",
+      "title": "Tugigrupp dementsusega inimeste lähedastele",
+      "status": "active",
+      "summary": "Haapsalu Hoolekandekeskuse juures tegutseb dementsusega inimeste lähedaste tugigrupp.",
+      "officialUrl": "https://sotsiaalmaja.haapsalu.ee/tegevused/tugigrupid/",
+      "sourceKeys": [
+        "hkk_tugigrupid_page",
+        "hoolekandeasutused_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_resource_vaimse_tervise_teenused",
+      "itemType": "resource",
+      "title": "Vaimse tervise teenused",
+      "status": "active",
+      "summary": "Haapsalu linna vaimse tervise teenuste lehel on koondatud pereterapeudi, loovterapeudi, tegevusterapeudi, mänguterapeudi, psühholoogilise nõustamise ja kriisiabikeskuse kontaktid.",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/vaimse-tervise-teenused/",
+      "sourceKeys": [
+        "vaimse_tervise_teenused_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_aire_kivi",
+      "itemType": "contact",
+      "title": "Aire Kivi",
+      "status": "active",
+      "name": "Aire Kivi",
+      "role": "Lastekaitse spetsialist",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "4725337; 5124019",
+      "email": "aire.kivi{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_anni_loorits",
+      "itemType": "contact",
+      "title": "Anni Loorits",
+      "status": "active",
+      "name": "Anni Loorits",
+      "role": "Noorte heaolu spetsialist",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "4725332; 53430343",
+      "email": "anni.loorits{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_elen_ormus",
+      "itemType": "contact",
+      "title": "Elen Ormus",
+      "status": "active",
+      "name": "Elen Ormus",
+      "role": "Mänguterapeut",
+      "department": "Meeltemaa OÜ",
+      "phone": "5060890",
+      "email": "elen.ormus@mail.ee",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/manguteraapia/",
+      "sourceKeys": [
+        "manguteraapia_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_erika_koplimaa",
+      "itemType": "contact",
+      "title": "Erika Koplimaa",
+      "status": "active",
+      "name": "Erika Koplimaa",
+      "role": "Lastekaitse spetsialist",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "55566677",
+      "email": "erika.koplimaa{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_erika_tomson",
+      "itemType": "contact",
+      "title": "Erika Tomson",
+      "status": "active",
+      "name": "Erika Tomson",
+      "role": "Linnavara spetsialist",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "4725311; 53445699",
+      "email": "erika.tomson{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_kaasi_almers",
+      "itemType": "contact",
+      "title": "Kaasi Almers",
+      "status": "active",
+      "name": "Kaasi Almers",
+      "role": "Lastehoolekande spetsialist",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "4725350; 56696420",
+      "email": "kaasi.almers{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_kaire_loomets",
+      "itemType": "contact",
+      "title": "Kaire Loomets",
+      "status": "active",
+      "name": "Kaire Loomets",
+      "role": "Sotsiaaltöötaja (laste tugiteenused)",
+      "department": "Haapsalu Hoolekandekeskus",
+      "phone": "5258254",
+      "email": "kaire@haapsaluhkk.ee",
+      "officialUrl": "https://sotsiaalmaja.haapsalu.ee/kontakt-2/",
+      "sourceKeys": [
+        "hkk_contact_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_kaja_rootare",
+      "itemType": "contact",
+      "title": "Kaja Rootare",
+      "status": "active",
+      "name": "Kaja Rootare",
+      "role": "Aselinnapea (sotsiaaltöö, haridus ja noorsootöö)",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "4725314; 58867774",
+      "email": "kaja.rootare{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_krista_levina",
+      "itemType": "contact",
+      "title": "Krista Levina",
+      "status": "active",
+      "name": "Krista Levina",
+      "role": "Sotsiaalnõunik",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "4725324; 53849501",
+      "email": "krista.levina{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_kullike_valk",
+      "itemType": "contact",
+      "title": "Küllike Valk",
+      "status": "active",
+      "name": "Küllike Valk",
+      "role": "Hingehoidja",
+      "department": "Haapsalu linn",
+      "phone": "58093633",
+      "officialUrl": "https://haapsalu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/hingehoidja-teenus/",
+      "sourceKeys": [
+        "hingehoidja_teenus_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_marju_kure",
+      "itemType": "contact",
+      "title": "Marju Kure",
+      "status": "active",
+      "name": "Marju Kure",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "4725313",
+      "email": "marju.kure{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_reet_lumiste",
+      "itemType": "contact",
+      "title": "Reet Lumiste",
+      "status": "active",
+      "name": "Reet Lumiste",
+      "role": "Projektijuht; täiskasvanute tugiteenuste koordineerija",
+      "department": "Haapsalu Hoolekandekeskus",
+      "phone": "53301702",
+      "email": "reet@haapsaluhkk.ee",
+      "officialUrl": "https://sotsiaalmaja.haapsalu.ee/kontakt-2/",
+      "sourceKeys": [
+        "hkk_contact_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_silja_inalhan",
+      "itemType": "contact",
+      "title": "Silja Inalhan",
+      "status": "active",
+      "name": "Silja Inalhan",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "4725336; 53497579",
+      "email": "silja.inalhan{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_contact_triinu_liis_reinesberg",
+      "itemType": "contact",
+      "title": "Triinu-Liis Reinesberg",
+      "status": "active",
+      "name": "Triinu-Liis Reinesberg",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Haapsalu Linnavalitsus",
+      "phone": "4725338; 53053888",
+      "email": "triinu-liis.reinesberg{ätt}haapsalulv.ee",
+      "officialUrl": "https://haapsalu.ee/linn-uudised-ja-kontakt/kontakt/",
+      "sourceKeys": [
+        "kontakt_page"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_hooldajatoetus_puudega_lapse",
+      "itemType": "form",
+      "title": "Avaldus hooldajatoetuse saamiseks puudega lapse hooldajale",
+      "status": "active",
+      "format": "doc",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Avaldus-hooldajatoetuse-saamiseks-puudega-lapse-hooldajale.DOC.doc",
+      "sourceKeys": [
+        "hooldajatoetus_puudega_lapse_blankett"
+      ],
+      "relatedTo": [
+        "haapsalu_linn_benefit_hooldajatoetus_puudega_lapse"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_hoolduse_seadmine",
+      "itemType": "form",
+      "title": "Avaldus hoolduse seadmiseks ja hooldajatoetuse määramiseks",
+      "status": "active",
+      "format": "doc",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Avaldus-hoolduse-seadmiseks-ja-hooldajatoetuse-maaramiseks2025.DOC.doc",
+      "sourceKeys": [
+        "hoolduse_seadmine_blankett"
+      ],
+      "relatedTo": [
+        "haapsalu_linn_service_taisealise_isiku_hooldus",
+        "haapsalu_linn_benefit_hooldajatoetus_taisealise"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_uhekordne_sotsiaaltoetus",
+      "itemType": "form",
+      "title": "Avaldus ühekordse sotsiaaltoetuse taotlemiseks",
+      "status": "active",
+      "format": "docx",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Avaldus-uhekordse-sotsiaaltoetuse-taotlemiseks.DOCX.docx",
+      "sourceKeys": [
+        "uhekordse_sotsiaaltoetuse_blankett"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_isikliku_abistaja_teenuse_aruanne",
+      "itemType": "form",
+      "title": "Isikliku abistaja teenuse osutamise aruanne",
+      "status": "active",
+      "format": "doc",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Isikliku-abistaja-teenuse-osutamise-aruanne-1.DOC.doc",
+      "sourceKeys": [
+        "isikliku_abistaja_aruanne_blankett"
+      ],
+      "relatedTo": [
+        "haapsalu_linn_service_isikliku_abistaja_teenus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_isikliku_abistaja_teenuse_blankett",
+      "itemType": "form",
+      "title": "Isikliku abistaja teenuse taotlus",
+      "status": "active",
+      "format": "doc",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Isikliku-abistaja-teenuse-blankett.DOC.doc",
+      "sourceKeys": [
+        "isikliku_abistaja_blankett"
+      ],
+      "relatedTo": [
+        "haapsalu_linn_service_isikliku_abistaja_teenus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_matusetoetus",
+      "itemType": "form",
+      "title": "Matusetoetuse taotlus",
+      "status": "active",
+      "format": "doc",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Matusetoetuse-blankett2025.DOC.doc",
+      "sourceKeys": [
+        "matusetoetus_blankett"
+      ],
+      "relatedTo": [
+        "haapsalu_linn_benefit_matusetoetus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_sunnitoetus",
+      "itemType": "form",
+      "title": "Sünnitoetuse taotlus",
+      "status": "active",
+      "format": "doc",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Sunnitoetus2025.DOC.doc",
+      "sourceKeys": [
+        "sunnitoetus_blankett"
+      ],
+      "relatedTo": [
+        "haapsalu_linn_benefit_sunnitoetus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_tegevustoetus",
+      "itemType": "form",
+      "title": "Tegevustoetuse taotlus sotsiaalhoolekandealastele ja tervist edendavatele tegevustele",
+      "status": "active",
+      "format": "docx",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Tegevustoetuse-taotlus-sotsiaalhoolekandealastele-ja-tervist-edendavatele-tegevustele2025.DOC.docx",
+      "sourceKeys": [
+        "tegevustoetus_blankett"
+      ],
+      "relatedTo": [
+        "haapsalu_linn_benefit_tegevustoetus_sotsiaalhoolekanne"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_toiduraha_osalustasu_oppemaks",
+      "itemType": "form",
+      "title": "Toiduraha, osalustasu ja õppemaksu taotlus",
+      "status": "active",
+      "format": "doc",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Toiduraha-osalustasu-ja-oppemaks2025.DOC.doc",
+      "sourceKeys": [
+        "toiduraha_osalustasu_oppemaks_blankett"
+      ],
+      "relatedTo": [
+        "haapsalu_linn_benefit_lasteaia_toiduraha_ja_osalustasu_toetus"
+      ]
+    },
+    {
+      "id": "haapsalu_linn_form_toimetulekutoetus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse avaldus",
+      "status": "active",
+      "format": "doc",
+      "officialUrl": "https://haapsalu.ee/wp-content/uploads/2025/06/Toimetulekutoetuse-blankett.DOC.doc",
+      "sourceKeys": [
+        "toimetulekutoetus_blankett"
+      ],
+      "relatedTo": [
+        "haapsalu_linn_benefit_toimetulekutoetus"
+      ]
+    }
+  ]
+}

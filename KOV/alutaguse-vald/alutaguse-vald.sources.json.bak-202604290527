@@ -1,0 +1,313 @@
+{
+  "municipality": "Alutaguse vald",
+  "county": "Ida-Virumaa",
+  "checkedAt": "2026-04-12",
+  "sources": [
+    {
+      "key": "application_overview_page",
+      "type": "web_page",
+      "title": "Abi taotlemine - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/abi-taotlemine"
+    },
+    {
+      "key": "asendushooldusteenus_page",
+      "type": "web_page",
+      "title": "Asendushooldusteenus",
+      "url": "https://www.alutagusevald.ee/asendushooldusteenus"
+    },
+    {
+      "key": "asenduskodud_page",
+      "type": "web_page",
+      "title": "Asenduskodud",
+      "url": "https://www.alutagusevald.ee/asenduskodud"
+    },
+    {
+      "key": "child_protection_page",
+      "type": "web_page",
+      "title": "Lastekaitse",
+      "url": "https://www.alutagusevald.ee/lastekaitse"
+    },
+    {
+      "key": "e_applications_page",
+      "type": "web_page",
+      "title": "E-taotlused - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/e-taotlused"
+    },
+    {
+      "key": "eakate_sunnipaevatoetus_page",
+      "type": "web_page",
+      "title": "Eakate sünnipäevatoetus - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/eakate-sunnipaevatoetus"
+    },
+    {
+      "key": "eluruumi_tagamise_teenus_page",
+      "type": "web_page",
+      "title": "Eluruumi tagamise teenus",
+      "url": "https://www.alutagusevald.ee/eluruumi-tagamise-teenus"
+    },
+    {
+      "key": "erakorraline_toetus_page",
+      "type": "web_page",
+      "title": "Erakorraline toetus",
+      "url": "https://www.alutagusevald.ee/erakorraline-toetus"
+    },
+    {
+      "key": "esmakordselt_kooli_mineva_lapse_toetus_page",
+      "type": "web_page",
+      "title": "Esmakordselt kooli mineva lapse toetus",
+      "url": "https://www.alutagusevald.ee/esmakordselt-kooli-mineva-lapse-toetus"
+    },
+    {
+      "key": "form_abivajadusest_soltuva_toetuse_taotlus_pdf",
+      "type": "file",
+      "title": "Avaldus abivajadusest sõltuva toetuse taotlemiseks",
+      "url": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_abivajadusest_s%C3%B5ltuva_toetuse_taotlemiseks.pdf/cdcf79fc-8657-4fca-95b9-d3cfc61f650d?version=1.0"
+    },
+    {
+      "key": "form_huviharidus_huvitegevus_pdf",
+      "type": "file",
+      "title": "Huvihariduse ja huvitegevuse taotlus",
+      "url": "https://www.alutagusevald.ee/documents/12278831/18287671/Huvihariduse%2Bja%2Bhuvitegevuse%2Btaotlus%2B.pdf/78ef3885-7b70-4001-83da-4bf5bbf6312d?version=1.0"
+    },
+    {
+      "key": "form_soidupiletite_huvitamise_avaldus_pdf",
+      "type": "file",
+      "title": "Sõidupiletite hüvitamise avaldus",
+      "url": "https://www.alutagusevald.ee/documents/12278831/18287671/S%C3%B5idupiletite%2Bh%C3%BCvitamise%2Bavaldus.pdf/873c66cc-d416-4d28-a348-d0ee95cd836a?version=1.0"
+    },
+    {
+      "key": "form_sotsiaaltoetuse_taotlus_pdf",
+      "type": "file",
+      "title": "Avaldus sotsiaaltoetuse taotlemiseks",
+      "url": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_sotsiaaltoetuse_%2Btaotlemiseks.pdf/8f20f143-79cb-4196-8f90-54e590c2b12f?version=1.0"
+    },
+    {
+      "key": "form_teenuse_taotlus_pdf",
+      "type": "file",
+      "title": "Avaldus teenuse taotlemiseks abivajaduse korral",
+      "url": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_teenuse_taotlemiseks_abivajaduse_korral.pdf/b1d07a81-3c83-4eff-ba5d-d624d22f62df?version=1.0"
+    },
+    {
+      "key": "form_toimetuleku_taotlus_pdf",
+      "type": "file",
+      "title": "Avaldus toimetuleku taotlemiseks",
+      "url": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_toimetuleku_taotlemiseks.pdf/a9c508db-d335-4b6b-b913-56334361d321?version=1.0"
+    },
+    {
+      "key": "hobby_education_support_page",
+      "type": "web_page",
+      "title": "Huvihariduse ja huvitegevuse toetus",
+      "url": "https://www.alutagusevald.ee/huvihariduse-ja-huvitegevuse-toetus"
+    },
+    {
+      "key": "home",
+      "type": "web_page",
+      "title": "Alutaguse vald",
+      "url": "https://www.alutagusevald.ee"
+    },
+    {
+      "key": "hooldust_vajava_taiskasvanu_toetus_page",
+      "type": "web_page",
+      "title": "Hooldust vajava täiskasvanu toetus",
+      "url": "https://www.alutagusevald.ee/hooldust-vajava-taiskasvanu-toetus"
+    },
+    {
+      "key": "hoolekandeasutused_page",
+      "type": "web_page",
+      "title": "Hoolekandeasutused",
+      "url": "https://www.alutagusevald.ee/hoolekandeasutused"
+    },
+    {
+      "key": "important_hotlines_page",
+      "type": "web_page",
+      "title": "Olulised nõuandeliinid - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/olulised-nouandeliinid"
+    },
+    {
+      "key": "isikliku_abistaja_teenus_page",
+      "type": "web_page",
+      "title": "Isikliku abistaja teenus",
+      "url": "https://www.alutagusevald.ee/isikliku-abistaja-teenus"
+    },
+    {
+      "key": "jarelhooldusteenus_page",
+      "type": "web_page",
+      "title": "Järelhooldusteenus",
+      "url": "https://www.alutagusevald.ee/jarelhooldusteenus"
+    },
+    {
+      "key": "koduteenus_page",
+      "type": "web_page",
+      "title": "Koduteenus",
+      "url": "https://www.alutagusevald.ee/koduteenus"
+    },
+    {
+      "key": "koolitarvete_kooliriiete_toetus_page",
+      "type": "web_page",
+      "title": "Koolitarvete ja kooliriiete toetus",
+      "url": "https://www.alutagusevald.ee/koolitarvete-ja-kooliriiete-toetus"
+    },
+    {
+      "key": "lapsehoiuteenus_page",
+      "type": "web_page",
+      "title": "Lapsehoiuteenus",
+      "url": "https://www.alutagusevald.ee/lapsehoiuteenus"
+    },
+    {
+      "key": "matusetoetus_page",
+      "type": "web_page",
+      "title": "Matusetoetus",
+      "url": "https://www.alutagusevald.ee/matusetoetus"
+    },
+    {
+      "key": "medi_hairenuputeenus_page",
+      "type": "web_page",
+      "title": "MEDI häirenuputeenus",
+      "url": "https://www.alutagusevald.ee/medi-hairenuputeenus"
+    },
+    {
+      "key": "parkimiskaardid_page",
+      "type": "web_page",
+      "title": "Parkimiskaardid - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/parkimiskaardid"
+    },
+    {
+      "key": "parkimiskaart_page",
+      "type": "web_page",
+      "title": "Parkimiskaardid - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/parkimiskaardid"
+    },
+    {
+      "key": "prillide_abivahendite_toetus_page",
+      "type": "web_page",
+      "title": "Prillide ja abivahendite ostmise või laenutamise toetus",
+      "url": "https://www.alutagusevald.ee/prillide-ja-abivahendite-ostmise-voi-laenutamise-toetus"
+    },
+    {
+      "key": "psuhholoogiline_noustamine_page",
+      "type": "web_page",
+      "title": "Psühholoogiline nõustamine - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/soltuvusnoustamine"
+    },
+    {
+      "key": "psychological_help_page",
+      "type": "web_page",
+      "title": "Psühholoogiline abi - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/noustamine"
+    },
+    {
+      "key": "puudega_lapse_hooldaja_toetus_page",
+      "type": "web_page",
+      "title": "Puudega lapse hooldaja toetus",
+      "url": "https://www.alutagusevald.ee/puudega-lapse-hooldaja-toetus"
+    },
+    {
+      "key": "retseptiravimite_ostmise_toetus_page",
+      "type": "web_page",
+      "title": "Retseptiravimite ostmise toetus",
+      "url": "https://www.alutagusevald.ee/retseptiravimite-ostmise-toetus"
+    },
+    {
+      "key": "social_contacts_page",
+      "type": "web_page",
+      "title": "Kontakt - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/sots_kontakt"
+    },
+    {
+      "key": "social_rules_page",
+      "type": "web_page",
+      "title": "Valdkonna õigusaktid - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/korrad"
+    },
+    {
+      "key": "social_services_overview",
+      "type": "web_page",
+      "title": "Sotsiaalteenused - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/sotsiaalteenused"
+    },
+    {
+      "key": "soidukulude_huvitamine_page",
+      "type": "web_page",
+      "title": "Õpilaste sõidukulude hüvitamine",
+      "url": "https://www.alutagusevald.ee/soidukulude-huvitamine"
+    },
+    {
+      "key": "soltuvusnoustamine_page",
+      "type": "web_page",
+      "title": "Sõltuvusnõustamine - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/psuhholoogiline-noustamine"
+    },
+    {
+      "key": "sotsiaaltransporditeenus_page",
+      "type": "web_page",
+      "title": "Sotsiaaltransporditeenus",
+      "url": "https://www.alutagusevald.ee/sotsiaaltransporditeenus"
+    },
+    {
+      "key": "synnitoetus_page",
+      "type": "web_page",
+      "title": "Sünnitoetus",
+      "url": "https://www.alutagusevald.ee/sunnitoetus"
+    },
+    {
+      "key": "taisealise_isiku_hooldus_page",
+      "type": "web_page",
+      "title": "Täisealise isiku hooldus",
+      "url": "https://www.alutagusevald.ee/taisealise-isiku-hooldus"
+    },
+    {
+      "key": "toimetulekutoetus_page",
+      "type": "web_page",
+      "title": "Toimetulekutoetus",
+      "url": "https://www.alutagusevald.ee/toimetulekutoetus"
+    },
+    {
+      "key": "tugiisikuteenus_page",
+      "type": "web_page",
+      "title": "Tugiisikuteenus",
+      "url": "https://www.alutagusevald.ee/tugiisikuteenus"
+    },
+    {
+      "key": "turvakoduteenus_page",
+      "type": "web_page",
+      "title": "Turvakoduteenus",
+      "url": "https://www.alutagusevald.ee/turvakoduteenus"
+    },
+    {
+      "key": "valtimatu_sotsiaalabi_page",
+      "type": "web_page",
+      "title": "Vältimatu sotsiaalabi",
+      "url": "https://www.alutagusevald.ee/valtimatu-sotsiaalabi"
+    },
+    {
+      "key": "varjupaigateenus_page",
+      "type": "web_page",
+      "title": "Varjupaigateenus",
+      "url": "https://www.alutagusevald.ee/varjupaigateenus"
+    },
+    {
+      "key": "victim_support_page",
+      "type": "web_page",
+      "title": "Ohvriabi - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/ohvriabi"
+    },
+    {
+      "key": "volanoustamine_page",
+      "type": "web_page",
+      "title": "Võlanõustamisteenus - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/volanoustamisteenus"
+    },
+    {
+      "key": "volanoustamisteenus_page",
+      "type": "web_page",
+      "title": "Võlanõustamisteenus - Alutaguse vald",
+      "url": "https://www.alutagusevald.ee/volanoustamisteenus"
+    },
+    {
+      "key": "yldhooldusteenus_page",
+      "type": "web_page",
+      "title": "Üldhooldusteenus",
+      "url": "https://www.alutagusevald.ee/uldhooldusteenus"
+    }
+  ]
+}

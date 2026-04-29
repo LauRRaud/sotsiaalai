@@ -36,6 +36,17 @@ Current-state update after V3.4A follow-up:
 - The V3.4A follow-up added and production-verified conservative SourcePackage completeness mapping for `forms`, `contacts`, `legal_basis`, `fees` and `deadlines`, more precise Jogeva gap-report candidate diagnostics, a supplemental same-KOV `kov_regulation` lookup, and a Jogeva canonical relation fallback resolver for `relatedForms` / `relatedContacts`.
 - The remaining target is fuller package coverage from ingest metadata and V3.4B claim-level attribution, not a retrieval engine replacement.
 
+### KOV Admin / Metadata Update 2026-04-29
+
+STATUS: implemented
+
+- Admin KOV `RAG dokumendi seis` lookup for both web RAG and RT RAG now goes through server-side `app/api/admin/rag/document-status/[docId]/route.js`, not direct browser -> RAG service calls.
+- The server-side status route builds authenticated RAG headers and includes `X-API-Key`, so refreshing admin KOV detail no longer causes unauthenticated `GET /documents/:docId -> 401` noise in RAG logs.
+- `401` from RAG document status is now logged as a precise admin-side auth failure instead of collapsing into generic `api.common.server_error`.
+- Generic KOV bundle ingest in `lib/admin/rag/kov/service.js` now derives document and chunk metadata from `<kov-slug>.meta.json` first, with fallback to sources/admin data.
+- The normalized KOV metadata path now carries `municipality_id`, `municipality_name`, `municipality`, `municipality_slug`, `county`, `checked_at`, `last_checked`, `country`, `language`, `collection_id` and `jurisdiction_level`.
+- This metadata fix is not Harku-specific; it is intended to work for Jõgeva, Harku and future KOV bundles that provide the canonical root fields in `meta.json`.
+
 ### V3.0A Implementation Update 2026-04-28
 
 STATUS: implemented and smoke-tested
@@ -2067,13 +2078,14 @@ STATUS: reference / active code map
 - `scripts/ingest-national-rt-xml.mjs` - riikliku Riigi Teataja XML ingest.
 - `scripts/ingest-ajakiri-sotsiaaltoo.mjs` - Sotsiaaltöö ajakirja artiklite ingest.
 - `scripts/reindex-rag-documents.mjs` - dokumentide reindex.
-- `lib/admin/rag/kov/service.js` - KOV admin, failid, kontroll, ingest, metadata.
+- `lib/admin/rag/kov/service.js` - KOV admin, failid, kontroll, ingest ja generic KOV metadata normaliseerimine `meta.json` -> RAG document/chunk metadata.
 - `lib/admin/rag/kov/validation.js` - KOV failide valideerimine.
 - `lib/admin/rag/kov/rtXml.js` - KOV/Riigi Teataja XML parser ja chunk'id.
 - `lib/admin/rag/kov/shared.js`, `storage.js`, `api.js` - KOV admini abikihid.
 - `lib/admin/rag/organizations/service.js` - organisatsioonide RAG admin ja ingest.
 - `lib/admin/rag/organizations/validation.js` - organisatsiooni failide valideerimine.
 - `app/api/admin/rag/**` - RAG admin API endpointid KOV, organisatsioonide ja national RT jaoks.
+- `app/api/admin/rag/document-status/[docId]/route.js` - admini server-side dokumentide seisu päring; kasutab authitud RAG service call'i nii KOV web kui RT doc status jaoks.
 
 ### Andmebaas Ja Logid
 

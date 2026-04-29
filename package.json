@@ -67,7 +67,10 @@
     "rag:cleanup:ajakiri-legacy": "node scripts/cleanup-legacy-ajakiri-rag-docs.mjs",
     "rag:delete:ajakiri": "node scripts/delete-ajakiri-rag-docs.mjs",
     "rag:plan:metadata": "node scripts/plan-rag-metadata-backfill.mjs",
-    "rag:reingest:readiness": "node scripts/rag-reingest-readiness.mjs"
+    "rag:reingest:readiness": "node scripts/rag-reingest-readiness.mjs",
+    "kov:upgrade-metadata": "node scripts/upgrade-kov-metadata.mjs",
+    "kov:upgrade-metadata:batch": "node scripts/upgrade-kov-metadata.mjs --batch",
+    "kov:validate-metadata": "node scripts/validate-kov-metadata.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",

@@ -1,0 +1,109 @@
+{
+  "municipality": "Anija vald",
+  "county": "Harjumaa",
+  "checkedAt": "2026-04-12",
+  "sources": [
+    {
+      "key": "home",
+      "type": "web_page",
+      "title": "Anija vald – avaleht",
+      "url": "https://anija.ee/"
+    },
+    {
+      "key": "sotsiaalteenused_page",
+      "type": "web_page",
+      "title": "Sotsiaalteenused – Anija vald",
+      "url": "https://anija.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/"
+    },
+    {
+      "key": "sotsiaaltoetused_page",
+      "type": "web_page",
+      "title": "Sotsiaaltoetused – Anija vald",
+      "url": "https://anija.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/peretoimingud-ja-sotsiaaltoetused/"
+    },
+    {
+      "key": "sotsiaalkeskus_page",
+      "type": "web_page",
+      "title": "Sotsiaalkeskus – Anija vald",
+      "url": "https://anija.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalkeskus/"
+    },
+    {
+      "key": "kontakt_page",
+      "type": "contact_page",
+      "title": "Kontakt – Anija vald",
+      "url": "https://anija.ee/vald-uudised-ja-kontakt/valla-info/kontakt/"
+    },
+    {
+      "key": "lastekaitse_page",
+      "type": "web_page",
+      "title": "Lastekaitse – Anija vald",
+      "url": "https://anija.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-lapsed/lastekaitse/"
+    },
+    {
+      "key": "muud_sotsiaalteenused_pdf",
+      "type": "pdf",
+      "title": "Muud sotsiaalteenused (PDF)",
+      "url": "https://anija.ee/wp-content/uploads/2024/12/Muud-sotsiaalteenused-.pdf"
+    },
+    {
+      "key": "forms_page",
+      "type": "form_page",
+      "title": "Asjaajamisjuhised ja blanketid – Anija vald",
+      "url": "https://anija.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/asjaajamisjuhised-ja-blanketid/"
+    },
+    {
+      "key": "sunnitoetuse_print_form",
+      "type": "docx",
+      "title": "Sünnitoetuse taotlus – prinditav vorm",
+      "url": "https://anija.ee/wp-content/uploads/2026/02/Sunnitoetuse-taotlus-PRINDITAV.docx"
+    },
+    {
+      "key": "sunnitoetuse_i_osa_form",
+      "type": "docx",
+      "title": "Sünnitoetuse taotlus (I osa)",
+      "url": "https://anija.ee/wp-content/uploads/2024/12/Sunnitoetuse-taotlus-I-osa.docx"
+    },
+    {
+      "key": "sunnitoetuse_ii_osa_form",
+      "type": "docx",
+      "title": "Sünnitoetuse taotlus (II osa)",
+      "url": "https://anija.ee/wp-content/uploads/2024/12/Sunnitoetuse-taotlus-II-osa.doc.docx"
+    },
+    {
+      "key": "lapsehoiuteenuse_form",
+      "type": "doc",
+      "title": "Lapsehoiuteenuse toetuse taotlus",
+      "url": "https://anija.ee/wp-content/uploads/2024/12/Lapsehoiuteenuse-toetuse-taotlus.DOC.doc"
+    },
+    {
+      "key": "transporditeenuse_avaldus_form",
+      "type": "doc",
+      "title": "Transporditeenuse avaldus",
+      "url": "https://anija.ee/wp-content/uploads/2024/12/Transporditeenuse-avaldus.DOC.doc"
+    },
+    {
+      "key": "matusetoetuse_form",
+      "type": "pdf",
+      "title": "Matusetoetuse taotlus",
+      "url": "https://anija.ee/wp-content/uploads/2024/12/Matusetoetuse-taotlus-2024-.pdf"
+    },
+    {
+      "key": "sotsiaaltoetuse_form",
+      "type": "doc",
+      "title": "Sotsiaaltoetuse avaldus",
+      "url": "https://anija.ee/wp-content/uploads/2024/12/Sotsiaaltoetuse-avaldus.DOC.doc"
+    },
+    {
+      "key": "laste_toitlustamise_form",
+      "type": "doc",
+      "title": "Laste toitlustamise toetuse avaldus",
+      "url": "https://anija.ee/wp-content/uploads/2024/12/Laste-toitlustamise-toetuse-avaldus2018.DOC.doc"
+    },
+    {
+      "key": "toimetulekutoetuse_form",
+      "type": "doc",
+      "title": "Toimetulekutoetuse taotlus",
+      "url": "https://anija.ee/wp-content/uploads/2024/12/Toimetulekutoetuse-taotlus.DOC.doc"
+    }
+  ]
+}
