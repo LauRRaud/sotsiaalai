@@ -25,8 +25,8 @@
     "auto_ingest_only_when": "auto_ingest=true and local XML file is found"
   },
   "summary": {
-    "entry_count": 70,
-    "auto_ingest_true": 68,
+    "entry_count": 78,
+    "auto_ingest_true": 76,
     "needs_review": 2
   },
   "entries": [
@@ -116,10 +116,10 @@
       "slug": "jogeva-vald",
       "web_doc_id": "kov-jogeva-vald",
       "rt_doc_id": "kov-rt-jogeva-vald",
-      "act_title": "Jõgeva valla sotsiaalhoolekandelise abi andmise kord",
-      "act_url": "https://www.riigiteataja.ee/akt/406122018013?leiaKehtiv",
-      "act_reference": "406122018013",
-      "xml_file": "406122018013.xml",
+      "act_title": "Sotsiaalhoolekandelise abi andmise kord Jõgeva vallas",
+      "act_url": "https://www.riigiteataja.ee/akt/406112024020?leiaKehtiv",
+      "act_reference": "406112024020",
+      "xml_file": "406112024020.xml",
       "xml_detection": {
         "allowed_locations": [
           "<kov-folder>/<act_reference>.xml",
@@ -137,21 +137,20 @@
         "source_format": "xml",
         "jurisdiction_level": "MUNICIPALITY",
         "legal_basis": true,
-        "act_reference": "406122018013",
-        "act_title": "Jõgeva valla sotsiaalhoolekandelise abi andmise kord",
-        "act_url": "https://www.riigiteataja.ee/akt/406122018013?leiaKehtiv",
-        "xml_file": "406122018013.xml",
+        "act_reference": "406112024020",
+        "act_title": "Sotsiaalhoolekandelise abi andmise kord Jõgeva vallas",
+        "act_url": "https://www.riigiteataja.ee/akt/406112024020?leiaKehtiv",
+        "xml_file": "406112024020.xml",
         "source_status": "active",
         "historical": false,
         "is_current_version": true
       },
       "auto_ingest": true,
       "ingest_status": "ingest_ready",
-      "original_status": "FOUND_EXACT",
-      "notes": "General social welfare regulation covering social services and benefits for Jõgeva residents"
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
     },
     {
-      "municipality_name": "Jõhvi vald",
       "municipality_name": "Haljala vald",
       "municipality_id": "haljala_vald",
       "slug": "haljala-vald",
@@ -188,8 +187,8 @@
       },
       "auto_ingest": true,
       "ingest_status": "ingest_ready",
-      "original_status": "FOUND_EXACT",
-      "notes": "Current Haljala vald social welfare assistance regulation. RT/legal layer stays separate from KOV web package."
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
     },
     {
       "municipality_name": "JĆµhvi vald",
@@ -2830,6 +2829,326 @@
       "ingest_status": "ingest_ready",
       "original_status": "FOUND_EXACT",
       "notes": "General act describing the social services offered by Võru rural municipality and the conditions and procedures for requesting them"
+    },
+    {
+      "municipality_name": "Alutaguse vald",
+      "municipality_id": "alutaguse_vald",
+      "slug": "alutaguse-vald",
+      "web_doc_id": "kov-alutaguse-vald",
+      "rt_doc_id": "kov-rt-alutaguse-vald",
+      "act_title": "Sotsiaalhoolekandelise abi andmise kord Alutaguse vallas",
+      "act_url": "https://www.riigiteataja.ee/akt/407032025024?leiaKehtiv",
+      "act_reference": "407032025024",
+      "xml_file": "407032025024.xml",
+      "xml_detection": {
+        "allowed_locations": [
+          "<kov-folder>/<act_reference>.xml",
+          "<kov-folder>/rt/<act_reference>.xml"
+        ],
+        "mode": "manifest_preferred_then_flat_or_rt_dir"
+      },
+      "generated_metadata": {
+        "docId": "kov-rt-alutaguse-vald",
+        "municipality_id": "alutaguse_vald",
+        "municipality_name": "Alutaguse vald",
+        "slug": "alutaguse-vald",
+        "collection_id": "kov_legal",
+        "source_type": "kov_regulation",
+        "source_format": "xml",
+        "jurisdiction_level": "MUNICIPALITY",
+        "legal_basis": true,
+        "act_reference": "407032025024",
+        "act_title": "Sotsiaalhoolekandelise abi andmise kord Alutaguse vallas",
+        "act_url": "https://www.riigiteataja.ee/akt/407032025024?leiaKehtiv",
+        "xml_file": "407032025024.xml",
+        "source_status": "active",
+        "historical": false,
+        "is_current_version": true
+      },
+      "auto_ingest": true,
+      "ingest_status": "ingest_ready",
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
+    },
+    {
+      "municipality_name": "Anija vald",
+      "municipality_id": "anija_vald",
+      "slug": "anija-vald",
+      "web_doc_id": "kov-anija-vald",
+      "rt_doc_id": "kov-rt-anija-vald",
+      "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+      "act_url": "https://www.riigiteataja.ee/akt/425032026040?leiaKehtiv",
+      "act_reference": "425032026040",
+      "xml_file": "425032026040.xml",
+      "xml_detection": {
+        "allowed_locations": [
+          "<kov-folder>/<act_reference>.xml",
+          "<kov-folder>/rt/<act_reference>.xml"
+        ],
+        "mode": "manifest_preferred_then_flat_or_rt_dir"
+      },
+      "generated_metadata": {
+        "docId": "kov-rt-anija-vald",
+        "municipality_id": "anija_vald",
+        "municipality_name": "Anija vald",
+        "slug": "anija-vald",
+        "collection_id": "kov_legal",
+        "source_type": "kov_regulation",
+        "source_format": "xml",
+        "jurisdiction_level": "MUNICIPALITY",
+        "legal_basis": true,
+        "act_reference": "425032026040",
+        "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+        "act_url": "https://www.riigiteataja.ee/akt/425032026040?leiaKehtiv",
+        "xml_file": "425032026040.xml",
+        "source_status": "active",
+        "historical": false,
+        "is_current_version": true
+      },
+      "auto_ingest": true,
+      "ingest_status": "ingest_ready",
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
+    },
+    {
+      "municipality_name": "Antsla vald",
+      "municipality_id": "antsla_vald",
+      "slug": "antsla-vald",
+      "web_doc_id": "kov-antsla-vald",
+      "rt_doc_id": "kov-rt-antsla-vald",
+      "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+      "act_url": "https://www.riigiteataja.ee/akt/428062025051?leiaKehtiv",
+      "act_reference": "428062025051",
+      "xml_file": "428062025051.xml",
+      "xml_detection": {
+        "allowed_locations": [
+          "<kov-folder>/<act_reference>.xml",
+          "<kov-folder>/rt/<act_reference>.xml"
+        ],
+        "mode": "manifest_preferred_then_flat_or_rt_dir"
+      },
+      "generated_metadata": {
+        "docId": "kov-rt-antsla-vald",
+        "municipality_id": "antsla_vald",
+        "municipality_name": "Antsla vald",
+        "slug": "antsla-vald",
+        "collection_id": "kov_legal",
+        "source_type": "kov_regulation",
+        "source_format": "xml",
+        "jurisdiction_level": "MUNICIPALITY",
+        "legal_basis": true,
+        "act_reference": "428062025051",
+        "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+        "act_url": "https://www.riigiteataja.ee/akt/428062025051?leiaKehtiv",
+        "xml_file": "428062025051.xml",
+        "source_status": "active",
+        "historical": false,
+        "is_current_version": true
+      },
+      "auto_ingest": true,
+      "ingest_status": "ingest_ready",
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
+    },
+    {
+      "municipality_name": "Elva vald",
+      "municipality_id": "elva_vald",
+      "slug": "elva-vald",
+      "web_doc_id": "kov-elva-vald",
+      "rt_doc_id": "kov-rt-elva-vald",
+      "act_title": "Sotsiaalhoolekandelise abi andmise kord Elva vallas",
+      "act_url": "https://www.riigiteataja.ee/akt/426052023059?leiaKehtiv",
+      "act_reference": "426052023059",
+      "xml_file": "426052023059.xml",
+      "xml_detection": {
+        "allowed_locations": [
+          "<kov-folder>/<act_reference>.xml",
+          "<kov-folder>/rt/<act_reference>.xml"
+        ],
+        "mode": "manifest_preferred_then_flat_or_rt_dir"
+      },
+      "generated_metadata": {
+        "docId": "kov-rt-elva-vald",
+        "municipality_id": "elva_vald",
+        "municipality_name": "Elva vald",
+        "slug": "elva-vald",
+        "collection_id": "kov_legal",
+        "source_type": "kov_regulation",
+        "source_format": "xml",
+        "jurisdiction_level": "MUNICIPALITY",
+        "legal_basis": true,
+        "act_reference": "426052023059",
+        "act_title": "Sotsiaalhoolekandelise abi andmise kord Elva vallas",
+        "act_url": "https://www.riigiteataja.ee/akt/426052023059?leiaKehtiv",
+        "xml_file": "426052023059.xml",
+        "source_status": "active",
+        "historical": false,
+        "is_current_version": true
+      },
+      "auto_ingest": true,
+      "ingest_status": "ingest_ready",
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
+    },
+    {
+      "municipality_name": "Häädemeeste vald",
+      "municipality_id": "haademeeste_vald",
+      "slug": "haademeeste-vald",
+      "web_doc_id": "kov-haademeeste-vald",
+      "rt_doc_id": "kov-rt-haademeeste-vald",
+      "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+      "act_url": "https://www.riigiteataja.ee/akt/403042025040?leiaKehtiv",
+      "act_reference": "403042025040",
+      "xml_file": "403042025040.xml",
+      "xml_detection": {
+        "allowed_locations": [
+          "<kov-folder>/<act_reference>.xml",
+          "<kov-folder>/rt/<act_reference>.xml"
+        ],
+        "mode": "manifest_preferred_then_flat_or_rt_dir"
+      },
+      "generated_metadata": {
+        "docId": "kov-rt-haademeeste-vald",
+        "municipality_id": "haademeeste_vald",
+        "municipality_name": "Häädemeeste vald",
+        "slug": "haademeeste-vald",
+        "collection_id": "kov_legal",
+        "source_type": "kov_regulation",
+        "source_format": "xml",
+        "jurisdiction_level": "MUNICIPALITY",
+        "legal_basis": true,
+        "act_reference": "403042025040",
+        "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+        "act_url": "https://www.riigiteataja.ee/akt/403042025040?leiaKehtiv",
+        "xml_file": "403042025040.xml",
+        "source_status": "active",
+        "historical": false,
+        "is_current_version": true
+      },
+      "auto_ingest": true,
+      "ingest_status": "ingest_ready",
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
+    },
+    {
+      "municipality_name": "Haapsalu linn",
+      "municipality_id": "haapsalu_linn",
+      "slug": "haapsalu-linn",
+      "web_doc_id": "kov-haapsalu-linn",
+      "rt_doc_id": "kov-rt-haapsalu-linn",
+      "act_title": "Sotsiaalteenuste osutamise üldine kord",
+      "act_url": "https://www.riigiteataja.ee/akt/405042025014?leiaKehtiv",
+      "act_reference": "405042025014",
+      "xml_file": "405042025014.xml",
+      "xml_detection": {
+        "allowed_locations": [
+          "<kov-folder>/<act_reference>.xml",
+          "<kov-folder>/rt/<act_reference>.xml"
+        ],
+        "mode": "manifest_preferred_then_flat_or_rt_dir"
+      },
+      "generated_metadata": {
+        "docId": "kov-rt-haapsalu-linn",
+        "municipality_id": "haapsalu_linn",
+        "municipality_name": "Haapsalu linn",
+        "slug": "haapsalu-linn",
+        "collection_id": "kov_legal",
+        "source_type": "kov_regulation",
+        "source_format": "xml",
+        "jurisdiction_level": "MUNICIPALITY",
+        "legal_basis": true,
+        "act_reference": "405042025014",
+        "act_title": "Sotsiaalteenuste osutamise üldine kord",
+        "act_url": "https://www.riigiteataja.ee/akt/405042025014?leiaKehtiv",
+        "xml_file": "405042025014.xml",
+        "source_status": "active",
+        "historical": false,
+        "is_current_version": true
+      },
+      "auto_ingest": true,
+      "ingest_status": "ingest_ready",
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
+    },
+    {
+      "municipality_name": "Harku vald",
+      "municipality_id": "harku_vald",
+      "slug": "harku-vald",
+      "web_doc_id": "kov-harku-vald",
+      "rt_doc_id": "kov-rt-harku-vald",
+      "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+      "act_url": "https://www.riigiteataja.ee/akt/404072025017?leiaKehtiv",
+      "act_reference": "404072025017",
+      "xml_file": "404072025017.xml",
+      "xml_detection": {
+        "allowed_locations": [
+          "<kov-folder>/<act_reference>.xml",
+          "<kov-folder>/rt/<act_reference>.xml"
+        ],
+        "mode": "manifest_preferred_then_flat_or_rt_dir"
+      },
+      "generated_metadata": {
+        "docId": "kov-rt-harku-vald",
+        "municipality_id": "harku_vald",
+        "municipality_name": "Harku vald",
+        "slug": "harku-vald",
+        "collection_id": "kov_legal",
+        "source_type": "kov_regulation",
+        "source_format": "xml",
+        "jurisdiction_level": "MUNICIPALITY",
+        "legal_basis": true,
+        "act_reference": "404072025017",
+        "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+        "act_url": "https://www.riigiteataja.ee/akt/404072025017?leiaKehtiv",
+        "xml_file": "404072025017.xml",
+        "source_status": "active",
+        "historical": false,
+        "is_current_version": true
+      },
+      "auto_ingest": true,
+      "ingest_status": "ingest_ready",
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
+    },
+    {
+      "municipality_name": "Hiiumaa vald",
+      "municipality_id": "hiiumaa_vald",
+      "slug": "hiiumaa-vald",
+      "web_doc_id": "kov-hiiumaa-vald",
+      "rt_doc_id": "kov-rt-hiiumaa-vald",
+      "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+      "act_url": "https://www.riigiteataja.ee/akt/423052025002?leiaKehtiv",
+      "act_reference": "423052025002",
+      "xml_file": "423052025002.xml",
+      "xml_detection": {
+        "allowed_locations": [
+          "<kov-folder>/<act_reference>.xml",
+          "<kov-folder>/rt/<act_reference>.xml"
+        ],
+        "mode": "manifest_preferred_then_flat_or_rt_dir"
+      },
+      "generated_metadata": {
+        "docId": "kov-rt-hiiumaa-vald",
+        "municipality_id": "hiiumaa_vald",
+        "municipality_name": "Hiiumaa vald",
+        "slug": "hiiumaa-vald",
+        "collection_id": "kov_legal",
+        "source_type": "kov_regulation",
+        "source_format": "xml",
+        "jurisdiction_level": "MUNICIPALITY",
+        "legal_basis": true,
+        "act_reference": "423052025002",
+        "act_title": "Sotsiaalhoolekandelise abi andmise kord",
+        "act_url": "https://www.riigiteataja.ee/akt/423052025002?leiaKehtiv",
+        "xml_file": "423052025002.xml",
+        "source_status": "active",
+        "historical": false,
+        "is_current_version": true
+      },
+      "auto_ingest": true,
+      "ingest_status": "ingest_ready",
+      "original_status": "LOCAL_XML_FOUND",
+      "notes": "Local RT XML matched and generated metadata is ready. RT/legal layer stays separate from KOV web package."
     }
   ]
 }

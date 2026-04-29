@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
 import path from "node:path";
+import fs from "node:fs/promises";
 
 import prisma from "../lib/prisma.js";
 import {
   arrayValue,
   buildKovAdminStatusResetPlan,
   clean,
+  collectKovRuntimeFiles,
   collectRagDocuments,
   countDuplicateNormalizedCanonicalIds,
   DEFAULT_RAG_BASE_URL,
@@ -43,6 +45,7 @@ function usage() {
     "  --dry-run              Plan only. Default.",
     "  --write                Execute the planned RAG deletes and archive SourcePackage snapshots",
     "  --confirm-cleanup      Required together with --write. Does nothing without --write",
+    "  --include-files         Also plan/delete scoped KOV runtime upload and RAG docs files",
     "  --base-url <url>       RAG service URL. Default from env or http://127.0.0.1:8000",
     "  --registry <path>      RAG registry.json path. Default /var/lib/sotsiaalai-rag/registry.json",
     "  --json <path>          Write dry-run plan/result JSON",
@@ -68,6 +71,7 @@ function parseArgs(argv = []) {
     logDir: DEFAULT_LOG_DIR,
     pageSize: 100,
     maxDocs: 5000,
+    includeFiles: false,
     help: false
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -80,6 +84,7 @@ function parseArgs(argv = []) {
     else if (arg === "--dry-run") args.write = false;
     else if (arg === "--write") args.write = true;
     else if (arg === "--confirm-cleanup") args.confirmCleanup = true;
+    else if (arg === "--include-files") args.includeFiles = true;
     else if (arg === "--base-url") args.baseUrl = argv[++index] || args.baseUrl;
     else if (arg === "--registry") args.registry = argv[++index] || args.registry;
     else if (arg === "--json") args.json = argv[++index] || "";
@@ -162,6 +167,16 @@ async function loadKovAdminRows(municipalities = []) {
         ].filter(Boolean)
       },
       include: {
+        files: {
+          select: {
+            id: true,
+            role: true,
+            originalName: true,
+            storagePath: true,
+            size: true,
+            validationStatus: true
+          }
+        },
         municipality: {
           select: {
             slug: true,
@@ -206,7 +221,7 @@ function documentExistsInApi(records = [], docId) {
   });
 }
 
-async function buildPlanForMunicipality(municipality, registryRecords, apiRecords, snapshots, adminRows) {
+async function buildPlanForMunicipality(municipality, registryRecords, apiRecords, snapshots, adminRows, options = {}) {
   const registryMatches = matchedDocumentsForMunicipality(registryRecords, municipality, "registry");
   const apiMatches = matchedDocumentsForMunicipality(apiRecords, municipality, "documents_api");
   const byDocId = new Map();
@@ -239,12 +254,21 @@ async function buildPlanForMunicipality(municipality, registryRecords, apiRecord
   const active = municipalitySnapshots.filter(row => row.active === true);
   const archived = municipalitySnapshots.filter(row => row.active !== true);
   const reviewEventCount = municipalitySnapshots.reduce((sum, row) => sum + Number(row._count?.reviewEvents || 0), 0);
+  const matchedDocIds = [...byDocId.keys()].sort();
+  const runtimeFiles = options.includeFiles
+    ? await collectKovRuntimeFiles({
+        municipalities: [municipality],
+        docIds: matchedDocIds,
+        adminRows: adminRow ? [adminRow] : [],
+        registryPath: options.registryPath
+      })
+    : null;
 
   return {
     municipality_id: municipality.municipality_id,
     municipality_name: municipality.municipality_name || null,
     slug: municipality.slug || null,
-    matched_rag_doc_ids: [...byDocId.keys()].sort(),
+    matched_rag_doc_ids: matchedDocIds,
     matched_registry_entries: registryMatches,
     matched_documents_api_entries: apiMatches,
     source_package_snapshots: municipalitySnapshots.map(row => ({
@@ -269,15 +293,17 @@ async function buildPlanForMunicipality(municipality, registryRecords, apiRecord
       review_event_count: reviewEventCount
     },
     planned_actions: {
-      delete_rag_documents_via_service: [...byDocId.keys()].sort(),
+      delete_rag_documents_via_service: matchedDocIds,
       archive_active_source_package_snapshots: active.map(row => row.id).sort(),
       leave_archived_source_package_snapshots: archived.map(row => row.id).sort(),
+      delete_runtime_files: runtimeFiles?.files?.filter(item => item.exists).map(item => item.path) || [],
       reset_kov_admin_state: adminStatusReset.will_update ? {
         admin_id: adminStatusReset.admin_id,
         changes: adminStatusReset.changes
       } : null
     },
     admin_status_reset: adminStatusReset,
+    runtime_files: runtimeFiles,
     warnings: unique([
       ...registryMatches.map(item => item.warning),
       ...apiMatches.map(item => item.warning)
@@ -301,7 +327,9 @@ async function executePlan(plan, args) {
     archived_source_package_snapshots: 0,
     archive_result: null,
     reset_kov_admin_rows: 0,
-    reset_kov_admin_results: []
+    reset_kov_admin_results: [],
+    deleted_runtime_files: [],
+    failed_runtime_files: []
   };
 
   for (const docId of plan.summary.rag_doc_ids_to_delete) {
@@ -376,7 +404,22 @@ async function executePlan(plan, args) {
     });
   }
 
-  if (result.failed_rag_documents.length > 0) {
+  if (args.includeFiles) {
+    const filePaths = unique(plan.municipalities.flatMap(item => item.planned_actions.delete_runtime_files));
+    for (const filePath of filePaths) {
+      try {
+        await fs.rm(filePath, { force: true });
+        result.deleted_runtime_files.push(filePath);
+      } catch (error) {
+        result.failed_runtime_files.push({
+          path: filePath,
+          error: error?.message || String(error)
+        });
+      }
+    }
+  }
+
+  if (result.failed_rag_documents.length > 0 || result.failed_runtime_files.length > 0) {
     plan.ok = false;
   }
   return result;
@@ -408,7 +451,10 @@ async function main() {
   ]);
 
   const municipalityPlans = await Promise.all(municipalities.map(item =>
-    buildPlanForMunicipality(item, registry.records, documentsApi.records, snapshotResult.rows, adminRowsResult.rows)
+    buildPlanForMunicipality(item, registry.records, documentsApi.records, snapshotResult.rows, adminRowsResult.rows, {
+      includeFiles: args.includeFiles,
+      registryPath: args.registry
+    })
   ));
   const adminResetPlans = municipalityPlans.map(item => item.admin_status_reset).filter(Boolean);
   const adminResetUpdateCount = adminResetPlans.filter(item => item.will_update).length;
@@ -416,6 +462,7 @@ async function main() {
   const removesTopLevelIngestedCount = adminResetPlans.filter(item => item.removes_top_level_ingested_status).length;
   const ragDocIds = unique(municipalityPlans.flatMap(item => item.matched_rag_doc_ids));
   const activeSnapshotIds = unique(municipalityPlans.flatMap(item => item.planned_actions.archive_active_source_package_snapshots));
+  const runtimeFilesToDelete = unique(municipalityPlans.flatMap(item => item.planned_actions.delete_runtime_files));
   const duplicateActive = countDuplicateNormalizedCanonicalIds(snapshotResult.rows.filter(row => row.active === true));
 
   const plan = {
@@ -427,6 +474,7 @@ async function main() {
     scope: {
       manifest: args.manifest || null,
       all_kov: args.allKov,
+      include_files: args.includeFiles,
       municipalities
     },
     registry: {
@@ -451,6 +499,14 @@ async function main() {
       admin_rows_to_reset: adminResetUpdateCount,
       removes_top_level_ingested_status_count: removesTopLevelIngestedCount
     },
+    runtime_files: {
+      include_files: args.includeFiles,
+      roots: municipalityPlans.find(item => item.runtime_files)?.runtime_files?.roots || null,
+      files_to_delete_count: runtimeFilesToDelete.length,
+      files_to_delete: runtimeFilesToDelete,
+      warnings: municipalityPlans.flatMap(item => item.runtime_files?.warnings || []),
+      note: municipalityPlans.find(item => item.runtime_files)?.runtime_files?.note || null
+    },
     municipalities: municipalityPlans,
     summary: {
       municipality_count: municipalityPlans.length,
@@ -460,6 +516,7 @@ async function main() {
       source_package_snapshot_rows_in_scope: snapshotResult.rows.length,
       review_event_count_in_scope: snapshotResult.rows.reduce((sum, row) => sum + Number(row._count?.reviewEvents || 0), 0),
       active_duplicate_normalized_canonical_id_count_before: duplicateActive.duplicate_row_count,
+      runtime_files_to_delete: runtimeFilesToDelete.length,
       kov_admin_rows_to_reset: adminResetUpdateCount,
       stale_admin_ingested_count: staleAdminIngestedCount,
       removes_top_level_ingested_status_count: removesTopLevelIngestedCount
@@ -482,6 +539,7 @@ async function main() {
       active_source_package_snapshots_to_archive: plan.summary.active_source_package_snapshots_to_archive,
       review_event_count_in_scope: plan.summary.review_event_count_in_scope,
       active_duplicate_normalized_canonical_id_count_before: plan.summary.active_duplicate_normalized_canonical_id_count_before,
+      runtime_files_to_delete: plan.summary.runtime_files_to_delete,
       kov_admin_rows_to_reset: plan.summary.kov_admin_rows_to_reset,
       stale_admin_ingested_count: plan.summary.stale_admin_ingested_count,
       removes_top_level_ingested_status_count: plan.summary.removes_top_level_ingested_status_count,
@@ -499,6 +557,7 @@ async function main() {
           will_update: item.admin_status_reset.will_update
         } : null,
         counts: item.counts,
+        runtime_files_to_delete: item.planned_actions.delete_runtime_files,
         warnings: item.warnings
       }))
     }, null, 2));
@@ -521,9 +580,11 @@ async function main() {
     failed_rag_documents: plan.execution.failed_rag_documents.length,
     archived_source_package_snapshots: plan.execution.archived_source_package_snapshots,
     reset_kov_admin_rows: plan.execution.reset_kov_admin_rows,
+    deleted_runtime_files: plan.execution.deleted_runtime_files.length,
+    failed_runtime_files: plan.execution.failed_runtime_files.length,
     active_duplicate_normalized_canonical_id_count_after: plan.summary.active_duplicate_normalized_canonical_id_count_after
   }, null, 2));
-  if (plan.execution.failed_rag_documents.length > 0) process.exitCode = 1;
+  if (plan.execution.failed_rag_documents.length > 0 || plan.execution.failed_runtime_files.length > 0) process.exitCode = 1;
 }
 
 main()

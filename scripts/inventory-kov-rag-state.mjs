@@ -4,6 +4,7 @@ import prisma from "../lib/prisma.js";
 import {
   buildKovAdminStatusResetPlan,
   clean,
+  collectKovRuntimeFiles,
   collectRagDocuments,
   countDuplicateNormalizedCanonicalIds,
   DEFAULT_RAG_BASE_URL,
@@ -31,6 +32,7 @@ function usage() {
     "  --json <path>          Write full JSON inventory",
     "  --page-size <n>        Documents API page size. Default 100",
     "  --max-docs <n>         Maximum documents to fetch. Default 5000",
+    "  --include-files         Include scoped KOV runtime/upload/RAG docs file inventory",
     "",
     "Read-only inventory. Does not change RAG, registry, DB, or KOV files."
   ].join("\n");
@@ -43,6 +45,7 @@ function parseArgs(argv = []) {
     json: "",
     pageSize: 100,
     maxDocs: 5000,
+    includeFiles: false,
     help: false
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -53,6 +56,7 @@ function parseArgs(argv = []) {
     else if (arg === "--json") args.json = argv[++index] || "";
     else if (arg === "--page-size") args.pageSize = Number.parseInt(argv[++index] || "100", 10) || 100;
     else if (arg === "--max-docs") args.maxDocs = Number.parseInt(argv[++index] || "5000", 10) || 5000;
+    else if (arg === "--include-files") args.includeFiles = true;
     else throw new Error(`Unknown option: ${arg}`);
   }
   return args;
@@ -100,6 +104,16 @@ async function loadKovAdminRows() {
     }
     const rows = await prisma.municipalityKovAdmin.findMany({
       include: {
+        files: {
+          select: {
+            id: true,
+            role: true,
+            originalName: true,
+            storagePath: true,
+            size: true,
+            validationStatus: true
+          }
+        },
         municipality: {
           select: {
             slug: true,
@@ -239,6 +253,14 @@ async function main() {
   const documents = mergeDocumentSummaries(registry.records, documentsApi.records);
   const kovAdminInventory = await buildAdminInventory(localMunicipalities, adminRowsResult.rows, documentsApi.records, documentsApi.available);
   const duplicateActive = countDuplicateNormalizedCanonicalIds(snapshotResult.rows.filter(row => row.active === true));
+  const runtimeFiles = args.includeFiles
+    ? await collectKovRuntimeFiles({
+        municipalities: localMunicipalities,
+        docIds: documents.map(item => item.docId),
+        adminRows: adminRowsResult.rows,
+        registryPath: args.registry
+      })
+    : null;
   const inventory = {
     ok: true,
     generated_at: new Date().toISOString(),
@@ -274,6 +296,15 @@ async function main() {
       duplicate_normalized_canonical_ids: duplicateActive,
       active_duplicate_normalized_canonical_id_count: duplicateActive.duplicate_row_count
     },
+    runtime_files: runtimeFiles ? {
+      include_files: true,
+      roots: runtimeFiles.roots,
+      files: runtimeFiles.files,
+      warnings: runtimeFiles.warnings,
+      note: runtimeFiles.note
+    } : {
+      include_files: false
+    },
     summary: {
       kov_related_rag_document_count: documents.length,
       municipality_ids_in_rag_documents: unique(documents.map(doc => doc.municipality_id)),
@@ -281,7 +312,8 @@ async function main() {
       active_source_package_snapshot_count: snapshotResult.rows.filter(row => row.active === true).length,
       archived_source_package_snapshot_count: snapshotResult.rows.filter(row => row.active !== true).length,
       active_duplicate_normalized_canonical_id_count: duplicateActive.duplicate_row_count,
-      stale_admin_ingested_count: kovAdminInventory.filter(item => item.staleAdminIngested).length
+      stale_admin_ingested_count: kovAdminInventory.filter(item => item.staleAdminIngested).length,
+      kov_runtime_file_count: runtimeFiles?.files?.filter(item => item.exists).length || 0
     }
   };
 
@@ -297,6 +329,7 @@ async function main() {
     active_source_package_snapshot_count: inventory.summary.active_source_package_snapshot_count,
     active_duplicate_normalized_canonical_id_count: inventory.summary.active_duplicate_normalized_canonical_id_count,
     stale_admin_ingested_count: inventory.summary.stale_admin_ingested_count,
+    kov_runtime_file_count: inventory.summary.kov_runtime_file_count,
     municipalities: inventory.rag_documents_by_municipality.map(item => ({
       municipality_id: item.municipality_id,
       document_count: item.document_count,

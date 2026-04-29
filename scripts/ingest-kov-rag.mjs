@@ -19,7 +19,7 @@ const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || "").trim();
 function usage() {
   console.log(`
 Usage:
-  node scripts/ingest-kov-rag.mjs <dir|base-path|file> [--slug <slug>] [--skip-validate] [--bundle-only] [--dry-run]
+  node scripts/ingest-kov-rag.mjs <dir|base-path|file> [--slug <slug>] [--skip-validate] [--bundle-only] [--doc-id <doc-id>] [--dry-run]
 
 Examples:
   node scripts/ingest-kov-rag.mjs output/parnu-linn
@@ -352,6 +352,7 @@ async function resolveDatasetPaths(inputArg, slugArg) {
 
 function parseArgs(argv) {
   let slug = "";
+  let docId = "";
   let skipValidate = false;
   let bundleOnly = false;
   let dryRun = false;
@@ -366,6 +367,11 @@ function parseArgs(argv) {
     }
     if (arg === "--slug") {
       slug = String(argv[index + 1] || "").trim();
+      index += 1;
+      continue;
+    }
+    if (arg === "--doc-id") {
+      docId = String(argv[index + 1] || "").trim();
       index += 1;
       continue;
     }
@@ -392,6 +398,7 @@ function parseArgs(argv) {
   return {
     input: positional[0],
     slug,
+    docId,
     skipValidate,
     bundleOnly,
     dryRun
@@ -487,7 +494,7 @@ async function main() {
   const sourceMap = new Map((sources.sources || []).map((entry) => [entry.key, entry]));
   const unionAudience = [...new Set((dataset.items || []).flatMap((item) => Array.isArray(item.audience) ? item.audience : []))];
   const canonicalSlug = resolveCanonicalKovSlug(paths, meta);
-  const bundleDocId = `kov::${canonicalSlug}::bundle`;
+  const bundleDocId = args.docId || `kov::${canonicalSlug}::bundle`;
   const nowIso = new Date().toISOString();
 
   if (args.dryRun) {
@@ -510,6 +517,7 @@ async function main() {
     tags: meta.tags || [],
     language: meta.language || "et",
     collection_id: meta.collection_id || "kov_services",
+    resource_type: "municipality_service_package",
     country: meta.country || "EE",
     county: meta.county,
     jurisdiction_level: meta.jurisdiction_level || "MUNICIPALITY",
@@ -523,14 +531,18 @@ async function main() {
     source_register_file: path.basename(paths.sourcesPath),
     source_count: Array.isArray(sources.sources) ? sources.sources.length : 0,
     source_id: buildKovSourceId(canonicalSlug, "bundle"),
+    docId: bundleDocId,
     document_id: bundleDocId,
     source_type: "kov_service_info",
+    source_origin_type: "file",
+    source_format: "markdown",
     legacy_source_type: "kov_dataset_bundle",
     authority: "KOV",
     municipality: meta.municipality,
     municipality_id: _slugify(canonicalSlug),
     last_checked: meta.checkedAt,
     retrieved_at: nowIso,
+    legal_basis: false,
     historical: false,
     source_status: "active",
     canonical_item_id: null,

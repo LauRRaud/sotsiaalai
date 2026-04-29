@@ -186,12 +186,11 @@ export function buildKovAdminStatusResetPlan({
 } = {}) {
   const before = serializeKovAdminCleanupState(row, municipality);
   const hasAdminRow = Boolean(before.id);
-  const bundleReady = bundleReadiness?.ready_for_admin_reset === true;
-  const nextAdminStatus = bundleReady ? "READY_FOR_INGEST" : "NEEDS_REVIEW";
+  const nextAdminStatus = before.adminStatus === "NOT_STARTED" ? "NOT_STARTED" : "NEEDS_REVIEW";
   const after = hasAdminRow
     ? {
         adminStatus: nextAdminStatus,
-        readyForIngest: bundleReady,
+        readyForIngest: false,
         ingestStatus: "NOT_INGESTED",
         lastIngestedAt: null,
         lastIngestError: null,
@@ -232,7 +231,7 @@ export function buildKovAdminStatusResetPlan({
       rt_exists: rtDocumentExists === true
     },
     staleAdminIngested: Boolean(
-      before.adminStatus === "INGESTED" ||
+      (before.adminStatus === "INGESTED" && webDocumentExists !== true && rtDocumentExists !== true) ||
       (before.ingestStatus === "INGESTED" && webDocumentExists !== true) ||
       (before.rtIngestStatus === "INGESTED" && rtDocumentExists !== true)
     ),
@@ -328,6 +327,173 @@ export function sourcePathOf(record = {}) {
   return clean(record.source_path || record.sourcePath || record.path || record.fileName);
 }
 
+export function resolveRuntimeStorageRoots(registryPath = DEFAULT_REGISTRY_PATH) {
+  const registryDir = path.dirname(path.resolve(registryPath || DEFAULT_REGISTRY_PATH));
+  const docsStorageDir = path.resolve(process.env.DOCS_STORAGE_DIR || "tmp/documents");
+  return {
+    ragRegistryDir: registryDir,
+    ragDocsDir: path.resolve(process.env.RAG_DOCS_DIR || path.join(registryDir, "docs")),
+    ragChromaDir: path.resolve(process.env.RAG_CHROMA_DIR || path.join(registryDir, "chroma")),
+    docsStorageDir,
+    kovUploadDir: path.resolve(path.join(docsStorageDir, "kov"))
+  };
+}
+
+async function statOrNull(filePath) {
+  try {
+    return await fs.stat(filePath);
+  } catch {
+    return null;
+  }
+}
+
+function isInsidePath(targetPath, rootPath) {
+  const target = path.resolve(targetPath);
+  const root = path.resolve(rootPath);
+  return target === root || target.startsWith(`${root}${path.sep}`);
+}
+
+function isForbiddenRepoPath(targetPath) {
+  const repoRoot = path.resolve(process.cwd());
+  return [
+    path.join(repoRoot, "KOV"),
+    path.join(repoRoot, "scripts"),
+    path.join(repoRoot, "config")
+  ].some(root => isInsidePath(targetPath, root));
+}
+
+async function listFilesRecursive(rootPath, { maxFiles = 10000 } = {}) {
+  const root = path.resolve(rootPath);
+  const rootStats = await statOrNull(root);
+  if (!rootStats?.isDirectory?.()) return [];
+  const out = [];
+  const stack = [root];
+  while (stack.length && out.length < maxFiles) {
+    const current = stack.pop();
+    let entries = [];
+    try {
+      entries = await fs.readdir(current, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+    for (const entry of entries) {
+      const absolutePath = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(absolutePath);
+      } else if (entry.isFile()) {
+        out.push(absolutePath);
+        if (out.length >= maxFiles) break;
+      }
+    }
+  }
+  return out;
+}
+
+function filePatternValues(municipalities = [], docIds = []) {
+  return unique([
+    ...docIds,
+    ...municipalities.flatMap(item => [
+      item.slug,
+      item.municipality_id,
+      item.municipality_name,
+      item.slug ? `kov-${item.slug}` : null,
+      item.slug ? `kov-rt-${item.slug}` : null
+    ])
+  ]).map(value => value.toLowerCase());
+}
+
+function fileLooksScoped(filePath, patterns = []) {
+  const normalized = String(filePath || "").toLowerCase();
+  return patterns.some(pattern => pattern && normalized.includes(pattern));
+}
+
+export async function collectKovRuntimeFiles({
+  municipalities = [],
+  docIds = [],
+  adminRows = [],
+  registryPath = DEFAULT_REGISTRY_PATH
+} = {}) {
+  const roots = resolveRuntimeStorageRoots(registryPath);
+  const patterns = filePatternValues(municipalities, docIds);
+  const filesByPath = new Map();
+  const warnings = [];
+
+  function addCandidate(filePath, reason, storagePath = null) {
+    const absolutePath = path.resolve(filePath);
+    const allowed =
+      isInsidePath(absolutePath, roots.kovUploadDir) ||
+      isInsidePath(absolutePath, roots.ragDocsDir);
+    if (!allowed) {
+      warnings.push({
+        path: absolutePath,
+        reason,
+        warning: "Skipped because path is outside allowed KOV runtime/RAG docs roots"
+      });
+      return;
+    }
+    if (isForbiddenRepoPath(absolutePath)) {
+      warnings.push({
+        path: absolutePath,
+        reason,
+        warning: "Skipped because path is inside protected repo source directories"
+      });
+      return;
+    }
+    filesByPath.set(absolutePath, {
+      path: absolutePath,
+      storagePath,
+      reason,
+      exists: null,
+      size: null
+    });
+  }
+
+  for (const row of adminRows) {
+    for (const file of arrayValue(row?.files)) {
+      const storagePath = clean(file.storagePath);
+      if (!storagePath) continue;
+      addCandidate(path.resolve(roots.docsStorageDir, path.normalize(storagePath)), "kov_admin_upload_file", storagePath);
+    }
+  }
+
+  for (const municipality of municipalities) {
+    const slug = clean(municipality.slug);
+    if (!slug) continue;
+    const slugUploadDir = path.join(roots.kovUploadDir, slug);
+    for (const filePath of await listFilesRecursive(slugUploadDir)) {
+      addCandidate(filePath, "kov_admin_upload_slug_directory");
+    }
+  }
+
+  for (const filePath of await listFilesRecursive(roots.ragDocsDir)) {
+    if (fileLooksScoped(filePath, patterns)) {
+      addCandidate(filePath, "rag_docs_storage_scoped_match");
+    }
+  }
+
+  const files = [];
+  for (const item of filesByPath.values()) {
+    const stats = await statOrNull(item.path);
+    files.push({
+      ...item,
+      exists: Boolean(stats?.isFile?.()),
+      size: stats?.isFile?.() ? Number(stats.size || 0) : null
+    });
+  }
+
+  return {
+    roots: {
+      rag_docs_dir: roots.ragDocsDir,
+      rag_chroma_dir: roots.ragChromaDir,
+      docs_storage_dir: roots.docsStorageDir,
+      kov_upload_dir: roots.kovUploadDir
+    },
+    files: files.sort((a, b) => a.path.localeCompare(b.path)),
+    warnings,
+    note: "Chroma chunks are deleted through the RAG /documents/:docId endpoint; this file plan only covers scoped RAG docs files and admin KOV uploads."
+  };
+}
+
 export function isKovRelatedRecord(record = {}) {
   const docId = docIdOf(record) || "";
   const sourceType = sourceTypeOf(record);
@@ -336,12 +502,14 @@ export function isKovRelatedRecord(record = {}) {
   return Boolean(
     municipalityIdOf(record) ||
     collectionId === "kov_services" ||
+    collectionId === "kov_legal" ||
     collectionId === "kov_regulations" ||
     sourceType === "kov_regulation" ||
     sourceType === "municipality_kov" ||
     sourceType === "kov_service_info" ||
     sourceType === "municipality_web" ||
     jurisdiction === "MUNICIPALITY" ||
+    docId.startsWith("kov-") ||
     docId.startsWith("kov::")
   );
 }

@@ -31,9 +31,7 @@
       "source_keys": [
         "eakate_toimetulek_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_koduteenus",
       "document_id": "harku_vald_service_koduteenus",
@@ -88,9 +86,7 @@
       "source_keys": [
         "eakate_toimetulek_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_uldhooldusteenus",
       "document_id": "harku_vald_service_uldhooldusteenus",
@@ -144,9 +140,7 @@
       "source_keys": [
         "erivajadusega_inimesele_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_sotsiaaltransport",
       "document_id": "harku_vald_service_sotsiaaltransport",
@@ -199,9 +193,7 @@
       "source_keys": [
         "muud_toetused_ja_teenused_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_hairenuputeenus",
       "document_id": "harku_vald_service_hairenuputeenus",
@@ -253,9 +245,7 @@
       "source_keys": [
         "elukoha_tagamine_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_eluruumi_teenus",
       "document_id": "harku_vald_service_eluruumi_teenus",
@@ -308,9 +298,7 @@
       "source_keys": [
         "elukoha_tagamine_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_varjupaigateenus",
       "document_id": "harku_vald_service_varjupaigateenus",
@@ -368,9 +356,7 @@
       "source_keys": [
         "elukoha_tagamine_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_turvakoduteenus",
       "document_id": "harku_vald_service_turvakoduteenus",
@@ -426,9 +412,7 @@
       "source_keys": [
         "vaimne_tervis_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_vaimse_tervise_noustamine",
       "document_id": "harku_vald_service_vaimse_tervise_noustamine",
@@ -480,9 +464,7 @@
       "source_keys": [
         "volanoustamisteenus_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_volanoustamise_teenus",
       "document_id": "harku_vald_service_volanoustamise_teenus",
@@ -534,9 +516,7 @@
       "source_keys": [
         "toiduabi_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_toidupank",
       "document_id": "harku_vald_service_toidupank",
@@ -593,9 +573,7 @@
       "source_keys": [
         "tugiisikuteenus_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_tugiisikuteenus",
       "document_id": "harku_vald_service_tugiisikuteenus",
@@ -649,9 +627,7 @@
       "source_keys": [
         "erivajadusega_inimesele_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_isikliku_abistaja_teenus",
       "document_id": "harku_vald_service_isikliku_abistaja_teenus",
@@ -705,9 +681,7 @@
       "source_keys": [
         "erivajadusega_inimesele_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_taisealise_isiku_hooldus",
       "document_id": "harku_vald_service_taisealise_isiku_hooldus",
@@ -764,9 +738,7 @@
       "source_keys": [
         "erivajadusega_laps_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_lapsehoiuteenus",
       "document_id": "harku_vald_service_lapsehoiuteenus",
@@ -821,9 +793,7 @@
       "source_keys": [
         "vanemlus_ja_paarisuhe_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_asendushooldusteenus",
       "document_id": "harku_vald_service_asendushooldusteenus",
@@ -878,9 +848,7 @@
       "source_keys": [
         "vanemlus_ja_paarisuhe_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_service_jarelhooldusteenus",
       "document_id": "harku_vald_service_jarelhooldusteenus",
@@ -934,9 +902,7 @@
       "source_keys": [
         "eakate_toimetulek_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_ujumisteenuse_toetus",
       "document_id": "harku_vald_benefit_ujumisteenuse_toetus",
@@ -990,9 +956,7 @@
       "source_keys": [
         "toetused_peredele_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_koolitoetus_eestkostel_või_peres_hooldamisel",
       "document_id": "harku_vald_benefit_koolitoetus_eestkostel_või_peres_hooldamisel",
@@ -1046,9 +1010,7 @@
       "source_keys": [
         "toetused_peredele_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_joulutoetus",
       "document_id": "harku_vald_benefit_joulutoetus",
@@ -1102,9 +1064,7 @@
       "source_keys": [
         "vahekindlustatud_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_toidutoetus",
       "document_id": "harku_vald_benefit_toidutoetus",
@@ -1158,9 +1118,7 @@
       "source_keys": [
         "vahekindlustatud_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_koolitoetus_vahemalt_üks_laps",
       "document_id": "harku_vald_benefit_koolitoetus_vahemalt_üks_laps",
@@ -1214,9 +1172,7 @@
       "source_keys": [
         "vahekindlustatud_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_koolitoetus_vahemalt_kaks_last",
       "document_id": "harku_vald_benefit_koolitoetus_vahemalt_kaks_last",
@@ -1270,9 +1226,7 @@
       "source_keys": [
         "vahekindlustatud_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_koolitoetus_lopetamisel",
       "document_id": "harku_vald_benefit_koolitoetus_lopetamisel",
@@ -1326,9 +1280,7 @@
       "source_keys": [
         "vahekindlustatud_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_kultuuri_ja_spordiuritused",
       "document_id": "harku_vald_benefit_kultuuri_ja_spordiuritused",
@@ -1382,9 +1334,7 @@
       "source_keys": [
         "vahekindlustatud_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_paljulapselise_pere_toetus",
       "document_id": "harku_vald_benefit_paljulapselise_pere_toetus",
@@ -1438,9 +1388,7 @@
       "source_keys": [
         "vahekindlustatud_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_laagritoetus",
       "document_id": "harku_vald_benefit_laagritoetus",
@@ -1494,9 +1442,7 @@
       "source_keys": [
         "vahekindlustatud_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_nagemise_parandamise_toetus",
       "document_id": "harku_vald_benefit_nagemise_parandamise_toetus",
@@ -1548,9 +1494,7 @@
       "source_keys": [
         "toiduabi_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_rimi_toidukaart",
       "document_id": "harku_vald_benefit_rimi_toidukaart",
@@ -1605,9 +1549,7 @@
       "source_keys": [
         "abi_majandusliku_raskuse_korral_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_toimetulekutoetus",
       "document_id": "harku_vald_benefit_toimetulekutoetus",
@@ -1662,9 +1604,7 @@
       "source_keys": [
         "abi_majandusliku_raskuse_korral_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_uhekordne_toetus",
       "document_id": "harku_vald_benefit_uhekordne_toetus",
@@ -1718,9 +1658,7 @@
       "source_keys": [
         "matusetoetus_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_matusetoetus",
       "document_id": "harku_vald_benefit_matusetoetus",
@@ -1774,9 +1712,7 @@
       "source_keys": [
         "eakate_toimetulek_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_ravi_ja_rehabilitatsioonitoetus",
       "document_id": "harku_vald_benefit_ravi_ja_rehabilitatsioonitoetus",
@@ -1830,9 +1766,7 @@
       "source_keys": [
         "eakate_toimetulek_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_kuttetoetus",
       "document_id": "harku_vald_benefit_kuttetoetus",
@@ -1884,9 +1818,7 @@
       "source_keys": [
         "eakate_toimetulek_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_tahtpaeva_toetus",
       "document_id": "harku_vald_benefit_tahtpaeva_toetus",
@@ -1940,9 +1872,7 @@
       "source_keys": [
         "erivajadusega_inimesele_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_puudega_isiku_transporditoetus",
       "document_id": "harku_vald_benefit_puudega_isiku_transporditoetus",
@@ -1999,9 +1929,7 @@
       "source_keys": [
         "erivajadusega_inimesele_page"
       ],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_benefit_hooldajatoetus",
       "document_id": "harku_vald_benefit_hooldajatoetus",
@@ -2050,9 +1978,7 @@
         "eakate_toimetulek_page"
       ],
       "relatedForms": [],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_resource_eakate_paevakeskus",
       "document_id": "harku_vald_resource_eakate_paevakeskus",
@@ -2101,9 +2027,7 @@
         "harku_sotsiaalkeskus_page"
       ],
       "relatedForms": [],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_resource_harku_sotsiaalkeskus",
       "document_id": "harku_vald_resource_harku_sotsiaalkeskus",
@@ -2155,9 +2079,7 @@
         "muud_toetused_ja_teenused_page"
       ],
       "relatedForms": [],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_resource_parkimiskaart",
       "document_id": "harku_vald_resource_parkimiskaart",
@@ -2209,9 +2131,7 @@
         "muud_toetused_ja_teenused_page"
       ],
       "relatedForms": [],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_resource_viipekeele_tolketeenus",
       "document_id": "harku_vald_resource_viipekeele_tolketeenus",
@@ -2261,9 +2181,7 @@
         "erivajadusega_inimesele_page"
       ],
       "relatedForms": [],
-      "relatedLegalSources": [
-        "harku-vald-rt-404072025017"
-      ],
+      "relatedLegalSources": [],
       "metadata_schema_version": "v2.5",
       "source_id": "harku_vald_resource_erihoolekanne",
       "document_id": "harku_vald_resource_erihoolekanne",

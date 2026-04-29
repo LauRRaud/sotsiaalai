@@ -1,22 +1,39 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { loadManifest, validateKovBundle } from "./kovMetadataUpgradeLib.mjs";
+import { loadManifest, pathsForSlug, readJson, validateKovBundle } from "./kovMetadataUpgradeLib.mjs";
 
 function parseArgs(argv) {
-  const args = { root: "KOV", manifest: "config/kov-metadata-upgrade-manifest.json" };
+  const args = { root: "KOV", manifest: "config/kov-metadata-upgrade-manifest.json", slug: "" };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--help" || arg === "-h") args.help = true;
     else if (arg === "--manifest") args.manifest = argv[++index];
     else if (arg === "--root") args.root = argv[++index] || args.root;
+    else if (arg === "--slug") args.slug = String(argv[++index] || "").trim();
     else throw new Error(`Unknown option: ${arg}`);
   }
   return args;
 }
 
 function usage() {
-  return "Usage: npm run kov:validate-metadata -- --manifest config/kov-metadata-upgrade-manifest.json";
+  return [
+    "Usage:",
+    "  npm run kov:validate-metadata -- --manifest config/kov-metadata-upgrade-manifest.json",
+    "  npm run kov:validate-metadata -- --root KOV --slug harku-vald"
+  ].join("\n");
+}
+
+function entryFromSlug(slug, root) {
+  const paths = pathsForSlug(slug, root);
+  if (!fs.existsSync(paths.meta)) throw new Error(`${slug}: missing ${paths.meta}`);
+  const meta = readJson(paths.meta);
+  return {
+    slug,
+    municipality_id: meta.municipality_id || slug.replace(/-/g, "_"),
+    municipality_name: meta.municipality_name || meta.municipality || slug,
+    county: meta.county || null
+  };
 }
 
 async function main() {
@@ -25,15 +42,17 @@ async function main() {
     console.log(usage());
     return;
   }
-  const manifest = loadManifest(args.manifest);
-  const excluded = new Set(manifest.excluded_slugs || []);
+  const manifest = args.slug ? { excluded_slugs: [], municipalities: [entryFromSlug(args.slug, args.root)] } : loadManifest(args.manifest);
+  const excluded = new Set(args.slug ? [] : manifest.excluded_slugs || []);
   const entries = manifest.municipalities.filter(entry => !excluded.has(entry.slug));
   const results = entries.map(entry => validateKovBundle(entry, { root: args.root }));
   const harkuBackupPattern = path.join(args.root, "harku-vald");
   const harkuBackupFiles = fs.existsSync(harkuBackupPattern)
     ? fs.readdirSync(harkuBackupPattern).filter(name => name.includes(".bak-"))
     : [];
-  const harkuUnchanged = !entries.some(entry => entry.slug === "harku-vald") && harkuBackupFiles.length === 0;
+  const harkuUnchanged = args.slug
+    ? harkuBackupFiles.length === 0
+    : !entries.some(entry => entry.slug === "harku-vald") && harkuBackupFiles.length === 0;
   const ok = results.every(result => result.ok) && harkuUnchanged;
   console.log(JSON.stringify({
     ok,

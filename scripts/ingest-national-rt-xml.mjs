@@ -4,6 +4,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { buildRtXmlIngestPayload } from "../lib/admin/rag/kov/rtXml.js";
+import {
+  auditKovRtManifestEntry,
+  findKovRtManifestEntry,
+  readKovRtManifest
+} from "../lib/admin/rag/kov/rtManifest.js";
 import { assertRagSourceMetadataContract } from "../lib/rag/sourceMetadata.js";
 import { syncKovRtCliIngest } from "./lib/kov-admin-sync.mjs";
 
@@ -15,7 +20,7 @@ const RAG_KEY = String(process.env.RAG_SERVICE_API_KEY || "").trim();
 function usage() {
   console.log(`
 Usage:
-  node scripts/ingest-national-rt-xml.mjs <xml-file> [--doc-id <doc-id>] [--source-url <url>] [--municipality <name>] [--municipality-id <id>] [--dry-run]
+  node scripts/ingest-national-rt-xml.mjs <xml-file> [--doc-id <doc-id>] [--source-url <url>] [--municipality <name>] [--municipality-id <id>] [--kov-root <root> --slug <slug>] [--dry-run]
 
 Example:
   node scripts/ingest-national-rt-xml.mjs KOV/130122025029.xml --dry-run
@@ -37,6 +42,8 @@ function parseArgs(argv) {
     sourceUrl: "",
     municipality: "",
     municipalityId: "",
+    kovRoot: "",
+    slug: "",
     dryRun: false
   };
 
@@ -67,6 +74,16 @@ function parseArgs(argv) {
     }
     if (value === "--municipality-id") {
       args.municipalityId = String(argv[i + 1] || "").trim();
+      i += 1;
+      continue;
+    }
+    if (value === "--kov-root") {
+      args.kovRoot = String(argv[i + 1] || "").trim();
+      i += 1;
+      continue;
+    }
+    if (value === "--slug") {
+      args.slug = String(argv[i + 1] || "").trim().toLowerCase();
       i += 1;
       continue;
     }
@@ -109,6 +126,22 @@ function summarizePayload(payload) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+  if (args.kovRoot && args.slug && !args.file) {
+    const { manifest } = await readKovRtManifest(args.kovRoot);
+    const entry = findKovRtManifestEntry(manifest, args.slug);
+    if (!entry) throw new Error(`RT manifest entry missing for slug: ${args.slug}`);
+    const audit = await auditKovRtManifestEntry(args.kovRoot, entry);
+    if (!audit.xml_found || !audit.xml_path || !audit.generated_metadata_valid) {
+      throw new Error(`RT manifest entry is not ingest-ready for ${args.slug}: ${(audit.errors || []).join("; ") || audit.ingest_status}`);
+    }
+    args.file = path.relative(rootDir, audit.xml_path).replace(/\\/g, "/");
+    args.docId = audit.generated_metadata.docId;
+    args.sourceUrl = audit.generated_metadata.act_url;
+    args.municipality = audit.generated_metadata.municipality_name;
+    args.municipalityId = audit.generated_metadata.municipality_id;
+    args.generatedMetadata = audit.generated_metadata;
+  }
+
   if (args.help || !args.file) {
     usage();
     process.exit(args.help ? 0 : 1);
@@ -124,7 +157,8 @@ async function main() {
     sourceUrl: args.sourceUrl,
     docId: args.docId,
     municipality: args.municipality,
-    municipalityId: args.municipalityId
+    municipalityId: args.municipalityId,
+    generatedMetadata: args.generatedMetadata
   });
   assertRagSourceMetadataContract(payload.metadata, {
     label: "national_rt.metadata",

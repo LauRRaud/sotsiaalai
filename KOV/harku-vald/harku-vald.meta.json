@@ -10,7 +10,7 @@
     "resources": 5,
     "contacts": 10,
     "forms": 13,
-    "regulations": 1
+    "regulations": 0
   },
   "notes": [],
   "unresolvedIssues": [
@@ -31,14 +31,14 @@
   "collection_id": "kov_services",
   "jurisdiction_level": "MUNICIPALITY",
   "sourceRegisterFile": "harku-vald.sources.json",
-  "sourceCount": 45,
+  "sourceCount": 44,
   "counts": {
     "services": 16,
     "benefits": 20,
     "resources": 5,
     "contacts": 10,
     "forms": 13,
-    "regulations": 1
+    "regulations": 0
   },
   "sourcePackageReadiness": {
     "ok": true,
@@ -52,37 +52,18 @@
     "items_without_related_forms": 18,
     "items_with_related_contacts": 38,
     "items_without_related_contacts": 3,
-    "service_benefit_resource_items_with_legal_source": 41,
+    "service_benefit_resource_items_with_legal_source": 0,
     "form_sources": 13,
     "contact_sources": 11,
-    "regulation_sources": 1,
+    "regulation_sources": 0,
     "warnings": [
       "18 service/benefit/resource itemit ei viita eraldi vormile; ära märgi forms sektsiooni present ilma tegeliku vormiallikata.",
-      "3 service/benefit/resource itemit ei viita eraldi kontaktile; kontakt võib tulla ainult kontakti allikast või kontaktilehelt.",
-      "RT XML on Harku valla sotsiaalhoolekandelise abi andmise kord ja sobib üldiseks KOV legal_basis allikaks; üksikud kehtetud sätted või muutmismärked ei tähenda, et terviktekst 404072025017 oleks kehtetu."
-    ]
-  },
-  "rtAct": {
-    "source_id": "harku-vald-rt-404072025017",
-    "title": "Sotsiaalhoolekandelise abi andmise kord",
-    "act_title": "Sotsiaalhoolekandelise abi andmise kord",
-    "act_reference": "RT IV, 04.07.2025, 17",
-    "url": "https://www.riigiteataja.ee/akt/404072025017",
-    "path": "KOV/Harku/harku-vald/404072025017.xml",
-    "source_type": "kov_regulation",
-    "source_format": "xml",
-    "is_current_version": true,
-    "valid_from": "2025-09-01",
-    "source_status": "active",
-    "xmlLooksXml": true,
-    "warnings": [
-      "RT XML on Harku valla sotsiaalhoolekandelise abi andmise kord ja sobib üldiseks KOV legal_basis allikaks; üksikud kehtetud sätted või muutmismärked ei tähenda, et terviktekst 404072025017 oleks kehtetu."
+      "3 service/benefit/resource itemit ei viita eraldi kontaktile; kontakt võib tulla ainult kontakti allikast või kontaktilehelt."
     ]
   },
   "warnings": [
     "18 service/benefit/resource itemit ei viita eraldi vormile; ära märgi forms sektsiooni present ilma tegeliku vormiallikata.",
-    "3 service/benefit/resource itemit ei viita eraldi kontaktile; kontakt võib tulla ainult kontakti allikast või kontaktilehelt.",
-    "RT XML on Harku valla sotsiaalhoolekandelise abi andmise kord ja sobib üldiseks KOV legal_basis allikaks; üksikud kehtetud sätted või muutmismärked ei tähenda, et terviktekst 404072025017 oleks kehtetu."
+    "3 service/benefit/resource itemit ei viita eraldi kontaktile; kontakt võib tulla ainult kontakti allikast või kontaktilehelt."
   ],
   "tags": [
     "harku-vald",
