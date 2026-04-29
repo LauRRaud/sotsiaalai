@@ -2,11 +2,20 @@
 
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+
+import { localizePath } from "@/lib/localizePath";
 
 const CARD_CLASS = "rounded-[1rem] bg-white/55 p-4 shadow-[0_8px_24px_rgba(60,40,40,0.08)] backdrop-blur";
 const BUTTON_CLASS = "rounded-[0.75rem] border border-black/10 bg-white/70 px-3 py-2 text-sm font-medium text-[color:var(--documents-page-text)] transition hover:bg-white";
 const HEADER_CELL_CLASS = "border-b border-black/10 p-2 align-top";
 const BODY_CELL_CLASS = "border-b border-black/5 p-2 align-top";
+const ACCEPTANCE_DISPOSITIONS = [
+  ["not_published", "Pole avaldatud KOV veebis"],
+  ["not_applicable", "Ei kohaldu"],
+  ["checked_missing_form", "Kontrollitud, vorm puudub"],
+  ["deadline_not_published", "Kontrollitud, tahtaega ei avaldata"]
+];
 
 function formatDate(value) {
   if (!value) return "-";
@@ -40,6 +49,8 @@ function badgeClass(tone = "default") {
 
 function effectiveReviewStatus(item = {}) {
   if (item.status === "archived" || item.active !== true) return "archived";
+  const actionable = Array.isArray(item.actionableReviewReasons) ? item.actionableReviewReasons : [];
+  if (!actionable.length && String(item.reviewStatus || "") === "pending") return "reviewed";
   if (item.reviewStatus === "reviewed") return "reviewed";
   return "pending";
 }
@@ -51,6 +62,33 @@ function effectiveReviewLabel(item = {}) {
   return `${effective} (raw: ${raw})`;
 }
 
+function isArchivedItem(item = {}) {
+  return item.status === "archived" || item.active !== true || effectiveReviewStatus(item) === "archived";
+}
+
+function activeActionableReasons(item = {}) {
+  if (isArchivedItem(item)) return [];
+  return Array.isArray(item.actionableReviewReasons) ? item.actionableReviewReasons : [];
+}
+
+function activeInfoReasons(item = {}) {
+  if (isArchivedItem(item)) return [];
+  return Array.isArray(item.infoReviewReasons) ? item.infoReviewReasons : [];
+}
+
+function shouldShowItem(item = {}, { showInfoWarnings = false, showArchived = false } = {}) {
+  if (isArchivedItem(item)) return showArchived;
+  if (activeActionableReasons(item).length) return true;
+  return showInfoWarnings && activeInfoReasons(item).length > 0;
+}
+
+function severityTone(severity) {
+  if (severity === "blocker") return "unsupported";
+  if (severity === "review") return "missing";
+  if (severity === "info") return "default";
+  return "default";
+}
+
 export default function RagAdminSourcePackagesScreen() {
   const searchParams = useSearchParams();
   const municipalityId = String(searchParams?.get("municipalityId") || "").trim();
@@ -59,8 +97,11 @@ export default function RagAdminSourcePackagesScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState("");
+  const [acceptBusyKey, setAcceptBusyKey] = useState("");
   const [expandedId, setExpandedId] = useState("");
   const [detailLoadingId, setDetailLoadingId] = useState("");
+  const [showInfoWarnings, setShowInfoWarnings] = useState(false);
+  const [showArchived, setShowArchived] = useState(false);
 
   async function load() {
     setLoading(true);
@@ -87,14 +128,20 @@ export default function RagAdminSourcePackagesScreen() {
   const summary = useMemo(() => ({
     total: items.length,
     active: countBy(items, item => item.active === true),
-    needsReview: countBy(items, item => item.status === "needs_review"),
-    pending: countBy(items, item => effectiveReviewStatus(item) === "pending"),
+    needsReview: countBy(items, item => activeActionableReasons(item).length > 0),
+    pending: countBy(items, item => activeActionableReasons(item).length > 0),
+    infoWarnings: countBy(items, item => activeInfoReasons(item).length > 0),
     reviewed: countBy(items, item => effectiveReviewStatus(item) === "reviewed"),
     archived: countBy(items, item => effectiveReviewStatus(item) === "archived"),
     missingForms: countBy(items, item => item.reviewFlags?.missing_forms),
     missingContacts: countBy(items, item => item.reviewFlags?.missing_contacts),
     missingLegalBasis: countBy(items, item => item.reviewFlags?.missing_legal_basis)
   }), [items]);
+
+  const visibleItems = useMemo(
+    () => items.filter(item => shouldShowItem(item, { showInfoWarnings, showArchived })),
+    [items, showArchived, showInfoWarnings]
+  );
 
   async function loadDetail(id) {
     setDetailLoadingId(id);
@@ -141,6 +188,33 @@ export default function RagAdminSourcePackagesScreen() {
     }
   }
 
+  async function acceptReason(id, reason, disposition) {
+    const key = `${id}:${reason.code}:${disposition}`;
+    setAcceptBusyKey(key);
+    setError("");
+    try {
+      const reviewNote = window.prompt("Optional review note", "") ?? "";
+      const res = await fetch(`/api/admin/rag/source-packages/${encodeURIComponent(id)}/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "accept_gap",
+          acceptedReasonCode: reason.code,
+          acceptedDisposition: disposition,
+          reviewNote
+        })
+      });
+      const data = await res.json();
+      if (!res.ok || data?.ok !== true) throw new Error(data?.message || "Accept action failed");
+      setDetailsById(current => ({ ...current, [id]: data.item || null }));
+      await load();
+    } catch (err) {
+      setError(err?.message || String(err));
+    } finally {
+      setAcceptBusyKey("");
+    }
+  }
+
   return (
     <div className="flex flex-col gap-3 text-[color:var(--documents-page-text)]">
       <section className={CARD_CLASS}>
@@ -148,8 +222,9 @@ export default function RagAdminSourcePackagesScreen() {
           {[
             ["Total", summary.total],
             ["Active", summary.active],
-            ["Needs review", summary.needsReview],
+            ["Needs action", summary.needsReview],
             ["Pending", summary.pending],
+            ["Info warnings", summary.infoWarnings],
             ["Reviewed", summary.reviewed],
             ["Archived", summary.archived],
             ["Missing forms", summary.missingForms],
@@ -173,6 +248,17 @@ export default function RagAdminSourcePackagesScreen() {
           <button type="button" className={BUTTON_CLASS} onClick={load} disabled={loading}>
             Refresh
           </button>
+        </div>
+        <div className="mb-3 flex flex-wrap items-center gap-3 text-sm">
+          <label className="inline-flex items-center gap-2">
+            <input type="checkbox" checked={showInfoWarnings} onChange={event => setShowInfoWarnings(event.target.checked)} />
+            Naita info/warnings
+          </label>
+          <label className="inline-flex items-center gap-2">
+            <input type="checkbox" checked={showArchived} onChange={event => setShowArchived(event.target.checked)} />
+            Naita archived
+          </label>
+          <span className="opacity-70">Default queue: ainult active blocker/review probleemid.</span>
         </div>
 
         {error ? <div className="mb-3 rounded-[0.75rem] bg-red-50 p-3 text-sm text-red-800">{error}</div> : null}
@@ -207,11 +293,15 @@ export default function RagAdminSourcePackagesScreen() {
               </tr>
             </thead>
             <tbody>
-              {items.map(item => {
+              {visibleItems.map(item => {
                 const detail = detailsById[item.id] || item;
                 const flags = flagList(detail.reviewFlags);
                 const expanded = expandedId === item.id;
                 const effectiveReview = effectiveReviewStatus(item);
+                const reasons = Array.isArray(item.reviewReasons) ? item.reviewReasons : [];
+                const visibleReasons = reasons.filter(reason =>
+                  showInfoWarnings || showArchived || reason.severity !== "info" || reason.accepted
+                );
                 return (
                   <Fragment key={item.id}>
                     <tr className="align-top">
@@ -224,7 +314,17 @@ export default function RagAdminSourcePackagesScreen() {
                       <td className={`${BODY_CELL_CLASS} break-words`}>{item.packageType || "-"}</td>
                       <td className={`${BODY_CELL_CLASS} break-words`}>{item.status}</td>
                       <td className={`${BODY_CELL_CLASS} break-words`}>{effectiveReviewLabel(item)}</td>
-                      <td className={`${BODY_CELL_CLASS} whitespace-normal break-words leading-6`}>{Array.isArray(item.missingSections) && item.missingSections.length ? item.missingSections.join(", ") : "-"}</td>
+                      <td className={`${BODY_CELL_CLASS} whitespace-normal break-words leading-6`}>
+                        {visibleReasons.length ? (
+                          <div className="flex flex-wrap gap-1">
+                            {visibleReasons.map(reason => (
+                              <span key={reason.code} className={badgeClass(reason.accepted ? "confirmed" : severityTone(reason.severity))}>
+                                {reason.severity}: {formatSectionName(reason.code)}{reason.accepted ? " accepted" : ""}
+                              </span>
+                            ))}
+                          </div>
+                        ) : "-"}
+                      </td>
                       <td className={BODY_CELL_CLASS}>{item.version}</td>
                       <td className={BODY_CELL_CLASS}>{item.active ? "yes" : "no"}</td>
                       <td className={`${BODY_CELL_CLASS} whitespace-normal break-words`}>{formatDate(item.lastBuiltAt)}</td>
@@ -258,13 +358,40 @@ export default function RagAdminSourcePackagesScreen() {
                               <div className="break-all">canonicalItemId: {detail.canonicalItemId}</div>
                               <div className="whitespace-normal break-words">review flags: {flags.length ? flags.join(", ") : "-"}</div>
                               <div className="mt-3">
-                                <div className="font-semibold">Review reasons</div>
+                                <div className="font-semibold">Review queue</div>
                                 <div className="mt-1 space-y-1">
                                   {(detail.reviewReasons || []).length ? (
                                     detail.reviewReasons.map(reason => (
                                       <div key={reason.code} className="rounded-[0.75rem] bg-white/45 px-3 py-2 text-sm leading-5">
-                                        <div className="font-medium">{reason.label}</div>
-                                        <div className="text-xs uppercase tracking-[0.04em] opacity-70">{reason.severity}</div>
+                                        <div className="flex flex-wrap items-center gap-2">
+                                          <span className={badgeClass(reason.accepted ? "confirmed" : severityTone(reason.severity))}>{reason.severity}</span>
+                                          {reason.accepted ? <span className={badgeClass("confirmed")}>accepted</span> : null}
+                                          <span className="font-medium">{reason.label}</span>
+                                        </div>
+                                        <div className="mt-1 break-all text-xs opacity-80">item id: {reason.repair?.canonicalItemId || detail.canonicalItemId || "-"}</div>
+                                        <div className="mt-1 break-words text-xs opacity-80">Parandamise koht: {reason.repair?.fileHint || "-"}</div>
+                                        <div className="mt-1 break-words text-xs opacity-80">
+                                          sourceKeys: {(reason.repair?.sourceKeys || []).join(", ") || "-"}
+                                        </div>
+                                        <div className="mt-2 flex flex-wrap gap-2">
+                                          <Link
+                                            href={localizePath(reason.repair?.kovHref || "/admin/rag/kov")}
+                                            className={BUTTON_CLASS}
+                                          >
+                                            Paranda
+                                          </Link>
+                                          {reason.acceptable && !reason.accepted ? ACCEPTANCE_DISPOSITIONS.map(([value, label]) => (
+                                            <button
+                                              key={value}
+                                              type="button"
+                                              className={BUTTON_CLASS}
+                                              disabled={!!acceptBusyKey}
+                                              onClick={() => acceptReason(item.id, reason, value)}
+                                            >
+                                              {acceptBusyKey === `${item.id}:${reason.code}:${value}` ? "Salvestan" : label}
+                                            </button>
+                                          )) : null}
+                                        </div>
                                       </div>
                                     ))
                                   ) : (
@@ -390,6 +517,13 @@ export default function RagAdminSourcePackagesScreen() {
                   </Fragment>
                 );
               })}
+              {!loading && !visibleItems.length ? (
+                <tr>
+                  <td colSpan={10} className="p-6 text-center text-sm opacity-70">
+                    Aktiivseid SourcePackage ulevaatuse ridu pole.
+                  </td>
+                </tr>
+              ) : null}
             </tbody>
           </table>
         </div>

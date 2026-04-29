@@ -135,6 +135,53 @@ Confirmed reset policy uses the actual Prisma enums:
 
 This fixes the admin UI inconsistency where the top-level KOV badge could still show `Ingested` after the underlying RAG document had been manually deleted, while the document status panel correctly showed `KOV: Pole ingestitud`.
 
+### SourcePackage Review Queue Usability 2026-04-29
+
+STATUS: implemented / build green / no reingest
+
+SourcePackage review now behaves as an actionable work queue instead of a raw mass list of every missing section. The queue separates problems by operational severity:
+
+- `blocker` - data contract or evidence integrity problems that must be fixed before the package can be trusted, such as missing source keys, wrong municipality signal, wrong collection id, invalid current evidence, or legal_basis present without RT/legal evidence.
+- `review` - admin review needed, such as missing forms, contacts, or legal_basis when the relevant evidence layer exists but is not linked into the package.
+- `info` - non-blocking completeness warnings, such as missing `fees` or `deadlines`, amount not published, or deadline not published.
+
+Default SourcePackage review UI shows only active `blocker` and `review` rows. `info` warnings are hidden behind an explicit "show info/warnings" filter, and archived snapshots are hidden behind an explicit "show archived" filter.
+
+Important queue policy:
+
+- `fees` and `deadlines` missing by themselves do not create actionable pending review rows.
+- Info-only packages can remain visible for audit with the info filter, but they do not inflate the critical pending count.
+- `pending` means active package with at least one unaccepted `blocker` or `review` reason.
+- `info warnings` are counted separately.
+- `archived` is counted separately and hidden by default.
+- If there are no visible active actionable rows, the UI shows: "Aktiivseid SourcePackage ulevaatuse ridu pole."
+
+Each visible review reason now includes a repair hint rather than only a missing-section label:
+
+- KOV detail link (`/admin/rag/kov?slug=<slug>`);
+- canonical item id;
+- sourceKeys/source ids;
+- target field such as `relatedForms`, `relatedContacts`, `legalBasis`, `fees`, or `deadlines`;
+- file-level repair hint such as `<slug>.json -> items[] -> id = ... -> relatedForms`.
+
+Admin can mark specific acceptable gaps as accepted without changing source facts. This is stored as `SourcePackageSnapshotReviewEvent` metadata using the `accept_gap` action. Supported dispositions include:
+
+- `not_published` - not published on KOV web;
+- `not_applicable` - not applicable;
+- `checked_missing_form` - checked, form is missing;
+- `deadline_not_published` - checked, deadline is not published.
+
+Accepted gaps are review metadata, not source truth. They do not modify `sourceMembership`, `sectionSummary`, KOV source JSON, RT/legal evidence, or RAG chunks. Recompute keeps accepted info-only gaps from returning as pending review rows.
+
+Implemented files:
+
+- `lib/admin/rag/sourcePackages/service.js` - severity calculation, actionable queue flags, accepted gap metadata, recompute behavior.
+- `app/api/admin/rag/source-packages/[id]/review/route.js` - accepts `accept_gap` parameters.
+- `components/admin/rag/RagAdminSourcePackagesScreen.jsx` - default queue filter, info/archive toggles, repair hints, accepted-gap actions.
+- `tests/rag/sourcePackageAdminService.test.js` - regression tests for severity, info-only fees/deadlines, accepted gaps, and recompute.
+
+This does not perform reingest, cleanup write, source-file mutation, or V3.4B claim-level attribution.
+
 ### V3.0A Implementation Update 2026-04-28
 
 STATUS: implemented and smoke-tested
@@ -1636,6 +1683,16 @@ V3.3A/V3.3B lisavad `SourcePackageSnapshot` andmetele esimese admin review opera
 - admin analytics näitab SourcePackage review loendureid;
 - admin UI on read-only tabel minimaalse tegevusloogikaga.
 
+V3.3C usability update muudab review lehe tööjärjekorraks:
+
+- review reasons jagunevad `blocker`, `review` ja `info` severity tasemeteks;
+- default queue näitab ainult aktiivseid `blocker`/`review` ridu;
+- `fees` ja `deadlines` missing on info-only ega tekita üksi pending review rida;
+- archived snapshotid on vaikimisi peidetud;
+- iga nähtav reason sisaldab parandamise kohta: KOV detail link, canonical item id, sourceKeys ja failivihje (`<slug>.json -> items[] -> id = ... -> relatedForms`);
+- `accept_gap` action salvestab admini override'i `SourcePackageSnapshotReviewEvent.metadata` alla ega muuda allikafakte;
+- recompute ei tõsta aktsepteeritud info-only puuduseid tagasi pending queue'sse.
+
 See ei ole käsitsi teenuseinfo sisuhaldus. V3.3 ei luba vorme, kontakte, õiguslikku alust ega teenusekirjeldust käsitsi muuta. `status` jääb automaatseks paketikvaliteedi väljaks (`active | needs_review | archived`), `reviewStatus` on admini review töövoog (`pending | reviewed | archived`).
 
 V3.3B kasutab action log'i ja persisted review reason detaili, kuid ei tee veel käsitsi source membership muutmist ega package sisuhaldust. V3.4 claim/section attribution jääb järgmiseks suuremaks etapiks.
@@ -2173,6 +2230,9 @@ STATUS: reference / active code map
 - `lib/admin/rag/kov/validation.js` - KOV failide valideerimine.
 - `lib/admin/rag/kov/rtXml.js` - KOV/Riigi Teataja XML parser ja chunk'id.
 - `lib/admin/rag/kov/shared.js`, `storage.js`, `api.js` - KOV admini abikihid.
+- `lib/admin/rag/sourcePackages/service.js` - SourcePackageSnapshot admin review service: severity queue, accepted gap metadata, recompute, archive/restore.
+- `components/admin/rag/RagAdminSourcePackagesScreen.jsx` - SourcePackage review UI: active blocker/review queue, info/archive filters, repair hints.
+- `app/api/admin/rag/source-packages/[id]/review/route.js` - SourcePackage review actions including `accept_gap`.
 - `lib/admin/rag/organizations/service.js` - organisatsioonide RAG admin ja ingest.
 - `lib/admin/rag/organizations/validation.js` - organisatsiooni failide valideerimine.
 - `app/api/admin/rag/**` - RAG admin API endpointid KOV, organisatsioonide ja national RT jaoks.

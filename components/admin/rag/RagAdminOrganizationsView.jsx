@@ -136,6 +136,9 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
     setType,
     activity,
     setActivity,
+    examplePlaceholderCount,
+    showExamplePlaceholders,
+    setShowExamplePlaceholders,
     typeOptions,
     filteredItems,
     selectedSlug,
@@ -181,6 +184,13 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
 
       <div className={cardClassName}>
         <div className={cardBodyClassName}>
+          <div className="rounded-[12px] border border-[#f59e0b] bg-[color-mix(in_srgb,#f59e0b_10%,var(--admin-surface)_90%)] px-3 py-2 text-[0.88rem] text-[color:var(--admin-text)]">
+            <span className="font-semibold">{et ? "Ettevalmistuskiht." : "Preparation layer."}</span>{" "}
+            {et
+              ? "Organisatsioonide RAG haldus on vanem paketipohine toovoog. KOV, RT ja knowledge-doc kihid on sellest eraldi ning see vaade ei tohiks naidata naidisridu pariselt ingestitud allikatena."
+              : "Organization RAG admin is an older package-based workflow. KOV, RT, and knowledge-doc layers are separate, and this view must not present example rows as real ingested sources."}
+          </div>
+
           <div className={cardHeadClassName}>
             <div className="rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-2 text-[0.9rem] text-[color:var(--admin-text)]">
               {et ? `Kirjeid: ${filteredItems.length}` : `Entries: ${filteredItems.length}`}
@@ -211,8 +221,21 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
 
           <div className={toolbarSecondaryClassName}>
             <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
-              {et ? "Tuumfailid ja paketivalmidus on olemas." : "Core files and package readiness are in place."}
+              {et
+                ? "Naidisorganisatsioonid on vaikimisi peidetud. Ingest on lubatud ainult valmis paketile."
+                : "Example organizations are hidden by default. Ingest is available only for ready packages."}
             </div>
+            {examplePlaceholderCount ? (
+              <Button
+                variant="ghost"
+                className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                onClick={() => setShowExamplePlaceholders(!showExamplePlaceholders)}
+              >
+                {showExamplePlaceholders
+                  ? et ? "Peida naidised" : "Hide examples"
+                  : et ? `Naita naidiseid (${examplePlaceholderCount})` : `Show examples (${examplePlaceholderCount})`}
+              </Button>
+            ) : null}
             {selectedSlugs.size ? (
               <Button
                 variant="primary"
@@ -261,6 +284,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                 <tbody>
                   {filteredItems.map(item => {
                     const active = item.slug === selectedSlug;
+                    const canSelect = item.ingestSummary?.canIngest === true && !item.isSeedPlaceholder;
                     return (
                       <tr
                         key={item.slug}
@@ -272,6 +296,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                             type="checkbox"
                             className="accent-[color:var(--admin-accent)]"
                             checked={selectedSlugs.has(item.slug)}
+                            disabled={!canSelect}
                             onChange={() => toggleSelected(item.slug)}
                             aria-label={et ? "Vali organisatsioon" : "Select organization"}
                           />
@@ -284,6 +309,11 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                         <td className="border-b border-[color:var(--admin-border)] px-3 py-2.5 align-top">{item.focus || "-"}</td>
                         <td className="border-b border-[color:var(--admin-border)] px-3 py-2.5 align-top">
                           <div className="flex flex-wrap gap-1.5">
+                            {item.isSeedPlaceholder ? (
+                              <span className={`${badgeBaseClassName} border-[#f59e0b] text-[#f59e0b]`}>
+                                {et ? "Naidis" : "Example"}
+                              </span>
+                            ) : null}
                             <span className={`${badgeBaseClassName} ${READINESS_STYLE[item.crawlReadiness] || READINESS_STYLE.PLANNED}`}>
                               {readinessLabel(item.crawlReadiness, et)}
                             </span>
@@ -318,7 +348,12 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                 <div className={cardHeadClassName}>
                   <div>
                     <div className="text-[1.05rem] font-semibold text-[color:var(--admin-text)]">{selectedEntry.displayName}</div>
-                    <div className={cardSubClassName}>{et ? "Pusiandmed, tuumfailid ja lisafailid." : "Persistent data, core files, and attachments."}</div>
+                    <div className={cardSubClassName}>
+                      {selectedEntry.isSeedPlaceholder
+                        ? et ? "Vanast seedist parit naidisrida. Lisa parispaketi failid voi kasuta uut knowledge-doc/KOV kihti vastavalt allikatubile."
+                          : "Old seeded example row. Add a real package or use the KOV/knowledge-doc layer according to source type."
+                        : et ? "Pusiandmed, tuumfailid ja lisafailid." : "Persistent data, core files, and attachments."}
+                    </div>
                   </div>
                   <span className={`${badgeBaseClassName} ${packageClass(selectedEntry.packageSummary?.state)}`}>
                     {packageLabel(selectedEntry.packageSummary?.state, et)}
@@ -750,7 +785,12 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                 </div>
               </>
             ) : (
-              <div className={cardSubClassName}>{et ? "Filtritega ei leitud uhtegi organisatsiooni." : "No organizations matched the current filters."}</div>
+              <div className={cardSubClassName}>
+                {examplePlaceholderCount && !showExamplePlaceholders
+                  ? et ? "Aktiivseid parispakette ei ole. Vanad naidisread on peidetud."
+                    : "No active real packages. Old example rows are hidden."
+                  : et ? "Filtritega ei leitud uhtegi organisatsiooni." : "No organizations matched the current filters."}
+              </div>
             )}
           </div>
         </div>

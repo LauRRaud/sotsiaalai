@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "organization-source-v1",
+  "organization_id": "astangu",
+  "organization_name": "Astangu Kutserehabilitatsiooni Keskus",
+  "slug": "astangu",
+  "checked_at": "2026-04-29",
+  "status": "checked",
+  "ingestReady": false,
+  "collection_id": "organizations",
+  "sourceRegisterFile": "astangu.sources.json",
+  "sourceCount": 12,
+  "counts": {
+    "services": 4,
+    "resources": 1,
+    "contacts": 3,
+    "documents": 4,
+    "guides": 0
+  },
+  "readiness": {
+    "coreProfilePresent": true,
+    "sourcesPresent": true,
+    "contactsPresent": true,
+    "servicesPresent": true,
+    "ragTextPresent": false,
+    "ok": false,
+    "warnings": [
+      "PDF-te ja materjalide hulk on suur; k\u00f5iki tugiteenuste kirjeldusi ei lisanud eraldi dokumendidena",
+      "Hinnakirja detailid on toodud teavitavana; summa ei kinnita seaduslikku toetust"
+    ]
+  },
+  "unresolvedIssues": [
+    "Osadel tugiteenuste kirjelduste lehtedel on sisu PDF-idena; k\u00e4esolev pakett sisaldab n\u00e4idet (eripedagoog), kuid mitte k\u00f5iki spetsialistide kirjeldusi.",
+    "Keskuse teenuste geograafiline ulatus v\u00f5ib olla \u00fcler\u00e4igiline, kuid ametlikul lehel puudub selges\u00f5naline piiritlus.",
+    "Hinnakiri kehtib alates 13.03.2023 ning v\u00f5ib olla vahepeal muutunud."
+  ]
+}

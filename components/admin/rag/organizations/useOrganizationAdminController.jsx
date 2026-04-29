@@ -37,6 +37,7 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   const [query, setQuery] = useState("");
   const [type, setType] = useState("ALL");
   const [activity, setActivity] = useState("ACTIVE");
+  const [showExamplePlaceholders, setShowExamplePlaceholders] = useState(false);
   const [selectedSlug, setSelectedSlug] = useState(initialItems[0]?.slug || null);
   const [selectedSlugs, setSelectedSlugs] = useState(() => new Set());
   const [editing, setEditing] = useState(false);
@@ -84,6 +85,7 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   const filteredItems = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     return items.filter(item => {
+      if (!showExamplePlaceholders && item.isSeedPlaceholder) return false;
       if (type !== "ALL" && item.type !== type) return false;
       if (activity === "ACTIVE" && item.isActive !== true) return false;
       if (activity === "INACTIVE" && item.isActive !== false) return false;
@@ -95,7 +97,7 @@ export function useOrganizationAdminController(locale, initialItems = []) {
         .toLowerCase()
         .includes(normalizedQuery);
     });
-  }, [activity, items, query, type]);
+  }, [activity, items, query, showExamplePlaceholders, type]);
 
   const selectedEntry = filteredItems.find(item => item.slug === selectedSlug) || filteredItems[0] || null;
   const selectedRagDocId = String(selectedEntry?.ragDocId || "").trim();
@@ -419,8 +421,21 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   }
 
   async function ingestSelected() {
-    const slugs = [...selectedSlugs];
-    if (!slugs.length || bulkIngestBusy) return;
+    const ingestableSlugs = new Set(
+      items
+        .filter(item => selectedSlugs.has(item.slug) && item.ingestSummary?.canIngest === true && !item.isSeedPlaceholder)
+        .map(item => item.slug)
+    );
+    const slugs = [...ingestableSlugs];
+    if (!slugs.length || bulkIngestBusy) {
+      if (!bulkIngestBusy) {
+        setMessage({
+          type: "error",
+          text: et ? "Valitud kirjete hulgas pole ingestiks valmis organisatsioonipaketti." : "Selected rows do not include an ingest-ready organization package."
+        });
+      }
+      return;
+    }
     setBulkIngestBusy(true);
     setMessage(null);
 
@@ -466,6 +481,9 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   }
 
   function toggleSelected(slug) {
+    const item = items.find(candidate => candidate.slug === slug);
+    if (!item || item.isSeedPlaceholder || item.ingestSummary?.canIngest !== true) return;
+
     setSelectedSlugs(current => {
       const next = new Set(current);
       if (next.has(slug)) next.delete(slug);
@@ -477,7 +495,9 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   function toggleSelectAllFiltered() {
     setSelectedSlugs(current => {
       const next = new Set(current);
-      const visible = filteredItems.map(item => item.slug);
+      const visible = filteredItems
+        .filter(item => item.ingestSummary?.canIngest === true && !item.isSeedPlaceholder)
+        .map(item => item.slug);
       const allSelected = visible.length > 0 && visible.every(slug => next.has(slug));
       if (allSelected) visible.forEach(slug => next.delete(slug));
       else visible.forEach(slug => next.add(slug));
@@ -500,6 +520,9 @@ export function useOrganizationAdminController(locale, initialItems = []) {
   return {
     et,
     items,
+    examplePlaceholderCount: items.filter(item => item.isSeedPlaceholder).length,
+    showExamplePlaceholders,
+    setShowExamplePlaceholders,
     query,
     setQuery,
     type,

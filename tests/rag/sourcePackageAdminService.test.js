@@ -156,14 +156,19 @@ test("serializeSourcePackageSnapshot returns safe review data without prompt, us
   assert.equal(serialized.sectionAttributionSummary.forms.evidence_strength, "missing");
   assert.equal(serialized.gapSummary.forms.status, "missing");
   assert.deepEqual(serialized.reviewFlags, {
+    missing_source_keys: false,
     missing_forms: true,
     missing_contacts: true,
-    missing_legal_basis: true,
+    missing_legal_basis: false,
     missing_fees: false,
     missing_deadlines: false,
     package_conflict: false,
-    invalid_current_evidence: false
+    invalid_current_evidence: false,
+    legal_basis_without_rt_layer: false,
+    wrong_collection_id: false
   });
+  assert.equal(serialized.reviewQueueSeverity, "review");
+  assert.equal(serialized.hasActionableReview, true);
   assert.equal(text.includes("hidden prompt"), false);
   assert.equal(text.includes("hidden user text"), false);
   assert.equal(text.includes("long source excerpt"), false);
@@ -186,6 +191,33 @@ test("buildSourcePackageReviewReasons exposes readable reason details", () => {
 
   assert.deepEqual(reasons.map(item => item.code), ["missing_forms", "invalid_current_evidence"]);
   assert.equal(reasons[0].label.length > 5, true);
+  assert.equal(reasons[0].severity, "review");
+  assert.equal(reasons[1].severity, "blocker");
+});
+
+test("fees and deadlines missing are info-only and do not create actionable pending queue", () => {
+  const serialized = serializeSourcePackageSnapshot(snapshotFixture({
+    status: "active",
+    missingSections: ["fees", "deadlines"],
+    sourceMembership: [
+      {
+        source_id: "service-info",
+        source_type: "kov_service_info",
+        collection_id: "kov_services",
+        municipality_id: "jogeva_vald",
+        source_status: "active",
+        historical: false,
+        sections: ["description"],
+        evidence_allowed: true
+      }
+    ]
+  }));
+
+  assert.equal(serialized.reviewQueueSeverity, "info");
+  assert.equal(serialized.hasActionableReview, false);
+  assert.equal(serialized.hasInfoWarnings, true);
+  assert.deepEqual(serialized.actionableReviewReasons, []);
+  assert.deepEqual(serialized.infoReviewReasons.map(reason => reason.code), ["missing_fees", "missing_deadlines"]);
 });
 
 test("listSourcePackageSnapshots applies reviewStatus and status filters", async () => {
@@ -294,6 +326,78 @@ test("recompute that moves snapshot back to pending clears reviewedAt, reviewedB
   assert.equal(recomputed.reviewNote, null);
   assert.equal(client.events.at(-1).action, "recompute");
   assert.equal(client.events.at(-1).metadata.recomputed_status, "needs_review");
+});
+
+test("recompute does not keep fees and deadlines only snapshots pending", async () => {
+  const client = createFakeClient([
+    snapshotFixture({
+      status: "needs_review",
+      reviewStatus: "pending",
+      missingSections: ["fees", "deadlines"],
+      sourceMembership: [
+        {
+          source_id: "service-info",
+          source_type: "kov_service_info",
+          collection_id: "kov_services",
+          municipality_id: "jogeva_vald",
+          source_status: "active",
+          historical: false,
+          sections: ["description"],
+          evidence_allowed: true
+        }
+      ]
+    })
+  ]);
+
+  const recomputed = await reviewSourcePackageSnapshot("snapshot-1", "recompute", {
+    reviewedBy: "admin@example.test"
+  }, client);
+
+  assert.equal(recomputed.status, "active");
+  assert.equal(recomputed.reviewStatus, "reviewed");
+  assert.equal(recomputed.reviewQueueSeverity, "info");
+  assert.equal(recomputed.hasActionableReview, false);
+});
+
+test("accept_gap stores override metadata and prevents info-only gaps from returning pending on recompute", async () => {
+  const client = createFakeClient([
+    snapshotFixture({
+      status: "active",
+      missingSections: ["fees", "deadlines"],
+      sourceMembership: [
+        {
+          source_id: "service-info",
+          source_type: "kov_service_info",
+          collection_id: "kov_services",
+          municipality_id: "jogeva_vald",
+          source_status: "active",
+          historical: false,
+          sections: ["description"],
+          evidence_allowed: true
+        }
+      ]
+    })
+  ]);
+
+  const accepted = await reviewSourcePackageSnapshot("snapshot-1", "accept_gap", {
+    reviewedBy: "admin@example.test",
+    acceptedReasonCode: "missing_fees",
+    acceptedDisposition: "not_published",
+    reviewNote: "KOV veebis tasu ei avaldata."
+  }, client);
+
+  assert.equal(accepted.reviewStatus, "reviewed");
+  assert.equal(accepted.status, "active");
+  assert.equal(accepted.acceptedReviewReasonCodes.includes("missing_fees"), true);
+  assert.equal(client.events.at(-1).action, "accept_gap");
+  assert.equal(client.events.at(-1).metadata.accepted_reason_code, "missing_fees");
+
+  const recomputed = await reviewSourcePackageSnapshot("snapshot-1", "recompute", {
+    reviewedBy: "admin@example.test"
+  }, client);
+
+  assert.equal(recomputed.status, "active");
+  assert.equal(recomputed.reviewStatus, "reviewed");
 });
 
 test("recompute that stays reviewed keeps reviewedAt, reviewedBy, and reviewNote", async () => {
