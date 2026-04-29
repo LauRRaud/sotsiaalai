@@ -27,7 +27,7 @@ STATUS: active snapshot
 | Attribution | `answer_source_ids`, `displayed_source_ids`, `attribution_decisions` ja legal attribution contract on kasutusel; legal exact puhul ei kuvata valet paragrahvi; `§999` / exact missing annab `insufficient_precise_legal_source_support` signaali; V3.4A section-level attribution on productionis kinnitatud package-aware ja high-risk vastustele | Claim-level attribution kõrge riskiga väidetele ning allikakonflikti põhjendatud lahendamine |
 | Trace | `rag_trace` sisaldab `query_plan`'i, retrieval kanaleid, source kihte, `legalLookupPlan`'i, `selection_strategy`'t, riskitaset, legal exact signaale, runtime `source_packages` kokkuvõtet ning V3.4A `section_attribution` signaale; source-package ja attribution smoke kinnitavad trace kihi | Täisobservability koos source package'i, latency, tokenite ja kvaliteedimõõdikutega |
 | KOV service model | Jõgeva KOV RT ja KOV web/service on clean canonical reingest'iga sees; V3.0A runtime `SourcePackage` builder koondab valitud konteksti sama `canonical_item_id` + `municipality_id` põhjal package summary'ks; vastamine on veel valdavalt chunk-põhine ja package-aware answering on V3.2 | Runtime või persisted `SourcePackage` teenustele, vormidele, kontaktidele ja õiguslikule alusele |
-| Metadata | V2.5 canonical contract on kasutusel; clean canonical reingest on tehtud olemasoleva korpuse piires (`national_rt`, Jõgeva KOV RT, Jõgeva KOV web/service, ajakiri `Sotsiaaltöö`); readiness audit KOV-i ja ajakirja kohta andis `blocked=0`; legacy storage jäi rollback'iks alles | Kõik tulevased korpusepered map'ivad samale source contract'ile; org/template/methodology korpuste readiness ja ingest tuleb veel eraldi teha |
+| Metadata | V2.5 canonical contract on kasutusel; clean canonical reingest on tehtud olemasoleva korpuse piires (`national_rt`, Jõgeva KOV RT, Jõgeva KOV web/service, ajakiri `Sotsiaaltöö`); Harku on v2.5-sourcepackage reference-pakett; 9 olemasolevat KOV veebipaketti on batch-upgrade'iga viidud v2.5-sourcepackage metadata kujule; legacy storage jäi rollback'iks alles | Kõik tulevased korpusepered map'ivad samale source contract'ile; org/template/methodology korpuste readiness ja ingest tuleb veel eraldi teha |
 
 
 Current-state update after V3.4A follow-up:
@@ -46,6 +46,45 @@ STATUS: implemented
 - Generic KOV bundle ingest in `lib/admin/rag/kov/service.js` now derives document and chunk metadata from `<kov-slug>.meta.json` first, with fallback to sources/admin data.
 - The normalized KOV metadata path now carries `municipality_id`, `municipality_name`, `municipality`, `municipality_slug`, `county`, `checked_at`, `last_checked`, `country`, `language`, `collection_id` and `jurisdiction_level`.
 - This metadata fix is not Harku-specific; it is intended to work for Jõgeva, Harku and future KOV bundles that provide the canonical root fields in `meta.json`.
+
+### KOV V2.5 SourcePackage Metadata Batch Upgrade 2026-04-29
+
+STATUS: implemented / validation green / not yet ingested
+
+Harku remains the reference bundle and is explicitly excluded from the batch upgrader. Existing KOV web bundles were upgraded as metadata/schema work only: no new web collection, no content rewrite, no new RT/legal_basis source injection, and no ingest.
+
+Upgraded KOV bundles:
+
+- `jogeva-vald`
+- `antsla-vald`
+- `anija-vald`
+- `alutaguse-vald`
+- `elva-vald`
+- `haademeeste-vald`
+- `haapsalu-linn`
+- `hiiumaa-vald`
+- `haljala-vald`
+
+Added tooling:
+
+```text
+npm run kov:upgrade-metadata -- --slug <slug> --municipality <municipality_id> --county "<county>" --write
+npm run kov:upgrade-metadata:batch -- --manifest config/kov-metadata-upgrade-manifest.json --dry-run
+npm run kov:upgrade-metadata:batch -- --manifest config/kov-metadata-upgrade-manifest.json --write
+npm run kov:validate-metadata -- --manifest config/kov-metadata-upgrade-manifest.json
+```
+
+The batch upgrade adds canonical source/item metadata such as `metadata_schema_version`, `source_id`, `document_id`, `canonical_item_id`, `source_type`, `resource_type`, `source_format`, `municipality_id`, `collection_id`, `jurisdiction_level`, `checked_at`, `last_checked`, `url_canonical`, `content_hash`, `sourcePackageReadiness`, and compatibility aliases such as `item_type` and `source_keys`.
+
+Validation result:
+
+- `9/9` manifest KOV bundles validate successfully.
+- `harku-vald` unchanged check is green.
+- Every upgraded bundle has `sourcePackageReadiness.ok = true`.
+- Every upgraded bundle has `items_missing_source_keys = []`.
+- `regulation_sources = 0` for this batch because RT/legal_basis sources are intentionally not added during web bundle metadata upgrade.
+
+Backups are written before `--write` as `*.bak-<timestamp>` for `.sources.json`, `.json`, `.meta.json`, and `.rag.md`. The `rag.md` content is not rewritten by this metadata upgrade.
 
 ### V3.0A Implementation Update 2026-04-28
 
