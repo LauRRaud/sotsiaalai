@@ -9,6 +9,7 @@ function usage() {
     "  npm run rag:smoke:source-packages -- --persist",
     "  npm run rag:smoke:source-packages -- --answering",
     "  npm run rag:smoke:source-packages -- --answering --persist --attribution",
+    "  npm run rag:smoke:source-packages -- --municipality harku_vald --slug harku-vald --answering --persist --attribution",
     "  npm run rag:smoke:source-packages -- --base-url https://sotsiaal.ai",
     "",
     "Environment:",
@@ -18,7 +19,7 @@ function usage() {
     "  SOTSIAALAI_SMOKE_ROLE=SOCIAL_WORKER",
     "  DATABASE_URL=postgresql://...",
     "",
-    "Checks that a live chat/RAG flow exposes safe rag_trace.source_packages for a Jogeva KOV service question.",
+    "Checks that a live chat/RAG flow exposes safe rag_trace.source_packages for a selected KOV service question.",
     "With --persist, or when DATABASE_URL is present, also checks SourcePackageSnapshot DB persistence.",
     "With --attribution, also checks deterministic section-level attribution for package-aware answers."
   ].join("\n");
@@ -34,6 +35,8 @@ function parseArgs(argv = []) {
     noPersist: false,
     answering: false,
     attribution: false,
+    municipalityId: "jogeva_vald",
+    slug: "jogeva-vald",
     help: false
   };
 
@@ -44,6 +47,8 @@ function parseArgs(argv = []) {
     else if (arg === "--cookie") args.cookie = argv[++index] || "";
     else if (arg === "--bearer") args.bearer = argv[++index] || "";
     else if (arg === "--role") args.role = argv[++index] || args.role;
+    else if (arg === "--municipality" || arg === "--municipality-id") args.municipalityId = argv[++index] || args.municipalityId;
+    else if (arg === "--slug") args.slug = argv[++index] || args.slug;
     else if (arg === "--persist") args.persist = true;
     else if (arg === "--no-persist") args.noPersist = true;
     else if (arg === "--answering") args.answering = true;
@@ -51,6 +56,8 @@ function parseArgs(argv = []) {
     else throw new Error(`Unknown option: ${arg}`);
   }
 
+  args.municipalityId = String(args.municipalityId || "").trim() || String(args.slug || "").replace(/-/g, "_");
+  args.slug = String(args.slug || "").trim() || args.municipalityId.replace(/_/g, "-");
   args.checkPersistence = !args.noPersist && (args.persist || !!process.env.DATABASE_URL);
   if (args.attribution) args.answering = true;
   return args;
@@ -83,13 +90,18 @@ async function readJsonResponse(res, label) {
 }
 
 async function postChat(args) {
+  const municipalityName = args.slug
+    .split("-")
+    .filter(Boolean)
+    .map(part => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+    .join(" ");
   const res = await fetch(endpoint(args.baseUrl, "/api/chat"), {
     method: "POST",
     headers: authHeaders(args, true),
     body: JSON.stringify({
       message: args.answering
-        ? "Kuidas Jõgeva vallas koduteenust taotleda ja kust vormi või kontakti leiab?"
-        : "Jõgeva vald koduteenus",
+        ? `Kuidas ${municipalityName} koduteenust taotleda ja kust vormi või kontakti leiab?`
+        : `${municipalityName} koduteenus`,
       history: [],
       role: args.role,
       persist: args.checkPersistence === true,
@@ -123,6 +135,45 @@ async function loadPersistenceTools() {
   } catch (error) {
     return {
       ok: false,
+      reason: error?.message || String(error)
+    };
+  }
+}
+
+async function checkMunicipalityIngested(args) {
+  if (!args.checkPersistence || !args.municipalityId) {
+    return {
+      checked: false,
+      ingested: null,
+      reason: args.checkPersistence ? "missing_municipality" : "persistence check disabled"
+    };
+  }
+  const tools = await loadPersistenceTools();
+  if (!tools.ok) {
+    return {
+      checked: false,
+      ingested: null,
+      reason: tools.reason
+    };
+  }
+  try {
+    const activeCount = await tools.delegate.count({
+      where: {
+        municipalityId: args.municipalityId,
+        active: true
+      }
+    });
+    await tools.prisma?.$disconnect?.().catch(() => {});
+    return {
+      checked: true,
+      ingested: activeCount > 0,
+      active_snapshot_count: activeCount
+    };
+  } catch (error) {
+    await tools.prisma?.$disconnect?.().catch(() => {});
+    return {
+      checked: false,
+      ingested: null,
       reason: error?.message || String(error)
     };
   }
@@ -189,36 +240,35 @@ function assertSafeSnapshots(rows = []) {
     "model_context",
     "prompt",
     "userMessage",
-    "message",
-    "Jõgeva vald koduteenus"
+    "message"
   ];
   for (const value of forbiddenValues) {
     assertCondition(!serialized.includes(value), `SourcePackageSnapshot persisted unsafe value: ${value}`);
   }
 }
 
-function assertPackageContract(packages = []) {
+function assertPackageContract(packages = [], args = {}) {
   assertCondition(packages.length > 0, "source_packages: at least one package must be present");
-  const jogeva = packages.find(pkg => pkg?.municipality_id === "jogeva_vald");
-  assertCondition(jogeva, "source_packages: expected a jogeva_vald package");
-  assertCondition(jogeva.canonical_item_id, "source_packages: expected canonical_item_id");
-  assertCondition(jogeva.section_counts || jogeva.sections, "source_packages: expected section_counts or sections summary");
-  assertCondition(Array.isArray(jogeva.missing_sections), "source_packages: missing_sections must be an array");
+  const selected = packages.find(pkg => pkg?.municipality_id === args.municipalityId);
+  assertCondition(selected, `source_packages: expected a ${args.municipalityId} package`);
+  assertCondition(selected.canonical_item_id, "source_packages: expected canonical_item_id");
+  assertCondition(selected.section_counts || selected.sections, "source_packages: expected section_counts or sections summary");
+  assertCondition(Array.isArray(selected.missing_sections), "source_packages: missing_sections must be an array");
 
   for (const pkg of packages) {
-    assertCondition(pkg.municipality_id === "jogeva_vald", `source_packages: unexpected municipality ${pkg.municipality_id || "(missing)"}`);
+    assertCondition(pkg.municipality_id === args.municipalityId, `source_packages: unexpected municipality ${pkg.municipality_id || "(missing)"}`);
     const pkgSections = sections(pkg);
     for (const sectionName of ["legal_basis", "forms", "contacts"]) {
       const list = Array.isArray(pkgSections[sectionName]) ? pkgSections[sectionName] : [];
       for (const source of list) {
-        assertCondition(source?.municipality_id === undefined || source.municipality_id === "jogeva_vald", `${sectionName}: wrong municipality source`);
+        assertCondition(source?.municipality_id === undefined || source.municipality_id === args.municipalityId, `${sectionName}: wrong municipality source`);
         assertCondition(source?.source_type !== "journal_article", `${sectionName}: journal_article must not be current evidence`);
       }
     }
   }
 
   assertSafeTrace(packages);
-  return summarizePackage(jogeva);
+  return summarizePackage(selected);
 }
 
 function assertPackageAwareAnswering(payload = {}, packages = []) {
@@ -467,10 +517,32 @@ async function main() {
     return;
   }
 
+  const ingested = await checkMunicipalityIngested(args);
+  if (ingested.checked && ingested.ingested === false) {
+    console.log(JSON.stringify({
+      ok: true,
+      skipped: true,
+      reason: "not_ingested",
+      municipality_id: args.municipalityId,
+      slug: args.slug,
+      active_snapshot_count: 0,
+      note: "Selected municipality has no active SourcePackageSnapshot rows. Reingest before running live source-package smoke.",
+      trace: {
+        checked: false,
+        source_packages_present: false
+      },
+      snapshot_persistence: {
+        checked: true,
+        reason: "not_ingested"
+      }
+    }, null, 2));
+    return;
+  }
+
   const persistenceBefore = await beforePersistenceSnapshot(args);
   const payload = await postChat(args);
   const packages = sourcePackages(payload);
-  const summary = assertPackageContract(packages);
+  const summary = assertPackageContract(packages, args);
   if (args.answering) {
     assertPackageAwareAnswering(payload, packages);
   }
@@ -483,6 +555,8 @@ async function main() {
   console.log(JSON.stringify({
     ok: true,
     skipped: false,
+    municipality_id: args.municipalityId,
+    slug: args.slug,
     package_count: packages.length,
     trace: {
       checked: true,

@@ -61,7 +61,11 @@
     "rag:smoke:legal": "node scripts/smoke-rag-legal-lookup.mjs",
     "rag:smoke:legal-exact": "node scripts/smoke-rag-legal-exact.mjs",
     "rag:smoke:source-packages": "node scripts/smoke-rag-source-packages.mjs",
+    "rag:inventory:kov": "node scripts/inventory-kov-rag-state.mjs",
+    "rag:cleanup:kov": "node scripts/cleanup-kov-rag-state.mjs",
+    "rag:report:sourcepackage-gaps": "node scripts/report-sourcepackage-gaps.mjs",
     "rag:report:jogeva-sourcepackage-gaps": "node scripts/report-jogeva-sourcepackage-gaps.mjs",
+    "rag:audit:forms-contacts": "node scripts/audit-forms-contacts.mjs",
     "rag:audit:jogeva-forms-contacts": "node scripts/audit-jogeva-forms-contacts.mjs",
     "rag:reindex:documents": "node scripts/reindex-rag-documents.mjs",
     "rag:cleanup:ajakiri-legacy": "node scripts/cleanup-legacy-ajakiri-rag-docs.mjs",
@@ -70,7 +74,10 @@
     "rag:reingest:readiness": "node scripts/rag-reingest-readiness.mjs",
     "kov:upgrade-metadata": "node scripts/upgrade-kov-metadata.mjs",
     "kov:upgrade-metadata:batch": "node scripts/upgrade-kov-metadata.mjs --batch",
-    "kov:validate-metadata": "node scripts/validate-kov-metadata.mjs"
+    "kov:validate-metadata": "node scripts/validate-kov-metadata.mjs",
+    "knowledge:validate": "node scripts/validate-knowledge-doc-metadata.mjs",
+    "knowledge:upgrade": "node scripts/upgrade-knowledge-doc-metadata.mjs",
+    "knowledge:smoke": "node scripts/smoke-knowledge-docs.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",
