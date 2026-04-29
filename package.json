@@ -75,9 +75,13 @@
     "kov:upgrade-metadata": "node scripts/upgrade-kov-metadata.mjs",
     "kov:upgrade-metadata:batch": "node scripts/upgrade-kov-metadata.mjs --batch",
     "kov:validate-metadata": "node scripts/validate-kov-metadata.mjs",
+    "kov:audit-rt": "node scripts/audit-kov-rt.mjs",
+    "kov:validate-rt": "node scripts/validate-kov-rt.mjs",
     "knowledge:validate": "node scripts/validate-knowledge-doc-metadata.mjs",
     "knowledge:upgrade": "node scripts/upgrade-knowledge-doc-metadata.mjs",
-    "knowledge:smoke": "node scripts/smoke-knowledge-docs.mjs"
+    "knowledge:smoke": "node scripts/smoke-knowledge-docs.mjs",
+    "organization:validate": "node scripts/validate-organization-metadata.mjs",
+    "organization:audit-metadata": "node scripts/audit-organization-metadata.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",

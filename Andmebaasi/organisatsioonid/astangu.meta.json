@@ -4,8 +4,8 @@
   "organization_name": "Astangu Kutserehabilitatsiooni Keskus",
   "slug": "astangu",
   "checked_at": "2026-04-29",
-  "status": "checked",
-  "ingestReady": false,
+  "status": "ready_for_ingest",
+  "ingestReady": true,
   "collection_id": "organizations",
   "sourceRegisterFile": "astangu.sources.json",
   "sourceCount": 12,
@@ -13,24 +13,38 @@
     "services": 4,
     "resources": 1,
     "contacts": 3,
-    "documents": 4,
-    "guides": 0
+    "documents": 5,
+    "guides": 3,
+    "documents_referenced_only": 2,
+    "documents_ingest_candidate": 2,
+    "documents_ingest_ready": 0,
+    "documents_needs_review": 1
   },
   "readiness": {
     "coreProfilePresent": true,
     "sourcesPresent": true,
     "contactsPresent": true,
     "servicesPresent": true,
-    "ragTextPresent": false,
-    "ok": false,
+    "ragTextPresent": true,
+    "ok": true,
     "warnings": [
-      "PDF-te ja materjalide hulk on suur; k\u00f5iki tugiteenuste kirjeldusi ei lisanud eraldi dokumendidena",
-      "Hinnakirja detailid on toodud teavitavana; summa ei kinnita seaduslikku toetust"
+      "PDF-te ja materjalide hulk on suur; kõiki tugiteenuste kirjeldusi ei lisanud eraldi dokumendidena",
+      "Hinnakirja detailid on toodud teavitavana; summa ei kinnita seaduslikku toetust",
+      "Lisadokumentide eraldi knowledge-doc metadata on praeguses 4-faili paketis kokku volditud documents[] plokki; eraldi ingestitavad dokumendid vajavad hiljem eraldi metadata faili või UI-s kinnitamist.",
+      "Remote source_url põhised PDF-id on viidatud ametlike URL-idena; source_path puudumine ei ole viga."
     ]
   },
   "unresolvedIssues": [
-    "Osadel tugiteenuste kirjelduste lehtedel on sisu PDF-idena; k\u00e4esolev pakett sisaldab n\u00e4idet (eripedagoog), kuid mitte k\u00f5iki spetsialistide kirjeldusi.",
-    "Keskuse teenuste geograafiline ulatus v\u00f5ib olla \u00fcler\u00e4igiline, kuid ametlikul lehel puudub selges\u00f5naline piiritlus.",
-    "Hinnakiri kehtib alates 13.03.2023 ning v\u00f5ib olla vahepeal muutunud."
-  ]
+    "Osadel tugiteenuste kirjelduste lehtedel on sisu PDF-idena; käesolev pakett sisaldab näidet (eripedagoog), kuid mitte kõiki spetsialistide kirjeldusi.",
+    "Keskuse teenuste geograafiline ulatus võib olla üleräigiline, kuid ametlikul lehel puudub selgesõnaline piiritlus.",
+    "Hinnakiri kehtib alates 13.03.2023 ning võib olla vahepeal muutunud.",
+    "Kui mõni lisadokument valitakse hiljem iseseisvaks RAG dokumendiks, tuleb selle kohta kinnitada eraldi knowledge-doc metadata või genereerida see admin UI kaudu."
+  ],
+  "ragTextFile": "astangu.rag.md",
+  "documentPolicy": {
+    "organizationProfileIngest": "single_document",
+    "documentsAutoIngest": false,
+    "remoteSourceUrlAllowed": true,
+    "separateKnowledgeDocMetadataRequiredWhen": "document_status=ingest_ready or admin explicitly selects document for separate RAG ingest"
+  }
 }

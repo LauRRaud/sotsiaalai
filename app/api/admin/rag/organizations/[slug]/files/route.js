@@ -13,6 +13,7 @@ import {
   writeUploadedOrganizationFile
 } from "@/lib/admin/rag/organizations/storage";
 import { ORGANIZATION_FILE_ROLE_META, resolveOrganizationFileKeyFromParam } from "@/lib/admin/rag/organizations/shared";
+import { expectedOrganizationCoreFileName } from "@/lib/admin/rag/organizations/package";
 import { validateOrganizationFileContent } from "@/lib/admin/rag/organizations/validation";
 import { errorJson, json, requireOrganizationAdminSession } from "@/lib/admin/rag/organizations/api";
 
@@ -43,6 +44,12 @@ export async function POST(request, { params }) {
   const roleParam = String(formData.get("role") || "attachment").trim();
   const fileKey = resolveOrganizationFileKeyFromParam(roleParam);
   if (!fileKey) return errorJson("api.common.bad_request", 400, auth.locale);
+  if (fileKey !== "attachment") {
+    const expectedName = expectedOrganizationCoreFileName(slug, fileKey);
+    if (String(file?.name || "").trim() !== expectedName) {
+      return errorJson(`Expected file name ${expectedName}`, 400, auth.locale);
+    }
+  }
 
   const entry = await getOrganizationAdminEntryBySlug(slug);
   if (!entry) return errorJson("api.common.not_found", 404, auth.locale);

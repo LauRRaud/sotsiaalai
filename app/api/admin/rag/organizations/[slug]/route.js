@@ -1,6 +1,6 @@
 import {
   getOrganizationAdminEntryBySlug,
-  serializeOrganizationAdmin,
+  serializeOrganizationAdminWithPackage,
   updateOrganizationAdminEntryBySlug
 } from "@/lib/admin/rag/organizations/service";
 import { errorJson, json, requireOrganizationAdminSession } from "@/lib/admin/rag/organizations/api";
@@ -28,7 +28,7 @@ export async function GET(request, { params }) {
 
     return json({
       ok: true,
-      item: serializeOrganizationAdmin(row)
+      item: await serializeOrganizationAdminWithPackage(row)
     });
   } catch (error) {
     console.error("[organization-admin] detail failed", safeError(error));

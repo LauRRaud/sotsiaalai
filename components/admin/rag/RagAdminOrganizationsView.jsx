@@ -553,6 +553,92 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                   </div>
                 </div>
 
+                {selectedEntry.packageValidation ? (
+                  <div className="grid gap-1.5 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <div className="text-[0.9rem] font-semibold text-[color:var(--admin-text)]">{et ? "Organisatsiooni metadata audit" : "Organization metadata audit"}</div>
+                        <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
+                          {et ? "Kontrollib 4 tuumfaili, sourceKeys viiteid ja remote URL materjale." : "Checks the 4 core files, sourceKeys references, and remote URL materials."}
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        <span className={`${badgeBaseClassName} ${selectedEntry.packageValidation.ok ? "border-[#22c55e] text-[#22c55e]" : "border-[#ef4444] text-[#ef4444]"}`}>
+                          {selectedEntry.packageValidation.ok ? (et ? "Validation OK" : "Validation OK") : (et ? "Validation viga" : "Validation error")}
+                        </span>
+                        <span className={`${badgeBaseClassName} ${selectedEntry.packageValidation.ingest_ready ? "border-[#38bdf8] text-[#38bdf8]" : "border-[color:var(--admin-border)] text-[color:var(--admin-muted)]"}`}>
+                          ingestReady: {selectedEntry.packageValidation.ingest_ready ? "true" : "false"}
+                        </span>
+                      </div>
+                    </div>
+                    <div className={docDetailMetaClassName}>
+                      <div className={docDetailMetaItemClassName}>
+                        <span className={docDetailMetaLabelClassName}>RAG docId</span>
+                        <span className={docDetailMetaValueClassName}>{selectedEntry.packageValidation.rag_doc_id}</span>
+                      </div>
+                      <div className={docDetailMetaItemClassName}>
+                        <span className={docDetailMetaLabelClassName}>sourceCount</span>
+                        <span className={docDetailMetaValueClassName}>{selectedEntry.packageValidation.sourceKeys?.length || 0}</span>
+                      </div>
+                      <div className={docDetailMetaItemClassName}>
+                        <span className={docDetailMetaLabelClassName}>{et ? "Remote URL" : "Remote URL"}</span>
+                        <span className={docDetailMetaValueClassName}>{selectedEntry.packageValidation.remote_source_url_supported ? "supported" : "-"}</span>
+                      </div>
+                    </div>
+                    {selectedEntry.packageValidation.errors?.length ? (
+                      <div className="text-[0.84rem] text-[#ef4444]">{selectedEntry.packageValidation.errors.join(". ")}</div>
+                    ) : null}
+                    {selectedEntry.packageValidation.warnings?.length ? (
+                      <div className="text-[0.84rem] text-[color:var(--admin-muted)]">{selectedEntry.packageValidation.warnings.join(". ")}</div>
+                    ) : null}
+                  </div>
+                ) : null}
+
+                {selectedEntry.packageDocuments?.items?.length ? (
+                  <div className="grid gap-1.5 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <div className="text-[0.9rem] font-semibold text-[color:var(--admin-text)]">{et ? "Viidatud lisamaterjalid" : "Referenced materials"}</div>
+                        <div className="text-[0.84rem] text-[color:var(--admin-muted)]">
+                          {et
+                            ? "Need on organisatsioonipaketi documents[] viited. Neid ei ingestita siin eraldi RAG dokumentidena."
+                            : "These are organization package documents[] references. They are not ingested here as separate RAG documents."}
+                        </div>
+                      </div>
+                      <span className={`${badgeBaseClassName} border-[color:var(--admin-border)] text-[color:var(--admin-muted)]`}>
+                        {selectedEntry.packageDocuments.total || 0}
+                      </span>
+                    </div>
+                    <div className="grid gap-1.5">
+                      {selectedEntry.packageDocuments.items.map(document => (
+                        <div key={document.id || document.title} className="grid gap-1 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] p-2.5">
+                          <div className="flex flex-wrap items-start justify-between gap-2">
+                            <div>
+                              <div className="font-semibold text-[color:var(--admin-text)]">{document.title || document.id}</div>
+                              <div className="text-[0.82rem] text-[color:var(--admin-muted)]">
+                                {document.source_url ? (et ? "remote URL" : "remote URL") : (et ? "kohalik fail" : "local file")} - {document.source_format || "-"}
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                              <span className={`${badgeBaseClassName} border-[color:var(--admin-border)] text-[color:var(--admin-muted)]`}>
+                                {document.document_status}
+                              </span>
+                              {document.source_url ? (
+                                <span className={`${badgeBaseClassName} border-[#38bdf8] text-[#38bdf8]`}>
+                                  URL
+                                </span>
+                              ) : null}
+                            </div>
+                          </div>
+                          {document.source_url ? (
+                            <div className="break-all text-[0.78rem] text-[color:var(--admin-muted)]">{document.source_url}</div>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
                 <div className="grid gap-1.5 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div>

@@ -4,73 +4,100 @@
   "name": "Astangu Kutserehabilitatsiooni Keskus",
   "organization_type": "service_provider",
   "status": "active",
-  "summary": "Astangu Kutserehabilitatsiooni Keskus on Tallinnas tegutsev riiklik kutse\u00a0rehabilitatsiooni keskus, mis valmistab erivajadusega noori ja t\u00f6\u00f6ealisi inimesi ette t\u00f6\u00f6eluks ning iseseisvamaks eluks. Keskus pakub rehabilitatsiooniteenuseid, \u00f5ppimis- ja t\u00f6\u00f6tamisv\u00f5imaluste hindamist, erinevaid \u00f5ppeprogramme, t\u00f6\u00f6tajate ja t\u00f6\u00f6andjate n\u00f5ustamist ning toetatud t\u00f6\u00f6 teenuseid.",
-  "focus": "puudega inimeste rehabilitatsioon, \u00f5ppimise ja t\u00f6\u00f6tamise toetamine",
-  "scope": "Keskuse tegevus on koondunud Tallinnasse (Astangu 27), kuid teenustele saavad registreeruda erivajadusega inimesed \u00fcle Eesti.",
+  "summary": "Astangu Kutserehabilitatsiooni Keskus on Tallinnas tegutsev riiklik kutse rehabilitatsiooni keskus, mis valmistab erivajadusega noori ja tööealisi inimesi ette tööeluks ning iseseisvamaks eluks. Keskus pakub rehabilitatsiooniteenuseid, õppimis- ja töötamisvõimaluste hindamist, erinevaid õppeprogramme, töötajate ja tööandjate nõustamist ning toetatud töö teenuseid.",
+  "focus": "puudega inimeste rehabilitatsioon, õppimise ja töötamise toetamine",
+  "scope": "Keskuse tegevus on koondunud Tallinnasse (Astangu 27), kuid teenustele saavad registreeruda erivajadusega inimesed üle Eesti.",
   "target_groups": [
-    "erivajadusega ja piiratud t\u00f6\u00f6v\u00f5imega t\u00f6\u00f6ealised inimesed",
-    "puudega noored, kes vajavad \u00f5ppimise ja t\u00f6\u00f6le asumise toetust",
-    "inimesed, kellel puudub t\u00f6\u00f6v\u00f5ime ja kes vajavad pikaajalist juhendamist"
+    "erivajadusega ja piiratud töövõimega tööealised inimesed",
+    "puudega noored, kes vajavad õppimise ja tööle asumise toetust",
+    "inimesed, kellel puudub töövõime ja kes vajavad pikaajalist juhendamist"
   ],
   "services": [
     {
       "id": "astangu_service_rehabilitation_overview",
       "itemType": "service",
-      "title": "Rehabilitatsiooniteenus (\u00fcldinfo)",
+      "title": "Rehabilitatsiooniteenus (üldinfo)",
       "status": "active",
-      "summary": "Rehabilitatsioon on riiklik sotsiaalteenus, mille eesm\u00e4rk on toetada erivajadusega inimese iseseisvat toimetulekut, soodustada t\u00f6\u00f6le asumist ning suurendada \u00fchiskonnas osalemist. Teenus on ajaliselt piiritletud, sellel on algus ja l\u00f5pp ning selge eesm\u00e4rk. Rehabilitatsioon jaguneb sotsiaalseks ja t\u00f6\u00f6alaseks rehabilitatsiooniks ning neid kaht teenust ei tohi samaaegselt saada. Meditsiiniline ravi ei kuulu rehabilitatsiooniteenuse alla.",
-      "targetGroup": "erivajadusega t\u00f6\u00f6ealised inimesed, kelle iseseisvust, \u00f5ppimisv\u00f5imekust ja t\u00f6\u00f6elus osalemist on vaja toetada",
-      "conditions": "Teenuse saamiseks peab inimesel olema selge eesm\u00e4rk ja soov suurendada oma iseseisvust. Sotsiaalse ja t\u00f6\u00f6alase rehabilitatsiooni teenuseid ei tohi saada samaaegselt.",
-      "access_or_application": "Rehabilitatsiooniteenuseid vahendavad Sotsiaalkindlustusamet (sotsiaalne rehabilitatsioon) ja Eesti T\u00f6\u00f6tukassa (t\u00f6\u00f6alane rehabilitatsioon), kes hindavad teenuse vajalikkust ja suunavad sobiva teenusepakkuja juurde.",
+      "summary": "Rehabilitatsioon on riiklik sotsiaalteenus, mille eesmärk on toetada erivajadusega inimese iseseisvat toimetulekut, soodustada tööle asumist ning suurendada ühiskonnas osalemist. Teenus on ajaliselt piiritletud, sellel on algus ja lõpp ning selge eesmärk. Rehabilitatsioon jaguneb sotsiaalseks ja tööalaseks rehabilitatsiooniks ning neid kaht teenust ei tohi samaaegselt saada. Meditsiiniline ravi ei kuulu rehabilitatsiooniteenuse alla.",
+      "targetGroup": "erivajadusega tööealised inimesed, kelle iseseisvust, õppimisvõimekust ja tööelus osalemist on vaja toetada",
+      "conditions": "Teenuse saamiseks peab inimesel olema selge eesmärk ja soov suurendada oma iseseisvust. Sotsiaalse ja tööalase rehabilitatsiooni teenuseid ei tohi saada samaaegselt.",
+      "access_or_application": "Rehabilitatsiooniteenuseid vahendavad Sotsiaalkindlustusamet (sotsiaalne rehabilitatsioon) ja Eesti Töötukassa (tööalane rehabilitatsioon), kes hindavad teenuse vajalikkust ja suunavad sobiva teenusepakkuja juurde.",
       "price_or_cost": null,
       "officialUrl": "https://www.astangu.ee/et/rehabilitatsioon",
-      "sourceKeys": ["rehabilitation_overview"],
-      "relatedContacts": ["astangu_contact_general", "astangu_contact_consultant"],
-      "relatedDocuments": ["astangu_doc_cooperation_agreement"]
+      "sourceKeys": [
+        "rehabilitation_overview"
+      ],
+      "relatedContacts": [
+        "astangu_contact_general",
+        "astangu_contact_consultant"
+      ],
+      "relatedDocuments": [
+        "astangu_doc_cooperation_agreement"
+      ]
     },
     {
       "id": "astangu_service_social_rehabilitation",
       "itemType": "service",
       "title": "Sotsiaalne rehabilitatsioon",
       "status": "active",
-      "summary": "Sotsiaalne rehabilitatsioon aitab arendada igap\u00e4evaelu oskusi, toetada \u00f5ppimist ja suurendada osalemist \u00fchiskonnaelus. Astangu Keskuses toimub sotsiaalne rehabilitatsioon individuaalselt v\u00f5i grupis ning v\u00f5ib sisaldada erinevaid teraapiaid (f\u00fcsioteraapia, tegevusteraapia, loovteraapia), logopeedi, eripedagoogi, kogemusn\u00f5ustamise, ps\u00fchholoogi, sotsiaalt\u00f6\u00f6taja, ps\u00fchhiaatri n\u00f5ustamise ja \u00f5e teenuseid.",
-      "targetGroup": "t\u00f6\u00f6ealised inimesed, kes ei t\u00f6\u00f6ta, ei \u00f5pi ega ole t\u00f6\u00f6tuna arvele v\u00f5etud ning kelle rehabilitatsiooni vajaduse tuvastab Sotsiaalkindlustusamet; samuti vanaduspensioniealised inimesed",
-      "conditions": "Sotsiaalset rehabilitatsiooni finantseerib Sotsiaalkindlustusamet. Teenust v\u00f5ivad saada t\u00f6\u00f6ealised inimesed, kes ei ole t\u00f6\u00f6turu aktiivsed, ja vanaduspensioniealised. Teenuse kestus on tavaliselt kuni kaks aastat.",
-      "access_or_application": "Taotleja peab p\u00f6\u00f6rduma Sotsiaalkindlustusameti juhtumikorraldaja poole, kes hindab rehabilitatsiooni vajadust. J\u00e4rgneb rehabilitatsiooni eesm\u00e4rgi s\u00f5nastamine ja sobiva rehabilitatsiooniasutuse valik.",
+      "summary": "Sotsiaalne rehabilitatsioon aitab arendada igapäevaelu oskusi, toetada õppimist ja suurendada osalemist ühiskonnaelus. Astangu Keskuses toimub sotsiaalne rehabilitatsioon individuaalselt või grupis ning võib sisaldada erinevaid teraapiaid (füsioteraapia, tegevusteraapia, loovteraapia), logopeedi, eripedagoogi, kogemusnõustamise, psühholoogi, sotsiaaltöötaja, psühhiaatri nõustamise ja õe teenuseid.",
+      "targetGroup": "tööealised inimesed, kes ei tööta, ei õpi ega ole töötuna arvele võetud ning kelle rehabilitatsiooni vajaduse tuvastab Sotsiaalkindlustusamet; samuti vanaduspensioniealised inimesed",
+      "conditions": "Sotsiaalset rehabilitatsiooni finantseerib Sotsiaalkindlustusamet. Teenust võivad saada tööealised inimesed, kes ei ole tööturu aktiivsed, ja vanaduspensioniealised. Teenuse kestus on tavaliselt kuni kaks aastat.",
+      "access_or_application": "Taotleja peab pöörduma Sotsiaalkindlustusameti juhtumikorraldaja poole, kes hindab rehabilitatsiooni vajadust. Järgneb rehabilitatsiooni eesmärgi sõnastamine ja sobiva rehabilitatsiooniasutuse valik.",
       "price_or_cost": null,
       "officialUrl": "https://www.astangu.ee/et/sotsiaalne-rehabilitatsioon",
-      "sourceKeys": ["social_rehab_page", "rehabilitation_overview"],
-      "relatedContacts": ["astangu_contact_general", "astangu_contact_consultant"],
+      "sourceKeys": [
+        "social_rehab_page",
+        "rehabilitation_overview"
+      ],
+      "relatedContacts": [
+        "astangu_contact_general",
+        "astangu_contact_consultant"
+      ],
       "relatedDocuments": []
     },
     {
       "id": "astangu_service_work_rehabilitation",
       "itemType": "service",
-      "title": "T\u00f6\u00f6alane rehabilitatsioon",
+      "title": "Tööalane rehabilitatsioon",
       "status": "active",
-      "summary": "T\u00f6\u00f6alane rehabilitatsioon valmistab kliendi ette t\u00f6\u00f6eluks ja toetab t\u00f6\u00f6le asumisel v\u00f5i t\u00f6\u00f6tamisel. Astangu meeskond n\u00f5ustab ka t\u00f6\u00f6andjat t\u00f6\u00f6 organiseerimisel ja t\u00f6\u00f6keskkonna kohandamisel. Teenus v\u00f5ib sisaldada f\u00fcsioteraapiat, tegevusteraapiat, loovteraapiat, logopeedi, eripedagoogi, kogemusn\u00f5ustamist, ps\u00fchholoogi, sotsiaalt\u00f6\u00f6taja, ps\u00fchhiaatri n\u00f5ustamist ja \u00f5de.",
-      "targetGroup": "t\u00f6\u00f6ealised inimesed, kellel on v\u00e4henenud t\u00f6\u00f6v\u00f5ime (v.a puuduv t\u00f6\u00f6v\u00f5ime) ning kes t\u00f6\u00f6tavad, \u00f5pivad v\u00f5i on t\u00f6\u00f6tuna arvele v\u00f5etud",
-      "conditions": "Teenuse eest tasub Eesti T\u00f6\u00f6tukassa. Teenus kestab tavaliselt kuni \u00fcks aasta.",
-      "access_or_application": "Teenuse taotlemiseks tuleb p\u00f6\u00f6rduda Eesti T\u00f6\u00f6tukassa juhtumikorraldaja poole, kes hindab t\u00f6\u00f6alase rehabilitatsiooni vajadust ja aitab valida sobiva rehabilitatsiooniasutuse.",
+      "summary": "Tööalane rehabilitatsioon valmistab kliendi ette tööeluks ja toetab tööle asumisel või töötamisel. Astangu meeskond nõustab ka tööandjat töö organiseerimisel ja töökeskkonna kohandamisel. Teenus võib sisaldada füsioteraapiat, tegevusteraapiat, loovteraapiat, logopeedi, eripedagoogi, kogemusnõustamist, psühholoogi, sotsiaaltöötaja, psühhiaatri nõustamist ja õde.",
+      "targetGroup": "tööealised inimesed, kellel on vähenenud töövõime (v.a puuduv töövõime) ning kes töötavad, õpivad või on töötuna arvele võetud",
+      "conditions": "Teenuse eest tasub Eesti Töötukassa. Teenus kestab tavaliselt kuni üks aasta.",
+      "access_or_application": "Teenuse taotlemiseks tuleb pöörduda Eesti Töötukassa juhtumikorraldaja poole, kes hindab tööalase rehabilitatsiooni vajadust ja aitab valida sobiva rehabilitatsiooniasutuse.",
       "price_or_cost": null,
       "officialUrl": "https://www.astangu.ee/et/tooalane-rehabilitatsioon",
-      "sourceKeys": ["work_rehab_page", "rehabilitation_overview", "work_rehab_price_list_pdf"],
-      "relatedContacts": ["astangu_contact_general", "astangu_contact_consultant"],
-      "relatedDocuments": ["astangu_doc_work_rehab_price_list"]
+      "sourceKeys": [
+        "work_rehab_page",
+        "rehabilitation_overview",
+        "work_rehab_price_list_pdf"
+      ],
+      "relatedContacts": [
+        "astangu_contact_general",
+        "astangu_contact_consultant"
+      ],
+      "relatedDocuments": [
+        "astangu_doc_work_rehab_price_list"
+      ]
     },
     {
       "id": "astangu_service_employment_support",
       "itemType": "service",
-      "title": "T\u00f6\u00f6tamise toetamise teenus",
+      "title": "Töötamise toetamise teenus",
       "status": "active",
-      "summary": "T\u00f6\u00f6tamise toetamise teenus asendas 2024. aastal pikaajalise kaitstud t\u00f6\u00f6 teenuse. Teenus on m\u00f5eldud puuduva t\u00f6\u00f6v\u00f5imega ps\u00fc\u00fchikah\u00e4irega t\u00e4isealistele, kes vajavad pidevat toetust sobiva t\u00f6\u00f6 leidmisel ja t\u00f6\u00f6tamise ajal. Eesm\u00e4rk on aidata kliendil juhendatud t\u00f6\u00f6 kaudu leida v\u00f5imetele vastav t\u00f6\u00f6 ja s\u00f5ltumatu toimetulek. Astangu keskuses t\u00f6\u00f6tab kaks t\u00f6\u00f6tuba, kus pakutakse puut\u00f6\u00f6, lihtt\u00f6\u00f6 ja k\u00e4sit\u00f6\u00f6 tegevusi.",
-      "targetGroup": "puuduva t\u00f6\u00f6v\u00f5imega ps\u00fc\u00fchikah\u00e4irega t\u00e4isealised, kes vajavad p\u00f5hjalikku juhendamist t\u00f6\u00f6le asumisel",
-      "conditions": "Teenusele suunab Sotsiaalkindlustusamet, kes hindab kliendi vajadust erihoolekande teenuse j\u00e4rele.",
-      "access_or_application": "Vajalik on esitada Sotsiaalkindlustusametile erihoolekandeteenuse saamise sooviavaldus. Teenuse maht ja aeg lepitakse kokku iga osalejaga individuaalselt. T\u00f6\u00f6toad on avatud E\u2013K 9.00\u00a0\u2013\u00a015.00.",
+      "summary": "Töötamise toetamise teenus asendas 2024. aastal pikaajalise kaitstud töö teenuse. Teenus on mõeldud puuduva töövõimega psüühikahäirega täisealistele, kes vajavad pidevat toetust sobiva töö leidmisel ja töötamise ajal. Eesmärk on aidata kliendil juhendatud töö kaudu leida võimetele vastav töö ja sõltumatu toimetulek. Astangu keskuses töötab kaks töötuba, kus pakutakse puutöö, lihttöö ja käsitöö tegevusi.",
+      "targetGroup": "puuduva töövõimega psüühikahäirega täisealised, kes vajavad põhjalikku juhendamist tööle asumisel",
+      "conditions": "Teenusele suunab Sotsiaalkindlustusamet, kes hindab kliendi vajadust erihoolekande teenuse järele.",
+      "access_or_application": "Vajalik on esitada Sotsiaalkindlustusametile erihoolekandeteenuse saamise sooviavaldus. Teenuse maht ja aeg lepitakse kokku iga osalejaga individuaalselt. Töötoad on avatud E–K 9.00 – 15.00.",
       "price_or_cost": null,
       "officialUrl": "https://www.astangu.ee/et/tootamise-toetamine",
-      "sourceKeys": ["employment_support_page"],
-      "relatedContacts": ["astangu_contact_general", "astangu_contact_margus"],
+      "sourceKeys": [
+        "employment_support_page"
+      ],
+      "relatedContacts": [
+        "astangu_contact_general",
+        "astangu_contact_margus"
+      ],
       "relatedDocuments": []
     }
   ],
@@ -78,12 +105,14 @@
     {
       "id": "astangu_resource_accessible_environment",
       "itemType": "resource",
-      "title": "Toetatud keskkond ja individuaalne l\u00e4henemine",
+      "title": "Toetatud keskkond ja individuaalne lähenemine",
       "status": "active",
-      "summary": "Astangu keskus on ainulaadne seet\u00f5ttu, et siin pakutakse v\u00e4ikestes \u00f5pper\u00fchmades individuaalset l\u00e4henemist. \u00d5ppet\u00f6\u00f6 on eluline ja praktiline ning igale inimesele koostab spetsialistidest koosnev meeskond (\u00f5petajad, r\u00fchmajuhendaja, sotsiaalt\u00f6\u00f6taja, ps\u00fchholoog, terapeudid, t\u00f6\u00f6h\u00f5ivespetsialist) individuaalse tegevuskava. Hooned on ligip\u00e4\u00e4setavad liikumispuudega inimestele ning kohapeal on viipekeelet\u00f5lgid kurtide ja kuulmislangusega inimeste toetamiseks.",
-      "targetGroup": "erivajadusega \u00f5ppijad ja rehabilitatsiooniteenuse saajad",
+      "summary": "Astangu keskus on ainulaadne seetõttu, et siin pakutakse väikestes õpperühmades individuaalset lähenemist. Õppetöö on eluline ja praktiline ning igale inimesele koostab spetsialistidest koosnev meeskond (õpetajad, rühmajuhendaja, sotsiaaltöötaja, psühholoog, terapeudid, tööhõivespetsialist) individuaalse tegevuskava. Hooned on ligipääsetavad liikumispuudega inimestele ning kohapeal on viipekeeletõlgid kurtide ja kuulmislangusega inimeste toetamiseks.",
+      "targetGroup": "erivajadusega õppijad ja rehabilitatsiooniteenuse saajad",
       "officialUrl": "https://www.astangu.ee/et/ainulaadne-keskus-eestis",
-      "sourceKeys": ["unique_center_page"]
+      "sourceKeys": [
+        "unique_center_page"
+      ]
     }
   ],
   "contacts": [
@@ -95,7 +124,9 @@
       "phone": "687 7231",
       "email": "astangu@astangu.ee",
       "url": "https://www.astangu.ee/et/kontakt",
-      "sourceKeys": ["contact_page"]
+      "sourceKeys": [
+        "contact_page"
+      ]
     },
     {
       "id": "astangu_contact_consultant",
@@ -105,7 +136,9 @@
       "phone": "687 7231",
       "email": "epp.viilas@astangu.ee",
       "url": "https://www.astangu.ee/et/uldinfo",
-      "sourceKeys": ["general_info_page"]
+      "sourceKeys": [
+        "general_info_page"
+      ]
     },
     {
       "id": "astangu_contact_margus",
@@ -115,27 +148,54 @@
       "phone": "687 7287 / 53074353",
       "email": "margus.koolme@astangu.ee",
       "url": "https://www.astangu.ee/et/tootamise-toetamine",
-      "sourceKeys": ["employment_support_page"]
+      "sourceKeys": [
+        "employment_support_page"
+      ]
     }
   ],
   "documents": [
     {
-      "id": "astangu_doc_general_brochure",
-      "title": "Astangu Keskuse üldvoldik 2024",
-      "document_kind": "information_material",
-      "source_format": "pdf",
-      "source_url": "https://s3-web-1a.tehik.ee/astangu-live-web-prd/s3fs-public/media/2024%20Astangu%20%C3%BCldvoldik.pdf",
-      "evidence_role": "information_material",
-      "sourceKeys": ["general_brochure_pdf"]
-    },
-    {
-      "id": "astangu_doc_work_rehab_price_list",
-      "title": "Tööalase rehabilitatsiooni teenuste hinnakiri",
-      "document_kind": "information_material",
-      "source_format": "pdf",
-      "source_url": "https://s3-web-1a.tehik.ee/astangu-live-web-prd/s3fs-public/media/tooalase_rehabilitatsiooniteenuse_hinnakiri_2023.pdf",
-      "evidence_role": "information_material",
-      "sourceKeys": ["work_rehab_price_list_pdf"]
+      "id": "astangu_doc_indiverso",
+      "title": "INDIVERSO – kaasavad lahendused kutseõppes",
+      "document_kind": "method_guidance",
+      "source_type": "methodology_material",
+      "resource_type": "method_guidance",
+      "source_format": "html",
+      "source_url": "https://www.astangu.ee/et/indiverso-kaasavad-lahendused-kutseoppes-0",
+      "source_path": null,
+      "collection_id": "organization_guidelines",
+      "evidence_role": "methodology_background",
+      "publisher": "Astangu Kutserehabilitatsiooni Keskus",
+      "source_organization_id": "astangu",
+      "source_organization_name": "Astangu Kutserehabilitatsiooni Keskus",
+      "language": "et",
+      "audience": "BOTH",
+      "audiences": [
+        "SOCIAL_WORKER",
+        "CLIENT"
+      ],
+      "checked_at": "2026-04-29",
+      "source_status": "active",
+      "historical": false,
+      "legal_basis": false,
+      "allowed_claim_types": [
+        "methodology_background",
+        "training_material",
+        "background"
+      ],
+      "disallowed_claim_types": [
+        "legal_entitlement",
+        "benefit_amount",
+        "municipal_service_availability",
+        "application_deadline",
+        "medical_diagnosis_or_treatment"
+      ],
+      "document_status": "ingest_candidate",
+      "metadata_file": null,
+      "metadata_mode": "folded_into_organization_package",
+      "sourceKeys": [
+        "indiverso_page"
+      ]
     },
     {
       "id": "astangu_doc_cooperation_agreement",
@@ -144,7 +204,133 @@
       "source_format": "pdf",
       "source_url": "https://s3-web-1a.tehik.ee/astangu-live-web-prd/s3fs-public/media/koostoolepe_rehabilitatsiooni_teenuse_osutamiseks_0.pdf",
       "evidence_role": "practice_guidance",
-      "sourceKeys": ["cooperation_agreement_pdf"]
+      "sourceKeys": [
+        "cooperation_agreement_pdf"
+      ],
+      "source_type": "official_guideline",
+      "resource_type": "method_guidance",
+      "collection_id": "organization_guidelines",
+      "publisher": "Astangu Kutserehabilitatsiooni Keskus",
+      "source_organization_id": "astangu",
+      "source_organization_name": "Astangu Kutserehabilitatsiooni Keskus",
+      "source_path": null,
+      "language": "et",
+      "audience": "BOTH",
+      "audiences": [
+        "SOCIAL_WORKER",
+        "CLIENT"
+      ],
+      "checked_at": "2026-04-29",
+      "source_status": "active",
+      "historical": false,
+      "legal_basis": false,
+      "allowed_claim_types": [
+        "organization_service_description",
+        "contact",
+        "referral_guidance",
+        "practical_guidance",
+        "practice_recommendation",
+        "methodology_background",
+        "training_material",
+        "background"
+      ],
+      "disallowed_claim_types": [
+        "legal_entitlement",
+        "benefit_amount",
+        "municipal_service_availability",
+        "application_deadline",
+        "medical_diagnosis_or_treatment"
+      ],
+      "document_status": "ingest_candidate",
+      "metadata_file": null,
+      "metadata_mode": "folded_into_organization_package"
+    },
+    {
+      "id": "astangu_doc_work_rehab_price_list",
+      "title": "Tööalase rehabilitatsiooni teenuste hinnakiri",
+      "document_kind": "information_material",
+      "source_format": "pdf",
+      "source_url": "https://s3-web-1a.tehik.ee/astangu-live-web-prd/s3fs-public/media/tooalase_rehabilitatsiooniteenuse_hinnakiri_2023.pdf",
+      "evidence_role": "information_material",
+      "sourceKeys": [
+        "work_rehab_price_list_pdf"
+      ],
+      "source_type": "information_material",
+      "resource_type": "information_material",
+      "collection_id": "organization_guidelines",
+      "publisher": "Astangu Kutserehabilitatsiooni Keskus",
+      "source_organization_id": "astangu",
+      "source_organization_name": "Astangu Kutserehabilitatsiooni Keskus",
+      "source_path": null,
+      "language": "et",
+      "audience": "BOTH",
+      "audiences": [
+        "SOCIAL_WORKER",
+        "CLIENT"
+      ],
+      "checked_at": "2026-04-29",
+      "source_status": "active",
+      "historical": false,
+      "legal_basis": false,
+      "allowed_claim_types": [
+        "information_material",
+        "organization_service_description",
+        "background"
+      ],
+      "disallowed_claim_types": [
+        "legal_entitlement",
+        "benefit_amount",
+        "municipal_service_availability",
+        "application_deadline",
+        "medical_diagnosis_or_treatment"
+      ],
+      "document_status": "needs_review",
+      "metadata_file": null,
+      "metadata_mode": "folded_into_organization_package"
+    },
+    {
+      "id": "astangu_doc_general_brochure",
+      "title": "Astangu Keskuse üldvoldik 2024",
+      "document_kind": "information_material",
+      "source_format": "pdf",
+      "source_url": "https://s3-web-1a.tehik.ee/astangu-live-web-prd/s3fs-public/media/2024%20Astangu%20%C3%BCldvoldik.pdf",
+      "evidence_role": "information_material",
+      "sourceKeys": [
+        "general_brochure_pdf"
+      ],
+      "source_type": "information_material",
+      "resource_type": "information_material",
+      "collection_id": "organization_guidelines",
+      "publisher": "Astangu Kutserehabilitatsiooni Keskus",
+      "source_organization_id": "astangu",
+      "source_organization_name": "Astangu Kutserehabilitatsiooni Keskus",
+      "source_path": null,
+      "language": "et",
+      "audience": "BOTH",
+      "audiences": [
+        "SOCIAL_WORKER",
+        "CLIENT"
+      ],
+      "checked_at": "2026-04-29",
+      "source_status": "active",
+      "historical": false,
+      "legal_basis": false,
+      "allowed_claim_types": [
+        "organization_service_description",
+        "contact",
+        "background",
+        "information_material"
+      ],
+      "disallowed_claim_types": [
+        "legal_entitlement",
+        "benefit_amount",
+        "municipal_service_availability",
+        "application_deadline",
+        "medical_diagnosis_or_treatment"
+      ],
+      "document_status": "referenced_only",
+      "metadata_file": null,
+      "metadata_mode": "folded_into_organization_package"
     },
     {
       "id": "astangu_doc_eripedagoog",
@@ -153,7 +339,41 @@
       "source_format": "pdf",
       "source_url": "https://s3-web-1a.tehik.ee/astangu-live-web-prd/s3fs-public/tugiteenused_-_eripedagoog.pdf",
       "evidence_role": "training_material",
-      "sourceKeys": ["eripedagoog_pdf"]
+      "sourceKeys": [
+        "eripedagoog_pdf"
+      ],
+      "source_type": "training_material",
+      "resource_type": "training_material",
+      "collection_id": "organization_guidelines",
+      "publisher": "Astangu Kutserehabilitatsiooni Keskus",
+      "source_organization_id": "astangu",
+      "source_organization_name": "Astangu Kutserehabilitatsiooni Keskus",
+      "source_path": null,
+      "language": "et",
+      "audience": "BOTH",
+      "audiences": [
+        "SOCIAL_WORKER",
+        "CLIENT"
+      ],
+      "checked_at": "2026-04-29",
+      "source_status": "active",
+      "historical": false,
+      "legal_basis": false,
+      "allowed_claim_types": [
+        "training_material",
+        "background",
+        "practical_guidance"
+      ],
+      "disallowed_claim_types": [
+        "legal_entitlement",
+        "benefit_amount",
+        "municipal_service_availability",
+        "application_deadline",
+        "medical_diagnosis_or_treatment"
+      ],
+      "document_status": "referenced_only",
+      "metadata_file": null,
+      "metadata_mode": "folded_into_organization_package"
     }
   ],
   "officialUrl": "https://www.astangu.ee/et",
@@ -170,5 +390,37 @@
     "cooperation_agreement_pdf",
     "eripedagoog_pdf",
     "indiverso_page"
+  ],
+  "schemaVersion": "organization-source-v1",
+  "collection_id": "organizations",
+  "source_type": "organization_profile",
+  "resource_type": "organization_profile",
+  "authority": "organization_official",
+  "jurisdiction_level": "ORGANIZATION",
+  "country": "EE",
+  "language": "et",
+  "audience": "BOTH",
+  "audiences": [
+    "SOCIAL_WORKER",
+    "CLIENT"
+  ],
+  "checked_at": "2026-04-29",
+  "source_status": "active",
+  "historical": false,
+  "legal_basis": false,
+  "allowed_claim_types": [
+    "organization_service_description",
+    "contact",
+    "referral_guidance",
+    "practical_guidance",
+    "background",
+    "information_material"
+  ],
+  "disallowed_claim_types": [
+    "legal_entitlement",
+    "benefit_amount",
+    "municipal_service_availability",
+    "application_deadline",
+    "medical_diagnosis_or_treatment"
   ]
 }
