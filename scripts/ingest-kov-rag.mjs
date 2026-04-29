@@ -458,6 +458,17 @@ function sectionForItemType(itemType) {
   return "KOV";
 }
 
+function deriveItemTitle(item) {
+  return String(
+    item?.title
+    || item?.name
+    || item?.label
+    || item?.heading
+    || item?.id
+    || "KOV item"
+  ).trim();
+}
+
 function assertIngestMetadata(metadata, label, options = {}) {
   assertRagSourceMetadataContract(metadata, {
     label,
@@ -568,9 +579,10 @@ async function main() {
       const itemDocId = `kov::${canonicalSlug}::item::${item.id}`;
       const itemSourceUrls = deriveSourceUrlsForItem(item, sourceMap);
       const itemSourceType = inferKovItemRagSourceType(item.itemType, item.resourceType);
+      const itemTitle = deriveItemTitle(item);
       const itemMetadata = {
-        title: item.title,
-        description: item.summary,
+        title: itemTitle,
+        description: item.summary || item.role || item.description || itemTitle,
         section: sectionForItemType(item.itemType),
         audience: deriveAudienceStorage(item.audience),
         audiences: Array.isArray(item.audience) ? item.audience : [],

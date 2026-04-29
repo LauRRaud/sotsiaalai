@@ -183,9 +183,9 @@ Implemented files:
 
 This does not perform reingest, cleanup write, source-file mutation, or V3.4B claim-level attribution.
 
-### KOV Golden Reingest Pilot 2026-04-29
+### KOV Golden Reingest And 10-KOV Batch 2026-04-29
 
-STATUS: Harku completed / second golden KOV not started
+STATUS: Harku completed / Jogeva gate completed / 10-KOV batch completed
 
 Server KOV/RT runtime state was reset before the pilot:
 
@@ -252,6 +252,61 @@ Harku gap report after snapshot persistence:
 
 Fees and deadlines remain conservative info-level gaps unless stronger explicit evidence is mapped. This is expected and must not by itself create critical pending review state.
 
+Jogeva was run as the second golden KOV after Harku:
+
+- `npm run kov:validate-metadata -- --root KOV --slug jogeva-vald` is green;
+- `npm run kov:validate-rt -- --root KOV --slug jogeva-vald` is green;
+- web docId `kov-jogeva-vald` exists in RAG with status `COMPLETED` and `35` chunks;
+- RT docId `kov-rt-jogeva-vald` exists in RAG with status `COMPLETED` and `21` chunks;
+- source-package smoke result: `skipped = false`, `mode = cli_sourcepackage_persist`, `package_count = 37`;
+- active Jogeva `SourcePackageSnapshot` count = `37`;
+- archived old Jogeva snapshots remain archived = `62`;
+- duplicate normalized canonical id count = `0`.
+
+Jogeva gap report after snapshot persistence:
+
+- missing forms: `19`;
+- missing contacts: `11`;
+- missing legal_basis: `0`;
+- missing fees: `37`;
+- missing deadlines: `37`.
+
+The remaining 8 local KOV bundles were then validated, ingested and audited as a controlled 10-KOV batch together with Harku and Jogeva. Web and RT/legal layers remain separate: web docIds use `kov-<slug>`, RT docIds use `kov-rt-<slug>`, web collection is `kov_services`, RT collection is `kov_legal`, and RT has `source_type = "kov_regulation"` and `legal_basis = true`.
+
+10-KOV inventory after batch:
+
+- KOV-related RAG document rows: `529` (bundle docs plus item docs plus RT docs);
+- 10/10 expected web docs exist;
+- 10/10 expected RT docs exist;
+- active `SourcePackageSnapshot` count: `376`;
+- archived `SourcePackageSnapshot` count: `62`;
+- active duplicate normalized canonical id count: `0`;
+- stale admin `INGESTED` count: `0`;
+- KOV runtime file cleanup candidates: `0`.
+
+Per-KOV batch summary:
+
+| KOV | Web chunks | RT chunks | Active packages | Missing forms | Missing contacts | Missing legal_basis | Missing fees | Missing deadlines |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `harku-vald` | 59 | 110 | 41 | 18 | 3 | 0 | 41 | 41 |
+| `jogeva-vald` | 35 | 21 | 37 | 19 | 11 | 0 | 37 | 37 |
+| `alutaguse-vald` | 50 | 63 | 37 | 12 | 6 | 0 | 37 | 37 |
+| `anija-vald` | 33 | 97 | 35 | 20 | 0 | 0 | 35 | 35 |
+| `antsla-vald` | 50 | 60 | 40 | 40 | 10 | 0 | 40 | 40 |
+| `elva-vald` | 44 | 120 | 31 | 7 | 2 | 0 | 31 | 31 |
+| `haademeeste-vald` | 30 | 56 | 37 | 24 | 1 | 0 | 37 | 37 |
+| `haapsalu-linn` | 33 | 23 | 51 | 42 | 39 | 51 | 51 | 51 |
+| `haljala-vald` | 25 | 1 | 34 | 20 | 10 | 0 | 34 | 34 |
+| `hiiumaa-vald` | 35 | 16 | 33 | 19 | 0 | 0 | 33 | 33 |
+
+Known batch notes:
+
+- `haapsalu-linn` RT document exists, but SourcePackage legal_basis linking is still missing for its packages. This is reported as a real gap instead of being papered over.
+- `haljala-vald` RT XML validated from the manifest but had empty `<sisu/>`; RT ingest now creates a single metadata-only chunk for the act reference/URL. That chunk confirms the RT act metadata, not paragraph-level legal content.
+- Anija contact items exposed an ingest metadata edge case where an item had `name` but no `title`; KOV item ingest now derives a safe title from `title`, `name`, `label`, `heading`, or `id`.
+- Forms/contacts audit now tolerates `null` relation arrays and treats them as empty arrays.
+- Smoke was run successfully for all 8 post-Jogeva batch KOVs; at minimum the required Haljala and Elva smoke checks are confirmed.
+
 Harku RT chat lookup follow-up:
 
 - Harku RT document existence was confirmed in admin and RAG as `kov-rt-harku-vald`.
@@ -262,10 +317,10 @@ Harku RT chat lookup follow-up:
 
 Important limits:
 
-- Jogeva/Haljala second golden KOV has not been run yet.
-- The 10-KOV local batch has not been run yet.
 - V3.4B claim-level attribution has not been started.
 - V3.5 regression system and V3.6 full rollout are not in scope for this completed step.
+- The current batch is the 10 local KOV control sample, not a 78-KOV rollout.
+- Fees/deadlines are intentionally conservative info-level gaps unless explicit evidence is mapped.
 
 ### V3.0A Implementation Update 2026-04-28
 
