@@ -106,6 +106,7 @@ export default function KasutusjuhendBody() {
   };
   const guideContent = {
     intro: t("about.guide.intro"),
+    expandHint: t("about.guide.expand_hint"),
     sections: SECTION_KEYS.map(key => ({
       key,
       title: t(`about.guide.sections_v2.${key}.title`),
@@ -181,6 +182,15 @@ export default function KasutusjuhendBody() {
           >
             <p className={cn(policySectionBodyClassName, "mb-[0.58rem] max-[768px]:mb-[0.54rem]")}>
               {guideContent.intro}
+              <span className="mt-[0.1rem] hidden items-center gap-[0.16rem] min-[769px]:flex">
+                <span>{guideContent.expandHint}</span>
+                <FocusModeToggleIcon
+                  expanded={expanded}
+                  isLightTheme={isLightTheme}
+                  className="inline-block h-[1.58em] w-[1.58em] translate-y-[-0.12em]"
+                />
+                <span>.</span>
+              </span>
             </p>
             <div className="flex flex-col gap-0">
               {guideContent.sections.map(({
