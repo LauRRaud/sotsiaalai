@@ -263,10 +263,10 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "focus-visible:ring-2 focus-visible:ring-current/35 " +
     "disabled:cursor-not-allowed disabled:opacity-45";
   const timestampClassName =
-    "select-none whitespace-nowrap text-[0.86rem] leading-none tracking-[0.02em] text-[color:var(--chat-composer-action-icon-color,#c57171)] opacity-75";
-  const assistantTimestampClassName = cn(timestampClassName, "ml-auto translate-y-[0.18rem] pr-[0.18rem]");
+    "select-none whitespace-nowrap text-[0.92rem] leading-none tracking-[0.02em] text-[color:var(--chat-composer-action-icon-color,#c57171)] opacity-75";
+  const assistantTimestampClassName = cn(timestampClassName, "ml-auto translate-y-[-0.04rem] pr-[0.18rem]");
   const userTimestampClassName =
-    "mt-[0.48rem] mr-[0.34rem] select-none whitespace-nowrap text-[0.84rem] leading-none tracking-[0.02em] text-[color:var(--input-text)] opacity-55";
+    "mt-[0.48rem] mr-[0.34rem] select-none whitespace-nowrap text-[0.9rem] leading-none tracking-[0.02em] text-[color:var(--input-text)] opacity-55";
   const handleCopy = async () => {
     const value = String(text || "").trim();
     if (!value || typeof navigator === "undefined") return;
