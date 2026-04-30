@@ -596,6 +596,13 @@ body .chat-inputbar .chat-dictate-btn:focus-visible svg {
   transform: none !important;
 }
 
+body .chat-inputbar .chat-send-btn[data-empty-disabled="true"],
+body .chat-inputbar .chat-send-btn[data-empty-disabled="true"][aria-disabled="true"],
+body .chat-inputbar .chat-send-btn[data-empty-disabled="true"]:disabled {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
 .chat-container--input-focus .chat-inputbar,
 .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar {
   isolation: isolate;

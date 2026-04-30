@@ -811,7 +811,7 @@ export default function ChatComposer({
                   useCurrentColor
                   className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
                 />
-              </Button> : <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={!hasInput || isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+              </Button> : <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={!hasInput || isRoomMode && (roomBlocked || roomAuthRequired)} data-empty-disabled={!hasInput ? "true" : undefined} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
                 <SubmitArrowIcon
                   useCurrentColor
                   className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
