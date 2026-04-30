@@ -19,6 +19,38 @@ function splitGraphemes(text) {
 const TYPING_STEP_MS = 18;
 const TYPING_TRAILING_INLINE_RE = /^[\s!?,.;:)]$/;
 
+function getTimeLocale(locale) {
+  if (locale === "et") return "et-EE";
+  if (locale === "ru") return "ru-RU";
+  if (locale === "en") return "en-GB";
+  return locale || undefined;
+}
+
+function formatMessageTime(createdAt, locale) {
+  if (!createdAt) return null;
+  const date = createdAt instanceof Date ? createdAt : new Date(createdAt);
+  const timestamp = date.getTime();
+  if (!Number.isFinite(timestamp)) return null;
+
+  try {
+    return {
+      label: new Intl.DateTimeFormat(getTimeLocale(locale), {
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(date),
+      iso: date.toISOString()
+    };
+  } catch {
+    return {
+      label: date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      }),
+      iso: date.toISOString()
+    };
+  }
+}
+
 function renderInlineMarkdown(text, keyPrefix) {
   const source = String(text || "");
   void keyPrefix;
@@ -70,6 +102,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   text,
   attachments,
   cards,
+  createdAt,
   aiVisible: _aiVisible,
   typingEffect = false,
   onTypingComplete,
@@ -88,6 +121,8 @@ const ChatMessageItem = memo(function ChatMessageItem({
 }) {
   const isAssistant = role === "ai";
   const isOwn = role === "user";
+  const [userTimeVisible, setUserTimeVisible] = useState(false);
+  const messageTime = useMemo(() => formatMessageTime(createdAt, locale), [createdAt, locale]);
   const normalizedAuthorName = String(authorName || "").trim();
   const hiddenAuthorNames = new Set([
     String(t("chat.aria.member") || "").trim().toLowerCase(),
@@ -107,13 +142,16 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "text-[0.95rem] tracking-[0.05em] text-[rgba(197,113,113,0.9)]";
   const userMessageRowClassName =
     "chat-msg-user flex w-full justify-end pl-[clamp(0.42rem,0.95vw,0.78rem)] pr-[clamp(0.42rem,0.95vw,0.78rem)] max-[768px]:pl-[0.6rem] max-[768px]:pr-[0.18rem]";
+  const userMessageStackClassName =
+    "flex min-w-0 max-w-[min(84%,44rem)] flex-col items-end";
   const userBubbleClassName =
-    "chat-msg-user-bubble mr-[0.04rem] max-[768px]:mr-[0.08rem] inline-block min-w-0 w-fit max-w-[min(84%,44rem)] text-left [overflow-wrap:anywhere] break-words " +
+    "chat-msg-user-bubble mr-[0.04rem] max-[768px]:mr-[0.08rem] inline-block min-w-0 w-fit max-w-full text-left [overflow-wrap:anywhere] break-words " +
     "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] border-0 " +
     "[box-shadow:var(--rail-tooltip-shadow,var(--subpage-card-shadow,0_12px_24px_rgba(0,0,0,0.18)))] " +
     "[-webkit-backdrop-filter:none] [backdrop-filter:none] rounded-[1.28rem] rounded-br-[0.5rem] " +
     "px-[0.96rem] py-[0.72rem] text-[1.1rem] leading-[1.42] tracking-[0.015em] font-[400] " +
-    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] transition-[transform] duration-200";
+    "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] transition-[transform,box-shadow] duration-200 " +
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(197,113,113,0.35)]";
   const memberTextClassName =
     "chat-msg-ai self-start w-full bg-transparent border-0 shadow-none py-[0.06em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
     "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500]";
@@ -218,12 +256,17 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const actionsLabel = locale === "en" ? "Message actions" : locale === "ru" ? "Действия с сообщением" : "Sõnumi tegevused";
   const hasMessageSources = Array.isArray(messageSources) && messageSources.length > 0;
   const assistantActionsClassName =
-    "mt-[0.54rem] flex items-center gap-[0.42rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]";
+    "mt-[0.54rem] flex w-full items-center gap-[0.42rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]";
   const assistantActionButtonClassName =
     "inline-flex h-[2rem] w-[2rem] items-center justify-center rounded-full border-0 bg-transparent p-0 " +
     "text-current shadow-none outline-none transition-opacity duration-150 " +
     "focus-visible:ring-2 focus-visible:ring-current/35 " +
     "disabled:cursor-not-allowed disabled:opacity-45";
+  const timestampClassName =
+    "select-none whitespace-nowrap text-[0.78rem] leading-none tracking-[0.02em] text-[color:var(--chat-composer-action-icon-color,#c57171)] opacity-75";
+  const assistantTimestampClassName = cn(timestampClassName, "ml-auto pr-[0.18rem]");
+  const userTimestampClassName =
+    "mt-[0.34rem] mr-[0.34rem] select-none whitespace-nowrap text-[0.76rem] leading-none tracking-[0.02em] text-[color:var(--input-text)] opacity-55";
   const handleCopy = async () => {
     const value = String(text || "").trim();
     if (!value || typeof navigator === "undefined") return;
@@ -235,6 +278,15 @@ const ChatMessageItem = memo(function ChatMessageItem({
     const value = String(text || "").trim();
     if (!value) return;
     onSpeak?.(value);
+  };
+  const toggleUserTimestamp = () => {
+    if (!messageTime) return;
+    setUserTimeVisible(prev => !prev);
+  };
+  const handleUserBubbleKeyDown = event => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    toggleUserTimestamp();
   };
   const attachmentsWrapClassName = "mt-[0.45rem] flex flex-wrap gap-[0.45rem]";
   const attachmentLinkClassName =
@@ -270,8 +322,22 @@ const ChatMessageItem = memo(function ChatMessageItem({
           {": "}
         </span>
 
-        {text ? <div className={userBubbleClassName}>
-            <div className="min-w-0 max-w-full whitespace-pre-wrap [overflow-wrap:anywhere] break-words">{visibleText}</div>
+        {text ? <div className={userMessageStackClassName}>
+            <div
+              className={userBubbleClassName}
+              role={messageTime ? "button" : undefined}
+              tabIndex={messageTime ? 0 : undefined}
+              aria-expanded={messageTime ? userTimeVisible : undefined}
+              onClick={toggleUserTimestamp}
+              onKeyDown={handleUserBubbleKeyDown}
+            >
+              <div className="min-w-0 max-w-full whitespace-pre-wrap [overflow-wrap:anywhere] break-words">{visibleText}</div>
+            </div>
+            {messageTime && userTimeVisible ? (
+              <time className={userTimestampClassName} dateTime={messageTime.iso}>
+                {messageTime.label}
+              </time>
+            ) : null}
           </div> : null}
       </div>;
   }
@@ -349,6 +415,11 @@ const ChatMessageItem = memo(function ChatMessageItem({
             >
               <SourcesIcon isLightTheme={isLightTheme} className="h-[1.34rem] w-[1.34rem]" />
             </button>
+          ) : null}
+          {messageTime ? (
+            <time className={assistantTimestampClassName} dateTime={messageTime.iso}>
+              {messageTime.label}
+            </time>
           ) : null}
         </div>
       ) : null}

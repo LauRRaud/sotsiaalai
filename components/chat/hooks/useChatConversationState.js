@@ -422,7 +422,8 @@ export function useChatConversationState({
               attachments: serverAttachments,
               cards: serverCards,
               workflow: data?.workflow && typeof data.workflow === "object" ? data.workflow : undefined,
-              isStreaming: false
+              isStreaming: false,
+              createdAt: Date.now()
             });
         } else {
           const cur = next[aiIdx];
@@ -434,7 +435,8 @@ export function useChatConversationState({
               attachments: serverAttachments,
               cards: serverCards,
               workflow: data?.workflow && typeof data.workflow === "object" ? data.workflow : cur.workflow,
-              isStreaming: false
+              isStreaming: false,
+              createdAt: cur.createdAt || Date.now()
             };
           }
         }

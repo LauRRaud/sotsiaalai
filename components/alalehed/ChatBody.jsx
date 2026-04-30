@@ -1602,7 +1602,7 @@ export default function ChatBody({
       const messageSources = msg.role === "ai"
         ? collectMessageSources(msg, analysis.uploadPreview)
         : [];
-      return <ChatMessageItem key={msg.id} messageId={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} aiVisible={!!msg.aiVisible} typingEffect={!!msg.typingEffect} onTypingComplete={msg.onTypingComplete === "emptyIntro" ? handleEmptyIntroTyped : undefined} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} locale={locale} isLightTheme={isLightTheme} voiceEnabled={voiceEnabled} canSpeak={Boolean(voiceEnabled && speechReady && String(msg.text || "").trim())} isSpeaking={isSpeaking} onSpeak={speakText} messageSources={messageSources} onShowSources={openMessageSources} />;
+      return <ChatMessageItem key={msg.id} messageId={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} createdAt={msg.createdAt} aiVisible={!!msg.aiVisible} typingEffect={!!msg.typingEffect} onTypingComplete={msg.onTypingComplete === "emptyIntro" ? handleEmptyIntroTyped : undefined} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} locale={locale} isLightTheme={isLightTheme} voiceEnabled={voiceEnabled} canSpeak={Boolean(voiceEnabled && speechReady && String(msg.text || "").trim())} isSpeaking={isSpeaking} onSpeak={speakText} messageSources={messageSources} onShowSources={openMessageSources} />;
     });
   }, [analysis.uploadPreview, handleEmptyIntroTyped, isLightTheme, isRoomMode, isSpeaking, locale, openMessageSources, renderedMessages, speakText, speechReady, t, voiceEnabled]);
   const activeModeLabel = useMemo(() => {

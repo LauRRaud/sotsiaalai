@@ -108,23 +108,24 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
     "fixed inset-0 z-[170] flex items-center justify-center " +
     "bg-[rgba(7,11,20,0.24)] p-[clamp(0.75rem,2.2vw,1.25rem)]";
   const dialogClassName =
-    "chat-sources-window chat-tools-menu isolate flex w-[min(100%,38rem)] " +
+    "chat-sources-window chat-tools-menu relative isolate flex w-[min(100%,38rem)] " +
     "max-h-[min(78vh,44rem)] flex-col overflow-hidden rounded-[0.88rem] border-0 " +
     "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] " +
     "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--pt-100)))] " +
     "p-[0.35rem] shadow-[var(--opaque-panel-shadow,var(--rail-tooltip-shadow,var(--subpage-card-shadow)))] " +
     "backdrop-blur-0 backdrop-saturate-100 hc:border-0 hc:shadow-none";
   const headerClassName =
-    "relative flex shrink-0 items-center justify-center px-[3.5rem] pb-[0.55rem] pt-[0.7rem]";
+    "flex shrink-0 items-center justify-center px-[3.5rem] pb-[0.55rem] pt-[0.7rem]";
   const titleClassName =
     "m-0 w-full text-center text-[clamp(1.36rem,2.4vw,1.78rem)] font-[400] leading-[1.1] tracking-[0.03em] " +
     "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
     "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif]";
   const closeClassName =
-    "absolute right-[0.78rem] top-[0.55rem] inline-flex h-[2.65rem] w-[2.65rem] items-center justify-center " +
+    "absolute right-[0.42rem] top-[0.36rem] inline-flex h-[2.65rem] w-[2.65rem] items-center justify-center " +
     "rounded-none border-0 bg-transparent p-0 text-[2.05rem] leading-none text-[#c57171] shadow-none " +
-    "transition-[transform,color,opacity] duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] " +
-    "hover:-translate-y-[1px] active:translate-y-[1px] focus-visible:outline-none light:text-[#7a3a38]";
+    "transition-[color,opacity] duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] " +
+    "[transform:none] hover:[transform:none] focus-visible:[transform:none] active:[transform:none] " +
+    "focus-visible:outline-none light:text-[#7a3a38]";
   const bodyClassName =
     "min-h-0 flex-1 overflow-y-auto px-[0.75rem] pb-[0.85rem] pt-[0.18rem]";
   const scopeClassName =
