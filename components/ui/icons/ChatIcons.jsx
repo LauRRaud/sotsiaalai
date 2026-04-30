@@ -350,26 +350,26 @@ export function MicrophoneIcon({ className, ...props }) {
       <path
         d="M12 3.25a3.25 3.25 0 0 0-3.25 3.25v5.2a3.25 3.25 0 0 0 6.5 0V6.5A3.25 3.25 0 0 0 12 3.25Z"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M5.75 10.9v.72a6.25 6.25 0 0 0 12.5 0v-.72"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="1.6"
         strokeLinecap="round"
       />
       <path
         d="M12 17.87v2.88"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="1.6"
         strokeLinecap="round"
       />
       <path
         d="M8.65 20.75h6.7"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="1.6"
         strokeLinecap="round"
       />
     </svg>
