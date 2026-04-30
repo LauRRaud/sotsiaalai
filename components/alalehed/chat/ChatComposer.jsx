@@ -7,7 +7,7 @@ import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import Button from "@/components/ui/Button";
 import ChatAiForwardToggle from "./view/ChatAiForwardToggle";
 import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
-import { DictateWaveIcon, HelpOfferIcon, HelpRequestIcon } from "@/components/ui/icons/ChatIcons";
+import { HelpOfferIcon, HelpRequestIcon, MicrophoneIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 
 const MODE_LABEL_SHINE_BACKGROUND_DARK =
@@ -109,10 +109,7 @@ export default function ChatComposer({
   onActivateHelpOfferMode,
   showDocumentAttachButton = false,
   onPickDocumentFile,
-  speakLatestReply,
-  canSpeakLatest,
   voiceEnabled = true,
-  isSpeaking,
   recording,
   recordingPulse,
   handleMic,
@@ -555,18 +552,14 @@ export default function ChatComposer({
       handleMic?.(event);
     }
   }, [closeToolsMenu, draft, handleMic, isGenerating, isStreamingAny, onStop, submitSend, useSimpleRoomActionButtons, voiceEnabled]);
+  const handleDictateClick = useCallback(event => {
+    closeToolsMenu();
+    handleMic?.(event);
+  }, [closeToolsMenu, handleMic]);
   const handlePrimaryActionPointerDown = useCallback(e => {
     e.preventDefault();
     e.stopPropagation();
     primaryActionHandledAtRef.current = Date.now();
-    runPrimaryAction(e);
-  }, [runPrimaryAction]);
-  const handlePrimaryActionClick = useCallback(e => {
-    if (Date.now() - primaryActionHandledAtRef.current < 400) {
-      primaryActionHandledAtRef.current = 0;
-      e.preventDefault();
-      return;
-    }
     runPrimaryAction(e);
   }, [runPrimaryAction]);
   const preserveDesktopInputFocusOnMouseDown = useCallback(e => {
@@ -806,11 +799,8 @@ export default function ChatComposer({
           }} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
           </div>
           <div className={actionRowClassName}>
-            {!useSimpleRoomActionButtons ? <button type="button" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || !canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
-                <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="block h-[var(--chat-composer-listen-icon-size)] w-[var(--chat-composer-listen-icon-size)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
-                  <path d="M11 5L6 9H2v6h4l5 4z" />
-                  <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
-                </svg>
+            {!useSimpleRoomActionButtons ? <button type="button" className={`${actionButtonClassName} chat-dictate-btn`} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handleDictateClick} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
+                <MicrophoneIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]" />
               </button> : null}
             {isGenerating || isStreamingAny ? <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
                 <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="chat-send-stop-glyph h-[calc(var(--chat-composer-send-icon-size)*1.18)] w-[calc(var(--chat-composer-send-icon-size)*1.18)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
@@ -821,13 +811,11 @@ export default function ChatComposer({
                   useCurrentColor
                   className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
                 />
-              </Button> : useSimpleRoomActionButtons ? <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={!hasInput || isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+              </Button> : <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={!hasInput || isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
                 <SubmitArrowIcon
                   useCurrentColor
                   className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
                 />
-              </Button> : <Button as="button" variant="primary" size="md" type="button" className={sendButtonClassName} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handlePrimaryActionClick} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
-                <DictateWaveIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] -translate-y-[0.01rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]" />
               </Button>}
           </div>
         </div>

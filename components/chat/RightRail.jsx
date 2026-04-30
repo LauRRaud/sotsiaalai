@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { AddPersonIcon, ChatBubbleIcon, MaterialsIcon, ProfileIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
+import { AddPersonIcon, ChatBubbleIcon, MaterialsIcon, ProfileIcon, RoomsIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
@@ -44,12 +44,6 @@ export default function RightRail({
   roomId,
   isLightTheme,
   inputFocused,
-  sourcesButtonRef,
-  toggleSourcesPanel,
-  showSourcesPanel,
-  sourcesPulse,
-  conversationSources,
-  hasConversationSources = false,
   onProfileToggle,
   activeWorkspaceKey = "",
   embedded = false,
@@ -351,6 +345,14 @@ export default function RightRail({
     });
   };
 
+  const openRooms = () => {
+    pushWithTransition(router, localizePath("/ruum", locale), {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  };
+
   const openMaterials = () => {
     pushWithTransition(router, localizePath("/materjalid", locale), {
       glassRingTilt: "right",
@@ -359,7 +361,6 @@ export default function RightRail({
     });
   };
 
-  const sourcesLabel = t("chat.sources.button").replace("{count}", String(conversationSources.length));
   const desktopItems = useMemo(() => {
     return [{
       key: "profile",
@@ -368,11 +369,11 @@ export default function RightRail({
       key: "invite",
       label: t("nav.add_person")
     }, {
+      key: "rooms",
+      label: t("nav.rooms")
+    }, {
       key: "materials",
       label: t("profile.materials_cta")
-    }, {
-      key: "sources",
-      label: t("nav.sources")
     }];
   }, [t]);
 
@@ -609,25 +610,12 @@ export default function RightRail({
         const opacity = slotOffset === 0 ? 1 : 0.32 + (1 - norm) * 0.48;
         const zIndex = 10 - Math.abs(slotOffset);
 
-        const setRailRef = el => {
-          if (it?.key !== "sources") return;
-          if (!sourcesButtonRef) return;
-          if (typeof sourcesButtonRef === "function") {
-            sourcesButtonRef(el);
-          } else {
-            sourcesButtonRef.current = el;
-          }
-        };
-
         const mobileRevealDelay = viewportIsMobile ? (Math.max(0, mobileSlots.length - 1 - renderIndex) * 48) : 0;
         const commonProps = {
-          ref: setRailRef,
           className: cn(
             styles.item,
             viewportIsMobile && armedKey === it?.key ? styles.isArmed : null,
             !viewportIsMobile && slotOffset === 0 ? styles.isActive : null,
-            it?.key === "sources" && showSourcesPanel ? styles.iconBtnActive : null,
-            it?.key === "sources" && sourcesPulse ? styles.isPulse : null,
             viewportIsMobile && mobileVisible ? styles.mobileReveal : null,
             mobileItemClassName
           ),
@@ -667,13 +655,13 @@ export default function RightRail({
             openInvite();
             return;
           }
+          if (it.key === "rooms") {
+            openRooms();
+            return;
+          }
           if (it.key === "materials") {
             openMaterials();
             return;
-          }
-          if (it.key === "sources") {
-            if (!hasConversationSources) return;
-            toggleSourcesPanel();
           }
         };
 
@@ -687,8 +675,8 @@ export default function RightRail({
           performActivate(event);
         };
 
-        const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";
-        const isDisabled = it?.key === "sources" && !hasConversationSources;
+        const ariaLabel = it?.label || "";
+        const isDisabled = false;
         const isAriaDisabled = isDisabled;
         const displayLabel = it?.label || "";
 
@@ -709,8 +697,8 @@ export default function RightRail({
         event.stopPropagation();
         clearArmed();
         performActivate(event);
-      } : undefined} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
-              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "materials" ? <MaterialsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconMaterials)} /> : null}
+      } : undefined} aria-label={ariaLabel} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
+              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : it?.key === "materials" ? <MaterialsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconMaterials)} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {displayLabel}
               </span>

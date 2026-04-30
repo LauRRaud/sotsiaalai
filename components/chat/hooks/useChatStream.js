@@ -81,6 +81,64 @@ function normalizeWorkflow(payload) {
   return payload && typeof payload === "object" ? payload : null;
 }
 
+function isCompletedChatRunPayload(payload) {
+  if (!payload || typeof payload !== "object") return false;
+  const status = String(payload.status || "").trim().toUpperCase();
+  const text = String(payload.text || "").trim();
+  return status === "COMPLETED" && text.length > 0;
+}
+
+function normalizeComparableText(value) {
+  return String(value || "").replace(/\s+/g, " ").trim();
+}
+
+function persistedResultMatchesRequest(payload, expectedUserText, startedAtMs) {
+  const expected = normalizeComparableText(expectedUserText);
+  const messages = Array.isArray(payload?.messages) ? payload.messages : [];
+  if (messages.length) {
+    let latestAssistantIndex = -1;
+    for (let i = messages.length - 1; i >= 0; i -= 1) {
+      if (String(messages[i]?.role || "").toLowerCase() === "ai") {
+        latestAssistantIndex = i;
+        break;
+      }
+    }
+    if (latestAssistantIndex === -1) return false;
+    for (let i = latestAssistantIndex - 1; i >= 0; i -= 1) {
+      if (String(messages[i]?.role || "").toLowerCase() !== "user") continue;
+      return !expected || normalizeComparableText(messages[i]?.text) === expected;
+    }
+    return false;
+  }
+
+  const updatedAtMs = Date.parse(String(payload?.updatedAt || ""));
+  return Number.isFinite(updatedAtMs) && updatedAtMs >= Math.max(0, Number(startedAtMs) || 0) - 1000;
+}
+
+async function readPersistedConversationResult({ convId, normalizeSources, expectedUserText, startedAtMs }) {
+  const id = String(convId || "").trim();
+  if (!id) return null;
+  const response = await fetch(`/api/chat/run?convId=${encodeURIComponent(id)}`, {
+    cache: "no-store"
+  });
+  if (!response.ok) return null;
+  const payload = await response.json().catch(() => null);
+  if (!isCompletedChatRunPayload(payload)) return null;
+  if (!persistedResultMatchesRequest(payload, expectedUserText, startedAtMs)) return null;
+  const normalize = normalizeSources || defaultNormalizeSources;
+  return {
+    text: String(payload.text || "").trim(),
+    sources: normalize(
+      Array.isArray(payload.displayed_sources)
+        ? payload.displayed_sources
+        : payload.sources ?? []
+    ),
+    attachments: normalizeAttachments(payload.attachments),
+    cards: normalizeCards(payload.cards),
+    workflow: normalizeWorkflow(payload.workflow)
+  };
+}
+
 function dispatchHelpListingsRefresh(workflow) {
   if (typeof window === "undefined") return;
   const helpState = workflow?.help;
@@ -207,6 +265,58 @@ export function useChatStream(config) {
       let finalText = "";
       let finalSources = [];
       let completionState = "error";
+      let completedFromPersistence = false;
+      let persistencePollTimer = null;
+      let persistencePollBusy = false;
+      let researchStartedAtMs = 0;
+
+      const clearPersistencePoll = () => {
+        if (persistencePollTimer && typeof window !== "undefined") {
+          window.clearInterval(persistencePollTimer);
+        }
+        persistencePollTimer = null;
+      };
+
+      const applyPersistedResult = persisted => {
+        if (!persisted?.text || streamingMessageId == null) return false;
+        completedFromPersistence = true;
+        completionState = "done";
+        finalText = persisted.text;
+        finalSources = persisted.sources;
+        cfg.mutateMessage?.(streamingMessageId, msg => ({
+          ...msg,
+          text: persisted.text,
+          sources: persisted.sources,
+          attachments: persisted.attachments,
+          cards: persisted.cards,
+          workflow: persisted.workflow || normalizeWorkflow(msg?.workflow),
+          isStreaming: false
+        }));
+        clearPersistencePoll();
+        try {
+          controller.abort();
+        } catch {}
+        return true;
+      };
+
+      const pollPersistedResult = async () => {
+        if (completedFromPersistence || persistencePollBusy || !cfg.convId) return;
+        persistencePollBusy = true;
+        try {
+          const persisted = await readPersistedConversationResult({
+            convId: cfg.convId,
+            normalizeSources: cfg.normalizeSources || defaultNormalizeSources,
+            expectedUserText: text,
+            startedAtMs: researchStartedAtMs
+          });
+          if (persisted?.text) {
+            applyPersistedResult(persisted);
+          }
+        } catch {
+        } finally {
+          persistencePollBusy = false;
+        }
+      };
 
       const runResearch = async () => {
         try {
@@ -261,6 +371,7 @@ export function useChatStream(config) {
             throw createLocalizedError("chat.deep_research.error_generic");
           }
           researchJobIdRef.current = jobId;
+          researchStartedAtMs = Date.now();
 
           streamingMessageId = cfg.appendMessage?.({
             role: "ai",
@@ -271,6 +382,11 @@ export function useChatStream(config) {
           });
           researchStreamingMessageIdRef.current = streamingMessageId;
           cfg.onAssistantMessageCreated?.(streamingMessageId);
+          if (typeof window !== "undefined") {
+            persistencePollTimer = window.setInterval(() => {
+              void pollPersistedResult();
+            }, 2500);
+          }
 
           const streamResponse = await fetch(`/api/research/jobs/${encodeURIComponent(jobId)}/stream`, {
             cache: "no-store",
@@ -284,6 +400,7 @@ export function useChatStream(config) {
           const reader = (cfg.createSSEReader || defaultCreateSSEReader)(streamResponse.body);
 
           for await (const ev of reader) {
+            if (completedFromPersistence) break;
             if (ev.event === "status") {
               try {
                 const payload = JSON.parse(ev.data || "{}");
@@ -346,6 +463,19 @@ export function useChatStream(config) {
               break;
             }
           }
+          clearPersistencePoll();
+
+          if (!finalText) {
+            const persisted = await readPersistedConversationResult({
+              convId: cfg.convId,
+              normalizeSources: cfg.normalizeSources || defaultNormalizeSources,
+              expectedUserText: text,
+              startedAtMs: researchStartedAtMs
+            }).catch(() => null);
+            if (persisted?.text) {
+              applyPersistedResult(persisted);
+            }
+          }
 
           if (streamingMessageId != null) {
             const nextText =
@@ -371,6 +501,12 @@ export function useChatStream(config) {
           }
           throw createLocalizedError("chat.deep_research.error_generic");
         } catch (err) {
+          clearPersistencePoll();
+          if (err?.name === "AbortError" && completedFromPersistence && finalText) {
+            cfg.onDeepResearchComplete?.();
+            cfg.requestConversationsRefresh?.();
+            return true;
+          }
           const errorKey =
             err?.name === "AbortError"
               ? "chat.deep_research.cancelled"
@@ -395,6 +531,7 @@ export function useChatStream(config) {
           }
           return false;
         } finally {
+          clearPersistencePoll();
           abortRef.current = null;
           researchJobIdRef.current = null;
           researchStreamingMessageIdRef.current = null;

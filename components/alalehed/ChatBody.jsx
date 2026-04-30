@@ -13,7 +13,7 @@ import { useChatStream } from "@/components/chat/hooks/useChatStream";
 import { useChatConversationState } from "../chat/hooks/useChatConversationState";
 import { prettifyFileName } from "@/components/chat/utils/sources";
 import { useChatInputHoleMask } from "@/components/chat/hooks/useChatInputHoleMask";
-import { useConversationSources } from "@/components/chat/hooks/useConversationSources";
+import { collectMessageSources, useConversationSources } from "@/components/chat/hooks/useConversationSources";
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
 import HelpListingsPanel from "@/components/chat/HelpListingsPanel";
 import SelectedListingContext from "@/components/chat/SelectedListingContext";
@@ -258,6 +258,7 @@ export default function ChatBody({
   const [isCrisis, setIsCrisis] = useState(false);
   const [activeWorkflow, setActiveWorkflow] = useState("default");
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
+  const [scopedSources, setScopedSources] = useState(null);
   const [loginOpen, setLoginOpen] = useState(false);
   const autoLoginHandledRef = useRef(false);
   const verifyEntryUrlClearedRef = useRef(false);
@@ -789,7 +790,7 @@ export default function ChatBody({
   const {
     speechReady,
     isSpeaking,
-    speakLatestReply,
+    speakText,
     recording,
     recordingPulse,
     recordingError,
@@ -801,9 +802,6 @@ export default function ChatBody({
     onError: msg => setErrorBanner(msg),
     t
   });
-  const canSpeakLatest = useMemo(() => {
-    return Boolean(voiceEnabled && speechReady && latestAiText);
-  }, [voiceEnabled, speechReady, latestAiText]);
   const revealOlder = useCallback(() => {
     const el = chatWindowRef.current;
     const prevScrollHeight = el ? el.scrollHeight : 0;
@@ -840,6 +838,16 @@ export default function ChatBody({
       } catch {}
     }, 0);
   }, []);
+  const openMessageSources = useCallback((sources) => {
+    const nextSources = Array.isArray(sources) ? sources : [];
+    if (!nextSources.length) return;
+    setScopedSources(nextSources);
+    setShowSourcesPanel(true);
+  }, []);
+  const closeSourcesPanel = useCallback(() => {
+    setShowSourcesPanel(false);
+    setScopedSources(null);
+  }, []);
   const toggleSourcesPanel = useCallback(() => {
     if (!hasConversationSources) return;
     setShowSourcesPanel(prev => {
@@ -848,9 +856,6 @@ export default function ChatBody({
       return next;
     });
   }, [hasConversationSources, focusSourcesButton]);
-  const closeSourcesPanel = useCallback(() => {
-    setShowSourcesPanel(false);
-  }, []);
   const keepCareerUploadFocus = false;
   const suppressCareerCvPreview = false;
   const focusInput = useCallback(() => {
@@ -1593,8 +1598,13 @@ export default function ChatBody({
     } catch {}
   }, [emptyIntroSeenStorageKey]);
   const messageItems = useMemo(() => {
-    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} messageId={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} aiVisible={!!msg.aiVisible} typingEffect={!!msg.typingEffect} onTypingComplete={msg.onTypingComplete === "emptyIntro" ? handleEmptyIntroTyped : undefined} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
-  }, [handleEmptyIntroTyped, isRoomMode, renderedMessages, t]);
+    return renderedMessages.map(msg => {
+      const messageSources = msg.role === "ai"
+        ? collectMessageSources(msg, analysis.uploadPreview)
+        : [];
+      return <ChatMessageItem key={msg.id} messageId={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} cards={msg.cards} aiVisible={!!msg.aiVisible} typingEffect={!!msg.typingEffect} onTypingComplete={msg.onTypingComplete === "emptyIntro" ? handleEmptyIntroTyped : undefined} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} locale={locale} isLightTheme={isLightTheme} voiceEnabled={voiceEnabled} canSpeak={Boolean(voiceEnabled && speechReady && String(msg.text || "").trim())} isSpeaking={isSpeaking} onSpeak={speakText} messageSources={messageSources} onShowSources={openMessageSources} />;
+    });
+  }, [analysis.uploadPreview, handleEmptyIntroTyped, isLightTheme, isRoomMode, isSpeaking, locale, openMessageSources, renderedMessages, speakText, speechReady, t, voiceEnabled]);
   const activeModeLabel = useMemo(() => {
     return getWorkflowModeLabel(t, activeWorkflow);
   }, [activeWorkflow, t]);
@@ -1780,10 +1790,10 @@ export default function ChatBody({
     seenRoomAiIdsRef
   });
   useEffect(() => {
-    if (!hasConversationSources && showSourcesPanel) {
+    if (!scopedSources && !hasConversationSources && showSourcesPanel) {
       closeSourcesPanel();
     }
-  }, [hasConversationSources, showSourcesPanel, closeSourcesPanel]);
+  }, [hasConversationSources, scopedSources, showSourcesPanel, closeSourcesPanel]);
   const scrollToBottom = useCallback(() => {
     const node = chatWindowRef.current;
     if (!node) return;
@@ -2006,6 +2016,7 @@ export default function ChatBody({
       conversationSources={conversationSources}
       latestAnswerSources={latestAnswerSources}
       allConversationSources={allConversationSources}
+      scopedSources={scopedSources}
       hasConversationSources={hasConversationSources}
       hasAllConversationSources={hasAllConversationSources}
       leftRailActiveKey={activeListingsPanel?.side === "left" ? activeListingsPanel.key : ""}
@@ -2059,10 +2070,7 @@ export default function ChatBody({
       documentFlowActive={documentFlowActive}
       suppressCareerCvPreview={suppressCareerCvPreview}
       onPickDocumentFile={analysis.onPickFile}
-      speakLatestReply={speakLatestReply}
-      canSpeakLatest={canSpeakLatest}
       voiceEnabled={voiceEnabled}
-      isSpeaking={isSpeaking}
       recording={recording}
       recordingPulse={recordingPulse}
       handleMic={voiceEnabled ? handleMic : undefined}

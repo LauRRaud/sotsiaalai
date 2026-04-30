@@ -9,8 +9,7 @@ import {
   ChatBubbleIcon,
   MaterialsIcon,
   ProfileIcon,
-  RoomsIcon,
-  SourcesIcon
+  RoomsIcon
 } from "@/components/ui/icons/ChatIcons";
 import { cn } from "@/components/ui/cn";
 import { pushWithTransition } from "@/lib/routeTransition";
@@ -18,7 +17,6 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 
 const CHAT_CREATE_CONVERSATION_EVENT = "sotsiaalai:create-conversation";
 const MOBILE_NAV_ITEMS = [
-  { key: "sources", scale: 0.94 },
   { key: "materials", scale: 1.24 },
   { key: "help_requests", scale: 1.0 },
   { key: "help_offers", scale: 1.0 },
@@ -206,12 +204,6 @@ export default function ChatMobileTopNav({
   embedded = false,
   handleBackHome,
   mobileRailInteractionLocked,
-  sourcesButtonRef,
-  toggleSourcesPanel,
-  showSourcesPanel,
-  sourcesPulse,
-  conversationSources,
-  hasConversationSources,
   leftRailActiveKey,
   rightRailActiveKey,
   onShowHelpRequests,
@@ -343,18 +335,12 @@ export default function ChatMobileTopNav({
         top: "calc(env(safe-area-inset-top,0px) + 0.08rem)"
       };
 
-  const sourcesLabel = t("chat.sources.button").replace(
-    "{count}",
-    String(conversationSources.length)
-  );
-
   const labels = useMemo(
     () => ({
       back: t("chat.back_to_home"),
       chats: t("nav.chats"),
       new_chat: t("chat.mobile.new_conversation"),
       rooms: t("nav.rooms"),
-      sources: sourcesLabel,
       help_requests: t("chat.help.helpRequests"),
       help_offers: t("chat.help.helpOffers"),
       materials: t("profile.materials_cta"),
@@ -362,12 +348,10 @@ export default function ChatMobileTopNav({
       rooms: t("nav.rooms"),
       invite: t("nav.add_person")
     }),
-    [sourcesLabel, t]
+    [t]
   );
 
-  const activeKey = showSourcesPanel
-    ? "sources"
-    : leftRailActiveKey || rightRailActiveKey || "";
+  const activeKey = leftRailActiveKey || rightRailActiveKey || "";
 
   useEffect(() => {
     const previousActiveKey = previousActiveKeyRef.current;
@@ -431,11 +415,6 @@ export default function ChatMobileTopNav({
         openNewConversation();
         return;
       }
-      if (key === "sources") {
-        if (!hasConversationSources) return;
-        toggleSourcesPanel();
-        return;
-      }
       if (key === "help_requests") {
         onShowHelpRequests?.();
         return;
@@ -469,7 +448,6 @@ export default function ChatMobileTopNav({
       }
     },
     [
-      hasConversationSources,
       locale,
       onShowHelpOffers,
       onShowHelpRequests,
@@ -480,8 +458,7 @@ export default function ChatMobileTopNav({
       openProfileDirect,
       openRooms,
       router,
-      toggleProfile,
-      toggleSourcesPanel
+      toggleProfile
     ]
   );
 
@@ -497,13 +474,9 @@ export default function ChatMobileTopNav({
     (index, event) => {
       const item = MOBILE_NAV_ITEMS[index];
       if (!item) return;
-      if (item.key === "sources" && !hasConversationSources) {
-        setFocusedIndexImmediate(index);
-        return;
-      }
       handleItemActivation(item.key, event);
     },
-    [handleItemActivation, hasConversationSources, setFocusedIndexImmediate]
+    [handleItemActivation]
   );
 
   const renderIcon = item => {
@@ -546,16 +519,6 @@ export default function ChatMobileTopNav({
               </svg>
             </span>
           </span>
-        </MobileIconFrame>
-      );
-    }
-    if (item.key === "sources") {
-      return (
-        <MobileIconFrame scale={item.scale} xNudge={-0.18}>
-          <SourcesIcon
-            isLightTheme={isLightTheme}
-            className={cn(iconClassName, sourcesPulse ? "animate-[chat-sources-pulse_1s_ease]" : null)}
-          />
         </MobileIconFrame>
       );
     }
@@ -776,19 +739,11 @@ export default function ChatMobileTopNav({
   );
 
   const renderNavButton = (item, index) => {
-    const isDisabled =
-      item.key === "sources" ? !hasConversationSources : false;
+    const isDisabled = false;
     const isFocused = visualFocusedKey === item.key;
 
     const setButtonRef = element => {
       itemButtonRefs.current[item.key] = element;
-      if (item.key !== "sources") return;
-      if (!sourcesButtonRef) return;
-      if (typeof sourcesButtonRef === "function") {
-        sourcesButtonRef(element);
-      } else {
-        sourcesButtonRef.current = element;
-      }
     };
 
     return (
@@ -800,11 +755,6 @@ export default function ChatMobileTopNav({
         data-chat-mobile-topnav-button="1"
         aria-label={labels[item.key]}
         aria-disabled={isDisabled ? "true" : undefined}
-        aria-haspopup={item.key === "sources" ? "dialog" : undefined}
-        aria-expanded={
-          item.key === "sources" ? (showSourcesPanel ? "true" : "false") : undefined
-        }
-        aria-controls={item.key === "sources" ? "chat-sources-panel" : undefined}
         onClick={event => {
           if (
             typeof performance !== "undefined" &&

@@ -158,7 +158,6 @@ export default function LeftRail({
       { key: "back", label: t("chat.back_to_home") },
       { key: "new_chat", label: t("buttons.new_conversation") },
       { key: "chats", label: t("nav.chats") },
-      { key: "rooms", label: t("nav.rooms") },
       { key: "help_requests", label: t("chat.help.helpRequests") },
       { key: "help_offers", label: t("chat.help.helpOffers") }
     ],

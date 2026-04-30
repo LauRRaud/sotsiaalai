@@ -111,9 +111,37 @@ function getSourceKey(src, fallback) {
     fallback;
 }
 
-export function collectLatestAnswerSources(messages, uploadPreview) {
+export function collectMessageSources(message, uploadPreview) {
   const map = new Map();
   const uploadName = typeof uploadPreview?.fileName === "string" ? uploadPreview.fileName.trim().toLowerCase() : "";
+  const sources = getDisplayedMessageSources(message);
+  sources.forEach((src, idx) => {
+    if (!isDbSource(src, uploadName)) return;
+    const url = typeof src?.url === "string" && src.url.trim() ? src.url.trim() : "";
+    const rawLabel = typeof src?.label === "string" ? src.label.trim() : "";
+    const label =
+      rawLabel && !isSyntheticEvidenceRef(rawLabel)
+        ? rawLabel
+        : formatSourceLabel(src && typeof src === "object" ? src : { title: "Allikas" });
+    const pageText = normalizePageRange(src?.pageRange) || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(src?.page ? [src.page] : [])]);
+    const section = typeof src?.section === "string" ? src.section : undefined;
+    const key = getSourceKey(src, `${label}-${pageText || ""}-${idx}`);
+    const existing = map.get(key) || {
+      key,
+      label,
+      pageText,
+      section,
+      allUrls: [],
+      occurrences: 0
+    };
+    if (url && !existing.allUrls.includes(url)) existing.allUrls.push(url);
+    existing.occurrences += 1;
+    map.set(key, existing);
+  });
+  return Array.from(map.values());
+}
+
+export function collectLatestAnswerSources(messages, uploadPreview) {
   const messageList = Array.isArray(messages) ? messages : [];
   let latestAssistantMessage = null;
   let latestAssistantIndex = -1;
@@ -141,31 +169,7 @@ export function collectLatestAnswerSources(messages, uploadPreview) {
   ) {
     return [];
   }
-  const sources = getDisplayedMessageSources(latestAssistantMessage);
-  sources.forEach((src, idx) => {
-    if (!isDbSource(src, uploadName)) return;
-    const url = typeof src?.url === "string" && src.url.trim() ? src.url.trim() : "";
-    const rawLabel = typeof src?.label === "string" ? src.label.trim() : "";
-    const label =
-      rawLabel && !isSyntheticEvidenceRef(rawLabel)
-        ? rawLabel
-        : formatSourceLabel(src && typeof src === "object" ? src : { title: "Allikas" });
-    const pageText = normalizePageRange(src?.pageRange) || collapsePages([...(Array.isArray(src?.pages) ? src.pages : []), ...(src?.page ? [src.page] : [])]);
-    const section = typeof src?.section === "string" ? src.section : undefined;
-    const key = getSourceKey(src, `${label}-${pageText || ""}-${idx}`);
-    const existing = map.get(key) || {
-      key,
-      label,
-      pageText,
-      section,
-      allUrls: [],
-      occurrences: 0
-    };
-    if (url && !existing.allUrls.includes(url)) existing.allUrls.push(url);
-    existing.occurrences += 1;
-    map.set(key, existing);
-  });
-  return Array.from(map.values());
+  return collectMessageSources(latestAssistantMessage, uploadPreview);
 }
 
 export function collectConversationSources(messages, uploadPreview) {

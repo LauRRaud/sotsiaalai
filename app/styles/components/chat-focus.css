@@ -587,6 +587,15 @@ body .chat-inputbar .chat-send-btn .chat-mic-glyph {
   height: var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))) !important;
 }
 
+body .chat-inputbar .chat-dictate-btn,
+body .chat-inputbar .chat-dictate-btn:hover,
+body .chat-inputbar .chat-dictate-btn:focus-visible,
+body .chat-inputbar .chat-dictate-btn:active,
+body .chat-inputbar .chat-dictate-btn:hover svg,
+body .chat-inputbar .chat-dictate-btn:focus-visible svg {
+  transform: none !important;
+}
+
 .chat-container--input-focus .chat-inputbar,
 .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar {
   isolation: isolate;

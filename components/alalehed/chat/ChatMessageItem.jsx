@@ -2,6 +2,7 @@
 
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/components/ui/cn";
+import { SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { parseAssistantMarkdownBlocks } from "@/lib/chat/messageMarkdown";
 
 function splitGraphemes(text) {
@@ -75,7 +76,15 @@ const ChatMessageItem = memo(function ChatMessageItem({
   authorName,
   authorRole: _authorRole,
   isRoomMode: _isRoomMode,
-  t
+  t,
+  locale = "et",
+  isLightTheme = false,
+  voiceEnabled = true,
+  canSpeak = false,
+  isSpeaking = false,
+  onSpeak,
+  messageSources = [],
+  onShowSources
 }) {
   const isAssistant = role === "ai";
   const isOwn = role === "user";
@@ -196,6 +205,37 @@ const ChatMessageItem = memo(function ChatMessageItem({
         .filter((item) => item.title || item.body)
     : [];
   const showCards = isAssistant && normalizedCards.length > 0;
+  const tr = key => {
+    const value = typeof t === "function" ? t(key) : "";
+    return value && value !== key ? value : "";
+  };
+  const copyLabel = locale === "en" ? "Copy" : locale === "ru" ? "Копировать" : "Kopeeri";
+  const copyTitle = copyLabel;
+  const listenLabel = tr("chat.listen.last_reply") || "Loe ette";
+  const listenTitle = tr("chat.listen.title") || listenLabel;
+  const sourcesLabel = tr("chat.sources.heading") || "Allikad";
+  const sourcesTitle = tr("chat.sources.dialog_label") || sourcesLabel;
+  const actionsLabel = locale === "en" ? "Message actions" : locale === "ru" ? "Действия с сообщением" : "Sõnumi tegevused";
+  const hasMessageSources = Array.isArray(messageSources) && messageSources.length > 0;
+  const assistantActionsClassName =
+    "mt-[0.54rem] flex items-center gap-[0.42rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]";
+  const assistantActionButtonClassName =
+    "inline-flex h-[2rem] w-[2rem] items-center justify-center rounded-full border-0 bg-transparent p-0 " +
+    "text-current shadow-none outline-none transition-opacity duration-150 " +
+    "focus-visible:ring-2 focus-visible:ring-current/35 " +
+    "disabled:cursor-not-allowed disabled:opacity-45";
+  const handleCopy = async () => {
+    const value = String(text || "").trim();
+    if (!value || typeof navigator === "undefined") return;
+    try {
+      await navigator.clipboard?.writeText(value);
+    } catch {}
+  };
+  const handleSpeak = () => {
+    const value = String(text || "").trim();
+    if (!value) return;
+    onSpeak?.(value);
+  };
   const attachmentsWrapClassName = "mt-[0.45rem] flex flex-wrap gap-[0.45rem]";
   const attachmentLinkClassName =
     "inline-flex items-center justify-center rounded-full border border-[rgba(240,240,240,0.45)] " +
@@ -269,6 +309,47 @@ const ChatMessageItem = memo(function ChatMessageItem({
               {item.label}
             </a>
           ))}
+        </div>
+      ) : null}
+      {isAssistant && String(text || "").trim() ? (
+        <div className={assistantActionsClassName} aria-label={actionsLabel}>
+          <button
+            type="button"
+            className={assistantActionButtonClassName}
+            aria-label={listenLabel}
+            title={listenTitle}
+            onClick={handleSpeak}
+            disabled={!voiceEnabled || !canSpeak}
+            data-speaking={isSpeaking ? "true" : "false"}
+          >
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-[1.45rem] w-[1.45rem]">
+              <path d="M11 5 6 9H2v6h4l5 4z" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className={assistantActionButtonClassName}
+            aria-label={copyLabel}
+            title={copyTitle}
+            onClick={handleCopy}
+          >
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-[1.32rem] w-[1.32rem]">
+              <rect x="9" y="9" width="10" height="10" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1" />
+            </svg>
+          </button>
+          {hasMessageSources ? (
+            <button
+              type="button"
+              className={assistantActionButtonClassName}
+              aria-label={sourcesLabel}
+              title={sourcesTitle}
+              onClick={() => onShowSources?.(messageSources)}
+            >
+              <SourcesIcon isLightTheme={isLightTheme} className="h-[1.34rem] w-[1.34rem]" />
+            </button>
+          ) : null}
         </div>
       ) : null}
     </div>;

@@ -167,13 +167,13 @@ export function useSpeech({
       setIsSpeaking(false);
     }
   }, [locale]);
-  const speakLatestReply = useCallback(async () => {
+  const speakText = useCallback(async (textToSpeak) => {
     if (typeof window === "undefined") return;
     if (isSpeaking) {
       stopSpeaking();
       return;
     }
-    const text = latestAiText;
+    const text = String(textToSpeak || "").trim();
     if (!text) return;
     const base = (locale || "").toLowerCase().split("-")[0];
     if (base === "ru" || base === "en") {
@@ -213,7 +213,10 @@ export function useSpeech({
     } catch {}
     stopSpeaking();
     speakWithBrowser(text);
-  }, [isSpeaking, latestAiText, locale, speakWithBrowser, stopSpeaking]);
+  }, [isSpeaking, locale, speakWithBrowser, stopSpeaking]);
+  const speakLatestReply = useCallback(() => {
+    return speakText(latestAiText);
+  }, [latestAiText, speakText]);
   const triggerRecordingPulse = useCallback(() => {
     if (recordingPulseTimerRef.current) {
       clearTimeout(recordingPulseTimerRef.current);
@@ -454,11 +457,12 @@ export function useSpeech({
   return useMemo(() => ({
     speechReady,
     isSpeaking,
+    speakText,
     speakLatestReply,
     stopSpeaking,
     recording,
     recordingPulse,
     recordingError,
     handleMic
-  }), [speechReady, isSpeaking, speakLatestReply, stopSpeaking, recording, recordingPulse, recordingError, handleMic]);
+  }), [speechReady, isSpeaking, speakText, speakLatestReply, stopSpeaking, recording, recordingPulse, recordingError, handleMic]);
 }
